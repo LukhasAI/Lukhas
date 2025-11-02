@@ -45,8 +45,9 @@ def validate_ci_workflows_enabled() -> Dict[str, Any]:
         "active_workflows": active_count,
         "essential_active": essential_active,
         "ci_operational": "ci.yml" in essential_active,
-        "security_operational": "security-scan.yml" in essential_active
+        "security_operational": "security-scan.yml" in essential_active,
     }
+
 
 def validate_system_plugins_endpoint() -> Dict[str, Any]:
     """Validate /system/plugins endpoint implementation"""
@@ -56,7 +57,7 @@ def validate_system_plugins_endpoint() -> Dict[str, Any]:
         return {"status": "missing", "error": "System endpoints file not found"}
 
     try:
-        with open(endpoint_file, 'r') as f:
+        with open(endpoint_file, "r") as f:
             content = f.read()
 
         has_plugins_endpoint = "get_plugins_status" in content
@@ -70,11 +71,13 @@ def validate_system_plugins_endpoint() -> Dict[str, Any]:
             "health_endpoint": has_health_endpoint,
             "registry_integration": has_registry_integration,
             "coverage_validation": has_coverage_validation,
-            "comprehensive": all([has_plugins_endpoint, has_health_endpoint,
-                                has_registry_integration, has_coverage_validation])
+            "comprehensive": all(
+                [has_plugins_endpoint, has_health_endpoint, has_registry_integration, has_coverage_validation]
+            ),
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
+
 
 def validate_otel_instrumentation() -> Dict[str, Any]:
     """Validate comprehensive OTEL instrumentation"""
@@ -86,21 +89,22 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
         "orchestrator_instrumented": False,
         "stage_decorators": False,
         "pipeline_spans": False,
-        "prometheus_integration": False
+        "prometheus_integration": False,
     }
 
     if otel_file.exists():
         try:
-            with open(otel_file, 'r') as f:
+            with open(otel_file, "r") as f:
                 otel_content = f.read()
-            results["prometheus_integration"] = ("prometheus_client" in otel_content or
-                                               "PrometheusMetricReader" in otel_content)
+            results["prometheus_integration"] = (
+                "prometheus_client" in otel_content or "PrometheusMetricReader" in otel_content
+            )
         except Exception:
             pass
 
     if orchestrator_file.exists():
         try:
-            with open(orchestrator_file, 'r') as f:
+            with open(orchestrator_file, "r") as f:
                 orch_content = f.read()
             results["orchestrator_instrumented"] = "otel_instrumentation" in orch_content
             results["stage_decorators"] = "@instrument_matriz_stage" in orch_content
@@ -110,13 +114,15 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
 
     # Calculate implementation percentage for partial scoring
     total_components = 5
-    implemented_components = sum([
-        results["otel_module"],
-        results["orchestrator_instrumented"],
-        results["stage_decorators"],
-        results["pipeline_spans"],
-        results["prometheus_integration"]
-    ])
+    implemented_components = sum(
+        [
+            results["otel_module"],
+            results["orchestrator_instrumented"],
+            results["stage_decorators"],
+            results["pipeline_spans"],
+            results["prometheus_integration"],
+        ]
+    )
 
     implementation_percentage = (implemented_components / total_components) * 100
     comprehensive = implementation_percentage >= 80  # 80%+ considered comprehensive
@@ -125,8 +131,9 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
         "status": "implemented" if implementation_percentage >= 60 else "partial",
         "implementation_percentage": round(implementation_percentage, 1),
         **results,
-        "comprehensive": comprehensive
+        "comprehensive": comprehensive,
     }
+
 
 def validate_promql_grafana_assets() -> Dict[str, Any]:
     """Validate PromQL alerts and Grafana dashboards committed"""
@@ -138,42 +145,33 @@ def validate_promql_grafana_assets() -> Dict[str, Any]:
 
     if prometheus_alerts.exists():
         try:
-            with open(prometheus_alerts, 'r') as f:
+            with open(prometheus_alerts, "r") as f:
                 alerts_content = f.read()
-            alerts_valid = ("lukhas:" in alerts_content and
-                          "recording_rules" in alerts_content and
-                          "alert:" in alerts_content)
+            alerts_valid = (
+                "lukhas:" in alerts_content and "recording_rules" in alerts_content and "alert:" in alerts_content
+            )
         except Exception:
             pass
 
     if grafana_dashboard.exists():
         try:
-            with open(grafana_dashboard, 'r') as f:
+            with open(grafana_dashboard, "r") as f:
                 dashboard_data = json.load(f)
-            dashboard_valid = ("dashboard" in dashboard_data and
-                             "panels" in dashboard_data.get("dashboard", {}))
+            dashboard_valid = "dashboard" in dashboard_data and "panels" in dashboard_data.get("dashboard", {})
         except Exception:
             pass
 
     return {
         "status": "implemented" if (alerts_valid and dashboard_valid) else "partial",
-        "prometheus_alerts": {
-            "exists": prometheus_alerts.exists(),
-            "valid": alerts_valid
-        },
-        "grafana_dashboard": {
-            "exists": grafana_dashboard.exists(),
-            "valid": dashboard_valid
-        },
-        "comprehensive": alerts_valid and dashboard_valid
+        "prometheus_alerts": {"exists": prometheus_alerts.exists(), "valid": alerts_valid},
+        "grafana_dashboard": {"exists": grafana_dashboard.exists(), "valid": dashboard_valid},
+        "comprehensive": alerts_valid and dashboard_valid,
     }
+
 
 def validate_memory_benchmarks() -> Dict[str, Any]:
     """Validate memory performance benchmarks"""
-    memory_bench_files = [
-        Path("benchmarks/memory_performance.py"),
-        Path("benchmarks/memory_system_benchmarks.py")
-    ]
+    memory_bench_files = [Path("benchmarks/memory_performance.py"), Path("benchmarks/memory_system_benchmarks.py")]
 
     benchmark_exists = any(f.exists() for f in memory_bench_files)
 
@@ -184,7 +182,7 @@ def validate_memory_benchmarks() -> Dict[str, Any]:
     for bench_file in memory_bench_files:
         if bench_file.exists():
             try:
-                with open(bench_file, 'r') as f:
+                with open(bench_file, "r") as f:
                     content = f.read()
                 if "100ms" in content or "p95" in content:
                     slo_validation = True
@@ -201,9 +199,9 @@ def validate_memory_benchmarks() -> Dict[str, Any]:
         "slo_validation": slo_validation,
         "cascade_prevention": cascade_prevention,
         "stress_testing": stress_testing,
-        "comprehensive": all([benchmark_exists, slo_validation,
-                            cascade_prevention, stress_testing])
+        "comprehensive": all([benchmark_exists, slo_validation, cascade_prevention, stress_testing]),
     }
+
 
 def validate_dual_approval_enforcement() -> Dict[str, Any]:
     """Validate dual-approval CI enforcement"""
@@ -215,20 +213,19 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
 
     if critical_path_workflow.exists():
         try:
-            with open(critical_path_workflow, 'r') as f:
+            with open(critical_path_workflow, "r") as f:
                 content = f.read()
-            dual_approval_workflow = ("approval-check" in content and
-                                    "CRITICAL_PATHS" in content and
-                                    "approvalCount >= 2" in content)
+            dual_approval_workflow = (
+                "approval-check" in content and "CRITICAL_PATHS" in content and "approvalCount >= 2" in content
+            )
         except Exception:
             pass
 
     if flag_snapshot.exists():
         try:
-            with open(flag_snapshot, 'r') as f:
+            with open(flag_snapshot, "r") as f:
                 content = f.read()
-            governance_snapshot = ("dual_approval" in content and
-                                 "governance" in content)
+            governance_snapshot = "dual_approval" in content and "governance" in content
         except Exception:
             pass
 
@@ -236,14 +233,12 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
         "status": "implemented" if (dual_approval_workflow and governance_snapshot) else "partial",
         "critical_path_workflow": {
             "exists": critical_path_workflow.exists(),
-            "validates_dual_approval": dual_approval_workflow
+            "validates_dual_approval": dual_approval_workflow,
         },
-        "governance_snapshot": {
-            "exists": flag_snapshot.exists(),
-            "tracks_approvals": governance_snapshot
-        },
-        "comprehensive": dual_approval_workflow and governance_snapshot
+        "governance_snapshot": {"exists": flag_snapshot.exists(), "tracks_approvals": governance_snapshot},
+        "comprehensive": dual_approval_workflow and governance_snapshot,
     }
+
 
 def validate_constraints_enforcement() -> Dict[str, Any]:
     """Validate constraints.txt enforcement in CI"""
@@ -255,10 +250,9 @@ def validate_constraints_enforcement() -> Dict[str, Any]:
 
     if ci_file.exists():
         try:
-            with open(ci_file, 'r') as f:
+            with open(ci_file, "r") as f:
                 content = f.read()
-            ci_enforces_constraints = ("constraints.txt" in content and
-                                     "pip install" in content)
+            ci_enforces_constraints = "constraints.txt" in content and "pip install" in content
         except Exception:
             pass
 
@@ -266,8 +260,9 @@ def validate_constraints_enforcement() -> Dict[str, Any]:
         "status": "implemented" if (constraints_exist and ci_enforces_constraints) else "partial",
         "constraints_file_exists": constraints_exist,
         "ci_enforces_constraints": ci_enforces_constraints,
-        "comprehensive": constraints_exist and ci_enforces_constraints
+        "comprehensive": constraints_exist and ci_enforces_constraints,
     }
+
 
 def calculate_audit_score_improvement() -> Dict[str, Any]:
     """Calculate estimated audit score based on implemented improvements"""
@@ -279,18 +274,18 @@ def calculate_audit_score_improvement() -> Dict[str, Any]:
         "promql_grafana": validate_promql_grafana_assets(),
         "memory_benchmarks": validate_memory_benchmarks(),
         "dual_approval": validate_dual_approval_enforcement(),
-        "constraints_enforcement": validate_constraints_enforcement()
+        "constraints_enforcement": validate_constraints_enforcement(),
     }
 
     # Calculate scores based on audit weightings
     weights = {
-        "ci_workflows": 15,         # Security/Governance critical
-        "system_endpoints": 10,     # Orchestration improvement
-        "otel_instrumentation": 15, # Observability gap closure
-        "promql_grafana": 10,       # Observability infrastructure
-        "memory_benchmarks": 10,    # Memory validation
-        "dual_approval": 15,        # Governance enforcement
-        "constraints_enforcement": 10 # Security hardening
+        "ci_workflows": 15,  # Security/Governance critical
+        "system_endpoints": 10,  # Orchestration improvement
+        "otel_instrumentation": 15,  # Observability gap closure
+        "promql_grafana": 10,  # Observability infrastructure
+        "memory_benchmarks": 10,  # Memory validation
+        "dual_approval": 15,  # Governance enforcement
+        "constraints_enforcement": 10,  # Security hardening
     }
 
     total_possible = sum(weights.values())
@@ -316,7 +311,7 @@ def calculate_audit_score_improvement() -> Dict[str, Any]:
         component_scores[component] = {
             "weight": weight,
             "achieved": score,
-            "percentage": (score / weight) * 100 if weight > 0 else 0
+            "percentage": (score / weight) * 100 if weight > 0 else 0,
         }
 
     # Base audit score was 82, add improvements
@@ -331,8 +326,9 @@ def calculate_audit_score_improvement() -> Dict[str, Any]:
         "target_range": "85-90",
         "target_achieved": new_estimated_score >= 85,
         "component_scores": component_scores,
-        "implementation_rate": round((total_achieved / total_possible) * 100, 1)
+        "implementation_rate": round((total_achieved / total_possible) * 100, 1),
     }
+
 
 def run_comprehensive_gap_validation():
     """Run comprehensive audit gap validation"""
@@ -349,7 +345,7 @@ def run_comprehensive_gap_validation():
         "promql_grafana_assets": validate_promql_grafana_assets(),
         "memory_benchmarks": validate_memory_benchmarks(),
         "dual_approval_enforcement": validate_dual_approval_enforcement(),
-        "constraints_enforcement": validate_constraints_enforcement()
+        "constraints_enforcement": validate_constraints_enforcement(),
     }
 
     # Display results
@@ -381,10 +377,10 @@ def run_comprehensive_gap_validation():
     print("\n🚀 PRODUCTION READINESS ASSESSMENT")
     print("-" * 40)
 
-    if score_analysis['new_estimated_score'] >= 90:
+    if score_analysis["new_estimated_score"] >= 90:
         readiness = "FULL PRODUCTION READY"
         status_emoji = "🟢"
-    elif score_analysis['new_estimated_score'] >= 85:
+    elif score_analysis["new_estimated_score"] >= 85:
         readiness = "CANARY ROLLOUT READY"
         status_emoji = "🟡"
     else:
@@ -395,7 +391,7 @@ def run_comprehensive_gap_validation():
     print(f"📊 Score: {score_analysis['new_estimated_score']}/100")
 
     # Recommendations
-    if score_analysis['new_estimated_score'] >= 85:
+    if score_analysis["new_estimated_score"] >= 85:
         print("\n🎯 RECOMMENDATIONS:")
         print("✅ System ready for canary rollout (limited surfaces)")
         print("✅ CI gates operational and enforcing quality")
@@ -403,21 +399,22 @@ def run_comprehensive_gap_validation():
         print("✅ Governance controls enforced with dual-approval")
         print("✅ Memory performance validated against T4 standards")
 
-        if score_analysis['new_estimated_score'] >= 90:
+        if score_analysis["new_estimated_score"] >= 90:
             print("🚀 Ready for broader production deployment!")
         else:
             print("🔄 Ready for 10% canary rollout with monitoring")
     else:
         print("\n⚠️ REMAINING GAPS:")
-        for name, scores in score_analysis['component_scores'].items():
-            if scores['percentage'] < 100:
+        for name, scores in score_analysis["component_scores"].items():
+            if scores["percentage"] < 100:
                 print(f"   - {name.replace('_', ' ').title()}: {scores['percentage']:.0f}%")
 
     return {
         "validations": validations,
         "score_analysis": score_analysis,
-        "production_ready": score_analysis['new_estimated_score'] >= 85
+        "production_ready": score_analysis["new_estimated_score"] >= 85,
     }
+
 
 if __name__ == "__main__":
     result = run_comprehensive_gap_validation()

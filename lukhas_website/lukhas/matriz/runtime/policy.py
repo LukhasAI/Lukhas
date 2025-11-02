@@ -123,10 +123,7 @@ class PolicyEngine:
 
         if isinstance(rule, Mapping):
             forbidden = self._to_label_set(
-                rule.get("forbidden")
-                or rule.get("deny")
-                or rule.get("blocked")
-                or rule.get("disallow")
+                rule.get("forbidden") or rule.get("deny") or rule.get("blocked") or rule.get("disallow")
             )
             if forbidden and labels & forbidden:
                 return False, f"forbidden:{sorted(labels & forbidden)}"

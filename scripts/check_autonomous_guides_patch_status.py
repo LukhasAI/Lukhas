@@ -109,9 +109,7 @@ def main():
     else:
         print("  Some files or markers are missing — inspect output above.")
 
-    print(
-        "\nIf anything looks missing, open the file or run `git log -p <file>` to inspect changes."
-    )
+    print("\nIf anything looks missing, open the file or run `git log -p <file>` to inspect changes.")
 
 
 if __name__ == "__main__":

@@ -127,16 +127,20 @@ def main():
                 source = entry.get("_source_lockfile", "unknown")
                 module_path = entry.get("module_path", "unknown")
                 print(f"      - {source} (path: {module_path})")
-                paths.append({
-                    "lockfile": source,
-                    "module_path": module_path,
-                })
+                paths.append(
+                    {
+                        "lockfile": source,
+                        "module_path": module_path,
+                    }
+                )
 
-            duplicate_details.append({
-                "module": module_name,
-                "count": len(entries),
-                "locations": paths,
-            })
+            duplicate_details.append(
+                {
+                    "module": module_name,
+                    "count": len(entries),
+                    "locations": paths,
+                }
+            )
 
         # Write errors file
         if not args.dry_run:

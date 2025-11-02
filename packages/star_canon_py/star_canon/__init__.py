@@ -3,6 +3,7 @@ import json
 from importlib.resources import files
 from typing import Dict, List
 
+
 # ΛTAG: star_canon
 def _derive_labels(payload: Dict[str, object]) -> List[str]:
     labels = payload.get("labels")

@@ -13,12 +13,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+
 def validate_imports():
     """Validate that required modules can be imported."""
     print("🔍 Validating imports...")
 
     try:
         import pytest
+
         print(f"  ✅ pytest {pytest.__version__}")
     except ImportError as e:
         print(f"  ❌ pytest import failed: {e}")
@@ -27,6 +29,7 @@ def validate_imports():
     try:
         from opentelemetry import trace
         from opentelemetry.sdk.trace import TracerProvider
+
         print("  ✅ OpenTelemetry imports successful")
     except ImportError as e:
         print(f"  ❌ OpenTelemetry import failed: {e}")
@@ -35,6 +38,7 @@ def validate_imports():
     try:
         # Test telemetry fixtures
         from conftest import CapturedSpan, InMemorySpanExporter, TelemetryCapture
+
         print("  ✅ Telemetry fixtures import successful")
     except ImportError as e:
         print(f"  ❌ Telemetry fixtures import failed: {e}")
@@ -44,12 +48,14 @@ def validate_imports():
         # Test authorization middleware
         sys.path.insert(0, str(REPO_ROOT / "tools"))
         from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
+
         print("  ✅ Authorization middleware import successful")
     except ImportError as e:
         print(f"  ❌ Authorization middleware import failed: {e}")
         return False
 
     return True
+
 
 def validate_fixtures():
     """Validate that telemetry fixtures work correctly."""
@@ -61,28 +67,24 @@ def validate_fixtures():
         # Test basic fixture functionality
         capture = TelemetryCapture()
         test_span = CapturedSpan(
-            name='authz.check',
-            attributes={
-                'subject': 'lukhas:user:test',
-                'tier': 'trusted',
-                'decision': 'allow'
-            },
-            status='OK',
+            name="authz.check",
+            attributes={"subject": "lukhas:user:test", "tier": "trusted", "decision": "allow"},
+            status="OK",
             status_message=None,
             duration_ms=15.5,
-            trace_id='12345678901234567890123456789012',
-            span_id='1234567890123456'
+            trace_id="12345678901234567890123456789012",
+            span_id="1234567890123456",
         )
         capture.spans.append(test_span)
 
         # Test helper methods
         authz_spans = capture.get_authz_spans()
         assert len(authz_spans) == 1, "Should find one authz span"
-        assert authz_spans[0].name == 'authz.check', "Span name should be authz.check"
+        assert authz_spans[0].name == "authz.check", "Span name should be authz.check"
 
         # Test span filtering
-        assert capture.has_span('authz.check'), "Should detect authz.check span"
-        assert not capture.has_span('nonexistent'), "Should not detect nonexistent span"
+        assert capture.has_span("authz.check"), "Should detect authz.check span"
+        assert not capture.has_span("nonexistent"), "Should not detect nonexistent span"
 
         print("  ✅ TelemetryCapture working correctly")
         print("  ✅ CapturedSpan working correctly")
@@ -92,6 +94,7 @@ def validate_fixtures():
     except Exception as e:
         print(f"  ❌ Fixture validation failed: {e}")
         return False
+
 
 def validate_authorization_middleware():
     """Validate that authorization middleware is accessible."""
@@ -116,7 +119,7 @@ def validate_authorization_middleware():
             capability_token="test-token",
             mfa_verified=False,
             webauthn_verified=True,
-            region="us-west-2"
+            region="us-west-2",
         )
         print("  ✅ AuthzRequest creation successful")
         return True
@@ -124,6 +127,7 @@ def validate_authorization_middleware():
     except Exception as e:
         print(f"  ❌ Authorization middleware validation failed: {e}")
         return False
+
 
 def validate_matrix_contract():
     """Validate that Matrix contracts are accessible."""
@@ -133,6 +137,7 @@ def validate_matrix_contract():
         contract_path = REPO_ROOT / "memory" / "matrix_memoria.json"
         if contract_path.exists():
             import json
+
             with open(contract_path) as f:
                 contract = json.load(f)
 
@@ -162,16 +167,13 @@ def validate_matrix_contract():
         print(f"  ❌ Matrix contract validation failed: {e}")
         return False
 
+
 def validate_test_discovery():
     """Validate that pytest can discover telemetry tests."""
     print("\n🔍 Validating test discovery...")
 
     try:
-        test_files = [
-            "test_authz_spans.py",
-            "test_authz_attributes.py",
-            "test_authz_integration.py"
-        ]
+        test_files = ["test_authz_spans.py", "test_authz_attributes.py", "test_authz_integration.py"]
 
         for test_file in test_files:
             test_path = Path(__file__).parent / test_file
@@ -188,6 +190,7 @@ def validate_test_discovery():
         print(f"  ❌ Test discovery validation failed: {e}")
         return False
 
+
 def main():
     """Run all validation checks."""
     print("🚀 Telemetry Smoke Test Setup Validation")
@@ -198,7 +201,7 @@ def main():
         validate_fixtures,
         validate_authorization_middleware,
         validate_matrix_contract,
-        validate_test_discovery
+        validate_test_discovery,
     ]
 
     all_passed = True
@@ -216,6 +219,7 @@ def main():
     else:
         print("❌ Some validations failed. Please fix issues before running tests.")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

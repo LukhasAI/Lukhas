@@ -526,7 +526,11 @@ class QIBioAGIBridge:
             # Unified consciousness field processing
             field_result = {
                 "consciousness_field_coherence": self.consciousness_field_coherence,
-                "unified_processing": {"qi_field": qi_result, "bio_field": bio_result, "cognitive_field": cognitive_result},
+                "unified_processing": {
+                    "qi_field": qi_result,
+                    "bio_field": bio_result,
+                    "cognitive_field": cognitive_result,
+                },
                 "field_resonance": (self.oscillator_sync_rate * self.consciousness_field_coherence),
                 "emergent_properties": await self._detect_emergent_properties(qi_result, bio_result, cognitive_result),
             }
@@ -534,9 +538,13 @@ class QIBioAGIBridge:
 
         else:
             # Default to hybrid consensus
-            return await self._integrate_results(qi_result, bio_result, cognitive_result, ProcessingMode.HYBRID_CONSENSUS)
+            return await self._integrate_results(
+                qi_result, bio_result, cognitive_result, ProcessingMode.HYBRID_CONSENSUS
+            )
 
-    async def _detect_emergent_properties(self, qi_result: dict, bio_result: dict, cognitive_result: dict) -> dict[str, Any]:
+    async def _detect_emergent_properties(
+        self, qi_result: dict, bio_result: dict, cognitive_result: dict
+    ) -> dict[str, Any]:
         """Detect emergent properties from QI-Bio-Cognitive AI interaction."""
         # Simple emergence detection based on system interactions
         qi_coherence = qi_result.get("coherence", 0.0)

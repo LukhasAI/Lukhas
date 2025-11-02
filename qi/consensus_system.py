@@ -28,7 +28,6 @@ In sync with the bio-inspired architecture, it mimics the stupendous complexity 
 """
 
 
-
 __module_name__ = "Quantum Consensus System"
 __version__ = "2.0.0"
 __tier__ = 3

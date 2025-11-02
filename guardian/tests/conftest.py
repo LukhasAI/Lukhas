@@ -18,11 +18,7 @@ import pytest
 @pytest.fixture(scope="session")
 def test_config():
     """Provide test configuration."""
-    return {
-        "module_name": "guardian",
-        "test_mode": True,
-        "log_level": "DEBUG"
-    }
+    return {"module_name": "guardian", "test_mode": True, "log_level": "DEBUG"}
 
 
 @pytest.fixture(scope="session")
@@ -53,12 +49,6 @@ def clean_environment():
 def mock_guardian_config():
     """Mock configuration for guardian module."""
     return {
-        "module": {
-            "name": "guardian",
-            "version": "1.0.0-test"
-        },
-        "runtime": {
-            "log_level": "DEBUG",
-            "debug_mode": True
-        }
+        "module": {"name": "guardian", "version": "1.0.0-test"},
+        "runtime": {"log_level": "DEBUG", "debug_mode": True},
     }

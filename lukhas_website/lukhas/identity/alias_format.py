@@ -24,6 +24,7 @@ class ΛiDAlias:
 
     Provides type-safe access to alias components with validation.
     """
+
     realm: str
     zone: str
     major_version: int
@@ -42,13 +43,11 @@ class ΛiDAlias:
 
 
 # Alias format validation pattern
-ALIAS_PATTERN = re.compile(
-    r'^lid#([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/v(\d+)\.([a-f0-9]{32})-([a-f0-9]{8})$'
-)
+ALIAS_PATTERN = re.compile(r"^lid#([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/v(\d+)\.([a-f0-9]{32})-([a-f0-9]{8})$")
 
 # Realm/zone validation patterns (strict security)
-REALM_PATTERN = re.compile(r'^[a-zA-Z0-9_-]{1,32}$')
-ZONE_PATTERN = re.compile(r'^[a-zA-Z0-9_-]{1,32}$')
+REALM_PATTERN = re.compile(r"^[a-zA-Z0-9_-]{1,32}$")
+ZONE_PATTERN = re.compile(r"^[a-zA-Z0-9_-]{1,32}$")
 
 
 def make_alias(realm: str, zone: str, major: int = 1) -> str:
@@ -84,7 +83,7 @@ def make_alias(realm: str, zone: str, major: int = 1) -> str:
     core = f"lid#{realm}/{zone}/v{major}.{uuid_hex}"
 
     # Calculate CRC32 and format as 8-character hex
-    crc = zlib.crc32(core.encode("utf-8")) & 0xffffffff
+    crc = zlib.crc32(core.encode("utf-8")) & 0xFFFFFFFF
     crc_hex = f"{crc:08x}"
 
     return f"{core}-{crc_hex}"
@@ -108,7 +107,7 @@ def verify_crc(alias: str) -> bool:
     """
     try:
         # Split alias at last dash
-        if '-' not in alias:
+        if "-" not in alias:
             return False
 
         body, crc_hex = alias.rsplit("-", 1)
@@ -118,7 +117,7 @@ def verify_crc(alias: str) -> bool:
             return False
 
         # Calculate expected CRC32
-        expected_crc = zlib.crc32(body.encode("utf-8")) & 0xffffffff
+        expected_crc = zlib.crc32(body.encode("utf-8")) & 0xFFFFFFFF
         provided_crc = int(crc_hex, 16)
 
         return expected_crc == provided_crc
@@ -159,13 +158,7 @@ def parse_alias(alias: str) -> Optional[ΛiDAlias]:
     if not verify_crc(alias):
         return None
 
-    return ΛiDAlias(
-        realm=realm,
-        zone=zone,
-        major_version=major_version,
-        uuid_part=uuid_part,
-        crc32_hex=crc_hex
-    )
+    return ΛiDAlias(realm=realm, zone=zone, major_version=major_version, uuid_part=uuid_part, crc32_hex=crc_hex)
 
 
 def validate_alias_format(alias: str) -> Tuple[bool, str]:
@@ -233,11 +226,4 @@ def generate_test_aliases(count: int = 10) -> list[str]:
 
 
 # Export public interface
-__all__ = [
-    "ΛiDAlias",
-    "make_alias",
-    "verify_crc",
-    "parse_alias",
-    "validate_alias_format",
-    "generate_test_aliases"
-]
+__all__ = ["ΛiDAlias", "make_alias", "verify_crc", "parse_alias", "validate_alias_format", "generate_test_aliases"]

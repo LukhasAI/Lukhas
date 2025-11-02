@@ -13,6 +13,7 @@ Test Coverage Areas:
 - Network coordination and flow control
 - Error handling and recovery scenarios
 """
+
 import asyncio
 import threading
 import time
@@ -44,9 +45,7 @@ class TestConsciousnessSignalRouter:
     def router(self):
         """Create a test router instance."""
         return ConsciousnessSignalRouter(
-            max_buffer_size=1000,
-            health_check_interval=1.0,
-            cascade_prevention_enabled=True
+            max_buffer_size=1000, health_check_interval=1.0, cascade_prevention_enabled=True
         )
 
     @pytest.fixture
@@ -58,7 +57,7 @@ class TestConsciousnessSignalRouter:
             source_module="test_module",
             timestamp=time.time(),
             priority=5,
-            coherence_score=0.9
+            coherence_score=0.9,
         )
 
     @pytest.fixture
@@ -72,7 +71,7 @@ class TestConsciousnessSignalRouter:
                 source_module=f"test_module_{i}",
                 timestamp=time.time() + i,
                 priority=i % 6,
-                coherence_score=0.1 * i
+                coherence_score=0.1 * i,
             )
             signals.append(signal)
         return signals
@@ -111,7 +110,7 @@ class TestConsciousnessSignalRouter:
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=test_handler,
-            strategy=RoutingStrategy.TARGETED
+            strategy=RoutingStrategy.TARGETED,
         )
 
         # Send signal
@@ -129,6 +128,7 @@ class TestConsciousnessSignalRouter:
         def create_handler(handler_id):
             def handler(signal):
                 handlers_called.append(handler_id)
+
             return handler
 
         # Register multiple handlers
@@ -136,7 +136,7 @@ class TestConsciousnessSignalRouter:
             router.register_handler(
                 signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
                 handler=create_handler(f"handler_{i}"),
-                strategy=RoutingStrategy.BROADCAST
+                strategy=RoutingStrategy.BROADCAST,
             )
 
         # Send signal with broadcast strategy
@@ -166,14 +166,14 @@ class TestConsciousnessSignalRouter:
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=target_handler,
             strategy=RoutingStrategy.TARGETED,
-            target_modules=["test_module"]
+            target_modules=["test_module"],
         )
 
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=other_handler,
             strategy=RoutingStrategy.TARGETED,
-            target_modules=["other_module"]
+            target_modules=["other_module"],
         )
 
         # Send signal
@@ -194,7 +194,7 @@ class TestConsciousnessSignalRouter:
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=priority_handler,
             strategy=RoutingStrategy.PRIORITY_BASED,
-            minimum_priority=3
+            minimum_priority=3,
         )
 
         # Send signals with various priorities
@@ -215,7 +215,7 @@ class TestConsciousnessSignalRouter:
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=coherence_handler,
             strategy=RoutingStrategy.COHERENCE_BASED,
-            minimum_coherence=0.5
+            minimum_coherence=0.5,
         )
 
         # Send signals with various coherence scores
@@ -228,8 +228,8 @@ class TestConsciousnessSignalRouter:
     def test_adaptive_routing(self, router, sample_signal):
         """Test adaptive routing strategy."""
         # Mock network conditions
-        with patch.object(router.health_monitor, 'get_network_load', return_value=0.8):
-            with patch.object(router.health_monitor, 'get_coherence_score', return_value=0.6):
+        with patch.object(router.health_monitor, "get_network_load", return_value=0.8):
+            with patch.object(router.health_monitor, "get_coherence_score", return_value=0.6):
                 handler_called = False
 
                 def adaptive_handler(signal):
@@ -239,7 +239,7 @@ class TestConsciousnessSignalRouter:
                 router.register_handler(
                     signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
                     handler=adaptive_handler,
-                    strategy=RoutingStrategy.ADAPTIVE
+                    strategy=RoutingStrategy.ADAPTIVE,
                 )
 
                 # Send signal
@@ -260,7 +260,7 @@ class TestConsciousnessSignalRouter:
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=filtered_handler,
             signal_filter=SignalFilter.COHERENCE_THRESHOLD,
-            filter_threshold=0.5
+            filter_threshold=0.5,
         )
 
         # Send signals
@@ -281,7 +281,7 @@ class TestConsciousnessSignalRouter:
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=awareness_handler,
             signal_filter=SignalFilter.AWARENESS_LEVEL,
-            filter_threshold=0.5
+            filter_threshold=0.5,
         )
 
         # Send signals
@@ -303,7 +303,7 @@ class TestConsciousnessSignalRouter:
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=trinity_handler,
-            signal_filter=SignalFilter.TRINITY_COMPLIANCE
+            signal_filter=SignalFilter.TRINITY_COMPLIANCE,
         )
 
         # Add Trinity compliance metadata
@@ -327,7 +327,7 @@ class TestConsciousnessSignalRouter:
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=frequency_handler,
             signal_filter=SignalFilter.FREQUENCY_BAND,
-            frequency_range=(0.1, 0.8)
+            frequency_range=(0.1, 0.8),
         )
 
         # Add frequency data to signals
@@ -354,20 +354,26 @@ class TestConsciousnessSignalRouter:
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=type_handler,
-            signal_filter=SignalFilter.SIGNAL_TYPE
+            signal_filter=SignalFilter.SIGNAL_TYPE,
         )
 
         # Send different signal types
         awareness_signal = ConsciousnessSignal(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            data={}, source_module="test", timestamp=time.time(),
-            priority=1, coherence_score=0.5
+            data={},
+            source_module="test",
+            timestamp=time.time(),
+            priority=1,
+            coherence_score=0.5,
         )
 
         emotion_signal = ConsciousnessSignal(
             signal_type=ConsciousnessSignalType.EMOTION_STATE,
-            data={}, source_module="test", timestamp=time.time(),
-            priority=1, coherence_score=0.5
+            data={},
+            source_module="test",
+            timestamp=time.time(),
+            priority=1,
+            coherence_score=0.5,
         )
 
         router.route_signal(awareness_signal)
@@ -382,17 +388,14 @@ class TestConsciousnessSignalRouter:
         """Test cascade prevention mechanism."""
         cascade_prevented = False
 
-        with patch.object(router.cascade_prevention, 'should_prevent_cascade', return_value=True):
+        with patch.object(router.cascade_prevention, "should_prevent_cascade", return_value=True):
             handler_called = False
 
             def test_handler(signal):
                 nonlocal handler_called
                 handler_called = True
 
-            router.register_handler(
-                signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-                handler=test_handler
-            )
+            router.register_handler(signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=test_handler)
 
             # Attempt to route signal
             result = router.route_signal(sample_signal)
@@ -431,14 +434,14 @@ class TestConsciousnessSignalRouter:
     def test_network_overload_detection(self, router):
         """Test network overload detection."""
         # Simulate high load
-        with patch.object(router.health_monitor, 'get_network_load', return_value=0.95):
+        with patch.object(router.health_monitor, "get_network_load", return_value=0.95):
             overload_detected = router.health_monitor.is_network_overloaded()
             assert overload_detected is True
 
     def test_coherence_degradation_detection(self, router):
         """Test coherence degradation detection."""
         # Simulate low coherence
-        with patch.object(router.health_monitor, 'get_coherence_score', return_value=0.2):
+        with patch.object(router.health_monitor, "get_coherence_score", return_value=0.2):
             degradation_detected = router.health_monitor.is_coherence_degraded()
             assert degradation_detected is True
 
@@ -465,8 +468,11 @@ class TestConsciousnessSignalRouter:
         for i in range(10):
             signal = ConsciousnessSignal(
                 signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-                data={"index": i}, source_module="test",
-                timestamp=time.time(), priority=1, coherence_score=0.5
+                data={"index": i},
+                source_module="test",
+                timestamp=time.time(),
+                priority=1,
+                coherence_score=0.5,
             )
             router.signal_buffer.add_signal(signal)
 
@@ -518,13 +524,11 @@ class TestConsciousnessSignalRouter:
 
     def test_error_metrics_tracking(self, router, sample_signal):
         """Test error metrics tracking."""
+
         def failing_handler(signal):
             raise Exception("Test error")
 
-        router.register_handler(
-            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            handler=failing_handler
-        )
+        router.register_handler(signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=failing_handler)
 
         # Route signal that will cause error
         router.route_signal(sample_signal)
@@ -545,10 +549,7 @@ class TestConsciousnessSignalRouter:
                 processed_signals.append(signal)
                 time.sleep(0.01)  # Simulate processing time
 
-        router.register_handler(
-            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            handler=concurrent_handler
-        )
+        router.register_handler(signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=concurrent_handler)
 
         # Start router
         router.start()
@@ -556,9 +557,7 @@ class TestConsciousnessSignalRouter:
         # Send signals concurrently
         tasks = []
         for signal in sample_signals:
-            task = asyncio.create_task(
-                asyncio.to_thread(router.route_signal, signal)
-            )
+            task = asyncio.create_task(asyncio.to_thread(router.route_signal, signal))
             tasks.append(task)
 
         await asyncio.gather(*tasks)
@@ -579,10 +578,7 @@ class TestConsciousnessSignalRouter:
             with lock:
                 processed_count += 1
 
-        router.register_handler(
-            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            handler=thread_safe_handler
-        )
+        router.register_handler(signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=thread_safe_handler)
 
         # Start router
         router.start()
@@ -590,9 +586,7 @@ class TestConsciousnessSignalRouter:
         # Create multiple threads
         threads = []
         for i in range(5):
-            thread = threading.Thread(
-                target=lambda: [router.route_signal(s) for s in sample_signals]
-            )
+            thread = threading.Thread(target=lambda: [router.route_signal(s) for s in sample_signals])
             threads.append(thread)
 
         # Start all threads
@@ -625,20 +619,24 @@ class TestConsciousnessSignalRouter:
         # Register multiple handlers
         handlers_called = []
         for i in range(3):
+
             def create_handler(handler_id):
                 def handler(signal):
                     handlers_called.append(handler_id)
+
                 return handler
 
             router.register_handler(
-                signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-                handler=create_handler(f"handler_{i}")
+                signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=create_handler(f"handler_{i}")
             )
 
         sample_signal = ConsciousnessSignal(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            data={}, source_module="test", timestamp=time.time(),
-            priority=1, coherence_score=0.5
+            data={},
+            source_module="test",
+            timestamp=time.time(),
+            priority=1,
+            coherence_score=0.5,
         )
 
         # Use custom strategy
@@ -658,14 +656,16 @@ class TestConsciousnessSignalRouter:
 
         # Register handler
         handler_id = router.register_handler(
-            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            handler=dynamic_handler
+            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=dynamic_handler
         )
 
         sample_signal = ConsciousnessSignal(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            data={}, source_module="test", timestamp=time.time(),
-            priority=1, coherence_score=0.5
+            data={},
+            source_module="test",
+            timestamp=time.time(),
+            priority=1,
+            coherence_score=0.5,
         )
 
         # Test handler is called
@@ -699,9 +699,7 @@ class TestConsciousnessSignalRouter:
             bio_processor_called = True
 
         router.register_handler(
-            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            handler=bio_handler,
-            use_bio_symbolic_processing=True
+            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=bio_handler, use_bio_symbolic_processing=True
         )
 
         router.route_signal(sample_signal)
@@ -712,44 +710,40 @@ class TestConsciousnessSignalRouter:
     def test_full_system_integration(self, router, sample_signals):
         """Test full system integration scenario."""
         # Set up comprehensive routing scenario
-        results = {
-            "broadcast": [],
-            "targeted": [],
-            "priority": [],
-            "coherence": []
-        }
+        results = {"broadcast": [], "targeted": [], "priority": [], "coherence": []}
 
         # Register handlers for different strategies
         def create_strategy_handler(strategy_name):
             def handler(signal):
                 results[strategy_name].append(signal)
+
             return handler
 
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=create_strategy_handler("broadcast"),
-            strategy=RoutingStrategy.BROADCAST
+            strategy=RoutingStrategy.BROADCAST,
         )
 
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=create_strategy_handler("targeted"),
             strategy=RoutingStrategy.TARGETED,
-            target_modules=["test_module_0", "test_module_1"]
+            target_modules=["test_module_0", "test_module_1"],
         )
 
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=create_strategy_handler("priority"),
             strategy=RoutingStrategy.PRIORITY_BASED,
-            minimum_priority=3
+            minimum_priority=3,
         )
 
         router.register_handler(
             signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
             handler=create_strategy_handler("coherence"),
             strategy=RoutingStrategy.COHERENCE_BASED,
-            minimum_coherence=0.5
+            minimum_coherence=0.5,
         )
 
         # Start router
@@ -781,10 +775,7 @@ class TestConsciousnessSignalRouter:
         def test_handler(signal):
             pass
 
-        router.register_handler(
-            signal_type=ConsciousnessSignalType.AWARENESS_UPDATE,
-            handler=test_handler
-        )
+        router.register_handler(signal_type=ConsciousnessSignalType.AWARENESS_UPDATE, handler=test_handler)
 
         # Stop and cleanup
         router.stop()

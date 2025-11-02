@@ -52,6 +52,7 @@ try:
         shuffle,
         uniform,
     )
+
     SECURE_RANDOM_AVAILABLE = True
 except ImportError:
     SECURE_RANDOM_AVAILABLE = False
@@ -89,6 +90,7 @@ try:
         create_web_validator,
     )
     from .security_monitor import EventType, SecurityEvent, SecurityMonitor, ThreatLevel, create_security_monitor
+
     SECURITY_COMPONENTS_AVAILABLE = True
 except ImportError as e:
     SECURITY_COMPONENTS_AVAILABLE = False
@@ -96,9 +98,11 @@ except ImportError as e:
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class SecurityConfig:
     """Security system configuration."""
+
     # Core settings
     enabled: bool = True
     fail_closed: bool = True  # Fail securely by default
@@ -144,9 +148,11 @@ class SecurityConfig:
     evidence_path: Optional[str] = None
     audit_log_path: Optional[str] = None
 
+
 @dataclass
 class SecurityMetrics:
     """Security system performance metrics."""
+
     total_requests: int = 0
     security_validations: int = 0
     threats_detected: int = 0
@@ -155,6 +161,7 @@ class SecurityMetrics:
     performance_target_met: bool = True
     uptime_percentage: float = 100.0
     last_updated: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+
 
 class LUKHASSecuritySystem:
     """
@@ -209,7 +216,7 @@ class LUKHASSecuritySystem:
                 encryption_config = {
                     "key_store_path": self.config.key_store_path,
                     "auto_rotation": self.config.key_rotation_enabled,
-                    "key_retention_days": self.config.key_retention_days
+                    "key_retention_days": self.config.key_retention_days,
                 }
                 self.encryption_manager = create_encryption_manager(encryption_config)
                 logger.info("Encryption manager initialized")
@@ -219,7 +226,7 @@ class LUKHASSecuritySystem:
                 access_config = {
                     "guardian_integration": self.config.guardian_integration,
                     "policy_cache_ttl": self.config.cache_ttl_seconds,
-                    "audit_enabled": self.config.audit_logging
+                    "audit_enabled": self.config.audit_logging,
                 }
                 self.access_control = create_access_control_system(access_config)
                 logger.info("Access control system initialized")
@@ -229,7 +236,7 @@ class LUKHASSecuritySystem:
                 monitor_config = {
                     "guardian_integration": self.config.guardian_integration,
                     "processing_threads": 4,
-                    "buffer_size": 10000
+                    "buffer_size": 10000,
                 }
                 self.security_monitor = create_security_monitor(monitor_config)
                 logger.info("Security monitor initialized")
@@ -239,7 +246,7 @@ class LUKHASSecuritySystem:
                 ir_config = {
                     "guardian_integration": self.config.guardian_integration,
                     "auto_containment": self.config.auto_containment,
-                    "evidence_retention_days": self.config.evidence_retention_days
+                    "evidence_retention_days": self.config.evidence_retention_days,
                 }
                 self.incident_response = create_incident_response_system(ir_config)
                 logger.info("Incident response system initialized")
@@ -248,7 +255,7 @@ class LUKHASSecuritySystem:
             if self.config.compliance_monitoring:
                 compliance_config = {
                     "evidence_path": self.config.evidence_path,
-                    "guardian_integration": self.config.guardian_integration
+                    "guardian_integration": self.config.guardian_integration,
                 }
                 self.compliance_framework = create_compliance_framework(compliance_config)
                 logger.info("Compliance framework initialized")
@@ -291,12 +298,14 @@ class LUKHASSecuritySystem:
             "systems_initialized": self.systems_initialized,
             "guardian_integrated": self.guardian_integrated,
             "phase_6_components_available": SECURITY_COMPONENTS_AVAILABLE,
-            "legacy_secure_random_available": SECURE_RANDOM_AVAILABLE
+            "legacy_secure_random_available": SECURE_RANDOM_AVAILABLE,
         }
+
 
 # Global security system instance
 _security_system: Optional[LUKHASSecuritySystem] = None
 _security_lock = threading.Lock()
+
 
 def get_security_system(config: Optional[SecurityConfig] = None) -> LUKHASSecuritySystem:
     """Get global security system instance."""
@@ -308,9 +317,11 @@ def get_security_system(config: Optional[SecurityConfig] = None) -> LUKHASSecuri
 
         return _security_system
 
+
 def initialize_security(config: Optional[SecurityConfig] = None) -> LUKHASSecuritySystem:
     """Initialize LUKHAS security system."""
     return get_security_system(config)
+
 
 # Legacy exports (Phase 0 secure random)
 if SECURE_RANDOM_AVAILABLE:
@@ -319,11 +330,9 @@ if SECURE_RANDOM_AVAILABLE:
         "LUKHASSecuritySystem",
         "SecurityConfig",
         "SecurityMetrics",
-
         # Phase 6 functions
         "get_security_system",
         "initialize_security",
-
         # Legacy Phase 0 secure random
         "SecureRandom",
         "choice",
@@ -343,10 +352,9 @@ if SECURE_RANDOM_AVAILABLE:
         "secure_token",
         "shuffle",
         "uniform",
-
         # Availability flags
         "SECURITY_COMPONENTS_AVAILABLE",
-        "SECURE_RANDOM_AVAILABLE"
+        "SECURE_RANDOM_AVAILABLE",
     ]
 else:
     __all__ = [
@@ -357,5 +365,5 @@ else:
         "get_security_system",
         "initialize_security",
         "SECURITY_COMPONENTS_AVAILABLE",
-        "SECURE_RANDOM_AVAILABLE"
+        "SECURE_RANDOM_AVAILABLE",
     ]

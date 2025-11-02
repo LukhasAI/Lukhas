@@ -5,6 +5,8 @@ from typing import Any, Optional
 @dataclass(frozen=True)
 class AgentOpinion:
     agent_id: str
+
+
 value: Any
 confidence: float  # 0..1
 rationale: Optional[str] = None
@@ -13,6 +15,8 @@ rationale: Optional[str] = None
 @dataclass(frozen=True)
 class ConsensusResult:
     key: str
+
+
 decided_value: Any
 votes_for: int
 votes_total: int

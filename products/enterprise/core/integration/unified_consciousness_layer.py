@@ -99,6 +99,7 @@ except ImportError as orchestration_error:
                 "consensus_method": "fallback",
             }
 
+
 # ΛTAG: optional_dependency_resolver
 def _load_optional_component(module_path: str, attribute: Optional[str] = None) -> Optional[Any]:
     """Safely import optional enterprise component without raising ImportError."""
@@ -119,12 +120,8 @@ def _load_optional_component(module_path: str, attribute: Optional[str] = None) 
 
 
 _JULES_COMPONENT_REGISTRY = {
-    "DataProtectionService": _load_optional_component(
-        "compliance.data_protection_service", "DataProtectionService"
-    ),
-    "DatadogIntegration": _load_optional_component(
-        "monitoring.datadog_integration", "DatadogIntegration"
-    ),
+    "DataProtectionService": _load_optional_component("compliance.data_protection_service", "DataProtectionService"),
+    "DatadogIntegration": _load_optional_component("monitoring.datadog_integration", "DatadogIntegration"),
 }
 
 JULES_COMPONENTS_AVAILABLE = all(component is not None for component in _JULES_COMPONENT_REGISTRY.values())

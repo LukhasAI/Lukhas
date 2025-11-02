@@ -37,9 +37,7 @@ def test_validate_and_register_and_query_and_delete():
                 "subscribes": [{"signal": "process_memory", "handler": "process"}],
             },
         },
-        "contracts": {
-            "performance_hints": {"p50": 20, "p95": 80, "concurrency": 100, "timeout_ms": 5000}
-        },
+        "contracts": {"performance_hints": {"p50": 20, "p95": 80, "concurrency": 100, "timeout_ms": 5000}},
         "provenance_manifest": {
             "glymph_enabled": True,
             "signing_scheme": "dilithium2",

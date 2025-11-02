@@ -41,7 +41,7 @@ def mock_prometheus_metrics():
 @pytest.fixture
 def advanced_metrics_system(mock_prometheus_metrics):
     """Create advanced metrics system for testing"""
-    with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus_metrics):
+    with patch("observability.advanced_metrics.get_lukhas_metrics", return_value=mock_prometheus_metrics):
         system = AdvancedMetricsSystem(
             enable_anomaly_detection=True,
             enable_ml_features=True,
@@ -109,7 +109,8 @@ class TestAdvancedMetricsSystem:
 
         # Should detect threshold breach
         threshold_anomalies = [
-            a for a in advanced_metrics_system.detected_anomalies
+            a
+            for a in advanced_metrics_system.detected_anomalies
             if a.metric_name == metric_name and a.anomaly_type == AnomalyType.THRESHOLD_BREACH
         ]
         assert len(threshold_anomalies) > 0
@@ -127,6 +128,7 @@ class TestAdvancedMetricsSystem:
 
         # Generate training data
         import numpy as np
+
         np.random.seed(42)  # For reproducible tests
         training_data = np.random.normal(100, 10, 100)  # Mean=100, std=10
 
@@ -141,7 +143,8 @@ class TestAdvancedMetricsSystem:
 
         # Check for ML-detected anomalies
         [
-            a for a in advanced_metrics_system.detected_anomalies
+            a
+            for a in advanced_metrics_system.detected_anomalies
             if a.metric_name == metric_name and a.anomaly_type == AnomalyType.ISOLATION_FOREST
         ]
 
@@ -229,14 +232,12 @@ class TestAdvancedMetricsSystem:
 
         # Filter by severity
         warning_summary = advanced_metrics_system.get_anomaly_summary(
-            hours_back=24,
-            severity_filter=MetricSeverity.WARNING
+            hours_back=24, severity_filter=MetricSeverity.WARNING
         )
         assert len(warning_summary) == 1
 
         critical_summary = advanced_metrics_system.get_anomaly_summary(
-            hours_back=24,
-            severity_filter=MetricSeverity.CRITICAL
+            hours_back=24, severity_filter=MetricSeverity.CRITICAL
         )
         assert len(critical_summary) == 0
 
@@ -289,6 +290,7 @@ class TestAdvancedMetricsSystem:
     @pytest.mark.asyncio
     async def test_concurrent_metric_recording(self, advanced_metrics_system):
         """Test concurrent metric recording"""
+
         async def record_metrics(metric_suffix, count):
             for i in range(count):
                 await advanced_metrics_system.record_advanced_metric(
@@ -335,10 +337,7 @@ class TestAnomalyDetection:
         await advanced_metrics_system.record_advanced_metric(metric_name, 20.0)  # 10 std devs away
 
         # Should detect statistical anomaly
-        anomalies = [
-            a for a in advanced_metrics_system.detected_anomalies
-            if a.metric_name == metric_name
-        ]
+        anomalies = [a for a in advanced_metrics_system.detected_anomalies if a.metric_name == metric_name]
         assert len(anomalies) > 0
 
     @pytest.mark.asyncio
@@ -348,14 +347,10 @@ class TestAnomalyDetection:
 
         # Create upward trend (performance degradation)
         trend_values = [10 + i * 2 for i in range(25)]  # Clear upward trend
-        timestamps = [
-            datetime.now(timezone.utc) - timedelta(hours=24-i) for i in range(25)
-        ]
+        timestamps = [datetime.now(timezone.utc) - timedelta(hours=24 - i) for i in range(25)]
 
         for value, timestamp in zip(trend_values, timestamps):
-            await advanced_metrics_system.record_advanced_metric(
-                metric_name, value, timestamp=timestamp
-            )
+            await advanced_metrics_system.record_advanced_metric(metric_name, value, timestamp=timestamp)
 
         # Set baseline
         advanced_metrics_system.metric_baselines[metric_name] = {
@@ -371,7 +366,8 @@ class TestAnomalyDetection:
 
         # Should detect trend-based anomaly
         [
-            a for a in advanced_metrics_system.detected_anomalies
+            a
+            for a in advanced_metrics_system.detected_anomalies
             if a.metric_name == metric_name and a.anomaly_type == AnomalyType.TREND_ANALYSIS
         ]
         # Note: Trend detection requires scipy, might not always trigger
@@ -382,7 +378,7 @@ class TestIntegrationFunctions:
 
     def test_initialize_advanced_metrics(self, mock_prometheus_metrics):
         """Test advanced metrics initialization"""
-        with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus_metrics):
+        with patch("observability.advanced_metrics.get_lukhas_metrics", return_value=mock_prometheus_metrics):
             system = initialize_advanced_metrics(
                 enable_anomaly_detection=True,
                 enable_ml_features=False,
@@ -395,7 +391,7 @@ class TestIntegrationFunctions:
     @pytest.mark.asyncio
     async def test_convenience_functions(self, advanced_metrics_system):
         """Test convenience functions"""
-        with patch('observability.advanced_metrics.get_advanced_metrics', return_value=advanced_metrics_system):
+        with patch("observability.advanced_metrics.get_advanced_metrics", return_value=advanced_metrics_system):
             # Test record_metric function
             await record_metric("test_metric", 100.5, labels={"test": "value"})
 

@@ -10,6 +10,7 @@
 ===========================
 Prevents system interference that causes VS Code logout issues
 """
+
 import os
 import subprocess
 from typing import Any, Optional

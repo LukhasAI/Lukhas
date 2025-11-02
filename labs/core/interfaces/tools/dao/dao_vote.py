@@ -4,6 +4,7 @@ Original: dao_vote.py
 Advanced: dao_vote.py
 Integration Date: 2025-05-31T07:55:30.719982
 """
+
 # ===============================================================
 # 📂 FILE: tools/dao_vote.py
 # 🧠 PURPOSE: Cast a symbolic DAO vote (Tier 5 simulation)

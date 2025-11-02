@@ -24,15 +24,18 @@ from uuid import uuid4
 
 try:
     import pandas as pd  # noqa: F401  # TODO: pandas; consider using importl...
+
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
 
 try:
     import matplotlib
-    matplotlib.use('Agg')  # Use non-GUI backend
+
+    matplotlib.use("Agg")  # Use non-GUI backend
     import matplotlib.pyplot as plt
     import seaborn as sns  # noqa: F401  # TODO: seaborn; consider using import...
+
     PLOTTING_AVAILABLE = True
 except ImportError:
     PLOTTING_AVAILABLE = False
@@ -45,6 +48,7 @@ from .intelligent_alerting import get_alerting_system
 @dataclass
 class ComplianceStatus:
     """Current compliance status for a regulation"""
+
     regulation: ComplianceRegime
     overall_compliance_score: float  # 0.0 to 100.0
     total_evidence_records: int
@@ -62,6 +66,7 @@ class ComplianceStatus:
 @dataclass
 class ComplianceMetric:
     """Individual compliance metric tracking"""
+
     metric_name: str
     regulation: ComplianceRegime
     current_value: float
@@ -75,6 +80,7 @@ class ComplianceMetric:
 @dataclass
 class AuditReport:
     """Generated compliance audit report"""
+
     report_id: str
     regulation: ComplianceRegime
     report_type: str  # "daily", "weekly", "monthly", "quarterly", "annual"
@@ -162,12 +168,12 @@ class ComplianceDashboard:
                 "retention_violation_alert": True,
                 "integrity_failure_alert": True,
                 "audit_trail_gap_alert": True,
-            }
+            },
         }
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path, "r") as f:
                     config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -178,7 +184,7 @@ class ComplianceDashboard:
                 print(f"Warning: Failed to load dashboard config: {e}")
 
         # Save default config
-        with open(self.config_path, 'w') as f:
+        with open(self.config_path, "w") as f:
             json.dump(default_config, f, indent=2)
 
         return default_config
@@ -275,10 +281,7 @@ class ComplianceDashboard:
 
         # Calculate overall compliance score
         overall_score = self._calculate_compliance_score(
-            evidence_stats["integrity_score"],
-            audit_completeness,
-            retention_compliance,
-            violation_count
+            evidence_stats["integrity_score"], audit_completeness, retention_compliance, violation_count
         )
 
         # Update status
@@ -305,8 +308,7 @@ class ComplianceDashboard:
 
         # Query evidence records for this regulation
         async for evidence in self.evidence_engine.query_evidence(
-            start_time=datetime.now(timezone.utc) - timedelta(days=30),  # Last 30 days
-            limit=10000
+            start_time=datetime.now(timezone.utc) - timedelta(days=30), limit=10000  # Last 30 days
         ):
             if regulation in evidence.compliance_regimes:
                 total_records += 1
@@ -348,10 +350,7 @@ class ComplianceDashboard:
                 evidence_type = EvidenceType(event_type)
                 count = 0
                 async for evidence in self.evidence_engine.query_evidence(
-                    evidence_type=evidence_type,
-                    start_time=start_time,
-                    end_time=end_time,
-                    limit=1000
+                    evidence_type=evidence_type, start_time=start_time, end_time=end_time, limit=1000
                 ):
                     if regulation in evidence.compliance_regimes:
                         count += 1
@@ -375,17 +374,14 @@ class ComplianceDashboard:
         retention_limits = {
             ComplianceRegime.GDPR: timedelta(days=2555),  # 7 years max
             ComplianceRegime.CCPA: timedelta(days=1095),  # 3 years typical
-            ComplianceRegime.SOX: timedelta(days=2555),   # 7 years
+            ComplianceRegime.SOX: timedelta(days=2555),  # 7 years
             ComplianceRegime.INTERNAL: timedelta(days=365),  # 1 year default
         }
 
         limit = retention_limits.get(regulation, timedelta(days=365))
         cutoff_date = datetime.now(timezone.utc) - limit
 
-        async for evidence in self.evidence_engine.query_evidence(
-            end_time=cutoff_date,
-            limit=1000
-        ):
+        async for evidence in self.evidence_engine.query_evidence(end_time=cutoff_date, limit=1000):
             if regulation in evidence.compliance_regimes:
                 total_checked += 1
                 # If evidence is still present beyond retention period, it's a violation
@@ -402,10 +398,9 @@ class ComplianceDashboard:
         async for evidence in self.evidence_engine.query_evidence(
             evidence_type=EvidenceType.REGULATORY_EVENT,
             start_time=datetime.now(timezone.utc) - timedelta(days=30),
-            limit=1000
+            limit=1000,
         ):
-            if (regulation in evidence.compliance_regimes and
-                evidence.operation == "compliance_violation"):
+            if regulation in evidence.compliance_regimes and evidence.operation == "compliance_violation":
                 violation_count += 1
 
         return violation_count
@@ -419,11 +414,7 @@ class ComplianceDashboard:
     ) -> float:
         """Calculate overall compliance score"""
         # Weighted scoring
-        base_score = (
-            integrity_score * 0.4 +
-            audit_completeness * 0.3 +
-            retention_compliance * 0.3
-        )
+        base_score = integrity_score * 0.4 + audit_completeness * 0.3 + retention_compliance * 0.3
 
         # Penalty for violations
         violation_penalty = min(violation_count * 5, 50)  # Max 50 point penalty
@@ -496,9 +487,7 @@ class ComplianceDashboard:
         compliance_status = await self.assess_compliance_status(regulation)
 
         # Collect evidence statistics for the period
-        evidence_stats = await self._collect_evidence_statistics(
-            regulation, period_start, period_end
-        )
+        evidence_stats = await self._collect_evidence_statistics(regulation, period_start, period_end)
 
         # Generate report data
         report_data = {
@@ -556,9 +545,7 @@ class ComplianceDashboard:
         }
 
         async for evidence in self.evidence_engine.query_evidence(
-            start_time=start_time,
-            end_time=end_time,
-            limit=50000
+            start_time=start_time, end_time=end_time, limit=50000
         ):
             if regulation in evidence.compliance_regimes:
                 stats["total_evidence"] += 1
@@ -675,7 +662,7 @@ class ComplianceDashboard:
 
             # Save JSON report
             json_file = report_dir / f"{filename}.json"
-            with open(json_file, 'w') as f:
+            with open(json_file, "w") as f:
                 json.dump(asdict(report), f, indent=2, default=str)
 
             # Generate charts if plotting is available
@@ -699,28 +686,32 @@ class ComplianceDashboard:
             # Compliance score gauge
             fig, ax = plt.subplots(figsize=(8, 6))
             score = report.compliance_score
-            colors = ['red' if score < 90 else 'orange' if score < 95 else 'green']
+            colors = ["red" if score < 90 else "orange" if score < 95 else "green"]
 
-            ax.pie([score, 100-score], startangle=90, colors=colors + ['lightgray'],
-                  labels=[f'Compliant\n{score:.1f}%', f'Non-compliant\n{100-score:.1f}%'])
-            ax.set_title(f'{report.regulation.value} Compliance Score')
-            plt.savefig(chart_dir / 'compliance_score.png', dpi=150, bbox_inches='tight')
+            ax.pie(
+                [score, 100 - score],
+                startangle=90,
+                colors=colors + ["lightgray"],
+                labels=[f"Compliant\n{score:.1f}%", f"Non-compliant\n{100-score:.1f}%"],
+            )
+            ax.set_title(f"{report.regulation.value} Compliance Score")
+            plt.savefig(chart_dir / "compliance_score.png", dpi=150, bbox_inches="tight")
             plt.close()
 
             # Evidence statistics
-            if 'evidence_statistics' in report.report_data:
-                stats = report.report_data['evidence_statistics']
+            if "evidence_statistics" in report.report_data:
+                stats = report.report_data["evidence_statistics"]
 
-                if 'by_type' in stats and stats['by_type']:
+                if "by_type" in stats and stats["by_type"]:
                     fig, ax = plt.subplots(figsize=(10, 6))
-                    types = list(stats['by_type'].keys())
-                    counts = list(stats['by_type'].values())
+                    types = list(stats["by_type"].keys())
+                    counts = list(stats["by_type"].values())
 
                     ax.bar(types, counts)
-                    ax.set_title('Evidence by Type')
-                    ax.set_ylabel('Count')
+                    ax.set_title("Evidence by Type")
+                    ax.set_ylabel("Count")
                     plt.xticks(rotation=45)
-                    plt.savefig(chart_dir / 'evidence_by_type.png', dpi=150, bbox_inches='tight')
+                    plt.savefig(chart_dir / "evidence_by_type.png", dpi=150, bbox_inches="tight")
                     plt.close()
 
         except Exception as e:
@@ -754,8 +745,11 @@ class ComplianceDashboard:
                 "violations": status.compliance_violations,
                 "last_assessment": status.last_assessment.isoformat(),
                 "critical_findings": len(status.critical_findings),
-                "risk_level": "high" if status.overall_compliance_score < 90 else
-                            "medium" if status.overall_compliance_score < 95 else "low",
+                "risk_level": (
+                    "high"
+                    if status.overall_compliance_score < 90
+                    else "medium" if status.overall_compliance_score < 95 else "low"
+                ),
             }
 
         # Key metrics
@@ -764,7 +758,9 @@ class ComplianceDashboard:
                 "regulation": metric.regulation.value,
                 "current_value": metric.current_value,
                 "target_value": metric.target_value,
-                "status": "compliant" if metric.current_value >= (metric.target_value - metric.tolerance) else "non_compliant",
+                "status": (
+                    "compliant" if metric.current_value >= (metric.target_value - metric.tolerance) else "non_compliant"
+                ),
                 "trend": metric.trend_direction,
             }
 
@@ -772,6 +768,7 @@ class ComplianceDashboard:
 
     def _start_background_tasks(self):
         """Start background monitoring and reporting tasks"""
+
         async def monitoring_worker():
             while True:
                 try:

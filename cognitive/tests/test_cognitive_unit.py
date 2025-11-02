@@ -25,10 +25,7 @@ class TestCognitiveModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "cognitive",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "cognitive", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestCognitiveModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import cognitive
+
         self.assertIsNotNone(cognitive)
 
     def test_module_version(self):
         """Test module has version information."""
         import cognitive
+
         # Most modules should have version info
-        self.assertTrue(hasattr(cognitive, '__version__') or
-                       hasattr(cognitive, 'VERSION'))
+        self.assertTrue(hasattr(cognitive, "__version__") or hasattr(cognitive, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestCognitiveModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

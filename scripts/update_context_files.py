@@ -55,9 +55,16 @@ def find_all_context_files() -> Tuple[List[Path], List[Path]]:
 
     # Exclude certain directories
     exclude_patterns = [
-        ".venv", "venv", "__pycache__", "node_modules",
-        ".git", "dist", "build", "*.egg-info",
-        "temp/ backups", "htmlcov"
+        ".venv",
+        "venv",
+        "__pycache__",
+        "node_modules",
+        ".git",
+        "dist",
+        "build",
+        "*.egg-info",
+        "temp/ backups",
+        "htmlcov",
     ]
 
     def should_exclude(path: Path) -> bool:
@@ -74,18 +81,15 @@ def update_date_references(content: str) -> str:
     """Update date references in content."""
     # Update "Last Updated" dates
     content = re.sub(
-        r'\*\*Last Updated\*\*:\s*\d{4}-\d{2}-\d{2}',
+        r"\*\*Last Updated\*\*:\s*\d{4}-\d{2}-\d{2}",
         f'**Last Updated**: {METRICS["last_updated"]}',
         content,
-        flags=re.IGNORECASE
+        flags=re.IGNORECASE,
     )
 
     # Update standalone date patterns
     content = re.sub(
-        r'Last Updated:\s*\d{4}-\d{2}-\d{2}',
-        f'Last Updated: {METRICS["last_updated"]}',
-        content,
-        flags=re.IGNORECASE
+        r"Last Updated:\s*\d{4}-\d{2}-\d{2}", f'Last Updated: {METRICS["last_updated"]}', content, flags=re.IGNORECASE
     )
 
     return content
@@ -95,34 +99,34 @@ def update_file_counts(content: str) -> str:
     """Update file count references."""
     # Update total files
     content = re.sub(
-        r'\*\*Total Files\*\*:\s*[\d,]+\+?',
+        r"\*\*Total Files\*\*:\s*[\d,]+\+?",
         f'**Total Files**: {METRICS["total_python_files"]}+',
         content,
-        flags=re.IGNORECASE
+        flags=re.IGNORECASE,
     )
 
     # Update products files
     content = re.sub(
-        r'PRODUCTS\s+Domain[:\s]+[\d,]+\s+files',
+        r"PRODUCTS\s+Domain[:\s]+[\d,]+\s+files",
         f'PRODUCTS Domain: {METRICS["products_files"]} files',
         content,
-        flags=re.IGNORECASE
+        flags=re.IGNORECASE,
     )
 
     # Update lukhas files
     content = re.sub(
-        r'LUKHAS\s+Core[:\s]+[\d,]+\s+files',
+        r"LUKHAS\s+Core[:\s]+[\d,]+\s+files",
         f'LUKHAS Core: {METRICS["lukhas_files"]} files',
         content,
-        flags=re.IGNORECASE
+        flags=re.IGNORECASE,
     )
 
     # Update context files count
     content = re.sub(
-        r'\*\*Context Files\*\*:\s*[\d,]+\+?',
+        r"\*\*Context Files\*\*:\s*[\d,]+\+?",
         f'**Context Files**: {METRICS["total_context_files"]}+',
         content,
-        flags=re.IGNORECASE
+        flags=re.IGNORECASE,
     )
 
     return content
@@ -156,7 +160,7 @@ def add_ga_status_section(content: str) -> str:
     # Check if GA section already exists
     if "GA Deployment Status" in content or "GA DEPLOYMENT STATUS" in content:
         # Replace existing section (find between ## GA and next ##)
-        pattern = r'##\s+🚀?\s*GA\s+Deployment\s+Status.*?(?=\n##|\Z)'
+        pattern = r"##\s+🚀?\s*GA\s+Deployment\s+Status.*?(?=\n##|\Z)"
         if re.search(pattern, content, re.DOTALL | re.IGNORECASE):
             content = re.sub(pattern, ga_section.strip(), content, flags=re.DOTALL | re.IGNORECASE)
         else:
@@ -175,7 +179,7 @@ def add_ga_status_section(content: str) -> str:
 def update_context_file(file_path: Path, dry_run: bool = False) -> bool:
     """Update a single context file with latest information."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             original_content = f.read()
 
         content = original_content
@@ -191,7 +195,7 @@ def update_context_file(file_path: Path, dry_run: bool = False) -> bool:
         # Check if content changed
         if content != original_content:
             if not dry_run:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 return True
             else:
@@ -268,7 +272,9 @@ def main():
     print()
     print("Next steps:")
     print("1. Review changes: git diff")
-    print("2. Commit changes: git add . && git commit -m 'docs: update all context files with latest metrics and GA status'")
+    print(
+        "2. Commit changes: git add . && git commit -m 'docs: update all context files with latest metrics and GA status'"
+    )
     print()
 
 

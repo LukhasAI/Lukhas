@@ -21,22 +21,24 @@ from prometheus_client import Counter, Gauge
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
-    def labels(self, **kwargs): return self
-    def inc(self, amount=1): pass
-    def set(self, value): pass
+    def labels(self, **kwargs):
+        return self
+
+    def inc(self, amount=1):
+        pass
+
+    def set(self, value):
+        pass
+
 
 try:
     client_auth_total = Counter(
-        'lukhas_oidc_client_auth_total',
-        'Total client authentication attempts',
-        ['client_id', 'auth_method', 'result']
+        "lukhas_oidc_client_auth_total", "Total client authentication attempts", ["client_id", "auth_method", "result"]
     )
-    registered_clients_total = Gauge(
-        'lukhas_oidc_registered_clients_total',
-        'Total registered OAuth2 clients'
-    )
+    registered_clients_total = Gauge("lukhas_oidc_registered_clients_total", "Total registered OAuth2 clients")
 except ValueError:
     client_auth_total = MockMetric()
     registered_clients_total = MockMetric()
@@ -44,12 +46,14 @@ except ValueError:
 
 class ClientType(Enum):
     """OAuth2 client types per RFC 6749."""
+
     CONFIDENTIAL = "confidential"
     PUBLIC = "public"
 
 
 class ApplicationType(Enum):
     """OIDC application types."""
+
     WEB = "web"
     NATIVE = "native"
     SPA = "spa"  # Single Page Application
@@ -197,11 +201,7 @@ class ClientRegistry:
             client_secret = self._generate_client_secret() if client_data.get("client_type") == "confidential" else None
 
             # Create client object
-            client = OIDCClient(
-                client_id=client_id,
-                client_secret=client_secret,
-                **client_data
-            )
+            client = OIDCClient(client_id=client_id, client_secret=client_secret, **client_data)
 
             # Guardian validation for high-privilege clients
             if client.require_guardian_approval and self.guardian_client:
@@ -228,47 +228,29 @@ class ClientRegistry:
 
             client = self.get_client(client_id)
             if not client or not client.is_active:
-                client_auth_total.labels(
-                    client_id=client_id,
-                    auth_method="secret",
-                    result="client_not_found"
-                ).inc()
+                client_auth_total.labels(client_id=client_id, auth_method="secret", result="client_not_found").inc()
                 return None
 
             # Public clients don't require secret authentication
             if client.client_type == ClientType.PUBLIC:
                 if client_secret is not None:
                     client_auth_total.labels(
-                        client_id=client_id,
-                        auth_method="secret",
-                        result="secret_not_required"
+                        client_id=client_id, auth_method="secret", result="secret_not_required"
                     ).inc()
                     return None
 
                 client.update_last_used()
-                client_auth_total.labels(
-                    client_id=client_id,
-                    auth_method="public",
-                    result="success"
-                ).inc()
+                client_auth_total.labels(client_id=client_id, auth_method="public", result="success").inc()
                 span.set_attribute("oidc.auth_method", "public")
                 return client
 
             # Confidential clients require secret authentication
             if not client_secret or not client.verify_secret(client_secret):
-                client_auth_total.labels(
-                    client_id=client_id,
-                    auth_method="secret",
-                    result="invalid_secret"
-                ).inc()
+                client_auth_total.labels(client_id=client_id, auth_method="secret", result="invalid_secret").inc()
                 return None
 
             client.update_last_used()
-            client_auth_total.labels(
-                client_id=client_id,
-                auth_method="secret",
-                result="success"
-            ).inc()
+            client_auth_total.labels(client_id=client_id, auth_method="secret", result="success").inc()
             span.set_attribute("oidc.auth_method", "secret")
 
             return client
@@ -293,9 +275,14 @@ class ClientRegistry:
         if client := self.get_client(client_id):
             # Update allowed fields (security consideration)
             allowed_updates = {
-                "client_name", "redirect_uris", "post_logout_redirect_uris",
-                "allowed_scopes", "access_token_lifetime", "refresh_token_lifetime",
-                "id_token_lifetime", "allowed_tiers"
+                "client_name",
+                "redirect_uris",
+                "post_logout_redirect_uris",
+                "allowed_scopes",
+                "access_token_lifetime",
+                "refresh_token_lifetime",
+                "id_token_lifetime",
+                "allowed_tiers",
             }
 
             for key, value in updates.items():
@@ -318,6 +305,7 @@ class ClientRegistry:
 
 # Singleton instance for application use
 _default_registry: Optional[ClientRegistry] = None
+
 
 def get_default_client_registry() -> ClientRegistry:
     """Get the default client registry instance."""

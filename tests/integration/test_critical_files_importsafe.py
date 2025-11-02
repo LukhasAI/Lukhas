@@ -20,9 +20,7 @@ def test_governance_import_safety():
 
     except ImportError as e:
         if "labs" in str(e) or "candidate" in str(e):
-            raise AssertionError(
-                f"core.governance has import-time dependency: {e}"
-            ) from e
+            raise AssertionError(f"core.governance has import-time dependency: {e}") from e
         raise
 
 
@@ -38,9 +36,7 @@ def test_collective_import_safety():
 
     except ImportError as e:
         if "labs" in str(e) or "candidate" in str(e):
-            raise AssertionError(
-                f"core.collective has import-time dependency: {e}"
-            ) from e
+            raise AssertionError(f"core.collective has import-time dependency: {e}") from e
         raise
 
 
@@ -56,9 +52,7 @@ def test_ethics_import_safety():
 
     except ImportError as e:
         if "labs" in str(e) or "candidate" in str(e):
-            raise AssertionError(
-                f"core.ethics has import-time dependency: {e}"
-            ) from e
+            raise AssertionError(f"core.ethics has import-time dependency: {e}") from e
         raise
 
 
@@ -77,9 +71,7 @@ def test_oracle_colony_import_safety():
 
     except ImportError as e:
         if "labs" in str(e) or "candidate" in str(e):
-            raise AssertionError(
-                f"core.colonies.oracle_colony has import-time dependency: {e}"
-            ) from e
+            raise AssertionError(f"core.colonies.oracle_colony has import-time dependency: {e}") from e
         raise
 
 
@@ -93,9 +85,7 @@ def test_consciousness_core_import_safety():
 
     except ImportError as e:
         if "labs" in str(e) or "candidate" in str(e):
-            raise AssertionError(
-                f"consciousness_core has import-time dependency: {e}"
-            ) from e
+            raise AssertionError(f"consciousness_core has import-time dependency: {e}") from e
         raise
     except Exception as e:
         # Other errors (like NameError from core.common) are not import-safety issues
@@ -116,9 +106,7 @@ def test_adapter_infrastructure_import_safety():
 
     except ImportError as e:
         if "labs" in str(e) or "candidate" in str(e):
-            raise AssertionError(
-                f"core.adapters has import-time dependency: {e}"
-            ) from e
+            raise AssertionError(f"core.adapters has import-time dependency: {e}") from e
         raise
 
 
@@ -138,9 +126,7 @@ def test_gpt_colony_orchestrator_refactored():
 
     except ImportError as e:
         if "labs" in str(e) or "candidate" in str(e):
-            raise AssertionError(
-                f"gpt_colony_orchestrator has import-time dependency: {e}"
-            ) from e
+            raise AssertionError(f"gpt_colony_orchestrator has import-time dependency: {e}") from e
         raise
 
 

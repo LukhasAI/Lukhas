@@ -33,9 +33,7 @@ def test_gpt_colony_orchestrator_import_safety():
     except ImportError as e:
         # Check if the error is related to labs imports
         if "labs" in str(e).lower():
-            raise AssertionError(
-                f"Module still has import-time dependency on labs: {e}"
-            ) from e
+            raise AssertionError(f"Module still has import-time dependency on labs: {e}") from e
         # Re-raise other import errors
         raise
 
@@ -85,9 +83,7 @@ def test_provider_infrastructure_available():
         assert registry is not None
 
     except ImportError as e:
-        raise AssertionError(
-            f"Provider infrastructure not available: {e}"
-        ) from e
+        raise AssertionError(f"Provider infrastructure not available: {e}") from e
 
 
 if __name__ == "__main__":

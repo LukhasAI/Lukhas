@@ -6,6 +6,7 @@ minimal and compatibility-focused: callers get a stable `lid` namespace with
 `normalize` and `is_valid` helpers. Heavy transformations will be performed by
 the AST/CST codemod later; this runtime helper keeps existing code working.
 """
+
 from __future__ import annotations
 
 from typing import Any

@@ -24,6 +24,7 @@ Features:
 #TAG:notifications
 #TAG:constellation
 """
+
 import asyncio
 import contextlib
 import hashlib
@@ -791,7 +792,8 @@ LUKHAS AI Monitoring System
                     f"Review {alert.source_system} system compliance",
                     "Implement corrective measures if needed",
                 ],
-                remediation_deadline=datetime.now(timezone.utc) + timedelta(days=7 if violation_severity == "medium" else 1),
+                remediation_deadline=datetime.now(timezone.utc)
+                + timedelta(days=7 if violation_severity == "medium" else 1),
             )
 
             # Store audit entry

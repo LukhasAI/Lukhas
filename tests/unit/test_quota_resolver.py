@@ -4,6 +4,7 @@ Unit tests for QuotaResolver.
 Tests quota resolution from config files with per-principal limits,
 IP CIDR matching, endpoint multipliers, and fallback to environment.
 """
+
 import os
 import tempfile
 from pathlib import Path
@@ -86,9 +87,7 @@ class TestQuotaResolver:
         config = {
             "version": 1,
             "defaults": {"rps": 20, "burst": 40},
-            "principals": [
-                {"principal": "tenant:test", "rps": 50, "burst": 100}
-            ],
+            "principals": [{"principal": "tenant:test", "rps": 50, "burst": 100}],
             "endpoint_multipliers": {
                 "/v1/embeddings": 2.5,
                 "/v1/dreams": 0.25,
@@ -133,9 +132,7 @@ class TestQuotaResolver:
         config = {
             "version": 1,
             "defaults": {"rps": 20, "burst": 40},
-            "principals": [
-                {"principal": "tenant:premium", "rps": 100, "burst": 200}
-            ],
+            "principals": [{"principal": "tenant:premium", "rps": 100, "burst": 200}],
         }
 
         config_file = tmp_path / "quotas.yaml"

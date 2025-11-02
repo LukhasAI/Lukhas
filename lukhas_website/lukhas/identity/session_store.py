@@ -35,6 +35,7 @@ metrics = get_metrics_collector()
 @dataclass
 class SessionData:
     """T4 session data structure with comprehensive metadata"""
+
     session_id: str
     user_id: str
     tier: str  # T1-T5
@@ -48,16 +49,16 @@ class SessionData:
         """Convert to dictionary for storage"""
         data = asdict(self)
         # Convert datetimes to ISO strings for JSON serialization
-        for key in ['created_at', 'expires_at', 'last_accessed']:
+        for key in ["created_at", "expires_at", "last_accessed"]:
             if isinstance(data[key], datetime):
                 data[key] = data[key].isoformat()
         return data
 
     @classmethod
-    def from_dict(cls, data: Dict[str, any]) -> 'SessionData':
+    def from_dict(cls, data: Dict[str, any]) -> "SessionData":
         """Create from dictionary"""
         # Convert ISO strings back to datetimes
-        for key in ['created_at', 'expires_at', 'last_accessed']:
+        for key in ["created_at", "expires_at", "last_accessed"]:
             if isinstance(data[key], str):
                 data[key] = datetime.fromisoformat(data[key])
         return cls(**data)
@@ -73,16 +74,19 @@ class SessionData:
 
 class SessionStoreError(Exception):
     """Base exception for session store operations"""
+
     pass
 
 
 class SessionNotFoundError(SessionStoreError):
     """Session not found in store"""
+
     pass
 
 
 class SessionExpiredError(SessionStoreError):
     """Session has expired"""
+
     pass
 
 
@@ -133,7 +137,7 @@ class RedisSessionStore(AbstractSessionStore):
         redis_url: str = "redis://localhost:6379/0",
         key_prefix: str = "lukhas:session:",
         encryption_key: Optional[bytes] = None,
-        ttl_buffer_seconds: int = 300  # 5 minutes buffer for TTL cleanup
+        ttl_buffer_seconds: int = 300,  # 5 minutes buffer for TTL cleanup
     ):
         self.redis_url = redis_url
         self.key_prefix = key_prefix
@@ -147,11 +151,7 @@ class RedisSessionStore(AbstractSessionStore):
         """Establish Redis connection"""
         if not self.redis:
             self.redis = await aioredis.from_url(
-                self.redis_url,
-                encoding="utf-8",
-                decode_responses=True,
-                retry_on_timeout=True,
-                health_check_interval=30
+                self.redis_url, encoding="utf-8", decode_responses=True, retry_on_timeout=True, health_check_interval=30
             )
 
     async def disconnect(self) -> None:
@@ -186,7 +186,7 @@ class RedisSessionStore(AbstractSessionStore):
 
             # Serialize session data
             data_json = json.dumps(session.to_dict())
-            data_bytes = data_json.encode('utf-8')
+            data_bytes = data_json.encode("utf-8")
 
             # Encrypt if enabled
             if self.fernet:
@@ -209,7 +209,7 @@ class RedisSessionStore(AbstractSessionStore):
                 user_id=session.user_id,
                 tier=session.tier,
                 ttl_seconds=ttl_seconds,
-                duration_ms=duration * 1000
+                duration_ms=duration * 1000,
             )
 
             return bool(result)
@@ -220,7 +220,7 @@ class RedisSessionStore(AbstractSessionStore):
                 "Failed to store session",
                 session_id=session.session_id,
                 error=str(e),
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
             raise SessionStoreError(f"Failed to store session: {e}") from e
 
@@ -239,7 +239,7 @@ class RedisSessionStore(AbstractSessionStore):
 
             # Decrypt if enabled
             if self.fernet and isinstance(data_json, bytes):
-                data_json = self._decrypt_data(data_json).decode('utf-8')
+                data_json = self._decrypt_data(data_json).decode("utf-8")
 
             # Parse session data
             data_dict = json.loads(data_json)
@@ -269,7 +269,7 @@ class RedisSessionStore(AbstractSessionStore):
                 "Failed to retrieve session",
                 session_id=session_id,
                 error=str(e),
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
             raise SessionStoreError(f"Failed to retrieve session: {e}") from e
 
@@ -289,11 +289,7 @@ class RedisSessionStore(AbstractSessionStore):
             metrics.increment_counter("session_store_delete_total")
 
             # Audit log
-            logger.info(
-                "Session deleted",
-                session_id=session_id,
-                duration_ms=duration * 1000
-            )
+            logger.info("Session deleted", session_id=session_id, duration_ms=duration * 1000)
 
             return bool(result)
 
@@ -303,7 +299,7 @@ class RedisSessionStore(AbstractSessionStore):
                 "Failed to delete session",
                 session_id=session_id,
                 error=str(e),
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
             raise SessionStoreError(f"Failed to delete session: {e}") from e
 
@@ -347,11 +343,7 @@ class RedisSessionStore(AbstractSessionStore):
             metrics.increment_counter("session_store_sweep_total")
             metrics.record_gauge("session_store_swept_count", deleted_count)
 
-            logger.info(
-                "Session sweep completed",
-                deleted_count=deleted_count,
-                duration_ms=duration * 1000
-            )
+            logger.info("Session sweep completed", deleted_count=deleted_count, duration_ms=duration * 1000)
 
             return deleted_count
 
@@ -400,16 +392,16 @@ class RedisSessionStore(AbstractSessionStore):
 
             # Redis info
             info = await self.redis.info()
-            memory_usage = info.get('used_memory', 0)
+            memory_usage = info.get("used_memory", 0)
 
             return {
                 "store_type": "redis",
                 "session_count": session_count,
                 "memory_usage_bytes": memory_usage,
-                "redis_version": info.get('redis_version', 'unknown'),
-                "connected_clients": info.get('connected_clients', 0),
-                "total_commands_processed": info.get('total_commands_processed', 0),
-                "encryption_enabled": self.fernet is not None
+                "redis_version": info.get("redis_version", "unknown"),
+                "connected_clients": info.get("connected_clients", 0),
+                "total_commands_processed": info.get("total_commands_processed", 0),
+                "encryption_enabled": self.fernet is not None,
             }
 
         except Exception as e:
@@ -420,11 +412,7 @@ class RedisSessionStore(AbstractSessionStore):
 class SQLiteSessionStore(AbstractSessionStore):
     """SQLite-based session store for development and single-instance deployments"""
 
-    def __init__(
-        self,
-        db_path: Union[str, Path] = "lukhas_sessions.db",
-        encryption_key: Optional[bytes] = None
-    ):
+    def __init__(self, db_path: Union[str, Path] = "lukhas_sessions.db", encryption_key: Optional[bytes] = None):
         self.db_path = Path(db_path)
         self.fernet = Fernet(encryption_key) if encryption_key else None
         self._init_db()
@@ -434,7 +422,8 @@ class SQLiteSessionStore(AbstractSessionStore):
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
 
         with sqlite3.connect(str(self.db_path)) as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS sessions (
                     session_id TEXT PRIMARY KEY,
                     user_id TEXT NOT NULL,
@@ -447,7 +436,8 @@ class SQLiteSessionStore(AbstractSessionStore):
                     INDEX(user_id),
                     INDEX(expires_at)
                 )
-            """)
+            """
+            )
             conn.commit()
 
     def _encrypt_data(self, data: bytes) -> bytes:
@@ -468,23 +458,26 @@ class SQLiteSessionStore(AbstractSessionStore):
             encrypted_data = None
 
             if self.fernet:
-                encrypted_data = self._encrypt_data(metadata_json.encode('utf-8'))
+                encrypted_data = self._encrypt_data(metadata_json.encode("utf-8"))
 
             with sqlite3.connect(str(self.db_path)) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT OR REPLACE INTO sessions
                     (session_id, user_id, tier, created_at, expires_at, last_accessed, metadata, encrypted_data)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    session.session_id,
-                    session.user_id,
-                    session.tier,
-                    session.created_at.isoformat(),
-                    session.expires_at.isoformat(),
-                    session.last_accessed.isoformat(),
-                    metadata_json,
-                    encrypted_data
-                ))
+                """,
+                    (
+                        session.session_id,
+                        session.user_id,
+                        session.tier,
+                        session.created_at.isoformat(),
+                        session.expires_at.isoformat(),
+                        session.last_accessed.isoformat(),
+                        metadata_json,
+                        encrypted_data,
+                    ),
+                )
                 conn.commit()
 
             # Record metrics
@@ -500,7 +493,7 @@ class SQLiteSessionStore(AbstractSessionStore):
                 "Failed to store session in SQLite",
                 session_id=session.session_id,
                 error=str(e),
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
             raise SessionStoreError(f"Failed to store session: {e}") from e
 
@@ -511,29 +504,26 @@ class SQLiteSessionStore(AbstractSessionStore):
         try:
             with sqlite3.connect(str(self.db_path)) as conn:
                 conn.row_factory = sqlite3.Row
-                cursor = conn.execute(
-                    "SELECT * FROM sessions WHERE session_id = ?",
-                    (session_id,)
-                )
+                cursor = conn.execute("SELECT * FROM sessions WHERE session_id = ?", (session_id,))
                 row = cursor.fetchone()
 
                 if not row:
                     raise SessionNotFoundError(f"Session {session_id} not found")
 
                 # Decrypt metadata if encrypted
-                metadata_json = row['metadata']
-                if row['encrypted_data'] and self.fernet:
-                    metadata_json = self._decrypt_data(row['encrypted_data']).decode('utf-8')
+                metadata_json = row["metadata"]
+                if row["encrypted_data"] and self.fernet:
+                    metadata_json = self._decrypt_data(row["encrypted_data"]).decode("utf-8")
 
                 session = SessionData(
-                    session_id=row['session_id'],
-                    user_id=row['user_id'],
-                    tier=row['tier'],
-                    created_at=datetime.fromisoformat(row['created_at']),
-                    expires_at=datetime.fromisoformat(row['expires_at']),
-                    last_accessed=datetime.fromisoformat(row['last_accessed']),
+                    session_id=row["session_id"],
+                    user_id=row["user_id"],
+                    tier=row["tier"],
+                    created_at=datetime.fromisoformat(row["created_at"]),
+                    expires_at=datetime.fromisoformat(row["expires_at"]),
+                    last_accessed=datetime.fromisoformat(row["last_accessed"]),
                     metadata=json.loads(metadata_json),
-                    encrypted_data=row['encrypted_data']
+                    encrypted_data=row["encrypted_data"],
                 )
 
                 # Check expiration
@@ -560,7 +550,7 @@ class SQLiteSessionStore(AbstractSessionStore):
                 "Failed to retrieve session from SQLite",
                 session_id=session_id,
                 error=str(e),
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
             raise SessionStoreError(f"Failed to retrieve session: {e}") from e
 
@@ -570,10 +560,7 @@ class SQLiteSessionStore(AbstractSessionStore):
 
         try:
             with sqlite3.connect(str(self.db_path)) as conn:
-                cursor = conn.execute(
-                    "DELETE FROM sessions WHERE session_id = ?",
-                    (session_id,)
-                )
+                cursor = conn.execute("DELETE FROM sessions WHERE session_id = ?", (session_id,))
                 conn.commit()
 
                 deleted = cursor.rowcount > 0
@@ -591,7 +578,7 @@ class SQLiteSessionStore(AbstractSessionStore):
                 "Failed to delete session from SQLite",
                 session_id=session_id,
                 error=str(e),
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
             raise SessionStoreError(f"Failed to delete session: {e}") from e
 
@@ -599,10 +586,7 @@ class SQLiteSessionStore(AbstractSessionStore):
         """Check if session exists in SQLite"""
         try:
             with sqlite3.connect(str(self.db_path)) as conn:
-                cursor = conn.execute(
-                    "SELECT 1 FROM sessions WHERE session_id = ? LIMIT 1",
-                    (session_id,)
-                )
+                cursor = conn.execute("SELECT 1 FROM sessions WHERE session_id = ? LIMIT 1", (session_id,))
                 return cursor.fetchone() is not None
         except Exception as e:
             logger.error("Failed to check session existence in SQLite", session_id=session_id, error=str(e))
@@ -616,10 +600,7 @@ class SQLiteSessionStore(AbstractSessionStore):
             now_iso = datetime.now(timezone.utc).isoformat()
 
             with sqlite3.connect(str(self.db_path)) as conn:
-                cursor = conn.execute(
-                    "DELETE FROM sessions WHERE expires_at < ?",
-                    (now_iso,)
-                )
+                cursor = conn.execute("DELETE FROM sessions WHERE expires_at < ?", (now_iso,))
                 conn.commit()
 
                 deleted_count = cursor.rowcount
@@ -630,11 +611,7 @@ class SQLiteSessionStore(AbstractSessionStore):
                 metrics.increment_counter("session_store_sweep_total")
                 metrics.record_gauge("session_store_swept_count", deleted_count)
 
-                logger.info(
-                    "SQLite session sweep completed",
-                    deleted_count=deleted_count,
-                    duration_ms=duration * 1000
-                )
+                logger.info("SQLite session sweep completed", deleted_count=deleted_count, duration_ms=duration * 1000)
 
                 return deleted_count
 
@@ -650,30 +627,27 @@ class SQLiteSessionStore(AbstractSessionStore):
 
                 if user_id:
                     cursor = conn.execute(
-                        "SELECT * FROM sessions WHERE user_id = ? ORDER BY last_accessed DESC",
-                        (user_id,)
+                        "SELECT * FROM sessions WHERE user_id = ? ORDER BY last_accessed DESC", (user_id,)
                     )
                 else:
-                    cursor = conn.execute(
-                        "SELECT * FROM sessions ORDER BY last_accessed DESC"
-                    )
+                    cursor = conn.execute("SELECT * FROM sessions ORDER BY last_accessed DESC")
 
                 sessions = []
                 for row in cursor.fetchall():
                     # Decrypt metadata if encrypted
-                    metadata_json = row['metadata']
-                    if row['encrypted_data'] and self.fernet:
-                        metadata_json = self._decrypt_data(row['encrypted_data']).decode('utf-8')
+                    metadata_json = row["metadata"]
+                    if row["encrypted_data"] and self.fernet:
+                        metadata_json = self._decrypt_data(row["encrypted_data"]).decode("utf-8")
 
                     session = SessionData(
-                        session_id=row['session_id'],
-                        user_id=row['user_id'],
-                        tier=row['tier'],
-                        created_at=datetime.fromisoformat(row['created_at']),
-                        expires_at=datetime.fromisoformat(row['expires_at']),
-                        last_accessed=datetime.fromisoformat(row['last_accessed']),
+                        session_id=row["session_id"],
+                        user_id=row["user_id"],
+                        tier=row["tier"],
+                        created_at=datetime.fromisoformat(row["created_at"]),
+                        expires_at=datetime.fromisoformat(row["expires_at"]),
+                        last_accessed=datetime.fromisoformat(row["last_accessed"]),
                         metadata=json.loads(metadata_json),
-                        encrypted_data=row['encrypted_data']
+                        encrypted_data=row["encrypted_data"],
                     )
                     sessions.append(session)
 
@@ -705,7 +679,7 @@ class SQLiteSessionStore(AbstractSessionStore):
                     "expired_count": expired_count,
                     "db_size_bytes": db_size,
                     "db_path": str(self.db_path),
-                    "encryption_enabled": self.fernet is not None
+                    "encryption_enabled": self.fernet is not None,
                 }
 
         except Exception as e:
@@ -720,8 +694,8 @@ class SessionManager:
         self,
         store: AbstractSessionStore,
         default_ttl_seconds: int = 24 * 60 * 60,  # 24 hours
-        sweep_interval_seconds: int = 60 * 60,    # 1 hour
-        auto_sweep: bool = True
+        sweep_interval_seconds: int = 60 * 60,  # 1 hour
+        auto_sweep: bool = True,
     ):
         self.store = store
         self.default_ttl = default_ttl_seconds
@@ -749,11 +723,7 @@ class SessionManager:
                 logger.error("Error in sweep loop", error=str(e))
 
     async def create_session(
-        self,
-        user_id: str,
-        tier: str,
-        metadata: Optional[Dict[str, any]] = None,
-        ttl_seconds: Optional[int] = None
+        self, user_id: str, tier: str, metadata: Optional[Dict[str, any]] = None, ttl_seconds: Optional[int] = None
     ) -> SessionData:
         """Create new session"""
         now = datetime.now(timezone.utc)
@@ -766,17 +736,11 @@ class SessionManager:
             created_at=now,
             expires_at=now + timedelta(seconds=ttl),
             last_accessed=now,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         await self.store.put(session)
-        logger.info(
-            "Session created",
-            session_id=session.session_id,
-            user_id=user_id,
-            tier=tier,
-            ttl_seconds=ttl
-        )
+        logger.info("Session created", session_id=session.session_id, user_id=user_id, tier=tier, ttl_seconds=ttl)
 
         return session
 
@@ -809,15 +773,13 @@ class SessionManager:
             except asyncio.CancelledError:
                 pass
 
-        if hasattr(self.store, 'disconnect'):
+        if hasattr(self.store, "disconnect"):
             await self.store.disconnect()
 
 
 # Factory functions for common configurations
 def create_redis_session_manager(
-    redis_url: str = "redis://localhost:6379/0",
-    encryption_key: Optional[bytes] = None,
-    **kwargs
+    redis_url: str = "redis://localhost:6379/0", encryption_key: Optional[bytes] = None, **kwargs
 ) -> SessionManager:
     """Create session manager with Redis backend"""
     store = RedisSessionStore(redis_url=redis_url, encryption_key=encryption_key)
@@ -825,9 +787,7 @@ def create_redis_session_manager(
 
 
 def create_sqlite_session_manager(
-    db_path: Union[str, Path] = "lukhas_sessions.db",
-    encryption_key: Optional[bytes] = None,
-    **kwargs
+    db_path: Union[str, Path] = "lukhas_sessions.db", encryption_key: Optional[bytes] = None, **kwargs
 ) -> SessionManager:
     """Create session manager with SQLite backend"""
     store = SQLiteSessionStore(db_path=db_path, encryption_key=encryption_key)

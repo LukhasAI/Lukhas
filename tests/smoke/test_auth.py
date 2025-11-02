@@ -10,6 +10,7 @@ Validates:
 NOTE: Skipped - adapters.openai module removed during Phase 5B flattening.
       OpenAI adapter functionality has been moved/refactored.
 """
+
 import pytest
 
 # Skip entire module - OpenAI adapter removed during directory flattening
@@ -45,11 +46,7 @@ def test_missing_authorization_returns_401(client):
 
 def test_invalid_auth_scheme_returns_401(client):
     """Verify 401 when auth scheme is not Bearer."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test"},
-        headers={"Authorization": "Basic dXNlcjpwYXNz"}
-    )
+    response = client.post("/v1/responses", json={"input": "test"}, headers={"Authorization": "Basic dXNlcjpwYXNz"})
     assert response.status_code == 401
 
     data = response.json()
@@ -60,31 +57,19 @@ def test_invalid_auth_scheme_returns_401(client):
 
 def test_empty_bearer_token_returns_401(client):
     """Verify 401 when Bearer token is empty."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test"},
-        headers={"Authorization": "Bearer "}
-    )
+    response = client.post("/v1/responses", json={"input": "test"}, headers={"Authorization": "Bearer "})
     assert response.status_code == 401
 
 
 def test_short_token_returns_401(client):
     """Verify 401 when token is too short (< 8 chars)."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test"},
-        headers={"Authorization": "Bearer short"}
-    )
+    response = client.post("/v1/responses", json={"input": "test"}, headers={"Authorization": "Bearer short"})
     assert response.status_code == 401
 
 
 def test_valid_token_allows_access(client):
     """Verify 200 when valid Bearer token provided."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test query"},
-        headers=GOLDEN_AUTH_HEADERS
-    )
+    response = client.post("/v1/responses", json={"input": "test query"}, headers=GOLDEN_AUTH_HEADERS)
     assert response.status_code == 200
 
     data = response.json()
@@ -146,10 +131,7 @@ def test_insufficient_scope_returns_403():
     # Try requiring a scope that doesn't exist (would fail in real app)
     # This validates the logic is in place
     with pytest.raises(HTTPException) as exc:
-        require_bearer(
-            authorization=f"Bearer {token}",
-            required_scopes=["admin.delete"]  # Scope not in default claims
-        )
+        require_bearer(authorization=f"Bearer {token}", required_scopes=["admin.delete"])  # Scope not in default claims
     assert exc.value.status_code == 403
     assert "error" in exc.value.detail
     assert exc.value.detail["error"]["type"] == "insufficient_permissions"
@@ -164,19 +146,11 @@ def test_multiple_endpoints_with_auth(client):
     assert response.status_code == 200
 
     # Test /v1/embeddings
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "test text"},
-        headers=headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "test text"}, headers=headers)
     assert response.status_code == 200
 
     # Test /v1/responses
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test query"},
-        headers=headers
-    )
+    response = client.post("/v1/responses", json={"input": "test query"}, headers=headers)
     assert response.status_code == 200
 
 

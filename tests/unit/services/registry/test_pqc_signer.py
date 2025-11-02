@@ -12,6 +12,7 @@ Tests cover:
 - Security properties
 - Edge cases and error handling
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -66,11 +67,7 @@ class TestPQCSignerInitialization:
             key_path = Path(tmpdir) / "private.key"
             public_path = Path(tmpdir) / "public.key"
 
-            signer = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path,
-                fallback_hmac_key="test-key"
-            )
+            signer = PQCSigner(key_path=key_path, public_key_path=public_path, fallback_hmac_key="test-key")
 
             assert signer.key_path == key_path
             assert signer.public_key_path == public_path
@@ -82,16 +79,13 @@ class TestPQCSignerInitialization:
             key_path = Path(tmpdir) / "private.key"
             public_path = Path(tmpdir) / "public.key"
 
-            signer = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path
-            )
+            signer = PQCSigner(key_path=key_path, public_key_path=public_path)
 
             # Keys should be generated and saved
             assert key_path.exists()
             assert public_path.exists()
-            assert hasattr(signer, 'private_key')
-            assert hasattr(signer, 'public_key')
+            assert hasattr(signer, "private_key")
+            assert hasattr(signer, "public_key")
             assert len(signer.private_key) > 0
             assert len(signer.public_key) > 0
 
@@ -103,18 +97,12 @@ class TestPQCSignerInitialization:
             public_path = Path(tmpdir) / "public.key"
 
             # Create first signer to generate keys
-            signer1 = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path
-            )
+            signer1 = PQCSigner(key_path=key_path, public_key_path=public_path)
             original_private = signer1.private_key
             original_public = signer1.public_key
 
             # Create second signer - should load existing keys
-            signer2 = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path
-            )
+            signer2 = PQCSigner(key_path=key_path, public_key_path=public_path)
 
             # Keys should match
             assert signer2.private_key == original_private
@@ -284,10 +272,7 @@ class TestDilithium2Signing:
             key_path = Path(tmpdir) / "private.key"
             public_path = Path(tmpdir) / "public.key"
 
-            signer = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path
-            )
+            signer = PQCSigner(key_path=key_path, public_key_path=public_path)
 
             data = b"test data"
             signature = signer.sign(data)
@@ -302,10 +287,7 @@ class TestDilithium2Signing:
             key_path = Path(tmpdir) / "private.key"
             public_path = Path(tmpdir) / "public.key"
 
-            signer = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path
-            )
+            signer = PQCSigner(key_path=key_path, public_key_path=public_path)
 
             data = b"test data"
             signature = signer.sign(data)
@@ -319,10 +301,7 @@ class TestDilithium2Signing:
             key_path = Path(tmpdir) / "private.key"
             public_path = Path(tmpdir) / "public.key"
 
-            signer = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path
-            )
+            signer = PQCSigner(key_path=key_path, public_key_path=public_path)
 
             data = b"test data"
             invalid_signature = b"0" * 2500
@@ -336,10 +315,7 @@ class TestDilithium2Signing:
             key_path = Path(tmpdir) / "private.key"
             public_path = Path(tmpdir) / "public.key"
 
-            signer = PQCSigner(
-                key_path=key_path,
-                public_key_path=public_path
-            )
+            signer = PQCSigner(key_path=key_path, public_key_path=public_path)
 
             original_data = b"test data"
             signature = signer.sign(original_data)
@@ -551,6 +527,7 @@ class TestIntegration:
 
             # Simulate checkpoint data
             import json
+
             checkpoint = {
                 "timestamp": "2025-10-26T12:00:00Z",
                 "modules": ["module1", "module2"],

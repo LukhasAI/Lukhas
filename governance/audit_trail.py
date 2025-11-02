@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 class AuditEventType(Enum):
     """Types of audit events"""
+
     AUTHENTICATION = "authentication"
     AUTHORIZATION = "authorization"
     DATA_ACCESS = "data_access"
@@ -38,6 +39,7 @@ class AuditEventType(Enum):
 
 class AuditLevel(Enum):
     """Audit event severity levels"""
+
     DEBUG = "debug"
     INFO = "info"
     WARNING = "warning"
@@ -47,6 +49,7 @@ class AuditLevel(Enum):
 
 class ComplianceFramework(Enum):
     """Compliance frameworks"""
+
     GDPR = "gdpr"
     CCPA = "ccpa"
     HIPAA = "hipaa"
@@ -59,6 +62,7 @@ class ComplianceFramework(Enum):
 @dataclass
 class AuditEvent:
     """Individual audit event"""
+
     event_id: str
     event_type: AuditEventType
     level: AuditLevel
@@ -83,6 +87,7 @@ class AuditEvent:
 @dataclass
 class AuditChain:
     """Blockchain-like audit chain for integrity"""
+
     block_index: int
     previous_hash: str
     events: List[AuditEvent]
@@ -95,6 +100,7 @@ class AuditChain:
 @dataclass
 class ComplianceReport:
     """Compliance audit report"""
+
     report_id: str
     framework: ComplianceFramework
     start_date: datetime
@@ -115,21 +121,21 @@ class AuditTrail:
     Comprehensive audit logging with blockchain-like integrity and compliance validation
     """
 
-    def __init__(self,
-                 storage_path: Path = Path("./audit_logs"),
-                 max_events_per_block: int = 100,
-                 encryption_key: Optional[bytes] = None,
-                 retention_days: int = 2555,  # 7 years default
-                 auto_compress: bool = True,
-                 compliance_frameworks: List[ComplianceFramework] = None):
+    def __init__(
+        self,
+        storage_path: Path = Path("./audit_logs"),
+        max_events_per_block: int = 100,
+        encryption_key: Optional[bytes] = None,
+        retention_days: int = 2555,  # 7 years default
+        auto_compress: bool = True,
+        compliance_frameworks: List[ComplianceFramework] = None,
+    ):
         self.storage_path = Path(storage_path)
         self.max_events_per_block = max_events_per_block
         self.encryption_key = encryption_key or self._generate_encryption_key()
         self.retention_days = retention_days
         self.auto_compress = auto_compress
-        self.compliance_frameworks = compliance_frameworks or [
-            ComplianceFramework.GDPR, ComplianceFramework.CCPA
-        ]
+        self.compliance_frameworks = compliance_frameworks or [ComplianceFramework.GDPR, ComplianceFramework.CCPA]
 
         # Initialize storage
         self.storage_path.mkdir(parents=True, exist_ok=True)
@@ -195,24 +201,26 @@ class AuditTrail:
 
         logger.info("✅ Audit Trail System stopped")
 
-    async def log_event(self,
-                       event_type: AuditEventType,
-                       level: AuditLevel,
-                       source_component: str,
-                       action: str,
-                       description: str,
-                       user_id: Optional[str] = None,
-                       session_id: Optional[str] = None,
-                       resource_id: Optional[str] = None,
-                       metadata: Optional[Dict[str, Any]] = None,
-                       compliance_tags: Optional[Set[ComplianceFramework]] = None,
-                       ip_address: Optional[str] = None,
-                       user_agent: Optional[str] = None,
-                       correlation_id: Optional[str] = None,
-                       outcome: str = "unknown",
-                       duration_ms: Optional[float] = None,
-                       before_state: Optional[Dict[str, Any]] = None,
-                       after_state: Optional[Dict[str, Any]] = None) -> str:
+    async def log_event(
+        self,
+        event_type: AuditEventType,
+        level: AuditLevel,
+        source_component: str,
+        action: str,
+        description: str,
+        user_id: Optional[str] = None,
+        session_id: Optional[str] = None,
+        resource_id: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        compliance_tags: Optional[Set[ComplianceFramework]] = None,
+        ip_address: Optional[str] = None,
+        user_agent: Optional[str] = None,
+        correlation_id: Optional[str] = None,
+        outcome: str = "unknown",
+        duration_ms: Optional[float] = None,
+        before_state: Optional[Dict[str, Any]] = None,
+        after_state: Optional[Dict[str, Any]] = None,
+    ) -> str:
         """Log audit event"""
 
         event_id = f"audit_{uuid.uuid4().hex}"
@@ -236,7 +244,7 @@ class AuditTrail:
             outcome=outcome,
             duration_ms=duration_ms,
             before_state=before_state,
-            after_state=after_state
+            after_state=after_state,
         )
 
         # Add to current block
@@ -254,13 +262,15 @@ class AuditTrail:
         logger.debug(f"📝 Logged audit event: {event_id} ({event_type.value})")
         return event_id
 
-    async def log_authentication(self,
-                               user_id: str,
-                               outcome: str,
-                               method: str,
-                               ip_address: Optional[str] = None,
-                               user_agent: Optional[str] = None,
-                               failure_reason: Optional[str] = None) -> str:
+    async def log_authentication(
+        self,
+        user_id: str,
+        outcome: str,
+        method: str,
+        ip_address: Optional[str] = None,
+        user_agent: Optional[str] = None,
+        failure_reason: Optional[str] = None,
+    ) -> str:
         """Log authentication event"""
 
         metadata = {"method": method}
@@ -280,23 +290,22 @@ class AuditTrail:
             compliance_tags={ComplianceFramework.GDPR, ComplianceFramework.CCPA},
             ip_address=ip_address,
             user_agent=user_agent,
-            outcome=outcome
+            outcome=outcome,
         )
 
-    async def log_data_access(self,
-                            user_id: str,
-                            resource_id: str,
-                            action: str,
-                            outcome: str,
-                            data_classification: str = "unclassified",
-                            access_method: str = "api",
-                            session_id: Optional[str] = None) -> str:
+    async def log_data_access(
+        self,
+        user_id: str,
+        resource_id: str,
+        action: str,
+        outcome: str,
+        data_classification: str = "unclassified",
+        access_method: str = "api",
+        session_id: Optional[str] = None,
+    ) -> str:
         """Log data access event"""
 
-        metadata = {
-            "data_classification": data_classification,
-            "access_method": access_method
-        }
+        metadata = {"data_classification": data_classification, "access_method": access_method}
 
         level = AuditLevel.INFO if outcome == "success" else AuditLevel.ERROR
 
@@ -311,25 +320,27 @@ class AuditTrail:
             resource_id=resource_id,
             metadata=metadata,
             compliance_tags={ComplianceFramework.GDPR, ComplianceFramework.CCPA, ComplianceFramework.HIPAA},
-            outcome=outcome
+            outcome=outcome,
         )
 
-    async def log_guardian_decision(self,
-                                  decision_id: str,
-                                  user_id: Optional[str],
-                                  action: str,
-                                  decision_outcome: str,
-                                  confidence_score: float,
-                                  policies_evaluated: List[str],
-                                  reasoning: str,
-                                  session_id: Optional[str] = None) -> str:
+    async def log_guardian_decision(
+        self,
+        decision_id: str,
+        user_id: Optional[str],
+        action: str,
+        decision_outcome: str,
+        confidence_score: float,
+        policies_evaluated: List[str],
+        reasoning: str,
+        session_id: Optional[str] = None,
+    ) -> str:
         """Log Guardian system decision"""
 
         metadata = {
             "decision_id": decision_id,
             "confidence_score": confidence_score,
             "policies_evaluated": policies_evaluated,
-            "reasoning": reasoning
+            "reasoning": reasoning,
         }
 
         level = AuditLevel.INFO if decision_outcome == "approved" else AuditLevel.WARNING
@@ -344,23 +355,22 @@ class AuditTrail:
             session_id=session_id,
             metadata=metadata,
             compliance_tags={ComplianceFramework.SOC2, ComplianceFramework.ISO27001},
-            outcome=decision_outcome
+            outcome=decision_outcome,
         )
 
-    async def log_consent_change(self,
-                               user_id: str,
-                               consent_type: str,
-                               action: str,
-                               previous_value: Optional[bool],
-                               new_value: bool,
-                               legal_basis: str,
-                               session_id: Optional[str] = None) -> str:
+    async def log_consent_change(
+        self,
+        user_id: str,
+        consent_type: str,
+        action: str,
+        previous_value: Optional[bool],
+        new_value: bool,
+        legal_basis: str,
+        session_id: Optional[str] = None,
+    ) -> str:
         """Log consent changes for GDPR compliance"""
 
-        metadata = {
-            "consent_type": consent_type,
-            "legal_basis": legal_basis
-        }
+        metadata = {"consent_type": consent_type, "legal_basis": legal_basis}
 
         before_state = {"consent_granted": previous_value} if previous_value is not None else None
         after_state = {"consent_granted": new_value}
@@ -377,22 +387,21 @@ class AuditTrail:
             compliance_tags={ComplianceFramework.GDPR},
             before_state=before_state,
             after_state=after_state,
-            outcome="success"
+            outcome="success",
         )
 
-    async def log_privacy_action(self,
-                               user_id: str,
-                               action: str,
-                               data_categories: List[str],
-                               outcome: str,
-                               legal_basis: str,
-                               retention_period: Optional[str] = None) -> str:
+    async def log_privacy_action(
+        self,
+        user_id: str,
+        action: str,
+        data_categories: List[str],
+        outcome: str,
+        legal_basis: str,
+        retention_period: Optional[str] = None,
+    ) -> str:
         """Log privacy-related actions (deletion, export, etc.)"""
 
-        metadata = {
-            "data_categories": data_categories,
-            "legal_basis": legal_basis
-        }
+        metadata = {"data_categories": data_categories, "legal_basis": legal_basis}
 
         if retention_period:
             metadata["retention_period"] = retention_period
@@ -408,33 +417,42 @@ class AuditTrail:
             user_id=user_id,
             metadata=metadata,
             compliance_tags={ComplianceFramework.GDPR, ComplianceFramework.CCPA},
-            outcome=outcome
+            outcome=outcome,
         )
 
-    async def query_events(self,
-                         start_date: Optional[datetime] = None,
-                         end_date: Optional[datetime] = None,
-                         event_types: Optional[List[AuditEventType]] = None,
-                         user_id: Optional[str] = None,
-                         source_component: Optional[str] = None,
-                         levels: Optional[List[AuditLevel]] = None,
-                         correlation_id: Optional[str] = None,
-                         limit: int = 1000) -> List[AuditEvent]:
+    async def query_events(
+        self,
+        start_date: Optional[datetime] = None,
+        end_date: Optional[datetime] = None,
+        event_types: Optional[List[AuditEventType]] = None,
+        user_id: Optional[str] = None,
+        source_component: Optional[str] = None,
+        levels: Optional[List[AuditLevel]] = None,
+        correlation_id: Optional[str] = None,
+        limit: int = 1000,
+    ) -> List[AuditEvent]:
         """Query audit events with filters"""
 
         # Search in current events first
         matching_events = []
 
         for event in self.current_events:
-            if self._event_matches_filters(event, start_date, end_date, event_types,
-                                         user_id, source_component, levels, correlation_id):
+            if self._event_matches_filters(
+                event, start_date, end_date, event_types, user_id, source_component, levels, correlation_id
+            ):
                 matching_events.append(event)
 
         # Search in stored blocks if needed
         if len(matching_events) < limit:
             stored_events = await self._search_stored_events(
-                start_date, end_date, event_types, user_id, source_component,
-                levels, correlation_id, limit - len(matching_events)
+                start_date,
+                end_date,
+                event_types,
+                user_id,
+                source_component,
+                levels,
+                correlation_id,
+                limit - len(matching_events),
             )
             matching_events.extend(stored_events)
 
@@ -443,17 +461,14 @@ class AuditTrail:
 
         return matching_events[:limit]
 
-    async def generate_compliance_report(self,
-                                       framework: ComplianceFramework,
-                                       start_date: datetime,
-                                       end_date: datetime) -> ComplianceReport:
+    async def generate_compliance_report(
+        self, framework: ComplianceFramework, start_date: datetime, end_date: datetime
+    ) -> ComplianceReport:
         """Generate compliance report for specified framework"""
 
         # Query relevant events
         events = await self.query_events(
-            start_date=start_date,
-            end_date=end_date,
-            limit=10000  # Large limit for comprehensive report
+            start_date=start_date, end_date=end_date, limit=10000  # Large limit for comprehensive report
         )
 
         # Filter events for this compliance framework
@@ -485,7 +500,7 @@ class AuditTrail:
             generated_at=datetime.utcnow(),
             data_retention_compliance=await self._check_data_retention_compliance(framework_events),
             access_control_compliance=await self._check_access_control_compliance(framework_events),
-            encryption_compliance=await self._check_encryption_compliance(framework_events)
+            encryption_compliance=await self._check_encryption_compliance(framework_events),
         )
 
         # Log report generation
@@ -499,9 +514,9 @@ class AuditTrail:
                 "report_id": report.report_id,
                 "event_count": len(framework_events),
                 "compliance_score": compliance_score,
-                "violation_count": len(violations)
+                "violation_count": len(violations),
             },
-            outcome="success"
+            outcome="success",
         )
 
         return report
@@ -517,7 +532,7 @@ class AuditTrail:
             "missing_blocks": 0,
             "tamper_detected": False,
             "verification_time_ms": 0.0,
-            "last_block_hash": self.last_block_hash
+            "last_block_hash": self.last_block_hash,
         }
 
         try:
@@ -560,7 +575,7 @@ class AuditTrail:
                 action="integrity_verification",
                 description="Audit trail integrity verification completed",
                 metadata=integrity_results,
-                outcome="success" if integrity_results["chain_valid"] else "failure"
+                outcome="success" if integrity_results["chain_valid"] else "failure",
             )
 
         except Exception as e:
@@ -570,11 +585,9 @@ class AuditTrail:
 
         return integrity_results
 
-    async def export_audit_data(self,
-                              start_date: datetime,
-                              end_date: datetime,
-                              format: str = "json",
-                              include_metadata: bool = True) -> bytes:
+    async def export_audit_data(
+        self, start_date: datetime, end_date: datetime, format: str = "json", include_metadata: bool = True
+    ) -> bytes:
         """Export audit data for compliance or analysis"""
 
         events = await self.query_events(start_date=start_date, end_date=end_date, limit=100000)
@@ -586,9 +599,9 @@ class AuditTrail:
                 "end_date": end_date.isoformat(),
                 "event_count": len(events),
                 "format": format,
-                "integrity_verified": (await self.verify_integrity())["chain_valid"]
+                "integrity_verified": (await self.verify_integrity())["chain_valid"],
             },
-            "events": [asdict(event) for event in events]
+            "events": [asdict(event) for event in events],
         }
 
         if format == "json":
@@ -604,12 +617,8 @@ class AuditTrail:
             source_component="audit_system",
             action="data_export",
             description=f"Exported {len(events)} audit events",
-            metadata={
-                "format": format,
-                "event_count": len(events),
-                "size_bytes": len(export_bytes)
-            },
-            outcome="success"
+            metadata={"format": format, "event_count": len(events), "size_bytes": len(export_bytes)},
+            outcome="success",
         )
 
         return export_bytes
@@ -618,15 +627,17 @@ class AuditTrail:
         """Generate encryption key for audit data"""
         return secrets.token_bytes(32)
 
-    def _event_matches_filters(self,
-                             event: AuditEvent,
-                             start_date: Optional[datetime],
-                             end_date: Optional[datetime],
-                             event_types: Optional[List[AuditEventType]],
-                             user_id: Optional[str],
-                             source_component: Optional[str],
-                             levels: Optional[List[AuditLevel]],
-                             correlation_id: Optional[str]) -> bool:
+    def _event_matches_filters(
+        self,
+        event: AuditEvent,
+        start_date: Optional[datetime],
+        end_date: Optional[datetime],
+        event_types: Optional[List[AuditEventType]],
+        user_id: Optional[str],
+        source_component: Optional[str],
+        levels: Optional[List[AuditLevel]],
+        correlation_id: Optional[str],
+    ) -> bool:
         """Check if event matches query filters"""
 
         if start_date and event.timestamp < start_date:
@@ -646,15 +657,17 @@ class AuditTrail:
 
         return True
 
-    async def _search_stored_events(self,
-                                  start_date: Optional[datetime],
-                                  end_date: Optional[datetime],
-                                  event_types: Optional[List[AuditEventType]],
-                                  user_id: Optional[str],
-                                  source_component: Optional[str],
-                                  levels: Optional[List[AuditLevel]],
-                                  correlation_id: Optional[str],
-                                  limit: int) -> List[AuditEvent]:
+    async def _search_stored_events(
+        self,
+        start_date: Optional[datetime],
+        end_date: Optional[datetime],
+        event_types: Optional[List[AuditEventType]],
+        user_id: Optional[str],
+        source_component: Optional[str],
+        levels: Optional[List[AuditLevel]],
+        correlation_id: Optional[str],
+        limit: int,
+    ) -> List[AuditEvent]:
         """Search events in stored blocks"""
 
         matching_events = []
@@ -665,8 +678,9 @@ class AuditTrail:
                 if len(matching_events) >= limit:
                     break
 
-                if self._event_matches_filters(event, start_date, end_date, event_types,
-                                             user_id, source_component, levels, correlation_id):
+                if self._event_matches_filters(
+                    event, start_date, end_date, event_types, user_id, source_component, levels, correlation_id
+                ):
                     matching_events.append(event)
 
             if len(matching_events) >= limit:
@@ -682,28 +696,34 @@ class AuditTrail:
         # GDPR checks
         if ComplianceFramework.GDPR in event.compliance_tags:
             if event.event_type == AuditEventType.DATA_ACCESS and not event.user_id:
-                violations.append({
-                    "framework": "GDPR",
-                    "rule": "Article 30 - Records of processing",
-                    "description": "Data access without user identification",
-                    "severity": "high"
-                })
+                violations.append(
+                    {
+                        "framework": "GDPR",
+                        "rule": "Article 30 - Records of processing",
+                        "description": "Data access without user identification",
+                        "severity": "high",
+                    }
+                )
 
         # CCPA checks
         if ComplianceFramework.CCPA in event.compliance_tags:
             if event.event_type == AuditEventType.PRIVACY_ACTION and event.outcome != "success":
-                violations.append({
-                    "framework": "CCPA",
-                    "rule": "Consumer Rights",
-                    "description": "Failed privacy action request",
-                    "severity": "medium"
-                })
+                violations.append(
+                    {
+                        "framework": "CCPA",
+                        "rule": "Consumer Rights",
+                        "description": "Failed privacy action request",
+                        "severity": "medium",
+                    }
+                )
 
         if violations:
             self.violation_cache.extend(violations)
             logger.warning(f"⚠️ Compliance violations detected: {len(violations)}")
 
-    async def _analyze_gdpr_compliance(self, events: List[AuditEvent], start_date: datetime, end_date: datetime) -> Tuple[List[Dict[str, Any]], float]:
+    async def _analyze_gdpr_compliance(
+        self, events: List[AuditEvent], start_date: datetime, end_date: datetime
+    ) -> Tuple[List[Dict[str, Any]], float]:
         """Analyze GDPR compliance"""
 
         violations = []
@@ -717,12 +737,14 @@ class AuditTrail:
             if event.user_id and event.resource_id:
                 passed_checks += 1
             else:
-                violations.append({
-                    "type": "insufficient_logging",
-                    "description": "Data access without proper user/resource identification",
-                    "event_id": event.event_id,
-                    "severity": "high"
-                })
+                violations.append(
+                    {
+                        "type": "insufficient_logging",
+                        "description": "Data access without proper user/resource identification",
+                        "event_id": event.event_id,
+                        "severity": "high",
+                    }
+                )
 
         # Check consent changes
         consent_events = [e for e in events if e.event_type == AuditEventType.CONSENT_CHANGE]
@@ -731,17 +753,21 @@ class AuditTrail:
             if event.before_state and event.after_state:
                 passed_checks += 1
             else:
-                violations.append({
-                    "type": "incomplete_consent_record",
-                    "description": "Consent change without complete state record",
-                    "event_id": event.event_id,
-                    "severity": "medium"
-                })
+                violations.append(
+                    {
+                        "type": "incomplete_consent_record",
+                        "description": "Consent change without complete state record",
+                        "event_id": event.event_id,
+                        "severity": "medium",
+                    }
+                )
 
         compliance_score = passed_checks / max(total_checks, 1)
         return violations, compliance_score
 
-    async def _analyze_ccpa_compliance(self, events: List[AuditEvent], start_date: datetime, end_date: datetime) -> Tuple[List[Dict[str, Any]], float]:
+    async def _analyze_ccpa_compliance(
+        self, events: List[AuditEvent], start_date: datetime, end_date: datetime
+    ) -> Tuple[List[Dict[str, Any]], float]:
         """Analyze CCPA compliance"""
 
         violations = []
@@ -750,7 +776,9 @@ class AuditTrail:
 
         return violations, compliance_score
 
-    async def _analyze_soc2_compliance(self, events: List[AuditEvent], start_date: datetime, end_date: datetime) -> Tuple[List[Dict[str, Any]], float]:
+    async def _analyze_soc2_compliance(
+        self, events: List[AuditEvent], start_date: datetime, end_date: datetime
+    ) -> Tuple[List[Dict[str, Any]], float]:
         """Analyze SOC2 compliance"""
 
         violations = []
@@ -759,7 +787,9 @@ class AuditTrail:
 
         return violations, compliance_score
 
-    async def _generate_compliance_recommendations(self, framework: ComplianceFramework, violations: List[Dict[str, Any]]) -> List[str]:
+    async def _generate_compliance_recommendations(
+        self, framework: ComplianceFramework, violations: List[Dict[str, Any]]
+    ) -> List[str]:
         """Generate compliance recommendations"""
 
         recommendations = []
@@ -821,7 +851,7 @@ class AuditTrail:
             "previous_hash": block.previous_hash,
             "merkle_root": block.merkle_root,
             "timestamp": block.timestamp.isoformat(),
-            "nonce": block.nonce
+            "nonce": block.nonce,
         }
 
         block_json = json.dumps(block_data, sort_keys=True)
@@ -843,7 +873,7 @@ class AuditTrail:
             events=self.current_events.copy(),
             timestamp=datetime.utcnow(),
             merkle_root=merkle_root,
-            block_hash=""  # Will be calculated
+            block_hash="",  # Will be calculated
         )
 
         # Calculate block hash
@@ -877,7 +907,7 @@ class AuditTrail:
             "merkle_root": block.merkle_root,
             "block_hash": block.block_hash,
             "nonce": block.nonce,
-            "events": [asdict(event) for event in block.events]
+            "events": [asdict(event) for event in block.events],
         }
 
         # Compress if enabled
@@ -919,7 +949,7 @@ class AuditTrail:
         metadata = {
             "last_block_hash": self.last_block_hash,
             "chain_length": self.chain_length,
-            "last_update": datetime.utcnow().isoformat()
+            "last_update": datetime.utcnow().isoformat(),
         }
 
         with open(self.chain_metadata_path, "w") as f:
@@ -983,5 +1013,5 @@ class AuditTrail:
             "violation_count": len(self.violation_cache),
             "compliance_frameworks": [f.value for f in self.compliance_frameworks],
             "retention_days": self.retention_days,
-            "storage_path": str(self.storage_path)
+            "storage_path": str(self.storage_path),
         }

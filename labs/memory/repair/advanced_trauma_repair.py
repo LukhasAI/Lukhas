@@ -62,6 +62,7 @@ try:
     from memory.integrity.collapse_hash import IntegrityStatus
 
     from ..proteome.symbolic_proteome import PostTranslationalModification
+
     # OrthogonalPersistence will be stubbed locally
 
     LUKHAS_AVAILABLE = True

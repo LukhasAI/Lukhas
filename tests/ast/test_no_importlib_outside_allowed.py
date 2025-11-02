@@ -44,15 +44,16 @@ class ImportlibDetector(ast.NodeVisitor):
     def visit_Call(self, node: ast.Call) -> None:
         """Detect calls to importlib functions"""
         # Check for importlib.import_module calls
-        if (isinstance(node.func, ast.Attribute) and
-            isinstance(node.func.value, ast.Name) and
-            node.func.value.id == "importlib" and
-            node.func.attr == "import_module"):
+        if (
+            isinstance(node.func, ast.Attribute)
+            and isinstance(node.func.value, ast.Name)
+            and node.func.value.id == "importlib"
+            and node.func.attr == "import_module"
+        ):
             self.importlib_calls.append((node.lineno, "importlib.import_module"))
 
         # Check for direct import_module calls (after from importlib import import_module)
-        elif (isinstance(node.func, ast.Name) and
-              node.func.id == "import_module"):
+        elif isinstance(node.func, ast.Name) and node.func.id == "import_module":
             self.importlib_calls.append((node.lineno, "import_module"))
 
         self.generic_visit(node)
@@ -66,11 +67,11 @@ def scan_file_for_importlib(file_path: Path) -> Tuple[List[Tuple[int, str]], Lis
         Tuple of (imports, calls) - lists of (line_number, code) tuples
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
         # Skip files with null bytes (binary files)
-        if '\x00' in content:
+        if "\x00" in content:
             return [], []
 
         tree = ast.parse(content, filename=str(file_path))
@@ -90,10 +91,23 @@ def get_python_files(root_dir: Path) -> List[Path]:
 
     # Directories to skip
     skip_dirs = {
-        ".git", ".pytest_cache", "__pycache__", ".venv", "venv", ".venv311",
-        "node_modules", ".tox", "build", "dist", ".mypy_cache",
-        "mcp-lukhas-sse/venv", "mcp-lukhas-sse/test_env",  # Skip MCP virtual environments
-        "site-packages", "temp", "backups", "archive",  # Skip temp and archive dirs
+        ".git",
+        ".pytest_cache",
+        "__pycache__",
+        ".venv",
+        "venv",
+        ".venv311",
+        "node_modules",
+        ".tox",
+        "build",
+        "dist",
+        ".mypy_cache",
+        "mcp-lukhas-sse/venv",
+        "mcp-lukhas-sse/test_env",  # Skip MCP virtual environments
+        "site-packages",
+        "temp",
+        "backups",
+        "archive",  # Skip temp and archive dirs
     }
 
     # File patterns to skip
@@ -177,19 +191,13 @@ class TestNoImportlibOutsideAllowed:
                 relative_path = file_path.relative_to(project_root)
 
                 if is_allowed_location(file_path):
-                    allowed_usage.append({
-                        "file": str(relative_path),
-                        "imports": imports,
-                        "calls": calls,
-                        "status": "allowed"
-                    })
+                    allowed_usage.append(
+                        {"file": str(relative_path), "imports": imports, "calls": calls, "status": "allowed"}
+                    )
                 else:
-                    violations.append({
-                        "file": str(relative_path),
-                        "imports": imports,
-                        "calls": calls,
-                        "status": "violation"
-                    })
+                    violations.append(
+                        {"file": str(relative_path), "imports": imports, "calls": calls, "status": "violation"}
+                    )
 
         # Report findings
         print("\n=== IMPORTLIB USAGE REPORT ===")
@@ -201,18 +209,18 @@ class TestNoImportlibOutsideAllowed:
             print("\n--- ALLOWED USAGE ---")
             for usage in allowed_usage:
                 print(f"✅ {usage['file']}")
-                for line, code in usage['imports']:
+                for line, code in usage["imports"]:
                     print(f"   Line {line}: {code}")
-                for line, code in usage['calls']:
+                for line, code in usage["calls"]:
                     print(f"   Line {line}: {code}")
 
         if violations:
             print("\n--- VIOLATIONS FOUND ---")
             for violation in violations:
                 print(f"❌ {violation['file']}")
-                for line, code in violation['imports']:
+                for line, code in violation["imports"]:
                     print(f"   Line {line}: {code}")
-                for line, code in violation['calls']:
+                for line, code in violation["calls"]:
                     print(f"   Line {line}: {code}")
 
             print("\n=== REMEDIATION REQUIRED ===")
@@ -241,9 +249,7 @@ class TestNoImportlibOutsideAllowed:
         imports, calls = scan_file_for_importlib(registry_path)
 
         # Registry should have importlib usage for plugin discovery
-        assert len(imports) > 0 or len(calls) > 0, (
-            "Registry file should contain importlib usage for plugin discovery"
-        )
+        assert len(imports) > 0 or len(calls) > 0, "Registry file should contain importlib usage for plugin discovery"
 
         print("\n=== REGISTRY IMPORTLIB USAGE ===")
         print(f"File: {registry_path}")

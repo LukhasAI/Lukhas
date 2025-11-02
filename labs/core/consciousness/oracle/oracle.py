@@ -5,6 +5,7 @@ This module serves as the main entry point for the Consciousness Oracle system,
 integrating prediction, receptivity, and evolution mapping into a single,
 cohesive interface.
 """
+
 from typing import Any
 
 from ..evolution.journey_mapper import ConsciousnessJourneyMapper

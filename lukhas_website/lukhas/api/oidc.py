@@ -89,12 +89,7 @@ jwks_cache = get_jwks_cache()
 security_manager = create_security_hardening_manager()
 
 # Production domains for CORS
-PRODUCTION_DOMAINS = [
-    "https://ai",
-    "https://app.ai",
-    "https://identity.ai",
-    "https://console.ai"
-]
+PRODUCTION_DOMAINS = ["https://ai", "https://app.ai", "https://identity.ai", "https://console.ai"]
 
 # Create router with enhanced configuration
 router = APIRouter(
@@ -105,8 +100,8 @@ router = APIRouter(
         401: {"model": ErrorResponse, "description": "Unauthorized"},
         403: {"model": ErrorResponse, "description": "Forbidden"},
         429: {"model": ErrorResponse, "description": "Too Many Requests"},
-        500: {"model": ErrorResponse, "description": "Internal Server Error"}
-    }
+        500: {"model": ErrorResponse, "description": "Internal Server Error"},
+    },
 )
 
 
@@ -150,6 +145,7 @@ async def get_tiered_auth_system() -> "TieredAuthenticator":
 
 # Security middleware and dependencies
 
+
 async def get_correlation_id(request: Request) -> str:
     """Get or generate correlation ID for request tracking"""
     correlation_id = request.headers.get("X-Correlation-ID")
@@ -159,8 +155,7 @@ async def get_correlation_id(request: Request) -> str:
 
 
 async def security_check_dependency(
-    request: Request,
-    correlation_id: str = Depends(get_correlation_id)
+    request: Request, correlation_id: str = Depends(get_correlation_id)
 ) -> Dict[str, Any]:
     """Comprehensive security check for all requests"""
     start_time = time.perf_counter()
@@ -179,7 +174,7 @@ async def security_check_dependency(
             headers=dict(request.headers),
             nonce=nonce,
             endpoint=endpoint,
-            request_body=None  # We'll handle this per endpoint
+            request_body=None,  # We'll handle this per endpoint
         )
 
         # Record security metrics
@@ -188,10 +183,7 @@ async def security_check_dependency(
             threat_level = getattr(MetricThreatLevel, threat_level_str.upper(), MetricThreatLevel.LOW)
 
             metrics_collector.record_security_event(
-                event_type="security_check",
-                threat_level=threat_level,
-                action=action.value,
-                metadata=security_report
+                event_type="security_check", threat_level=threat_level, action=action.value, metadata=security_report
             )
 
         # Block or throttle if necessary
@@ -202,9 +194,9 @@ async def security_check_dependency(
                 detail={
                     "error": "access_denied",
                     "error_description": "Request blocked due to security policy",
-                    "correlation_id": correlation_id
+                    "correlation_id": correlation_id,
                 },
-                headers={"Retry-After": "60"}
+                headers={"Retry-After": "60"},
             )
 
         elif action == SecurityAction.THROTTLE:
@@ -220,7 +212,7 @@ async def security_check_dependency(
             "correlation_id": correlation_id,
             "client_ip": client_ip,
             "security_report": security_report,
-            "action": action
+            "action": action,
         }
 
     except HTTPException:
@@ -232,12 +224,13 @@ async def security_check_dependency(
             "correlation_id": correlation_id,
             "client_ip": client_ip,
             "security_report": {"error": str(e)},
-            "action": SecurityAction.ALLOW
+            "action": SecurityAction.ALLOW,
         }
 
 
 async def get_oidc_provider() -> OIDCProvider:
     """Get OIDC provider instance (placeholder)"""
+
     # This would return the actual OIDC provider instance
     # For now, we'll create a mock
     class MockOIDCProvider:
@@ -247,7 +240,7 @@ async def get_oidc_provider() -> OIDCProvider:
                 "authorization_endpoint": "https://ai/oauth2/authorize",
                 "token_endpoint": "https://ai/oauth2/token",
                 "userinfo_endpoint": "https://ai/oauth2/userinfo",
-                "jwks_uri": "https://ai/.well-known/jwks.json"
+                "jwks_uri": "https://ai/.well-known/jwks.json",
             }
 
         def get_jwks(self):
@@ -257,11 +250,7 @@ async def get_oidc_provider() -> OIDCProvider:
             return {"action": "redirect", "redirect_url": "https://example.com/callback?code=test"}
 
         def handle_token_request(self, form_data):
-            return {
-                "access_token": "test_token",
-                "token_type": "Bearer",
-                "expires_in": 3600
-            }
+            return {"access_token": "test_token", "token_type": "Bearer", "expires_in": 3600}
 
         def handle_userinfo_request(self, access_token):
             return {"sub": "test_user", "email": "test@example.com"}
@@ -292,11 +281,7 @@ async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
     auth_tier = request.session.get("auth_tier") if hasattr(request, "session") else None
 
     if user_id:
-        return {
-            "user_id": user_id,
-            "authenticated": True,
-            "auth_tier": auth_tier
-        }
+        return {"user_id": user_id, "authenticated": True, "auth_tier": auth_tier}
     return {"authenticated": False}
 
 
@@ -308,14 +293,14 @@ async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
     responses={
         200: {"description": "Discovery document retrieved successfully"},
         429: {"description": "Rate limit exceeded"},
-        500: {"description": "Internal server error"}
-    }
+        500: {"description": "Internal server error"},
+    },
 )
 async def openid_configuration(
     request: Request,
     background_tasks: BackgroundTasks,
     security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ) -> Dict[str, Any]:
     """
     OpenID Connect Discovery 1.0 endpoint.
@@ -339,7 +324,7 @@ async def openid_configuration(
                 raise HTTPException(
                     status_code=status.HTTP_429_TOO_MANY_REQUESTS,
                     detail=rate_metadata,
-                    headers={"Retry-After": str(rate_metadata.get("retry_after", 60))}
+                    headers={"Retry-After": str(rate_metadata.get("retry_after", 60))},
                 )
 
             # Get discovery document (cached)
@@ -347,38 +332,40 @@ async def openid_configuration(
                 config = provider.get_discovery_document()
 
             # Add LUKHAS-specific extensions
-            config.update({
-                "lukhas_version": "1.0.0",
-                "tier_authentication_supported": True,
-                "webauthn_supported": True,
-                "biometric_authentication_supported": True,
-                "response_modes_supported": ["query", "fragment", "form_post"],
-                "request_parameter_supported": True,
-                "request_uri_parameter_supported": False,
-                "require_request_uri_registration": False
-            })
+            config.update(
+                {
+                    "lukhas_version": "1.0.0",
+                    "tier_authentication_supported": True,
+                    "webauthn_supported": True,
+                    "biometric_authentication_supported": True,
+                    "response_modes_supported": ["query", "fragment", "form_post"],
+                    "request_parameter_supported": True,
+                    "request_uri_parameter_supported": False,
+                    "require_request_uri_registration": False,
+                }
+            )
 
             # Performance metrics
             duration = time.perf_counter() - start_time
             record_endpoint_metrics("GET", "/.well-known/openid-configuration", 200, duration)
 
             # Background task for cleanup
-            background_tasks.add_task(
-                _log_discovery_access, client_ip, correlation_id, duration
-            )
+            background_tasks.add_task(_log_discovery_access, client_ip, correlation_id, duration)
 
-            span.set_attributes({
-                "oidc.issuer": config.get("issuer"),
-                "oidc.response_time_ms": duration * 1000,
-                "oidc.rate_limit_remaining": rate_metadata.get("remaining_minute", 0)
-            })
+            span.set_attributes(
+                {
+                    "oidc.issuer": config.get("issuer"),
+                    "oidc.response_time_ms": duration * 1000,
+                    "oidc.rate_limit_remaining": rate_metadata.get("remaining_minute", 0),
+                }
+            )
 
             # Add security headers
             headers = {
                 "Cache-Control": "public, max-age=3600, s-maxage=3600",  # Cache for 1 hour
                 "X-Content-Type-Options": "nosniff",
                 "X-Frame-Options": "DENY",
-                "X-Correlation-ID": correlation_id
+                "X-Correlation-ID": correlation_id,
             }
 
             return JSONResponse(content=config, headers=headers)
@@ -386,10 +373,7 @@ async def openid_configuration(
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(
-                f"Discovery endpoint failed: {e}",
-                extra={"correlation_id": correlation_id}
-            )
+            logger.error(f"Discovery endpoint failed: {e}", extra={"correlation_id": correlation_id})
             duration = time.perf_counter() - start_time
             record_endpoint_metrics("GET", "/.well-known/openid-configuration", 500, duration)
 
@@ -399,8 +383,8 @@ async def openid_configuration(
                 detail={
                     "error": "server_error",
                     "error_description": "Discovery endpoint temporarily unavailable",
-                    "correlation_id": correlation_id
-                }
+                    "correlation_id": correlation_id,
+                },
             )
 
 
@@ -412,14 +396,14 @@ async def openid_configuration(
     responses={
         200: {"description": "JWKS retrieved successfully"},
         429: {"description": "Rate limit exceeded"},
-        500: {"description": "Internal server error"}
-    }
+        500: {"description": "Internal server error"},
+    },
 )
 async def jwks_json(
     request: Request,
     background_tasks: BackgroundTasks,
     security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ) -> Dict[str, Any]:
     """
     JSON Web Key Set (JWKS) endpoint with high-performance caching.
@@ -444,7 +428,7 @@ async def jwks_json(
                 raise HTTPException(
                     status_code=status.HTTP_429_TOO_MANY_REQUESTS,
                     detail=rate_metadata,
-                    headers={"Retry-After": str(rate_metadata.get("retry_after", 60))}
+                    headers={"Retry-After": str(rate_metadata.get("retry_after", 60))},
                 )
 
             # High-performance JWKS retrieval with caching
@@ -471,16 +455,16 @@ async def jwks_json(
             record_endpoint_metrics("GET", "/.well-known/jwks.json", 200, duration)
 
             # Background task for metrics
-            background_tasks.add_task(
-                _log_jwks_access, client_ip, correlation_id, duration, cache_hit
-            )
+            background_tasks.add_task(_log_jwks_access, client_ip, correlation_id, duration, cache_hit)
 
-            span.set_attributes({
-                "oidc.key_count": len(jwks.get("keys", [])),
-                "oidc.cache_hit": cache_hit,
-                "oidc.response_time_ms": duration * 1000,
-                "oidc.rate_limit_remaining": rate_metadata.get("remaining_minute", 0)
-            })
+            span.set_attributes(
+                {
+                    "oidc.key_count": len(jwks.get("keys", [])),
+                    "oidc.cache_hit": cache_hit,
+                    "oidc.response_time_ms": duration * 1000,
+                    "oidc.rate_limit_remaining": rate_metadata.get("remaining_minute", 0),
+                }
+            )
 
             # Security and caching headers
             headers = {
@@ -490,7 +474,7 @@ async def jwks_json(
                 "X-Correlation-ID": correlation_id,
                 "Access-Control-Allow-Origin": "*",  # JWKS needs to be accessible cross-origin
                 "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
-                "Access-Control-Max-Age": "86400"
+                "Access-Control-Max-Age": "86400",
             }
 
             return JSONResponse(content=jwks, headers=headers)
@@ -498,10 +482,7 @@ async def jwks_json(
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(
-                f"JWKS endpoint failed: {e}",
-                extra={"correlation_id": correlation_id}
-            )
+            logger.error(f"JWKS endpoint failed: {e}", extra={"correlation_id": correlation_id})
             duration = time.perf_counter() - start_time
             record_endpoint_metrics("GET", "/.well-known/jwks.json", 500, duration)
 
@@ -511,12 +492,13 @@ async def jwks_json(
                 detail={
                     "error": "server_error",
                     "error_description": "JWKS endpoint temporarily unavailable",
-                    "correlation_id": correlation_id
-                }
+                    "correlation_id": correlation_id,
+                },
             )
 
 
 # Background task helper functions
+
 
 async def _log_discovery_access(client_ip: str, correlation_id: str, duration: float):
     """Background task to log discovery access"""
@@ -526,8 +508,8 @@ async def _log_discovery_access(client_ip: str, correlation_id: str, duration: f
             "client_ip": client_ip,
             "correlation_id": correlation_id,
             "endpoint": "discovery",
-            "duration_ms": duration * 1000
-        }
+            "duration_ms": duration * 1000,
+        },
     )
 
 
@@ -540,14 +522,18 @@ async def _log_jwks_access(client_ip: str, correlation_id: str, duration: float,
             "correlation_id": correlation_id,
             "endpoint": "jwks",
             "duration_ms": duration * 1000,
-            "cache_hit": cache_hit
-        }
+            "cache_hit": cache_hit,
+        },
     )
 
 
 async def _log_token_operation(
-    operation: str, client_ip: str, correlation_id: str,
-    duration: float, success: bool, grant_type: Optional[str] = None
+    operation: str,
+    client_ip: str,
+    correlation_id: str,
+    duration: float,
+    success: bool,
+    grant_type: Optional[str] = None,
 ):
     """Background task to log token operations"""
     logger.info(
@@ -558,8 +544,8 @@ async def _log_token_operation(
             "endpoint": f"token_{operation}",
             "duration_ms": duration * 1000,
             "success": success,
-            "grant_type": grant_type
-        }
+            "grant_type": grant_type,
+        },
     )
 
 
@@ -569,13 +555,15 @@ def _add_cors_headers(response_headers: Dict[str, str], request: Request) -> Dic
     origin = request.headers.get("Origin")
 
     if origin and origin in PRODUCTION_DOMAINS:
-        response_headers.update({
-            "Access-Control-Allow-Origin": origin,
-            "Access-Control-Allow-Credentials": "true",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Authorization, Content-Type, X-Correlation-ID, X-Nonce",
-            "Access-Control-Max-Age": "86400"
-        })
+        response_headers.update(
+            {
+                "Access-Control-Allow-Origin": origin,
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Authorization, Content-Type, X-Correlation-ID, X-Nonce",
+                "Access-Control-Max-Age": "86400",
+            }
+        )
 
     return response_headers
 
@@ -588,14 +576,14 @@ def _add_cors_headers(response_headers: Dict[str, str], request: Request) -> Dic
         302: {"description": "Redirect to callback or authentication"},
         400: {"description": "Invalid request parameters"},
         429: {"description": "Rate limit exceeded"},
-        500: {"description": "Internal server error"}
-    }
+        500: {"description": "Internal server error"},
+    },
 )
 async def authorize(
     request: Request,
     background_tasks: BackgroundTasks,
     security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ):
     """
     OAuth2 Authorization Endpoint with comprehensive validation and security.
@@ -621,8 +609,8 @@ async def authorize(
                     detail={
                         "error": "invalid_request",
                         "error_description": f"Request validation failed: {e}",
-                        "correlation_id": correlation_id
-                    }
+                        "correlation_id": correlation_id,
+                    },
                 )
 
             # Rate limiting for authorization attempts
@@ -633,17 +621,11 @@ async def authorize(
             if not allowed:
                 metrics_collector.record_rate_limit_violation("authorize", client_ip)
                 # Build error redirect if possible
-                error_params = {
-                    "error": "access_denied",
-                    "error_description": "Too many authorization attempts"
-                }
+                error_params = {"error": "access_denied", "error_description": "Too many authorization attempts"}
                 if auth_request.state:
                     error_params["state"] = auth_request.state
 
-                return RedirectResponse(
-                    url=f"{auth_request.redirect_uri}?{urlencode(error_params)}",
-                    status_code=302
-                )
+                return RedirectResponse(url=f"{auth_request.redirect_uri}?{urlencode(error_params)}", status_code=302)
 
             # Get current user authentication
             user_info = await get_current_user(request)
@@ -654,7 +636,7 @@ async def authorize(
                     params=query_params,
                     user_authenticated=user_info.get("authenticated", False),
                     user_id=user_info.get("user_id"),
-                    authentication_tier=user_info.get("auth_tier")
+                    authentication_tier=user_info.get("auth_tier"),
                 )
 
             # Record auth attempt
@@ -662,7 +644,7 @@ async def authorize(
                 method="oauth2",
                 tier=user_info.get("auth_tier", "anonymous"),
                 success=result.get("action") == "redirect",
-                lane="identity"
+                lane="identity",
             )
 
             # Performance metrics
@@ -672,16 +654,22 @@ async def authorize(
 
             # Background logging
             background_tasks.add_task(
-                _log_token_operation, "authorize", client_ip, correlation_id, duration,
-                result.get("action") == "redirect"
+                _log_token_operation,
+                "authorize",
+                client_ip,
+                correlation_id,
+                duration,
+                result.get("action") == "redirect",
             )
 
-            span.set_attributes({
-                "oidc.client_id": auth_request.client_id,
-                "oidc.response_type": auth_request.response_type.value,
-                "oidc.action": result.get("action", "unknown"),
-                "oidc.response_time_ms": duration * 1000
-            })
+            span.set_attributes(
+                {
+                    "oidc.client_id": auth_request.client_id,
+                    "oidc.response_type": auth_request.response_type.value,
+                    "oidc.action": result.get("action", "unknown"),
+                    "oidc.response_time_ms": duration * 1000,
+                }
+            )
 
             # Handle different response actions
             if result.get("action") == "redirect":
@@ -695,10 +683,7 @@ async def authorize(
                 return RedirectResponse(url=result["login_url"], status_code=302, headers=headers)
 
             elif result.get("action") == "consent":
-                headers = {
-                    "X-Correlation-ID": correlation_id,
-                    "X-Content-Type-Options": "nosniff"
-                }
+                headers = {"X-Correlation-ID": correlation_id, "X-Content-Type-Options": "nosniff"}
                 _add_cors_headers(headers, request)
                 return JSONResponse(
                     content={
@@ -706,9 +691,9 @@ async def authorize(
                         "client": result["client"],
                         "scopes": result["scopes"],
                         "consent_url": result["consent_url"],
-                        "correlation_id": correlation_id
+                        "correlation_id": correlation_id,
                     },
-                    headers=headers
+                    headers=headers,
                 )
 
             else:
@@ -721,20 +706,13 @@ async def authorize(
                 else:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
-                        detail={
-                            "error": error,
-                            "error_description": error_desc,
-                            "correlation_id": correlation_id
-                        }
+                        detail={"error": error, "error_description": error_desc, "correlation_id": correlation_id},
                     )
 
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(
-                f"Authorization endpoint failed: {e}",
-                extra={"correlation_id": correlation_id}
-            )
+            logger.error(f"Authorization endpoint failed: {e}", extra={"correlation_id": correlation_id})
             duration = time.perf_counter() - start_time
             record_endpoint_metrics("GET", "/authorize", 500, duration)
 
@@ -744,8 +722,8 @@ async def authorize(
                 detail={
                     "error": "server_error",
                     "error_description": "Authorization endpoint temporarily unavailable",
-                    "correlation_id": correlation_id
-                }
+                    "correlation_id": correlation_id,
+                },
             )
     """
     OAuth2 Authorization endpoint.
@@ -766,50 +744,38 @@ async def authorize(
                 params=params,
                 user_authenticated=user_info.get("authenticated", False),
                 user_id=user_info.get("user_id"),
-                authentication_tier=user_info.get("auth_tier")
+                authentication_tier=user_info.get("auth_tier"),
             )
 
             span.set_attribute("oidc.client_id", client_id)
             span.set_attribute("oidc.action", result.get("action", "unknown"))
 
             if result.get("action") == "redirect":
-                record_endpoint_metrics(
-                    endpoint="authorize",
-                    method="GET",
-                    status_code=302
-                )
+                record_endpoint_metrics(endpoint="authorize", method="GET", status_code=302)
                 return RedirectResponse(url=result["redirect_url"], status_code=302)
 
             elif result.get("action") == "authenticate":
-                record_endpoint_metrics(
-                    endpoint="authorize",
-                    method="GET",
-                    status_code=302
-                )
+                record_endpoint_metrics(endpoint="authorize", method="GET", status_code=302)
                 # Redirect to login with original parameters
                 return RedirectResponse(url=result["login_url"], status_code=302)
 
             elif result.get("action") == "consent":
-                record_endpoint_metrics(
-                    endpoint="authorize",
-                    method="GET",
-                    status_code=200
-                )
+                record_endpoint_metrics(endpoint="authorize", method="GET", status_code=200)
                 # Return consent page information
-                return JSONResponse(content={
-                    "action": "consent_required",
-                    "client": result["client"],
-                    "scopes": result["scopes"],
-                    "consent_url": result["consent_url"]
-                })
+                return JSONResponse(
+                    content={
+                        "action": "consent_required",
+                        "client": result["client"],
+                        "scopes": result["scopes"],
+                        "consent_url": result["consent_url"],
+                    }
+                )
 
             else:
                 # Error response
                 error = result.get("error", "server_error")
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="authorize",
-                    method="GET",
-                    status="400"
+                    endpoint="authorize", method="GET", status="400"
                 ).inc()
 
                 if "redirect_url" in result:
@@ -819,17 +785,15 @@ async def authorize(
                         status_code=400,
                         detail={
                             "error": error,
-                            "error_description": result.get("error_description", "Authorization request failed")
-                        }
+                            "error_description": result.get("error_description", "Authorization request failed"),
+                        },
                     )
 
         except HTTPException:
             raise
         except Exception as e:
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="authorize",
-                method="GET",
-                status="500"
+                endpoint="authorize", method="GET", status="500"
             ).inc()
             span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")
@@ -844,7 +808,7 @@ async def token(
     code_verifier: Optional[str] = Form(None),
     refresh_token: Optional[str] = Form(None),
     client_secret: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ) -> Dict[str, Any]:
     """
     OAuth2 Token endpoint.
@@ -860,11 +824,16 @@ async def token(
             }
 
             # Add optional parameters
-            if code: form_data["code"] = code
-            if redirect_uri: form_data["redirect_uri"] = redirect_uri
-            if code_verifier: form_data["code_verifier"] = code_verifier
-            if refresh_token: form_data["refresh_token"] = refresh_token
-            if client_secret: form_data["client_secret"] = client_secret
+            if code:
+                form_data["code"] = code
+            if redirect_uri:
+                form_data["redirect_uri"] = redirect_uri
+            if code_verifier:
+                form_data["code_verifier"] = code_verifier
+            if refresh_token:
+                form_data["refresh_token"] = refresh_token
+            if client_secret:
+                form_data["client_secret"] = client_secret
 
             # Handle token request
             result = provider.handle_token_request(form_data)
@@ -874,20 +843,13 @@ async def token(
 
             if "error" in result:
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="token",
-                    method="POST",
-                    status="400"
+                    endpoint="token", method="POST", status="400"
                 ).inc()
                 span.set_attribute("oidc.error", result["error"])
-                raise HTTPException(
-                    status_code=400,
-                    detail=result
-                )
+                raise HTTPException(status_code=400, detail=result)
             else:
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="token",
-                    method="POST",
-                    status="200"
+                    endpoint="token", method="POST", status="200"
                 ).inc()
                 span.set_attribute("oidc.tokens_issued", len([k for k in result.keys() if "token" in k]))
                 return result
@@ -896,9 +858,7 @@ async def token(
             raise
         except Exception as e:
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="token",
-                method="POST",
-                status="500"
+                endpoint="token", method="POST", status="500"
             ).inc()
             span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")
@@ -909,7 +869,7 @@ async def token(
 async def userinfo(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
     authorization: Optional[str] = Header(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ) -> Dict[str, Any]:
     """
     OpenID Connect UserInfo endpoint.
@@ -928,22 +888,18 @@ async def userinfo(
 
             if not access_token:
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="userinfo",
-                    method="GET",
-                    status="401"
+                    endpoint="userinfo", method="GET", status="401"
                 ).inc()
                 raise HTTPException(
                     status_code=401,
-                    detail={"error": "invalid_token", "error_description": "Missing or invalid access token"}
+                    detail={"error": "invalid_token", "error_description": "Missing or invalid access token"},
                 )
 
             # Get user information
             userinfo_data = provider.handle_userinfo_request(access_token)
 
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="userinfo",
-                method="GET",
-                status="200"
+                endpoint="userinfo", method="GET", status="200"
             ).inc()
 
             span.set_attribute("oidc.subject", userinfo_data.get("sub"))
@@ -953,9 +909,7 @@ async def userinfo(
             raise
         except Exception as e:
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="userinfo",
-                method="GET",
-                status="500"
+                endpoint="userinfo", method="GET", status="500"
             ).inc()
             span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")
@@ -967,7 +921,7 @@ async def revoke_token(
     token_type_hint: Optional[str] = Form(None),
     client_id: str = Form(...),
     client_secret: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ) -> Dict[str, Any]:
     """
     OAuth2 Token Revocation endpoint (RFC 7009).
@@ -980,22 +934,18 @@ async def revoke_token(
             client = provider.client_registry.authenticate_client(client_id, client_secret)
             if not client:
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="revoke",
-                    method="POST",
-                    status="401"
+                    endpoint="revoke", method="POST", status="401"
                 ).inc()
                 raise HTTPException(
                     status_code=401,
-                    detail={"error": "invalid_client", "error_description": "Client authentication failed"}
+                    detail={"error": "invalid_client", "error_description": "Client authentication failed"},
                 )
 
             # Revoke token
             success = provider.token_manager.revoke_token(token, token_type_hint)
 
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="revoke",
-                method="POST",
-                status="200"
+                endpoint="revoke", method="POST", status="200"
             ).inc()
 
             span.set_attribute("oidc.client_id", client_id)
@@ -1008,9 +958,7 @@ async def revoke_token(
             raise
         except Exception as e:
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="revoke",
-                method="POST",
-                status="500"
+                endpoint="revoke", method="POST", status="500"
             ).inc()
             span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")
@@ -1022,7 +970,7 @@ async def introspect_token(
     token_type_hint: Optional[str] = Form(None),
     client_id: str = Form(...),
     client_secret: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ) -> Dict[str, Any]:
     """
     OAuth2 Token Introspection endpoint (RFC 7662).
@@ -1035,22 +983,18 @@ async def introspect_token(
             client = provider.client_registry.authenticate_client(client_id, client_secret)
             if not client:
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="introspect",
-                    method="POST",
-                    status="401"
+                    endpoint="introspect", method="POST", status="401"
                 ).inc()
                 raise HTTPException(
                     status_code=401,
-                    detail={"error": "invalid_client", "error_description": "Client authentication failed"}
+                    detail={"error": "invalid_client", "error_description": "Client authentication failed"},
                 )
 
             # Introspect token
             introspection_result = provider.token_manager.introspect_token(token)
 
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="introspect",
-                method="POST",
-                status="200"
+                endpoint="introspect", method="POST", status="200"
             ).inc()
 
             span.set_attribute("oidc.client_id", client_id)
@@ -1062,9 +1006,7 @@ async def introspect_token(
             raise
         except Exception as e:
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="introspect",
-                method="POST",
-                status="500"
+                endpoint="introspect", method="POST", status="500"
             ).inc()
             span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")
@@ -1072,10 +1014,9 @@ async def introspect_token(
 
 # Additional endpoints for debugging and administration
 
+
 @router.get("/clients", include_in_schema=False)
-async def list_clients(
-    provider: OIDCProvider = Depends(get_oidc_provider)
-) -> Dict[str, Any]:
+async def list_clients(provider: OIDCProvider = Depends(get_oidc_provider)) -> Dict[str, Any]:
     """
     List registered OAuth2 clients (admin endpoint).
 
@@ -1094,11 +1035,11 @@ async def list_clients(
                         "application_type": client.application_type.value,
                         "is_active": client.is_active,
                         "created_at": client.created_at,
-                        "last_used_at": client.last_used_at
+                        "last_used_at": client.last_used_at,
                     }
                     for client in clients
                 ],
-                "total": len(clients)
+                "total": len(clients),
             }
 
         except Exception as e:
@@ -1107,9 +1048,7 @@ async def list_clients(
 
 
 @router.get("/stats", include_in_schema=False)
-async def provider_stats(
-    provider: OIDCProvider = Depends(get_oidc_provider)
-) -> Dict[str, Any]:
+async def provider_stats(provider: OIDCProvider = Depends(get_oidc_provider)) -> Dict[str, Any]:
     """
     Get OIDC provider statistics (admin endpoint).
 
@@ -1123,12 +1062,10 @@ async def provider_stats(
             return {
                 "clients": {
                     "total_registered": client_count,
-                    "active_clients": len(provider.client_registry.list_clients(active_only=True))
+                    "active_clients": len(provider.client_registry.list_clients(active_only=True)),
                 },
                 "tokens": token_stats,
-                "provider": {
-                    "issuer": provider.issuer
-                }
+                "provider": {"issuer": provider.issuer},
             }
 
         except Exception as e:
@@ -1138,6 +1075,7 @@ async def provider_stats(
 
 # Integration with LUKHAS authentication system
 
+
 @router.post("/authenticate")
 async def authenticate_with_tier(
     username: str = Form(...),
@@ -1145,7 +1083,7 @@ async def authenticate_with_tier(
     tier: str = Form("T2"),
     totp_code: Optional[str] = Form(None),
     webauthn_response: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider),
 ) -> Dict[str, Any]:
     """
     Authenticate user with LUKHAS tiered authentication.
@@ -1160,11 +1098,7 @@ async def authenticate_with_tier(
             # See: https://github.com/LukhasAI/Lukhas/issues/583
 
             # Prepare authentication request
-            auth_request = {
-                "username": username,
-                "password": password,
-                "tier": tier
-            }
+            auth_request = {"username": username, "password": password, "tier": tier}
 
             if totp_code:
                 auth_request["totp_code"] = totp_code
@@ -1177,9 +1111,7 @@ async def authenticate_with_tier(
 
             if auth_result.success:
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="authenticate",
-                    method="POST",
-                    status="200"
+                    endpoint="authenticate", method="POST", status="200"
                 ).inc()
 
                 span.set_attribute("oidc.auth_tier", tier)
@@ -1190,13 +1122,11 @@ async def authenticate_with_tier(
                     "user_id": auth_result.user_id,
                     "tier": tier,
                     "token": auth_result.token,
-                    "permissions": auth_result.claims.get("permissions", [])
+                    "permissions": auth_result.claims.get("permissions", []),
                 }
             else:
                 oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                    endpoint="authenticate",
-                    method="POST",
-                    status="401"
+                    endpoint="authenticate", method="POST", status="401"
                 ).inc()
 
                 span.set_attribute("oidc.auth_failed", True)
@@ -1205,17 +1135,15 @@ async def authenticate_with_tier(
                     status_code=401,
                     detail={
                         "error": "authentication_failed",
-                        "error_description": auth_result.error_message or "Authentication failed"
-                    }
+                        "error_description": auth_result.error_message or "Authentication failed",
+                    },
                 )
 
         except HTTPException:
             raise
         except Exception as e:
             oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
-                endpoint="authenticate",
-                method="POST",
-                status="500"
+                endpoint="authenticate", method="POST", status="500"
             ).inc()
             span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")

@@ -10,6 +10,7 @@ Migration Path:
 
 This module provides compatibility shims to support both patterns.
 """
+
 import importlib
 import logging
 import sys

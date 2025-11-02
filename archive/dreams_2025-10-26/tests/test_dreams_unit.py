@@ -25,10 +25,7 @@ class TestDreamsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "dreams",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "dreams", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestDreamsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import dreams
+
         self.assertIsNotNone(dreams)
 
     def test_module_version(self):
         """Test module has version information."""
         import dreams
+
         # Most modules should have version info
-        self.assertTrue(hasattr(dreams, '__version__') or
-                       hasattr(dreams, 'VERSION'))
+        self.assertTrue(hasattr(dreams, "__version__") or hasattr(dreams, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestDREAMS_ACTIVE(unittest.TestCase):
         """Test DREAMS_ACTIVE can be imported."""
         try:
             from dreams import DREAMS_ACTIVE
+
             self.assertIsNotNone(DREAMS_ACTIVE)
         except ImportError:
             pytest.skip("Component DREAMS_ACTIVE not available")
@@ -97,6 +96,7 @@ class TestDreamLoopGenerator(unittest.TestCase):
         """Test DreamLoopGenerator can be imported."""
         try:
             from dreams import DreamLoopGenerator
+
             self.assertIsNotNone(DreamLoopGenerator)
         except ImportError:
             pytest.skip("Component DreamLoopGenerator not available")
@@ -114,6 +114,7 @@ class TestDreamMemoryManager(unittest.TestCase):
         """Test DreamMemoryManager can be imported."""
         try:
             from dreams import DreamMemoryManager
+
             self.assertIsNotNone(DreamMemoryManager)
         except ImportError:
             pytest.skip("Component DreamMemoryManager not available")
@@ -122,7 +123,6 @@ class TestDreamMemoryManager(unittest.TestCase):
         """Test DreamMemoryManager can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

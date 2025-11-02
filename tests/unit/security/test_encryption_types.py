@@ -46,44 +46,21 @@ class TestEncryptionAlgorithm(unittest.TestCase):
 
         actual_algorithms = {algo.value for algo in EncryptionAlgorithm}
 
-        self.assertEqual(
-            expected_algorithms,
-            actual_algorithms,
-            "Algorithm enum should contain all expected values"
-        )
+        self.assertEqual(expected_algorithms, actual_algorithms, "Algorithm enum should contain all expected values")
 
     def test_enum_is_string_type(self):
         """Test that enum values are strings for serialization."""
         for algo in EncryptionAlgorithm:
-            self.assertIsInstance(
-                algo.value,
-                str,
-                f"{algo.name} value should be a string"
-            )
+            self.assertIsInstance(algo.value, str, f"{algo.name} value should be a string")
 
     def test_enum_member_access(self):
         """Test direct member access to algorithms."""
         # Test accessing each algorithm by name
-        self.assertEqual(
-            EncryptionAlgorithm.AES_256_GCM.value,
-            "aes-256-gcm"
-        )
-        self.assertEqual(
-            EncryptionAlgorithm.CHACHA20_POLY1305.value,
-            "chacha20-poly1305"
-        )
-        self.assertEqual(
-            EncryptionAlgorithm.AES_256_CBC.value,
-            "aes-256-cbc"
-        )
-        self.assertEqual(
-            EncryptionAlgorithm.KYBER768.value,
-            "kyber768"
-        )
-        self.assertEqual(
-            EncryptionAlgorithm.KYBER1024.value,
-            "kyber1024"
-        )
+        self.assertEqual(EncryptionAlgorithm.AES_256_GCM.value, "aes-256-gcm")
+        self.assertEqual(EncryptionAlgorithm.CHACHA20_POLY1305.value, "chacha20-poly1305")
+        self.assertEqual(EncryptionAlgorithm.AES_256_CBC.value, "aes-256-cbc")
+        self.assertEqual(EncryptionAlgorithm.KYBER768.value, "kyber768")
+        self.assertEqual(EncryptionAlgorithm.KYBER1024.value, "kyber1024")
 
     def test_enum_from_value(self):
         """Test constructing enum from string value."""
@@ -123,11 +100,7 @@ class TestSecurityLevel(unittest.TestCase):
         expected_levels = {"legacy", "standard", "high", "post-quantum"}
         actual_levels = {level.value for level in SecurityLevel}
 
-        self.assertEqual(
-            expected_levels,
-            actual_levels,
-            "SecurityLevel should contain all expected values"
-        )
+        self.assertEqual(expected_levels, actual_levels, "SecurityLevel should contain all expected values")
 
     def test_security_level_ordering(self):
         """Test that security levels have meaningful names."""
@@ -166,11 +139,7 @@ class TestAlgorithmMetadata(unittest.TestCase):
 
         actual_fields = {field.name for field in fields(AlgorithmMetadata)}
 
-        self.assertEqual(
-            required_fields,
-            actual_fields,
-            "AlgorithmMetadata should have all required fields"
-        )
+        self.assertEqual(required_fields, actual_fields, "AlgorithmMetadata should have all required fields")
 
     def test_metadata_field_types(self):
         """Test that metadata fields have correct types."""
@@ -194,11 +163,7 @@ class TestAlgorithmMetadataRegistry(unittest.TestCase):
     def test_all_algorithms_have_metadata(self):
         """Test that all algorithms have metadata defined."""
         for algo in EncryptionAlgorithm:
-            self.assertIn(
-                algo,
-                ALGORITHM_METADATA,
-                f"Algorithm {algo.name} should have metadata"
-            )
+            self.assertIn(algo, ALGORITHM_METADATA, f"Algorithm {algo.name} should have metadata")
 
     def test_aes_256_gcm_metadata(self):
         """Test AES-256-GCM metadata accuracy."""
@@ -287,24 +252,14 @@ class TestAlgorithmMetadataRegistry(unittest.TestCase):
         for algo, metadata in ALGORITHM_METADATA.items():
             self.assertIsInstance(metadata.description, str)
             self.assertGreater(
-                len(metadata.description),
-                50,
-                f"{algo.name} description should be meaningful (>50 chars)"
+                len(metadata.description), 50, f"{algo.name} description should be meaningful (>50 chars)"
             )
 
     def test_performance_tiers_in_valid_range(self):
         """Test that performance tiers are in valid range 1-5."""
         for algo, metadata in ALGORITHM_METADATA.items():
-            self.assertGreaterEqual(
-                metadata.performance_tier,
-                1,
-                f"{algo.name} performance tier should be >= 1"
-            )
-            self.assertLessEqual(
-                metadata.performance_tier,
-                5,
-                f"{algo.name} performance tier should be <= 5"
-            )
+            self.assertGreaterEqual(metadata.performance_tier, 1, f"{algo.name} performance tier should be >= 1")
+            self.assertLessEqual(metadata.performance_tier, 5, f"{algo.name} performance tier should be <= 5")
 
 
 class TestGetAlgorithmMetadata(unittest.TestCase):
@@ -349,19 +304,12 @@ class TestGetRecommendedAlgorithms(unittest.TestCase):
 
         for algo in recommended:
             metadata = ALGORITHM_METADATA[algo]
-            self.assertTrue(
-                metadata.recommended,
-                f"{algo.name} should be recommended"
-            )
+            self.assertTrue(metadata.recommended, f"{algo.name} should be recommended")
 
     def test_at_least_one_recommended_algorithm(self):
         """Test that at least one algorithm is recommended."""
         recommended = get_recommended_algorithms()
-        self.assertGreater(
-            len(recommended),
-            0,
-            "Should have at least one recommended algorithm"
-        )
+        self.assertGreater(len(recommended), 0, "Should have at least one recommended algorithm")
 
 
 class TestGetPostQuantumAlgorithms(unittest.TestCase):
@@ -393,19 +341,12 @@ class TestGetPostQuantumAlgorithms(unittest.TestCase):
 
         for algo in pq_algos:
             metadata = ALGORITHM_METADATA[algo]
-            self.assertTrue(
-                metadata.pq_resistant,
-                f"{algo.name} should be post-quantum resistant"
-            )
+            self.assertTrue(metadata.pq_resistant, f"{algo.name} should be post-quantum resistant")
 
     def test_post_quantum_count(self):
         """Test that we have the expected number of post-quantum algorithms."""
         pq_algos = get_post_quantum_algorithms()
-        self.assertEqual(
-            len(pq_algos),
-            2,
-            "Should have exactly 2 post-quantum algorithms (Kyber768, Kyber1024)"
-        )
+        self.assertEqual(len(pq_algos), 2, "Should have exactly 2 post-quantum algorithms (Kyber768, Kyber1024)")
 
 
 class TestIsAeadAlgorithm(unittest.TestCase):
@@ -445,30 +386,21 @@ class TestValidateAlgorithmChoice(unittest.TestCase):
 
     def test_non_aead_fails_with_require_aead(self):
         """Test that non-AEAD algorithms fail when AEAD is required."""
-        valid, error = validate_algorithm_choice(
-            EncryptionAlgorithm.AES_256_CBC,
-            require_aead=True
-        )
+        valid, error = validate_algorithm_choice(EncryptionAlgorithm.AES_256_CBC, require_aead=True)
         self.assertFalse(valid)
         self.assertIsInstance(error, str)
         self.assertIn("not AEAD", error)
 
     def test_non_aead_passes_without_require_aead(self):
         """Test that non-AEAD algorithms pass when AEAD is not required."""
-        valid, error = validate_algorithm_choice(
-            EncryptionAlgorithm.KYBER768,
-            require_aead=False,
-            allow_legacy=False
-        )
+        valid, error = validate_algorithm_choice(EncryptionAlgorithm.KYBER768, require_aead=False, allow_legacy=False)
         self.assertTrue(valid)
         self.assertIsNone(error)
 
     def test_legacy_fails_without_allow_legacy(self):
         """Test that legacy algorithms fail when not allowed."""
         valid, error = validate_algorithm_choice(
-            EncryptionAlgorithm.AES_256_CBC,
-            require_aead=False,
-            allow_legacy=False
+            EncryptionAlgorithm.AES_256_CBC, require_aead=False, allow_legacy=False
         )
         self.assertFalse(valid)
         self.assertIsInstance(error, str)
@@ -476,22 +408,14 @@ class TestValidateAlgorithmChoice(unittest.TestCase):
 
     def test_legacy_passes_with_allow_legacy(self):
         """Test that legacy algorithms pass when allowed."""
-        valid, error = validate_algorithm_choice(
-            EncryptionAlgorithm.AES_256_CBC,
-            require_aead=False,
-            allow_legacy=True
-        )
+        valid, error = validate_algorithm_choice(EncryptionAlgorithm.AES_256_CBC, require_aead=False, allow_legacy=True)
         self.assertTrue(valid)
         self.assertIsNone(error)
 
     def test_post_quantum_validation(self):
         """Test validation of post-quantum algorithms."""
         # Kyber768 should pass with relaxed settings
-        valid, error = validate_algorithm_choice(
-            EncryptionAlgorithm.KYBER768,
-            require_aead=False,
-            allow_legacy=False
-        )
+        valid, error = validate_algorithm_choice(EncryptionAlgorithm.KYBER768, require_aead=False, allow_legacy=False)
         self.assertTrue(valid)
         self.assertIsNone(error)
 
@@ -572,11 +496,7 @@ class TestIntegration(unittest.TestCase):
         algorithm = EncryptionAlgorithm.KYBER768
 
         # 2. Validate choice (relaxed settings for KEMs)
-        valid, error = validate_algorithm_choice(
-            algorithm,
-            require_aead=False,
-            allow_legacy=False
-        )
+        valid, error = validate_algorithm_choice(algorithm, require_aead=False, allow_legacy=False)
         self.assertTrue(valid)
         self.assertIsNone(error)
 
@@ -623,11 +543,7 @@ class TestIntegration(unittest.TestCase):
         self.assertIsInstance(error, str)
 
         # Should pass with allow_legacy=True
-        valid, error = validate_algorithm_choice(
-            algorithm,
-            require_aead=False,
-            allow_legacy=True
-        )
+        valid, error = validate_algorithm_choice(algorithm, require_aead=False, allow_legacy=True)
         self.assertTrue(valid)
         self.assertIsNone(error)
 

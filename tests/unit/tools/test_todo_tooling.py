@@ -34,7 +34,7 @@ def test_extract_todo_context_normalizes_path() -> None:
 
 def test_categorize_todos_prioritizes_keywords() -> None:
     sample_lines = [
-# See: https://github.com/LukhasAI/Lukhas/issues/628
+        # See: https://github.com/LukhasAI/Lukhas/issues/628
         "candidate/security/auth.py:17:# TODO: Fix security vulnerability immediately",
         "tools/helpers.py:5:# TODO: add docstring for helper",
     ]
@@ -59,7 +59,7 @@ def test_generate_priority_files_creates_markdown(tmp_path: Path) -> None:
         line="12",
         text="Implement identity verification for guardian compliance",
         priority="HIGH",
-# See: https://github.com/LukhasAI/Lukhas/issues/629
+        # See: https://github.com/LukhasAI/Lukhas/issues/629
     )
 
     categories = {"CRITICAL": [], "HIGH": [record], "MED": [], "LOW": []}

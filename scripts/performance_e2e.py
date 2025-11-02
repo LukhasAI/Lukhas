@@ -67,10 +67,7 @@ class PerformanceE2ETester:
         """Get current git SHA for artifact tracking."""
         try:
             result = subprocess.run(
-                ["git", "rev-parse", "HEAD"],
-                capture_output=True,
-                text=True,
-                cwd=Path(__file__).parent.parent
+                ["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=Path(__file__).parent.parent
             )
             return result.stdout.strip()
         except Exception:
@@ -81,7 +78,7 @@ class PerformanceE2ETester:
         baseline_path = self.output_dir / "baseline_e2e_performance.json"
         if baseline_path.exists():
             try:
-                with open(baseline_path, 'r') as f:
+                with open(baseline_path, "r") as f:
                     return json.load(f)
             except Exception as e:
                 logging.warning(f"Could not load baseline: {e}")
@@ -135,7 +132,7 @@ class PerformanceE2ETester:
             "std_dev_ms": round(statistics.stdev(latencies), 3),
             "sample_count": len(latencies),
             "min_ms": round(min(latencies), 3),
-            "max_ms": round(max(latencies), 3)
+            "max_ms": round(max(latencies), 3),
         }
 
     async def simulate_oidc_flow(self):
@@ -155,11 +152,7 @@ class PerformanceE2ETester:
         # Stage 5: Token validation and claims extraction
         await asyncio.sleep(0.03)  # 30ms
 
-        return {
-            "access_token": "fake_token",
-            "id_token": "fake_id_token",
-            "user_id": "user123"
-        }
+        return {"access_token": "fake_token", "id_token": "fake_id_token", "user_id": "user123"}
 
     def test_oidc_flow(self) -> Dict[str, Any]:
         """Test complete OIDC flow end-to-end latency."""
@@ -187,18 +180,18 @@ class PerformanceE2ETester:
             "complete_flow": {
                 **flow_metrics,
                 "slo_target_ms": self.performance_targets["oidc_flow_p95_ms"],
-                "slo_compliance": flow_metrics["p95_ms"] <= self.performance_targets["oidc_flow_p95_ms"]
+                "slo_compliance": flow_metrics["p95_ms"] <= self.performance_targets["oidc_flow_p95_ms"],
             },
             "token_refresh": {
                 **refresh_metrics,
                 "slo_target_ms": 500,  # 500ms target for refresh
-                "slo_compliance": refresh_metrics["p95_ms"] <= 500
+                "slo_compliance": refresh_metrics["p95_ms"] <= 500,
             },
             "logout": {
                 **logout_metrics,
                 "slo_target_ms": 200,  # 200ms target for logout
-                "slo_compliance": logout_metrics["p95_ms"] <= 200
-            }
+                "slo_compliance": logout_metrics["p95_ms"] <= 200,
+            },
         }
 
     def simulate_memory_lifecycle(self):
@@ -218,11 +211,7 @@ class PerformanceE2ETester:
         # Stage 5: Lifecycle management (archival/deletion)
         time.sleep(0.1)  # 100ms
 
-        return {
-            "document_id": "doc_12345",
-            "status": "lifecycle_complete",
-            "operations_count": 5
-        }
+        return {"document_id": "doc_12345", "status": "lifecycle_complete", "operations_count": 5}
 
     def test_memory_lifecycle(self) -> Dict[str, Any]:
         """Test complete memory lifecycle flow."""
@@ -249,18 +238,18 @@ class PerformanceE2ETester:
             "full_lifecycle": {
                 **lifecycle_metrics,
                 "slo_target_ms": self.performance_targets["memory_lifecycle_p95_ms"],
-                "slo_compliance": lifecycle_metrics["p95_ms"] <= self.performance_targets["memory_lifecycle_p95_ms"]
+                "slo_compliance": lifecycle_metrics["p95_ms"] <= self.performance_targets["memory_lifecycle_p95_ms"],
             },
             "bulk_operations": {
                 **bulk_metrics,
                 "slo_target_ms": 1000,  # 1s target for bulk operations
-                "slo_compliance": bulk_metrics["p95_ms"] <= 1000
+                "slo_compliance": bulk_metrics["p95_ms"] <= 1000,
             },
             "archival": {
                 **archival_metrics,
                 "slo_target_ms": 500,  # 500ms target for archival
-                "slo_compliance": archival_metrics["p95_ms"] <= 500
-            }
+                "slo_compliance": archival_metrics["p95_ms"] <= 500,
+            },
         }
 
     def simulate_orchestration_flow(self):
@@ -283,11 +272,7 @@ class PerformanceE2ETester:
         # Stage 6: Final response preparation
         time.sleep(0.01)  # 10ms
 
-        return {
-            "services_invoked": 3,
-            "total_latency_ms": 115,
-            "success": True
-        }
+        return {"services_invoked": 3, "total_latency_ms": 115, "success": True}
 
     def test_orchestration(self) -> Dict[str, Any]:
         """Test multi-service orchestration latency."""
@@ -314,18 +299,18 @@ class PerformanceE2ETester:
             "sequential_orchestration": {
                 **orchestration_metrics,
                 "slo_target_ms": self.performance_targets["orchestration_p95_ms"],
-                "slo_compliance": orchestration_metrics["p95_ms"] <= self.performance_targets["orchestration_p95_ms"]
+                "slo_compliance": orchestration_metrics["p95_ms"] <= self.performance_targets["orchestration_p95_ms"],
             },
             "parallel_orchestration": {
                 **parallel_metrics,
                 "slo_target_ms": 200,  # 200ms target for parallel
-                "slo_compliance": parallel_metrics["p95_ms"] <= 200
+                "slo_compliance": parallel_metrics["p95_ms"] <= 200,
             },
             "circuit_breaker": {
                 **circuit_breaker_metrics,
                 "slo_target_ms": 50,  # 50ms target for circuit breaker
-                "slo_compliance": circuit_breaker_metrics["p95_ms"] <= 50
-            }
+                "slo_compliance": circuit_breaker_metrics["p95_ms"] <= 50,
+            },
         }
 
     def simulate_matriz_pipeline(self):
@@ -345,11 +330,7 @@ class PerformanceE2ETester:
         # Stage 5: Output formatting
         time.sleep(0.01)  # 10ms
 
-        return {
-            "pipeline_stages": 5,
-            "processing_time_ms": 80,
-            "coherence_score": 0.92
-        }
+        return {"pipeline_stages": 5, "processing_time_ms": 80, "coherence_score": 0.92}
 
     def test_matriz_pipeline(self) -> Dict[str, Any]:
         """Test MATRIZ pipeline end-to-end processing."""
@@ -376,18 +357,18 @@ class PerformanceE2ETester:
             "standard_pipeline": {
                 **pipeline_metrics,
                 "slo_target_ms": self.performance_targets["matriz_pipeline_p95_ms"],
-                "slo_compliance": pipeline_metrics["p95_ms"] <= self.performance_targets["matriz_pipeline_p95_ms"]
+                "slo_compliance": pipeline_metrics["p95_ms"] <= self.performance_targets["matriz_pipeline_p95_ms"],
             },
             "batch_processing": {
                 **batch_metrics,
                 "slo_target_ms": 300,  # 300ms target for batch
-                "slo_compliance": batch_metrics["p95_ms"] <= 300
+                "slo_compliance": batch_metrics["p95_ms"] <= 300,
             },
             "realtime_processing": {
                 **realtime_metrics,
                 "slo_target_ms": 100,  # 100ms target for real-time
-                "slo_compliance": realtime_metrics["p95_ms"] <= 100
-            }
+                "slo_compliance": realtime_metrics["p95_ms"] <= 100,
+            },
         }
 
     def detect_regression(self, current_results: Dict[str, Any], baseline: Dict[str, Any]) -> Dict[str, Any]:
@@ -397,7 +378,7 @@ class PerformanceE2ETester:
                 "baseline_sha": None,
                 "performance_delta_pct": 0,
                 "regression_detected": False,
-                "analysis": "No baseline available for comparison"
+                "analysis": "No baseline available for comparison",
             }
 
         baseline_metrics = baseline["performance_metrics"]
@@ -423,7 +404,7 @@ class PerformanceE2ETester:
                 "baseline_sha": baseline.get("git_sha", "unknown"),
                 "performance_delta_pct": 0,
                 "regression_detected": False,
-                "analysis": "Insufficient data for regression analysis"
+                "analysis": "Insufficient data for regression analysis",
             }
 
         baseline_avg = statistics.mean(baseline_p95s)
@@ -442,7 +423,7 @@ class PerformanceE2ETester:
             "regression_detected": regression_detected,
             "regression_threshold_pct": 10,
             "analysis": f"{'Regression detected' if regression_detected else 'No regression'}: {delta_pct:+.2f}% change",
-            "critical_flows_impact": self._analyze_critical_flows_impact(current_metrics, baseline_metrics)
+            "critical_flows_impact": self._analyze_critical_flows_impact(current_metrics, baseline_metrics),
         }
 
     def _analyze_critical_flows_impact(self, current: Dict[str, Any], baseline: Dict[str, Any]) -> Dict[str, Any]:
@@ -451,7 +432,7 @@ class PerformanceE2ETester:
             "oidc_complete_flow": ("oidc_flow", "complete_flow"),
             "memory_full_lifecycle": ("memory_lifecycle", "full_lifecycle"),
             "matriz_standard_pipeline": ("matriz_pipeline", "standard_pipeline"),
-            "orchestration_sequential": ("orchestration", "sequential_orchestration")
+            "orchestration_sequential": ("orchestration", "sequential_orchestration"),
         }
 
         impact_analysis = {}
@@ -470,7 +451,7 @@ class PerformanceE2ETester:
                     "baseline_p95_ms": baseline_p95,
                     "delta_pct": round(delta_pct, 2),
                     "degraded": delta_pct > 10,
-                    "slo_compliance": current_metrics.get("slo_compliance", False)
+                    "slo_compliance": current_metrics.get("slo_compliance", False),
                 }
 
         return impact_analysis
@@ -497,14 +478,14 @@ class PerformanceE2ETester:
             "test_parameters": {
                 "sample_count": self.sample_count,
                 "warmup_iterations": self.warmup_iterations,
-                "base_url": self.base_url
+                "base_url": self.base_url,
             },
             "performance_metrics": {
                 "oidc_flow": oidc_results,
                 "memory_lifecycle": memory_results,
                 "orchestration": orchestration_results,
-                "matriz_pipeline": matriz_results
-            }
+                "matriz_pipeline": matriz_results,
+            },
         }
 
         # Regression analysis
@@ -530,7 +511,7 @@ class PerformanceE2ETester:
             "slo_compliance_rate": compliant_operations / total_operations if total_operations > 0 else 0,
             "operations_tested": total_operations,
             "operations_compliant": compliant_operations,
-            "all_targets_met": all_compliant
+            "all_targets_met": all_compliant,
         }
 
         return results
@@ -541,7 +522,7 @@ class PerformanceE2ETester:
         artifact_filename = f"e2e-performance-{timestamp}.json"
         artifact_path = self.output_dir / artifact_filename
 
-        with open(artifact_path, 'w') as f:
+        with open(artifact_path, "w") as f:
             json.dump(results, f, indent=2, sort_keys=True)
 
         print(f"📊 E2E performance artifact generated: {artifact_path}")
@@ -549,12 +530,14 @@ class PerformanceE2ETester:
 
     def print_summary(self, results: Dict[str, Any]):
         """Print E2E performance test summary."""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("🎯 END-TO-END PERFORMANCE VALIDATION SUMMARY")
-        print("="*60)
+        print("=" * 60)
 
         compliance = results["overall_compliance"]
-        print(f"Overall SLO Compliance: {compliance['operations_compliant']}/{compliance['operations_tested']} ({compliance['slo_compliance_rate']*100:.1f}%)")
+        print(
+            f"Overall SLO Compliance: {compliance['operations_compliant']}/{compliance['operations_tested']} ({compliance['slo_compliance_rate']*100:.1f}%)"
+        )
         print(f"All Targets Met: {'✅' if compliance['all_targets_met'] else '❌'}")
 
         print("\nRegression Analysis:")
@@ -575,7 +558,9 @@ class PerformanceE2ETester:
             for operation, metrics in service_metrics.items():
                 if isinstance(metrics, dict) and "p95_ms" in metrics:
                     compliance_icon = "✅" if metrics["slo_compliance"] else "❌"
-                    print(f"  {compliance_icon} {operation}: P95={metrics['p95_ms']:.1f}ms (target: {metrics['slo_target_ms']}ms)")
+                    print(
+                        f"  {compliance_icon} {operation}: P95={metrics['p95_ms']:.1f}ms (target: {metrics['slo_target_ms']}ms)"
+                    )
 
         print(f"\n🕒 Test completed at: {results['timestamp']}")
         print(f"📊 Git SHA: {results['git_sha']}")
@@ -592,10 +577,7 @@ def main():
     parser.add_argument("--base-url", default="http://localhost:8000", help="Base URL for E2E tests")
     args = parser.parse_args()
 
-    tester = PerformanceE2ETester(
-        output_dir=args.output_dir,
-        base_url=args.base_url
-    )
+    tester = PerformanceE2ETester(output_dir=args.output_dir, base_url=args.base_url)
     tester.sample_count = args.samples
 
     try:
@@ -617,6 +599,7 @@ def main():
     except Exception as e:
         print(f"❌ E2E performance testing failed: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)
 

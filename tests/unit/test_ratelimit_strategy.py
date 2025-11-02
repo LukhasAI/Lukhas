@@ -3,6 +3,7 @@ Unit tests for rate limiter keying strategy.
 
 Phase 3: Tests LUKHAS_RL_KEYING environment variable behavior.
 """
+
 import os
 from types import SimpleNamespace
 
@@ -29,10 +30,7 @@ def test_route_principal_keying_default(monkeypatch):
     monkeypatch.delenv("LUKHAS_RL_KEYING", raising=False)
 
     rl = RateLimiter()
-    req = MockRequest(
-        path="/v1/embeddings",
-        headers={"authorization": "Bearer sk-abc123"}
-    )
+    req = MockRequest(path="/v1/embeddings", headers={"authorization": "Bearer sk-abc123"})
 
     key = rl._key_for_request(req)
 
@@ -50,10 +48,7 @@ def test_route_only_keying(monkeypatch):
     monkeypatch.setenv("LUKHAS_RL_KEYING", "route_only")
 
     rl = RateLimiter()
-    req = MockRequest(
-        path="/v1/embeddings",
-        headers={"authorization": "Bearer sk-xyz789"}
-    )
+    req = MockRequest(path="/v1/embeddings", headers={"authorization": "Bearer sk-xyz789"})
 
     key = rl._key_for_request(req)
 
@@ -94,16 +89,12 @@ def test_principal_extraction_x_forwarded_for(monkeypatch):
     monkeypatch.delenv("LUKHAS_RL_KEYING", raising=False)
 
     rl = RateLimiter()
-    req = MockRequest(
-        headers={"x-forwarded-for": "203.0.113.1, 192.168.1.1"},
-        client_host="10.0.0.1"
-    )
+    req = MockRequest(headers={"x-forwarded-for": "203.0.113.1, 192.168.1.1"}, client_host="10.0.0.1")
 
     principal = rl._extract_principal(req)
 
     # Should use first IP from X-Forwarded-For
-    assert principal == "203.0.113.1", \
-        f"Expected first IP from XFF, got: {principal}"
+    assert principal == "203.0.113.1", f"Expected first IP from XFF, got: {principal}"
 
 
 def test_different_tokens_get_different_keys(monkeypatch):
@@ -143,5 +134,4 @@ def test_rate_limit_isolation_per_principal():
     allowed3, _ = rl.check_limit(req_user2)
     allowed4, _ = rl.check_limit(req_user2)
 
-    assert allowed3 and allowed4, \
-        "User2 should have independent bucket, not affected by User1"
+    assert allowed3 and allowed4, "User2 should have independent bucket, not affected by User1"

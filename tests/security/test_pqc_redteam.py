@@ -40,13 +40,13 @@ class TestPQCSignatureForgery:
             "registry_id": "test-node-001",
             "timestamp": "2025-10-24T12:00:00Z",
             "capabilities": ["compute", "storage"],
-            "version": "1.0.0"
+            "version": "1.0.0",
         }
 
     @pytest.fixture
     def dilithium_keypair(self):
         """Generate fresh Dilithium2 keypair for testing."""
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
             # Note: private key is held in sig object, can't be extracted directly
             yield sig, public_key
@@ -84,12 +84,12 @@ class TestPQCSignatureForgery:
     def test_forgery_attempt_wrong_public_key(self, valid_checkpoint):
         """RED-TEAM-003: Attempt to verify with wrong public key."""
         # Generate two separate keypairs
-        with oqs.Signature('Dilithium2') as sig1:
+        with oqs.Signature("Dilithium2") as sig1:
             sig1.generate_keypair()
             checkpoint_bytes = json.dumps(valid_checkpoint, sort_keys=True).encode()
             signature = sig1.sign(checkpoint_bytes)
 
-        with oqs.Signature('Dilithium2') as sig2:
+        with oqs.Signature("Dilithium2") as sig2:
             public_key_2 = sig2.generate_keypair()
 
             # Verification should fail with wrong public key
@@ -103,7 +103,7 @@ class TestKeyCompromise:
     def test_key_compromise_detection(self):
         """RED-TEAM-004: Simulate key compromise and verify detection."""
         # Generate "compromised" keypair
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
             message = b"checkpoint data"
             signature = sig.sign(message)
@@ -111,7 +111,7 @@ class TestKeyCompromise:
         # In production, compromised key should be in revocation list
         # This test verifies the signature is valid (expected)
         # but would be rejected by revocation check (not implemented here)
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             is_valid = sig.verify(message, signature, public_key)
             assert is_valid, "Signature should be cryptographically valid"
 
@@ -123,17 +123,17 @@ class TestKeyCompromise:
         message = b"checkpoint during rotation"
 
         # Old keypair
-        with oqs.Signature('Dilithium2') as old_sig:
+        with oqs.Signature("Dilithium2") as old_sig:
             old_public_key = old_sig.generate_keypair()
             old_signature = old_sig.sign(message)
 
         # New keypair
-        with oqs.Signature('Dilithium2') as new_sig:
+        with oqs.Signature("Dilithium2") as new_sig:
             new_public_key = new_sig.generate_keypair()
             new_signature = new_sig.sign(message)
 
         # During rotation, both signatures should be valid
-        with oqs.Signature('Dilithium2') as verify_sig:
+        with oqs.Signature("Dilithium2") as verify_sig:
             assert verify_sig.verify(message, old_signature, old_public_key)
             assert verify_sig.verify(message, new_signature, new_public_key)
 
@@ -147,18 +147,10 @@ class TestReplayAttacks:
     def test_replay_attack_timestamp_check(self, tmp_path):
         """RED-TEAM-006: Attempt to replay old valid checkpoint."""
         # Create two checkpoints with different timestamps
-        checkpoint_old = {
-            "registry_id": "test-node-001",
-            "timestamp": "2025-10-24T10:00:00Z",
-            "nonce": "12345"
-        }
-        checkpoint_new = {
-            "registry_id": "test-node-001",
-            "timestamp": "2025-10-24T12:00:00Z",
-            "nonce": "67890"
-        }
+        checkpoint_old = {"registry_id": "test-node-001", "timestamp": "2025-10-24T10:00:00Z", "nonce": "12345"}
+        checkpoint_new = {"registry_id": "test-node-001", "timestamp": "2025-10-24T12:00:00Z", "nonce": "67890"}
 
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
 
             # Sign both checkpoints
@@ -178,13 +170,9 @@ class TestReplayAttacks:
 
     def test_replay_attack_nonce_uniqueness(self):
         """RED-TEAM-007: Attempt to replay checkpoint with duplicate nonce."""
-        checkpoint = {
-            "registry_id": "test-node-001",
-            "timestamp": "2025-10-24T12:00:00Z",
-            "nonce": "unique-nonce-123"
-        }
+        checkpoint = {"registry_id": "test-node-001", "timestamp": "2025-10-24T12:00:00Z", "nonce": "unique-nonce-123"}
 
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
             signature = sig.sign(checkpoint_bytes)
@@ -208,7 +196,7 @@ class TestCheckpointCorruption:
         """RED-TEAM-008: Detect single bit flip in checkpoint data."""
         checkpoint = {"data": "important checkpoint data"}
 
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
             signature = sig.sign(checkpoint_bytes)
@@ -226,7 +214,7 @@ class TestCheckpointCorruption:
         """RED-TEAM-009: Detect truncated checkpoint data."""
         checkpoint = {"data": "important checkpoint data with lots of content"}
 
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
             signature = sig.sign(checkpoint_bytes)
@@ -242,7 +230,7 @@ class TestCheckpointCorruption:
         """RED-TEAM-010: Detect truncated signature."""
         checkpoint = {"data": "checkpoint data"}
 
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
             signature = sig.sign(checkpoint_bytes)
@@ -268,12 +256,12 @@ class TestDreamExfiltration:
         checkpoint = {
             "registry_id": "test-node-001",
             "sensitive_data": "private neural weights",
-            "dream_state": "REM-3"
+            "dream_state": "REM-3",
         }
 
         # In production, checkpoint should be encrypted at rest
         # This test verifies signature doesn't leak plaintext
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
             signature = sig.sign(checkpoint_bytes)
@@ -284,7 +272,7 @@ class TestDreamExfiltration:
 
     def test_dream_exfil_public_key_safety(self):
         """RED-TEAM-012: Verify public key doesn't leak private information."""
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
 
             # Public key should be safe to share (no private key material)
@@ -306,7 +294,7 @@ class TestPerformance:
         iterations = 100
         latencies = []
 
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
 
@@ -332,7 +320,7 @@ class TestPerformance:
         iterations = 100
         latencies = []
 
-        with oqs.Signature('Dilithium2') as sig:
+        with oqs.Signature("Dilithium2") as sig:
             public_key = sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
             signature = sig.sign(checkpoint_bytes)
@@ -353,12 +341,7 @@ class TestPerformance:
 
 
 # Mark all tests as security tests
-pytestmark = [
-    pytest.mark.security,
-    pytest.mark.pqc,
-    pytest.mark.redteam,
-    pytest.mark.slow
-]
+pytestmark = [pytest.mark.security, pytest.mark.pqc, pytest.mark.redteam, pytest.mark.slow]
 
 
 if __name__ == "__main__":

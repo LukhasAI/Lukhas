@@ -22,6 +22,7 @@ def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
         sys.exit(1)
     return result
 
+
 def get_candidate_metrics() -> Dict[str, Any]:
     """Get candidate/ directory metrics"""
     total_files = run_cmd("find candidate/ -type f -name '*.py' | wc -l").stdout.strip()
@@ -30,8 +31,9 @@ def get_candidate_metrics() -> Dict[str, Any]:
     return {
         "total_files": int(total_files),
         "core_files": int(core_files),
-        "other_files": int(total_files) - int(core_files)
+        "other_files": int(total_files) - int(core_files),
     }
+
 
 def get_promoted_metrics() -> Dict[str, Any]:
     """Get promoted files metrics from flat-root"""
@@ -41,8 +43,9 @@ def get_promoted_metrics() -> Dict[str, Any]:
     return {
         "core_files": int(core_files),
         "identity_files": int(identity_files),
-        "total_promoted": int(core_files) + int(identity_files)
+        "total_promoted": int(core_files) + int(identity_files),
     }
+
 
 def get_matriz_metrics() -> Dict[str, Any]:
     """Get MATRIZ validation metrics"""
@@ -59,8 +62,9 @@ def get_matriz_metrics() -> Dict[str, Any]:
         "contracts_total": contracts_total,
         "contracts_pass": contracts_pass,
         "pass_rate": 100.0 if contracts_pass else 0.0,
-        "last_run": datetime.now(timezone.utc).isoformat()
+        "last_run": datetime.now(timezone.utc).isoformat(),
     }
+
 
 def get_coverage_metrics() -> Dict[str, Any]:
     """Get coverage metrics (mock for now - replace with actual coverage)"""
@@ -72,17 +76,14 @@ def get_coverage_metrics() -> Dict[str, Any]:
         "baseline": baseline_coverage,
         "current": current_coverage,
         "delta": current_coverage - baseline_coverage,
-        "status": "maintained" if current_coverage >= baseline_coverage else "regression"
+        "status": "maintained" if current_coverage >= baseline_coverage else "regression",
     }
+
 
 def get_import_health() -> Dict[str, Any]:
     """Get import health metrics"""
     if not Path("artifacts/import_failures.json").exists():
-        return {
-            "total_failures": 0,
-            "status": "healthy",
-            "last_check": datetime.now(timezone.utc).isoformat()
-        }
+        return {"total_failures": 0, "status": "healthy", "last_check": datetime.now(timezone.utc).isoformat()}
 
     with open("artifacts/import_failures.json") as f:
         import_data = json.load(f)
@@ -92,8 +93,9 @@ def get_import_health() -> Dict[str, Any]:
     return {
         "total_failures": len(failures),
         "status": "healthy" if len(failures) == 0 else "needs_attention",
-        "last_check": import_data.get("timestamp", "unknown")
+        "last_check": import_data.get("timestamp", "unknown"),
     }
+
 
 def get_quarantine_metrics() -> Dict[str, Any]:
     """Get AuthZ quarantine test metrics"""
@@ -104,8 +106,9 @@ def get_quarantine_metrics() -> Dict[str, Any]:
     return {
         "quarantined_tests": quarantined_count,
         "status": "clean" if quarantined_count == 0 else "needs_friday_sweep",
-        "target": 0
+        "target": 0,
     }
+
 
 def calculate_burndown_projection(candidate_files: int, weekly_velocity: int) -> Dict[str, Any]:
     """Calculate completion timeline projections"""
@@ -118,8 +121,9 @@ def calculate_burndown_projection(candidate_files: int, weekly_velocity: int) ->
     return {
         "weeks_remaining": round(weeks_remaining, 1),
         "completion_date": completion_date.strftime("%Y-%m-%d"),
-        "weekly_velocity": weekly_velocity
+        "weekly_velocity": weekly_velocity,
     }
+
 
 def get_weekly_velocity() -> int:
     """Calculate recent weekly promotion velocity"""
@@ -127,10 +131,11 @@ def get_weekly_velocity() -> int:
     week_ago = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
     result = run_cmd(f'git log --since="{week_ago}" --grep="promotion batch" --oneline', check=False)
 
-    batch_commits = len(result.stdout.strip().split('\n')) if result.stdout.strip() else 0
+    batch_commits = len(result.stdout.strip().split("\n")) if result.stdout.strip() else 0
 
     # Estimate 50 files per batch (conservative)
     return batch_commits * 50
+
 
 def generate_dashboard_metrics() -> Dict[str, Any]:
     """Generate complete dashboard metrics"""
@@ -155,14 +160,17 @@ def generate_dashboard_metrics() -> Dict[str, Any]:
         "quarantine": quarantine,
         "burndown": burndown,
         "summary": {
-            "total_progress_pct": round((promoted["total_promoted"] / (promoted["total_promoted"] + candidate["total_files"])) * 100, 1),
-            "health_status": "green" if all([
-                matriz["contracts_pass"],
-                imports["total_failures"] == 0,
-                coverage["status"] == "maintained"
-            ]) else "yellow"
-        }
+            "total_progress_pct": round(
+                (promoted["total_promoted"] / (promoted["total_promoted"] + candidate["total_files"])) * 100, 1
+            ),
+            "health_status": (
+                "green"
+                if all([matriz["contracts_pass"], imports["total_failures"] == 0, coverage["status"] == "maintained"])
+                else "yellow"
+            ),
+        },
     }
+
 
 def generate_pr_comment(metrics: Dict[str, Any]) -> str:
     """Generate dashboard comment for PRs"""
@@ -201,6 +209,7 @@ def generate_pr_comment(metrics: Dict[str, Any]) -> str:
 
     return comment
 
+
 def generate_executive_summary(metrics: Dict[str, Any]) -> str:
     """Generate executive summary for stakeholders"""
     return f"""# Executive Migration Summary
@@ -223,10 +232,12 @@ def generate_executive_summary(metrics: Dict[str, Any]) -> str:
 {'Continue current pace with weekend burst sessions.' if metrics["summary"]["health_status"] == "green" else 'Pause promotions and address quality gate failures.'}
 """
 
+
 def main():
     parser = argparse.ArgumentParser(description="Dashboard Bot - Promotion metrics")
-    parser.add_argument("--mode", choices=["update", "pr-comment", "exec-summary"], default="update",
-                       help="Dashboard mode")
+    parser.add_argument(
+        "--mode", choices=["update", "pr-comment", "exec-summary"], default="update", help="Dashboard mode"
+    )
     parser.add_argument("--pr-number", type=int, help="PR number for comment mode")
     parser.add_argument("--output", help="Output file path")
     args = parser.parse_args()
@@ -265,6 +276,7 @@ def main():
             print(f"✅ Executive summary saved: {args.output}")
         else:
             print(summary)
+
 
 if __name__ == "__main__":
     main()

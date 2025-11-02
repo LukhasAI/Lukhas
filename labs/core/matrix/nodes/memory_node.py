@@ -1,4 +1,5 @@
 """MATRIZ MemoryNode implementation."""
+
 from typing import Any, Dict, List
 
 from matriz.core.node_interface import NodeState
@@ -63,9 +64,7 @@ class MemoryNode(BaseMatrixNode):
             },
         )
 
-        self.logger.info(
-            "ΛTAG:memory_recall", extra={"matches": len(top_matches), "query": query[:32]}
-        )
+        self.logger.info("ΛTAG:memory_recall", extra={"matches": len(top_matches), "query": query[:32]})
 
         result = self._finish(
             started_at=start,

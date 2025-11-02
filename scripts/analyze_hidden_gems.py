@@ -26,32 +26,66 @@ from typing import Optional
 
 # Exclusion patterns (external, tests, build artifacts)
 EXCLUDE_PATTERNS = {
-    'tests', 'docs', '__pycache__', 'node_modules', '.venv', 'venv',
-    '.git', '.pytest_cache', 'dist', 'build', '.egg-info',
-    'agents_external',  # External dependencies
-    'benchmarks', 'prototypes',  # Trivial code
+    "tests",
+    "docs",
+    "__pycache__",
+    "node_modules",
+    ".venv",
+    "venv",
+    ".git",
+    ".pytest_cache",
+    "dist",
+    "build",
+    ".egg-info",
+    "agents_external",  # External dependencies
+    "benchmarks",
+    "prototypes",  # Trivial code
 }
 
 # Include patterns (LUKHAS AI code only)
 INCLUDE_ROOTS = {
-    'archive', 'candidate', 'labs', 'core', 'matriz',
-    'serve', 'consciousness', 'bio', 'quantum', 'memory',
-    'identity', 'governance', 'bridge', 'api', 'config',
+    "archive",
+    "candidate",
+    "labs",
+    "core",
+    "matriz",
+    "serve",
+    "consciousness",
+    "bio",
+    "quantum",
+    "memory",
+    "identity",
+    "governance",
+    "bridge",
+    "api",
+    "config",
 }
 
 # AGI/Visionary keywords
 AGI_KEYWORDS = {
-    'consciousness', 'quantum', 'bio', 'memoria', 'glyph',
-    'dream', 'reflection', 'awareness', 'colony', 'swarm',
-    'self_improvement', 'self_healing', 'adaptive', 'evolution',
+    "consciousness",
+    "quantum",
+    "bio",
+    "memoria",
+    "glyph",
+    "dream",
+    "reflection",
+    "awareness",
+    "colony",
+    "swarm",
+    "self_improvement",
+    "self_healing",
+    "adaptive",
+    "evolution",
 }
 
-CLASS_PATTERN_KEYWORDS = {'Engine', 'Manager', 'System', 'Controller', 'Orchestrator'}
+CLASS_PATTERN_KEYWORDS = {"Engine", "Manager", "System", "Controller", "Orchestrator"}
 
 
 @dataclass
 class ModuleMetrics:
     """Metrics for a Python module."""
+
     path: str
     module_name: str
     loc: int
@@ -77,14 +111,14 @@ class ModuleMetrics:
 def should_skip(path: Path) -> bool:
     """Check if path should be excluded from analysis."""
     parts = path.parts
-    return any(p in EXCLUDE_PATTERNS or p.startswith('.') for p in parts)
+    return any(p in EXCLUDE_PATTERNS or p.startswith(".") for p in parts)
 
 
 def should_include(path: Path, root: Path) -> bool:
     """Check if path is in LUKHAS AI code (not external)."""
     try:
         rel = path.relative_to(root)
-        first_part = rel.parts[0] if rel.parts else ''
+        first_part = rel.parts[0] if rel.parts else ""
         return first_part in INCLUDE_ROOTS
     except ValueError:
         return False
@@ -94,10 +128,7 @@ def get_git_last_modified(file_path: Path) -> Optional[int]:
     """Get days since last git modification."""
     try:
         result = subprocess.run(
-            ['git', 'log', '-1', '--format=%ct', str(file_path)],
-            capture_output=True,
-            text=True,
-            timeout=2
+            ["git", "log", "-1", "--format=%ct", str(file_path)], capture_output=True, text=True, timeout=2
         )
         if result.returncode == 0 and result.stdout.strip():
             timestamp = int(result.stdout.strip())
@@ -119,7 +150,7 @@ def get_git_last_modified(file_path: Path) -> Optional[int]:
 def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
     """Analyze a Python module and extract metrics."""
     try:
-        code = file_path.read_text(encoding='utf-8')
+        code = file_path.read_text(encoding="utf-8")
         tree = ast.parse(code)
     except Exception:
         return None
@@ -143,19 +174,19 @@ def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
                 functions.append(node)
         elif isinstance(node, (ast.Import, ast.ImportFrom)):
             if isinstance(node, ast.ImportFrom) and node.module:
-                if node.module.startswith('core'):
+                if node.module.startswith("core"):
                     imports_core = True
-                elif node.module.startswith('matriz') or node.module.startswith('MATRIZ'):
+                elif node.module.startswith("matriz") or node.module.startswith("MATRIZ"):
                     imports_matriz = True
-                elif node.module.startswith('serve'):
+                elif node.module.startswith("serve"):
                     imports_serve = True
             elif isinstance(node, ast.Import):
                 for alias in node.names:
-                    if alias.name.startswith('core'):
+                    if alias.name.startswith("core"):
                         imports_core = True
-                    elif alias.name.startswith('matriz') or alias.name.startswith('MATRIZ'):
+                    elif alias.name.startswith("matriz") or alias.name.startswith("MATRIZ"):
                         imports_matriz = True
-                    elif alias.name.startswith('serve'):
+                    elif alias.name.startswith("serve"):
                         imports_serve = True
 
     # Documentation ratios
@@ -166,7 +197,7 @@ def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
     has_nearby_readme = False
     check_dir = file_path.parent
     for _ in range(3):  # Check up to 3 levels up
-        if any((check_dir / name).exists() for name in ['README.md', 'CLAUDE.md', 'claude.me']):
+        if any((check_dir / name).exists() for name in ["README.md", "CLAUDE.md", "claude.me"]):
             has_nearby_readme = True
             break
         check_dir = check_dir.parent
@@ -174,10 +205,7 @@ def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
             break
 
     # Check for Engine/Manager/System classes
-    has_engine_class = any(
-        any(keyword in cls.name for keyword in CLASS_PATTERN_KEYWORDS)
-        for cls in classes
-    )
+    has_engine_class = any(any(keyword in cls.name for keyword in CLASS_PATTERN_KEYWORDS) for cls in classes)
 
     # Check for AGI keywords in code
     code_lower = code.lower()
@@ -185,36 +213,45 @@ def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
 
     # Path analysis
     rel_path = file_path.relative_to(root)
-    module_name = '.'.join(rel_path.parts[:-1] + (rel_path.stem,))
-    in_archive = 'archive' in rel_path.parts
-    in_candidate_labs = any(p in rel_path.parts for p in ['candidate', 'labs'])
+    module_name = ".".join(rel_path.parts[:-1] + (rel_path.stem,))
+    in_archive = "archive" in rel_path.parts
+    in_candidate_labs = any(p in rel_path.parts for p in ["candidate", "labs"])
 
     # Git history
     last_modified_days = get_git_last_modified(file_path)
 
     # Calculate score
     score = calculate_score(
-        loc, len(classes), len(functions),
-        has_module_doc, class_doc_ratio, func_doc_ratio, has_nearby_readme,
-        imports_core, imports_matriz, imports_serve,
-        has_engine_class, has_agi_keywords,
-        in_archive, in_candidate_labs, last_modified_days
+        loc,
+        len(classes),
+        len(functions),
+        has_module_doc,
+        class_doc_ratio,
+        func_doc_ratio,
+        has_nearby_readme,
+        imports_core,
+        imports_matriz,
+        imports_serve,
+        has_engine_class,
+        has_agi_keywords,
+        in_archive,
+        in_candidate_labs,
+        last_modified_days,
     )
 
     # Categorize
     if score >= 70:
-        category = 'hidden_gem'
+        category = "hidden_gem"
     elif score >= 50:
-        category = 'experimental'
+        category = "experimental"
     elif score >= 30:
-        category = 'archival'
+        category = "archival"
     else:
-        category = 'dead_code'
+        category = "dead_code"
 
     # Generate integration suggestion
     integration_suggestion = generate_integration_suggestion(
-        module_name, rel_path, has_engine_class, imports_core, imports_matriz,
-        in_archive, in_candidate_labs
+        module_name, rel_path, has_engine_class, imports_core, imports_matriz, in_archive, in_candidate_labs
     )
 
     return ModuleMetrics(
@@ -237,16 +274,26 @@ def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
         last_modified_days=last_modified_days,
         score=score,
         category=category,
-        integration_suggestion=integration_suggestion
+        integration_suggestion=integration_suggestion,
     )
 
 
 def calculate_score(
-    loc: int, classes: int, functions: int,
-    has_module_doc: bool, class_doc_ratio: float, func_doc_ratio: float, has_nearby_readme: bool,
-    imports_core: bool, imports_matriz: bool, imports_serve: bool,
-    has_engine_class: bool, has_agi_keywords: bool,
-    in_archive: bool, in_candidate_labs: bool, last_modified_days: int
+    loc: int,
+    classes: int,
+    functions: int,
+    has_module_doc: bool,
+    class_doc_ratio: float,
+    func_doc_ratio: float,
+    has_nearby_readme: bool,
+    imports_core: bool,
+    imports_matriz: bool,
+    imports_serve: bool,
+    has_engine_class: bool,
+    has_agi_keywords: bool,
+    in_archive: bool,
+    in_candidate_labs: bool,
+    last_modified_days: int,
 ) -> float:
     """Calculate module score (0-100) based on multiple factors."""
     score = 0.0
@@ -291,7 +338,7 @@ def calculate_score(
     score += 5 if has_agi_keywords else 0
 
     # Bonus for self-improvement/healing patterns
-    score += 5 if 'self_improvement' in str(has_agi_keywords) or 'self_healing' in str(has_agi_keywords) else 0
+    score += 5 if "self_improvement" in str(has_agi_keywords) or "self_healing" in str(has_agi_keywords) else 0
 
     # Bonus points
     score += 5 if in_candidate_labs else 0
@@ -301,20 +348,24 @@ def calculate_score(
 
 
 def generate_integration_suggestion(
-    module_name: str, rel_path: Path, has_engine_class: bool,
-    imports_core: bool, imports_matriz: bool,
-    in_archive: bool, in_candidate_labs: bool
+    module_name: str,
+    rel_path: Path,
+    has_engine_class: bool,
+    imports_core: bool,
+    imports_matriz: bool,
+    in_archive: bool,
+    in_candidate_labs: bool,
 ) -> str:
     """Generate actionable integration suggestion."""
     suggestions = []
 
-    if 'identity' in module_name.lower():
+    if "identity" in module_name.lower():
         suggestions.append("Wire into serve.identity_api for authentication/namespace isolation")
-    elif 'bio' in module_name.lower() and 'energy' in module_name.lower():
+    elif "bio" in module_name.lower() and "energy" in module_name.lower():
         suggestions.append("Create bio.energy module for ATP/energy modeling")
-    elif 'memory' in module_name.lower() and 'dream' in module_name.lower():
+    elif "memory" in module_name.lower() and "dream" in module_name.lower():
         suggestions.append("Revive as memory.dream_trace for consciousness tracing")
-    elif 'self_improvement' in module_name.lower() or 'self_healing' in module_name.lower():
+    elif "self_improvement" in module_name.lower() or "self_healing" in module_name.lower():
         suggestions.append("Wire into matriz.self_evolution for AGI capabilities")
     elif has_engine_class:
         suggestions.append("Integrate as standalone engine component")
@@ -337,35 +388,49 @@ def generate_outputs(modules: list[ModuleMetrics], output_dir: Path):
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. CSV: Full scored table
-    csv_path = output_dir / 'isolated_modules_scored.csv'
-    with open(csv_path, 'w', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=[
-            'module', 'score', 'category', 'loc', 'classes', 'functions',
-            'imports_core', 'imports_matriz', 'archive', 'candidate_labs',
-            'last_modified_days', 'integration_suggestion'
-        ])
+    csv_path = output_dir / "isolated_modules_scored.csv"
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames=[
+                "module",
+                "score",
+                "category",
+                "loc",
+                "classes",
+                "functions",
+                "imports_core",
+                "imports_matriz",
+                "archive",
+                "candidate_labs",
+                "last_modified_days",
+                "integration_suggestion",
+            ],
+        )
         writer.writeheader()
         for m in sorted(modules, key=lambda x: x.score, reverse=True):
-            writer.writerow({
-                'module': m.module_name,
-                'score': f'{m.score:.1f}',
-                'category': m.category,
-                'loc': m.loc,
-                'classes': m.classes,
-                'functions': m.functions,
-                'imports_core': 'yes' if m.imports_core else 'no',
-                'imports_matriz': 'yes' if m.imports_matriz else 'no',
-                'archive': 'yes' if m.in_archive else 'no',
-                'candidate_labs': 'yes' if m.in_candidate_labs else 'no',
-                'last_modified_days': m.last_modified_days,
-                'integration_suggestion': m.integration_suggestion
-            })
+            writer.writerow(
+                {
+                    "module": m.module_name,
+                    "score": f"{m.score:.1f}",
+                    "category": m.category,
+                    "loc": m.loc,
+                    "classes": m.classes,
+                    "functions": m.functions,
+                    "imports_core": "yes" if m.imports_core else "no",
+                    "imports_matriz": "yes" if m.imports_matriz else "no",
+                    "archive": "yes" if m.in_archive else "no",
+                    "candidate_labs": "yes" if m.in_candidate_labs else "no",
+                    "last_modified_days": m.last_modified_days,
+                    "integration_suggestion": m.integration_suggestion,
+                }
+            )
 
     # 2. Top 20 Markdown
-    top20_path = output_dir / 'hidden_gems_top20.md'
+    top20_path = output_dir / "hidden_gems_top20.md"
     top20 = sorted(modules, key=lambda x: x.score, reverse=True)[:20]
 
-    with open(top20_path, 'w') as f:
+    with open(top20_path, "w") as f:
         f.write("# Top 20 Hidden Gems - Integration Roadmap\n\n")
         f.write(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"**Total modules analyzed**: {len(modules)}\n\n")
@@ -407,45 +472,40 @@ def generate_outputs(modules: list[ModuleMetrics], output_dir: Path):
             f.write("---\n\n")
 
     # 3. Dependency graph JSON
-    graph_path = output_dir / 'dependency_graph.json'
+    graph_path = output_dir / "dependency_graph.json"
     nodes = []
     edges = []
 
     for m in modules:
-        nodes.append({
-            'id': m.module_name,
-            'score': m.score,
-            'category': m.category,
-            'loc': m.loc
-        })
+        nodes.append({"id": m.module_name, "score": m.score, "category": m.category, "loc": m.loc})
 
         # Add edges for imports
         if m.imports_core:
-            edges.append({'source': m.module_name, 'target': 'core', 'type': 'imports'})
+            edges.append({"source": m.module_name, "target": "core", "type": "imports"})
         if m.imports_matriz:
-            edges.append({'source': m.module_name, 'target': 'matriz', 'type': 'imports'})
+            edges.append({"source": m.module_name, "target": "matriz", "type": "imports"})
         if m.imports_serve:
-            edges.append({'source': m.module_name, 'target': 'serve', 'type': 'imports'})
+            edges.append({"source": m.module_name, "target": "serve", "type": "imports"})
 
-    with open(graph_path, 'w') as f:
-        json.dump({'nodes': nodes, 'edges': edges}, f, indent=2)
+    with open(graph_path, "w") as f:
+        json.dump({"nodes": nodes, "edges": edges}, f, indent=2)
 
     # 4. Categorized Markdown
-    cat_path = output_dir / 'categorized_modules.md'
+    cat_path = output_dir / "categorized_modules.md"
     by_category = defaultdict(list)
     for m in modules:
         by_category[m.category].append(m)
 
-    with open(cat_path, 'w') as f:
+    with open(cat_path, "w") as f:
         f.write("# Categorized Isolated Modules\n\n")
         f.write(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"**Total modules**: {len(modules)}\n\n")
 
         for cat_name, cat_desc in [
-            ('hidden_gem', 'Hidden Gems (Score 70-100) - Immediate integration candidates'),
-            ('experimental', 'Experimental (Score 50-69) - Needs testing, potential value'),
-            ('archival', 'Archival (Score 30-49) - Revive with effort'),
-            ('dead_code', 'Dead Code (Score 0-29) - Delete candidates'),
+            ("hidden_gem", "Hidden Gems (Score 70-100) - Immediate integration candidates"),
+            ("experimental", "Experimental (Score 50-69) - Needs testing, potential value"),
+            ("archival", "Archival (Score 30-49) - Revive with effort"),
+            ("dead_code", "Dead Code (Score 0-29) - Delete candidates"),
         ]:
             mods = sorted(by_category.get(cat_name, []), key=lambda x: x.score, reverse=True)
             f.write(f"## {cat_desc}\n\n")
@@ -459,17 +519,19 @@ def generate_outputs(modules: list[ModuleMetrics], output_dir: Path):
             f.write("\n")
 
     # 5. Integration Roadmap
-    roadmap_path = output_dir / 'integration_roadmap.md'
-    gems = [m for m in modules if m.category == 'hidden_gem']
+    roadmap_path = output_dir / "integration_roadmap.md"
+    gems = [m for m in modules if m.category == "hidden_gem"]
 
     # Group by domain
-    identity_gems = [m for m in gems if 'identity' in m.module_name.lower() or 'auth' in m.module_name.lower()]
-    bio_gems = [m for m in gems if 'bio' in m.module_name.lower()]
-    memory_gems = [m for m in gems if 'memory' in m.module_name.lower()]
-    agi_gems = [m for m in gems if 'self_improvement' in m.module_name.lower() or 'self_healing' in m.module_name.lower()]
+    identity_gems = [m for m in gems if "identity" in m.module_name.lower() or "auth" in m.module_name.lower()]
+    bio_gems = [m for m in gems if "bio" in m.module_name.lower()]
+    memory_gems = [m for m in gems if "memory" in m.module_name.lower()]
+    agi_gems = [
+        m for m in gems if "self_improvement" in m.module_name.lower() or "self_healing" in m.module_name.lower()
+    ]
     other_gems = [m for m in gems if m not in identity_gems + bio_gems + memory_gems + agi_gems]
 
-    with open(roadmap_path, 'w') as f:
+    with open(roadmap_path, "w") as f:
         f.write("# Integration Roadmap - Priority Order\n\n")
         f.write(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"**Total hidden gems**: {len(gems)}\n\n")
@@ -477,11 +539,11 @@ def generate_outputs(modules: list[ModuleMetrics], output_dir: Path):
 
         phase = 1
         for domain_name, domain_gems in [
-            ('Identity & Auth', identity_gems),
-            ('Bio-Inspired Systems', bio_gems),
-            ('Memory & Consciousness', memory_gems),
-            ('AGI Capabilities', agi_gems),
-            ('Core Systems', other_gems),
+            ("Identity & Auth", identity_gems),
+            ("Bio-Inspired Systems", bio_gems),
+            ("Memory & Consciousness", memory_gems),
+            ("AGI Capabilities", agi_gems),
+            ("Core Systems", other_gems),
         ]:
             if domain_gems:
                 f.write(f"## Phase {phase}: {domain_name}\n\n")
@@ -500,7 +562,7 @@ def generate_outputs(modules: list[ModuleMetrics], output_dir: Path):
 
 def main():
     root = Path(__file__).parent.parent
-    output_dir = root / 'docs' / 'audits'
+    output_dir = root / "docs" / "audits"
 
     print("🔍 Analyzing LUKHAS isolated modules for hidden gems...")
     print(f"📁 Scanning: {root}")
@@ -508,8 +570,7 @@ def main():
 
     # Find all Python files
     python_files = [
-        p for p in root.rglob('*.py')
-        if not should_skip(p) and should_include(p, root) and p.name != 'setup.py'
+        p for p in root.rglob("*.py") if not should_skip(p) and should_include(p, root) and p.name != "setup.py"
     ]
 
     print(f"Found {len(python_files)} Python files in LUKHAS code\n")
@@ -547,5 +608,5 @@ def main():
     print("\n📖 See docs/audits/hidden_gems_top20.md for full report")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

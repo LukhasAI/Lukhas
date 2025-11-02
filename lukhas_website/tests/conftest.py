@@ -18,11 +18,7 @@ import pytest
 @pytest.fixture(scope="session")
 def test_config():
     """Provide test configuration."""
-    return {
-        "module_name": "lukhas_website",
-        "test_mode": True,
-        "log_level": "DEBUG"
-    }
+    return {"module_name": "lukhas_website", "test_mode": True, "log_level": "DEBUG"}
 
 
 @pytest.fixture(scope="session")
@@ -53,12 +49,6 @@ def clean_environment():
 def mock_lukhas_website_config():
     """Mock configuration for lukhas_website module."""
     return {
-        "module": {
-            "name": "lukhas_website",
-            "version": "1.0.0-test"
-        },
-        "runtime": {
-            "log_level": "DEBUG",
-            "debug_mode": True
-        }
+        "module": {"name": "lukhas_website", "version": "1.0.0-test"},
+        "runtime": {"log_level": "DEBUG", "debug_mode": True},
     }

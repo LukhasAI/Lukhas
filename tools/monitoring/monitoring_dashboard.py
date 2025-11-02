@@ -28,6 +28,7 @@ try:
     from fastapi.staticfiles import (
         StaticFiles,  # noqa: F401  # TODO: fastapi.staticfiles.StaticFile...
     )
+
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
@@ -103,9 +104,9 @@ class MonitoringDashboard:
                 "coverage_percentage": metrics.coverage_percentage,
                 "response_time_p95": metrics.response_time_p95,
                 "error_rate": metrics.error_rate,
-                "active_connections": metrics.active_connections
+                "active_connections": metrics.active_connections,
             },
-            "timestamp": metrics.timestamp.isoformat()
+            "timestamp": metrics.timestamp.isoformat(),
         }
 
     async def _get_current_metrics(self) -> Dict[str, Any]:
@@ -121,26 +122,28 @@ class MonitoringDashboard:
             "coverage_percentage": metrics.coverage_percentage,
             "response_time_p95": metrics.response_time_p95,
             "error_rate": metrics.error_rate,
-            "active_connections": metrics.active_connections
+            "active_connections": metrics.active_connections,
         }
 
     def _get_alerts(self) -> List[Dict[str, Any]]:
         """Get current alerts"""
         alerts = []
         for alert in self.alerting_system.active_alerts.values():
-            alerts.append({
-                "rule_name": alert.rule_name,
-                "severity": alert.severity.value,
-                "status": alert.status.value,
-                "triggered_at": alert.triggered_at.isoformat(),
-                "last_updated": alert.last_updated.isoformat(),
-                "value": alert.value,
-                "threshold": alert.threshold,
-                "message": alert.message,
-                "tags": list(alert.tags),
-                "acknowledged_by": alert.acknowledged_by,
-                "escalated": alert.escalated
-            })
+            alerts.append(
+                {
+                    "rule_name": alert.rule_name,
+                    "severity": alert.severity.value,
+                    "status": alert.status.value,
+                    "triggered_at": alert.triggered_at.isoformat(),
+                    "last_updated": alert.last_updated.isoformat(),
+                    "value": alert.value,
+                    "threshold": alert.threshold,
+                    "message": alert.message,
+                    "tags": list(alert.tags),
+                    "acknowledged_by": alert.acknowledged_by,
+                    "escalated": alert.escalated,
+                }
+            )
         return alerts
 
     def _get_metrics_history(self, hours: int = 24) -> List[Dict[str, Any]]:
@@ -148,28 +151,33 @@ class MonitoringDashboard:
         try:
             since = datetime.now(timezone.utc) - timedelta(hours=hours)
             with sqlite3.connect(self.alerting_system.db_path) as conn:
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT timestamp, cpu_percent, memory_percent, disk_usage_percent,
                            test_success_rate, coverage_percentage, response_time_p95,
                            error_rate, active_connections
                     FROM metrics_history
                     WHERE timestamp > ?
                     ORDER BY timestamp ASC
-                """, (since,))
+                """,
+                    (since,),
+                )
 
                 history = []
                 for row in cursor.fetchall():
-                    history.append({
-                        "timestamp": row[0],
-                        "cpu_percent": row[1],
-                        "memory_percent": row[2],
-                        "disk_usage_percent": row[3],
-                        "test_success_rate": row[4],
-                        "coverage_percentage": row[5],
-                        "response_time_p95": row[6],
-                        "error_rate": row[7],
-                        "active_connections": row[8]
-                    })
+                    history.append(
+                        {
+                            "timestamp": row[0],
+                            "cpu_percent": row[1],
+                            "memory_percent": row[2],
+                            "disk_usage_percent": row[3],
+                            "test_success_rate": row[4],
+                            "coverage_percentage": row[5],
+                            "response_time_p95": row[6],
+                            "error_rate": row[7],
+                            "active_connections": row[8],
+                        }
+                    )
                 return history
         except Exception as e:
             print(f"Error getting metrics history: {e}")
@@ -455,18 +463,11 @@ class MonitoringDashboard:
         print("- Auto-refresh every 30 seconds")
 
         # Start background monitoring
-        monitoring_task = asyncio.create_task(
-            self.monitoring_integration.run_integrated_monitoring()
-        )
+        monitoring_task = asyncio.create_task(self.monitoring_integration.run_integrated_monitoring())
 
         try:
             # Run the web server
-            config = uvicorn.Config(
-                app=self.app,
-                host=host,
-                port=port,
-                log_level="info"
-            )
+            config = uvicorn.Config(app=self.app, host=host, port=port, log_level="info")
             server = uvicorn.Server(config)
             await server.serve()
         except KeyboardInterrupt:
@@ -497,10 +498,10 @@ class MonitoringDashboard:
                 print(f"- Low: {summary['alerts_by_severity']['low']}")
                 print()
 
-                if summary['recent_alerts']:
+                if summary["recent_alerts"]:
                     print("Recent Alerts:")
                     print("-" * 30)
-                    for alert in summary['recent_alerts'][:5]:
+                    for alert in summary["recent_alerts"][:5]:
                         print(f"[{alert['severity'].upper()}] {alert['rule_name']}")
                         print(f"  {alert['message']}")
                         print(f"  {alert['triggered_at']}")
@@ -511,6 +512,7 @@ class MonitoringDashboard:
 
                 # Wait 30 seconds before refresh
                 import time
+
                 time.sleep(30)
 
             except KeyboardInterrupt:

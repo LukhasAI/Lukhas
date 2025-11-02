@@ -27,5 +27,5 @@ __all__ = [
     "StorageStats",
     "PgVectorStore",
     "FAISSStore",
-    "InMemoryVectorStore"
+    "InMemoryVectorStore",
 ]

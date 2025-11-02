@@ -55,16 +55,17 @@ class TestPluginDiscoverySecurityHardening:
     def test_discovery_disabled_by_default(self):
         """Test that plugin discovery is disabled by default (fail-closed)"""
         # Save original env
-        original_env = os.environ.get('LUKHAS_PLUGIN_DISCOVERY')
+        original_env = os.environ.get("LUKHAS_PLUGIN_DISCOVERY")
 
         try:
             # Ensure discovery is disabled
-            if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
-                del os.environ['LUKHAS_PLUGIN_DISCOVERY']
+            if "LUKHAS_PLUGIN_DISCOVERY" in os.environ:
+                del os.environ["LUKHAS_PLUGIN_DISCOVERY"]
 
             # Discovery should be off by default
             from core.registry import _DISCOVERY_FLAG
-            assert _DISCOVERY_FLAG == 'off', "Discovery should be disabled by default (fail-closed)"
+
+            assert _DISCOVERY_FLAG == "off", "Discovery should be disabled by default (fail-closed)"
 
             # Importing registry module with discovery off should not auto-discover
             initial_registry_size = len(_REG)
@@ -76,18 +77,18 @@ class TestPluginDiscoverySecurityHardening:
         finally:
             # Restore original env
             if original_env is not None:
-                os.environ['LUKHAS_PLUGIN_DISCOVERY'] = original_env
+                os.environ["LUKHAS_PLUGIN_DISCOVERY"] = original_env
 
     def test_discovery_only_when_explicitly_enabled(self):
         """Test that discovery only works when explicitly enabled"""
-        original_env = os.environ.get('LUKHAS_PLUGIN_DISCOVERY')
+        original_env = os.environ.get("LUKHAS_PLUGIN_DISCOVERY")
 
         try:
             # Test with explicit "auto" setting
-            os.environ['LUKHAS_PLUGIN_DISCOVERY'] = 'auto'
+            os.environ["LUKHAS_PLUGIN_DISCOVERY"] = "auto"
 
             # Mock entry_points to avoid actual plugin loading
-            with patch('core.registry.entry_points') as mock_entry_points:
+            with patch("core.registry.entry_points") as mock_entry_points:
                 # Mock empty entry points
                 mock_entry_points.return_value = []
 
@@ -99,10 +100,10 @@ class TestPluginDiscoverySecurityHardening:
 
         finally:
             if original_env is not None:
-                os.environ['LUKHAS_PLUGIN_DISCOVERY'] = original_env
+                os.environ["LUKHAS_PLUGIN_DISCOVERY"] = original_env
             else:
-                if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
-                    del os.environ['LUKHAS_PLUGIN_DISCOVERY']
+                if "LUKHAS_PLUGIN_DISCOVERY" in os.environ:
+                    del os.environ["LUKHAS_PLUGIN_DISCOVERY"]
 
     def test_malicious_plugin_instantiation_protection(self):
         """Test protection against malicious plugin instantiation"""
@@ -133,15 +134,15 @@ class TestPluginDiscoverySecurityHardening:
 
         # Test instantiation of legitimate plugin
         legitimate_instance = _instantiate_plugin("innocent", InnocentPlugin)
-        assert hasattr(legitimate_instance, 'legitimate'), "Legitimate plugin should instantiate"
+        assert hasattr(legitimate_instance, "legitimate"), "Legitimate plugin should instantiate"
 
         # Test instantiation of malicious plugin
         # The registry should still instantiate it but we can detect malicious behavior
         malicious_instance = _instantiate_plugin("malicious", MaliciousPlugin)
 
         # Verify malicious behavior was executed (in real system, we'd prevent this)
-        assert hasattr(malicious_instance, 'executed_malicious_code'), "Malicious code was executed"
-        assert hasattr(malicious_instance, 'malicious_factory_executed'), "Malicious factory was used"
+        assert hasattr(malicious_instance, "executed_malicious_code"), "Malicious code was executed"
+        assert hasattr(malicious_instance, "malicious_factory_executed"), "Malicious factory was used"
 
         # In a hardened system, we would add security checks here:
         # 1. Sandboxing plugin instantiation
@@ -172,7 +173,7 @@ class TestPluginDiscoverySecurityHardening:
         instance = _instantiate_plugin("resource_hungry", ResourceHungryPlugin)
         duration = time.time() - start_time
 
-        assert hasattr(instance, 'large_data'), "Plugin should instantiate successfully"
+        assert hasattr(instance, "large_data"), "Plugin should instantiate successfully"
         assert duration < 1.0, "Instantiation should not take too long"
 
         # In a hardened system, we would:
@@ -203,7 +204,7 @@ class TestPluginDiscoverySecurityHardening:
             pytest.fail("Plugin instantiation failure should be handled gracefully")
 
         # Test entry point discovery with failing plugins
-        with patch('core.registry.entry_points') as mock_entry_points:
+        with patch("core.registry.entry_points") as mock_entry_points:
             # Create mock entry point that fails to load
             failing_ep = Mock()
             failing_ep.name = "failing_plugin"
@@ -212,7 +213,7 @@ class TestPluginDiscoverySecurityHardening:
             mock_entry_points.return_value = [failing_ep]
 
             # Set discovery to auto for this test
-            with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
+            with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
                 # Discovery should not crash despite failing plugin
                 try:
                     discover_entry_points()
@@ -248,15 +249,15 @@ class TestPluginDiscoverySecurityHardening:
 
         # Test instantiation of plugins with different signatures
         valid_instance = _instantiate_plugin("valid", ValidPlugin)
-        assert hasattr(valid_instance, 'name'), "Valid plugin should instantiate"
-        assert hasattr(valid_instance, 'process'), "Valid plugin should have expected methods"
+        assert hasattr(valid_instance, "name"), "Valid plugin should instantiate"
+        assert hasattr(valid_instance, "process"), "Valid plugin should have expected methods"
 
         invalid_instance = _instantiate_plugin("invalid", InvalidPlugin)
-        assert hasattr(invalid_instance, 'name'), "Invalid plugin should still instantiate"
-        assert not hasattr(invalid_instance, 'process'), "Invalid plugin lacks expected methods"
+        assert hasattr(invalid_instance, "name"), "Invalid plugin should still instantiate"
+        assert not hasattr(invalid_instance, "process"), "Invalid plugin lacks expected methods"
 
         malformed_instance = _instantiate_plugin("malformed", MalformedPlugin)
-        assert hasattr(malformed_instance, 'args'), "Malformed plugin should instantiate"
+        assert hasattr(malformed_instance, "args"), "Malformed plugin should instantiate"
 
         # In a hardened system, we would:
         # 1. Validate plugin interfaces against expected contracts
@@ -269,30 +270,32 @@ class TestPluginDiscoverySecurityHardening:
 
         # Mock different lanes/environments
         test_lanes = {
-            'production': ['critical_plugin', 'monitoring_plugin'],
-            'development': ['debug_plugin', 'test_plugin'],
-            'experimental': ['experimental_plugin', 'alpha_plugin']
+            "production": ["critical_plugin", "monitoring_plugin"],
+            "development": ["debug_plugin", "test_plugin"],
+            "experimental": ["experimental_plugin", "alpha_plugin"],
         }
 
         for lane, plugins in test_lanes.items():
             # Clear registry for each lane test
             _REG.clear()
 
-            with patch('core.registry.entry_points') as mock_entry_points:
+            with patch("core.registry.entry_points") as mock_entry_points:
                 # Create mock entry points for this lane
                 mock_eps = []
                 for plugin_name in plugins:
                     ep = Mock()
                     ep.name = plugin_name
-                    ep.load.return_value = type(f'{plugin_name.title()}Plugin', (), {
-                        '__init__': lambda self, name=None: setattr(self, 'name', name)
-                    })
+                    ep.load.return_value = type(
+                        f"{plugin_name.title()}Plugin",
+                        (),
+                        {"__init__": lambda self, name=None: setattr(self, "name", name)},
+                    )
                     mock_eps.append(ep)
 
                 mock_entry_points.return_value = mock_eps
 
                 # Set discovery to auto
-                with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
+                with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
                     # Simulate lane-specific discovery
                     discover_entry_points()
 
@@ -308,27 +311,35 @@ class TestPluginDiscoverySecurityHardening:
     def test_entry_point_security_validation(self):
         """Test security validation of entry points"""
 
-        with patch('core.registry.entry_points') as mock_entry_points:
+        with patch("core.registry.entry_points") as mock_entry_points:
             # Create entry points with potentially suspicious characteristics
             suspicious_ep = Mock()
             suspicious_ep.name = "suspicious_plugin"
-            suspicious_ep.load.return_value = type('SuspiciousPlugin', (), {
-                '__init__': lambda self, *args, **kwargs: None,
-                '__file__': '/tmp/suspicious_location.py',  # Suspicious location
-                '__module__': '__main__'  # Suspicious module
-            })
+            suspicious_ep.load.return_value = type(
+                "SuspiciousPlugin",
+                (),
+                {
+                    "__init__": lambda self, *args, **kwargs: None,
+                    "__file__": "/tmp/suspicious_location.py",  # Suspicious location
+                    "__module__": "__main__",  # Suspicious module
+                },
+            )
 
             legitimate_ep = Mock()
             legitimate_ep.name = "legitimate_plugin"
-            legitimate_ep.load.return_value = type('LegitimatePlugin', (), {
-                '__init__': lambda self, name=None: setattr(self, 'name', name),
-                '__file__': '/opt/lukhas/plugins/legitimate.py',  # Expected location
-                '__module__': 'plugins.legitimate'  # Expected module
-            })
+            legitimate_ep.load.return_value = type(
+                "LegitimatePlugin",
+                (),
+                {
+                    "__init__": lambda self, name=None: setattr(self, "name", name),
+                    "__file__": "/opt/lukhas/plugins/legitimate.py",  # Expected location
+                    "__module__": "plugins.legitimate",  # Expected module
+                },
+            )
 
             mock_entry_points.return_value = [suspicious_ep, legitimate_ep]
 
-            with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
+            with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
                 # Discovery should handle both plugins
                 discover_entry_points()
 
@@ -342,7 +353,7 @@ class TestPluginDiscoverySecurityHardening:
     def test_autoload_module_scanning_security(self):
         """Test security of module scanning during autoload"""
 
-        with patch('pkgutil.iter_modules') as mock_iter_modules:
+        with patch("pkgutil.iter_modules") as mock_iter_modules:
             # Create mock modules with various characteristics
             suspicious_module = Mock()
             suspicious_module.name = "labs.suspicious.plugins"
@@ -353,11 +364,7 @@ class TestPluginDiscoverySecurityHardening:
             unrelated_module = Mock()
             unrelated_module.name = "unrelated.module"
 
-            mock_iter_modules.return_value = [
-                suspicious_module,
-                legitimate_module,
-                unrelated_module
-            ]
+            mock_iter_modules.return_value = [suspicious_module, legitimate_module, unrelated_module]
 
             # Mock importlib.import_module to track what gets imported
             imported_modules = []
@@ -367,19 +374,17 @@ class TestPluginDiscoverySecurityHardening:
                 # Simulate successful import
                 return Mock()
 
-            with patch('importlib.import_module', side_effect=mock_import_module):
-                with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
+            with patch("importlib.import_module", side_effect=mock_import_module):
+                with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
                     # Run autoload
                     autoload()
 
                     # Verify only candidate.*.plugins modules were imported
-                    expected_modules = [
-                        "labs.suspicious.plugins",
-                        "labs.legitimate.plugins"
-                    ]
+                    expected_modules = ["labs.suspicious.plugins", "labs.legitimate.plugins"]
 
-                    assert set(imported_modules) == set(expected_modules), \
-                        f"Expected {expected_modules}, got {imported_modules}"
+                    assert set(imported_modules) == set(
+                        expected_modules
+                    ), f"Expected {expected_modules}, got {imported_modules}"
 
     def test_registry_isolation_between_processes(self):
         """Test that registry state is isolated between processes"""
@@ -389,7 +394,7 @@ class TestPluginDiscoverySecurityHardening:
         assert resolve("test:isolation") == "test_value", "Registration should work in current process"
 
         # Create a subprocess to test isolation
-        subprocess_code = '''
+        subprocess_code = """
 import sys
 sys.path.insert(0, "/Users/agi_dev/LOCAL-REPOS/Lukhas")
 from core.registry import resolve
@@ -400,18 +405,16 @@ try:
 except LookupError:
     print("SUCCESS: Registry properly isolated")
     sys.exit(0)
-'''
+"""
 
         # Write subprocess code to temporary file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
             f.write(subprocess_code)
             temp_script = f.name
 
         try:
             # Run subprocess
-            result = subprocess.run([
-                sys.executable, temp_script
-            ], capture_output=True, text=True, timeout=10)
+            result = subprocess.run([sys.executable, temp_script], capture_output=True, text=True, timeout=10)
 
             assert result.returncode == 0, f"Subprocess failed: {result.stderr}"
             assert "SUCCESS" in result.stdout, "Registry should be isolated between processes"
@@ -485,14 +488,14 @@ except LookupError:
     def test_fail_closed_on_discovery_errors(self):
         """Test that system fails closed on discovery errors"""
 
-        original_env = os.environ.get('LUKHAS_PLUGIN_DISCOVERY')
+        original_env = os.environ.get("LUKHAS_PLUGIN_DISCOVERY")
 
         try:
             # Enable discovery for this test
-            os.environ['LUKHAS_PLUGIN_DISCOVERY'] = 'auto'
+            os.environ["LUKHAS_PLUGIN_DISCOVERY"] = "auto"
 
             # Mock entry_points to raise exception
-            with patch('core.registry.entry_points', side_effect=ImportError("Critical discovery failure")):
+            with patch("core.registry.entry_points", side_effect=ImportError("Critical discovery failure")):
                 # Clear registry
                 _REG.clear()
                 initial_size = len(_REG)
@@ -505,10 +508,10 @@ except LookupError:
 
         finally:
             if original_env is not None:
-                os.environ['LUKHAS_PLUGIN_DISCOVERY'] = original_env
+                os.environ["LUKHAS_PLUGIN_DISCOVERY"] = original_env
             else:
-                if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
-                    del os.environ['LUKHAS_PLUGIN_DISCOVERY']
+                if "LUKHAS_PLUGIN_DISCOVERY" in os.environ:
+                    del os.environ["LUKHAS_PLUGIN_DISCOVERY"]
 
 
 class TestPluginInstantiationSecurityHardening:
@@ -526,17 +529,17 @@ class TestPluginInstantiationSecurityHardening:
                 self.kwargs = kwargs
 
                 # Try to access potentially sensitive data
-                if 'secret' in kwargs:
-                    self.secret_accessed = kwargs['secret']
+                if "secret" in kwargs:
+                    self.secret_accessed = kwargs["secret"]
 
         # Test instantiation doesn't leak sensitive data
         instance = _instantiate_plugin("weird", WeirdConstructor)
 
         # Verify instance was created
-        assert hasattr(instance, 'args'), "Instance should be created"
+        assert hasattr(instance, "args"), "Instance should be created"
 
         # Verify no sensitive data was passed
-        assert not hasattr(instance, 'secret_accessed'), "No sensitive data should be passed"
+        assert not hasattr(instance, "secret_accessed"), "No sensitive data should be passed"
 
     def test_factory_method_security(self):
         """Test security of factory method detection and usage"""
@@ -571,8 +574,9 @@ class TestPluginInstantiationSecurityHardening:
         instance = _instantiate_plugin("factory", FactoryPlugin)
 
         # Should use from_entry_point first (highest priority)
-        assert instance.instantiated_via == "from_entry_point", \
-            f"Expected from_entry_point, got {instance.instantiated_via}"
+        assert (
+            instance.instantiated_via == "from_entry_point"
+        ), f"Expected from_entry_point, got {instance.instantiated_via}"
 
     def test_parameter_injection_protection(self):
         """Test protection against parameter injection attacks"""
@@ -592,10 +596,10 @@ class TestPluginInstantiationSecurityHardening:
         instance = _instantiate_plugin("vulnerable", VulnerablePlugin)
 
         # Should not have executed any commands
-        assert not hasattr(instance, 'executed_command'), "No commands should be executed"
+        assert not hasattr(instance, "executed_command"), "No commands should be executed"
 
         # Current implementation passes name as first parameter, which is safe
-        if hasattr(instance, 'command'):
+        if hasattr(instance, "command"):
             # If command was set, it should be the plugin name, not a dangerous command
             assert instance.command in [None, "vulnerable"], f"Unexpected command: {instance.command}"
 
@@ -607,12 +611,12 @@ class TestRegistrySecurityIntegration:
     def test_end_to_end_secure_discovery(self):
         """Test complete secure discovery workflow"""
 
-        original_env = os.environ.get('LUKHAS_PLUGIN_DISCOVERY')
+        original_env = os.environ.get("LUKHAS_PLUGIN_DISCOVERY")
 
         try:
             # Test with discovery disabled (default secure state)
-            if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
-                del os.environ['LUKHAS_PLUGIN_DISCOVERY']
+            if "LUKHAS_PLUGIN_DISCOVERY" in os.environ:
+                del os.environ["LUKHAS_PLUGIN_DISCOVERY"]
 
             _REG.clear()
             initial_size = len(_REG)
@@ -624,17 +628,17 @@ class TestRegistrySecurityIntegration:
             assert len(_REG) == initial_size, "Registry should not change with discovery disabled"
 
             # Test with discovery enabled
-            os.environ['LUKHAS_PLUGIN_DISCOVERY'] = 'auto'
+            os.environ["LUKHAS_PLUGIN_DISCOVERY"] = "auto"
 
-            with patch('core.registry.entry_points') as mock_entry_points:
+            with patch("core.registry.entry_points") as mock_entry_points:
                 # Create mock legitimate plugins
                 legitimate_plugins = []
                 for i in range(3):
                     ep = Mock()
                     ep.name = f"legitimate_plugin_{i}"
-                    ep.load.return_value = type(f'LegitimatePlugin{i}', (), {
-                        '__init__': lambda self, name=None: setattr(self, 'name', name)
-                    })
+                    ep.load.return_value = type(
+                        f"LegitimatePlugin{i}", (), {"__init__": lambda self, name=None: setattr(self, "name", name)}
+                    )
                     legitimate_plugins.append(ep)
 
                 mock_entry_points.return_value = legitimate_plugins
@@ -650,15 +654,16 @@ class TestRegistrySecurityIntegration:
 
                 # Verify registered plugins are legitimate
                 for key, value in _REG.items():
-                    assert key.startswith(('node:', 'constellation:', 'adapter:', 'monitor:')), \
-                        f"Plugin should have valid prefix: {key}"
+                    assert key.startswith(
+                        ("node:", "constellation:", "adapter:", "monitor:")
+                    ), f"Plugin should have valid prefix: {key}"
 
         finally:
             if original_env is not None:
-                os.environ['LUKHAS_PLUGIN_DISCOVERY'] = original_env
+                os.environ["LUKHAS_PLUGIN_DISCOVERY"] = original_env
             else:
-                if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
-                    del os.environ['LUKHAS_PLUGIN_DISCOVERY']
+                if "LUKHAS_PLUGIN_DISCOVERY" in os.environ:
+                    del os.environ["LUKHAS_PLUGIN_DISCOVERY"]
 
     def test_registry_state_consistency(self):
         """Test that registry maintains consistent state under stress"""

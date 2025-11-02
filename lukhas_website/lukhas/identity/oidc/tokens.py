@@ -25,29 +25,32 @@ from ..jwt_utils import JWTManager, get_jwt_manager
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
-    def labels(self, **kwargs): return self
-    def inc(self, amount=1): pass
-    def observe(self, amount): pass
-    def set(self, value): pass
+    def labels(self, **kwargs):
+        return self
+
+    def inc(self, amount=1):
+        pass
+
+    def observe(self, amount):
+        pass
+
+    def set(self, value):
+        pass
+
 
 try:
     token_operations_total = Counter(
-        'lukhas_oidc_token_operations_total',
-        'Total token operations',
-        ['operation', 'token_type', 'result']
+        "lukhas_oidc_token_operations_total", "Total token operations", ["operation", "token_type", "result"]
     )
-    active_tokens_gauge = Gauge(
-        'lukhas_oidc_active_tokens_total',
-        'Active tokens by type',
-        ['token_type']
-    )
+    active_tokens_gauge = Gauge("lukhas_oidc_active_tokens_total", "Active tokens by type", ["token_type"])
     token_exchange_latency = Histogram(
-        'lukhas_oidc_token_exchange_latency_seconds',
-        'Token exchange operation latency',
-        ['operation'],
-        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+        "lukhas_oidc_token_exchange_latency_seconds",
+        "Token exchange operation latency",
+        ["operation"],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
     )
 except ValueError:
     token_operations_total = MockMetric()
@@ -57,6 +60,7 @@ except ValueError:
 
 class TokenType(Enum):
     """OAuth2 token types."""
+
     AUTHORIZATION_CODE = "authorization_code"
     ACCESS_TOKEN = "access_token"
     REFRESH_TOKEN = "refresh_token"
@@ -66,6 +70,7 @@ class TokenType(Enum):
 @dataclass
 class AuthorizationCode:
     """OAuth2 authorization code data."""
+
     code: str
     client_id: str
     user_id: str
@@ -93,8 +98,8 @@ class AuthorizationCode:
 
         if self.code_challenge_method == "S256":
             # SHA256 hash of verifier
-            digest = hashlib.sha256(code_verifier.encode('utf-8')).digest()
-            challenge = base64.urlsafe_b64encode(digest).decode('utf-8').rstrip('=')
+            digest = hashlib.sha256(code_verifier.encode("utf-8")).digest()
+            challenge = base64.urlsafe_b64encode(digest).decode("utf-8").rstrip("=")
             return challenge == self.code_challenge
         elif self.code_challenge_method == "plain":
             # Plain text verifier
@@ -106,6 +111,7 @@ class AuthorizationCode:
 @dataclass
 class RefreshToken:
     """OAuth2 refresh token data."""
+
     token: str
     client_id: str
     user_id: str
@@ -146,14 +152,16 @@ class OIDCTokenManager:
         self._last_cleanup = time.time()
         self._cleanup_interval = 3600  # 1 hour
 
-    def create_authorization_code(self,
-                                client_id: str,
-                                user_id: str,
-                                redirect_uri: str,
-                                scopes: Set[str],
-                                code_challenge: Optional[str] = None,
-                                code_challenge_method: Optional[str] = None,
-                                nonce: Optional[str] = None) -> str:
+    def create_authorization_code(
+        self,
+        client_id: str,
+        user_id: str,
+        redirect_uri: str,
+        scopes: Set[str],
+        code_challenge: Optional[str] = None,
+        code_challenge_method: Optional[str] = None,
+        nonce: Optional[str] = None,
+    ) -> str:
         """Create OAuth2 authorization code."""
         with tracer.start_span("oidc.create_authorization_code") as span:
             # Generate cryptographically secure code
@@ -167,16 +175,12 @@ class OIDCTokenManager:
                 scopes=scopes,
                 code_challenge=code_challenge,
                 code_challenge_method=code_challenge_method,
-                nonce=nonce
+                nonce=nonce,
             )
 
             self._authorization_codes[code] = auth_code
 
-            token_operations_total.labels(
-                operation="create",
-                token_type="authorization_code",
-                result="success"
-            ).inc()
+            token_operations_total.labels(operation="create", token_type="authorization_code", result="success").inc()
 
             span.set_attribute("oidc.client_id", client_id)
             span.set_attribute("oidc.user_id", user_id)
@@ -185,11 +189,9 @@ class OIDCTokenManager:
             self._maybe_cleanup()
             return code
 
-    def exchange_authorization_code(self,
-                                  code: str,
-                                  client_id: str,
-                                  redirect_uri: str,
-                                  code_verifier: Optional[str] = None) -> Tuple[str, str, Optional[str]]:
+    def exchange_authorization_code(
+        self, code: str, client_id: str, redirect_uri: str, code_verifier: Optional[str] = None
+    ) -> Tuple[str, str, Optional[str]]:
         """
         Exchange authorization code for tokens.
 
@@ -202,35 +204,27 @@ class OIDCTokenManager:
                 auth_code = self._authorization_codes.get(code)
                 if not auth_code or not auth_code.is_valid():
                     token_operations_total.labels(
-                        operation="exchange",
-                        token_type="authorization_code",
-                        result="invalid_code"
+                        operation="exchange", token_type="authorization_code", result="invalid_code"
                     ).inc()
                     raise ValueError("Invalid or expired authorization code")
 
                 # Validate client and redirect URI
                 if auth_code.client_id != client_id:
                     token_operations_total.labels(
-                        operation="exchange",
-                        token_type="authorization_code",
-                        result="client_mismatch"
+                        operation="exchange", token_type="authorization_code", result="client_mismatch"
                     ).inc()
                     raise ValueError("Client ID mismatch")
 
                 if auth_code.redirect_uri != redirect_uri:
                     token_operations_total.labels(
-                        operation="exchange",
-                        token_type="authorization_code",
-                        result="redirect_mismatch"
+                        operation="exchange", token_type="authorization_code", result="redirect_mismatch"
                     ).inc()
                     raise ValueError("Redirect URI mismatch")
 
                 # Verify PKCE if present
                 if auth_code.code_challenge and not auth_code.verify_pkce(code_verifier or ""):
                     token_operations_total.labels(
-                        operation="exchange",
-                        token_type="authorization_code",
-                        result="pkce_failed"
+                        operation="exchange", token_type="authorization_code", result="pkce_failed"
                     ).inc()
                     raise ValueError("PKCE verification failed")
 
@@ -239,16 +233,12 @@ class OIDCTokenManager:
 
                 # Create access token
                 access_token = self.jwt_manager.create_access_token(
-                    user_id=auth_code.user_id,
-                    client_id=client_id,
-                    scopes=list(auth_code.scopes)
+                    user_id=auth_code.user_id, client_id=client_id, scopes=list(auth_code.scopes)
                 )
 
                 # Create refresh token
                 refresh_token = self._create_refresh_token(
-                    client_id=client_id,
-                    user_id=auth_code.user_id,
-                    scopes=auth_code.scopes
+                    client_id=client_id, user_id=auth_code.user_id, scopes=auth_code.scopes
                 )
 
                 # Create ID token if openid scope requested
@@ -258,13 +248,11 @@ class OIDCTokenManager:
                         user_id=auth_code.user_id,
                         client_id=client_id,
                         auth_time=auth_code.created_at,
-                        nonce=auth_code.nonce
+                        nonce=auth_code.nonce,
                     )
 
                 token_operations_total.labels(
-                    operation="exchange",
-                    token_type="authorization_code",
-                    result="success"
+                    operation="exchange", token_type="authorization_code", result="success"
                 ).inc()
 
                 span.set_attribute("oidc.tokens_created", 2 if not id_token else 3)
@@ -285,18 +273,14 @@ class OIDCTokenManager:
                 refresh_data = self._refresh_tokens.get(refresh_token)
                 if not refresh_data or not refresh_data.is_valid():
                     token_operations_total.labels(
-                        operation="refresh",
-                        token_type="refresh_token",
-                        result="invalid_token"
+                        operation="refresh", token_type="refresh_token", result="invalid_token"
                     ).inc()
                     raise ValueError("Invalid or expired refresh token")
 
                 # Validate client
                 if refresh_data.client_id != client_id:
                     token_operations_total.labels(
-                        operation="refresh",
-                        token_type="refresh_token",
-                        result="client_mismatch"
+                        operation="refresh", token_type="refresh_token", result="client_mismatch"
                     ).inc()
                     raise ValueError("Client ID mismatch")
 
@@ -305,26 +289,18 @@ class OIDCTokenManager:
 
                 # Create new access token
                 new_access_token = self.jwt_manager.create_access_token(
-                    user_id=refresh_data.user_id,
-                    client_id=client_id,
-                    scopes=list(refresh_data.scopes)
+                    user_id=refresh_data.user_id, client_id=client_id, scopes=list(refresh_data.scopes)
                 )
 
                 # Create new refresh token (refresh token rotation)
                 new_refresh_token = self._create_refresh_token(
-                    client_id=client_id,
-                    user_id=refresh_data.user_id,
-                    scopes=refresh_data.scopes
+                    client_id=client_id, user_id=refresh_data.user_id, scopes=refresh_data.scopes
                 )
 
                 # Revoke old refresh token
                 refresh_data.is_revoked = True
 
-                token_operations_total.labels(
-                    operation="refresh",
-                    token_type="refresh_token",
-                    result="success"
-                ).inc()
+                token_operations_total.labels(operation="refresh", token_type="refresh_token", result="success").inc()
 
                 span.set_attribute("oidc.user_id", refresh_data.user_id)
 
@@ -336,20 +312,14 @@ class OIDCTokenManager:
             # For refresh tokens, we can revoke from our storage
             if refresh_data := self._refresh_tokens.get(token):
                 refresh_data.is_revoked = True
-                token_operations_total.labels(
-                    operation="revoke",
-                    token_type="refresh_token",
-                    result="success"
-                ).inc()
+                token_operations_total.labels(operation="revoke", token_type="refresh_token", result="success").inc()
                 span.set_attribute("oidc.token_type", "refresh_token")
                 return True
 
             # For access tokens (JWTs), we would need a token blacklist
             # This is a simplified implementation
             token_operations_total.labels(
-                operation="revoke",
-                token_type=token_type_hint or "unknown",
-                result="not_found"
+                operation="revoke", token_type=token_type_hint or "unknown", result="not_found"
             ).inc()
             span.set_attribute("oidc.token_revoked", False)
             return False
@@ -368,7 +338,7 @@ class OIDCTokenManager:
                     "aud": claims.aud,
                     "exp": claims.exp,
                     "iat": claims.iat,
-                    "token_type": claims.token_type or "Bearer"
+                    "token_type": claims.token_type or "Bearer",
                 }
 
                 if claims.scope:
@@ -390,7 +360,7 @@ class OIDCTokenManager:
                             "sub": refresh_data.user_id,
                             "client_id": refresh_data.client_id,
                             "token_type": "refresh_token",
-                            "scope": " ".join(refresh_data.scopes)
+                            "scope": " ".join(refresh_data.scopes),
                         }
 
                 span.set_attribute("oidc.token_active", False)
@@ -405,7 +375,7 @@ class OIDCTokenManager:
             client_id=client_id,
             user_id=user_id,
             scopes=scopes,
-            expires_at=int(time.time()) + (86400 * 30)  # 30 days
+            expires_at=int(time.time()) + (86400 * 30),  # 30 days
         )
 
         self._refresh_tokens[token] = refresh_data
@@ -423,18 +393,12 @@ class OIDCTokenManager:
             return
 
         # Clean up expired authorization codes
-        expired_codes = [
-            code for code, data in self._authorization_codes.items()
-            if data.is_expired()
-        ]
+        expired_codes = [code for code, data in self._authorization_codes.items() if data.is_expired()]
         for code in expired_codes:
             del self._authorization_codes[code]
 
         # Clean up expired refresh tokens
-        expired_refresh = [
-            token for token, data in self._refresh_tokens.items()
-            if data.is_expired()
-        ]
+        expired_refresh = [token for token, data in self._refresh_tokens.items() if data.is_expired()]
         for token in expired_refresh:
             del self._refresh_tokens[token]
 
@@ -462,6 +426,7 @@ class OIDCTokenManager:
 
 # Singleton instance
 _token_manager: Optional[OIDCTokenManager] = None
+
 
 def get_oidc_token_manager() -> OIDCTokenManager:
     """Get the default OIDC token manager instance."""

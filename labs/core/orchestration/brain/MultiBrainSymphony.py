@@ -11,6 +11,7 @@ Integrates with:
 - MemoryEmotionalIntegrator (existing component)
 - Dream engine integration (existing component)
 """
+
 import asyncio
 import logging
 import math

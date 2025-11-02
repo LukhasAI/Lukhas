@@ -15,4 +15,4 @@ class DiagnosticSignalType(Enum):
     TRACE = "trace"
 
 
-__all__ = ['DiagnosticSignalType']
+__all__ = ["DiagnosticSignalType"]

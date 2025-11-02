@@ -4,6 +4,7 @@ tests/test_folds.py
 Unit tests for FoldGuard circuit breaker - memory cascade prevention.
 Validates fanout limits, depth overflow, budget overflow, and metrics.
 """
+
 from memory.folds import FoldGuard
 
 
@@ -104,8 +105,8 @@ def test_cumulative_tracking():
     guard.allow(fanout=1, depth=4, cost=2)  # depth should become 4
 
     assert guard.window == 6  # 2 + 3 + 1
-    assert guard.depth == 4   # max(3, 1, 4)
-    assert guard.ops == 11    # 4 + 5 + 2
+    assert guard.depth == 4  # max(3, 1, 4)
+    assert guard.ops == 11  # 4 + 5 + 2
 
 
 def test_default_cost():

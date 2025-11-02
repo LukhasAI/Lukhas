@@ -1,4 +1,5 @@
 """Minimal FastAPI stub for offline testing."""
+
 # ΛTAG: fastapi_stub
 from typing import Any, Callable
 

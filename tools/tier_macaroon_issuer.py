@@ -19,12 +19,13 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class ΛiDClaims:
     """ΛiD identity claims from existing authentication system."""
+
     subject: str  # lukhas:user:handle or lukhas:svc:name
-    tier: str     # guest, visitor, friend, trusted, inner_circle, root_dev
-    tier_num: int # 0-5 canonical numeric tier
+    tier: str  # guest, visitor, friend, trusted, inner_circle, root_dev
+    tier_num: int  # 0-5 canonical numeric tier
     scopes: List[str]
-    exp: int      # expiration timestamp
-    iat: int      # issued at
+    exp: int  # expiration timestamp
+    iat: int  # issued at
     mfa: bool = False
     webauthn_verified: bool = False
     device_id: Optional[str] = None
@@ -33,6 +34,7 @@ class ΛiDClaims:
 
 class MacaroonError(Exception):
     """Macaroon operation error."""
+
     pass
 
 
@@ -54,16 +56,17 @@ class TierMacaroonIssuer:
             config_path = Path("candidate/governance/identity/lambda_id_config.yaml")
             if config_path.exists():
                 import yaml
+
                 with open(config_path) as f:
                     config = yaml.safe_load(f)
-                    if 'signing_key' in config:
-                        return config['signing_key'].encode()
+                    if "signing_key" in config:
+                        return config["signing_key"].encode()
         except ImportError:
             pass
 
         # Fallback: generate deterministic key from known system constants
         system_id = "lukhas-matrix-macaroons-v1"
-        return hashlib.pbkdf2_hmac('sha256', system_id.encode(), b'lukhas-salt', 100000)
+        return hashlib.pbkdf2_hmac("sha256", system_id.encode(), b"lukhas-salt", 100000)
 
     def _load_tier_permissions(self) -> Dict[str, Any]:
         """Load canonical ΛiD tier permissions for validation."""
@@ -93,11 +96,7 @@ class TierMacaroonIssuer:
             raise MacaroonError(f"Too many scopes for tier {claims.tier}: {len(claims.scopes)} > {max_scopes}")
 
     def issue_capability(
-        self,
-        claims: ΛiDClaims,
-        audience: str,
-        ttl_minutes: int = 15,
-        additional_caveats: Optional[List[str]] = None
+        self, claims: ΛiDClaims, audience: str, ttl_minutes: int = 15, additional_caveats: Optional[List[str]] = None
     ) -> str:
         """Issue a capability macaroon with ΛiD tier-based caveats."""
 
@@ -118,7 +117,7 @@ class TierMacaroonIssuer:
             f"exp = {claims.exp}",
             f"iat = {claims.iat}",
             f"mfa = {claims.mfa}",
-            f"webauthn_verified = {claims.webauthn_verified}"
+            f"webauthn_verified = {claims.webauthn_verified}",
         ]
 
         # Add optional contextual caveats
@@ -137,30 +136,27 @@ class TierMacaroonIssuer:
             "location": location,
             "identifier": macaroon_id,
             "caveats": caveats,
-            "signature": self._compute_signature(macaroon_id, caveats)
+            "signature": self._compute_signature(macaroon_id, caveats),
         }
 
         # Return base64-encoded macaroon
-        macaroon_json = json.dumps(macaroon_data, separators=(',', ':'))
+        macaroon_json = json.dumps(macaroon_data, separators=(",", ":"))
         return self._encode_macaroon(macaroon_json)
 
     def _compute_signature(self, identifier: str, caveats: List[str]) -> str:
         """Compute HMAC signature for macaroon."""
-        payload = identifier + '|' + '|'.join(sorted(caveats))
+        payload = identifier + "|" + "|".join(sorted(caveats))
         signature = hmac.new(self.secret_key, payload.encode(), hashlib.sha256).hexdigest()
         return signature
 
     def _encode_macaroon(self, macaroon_json: str) -> str:
         """Encode macaroon as base64 token."""
         import base64
+
         return base64.b64encode(macaroon_json.encode()).decode()
 
     def issue_from_jwt(
-        self,
-        jwt_token: str,
-        audience: str,
-        ttl_minutes: int = 15,
-        additional_scopes: Optional[List[str]] = None
+        self, jwt_token: str, audience: str, ttl_minutes: int = 15, additional_scopes: Optional[List[str]] = None
     ) -> str:
         """Issue macaroon from existing JWT token (bridge existing auth)."""
 
@@ -195,7 +191,7 @@ class TierMacaroonIssuer:
             mfa=False,
             webauthn_verified=True,
             device_id="device_123",
-            region="us-west-2"
+            region="us-west-2",
         )
 
 
@@ -243,33 +239,28 @@ class TierMacaroonVerifier:
                 "tier_num": claims["tier_num"],
                 "scopes": claims["scopes"].split(",") if claims["scopes"] else [],
                 "audience": claims["aud"],
-                "token": {
-                    "exp": claims["exp"],
-                    "iat": claims["iat"]
-                },
+                "token": {"exp": claims["exp"], "iat": claims["iat"]},
                 "env": {
                     "mfa": claims.get("mfa", False),
                     "webauthn_verified": claims.get("webauthn_verified", False),
                     "device_id": claims.get("device_id"),
-                    "region": claims.get("region")
+                    "region": claims.get("region"),
                 },
-                "capability_id": identifier
+                "capability_id": identifier,
             }
 
         except Exception as e:
-            return {
-                "valid": False,
-                "error": str(e)
-            }
+            return {"valid": False, "error": str(e)}
 
     def _decode_macaroon(self, token: str) -> str:
         """Decode base64 macaroon token."""
         import base64
+
         return base64.b64decode(token).decode()
 
     def _compute_signature(self, identifier: str, caveats: List[str]) -> str:
         """Compute HMAC signature for verification."""
-        payload = identifier + '|' + '|'.join(sorted(caveats))
+        payload = identifier + "|" + "|".join(sorted(caveats))
         signature = hmac.new(self.secret_key, payload.encode(), hashlib.sha256).hexdigest()
         return signature
 
@@ -299,9 +290,12 @@ def main():
     # Issue command
     issue_parser = subparsers.add_parser("issue", help="Issue a macaroon")
     issue_parser.add_argument("--subject", required=True, help="Subject (lukhas:user:handle)")
-    issue_parser.add_argument("--tier", required=True,
-                             choices=["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"],
-                             help="ΛiD tier")
+    issue_parser.add_argument(
+        "--tier",
+        required=True,
+        choices=["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"],
+        help="ΛiD tier",
+    )
     issue_parser.add_argument("--scopes", required=True, help="Comma-separated scopes")
     issue_parser.add_argument("--audience", required=True, help="Target audience")
     issue_parser.add_argument("--ttl", type=int, default=15, help="TTL in minutes")
@@ -316,10 +310,7 @@ def main():
 
     if args.command == "issue":
         # Map tier name to numeric
-        tier_map = {
-            "guest": 0, "visitor": 1, "friend": 2,
-            "trusted": 3, "inner_circle": 4, "root_dev": 5
-        }
+        tier_map = {"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}
 
         now = int(time.time())
         claims = ΛiDClaims(
@@ -330,7 +321,7 @@ def main():
             exp=now + (args.ttl * 60),
             iat=now,
             mfa=args.mfa,
-            webauthn_verified=args.webauthn
+            webauthn_verified=args.webauthn,
         )
 
         issuer = TierMacaroonIssuer()

@@ -31,9 +31,7 @@ if "DetectionMethod" not in __all__:
 # Added for test compatibility (observability.performance_regression.PerformanceRegressionDetector)
 try:
     _mod = _importlib.import_module("labs.observability.performance_regression")
-    PerformanceRegressionDetector = getattr(
-        _mod, "PerformanceRegressionDetector"
-    )
+    PerformanceRegressionDetector = getattr(_mod, "PerformanceRegressionDetector")
 except Exception:
 
     class PerformanceRegressionDetector:

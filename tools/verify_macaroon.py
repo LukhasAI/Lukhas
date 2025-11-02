@@ -22,6 +22,7 @@ def main():
     result = verifier.verify_capability(token)
 
     import json
+
     print(json.dumps(result, indent=2))
 
     # Exit with error code if verification failed

@@ -1,4 +1,5 @@
 """Tests for the quantum-inspired features of :mod:`core.orchestration.integration_hub`."""
+
 from __future__ import annotations
 
 import asyncio

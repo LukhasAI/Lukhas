@@ -33,6 +33,7 @@ REPO = Path(__file__).resolve().parents[2]
 TODO_TAG = "TODO[T4-UNUSED-IMPORT]"
 INLINE_PATTERN = re.compile(rf"#\s*{re.escape(TODO_TAG)}")
 
+
 # ΛTAG: repo_path_resolution
 def resolve_finding_path(filename: str) -> tuple[Path, Path]:
     """Return absolute and repo-relative paths for a ruff finding entry."""
@@ -49,6 +50,7 @@ def resolve_finding_path(filename: str) -> tuple[Path, Path]:
         rel_path = candidate
 
     return abs_path, rel_path
+
 
 # Production vs Experimental separation
 SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "labs", "reports"}

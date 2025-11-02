@@ -24,11 +24,13 @@ try:
     # Redirect stderr to suppress auto-installation messages
     import io
     import sys
+
     _stderr = sys.stderr
     sys.stderr = io.StringIO()
 
     try:
         import oqs as _oqs_module
+
         # Test if it actually works
         _oqs_module.sig.get_enabled_algorithms()
         PQC_AVAILABLE = True
@@ -56,7 +58,7 @@ class PQCSigner:
         self,
         key_path: Optional[Path] = None,
         public_key_path: Optional[Path] = None,
-        fallback_hmac_key: Optional[str] = None
+        fallback_hmac_key: Optional[str] = None,
     ):
         """
         Initialize PQC signer.
@@ -107,18 +109,14 @@ class PQCSigner:
         Returns:
             Signature bytes (Dilithium2 if available, HMAC hex otherwise)
         """
-        if self.pqc_available and hasattr(self, 'private_key'):
+        if self.pqc_available and hasattr(self, "private_key"):
             # PQC signing with Dilithium2
             with oqs.Signature("Dilithium2", secret_key=self.private_key) as signer:
                 signature = signer.sign(data)
                 return signature
         else:
             # Fallback to HMAC for development
-            signature_hex = hmac.new(
-                self.fallback_hmac_key.encode(),
-                data,
-                hashlib.sha256
-            ).hexdigest()
+            signature_hex = hmac.new(self.fallback_hmac_key.encode(), data, hashlib.sha256).hexdigest()
             return signature_hex.encode()
 
     def verify(self, data: bytes, signature: bytes) -> bool:
@@ -132,7 +130,7 @@ class PQCSigner:
         Returns:
             True if signature is valid
         """
-        if self.pqc_available and hasattr(self, 'public_key'):
+        if self.pqc_available and hasattr(self, "public_key"):
             # PQC verification with Dilithium2
             try:
                 with oqs.Signature("Dilithium2") as verifier:
@@ -143,11 +141,7 @@ class PQCSigner:
         else:
             # Fallback to HMAC verification
             try:
-                expected_sig = hmac.new(
-                    self.fallback_hmac_key.encode(),
-                    data,
-                    hashlib.sha256
-                ).hexdigest()
+                expected_sig = hmac.new(self.fallback_hmac_key.encode(), data, hashlib.sha256).hexdigest()
                 return hmac.compare_digest(expected_sig, signature.decode())
             except Exception:
                 return False
@@ -159,27 +153,24 @@ class PQCSigner:
         Returns:
             Dict with scheme, status, and key info
         """
-        if self.pqc_available and hasattr(self, 'public_key'):
+        if self.pqc_available and hasattr(self, "public_key"):
             return {
                 "scheme": "Dilithium2",
                 "status": "pqc_active",
                 "quantum_resistant": True,
                 "public_key_size": len(self.public_key),
-                "algorithm": "NIST PQC Dilithium2"
+                "algorithm": "NIST PQC Dilithium2",
             }
         else:
             return {
                 "scheme": "HMAC-SHA256",
                 "status": "fallback",
                 "quantum_resistant": False,
-                "warning": "Development fallback - not production ready"
+                "warning": "Development fallback - not production ready",
             }
 
 
-def create_registry_signer(
-    registry_root: Path,
-    force_hmac: bool = False
-) -> PQCSigner:
+def create_registry_signer(registry_root: Path, force_hmac: bool = False) -> PQCSigner:
     """
     Factory function to create a PQC signer for registry checkpoints.
 
@@ -200,17 +191,9 @@ def create_registry_signer(
 
     # Create signer (will use HMAC if PQC not available or forced)
     if force_hmac or not PQC_AVAILABLE:
-        return PQCSigner(
-            key_path=None,  # Don't use PQC keys
-            public_key_path=None,
-            fallback_hmac_key=hmac_key
-        )
+        return PQCSigner(key_path=None, public_key_path=None, fallback_hmac_key=hmac_key)  # Don't use PQC keys
 
-    return PQCSigner(
-        key_path=private_key_path,
-        public_key_path=public_key_path,
-        fallback_hmac_key=hmac_key
-    )
+    return PQCSigner(key_path=private_key_path, public_key_path=public_key_path, fallback_hmac_key=hmac_key)
 
 
 # Example usage for testing

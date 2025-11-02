@@ -4,6 +4,7 @@ Consolidated Communication Engine
 Unified engine combining 1 components:
 - bridge/model_communication_engine.py
 """
+
 import logging
 from abc import ABC, abstractmethod
 from typing import Any, Optional

@@ -22,6 +22,7 @@ from ..governance.consent_ledger_impl import ConsentType, DataSubjectRights, Pol
 
 class EventType(Enum):
     """Event types for the consent ledger"""
+
     CONSENT_GRANTED = "consent_granted"
     CONSENT_REVOKED = "consent_revoked"
     CONSENT_CHECKED = "consent_checked"
@@ -39,6 +40,7 @@ class ConsentEvent(ABC):
     Implements immutable event sourcing with SHA256 integrity verification
     and compliance with schema v2.0.0.
     """
+
     event_id: str = field(default_factory=lambda: f"EVT-{uuid.uuid4().hex}")
     event_type: EventType = field(init=False)
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
@@ -59,17 +61,17 @@ class ConsentEvent(ABC):
             "DataSubjectRequestEvent": EventType.DATA_SUBJECT_REQUEST,
             "PolicyViolationEvent": EventType.POLICY_VIOLATION,
         }
-        object.__setattr__(self, 'event_type', event_type_map.get(self.__class__.__name__, EventType.TRACE_CREATED))
+        object.__setattr__(self, "event_type", event_type_map.get(self.__class__.__name__, EventType.TRACE_CREATED))
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert event to dictionary for serialization"""
         data = asdict(self)
         # Convert enums to string values
         for key, value in data.items():
-            if hasattr(value, 'value'):
+            if hasattr(value, "value"):
                 data[key] = value.value
             elif isinstance(value, list):
-                data[key] = [v.value if hasattr(v, 'value') else v for v in value]
+                data[key] = [v.value if hasattr(v, "value") else v for v in value]
         return data
 
     def to_json(self) -> str:
@@ -79,7 +81,7 @@ class ConsentEvent(ABC):
     def compute_hash(self) -> str:
         """Compute SHA256 hash for tamper evidence"""
         content = self.to_json()
-        return hashlib.sha256(content.encode('utf-8')).hexdigest()
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
 
     def verify_integrity(self, expected_hash: str) -> bool:
         """Verify event integrity against expected hash"""
@@ -165,11 +167,13 @@ class TraceCreatedEvent(ConsentEvent):
     context: Dict[str, Any] = field(default_factory=dict)
     explanation_unl: Optional[str] = None
     glyph_signature: Optional[str] = None
-    triad_validation: Dict[str, bool] = field(default_factory=lambda: {
-        "identity_verified": False,
-        "consciousness_aligned": False,
-        "guardian_approved": False,
-    })
+    triad_validation: Dict[str, bool] = field(
+        default_factory=lambda: {
+            "identity_verified": False,
+            "consciousness_aligned": False,
+            "guardian_approved": False,
+        }
+    )
     compliance_flags: Dict[str, Any] = field(default_factory=dict)
     chain_integrity: Optional[str] = None
 
@@ -229,7 +233,7 @@ class PolicyViolationEvent(ConsentEvent):
 # Event factory for creating events from dict/JSON
 def create_event_from_dict(event_data: Dict[str, Any]) -> ConsentEvent:
     """Create an event instance from dictionary data"""
-    event_type_str = event_data.get('event_type', '')
+    event_type_str = event_data.get("event_type", "")
 
     event_class_map = {
         EventType.CONSENT_GRANTED.value: ConsentGrantedEvent,
@@ -248,19 +252,19 @@ def create_event_from_dict(event_data: Dict[str, Any]) -> ConsentEvent:
     # Convert string values back to enums where needed
     processed_data = {}
     for key, value in event_data.items():
-        if key == 'consent_type' and isinstance(value, str):
+        if key == "consent_type" and isinstance(value, str):
             try:
                 processed_data[key] = ConsentType(value)
             except ValueError:
                 processed_data[key] = ConsentType.EXPLICIT
-        elif key == 'policy_verdict' and isinstance(value, str):
+        elif key == "policy_verdict" and isinstance(value, str):
             try:
                 processed_data[key] = PolicyVerdict(value)
             except ValueError:
                 processed_data[key] = PolicyVerdict.DENY
-        elif key == 'data_subject_rights' and isinstance(value, list):
+        elif key == "data_subject_rights" and isinstance(value, list):
             processed_data[key] = [DataSubjectRights(right) if isinstance(right, str) else right for right in value]
-        elif key == 'request_type' and isinstance(value, str):
+        elif key == "request_type" and isinstance(value, str):
             try:
                 processed_data[key] = DataSubjectRights(value)
             except ValueError:
@@ -323,4 +327,4 @@ def compute_event_chain_hash(events: List[ConsentEvent]) -> str:
     for event in events:
         chain_data += event.compute_hash()
 
-    return hashlib.sha256(chain_data.encode('utf-8')).hexdigest()
+    return hashlib.sha256(chain_data.encode("utf-8")).hexdigest()

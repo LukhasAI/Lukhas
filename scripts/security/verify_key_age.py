@@ -8,9 +8,10 @@ def verify_key_age(audit_log_file):
     # For this PoC, we'll just print a message.
     print("Keys are within the rotation period.")
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Verify key age from audit log.')
-    parser.add_argument('--audit-log', required=True, help='Path to the key rotation audit log')
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Verify key age from audit log.")
+    parser.add_argument("--audit-log", required=True, help="Path to the key rotation audit log")
     args = parser.parse_args()
 
     verify_key_age(args.audit_log)

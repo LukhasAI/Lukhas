@@ -20,23 +20,27 @@ from labs.core.distributed_tracing import (
 
 # --- Fixtures ---
 
+
 @pytest.fixture
 def mock_time():
     """Fixture to mock time.time() to control timestamps."""
-    with patch('time.time') as mock_time_func:
+    with patch("time.time") as mock_time_func:
         mock_time_func.side_effect = [100.0, 100.1, 100.2, 100.3, 100.4, 100.5]
         yield mock_time_func
+
 
 @pytest.fixture
 def mock_uuid():
     """Fixture to mock uuid.uuid4() to get predictable IDs."""
-    with patch('uuid.uuid4') as mock_uuid_func:
+    with patch("uuid.uuid4") as mock_uuid_func:
         # Provide a sequence of predictable UUIDs
         [f"uuid-{i}" for i in range(1, 10)]
         mock_uuid_func.side_effect = [uuid.UUID(int=i) for i in range(1, 10)]
         yield mock_uuid_func
 
+
 # --- Test Classes ---
+
 
 @pytest.mark.tier3
 @pytest.mark.tracing
@@ -65,7 +69,7 @@ class TestTraceSpan:
 
     def test_span_finish(self, mock_time):
         """Tests that finishing a span correctly sets end_time, duration, and status."""
-        start_time = time.time() # 100.0
+        start_time = time.time()  # 100.0
         span = TraceSpan(
             span_id="span-1",
             trace_id="trace-1",
@@ -80,7 +84,7 @@ class TestTraceSpan:
             status="active",
         )
 
-        span.finish(status="ok") # end_time will be 100.1
+        span.finish(status="ok")  # end_time will be 100.1
 
         assert span.status == "ok"
         assert span.end_time == 100.1
@@ -89,10 +93,17 @@ class TestTraceSpan:
     def test_add_tag_and_log(self, mock_time):
         """Tests adding tags and logs to a span."""
         span = TraceSpan(
-            span_id="span-1", trace_id="trace-1", parent_span_id=None,
-            operation_name="test_op", service_name="test_service",
-            start_time=time.time(), end_time=None, duration=None,
-            tags={}, logs=[], status="active"
+            span_id="span-1",
+            trace_id="trace-1",
+            parent_span_id=None,
+            operation_name="test_op",
+            service_name="test_service",
+            start_time=time.time(),
+            end_time=None,
+            duration=None,
+            tags={},
+            logs=[],
+            status="active",
         )
 
         span.add_tag("new_key", "new_value")
@@ -103,7 +114,7 @@ class TestTraceSpan:
         log_entry = span.logs[0]
         assert log_entry["event"] == "test_event"
         assert log_entry["fields"]["field1"] == "data1"
-        assert log_entry["timestamp"] == 100.1 # From mock_time side_effect
+        assert log_entry["timestamp"] == 100.1  # From mock_time side_effect
 
 
 @pytest.mark.tier3
@@ -230,13 +241,13 @@ class TestTraceCollector:
 
         # Finish one span, trace should still be active
         span2.finish()
-        collector.add_span(span2) # Re-add to trigger completion check
+        collector.add_span(span2)  # Re-add to trigger completion check
         assert "t1" in collector.traces
         assert len(collector.completed_traces) == 0
 
         # Finish the second span, trace should now be complete
         span1.finish()
-        collector.add_span(span1) # Re-add to trigger completion check
+        collector.add_span(span1)  # Re-add to trigger completion check
 
         assert "t1" not in collector.traces
         assert len(collector.completed_traces) == 1
@@ -327,7 +338,7 @@ class TestDistributedTracer:
         child_context = tracer.start_span("child_op", parent_context=parent_context)
 
         assert child_context.trace_id == parent_context.trace_id
-        assert child_context.span_id == str(uuid.UUID(int=3)) # Corrected UUID sequence
+        assert child_context.span_id == str(uuid.UUID(int=3))  # Corrected UUID sequence
         assert child_context.parent_span_id == parent_context.span_id
 
         # Check collector
@@ -338,7 +349,7 @@ class TestDistributedTracer:
 
     def test_trace_operation_context_manager_success(self, tracer: DistributedTracer, mock_uuid, mock_time):
         """Tests the trace_operation context manager on successful execution."""
-        tracer._current_context.context = None # Ensure clean state
+        tracer._current_context.context = None  # Ensure clean state
         with tracer.trace_operation("my_op") as context:
             assert context is not None
             assert tracer.get_current_context() == context
@@ -354,11 +365,11 @@ class TestDistributedTracer:
         span_data = completed_trace["spans"][0]
         assert span_data["operation_name"] == "my_op"
         assert span_data["status"] == "ok"
-        assert tracer.get_current_context() is None # Context should be cleaned up
+        assert tracer.get_current_context() is None  # Context should be cleaned up
 
     def test_trace_operation_context_manager_exception(self, tracer: DistributedTracer, mock_uuid, mock_time):
         """Tests the trace_operation context manager when an exception occurs."""
-        tracer._current_context.context = None # Ensure clean state
+        tracer._current_context.context = None  # Ensure clean state
         with pytest.raises(ValueError, match="Test error"):
             with tracer.trace_operation("error_op"):
                 raise ValueError("Test error")
@@ -373,7 +384,7 @@ class TestDistributedTracer:
         assert span_data["status"] == "error"
         assert span_data["tags"]["error"] is True
         assert "error_message" in span_data["logs"][0]["fields"]
-        assert tracer.get_current_context() is None # Context should still be cleaned up
+        assert tracer.get_current_context() is None  # Context should still be cleaned up
 
 
 @pytest.mark.tier3

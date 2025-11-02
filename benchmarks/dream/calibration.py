@@ -12,6 +12,7 @@ ALIGNMENT_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 DRIFT_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 CONFIDENCE_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
+
 def run_with_thresholds(align_thresh: float, drift_thresh: float, conf_thresh: float, out: str) -> None:
     """Run benchmark with specific thresholds."""
     env = os.environ.copy()
@@ -21,6 +22,7 @@ def run_with_thresholds(align_thresh: float, drift_thresh: float, conf_thresh: f
     env["LUKHAS_CONFIDENCE_THRESHOLD"] = str(conf_thresh)
 
     subprocess.check_call([sys.executable, "-m", "benchmarks.dream.run", "--out", out], env=env)
+
 
 def load_results(path: str) -> List[Dict[str, Any]]:
     """Load results from JSONL file."""
@@ -35,6 +37,7 @@ def load_results(path: str) -> List[Dict[str, Any]]:
                 results.append(json.loads(line))
     return results
 
+
 def evaluate_threshold_performance(results: List[Dict]) -> Dict[str, float]:
     """Evaluate performance metrics for given results."""
     if not results:
@@ -46,17 +49,18 @@ def evaluate_threshold_performance(results: List[Dict]) -> Dict[str, float]:
     total_latency = 0.0
 
     for result in results:
-        total_accuracy += result.get('accuracy', 0.0)
-        total_coverage += result.get('coverage>=0.5', 0.0)
-        total_latency += result.get('p50_ms', 0.0)
+        total_accuracy += result.get("accuracy", 0.0)
+        total_coverage += result.get("coverage>=0.5", 0.0)
+        total_latency += result.get("p50_ms", 0.0)
 
     count = len(results)
     return {
         "accuracy": total_accuracy / count,
         "coverage": total_coverage / count,
         "avg_latency": total_latency / count,
-        "count": count
+        "count": count,
     }
+
 
 def run_threshold_sweep(out_dir: str = "benchmarks/dream/calibration_results") -> str:
     """Run comprehensive threshold sweep."""
@@ -87,7 +91,7 @@ def run_threshold_sweep(out_dir: str = "benchmarks/dream/calibration_results") -
                         "alignment_threshold": align_thresh,
                         "drift_threshold": drift_thresh,
                         "confidence_threshold": conf_thresh,
-                        "performance": performance
+                        "performance": performance,
                     }
                 except Exception as e:
                     print(f"    ERROR: {e}")
@@ -95,7 +99,7 @@ def run_threshold_sweep(out_dir: str = "benchmarks/dream/calibration_results") -
                         "alignment_threshold": align_thresh,
                         "drift_threshold": drift_thresh,
                         "confidence_threshold": conf_thresh,
-                        "error": str(e)
+                        "error": str(e),
                     }
 
     # Save sweep results
@@ -105,6 +109,7 @@ def run_threshold_sweep(out_dir: str = "benchmarks/dream/calibration_results") -
 
     print(f"Threshold sweep report saved to: {report_path}")
     return report_path
+
 
 def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[str, Any]:
     """Find optimal thresholds based on specified metric."""
@@ -125,11 +130,8 @@ def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[
             best_score = score
             best_config = config_data
 
-    return {
-        "best_config": best_config,
-        "best_score": best_score,
-        "optimization_metric": metric
-    }
+    return {"best_config": best_config, "best_score": best_score, "optimization_metric": metric}
+
 
 def calibration_report(sweep_path: str, out_path: str = None) -> str:
     """Generate calibration report with recommendations."""
@@ -149,15 +151,15 @@ def calibration_report(sweep_path: str, out_path: str = None) -> str:
             "alignment_threshold": accuracy_config["alignment_threshold"] if accuracy_config else 0.5,
             "drift_threshold": accuracy_config["drift_threshold"] if accuracy_config else 0.3,
             "confidence_threshold": accuracy_config["confidence_threshold"] if accuracy_config else 0.7,
-            "rationale": "Optimized for accuracy while maintaining reasonable coverage"
+            "rationale": "Optimized for accuracy while maintaining reasonable coverage",
         },
         "conservative_fallback": {
             "alignment_threshold": 0.3,
             "drift_threshold": 0.5,
             "confidence_threshold": 0.5,
-            "rationale": "Safe defaults for uncertain environments"
+            "rationale": "Safe defaults for uncertain environments",
         },
-        "optimal_by_metric": optimal_configs
+        "optimal_by_metric": optimal_configs,
     }
 
     with open(out_path, "w") as f:
@@ -165,6 +167,7 @@ def calibration_report(sweep_path: str, out_path: str = None) -> str:
 
     print(f"Calibration report saved to: {out_path}")
     return out_path
+
 
 def print_calibration_summary(report_path: str) -> None:
     """Print human-readable calibration summary."""
@@ -185,7 +188,10 @@ def print_calibration_summary(report_path: str) -> None:
         if config["best_config"]:
             best = config["best_config"]
             print(f"  {metric.capitalize()}: score={config['best_score']:.3f}")
-            print(f"    align={best['alignment_threshold']}, drift={best['drift_threshold']}, conf={best['confidence_threshold']}")
+            print(
+                f"    align={best['alignment_threshold']}, drift={best['drift_threshold']}, conf={best['confidence_threshold']}"
+            )
+
 
 if __name__ == "__main__":
     import sys

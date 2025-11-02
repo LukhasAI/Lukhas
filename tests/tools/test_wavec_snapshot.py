@@ -13,4 +13,3 @@ def test_create_snapshot_tmpdir(tmp_path: Path) -> None:
     assert (snap / "git_status.txt").exists()
     assert (snap / "git_diffstat.txt").exists()
     assert (snap / "env.json").exists()
-

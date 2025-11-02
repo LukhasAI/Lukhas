@@ -2,6 +2,7 @@
 Archetypal Taxonomy for Dream System Analysis.
 Classifies emotional patterns using Jungian archetypal categories.
 """
+
 import statistics
 from typing import Any, Dict, List, Tuple
 
@@ -11,66 +12,67 @@ ARCHETYPES = {
         "primary_emotions": ["confidence", "joy", "curiosity"],
         "secondary_emotions": ["trust"],
         "opposed_emotions": ["fear", "sadness"],
-        "description": "Confident, optimistic, forward-moving energy"
+        "description": "Confident, optimistic, forward-moving energy",
     },
     "shadow": {
         "primary_emotions": ["fear", "anger", "sadness"],
         "secondary_emotions": ["surprise"],
         "opposed_emotions": ["confidence", "joy", "trust"],
-        "description": "Dark, repressed, or negative emotional aspects"
+        "description": "Dark, repressed, or negative emotional aspects",
     },
     "trickster": {
         "primary_emotions": ["surprise", "curiosity"],
         "secondary_emotions": ["joy"],
         "opposed_emotions": ["sadness", "fear"],
-        "description": "Playful, unpredictable, transformative energy"
+        "description": "Playful, unpredictable, transformative energy",
     },
     "sage": {
         "primary_emotions": ["confidence", "curiosity", "trust"],
         "secondary_emotions": [],
         "opposed_emotions": ["anger", "fear"],
-        "description": "Wise, knowing, contemplative energy"
+        "description": "Wise, knowing, contemplative energy",
     },
     "innocent": {
         "primary_emotions": ["joy", "trust", "surprise"],
         "secondary_emotions": ["curiosity"],
         "opposed_emotions": ["anger", "sadness"],
-        "description": "Pure, optimistic, trusting energy"
+        "description": "Pure, optimistic, trusting energy",
     },
     "explorer": {
         "primary_emotions": ["curiosity", "confidence"],
         "secondary_emotions": ["surprise", "joy"],
         "opposed_emotions": ["fear", "sadness"],
-        "description": "Adventurous, seeking, boundary-pushing energy"
+        "description": "Adventurous, seeking, boundary-pushing energy",
     },
     "caregiver": {
         "primary_emotions": ["trust", "joy"],
         "secondary_emotions": ["confidence"],
         "opposed_emotions": ["anger", "fear"],
-        "description": "Nurturing, protective, empathetic energy"
+        "description": "Nurturing, protective, empathetic energy",
     },
     "warrior": {
         "primary_emotions": ["confidence", "anger"],
         "secondary_emotions": ["surprise"],
         "opposed_emotions": ["fear", "sadness"],
-        "description": "Fierce, determined, combative energy"
+        "description": "Fierce, determined, combative energy",
     },
     "lover": {
         "primary_emotions": ["joy", "trust"],
         "secondary_emotions": ["surprise", "curiosity"],
         "opposed_emotions": ["anger", "sadness"],
-        "description": "Passionate, connecting, emotional energy"
+        "description": "Passionate, connecting, emotional energy",
     },
     "rebel": {
         "primary_emotions": ["anger", "surprise"],
         "secondary_emotions": ["confidence"],
         "opposed_emotions": ["trust", "fear"],
-        "description": "Revolutionary, disruptive, transforming energy"
-    }
+        "description": "Revolutionary, disruptive, transforming energy",
+    },
 }
 
 # Canonical emotion keys for consistency
 CANONICAL_EMOTIONS = ["confidence", "curiosity", "joy", "fear", "anger", "sadness", "surprise", "trust"]
+
 
 def classify_archetype(emotion_vector: Dict[str, float], threshold: float = 0.6) -> List[Tuple[str, float]]:
     """
@@ -93,6 +95,7 @@ def classify_archetype(emotion_vector: Dict[str, float], threshold: float = 0.6)
     # Sort by score descending
     archetype_scores.sort(key=lambda x: x[1], reverse=True)
     return archetype_scores
+
 
 def calculate_archetype_score(emotion_vector: Dict[str, float], archetype_data: Dict[str, Any]) -> float:
     """
@@ -137,6 +140,7 @@ def calculate_archetype_score(emotion_vector: Dict[str, float], archetype_data: 
     total_score = primary_score + secondary_score - opposition_penalty
     return max(0.0, min(1.0, total_score))
 
+
 def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Analyze archetypal patterns in a collection of snapshots.
@@ -165,7 +169,7 @@ def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, An
         snapshot_analysis = {
             "snapshot_name": snapshot.get("name", "unknown"),
             "archetypes": classifications,
-            "dominant_archetype": classifications[0] if classifications else None
+            "dominant_archetype": classifications[0] if classifications else None,
         }
         snapshot_archetypes.append(snapshot_analysis)
 
@@ -187,23 +191,20 @@ def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, An
             "percentage": frequency / total_snapshots if total_snapshots > 0 else 0.0,
             "avg_score": statistics.mean(scores) if scores else 0.0,
             "max_score": max(scores) if scores else 0.0,
-            "description": ARCHETYPES[archetype_name]["description"]
+            "description": ARCHETYPES[archetype_name]["description"],
         }
 
     # Find dominant archetypes
-    dominant_archetypes = sorted(
-        archetype_stats.items(),
-        key=lambda x: x[1]["frequency"],
-        reverse=True
-    )[:3]
+    dominant_archetypes = sorted(archetype_stats.items(), key=lambda x: x[1]["frequency"], reverse=True)[:3]
 
     return {
         "total_snapshots": total_snapshots,
         "snapshot_archetypes": snapshot_archetypes,
         "archetype_statistics": archetype_stats,
         "dominant_archetypes": dominant_archetypes,
-        "diversity_index": calculate_archetypal_diversity(archetype_frequencies)
+        "diversity_index": calculate_archetypal_diversity(archetype_frequencies),
     }
+
 
 def calculate_archetypal_diversity(frequencies: Dict[str, int]) -> float:
     """
@@ -224,9 +225,10 @@ def calculate_archetypal_diversity(frequencies: Dict[str, int]) -> float:
     for frequency in frequencies.values():
         if frequency > 0:
             proportion = frequency / total
-            entropy -= proportion * (proportion ** 0.5)  # Simplified diversity measure
+            entropy -= proportion * (proportion**0.5)  # Simplified diversity measure
 
     return entropy
+
 
 def suggest_archetypal_balance(current_stats: Dict[str, Any], target_balance: str = "balanced") -> Dict[str, Any]:
     """
@@ -245,14 +247,11 @@ def suggest_archetypal_balance(current_stats: Dict[str, Any], target_balance: st
         "heroic": {"hero": 0.4, "explorer": 0.2, "warrior": 0.2, "sage": 0.1, "innocent": 0.1},
         "exploratory": {"explorer": 0.3, "trickster": 0.2, "hero": 0.2, "sage": 0.15, "innocent": 0.15},
         "nurturing": {"caregiver": 0.3, "innocent": 0.2, "lover": 0.2, "sage": 0.15, "hero": 0.15},
-        "transformative": {"trickster": 0.25, "rebel": 0.25, "warrior": 0.2, "hero": 0.15, "explorer": 0.15}
+        "transformative": {"trickster": 0.25, "rebel": 0.25, "warrior": 0.2, "hero": 0.15, "explorer": 0.15},
     }
 
     target_dist = target_distributions.get(target_balance, target_distributions["balanced"])
-    current_dist = {
-        name: stats["percentage"]
-        for name, stats in current_stats["archetype_statistics"].items()
-    }
+    current_dist = {name: stats["percentage"] for name, stats in current_stats["archetype_statistics"].items()}
 
     # Identify over/under-represented archetypes
     for archetype_name, target_pct in target_dist.items():
@@ -261,31 +260,36 @@ def suggest_archetypal_balance(current_stats: Dict[str, Any], target_balance: st
 
         if abs(difference) > 0.05:  # 5% threshold
             if difference > 0:
-                recommendations.append({
-                    "action": "increase",
-                    "archetype": archetype_name,
-                    "current_percentage": current_pct,
-                    "target_percentage": target_pct,
-                    "difference": difference,
-                    "primary_emotions": ARCHETYPES[archetype_name]["primary_emotions"],
-                    "suggestion": f"Increase {archetype_name} representation by emphasizing {', '.join(ARCHETYPES[archetype_name]['primary_emotions'])}"
-                })
+                recommendations.append(
+                    {
+                        "action": "increase",
+                        "archetype": archetype_name,
+                        "current_percentage": current_pct,
+                        "target_percentage": target_pct,
+                        "difference": difference,
+                        "primary_emotions": ARCHETYPES[archetype_name]["primary_emotions"],
+                        "suggestion": f"Increase {archetype_name} representation by emphasizing {', '.join(ARCHETYPES[archetype_name]['primary_emotions'])}",
+                    }
+                )
             else:
-                recommendations.append({
-                    "action": "decrease",
-                    "archetype": archetype_name,
-                    "current_percentage": current_pct,
-                    "target_percentage": target_pct,
-                    "difference": difference,
-                    "suggestion": f"Reduce {archetype_name} over-representation"
-                })
+                recommendations.append(
+                    {
+                        "action": "decrease",
+                        "archetype": archetype_name,
+                        "current_percentage": current_pct,
+                        "target_percentage": target_pct,
+                        "difference": difference,
+                        "suggestion": f"Reduce {archetype_name} over-representation",
+                    }
+                )
 
     return {
         "target_balance": target_balance,
         "current_diversity": current_stats["diversity_index"],
         "recommendations": recommendations,
-        "overall_balance_score": calculate_balance_score(current_dist, target_dist)
+        "overall_balance_score": calculate_balance_score(current_dist, target_dist),
     }
+
 
 def calculate_balance_score(current: Dict[str, float], target: Dict[str, float]) -> float:
     """
@@ -304,6 +308,7 @@ def calculate_balance_score(current: Dict[str, float], target: Dict[str, float])
     max_possible_error = 2.0  # Maximum possible sum of absolute differences
     balance_score = 1.0 - (total_error / max_possible_error)
     return max(0.0, balance_score)
+
 
 def create_archetypal_test_case(archetype_name: str, intensity: float = 0.8) -> Dict[str, Any]:
     """
@@ -343,12 +348,9 @@ def create_archetypal_test_case(archetype_name: str, intensity: float = 0.8) -> 
         "emotional_context": emotion_vector,
         "timestamp": 100.0,
         "content": f"Test case for {archetype_name} archetype",
-        "metadata": {
-            "archetype": archetype_name,
-            "intensity": intensity,
-            "synthetic": True
-        }
+        "metadata": {"archetype": archetype_name, "intensity": intensity, "synthetic": True},
     }
+
 
 if __name__ == "__main__":
     # Example usage and validation
@@ -364,7 +366,7 @@ if __name__ == "__main__":
         "anger": 0.0,
         "sadness": 0.1,
         "surprise": 0.4,
-        "trust": 0.6
+        "trust": 0.6,
     }
 
     classifications = classify_archetype(test_emotion)

@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛOAUTH}, {ΛSECURITY}, {ΛAUTH}, {ΛTOKENS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import base64
 import hashlib
@@ -81,12 +82,14 @@ class TokenStatus(Enum):
 try:
     from candidate.bridge.external_adapters.oauth_manager import CircuitBreakerState
 except ImportError:
+
     class CircuitBreakerState(Enum):
         """Fallback circuit breaker state for OAuth manager."""
 
         OPEN = "open"
         HALF_OPEN = "half_open"
         CLOSED = "closed"
+
 
 __all__.append("CircuitBreakerState")
 
@@ -551,11 +554,15 @@ class OAuthManager:
 try:
     from candidate.bridge.external_adapters.oauth_manager import CircuitBreaker
 except ImportError:
+
     class CircuitBreaker:
         """Stub for CircuitBreaker."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

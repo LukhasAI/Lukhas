@@ -6,7 +6,6 @@ Integration Date: 2025-05-31T07:55:28.250611
 """
 
 
-
 class EthicalProtestModule:
     def __init__(self, federated_model: FederatedModel):
         self.legal_db = self._load_eu_protest_regulations()

@@ -16,6 +16,7 @@ FastAPI endpoints for dream processing operations including:
 
 Based on successful Tier 5 testing with advanced dream consolidation.
 """
+
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional

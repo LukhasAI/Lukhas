@@ -1,4 +1,3 @@
-
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: app.py
@@ -27,30 +26,67 @@ except ImportError:
         def __init__(self):
             self.session_state = {}
 
-        def set_page_config(self, **kwargs): pass
-        def error(self, msg): print(f"ERROR: {msg}")
-        def stop(self): return
-        def title(self, msg): print(f"TITLE: {msg}")
-        def sidebar(self): return self
-        def tabs(self, tabs): return [MockTab() for _ in tabs]
-        def header(self, msg): print(f"HEADER: {msg}")
-        def write(self, content): print(f"WRITE: {content}")
-        def markdown(self, content, **kwargs): print(f"MARKDOWN: {content[:50]}...")
-        def success(self, msg): print(f"SUCCESS: {msg}")
-        def info(self, msg): print(f"INFO: {msg}")
-        def warning(self, msg): print(f"WARNING: {msg}")
-        def button(self, label, **kwargs): return False
-        def columns(self, specs): return [MockColumn() for _ in specs]
-        def text_area(self, label, value="", **kwargs): return value
-        def selectbox(self, label, options, **kwargs): return options[0] if options else None
+        def set_page_config(self, **kwargs):
+            pass
+
+        def error(self, msg):
+            print(f"ERROR: {msg}")
+
+        def stop(self):
+            return
+
+        def title(self, msg):
+            print(f"TITLE: {msg}")
+
+        def sidebar(self):
+            return self
+
+        def tabs(self, tabs):
+            return [MockTab() for _ in tabs]
+
+        def header(self, msg):
+            print(f"HEADER: {msg}")
+
+        def write(self, content):
+            print(f"WRITE: {content}")
+
+        def markdown(self, content, **kwargs):
+            print(f"MARKDOWN: {content[:50]}...")
+
+        def success(self, msg):
+            print(f"SUCCESS: {msg}")
+
+        def info(self, msg):
+            print(f"INFO: {msg}")
+
+        def warning(self, msg):
+            print(f"WARNING: {msg}")
+
+        def button(self, label, **kwargs):
+            return False
+
+        def columns(self, specs):
+            return [MockColumn() for _ in specs]
+
+        def text_area(self, label, value="", **kwargs):
+            return value
+
+        def selectbox(self, label, options, **kwargs):
+            return options[0] if options else None
 
     class MockTab:
-        def __enter__(self): return self
-        def __exit__(self, *args): pass
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            pass
 
     class MockColumn:
-        def button(self, label, **kwargs): return False
-        def markdown(self, content, **kwargs): print(f"COL MARKDOWN: {content[:50]}...")
+        def button(self, label, **kwargs):
+            return False
+
+        def markdown(self, content, **kwargs):
+            print(f"COL MARKDOWN: {content[:50]}...")
 
     st = MockStreamlit()
 from pathlib import Path

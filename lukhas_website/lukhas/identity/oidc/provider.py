@@ -24,23 +24,28 @@ from .tokens import OIDCTokenManager
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
-    def labels(self, **kwargs): return self
-    def inc(self, amount=1): pass
-    def observe(self, amount): pass
+    def labels(self, **kwargs):
+        return self
+
+    def inc(self, amount=1):
+        pass
+
+    def observe(self, amount):
+        pass
+
 
 try:
     oidc_requests_total = Counter(
-        'lukhas_oidc_requests_total',
-        'Total OIDC requests',
-        ['endpoint', 'client_id', 'result']
+        "lukhas_oidc_requests_total", "Total OIDC requests", ["endpoint", "client_id", "result"]
     )
     oidc_request_latency = Histogram(
-        'lukhas_oidc_request_latency_seconds',
-        'OIDC request latency',
-        ['endpoint'],
-        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+        "lukhas_oidc_request_latency_seconds",
+        "OIDC request latency",
+        ["endpoint"],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
     )
 except ValueError:
     oidc_requests_total = MockMetric()
@@ -50,6 +55,7 @@ except ValueError:
 @dataclass
 class AuthorizationRequest:
     """OAuth2 authorization request parameters."""
+
     response_type: str
     client_id: str
     redirect_uri: str
@@ -62,7 +68,7 @@ class AuthorizationRequest:
     max_age: Optional[int] = None
 
     @classmethod
-    def from_query_params(cls, params: Dict[str, str]) -> 'AuthorizationRequest':
+    def from_query_params(cls, params: Dict[str, str]) -> "AuthorizationRequest":
         """Create from URL query parameters."""
         return cls(
             response_type=params.get("response_type", ""),
@@ -74,7 +80,7 @@ class AuthorizationRequest:
             code_challenge=params.get("code_challenge"),
             code_challenge_method=params.get("code_challenge_method"),
             prompt=params.get("prompt"),
-            max_age=int(params["max_age"]) if params.get("max_age") else None
+            max_age=int(params["max_age"]) if params.get("max_age") else None,
         )
 
     def validate(self) -> List[str]:
@@ -108,6 +114,7 @@ class AuthorizationRequest:
 @dataclass
 class TokenRequest:
     """OAuth2 token request parameters."""
+
     grant_type: str
     client_id: str
     code: Optional[str] = None
@@ -117,7 +124,7 @@ class TokenRequest:
     client_secret: Optional[str] = None
 
     @classmethod
-    def from_form_data(cls, data: Dict[str, str]) -> 'TokenRequest':
+    def from_form_data(cls, data: Dict[str, str]) -> "TokenRequest":
         """Create from form data."""
         return cls(
             grant_type=data.get("grant_type", ""),
@@ -126,7 +133,7 @@ class TokenRequest:
             redirect_uri=data.get("redirect_uri"),
             code_verifier=data.get("code_verifier"),
             refresh_token=data.get("refresh_token"),
-            client_secret=data.get("client_secret")
+            client_secret=data.get("client_secret"),
         )
 
     def validate(self) -> List[str]:
@@ -157,12 +164,14 @@ class TokenRequest:
 class OIDCProvider:
     """OpenID Connect 1.0 Provider with LUKHAS integration."""
 
-    def __init__(self,
-                 issuer: str = "https://auth.ai",
-                 client_registry: Optional[ClientRegistry] = None,
-                 token_manager: Optional[OIDCTokenManager] = None,
-                 discovery_provider: Optional[DiscoveryProvider] = None,
-                 guardian_client=None):
+    def __init__(
+        self,
+        issuer: str = "https://auth.ai",
+        client_registry: Optional[ClientRegistry] = None,
+        token_manager: Optional[OIDCTokenManager] = None,
+        discovery_provider: Optional[DiscoveryProvider] = None,
+        guardian_client=None,
+    ):
         """
         Initialize OIDC provider.
 
@@ -188,11 +197,7 @@ class OIDCProvider:
             with oidc_request_latency.labels(endpoint="discovery").time():
                 document = self.discovery_provider.get_discovery_document()
 
-                oidc_requests_total.labels(
-                    endpoint="discovery",
-                    client_id="n/a",
-                    result="success"
-                ).inc()
+                oidc_requests_total.labels(endpoint="discovery", client_id="n/a", result="success").inc()
 
                 span.set_attribute("oidc.issuer", self.issuer)
                 return document.to_dict()
@@ -203,22 +208,20 @@ class OIDCProvider:
             with oidc_request_latency.labels(endpoint="jwks").time():
                 jwks = self.jwt_manager.get_jwks()
 
-                oidc_requests_total.labels(
-                    endpoint="jwks",
-                    client_id="n/a",
-                    result="success"
-                ).inc()
+                oidc_requests_total.labels(endpoint="jwks", client_id="n/a", result="success").inc()
 
                 span.set_attribute("oidc.key_count", len(jwks.get("keys", [])))
                 return jwks
 
     # Authorization endpoint
 
-    def handle_authorization_request(self,
-                                   params: Dict[str, str],
-                                   user_authenticated: bool = False,
-                                   user_id: Optional[str] = None,
-                                   authentication_tier: Optional[str] = None) -> Dict[str, Any]:
+    def handle_authorization_request(
+        self,
+        params: Dict[str, str],
+        user_authenticated: bool = False,
+        user_id: Optional[str] = None,
+        authentication_tier: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         Handle OAuth2 authorization request.
 
@@ -241,29 +244,19 @@ class OIDCProvider:
                     if validation_errors:
                         span.set_attribute("oidc.error", "invalid_request")
                         return self._error_response(
-                            "invalid_request",
-                            f"Validation errors: {', '.join(validation_errors)}",
-                            auth_request.state
+                            "invalid_request", f"Validation errors: {', '.join(validation_errors)}", auth_request.state
                         )
 
                     # Validate client
                     client = self.client_registry.get_client(auth_request.client_id)
                     if not client or not client.is_active:
                         span.set_attribute("oidc.error", "invalid_client")
-                        return self._error_response(
-                            "invalid_client",
-                            "Unknown or inactive client",
-                            auth_request.state
-                        )
+                        return self._error_response("invalid_client", "Unknown or inactive client", auth_request.state)
 
                     # Validate redirect URI
                     if not client.is_redirect_uri_allowed(auth_request.redirect_uri):
                         span.set_attribute("oidc.error", "invalid_redirect_uri")
-                        return self._error_response(
-                            "invalid_request",
-                            "Invalid redirect_uri",
-                            auth_request.state
-                        )
+                        return self._error_response("invalid_request", "Invalid redirect_uri", auth_request.state)
 
                     # Validate scopes
                     requested_scopes = set(auth_request.scope.split())
@@ -273,7 +266,7 @@ class OIDCProvider:
                             auth_request.redirect_uri,
                             "invalid_scope",
                             "One or more requested scopes are not allowed",
-                            auth_request.state
+                            auth_request.state,
                         )
 
                     # Validate PKCE for public clients
@@ -283,7 +276,7 @@ class OIDCProvider:
                             auth_request.redirect_uri,
                             "invalid_request",
                             "PKCE code_challenge is required",
-                            auth_request.state
+                            auth_request.state,
                         )
 
                     if client.require_pkce_s256 and auth_request.code_challenge_method != "S256":
@@ -292,7 +285,7 @@ class OIDCProvider:
                             auth_request.redirect_uri,
                             "invalid_request",
                             "PKCE S256 method is required",
-                            auth_request.state
+                            auth_request.state,
                         )
 
                     # Validate authentication tier
@@ -302,7 +295,7 @@ class OIDCProvider:
                             auth_request.redirect_uri,
                             "access_denied",
                             f"Authentication tier {authentication_tier} not allowed for this client",
-                            auth_request.state
+                            auth_request.state,
                         )
 
                     # Check if user needs to authenticate
@@ -311,7 +304,7 @@ class OIDCProvider:
                         return {
                             "action": "authenticate",
                             "login_url": f"/auth/login?{urllib.parse.urlencode(params)}",
-                            "client": client.to_dict()
+                            "client": client.to_dict(),
                         }
 
                     # Check if user needs to consent
@@ -321,7 +314,7 @@ class OIDCProvider:
                             "action": "consent",
                             "consent_url": f"/auth/consent?{urllib.parse.urlencode(params)}",
                             "client": client.to_dict(),
-                            "scopes": list(requested_scopes)
+                            "scopes": list(requested_scopes),
                         }
 
                     # Generate authorization code
@@ -332,7 +325,7 @@ class OIDCProvider:
                         scopes=requested_scopes,
                         code_challenge=auth_request.code_challenge,
                         code_challenge_method=auth_request.code_challenge_method,
-                        nonce=auth_request.nonce
+                        nonce=auth_request.nonce,
                     )
 
                     # Build redirect response
@@ -343,26 +336,18 @@ class OIDCProvider:
                     redirect_url = f"{auth_request.redirect_uri}?{urllib.parse.urlencode(redirect_params)}"
 
                     oidc_requests_total.labels(
-                        endpoint="authorize",
-                        client_id=auth_request.client_id,
-                        result="success"
+                        endpoint="authorize", client_id=auth_request.client_id, result="success"
                     ).inc()
 
                     span.set_attribute("oidc.client_id", auth_request.client_id)
                     span.set_attribute("oidc.user_id", user_id)
                     span.set_attribute("oidc.action", "code_generated")
 
-                    return {
-                        "action": "redirect",
-                        "redirect_url": redirect_url,
-                        "code": auth_code
-                    }
+                    return {"action": "redirect", "redirect_url": redirect_url, "code": auth_code}
 
                 except Exception as e:
                     oidc_requests_total.labels(
-                        endpoint="authorize",
-                        client_id=params.get("client_id", "unknown"),
-                        result="error"
+                        endpoint="authorize", client_id=params.get("client_id", "unknown"), result="error"
                     ).inc()
                     span.set_attribute("oidc.error", str(e))
                     raise
@@ -389,29 +374,24 @@ class OIDCProvider:
                     if validation_errors:
                         span.set_attribute("oidc.error", "invalid_request")
                         return self._token_error_response(
-                            "invalid_request",
-                            f"Validation errors: {', '.join(validation_errors)}"
+                            "invalid_request", f"Validation errors: {', '.join(validation_errors)}"
                         )
 
                     # Authenticate client
                     client = self.client_registry.authenticate_client(
-                        token_request.client_id,
-                        token_request.client_secret
+                        token_request.client_id, token_request.client_secret
                     )
 
                     if not client:
                         span.set_attribute("oidc.error", "invalid_client")
-                        return self._token_error_response(
-                            "invalid_client",
-                            "Client authentication failed"
-                        )
+                        return self._token_error_response("invalid_client", "Client authentication failed")
 
                     # Validate grant type
                     if not client.is_grant_type_allowed(token_request.grant_type):
                         span.set_attribute("oidc.error", "unsupported_grant_type")
                         return self._token_error_response(
                             "unsupported_grant_type",
-                            f"Grant type {token_request.grant_type} not allowed for this client"
+                            f"Grant type {token_request.grant_type} not allowed for this client",
                         )
 
                     if token_request.grant_type == "authorization_code":
@@ -421,23 +401,17 @@ class OIDCProvider:
                     else:
                         span.set_attribute("oidc.error", "unsupported_grant_type")
                         return self._token_error_response(
-                            "unsupported_grant_type",
-                            f"Grant type {token_request.grant_type} not supported"
+                            "unsupported_grant_type", f"Grant type {token_request.grant_type} not supported"
                         )
 
                 except Exception as e:
                     oidc_requests_total.labels(
-                        endpoint="token",
-                        client_id=form_data.get("client_id", "unknown"),
-                        result="error"
+                        endpoint="token", client_id=form_data.get("client_id", "unknown"), result="error"
                     ).inc()
                     span.set_attribute("oidc.error", str(e))
                     raise
 
-    def _handle_authorization_code_grant(self,
-                                       token_request: TokenRequest,
-                                       client: OIDCClient,
-                                       span) -> Dict[str, Any]:
+    def _handle_authorization_code_grant(self, token_request: TokenRequest, client: OIDCClient, span) -> Dict[str, Any]:
         """Handle authorization code grant flow."""
         try:
             # Exchange authorization code for tokens
@@ -445,24 +419,20 @@ class OIDCProvider:
                 code=token_request.code,
                 client_id=token_request.client_id,
                 redirect_uri=token_request.redirect_uri,
-                code_verifier=token_request.code_verifier
+                code_verifier=token_request.code_verifier,
             )
 
             response = {
                 "access_token": access_token,
                 "token_type": "Bearer",
                 "expires_in": client.access_token_lifetime,
-                "refresh_token": refresh_token
+                "refresh_token": refresh_token,
             }
 
             if id_token:
                 response["id_token"] = id_token
 
-            oidc_requests_total.labels(
-                endpoint="token",
-                client_id=token_request.client_id,
-                result="success"
-            ).inc()
+            oidc_requests_total.labels(endpoint="token", client_id=token_request.client_id, result="success").inc()
 
             span.set_attribute("oidc.grant_type", "authorization_code")
             span.set_attribute("oidc.tokens_issued", len([t for t in [access_token, refresh_token, id_token] if t]))
@@ -473,30 +443,22 @@ class OIDCProvider:
             span.set_attribute("oidc.error", "invalid_grant")
             return self._token_error_response("invalid_grant", str(e))
 
-    def _handle_refresh_token_grant(self,
-                                  token_request: TokenRequest,
-                                  client: OIDCClient,
-                                  span) -> Dict[str, Any]:
+    def _handle_refresh_token_grant(self, token_request: TokenRequest, client: OIDCClient, span) -> Dict[str, Any]:
         """Handle refresh token grant flow."""
         try:
             # Refresh tokens
             access_token, new_refresh_token = self.token_manager.refresh_access_token(
-                refresh_token=token_request.refresh_token,
-                client_id=token_request.client_id
+                refresh_token=token_request.refresh_token, client_id=token_request.client_id
             )
 
             response = {
                 "access_token": access_token,
                 "token_type": "Bearer",
                 "expires_in": client.access_token_lifetime,
-                "refresh_token": new_refresh_token
+                "refresh_token": new_refresh_token,
             }
 
-            oidc_requests_total.labels(
-                endpoint="token",
-                client_id=token_request.client_id,
-                result="success"
-            ).inc()
+            oidc_requests_total.labels(endpoint="token", client_id=token_request.client_id, result="success").inc()
 
             span.set_attribute("oidc.grant_type", "refresh_token")
 
@@ -517,18 +479,12 @@ class OIDCProvider:
                     claims = self.jwt_manager.verify_token(access_token, audience=["lukhas-api"])
 
                     # Build UserInfo response
-                    userinfo = {
-                        "sub": claims.sub
-                    }
+                    userinfo = {"sub": claims.sub}
 
                     # Add additional claims based on scope
                     if claims.scope and "profile" in claims.scope:
                         # In production, fetch from user database
-                        userinfo.update({
-                            "name": f"User {claims.sub}",
-                            "given_name": "User",
-                            "family_name": claims.sub
-                        })
+                        userinfo.update({"name": f"User {claims.sub}", "given_name": "User", "family_name": claims.sub})
 
                     if claims.scope and "email" in claims.scope:
                         userinfo["email"] = f"user-{claims.sub}@ai"
@@ -541,20 +497,14 @@ class OIDCProvider:
                         userinfo["permissions"] = claims.permissions
 
                     oidc_requests_total.labels(
-                        endpoint="userinfo",
-                        client_id=getattr(claims, "client_id", "unknown"),
-                        result="success"
+                        endpoint="userinfo", client_id=getattr(claims, "client_id", "unknown"), result="success"
                     ).inc()
 
                     span.set_attribute("oidc.subject", claims.sub)
                     return userinfo
 
                 except Exception as e:
-                    oidc_requests_total.labels(
-                        endpoint="userinfo",
-                        client_id="unknown",
-                        result="error"
-                    ).inc()
+                    oidc_requests_total.labels(endpoint="userinfo", client_id="unknown", result="error").inc()
                     span.set_attribute("oidc.error", str(e))
                     raise
 
@@ -572,45 +522,31 @@ class OIDCProvider:
 
     def _error_response(self, error: str, description: str, state: Optional[str] = None) -> Dict[str, Any]:
         """Create error response for direct errors."""
-        response = {
-            "error": error,
-            "error_description": description
-        }
+        response = {"error": error, "error_description": description}
         if state:
             response["state"] = state
         return response
 
-    def _redirect_error_response(self,
-                                redirect_uri: str,
-                                error: str,
-                                description: str,
-                                state: Optional[str] = None) -> Dict[str, Any]:
+    def _redirect_error_response(
+        self, redirect_uri: str, error: str, description: str, state: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Create redirect error response."""
-        error_params = {
-            "error": error,
-            "error_description": description
-        }
+        error_params = {"error": error, "error_description": description}
         if state:
             error_params["state"] = state
 
         redirect_url = f"{redirect_uri}?{urllib.parse.urlencode(error_params)}"
 
-        return {
-            "action": "redirect",
-            "redirect_url": redirect_url,
-            "error": error
-        }
+        return {"action": "redirect", "redirect_url": redirect_url, "error": error}
 
     def _token_error_response(self, error: str, description: str) -> Dict[str, Any]:
         """Create token endpoint error response."""
-        return {
-            "error": error,
-            "error_description": description
-        }
+        return {"error": error, "error_description": description}
 
 
 # Global provider instance
 _oidc_provider: Optional[OIDCProvider] = None
+
 
 def get_oidc_provider() -> OIDCProvider:
     """Get the default OIDC provider instance."""

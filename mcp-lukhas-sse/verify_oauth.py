@@ -83,6 +83,7 @@ async def test_endpoints():
     print("   - Include 'Authorization: Bearer <jwt>' header")
     print("   - Ensure JWT has correct audience and issuer")
 
+
 if __name__ == "__main__":
     print("ℹ️  Note: This requires the server to be running on localhost:8080")
     print("   Start with: python server.py")

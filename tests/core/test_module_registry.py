@@ -15,6 +15,7 @@ Test Coverage Areas:
 - Security and authentication integration
 - Performance and scalability testing
 """
+
 import logging
 import threading
 import time
@@ -44,10 +45,7 @@ class TestModuleRegistry:
     def registry(self):
         """Create a test registry instance."""
         return ModuleRegistry(
-            enable_tier_validation=True,
-            enable_audit_logging=True,
-            health_check_interval=1.0,
-            max_modules=1000
+            enable_tier_validation=True, enable_audit_logging=True, health_check_interval=1.0, max_modules=1000
         )
 
     @pytest.fixture
@@ -61,7 +59,7 @@ class TestModuleRegistry:
             dependencies=["core", "common"],
             capabilities=["consciousness", "memory"],
             health_endpoint="/health",
-            status="active"
+            status="active",
         )
 
     @pytest.fixture
@@ -77,7 +75,7 @@ class TestModuleRegistry:
                 dependencies=["core"] if i > 0 else [],
                 capabilities=[f"capability_{i}"],
                 health_endpoint=f"/health/{i}",
-                status="active"
+                status="active",
             )
             modules.append(module_info)
         return modules
@@ -172,7 +170,7 @@ class TestModuleRegistry:
     # Tier-Based Access Control Tests
     def test_tier_validation_enabled(self, registry, sample_module_info, mock_identity_service):
         """Test tier validation when enabled."""
-        with patch('core.module_registry.get_identity_service', return_value=mock_identity_service):
+        with patch("core.module_registry.get_identity_service", return_value=mock_identity_service):
             # Set module to require Tier 2
             sample_module_info.tier_requirements = TierLevel.TIER_2
             registry.register_module(sample_module_info)
@@ -197,7 +195,7 @@ class TestModuleRegistry:
 
     def test_tier_elevation_support(self, registry, sample_module_info, mock_identity_service):
         """Test temporary tier elevation support."""
-        with patch('core.module_registry.get_identity_service', return_value=mock_identity_service):
+        with patch("core.module_registry.get_identity_service", return_value=mock_identity_service):
             # Set high tier requirement
             sample_module_info.tier_requirements = TierLevel.TIER_5
             registry.register_module(sample_module_info)
@@ -215,7 +213,7 @@ class TestModuleRegistry:
                 "test_module",
                 user_id="test_user",
                 temporary_elevation=TierLevel.TIER_5,
-                elevation_reason="emergency_access"
+                elevation_reason="emergency_access",
             )
             assert access_granted is True
 
@@ -234,7 +232,7 @@ class TestModuleRegistry:
     # Audit Logging Tests
     def test_audit_logging_enabled(self, registry, sample_module_info):
         """Test audit logging when enabled."""
-        with patch.object(registry.audit_logger, 'log_module_access') as mock_log:
+        with patch.object(registry.audit_logger, "log_module_access") as mock_log:
             registry.register_module(sample_module_info)
 
             # Access module
@@ -250,7 +248,7 @@ class TestModuleRegistry:
         """Test behavior when audit logging is disabled."""
         registry = ModuleRegistry(enable_audit_logging=False)
 
-        with patch.object(registry.audit_logger, 'log_module_access') as mock_log:
+        with patch.object(registry.audit_logger, "log_module_access") as mock_log:
             registry.register_module(sample_module_info)
             registry.validate_module_access("test_module", user_id="test_user")
 
@@ -262,16 +260,18 @@ class TestModuleRegistry:
         audit_events = []
 
         def capture_audit_event(module_name, user_id, action, result, **kwargs):
-            audit_events.append({
-                'module': module_name,
-                'user': user_id,
-                'action': action,
-                'result': result,
-                'timestamp': datetime.now(timezone.utc),
-                **kwargs
-            })
+            audit_events.append(
+                {
+                    "module": module_name,
+                    "user": user_id,
+                    "action": action,
+                    "result": result,
+                    "timestamp": datetime.now(timezone.utc),
+                    **kwargs,
+                }
+            )
 
-        with patch.object(registry.audit_logger, 'log_module_access', side_effect=capture_audit_event):
+        with patch.object(registry.audit_logger, "log_module_access", side_effect=capture_audit_event):
             # Register module
             registry.register_module(sample_module_info)
 
@@ -281,8 +281,8 @@ class TestModuleRegistry:
 
             # Verify audit trail
             assert len(audit_events) == 2
-            assert audit_events[0]['user'] == "user1"
-            assert audit_events[1]['user'] == "user2"
+            assert audit_events[0]["user"] == "user1"
+            assert audit_events[1]["user"] == "user2"
 
     # Module Health Monitoring Tests
     def test_health_monitoring(self, registry, sample_module_info):
@@ -292,33 +292,33 @@ class TestModuleRegistry:
         # Test health check
         health_status = registry.check_module_health("test_module")
         assert health_status is not None
-        assert health_status.get('status') in ['healthy', 'unhealthy', 'unknown']
+        assert health_status.get("status") in ["healthy", "unhealthy", "unknown"]
 
     def test_health_monitoring_with_endpoint(self, registry, sample_module_info):
         """Test health monitoring with custom endpoint."""
         # Mock HTTP response for health check
-        with patch('requests.get') as mock_get:
+        with patch("requests.get") as mock_get:
             mock_response = Mock()
             mock_response.status_code = 200
-            mock_response.json.return_value = {'status': 'healthy', 'uptime': 3600}
+            mock_response.json.return_value = {"status": "healthy", "uptime": 3600}
             mock_get.return_value = mock_response
 
             registry.register_module(sample_module_info)
             health_status = registry.check_module_health("test_module")
 
-            assert health_status['status'] == 'healthy'
-            assert health_status['uptime'] == 3600
+            assert health_status["status"] == "healthy"
+            assert health_status["uptime"] == 3600
 
     def test_unhealthy_module_detection(self, registry, sample_module_info):
         """Test detection of unhealthy modules."""
-        with patch('requests.get') as mock_get:
+        with patch("requests.get") as mock_get:
             # Simulate failed health check
             mock_get.side_effect = Exception("Connection failed")
 
             registry.register_module(sample_module_info)
             health_status = registry.check_module_health("test_module")
 
-            assert health_status['status'] == 'unhealthy'
+            assert health_status["status"] == "unhealthy"
 
     def test_periodic_health_monitoring(self, registry, sample_module_info):
         """Test periodic health monitoring."""
@@ -349,7 +349,7 @@ class TestModuleRegistry:
             dependencies=[],
             capabilities=["foundation"],
             health_endpoint="/health",
-            status="active"
+            status="active",
         )
 
         dependent_module = ModuleInfo(
@@ -360,7 +360,7 @@ class TestModuleRegistry:
             dependencies=["core"],
             capabilities=["advanced"],
             health_endpoint="/health",
-            status="active"
+            status="active",
         )
 
         # Register core module first
@@ -384,7 +384,7 @@ class TestModuleRegistry:
             dependencies=["module_b"],
             capabilities=["a"],
             health_endpoint="/health",
-            status="active"
+            status="active",
         )
 
         module_b = ModuleInfo(
@@ -395,7 +395,7 @@ class TestModuleRegistry:
             dependencies=["module_a"],
             capabilities=["b"],
             health_endpoint="/health",
-            status="active"
+            status="active",
         )
 
         # Register first module
@@ -415,7 +415,7 @@ class TestModuleRegistry:
             dependencies=["nonexistent_module"],
             capabilities=["advanced"],
             health_endpoint="/health",
-            status="active"
+            status="active",
         )
 
         # Attempt to register module with missing dependency
@@ -437,7 +437,7 @@ class TestModuleRegistry:
                 dependencies=[],
                 capabilities=[f"capability_{i}"],
                 health_endpoint=f"/health/{i}",
-                status="active"
+                status="active",
             )
             registry.register_module(module_info)
 
@@ -464,10 +464,7 @@ class TestModuleRegistry:
             for _ in range(10):
                 for module_info in multiple_modules:
                     try:
-                        access_granted = registry.validate_module_access(
-                            module_info.name,
-                            user_id="test_user"
-                        )
+                        access_granted = registry.validate_module_access(module_info.name, user_id="test_user")
                         access_results.append(access_granted)
                     except Exception:
                         access_results.append(False)
@@ -495,8 +492,8 @@ class TestModuleRegistry:
         # Get memory metrics
         memory_stats = registry.get_memory_statistics()
 
-        assert memory_stats['module_count'] == len(multiple_modules)
-        assert memory_stats['memory_usage_bytes'] > 0
+        assert memory_stats["module_count"] == len(multiple_modules)
+        assert memory_stats["memory_usage_bytes"] > 0
 
     # Configuration and Customization Tests
     def test_custom_tier_validation(self, registry):
@@ -518,7 +515,7 @@ class TestModuleRegistry:
             dependencies=[],
             capabilities=["custom"],
             health_endpoint="/health",
-            status="active"
+            status="active",
         )
 
         registry.register_module(sample_module)
@@ -551,7 +548,7 @@ class TestModuleRegistry:
             dependencies=[],
             capabilities=[],
             health_endpoint="invalid-endpoint",  # Invalid endpoint format
-            status="invalid_status"  # Invalid status
+            status="invalid_status",  # Invalid status
         )
 
         with pytest.raises(ValueError):
@@ -560,7 +557,7 @@ class TestModuleRegistry:
     # Integration Tests
     def test_identity_service_integration(self, registry, sample_module_info):
         """Test integration with identity service."""
-        with patch('core.module_registry.get_identity_service') as mock_get_service:
+        with patch("core.module_registry.get_identity_service") as mock_get_service:
             mock_service = Mock()
             mock_service.get_user_tier.return_value = TierLevel.TIER_3
             mock_service.validate_tier_access.return_value = True
@@ -577,7 +574,7 @@ class TestModuleRegistry:
 
     def test_metrics_integration(self, registry, sample_module_info):
         """Test integration with metrics system."""
-        with patch('core.module_registry.get_metrics_client') as mock_get_metrics:
+        with patch("core.module_registry.get_metrics_client") as mock_get_metrics:
             mock_metrics = Mock()
             mock_get_metrics.return_value = mock_metrics
 
@@ -589,7 +586,7 @@ class TestModuleRegistry:
 
     def test_full_system_integration(self, registry, multiple_modules, mock_identity_service):
         """Test full system integration scenario."""
-        with patch('core.module_registry.get_identity_service', return_value=mock_identity_service):
+        with patch("core.module_registry.get_identity_service", return_value=mock_identity_service):
             # Register all modules
             for module_info in multiple_modules:
                 registry.register_module(module_info)
@@ -606,10 +603,7 @@ class TestModuleRegistry:
 
             # Test access validation
             for module_info in multiple_modules:
-                access_granted = registry.validate_module_access(
-                    module_info.name,
-                    user_id="test_user"
-                )
+                access_granted = registry.validate_module_access(module_info.name, user_id="test_user")
                 operations_results.append(access_granted)
 
             # Test dependency resolution
@@ -671,7 +665,7 @@ class TestModuleRegistry:
 
     def test_memory_leak_prevention(self, registry):
         """Test memory leak prevention."""
-        initial_memory = registry.get_memory_statistics()['memory_usage_bytes']
+        initial_memory = registry.get_memory_statistics()["memory_usage_bytes"]
 
         # Register and deregister many modules
         for i in range(100):
@@ -683,13 +677,13 @@ class TestModuleRegistry:
                 dependencies=[],
                 capabilities=[f"temp_{i}"],
                 health_endpoint=f"/health/{i}",
-                status="active"
+                status="active",
             )
 
             registry.register_module(module_info)
             registry.deregister_module(f"temp_module_{i}")
 
-        final_memory = registry.get_memory_statistics()['memory_usage_bytes']
+        final_memory = registry.get_memory_statistics()["memory_usage_bytes"]
 
         # Verify no significant memory increase
         memory_increase = final_memory - initial_memory

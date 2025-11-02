@@ -109,9 +109,7 @@ class BootstrapParadox:
             return None
 
         # Combine symbol IDs for emergence
-        combined_id = hashlib.sha256(
-            "".join(sorted([s.state.symbol_id for s in symbols])).encode()
-        ).hexdigest()[:12]
+        combined_id = hashlib.sha256("".join(sorted([s.state.symbol_id for s in symbols])).encode()).hexdigest()[:12]
 
         emergence_id = f"E-{combined_id}"
 
@@ -153,9 +151,7 @@ class RecursiveSymbolicEngine:
 
         # Track drift
         if symbol.state.symbol_id not in self.drift_trackers:
-            self.drift_trackers[symbol.state.symbol_id] = SymbolicDrift(
-                symbol_id=symbol.state.symbol_id
-            )
+            self.drift_trackers[symbol.state.symbol_id] = SymbolicDrift(symbol_id=symbol.state.symbol_id)
 
         tracker = self.drift_trackers[symbol.state.symbol_id]
         tracker.drift_trajectory.append(
@@ -217,9 +213,7 @@ class RecursiveSymbolicEngine:
         phase_diff = abs(symbol_a.state.quantum_field.phase - symbol_b.state.quantum_field.phase)
 
         if phase_diff > np.pi * 0.9:  # Nearly opposite phases
-            self.contradiction_entropy.add_contradiction(
-                symbol_a.state.symbol_id, symbol_b.state.symbol_id
-            )
+            self.contradiction_entropy.add_contradiction(symbol_a.state.symbol_id, symbol_b.state.symbol_id)
             return True
 
         return False
@@ -259,11 +253,7 @@ class RecursiveSymbolicEngine:
         entropy = self.contradiction_entropy.entropy_level
 
         # Higher coherence and observations, moderate entropy
-        potential = (
-            avg_coherence * 0.4
-            + min(1.0, avg_observations / 100) * 0.3
-            + (0.5 - abs(entropy - 0.5)) * 0.3
-        )
+        potential = avg_coherence * 0.4 + min(1.0, avg_observations / 100) * 0.3 + (0.5 - abs(entropy - 0.5)) * 0.3
 
         return potential
 
@@ -281,9 +271,7 @@ class RecursiveSymbolicEngine:
 
         # Natural entropy increase
         self.contradiction_entropy.entropy_level *= 1.0 + time_step * 0.1
-        self.contradiction_entropy.entropy_level = min(
-            1.0, self.contradiction_entropy.entropy_level
-        )
+        self.contradiction_entropy.entropy_level = min(1.0, self.contradiction_entropy.entropy_level)
 
     def to_matriz_node(self) -> Dict[str, Any]:
         """Convert engine state to MATRIZ format"""

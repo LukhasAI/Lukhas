@@ -7,7 +7,7 @@ Enterprise-grade comprehensive test suite for LUKHAS AI platform.
 Provides structured testing across all system components with quality gates.
 
 P1 Task: TP001 - Create comprehensive test suite
-Priority: High (P1) 
+Priority: High (P1)
 Agent: Claude Code (Testing/Documentation)
 
 Constellation Framework: 🛡️ Guardian · ⚛️ Identity · 🧠 Consciousness
@@ -39,15 +39,13 @@ from typing import Any, Dict, List, Optional, Tuple
 import pytest
 
 # Configure comprehensive test logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Test coverage tracking
 try:
     import coverage
+
     COVERAGE_AVAILABLE = True
 except ImportError:
     COVERAGE_AVAILABLE = False
@@ -55,6 +53,7 @@ except ImportError:
 # Performance monitoring
 try:
     import psutil
+
     PERFORMANCE_MONITORING = True
 except ImportError:
     PERFORMANCE_MONITORING = False
@@ -92,12 +91,7 @@ class TestSuiteMetrics:
     @property
     def quality_score(self) -> float:
         """Calculate comprehensive quality score"""
-        weights = {
-            "success_rate": 0.4,
-            "coverage": 0.3,
-            "performance": 0.2,
-            "security": 0.1
-        }
+        weights = {"success_rate": 0.4, "coverage": 0.3, "performance": 0.2, "security": 0.1}
 
         success_score = min(self.success_rate / 100, 1.0)
         coverage_score = min(self.coverage_percentage / 100, 1.0)
@@ -105,10 +99,10 @@ class TestSuiteMetrics:
         security_score = max(0, 1.0 - (self.security_issues * 0.2))
 
         return (
-            weights["success_rate"] * success_score +
-            weights["coverage"] * coverage_score +
-            weights["performance"] * performance_score +
-            weights["security"] * security_score
+            weights["success_rate"] * success_score
+            + weights["coverage"] * coverage_score
+            + weights["performance"] * performance_score
+            + weights["security"] * security_score
         ) * 100
 
 
@@ -116,6 +110,7 @@ class TestSuiteMetrics:
 @dataclass
 class TestSuiteResults:
     """Legacy alias for TestSuiteMetrics - maintained for compatibility"""
+
     total_tests: int = 0
     passed_tests: int = 0
     failed_tests: int = 0
@@ -141,11 +136,7 @@ class TestSuiteResults:
     @property
     def meets_standards(self) -> bool:
         """Check if results meet T4/0.01% standards."""
-        return (
-            self.success_rate >= 95.0 and
-            self.coverage_percentage >= 90.0 and
-            len(self.failed_test_details) == 0
-        )
+        return self.success_rate >= 95.0 and self.coverage_percentage >= 90.0 and len(self.failed_test_details) == 0
 
 
 class ComprehensiveTestSuite:
@@ -163,14 +154,7 @@ class ComprehensiveTestSuite:
         if COVERAGE_AVAILABLE:
             self.coverage = coverage.Coverage(
                 source=[str(self.project_root)],
-                omit=[
-                    "*/tests/*",
-                    "*/test_*",
-                    "*/__pycache__/*",
-                    "*/venv/*",
-                    "*/env/*",
-                    "*/.venv/*"
-                ]
+                omit=["*/tests/*", "*/test_*", "*/__pycache__/*", "*/venv/*", "*/env/*", "*/.venv/*"],
             )
         else:
             self.coverage = None
@@ -183,26 +167,26 @@ class ComprehensiveTestSuite:
                     "patterns": ["tests/unit/**/*test*.py", "tests/*/test_*.py"],
                     "timeout": 300,
                     "parallel": True,
-                    "coverage_required": 85.0
+                    "coverage_required": 85.0,
                 },
                 "integration": {
                     "patterns": ["tests/integration/**/*test*.py"],
                     "timeout": 900,
                     "parallel": False,
-                    "coverage_required": 75.0
+                    "coverage_required": 75.0,
                 },
                 "system": {
                     "patterns": ["tests/system/**/*test*.py", "tests/e2e/**/*test*.py"],
                     "timeout": 1800,
                     "parallel": False,
-                    "coverage_required": 60.0
+                    "coverage_required": 60.0,
                 },
                 "security": {
                     "patterns": ["tests/security/**/*test*.py"],
                     "timeout": 600,
                     "parallel": True,
-                    "coverage_required": 90.0
-                }
+                    "coverage_required": 90.0,
+                },
             },
             "components": {
                 "identity": ["tests/identity/", "tests/core/identity/"],
@@ -211,21 +195,21 @@ class ComprehensiveTestSuite:
                 "governance": ["tests/governance/", "tests/guardian/"],
                 "orchestration": ["tests/orchestration/"],
                 "api": ["tests/api/", "tests/core/api/"],
-                "matriz": ["tests/matriz/", "tests/MATRIZ/"]
+                "matriz": ["tests/matriz/", "tests/MATRIZ/"],
             },
             "quality_requirements": {
                 "min_coverage": 80.0,
                 "max_execution_time": 3600,
                 "max_failure_rate": 5.0,
-                "performance_regression_threshold": 20.0
-            }
+                "performance_regression_threshold": 20.0,
+            },
         }
 
         # Try to load from config file
         config_path = self.project_root / "tests" / "test_suite_config.json"
         if config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path, "r") as f:
                     custom_config = json.load(f)
                     default_config.update(custom_config)
             except Exception as e:
@@ -240,16 +224,16 @@ class ComprehensiveTestSuite:
             "min_coverage": 80.0,
             "max_security_issues": 0,
             "max_performance_regressions": 2,
-            "min_quality_score": 85.0
+            "min_quality_score": 85.0,
         }
 
     def run_comprehensive_suite(self, tier_filter: Optional[str] = None) -> TestSuiteMetrics:
         """
         Run comprehensive test suite with quality gates
-        
+
         Args:
             tier_filter: Optional tier to run (unit, integration, system, security)
-            
+
         Returns:
             Complete test metrics and quality assessment
         """
@@ -323,13 +307,7 @@ class ComprehensiveTestOrchestrator:
         if COVERAGE_AVAILABLE:
             self.coverage = coverage.Coverage(
                 source=[str(self.project_root / "lukhas")],
-                omit=[
-                    "*/tests/*",
-                    "*/test_*",
-                    "*/__pycache__/*",
-                    "*/venv/*",
-                    "*/env/*"
-                ]
+                omit=["*/tests/*", "*/test_*", "*/__pycache__/*", "*/venv/*", "*/env/*"],
             )
 
     def run_comprehensive_suite(self) -> TestSuiteResults:
@@ -369,14 +347,9 @@ class ComprehensiveTestOrchestrator:
             memory_results = self._run_memory_tests()
 
             # Aggregate results
-            self._aggregate_results([
-                unit_results,
-                integration_results,
-                e2e_results,
-                security_results,
-                performance_results,
-                memory_results
-            ])
+            self._aggregate_results(
+                [unit_results, integration_results, e2e_results, security_results, performance_results, memory_results]
+            )
 
         finally:
             if COVERAGE_AVAILABLE:
@@ -396,7 +369,7 @@ class ComprehensiveTestOrchestrator:
             "tests/core/",
             "tests/governance/",
             "tests/memory/test_topk_recall.py",
-            "tests/memory/test_scheduled_folding.py"
+            "tests/memory/test_scheduled_folding.py",
         ]
 
         results = {"phase": "unit", "details": []}
@@ -419,7 +392,7 @@ class ComprehensiveTestOrchestrator:
             "tests/integration/test_guardian_dsl.py",
             "tests/integration/test_memory_system.py",
             "tests/reliability/",
-            "tests/e2e/test_matriz_orchestration.py"
+            "tests/e2e/test_matriz_orchestration.py",
         ]
 
         results = {"phase": "integration", "details": []}
@@ -436,10 +409,7 @@ class ComprehensiveTestOrchestrator:
     def _run_e2e_tests(self) -> Dict[str, Any]:
         """Run end-to-end tests."""
 
-        e2e_paths = [
-            "tests/e2e/",
-            "tests/stress/test_orchestrator.py"
-        ]
+        e2e_paths = ["tests/e2e/", "tests/stress/test_orchestrator.py"]
 
         results = {"phase": "e2e", "details": []}
 
@@ -455,10 +425,7 @@ class ComprehensiveTestOrchestrator:
     def _run_security_tests(self) -> Dict[str, Any]:
         """Run security validation tests."""
 
-        security_paths = [
-            "tests/security/test_security_validation.py",
-            "tests/bridge/test_llm_guardrail.py"
-        ]
+        security_paths = ["tests/security/test_security_validation.py", "tests/bridge/test_llm_guardrail.py"]
 
         results = {"phase": "security", "details": []}
 
@@ -474,10 +441,7 @@ class ComprehensiveTestOrchestrator:
     def _run_performance_tests(self) -> Dict[str, Any]:
         """Run performance benchmark tests."""
 
-        performance_paths = [
-            "tests/performance/test_performance_budgets.py",
-            "tests/stress/"
-        ]
+        performance_paths = ["tests/performance/test_performance_budgets.py", "tests/stress/"]
 
         results = {"phase": "performance", "details": []}
 
@@ -496,7 +460,7 @@ class ComprehensiveTestOrchestrator:
         memory_paths = [
             "tests/memory/test_fold_consolidation_edge_cases.py",
             "tests/memory/test_topk_recall.py",
-            "tests/memory/test_scheduled_folding.py"
+            "tests/memory/test_scheduled_folding.py",
         ]
 
         results = {"phase": "memory", "details": []}
@@ -514,12 +478,14 @@ class ComprehensiveTestOrchestrator:
         """Execute pytest on given path with optional markers."""
 
         cmd = [
-            sys.executable, "-m", "pytest",
+            sys.executable,
+            "-m",
+            "pytest",
             str(test_path),
             "-v",
             "--tb=short",
             "--disable-warnings",
-            "-x"  # Stop on first failure for comprehensive suite
+            "-x",  # Stop on first failure for comprehensive suite
         ]
 
         if markers:
@@ -535,7 +501,7 @@ class ComprehensiveTestOrchestrator:
                 capture_output=True,
                 text=True,
                 timeout=300,  # 5 minute timeout per test file
-                cwd=self.project_root
+                cwd=self.project_root,
             )
 
             return {
@@ -543,7 +509,7 @@ class ComprehensiveTestOrchestrator:
                 "return_code": result.returncode,
                 "stdout": result.stdout,
                 "stderr": result.stderr,
-                "success": result.returncode == 0
+                "success": result.returncode == 0,
             }
 
         except subprocess.TimeoutExpired:
@@ -552,16 +518,10 @@ class ComprehensiveTestOrchestrator:
                 "return_code": -1,
                 "stdout": "",
                 "stderr": "Test execution timeout",
-                "success": False
+                "success": False,
             }
         except Exception as e:
-            return {
-                "path": str(test_path),
-                "return_code": -1,
-                "stdout": "",
-                "stderr": str(e),
-                "success": False
-            }
+            return {"path": str(test_path), "return_code": -1, "stdout": "", "stderr": str(e), "success": False}
 
     def _aggregate_results(self, phase_results: List[Dict[str, Any]]) -> None:
         """Aggregate results from all test phases."""
@@ -586,11 +546,7 @@ class ComprehensiveTestOrchestrator:
                 else:
                     phase_failed += 1
                     print(f"  ❌ {Path(detail['path']).name}")
-                    failed_details.append({
-                        "phase": phase_name,
-                        "path": detail["path"],
-                        "error": detail["stderr"]
-                    })
+                    failed_details.append({"phase": phase_name, "path": detail["path"], "error": detail["stderr"]})
 
             print(f"  Summary: {phase_passed} passed, {phase_failed} failed")
 
@@ -617,7 +573,7 @@ class ComprehensiveTestOrchestrator:
 
             # Generate coverage report
             coverage_report = self.project_root / "coverage_report.txt"
-            with open(coverage_report, 'w') as f:
+            with open(coverage_report, "w") as f:
                 self.coverage.report(file=f, show_missing=True)
 
             # Get coverage percentage
@@ -648,7 +604,7 @@ class ComprehensiveTestOrchestrator:
                 "memory_usage_mb": process.memory_info().rss / 1024 / 1024,
                 "memory_percent": process.memory_percent(),
                 "disk_io": psutil.disk_io_counters()._asdict() if psutil.disk_io_counters() else {},
-                "network_io": psutil.net_io_counters()._asdict() if psutil.net_io_counters() else {}
+                "network_io": psutil.net_io_counters()._asdict() if psutil.net_io_counters() else {},
             }
             return system_metrics
         except Exception as e:
@@ -707,14 +663,14 @@ class ComprehensiveTestOrchestrator:
                 "success_rate": self.test_results.success_rate,
                 "coverage_percentage": self.test_results.coverage_percentage,
                 "execution_time": self.test_results.execution_time,
-                "meets_standards": self.test_results.meets_standards
+                "meets_standards": self.test_results.meets_standards,
             },
             "failed_tests": self.test_results.failed_test_details,
-            "performance_metrics": self.test_results.performance_metrics
+            "performance_metrics": self.test_results.performance_metrics,
         }
 
         report_file = self.project_root / "comprehensive_test_report.json"
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report_data, f, indent=2)
 
         print(f"\n📄 Detailed report saved: {report_file}")
@@ -745,11 +701,12 @@ class TestComprehensiveValidation:
 
         # This would run all Guardian-related tests
         try:
-            result = subprocess.run([
-                sys.executable, "-m", "pytest",
-                "tests/integration/test_guardian_dsl.py",
-                "-v", "--tb=short"
-            ], capture_output=True, text=True, timeout=120)
+            result = subprocess.run(
+                [sys.executable, "-m", "pytest", "tests/integration/test_guardian_dsl.py", "-v", "--tb=short"],
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
 
             assert result.returncode == 0, f"Guardian tests failed: {result.stderr}"
 
@@ -763,43 +720,45 @@ class TestComprehensiveValidation:
             "tests/memory/test_topk_recall.py",
             "tests/memory/test_scheduled_folding.py",
             "tests/memory/test_fold_consolidation_edge_cases.py",
-            "tests/integration/test_memory_system.py"
+            "tests/integration/test_memory_system.py",
         ]
 
         for test_file in memory_test_files:
             if Path(test_file).exists():
-                result = subprocess.run([
-                    sys.executable, "-m", "pytest",
-                    test_file, "-v", "--tb=short"
-                ], capture_output=True, text=True, timeout=120)
+                result = subprocess.run(
+                    [sys.executable, "-m", "pytest", test_file, "-v", "--tb=short"],
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                )
 
                 assert result.returncode == 0, f"Memory test {test_file} failed: {result.stderr}"
 
     def test_orchestrator_comprehensive(self):
         """Comprehensive orchestrator validation."""
 
-        orchestrator_tests = [
-            "tests/e2e/test_matriz_orchestration.py",
-            "tests/stress/test_orchestrator.py"
-        ]
+        orchestrator_tests = ["tests/e2e/test_matriz_orchestration.py", "tests/stress/test_orchestrator.py"]
 
         for test_file in orchestrator_tests:
             if Path(test_file).exists():
-                result = subprocess.run([
-                    sys.executable, "-m", "pytest",
-                    test_file, "-v", "--tb=short"
-                ], capture_output=True, text=True, timeout=180)
+                result = subprocess.run(
+                    [sys.executable, "-m", "pytest", test_file, "-v", "--tb=short"],
+                    capture_output=True,
+                    text=True,
+                    timeout=180,
+                )
 
                 assert result.returncode == 0, f"Orchestrator test {test_file} failed: {result.stderr}"
 
     def test_security_comprehensive(self):
         """Comprehensive security validation."""
 
-        result = subprocess.run([
-            sys.executable, "-m", "pytest",
-            "tests/security/test_security_validation.py",
-            "-v", "--tb=short"
-        ], capture_output=True, text=True, timeout=300)
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/security/test_security_validation.py", "-v", "--tb=short"],
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
 
         # Security tests may find vulnerabilities, so we check for test execution success
         # rather than zero vulnerabilities
@@ -808,11 +767,12 @@ class TestComprehensiveValidation:
     def test_performance_budgets_comprehensive(self):
         """Comprehensive performance budget validation."""
 
-        result = subprocess.run([
-            sys.executable, "-m", "pytest",
-            "tests/performance/test_performance_budgets.py",
-            "-v", "--tb=short"
-        ], capture_output=True, text=True, timeout=180)
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/performance/test_performance_budgets.py", "-v", "--tb=short"],
+            capture_output=True,
+            text=True,
+            timeout=180,
+        )
 
         assert result.returncode == 0, f"Performance tests failed: {result.stderr}"
 
@@ -828,12 +788,20 @@ class TestComprehensiveValidation:
 
         try:
             # Run representative tests
-            subprocess.run([
-                sys.executable, "-m", "pytest",
-                "tests/memory/test_topk_recall.py",
-                "tests/reliability/",
-                "-v", "--tb=short"
-            ], capture_output=True, text=True, timeout=120)
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "pytest",
+                    "tests/memory/test_topk_recall.py",
+                    "tests/reliability/",
+                    "-v",
+                    "--tb=short",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
 
         finally:
             cov.stop()

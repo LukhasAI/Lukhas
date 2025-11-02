@@ -1,4 +1,5 @@
 """Shim: governance.identity → governance.identity or candidate.governance.identity."""
+
 import importlib as _importlib
 
 try:

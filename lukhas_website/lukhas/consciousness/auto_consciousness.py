@@ -28,41 +28,35 @@ tracer = trace.get_tracer(__name__)
 
 # Prometheus metrics
 decision_cycles_total = Counter(
-    'lukhas_decision_cycles_total',
-    'Total number of decision cycles completed',
-    ['component', 'action_type']
+    "lukhas_decision_cycles_total", "Total number of decision cycles completed", ["component", "action_type"]
 )
 
 decision_latency_seconds = Histogram(
-    'lukhas_decision_latency_seconds',
-    'Decision-making latency',
-    ['component'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
+    "lukhas_decision_latency_seconds",
+    "Decision-making latency",
+    ["component"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0],
 )
 
 guardian_approval_rate = Gauge(
-    'lukhas_guardian_approval_rate',
-    'Guardian approval rate for proposed actions',
-    ['component']
+    "lukhas_guardian_approval_rate", "Guardian approval rate for proposed actions", ["component"]
 )
 
 autonomous_actions_total = Counter(
-    'lukhas_autonomous_actions_total',
-    'Total autonomous actions taken',
-    ['component', 'action_type', 'status']
+    "lukhas_autonomous_actions_total", "Total autonomous actions taken", ["component", "action_type", "status"]
 )
 
 decision_confidence_score = Gauge(
-    'lukhas_decision_confidence_score',
-    'Current decision confidence score',
-    ['component']
+    "lukhas_decision_confidence_score", "Current decision confidence score", ["component"]
 )
 
 
 class GuardianResponse:
     """Guardian validation response."""
 
-    def __init__(self, approved: bool, reason: str, confidence: float = 1.0, constraints: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self, approved: bool, reason: str, confidence: float = 1.0, constraints: Optional[Dict[str, Any]] = None
+    ):
         self.approved = approved
         self.reason = reason
         self.confidence = confidence
@@ -112,7 +106,7 @@ class AutoConsciousness:
         consciousness_state: ConsciousnessState,
         awareness_snapshot: Optional[AwarenessSnapshot] = None,
         reflection_report: Optional[ReflectionReport] = None,
-        dream_trace: Optional[DreamTrace] = None
+        dream_trace: Optional[DreamTrace] = None,
     ) -> DecisionContext:
         """
         Execute complete decision-making cycle with Guardian validation.
@@ -138,7 +132,7 @@ class AutoConsciousness:
                 decision_context = DecisionContext(
                     consciousness_state=consciousness_state,
                     awareness_snapshot=awareness_snapshot,
-                    reflection_report=reflection_report
+                    reflection_report=reflection_report,
                 )
 
                 # Generate proposed actions
@@ -156,7 +150,7 @@ class AutoConsciousness:
                     "reason": guardian_response.reason,
                     "confidence": guardian_response.confidence,
                     "constraints": guardian_response.constraints,
-                    "timestamp": guardian_response.timestamp
+                    "timestamp": guardian_response.timestamp,
                 }
 
                 # Execute approved actions
@@ -185,9 +179,7 @@ class AutoConsciousness:
                 raise
 
     async def _generate_proposed_actions(
-        self,
-        decision_context: DecisionContext,
-        dream_trace: Optional[DreamTrace]
+        self, decision_context: DecisionContext, dream_trace: Optional[DreamTrace]
     ) -> None:
         """Generate proposed actions based on consciousness inputs."""
 
@@ -210,9 +202,7 @@ class AutoConsciousness:
         await self._propose_optimization_actions(decision_context)
 
     async def _propose_awareness_actions(
-        self,
-        decision_context: DecisionContext,
-        awareness_snapshot: Optional[AwarenessSnapshot]
+        self, decision_context: DecisionContext, awareness_snapshot: Optional[AwarenessSnapshot]
     ) -> None:
         """Propose actions based on awareness analysis."""
         if not awareness_snapshot:
@@ -222,41 +212,32 @@ class AutoConsciousness:
         if awareness_snapshot.drift_ema > 0.8:
             decision_context.add_proposed_action(
                 "stabilize_drift",
-                {
-                    "drift_level": awareness_snapshot.drift_ema,
-                    "method": "awareness_recalibration"
-                },
-                priority="high"
+                {"drift_level": awareness_snapshot.drift_ema, "method": "awareness_recalibration"},
+                priority="high",
             )
 
         # High load mitigation
         if awareness_snapshot.load_factor > 0.85:
             decision_context.add_proposed_action(
                 "reduce_load",
-                {
-                    "load_factor": awareness_snapshot.load_factor,
-                    "strategy": "resource_optimization"
-                },
-                priority="high"
+                {"load_factor": awareness_snapshot.load_factor, "strategy": "resource_optimization"},
+                priority="high",
             )
 
         # Anomaly response
         if awareness_snapshot.anomalies:
-            high_severity_anomalies = [a for a in awareness_snapshot.anomalies if a.get("severity") in ["high", "critical"]]
+            high_severity_anomalies = [
+                a for a in awareness_snapshot.anomalies if a.get("severity") in ["high", "critical"]
+            ]
             if high_severity_anomalies:
                 decision_context.add_proposed_action(
                     "respond_to_anomalies",
-                    {
-                        "anomaly_count": len(high_severity_anomalies),
-                        "most_severe": high_severity_anomalies[0]
-                    },
-                    priority="critical"
+                    {"anomaly_count": len(high_severity_anomalies), "most_severe": high_severity_anomalies[0]},
+                    priority="critical",
                 )
 
     async def _propose_reflection_actions(
-        self,
-        decision_context: DecisionContext,
-        reflection_report: Optional[ReflectionReport]
+        self, decision_context: DecisionContext, reflection_report: Optional[ReflectionReport]
     ) -> None:
         """Propose actions based on reflection analysis."""
         if not reflection_report:
@@ -269,9 +250,9 @@ class AutoConsciousness:
                 {
                     "current_score": reflection_report.coherence_score,
                     "target_score": 0.85,
-                    "method": "coherence_calibration"
+                    "method": "coherence_calibration",
                 },
-                priority="medium"
+                priority="medium",
             )
 
         # Performance optimization
@@ -281,15 +262,13 @@ class AutoConsciousness:
                 {
                     "current_duration_ms": reflection_report.reflection_duration_ms,
                     "target_duration_ms": 10,
-                    "optimization_target": "latency"
+                    "optimization_target": "latency",
                 },
-                priority="low"
+                priority="low",
             )
 
     async def _propose_dream_actions(
-        self,
-        decision_context: DecisionContext,
-        dream_trace: Optional[DreamTrace]
+        self, decision_context: DecisionContext, dream_trace: Optional[DreamTrace]
     ) -> None:
         """Propose actions based on dream processing insights."""
         if not dream_trace:
@@ -302,9 +281,9 @@ class AutoConsciousness:
                 {
                     "consolidation_count": dream_trace.consolidation_count,
                     "patterns_discovered": dream_trace.memory_patterns_discovered,
-                    "compression_ratio": dream_trace.compression_ratio
+                    "compression_ratio": dream_trace.compression_ratio,
                 },
-                priority="low"
+                priority="low",
             )
 
         # Pattern integration
@@ -313,9 +292,9 @@ class AutoConsciousness:
                 "integrate_discovered_patterns",
                 {
                     "motifs": dream_trace.top_k_motifs[:5],  # Top 5 motifs
-                    "association_count": len(dream_trace.associations)
+                    "association_count": len(dream_trace.associations),
                 },
-                priority="low"
+                priority="low",
             )
 
     async def _propose_decision_actions(self, decision_context: DecisionContext) -> None:
@@ -332,9 +311,9 @@ class AutoConsciousness:
                     {
                         "recent_approval_rate": approval_rate,
                         "target_rate": 0.85,
-                        "improvement_strategy": "constraint_learning"
+                        "improvement_strategy": "constraint_learning",
                     },
-                    priority="medium"
+                    priority="medium",
                 )
 
     async def _propose_maintenance_actions(self, decision_context: DecisionContext) -> None:
@@ -345,11 +324,8 @@ class AutoConsciousness:
         if time_since_last_decision > 300:  # 5 minutes
             decision_context.add_proposed_action(
                 "periodic_cleanup",
-                {
-                    "cleanup_type": "memory_buffers",
-                    "last_cleanup": self._last_decision_time
-                },
-                priority="low"
+                {"cleanup_type": "memory_buffers", "last_cleanup": self._last_decision_time},
+                priority="low",
             )
 
     async def _propose_optimization_actions(self, decision_context: DecisionContext) -> None:
@@ -364,9 +340,9 @@ class AutoConsciousness:
                     {
                         "current_avg_latency_ms": avg_latency,
                         "target_latency_ms": 50,
-                        "optimization_area": "action_generation"
+                        "optimization_area": "action_generation",
                     },
-                    priority="low"
+                    priority="low",
                 )
 
     async def _calculate_confidence_score(self, decision_context: DecisionContext) -> float:
@@ -408,11 +384,7 @@ class AutoConsciousness:
                 return self._default_guardian_validator(decision_context)
         except Exception as e:
             # Conservative default on Guardian failure
-            return GuardianResponse(
-                approved=False,
-                reason=f"Guardian validation failed: {str(e)}",
-                confidence=0.0
-            )
+            return GuardianResponse(approved=False, reason=f"Guardian validation failed: {str(e)}", confidence=0.0)
 
     def _default_guardian_validator(self, decision_context: DecisionContext) -> GuardianResponse:
         """Default Guardian validation logic."""
@@ -421,9 +393,7 @@ class AutoConsciousness:
         critical_actions = [a for a in decision_context.proposed_actions if a.get("priority") == "critical"]
         if critical_actions and decision_context.confidence_score < 0.8:
             return GuardianResponse(
-                approved=False,
-                reason="Critical actions require high confidence score",
-                confidence=0.9
+                approved=False, reason="Critical actions require high confidence score", confidence=0.9
             )
 
         # Check for high-risk actions
@@ -431,9 +401,7 @@ class AutoConsciousness:
         risky_actions = [a for a in decision_context.proposed_actions if a.get("type") in high_risk_types]
         if risky_actions:
             return GuardianResponse(
-                approved=False,
-                reason="High-risk actions blocked by default Guardian",
-                confidence=1.0
+                approved=False, reason="High-risk actions blocked by default Guardian", confidence=1.0
             )
 
         # Approve low-risk actions with sufficient confidence
@@ -442,20 +410,16 @@ class AutoConsciousness:
                 approved=True,
                 reason="Actions approved - sufficient confidence and low risk",
                 confidence=decision_context.confidence_score,
-                constraints={"max_execution_time_ms": 1000}
+                constraints={"max_execution_time_ms": 1000},
             )
 
         return GuardianResponse(
             approved=False,
             reason="Insufficient confidence score for autonomous action",
-            confidence=decision_context.confidence_score
+            confidence=decision_context.confidence_score,
         )
 
-    async def _execute_approved_actions(
-        self,
-        decision_context: DecisionContext,
-        constraints: Dict[str, Any]
-    ) -> None:
+    async def _execute_approved_actions(self, decision_context: DecisionContext, constraints: Dict[str, Any]) -> None:
         """Execute Guardian-approved actions."""
 
         max_execution_time = constraints.get("max_execution_time_ms", 1000) / 1000.0
@@ -473,39 +437,35 @@ class AutoConsciousness:
                 try:
                     await action_handler(action.get("parameters", {}))
                     autonomous_actions_total.labels(
-                        component=self._component_id,
-                        action_type=action_type,
-                        status="success"
+                        component=self._component_id, action_type=action_type, status="success"
                     ).inc()
                 except Exception:
                     autonomous_actions_total.labels(
-                        component=self._component_id,
-                        action_type=action_type,
-                        status="error"
+                        component=self._component_id, action_type=action_type, status="error"
                     ).inc()
             else:
                 # Log unhandled action type
                 autonomous_actions_total.labels(
-                    component=self._component_id,
-                    action_type=action_type,
-                    status="unhandled"
+                    component=self._component_id, action_type=action_type, status="unhandled"
                 ).inc()
 
     def _register_default_actions(self) -> None:
         """Register default action handlers."""
 
-        self._action_handlers.update({
-            "stabilize_drift": self._handle_stabilize_drift,
-            "reduce_load": self._handle_reduce_load,
-            "respond_to_anomalies": self._handle_respond_to_anomalies,
-            "improve_coherence": self._handle_improve_coherence,
-            "optimize_reflection": self._handle_optimize_reflection,
-            "apply_memory_insights": self._handle_apply_memory_insights,
-            "integrate_discovered_patterns": self._handle_integrate_patterns,
-            "improve_decision_quality": self._handle_improve_decision_quality,
-            "periodic_cleanup": self._handle_periodic_cleanup,
-            "optimize_decision_latency": self._handle_optimize_latency
-        })
+        self._action_handlers.update(
+            {
+                "stabilize_drift": self._handle_stabilize_drift,
+                "reduce_load": self._handle_reduce_load,
+                "respond_to_anomalies": self._handle_respond_to_anomalies,
+                "improve_coherence": self._handle_improve_coherence,
+                "optimize_reflection": self._handle_optimize_reflection,
+                "apply_memory_insights": self._handle_apply_memory_insights,
+                "integrate_discovered_patterns": self._handle_integrate_patterns,
+                "improve_decision_quality": self._handle_improve_decision_quality,
+                "periodic_cleanup": self._handle_periodic_cleanup,
+                "optimize_decision_latency": self._handle_optimize_latency,
+            }
+        )
 
     async def _handle_stabilize_drift(self, parameters: Dict[str, Any]) -> None:
         """Handle drift stabilization action."""
@@ -584,22 +544,14 @@ class AutoConsciousness:
         # Count decision cycles by action type
         for action in decision_context.proposed_actions:
             action_type = action.get("type", "unknown")
-            decision_cycles_total.labels(
-                component=self._component_id,
-                action_type=action_type
-            ).inc()
+            decision_cycles_total.labels(component=self._component_id, action_type=action_type).inc()
 
         self._last_decision_time = time.time()
 
     def get_performance_stats(self) -> Dict[str, float]:
         """Get current performance statistics."""
         if self._total_decisions == 0:
-            return {
-                "total_decisions": 0,
-                "approval_rate": 0.0,
-                "average_confidence": 0.0,
-                "average_latency_ms": 0.0
-            }
+            return {"total_decisions": 0, "approval_rate": 0.0, "average_confidence": 0.0, "average_latency_ms": 0.0}
 
         avg_confidence = sum(self._confidence_scores) / len(self._confidence_scores) if self._confidence_scores else 0.0
         avg_latency = sum(self._decision_latencies) / len(self._decision_latencies) if self._decision_latencies else 0.0
@@ -609,7 +561,7 @@ class AutoConsciousness:
             "approval_rate": self._approval_count / self._total_decisions,
             "average_confidence": avg_confidence,
             "average_latency_ms": avg_latency,
-            "recent_decisions": len(self._decision_history)
+            "recent_decisions": len(self._decision_history),
         }
 
     def reset_state(self) -> None:

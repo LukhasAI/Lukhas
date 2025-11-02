@@ -8,6 +8,7 @@ Author: Lukhas AI System
 Version: 1.0.0
 License: Proprietary
 """
+
 from abc import ABC
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

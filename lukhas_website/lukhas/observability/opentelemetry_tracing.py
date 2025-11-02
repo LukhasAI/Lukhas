@@ -38,6 +38,7 @@ try:
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False
+
     # Mock classes for when OpenTelemetry is not available
     class MockStatus:
         def __init__(self, status_code, description=""):
@@ -54,12 +55,16 @@ except ImportError:
     class MockSpan:
         def set_attribute(self, key: str, value: Any) -> None:
             pass
+
         def set_status(self, status: Any) -> None:
             pass
+
         def record_exception(self, exception: Exception) -> None:
             pass
+
         def __enter__(self):
             return self
+
         def __exit__(self, *args):
             pass
 
@@ -132,8 +137,8 @@ class LUKHASTracer:
         # Jaeger exporter
         if jaeger_endpoint:
             jaeger_exporter = JaegerExporter(
-                agent_host_name=jaeger_endpoint.split(':')[0],
-                agent_port=int(jaeger_endpoint.split(':')[1]) if ':' in jaeger_endpoint else 14268,
+                agent_host_name=jaeger_endpoint.split(":")[0],
+                agent_port=int(jaeger_endpoint.split(":")[1]) if ":" in jaeger_endpoint else 14268,
             )
             exporters.append(jaeger_exporter)
 
@@ -145,6 +150,7 @@ class LUKHASTracer:
         # Default console exporter for development
         if not exporters:
             from opentelemetry.exporter.console import ConsoleSpanExporter
+
             exporters.append(ConsoleSpanExporter())
 
         # Add span processors
@@ -162,6 +168,7 @@ class LUKHASTracer:
         else:
             # Console exporter for development
             from opentelemetry.exporter.console import ConsoleMetricExporter
+
             metric_reader = PeriodicExportingMetricReader(
                 ConsoleMetricExporter(),
                 export_interval_millis=60000,  # 1 minute
@@ -291,16 +298,10 @@ class LUKHASTracer:
         with self.trace_operation(f"memory_{operation_type}", attributes):
             # Record metrics
             if self._meter:
-                self.memory_operations_counter.add(
-                    1,
-                    {"operation": operation_type, "success": str(success)}
-                )
+                self.memory_operations_counter.add(1, {"operation": operation_type, "success": str(success)})
 
                 if latency_ms is not None and operation_type == "recall":
-                    self.memory_recall_latency.record(
-                        latency_ms,
-                        {"success": str(success)}
-                    )
+                    self.memory_recall_latency.record(latency_ms, {"success": str(success)})
 
     def trace_matriz_stage(
         self,
@@ -339,7 +340,7 @@ class LUKHASTracer:
                         "stage": stage_name,
                         "success": str(success),
                         "timeout": str(timeout),
-                    }
+                    },
                 )
 
     def trace_matriz_pipeline(
@@ -379,7 +380,7 @@ class LUKHASTracer:
                     {
                         "within_budget": str(within_budget),
                         "stages_completed": str(stages_completed),
-                    }
+                    },
                 )
 
     def trace_plugin_operation(
@@ -418,14 +419,10 @@ class LUKHASTracer:
             # Record metrics
             if self._meter:
                 if operation_type == "discovery":
-                    self.plugin_discovery_counter.add(
-                        1,
-                        {"success": str(success)}
-                    )
+                    self.plugin_discovery_counter.add(1, {"success": str(success)})
                 elif operation_type == "instantiation":
                     self.plugin_instantiation_counter.add(
-                        1,
-                        {"success": str(success), "plugin": plugin_name or "unknown"}
+                        1, {"success": str(success), "plugin": plugin_name or "unknown"}
                     )
 
     def trace_fold_operation(
@@ -458,10 +455,7 @@ class LUKHASTracer:
         with self.trace_operation(f"fold_{operation_type}", attributes):
             # Record metrics
             if self._meter:
-                self.fold_operations_counter.add(
-                    1,
-                    {"operation": operation_type, "success": str(success)}
-                )
+                self.fold_operations_counter.add(1, {"operation": operation_type, "success": str(success)})
 
 
 def trace_function(
@@ -480,6 +474,7 @@ def trace_function(
         def my_function():
             pass
     """
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -488,13 +483,14 @@ def trace_function(
 
             # Extract self attributes for class methods
             func_attributes = attributes or {}
-            if args and hasattr(args[0], '__class__'):
+            if args and hasattr(args[0], "__class__"):
                 func_attributes["class"] = args[0].__class__.__name__
 
             with tracer.trace_operation(op_name, func_attributes):
                 return func(*args, **kwargs)
 
         return wrapper
+
     return decorator
 
 
@@ -552,11 +548,11 @@ def shutdown_tracing():
     if OTEL_AVAILABLE:
         try:
             # Flush and shutdown trace provider
-            if hasattr(trace.get_tracer_provider(), 'shutdown'):
+            if hasattr(trace.get_tracer_provider(), "shutdown"):
                 trace.get_tracer_provider().shutdown()
 
             # Flush and shutdown metrics provider
-            if hasattr(metrics.get_meter_provider(), 'shutdown'):
+            if hasattr(metrics.get_meter_provider(), "shutdown"):
                 metrics.get_meter_provider().shutdown()
         except Exception as e:
             print(f"Warning: Error during tracing shutdown: {e}")
@@ -570,10 +566,7 @@ def trace_memory_recall(item_count: int):
     start_time = time.perf_counter()
 
     try:
-        with tracer.trace_operation(
-            "memory_recall",
-            {"memory.item_count": item_count}
-        ):
+        with tracer.trace_operation("memory_recall", {"memory.item_count": item_count}):
             yield
         # Record successful operation
         latency_ms = (time.perf_counter() - start_time) * 1000

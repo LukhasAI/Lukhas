@@ -29,6 +29,7 @@ def _load_optional(module_path: str, attribute: Optional[str] = None) -> Optiona
     except (ImportError, AttributeError):
         return None
 
+
 # Observability integrations
 if TYPE_CHECKING:
     from guardian import GuardianSystem

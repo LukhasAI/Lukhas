@@ -46,6 +46,7 @@ logger = logging.getLogger(__name__)
 
 class LUKHASLane(Enum):
     """Canonical LUKHAS lane taxonomy - single source of truth"""
+
     CANDIDATE = "candidate"
     LUKHAS = "lukhas"
     MATRIZ = "MATRIZ"
@@ -82,7 +83,7 @@ class SchemaVersion:
 
     def __init__(self, version_str: str):
         self.version_str = version_str
-        parts = version_str.split('.')
+        parts = version_str.split(".")
         if len(parts) != 3:
             raise ValueError(f"Invalid version format: {version_str}")
 
@@ -113,6 +114,7 @@ class SchemaVersion:
 
 class SchemaFormat(Enum):
     """Supported schema formats"""
+
     JSON_SCHEMA = "json_schema"
     CUSTOM = "custom"
     HYBRID = "hybrid"
@@ -120,15 +122,17 @@ class SchemaFormat(Enum):
 
 class ValidationLevel(Enum):
     """Validation strictness levels"""
-    STRICT = "strict"           # Full validation with all constraints
-    MODERATE = "moderate"       # Core validation with some flexibility
-    LENIENT = "lenient"         # Basic validation only
-    SYNTAX_ONLY = "syntax_only" # Syntax validation only
+
+    STRICT = "strict"  # Full validation with all constraints
+    MODERATE = "moderate"  # Core validation with some flexibility
+    LENIENT = "lenient"  # Basic validation only
+    SYNTAX_ONLY = "syntax_only"  # Syntax validation only
 
 
 @dataclass
 class SchemaValidationResult:
     """Result of schema validation"""
+
     is_valid: bool
     errors: List[str] = field(default_factory=list)
     warnings: List[str] = field(default_factory=list)
@@ -140,6 +144,7 @@ class SchemaValidationResult:
 @dataclass
 class SchemaMetadata:
     """Metadata for schema definitions"""
+
     id: str
     version: SchemaVersion
     format: SchemaFormat
@@ -198,7 +203,7 @@ class JSONSchemaValidator(SchemaValidator):
                 is_valid=is_valid,
                 errors=errors,
                 validation_time_ms=validation_time,
-                compliance_score=1.0 if is_valid else max(0.0, 1.0 - len(errors) * 0.1)
+                compliance_score=1.0 if is_valid else max(0.0, 1.0 - len(errors) * 0.1),
             )
 
         except Exception as e:
@@ -207,7 +212,7 @@ class JSONSchemaValidator(SchemaValidator):
                 is_valid=False,
                 errors=[f"Validation error: {str(e)}"],
                 validation_time_ms=validation_time,
-                compliance_score=0.0
+                compliance_score=0.0,
             )
 
     def supports_format(self, format: SchemaFormat) -> bool:
@@ -261,7 +266,7 @@ class CustomValidator(SchemaValidator):
             errors=errors,
             warnings=warnings,
             validation_time_ms=validation_time,
-            compliance_score=compliance_score
+            compliance_score=compliance_score,
         )
 
     def supports_format(self, format: SchemaFormat) -> bool:
@@ -306,18 +311,8 @@ class CustomValidator(SchemaValidator):
     def _load_constitutional_rules(self) -> Dict[str, Any]:
         """Load Constitutional AI rules"""
         return {
-            "ethical_principles": [
-                "transparency",
-                "accountability",
-                "fairness",
-                "privacy",
-                "safety"
-            ],
-            "required_fields": [
-                "audit",
-                "decision.timestamp",
-                "decision.policy"
-            ]
+            "ethical_principles": ["transparency", "accountability", "fairness", "privacy", "safety"],
+            "required_fields": ["audit", "decision.timestamp", "decision.policy"],
         }
 
 
@@ -327,10 +322,7 @@ class SchemaRegistry:
     def __init__(self, base_path: Optional[Path] = None):
         self.base_path = base_path or Path(__file__).parent / "schemas"
         self.schemas: Dict[str, Dict[str, SchemaMetadata]] = {}
-        self.validators: List[SchemaValidator] = [
-            JSONSchemaValidator(),
-            CustomValidator()
-        ]
+        self.validators: List[SchemaValidator] = [JSONSchemaValidator(), CustomValidator()]
         self._lock = threading.RLock()
         self._cache = {}
         self._cache_hits = 0
@@ -345,7 +337,7 @@ class SchemaRegistry:
         version: str,
         schema_definition: Dict[str, Any],
         format: SchemaFormat = SchemaFormat.JSON_SCHEMA,
-        validation_level: ValidationLevel = ValidationLevel.STRICT
+        validation_level: ValidationLevel = ValidationLevel.STRICT,
     ) -> None:
         """Register a new schema version"""
         with self._lock:
@@ -362,7 +354,7 @@ class SchemaRegistry:
                 created_at=time.time(),
                 updated_at=time.time(),
                 checksum=checksum,
-                validation_level=validation_level
+                validation_level=validation_level,
             )
 
             self.schemas[schema_id][version] = metadata
@@ -397,7 +389,7 @@ class SchemaRegistry:
         data: Any,
         schema_id: str,
         version: Optional[str] = None,
-        validation_level: Optional[ValidationLevel] = None
+        validation_level: Optional[ValidationLevel] = None,
     ) -> SchemaValidationResult:
         """Validate data against registered schema"""
         start_time = time.perf_counter()
@@ -408,7 +400,7 @@ class SchemaRegistry:
             return SchemaValidationResult(
                 is_valid=False,
                 errors=[f"Schema {schema_id} not found"],
-                validation_time_ms=(time.perf_counter() - start_time) * 1000
+                validation_time_ms=(time.perf_counter() - start_time) * 1000,
             )
 
         # Get schema metadata
@@ -417,7 +409,7 @@ class SchemaRegistry:
             return SchemaValidationResult(
                 is_valid=False,
                 errors=[f"Schema metadata {schema_id}:{version} not found"],
-                validation_time_ms=(time.perf_counter() - start_time) * 1000
+                validation_time_ms=(time.perf_counter() - start_time) * 1000,
             )
 
         # Use metadata validation level if not specified
@@ -435,7 +427,7 @@ class SchemaRegistry:
             return SchemaValidationResult(
                 is_valid=False,
                 errors=["No suitable validator found"],
-                validation_time_ms=(time.perf_counter() - start_time) * 1000
+                validation_time_ms=(time.perf_counter() - start_time) * 1000,
             )
 
         # Merge validation results
@@ -457,16 +449,13 @@ class SchemaRegistry:
             warnings=warnings,
             validation_time_ms=total_time,
             schema_version=version,
-            compliance_score=min_compliance
+            compliance_score=min_compliance,
         )
 
     def list_schemas(self) -> Dict[str, List[str]]:
         """List all registered schemas and versions"""
         with self._lock:
-            return {
-                schema_id: list(versions.keys())
-                for schema_id, versions in self.schemas.items()
-            }
+            return {schema_id: list(versions.keys()) for schema_id, versions in self.schemas.items()}
 
     def check_compatibility(self, schema_id: str, version1: str, version2: str) -> bool:
         """Check if two schema versions are compatible"""
@@ -488,7 +477,7 @@ class SchemaRegistry:
                 "unique_schemas": len(self.schemas),
                 "cache_hit_rate": cache_hit_rate,
                 "cache_size": len(self._cache),
-                "memory_usage_mb": self._estimate_memory_usage()
+                "memory_usage_mb": self._estimate_memory_usage(),
             }
 
     def _load_guardian_schema(self) -> None:
@@ -504,11 +493,7 @@ class SchemaRegistry:
                 version = "2.0.0"  # From schema pattern "^2\\.\\d+\\.\\d+$"
 
                 self.register_schema(
-                    "guardian_decision",
-                    version,
-                    guardian_schema,
-                    SchemaFormat.JSON_SCHEMA,
-                    ValidationLevel.STRICT
+                    "guardian_decision", version, guardian_schema, SchemaFormat.JSON_SCHEMA, ValidationLevel.STRICT
                 )
 
                 logger.info(f"Loaded Guardian schema version {version}")
@@ -597,10 +582,7 @@ class SchemaMetrics:
     def get_stats(self) -> Dict[str, Any]:
         """Get validation statistics"""
         uptime = time.time() - self.start_time
-        avg_time = (
-            self.total_validation_time / self.validation_count
-            if self.validation_count > 0 else 0
-        )
+        avg_time = self.total_validation_time / self.validation_count if self.validation_count > 0 else 0
 
         return {
             "total_validations": self.validation_count,
@@ -608,10 +590,11 @@ class SchemaMetrics:
             "failed_validations": self.failed_validations,
             "success_rate": (
                 (self.validation_count - self.failed_validations) / self.validation_count
-                if self.validation_count > 0 else 1.0
+                if self.validation_count > 0
+                else 1.0
             ),
             "throughput_per_second": self.validation_count / uptime if uptime > 0 else 0,
-            "uptime_seconds": uptime
+            "uptime_seconds": uptime,
         }
 
 

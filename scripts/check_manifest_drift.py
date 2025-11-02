@@ -18,9 +18,12 @@ def load(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
+
 def pct_drop(old: int, new: int) -> float:
-    if old == 0: return 0.0
+    if old == 0:
+        return 0.0
     return max(0.0, (old - new) / old * 100.0)
+
 
 def main():
     ap = argparse.ArgumentParser(description="Fail if manifest count drops beyond threshold.")
@@ -40,6 +43,7 @@ def main():
         print("[FAIL] Manifest count drop exceeds threshold.")
         sys.exit(1)
     print("[OK] No unacceptable drift detected.")
+
 
 if __name__ == "__main__":
     main()

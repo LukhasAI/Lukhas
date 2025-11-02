@@ -10,6 +10,7 @@ Unified Symbolic Language Framework
 Common symbolic representation language for DAST, ABAS, and NIAS
 to reduce translation overhead and improve interoperability.
 """
+
 import json
 import logging
 from dataclasses import dataclass, field

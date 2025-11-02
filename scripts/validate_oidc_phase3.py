@@ -31,7 +31,7 @@ def validate_file_structure():
         "lukhas/identity/oidc/discovery.py",
         "tests/identity/test_oidc_conformance.py",
         "tests/identity/test_oidc_security_hardening.py",
-        "docs/identity/oidc_security_audit.md"
+        "docs/identity/oidc_security_audit.md",
     ]
 
     validation_results = {}
@@ -56,6 +56,7 @@ def validate_file_structure():
     print(f"\nFile structure validation: {'✅ PASS' if all_present else '❌ FAIL'}")
     return all_present
 
+
 def validate_oidc_security_hardening():
     """Validate OIDC security hardening implementation"""
     print("\n=== OIDC Security Hardening Validation ===")
@@ -63,7 +64,7 @@ def validate_oidc_security_hardening():
     try:
         # Read the security hardening file
         hardening_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/oidc_security_hardening.py"
-        with open(hardening_path, 'r') as f:
+        with open(hardening_path, "r") as f:
             content = f.read()
 
         # Check for key security features
@@ -75,7 +76,7 @@ def validate_oidc_security_hardening():
             "rate_limiting": "rate_limit" in content,
             "PKCE_validation": "pkce" in content.lower(),
             "JWT_security": "jwt" in content.lower() and "algorithm" in content,
-            "emergency_shutdown": "emergency_shutdown" in content
+            "emergency_shutdown": "emergency_shutdown" in content,
         }
 
         print("Security features implementation:")
@@ -84,12 +85,7 @@ def validate_oidc_security_hardening():
             print(f"   {status_icon} {feature.replace('_', ' ').title()}")
 
         # Check for T4/0.01% excellence markers
-        excellence_markers = [
-            "T4/0.01%",
-            "excellence",
-            "fail-closed",
-            "zero security bypasses"
-        ]
+        excellence_markers = ["T4/0.01%", "excellence", "fail-closed", "zero security bypasses"]
 
         excellence_found = sum(1 for marker in excellence_markers if marker.lower() in content.lower())
         print(f"\nExcellence standard markers: {excellence_found}/{len(excellence_markers)} ✅")
@@ -102,6 +98,7 @@ def validate_oidc_security_hardening():
         print(f"❌ Security hardening validation failed: {e}")
         return False
 
+
 def validate_webauthn_integration():
     """Validate WebAuthn-OIDC integration implementation"""
     print("\n=== WebAuthn-OIDC Integration Validation ===")
@@ -109,7 +106,7 @@ def validate_webauthn_integration():
     try:
         # Read the integration file
         integration_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/webauthn_oidc_integration.py"
-        with open(integration_path, 'r') as f:
+        with open(integration_path, "r") as f:
             content = f.read()
 
         # Check for key integration features
@@ -121,7 +118,7 @@ def validate_webauthn_integration():
             "biometric_auth": "biometric" in content.lower(),
             "multi_factor": "multi_factor" in content.lower() or "mfa" in content.lower(),
             "guardian_integration": "guardian" in content.lower(),
-            "performance_targets": "performance" in content and "target" in content
+            "performance_targets": "performance" in content and "target" in content,
         }
 
         print("Integration features implementation:")
@@ -134,11 +131,10 @@ def validate_webauthn_integration():
             "Authentication Context Class Reference",
             "ACR",
             "user_verification",
-            "credential_binding"
+            "credential_binding",
         ]
 
-        auth_context_found = sum(1 for feature in auth_context_features
-                               if feature.lower() in content.lower())
+        auth_context_found = sum(1 for feature in auth_context_features if feature.lower() in content.lower())
         print(f"\nAuthentication context features: {auth_context_found}/{len(auth_context_features)} ✅")
 
         all_implemented = all(integration_features.values())
@@ -149,6 +145,7 @@ def validate_webauthn_integration():
         print(f"❌ WebAuthn integration validation failed: {e}")
         return False
 
+
 def validate_discovery_provider():
     """Validate OIDC discovery provider implementation"""
     print("\n=== OIDC Discovery Provider Validation ===")
@@ -156,7 +153,7 @@ def validate_discovery_provider():
     try:
         # Read the discovery file
         discovery_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/oidc/discovery.py"
-        with open(discovery_path, 'r') as f:
+        with open(discovery_path, "r") as f:
             content = f.read()
 
         # Check for OIDC specification compliance
@@ -168,7 +165,7 @@ def validate_discovery_provider():
             "jwks_uri": "jwks_uri" in content,
             "userinfo_endpoint": "userinfo_endpoint" in content,
             "response_types_supported": "response_types_supported" in content,
-            "subject_types_supported": "subject_types_supported" in content
+            "subject_types_supported": "subject_types_supported" in content,
         }
 
         print("OIDC 1.0 specification compliance:")
@@ -182,7 +179,7 @@ def validate_discovery_provider():
             "algorithm_validation": "algorithm" in content.lower(),
             "security_validation": "validate_security" in content,
             "document_hash": "document_hash" in content,
-            "cache_optimization": "cache" in content and "ttl" in content
+            "cache_optimization": "cache" in content and "ttl" in content,
         }
 
         print("\nSecurity enhancements:")
@@ -201,21 +198,19 @@ def validate_discovery_provider():
         print(f"❌ Discovery provider validation failed: {e}")
         return False
 
+
 def validate_test_coverage():
     """Validate test coverage and quality"""
     print("\n=== Test Coverage Validation ===")
 
-    test_files = [
-        "tests/identity/test_oidc_conformance.py",
-        "tests/identity/test_oidc_security_hardening.py"
-    ]
+    test_files = ["tests/identity/test_oidc_conformance.py", "tests/identity/test_oidc_security_hardening.py"]
 
     test_results = {}
 
     for test_file in test_files:
         try:
             full_path = os.path.join("/Users/agi_dev/LOCAL-REPOS/Lukhas", test_file)
-            with open(full_path, 'r') as f:
+            with open(full_path, "r") as f:
                 content = f.read()
 
             # Count test methods
@@ -227,16 +222,15 @@ def validate_test_coverage():
                 "security_tests": "security" in content.lower(),
                 "performance_tests": "performance" in content.lower(),
                 "conformance_tests": "conformance" in content.lower(),
-                "attack_vector_tests": any(attack in content.lower()
-                                         for attack in ["replay", "injection", "bypass"]),
+                "attack_vector_tests": any(attack in content.lower() for attack in ["replay", "injection", "bypass"]),
                 "fail_closed_tests": "fail_closed" in content.lower(),
-                "async_support": async_tests > 0
+                "async_support": async_tests > 0,
             }
 
             test_results[test_file] = {
                 "total_tests": test_methods,
                 "async_tests": async_tests,
-                "coverage": test_coverage
+                "coverage": test_coverage,
             }
 
             print(f"\n{test_file}:")
@@ -263,13 +257,14 @@ def validate_test_coverage():
     print(f"Test coverage validation: {'✅ PASS' if comprehensive_coverage else '❌ FAIL'}")
     return comprehensive_coverage
 
+
 def validate_documentation():
     """Validate security audit documentation"""
     print("\n=== Documentation Validation ===")
 
     try:
         doc_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/identity/oidc_security_audit.md"
-        with open(doc_path, 'r') as f:
+        with open(doc_path, "r") as f:
             content = f.read()
 
         # Check for required documentation sections
@@ -280,7 +275,7 @@ def validate_documentation():
             "Performance Metrics": "Performance" in content,
             "Compliance Standards": "Compliance" in content or "Standards" in content,
             "T4 Excellence": "T4/0.01%" in content,
-            "Security Testing": "Security Testing" in content or "Testing Results" in content
+            "Security Testing": "Security Testing" in content or "Testing Results" in content,
         }
 
         print("Documentation sections:")
@@ -294,7 +289,7 @@ def validate_documentation():
             "security_metrics": "metrics" in content.lower(),
             "performance_targets": "<50ms" in content or "<100ms" in content,
             "zero_vulnerabilities": "zero" in content.lower() and "vulnerabilities" in content.lower(),
-            "production_ready": "production" in content.lower() and "ready" in content.lower()
+            "production_ready": "production" in content.lower() and "ready" in content.lower(),
         }
 
         print("\nDocumentation quality:")
@@ -313,6 +308,7 @@ def validate_documentation():
         print(f"❌ Documentation validation failed: {e}")
         return False
 
+
 def performance_benchmark():
     """Run basic performance benchmarks"""
     print("\n=== Performance Benchmark ===")
@@ -325,10 +321,10 @@ def performance_benchmark():
         # Simulate rapid component access
         for i in range(iterations):
             test_data = {
-                'session_id': f'session_{i}',
-                'timestamp': time.time(),
-                'security_level': 'T4',
-                'validation_result': True
+                "session_id": f"session_{i}",
+                "timestamp": time.time(),
+                "security_level": "T4",
+                "validation_result": True,
             }
             json.dumps(test_data)
 
@@ -341,9 +337,9 @@ def performance_benchmark():
 
         # Performance targets
         targets = {
-            "discovery_latency": 50,      # <50ms
-            "token_validation": 100,      # <100ms
-            "authentication_flow": 250    # <250ms
+            "discovery_latency": 50,  # <50ms
+            "token_validation": 100,  # <100ms
+            "authentication_flow": 250,  # <250ms
         }
 
         print("\n   Performance targets:")
@@ -358,6 +354,7 @@ def performance_benchmark():
     except Exception as e:
         print(f"❌ Performance benchmark failed: {e}")
         return False
+
 
 def generate_validation_report(results: Dict[str, bool]):
     """Generate comprehensive validation report"""
@@ -378,35 +375,27 @@ def generate_validation_report(results: Dict[str, bool]):
             "test_suite": "OIDC Phase 3 - T4/0.01% Excellence Validation",
             "version": "1.0.0",
             "validator": "LUKHAS AI Identity Team",
-
             "summary": {
                 "total_checks": total_checks,
                 "passed_checks": passed_checks,
                 "compliance_percentage": compliance_percentage,
-                "t4_excellence_achieved": t4_excellence
+                "t4_excellence_achieved": t4_excellence,
             },
-
-            "validation_results": {
-                category.replace("_", " ").title(): status
-                for category, status in results.items()
-            },
-
+            "validation_results": {category.replace("_", " ").title(): status for category, status in results.items()},
             "security_compliance": {
                 "oidc_1_0_specification": True,
                 "oauth2_security_best_practices": True,
                 "webauthn_level_2_integration": True,
                 "fail_closed_design": True,
                 "comprehensive_security_hardening": True,
-                "production_ready": t4_excellence
+                "production_ready": t4_excellence,
             },
-
             "performance_targets": {
                 "discovery_latency_target_ms": 50,
                 "token_validation_target_ms": 100,
                 "authentication_flow_target_ms": 250,
-                "all_targets_achievable": True
+                "all_targets_achievable": True,
             },
-
             "implementation_features": {
                 "nonce_replay_protection": True,
                 "rate_limiting": True,
@@ -414,26 +403,28 @@ def generate_validation_report(results: Dict[str, bool]):
                 "pkce_enforcement": True,
                 "webauthn_biometric_support": True,
                 "guardian_system_integration": True,
-                "comprehensive_audit_logging": True
+                "comprehensive_audit_logging": True,
             },
-
             "overall_status": (
                 "T4/0.01% EXCELLENCE ACHIEVED - PRODUCTION READY"
-                if t4_excellence else
-                f"PARTIAL COMPLIANCE ({compliance_percentage:.1f}%)"
+                if t4_excellence
+                else f"PARTIAL COMPLIANCE ({compliance_percentage:.1f}%)"
             ),
-
-            "recommendations": [
-                "Deploy to production environment with monitoring",
-                "Enable continuous security scanning",
-                "Conduct regular security reviews",
-                "Monitor performance metrics in production"
-            ] if t4_excellence else [
-                "Address failed validation checks",
-                "Complete missing implementations",
-                "Re-run validation after fixes",
-                "Ensure all T4/0.01% excellence criteria are met"
-            ]
+            "recommendations": (
+                [
+                    "Deploy to production environment with monitoring",
+                    "Enable continuous security scanning",
+                    "Conduct regular security reviews",
+                    "Monitor performance metrics in production",
+                ]
+                if t4_excellence
+                else [
+                    "Address failed validation checks",
+                    "Complete missing implementations",
+                    "Re-run validation after fixes",
+                    "Ensure all T4/0.01% excellence criteria are met",
+                ]
+            ),
         }
 
         # Write report to artifacts
@@ -441,7 +432,7 @@ def generate_validation_report(results: Dict[str, bool]):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_path = f"artifacts/oidc_phase3_validation_{timestamp}.json"
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
 
         print(f"✅ Validation report generated: {report_path}")
@@ -465,6 +456,7 @@ def generate_validation_report(results: Dict[str, bool]):
         print(f"❌ Report generation failed: {e}")
         return False
 
+
 def main():
     """Run comprehensive OIDC Phase 3 validation"""
     print("🔐 OIDC Phase 3 Implementation Validation")
@@ -480,15 +472,15 @@ def main():
         "discovery_provider": validate_discovery_provider(),
         "test_coverage": validate_test_coverage(),
         "documentation": validate_documentation(),
-        "performance_benchmark": performance_benchmark()
+        "performance_benchmark": performance_benchmark(),
     }
 
     # Generate comprehensive report
     t4_excellence_achieved = generate_validation_report(validation_results)
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("OIDC PHASE 3 VALIDATION COMPLETE")
-    print("="*60)
+    print("=" * 60)
 
     if t4_excellence_achieved:
         print("🎉 CONGRATULATIONS!")
@@ -509,6 +501,7 @@ def main():
         print("Please address failed validation checks and re-run")
 
     return 0 if t4_excellence_achieved else 1
+
 
 if __name__ == "__main__":
     exit_code = main()

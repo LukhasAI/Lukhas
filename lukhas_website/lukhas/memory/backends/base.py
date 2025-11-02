@@ -19,11 +19,12 @@ from governance.schema_registry import get_lane_enum
 
 class VectorDimension(Enum):
     """Standard vector dimensions for different embedding models"""
-    OPENAI_1536 = 1536      # text-embedding-ada-002
-    OPENAI_3072 = 3072      # text-embedding-3-large
-    SENTENCE_384 = 384      # sentence-transformers small
-    SENTENCE_768 = 768      # sentence-transformers base
-    CUSTOM = -1             # Custom dimension
+
+    OPENAI_1536 = 1536  # text-embedding-ada-002
+    OPENAI_3072 = 3072  # text-embedding-3-large
+    SENTENCE_384 = 384  # sentence-transformers small
+    SENTENCE_768 = 768  # sentence-transformers base
+    CUSTOM = -1  # Custom dimension
 
 
 @dataclass
@@ -33,6 +34,7 @@ class VectorDocument:
 
     Core data structure for all vector storage operations.
     """
+
     id: str
     content: str
     embedding: np.ndarray
@@ -99,11 +101,11 @@ class VectorDocument:
             "updated_at": self.updated_at.isoformat(),
             "expires_at": self.expires_at.isoformat() if self.expires_at else None,
             "access_count": self.access_count,
-            "last_accessed": self.last_accessed.isoformat() if self.last_accessed else None
+            "last_accessed": self.last_accessed.isoformat() if self.last_accessed else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'VectorDocument':
+    def from_dict(cls, data: Dict[str, Any]) -> "VectorDocument":
         """Create from dictionary"""
         doc = cls(
             id=data["id"],
@@ -114,7 +116,7 @@ class VectorDocument:
             lane=data.get("lane", "candidate"),
             fold_id=data.get("fold_id"),
             tags=data.get("tags", []),
-            access_count=data.get("access_count", 0)
+            access_count=data.get("access_count", 0),
         )
 
         # Parse datetimes
@@ -135,9 +137,10 @@ class SearchResult:
     """
     Vector search result with relevance and performance metrics.
     """
+
     document: VectorDocument
     score: float  # Similarity score (0-1, higher = more similar)
-    rank: int     # Result ranking (0-based)
+    rank: int  # Result ranking (0-based)
 
     # Performance metadata
     search_latency_ms: Optional[float] = None
@@ -149,6 +152,7 @@ class StorageStats:
     """
     Storage backend performance and capacity statistics.
     """
+
     total_documents: int
     total_size_bytes: int
     active_documents: int
@@ -166,7 +170,7 @@ class StorageStats:
 
     # Quality metrics
     deduplication_rate: float  # Percentage of duplicates detected
-    compression_ratio: float   # Storage compression ratio
+    compression_ratio: float  # Storage compression ratio
 
     # LUKHAS-specific metrics
     documents_by_lane: Dict[str, int]
@@ -176,21 +180,25 @@ class StorageStats:
 
 class VectorStoreError(Exception):
     """Base exception for vector store operations"""
+
     pass
 
 
 class DocumentNotFoundError(VectorStoreError):
     """Document not found in store"""
+
     pass
 
 
 class DimensionMismatchError(VectorStoreError):
     """Vector dimension mismatch"""
+
     pass
 
 
 class StorageCapacityError(VectorStoreError):
     """Storage capacity exceeded"""
+
     pass
 
 
@@ -301,7 +309,7 @@ class AbstractVectorStore(ABC):
         query_vector: np.ndarray,
         k: int = 10,
         filters: Optional[Dict[str, Any]] = None,
-        include_metadata: bool = True
+        include_metadata: bool = True,
     ) -> List[SearchResult]:
         """
         Vector similarity search.
@@ -321,10 +329,7 @@ class AbstractVectorStore(ABC):
 
     @abstractmethod
     async def search_by_text(
-        self,
-        query_text: str,
-        k: int = 10,
-        filters: Optional[Dict[str, Any]] = None
+        self, query_text: str, k: int = 10, filters: Optional[Dict[str, Any]] = None
     ) -> List[SearchResult]:
         """
         Text-based similarity search (requires embedding model).
@@ -341,11 +346,7 @@ class AbstractVectorStore(ABC):
 
     # Maintenance operations
     @abstractmethod
-    async def list_expired_documents(
-        self,
-        as_of: datetime,
-        batch_size: int = 1000
-    ) -> List[VectorDocument]:
+    async def list_expired_documents(self, as_of: datetime, batch_size: int = 1000) -> List[VectorDocument]:
         """
         List expired documents for lifecycle processing.
 
@@ -359,11 +360,7 @@ class AbstractVectorStore(ABC):
         pass
 
     @abstractmethod
-    async def list_by_identity(
-        self,
-        identity_id: str,
-        limit: int = 1000
-    ) -> List[VectorDocument]:
+    async def list_by_identity(self, identity_id: str, limit: int = 1000) -> List[VectorDocument]:
         """
         List all documents for a specific identity (for GDPR compliance).
 
@@ -469,6 +466,7 @@ class AbstractVectorStore(ABC):
     # Performance utilities
     def _measure_latency(func):
         """Decorator to measure operation latency"""
+
         async def wrapper(self, *args, **kwargs):
             start_time = time.perf_counter()
             try:
@@ -480,6 +478,7 @@ class AbstractVectorStore(ABC):
                 duration_ms = (time.perf_counter() - start_time) * 1000
                 self._record_latency(func.__name__, duration_ms, success=False)
                 raise
+
         return wrapper
 
     def _record_latency(self, operation: str, duration_ms: float, success: bool):
@@ -490,9 +489,7 @@ class AbstractVectorStore(ABC):
     def _validate_dimension(self, vector: np.ndarray, expected_dim: Optional[int] = None):
         """Validate vector dimension"""
         if expected_dim is not None and len(vector) != expected_dim:
-            raise DimensionMismatchError(
-                f"Vector dimension {len(vector)} doesn't match expected {expected_dim}"
-            )
+            raise DimensionMismatchError(f"Vector dimension {len(vector)} doesn't match expected {expected_dim}")
 
     def _normalize_vector(self, vector: np.ndarray) -> np.ndarray:
         """Normalize vector for cosine similarity"""

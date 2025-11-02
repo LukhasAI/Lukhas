@@ -38,11 +38,7 @@ async def test_math_query_maps_to_expression() -> None:
 
     result = await run_async_matriz("2 + 2")
     processing_stage = _extract_stage(result, "processing")
-    additional = (
-        processing_stage.get("data", {})
-        .get("matriz_node", {})
-        .get("additional_data", {})
-    )
+    additional = processing_stage.get("data", {}).get("matriz_node", {}).get("additional_data", {})
 
     assert additional.get("expression") == "2 + 2"
     assert "The result is" in result.get("answer", "")
@@ -54,11 +50,7 @@ async def test_fact_query_maps_to_question() -> None:
 
     result = await run_async_matriz("What is the capital of France?")
     processing_stage = _extract_stage(result, "processing")
-    additional = (
-        processing_stage.get("data", {})
-        .get("matriz_node", {})
-        .get("additional_data", {})
-    )
+    additional = processing_stage.get("data", {}).get("matriz_node", {}).get("additional_data", {})
 
     assert additional.get("question") == "What is the capital of France?"
     assert "Paris" in result.get("answer", "")

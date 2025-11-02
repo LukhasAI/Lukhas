@@ -10,6 +10,7 @@ Environment:
     LUKHAS_POLICY_MODE=permissive - Test suite runs in permissive mode
     for development/CI environments. Production uses strict mode.
 """
+
 from __future__ import annotations
 
 import pytest
@@ -60,7 +61,7 @@ def test_index(client):
             "name": "test-index",
             "metric": "angular",
             "dimension": 128,
-        }
+        },
     )
 
     assert response.status_code == 201
@@ -110,10 +111,7 @@ class TestIndexCreate:
 
     def test_create_index_minimal(self, client):
         """Test creating index with minimal parameters."""
-        response = client.post(
-            "/v1/indexes",
-            json={"name": "test-minimal"}
-        )
+        response = client.post("/v1/indexes", json={"name": "test-minimal"})
 
         assert response.status_code == 201
         data = response.json()
@@ -138,7 +136,7 @@ class TestIndexCreate:
                 "metric": "euclidean",
                 "trees": 20,
                 "dimension": 256,
-            }
+            },
         )
 
         assert response.status_code == 201
@@ -154,32 +152,20 @@ class TestIndexCreate:
 
     def test_create_index_duplicate_name(self, client, test_index):
         """Test that duplicate index names are rejected."""
-        response = client.post(
-            "/v1/indexes",
-            json={"name": "test-index"}  # Same as test_index
-        )
+        response = client.post("/v1/indexes", json={"name": "test-index"})  # Same as test_index
 
         assert response.status_code == 400
         assert "already exists" in response.json()["detail"].lower()
 
     def test_create_index_invalid_metric(self, client):
         """Test that invalid metrics are rejected."""
-        response = client.post(
-            "/v1/indexes",
-            json={
-                "name": "test-invalid-metric",
-                "metric": "manhattan"  # Invalid
-            }
-        )
+        response = client.post("/v1/indexes", json={"name": "test-invalid-metric", "metric": "manhattan"})  # Invalid
 
         assert response.status_code == 422  # Validation error
 
     def test_create_index_invalid_name(self, client):
         """Test that invalid names are rejected."""
-        response = client.post(
-            "/v1/indexes",
-            json={"name": "test index with spaces"}  # Invalid
-        )
+        response = client.post("/v1/indexes", json={"name": "test index with spaces"})  # Invalid
 
         assert response.status_code == 422  # Validation error
 
@@ -222,10 +208,7 @@ class TestVectorAdd:
             {"id": "vec-3", "vector": [0.3] * 128},
         ]
 
-        response = client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": vectors}
-        )
+        response = client.post(f"/v1/indexes/{index_id}/vectors", json={"vectors": vectors})
 
         assert response.status_code == 200
         data = response.json()
@@ -240,15 +223,12 @@ class TestVectorAdd:
         index_id = test_index["id"]
 
         # First add a vector with correct dimension
-        client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": [{"id": "vec-1", "vector": [0.1] * 128}]}
-        )
+        client.post(f"/v1/indexes/{index_id}/vectors", json={"vectors": [{"id": "vec-1", "vector": [0.1] * 128}]})
 
         # Try to add vector with wrong dimension
         response = client.post(
             f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": [{"id": "vec-2", "vector": [0.2] * 64}]}  # Wrong dimension
+            json={"vectors": [{"id": "vec-2", "vector": [0.2] * 64}]},  # Wrong dimension
         )
 
         assert response.status_code == 200
@@ -262,8 +242,7 @@ class TestVectorAdd:
     def test_add_vectors_to_nonexistent_index(self, client):
         """Test adding vectors to non-existent index."""
         response = client.post(
-            "/v1/indexes/nonexistent/vectors",
-            json={"vectors": [{"id": "vec-1", "vector": [0.1] * 128}]}
+            "/v1/indexes/nonexistent/vectors", json={"vectors": [{"id": "vec-1", "vector": [0.1] * 128}]}
         )
 
         assert response.status_code == 404
@@ -273,10 +252,7 @@ class TestVectorAdd:
         index_id = test_index["id"]
 
         # Missing 'vector' field
-        response = client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": [{"id": "vec-1"}]}
-        )
+        response = client.post(f"/v1/indexes/{index_id}/vectors", json={"vectors": [{"id": "vec-1"}]})
 
         assert response.status_code == 422  # Validation error
 
@@ -294,10 +270,7 @@ class TestVectorSearch:
             {"id": "vec-2", "vector": [0.2] * 128},
             {"id": "vec-3", "vector": [0.3] * 128},
         ]
-        client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": vectors}
-        )
+        client.post(f"/v1/indexes/{index_id}/vectors", json={"vectors": vectors})
 
         # Search
         response = client.post(
@@ -305,7 +278,7 @@ class TestVectorSearch:
             json={
                 "vector": [0.15] * 128,
                 "k": 2,
-            }
+            },
         )
 
         assert response.status_code == 200
@@ -327,10 +300,7 @@ class TestVectorSearch:
 
         # Add test vector
         test_vec = [0.1] * 128
-        client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": [{"id": "vec-1", "vector": test_vec}]}
-        )
+        client.post(f"/v1/indexes/{index_id}/vectors", json={"vectors": [{"id": "vec-1", "vector": test_vec}]})
 
         # Search with include_vectors
         response = client.post(
@@ -339,7 +309,7 @@ class TestVectorSearch:
                 "vector": test_vec,
                 "k": 1,
                 "include_vectors": True,
-            }
+            },
         )
 
         assert response.status_code == 200
@@ -356,10 +326,7 @@ class TestVectorSearch:
         index_id = test_index["id"]
 
         # Add vector with dimension 128
-        client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": [{"id": "vec-1", "vector": [0.1] * 128}]}
-        )
+        client.post(f"/v1/indexes/{index_id}/vectors", json={"vectors": [{"id": "vec-1", "vector": [0.1] * 128}]})
 
         # Try to search with wrong dimension
         response = client.post(
@@ -367,7 +334,7 @@ class TestVectorSearch:
             json={
                 "vector": [0.1] * 64,  # Wrong dimension
                 "k": 1,
-            }
+            },
         )
 
         assert response.status_code == 400
@@ -375,10 +342,7 @@ class TestVectorSearch:
 
     def test_search_nonexistent_index(self, client):
         """Test searching in non-existent index."""
-        response = client.post(
-            "/v1/indexes/nonexistent/search",
-            json={"vector": [0.1] * 128, "k": 10}
-        )
+        response = client.post("/v1/indexes/nonexistent/search", json={"vector": [0.1] * 128, "k": 10})
 
         assert response.status_code == 404
 
@@ -392,8 +356,7 @@ class TestVectorDelete:
 
         # Add test vector
         client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": [{"id": "vec-to-delete", "vector": [0.1] * 128}]}
+            f"/v1/indexes/{index_id}/vectors", json={"vectors": [{"id": "vec-to-delete", "vector": [0.1] * 128}]}
         )
 
         # Delete vector
@@ -429,10 +392,7 @@ class TestIndexDelete:
     def test_delete_index_success(self, client):
         """Test successful index deletion."""
         # Create index
-        create_response = client.post(
-            "/v1/indexes",
-            json={"name": "index-to-delete"}
-        )
+        create_response = client.post("/v1/indexes", json={"name": "index-to-delete"})
         assert create_response.status_code == 201
         index_id = create_response.json()["id"]
 
@@ -460,20 +420,19 @@ class TestIndexDelete:
     def test_delete_index_with_vectors(self, client):
         """Test deleting index that contains vectors."""
         # Create index and add vectors
-        create_response = client.post(
-            "/v1/indexes",
-            json={"name": "index-with-vectors", "dimension": 128}
-        )
+        create_response = client.post("/v1/indexes", json={"name": "index-with-vectors", "dimension": 128})
         assert create_response.status_code == 201
         index_id = create_response.json()["id"]
 
         # Add vectors
         client.post(
             f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": [
-                {"id": "vec-1", "vector": [0.1] * 128},
-                {"id": "vec-2", "vector": [0.2] * 128},
-            ]}
+            json={
+                "vectors": [
+                    {"id": "vec-1", "vector": [0.1] * 128},
+                    {"id": "vec-2", "vector": [0.2] * 128},
+                ]
+            },
         )
 
         # Delete index (should succeed even with vectors)
@@ -496,28 +455,19 @@ class TestIntegration:
                 "name": "integration-test",
                 "metric": "angular",
                 "dimension": 64,
-            }
+            },
         )
         assert create_response.status_code == 201
         index_id = create_response.json()["id"]
 
         # 2. Add vectors
-        vectors = [
-            {"id": f"doc-{i}", "vector": [float(i) / 10.0] * 64}
-            for i in range(10)
-        ]
-        add_response = client.post(
-            f"/v1/indexes/{index_id}/vectors",
-            json={"vectors": vectors}
-        )
+        vectors = [{"id": f"doc-{i}", "vector": [float(i) / 10.0] * 64} for i in range(10)]
+        add_response = client.post(f"/v1/indexes/{index_id}/vectors", json={"vectors": vectors})
         assert add_response.status_code == 200
         assert add_response.json()["added_count"] == 10
 
         # 3. Search
-        search_response = client.post(
-            f"/v1/indexes/{index_id}/search",
-            json={"vector": [0.5] * 64, "k": 5}
-        )
+        search_response = client.post(f"/v1/indexes/{index_id}/search", json={"vector": [0.5] * 64, "k": 5})
         assert search_response.status_code == 200
         results = search_response.json()["results"]
         assert len(results) == 5
@@ -557,17 +507,11 @@ class TestValidation:
         assert response.status_code == 422
 
         # Invalid trees (too many)
-        response = client.post(
-            "/v1/indexes",
-            json={"name": "test", "trees": 1000}
-        )
+        response = client.post("/v1/indexes", json={"name": "test", "trees": 1000})
         assert response.status_code == 422
 
         # Invalid dimension (negative)
-        response = client.post(
-            "/v1/indexes",
-            json={"name": "test", "dimension": -1}
-        )
+        response = client.post("/v1/indexes", json={"name": "test", "dimension": -1})
         assert response.status_code == 422
 
     def test_search_validation(self, client, test_index):
@@ -575,22 +519,13 @@ class TestValidation:
         index_id = test_index["id"]
 
         # Invalid k (too large)
-        response = client.post(
-            f"/v1/indexes/{index_id}/search",
-            json={"vector": [0.1] * 128, "k": 10000}
-        )
+        response = client.post(f"/v1/indexes/{index_id}/search", json={"vector": [0.1] * 128, "k": 10000})
         assert response.status_code == 422
 
         # Invalid k (negative)
-        response = client.post(
-            f"/v1/indexes/{index_id}/search",
-            json={"vector": [0.1] * 128, "k": -1}
-        )
+        response = client.post(f"/v1/indexes/{index_id}/search", json={"vector": [0.1] * 128, "k": -1})
         assert response.status_code == 422
 
         # Empty vector
-        response = client.post(
-            f"/v1/indexes/{index_id}/search",
-            json={"vector": [], "k": 10}
-        )
+        response = client.post(f"/v1/indexes/{index_id}/search", json={"vector": [], "k": 10})
         assert response.status_code == 422

@@ -112,9 +112,7 @@ def main():
                     else:
                         print(f"[FAIL] {mf}: unknown contract: {stem}")
 
-    print(
-        f"Checked references: {checked} | Unknown: {len(unknown)} | Bad IDs: {len(bad_id)}"
-    )
+    print(f"Checked references: {checked} | Unknown: {len(unknown)} | Bad IDs: {len(bad_id)}")
     if failures:
         sys.exit(1)
 

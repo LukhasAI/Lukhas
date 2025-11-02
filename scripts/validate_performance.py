@@ -23,37 +23,29 @@ class PerformanceValidator:
         self.targets = {
             "orchestration_routing_latency": {
                 "p95_ms": 250,  # Target: <250ms
-                "description": "O.2 Orchestration routing latency"
+                "description": "O.2 Orchestration routing latency",
             },
             "webauthn_registration_latency": {
                 "p95_ms": 100,  # Target: <100ms
-                "description": "I.4 WebAuthn registration latency"
+                "description": "I.4 WebAuthn registration latency",
             },
             "webauthn_authentication_latency": {
                 "p95_ms": 100,  # Target: <100ms
-                "description": "I.4 WebAuthn authentication latency"
-            }
+                "description": "I.4 WebAuthn authentication latency",
+            },
         }
 
     def validate_artifact(self, artifact_path: str) -> Dict[str, Any]:
         """Validate a single performance artifact"""
         try:
-            with open(artifact_path, 'r') as f:
+            with open(artifact_path, "r") as f:
                 data = json.load(f)
         except Exception as e:
-            return {
-                "status": "error",
-                "message": f"Failed to load artifact: {e}",
-                "artifact": artifact_path
-            }
+            return {"status": "error", "message": f"Failed to load artifact: {e}", "artifact": artifact_path}
 
         test_name = data.get("test")
         if not test_name or test_name not in self.targets:
-            return {
-                "status": "skipped",
-                "message": f"Unknown test type: {test_name}",
-                "artifact": artifact_path
-            }
+            return {"status": "skipped", "message": f"Unknown test type: {test_name}", "artifact": artifact_path}
 
         target = self.targets[test_name]
         metrics = data.get("metrics", {})
@@ -67,7 +59,7 @@ class PerformanceValidator:
                 "status": "error",
                 "message": "P95 metric missing from artifact",
                 "artifact": artifact_path,
-                "test": test_name
+                "test": test_name,
             }
 
         passed = actual_p95 <= target_p95
@@ -84,10 +76,10 @@ class PerformanceValidator:
                 "samples": metrics.get("samples", 0),
                 "failed_samples": metrics.get("failed_samples", 0),
                 "p50_ms": metrics.get("p50_ms"),
-                "p99_ms": metrics.get("p99_ms")
+                "p99_ms": metrics.get("p99_ms"),
             },
             "timestamp": data.get("timestamp"),
-            "passed": passed
+            "passed": passed,
         }
 
         if not passed:
@@ -101,28 +93,17 @@ class PerformanceValidator:
     def validate_directory(self, artifact_dir: str) -> Dict[str, Any]:
         """Validate all performance artifacts in a directory"""
         if not os.path.exists(artifact_dir):
-            return {
-                "status": "error",
-                "message": f"Artifact directory not found: {artifact_dir}",
-                "results": []
-            }
+            return {"status": "error", "message": f"Artifact directory not found: {artifact_dir}", "results": []}
 
         # Find performance artifacts
-        patterns = [
-            f"{artifact_dir}/perf_*.json",
-            f"{artifact_dir}/**/perf_*.json"
-        ]
+        patterns = [f"{artifact_dir}/perf_*.json", f"{artifact_dir}/**/perf_*.json"]
 
         artifacts = []
         for pattern in patterns:
             artifacts.extend(glob.glob(pattern, recursive=True))
 
         if not artifacts:
-            return {
-                "status": "warning",
-                "message": f"No performance artifacts found in {artifact_dir}",
-                "results": []
-            }
+            return {"status": "warning", "message": f"No performance artifacts found in {artifact_dir}", "results": []}
 
         results = []
         for artifact_path in sorted(artifacts):
@@ -145,14 +126,9 @@ class PerformanceValidator:
 
         return {
             "status": overall_status,
-            "summary": {
-                "total": total,
-                "passed": passed,
-                "failed": failed,
-                "errors": errors
-            },
+            "summary": {"total": total, "passed": passed, "failed": failed, "errors": errors},
             "results": results,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def generate_report(self, validation_result: Dict[str, Any], output_file: Optional[str] = None) -> str:
@@ -162,12 +138,7 @@ class PerformanceValidator:
         results = validation_result.get("results", [])
 
         # Status emoji
-        status_emoji = {
-            "pass": "✅",
-            "fail": "❌",
-            "error": "⚠️",
-            "warning": "🟡"
-        }.get(status, "❓")
+        status_emoji = {"pass": "✅", "fail": "❌", "error": "⚠️", "warning": "🟡"}.get(status, "❓")
 
         report_lines = [
             "=" * 80,
@@ -180,41 +151,36 @@ class PerformanceValidator:
         ]
 
         if summary:
-            report_lines.extend([
-                "📊 Summary:",
-                f"  Total Tests: {summary.get('total', 0)}",
-                f"  ✅ Passed: {summary.get('passed', 0)}",
-                f"  ❌ Failed: {summary.get('failed', 0)}",
-                f"  ⚠️  Errors: {summary.get('errors', 0)}",
-                "",
-            ])
+            report_lines.extend(
+                [
+                    "📊 Summary:",
+                    f"  Total Tests: {summary.get('total', 0)}",
+                    f"  ✅ Passed: {summary.get('passed', 0)}",
+                    f"  ❌ Failed: {summary.get('failed', 0)}",
+                    f"  ⚠️  Errors: {summary.get('errors', 0)}",
+                    "",
+                ]
+            )
 
         # Detailed results
         if results:
-            report_lines.extend([
-                "📋 Detailed Results:",
-                "-" * 40,
-                ""
-            ])
+            report_lines.extend(["📋 Detailed Results:", "-" * 40, ""])
 
             for result in results:
                 test_status = result.get("status", "unknown")
-                test_emoji = {
-                    "pass": "✅",
-                    "fail": "❌",
-                    "error": "⚠️",
-                    "skipped": "⏭️"
-                }.get(test_status, "❓")
+                test_emoji = {"pass": "✅", "fail": "❌", "error": "⚠️", "skipped": "⏭️"}.get(test_status, "❓")
 
                 test_name = result.get("test", "unknown")
                 description = result.get("description", "")
                 message = result.get("message", "")
 
-                report_lines.extend([
-                    f"{test_emoji} {test_name}",
-                    f"   {description}",
-                    f"   {message}",
-                ])
+                report_lines.extend(
+                    [
+                        f"{test_emoji} {test_name}",
+                        f"   {description}",
+                        f"   {message}",
+                    ]
+                )
 
                 metrics = result.get("metrics", {})
                 if metrics:
@@ -224,7 +190,9 @@ class PerformanceValidator:
 
                     if p95 is not None and target is not None:
                         percentage = (p95 / target) * 100
-                        report_lines.append(f"   P95: {p95:.1f}ms / {target}ms ({percentage:.1f}%) | Samples: {samples}")
+                        report_lines.append(
+                            f"   P95: {p95:.1f}ms / {target}ms ({percentage:.1f}%) | Samples: {samples}"
+                        )
 
                     if metrics.get("failed_samples", 0) > 0:
                         report_lines.append(f"   ⚠️ Failed samples: {metrics['failed_samples']}")
@@ -232,27 +200,19 @@ class PerformanceValidator:
                 report_lines.append("")
 
         # Performance targets reference
-        report_lines.extend([
-            "🎯 Performance Targets:",
-            "-" * 40,
-            ""
-        ])
+        report_lines.extend(["🎯 Performance Targets:", "-" * 40, ""])
 
         for test_name, target in self.targets.items():
             description = target["description"]
             p95_target = target["p95_ms"]
             report_lines.append(f"• {description}: P95 < {p95_target}ms")
 
-        report_lines.extend([
-            "",
-            "=" * 80,
-            ""
-        ])
+        report_lines.extend(["", "=" * 80, ""])
 
         report_text = "\n".join(report_lines)
 
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 f.write(report_text)
 
         return report_text
@@ -281,7 +241,7 @@ def main():
         # JSON output
         json_output = json.dumps(result, indent=2)
         if args.output:
-            with open(args.output, 'w') as f:
+            with open(args.output, "w") as f:
                 f.write(json_output)
         else:
             print(json_output)

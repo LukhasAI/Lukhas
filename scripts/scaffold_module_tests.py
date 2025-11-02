@@ -64,25 +64,19 @@ def append_ledger(rec: dict):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Scaffold per-module tests (dry-run by default)"
-    )
+    ap = argparse.ArgumentParser(description="Scaffold per-module tests (dry-run by default)")
     ap.add_argument(
         "--module",
         help="module folder name or path (repeat to run multiple)",
         action="append",
     )
-    ap.add_argument(
-        "--apply", action="store_true", help="write files to disk"
-    )
+    ap.add_argument("--apply", action="store_true", help="write files to disk")
     ap.add_argument(
         "--with-integration",
         action="store_true",
         help="also create tests/test_integration.py",
     )
-    ap.add_argument(
-        "--verbose", "-v", action="store_true", help="verbose output"
-    )
+    ap.add_argument("--verbose", "-v", action="store_true", help="verbose output")
     args = ap.parse_args()
 
     required = REQUIRED.copy()

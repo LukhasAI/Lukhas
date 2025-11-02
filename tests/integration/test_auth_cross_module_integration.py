@@ -6,4 +6,5 @@ import pytest
 class TestAuthCrossModuleIntegration:
     def test_module_imports(self):
         import core.governance.auth_cross_module_integration
+
         assert core.governance.auth_cross_module_integration is not None

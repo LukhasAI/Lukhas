@@ -44,6 +44,7 @@ try:
         ClientError,
         NoCredentialsError,
     )
+
     BOTO3_AVAILABLE = True
 except ImportError:
     BOTO3_AVAILABLE = False
@@ -60,6 +61,7 @@ metrics = get_metrics_collector()
 @dataclass
 class ArchivalManifestEntry:
     """Manifest entry for archived documents"""
+
     document_id: str
     archive_id: str
     original_size_bytes: int
@@ -75,6 +77,7 @@ class ArchivalManifestEntry:
 @dataclass
 class ArchivalManifest:
     """Archive manifest for GDPR compliance and tracking"""
+
     version: str = "1.0.0"
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -120,7 +123,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
         self,
         archive_root: Path,
         enable_compression: bool = True,
-        manifest_update_interval: int = 100  # Update manifest every N operations
+        manifest_update_interval: int = 100,  # Update manifest every N operations
     ):
         self.archive_root = Path(archive_root)
         self.enable_compression = enable_compression
@@ -139,7 +142,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
         """Load manifest from disk"""
         if self.manifest_path.exists():
             try:
-                with open(self.manifest_path, 'r') as f:
+                with open(self.manifest_path, "r") as f:
                     data = json.load(f)
 
                 # Convert string dates back to datetime objects
@@ -149,7 +152,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                     updated_at=datetime.fromisoformat(data["updated_at"]),
                     total_documents=data["total_documents"],
                     total_size_bytes=data["total_size_bytes"],
-                    total_compressed_bytes=data["total_compressed_bytes"]
+                    total_compressed_bytes=data["total_compressed_bytes"],
                 )
 
                 # Load entries
@@ -162,9 +165,11 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                         compression_ratio=entry_data["compression_ratio"],
                         tier=ArchivalTier(entry_data["tier"]),
                         archived_at=datetime.fromisoformat(entry_data["archived_at"]),
-                        expires_at=datetime.fromisoformat(entry_data["expires_at"]) if entry_data["expires_at"] else None,
+                        expires_at=(
+                            datetime.fromisoformat(entry_data["expires_at"]) if entry_data["expires_at"] else None
+                        ),
                         checksum_sha256=entry_data["checksum_sha256"],
-                        metadata=entry_data.get("metadata", {})
+                        metadata=entry_data.get("metadata", {}),
                     )
                     manifest.entries[doc_id] = entry
 
@@ -185,7 +190,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
             "total_documents": manifest.total_documents,
             "total_size_bytes": manifest.total_size_bytes,
             "total_compressed_bytes": manifest.total_compressed_bytes,
-            "entries": {}
+            "entries": {},
         }
 
         for doc_id, entry in manifest.entries.items():
@@ -199,16 +204,16 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                 "archived_at": entry.archived_at.isoformat(),
                 "expires_at": entry.expires_at.isoformat() if entry.expires_at else None,
                 "checksum_sha256": entry.checksum_sha256,
-                "metadata": entry.metadata
+                "metadata": entry.metadata,
             }
 
         # Atomic write with backup
-        temp_path = self.manifest_path.with_suffix('.tmp')
-        backup_path = self.manifest_path.with_suffix('.bak')
+        temp_path = self.manifest_path.with_suffix(".tmp")
+        backup_path = self.manifest_path.with_suffix(".bak")
 
         try:
             # Write to temp file
-            with open(temp_path, 'w') as f:
+            with open(temp_path, "w") as f:
                 json.dump(data, f, indent=2)
 
             # Backup existing manifest
@@ -249,12 +254,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
             await self._save_manifest(manifest)
             self._operations_since_manifest_update = 0
 
-    async def store_archived_document(
-        self,
-        document: VectorDocument,
-        tier: ArchivalTier,
-        compress: bool = True
-    ) -> str:
+    async def store_archived_document(self, document: VectorDocument, tier: ArchivalTier, compress: bool = True) -> str:
         """Store document in local filesystem archive"""
         start_time = time.perf_counter()
 
@@ -276,10 +276,10 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                 "updated_at": document.updated_at.isoformat(),
                 "expires_at": document.expires_at.isoformat() if document.expires_at else None,
                 "access_count": document.access_count,
-                "last_accessed": document.last_accessed.isoformat() if document.last_accessed else None
+                "last_accessed": document.last_accessed.isoformat() if document.last_accessed else None,
             }
 
-            document_json = json.dumps(document_data, indent=2).encode('utf-8')
+            document_json = json.dumps(document_data, indent=2).encode("utf-8")
             original_size = len(document_json)
 
             # Apply compression if enabled
@@ -299,7 +299,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
 
             # Write archived document
             archive_path = tier_dir / f"{archive_id}{file_extension}"
-            with open(archive_path, 'wb') as f:
+            with open(archive_path, "wb") as f:
                 f.write(compressed_data)
 
             # Calculate checksum
@@ -316,7 +316,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                 tier=tier,
                 archived_at=datetime.now(timezone.utc),
                 expires_at=document.expires_at,
-                checksum_sha256=checksum
+                checksum_sha256=checksum,
             )
             manifest.add_entry(entry)
 
@@ -327,21 +327,12 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
             duration_ms = (time.perf_counter() - start_time) * 1000
 
             metrics.histogram(
-                "lukhas_memory_archival_duration_ms",
-                duration_ms,
-                {"tier": tier.value, "compressed": str(compress)}
+                "lukhas_memory_archival_duration_ms", duration_ms, {"tier": tier.value, "compressed": str(compress)}
             )
 
-            metrics.histogram(
-                "lukhas_memory_archival_compression_ratio",
-                compression_ratio,
-                {"tier": tier.value}
-            )
+            metrics.histogram("lukhas_memory_archival_compression_ratio", compression_ratio, {"tier": tier.value})
 
-            metrics.counter(
-                "lukhas_memory_archived_total",
-                {"tier": tier.value}
-            )
+            metrics.counter("lukhas_memory_archived_total", {"tier": tier.value})
 
             logger.info(
                 "Document archived successfully",
@@ -351,7 +342,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                 original_size=original_size,
                 compressed_size=compressed_size,
                 compression_ratio=compression_ratio,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
             return archive_id
@@ -361,10 +352,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
             logger.error(f"Failed to archive document {document.id}: {e}")
             raise
 
-    async def retrieve_archived_document(
-        self,
-        archive_id: str
-    ) -> Optional[VectorDocument]:
+    async def retrieve_archived_document(self, archive_id: str) -> Optional[VectorDocument]:
         """Retrieve document from local filesystem archive"""
         start_time = time.perf_counter()
 
@@ -390,14 +378,14 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
 
                 if archive_path.exists():
                     # Read file
-                    with open(archive_path, 'rb') as f:
+                    with open(archive_path, "rb") as f:
                         file_data = f.read()
 
                     # Decompress if needed
                     if extension == ".json.gz":
-                        document_json = gzip.decompress(file_data).decode('utf-8')
+                        document_json = gzip.decompress(file_data).decode("utf-8")
                     else:
-                        document_json = file_data.decode('utf-8')
+                        document_json = file_data.decode("utf-8")
 
                     # Parse document
                     document_data = json.loads(document_json)
@@ -414,9 +402,15 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                         tags=document_data["tags"],
                         created_at=datetime.fromisoformat(document_data["created_at"]),
                         updated_at=datetime.fromisoformat(document_data["updated_at"]),
-                        expires_at=datetime.fromisoformat(document_data["expires_at"]) if document_data["expires_at"] else None,
+                        expires_at=(
+                            datetime.fromisoformat(document_data["expires_at"]) if document_data["expires_at"] else None
+                        ),
                         access_count=document_data["access_count"],
-                        last_accessed=datetime.fromisoformat(document_data["last_accessed"]) if document_data["last_accessed"] else None
+                        last_accessed=(
+                            datetime.fromisoformat(document_data["last_accessed"])
+                            if document_data["last_accessed"]
+                            else None
+                        ),
                     )
 
                     # Record metrics
@@ -424,7 +418,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
                     metrics.histogram(
                         "lukhas_memory_retrieval_duration_ms",
                         duration_ms,
-                        {"tier": entry.tier.value, "source": "archive"}
+                        {"tier": entry.tier.value, "source": "archive"},
                     )
 
                     return document
@@ -470,11 +464,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
 
                 metrics.counter("lukhas_memory_gdpr_deleted_total", {"source": "archive"})
 
-                logger.info(
-                    "Archived document deleted",
-                    archive_id=archive_id,
-                    document_id=doc_id
-                )
+                logger.info("Archived document deleted", archive_id=archive_id, document_id=doc_id)
 
             return deleted
 
@@ -496,7 +486,7 @@ class S3ArchivalBackend(AbstractArchivalBackend):
         aws_access_key_id: Optional[str] = None,
         aws_secret_access_key: Optional[str] = None,
         region: str = "us-east-1",
-        prefix: str = "lukhas-archive/"
+        prefix: str = "lukhas-archive/",
     ):
         if not BOTO3_AVAILABLE:
             raise RuntimeError("boto3 is required for S3ArchivalBackend")
@@ -517,19 +507,14 @@ class S3ArchivalBackend(AbstractArchivalBackend):
             ArchivalTier.HOT: "STANDARD",
             ArchivalTier.WARM: "STANDARD_IA",
             ArchivalTier.COLD: "GLACIER",
-            ArchivalTier.FROZEN: "DEEP_ARCHIVE"
+            ArchivalTier.FROZEN: "DEEP_ARCHIVE",
         }
 
     def _get_s3_key(self, archive_id: str, tier: ArchivalTier) -> str:
         """Generate S3 key for archived document"""
         return f"{self.prefix}{tier.value}/{archive_id}.json.gz"
 
-    async def store_archived_document(
-        self,
-        document: VectorDocument,
-        tier: ArchivalTier,
-        compress: bool = True
-    ) -> str:
+    async def store_archived_document(self, document: VectorDocument, tier: ArchivalTier, compress: bool = True) -> str:
         """Store document in S3 archive"""
         start_time = time.perf_counter()
 
@@ -540,7 +525,7 @@ class S3ArchivalBackend(AbstractArchivalBackend):
             # Serialize and compress document (S3 always uses compression for efficiency)
             document_data = asdict(document)
             document_data["embedding"] = document.embedding.tolist()
-            document_json = json.dumps(document_data).encode('utf-8')
+            document_json = json.dumps(document_data).encode("utf-8")
             compressed_data = gzip.compress(document_json, compresslevel=6)
 
             # Upload to S3
@@ -560,25 +545,17 @@ class S3ArchivalBackend(AbstractArchivalBackend):
                         "archive-id": archive_id,
                         "tier": tier.value,
                         "original-size": str(len(document_json)),
-                        "compressed-size": str(len(compressed_data))
-                    }
-                )
+                        "compressed-size": str(len(compressed_data)),
+                    },
+                ),
             )
 
             # Record metrics
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.histogram(
-                "lukhas_memory_archival_duration_ms",
-                duration_ms,
-                {"tier": tier.value, "backend": "s3"}
-            )
+            metrics.histogram("lukhas_memory_archival_duration_ms", duration_ms, {"tier": tier.value, "backend": "s3"})
 
             compression_ratio = 1.0 - (len(compressed_data) / len(document_json))
-            metrics.histogram(
-                "lukhas_memory_archival_compression_ratio",
-                compression_ratio,
-                {"tier": tier.value}
-            )
+            metrics.histogram("lukhas_memory_archival_compression_ratio", compression_ratio, {"tier": tier.value})
 
             logger.info(
                 "Document archived to S3",
@@ -586,7 +563,7 @@ class S3ArchivalBackend(AbstractArchivalBackend):
                 archive_id=archive_id,
                 tier=tier.value,
                 storage_class=storage_class,
-                s3_key=s3_key
+                s3_key=s3_key,
             )
 
             return archive_id
@@ -600,10 +577,7 @@ class S3ArchivalBackend(AbstractArchivalBackend):
             logger.error(f"Failed to archive document to S3: {e}")
             raise
 
-    async def retrieve_archived_document(
-        self,
-        archive_id: str
-    ) -> Optional[VectorDocument]:
+    async def retrieve_archived_document(self, archive_id: str) -> Optional[VectorDocument]:
         """Retrieve document from S3 archive"""
         # Note: This is a simplified implementation
         # In production, you'd need to search across all tiers

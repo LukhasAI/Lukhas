@@ -5,6 +5,7 @@
 Interface module to break circular dependencies between:
 vivox.encrypted_perception.anomaly_detection <-> vivox.encrypted_perception.vivox_evrn_core
 """
+
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any, Optional

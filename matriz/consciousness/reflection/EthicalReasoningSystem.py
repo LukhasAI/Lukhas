@@ -48,8 +48,8 @@ import numpy as np
 # Ethical reasoning libraries
 
 
-
 logger = logging.getLogger(__name__)
+
 
 class EthicalFramework(Enum):
     """Major ethical frameworks for moral reasoning."""
@@ -2022,7 +2022,9 @@ class EthicalReasoningSystem:
 
         if self.moral_judgments:
             # Calculate confidence statistics
-            recent_judgments = [j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)]
+            recent_judgments = [
+                j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)
+            ]
 
             if recent_judgments:
                 confidences = [j.confidence_score for j in recent_judgments]

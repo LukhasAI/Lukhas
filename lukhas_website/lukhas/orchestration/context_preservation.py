@@ -47,46 +47,33 @@ logger = logging.getLogger(__name__)
 
 # Prometheus metrics for context preservation
 context_handoffs_total = counter(
-    'lukhas_context_handoffs_total',
-    'Total context handoffs',
-    ['source_provider', 'destination_provider', 'success']
+    "lukhas_context_handoffs_total", "Total context handoffs", ["source_provider", "destination_provider", "success"]
 )
 
 context_handoff_duration = histogram(
-    'lukhas_context_handoff_duration_seconds',
-    'Context handoff duration',
-    ['operation'],
-    buckets=[0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
+    "lukhas_context_handoff_duration_seconds",
+    "Context handoff duration",
+    ["operation"],
+    buckets=[0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0],
 )
 
 context_size_bytes = histogram(
-    'lukhas_context_size_bytes',
-    'Context size in bytes',
-    ['compressed'],
-    buckets=[100, 500, 1000, 5000, 10000, 50000, 100000]
+    "lukhas_context_size_bytes",
+    "Context size in bytes",
+    ["compressed"],
+    buckets=[100, 500, 1000, 5000, 10000, 50000, 100000],
 )
 
-context_compression_ratio = gauge(
-    'lukhas_context_compression_ratio',
-    'Context compression ratio',
-    ['context_type']
-)
+context_compression_ratio = gauge("lukhas_context_compression_ratio", "Context compression ratio", ["context_type"])
 
-context_cache_hits = counter(
-    'lukhas_context_cache_hits_total',
-    'Context cache hits',
-    ['cache_type']
-)
+context_cache_hits = counter("lukhas_context_cache_hits_total", "Context cache hits", ["cache_type"])
 
-context_cache_misses = counter(
-    'lukhas_context_cache_misses_total',
-    'Context cache misses',
-    ['cache_type']
-)
+context_cache_misses = counter("lukhas_context_cache_misses_total", "Context cache misses", ["cache_type"])
 
 
 class ContextType(Enum):
     """Types of context data"""
+
     CONVERSATION = "conversation"
     SESSION = "session"
     USER_PROFILE = "user_profile"
@@ -97,6 +84,7 @@ class ContextType(Enum):
 
 class CompressionLevel(Enum):
     """Compression levels for context data"""
+
     NONE = 0
     LIGHT = 1
     STANDARD = 6
@@ -106,6 +94,7 @@ class CompressionLevel(Enum):
 @dataclass
 class ContextHop:
     """Represents a single hop in context routing"""
+
     hop_id: str
     provider: str
     timestamp: float
@@ -118,6 +107,7 @@ class ContextHop:
 @dataclass
 class ContextMetadata:
     """Metadata for context preservation"""
+
     context_id: str
     session_id: str
     created_at: float
@@ -133,6 +123,7 @@ class ContextMetadata:
 @dataclass
 class PreservedContext:
     """Complete preserved context with metadata"""
+
     metadata: ContextMetadata
     data: Dict[str, Any]
     compressed_data: Optional[bytes] = None
@@ -146,8 +137,8 @@ class ContextSerializer:
     def serialize(context_data: Dict[str, Any]) -> bytes:
         """Serialize context data to bytes"""
         try:
-            json_str = json.dumps(context_data, ensure_ascii=False, separators=(',', ':'))
-            return json_str.encode('utf-8')
+            json_str = json.dumps(context_data, ensure_ascii=False, separators=(",", ":"))
+            return json_str.encode("utf-8")
         except Exception as e:
             logger.error(f"Context serialization failed: {e}")
             raise
@@ -156,7 +147,7 @@ class ContextSerializer:
     def deserialize(data: bytes) -> Dict[str, Any]:
         """Deserialize bytes to context data"""
         try:
-            json_str = data.decode('utf-8')
+            json_str = data.decode("utf-8")
             return json.loads(json_str)
         except Exception as e:
             logger.error(f"Context deserialization failed: {e}")
@@ -349,7 +340,7 @@ class ContextPreservationEngine:
         context_data: Dict[str, Any],
         context_type: ContextType = ContextType.CONVERSATION,
         compression_level: CompressionLevel = CompressionLevel.STANDARD,
-        ttl_seconds: int = 3600
+        ttl_seconds: int = 3600,
     ) -> str:
         """Preserve context data and return context ID"""
 
@@ -369,7 +360,7 @@ class ContextPreservationEngine:
                     created_at=time.time(),
                     last_updated=time.time(),
                     compression_level=compression_level,
-                    ttl_seconds=ttl_seconds
+                    ttl_seconds=ttl_seconds,
                 )
 
                 # Serialize context data
@@ -387,10 +378,7 @@ class ContextPreservationEngine:
 
                 # Create preserved context
                 preserved_context = PreservedContext(
-                    metadata=metadata,
-                    data=context_data,
-                    compressed_data=compressed_data,
-                    checksum=checksum
+                    metadata=metadata, data=context_data, compressed_data=compressed_data, checksum=checksum
                 )
 
                 # Store in memory and cache
@@ -449,8 +437,7 @@ class ContextPreservationEngine:
                     # Verify checksum
                     if preserved_context.checksum:
                         if not self.serializer.verify_checksum(
-                            preserved_context.compressed_data,
-                            preserved_context.checksum
+                            preserved_context.compressed_data, preserved_context.checksum
                         ):
                             logger.error(f"❌ Context checksum verification failed: {context_id}")
                             return None
@@ -483,7 +470,7 @@ class ContextPreservationEngine:
         context_id: str,
         source_provider: str,
         destination_provider: str,
-        additional_metadata: Optional[Dict[str, Any]] = None
+        additional_metadata: Optional[Dict[str, Any]] = None,
     ) -> bool:
         """Hand off context between providers"""
 
@@ -502,9 +489,7 @@ class ContextPreservationEngine:
 
                 if not preserved_context:
                     context_handoffs_total.labels(
-                        source_provider=source_provider,
-                        destination_provider=destination_provider,
-                        success="false"
+                        source_provider=source_provider, destination_provider=destination_provider, success="false"
                     ).inc()
                     return False
 
@@ -515,7 +500,7 @@ class ContextPreservationEngine:
                     timestamp=time.time(),
                     latency_ms=(time.time() - start_time) * 1000,
                     success=True,
-                    metadata=additional_metadata or {}
+                    metadata=additional_metadata or {},
                 )
 
                 # Update metadata
@@ -530,9 +515,7 @@ class ContextPreservationEngine:
                 context_handoff_duration.labels(operation="handoff").observe(duration)
 
                 context_handoffs_total.labels(
-                    source_provider=source_provider,
-                    destination_provider=destination_provider,
-                    success="true"
+                    source_provider=source_provider, destination_provider=destination_provider, success="true"
                 ).inc()
 
                 span.set_attribute("handoff_time_ms", duration * 1000)
@@ -546,9 +529,7 @@ class ContextPreservationEngine:
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
 
                 context_handoffs_total.labels(
-                    source_provider=source_provider,
-                    destination_provider=destination_provider,
-                    success="false"
+                    source_provider=source_provider, destination_provider=destination_provider, success="false"
                 ).inc()
 
                 logger.error(f"❌ Context handoff failed: {e}")
@@ -621,7 +602,7 @@ class ContextPreservationEngine:
             "memory_store_size": len(self.memory_store),
             "cache_stats": cache_stats,
             "total_contexts": len(self.memory_store),
-            "cleanup_interval": self.cleanup_interval
+            "cleanup_interval": self.cleanup_interval,
         }
 
 

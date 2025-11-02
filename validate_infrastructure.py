@@ -18,7 +18,8 @@ async def test_security_framework():
     try:
         # Import our security framework
         import sys
-        sys.path.append('/Users/A_G_I/GitHub/Lukhas')
+
+        sys.path.append("/Users/A_G_I/GitHub/Lukhas")
 
         from security.security_framework import (
             LUKHASSecurityFramework,
@@ -30,7 +31,7 @@ async def test_security_framework():
         config = SecurityConfig(
             jwt_secret_key="test_secret_for_validation",
             encryption_key="test_encryption_key_32_chars!!",
-            audit_logging_enabled=True
+            audit_logging_enabled=True,
         )
 
         framework = LUKHASSecurityFramework(config)
@@ -42,7 +43,7 @@ async def test_security_framework():
             username="testuser",
             email="test@example.com",
             roles={"user"},
-            permissions={"read", "write"}
+            permissions={"read", "write"},
         )
 
         token = await framework.jwt_service.generate_token(user)
@@ -64,9 +65,7 @@ async def test_security_framework():
         print(f"  ✅ Rate limiting operational: {allowed}")
 
         # Test threat detection
-        threat_detected = await framework.threat_detector.detect_threat(
-            "sql_injection", "'; DROP TABLE users; --"
-        )
+        threat_detected = await framework.threat_detector.detect_threat("sql_injection", "'; DROP TABLE users; --")
         print(f"  ✅ Threat detection working: {threat_detected}")
 
         await framework.shutdown()
@@ -136,11 +135,7 @@ async def test_distributed_storage():
 
         try:
             # Create storage manager
-            config = StorageConfig(
-                base_path=temp_dir,
-                enable_lifecycle_management=False,
-                backup_enabled=False
-            )
+            config = StorageConfig(base_path=temp_dir, enable_lifecycle_management=False, backup_enabled=False)
 
             manager = DistributedStorageManager(config)
             await manager.initialize()
@@ -153,7 +148,7 @@ async def test_distributed_storage():
                 test_data,
                 content_type="text/plain",
                 classification=DataClassification.INTERNAL,
-                storage_policy=StoragePolicy.HOT
+                storage_policy=StoragePolicy.HOT,
             )
             assert success
             print("  ✅ Storage put operation working")
@@ -198,8 +193,7 @@ async def test_integration():
 
         # Initialize components
         security_config = SecurityConfig(
-            jwt_secret_key="integration_test_secret",
-            encryption_key="integration_test_key_32_chars!"
+            jwt_secret_key="integration_test_secret", encryption_key="integration_test_key_32_chars!"
         )
         security = LUKHASSecurityFramework(security_config)
         await security.initialize()
@@ -308,7 +302,7 @@ async def main():
         "Caching System",
         "Distributed Storage",
         "Component Integration",
-        "Performance Benchmarks"
+        "Performance Benchmarks",
     ]
 
     for i, (component, result) in enumerate(zip(components, results)):

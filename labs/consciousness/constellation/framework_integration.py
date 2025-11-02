@@ -691,7 +691,9 @@ class ConstellationFrameworkIntegration:
         else:
             return IntegrationState.CONFLICTED
 
-    async def _detect_constellation_violations(self, report: ConstellationComplianceReport) -> list[ConstellationViolation]:
+    async def _detect_constellation_violations(
+        self, report: ConstellationComplianceReport
+    ) -> list[ConstellationViolation]:
         """Detect Constellation Framework violations"""
         violations = []
 

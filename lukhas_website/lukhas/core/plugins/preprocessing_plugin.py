@@ -29,11 +29,7 @@ class DataPreprocessingPlugin(PluginBase):
             author="LUKHAS AI Team",
             category="data-processing",
             dependencies=[],
-            performance_profile={
-                "average_latency_ms": 15,
-                "memory_usage_mb": 10,
-                "cpu_intensive": False
-            }
+            performance_profile={"average_latency_ms": 15, "memory_usage_mb": 10, "cpu_intensive": False},
         )
 
     def _initialize(self) -> None:
@@ -58,7 +54,7 @@ class DataPreprocessingPlugin(PluginBase):
             "plugin": self.name,
             "version": self.version,
             "processing_time_ms": (time.time() - start_time) * 1000,
-            "operations": ["normalize", "denoise"] if self.normalize_data and self.remove_noise else []
+            "operations": ["normalize", "denoise"] if self.normalize_data and self.remove_noise else [],
         }
 
         return processed_data

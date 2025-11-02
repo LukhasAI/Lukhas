@@ -33,6 +33,7 @@ from core.registry import _REG, discover_entry_points, register, resolve
 @dataclass
 class LaneConfig:
     """Configuration for a specific execution lane"""
+
     name: str
     allowed_plugin_groups: List[str]
     security_level: str  # 'strict', 'moderate', 'permissive'
@@ -45,27 +46,27 @@ class LaneIsolationManager:
 
     def __init__(self):
         self.lanes = {
-            'production': LaneConfig(
-                name='production',
-                allowed_plugin_groups=['constellation_components', 'monitoring'],
-                security_level='strict',
-                resource_limits={'memory_mb': 100, 'cpu_percent': 10},
-                plugin_prefix='prod'
+            "production": LaneConfig(
+                name="production",
+                allowed_plugin_groups=["constellation_components", "monitoring"],
+                security_level="strict",
+                resource_limits={"memory_mb": 100, "cpu_percent": 10},
+                plugin_prefix="prod",
             ),
-            'development': LaneConfig(
-                name='development',
-                allowed_plugin_groups=['constellation_components', 'cognitive_nodes', 'adapters'],
-                security_level='moderate',
-                resource_limits={'memory_mb': 500, 'cpu_percent': 50},
-                plugin_prefix='dev'
+            "development": LaneConfig(
+                name="development",
+                allowed_plugin_groups=["constellation_components", "cognitive_nodes", "adapters"],
+                security_level="moderate",
+                resource_limits={"memory_mb": 500, "cpu_percent": 50},
+                plugin_prefix="dev",
             ),
-            'experimental': LaneConfig(
-                name='experimental',
-                allowed_plugin_groups=['cognitive_nodes', 'adapters'],
-                security_level='permissive',
-                resource_limits={'memory_mb': 1000, 'cpu_percent': 80},
-                plugin_prefix='exp'
-            )
+            "experimental": LaneConfig(
+                name="experimental",
+                allowed_plugin_groups=["cognitive_nodes", "adapters"],
+                security_level="permissive",
+                resource_limits={"memory_mb": 1000, "cpu_percent": 80},
+                plugin_prefix="exp",
+            ),
         }
         self.current_lane = None
         self.isolation_enabled = True
@@ -100,9 +101,9 @@ class LaneIsolationManager:
             return False
 
         # Additional security checks based on lane
-        if lane_config.security_level == 'strict':
+        if lane_config.security_level == "strict":
             # Strict security: only allow known safe plugins
-            safe_plugin_patterns = ['monitoring_', 'constellation_', 'core_']
+            safe_plugin_patterns = ["monitoring_", "constellation_", "core_"]
             if not any(pattern in plugin_name for pattern in safe_plugin_patterns):
                 return False
 
@@ -115,13 +116,13 @@ class LaneIsolationManager:
 
         # Map group to type
         group_type_map = {
-            'constellation_components': 'constellation',
-            'cognitive_nodes': 'node',
-            'adapters': 'adapter',
-            'monitoring': 'monitor'
+            "constellation_components": "constellation",
+            "cognitive_nodes": "node",
+            "adapters": "adapter",
+            "monitoring": "monitor",
         }
 
-        plugin_type = group_type_map.get(plugin_group, 'unknown')
+        plugin_type = group_type_map.get(plugin_group, "unknown")
         return f"{prefix}:{plugin_type}:{plugin_name}"
 
 
@@ -143,63 +144,53 @@ class TestLaneIsolationEnforcement:
         """Test that plugins are registered with lane-specific keys"""
 
         # Test production lane registration
-        self.isolation_manager.set_current_lane('production')
+        self.isolation_manager.set_current_lane("production")
 
         # Register monitoring plugin (allowed in production)
         monitoring_key = self.isolation_manager.get_lane_specific_registry_key(
-            'system_monitor',
-            'monitoring',
-            'production'
+            "system_monitor", "monitoring", "production"
         )
 
-        register(monitoring_key, {'name': 'system_monitor', 'lane': 'production'})
+        register(monitoring_key, {"name": "system_monitor", "lane": "production"})
 
         # Verify registration with lane prefix
-        assert monitoring_key == 'prod:monitor:system_monitor'
-        assert resolve(monitoring_key)['lane'] == 'production'
+        assert monitoring_key == "prod:monitor:system_monitor"
+        assert resolve(monitoring_key)["lane"] == "production"
 
         # Test development lane registration
-        self.isolation_manager.set_current_lane('development')
+        self.isolation_manager.set_current_lane("development")
 
-        dev_key = self.isolation_manager.get_lane_specific_registry_key(
-            'debug_adapter',
-            'adapters',
-            'development'
-        )
+        dev_key = self.isolation_manager.get_lane_specific_registry_key("debug_adapter", "adapters", "development")
 
-        register(dev_key, {'name': 'debug_adapter', 'lane': 'development'})
+        register(dev_key, {"name": "debug_adapter", "lane": "development"})
 
         # Verify development registration
-        assert dev_key == 'dev:adapter:debug_adapter'
-        assert resolve(dev_key)['lane'] == 'development'
+        assert dev_key == "dev:adapter:debug_adapter"
+        assert resolve(dev_key)["lane"] == "development"
 
         # Verify production and development plugins are isolated
         with pytest.raises(LookupError):
-            resolve('dev:adapter:debug_adapter')  # This should fail in production context
+            resolve("dev:adapter:debug_adapter")  # This should fail in production context
 
     def test_cross_lane_contamination_prevention(self):
         """Test prevention of cross-lane plugin contamination"""
 
         # Register plugins in different lanes
-        production_plugin = {'name': 'prod_plugin', 'sensitive_data': 'secret_key'}
-        development_plugin = {'name': 'dev_plugin', 'debug_info': 'verbose_logs'}
-        experimental_plugin = {'name': 'exp_plugin', 'experimental_feature': True}
+        production_plugin = {"name": "prod_plugin", "sensitive_data": "secret_key"}
+        development_plugin = {"name": "dev_plugin", "debug_info": "verbose_logs"}
+        experimental_plugin = {"name": "exp_plugin", "experimental_feature": True}
 
         # Register in production lane
-        prod_key = self.isolation_manager.get_lane_specific_registry_key(
-            'secure_plugin', 'monitoring', 'production'
-        )
+        prod_key = self.isolation_manager.get_lane_specific_registry_key("secure_plugin", "monitoring", "production")
         register(prod_key, production_plugin)
 
         # Register in development lane
-        dev_key = self.isolation_manager.get_lane_specific_registry_key(
-            'debug_plugin', 'adapters', 'development'
-        )
+        dev_key = self.isolation_manager.get_lane_specific_registry_key("debug_plugin", "adapters", "development")
         register(dev_key, development_plugin)
 
         # Register in experimental lane
         exp_key = self.isolation_manager.get_lane_specific_registry_key(
-            'alpha_plugin', 'cognitive_nodes', 'experimental'
+            "alpha_plugin", "cognitive_nodes", "experimental"
         )
         register(exp_key, experimental_plugin)
 
@@ -210,9 +201,9 @@ class TestLaneIsolationEnforcement:
 
         # Verify cross-lane access is prevented
         all_keys = list(_REG.keys())
-        prod_keys = [k for k in all_keys if k.startswith('prod:')]
-        dev_keys = [k for k in all_keys if k.startswith('dev:')]
-        exp_keys = [k for k in all_keys if k.startswith('exp:')]
+        prod_keys = [k for k in all_keys if k.startswith("prod:")]
+        dev_keys = [k for k in all_keys if k.startswith("dev:")]
+        exp_keys = [k for k in all_keys if k.startswith("exp:")]
 
         assert len(prod_keys) == 1
         assert len(dev_keys) == 1
@@ -227,19 +218,19 @@ class TestLaneIsolationEnforcement:
         """Test that plugin discovery respects lane boundaries"""
 
         test_plugins = {
-            'monitoring': ['system_monitor', 'performance_tracker'],
-            'constellation_components': ['core_processor', 'memory_manager'],
-            'cognitive_nodes': ['reasoning_node', 'learning_node'],
-            'adapters': ['database_adapter', 'api_adapter']
+            "monitoring": ["system_monitor", "performance_tracker"],
+            "constellation_components": ["core_processor", "memory_manager"],
+            "cognitive_nodes": ["reasoning_node", "learning_node"],
+            "adapters": ["database_adapter", "api_adapter"],
         }
 
-        for lane_name in ['production', 'development', 'experimental']:
+        for lane_name in ["production", "development", "experimental"]:
             # Clear registry for each lane test
             _REG.clear()
             self.isolation_manager.set_current_lane(lane_name)
             lane_config = self.isolation_manager.get_lane_config(lane_name)
 
-            with patch('core.registry.entry_points') as mock_entry_points:
+            with patch("core.registry.entry_points") as mock_entry_points:
                 # Create mock entry points for all plugin groups
                 all_entry_points = []
 
@@ -247,10 +238,11 @@ class TestLaneIsolationEnforcement:
                     for plugin_name in plugins:
                         ep = Mock()
                         ep.name = plugin_name
-                        ep.load.return_value = type(f'{plugin_name.title()}Plugin', (), {
-                            '__init__': lambda self, name=None: setattr(self, 'name', name),
-                            'group': group
-                        })
+                        ep.load.return_value = type(
+                            f"{plugin_name.title()}Plugin",
+                            (),
+                            {"__init__": lambda self, name=None: setattr(self, "name", name), "group": group},
+                        )
                         all_entry_points.append((group, ep))
 
                 # Mock entry_points to return plugins for specific groups
@@ -260,22 +252,21 @@ class TestLaneIsolationEnforcement:
                 mock_entry_points.side_effect = mock_entry_points_func
 
                 # Mock the discovery process to respect lane isolation
-                with patch('core.registry._register_kind') as mock_register_kind:
+                with patch("core.registry._register_kind") as mock_register_kind:
+
                     def lane_aware_register(group, name, obj):
                         # Only register if plugin is allowed in current lane
                         if self.isolation_manager.is_plugin_allowed_in_lane(group, lane_name):
-                            lane_key = self.isolation_manager.get_lane_specific_registry_key(
-                                name, group, lane_name
-                            )
+                            lane_key = self.isolation_manager.get_lane_specific_registry_key(name, group, lane_name)
                             register(lane_key, obj)
 
                     mock_register_kind.side_effect = lane_aware_register
 
                     # Set discovery to auto
-                    with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
+                    with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
                         # Simulate lane-aware discovery
                         for group in test_plugins.keys():
-                            with patch('core.registry.entry_points', return_value=mock_entry_points_func(group)):
+                            with patch("core.registry.entry_points", return_value=mock_entry_points_func(group)):
                                 discover_entry_points()
 
                 # Verify only allowed plugins were registered for this lane
@@ -290,8 +281,7 @@ class TestLaneIsolationEnforcement:
                 for group in test_plugins.keys():
                     group_allowed = group in lane_config.allowed_plugin_groups
                     group_plugins_found = any(
-                        self._extract_plugin_group_from_key(key) == group
-                        for key in registered_keys
+                        self._extract_plugin_group_from_key(key) == group for key in registered_keys
                     )
 
                     if group_allowed:
@@ -299,65 +289,61 @@ class TestLaneIsolationEnforcement:
                         pass  # This test would need more complex mocking to verify
                     else:
                         # Should not find plugins from disallowed groups
-                        assert not group_plugins_found or len(registered_keys) == 0, \
-                            f"Found disallowed group {group} plugins in {lane_name} lane"
+                        assert (
+                            not group_plugins_found or len(registered_keys) == 0
+                        ), f"Found disallowed group {group} plugins in {lane_name} lane"
 
     def _extract_plugin_group_from_key(self, key: str) -> str:
         """Extract plugin group from registry key (helper method)"""
         # This is a simplified extraction - in real implementation
         # we'd need to track the mapping between keys and groups
-        if 'monitor' in key:
-            return 'monitoring'
-        elif 'constellation' in key:
-            return 'constellation_components'
-        elif 'node' in key:
-            return 'cognitive_nodes'
-        elif 'adapter' in key:
-            return 'adapters'
-        return 'unknown'
+        if "monitor" in key:
+            return "monitoring"
+        elif "constellation" in key:
+            return "constellation_components"
+        elif "node" in key:
+            return "cognitive_nodes"
+        elif "adapter" in key:
+            return "adapters"
+        return "unknown"
 
     def test_lane_boundary_enforcement_during_registration(self):
         """Test that lane boundaries are enforced during plugin registration"""
 
         test_cases = [
             # (lane, plugin_group, plugin_name, should_succeed)
-            ('production', 'monitoring', 'system_monitor', True),
-            ('production', 'constellation_components', 'core_processor', True),
-            ('production', 'cognitive_nodes', 'reasoning_node', False),  # Not allowed in prod
-            ('production', 'adapters', 'database_adapter', False),  # Not allowed in prod
-
-            ('development', 'monitoring', 'debug_monitor', False),  # Not allowed in dev
-            ('development', 'constellation_components', 'test_processor', True),
-            ('development', 'cognitive_nodes', 'learning_node', True),
-            ('development', 'adapters', 'test_adapter', True),
-
-            ('experimental', 'monitoring', 'experimental_monitor', False),  # Not allowed in exp
-            ('experimental', 'constellation_components', 'alpha_processor', False),  # Not allowed in exp
-            ('experimental', 'cognitive_nodes', 'experimental_node', True),
-            ('experimental', 'adapters', 'experimental_adapter', True),
+            ("production", "monitoring", "system_monitor", True),
+            ("production", "constellation_components", "core_processor", True),
+            ("production", "cognitive_nodes", "reasoning_node", False),  # Not allowed in prod
+            ("production", "adapters", "database_adapter", False),  # Not allowed in prod
+            ("development", "monitoring", "debug_monitor", False),  # Not allowed in dev
+            ("development", "constellation_components", "test_processor", True),
+            ("development", "cognitive_nodes", "learning_node", True),
+            ("development", "adapters", "test_adapter", True),
+            ("experimental", "monitoring", "experimental_monitor", False),  # Not allowed in exp
+            ("experimental", "constellation_components", "alpha_processor", False),  # Not allowed in exp
+            ("experimental", "cognitive_nodes", "experimental_node", True),
+            ("experimental", "adapters", "experimental_adapter", True),
         ]
 
         for lane, plugin_group, plugin_name, should_succeed in test_cases:
             self.isolation_manager.set_current_lane(lane)
 
             # Test enforcement
-            allowed = self.isolation_manager.enforce_lane_isolation(
-                plugin_name, plugin_group, lane
-            )
+            allowed = self.isolation_manager.enforce_lane_isolation(plugin_name, plugin_group, lane)
 
-            assert allowed == should_succeed, \
-                f"Lane enforcement failed for {plugin_name} in {lane}: expected {should_succeed}, got {allowed}"
+            assert (
+                allowed == should_succeed
+            ), f"Lane enforcement failed for {plugin_name} in {lane}: expected {should_succeed}, got {allowed}"
 
             if should_succeed:
                 # Should be able to register
-                lane_key = self.isolation_manager.get_lane_specific_registry_key(
-                    plugin_name, plugin_group, lane
-                )
-                register(lane_key, {'name': plugin_name, 'group': plugin_group})
+                lane_key = self.isolation_manager.get_lane_specific_registry_key(plugin_name, plugin_group, lane)
+                register(lane_key, {"name": plugin_name, "group": plugin_group})
 
                 # Should be able to resolve
                 resolved = resolve(lane_key)
-                assert resolved['name'] == plugin_name
+                assert resolved["name"] == plugin_name
             else:
                 # Should not be able to register (in a full implementation)
                 # For now, we just verify the enforcement check failed
@@ -368,55 +354,50 @@ class TestLaneIsolationEnforcement:
 
         # Mock resource monitoring
         resource_usage = {
-            'production': {'memory_mb': 0, 'cpu_percent': 0, 'plugins': []},
-            'development': {'memory_mb': 0, 'cpu_percent': 0, 'plugins': []},
-            'experimental': {'memory_mb': 0, 'cpu_percent': 0, 'plugins': []}
+            "production": {"memory_mb": 0, "cpu_percent": 0, "plugins": []},
+            "development": {"memory_mb": 0, "cpu_percent": 0, "plugins": []},
+            "experimental": {"memory_mb": 0, "cpu_percent": 0, "plugins": []},
         }
 
         def mock_plugin_with_resources(name, lane, memory_usage, cpu_usage):
             """Create a mock plugin that simulates resource usage"""
-            plugin = {
-                'name': name,
-                'lane': lane,
-                'memory_usage': memory_usage,
-                'cpu_usage': cpu_usage
-            }
+            plugin = {"name": name, "lane": lane, "memory_usage": memory_usage, "cpu_usage": cpu_usage}
 
             # Track resource usage
-            resource_usage[lane]['memory_mb'] += memory_usage
-            resource_usage[lane]['cpu_percent'] += cpu_usage
-            resource_usage[lane]['plugins'].append(plugin)
+            resource_usage[lane]["memory_mb"] += memory_usage
+            resource_usage[lane]["cpu_percent"] += cpu_usage
+            resource_usage[lane]["plugins"].append(plugin)
 
             return plugin
 
         # Register plugins with different resource usage in different lanes
-        lanes = ['production', 'development', 'experimental']
+        lanes = ["production", "development", "experimental"]
         for lane in lanes:
             self.isolation_manager.set_current_lane(lane)
             lane_config = self.isolation_manager.get_lane_config(lane)
 
             # Register plugins up to but not exceeding lane limits
-            lane_config.resource_limits['memory_mb']
-            lane_config.resource_limits['cpu_percent']
+            lane_config.resource_limits["memory_mb"]
+            lane_config.resource_limits["cpu_percent"]
 
             # Production: small, efficient plugins
-            if lane == 'production':
+            if lane == "production":
                 for i in range(3):  # 3 small plugins
-                    plugin = mock_plugin_with_resources(f'prod_plugin_{i}', lane, 30, 3)
-                    key = f'prod:monitor:plugin_{i}'
+                    plugin = mock_plugin_with_resources(f"prod_plugin_{i}", lane, 30, 3)
+                    key = f"prod:monitor:plugin_{i}"
                     register(key, plugin)
 
             # Development: medium plugins
-            elif lane == 'development':
+            elif lane == "development":
                 for i in range(2):  # 2 medium plugins
-                    plugin = mock_plugin_with_resources(f'dev_plugin_{i}', lane, 150, 20)
-                    key = f'dev:adapter:plugin_{i}'
+                    plugin = mock_plugin_with_resources(f"dev_plugin_{i}", lane, 150, 20)
+                    key = f"dev:adapter:plugin_{i}"
                     register(key, plugin)
 
             # Experimental: large plugins
-            elif lane == 'experimental':
-                plugin = mock_plugin_with_resources('exp_plugin', lane, 400, 30)
-                key = 'exp:node:plugin'
+            elif lane == "experimental":
+                plugin = mock_plugin_with_resources("exp_plugin", lane, 400, 30)
+                key = "exp:node:plugin"
                 register(key, plugin)
 
         # Verify resource isolation
@@ -425,18 +406,21 @@ class TestLaneIsolationEnforcement:
             usage = resource_usage[lane]
 
             # Resource usage should be within lane limits
-            assert usage['memory_mb'] <= lane_config.resource_limits['memory_mb'], \
-                f"Memory usage {usage['memory_mb']} exceeds limit {lane_config.resource_limits['memory_mb']} in {lane}"
+            assert (
+                usage["memory_mb"] <= lane_config.resource_limits["memory_mb"]
+            ), f"Memory usage {usage['memory_mb']} exceeds limit {lane_config.resource_limits['memory_mb']} in {lane}"
 
-            assert usage['cpu_percent'] <= lane_config.resource_limits['cpu_percent'], \
-                f"CPU usage {usage['cpu_percent']} exceeds limit {lane_config.resource_limits['cpu_percent']} in {lane}"
+            assert (
+                usage["cpu_percent"] <= lane_config.resource_limits["cpu_percent"]
+            ), f"CPU usage {usage['cpu_percent']} exceeds limit {lane_config.resource_limits['cpu_percent']} in {lane}"
 
         # Verify total isolation - no shared resources between lanes
-        total_plugins = sum(len(usage['plugins']) for usage in resource_usage.values())
+        total_plugins = sum(len(usage["plugins"]) for usage in resource_usage.values())
         registry_size = len(_REG)
 
-        assert registry_size == total_plugins, \
-            f"Registry size {registry_size} doesn't match total plugins {total_plugins}"
+        assert (
+            registry_size == total_plugins
+        ), f"Registry size {registry_size} doesn't match total plugins {total_plugins}"
 
     def test_concurrent_lane_isolation(self):
         """Test that lane isolation works with concurrent operations"""
@@ -459,7 +443,7 @@ class TestLaneIsolationEnforcement:
 
                 # Register plugins in this lane
                 for i in range(5):
-                    plugin_name = f'worker_{worker_id}_plugin_{i}'
+                    plugin_name = f"worker_{worker_id}_plugin_{i}"
                     plugin_group = lane_config.allowed_plugin_groups[0]  # Use first allowed group
 
                     # Check if registration is allowed
@@ -468,31 +452,20 @@ class TestLaneIsolationEnforcement:
                             plugin_name, plugin_group, lane_name
                         )
 
-                        plugin = {
-                            'name': plugin_name,
-                            'worker_id': worker_id,
-                            'lane': lane_name
-                        }
+                        plugin = {"name": plugin_name, "worker_id": worker_id, "lane": lane_name}
 
                         worker_registry[lane_key] = plugin
 
-                results.put({
-                    'worker_id': worker_id,
-                    'lane': lane_name,
-                    'registry_size': len(worker_registry),
-                    'success': True
-                })
+                results.put(
+                    {"worker_id": worker_id, "lane": lane_name, "registry_size": len(worker_registry), "success": True}
+                )
 
             except Exception as e:
-                errors.put({
-                    'worker_id': worker_id,
-                    'lane': lane_name,
-                    'error': str(e)
-                })
+                errors.put({"worker_id": worker_id, "lane": lane_name, "error": str(e)})
 
         # Start workers in different lanes
         threads = []
-        lanes = ['production', 'development', 'experimental']
+        lanes = ["production", "development", "experimental"]
 
         for i, lane in enumerate(lanes * 2):  # 6 workers total, 2 per lane
             thread = threading.Thread(target=lane_worker, args=(lane, i))
@@ -517,59 +490,56 @@ class TestLaneIsolationEnforcement:
         assert len(worker_errors) == 0, f"Unexpected errors: {worker_errors}"
 
         # Verify lane isolation in results
-        lanes_used = set(result['lane'] for result in worker_results)
+        lanes_used = set(result["lane"] for result in worker_results)
         assert lanes_used == set(lanes), f"Not all lanes used: {lanes_used}"
 
         # Each worker should have registered plugins successfully
         for result in worker_results:
-            assert result['success'], f"Worker {result['worker_id']} failed"
-            assert result['registry_size'] > 0, f"Worker {result['worker_id']} registered no plugins"
+            assert result["success"], f"Worker {result['worker_id']} failed"
+            assert result["registry_size"] > 0, f"Worker {result['worker_id']} registered no plugins"
 
     def test_lane_specific_security_policies(self):
         """Test that different lanes enforce different security policies"""
 
         security_test_plugins = [
-            ('system_plugin', 'safe'),
-            ('monitoring_plugin', 'safe'),
-            ('constellation_core', 'safe'),
-            ('debug_plugin', 'moderate_risk'),
-            ('experimental_feature', 'high_risk'),
-            ('unknown_plugin', 'high_risk')
+            ("system_plugin", "safe"),
+            ("monitoring_plugin", "safe"),
+            ("constellation_core", "safe"),
+            ("debug_plugin", "moderate_risk"),
+            ("experimental_feature", "high_risk"),
+            ("unknown_plugin", "high_risk"),
         ]
 
-        for lane_name in ['production', 'development', 'experimental']:
+        for lane_name in ["production", "development", "experimental"]:
             self.isolation_manager.set_current_lane(lane_name)
             lane_config = self.isolation_manager.get_lane_config(lane_name)
 
             for plugin_name, risk_level in security_test_plugins:
                 # Determine if plugin should be allowed based on lane security level
-                self._should_allow_plugin_by_security_policy(
-                    plugin_name, risk_level, lane_config.security_level
-                )
+                self._should_allow_plugin_by_security_policy(plugin_name, risk_level, lane_config.security_level)
 
                 # Test enforcement (simplified - checks plugin name patterns)
                 allowed = self.isolation_manager.enforce_lane_isolation(
-                    plugin_name, 'constellation_components', lane_name
+                    plugin_name, "constellation_components", lane_name
                 )
 
-                if lane_config.security_level == 'strict':
+                if lane_config.security_level == "strict":
                     # Strict lanes should only allow known safe plugins
-                    safe_patterns = ['system_', 'monitoring_', 'constellation_', 'core_']
+                    safe_patterns = ["system_", "monitoring_", "constellation_", "core_"]
                     expected_allow = any(pattern in plugin_name for pattern in safe_patterns)
-                    assert allowed == expected_allow, \
-                        f"Strict security policy failed for {plugin_name} in {lane_name}"
+                    assert allowed == expected_allow, f"Strict security policy failed for {plugin_name} in {lane_name}"
 
-                elif lane_config.security_level == 'permissive':
+                elif lane_config.security_level == "permissive":
                     # Permissive lanes should allow most plugins
                     assert allowed, f"Permissive lane should allow {plugin_name}"
 
     def _should_allow_plugin_by_security_policy(self, plugin_name: str, risk_level: str, security_level: str) -> bool:
         """Helper method to determine if plugin should be allowed based on security policy"""
-        if security_level == 'strict':
-            return risk_level == 'safe'
-        elif security_level == 'moderate':
-            return risk_level in ['safe', 'moderate_risk']
-        elif security_level == 'permissive':
+        if security_level == "strict":
+            return risk_level == "safe"
+        elif security_level == "moderate":
+            return risk_level in ["safe", "moderate_risk"]
+        elif security_level == "permissive":
             return True
         return False
 
@@ -577,19 +547,15 @@ class TestLaneIsolationEnforcement:
         """Test that plugins cannot be migrated between lanes unsafely"""
 
         # Register plugin in production lane
-        self.isolation_manager.set_current_lane('production')
-        prod_key = self.isolation_manager.get_lane_specific_registry_key(
-            'critical_plugin', 'monitoring', 'production'
-        )
-        prod_plugin = {'name': 'critical_plugin', 'lane': 'production', 'sensitive_data': True}
+        self.isolation_manager.set_current_lane("production")
+        prod_key = self.isolation_manager.get_lane_specific_registry_key("critical_plugin", "monitoring", "production")
+        prod_plugin = {"name": "critical_plugin", "lane": "production", "sensitive_data": True}
         register(prod_key, prod_plugin)
 
         # Attempt to register same plugin in development lane
-        self.isolation_manager.set_current_lane('development')
-        dev_key = self.isolation_manager.get_lane_specific_registry_key(
-            'critical_plugin', 'adapters', 'development'
-        )
-        dev_plugin = {'name': 'critical_plugin', 'lane': 'development', 'debug_mode': True}
+        self.isolation_manager.set_current_lane("development")
+        dev_key = self.isolation_manager.get_lane_specific_registry_key("critical_plugin", "adapters", "development")
+        dev_plugin = {"name": "critical_plugin", "lane": "development", "debug_mode": True}
         register(dev_key, dev_plugin)
 
         # Both should be registered with different keys
@@ -597,13 +563,13 @@ class TestLaneIsolationEnforcement:
         assert resolve(dev_key) == dev_plugin
 
         # Verify they are truly isolated
-        assert resolve(prod_key)['lane'] == 'production'
-        assert resolve(dev_key)['lane'] == 'development'
+        assert resolve(prod_key)["lane"] == "production"
+        assert resolve(dev_key)["lane"] == "development"
         assert prod_key != dev_key
 
         # Verify cross-lane access is not possible
-        prod_plugins = [k for k in _REG.keys() if k.startswith('prod:')]
-        dev_plugins = [k for k in _REG.keys() if k.startswith('dev:')]
+        prod_plugins = [k for k in _REG.keys() if k.startswith("prod:")]
+        dev_plugins = [k for k in _REG.keys() if k.startswith("dev:")]
 
         assert len(prod_plugins) == 1
         assert len(dev_plugins) == 1

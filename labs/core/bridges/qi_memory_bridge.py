@@ -1,6 +1,7 @@
 """Quantum-Memory Bridge
 Bidirectional communication bridge between Quantum and Memory systems
 """
+
 import logging
 from typing import Any, Optional
 

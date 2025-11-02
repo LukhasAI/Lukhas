@@ -35,6 +35,7 @@
 ║ Symbolic Tags: {ΛBASE}, {ΛMODULE}, {ΛLIFECYCLE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 
 # Module imports

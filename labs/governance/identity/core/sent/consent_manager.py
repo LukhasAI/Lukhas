@@ -12,6 +12,7 @@ Features:
 - Zero-knowledge proof support
 - ΛTRACE integration
 """
+
 from typing import Optional
 
 from .consent_history import ConsentHistoryManager

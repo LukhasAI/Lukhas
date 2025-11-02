@@ -9,6 +9,7 @@ Comprehensive validation framework for EU AI Act compliance including:
 - Documentation compliance checking
 - High-risk AI system validation
 """
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone

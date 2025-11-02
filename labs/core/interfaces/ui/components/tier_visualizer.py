@@ -1,4 +1,3 @@
-
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: tier_visualizer.py

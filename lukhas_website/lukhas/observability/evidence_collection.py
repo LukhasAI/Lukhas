@@ -32,6 +32,7 @@ from cryptography.hazmat.primitives.asymmetric import padding, rsa
 
 try:
     import aiofiles
+
     AIOFILES_AVAILABLE = True
 except ImportError:
     AIOFILES_AVAILABLE = False
@@ -39,6 +40,7 @@ except ImportError:
 
 class EvidenceType(Enum):
     """Types of evidence collected by LUKHAS"""
+
     USER_INTERACTION = "user_interaction"
     AI_DECISION = "ai_decision"
     AUTHENTICATION = "authentication"
@@ -53,6 +55,7 @@ class EvidenceType(Enum):
 
 class ComplianceRegime(Enum):
     """Regulatory compliance regimes"""
+
     GDPR = "gdpr"
     CCPA = "ccpa"
     SOX = "sox"
@@ -65,6 +68,7 @@ class ComplianceRegime(Enum):
 @dataclass
 class EvidenceRecord:
     """Individual evidence record with cryptographic integrity"""
+
     evidence_id: str
     timestamp: datetime
     evidence_type: EvidenceType
@@ -88,6 +92,7 @@ class EvidenceRecord:
 @dataclass
 class EvidenceChain:
     """Chain of evidence records with tamper-evident linking"""
+
     chain_id: str
     previous_hash: str
     records: List[EvidenceRecord]
@@ -99,6 +104,7 @@ class EvidenceChain:
 
 class IntegrityVerificationError(Exception):
     """Raised when evidence integrity verification fails"""
+
     pass
 
 
@@ -164,7 +170,7 @@ class EvidenceCollectionEngine:
         """Initialize cryptographic system for evidence integrity"""
         # Generate or load RSA key pair for signing
         if signing_key_path and Path(signing_key_path).exists():
-            with open(signing_key_path, 'rb') as f:
+            with open(signing_key_path, "rb") as f:
                 self.private_key = serialization.load_pem_private_key(f.read(), password=None)
         else:
             # Generate new key pair
@@ -175,11 +181,11 @@ class EvidenceCollectionEngine:
 
             # Save private key
             key_path = self.storage_path / "evidence_signing.key"
-            with open(key_path, 'wb') as f:
+            with open(key_path, "wb") as f:
                 pem = self.private_key.private_bytes(
                     encoding=serialization.Encoding.PEM,
                     format=serialization.PrivateFormat.PKCS8,
-                    encryption_algorithm=serialization.NoEncryption()
+                    encryption_algorithm=serialization.NoEncryption(),
                 )
                 f.write(pem)
             os.chmod(key_path, 0o600)  # Secure permissions
@@ -188,7 +194,7 @@ class EvidenceCollectionEngine:
 
         # HMAC key for integrity verification
         self.hmac_key = os.urandom(32)
-        with open(self.storage_path / "integrity.key", 'wb') as f:
+        with open(self.storage_path / "integrity.key", "wb") as f:
             f.write(self.hmac_key)
         os.chmod(self.storage_path / "integrity.key", 0o600)
 
@@ -198,7 +204,7 @@ class EvidenceCollectionEngine:
             "genesis": True,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "version": "1.0",
-            "system": "LUKHAS"
+            "system": "LUKHAS",
         }
         return hashlib.sha256(json.dumps(genesis_data, sort_keys=True).encode()).hexdigest()
 
@@ -211,11 +217,8 @@ class EvidenceCollectionEngine:
         """Create RSA signature for evidence record"""
         signature = self.private_key.sign(
             evidence_hash.encode(),
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
+            padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+            hashes.SHA256(),
         )
         return signature.hex()
 
@@ -226,11 +229,8 @@ class EvidenceCollectionEngine:
             self.public_key.verify(
                 signature,
                 evidence_hash.encode(),
-                padding.PSS(
-                    mgf=padding.MGF1(hashes.SHA256()),
-                    salt_length=padding.PSS.MAX_LENGTH
-                ),
-                hashes.SHA256()
+                padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+                hashes.SHA256(),
             )
             return True
         except Exception:
@@ -315,8 +315,7 @@ class EvidenceCollectionEngine:
         self._collection_times.append(collection_time)
 
         # Guardian integration for critical evidence
-        if (self.guardian_integration and
-            evidence_type in [EvidenceType.AI_DECISION, EvidenceType.SECURITY_EVENT]):
+        if self.guardian_integration and evidence_type in [EvidenceType.AI_DECISION, EvidenceType.SECURITY_EVENT]:
             await self._validate_with_guardian(evidence)
 
         return evidence_id
@@ -422,16 +421,11 @@ class EvidenceCollectionEngine:
 
         if self.compression_enabled:
             # Compress payload for storage efficiency
-            compressed_data = zlib.compress(
-                json.dumps(block_data, default=str).encode(),
-                level=6
-            )
+            compressed_data = zlib.compress(json.dumps(block_data, default=str).encode(), level=6)
             chain.compressed_payload = compressed_data
             block_data["compressed_size"] = len(compressed_data)
 
-        chain.block_hash = hashlib.sha256(
-            json.dumps(block_data, sort_keys=True, default=str).encode()
-        ).hexdigest()
+        chain.block_hash = hashlib.sha256(json.dumps(block_data, sort_keys=True, default=str).encode()).hexdigest()
 
         # Store chain block
         await self._store_chain_block(chain)
@@ -460,10 +454,10 @@ class EvidenceCollectionEngine:
         }
 
         if AIOFILES_AVAILABLE:
-            async with aiofiles.open(metadata_file, 'w') as f:
+            async with aiofiles.open(metadata_file, "w") as f:
                 await f.write(json.dumps(metadata, indent=2))
         else:
-            with open(metadata_file, 'w') as f:
+            with open(metadata_file, "w") as f:
                 json.dump(metadata, f, indent=2)
 
         # Store compressed records
@@ -471,18 +465,18 @@ class EvidenceCollectionEngine:
 
         if self.compression_enabled and chain.compressed_payload:
             if AIOFILES_AVAILABLE:
-                async with aiofiles.open(records_file, 'wb') as f:
+                async with aiofiles.open(records_file, "wb") as f:
                     await f.write(chain.compressed_payload)
             else:
-                with open(records_file, 'wb') as f:
+                with open(records_file, "wb") as f:
                     f.write(chain.compressed_payload)
         else:
             records_data = [asdict(r) for r in chain.records]
             if AIOFILES_AVAILABLE:
-                async with aiofiles.open(records_file, 'w') as f:
+                async with aiofiles.open(records_file, "w") as f:
                     await f.write(json.dumps(records_data, default=str, indent=2))
             else:
-                with open(records_file, 'w') as f:
+                with open(records_file, "w") as f:
                     json.dump(records_data, f, default=str, indent=2)
 
     async def query_evidence(
@@ -520,13 +514,13 @@ class EvidenceCollectionEngine:
             # Load and decompress records
             try:
                 if AIOFILES_AVAILABLE:
-                    async with aiofiles.open(chain_file, 'rb') as f:
+                    async with aiofiles.open(chain_file, "rb") as f:
                         compressed_data = await f.read()
                 else:
-                    with open(chain_file, 'rb') as f:
+                    with open(chain_file, "rb") as f:
                         compressed_data = f.read()
 
-                if chain_file.suffix == '.gz':
+                if chain_file.suffix == ".gz":
                     records_data = json.loads(zlib.decompress(compressed_data))
                 else:
                     records_data = json.loads(compressed_data)
@@ -550,7 +544,11 @@ class EvidenceCollectionEngine:
                         integrity_hash=record_dict["integrity_hash"],
                         signature=record_dict.get("signature"),
                         compliance_regimes=[ComplianceRegime(r) for r in record_dict.get("compliance_regimes", [])],
-                        retention_until=datetime.fromisoformat(record_dict["retention_until"]) if record_dict.get("retention_until") else None,
+                        retention_until=(
+                            datetime.fromisoformat(record_dict["retention_until"])
+                            if record_dict.get("retention_until")
+                            else None
+                        ),
                         archival_location=record_dict.get("archival_location"),
                     )
 
@@ -604,6 +602,7 @@ class EvidenceCollectionEngine:
 
     def _start_background_tasks(self):
         """Start background tasks for evidence processing"""
+
         async def flush_worker():
             while True:
                 try:
@@ -703,20 +702,12 @@ def get_evidence_engine() -> EvidenceCollectionEngine:
 
 
 async def collect_evidence(
-    evidence_type: EvidenceType,
-    source_component: str,
-    operation: str,
-    payload: Dict[str, Any],
-    **kwargs
+    evidence_type: EvidenceType, source_component: str, operation: str, payload: Dict[str, Any], **kwargs
 ) -> str:
     """Convenience function for collecting evidence"""
     engine = get_evidence_engine()
     return await engine.collect_evidence(
-        evidence_type=evidence_type,
-        source_component=source_component,
-        operation=operation,
-        payload=payload,
-        **kwargs
+        evidence_type=evidence_type, source_component=source_component, operation=operation, payload=payload, **kwargs
     )
 
 

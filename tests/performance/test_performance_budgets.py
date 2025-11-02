@@ -26,6 +26,7 @@ from observability.prometheus_metrics import LUKHASMetrics
 @dataclass
 class PerformanceBudget:
     """Performance budget specification."""
+
     metric_name: str
     threshold: float
     unit: str
@@ -94,11 +95,7 @@ class PerformanceMonitor:
         start_time = time.time()
 
         try:
-            yield {
-                'baseline_memory': baseline_memory,
-                'baseline_cpu': baseline_cpu,
-                'start_time': start_time
-            }
+            yield {"baseline_memory": baseline_memory, "baseline_cpu": baseline_cpu, "start_time": start_time}
         finally:
             # Final measurements
             end_time = time.time()
@@ -127,7 +124,7 @@ class TestSystemPerformanceBudgets:
     async def test_memory_budget_compliance(self, monitor):
         """Test system memory usage stays within budget."""
         async with monitor.monitor_performance("memory_budget") as metrics:
-            baseline = metrics['baseline_memory']
+            baseline = metrics["baseline_memory"]
 
             # Simulate memory-intensive operations
             data_buffers = []
@@ -154,8 +151,9 @@ class TestSystemPerformanceBudgets:
             total_usage = final_memory - baseline
 
             budget = PerformanceBudgets.SYSTEM_BUDGETS[0]
-            assert total_usage <= budget.threshold, \
-                f"Memory usage {total_usage:.1f}{budget.unit} exceeds budget {budget.threshold}{budget.unit}"
+            assert (
+                total_usage <= budget.threshold
+            ), f"Memory usage {total_usage:.1f}{budget.unit} exceeds budget {budget.threshold}{budget.unit}"
 
     @pytest.mark.asyncio
     async def test_cpu_efficiency_budget(self, monitor):
@@ -184,10 +182,8 @@ class TestSystemPerformanceBudgets:
         avg_budget = next(b for b in PerformanceBudgets.SYSTEM_BUDGETS if b.metric_name == "cpu_avg_percent")
         peak_budget = next(b for b in PerformanceBudgets.SYSTEM_BUDGETS if b.metric_name == "cpu_peak_percent")
 
-        assert avg_cpu <= avg_budget.threshold, \
-            f"Average CPU {avg_cpu:.1f}% exceeds budget {avg_budget.threshold}%"
-        assert max_cpu <= peak_budget.threshold, \
-            f"Peak CPU {max_cpu:.1f}% exceeds budget {peak_budget.threshold}%"
+        assert avg_cpu <= avg_budget.threshold, f"Average CPU {avg_cpu:.1f}% exceeds budget {avg_budget.threshold}%"
+        assert max_cpu <= peak_budget.threshold, f"Peak CPU {max_cpu:.1f}% exceeds budget {peak_budget.threshold}%"
 
 
 class TestMATRIZPerformanceBudgets:
@@ -206,13 +202,12 @@ class TestMATRIZPerformanceBudgets:
         async with monitor.monitor_performance("stage_latency"):
             # Test various stage configurations
             stage_configs = [
-                ("fast_stage", 0.01),      # 10ms
-                ("medium_stage", 0.05),    # 50ms
-                ("slow_stage", 0.09),      # 90ms - close to budget
+                ("fast_stage", 0.01),  # 10ms
+                ("medium_stage", 0.05),  # 50ms
+                ("slow_stage", 0.09),  # 90ms - close to budget
             ]
 
-            budget = next(b for b in PerformanceBudgets.MATRIZ_BUDGETS
-                         if b.metric_name == "stage_latency_ms")
+            budget = next(b for b in PerformanceBudgets.MATRIZ_BUDGETS if b.metric_name == "stage_latency_ms")
 
             for stage_name, processing_time in stage_configs:
                 plugin = MockPlugin(stage_name, processing_time)
@@ -224,8 +219,9 @@ class TestMATRIZPerformanceBudgets:
 
                 latency_ms = (end_time - start_time) * 1000
 
-                assert latency_ms <= budget.threshold, \
-                    f"Stage {stage_name} latency {latency_ms:.2f}ms exceeds budget {budget.threshold}ms"
+                assert (
+                    latency_ms <= budget.threshold
+                ), f"Stage {stage_name} latency {latency_ms:.2f}ms exceeds budget {budget.threshold}ms"
 
     @pytest.mark.asyncio
     async def test_pipeline_throughput_budget(self, monitor):
@@ -237,10 +233,7 @@ class TestMATRIZPerformanceBudgets:
         async with monitor.monitor_performance("pipeline_throughput"):
             # Create lightweight orchestrator
             orchestrator = AsyncOrchestrator(
-                metrics=monitor.metrics,
-                tracer=monitor.tracer,
-                stage_timeout=0.1,
-                total_timeout=0.25
+                metrics=monitor.metrics, tracer=monitor.tracer, stage_timeout=0.1, total_timeout=0.25
             )
 
             # Add fast stages
@@ -273,11 +266,13 @@ class TestMATRIZPerformanceBudgets:
             successes = [r for r in results if not isinstance(r, Exception) and r.success]
             success_rate = len(successes) / num_requests * 100
 
-            success_budget = next(b for b in PerformanceBudgets.MATRIZ_BUDGETS
-                                if b.metric_name == "success_rate_percent")
+            success_budget = next(
+                b for b in PerformanceBudgets.MATRIZ_BUDGETS if b.metric_name == "success_rate_percent"
+            )
 
-            assert success_rate >= success_budget.threshold, \
-                f"Success rate {success_rate:.2f}% below budget {success_budget.threshold}%"
+            assert (
+                success_rate >= success_budget.threshold
+            ), f"Success rate {success_rate:.2f}% below budget {success_budget.threshold}%"
 
             print(f"Throughput: {throughput:.1f} RPS (Duration: {duration:.2f}s)")
 
@@ -288,8 +283,7 @@ class TestMemoryPerformanceBudgets:
     @pytest.mark.asyncio
     async def test_fold_access_budget(self):
         """Test memory fold access time budget."""
-        budget = next(b for b in PerformanceBudgets.MEMORY_BUDGETS
-                     if b.metric_name == "fold_access_ms")
+        budget = next(b for b in PerformanceBudgets.MEMORY_BUDGETS if b.metric_name == "fold_access_ms")
 
         # Mock memory fold access
         async def mock_fold_access():
@@ -302,14 +296,14 @@ class TestMemoryPerformanceBudgets:
 
         access_time_ms = (end_time - start_time) * 1000
 
-        assert access_time_ms <= budget.threshold, \
-            f"Fold access time {access_time_ms:.2f}ms exceeds budget {budget.threshold}ms"
+        assert (
+            access_time_ms <= budget.threshold
+        ), f"Fold access time {access_time_ms:.2f}ms exceeds budget {budget.threshold}ms"
 
     @pytest.mark.asyncio
     async def test_recall_latency_budget(self):
         """Test Top-K recall latency budget for 10k items."""
-        budget = next(b for b in PerformanceBudgets.MEMORY_BUDGETS
-                     if b.metric_name == "recall_latency_ms")
+        budget = next(b for b in PerformanceBudgets.MEMORY_BUDGETS if b.metric_name == "recall_latency_ms")
 
         # Simulate Top-K recall on 10k items
         items = [{"id": i, "embedding": [i * 0.1] * 128} for i in range(10000)]
@@ -326,8 +320,9 @@ class TestMemoryPerformanceBudgets:
 
         recall_time_ms = (end_time - start_time) * 1000
 
-        assert recall_time_ms <= budget.threshold, \
-            f"Top-K recall time {recall_time_ms:.2f}ms exceeds budget {budget.threshold}ms"
+        assert (
+            recall_time_ms <= budget.threshold
+        ), f"Top-K recall time {recall_time_ms:.2f}ms exceeds budget {budget.threshold}ms"
         assert len(results) == 10, "Should return exactly K items"
 
 
@@ -337,8 +332,9 @@ class TestObservabilityPerformanceBudgets:
     @pytest.mark.asyncio
     async def test_metrics_overhead_budget(self):
         """Test metrics collection overhead budget."""
-        budget = next(b for b in PerformanceBudgets.OBSERVABILITY_BUDGETS
-                     if b.metric_name == "metrics_overhead_percent")
+        budget = next(
+            b for b in PerformanceBudgets.OBSERVABILITY_BUDGETS if b.metric_name == "metrics_overhead_percent"
+        )
 
         metrics = LUKHASMetrics()
 
@@ -363,14 +359,14 @@ class TestObservabilityPerformanceBudgets:
         # Calculate overhead
         overhead = ((metrics_duration - baseline_duration) / baseline_duration) * 100
 
-        assert overhead <= budget.threshold, \
-            f"Metrics overhead {overhead:.2f}% exceeds budget {budget.threshold}%"
+        assert overhead <= budget.threshold, f"Metrics overhead {overhead:.2f}% exceeds budget {budget.threshold}%"
 
     @pytest.mark.asyncio
     async def test_tracing_overhead_budget(self):
         """Test distributed tracing overhead budget."""
-        budget = next(b for b in PerformanceBudgets.OBSERVABILITY_BUDGETS
-                     if b.metric_name == "tracing_overhead_percent")
+        budget = next(
+            b for b in PerformanceBudgets.OBSERVABILITY_BUDGETS if b.metric_name == "tracing_overhead_percent"
+        )
 
         tracer = LUKHASTracer()
 
@@ -390,8 +386,7 @@ class TestObservabilityPerformanceBudgets:
         # Calculate overhead
         overhead = ((tracing_duration - baseline_duration) / baseline_duration) * 100
 
-        assert overhead <= budget.threshold, \
-            f"Tracing overhead {overhead:.2f}% exceeds budget {budget.threshold}%"
+        assert overhead <= budget.threshold, f"Tracing overhead {overhead:.2f}% exceeds budget {budget.threshold}%"
 
 
 class TestBudgetReporting:
@@ -400,11 +395,11 @@ class TestBudgetReporting:
     def test_budget_compliance_report(self):
         """Generate performance budget compliance report."""
         all_budgets = (
-            PerformanceBudgets.SYSTEM_BUDGETS +
-            PerformanceBudgets.MATRIZ_BUDGETS +
-            PerformanceBudgets.MEMORY_BUDGETS +
-            PerformanceBudgets.IDENTITY_BUDGETS +
-            PerformanceBudgets.OBSERVABILITY_BUDGETS
+            PerformanceBudgets.SYSTEM_BUDGETS
+            + PerformanceBudgets.MATRIZ_BUDGETS
+            + PerformanceBudgets.MEMORY_BUDGETS
+            + PerformanceBudgets.IDENTITY_BUDGETS
+            + PerformanceBudgets.OBSERVABILITY_BUDGETS
         )
 
         print("\n📊 T4/0.01% Performance Budget Summary")

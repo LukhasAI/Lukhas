@@ -42,6 +42,7 @@ try:
         create_middleware_pipeline,
     )
     from .analytics_dashboard import AnalyticsDashboard, TimeWindow, create_analytics_dashboard
+
     OPTIMIZATION_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPTIMIZATION_COMPONENTS_AVAILABLE = False
@@ -49,6 +50,7 @@ except ImportError:
 # Security framework integration
 try:
     from security.security_framework import LUKHASSecurityFramework
+
     SECURITY_AVAILABLE = True
 except ImportError:
     SECURITY_AVAILABLE = False
@@ -56,6 +58,7 @@ except ImportError:
 # Cache system integration
 try:
     from caching.cache_system import HierarchicalCacheManager
+
     CACHE_AVAILABLE = True
 except ImportError:
     CACHE_AVAILABLE = False
@@ -63,6 +66,7 @@ except ImportError:
 
 class IntegrationMode(Enum):
     """API optimization integration modes."""
+
     DEVELOPMENT = "development"
     TESTING = "testing"
     PRODUCTION = "production"
@@ -72,6 +76,7 @@ class IntegrationMode(Enum):
 
 class HealthStatus(Enum):
     """Health status levels."""
+
     HEALTHY = "healthy"
     WARNING = "warning"
     DEGRADED = "degraded"
@@ -82,6 +87,7 @@ class HealthStatus(Enum):
 @dataclass
 class IntegrationConfig:
     """Configuration for API optimization integration."""
+
     mode: IntegrationMode = IntegrationMode.PRODUCTION
     enable_optimizer: bool = True
     enable_middleware: bool = True
@@ -102,6 +108,7 @@ class IntegrationConfig:
 @dataclass
 class APIPerformanceMetrics:
     """Comprehensive API performance metrics."""
+
     total_requests: int = 0
     successful_requests: int = 0
     failed_requests: int = 0
@@ -121,6 +128,7 @@ class APIPerformanceMetrics:
 @dataclass
 class SystemHealth:
     """Overall system health status."""
+
     status: HealthStatus
     score: float  # 0-100
     components: Dict[str, HealthStatus] = field(default_factory=dict)
@@ -148,7 +156,7 @@ class IntelligentRoutingEngine:
             "route": "default",
             "priority": context.priority,
             "optimizations": [],
-            "estimated_response_time": performance.get("avg_response_time", 100)
+            "estimated_response_time": performance.get("avg_response_time", 100),
         }
 
         # Apply intelligent routing rules
@@ -167,8 +175,7 @@ class IntelligentRoutingEngine:
 
         return routing_decision
 
-    async def update_performance_data(self, endpoint: str, method: str,
-                                    response_time: float, error_rate: float):
+    async def update_performance_data(self, endpoint: str, method: str, response_time: float, error_rate: float):
         """Update endpoint performance data for routing decisions."""
         endpoint_key = f"{method}:{endpoint}"
 
@@ -176,19 +183,15 @@ class IntelligentRoutingEngine:
             self.endpoint_performance[endpoint_key] = {
                 "avg_response_time": response_time,
                 "error_rate": error_rate,
-                "request_count": 1
+                "request_count": 1,
             }
         else:
             perf = self.endpoint_performance[endpoint_key]
             count = perf["request_count"]
 
             # Update rolling average
-            perf["avg_response_time"] = (
-                (perf["avg_response_time"] * count + response_time) / (count + 1)
-            )
-            perf["error_rate"] = (
-                (perf["error_rate"] * count + error_rate) / (count + 1)
-            )
+            perf["avg_response_time"] = (perf["avg_response_time"] * count + response_time) / (count + 1)
+            perf["error_rate"] = (perf["error_rate"] * count + error_rate) / (count + 1)
             perf["request_count"] = count + 1
 
 
@@ -207,12 +210,7 @@ class PredictiveCacheManager:
         # Analyze access patterns
         patterns = self.access_patterns.get(endpoint_key, {})
 
-        prediction = {
-            "should_cache": False,
-            "ttl_seconds": 300,
-            "cache_priority": "normal",
-            "prefetch_related": []
-        }
+        prediction = {"should_cache": False, "ttl_seconds": 300, "cache_priority": "normal", "prefetch_related": []}
 
         # Pattern-based predictions
         if patterns.get("access_frequency", 0) > 10:  # Frequently accessed
@@ -230,8 +228,7 @@ class PredictiveCacheManager:
 
         return prediction
 
-    async def update_access_pattern(self, endpoint: str, method: str,
-                                  user_id: Optional[str] = None):
+    async def update_access_pattern(self, endpoint: str, method: str, user_id: Optional[str] = None):
         """Update access patterns for predictive caching."""
         endpoint_key = f"{method}:{endpoint}"
         timestamp = time.time()
@@ -241,7 +238,7 @@ class PredictiveCacheManager:
                 "access_frequency": 0,
                 "last_access": timestamp,
                 "access_times": [],
-                "user_specific": False
+                "user_specific": False,
             }
 
         pattern = self.access_patterns[endpoint_key]
@@ -251,9 +248,7 @@ class PredictiveCacheManager:
 
         # Keep only recent access times (last hour)
         recent_threshold = timestamp - 3600
-        pattern["access_times"] = [
-            t for t in pattern["access_times"] if t > recent_threshold
-        ]
+        pattern["access_times"] = [t for t in pattern["access_times"] if t > recent_threshold]
 
         # Detect if endpoint is user-specific
         if user_id:
@@ -262,7 +257,7 @@ class PredictiveCacheManager:
         # Analyze temporal patterns
         if len(pattern["access_times"]) > 5:
             intervals = [
-                pattern["access_times"][i] - pattern["access_times"][i-1]
+                pattern["access_times"][i] - pattern["access_times"][i - 1]
                 for i in range(1, len(pattern["access_times"]))
             ]
             avg_interval = sum(intervals) / len(intervals)
@@ -297,11 +292,11 @@ class AutoScalingManager:
         self.scaling_history = []
         self.current_capacity = 1.0
         self.scaling_rules = {
-            "scale_up_threshold": 0.8,    # Scale up at 80% capacity
+            "scale_up_threshold": 0.8,  # Scale up at 80% capacity
             "scale_down_threshold": 0.3,  # Scale down at 30% capacity
-            "max_capacity": 10.0,         # Maximum 10x scaling
-            "min_capacity": 0.5,          # Minimum 0.5x scaling
-            "cooldown_minutes": 5         # 5 minute cooldown
+            "max_capacity": 10.0,  # Maximum 10x scaling
+            "min_capacity": 0.5,  # Minimum 0.5x scaling
+            "cooldown_minutes": 5,  # 5 minute cooldown
         }
 
     async def evaluate_scaling(self, metrics: APIPerformanceMetrics) -> Dict[str, Any]:
@@ -313,7 +308,7 @@ class AutoScalingManager:
             "current_capacity": self.current_capacity,
             "recommended_capacity": self.current_capacity,
             "reason": "No scaling needed",
-            "load_factor": current_load
+            "load_factor": current_load,
         }
 
         # Check if cooldown period has passed
@@ -323,29 +318,27 @@ class AutoScalingManager:
 
         # Scale up decision
         if current_load > self.scaling_rules["scale_up_threshold"]:
-            new_capacity = min(
-                self.current_capacity * 1.5,
-                self.scaling_rules["max_capacity"]
-            )
+            new_capacity = min(self.current_capacity * 1.5, self.scaling_rules["max_capacity"])
             if new_capacity > self.current_capacity:
-                decision.update({
-                    "action": "scale_up",
-                    "recommended_capacity": new_capacity,
-                    "reason": f"High load detected: {current_load:.2f}"
-                })
+                decision.update(
+                    {
+                        "action": "scale_up",
+                        "recommended_capacity": new_capacity,
+                        "reason": f"High load detected: {current_load:.2f}",
+                    }
+                )
 
         # Scale down decision
         elif current_load < self.scaling_rules["scale_down_threshold"]:
-            new_capacity = max(
-                self.current_capacity * 0.7,
-                self.scaling_rules["min_capacity"]
-            )
+            new_capacity = max(self.current_capacity * 0.7, self.scaling_rules["min_capacity"])
             if new_capacity < self.current_capacity:
-                decision.update({
-                    "action": "scale_down",
-                    "recommended_capacity": new_capacity,
-                    "reason": f"Low load detected: {current_load:.2f}"
-                })
+                decision.update(
+                    {
+                        "action": "scale_down",
+                        "recommended_capacity": new_capacity,
+                        "reason": f"Low load detected: {current_load:.2f}",
+                    }
+                )
 
         return decision
 
@@ -353,12 +346,14 @@ class AutoScalingManager:
         """Apply scaling decision."""
         try:
             # Record scaling event
-            self.scaling_history.append({
-                "timestamp": time.time(),
-                "old_capacity": self.current_capacity,
-                "new_capacity": new_capacity,
-                "action": "scale_up" if new_capacity > self.current_capacity else "scale_down"
-            })
+            self.scaling_history.append(
+                {
+                    "timestamp": time.time(),
+                    "old_capacity": self.current_capacity,
+                    "new_capacity": new_capacity,
+                    "action": "scale_up" if new_capacity > self.current_capacity else "scale_down",
+                }
+            )
 
             self.current_capacity = new_capacity
 
@@ -377,11 +372,7 @@ class AutoScalingManager:
         throughput_factor = min(metrics.throughput_rps / 1000, 1.0)  # Normalize to 1000 RPS
 
         # Weighted average
-        load_factor = (
-            response_time_factor * 0.4 +
-            error_rate_factor * 0.3 +
-            throughput_factor * 0.3
-        )
+        load_factor = response_time_factor * 0.4 + error_rate_factor * 0.3 + throughput_factor * 0.3
 
         return min(load_factor, 1.0)
 
@@ -462,13 +453,10 @@ class LUKHASAPIOptimizationHub:
             IntegrationMode.TESTING: OptimizationStrategy.BALANCED,
             IntegrationMode.PRODUCTION: OptimizationStrategy.LOW_LATENCY,
             IntegrationMode.HIGH_PERFORMANCE: OptimizationStrategy.AGGRESSIVE_CACHE,
-            IntegrationMode.RESOURCE_CONSERVATIVE: OptimizationStrategy.RESOURCE_CONSERVATION
+            IntegrationMode.RESOURCE_CONSERVATIVE: OptimizationStrategy.RESOURCE_CONSERVATION,
         }.get(self.config.mode, OptimizationStrategy.BALANCED)
 
-        self.optimizer = await create_api_optimizer(
-            strategy=optimization_strategy,
-            redis_url=self.config.redis_url
-        )
+        self.optimizer = await create_api_optimizer(strategy=optimization_strategy, redis_url=self.config.redis_url)
 
         logger.info(f"API optimizer initialized with {optimization_strategy.value} strategy")
 
@@ -480,13 +468,11 @@ class LUKHASAPIOptimizationHub:
             enable_analytics=self.config.enable_analytics,
             enable_request_validation=True,
             enable_compression=True,
-            max_request_size_mb=100.0 if self.config.mode == IntegrationMode.PRODUCTION else 10.0
+            max_request_size_mb=100.0 if self.config.mode == IntegrationMode.PRODUCTION else 10.0,
         )
 
         self.middleware_pipeline = await create_middleware_pipeline(
-            config=middleware_config,
-            security_framework=self.security_framework,
-            optimizer=self.optimizer
+            config=middleware_config, security_framework=self.security_framework, optimizer=self.optimizer
         )
 
         logger.info("Middleware pipeline initialized")
@@ -506,11 +492,15 @@ class LUKHASAPIOptimizationHub:
         # This would be implemented based on cache system availability
         logger.info("Cache manager integration initialized")
 
-    async def process_api_request(self, endpoint: str, method: str,
-                                headers: Dict[str, str] = None,
-                                params: Dict[str, Any] = None,
-                                user_id: Optional[str] = None,
-                                api_key: Optional[str] = None) -> Tuple[bool, Dict[str, Any]]:
+    async def process_api_request(
+        self,
+        endpoint: str,
+        method: str,
+        headers: Dict[str, str] = None,
+        params: Dict[str, Any] = None,
+        user_id: Optional[str] = None,
+        api_key: Optional[str] = None,
+    ) -> Tuple[bool, Dict[str, Any]]:
         """Process API request through optimization pipeline."""
         if not self.is_initialized:
             return False, {"error": "Optimization hub not initialized", "status": 503}
@@ -529,7 +519,7 @@ class LUKHASAPIOptimizationHub:
                 tier=self._determine_user_tier(user_id, api_key),
                 priority=RequestPriority.NORMAL,
                 headers=headers or {},
-                params=params or {}
+                params=params or {},
             )
 
             # Create request metadata
@@ -540,7 +530,7 @@ class LUKHASAPIOptimizationHub:
                 user_agent=headers.get("user-agent", "") if headers else "",
                 endpoint=endpoint,
                 method=method,
-                custom_headers=headers or {}
+                custom_headers=headers or {},
             )
 
             # Intelligent routing
@@ -562,11 +552,7 @@ class LUKHASAPIOptimizationHub:
 
                 if not optimizer_allowed:
                     await self._record_request_metrics(context, 0, 429, False)
-                    return False, {
-                        "error": "Request blocked by optimizer",
-                        "details": optimizer_info,
-                        "status": 429
-                    }
+                    return False, {"error": "Request blocked by optimizer", "details": optimizer_info, "status": 429}
 
             # Process through middleware pipeline
             middleware_result = {"allowed": True, "data": {}}
@@ -591,9 +577,7 @@ class LUKHASAPIOptimizationHub:
                     "cached": True,
                     "data": cached_response,
                     "processing_time_ms": processing_time,
-                    "optimizations_applied": self._get_applied_optimizations(
-                        optimizer_result, middleware_result
-                    )
+                    "optimizations_applied": self._get_applied_optimizations(optimizer_result, middleware_result),
                 }
 
             # Request is allowed to proceed
@@ -605,9 +589,7 @@ class LUKHASAPIOptimizationHub:
                 "processing_time_ms": processing_time,
                 "optimizer_info": optimizer_result["info"],
                 "middleware_data": middleware_result["data"],
-                "optimizations_applied": self._get_applied_optimizations(
-                    optimizer_result, middleware_result
-                )
+                "optimizations_applied": self._get_applied_optimizations(optimizer_result, middleware_result),
             }
 
         except Exception as e:
@@ -615,24 +597,18 @@ class LUKHASAPIOptimizationHub:
             error_time = (time.time() - start_time) * 1000
 
             # Record error metrics
-            if hasattr(self, '_record_request_metrics'):
+            if hasattr(self, "_record_request_metrics"):
                 await self._record_request_metrics(
-                    RequestContext(request_id=request_id, endpoint=endpoint, method=method),
-                    error_time, 500, False
+                    RequestContext(request_id=request_id, endpoint=endpoint, method=method), error_time, 500, False
                 )
 
-            return False, {
-                "error": "Internal optimization error",
-                "status": 500,
-                "processing_time_ms": error_time
-            }
+            return False, {"error": "Internal optimization error", "status": 500, "processing_time_ms": error_time}
 
-    async def complete_api_request(self, request_id: str, response_data: Dict[str, Any],
-                                 status_code: int):
+    async def complete_api_request(self, request_id: str, response_data: Dict[str, Any], status_code: int):
         """Complete API request processing."""
         try:
             # Update optimizer
-            if self.optimizer and hasattr(self.optimizer, 'active_requests'):
+            if self.optimizer and hasattr(self.optimizer, "active_requests"):
                 for context in self.optimizer.active_requests.values():
                     if context.request_id == request_id:
                         await self.optimizer.complete_request(context, response_data, status_code)
@@ -642,11 +618,11 @@ class LUKHASAPIOptimizationHub:
             if self.analytics_dashboard:
                 await self.analytics_dashboard.record_api_request(
                     endpoint="unknown",  # Would be stored in request tracking
-                    method="GET",        # Would be stored in request tracking
-                    response_time=0,     # Would be calculated from stored start time
+                    method="GET",  # Would be stored in request tracking
+                    response_time=0,  # Would be calculated from stored start time
                     status_code=status_code,
-                    user_id=None,        # Would be extracted from request context
-                    response_size=len(json.dumps(response_data))
+                    user_id=None,  # Would be extracted from request context
+                    response_size=len(json.dumps(response_data)),
                 )
 
         except Exception as e:
@@ -662,8 +638,8 @@ class LUKHASAPIOptimizationHub:
                     "status": self.system_health.status.value,
                     "score": self.system_health.score,
                     "issues": self.system_health.issues,
-                    "recommendations": self.system_health.recommendations
-                }
+                    "recommendations": self.system_health.recommendations,
+                },
             },
             "components": {},
             "performance": self._get_performance_summary(),
@@ -671,8 +647,8 @@ class LUKHASAPIOptimizationHub:
                 "routing_enabled": self.config.enable_intelligent_routing,
                 "predictive_caching_enabled": self.config.enable_predictive_caching,
                 "auto_scaling_enabled": self.config.enable_auto_scaling,
-                "adaptive_rate_limiting_enabled": self.config.enable_adaptive_rate_limiting
-            }
+                "adaptive_rate_limiting_enabled": self.config.enable_adaptive_rate_limiting,
+            },
         }
 
         # Get component statuses
@@ -691,14 +667,14 @@ class LUKHASAPIOptimizationHub:
             status["auto_scaling"] = {
                 "current_capacity": self.auto_scaler.current_capacity,
                 "scaling_decision": scaling_decision,
-                "scaling_history": self.auto_scaler.scaling_history[-5:]  # Last 5 events
+                "scaling_history": self.auto_scaler.scaling_history[-5:],  # Last 5 events
             }
 
         return status
 
-    async def _record_request_metrics(self, context: RequestContext,
-                                    response_time_ms: float, status_code: int,
-                                    cache_hit: bool):
+    async def _record_request_metrics(
+        self, context: RequestContext, response_time_ms: float, status_code: int, cache_hit: bool
+    ):
         """Record request metrics across all systems."""
 
         # Update performance metrics
@@ -715,36 +691,28 @@ class LUKHASAPIOptimizationHub:
         else:
             total = self.performance_metrics.total_requests
             current_avg = self.performance_metrics.avg_response_time_ms
-            self.performance_metrics.avg_response_time_ms = (
-                (current_avg * (total - 1) + response_time_ms) / total
-            )
+            self.performance_metrics.avg_response_time_ms = (current_avg * (total - 1) + response_time_ms) / total
 
         # Update error rate
         self.performance_metrics.error_rate_percent = (
-            self.performance_metrics.failed_requests /
-            self.performance_metrics.total_requests * 100
+            self.performance_metrics.failed_requests / self.performance_metrics.total_requests * 100
         )
 
         # Update cache hit rate
         if cache_hit:
-            cache_hits = getattr(self.performance_metrics, '_cache_hits', 0) + 1
-            setattr(self.performance_metrics, '_cache_hits', cache_hits)
-            self.performance_metrics.cache_hit_rate_percent = (
-                cache_hits / self.performance_metrics.total_requests * 100
-            )
+            cache_hits = getattr(self.performance_metrics, "_cache_hits", 0) + 1
+            setattr(self.performance_metrics, "_cache_hits", cache_hits)
+            self.performance_metrics.cache_hit_rate_percent = cache_hits / self.performance_metrics.total_requests * 100
 
         # Update routing engine
         if self.config.enable_intelligent_routing:
             await self.routing_engine.update_performance_data(
-                context.endpoint, context.method, response_time_ms,
-                100 if status_code >= 400 else 0
+                context.endpoint, context.method, response_time_ms, 100 if status_code >= 400 else 0
             )
 
         # Update predictive cache
         if self.config.enable_predictive_caching:
-            await self.predictive_cache.update_access_pattern(
-                context.endpoint, context.method, context.user_id
-            )
+            await self.predictive_cache.update_access_pattern(context.endpoint, context.method, context.user_id)
 
     async def _health_check_loop(self):
         """Continuous health monitoring loop."""
@@ -775,8 +743,9 @@ class LUKHASAPIOptimizationHub:
         if self.middleware_pipeline:
             middleware_stats = self.middleware_pipeline.get_pipeline_stats()
             error_rate = (
-                middleware_stats["pipeline"].get("error_requests", 0) /
-                max(middleware_stats["pipeline"].get("total_requests", 1), 1) * 100
+                middleware_stats["pipeline"].get("error_requests", 0)
+                / max(middleware_stats["pipeline"].get("total_requests", 1), 1)
+                * 100
             )
 
             if error_rate > 10:
@@ -805,9 +774,7 @@ class LUKHASAPIOptimizationHub:
 
                 # Apply auto-scaling if enabled
                 if self.config.auto_optimization_enabled:
-                    success = await self.auto_scaler.apply_scaling(
-                        scaling_decision["recommended_capacity"]
-                    )
+                    success = await self.auto_scaler.apply_scaling(scaling_decision["recommended_capacity"])
                     if success:
                         recommendations.append("Auto-scaling applied successfully")
 
@@ -827,7 +794,7 @@ class LUKHASAPIOptimizationHub:
             components=component_health,
             issues=issues,
             recommendations=recommendations,
-            last_check=datetime.now()
+            last_check=datetime.now(),
         )
 
     def _determine_user_tier(self, user_id: Optional[str], api_key: Optional[str]) -> APITier:
@@ -842,8 +809,7 @@ class LUKHASAPIOptimizationHub:
 
         return APITier.FREE
 
-    def _get_applied_optimizations(self, optimizer_result: Dict,
-                                 middleware_result: Dict) -> List[str]:
+    def _get_applied_optimizations(self, optimizer_result: Dict, middleware_result: Dict) -> List[str]:
         """Get list of applied optimizations."""
         optimizations = []
 
@@ -870,7 +836,7 @@ class LUKHASAPIOptimizationHub:
             "cache_hit_rate_percent": self.performance_metrics.cache_hit_rate_percent,
             "throughput_rps": self.performance_metrics.throughput_rps,
             "optimization_effectiveness": self.performance_metrics.optimization_effectiveness,
-            "last_updated": self.performance_metrics.last_updated.isoformat()
+            "last_updated": self.performance_metrics.last_updated.isoformat(),
         }
 
     async def shutdown(self):
@@ -886,10 +852,10 @@ class LUKHASAPIOptimizationHub:
                 pass
 
         # Shutdown components
-        if self.optimizer and hasattr(self.optimizer, 'cleanup'):
+        if self.optimizer and hasattr(self.optimizer, "cleanup"):
             await self.optimizer.cleanup()
 
-        if self.middleware_pipeline and hasattr(self.middleware_pipeline, 'shutdown'):
+        if self.middleware_pipeline and hasattr(self.middleware_pipeline, "shutdown"):
             await self.middleware_pipeline.shutdown()
 
         self.is_initialized = False
@@ -910,9 +876,7 @@ async def create_optimization_hub(config: IntegrationConfig = None) -> LUKHASAPI
 
 # Context manager for request processing
 @asynccontextmanager
-async def optimized_api_processing(hub: LUKHASAPIOptimizationHub,
-                                 endpoint: str, method: str,
-                                 **kwargs):
+async def optimized_api_processing(hub: LUKHASAPIOptimizationHub, endpoint: str, method: str, **kwargs):
     """Context manager for optimized API request processing."""
 
     # Pre-processing
@@ -932,6 +896,7 @@ async def optimized_api_processing(hub: LUKHASAPIOptimizationHub,
 
 
 if __name__ == "__main__":
+
     async def test_optimization_hub():
         """Test the optimization hub."""
 
@@ -940,7 +905,7 @@ if __name__ == "__main__":
             mode=IntegrationMode.DEVELOPMENT,
             enable_intelligent_routing=True,
             enable_predictive_caching=True,
-            enable_auto_scaling=True
+            enable_auto_scaling=True,
         )
 
         # Create and initialize hub
@@ -949,10 +914,12 @@ if __name__ == "__main__":
         try:
             # Test API request processing
             async with optimized_api_processing(
-                hub, "/api/v1/test", "GET",
+                hub,
+                "/api/v1/test",
+                "GET",
                 headers={"Authorization": "Bearer test_token"},
                 params={"page": 1, "limit": 10},
-                user_id="test_user"
+                user_id="test_user",
             ) as (allowed, result):
 
                 if allowed:
@@ -962,9 +929,7 @@ if __name__ == "__main__":
 
                     # Simulate API response
                     await hub.complete_api_request(
-                        result["request_id"],
-                        {"data": "test response", "success": True},
-                        200
+                        result["request_id"], {"data": "test response", "success": True}, 200
                     )
                 else:
                     print(f"❌ Request blocked: {result}")
@@ -974,9 +939,9 @@ if __name__ == "__main__":
             print(f"\n📈 System Status: {status['hub']['health']['status']}")
             print(f"🎯 Health Score: {status['hub']['health']['score']:.1f}")
 
-            if status['hub']['health']['recommendations']:
+            if status["hub"]["health"]["recommendations"]:
                 print("💡 Recommendations:")
-                for rec in status['hub']['health']['recommendations']:
+                for rec in status["hub"]["health"]["recommendations"]:
                     print(f"  - {rec}")
 
         finally:

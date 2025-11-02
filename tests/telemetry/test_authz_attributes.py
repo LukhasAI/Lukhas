@@ -40,7 +40,7 @@ async def test_authz_span_required_lukhas_attributes(telemetry_capture, test_sub
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(request)
@@ -66,7 +66,7 @@ async def test_authz_span_required_lukhas_attributes(telemetry_capture, test_sub
         "capability_id",
         "mfa_used",
         "region",
-        "decision_time_ms"
+        "decision_time_ms",
     ]
 
     for attr in required_attrs:
@@ -95,7 +95,7 @@ async def test_authz_span_scope_formatting(telemetry_capture, test_subjects):
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(request)
@@ -132,7 +132,7 @@ async def test_authz_span_subject_patterns(telemetry_capture, test_subjects):
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(user_request)
@@ -149,7 +149,7 @@ async def test_authz_span_subject_patterns(telemetry_capture, test_subjects):
         capability_token="test-svc-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(service_request)
@@ -176,12 +176,7 @@ async def test_authz_span_tier_consistency(telemetry_capture, test_subjects):
     middleware = MatrixAuthzMiddleware(shadow_mode=False)
 
     # Test different tier levels
-    tier_mappings = {
-        "guest": 0,
-        "friend": 2,
-        "trusted": 3,
-        "service": 5  # root_dev
-    }
+    tier_mappings = {"guest": 0, "friend": 2, "trusted": 3, "service": 5}  # root_dev
 
     for subject_type, expected_tier_num in tier_mappings.items():
         if subject_type == "service":
@@ -199,7 +194,7 @@ async def test_authz_span_tier_consistency(telemetry_capture, test_subjects):
             capability_token=f"test-token-{subject_type}",
             mfa_verified=False,
             webauthn_verified=True,
-            region="us-west-2"
+            region="us-west-2",
         )
 
         await middleware.authorize_request(request)
@@ -242,7 +237,7 @@ async def test_authz_span_decision_values(telemetry_capture, test_subjects):
         capability_token="test-token-allow",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(allow_request)
@@ -259,7 +254,7 @@ async def test_authz_span_decision_values(telemetry_capture, test_subjects):
         capability_token="test-token-deny",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(deny_request)
@@ -298,7 +293,7 @@ async def test_authz_span_capability_id_masking(telemetry_capture, test_subjects
         capability_token=full_token,
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(request)
@@ -335,7 +330,7 @@ async def test_authz_span_contract_sha_presence(telemetry_capture, test_subjects
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(request)
@@ -377,7 +372,7 @@ async def test_authz_span_region_tracking(telemetry_capture, test_subjects):
             capability_token=f"test-token-{region or 'none'}",
             mfa_verified=False,
             webauthn_verified=True,
-            region=region
+            region=region,
         )
 
         await middleware.authorize_request(request)
@@ -416,7 +411,7 @@ async def test_authz_span_performance_attribute_ranges(telemetry_capture, test_s
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(request)

@@ -106,20 +106,11 @@ def check_slo_violation(manifest: Dict, module_name: str, tags: List[str], max_a
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Fail if L2/L3 modules violate SLA targets with fresh data"
-    )
+    ap = argparse.ArgumentParser(description="Fail if L2/L3 modules violate SLA targets with fresh data")
     ap.add_argument(
-        "--max-age-days",
-        type=int,
-        default=14,
-        help="Maximum age of observed data to enforce (default: 14)"
+        "--max-age-days", type=int, default=14, help="Maximum age of observed data to enforce (default: 14)"
     )
-    ap.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Show detailed checking"
-    )
+    ap.add_argument("--verbose", action="store_true", help="Show detailed checking")
     args = ap.parse_args()
 
     # Load flags
@@ -151,12 +142,7 @@ def main():
         except Exception:
             continue
 
-        violated, reason = check_slo_violation(
-            manifest,
-            module["name"],
-            module.get("tags", []),
-            max_age
-        )
+        violated, reason = check_slo_violation(manifest, module["name"], module.get("tags", []), max_age)
 
         if violated:
             violations.append((module["name"], reason))

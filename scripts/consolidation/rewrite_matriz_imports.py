@@ -46,9 +46,7 @@ class ImportRewriter(ast.NodeTransformer):
         """Rewrite 'import matriz' → 'import matriz'"""
         for alias in node.names:
             if alias.name == OLD_MODULE:
-                self.changes.append(
-                    f"Line {node.lineno}: import {OLD_MODULE} → import {NEW_MODULE}"
-                )
+                self.changes.append(f"Line {node.lineno}: import {OLD_MODULE} → import {NEW_MODULE}")
                 alias.name = NEW_MODULE
             elif alias.name.startswith(OLD_MODULE + "."):
                 old_name = alias.name
@@ -135,11 +133,7 @@ def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path
     # Handle directory case
     for dirpath, dirnames, filenames in os.walk(root_path):
         # Skip excluded directories
-        dirnames[:] = [
-            d
-            for d in dirnames
-            if not any(excl in str(Path(dirpath) / d) for excl in exclude_patterns)
-        ]
+        dirnames[:] = [d for d in dirnames if not any(excl in str(Path(dirpath) / d) for excl in exclude_patterns)]
 
         for filename in filenames:
             if filename.endswith(".py"):
@@ -169,16 +163,10 @@ Examples:
   python3 scripts/consolidation/rewrite_matriz_imports.py --dry-run --verbose
         """,
     )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Preview changes without modifying files"
-    )
-    parser.add_argument(
-        "--path", type=str, default=".", help="Root path to scan (default: current directory)"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Preview changes without modifying files")
+    parser.add_argument("--path", type=str, default=".", help="Root path to scan (default: current directory)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-    parser.add_argument(
-        "--no-backup", action="store_true", help="Skip creating .bak files (not recommended)"
-    )
+    parser.add_argument("--no-backup", action="store_true", help="Skip creating .bak files (not recommended)")
 
     args = parser.parse_args()
 

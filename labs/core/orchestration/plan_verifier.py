@@ -53,6 +53,7 @@ try:
         SafetyTagEnricher,
         create_safety_tag_enricher,
     )
+
     ETHICS_DSL_AVAILABLE = True
     GUARDIAN_BANDS_AVAILABLE = True
     SAFETY_TAGS_AVAILABLE = True
@@ -66,70 +67,73 @@ except ImportError:
 # Prometheus metrics for telemetry
 try:
     from prometheus_client import Counter, Histogram
+
     METRICS_AVAILABLE = True
 except ImportError:
     # Graceful fallback for test environments
     class _NoopMetric:
-        def inc(self, *args, **kwargs): pass
-        def observe(self, *args, **kwargs): pass
-        def labels(self, *args, **kwargs): return self
+        def inc(self, *args, **kwargs):
+            pass
+
+        def observe(self, *args, **kwargs):
+            pass
+
+        def labels(self, *args, **kwargs):
+            return self
+
     Counter = Histogram = lambda *args, **kwargs: _NoopMetric()
     METRICS_AVAILABLE = False
 
 # Plan verifier metrics
 PLAN_VERIFIER_ATTEMPTS = Counter(
-    'plan_verifier_attempts_total',
-    'Total plan verification attempts',
-    ['result']  # allow, deny
+    "plan_verifier_attempts_total", "Total plan verification attempts", ["result"]  # allow, deny
 )
 
 PLAN_VERIFIER_DENIALS = Counter(
-    'plan_verifier_denials_total',
-    'Total plan denials by reason',
-    ['reason']  # ethics, resources, loops, external_calls, invalid
+    "plan_verifier_denials_total",
+    "Total plan denials by reason",
+    ["reason"],  # ethics, resources, loops, external_calls, invalid
 )
 
 PLAN_VERIFIER_DURATION = Histogram(
-    'plan_verifier_p95_ms',
-    'Plan verification duration in milliseconds',
-    buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 25.0, 50.0]
+    "plan_verifier_p95_ms",
+    "Plan verification duration in milliseconds",
+    buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 25.0, 50.0],
 )
 
 # Guardian Drift Bands metrics (Task 12)
 PLAN_VERIFIER_GUARDIAN_BANDS = Counter(
-    'plan_verifier_guardian_bands_total',
-    'Plan verifications by Guardian band',
-    ['band', 'action']
+    "plan_verifier_guardian_bands_total", "Plan verifications by Guardian band", ["band", "action"]
 )
 
 PLAN_VERIFIER_DRIFT_SCORE = Histogram(
-    'plan_verifier_drift_score',
-    'Plan verification drift scores',
-    buckets=[0.0, 0.05, 0.1, 0.15, 0.25, 0.35, 0.5, 0.75, 1.0]
+    "plan_verifier_drift_score",
+    "Plan verification drift scores",
+    buckets=[0.0, 0.05, 0.1, 0.15, 0.25, 0.35, 0.5, 0.75, 1.0],
 )
 
 # Safety Tags metrics (Task 13)
 PLAN_VERIFIER_SAFETY_TAGS = Counter(
-    'plan_verifier_safety_tags_total',
-    'Plan verifications with safety tags',
-    ['tag_name', 'has_tag']
+    "plan_verifier_safety_tags_total", "Plan verifications with safety tags", ["tag_name", "has_tag"]
 )
 
 PLAN_VERIFIER_TAG_ENRICHMENT_TIME = Histogram(
-    'plan_verifier_tag_enrichment_ms',
-    'Safety tag enrichment duration in milliseconds',
-    buckets=[0.1, 0.25, 0.5, 1.0, 2.0, 5.0]
+    "plan_verifier_tag_enrichment_ms",
+    "Safety tag enrichment duration in milliseconds",
+    buckets=[0.1, 0.25, 0.5, 1.0, 2.0, 5.0],
 )
 
 
 class VerificationResult(Enum):
     """Plan verification outcomes."""
+
     ALLOW = "allow"
     DENY = "deny"
 
 
 class DenialReason(Enum):
     """Standardized denial reasons for ledger."""
+
     ETHICS_VIOLATION = "ethics_violation"
     RESOURCE_EXCEEDED = "resource_exceeded"
     LOOP_DETECTED = "loop_detected"
@@ -141,6 +145,7 @@ class DenialReason(Enum):
 @dataclass
 class VerificationContext:
     """Context information for plan verification."""
+
     user_id: Optional[str] = None
     session_id: Optional[str] = None
     request_id: Optional[str] = None
@@ -157,6 +162,7 @@ class VerificationContext:
 @dataclass
 class VerificationOutcome:
     """Result of plan verification."""
+
     allow: bool
     reasons: List[str]
     context: VerificationContext
@@ -180,6 +186,7 @@ class VerificationOutcome:
 @dataclass(frozen=True)
 class GuardianEnforcementDecision:
     """Represents Guardian enforcement state for a verification cycle."""
+
     enforce: bool
     lane: str
     emergency_disabled: bool = False
@@ -204,35 +211,27 @@ class PlanVerifier:
 
         # Load constraints from config/environment
         self.max_execution_time = self.config.get(
-            'max_execution_time',
-            float(os.getenv('PLAN_MAX_EXECUTION_TIME', '300'))  # 5 minutes
+            "max_execution_time", float(os.getenv("PLAN_MAX_EXECUTION_TIME", "300"))  # 5 minutes
         )
-        self.max_memory_mb = self.config.get(
-            'max_memory_mb',
-            int(os.getenv('PLAN_MAX_MEMORY_MB', '1024'))  # 1GB
-        )
-        self.max_loop_iterations = self.config.get(
-            'max_loop_iterations',
-            int(os.getenv('PLAN_MAX_LOOPS', '100'))
-        )
+        self.max_memory_mb = self.config.get("max_memory_mb", int(os.getenv("PLAN_MAX_MEMORY_MB", "1024")))  # 1GB
+        self.max_loop_iterations = self.config.get("max_loop_iterations", int(os.getenv("PLAN_MAX_LOOPS", "100")))
 
         # External call whitelist
-        self.allowed_external_domains = set(self.config.get(
-            'allowed_external_domains',
-            os.getenv('PLAN_ALLOWED_DOMAINS', 'openai.com,api.openai.com,anthropic.com').split(',')
-        ))
+        self.allowed_external_domains = set(
+            self.config.get(
+                "allowed_external_domains",
+                os.getenv("PLAN_ALLOWED_DOMAINS", "openai.com,api.openai.com,anthropic.com").split(","),
+            )
+        )
 
         # Ethics constraints
-        self.ethics_enabled = self.config.get(
-            'ethics_enabled',
-            os.getenv('PLAN_ETHICS_ENABLED', '1') == '1'
-        )
+        self.ethics_enabled = self.config.get("ethics_enabled", os.getenv("PLAN_ETHICS_ENABLED", "1") == "1")
 
         # Ethics DSL engine (Task 11)
         self.ethics_engine = None
         if self.ethics_enabled and ETHICS_DSL_AVAILABLE:
             try:
-                ethics_rules_path = self.config.get('ethics_rules_path')
+                ethics_rules_path = self.config.get("ethics_rules_path")
                 self.ethics_engine = get_ethics_engine(ethics_rules_path)
                 logger.info("Ethics DSL engine initialized successfully")
             except Exception as e:
@@ -242,18 +241,15 @@ class PlanVerifier:
 
         # Guardian Drift Bands system (Task 12)
         self.guardian_bands = None
-        self.guardian_enabled = self.config.get(
-            'guardian_enabled',
-            os.getenv('PLAN_GUARDIAN_ENABLED', '1') == '1'
-        )
+        self.guardian_enabled = self.config.get("guardian_enabled", os.getenv("PLAN_GUARDIAN_ENABLED", "1") == "1")
 
         if self.guardian_enabled and GUARDIAN_BANDS_AVAILABLE:
             try:
                 # Load Guardian thresholds from config
                 guardian_config = {
-                    'allow_threshold': float(self.config.get('guardian_allow_threshold', '0.05')),
-                    'guardrails_threshold': float(self.config.get('guardian_guardrails_threshold', '0.15')),
-                    'human_threshold': float(self.config.get('guardian_human_threshold', '0.35')),
+                    "allow_threshold": float(self.config.get("guardian_allow_threshold", "0.05")),
+                    "guardrails_threshold": float(self.config.get("guardian_guardrails_threshold", "0.15")),
+                    "human_threshold": float(self.config.get("guardian_human_threshold", "0.35")),
                 }
                 self.guardian_bands = create_guardian_drift_bands(**guardian_config)
 
@@ -269,14 +265,13 @@ class PlanVerifier:
         # Safety Tag Enricher system (Task 13)
         self.safety_tag_enricher = None
         self.safety_tags_enabled = self.config.get(
-            'safety_tags_enabled',
-            os.getenv('PLAN_SAFETY_TAGS_ENABLED', '1') == '1'
+            "safety_tags_enabled", os.getenv("PLAN_SAFETY_TAGS_ENABLED", "1") == "1"
         )
 
         if self.safety_tags_enabled and SAFETY_TAGS_AVAILABLE:
             try:
                 # Create safety tag enricher with caching
-                enable_caching = self.config.get('safety_tags_caching', True)
+                enable_caching = self.config.get("safety_tags_caching", True)
                 self.safety_tag_enricher = create_safety_tag_enricher(enable_caching=enable_caching)
                 logger.info("Safety Tag Enricher initialized successfully")
             except Exception as e:
@@ -287,10 +282,7 @@ class PlanVerifier:
         self.verification_ledger = []
 
         # ΛTAG: guardian_canary — Configure gradual Guardian enforcement rollout
-        canary_percent_config = self.config.get(
-            'guardian_canary_percent',
-            os.getenv('LUKHAS_CANARY_PERCENT', '10')
-        )
+        canary_percent_config = self.config.get("guardian_canary_percent", os.getenv("LUKHAS_CANARY_PERCENT", "10"))
         try:
             self.guardian_canary_percent = max(0.0, min(100.0, float(canary_percent_config)))
         except (TypeError, ValueError):
@@ -298,47 +290,42 @@ class PlanVerifier:
 
         self.guardian_emergency_disable_path = Path(
             self.config.get(
-                'guardian_emergency_disable_path',
-                os.getenv('GUARDIAN_EMERGENCY_DISABLE_PATH', '/tmp/guardian_emergency_disable')
+                "guardian_emergency_disable_path",
+                os.getenv("GUARDIAN_EMERGENCY_DISABLE_PATH", "/tmp/guardian_emergency_disable"),
             )
         )
 
-        config_flag = self.config.get('enforce_ethics_dsl')
+        config_flag = self.config.get("enforce_ethics_dsl")
         if isinstance(config_flag, bool):
             self.guardian_enforcement_enabled = config_flag
         elif config_flag is not None:
             self.guardian_enforcement_enabled = _is_truthy(str(config_flag))
         else:
-            env_value = os.getenv('ENFORCE_ETHICS_DSL')
+            env_value = os.getenv("ENFORCE_ETHICS_DSL")
             if env_value is None:
                 self.guardian_enforcement_enabled = self.guardian_canary_percent > 0.0
             else:
                 self.guardian_enforcement_enabled = _is_truthy(env_value)
 
-        lanes_config = self.config.get(
-            'guardian_enforced_lanes',
-            os.getenv('LUKHAS_GUARDIAN_ENFORCED_LANES', 'labs')
-        )
+        lanes_config = self.config.get("guardian_enforced_lanes", os.getenv("LUKHAS_GUARDIAN_ENFORCED_LANES", "labs"))
         self.guardian_enforced_lanes: Set[str] = {
-            lane.strip().lower()
-            for lane in str(lanes_config).split(',')
-            if lane and lane.strip()
+            lane.strip().lower() for lane in str(lanes_config).split(",") if lane and lane.strip()
         }
 
         self.guardian_default_lane = str(
-            self.config.get('guardian_default_lane', os.getenv('LUKHAS_LANE', 'experimental'))
+            self.config.get("guardian_default_lane", os.getenv("LUKHAS_LANE", "experimental"))
         ).lower()
-        self.guardian_counterfactual_logging = bool(
-            self.config.get('guardian_counterfactual_logging', True)
-        )
+        self.guardian_counterfactual_logging = bool(self.config.get("guardian_counterfactual_logging", True))
 
         ethics_mode = "DSL" if self.ethics_engine else "legacy" if self.ethics_enabled else "disabled"
         guardian_mode = "enabled" if self.guardian_bands else "disabled"
         safety_tags_mode = "enabled" if self.safety_tag_enricher else "disabled"
-        logger.info(f"PlanVerifier initialized: ethics={ethics_mode}, guardian={guardian_mode}, "
-                   f"safety_tags={safety_tags_mode}, max_time={self.max_execution_time}s, "
-                   f"max_memory={self.max_memory_mb}MB, max_loops={self.max_loop_iterations}, "
-                   f"domains={len(self.allowed_external_domains)}")
+        logger.info(
+            f"PlanVerifier initialized: ethics={ethics_mode}, guardian={guardian_mode}, "
+            f"safety_tags={safety_tags_mode}, max_time={self.max_execution_time}s, "
+            f"max_memory={self.max_memory_mb}MB, max_loops={self.max_loop_iterations}, "
+            f"domains={len(self.allowed_external_domains)}"
+        )
 
     def verify(self, plan: Dict[str, Any], ctx: VerificationContext) -> VerificationOutcome:
         """
@@ -375,7 +362,7 @@ class PlanVerifier:
                     reasons=reasons,
                     context=ctx,
                     plan_hash="invalid_plan",
-                    verification_time_ms=verification_time_ms
+                    verification_time_ms=verification_time_ms,
                 )
 
                 if METRICS_AVAILABLE:
@@ -394,25 +381,19 @@ class PlanVerifier:
             tag_enrichment_time_ms = 0.0
             if self.safety_tag_enricher:
                 try:
-                    tagged_plan = self.safety_tag_enricher.enrich_plan(
-                        plan=plan,
-                        context=ctx.metadata or {}
-                    )
+                    tagged_plan = self.safety_tag_enricher.enrich_plan(plan=plan, context=ctx.metadata or {})
                     tag_enrichment_time_ms = tagged_plan.enrichment_time_ms
 
                     # Add safety tags to context for DSL evaluation
                     if ctx.metadata is None:
                         ctx.metadata = {}
-                    ctx.metadata['safety_tags'] = tagged_plan.tag_names
+                    ctx.metadata["safety_tags"] = tagged_plan.tag_names
 
                     # Record metrics
                     if METRICS_AVAILABLE:
                         PLAN_VERIFIER_TAG_ENRICHMENT_TIME.observe(tag_enrichment_time_ms)
                         for tag in tagged_plan.tags:
-                            PLAN_VERIFIER_SAFETY_TAGS.labels(
-                                tag_name=tag.name,
-                                has_tag="true"
-                            ).inc()
+                            PLAN_VERIFIER_SAFETY_TAGS.labels(tag_name=tag.name, has_tag="true").inc()
 
                 except Exception as e:
                     logger.error(f"Error in safety tag enrichment: {e}")
@@ -425,22 +406,19 @@ class PlanVerifier:
             guardian_lane = self._determine_lane(ctx)
             if ctx.metadata is None:
                 ctx.metadata = {}
-            ctx.metadata.setdefault('guardian_lane', guardian_lane)
+            ctx.metadata.setdefault("guardian_lane", guardian_lane)
             emergency_disabled = self._is_guardian_emergency_disabled()
-            ctx.metadata['guardian_emergency_disabled'] = emergency_disabled
+            ctx.metadata["guardian_emergency_disabled"] = emergency_disabled
             if self.guardian_bands:
                 # Integrated Guardian Drift Bands evaluation
-                guardian_result = self.guardian_bands.evaluate(
-                    plan=plan,
-                    context=ctx.metadata or {}
-                )
+                guardian_result = self.guardian_bands.evaluate(plan=plan, context=ctx.metadata or {})
 
                 # Guardian band enforcement
                 decision = self._should_enforce_guardian(plan_hash, ctx, emergency_disabled)
                 guardian_enforced = decision.enforce
                 guardian_lane = decision.lane
-                ctx.metadata['guardian_lane'] = guardian_lane
-                ctx.metadata['guardian_emergency_disabled'] = decision.emergency_disabled
+                ctx.metadata["guardian_lane"] = guardian_lane
+                ctx.metadata["guardian_emergency_disabled"] = decision.emergency_disabled
 
                 if guardian_result.band == GuardianBand.BLOCK:
                     if guardian_enforced:
@@ -458,13 +436,13 @@ class PlanVerifier:
                             self._record_guardian_counterfactual(guardian_result, guardian_lane, plan_hash)
                         )
 
-                ctx.metadata['guardian_enforced'] = guardian_enforced
+                ctx.metadata["guardian_enforced"] = guardian_enforced
 
             elif self.ethics_enabled:
                 # Fallback to legacy ethics constraints if Guardian not available
                 ethics_violations = self._check_ethics_constraints(plan, ctx)
                 guardian_enforced = self.guardian_enforcement_enabled and not emergency_disabled
-                ctx.metadata['guardian_enforced'] = guardian_enforced
+                ctx.metadata["guardian_enforced"] = guardian_enforced
                 if ethics_violations:
                     if guardian_enforced:
                         violations.extend(ethics_violations)
@@ -518,7 +496,7 @@ class PlanVerifier:
                 human_requirements=guardian_result.human_requirements if guardian_result else None,
                 safety_tags=list(tagged_plan.tag_names) if tagged_plan else None,
                 tag_enrichment_time_ms=tag_enrichment_time_ms if tag_enrichment_time_ms > 0 else None,
-                counterfactual_decisions=counterfactual_decisions or None
+                counterfactual_decisions=counterfactual_decisions or None,
             )
 
             # Record metrics
@@ -529,8 +507,7 @@ class PlanVerifier:
                 # Guardian Drift Bands metrics
                 if guardian_result:
                     PLAN_VERIFIER_GUARDIAN_BANDS.labels(
-                        band=guardian_result.band.value,
-                        action=guardian_result.action
+                        band=guardian_result.band.value, action=guardian_result.action
                     ).inc()
                     PLAN_VERIFIER_DRIFT_SCORE.observe(guardian_result.drift_score)
 
@@ -543,8 +520,9 @@ class PlanVerifier:
             # Record in audit ledger
             self._record_verification(outcome)
 
-            logger.info(f"Plan verification: {outcome.result.value} "
-                       f"({verification_time_ms:.2f}ms, hash={plan_hash[:8]})")
+            logger.info(
+                f"Plan verification: {outcome.result.value} " f"({verification_time_ms:.2f}ms, hash={plan_hash[:8]})"
+            )
 
             return outcome
 
@@ -558,7 +536,7 @@ class PlanVerifier:
                 reasons=[f"verification_error: {str(e)}"],
                 context=ctx,
                 plan_hash="error",
-                verification_time_ms=verification_time_ms
+                verification_time_ms=verification_time_ms,
             )
 
             if METRICS_AVAILABLE:
@@ -572,7 +550,7 @@ class PlanVerifier:
     def _determine_lane(self, ctx: VerificationContext) -> str:
         """Determine the active orchestration lane."""
         if ctx.metadata:
-            lane = ctx.metadata.get('lane') or ctx.metadata.get('LUKHAS_LANE')
+            lane = ctx.metadata.get("lane") or ctx.metadata.get("LUKHAS_LANE")
             if lane:
                 return str(lane).lower()
         return self.guardian_default_lane
@@ -587,9 +565,7 @@ class PlanVerifier:
         lane = self._determine_lane(ctx)
 
         emergency_disabled = (
-            emergency_override
-            if emergency_override is not None
-            else self._is_guardian_emergency_disabled()
+            emergency_override if emergency_override is not None else self._is_guardian_emergency_disabled()
         )
         if emergency_disabled:
             logger.warning("Guardian enforcement disabled via emergency kill-switch")
@@ -650,7 +626,7 @@ class PlanVerifier:
                     "would_action": guardian_result.band.value,
                     "plan_hash": plan_hash[:16],
                     "drift_score": guardian_result.drift_score,
-                }
+                },
             )
 
         return counterfactual
@@ -659,9 +635,9 @@ class PlanVerifier:
         """Generate deterministic hash of plan and relevant context."""
         # Create normalized representation for hashing
         normalized = {
-            'plan': plan,
-            'user_id': ctx.user_id,
-            'session_id': ctx.session_id,
+            "plan": plan,
+            "user_id": ctx.user_id,
+            "session_id": ctx.session_id,
             # Note: deliberately excluding timestamp for determinism
         }
 
@@ -678,13 +654,13 @@ class PlanVerifier:
             return violations
 
         # Required fields
-        required_fields = ['action', 'params']
+        required_fields = ["action", "params"]
         for field in required_fields:
             if field not in plan:
                 violations.append(f"invalid_plan_structure: missing_field_{field}")
 
         # Action must be string
-        if 'action' in plan and not isinstance(plan['action'], str):
+        if "action" in plan and not isinstance(plan["action"], str):
             violations.append("invalid_plan_structure: action_must_be_string")
 
         return violations
@@ -698,11 +674,11 @@ class PlanVerifier:
             try:
                 # Convert VerificationContext to dict for ethics engine
                 context_dict = {
-                    'user_id': ctx.user_id,
-                    'session_id': ctx.session_id,
-                    'request_id': ctx.request_id,
-                    'timestamp': ctx.timestamp,
-                    'metadata': ctx.metadata or {}
+                    "user_id": ctx.user_id,
+                    "session_id": ctx.session_id,
+                    "request_id": ctx.request_id,
+                    "timestamp": ctx.timestamp,
+                    "metadata": ctx.metadata or {},
                 }
 
                 ethics_result = self.ethics_engine.evaluate_plan(plan, context_dict)
@@ -714,12 +690,16 @@ class PlanVerifier:
 
                 elif ethics_result.action == EthicsAction.WARN:
                     # Log warnings but don't block (allow through)
-                    logger.warning(f"Ethics DSL warnings for plan {plan.get('action', 'unknown')}: {ethics_result.reasons}")
+                    logger.warning(
+                        f"Ethics DSL warnings for plan {plan.get('action', 'unknown')}: {ethics_result.reasons}"
+                    )
 
                 # Log ethics evaluation for audit
-                logger.debug(f"Ethics DSL evaluation: {ethics_result.action.value} "
-                           f"({ethics_result.evaluation_time_ms:.2f}ms, "
-                           f"{len(ethics_result.triggered_rules)} rules)")
+                logger.debug(
+                    f"Ethics DSL evaluation: {ethics_result.action.value} "
+                    f"({ethics_result.evaluation_time_ms:.2f}ms, "
+                    f"{len(ethics_result.triggered_rules)} rules)"
+                )
 
             except Exception as e:
                 logger.error(f"Ethics DSL evaluation error: {e}")
@@ -728,21 +708,21 @@ class PlanVerifier:
 
         else:
             # Legacy ethics constraints (fallback)
-            action = plan.get('action', '')
-            params = plan.get('params', {})
+            action = plan.get("action", "")
+            params = plan.get("params", {})
 
             # Block harmful actions (safely handle non-string actions)
-            harmful_actions = {'delete_user_data', 'access_private_info', 'manipulate_system'}
+            harmful_actions = {"delete_user_data", "access_private_info", "manipulate_system"}
             if isinstance(action, str) and action in harmful_actions:
                 violations.append(f"ethics_violation: harmful_action_{action}")
 
             # Block manipulation attempts
             params_str = str(params).lower()
-            if any(term in params_str for term in ['hack', 'exploit', 'bypass']):
+            if any(term in params_str for term in ["hack", "exploit", "bypass"]):
                 violations.append("ethics_violation: manipulation_detected")
 
             # Check for data exfiltration patterns
-            if isinstance(action, str) and action == 'external_call' and 'sensitive' in params_str:
+            if isinstance(action, str) and action == "external_call" and "sensitive" in params_str:
                 violations.append("ethics_violation: potential_data_exfiltration")
 
         return violations
@@ -751,20 +731,20 @@ class PlanVerifier:
         """Check resource limit constraints."""
         violations = []
 
-        params = plan.get('params', {})
+        params = plan.get("params", {})
 
         # Execution time limits
-        estimated_time = params.get('estimated_time_seconds', 0)
+        estimated_time = params.get("estimated_time_seconds", 0)
         if estimated_time > self.max_execution_time:
             violations.append(f"resource_exceeded: execution_time_{estimated_time}s > {self.max_execution_time}s")
 
         # Memory limits
-        estimated_memory = params.get('estimated_memory_mb', 0)
+        estimated_memory = params.get("estimated_memory_mb", 0)
         if estimated_memory > self.max_memory_mb:
             violations.append(f"resource_exceeded: memory_{estimated_memory}MB > {self.max_memory_mb}MB")
 
         # Large batch operations
-        batch_size = params.get('batch_size', 0)
+        batch_size = params.get("batch_size", 0)
         if batch_size > 1000:
             violations.append(f"resource_exceeded: batch_size_{batch_size} > 1000")
 
@@ -774,15 +754,15 @@ class PlanVerifier:
         """Check for loop limit violations."""
         violations = []
 
-        params = plan.get('params', {})
+        params = plan.get("params", {})
 
         # Direct loop iteration limits
-        iterations = params.get('iterations', params.get('max_iterations', 0))
+        iterations = params.get("iterations", params.get("max_iterations", 0))
         if iterations > self.max_loop_iterations:
             violations.append(f"loop_detected: iterations_{iterations} > {self.max_loop_iterations}")
 
         # Recursive call depth
-        recursion_depth = params.get('recursion_depth', 0)
+        recursion_depth = params.get("recursion_depth", 0)
         if recursion_depth > 10:
             violations.append(f"loop_detected: recursion_depth_{recursion_depth} > 10")
 
@@ -792,20 +772,21 @@ class PlanVerifier:
         """Check external call whitelist constraints."""
         violations = []
 
-        action = plan.get('action', '')
-        params = plan.get('params', {})
+        action = plan.get("action", "")
+        params = plan.get("params", {})
 
-        if isinstance(action, str) and (action == 'external_call' or 'external' in action):
-            url = params.get('url', '')
-            domain = params.get('domain', '')
+        if isinstance(action, str) and (action == "external_call" or "external" in action):
+            url = params.get("url", "")
+            domain = params.get("domain", "")
 
             # Extract domain from URL if provided
             if url and not domain:
                 try:
                     from urllib.parse import urlparse
+
                     domain = urlparse(url).netloc
                 except Exception as e:
-                    domain = ''
+                    domain = ""
 
             # Check whitelist
             if domain and domain not in self.allowed_external_domains:
@@ -815,15 +796,15 @@ class PlanVerifier:
 
     def _map_to_denial_reason(self, reason: str) -> DenialReason:
         """Map violation reason to standardized denial reason."""
-        if 'ethics_violation' in reason:
+        if "ethics_violation" in reason:
             return DenialReason.ETHICS_VIOLATION
-        elif 'resource_exceeded' in reason:
+        elif "resource_exceeded" in reason:
             return DenialReason.RESOURCE_EXCEEDED
-        elif 'loop_detected' in reason:
+        elif "loop_detected" in reason:
             return DenialReason.LOOP_DETECTED
-        elif 'external_call_blocked' in reason:
+        elif "external_call_blocked" in reason:
             return DenialReason.EXTERNAL_CALL_BLOCKED
-        elif 'invalid_plan' in reason:
+        elif "invalid_plan" in reason:
             return DenialReason.INVALID_PLAN
         else:
             return DenialReason.UNKNOWN_ERROR
@@ -831,19 +812,19 @@ class PlanVerifier:
     def _record_verification(self, outcome: VerificationOutcome) -> None:
         """Record verification in audit ledger."""
         ledger_entry = {
-            'timestamp': outcome.context.timestamp,
-            'result': outcome.result.value,
-            'plan_hash': outcome.plan_hash,
-            'verification_time_ms': outcome.verification_time_ms,
-            'reasons': outcome.reasons,
-            'user_id': outcome.context.user_id,
-            'session_id': outcome.context.session_id,
-            'request_id': outcome.context.request_id,
-            'source': 'plan_verifier'
+            "timestamp": outcome.context.timestamp,
+            "result": outcome.result.value,
+            "plan_hash": outcome.plan_hash,
+            "verification_time_ms": outcome.verification_time_ms,
+            "reasons": outcome.reasons,
+            "user_id": outcome.context.user_id,
+            "session_id": outcome.context.session_id,
+            "request_id": outcome.context.request_id,
+            "source": "plan_verifier",
         }
 
         if outcome.counterfactual_decisions:
-            ledger_entry['counterfactual'] = outcome.counterfactual_decisions
+            ledger_entry["counterfactual"] = outcome.counterfactual_decisions
 
         self.verification_ledger.append(ledger_entry)
 
@@ -854,6 +835,7 @@ class PlanVerifier:
 
 # Global instance for router integration
 _plan_verifier_instance = None
+
 
 def get_plan_verifier(config: Optional[Dict[str, Any]] = None) -> PlanVerifier:
     """Get or create global plan verifier instance."""

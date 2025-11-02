@@ -64,16 +64,19 @@ from core.security.encryption_types import (
 
 class EncryptionError(Exception):
     """Base exception for encryption operations."""
+
     pass
 
 
 class DecryptionError(Exception):
     """Exception raised when decryption fails."""
+
     pass
 
 
 class InvalidKeyError(Exception):
     """Exception raised when an invalid key is provided."""
+
     pass
 
 
@@ -168,8 +171,7 @@ class EncryptionManager:
         expected_key_bytes = metadata.key_size // 8
         if len(key) != expected_key_bytes:
             raise InvalidKeyError(
-                f"Invalid key size for {algorithm.value}: "
-                f"expected {expected_key_bytes} bytes, got {len(key)} bytes"
+                f"Invalid key size for {algorithm.value}: " f"expected {expected_key_bytes} bytes, got {len(key)} bytes"
             )
 
         # Generate unique nonce
@@ -237,10 +239,7 @@ class EncryptionManager:
         # Validate encrypted data structure
         required_fields = {"algorithm", "ciphertext", "nonce", "tag"}
         if not all(field in encrypted_data for field in required_fields):
-            raise ValueError(
-                f"Invalid encrypted data format: missing required fields. "
-                f"Required: {required_fields}"
-            )
+            raise ValueError(f"Invalid encrypted data format: missing required fields. " f"Required: {required_fields}")
 
         # Get algorithm
         try:
@@ -255,8 +254,7 @@ class EncryptionManager:
         expected_key_bytes = metadata.key_size // 8
         if len(key) != expected_key_bytes:
             raise InvalidKeyError(
-                f"Invalid key size for {algorithm.value}: "
-                f"expected {expected_key_bytes} bytes, got {len(key)} bytes"
+                f"Invalid key size for {algorithm.value}: " f"expected {expected_key_bytes} bytes, got {len(key)} bytes"
             )
 
         try:

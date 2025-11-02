@@ -51,11 +51,15 @@ class Scopes:
         self.RESPONSES_WRITE = ["responses:write", "models:read"]
         self.DREAMS_WRITE = ["dreams:write", "dreams:read"]
         self.ADMIN_ALL = [
-            "models:read", "models:write",
-            "embeddings:read", "embeddings:write",
-            "responses:read", "responses:write",
-            "dreams:read", "dreams:write",
-            "admin:full"
+            "models:read",
+            "models:write",
+            "embeddings:read",
+            "embeddings:write",
+            "responses:read",
+            "responses:write",
+            "dreams:read",
+            "dreams:write",
+            "admin:full",
         ]
 
 
@@ -69,7 +73,7 @@ def get_auth_headers(
     org_id: Optional[str] = None,
     project_id: Optional[str] = None,
     api_key: Optional[str] = None,
-    include_openai_headers: bool = True
+    include_openai_headers: bool = True,
 ) -> Dict[str, str]:
     """Get standardized auth headers for testing.
 
@@ -104,10 +108,12 @@ def get_auth_headers(
     }
 
     if include_openai_headers:
-        headers.update({
-            "OpenAI-Organization": org_id,
-            "OpenAI-Project": project_id,
-        })
+        headers.update(
+            {
+                "OpenAI-Organization": org_id,
+                "OpenAI-Project": project_id,
+            }
+        )
 
     return headers
 

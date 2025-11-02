@@ -19,13 +19,15 @@ def safe_json(p: Path):
     except Exception:
         return None
 
+
 def from_manifest_exports(manifest: dict) -> list[str]:
     # Best-effort: look in common keys
-    for key in ("public_api","exports","interfaces","exposes"):
+    for key in ("public_api", "exports", "interfaces", "exposes"):
         v = manifest.get(key)
         if isinstance(v, list):
             return [str(x) for x in v if isinstance(x, (str,))]
     return []
+
 
 def top_level_symbols(py: Path):
     try:
@@ -60,22 +62,25 @@ def top_level_symbols(py: Path):
     if has_all and all_decl:
         # __all__ governs export surface
         classes = [c for c in classes if c in all_decl]
-        funcs   = [f for f in funcs if f in all_decl]
-        consts  = [k for k in consts if k in all_decl]
+        funcs = [f for f in funcs if f in all_decl]
+        consts = [k for k in consts if k in all_decl]
     return classes, funcs, consts, all_decl
 
-def import_path_for(py: Path, repo_root: Path, root_pkg: str) -> str|None:
+
+def import_path_for(py: Path, repo_root: Path, root_pkg: str) -> str | None:
     try:
         rel = py.resolve().relative_to(repo_root.resolve())
     except Exception:
         return None
     parts = list(rel.parts)
-    if not parts or parts[0] != root_pkg: return None
+    if not parts or parts[0] != root_pkg:
+        return None
     if parts[-1] == "__init__.py":
         parts = parts[:-1]
     else:
-        parts[-1] = parts[-1].replace(".py","")
+        parts[-1] = parts[-1].replace(".py", "")
     return ".".join(parts)
+
 
 def main():
     repo_root = Path(".").resolve()
@@ -121,13 +126,14 @@ def main():
     # to JSON
     out = {
         "generated_from": "build_import_map.py",
-        "symbol_to_modules": {k: sorted(list(v)) for k,v in symbol_to_modules.items()},
-        "module_to_symbols": {k: sorted(list(v)) for k,v in module_to_symbols.items()},
+        "symbol_to_modules": {k: sorted(list(v)) for k, v in symbol_to_modules.items()},
+        "module_to_symbols": {k: sorted(list(v)) for k, v in module_to_symbols.items()},
     }
     outp = Path("docs/audits/import_map.json")
     outp.parent.mkdir(parents=True, exist_ok=True)
     outp.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(f"[OK] wrote {outp} (symbols: {len(symbol_to_modules)}, modules: {len(module_to_symbols)})")
+
 
 if __name__ == "__main__":
     main()

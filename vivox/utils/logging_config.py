@@ -2,6 +2,7 @@
 VIVOX Logging Configuration
 Provides performance-optimized logging with configurable levels
 """
+
 import logging
 import os
 from typing import Optional

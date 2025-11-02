@@ -15,7 +15,9 @@ import sys
 from pathlib import Path
 
 
-def load_json(p: Path): return json.loads(p.read_text(encoding="utf-8"))
+def load_json(p: Path):
+    return json.loads(p.read_text(encoding="utf-8"))
+
 
 def main():
     ap = argparse.ArgumentParser(description="Apply star promotions from CSV to manifests.")
@@ -31,7 +33,9 @@ def main():
     deny = set(rules.get("deny", []))
     min_auto = args.min_confidence if args.min_confidence is not None else float(rules["confidence"]["min_autopromote"])
 
-    applied = 0; skipped = 0; errors = 0
+    applied = 0
+    skipped = 0
+    errors = 0
 
     with Path(args.csv).open("r", encoding="utf-8") as f:
         r = csv.DictReader(f)
@@ -39,20 +43,24 @@ def main():
             file = Path(row["file"])
             target = row["suggested_star"].strip()
             conf = float(row.get("confidence", 0))
-            reason = row.get("reason","")
+            reason = row.get("reason", "")
 
             if target not in canonical:
                 print(f"[SKIP] {file} → {target} not canonical")
-                skipped += 1; continue
+                skipped += 1
+                continue
             if target in deny:
                 print(f"[SKIP] {file} → {target} is denied")
-                skipped += 1; continue
+                skipped += 1
+                continue
             if conf < min_auto:
                 print(f"[SKIP] {file} → confidence {conf:.2f} < {min_auto:.2f}")
-                skipped += 1; continue
+                skipped += 1
+                continue
             if not file.exists():
                 print(f"[SKIP] missing file {file}")
-                skipped += 1; continue
+                skipped += 1
+                continue
 
             try:
                 d = load_json(file)
@@ -60,7 +68,8 @@ def main():
                 current = align.get("primary_star", "Supporting")
                 if current == target:
                     print(f"[SKIP] {file} already {target}")
-                    skipped += 1; continue
+                    skipped += 1
+                    continue
                 print(f"[APPLY] {file}: {current} → {target} (conf={conf:.2f}; {reason})")
                 align["primary_star"] = target
 
@@ -73,7 +82,7 @@ def main():
                     if args.backup:
                         # Backup original before modification
                         orig = json.loads(file.read_text(encoding="utf-8"))
-                        Path(str(file)+".bak").write_text(json.dumps(orig, indent=2), encoding="utf-8")
+                        Path(str(file) + ".bak").write_text(json.dumps(orig, indent=2), encoding="utf-8")
                     file.write_text(json.dumps(d, indent=2) + "\n", encoding="utf-8")
                 applied += 1
             except Exception as e:
@@ -81,7 +90,9 @@ def main():
                 errors += 1
 
     print(f"\nSummary: applied={applied} skipped={skipped} errors={errors}")
-    if errors: sys.exit(1)
+    if errors:
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

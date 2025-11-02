@@ -33,7 +33,7 @@ def install_vault_mcp():
     print("✅ Backup created successfully")
 
     # Load config
-    with open(config_path, 'r') as f:
+    with open(config_path, "r") as f:
         config = json.load(f)
 
     # Check if already installed
@@ -49,8 +49,8 @@ def install_vault_mcp():
         "env": {
             "VAULT_ROOT": "/Users/agi_dev/LOCAL-REPOS/THE_VAULT",
             "PYTHONPATH": "/Users/agi_dev/LOCAL-REPOS/THE_VAULT/00_ORGANIZATION_PROJECT",
-            "MCP_LOG_LEVEL": "INFO"
-        }
+            "MCP_LOG_LEVEL": "INFO",
+        },
     }
 
     if "mcpServers" not in config:
@@ -59,7 +59,7 @@ def install_vault_mcp():
     config["mcpServers"]["vault-research"] = vault_config
 
     # Write updated config
-    with open(config_path, 'w') as f:
+    with open(config_path, "w") as f:
         json.dump(config, f, indent=2)
 
     print("\n✅ vault-research MCP server installed successfully!")
@@ -89,5 +89,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n❌ Error: {e}")
         import traceback
+
         traceback.print_exc()
         exit(1)

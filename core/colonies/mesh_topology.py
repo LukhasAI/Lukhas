@@ -4,6 +4,7 @@ Mesh Topology Service for LUKHAS Consciousness Network
 Provides consciousness agent registry with drift-safe synchronization
 and affect_delta telemetry for mesh formation.
 """
+
 import logging
 import time
 from dataclasses import dataclass, field
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class MeshAgent:
     """Consciousness agent in the mesh network"""
+
     agent_id: str
     node_type: str
     capabilities: list[str] = field(default_factory=list)
@@ -33,11 +35,7 @@ class MeshAgent:
 
         logger.debug(
             "Agent metrics updated",
-            extra={
-                "agent_id": self.agent_id,
-                "drift_score": self.drift_score,
-                "affect_delta": self.affect_delta
-            }
+            extra={"agent_id": self.agent_id, "drift_score": self.drift_score, "affect_delta": self.affect_delta},
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -50,7 +48,7 @@ class MeshAgent:
             "affect_delta": self.affect_delta,
             "mesh_generation": self.mesh_generation,
             "last_heartbeat": self.last_heartbeat,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -65,19 +63,12 @@ class MeshTopologyService:
     def __init__(self):
         self.agents: dict[str, MeshAgent] = {}
         self.topology_version: int = 0
-        self.sync_metrics: dict[str, Any] = {
-            "total_syncs": 0,
-            "failed_syncs": 0,
-            "last_sync": None
-        }
+        self.sync_metrics: dict[str, Any] = {"total_syncs": 0, "failed_syncs": 0, "last_sync": None}
 
         logger.info("MeshTopologyService initialized")
 
     def register_agent(
-        self,
-        node_type: str,
-        capabilities: Optional[list[str]] = None,
-        metadata: Optional[dict[str, Any]] = None
+        self, node_type: str, capabilities: Optional[list[str]] = None, metadata: Optional[dict[str, Any]] = None
     ) -> MeshAgent:
         """
         Register a new consciousness agent in the mesh
@@ -93,10 +84,7 @@ class MeshTopologyService:
         agent_id = f"mesh_agent_{uuid4().hex[:8]}"
 
         agent = MeshAgent(
-            agent_id=agent_id,
-            node_type=node_type,
-            capabilities=capabilities or [],
-            metadata=metadata or {}
+            agent_id=agent_id, node_type=node_type, capabilities=capabilities or [], metadata=metadata or {}
         )
 
         self.agents[agent_id] = agent
@@ -104,11 +92,7 @@ class MeshTopologyService:
 
         logger.info(
             "Agent registered in mesh",
-            extra={
-                "agent_id": agent_id,
-                "node_type": node_type,
-                "topology_version": self.topology_version
-            }
+            extra={"agent_id": agent_id, "node_type": node_type, "topology_version": self.topology_version},
         )
 
         return agent
@@ -119,24 +103,13 @@ class MeshTopologyService:
 
     def get_agents_by_type(self, node_type: str) -> list[MeshAgent]:
         """Get all agents of a specific type"""
-        return [
-            agent for agent in self.agents.values()
-            if agent.node_type == node_type
-        ]
+        return [agent for agent in self.agents.values() if agent.node_type == node_type]
 
     def get_agents_by_capability(self, capability: str) -> list[MeshAgent]:
         """Get all agents with a specific capability"""
-        return [
-            agent for agent in self.agents.values()
-            if capability in agent.capabilities
-        ]
+        return [agent for agent in self.agents.values() if capability in agent.capabilities]
 
-    def update_agent_metrics(
-        self,
-        agent_id: str,
-        drift_delta: float = 0.0,
-        affect_delta: float = 0.0
-    ) -> bool:
+    def update_agent_metrics(self, agent_id: str, drift_delta: float = 0.0, affect_delta: float = 0.0) -> bool:
         """
         Update agent telemetry metrics with drift-safe synchronization
 
@@ -174,7 +147,7 @@ class MeshTopologyService:
                 "drift_score": agent.drift_score,
                 "affect_delta": agent.affect_delta,
                 "node_type": agent.node_type,
-                "capabilities": agent.capabilities
+                "capabilities": agent.capabilities,
             }
             for agent_id, agent in self.agents.items()
         }
@@ -187,7 +160,7 @@ class MeshTopologyService:
             "avg_drift": total_drift / len(self.agents) if self.agents else 0.0,
             "avg_affect": total_affect / len(self.agents) if self.agents else 0.0,
             "sync_metrics": self.sync_metrics,
-            "agents": agent_metrics
+            "agents": agent_metrics,
         }
 
     def synchronize(self) -> dict[str, Any]:
@@ -207,27 +180,20 @@ class MeshTopologyService:
             self.sync_metrics["last_sync"] = time.time()
 
             logger.info(
-                "Mesh synchronized",
-                extra={
-                    "topology_version": self.topology_version,
-                    "agent_count": len(self.agents)
-                }
+                "Mesh synchronized", extra={"topology_version": self.topology_version, "agent_count": len(self.agents)}
             )
 
             return {
                 "success": True,
                 "topology_version": self.topology_version,
                 "agents_synchronized": len(self.agents),
-                "metrics": self.get_mesh_metrics()
+                "metrics": self.get_mesh_metrics(),
             }
 
         except Exception as e:
             self.sync_metrics["failed_syncs"] += 1
             logger.error(f"Mesh synchronization failed: {e}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
 
 # Global singleton instance

@@ -2,6 +2,7 @@
 VIVOX Decision Strictness Enhancement
 Implements stricter ethical evaluation criteria
 """
+
 from dataclasses import dataclass
 from typing import Any
 

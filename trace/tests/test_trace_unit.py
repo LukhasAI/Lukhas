@@ -25,10 +25,7 @@ class TestTraceModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "trace",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "trace", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestTraceModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import trace
+
         self.assertIsNotNone(trace)
 
     def test_module_version(self):
         """Test module has version information."""
         import trace
+
         # Most modules should have version info
-        self.assertTrue(hasattr(trace, '__version__') or
-                       hasattr(trace, 'VERSION'))
+        self.assertTrue(hasattr(trace, "__version__") or hasattr(trace, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestDriftAnalysis(unittest.TestCase):
         """Test DriftAnalysis can be imported."""
         try:
             from trace import DriftAnalysis
+
             self.assertIsNotNone(DriftAnalysis)
         except ImportError:
             pytest.skip("Component DriftAnalysis not available")
@@ -97,6 +96,7 @@ class TestDriftHarmonizer(unittest.TestCase):
         """Test DriftHarmonizer can be imported."""
         try:
             from trace import DriftHarmonizer
+
             self.assertIsNotNone(DriftHarmonizer)
         except ImportError:
             pytest.skip("Component DriftHarmonizer not available")
@@ -114,6 +114,7 @@ class TestDriftSeverity(unittest.TestCase):
         """Test DriftSeverity can be imported."""
         try:
             from trace import DriftSeverity
+
             self.assertIsNotNone(DriftSeverity)
         except ImportError:
             pytest.skip("Component DriftSeverity not available")
@@ -122,7 +123,6 @@ class TestDriftSeverity(unittest.TestCase):
         """Test DriftSeverity can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

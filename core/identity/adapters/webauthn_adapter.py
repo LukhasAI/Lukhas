@@ -104,9 +104,7 @@ def verify_response(response: Dict[str, Any], expected_challenge: Optional[str] 
         raise ValueError("response must include 'challenge'")
 
     # Verify challenge matches (constant-time comparison for security)
-    ok = expected_challenge is None or secrets.compare_digest(
-        str(response_challenge), str(expected_challenge)
-    )
+    ok = expected_challenge is None or secrets.compare_digest(str(response_challenge), str(expected_challenge))
     user_verified = bool(response.get("user_verified", ok))
 
     # ΛTAG: webauthn_production_result

@@ -21,6 +21,7 @@ try:
         IdentityVerificationError,
         TierLevel,
     )
+
     IDENTITY_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full identity system
@@ -63,8 +64,9 @@ class TestEnhancedIdentityService:
         """Test fallback to backup identity service."""
 
         # Mock primary service failure and backup service success
-        with patch.object(identity_manager, '_fetch_from_primary_identity_service',
-                         side_effect=Exception("Primary service down")):
+        with patch.object(
+            identity_manager, "_fetch_from_primary_identity_service", side_effect=Exception("Primary service down")
+        ):
 
             profile = await identity_manager._load_identity("backup_user")
 
@@ -79,10 +81,14 @@ class TestEnhancedIdentityService:
         """Test final fallback to inferred identity."""
 
         # Mock all services failing
-        with patch.object(identity_manager, '_fetch_from_primary_identity_service',
-                         side_effect=Exception("Primary failed")), \
-             patch.object(identity_manager, '_fetch_from_backup_identity_service',
-                         side_effect=Exception("Backup failed")):
+        with (
+            patch.object(
+                identity_manager, "_fetch_from_primary_identity_service", side_effect=Exception("Primary failed")
+            ),
+            patch.object(
+                identity_manager, "_fetch_from_backup_identity_service", side_effect=Exception("Backup failed")
+            ),
+        ):
 
             profile = await identity_manager._load_identity("fallback_user")
 
@@ -112,14 +118,18 @@ class TestEnhancedIdentityService:
             ("public_user", TierLevel.PUBLIC.value, set()),
             ("auth_user", TierLevel.AUTHENTICATED.value, {"core:read"}),
             ("elevated_user", TierLevel.ELEVATED.value, {"core:read", "core:write", "memory:read"}),
-            ("privileged_user", TierLevel.PRIVILEGED.value, {"core:read", "core:write", "memory:read", "memory:write", "admin:read"}),
+            (
+                "privileged_user",
+                TierLevel.PRIVILEGED.value,
+                {"core:read", "core:write", "memory:read", "memory:write", "admin:read"},
+            ),
         ]
 
         with patch.dict(os.environ, {"LUKHAS_IDENTITY_SERVICE_URL": "https://identity.lukhas.ai"}):
 
             for user_id, expected_tier, expected_scopes in test_cases:
                 # Mock deterministic tier assignment
-                with patch('hashlib.sha256') as mock_hash:
+                with patch("hashlib.sha256") as mock_hash:
                     # Create predictable hash for tier assignment
                     tier_index = expected_tier if expected_tier <= 3 else 3
                     mock_hash.return_value.hexdigest.return_value = f"{tier_index:08x}" + "0" * 56
@@ -136,11 +146,9 @@ class TestEnhancedIdentityService:
         user_id = "cached_user"
 
         # First call should fetch from service
-        with patch.object(identity_manager, '_fetch_from_identity_service') as mock_fetch:
+        with patch.object(identity_manager, "_fetch_from_identity_service") as mock_fetch:
             mock_profile = IdentityProfile(
-                user_id=user_id,
-                tier_level=TierLevel.AUTHENTICATED.value,
-                attributes={"source": "test"}
+                user_id=user_id, tier_level=TierLevel.AUTHENTICATED.value, attributes={"source": "test"}
             )
             mock_fetch.return_value = mock_profile
 
@@ -165,19 +173,13 @@ class TestEnhancedIdentityService:
         async def slow_fetch(*args):
             await asyncio.sleep(0.1)
             return IdentityProfile(
-                user_id=user_id,
-                tier_level=TierLevel.AUTHENTICATED.value,
-                attributes={"source": "concurrent_test"}
+                user_id=user_id, tier_level=TierLevel.AUTHENTICATED.value, attributes={"source": "concurrent_test"}
             )
 
-        with patch.object(identity_manager, '_fetch_from_identity_service',
-                         side_effect=slow_fetch) as mock_fetch:
+        with patch.object(identity_manager, "_fetch_from_identity_service", side_effect=slow_fetch) as mock_fetch:
 
             # Start multiple concurrent loads
-            tasks = [
-                identity_manager._load_identity(user_id)
-                for _ in range(5)
-            ]
+            tasks = [identity_manager._load_identity(user_id) for _ in range(5)]
 
             profiles = await asyncio.gather(*tasks)
 
@@ -200,8 +202,7 @@ class TestEnhancedIdentityService:
             await asyncio.sleep(10)  # Longer than reasonable timeout
             return None
 
-        with patch.object(identity_manager, '_fetch_from_primary_identity_service',
-                         side_effect=timeout_fetch):
+        with patch.object(identity_manager, "_fetch_from_primary_identity_service", side_effect=timeout_fetch):
 
             # Should fallback to backup service
             start_time = asyncio.get_event_loop().time()
@@ -245,9 +246,14 @@ class TestEnhancedIdentityService:
         user_id = "error_logging_user"
 
         # Mock service with specific error
-        with patch.object(identity_manager, '_fetch_from_primary_identity_service',
-                         side_effect=ConnectionError("Service unavailable")), \
-             patch('structlog.get_logger') as mock_logger:
+        with (
+            patch.object(
+                identity_manager,
+                "_fetch_from_primary_identity_service",
+                side_effect=ConnectionError("Service unavailable"),
+            ),
+            patch("structlog.get_logger") as mock_logger,
+        ):
 
             logger_instance = Mock()
             mock_logger.return_value = logger_instance

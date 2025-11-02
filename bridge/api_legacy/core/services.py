@@ -10,12 +10,15 @@ from typing import Any, Optional
 try:
     from fastapi import HTTPException
 except ImportError:
+
     class HTTPException(Exception):
         """Fallback HTTPException for when FastAPI is not available."""
+
         def __init__(self, status_code: int, detail: str):
             self.status_code = status_code
             self.detail = detail
             super().__init__(detail)
+
 
 from hub.service_registry import get_service
 
@@ -50,11 +53,13 @@ class MemoryAPIService(APIServiceBase):
     def __init__(self):
         super().__init__("memory_service")
 
-    async def store_memory(self,
-                           agent_id: str,
-                           content: str,
-                           context: Optional[dict[str, Any]] = None,
-                           metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def store_memory(
+        self,
+        agent_id: str,
+        content: str,
+        context: Optional[dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Store a memory"""
         self._ensure_service()
 
@@ -65,23 +70,16 @@ class MemoryAPIService(APIServiceBase):
             "content": content,
             "context": context or {},
             "metadata": metadata or {},
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         result = await self._service.store(agent_id, memory_data, "api_memory")
 
-        return {
-            "status": "success",
-            "memory_id": result.get("memory_id"),
-            "timestamp": result.get("timestamp")
-        }
+        return {"status": "success", "memory_id": result.get("memory_id"), "timestamp": result.get("timestamp")}
 
-    async def retrieve_memories(self,
-                                agent_id: str,
-                                query: Optional[str] = None,
-                                limit: int = 10,
-                                memory_type: Optional[str] = None) -> list[dict[str,
-                                                                                Any]]:
+    async def retrieve_memories(
+        self, agent_id: str, query: Optional[str] = None, limit: int = 10, memory_type: Optional[str] = None
+    ) -> list[dict[str, Any]]:
         """Retrieve memories"""
         self._ensure_service()
 
@@ -110,7 +108,7 @@ class MemoryAPIService(APIServiceBase):
         return {
             "status": "success",
             "folding_complete": result.get("consolidated", False),
-            "result": result.get("result", {})
+            "result": result.get("result", {}),
         }
 
 
@@ -120,11 +118,9 @@ class DreamAPIService(APIServiceBase):
     def __init__(self):
         super().__init__("dream_service")
 
-    async def generate_dream(self,
-                             agent_id: str,
-                             theme: Optional[str] = None,
-                             intensity: float = 0.7,
-                             lucidity: float = 0.5) -> dict[str, Any]:
+    async def generate_dream(
+        self, agent_id: str, theme: Optional[str] = None, intensity: float = 0.7, lucidity: float = 0.5
+    ) -> dict[str, Any]:
         """Generate a dream synthesis"""
         self._ensure_service()
 
@@ -133,8 +129,7 @@ class DreamAPIService(APIServiceBase):
             try:
                 creativity_service = get_service("creativity_service")
                 return await creativity_service.dream_inspired_creation(
-                    agent_id,
-                    {"theme": theme, "intensity": intensity}
+                    agent_id, {"theme": theme, "intensity": intensity}
                 )
             except BaseException:
                 raise HTTPException(status_code=503, detail="Dream service unavailable")
@@ -143,16 +138,12 @@ class DreamAPIService(APIServiceBase):
             "theme": theme or "spontaneous",
             "intensity": intensity,
             "lucidity": lucidity,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         result = await self._service.synthesize(agent_id, dream_params)
 
-        return {
-            "status": "success",
-            "dream": result,
-            "agent_id": agent_id
-        }
+        return {"status": "success", "dream": result, "agent_id": agent_id}
 
 
 class ConsciousnessAPIService(APIServiceBase):
@@ -166,8 +157,7 @@ class ConsciousnessAPIService(APIServiceBase):
         self._ensure_service()
 
         if not self._service:
-            raise HTTPException(status_code=503,
-                                detail="Consciousness service unavailable")
+            raise HTTPException(status_code=503, detail="Consciousness service unavailable")
 
         state = await self._service.get_state(agent_id)
 
@@ -175,33 +165,23 @@ class ConsciousnessAPIService(APIServiceBase):
             "agent_id": agent_id,
             "awareness_level": state.get("level", 0.0),
             "state": state,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def process_stimulus(self,
-                               agent_id: str,
-                               stimulus_type: str,
-                               stimulus_data: dict[str, Any]) -> dict[str, Any]:
+    async def process_stimulus(
+        self, agent_id: str, stimulus_type: str, stimulus_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process a stimulus through consciousness"""
         self._ensure_service()
 
         if not self._service:
-            raise HTTPException(status_code=503,
-                                detail="Consciousness service unavailable")
+            raise HTTPException(status_code=503, detail="Consciousness service unavailable")
 
-        stimulus = {
-            "type": stimulus_type,
-            "data": stimulus_data,
-            "timestamp": datetime.now(timezone.utc).isoformat()
-        }
+        stimulus = {"type": stimulus_type, "data": stimulus_data, "timestamp": datetime.now(timezone.utc).isoformat()}
 
         result = await self._service.process_awareness(agent_id, stimulus)
 
-        return {
-            "status": "success",
-            "processing_result": result,
-            "agent_id": agent_id
-        }
+        return {"status": "success", "processing_result": result, "agent_id": agent_id}
 
 
 class EmotionAPIService(APIServiceBase):
@@ -223,19 +203,12 @@ class EmotionAPIService(APIServiceBase):
         # Fallback implementation
         return {
             "agent_id": agent_id,
-            "emotional_state": {
-                "valence": 0.0,
-                "arousal": 0.0,
-                "dominance": 0.0
-            },
+            "emotional_state": {"valence": 0.0, "arousal": 0.0, "dominance": 0.0},
             "primary_emotion": "neutral",
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def update_emotion(self,
-                             agent_id: str,
-                             event: str,
-                             intensity: float = 0.5) -> dict[str, Any]:
+    async def update_emotion(self, agent_id: str, event: str, intensity: float = 0.5) -> dict[str, Any]:
         """Update emotional state based on event"""
         # Fallback implementation
         return {
@@ -243,11 +216,7 @@ class EmotionAPIService(APIServiceBase):
             "agent_id": agent_id,
             "event": event,
             "intensity": intensity,
-            "new_state": {
-                "valence": intensity * 0.5,
-                "arousal": intensity,
-                "primary_emotion": "engaged"
-            }
+            "new_state": {"valence": intensity * 0.5, "arousal": intensity, "primary_emotion": "engaged"},
         }
 
 
@@ -257,33 +226,20 @@ class LearningAPIService(APIServiceBase):
     def __init__(self):
         super().__init__("learning_service")
 
-    async def train_model(self,
-                          agent_id: str,
-                          training_data: list[dict[str, Any]],
-                          model_type: str = "default") -> dict[str, Any]:
+    async def train_model(
+        self, agent_id: str, training_data: list[dict[str, Any]], model_type: str = "default"
+    ) -> dict[str, Any]:
         """Train a model"""
         self._ensure_service()
 
         if not self._service:
             raise HTTPException(status_code=503, detail="Learning service unavailable")
 
-        config = {
-            "model_type": model_type,
-            "batch_size": 32,
-            "epochs": 10
-        }
+        config = {"model_type": model_type, "batch_size": 32, "epochs": 10}
 
-        result = await self._service.train(
-            agent_id,
-            {"data": training_data},
-            config
-        )
+        result = await self._service.train(agent_id, {"data": training_data}, config)
 
-        return {
-            "status": "success",
-            "training_result": result,
-            "agent_id": agent_id
-        }
+        return {"status": "success", "training_result": result, "agent_id": agent_id}
 
     async def get_learning_status(self, agent_id: str) -> dict[str, Any]:
         """Get learning status"""
@@ -294,11 +250,7 @@ class LearningAPIService(APIServiceBase):
 
         status = await self._service.get_learning_status(agent_id)
 
-        return {
-            "agent_id": agent_id,
-            "status": status,
-            "timestamp": datetime.now(timezone.utc).isoformat()
-        }
+        return {"agent_id": agent_id, "status": status, "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 class IdentityAPIService(APIServiceBase):
@@ -307,20 +259,13 @@ class IdentityAPIService(APIServiceBase):
     def __init__(self):
         super().__init__("identity_service")
 
-    async def verify_identity(self,
-                              agent_id: str,
-                              credentials: dict[str, Any]) -> dict[str, Any]:
+    async def verify_identity(self, agent_id: str, credentials: dict[str, Any]) -> dict[str, Any]:
         """Verify agent identity"""
         self._ensure_service()
 
         if not self._service:
             # Fallback - allow all for development
-            return {
-                "verified": True,
-                "agent_id": agent_id,
-                "tier": 1,
-                "permissions": ["basic"]
-            }
+            return {"verified": True, "agent_id": agent_id, "tier": 1, "permissions": ["basic"]}
 
         verified = await self._service.verify_access(agent_id, "api.access")
         tier = await self._service.get_agent_tier(agent_id) if verified else 0
@@ -329,7 +274,7 @@ class IdentityAPIService(APIServiceBase):
             "verified": verified,
             "agent_id": agent_id,
             "tier": tier,
-            "permissions": self._resolve_access_tier(tier)
+            "permissions": self._resolve_access_tier(tier),
         }
 
     def _resolve_access_tier(self, tier: int) -> list[str]:
@@ -340,7 +285,7 @@ class IdentityAPIService(APIServiceBase):
             2: ["basic", "memory", "dream", "learning.view"],
             3: ["basic", "memory", "dream", "learning", "consciousness"],
             4: ["basic", "memory", "dream", "learning", "consciousness", "admin.view"],
-            5: ["all"]
+            5: ["all"],
         }
         return tier_permissions.get(tier, [])
 
@@ -414,5 +359,5 @@ __all__ = [
     "get_consciousness_api_service",
     "get_emotion_api_service",
     "get_learning_api_service",
-    "get_identity_api_service"
+    "get_identity_api_service",
 ]

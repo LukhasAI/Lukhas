@@ -19,7 +19,8 @@ from typing import Any, Dict, List
 import numpy as np
 import scipy.stats as stats
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
+
 
 class StatisticalAnalyzer:
     """Comprehensive statistical analysis for audit validation."""
@@ -31,7 +32,7 @@ class StatisticalAnalyzer:
 
     def load_audit_data(self, file_path: str) -> Dict[str, Any]:
         """Load audit data from JSON file."""
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             return json.load(f)
 
     def extract_latencies(self, audit_data: Dict[str, Any]) -> Dict[str, List[float]]:
@@ -40,7 +41,7 @@ class StatisticalAnalyzer:
             "guardian": audit_data.get("guardian_latency_us", []),
             "memory": audit_data.get("memory_latency_us", []),
             "orchestrator": audit_data.get("orchestrator_latency_us", []),
-            "creativity": audit_data.get("creativity_latency_us", [])
+            "creativity": audit_data.get("creativity_latency_us", []),
         }
 
     def mann_whitney_test(self, sample1: List[float], sample2: List[float]) -> Dict[str, Any]:
@@ -51,13 +52,11 @@ class StatisticalAnalyzer:
                 "p_value": None,
                 "significant": False,
                 "effect_size": None,
-                "interpretation": "Insufficient data"
+                "interpretation": "Insufficient data",
             }
 
         # Perform Mann-Whitney U test
-        statistic, p_value = stats.mannwhitneyu(
-            sample1, sample2, alternative='two-sided'
-        )
+        statistic, p_value = stats.mannwhitneyu(sample1, sample2, alternative="two-sided")
 
         # Calculate effect size (Cliff's delta)
         effect_size = self._calculate_cliffs_delta(sample1, sample2)
@@ -81,7 +80,7 @@ class StatisticalAnalyzer:
             "significant": significant,
             "effect_size": float(effect_size),
             "effect_interpretation": effect_interpretation,
-            "interpretation": self._interpret_mann_whitney(p_value, effect_size)
+            "interpretation": self._interpret_mann_whitney(p_value, effect_size),
         }
 
     def _calculate_cliffs_delta(self, sample1: List[float], sample2: List[float]) -> float:
@@ -114,12 +113,7 @@ class StatisticalAnalyzer:
     def kolmogorov_smirnov_test(self, sample1: List[float], sample2: List[float]) -> Dict[str, Any]:
         """Perform Kolmogorov-Smirnov test for distribution comparison."""
         if len(sample1) < 3 or len(sample2) < 3:
-            return {
-                "statistic": None,
-                "p_value": None,
-                "significant": False,
-                "interpretation": "Insufficient data"
-            }
+            return {"statistic": None, "p_value": None, "significant": False, "interpretation": "Insufficient data"}
 
         # Perform KS test
         statistic, p_value = stats.ks_2samp(sample1, sample2)
@@ -127,7 +121,8 @@ class StatisticalAnalyzer:
         significant = p_value < self.alpha
 
         interpretation = (
-            "Distributions are statistically identical" if not significant
+            "Distributions are statistically identical"
+            if not significant
             else "Distributions are significantly different"
         )
 
@@ -135,15 +130,11 @@ class StatisticalAnalyzer:
             "statistic": float(statistic),
             "p_value": float(p_value),
             "significant": significant,
-            "interpretation": interpretation
+            "interpretation": interpretation,
         }
 
     def bootstrap_confidence_interval(
-        self,
-        sample: List[float],
-        statistic_func=np.mean,
-        n_bootstrap: int = 1000,
-        confidence_level: float = None
+        self, sample: List[float], statistic_func=np.mean, n_bootstrap: int = 1000, confidence_level: float = None
     ) -> Dict[str, Any]:
         """Calculate bootstrap confidence interval."""
         if confidence_level is None:
@@ -155,7 +146,7 @@ class StatisticalAnalyzer:
                 "upper": None,
                 "point_estimate": None,
                 "confidence_level": confidence_level,
-                "interpretation": "Insufficient data"
+                "interpretation": "Insufficient data",
             }
 
         sample_array = np.array(sample)
@@ -164,9 +155,7 @@ class StatisticalAnalyzer:
         # Generate bootstrap samples
         bootstrap_stats = []
         for _ in range(n_bootstrap):
-            bootstrap_sample = np.random.choice(
-                sample_array, size=len(sample_array), replace=True
-            )
+            bootstrap_sample = np.random.choice(sample_array, size=len(sample_array), replace=True)
             bootstrap_stats.append(statistic_func(bootstrap_sample))
 
         # Calculate confidence interval
@@ -183,7 +172,7 @@ class StatisticalAnalyzer:
             "point_estimate": float(point_estimate),
             "confidence_level": confidence_level,
             "bootstrap_samples": n_bootstrap,
-            "interpretation": f"{confidence_level*100:.0f}% confidence interval for population parameter"
+            "interpretation": f"{confidence_level*100:.0f}% confidence interval for population parameter",
         }
 
     def normality_tests(self, sample: List[float]) -> Dict[str, Any]:
@@ -193,7 +182,7 @@ class StatisticalAnalyzer:
                 "shapiro_wilk": None,
                 "anderson_darling": None,
                 "is_normal": None,
-                "interpretation": "Insufficient data for normality testing"
+                "interpretation": "Insufficient data for normality testing",
             }
 
         results = {}
@@ -201,34 +190,30 @@ class StatisticalAnalyzer:
         # Shapiro-Wilk test
         if len(sample) <= 5000:  # Shapiro-Wilk has sample size limit
             sw_stat, sw_p = stats.shapiro(sample)
-            results["shapiro_wilk"] = {
-                "statistic": float(sw_stat),
-                "p_value": float(sw_p),
-                "normal": sw_p > self.alpha
-            }
+            results["shapiro_wilk"] = {"statistic": float(sw_stat), "p_value": float(sw_p), "normal": sw_p > self.alpha}
         else:
             results["shapiro_wilk"] = None
 
         # Anderson-Darling test
-        ad_result = stats.anderson(sample, dist='norm')
+        ad_result = stats.anderson(sample, dist="norm")
         critical_value = ad_result.critical_values[2]  # 5% significance level
         results["anderson_darling"] = {
             "statistic": float(ad_result.statistic),
             "critical_value": float(critical_value),
-            "normal": ad_result.statistic < critical_value
+            "normal": ad_result.statistic < critical_value,
         }
 
         # Overall normality assessment
         normal_tests = [
-            test["normal"] for test in results.values()
+            test["normal"]
+            for test in results.values()
             if test is not None and isinstance(test, dict) and "normal" in test
         ]
 
         if normal_tests:
             is_normal = all(normal_tests)
             interpretation = (
-                "Sample appears to be normally distributed" if is_normal
-                else "Sample deviates from normal distribution"
+                "Sample appears to be normally distributed" if is_normal else "Sample deviates from normal distribution"
             )
         else:
             is_normal = None
@@ -262,7 +247,7 @@ class StatisticalAnalyzer:
             "p99": float(np.percentile(sample_array, 99)),
             "cv": float(np.std(sample_array, ddof=1) / np.mean(sample_array)) if np.mean(sample_array) > 0 else 0.0,
             "skewness": float(stats.skew(sample_array)),
-            "kurtosis": float(stats.kurtosis(sample_array))
+            "kurtosis": float(stats.kurtosis(sample_array)),
         }
 
     def power_analysis(self, sample1: List[float], sample2: List[float]) -> Dict[str, Any]:
@@ -299,13 +284,11 @@ class StatisticalAnalyzer:
             "sample_size_1": n1,
             "sample_size_2": n2,
             "pooled_std": float(pooled_std),
-            "interpretation": f"Effect size is {effect_interpretation} (Cohen's d = {cohens_d:.3f})"
+            "interpretation": f"Effect size is {effect_interpretation} (Cohen's d = {cohens_d:.3f})",
         }
 
     def comprehensive_comparison(
-        self,
-        baseline_data: Dict[str, Any],
-        comparison_data: Dict[str, Any]
+        self, baseline_data: Dict[str, Any], comparison_data: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Perform comprehensive statistical comparison."""
         baseline_latencies = self.extract_latencies(baseline_data)
@@ -315,14 +298,14 @@ class StatisticalAnalyzer:
             "baseline_info": {
                 "audit_id": baseline_data.get("audit_id"),
                 "environment": baseline_data.get("environment", {}).get("environment_type"),
-                "samples": baseline_data.get("samples")
+                "samples": baseline_data.get("samples"),
             },
             "comparison_info": {
                 "audit_id": comparison_data.get("audit_id"),
                 "environment": comparison_data.get("environment", {}).get("environment_type"),
-                "samples": comparison_data.get("samples")
+                "samples": comparison_data.get("samples"),
             },
-            "tests": {}
+            "tests": {},
         }
 
         # Analyze each metric
@@ -343,7 +326,7 @@ class StatisticalAnalyzer:
                 "bootstrap_ci_baseline": self.bootstrap_confidence_interval(baseline_sample),
                 "bootstrap_ci_comparison": self.bootstrap_confidence_interval(comparison_sample),
                 "normality_baseline": self.normality_tests(baseline_sample),
-                "normality_comparison": self.normality_tests(comparison_sample)
+                "normality_comparison": self.normality_tests(comparison_sample),
             }
 
             results["tests"][metric] = metric_results
@@ -362,7 +345,9 @@ class StatisticalAnalyzer:
 
         report_lines.append("## Test Configuration")
         report_lines.append(f"- **Baseline:** {baseline_info['environment']} ({baseline_info['samples']} samples)")
-        report_lines.append(f"- **Comparison:** {comparison_info['environment']} ({comparison_info['samples']} samples)")
+        report_lines.append(
+            f"- **Comparison:** {comparison_info['environment']} ({comparison_info['samples']} samples)"
+        )
         report_lines.append(f"- **Significance Level:** α = {self.alpha}")
         report_lines.append(f"- **Confidence Level:** {self.confidence_level*100:.0f}%")
         report_lines.append("")
@@ -415,7 +400,9 @@ class StatisticalAnalyzer:
             if baseline_ci["lower"] is not None:
                 report_lines.append(f"- **Baseline CI95%:** [{baseline_ci['lower']:.1f}, {baseline_ci['upper']:.1f}]μs")
             if comparison_ci["lower"] is not None:
-                report_lines.append(f"- **Comparison CI95%:** [{comparison_ci['lower']:.1f}, {comparison_ci['upper']:.1f}]μs")
+                report_lines.append(
+                    f"- **Comparison CI95%:** [{comparison_ci['lower']:.1f}, {comparison_ci['upper']:.1f}]μs"
+                )
 
             report_lines.append("")
 
@@ -475,7 +462,7 @@ def main():
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(output_path, 'w') as f:
+    with open(output_path, "w") as f:
         json.dump(results, f, indent=2, sort_keys=True)
 
     # Generate and save report
@@ -484,7 +471,7 @@ def main():
         report_path = Path(args.report)
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report)
 
         print("📊 Statistical analysis complete")

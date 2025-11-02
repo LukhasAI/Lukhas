@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 
 class SearchType(Enum):
     """Search operation types"""
+
     SEMANTIC = "semantic"
     KEYWORD = "keyword"
     HYBRID = "hybrid"
@@ -49,6 +50,7 @@ class SearchType(Enum):
 
 class SortOrder(Enum):
     """Result sorting options"""
+
     RELEVANCE_DESC = "relevance_desc"
     TIMESTAMP_DESC = "timestamp_desc"
     TIMESTAMP_ASC = "timestamp_asc"
@@ -58,6 +60,7 @@ class SortOrder(Enum):
 @dataclass
 class SearchQuery:
     """Search query with parameters"""
+
     query_text: str
     search_type: SearchType = SearchType.HYBRID
     max_results: int = 10
@@ -73,6 +76,7 @@ class SearchQuery:
 @dataclass
 class SearchResult:
     """Search result with metadata"""
+
     fold_id: str
     fold_type: MemoryFoldType
     content: str
@@ -86,6 +90,7 @@ class SearchResult:
 @dataclass
 class SearchResponse:
     """Complete search response"""
+
     query_id: str
     results: List[SearchResult]
     total_results: int
@@ -102,11 +107,13 @@ class MemoryReadService:
     with strict performance SLOs and reliability guarantees.
     """
 
-    def __init__(self,
-                 vector_store: VectorStoreAdapter,
-                 consciousness_integrator: Optional[ConsciousnessMemoryIntegrator] = None,
-                 max_concurrent_queries: int = 50,
-                 query_timeout_ms: int = 2000):
+    def __init__(
+        self,
+        vector_store: VectorStoreAdapter,
+        consciousness_integrator: Optional[ConsciousnessMemoryIntegrator] = None,
+        max_concurrent_queries: int = 50,
+        query_timeout_ms: int = 2000,
+    ):
         """Initialize memory read service"""
         self.vector_store = vector_store
         self.consciousness_integrator = consciousness_integrator
@@ -114,13 +121,9 @@ class MemoryReadService:
         self.query_timeout_ms = query_timeout_ms
 
         # Service components
-        self.circuit_breaker = MemoryCircuitBreaker(
-            failure_threshold=5,
-            recovery_timeout_ms=30000
-        )
+        self.circuit_breaker = MemoryCircuitBreaker(failure_threshold=5, recovery_timeout_ms=30000)
         self.backpressure = BackpressureManager(
-            max_tokens=max_concurrent_queries,
-            refill_rate=10.0  # tokens per second
+            max_tokens=max_concurrent_queries, refill_rate=10.0  # tokens per second
         )
         self.metrics = MemoryMetrics()
 
@@ -156,18 +159,14 @@ class MemoryReadService:
 
             # Execute search with circuit breaker protection
             async with self._query_semaphore:
-                response = await self.circuit_breaker.call(
-                    self._execute_search_query, query
-                )
+                response = await self.circuit_breaker.call(self._execute_search_query, query)
 
             # Cache result
             self._cache_result(query, response)
 
             # Record metrics
             search_time_ms = (time.perf_counter() - start_time) * 1000
-            self.metrics.record_search_latency(
-                search_time_ms, query.search_type.value, len(response.results)
-            )
+            self.metrics.record_search_latency(search_time_ms, query.search_type.value, len(response.results))
 
             # Update response timing
             response.search_time_ms = search_time_ms
@@ -183,11 +182,13 @@ class MemoryReadService:
         finally:
             self.backpressure.release_token()
 
-    async def get_top_k(self,
-                       embedding: List[float],
-                       k: int = 10,
-                       fold_types: Optional[Set[MemoryFoldType]] = None,
-                       min_similarity: float = 0.0) -> List[SearchResult]:
+    async def get_top_k(
+        self,
+        embedding: List[float],
+        k: int = 10,
+        fold_types: Optional[Set[MemoryFoldType]] = None,
+        min_similarity: float = 0.0,
+    ) -> List[SearchResult]:
         """
         Get top-K most similar memory folds by embedding.
         Target: p95 <100ms
@@ -200,8 +201,7 @@ class MemoryReadService:
         try:
             async with self._query_semaphore:
                 results = await self.circuit_breaker.call(
-                    self._execute_top_k_query,
-                    embedding, k, fold_types, min_similarity
+                    self._execute_top_k_query, embedding, k, fold_types, min_similarity
                 )
 
             # Record metrics
@@ -228,9 +228,7 @@ class MemoryReadService:
 
         try:
             async with self._query_semaphore:
-                fold = await self.circuit_breaker.call(
-                    self._get_fold_by_id, fold_id
-                )
+                fold = await self.circuit_breaker.call(self._get_fold_by_id, fold_id)
 
             # Record metrics
             retrieval_time_ms = (time.perf_counter() - start_time) * 1000
@@ -246,11 +244,13 @@ class MemoryReadService:
         finally:
             self.backpressure.release_token()
 
-    async def list_memory_folds(self,
-                              fold_types: Optional[Set[MemoryFoldType]] = None,
-                              tags: Optional[List[str]] = None,
-                              limit: int = 100,
-                              offset: int = 0) -> List[SearchResult]:
+    async def list_memory_folds(
+        self,
+        fold_types: Optional[Set[MemoryFoldType]] = None,
+        tags: Optional[List[str]] = None,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> List[SearchResult]:
         """List memory folds with filtering and pagination"""
         start_time = time.perf_counter()
 
@@ -259,10 +259,7 @@ class MemoryReadService:
 
         try:
             async with self._query_semaphore:
-                results = await self.circuit_breaker.call(
-                    self._list_folds,
-                    fold_types, tags, limit, offset
-                )
+                results = await self.circuit_breaker.call(self._list_folds, fold_types, tags, limit, offset)
 
             # Record metrics
             list_time_ms = (time.perf_counter() - start_time) * 1000
@@ -289,40 +286,36 @@ class MemoryReadService:
                     embedding=embedding,
                     limit=query.max_results,
                     min_similarity=query.min_similarity,
-                    filters=self._build_filters(query)
+                    filters=self._build_filters(query),
                 )
             elif query.search_type == SearchType.KEYWORD:
                 raw_results = await self.vector_store.keyword_search(
-                    query=query.query_text,
-                    limit=query.max_results,
-                    filters=self._build_filters(query)
+                    query=query.query_text, limit=query.max_results, filters=self._build_filters(query)
                 )
             elif query.search_type == SearchType.HYBRID:
                 raw_results = await self.vector_store.hybrid_search(
                     query=query.query_text,
                     limit=query.max_results,
                     min_similarity=query.min_similarity,
-                    filters=self._build_filters(query)
+                    filters=self._build_filters(query),
                 )
             else:
                 raw_results = await self.vector_store.exact_match(
-                    query=query.query_text,
-                    limit=query.max_results,
-                    filters=self._build_filters(query)
+                    query=query.query_text, limit=query.max_results, filters=self._build_filters(query)
                 )
 
             # Convert results to SearchResult objects
             results = []
             for raw_result in raw_results:
                 search_result = SearchResult(
-                    fold_id=raw_result['fold_id'],
-                    fold_type=MemoryFoldType(raw_result.get('fold_type', 'episodic')),
-                    content=raw_result['content'],
-                    similarity_score=raw_result.get('score', 0.0),
-                    timestamp=raw_result.get('timestamp', datetime.now(timezone.utc)),
-                    tags=raw_result.get('tags', []),
-                    metadata=raw_result.get('metadata', {}),
-                    embedding=raw_result.get('embedding') if query.include_metadata else None
+                    fold_id=raw_result["fold_id"],
+                    fold_type=MemoryFoldType(raw_result.get("fold_type", "episodic")),
+                    content=raw_result["content"],
+                    similarity_score=raw_result.get("score", 0.0),
+                    timestamp=raw_result.get("timestamp", datetime.now(timezone.utc)),
+                    tags=raw_result.get("tags", []),
+                    metadata=raw_result.get("metadata", {}),
+                    embedding=raw_result.get("embedding") if query.include_metadata else None,
                 )
                 results.append(search_result)
 
@@ -336,43 +329,38 @@ class MemoryReadService:
                 search_time_ms=0,  # Will be set by caller
                 query=query,
                 processing_stats={
-                    'vector_store_results': len(raw_results),
-                    'filtered_results': len(results),
-                    'search_type': query.search_type.value
-                }
+                    "vector_store_results": len(raw_results),
+                    "filtered_results": len(results),
+                    "search_type": query.search_type.value,
+                },
             )
 
         except Exception as e:
             logger.error(f"Search execution failed for query {query.query_id}: {e}")
             raise
 
-    async def _execute_top_k_query(self,
-                                  embedding: List[float],
-                                  k: int,
-                                  fold_types: Optional[Set[MemoryFoldType]],
-                                  min_similarity: float) -> List[SearchResult]:
+    async def _execute_top_k_query(
+        self, embedding: List[float], k: int, fold_types: Optional[Set[MemoryFoldType]], min_similarity: float
+    ) -> List[SearchResult]:
         """Execute top-K similarity search"""
         filters = {}
         if fold_types:
-            filters['fold_types'] = [ft.value for ft in fold_types]
+            filters["fold_types"] = [ft.value for ft in fold_types]
 
         raw_results = await self.vector_store.semantic_search(
-            embedding=embedding,
-            limit=k,
-            min_similarity=min_similarity,
-            filters=filters
+            embedding=embedding, limit=k, min_similarity=min_similarity, filters=filters
         )
 
         results = []
         for raw_result in raw_results:
             search_result = SearchResult(
-                fold_id=raw_result['fold_id'],
-                fold_type=MemoryFoldType(raw_result.get('fold_type', 'episodic')),
-                content=raw_result['content'],
-                similarity_score=raw_result.get('score', 0.0),
-                timestamp=raw_result.get('timestamp', datetime.now(timezone.utc)),
-                tags=raw_result.get('tags', []),
-                metadata=raw_result.get('metadata', {})
+                fold_id=raw_result["fold_id"],
+                fold_type=MemoryFoldType(raw_result.get("fold_type", "episodic")),
+                content=raw_result["content"],
+                similarity_score=raw_result.get("score", 0.0),
+                timestamp=raw_result.get("timestamp", datetime.now(timezone.utc)),
+                tags=raw_result.get("tags", []),
+                metadata=raw_result.get("metadata", {}),
             )
             results.append(search_result)
 
@@ -387,43 +375,37 @@ class MemoryReadService:
         # Convert to MemoryFold object
         # This would need to be implemented based on the actual MemoryFold structure
         return MemoryFold(
-            fold_id=raw_fold['fold_id'],
-            content=raw_fold['content'],
-            fold_type=MemoryFoldType(raw_fold.get('fold_type', 'episodic')),
-            timestamp=raw_fold.get('timestamp', datetime.now(timezone.utc)),
-            tags=raw_fold.get('tags', []),
-            metadata=raw_fold.get('metadata', {}),
-            embedding=raw_fold.get('embedding', [])
+            fold_id=raw_fold["fold_id"],
+            content=raw_fold["content"],
+            fold_type=MemoryFoldType(raw_fold.get("fold_type", "episodic")),
+            timestamp=raw_fold.get("timestamp", datetime.now(timezone.utc)),
+            tags=raw_fold.get("tags", []),
+            metadata=raw_fold.get("metadata", {}),
+            embedding=raw_fold.get("embedding", []),
         )
 
-    async def _list_folds(self,
-                         fold_types: Optional[Set[MemoryFoldType]],
-                         tags: Optional[List[str]],
-                         limit: int,
-                         offset: int) -> List[SearchResult]:
+    async def _list_folds(
+        self, fold_types: Optional[Set[MemoryFoldType]], tags: Optional[List[str]], limit: int, offset: int
+    ) -> List[SearchResult]:
         """List memory folds with filtering"""
         filters = {}
         if fold_types:
-            filters['fold_types'] = [ft.value for ft in fold_types]
+            filters["fold_types"] = [ft.value for ft in fold_types]
         if tags:
-            filters['tags'] = tags
+            filters["tags"] = tags
 
-        raw_results = await self.vector_store.list_documents(
-            limit=limit,
-            offset=offset,
-            filters=filters
-        )
+        raw_results = await self.vector_store.list_documents(limit=limit, offset=offset, filters=filters)
 
         results = []
         for raw_result in raw_results:
             search_result = SearchResult(
-                fold_id=raw_result['fold_id'],
-                fold_type=MemoryFoldType(raw_result.get('fold_type', 'episodic')),
-                content=raw_result['content'],
+                fold_id=raw_result["fold_id"],
+                fold_type=MemoryFoldType(raw_result.get("fold_type", "episodic")),
+                content=raw_result["content"],
                 similarity_score=1.0,  # No similarity for list operations
-                timestamp=raw_result.get('timestamp', datetime.now(timezone.utc)),
-                tags=raw_result.get('tags', []),
-                metadata=raw_result.get('metadata', {})
+                timestamp=raw_result.get("timestamp", datetime.now(timezone.utc)),
+                tags=raw_result.get("tags", []),
+                metadata=raw_result.get("metadata", {}),
             )
             results.append(search_result)
 
@@ -443,16 +425,13 @@ class MemoryReadService:
         filters = {}
 
         if query.fold_types:
-            filters['fold_types'] = [ft.value for ft in query.fold_types]
+            filters["fold_types"] = [ft.value for ft in query.fold_types]
 
         if query.tags:
-            filters['tags'] = query.tags
+            filters["tags"] = query.tags
 
         if query.date_range:
-            filters['timestamp_range'] = {
-                'start': query.date_range[0],
-                'end': query.date_range[1]
-            }
+            filters["timestamp_range"] = {"start": query.date_range[0], "end": query.date_range[1]}
 
         return filters
 
@@ -498,10 +477,7 @@ class MemoryReadService:
         # Limit cache size
         if len(self.query_cache) > 1000:
             # Remove oldest entries
-            oldest_keys = sorted(
-                self.query_cache.keys(),
-                key=lambda k: self.query_cache[k][1]
-            )[:100]
+            oldest_keys = sorted(self.query_cache.keys(), key=lambda k: self.query_cache[k][1])[:100]
             for key in oldest_keys:
                 del self.query_cache[key]
 
@@ -516,7 +492,7 @@ class MemoryReadService:
             str(sorted(query.fold_types) if query.fold_types else ""),
             str(sorted(query.tags) if query.tags else ""),
             str(query.date_range),
-            query.sort_order.value
+            query.sort_order.value,
         ]
         return hashlib.sha256("|".join(key_parts).encode()).hexdigest()[:16]
 
@@ -524,10 +500,10 @@ class MemoryReadService:
         """Get service performance metrics"""
         return {
             **self.metrics.get_metrics(),
-            'circuit_breaker_state': self.circuit_breaker.get_state(),
-            'backpressure_tokens_available': self.backpressure.get_available_tokens(),
-            'active_queries': self.max_concurrent_queries - self._query_semaphore._value,
-            'cache_size': len(self.query_cache)
+            "circuit_breaker_state": self.circuit_breaker.get_state(),
+            "backpressure_tokens_available": self.backpressure.get_available_tokens(),
+            "active_queries": self.max_concurrent_queries - self._query_semaphore._value,
+            "cache_size": len(self.query_cache),
         }
 
     async def health_check(self) -> Dict[str, Any]:
@@ -537,18 +513,18 @@ class MemoryReadService:
             await self.vector_store.health_check()
 
             return {
-                'status': 'healthy',
-                'service': 'memory_read',
-                'performance_metrics': self.get_performance_metrics(),
-                'vector_store_healthy': True,
-                'circuit_breaker_open': self.circuit_breaker.is_open(),
-                'backpressure_active': self.backpressure.is_limiting()
+                "status": "healthy",
+                "service": "memory_read",
+                "performance_metrics": self.get_performance_metrics(),
+                "vector_store_healthy": True,
+                "circuit_breaker_open": self.circuit_breaker.is_open(),
+                "backpressure_active": self.backpressure.is_limiting(),
             }
         except Exception as e:
             return {
-                'status': 'unhealthy',
-                'service': 'memory_read',
-                'error': str(e),
-                'circuit_breaker_open': self.circuit_breaker.is_open(),
-                'backpressure_active': self.backpressure.is_limiting()
+                "status": "unhealthy",
+                "service": "memory_read",
+                "error": str(e),
+                "circuit_breaker_open": self.circuit_breaker.is_open(),
+                "backpressure_active": self.backpressure.is_limiting(),
             }

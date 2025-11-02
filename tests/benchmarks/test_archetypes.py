@@ -2,6 +2,7 @@
 Tests for archetypal taxonomy system.
 Validates archetypal classification and analysis.
 """
+
 import pytest
 from benchmarks.dream.archetypes import (
     ARCHETYPES,
@@ -28,7 +29,7 @@ class TestArchetypalClassification:
             "fear": 0.1,
             "sadness": 0.1,
             "anger": 0.0,
-            "surprise": 0.4
+            "surprise": 0.4,
         }
 
         classifications = classify_archetype(hero_emotion, threshold=0.6)
@@ -52,7 +53,7 @@ class TestArchetypalClassification:
             "fear": 0.9,
             "sadness": 0.8,
             "anger": 0.9,
-            "surprise": 0.7
+            "surprise": 0.7,
         }
 
         classifications = classify_archetype(shadow_emotion)
@@ -71,7 +72,7 @@ class TestArchetypalClassification:
             "fear": 0.2,
             "sadness": 0.1,
             "anger": 0.1,
-            "surprise": 0.9
+            "surprise": 0.9,
         }
 
         classifications = classify_archetype(trickster_emotion)
@@ -100,7 +101,7 @@ class TestArchetypalClassification:
             "sadness": 0.1,
             "anger": 0.0,
             "surprise": 0.4,
-            "trust": 0.6
+            "trust": 0.6,
         }
 
         hero_data = ARCHETYPES["hero"]
@@ -121,7 +122,7 @@ class TestArchetypalClassification:
             "sadness": 0.1,
             "anger": 0.0,
             "surprise": 0.4,
-            "trust": 0.6
+            "trust": 0.6,
         }
 
         # Pure hero
@@ -158,6 +159,7 @@ class TestArchetypalClassification:
 
             assert archetype_name in archetype_names, f"Failed to detect {archetype_name} archetype"
 
+
 class TestSnapshotAnalysis:
     """Test snapshot archetypal analysis."""
 
@@ -167,19 +169,29 @@ class TestSnapshotAnalysis:
             {
                 "name": "hero_snap",
                 "emotional_context": {
-                    "confidence": 0.9, "joy": 0.8, "curiosity": 0.7,
-                    "fear": 0.1, "sadness": 0.1, "anger": 0.0,
-                    "surprise": 0.4, "trust": 0.6
-                }
+                    "confidence": 0.9,
+                    "joy": 0.8,
+                    "curiosity": 0.7,
+                    "fear": 0.1,
+                    "sadness": 0.1,
+                    "anger": 0.0,
+                    "surprise": 0.4,
+                    "trust": 0.6,
+                },
             },
             {
                 "name": "shadow_snap",
                 "emotional_context": {
-                    "confidence": 0.1, "joy": 0.1, "curiosity": 0.2,
-                    "fear": 0.9, "sadness": 0.8, "anger": 0.7,
-                    "surprise": 0.6, "trust": 0.2
-                }
-            }
+                    "confidence": 0.1,
+                    "joy": 0.1,
+                    "curiosity": 0.2,
+                    "fear": 0.9,
+                    "sadness": 0.8,
+                    "anger": 0.7,
+                    "surprise": 0.6,
+                    "trust": 0.2,
+                },
+            },
         ]
 
         analysis = analyze_snapshot_archetypes(snapshots)
@@ -220,16 +232,14 @@ class TestSnapshotAnalysis:
         invalid_snapshots = [
             {"name": "no_emotion"},  # Missing emotional_context
             {"name": "invalid_emotion", "emotional_context": "not_a_dict"},
-            {
-                "name": "valid_snap",
-                "emotional_context": {"confidence": 0.7, "joy": 0.6}
-            }
+            {"name": "valid_snap", "emotional_context": {"confidence": 0.7, "joy": 0.6}},
         ]
 
         analysis = analyze_snapshot_archetypes(invalid_snapshots)
 
         # Should only process valid snapshot
         assert analysis["total_snapshots"] == 1
+
 
 class TestArchetypalBalance:
     """Test archetypal balance suggestions."""
@@ -288,6 +298,7 @@ class TestArchetypalBalance:
         # Balanced should score higher
         assert balanced_suggestions["overall_balance_score"] > imbalanced_suggestions["overall_balance_score"]
 
+
 class TestArchetypalTestCases:
     """Test archetypal test case generation."""
 
@@ -337,6 +348,7 @@ class TestArchetypalTestCases:
 
             for emotion_key, emotion_value in emotion_vector.items():
                 assert 0.0 <= emotion_value <= 1.0, f"Invalid emotion value: {emotion_key}={emotion_value}"
+
 
 class TestArchetypalSystem:
     """Test overall archetypal system functionality."""

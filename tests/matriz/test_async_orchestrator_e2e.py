@@ -37,11 +37,13 @@ def orchestrator():
     orch = AsyncOrchestrator(config)
 
     # Configure a basic pipeline
-    orch.configure_stages([
-        {"name": "INTENT", "timeout_ms": 100},
-        {"name": "THOUGHT", "timeout_ms": 150},
-        {"name": "DECISION", "timeout_ms": 200}
-    ])
+    orch.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 100},
+            {"name": "THOUGHT", "timeout_ms": 150},
+            {"name": "DECISION", "timeout_ms": 200},
+        ]
+    )
 
     return orch
 
@@ -85,17 +87,16 @@ async def test_successful_pipeline(orchestrator, register_test_nodes):
     for stage_result in result.stage_results:
         stage_keys.extend(stage_result.keys())
     assert "intent_type" in str(stage_keys)  # From INTENT stage
-    assert "thoughts" in str(stage_keys)     # From THOUGHT stage
+    assert "thoughts" in str(stage_keys)  # From THOUGHT stage
 
 
 @pytest.mark.asyncio
 async def test_timeout_handling(orchestrator, register_test_nodes):
     """Test timeout handling with slow nodes."""
     # Override one stage to use slow node
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 50},
-        {"name": "slow", "timeout_ms": 50}  # Will timeout
-    ])
+    orchestrator.configure_stages(
+        [{"name": "INTENT", "timeout_ms": 50}, {"name": "slow", "timeout_ms": 50}]  # Will timeout
+    )
 
     context = {"query": "test"}
     result = await orchestrator.process_query(context)
@@ -112,10 +113,9 @@ async def test_timeout_handling(orchestrator, register_test_nodes):
 @pytest.mark.asyncio
 async def test_error_handling(orchestrator, register_test_nodes):
     """Test error handling in pipeline."""
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 100},
-        {"name": "error", "timeout_ms": 100}  # Will throw error
-    ])
+    orchestrator.configure_stages(
+        [{"name": "INTENT", "timeout_ms": 100}, {"name": "error", "timeout_ms": 100}]  # Will throw error
+    )
 
     context = {"query": "test"}
     result = await orchestrator.process_query(context)
@@ -167,7 +167,7 @@ async def test_consensus_arbitration(orchestrator):
             "timestamp": 1234567890,
             "ethics_risk": 0.1,
             "role_weight": 0.5,
-            "result": "safe_option"
+            "result": "safe_option",
         },
         {
             "id": "risky",
@@ -175,8 +175,8 @@ async def test_consensus_arbitration(orchestrator):
             "timestamp": 1234567890,
             "ethics_risk": 0.95,  # Should be blocked
             "role_weight": 0.5,
-            "result": "risky_option"
-        }
+            "result": "risky_option",
+        },
     ]
 
     result = await orchestrator._arbitrate_proposals(proposals)
@@ -205,10 +205,7 @@ async def test_missing_nodes():
     # Create fresh orchestrator without registered nodes
     config = {"MATRIZ_ASYNC": "1"}
     orchestrator = AsyncOrchestrator(config)
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 100},
-        {"name": "NONEXISTENT", "timeout_ms": 100}
-    ])
+    orchestrator.configure_stages([{"name": "INTENT", "timeout_ms": 100}, {"name": "NONEXISTENT", "timeout_ms": 100}])
 
     context = {"query": "test"}
     result = await orchestrator.process_query(context)
@@ -222,21 +219,25 @@ async def test_missing_nodes():
 async def test_adaptive_node_routing(orchestrator, register_test_nodes):
     """Ensure orchestrator routes to fallback nodes when primary fails."""
 
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 100},
-        {
-            "name": "DECISION",
-            "node": "error",
-            "fallback_nodes": ["decision"],
-            "timeout_ms": 150,
-        },
-    ])
+    orchestrator.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 100},
+            {
+                "name": "DECISION",
+                "node": "error",
+                "fallback_nodes": ["decision"],
+                "timeout_ms": 150,
+            },
+        ]
+    )
 
     context = {"query": "Trigger fallback"}
     result = await orchestrator.process_query(context)
 
     assert result.success
-    decision_stage = next((stage for stage in result.stage_results if isinstance(stage, dict) and stage.get("decision")), None)
+    decision_stage = next(
+        (stage for stage in result.stage_results if isinstance(stage, dict) and stage.get("decision")), None
+    )
     assert decision_stage is not None
     assert decision_stage.get("_fallback", {}).get("failed_primary") is True  # # ΛTAG: adaptive_routing
 
@@ -245,10 +246,12 @@ async def test_adaptive_node_routing(orchestrator, register_test_nodes):
 async def test_pipeline_cancellation(orchestrator, register_test_nodes):
     """Verify cancellation token stops in-flight stages."""
 
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 200},
-        {"name": "slow", "timeout_ms": 1000},
-    ])
+    orchestrator.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 200},
+            {"name": "slow", "timeout_ms": 1000},
+        ]
+    )
 
     token = CancellationToken()
 
@@ -274,17 +277,19 @@ async def test_transient_error_recovery(orchestrator, register_test_nodes):
     flaky_node = TransientFailureNode()
     register("node:flaky", flaky_node)
 
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 100},
-        {
-            "name": "FLAKY",
-            "node": "flaky",
-            "timeout_ms": 200,
-            "max_retries": 3,
-            "backoff_base_ms": 50,
-        },
-        {"name": "DECISION", "timeout_ms": 200},
-    ])
+    orchestrator.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 100},
+            {
+                "name": "FLAKY",
+                "node": "flaky",
+                "timeout_ms": 200,
+                "max_retries": 3,
+                "backoff_base_ms": 50,
+            },
+            {"name": "DECISION", "timeout_ms": 200},
+        ]
+    )
 
     context = {"query": "resilient"}
     result = await orchestrator.process_query(context)
@@ -300,10 +305,7 @@ def test_stage_configuration():
     """Test stage configuration."""
     orchestrator = AsyncOrchestrator()
 
-    stages = [
-        {"name": "TEST1", "timeout_ms": 300, "max_retries": 3},
-        {"name": "TEST2"}  # Should use defaults
-    ]
+    stages = [{"name": "TEST1", "timeout_ms": 300, "max_retries": 3}, {"name": "TEST2"}]  # Should use defaults
 
     orchestrator.configure_stages(stages)
 
@@ -311,4 +313,4 @@ def test_stage_configuration():
     assert orchestrator.stages[0].timeout_ms == 300
     assert orchestrator.stages[0].max_retries == 3
     assert orchestrator.stages[1].timeout_ms == 200  # Default
-    assert orchestrator.stages[1].max_retries == 2   # Default
+    assert orchestrator.stages[1].max_retries == 2  # Default

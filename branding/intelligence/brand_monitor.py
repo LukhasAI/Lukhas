@@ -124,7 +124,9 @@ class BrandIntelligenceMonitor:
         patterns["lambda_improper"] = re.compile(r"lambda\s+function|lambda\s+processing")
 
         # Deprecated terminology patterns
-        patterns["deprecated_terms"] = re.compile(r"LUKHAS\s+PWM|LUKHAS\s+Cognitive AI|\bPWM\b|AI\s+system", re.IGNORECASE)
+        patterns["deprecated_terms"] = re.compile(
+            r"LUKHAS\s+PWM|LUKHAS\s+Cognitive AI|\bPWM\b|AI\s+system", re.IGNORECASE
+        )
 
         # Tone layer indicators
         patterns["poetic_indicators"] = re.compile(

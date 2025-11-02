@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class BioAwareConsciousnessState(Enum):
     """Represents consciousness states that are aware of bio-signals."""
+
     CALM_FOCUS = "CALM_FOCUS"
     ENERGETIC_ENGAGEMENT = "ENERGETIC_ENGAGEMENT"
     RESTORATIVE_INTEGRATION = "RESTORATIVE_INTEGRATION"
@@ -31,24 +32,20 @@ BIO_CONSCIOUSNESS_MAP: Dict[SymbolicGlyph, BioAwareConsciousnessState] = {
     SymbolicGlyph.ULTRADIAN: BioAwareConsciousnessState.CALM_FOCUS,
     SymbolicGlyph.VITAL: BioAwareConsciousnessState.ENERGETIC_ENGAGEMENT,
     SymbolicGlyph.NEURAL: BioAwareConsciousnessState.CREATIVE_EXPLORATION,
-
     # Energy
     SymbolicGlyph.POWER_ABUNDANT: BioAwareConsciousnessState.ENERGETIC_ENGAGEMENT,
     SymbolicGlyph.POWER_BALANCED: BioAwareConsciousnessState.CALM_FOCUS,
     SymbolicGlyph.POWER_CONSERVE: BioAwareConsciousnessState.RESTORATIVE_INTEGRATION,
     SymbolicGlyph.POWER_CRITICAL: BioAwareConsciousnessState.STRESSED_ADAPTATION,
-
     # Stress
     SymbolicGlyph.STRESS_TRANSFORM: BioAwareConsciousnessState.CREATIVE_EXPLORATION,
     SymbolicGlyph.STRESS_ADAPT: BioAwareConsciousnessState.STRESSED_ADAPTATION,
     SymbolicGlyph.STRESS_BUFFER: BioAwareConsciousnessState.CALM_FOCUS,
     SymbolicGlyph.STRESS_FLOW: BioAwareConsciousnessState.ENERGETIC_ENGAGEMENT,
-
     # Dream
     SymbolicGlyph.DREAM_EXPLORE: BioAwareConsciousnessState.CREATIVE_EXPLORATION,
     SymbolicGlyph.DREAM_INTEGRATE: BioAwareConsciousnessState.RESTORATIVE_INTEGRATION,
     SymbolicGlyph.DREAM_PROCESS: BioAwareConsciousnessState.CALM_FOCUS,
-
     # Homeostasis
     SymbolicGlyph.HOMEO_PERFECT: BioAwareConsciousnessState.CALM_FOCUS,
     SymbolicGlyph.HOMEO_BALANCED: BioAwareConsciousnessState.CALM_FOCUS,
@@ -78,5 +75,6 @@ def bio_feedback_loop(bio_symbolic_result: Dict[str, Any]):
                 logger.warning(f"Bio-feedback: No consciousness state mapping for glyph {dominant_glyph.name}")
         except ValueError:
             logger.error(f"Bio-feedback: Unknown glyph value '{dominant_glyph_str}'")
+
 
 __all__ = ["BioAwareConsciousnessState", "BIO_CONSCIOUSNESS_MAP", "bio_feedback_loop"]

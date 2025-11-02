@@ -22,6 +22,7 @@ from enrich.review_queue import ReviewQueue
 @dataclass
 class Signal:
     """Extracted signal with full T4/0.01% provenance"""
+
     value: Any
     provenance: List[str]
     confidence: str  # "high" | "medium" | "low"
@@ -31,11 +32,7 @@ class Signal:
 
     def to_prov(self) -> Dict:
         """Convert to _provenance schema format"""
-        out = {
-            "sources": self.provenance,
-            "confidence": self.confidence,
-            "extracted_at": self.extracted_at
-        }
+        out = {"sources": self.provenance, "confidence": self.confidence, "extracted_at": self.extracted_at}
         if self.sha:
             out["sha"] = self.sha
         if self.reasons:
@@ -120,28 +117,22 @@ class ClaudeExtractor:
         """
         txt = self._read(claude_me)
         if not txt:
-            return Signal(
-                value=[],
-                provenance=[],
-                confidence="low",
-                reasons=["file_not_found"],
-                extracted_at=_now()
-            )
+            return Signal(value=[], provenance=[], confidence="low", reasons=["file_not_found"], extracted_at=_now())
 
         sha = hashlib.sha256(txt.encode()).hexdigest()
 
         def add_unmapped(raw_text: str, source: str):
             """Add unmapped phrase to review queue"""
             # Strip markdown formatting
-            raw = re.sub(r'[*_`~]', '', raw_text).strip()
+            raw = re.sub(r"[*_`~]", "", raw_text).strip()
             if raw and self.vocab.map_feature(raw) is None:
                 self.queue.add(raw, module_name or claude_me.parent.name, source)
 
         # Pattern 1: Bullet lists with **Feature**:
         bullets = set()
-        bullet_pattern = re.compile(r'^[\s]*[-•*]\s*(.+)$', re.MULTILINE)
+        bullet_pattern = re.compile(r"^[\s]*[-•*]\s*(.+)$", re.MULTILINE)
         for match in bullet_pattern.finditer(txt):
-            raw = match.group(1).split(':')[0].strip()
+            raw = match.group(1).split(":")[0].strip()
             canonical = self.vocab.map_feature(raw)
             if canonical:
                 bullets.add(canonical)
@@ -150,7 +141,7 @@ class ClaudeExtractor:
 
         # Pattern 2: Section headers (## or ###)
         headers = set()
-        header_pattern = re.compile(r'^(?:##|###)\s+(.+)$', re.MULTILINE)
+        header_pattern = re.compile(r"^(?:##|###)\s+(.+)$", re.MULTILINE)
         for match in header_pattern.finditer(txt):
             raw = match.group(1).strip()
             canonical = self.vocab.map_feature(raw)
@@ -184,7 +175,7 @@ class ClaudeExtractor:
             confidence=confidence,
             reasons=reasons,
             extracted_at=_now(),
-            sha=sha
+            sha=sha,
         )
 
     def components_count(self, claude_me: Path) -> int:
@@ -197,26 +188,17 @@ class ClaudeExtractor:
             return 0
 
         # Find Components section (H2) and count H3s within it
-        comp_section = re.search(
-            r'^##\s+.*[Cc]omponents.*?(?=^##\s+|\Z)',
-            txt,
-            flags=re.MULTILINE | re.DOTALL
-        )
+        comp_section = re.search(r"^##\s+.*[Cc]omponents.*?(?=^##\s+|\Z)", txt, flags=re.MULTILINE | re.DOTALL)
 
         if comp_section:
             block = comp_section.group(0)
-            count = len(re.findall(r'^###\s+', block, re.MULTILINE))
+            count = len(re.findall(r"^###\s+", block, re.MULTILINE))
             return count
 
         # Fallback: count all H3s (less accurate)
-        return len(re.findall(r'^###\s+', txt, re.MULTILINE))
+        return len(re.findall(r"^###\s+", txt, re.MULTILINE))
 
-    def description(
-        self,
-        claude_me: Path,
-        features: List[str],
-        components_count: int
-    ) -> Signal:
+    def description(self, claude_me: Path, features: List[str], components_count: int) -> Signal:
         """
         Generate rich description with guardrails:
         - 120-360 chars
@@ -226,27 +208,18 @@ class ClaudeExtractor:
         """
         txt = self._read(claude_me)
         if not txt:
-            return Signal(
-                value=None,
-                provenance=[],
-                confidence="low",
-                reasons=["file_not_found"],
-                extracted_at=_now()
-            )
+            return Signal(value=None, provenance=[], confidence="low", reasons=["file_not_found"], extracted_at=_now())
 
         # Extract title (H1)
-        title_match = re.search(r'^#\s+(.+)$', txt, re.MULTILINE)
+        title_match = re.search(r"^#\s+(.+)$", txt, re.MULTILINE)
         title = title_match.group(1).strip() if title_match else ""
 
         # Extract subtitle (italic line after title)
-        subtitle_match = re.search(r'^\*(.+?)\*$', txt, re.MULTILINE)
+        subtitle_match = re.search(r"^\*(.+?)\*$", txt, re.MULTILINE)
         subtitle = subtitle_match.group(1).strip() if subtitle_match else ""
 
         # Find first substantial paragraph
-        paragraphs = [
-            p.strip() for p in txt.split('\n\n')
-            if len(p.strip()) > 80 and not p.strip().startswith('#')
-        ]
+        paragraphs = [p.strip() for p in txt.split("\n\n") if len(p.strip()) > 80 and not p.strip().startswith("#")]
         first_para = paragraphs[0] if paragraphs else ""
 
         # Build description parts
@@ -257,17 +230,15 @@ class ClaudeExtractor:
             parts.append(subtitle)
         if first_para:
             # Take first sentence
-            first_sentence = first_para.split('.')[0] + '.'
+            first_sentence = first_para.split(".")[0] + "."
             parts.append(first_sentence)
 
         # Add required feature + component reference
         if features:
-            feature_sample = ', '.join(features[:3])
-            parts.append(
-                f"Implements {feature_sample} with {components_count} integrated components"
-            )
+            feature_sample = ", ".join(features[:3])
+            parts.append(f"Implements {feature_sample} with {components_count} integrated components")
 
-        description = ' '.join(parts)
+        description = " ".join(parts)
 
         # Trim to bounds
         if len(description) > 360:
@@ -292,7 +263,7 @@ class ClaudeExtractor:
             provenance=["claude.me:title+subtitle+para"],
             confidence=confidence,
             reasons=reasons,
-            extracted_at=_now()
+            extracted_at=_now(),
         )
 
 
@@ -306,24 +277,12 @@ class InitExtractor:
         """
         init_path = module_dir / "__init__.py"
         if not init_path.exists():
-            return Signal(
-                value={},
-                provenance=[],
-                confidence="low",
-                reasons=["no_init_file"],
-                extracted_at=_now()
-            )
+            return Signal(value={}, provenance=[], confidence="low", reasons=["no_init_file"], extracted_at=_now())
 
         try:
             tree = ast.parse(init_path.read_text())
         except SyntaxError as e:
-            return Signal(
-                value={},
-                provenance=[],
-                confidence="low",
-                reasons=[f"syntax_error:{e}"],
-                extracted_at=_now()
-            )
+            return Signal(value={}, provenance=[], confidence="low", reasons=[f"syntax_error:{e}"], extracted_at=_now())
 
         # Extract __all__ exports
         exports = set()
@@ -352,8 +311,7 @@ class InitExtractor:
             doc_ok = False
             try:
                 node = next(
-                    n for n in ast.walk(tree)
-                    if isinstance(n, (ast.ClassDef, ast.FunctionDef)) and n.name == name
+                    n for n in ast.walk(tree) if isinstance(n, (ast.ClassDef, ast.FunctionDef)) and n.name == name
                 )
                 docstring = ast.get_docstring(node) or ""
                 doc_ok = len(docstring) >= 80
@@ -365,18 +323,14 @@ class InitExtractor:
                 "module": f"{module_dir.name}.{name}",  # Will be refined by caller
                 "capabilities": [],
                 "doc_ok": doc_ok,
-                "import_verified": False  # Set by ImportVerifier
+                "import_verified": False,  # Set by ImportVerifier
             }
 
         confidence = "high" if apis else "low"
         reasons = ["exports_detected" if apis else "no_exports"]
 
         return Signal(
-            value=apis,
-            provenance=["ast:__init__.py"],
-            confidence=confidence,
-            reasons=reasons,
-            extracted_at=_now()
+            value=apis, provenance=["ast:__init__.py"], confidence=confidence, reasons=reasons, extracted_at=_now()
         )
 
 
@@ -386,12 +340,7 @@ class ImportVerifier:
     Uses AST-only checks to confirm symbols exist.
     """
 
-    def verify(
-        self,
-        pkg_root: Path,
-        module_dir: Path,
-        apis: Dict[str, Dict]
-    ) -> Signal:
+    def verify(self, pkg_root: Path, module_dir: Path, apis: Dict[str, Dict]) -> Signal:
         """
         Verify each API is importable by checking:
         1. File/module exists
@@ -408,10 +357,7 @@ class ImportVerifier:
             # Resolve file path
             # module_spec like "consciousness.api" -> consciousness/api.py or consciousness/api/__init__.py
             mod_path = pkg_root / module_spec.replace(".", "/")
-            candidates = [
-                mod_path.with_suffix(".py"),
-                mod_path / "__init__.py"
-            ]
+            candidates = [mod_path.with_suffix(".py"), mod_path / "__init__.py"]
 
             src_file = None
             for candidate in candidates:
@@ -454,9 +400,5 @@ class ImportVerifier:
             reasons = ["no_apis"]
 
         return Signal(
-            value=verified,
-            provenance=provenance,
-            confidence=confidence,
-            reasons=reasons,
-            extracted_at=_now()
+            value=verified, provenance=provenance, confidence=confidence, reasons=reasons, extracted_at=_now()
         )

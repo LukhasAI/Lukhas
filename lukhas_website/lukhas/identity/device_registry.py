@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 class RiskLevel(Enum):
     """Device risk assessment levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -30,11 +31,12 @@ class RiskLevel(Enum):
 @dataclass
 class DeviceFingerprint:
     """Enhanced device fingerprinting data"""
+
     primary_hash: str  # Basic fingerprint
     secondary_hash: str  # Enhanced fingerprint with more data
     canvas_hash: Optional[str] = None  # Canvas fingerprinting
-    webgl_hash: Optional[str] = None   # WebGL fingerprinting
-    audio_hash: Optional[str] = None   # Audio context fingerprinting
+    webgl_hash: Optional[str] = None  # WebGL fingerprinting
+    audio_hash: Optional[str] = None  # Audio context fingerprinting
     screen_resolution: Optional[str] = None
     timezone: Optional[str] = None
     language: Optional[str] = None
@@ -47,6 +49,7 @@ class DeviceFingerprint:
 @dataclass
 class DeviceBehavior:
     """Device behavioral patterns"""
+
     login_times: List[datetime] = field(default_factory=list)
     ip_addresses: Set[str] = field(default_factory=set)
     user_agents: List[str] = field(default_factory=list)
@@ -60,6 +63,7 @@ class DeviceBehavior:
 @dataclass
 class DeviceRiskAssessment:
     """Device risk assessment results"""
+
     risk_level: RiskLevel
     risk_score: float  # 0.0 to 1.0
     factors: List[str]  # Risk contributing factors
@@ -73,12 +77,14 @@ class DeviceRegistry:
     Advanced device registry with ML-based fingerprinting and behavioral analysis
     """
 
-    def __init__(self,
-                 observability: IdentityObservability,
-                 trust_decay_rate: float = 0.001,  # Daily trust decay
-                 risk_threshold_high: float = 0.7,
-                 risk_threshold_critical: float = 0.9,
-                 fingerprint_similarity_threshold: float = 0.8):
+    def __init__(
+        self,
+        observability: IdentityObservability,
+        trust_decay_rate: float = 0.001,  # Daily trust decay
+        risk_threshold_high: float = 0.7,
+        risk_threshold_critical: float = 0.9,
+        fingerprint_similarity_threshold: float = 0.8,
+    ):
         self.observability = observability
         self.trust_decay_rate = trust_decay_rate
         self.risk_threshold_high = risk_threshold_high
@@ -117,10 +123,9 @@ class DeviceRegistry:
                 except asyncio.CancelledError:
                     pass
 
-    async def register_device(self,
-                            lambda_id: str,
-                            device_info: DeviceInfo,
-                            fingerprint_data: Dict[str, Any]) -> DeviceInfo:
+    async def register_device(
+        self, lambda_id: str, device_info: DeviceInfo, fingerprint_data: Dict[str, Any]
+    ) -> DeviceInfo:
         """Register device with enhanced fingerprinting"""
 
         # Create enhanced fingerprint
@@ -140,7 +145,7 @@ class DeviceRegistry:
             login_times=[datetime.utcnow()],
             ip_addresses={device_info.ip_address},
             user_agents=[device_info.user_agent],
-            last_activity=datetime.utcnow()
+            last_activity=datetime.utcnow(),
         )
 
         # Store device data
@@ -165,12 +170,14 @@ class DeviceRegistry:
         logger.info(f"Device registered with enhanced fingerprinting: {device_id}")
         return device_info
 
-    async def update_device_activity(self,
-                                   device_id: str,
-                                   ip_address: str,
-                                   user_agent: str,
-                                   session_duration: Optional[int] = None,
-                                   activity_type: str = "login"):
+    async def update_device_activity(
+        self,
+        device_id: str,
+        ip_address: str,
+        user_agent: str,
+        session_duration: Optional[int] = None,
+        activity_type: str = "login",
+    ):
         """Update device behavioral data"""
 
         if device_id not in self.behaviors:
@@ -203,9 +210,7 @@ class DeviceRegistry:
         # Re-assess risk if significant changes
         await self._assess_device_risk(device_id)
 
-    async def verify_device_fingerprint(self,
-                                      device_id: str,
-                                      fingerprint_data: Dict[str, Any]) -> Tuple[bool, float]:
+    async def verify_device_fingerprint(self, device_id: str, fingerprint_data: Dict[str, Any]) -> Tuple[bool, float]:
         """Verify device fingerprint against stored data"""
 
         if device_id not in self.fingerprints:
@@ -235,7 +240,7 @@ class DeviceRegistry:
             self.devices[device_id].trust_level = 0.0
             self.devices[device_id].metadata["compromised"] = {
                 "reason": reason,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
         # Create critical risk assessment
@@ -245,7 +250,7 @@ class DeviceRegistry:
             factors=[f"manually_marked_compromised: {reason}"],
             assessment_time=datetime.utcnow(),
             confidence=1.0,
-            recommendations=["revoke_all_sessions", "require_reregistration"]
+            recommendations=["revoke_all_sessions", "require_reregistration"],
         )
         self.risk_assessments[device_id] = assessment
 
@@ -273,12 +278,9 @@ class DeviceRegistry:
             "total_devices": len(devices),
             "trusted_devices": trusted_devices,
             "recent_activity": recent_activity,
-            "device_types": {
-                dtype.value: sum(1 for d in devices if d.device_type == dtype)
-                for dtype in DeviceType
-            },
+            "device_types": {dtype.value: sum(1 for d in devices if d.device_type == dtype) for dtype in DeviceType},
             "risk_levels": risk_levels,
-            "compromised_devices": len([did for did in user_device_ids if did in self.compromised_devices])
+            "compromised_devices": len([did for did in user_device_ids if did in self.compromised_devices]),
         }
 
     def _create_fingerprint(self, fingerprint_data: Dict[str, Any]) -> DeviceFingerprint:
@@ -289,18 +291,20 @@ class DeviceRegistry:
             "user_agent": fingerprint_data.get("user_agent", ""),
             "screen_resolution": fingerprint_data.get("screen_resolution", ""),
             "timezone": fingerprint_data.get("timezone", ""),
-            "language": fingerprint_data.get("language", "")
+            "language": fingerprint_data.get("language", ""),
         }
         primary_hash = hashlib.sha256(json.dumps(primary_data, sort_keys=True).encode()).hexdigest()
 
         # Secondary fingerprint (enhanced data)
         secondary_data = {**primary_data}
-        secondary_data.update({
-            "platform": fingerprint_data.get("platform", ""),
-            "hardware_concurrency": fingerprint_data.get("hardware_concurrency", 0),
-            "memory": fingerprint_data.get("memory", 0),
-            "connection_type": fingerprint_data.get("connection_type", "")
-        })
+        secondary_data.update(
+            {
+                "platform": fingerprint_data.get("platform", ""),
+                "hardware_concurrency": fingerprint_data.get("hardware_concurrency", 0),
+                "memory": fingerprint_data.get("memory", 0),
+                "connection_type": fingerprint_data.get("connection_type", ""),
+            }
+        )
         secondary_hash = hashlib.sha256(json.dumps(secondary_data, sort_keys=True).encode()).hexdigest()
 
         return DeviceFingerprint(
@@ -315,7 +319,7 @@ class DeviceRegistry:
             platform=fingerprint_data.get("platform"),
             hardware_concurrency=fingerprint_data.get("hardware_concurrency"),
             memory=fingerprint_data.get("memory"),
-            connection_type=fingerprint_data.get("connection_type")
+            connection_type=fingerprint_data.get("connection_type"),
         )
 
     def _index_fingerprint(self, device_id: str, fingerprint: DeviceFingerprint):
@@ -341,9 +345,7 @@ class DeviceRegistry:
 
         return similar_devices
 
-    def _calculate_fingerprint_similarity(self,
-                                        fp1: DeviceFingerprint,
-                                        fp2: DeviceFingerprint) -> float:
+    def _calculate_fingerprint_similarity(self, fp1: DeviceFingerprint, fp2: DeviceFingerprint) -> float:
         """Calculate similarity between two fingerprints"""
 
         # Primary hash exact match
@@ -430,7 +432,7 @@ class DeviceRegistry:
             factors=risk_factors,
             assessment_time=datetime.utcnow(),
             confidence=0.8,  # Base confidence
-            recommendations=recommendations
+            recommendations=recommendations,
         )
         self.risk_assessments[device_id] = assessment
 
@@ -479,25 +481,27 @@ class DeviceRegistry:
         recommendations = []
 
         if risk_level == RiskLevel.CRITICAL:
-            recommendations.extend([
-                "immediately_revoke_all_sessions",
-                "require_device_reregistration",
-                "enable_enhanced_monitoring",
-                "consider_account_suspension"
-            ])
+            recommendations.extend(
+                [
+                    "immediately_revoke_all_sessions",
+                    "require_device_reregistration",
+                    "enable_enhanced_monitoring",
+                    "consider_account_suspension",
+                ]
+            )
         elif risk_level == RiskLevel.HIGH:
-            recommendations.extend([
-                "require_additional_authentication",
-                "limit_session_duration",
-                "enable_enhanced_monitoring",
-                "consider_device_quarantine"
-            ])
+            recommendations.extend(
+                [
+                    "require_additional_authentication",
+                    "limit_session_duration",
+                    "enable_enhanced_monitoring",
+                    "consider_device_quarantine",
+                ]
+            )
         elif risk_level == RiskLevel.MEDIUM:
-            recommendations.extend([
-                "increase_authentication_frequency",
-                "monitor_device_activity",
-                "limit_high_privilege_operations"
-            ])
+            recommendations.extend(
+                ["increase_authentication_frequency", "monitor_device_activity", "limit_high_privilege_operations"]
+            )
 
         # Factor-specific recommendations
         if "fingerprint_inconsistency" in risk_factors:
@@ -533,7 +537,7 @@ class DeviceRegistry:
             self.devices[device_id].metadata["fingerprint_mismatch_count"] = mismatch_count + 1
             self.devices[device_id].metadata[f"fingerprint_mismatch_{int(time.time())}"] = {
                 "similarity": similarity,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
         # Decrease trust level

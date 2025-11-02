@@ -39,4 +39,3 @@ def test_memory_identity_factory_validates_inputs():
 
     with pytest.raises(TypeError):
         factory.create("user-2", ["not", "a", "dict"])  # type: ignore[arg-type]
-

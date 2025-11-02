@@ -86,9 +86,7 @@ class _FlakyNode(CognitiveNodeBase):
 def test_stage_duration_success_metric_increments():
     register("node:metrics_success", _FastNode())
     orchestrator = AsyncOrchestrator({"MATRIZ_ASYNC": "1"})
-    orchestrator.configure_stages([
-        {"name": "METRIC_SUCCESS", "timeout_ms": 80, "node": "metrics_success"}
-    ])
+    orchestrator.configure_stages([{"name": "METRIC_SUCCESS", "timeout_ms": 80, "node": "metrics_success"}])
 
     labels = {"stage": "METRIC_SUCCESS", "node": "metrics_success", "outcome": "success"}
     before = _collect_metric_value("mtrx_stage_duration_seconds", labels, sample_suffix="count")
@@ -104,15 +102,17 @@ def test_stage_duration_success_metric_increments():
 def test_timeout_metrics_emit_failure_and_circuit_breaker():
     register("node:metrics_timeout", _TimeoutNode())
     orchestrator = AsyncOrchestrator({"MATRIZ_ASYNC": "1"})
-    orchestrator.configure_stages([
-        {
-            "name": "METRIC_TIMEOUT",
-            "timeout_ms": 10,
-            "max_retries": 1,
-            "node": "metrics_timeout",
-            "backoff_base_ms": 5,
-        }
-    ])
+    orchestrator.configure_stages(
+        [
+            {
+                "name": "METRIC_TIMEOUT",
+                "timeout_ms": 10,
+                "max_retries": 1,
+                "node": "metrics_timeout",
+                "backoff_base_ms": 5,
+            }
+        ]
+    )
 
     hist_labels = {"stage": "METRIC_TIMEOUT", "node": "metrics_timeout", "outcome": "failure"}
     timeout_labels = {"stage": "METRIC_TIMEOUT"}
@@ -137,15 +137,17 @@ def test_timeout_metrics_emit_failure_and_circuit_breaker():
 def test_retry_metric_increments_on_transient_failure():
     register("node:metrics_flaky", _FlakyNode())
     orchestrator = AsyncOrchestrator({"MATRIZ_ASYNC": "1"})
-    orchestrator.configure_stages([
-        {
-            "name": "METRIC_RETRY",
-            "timeout_ms": 100,
-            "max_retries": 3,
-            "backoff_base_ms": 5,
-            "node": "metrics_flaky",
-        }
-    ])
+    orchestrator.configure_stages(
+        [
+            {
+                "name": "METRIC_RETRY",
+                "timeout_ms": 100,
+                "max_retries": 3,
+                "backoff_base_ms": 5,
+                "node": "metrics_flaky",
+            }
+        ]
+    )
 
     retry_labels = {"stage": "METRIC_RETRY", "reason": "_TransientFailure"}
     before = _collect_metric_value("mtrx_orch_retry_total", retry_labels)

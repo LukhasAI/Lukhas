@@ -53,9 +53,7 @@ def _load_labs_openai_symbols() -> None:
     if all(sym is not None for sym in (ModelType, OpenAICoreService, OpenAIRequest)):
         return
     try:
-        mod = importlib.import_module(
-            "labs.consciousness.reflection.openai_core_service"
-        )
+        mod = importlib.import_module("labs.consciousness.reflection.openai_core_service")
         ModelType = getattr(mod, "ModelType", None)
         OpenAICoreService = getattr(mod, "OpenAICoreService", None)
         OpenAIRequest = getattr(mod, "OpenAIRequest", None)
@@ -64,6 +62,7 @@ def _load_labs_openai_symbols() -> None:
         ModelType = None
         OpenAICoreService = None
         OpenAIRequest = None
+
 
 try:
     from core.colonies.base_colony import BaseColony

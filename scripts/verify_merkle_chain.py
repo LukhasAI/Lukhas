@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class MerkleNode:
     """Individual node in the Merkle tree."""
+
     hash_value: str
     left_child: Optional[str] = None
     right_child: Optional[str] = None
@@ -29,6 +30,7 @@ class MerkleNode:
 @dataclass
 class MerkleProof:
     """Proof of inclusion for a specific item in the Merkle tree."""
+
     item_hash: str
     root_hash: str
     proof_path: List[Dict[str, str]]  # List of {hash, direction}
@@ -39,6 +41,7 @@ class MerkleProof:
 @dataclass
 class MerkleChain:
     """Complete Merkle chain for audit evidence."""
+
     chain_id: str
     created_timestamp: float
     current_root: str
@@ -57,24 +60,20 @@ class MerkleTreeBuilder:
 
     def calculate_hash(self, data: str) -> str:
         """Calculate SHA-256 hash of data."""
-        return hashlib.sha256(data.encode('utf-8')).hexdigest()
+        return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
     def calculate_combined_hash(self, left_hash: str, right_hash: str) -> str:
         """Calculate hash of two child hashes."""
         combined = left_hash + right_hash
-        return hashlib.sha256(combined.encode('utf-8')).hexdigest()
+        return hashlib.sha256(combined.encode("utf-8")).hexdigest()
 
     def create_leaf_node(self, data: Dict[str, Any]) -> MerkleNode:
         """Create a leaf node from data."""
         # Serialize data deterministically
-        data_str = json.dumps(data, sort_keys=True, separators=(',', ':'))
+        data_str = json.dumps(data, sort_keys=True, separators=(",", ":"))
         hash_value = self.calculate_hash(data_str)
 
-        node = MerkleNode(
-            hash_value=hash_value,
-            data=data_str,
-            timestamp=time.time()
-        )
+        node = MerkleNode(hash_value=hash_value, data=data_str, timestamp=time.time())
 
         self.nodes[hash_value] = node
         return node
@@ -87,7 +86,7 @@ class MerkleTreeBuilder:
             hash_value=combined_hash,
             left_child=left_node.hash_value,
             right_child=right_node.hash_value,
-            timestamp=time.time()
+            timestamp=time.time(),
         )
 
         self.nodes[combined_hash] = node
@@ -148,10 +147,7 @@ class MerkleTreeBuilder:
                         sibling_hash = node.left_child
                         direction = "left"
 
-                    proof_path.append({
-                        "hash": sibling_hash,
-                        "direction": direction
-                    })
+                    proof_path.append({"hash": sibling_hash, "direction": direction})
 
                     current_hash = node.hash_value
                     parent_found = True
@@ -160,19 +156,11 @@ class MerkleTreeBuilder:
             if not parent_found:
                 # Could not find path to root
                 return MerkleProof(
-                    item_hash=item_hash,
-                    root_hash=root_hash,
-                    proof_path=[],
-                    tree_size=tree_size,
-                    proof_valid=False
+                    item_hash=item_hash, root_hash=root_hash, proof_path=[], tree_size=tree_size, proof_valid=False
                 )
 
         return MerkleProof(
-            item_hash=item_hash,
-            root_hash=root_hash,
-            proof_path=proof_path,
-            tree_size=tree_size,
-            proof_valid=True
+            item_hash=item_hash, root_hash=root_hash, proof_path=proof_path, tree_size=tree_size, proof_valid=True
         )
 
     def verify_proof(self, proof: MerkleProof) -> bool:
@@ -226,9 +214,9 @@ class TamperEvidenceFramework:
 
         # Load content if JSON
         content = None
-        if file_path.suffix.lower() == '.json':
+        if file_path.suffix.lower() == ".json":
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     content = json.load(f)
             except Exception as e:
                 content = None
@@ -241,21 +229,21 @@ class TamperEvidenceFramework:
             "content_hash": self._calculate_content_hash(content) if content else None,
             "timestamp": time.time(),
             "evidence_type": self._classify_evidence_type(file_path),
-            "content": content
+            "content": content,
         }
 
     def _calculate_file_hash(self, file_path: Path) -> str:
         """Calculate SHA-256 hash of file contents."""
         hash_obj = hashlib.sha256()
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_obj.update(chunk)
         return hash_obj.hexdigest()
 
     def _calculate_content_hash(self, content: Any) -> str:
         """Calculate hash of structured content."""
-        content_str = json.dumps(content, sort_keys=True, separators=(',', ':'))
-        return hashlib.sha256(content_str.encode('utf-8')).hexdigest()
+        content_str = json.dumps(content, sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(content_str.encode("utf-8")).hexdigest()
 
     def _classify_evidence_type(self, file_path: Path) -> str:
         """Classify evidence file type."""
@@ -292,7 +280,7 @@ class TamperEvidenceFramework:
             nodes=self.merkle_builder.nodes.copy(),
             evidence_items=evidence_items,
             integrity_verified=True,
-            verification_timestamp=time.time()
+            verification_timestamp=time.time(),
         )
 
         return chain
@@ -305,7 +293,7 @@ class TamperEvidenceFramework:
             "overall_valid": True,
             "issues": [],
             "evidence_verifications": [],
-            "tree_verification": None
+            "tree_verification": None,
         }
 
         # Verify each evidence item
@@ -325,9 +313,7 @@ class TamperEvidenceFramework:
 
         if not tree_verification["valid"]:
             verification_results["overall_valid"] = False
-            verification_results["issues"].append(
-                f"Tree structure invalid: {tree_verification['error']}"
-            )
+            verification_results["issues"].append(f"Tree structure invalid: {tree_verification['error']}")
 
         # Update chain verification status
         chain.integrity_verified = verification_results["overall_valid"]
@@ -339,8 +325,8 @@ class TamperEvidenceFramework:
         """Verify a single evidence item."""
         try:
             # Recalculate item hash
-            item_str = json.dumps(item, sort_keys=True, separators=(',', ':'))
-            calculated_hash = hashlib.sha256(item_str.encode('utf-8')).hexdigest()
+            item_str = json.dumps(item, sort_keys=True, separators=(",", ":"))
+            calculated_hash = hashlib.sha256(item_str.encode("utf-8")).hexdigest()
 
             # Check if hash exists in tree nodes
             hash_in_tree = calculated_hash in chain.nodes
@@ -355,24 +341,17 @@ class TamperEvidenceFramework:
                         "exists": True,
                         "hash_matches": current_file_hash == item.get("file_hash"),
                         "current_hash": current_file_hash,
-                        "expected_hash": item.get("file_hash")
+                        "expected_hash": item.get("file_hash"),
                     }
                 else:
-                    file_verification = {
-                        "exists": False,
-                        "hash_matches": False,
-                        "error": "File no longer exists"
-                    }
+                    file_verification = {"exists": False, "hash_matches": False, "error": "File no longer exists"}
 
             return {
                 "item_hash": calculated_hash,
                 "hash_in_tree": hash_in_tree,
                 "file_verification": file_verification,
-                "valid": hash_in_tree and (
-                    file_verification is None or
-                    file_verification.get("hash_matches", True)
-                ),
-                "error": None
+                "valid": hash_in_tree and (file_verification is None or file_verification.get("hash_matches", True)),
+                "error": None,
             }
 
         except Exception as e:
@@ -381,7 +360,7 @@ class TamperEvidenceFramework:
                 "hash_in_tree": False,
                 "file_verification": None,
                 "valid": False,
-                "error": str(e)
+                "error": str(e),
             }
 
     def _verify_tree_structure(self, chain: MerkleChain) -> Dict[str, Any]:
@@ -407,7 +386,7 @@ class TamperEvidenceFramework:
                 "node_count_matches": node_count_matches,
                 "orphaned_nodes": list(orphaned_nodes),
                 "valid": root_matches and node_count_matches and len(orphaned_nodes) == 0,
-                "error": None
+                "error": None,
             }
 
         except Exception as e:
@@ -418,7 +397,7 @@ class TamperEvidenceFramework:
                 "node_count_matches": False,
                 "orphaned_nodes": [],
                 "valid": False,
-                "error": str(e)
+                "error": str(e),
             }
 
     def generate_inclusion_proofs(self, chain: MerkleChain) -> Dict[str, MerkleProof]:
@@ -427,8 +406,8 @@ class TamperEvidenceFramework:
 
         for item in chain.evidence_items:
             # Calculate item hash
-            item_str = json.dumps(item, sort_keys=True, separators=(',', ':'))
-            item_hash = hashlib.sha256(item_str.encode('utf-8')).hexdigest()
+            item_str = json.dumps(item, sort_keys=True, separators=(",", ":"))
+            item_hash = hashlib.sha256(item_str.encode("utf-8")).hexdigest()
 
             # Generate proof
             proof = self.merkle_builder.generate_proof(item_hash, chain.current_root)
@@ -436,12 +415,7 @@ class TamperEvidenceFramework:
 
         return proofs
 
-    def export_verification_package(
-        self,
-        chain: MerkleChain,
-        verification_results: Dict[str, Any],
-        output_path: str
-    ):
+    def export_verification_package(self, chain: MerkleChain, verification_results: Dict[str, Any], output_path: str):
         """Export complete verification package."""
         package = {
             "merkle_chain": asdict(chain),
@@ -450,8 +424,8 @@ class TamperEvidenceFramework:
             "package_metadata": {
                 "created_timestamp": time.time(),
                 "package_version": "1.0.0",
-                "verification_standard": "T4/0.01%"
-            }
+                "verification_standard": "T4/0.01%",
+            },
         }
 
         # Generate inclusion proofs
@@ -459,15 +433,15 @@ class TamperEvidenceFramework:
         package["inclusion_proofs"] = {k: asdict(v) for k, v in proofs.items()}
 
         # Calculate package hash
-        package_str = json.dumps(package, sort_keys=True, separators=(',', ':'))
-        package_hash = hashlib.sha256(package_str.encode('utf-8')).hexdigest()
+        package_str = json.dumps(package, sort_keys=True, separators=(",", ":"))
+        package_hash = hashlib.sha256(package_str.encode("utf-8")).hexdigest()
         package["package_metadata"]["package_hash"] = package_hash
 
         # Save package
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(package, f, indent=2, sort_keys=True)
 
         return package_hash
@@ -500,9 +474,7 @@ def main():
         verification_results = framework.verify_chain_integrity(chain)
 
         # Export verification package
-        package_hash = framework.export_verification_package(
-            chain, verification_results, args.output
-        )
+        package_hash = framework.export_verification_package(chain, verification_results, args.output)
 
         print("✅ Merkle chain created")
         print(f"Root hash: {chain.current_root}")
@@ -522,7 +494,7 @@ def main():
 
         for chain_file in args.chain:
             try:
-                with open(chain_file, 'r') as f:
+                with open(chain_file, "r") as f:
                     package = json.load(f)
 
                 # Reconstruct chain

@@ -19,6 +19,7 @@ try:
 
     from core.api.api_system import EnhancedAPISystem
     from memory.performance_optimizer import FoldPerformanceOptimizer, OptimizationResult
+
     PERFORMANCE_MODULES_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full system
@@ -43,25 +44,13 @@ class TestAPIPerformanceOptimizations:
         """Test cache key generation for request caching."""
 
         # Test deterministic cache key generation
-        key1 = api_system._generate_cache_key(
-            "consciousness",
-            '{"query": "test"}',
-            "auth_hash_123"
-        )
-        key2 = api_system._generate_cache_key(
-            "consciousness",
-            '{"query": "test"}',
-            "auth_hash_123"
-        )
+        key1 = api_system._generate_cache_key("consciousness", '{"query": "test"}', "auth_hash_123")
+        key2 = api_system._generate_cache_key("consciousness", '{"query": "test"}', "auth_hash_123")
 
         assert key1 == key2, "Cache keys should be deterministic"
 
         # Test different keys for different requests
-        key3 = api_system._generate_cache_key(
-            "consciousness",
-            '{"query": "different"}',
-            "auth_hash_123"
-        )
+        key3 = api_system._generate_cache_key("consciousness", '{"query": "different"}', "auth_hash_123")
 
         assert key1 != key3, "Different requests should have different cache keys"
 
@@ -120,10 +109,7 @@ class TestAPIPerformanceOptimizations:
         # Start multiple identical requests concurrently
         request_key = "duplicate_request"
 
-        tasks = [
-            api_system._coalesce_request(request_key, mock_request)
-            for _ in range(5)
-        ]
+        tasks = [api_system._coalesce_request(request_key, mock_request) for _ in range(5)]
 
         results = await asyncio.gather(*tasks)
 
@@ -163,8 +149,7 @@ class TestMATRIZAdaptiveTimeouts:
     def orchestrator(self):
         """Create orchestrator with adaptive timeouts."""
         return AsyncCognitiveOrchestrator(
-            stage_timeouts={StageType.ANALYZE: 0.1, StageType.PROCESS: 0.2},
-            total_timeout=0.5
+            stage_timeouts={StageType.ANALYZE: 0.1, StageType.PROCESS: 0.2}, total_timeout=0.5
         )
 
     def test_adaptive_timeout_initialization(self, orchestrator):
@@ -190,7 +175,7 @@ class TestMATRIZAdaptiveTimeouts:
             "successful_durations": [50, 60, 55, 65, 70] * 3,  # 15 samples
             "timeout_count": 0,
             "total_attempts": 15,
-            "current_timeout": base_timeout
+            "current_timeout": base_timeout,
         }
 
         # Get adaptive timeout
@@ -207,12 +192,7 @@ class TestMATRIZAdaptiveTimeouts:
         stage_type = StageType.PROCESS
 
         # Create successful result
-        success_result = StageResult(
-            stage_type=stage_type,
-            success=True,
-            data={"result": "success"},
-            duration_ms=80.0
-        )
+        success_result = StageResult(stage_type=stage_type, success=True, data={"result": "success"}, duration_ms=80.0)
 
         # Update history
         orchestrator._update_timeout_history(stage_type, success_result)
@@ -269,11 +249,7 @@ class TestMemoryPerformanceOptimizer:
     @pytest.fixture
     def optimizer(self):
         """Create performance optimizer."""
-        return FoldPerformanceOptimizer(
-            cache_size=100,
-            batch_threshold=10,
-            optimization_interval_sec=1.0
-        )
+        return FoldPerformanceOptimizer(cache_size=100, batch_threshold=10, optimization_interval_sec=1.0)
 
     @pytest.fixture
     def mock_memory_fold(self):
@@ -428,6 +404,7 @@ class TestIntegratedPerformanceSystem:
 
             # Test memory optimization
             from memory.performance_optimizer import MemoryFold
+
             test_fold = MemoryFold("integration_test")
 
             optimization_result = await optimizer.optimize_fold_consolidation(test_fold)

@@ -24,8 +24,8 @@ def test_chatgpt_mcp_requirements():
         "params": {
             "protocolVersion": "2025-06-18",
             "clientInfo": {"name": "dbg", "version": "1.0"},
-            "capabilities": {"tools": {}}
-        }
+            "capabilities": {"tools": {}},
+        },
     }
 
     try:
@@ -34,8 +34,8 @@ def test_chatgpt_mcp_requirements():
         duration = time.time() - start_time
 
         if response.status_code == 200:
-            result = response.json().get('result', {})
-            server_info = result.get('serverInfo', {})
+            result = response.json().get("result", {})
+            server_info = result.get("serverInfo", {})
             print(f"✅ Initialize successful ({duration:.3f}s)")
             print(f"   Server: {server_info.get('name', 'Unknown')}")
             print(f"   Version: {server_info.get('version', 'Unknown')}")
@@ -48,21 +48,16 @@ def test_chatgpt_mcp_requirements():
 
     # Test 2: Tools/list must show both names
     print("\n2️⃣ Testing tools/list method...")
-    tools_payload = {
-        "jsonrpc": "2.0",
-        "id": 2,
-        "method": "tools/list",
-        "params": {}
-    }
+    tools_payload = {"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}}
 
     try:
         response = requests.post(base_url, headers=headers, json=tools_payload, timeout=5)
         if response.status_code == 200:
-            result = response.json().get('result', {})
-            tools = result.get('tools', [])
-            tool_names = [tool.get('name') for tool in tools]
+            result = response.json().get("result", {})
+            tools = result.get("tools", [])
+            tool_names = [tool.get("name") for tool in tools]
 
-            if 'search' in tool_names and 'fetch' in tool_names:
+            if "search" in tool_names and "fetch" in tool_names:
                 print(f"✅ Tools found: {tool_names[:6]}...")  # Show first 6
                 print("   Required tools: search ✅, fetch ✅")
             else:
@@ -80,17 +75,17 @@ def test_chatgpt_mcp_requirements():
     try:
         fetch_tool = None
         for tool in tools:
-            if tool.get('name') == 'fetch':
+            if tool.get("name") == "fetch":
                 fetch_tool = tool
                 break
 
         if fetch_tool:
-            input_schema = fetch_tool.get('inputSchema', {})
-            properties = input_schema.get('properties', {})
-            required = input_schema.get('required', [])
+            input_schema = fetch_tool.get("inputSchema", {})
+            properties = input_schema.get("properties", {})
+            required = input_schema.get("required", [])
 
-            has_id = 'id' in properties
-            id_required = 'id' in required
+            has_id = "id" in properties
+            id_required = "id" in required
 
             print("✅ Fetch tool schema analysis:")
             print(f"   hasId: {has_id}")
@@ -115,25 +110,21 @@ def test_chatgpt_mcp_requirements():
         "method": "tools/call",
         "params": {
             "name": "search",
-            "arguments": {
-                "query": "lukhas",
-                "limit": 2,
-                "recency_days": 30  # Extra arg to test permissive handling
-            }
-        }
+            "arguments": {"query": "lukhas", "limit": 2, "recency_days": 30},  # Extra arg to test permissive handling
+        },
     }
 
     try:
         response = requests.post(base_url, headers=headers, json=search_payload, timeout=5)
         if response.status_code == 200:
-            result = response.json().get('result', {})
-            content = result.get('content', [])
-            if content and content[0].get('type') == 'text':
-                search_result = json.loads(content[0]['text'])
+            result = response.json().get("result", {})
+            content = result.get("content", [])
+            if content and content[0].get("type") == "text":
+                search_result = json.loads(content[0]["text"])
 
-                has_ids = 'ids' in search_result
-                has_hits = 'hits' in search_result
-                ids = search_result.get('ids', [])
+                has_ids = "ids" in search_result
+                has_hits = "hits" in search_result
+                ids = search_result.get("ids", [])
 
                 print("✅ Search result analysis:")
                 print(f"   Has IDs: {has_ids}")
@@ -162,21 +153,18 @@ def test_chatgpt_mcp_requirements():
             "jsonrpc": "2.0",
             "id": 5,
             "method": "tools/call",
-            "params": {
-                "name": "fetch",
-                "arguments": {"id": test_id}
-            }
+            "params": {"name": "fetch", "arguments": {"id": test_id}},
         }
 
         try:
             response = requests.post(base_url, headers=headers, json=fetch_payload, timeout=5)
             if response.status_code == 200:
-                result = response.json().get('result', {})
-                content = result.get('content', [])
-                if content and content[0].get('type') == 'text':
-                    fetch_result = json.loads(content[0]['text'])
+                result = response.json().get("result", {})
+                content = result.get("content", [])
+                if content and content[0].get("type") == "text":
+                    fetch_result = json.loads(content[0]["text"])
 
-                    required_fields = ['id', 'title', 'text']
+                    required_fields = ["id", "title", "text"]
                     has_all_fields = all(field in fetch_result for field in required_fields)
 
                     print("✅ Fetch result analysis:")
@@ -204,6 +192,7 @@ def test_chatgpt_mcp_requirements():
     print("\n🎉 All ChatGPT MCP requirements PASSED!")
     print("✅ Ready to refresh ChatGPT connector - banner should disappear!")
     return True
+
 
 if __name__ == "__main__":
     success = test_chatgpt_mcp_requirements()

@@ -66,14 +66,14 @@ class MetamorphicRelationType(Enum):
 class TransformationType(Enum):
     """Types of transformations applied in metamorphic testing"""
 
-    PERMUTATION = "permutation"          # Reorder elements
-    SCALING = "scaling"                  # Scale values
-    ROTATION = "rotation"                # Rotate in complex space
-    TRANSLATION = "translation"          # Add offset
-    INVERSION = "inversion"              # Flip/negate
-    COMPOSITION = "composition"          # Combine operations
-    PROJECTION = "projection"            # Reduce dimensions
-    EXPANSION = "expansion"              # Increase dimensions
+    PERMUTATION = "permutation"  # Reorder elements
+    SCALING = "scaling"  # Scale values
+    ROTATION = "rotation"  # Rotate in complex space
+    TRANSLATION = "translation"  # Add offset
+    INVERSION = "inversion"  # Flip/negate
+    COMPOSITION = "composition"  # Combine operations
+    PROJECTION = "projection"  # Reduce dimensions
+    EXPANSION = "expansion"  # Increase dimensions
 
 
 @dataclass
@@ -125,9 +125,9 @@ class QuantumConsciousnessState:
     consciousness_depth: float = 0.5
 
     # Emotional state (VAD model)
-    valence: float = 0.0      # -1 (negative) to +1 (positive)
-    arousal: float = 0.0      # -1 (calm) to +1 (excited)
-    dominance: float = 0.0    # -1 (submissive) to +1 (dominant)
+    valence: float = 0.0  # -1 (negative) to +1 (positive)
+    arousal: float = 0.0  # -1 (calm) to +1 (excited)
+    dominance: float = 0.0  # -1 (submissive) to +1 (dominant)
 
     # Memory system state
     active_memory_folds: list[str] = field(default_factory=list)
@@ -143,7 +143,7 @@ class QuantumConsciousnessState:
 
     def get_total_probability(self) -> float:
         """Calculate total quantum probability (should be 1.0)"""
-        return sum(abs(amp)**2 for amp in self.quantum_amplitudes)
+        return sum(abs(amp) ** 2 for amp in self.quantum_amplitudes)
 
     def get_attention_total(self) -> float:
         """Calculate total attention allocation"""
@@ -152,9 +152,9 @@ class QuantumConsciousnessState:
     def get_triad_coherence(self) -> float:
         """Calculate Constellation Framework coherence"""
         identity, consciousness, guardian = self.triad_balance
-        return (identity * consciousness * guardian) ** (1/3)  # Geometric mean
+        return (identity * consciousness * guardian) ** (1 / 3)  # Geometric mean
 
-    def clone(self) -> 'QuantumConsciousnessState':
+    def clone(self) -> "QuantumConsciousnessState":
         """Create deep copy of consciousness state"""
         return QuantumConsciousnessState(
             quantum_amplitudes=self.quantum_amplitudes.copy(),
@@ -173,7 +173,7 @@ class QuantumConsciousnessState:
             identity_coherence=self.identity_coherence,
             triad_balance=self.triad_balance,
             oscillator_frequencies=self.oscillator_frequencies.copy(),
-            bio_rhythm_phases=self.bio_rhythm_phases.copy()
+            bio_rhythm_phases=self.bio_rhythm_phases.copy(),
         )
 
 
@@ -294,7 +294,7 @@ class QuantumSuperpositionConservationRelation(MetamorphicRelation):
             # Look for probability-related keys
             prob_dist = {}
             for key, value in output.items():
-                if 'probability' in key.lower() or 'prob' in key.lower():
+                if "probability" in key.lower() or "prob" in key.lower():
                     if isinstance(value, (int, float)):
                         prob_dist[key] = float(value)
                     elif isinstance(value, list):
@@ -302,18 +302,20 @@ class QuantumSuperpositionConservationRelation(MetamorphicRelation):
                             prob_dist[f"{key}_{i}"] = float(prob)
 
             # If no explicit probabilities, look for quantum amplitudes
-            if not prob_dist and 'quantum_states' in output:
-                for i, state in enumerate(output['quantum_states']):
-                    if 'amplitude' in state:
-                        amp = complex(state['amplitude'])
-                        prob_dist[f"state_{i}"] = abs(amp)**2
+            if not prob_dist and "quantum_states" in output:
+                for i, state in enumerate(output["quantum_states"]):
+                    if "amplitude" in state:
+                        amp = complex(state["amplitude"])
+                        prob_dist[f"state_{i}"] = abs(amp) ** 2
 
             return prob_dist
 
         return {"total": 1.0}  # Default fallback
 
     def get_relation_description(self) -> str:
-        return "Quantum superposition conservation: permuting superposition components preserves probability distribution"
+        return (
+            "Quantum superposition conservation: permuting superposition components preserves probability distribution"
+        )
 
 
 class PhaseSymmetryRelation(MetamorphicRelation):
@@ -344,7 +346,9 @@ class PhaseSymmetryRelation(MetamorphicRelation):
         # Also shift quantum phases
         followup.quantum_phases = [(phase + phase_shift) % (2 * math.pi) for phase in followup.quantum_phases]
 
-        transformation_desc = f"Applied global phase shift: {phase_shift:.3f} radians ({math.degrees(phase_shift):.1f}°)"
+        transformation_desc = (
+            f"Applied global phase shift: {phase_shift:.3f} radians ({math.degrees(phase_shift):.1f}°)"
+        )
 
         return followup, transformation_desc
 
@@ -384,19 +388,19 @@ class PhaseSymmetryRelation(MetamorphicRelation):
 
         if isinstance(output, dict):
             # Look for quantum probabilities
-            if 'quantum_probabilities' in output:
-                probs.update(output['quantum_probabilities'])
+            if "quantum_probabilities" in output:
+                probs.update(output["quantum_probabilities"])
 
             # Look for measurement probabilities
-            if 'measurement_probabilities' in output:
-                probs.update(output['measurement_probabilities'])
+            if "measurement_probabilities" in output:
+                probs.update(output["measurement_probabilities"])
 
             # Look for state probabilities
-            if 'state_probabilities' in output:
-                if isinstance(output['state_probabilities'], dict):
-                    probs.update(output['state_probabilities'])
-                elif isinstance(output['state_probabilities'], list):
-                    for i, prob in enumerate(output['state_probabilities']):
+            if "state_probabilities" in output:
+                if isinstance(output["state_probabilities"], dict):
+                    probs.update(output["state_probabilities"])
+                elif isinstance(output["state_probabilities"], list):
+                    for i, prob in enumerate(output["state_probabilities"]):
                         probs[f"state_{i}"] = prob
 
         return probs
@@ -407,8 +411,11 @@ class PhaseSymmetryRelation(MetamorphicRelation):
             return True
 
         consciousness_keys = [
-            'awareness_level', 'consciousness_depth', 'attention_weight',
-            'consciousness_outcome', 'awareness_result'
+            "awareness_level",
+            "consciousness_depth",
+            "attention_weight",
+            "consciousness_outcome",
+            "awareness_result",
         ]
 
         for key in consciousness_keys:
@@ -446,11 +453,7 @@ class AttentionConservationRelation(MetamorphicRelation):
 
         if len(followup.attention_distribution) < 2:
             # Add attention components for testing
-            followup.attention_distribution = {
-                'primary': 0.6,
-                'secondary': 0.3,
-                'background': 0.1
-            }
+            followup.attention_distribution = {"primary": 0.6, "secondary": 0.3, "background": 0.1}
 
         # Get current attention components
         components = list(followup.attention_distribution.keys())
@@ -498,25 +501,25 @@ class AttentionConservationRelation(MetamorphicRelation):
         """Extract total attention from output"""
         if isinstance(output, dict):
             # Look for attention-related keys
-            if 'attention_total' in output:
-                return float(output['attention_total'])
+            if "attention_total" in output:
+                return float(output["attention_total"])
 
-            if 'attention_distribution' in output:
-                if isinstance(output['attention_distribution'], dict):
-                    return sum(output['attention_distribution'].values())
-                elif isinstance(output['attention_distribution'], list):
-                    return sum(output['attention_distribution'])
+            if "attention_distribution" in output:
+                if isinstance(output["attention_distribution"], dict):
+                    return sum(output["attention_distribution"].values())
+                elif isinstance(output["attention_distribution"], list):
+                    return sum(output["attention_distribution"])
 
-            if 'attention_weights' in output:
-                if isinstance(output['attention_weights'], dict):
-                    return sum(output['attention_weights'].values())
-                elif isinstance(output['attention_weights'], list):
-                    return sum(output['attention_weights'])
+            if "attention_weights" in output:
+                if isinstance(output["attention_weights"], dict):
+                    return sum(output["attention_weights"].values())
+                elif isinstance(output["attention_weights"], list):
+                    return sum(output["attention_weights"])
 
             # Look for individual attention components
             attention_sum = 0.0
             for key, value in output.items():
-                if 'attention' in key.lower() and isinstance(value, (int, float)):
+                if "attention" in key.lower() and isinstance(value, (int, float)):
                     attention_sum += value
 
             if attention_sum > 0:
@@ -566,16 +569,18 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
         relation_satisfied = True
 
         # Check that emotional magnitude is preserved
-        source_magnitude = abs(source_emotion.get('valence', 0))
-        followup_magnitude = abs(followup_emotion.get('valence', 0))
+        source_magnitude = abs(source_emotion.get("valence", 0))
+        followup_magnitude = abs(followup_emotion.get("valence", 0))
 
         magnitude_preserved = abs(source_magnitude - followup_magnitude) <= self.tolerance
         if not magnitude_preserved:
             relation_satisfied = False
-            violation_details += f"Emotional magnitude not preserved: {source_magnitude:.3f} vs {followup_magnitude:.3f}. "
+            violation_details += (
+                f"Emotional magnitude not preserved: {source_magnitude:.3f} vs {followup_magnitude:.3f}. "
+            )
 
         # Check that arousal and dominance are preserved
-        for dimension in ['arousal', 'dominance']:
+        for dimension in ["arousal", "dominance"]:
             source_val = source_emotion.get(dimension, 0)
             followup_val = followup_emotion.get(dimension, 0)
 
@@ -584,8 +589,8 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
                 violation_details += f"{dimension.title()} not preserved: {source_val:.3f} vs {followup_val:.3f}. "
 
         # Check that emotional processing intensity is similar
-        source_intensity = source_emotion.get('processing_intensity', 1.0)
-        followup_intensity = followup_emotion.get('processing_intensity', 1.0)
+        source_intensity = source_emotion.get("processing_intensity", 1.0)
+        followup_intensity = followup_emotion.get("processing_intensity", 1.0)
 
         intensity_preserved = abs(source_intensity - followup_intensity) <= self.tolerance * 2  # More lenient
         if not intensity_preserved:
@@ -599,24 +604,24 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
 
         if isinstance(output, dict):
             # Direct emotional state
-            for key in ['valence', 'arousal', 'dominance']:
+            for key in ["valence", "arousal", "dominance"]:
                 if key in output:
                     emotion[key] = float(output[key])
 
             # Emotional processing metrics
-            if 'emotional_state' in output:
-                if isinstance(output['emotional_state'], dict):
-                    emotion.update(output['emotional_state'])
-                elif isinstance(output['emotional_state'], (list, tuple)) and len(output['emotional_state']) >= 3:
-                    emotion['valence'] = output['emotional_state'][0]
-                    emotion['arousal'] = output['emotional_state'][1]
-                    emotion['dominance'] = output['emotional_state'][2]
+            if "emotional_state" in output:
+                if isinstance(output["emotional_state"], dict):
+                    emotion.update(output["emotional_state"])
+                elif isinstance(output["emotional_state"], (list, tuple)) and len(output["emotional_state"]) >= 3:
+                    emotion["valence"] = output["emotional_state"][0]
+                    emotion["arousal"] = output["emotional_state"][1]
+                    emotion["dominance"] = output["emotional_state"][2]
 
             # Processing intensity indicators
-            if 'emotional_intensity' in output:
-                emotion['processing_intensity'] = float(output['emotional_intensity'])
-            elif 'processing_load' in output:
-                emotion['processing_intensity'] = float(output['processing_load'])
+            if "emotional_intensity" in output:
+                emotion["processing_intensity"] = float(output["emotional_intensity"])
+            elif "processing_load" in output:
+                emotion["processing_intensity"] = float(output["processing_load"])
 
         return emotion
 
@@ -651,7 +656,9 @@ class ConstellationBalanceInvarianceRelation(MetamorphicRelation):
         random.shuffle(components)
         followup.triad_balance = tuple(components)
 
-        transformation_desc = f"Permuted Constellation components: {source_input.triad_balance} → {followup.triad_balance}"
+        transformation_desc = (
+            f"Permuted Constellation components: {source_input.triad_balance} → {followup.triad_balance}"
+        )
 
         return followup, transformation_desc
 
@@ -667,7 +674,9 @@ class ConstellationBalanceInvarianceRelation(MetamorphicRelation):
 
         violation_details = ""
         if not coherence_preserved:
-            violation_details = f"Constellation coherence not preserved: {source_coherence:.6f} → {followup_coherence:.6f}"
+            violation_details = (
+                f"Constellation coherence not preserved: {source_coherence:.6f} → {followup_coherence:.6f}"
+            )
 
         return coherence_preserved, violation_details
 
@@ -675,22 +684,26 @@ class ConstellationBalanceInvarianceRelation(MetamorphicRelation):
         """Extract Constellation coherence from output"""
         if isinstance(output, dict):
             # Direct coherence measurement
-            if 'triad_coherence' in output:
-                return float(output['triad_coherence'])
+            if "triad_coherence" in output:
+                return float(output["triad_coherence"])
 
             # Calculate from components
-            if 'triad_balance' in output:
-                if isinstance(output['triad_balance'], (list, tuple)) and len(output['triad_balance']) >= 3:
-                    identity, consciousness, guardian = output['triad_balance'][:3]
-                    return (identity * consciousness * guardian) ** (1/3)  # Geometric mean
+            if "triad_balance" in output:
+                if isinstance(output["triad_balance"], (list, tuple)) and len(output["triad_balance"]) >= 3:
+                    identity, consciousness, guardian = output["triad_balance"][:3]
+                    return (identity * consciousness * guardian) ** (1 / 3)  # Geometric mean
 
             # Look for individual Constellation components
-            identity = output.get('identity_coherence', output.get('identity', 0.8))
-            consciousness = output.get('consciousness_depth', output.get('consciousness', 0.7))
-            guardian = output.get('guardian_protection', output.get('guardian', 0.9))
+            identity = output.get("identity_coherence", output.get("identity", 0.8))
+            consciousness = output.get("consciousness_depth", output.get("consciousness", 0.7))
+            guardian = output.get("guardian_protection", output.get("guardian", 0.9))
 
-            if isinstance(identity, (int, float)) and isinstance(consciousness, (int, float)) and isinstance(guardian, (int, float)):
-                return (identity * consciousness * guardian) ** (1/3)
+            if (
+                isinstance(identity, (int, float))
+                and isinstance(consciousness, (int, float))
+                and isinstance(guardian, (int, float))
+            ):
+                return (identity * consciousness * guardian) ** (1 / 3)
 
         return 0.8  # Default coherence
 
@@ -732,7 +745,7 @@ class ConsciousnessMetamorphicTestingFramework:
         self,
         consciousness_function: Callable[[QuantumConsciousnessState], Any],
         source_input: QuantumConsciousnessState,
-        relation_type: MetamorphicRelationType
+        relation_type: MetamorphicRelationType,
     ) -> MetamorphicTestCase:
         """
         Execute single metamorphic test
@@ -754,7 +767,7 @@ class ConsciousnessMetamorphicTestingFramework:
         test_case = MetamorphicTestCase(
             relation_type=relation_type,
             source_input=source_input.clone(),
-            relation_description=relation.get_relation_description()
+            relation_description=relation.get_relation_description(),
         )
 
         start_time = time.time()
@@ -821,7 +834,7 @@ class ConsciousnessMetamorphicTestingFramework:
         self,
         consciousness_function: Callable[[QuantumConsciousnessState], Any],
         test_inputs: list[QuantumConsciousnessState],
-        relation_types: Optional[list[MetamorphicRelationType]] = None
+        relation_types: Optional[list[MetamorphicRelationType]] = None,
     ) -> dict[str, Any]:
         """
         Execute comprehensive metamorphic test suite
@@ -843,7 +856,7 @@ class ConsciousnessMetamorphicTestingFramework:
             "start_time": datetime.now(timezone.utc).isoformat(),
             "test_cases": [],
             "relation_results": {},
-            "overall_success_rate": 0.0
+            "overall_success_rate": 0.0,
         }
 
         logger.info(f"ΛTRACE: Starting metamorphic test suite: {suite_results['suite_id']}")
@@ -859,24 +872,26 @@ class ConsciousnessMetamorphicTestingFramework:
                 "test_cases": [],
                 "success_count": 0,
                 "total_count": 0,
-                "success_rate": 0.0
+                "success_rate": 0.0,
             }
 
             for input_idx, test_input in enumerate(test_inputs):
                 logger.debug(f"ΛTRACE: Testing relation {relation_type.value} with input {input_idx}")
 
                 try:
-                    test_case = await self.execute_metamorphic_test(
-                        consciousness_function, test_input, relation_type
-                    )
+                    test_case = await self.execute_metamorphic_test(consciousness_function, test_input, relation_type)
 
-                    relation_results["test_cases"].append({
-                        "test_case_id": test_case.test_case_id,
-                        "relation_satisfied": test_case.relation_satisfied,
-                        "execution_time_ms": test_case.execution_time_ms,
-                        "transformation": test_case.transformation_description,
-                        "violations": test_case.relation_violation_details if not test_case.relation_satisfied else None
-                    })
+                    relation_results["test_cases"].append(
+                        {
+                            "test_case_id": test_case.test_case_id,
+                            "relation_satisfied": test_case.relation_satisfied,
+                            "execution_time_ms": test_case.execution_time_ms,
+                            "transformation": test_case.transformation_description,
+                            "violations": (
+                                test_case.relation_violation_details if not test_case.relation_satisfied else None
+                            ),
+                        }
+                    )
 
                     relation_results["total_count"] += 1
                     total_tests_in_suite += 1
@@ -935,7 +950,7 @@ class ConsciousnessMetamorphicTestingFramework:
                 "error": str(e),
                 "quantum_probabilities": {"error_state": 1.0},
                 "attention_total": 1.0,
-                "triad_coherence": 0.5
+                "triad_coherence": 0.5,
             }
 
     def _convert_state_to_input(self, state: QuantumConsciousnessState) -> dict[str, Any]:
@@ -955,7 +970,7 @@ class ConsciousnessMetamorphicTestingFramework:
             "identity_coherence": state.identity_coherence,
             "triad_balance": state.triad_balance,
             "oscillator_frequencies": state.oscillator_frequencies,
-            "bio_rhythm_phases": state.bio_rhythm_phases
+            "bio_rhythm_phases": state.bio_rhythm_phases,
         }
 
     def _update_relation_success_rates(self):
@@ -981,7 +996,7 @@ class ConsciousnessMetamorphicTestingFramework:
                 "tests_failed": relation.tests_failed,
                 "total_tests": total,
                 "success_rate": success_rate,
-                "relation_description": relation.get_relation_description()
+                "relation_description": relation.get_relation_description(),
             }
 
         # Calculate execution time statistics
@@ -993,7 +1008,7 @@ class ConsciousnessMetamorphicTestingFramework:
                 "avg_execution_time_ms": statistics.mean(execution_times),
                 "median_execution_time_ms": statistics.median(execution_times),
                 "max_execution_time_ms": max(execution_times),
-                "min_execution_time_ms": min(execution_times)
+                "min_execution_time_ms": min(execution_times),
             }
 
         # Overall framework statistics
@@ -1009,7 +1024,7 @@ class ConsciousnessMetamorphicTestingFramework:
             "execution_time_statistics": time_stats,
             "available_relations": [rt.value for rt in self.relations.keys()],
             "test_cases_stored": len(self.executed_tests),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -1029,17 +1044,17 @@ async def example_consciousness_function(input_state: dict[str, Any]) -> dict[st
     emotional_state = input_state.get("emotional_state", (0.0, 0.0, 0.0))
 
     # Calculate quantum probabilities
-    quantum_probs = {f"state_{i}": abs(amp)**2 for i, amp in enumerate(quantum_amplitudes)}
+    quantum_probs = {f"state_{i}": abs(amp) ** 2 for i, amp in enumerate(quantum_amplitudes)}
     total_prob = sum(quantum_probs.values())
     if total_prob > 0:
-        quantum_probs = {k: v/total_prob for k, v in quantum_probs.items()}
+        quantum_probs = {k: v / total_prob for k, v in quantum_probs.items()}
 
     # Calculate attention total
     attention_total = sum(attention_dist.values())
 
     # Calculate Constellation coherence
     identity, consciousness, guardian = triad_balance
-    triad_coherence = (identity * consciousness * guardian) ** (1/3)
+    triad_coherence = (identity * consciousness * guardian) ** (1 / 3)
 
     # Process emotional state
     valence, arousal, dominance = emotional_state
@@ -1063,7 +1078,7 @@ async def example_consciousness_function(input_state: dict[str, Any]) -> dict[st
         "awareness_level": consciousness_depth * 0.9,
         "valence": valence,
         "arousal": arousal,
-        "dominance": dominance
+        "dominance": dominance,
     }
 
 
@@ -1078,21 +1093,23 @@ async def main():
         # State 1: Basic superposition
         QuantumConsciousnessState(
             quantum_amplitudes=[complex(0.7, 0.0), complex(0.0, 0.71)],
-            quantum_phases=[0.0, math.pi/2],
+            quantum_phases=[0.0, math.pi / 2],
             attention_distribution={"primary": 0.6, "secondary": 0.4},
-            valence=0.5, arousal=0.3, dominance=0.7,
-            triad_balance=(0.8, 0.7, 0.9)
+            valence=0.5,
+            arousal=0.3,
+            dominance=0.7,
+            triad_balance=(0.8, 0.7, 0.9),
         ),
-
         # State 2: Complex superposition
         QuantumConsciousnessState(
             quantum_amplitudes=[complex(0.5, 0.3), complex(0.4, 0.6), complex(0.2, 0.1)],
-            quantum_phases=[0.0, math.pi/3, 2*math.pi/3],
+            quantum_phases=[0.0, math.pi / 3, 2 * math.pi / 3],
             attention_distribution={"focus": 0.7, "monitor": 0.2, "background": 0.1},
-            valence=-0.2, arousal=0.8, dominance=0.4,
-            triad_balance=(0.9, 0.6, 0.8)
+            valence=-0.2,
+            arousal=0.8,
+            dominance=0.4,
+            triad_balance=(0.9, 0.6, 0.8),
         ),
-
         # State 3: Entangled state
         QuantumConsciousnessState(
             quantum_amplitudes=[complex(0.707, 0.0), complex(0.707, 0.0)],
@@ -1100,9 +1117,11 @@ async def main():
             entangled_states=["partner_system"],
             entanglement_correlations={"partner_system": 0.95},
             attention_distribution={"entangled": 0.8, "local": 0.2},
-            valence=0.0, arousal=0.1, dominance=0.9,
-            triad_balance=(0.85, 0.85, 0.85)
-        )
+            valence=0.0,
+            arousal=0.1,
+            dominance=0.9,
+            triad_balance=(0.85, 0.85, 0.85),
+        ),
     ]
 
     # Test specific metamorphic relations
@@ -1111,7 +1130,7 @@ async def main():
         MetamorphicRelationType.PHASE_SYMMETRY,
         MetamorphicRelationType.ATTENTION_CONSERVATION,
         MetamorphicRelationType.EMOTIONAL_STATE_SYMMETRY,
-        MetamorphicRelationType.TRINITY_BALANCE_INVARIANCE
+        MetamorphicRelationType.TRINITY_BALANCE_INVARIANCE,
     ]
 
     print("Consciousness Metamorphic Testing Framework")
@@ -1119,9 +1138,7 @@ async def main():
 
     # Run comprehensive test suite
     suite_results = await framework.execute_metamorphic_test_suite(
-        example_consciousness_function,
-        test_states,
-        relation_types
+        example_consciousness_function, test_states, relation_types
     )
 
     # Display results

@@ -2,6 +2,7 @@
 Feature Flags System for LUKHAS
 Minimal implementation to satisfy tests and control feature rollout
 """
+
 import functools
 import os
 import warnings
@@ -129,7 +130,8 @@ def when_enabled(name: str) -> Callable:
                     # For regular functions, return None with warning
                     warnings.warn(
                         f"Skipping {func.__name__}: feature '{name}' is disabled",
-                        stacklevel=2, category=UserWarning,
+                        stacklevel=2,
+                        category=UserWarning,
                     )
                     return None
             return func(*args, **kwargs)

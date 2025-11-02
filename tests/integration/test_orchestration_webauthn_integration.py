@@ -30,11 +30,7 @@ class TestOrchestrationWebAuthnIntegration:
     def setup_method(self):
         """Set up test fixtures"""
         self.multi_ai_router = get_multi_ai_router()
-        self.webauthn_manager = get_webauthn_manager(
-            rp_id="test.ai",
-            rp_name="Test LUKHAS",
-            origin="https://test.ai"
-        )
+        self.webauthn_manager = get_webauthn_manager(rp_id="test.ai", rp_name="Test LUKHAS", origin="https://test.ai")
 
         # Mock AI clients
         mock_client = Mock()
@@ -50,10 +46,7 @@ class TestOrchestrationWebAuthnIntegration:
 
         # Begin WebAuthn registration
         reg_options = await self.webauthn_manager.begin_registration(
-            user_id=user_id,
-            username="testuser",
-            display_name="Test User",
-            tier=AuthenticatorTier.T4_STRONG
+            user_id=user_id, username="testuser", display_name="Test User", tier=AuthenticatorTier.T4_STRONG
         )
 
         challenge_id = reg_options["_challenge_id"]
@@ -63,16 +56,11 @@ class TestOrchestrationWebAuthnIntegration:
             "id": "test_credential_123",
             "rawId": "test_credential_123",
             "type": "public-key",
-            "response": {
-                "attestationObject": "mock_attestation",
-                "clientDataJSON": "mock_client_data"
-            }
+            "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
         }
 
         credential = await self.webauthn_manager.finish_registration(
-            challenge_id=challenge_id,
-            credential_data=mock_credential_data,
-            device_name="Test Device"
+            challenge_id=challenge_id, credential_data=mock_credential_data, device_name="Test Device"
         )
 
         assert credential is not None
@@ -80,8 +68,7 @@ class TestOrchestrationWebAuthnIntegration:
 
         # Step 2: Authenticate with WebAuthn
         auth_options = await self.webauthn_manager.begin_authentication(
-            user_id=user_id,
-            tier=AuthenticatorTier.T4_STRONG
+            user_id=user_id, tier=AuthenticatorTier.T4_STRONG
         )
 
         auth_challenge_id = auth_options["_challenge_id"]
@@ -94,13 +81,12 @@ class TestOrchestrationWebAuthnIntegration:
             "response": {
                 "authenticatorData": "mock_auth_data",
                 "clientDataJSON": "mock_client_data",
-                "signature": "mock_signature"
-            }
+                "signature": "mock_signature",
+            },
         }
 
         auth_credential, verification = await self.webauthn_manager.finish_authentication(
-            challenge_id=auth_challenge_id,
-            credential_data=mock_auth_data
+            challenge_id=auth_challenge_id, credential_data=mock_auth_data
         )
 
         assert verification["verified"] is True
@@ -116,8 +102,8 @@ class TestOrchestrationWebAuthnIntegration:
                 "authenticated_user": user_id,
                 "auth_tier": auth_credential.tier.value,
                 "device_name": auth_credential.device_name,
-                "biometric_enrolled": auth_credential.biometric_enrolled
-            }
+                "biometric_enrolled": auth_credential.biometric_enrolled,
+            },
         )
 
         # Route request through multi-AI system
@@ -152,7 +138,7 @@ class TestOrchestrationWebAuthnIntegration:
                 user_id=f"{user_id}_{tier.value}",
                 username=f"user_{tier.value}",
                 display_name=f"User {tier.value}",
-                tier=tier
+                tier=tier,
             )
 
             challenge_id = reg_options["_challenge_id"]
@@ -161,16 +147,11 @@ class TestOrchestrationWebAuthnIntegration:
                 "id": f"credential_{tier.value}",
                 "rawId": f"credential_{tier.value}",
                 "type": "public-key",
-                "response": {
-                    "attestationObject": "mock_attestation",
-                    "clientDataJSON": "mock_client_data"
-                }
+                "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
             }
 
             credential = await self.webauthn_manager.finish_registration(
-                challenge_id=challenge_id,
-                credential_data=mock_credential_data,
-                device_name=f"Device {tier.value}"
+                challenge_id=challenge_id, credential_data=mock_credential_data, device_name=f"Device {tier.value}"
             )
 
             assert credential.tier == tier
@@ -178,14 +159,16 @@ class TestOrchestrationWebAuthnIntegration:
             # Test orchestration with different tier requirements
             sensitive_request = RoutingRequest(
                 prompt="Generate a security analysis report",
-                consensus_type=ConsensusType.UNANIMOUS if tier == AuthenticatorTier.T5_BIOMETRIC else ConsensusType.MAJORITY,
+                consensus_type=(
+                    ConsensusType.UNANIMOUS if tier == AuthenticatorTier.T5_BIOMETRIC else ConsensusType.MAJORITY
+                ),
                 min_responses=3 if tier == AuthenticatorTier.T5_BIOMETRIC else 2,
                 max_responses=3,
                 metadata={
                     "security_level": "high" if tier == AuthenticatorTier.T5_BIOMETRIC else "medium",
                     "auth_tier": tier.value,
-                    "requires_biometric": tier == AuthenticatorTier.T5_BIOMETRIC
-                }
+                    "requires_biometric": tier == AuthenticatorTier.T5_BIOMETRIC,
+                },
             )
 
             result = await self.multi_ai_router.route_request(sensitive_request)
@@ -210,7 +193,7 @@ class TestOrchestrationWebAuthnIntegration:
                 username="multiuser",
                 display_name="Multi Device User",
                 tier=AuthenticatorTier.T4_STRONG,
-                authenticator_attachment="platform" if device_name != "YubiKey" else "cross-platform"
+                authenticator_attachment="platform" if device_name != "YubiKey" else "cross-platform",
             )
 
             challenge_id = reg_options["_challenge_id"]
@@ -219,16 +202,11 @@ class TestOrchestrationWebAuthnIntegration:
                 "id": f"credential_{i}",
                 "rawId": f"credential_{i}",
                 "type": "public-key",
-                "response": {
-                    "attestationObject": "mock_attestation",
-                    "clientDataJSON": "mock_client_data"
-                }
+                "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
             }
 
             credential = await self.webauthn_manager.finish_registration(
-                challenge_id=challenge_id,
-                credential_data=mock_credential_data,
-                device_name=device_name
+                challenge_id=challenge_id, credential_data=mock_credential_data, device_name=device_name
             )
 
             credentials.append(credential)
@@ -241,8 +219,7 @@ class TestOrchestrationWebAuthnIntegration:
         for i, credential in enumerate(credentials):
             # Begin authentication
             auth_options = await self.webauthn_manager.begin_authentication(
-                user_id=user_id,
-                tier=AuthenticatorTier.T4_STRONG
+                user_id=user_id, tier=AuthenticatorTier.T4_STRONG
             )
 
             # Should allow any of the registered credentials
@@ -258,13 +235,12 @@ class TestOrchestrationWebAuthnIntegration:
                 "response": {
                     "authenticatorData": "mock_auth_data",
                     "clientDataJSON": "mock_client_data",
-                    "signature": "mock_signature"
-                }
+                    "signature": "mock_signature",
+                },
             }
 
             auth_credential, verification = await self.webauthn_manager.finish_authentication(
-                challenge_id=auth_challenge_id,
-                credential_data=mock_auth_data
+                challenge_id=auth_challenge_id, credential_data=mock_auth_data
             )
 
             assert verification["verified"] is True
@@ -276,8 +252,8 @@ class TestOrchestrationWebAuthnIntegration:
                 metadata={
                     "device_name": credential.device_name,
                     "authenticator_type": credential.authenticator_type.value,
-                    "session_id": f"session_{i}"
-                }
+                    "session_id": f"session_{i}",
+                },
             )
 
             result = await self.multi_ai_router.route_request(device_specific_request)
@@ -298,9 +274,7 @@ class TestOrchestrationWebAuthnIntegration:
             # 1. WebAuthn Registration (if first iteration)
             if i == 0:
                 reg_options = await self.webauthn_manager.begin_registration(
-                    user_id=user_id,
-                    username="perfuser",
-                    display_name="Performance User"
+                    user_id=user_id, username="perfuser", display_name="Performance User"
                 )
 
                 challenge_id = reg_options["_challenge_id"]
@@ -309,16 +283,11 @@ class TestOrchestrationWebAuthnIntegration:
                     "id": "perf_credential",
                     "rawId": "perf_credential",
                     "type": "public-key",
-                    "response": {
-                        "attestationObject": "mock_attestation",
-                        "clientDataJSON": "mock_client_data"
-                    }
+                    "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
                 }
 
                 await self.webauthn_manager.finish_registration(
-                    challenge_id=challenge_id,
-                    credential_data=mock_credential_data,
-                    device_name="Performance Device"
+                    challenge_id=challenge_id, credential_data=mock_credential_data, device_name="Performance Device"
                 )
 
                 registration_time = time.time() - start_time
@@ -329,8 +298,7 @@ class TestOrchestrationWebAuthnIntegration:
 
             # 2. WebAuthn Authentication
             auth_options = await self.webauthn_manager.begin_authentication(
-                user_id=user_id,
-                tier=AuthenticatorTier.T4_STRONG
+                user_id=user_id, tier=AuthenticatorTier.T4_STRONG
             )
 
             auth_challenge_id = auth_options["_challenge_id"]
@@ -342,13 +310,12 @@ class TestOrchestrationWebAuthnIntegration:
                 "response": {
                     "authenticatorData": "mock_auth_data",
                     "clientDataJSON": "mock_client_data",
-                    "signature": "mock_signature"
-                }
+                    "signature": "mock_signature",
+                },
             }
 
             auth_credential, verification = await self.webauthn_manager.finish_authentication(
-                challenge_id=auth_challenge_id,
-                credential_data=mock_auth_data
+                challenge_id=auth_challenge_id, credential_data=mock_auth_data
             )
 
             assert verification["verified"] is True
@@ -359,7 +326,7 @@ class TestOrchestrationWebAuthnIntegration:
                 consensus_type=ConsensusType.MAJORITY,
                 min_responses=2,
                 max_responses=2,
-                metadata={"iteration": i, "user_id": user_id}
+                metadata={"iteration": i, "user_id": user_id},
             )
 
             result = await self.multi_ai_router.route_request(orchestration_request)
@@ -393,8 +360,7 @@ class TestOrchestrationWebAuthnIntegration:
         try:
             # Try to authenticate non-existent user
             auth_options = await self.webauthn_manager.begin_authentication(
-                user_id="nonexistent_user",
-                tier=AuthenticatorTier.T4_STRONG
+                user_id="nonexistent_user", tier=AuthenticatorTier.T4_STRONG
             )
 
             # Should still work (might be usernameless flow)
@@ -405,9 +371,7 @@ class TestOrchestrationWebAuthnIntegration:
 
         # Test 2: Register user but test invalid authentication
         reg_options = await self.webauthn_manager.begin_registration(
-            user_id=user_id,
-            username="erroruser",
-            display_name="Error Test User"
+            user_id=user_id, username="erroruser", display_name="Error Test User"
         )
 
         challenge_id = reg_options["_challenge_id"]
@@ -416,23 +380,16 @@ class TestOrchestrationWebAuthnIntegration:
             "id": "error_credential",
             "rawId": "error_credential",
             "type": "public-key",
-            "response": {
-                "attestationObject": "mock_attestation",
-                "clientDataJSON": "mock_client_data"
-            }
+            "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
         }
 
-        await self.webauthn_manager.finish_registration(
-            challenge_id=challenge_id,
-            credential_data=mock_credential_data
-        )
+        await self.webauthn_manager.finish_registration(challenge_id=challenge_id, credential_data=mock_credential_data)
 
         # Test expired challenge
         try:
             # Try to use expired/invalid challenge
             await self.webauthn_manager.finish_authentication(
-                challenge_id="invalid_challenge",
-                credential_data={"id": "fake"}
+                challenge_id="invalid_challenge", credential_data={"id": "fake"}
             )
             assert False, "Should have raised exception for invalid challenge"
         except Exception as e:
@@ -441,9 +398,7 @@ class TestOrchestrationWebAuthnIntegration:
         # Test 3: Orchestration with insufficient models
         try:
             impossible_request = RoutingRequest(
-                prompt="Test impossible request",
-                min_responses=10,  # More than available models
-                max_responses=10
+                prompt="Test impossible request", min_responses=10, max_responses=10  # More than available models
             )
 
             await self.multi_ai_router.route_request(impossible_request)
@@ -469,8 +424,8 @@ class TestOrchestrationWebAuthnIntegration:
 
         # Test that systems can work independently
         assert webauthn_manager is not multi_ai_router
-        assert hasattr(webauthn_manager, 'begin_registration')
-        assert hasattr(multi_ai_router, 'route_request')
+        assert hasattr(webauthn_manager, "begin_registration")
+        assert hasattr(multi_ai_router, "route_request")
 
         print("✅ O.2 Orchestration Core and I.4 WebAuthn systems are both available and properly integrated")
 

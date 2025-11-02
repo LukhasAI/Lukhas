@@ -10,18 +10,15 @@ from pathlib import Path
 
 PROV_PREFIX = "# @generated LUKHAS scaffold v1"
 
+
 def get_staged_files():
     """Get list of staged files from git."""
     try:
-        result = subprocess.run(
-            ["git", "diff", "--cached", "--name-only"],
-            capture_output=True,
-            text=True,
-            check=True
-        )
+        result = subprocess.run(["git", "diff", "--cached", "--name-only"], capture_output=True, text=True, check=True)
         return [f.strip() for f in result.stdout.splitlines() if f.strip()]
     except subprocess.CalledProcessError:
         return []
+
 
 def is_scaffold_file(file_path):
     """Check if a file should be scaffold-managed based on path patterns."""
@@ -32,12 +29,7 @@ def is_scaffold_file(file_path):
         return False
 
     # Check for scaffold-managed file patterns
-    scaffold_patterns = [
-        "docs/README.md",
-        "docs/api.md",
-        "tests/test_*_unit.py",
-        "tests/test_*_integration.py"
-    ]
+    scaffold_patterns = ["docs/README.md", "docs/api.md", "tests/test_*_unit.py", "tests/test_*_integration.py"]
 
     relative_to_module = "/".join(path.parts[2:])  # Remove lukhas/module_name/
 
@@ -47,14 +39,16 @@ def is_scaffold_file(file_path):
 
     return False
 
+
 def has_provenance_header(file_path):
     """Check if file has proper scaffold provenance header."""
     try:
-        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             first_line = f.readline().strip()
             return first_line == PROV_PREFIX.strip()
     except Exception:
         return False
+
 
 def main():
     """Main scaffold guard function."""
@@ -94,6 +88,7 @@ def main():
 
     print("✅ T4 Scaffold Guard: All scaffold files have proper provenance")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

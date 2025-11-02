@@ -96,12 +96,9 @@ class ModuleConsolidator:
                 continue
 
             # Replace custom exceptions
-            if re.search(
-                r"class .+Error\(Exception\):|GuardianRejection|MemoryDrift", line
-            ):
+            if re.search(r"class .+Error\(Exception\):|GuardianRejection|MemoryDrift", line):
                 if "exceptions" not in imports_added:
-                    new_lines.append("from core.common import LukhasError, GuardianRejectionError, "
-                                     "MemoryDriftError")
+                    new_lines.append("from core.common import LukhasError, GuardianRejectionError, " "MemoryDriftError")
                     imports_added.add("exceptions")
                     imports_added.add("exceptions")
                     self.imports_replaced += 1
@@ -135,9 +132,7 @@ class ModuleConsolidator:
     def _update_decorators(self, content: str) -> str:
         """Update decorator usage"""
         # Update lukhas_tier_required
-        content = re.sub(
-            r"@\w+\.lukhas_tier_required", "@lukhas_tier_required", content
-        )
+        content = re.sub(r"@\w+\.lukhas_tier_required", "@lukhas_tier_required", content)
 
         # Update retry decorator
         content = re.sub(r"@\w+\.retry", "@retry", content)
@@ -155,28 +150,20 @@ class ModuleConsolidator:
     def _update_exceptions(self, content: str) -> str:
         """Update exception usage"""
         # Replace custom Guardian exceptions
-        content = re.sub(
-            r"raise \w+GuardianRejection\(", "raise GuardianRejectionError(", content
-        )
+        content = re.sub(r"raise \w+GuardianRejection\(", "raise GuardianRejectionError(", content)
 
         # Replace custom Memory exceptions
         content = re.sub(r"raise \w+MemoryDrift\(", "raise MemoryDriftError(", content)
 
         # Replace base exception classes
-        content = re.sub(
-            r"class (\w+Error)\(Exception\):", r"class \1(LukhasError):", content
-        )
+        content = re.sub(r"class (\w+Error)\(Exception\):", r"class \1(LukhasError):", content)
 
         return content
 
     def _update_glyph_handling(self, content: str) -> str:
         """Update GLYPH token handling"""
         # Add import if GLYPH is used
-        if (
-            "GLYPH" in content
-            and "from core.common import" in content
-            and "GLYPHToken" not in content
-        ):
+        if "GLYPH" in content and "from core.common import" in content and "GLYPHToken" not in content:
             lines = content.split("\n")
             for i, line in enumerate(lines):
                 if "from core.common import" in line:
@@ -185,9 +172,7 @@ class ModuleConsolidator:
             content = "\n".join(lines)
 
         # Replace custom GLYPH classes
-        content = re.sub(
-            r"class GLYPH\w*Token[:\(]", "class CustomGLYPHToken(GLYPHToken):", content
-        )
+        content = re.sub(r"class GLYPH\w*Token[:\(]", "class CustomGLYPHToken(GLYPHToken):", content)
 
         return content
 

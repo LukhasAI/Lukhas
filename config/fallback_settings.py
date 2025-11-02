@@ -55,9 +55,7 @@ class FallbackSettings:
             self.REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")
             self.LOG_LEVEL: str = os.getenv("LOG_LEVEL", "WARNING")  # More conservative
             self.DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
-            logger.warning(
-                "Centralized config not available, using direct os.getenv"
-            )
+            logger.warning("Centralized config not available, using direct os.getenv")
             self._validate_fallback_behavior()
 
         # Fallback mode indicator

@@ -3,6 +3,7 @@ Bio-signals integration for LUKHAS
 =====================================
 Minimal implementation to support dream and consciousness systems.
 """
+
 import logging
 
 logger = logging.getLogger(__name__)

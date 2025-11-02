@@ -1,4 +1,5 @@
 """Consciousness drift detection utilities for legacy consensus."""
+
 from __future__ import annotations
 
 import logging

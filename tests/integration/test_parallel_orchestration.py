@@ -40,7 +40,7 @@ class MockCognitiveNode(CognitiveNodeBase):
             "confidence": 0.8,
             "ethics_risk": 0.2,
             "reasoning_chain": ["step1", "step2"],
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
 
@@ -64,11 +64,7 @@ def mock_resolve(key: str):
 @pytest.fixture
 def orchestrator_config():
     """Basic orchestrator configuration."""
-    return {
-        "MATRIZ_ASYNC": "1",
-        "MATRIZ_PARALLEL": "1",
-        "MATRIZ_MAX_PARALLEL": "3"
-    }
+    return {"MATRIZ_ASYNC": "1", "MATRIZ_PARALLEL": "1", "MATRIZ_MAX_PARALLEL": "3"}
 
 
 @pytest.fixture
@@ -88,6 +84,7 @@ def test_stages():
 def mock_registry(monkeypatch):
     """Mock the registry resolver."""
     from core.orchestration import async_orchestrator
+
     monkeypatch.setattr(async_orchestrator, "resolve", mock_resolve)
 
 
@@ -187,7 +184,7 @@ class TestParallelOrchestration:
         # Complex query should use parallel
         complex_context = {
             "query": "This is a very complex query with lots of detail that should trigger parallel processing mode",
-            "user_id": "test"
+            "user_id": "test",
         }
 
         # Test both modes
@@ -212,6 +209,7 @@ class TestParallelOrchestration:
         # Mock a failing node - skip this test as it requires more complex mocking
         # This test validates the concept; in practice error handling works correctly
         import pytest
+
         pytest.skip("Requires complex monkeypatch setup - error handling tested in other tests")
 
         orchestrator.configure_stages(error_stages)
@@ -228,11 +226,7 @@ class TestParallelOrchestration:
     def test_parallel_disabled_fallback(self, test_stages, mock_registry):
         """Test fallback to sequential when parallel is disabled."""
         # Disable parallel execution
-        config = {
-            "MATRIZ_ASYNC": "1",
-            "MATRIZ_PARALLEL": "0",  # Disabled
-            "MATRIZ_MAX_PARALLEL": "3"
-        }
+        config = {"MATRIZ_ASYNC": "1", "MATRIZ_PARALLEL": "0", "MATRIZ_MAX_PARALLEL": "3"}  # Disabled
 
         orchestrator = AsyncOrchestrator(config)
         orchestrator.configure_stages(test_stages)
@@ -273,11 +267,9 @@ class TestParallelOrchestration:
         assert result.success is True
 
         # Verify constellation metadata is added
-        constellation_results = [
-            r for r in result.stage_results
-            if isinstance(r, dict) and "_constellation" in r
-        ]
+        constellation_results = [r for r in result.stage_results if isinstance(r, dict) and "_constellation" in r]
         assert len(constellation_results) > 0
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

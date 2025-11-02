@@ -1,4 +1,5 @@
 """Bridge shim for `bridge.api.analysis` with explicit fallback symbols."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge
@@ -23,6 +24,7 @@ if not isinstance(__all__, list):
 
 
 if "analysis_routes" not in globals():
+
     def analysis_routes(*_args: object, **_kwargs: object) -> list[object]:
         """Fallback analysis_routes stub returning an empty payload."""
 

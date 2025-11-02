@@ -189,9 +189,7 @@ class IntelligenceRegistryServicer:
                 context.set_details(f"Engine registration error: {e!s}")
             return lukhas_pb2.EngineRegistrationResponse()
 
-    def QueryEngines(
-        self, request: lukhas_pb2.EngineQueryRequest, context
-    ) -> lukhas_pb2.EngineQueryResponse:
+    def QueryEngines(self, request: lukhas_pb2.EngineQueryRequest, context) -> lukhas_pb2.EngineQueryResponse:
         """Query available intelligence engines"""
         try:
             response = lukhas_pb2.EngineQueryResponse()
@@ -210,9 +208,7 @@ class IntelligenceRegistryServicer:
 
                 if request.availability_only:
                     # Check if engine is available (placeholder logic)
-                    engine_available = (
-                        engine_id in self.engine_health and self.engine_health[engine_id]
-                    )
+                    engine_available = engine_id in self.engine_health and self.engine_health[engine_id]
                     if not engine_available:
                         continue
 

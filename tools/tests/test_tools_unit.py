@@ -25,10 +25,7 @@ class TestToolsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "tools",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "tools", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestToolsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import tools
+
         self.assertIsNotNone(tools)
 
     def test_module_version(self):
         """Test module has version information."""
         import tools
+
         # Most modules should have version info
-        self.assertTrue(hasattr(tools, '__version__') or
-                       hasattr(tools, 'VERSION'))
+        self.assertTrue(hasattr(tools, "__version__") or hasattr(tools, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -122,7 +120,6 @@ class Testcreate_master_plan(unittest.TestCase):
         """Test create_master_plan can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

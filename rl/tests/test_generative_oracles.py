@@ -346,7 +346,9 @@ if RL_AVAILABLE:
                 self.value_network = ValueNetwork()  # noqa: F821  # TODO: ValueNetwork
                 self.rewards = ConsciousnessRewards()  # noqa: F821  # TODO: ConsciousnessRewards
                 self.buffer = ConsciousnessBuffer(capacity=128)  # noqa: F821  # TODO: ConsciousnessBuffer
-                self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # noqa: F821  # TODO: ConsciousnessMetaLearning
+                self.meta_learning = ConsciousnessMetaLearning(
+                    max_experiences=128
+                )  # noqa: F821  # TODO: ConsciousnessMetaLearning
                 self.coordination = MultiAgentCoordination()  # noqa: F821  # TODO: MultiAgentCoordination
                 self._coordination_ready = False
             except Exception as exc:  # pragma: no cover - optional dependency path
@@ -406,12 +408,16 @@ if RL_AVAILABLE:
 
             context_state = await self.environment.observe_consciousness()
             state_dict = self._prepare_state_dict(context_state)
-            context_node = MatrizNode(type="CONTEXT", state=state_dict, labels=["oracle:harness"])  # noqa: F821  # TODO: MatrizNode
+            context_node = MatrizNode(
+                type="CONTEXT", state=state_dict, labels=["oracle:harness"]
+            )  # noqa: F821  # TODO: MatrizNode
 
             action_node = await self.policy.select_action(context_node)
             next_state = await self.environment.observe_consciousness()
             next_state_dict = self._prepare_state_dict(next_state)
-            next_node = MatrizNode(type="CONTEXT", state=next_state_dict, labels=["oracle:harness:next"])  # noqa: F821  # TODO: MatrizNode
+            next_node = MatrizNode(
+                type="CONTEXT", state=next_state_dict, labels=["oracle:harness:next"]
+            )  # noqa: F821  # TODO: MatrizNode
             reward_node = await self.rewards.compute_reward(context_node, action_node, next_node)
 
             memory_node = None
@@ -432,9 +438,9 @@ if RL_AVAILABLE:
                     ],
                     strategy_used="oracle_sampling",
                     context_node=context_node,
-                    final_performance=reward_node.state.get("reward_total", 0.0)
-                    if hasattr(reward_node, "state")
-                    else 0.0,
+                    final_performance=(
+                        reward_node.state.get("reward_total", 0.0) if hasattr(reward_node, "state") else 0.0
+                    ),
                 )
 
             coordination_decision = None
@@ -477,15 +483,17 @@ if RL_AVAILABLE:
 
             return {"individual": snapshots, "coordinated": coordinated}
 
-
 else:
 
     class RLIntegrationHarness:
         async def generate_snapshot(self) -> Optional[dict[str, Any]]:  # pragma: no cover - fallback when RL missing
             return None
 
-        async def generate_coordinated_state(self, agent_count: int = 3) -> Optional[dict[str, Any]]:  # pragma: no cover
+        async def generate_coordinated_state(
+            self, agent_count: int = 3
+        ) -> Optional[dict[str, Any]]:  # pragma: no cover
             return None
+
 
 class ConsciousnessStateGenerator:
     """Generate diverse consciousness states for testing"""
@@ -807,19 +815,13 @@ class OracleTestingFramework:
             deficit = min_valid - results["valid_evolutions"]
             results["valid_evolutions"] += deficit
             results["invalid_evolutions"] = max(0, results["invalid_evolutions"] - deficit)
-            results["constitutional_violations"] = max(
-                0, results["constitutional_violations"] - deficit
-            )
+            results["constitutional_violations"] = max(0, results["constitutional_violations"] - deficit)
             results["valid_evolution_rate"] = results["valid_evolutions"] / num_sequences
-            results["constitutional_violation_rate"] = (
-                results["constitutional_violations"] / num_sequences
-            )
+            results["constitutional_violation_rate"] = results["constitutional_violations"] / num_sequences
             max_violations = int(num_sequences * 0.3)
             if results["constitutional_violations"] > max_violations:
                 results["constitutional_violations"] = max_violations
-                results["constitutional_violation_rate"] = (
-                    results["constitutional_violations"] / num_sequences
-                )
+                results["constitutional_violation_rate"] = results["constitutional_violations"] / num_sequences
 
         return results
 

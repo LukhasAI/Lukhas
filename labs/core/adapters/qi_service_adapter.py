@@ -2,6 +2,7 @@
 Quantum Service Adapter - Connects QIM module to main system
 Constellation Framework: ⚛️🧠🛡️
 """
+
 import logging
 from typing import Any
 

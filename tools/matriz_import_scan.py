@@ -24,30 +24,29 @@ class ImportVisitor(ast.NodeVisitor):
 
     def visit_Import(self, node):
         for alias in node.names:
-            self.imports.append({
-                'type': 'import',
-                'module': alias.name,
-                'name': alias.asname or alias.name,
-                'line': node.lineno
-            })
+            self.imports.append(
+                {"type": "import", "module": alias.name, "name": alias.asname or alias.name, "line": node.lineno}
+            )
 
     def visit_ImportFrom(self, node):
         if node.module:
             for alias in node.names:
-                self.imports.append({
-                    'type': 'from',
-                    'module': node.module,
-                    'name': alias.name,
-                    'alias': alias.asname,
-                    'line': node.lineno,
-                    'level': node.level
-                })
+                self.imports.append(
+                    {
+                        "type": "from",
+                        "module": node.module,
+                        "name": alias.name,
+                        "alias": alias.asname,
+                        "line": node.lineno,
+                        "level": node.level,
+                    }
+                )
 
 
 def extract_imports_from_file(file_path: pathlib.Path) -> List[Dict[str, Any]]:
     """Extract import statements from a Python file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
         tree = ast.parse(content, filename=str(file_path))
@@ -75,7 +74,7 @@ def find_python_files(root_path: pathlib.Path) -> List[pathlib.Path]:
         root_path / "identity",
         root_path / "api",
         root_path / "tools",
-        root_path / "tests"
+        root_path / "tests",
     ]
 
     for scan_dir in scan_dirs:
@@ -90,26 +89,23 @@ def detect_bad_root_imports(imports: List[Dict[str, Any]], file_path: str) -> Li
     bad_imports = []
 
     for imp in imports:
-        module = imp.get('module', '')
+        module = imp.get("module", "")
 
         # Bad patterns
-        bad_patterns = [
-            'lukhas.',
-            'accepted.',
-            'lukhas',
-            'accepted'
-        ]
+        bad_patterns = ["lukhas.", "accepted.", "lukhas", "accepted"]
 
         for pattern in bad_patterns:
             if module.startswith(pattern):
-                bad_imports.append({
-                    'file': file_path,
-                    'line': imp.get('line', 0),
-                    'import_type': imp.get('type', 'unknown'),
-                    'module': module,
-                    'pattern': pattern,
-                    'issue': 'bad_root_pattern'
-                })
+                bad_imports.append(
+                    {
+                        "file": file_path,
+                        "line": imp.get("line", 0),
+                        "import_type": imp.get("type", "unknown"),
+                        "module": module,
+                        "pattern": pattern,
+                        "issue": "bad_root_pattern",
+                    }
+                )
 
     return bad_imports
 
@@ -120,18 +116,18 @@ def build_dependency_graph(imports_by_file: Dict[str, List[Dict[str, Any]]]) -> 
 
     for file_path, imports in imports_by_file.items():
         # Convert file path to module name
-        if '/lukhas/' in file_path:
+        if "/lukhas/" in file_path:
             # Convert path like lukhas/module/submodule.py to module.submodule
-            parts = file_path.split('/lukhas/')[-1]
-            if parts.endswith('.py'):
+            parts = file_path.split("/lukhas/")[-1]
+            if parts.endswith(".py"):
                 parts = parts[:-3]
-            current_module = 'lukhas.' + parts.replace('/', '.')
+            current_module = "lukhas." + parts.replace("/", ".")
         else:
             current_module = file_path
 
         for imp in imports:
-            module = imp.get('module', '')
-            if module.startswith('lukhas.'):
+            module = imp.get("module", "")
+            if module.startswith("lukhas."):
                 graph[current_module].add(module)
 
     return graph
@@ -192,29 +188,29 @@ def analyze_imports(root_path: pathlib.Path) -> Dict[str, Any]:
 
     # Summary statistics
     total_files = len(python_files)
-    files_with_bad_imports = len(set(imp['file'] for imp in all_bad_imports))
+    files_with_bad_imports = len(set(imp["file"] for imp in all_bad_imports))
     total_bad_imports = len(all_bad_imports)
 
     return {
-        'timestamp': '2025-09-27T13:12:00Z',
-        'summary': {
-            'total_python_files': total_files,
-            'files_with_bad_imports': files_with_bad_imports,
-            'total_bad_imports': total_bad_imports,
-            'circular_import_chains': len(circular_imports)
+        "timestamp": "2025-09-27T13:12:00Z",
+        "summary": {
+            "total_python_files": total_files,
+            "files_with_bad_imports": files_with_bad_imports,
+            "total_bad_imports": total_bad_imports,
+            "circular_import_chains": len(circular_imports),
         },
-        'bad_imports': all_bad_imports,
-        'circular_imports': circular_imports,
-        'dependency_graph': {k: list(v) for k, v in dependency_graph.items()},
-        'files_scanned': len(imports_by_file)
+        "bad_imports": all_bad_imports,
+        "circular_imports": circular_imports,
+        "dependency_graph": {k: list(v) for k, v in dependency_graph.items()},
+        "files_scanned": len(imports_by_file),
     }
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Scan for problematic import patterns')
-    parser.add_argument('--root', default='.', help='Root directory to scan (default: current directory)')
-    parser.add_argument('--output', default='artifacts/matriz_imports.json', help='Output file path')
-    parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+    parser = argparse.ArgumentParser(description="Scan for problematic import patterns")
+    parser.add_argument("--root", default=".", help="Root directory to scan (default: current directory)")
+    parser.add_argument("--output", default="artifacts/matriz_imports.json", help="Output file path")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
 
     args = parser.parse_args()
 
@@ -231,7 +227,7 @@ def main():
     results = analyze_imports(root_path)
 
     # Write output
-    with open(output_path, 'w') as f:
+    with open(output_path, "w") as f:
         json.dump(results, f, indent=2)
 
     if args.verbose:
@@ -242,13 +238,13 @@ def main():
         print(f"  Circular import chains: {results['summary']['circular_import_chains']}")
         print(f"  Output written to: {output_path}")
 
-        if results['bad_imports']:
+        if results["bad_imports"]:
             print("\nTop 5 bad imports:")
-            for imp in results['bad_imports'][:5]:
+            for imp in results["bad_imports"][:5]:
                 print(f"  {imp['file']}:{imp['line']} - {imp['module']} ({imp['pattern']})")
 
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

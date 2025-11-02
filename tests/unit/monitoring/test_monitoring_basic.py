@@ -36,9 +36,7 @@ def test_get_health_dashboard_aggregates(monkeypatch):
     dummy_consciousness = {"status": "completed"}
 
     monkeypatch.setattr("monitoring.collect_system_metrics", lambda: dummy_metrics)
-    monkeypatch.setattr(
-        "monitoring.monitor_consciousness_health", lambda: dummy_consciousness
-    )
+    monkeypatch.setattr("monitoring.monitor_consciousness_health", lambda: dummy_consciousness)
 
     dashboard = get_health_dashboard()
     assert dashboard["status"] == "ready"

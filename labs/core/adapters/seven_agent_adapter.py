@@ -3,6 +3,7 @@ Seven Agent Architecture Integration Adapter
 Bridges the new 7-agent modules with the existing LUKHAS system
 Constellation Framework: ⚛️🧠🛡️
 """
+
 import logging
 from typing import Any, Optional
 

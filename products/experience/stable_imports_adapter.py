@@ -15,21 +15,25 @@ from core.registry import get_registered, register
 # Exception classes that replace candidate.core.common.exceptions
 class LukhasError(Exception):
     """Base exception for LUKHAS system errors"""
+
     pass
 
 
 class ValidationError(LukhasError):
     """Exception for validation errors"""
+
     pass
 
 
 class ConfigurationError(LukhasError):
     """Exception for configuration errors"""
+
     pass
 
 
 class ServiceError(LukhasError):
     """Exception for service-related errors"""
+
     pass
 
 
@@ -42,9 +46,7 @@ def get_logger(name: str):
 def configure_logging(level=logging.INFO):
     """Configure logging with consistent format"""
     logging.basicConfig(
-        level=level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
+        level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
     )
 
 

@@ -24,6 +24,7 @@
 ║ Symbolic Tags: {ΛINTEGRATION}, {ΛCOLLAPSE}, {ΛSAFETY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import logging
 from typing import Any

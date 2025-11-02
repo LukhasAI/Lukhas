@@ -24,14 +24,15 @@ class LaneMetric:
     throughput: float
     user_satisfaction: float
 
+
 def generate_mock_lane_data() -> Dict[str, LaneMetric]:
     """Generate mock lane comparison data"""
 
     # Simulate realistic metrics with small variations
     base_denial_rate = 0.05  # 5% base denial rate
-    base_latency = 120.0     # 120ms base latency
-    base_error_rate = 0.01   # 1% base error rate
-    base_throughput = 1000   # 1000 req/sec
+    base_latency = 120.0  # 120ms base latency
+    base_error_rate = 0.01  # 1% base error rate
+    base_throughput = 1000  # 1000 req/sec
     base_satisfaction = 4.2  # 4.2/5.0 satisfaction
 
     # Control lane (stable baseline)
@@ -41,20 +42,21 @@ def generate_mock_lane_data() -> Dict[str, LaneMetric]:
         latency_p95=base_latency,
         error_rate=base_error_rate,
         throughput=base_throughput,
-        user_satisfaction=base_satisfaction
+        user_satisfaction=base_satisfaction,
     )
 
     # Candidate lane (with small improvements)
     candidate = LaneMetric(
         lane="labs",
         denial_rate=base_denial_rate * 0.92,  # 8% improvement
-        latency_p95=base_latency * 0.96,      # 4% improvement
-        error_rate=base_error_rate * 0.93,    # 7% improvement
-        throughput=base_throughput * 1.05,    # 5% improvement
-        user_satisfaction=base_satisfaction * 1.03  # 3% improvement
+        latency_p95=base_latency * 0.96,  # 4% improvement
+        error_rate=base_error_rate * 0.93,  # 7% improvement
+        throughput=base_throughput * 1.05,  # 5% improvement
+        user_satisfaction=base_satisfaction * 1.03,  # 3% improvement
     )
 
     return {"control": control, "labs": candidate}
+
 
 def calculate_delta_percentage(control_value: float, candidate_value: float, lower_is_better: bool = True) -> float:
     """Calculate percentage delta between control and candidate"""
@@ -66,6 +68,7 @@ def calculate_delta_percentage(control_value: float, candidate_value: float, low
     # For metrics where lower is better (denial, latency, errors), negative delta is good
     # For metrics where higher is better (throughput, satisfaction), positive delta is good
     return delta
+
 
 def generate_ab_lane_report() -> Dict[str, Any]:
     """Generate comprehensive A/B lane comparison report"""
@@ -91,38 +94,47 @@ def generate_ab_lane_report() -> Dict[str, Any]:
         "denial_rate": {
             "control": control.denial_rate,
             "labs": candidate.denial_rate,
-            "delta_percent": calculate_delta_percentage(control.denial_rate, candidate.denial_rate, lower_is_better=True),
+            "delta_percent": calculate_delta_percentage(
+                control.denial_rate, candidate.denial_rate, lower_is_better=True
+            ),
             "within_policy": abs(calculate_delta_percentage(control.denial_rate, candidate.denial_rate)) <= 10,
-            "better": candidate.denial_rate < control.denial_rate
+            "better": candidate.denial_rate < control.denial_rate,
         },
         "latency_p95": {
             "control": control.latency_p95,
             "labs": candidate.latency_p95,
-            "delta_percent": calculate_delta_percentage(control.latency_p95, candidate.latency_p95, lower_is_better=True),
+            "delta_percent": calculate_delta_percentage(
+                control.latency_p95, candidate.latency_p95, lower_is_better=True
+            ),
             "within_policy": abs(calculate_delta_percentage(control.latency_p95, candidate.latency_p95)) <= 10,
-            "better": candidate.latency_p95 < control.latency_p95
+            "better": candidate.latency_p95 < control.latency_p95,
         },
         "error_rate": {
             "control": control.error_rate,
             "labs": candidate.error_rate,
             "delta_percent": calculate_delta_percentage(control.error_rate, candidate.error_rate, lower_is_better=True),
             "within_policy": abs(calculate_delta_percentage(control.error_rate, candidate.error_rate)) <= 10,
-            "better": candidate.error_rate < control.error_rate
+            "better": candidate.error_rate < control.error_rate,
         },
         "throughput": {
             "control": control.throughput,
             "labs": candidate.throughput,
-            "delta_percent": calculate_delta_percentage(control.throughput, candidate.throughput, lower_is_better=False),
+            "delta_percent": calculate_delta_percentage(
+                control.throughput, candidate.throughput, lower_is_better=False
+            ),
             "within_policy": abs(calculate_delta_percentage(control.throughput, candidate.throughput)) <= 10,
-            "better": candidate.throughput > control.throughput
+            "better": candidate.throughput > control.throughput,
         },
         "user_satisfaction": {
             "control": control.user_satisfaction,
             "labs": candidate.user_satisfaction,
-            "delta_percent": calculate_delta_percentage(control.user_satisfaction, candidate.user_satisfaction, lower_is_better=False),
-            "within_policy": abs(calculate_delta_percentage(control.user_satisfaction, candidate.user_satisfaction)) <= 10,
-            "better": candidate.user_satisfaction > control.user_satisfaction
-        }
+            "delta_percent": calculate_delta_percentage(
+                control.user_satisfaction, candidate.user_satisfaction, lower_is_better=False
+            ),
+            "within_policy": abs(calculate_delta_percentage(control.user_satisfaction, candidate.user_satisfaction))
+            <= 10,
+            "better": candidate.user_satisfaction > control.user_satisfaction,
+        },
     }
 
     print("\n📈 METRIC COMPARISON")
@@ -183,20 +195,20 @@ def generate_ab_lane_report() -> Dict[str, Any]:
             "generated_at": report_time.isoformat(),
             "observation_period": report_period,
             "policy_band_percent": 10,
-            "lanes_compared": ["control", "labs"]
+            "lanes_compared": ["control", "labs"],
         },
         "metrics": metrics_comparison,
         "summary": {
             "all_within_policy": all_within_policy,
             "improvements_count": improvements_count,
             "total_metrics": total_metrics,
-            "improvement_rate": (improvements_count/total_metrics)*100
+            "improvement_rate": (improvements_count / total_metrics) * 100,
         },
         "recommendation": {
             "decision": recommendation,
             "reason": reason,
-            "confidence": "high" if all_within_policy else "low"
-        }
+            "confidence": "high" if all_within_policy else "low",
+        },
     }
 
     print("\n📋 REPORT SUMMARY")
@@ -207,6 +219,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
 
     return report_data
 
+
 if __name__ == "__main__":
     report = generate_ab_lane_report()
 
@@ -214,7 +227,7 @@ if __name__ == "__main__":
     timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     filename = f"/tmp/ab_lane_report_{timestamp}.json"
 
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         json.dump(report, f, indent=2)
 
     print(f"\n💾 Report saved to: {filename}")

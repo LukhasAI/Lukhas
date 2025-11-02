@@ -9,12 +9,7 @@ from pathlib import Path
 
 from scripts.todo_migration.generate_todo_inventory import scan_file
 
-SCRIPT_PATH = (
-    Path(__file__).resolve().parents[2]
-    / "scripts"
-    / "todo_migration"
-    / "generate_todo_inventory.py"
-)
+SCRIPT_PATH = Path(__file__).resolve().parents[2] / "scripts" / "todo_migration" / "generate_todo_inventory.py"
 
 
 def run_generator(tmp_path: Path, max_files: int | None = None) -> list[dict[str, str]]:
@@ -75,8 +70,7 @@ def test_python_inline_comment_detected(tmp_path: Path) -> None:
     python_file = write_file(
         tmp_path,
         "inline.py",
-        "def compute():\n"
-        "    return 1  # TODO[owner:alice][priority:low]: adjust computation\n",
+        "def compute():\n" "    return 1  # TODO[owner:alice][priority:low]: adjust computation\n",
     )
 
     todos = scan_file(python_file)
@@ -94,9 +88,7 @@ def test_python_docstring_todo_detected(tmp_path: Path) -> None:
     python_file = write_file(
         tmp_path,
         "docstring_todo.py",
-        "def placeholder():\n"
-        '    """TODO[owner:bob][priority:high]: implement placeholder"""\n'
-        "    return None\n",
+        "def placeholder():\n" '    """TODO[owner:bob][priority:high]: implement placeholder"""\n' "    return None\n",
     )
 
     todos = scan_file(python_file)

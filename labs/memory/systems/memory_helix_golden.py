@@ -64,7 +64,6 @@ Licensed under the LUKHAS Enterprise License.
 """
 
 
-
 __module_name__ = "Golden Helix Memory Mapper"
 __version__ = "3.0.0"
 __tier__ = 5

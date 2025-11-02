@@ -1,5 +1,5 @@
-
 """Minimal symbolic logger stub"""
+
 import logging
 
 logger = logging.getLogger(__name__)

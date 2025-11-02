@@ -15,6 +15,7 @@ try:
     from .base import BasePolicyEngine, PolicyEngineResult
     from .constitutional import ConstitutionalPolicyEngine
     from .guardian import GuardianPolicyEngine
+
     POLICY_ENGINES_AVAILABLE = True
     logger.info("✅ Core policy engines loaded successfully")
 except ImportError as e:
@@ -51,7 +52,7 @@ def get_policy_engines_status() -> Dict[str, Any]:
             "constitutional_engine": ConstitutionalPolicyEngine is not None,
             "guardian_engine": GuardianPolicyEngine is not None,
         },
-        "module": "labs.governance.ethics.policy_engines"
+        "module": "labs.governance.ethics.policy_engines",
     }
 
 
@@ -73,7 +74,7 @@ __all__ = [
     "GuardianPolicyEngine",
     "get_policy_engines_status",
     "create_policy_engine",
-    "POLICY_ENGINES_AVAILABLE"
+    "POLICY_ENGINES_AVAILABLE",
 ]
 
 logger.info("🛡️ LUKHAS Policy Engines Module initialized")

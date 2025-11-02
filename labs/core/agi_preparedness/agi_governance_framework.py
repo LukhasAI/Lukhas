@@ -25,6 +25,7 @@ Integration:
 - Capability Evaluation Framework Cognitive AI status determination
 - Advanced Safety Protocols Cognitive AI safety governance triggers
 """
+
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone

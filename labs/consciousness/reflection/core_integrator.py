@@ -784,9 +784,12 @@ class LUKHASCoreIntegrator:
 try:
     from labs.candidate.consciousness.reflection.core_integrator import resolve_access_tier  # noqa: F401
 except ImportError:
+
     def resolve_access_tier(*args, **kwargs):
         """Stub for resolve_access_tier."""
         return None
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

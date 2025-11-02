@@ -37,6 +37,7 @@ try:
     from opentelemetry import metrics, trace  # noqa: F401  # TODO: opentelemetry.metrics; conside...
     from opentelemetry.metrics import get_meter
     from opentelemetry.trace import Status, StatusCode  # noqa: F401  # TODO: opentelemetry.trace.Status; co...
+
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False
@@ -48,6 +49,7 @@ class ReflectionReport:
     Versioned reflection report with coherence scoring and anomaly detection.
     Implements schema versioning for forward compatibility.
     """
+
     schema_version: str = "1.0.0"
     timestamp: float = field(default_factory=time.time)
     correlation_id: str = ""
@@ -72,18 +74,14 @@ class ReflectionReport:
 
     def add_anomaly(self, anomaly_type: str, severity: str, details: str):
         """Add detected anomaly to report"""
-        anomaly = {
-            "type": anomaly_type,
-            "severity": severity,
-            "details": details,
-            "timestamp": time.time()
-        }
+        anomaly = {"type": anomaly_type, "severity": severity, "details": details, "timestamp": time.time()}
         self.anomalies.append(anomaly)
         self.anomaly_count = len(self.anomalies)
 
 
 class ContextProvider(Protocol):
     """Protocol for context providers (memory, emotion readers)"""
+
     async def get_context(self) -> Dict[str, Any]:
         """Retrieve context data for reflection"""
         ...
@@ -133,20 +131,15 @@ class SelfReflectionEngine:
 
             # Prometheus metrics as specified in PHASES.md
             self.reflection_latency_histogram = self.meter.create_histogram(
-                name="lukhas_reflection_latency_seconds",
-                description="Duration of reflection cycles",
-                unit="s"
+                name="lukhas_reflection_latency_seconds", description="Duration of reflection cycles", unit="s"
             )
 
             self.anomalies_counter = self.meter.create_counter(
-                name="lukhas_reflection_anomalies_total",
-                description="Total reflection anomalies detected",
-                unit="1"
+                name="lukhas_reflection_anomalies_total", description="Total reflection anomalies detected", unit="1"
             )
 
             self.coherence_gauge = self.meter.create_gauge(
-                name="lukhas_reflection_coherence_score",
-                description="Current consciousness coherence score"
+                name="lukhas_reflection_coherence_score", description="Current consciousness coherence score"
             )
         else:
             self.tracer = None
@@ -183,9 +176,7 @@ class SelfReflectionEngine:
             self.is_initialized = True
             self.status = "active"
 
-            self.logger.info(
-                f"SelfReflectionEngine initialized with {len(context_providers)} context providers"
-            )
+            self.logger.info(f"SelfReflectionEngine initialized with {len(context_providers)} context providers")
             return True
 
         except Exception as e:
@@ -209,8 +200,14 @@ class SelfReflectionEngine:
         if not self.is_initialized or self.status != "active":
             return ReflectionReport(
                 correlation_id=f"reflection_{int(time.time() * 1000)}",
-                anomalies=[{"type": "engine_error", "severity": "high",
-                          "details": "Engine not initialized", "timestamp": time.time()}]
+                anomalies=[
+                    {
+                        "type": "engine_error",
+                        "severity": "high",
+                        "details": "Engine not initialized",
+                        "timestamp": time.time(),
+                    }
+                ],
             )
 
         start_time = time.perf_counter()
@@ -240,10 +237,7 @@ class SelfReflectionEngine:
             duration_ms = (time.perf_counter() - start_time) * 1000
             self.logger.error(f"Reflection failed after {duration_ms:.2f}ms: {e}")
 
-            error_report = ReflectionReport(
-                correlation_id=correlation_id,
-                reflection_duration_ms=duration_ms
-            )
+            error_report = ReflectionReport(correlation_id=correlation_id, reflection_duration_ms=duration_ms)
             error_report.add_anomaly("reflection_error", "critical", str(e))
 
             return error_report
@@ -259,8 +253,8 @@ class SelfReflectionEngine:
                     "consciousness.level": state.level,
                     "consciousness.awareness_type": state.awareness_type,
                     "consciousness.emotional_tone": state.emotional_tone,
-                    "lane": os.getenv("LUKHAS_LANE", "experimental")
-                }
+                    "lane": os.getenv("LUKHAS_LANE", "experimental"),
+                },
             ) as span:
                 yield span
         else:
@@ -272,7 +266,7 @@ class SelfReflectionEngine:
             correlation_id=correlation_id,
             consciousness_level=state.level,
             awareness_type=state.awareness_type,
-            emotional_tone=state.emotional_tone
+            emotional_tone=state.emotional_tone,
         )
 
         # Calculate state delta if we have previous state
@@ -333,15 +327,15 @@ class SelfReflectionEngine:
         # Coherence threshold violation
         if report.coherence_score < COHERENCE_THRESHOLD:
             report.add_anomaly(
-                "low_coherence", "medium",
-                f"Coherence score {report.coherence_score:.3f} below threshold {COHERENCE_THRESHOLD}"
+                "low_coherence",
+                "medium",
+                f"Coherence score {report.coherence_score:.3f} below threshold {COHERENCE_THRESHOLD}",
             )
 
         # Excessive drift detection
         if report.drift_ema > 0.5:
             report.add_anomaly(
-                "excessive_drift", "high",
-                f"Drift EMA {report.drift_ema:.3f} indicates unstable consciousness"
+                "excessive_drift", "high", f"Drift EMA {report.drift_ema:.3f} indicates unstable consciousness"
             )
 
         # Performance anomaly detection
@@ -350,15 +344,17 @@ class SelfReflectionEngine:
             avg_latency = statistics.mean(recent_latencies)
             if avg_latency > REFLECTION_P95_TARGET_MS:
                 report.add_anomaly(
-                    "performance_degradation", "medium",
-                    f"Average latency {avg_latency:.2f}ms exceeds target {REFLECTION_P95_TARGET_MS}ms"
+                    "performance_degradation",
+                    "medium",
+                    f"Average latency {avg_latency:.2f}ms exceeds target {REFLECTION_P95_TARGET_MS}ms",
                 )
 
         # State level anomalies
         if state.level > 1.0 or state.level < 0.0:
             report.add_anomaly(
-                "invalid_consciousness_level", "critical",
-                f"Consciousness level {state.level} outside valid range [0.0, 1.0]"
+                "invalid_consciousness_level",
+                "critical",
+                f"Consciousness level {state.level} outside valid range [0.0, 1.0]",
             )
 
     async def _gather_context(self) -> Dict[str, Any]:
@@ -398,28 +394,20 @@ class SelfReflectionEngine:
             attributes={
                 "lane": lane,
                 "awareness_type": report.awareness_type,
-                "within_slo": str(duration_ms <= REFLECTION_P95_TARGET_MS).lower()
-            }
+                "within_slo": str(duration_ms <= REFLECTION_P95_TARGET_MS).lower(),
+            },
         )
 
         # Record anomalies counter
         if report.anomaly_count > 0:
             self.anomalies_counter.add(
-                report.anomaly_count,
-                attributes={
-                    "lane": lane,
-                    "awareness_type": report.awareness_type
-                }
+                report.anomaly_count, attributes={"lane": lane, "awareness_type": report.awareness_type}
             )
 
         # Record coherence gauge
-        if hasattr(self, 'coherence_gauge'):
+        if hasattr(self, "coherence_gauge"):
             self.coherence_gauge.set(
-                report.coherence_score,
-                attributes={
-                    "lane": lane,
-                    "awareness_type": report.awareness_type
-                }
+                report.coherence_score, attributes={"lane": lane, "awareness_type": report.awareness_type}
             )
 
     async def validate(self) -> bool:
@@ -446,9 +434,7 @@ class SelfReflectionEngine:
                 if len(recent_latencies) > 5:
                     cv = statistics.stdev(recent_latencies) / statistics.mean(recent_latencies)
                     if cv > REFLECTION_CV_TARGET:
-                        self.logger.warning(
-                            f"Reflection CV {cv:.3f} exceeds target {REFLECTION_CV_TARGET}"
-                        )
+                        self.logger.warning(f"Reflection CV {cv:.3f} exceeds target {REFLECTION_CV_TARGET}")
                         return False
 
             return True
@@ -470,7 +456,7 @@ class SelfReflectionEngine:
             "median_latency_ms": statistics.median(latencies),
             "anomaly_count_total": self.anomaly_counter,
             "drift_ema": self.drift_ema,
-            "status": self.status
+            "status": self.status,
         }
 
         if len(latencies) >= 5:
@@ -489,7 +475,7 @@ class SelfReflectionEngine:
             "initialized": self.is_initialized,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "feature_enabled": REFLECTION_ENABLED,
-            "context_providers": len(self.context_providers)
+            "context_providers": len(self.context_providers),
         }
 
         # Add performance stats if available
@@ -518,8 +504,7 @@ def create_reflection_engine(config: Optional[Dict[str, Any]] = None) -> SelfRef
 
 
 async def create_and_initialize_reflection_engine(
-    config: Optional[Dict[str, Any]] = None,
-    context_providers: Optional[List[ContextProvider]] = None
+    config: Optional[Dict[str, Any]] = None, context_providers: Optional[List[ContextProvider]] = None
 ) -> SelfReflectionEngine:
     """Create, initialize and return a reflection engine instance"""
     engine = SelfReflectionEngine(config)
@@ -535,11 +520,7 @@ if __name__ == "__main__":
         print("Testing SelfReflectionEngine...")
 
         # Create test consciousness state
-        test_state = ConsciousnessState(
-            level=0.8,
-            awareness_type="enhanced",
-            emotional_tone="positive"
-        )
+        test_state = ConsciousnessState(level=0.8, awareness_type="enhanced", emotional_tone="positive")
         await test_state.initialize()
 
         # Create and initialize reflection engine
@@ -582,5 +563,5 @@ __all__ = [
     "create_reflection_engine",
     "create_and_initialize_reflection_engine",
     "REFLECTION_ENABLED",
-    "REFLECTION_P95_TARGET_MS"
+    "REFLECTION_P95_TARGET_MS",
 ]

@@ -36,14 +36,10 @@ class MemoryFoldSimulator:
         # Check fold limit
         if len(self.folds) >= self.max_folds:
             # Remove oldest fold to make space
-            oldest_fold = min(self.folds.keys(), key=lambda k: self.folds[k].get('timestamp', 0))
+            oldest_fold = min(self.folds.keys(), key=lambda k: self.folds[k].get("timestamp", 0))
             del self.folds[oldest_fold]
 
-        self.folds[fold_id] = {
-            **data,
-            'timestamp': time.time(),
-            'access_count': 0
-        }
+        self.folds[fold_id] = {**data, "timestamp": time.time(), "access_count": 0}
         return True
 
     def get_fold(self, fold_id: str) -> Dict[str, Any]:
@@ -51,7 +47,7 @@ class MemoryFoldSimulator:
         self.operation_count += 1
 
         if fold_id in self.folds:
-            self.folds[fold_id]['access_count'] += 1
+            self.folds[fold_id]["access_count"] += 1
             return self.folds[fold_id]
         return {}
 
@@ -67,7 +63,7 @@ class MemoryFoldSimulator:
 
         # Cascade condition 3: Too many rapid updates to same fold (very rapid)
         if fold_id in self.folds:
-            last_timestamp = self.folds[fold_id].get('timestamp', 0)
+            last_timestamp = self.folds[fold_id].get("timestamp", 0)
             if time.time() - last_timestamp < 0.0001:  # Less than 0.1ms apart (very rapid)
                 return True
 
@@ -75,13 +71,14 @@ class MemoryFoldSimulator:
 
     def _has_circular_reference(self, fold_id: str, data: Dict[str, Any]) -> bool:
         """Check for circular references in data."""
+
         def check_refs(obj, visited=None):
             if visited is None:
                 visited = set()
 
             if isinstance(obj, dict):
                 for key, value in obj.items():
-                    if key == 'reference' and value == fold_id:
+                    if key == "reference" and value == fold_id:
                         return True
                     if key in visited:
                         return True
@@ -115,16 +112,16 @@ def test_memory_cascade_prevention_rate():
     operations = []
     for i in range(100):
         if i % 3 == 0:
-            operations.append(('get', f'fold_{i % 10}', None))
+            operations.append(("get", f"fold_{i % 10}", None))
         else:
             data = {"index": i, "content": f"data_{i}", "value": i * 2}
             # Use wider spread of fold IDs to avoid rapid updates to same fold
-            operations.append(('set', f'fold_{i % 50}', data))
+            operations.append(("set", f"fold_{i % 50}", data))
 
     successful_operations = 0
 
     for op_type, fold_id, data in operations:
-        if op_type == 'set':
+        if op_type == "set":
             if memory.set_fold(fold_id, data):
                 successful_operations += 1
             # Small delay to avoid rapid update detection
@@ -170,7 +167,7 @@ def test_circular_reference_detection():
         circular_data = {
             "content": "some data",
             "reference": fold_id,  # References itself
-            "metadata": {"type": "circular"}
+            "metadata": {"type": "circular"},
         }
 
         # Should prevent cascade
@@ -184,9 +181,7 @@ def test_large_data_cascade_prevention():
     memory = MemoryFoldSimulator()
 
     # Create large data
-    large_data = {
-        f"key_{i}": "x" * 1000 for i in range(10)  # Large values
-    }
+    large_data = {f"key_{i}": "x" * 1000 for i in range(10)}  # Large values
 
     # Should prevent cascade for large data
     result = memory.set_fold("large_fold", large_data)
@@ -213,7 +208,7 @@ async def test_concurrent_memory_operations_no_cascade():
                 "worker_id": worker_id,
                 "operation": i,
                 "timestamp": time.time(),
-                "content": f"data from worker {worker_id}"
+                "content": f"data from worker {worker_id}",
             }
 
             # Simulate some async work

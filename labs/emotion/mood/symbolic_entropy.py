@@ -10,6 +10,7 @@ Symbolic Entropy for LUKHAS Cognitive system.
 
 This module implements an entropy delta calculator from memory and affect traces.
 """
+
 import math
 
 

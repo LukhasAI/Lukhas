@@ -2,6 +2,7 @@
 Geofencing Manager - Location-based services for LUKHAS
 Provides geofencing capabilities for context-aware AI responses
 """
+
 import json
 import logging
 from dataclasses import dataclass

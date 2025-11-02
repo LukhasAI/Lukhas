@@ -12,9 +12,4 @@ from .discovery import DiscoveryDocument
 from .provider import OIDCProvider
 from .tokens import OIDCTokenManager
 
-__all__ = [
-    "OIDCProvider",
-    "ClientRegistry",
-    "OIDCTokenManager",
-    "DiscoveryDocument"
-]
+__all__ = ["OIDCProvider", "ClientRegistry", "OIDCTokenManager", "DiscoveryDocument"]

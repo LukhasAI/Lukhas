@@ -18,13 +18,7 @@ def run_command(cmd, description="", check=True, capture_output=True):
     print(f"🔧 {description}")
 
     try:
-        result = subprocess.run(
-            cmd,
-            shell=True,
-            check=check,
-            capture_output=capture_output,
-            text=True
-        )
+        result = subprocess.run(cmd, shell=True, check=check, capture_output=capture_output, text=True)
 
         if capture_output and result.stdout:
             print(f"   Output: {result.stdout.strip()}")
@@ -37,6 +31,7 @@ def run_command(cmd, description="", check=True, capture_output=True):
         if capture_output and e.stderr:
             print(f"   Stderr: {e.stderr}")
         raise
+
 
 def main():
     """Main audit orchestration function."""
@@ -149,7 +144,9 @@ def main():
 
         # Find all evidence files
         evidence_files = list(output_dir.glob("*.json"))
-        evidence_files = [f for f in evidence_files if f.name != f"merkle_chain_{audit_id}.json"]  # Exclude the chain file itself
+        evidence_files = [
+            f for f in evidence_files if f.name != f"merkle_chain_{audit_id}.json"
+        ]  # Exclude the chain file itself
 
         if evidence_files:
             merkle_file = output_dir / f"merkle_chain_{audit_id}.json"
@@ -218,7 +215,7 @@ def main():
         key_files = [
             f"audit_baseline_{audit_id}.json",
             f"CERTIFICATION_{audit_id}.md",
-            f"evidence_package_{audit_id}.zip"
+            f"evidence_package_{audit_id}.zip",
         ]
 
         for filename in key_files:
@@ -234,7 +231,7 @@ def main():
         cert_file = output_dir / f"certification_{audit_id}.json"
         if cert_file.exists():
             try:
-                with open(cert_file, 'r') as f:
+                with open(cert_file, "r") as f:
                     cert_data = json.load(f)
 
                 status = cert_data.get("certification", {}).get("status", "UNKNOWN")

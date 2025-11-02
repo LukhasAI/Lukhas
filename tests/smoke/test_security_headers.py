@@ -8,6 +8,7 @@ Validates:
 - Content-Type headers accurate
 - X-Trace-Id for observability
 """
+
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
@@ -49,8 +50,7 @@ def test_json_endpoints_return_json_content_type(client, auth_headers):
             response = client.post(path, json=json_data, headers=auth_headers)
 
         content_type = response.headers.get("content-type", "")
-        assert "application/json" in content_type.lower(), \
-            f"{method} {path} returned Content-Type: {content_type}"
+        assert "application/json" in content_type.lower(), f"{method} {path} returned Content-Type: {content_type}"
 
 
 def test_metrics_returns_text_plain(client):
@@ -107,8 +107,8 @@ def test_cors_preflight_request(client):
         headers={
             "Origin": "https://example.com",
             "Access-Control-Request-Method": "GET",
-            "Access-Control-Request-Headers": "authorization"
-        }
+            "Access-Control-Request-Headers": "authorization",
+        },
     )
 
     # Should handle OPTIONS request
@@ -118,13 +118,7 @@ def test_cors_preflight_request(client):
 
 def test_cors_origin_header_present(client, auth_headers):
     """Verify CORS headers present when Origin sent."""
-    response = client.get(
-        "/v1/models",
-        headers={
-            **auth_headers,
-            "Origin": "https://example.com"
-        }
-    )
+    response = client.get("/v1/models", headers={**auth_headers, "Origin": "https://example.com"})
 
     # May or may not have CORS headers depending on configuration
     # Just verify request succeeds
@@ -142,8 +136,7 @@ def test_x_trace_id_format_when_present(client, auth_headers):
     if trace_id:
         # Should be 32-char hex string
         assert len(trace_id) == 32, f"X-Trace-Id should be 32 chars: {trace_id}"
-        assert all(c in "0123456789abcdef" for c in trace_id), \
-            f"X-Trace-Id should be hex: {trace_id}"
+        assert all(c in "0123456789abcdef" for c in trace_id), f"X-Trace-Id should be hex: {trace_id}"
 
 
 def test_trace_id_different_per_request(client, auth_headers):
@@ -169,8 +162,7 @@ def test_no_auth_token_in_response_headers(client, auth_headers):
 
     # Check all headers
     for header_name, header_value in response.headers.items():
-        assert token not in header_value, \
-            f"Token leaked in {header_name} header"
+        assert token not in header_value, f"Token leaked in {header_name} header"
 
 
 def test_no_auth_token_in_response_body(client, auth_headers):
@@ -197,13 +189,12 @@ def test_error_responses_no_stack_traces(client):
         "traceback",
         ".py:",
         "line ",
-        "file \"",
+        'file "',
         "exception:",
     ]
 
     for indicator in stack_trace_indicators:
-        assert indicator not in response_text, \
-            f"Stack trace indicator found: {indicator}"
+        assert indicator not in response_text, f"Stack trace indicator found: {indicator}"
 
 
 # Cache Control Tests
@@ -214,11 +205,7 @@ def test_cache_control_headers_appropriate(client, auth_headers):
     assert models_response.status_code == 200
 
     # Dynamic endpoints should not be cached
-    responses_response = client.post(
-        "/v1/responses",
-        json={"input": "test"},
-        headers=auth_headers
-    )
+    responses_response = client.post("/v1/responses", json={"input": "test"}, headers=auth_headers)
     assert responses_response.status_code == 200
 
     cache_control = responses_response.headers.get("Cache-Control", "")

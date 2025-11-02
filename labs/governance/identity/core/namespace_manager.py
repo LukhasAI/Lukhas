@@ -19,6 +19,7 @@ Namespace Schema:
 - Service namespaces: {service}.{tenant}.ai
 - User namespaces: user.{user_id}.ai
 """
+
 import secrets
 import time
 from datetime import datetime, timezone

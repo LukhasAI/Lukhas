@@ -281,7 +281,9 @@ def get_ethical_precedent_seeds() -> list[dict[str, Any]]:
     return formatted_precedents
 
 
-async def seed_precedent_database(mae_engine: "VIVOXMoralAlignmentEngine"):  # noqa: F821  # TODO: VIVOXMoralAlignmentEngine
+async def seed_precedent_database(
+    mae_engine: "VIVOXMoralAlignmentEngine",
+):  # noqa: F821  # TODO: VIVOXMoralAlignmentEngine
     """
     Seed the MAE precedent database with common ethical scenarios
 

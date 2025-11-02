@@ -1,4 +1,5 @@
 """Bridge for consciousness.dream.expand -> candidate.consciousness.dream expansion."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge
@@ -21,9 +22,12 @@ del _mod, _exports
 try:
     from candidate.consciousness.dream.expand import archetypes
 except ImportError:
+
     def archetypes(*args, **kwargs):
         """Stub for archetypes."""
         return None
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -35,9 +39,12 @@ if "archetypes" not in __all__:
 try:
     from candidate.consciousness.dream.expand import atlas
 except ImportError:
+
     def atlas(*args, **kwargs):
         """Stub for atlas."""
         return None
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -49,9 +56,12 @@ if "atlas" not in __all__:
 try:
     from candidate.consciousness.dream.expand import mediation
 except ImportError:
+
     def mediation(*args, **kwargs):
         """Stub for mediation."""
         return None
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -63,9 +73,12 @@ if "mediation" not in __all__:
 try:
     from candidate.consciousness.dream.expand import replay
 except ImportError:
+
     def replay(*args, **kwargs):
         """Stub for replay."""
         return None
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -77,9 +90,12 @@ if "replay" not in __all__:
 try:
     from candidate.consciousness.dream.expand import sentinel
 except ImportError:
+
     def sentinel(*args, **kwargs):
         """Stub for sentinel."""
         return None
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

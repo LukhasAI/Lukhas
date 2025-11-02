@@ -18,6 +18,7 @@ except ImportError:
     print("❌ jsonschema package required: pip install jsonschema")
     sys.exit(1)
 
+
 class ConfigValidator:
     def __init__(self):
         self.errors = []
@@ -36,10 +37,16 @@ class ConfigValidator:
 
         # Secret detection patterns
         self.secret_patterns = [
-            (r"(?i)(secret|token|password|api[_-]?key|private[_-]?key)\s*:\s*['\"]?([A-Za-z0-9+/]{12,})['\"]?", "Potential secret"),
+            (
+                r"(?i)(secret|token|password|api[_-]?key|private[_-]?key)\s*:\s*['\"]?([A-Za-z0-9+/]{12,})['\"]?",
+                "Potential secret",
+            ),
             (r"(?i)(bearer|auth)\s*:\s*['\"]?([A-Za-z0-9+/]{20,})['\"]?", "Potential auth token"),
             (r"(?i)(password|passwd|pwd)\s*:\s*['\"]?([A-Za-z0-9!@#$%^&*]{8,})['\"]?", "Potential password"),
-            (r"(?i)(cert|certificate|crt)\s*:\s*['\"]?(-----BEGIN[^-]+-----[A-Za-z0-9+/\s=]*-----END[^-]+-----)['\"]?", "Potential certificate"),
+            (
+                r"(?i)(cert|certificate|crt)\s*:\s*['\"]?(-----BEGIN[^-]+-----[A-Za-z0-9+/\s=]*-----END[^-]+-----)['\"]?",
+                "Potential certificate",
+            ),
         ]
 
     def validate_yaml_file(self, file_path: pathlib.Path, schema_name: str) -> bool:
@@ -71,13 +78,13 @@ class ConfigValidator:
         secrets_found = []
 
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 content = f.read()
 
             for pattern, description in self.secret_patterns:
                 matches = re.finditer(pattern, content, re.MULTILINE)
                 for match in matches:
-                    line_num = content[:match.start()].count('\n') + 1
+                    line_num = content[: match.start()].count("\n") + 1
                     secrets_found.append(f"{file_path}:{line_num} - {description}: {match.group(1)}")
 
         except Exception as e:
@@ -92,7 +99,7 @@ class ConfigValidator:
             "config_valid": False,
             "logging_valid": False,
             "environment_valid": False,
-            "secrets_found": []
+            "secrets_found": [],
         }
 
         config_dir = module_path / "config"
@@ -132,7 +139,7 @@ class ConfigValidator:
             for key, value in self._flatten_dict(content).items():
                 if isinstance(value, str):
                     # Allow placeholder patterns
-                    if re.match(r'^(\$\{[A-Z_]+\}|<[A-Z_]+>|TBD|PLACEHOLDER|EXAMPLE)$', value):
+                    if re.match(r"^(\$\{[A-Z_]+\}|<[A-Z_]+>|TBD|PLACEHOLDER|EXAMPLE)$", value):
                         continue
                     # Flag potentially real values
                     if len(value) > 10 and not value.isupper():
@@ -143,7 +150,7 @@ class ConfigValidator:
             self.errors.append(f"{env_file}: Environment validation error - {e}")
             return False
 
-    def _flatten_dict(self, d: Dict[str, Any], parent_key: str = '', sep: str = '.') -> Dict[str, Any]:
+    def _flatten_dict(self, d: Dict[str, Any], parent_key: str = "", sep: str = ".") -> Dict[str, Any]:
         """Flatten nested dictionary."""
         items = []
         for k, v in d.items():
@@ -154,14 +161,16 @@ class ConfigValidator:
                 items.append((new_key, v))
         return dict(items)
 
+
 def main():
     """Main validation function."""
     validator = ConfigValidator()
 
     # Find all module directories
     root_path = pathlib.Path(".")
-    module_dirs = [d for d in root_path.iterdir()
-                   if d.is_dir() and not d.name.startswith('.') and (d / "config").exists()]
+    module_dirs = [
+        d for d in root_path.iterdir() if d.is_dir() and not d.name.startswith(".") and (d / "config").exists()
+    ]
 
     if not module_dirs:
         print("No module directories with config/ found")
@@ -186,11 +195,13 @@ def main():
         secrets_count = len(results["secrets_found"])
         total_secrets += secrets_count
 
-        print(f"{status} {results['module']}: "
-              f"config={results['config_valid']}, "
-              f"logging={results['logging_valid']}, "
-              f"env={results['environment_valid']}, "
-              f"secrets={secrets_count}")
+        print(
+            f"{status} {results['module']}: "
+            f"config={results['config_valid']}, "
+            f"logging={results['logging_valid']}, "
+            f"env={results['environment_valid']}, "
+            f"secrets={secrets_count}"
+        )
 
         # Show secrets found
         for secret in results["secrets_found"]:
@@ -223,6 +234,7 @@ def main():
     else:
         print("\n✅ All configurations are valid and secure")
         return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

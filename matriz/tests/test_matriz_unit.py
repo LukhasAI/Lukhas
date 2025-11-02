@@ -25,10 +25,7 @@ class TestMatrizModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "matriz",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "matriz", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestMatrizModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import matriz
+
         self.assertIsNotNone(matriz)
 
     def test_module_version(self):
         """Test module has version information."""
         import matriz
+
         # Most modules should have version info
-        self.assertTrue(hasattr(matriz, '__version__') or
-                       hasattr(matriz, 'VERSION'))
+        self.assertTrue(hasattr(matriz, "__version__") or hasattr(matriz, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testcore(unittest.TestCase):
         """Test core can be imported."""
         try:
             from matriz import core
+
             self.assertIsNotNone(core)
         except ImportError:
             pytest.skip("Component core not available")
@@ -97,6 +96,7 @@ class TestLegacyShim(unittest.TestCase):
         """Test LegacyShim can be imported."""
         try:
             from matriz.legacy_shim import LegacyShim
+
             self.assertIsNotNone(LegacyShim)
         except ImportError:
             pytest.skip("Component LegacyShim not available")
@@ -114,6 +114,7 @@ class Testcreate_shim(unittest.TestCase):
         """Test create_shim can be imported."""
         try:
             from matriz.legacy_shim import create_shim
+
             self.assertIsNotNone(create_shim)
         except ImportError:
             pytest.skip("Component create_shim not available")
@@ -122,7 +123,6 @@ class Testcreate_shim(unittest.TestCase):
         """Test create_shim can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

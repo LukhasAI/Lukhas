@@ -25,10 +25,7 @@ class TestScriptsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "scripts",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "scripts", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestScriptsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import scripts
+
         self.assertIsNotNone(scripts)
 
     def test_module_version(self):
         """Test module has version information."""
         import scripts
+
         # Most modules should have version info
-        self.assertTrue(hasattr(scripts, '__version__') or
-                       hasattr(scripts, 'VERSION'))
+        self.assertTrue(hasattr(scripts, "__version__") or hasattr(scripts, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestQuarantineDisabledOrchestrator(unittest.TestCase):
         """Test QuarantineDisabledOrchestrator can be imported."""
         try:
             from scripts.ablation_test import QuarantineDisabledOrchestrator
+
             self.assertIsNotNone(QuarantineDisabledOrchestrator)
         except ImportError:
             pytest.skip("Component QuarantineDisabledOrchestrator not available")
@@ -97,6 +96,7 @@ class TestAttackResult(unittest.TestCase):
         """Test AttackResult can be imported."""
         try:
             from scripts.abuse_tester import AttackResult
+
             self.assertIsNotNone(AttackResult)
         except ImportError:
             pytest.skip("Component AttackResult not available")
@@ -114,6 +114,7 @@ class TestLUKHASAbuseTestFramework(unittest.TestCase):
         """Test LUKHASAbuseTestFramework can be imported."""
         try:
             from scripts.abuse_tester import LUKHASAbuseTestFramework
+
             self.assertIsNotNone(LUKHASAbuseTestFramework)
         except ImportError:
             pytest.skip("Component LUKHASAbuseTestFramework not available")
@@ -122,7 +123,6 @@ class TestLUKHASAbuseTestFramework(unittest.TestCase):
         """Test LUKHASAbuseTestFramework can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

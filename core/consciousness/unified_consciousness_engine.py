@@ -36,15 +36,19 @@ from typing import Any, Callable, Optional
 try:
     from core.common import get_logger
 except ImportError:
+
     def get_logger(name):
         import logging
+
         return logging.getLogger(name)
+
 
 logger = get_logger(__name__)
 
 
 class ConsciousnessState(Enum):
     """Possible consciousness states"""
+
     INACTIVE = "inactive"
     INITIALIZING = "initializing"
     ACTIVE = "active"
@@ -60,6 +64,7 @@ class ConsciousnessState(Enum):
 
 class AwarenessLevel(Enum):
     """Levels of consciousness awareness"""
+
     MINIMAL = 1
     LOW = 2
     MODERATE = 3
@@ -69,16 +74,17 @@ class AwarenessLevel(Enum):
 
 class ConsciousnessModule(Enum):
     """Consciousness subsystem modules"""
-    IDENTITY = "identity"        # ⚛️ Identity and self-awareness
-    MEMORY = "memory"           # Memory and experience
-    REASONING = "reasoning"     # Logical reasoning and inference
-    CREATIVITY = "creativity"   # Creative expression and ideation
-    EMOTION = "emotion"         # Emotional processing
-    DREAM = "dream"            # Dream state processing
-    LEARNING = "learning"      # Learning and adaptation
-    GUARDIAN = "guardian"      # 🛡️ Guardian and ethical oversight
+
+    IDENTITY = "identity"  # ⚛️ Identity and self-awareness
+    MEMORY = "memory"  # Memory and experience
+    REASONING = "reasoning"  # Logical reasoning and inference
+    CREATIVITY = "creativity"  # Creative expression and ideation
+    EMOTION = "emotion"  # Emotional processing
+    DREAM = "dream"  # Dream state processing
+    LEARNING = "learning"  # Learning and adaptation
+    GUARDIAN = "guardian"  # 🛡️ Guardian and ethical oversight
     PERCEPTION = "perception"  # Sensory and data perception
-    INTEGRATION = "integration" # Cross-system integration
+    INTEGRATION = "integration"  # Cross-system integration
 
 
 @dataclass
@@ -104,9 +110,9 @@ class ConsciousnessMetrics:
     uptime: float = 0.0  # total uptime in seconds
 
     # Constellation Framework metrics
-    identity_coherence: float = 1.0    # ⚛️
-    consciousness_depth: float = 0.5   # 🧠
-    guardian_protection: float = 1.0   # 🛡️
+    identity_coherence: float = 1.0  # ⚛️
+    consciousness_depth: float = 0.5  # 🧠
+    guardian_protection: float = 1.0  # 🛡️
 
 
 @dataclass
@@ -138,7 +144,7 @@ class ConsciousnessEvent:
 class UnifiedConsciousnessEngine:
     """
     Unified consciousness processing engine for LUKHAS AI
-    
+
     Provides centralized consciousness state management, cross-system
     coordination, and unified awareness processing with Constellation Framework
     integration.
@@ -174,15 +180,11 @@ class UnifiedConsciousnessEngine:
             "coherence_threshold": 0.6,
             "health_check_interval": 30.0,
             "state_transition_timeout": 60.0,
-            "max_event_history": 1000
+            "max_event_history": 1000,
         }
 
         # Constellation Framework weights
-        self.constellation_weights = {
-            "identity": 0.3,      # ⚛️
-            "consciousness": 0.4,  # 🧠
-            "guardian": 0.3       # 🛡️
-        }
+        self.constellation_weights = {"identity": 0.3, "consciousness": 0.4, "guardian": 0.3}  # ⚛️  # 🧠  # 🛡️
 
         # Async processing control
         self.processing_tasks: set[asyncio.Task] = set()
@@ -204,7 +206,7 @@ class UnifiedConsciousnessEngine:
             "integration_request": self._process_integration_request_event,
             "health_check": self._process_health_check_event,
             "constellation_sync": self._process_trinity_sync_event,
-            "error_recovery": self._process_error_recovery_event
+            "error_recovery": self._process_error_recovery_event,
         }
 
     def _init_core_modules(self):
@@ -212,36 +214,12 @@ class UnifiedConsciousnessEngine:
 
         # Register core modules with default configurations
         core_modules = {
-            ConsciousnessModule.IDENTITY: {
-                "priority": 1,
-                "required": True,
-                "health_threshold": 0.8
-            },
-            ConsciousnessModule.MEMORY: {
-                "priority": 1,
-                "required": True,
-                "health_threshold": 0.7
-            },
-            ConsciousnessModule.GUARDIAN: {
-                "priority": 1,
-                "required": True,
-                "health_threshold": 0.9
-            },
-            ConsciousnessModule.REASONING: {
-                "priority": 2,
-                "required": False,
-                "health_threshold": 0.6
-            },
-            ConsciousnessModule.CREATIVITY: {
-                "priority": 3,
-                "required": False,
-                "health_threshold": 0.5
-            },
-            ConsciousnessModule.DREAM: {
-                "priority": 3,
-                "required": False,
-                "health_threshold": 0.5
-            }
+            ConsciousnessModule.IDENTITY: {"priority": 1, "required": True, "health_threshold": 0.8},
+            ConsciousnessModule.MEMORY: {"priority": 1, "required": True, "health_threshold": 0.7},
+            ConsciousnessModule.GUARDIAN: {"priority": 1, "required": True, "health_threshold": 0.9},
+            ConsciousnessModule.REASONING: {"priority": 2, "required": False, "health_threshold": 0.6},
+            ConsciousnessModule.CREATIVITY: {"priority": 3, "required": False, "health_threshold": 0.5},
+            ConsciousnessModule.DREAM: {"priority": 3, "required": False, "health_threshold": 0.5},
         }
 
         for module, config in core_modules.items():
@@ -251,7 +229,7 @@ class UnifiedConsciousnessEngine:
     async def start(self) -> bool:
         """
         Start the unified consciousness engine
-        
+
         Returns:
             True if successfully started, False otherwise
         """
@@ -266,15 +244,9 @@ class UnifiedConsciousnessEngine:
                 self.metrics.last_transition = datetime.now()
 
             # Start core processing tasks
-            self.processing_tasks.add(
-                asyncio.create_task(self._event_processing_loop())
-            )
-            self.processing_tasks.add(
-                asyncio.create_task(self._metrics_update_loop())
-            )
-            self.processing_tasks.add(
-                asyncio.create_task(self._health_monitoring_loop())
-            )
+            self.processing_tasks.add(asyncio.create_task(self._event_processing_loop()))
+            self.processing_tasks.add(asyncio.create_task(self._metrics_update_loop()))
+            self.processing_tasks.add(asyncio.create_task(self._health_monitoring_loop()))
 
             # Initialize modules
             await self._initialize_modules()
@@ -293,7 +265,7 @@ class UnifiedConsciousnessEngine:
     async def stop(self) -> bool:
         """
         Stop the unified consciousness engine
-        
+
         Returns:
             True if successfully stopped, False otherwise
         """
@@ -332,19 +304,16 @@ class UnifiedConsciousnessEngine:
             return False
 
     async def register_module(
-        self,
-        module: ConsciousnessModule,
-        interface: Any,
-        config: Optional[dict[str, Any]] = None
+        self, module: ConsciousnessModule, interface: Any, config: Optional[dict[str, Any]] = None
     ) -> bool:
         """
         Register a consciousness module with the engine
-        
+
         Args:
             module: Module type to register
             interface: Module interface/instance
             config: Module configuration
-            
+
         Returns:
             True if successfully registered, False otherwise
         """
@@ -362,7 +331,7 @@ class UnifiedConsciousnessEngine:
                 "required": config.get("required", False),
                 "health_threshold": config.get("health_threshold", 0.5),
                 "interface": interface,
-                **config
+                **config,
             }
 
             self.module_interfaces[module] = interface
@@ -382,10 +351,10 @@ class UnifiedConsciousnessEngine:
     async def process_event(self, event: ConsciousnessEvent) -> bool:
         """
         Process a consciousness event
-        
+
         Args:
             event: Event to process
-            
+
         Returns:
             True if event was queued for processing, False otherwise
         """
@@ -401,7 +370,7 @@ class UnifiedConsciousnessEngine:
             # Add to history
             self.event_history.append(event)
             if len(self.event_history) > self.config["max_event_history"]:
-                self.event_history = self.event_history[-self.config["max_event_history"]:]
+                self.event_history = self.event_history[-self.config["max_event_history"] :]
 
             logger.debug(f"Queued consciousness event: {event.event_type}")
             return True
@@ -413,10 +382,10 @@ class UnifiedConsciousnessEngine:
     async def transition_state(self, target_state: ConsciousnessState) -> bool:
         """
         Request a state transition
-        
+
         Args:
             target_state: Target consciousness state
-            
+
         Returns:
             True if transition was successful, False otherwise
         """
@@ -431,10 +400,7 @@ class UnifiedConsciousnessEngine:
                 event_id=str(uuid.uuid4()),
                 event_type="state_transition",
                 source_module=ConsciousnessModule.INTEGRATION,
-                data={
-                    "current_state": self.current_state.value,
-                    "target_state": target_state.value
-                }
+                data={"current_state": self.current_state.value, "target_state": target_state.value},
             )
 
             await self.process_event(transition_event)
@@ -456,7 +422,8 @@ class UnifiedConsciousnessEngine:
 
         # Update active modules
         self.metrics.active_modules = set(
-            module for module, config in self.registered_modules.items()
+            module
+            for module, config in self.registered_modules.items()
             if self.metrics.module_health.get(module, 0.0) > config.get("health_threshold", 0.5)
         )
 
@@ -491,10 +458,10 @@ class UnifiedConsciousnessEngine:
             "constellation_metrics": {
                 "identity_coherence": metrics.identity_coherence,
                 "consciousness_depth": metrics.consciousness_depth,
-                "guardian_protection": metrics.guardian_protection
+                "guardian_protection": metrics.guardian_protection,
             },
             "uptime": metrics.uptime,
-            "last_update": datetime.now().isoformat()
+            "last_update": datetime.now().isoformat(),
         }
 
     async def _event_processing_loop(self):
@@ -503,10 +470,7 @@ class UnifiedConsciousnessEngine:
         while not self.shutdown_event.is_set():
             try:
                 # Wait for event with timeout
-                event = await asyncio.wait_for(
-                    self.event_queue.get(),
-                    timeout=1.0
-                )
+                event = await asyncio.wait_for(self.event_queue.get(), timeout=1.0)
 
                 # Process event
                 await self._process_single_event(event)
@@ -563,7 +527,7 @@ class UnifiedConsciousnessEngine:
         return {
             "previous_state": event.data.get("current_state"),
             "new_state": target_state.value,
-            "transition_time": time.time()
+            "transition_time": time.time(),
         }
 
     async def _process_module_update_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
@@ -588,7 +552,7 @@ class UnifiedConsciousnessEngine:
                         event_id=str(uuid.uuid4()),
                         event_type="error_recovery",
                         source_module=ConsciousnessModule.INTEGRATION,
-                        data={"target_module": module.value, "health": new_health}
+                        data={"target_module": module.value, "health": new_health},
                     )
                     await self.process_event(recovery_event)
 
@@ -618,7 +582,7 @@ class UnifiedConsciousnessEngine:
 
         return {
             "integration_efficiency": self.metrics.integration_efficiency,
-            "coherence_score": self.metrics.coherence_score
+            "coherence_score": self.metrics.coherence_score,
         }
 
     async def _process_health_check_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
@@ -646,15 +610,13 @@ class UnifiedConsciousnessEngine:
         # Calculate consciousness depth based on active modules and integration
         active_ratio = len(self.metrics.active_modules) / len(self.registered_modules)
         self.metrics.consciousness_depth = (
-            active_ratio * 0.5 +
-            self.metrics.integration_efficiency * 0.3 +
-            self.metrics.coherence_score * 0.2
+            active_ratio * 0.5 + self.metrics.integration_efficiency * 0.3 + self.metrics.coherence_score * 0.2
         )
 
         return {
             "identity_coherence": self.metrics.identity_coherence,
             "consciousness_depth": self.metrics.consciousness_depth,
-            "guardian_protection": self.metrics.guardian_protection
+            "guardian_protection": self.metrics.guardian_protection,
         }
 
     async def _process_error_recovery_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
@@ -667,10 +629,7 @@ class UnifiedConsciousnessEngine:
             # Attempt module recovery
             success = await self._recover_module(module)
 
-            return {
-                "module": target_module_name,
-                "recovery_successful": success
-            }
+            return {"module": target_module_name, "recovery_successful": success}
 
         return {"status": "no_action"}
 
@@ -858,8 +817,7 @@ class UnifiedConsciousnessEngine:
 
         # Update processing load (weighted average)
         self.metrics.processing_load = (
-            self.metrics.processing_load * 0.7 +
-            (queue_load + (1.0 - avg_module_health)) * 0.3
+            self.metrics.processing_load * 0.7 + (queue_load + (1.0 - avg_module_health)) * 0.3
         )
 
     async def _update_integration_metrics(self):
@@ -871,10 +829,7 @@ class UnifiedConsciousnessEngine:
 
         if total_count > 0:
             module_ratio = active_count / total_count
-            self.metrics.integration_efficiency = (
-                self.metrics.integration_efficiency * 0.8 +
-                module_ratio * 0.2
-            )
+            self.metrics.integration_efficiency = self.metrics.integration_efficiency * 0.8 + module_ratio * 0.2
 
         # Coherence based on state stability and module health
         state_duration = (datetime.now() - self.metrics.last_transition).total_seconds()
@@ -891,9 +846,7 @@ class UnifiedConsciousnessEngine:
             try:
                 # Create health check event
                 health_event = ConsciousnessEvent(
-                    event_id=str(uuid.uuid4()),
-                    event_type="health_check",
-                    source_module=ConsciousnessModule.INTEGRATION
+                    event_id=str(uuid.uuid4()), event_type="health_check", source_module=ConsciousnessModule.INTEGRATION
                 )
 
                 await self.process_event(health_event)
@@ -940,5 +893,5 @@ __all__ = [
     "ConsciousnessModule",
     "ConsciousnessMetrics",
     "ConsciousnessEvent",
-    "UnifiedConsciousnessEngine"
+    "UnifiedConsciousnessEngine",
 ]

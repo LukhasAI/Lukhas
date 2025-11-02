@@ -1,4 +1,3 @@
-
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: dev_dashboard.py
@@ -27,17 +26,33 @@ except ImportError:
         def __init__(self):
             self.session_state = {}
 
-        def set_page_config(self, **kwargs): pass
-        def error(self, msg): print(f"ERROR: {msg}")
-        def stop(self): return
-        def title(self, msg): print(f"TITLE: {msg}")
-        def sidebar(self): return self
-        def tabs(self, tabs): return [MockTab() for _ in tabs]
-        def header(self, msg): print(f"HEADER: {msg}")
+        def set_page_config(self, **kwargs):
+            pass
+
+        def error(self, msg):
+            print(f"ERROR: {msg}")
+
+        def stop(self):
+            return
+
+        def title(self, msg):
+            print(f"TITLE: {msg}")
+
+        def sidebar(self):
+            return self
+
+        def tabs(self, tabs):
+            return [MockTab() for _ in tabs]
+
+        def header(self, msg):
+            print(f"HEADER: {msg}")
 
     class MockTab:
-        def __enter__(self): return self
-        def __exit__(self, *args): pass
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            pass
 
     st = MockStreamlit()
 from pathlib import Path

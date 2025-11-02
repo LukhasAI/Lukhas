@@ -1,4 +1,5 @@
 """Unit tests for :mod:`core.security.security_monitor`."""
+
 from __future__ import annotations
 
 import time

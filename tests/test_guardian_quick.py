@@ -24,8 +24,14 @@ def test_guardian_schema_standardization():
     response = guardian.validate_safety({"test": "data"})
 
     required_fields = {
-        "safe", "drift_score", "guardian_status", "emergency_active",
-        "enforcement_enabled", "schema_version", "timestamp", "correlation_id"
+        "safe",
+        "drift_score",
+        "guardian_status",
+        "emergency_active",
+        "enforcement_enabled",
+        "schema_version",
+        "timestamp",
+        "correlation_id",
     }
 
     print(f"  Response keys: {set(response.keys())}")
@@ -60,7 +66,7 @@ def test_guardian_schema_standardization():
     print("\n✅ Test 4: Correlation ID Format")
     correlation_id = response["correlation_id"]
 
-    if len(correlation_id) == 36 and correlation_id.count('-') == 4:
+    if len(correlation_id) == 36 and correlation_id.count("-") == 4:
         print(f"  ✅ Correlation ID valid UUID format: {correlation_id}")
     else:
         print(f"  ❌ Invalid correlation ID format: {correlation_id}")
@@ -160,6 +166,7 @@ def main():
     except Exception as e:
         print(f"\n❌ Guardian test failed with error: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 

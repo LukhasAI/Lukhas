@@ -1,4 +1,5 @@
 """Operational ethics swarm colony engine for Guardian integrations."""
+
 from __future__ import annotations
 
 import hashlib
@@ -96,9 +97,7 @@ class EthicsSwarmColony:
         if normalized != signal.value:
             signal = replace(signal, value=normalized)
         self._signals.append(signal)
-        logger.debug(
-            "Registered ethical signal", extra={"source": signal.source, "value": normalized}
-        )
+        logger.debug("Registered ethical signal", extra={"source": signal.source, "value": normalized})
 
     def extend_signals(self, signals: Iterable[EthicalSignal]) -> None:
         """Bulk register multiple signals."""
@@ -121,9 +120,7 @@ class EthicsSwarmColony:
         reason_parts: list[str] = []
         if not approved:
             if drift_score > decision_floor:
-                reason_parts.append(
-                    f"drift threshold exceeded ({drift_score:.3f} > {decision_floor:.3f})"
-                )
+                reason_parts.append(f"drift threshold exceeded ({drift_score:.3f} > {decision_floor:.3f})")
             if risk_level in {"critical", "emergency"}:
                 reason_parts.append(f"risk level {risk_level}")
             if not reason_parts:
@@ -179,9 +176,7 @@ class EthicsSwarmColony:
 
         self._signals.clear()
 
-    def _decision_floor(
-        self, decision_type: EthicalDecisionType, risk_level: str
-    ) -> float:
+    def _decision_floor(self, decision_type: EthicalDecisionType, risk_level: str) -> float:
         base_threshold = self.drift_threshold
         if decision_type is EthicalDecisionType.ESCALATED:
             base_threshold -= self.escalation_penalty
@@ -217,9 +212,7 @@ class EthicsSwarmColony:
         affect_delta = positive_avg - negative_avg
         return float(max(-1.0, min(affect_delta, 1.0)))
 
-    def _build_collapse_hash(
-        self, request: EthicalDecisionRequest, drift_score: float, affect_delta: float
-    ) -> str:
+    def _build_collapse_hash(self, request: EthicalDecisionRequest, drift_score: float, affect_delta: float) -> str:
         payload = f"{request.request_id}:{request.timestamp.isoformat()}:{drift_score:.6f}:{affect_delta:.6f}:{time.time():.6f}"
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 

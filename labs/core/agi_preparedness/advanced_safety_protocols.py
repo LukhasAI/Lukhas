@@ -24,6 +24,7 @@ Integration:
 - Capability Evaluation Framework safety thresholds
 - Democratic oversight for Cognitive AI safety decisions
 """
+
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

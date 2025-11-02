@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 class RuleLoadError(Exception):
     """Rule loading or validation error."""
+
     pass
 
 
@@ -48,20 +49,17 @@ def load_ethics_rules(config_path: Optional[str] = None) -> RuleSet:
     """
     if config_path is None:
         # Default to bundled rules
-        config_path = os.path.join(
-            os.path.dirname(__file__),
-            "..", "rules", "defaults.yaml"
-        )
+        config_path = os.path.join(os.path.dirname(__file__), "..", "rules", "defaults.yaml")
 
     try:
-        with open(config_path, 'r') as f:
+        with open(config_path, "r") as f:
             config = yaml.safe_load(f)
 
-        if not config or 'rules' not in config:
+        if not config or "rules" not in config:
             raise RuleLoadError(f"Invalid config structure in {config_path}")
 
         rules = []
-        for rule_config in config['rules']:
+        for rule_config in config["rules"]:
             try:
                 rule = _parse_rule_config(rule_config)
                 rules.append(rule)
@@ -90,46 +88,46 @@ def load_ethics_rules(config_path: Optional[str] = None) -> RuleSet:
 
 def _parse_rule_config(config: Dict) -> EthicsRule:
     """Parse individual rule configuration."""
-    required_fields = ['name', 'description', 'rule_dsl', 'action', 'priority']
+    required_fields = ["name", "description", "rule_dsl", "action", "priority"]
     for field in required_fields:
         if field not in config:
             raise RuleLoadError(f"Missing required field: {field}")
 
     # Parse action
-    action_str = config['action'].lower()
-    if action_str == 'allow':
+    action_str = config["action"].lower()
+    if action_str == "allow":
         action = EthicsAction.ALLOW
-    elif action_str == 'warn':
+    elif action_str == "warn":
         action = EthicsAction.WARN
-    elif action_str == 'block':
+    elif action_str == "block":
         action = EthicsAction.BLOCK
     else:
         raise RuleLoadError(f"Invalid action: {action_str}")
 
     # Parse priority
-    priority_str = config['priority'].lower()
-    if priority_str == 'low':
+    priority_str = config["priority"].lower()
+    if priority_str == "low":
         priority = Priority.LOW
-    elif priority_str == 'medium':
+    elif priority_str == "medium":
         priority = Priority.MEDIUM
-    elif priority_str == 'high':
+    elif priority_str == "high":
         priority = Priority.HIGH
-    elif priority_str == 'critical':
+    elif priority_str == "critical":
         priority = Priority.CRITICAL
     else:
         raise RuleLoadError(f"Invalid priority: {priority_str}")
 
     # Parse tags
-    tags = set(config.get('tags', []))
+    tags = set(config.get("tags", []))
 
     # Create rule (this will validate DSL compilation)
     rule = EthicsRule(
-        name=config['name'],
-        description=config['description'],
-        rule_dsl=config['rule_dsl'],
+        name=config["name"],
+        description=config["description"],
+        rule_dsl=config["rule_dsl"],
         action=action,
         priority=priority,
-        tags=tags
+        tags=tags,
     )
 
     return rule
@@ -144,7 +142,7 @@ def _create_fallback_rules() -> List[EthicsRule]:
             rule_dsl='or(equals(action, "delete_user_data"), equals(action, "access_private_info"))',
             action=EthicsAction.BLOCK,
             priority=Priority.CRITICAL,
-            tags={"security", "fallback"}
+            tags={"security", "fallback"},
         ),
         EthicsRule(
             name="fallback_warn_external",
@@ -152,19 +150,21 @@ def _create_fallback_rules() -> List[EthicsRule]:
             rule_dsl='equals(action, "external_call")',
             action=EthicsAction.WARN,
             priority=Priority.MEDIUM,
-            tags={"audit", "fallback"}
-        )
+            tags={"audit", "fallback"},
+        ),
     ]
 
 
 # Global instance for Plan Verifier integration
 _ethics_engine_instance = None
 
-def get_ethics_engine(config_path: Optional[str] = None) -> 'EthicsEngine':
+
+def get_ethics_engine(config_path: Optional[str] = None) -> "EthicsEngine":
     """Get or create global ethics engine instance."""
     global _ethics_engine_instance
     if _ethics_engine_instance is None:
         from .ethics_engine import EthicsEngine
+
         rule_set = load_ethics_rules(config_path)
         _ethics_engine_instance = EthicsEngine(rule_set)
     return _ethics_engine_instance

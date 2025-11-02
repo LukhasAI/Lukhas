@@ -84,7 +84,9 @@ class AdvancedVocabularyEngine:
             word in content_lower or word in path_lower for word in ["quantum", "probability", "entangle", "collapse"]
         ):
             return "quantum"
-        elif any(word in content_lower or word in path_lower for word in ["constellation", "identity", "guardian", "ethics"]):
+        elif any(
+            word in content_lower or word in path_lower for word in ["constellation", "identity", "guardian", "ethics"]
+        ):
             return "triad_core"
         else:
             return "triad_core"  # Default to core consciousness

@@ -1,4 +1,5 @@
 """Contract tests for top missing imports - Patch 1+2."""
+
 import importlib
 
 import pytest

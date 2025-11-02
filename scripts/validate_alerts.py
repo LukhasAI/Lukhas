@@ -17,48 +17,42 @@ from typing import Set
 import yaml
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Expected metrics from LUKHAS system (updated for T4/0.01%)
 EXPECTED_METRICS = {
     # Main API metrics
-    'lukhas_api_requests_total',
-    'lukhas_api_request_duration_seconds',
-    'lukhas_api_active_connections',
-
+    "lukhas_api_requests_total",
+    "lukhas_api_request_duration_seconds",
+    "lukhas_api_active_connections",
     # WebAuthn metrics
-    'lukhas_webauthn_api_requests_total',
-    'lukhas_webauthn_api_latency_seconds',
-
+    "lukhas_webauthn_api_requests_total",
+    "lukhas_webauthn_api_latency_seconds",
     # Orchestration metrics
-    'lukhas_orchestration_api_requests_total',
-    'lukhas_orchestration_api_latency_seconds',
-    'lukhas_multi_ai_requests_total',
-    'lukhas_multi_ai_latency_seconds',
-
+    "lukhas_orchestration_api_requests_total",
+    "lukhas_orchestration_api_latency_seconds",
+    "lukhas_multi_ai_requests_total",
+    "lukhas_multi_ai_latency_seconds",
     # Legacy metrics (for backward compatibility)
-    'lukhas_router_no_rule_total',
-    'lukhas_network_coherence',
-    'lukhas_signals_processed_total',
-
+    "lukhas_router_no_rule_total",
+    "lukhas_network_coherence",
+    "lukhas_signals_processed_total",
     # Memory metrics
-    'memory_operations_total',
-    'memory_recall_latency_seconds',
-    'active_folds',
-
+    "memory_operations_total",
+    "memory_recall_latency_seconds",
+    "active_folds",
     # Guardian/Security metrics
-    'guardian_policy_violations_total',
-    'guardian_lockdown_active',
-    'rate_limit_violations_total',
-    'token_replay_attempts_total',
-
+    "guardian_policy_violations_total",
+    "guardian_lockdown_active",
+    "rate_limit_violations_total",
+    "token_replay_attempts_total",
     # Drift detection
-    'lukhas_drift_ema',
-
+    "lukhas_drift_ema",
     # System metrics
-    'up',
+    "up",
 }
+
 
 class PrometheusAlertValidator:
     """Enhanced Prometheus alert validator with T4/0.01% compliance checking"""
@@ -66,24 +60,36 @@ class PrometheusAlertValidator:
     def __init__(self):
         self.metrics_covered = set()
         self.validation_results = {
-            'total_alerts': 0,
-            'valid_alerts': 0,
-            'invalid_alerts': 0,
-            'promql_errors': [],
-            'missing_metrics': [],
-            'coverage_percentage': 0.0
+            "total_alerts": 0,
+            "valid_alerts": 0,
+            "invalid_alerts": 0,
+            "promql_errors": [],
+            "missing_metrics": [],
+            "coverage_percentage": 0.0,
         }
 
     def extract_metrics_from_promql(self, expr: str) -> Set[str]:
         """Extract metric names from PromQL expression"""
-        metric_pattern = r'([a-zA-Z_][a-zA-Z0-9_]*)\s*[\{\(]?'
+        metric_pattern = r"([a-zA-Z_][a-zA-Z0-9_]*)\s*[\{\(]?"
         metrics = set()
 
         for match in re.finditer(metric_pattern, expr):
             metric_name = match.group(1)
             # Filter out PromQL functions
-            if metric_name not in ['rate', 'histogram_quantile', 'sum', 'avg', 'max', 'min',
-                                 'count', 'by', 'without', 'increase', 'delta', 'absent']:
+            if metric_name not in [
+                "rate",
+                "histogram_quantile",
+                "sum",
+                "avg",
+                "max",
+                "min",
+                "count",
+                "by",
+                "without",
+                "increase",
+                "delta",
+                "absent",
+            ]:
                 metrics.add(metric_name)
 
         return metrics
@@ -92,16 +98,16 @@ class PrometheusAlertValidator:
         """Basic PromQL syntax validation"""
         try:
             # Check balanced parentheses
-            if expr.count('(') != expr.count(')'):
+            if expr.count("(") != expr.count(")"):
                 error_msg = f"Unbalanced parentheses in {alert_name}: {expr}"
-                self.validation_results['promql_errors'].append(error_msg)
+                self.validation_results["promql_errors"].append(error_msg)
                 logger.warning(f"⚠️ {error_msg}")
                 return False
 
             # Check for basic PromQL structure
-            if not re.search(r'[a-zA-Z_][a-zA-Z0-9_]*', expr):
+            if not re.search(r"[a-zA-Z_][a-zA-Z0-9_]*", expr):
                 error_msg = f"No valid metric name found in {alert_name}: {expr}"
-                self.validation_results['promql_errors'].append(error_msg)
+                self.validation_results["promql_errors"].append(error_msg)
                 logger.warning(f"⚠️ {error_msg}")
                 return False
 
@@ -113,32 +119,32 @@ class PrometheusAlertValidator:
     def validate_yaml_alert_file(self, alert_file: Path) -> bool:
         """Validate a Prometheus YAML alert file"""
         try:
-            with open(alert_file, 'r') as f:
+            with open(alert_file, "r") as f:
                 content = yaml.safe_load(f)
 
             logger.info(f"✅ {alert_file.name}: Valid YAML structure")
 
-            if 'groups' not in content:
+            if "groups" not in content:
                 logger.warning(f"⚠️ {alert_file.name}: No groups found")
                 return True  # Not necessarily invalid
 
-            for group in content['groups']:
-                if 'rules' not in group:
+            for group in content["groups"]:
+                if "rules" not in group:
                     continue
 
-                for rule in group['rules']:
-                    if 'alert' not in rule:
+                for rule in group["rules"]:
+                    if "alert" not in rule:
                         continue
 
-                    self.validation_results['total_alerts'] += 1
-                    alert_name = rule.get('alert', 'unknown')
-                    expr = rule.get('expr', '')
+                    self.validation_results["total_alerts"] += 1
+                    alert_name = rule.get("alert", "unknown")
+                    expr = rule.get("expr", "")
 
                     # Validate PromQL syntax
                     if self.validate_promql_syntax(expr, alert_name):
-                        self.validation_results['valid_alerts'] += 1
+                        self.validation_results["valid_alerts"] += 1
                     else:
-                        self.validation_results['invalid_alerts'] += 1
+                        self.validation_results["invalid_alerts"] += 1
 
                     # Extract and track metrics
                     metrics_in_alert = self.extract_metrics_from_promql(expr)
@@ -152,8 +158,8 @@ class PrometheusAlertValidator:
                         logger.warning(f"⚠️ {alert_file.name}: {alert_name} may use unknown metrics: {expr}")
 
                     # Check annotations
-                    annotations = rule.get('annotations', {})
-                    if 'description' in annotations and 'summary' in annotations:
+                    annotations = rule.get("annotations", {})
+                    if "description" in annotations and "summary" in annotations:
                         logger.debug(f"✅ {alert_file.name}: {alert_name} has complete annotations")
                     else:
                         logger.warning(f"⚠️ {alert_file.name}: {alert_name} missing description or summary")
@@ -190,7 +196,7 @@ class PrometheusAlertValidator:
                 expr = model.get("expr", "")
 
                 if expr:
-                    self.validation_results['total_alerts'] += 1
+                    self.validation_results["total_alerts"] += 1
 
                     # Extract metrics
                     metrics_in_alert = self.extract_metrics_from_promql(expr)
@@ -200,7 +206,7 @@ class PrometheusAlertValidator:
                     known_metrics = metrics_in_alert.intersection(EXPECTED_METRICS)
                     if known_metrics:
                         logger.info(f"✅ {alert_file.name}: Expression uses known metrics: {list(known_metrics)}")
-                        self.validation_results['valid_alerts'] += 1
+                        self.validation_results["valid_alerts"] += 1
                     else:
                         logger.warning(f"⚠️ {alert_file.name}: Expression may use unknown metrics: {expr}")
 
@@ -218,10 +224,12 @@ class PrometheusAlertValidator:
         covered = self.metrics_covered.intersection(EXPECTED_METRICS)
         missing = EXPECTED_METRICS - self.metrics_covered
 
-        self.validation_results['missing_metrics'] = list(missing)
-        self.validation_results['coverage_percentage'] = (len(covered) / len(EXPECTED_METRICS)) * 100
+        self.validation_results["missing_metrics"] = list(missing)
+        self.validation_results["coverage_percentage"] = (len(covered) / len(EXPECTED_METRICS)) * 100
 
-        logger.info(f"📊 Metric coverage: {len(covered)}/{len(EXPECTED_METRICS)} ({self.validation_results['coverage_percentage']:.1f}%)")
+        logger.info(
+            f"📊 Metric coverage: {len(covered)}/{len(EXPECTED_METRICS)} ({self.validation_results['coverage_percentage']:.1f}%)"
+        )
 
         if missing:
             logger.warning(f"⚠️ Missing alerts for metrics: {list(missing)}")
@@ -241,9 +249,9 @@ class PrometheusAlertValidator:
 
         # T4/0.01% compliance check
         t4_compliant = (
-            results['invalid_alerts'] == 0 and
-            results['coverage_percentage'] >= 80 and  # At least 80% coverage
-            len(results['promql_errors']) == 0
+            results["invalid_alerts"] == 0
+            and results["coverage_percentage"] >= 80  # At least 80% coverage
+            and len(results["promql_errors"]) == 0
         )
 
         if t4_compliant:
@@ -257,11 +265,10 @@ class PrometheusAlertValidator:
 def main():
     """Main validation logic"""
     import argparse
-    parser = argparse.ArgumentParser(description='Validate LUKHAS Prometheus alerts')
-    parser.add_argument('--alerts-dir', type=Path, default=Path("monitoring/alerts"),
-                       help='Path to alerts directory')
-    parser.add_argument('--fail-on-error', action='store_true',
-                       help='Exit with error code on validation failures')
+
+    parser = argparse.ArgumentParser(description="Validate LUKHAS Prometheus alerts")
+    parser.add_argument("--alerts-dir", type=Path, default=Path("monitoring/alerts"), help="Path to alerts directory")
+    parser.add_argument("--fail-on-error", action="store_true", help="Exit with error code on validation failures")
 
     args = parser.parse_args()
 
@@ -305,16 +312,16 @@ def main():
     # Save results
     results_file = Path(__file__).parent.parent / "artifacts" / "alert_validation_results.json"
     results_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(results_file, 'w') as f:
+    with open(results_file, "w") as f:
         json.dump(validator.validation_results, f, indent=2)
     logger.info(f"💾 Results saved to: {results_file}")
 
     # Check if we should fail on errors
     if args.fail_on_error:
         t4_compliant = (
-            validator.validation_results['invalid_alerts'] == 0 and
-            validator.validation_results['coverage_percentage'] >= 80 and
-            len(validator.validation_results['promql_errors']) == 0
+            validator.validation_results["invalid_alerts"] == 0
+            and validator.validation_results["coverage_percentage"] >= 80
+            and len(validator.validation_results["promql_errors"]) == 0
         )
 
         if not t4_compliant:

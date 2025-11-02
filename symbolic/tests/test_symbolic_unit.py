@@ -21,6 +21,7 @@ try:
         WaveFunctionCollapse,
     )
     from symbolic.core.visual_symbol import QuantumState, SymbolState, VisualSymbol
+
     SYMBOLIC_AVAILABLE = True
 except ImportError:
     pytest.skip("Symbolic core modules not available", allow_module_level=True)
@@ -37,9 +38,7 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
 
         # Create test quantum perception field
         self.field = QuantumPerceptionField(
-            observer_id="test_observer",
-            consciousness_level=0.7,
-            field_dimensions=(5, 5, 5)
+            observer_id="test_observer", consciousness_level=0.7, field_dimensions=(5, 5, 5)
         )
         self.field.enable_trace(True)
 
@@ -54,11 +53,7 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
     def _create_test_symbol(self, symbol_id: str, entropy: float = 0.4, coherence: float = 0.7) -> VisualSymbol:
         """Create a test visual symbol with specified properties."""
         quantum_state = QuantumState(
-            amplitude=complex(0.8, 0.2),
-            phase=np.pi / 4,
-            entropy=entropy,
-            coherence=coherence,
-            trust=0.9
+            amplitude=complex(0.8, 0.2), phase=np.pi / 4, entropy=entropy, coherence=coherence, trust=0.9
         )
 
         symbol_state = SymbolState(
@@ -67,7 +62,7 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
             visual_weight=0.8,
             emotional_valence=0.2,
             emotional_arousal=0.6,
-            quantum_field=quantum_state
+            quantum_field=quantum_state,
         )
 
         return VisualSymbol(state=symbol_state)
@@ -81,9 +76,7 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
         pre_coherence = 0.8
         post_coherence = 0.6
 
-        drift_score = self.field._calculate_drift_score(
-            pre_entropy, post_entropy, pre_coherence, post_coherence
-        )
+        drift_score = self.field._calculate_drift_score(pre_entropy, post_entropy, pre_coherence, post_coherence)
 
         # Expected drift score calculation:
         # entropy_delta = |0.5 - 0.3| = 0.2
@@ -116,15 +109,13 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
     def test_collapse_hash_deterministic(self):
         """Test collapse hash generation is deterministic."""
         observer = ObserverEffect(
-            observer_id="test_observer",
-            consciousness_level=0.7,
-            observation_type=ObservationType.ACTIVE
+            observer_id="test_observer", consciousness_level=0.7, observation_type=ObservationType.ACTIVE
         )
 
         result = {"collapsed_state": "definite", "eigenstate": 1}
 
         # Mock time.time() for deterministic hashing
-        with patch('time.time', return_value=1698000000.123456):
+        with patch("time.time", return_value=1698000000.123456):
             hash1 = self.field._generate_collapse_hash(self.symbol_a, observer, result)
             hash2 = self.field._generate_collapse_hash(self.symbol_a, observer, result)
 
@@ -133,7 +124,7 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
         self.assertEqual(len(hash1), 16)  # Should be 16 character hex string
 
         # Different symbols should produce different hashes
-        with patch('time.time', return_value=1698000000.123456):
+        with patch("time.time", return_value=1698000000.123456):
             hash3 = self.field._generate_collapse_hash(self.symbol_b, observer, result)
 
         self.assertNotEqual(hash1, hash3)
@@ -142,28 +133,24 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
     def test_affect_delta_calculation(self):
         """Test affect delta calculation for different observation types."""
         observer = ObserverEffect(
-            observer_id="test_observer",
-            consciousness_level=0.8,
-            observation_type=ObservationType.INTENTIONAL
+            observer_id="test_observer", consciousness_level=0.8, observation_type=ObservationType.INTENTIONAL
         )
 
-        affect_delta = self.field._calculate_affect_delta(
-            observer, ObservationType.INTENTIONAL, drift_score=0.3
-        )
+        affect_delta = self.field._calculate_affect_delta(observer, ObservationType.INTENTIONAL, drift_score=0.3)
 
         # Verify structure
-        required_keys = {'valence', 'arousal', 'dominance', 'intensity'}
+        required_keys = {"valence", "arousal", "dominance", "intensity"}
         self.assertEqual(set(affect_delta.keys()), required_keys)
 
         # Verify ranges
-        self.assertGreaterEqual(affect_delta['valence'], -1.0)
-        self.assertLessEqual(affect_delta['valence'], 1.0)
-        self.assertGreaterEqual(affect_delta['arousal'], 0.0)
-        self.assertLessEqual(affect_delta['arousal'], 1.0)
-        self.assertGreaterEqual(affect_delta['dominance'], 0.0)
-        self.assertLessEqual(affect_delta['dominance'], 1.0)
-        self.assertGreaterEqual(affect_delta['intensity'], 0.0)
-        self.assertLessEqual(affect_delta['intensity'], 1.0)
+        self.assertGreaterEqual(affect_delta["valence"], -1.0)
+        self.assertLessEqual(affect_delta["valence"], 1.0)
+        self.assertGreaterEqual(affect_delta["arousal"], 0.0)
+        self.assertLessEqual(affect_delta["arousal"], 1.0)
+        self.assertGreaterEqual(affect_delta["dominance"], 0.0)
+        self.assertLessEqual(affect_delta["dominance"], 1.0)
+        self.assertGreaterEqual(affect_delta["intensity"], 0.0)
+        self.assertLessEqual(affect_delta["intensity"], 1.0)
 
     @pytest.mark.unit
     def test_observe_symbol_lambda_trace_integration(self):
@@ -172,28 +159,32 @@ class TestQuantumPerceptionInstrumentation(unittest.TestCase):
         self.field.enable_trace(True)
 
         result = self.field.observe_symbol(
-            self.symbol_a.state.symbol_id,
-            observer_id="test_observer",
-            observation_type=ObservationType.ACTIVE
+            self.symbol_a.state.symbol_id, observer_id="test_observer", observation_type=ObservationType.ACTIVE
         )
 
         # Verify enhanced result structure
-        self.assertIn('lambda_trace', result)
-        lambda_trace = result['lambda_trace']
+        self.assertIn("lambda_trace", result)
+        lambda_trace = result["lambda_trace"]
 
         # Verify ΛTRACE fields
         required_trace_fields = {
-            'drift_score', 'collapse_hash', 'affect_delta', 'observer_id',
-            'symbol_id', 'observation_timestamp', 'field_coherence', 'observation_count'
+            "drift_score",
+            "collapse_hash",
+            "affect_delta",
+            "observer_id",
+            "symbol_id",
+            "observation_timestamp",
+            "field_coherence",
+            "observation_count",
         }
         self.assertEqual(set(lambda_trace.keys()), required_trace_fields)
 
         # Verify types and ranges
-        self.assertIsInstance(lambda_trace['drift_score'], float)
-        self.assertIsInstance(lambda_trace['collapse_hash'], str)
-        self.assertIsInstance(lambda_trace['affect_delta'], dict)
-        self.assertEqual(lambda_trace['observer_id'], "test_observer")
-        self.assertEqual(lambda_trace['symbol_id'], self.symbol_a.state.symbol_id)
+        self.assertIsInstance(lambda_trace["drift_score"], float)
+        self.assertIsInstance(lambda_trace["collapse_hash"], str)
+        self.assertIsInstance(lambda_trace["affect_delta"], dict)
+        self.assertEqual(lambda_trace["observer_id"], "test_observer")
+        self.assertEqual(lambda_trace["symbol_id"], self.symbol_a.state.symbol_id)
 
 
 class TestEntangledSymbolPairHealth(unittest.TestCase):
@@ -207,20 +198,13 @@ class TestEntangledSymbolPairHealth(unittest.TestCase):
         self.symbol_b = self._create_test_symbol("entangled_b", entropy=0.3, coherence=0.8)
 
         self.pair = EntangledSymbolPair(
-            symbol_a=self.symbol_a,
-            symbol_b=self.symbol_b,
-            entanglement_strength=0.7,
-            drift_threshold=0.4
+            symbol_a=self.symbol_a, symbol_b=self.symbol_b, entanglement_strength=0.7, drift_threshold=0.4
         )
 
     def _create_test_symbol(self, symbol_id: str, entropy: float = 0.4, coherence: float = 0.7) -> VisualSymbol:
         """Create a test visual symbol with specified properties."""
         quantum_state = QuantumState(
-            amplitude=complex(0.8, 0.2),
-            phase=np.pi / 3,
-            entropy=entropy,
-            coherence=coherence,
-            trust=0.85
+            amplitude=complex(0.8, 0.2), phase=np.pi / 3, entropy=entropy, coherence=coherence, trust=0.85
         )
 
         symbol_state = SymbolState(
@@ -229,7 +213,7 @@ class TestEntangledSymbolPairHealth(unittest.TestCase):
             visual_weight=0.75,
             emotional_valence=0.1,
             emotional_arousal=0.5,
-            quantum_field=quantum_state
+            quantum_field=quantum_state,
         )
 
         return VisualSymbol(state=symbol_state)
@@ -295,23 +279,30 @@ class TestEntangledSymbolPairHealth(unittest.TestCase):
 
         # Verify summary structure
         required_fields = {
-            'current_health', 'health_trend', 'risk_level', 'correlation_stability',
-            'entanglement_strength', 'age_seconds', 'total_observations',
-            'drift_warnings_issued', 'recommendations', 'analytics_metadata'
+            "current_health",
+            "health_trend",
+            "risk_level",
+            "correlation_stability",
+            "entanglement_strength",
+            "age_seconds",
+            "total_observations",
+            "drift_warnings_issued",
+            "recommendations",
+            "analytics_metadata",
         }
         self.assertEqual(set(health_summary.keys()), required_fields)
 
         # Verify health trend calculation
-        self.assertIn(health_summary['health_trend'], ['improving', 'degrading', 'stable'])
+        self.assertIn(health_summary["health_trend"], ["improving", "degrading", "stable"])
 
         # Verify risk level calculation
-        self.assertIn(health_summary['risk_level'], ['low', 'medium', 'high'])
+        self.assertIn(health_summary["risk_level"], ["low", "medium", "high"])
 
         # Verify analytics metadata
-        metadata = health_summary['analytics_metadata']
-        self.assertIn('mean_health', metadata)
-        self.assertIn('min_health', metadata)
-        self.assertIn('max_health', metadata)
+        metadata = health_summary["analytics_metadata"]
+        self.assertIn("mean_health", metadata)
+        self.assertIn("min_health", metadata)
+        self.assertIn("max_health", metadata)
 
     @pytest.mark.unit
     def test_health_window_size_limits(self):
@@ -335,16 +326,13 @@ class TestQuantumPerceptionFieldTracing(unittest.TestCase):
     def setUp(self):
         """Set up perception field for tracing tests."""
         np.random.seed(42)
-        self.field = QuantumPerceptionField(
-            observer_id="trace_test_observer",
-            consciousness_level=0.6
-        )
+        self.field = QuantumPerceptionField(observer_id="trace_test_observer", consciousness_level=0.6)
 
     @pytest.mark.unit
     def test_trace_enable_disable(self):
         """Test trace enable/disable functionality."""
         # Initially disabled
-        self.assertFalse(getattr(self.field, '_trace_enabled', False))
+        self.assertFalse(getattr(self.field, "_trace_enabled", False))
 
         # Enable trace
         self.field.enable_trace(True)
@@ -359,9 +347,7 @@ class TestQuantumPerceptionFieldTracing(unittest.TestCase):
         """Test provenance chain construction for guardian auditing."""
         symbol = self._create_test_symbol("provenance_test")
         observer = ObserverEffect(
-            observer_id="audit_observer",
-            consciousness_level=0.8,
-            observation_type=ObservationType.INTENTIONAL
+            observer_id="audit_observer", consciousness_level=0.8, observation_type=ObservationType.INTENTIONAL
         )
 
         provenance_chain = self.field._build_provenance_chain(symbol, observer)
@@ -371,18 +357,14 @@ class TestQuantumPerceptionFieldTracing(unittest.TestCase):
         self.assertGreater(len(provenance_chain), 0)
 
         # Verify required provenance events
-        event_types = [event['event'] for event in provenance_chain]
-        self.assertIn('symbol_creation', event_types)
-        self.assertIn('observer_registration', event_types)
+        event_types = [event["event"] for event in provenance_chain]
+        self.assertIn("symbol_creation", event_types)
+        self.assertIn("observer_registration", event_types)
 
     def _create_test_symbol(self, symbol_id: str) -> VisualSymbol:
         """Create a test visual symbol."""
         quantum_state = QuantumState(
-            amplitude=complex(0.7, 0.3),
-            phase=np.pi / 6,
-            entropy=0.4,
-            coherence=0.8,
-            trust=0.9
+            amplitude=complex(0.7, 0.3), phase=np.pi / 6, entropy=0.4, coherence=0.8, trust=0.9
         )
 
         symbol_state = SymbolState(
@@ -391,7 +373,7 @@ class TestQuantumPerceptionFieldTracing(unittest.TestCase):
             visual_weight=0.7,
             emotional_valence=0.3,
             emotional_arousal=0.4,
-            quantum_field=quantum_state
+            quantum_field=quantum_state,
         )
 
         return VisualSymbol(state=symbol_state)

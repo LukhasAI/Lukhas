@@ -23,10 +23,7 @@ def client():
 @pytest.fixture
 def mock_environment():
     """Mock production environment"""
-    with patch.dict(os.environ, {
-        'GUARDIAN_MODE': 'production',
-        'LUKHAS_MODE': 'test'
-    }):
+    with patch.dict(os.environ, {"GUARDIAN_MODE": "production", "LUKHAS_MODE": "test"}):
         yield
 
 
@@ -196,10 +193,7 @@ class TestGuardianIntegration:
 
     def test_environment_variables_reflected(self, client):
         """Test environment variables are reflected in status"""
-        with patch.dict(os.environ, {
-            'GUARDIAN_MODE': 'staging',
-            'LUKHAS_MODE': 'test'
-        }):
+        with patch.dict(os.environ, {"GUARDIAN_MODE": "staging", "LUKHAS_MODE": "test"}):
             response = client.get("/status")
             assert response.status_code == 200
 
@@ -221,7 +215,7 @@ class TestEndpointDiscovery:
             "/status",
             "/metrics",
             "/identity/webauthn/health",
-            "/orchestration/health"
+            "/orchestration/health",
         ]
 
         for endpoint in required_endpoints:
@@ -230,11 +224,7 @@ class TestEndpointDiscovery:
 
     def test_documentation_endpoints(self, client):
         """Test documentation endpoints are available"""
-        docs_endpoints = [
-            "/docs",
-            "/redoc",
-            "/openapi.json"
-        ]
+        docs_endpoints = ["/docs", "/redoc", "/openapi.json"]
 
         for endpoint in docs_endpoints:
             response = client.get(endpoint)

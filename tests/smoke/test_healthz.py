@@ -9,6 +9,7 @@ import pytest
 async def test_health_and_readyz():
     from serve.main import app
     from starlette.testclient import TestClient
+
     # app imported directly from serve.main
     client = TestClient(app)
     r = client.get("/healthz")
@@ -19,9 +20,11 @@ async def test_health_and_readyz():
     assert r.status_code == 200
     assert r.json().get("status") in {"ready", "ok"}
 
+
 def test_metrics_surface():
     from serve.main import app
     from starlette.testclient import TestClient
+
     # app imported directly from serve.main
     client = TestClient(app)
     r = client.get("/metrics")

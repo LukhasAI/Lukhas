@@ -39,8 +39,10 @@ logger = logging.getLogger(__name__)
 
 # --- Voice Narration System Implementation ---
 
+
 class VoiceNarrator(Protocol):
     """Interface for a voice narration system"""
+
     def narrate(self, text: str, metadata: dict[str, Any]) -> None:
         """Narrate text with given metadata context"""
         ...
@@ -52,6 +54,7 @@ class VoiceNarrator(Protocol):
     def get_voice_settings(self) -> dict[str, Any]:
         """Get current voice configuration"""
         ...
+
 
 class EnhancedVoiceNarrator:
     """Enhanced implementation of the voice narrator with consciousness-awareness"""
@@ -69,7 +72,7 @@ class EnhancedVoiceNarrator:
             "total_narrations": 0,
             "successful_narrations": 0,
             "failed_narrations": 0,
-            "last_narration": None
+            "last_narration": None,
         }
 
         logger.info(f"EnhancedVoiceNarrator initialized - Engine: {self.engine}, Voice: {self.voice_id}")
@@ -108,7 +111,7 @@ class EnhancedVoiceNarrator:
             "consciousness_level": self.consciousness_level,
             "enabled": self.enabled,
             "available": self.is_available(),
-            "stats": self.processing_stats.copy()
+            "stats": self.processing_stats.copy(),
         }
 
     def narrate(self, text: str, metadata: dict[str, Any]) -> None:
@@ -178,12 +181,7 @@ class EnhancedVoiceNarrator:
 
     def queue_narration(self, text: str, metadata: dict[str, Any], priority: str = "normal") -> None:
         """Queue narration for batch processing"""
-        narration_item = {
-            "text": text,
-            "metadata": metadata,
-            "priority": priority,
-            "queued_at": time.time()
-        }
+        narration_item = {"text": text, "metadata": metadata, "priority": priority, "queued_at": time.time()}
 
         # Insert based on priority
         if priority == "high":
@@ -204,11 +202,13 @@ class EnhancedVoiceNarrator:
         return {
             "queue_size": len(self.narration_queue),
             "stats": self.processing_stats.copy(),
-            "voice_settings": self.get_voice_settings()
+            "voice_settings": self.get_voice_settings(),
         }
+
 
 class StubVoiceNarrator:
     """Legacy stub implementation for backward compatibility"""
+
     def __init__(self, config: dict[str, Any]):
         self.config = config
         logger.warning("Using legacy StubVoiceNarrator - consider upgrading to EnhancedVoiceNarrator")
@@ -225,6 +225,7 @@ class StubVoiceNarrator:
     def get_voice_settings(self) -> dict[str, Any]:
         return {"engine": "stub", "voice_id": "legacy"}
 
+
 # Enhanced configuration for production TTS integration
 ENHANCED_TTS_CONFIG = {
     "enabled": True,
@@ -236,7 +237,7 @@ ENHANCED_TTS_CONFIG = {
     "azure_region": "eastus",
     "quality": "high",
     "speed": 1.0,
-    "pitch": 0.0
+    "pitch": 0.0,
 }
 
 # Legacy configuration for backward compatibility
@@ -257,8 +258,7 @@ def narrate_dreams(dreams: list[dict[str, Any]]) -> None:
     """
     for dream in dreams:
         voice_narrator.narrate(
-            text=dream.get('content', 'Empty dream'),
-            metadata={"dream_id": dream.get("id", "unknown")}
+            text=dream.get("content", "Empty dream"), metadata={"dream_id": dream.get("id", "unknown")}
         )
 
 

@@ -25,10 +25,7 @@ class TestPerformanceModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "performance",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "performance", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestPerformanceModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import performance
+
         self.assertIsNotNone(performance)
 
     def test_module_version(self):
         """Test module has version information."""
         import performance
+
         # Most modules should have version info
-        self.assertTrue(hasattr(performance, '__version__') or
-                       hasattr(performance, 'VERSION'))
+        self.assertTrue(hasattr(performance, "__version__") or hasattr(performance, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestPerformanceAnalyzer(unittest.TestCase):
         """Test PerformanceAnalyzer can be imported."""
         try:
             from performance.optimization_analysis import PerformanceAnalyzer
+
             self.assertIsNotNone(PerformanceAnalyzer)
         except ImportError:
             pytest.skip("Component PerformanceAnalyzer not available")
@@ -97,6 +96,7 @@ class Testgenerate_recommendations(unittest.TestCase):
         """Test generate_recommendations can be imported."""
         try:
             from performance.optimization_analysis import generate_recommendations
+
             self.assertIsNotNone(generate_recommendations)
         except ImportError:
             pytest.skip("Component generate_recommendations not available")
@@ -114,6 +114,7 @@ class Testprint_summary(unittest.TestCase):
         """Test print_summary can be imported."""
         try:
             from performance.optimization_analysis import print_summary
+
             self.assertIsNotNone(print_summary)
         except ImportError:
             pytest.skip("Component print_summary not available")
@@ -122,7 +123,6 @@ class Testprint_summary(unittest.TestCase):
         """Test print_summary can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

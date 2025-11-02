@@ -25,10 +25,7 @@ class TestSystemClaudeAuditModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "SYSTEM_CLAUDE_AUDIT",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "SYSTEM_CLAUDE_AUDIT", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestSystemClaudeAuditModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import SYSTEM_CLAUDE_AUDIT
+
         self.assertIsNotNone(SYSTEM_CLAUDE_AUDIT)
 
     def test_module_version(self):
         """Test module has version information."""
         import SYSTEM_CLAUDE_AUDIT
+
         # Most modules should have version info
-        self.assertTrue(hasattr(SYSTEM_CLAUDE_AUDIT, '__version__') or
-                       hasattr(SYSTEM_CLAUDE_AUDIT, 'VERSION'))
+        self.assertTrue(hasattr(SYSTEM_CLAUDE_AUDIT, "__version__") or hasattr(SYSTEM_CLAUDE_AUDIT, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestSystemClaudeAuditModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

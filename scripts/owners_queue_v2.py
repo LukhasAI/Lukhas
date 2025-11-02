@@ -35,7 +35,7 @@ BATCH_SIZE = 20
 
 def load_manifest() -> Dict:
     """Load documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -45,17 +45,17 @@ def load_owners_map() -> Dict[str, str]:
         return {}
 
     if yaml:
-        with open(OWNERS_MAP_PATH, 'r', encoding='utf-8') as f:
+        with open(OWNERS_MAP_PATH, "r", encoding="utf-8") as f:
             return yaml.safe_load(f) or {}
     else:
         # Fallback: simple key: value parser
         mapping = {}
-        with open(OWNERS_MAP_PATH, 'r', encoding='utf-8') as f:
+        with open(OWNERS_MAP_PATH, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                if line and not line.startswith('#') and ':' in line:
-                    key, val = line.split(':', 1)
-                    mapping[key.strip()] = val.strip().strip('"\'')
+                if line and not line.startswith("#") and ":" in line:
+                    key, val = line.split(":", 1)
+                    mapping[key.strip()] = val.strip().strip("\"'")
         return mapping
 
 
@@ -66,11 +66,11 @@ def get_git_blame_author(file_path: Path) -> Optional[Tuple[str, float]]:
     """
     try:
         result = subprocess.run(
-            ['git', 'blame', '--line-porcelain', str(file_path)],
+            ["git", "blame", "--line-porcelain", str(file_path)],
             capture_output=True,
             text=True,
             timeout=10,
-            cwd=REPO_ROOT
+            cwd=REPO_ROOT,
         )
 
         if result.returncode != 0:
@@ -80,9 +80,9 @@ def get_git_blame_author(file_path: Path) -> Optional[Tuple[str, float]]:
         authors = defaultdict(int)
         total_lines = 0
 
-        for line in result.stdout.split('\n'):
-            if line.startswith('author-mail '):
-                email = line.replace('author-mail ', '').strip('<>')
+        for line in result.stdout.split("\n"):
+            if line.startswith("author-mail "):
+                email = line.replace("author-mail ", "").strip("<>")
                 authors[email] += 1
                 total_lines += 1
 
@@ -108,25 +108,25 @@ def suggest_owner(doc: Dict, owners_map: Dict[str, str]) -> Tuple[str, str]:
     Suggest owner with reason.
     Returns (suggested_owner, reason).
     """
-    file_path = Path(doc['path'])
+    file_path = Path(doc["path"])
 
     # Strategy 1: Git blame (≥30% threshold)
     blame_result = get_git_blame_author(file_path)
     if blame_result:
         email, pct = blame_result
         # Filter out bot emails
-        if email not in ['noreply@anthropic.com', 'noreply@github.com', 'dev@lukhasai.com']:
-            username = email.split('@')[0]
-            if username not in ['dev', 'bot', 'noreply']:
+        if email not in ["noreply@anthropic.com", "noreply@github.com", "dev@lukhasai.com"]:
+            username = email.split("@")[0]
+            if username not in ["dev", "bot", "noreply"]:
                 return (f"@{username}", f"git blame ({pct:.1f}% of lines)")
 
     # Strategy 2: Module mapping from YAML
-    module = doc.get('module', 'unknown')
+    module = doc.get("module", "unknown")
     if module in owners_map:
         return (owners_map[module], f"module: {module}")
 
     # Strategy 3: Fallback team
-    fallback = owners_map.get('unknown', '@lukhas-core')
+    fallback = owners_map.get("unknown", "@lukhas-core")
     return (fallback, "fallback (no clear owner)")
 
 
@@ -139,7 +139,7 @@ def generate_backlog_table(docs: List[Dict], owners_map: Dict[str, str]) -> str:
         f"**Total docs without owners**: {len(docs)}",
         "",
         "## Summary by Suggested Owner",
-        ""
+        "",
     ]
 
     # Group by suggested owner
@@ -154,24 +154,34 @@ def generate_backlog_table(docs: List[Dict], owners_map: Dict[str, str]) -> str:
     for owner in sorted(by_owner.keys(), key=lambda x: -len(by_owner[x])):
         lines.append(f"| {owner} | {len(by_owner[owner])} |")
 
-    lines.extend(["", "## Full Backlog", "", "| Path | Title | Module | Suggested Owner | Reason |", "|------|-------|--------|----------------|--------|"])
+    lines.extend(
+        [
+            "",
+            "## Full Backlog",
+            "",
+            "| Path | Title | Module | Suggested Owner | Reason |",
+            "|------|-------|--------|----------------|--------|",
+        ]
+    )
 
     # Detail table
-    for doc in sorted(docs, key=lambda d: d['path']):
+    for doc in sorted(docs, key=lambda d: d["path"]):
         suggested, reason = suggest_owner(doc, owners_map)
-        path = doc['path'].replace('docs/', '')
-        title = doc['title'][:50]  # Truncate
-        module = doc.get('module', 'unknown')
+        path = doc["path"].replace("docs/", "")
+        title = doc["title"][:50]  # Truncate
+        module = doc.get("module", "unknown")
         lines.append(f"| [{path}]({path}) | {title} | {module} | {suggested} | {reason} |")
 
-    lines.extend(["", "---", "", f"*Auto-generated by `scripts/owners_queue_v2.py` on {datetime.now().strftime('%Y-%m-%d')}*"])
+    lines.extend(
+        ["", "---", "", f"*Auto-generated by `scripts/owners_queue_v2.py` on {datetime.now().strftime('%Y-%m-%d')}*"]
+    )
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def generate_github_issue(batch_num: int, docs_batch: List[Dict], owners_map: Dict[str, str]) -> str:
     """Generate GitHub issue markdown for a batch of docs."""
-    sla_date = (datetime.now() + timedelta(days=SLA_DAYS)).strftime('%Y-%m-%d')
+    sla_date = (datetime.now() + timedelta(days=SLA_DAYS)).strftime("%Y-%m-%d")
 
     issue = [
         f"# Documentation Owner Assignment - Batch {batch_num}",
@@ -188,33 +198,35 @@ def generate_github_issue(batch_num: int, docs_batch: List[Dict], owners_map: Di
         "5. Check the box when complete",
         "",
         "## Docs to Assign",
-        ""
+        "",
     ]
 
     for doc in docs_batch:
         suggested, reason = suggest_owner(doc, owners_map)
-        path = doc['path'].replace('docs/', '')
-        title = doc['title']
+        path = doc["path"].replace("docs/", "")
+        title = doc["title"]
         issue.append(f"- [ ] [{title}]({path}) → {suggested} *(reason: {reason})*")
 
-    issue.extend([
-        "",
-        "## Bulk Assignment (Optional)",
-        "",
-        "If all docs in this batch should go to the same owner:",
-        "",
-        "```bash",
-        "# Example: Assign all to @username",
-        "python3 scripts/bulk_assign_owner.py --batch {} --owner @username".format(batch_num),
-        "```",
-        "",
-        "---",
-        "",
-        f"*Auto-generated on {datetime.now().strftime('%Y-%m-%d')}*",
-        f"*Labels: `docs:ownership`, `priority:medium`, `sla:{sla_date}`*"
-    ])
+    issue.extend(
+        [
+            "",
+            "## Bulk Assignment (Optional)",
+            "",
+            "If all docs in this batch should go to the same owner:",
+            "",
+            "```bash",
+            "# Example: Assign all to @username",
+            "python3 scripts/bulk_assign_owner.py --batch {} --owner @username".format(batch_num),
+            "```",
+            "",
+            "---",
+            "",
+            f"*Auto-generated on {datetime.now().strftime('%Y-%m-%d')}*",
+            f"*Labels: `docs:ownership`, `priority:medium`, `sla:{sla_date}`*",
+        ]
+    )
 
-    return '\n'.join(issue)
+    return "\n".join(issue)
 
 
 def main():
@@ -227,7 +239,7 @@ def main():
     # Load data
     print(f"📂 Loading manifest: {MANIFEST_PATH}")
     manifest = load_manifest()
-    docs = manifest['documents']
+    docs = manifest["documents"]
 
     print(f"📂 Loading owners map: {OWNERS_MAP_PATH}")
     owners_map = load_owners_map()
@@ -235,10 +247,7 @@ def main():
     print()
 
     # Filter docs with unknown owners
-    unknown_owners = [
-        d for d in docs
-        if d.get('owner') in ['unknown', '', None] and not d.get('redirect')
-    ]
+    unknown_owners = [d for d in docs if d.get("owner") in ["unknown", "", None] and not d.get("redirect")]
 
     print(f"📊 Found {len(unknown_owners)} docs with owner: unknown")
     print()
@@ -254,18 +263,18 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     backlog_path = OUTPUT_DIR / "OWNERS_BACKLOG.md"
 
-    with open(backlog_path, 'w', encoding='utf-8') as f:
+    with open(backlog_path, "w", encoding="utf-8") as f:
         f.write(backlog_md)
 
     print(f"✅ Written: {backlog_path}")
     print()
 
     # Generate GitHub issues if --open-issues flag
-    if '--open-issues' in sys.argv:
+    if "--open-issues" in sys.argv:
         print(f"📋 Generating GitHub issues (batch size: {BATCH_SIZE})...")
 
         # Split into batches
-        batches = [unknown_owners[i:i + BATCH_SIZE] for i in range(0, len(unknown_owners), BATCH_SIZE)]
+        batches = [unknown_owners[i : i + BATCH_SIZE] for i in range(0, len(unknown_owners), BATCH_SIZE)]
 
         issues_dir = OUTPUT_DIR / "owner_issues"
         issues_dir.mkdir(parents=True, exist_ok=True)
@@ -274,7 +283,7 @@ def main():
             issue_md = generate_github_issue(idx, batch, owners_map)
             issue_path = issues_dir / f"batch_{idx:02d}.md"
 
-            with open(issue_path, 'w', encoding='utf-8') as f:
+            with open(issue_path, "w", encoding="utf-8") as f:
                 f.write(issue_md)
 
             print(f"   Created: {issue_path}")
@@ -285,7 +294,7 @@ def main():
         print("To create issues with gh CLI:")
         print()
         for idx in range(1, len(batches) + 1):
-            sla_date = (datetime.now() + timedelta(days=SLA_DAYS)).strftime('%Y-%m-%d')
+            sla_date = (datetime.now() + timedelta(days=SLA_DAYS)).strftime("%Y-%m-%d")
             print(f"gh issue create --title 'Docs Ownership: Batch {idx}' \\")
             print(f"  --body-file '{issues_dir}/batch_{idx:02d}.md' \\")
             print(f"  --label 'docs:ownership,priority:medium,sla:{sla_date}'")
@@ -301,7 +310,7 @@ def main():
     print()
 
     # Ownership coverage
-    total_docs = len([d for d in docs if not d.get('redirect')])
+    total_docs = len([d for d in docs if not d.get("redirect")])
     coverage_pct = ((total_docs - len(unknown_owners)) / total_docs) * 100
     print(f"Owner coverage: {coverage_pct:.1f}% ({total_docs - len(unknown_owners)}/{total_docs})")
     print()

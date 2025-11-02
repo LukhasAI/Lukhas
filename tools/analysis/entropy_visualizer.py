@@ -48,6 +48,7 @@ def visualize_entropy(data: bytes):
         hex_val = f"0x{byte_val:02x}"
         print(f"{hex_val:<16} | {count:<10} | {bar}")
 
+
 if __name__ == "__main__":
     # This allows the script to be used with pipes, e.g.:
     # python -m security.secure_random | python tools/analysis/entropy_visualizer.py
@@ -57,7 +58,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         # Read from file
         try:
-            with open(sys.argv[1], 'rb') as f:
+            with open(sys.argv[1], "rb") as f:
                 input_data = f.read()
             visualize_entropy(input_data)
         except FileNotFoundError:

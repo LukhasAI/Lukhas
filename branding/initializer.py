@@ -26,11 +26,7 @@ def initialize_branding(**overrides: Any) -> Dict[str, Any]:
     for key, value in overrides.items():
         globals()[key] = value
 
-    return {
-        key: globals()[key]
-        for key in ("APPROVED_TERMS", "SYSTEM_NAME")
-        if key in globals()
-    }
+    return {key: globals()[key] for key in ("APPROVED_TERMS", "SYSTEM_NAME") if key in globals()}
 
 
 __all__ = ["initialize_branding"]

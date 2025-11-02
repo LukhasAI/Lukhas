@@ -133,9 +133,7 @@ class ProviderRegistry:
                     continue
 
             if not service_class:
-                raise ImportError(
-                    f"Could not find consciousness service in any of: {possible_modules}"
-                )
+                raise ImportError(f"Could not find consciousness service in any of: {possible_modules}")
 
             instance = service_class()
 
@@ -199,9 +197,7 @@ class ProviderRegistry:
                     continue
 
             if not service_class:
-                raise ImportError(
-                    f"Could not find memory service in any of: {possible_modules}"
-                )
+                raise ImportError(f"Could not find memory service in any of: {possible_modules}")
 
             instance = service_class()
 
@@ -215,9 +211,7 @@ class ProviderRegistry:
         except ImportError as e:
             logger.error(f"Failed to load memory service: {e}")
             raise ImportError(
-                f"Cannot import memory service from candidate. "
-                f"Ensure candidate.memory is available. "
-                f"Error: {e}"
+                f"Cannot import memory service from candidate. " f"Ensure candidate.memory is available. " f"Error: {e}"
             )
 
     def get_provider(self, name: str) -> Optional[Any]:
@@ -293,9 +287,7 @@ class ProviderRegistry:
                     continue
 
             if not service_class:
-                raise ImportError(
-                    f"Could not find identity service in any of: {possible_modules}"
-                )
+                raise ImportError(f"Could not find identity service in any of: {possible_modules}")
 
             instance = service_class()
 
@@ -363,9 +355,7 @@ class ProviderRegistry:
                     continue
 
             if not service_class:
-                raise ImportError(
-                    f"Could not find governance service in any of: {possible_modules}"
-                )
+                raise ImportError(f"Could not find governance service in any of: {possible_modules}")
 
             instance = service_class()
 
@@ -379,9 +369,7 @@ class ProviderRegistry:
         except ImportError as e:
             logger.error(f"Failed to load governance service: {e}")
             raise ImportError(
-                f"Cannot import governance service. "
-                f"Ensure governance modules are available. "
-                f"Error: {e}"
+                f"Cannot import governance service. " f"Ensure governance modules are available. " f"Error: {e}"
             )
 
     def clear(self) -> None:

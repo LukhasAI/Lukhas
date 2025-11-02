@@ -31,7 +31,8 @@ def speak(message: str):
 
     tone = get_tone()
     # TODO: Route to appropriate voice engine based on tier or emotion index
-    print(f"🗣️ [{tone}] {message}",
+    print(
+        f"🗣️ [{tone}] {message}",
     )
 
 

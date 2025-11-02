@@ -31,11 +31,13 @@ from core.registry import register, resolve
 
 class LukhasError(Exception):
     """Base exception for LUKHAS system errors"""
+
     pass
 
 
 class ValidationError(LukhasError):
     """Exception for validation errors"""
+
     pass
 
 
@@ -52,6 +54,7 @@ def get_service(service_name: str):
 def register_service(service_name: str, service_instance):
     """Register service via registry - T4 compliant interface"""
     return register(service_name, service_instance)
+
 
 logger = get_logger(__name__)
 

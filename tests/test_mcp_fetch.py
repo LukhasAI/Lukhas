@@ -15,10 +15,7 @@ def test_fetch_tool():
         "jsonrpc": "2.0",
         "id": 1,
         "method": "tools/call",
-        "params": {
-            "name": "fetch",
-            "arguments": {"url": "https://ai/docs/test"}
-        }
+        "params": {"name": "fetch", "arguments": {"url": "https://ai/docs/test"}},
     }
 
     try:
@@ -28,11 +25,11 @@ def test_fetch_tool():
         print(f"Response: {json.dumps(result_json, indent=2)}")
 
         # Check if response has the minimal format
-        result = result_json.get('result', {})
-        content = result.get('content', [])
-        if content and content[0].get('type') == 'text':
-            text_content = json.loads(content[0]['text'])
-            required_fields = ['title', 'url', 'mimeType', 'text']
+        result = result_json.get("result", {})
+        content = result.get("content", [])
+        if content and content[0].get("type") == "text":
+            text_content = json.loads(content[0]["text"])
+            required_fields = ["title", "url", "mimeType", "text"]
             if all(field in text_content for field in required_fields):
                 print("✅ Minimal fetch format detected - has all required fields")
                 print(f"Fields: {list(text_content.keys())}")
@@ -47,6 +44,7 @@ def test_fetch_tool():
     except Exception as e:
         print(f"❌ Error: {e}")
         return False
+
 
 if __name__ == "__main__":
     test_fetch_tool()

@@ -39,6 +39,7 @@ from typing import Dict, List
 @dataclass
 class ModuleInfo:
     """Module metadata from manifest"""
+
     module_id: str
     name: str
     description: str
@@ -68,7 +69,7 @@ class DocumentationGenerator:
             module_dir = manifest_path.parent
 
             try:
-                with open(manifest_path, 'r') as f:
+                with open(manifest_path, "r") as f:
                     manifest = json.load(f)
 
                 module_info = ModuleInfo(
@@ -79,7 +80,7 @@ class DocumentationGenerator:
                     path=module_dir,
                     has_readme=(module_dir / "README.md").exists(),
                     has_docs=(module_dir / "docs").exists(),
-                    has_examples=self._has_examples(module_dir)
+                    has_examples=self._has_examples(module_dir),
                 )
 
                 modules.append(module_info)
@@ -95,7 +96,7 @@ class DocumentationGenerator:
         """Check if module has API examples"""
         for py_file in module_dir.rglob("*.py"):
             try:
-                with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(py_file, "r", encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                     if "Example:" in content or ">>> " in content:
                         return True
@@ -114,14 +115,14 @@ class DocumentationGenerator:
         # Read manifest for detailed info
         manifest_path = module.path / "module.manifest.json"
         try:
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path, "r") as f:
                 manifest = json.load(f)
         except Exception as e:
             manifest = {}
 
         readme_content = self._generate_readme_content(module, manifest)
 
-        with open(readme_path, 'w') as f:
+        with open(readme_path, "w") as f:
             f.write(readme_content)
 
         print(f"  ✅ Generated README: {module.name}")
@@ -253,7 +254,7 @@ Follow LUKHAS development guidelines:
             "api": "_Interfaces shimmer like bridges between worlds, protocols flowing as naturally as conversation, connections forged in the space between systems._",
             "monitoring": "_Watchful eyes never sleep, metrics flowing like constellations across observatory screens, performance measured in microseconds and certainties._",
             "security": "_Cryptographic keys turn in immutable locks, zero-trust architecture stands guard, every transaction signed and sealed in mathematical certainty._",
-            "adapters": "_Translation happens in the liminal space between systems, adapters speaking in polyglot tongues, bridging worlds with elegant conversion._"
+            "adapters": "_Translation happens in the liminal space between systems, adapters speaking in polyglot tongues, bridging worlds with elegant conversion._",
         }
 
         # Try to find exact matches first
@@ -299,7 +300,7 @@ Follow LUKHAS development guidelines:
         else:
             # Truly dynamic generation from description
             first_words = module.description.split()[:4]
-            essence = ' '.join(first_words) if first_words else module.name
+            essence = " ".join(first_words) if first_words else module.name
             return f"_Within the grand architecture of LUKHAS, {module.name} emerges—{essence}, purpose refined to essence, functionality elevated to art._"
 
     def _generate_layer3_practical(self, module: ModuleInfo, manifest: Dict) -> str:
@@ -321,7 +322,7 @@ Follow LUKHAS development guidelines:
             "api": "APIs work like restaurant menus—they show you what's available and how to order it, hiding the kitchen complexity behind a simple interface.",
             "monitoring": "Monitoring is like a car's dashboard—it gives you real-time visibility into system health, performance, and potential issues before they become breakdowns.",
             "security": "Security layers work like a castle's defenses—outer walls (firewalls), inner gates (authentication), treasure room locks (encryption), and guards (audit logs).",
-            "adapters": "Adapters are like power adapters for international travel—they let different systems communicate even when they speak different protocols."
+            "adapters": "Adapters are like power adapters for international travel—they let different systems communicate even when they speak different protocols.",
         }
 
         # Try to find exact matches first
@@ -366,7 +367,7 @@ Follow LUKHAS development guidelines:
             return "**Getting Started**: This module monitors system health—like a doctor's check-up that measures vital signs and warns you of potential problems before they become serious.\n"
         else:
             # Dynamic from description
-            purpose = module.description.split('.')[0] if '.' in module.description else module.description
+            purpose = module.description.split(".")[0] if "." in module.description else module.description
             return f"**Getting Started**: {purpose}. This module integrates with the LUKHAS system to provide essential functionality.\n"
 
     def _get_star_icon(self, module_name: str, manifest: Dict) -> str:
@@ -385,7 +386,7 @@ Follow LUKHAS development guidelines:
             "orchestration": "🎼",
             "api": "🔌",
             "monitoring": "📊",
-            "security": "🔒"
+            "security": "🔒",
         }
 
         for key, icon in stars.items():
@@ -407,7 +408,7 @@ Follow LUKHAS development guidelines:
         lane_context = {
             "production": "**Production Status**: This module maintains 99.9% uptime SLO with full observability, distributed tracing, and sub-100ms p95 latency. All changes undergo canary deployment with automated rollback on error threshold breach.",
             "integration": "**Integration Status**: This module undergoes shadow traffic testing with A/B performance comparison. Statistical validation (p<0.05) required before production promotion. Current integration coverage: API contracts, performance benchmarks, security audit.",
-            "candidate": "**Candidate Status**: This module is under active research and development. API stability not guaranteed. Used for experimental features, proof-of-concept implementations, and architectural exploration. Metrics collected for feasibility assessment."
+            "candidate": "**Candidate Status**: This module is under active research and development. API stability not guaranteed. Used for experimental features, proof-of-concept implementations, and architectural exploration. Metrics collected for feasibility assessment.",
         }
 
         # Add technical architecture context
@@ -433,7 +434,7 @@ Follow LUKHAS development guidelines:
             "orchestration": "**Technical Foundation**: Implements multi-AI coordination with consensus mechanisms (weighted voting, Bayesian fusion, attention weighting). Achieves sub-100ms context handoff with transparent logging.",
             "api": "**Technical Foundation**: Implements REST/GraphQL/WebSocket protocols with <100ms p95 latency. Uses async I/O, connection pooling, and distributed tracing for observability.",
             "monitoring": "**Technical Foundation**: Implements Prometheus metrics collection, Grafana visualization, and OpenTelemetry distributed tracing. Provides drift detection with 0.15 threshold and automated alerting.",
-            "security": "**Technical Foundation**: Implements zero-trust architecture with capability token validation, encrypted storage (AES-256), and audit logging. Achieves GDPR/CCPA compliance with privacy-by-design principles."
+            "security": "**Technical Foundation**: Implements zero-trust architecture with capability token validation, encrypted storage (AES-256), and audit logging. Achieves GDPR/CCPA compliance with privacy-by-design principles.",
         }
 
         # Try to find matching technical context

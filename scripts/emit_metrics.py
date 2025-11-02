@@ -77,20 +77,16 @@ def main():
 
     # Parse pydocstyle errors
     offenders_txt = off_path.read_text() if off_path.exists() else ""
-    pydocstyle_errors = 0 if offenders_txt.strip() == "" else len([
-        ln for ln in offenders_txt.splitlines() if re.search(r":\d+:", ln)
-    ])
+    pydocstyle_errors = (
+        0 if offenders_txt.strip() == "" else len([ln for ln in offenders_txt.splitlines() if re.search(r":\d+:", ln)])
+    )
 
     # Parse Spectral JUnit XML
     junit_xml = spec_path.read_text() if spec_path.exists() else ""
-    spectral_errors = len(re.findall(r'<failure ', junit_xml))
+    spectral_errors = len(re.findall(r"<failure ", junit_xml))
 
     # Emit unified metrics
-    out = {
-        "doc_coverage": doc_coverage,
-        "pydocstyle_errors": pydocstyle_errors,
-        "spectral_errors": spectral_errors
-    }
+    out = {"doc_coverage": doc_coverage, "pydocstyle_errors": pydocstyle_errors, "spectral_errors": spectral_errors}
 
     out_path = pathlib.Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

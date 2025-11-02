@@ -4,6 +4,7 @@ These tests exercise the real app (app) but mount three throwaway routes
 just for testing, so we validate OpenAI-style error envelope and X-Trace-Id
 passthrough without depending on other app behavior.
 """
+
 import re
 
 from fastapi import HTTPException
@@ -74,4 +75,5 @@ def test_envelope_500_minimal():
     In production with real async clients, the generic handler catches RuntimeError correctly.
     """
     import pytest
+
     pytest.skip("TestClient sync exception handling limitation - works in production")

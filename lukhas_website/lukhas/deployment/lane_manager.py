@@ -22,13 +22,15 @@ from ..observability.metrics import MetricsCollector
 
 class Lane(Enum):
     """Deployment lane definitions"""
+
     CANDIDATE = "candidate"  # Development/Integration testing
-    LUKHAS = "lukhas"       # Staging/Pre-production
-    MATRIZ = "MATRIZ"       # Production with full traffic
+    LUKHAS = "lukhas"  # Staging/Pre-production
+    MATRIZ = "MATRIZ"  # Production with full traffic
 
 
 class LaneState(Enum):
     """Lane operational states"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     UNHEALTHY = "unhealthy"
@@ -38,6 +40,7 @@ class LaneState(Enum):
 @dataclass
 class LaneConfig:
     """Configuration for a deployment lane"""
+
     name: str
     max_traffic_percentage: float
     health_check_interval: int
@@ -51,6 +54,7 @@ class LaneConfig:
 @dataclass
 class LaneMetrics:
     """Lane performance and health metrics"""
+
     lane: Lane
     state: LaneState
     traffic_percentage: float
@@ -71,7 +75,7 @@ class LaneManager:
         constellation: ConstellationFramework,
         metrics_collector: MetricsCollector,
         guardian: GuardianValidator,
-        config_path: Optional[str] = None
+        config_path: Optional[str] = None,
     ):
         self.constellation = constellation
         self.metrics_collector = metrics_collector
@@ -110,7 +114,7 @@ class LaneManager:
                 rollback_threshold=0.10,  # 10% error rate
                 feature_flags={"canary_enabled": True, "experimental_features": True},
                 resource_limits={"cpu": "2", "memory": "4Gi"},
-                constellation_enabled=True
+                constellation_enabled=True,
             ),
             Lane.LUKHAS: LaneConfig(
                 name="lukhas",
@@ -120,7 +124,7 @@ class LaneManager:
                 rollback_threshold=0.05,  # 5% error rate
                 feature_flags={"canary_enabled": True, "experimental_features": False},
                 resource_limits={"cpu": "4", "memory": "8Gi"},
-                constellation_enabled=True
+                constellation_enabled=True,
             ),
             Lane.MATRIZ: LaneConfig(
                 name="MATRIZ",
@@ -130,47 +134,35 @@ class LaneManager:
                 rollback_threshold=0.02,  # 2% error rate
                 feature_flags={"canary_enabled": False, "experimental_features": False},
                 resource_limits={"cpu": "8", "memory": "16Gi"},
-                constellation_enabled=True
-            )
+                constellation_enabled=True,
+            ),
         }
 
         # Initialize traffic distribution
-        self._traffic_distribution = {
-            Lane.CANDIDATE: 0.0,
-            Lane.LUKHAS: 0.0,
-            Lane.MATRIZ: 100.0
-        }
+        self._traffic_distribution = {Lane.CANDIDATE: 0.0, Lane.LUKHAS: 0.0, Lane.MATRIZ: 100.0}
 
     def _init_metrics(self):
         """Initialize metrics collection"""
         self.metrics_collector.register_histogram(
             "lane_assignment_latency_seconds",
             "Lane assignment operation latency",
-            buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+            buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
         )
 
         self.metrics_collector.register_counter(
-            "lane_assignments_total",
-            "Total lane assignments performed",
-            labels=["lane", "service_type"]
+            "lane_assignments_total", "Total lane assignments performed", labels=["lane", "service_type"]
         )
 
         self.metrics_collector.register_gauge(
-            "lane_health_score",
-            "Current health score for each lane",
-            labels=["lane"]
+            "lane_health_score", "Current health score for each lane", labels=["lane"]
         )
 
         self.metrics_collector.register_gauge(
-            "lane_traffic_percentage",
-            "Current traffic percentage for each lane",
-            labels=["lane"]
+            "lane_traffic_percentage", "Current traffic percentage for each lane", labels=["lane"]
         )
 
         self.metrics_collector.register_counter(
-            "lane_switches_total",
-            "Total lane switches performed",
-            labels=["from_lane", "to_lane", "reason"]
+            "lane_switches_total", "Total lane switches performed", labels=["from_lane", "to_lane", "reason"]
         )
 
     async def start(self):
@@ -193,7 +185,7 @@ class LaneManager:
                 throughput_rps=0.0,
                 health_score=1.0,
                 last_updated=datetime.now(),
-                active_deployments=0
+                active_deployments=0,
             )
 
         # Start monitoring task
@@ -201,11 +193,7 @@ class LaneManager:
 
         # Register with Constellation Framework
         if self.constellation:
-            await self.constellation.register_component(
-                "lane_manager",
-                self,
-                health_check=self._health_check
-            )
+            await self.constellation.register_component("lane_manager", self, health_check=self._health_check)
 
         self.logger.info("Lane Manager started successfully")
 
@@ -227,11 +215,7 @@ class LaneManager:
         self.logger.info("Lane Manager stopped")
 
     async def assign_service_to_lane(
-        self,
-        service_id: str,
-        service_type: str,
-        preferred_lane: Optional[Lane] = None,
-        force: bool = False
+        self, service_id: str, service_type: str, preferred_lane: Optional[Lane] = None, force: bool = False
     ) -> Lane:
         """
         Assign a service to the most appropriate lane
@@ -259,14 +243,11 @@ class LaneManager:
                 "service_id": service_id,
                 "service_type": service_type,
                 "preferred_lane": preferred_lane.value if preferred_lane else None,
-                "current_metrics": {lane.value: asdict(metrics)
-                                 for lane, metrics in self._lane_metrics.items()}
+                "current_metrics": {lane.value: asdict(metrics) for lane, metrics in self._lane_metrics.items()},
             }
 
             guardian_result = await self.guardian.validate_action_async(
-                "lane_assignment",
-                assignment_context,
-                timeout=5.0
+                "lane_assignment", assignment_context, timeout=5.0
             )
 
             if not guardian_result.allowed:
@@ -275,9 +256,7 @@ class LaneManager:
                 assigned_lane = Lane.MATRIZ
             else:
                 # Determine best lane
-                assigned_lane = await self._determine_optimal_lane(
-                    service_type, preferred_lane, force
-                )
+                assigned_lane = await self._determine_optimal_lane(service_type, preferred_lane, force)
 
             # Update assignment
             self._lane_assignments[service_id] = assigned_lane
@@ -287,23 +266,16 @@ class LaneManager:
             latency = time.time() - start_time
             self._lane_switch_latencies.append(latency)
 
-            self.metrics_collector.record_histogram(
-                "lane_assignment_latency_seconds", latency
-            )
+            self.metrics_collector.record_histogram("lane_assignment_latency_seconds", latency)
             self.metrics_collector.increment_counter(
-                "lane_assignments_total",
-                labels={"lane": assigned_lane.value, "service_type": service_type}
+                "lane_assignments_total", labels={"lane": assigned_lane.value, "service_type": service_type}
             )
 
             # Constellation Framework integration
             if self.constellation:
-                await self.constellation.coordinate_assignment(
-                    service_id, assigned_lane.value, service_type
-                )
+                await self.constellation.coordinate_assignment(service_id, assigned_lane.value, service_type)
 
-            self.logger.info(
-                f"Assigned service {service_id} ({service_type}) to lane {assigned_lane.value}"
-            )
+            self.logger.info(f"Assigned service {service_id} ({service_type}) to lane {assigned_lane.value}")
 
             return assigned_lane
 
@@ -313,12 +285,7 @@ class LaneManager:
             # Default to MATRIZ for safety
             return Lane.MATRIZ
 
-    async def _determine_optimal_lane(
-        self,
-        service_type: str,
-        preferred_lane: Optional[Lane],
-        force: bool
-    ) -> Lane:
+    async def _determine_optimal_lane(self, service_type: str, preferred_lane: Optional[Lane], force: bool) -> Lane:
         """Determine the optimal lane for a service"""
 
         # If preferred lane is specified and healthy, use it
@@ -358,9 +325,9 @@ class LaneManager:
 
         # Check various health indicators
         return (
-            metrics.state in [LaneState.HEALTHY, LaneState.DEGRADED] and
-            metrics.error_rate < config.failover_threshold and
-            metrics.health_score > 0.7
+            metrics.state in [LaneState.HEALTHY, LaneState.DEGRADED]
+            and metrics.error_rate < config.failover_threshold
+            and metrics.health_score > 0.7
         )
 
     def _get_healthiest_lane(self) -> Lane:
@@ -390,11 +357,7 @@ class LaneManager:
 
         # Update metrics
         for lane, percentage in distribution.items():
-            self.metrics_collector.set_gauge(
-                "lane_traffic_percentage",
-                percentage,
-                labels={"lane": lane.value}
-            )
+            self.metrics_collector.set_gauge("lane_traffic_percentage", percentage, labels={"lane": lane.value})
 
             if lane in self._lane_metrics:
                 self._lane_metrics[lane].traffic_percentage = percentage
@@ -410,12 +373,7 @@ class LaneManager:
         if changes:
             self.logger.info(f"Traffic distribution updated: {', '.join(changes)}")
 
-    async def force_lane_switch(
-        self,
-        from_lane: Lane,
-        to_lane: Lane,
-        reason: str = "manual"
-    ) -> bool:
+    async def force_lane_switch(self, from_lane: Lane, to_lane: Lane, reason: str = "manual") -> bool:
         """Force traffic switch from one lane to another"""
         try:
             # Validate lanes exist and target is healthy
@@ -425,8 +383,7 @@ class LaneManager:
 
             # Get services currently assigned to from_lane
             services_to_switch = [
-                service_id for service_id, lane in self._lane_assignments.items()
-                if lane == from_lane
+                service_id for service_id, lane in self._lane_assignments.items() if lane == from_lane
             ]
 
             # Reassign services
@@ -442,17 +399,11 @@ class LaneManager:
 
             # Update metrics
             self.metrics_collector.increment_counter(
-                "lane_switches_total",
-                labels={
-                    "from_lane": from_lane.value,
-                    "to_lane": to_lane.value,
-                    "reason": reason
-                }
+                "lane_switches_total", labels={"from_lane": from_lane.value, "to_lane": to_lane.value, "reason": reason}
             )
 
             self.logger.info(
-                f"Switched {switched_count} services from {from_lane.value} "
-                f"to {to_lane.value} (reason: {reason})"
+                f"Switched {switched_count} services from {from_lane.value} " f"to {to_lane.value} (reason: {reason})"
             )
 
             return True
@@ -504,11 +455,7 @@ class LaneManager:
                     metrics.last_updated = datetime.now()
 
                 # Update Prometheus metrics
-                self.metrics_collector.set_gauge(
-                    "lane_health_score",
-                    health_score,
-                    labels={"lane": lane.value}
-                )
+                self.metrics_collector.set_gauge("lane_health_score", health_score, labels={"lane": lane.value})
 
             except Exception as e:
                 self.logger.error(f"Error updating metrics for lane {lane.value}: {e}")
@@ -519,8 +466,8 @@ class LaneManager:
         # For now, return simulated values based on lane type
         base_latency = {
             Lane.CANDIDATE: 0.05,  # Higher latency in dev
-            Lane.LUKHAS: 0.03,     # Medium latency in staging
-            Lane.MATRIZ: 0.02      # Lower latency in production
+            Lane.LUKHAS: 0.03,  # Medium latency in staging
+            Lane.MATRIZ: 0.02,  # Lower latency in production
         }.get(lane, 0.05)
 
         multiplier = 1.2 if percentile == 95 else 1.5
@@ -531,18 +478,16 @@ class LaneManager:
         # Simulated error rates - would integrate with real metrics
         return {
             Lane.CANDIDATE: 0.02,  # 2% error rate in dev
-            Lane.LUKHAS: 0.01,     # 1% error rate in staging
-            Lane.MATRIZ: 0.005     # 0.5% error rate in production
+            Lane.LUKHAS: 0.01,  # 1% error rate in staging
+            Lane.MATRIZ: 0.005,  # 0.5% error rate in production
         }.get(lane, 0.01)
 
     async def _get_lane_throughput(self, lane: Lane) -> float:
         """Get throughput for a lane"""
         # Simulated throughput - would integrate with real metrics
-        return {
-            Lane.CANDIDATE: 10.0,   # 10 RPS
-            Lane.LUKHAS: 50.0,      # 50 RPS
-            Lane.MATRIZ: 100.0      # 100 RPS
-        }.get(lane, 10.0)
+        return {Lane.CANDIDATE: 10.0, Lane.LUKHAS: 50.0, Lane.MATRIZ: 100.0}.get(  # 10 RPS  # 50 RPS  # 100 RPS
+            lane, 10.0
+        )
 
     def _calculate_health_score(self, lane: Lane, error_rate: float, latency: float) -> float:
         """Calculate overall health score for a lane"""
@@ -556,7 +501,7 @@ class LaneManager:
         latency_score = max(0.0, 1.0 - (latency - target_latency) / target_latency)
 
         # Weighted combination
-        health_score = (error_score * 0.7 + latency_score * 0.3)
+        health_score = error_score * 0.7 + latency_score * 0.3
         return max(0.0, min(1.0, health_score))
 
     def _determine_lane_state(self, error_rate: float, health_score: float, lane: Lane) -> LaneState:
@@ -594,17 +539,14 @@ class LaneManager:
             if metrics.state == LaneState.UNHEALTHY:
                 # Find services in unhealthy lane
                 affected_services = [
-                    service_id for service_id, assigned_lane in self._lane_assignments.items()
-                    if assigned_lane == lane
+                    service_id for service_id, assigned_lane in self._lane_assignments.items() if assigned_lane == lane
                 ]
 
                 if affected_services:
                     # Find target lane
                     target_lane = self._get_healthiest_lane()
                     if target_lane != lane:
-                        await self.force_lane_switch(
-                            lane, target_lane, "automatic_health_failover"
-                        )
+                        await self.force_lane_switch(lane, target_lane, "automatic_health_failover")
 
     async def _health_check(self) -> Dict[str, Any]:
         """Health check for Constellation Framework"""
@@ -614,12 +556,10 @@ class LaneManager:
             "active_assignments": len(self._lane_assignments),
             "avg_assignment_latency": (
                 sum(self._lane_switch_latencies[-100:]) / len(self._lane_switch_latencies[-100:])
-                if self._lane_switch_latencies else 0.0
+                if self._lane_switch_latencies
+                else 0.0
             ),
-            "lane_states": {
-                lane.value: metrics.state.value
-                for lane, metrics in self._lane_metrics.items()
-            }
+            "lane_states": {lane.value: metrics.state.value for lane, metrics in self._lane_metrics.items()},
         }
 
     async def get_deployment_status(self) -> Dict[str, Any]:
@@ -630,9 +570,7 @@ class LaneManager:
                 lane.value: {
                     "config": asdict(config),
                     "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # noqa: F821  # TODO: metrics
-                    "assignments": len([
-                        s for s, l in self._lane_assignments.items() if l == lane
-                    ])
+                    "assignments": len([s for s, l in self._lane_assignments.items() if l == lane]),
                 }
                 for lane, config in self._lanes.items()
             },
@@ -641,9 +579,10 @@ class LaneManager:
             "performance": {
                 "avg_assignment_latency": (
                     sum(self._lane_switch_latencies[-100:]) / len(self._lane_switch_latencies[-100:])
-                    if self._lane_switch_latencies else 0.0
+                    if self._lane_switch_latencies
+                    else 0.0
                 )
-            }
+            },
         }
 
     @asynccontextmanager

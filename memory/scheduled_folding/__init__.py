@@ -22,8 +22,11 @@ except Exception:
 
     class CompressionLevel(Enum):
         """Stub for CompressionLevel."""
+
         UNKNOWN = "unknown"
         DEFAULT = "default"
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -45,6 +48,8 @@ except Exception:
         RUNNING = "running"
         COMPLETED = "completed"
         FAILED = "failed"
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -62,6 +67,7 @@ except Exception:
             ScheduledFold,  # type: ignore  # pragma: no cover
         )
     except Exception:
+
         class ScheduledFold:
             """Fallback scheduled fold stub."""
 
@@ -72,6 +78,7 @@ except Exception:
             def run(self) -> None:
                 """Placeholder run operation."""
 
+
 if "ScheduledFold" not in __all__:
     __all__.append("ScheduledFold")
 
@@ -80,6 +87,7 @@ try:
     ScheduledFold
     ScheduledFoldingManager
 except NameError:
+
     class ScheduledFold:  # pragma: no cover - fallback
         def __init__(self, id: str, when: str, *, policy: str = "default"):
             self.id = id

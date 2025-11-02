@@ -37,6 +37,7 @@
 ║ Symbolic Tags: {ΛGATEWAY}, {ΛAPI}, {ΛROUTING}, {ΛPERFORMANCE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import time
 from contextlib import asynccontextmanager

@@ -43,6 +43,7 @@ try:
         TaggedPlan,
         create_safety_tag_enricher,
     )
+
     SAFETY_TAGS_AVAILABLE = True
 except ImportError:
     SAFETY_TAGS_AVAILABLE = False
@@ -59,7 +60,7 @@ class TestSafetyTag:
             category=SafetyTagCategory.DATA_SENSITIVITY,
             description="PII detected",
             confidence=0.95,
-            metadata={"detected_types": ["email"]}
+            metadata={"detected_types": ["email"]},
         )
 
         assert tag.name == "pii"
@@ -71,10 +72,7 @@ class TestSafetyTag:
         """Test that invalid confidence values raise errors."""
         with pytest.raises(ValueError, match="Confidence must be between 0.0 and 1.0"):
             SafetyTag(
-                name="test",
-                category=SafetyTagCategory.DATA_SENSITIVITY,
-                description="Test",
-                confidence=1.5  # Invalid
+                name="test", category=SafetyTagCategory.DATA_SENSITIVITY, description="Test", confidence=1.5  # Invalid
             )
 
 
@@ -93,11 +91,7 @@ class TestTaggedPlan:
     @pytest.fixture
     def tagged_plan(self, sample_tags):
         """Create a tagged plan for testing."""
-        return TaggedPlan(
-            original_plan={"action": "test", "params": {}},
-            tags=sample_tags,
-            enrichment_time_ms=1.5
-        )
+        return TaggedPlan(original_plan={"action": "test", "params": {}}, tags=sample_tags, enrichment_time_ms=1.5)
 
     def test_tag_names_property(self, tagged_plan):
         """Test tag_names property."""
@@ -140,10 +134,7 @@ class TestPIIDetector:
 
     def test_email_detection(self, pii_detector):
         """Test email PII detection."""
-        plan = {
-            "action": "send_notification",
-            "params": {"email": "user@example.com"}
-        }
+        plan = {"action": "send_notification", "params": {"email": "user@example.com"}}
 
         tag = pii_detector.detect(plan, {})
         assert tag is not None
@@ -152,10 +143,7 @@ class TestPIIDetector:
 
     def test_ssn_detection(self, pii_detector):
         """Test SSN detection."""
-        plan = {
-            "action": "process_application",
-            "params": {"ssn": "123-45-6789"}
-        }
+        plan = {"action": "process_application", "params": {"ssn": "123-45-6789"}}
 
         tag = pii_detector.detect(plan, {})
         assert tag is not None
@@ -164,10 +152,7 @@ class TestPIIDetector:
 
     def test_pii_field_names(self, pii_detector):
         """Test PII detection by field names."""
-        plan = {
-            "action": "update_profile",
-            "params": {"first_name": "John", "last_name": "Doe"}
-        }
+        plan = {"action": "update_profile", "params": {"first_name": "John", "last_name": "Doe"}}
 
         tag = pii_detector.detect(plan, {})
         assert tag is not None
@@ -175,10 +160,7 @@ class TestPIIDetector:
 
     def test_no_pii_detected(self, pii_detector):
         """Test case with no PII."""
-        plan = {
-            "action": "calculate_sum",
-            "params": {"a": 5, "b": 10}
-        }
+        plan = {"action": "calculate_sum", "params": {"a": 5, "b": 10}}
 
         tag = pii_detector.detect(plan, {})
         assert tag is None
@@ -194,10 +176,7 @@ class TestFinancialDetector:
 
     def test_financial_action_detection(self, financial_detector):
         """Test detection of financial actions."""
-        plan = {
-            "action": "process_payment",
-            "params": {"amount": 100.00}
-        }
+        plan = {"action": "process_payment", "params": {"amount": 100.00}}
 
         tag = financial_detector.detect(plan, {})
         assert tag is not None
@@ -206,10 +185,7 @@ class TestFinancialDetector:
 
     def test_financial_field_detection(self, financial_detector):
         """Test detection of financial fields."""
-        plan = {
-            "action": "update_account",
-            "params": {"account_number": "1234567890"}
-        }
+        plan = {"action": "update_account", "params": {"account_number": "1234567890"}}
 
         tag = financial_detector.detect(plan, {})
         assert tag is not None
@@ -217,10 +193,7 @@ class TestFinancialDetector:
 
     def test_currency_amount_detection(self, financial_detector):
         """Test detection of currency amounts."""
-        plan = {
-            "action": "calculate_fee",
-            "params": {"amount": 50.99, "currency": "USD"}
-        }
+        plan = {"action": "calculate_fee", "params": {"amount": 50.99, "currency": "USD"}}
 
         tag = financial_detector.detect(plan, {})
         assert tag is not None
@@ -236,10 +209,7 @@ class TestModelSwitchDetector:
 
     def test_model_switch_action(self, model_switch_detector):
         """Test detection of model switching actions."""
-        plan = {
-            "action": "switch_model",
-            "params": {"target_model": "gpt-4"}
-        }
+        plan = {"action": "switch_model", "params": {"target_model": "gpt-4"}}
 
         tag = model_switch_detector.detect(plan, {})
         assert tag is not None
@@ -248,10 +218,7 @@ class TestModelSwitchDetector:
 
     def test_model_parameter_detection(self, model_switch_detector):
         """Test detection of model parameters."""
-        plan = {
-            "action": "configure_ai",
-            "params": {"model": "claude-3", "temperature": 0.7}
-        }
+        plan = {"action": "configure_ai", "params": {"model": "claude-3", "temperature": 0.7}}
 
         tag = model_switch_detector.detect(plan, {})
         assert tag is not None
@@ -268,10 +235,7 @@ class TestExternalCallDetector:
 
     def test_external_call_detection(self, external_call_detector):
         """Test detection of external API calls."""
-        plan = {
-            "action": "external_call",
-            "params": {"url": "https://api.example.com/data"}
-        }
+        plan = {"action": "external_call", "params": {"url": "https://api.example.com/data"}}
 
         tag = external_call_detector.detect(plan, {})
         assert tag is not None
@@ -280,10 +244,7 @@ class TestExternalCallDetector:
 
     def test_url_parameter_detection(self, external_call_detector):
         """Test detection by URL parameters."""
-        plan = {
-            "action": "fetch_data",
-            "params": {"endpoint": "https://service.api.com/v1/users"}
-        }
+        plan = {"action": "fetch_data", "params": {"endpoint": "https://service.api.com/v1/users"}}
 
         tag = external_call_detector.detect(plan, {})
         assert tag is not None
@@ -299,10 +260,7 @@ class TestPrivilegeEscalationDetector:
 
     def test_admin_action_detection(self, privilege_detector):
         """Test detection of admin actions."""
-        plan = {
-            "action": "admin_override",
-            "params": {"operation": "grant_access"}
-        }
+        plan = {"action": "admin_override", "params": {"operation": "grant_access"}}
 
         tag = privilege_detector.detect(plan, {})
         assert tag is not None
@@ -311,10 +269,7 @@ class TestPrivilegeEscalationDetector:
 
     def test_escalation_terms_detection(self, privilege_detector):
         """Test detection of escalation terms."""
-        plan = {
-            "action": "system_command",
-            "params": {"command": "sudo rm -rf /"}
-        }
+        plan = {"action": "system_command", "params": {"command": "sudo rm -rf /"}}
 
         tag = privilege_detector.detect(plan, {})
         assert tag is not None
@@ -330,10 +285,7 @@ class TestGDPRDetector:
 
     def test_gdpr_action_detection(self, gdpr_detector):
         """Test detection of GDPR actions."""
-        plan = {
-            "action": "data_export",
-            "params": {"user_id": "eu_user_123"}
-        }
+        plan = {"action": "data_export", "params": {"user_id": "eu_user_123"}}
 
         tag = gdpr_detector.detect(plan, {})
         assert tag is not None
@@ -341,10 +293,7 @@ class TestGDPRDetector:
 
     def test_eu_user_context_boost(self, gdpr_detector):
         """Test GDPR detection boost for EU users."""
-        plan = {
-            "action": "process_personal_data",
-            "params": {"data_type": "profile"}
-        }
+        plan = {"action": "process_personal_data", "params": {"data_type": "profile"}}
         context = {"user_region": "EU"}
 
         tag = gdpr_detector.detect(plan, context)
@@ -362,10 +311,7 @@ class TestSafetyTagEnricher:
 
     def test_pii_enrichment(self, enricher):
         """Test PII tag enrichment."""
-        plan = {
-            "action": "send_email",
-            "params": {"email": "user@example.com", "message": "Hello"}
-        }
+        plan = {"action": "send_email", "params": {"email": "user@example.com", "message": "Hello"}}
 
         tagged_plan = enricher.enrich_plan(plan)
         assert tagged_plan.has_tag("pii")
@@ -378,8 +324,8 @@ class TestSafetyTagEnricher:
             "params": {
                 "url": "https://api.bank.com/account",
                 "email": "customer@example.com",
-                "account_number": "1234567890"
-            }
+                "account_number": "1234567890",
+            },
         }
 
         tagged_plan = enricher.enrich_plan(plan)
@@ -408,6 +354,7 @@ class TestSafetyTagEnricher:
 
     def test_custom_detector_addition(self, enricher):
         """Test adding custom detectors."""
+
         class TestDetector:
             def __init__(self):
                 self.tag_name = "test_tag"
@@ -417,10 +364,7 @@ class TestSafetyTagEnricher:
             def detect(self, plan, context):
                 if plan.get("action") == "test_action":
                     return SafetyTag(
-                        name=self.tag_name,
-                        category=self.category,
-                        description=self.description,
-                        confidence=1.0
+                        name=self.tag_name, category=self.category, description=self.description, confidence=1.0
                     )
                 return None
 
@@ -433,7 +377,7 @@ class TestSafetyTagEnricher:
     def test_error_handling(self, enricher):
         """Test error handling during enrichment."""
         # Mock a detector to raise an exception
-        with patch.object(enricher.detectors[0], 'detect', side_effect=Exception("Test error")):
+        with patch.object(enricher.detectors[0], "detect", side_effect=Exception("Test error")):
             plan = {"action": "test"}
             tagged_plan = enricher.enrich_plan(plan)
 
@@ -445,11 +389,7 @@ class TestSafetyTagEnricher:
         """Test that enrichment meets performance requirements."""
         plan = {
             "action": "complex_operation",
-            "params": {
-                "email": "user@example.com",
-                "account": "1234567890",
-                "url": "https://api.example.com"
-            }
+            "params": {"email": "user@example.com", "account": "1234567890", "url": "https://api.example.com"},
         }
 
         times = []
@@ -494,7 +434,7 @@ class TestDSLPredicates:
         tags = ["pii", "financial", "model-switch"]
 
         assert has_category(tags, "data_sensitivity") is True  # pii, financial
-        assert has_category(tags, "system_operation") is True   # model-switch
+        assert has_category(tags, "system_operation") is True  # model-switch
         assert has_category(tags, "security_risk") is False
         assert has_category(tags, "nonexistent") is False
 
@@ -503,7 +443,7 @@ class TestDSLPredicates:
         tags_with_confidence = {
             "pii": {"confidence": 0.95},
             "financial": {"confidence": 0.7},
-            "external-call": {}  # No confidence specified
+            "external-call": {},  # No confidence specified
         }
 
         # High confidence tag
@@ -563,8 +503,8 @@ class TestIntegrationScenarios:
             "params": {
                 "url": "https://external-service.com/api",
                 "user_email": "sensitive@example.com",
-                "personal_data": "John Doe, 123-45-6789"
-            }
+                "personal_data": "John Doe, 123-45-6789",
+            },
         }
 
         tagged_plan = enricher.enrich_plan(plan)
@@ -581,11 +521,7 @@ class TestIntegrationScenarios:
         """Test financial + model switch detection."""
         plan = {
             "action": "switch_model",
-            "params": {
-                "model": "financial-ai-v2",
-                "account_data": "Account: 9876543210",
-                "amount": 1000.00
-            }
+            "params": {"model": "financial-ai-v2", "account_data": "Account: 9876543210", "amount": 1000.00},
         }
 
         tagged_plan = enricher.enrich_plan(plan)
@@ -600,13 +536,7 @@ class TestIntegrationScenarios:
 
     def test_gdpr_compliance_scenario(self, enricher):
         """Test GDPR compliance detection."""
-        plan = {
-            "action": "data_deletion",
-            "params": {
-                "user_id": "eu_user_456",
-                "personal_data": True
-            }
-        }
+        plan = {"action": "data_deletion", "params": {"user_id": "eu_user_456", "personal_data": True}}
         context = {"user_region": "EU"}
 
         tagged_plan = enricher.enrich_plan(plan, context)

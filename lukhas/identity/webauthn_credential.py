@@ -23,6 +23,7 @@ class WebAuthnCredential(TypedDict):
     Stores essential credential information for WebAuthn/FIDO2 authentication
     including public key, signature counter, and usage metadata.
     """
+
     user_id: str  # ΛID or user identifier
     credential_id: str  # Base64url-encoded credential ID (unique key)
     public_key: str  # Base64url-encoded public key
@@ -144,11 +145,7 @@ class WebAuthnCredentialStore:
         """
         with self._lock:
             credential_ids = self._user_index.get(user_id, [])
-            return [
-                self._credentials[cid]
-                for cid in credential_ids
-                if cid in self._credentials  # Defensive check
-            ]
+            return [self._credentials[cid] for cid in credential_ids if cid in self._credentials]  # Defensive check
 
     def get_credentials_by_user(self, user_id: str) -> List[WebAuthnCredential]:
         """Get all credentials for a user with O(1) lookup performance.
@@ -169,11 +166,7 @@ class WebAuthnCredentialStore:
         # Delegate to list_credentials which already uses the index
         return self.list_credentials(user_id)
 
-    def get_credential_by_user_and_id(
-        self,
-        user_id: str,
-        credential_id: str
-    ) -> Optional[WebAuthnCredential]:
+    def get_credential_by_user_and_id(self, user_id: str, credential_id: str) -> Optional[WebAuthnCredential]:
         """Get a specific credential for a user with validation.
 
         This method provides O(1) lookup with user ownership validation,
@@ -231,11 +224,7 @@ class WebAuthnCredentialStore:
 
             return True
 
-    def update_credential(
-        self,
-        credential_id: str,
-        updates: Dict[str, Any]
-    ) -> bool:
+    def update_credential(self, credential_id: str, updates: Dict[str, Any]) -> bool:
         """Update specific fields of an existing credential.
 
         Args:
@@ -270,8 +259,16 @@ class WebAuthnCredentialStore:
 
             # Apply updates
             for key, value in updates.items():
-                if key in {"counter", "last_used", "device_name", "aaguid",
-                          "transports", "backup_eligible", "backup_state", "metadata"}:
+                if key in {
+                    "counter",
+                    "last_used",
+                    "device_name",
+                    "aaguid",
+                    "transports",
+                    "backup_eligible",
+                    "backup_state",
+                    "metadata",
+                }:
                     credential[key] = value  # type: ignore[literal-required]
 
             return True

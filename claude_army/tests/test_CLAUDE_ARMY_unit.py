@@ -25,10 +25,7 @@ class TestClaudeArmyModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "CLAUDE_ARMY",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "CLAUDE_ARMY", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestClaudeArmyModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import CLAUDE_ARMY
+
         self.assertIsNotNone(CLAUDE_ARMY)
 
     def test_module_version(self):
         """Test module has version information."""
         import CLAUDE_ARMY
+
         # Most modules should have version info
-        self.assertTrue(hasattr(CLAUDE_ARMY, '__version__') or
-                       hasattr(CLAUDE_ARMY, 'VERSION'))
+        self.assertTrue(hasattr(CLAUDE_ARMY, "__version__") or hasattr(CLAUDE_ARMY, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestClaudeMaxCoordinator(unittest.TestCase):
         """Test ClaudeMaxCoordinator can be imported."""
         try:
             from CLAUDE_ARMY.coordination_hub import ClaudeMaxCoordinator
+
             self.assertIsNotNone(ClaudeMaxCoordinator)
         except ImportError:
             pytest.skip("Component ClaudeMaxCoordinator not available")
@@ -88,7 +87,6 @@ class TestClaudeMaxCoordinator(unittest.TestCase):
         """Test ClaudeMaxCoordinator can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

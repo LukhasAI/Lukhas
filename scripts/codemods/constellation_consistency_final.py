@@ -26,105 +26,103 @@ ROOT = Path(__file__).resolve().parents[2]
 # Comprehensive replacement patterns
 REPLACEMENTS: List[Tuple[re.Pattern, str]] = [
     # Remaining Trinity references
-    (re.compile(r'\bTrinity Framework\b'), 'Constellation Framework'),
-    (re.compile(r'\bTRINITY_FRAMEWORK\b'), 'CONSTELLATION_FRAMEWORK'),
-    (re.compile(r'\btrinity_framework\b'), 'constellation_framework'),
-    (re.compile(r'\bTrinity\b(?=\s+(?:[Ff]ramework|[Ii]ntegration|[Cc]oordination|[Cc]onsciousness|[Ii]dentity|[Cc]omponents))'), 'Constellation'),
-
+    (re.compile(r"\bTrinity Framework\b"), "Constellation Framework"),
+    (re.compile(r"\bTRINITY_FRAMEWORK\b"), "CONSTELLATION_FRAMEWORK"),
+    (re.compile(r"\btrinity_framework\b"), "constellation_framework"),
+    (
+        re.compile(
+            r"\bTrinity\b(?=\s+(?:[Ff]ramework|[Ii]ntegration|[Cc]oordination|[Cc]onsciousness|[Ii]dentity|[Cc]omponents))"
+        ),
+        "Constellation",
+    ),
     # Trinity-specific method and class names
-    (re.compile(r'\bget_trinity_context\b'), 'get_constellation_context'),
-    (re.compile(r'\btrinity_integration\b'), 'constellation_integration'),
-    (re.compile(r'\btrinity_status\b'), 'constellation_status'),
-    (re.compile(r'\bTrinityState\b'), 'ConstellationState'),
-    (re.compile(r'\bTrinityIntegrator\b'), 'ConstellationIntegrator'),
-    (re.compile(r'\bTrinityFrameworkValidator\b'), 'ConstellationFrameworkValidator'),
-    (re.compile(r'\btrinity_framework_validator\b'), 'constellation_framework_validator'),
-    (re.compile(r'\btrinity_framework_monitor\b'), 'constellation_framework_monitor'),
-
+    (re.compile(r"\bget_trinity_context\b"), "get_constellation_context"),
+    (re.compile(r"\btrinity_integration\b"), "constellation_integration"),
+    (re.compile(r"\btrinity_status\b"), "constellation_status"),
+    (re.compile(r"\bTrinityState\b"), "ConstellationState"),
+    (re.compile(r"\bTrinityIntegrator\b"), "ConstellationIntegrator"),
+    (re.compile(r"\bTrinityFrameworkValidator\b"), "ConstellationFrameworkValidator"),
+    (re.compile(r"\btrinity_framework_validator\b"), "constellation_framework_validator"),
+    (re.compile(r"\btrinity_framework_monitor\b"), "constellation_framework_monitor"),
     # Directory and file names with trinity
-    (re.compile(r'/trinity/'), '/constellation/'),
-    (re.compile(r'trinity_integration\.py'), 'constellation_integration.py'),
-
+    (re.compile(r"/trinity/"), "/constellation/"),
+    (re.compile(r"trinity_integration\.py"), "constellation_integration.py"),
     # Fixed 4-star references → Dynamic constellation model
-    (re.compile(r'\b4-star Constellation Framework\b'), 'Constellation Framework'),
-    (re.compile(r'\b4-Star Constellation Framework\b'), 'Constellation Framework'),
-    (re.compile(r'\bfour-star Constellation Framework\b'), 'Constellation Framework'),
-    (re.compile(r'\bFour-Star Constellation Framework\b'), 'Constellation Framework'),
-    (re.compile(r'\b4-star constellation\b'), 'constellation'),
-    (re.compile(r'\b4-Star constellation\b'), 'constellation'),
-    (re.compile(r'\bfour-star constellation\b'), 'constellation'),
-    (re.compile(r'\bFour-Star constellation\b'), 'constellation'),
-
+    (re.compile(r"\b4-star Constellation Framework\b"), "Constellation Framework"),
+    (re.compile(r"\b4-Star Constellation Framework\b"), "Constellation Framework"),
+    (re.compile(r"\bfour-star Constellation Framework\b"), "Constellation Framework"),
+    (re.compile(r"\bFour-Star Constellation Framework\b"), "Constellation Framework"),
+    (re.compile(r"\b4-star constellation\b"), "constellation"),
+    (re.compile(r"\b4-Star constellation\b"), "constellation"),
+    (re.compile(r"\bfour-star constellation\b"), "constellation"),
+    (re.compile(r"\bFour-Star constellation\b"), "constellation"),
     # Orchestration references - replace fixed counts with dynamic
-    (re.compile(r'\b4-Star Orchestration\b'), 'Dynamic Constellation Orchestration'),
-    (re.compile(r'\b4-star orchestration\b'), 'dynamic constellation orchestration'),
-    (re.compile(r'\b4-Star Framework Active\b'), 'Dynamic Constellation Framework Active'),
-    (re.compile(r'\b4-star framework\b'), 'constellation framework'),
-
+    (re.compile(r"\b4-Star Orchestration\b"), "Dynamic Constellation Orchestration"),
+    (re.compile(r"\b4-star orchestration\b"), "dynamic constellation orchestration"),
+    (re.compile(r"\b4-Star Framework Active\b"), "Dynamic Constellation Framework Active"),
+    (re.compile(r"\b4-star framework\b"), "constellation framework"),
     # Documentation improvements - emphasize dynamic/scalable nature
-    (re.compile(r'The \*\*4-star Constellation Framework\*\*'), 'The **Constellation Framework**'),
-    (re.compile(r'The 4-star Constellation Framework'), 'The Constellation Framework'),
-    (re.compile(r'across the 4-star Constellation Framework'), 'across the Constellation Framework'),
-    (re.compile(r'coordinates across the 4-star Constellation Framework'), 'coordinates across the dynamic Constellation Framework'),
-
+    (re.compile(r"The \*\*4-star Constellation Framework\*\*"), "The **Constellation Framework**"),
+    (re.compile(r"The 4-star Constellation Framework"), "The Constellation Framework"),
+    (re.compile(r"across the 4-star Constellation Framework"), "across the Constellation Framework"),
+    (
+        re.compile(r"coordinates across the 4-star Constellation Framework"),
+        "coordinates across the dynamic Constellation Framework",
+    ),
     # Specific count references in descriptions
     (re.compile(r'"4-Star Constellation Framework stars"'), '"Dynamic Constellation Framework stars"'),
-    (re.compile(r'4-star system'), 'constellation system'),
-    (re.compile(r'4-Star system'), 'constellation system'),
-    (re.compile(r'four-star system'), 'constellation system'),
-
+    (re.compile(r"4-star system"), "constellation system"),
+    (re.compile(r"4-Star system"), "constellation system"),
+    (re.compile(r"four-star system"), "constellation system"),
     # Comment and docstring updates
-    (re.compile(r'# 4-star'), '# Constellation'),
-    (re.compile(r'# Four-star'), '# Constellation'),
-    (re.compile(r'4-star model'), 'constellation model'),
-    (re.compile(r'four-star model'), 'constellation model'),
-
+    (re.compile(r"# 4-star"), "# Constellation"),
+    (re.compile(r"# Four-star"), "# Constellation"),
+    (re.compile(r"4-star model"), "constellation model"),
+    (re.compile(r"four-star model"), "constellation model"),
     # Specific file paths that need updating
-    (re.compile(r'lukhas/trinity/'), 'lukhas/constellation/'),
-    (re.compile(r'candidate/consciousness/trinity/'), 'candidate/consciousness/constellation/'),
-
+    (re.compile(r"lukhas/trinity/"), "lukhas/constellation/"),
+    (re.compile(r"candidate/consciousness/trinity/"), "candidate/consciousness/constellation/"),
     # Log messages and status indicators
-    (re.compile(r'Trinity integration'), 'Constellation integration'),
-    (re.compile(r'Trinity coordination'), 'Constellation coordination'),
-    (re.compile(r'Trinity status'), 'Constellation status'),
-    (re.compile(r'Trinity health'), 'Constellation health'),
-
+    (re.compile(r"Trinity integration"), "Constellation integration"),
+    (re.compile(r"Trinity coordination"), "Constellation coordination"),
+    (re.compile(r"Trinity status"), "Constellation status"),
+    (re.compile(r"Trinity health"), "Constellation health"),
     # Configuration and settings
-    (re.compile(r'trinity_enabled'), 'constellation_enabled'),
-    (re.compile(r'TRINITY_ENABLED'), 'CONSTELLATION_ENABLED'),
-    (re.compile(r'trinity_mode'), 'constellation_mode'),
-    (re.compile(r'TRINITY_MODE'), 'CONSTELLATION_MODE'),
-
+    (re.compile(r"trinity_enabled"), "constellation_enabled"),
+    (re.compile(r"TRINITY_ENABLED"), "CONSTELLATION_ENABLED"),
+    (re.compile(r"trinity_mode"), "constellation_mode"),
+    (re.compile(r"TRINITY_MODE"), "CONSTELLATION_MODE"),
     # Branding and messaging consistency
-    (re.compile(r'traditional monolithic AI architectures with a distributed cognitive coordination system'),
-     'traditional monolithic AI architectures with a dynamic constellation of cognitive domains'),
-
+    (
+        re.compile(r"traditional monolithic AI architectures with a distributed cognitive coordination system"),
+        "traditional monolithic AI architectures with a dynamic constellation of cognitive domains",
+    ),
     # Update specific constellation star language to be more flexible
-    (re.compile(r'4 stars: ⚛️ ✦ 🔬 🛡️'), 'core stars: ⚛️ ✦ 🔬 🛡️ (with dynamic expansion)'),
-    (re.compile(r'four core stars'), 'core constellation stars'),
-    (re.compile(r'Four core stars'), 'Core constellation stars'),
+    (re.compile(r"4 stars: ⚛️ ✦ 🔬 🛡️"), "core stars: ⚛️ ✦ 🔬 🛡️ (with dynamic expansion)"),
+    (re.compile(r"four core stars"), "core constellation stars"),
+    (re.compile(r"Four core stars"), "Core constellation stars"),
 ]
 
 # File patterns to include
-INCLUDE_PATTERNS = ['.py', '.md', '.txt', '.yaml', '.yml', '.json', '.rst']
+INCLUDE_PATTERNS = [".py", ".md", ".txt", ".yaml", ".yml", ".json", ".rst"]
 
 # Directories to scan
 SCAN_DIRS = [
-    '.',  # Scan entire repository
+    ".",  # Scan entire repository
 ]
 
 # Files and directories to exclude
 EXCLUDE_PATTERNS = [
-    '.git',
-    '__pycache__',
-    '.venv',
-    'node_modules',
-    '*.pyc',
-    '*.pyo',
-    '*.egg-info',
-    'build',
-    'dist',
-    '.bak'
+    ".git",
+    "__pycache__",
+    ".venv",
+    "node_modules",
+    "*.pyc",
+    "*.pyo",
+    "*.egg-info",
+    "build",
+    "dist",
+    ".bak",
 ]
 
 
@@ -146,10 +144,8 @@ def find_files_to_process() -> List[Path]:
         if not scan_path.exists():
             continue
 
-        for file_path in scan_path.rglob('*'):
-            if (file_path.is_file() and
-                not should_skip_path(file_path) and
-                file_path.suffix in INCLUDE_PATTERNS):
+        for file_path in scan_path.rglob("*"):
+            if file_path.is_file() and not should_skip_path(file_path) and file_path.suffix in INCLUDE_PATTERNS:
                 files.append(file_path)
 
     return sorted(files)
@@ -170,7 +166,7 @@ def apply_replacements(content: str) -> Tuple[str, int]:
 def process_file(file_path: Path, dry_run: bool = True) -> Tuple[bool, int]:
     """Process a single file for consistency updates."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             original_content = f.read()
     except (UnicodeDecodeError, PermissionError, OSError) as e:
         if not dry_run:
@@ -187,13 +183,13 @@ def process_file(file_path: Path, dry_run: bool = True) -> Tuple[bool, int]:
         return True, change_count
     else:
         # Create backup
-        backup_path = file_path.with_suffix(file_path.suffix + '.bak')
+        backup_path = file_path.with_suffix(file_path.suffix + ".bak")
         if not backup_path.exists():
-            with open(backup_path, 'w', encoding='utf-8') as f:
+            with open(backup_path, "w", encoding="utf-8") as f:
                 f.write(original_content)
 
         # Apply changes
-        with open(file_path, 'w', encoding='utf-8') as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
 
         print(f"UPDATED: {file_path.relative_to(ROOT)} - {change_count} changes")
@@ -202,13 +198,12 @@ def process_file(file_path: Path, dry_run: bool = True) -> Tuple[bool, int]:
 
 def main():
     """Main codemod execution."""
-    parser = argparse.ArgumentParser(description='Final Constellation Consistency Codemod')
-    parser.add_argument('--dry-run', action='store_true',
-                       help='Show what would be changed without applying')
-    parser.add_argument('--apply', action='store_true',
-                       help='Apply the changes to files')
-    parser.add_argument('--trinity-only', action='store_true',
-                       help='Only fix Trinity references, skip constellation updates')
+    parser = argparse.ArgumentParser(description="Final Constellation Consistency Codemod")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be changed without applying")
+    parser.add_argument("--apply", action="store_true", help="Apply the changes to files")
+    parser.add_argument(
+        "--trinity-only", action="store_true", help="Only fix Trinity references, skip constellation updates"
+    )
 
     args = parser.parse_args()
 
@@ -235,7 +230,7 @@ def main():
     # Filter replacements if trinity-only mode
     if args.trinity_only:
         global REPLACEMENTS
-        REPLACEMENTS = [r for r in REPLACEMENTS if 'trinity' in r[0].pattern.lower() or 'Trinity' in r[0].pattern]
+        REPLACEMENTS = [r for r in REPLACEMENTS if "trinity" in r[0].pattern.lower() or "Trinity" in r[0].pattern]
 
     # Find files to process
     files_to_process = find_files_to_process()
@@ -273,5 +268,5 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     exit(main())

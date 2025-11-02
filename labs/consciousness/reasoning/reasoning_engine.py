@@ -34,27 +34,32 @@ from typing import Any, Optional
 try:
     from core.common import get_logger
 except ImportError:
+
     def get_logger(name):
         import logging
+
         return logging.getLogger(name)
+
 
 logger = get_logger(__name__)
 
 
 class ReasoningType(Enum):
     """Types of reasoning processes"""
-    DEDUCTIVE = "deductive"        # General to specific
-    INDUCTIVE = "inductive"        # Specific to general
-    ABDUCTIVE = "abductive"        # Best explanation
-    CAUSAL = "causal"             # Cause and effect
-    ANALOGICAL = "analogical"      # Pattern similarity
-    METACOGNITIVE = "metacognitive" # Reasoning about reasoning
-    PROBABILISTIC = "probabilistic" # Uncertainty-based
-    TEMPORAL = "temporal"          # Time-based reasoning
+
+    DEDUCTIVE = "deductive"  # General to specific
+    INDUCTIVE = "inductive"  # Specific to general
+    ABDUCTIVE = "abductive"  # Best explanation
+    CAUSAL = "causal"  # Cause and effect
+    ANALOGICAL = "analogical"  # Pattern similarity
+    METACOGNITIVE = "metacognitive"  # Reasoning about reasoning
+    PROBABILISTIC = "probabilistic"  # Uncertainty-based
+    TEMPORAL = "temporal"  # Time-based reasoning
 
 
 class ConfidenceLevel(Enum):
     """Confidence levels for reasoning conclusions"""
+
     VERY_LOW = 0.1
     LOW = 0.3
     MODERATE = 0.5
@@ -64,6 +69,7 @@ class ConfidenceLevel(Enum):
 
 class ReasoningStatus(Enum):
     """Status of reasoning process"""
+
     PENDING = "pending"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -139,7 +145,7 @@ class ReasoningTask:
 class ReasoningEngine:
     """
     Advanced reasoning engine for LUKHAS AI
-    
+
     Provides multi-modal reasoning capabilities with Constellation Framework
     integration, confidence tracking, and meta-cognitive awareness.
     """
@@ -165,7 +171,7 @@ class ReasoningEngine:
             "min_confidence_threshold": 0.1,
             "max_reasoning_depth": 10,
             "enable_metacognition": True,
-            "max_task_history": 1000
+            "max_task_history": 1000,
         }
 
         # Processing control
@@ -185,18 +191,18 @@ class ReasoningEngine:
             "modus_ponens": {
                 "pattern": "If P then Q; P; therefore Q",
                 "confidence_factor": 0.9,
-                "type": ReasoningType.DEDUCTIVE
+                "type": ReasoningType.DEDUCTIVE,
             },
             "causal_chain": {
                 "pattern": "A causes B; B causes C; therefore A causes C",
                 "confidence_factor": 0.7,
-                "type": ReasoningType.CAUSAL
+                "type": ReasoningType.CAUSAL,
             },
             "analogical_transfer": {
                 "pattern": "A is similar to B; A has property P; therefore B likely has property P",
                 "confidence_factor": 0.6,
-                "type": ReasoningType.ANALOGICAL
-            }
+                "type": ReasoningType.ANALOGICAL,
+            },
         }
 
     async def start(self) -> bool:
@@ -207,9 +213,7 @@ class ReasoningEngine:
                 return False
 
             # Start processing tasks
-            self.processing_tasks.add(
-                asyncio.create_task(self._task_processing_loop())
-            )
+            self.processing_tasks.add(asyncio.create_task(self._task_processing_loop()))
 
             self.is_running = True
             logger.info("🧠 Reasoning Engine started successfully")
@@ -224,24 +228,19 @@ class ReasoningEngine:
         query: str,
         premises: Optional[list[str]] = None,
         reasoning_types: Optional[list[ReasoningType]] = None,
-        **kwargs
+        **kwargs,
     ) -> ReasoningTask:
         """Perform reasoning on a query"""
         try:
             # Create reasoning task
             task = ReasoningTask(
-                task_id=str(uuid.uuid4()),
-                query=query,
-                reasoning_types=reasoning_types or [ReasoningType.DEDUCTIVE]
+                task_id=str(uuid.uuid4()), query=query, reasoning_types=reasoning_types or [ReasoningType.DEDUCTIVE]
             )
 
             # Add premises
             if premises:
                 for i, premise_text in enumerate(premises):
-                    premise = ReasoningPremise(
-                        premise_id=f"{task.task_id}_premise_{i}",
-                        content=premise_text
-                    )
+                    premise = ReasoningPremise(premise_id=f"{task.task_id}_premise_{i}", content=premise_text)
                     task.premises.append(premise)
 
             # Queue task for processing
@@ -259,7 +258,7 @@ class ReasoningEngine:
                 query=query,
                 reasoning_types=[],
                 status=ReasoningStatus.FAILED,
-                error_message=str(e)
+                error_message=str(e),
             )
             return error_task
 
@@ -269,10 +268,7 @@ class ReasoningEngine:
         while not self.shutdown_event.is_set():
             try:
                 # Get next task with timeout
-                task = await asyncio.wait_for(
-                    self.task_queue.get(),
-                    timeout=1.0
-                )
+                task = await asyncio.wait_for(self.task_queue.get(), timeout=1.0)
 
                 # Process task
                 asyncio.create_task(self._process_reasoning_task(task))
@@ -338,7 +334,7 @@ class ReasoningEngine:
                         content=f"Deductive conclusion: {consequent}",
                         confidence=0.8,
                         reasoning_type=ReasoningType.DEDUCTIVE,
-                        premises=[premise.premise_id]
+                        premises=[premise.premise_id],
                     )
                     task.conclusions.append(conclusion)
 
@@ -352,7 +348,7 @@ class ReasoningEngine:
                 content=f"Inductive generalization based on {len(task.premises)} premises",
                 confidence=0.6,
                 reasoning_type=ReasoningType.INDUCTIVE,
-                premises=[p.premise_id for p in task.premises]
+                premises=[p.premise_id for p in task.premises],
             )
             task.conclusions.append(conclusion)
 
@@ -367,7 +363,7 @@ class ReasoningEngine:
                     content=f"Causal relationship identified in: {premise.content[:50]}...",
                     confidence=0.7,
                     reasoning_type=ReasoningType.CAUSAL,
-                    premises=[premise.premise_id]
+                    premises=[premise.premise_id],
                 )
                 task.conclusions.append(conclusion)
 
@@ -380,5 +376,5 @@ __all__ = [
     "ReasoningPremise",
     "ReasoningConclusion",
     "ReasoningTask",
-    "ReasoningEngine"
+    "ReasoningEngine",
 ]

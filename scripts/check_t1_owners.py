@@ -17,7 +17,7 @@ def main():
     root = Path("manifests")
     bad = []
     for p in root.rglob("module.manifest.json"):
-        if '/.archive/' in str(p):
+        if "/.archive/" in str(p):
             continue
         try:
             d = json.loads(p.read_text(encoding="utf-8"))
@@ -35,6 +35,7 @@ def main():
             print(f"  - {mod} :: {path}")
         sys.exit(1)
     print("[OK] All T1_critical modules have owners.")
+
 
 if __name__ == "__main__":
     main()

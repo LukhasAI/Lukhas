@@ -14,6 +14,7 @@ import pytest
 
 pytestmark = pytest.mark.integration
 
+
 class TestCoreEndToEnd:
     """End-to-end integration tests for core."""
 
@@ -25,10 +26,7 @@ class TestCoreEndToEnd:
             component = CoreCore()
 
             # Test data pipeline
-            test_input = {
-                'test_data': 'integration_test',
-                'timestamp': '2025-01-01T00:00:00Z'
-            }
+            test_input = {"test_data": "integration_test", "timestamp": "2025-01-01T00:00:00Z"}
 
             result = component.process(test_input)
 
@@ -54,12 +52,13 @@ class TestCoreEndToEnd:
             # Test integrated processing
             with consciousness.awareness_context():
                 with memory.session_context():
-                    result = component.process({'integration': 'test'})
+                    result = component.process({"integration": "test"})
 
             assert result is not None
 
         except ImportError:
             pytest.skip("Full consciousness integration not available")
+
 
 class TestCoreExternalIntegration:
     """Tests for core integration with external systems."""
@@ -72,10 +71,10 @@ class TestCoreExternalIntegration:
             component = CoreCore()
 
             # Test database operations (mocked)
-            with patch('core.database.connect') as mock_db:
-                mock_db.return_value.execute.return_value = {'success': True}
+            with patch("core.database.connect") as mock_db:
+                mock_db.return_value.execute.return_value = {"success": True}
 
-                component.process({'db_operation': 'test'})
+                component.process({"db_operation": "test"})
 
                 # Verify database interaction
                 mock_db.assert_called()
@@ -91,17 +90,18 @@ class TestCoreExternalIntegration:
             component = CoreCore()
 
             # Mock external API calls
-            with patch('requests.post') as mock_post:
+            with patch("requests.post") as mock_post:
                 mock_post.return_value.status_code = 200
-                mock_post.return_value.json.return_value = {'status': 'success'}
+                mock_post.return_value.json.return_value = {"status": "success"}
 
-                result = component.process({'api_call': 'test'})
+                result = component.process({"api_call": "test"})
 
                 # Verify API interaction
                 assert result is not None
 
         except ImportError:
             pytest.skip("API integration not available")
+
 
 class TestCoreScalabilityIntegration:
     """Scalability and load testing for core."""
@@ -117,7 +117,7 @@ class TestCoreScalabilityIntegration:
             component = CoreCore()
 
             def process_item(item_id):
-                return component.process({'item_id': item_id})
+                return component.process({"item_id": item_id})
 
             # Test concurrent processing
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -143,7 +143,7 @@ class TestCoreScalabilityIntegration:
             results = []
 
             for i in range(batch_size):
-                result = component.process({'batch_item': i})
+                result = component.process({"batch_item": i})
                 results.append(result)
 
             # Verify batch processing
@@ -152,6 +152,7 @@ class TestCoreScalabilityIntegration:
 
         except ImportError:
             pytest.skip("High volume processing test not available")
+
 
 class TestCoreErrorRecoveryIntegration:
     """Integration tests for error handling and recovery."""
@@ -164,11 +165,11 @@ class TestCoreErrorRecoveryIntegration:
             component = CoreCore()
 
             # Simulate external service failure
-            with patch('core.external_service.call') as mock_service:
+            with patch("core.external_service.call") as mock_service:
                 mock_service.side_effect = ConnectionError("Service unavailable")
 
                 # Should handle gracefully
-                result = component.process({'requires_external': True})
+                result = component.process({"requires_external": True})
 
                 # Should return fallback result or raise expected exception
                 assert result is not None or mock_service.side_effect
@@ -184,16 +185,17 @@ class TestCoreErrorRecoveryIntegration:
             component = CoreCore()
 
             # Simulate repeated failures to trigger circuit breaker
-            with patch('core.circuit_breaker.is_open') as mock_cb:
+            with patch("core.circuit_breaker.is_open") as mock_cb:
                 mock_cb.return_value = True
 
-                result = component.process({'circuit_test': True})
+                result = component.process({"circuit_test": True})
 
                 # Should handle circuit breaker state
                 assert result is not None
 
         except ImportError:
             pytest.skip("Circuit breaker integration not available")
+
 
 class TestCoreMonitoringIntegration:
     """Integration tests for monitoring and observability."""
@@ -206,10 +208,10 @@ class TestCoreMonitoringIntegration:
             component = CoreCore()
 
             # Test with tracing context
-            with patch('opentelemetry.trace.get_current_span') as mock_span:
+            with patch("opentelemetry.trace.get_current_span") as mock_span:
                 mock_span.return_value.set_attribute = Mock()
 
-                component.process({'trace_test': True})
+                component.process({"trace_test": True})
 
                 # Verify tracing attributes were set
                 mock_span.return_value.set_attribute.assert_called()
@@ -225,8 +227,8 @@ class TestCoreMonitoringIntegration:
             component = CoreCore()
 
             # Test metrics collection
-            with patch('prometheus_client.Counter.inc') as mock_counter:
-                component.process({'metrics_test': True})
+            with patch("prometheus_client.Counter.inc") as mock_counter:
+                component.process({"metrics_test": True})
 
                 # Verify metrics were recorded
                 mock_counter.assert_called()
@@ -234,24 +236,23 @@ class TestCoreMonitoringIntegration:
         except ImportError:
             pytest.skip("Metrics integration not available")
 
+
 # Fixtures for integration testing
 @pytest.fixture(scope="module")
 def core_component():
     """Fixture providing core component for testing."""
     try:
         from core import CoreCore
+
         return CoreCore()
     except ImportError:
         pytest.skip("CoreCore not available")
+
 
 @pytest.fixture(scope="module")
 def test_data():
     """Fixture providing test data for core integration tests."""
     return {
-        'test_input': {
-            'module': 'core',
-            'test_type': 'integration',
-            'timestamp': '2025-01-01T00:00:00Z'
-        },
-        'expected_output_keys': ['result', 'status', 'timestamp']
+        "test_input": {"module": "core", "test_type": "integration", "timestamp": "2025-01-01T00:00:00Z"},
+        "expected_output_keys": ["result", "status", "timestamp"],
     }

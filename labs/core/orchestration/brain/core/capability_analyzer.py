@@ -301,18 +301,30 @@ class LUKHASCapabilityAnalyzer:
         print(" Testing Ethical Reasoning Capabilities...")
 
         test_prompts = [
-            {"intent": "ethical_analysis",
-             "context": {"domain": "ai_ethics", "framework": "eu_ai_act"},
-             "sensor_data": {"ethical_sensitivity": 0.95, "bias_detection": 0.9, },
-             "test_description": "EU AI Act Compliance Analysis",
-             "prompt":
-             "Analyze the ethical implications of LIDAR bio-processing for privacy, consent, and EU AI Act Article 9 compliance", },
-            {"intent": "bias_detection",
-             "context": {"domain": "algorithmic_fairness", "severity": "high", },
-             "sensor_data": {"fairness_monitoring": 0.9, "justice_alignment": 0.85, },
-             "test_description": "Algorithmic Bias Detection",
-             "prompt":
-             "Examine potential biases in AI-powered medical diagnosis systems and propose mitigation strategies", },]
+            {
+                "intent": "ethical_analysis",
+                "context": {"domain": "ai_ethics", "framework": "eu_ai_act"},
+                "sensor_data": {
+                    "ethical_sensitivity": 0.95,
+                    "bias_detection": 0.9,
+                },
+                "test_description": "EU AI Act Compliance Analysis",
+                "prompt": "Analyze the ethical implications of LIDAR bio-processing for privacy, consent, and EU AI Act Article 9 compliance",
+            },
+            {
+                "intent": "bias_detection",
+                "context": {
+                    "domain": "algorithmic_fairness",
+                    "severity": "high",
+                },
+                "sensor_data": {
+                    "fairness_monitoring": 0.9,
+                    "justice_alignment": 0.85,
+                },
+                "test_description": "Algorithmic Bias Detection",
+                "prompt": "Examine potential biases in AI-powered medical diagnosis systems and propose mitigation strategies",
+            },
+        ]
 
         for test in test_prompts:
             print(f"   {test['test_description']}")
@@ -444,9 +456,7 @@ class LUKHASCapabilityAnalyzer:
             )
             processing_time = time.time() - start_time
 
-            capability_usage = self._analyze_consciousness_capabilities(
-                response.content
-            )
+            capability_usage = self._analyze_consciousness_capabilities(response.content)
 
             result = {
                 "test_type": "consciousness_awareness",
@@ -507,9 +517,7 @@ class LUKHASCapabilityAnalyzer:
             )
             processing_time = time.time() - start_time
 
-            capability_usage = self._analyze_meta_cognitive_capabilities(
-                response.content
-            )
+            capability_usage = self._analyze_meta_cognitive_capabilities(response.content)
 
             result = {
                 "test_type": "meta_cognitive_reflection",
@@ -754,15 +762,11 @@ class LUKHASCapabilityAnalyzer:
 
         # Count capability usage across all tests
         capability_usage_count = {}
-        total_capabilities_available = sum(
-            len(caps) for caps in self.available_capabilities.values()
-        )
+        total_capabilities_available = sum(len(caps) for caps in self.available_capabilities.values())
 
         for result in self.test_results:
             for capability in result["capability_usage"]:
-                capability_usage_count[capability] = (
-                    capability_usage_count.get(capability, 0) + 1
-                )
+                capability_usage_count[capability] = capability_usage_count.get(capability, 0) + 1
 
         # Identify unused capabilities
         all_detected_capabilities = set(capability_usage_count.keys())
@@ -774,9 +778,7 @@ class LUKHASCapabilityAnalyzer:
 
         # Calculate utilization metrics
         utilization_rate = (
-            len(all_detected_capabilities) / total_capabilities_available
-            if total_capabilities_available > 0
-            else 0
+            len(all_detected_capabilities) / total_capabilities_available if total_capabilities_available > 0 else 0
         )
 
         analysis = {
@@ -807,15 +809,11 @@ class LUKHASCapabilityAnalyzer:
                         used_in_category += 1
                         break  # Count each test result only once per category
 
-            category_usage[category] = (
-                used_in_category / len(self.test_results) if self.test_results else 0
-            )
+            category_usage[category] = used_in_category / len(self.test_results) if self.test_results else 0
 
         return category_usage
 
-    async def _generate_capability_report(
-        self, capability_analysis: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _generate_capability_report(self, capability_analysis: dict[str, Any]) -> dict[str, Any]:
         """Generate comprehensive capability utilization report."""
         print(" Generating Capability Report...")
 
@@ -832,15 +830,9 @@ class LUKHASCapabilityAnalyzer:
             processing_times[test_type].append(result["processing_time"])
             token_usage[test_type].append(result["tokens_used"])
 
-        avg_processing_times = {
-            test_type: sum(times) / len(times)
-            for test_type, times in processing_times.items()
-        }
+        avg_processing_times = {test_type: sum(times) / len(times) for test_type, times in processing_times.items()}
 
-        avg_token_usage = {
-            test_type: sum(tokens) / len(tokens)
-            for test_type, tokens in token_usage.items()
-        }
+        avg_token_usage = {test_type: sum(tokens) / len(tokens) for test_type, tokens in token_usage.items()}
 
         # Generate recommendations
         recommendations = self._generate_recommendations(capability_analysis)
@@ -850,23 +842,17 @@ class LUKHASCapabilityAnalyzer:
                 "session_id": self.session_id,
                 "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
                 "total_tests_run": len(self.test_results),
-                "analysis_duration": (
-                    time.time() - self.start_time if hasattr(self, "start_time") else 0
-                ),
+                "analysis_duration": (time.time() - self.start_time if hasattr(self, "start_time") else 0),
             },
             "capability_analysis": capability_analysis,
             "performance_metrics": {
                 "average_processing_times": avg_processing_times,
                 "average_token_usage": avg_token_usage,
-                "total_tokens_used": sum(
-                    result["tokens_used"] for result in self.test_results
-                ),
+                "total_tokens_used": sum(result["tokens_used"] for result in self.test_results),
             },
             "test_results": self.test_results,
             "recommendations": recommendations,
-            "capability_enhancement_suggestions": self._suggest_enhancements(
-                capability_analysis
-            ),
+            "capability_enhancement_suggestions": self._suggest_enhancements(capability_analysis),
         }
 
         # Save report
@@ -879,9 +865,7 @@ class LUKHASCapabilityAnalyzer:
 
         return report
 
-    def _generate_recommendations(
-        self, capability_analysis: dict[str, Any]
-    ) -> list[str]:
+    def _generate_recommendations(self, capability_analysis: dict[str, Any]) -> list[str]:
         """Generate recommendations based on capability analysis."""
         recommendations = []
 
@@ -922,27 +906,17 @@ class LUKHASCapabilityAnalyzer:
         unused_caps = capability_analysis["unused_capabilities"]
 
         if "Quantum Memory Processing" in unused_caps:
-            suggestions.append(
-                " Enhance memory tests with quantum-inspired processing scenarios"
-            )
+            suggestions.append(" Enhance memory tests with quantum-inspired processing scenarios")
 
         if "Dream Engine" in unused_caps:
-            suggestions.append(
-                " Add more creative problem-solving tests that trigger dream processing"
-            )
+            suggestions.append(" Add more creative problem-solving tests that trigger dream processing")
 
         if "Consciousness Threshold Detection" in unused_caps:
-            suggestions.append(
-                " Include consciousness measurement tests with Phi calculations"
-            )
+            suggestions.append(" Include consciousness measurement tests with Phi calculations")
 
         if "Meta-Learning" in unused_caps:
-            suggestions.append(
-                " Add meta-learning scenarios where LUKHAS learns how to learn"
-            )
-            suggestions.append(
-                " Add meta-learning scenarios where lukhas learns how to learn"
-            )
+            suggestions.append(" Add meta-learning scenarios where LUKHAS learns how to learn")
+            suggestions.append(" Add meta-learning scenarios where lukhas learns how to learn")
 
         # Performance-based suggestions
         category_util = capability_analysis["category_utilization"]
@@ -966,35 +940,23 @@ async def main():
         print("\n" + "=" * 70)
         print(" CAPABILITY ANALYSIS SUMMARY")
         print("=" * 70)
-        print(
-            f" Capability Utilization: {report['capability_analysis']['utilization_rate']:.1%}"
-        )
-        print(
-            f" Capabilities Detected: {report['capability_analysis']['capabilities_detected']}"
-        )
+        print(f" Capability Utilization: {report['capability_analysis']['utilization_rate']:.1%}")
+        print(f" Capabilities Detected: {report['capability_analysis']['capabilities_detected']}")
         print(
             f" Average Processing Time: {sum(report['performance_metrics']['average_processing_times'].values()) / len(report['performance_metrics']['average_processing_times']):.3f}s"
         )
-        print(
-            f" Total Tokens Used: {report['performance_metrics']['total_tokens_used']}"
-        )
+        print(f" Total Tokens Used: {report['performance_metrics']['total_tokens_used']}")
 
         print("\n Top Used Capabilities:")
-        for capability, count in report["capability_analysis"]["top_used_capabilities"][:
-            :5
-        ]:
+        for capability, count in report["capability_analysis"]["top_used_capabilities"][::5]:
             print(f"  * {capability}: {count} times")
 
         print("\n Key Recommendations:")
         for recommendation in report["recommendations"][:3]:
             print(f"  * {recommendation}")
 
-        print(
-            f"\n Full report saved as: _capability_analysis_{analyzer.session_id}.json"
-        )
-        print(
-            f"\n Full report saved as: lukhas_capability_analysis_{analyzer.session_id}.json"
-        )
+        print(f"\n Full report saved as: _capability_analysis_{analyzer.session_id}.json")
+        print(f"\n Full report saved as: lukhas_capability_analysis_{analyzer.session_id}.json")
 
         return report
 
@@ -1004,6 +966,7 @@ async def main():
 
         traceback.print_exc()
         return None
+
 
 if __name__ == "__main__":
     asyncio.run(main())

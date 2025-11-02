@@ -37,6 +37,7 @@
 ║ • Memory-efficient caching mechanisms
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import base64
 import gzip
 from collections.abc import Iterable

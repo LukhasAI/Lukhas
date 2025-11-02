@@ -30,11 +30,7 @@ class TestCompressionResult:
 
     def test_compression_result_properties(self):
         """Test compression result calculated properties"""
-        result = CompressionResult(
-            success=True,
-            original_size=1000,
-            compressed_size=250
-        )
+        result = CompressionResult(success=True, original_size=1000, compressed_size=250)
 
         assert result.compression_ratio == 4.0
         assert result.space_saved_percent == 75.0
@@ -68,7 +64,7 @@ class TestCompressionStats:
             compression_time_ms=50.0,
             compression_speed_mbps=20.0,
             algorithm=CompressionAlgorithm.GZIP,
-            level=6
+            level=6,
         )
 
         self.stats.update_from_compression(result)
@@ -140,10 +136,7 @@ class TestGzipCompressor:
         assert compress_result.success is True
 
         # Then decompress
-        decompress_result = self.compressor.decompress(
-            compress_result.compressed_data,
-            compress_result.checksum
-        )
+        decompress_result = self.compressor.decompress(compress_result.compressed_data, compress_result.checksum)
 
         assert decompress_result.success is True
         assert decompress_result.decompressed_data == data
@@ -163,17 +156,11 @@ class TestGzipCompressor:
         compress_result = self.compressor.compress(data)
 
         # Valid checksum
-        decompress_result = self.compressor.decompress(
-            compress_result.compressed_data,
-            compress_result.checksum
-        )
+        decompress_result = self.compressor.decompress(compress_result.compressed_data, compress_result.checksum)
         assert decompress_result.checksum_valid is True
 
         # Invalid checksum
-        decompress_result = self.compressor.decompress(
-            compress_result.compressed_data,
-            "invalid_checksum"
-        )
+        decompress_result = self.compressor.decompress(compress_result.compressed_data, "invalid_checksum")
         assert decompress_result.checksum_valid is False
 
     def test_performance_calculation(self):
@@ -206,10 +193,7 @@ class TestBz2Compressor:
         assert compress_result.compressed_size < compress_result.original_size
 
         # Decompress
-        decompress_result = self.compressor.decompress(
-            compress_result.compressed_data,
-            compress_result.checksum
-        )
+        decompress_result = self.compressor.decompress(compress_result.compressed_data, compress_result.checksum)
         assert decompress_result.success is True
         assert decompress_result.decompressed_data == data
 
@@ -271,12 +255,8 @@ class TestAdaptiveCompressionManager:
         data = b"Small test data"
 
         # Test different content type hints
-        algo_text, level = self.manager._select_algorithm_and_level(
-            data, content_type="text", priority="balanced"
-        )
-        algo_xml, _ = self.manager._select_algorithm_and_level(
-            data, content_type="xml", priority="balanced"
-        )
+        algo_text, level = self.manager._select_algorithm_and_level(data, content_type="text", priority="balanced")
+        algo_xml, _ = self.manager._select_algorithm_and_level(data, content_type="xml", priority="balanced")
 
         # XML should prefer bzip2
         assert algo_xml == CompressionAlgorithm.BZIP2
@@ -286,12 +266,8 @@ class TestAdaptiveCompressionManager:
         small_data = b"small"
         large_data = b"x" * (2 * 1024 * 1024)  # 2MB
 
-        _, level_small = self.manager._select_algorithm_and_level(
-            small_data, priority="speed"
-        )
-        _, level_large = self.manager._select_algorithm_and_level(
-            large_data, priority="speed"
-        )
+        _, level_small = self.manager._select_algorithm_and_level(small_data, priority="speed")
+        _, level_large = self.manager._select_algorithm_and_level(large_data, priority="speed")
 
         # Both should prioritize speed, but levels may differ
         assert level_small >= 1
@@ -301,15 +277,9 @@ class TestAdaptiveCompressionManager:
         """Test different priority settings"""
         data = b"Priority test data" * 100
 
-        _, level_speed = self.manager._select_algorithm_and_level(
-            data, priority="speed"
-        )
-        _, level_ratio = self.manager._select_algorithm_and_level(
-            data, priority="ratio"
-        )
-        _, level_balanced = self.manager._select_algorithm_and_level(
-            data, priority="balanced"
-        )
+        _, level_speed = self.manager._select_algorithm_and_level(data, priority="speed")
+        _, level_ratio = self.manager._select_algorithm_and_level(data, priority="ratio")
+        _, level_balanced = self.manager._select_algorithm_and_level(data, priority="balanced")
 
         # Speed should generally use lower levels
         # Ratio should generally use higher levels
@@ -321,11 +291,7 @@ class TestAdaptiveCompressionManager:
         """Test asynchronous compression"""
         data = "Async compression test data. " * 50
 
-        result = await self.manager.compress_async(
-            data,
-            content_type="text",
-            priority="balanced"
-        )
+        result = await self.manager.compress_async(data, content_type="text", priority="balanced")
 
         assert result.success is True
         assert result.original_size > 0
@@ -343,13 +309,11 @@ class TestAdaptiveCompressionManager:
 
         # Then decompress
         decompress_result = await self.manager.decompress_async(
-            compress_result.compressed_data,
-            compress_result.algorithm,
-            compress_result.checksum
+            compress_result.compressed_data, compress_result.algorithm, compress_result.checksum
         )
 
         assert decompress_result.success is True
-        assert decompress_result.decompressed_data.decode('utf-8') == data
+        assert decompress_result.decompressed_data.decode("utf-8") == data
 
     def test_sync_compression(self):
         """Test synchronous compression"""
@@ -364,24 +328,18 @@ class TestAdaptiveCompressionManager:
 
         compress_result = self.manager.compress_sync(data)
         decompress_result = self.manager.decompress_sync(
-            compress_result.compressed_data,
-            compress_result.algorithm,
-            compress_result.checksum
+            compress_result.compressed_data, compress_result.algorithm, compress_result.checksum
         )
 
         assert decompress_result.success is True
-        assert decompress_result.decompressed_data.decode('utf-8') == data
+        assert decompress_result.decompressed_data.decode("utf-8") == data
 
     @pytest.mark.asyncio
     async def test_force_algorithm(self):
         """Test forcing specific algorithm"""
         data = "Force algorithm test"
 
-        result = await self.manager.compress_async(
-            data,
-            algorithm=CompressionAlgorithm.GZIP,
-            level=9
-        )
+        result = await self.manager.compress_async(data, algorithm=CompressionAlgorithm.GZIP, level=9)
 
         assert result.success is True
         assert result.algorithm == CompressionAlgorithm.GZIP
@@ -391,10 +349,7 @@ class TestAdaptiveCompressionManager:
     async def test_unsupported_algorithm(self):
         """Test unsupported algorithm handling"""
         # This test assumes LZMA is not implemented in our test suite
-        result = await self.manager.compress_async(
-            "test",
-            algorithm=CompressionAlgorithm.LZMA
-        )
+        result = await self.manager.compress_async("test", algorithm=CompressionAlgorithm.LZMA)
         assert result.success is False
         assert "Unsupported compression algorithm" in result.error
 
@@ -417,9 +372,7 @@ class TestAdaptiveCompressionManager:
 
         # Benchmark available algorithms
         results = await self.manager.benchmark_algorithms(
-            test_data,
-            algorithms=[CompressionAlgorithm.GZIP, CompressionAlgorithm.BZIP2],
-            levels=[1, 6, 9]
+            test_data, algorithms=[CompressionAlgorithm.GZIP, CompressionAlgorithm.BZIP2], levels=[1, 6, 9]
         )
 
         assert "gzip" in results
@@ -438,10 +391,7 @@ class TestAdaptiveCompressionManager:
         algo, level = manager._select_algorithm_and_level(data, content_type="xml")
 
         # Should use default algorithm regardless of content type
-        expected_default = (
-            CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE
-            else CompressionAlgorithm.GZIP
-        )
+        expected_default = CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE else CompressionAlgorithm.GZIP
         assert algo == expected_default
 
     @pytest.mark.asyncio
@@ -462,7 +412,7 @@ class TestAdaptiveCompressionManager:
     async def test_content_type_detection(self):
         """Test automatic content type detection"""
         json_data = '{"test": "data", "number": 42}'
-        xml_data = '<root><test>data</test></root>'
+        xml_data = "<root><test>data</test></root>"
 
         # Test JSON detection
         result_json = await self.manager.compress_async(json_data)
@@ -476,10 +426,7 @@ class TestAdaptiveCompressionManager:
         """Test error handling in compression operations"""
         # Test with mock compressor that always fails
         mock_compressor = Mock()
-        mock_compressor.compress.return_value = CompressionResult(
-            success=False,
-            error="Mock compression error"
-        )
+        mock_compressor.compress.return_value = CompressionResult(success=False, error="Mock compression error")
 
         self.manager.compressors[CompressionAlgorithm.GZIP] = mock_compressor
 
@@ -500,7 +447,7 @@ async def test_integration_compression_with_vector_documents():
         id="compression-test-doc",
         content="This is test content for vector document compression",
         embedding=np.random.random(384).astype(np.float32),
-        metadata={"test": True, "compression": "enabled"}
+        metadata={"test": True, "compression": "enabled"},
     )
 
     # Convert to JSON for compression
@@ -509,24 +456,16 @@ async def test_integration_compression_with_vector_documents():
     manager = AdaptiveCompressionManager()
 
     # Compress document
-    result = await manager.compress_async(
-        doc_json,
-        content_type="json",
-        priority="balanced"
-    )
+    result = await manager.compress_async(doc_json, content_type="json", priority="balanced")
 
     assert result.success is True
     assert result.compression_ratio > 1.0
 
     # Decompress and verify
-    decompress_result = await manager.decompress_async(
-        result.compressed_data,
-        result.algorithm,
-        result.checksum
-    )
+    decompress_result = await manager.decompress_async(result.compressed_data, result.algorithm, result.checksum)
 
     assert decompress_result.success is True
-    reconstructed_doc_data = json.loads(decompress_result.decompressed_data.decode('utf-8'))
+    reconstructed_doc_data = json.loads(decompress_result.decompressed_data.decode("utf-8"))
     assert reconstructed_doc_data["id"] == "compression-test-doc"
 
 

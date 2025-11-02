@@ -33,6 +33,7 @@ from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
 @dataclass
 class BenchmarkResult:
     """Results from a benchmark run"""
+
     total_queries: int
     successful_queries: int
     failed_queries: int
@@ -62,21 +63,18 @@ class MATRIZBenchmark:
             "100 / 4",
             "What is 15 + 7?",
             "Calculate 8 * 9",
-
             # Factual queries (medium complexity)
             "What is the capital of France?",
             "Who wrote Romeo and Juliet?",
             "What is the boiling point of water?",
             "How many sides does a triangle have?",
             "What year was the internet invented?",
-
             # General queries (variable complexity)
             "Hello world",
             "How are you today?",
             "Tell me a joke",
             "What is the weather like?",
             "Can you help me?",
-
             # Longer queries (potential outliers)
             "Can you explain the difference between machine learning and artificial intelligence in detail?",
             "What are the main factors that contribute to climate change and what can we do about it?",
@@ -102,9 +100,7 @@ class MATRIZBenchmark:
 
         if orchestrator_type == "optimized":
             orchestrator = OptimizedAsyncOrchestrator(
-                total_timeout=0.240,  # 240ms budget
-                cache_enabled=True,
-                metrics_enabled=True
+                total_timeout=0.240, cache_enabled=True, metrics_enabled=True  # 240ms budget
             )
         else:
             orchestrator = AsyncCognitiveOrchestrator(
@@ -121,10 +117,7 @@ class MATRIZBenchmark:
         return orchestrator
 
     async def benchmark_queries(
-        self,
-        orchestrator: AsyncCognitiveOrchestrator,
-        queries: List[str],
-        iterations: int = 1
+        self, orchestrator: AsyncCognitiveOrchestrator, queries: List[str], iterations: int = 1
     ) -> BenchmarkResult:
         """Benchmark a set of queries"""
 
@@ -208,7 +201,7 @@ class MATRIZBenchmark:
             within_budget_rate=within_budget_rate,
             cache_hit_rate=cache_hit_rate,
             circuit_breaker_trips=circuit_breaker_trips,
-            total_duration_s=total_duration
+            total_duration_s=total_duration,
         )
 
     async def run_comprehensive_benchmark(self) -> Dict[str, Any]:
@@ -222,11 +215,7 @@ class MATRIZBenchmark:
         # Test standard orchestrator
         print("\n📊 Testing Standard AsyncCognitiveOrchestrator...")
         standard_orchestrator = self.setup_orchestrator("standard")
-        standard_result = await self.benchmark_queries(
-            standard_orchestrator,
-            self.test_queries,
-            iterations=5
-        )
+        standard_result = await self.benchmark_queries(standard_orchestrator, self.test_queries, iterations=5)
         results["standard"] = standard_result
 
         # Test optimized orchestrator
@@ -237,20 +226,12 @@ class MATRIZBenchmark:
         print("🔥 Warming up caches...")
         await optimized_orchestrator.warmup_caches(self.test_queries[:5])
 
-        optimized_result = await self.benchmark_queries(
-            optimized_orchestrator,
-            self.test_queries,
-            iterations=5
-        )
+        optimized_result = await self.benchmark_queries(optimized_orchestrator, self.test_queries, iterations=5)
         results["optimized"] = optimized_result
 
         # Stress test with optimized orchestrator
         print("🔥 Running stress test...")
-        stress_result = await self.benchmark_queries(
-            optimized_orchestrator,
-            self.stress_queries,
-            iterations=3
-        )
+        stress_result = await self.benchmark_queries(optimized_orchestrator, self.stress_queries, iterations=3)
         results["stress_test"] = stress_result
 
         # Load test - higher concurrency
@@ -260,7 +241,9 @@ class MATRIZBenchmark:
 
         return results
 
-    async def run_load_test(self, orchestrator: OptimizedAsyncOrchestrator, concurrent_requests: int = 50) -> BenchmarkResult:
+    async def run_load_test(
+        self, orchestrator: OptimizedAsyncOrchestrator, concurrent_requests: int = 50
+    ) -> BenchmarkResult:
         """Run load test with concurrent requests"""
 
         # Create concurrent tasks
@@ -313,7 +296,7 @@ class MATRIZBenchmark:
             min_ms=min(latencies),
             error_rate=failed_queries / concurrent_requests,
             within_budget_rate=sum(1 for l in latencies if l < 240) / len(latencies),
-            total_duration_s=total_duration
+            total_duration_s=total_duration,
         )
 
     async def time_single_query(self, orchestrator: AsyncCognitiveOrchestrator, query: str) -> Dict[str, Any]:
@@ -324,18 +307,10 @@ class MATRIZBenchmark:
             result = await orchestrator.process_query(query)
             latency_ms = (time.perf_counter() - start_time) * 1000
 
-            return {
-                "latency_ms": latency_ms,
-                "success": not bool(result.get("error")),
-                "result": result
-            }
+            return {"latency_ms": latency_ms, "success": not bool(result.get("error")), "result": result}
         except Exception as e:
             latency_ms = (time.perf_counter() - start_time) * 1000
-            return {
-                "latency_ms": latency_ms,
-                "success": False,
-                "error": str(e)
-            }
+            return {"latency_ms": latency_ms, "success": False, "error": str(e)}
 
     def print_results(self, results: Dict[str, BenchmarkResult]) -> None:
         """Print formatted benchmark results"""
@@ -361,7 +336,7 @@ class MATRIZBenchmark:
             print(f"  Max:             {result.max_ms:.1f} ms")
             print(f"  Min:             {result.min_ms:.1f} ms")
 
-            if hasattr(result, 'cache_hit_rate') and result.cache_hit_rate > 0:
+            if hasattr(result, "cache_hit_rate") and result.cache_hit_rate > 0:
                 print(f"\n💾 Cache Hit Rate:   {(result.cache_hit_rate * 100):.1f}%")
 
             if result.circuit_breaker_trips > 0:
@@ -415,7 +390,7 @@ class MATRIZBenchmark:
                 "min_ms": result.min_ms,
                 "error_rate": result.error_rate,
                 "within_budget_rate": result.within_budget_rate,
-                "cache_hit_rate": getattr(result, 'cache_hit_rate', 0.0),
+                "cache_hit_rate": getattr(result, "cache_hit_rate", 0.0),
                 "circuit_breaker_trips": result.circuit_breaker_trips,
                 "total_duration_s": result.total_duration_s,
                 "latency_histogram": self.create_histogram(result.latencies_ms),
@@ -423,8 +398,8 @@ class MATRIZBenchmark:
                     "p95_compliant": result.p95_ms < 250.0,
                     "p99_compliant": result.p99_ms < 300.0,
                     "error_compliant": result.error_rate < 0.0001,
-                    "overall_compliant": result.p95_ms < 250.0 and result.p99_ms < 300.0 and result.error_rate < 0.0001
-                }
+                    "overall_compliant": result.p95_ms < 250.0 and result.p99_ms < 300.0 and result.error_rate < 0.0001,
+                },
             }
 
         # Add metadata
@@ -434,14 +409,14 @@ class MATRIZBenchmark:
                 "version": "1.0.0",
                 "target_p95_ms": 250.0,
                 "target_p99_ms": 300.0,
-                "target_error_rate": 0.0001
+                "target_error_rate": 0.0001,
             },
-            "results": serializable_results
+            "results": serializable_results,
         }
 
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(benchmark_data, f, indent=2)
 
         print(f"\n💾 Results saved to: {output_file}")
@@ -469,11 +444,11 @@ class MATRIZBenchmark:
 
 async def main():
     """Main benchmark execution"""
-    parser = argparse.ArgumentParser(description='MATRIZ Pipeline Performance Benchmark')
-    parser.add_argument('--output', type=Path, default=Path('artifacts/matriz_benchmark_results.json'),
-                       help='Output file for results')
-    parser.add_argument('--quick', action='store_true',
-                       help='Run quick benchmark (fewer iterations)')
+    parser = argparse.ArgumentParser(description="MATRIZ Pipeline Performance Benchmark")
+    parser.add_argument(
+        "--output", type=Path, default=Path("artifacts/matriz_benchmark_results.json"), help="Output file for results"
+    )
+    parser.add_argument("--quick", action="store_true", help="Run quick benchmark (fewer iterations)")
 
     args = parser.parse_args()
 
@@ -493,9 +468,9 @@ async def main():
         optimized_result = results.get("optimized")
         if optimized_result:
             overall_compliant = (
-                optimized_result.p95_ms < 250.0 and
-                optimized_result.p99_ms < 300.0 and
-                optimized_result.error_rate < 0.0001
+                optimized_result.p95_ms < 250.0
+                and optimized_result.p99_ms < 300.0
+                and optimized_result.error_rate < 0.0001
             )
 
             if overall_compliant:

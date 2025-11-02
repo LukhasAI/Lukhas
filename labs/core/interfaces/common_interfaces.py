@@ -1,6 +1,7 @@
 """
 Common interfaces to break circular dependencies
 """
+
 from abc import ABC, abstractmethod
 from typing import Any
 

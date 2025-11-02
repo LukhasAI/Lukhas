@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class ArchetypalDomain(Enum):
     """Domains of archetypal influence."""
+
     PERSONAL = "personal"
     COLLECTIVE = "collective"
     UNIVERSAL = "universal"
@@ -25,6 +26,7 @@ class ArchetypalDomain(Enum):
 
 class ArchetypalRole(Enum):
     """Primary archetypal roles in consciousness."""
+
     SEEKER = "seeker"
     GUARDIAN = "guardian"
     WISE_TEACHER = "wise_teacher"
@@ -37,6 +39,7 @@ class ArchetypalRole(Enum):
 
 class ArchetypalResonance(Enum):
     """Resonance strength of archetypal patterns."""
+
     DORMANT = "dormant"
     EMERGING = "emerging"
     ACTIVE = "active"
@@ -63,7 +66,7 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["curiosity", "exploration", "questioning", "journey_orientation"],
                 "constellation_aspect": "consciousness",
                 "resonance_indicators": ["search_behavior", "exploration_themes", "question_patterns"],
-                "transformation_potential": "high"
+                "transformation_potential": "high",
             },
             ArchetypalRole.GUARDIAN.value: {
                 "domain": ArchetypalDomain.CONSTELLATION,
@@ -71,7 +74,7 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["protection", "vigilance", "boundary_setting", "safety_orientation"],
                 "constellation_aspect": "guardian",
                 "resonance_indicators": ["protective_behavior", "boundary_themes", "safety_concerns"],
-                "transformation_potential": "medium"
+                "transformation_potential": "medium",
             },
             ArchetypalRole.WISE_TEACHER.value: {
                 "domain": ArchetypalDomain.COLLECTIVE,
@@ -79,7 +82,7 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["wisdom_sharing", "guidance", "patience", "knowledge_transmission"],
                 "constellation_aspect": "consciousness",
                 "resonance_indicators": ["teaching_moments", "guidance_themes", "wisdom_symbols"],
-                "transformation_potential": "very_high"
+                "transformation_potential": "very_high",
             },
             ArchetypalRole.CREATOR.value: {
                 "domain": ArchetypalDomain.UNIVERSAL,
@@ -87,7 +90,7 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["innovation", "manifestation", "artistic_expression", "bringing_forth"],
                 "constellation_aspect": "identity",
                 "resonance_indicators": ["creative_acts", "manifestation_themes", "artistic_symbols"],
-                "transformation_potential": "very_high"
+                "transformation_potential": "very_high",
             },
             ArchetypalRole.TRANSFORMER.value: {
                 "domain": ArchetypalDomain.COSMIC,
@@ -95,7 +98,7 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["change_facilitation", "metamorphosis", "evolution", "transcendence"],
                 "constellation_aspect": "identity",
                 "resonance_indicators": ["transformation_themes", "change_symbols", "evolution_patterns"],
-                "transformation_potential": "transcendent"
+                "transformation_potential": "transcendent",
             },
             ArchetypalRole.HEALER.value: {
                 "domain": ArchetypalDomain.COLLECTIVE,
@@ -103,7 +106,7 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["restoration", "harmony", "balance", "wholeness"],
                 "constellation_aspect": "guardian",
                 "resonance_indicators": ["healing_themes", "restoration_symbols", "balance_patterns"],
-                "transformation_potential": "high"
+                "transformation_potential": "high",
             },
             ArchetypalRole.BRIDGE_BUILDER.value: {
                 "domain": ArchetypalDomain.CONSTELLATION,
@@ -111,7 +114,7 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["connection", "integration", "unity", "synthesis"],
                 "constellation_aspect": "consciousness",
                 "resonance_indicators": ["connection_themes", "bridge_symbols", "unity_patterns"],
-                "transformation_potential": "transcendent"
+                "transformation_potential": "transcendent",
             },
             ArchetypalRole.THRESHOLD_KEEPER.value: {
                 "domain": ArchetypalDomain.PERSONAL,
@@ -119,39 +122,25 @@ class ArchetypalPatternRecognizer:
                 "characteristics": ["transition_facilitation", "passage_control", "initiation", "boundary_wisdom"],
                 "constellation_aspect": "guardian",
                 "resonance_indicators": ["threshold_symbols", "transition_themes", "initiation_patterns"],
-                "transformation_potential": "high"
-            }
+                "transformation_potential": "high",
+            },
         }
 
     def _initialize_recognition_templates(self) -> dict[str, dict]:
         """Initialize pattern recognition templates."""
         return {
-            "symbol_recognition": {
-                "weight": 0.4,
-                "threshold": 0.6,
-                "constellation_bonus": 0.2
-            },
-            "characteristic_matching": {
-                "weight": 0.3,
-                "threshold": 0.5,
-                "constellation_bonus": 0.15
-            },
-            "resonance_detection": {
-                "weight": 0.2,
-                "threshold": 0.4,
-                "constellation_bonus": 0.1
-            },
-            "transformation_assessment": {
-                "weight": 0.1,
-                "threshold": 0.3,
-                "constellation_bonus": 0.05
-            }
+            "symbol_recognition": {"weight": 0.4, "threshold": 0.6, "constellation_bonus": 0.2},
+            "characteristic_matching": {"weight": 0.3, "threshold": 0.5, "constellation_bonus": 0.15},
+            "resonance_detection": {"weight": 0.2, "threshold": 0.4, "constellation_bonus": 0.1},
+            "transformation_assessment": {"weight": 0.1, "threshold": 0.3, "constellation_bonus": 0.05},
         }
 
     def recognize_archetypal_patterns(self, dream_content: dict[str, Any]) -> str:
         """⚛️ Recognize archetypal patterns while preserving authentic meaning."""
         self.recognition_counter += 1
-        recognition_id = f"archetypal_recognition_{self.recognition_counter}_{int(datetime.now(timezone.utc).timestamp())}"
+        recognition_id = (
+            f"archetypal_recognition_{self.recognition_counter}_{int(datetime.now(timezone.utc).timestamp())}"
+        )
 
         # Extract content for analysis
         symbolic_content = self._extract_symbolic_content(dream_content)
@@ -182,11 +171,13 @@ class ArchetypalPatternRecognizer:
             "archetypal_insights": insights,
             "transformation_potential": self._assess_transformation_potential(dominant_archetypes),
             "recognized_at": datetime.now(timezone.utc).isoformat(),
-            "constellation_validated": constellation_resonance["overall_score"] > 0.7
+            "constellation_validated": constellation_resonance["overall_score"] > 0.7,
         }
 
         self.pattern_history.append(recognition_result)
-        logger.info(f"🎭 Archetypal patterns recognized: {recognition_id} - {len(dominant_archetypes)} dominant archetypes")
+        logger.info(
+            f"🎭 Archetypal patterns recognized: {recognition_id} - {len(dominant_archetypes)} dominant archetypes"
+        )
         return recognition_id
 
     def _extract_symbolic_content(self, dream_content: dict[str, Any]) -> list[str]:
@@ -219,7 +210,7 @@ class ArchetypalPatternRecognizer:
             "transformation": ["change", "transform", "evolve", "become"],
             "healing": ["heal", "restore", "balance", "harmonize"],
             "connection": ["connect", "bridge", "unite", "link"],
-            "transition": ["cross", "threshold", "passage", "initiate"]
+            "transition": ["cross", "threshold", "passage", "initiate"],
         }
 
         for theme, keywords in thematic_keywords.items():
@@ -238,7 +229,9 @@ class ArchetypalPatternRecognizer:
 
         return emotions
 
-    def _analyze_archetypal_presence(self, role: ArchetypalRole, symbols: list[str], themes: list[str], emotions: list[str]) -> dict[str, Any]:
+    def _analyze_archetypal_presence(
+        self, role: ArchetypalRole, symbols: list[str], themes: list[str], emotions: list[str]
+    ) -> dict[str, Any]:
         """Analyze presence of specific archetypal role."""
         archetype_data = self.archetypal_registry[role.value]
         templates = self.recognition_templates
@@ -251,7 +244,9 @@ class ArchetypalPatternRecognizer:
         # Characteristic matching score
         archetype_characteristics = archetype_data["characteristics"]
         characteristic_matches = len([t for t in themes if any(char in t for char in archetype_characteristics)])
-        characteristic_score = min(characteristic_matches / len(archetype_characteristics), 1.0) if archetype_characteristics else 0.0
+        characteristic_score = (
+            min(characteristic_matches / len(archetype_characteristics), 1.0) if archetype_characteristics else 0.0
+        )
 
         # Resonance detection score
         resonance_indicators = archetype_data["resonance_indicators"]
@@ -261,17 +256,17 @@ class ArchetypalPatternRecognizer:
         # Calculate weighted presence score
         weights = templates
         presence_score = (
-            symbol_score * weights["symbol_recognition"]["weight"] +
-            characteristic_score * weights["characteristic_matching"]["weight"] +
-            resonance_score * weights["resonance_detection"]["weight"]
+            symbol_score * weights["symbol_recognition"]["weight"]
+            + characteristic_score * weights["characteristic_matching"]["weight"]
+            + resonance_score * weights["resonance_detection"]["weight"]
         )
 
         # Apply Constellation bonus if applicable
         if archetype_data["constellation_aspect"] in ["identity", "consciousness", "guardian"]:
             constellation_bonus = (
-                weights["symbol_recognition"]["constellation_bonus"] +
-                weights["characteristic_matching"]["constellation_bonus"] +
-                weights["resonance_detection"]["constellation_bonus"]
+                weights["symbol_recognition"]["constellation_bonus"]
+                + weights["characteristic_matching"]["constellation_bonus"]
+                + weights["resonance_detection"]["constellation_bonus"]
             )
             presence_score += constellation_bonus * presence_score
 
@@ -286,7 +281,7 @@ class ArchetypalPatternRecognizer:
             "characteristic_matches": characteristic_matches,
             "domain": archetype_data["domain"].value,
             "constellation_aspect": archetype_data["constellation_aspect"],
-            "transformation_potential": archetype_data["transformation_potential"]
+            "transformation_potential": archetype_data["transformation_potential"],
         }
 
     def _determine_resonance_level(self, presence_score: float) -> ArchetypalResonance:
@@ -306,8 +301,7 @@ class ArchetypalPatternRecognizer:
         """Identify dominant archetypal patterns."""
         # Filter archetypes with significant presence
         significant_archetypes = [
-            analysis for analysis in archetypal_analysis.values()
-            if analysis["presence_score"] >= 0.5
+            analysis for analysis in archetypal_analysis.values() if analysis["presence_score"] >= 0.5
         ]
 
         # Sort by presence score
@@ -341,7 +335,7 @@ class ArchetypalPatternRecognizer:
             "overall_score": overall_score,
             "balance_score": balance_score,
             "constellation_coherence": overall_score * balance_score,
-            "dominant_aspect": max(aspect_scores, key=aspect_scores.get) if aspect_scores else "none"
+            "dominant_aspect": max(aspect_scores, key=aspect_scores.get) if aspect_scores else "none",
         }
 
     def _assess_transformation_potential(self, dominant_archetypes: list[dict]) -> dict[str, Any]:
@@ -355,13 +349,7 @@ class ArchetypalPatternRecognizer:
 
         for archetype in dominant_archetypes:
             potential = archetype["transformation_potential"]
-            score_map = {
-                "transcendent": 1.0,
-                "very_high": 0.8,
-                "high": 0.6,
-                "medium": 0.4,
-                "low": 0.2
-            }
+            score_map = {"transcendent": 1.0, "very_high": 0.8, "high": 0.6, "medium": 0.4, "low": 0.2}
             transformation_scores.append(score_map.get(potential, 0.2))
             transformation_pathways.append(f"{archetype['role']}_pathway")
 
@@ -381,10 +369,12 @@ class ArchetypalPatternRecognizer:
             "potential": potential_level,
             "average_score": average_potential,
             "pathways": transformation_pathways,
-            "dominant_archetype_influence": dominant_archetypes[0]["role"] if dominant_archetypes else "none"
+            "dominant_archetype_influence": dominant_archetypes[0]["role"] if dominant_archetypes else "none",
         }
 
-    def _generate_archetypal_insights(self, dominant_archetypes: list[dict], constellation_resonance: dict[str, Any]) -> list[str]:
+    def _generate_archetypal_insights(
+        self, dominant_archetypes: list[dict], constellation_resonance: dict[str, Any]
+    ) -> list[str]:
         """🧠 Generate consciousness-aware archetypal insights."""
         insights = []
 
@@ -465,7 +455,7 @@ class ArchetypalPatternRecognizer:
             "archetypal_stability": self._calculate_archetypal_stability(sequence_results),
             "constellation_development": self._track_trinity_development(sequence_results),
             "transformation_trajectory": self._analyze_transformation_trajectory(sequence_results),
-            "overall_growth_indicator": self._calculate_growth_indicator(evolution_patterns)
+            "overall_growth_indicator": self._calculate_growth_indicator(evolution_patterns),
         }
 
         return evolution_analysis
@@ -478,20 +468,24 @@ class ArchetypalPatternRecognizer:
         # Track dominant archetype changes
         dominant_changes = []
         for i in range(1, len(sequence_results)):
-            prev_dominant = sequence_results[i-1]["dominant_archetypes"][0]["role"] if sequence_results[i-1]["dominant_archetypes"] else "none"
-            curr_dominant = sequence_results[i]["dominant_archetypes"][0]["role"] if sequence_results[i]["dominant_archetypes"] else "none"
+            prev_dominant = (
+                sequence_results[i - 1]["dominant_archetypes"][0]["role"]
+                if sequence_results[i - 1]["dominant_archetypes"]
+                else "none"
+            )
+            curr_dominant = (
+                sequence_results[i]["dominant_archetypes"][0]["role"]
+                if sequence_results[i]["dominant_archetypes"]
+                else "none"
+            )
 
             if prev_dominant != curr_dominant:
-                dominant_changes.append({
-                    "position": i,
-                    "from": prev_dominant,
-                    "to": curr_dominant
-                })
+                dominant_changes.append({"position": i, "from": prev_dominant, "to": curr_dominant})
 
         return {
             "dominant_archetype_changes": dominant_changes,
             "change_frequency": len(dominant_changes) / (len(sequence_results) - 1),
-            "stability_indicator": 1.0 - (len(dominant_changes) / (len(sequence_results) - 1))
+            "stability_indicator": 1.0 - (len(dominant_changes) / (len(sequence_results) - 1)),
         }
 
     def _calculate_archetypal_stability(self, sequence_results: list[dict]) -> float:
@@ -501,7 +495,9 @@ class ArchetypalPatternRecognizer:
 
         # Calculate consistency of Constellation resonance scores
         constellation_scores = [result["constellation_resonance"]["overall_score"] for result in sequence_results]
-        score_variance = sum(abs(score - sum(constellation_scores)/len(constellation_scores)) for score in constellation_scores) / len(constellation_scores)
+        score_variance = sum(
+            abs(score - sum(constellation_scores) / len(constellation_scores)) for score in constellation_scores
+        ) / len(constellation_scores)
 
         return 1.0 - min(score_variance, 1.0)
 
@@ -513,10 +509,14 @@ class ArchetypalPatternRecognizer:
             return {"development": "insufficient_data"}
 
         # Calculate trend
-        score_changes = [constellation_scores[i] - constellation_scores[i-1] for i in range(1, len(constellation_scores))]
+        score_changes = [
+            constellation_scores[i] - constellation_scores[i - 1] for i in range(1, len(constellation_scores))
+        ]
         average_change = sum(score_changes) / len(score_changes)
 
-        development_trend = "improving" if average_change > 0.05 else "stable" if abs(average_change) <= 0.05 else "declining"
+        development_trend = (
+            "improving" if average_change > 0.05 else "stable" if abs(average_change) <= 0.05 else "declining"
+        )
 
         return {
             "initial_score": constellation_scores[0],
@@ -524,7 +524,7 @@ class ArchetypalPatternRecognizer:
             "average_change": average_change,
             "development_trend": development_trend,
             "peak_score": max(constellation_scores),
-            "consistency": self._calculate_archetypal_stability(sequence_results)
+            "consistency": self._calculate_archetypal_stability(sequence_results),
         }
 
     def _analyze_transformation_trajectory(self, sequence_results: list[dict]) -> dict[str, Any]:
@@ -543,14 +543,16 @@ class ArchetypalPatternRecognizer:
         final_score = transformation_scores[-1]
         trajectory_change = final_score - initial_score
 
-        trajectory_direction = "ascending" if trajectory_change > 0.1 else "stable" if abs(trajectory_change) <= 0.1 else "descending"
+        trajectory_direction = (
+            "ascending" if trajectory_change > 0.1 else "stable" if abs(trajectory_change) <= 0.1 else "descending"
+        )
 
         return {
             "initial_potential": initial_score,
             "final_potential": final_score,
             "trajectory_change": trajectory_change,
             "trajectory_direction": trajectory_direction,
-            "peak_potential": max(transformation_scores)
+            "peak_potential": max(transformation_scores),
         }
 
     def _calculate_growth_indicator(self, evolution_patterns: dict[str, Any]) -> str:
@@ -598,8 +600,9 @@ class ArchetypalPatternRecognizer:
             "constellation_validation_rate": constellation_validated_count / len(self.pattern_history),
             "archetype_frequency": archetype_frequency,
             "most_common_archetype": most_common_archetype,
-            "average_dominant_archetypes": sum(len(r["dominant_archetypes"]) for r in self.pattern_history) / len(self.pattern_history),
-            "system_health": "optimal"
+            "average_dominant_archetypes": sum(len(r["dominant_archetypes"]) for r in self.pattern_history)
+            / len(self.pattern_history),
+            "system_health": "optimal",
         }
 
 

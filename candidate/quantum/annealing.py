@@ -1,4 +1,5 @@
 """Quantum-inspired annealing optimizer for QI-AGI."""
+
 from __future__ import annotations
 
 import logging
@@ -81,7 +82,9 @@ class QuantumAnnealer:
             "tunneling_rate": tunneling_rate,
             "cooling_rate": cooling_rate,
         }
-        return AnnealingResult(solution=best, energy=best_energy, explored=explored, history=energy_history, metadata=metadata)
+        return AnnealingResult(
+            solution=best, energy=best_energy, explored=explored, history=energy_history, metadata=metadata
+        )
 
     def _resolve_energy_function(
         self,

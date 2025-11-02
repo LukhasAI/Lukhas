@@ -13,6 +13,7 @@ Integrity Probe
 
 Runs consistency checks on DriftScore deltas and collapse recovery logic.
 """
+
 import logging
 import os
 import threading
@@ -24,31 +25,32 @@ from typing import Any, Dict, Optional
 _microcheck_metrics = None
 _metrics_lock = threading.Lock()
 
+
 def _get_microcheck_metrics():
     global _microcheck_metrics
     with _metrics_lock:
         if _microcheck_metrics is None:
             try:
                 from prometheus_client import Counter, Histogram
+
                 _microcheck_metrics = {
-                    'attempts': Counter(
-                        'akaqualia_microcheck_attempts_total',
-                        'Total micro-check attempts in AkaQualia loop'
+                    "attempts": Counter(
+                        "akaqualia_microcheck_attempts_total", "Total micro-check attempts in AkaQualia loop"
                     ),
-                    'failures': Counter(
-                        'akaqualia_microcheck_failures_total',
-                        'Total micro-check failures in AkaQualia loop'
+                    "failures": Counter(
+                        "akaqualia_microcheck_failures_total", "Total micro-check failures in AkaQualia loop"
                     ),
-                    'duration': Histogram(
-                        'akaqualia_microcheck_duration_seconds',
-                        'Micro-check duration in AkaQualia loop',
-                        buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
-                    )
+                    "duration": Histogram(
+                        "akaqualia_microcheck_duration_seconds",
+                        "Micro-check duration in AkaQualia loop",
+                        buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0],
+                    ),
                 }
             except Exception as e:
                 logger.debug(f"Failed to initialize microcheck metrics: {e}")
                 _microcheck_metrics = {}
         return _microcheck_metrics
+
 
 # Optional imports for full functionality (not needed for drift-only mode)
 try:
@@ -82,9 +84,10 @@ class IntegrityProbe:
 
         # Lazy import drift manager when feature flag is enabled
         self.drift_manager = None
-        if os.environ.get('LUKHAS_EXPERIMENTAL') == '1':
+        if os.environ.get("LUKHAS_EXPERIMENTAL") == "1":
             try:
                 from monitoring.drift_manager import get_drift_manager
+
                 self.drift_manager = get_drift_manager()
                 logger.info("IntegrityProbe: Drift manager integration enabled")
             except ImportError:
@@ -115,8 +118,8 @@ class IntegrityProbe:
         # Track micro-check performance
         check_start_time = time.perf_counter()
         metrics = _get_microcheck_metrics()
-        if 'attempts' in metrics:
-            metrics['attempts'].inc()
+        if "attempts" in metrics:
+            metrics["attempts"].inc()
 
         # Default pass if no drift manager
         if not self.drift_manager:
@@ -138,86 +141,72 @@ class IntegrityProbe:
             drift_results = {}
 
             # Ethical drift
-            if 'ethical' in self.prev_state and 'ethical' in self.curr_state:
+            if "ethical" in self.prev_state and "ethical" in self.curr_state:
                 ethical_drift = self.drift_manager.compute(
-                    'ethical',
-                    self.prev_state['ethical'],
-                    self.curr_state['ethical']
+                    "ethical", self.prev_state["ethical"], self.curr_state["ethical"]
                 )
-                drift_results['ethical'] = ethical_drift
+                drift_results["ethical"] = ethical_drift
                 logger.info(
                     f"IntegrityProbe: Ethical drift={ethical_drift['score']:.4f}, "
                     f"top_symbols={ethical_drift['top_symbols'][:3]}"
                 )
 
-                if ethical_drift['score'] > self.drift_manager.critical_threshold:
+                if ethical_drift["score"] > self.drift_manager.critical_threshold:
                     all_pass = False
                     self.drift_manager.on_exceed(
-                        'ethical',
-                        ethical_drift['score'],
-                        {'probe': 'integrity', 'state': self.curr_state.get('ethical')}
+                        "ethical",
+                        ethical_drift["score"],
+                        {"probe": "integrity", "state": self.curr_state.get("ethical")},
                     )
 
             # Memory drift
-            if 'memory' in self.prev_state and 'memory' in self.curr_state:
+            if "memory" in self.prev_state and "memory" in self.curr_state:
                 memory_drift = self.drift_manager.compute(
-                    'memory',
-                    self.prev_state['memory'],
-                    self.curr_state['memory']
+                    "memory", self.prev_state["memory"], self.curr_state["memory"]
                 )
-                drift_results['memory'] = memory_drift
+                drift_results["memory"] = memory_drift
                 logger.info(
                     f"IntegrityProbe: Memory drift={memory_drift['score']:.4f}, "
                     f"top_symbols={memory_drift['top_symbols'][:3]}"
                 )
 
-                if memory_drift['score'] > self.drift_manager.critical_threshold:
+                if memory_drift["score"] > self.drift_manager.critical_threshold:
                     all_pass = False
                     self.drift_manager.on_exceed(
-                        'memory',
-                        memory_drift['score'],
-                        {'probe': 'integrity', 'state': self.curr_state.get('memory')}
+                        "memory", memory_drift["score"], {"probe": "integrity", "state": self.curr_state.get("memory")}
                     )
 
             # Identity drift
-            if 'identity' in self.prev_state and 'identity' in self.curr_state:
+            if "identity" in self.prev_state and "identity" in self.curr_state:
                 identity_drift = self.drift_manager.compute(
-                    'identity',
-                    self.prev_state['identity'],
-                    self.curr_state['identity']
+                    "identity", self.prev_state["identity"], self.curr_state["identity"]
                 )
-                drift_results['identity'] = identity_drift
+                drift_results["identity"] = identity_drift
                 logger.info(
                     f"IntegrityProbe: Identity drift={identity_drift['score']:.4f}, "
                     f"top_symbols={identity_drift['top_symbols'][:3]}"
                 )
 
-                if identity_drift['score'] > self.drift_manager.critical_threshold:
+                if identity_drift["score"] > self.drift_manager.critical_threshold:
                     all_pass = False
                     self.drift_manager.on_exceed(
-                        'identity',
-                        identity_drift['score'],
-                        {'probe': 'integrity', 'state': self.curr_state.get('identity')}
+                        "identity",
+                        identity_drift["score"],
+                        {"probe": "integrity", "state": self.curr_state.get("identity")},
                     )
 
             # Compute unified drift if we have all components
             if len(drift_results) >= 2:
-                unified_drift = self.drift_manager.compute(
-                    'unified',
-                    self.prev_state,
-                    self.curr_state
-                )
+                unified_drift = self.drift_manager.compute("unified", self.prev_state, self.curr_state)
                 logger.info(
                     f"IntegrityProbe: Unified drift={unified_drift['score']:.4f}, "
                     f"top_symbols={unified_drift['top_symbols'][:5]}"
                 )
 
-                if unified_drift['score'] > self.drift_manager.critical_threshold:
+                if unified_drift["score"] > self.drift_manager.critical_threshold:
                     all_pass = False
                     self.drift_manager.on_exceed(
-                        'unified',
-                        unified_drift['score'],
-                        {'probe': 'integrity', 'results': drift_results}
+                        "unified", unified_drift["score"], {"probe": "integrity", "results": drift_results}
                     )
 
             # --- Auto-repair trigger on critical drift (env-gated) ---
@@ -226,7 +215,11 @@ class IntegrityProbe:
             except Exception:
                 _safe_threshold = 0.15
 
-            if (not all_pass) and os.environ.get("LUKHAS_AUTOREPAIR_ENABLED", "1") == "1" and getattr(self, "drift_manager", None):
+            if (
+                (not all_pass)
+                and os.environ.get("LUKHAS_AUTOREPAIR_ENABLED", "1") == "1"
+                and getattr(self, "drift_manager", None)
+            ):
                 try:
                     for _kind, _res in (drift_results or {}).items():
                         try:
@@ -248,10 +241,10 @@ class IntegrityProbe:
 
             # Record success/failure metrics
             metrics = _get_microcheck_metrics()
-            if not all_pass and 'failures' in metrics:
-                metrics['failures'].inc()
-            if 'duration' in metrics:
-                metrics['duration'].observe(time.perf_counter() - check_start_time)
+            if not all_pass and "failures" in metrics:
+                metrics["failures"].inc()
+            if "duration" in metrics:
+                metrics["duration"].observe(time.perf_counter() - check_start_time)
 
             return all_pass
 
@@ -260,10 +253,10 @@ class IntegrityProbe:
 
             # Record failure metrics
             metrics = _get_microcheck_metrics()
-            if 'failures' in metrics:
-                metrics['failures'].inc()
-            if 'duration' in metrics:
-                metrics['duration'].observe(time.perf_counter() - check_start_time)
+            if "failures" in metrics:
+                metrics["failures"].inc()
+            if "duration" in metrics:
+                metrics["duration"].observe(time.perf_counter() - check_start_time)
 
             # Fail open - don't block on errors
             return True

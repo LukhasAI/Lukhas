@@ -10,6 +10,7 @@ Integration Points:
 - wallet_core.py: Wallet-based authentication flows
 - qi_identity_core.py: QI-enhanced identity operations
 """
+
 from dataclasses import dataclass
 from typing import Any, Optional
 

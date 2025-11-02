@@ -2,6 +2,7 @@
 LUKHAS Security Integration Module
 Integrates enhanced security across all modules
 """
+
 import json
 from datetime import datetime, timezone
 from typing import Any, Callable, Optional
@@ -153,7 +154,6 @@ class SecurityIntegration:
                 pass
             else:
                 pass
-
 
             return json.dumps(package)
 

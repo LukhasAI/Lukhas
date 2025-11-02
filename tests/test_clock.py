@@ -170,10 +170,7 @@ class TestConsciousnessTicker:
         received_ticks = []
 
         def consciousness_processor(tick_count):
-            received_ticks.append({
-                "tick": tick_count,
-                "timestamp": time.time()
-            })
+            received_ticks.append({"tick": tick_count, "timestamp": time.time()})
 
         ticker.subscribe(consciousness_processor)
         ticker.run(seconds=0.2)

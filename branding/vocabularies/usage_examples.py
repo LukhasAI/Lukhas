@@ -5,6 +5,7 @@ LUKHAS Symbolic Vocabularies - Usage Examples
 This file demonstrates how to properly use the symbolic vocabularies
 within the LUKHAS system.
 """
+
 import logging
 
 from symbolic.vocabularies import (

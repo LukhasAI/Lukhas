@@ -17,16 +17,15 @@ BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
 # operation for memory uses a 'key' to identify the data for later retrieval.
 # These assumptions should be verified against the actual implementation.
 
+
 def get_access_token():
     """Helper function to get an access token."""
-    login_data = {
-        "user_id": "test_user",
-        "password": "test_password"
-    }
+    login_data = {"user_id": "test_user", "password": "test_password"}
     login_url = f"{BASE_URL}/api/v2/auth/login"
     response = requests.post(login_url, json=login_data)
     response.raise_for_status()
     return response.json()["access_token"]
+
 
 @pytest.mark.tier2
 @pytest.mark.integration
@@ -43,7 +42,7 @@ def test_consciousness_memory_integration():
         consciousness_query_data = {
             "query": "Generate a unique consciousness state for integration testing.",
             "awareness_level": 0.9,
-            "include_emotional_context": True
+            "include_emotional_context": True,
         }
         consciousness_url = f"{BASE_URL}/api/v2/consciousness/query"
         consciousness_response = requests.post(consciousness_url, headers=headers, json=consciousness_query_data)
@@ -56,7 +55,7 @@ def test_consciousness_memory_integration():
         store_data = {
             "action": "store",
             "content": {"key": memory_key, "data": consciousness_state},
-            "memory_type": "consciousness_integration"
+            "memory_type": "consciousness_integration",
         }
         memory_store_url = f"{BASE_URL}/api/v2/memory/store"
         store_response = requests.post(memory_store_url, headers=headers, json=store_data)
@@ -65,11 +64,7 @@ def test_consciousness_memory_integration():
         assert store_result.get("stored") is True
 
         # 3. Retrieve the consciousness state from memory
-        retrieve_data = {
-            "action": "retrieve",
-            "query": memory_key,
-            "memory_type": "consciousness_integration"
-        }
+        retrieve_data = {"action": "retrieve", "query": memory_key, "memory_type": "consciousness_integration"}
         memory_retrieve_url = f"{BASE_URL}/api/v2/memory/retrieve"
         retrieve_response = requests.post(memory_retrieve_url, headers=headers, json=retrieve_data)
         assert retrieve_response.status_code == 200

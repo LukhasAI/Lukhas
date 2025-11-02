@@ -14,6 +14,7 @@ from typing import Any, Dict, List, Optional
 
 class AIProvider(Enum):
     """AI Provider enumeration"""
+
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     GOOGLE = "google"
@@ -23,6 +24,7 @@ class AIProvider(Enum):
 @dataclass
 class AIResponse:
     """Standardized AI response format"""
+
     content: str
     provider: AIProvider
     model: str
@@ -35,6 +37,7 @@ class AIResponse:
 @dataclass
 class AIError:
     """AI provider error information"""
+
     provider: AIProvider
     model: str
     error_code: str
@@ -69,7 +72,7 @@ class BaseAIClient(ABC):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate response from AI model"""
         pass
@@ -84,12 +87,7 @@ class BaseAIClient(ABC):
         """Get list of available models for this provider"""
         pass
 
-    async def batch_generate(
-        self,
-        prompts: List[str],
-        model: str,
-        **kwargs
-    ) -> List[AIResponse]:
+    async def batch_generate(self, prompts: List[str], model: str, **kwargs) -> List[AIResponse]:
         """Generate responses for multiple prompts (default sequential implementation)"""
         responses = []
         for prompt in prompts:
@@ -97,12 +95,7 @@ class BaseAIClient(ABC):
             responses.append(response)
         return responses
 
-    def estimate_cost(
-        self,
-        prompt: str,
-        model: str,
-        max_tokens: Optional[int] = None
-    ) -> float:
+    def estimate_cost(self, prompt: str, model: str, max_tokens: Optional[int] = None) -> float:
         """Estimate cost for a request (provider-specific implementation)"""
         return 0.0  # Default implementation
 

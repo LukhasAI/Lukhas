@@ -29,15 +29,14 @@ def run_test_script(script_name: str, description: str) -> bool:
     """Run a test script and return success status"""
     print(f"\n🧪 Running {description}...")
     try:
-        result = subprocess.run([sys.executable, script_name],
-                              capture_output=True, text=True, timeout=60)
+        result = subprocess.run([sys.executable, script_name], capture_output=True, text=True, timeout=60)
 
         if result.returncode == 0:
             print(f"✅ {description}: PASSED")
             # Print summary lines from output
-            lines = result.stdout.split('\n')
+            lines = result.stdout.split("\n")
             for line in lines:
-                if '✅ PASS' in line or '🎉' in line or 'excellence achieved' in line:
+                if "✅ PASS" in line or "🎉" in line or "excellence achieved" in line:
                     print(f"   {line}")
             return True
         else:
@@ -138,7 +137,7 @@ def main():
         "Vector Log Collection with Security Analysis",
         "Automated Performance SLA Validation",
         "Security Scanning (Bandit, Safety, Semgrep)",
-        "Chaos Engineering Test Framework"
+        "Chaos Engineering Test Framework",
     ]
 
     for item in infrastructure:

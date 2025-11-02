@@ -56,21 +56,21 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
         self.pool: Optional[asyncpg.Pool] = None
-        self.table_name = config.get('table_name', 'vector_documents')
-        self.vector_dimensions = config.get('vector_dimensions', 1536)
-        self.index_type = config.get('index_type', 'hnsw')
-        self.index_params = config.get('index_params', {'m': 16, 'ef_construction': 64})
+        self.table_name = config.get("table_name", "vector_documents")
+        self.vector_dimensions = config.get("vector_dimensions", 1536)
+        self.index_type = config.get("index_type", "hnsw")
+        self.index_params = config.get("index_params", {"m": 16, "ef_construction": 64})
 
         # Connection configuration
         self.db_config = {
-            'host': config.get('host', 'localhost'),
-            'port': config.get('port', 5432),
-            'database': config.get('database', 'lukhas'),
-            'user': config.get('user', 'postgres'),
-            'password': config.get('password', ''),
-            'min_size': config.get('pool_min_size', 5),
-            'max_size': config.get('pool_size', 10),
-            'command_timeout': config.get('command_timeout', 60),
+            "host": config.get("host", "localhost"),
+            "port": config.get("port", 5432),
+            "database": config.get("database", "lukhas"),
+            "user": config.get("user", "postgres"),
+            "password": config.get("password", ""),
+            "min_size": config.get("pool_min_size", 5),
+            "max_size": config.get("pool_size", 10),
+            "command_timeout": config.get("command_timeout", 60),
         }
 
     async def initialize(self) -> None:
@@ -115,8 +115,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
 
                 # Test table existence
                 exists = await conn.fetchval(
-                    "SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = $1)",
-                    self.table_name
+                    "SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = $1)", self.table_name
                 )
                 return bool(exists)
 
@@ -164,7 +163,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
     async def _create_indexes(self, conn: asyncpg.Connection) -> None:
         """Create vector similarity indexes"""
         # Vector similarity index
-        if self.index_type.lower() == 'hnsw':
+        if self.index_type.lower() == "hnsw":
             # HNSW index for better query performance
             index_sql = f"""
             CREATE INDEX IF NOT EXISTS {self.table_name}_vector_hnsw_idx
@@ -173,7 +172,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             """
         else:
             # IVFFlat index for balanced performance/memory
-            lists = self.index_params.get('lists', 100)
+            lists = self.index_params.get("lists", 100)
             index_sql = f"""
             CREATE INDEX IF NOT EXISTS {self.table_name}_vector_ivf_idx
             ON {self.table_name} USING ivfflat (vector vector_cosine_ops)
@@ -201,7 +200,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
     async def upsert_documents(self, documents: List[VectorDocument]) -> Dict[str, Any]:
         """Insert or update documents with vectors using efficient UPSERT"""
         if not documents:
-            return {'inserted': 0, 'updated': 0, 'failed': 0, 'duration_ms': 0}
+            return {"inserted": 0, "updated": 0, "failed": 0, "duration_ms": 0}
 
         start_time = time.perf_counter()
 
@@ -220,17 +219,11 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         except Exception as e:
             logger.error(f"Upsert failed: {e}")
             duration_ms = (time.perf_counter() - start_time) * 1000
-            return {
-                'inserted': 0,
-                'updated': 0,
-                'failed': len(documents),
-                'duration_ms': duration_ms,
-                'error': str(e)
-            }
+            return {"inserted": 0, "updated": 0, "failed": len(documents), "duration_ms": duration_ms, "error": str(e)}
 
-    async def _batch_upsert_prepared(self, conn: asyncpg.Connection,
-                                   documents: List[VectorDocument],
-                                   start_time: float) -> Dict[str, Any]:
+    async def _batch_upsert_prepared(
+        self, conn: asyncpg.Connection, documents: List[VectorDocument], start_time: float
+    ) -> Dict[str, Any]:
         """Efficient batch upsert using prepared statements"""
         upsert_sql = f"""
         INSERT INTO {self.table_name} (id, vector, content, metadata, created_at, updated_at)
@@ -251,18 +244,11 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
                 try:
                     # Check if document exists
                     exists = await conn.fetchval(
-                        f"SELECT EXISTS(SELECT 1 FROM {self.table_name} WHERE id = $1)",
-                        doc.id
+                        f"SELECT EXISTS(SELECT 1 FROM {self.table_name} WHERE id = $1)", doc.id
                     )
 
                     # Execute upsert
-                    await conn.execute(
-                        upsert_sql,
-                        doc.id,
-                        doc.vector,
-                        doc.content,
-                        json.dumps(doc.metadata)
-                    )
+                    await conn.execute(upsert_sql, doc.id, doc.vector, doc.content, json.dumps(doc.metadata))
 
                     if exists:
                         updated += 1
@@ -274,16 +260,11 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
                     failed += 1
 
         duration_ms = (time.perf_counter() - start_time) * 1000
-        return {
-            'inserted': inserted,
-            'updated': updated,
-            'failed': failed,
-            'duration_ms': duration_ms
-        }
+        return {"inserted": inserted, "updated": updated, "failed": failed, "duration_ms": duration_ms}
 
-    async def _bulk_upsert(self, conn: asyncpg.Connection,
-                          documents: List[VectorDocument],
-                          start_time: float) -> Dict[str, Any]:
+    async def _bulk_upsert(
+        self, conn: asyncpg.Connection, documents: List[VectorDocument], start_time: float
+    ) -> Dict[str, Any]:
         """High-performance bulk upsert using COPY protocol"""
         # For very large batches, use COPY to temporary table then UPSERT
         temp_table = f"temp_{self.table_name}_{int(time.time())}"
@@ -291,30 +272,26 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         try:
             async with conn.transaction():
                 # Create temporary table
-                await conn.execute(f"""
+                await conn.execute(
+                    f"""
                 CREATE TEMPORARY TABLE {temp_table} (
                     LIKE {self.table_name} INCLUDING DEFAULTS
                 ) ON COMMIT DROP
-                """)
+                """
+                )
 
                 # Bulk insert to temp table using COPY
                 copy_data = []
                 for doc in documents:
-                    copy_data.append((
-                        doc.id,
-                        doc.vector,
-                        doc.content,
-                        json.dumps(doc.metadata)
-                    ))
+                    copy_data.append((doc.id, doc.vector, doc.content, json.dumps(doc.metadata)))
 
                 await conn.copy_records_to_table(
-                    temp_table,
-                    records=copy_data,
-                    columns=['id', 'vector', 'content', 'metadata']
+                    temp_table, records=copy_data, columns=["id", "vector", "content", "metadata"]
                 )
 
                 # Perform bulk upsert from temp table
-                upsert_result = await conn.fetch(f"""
+                upsert_result = await conn.fetch(
+                    f"""
                 INSERT INTO {self.table_name} (id, vector, content, metadata, created_at, updated_at)
                 SELECT id, vector, content, metadata::jsonb, NOW(), NOW()
                 FROM {temp_table}
@@ -324,10 +301,11 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
                     metadata = EXCLUDED.metadata,
                     updated_at = NOW()
                 RETURNING (xmax = 0) AS inserted
-                """)
+                """
+                )
 
                 # Count inserts vs updates
-                inserted = sum(1 for row in upsert_result if row['inserted'])
+                inserted = sum(1 for row in upsert_result if row["inserted"])
                 updated = len(upsert_result) - inserted
 
         except Exception as e:
@@ -335,12 +313,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             raise
 
         duration_ms = (time.perf_counter() - start_time) * 1000
-        return {
-            'inserted': inserted,
-            'updated': updated,
-            'failed': 0,
-            'duration_ms': duration_ms
-        }
+        return {"inserted": inserted, "updated": updated, "failed": 0, "duration_ms": duration_ms}
 
     async def search_vectors(self, query: VectorSearchQuery) -> VectorSearchResponse:
         """Perform vector similarity search with T4/0.01% excellence"""
@@ -358,7 +331,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
                     for key, value in query.metadata_filter.items():
                         if isinstance(value, (list, tuple)):
                             # IN clause for lists
-                            placeholders = ','.join(f'${i}' for i in range(param_idx, param_idx + len(value)))
+                            placeholders = ",".join(f"${i}" for i in range(param_idx, param_idx + len(value)))
                             filter_conditions.append(f"metadata->>'{key}' IN ({placeholders})")
                             params.extend(value)
                             param_idx += len(value)
@@ -398,18 +371,14 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
                 results = []
                 for rank, row in enumerate(rows):
                     doc = VectorDocument(
-                        id=row['id'],
-                        content=row['content'],
-                        vector=list(row['vector']) if query.include_vectors else [],
-                        metadata=row['metadata'] if query.include_metadata else {},
-                        timestamp=row['created_at'].timestamp()
+                        id=row["id"],
+                        content=row["content"],
+                        vector=list(row["vector"]) if query.include_vectors else [],
+                        metadata=row["metadata"] if query.include_metadata else {},
+                        timestamp=row["created_at"].timestamp(),
                     )
 
-                    result = VectorSearchResult(
-                        document=doc,
-                        score=float(row['similarity_score']),
-                        rank=rank + 1
-                    )
+                    result = VectorSearchResult(document=doc, score=float(row["similarity_score"]), rank=rank + 1)
                     results.append(result)
 
         except Exception as e:
@@ -423,16 +392,13 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         total_docs = await self.count_documents(query.metadata_filter)
 
         return VectorSearchResponse(
-            results=results,
-            query_time_ms=duration_ms,
-            total_documents=total_docs,
-            query_vector_dim=len(query.vector)
+            results=results, query_time_ms=duration_ms, total_documents=total_docs, query_vector_dim=len(query.vector)
         )
 
     async def delete_documents(self, document_ids: List[str]) -> Dict[str, Any]:
         """Delete documents by IDs"""
         if not document_ids:
-            return {'deleted': 0, 'not_found': 0, 'failed': 0, 'duration_ms': 0}
+            return {"deleted": 0, "not_found": 0, "failed": 0, "duration_ms": 0}
 
         start_time = time.perf_counter()
 
@@ -443,36 +409,31 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
                 total_deleted = 0
 
                 for i in range(0, len(document_ids), batch_size):
-                    batch = document_ids[i:i + batch_size]
-                    placeholders = ','.join(f'${j+1}' for j in range(len(batch)))
+                    batch = document_ids[i : i + batch_size]
+                    placeholders = ",".join(f"${j+1}" for j in range(len(batch)))
 
                     delete_sql = f"DELETE FROM {self.table_name} WHERE id IN ({placeholders})"
                     result = await conn.execute(delete_sql, *batch)
 
                     # Extract number of deleted rows from result
-                    deleted_count = int(result.split()[-1]) if result.startswith('DELETE') else 0
+                    deleted_count = int(result.split()[-1]) if result.startswith("DELETE") else 0
                     total_deleted += deleted_count
 
         except Exception as e:
             logger.error(f"Delete failed: {e}")
             duration_ms = (time.perf_counter() - start_time) * 1000
             return {
-                'deleted': 0,
-                'not_found': 0,
-                'failed': len(document_ids),
-                'duration_ms': duration_ms,
-                'error': str(e)
+                "deleted": 0,
+                "not_found": 0,
+                "failed": len(document_ids),
+                "duration_ms": duration_ms,
+                "error": str(e),
             }
 
         duration_ms = (time.perf_counter() - start_time) * 1000
         not_found = len(document_ids) - total_deleted
 
-        return {
-            'deleted': total_deleted,
-            'not_found': not_found,
-            'failed': 0,
-            'duration_ms': duration_ms
-        }
+        return {"deleted": total_deleted, "not_found": not_found, "failed": 0, "duration_ms": duration_ms}
 
     async def get_document(self, document_id: str) -> Optional[VectorDocument]:
         """Retrieve a single document by ID"""
@@ -480,18 +441,18 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             async with self.pool.acquire() as conn:
                 row = await conn.fetchrow(
                     f"SELECT id, vector, content, metadata, created_at FROM {self.table_name} WHERE id = $1",
-                    document_id
+                    document_id,
                 )
 
                 if not row:
                     return None
 
                 return VectorDocument(
-                    id=row['id'],
-                    vector=list(row['vector']),
-                    content=row['content'],
-                    metadata=row['metadata'],
-                    timestamp=row['created_at'].timestamp()
+                    id=row["id"],
+                    vector=list(row["vector"]),
+                    content=row["content"],
+                    metadata=row["metadata"],
+                    timestamp=row["created_at"].timestamp(),
                 )
 
         except Exception as e:
@@ -512,7 +473,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
 
                 for key, value in metadata_filter.items():
                     if isinstance(value, (list, tuple)):
-                        placeholders = ','.join(f'${i}' for i in range(param_idx, param_idx + len(value)))
+                        placeholders = ",".join(f"${i}" for i in range(param_idx, param_idx + len(value)))
                         where_conditions.append(f"metadata->>'{key}' IN ({placeholders})")
                         params.extend(value)
                         param_idx += len(value)
@@ -538,17 +499,17 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
                 await conn.execute(f"DROP INDEX IF EXISTS {self.table_name}_vector_idx")
 
                 # Create new index based on parameters
-                index_type = index_params.get('type', self.index_type)
-                if index_type.lower() == 'hnsw':
-                    m = index_params.get('m', 16)
-                    ef_construction = index_params.get('ef_construction', 64)
+                index_type = index_params.get("type", self.index_type)
+                if index_type.lower() == "hnsw":
+                    m = index_params.get("m", 16)
+                    ef_construction = index_params.get("ef_construction", 64)
                     index_sql = f"""
                     CREATE INDEX {self.table_name}_vector_idx
                     ON {self.table_name} USING hnsw (vector vector_cosine_ops)
                     WITH (m = {m}, ef_construction = {ef_construction})
                     """
                 else:
-                    lists = index_params.get('lists', 100)
+                    lists = index_params.get("lists", 100)
                     index_sql = f"""
                     CREATE INDEX {self.table_name}_vector_idx
                     ON {self.table_name} USING ivfflat (vector vector_cosine_ops)
@@ -562,18 +523,17 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             logger.error(f"Create index failed: {e}")
             raise VectorStoreError(f"Create index failed: {e}")
 
-    async def batch_upsert(self,
-                          documents: List[VectorDocument],
-                          batch_size: int = 100,
-                          parallel_batches: int = 4) -> Dict[str, Any]:
+    async def batch_upsert(
+        self, documents: List[VectorDocument], batch_size: int = 100, parallel_batches: int = 4
+    ) -> Dict[str, Any]:
         """Parallel batch upsert for high throughput"""
         if not documents:
-            return {'inserted': 0, 'updated': 0, 'failed': 0, 'duration_ms': 0}
+            return {"inserted": 0, "updated": 0, "failed": 0, "duration_ms": 0}
 
         start_time = time.perf_counter()
 
         # Split into batches
-        batches = [documents[i:i + batch_size] for i in range(0, len(documents), batch_size)]
+        batches = [documents[i : i + batch_size] for i in range(0, len(documents), batch_size)]
 
         # Process batches in parallel
         semaphore = asyncio.Semaphore(parallel_batches)
@@ -595,27 +555,25 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             if isinstance(result, Exception):
                 # ΛTAG: vector_batch_guard - preserve visibility into failed payloads
                 total_failed += len(batch_documents)
-                logger.error(
-                    "Batch failed", extra={"error": str(result), "batch_size": len(batch_documents)}
-                )
+                logger.error("Batch failed", extra={"error": str(result), "batch_size": len(batch_documents)})
             else:
-                total_inserted += result.get('inserted', 0)
-                total_updated += result.get('updated', 0)
-                total_failed += result.get('failed', 0)
+                total_inserted += result.get("inserted", 0)
+                total_updated += result.get("updated", 0)
+                total_failed += result.get("failed", 0)
 
         duration_ms = (time.perf_counter() - start_time) * 1000
 
         return {
-            'inserted': total_inserted,
-            'updated': total_updated,
-            'failed': total_failed,
-            'duration_ms': duration_ms,
-            'batches_processed': len(batches)
+            "inserted": total_inserted,
+            "updated": total_updated,
+            "failed": total_failed,
+            "duration_ms": duration_ms,
+            "batches_processed": len(batches),
         }
 
-    async def batch_search(self,
-                          queries: List[VectorSearchQuery],
-                          parallel_queries: int = 8) -> List[VectorSearchResponse]:
+    async def batch_search(
+        self, queries: List[VectorSearchQuery], parallel_queries: int = 8
+    ) -> List[VectorSearchResponse]:
         """Execute multiple searches in parallel"""
         if not queries:
             return []
@@ -635,12 +593,11 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             if isinstance(result, Exception):
                 logger.error(f"Search {i} failed: {result}")
                 # Return empty response for failed searches
-                responses.append(VectorSearchResponse(
-                    results=[],
-                    query_time_ms=0,
-                    total_documents=0,
-                    query_vector_dim=len(queries[i].vector)
-                ))
+                responses.append(
+                    VectorSearchResponse(
+                        results=[], query_time_ms=0, total_documents=0, query_vector_dim=len(queries[i].vector)
+                    )
+                )
             else:
                 responses.append(result)
 
@@ -653,16 +610,11 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         try:
             async with self.pool.acquire() as conn:
                 # Get document count
-                self.stats.total_documents = await conn.fetchval(
-                    f"SELECT COUNT(*) FROM {self.table_name}"
-                )
+                self.stats.total_documents = await conn.fetchval(f"SELECT COUNT(*) FROM {self.table_name}")
 
                 # Get table size
-                size_result = await conn.fetchrow(
-                    """SELECT pg_total_relation_size($1) as size""",
-                    self.table_name
-                )
-                self.stats.index_size_bytes = size_result['size'] if size_result else 0
+                size_result = await conn.fetchrow("""SELECT pg_total_relation_size($1) as size""", self.table_name)
+                self.stats.index_size_bytes = size_result["size"] if size_result else 0
 
                 self.stats.vector_dimensions = self.vector_dimensions
 

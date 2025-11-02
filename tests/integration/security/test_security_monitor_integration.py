@@ -1,4 +1,5 @@
 """Integration tests exercising the security monitor hooks."""
+
 from __future__ import annotations
 
 import asyncio

@@ -13,6 +13,7 @@ from memory.structural_conscience import StructuralConscience, StructuralReport
 report = StructuralConscience().validate_memory_structure(fold)
 print(report.ok, report.issues)
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -22,13 +23,15 @@ from typing import Any, Dict, List
 class StructuralIntegrityError(Exception):
     pass
 
+
 @dataclass
 class StructuralReport:
     ok: bool
     coherence_score: float  # 0..1
-    cascade_risk: float     # 0..1 (lower is better)
+    cascade_risk: float  # 0..1 (lower is better)
     alignment_score: float  # 0..1 with consciousness policy
     issues: List[str] = field(default_factory=list)
+
 
 class StructuralConscience:
     """Memory structural awareness and integrity validation.
@@ -99,13 +102,16 @@ class StructuralConscience:
 
         ok = True
         if coherence < self.awareness_threshold:
-            ok = False; issues.append("coherence_below_threshold")
+            ok = False
+            issues.append("coherence_below_threshold")
         if cascade_risk > self.cascade_ceiling:
-            ok = False; issues.append("cascade_risk_too_high")
+            ok = False
+            issues.append("cascade_risk_too_high")
         # Procedural domain gets slightly more permissive threshold
         threshold = self.alignment_threshold if domain != "procedural" else max(0.6, self.alignment_threshold - 0.1)
         if self.require_alignment and alignment < threshold:
-            ok = False; issues.append("alignment_below_threshold")
+            ok = False
+            issues.append("alignment_below_threshold")
 
         return StructuralReport(
             ok=ok,

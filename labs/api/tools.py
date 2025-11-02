@@ -1,6 +1,7 @@
 """Tools Registry API ⚛️🛡️
 Registry endpoint for OpenAI function-calling tools with governance.
 """
+
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 

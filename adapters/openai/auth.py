@@ -1,4 +1,5 @@
 """Authentication helpers for the OpenAI-compatible façade."""
+
 from __future__ import annotations
 
 import hashlib
@@ -21,6 +22,7 @@ except ModuleNotFoundError:  # pragma: no cover - offline fallback
 try:
     from core.policy_guard import PolicyGuard  # type: ignore
 except ModuleNotFoundError:  # pragma: no cover - offline fallback
+
     class _StubDecision:
         def __init__(self, allow: bool = True, reason: str = "policy guard stub allow") -> None:
             self.allow = allow
@@ -36,6 +38,7 @@ except ModuleNotFoundError:  # pragma: no cover - offline fallback
         def check_replay(self, event_kind: str, **_: object) -> _StubDecision:
             self.config.allowed_kinds.add(event_kind)
             return _StubDecision()
+
 
 INVALID_API_KEY_ERROR: Mapping[str, Mapping[str, str]] = {
     "error": {

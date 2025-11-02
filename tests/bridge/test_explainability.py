@@ -34,42 +34,36 @@ from labs.bridge.explainability_interface_layer import (
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def explainability_interface():
     """Fresh ExplainabilityInterface instance."""
-    return ExplainabilityInterface(
-        cache_enabled=True,
-        max_cache_size=1000,
-        template_dir="tests/fixtures/templates"
-    )
+    return ExplainabilityInterface(cache_enabled=True, max_cache_size=1000, template_dir="tests/fixtures/templates")
 
 
 @pytest.fixture
 def mock_symbolic_engine():
     """Mock symbolic engine for reasoning traces."""
+
     class MockSymbolicEngine:
         def generate_trace(self, decision, context):
             return {
-                "steps": [
-                    {"glyph": "Λ", "operation": "identity_check"},
-                    {"glyph": "Ω", "operation": "decision_made"}
-                ],
+                "steps": [{"glyph": "Λ", "operation": "identity_check"}, {"glyph": "Ω", "operation": "decision_made"}],
                 "symbols": ["Λ", "Ω"],
-                "final_state": "approved"
+                "final_state": "approved",
             }
+
     return MockSymbolicEngine()
 
 
 @pytest.fixture
 def mock_meg_client():
     """Mock MEG client for consciousness context."""
+
     class MockMEGClient:
         async def get_context(self, entity_id):
-            return {
-                "consciousness_level": "high",
-                "memory_nodes": ["node1", "node2"],
-                "awareness_state": "active"
-            }
+            return {"consciousness_level": "high", "memory_nodes": ["node1", "node2"], "awareness_state": "active"}
+
     return MockMEGClient()
 
 
@@ -82,7 +76,7 @@ def sample_decision():
         "outcome": "approved",
         "confidence": 0.95,
         "factors": ["identity_verified", "tier_sufficient"],
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
@@ -90,15 +84,14 @@ def sample_decision():
 # TEST-HIGH-EXPLAIN-01: Multi-modal Text Explanation
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_explainability_multimodal_text(explainability_interface, sample_decision):
     """Test text explanation generation from explainability interface."""
     # Generate text explanation
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        detail_level="comprehensive"
+        decision=sample_decision, mode="text", detail_level="comprehensive"
     )
 
     # Verify explanation structure
@@ -123,9 +116,7 @@ async def test_explainability_multimodal_text(explainability_interface, sample_d
 async def test_explainability_multimodal_visual(explainability_interface, sample_decision):
     """Test visual explanation generation."""
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="visual",
-        detail_level="detailed"
+        decision=sample_decision, mode="visual", detail_level="detailed"
     )
 
     # Verify visual explanation structure
@@ -138,11 +129,7 @@ async def test_explainability_multimodal_visual(explainability_interface, sample
 @pytest.mark.unit
 async def test_explainability_multimodal_audio(explainability_interface, sample_decision):
     """Test audio explanation generation."""
-    explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="audio",
-        detail_level="summary"
-    )
+    explanation = await explainability_interface.explain(decision=sample_decision, mode="audio", detail_level="summary")
 
     # Verify audio explanation structure
     assert explanation.mode == "audio"
@@ -159,7 +146,7 @@ async def test_explainability_template_rendering(explainability_interface, sampl
         name="access_control_template",
         content="Decision: {outcome}. Factors: {factors}",
         mode="text",
-        detail_level="detailed"
+        detail_level="detailed",
     )
 
     # Render template
@@ -174,14 +161,12 @@ async def test_explainability_template_rendering(explainability_interface, sampl
 # TEST-HIGH-EXPLAIN-02: Formal Proof Generation
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_explainability_formal_proofs_propositional(explainability_interface, sample_decision):
     """Test propositional logic formal proof generation."""
-    proof = await explainability_interface.generate_formal_proof(
-        decision=sample_decision,
-        proof_system="propositional"
-    )
+    proof = await explainability_interface.generate_formal_proof(decision=sample_decision, proof_system="propositional")
 
     # Verify proof structure
     assert proof is not None
@@ -200,10 +185,7 @@ async def test_explainability_formal_proofs_propositional(explainability_interfa
 @pytest.mark.unit
 async def test_explainability_formal_proofs_first_order(explainability_interface, sample_decision):
     """Test first-order logic formal proof generation."""
-    proof = await explainability_interface.generate_formal_proof(
-        decision=sample_decision,
-        proof_system="first_order"
-    )
+    proof = await explainability_interface.generate_formal_proof(decision=sample_decision, proof_system="first_order")
 
     assert proof.proof_system == "first_order"
     assert "quantifiers" in proof.metadata
@@ -214,10 +196,7 @@ async def test_explainability_formal_proofs_first_order(explainability_interface
 @pytest.mark.unit
 async def test_explainability_formal_proofs_temporal(explainability_interface, sample_decision):
     """Test temporal logic formal proof generation."""
-    proof = await explainability_interface.generate_formal_proof(
-        decision=sample_decision,
-        proof_system="temporal"
-    )
+    proof = await explainability_interface.generate_formal_proof(decision=sample_decision, proof_system="temporal")
 
     assert proof.proof_system == "temporal"
     assert "temporal_operators" in proof.metadata
@@ -228,10 +207,7 @@ async def test_explainability_formal_proofs_temporal(explainability_interface, s
 @pytest.mark.unit
 async def test_explainability_formal_proofs_modal(explainability_interface, sample_decision):
     """Test modal logic formal proof generation."""
-    proof = await explainability_interface.generate_formal_proof(
-        decision=sample_decision,
-        proof_system="modal"
-    )
+    proof = await explainability_interface.generate_formal_proof(decision=sample_decision, proof_system="modal")
 
     assert proof.proof_system == "modal"
     assert "modal_operators" in proof.metadata
@@ -243,9 +219,7 @@ async def test_explainability_formal_proofs_modal(explainability_interface, samp
 async def test_explainability_completeness_metrics(explainability_interface, sample_decision):
     """Test completeness metrics calculation."""
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        detail_level="comprehensive"
+        decision=sample_decision, mode="text", detail_level="comprehensive"
     )
 
     # Calculate completeness
@@ -263,6 +237,7 @@ async def test_explainability_completeness_metrics(explainability_interface, sam
 # TEST-HIGH-EXPLAIN-03: MEG Integration
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_explainability_meg_integration(explainability_interface, mock_meg_client, sample_decision):
@@ -272,10 +247,7 @@ async def test_explainability_meg_integration(explainability_interface, mock_meg
 
     # Generate explanation with MEG context
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        include_consciousness_context=True,
-        entity_id="user_123"
+        decision=sample_decision, mode="text", include_consciousness_context=True, entity_id="user_123"
     )
 
     # Verify MEG context integration
@@ -293,10 +265,7 @@ async def test_explainability_meg_consciousness_level(explainability_interface, 
     explainability_interface.meg_client = mock_meg_client
 
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        include_consciousness_context=True,
-        entity_id="user_123"
+        decision=sample_decision, mode="text", include_consciousness_context=True, entity_id="user_123"
     )
 
     # Consciousness level should influence explanation detail
@@ -308,6 +277,7 @@ async def test_explainability_meg_consciousness_level(explainability_interface, 
 # TEST-HIGH-EXPLAIN-04: Symbolic Reasoning Traces
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_explainability_symbolic_reasoning(explainability_interface, mock_symbolic_engine, sample_decision):
@@ -316,10 +286,7 @@ async def test_explainability_symbolic_reasoning(explainability_interface, mock_
     explainability_interface.symbolic_engine = mock_symbolic_engine
 
     # Generate reasoning trace
-    trace = await explainability_interface.generate_reasoning_trace(
-        decision=sample_decision,
-        include_symbols=True
-    )
+    trace = await explainability_interface.generate_reasoning_trace(decision=sample_decision, include_symbols=True)
 
     # Verify trace structure
     assert trace is not None
@@ -339,10 +306,7 @@ async def test_explainability_symbolic_glyph_mapping(explainability_interface, m
     """Test GLYPH symbol mapping in reasoning traces."""
     explainability_interface.symbolic_engine = mock_symbolic_engine
 
-    trace = await explainability_interface.generate_reasoning_trace(
-        decision=sample_decision,
-        include_symbols=True
-    )
+    trace = await explainability_interface.generate_reasoning_trace(decision=sample_decision, include_symbols=True)
 
     # Verify glyph operations
     for step in trace["steps"]:
@@ -358,9 +322,7 @@ async def test_explainability_trace_visualization(explainability_interface, mock
     explainability_interface.symbolic_engine = mock_symbolic_engine
 
     trace = await explainability_interface.generate_reasoning_trace(
-        decision=sample_decision,
-        include_symbols=True,
-        visualize=True
+        decision=sample_decision, include_symbols=True, visualize=True
     )
 
     # Verify visualization metadata
@@ -372,21 +334,16 @@ async def test_explainability_trace_visualization(explainability_interface, mock
 # TEST-HIGH-EXPLAIN-05: LRU Cache
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_explainability_lru_cache_hit(explainability_interface, sample_decision):
     """Test LRU cache hit scenario."""
     # Generate explanation (cache miss)
-    explanation1 = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text"
-    )
+    explanation1 = await explainability_interface.explain(decision=sample_decision, mode="text")
 
     # Generate same explanation again (cache hit)
-    explanation2 = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text"
-    )
+    explanation2 = await explainability_interface.explain(decision=sample_decision, mode="text")
 
     # Verify cache statistics
     cache_stats = explainability_interface.cache.get_statistics()
@@ -417,10 +374,7 @@ async def test_explainability_lru_cache_miss(explainability_interface):
 async def test_explainability_lru_cache_eviction(explainability_interface):
     """Test LRU cache eviction when reaching 1000 entry limit."""
     # Create interface with small cache
-    small_cache_interface = ExplainabilityInterface(
-        cache_enabled=True,
-        max_cache_size=10  # Small cache for testing
-    )
+    small_cache_interface = ExplainabilityInterface(cache_enabled=True, max_cache_size=10)  # Small cache for testing
 
     # Generate 15 different explanations (exceeds cache limit)
     for i in range(15):
@@ -458,16 +412,14 @@ async def test_explainability_cache_statistics(explainability_interface, sample_
 # TEST-HIGH-EXPLAIN-06: Cryptographic Signing
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_explainability_crypto_signing(explainability_interface, sample_decision):
     """Test SRD cryptographic signing of explanations."""
     # Generate signed explanation
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        sign_explanation=True,
-        signing_key="test_secret_key_123"
+        decision=sample_decision, mode="text", sign_explanation=True, signing_key="test_secret_key_123"
     )
 
     # Verify signature exists
@@ -486,17 +438,11 @@ async def test_explainability_signature_verification(explainability_interface, s
     """Test signature verification for signed explanations."""
     # Generate signed explanation
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        sign_explanation=True,
-        signing_key="test_secret_key_123"
+        decision=sample_decision, mode="text", sign_explanation=True, signing_key="test_secret_key_123"
     )
 
     # Verify signature is valid
-    is_valid = explainability_interface.verify_signature(
-        explanation=explanation,
-        signing_key="test_secret_key_123"
-    )
+    is_valid = explainability_interface.verify_signature(explanation=explanation, signing_key="test_secret_key_123")
 
     assert is_valid is True
 
@@ -507,10 +453,7 @@ async def test_explainability_signature_tampering_detection(explainability_inter
     """Test signature tampering detection."""
     # Generate signed explanation
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        sign_explanation=True,
-        signing_key="test_secret_key_123"
+        decision=sample_decision, mode="text", sign_explanation=True, signing_key="test_secret_key_123"
     )
 
     # Tamper with content
@@ -518,10 +461,7 @@ async def test_explainability_signature_tampering_detection(explainability_inter
     explanation.content = "TAMPERED CONTENT"
 
     # Verify signature is now invalid
-    is_valid = explainability_interface.verify_signature(
-        explanation=explanation,
-        signing_key="test_secret_key_123"
-    )
+    is_valid = explainability_interface.verify_signature(explanation=explanation, signing_key="test_secret_key_123")
 
     assert is_valid is False
 
@@ -535,17 +475,11 @@ async def test_explainability_signature_wrong_key(explainability_interface, samp
     """Test signature verification with wrong key."""
     # Generate signed explanation
     explanation = await explainability_interface.explain(
-        decision=sample_decision,
-        mode="text",
-        sign_explanation=True,
-        signing_key="correct_key_123"
+        decision=sample_decision, mode="text", sign_explanation=True, signing_key="correct_key_123"
     )
 
     # Verify with wrong key
-    is_valid = explainability_interface.verify_signature(
-        explanation=explanation,
-        signing_key="wrong_key_456"
-    )
+    is_valid = explainability_interface.verify_signature(explanation=explanation, signing_key="wrong_key_456")
 
     assert is_valid is False
 
@@ -554,9 +488,12 @@ async def test_explainability_signature_wrong_key(explainability_interface, samp
 # Integration Tests
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_explainability_full_pipeline(explainability_interface, mock_symbolic_engine, mock_meg_client, sample_decision):
+async def test_explainability_full_pipeline(
+    explainability_interface, mock_symbolic_engine, mock_meg_client, sample_decision
+):
     """Test complete explainability pipeline with all features."""
     explainability_interface.symbolic_engine = mock_symbolic_engine
     explainability_interface.meg_client = mock_meg_client
@@ -571,7 +508,7 @@ async def test_explainability_full_pipeline(explainability_interface, mock_symbo
         include_reasoning_trace=True,
         sign_explanation=True,
         entity_id="user_123",
-        signing_key="test_key"
+        signing_key="test_key",
     )
 
     # Verify all components present
@@ -589,6 +526,7 @@ async def test_explainability_full_pipeline(explainability_interface, mock_symbo
 # ============================================================================
 # Edge Cases and Error Handling
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.unit
@@ -611,7 +549,4 @@ async def test_explainability_invalid_mode(explainability_interface, sample_deci
 async def test_explainability_invalid_proof_system(explainability_interface, sample_decision):
     """Test handling of invalid proof system."""
     with pytest.raises(ValueError, match="Invalid proof system"):
-        await explainability_interface.generate_formal_proof(
-            decision=sample_decision,
-            proof_system="invalid_system"
-        )
+        await explainability_interface.generate_formal_proof(decision=sample_decision, proof_system="invalid_system")

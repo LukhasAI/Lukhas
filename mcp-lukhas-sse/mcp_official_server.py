@@ -23,16 +23,14 @@ logger = logging.getLogger(__name__)
 # MCP Protocol version
 MCP_PROTOCOL_VERSION = "2025-06-18"
 
+
 class MCPServer:
     """Official MCP-compliant server implementation."""
 
     def __init__(self):
         self.session_id: Optional[str] = None
         self.initialized = False
-        self.server_info = {
-            "name": "lukhas-mcp-server",
-            "version": "1.0.0"
-        }
+        self.server_info = {"name": "lukhas-mcp-server", "version": "1.0.0"}
 
     def generate_session_id(self) -> str:
         """Generate a cryptographically secure session ID."""
@@ -61,16 +59,11 @@ class MCPServer:
             "result": {
                 "protocolVersion": MCP_PROTOCOL_VERSION,
                 "capabilities": {
-                    "tools": {
-                        "listChanged": False
-                    },
-                    "resources": {
-                        "subscribe": False,
-                        "listChanged": False
-                    }
+                    "tools": {"listChanged": False},
+                    "resources": {"subscribe": False, "listChanged": False},
                 },
-                "serverInfo": self.server_info
-            }
+                "serverInfo": self.server_info,
+            },
         }
 
     async def handle_tools_list(self, request_data: Dict) -> Dict:
@@ -83,14 +76,9 @@ class MCPServer:
                 "description": "List files and directories in a given path",
                 "inputSchema": {
                     "type": "object",
-                    "properties": {
-                        "path": {
-                            "type": "string",
-                            "description": "The directory path to list"
-                        }
-                    },
-                    "required": ["path"]
-                }
+                    "properties": {"path": {"type": "string", "description": "The directory path to list"}},
+                    "required": ["path"],
+                },
             },
             {
                 "name": "read_file",
@@ -98,28 +86,19 @@ class MCPServer:
                 "inputSchema": {
                     "type": "object",
                     "properties": {
-                        "path": {
-                            "type": "string",
-                            "description": "The file path to read"
-                        },
+                        "path": {"type": "string", "description": "The file path to read"},
                         "max_lines": {
                             "type": "integer",
                             "description": "Maximum number of lines to read",
-                            "default": 100
-                        }
+                            "default": 100,
+                        },
                     },
-                    "required": ["path"]
-                }
-            }
+                    "required": ["path"],
+                },
+            },
         ]
 
-        return {
-            "jsonrpc": "2.0",
-            "id": request_data.get("id"),
-            "result": {
-                "tools": tools
-            }
-        }
+        return {"jsonrpc": "2.0", "id": request_data.get("id"), "result": {"tools": tools}}
 
     async def handle_tools_call(self, request_data: Dict) -> Dict:
         """Handle tools/call request."""
@@ -132,31 +111,18 @@ class MCPServer:
         if tool_name == "list_directory":
             result = await self.list_directory_tool(arguments.get("path", "/tmp"))
         elif tool_name == "read_file":
-            result = await self.read_file_tool(
-                arguments.get("path"),
-                arguments.get("max_lines", 100)
-            )
+            result = await self.read_file_tool(arguments.get("path"), arguments.get("max_lines", 100))
         else:
             return {
                 "jsonrpc": "2.0",
                 "id": request_data.get("id"),
-                "error": {
-                    "code": -32601,
-                    "message": f"Unknown tool: {tool_name}"
-                }
+                "error": {"code": -32601, "message": f"Unknown tool: {tool_name}"},
             }
 
         return {
             "jsonrpc": "2.0",
             "id": request_data.get("id"),
-            "result": {
-                "content": [
-                    {
-                        "type": "text",
-                        "text": json.dumps(result, indent=2)
-                    }
-                ]
-            }
+            "result": {"content": [{"type": "text", "text": json.dumps(result, indent=2)}]},
         }
 
     async def list_directory_tool(self, path: str) -> Dict[str, Any]:
@@ -173,11 +139,13 @@ class MCPServer:
             items = []
             for item in os.listdir(path):
                 full_path = os.path.join(path, item)
-                items.append({
-                    "name": item,
-                    "type": "directory" if os.path.isdir(full_path) else "file",
-                    "size": os.path.getsize(full_path) if os.path.isfile(full_path) else None
-                })
+                items.append(
+                    {
+                        "name": item,
+                        "type": "directory" if os.path.isdir(full_path) else "file",
+                        "size": os.path.getsize(full_path) if os.path.isfile(full_path) else None,
+                    }
+                )
 
             return {"path": path, "items": items}
         except Exception as e:
@@ -197,14 +165,10 @@ class MCPServer:
             if not os.path.isfile(path):
                 return {"error": "Path is not a file"}
 
-            with open(path, 'r', encoding='utf-8') as f:
+            with open(path, "r", encoding="utf-8") as f:
                 lines = f.readlines()[:max_lines]
 
-            return {
-                "path": path,
-                "content": "".join(lines),
-                "truncated": len(lines) >= max_lines
-            }
+            return {"path": path, "content": "".join(lines), "truncated": len(lines) >= max_lines}
         except Exception as e:
             return {"error": str(e)}
 
@@ -222,24 +186,26 @@ class MCPServer:
             return {
                 "jsonrpc": "2.0",
                 "id": request_data.get("id"),
-                "error": {
-                    "code": -32601,
-                    "message": f"Method not found: {method}"
-                }
+                "error": {"code": -32601, "message": f"Method not found: {method}"},
             }
+
 
 # Global MCP server instance
 mcp_server = MCPServer()
 
+
 async def health_check(request):
     """Health check endpoint."""
-    return JSONResponse({
-        "status": "healthy",
-        "timestamp": time.time(),
-        "server": "LUKHAS MCP Server (Official Spec v2025-06-18)",
-        "protocol_version": MCP_PROTOCOL_VERSION,
-        "session_initialized": mcp_server.initialized
-    })
+    return JSONResponse(
+        {
+            "status": "healthy",
+            "timestamp": time.time(),
+            "server": "LUKHAS MCP Server (Official Spec v2025-06-18)",
+            "protocol_version": MCP_PROTOCOL_VERSION,
+            "session_initialized": mcp_server.initialized,
+        }
+    )
+
 
 async def mcp_endpoint(request):
     """
@@ -249,18 +215,12 @@ async def mcp_endpoint(request):
     # Validate protocol version header
     protocol_version = request.headers.get("MCP-Protocol-Version", "2025-03-26")
     if protocol_version not in ["2025-06-18", "2025-03-26"]:
-        return JSONResponse(
-            {"error": "Unsupported MCP-Protocol-Version"},
-            status_code=400
-        )
+        return JSONResponse({"error": "Unsupported MCP-Protocol-Version"}, status_code=400)
 
     # Validate session ID if present
     session_id = request.headers.get("Mcp-Session-Id")
     if session_id and mcp_server.session_id and session_id != mcp_server.session_id:
-        return JSONResponse(
-            {"error": "Invalid session ID"},
-            status_code=404
-        )
+        return JSONResponse({"error": "Invalid session ID"}, status_code=404)
 
     if request.method == "POST":
         # Handle JSON-RPC message from client
@@ -284,50 +244,32 @@ async def mcp_endpoint(request):
                     # Send the JSON-RPC response as SSE event
                     yield f"data: {json.dumps(response_data)}\n\n"
 
-                return StreamingResponse(
-                    generate_sse(),
-                    media_type="text/event-stream",
-                    headers=headers
-                )
+                return StreamingResponse(generate_sse(), media_type="text/event-stream", headers=headers)
             else:
                 # Return standard JSON response
                 return JSONResponse(response_data, headers=headers)
 
         except json.JSONDecodeError:
-            return JSONResponse(
-                {"error": "Invalid JSON"},
-                status_code=400
-            )
+            return JSONResponse({"error": "Invalid JSON"}, status_code=400)
         except Exception as e:
             logger.error(f"Error processing request: {e}")
-            return JSONResponse(
-                {"error": "Internal server error"},
-                status_code=500
-            )
+            return JSONResponse({"error": "Internal server error"}, status_code=500)
 
     elif request.method == "GET":
         # Handle SSE stream for server-to-client messages
         accept_header = request.headers.get("Accept", "")
         if "text/event-stream" not in accept_header:
-            return JSONResponse(
-                {"error": "This endpoint requires text/event-stream"},
-                status_code=405
-            )
+            return JSONResponse({"error": "This endpoint requires text/event-stream"}, status_code=405)
 
         # For now, return a simple SSE stream indicating the server is ready
         async def generate_sse():
             yield f"data: {json.dumps({'type': 'ready', 'server': 'LUKHAS MCP Server'})}\n\n"
 
-        return StreamingResponse(
-            generate_sse(),
-            media_type="text/event-stream"
-        )
+        return StreamingResponse(generate_sse(), media_type="text/event-stream")
 
     else:
-        return JSONResponse(
-            {"error": "Method not allowed"},
-            status_code=405
-        )
+        return JSONResponse({"error": "Method not allowed"}, status_code=405)
+
 
 async def delete_session(request):
     """Handle session termination."""
@@ -338,6 +280,7 @@ async def delete_session(request):
         return JSONResponse({"message": "Session terminated"})
     else:
         return JSONResponse({"error": "Invalid session ID"}, status_code=404)
+
 
 # Define routes
 routes = [

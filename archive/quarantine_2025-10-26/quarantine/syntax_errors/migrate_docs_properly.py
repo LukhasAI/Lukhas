@@ -438,7 +438,8 @@ def create_navigation_structure(base_dir, stats):
 
     # Create main index
     main_index = base_dir / "index.md"
-    main_index.write_text("""---
+    main_index.write_text(
+        """---
 title: LUKHAS AI Documentation
 status: stable
 owner: docs-maintainer
@@ -467,7 +468,8 @@ Welcome to the LUKHAS AI documentation. This is a comprehensive collection of do
 ## About LUKHAS AI
 
 LUKHAS AI is a distributed consciousness platform implementing the MΛTRIZ cognitive DNA system across 692+ Python modules with consciousness-aware processing.
-""")
+"""
+    )
 
     # Create category index files
     category_descriptions = {
@@ -483,7 +485,8 @@ LUKHAS AI is a distributed consciousness platform implementing the MΛTRIZ cogni
     for category, description in category_descriptions.items():
         if stats[category] > 0:
             index_file = base_dir / category / "index.md"
-            index_file.write_text(f"""---
+            index_file.write_text(
+                f"""---
 title: {category.title()}
 status: stable
 owner: docs-maintainer
@@ -500,7 +503,8 @@ facets:
 {description}
 
 This section contains {stats[category]} documentation files.
-""")
+"""
+            )
 
 
 if __name__ == "__main__":

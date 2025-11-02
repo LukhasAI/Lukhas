@@ -4,6 +4,8 @@ import logging
 import structlog
 
 log = logging.getLogger(__name__)
+
+
 class QuantizedCycleManager:
     """Manage discrete thought cycles for core processing."""
 

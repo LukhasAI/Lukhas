@@ -7,6 +7,7 @@ Constellation Framework: ⚛️🧠🛡️
 
 Uses lazy loading to avoid import-time dependencies on labs.
 """
+
 import importlib
 from typing import Any
 
@@ -30,10 +31,7 @@ def __getattr__(name: str) -> Any:
         try:
             return importlib.import_module("labs.core.ethics")
         except ImportError as e:
-            raise ImportError(
-                f"Cannot import labs.core.ethics: {e}. "
-                "Ensure labs is installed and available."
-            ) from e
+            raise ImportError(f"Cannot import labs.core.ethics: {e}. " "Ensure labs is installed and available.") from e
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 

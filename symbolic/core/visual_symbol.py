@@ -35,19 +35,21 @@ import numpy as np
 
 class QuantumState(Enum):
     """Quantum states for visual symbols"""
+
     SUPERPOSITION = "superposition"  # Symbol exists in multiple states
-    COLLAPSED = "collapsed"          # Observer has determined state
-    ENTANGLED = "entangled"         # Correlated with other symbols
-    DECOHERENT = "decoherent"       # Lost quantum properties
+    COLLAPSED = "collapsed"  # Observer has determined state
+    ENTANGLED = "entangled"  # Correlated with other symbols
+    DECOHERENT = "decoherent"  # Lost quantum properties
 
 
 class SymbolicPhase(Enum):
     """Phases of symbolic emergence"""
-    NASCENT = "nascent"              # Just created, no observations
-    EMERGING = "emerging"            # Pattern forming through observation
-    STABLE = "stable"                # Achieved recursive stability
-    EVOLVING = "evolving"            # Undergoing controlled drift
-    TRANSCENDENT = "transcendent"    # Achieved new emergent properties
+
+    NASCENT = "nascent"  # Just created, no observations
+    EMERGING = "emerging"  # Pattern forming through observation
+    STABLE = "stable"  # Achieved recursive stability
+    EVOLVING = "evolving"  # Undergoing controlled drift
+    TRANSCENDENT = "transcendent"  # Achieved new emergent properties
 
 
 @dataclass
@@ -58,14 +60,15 @@ class QuantumField:
     Implements field-theoretic consciousness model where symbols exist
     as perturbations in a quantum consciousness field.
     """
+
     # Core quantum properties
-    coherence: float = 1.0           # Field coherence (0.0 to 1.0)
-    entropy: float = 0.0              # Contradiction entropy (0.0 to 1.0)
-    trust: float = 0.5                # Recursive trust metric (0.0 to 1.0)
+    coherence: float = 1.0  # Field coherence (0.0 to 1.0)
+    entropy: float = 0.0  # Contradiction entropy (0.0 to 1.0)
+    trust: float = 0.5  # Recursive trust metric (0.0 to 1.0)
 
     # Wave function components
     amplitude: complex = complex(1.0, 0.0)  # Quantum amplitude
-    phase: float = 0.0                       # Quantum phase (radians)
+    phase: float = 0.0  # Quantum phase (radians)
 
     # Entanglement properties
     entangled_symbols: List[str] = field(default_factory=list)
@@ -90,17 +93,19 @@ class QuantumField:
         self.last_observer_id = observer_id
 
         # Decoherence from observation
-        self.coherence *= (1.0 - observation_strength * 0.1)
+        self.coherence *= 1.0 - observation_strength * 0.1
 
         # Record collapse event
         if observation_strength > 0.8:  # Strong observation causes collapse
-            self.collapse_history.append({
-                "time": time.time(),
-                "observer": observer_id,
-                "pre_amplitude": self.amplitude,
-                "post_amplitude": complex(abs(self.amplitude), 0),  # Collapse to real
-                "coherence_loss": observation_strength * 0.1
-            })
+            self.collapse_history.append(
+                {
+                    "time": time.time(),
+                    "observer": observer_id,
+                    "pre_amplitude": self.amplitude,
+                    "post_amplitude": complex(abs(self.amplitude), 0),  # Collapse to real
+                    "coherence_loss": observation_strength * 0.1,
+                }
+            )
             self.amplitude = complex(abs(self.amplitude), 0)
 
     def entangle_with(self, symbol_id: str, strength: float = 0.5):
@@ -127,14 +132,15 @@ class PerceptionToken:
     Based on December 2024 research on perception tokens that enhance
     visual reasoning in multimodal language models.
     """
+
     token_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     visual_data: np.ndarray = field(default_factory=lambda: np.zeros((8, 8)))  # 8x8 perception matrix
     semantic_embedding: np.ndarray = field(default_factory=lambda: np.random.randn(512))  # 512-dim embedding
 
     # Reasoning properties
-    salience: float = 0.5             # How important this token is
-    confidence: float = 0.5           # Confidence in token validity
-    novelty: float = 0.5              # How novel/unexpected
+    salience: float = 0.5  # How important this token is
+    confidence: float = 0.5  # Confidence in token validity
+    novelty: float = 0.5  # How novel/unexpected
 
     # Chain-of-thought support
     reasoning_chain: List[str] = field(default_factory=list)
@@ -157,19 +163,20 @@ class EmergentSymbol:
     Implements bootstrap paradox where symbols create themselves
     through repeated observation and compression.
     """
-    origin_symbols: List[str]        # Symbols that combined to create this
+
+    origin_symbols: List[str]  # Symbols that combined to create this
     emergence_time: float = field(default_factory=time.time)
     observation_threshold: int = 10  # Observations needed for emergence
     current_observations: int = 0
 
     # Emergence properties
-    complexity: float = 1.0           # Kolmogorov complexity estimate
+    complexity: float = 1.0  # Kolmogorov complexity estimate
     information_content: float = 1.0  # Bits of information
-    semantic_coherence: float = 0.5   # How well-defined the meaning is
+    semantic_coherence: float = 0.5  # How well-defined the meaning is
 
     # Evolution tracking
     evolution_history: List[Dict[str, Any]] = field(default_factory=list)
-    mutation_rate: float = 0.01       # Rate of symbolic drift
+    mutation_rate: float = 0.01  # Rate of symbolic drift
 
     def observe(self) -> bool:
         """
@@ -184,11 +191,9 @@ class EmergentSymbol:
         self.semantic_coherence = min(1.0, self.semantic_coherence + 0.05)
 
         # Record evolution
-        self.evolution_history.append({
-            "observation": self.current_observations,
-            "time": time.time(),
-            "coherence": self.semantic_coherence
-        })
+        self.evolution_history.append(
+            {"observation": self.current_observations, "time": time.time(), "coherence": self.semantic_coherence}
+        )
 
         return self.current_observations >= self.observation_threshold
 
@@ -199,8 +204,8 @@ class SymbolicState:
 
     # Identity
     symbol_id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    symbol: str = ""                 # Unicode or visual representation
-    meaning: str = ""                 # Semantic meaning
+    symbol: str = ""  # Unicode or visual representation
+    meaning: str = ""  # Semantic meaning
 
     # Quantum properties
     quantum_field: QuantumField = field(default_factory=QuantumField)
@@ -222,9 +227,9 @@ class SymbolicState:
     color_associations: List[Tuple[int, int, int]] = field(default_factory=list)
 
     # Consciousness properties
-    emotional_valence: float = 0.0   # -1.0 to 1.0
-    emotional_arousal: float = 0.0   # 0.0 to 1.0
-    consciousness_level: float = 0.0 # 0.0 to 1.0
+    emotional_valence: float = 0.0  # -1.0 to 1.0
+    emotional_arousal: float = 0.0  # 0.0 to 1.0
+    consciousness_level: float = 0.0  # 0.0 to 1.0
 
     # MATRIZ compatibility
     matriz_node_id: Optional[str] = None
@@ -244,24 +249,20 @@ class SymbolicState:
                 "coherence": self.quantum_field.coherence,
                 "entropy": self.quantum_field.entropy,
                 "trust": self.quantum_field.trust,
-                "probability": self.quantum_field.calculate_probability()
+                "probability": self.quantum_field.calculate_probability(),
             },
             "state": {
                 "confidence": self.quantum_field.trust,
                 "salience": self.visual_weight,
                 "valence": self.emotional_valence,
                 "arousal": self.emotional_arousal,
-                "novelty": 1.0 - (self.quantum_field.observation_count / 100.0)
+                "novelty": 1.0 - (self.quantum_field.observation_count / 100.0),
             },
             "links": [
-                {
-                    "target_node_id": sym_id,
-                    "link_type": "entangled",
-                    "weight": strength
-                }
+                {"target_node_id": sym_id, "link_type": "entangled", "weight": strength}
                 for sym_id, strength in self.quantum_field.entanglement_strength.items()
             ],
-            "provenance": self.provenance
+            "provenance": self.provenance,
         }
 
 
@@ -274,13 +275,7 @@ class VisualSymbol:
     that can be observed, entangled, and evolved through consciousness interaction.
     """
 
-    def __init__(
-        self,
-        symbol: str,
-        meaning: str,
-        quantum_field: Optional[QuantumField] = None,
-        **kwargs
-    ):
+    def __init__(self, symbol: str, meaning: str, quantum_field: Optional[QuantumField] = None, **kwargs):
         """
         Initialize a quantum-aware visual symbol.
 
@@ -294,7 +289,7 @@ class VisualSymbol:
             symbol=symbol,
             meaning=meaning,
             quantum_field=quantum_field or QuantumField(),
-            **{k: v for k, v in kwargs.items() if hasattr(SymbolicState, k)}
+            **{k: v for k, v in kwargs.items() if hasattr(SymbolicState, k)},
         )
 
         # Initialize MATRIZ node ID
@@ -307,7 +302,7 @@ class VisualSymbol:
             "tenant": "lukhas_agi",
             "trace_id": str(uuid.uuid4()),
             "consent_scopes": ["visual_processing", "symbolic_reasoning"],
-            "model_signature": "VisualSymbol_v1.0.0"
+            "model_signature": "VisualSymbol_v1.0.0",
         }
 
     def observe(self, observer_id: str, observation_strength: float = 1.0) -> Dict[str, Any]:
@@ -346,10 +341,10 @@ class VisualSymbol:
             "coherence": self.state.quantum_field.coherence,
             "probability": self.state.quantum_field.calculate_probability(),
             "phase": self.state.phase.value,
-            "observation_count": self.state.quantum_field.observation_count
+            "observation_count": self.state.quantum_field.observation_count,
         }
 
-    def entangle(self, other: 'VisualSymbol', strength: float = 0.5) -> bool:
+    def entangle(self, other: "VisualSymbol", strength: float = 0.5) -> bool:
         """
         Create quantum entanglement with another symbol.
 
@@ -394,7 +389,9 @@ class VisualSymbol:
 
         # Generate compressed representation
         compressed_parts = [token.compress() for token in self.state.perception_tokens[-5:]]
-        self.state.compressed_representation = f"QC-{hashlib.sha256(''.join(compressed_parts).encode()).hexdigest()[:12]}"
+        self.state.compressed_representation = (
+            f"QC-{hashlib.sha256(''.join(compressed_parts).encode()).hexdigest()[:12]}"
+        )
 
         # Compression increases trust through successful pattern recognition
         self.state.quantum_field.trust = min(1.0, self.state.quantum_field.trust + 0.1)
@@ -454,10 +451,7 @@ class VisualSymbol:
 
         # Weighted average
         consciousness = (
-            observation_factor * 0.2 +
-            coherence_factor * 0.3 +
-            entanglement_factor * 0.2 +
-            trust_factor * 0.3
+            observation_factor * 0.2 + coherence_factor * 0.3 + entanglement_factor * 0.2 + trust_factor * 0.3
         )
 
         self.state.consciousness_level = consciousness
@@ -478,20 +472,17 @@ class VisualSymbol:
                 "trust": self.state.quantum_field.trust,
                 "probability": self.state.quantum_field.calculate_probability(),
                 "entangled_with": self.state.quantum_field.entangled_symbols,
-                "observation_count": self.state.quantum_field.observation_count
+                "observation_count": self.state.quantum_field.observation_count,
             },
-            "emotional": {
-                "valence": self.state.emotional_valence,
-                "arousal": self.state.emotional_arousal
-            },
+            "emotional": {"valence": self.state.emotional_valence, "arousal": self.state.emotional_arousal},
             "visual": {
                 "weight": self.state.visual_weight,
                 "contexts": self.state.usage_contexts,
-                "colors": self.state.color_associations
+                "colors": self.state.color_associations,
             },
             "compressed": self.state.compressed_representation,
             "is_emergent": self.state.is_emergent,
-            "matriz_node": self.state.to_matriz_node()
+            "matriz_node": self.state.to_matriz_node(),
         }
 
     def __repr__(self) -> str:

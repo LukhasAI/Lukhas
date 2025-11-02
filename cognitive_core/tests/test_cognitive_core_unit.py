@@ -25,10 +25,7 @@ class TestCognitiveCoreModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "cognitive_core",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "cognitive_core", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestCognitiveCoreModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import cognitive_core
+
         self.assertIsNotNone(cognitive_core)
 
     def test_module_version(self):
         """Test module has version information."""
         import cognitive_core
+
         # Most modules should have version info
-        self.assertTrue(hasattr(cognitive_core, '__version__') or
-                       hasattr(cognitive_core, 'VERSION'))
+        self.assertTrue(hasattr(cognitive_core, "__version__") or hasattr(cognitive_core, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testget_cognitive_core_info(unittest.TestCase):
         """Test get_cognitive_core_info can be imported."""
         try:
             from cognitive_core import get_cognitive_core_info
+
             self.assertIsNotNone(get_cognitive_core_info)
         except ImportError:
             pytest.skip("Component get_cognitive_core_info not available")
@@ -97,6 +96,7 @@ class Testget_constellation_integration(unittest.TestCase):
         """Test get_constellation_integration can be imported."""
         try:
             from cognitive_core import get_constellation_integration
+
             self.assertIsNotNone(get_constellation_integration)
         except ImportError:
             pytest.skip("Component get_constellation_integration not available")
@@ -105,7 +105,6 @@ class Testget_constellation_integration(unittest.TestCase):
         """Test get_constellation_integration can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

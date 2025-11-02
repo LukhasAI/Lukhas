@@ -47,6 +47,7 @@ orchestration_bridge = OrchestrationBridge()
 # Import cognitive components
 try:
     from orchestration.brain.cognitive.cognitive_updater import CognitiveUpdater
+
     orchestration_bridge.register_brain_component("cognitive_updater", CognitiveUpdater())
 except ImportError:
     pass

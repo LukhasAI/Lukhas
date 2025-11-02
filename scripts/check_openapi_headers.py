@@ -44,12 +44,14 @@ def main():
                 missing = required_headers - response_headers
 
                 if missing:
-                    missing_headers.append({
-                        "path": path,
-                        "method": method.upper(),
-                        "status": status_code,
-                        "missing": list(missing),
-                    })
+                    missing_headers.append(
+                        {
+                            "path": path,
+                            "method": method.upper(),
+                            "status": status_code,
+                            "missing": list(missing),
+                        }
+                    )
 
     if missing_headers:
         print("❌ Missing X-RateLimit-* headers in OpenAPI spec:")

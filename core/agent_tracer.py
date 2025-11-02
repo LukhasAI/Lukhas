@@ -4,6 +4,7 @@ AI Agent Tracer for Swarm Telemetry
 Provides distributed tracing and telemetry for swarm agents and colonies
 with support for operations tracking, metrics collection, and observability.
 """
+
 import logging
 import time
 from contextlib import contextmanager
@@ -17,6 +18,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class TraceSpan:
     """Represents a traced operation span"""
+
     span_id: str
     agent_id: str
     operation: str
@@ -42,11 +44,7 @@ class TraceCollector:
 
     def __init__(self):
         self.spans: list[TraceSpan] = []
-        self.metrics: dict[str, Any] = {
-            "total_operations": 0,
-            "total_duration": 0.0,
-            "operations_by_type": {}
-        }
+        self.metrics: dict[str, Any] = {"total_operations": 0, "total_duration": 0.0, "operations_by_type": {}}
 
     def collect_span(self, span: TraceSpan) -> None:
         """Collect a completed trace span"""
@@ -58,17 +56,12 @@ class TraceCollector:
 
         op_type = span.operation
         if op_type not in self.metrics["operations_by_type"]:
-            self.metrics["operations_by_type"][op_type] = {
-                "count": 0,
-                "total_duration": 0.0
-            }
+            self.metrics["operations_by_type"][op_type] = {"count": 0, "total_duration": 0.0}
 
         self.metrics["operations_by_type"][op_type]["count"] += 1
         self.metrics["operations_by_type"][op_type]["total_duration"] += span.duration
 
-        logger.debug(
-            f"Trace collected: {span.agent_id} - {span.operation} ({span.duration:.4f}s)"
-        )
+        logger.debug(f"Trace collected: {span.agent_id} - {span.operation} ({span.duration:.4f}s)")
 
     def get_metrics(self) -> dict[str, Any]:
         """Get collected telemetry metrics"""
@@ -79,7 +72,7 @@ class TraceCollector:
                 self.metrics["total_duration"] / self.metrics["total_operations"]
                 if self.metrics["total_operations"] > 0
                 else 0.0
-            )
+            ),
         }
 
     def get_spans_for_agent(self, agent_id: str) -> list[TraceSpan]:
@@ -127,11 +120,7 @@ class AIAgentTracer:
         """
         span_id = f"span-{uuid4().hex[:8]}"
         span = TraceSpan(
-            span_id=span_id,
-            agent_id=agent_id,
-            operation=operation,
-            start_time=time.time(),
-            metadata=metadata
+            span_id=span_id, agent_id=agent_id, operation=operation, start_time=time.time(), metadata=metadata
         )
 
         self.active_spans[span_id] = span
@@ -152,12 +141,7 @@ class AIAgentTracer:
         agent_spans = self.collector.get_spans_for_agent(self.agent_id)
 
         if not agent_spans:
-            return {
-                "agent_id": self.agent_id,
-                "total_operations": 0,
-                "total_duration": 0.0,
-                "avg_duration": 0.0
-            }
+            return {"agent_id": self.agent_id, "total_operations": 0, "total_duration": 0.0, "avg_duration": 0.0}
 
         total_duration = sum(span.duration for span in agent_spans)
 
@@ -166,7 +150,7 @@ class AIAgentTracer:
             "total_operations": len(agent_spans),
             "total_duration": total_duration,
             "avg_duration": total_duration / len(agent_spans),
-            "active_operations": len(self.active_spans)
+            "active_operations": len(self.active_spans),
         }
 
 
@@ -188,10 +172,7 @@ class GlobalTracer:
         return {
             "collector_metrics": self.collector.get_metrics(),
             "total_agents": len(self.agent_tracers),
-            "agents": {
-                agent_id: tracer.get_metrics()
-                for agent_id, tracer in self.agent_tracers.items()
-            }
+            "agents": {agent_id: tracer.get_metrics() for agent_id, tracer in self.agent_tracers.items()},
         }
 
 

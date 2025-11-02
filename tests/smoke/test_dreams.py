@@ -7,6 +7,7 @@ Validates:
 - Stub vs real mode toggle readiness
 - Response format compliance
 """
+
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
@@ -28,11 +29,7 @@ def auth_headers():
 
 def test_dreams_happy_path(client, auth_headers):
     """Verify basic dreams endpoint functionality."""
-    response = client.post(
-        "/v1/dreams",
-        json={"seed": "flying", "constraints": {"max_depth": 3}},
-        headers=auth_headers
-    )
+    response = client.post("/v1/dreams", json={"seed": "flying", "constraints": {"max_depth": 3}}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -45,11 +42,7 @@ def test_dreams_happy_path(client, auth_headers):
 
 def test_dreams_minimal_payload(client, auth_headers):
     """Verify dreams works with minimal payload (defaults apply)."""
-    response = client.post(
-        "/v1/dreams",
-        json={},
-        headers=auth_headers
-    )
+    response = client.post("/v1/dreams", json={}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -61,11 +54,7 @@ def test_dreams_minimal_payload(client, auth_headers):
 
 def test_dreams_with_seed_only(client, auth_headers):
     """Verify dreams accepts seed without constraints."""
-    response = client.post(
-        "/v1/dreams",
-        json={"seed": "ocean waves"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/dreams", json={"seed": "ocean waves"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -77,19 +66,14 @@ def test_dreams_with_seed_only(client, auth_headers):
 
 def test_dreams_requires_auth(client):
     """Verify dreams endpoint requires authentication."""
-    response = client.post(
-        "/v1/dreams",
-        json={"seed": "test"}
-    )
+    response = client.post("/v1/dreams", json={"seed": "test"})
     assert response.status_code == 401
 
 
 def test_dreams_trace_structure(client, auth_headers):
     """Verify trace objects have expected structure."""
     response = client.post(
-        "/v1/dreams",
-        json={"seed": "lucid dream", "constraints": {"stability": 0.8}},
-        headers=auth_headers
+        "/v1/dreams", json={"seed": "lucid dream", "constraints": {"stability": 0.8}}, headers=auth_headers
     )
     assert response.status_code == 200
 
@@ -105,11 +89,7 @@ def test_dreams_trace_structure(client, auth_headers):
 
 def test_dreams_response_format(client, auth_headers):
     """Verify response matches expected schema."""
-    response = client.post(
-        "/v1/dreams",
-        json={"seed": "space exploration"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/dreams", json={"seed": "space exploration"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -128,16 +108,10 @@ def test_dreams_response_format(client, auth_headers):
 
 def test_dreams_constraints_handling(client, auth_headers):
     """Verify constraints are accepted and stored in response."""
-    constraints = {
-        "max_depth": 5,
-        "stability": 0.9,
-        "coherence_threshold": 0.7
-    }
+    constraints = {"max_depth": 5, "stability": 0.9, "coherence_threshold": 0.7}
 
     response = client.post(
-        "/v1/dreams",
-        json={"seed": "recursive dream", "constraints": constraints},
-        headers=auth_headers
+        "/v1/dreams", json={"seed": "recursive dream", "constraints": constraints}, headers=auth_headers
     )
     assert response.status_code == 200
 
@@ -149,11 +123,7 @@ def test_dreams_constraints_handling(client, auth_headers):
 
 def test_dreams_trace_id_header(client, auth_headers):
     """Verify X-Trace-Id header present when OTEL enabled."""
-    response = client.post(
-        "/v1/dreams",
-        json={"seed": "traced dream"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/dreams", json={"seed": "traced dream"}, headers=auth_headers)
 
     # X-Trace-Id may or may not be present depending on OTEL config
     # This test just verifies it doesn't break if present
@@ -165,11 +135,7 @@ def test_dreams_trace_id_header(client, auth_headers):
 
 def test_dreams_stub_mode_indicator(client, auth_headers):
     """Verify response indicates stub vs real mode."""
-    response = client.post(
-        "/v1/dreams",
-        json={"seed": "reality check"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/dreams", json={"seed": "reality check"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()

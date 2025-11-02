@@ -809,9 +809,7 @@ class RealTimeBrandValidator:
                 "performance_trend": (
                     "excellent"
                     if average_performance < 50
-                    else "good"
-                    if average_performance < 100
-                    else "needs_optimization"
+                    else "good" if average_performance < 100 else "needs_optimization"
                 ),
             },
         }

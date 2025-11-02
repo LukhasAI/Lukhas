@@ -24,6 +24,7 @@ try:
     from storage.events import Event, EventStore
 
     from core.consciousness_stream import ConsciousnessStream
+
     DEPS_AVAILABLE = True
 except ImportError:
     DEPS_AVAILABLE = False
@@ -50,8 +51,8 @@ class TestGovernanceCapabilities:
         # Test across multiple lanes for governance matrix
         test_cases = [
             ("experimental", "malicious_action", 0.9),  # High risk in experimental
-            ("labs", "action", 0.6),               # Medium risk in candidate
-            ("prod", "action", 0.3),                    # Low risk in prod (above threshold)
+            ("labs", "action", 0.6),  # Medium risk in candidate
+            ("prod", "action", 0.3),  # Low risk in prod (above threshold)
         ]
 
         for lane, event_kind, risk_level in test_cases:
@@ -61,10 +62,7 @@ class TestGovernanceCapabilities:
             decision = guard.check_replay(
                 event_kind=event_kind,
                 risk_level=risk_level,
-                payload={
-                    "risk_level": risk_level,
-                    "source": "capability_test"
-                }
+                payload={"risk_level": risk_level, "source": "capability_test"},
             )
 
             # Verify denial
@@ -72,10 +70,7 @@ class TestGovernanceCapabilities:
 
             # Verify deterministic logging
             log_entry = decision.to_log_entry()
-            expected_keys = {
-                "decision_id", "timestamp", "lane", "event_kind",
-                "result", "allow", "reason"
-            }
+            expected_keys = {"decision_id", "timestamp", "lane", "event_kind", "result", "allow", "reason"}
             assert set(log_entry.keys()) == expected_keys
 
             # Verify decision is logged
@@ -100,10 +95,7 @@ class TestGovernanceCapabilities:
         success metrics for allowed lanes.
         """
         # Test promotion from experimental -> candidate -> prod
-        promotion_chain = [
-            ("experimental", "labs"),
-            ("labs", "prod")
-        ]
+        promotion_chain = [("experimental", "labs"), ("labs", "prod")]
 
         for source_lane, target_lane in promotion_chain:
             # Create policy guards for both lanes
@@ -116,7 +108,7 @@ class TestGovernanceCapabilities:
                 decision = source_guard.check_replay(
                     event_kind="action",
                     risk_level=0.1,  # Very low risk
-                    payload={"stable_operation": True, "sequence": i}
+                    payload={"stable_operation": True, "sequence": i},
                 )
                 assert decision.allow, f"Stable operation should be allowed in {source_lane}"
 
@@ -129,11 +121,7 @@ class TestGovernanceCapabilities:
                 event_kind="action",
                 source_lane=source_lane,
                 risk_level=0.1,
-                payload={
-                    "promotion_candidate": True,
-                    "source_lane": source_lane,
-                    "target_lane": target_lane
-                }
+                payload={"promotion_candidate": True, "source_lane": source_lane, "target_lane": target_lane},
             )
 
             # Promotion should succeed for allowed hierarchy
@@ -161,7 +149,7 @@ class TestGovernanceCapabilities:
                 max_depth=2,
                 ops_budget_per_tick=20,
                 data_budget_per_tick_mb=5.0,
-                budget_window_seconds=10
+                budget_window_seconds=10,
             )
         }
         syncer = MemorySynchronizer(lane="experimental", custom_config=sync_config)
@@ -185,7 +173,7 @@ class TestGovernanceCapabilities:
                 source_lane="experimental",
                 target_lane="experimental",  # Same-lane to avoid fanout costs
                 fold_data=fold_data,
-                fold_id=f"test_fold_{i}"
+                fold_id=f"test_fold_{i}",
             )
 
             if result.result == SyncResult.SUCCESS:
@@ -209,7 +197,7 @@ class TestGovernanceCapabilities:
                 source_lane="experimental",
                 target_lane="experimental",
                 fold_data=idempotency_fold,
-                fold_id="idempotent_test"
+                fold_id="idempotent_test",
             )
             results.append(result)
 
@@ -237,31 +225,22 @@ class TestGovernanceCapabilities:
         test_event = {
             "fold_id": "governance_test",
             "content": {"approved_action": True},
-            "governance_metadata": {
-                "policy_version": "1.0.0",
-                "risk_assessment": 0.2
-            }
+            "governance_metadata": {"policy_version": "1.0.0", "risk_assessment": 0.2},
         }
 
         # Check policy decision
-        policy_decision = policy_guard.check_replay(
-            event_kind="action",
-            risk_level=0.2,
-            payload=test_event
-        )
+        policy_decision = policy_guard.check_replay(event_kind="action", risk_level=0.2, payload=test_event)
 
         # If policy allows, memory sync should also succeed (coherence)
         if policy_decision.allow:
             sync_result = memory_syncer.sync_fold(
-                source_lane="labs",
-                target_lane="labs",
-                fold_data=test_event,
-                fold_id="governance_test"
+                source_lane="labs", target_lane="labs", fold_data=test_event, fold_id="governance_test"
             )
 
             # Coherence requirement: policy allow ⟹ sync success (under normal conditions)
-            assert sync_result.result == SyncResult.SUCCESS, \
-                "Memory sync should succeed when policy allows (coherence requirement)"
+            assert (
+                sync_result.result == SyncResult.SUCCESS
+            ), "Memory sync should succeed when policy allows (coherence requirement)"
 
         # Test governance audit trail
         policy_log = policy_guard.get_decision_log()
@@ -297,11 +276,7 @@ class TestGovernanceCapabilities:
         for i in range(num_policy_tests):
             start_time = time.perf_counter()
 
-            decision = policy_guard.check_replay(
-                event_kind="action",
-                risk_level=0.1,
-                payload={"perf_test": i}
-            )
+            decision = policy_guard.check_replay(event_kind="action", risk_level=0.1, payload={"perf_test": i})
 
             duration_ms = (time.perf_counter() - start_time) * 1000
             policy_durations.append(duration_ms)
@@ -310,8 +285,7 @@ class TestGovernanceCapabilities:
 
         # Policy decision performance budget: < 10ms average
         avg_policy_duration = sum(policy_durations) / len(policy_durations)
-        assert avg_policy_duration < 10.0, \
-            f"Policy decisions averaged {avg_policy_duration:.2f}ms, expected < 10ms"
+        assert avg_policy_duration < 10.0, f"Policy decisions averaged {avg_policy_duration:.2f}ms, expected < 10ms"
 
         # Test memory sync performance
         sync_durations = []
@@ -323,10 +297,7 @@ class TestGovernanceCapabilities:
             start_time = time.perf_counter()
 
             result = memory_syncer.sync_fold(
-                source_lane="experimental",
-                target_lane="experimental",
-                fold_data=fold_data,
-                fold_id=f"perf_test_{i}"
+                source_lane="experimental", target_lane="experimental", fold_data=fold_data, fold_id=f"perf_test_{i}"
             )
 
             duration_ms = (time.perf_counter() - start_time) * 1000
@@ -336,8 +307,7 @@ class TestGovernanceCapabilities:
 
         # Memory sync performance budget: < 5ms average
         avg_sync_duration = sum(sync_durations) / len(sync_durations)
-        assert avg_sync_duration < 5.0, \
-            f"Memory sync averaged {avg_sync_duration:.2f}ms, expected < 5ms"
+        assert avg_sync_duration < 5.0, f"Memory sync averaged {avg_sync_duration:.2f}ms, expected < 5ms"
 
         # End-to-end flow performance budget: < 50ms p95
         e2e_durations = []
@@ -349,18 +319,11 @@ class TestGovernanceCapabilities:
             start_time = time.perf_counter()
 
             # Policy check + Memory sync (end-to-end governance flow)
-            policy_decision = policy_guard.check_replay(
-                event_kind="action",
-                risk_level=0.1,
-                payload=fold_data
-            )
+            policy_decision = policy_guard.check_replay(event_kind="action", risk_level=0.1, payload=fold_data)
 
             if policy_decision.allow:
                 sync_result = memory_syncer.sync_fold(
-                    source_lane="experimental",
-                    target_lane="experimental",
-                    fold_data=fold_data,
-                    fold_id=f"e2e_test_{i}"
+                    source_lane="experimental", target_lane="experimental", fold_data=fold_data, fold_id=f"e2e_test_{i}"
                 )
                 assert sync_result.result == SyncResult.SUCCESS
 
@@ -372,8 +335,7 @@ class TestGovernanceCapabilities:
         p95_index = int(0.95 * len(e2e_durations))
         p95_duration = e2e_durations[p95_index] if e2e_durations else 0.0
 
-        assert p95_duration < 50.0, \
-            f"End-to-end governance p95 was {p95_duration:.2f}ms, expected < 50ms"
+        assert p95_duration < 50.0, f"End-to-end governance p95 was {p95_duration:.2f}ms, expected < 50ms"
 
     @pytest.mark.capability
     @pytest.mark.skipif(not DEPS_AVAILABLE, reason="Integration dependencies not available")
@@ -397,10 +359,7 @@ class TestGovernanceCapabilities:
         # Test policy decisions on consciousness events
         governance_decisions = []
         for event in events:
-            decision = policy_guard.check_replay(
-                event_kind=event.kind,
-                payload=event.payload
-            )
+            decision = policy_guard.check_replay(event_kind=event.kind, payload=event.payload)
             governance_decisions.append(decision)
 
         # Verify governance decisions were made
@@ -423,15 +382,12 @@ class TestGovernanceCapabilities:
 
         # Generate policy decisions that will create metrics
         policy_guard.check_replay(event_kind="action", risk_level=0.1)  # Allow
-        policy_guard.check_replay(event_kind="malicious_action")        # Deny
+        policy_guard.check_replay(event_kind="malicious_action")  # Deny
 
         # Generate sync operations that will create metrics
         fold_data = {"fold_id": "metrics_test", "content": {"data": "test"}}
         memory_syncer.sync_fold(
-            source_lane="experimental",
-            target_lane="experimental",
-            fold_data=fold_data,
-            fold_id="metrics_test"
+            source_lane="experimental", target_lane="experimental", fold_data=fold_data, fold_id="metrics_test"
         )
 
         # Verify policy statistics are tracked
@@ -463,16 +419,13 @@ class TestGovernanceCapabilities:
 
         # Test cross-lane promotion attempts
         promotion_scenarios = [
-            ("experimental", candidate_guard, True),   # Should succeed
-            ("prod", candidate_guard, False),          # Should fail (wrong direction)
+            ("experimental", candidate_guard, True),  # Should succeed
+            ("prod", candidate_guard, False),  # Should fail (wrong direction)
         ]
 
         for source_lane, target_guard, should_succeed in promotion_scenarios:
             decision = target_guard.check_replay(
-                event_kind="action",
-                source_lane=source_lane,
-                risk_level=0.1,
-                payload={"promotion_test": True}
+                event_kind="action", source_lane=source_lane, risk_level=0.1, payload={"promotion_test": True}
             )
 
             if should_succeed:

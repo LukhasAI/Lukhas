@@ -2,6 +2,7 @@
 Signed permalink generation and verification for audit trails.
 Provides short-lived HMAC tokens tied to viewer identity.
 """
+
 import hmac
 import os
 import time

@@ -16,8 +16,14 @@ def run(cmd, stdin=None, check=True):
         raise SystemExit(res.returncode)
     return res.stdout.strip()
 
-def exists(p): return pathlib.Path(p).exists()
-def tool_exists(tool_path): return pathlib.Path(tool_path).exists()
+
+def exists(p):
+    return pathlib.Path(p).exists()
+
+
+def tool_exists(tool_path):
+    return pathlib.Path(tool_path).exists()
+
 
 def main():
     print("🧪 Starting MCP self-test...")
@@ -32,7 +38,7 @@ def main():
     print("1️⃣ Testing frontmatter guard...")
     if tool_exists("tools/docs_frontmatter_guard.py"):
         try:
-            run(["python3","tools/docs_frontmatter_guard.py","--require","module,kind,owner,version"], check=False)
+            run(["python3", "tools/docs_frontmatter_guard.py", "--require", "module,kind,owner,version"], check=False)
             print("✅ Frontmatter guard completed")
         except Exception as e:
             failures.append(("frontmatter_guard", str(e)))
@@ -44,9 +50,9 @@ def main():
     print("2️⃣ Testing docs registry...")
     if tool_exists("tools/doc_registry_builder.py"):
         try:
-            run(["python3","tools/doc_registry_builder.py","--refresh","--emit-badges","--fail-on-missing"])
+            run(["python3", "tools/doc_registry_builder.py", "--refresh", "--emit-badges", "--fail-on-missing"])
             if not exists("artifacts/module.docs.registry.json"):
-                failures.append(("doc_registry","missing artifacts/module.docs.registry.json"))
+                failures.append(("doc_registry", "missing artifacts/module.docs.registry.json"))
             else:
                 print("✅ Docs registry completed")
         except Exception as e:
@@ -57,21 +63,23 @@ def main():
 
     # Skip manifest tests for now since they don't exist
     print("3️⃣ Skipping manifest tools (not implemented)")
-    skipped.extend(["manifest_validate.py", "manifest_lock_hydrator.py", "manifest_indexer.py", "promotion_selector.py"])
+    skipped.extend(
+        ["manifest_validate.py", "manifest_lock_hydrator.py", "manifest_indexer.py", "promotion_selector.py"]
+    )
 
     # 5) Audit export (minimal test)
     print("4️⃣ Testing audit export...")
     try:
         # Create a minimal audit system mock if it doesn't exist
-        audit_test = '''
+        audit_test = """
 import sys, json, pathlib
 out = sys.argv[1] if len(sys.argv) > 1 else "artifacts/audit_export.json"
 pathlib.Path(out).write_text('{"audit_events": [], "timestamp": "2025-10-05T00:00:00Z"}')
 print(out)
-'''
+"""
         run(["python3", "-c", audit_test])
         if not exists("artifacts/audit_export.json"):
-            failures.append(("audit_export","missing artifacts/audit_export.json"))
+            failures.append(("audit_export", "missing artifacts/audit_export.json"))
         else:
             print("✅ Audit export completed")
     except Exception as e:
@@ -94,6 +102,7 @@ print(out)
         print("\n✅ MCP self-test PASSED (all available tools functional)")
         print("🎯 MCP readiness validated!")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

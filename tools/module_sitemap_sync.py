@@ -75,11 +75,12 @@ DIFF_MD = ARTIFACTS_DIR / "module_sitemap.diff.md"
 SYNC_JSON = ARTIFACTS_DIR / "module_sitemap.sync.json"
 
 REQUIRED_DIRS = ["docs", "tests", "config", "schema"]
-MANIFEST_FILENAME = "module.json"                 # formerly directory_index.json
-MODULE_SCHEMA_FILENAME = "module_schema.json"     # per-module descriptor (NOT JSON-Schema meta)
+MANIFEST_FILENAME = "module.json"  # formerly directory_index.json
+MODULE_SCHEMA_FILENAME = "module_schema.json"  # per-module descriptor (NOT JSON-Schema meta)
 README_STUB = "# Placeholder\n\nThis stub is created by module_sitemap_sync.py. Replace with real content."
 
 LANES = ["L0", "L1", "L2", "L3", "L4", "L5"]
+
 
 # Attempt to detect MATRIZ contract naming convention
 def _guess_matriz_contract(mod_dir: Path) -> Optional[str]:
@@ -96,14 +97,17 @@ def _guess_matriz_contract(mod_dir: Path) -> Optional[str]:
         return p.name
     return None
 
+
 def _stable_module_id(module_name: str, root: Path) -> str:
     h = hashlib.sha256()
     h.update(module_name.encode("utf-8"))
     h.update(str(root.resolve()).encode("utf-8"))
     return f"mod-{h.hexdigest()[:16]}"
 
+
 def _utc_ts() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
 
 def _load_json(p: Path) -> Optional[Dict[str, Any]]:
     try:
@@ -114,11 +118,13 @@ def _load_json(p: Path) -> Optional[Dict[str, Any]]:
     except Exception:
         return None
 
+
 def _dump_json(p: Path, obj: Dict[str, Any]) -> None:
     p.parent.mkdir(parents=True, exist_ok=True)
     with p.open("w", encoding="utf-8") as f:
         json.dump(obj, f, indent=2, sort_keys=False)
         f.write("\n")
+
 
 def _ensure_dirs(mod_dir: Path, write: bool, diffs: List[str]) -> Dict[str, bool]:
     created = {}
@@ -136,6 +142,7 @@ def _ensure_dirs(mod_dir: Path, write: bool, diffs: List[str]) -> Dict[str, bool
             created[d] = False
     return created
 
+
 def _merge(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
     """
     Shallow merge: preserve values in a; fill missing from b. Never delete keys.
@@ -145,6 +152,7 @@ def _merge(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
         if k not in out or out[k] in (None, "", [], {}):
             out[k] = v
     return out
+
 
 def _manifest_defaults(module_name: str, mod_dir: Path, root: Path) -> Dict[str, Any]:
     matriz_contract = _guess_matriz_contract(mod_dir)
@@ -161,14 +169,12 @@ def _manifest_defaults(module_name: str, mod_dir: Path, root: Path) -> Dict[str,
         # 0.01% enrichments
         "module_id": _stable_module_id(module_name, root),
         "matriz_ready": bool(matriz_contract),
-        "provenance": {
-            "created_at": _utc_ts(),
-            "updated_at": _utc_ts()
-        },
+        "provenance": {"created_at": _utc_ts(), "updated_at": _utc_ts()},
         "imports_validated": False,
         "dependencies": [],
-        "contracts": [matriz_contract] if matriz_contract else []
+        "contracts": [matriz_contract] if matriz_contract else [],
     }
+
 
 def _module_schema_defaults(module_name: str) -> Dict[str, Any]:
     """
@@ -180,23 +186,12 @@ def _module_schema_defaults(module_name: str) -> Dict[str, Any]:
         "schema_version": "1.0.0",
         "layout": {
             "code_layout": "package-root",
-            "paths": {
-                "code": ".",
-                "config": "config/",
-                "tests": "tests/",
-                "docs": "docs/",
-                "assets": "assets/"
-            }
+            "paths": {"code": ".", "config": "config/", "tests": "tests/", "docs": "docs/", "assets": "assets/"},
         },
-        "runtime": {
-            "language": "python",
-            "entrypoints": []
-        },
-        "observability": {
-            "required_spans": [],
-            "otel_semconv_version": "1.37.0"
-        }
+        "runtime": {"language": "python", "entrypoints": []},
+        "observability": {"required_spans": [], "otel_semconv_version": "1.37.0"},
     }
+
 
 def _normalize_module(mod_dir: Path, root: Path, write: bool) -> Tuple[bool, Dict[str, Any], List[str]]:
     """
@@ -306,9 +301,8 @@ def run(root: Path, write: bool, validate_only: bool) -> int:
     DIFF_MD.write_text(
         "# Module Sitemap Sync — Diff Report\n\n"
         f"- root: `{root.as_posix()}`\n"
-        f"- generated_at: `{_utc_ts()}`\n\n"
-        + ("\n".join(all_diffs) if all_diffs else "_No changes_\n"),
-        encoding="utf-8"
+        f"- generated_at: `{_utc_ts()}`\n\n" + ("\n".join(all_diffs) if all_diffs else "_No changes_\n"),
+        encoding="utf-8",
     )
 
     # Validation mode: fail if any problems

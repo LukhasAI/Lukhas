@@ -49,14 +49,16 @@ logger = logging.getLogger(__name__)
 
 class ValidationTier(Enum):
     """Validation tier levels"""
-    SYNTAX = 1          # Basic structure validation
-    SEMANTIC = 2        # Field relationships and constraints
+
+    SYNTAX = 1  # Basic structure validation
+    SEMANTIC = 2  # Field relationships and constraints
     BUSINESS_LOGIC = 3  # Domain-specific rules
     CONSTITUTIONAL = 4  # Constitutional AI compliance
 
 
 class ValidationSeverity(Enum):
     """Validation error severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -65,6 +67,7 @@ class ValidationSeverity(Enum):
 
 class ValidationType(Enum):
     """Types of validation checks"""
+
     REQUIRED_FIELD = "required_field"
     TYPE_CHECK = "type_check"
     FORMAT_CHECK = "format_check"
@@ -80,6 +83,7 @@ class ValidationType(Enum):
 @dataclass
 class ValidationIssue:
     """Individual validation issue"""
+
     tier: ValidationTier
     severity: ValidationSeverity
     validation_type: ValidationType
@@ -93,6 +97,7 @@ class ValidationIssue:
 @dataclass
 class ValidationContext:
     """Context for validation operations"""
+
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     schema_id: Optional[str] = None
     schema_version: Optional[str] = None
@@ -105,6 +110,7 @@ class ValidationContext:
 @dataclass
 class ValidationResult:
     """Result of validation operation"""
+
     is_valid: bool
     issues: List[ValidationIssue] = field(default_factory=list)
     validation_time_ms: float = 0.0
@@ -115,8 +121,7 @@ class ValidationResult:
 
     def has_errors(self) -> bool:
         """Check if result has any errors"""
-        return any(issue.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL)
-                  for issue in self.issues)
+        return any(issue.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL) for issue in self.issues)
 
     def has_critical_errors(self) -> bool:
         """Check if result has critical errors"""
@@ -124,8 +129,9 @@ class ValidationResult:
 
     def get_errors(self) -> List[ValidationIssue]:
         """Get all error-level issues"""
-        return [issue for issue in self.issues
-                if issue.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL)]
+        return [
+            issue for issue in self.issues if issue.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL)
+        ]
 
     def get_warnings(self) -> List[ValidationIssue]:
         """Get all warning-level issues"""
@@ -158,8 +164,14 @@ class SyntaxValidator(Validator):
     def __init__(self):
         self.required_fields = {
             "guardian_decision": {
-                "schema_version", "decision", "subject", "context",
-                "metrics", "enforcement", "audit", "integrity"
+                "schema_version",
+                "decision",
+                "subject",
+                "context",
+                "metrics",
+                "enforcement",
+                "audit",
+                "integrity",
             }
         }
         self.type_mappings = {
@@ -168,7 +180,7 @@ class SyntaxValidator(Validator):
             float: ["number"],
             bool: ["boolean"],
             list: ["array"],
-            dict: ["object"]
+            dict: ["object"],
         }
 
     def validate(self, data: Any, context: ValidationContext) -> List[ValidationIssue]:
@@ -176,14 +188,16 @@ class SyntaxValidator(Validator):
         issues = []
 
         if not isinstance(data, dict):
-            issues.append(ValidationIssue(
-                tier=ValidationTier.SYNTAX,
-                severity=ValidationSeverity.CRITICAL,
-                validation_type=ValidationType.TYPE_CHECK,
-                field_path="$",
-                message="Root data must be an object",
-                suggestion="Ensure data is a dictionary/object structure"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.SYNTAX,
+                    severity=ValidationSeverity.CRITICAL,
+                    validation_type=ValidationType.TYPE_CHECK,
+                    field_path="$",
+                    message="Root data must be an object",
+                    suggestion="Ensure data is a dictionary/object structure",
+                )
+            )
             return issues
 
         # Check required fields
@@ -191,14 +205,16 @@ class SyntaxValidator(Validator):
         if schema_id in self.required_fields:
             for field in self.required_fields[schema_id]:
                 if field not in data:
-                    issues.append(ValidationIssue(
-                        tier=ValidationTier.SYNTAX,
-                        severity=ValidationSeverity.ERROR,
-                        validation_type=ValidationType.REQUIRED_FIELD,
-                        field_path=field,
-                        message=f"Required field '{field}' is missing",
-                        suggestion=f"Add required field '{field}' to the data"
-                    ))
+                    issues.append(
+                        ValidationIssue(
+                            tier=ValidationTier.SYNTAX,
+                            severity=ValidationSeverity.ERROR,
+                            validation_type=ValidationType.REQUIRED_FIELD,
+                            field_path=field,
+                            message=f"Required field '{field}' is missing",
+                            suggestion=f"Add required field '{field}' to the data",
+                        )
+                    )
 
         # Validate Guardian-specific structure
         if "decision" in data:
@@ -222,7 +238,7 @@ class SyntaxValidator(Validator):
             ValidationType.REQUIRED_FIELD,
             ValidationType.TYPE_CHECK,
             ValidationType.FORMAT_CHECK,
-            ValidationType.ENUM_CHECK
+            ValidationType.ENUM_CHECK,
         }
 
     def _validate_decision_structure(self, decision: Any) -> List[ValidationIssue]:
@@ -230,40 +246,46 @@ class SyntaxValidator(Validator):
         issues = []
 
         if not isinstance(decision, dict):
-            issues.append(ValidationIssue(
-                tier=ValidationTier.SYNTAX,
-                severity=ValidationSeverity.ERROR,
-                validation_type=ValidationType.TYPE_CHECK,
-                field_path="decision",
-                message="Decision must be an object",
-                suggestion="Ensure decision is a dictionary structure"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.SYNTAX,
+                    severity=ValidationSeverity.ERROR,
+                    validation_type=ValidationType.TYPE_CHECK,
+                    field_path="decision",
+                    message="Decision must be an object",
+                    suggestion="Ensure decision is a dictionary structure",
+                )
+            )
             return issues
 
         # Check required decision fields
         required_decision_fields = {"status", "policy", "timestamp"}
         for field in required_decision_fields:
             if field not in decision:
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.SYNTAX,
-                    severity=ValidationSeverity.ERROR,
-                    validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"decision.{field}",
-                    message=f"Decision field '{field}' is required"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.SYNTAX,
+                        severity=ValidationSeverity.ERROR,
+                        validation_type=ValidationType.REQUIRED_FIELD,
+                        field_path=f"decision.{field}",
+                        message=f"Decision field '{field}' is required",
+                    )
+                )
 
         # Validate status enum
         if "status" in decision:
             valid_statuses = {"allow", "deny", "challenge", "quarantine", "error"}
             if decision["status"] not in valid_statuses:
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.SYNTAX,
-                    severity=ValidationSeverity.ERROR,
-                    validation_type=ValidationType.ENUM_CHECK,
-                    field_path="decision.status",
-                    message=f"Invalid decision status: {decision['status']}",
-                    suggestion=f"Use one of: {', '.join(valid_statuses)}"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.SYNTAX,
+                        severity=ValidationSeverity.ERROR,
+                        validation_type=ValidationType.ENUM_CHECK,
+                        field_path="decision.status",
+                        message=f"Invalid decision status: {decision['status']}",
+                        suggestion=f"Use one of: {', '.join(valid_statuses)}",
+                    )
+                )
 
         return issues
 
@@ -272,47 +294,55 @@ class SyntaxValidator(Validator):
         issues = []
 
         if not isinstance(subject, dict):
-            issues.append(ValidationIssue(
-                tier=ValidationTier.SYNTAX,
-                severity=ValidationSeverity.ERROR,
-                validation_type=ValidationType.TYPE_CHECK,
-                field_path="subject",
-                message="Subject must be an object"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.SYNTAX,
+                    severity=ValidationSeverity.ERROR,
+                    validation_type=ValidationType.TYPE_CHECK,
+                    field_path="subject",
+                    message="Subject must be an object",
+                )
+            )
             return issues
 
         # Check required subject fields
         required_subject_fields = {"correlation_id", "actor", "operation"}
         for field in required_subject_fields:
             if field not in subject:
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.SYNTAX,
-                    severity=ValidationSeverity.ERROR,
-                    validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"subject.{field}",
-                    message=f"Subject field '{field}' is required"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.SYNTAX,
+                        severity=ValidationSeverity.ERROR,
+                        validation_type=ValidationType.REQUIRED_FIELD,
+                        field_path=f"subject.{field}",
+                        message=f"Subject field '{field}' is required",
+                    )
+                )
 
         # Validate correlation_id pattern
         if "correlation_id" in subject:
             correlation_id = subject["correlation_id"]
             if not isinstance(correlation_id, str):
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.SYNTAX,
-                    severity=ValidationSeverity.ERROR,
-                    validation_type=ValidationType.TYPE_CHECK,
-                    field_path="subject.correlation_id",
-                    message="Correlation ID must be a string"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.SYNTAX,
+                        severity=ValidationSeverity.ERROR,
+                        validation_type=ValidationType.TYPE_CHECK,
+                        field_path="subject.correlation_id",
+                        message="Correlation ID must be a string",
+                    )
+                )
             elif not re.match(r"^[a-f0-9\-]{16,64}$", correlation_id):
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.SYNTAX,
-                    severity=ValidationSeverity.ERROR,
-                    validation_type=ValidationType.PATTERN_CHECK,
-                    field_path="subject.correlation_id",
-                    message="Invalid correlation ID format",
-                    suggestion="Use hexadecimal format with hyphens, 16-64 characters"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.SYNTAX,
+                        severity=ValidationSeverity.ERROR,
+                        validation_type=ValidationType.PATTERN_CHECK,
+                        field_path="subject.correlation_id",
+                        message="Invalid correlation ID format",
+                        suggestion="Use hexadecimal format with hyphens, 16-64 characters",
+                    )
+                )
 
         return issues
 
@@ -341,11 +371,7 @@ class SemanticValidator(Validator):
     @property
     def validation_types(self) -> Set[ValidationType]:
         """Get supported validation types"""
-        return {
-            ValidationType.DEPENDENCY_CHECK,
-            ValidationType.RANGE_CHECK,
-            ValidationType.FORMAT_CHECK
-        }
+        return {ValidationType.DEPENDENCY_CHECK, ValidationType.RANGE_CHECK, ValidationType.FORMAT_CHECK}
 
     def _validate_decision_consistency(self, data: Dict[str, Any]) -> List[ValidationIssue]:
         """Validate decision field consistency"""
@@ -358,26 +384,29 @@ class SemanticValidator(Validator):
 
         # If status is 'deny', reasons should be provided
         if decision.get("status") == "deny" and not data.get("reasons"):
-            issues.append(ValidationIssue(
-                tier=ValidationTier.SEMANTIC,
-                severity=ValidationSeverity.WARNING,
-                validation_type=ValidationType.DEPENDENCY_CHECK,
-                field_path="reasons",
-                message="Denial decisions should include reasoning",
-                suggestion="Add reasons array to explain denial"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.SEMANTIC,
+                    severity=ValidationSeverity.WARNING,
+                    validation_type=ValidationType.DEPENDENCY_CHECK,
+                    field_path="reasons",
+                    message="Denial decisions should include reasoning",
+                    suggestion="Add reasons array to explain denial",
+                )
+            )
 
         # If severity is 'critical', enforcement should be active
-        if (decision.get("severity") == "critical" and
-            data.get("enforcement", {}).get("mode") == "dark"):
-            issues.append(ValidationIssue(
-                tier=ValidationTier.SEMANTIC,
-                severity=ValidationSeverity.WARNING,
-                validation_type=ValidationType.DEPENDENCY_CHECK,
-                field_path="enforcement.mode",
-                message="Critical severity should use active enforcement",
-                suggestion="Consider using 'enforced' mode for critical decisions"
-            ))
+        if decision.get("severity") == "critical" and data.get("enforcement", {}).get("mode") == "dark":
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.SEMANTIC,
+                    severity=ValidationSeverity.WARNING,
+                    validation_type=ValidationType.DEPENDENCY_CHECK,
+                    field_path="enforcement.mode",
+                    message="Critical severity should use active enforcement",
+                    suggestion="Consider using 'enforced' mode for critical decisions",
+                )
+            )
 
         return issues
 
@@ -390,20 +419,22 @@ class SemanticValidator(Validator):
 
         if decision_timestamp and audit_timestamp:
             try:
-                decision_dt = datetime.fromisoformat(decision_timestamp.replace('Z', '+00:00'))
-                audit_dt = datetime.fromisoformat(audit_timestamp.replace('Z', '+00:00'))
+                decision_dt = datetime.fromisoformat(decision_timestamp.replace("Z", "+00:00"))
+                audit_dt = datetime.fromisoformat(audit_timestamp.replace("Z", "+00:00"))
 
                 # Audit timestamp should be close to decision timestamp
                 time_diff = abs((audit_dt - decision_dt).total_seconds())
                 if time_diff > 60:  # More than 1 minute difference
-                    issues.append(ValidationIssue(
-                        tier=ValidationTier.SEMANTIC,
-                        severity=ValidationSeverity.WARNING,
-                        validation_type=ValidationType.DEPENDENCY_CHECK,
-                        field_path="audit.timestamp",
-                        message="Audit timestamp differs significantly from decision timestamp",
-                        details={"time_difference_seconds": time_diff}
-                    ))
+                    issues.append(
+                        ValidationIssue(
+                            tier=ValidationTier.SEMANTIC,
+                            severity=ValidationSeverity.WARNING,
+                            validation_type=ValidationType.DEPENDENCY_CHECK,
+                            field_path="audit.timestamp",
+                            message="Audit timestamp differs significantly from decision timestamp",
+                            details={"time_difference_seconds": time_diff},
+                        )
+                    )
 
             except (ValueError, TypeError):
                 # Timestamp format issues would be caught in syntax validation
@@ -424,27 +455,31 @@ class SemanticValidator(Validator):
         drift_score = metrics.get("drift_score", 0)
 
         if risk_score > 0.8 and drift_score < 0.1:
-            issues.append(ValidationIssue(
-                tier=ValidationTier.SEMANTIC,
-                severity=ValidationSeverity.WARNING,
-                validation_type=ValidationType.DEPENDENCY_CHECK,
-                field_path="metrics",
-                message="High risk score with low drift score may indicate issue",
-                details={"risk_score": risk_score, "drift_score": drift_score}
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.SEMANTIC,
+                    severity=ValidationSeverity.WARNING,
+                    validation_type=ValidationType.DEPENDENCY_CHECK,
+                    field_path="metrics",
+                    message="High risk score with low drift score may indicate issue",
+                    details={"risk_score": risk_score, "drift_score": drift_score},
+                )
+            )
 
         # Latency should be reasonable
         latency_ms = metrics.get("latency_ms", 0)
         if latency_ms > 5000:  # More than 5 seconds
-            issues.append(ValidationIssue(
-                tier=ValidationTier.SEMANTIC,
-                severity=ValidationSeverity.WARNING,
-                validation_type=ValidationType.RANGE_CHECK,
-                field_path="metrics.latency_ms",
-                message="Unusually high latency detected",
-                details={"latency_ms": latency_ms},
-                suggestion="Investigate performance bottlenecks"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.SEMANTIC,
+                    severity=ValidationSeverity.WARNING,
+                    validation_type=ValidationType.RANGE_CHECK,
+                    field_path="metrics.latency_ms",
+                    message="Unusually high latency detected",
+                    details={"latency_ms": latency_ms},
+                    suggestion="Investigate performance bottlenecks",
+                )
+            )
 
         return issues
 
@@ -469,13 +504,15 @@ class BusinessLogicValidator(Validator):
                 if rule_issues:
                     issues.extend(rule_issues)
             except Exception as e:
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.BUSINESS_LOGIC,
-                    severity=ValidationSeverity.ERROR,
-                    validation_type=ValidationType.BUSINESS_RULE,
-                    field_path="$",
-                    message=f"Business rule '{rule_name}' failed: {str(e)}"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.BUSINESS_LOGIC,
+                        severity=ValidationSeverity.ERROR,
+                        validation_type=ValidationType.BUSINESS_RULE,
+                        field_path="$",
+                        message=f"Business rule '{rule_name}' failed: {str(e)}",
+                    )
+                )
 
         return issues
 
@@ -508,14 +545,16 @@ class BusinessLogicValidator(Validator):
         if operation.get("name") in ["system_shutdown", "emergency_override", "policy_override"]:
             actor_tier = actor.get("tier", "T1")
             if actor_tier not in ["T4", "T5"]:
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.BUSINESS_LOGIC,
-                    severity=ValidationSeverity.ERROR,
-                    validation_type=ValidationType.BUSINESS_RULE,
-                    field_path="subject.actor.tier",
-                    message=f"Operation '{operation['name']}' requires T4 or T5 actor, got {actor_tier}",
-                    suggestion="Ensure actor has appropriate tier for requested operation"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.BUSINESS_LOGIC,
+                        severity=ValidationSeverity.ERROR,
+                        validation_type=ValidationType.BUSINESS_RULE,
+                        field_path="subject.actor.tier",
+                        message=f"Operation '{operation['name']}' requires T4 or T5 actor, got {actor_tier}",
+                        suggestion="Ensure actor has appropriate tier for requested operation",
+                    )
+                )
 
         return issues
 
@@ -529,15 +568,17 @@ class BusinessLogicValidator(Validator):
 
         # Production lane should have stable canary percentage
         if lane == "production" and canary_percent > 0 and canary_percent < 100:
-            issues.append(ValidationIssue(
-                tier=ValidationTier.BUSINESS_LOGIC,
-                severity=ValidationSeverity.WARNING,
-                validation_type=ValidationType.BUSINESS_RULE,
-                field_path="subject.canary_percent",
-                message="Production lane with partial canary deployment",
-                details={"lane": lane, "canary_percent": canary_percent},
-                suggestion="Consider full rollout for production lane"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.BUSINESS_LOGIC,
+                    severity=ValidationSeverity.WARNING,
+                    validation_type=ValidationType.BUSINESS_RULE,
+                    field_path="subject.canary_percent",
+                    message="Production lane with partial canary deployment",
+                    details={"lane": lane, "canary_percent": canary_percent},
+                    suggestion="Consider full rollout for production lane",
+                )
+            )
 
         return issues
 
@@ -551,15 +592,17 @@ class BusinessLogicValidator(Validator):
         if quota_remaining is not None and quota_remaining < 10:
             decision_status = data.get("decision", {}).get("status")
             if decision_status == "allow":
-                issues.append(ValidationIssue(
-                    tier=ValidationTier.BUSINESS_LOGIC,
-                    severity=ValidationSeverity.WARNING,
-                    validation_type=ValidationType.BUSINESS_RULE,
-                    field_path="metrics.quota_remaining",
-                    message="Low quota remaining for allow decision",
-                    details={"quota_remaining": quota_remaining},
-                    suggestion="Consider rate limiting or quota increase"
-                ))
+                issues.append(
+                    ValidationIssue(
+                        tier=ValidationTier.BUSINESS_LOGIC,
+                        severity=ValidationSeverity.WARNING,
+                        validation_type=ValidationType.BUSINESS_RULE,
+                        field_path="metrics.quota_remaining",
+                        message="Low quota remaining for allow decision",
+                        details={"quota_remaining": quota_remaining},
+                        suggestion="Consider rate limiting or quota increase",
+                    )
+                )
 
         return issues
 
@@ -604,7 +647,7 @@ class ConstitutionalAIValidator(Validator):
             "safety",
             "human_dignity",
             "beneficence",
-            "non_maleficence"
+            "non_maleficence",
         ]
 
     def _load_ethical_guidelines(self) -> Dict[str, Any]:
@@ -614,7 +657,7 @@ class ConstitutionalAIValidator(Validator):
             "bias_prevention": "Decisions should be free from unfair bias",
             "privacy_protection": "User privacy must be protected",
             "safety_first": "Safety concerns take precedence",
-            "human_oversight": "Critical decisions require human oversight"
+            "human_oversight": "Critical decisions require human oversight",
         }
 
     def _validate_constitutional_compliance(self, data: Dict[str, Any]) -> List[ValidationIssue]:
@@ -626,25 +669,29 @@ class ConstitutionalAIValidator(Validator):
         reasons = data.get("reasons", [])
 
         if decision_status in ["deny", "quarantine"] and not reasons:
-            issues.append(ValidationIssue(
-                tier=ValidationTier.CONSTITUTIONAL,
-                severity=ValidationSeverity.ERROR,
-                validation_type=ValidationType.CONSTITUTIONAL_AI,
-                field_path="reasons",
-                message="Transparency principle violation: restrictive decisions must include reasoning",
-                suggestion="Add detailed reasons for deny/quarantine decisions"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.CONSTITUTIONAL,
+                    severity=ValidationSeverity.ERROR,
+                    validation_type=ValidationType.CONSTITUTIONAL_AI,
+                    field_path="reasons",
+                    message="Transparency principle violation: restrictive decisions must include reasoning",
+                    suggestion="Add detailed reasons for deny/quarantine decisions",
+                )
+            )
 
         # Check for accountability (audit trail)
         if "audit" not in data or not data["audit"].get("event_id"):
-            issues.append(ValidationIssue(
-                tier=ValidationTier.CONSTITUTIONAL,
-                severity=ValidationSeverity.ERROR,
-                validation_type=ValidationType.CONSTITUTIONAL_AI,
-                field_path="audit",
-                message="Accountability principle violation: missing audit trail",
-                suggestion="Ensure complete audit trail with event ID"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.CONSTITUTIONAL,
+                    severity=ValidationSeverity.ERROR,
+                    validation_type=ValidationType.CONSTITUTIONAL_AI,
+                    field_path="audit",
+                    message="Accountability principle violation: missing audit trail",
+                    suggestion="Ensure complete audit trail with event ID",
+                )
+            )
 
         return issues
 
@@ -660,15 +707,17 @@ class ConstitutionalAIValidator(Validator):
         actor_type = subject.get("actor", {}).get("type")
         if actor_type and decision.get("status") == "deny":
             # This is a simplified bias check - in practice, this would be more sophisticated
-            issues.append(ValidationIssue(
-                tier=ValidationTier.CONSTITUTIONAL,
-                severity=ValidationSeverity.INFO,
-                validation_type=ValidationType.CONSTITUTIONAL_AI,
-                field_path="decision.status",
-                message="Bias check: denial decision flagged for review",
-                details={"actor_type": actor_type},
-                suggestion="Review decision for potential bias"
-            ))
+            issues.append(
+                ValidationIssue(
+                    tier=ValidationTier.CONSTITUTIONAL,
+                    severity=ValidationSeverity.INFO,
+                    validation_type=ValidationType.CONSTITUTIONAL_AI,
+                    field_path="decision.status",
+                    message="Bias check: denial decision flagged for review",
+                    details={"actor_type": actor_type},
+                    suggestion="Review decision for potential bias",
+                )
+            )
 
         return issues
 
@@ -681,15 +730,17 @@ class ConstitutionalAIValidator(Validator):
         if redactions:
             for path, reason in redactions.items():
                 if not reason or len(reason.strip()) < 10:
-                    issues.append(ValidationIssue(
-                        tier=ValidationTier.CONSTITUTIONAL,
-                        severity=ValidationSeverity.WARNING,
-                        validation_type=ValidationType.CONSTITUTIONAL_AI,
-                        field_path=f"redactions.{path}",
-                        message="Transparency concern: redaction lacks sufficient justification",
-                        details={"redacted_path": path, "reason": reason},
-                        suggestion="Provide detailed justification for data redaction"
-                    ))
+                    issues.append(
+                        ValidationIssue(
+                            tier=ValidationTier.CONSTITUTIONAL,
+                            severity=ValidationSeverity.WARNING,
+                            validation_type=ValidationType.CONSTITUTIONAL_AI,
+                            field_path=f"redactions.{path}",
+                            message="Transparency concern: redaction lacks sufficient justification",
+                            details={"redacted_path": path, "reason": reason},
+                            suggestion="Provide detailed justification for data redaction",
+                        )
+                    )
 
         return issues
 
@@ -702,16 +753,13 @@ class ValidationFramework:
             ValidationTier.SYNTAX: [SyntaxValidator()],
             ValidationTier.SEMANTIC: [SemanticValidator()],
             ValidationTier.BUSINESS_LOGIC: [BusinessLogicValidator()],
-            ValidationTier.CONSTITUTIONAL: [ConstitutionalAIValidator()]
+            ValidationTier.CONSTITUTIONAL: [ConstitutionalAIValidator()],
         }
         self._lock = threading.RLock()
         self._metrics = ValidationMetrics()
 
     def validate(
-        self,
-        data: Any,
-        context: Optional[ValidationContext] = None,
-        tiers: Optional[Set[ValidationTier]] = None
+        self, data: Any, context: Optional[ValidationContext] = None, tiers: Optional[Set[ValidationTier]] = None
     ) -> ValidationResult:
         """Validate data using specified tiers"""
         start_time = time.perf_counter()
@@ -731,7 +779,7 @@ class ValidationFramework:
                 ValidationTier.SYNTAX,
                 ValidationTier.SEMANTIC,
                 ValidationTier.BUSINESS_LOGIC,
-                ValidationTier.CONSTITUTIONAL
+                ValidationTier.CONSTITUTIONAL,
             ]
 
             for tier in tier_order:
@@ -747,27 +795,29 @@ class ValidationFramework:
                             validator_issues = validator.validate(data, context)
                             tier_issues.extend(validator_issues)
                         except Exception as e:
-                            tier_issues.append(ValidationIssue(
-                                tier=tier,
-                                severity=ValidationSeverity.ERROR,
-                                validation_type=ValidationType.CUSTOM,
-                                field_path="$",
-                                message=f"Validator error: {str(e)}"
-                            ))
+                            tier_issues.append(
+                                ValidationIssue(
+                                    tier=tier,
+                                    severity=ValidationSeverity.ERROR,
+                                    validation_type=ValidationType.CUSTOM,
+                                    field_path="$",
+                                    message=f"Validator error: {str(e)}",
+                                )
+                            )
 
                 all_issues.extend(tier_issues)
                 validated_tiers.add(tier)
 
                 # Check for fail-fast conditions
                 if context.fail_fast:
-                    critical_errors = [i for i in tier_issues
-                                     if i.severity == ValidationSeverity.CRITICAL]
+                    critical_errors = [i for i in tier_issues if i.severity == ValidationSeverity.CRITICAL]
                     if critical_errors:
                         break
 
                 # Check max errors limit
-                total_errors = len([i for i in all_issues
-                                  if i.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL)])
+                total_errors = len(
+                    [i for i in all_issues if i.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL)]
+                )
                 if total_errors >= context.max_errors:
                     break
 
@@ -778,8 +828,9 @@ class ValidationFramework:
 
             # Create result
             result = ValidationResult(
-                is_valid=not any(i.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL)
-                               for i in all_issues),
+                is_valid=not any(
+                    i.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL) for i in all_issues
+                ),
                 issues=all_issues,
                 validation_time_ms=validation_time,
                 tiers_validated=validated_tiers,
@@ -788,10 +839,9 @@ class ValidationFramework:
                 metadata={
                     "total_validators": sum(len(validators) for validators in self.validators.values()),
                     "issues_by_tier": {
-                        tier.name: len([i for i in all_issues if i.tier == tier])
-                        for tier in validated_tiers
-                    }
-                }
+                        tier.name: len([i for i in all_issues if i.tier == tier]) for tier in validated_tiers
+                    },
+                },
             )
 
             # Update metrics
@@ -805,16 +855,18 @@ class ValidationFramework:
 
             return ValidationResult(
                 is_valid=False,
-                issues=[ValidationIssue(
-                    tier=ValidationTier.SYNTAX,
-                    severity=ValidationSeverity.CRITICAL,
-                    validation_type=ValidationType.CUSTOM,
-                    field_path="$",
-                    message=f"Validation framework error: {str(e)}"
-                )],
+                issues=[
+                    ValidationIssue(
+                        tier=ValidationTier.SYNTAX,
+                        severity=ValidationSeverity.CRITICAL,
+                        validation_type=ValidationType.CUSTOM,
+                        field_path="$",
+                        message=f"Validation framework error: {str(e)}",
+                    )
+                ],
                 validation_time_ms=validation_time,
                 context=context,
-                compliance_score=0.0
+                compliance_score=0.0,
             )
 
     def add_validator(self, tier: ValidationTier, validator: Validator) -> None:
@@ -884,10 +936,7 @@ class ValidationMetrics:
     def get_stats(self) -> Dict[str, Any]:
         """Get validation statistics"""
         uptime = time.time() - self.start_time
-        avg_time = (
-            self.total_validation_time / self.validation_count
-            if self.validation_count > 0 else 0
-        )
+        avg_time = self.total_validation_time / self.validation_count if self.validation_count > 0 else 0
 
         return {
             "total_validations": self.validation_count,
@@ -895,13 +944,14 @@ class ValidationMetrics:
             "failed_validations": self.failed_validations,
             "success_rate": (
                 (self.validation_count - self.failed_validations) / self.validation_count
-                if self.validation_count > 0 else 1.0
+                if self.validation_count > 0
+                else 1.0
             ),
             "throughput_per_second": self.validation_count / uptime if uptime > 0 else 0,
             "issues_by_tier": {tier.name: count for tier, count in self.issues_by_tier.items()},
             "issues_by_severity": {severity.name: count for severity, count in self.issues_by_severity.items()},
             "error_count": self.error_count,
-            "uptime_seconds": uptime
+            "uptime_seconds": uptime,
         }
 
 
@@ -923,11 +973,7 @@ def get_validation_framework() -> ValidationFramework:
 
 
 # Convenience functions
-def validate_guardian_data(
-    data: Any,
-    fail_fast: bool = True,
-    include_constitutional: bool = True
-) -> ValidationResult:
+def validate_guardian_data(data: Any, fail_fast: bool = True, include_constitutional: bool = True) -> ValidationResult:
     """Validate Guardian data with all tiers"""
     framework = get_validation_framework()
 
@@ -935,10 +981,6 @@ def validate_guardian_data(
     if include_constitutional:
         tiers.add(ValidationTier.CONSTITUTIONAL)
 
-    context = ValidationContext(
-        schema_id="guardian_decision",
-        fail_fast=fail_fast,
-        validation_tiers=tiers
-    )
+    context = ValidationContext(schema_id="guardian_decision", fail_fast=fail_fast, validation_tiers=tiers)
 
     return framework.validate(data, context, tiers)

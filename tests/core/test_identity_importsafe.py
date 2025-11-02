@@ -1,4 +1,5 @@
 """Import safety tests for core.identity module."""
+
 import importlib
 
 
@@ -19,7 +20,7 @@ def test_lazy_identity_system_behavior(monkeypatch):
     try:
         # This should trigger the lazy import of labs.identity
         identity_system = core.identity.IdentitySystem()
-        assert hasattr(identity_system, 'authenticate_user')
+        assert hasattr(identity_system, "authenticate_user")
     except AttributeError:
         # If labs.identity is not available or doesn't have IdentitySystem,
         # we expect an AttributeError which is the correct behavior

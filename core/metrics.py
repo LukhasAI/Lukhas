@@ -4,6 +4,7 @@ These factories are duplicate-tolerant and register into a shared
 registry so repeated imports or pytest collection won't throw:
     ValueError: Duplicated timeseries in CollectorRegistry
 """
+
 from __future__ import annotations
 
 # Use centralized, duplicate-tolerant registry
@@ -12,13 +13,18 @@ from observability import counter, gauge, histogram
 # For backward compatibility with code that checks this flag
 try:
     from prometheus_client import Summary as _PrometheusCheck  # type: ignore
+
     PROMETHEUS_AVAILABLE = True
     Summary = _PrometheusCheck  # export for compatibility
 except ImportError:  # pragma: no cover
     PROMETHEUS_AVAILABLE = False
+
     class Summary:  # type: ignore
-        def __init__(self, *a, **k): pass
-        def observe(self, *a, **k): pass
+        def __init__(self, *a, **k):
+            pass
+
+        def observe(self, *a, **k):
+            pass
 
 
 # Router metrics ------------------------------------------------------------

@@ -809,9 +809,9 @@ class ConsciousnessMemoryIntegrator:
             },
             "processing_metrics": {
                 "memory_processing_latency_ms": self.state.memory_processing_latency,
-                "last_consolidation": self.state.last_consolidation.isoformat()
-                if self.state.last_consolidation
-                else None,
+                "last_consolidation": (
+                    self.state.last_consolidation.isoformat() if self.state.last_consolidation else None
+                ),
                 "consolidation_queue_size": len(self._consolidation_queue),
                 "access_log_size": len(self._access_log),
             },

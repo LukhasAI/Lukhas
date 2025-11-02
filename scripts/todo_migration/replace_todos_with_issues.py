@@ -74,19 +74,13 @@ def replace_in_file(path: Path, mapping: Dict[str, dict], apply: bool, log: list
             entry = mapping[mapping_key]
             issue = entry.get("issue")
             repo = entry.get("repo", "").rstrip("/")
-            link = (
-                f"# See: https://github.com/{repo}/issues/{issue}\n"
-                if repo and issue
-                else f"# See: issue/{issue}\n"
-            )
+            link = f"# See: https://github.com/{repo}/issues/{issue}\n" if repo and issue else f"# See: issue/{issue}\n"
             indent_match = TODO_REGEX.match(line)
             indent = indent_match.group("indent") if indent_match else ""
             new_line = f"{indent}{link}"
             new_lines[i - 1] = new_line
             changed = True
-            log.append(
-                {"file": str(path), "line": i, "issue": issue, "repo": repo, "applied": apply}
-            )
+            log.append({"file": str(path), "line": i, "issue": issue, "repo": repo, "applied": apply})
 
     if changed:
         if apply:
@@ -120,9 +114,7 @@ def load_mapping(mapfile: Path) -> Dict[str, dict]:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--map", required=True, help="Path to mapping JSON (artifacts/todo_to_issue_map.json)"
-    )
+    parser.add_argument("--map", required=True, help="Path to mapping JSON (artifacts/todo_to_issue_map.json)")
     parser.add_argument("--apply", action="store_true", help="Actually write file modifications")
     args = parser.parse_args()
 

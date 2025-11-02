@@ -149,9 +149,7 @@ def create_fixed_mobile_interface():
         current_ip = "192.168.2.41"  # fallback
 
     # Read the existing interface
-    interface_path = (
-        "/Users/A_G_I/CodexGPT_Lukhas/lukhas/sensors/mobile_interface_pro.html"
-    )
+    interface_path = "/Users/A_G_I/CodexGPT_Lukhas/lukhas/sensors/mobile_interface_pro.html"
     if not os.path.exists(interface_path):
         print(f"❌ Mobile interface not found: {interface_path}")
         return None
@@ -272,9 +270,7 @@ def main():
 
     print("\n📱 iPhone Setup:")
     print(f"   1. Read: {instructions}")
-    print(
-        f"   2. Use: https://{local_ip or '192.168.2.41'}:8443/mobile_interface_fixed.html"
-    )
+    print(f"   2. Use: https://{local_ip or '192.168.2.41'}:8443/mobile_interface_fixed.html")
     print("   3. Accept SSL certificate first!")
 
     print("\n🚀 To start servers:")

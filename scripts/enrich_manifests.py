@@ -65,7 +65,7 @@ def enrich_manifest(
     init_ext: InitExtractor,
     import_ver: ImportVerifier,
     composer: Composer,
-    dry_run: bool = False
+    dry_run: bool = False,
 ) -> bool:
     """
     Enrich a single manifest.
@@ -91,31 +91,19 @@ def enrich_manifest(
     components = claude_ext.components_count(claude_me)
 
     # Generate description
-    sig_desc = claude_ext.description(
-        claude_me,
-        sig_features.value or [],
-        components
-    )
+    sig_desc = claude_ext.description(claude_me, sig_features.value or [], components)
 
     # Extract APIs from __init__.py
     sig_apis_ast = init_ext.apis(module_dir)
 
     # Verify imports
-    sig_apis_verified = import_ver.verify(
-        root,
-        module_dir,
-        sig_apis_ast.value or {}
-    )
+    sig_apis_verified = import_ver.verify(root, module_dir, sig_apis_ast.value or {})
 
     # Combine provenance from both API extractors
     sig_apis_verified.provenance += sig_apis_ast.provenance
 
     # Compose signals
-    signals = {
-        "features": sig_features,
-        "description": sig_desc,
-        "apis": sig_apis_verified
-    }
+    signals = {"features": sig_features, "description": sig_desc, "apis": sig_apis_verified}
 
     # Merge with existing manifest
     try:
@@ -136,8 +124,7 @@ def enrich_manifest(
         print(f"~ would update {module_dir.name}")
         # Optionally show diff
         diff_fields = sorted(
-            set(after.keys()) ^ set(before.keys()) |
-            {k for k in after if before.get(k) != after.get(k)}
+            set(after.keys()) ^ set(before.keys()) | {k for k in after if before.get(k) != after.get(k)}
         )
         print(f"  Changed fields: {', '.join(diff_fields)}")
     else:
@@ -153,35 +140,14 @@ def enrich_manifest(
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Enrich LUKHAS module manifests with semantic data"
-    )
+    parser = argparse.ArgumentParser(description="Enrich LUKHAS module manifests with semantic data")
+    parser.add_argument("--root", type=Path, default=Path("."), help="Repository root (default: current directory)")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would change without writing")
     parser.add_argument(
-        "--root",
-        type=Path,
-        default=Path("."),
-        help="Repository root (default: current directory)"
+        "--only-changed-sources", action="store_true", help="Skip modules where source files haven't changed"
     )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Show what would change without writing"
-    )
-    parser.add_argument(
-        "--only-changed-sources",
-        action="store_true",
-        help="Skip modules where source files haven't changed"
-    )
-    parser.add_argument(
-        "--module",
-        type=str,
-        help="Enrich only specified module"
-    )
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Show detailed extraction info"
-    )
+    parser.add_argument("--module", type=str, help="Enrich only specified module")
+    parser.add_argument("--verbose", action="store_true", help="Show detailed extraction info")
 
     args = parser.parse_args()
     root = args.root.resolve()
@@ -209,8 +175,7 @@ def main():
 
     # Filter out build artifacts
     manifests = [
-        m for m in manifests
-        if not any(part in m.parts for part in ["node_modules", ".venv", "dist", "__pycache__"])
+        m for m in manifests if not any(part in m.parts for part in ["node_modules", ".venv", "dist", "__pycache__"])
     ]
 
     print(f"🔍 Found {len(manifests)} manifests to process")
@@ -223,14 +188,7 @@ def main():
     for manifest_path in manifests:
         try:
             changed = enrich_manifest(
-                manifest_path,
-                root,
-                vocab,
-                claude_ext,
-                init_ext,
-                import_ver,
-                composer,
-                dry_run=args.dry_run
+                manifest_path, root, vocab, claude_ext, init_ext, import_ver, composer, dry_run=args.dry_run
             )
 
             if changed:
@@ -243,6 +201,7 @@ def main():
             print(f"❌ Error processing {manifest_path.parent.name}: {e}", file=sys.stderr)
             if args.verbose:
                 import traceback
+
                 traceback.print_exc()
 
     # Flush review queue

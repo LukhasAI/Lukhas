@@ -27,11 +27,12 @@ logger = logging.getLogger(__name__)
 
 class BackpressureMode(Enum):
     """Backpressure control modes"""
-    DISABLED = "disabled"           # No rate limiting
-    SOFT = "soft"                   # Warning logs, allow through
-    MODERATE = "moderate"           # Rate limiting with bursts
-    STRICT = "strict"               # Strict rate limiting
-    EMERGENCY = "emergency"         # Emergency throttling
+
+    DISABLED = "disabled"  # No rate limiting
+    SOFT = "soft"  # Warning logs, allow through
+    MODERATE = "moderate"  # Rate limiting with bursts
+    STRICT = "strict"  # Strict rate limiting
+    EMERGENCY = "emergency"  # Emergency throttling
 
 
 @dataclass
@@ -39,29 +40,30 @@ class BackpressureConfig:
     """Configuration for token bucket backpressure"""
 
     # Token bucket parameters
-    max_tokens: int = 1000                    # Maximum tokens in bucket
-    refill_rate: float = 100.0               # Tokens per second
-    initial_tokens: int = 1000               # Starting tokens
+    max_tokens: int = 1000  # Maximum tokens in bucket
+    refill_rate: float = 100.0  # Tokens per second
+    initial_tokens: int = 1000  # Starting tokens
 
     # Adaptive parameters
-    enable_adaptation: bool = True            # Enable dynamic rate adjustment
-    adaptation_window_sec: int = 60          # Window for rate adaptation
-    target_p95_ms: float = 100.0             # Target p95 latency
-    max_rate_increase: float = 1.5           # Max rate increase factor
-    max_rate_decrease: float = 0.5           # Max rate decrease factor
+    enable_adaptation: bool = True  # Enable dynamic rate adjustment
+    adaptation_window_sec: int = 60  # Window for rate adaptation
+    target_p95_ms: float = 100.0  # Target p95 latency
+    max_rate_increase: float = 1.5  # Max rate increase factor
+    max_rate_decrease: float = 0.5  # Max rate decrease factor
 
     # Emergency parameters
-    emergency_threshold_p95: float = 500.0   # Emergency mode threshold
-    emergency_rate_factor: float = 0.1       # Emergency rate reduction
+    emergency_threshold_p95: float = 500.0  # Emergency mode threshold
+    emergency_rate_factor: float = 0.1  # Emergency rate reduction
 
     # Monitoring
-    metrics_enabled: bool = True             # Enable Prometheus metrics
-    sample_size: int = 1000                  # Sample size for statistics
+    metrics_enabled: bool = True  # Enable Prometheus metrics
+    sample_size: int = 1000  # Sample size for statistics
 
 
 @dataclass
 class BackpressureMetrics:
     """Runtime backpressure metrics"""
+
     tokens_available: int = 0
     requests_per_second: float = 0.0
     rejection_rate: float = 0.0
@@ -217,14 +219,12 @@ class TokenBucket:
 
             elif current_p95 > target_p95 * 1.5:
                 # High latency: reduce rate
-                rate_factor = max(self.config.max_rate_decrease,
-                                target_p95 / current_p95)
+                rate_factor = max(self.config.max_rate_decrease, target_p95 / current_p95)
                 new_mode = BackpressureMode.STRICT
 
             elif current_p95 < target_p95 * 0.7:
                 # Low latency: can increase rate
-                rate_factor = min(self.config.max_rate_increase,
-                                target_p95 / current_p95)
+                rate_factor = min(self.config.max_rate_increase, target_p95 / current_p95)
                 new_mode = BackpressureMode.MODERATE
 
             # Apply rate adjustment
@@ -233,8 +233,10 @@ class TokenBucket:
                 self.refill_rate *= rate_factor
                 self.refill_rate = max(10.0, min(10000.0, self.refill_rate))  # Bounds
 
-                logger.info(f"Rate adapted: {old_rate:.1f} -> {self.refill_rate:.1f}/sec "
-                          f"(p95: {current_p95:.1f}ms, target: {target_p95:.1f}ms)")
+                logger.info(
+                    f"Rate adapted: {old_rate:.1f} -> {self.refill_rate:.1f}/sec "
+                    f"(p95: {current_p95:.1f}ms, target: {target_p95:.1f}ms)"
+                )
 
             self.mode = new_mode
             self.last_adaptation = time.monotonic()
@@ -253,8 +255,7 @@ class TokenBucket:
             rps = len(recent_requests) / 60 if recent_requests else 0.0
 
             # Calculate rejection rate
-            rejection_rate = (self.rejection_count / self.total_requests
-                            if self.total_requests > 0 else 0.0)
+            rejection_rate = self.rejection_count / self.total_requests if self.total_requests > 0 else 0.0
 
             # Calculate p95 latency
             p95_latency = 0.0
@@ -270,7 +271,7 @@ class TokenBucket:
                 avg_wait_time_ms=0.0,  # TODO: Track wait times
                 p95_latency_ms=p95_latency,
                 mode=self.mode,
-                last_adaptation=self.last_adaptation
+                last_adaptation=self.last_adaptation,
             )
 
     async def reset_stats(self):
@@ -294,29 +295,29 @@ class AdaptiveBackpressure:
 
     def __init__(self, configs: Dict[str, BackpressureConfig]):
         self.buckets: Dict[str, TokenBucket] = {}
-        self.global_config = configs.get('global', BackpressureConfig())
+        self.global_config = configs.get("global", BackpressureConfig())
 
         # Create token buckets for different operation types
         for operation_type, config in configs.items():
-            if operation_type != 'global':
+            if operation_type != "global":
                 self.buckets[operation_type] = TokenBucket(config)
 
         # Default bucket for unspecified operations
-        if 'default' not in self.buckets:
-            self.buckets['default'] = TokenBucket(self.global_config)
+        if "default" not in self.buckets:
+            self.buckets["default"] = TokenBucket(self.global_config)
 
         logger.info(f"AdaptiveBackpressure initialized with {len(self.buckets)} buckets")
 
-    async def acquire_token(self, operation_type: str = 'default',
-                          tokens_needed: int = 1,
-                          timeout: Optional[float] = None) -> bool:
+    async def acquire_token(
+        self, operation_type: str = "default", tokens_needed: int = 1, timeout: Optional[float] = None
+    ) -> bool:
         """Acquire tokens for a specific operation type"""
-        bucket = self.buckets.get(operation_type, self.buckets['default'])
+        bucket = self.buckets.get(operation_type, self.buckets["default"])
         return await bucket.acquire_token(tokens_needed, timeout)
 
     def record_latency(self, operation_type: str, latency_ms: float):
         """Record operation latency for adaptive control"""
-        bucket = self.buckets.get(operation_type, self.buckets['default'])
+        bucket = self.buckets.get(operation_type, self.buckets["default"])
         bucket.record_latency(latency_ms)
 
     async def get_metrics(self, operation_type: Optional[str] = None) -> Dict[str, BackpressureMetrics]:
@@ -345,17 +346,13 @@ class AdaptiveBackpressure:
             for bucket in self.buckets.values():
                 bucket.mode = mode
 
-        logger.info(f"Backpressure mode set to {mode.value}" +
-                   (f" for {operation_type}" if operation_type else " globally"))
+        logger.info(
+            f"Backpressure mode set to {mode.value}" + (f" for {operation_type}" if operation_type else " globally")
+        )
 
     async def health_check(self) -> Dict[str, Any]:
         """Health check for backpressure system"""
-        health = {
-            'healthy': True,
-            'buckets': {},
-            'global_mode': BackpressureMode.MODERATE,
-            'total_rejection_rate': 0.0
-        }
+        health = {"healthy": True, "buckets": {}, "global_mode": BackpressureMode.MODERATE, "total_rejection_rate": 0.0}
 
         total_rejections = 0
         total_requests = 0
@@ -365,14 +362,14 @@ class AdaptiveBackpressure:
             metrics = await bucket.get_metrics()
 
             bucket_health = {
-                'healthy': metrics.mode != BackpressureMode.EMERGENCY,
-                'tokens_available': metrics.tokens_available,
-                'rejection_rate': metrics.rejection_rate,
-                'mode': metrics.mode.value,
-                'p95_latency_ms': metrics.p95_latency_ms
+                "healthy": metrics.mode != BackpressureMode.EMERGENCY,
+                "tokens_available": metrics.tokens_available,
+                "rejection_rate": metrics.rejection_rate,
+                "mode": metrics.mode.value,
+                "p95_latency_ms": metrics.p95_latency_ms,
             }
 
-            health['buckets'][op_type] = bucket_health
+            health["buckets"][op_type] = bucket_health
 
             # Aggregate stats
             total_rejections += bucket.rejection_count
@@ -383,11 +380,11 @@ class AdaptiveBackpressure:
 
         # Overall health assessment
         if emergency_buckets > 0:
-            health['healthy'] = False
-            health['global_mode'] = BackpressureMode.EMERGENCY
+            health["healthy"] = False
+            health["global_mode"] = BackpressureMode.EMERGENCY
 
         if total_requests > 0:
-            health['total_rejection_rate'] = total_rejections / total_requests
+            health["total_rejection_rate"] = total_rejections / total_requests
 
         return health
 
@@ -400,42 +397,39 @@ class BackpressureFactory:
     def create_memory_service_config() -> Dict[str, BackpressureConfig]:
         """Create backpressure configuration for memory service"""
         return {
-            'search': BackpressureConfig(
+            "search": BackpressureConfig(
                 max_tokens=2000,
                 refill_rate=200.0,
-                target_p95_ms=50.0,      # T4 requirement for search
-                emergency_threshold_p95=200.0
+                target_p95_ms=50.0,  # T4 requirement for search
+                emergency_threshold_p95=200.0,
             ),
-            'upsert': BackpressureConfig(
+            "upsert": BackpressureConfig(
                 max_tokens=1000,
                 refill_rate=100.0,
-                target_p95_ms=100.0,     # T4 requirement for writes
-                emergency_threshold_p95=500.0
+                target_p95_ms=100.0,  # T4 requirement for writes
+                emergency_threshold_p95=500.0,
             ),
-            'batch': BackpressureConfig(
+            "batch": BackpressureConfig(
                 max_tokens=500,
                 refill_rate=50.0,
-                target_p95_ms=200.0,     # Higher latency OK for batches
-                emergency_threshold_p95=1000.0
+                target_p95_ms=200.0,  # Higher latency OK for batches
+                emergency_threshold_p95=1000.0,
             ),
-            'default': BackpressureConfig(
-                max_tokens=1500,
-                refill_rate=150.0,
-                target_p95_ms=100.0,
-                emergency_threshold_p95=400.0
-            )
+            "default": BackpressureConfig(
+                max_tokens=1500, refill_rate=150.0, target_p95_ms=100.0, emergency_threshold_p95=400.0
+            ),
         }
 
     @staticmethod
     def create_high_throughput_config() -> Dict[str, BackpressureConfig]:
         """Create configuration optimized for high throughput"""
         return {
-            'default': BackpressureConfig(
+            "default": BackpressureConfig(
                 max_tokens=5000,
                 refill_rate=1000.0,
                 target_p95_ms=200.0,
                 max_rate_increase=2.0,
-                emergency_threshold_p95=1000.0
+                emergency_threshold_p95=1000.0,
             )
         }
 
@@ -443,11 +437,11 @@ class BackpressureFactory:
     def create_strict_latency_config() -> Dict[str, BackpressureConfig]:
         """Create configuration optimized for strict latency"""
         return {
-            'default': BackpressureConfig(
+            "default": BackpressureConfig(
                 max_tokens=1000,
                 refill_rate=100.0,
                 target_p95_ms=50.0,
                 max_rate_decrease=0.3,
-                emergency_threshold_p95=200.0
+                emergency_threshold_p95=200.0,
             )
         }

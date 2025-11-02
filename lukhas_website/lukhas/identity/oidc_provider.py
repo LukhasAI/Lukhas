@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 class GrantType(Enum):
     """OAuth2 grant types"""
+
     AUTHORIZATION_CODE = "authorization_code"
     IMPLICIT = "implicit"
     RESOURCE_OWNER_PASSWORD = "password"
@@ -35,6 +36,7 @@ class GrantType(Enum):
 
 class ResponseType(Enum):
     """OAuth2 response types"""
+
     CODE = "code"
     TOKEN = "token"
     ID_TOKEN = "id_token"
@@ -46,6 +48,7 @@ class ResponseType(Enum):
 
 class TokenType(Enum):
     """Token types"""
+
     ACCESS_TOKEN = "access_token"
     REFRESH_TOKEN = "refresh_token"
     ID_TOKEN = "id_token"
@@ -55,6 +58,7 @@ class TokenType(Enum):
 @dataclass
 class OIDCClient:
     """OIDC Client registration"""
+
     client_id: str
     client_secret: str
     client_name: str
@@ -73,6 +77,7 @@ class OIDCClient:
 @dataclass
 class AuthorizationCode:
     """Authorization code for OAuth2 flow"""
+
     code: str
     client_id: str
     lambda_id: str
@@ -88,6 +93,7 @@ class AuthorizationCode:
 @dataclass
 class AccessToken:
     """Access token information"""
+
     token: str
     client_id: str
     lambda_id: str
@@ -101,6 +107,7 @@ class AccessToken:
 @dataclass
 class RefreshToken:
     """Refresh token information"""
+
     token: str
     client_id: str
     lambda_id: str
@@ -112,6 +119,7 @@ class RefreshToken:
 @dataclass
 class IDToken:
     """ID Token information"""
+
     token: str
     client_id: str
     lambda_id: str
@@ -130,16 +138,18 @@ class OIDCProvider:
     Complete OAuth2/OpenID Connect provider with JWT token management
     """
 
-    def __init__(self,
-                 issuer: str,
-                 jwt_manager: JWTManager,
-                 session_manager: SessionManager,
-                 tier_system: TierSystem,
-                 observability: IdentityObservability,
-                 authorization_code_ttl: int = 600,  # 10 minutes
-                 access_token_ttl: int = 3600,       # 1 hour
-                 refresh_token_ttl: int = 2592000,   # 30 days
-                 id_token_ttl: int = 3600):          # 1 hour
+    def __init__(
+        self,
+        issuer: str,
+        jwt_manager: JWTManager,
+        session_manager: SessionManager,
+        tier_system: TierSystem,
+        observability: IdentityObservability,
+        authorization_code_ttl: int = 600,  # 10 minutes
+        access_token_ttl: int = 3600,  # 1 hour
+        refresh_token_ttl: int = 2592000,  # 30 days
+        id_token_ttl: int = 3600,
+    ):  # 1 hour
         self.issuer = issuer
         self.jwt_manager = jwt_manager
         self.session_manager = session_manager
@@ -185,12 +195,14 @@ class OIDCProvider:
 
         logger.info("✅ OIDC Provider stopped")
 
-    async def register_client(self,
-                            client_name: str,
-                            redirect_uris: List[str],
-                            grant_types: List[str],
-                            response_types: List[str],
-                            scope: List[str]) -> OIDCClient:
+    async def register_client(
+        self,
+        client_name: str,
+        redirect_uris: List[str],
+        grant_types: List[str],
+        response_types: List[str],
+        scope: List[str],
+    ) -> OIDCClient:
         """Register a new OIDC client"""
 
         client_id = f"client_{uuid.uuid4().hex[:16]}"
@@ -218,7 +230,7 @@ class OIDCProvider:
             redirect_uris=redirect_uris,
             grant_types=grant_type_enums,
             response_types=response_type_enums,
-            scope=set(scope)
+            scope=set(scope),
         )
 
         self.clients[client_id] = client
@@ -228,17 +240,19 @@ class OIDCProvider:
         logger.info(f"📝 Registered OIDC client: {client_id} ({client_name})")
         return client
 
-    async def authorize(self,
-                       client_id: str,
-                       response_type: str,
-                       redirect_uri: str,
-                       scope: str,
-                       state: Optional[str] = None,
-                       nonce: Optional[str] = None,
-                       code_challenge: Optional[str] = None,
-                       code_challenge_method: Optional[str] = None,
-                       lambda_id: Optional[str] = None,
-                       session_id: Optional[str] = None) -> Dict[str, Any]:
+    async def authorize(
+        self,
+        client_id: str,
+        response_type: str,
+        redirect_uri: str,
+        scope: str,
+        state: Optional[str] = None,
+        nonce: Optional[str] = None,
+        code_challenge: Optional[str] = None,
+        code_challenge_method: Optional[str] = None,
+        lambda_id: Optional[str] = None,
+        session_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """Handle OAuth2 authorization request"""
 
         # Validate client
@@ -276,8 +290,15 @@ class OIDCProvider:
         # Process different response types
         if response_type == "code":
             return await self._handle_authorization_code_flow(
-                client, lambda_id, redirect_uri, requested_scopes, state,
-                code_challenge, code_challenge_method, session_id, nonce
+                client,
+                lambda_id,
+                redirect_uri,
+                requested_scopes,
+                state,
+                code_challenge,
+                code_challenge_method,
+                session_id,
+                nonce,
             )
         elif response_type == "token":
             return await self._handle_implicit_flow(
@@ -290,14 +311,16 @@ class OIDCProvider:
         else:
             return self._error_response("unsupported_response_type", "Unsupported response type")
 
-    async def token(self,
-                   grant_type: str,
-                   client_id: Optional[str] = None,
-                   client_secret: Optional[str] = None,
-                   code: Optional[str] = None,
-                   redirect_uri: Optional[str] = None,
-                   refresh_token: Optional[str] = None,
-                   code_verifier: Optional[str] = None) -> Dict[str, Any]:
+    async def token(
+        self,
+        grant_type: str,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        code: Optional[str] = None,
+        redirect_uri: Optional[str] = None,
+        refresh_token: Optional[str] = None,
+        code_verifier: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """Handle OAuth2 token request"""
 
         # Authenticate client
@@ -365,10 +388,10 @@ class OIDCProvider:
             "username": token_info.lambda_id,
             "scope": " ".join(token_info.scope),
             "exp": int(token_info.expires_at.timestamp()),
-            "token_type": token_type
+            "token_type": token_type,
         }
 
-        if hasattr(token_info, 'tier_level'):
+        if hasattr(token_info, "tier_level"):
             introspection_response["tier_level"] = token_info.tier_level
 
         return introspection_response
@@ -391,8 +414,10 @@ class OIDCProvider:
             # Also revoke associated access tokens
             access_tokens_to_revoke = []
             for at_token, at_info in self.access_tokens.items():
-                if (at_info.client_id == refresh_token_info.client_id and
-                    at_info.lambda_id == refresh_token_info.lambda_id):
+                if (
+                    at_info.client_id == refresh_token_info.client_id
+                    and at_info.lambda_id == refresh_token_info.lambda_id
+                ):
                     access_tokens_to_revoke.append(at_token)
 
             for at_token in access_tokens_to_revoke:
@@ -413,16 +438,18 @@ class OIDCProvider:
         """Get JSON Web Key Set"""
         return await self.jwt_manager.get_public_keys()
 
-    async def _handle_authorization_code_flow(self,
-                                            client: OIDCClient,
-                                            lambda_id: str,
-                                            redirect_uri: str,
-                                            scope: Set[str],
-                                            state: Optional[str],
-                                            code_challenge: Optional[str],
-                                            code_challenge_method: Optional[str],
-                                            session_id: Optional[str],
-                                            nonce: Optional[str]) -> Dict[str, Any]:
+    async def _handle_authorization_code_flow(
+        self,
+        client: OIDCClient,
+        lambda_id: str,
+        redirect_uri: str,
+        scope: Set[str],
+        state: Optional[str],
+        code_challenge: Optional[str],
+        code_challenge_method: Optional[str],
+        session_id: Optional[str],
+        nonce: Optional[str],
+    ) -> Dict[str, Any]:
         """Handle authorization code flow"""
 
         # Generate authorization code
@@ -436,7 +463,7 @@ class OIDCProvider:
             scope=scope,
             code_challenge=code_challenge,
             code_challenge_method=code_challenge_method,
-            session_id=session_id
+            session_id=session_id,
         )
 
         self.authorization_codes[code] = auth_code
@@ -448,18 +475,17 @@ class OIDCProvider:
 
         await self.observability.record_authorization_granted(client.client_id, lambda_id)
 
-        return {
-            "success": True,
-            "redirect_uri": f"{redirect_uri}?{urlencode(response_params)}"
-        }
+        return {"success": True, "redirect_uri": f"{redirect_uri}?{urlencode(response_params)}"}
 
-    async def _handle_implicit_flow(self,
-                                  client: OIDCClient,
-                                  lambda_id: str,
-                                  redirect_uri: str,
-                                  scope: Set[str],
-                                  state: Optional[str],
-                                  session_id: Optional[str]) -> Dict[str, Any]:
+    async def _handle_implicit_flow(
+        self,
+        client: OIDCClient,
+        lambda_id: str,
+        redirect_uri: str,
+        scope: Set[str],
+        state: Optional[str],
+        session_id: Optional[str],
+    ) -> Dict[str, Any]:
         """Handle implicit flow"""
 
         # Get tier level
@@ -472,26 +498,25 @@ class OIDCProvider:
         response_params = {
             "access_token": access_token.token,
             "token_type": access_token.token_type,
-            "expires_in": int((access_token.expires_at - datetime.utcnow()).total_seconds())
+            "expires_in": int((access_token.expires_at - datetime.utcnow()).total_seconds()),
         }
         if state:
             response_params["state"] = state
 
         fragment = urlencode(response_params)
 
-        return {
-            "success": True,
-            "redirect_uri": f"{redirect_uri}#{fragment}"
-        }
+        return {"success": True, "redirect_uri": f"{redirect_uri}#{fragment}"}
 
-    async def _handle_id_token_flow(self,
-                                  client: OIDCClient,
-                                  lambda_id: str,
-                                  redirect_uri: str,
-                                  scope: Set[str],
-                                  state: Optional[str],
-                                  nonce: Optional[str],
-                                  session_id: Optional[str]) -> Dict[str, Any]:
+    async def _handle_id_token_flow(
+        self,
+        client: OIDCClient,
+        lambda_id: str,
+        redirect_uri: str,
+        scope: Set[str],
+        state: Optional[str],
+        nonce: Optional[str],
+        session_id: Optional[str],
+    ) -> Dict[str, Any]:
         """Handle ID token flow"""
 
         # Generate ID token
@@ -504,16 +529,11 @@ class OIDCProvider:
 
         fragment = urlencode(response_params)
 
-        return {
-            "success": True,
-            "redirect_uri": f"{redirect_uri}#{fragment}"
-        }
+        return {"success": True, "redirect_uri": f"{redirect_uri}#{fragment}"}
 
-    async def _handle_authorization_code_token(self,
-                                             client: OIDCClient,
-                                             code: Optional[str],
-                                             redirect_uri: Optional[str],
-                                             code_verifier: Optional[str]) -> Dict[str, Any]:
+    async def _handle_authorization_code_token(
+        self, client: OIDCClient, code: Optional[str], redirect_uri: Optional[str], code_verifier: Optional[str]
+    ) -> Dict[str, Any]:
         """Handle authorization code token exchange"""
 
         if not code:
@@ -555,7 +575,7 @@ class OIDCProvider:
             "access_token": access_token.token,
             "token_type": access_token.token_type,
             "expires_in": int((access_token.expires_at - datetime.utcnow()).total_seconds()),
-            "refresh_token": refresh_token.token
+            "refresh_token": refresh_token.token,
         }
 
         # Add ID token if openid scope
@@ -591,7 +611,7 @@ class OIDCProvider:
         response = {
             "access_token": access_token.token,
             "token_type": access_token.token_type,
-            "expires_in": int((access_token.expires_at - datetime.utcnow()).total_seconds())
+            "expires_in": int((access_token.expires_at - datetime.utcnow()).total_seconds()),
         }
 
         # Optionally issue new refresh token
@@ -615,26 +635,21 @@ class OIDCProvider:
         tier_level = 1  # Default tier for client credentials
 
         # Generate access token
-        access_token = await self._create_access_token(
-            client.client_id, client.client_id, client.scope, tier_level
-        )
+        access_token = await self._create_access_token(client.client_id, client.client_id, client.scope, tier_level)
 
         response = {
             "access_token": access_token.token,
             "token_type": access_token.token_type,
-            "expires_in": int((access_token.expires_at - datetime.utcnow()).total_seconds())
+            "expires_in": int((access_token.expires_at - datetime.utcnow()).total_seconds()),
         }
 
         await self.observability.record_token_issued(client.client_id, "client_credentials")
 
         return response
 
-    async def _create_access_token(self,
-                                 client_id: str,
-                                 lambda_id: str,
-                                 scope: Set[str],
-                                 tier_level: int,
-                                 session_id: Optional[str] = None) -> AccessToken:
+    async def _create_access_token(
+        self, client_id: str, lambda_id: str, scope: Set[str], tier_level: int, session_id: Optional[str] = None
+    ) -> AccessToken:
         """Create access token"""
 
         # Generate JWT access token
@@ -649,7 +664,7 @@ class OIDCProvider:
             "exp": int(expires_at.timestamp()),
             "scope": " ".join(scope),
             "tier_level": tier_level,
-            "token_type": "access_token"
+            "token_type": "access_token",
         }
 
         if session_id:
@@ -664,17 +679,15 @@ class OIDCProvider:
             scope=scope,
             expires_at=expires_at,
             session_id=session_id,
-            tier_level=tier_level
+            tier_level=tier_level,
         )
 
         self.access_tokens[token_str] = access_token
         return access_token
 
-    async def _create_refresh_token(self,
-                                  client_id: str,
-                                  lambda_id: str,
-                                  scope: Set[str],
-                                  access_token_id: Optional[str] = None) -> RefreshToken:
+    async def _create_refresh_token(
+        self, client_id: str, lambda_id: str, scope: Set[str], access_token_id: Optional[str] = None
+    ) -> RefreshToken:
         """Create refresh token"""
 
         token_str = secrets.token_urlsafe(32)
@@ -686,17 +699,15 @@ class OIDCProvider:
             lambda_id=lambda_id,
             scope=scope,
             expires_at=expires_at,
-            access_token_id=access_token_id
+            access_token_id=access_token_id,
         )
 
         self.refresh_tokens[token_str] = refresh_token
         return refresh_token
 
-    async def _create_id_token(self,
-                             client_id: str,
-                             lambda_id: str,
-                             scope: Set[str],
-                             nonce: Optional[str] = None) -> IDToken:
+    async def _create_id_token(
+        self, client_id: str, lambda_id: str, scope: Set[str], nonce: Optional[str] = None
+    ) -> IDToken:
         """Create ID token"""
 
         now = datetime.utcnow()
@@ -711,7 +722,7 @@ class OIDCProvider:
             "aud": client_id,
             "iat": int(now.timestamp()),
             "exp": int(expires_at.timestamp()),
-            "auth_time": int(now.timestamp())
+            "auth_time": int(now.timestamp()),
         }
 
         if nonce:
@@ -740,13 +751,15 @@ class OIDCProvider:
             audience=client_id,
             expires_at=expires_at,
             nonce=nonce,
-            claims=claims
+            claims=claims,
         )
 
         self.id_tokens[token_str] = id_token
         return id_token
 
-    async def _authenticate_client(self, client_id: Optional[str], client_secret: Optional[str]) -> Optional[OIDCClient]:
+    async def _authenticate_client(
+        self, client_id: Optional[str], client_secret: Optional[str]
+    ) -> Optional[OIDCClient]:
         """Authenticate OIDC client"""
 
         if not client_id:
@@ -785,24 +798,21 @@ class OIDCProvider:
         """Get user information for userinfo endpoint or ID token"""
 
         # Basic userinfo
-        userinfo = {
-            "sub": lambda_id
-        }
+        userinfo = {"sub": lambda_id}
 
         # Add profile information if profile scope
         if "profile" in scope:
-            userinfo.update({
-                "name": f"User {lambda_id[:8]}",
-                "preferred_username": lambda_id,
-                "updated_at": int(datetime.utcnow().timestamp())
-            })
+            userinfo.update(
+                {
+                    "name": f"User {lambda_id[:8]}",
+                    "preferred_username": lambda_id,
+                    "updated_at": int(datetime.utcnow().timestamp()),
+                }
+            )
 
         # Add email information if email scope
         if "email" in scope:
-            userinfo.update({
-                "email": f"{lambda_id}@ai",
-                "email_verified": True
-            })
+            userinfo.update({"email": f"{lambda_id}@ai", "email_verified": True})
 
         # Add tier information if lukhas scope
         if "lukhas" in scope:
@@ -844,35 +854,39 @@ class OIDCProvider:
             "scopes_supported": ["openid", "profile", "email", "offline_access", "lukhas"],
             "token_endpoint_auth_methods_supported": ["client_secret_basic", "client_secret_post", "none"],
             "claims_supported": [
-                "sub", "iss", "aud", "exp", "iat", "auth_time", "nonce",
-                "name", "given_name", "family_name", "email", "email_verified",
-                "tier_level", "session_id"
+                "sub",
+                "iss",
+                "aud",
+                "exp",
+                "iat",
+                "auth_time",
+                "nonce",
+                "name",
+                "given_name",
+                "family_name",
+                "email",
+                "email_verified",
+                "tier_level",
+                "session_id",
             ],
             "code_challenge_methods_supported": ["plain", "S256"],
-            "service_documentation": f"{self.issuer}/docs"
+            "service_documentation": f"{self.issuer}/docs",
         }
 
     def _error_response(self, error: str, error_description: str) -> Dict[str, Any]:
         """Create error response"""
-        return {
-            "success": False,
-            "error": error,
-            "error_description": error_description
-        }
+        return {"success": False, "error": error, "error_description": error_description}
 
-    def _authentication_required_response(self,
-                                        client_id: str,
-                                        response_type: str,
-                                        redirect_uri: str,
-                                        scope: str,
-                                        state: Optional[str]) -> Dict[str, Any]:
+    def _authentication_required_response(
+        self, client_id: str, response_type: str, redirect_uri: str, scope: str, state: Optional[str]
+    ) -> Dict[str, Any]:
         """Create authentication required response"""
 
         auth_params = {
             "client_id": client_id,
             "response_type": response_type,
             "redirect_uri": redirect_uri,
-            "scope": scope
+            "scope": scope,
         }
         if state:
             auth_params["state"] = state
@@ -881,7 +895,7 @@ class OIDCProvider:
             "success": False,
             "error": "authentication_required",
             "error_description": "User authentication required",
-            "login_url": f"{self.issuer}/auth/login?{urlencode(auth_params)}"
+            "login_url": f"{self.issuer}/auth/login?{urlencode(auth_params)}",
         }
 
     async def _cleanup_loop(self):
@@ -895,39 +909,39 @@ class OIDCProvider:
 
                 # Clean up expired authorization codes
                 expired_codes = [
-                    code for code, auth_code in self.authorization_codes.items()
-                    if auth_code.expires_at < now
+                    code for code, auth_code in self.authorization_codes.items() if auth_code.expires_at < now
                 ]
                 for code in expired_codes:
                     del self.authorization_codes[code]
 
                 # Clean up expired access tokens
                 expired_access_tokens = [
-                    token for token, token_info in self.access_tokens.items()
-                    if token_info.expires_at < now
+                    token for token, token_info in self.access_tokens.items() if token_info.expires_at < now
                 ]
                 for token in expired_access_tokens:
                     del self.access_tokens[token]
 
                 # Clean up expired refresh tokens
                 expired_refresh_tokens = [
-                    token for token, token_info in self.refresh_tokens.items()
-                    if token_info.expires_at < now
+                    token for token, token_info in self.refresh_tokens.items() if token_info.expires_at < now
                 ]
                 for token in expired_refresh_tokens:
                     del self.refresh_tokens[token]
 
                 # Clean up expired ID tokens
                 expired_id_tokens = [
-                    token for token, token_info in self.id_tokens.items()
-                    if token_info.expires_at < now
+                    token for token, token_info in self.id_tokens.items() if token_info.expires_at < now
                 ]
                 for token in expired_id_tokens:
                     del self.id_tokens[token]
 
                 if any([expired_codes, expired_access_tokens, expired_refresh_tokens, expired_id_tokens]):
-                    total_cleaned = (len(expired_codes) + len(expired_access_tokens) +
-                                   len(expired_refresh_tokens) + len(expired_id_tokens))
+                    total_cleaned = (
+                        len(expired_codes)
+                        + len(expired_access_tokens)
+                        + len(expired_refresh_tokens)
+                        + len(expired_id_tokens)
+                    )
                     logger.info(f"🧹 Cleaned up {total_cleaned} expired tokens/codes")
 
             except asyncio.CancelledError:
@@ -942,34 +956,30 @@ class OIDCProvider:
         now = datetime.utcnow()
 
         return {
-            "clients": {
-                "total": len(self.clients),
-                "active": sum(1 for c in self.clients.values() if c.is_active)
-            },
+            "clients": {"total": len(self.clients), "active": sum(1 for c in self.clients.values() if c.is_active)},
             "tokens": {
                 "authorization_codes": {
                     "total": len(self.authorization_codes),
-                    "active": sum(1 for ac in self.authorization_codes.values()
-                                if not ac.used and ac.expires_at > now)
+                    "active": sum(1 for ac in self.authorization_codes.values() if not ac.used and ac.expires_at > now),
                 },
                 "access_tokens": {
                     "total": len(self.access_tokens),
-                    "active": sum(1 for at in self.access_tokens.values() if at.expires_at > now)
+                    "active": sum(1 for at in self.access_tokens.values() if at.expires_at > now),
                 },
                 "refresh_tokens": {
                     "total": len(self.refresh_tokens),
-                    "active": sum(1 for rt in self.refresh_tokens.values() if rt.expires_at > now)
+                    "active": sum(1 for rt in self.refresh_tokens.values() if rt.expires_at > now),
                 },
                 "id_tokens": {
                     "total": len(self.id_tokens),
-                    "active": sum(1 for it in self.id_tokens.values() if it.expires_at > now)
-                }
+                    "active": sum(1 for it in self.id_tokens.values() if it.expires_at > now),
+                },
             },
             "configuration": {
                 "issuer": self.issuer,
                 "authorization_code_ttl": self.authorization_code_ttl,
                 "access_token_ttl": self.access_token_ttl,
                 "refresh_token_ttl": self.refresh_token_ttl,
-                "id_token_ttl": self.id_token_ttl
-            }
+                "id_token_ttl": self.id_token_ttl,
+            },
         }

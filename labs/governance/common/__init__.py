@@ -5,11 +5,11 @@ from typing import Optional
 
 class GlyphIntegrationMixin:
     """
-import streamlit as st
-    Mixin class for integrating with LUKHAS GLYPH system
+    import streamlit as st
+        Mixin class for integrating with LUKHAS GLYPH system
 
-    Provides common functionality for governance components to
-    interact with the symbolic processing and Constellation Framework.
+        Provides common functionality for governance components to
+        interact with the symbolic processing and Constellation Framework.
     """
 
     def __init__(self):

@@ -34,12 +34,12 @@ def analyze_manifests():
     contract_index = load_contract_index()
 
     stats = {
-        'total_modules': 0,
-        't1_modules': 0,
-        't1_with_contracts': 0,
-        't1_without_contracts': [],
-        'broken_references': [],
-        'modules_with_contracts': 0,
+        "total_modules": 0,
+        "t1_modules": 0,
+        "t1_with_contracts": 0,
+        "t1_without_contracts": [],
+        "broken_references": [],
+        "modules_with_contracts": 0,
     }
 
     print("=" * 80)
@@ -51,7 +51,7 @@ def analyze_manifests():
     manifests = list(MANIFESTS_DIR.rglob("module.manifest.json"))
     manifests = [m for m in manifests if ".archive" not in str(m)]
 
-    stats['total_modules'] = len(manifests)
+    stats["total_modules"] = len(manifests)
 
     for manifest_file in sorted(manifests):
         try:
@@ -61,34 +61,34 @@ def analyze_manifests():
             print(f"[ERROR] Could not read {manifest_file}: {e}")
             continue
 
-        module_name = data.get('module', {}).get('name', 'unknown')
-        quality_tier = data.get('module', {}).get('quality_tier', 'unknown')
-        contracts = data.get('contracts', [])
+        module_name = data.get("module", {}).get("name", "unknown")
+        quality_tier = data.get("module", {}).get("quality_tier", "unknown")
+        contracts = data.get("contracts", [])
 
         # Track T1 modules
-        if quality_tier == 'T1':
-            stats['t1_modules'] += 1
+        if quality_tier == "T1":
+            stats["t1_modules"] += 1
 
             if contracts:
-                stats['t1_with_contracts'] += 1
+                stats["t1_with_contracts"] += 1
                 # Check if contracts exist
                 for contract_path in contracts:
                     if contract_path not in contract_index:
-                        stats['broken_references'].append({
-                            'module': module_name,
-                            'contract': contract_path,
-                            'manifest': str(manifest_file.relative_to(ROOT))
-                        })
+                        stats["broken_references"].append(
+                            {
+                                "module": module_name,
+                                "contract": contract_path,
+                                "manifest": str(manifest_file.relative_to(ROOT)),
+                            }
+                        )
             else:
-                stats['t1_without_contracts'].append({
-                    'module': module_name,
-                    'tier': quality_tier,
-                    'manifest': str(manifest_file.relative_to(ROOT))
-                })
+                stats["t1_without_contracts"].append(
+                    {"module": module_name, "tier": quality_tier, "manifest": str(manifest_file.relative_to(ROOT))}
+                )
 
         # Track modules with contracts
         if contracts:
-            stats['modules_with_contracts'] += 1
+            stats["modules_with_contracts"] += 1
 
     # Report findings
     print("📊 OVERALL STATISTICS")
@@ -102,20 +102,20 @@ def analyze_manifests():
     print(f"   T1 with Contracts: {stats['t1_with_contracts']}")
     print(f"   T1 without Contracts: {len(stats['t1_without_contracts'])}")
 
-    if stats['t1_modules'] > 0:
-        coverage = (stats['t1_with_contracts'] / stats['t1_modules']) * 100
+    if stats["t1_modules"] > 0:
+        coverage = (stats["t1_with_contracts"] / stats["t1_modules"]) * 100
         print(f"   Coverage: {coverage:.1f}%")
     print()
 
-    if stats['t1_without_contracts']:
+    if stats["t1_without_contracts"]:
         print(f"❌ T1 MODULES WITHOUT CONTRACTS ({len(stats['t1_without_contracts'])})")
-        for item in stats['t1_without_contracts']:
+        for item in stats["t1_without_contracts"]:
             print(f"   - {item['module']} (manifest: {item['manifest']})")
         print()
 
-    if stats['broken_references']:
+    if stats["broken_references"]:
         print(f"⚠️  BROKEN CONTRACT REFERENCES ({len(stats['broken_references'])})")
-        for item in stats['broken_references']:
+        for item in stats["broken_references"]:
             print(f"   - Module: {item['module']}")
             print(f"     Missing: {item['contract']}")
             print(f"     Manifest: {item['manifest']}")
@@ -130,9 +130,9 @@ def analyze_manifests():
     print("=" * 80)
 
     issues = []
-    if stats['t1_without_contracts']:
+    if stats["t1_without_contracts"]:
         issues.append(f"{len(stats['t1_without_contracts'])} T1 modules need contracts")
-    if stats['broken_references']:
+    if stats["broken_references"]:
         issues.append(f"{len(stats['broken_references'])} broken references")
 
     if issues:

@@ -19,13 +19,14 @@ def generate_test_jwt():
         "sub": "test-user-123",
         "iat": int(time.time()),
         "exp": int(time.time()) + 3600,  # 1 hour
-        "scope": "read:files write:files"
+        "scope": "read:files write:files",
     }
 
     # Generate JWT with symmetric key (easier for testing)
-    token = jwt.encode(payload, test_secret, algorithm='HS256')
+    token = jwt.encode(payload, test_secret, algorithm="HS256")
 
     return token, test_secret
+
 
 def create_test_jwks():
     """Create test JWKS for local validation."""
@@ -38,12 +39,13 @@ def create_test_jwks():
                 "kty": "oct",
                 "use": "sig",
                 "kid": "test-key-1",
-                "k": "dGVzdC1zZWNyZXQta2V5LWZvci1sb2NhbC1kZXZlbG9wbWVudC1vbmx5LWRvLW5vdC11c2UtaW4tcHJvZHVjdGlvbg"
+                "k": "dGVzdC1zZWNyZXQta2V5LWZvci1sb2NhbC1kZXZlbG9wbWVudC1vbmx5LWRvLW5vdC11c2UtaW4tcHJvZHVjdGlvbg",
             }
         ]
     }
 
     return jwks
+
 
 if __name__ == "__main__":
     print("🧪 Local JWT Token Generator")

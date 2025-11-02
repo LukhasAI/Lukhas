@@ -33,12 +33,14 @@ logger = logging.getLogger(__name__)
 try:
     import boto3
     from botocore.exceptions import BotoCoreError, NoCredentialsError
+
     AWS_AVAILABLE = True
 except ImportError:
     AWS_AVAILABLE = False
 
 try:
     from azure.storage.blob import BlobServiceClient
+
     AZURE_AVAILABLE = True
 except ImportError:
     AZURE_AVAILABLE = False
@@ -46,6 +48,7 @@ except ImportError:
 
 class StorageBackendType(Enum):
     """Storage backend types."""
+
     LOCAL_FILESYSTEM = "local_filesystem"
     SQLITE = "sqlite"
     AWS_S3 = "aws_s3"
@@ -55,15 +58,17 @@ class StorageBackendType(Enum):
 
 class ReplicationStrategy(Enum):
     """Replication strategies."""
-    NONE = "none"                    # No replication
-    SYNC = "sync"                    # Synchronous replication
-    ASYNC = "async"                  # Asynchronous replication
-    EVENTUAL = "eventual"            # Eventual consistency
-    QUORUM = "quorum"               # Quorum-based consistency
+
+    NONE = "none"  # No replication
+    SYNC = "sync"  # Synchronous replication
+    ASYNC = "async"  # Asynchronous replication
+    EVENTUAL = "eventual"  # Eventual consistency
+    QUORUM = "quorum"  # Quorum-based consistency
 
 
 class DataClassification(Enum):
     """Data classification levels."""
+
     PUBLIC = "public"
     INTERNAL = "internal"
     CONFIDENTIAL = "confidential"
@@ -72,10 +77,11 @@ class DataClassification(Enum):
 
 class StoragePolicy(Enum):
     """Storage policies for data lifecycle."""
-    HOT = "hot"                     # Frequently accessed, fast storage
-    WARM = "warm"                   # Occasionally accessed, medium storage
-    COLD = "cold"                   # Rarely accessed, slow/cheap storage
-    ARCHIVE = "archive"             # Long-term retention, very slow storage
+
+    HOT = "hot"  # Frequently accessed, fast storage
+    WARM = "warm"  # Occasionally accessed, medium storage
+    COLD = "cold"  # Rarely accessed, slow/cheap storage
+    ARCHIVE = "archive"  # Long-term retention, very slow storage
 
 
 @dataclass
@@ -179,11 +185,11 @@ class StorageObject:
             "custom_metadata": self.custom_metadata,
             "tags": list(self.tags),
             "version": self.version,
-            "is_deleted": self.is_deleted
+            "is_deleted": self.is_deleted,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'StorageObject':
+    def from_dict(cls, data: Dict[str, Any]) -> "StorageObject":
         """Create from dictionary."""
         return cls(
             object_id=data["object_id"],
@@ -199,11 +205,13 @@ class StorageObject:
             replica_locations=data.get("replica_locations", []),
             replication_status=data.get("replication_status", "pending"),
             lifecycle_stage=StoragePolicy(data.get("lifecycle_stage", "hot")),
-            next_transition_date=datetime.fromisoformat(data["next_transition_date"]) if data.get("next_transition_date") else None,
+            next_transition_date=(
+                datetime.fromisoformat(data["next_transition_date"]) if data.get("next_transition_date") else None
+            ),
             custom_metadata=data.get("custom_metadata", {}),
             tags=set(data.get("tags", [])),
             version=data.get("version", 1),
-            is_deleted=data.get("is_deleted", False)
+            is_deleted=data.get("is_deleted", False),
         )
 
 
@@ -262,7 +270,7 @@ class StorageMetrics:
             "cold_objects": self.cold_objects,
             "archived_objects": self.archived_objects,
             "failed_operations": self.failed_operations,
-            "corrupted_objects": self.corrupted_objects
+            "corrupted_objects": self.corrupted_objects,
         }
 
 
@@ -321,13 +329,13 @@ class LocalFilesystemBackend(StorageBackend):
             file_path.parent.mkdir(parents=True, exist_ok=True)
 
             # Write data
-            async with aiofiles.open(file_path, 'wb') as f:
+            async with aiofiles.open(file_path, "wb") as f:
                 await f.write(data)
 
             # Write metadata
             if metadata:
                 metadata_path = self._get_metadata_path(key)
-                async with aiofiles.open(metadata_path, 'w') as f:
+                async with aiofiles.open(metadata_path, "w") as f:
                     await f.write(json.dumps(metadata))
 
             return True
@@ -344,7 +352,7 @@ class LocalFilesystemBackend(StorageBackend):
             if not file_path.exists():
                 return None
 
-            async with aiofiles.open(file_path, 'rb') as f:
+            async with aiofiles.open(file_path, "rb") as f:
                 return await f.read()
 
         except Exception as e:
@@ -383,10 +391,10 @@ class LocalFilesystemBackend(StorageBackend):
 
         try:
             for file_path in self.base_path.rglob("*"):
-                if file_path.is_file() and not file_path.name.startswith('.'):
+                if file_path.is_file() and not file_path.name.startswith("."):
                     # Convert file path to key
                     relative_path = file_path.relative_to(self.base_path)
-                    key = str(relative_path).replace(os.sep, '/')
+                    key = str(relative_path).replace(os.sep, "/")
 
                     if key.startswith(prefix):
                         keys.append(key)
@@ -404,7 +412,7 @@ class LocalFilesystemBackend(StorageBackend):
             if not metadata_path.exists():
                 return None
 
-            async with aiofiles.open(metadata_path, 'r') as f:
+            async with aiofiles.open(metadata_path, "r") as f:
                 content = await f.read()
                 return json.loads(content)
 
@@ -440,11 +448,11 @@ class LocalFilesystemBackend(StorageBackend):
 
     def _get_file_path(self, key: str) -> Path:
         """Get file path for key."""
-        return self.base_path / key.replace('/', os.sep)
+        return self.base_path / key.replace("/", os.sep)
 
     def _get_metadata_path(self, key: str) -> Path:
         """Get metadata file path for key."""
-        safe_key = key.replace('/', '_').replace(os.sep, '_')
+        safe_key = key.replace("/", "_").replace(os.sep, "_")
         return self.metadata_dir / f"{safe_key}.meta"
 
 
@@ -460,7 +468,8 @@ class SQLiteMetadataStore:
         """Initialize database schema."""
 
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS storage_objects (
                     object_id TEXT PRIMARY KEY,
                     key TEXT UNIQUE NOT NULL,
@@ -481,29 +490,37 @@ class SQLiteMetadataStore:
                     version INTEGER DEFAULT 1,
                     is_deleted BOOLEAN DEFAULT FALSE
                 )
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_storage_objects_key 
                 ON storage_objects(key)
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_storage_objects_last_accessed 
                 ON storage_objects(last_accessed)
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_storage_objects_lifecycle 
                 ON storage_objects(lifecycle_stage, next_transition_date)
-            """)
+            """
+            )
 
     async def store_object(self, obj: StorageObject) -> bool:
         """Store object metadata."""
 
         try:
             with sqlite3.connect(self.db_path) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT OR REPLACE INTO storage_objects (
                         object_id, key, size_bytes, content_type, content_hash,
                         created_at, last_accessed, access_count, classification,
@@ -511,17 +528,28 @@ class SQLiteMetadataStore:
                         lifecycle_stage, next_transition_date, custom_metadata,
                         tags, version, is_deleted
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    obj.object_id, obj.key, obj.size_bytes, obj.content_type,
-                    obj.content_hash, obj.created_at.isoformat(),
-                    obj.last_accessed.isoformat(), obj.access_count,
-                    obj.classification.value, obj.storage_policy.value,
-                    json.dumps(obj.replica_locations), obj.replication_status,
-                    obj.lifecycle_stage.value,
-                    obj.next_transition_date.isoformat() if obj.next_transition_date else None,
-                    json.dumps(obj.custom_metadata), json.dumps(list(obj.tags)),
-                    obj.version, obj.is_deleted
-                ))
+                """,
+                    (
+                        obj.object_id,
+                        obj.key,
+                        obj.size_bytes,
+                        obj.content_type,
+                        obj.content_hash,
+                        obj.created_at.isoformat(),
+                        obj.last_accessed.isoformat(),
+                        obj.access_count,
+                        obj.classification.value,
+                        obj.storage_policy.value,
+                        json.dumps(obj.replica_locations),
+                        obj.replication_status,
+                        obj.lifecycle_stage.value,
+                        obj.next_transition_date.isoformat() if obj.next_transition_date else None,
+                        json.dumps(obj.custom_metadata),
+                        json.dumps(list(obj.tags)),
+                        obj.version,
+                        obj.is_deleted,
+                    ),
+                )
 
             return True
 
@@ -535,10 +563,7 @@ class SQLiteMetadataStore:
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = sqlite3.Row
-                cursor = conn.execute(
-                    "SELECT * FROM storage_objects WHERE key = ? AND is_deleted = FALSE",
-                    (key,)
-                )
+                cursor = conn.execute("SELECT * FROM storage_objects WHERE key = ? AND is_deleted = FALSE", (key,))
                 row = cursor.fetchone()
 
                 if row is None:
@@ -558,21 +583,22 @@ class SQLiteMetadataStore:
                     replica_locations=json.loads(row["replica_locations"] or "[]"),
                     replication_status=row["replication_status"],
                     lifecycle_stage=StoragePolicy(row["lifecycle_stage"]),
-                    next_transition_date=datetime.fromisoformat(row["next_transition_date"]) if row["next_transition_date"] else None,
+                    next_transition_date=(
+                        datetime.fromisoformat(row["next_transition_date"]) if row["next_transition_date"] else None
+                    ),
                     custom_metadata=json.loads(row["custom_metadata"] or "{}"),
                     tags=set(json.loads(row["tags"] or "[]")),
                     version=row["version"],
-                    is_deleted=bool(row["is_deleted"])
+                    is_deleted=bool(row["is_deleted"]),
                 )
 
         except Exception as e:
             logger.error(f"Failed to get object metadata: {e}")
             return None
 
-    async def list_objects(self,
-                          prefix: str = "",
-                          limit: int = 1000,
-                          lifecycle_stage: Optional[StoragePolicy] = None) -> List[StorageObject]:
+    async def list_objects(
+        self, prefix: str = "", limit: int = 1000, lifecycle_stage: Optional[StoragePolicy] = None
+    ) -> List[StorageObject]:
         """List objects with optional filtering."""
 
         try:
@@ -610,11 +636,13 @@ class SQLiteMetadataStore:
                         replica_locations=json.loads(row["replica_locations"] or "[]"),
                         replication_status=row["replication_status"],
                         lifecycle_stage=StoragePolicy(row["lifecycle_stage"]),
-                        next_transition_date=datetime.fromisoformat(row["next_transition_date"]) if row["next_transition_date"] else None,
+                        next_transition_date=(
+                            datetime.fromisoformat(row["next_transition_date"]) if row["next_transition_date"] else None
+                        ),
                         custom_metadata=json.loads(row["custom_metadata"] or "{}"),
                         tags=set(json.loads(row["tags"] or "[]")),
                         version=row["version"],
-                        is_deleted=bool(row["is_deleted"])
+                        is_deleted=bool(row["is_deleted"]),
                     )
                     objects.append(obj)
 
@@ -629,30 +657,36 @@ class SQLiteMetadataStore:
 
         try:
             with sqlite3.connect(self.db_path) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     UPDATE storage_objects 
                     SET last_accessed = ?, access_count = access_count + 1
                     WHERE key = ?
-                """, (datetime.now().isoformat(), key))
+                """,
+                    (datetime.now().isoformat(), key),
+                )
 
         except Exception as e:
             logger.error(f"Failed to update access stats: {e}")
 
-    async def get_lifecycle_candidates(self,
-                                     current_stage: StoragePolicy,
-                                     cutoff_date: datetime) -> List[StorageObject]:
+    async def get_lifecycle_candidates(
+        self, current_stage: StoragePolicy, cutoff_date: datetime
+    ) -> List[StorageObject]:
         """Get objects eligible for lifecycle transition."""
 
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = sqlite3.Row
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT * FROM storage_objects 
                     WHERE lifecycle_stage = ? 
                     AND last_accessed < ?
                     AND is_deleted = FALSE
                     ORDER BY last_accessed ASC
-                """, (current_stage.value, cutoff_date.isoformat()))
+                """,
+                    (current_stage.value, cutoff_date.isoformat()),
+                )
 
                 objects = []
                 for row in cursor.fetchall():
@@ -670,11 +704,13 @@ class SQLiteMetadataStore:
                         replica_locations=json.loads(row["replica_locations"] or "[]"),
                         replication_status=row["replication_status"],
                         lifecycle_stage=StoragePolicy(row["lifecycle_stage"]),
-                        next_transition_date=datetime.fromisoformat(row["next_transition_date"]) if row["next_transition_date"] else None,
+                        next_transition_date=(
+                            datetime.fromisoformat(row["next_transition_date"]) if row["next_transition_date"] else None
+                        ),
                         custom_metadata=json.loads(row["custom_metadata"] or "{}"),
                         tags=set(json.loads(row["tags"] or "[]")),
                         version=row["version"],
-                        is_deleted=bool(row["is_deleted"])
+                        is_deleted=bool(row["is_deleted"]),
                     )
                     objects.append(obj)
 
@@ -696,9 +732,7 @@ class DistributedStorageManager:
         self.replica_backends: List[StorageBackend] = []
 
         # Metadata store
-        self.metadata_store = SQLiteMetadataStore(
-            os.path.join(config.base_path, "metadata.db")
-        )
+        self.metadata_store = SQLiteMetadataStore(os.path.join(config.base_path, "metadata.db"))
 
         # Metrics and monitoring
         self.metrics = StorageMetrics()
@@ -714,6 +748,7 @@ class DistributedStorageManager:
         # Telemetry integration
         try:
             from observability.telemetry_system import get_telemetry
+
             self.telemetry = get_telemetry()
         except ImportError:
             self.telemetry = None
@@ -721,6 +756,7 @@ class DistributedStorageManager:
         # Security integration
         try:
             from security.security_framework import get_security_framework
+
             self.security = get_security_framework()
         except ImportError:
             self.security = None
@@ -752,14 +788,16 @@ class DistributedStorageManager:
         logger.info("Distributed storage manager initialized")
         return True
 
-    async def put(self,
-                  key: str,
-                  data: Union[bytes, str],
-                  content_type: str = "application/octet-stream",
-                  classification: DataClassification = DataClassification.INTERNAL,
-                  storage_policy: StoragePolicy = StoragePolicy.HOT,
-                  metadata: Optional[Dict[str, str]] = None,
-                  tags: Optional[Set[str]] = None) -> bool:
+    async def put(
+        self,
+        key: str,
+        data: Union[bytes, str],
+        content_type: str = "application/octet-stream",
+        classification: DataClassification = DataClassification.INTERNAL,
+        storage_policy: StoragePolicy = StoragePolicy.HOT,
+        metadata: Optional[Dict[str, str]] = None,
+        tags: Optional[Set[str]] = None,
+    ) -> bool:
         """Store object in distributed storage."""
 
         start_time = time.time()
@@ -767,7 +805,7 @@ class DistributedStorageManager:
         try:
             # Convert string to bytes
             if isinstance(data, str):
-                data = data.encode('utf-8')
+                data = data.encode("utf-8")
 
             # Security check
             if self.security and not await self._check_write_permission(key, classification):
@@ -778,6 +816,7 @@ class DistributedStorageManager:
             original_size = len(data)
             if self.config.compression_enabled:
                 import zlib
+
                 compressed_data = zlib.compress(data)
                 if len(compressed_data) < len(data):
                     data = compressed_data
@@ -809,7 +848,7 @@ class DistributedStorageManager:
                 classification=classification,
                 storage_policy=storage_policy,
                 custom_metadata=metadata or {},
-                tags=tags or set()
+                tags=tags or set(),
             )
 
             # Store in primary backend
@@ -837,9 +876,8 @@ class DistributedStorageManager:
 
             write_latency = (time.time() - start_time) * 1000
             self.metrics.average_write_latency_ms = (
-                (self.metrics.average_write_latency_ms * (self.metrics.write_operations - 1) + write_latency) /
-                self.metrics.write_operations
-            )
+                self.metrics.average_write_latency_ms * (self.metrics.write_operations - 1) + write_latency
+            ) / self.metrics.write_operations
 
             # Emit telemetry
             if self.telemetry:
@@ -854,8 +892,8 @@ class DistributedStorageManager:
                         "classification": classification.value,
                         "storage_policy": storage_policy.value,
                         "replica_count": len(obj.replica_locations),
-                        "write_latency_ms": write_latency
-                    }
+                        "write_latency_ms": write_latency,
+                    },
                 )
 
             logger.info(f"✅ Object stored successfully: {key} ({obj.size_bytes} bytes)")
@@ -900,6 +938,7 @@ class DistributedStorageManager:
             # Decompress if needed
             if obj.custom_metadata.get("compressed") == "true":
                 import zlib
+
                 data = zlib.decompress(data)
 
             # Update access statistics
@@ -909,9 +948,8 @@ class DistributedStorageManager:
             self.metrics.read_operations += 1
             read_latency = (time.time() - start_time) * 1000
             self.metrics.average_read_latency_ms = (
-                (self.metrics.average_read_latency_ms * (self.metrics.read_operations - 1) + read_latency) /
-                self.metrics.read_operations
-            )
+                self.metrics.average_read_latency_ms * (self.metrics.read_operations - 1) + read_latency
+            ) / self.metrics.read_operations
 
             # Emit telemetry
             if self.telemetry:
@@ -919,11 +957,7 @@ class DistributedStorageManager:
                     component="distributed_storage",
                     event_type="object_retrieved",
                     message=f"Object retrieved: {key}",
-                    data={
-                        "key": key,
-                        "size_bytes": len(data),
-                        "read_latency_ms": read_latency
-                    }
+                    data={"key": key, "size_bytes": len(data), "read_latency_ms": read_latency},
                 )
 
             return data
@@ -974,7 +1008,7 @@ class DistributedStorageManager:
                     component="distributed_storage",
                     event_type="object_deleted",
                     message=f"Object deleted: {key}",
-                    data={"key": key, "size_bytes": obj.size_bytes}
+                    data={"key": key, "size_bytes": obj.size_bytes},
                 )
 
             return primary_deleted
@@ -984,9 +1018,7 @@ class DistributedStorageManager:
             self.metrics.failed_operations += 1
             return False
 
-    async def list_objects(self,
-                          prefix: str = "",
-                          limit: int = 1000) -> List[StorageObject]:
+    async def list_objects(self, prefix: str = "", limit: int = 1000) -> List[StorageObject]:
         """List objects with optional prefix filter."""
 
         return await self.metadata_store.list_objects(prefix, limit)
@@ -1000,18 +1032,10 @@ class DistributedStorageManager:
         """Get comprehensive storage metrics."""
 
         # Update lifecycle stage counts
-        hot_objects = await self.metadata_store.list_objects(
-            lifecycle_stage=StoragePolicy.HOT, limit=10000
-        )
-        warm_objects = await self.metadata_store.list_objects(
-            lifecycle_stage=StoragePolicy.WARM, limit=10000
-        )
-        cold_objects = await self.metadata_store.list_objects(
-            lifecycle_stage=StoragePolicy.COLD, limit=10000
-        )
-        archived_objects = await self.metadata_store.list_objects(
-            lifecycle_stage=StoragePolicy.ARCHIVE, limit=10000
-        )
+        hot_objects = await self.metadata_store.list_objects(lifecycle_stage=StoragePolicy.HOT, limit=10000)
+        warm_objects = await self.metadata_store.list_objects(lifecycle_stage=StoragePolicy.WARM, limit=10000)
+        cold_objects = await self.metadata_store.list_objects(lifecycle_stage=StoragePolicy.COLD, limit=10000)
+        archived_objects = await self.metadata_store.list_objects(lifecycle_stage=StoragePolicy.ARCHIVE, limit=10000)
 
         self.metrics.hot_objects = len(hot_objects)
         self.metrics.warm_objects = len(warm_objects)
@@ -1023,9 +1047,8 @@ class DistributedStorageManager:
         total_references = sum(len(keys) for keys in self.content_hashes.values())
         if total_references > total_unique_hashes:
             # Estimate savings (simplified calculation)
-            self.metrics.deduplication_savings_bytes = (
-                (total_references - total_unique_hashes) *
-                (self.metrics.total_size_bytes / max(total_references, 1))
+            self.metrics.deduplication_savings_bytes = (total_references - total_unique_hashes) * (
+                self.metrics.total_size_bytes / max(total_references, 1)
             )
 
         return self.metrics.to_dict()
@@ -1040,11 +1063,9 @@ class DistributedStorageManager:
         logger.warning(f"Backend type not implemented: {backend_type}")
         return None
 
-    async def _replicate_object(self,
-                               key: str,
-                               data: bytes,
-                               metadata: Optional[Dict[str, str]],
-                               obj: StorageObject) -> None:
+    async def _replicate_object(
+        self, key: str, data: bytes, metadata: Optional[Dict[str, str]], obj: StorageObject
+    ) -> None:
         """Replicate object to replica backends."""
 
         if self.config.replication_strategy == ReplicationStrategy.SYNC:
@@ -1059,10 +1080,7 @@ class DistributedStorageManager:
                 if await backend.put(key, data, metadata):
                     obj.replica_locations.append(replica_id)
 
-            tasks = [
-                replicate_to_backend(backend, f"replica_{i}")
-                for i, backend in enumerate(self.replica_backends)
-            ]
+            tasks = [replicate_to_backend(backend, f"replica_{i}") for i, backend in enumerate(self.replica_backends)]
 
             await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -1072,10 +1090,9 @@ class DistributedStorageManager:
         else:
             obj.replication_status = "partial"
 
-    async def _create_dedup_reference(self,
-                                    new_key: str,
-                                    existing_key: str,
-                                    metadata: Optional[Dict[str, str]]) -> bool:
+    async def _create_dedup_reference(
+        self, new_key: str, existing_key: str, metadata: Optional[Dict[str, str]]
+    ) -> bool:
         """Create a deduplication reference."""
 
         # Get existing object
@@ -1096,7 +1113,7 @@ class DistributedStorageManager:
             classification=existing_obj.classification,
             storage_policy=existing_obj.storage_policy,
             custom_metadata=metadata or {},
-            tags=set()
+            tags=set(),
         )
 
         # Add deduplication metadata
@@ -1180,13 +1197,13 @@ class DistributedStorageManager:
                     self.telemetry.emit_metric(
                         component="distributed_storage",
                         metric_name="primary_backend_healthy",
-                        value=1.0 if primary_healthy else 0.0
+                        value=1.0 if primary_healthy else 0.0,
                     )
 
                     self.telemetry.emit_metric(
                         component="distributed_storage",
                         metric_name="replica_backends_healthy",
-                        value=sum(replica_health)
+                        value=sum(replica_health),
                     )
 
             except asyncio.CancelledError:
@@ -1253,7 +1270,7 @@ if __name__ == "__main__":
             base_path="/tmp/lukhas_demo_storage",
             replication_factor=2,
             compression_enabled=True,
-            deduplication_enabled=True
+            deduplication_enabled=True,
         )
 
         storage = DistributedStorageManager(config)
@@ -1266,7 +1283,7 @@ if __name__ == "__main__":
             content_type="text/plain",
             classification=DataClassification.INTERNAL,
             storage_policy=StoragePolicy.HOT,
-            tags={"document", "report"}
+            tags={"document", "report"},
         )
 
         # Retrieve object

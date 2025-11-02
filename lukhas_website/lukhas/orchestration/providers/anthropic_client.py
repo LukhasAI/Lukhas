@@ -34,12 +34,13 @@ class AnthropicClient(BaseAIClient):
             "claude-3-sonnet-20240229",
             "claude-3-haiku-20240307",
             "claude-2.1",
-            "claude-2.0"
+            "claude-2.0",
         ]
 
         if ENABLE_ANTHROPIC_CALLS:
             try:
                 import anthropic
+
                 self.anthropic = anthropic.Anthropic(api_key=self.api_key) if self.api_key else None
                 logger.info("Anthropic client initialized with real API")
             except ImportError:
@@ -56,7 +57,7 @@ class AnthropicClient(BaseAIClient):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate response from Anthropic Claude API or mock"""
 
@@ -92,8 +93,7 @@ class AnthropicClient(BaseAIClient):
 
             # Make request to Anthropic
             response = await asyncio.get_event_loop().run_in_executor(
-                None,
-                lambda: self.anthropic.messages.create(**request_params)
+                None, lambda: self.anthropic.messages.create(**request_params)
             )
 
             latency_ms = (time.time() - start_time) * 1000
@@ -105,7 +105,7 @@ class AnthropicClient(BaseAIClient):
             usage = {
                 "prompt_tokens": response.usage.input_tokens,
                 "completion_tokens": response.usage.output_tokens,
-                "total_tokens": response.usage.input_tokens + response.usage.output_tokens
+                "total_tokens": response.usage.input_tokens + response.usage.output_tokens,
             }
 
             return AIResponse(
@@ -118,9 +118,9 @@ class AnthropicClient(BaseAIClient):
                     "anthropic_response_id": response.id,
                     "anthropic_model": response.model,
                     "stop_reason": response.stop_reason,
-                    "stop_sequence": response.stop_sequence
+                    "stop_sequence": response.stop_sequence,
                 },
-                finish_reason=response.stop_reason
+                finish_reason=response.stop_reason,
             )
 
         except Exception as e:
@@ -138,7 +138,7 @@ class AnthropicClient(BaseAIClient):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate mock response when Anthropic is disabled or unavailable"""
 
@@ -164,15 +164,15 @@ class AnthropicClient(BaseAIClient):
             usage={
                 "prompt_tokens": len(prompt.split()),
                 "completion_tokens": len(mock_content.split()),
-                "total_tokens": len(prompt.split()) + len(mock_content.split())
+                "total_tokens": len(prompt.split()) + len(mock_content.split()),
             },
             metadata={
                 "mock": True,
                 "feature_flag_enabled": ENABLE_ANTHROPIC_CALLS,
                 "api_key_present": bool(self.api_key),
-                "claude_style": "thoughtful_detailed"
+                "claude_style": "thoughtful_detailed",
             },
-            finish_reason="stop"
+            finish_reason="stop",
         )
 
     async def health_check(self) -> bool:
@@ -186,10 +186,8 @@ class AnthropicClient(BaseAIClient):
             test_response = await asyncio.get_event_loop().run_in_executor(
                 None,
                 lambda: self.anthropic.messages.create(
-                    model="claude-3-haiku-20240307",
-                    max_tokens=10,
-                    messages=[{"role": "user", "content": "Hi"}]
-                )
+                    model="claude-3-haiku-20240307", max_tokens=10, messages=[{"role": "user", "content": "Hi"}]
+                ),
             )
             return bool(test_response)
         except Exception as e:
@@ -200,12 +198,7 @@ class AnthropicClient(BaseAIClient):
         """Get available Anthropic models"""
         return self.models.copy()
 
-    def estimate_cost(
-        self,
-        prompt: str,
-        model: str,
-        max_tokens: Optional[int] = None
-    ) -> float:
+    def estimate_cost(self, prompt: str, model: str, max_tokens: Optional[int] = None) -> float:
         """Estimate cost for Anthropic request"""
         if not ENABLE_ANTHROPIC_CALLS:
             return 0.0
@@ -216,7 +209,7 @@ class AnthropicClient(BaseAIClient):
             "claude-3-sonnet-20240229": 0.003,
             "claude-3-haiku-20240307": 0.00025,
             "claude-2.1": 0.008,
-            "claude-2.0": 0.008
+            "claude-2.0": 0.008,
         }
 
         base_cost = cost_per_1k_tokens.get(model, 0.003)

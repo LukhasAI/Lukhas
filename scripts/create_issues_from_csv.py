@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 
-def mk_labels(owner_hint:str, priority:str, extra:str|None):
+def mk_labels(owner_hint: str, priority: str, extra: str | None):
     labels = ["debt"]
     if extra:
         labels.append(extra)
@@ -34,13 +34,16 @@ def mk_labels(owner_hint:str, priority:str, extra:str|None):
         labels.append(f"priority/{priority.upper()}")
     return labels
 
-def summarize(text:str, limit:int=80):
-    t = (text or "").strip().replace("\n"," ")
+
+def summarize(text: str, limit: int = 80):
+    t = (text or "").strip().replace("\n", " ")
     return t[:limit] + ("…" if len(t) > limit else "")
 
-def esc_body(body:str)->str:
+
+def esc_body(body: str) -> str:
     # Use ANSI-C quoting via $'..' to keep newlines; escape single quotes
-    return "$'" + body.replace("\\","\\\\").replace("'", r"'\''").replace("\n", r"\n") + "'"
+    return "$'" + body.replace("\\", "\\\\").replace("'", r"'\''").replace("\n", r"\n") + "'"
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -63,13 +66,13 @@ def main():
     with src.open("r", encoding="utf-8") as f:
         r = csv.DictReader(f)
         for row in r:
-            path = row.get("path","")
-            line = row.get("line","")
-            kind = row.get("kind","general")
-            owner_hint = row.get("owner_hint","")
-            priority = row.get("priority","P3")
-            tag = row.get("tag","").strip()
-            text = row.get("text","").strip()
+            path = row.get("path", "")
+            line = row.get("line", "")
+            kind = row.get("kind", "general")
+            owner_hint = row.get("owner_hint", "")
+            priority = row.get("priority", "P3")
+            tag = row.get("tag", "").strip()
+            text = row.get("text", "").strip()
 
             title = f"TODO: {summarize(text or f'{kind} in {path}:{line}')}"
             body = f"""# Auto-generated from {src}
@@ -82,7 +85,7 @@ def main():
 **Context:**
 {text or '(no additional context)'}
 """
-            cmd = ["gh","issue","create","--title",title,"--body", body]
+            cmd = ["gh", "issue", "create", "--title", title, "--body", body]
             if args.repo:
                 cmd += ["--repo", args.repo]
             for lab in mk_labels(owner_hint, priority, args.label_extra or None):
@@ -109,6 +112,7 @@ def main():
     outp.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"[OK] wrote {outp} with {created} gh issue commands")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

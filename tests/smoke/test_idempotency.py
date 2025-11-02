@@ -9,6 +9,7 @@ Verifies that Idempotency-Key header provides safe replay semantics:
 Phase 3: Added for reliability polish.
 Phase 4: Enhanced with TTL expiry and replay semantics tests (Task 3).
 """
+
 from __future__ import annotations
 
 import time
@@ -94,9 +95,9 @@ def test_without_idempotency_key_not_cached(client: TestClient) -> None:
 def test_idempotency_same_body_cached_within_300s(client: TestClient) -> None:
     """
     Task 3.1: Replay with same body returns cached response within TTL window.
-    
+
     OpenAI Behavior: Duplicate request with same Idempotency-Key returns cached.
-    
+
     DoD:
     - First request completes normally (200)
     - Second request with same key + body returns cached (200, <100ms)
@@ -128,10 +129,10 @@ def test_idempotency_same_body_cached_within_300s(client: TestClient) -> None:
 def test_idempotency_different_body_recomputes_not_cached(client: TestClient) -> None:
     """
     Task 3.2: Replay with different body recomputes (no cache poisoning).
-    
+
     OpenAI Behavior: Same key + different body → 400 or recompute.
     LUKHAS: We recompute gracefully to avoid cache poisoning.
-    
+
     DoD:
     - First request completes (200)
     - Second request with same key + different body → new response (200)
@@ -162,15 +163,15 @@ def test_idempotency_different_body_recomputes_not_cached(client: TestClient) ->
 def test_idempotency_ttl_expiry_recomputes_after_cache_expiry(client: TestClient) -> None:
     """
     Task 3.3: Expired idempotency entry recomputes after TTL.
-    
+
     OpenAI Behavior: Idempotency cache has TTL (24h typical, LUKHAS uses shorter).
-    
+
     DoD:
     - First request completes (200)
     - Wait for TTL expiry (or mock time)
     - Second request after TTL → recompute (200)
     - Graceful TTL handling (no errors)
-    
+
     NOTE: This test requires a short TTL (e.g., 2-3s) for practical testing.
     Production TTL is typically 300s-24h. Adjust sleep based on config.
     """

@@ -42,9 +42,7 @@ def discover_nodes(root_package: str = "labs") -> int:
 
     # Use pkgutil.walk_packages to find all submodules
     for importer, modname, ispkg in pkgutil.walk_packages(
-        path=getattr(root_module, "__path__", []),
-        prefix=f"{root_package}.",
-        onerror=lambda x: None
+        path=getattr(root_module, "__path__", []), prefix=f"{root_package}.", onerror=lambda x: None
     ):
         # Only process modules that contain 'nodes' in their path
         if ".nodes" not in modname:
@@ -88,6 +86,7 @@ def discover_nodes(root_package: str = "labs") -> int:
             except Exception as e:
                 # Log but don't fail on individual node registration errors
                 import logging
+
                 logging.debug(f"Failed to register node {node_name}: {e}")
                 continue
 

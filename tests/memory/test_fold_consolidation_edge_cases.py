@@ -19,6 +19,7 @@ import pytest
 
 try:
     from memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
+
     MEMORY_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full memory system
@@ -52,12 +53,12 @@ class TestFoldConsolidationEdgeCases:
                 content={
                     "text": f"Memory content {i}",
                     "data": {"value": i, "category": f"cat_{i % 5}"},
-                    "metadata": {"source": "test", "importance": i % 10}
+                    "metadata": {"source": "test", "importance": i % 10},
                 },
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=base_time + timedelta(minutes=i),
                 tags=[f"tag_{i % 3}", "test_data"],
-                importance_score=0.1 + (i % 10) * 0.1
+                importance_score=0.1 + (i % 10) * 0.1,
             )
             memories.append(memory)
 
@@ -138,7 +139,7 @@ class TestFoldConsolidationEdgeCases:
             memory_type=MemoryType.EPISODIC,
             timestamp=datetime.now(),
             tags=["single"],
-            importance_score=0.5
+            importance_score=0.5,
         )
 
         single_fold.add_item(single_memory)
@@ -206,7 +207,7 @@ class TestFoldConsolidationEdgeCases:
             large_content = {
                 "text": "Large memory content " * 1000,  # ~20KB per item
                 "data": {"large_data": "x" * 10000},  # Additional large data
-                "index": i
+                "index": i,
             }
 
             memory = MemoryItem(
@@ -215,7 +216,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["large_content"],
-                importance_score=0.5
+                importance_score=0.5,
             )
 
             fold.add_item(memory)
@@ -254,7 +255,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.PROCEDURAL if i % 2 else MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=[f"type_{i % 4}"],
-                importance_score=0.3 + (i % 7) * 0.1
+                importance_score=0.3 + (i % 7) * 0.1,
             )
 
             fold.add_item(memory)
@@ -284,12 +285,12 @@ class TestFoldConsolidationEdgeCases:
                 content={
                     "text": f"Important project {i} with keyword SEARCHTERM",
                     "category": "project",
-                    "status": "active" if i % 2 else "completed"
+                    "status": "active" if i % 2 else "completed",
                 },
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["project", "searchable", f"batch_{i // 10}"],
-                importance_score=0.4 + (i % 6) * 0.1
+                importance_score=0.4 + (i % 6) * 0.1,
             )
 
             fold.add_item(memory)
@@ -327,7 +328,7 @@ class TestFoldConsolidationEdgeCases:
             memory_type=MemoryType.DECLARATIVE,
             timestamp=datetime.now(),
             tags=["problematic"],
-            importance_score=0.5
+            importance_score=0.5,
         )
 
         # Create circular reference
@@ -344,7 +345,7 @@ class TestFoldConsolidationEdgeCases:
                     memory_type=MemoryType.DECLARATIVE,
                     timestamp=datetime.now(),
                     tags=["normal"],
-                    importance_score=0.5
+                    importance_score=0.5,
                 )
                 fold.add_item(normal_memory)
 
@@ -356,8 +357,9 @@ class TestFoldConsolidationEdgeCases:
             assert "error_handling" in consolidated_item.content, "Should note error handling"
         except Exception as e:
             # If consolidation fails, it should be a controlled failure
-            assert "circular" in str(e).lower() or "serialize" in str(e).lower(), \
-                   "Should fail with expected serialization error"
+            assert (
+                "circular" in str(e).lower() or "serialize" in str(e).lower()
+            ), "Should fail with expected serialization error"
 
     def test_performance_under_consolidation(self, memory_system):
         """Test performance characteristics during consolidation."""
@@ -376,7 +378,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["performance"],
-                importance_score=0.5
+                importance_score=0.5,
             )
             fold.add_item(memory)
 
@@ -398,7 +400,6 @@ class TestFoldConsolidationEdgeCases:
         print(f"Original size: {original_size}, Consolidated size: {consolidated_size}")
         print(f"Consolidation time: {consolidation_time:.3f}s for 200 items")
 
-
     def test_consolidation_concurrent_access_edge_case(self, memory_system):
         """Test consolidation behavior under concurrent access scenarios."""
 
@@ -412,7 +413,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["concurrent"],
-                importance_score=0.5
+                importance_score=0.5,
             )
             fold.add_item(memory)
 
@@ -437,7 +438,7 @@ class TestFoldConsolidationEdgeCases:
             huge_content = {
                 "text": "Memory pressure test " * 10000,  # Very large text
                 "data": {"huge_array": list(range(10000))},  # Large data structure
-                "metadata": {"size_test": "x" * 50000}  # Additional large content
+                "metadata": {"size_test": "x" * 50000},  # Additional large content
             }
 
             memory = MemoryItem(
@@ -446,7 +447,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["memory_pressure"],
-                importance_score=0.7
+                importance_score=0.7,
             )
 
             fold.add_item(memory)
@@ -477,12 +478,12 @@ class TestFoldConsolidationEdgeCases:
                 content={
                     "text": f"Memory A {i}",
                     "references": [f"ref_mem_b_{i}", f"ref_mem_b_{i+1}"],
-                    "fold_dependency": "dependent_fold_b"
+                    "fold_dependency": "dependent_fold_b",
                 },
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["cross_reference", "fold_a"],
-                importance_score=0.6
+                importance_score=0.6,
             )
             fold_a.add_item(memory_a)
 
@@ -492,12 +493,12 @@ class TestFoldConsolidationEdgeCases:
                 content={
                     "text": f"Memory B {i}",
                     "back_references": [f"ref_mem_a_{i}"],
-                    "fold_dependency": "dependent_fold_a"
+                    "fold_dependency": "dependent_fold_a",
                 },
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["cross_reference", "fold_b"],
-                importance_score=0.6
+                importance_score=0.6,
             )
             fold_b.add_item(memory_b)
 
@@ -522,28 +523,21 @@ class TestFoldConsolidationEdgeCases:
         for i in range(60):
             if i % 3 == 0:
                 # Version 1 schema
-                content = {
-                    "schema_version": "1.0",
-                    "text": f"Version 1 memory {i}",
-                    "old_field": "legacy_data"
-                }
+                content = {"schema_version": "1.0", "text": f"Version 1 memory {i}", "old_field": "legacy_data"}
             elif i % 3 == 1:
                 # Version 2 schema
                 content = {
                     "schema_version": "2.0",
                     "content": f"Version 2 memory {i}",
                     "new_field": "updated_data",
-                    "metadata": {"migration_needed": True}
+                    "metadata": {"migration_needed": True},
                 }
             else:
                 # Version 3 schema
                 content = {
                     "schema_version": "3.0",
-                    "data": {
-                        "text": f"Version 3 memory {i}",
-                        "structured": True
-                    },
-                    "features": ["advanced", "typed"]
+                    "data": {"text": f"Version 3 memory {i}", "structured": True},
+                    "features": ["advanced", "typed"],
                 }
 
             memory = MemoryItem(
@@ -552,7 +546,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["version_test", f"v{content['schema_version']}"],
-                importance_score=0.5
+                importance_score=0.5,
             )
             fold.add_item(memory)
 
@@ -582,17 +576,14 @@ class TestFoldConsolidationEdgeCases:
                 content = {
                     "text": f"Problematic memory {i}",
                     "circular_data": {},  # Will be made circular
-                    "error_trigger": True
+                    "error_trigger": True,
                 }
                 # Create circular reference
                 content["circular_data"]["self_ref"] = content
 
             else:
                 # Normal memory
-                content = {
-                    "text": f"Normal memory {i}",
-                    "data": {"index": i, "normal": True}
-                }
+                content = {"text": f"Normal memory {i}", "data": {"index": i, "normal": True}}
 
             memory = MemoryItem(
                 id=f"cascade_mem_{i}",
@@ -600,7 +591,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.DECLARATIVE,
                 timestamp=datetime.now(),
                 tags=["cascade_test"],
-                importance_score=0.5
+                importance_score=0.5,
             )
             fold.add_item(memory)
 
@@ -671,7 +662,7 @@ class TestFoldConsolidationEdgeCases:
                 "nested_data": {
                     "level1": {"level2": {"level3": f"deep_data_{i}"}},
                     "array_data": list(range(100)),  # More memory usage
-                }
+                },
             }
 
             memory = MemoryItem(
@@ -680,7 +671,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.PROCEDURAL,
                 timestamp=datetime.now(),
                 tags=["large_data", f"batch_{i//50}"],
-                importance_score=0.3
+                importance_score=0.3,
             )
 
             large_memories.append(memory)
@@ -714,7 +705,7 @@ class TestFoldConsolidationEdgeCases:
                 memory_type=MemoryType.SEMANTIC,
                 timestamp=datetime.now(),
                 tags=["normal"],
-                importance_score=0.4
+                importance_score=0.4,
             )
             fold.add_item(memory)
 
@@ -723,7 +714,7 @@ class TestFoldConsolidationEdgeCases:
         original_count = len(original_items)
 
         # Mock corruption detection during consolidation
-        with patch.object(fold, '_detect_corruption', return_value=True):
+        with patch.object(fold, "_detect_corruption", return_value=True):
             try:
                 consolidated_item = fold.consolidate()
 

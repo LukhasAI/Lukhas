@@ -25,10 +25,7 @@ class TestCompletionModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "completion",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "completion", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestCompletionModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import completion
+
         self.assertIsNotNone(completion)
 
     def test_module_version(self):
         """Test module has version information."""
         import completion
+
         # Most modules should have version info
-        self.assertTrue(hasattr(completion, '__version__') or
-                       hasattr(completion, 'VERSION'))
+        self.assertTrue(hasattr(completion, "__version__") or hasattr(completion, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestTodoEntry(unittest.TestCase):
         """Test TodoEntry can be imported."""
         try:
             from completion.generate_batch_codex_cleanup_006_report import TodoEntry
+
             self.assertIsNotNone(TodoEntry)
         except ImportError:
             pytest.skip("Component TodoEntry not available")
@@ -97,6 +96,7 @@ class Testmain(unittest.TestCase):
         """Test main can be imported."""
         try:
             from completion.generate_batch_codex_cleanup_006_report import main
+
             self.assertIsNotNone(main)
         except ImportError:
             pytest.skip("Component main not available")
@@ -105,7 +105,6 @@ class Testmain(unittest.TestCase):
         """Test main can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

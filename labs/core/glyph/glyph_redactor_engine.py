@@ -205,6 +205,7 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
             # ΛSCRUBBED (text_label)
             level_short = glyph_sensitivity_level.split("_")[0] if "_" in glyph_sensitivity_level else "SENSITIVE"
             return f"{REDACTION_TEXT_PREFIX}{level_short}{REDACTION_TEXT_SUFFIX}"
+
     public_redactor = GlyphRedactorEngine(public_context, provider)
 
     redacted_line_1_public = public_redactor.redact_stream(log_line_1, redaction_mode="obfuscate")

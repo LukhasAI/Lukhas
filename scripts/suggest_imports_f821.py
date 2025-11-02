@@ -70,8 +70,10 @@ F821_MSG_RE = re.compile(r"Undefined name '([^']+)'")
 
 # --- Helpers -----------------------------------------------------------------
 
+
 def read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
+
 
 def nearest_manifest(pyfile: Path) -> dict:
     for parent in [pyfile] + list(pyfile.parents):
@@ -82,6 +84,7 @@ def nearest_manifest(pyfile: Path) -> dict:
             except Exception:
                 return {}
     return {}
+
 
 def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> Optional[str]:
     """
@@ -104,6 +107,7 @@ def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> Optional[st
         parts[-1] = parts[-1].replace(".py", "")
     return ".".join(parts)
 
+
 def scan_symbols(pyfile: Path) -> Tuple[List[str], List[str], List[str]]:
     """Return (classes, functions, constants) defined at module top-level."""
     try:
@@ -123,6 +127,7 @@ def scan_symbols(pyfile: Path) -> Tuple[List[str], List[str], List[str]]:
                     if re.match(r"^[A-Z_][A-Z0-9_]*$", name):  # heuristic: constant-like
                         consts.append(name)
     return classes, funcs, consts
+
 
 def build_symbol_index(repo_root: Path, root_pkg: str) -> Tuple[Dict[str, List[str]], Dict[str, str]]:
     """
@@ -148,12 +153,15 @@ def build_symbol_index(repo_root: Path, root_pkg: str) -> Tuple[Dict[str, List[s
             symbol_index.setdefault(s, []).append(mod)
     return symbol_index, module_index
 
-def candidates_for_symbol(symbol: str,
-                          symbol_index: Dict[str, List[str]],
-                          module_index: Dict[str, str],
-                          file_path: Path,
-                          repo_root: Path,
-                          root_pkg: str) -> List[Tuple[str, float, str]]:
+
+def candidates_for_symbol(
+    symbol: str,
+    symbol_index: Dict[str, List[str]],
+    module_index: Dict[str, str],
+    file_path: Path,
+    repo_root: Path,
+    root_pkg: str,
+) -> List[Tuple[str, float, str]]:
     """
     Return list of (import_line, confidence, reason).
     """
@@ -171,7 +179,7 @@ def candidates_for_symbol(symbol: str,
         suggestions.append((f"from {mod} import {symbol}", 0.90, "unique symbol in index"))
     elif len(hits) > 1:
         # try star/colony tie-breaker
-        me_star = ((nearest_manifest(file_path).get("constellation_alignment") or {}).get("primary_star"))
+        me_star = (nearest_manifest(file_path).get("constellation_alignment") or {}).get("primary_star")
         same_star = []
         for mod in hits:
             mod_file = Path(repo_root, *mod.split("."))  # best-effort
@@ -187,7 +195,7 @@ def candidates_for_symbol(symbol: str,
                     pass
             if me_star and star == me_star:
                 same_star.append(mod)
-        pick = (same_star[0] if same_star else hits[0])
+        pick = same_star[0] if same_star else hits[0]
         conf = 0.78 if same_star else 0.65
         reason = "symbol in multiple modules; same-star preference" if same_star else "symbol in multiple modules"
         suggestions.append((f"from {pick} import {symbol}", conf, reason))
@@ -215,9 +223,11 @@ def candidates_for_symbol(symbol: str,
     merged.sort(key=lambda x: (-x[1], x[0]))
     return merged
 
+
 def extract_symbol_from_msg(msg: str) -> Optional[str]:
     m = F821_MSG_RE.search(msg)
     return m.group(1) if m else None
+
 
 def file_has_import(path: Path, import_line: str) -> bool:
     try:
@@ -226,6 +236,7 @@ def file_has_import(path: Path, import_line: str) -> bool:
         return False
     # very simple containment check
     return import_line in txt
+
 
 def insert_import(path: Path, import_line: str) -> bool:
     """
@@ -270,7 +281,9 @@ def insert_import(path: Path, import_line: str) -> bool:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return True
 
+
 # --- Main --------------------------------------------------------------------
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -294,7 +307,7 @@ def main():
         if e.get("code") != "F821":
             continue
         file = Path(e["filename"]).resolve()
-        msg = e.get("message","")
+        msg = e.get("message", "")
         sym = extract_symbol_from_msg(msg)
         if not sym:
             continue
@@ -302,28 +315,32 @@ def main():
         suggs = candidates_for_symbol(sym, symbol_index, module_index, file, repo_root, args.root_pkg)
         if not suggs:
             # no idea—skip
-            rows.append({
-                "file": str(file),
-                "line": str(e["location"]["row"]),
-                "symbol": sym,
-                "suggestion": "",
-                "import_line": "",
-                "confidence": "0.00",
-                "reason": "no-candidate"
-            })
+            rows.append(
+                {
+                    "file": str(file),
+                    "line": str(e["location"]["row"]),
+                    "symbol": sym,
+                    "suggestion": "",
+                    "import_line": "",
+                    "confidence": "0.00",
+                    "reason": "no-candidate",
+                }
+            )
             continue
 
         # choose best suggestion
         import_line, conf, reason = suggs[0]
-        rows.append({
-            "file": str(file),
-            "line": str(e["location"]["row"]),
-            "symbol": sym,
-            "suggestion": "add-import",
-            "import_line": import_line,
-            "confidence": f"{conf:.2f}",
-            "reason": reason
-        })
+        rows.append(
+            {
+                "file": str(file),
+                "line": str(e["location"]["row"]),
+                "symbol": sym,
+                "suggestion": "add-import",
+                "import_line": import_line,
+                "confidence": f"{conf:.2f}",
+                "reason": reason,
+            }
+        )
 
         if args.apply:
             if args.apply_limit and edits >= args.apply_limit:
@@ -333,9 +350,12 @@ def main():
                     edits += 1
 
     # CSV
-    outp = Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)
+    outp = Path(args.out)
+    outp.parent.mkdir(parents=True, exist_ok=True)
     with outp.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["file","line","symbol","suggestion","import_line","confidence","reason"])
+        w = csv.DictWriter(
+            f, fieldnames=["file", "line", "symbol", "suggestion", "import_line", "confidence", "reason"]
+        )
         w.writeheader()
         for r in rows:
             w.writerow(r)
@@ -349,9 +369,12 @@ def main():
         f.write("| File | Line | Symbol | Import | Conf | Reason |\n|---|---:|---|---|---:|---|\n")
         for r in rows[:500]:
             imp = r["import_line"] or "—"
-            f.write(f"| `{r['file']}` | {r['line']} | `{r['symbol']}` | `{imp}` | {r['confidence']} | {r['reason']} |\n")
+            f.write(
+                f"| `{r['file']}` | {r['line']} | `{r['symbol']}` | `{imp}` | {r['confidence']} | {r['reason']} |\n"
+            )
 
     print(f"[OK] Wrote {outp} and {mdp}. Applied edits: {edits}")
+
 
 if __name__ == "__main__":
     main()

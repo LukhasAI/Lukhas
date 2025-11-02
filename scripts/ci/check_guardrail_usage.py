@@ -16,12 +16,13 @@ import sys
 from pathlib import Path
 
 BANNED = [
-    r"\bopenai\.",                  # OpenAI Python
-    r"\banthropic\.",               # Anthropic Python
-    r"\bgoogle\.generativeai\.",    # Google GenAI
+    r"\bopenai\.",  # OpenAI Python
+    r"\banthropic\.",  # Anthropic Python
+    r"\bgoogle\.generativeai\.",  # Google GenAI
     r"\bbotocore\.client\(['\"]bedrock['\"]\)",  # AWS Bedrock
 ]
 ALLOWLIST_PREFIXES = ("tests/", "docs/", "core/bridge/llm_guardrail.py")
+
 
 def search_file(p: Path) -> list[str]:
     try:
@@ -34,6 +35,7 @@ def search_file(p: Path) -> list[str]:
             hits.append(pat)
     return hits
 
+
 def main() -> int:
     # Pre-commit passes file list; fall back to repo scan if none given
     files = [Path(f) for f in sys.argv[1:] if f.endswith(".py")]
@@ -42,6 +44,7 @@ def main() -> int:
         try:
             import shlex
             import subprocess
+
             out = subprocess.check_output(shlex.split("git ls-files '*.py'")).decode().splitlines()
             files = [Path(x) for x in out]
         except Exception:
@@ -65,6 +68,7 @@ def main() -> int:
         print(f" - {sp}  ← matched: {pats}")
     print("\nFix: replace direct SDK calls with the guardrail wrapper.")
     return 2
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -11,6 +11,7 @@ Usage:
   store.append(event)
   recent = store.query_recent(limit=100)
 """
+
 from __future__ import annotations
 
 import os
@@ -23,6 +24,7 @@ from uuid import UUID, uuid4
 
 try:
     from prometheus_client import Counter, Gauge, Histogram
+
     try:
         EVENTS_APPENDED = Counter("lukhas_events_appended_total", "Events appended to store", ["kind", "lane"])
         EVENTS_QUERIED = Counter("lukhas_events_queried_total", "Event queries executed", ["query_type"])
@@ -32,22 +34,40 @@ try:
     except ValueError:
         # Metrics already registered (happens in tests), use no-op fallbacks
         PROM = False
+
         class _NoopMetric:
-            def labels(self, *_, **__): return self
-            def inc(self, *_): pass
-            def set(self, *_): pass
-            def observe(self, *_): pass
+            def labels(self, *_, **__):
+                return self
+
+            def inc(self, *_):
+                pass
+
+            def set(self, *_):
+                pass
+
+            def observe(self, *_):
+                pass
+
         EVENTS_APPENDED = _NoopMetric()
         EVENTS_QUERIED = _NoopMetric()
         STORE_SIZE = _NoopMetric()
         QUERY_DURATION = _NoopMetric()
 except Exception:
     PROM = False
+
     class _NoopMetric:
-        def labels(self, *_, **__): return self
-        def inc(self, *_): pass
-        def set(self, *_): pass
-        def observe(self, *_): pass
+        def labels(self, *_, **__):
+            return self
+
+        def inc(self, *_):
+            pass
+
+        def set(self, *_):
+            pass
+
+        def observe(self, *_):
+            pass
+
     EVENTS_APPENDED = _NoopMetric()
     EVENTS_QUERIED = _NoopMetric()
     STORE_SIZE = _NoopMetric()
@@ -61,11 +81,12 @@ class Event:
 
     Fields match T4-DELTA-PLAN specification exactly.
     """
+
     id: UUID
     ts: datetime
-    kind: str        # "intention", "action", "memory_write", "reward", "breakthrough"
-    lane: str        # "experimental", "candidate", "prod"
-    glyph_id: UUID   # GLYPH identity for traceability
+    kind: str  # "intention", "action", "memory_write", "reward", "breakthrough"
+    lane: str  # "experimental", "candidate", "prod"
+    glyph_id: UUID  # GLYPH identity for traceability
     payload: Dict[str, Any]
 
     @classmethod
@@ -77,7 +98,7 @@ class Event:
         payload: Dict[str, Any],
         *,
         ts: Optional[datetime] = None,
-        event_id: Optional[UUID] = None
+        event_id: Optional[UUID] = None,
     ) -> Event:
         """Create a new event with automatic ID and timestamp."""
         return cls(
@@ -86,7 +107,7 @@ class Event:
             kind=kind,
             lane=lane,
             glyph_id=glyph_id,
-            payload=payload.copy() if payload else {}
+            payload=payload.copy() if payload else {},
         )
 
     def to_dict(self) -> Dict[str, Any]:
@@ -97,7 +118,7 @@ class Event:
             "kind": self.kind,
             "lane": self.lane,
             "glyph_id": str(self.glyph_id),
-            "payload": self.payload
+            "payload": self.payload,
         }
 
     @classmethod
@@ -109,7 +130,7 @@ class Event:
             kind=data["kind"],
             lane=data["lane"],
             glyph_id=UUID(data["glyph_id"]),
-            payload=data["payload"]
+            payload=data["payload"],
         )
 
 
@@ -150,11 +171,7 @@ class EventStore:
                 STORE_SIZE.set(len(self.events))
 
     def query_recent(
-        self,
-        limit: int = 100,
-        kind: Optional[str] = None,
-        lane: Optional[str] = None,
-        since: Optional[datetime] = None
+        self, limit: int = 100, kind: Optional[str] = None, lane: Optional[str] = None, since: Optional[datetime] = None
     ) -> List[Event]:
         """Query recent events with optional filtering."""
         query_type = f"recent_{kind or 'all'}_{lane or 'all'}"
@@ -177,12 +194,7 @@ class EventStore:
 
                 return candidates[:limit]
 
-    def query_by_glyph(
-        self,
-        glyph_id: UUID,
-        limit: int = 100,
-        since: Optional[datetime] = None
-    ) -> List[Event]:
+    def query_by_glyph(self, glyph_id: UUID, limit: int = 100, since: Optional[datetime] = None) -> List[Event]:
         """Query events for specific glyph ID (for replay)."""
         query_type = "by_glyph"
 
@@ -203,19 +215,13 @@ class EventStore:
                 return candidates[:limit]
 
     def query_sliding_window(
-        self,
-        window_seconds: int = 300,  # 5 minutes default
-        kind: Optional[str] = None
+        self, window_seconds: int = 300, kind: Optional[str] = None  # 5 minutes default
     ) -> List[Event]:
         """Query events within sliding time window for replay analysis."""
         since = datetime.utcnow() - timedelta(seconds=window_seconds)
         return self.query_recent(limit=1000, kind=kind, since=since)
 
-    def replay_sequence(
-        self,
-        glyph_id: UUID,
-        max_events: int = 1000
-    ) -> Iterator[Event]:
+    def replay_sequence(self, glyph_id: UUID, max_events: int = 1000) -> Iterator[Event]:
         """Generate replay sequence for specific glyph (chronological order)."""
         events = self.query_by_glyph(glyph_id, limit=max_events)
         # Reverse to get chronological order (oldest first)
@@ -230,7 +236,7 @@ class EventStore:
                 "utilization": len(self.events) / self.max_capacity,
                 "unique_glyphs": len(self._glyph_index),
                 "unique_kinds": len(self._kind_index),
-                "lane": self.lane
+                "lane": self.lane,
             }
 
     def _add_to_indexes(self, event: Event) -> None:
@@ -275,8 +281,12 @@ class EventStore:
 
 class _DummyTimer:
     """No-op context manager when Prometheus is unavailable."""
-    def __enter__(self): return self
-    def __exit__(self, *_): pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        pass
 
 
 # Global event store instance
@@ -307,7 +317,7 @@ if __name__ == "__main__":
     try:
         while True:
             line = input("> ").strip()
-            if line.lower() in ['quit', 'exit', 'q']:
+            if line.lower() in ["quit", "exit", "q"]:
                 break
 
             parts = line.split(None, 2)

@@ -84,7 +84,7 @@ class TestStreamContinuity:
             fps=20,  # Moderate rate for sustained testing
             store_capacity=200,
             enable_backpressure=True,
-            backpressure_threshold=0.7
+            backpressure_threshold=0.7,
         )
 
         stream.router.start()
@@ -202,7 +202,7 @@ class TestStreamContinuity:
             fps=50,  # High rate
             store_capacity=50,  # Small capacity to create pressure
             enable_backpressure=True,
-            backpressure_threshold=0.6
+            backpressure_threshold=0.6,
         )
 
         stream.get_stream_metrics()
@@ -221,7 +221,9 @@ class TestStreamContinuity:
         if final_metrics["backpressure_stats"]:
             bp_stats = final_metrics["backpressure_stats"]
             # Should have applied backpressure mechanisms
-            assert bp_stats["total_drops"] > 0 or bp_stats["decimation_events"] > 0, "No backpressure applied under pressure"
+            assert (
+                bp_stats["total_drops"] > 0 or bp_stats["decimation_events"] > 0
+            ), "No backpressure applied under pressure"
             # Drop rate should be reasonable (not losing everything)
             assert bp_stats["drop_rate"] < 0.5, f"Excessive drop rate: {bp_stats['drop_rate']:.3f}"
 
@@ -247,17 +249,15 @@ class TestStreamContinuity:
 
         # Average processing time should be reasonable
         if metrics["avg_tick_processing_ms"] > 0:
-            assert metrics["avg_tick_processing_ms"] < 10, f"Average processing time {metrics['avg_tick_processing_ms']:.1f}ms exceeds 10ms"
+            assert (
+                metrics["avg_tick_processing_ms"] < 10
+            ), f"Average processing time {metrics['avg_tick_processing_ms']:.1f}ms exceeds 10ms"
 
     def test_comprehensive_stream_continuity_validation(self):
         """Comprehensive validation of all stream-continuity requirements."""
         # Create stream with production-like configuration
         stream = ConsciousnessStream(
-            fps=30,
-            store_capacity=500,
-            enable_backpressure=True,
-            backpressure_threshold=0.8,
-            decimation_factor=2
+            fps=30, store_capacity=500, enable_backpressure=True, backpressure_threshold=0.8, decimation_factor=2
         )
 
         stream.router.start()

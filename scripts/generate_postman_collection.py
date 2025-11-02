@@ -26,11 +26,7 @@ def check_dependencies():
 
     # Check if openapi2postmanv2 CLI is available (optional)
     try:
-        result = subprocess.run(
-            ["openapi2postmanv2", "--version"],
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run(["openapi2postmanv2", "--version"], capture_output=True, text=True)
         if result.returncode == 0:
             return True
     except FileNotFoundError:
@@ -39,24 +35,16 @@ def check_dependencies():
     print("⚠️  openapi2postmanv2 not found, will use fallback generation")
     return False
 
-def convert_openapi_to_postman(
-    openapi_path: Path,
-    output_path: Path,
-    collection_name: str = "LUKHAS API"
-):
+
+def convert_openapi_to_postman(openapi_path: Path, output_path: Path, collection_name: str = "LUKHAS API"):
     """Convert OpenAPI spec to Postman collection using CLI tool."""
     print(f"🔄 Converting {openapi_path} to Postman collection...")
 
     # Use openapi2postmanv2 CLI
     result = subprocess.run(
-        [
-            "openapi2postmanv2",
-            "-s", str(openapi_path),
-            "-o", str(output_path),
-            "-p"  # Pretty print
-        ],
+        ["openapi2postmanv2", "-s", str(openapi_path), "-o", str(output_path), "-p"],  # Pretty print
         capture_output=True,
-        text=True
+        text=True,
     )
 
     if result.returncode != 0:
@@ -65,6 +53,7 @@ def convert_openapi_to_postman(
 
     print(f"✅ Postman collection created: {output_path}")
     return True
+
 
 def enhance_postman_collection(collection_path: Path):
     """Enhance generated collection with LUKHAS-specific examples and tests."""
@@ -105,53 +94,55 @@ def enhance_postman_collection(collection_path: Path):
 
     print("✅ Enhanced collection with authentication and examples")
 
+
 def add_auth_and_examples(request: dict):
     """Add authentication headers and example tests to a request."""
     # Add Authorization header using environment variable
     if "header" not in request:
         request["header"] = []
 
-    request["header"].append({
-        "key": "Authorization",
-        "value": "Bearer {{api_key}}",
-        "type": "text"
-    })
+    request["header"].append({"key": "Authorization", "value": "Bearer {{api_key}}", "type": "text"})
 
     # Add example test script
-    request["event"] = [{
-        "listen": "test",
-        "script": {
-            "type": "text/javascript",
-            "exec": [
-                "// Basic response validation",
-                "pm.test(\"Status code is 200\", function () {",
-                "    pm.response.to.have.status(200);",
-                "});",
-                "",
-                "pm.test(\"Response time is acceptable\", function () {",
-                "    pm.expect(pm.response.responseTime).to.be.below(500); // SLO: p95 < 500ms",
-                "});",
-                "",
-                "pm.test(\"Response has valid JSON\", function () {",
-                "    pm.response.to.be.json;",
-                "});"
-            ]
+    request["event"] = [
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Basic response validation",
+                    'pm.test("Status code is 200", function () {',
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    'pm.test("Response time is acceptable", function () {',
+                    "    pm.expect(pm.response.responseTime).to.be.below(500); // SLO: p95 < 500ms",
+                    "});",
+                    "",
+                    'pm.test("Response has valid JSON", function () {',
+                    "    pm.response.to.be.json;",
+                    "});",
+                ],
+            },
         }
-    }]
+    ]
 
     # Add pre-request script for logging
-    request["event"].append({
-        "listen": "prerequest",
-        "script": {
-            "type": "text/javascript",
-            "exec": [
-                "// Log request details",
-                "console.log('Request URL:', pm.request.url.toString());",
-                "console.log('Request Method:', pm.request.method);",
-                "console.log('Timestamp:', new Date().toISOString());"
-            ]
+    request["event"].append(
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Log request details",
+                    "console.log('Request URL:', pm.request.url.toString());",
+                    "console.log('Request Method:', pm.request.method);",
+                    "console.log('Timestamp:', new Date().toISOString());",
+                ],
+            },
         }
-    })
+    )
+
 
 def create_postman_environment(output_path: Path):
     """Create Postman environment file with LUKHAS variables."""
@@ -159,46 +150,22 @@ def create_postman_environment(output_path: Path):
         "id": "lukhas-api-env",
         "name": "LUKHAS API Environment",
         "values": [
-            {
-                "key": "base_url",
-                "value": "http://localhost:8000",
-                "type": "default",
-                "enabled": True
-            },
-            {
-                "key": "api_key",
-                "value": "your_api_key_here",
-                "type": "secret",
-                "enabled": True
-            },
-            {
-                "key": "model",
-                "value": "lukhas-consciousness-v1",
-                "type": "default",
-                "enabled": True
-            },
-            {
-                "key": "max_tokens",
-                "value": "100",
-                "type": "default",
-                "enabled": True
-            },
-            {
-                "key": "temperature",
-                "value": "0.7",
-                "type": "default",
-                "enabled": True
-            }
+            {"key": "base_url", "value": "http://localhost:8000", "type": "default", "enabled": True},
+            {"key": "api_key", "value": "your_api_key_here", "type": "secret", "enabled": True},
+            {"key": "model", "value": "lukhas-consciousness-v1", "type": "default", "enabled": True},
+            {"key": "max_tokens", "value": "100", "type": "default", "enabled": True},
+            {"key": "temperature", "value": "0.7", "type": "default", "enabled": True},
         ],
         "_postman_variable_scope": "environment",
         "_postman_exported_at": "2025-01-08T00:00:00.000Z",
-        "_postman_exported_using": "Postman/10.0.0"
+        "_postman_exported_using": "Postman/10.0.0",
     }
 
     with open(output_path, "w") as f:
         json.dump(environment, f, indent=2)
 
     print(f"✅ Postman environment created: {output_path}")
+
 
 def create_example_requests(output_dir: Path):
     """Create example request bodies for testing."""
@@ -207,25 +174,17 @@ def create_example_requests(output_dir: Path):
             "model": "{{model}}",
             "messages": [
                 {"role": "system", "content": "You are a consciousness-aware AI assistant."},
-                {"role": "user", "content": "Explain the concept of consciousness."}
+                {"role": "user", "content": "Explain the concept of consciousness."},
             ],
             "max_tokens": "{{max_tokens}}",
-            "temperature": "{{temperature}}"
+            "temperature": "{{temperature}}",
         },
-        "response_generation": {
-            "input": "What is the nature of consciousness?",
-            "tools": [],
-            "stream": False
-        },
+        "response_generation": {"input": "What is the nature of consciousness?", "tools": [], "stream": False},
         "embeddings": {
             "model": "lukhas-embeddings-v1",
-            "input": "Consciousness is the state of being aware of one's surroundings and thoughts."
+            "input": "Consciousness is the state of being aware of one's surroundings and thoughts.",
         },
-        "dream_generation": {
-            "seed": "consciousness exploration",
-            "depth": 5,
-            "mode": "symbolic"
-        }
+        "dream_generation": {"seed": "consciousness exploration", "depth": 5, "mode": "symbolic"},
     }
 
     examples_dir = output_dir / "examples"
@@ -236,6 +195,7 @@ def create_example_requests(output_dir: Path):
         with open(example_path, "w") as f:
             json.dump(body, f, indent=2)
         print(f"✅ Example created: {example_path}")
+
 
 def main():
     """Main conversion workflow."""
@@ -291,13 +251,14 @@ def main():
     print(f"  📖 README:      {output_dir / 'README.md'}")
     print("\nImport these files into Postman to get started!")
 
+
 def create_minimal_collection(output_path: Path):
     """Create a minimal Postman collection manually (fallback)."""
     collection = {
         "info": {
             "name": "LUKHAS OpenAI-Compatible API",
             "description": "API collection for LUKHAS AI Platform",
-            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         },
         "item": [
             {
@@ -305,26 +266,16 @@ def create_minimal_collection(output_path: Path):
                 "request": {
                     "method": "GET",
                     "header": [],
-                    "url": {
-                        "raw": "{{base_url}}/health",
-                        "host": ["{{base_url}}"],
-                        "path": ["health"]
-                    }
-                }
+                    "url": {"raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"]},
+                },
             },
             {
                 "name": "List Models",
                 "request": {
                     "method": "GET",
-                    "header": [
-                        {"key": "Authorization", "value": "Bearer {{api_key}}"}
-                    ],
-                    "url": {
-                        "raw": "{{base_url}}/v1/models",
-                        "host": ["{{base_url}}"],
-                        "path": ["v1", "models"]
-                    }
-                }
+                    "header": [{"key": "Authorization", "value": "Bearer {{api_key}}"}],
+                    "url": {"raw": "{{base_url}}/v1/models", "host": ["{{base_url}}"], "path": ["v1", "models"]},
+                },
             },
             {
                 "name": "Create Response",
@@ -332,30 +283,23 @@ def create_minimal_collection(output_path: Path):
                     "method": "POST",
                     "header": [
                         {"key": "Content-Type", "value": "application/json"},
-                        {"key": "Authorization", "value": "Bearer {{api_key}}"}
+                        {"key": "Authorization", "value": "Bearer {{api_key}}"},
                     ],
                     "body": {
                         "mode": "raw",
-                        "raw": json.dumps({
-                            "input": "What is consciousness?",
-                            "tools": [],
-                            "stream": False
-                        }, indent=2)
+                        "raw": json.dumps({"input": "What is consciousness?", "tools": [], "stream": False}, indent=2),
                     },
-                    "url": {
-                        "raw": "{{base_url}}/v1/responses",
-                        "host": ["{{base_url}}"],
-                        "path": ["v1", "responses"]
-                    }
-                }
-            }
-        ]
+                    "url": {"raw": "{{base_url}}/v1/responses", "host": ["{{base_url}}"], "path": ["v1", "responses"]},
+                },
+            },
+        ],
     }
 
     with open(output_path, "w") as f:
         json.dump(collection, f, indent=2)
 
     print(f"✅ Minimal collection created: {output_path}")
+
 
 def create_postman_readme(output_dir: Path):
     """Create README for Postman collection usage."""
@@ -595,6 +539,7 @@ Found issues or want to add examples? Open a PR with:
         f.write(readme_content)
 
     print(f"✅ Postman README created: {readme_path}")
+
 
 if __name__ == "__main__":
     main()

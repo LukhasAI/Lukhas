@@ -87,9 +87,7 @@ def test_create_device_sync_token_builds_binding_hash_and_scope():
         "user_id": "user-sync",
         "issued_at": sync_token["issued_at"],
     }
-    expected_hash = hashlib.sha256(
-        json.dumps(expected_binding_material, sort_keys=True).encode()
-    ).hexdigest()
+    expected_hash = hashlib.sha256(json.dumps(expected_binding_material, sort_keys=True).encode()).hexdigest()
     assert sync_token["token_bindings"]["binding_hash"] == expected_hash
 
     assert sync_token["platform_support"] == ["ios", "mobile", "web"]

@@ -17,6 +17,7 @@ Features:
 #TAG:drift
 #TAG:autonomy
 """
+
 import logging
 import time
 from enum import Enum
@@ -34,9 +35,11 @@ def _lazy_hash(obj, fast_tag=None):
     try:
         import hashlib
         import json
+
         return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode("utf-8")).hexdigest()[:16]
     except Exception:
         return "hash-na"
+
 
 # Metrics are handled by the drift_manager to avoid duplication
 METRICS_AVAILABLE = False
@@ -45,10 +48,11 @@ METRICS_AVAILABLE = False
 if METRICS_AVAILABLE:
     try:
         from prometheus_client import Counter, Histogram
-        REPAIR_ATTEMPTS = Counter('lukhas_repair_attempts_total', 'Total repair attempts', ['kind', 'method'])
-        REPAIR_SUCCESSES = Counter('lukhas_repair_successes_total', 'Successful repairs', ['kind', 'method'])
-        REPAIR_ERRORS = Counter('lukhas_repair_errors_total', 'Failed repairs', ['kind', 'method'])
-        REPAIR_DURATION = Histogram('lukhas_repair_duration_seconds', 'Repair duration')
+
+        REPAIR_ATTEMPTS = Counter("lukhas_repair_attempts_total", "Total repair attempts", ["kind", "method"])
+        REPAIR_SUCCESSES = Counter("lukhas_repair_successes_total", "Successful repairs", ["kind", "method"])
+        REPAIR_ERRORS = Counter("lukhas_repair_errors_total", "Failed repairs", ["kind", "method"])
+        REPAIR_DURATION = Histogram("lukhas_repair_duration_seconds", "Repair duration")
     except ImportError:
         METRICS_AVAILABLE = False
 
@@ -57,8 +61,10 @@ if not METRICS_AVAILABLE:
     class MockMetric:
         def labels(self, **kwargs):
             return self
+
         def inc(self):
             pass
+
         def observe(self, value):
             pass
 
@@ -70,6 +76,7 @@ if not METRICS_AVAILABLE:
 
 class RepairMethod(Enum):
     """Available repair methods"""
+
     RECONSOLIDATE = "reconsolidate"  # Memory fold reconsolidation
     REALIGN = "realign"  # Ethical realignment
     STABILIZE = "stabilize"  # Identity stabilization
@@ -80,9 +87,9 @@ class RepairMethod(Enum):
 class RepairResult:
     """Result of a repair operation"""
 
-    def __init__(self, success: bool, method: RepairMethod,
-                 pre_score: float, post_score: float,
-                 details: Dict[str, Any] = None):
+    def __init__(
+        self, success: bool, method: RepairMethod, pre_score: float, post_score: float, details: Dict[str, Any] = None
+    ):
         self.success = success
         self.method = method
         self.pre_score = pre_score
@@ -121,22 +128,25 @@ class TraceRepairEngine:
         self.config = config or {}
 
         # Override thresholds if provided
-        self.minor_threshold = self.config.get('minor_threshold', self.MINOR_THRESHOLD)
-        self.critical_threshold = self.config.get('critical_threshold', self.CRITICAL_THRESHOLD)
-        self.severe_threshold = self.config.get('severe_threshold', self.SEVERE_THRESHOLD)
+        self.minor_threshold = self.config.get("minor_threshold", self.MINOR_THRESHOLD)
+        self.critical_threshold = self.config.get("critical_threshold", self.CRITICAL_THRESHOLD)
+        self.severe_threshold = self.config.get("severe_threshold", self.SEVERE_THRESHOLD)
 
         # Success criteria
-        self.min_improvement_pct = self.config.get('min_improvement_pct', self.MIN_IMPROVEMENT_PCT)
-        self.max_attempts = self.config.get('max_attempts', self.MAX_REPAIR_ATTEMPTS)
+        self.min_improvement_pct = self.config.get("min_improvement_pct", self.MIN_IMPROVEMENT_PCT)
+        self.max_attempts = self.config.get("max_attempts", self.MAX_REPAIR_ATTEMPTS)
 
         # Repair history for analysis
         self.repair_history: List[RepairResult] = []
 
-        logger.info(f"TraceRepairEngine initialized with thresholds: "
-                   f"minor={self.minor_threshold}, critical={self.critical_threshold}")
+        logger.info(
+            f"TraceRepairEngine initialized with thresholds: "
+            f"minor={self.minor_threshold}, critical={self.critical_threshold}"
+        )
 
-    def reconsolidate(self, kind: str, score: float, context: Dict[str, Any],
-                     top_symbols: List[str] = None) -> RepairResult:
+    def reconsolidate(
+        self, kind: str, score: float, context: Dict[str, Any], top_symbols: List[str] = None
+    ) -> RepairResult:
         """
         Main repair entry point - reconsolidate traces to reduce drift.
 
@@ -155,12 +165,11 @@ class TraceRepairEngine:
         start_time = time.time()
         top_symbols = top_symbols or []
 
-        logger.info(f"Starting reconsolidation for {kind} drift: "
-                   f"score={score:.4f}, symbols={top_symbols[:3]}")
+        logger.info(f"Starting reconsolidation for {kind} drift: " f"score={score:.4f}, symbols={top_symbols[:3]}")
 
         # Track metrics
         if METRICS_AVAILABLE:
-            REPAIR_ATTEMPTS.labels(kind=kind, method='reconsolidate').inc()
+            REPAIR_ATTEMPTS.labels(kind=kind, method="reconsolidate").inc()
 
         try:
             # Select repair method based on drift characteristics
@@ -191,9 +200,11 @@ class TraceRepairEngine:
 
             # Log result
             if result.success:
-                logger.info(f"Repair successful: {kind} drift reduced from "
-                          f"{result.pre_score:.4f} to {result.post_score:.4f} "
-                          f"({result.improvement_pct:.1f}% improvement)")
+                logger.info(
+                    f"Repair successful: {kind} drift reduced from "
+                    f"{result.pre_score:.4f} to {result.post_score:.4f} "
+                    f"({result.improvement_pct:.1f}% improvement)"
+                )
             else:
                 logger.warning(f"Repair failed for {kind} drift: {result.details.get('error', 'unknown')}")
 
@@ -202,18 +213,17 @@ class TraceRepairEngine:
         except Exception as e:
             logger.error(f"Error during reconsolidation: {e}")
             if METRICS_AVAILABLE:
-                REPAIR_ERRORS.labels(kind=kind, method='reconsolidate').inc()
+                REPAIR_ERRORS.labels(kind=kind, method="reconsolidate").inc()
 
             return RepairResult(
                 success=False,
                 method=RepairMethod.RECONSOLIDATE,
                 pre_score=score,
                 post_score=score,
-                details={'error': str(e)}
+                details={"error": str(e)},
             )
 
-    def _select_repair_method(self, kind: str, score: float,
-                            top_symbols: List[str]) -> RepairMethod:
+    def _select_repair_method(self, kind: str, score: float, top_symbols: List[str]) -> RepairMethod:
         """
         Select optimal repair method based on drift characteristics.
 
@@ -226,17 +236,17 @@ class TraceRepairEngine:
             Recommended repair method
         """
         # Memory drift - prefer reconsolidation
-        if kind == 'memory':
+        if kind == "memory":
             if score > self.severe_threshold:
                 return RepairMethod.ROLLBACK
-            elif any('fold' in symbol for symbol in top_symbols):
+            elif any("fold" in symbol for symbol in top_symbols):
                 return RepairMethod.RECONSOLIDATE
             else:
                 return RepairMethod.STABILIZE
 
         # Ethical drift - prefer realignment
-        elif kind == 'ethical':
-            if any('compliance' in symbol or 'constitutional' in symbol for symbol in top_symbols):
+        elif kind == "ethical":
+            if any("compliance" in symbol or "constitutional" in symbol for symbol in top_symbols):
                 return RepairMethod.REALIGN
             elif score > self.severe_threshold:
                 return RepairMethod.ROLLBACK
@@ -244,8 +254,8 @@ class TraceRepairEngine:
                 return RepairMethod.STABILIZE
 
         # Identity drift - prefer stabilization
-        elif kind == 'identity':
-            if any('namespace' in symbol for symbol in top_symbols):
+        elif kind == "identity":
+            if any("namespace" in symbol for symbol in top_symbols):
                 return RepairMethod.STABILIZE
             elif score > self.severe_threshold:
                 return RepairMethod.ROLLBACK
@@ -253,16 +263,16 @@ class TraceRepairEngine:
                 return RepairMethod.REALIGN
 
         # Unified drift - use hybrid approach
-        elif kind == 'unified':
+        elif kind == "unified":
             return RepairMethod.HYBRID
 
         # Default to stabilization
         else:
             return RepairMethod.STABILIZE
 
-    def _memory_reconsolidation(self, kind: str, score: float,
-                              context: Dict[str, Any],
-                              top_symbols: List[str]) -> RepairResult:
+    def _memory_reconsolidation(
+        self, kind: str, score: float, context: Dict[str, Any], top_symbols: List[str]
+    ) -> RepairResult:
         """
         Memory-specific reconsolidation repair.
 
@@ -294,15 +304,15 @@ class TraceRepairEngine:
             pre_score=score,
             post_score=post_score,
             details={
-                'symbols_addressed': top_symbols[:3],
-                'reconsolidation_factor': improvement_factor,
-                'estimated_folds_repaired': len(top_symbols)
-            }
+                "symbols_addressed": top_symbols[:3],
+                "reconsolidation_factor": improvement_factor,
+                "estimated_folds_repaired": len(top_symbols),
+            },
         )
 
-    def _ethical_realignment(self, kind: str, score: float,
-                           context: Dict[str, Any],
-                           top_symbols: List[str]) -> RepairResult:
+    def _ethical_realignment(
+        self, kind: str, score: float, context: Dict[str, Any], top_symbols: List[str]
+    ) -> RepairResult:
         """
         Ethical alignment repair.
 
@@ -332,15 +342,15 @@ class TraceRepairEngine:
             pre_score=score,
             post_score=post_score,
             details={
-                'symbols_addressed': top_symbols[:3],
-                'realignment_factor': improvement_factor,
-                'compliance_rules_updated': len([s for s in top_symbols if 'compliance' in s])
-            }
+                "symbols_addressed": top_symbols[:3],
+                "realignment_factor": improvement_factor,
+                "compliance_rules_updated": len([s for s in top_symbols if "compliance" in s]),
+            },
         )
 
-    def _identity_stabilization(self, kind: str, score: float,
-                              context: Dict[str, Any],
-                              top_symbols: List[str]) -> RepairResult:
+    def _identity_stabilization(
+        self, kind: str, score: float, context: Dict[str, Any], top_symbols: List[str]
+    ) -> RepairResult:
         """
         Identity coherence stabilization.
 
@@ -365,7 +375,7 @@ class TraceRepairEngine:
         post_score = score * improvement_factor
 
         # Special handling for namespace changes
-        namespace_issues = len([s for s in top_symbols if 'namespace' in s])
+        namespace_issues = len([s for s in top_symbols if "namespace" in s])
         if namespace_issues > 0:
             # Namespace repairs are very effective
             post_score = min(post_score, score * 0.2)
@@ -376,15 +386,13 @@ class TraceRepairEngine:
             pre_score=score,
             post_score=post_score,
             details={
-                'symbols_addressed': top_symbols[:3],
-                'stabilization_factor': improvement_factor,
-                'namespace_repairs': namespace_issues
-            }
+                "symbols_addressed": top_symbols[:3],
+                "stabilization_factor": improvement_factor,
+                "namespace_repairs": namespace_issues,
+            },
         )
 
-    def _state_rollback(self, kind: str, score: float,
-                       context: Dict[str, Any],
-                       top_symbols: List[str]) -> RepairResult:
+    def _state_rollback(self, kind: str, score: float, context: Dict[str, Any], top_symbols: List[str]) -> RepairResult:
         """
         Emergency state rollback for severe drift.
 
@@ -401,15 +409,13 @@ class TraceRepairEngine:
             pre_score=score,
             post_score=post_score,
             details={
-                'rollback_reason': 'severe_drift',
-                'symbols_affected': top_symbols,
-                'rollback_scope': 'full_state'
-            }
+                "rollback_reason": "severe_drift",
+                "symbols_affected": top_symbols,
+                "rollback_scope": "full_state",
+            },
         )
 
-    def _hybrid_repair(self, kind: str, score: float,
-                      context: Dict[str, Any],
-                      top_symbols: List[str]) -> RepairResult:
+    def _hybrid_repair(self, kind: str, score: float, context: Dict[str, Any], top_symbols: List[str]) -> RepairResult:
         """
         Hybrid repair approach for complex/unified drift.
 
@@ -418,29 +424,23 @@ class TraceRepairEngine:
         logger.debug(f"Applying hybrid repair to unified drift: {top_symbols[:5]}")
 
         # Analyze symbols to determine repair mix
-        memory_symbols = [s for s in top_symbols if 'memory.' in s]
-        ethical_symbols = [s for s in top_symbols if 'ethical.' in s]
-        identity_symbols = [s for s in top_symbols if 'identity.' in s]
+        memory_symbols = [s for s in top_symbols if "memory." in s]
+        ethical_symbols = [s for s in top_symbols if "ethical." in s]
+        identity_symbols = [s for s in top_symbols if "identity." in s]
 
         # Apply targeted repairs
         improvements = []
 
         if memory_symbols:
-            mem_result = self._memory_reconsolidation(
-                'memory', score * 0.6, context, memory_symbols
-            )
+            mem_result = self._memory_reconsolidation("memory", score * 0.6, context, memory_symbols)
             improvements.append(mem_result.improvement_pct)
 
         if ethical_symbols:
-            eth_result = self._ethical_realignment(
-                'ethical', score * 0.6, context, ethical_symbols
-            )
+            eth_result = self._ethical_realignment("ethical", score * 0.6, context, ethical_symbols)
             improvements.append(eth_result.improvement_pct)
 
         if identity_symbols:
-            id_result = self._identity_stabilization(
-                'identity', score * 0.6, context, identity_symbols
-            )
+            id_result = self._identity_stabilization("identity", score * 0.6, context, identity_symbols)
             improvements.append(id_result.improvement_pct)
 
         # Combined effectiveness (average of individual improvements)
@@ -458,14 +458,14 @@ class TraceRepairEngine:
             pre_score=score,
             post_score=post_score,
             details={
-                'repair_components': {
-                    'memory': len(memory_symbols),
-                    'ethical': len(ethical_symbols),
-                    'identity': len(identity_symbols)
+                "repair_components": {
+                    "memory": len(memory_symbols),
+                    "ethical": len(ethical_symbols),
+                    "identity": len(identity_symbols),
                 },
-                'individual_improvements': improvements,
-                'combined_factor': improvement_factor
-            }
+                "individual_improvements": improvements,
+                "combined_factor": improvement_factor,
+            },
         )
 
     def get_repair_success_rate(self, hours: int = 24) -> float:
@@ -500,7 +500,7 @@ class TraceRepairEngine:
         repairs = self.repair_history
         if kind:
             # Filter by kind if available in details
-            repairs = [r for r in repairs if r.details.get('kind') == kind]
+            repairs = [r for r in repairs if r.details.get("kind") == kind]
 
         if not repairs:
             return 0.0

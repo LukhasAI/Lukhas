@@ -58,10 +58,7 @@ HEADERS = {
 }
 
 # Notion color palette for stable hashing
-NOTION_COLORS = [
-    "default", "gray", "brown", "orange", "yellow",
-    "green", "blue", "purple", "pink", "red"
-]
+NOTION_COLORS = ["default", "gray", "brown", "orange", "yellow", "green", "blue", "purple", "pink", "red"]
 
 
 def utcnow() -> str:
@@ -123,10 +120,7 @@ class NotionClient:
     def update_db_properties(self, props: Dict[str, Any]) -> Dict:
         """Update database property schema"""
         payload = {"properties": props}
-        return self._patch(
-            f"https://api.notion.com/v1/databases/{self.db_id}",
-            payload
-        )
+        return self._patch(f"https://api.notion.com/v1/databases/{self.db_id}", payload)
 
 
 def get_multi_select_options(db: Dict, prop_name: str) -> List[Dict]:
@@ -155,29 +149,11 @@ def build_prunable_options(current: List[str], desired: List[str]) -> List[str]:
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Backfill Notion database multi-select options from controlled vocabulary"
-    )
-    ap.add_argument(
-        "--features",
-        action="store_true",
-        help="Backfill 'Features' multi-select"
-    )
-    ap.add_argument(
-        "--tags",
-        action="store_true",
-        help="Backfill 'Tags' multi-select (if present)"
-    )
-    ap.add_argument(
-        "--apply",
-        action="store_true",
-        help="Apply changes (default is dry-run)"
-    )
-    ap.add_argument(
-        "--prune",
-        action="store_true",
-        help="Remove options not in vocab (DANGEROUS - use with caution)"
-    )
+    ap = argparse.ArgumentParser(description="Backfill Notion database multi-select options from controlled vocabulary")
+    ap.add_argument("--features", action="store_true", help="Backfill 'Features' multi-select")
+    ap.add_argument("--tags", action="store_true", help="Backfill 'Tags' multi-select (if present)")
+    ap.add_argument("--apply", action="store_true", help="Apply changes (default is dry-run)")
+    ap.add_argument("--prune", action="store_true", help="Remove options not in vocab (DANGEROUS - use with caution)")
     args = ap.parse_args()
 
     if not args.features and not args.tags:
@@ -249,13 +225,15 @@ def main():
     if not args.apply:
         print("\nDRY-RUN: no changes applied.")
         for prop, adds, rms, _ in plan:
-            append_ledger({
-                "ts": utcnow(),
-                "action": "notion-backfill-dryrun",
-                "property": prop,
-                "add_count": len(adds),
-                "remove_count": len(rms)
-            })
+            append_ledger(
+                {
+                    "ts": utcnow(),
+                    "action": "notion-backfill-dryrun",
+                    "property": prop,
+                    "add_count": len(adds),
+                    "remove_count": len(rms),
+                }
+            )
         return
 
     # Apply changes
@@ -277,11 +255,7 @@ def main():
             for n in rms:
                 ex_by_name.pop(n, None)
 
-        props_payload[prop] = {
-            "multi_select": {
-                "options": list(ex_by_name.values())
-            }
-        }
+        props_payload[prop] = {"multi_select": {"options": list(ex_by_name.values())}}
 
     if not props_payload:
         print("\n✅ Nothing to apply - database is up to date.")
@@ -291,26 +265,20 @@ def main():
         print("\n🔄 Updating Notion database properties...")
         client.update_db_properties(props_payload)
 
-        append_ledger({
-            "ts": utcnow(),
-            "action": "notion-backfill-apply",
-            "properties": list(props_payload.keys()),
-            "status": "success",
-            "total_options": sum(
-                len(v["multi_select"]["options"])
-                for v in props_payload.values()
-            )
-        })
+        append_ledger(
+            {
+                "ts": utcnow(),
+                "action": "notion-backfill-apply",
+                "properties": list(props_payload.keys()),
+                "status": "success",
+                "total_options": sum(len(v["multi_select"]["options"]) for v in props_payload.values()),
+            }
+        )
 
         print("✅ Notion properties updated successfully.")
 
     except Exception as e:
-        append_ledger({
-            "ts": utcnow(),
-            "action": "notion-backfill-apply",
-            "status": "error",
-            "error": str(e)
-        })
+        append_ledger({"ts": utcnow(), "action": "notion-backfill-apply", "status": "error", "error": str(e)})
         print(f"\n❌ Failed to update Notion: {e}")
         sys.exit(1)
 

@@ -15,10 +15,7 @@ def test_mcp_server():
         "jsonrpc": "2.0",
         "id": 1,
         "method": "tools/call",
-        "params": {
-            "name": "search",
-            "arguments": {"query": "test"}
-        }
+        "params": {"name": "search", "arguments": {"query": "test"}},
     }
 
     try:
@@ -27,11 +24,11 @@ def test_mcp_server():
         print(f"Response: {json.dumps(response.json(), indent=2)}")
 
         # Check if response has the minimal format
-        result = response.json().get('result', {})
-        content = result.get('content', [])
-        if content and content[0].get('type') == 'text':
-            text_content = json.loads(content[0]['text'])
-            if 'hits' in text_content:
+        result = response.json().get("result", {})
+        content = result.get("content", [])
+        if content and content[0].get("type") == "text":
+            text_content = json.loads(content[0]["text"])
+            if "hits" in text_content:
                 print("✅ Minimal format detected - has 'hits' array")
                 return True
             else:
@@ -44,6 +41,7 @@ def test_mcp_server():
     except Exception as e:
         print(f"❌ Error: {e}")
         return False
+
 
 if __name__ == "__main__":
     test_mcp_server()

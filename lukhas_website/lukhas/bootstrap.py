@@ -59,7 +59,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
         "otel": False,
         "guardian": False,
         "metrics": False,
-        "lane": os.getenv("LUKHAS_LANE", "experimental")
+        "lane": os.getenv("LUKHAS_LANE", "experimental"),
     }
 
     # 1. Initialize OpenTelemetry
@@ -71,9 +71,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
 
         service_name = f"lukhas-{initialization_results['lane']}"
         otel_initialized = initialize_otel_instrumentation(
-            service_name=service_name,
-            enable_prometheus=True,
-            enable_logging=True
+            service_name=service_name, enable_prometheus=True, enable_logging=True
         )
 
         if otel_initialized:
@@ -91,6 +89,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
     # 2. Initialize Guardian System
     try:
         import sys
+
         sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
         from governance.guardian_system import GuardianSystem
 
@@ -122,8 +121,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
         logger.error(f"❌ Metrics initialization error: {e}")
 
     # Log overall status
-    services_up = sum(1 for service, status in initialization_results.items()
-                     if service != "lane" and status)
+    services_up = sum(1 for service, status in initialization_results.items() if service != "lane" and status)
     total_services = len([k for k in initialization_results.keys() if k != "lane"])
 
     logger.info(f"🚀 LUKHAS Bootstrap Complete: {services_up}/{total_services} services initialized")
@@ -195,8 +193,8 @@ def validate_per_stage_spans() -> Dict[str, Any]:
                         decision_result,
                         processing_result,
                         validation_result,
-                        reflection_result
-                    ]
+                        reflection_result,
+                    ],
                 }
 
         # Run the validation
@@ -207,7 +205,7 @@ def validate_per_stage_spans() -> Dict[str, Any]:
             "stages_instrumented": 5,
             "pipeline_time_ms": result["pipeline_time_ms"],
             "within_slo": result["pipeline_time_ms"] < 250.0,
-            "all_stages_completed": result["stages_completed"] == 5
+            "all_stages_completed": result["stages_completed"] == 5,
         }
 
         logger.info(f"✅ OTEL spans validated: {validation_status}")
@@ -215,18 +213,12 @@ def validate_per_stage_spans() -> Dict[str, Any]:
 
     except Exception as e:
         logger.error(f"❌ OTEL span validation failed: {e}")
-        return {
-            "spans_working": False,
-            "error": str(e)
-        }
+        return {"spans_working": False, "error": str(e)}
 
 
 if __name__ == "__main__":
     # Configure logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     # Initialize services
     init_results = initialize_lukhas_services()

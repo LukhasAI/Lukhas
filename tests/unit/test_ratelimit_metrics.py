@@ -6,6 +6,7 @@ and contain expected series names.
 
 Phase 3: Added for rate-limit metrics validation.
 """
+
 from fastapi.testclient import TestClient
 
 from adapters.openai.api import get_app
@@ -36,11 +37,7 @@ def test_metrics_surface_basic_ratelimit_series():
     # We don't assert exact label values to avoid flakiness
     for k in METRIC_KEYS:
         # Should find either HELP, TYPE, or actual metric lines
-        found = (
-            f"# HELP {k}" in text or
-            f"# TYPE {k}" in text or
-            f"{k}{{" in text
-        )
+        found = f"# HELP {k}" in text or f"# TYPE {k}" in text or f"{k}{{" in text
         assert found, f"Missing metric: {k}"
 
 

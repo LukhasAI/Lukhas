@@ -104,9 +104,7 @@ def ledger(ledger_path: Path, rec: dict):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Run benchmarks and update manifest with observed metrics"
-    )
+    ap = argparse.ArgumentParser(description="Run benchmarks and update manifest with observed metrics")
     ap.add_argument("--module", required=True, help="path or name of module dir")
     args = ap.parse_args()
 
@@ -133,12 +131,9 @@ def main():
         return 0
 
     mod, _ = update_manifest(manifest, pct)
-    ledger(
-        Path("manifests/.ledger/bench.ndjson"), {"ts": utc(), "module": mod, **pct}
-    )
+    ledger(Path("manifests/.ledger/bench.ndjson"), {"ts": utc(), "module": mod, **pct})
     print(
-        f"✅ {mod}: observed p50={pct['latency_p50_ms']} "
-        f"p95={pct['latency_p95_ms']} p99={pct['latency_p99_ms']} ms"
+        f"✅ {mod}: observed p50={pct['latency_p50_ms']} " f"p95={pct['latency_p95_ms']} p99={pct['latency_p99_ms']} ms"
     )
     return 0
 

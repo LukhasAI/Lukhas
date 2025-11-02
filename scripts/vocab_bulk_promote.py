@@ -99,34 +99,16 @@ def validate_row(row: dict, i: int):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Bulk promote review_queue items to controlled vocabulary"
-    )
-    ap.add_argument(
-        "mapping",
-        type=str,
-        help="JSON or CSV mapping file"
-    )
-    ap.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Do not write any files"
-    )
+    ap = argparse.ArgumentParser(description="Bulk promote review_queue items to controlled vocabulary")
+    ap.add_argument("mapping", type=str, help="JSON or CSV mapping file")
+    ap.add_argument("--dry-run", action="store_true", help="Do not write any files")
     ap.add_argument(
         "--create-missing",
         action="store_true",
-        help="Allow creation even if 'raw' is not in review_queue (use with care)"
+        help="Allow creation even if 'raw' is not in review_queue (use with care)",
     )
-    ap.add_argument(
-        "--report",
-        choices=["md"],
-        help="Generate report format (md for Markdown PR changelog)"
-    )
-    ap.add_argument(
-        "--validate-only",
-        action="store_true",
-        help="Validate mapping file without writing changes"
-    )
+    ap.add_argument("--report", choices=["md"], help="Generate report format (md for Markdown PR changelog)")
+    ap.add_argument("--validate-only", action="store_true", help="Validate mapping file without writing changes")
     args = ap.parse_args()
 
     # Load existing data
@@ -145,12 +127,7 @@ def main():
     qitems = {i["raw"].lower(): i for i in queue.get("items", [])}
     mapping = load_mapping(Path(args.mapping))
 
-    report = {
-        "created": [],
-        "synonym_added": [],
-        "skipped": [],
-        "errors": []
-    }
+    report = {"created": [], "synonym_added": [], "skipped": [], "errors": []}
 
     # Process each row
     for idx, row in enumerate(mapping, start=1):
@@ -160,10 +137,7 @@ def main():
 
             # Check presence in queue (unless overridden)
             if key not in qitems and not args.create_missing:
-                report["skipped"].append({
-                    "raw": raw,
-                    "reason": "not_in_review_queue"
-                })
+                report["skipped"].append({"raw": raw, "reason": "not_in_review_queue"})
                 continue
 
             if canonical:
@@ -172,56 +146,35 @@ def main():
                     # Canonical already exists - add 'raw' as synonym if missing
                     syns = features[canonical].setdefault("synonyms", [])
                     if raw in syns:
-                        report["skipped"].append({
-                            "raw": raw,
-                            "canonical": canonical,
-                            "reason": "synonym_exists"
-                        })
+                        report["skipped"].append({"raw": raw, "canonical": canonical, "reason": "synonym_exists"})
                     else:
                         syns.append(raw)
-                        report["synonym_added"].append({
-                            "raw": raw,
-                            "canonical": canonical
-                        })
+                        report["synonym_added"].append({"raw": raw, "canonical": canonical})
                 else:
                     # Create new canonical
                     features[canonical] = {
                         "canonical": canonical,
                         "synonyms": [raw],
-                        "category": (row.get("category") or "uncategorized")
+                        "category": (row.get("category") or "uncategorized"),
                     }
                     if row.get("constellation"):
                         features[canonical]["constellation"] = row["constellation"]
                     if row.get("matriz_stage"):
                         features[canonical]["matriz_stage"] = row["matriz_stage"]
-                    report["created"].append({
-                        "canonical": canonical,
-                        "raw": raw
-                    })
+                    report["created"].append({"canonical": canonical, "raw": raw})
             else:
                 # Add as synonym to existing canonical
                 target = to
                 if target not in features:
-                    report["errors"].append({
-                        "raw": raw,
-                        "to": target,
-                        "error": "target_canonical_missing"
-                    })
+                    report["errors"].append({"raw": raw, "to": target, "error": "target_canonical_missing"})
                     continue
 
                 syns = features[target].setdefault("synonyms", [])
                 if raw in syns:
-                    report["skipped"].append({
-                        "raw": raw,
-                        "to": target,
-                        "reason": "synonym_exists"
-                    })
+                    report["skipped"].append({"raw": raw, "to": target, "reason": "synonym_exists"})
                 else:
                     syns.append(raw)
-                    report["synonym_added"].append({
-                        "raw": raw,
-                        "to": target
-                    })
+                    report["synonym_added"].append({"raw": raw, "to": target})
 
             # Remove from queue if present
             if key in qitems:
@@ -229,10 +182,7 @@ def main():
                 qitems.pop(key, None)
 
         except Exception as e:
-            report["errors"].append({
-                "row": idx,
-                "error": str(e)
-            })
+            report["errors"].append({"row": idx, "error": str(e)})
 
     # Validate-only mode - check and exit
     if args.validate_only:
@@ -300,7 +250,7 @@ def main():
             f"- **Synonyms added**: {len(report['synonym_added'])}",
             f"- **Skipped**: {len(report['skipped'])}",
             f"- **Errors**: {len(report['errors'])}",
-            ""
+            "",
         ]
 
         if report["created"]:
@@ -327,12 +277,14 @@ def main():
 
         # Queue status
         remaining = len(queue.get("items", []))
-        md_lines.extend([
-            "",
-            "## Review Queue Status",
-            f"- **Remaining items**: {remaining}",
-            f"- **Last updated**: {queue.get('updated_at', 'unknown')}"
-        ])
+        md_lines.extend(
+            [
+                "",
+                "## Review Queue Status",
+                f"- **Remaining items**: {remaining}",
+                f"- **Last updated**: {queue.get('updated_at', 'unknown')}",
+            ]
+        )
 
         report_path = reports_dir / "vocab_promotion_report.md"
         report_path.write_text("\n".join(md_lines))

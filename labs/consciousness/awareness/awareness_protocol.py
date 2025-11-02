@@ -14,6 +14,7 @@
 ║ Advanced awareness protocol with quantum-biological features.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -415,6 +416,6 @@ def map_local_tier_to_global(local_tier: str) -> str:
         "T2": "global_standard",
         "T3": "global_advanced",
         "T4": "global_expert",
-        "T5": "global_enterprise"
+        "T5": "global_enterprise",
     }
     return tier_mapping.get(local_tier, "global_standard")

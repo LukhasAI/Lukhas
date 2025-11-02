@@ -210,44 +210,52 @@ def extract_actionable_insights(categorized: dict[str, Any]) -> list[dict[str, s
     )[:10]
 
     if top_modules:
-        insights.append({
-            "type": "missing_modules",
-            "severity": "high",
-            "message": f"Top missing modules: {', '.join(f'{m} ({c})' for m, c in top_modules[:5])}",
-            "recommendation": "Create bridge modules using bridge_from_candidates() pattern",
-        })
+        insights.append(
+            {
+                "type": "missing_modules",
+                "severity": "high",
+                "message": f"Top missing modules: {', '.join(f'{m} ({c})' for m, c in top_modules[:5])}",
+                "recommendation": "Create bridge modules using bridge_from_candidates() pattern",
+            }
+        )
 
     # Error class distribution
     error_classes = categorized["by_error_class"]
     if "_SixMetaPathImporter" in error_classes:
         count = error_classes["_SixMetaPathImporter"]
-        insights.append({
-            "type": "sys_path_issue",
-            "severity": "critical",
-            "message": f"{count} _SixMetaPathImporter errors detected",
-            "recommendation": "Check conftest.py sys.path configuration and import hooks",
-        })
+        insights.append(
+            {
+                "type": "sys_path_issue",
+                "severity": "critical",
+                "message": f"{count} _SixMetaPathImporter errors detected",
+                "recommendation": "Check conftest.py sys.path configuration and import hooks",
+            }
+        )
 
     # Test directory patterns
     test_dirs = categorized["by_test_dir"]
     if test_dirs:
         worst_dir = max(test_dirs.items(), key=lambda x: x[1])
-        insights.append({
-            "type": "test_directory",
-            "severity": "medium",
-            "message": f"Most affected: tests/{worst_dir[0]} ({worst_dir[1]} errors)",
-            "recommendation": f"Focus bridge creation on modules used by tests/{worst_dir[0]}",
-        })
+        insights.append(
+            {
+                "type": "test_directory",
+                "severity": "medium",
+                "message": f"Most affected: tests/{worst_dir[0]} ({worst_dir[1]} errors)",
+                "recommendation": f"Focus bridge creation on modules used by tests/{worst_dir[0]}",
+            }
+        )
 
     # Error type distribution
     error_types = categorized["by_type"]
     if error_types.get("ModuleNotFoundError", 0) > 0:
-        insights.append({
-            "type": "module_structure",
-            "severity": "high",
-            "message": f"{error_types['ModuleNotFoundError']} missing module errors",
-            "recommendation": "Run analyzer script to identify bridge targets",
-        })
+        insights.append(
+            {
+                "type": "module_structure",
+                "severity": "high",
+                "message": f"{error_types['ModuleNotFoundError']} missing module errors",
+                "recommendation": "Run analyzer script to identify bridge targets",
+            }
+        )
 
     return insights
 

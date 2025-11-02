@@ -18,6 +18,7 @@ from pathlib import Path
 def load_json(p: Path):
     return json.loads(p.read_text(encoding="utf-8"))
 
+
 def nearest_manifest(pyfile: Path) -> dict:
     for parent in [pyfile] + list(pyfile.parents):
         m = parent / "module.manifest.json"
@@ -28,16 +29,17 @@ def nearest_manifest(pyfile: Path) -> dict:
                 return {}
     return {}
 
+
 def main():
     ap = argparse.ArgumentParser(description="Build Ruff owner heatmap (Star × Owner × Rule).")
     ap.add_argument("--ruff", default="docs/audits/ruff.json")
     ap.add_argument("--csv", default="docs/audits/ruff_heatmap.csv")
-    ap.add_argument("--md",  default="docs/audits/ruff_heatmap.md")
+    ap.add_argument("--md", default="docs/audits/ruff_heatmap.md")
     args = ap.parse_args()
 
     ruff = load_json(Path(args.ruff))
-    cube = defaultdict(lambda: Counter())   # (star, owner) -> Counter(code)
-    totals = Counter()                      # overall per code
+    cube = defaultdict(lambda: Counter())  # (star, owner) -> Counter(code)
+    totals = Counter()  # overall per code
 
     for e in ruff:
         code = e.get("code")
@@ -79,6 +81,7 @@ def main():
             f.write(f"| {c} | {totals[c]} |\n")
 
     print(f"[OK] Wrote {args.csv} and {args.md}")
+
 
 if __name__ == "__main__":
     sys.exit(main())

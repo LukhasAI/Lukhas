@@ -171,7 +171,9 @@ class AdaptiveUIController:
         performance_decline = max(0.0, earlier_avg - recent_avg)
 
         # Session duration factor
-        session_duration = (datetime.now(timezone.utc) - self.cognitive_history[0].timestamp).total_seconds() / 3600.0  # hours
+        session_duration = (
+            datetime.now(timezone.utc) - self.cognitive_history[0].timestamp
+        ).total_seconds() / 3600.0  # hours
         # Fatigue increases over 2 hours
         duration_fatigue = min(1.0, session_duration / 2.0)
 

@@ -18,6 +18,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class CertificationEvidence:
     """Evidence item for certification."""
+
     component: str
     test_type: str
     file_path: str
@@ -26,9 +27,11 @@ class CertificationEvidence:
     key_metrics: Dict[str, Any]
     verification_timestamp: float
 
+
 @dataclass
 class CertificationResult:
     """Final certification result."""
+
     certification_id: str
     overall_status: str
     confidence_level: float
@@ -38,6 +41,7 @@ class CertificationResult:
     key_performance_claims: Dict[str, Any]
     certification_timestamp: str
     audit_trail_hash: str
+
 
 class AuditCertificationGenerator:
     """Comprehensive T4/0.01% Excellence certification generator."""
@@ -54,12 +58,12 @@ class AuditCertificationGenerator:
                 "guardian_p95_us": {"max": 200.0, "target": 168.0},
                 "memory_p95_us": {"max": 1000.0, "target": 178.0},
                 "orchestrator_p95_us": {"max": 250000.0, "target": 54000.0},
-                "creativity_p95_us": {"max": 50000.0, "target": 50000.0}
+                "creativity_p95_us": {"max": 50000.0, "target": 50000.0},
             },
             "reliability_requirements": {
                 "reproducibility_threshold": 0.80,
                 "statistical_significance": 0.01,
-                "fail_closed_compliance": 1.0
+                "fail_closed_compliance": 1.0,
             },
             "evidence_requirements": {
                 "baseline_measurements": "required",
@@ -67,8 +71,8 @@ class AuditCertificationGenerator:
                 "reproducibility_analysis": "required",
                 "chaos_engineering": "required",
                 "tamper_evidence": "required",
-                "claims_verification": "required"
-            }
+                "claims_verification": "required",
+            },
         }
 
     def discover_evidence_files(self) -> List[Path]:
@@ -80,7 +84,7 @@ class AuditCertificationGenerator:
             "chaos_*.json",
             "merkle_chain_*.json",
             "verification_*.json",
-            "consistency_analysis_*.json"
+            "consistency_analysis_*.json",
         ]
 
         evidence_files = []
@@ -92,11 +96,11 @@ class AuditCertificationGenerator:
     def analyze_evidence_file(self, file_path: Path) -> Optional[CertificationEvidence]:
         """Analyze a single evidence file."""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 data = json.load(f)
 
             # Calculate file checksum
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 checksum = hashlib.sha256(f.read()).hexdigest()
 
             # Determine component and test type from filename
@@ -141,7 +145,7 @@ class AuditCertificationGenerator:
                 checksum=checksum,
                 status=status,
                 key_metrics=key_metrics,
-                verification_timestamp=file_path.stat().st_mtime
+                verification_timestamp=file_path.stat().st_mtime,
             )
 
         except Exception as e:
@@ -270,7 +274,9 @@ class AuditCertificationGenerator:
 
         # Generate unique certification ID
         timestamp = datetime.now(timezone.utc)
-        cert_id = f"T4-{timestamp.strftime('%Y%m%d')}-{hashlib.sha256(str(evidence_files).encode()).hexdigest()[:8].upper()}"
+        cert_id = (
+            f"T4-{timestamp.strftime('%Y%m%d')}-{hashlib.sha256(str(evidence_files).encode()).hexdigest()[:8].upper()}"
+        )
 
         # Analyze evidence completeness
         required_components = set(self.certification_standards["evidence_requirements"].keys())
@@ -286,7 +292,9 @@ class AuditCertificationGenerator:
         if total_evidence == 0:
             confidence_level = 0.0
         else:
-            confidence_level = (passed_tests / total_evidence) * (1.0 - len(missing_evidence) / len(required_components))
+            confidence_level = (passed_tests / total_evidence) * (
+                1.0 - len(missing_evidence) / len(required_components)
+            )
 
         # Determine overall status
         if failed_tests == 0 and len(missing_evidence) == 0:
@@ -306,7 +314,7 @@ class AuditCertificationGenerator:
         audit_data = {
             "evidence_checksums": [ev.checksum for ev in evidence_files],
             "certification_timestamp": timestamp.isoformat(),
-            "standards_version": "T4/0.01%"
+            "standards_version": "T4/0.01%",
         }
         audit_trail_hash = hashlib.sha256(json.dumps(audit_data, sort_keys=True).encode()).hexdigest()
 
@@ -319,10 +327,12 @@ class AuditCertificationGenerator:
             missing_evidence=missing_evidence,
             key_performance_claims=key_performance_claims,
             certification_timestamp=timestamp.isoformat(),
-            audit_trail_hash=audit_trail_hash
+            audit_trail_hash=audit_trail_hash,
         )
 
-    def generate_certification_report(self, certification: CertificationResult, evidence_files: List[CertificationEvidence]) -> str:
+    def generate_certification_report(
+        self, certification: CertificationResult, evidence_files: List[CertificationEvidence]
+    ) -> str:
         """Generate human-readable certification report."""
 
         report_lines = []
@@ -343,7 +353,9 @@ class AuditCertificationGenerator:
         # Status icon and message
         if certification.overall_status == "CERTIFIED":
             status_icon = "✅"
-            status_message = "This system meets all T4/0.01% Excellence requirements and is CERTIFIED for production deployment."
+            status_message = (
+                "This system meets all T4/0.01% Excellence requirements and is CERTIFIED for production deployment."
+            )
         elif certification.overall_status == "PROVISIONAL":
             status_icon = "⚠️"
             status_message = "This system meets core requirements but has incomplete evidence. PROVISIONAL certification granted pending additional validation."
@@ -391,7 +403,9 @@ class AuditCertificationGenerator:
                             else:
                                 status = "❌ FAIL"
 
-                            report_lines.append(f"- **{component.title()}:** {measured:.1f}μs vs {target:.1f}μs target ({status})")
+                            report_lines.append(
+                                f"- **{component.title()}:** {measured:.1f}μs vs {target:.1f}μs target ({status})"
+                            )
             report_lines.append("")
 
         # Detailed evidence analysis
@@ -444,7 +458,9 @@ class AuditCertificationGenerator:
 
         return "\n".join(report_lines)
 
-    def export_certification_json(self, certification: CertificationResult, evidence_files: List[CertificationEvidence]) -> Dict[str, Any]:
+    def export_certification_json(
+        self, certification: CertificationResult, evidence_files: List[CertificationEvidence]
+    ) -> Dict[str, Any]:
         """Export certification as machine-readable JSON."""
 
         return {
@@ -453,13 +469,13 @@ class AuditCertificationGenerator:
                 "status": certification.overall_status,
                 "confidence_level": certification.confidence_level,
                 "timestamp": certification.certification_timestamp,
-                "audit_trail_hash": certification.audit_trail_hash
+                "audit_trail_hash": certification.audit_trail_hash,
             },
             "evidence_summary": {
                 "total_files": certification.evidence_count,
                 "passed_tests": certification.evidence_count - certification.failed_tests,
                 "failed_tests": certification.failed_tests,
-                "missing_evidence": certification.missing_evidence
+                "missing_evidence": certification.missing_evidence,
             },
             "performance_claims": certification.key_performance_claims,
             "evidence_details": [
@@ -470,12 +486,12 @@ class AuditCertificationGenerator:
                     "file_path": ev.file_path,
                     "checksum": ev.checksum,
                     "key_metrics": ev.key_metrics,
-                    "verification_timestamp": ev.verification_timestamp
+                    "verification_timestamp": ev.verification_timestamp,
                 }
                 for ev in evidence_files
             ],
             "certification_standards": self.certification_standards,
-            "schema_version": "1.0.0"
+            "schema_version": "1.0.0",
         }
 
 
@@ -525,7 +541,7 @@ def main():
         output_path = Path(args.output)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(certification_data, f, indent=2, sort_keys=True)
 
         print(f"📊 Certification data saved: {args.output}")
@@ -536,7 +552,7 @@ def main():
         report_path = Path(args.report)
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report)
 
         print(f"📄 Certification report saved: {args.report}")

@@ -8,6 +8,7 @@ Usage:
   from core.metrics_exporters import enable_runtime_exporters
   enable_runtime_exporters()  # Call once at app boot
 """
+
 from __future__ import annotations
 
 import logging
@@ -30,6 +31,7 @@ def start_prometheus_exporter() -> None:
         return
     try:
         from prometheus_client import start_http_server
+
         start_http_server(int(port))
         _PROM_SERVER = True
         logger.info("✅ Prometheus exporter started on :%s", port)
@@ -59,12 +61,11 @@ def init_opentelemetry() -> None:
 
         # Configure
         res = Resource.create({"service.name": os.getenv("LUKHAS_SERVICE", "lukhas-core")})
-        reader = PeriodicExportingMetricReader(
-            OTLPMetricExporter(endpoint=endpoint, timeout=5.0)
-        )
+        reader = PeriodicExportingMetricReader(OTLPMetricExporter(endpoint=endpoint, timeout=5.0))
         provider = MeterProvider(resource=res, metric_readers=[reader])
 
         from opentelemetry import metrics
+
         metrics.set_meter_provider(provider)
         _otel_inited = True
         logger.info("✅ OTEL metrics initialized (endpoint=%s)", endpoint)

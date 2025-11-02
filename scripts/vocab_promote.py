@@ -100,7 +100,7 @@ def promote(args):
         features[canonical] = {
             "canonical": canonical,
             "synonyms": [raw_norm],
-            "category": args.category or "uncategorized"
+            "category": args.category or "uncategorized",
         }
 
         if args.constellation:
@@ -147,11 +147,7 @@ def list_queue(args):
         return
 
     # Sort by count desc, last_seen desc
-    items = sorted(
-        queue["items"],
-        key=lambda i: (i.get("count", 1), i.get("last_seen", "")),
-        reverse=True
-    )
+    items = sorted(queue["items"], key=lambda i: (i.get("count", 1), i.get("last_seen", "")), reverse=True)
 
     print(f"📋 Review Queue ({len(items)} items):\n")
     for i in items:
@@ -163,9 +159,7 @@ def list_queue(args):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Promote unmapped features to controlled vocabulary"
-    )
+    ap = argparse.ArgumentParser(description="Promote unmapped features to controlled vocabulary")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     # list command
@@ -175,23 +169,12 @@ def main():
     # promote command
     pr = sub.add_parser("promote", help="Promote a raw phrase")
     g = pr.add_mutually_exclusive_group(required=True)
-    g.add_argument(
-        "--canonical",
-        help="Create a new canonical key (e.g., memory.convergence)"
-    )
-    g.add_argument(
-        "--to",
-        help="Add as synonym to existing canonical key"
-    )
+    g.add_argument("--canonical", help="Create a new canonical key (e.g., memory.convergence)")
+    g.add_argument("--to", help="Add as synonym to existing canonical key")
     pr.add_argument("raw", help="Exact raw phrase as seen in review_queue")
     pr.add_argument("--category", help="Category for new canonical", default=None)
     pr.add_argument("--constellation", help="Optional constellation tag", default=None)
-    pr.add_argument(
-        "--matriz-stage",
-        help="Optional matriz stage",
-        dest="matriz_stage",
-        default=None
-    )
+    pr.add_argument("--matriz-stage", help="Optional matriz stage", dest="matriz_stage", default=None)
     pr.set_defaults(func=promote)
 
     args = ap.parse_args()

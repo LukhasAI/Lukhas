@@ -16,6 +16,7 @@ Features:
 #TAG:trinity
 #TAG:governance
 """
+
 import logging
 import os
 import threading
@@ -34,51 +35,58 @@ _FLUSH_N = int(os.getenv("DRIFT_COMPUTE_FLUSH_N", "32"))
 try:
     from prometheus_client import Counter, Histogram
 except Exception:  # test envs without prometheus
+
     class _Noop:
-        def inc(self, *_, **__): pass
-        def labels(self, *_, **__): return self
-        def observe(self, *_, **__): pass
-    def Counter(*_, **__): return _Noop()
-    def Histogram(*_, **__): return _Noop()
+        def inc(self, *_, **__):
+            pass
+
+        def labels(self, *_, **__):
+            return self
+
+        def observe(self, *_, **__):
+            pass
+
+    def Counter(*_, **__):
+        return _Noop()
+
+    def Histogram(*_, **__):
+        return _Noop()
+
 
 # --- split compute vs autorepair metrics (keep compute path lean) ---
-DRIFT_COMPUTE_ATTEMPTS = Counter("drift_compute_attempts_total", "Drift compute attempts (no repair)", ['kind'])
-DRIFT_COMPUTE_SUCCESSES = Counter("drift_compute_successes_total", "Drift compute successes (no repair)", ['kind'])
-DRIFT_COMPUTE_ERRORS = Counter("drift_compute_errors_total", "Drift compute errors (no repair)", ['kind'])
-DRIFT_COMPUTE_DURATION_SECONDS = Histogram("drift_compute_duration_seconds", "Drift compute duration (seconds)",
-    buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0])
+DRIFT_COMPUTE_ATTEMPTS = Counter("drift_compute_attempts_total", "Drift compute attempts (no repair)", ["kind"])
+DRIFT_COMPUTE_SUCCESSES = Counter("drift_compute_successes_total", "Drift compute successes (no repair)", ["kind"])
+DRIFT_COMPUTE_ERRORS = Counter("drift_compute_errors_total", "Drift compute errors (no repair)", ["kind"])
+DRIFT_COMPUTE_DURATION_SECONDS = Histogram(
+    "drift_compute_duration_seconds",
+    "Drift compute duration (seconds)",
+    buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0],
+)
 
 # Back-compat mirroring in case older tests expect drift.compute.*
-DRIFT_COMPUTE_ATTEMPTS_LEGACY = Counter("drift.compute.attempts_total", "LEGACY mirror: attempts", ['kind'])
-DRIFT_COMPUTE_SUCCESSES_LEGACY = Counter("drift.compute.successes_total", "LEGACY mirror: successes", ['kind'])
-DRIFT_COMPUTE_ERRORS_LEGACY = Counter("drift.compute.errors_total", "LEGACY mirror: errors", ['kind'])
+DRIFT_COMPUTE_ATTEMPTS_LEGACY = Counter("drift.compute.attempts_total", "LEGACY mirror: attempts", ["kind"])
+DRIFT_COMPUTE_SUCCESSES_LEGACY = Counter("drift.compute.successes_total", "LEGACY mirror: successes", ["kind"])
+DRIFT_COMPUTE_ERRORS_LEGACY = Counter("drift.compute.errors_total", "LEGACY mirror: errors", ["kind"])
 
 # Auto-repair metrics
 DRIFT_AUTOREPAIR_ATTEMPTS = Counter(
-    'drift_autorepair_attempts_total',
-    'Total autonomous repair attempts',
-    ['kind', 'method']
+    "drift_autorepair_attempts_total", "Total autonomous repair attempts", ["kind", "method"]
 )
 DRIFT_AUTOREPAIR_SUCCESSES = Counter(
-    'drift_autorepair_successes_total',
-    'Successful autonomous repairs',
-    ['kind', 'method']
+    "drift_autorepair_successes_total", "Successful autonomous repairs", ["kind", "method"]
 )
-DRIFT_AUTOREPAIR_ERRORS = Counter(
-    'drift_autorepair_errors_total',
-    'Failed autonomous repair attempts',
-    ['kind']
-)
+DRIFT_AUTOREPAIR_ERRORS = Counter("drift_autorepair_errors_total", "Failed autonomous repair attempts", ["kind"])
 DRIFT_AUTOREPAIR_DURATION = Histogram(
-    'drift_autorepair_duration_seconds',
-    'Autonomous repair operation duration',
-    buckets=[0.001, 0.01, 0.1, 0.5, 1.0, 5.0, 10.0]
+    "drift_autorepair_duration_seconds",
+    "Autonomous repair operation duration",
+    buckets=[0.001, 0.01, 0.1, 0.5, 1.0, 5.0, 10.0],
 )
 METRICS_AVAILABLE = True
 
 
 class DriftKind(Enum):
     """Types of drift monitored by the unified system"""
+
     ETHICAL = "ethical"
     MEMORY = "memory"
     IDENTITY = "identity"
@@ -89,6 +97,7 @@ class DriftKind(Enum):
 @dataclass
 class DriftResult:
     """Result of drift computation"""
+
     score: float  # 0.0 to 1.0
     top_symbols: List[str]  # Top contributing symbols
     kind: DriftKind
@@ -129,25 +138,21 @@ class DriftManager:
         self.config = config or {}
 
         # Override thresholds if provided (reads env vars at runtime)
-        self.critical_threshold = self.config.get(
-            'critical_threshold', self.default_critical_threshold
-        )
-        self.warning_threshold = self.config.get(
-            'warning_threshold', self.default_warning_threshold
-        )
+        self.critical_threshold = self.config.get("critical_threshold", self.default_critical_threshold)
+        self.warning_threshold = self.config.get("warning_threshold", self.default_warning_threshold)
 
         # Weight configuration
         self.weights = {
-            DriftKind.ETHICAL: self.config.get('ethical_weight', self.ETHICAL_WEIGHT),
-            DriftKind.MEMORY: self.config.get('memory_weight', self.MEMORY_WEIGHT),
-            DriftKind.IDENTITY: self.config.get('identity_weight', self.IDENTITY_WEIGHT),
+            DriftKind.ETHICAL: self.config.get("ethical_weight", self.ETHICAL_WEIGHT),
+            DriftKind.MEMORY: self.config.get("memory_weight", self.MEMORY_WEIGHT),
+            DriftKind.IDENTITY: self.config.get("identity_weight", self.IDENTITY_WEIGHT),
         }
 
         # Ledger for audit trail
         self.drift_ledger = []
 
         # --- micro-opt: batched timer + lazy repair engine handle ---
-        self._compute_durations_ms = []      # ring buffer for durations (ms)
+        self._compute_durations_ms = []  # ring buffer for durations (ms)
         self._flush_every = _FLUSH_N
         self._repair_engine = None  # lazy; set on first real repair
         self._lock = threading.Lock()  # protects compute timer buffer and lazy engine init
@@ -156,7 +161,9 @@ class DriftManager:
         self._successful_repairs = {}  # kind -> timestamp of last successful repair
         self._dwell_cycles = int(os.getenv("DRIFT_DWELL_CYCLES", "3"))  # cycles to wait
 
-        logger.info(f"DriftManager initialized with thresholds: critical={self.critical_threshold}, warning={self.warning_threshold}")
+        logger.info(
+            f"DriftManager initialized with thresholds: critical={self.critical_threshold}, warning={self.warning_threshold}"
+        )
 
     def _record_duration_and_flush(self, duration_ms: float):
         """Thread-safe timer recording with batched flushing."""
@@ -183,19 +190,19 @@ class DriftManager:
         self._successful_repairs[kind]
         # Use a simple cycle-based cooldown (each call represents one cycle)
         # In production, you'd want to use actual time-based dwell
-        cycles_since_repair = getattr(self, f'_cycles_since_{kind}', 0)
+        cycles_since_repair = getattr(self, f"_cycles_since_{kind}", 0)
         return cycles_since_repair < self._dwell_cycles
 
     def _record_successful_repair(self, kind: str):
         """Record successful repair and reset dwell counter."""
         self._successful_repairs[kind] = time.time()
-        setattr(self, f'_cycles_since_{kind}', 0)
+        setattr(self, f"_cycles_since_{kind}", 0)
 
     def _increment_cycle_counter(self, kind: str):
         """Increment cycle counter for dwell tracking."""
         if kind in self._successful_repairs:
-            current = getattr(self, f'_cycles_since_{kind}', 0)
-            setattr(self, f'_cycles_since_{kind}', current + 1)
+            current = getattr(self, f"_cycles_since_{kind}", 0)
+            setattr(self, f"_cycles_since_{kind}", current + 1)
 
     def compute(self, kind: str, prev: Any, curr: Any) -> Dict[str, Any]:
         """
@@ -248,8 +255,13 @@ class DriftManager:
                 DRIFT_COMPUTE_SUCCESSES_LEGACY.labels(kind=kind).inc()
                 dt_ms = (time.perf_counter_ns() - _start_ns) / 1e6
                 self._record_duration_and_flush(dt_ms)
-                return {"score": score, "top_symbols": top_symbols, "confidence": result.confidence,
-                       "kind": result.kind.value, "metadata": result.metadata}
+                return {
+                    "score": score,
+                    "top_symbols": top_symbols,
+                    "confidence": result.confidence,
+                    "kind": result.kind.value,
+                    "metadata": result.metadata,
+                }
 
             # Record in ledger for audit (only for above-threshold drift)
             self._record_drift(result)
@@ -262,11 +274,11 @@ class DriftManager:
 
             # Return standardized format
             return {
-                'score': result.score,
-                'top_symbols': result.top_symbols,
-                'confidence': result.confidence,
-                'kind': result.kind.value,
-                'metadata': result.metadata
+                "score": result.score,
+                "top_symbols": result.top_symbols,
+                "confidence": result.confidence,
+                "kind": result.kind.value,
+                "metadata": result.metadata,
             }
 
         except Exception as e:
@@ -277,13 +289,7 @@ class DriftManager:
             self._record_duration_and_flush(dt_ms)
 
             # Return safe default
-            return {
-                'score': 0.0,
-                'top_symbols': [],
-                'confidence': 0.0,
-                'kind': kind,
-                'metadata': {'error': str(e)}
-            }
+            return {"score": 0.0, "top_symbols": [], "confidence": 0.0, "kind": kind, "metadata": {"error": str(e)}}
 
     def on_exceed(self, kind: str, score: float, ctx: Dict[str, Any]) -> None:
         """
@@ -304,11 +310,11 @@ class DriftManager:
 
         # Record exceedance event
         exceedance_event = {
-            'event': 'threshold_exceeded',
-            'kind': kind,
-            'score': score,
-            'context': ctx,
-            'timestamp': time.time()
+            "event": "threshold_exceeded",
+            "kind": kind,
+            "score": score,
+            "context": ctx,
+            "timestamp": time.time(),
         }
         self.drift_ledger.append(exceedance_event)
 
@@ -321,12 +327,12 @@ class DriftManager:
 
             # Record dwell skip in ledger
             dwell_event = {
-                'event': 'repair_skipped_dwell',
-                'kind': kind,
-                'score': score,
-                'cycles_since_repair': getattr(self, f'_cycles_since_{kind}', 0),
-                'dwell_cycles': self._dwell_cycles,
-                'timestamp': time.time()
+                "event": "repair_skipped_dwell",
+                "kind": kind,
+                "score": score,
+                "cycles_since_repair": getattr(self, f"_cycles_since_{kind}", 0),
+                "dwell_cycles": self._dwell_cycles,
+                "timestamp": time.time(),
             }
             self.drift_ledger.append(dwell_event)
             return
@@ -342,26 +348,32 @@ class DriftManager:
 
                 if engine:
                     # Extract top symbols from most recent computation
-                    top_symbols = ctx.get('top_symbols', [])
-                    if not top_symbols and 'state' in ctx:
+                    top_symbols = ctx.get("top_symbols", [])
+                    if not top_symbols and "state" in ctx:
                         # Try to extract from context state
                         top_symbols = self._extract_symbols_from_context(kind, ctx)
 
-                    logger.info(f"Attempting autonomous repair for {kind} drift: "
-                              f"score={score:.4f}, symbols={top_symbols[:3]}")
+                    logger.info(
+                        f"Attempting autonomous repair for {kind} drift: "
+                        f"score={score:.4f}, symbols={top_symbols[:3]}"
+                    )
 
                     # --- micro-opt: table dispatch for method selection ---
-                    band = "critical" if score >= _SAFE_THRESHOLD else "major" if score >= (_SAFE_THRESHOLD * 0.67) else "minor"
+                    band = (
+                        "critical"
+                        if score >= _SAFE_THRESHOLD
+                        else "major" if score >= (_SAFE_THRESHOLD * 0.67) else "minor"
+                    )
                     METHOD = {
-                        ("ethical",   "critical"): "realign",
-                        ("ethical",   "major"):    "stabilize",
-                        ("ethical",   "minor"):    "reconsolidate",
-                        ("memory",    "critical"): "rollback",
-                        ("memory",    "major"):    "reconsolidate",
-                        ("memory",    "minor"):    "reconsolidate",
-                        ("identity",  "critical"): "stabilize",
-                        ("identity",  "major"):    "realign",
-                        ("identity",  "minor"):    "reconsolidate",
+                        ("ethical", "critical"): "realign",
+                        ("ethical", "major"): "stabilize",
+                        ("ethical", "minor"): "reconsolidate",
+                        ("memory", "critical"): "rollback",
+                        ("memory", "major"): "reconsolidate",
+                        ("memory", "minor"): "reconsolidate",
+                        ("identity", "critical"): "stabilize",
+                        ("identity", "major"): "realign",
+                        ("identity", "minor"): "reconsolidate",
                     }
                     method = METHOD.get((kind, band), "reconsolidate")
 
@@ -370,12 +382,7 @@ class DriftManager:
                         DRIFT_AUTOREPAIR_ATTEMPTS.labels(kind=kind, method=method).inc()
 
                     # Invoke repair engine with optimized method selection
-                    repair_result = engine.reconsolidate(
-                        kind=kind,
-                        score=score,
-                        context=ctx,
-                        top_symbols=top_symbols
-                    )
+                    repair_result = engine.reconsolidate(kind=kind, score=score, context=ctx, top_symbols=top_symbols)
 
                     # Log repair result and track metrics
                     if repair_result.success:
@@ -387,24 +394,21 @@ class DriftManager:
 
                         # Track successful repair metrics
                         if METRICS_AVAILABLE:
-                            DRIFT_AUTOREPAIR_SUCCESSES.labels(
-                                kind=kind,
-                                method=repair_result.method.value
-                            ).inc()
+                            DRIFT_AUTOREPAIR_SUCCESSES.labels(kind=kind, method=repair_result.method.value).inc()
                             DRIFT_AUTOREPAIR_DURATION.observe(time.time() - repair_start_time)
 
                         # Record successful repair and start dwell period
                         self._record_successful_repair(kind)
 
                         repair_event = {
-                            'event': 'auto_repair_success',
-                            'kind': kind,
-                            'method': repair_result.method.value,
-                            'pre_score': repair_result.pre_score,
-                            'post_score': repair_result.post_score,
-                            'improvement_pct': repair_result.improvement_pct,
-                            'timestamp': repair_result.timestamp,
-                            'rationale': f"Repair via {repair_result.method.value} reduced drift by {repair_result.improvement_pct:.1f}%"
+                            "event": "auto_repair_success",
+                            "kind": kind,
+                            "method": repair_result.method.value,
+                            "pre_score": repair_result.pre_score,
+                            "post_score": repair_result.post_score,
+                            "improvement_pct": repair_result.improvement_pct,
+                            "timestamp": repair_result.timestamp,
+                            "rationale": f"Repair via {repair_result.method.value} reduced drift by {repair_result.improvement_pct:.1f}%",
                         }
                         self.drift_ledger.append(repair_event)
                     else:
@@ -419,34 +423,38 @@ class DriftManager:
 
                         # Record failed repair
                         repair_event = {
-                            'event': 'auto_repair_failure',
-                            'kind': kind,
-                            'error': repair_result.details.get('error', 'unknown'),
-                            'timestamp': repair_result.timestamp,
-                            'rationale': f"Repair attempt failed: {repair_result.details.get('error', 'unknown')}"
+                            "event": "auto_repair_failure",
+                            "kind": kind,
+                            "error": repair_result.details.get("error", "unknown"),
+                            "timestamp": repair_result.timestamp,
+                            "rationale": f"Repair attempt failed: {repair_result.details.get('error', 'unknown')}",
                         }
                         self.drift_ledger.append(repair_event)
 
             except Exception as e:
                 logger.error(f"Error during auto-repair attempt: {e}")
                 repair_event = {
-                    'event': 'auto_repair_error',
-                    'kind': kind,
-                    'error': str(e),
-                    'timestamp': time.time(),
-                    'rationale': f"Repair engine error: {str(e)}"
+                    "event": "auto_repair_error",
+                    "kind": kind,
+                    "error": str(e),
+                    "timestamp": time.time(),
+                    "rationale": f"Repair engine error: {str(e)}",
                 }
                 self.drift_ledger.append(repair_event)
 
         # Always emit policy ledger line with repair rationale
         policy_line = {
-            'policy_event': 'drift_threshold_exceeded',
-            'kind': kind,
-            'score': score,
-            'threshold': self.critical_threshold,
-            'repair_attempted': repair_result is not None,
-            'repair_success': repair_result.success if repair_result else False,
-            'rationale': repair_result.details.get('rationale', 'No repair attempted') if repair_result else 'Threshold exceeded, no repair engine available'
+            "policy_event": "drift_threshold_exceeded",
+            "kind": kind,
+            "score": score,
+            "threshold": self.critical_threshold,
+            "repair_attempted": repair_result is not None,
+            "repair_success": repair_result.success if repair_result else False,
+            "rationale": (
+                repair_result.details.get("rationale", "No repair attempted")
+                if repair_result
+                else "Threshold exceeded, no repair engine available"
+            ),
         }
         logger.info(f"POLICY_LEDGER: {policy_line}")
 
@@ -467,20 +475,24 @@ class DriftManager:
 
         # Check if we have feature flag enabled
         import os
-        if os.environ.get('LUKHAS_EXPERIMENTAL') != '1':
+
+        if os.environ.get("LUKHAS_EXPERIMENTAL") != "1":
             logger.debug("Auto-repair disabled: LUKHAS_EXPERIMENTAL not set")
             return False
 
         # Check if we've already attempted too many repairs recently
         recent_attempts = [
-            entry for entry in self.drift_ledger
-            if entry.get('event') in ['auto_repair_success', 'auto_repair_failure', 'auto_repair_error']
-            and entry.get('kind') == kind
-            and entry.get('timestamp', 0) > time.time() - 300  # Last 5 minutes
+            entry
+            for entry in self.drift_ledger
+            if entry.get("event") in ["auto_repair_success", "auto_repair_failure", "auto_repair_error"]
+            and entry.get("kind") == kind
+            and entry.get("timestamp", 0) > time.time() - 300  # Last 5 minutes
         ]
 
         if len(recent_attempts) >= 3:
-            logger.warning(f"Skipping auto-repair: too many recent attempts for {kind} ({len(recent_attempts)} in last 5min)")
+            logger.warning(
+                f"Skipping auto-repair: too many recent attempts for {kind} ({len(recent_attempts)} in last 5min)"
+            )
             return False
 
         return True
@@ -489,6 +501,7 @@ class DriftManager:
         """Initialize the TraceRepairEngine if available."""
         try:
             from trace.TraceRepairEngine import TraceRepairEngine
+
             self._repair_engine = TraceRepairEngine()
             logger.info("TraceRepairEngine initialized for auto-repair")
         except ImportError as e:
@@ -509,18 +522,18 @@ class DriftManager:
         symbols = []
 
         # Extract from state if available
-        state = ctx.get('state', {})
+        state = ctx.get("state", {})
         if isinstance(state, dict):
             for key in state.keys():
                 symbols.append(f"{kind}.{key}")
 
         # Add common symbols based on kind
-        if kind == 'ethical':
-            symbols.extend(['ethical.compliance', 'ethical.constitutional'])
-        elif kind == 'memory':
-            symbols.extend(['memory.fold_stability', 'memory.entropy'])
-        elif kind == 'identity':
-            symbols.extend(['identity.coherence', 'identity.namespace_integrity'])
+        if kind == "ethical":
+            symbols.extend(["ethical.compliance", "ethical.constitutional"])
+        elif kind == "memory":
+            symbols.extend(["memory.fold_stability", "memory.entropy"])
+        elif kind == "identity":
+            symbols.extend(["identity.coherence", "identity.namespace_integrity"])
 
         return symbols[:5]  # Return top 5
 
@@ -557,7 +570,7 @@ class DriftManager:
             top_symbols=top_symbols,
             kind=DriftKind.ETHICAL,
             confidence=0.9 if deltas else 0.0,
-            metadata={'deltas': deltas}
+            metadata={"deltas": deltas},
         )
 
     def _compute_memory_drift(self, prev: Any, curr: Any) -> DriftResult:
@@ -579,9 +592,9 @@ class DriftManager:
                 deltas[key] = delta
 
         # Special handling for fold stability
-        if 'fold_count' in prev_metrics and 'fold_count' in curr_metrics:
-            fold_drift = abs(curr_metrics['fold_count'] - prev_metrics['fold_count']) / 1000.0
-            deltas['fold_stability'] = fold_drift
+        if "fold_count" in prev_metrics and "fold_count" in curr_metrics:
+            fold_drift = abs(curr_metrics["fold_count"] - prev_metrics["fold_count"]) / 1000.0
+            deltas["fold_stability"] = fold_drift
 
         # Calculate score
         if deltas:
@@ -598,7 +611,7 @@ class DriftManager:
             top_symbols=top_symbols,
             kind=DriftKind.MEMORY,
             confidence=0.85 if deltas else 0.0,
-            metadata={'deltas': deltas}
+            metadata={"deltas": deltas},
         )
 
     def _compute_identity_drift(self, prev: Any, curr: Any) -> DriftResult:
@@ -615,7 +628,7 @@ class DriftManager:
         # Calculate deltas (skip non-numeric fields)
         deltas = {}
         for key in prev_features:
-            if key in curr_features and key != 'namespace_hash':
+            if key in curr_features and key != "namespace_hash":
                 try:
                     delta = abs(curr_features[key] - prev_features[key])
                     deltas[key] = delta
@@ -623,9 +636,9 @@ class DriftManager:
                     continue  # Skip non-numeric comparisons
 
         # Identity-specific: namespace consistency check
-        if 'namespace_hash' in prev_features and 'namespace_hash' in curr_features:
-            if prev_features['namespace_hash'] != curr_features['namespace_hash']:
-                deltas['namespace_change'] = 0.5  # Significant drift
+        if "namespace_hash" in prev_features and "namespace_hash" in curr_features:
+            if prev_features["namespace_hash"] != curr_features["namespace_hash"]:
+                deltas["namespace_change"] = 0.5  # Significant drift
 
         # Calculate score
         if deltas:
@@ -642,7 +655,7 @@ class DriftManager:
             top_symbols=top_symbols,
             kind=DriftKind.IDENTITY,
             confidence=0.88 if deltas else 0.0,
-            metadata={'deltas': deltas}
+            metadata={"deltas": deltas},
         )
 
     def _compute_unified_drift(self, prev: Any, curr: Any) -> DriftResult:
@@ -652,24 +665,15 @@ class DriftManager:
         Weighted combination of ethical, memory, and identity drift.
         """
         # Compute individual drifts
-        ethical = self._compute_ethical_drift(
-            prev.get('ethical', {}),
-            curr.get('ethical', {})
-        )
-        memory = self._compute_memory_drift(
-            prev.get('memory', {}),
-            curr.get('memory', {})
-        )
-        identity = self._compute_identity_drift(
-            prev.get('identity', {}),
-            curr.get('identity', {})
-        )
+        ethical = self._compute_ethical_drift(prev.get("ethical", {}), curr.get("ethical", {}))
+        memory = self._compute_memory_drift(prev.get("memory", {}), curr.get("memory", {}))
+        identity = self._compute_identity_drift(prev.get("identity", {}), curr.get("identity", {}))
 
         # Weighted aggregation
         unified_score = (
-            self.weights[DriftKind.ETHICAL] * ethical.score +
-            self.weights[DriftKind.MEMORY] * memory.score +
-            self.weights[DriftKind.IDENTITY] * identity.score
+            self.weights[DriftKind.ETHICAL] * ethical.score
+            + self.weights[DriftKind.MEMORY] * memory.score
+            + self.weights[DriftKind.IDENTITY] * identity.score
         )
 
         # Combine top symbols
@@ -687,11 +691,11 @@ class DriftManager:
             kind=DriftKind.UNIFIED,
             confidence=avg_confidence,
             metadata={
-                'ethical_score': ethical.score,
-                'memory_score': memory.score,
-                'identity_score': identity.score,
-                'weights': self.weights
-            }
+                "ethical_score": ethical.score,
+                "memory_score": memory.score,
+                "identity_score": identity.score,
+                "weights": self.weights,
+            },
         )
 
     def _extract_ethical_indicators(self, state: Any) -> Dict[str, float]:
@@ -702,19 +706,19 @@ class DriftManager:
         # Handle dict-like states
         if isinstance(state, dict):
             return {
-                'compliance': float(state.get('compliance', 0.0)),
-                'constitutional': float(state.get('constitutional', 0.0)),
-                'drift_score': float(state.get('drift_score', 0.0)),
-                'ethics_phi': float(state.get('ethics_phi', 1.0)),
-                'guardian_score': float(state.get('guardian_score', 1.0))
+                "compliance": float(state.get("compliance", 0.0)),
+                "constitutional": float(state.get("constitutional", 0.0)),
+                "drift_score": float(state.get("drift_score", 0.0)),
+                "ethics_phi": float(state.get("ethics_phi", 1.0)),
+                "guardian_score": float(state.get("guardian_score", 1.0)),
             }
 
         # Handle object states
         indicators = {}
-        if hasattr(state, 'compliance'):
-            indicators['compliance'] = float(state.compliance)
-        if hasattr(state, 'drift_score'):
-            indicators['drift_score'] = float(state.drift_score)
+        if hasattr(state, "compliance"):
+            indicators["compliance"] = float(state.compliance)
+        if hasattr(state, "drift_score"):
+            indicators["drift_score"] = float(state.drift_score)
 
         return indicators
 
@@ -726,19 +730,19 @@ class DriftManager:
         # Handle dict-like states
         if isinstance(state, dict):
             return {
-                'fold_count': float(state.get('fold_count', 0)),
-                'entropy': float(state.get('entropy', 0.0)),
-                'coherence': float(state.get('coherence', 1.0)),
-                'retrieval_accuracy': float(state.get('retrieval_accuracy', 1.0)),
-                'cascade_risk': float(state.get('cascade_risk', 0.0))
+                "fold_count": float(state.get("fold_count", 0)),
+                "entropy": float(state.get("entropy", 0.0)),
+                "coherence": float(state.get("coherence", 1.0)),
+                "retrieval_accuracy": float(state.get("retrieval_accuracy", 1.0)),
+                "cascade_risk": float(state.get("cascade_risk", 0.0)),
             }
 
         # Handle object states
         metrics = {}
-        if hasattr(state, 'fold_count'):
-            metrics['fold_count'] = float(state.fold_count)
-        if hasattr(state, 'entropy'):
-            metrics['entropy'] = float(state.entropy)
+        if hasattr(state, "fold_count"):
+            metrics["fold_count"] = float(state.fold_count)
+        if hasattr(state, "entropy"):
+            metrics["entropy"] = float(state.entropy)
 
         return metrics
 
@@ -750,36 +754,38 @@ class DriftManager:
         # Handle dict-like states
         if isinstance(state, dict):
             features = {
-                'coherence': float(state.get('coherence', 1.0)),
-                'namespace_integrity': float(state.get('namespace_integrity', 1.0)),
-                'auth_consistency': float(state.get('auth_consistency', 1.0)),
-                'tier_compliance': float(state.get('tier_compliance', 1.0))
+                "coherence": float(state.get("coherence", 1.0)),
+                "namespace_integrity": float(state.get("namespace_integrity", 1.0)),
+                "auth_consistency": float(state.get("auth_consistency", 1.0)),
+                "tier_compliance": float(state.get("tier_compliance", 1.0)),
             }
 
             # Add namespace hash if present (keep as string)
-            if 'namespace_hash' in state:
-                features['namespace_hash'] = state['namespace_hash']
+            if "namespace_hash" in state:
+                features["namespace_hash"] = state["namespace_hash"]
 
             return features
 
         # Handle object states
         features = {}
-        if hasattr(state, 'coherence'):
-            features['coherence'] = float(state.coherence)
-        if hasattr(state, 'namespace_hash'):
-            features['namespace_hash'] = state.namespace_hash
+        if hasattr(state, "coherence"):
+            features["coherence"] = float(state.coherence)
+        if hasattr(state, "namespace_hash"):
+            features["namespace_hash"] = state.namespace_hash
 
         return features
 
     def _record_drift(self, result: DriftResult) -> None:
         """Record drift calculation in audit ledger."""
-        self.drift_ledger.append({
-            'timestamp': time.time(),
-            'kind': result.kind.value,
-            'score': result.score,
-            'top_symbols': result.top_symbols,
-            'confidence': result.confidence
-        })
+        self.drift_ledger.append(
+            {
+                "timestamp": time.time(),
+                "kind": result.kind.value,
+                "score": result.score,
+                "top_symbols": result.top_symbols,
+                "confidence": result.confidence,
+            }
+        )
 
         # Emit ledger line for audit
         logger.info(
@@ -801,7 +807,7 @@ class DriftManager:
         entries = self.drift_ledger
 
         if kind:
-            entries = [e for e in entries if e.get('kind') == kind]
+            entries = [e for e in entries if e.get("kind") == kind]
 
         return entries[-limit:]
 

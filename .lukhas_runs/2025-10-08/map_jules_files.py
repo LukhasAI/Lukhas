@@ -8,6 +8,7 @@ from pathlib import Path
 
 JULES_DOWNLOAD = Path("/Users/agi_dev/Downloads/BATCH-JULES-2025-10-08-01")
 
+
 def main():
     print("🗺️  Jules File Mapping Tool")
     print("=" * 60)
@@ -57,13 +58,14 @@ def main():
     output_file = Path(".lukhas_runs/2025-10-08/jules_file_mappings.json")
     output_file.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(output_file, 'w') as f:
+    with open(output_file, "w") as f:
         json.dump(mappings, f, indent=2)
 
     print(f"\n💾 Saved {len(mappings)} mappings to: {output_file}")
     print("\nMappings:")
     for source, target in sorted(mappings.items()):
         print(f"  {source:40} → {target}")
+
 
 if __name__ == "__main__":
     main()

@@ -48,7 +48,7 @@ class TestResilienceManager:
     def test_circuit_breaker_closes_after_success_in_half_open(self):
         """Tests that the circuit breaker closes after successful requests in half-open state."""
         manager = ResilienceManager(failure_threshold=1, recovery_timeout=0.1)
-        manager.record_failure() # state -> OPEN
+        manager.record_failure()  # state -> OPEN
 
         async def check_recovery():
             await asyncio.sleep(0.2)
@@ -63,6 +63,7 @@ class TestResilienceManager:
             assert manager.get_state() == AdapterState.CLOSED.value
 
         asyncio.run(check_recovery())
+
 
 @pytest.mark.asyncio
 @pytest.mark.tier3
@@ -99,20 +100,20 @@ class TestWithResilienceDecorator:
 
     async def test_decorator_retries_on_failure(self, adapter):
         """Tests that the decorator retries the operation on failure."""
-        with patch('asyncio.sleep', new_callable=AsyncMock) as mock_sleep:
+        with patch("asyncio.sleep", new_callable=AsyncMock) as mock_sleep:
             with pytest.raises(ValueError):
                 await adapter.failing_operation()
 
-            assert mock_sleep.call_count == 2 # retries twice
-            assert adapter.telemetry.record_request.call_count == 1 # only called on final failure
+            assert mock_sleep.call_count == 2  # retries twice
+            assert adapter.telemetry.record_request.call_count == 1  # only called on final failure
             assert adapter.resilience.failure_count == 3
             assert adapter.resilience.get_state() == AdapterState.OPEN.value
 
     async def test_decorator_opens_circuit_and_blocks_requests(self, adapter):
         """Tests that the decorator opens the circuit and blocks subsequent requests."""
-        with patch('asyncio.sleep', new_callable=AsyncMock):
+        with patch("asyncio.sleep", new_callable=AsyncMock):
             with pytest.raises(ValueError):
-                await adapter.failing_operation() # This will open the circuit
+                await adapter.failing_operation()  # This will open the circuit
 
         # Now, the circuit should be open
         assert adapter.resilience.get_state() == AdapterState.OPEN.value

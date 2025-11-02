@@ -82,24 +82,21 @@ class TestGuardianSchemaRegistry:
                 "status": "allow",
                 "policy": "test/v1.0.0",
                 "timestamp": "2023-01-01T00:00:00Z",
-                "confidence": 0.95
+                "confidence": 0.95,
             },
             "subject": {
                 "correlation_id": "test-correlation-123",
                 "actor": {"type": "user", "id": "test-user"},
-                "operation": {"name": "test_operation"}
+                "operation": {"name": "test_operation"},
             },
             "context": {
                 "environment": {"region": "us-west-1", "runtime": "prod"},
-                "features": {"enforcement_enabled": True}
+                "features": {"enforcement_enabled": True},
             },
             "metrics": {"latency_ms": 50},
             "enforcement": {"mode": "enforced"},
-            "audit": {
-                "event_id": "audit-event-123",
-                "timestamp": "2023-01-01T00:00:00Z"
-            },
-            "integrity": {"content_sha256": "a" * 64}
+            "audit": {"event_id": "audit-event-123", "timestamp": "2023-01-01T00:00:00Z"},
+            "integrity": {"content_sha256": "a" * 64},
         }
 
         result = registry.validate_data(valid_decision, "guardian_decision")
@@ -115,8 +112,8 @@ class TestGuardianSchemaRegistry:
             "schema_version": "2.0.0",
             "decision": {
                 "status": "invalid_status",  # Invalid status
-                "timestamp": "invalid-timestamp"  # Invalid format
-            }
+                "timestamp": "invalid-timestamp",  # Invalid format
+            },
             # Missing required fields
         }
 
@@ -145,24 +142,21 @@ class TestGuardianSchemaRegistry:
                 "status": "allow",
                 "policy": "test/v1.0.0",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "confidence": 0.95
+                "confidence": 0.95,
             },
             "subject": {
                 "correlation_id": str(uuid.uuid4()),
                 "actor": {"type": "user", "id": "test-user"},
-                "operation": {"name": "test_operation"}
+                "operation": {"name": "test_operation"},
             },
             "context": {
                 "environment": {"region": "us-west-1", "runtime": "prod"},
-                "features": {"enforcement_enabled": True}
+                "features": {"enforcement_enabled": True},
             },
             "metrics": {"latency_ms": 50},
             "enforcement": {"mode": "enforced"},
-            "audit": {
-                "event_id": str(uuid.uuid4()),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            },
-            "integrity": {"content_sha256": "a" * 64}
+            "audit": {"event_id": str(uuid.uuid4()), "timestamp": datetime.now(timezone.utc).isoformat()},
+            "integrity": {"content_sha256": "a" * 64},
         }
 
 
@@ -179,9 +173,7 @@ class TestSerializationEngine:
         assert result.serialization_time_ms < 10
 
         # Test deserialization
-        deserialize_result = engine.deserialize(
-            result.data, SerializationFormat.JSON
-        )
+        deserialize_result = engine.deserialize(result.data, SerializationFormat.JSON)
         assert deserialize_result.success
         assert deserialize_result.data == test_data
 
@@ -230,16 +222,16 @@ class TestSerializationEngine:
             "subject": {
                 "correlation_id": "test-123",
                 "actor": {"type": "user", "id": "test"},
-                "operation": {"name": "test"}
+                "operation": {"name": "test"},
             },
             "context": {
                 "environment": {"region": "test", "runtime": "test"},
-                "features": {"enforcement_enabled": True}
+                "features": {"enforcement_enabled": True},
             },
             "metrics": {"latency_ms": 10},
             "enforcement": {"mode": "enforced"},
             "audit": {"event_id": "audit-123", "timestamp": "2023-01-01T00:00:00Z"},
-            "integrity": {"content_sha256": "a" * 64}
+            "integrity": {"content_sha256": "a" * 64},
         }
 
 
@@ -303,24 +295,21 @@ class TestValidationFramework:
             "decision": {
                 "status": "allow",
                 "policy": "test/v1.0.0",
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             "subject": {
                 "correlation_id": str(uuid.uuid4()),
                 "actor": {"type": "user", "id": "test-user"},
-                "operation": {"name": "test_operation"}
+                "operation": {"name": "test_operation"},
             },
             "context": {
                 "environment": {"region": "us-west-1", "runtime": "prod"},
-                "features": {"enforcement_enabled": True}
+                "features": {"enforcement_enabled": True},
             },
             "metrics": {"latency_ms": 50},
             "enforcement": {"mode": "enforced"},
-            "audit": {
-                "event_id": str(uuid.uuid4()),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            },
-            "integrity": {"content_sha256": "a" * 64}
+            "audit": {"event_id": str(uuid.uuid4()), "timestamp": datetime.now(timezone.utc).isoformat()},
+            "integrity": {"content_sha256": "a" * 64},
         }
 
 
@@ -341,7 +330,7 @@ class TestSchemaMigration:
         old_data = {
             "timestamp": "2023-01-01T00:00:00Z",
             "decision": {"status": "allow", "policy": "test"},
-            "emergency_active": False
+            "emergency_active": False,
         }
 
         result = migrate_guardian_data(old_data, "2.0.0", "1.0.0")
@@ -351,10 +340,7 @@ class TestSchemaMigration:
 
     def test_migration_performance(self):
         """Test migration performance"""
-        old_data = {
-            "decision": {"status": "allow", "policy": "test"},
-            "timestamp": "2023-01-01T00:00:00Z"
-        }
+        old_data = {"decision": {"status": "allow", "policy": "test"}, "timestamp": "2023-01-01T00:00:00Z"}
 
         start_time = time.perf_counter()
         result = migrate_guardian_data(old_data, "2.0.0", "1.0.0")
@@ -455,10 +441,7 @@ class TestGuardianSerializer:
     def test_migration_pipeline(self):
         """Test migration pipeline"""
         serializer = GuardianSerializer()
-        old_decision = {
-            "decision": {"status": "allow", "policy": "test"},
-            "timestamp": "2023-01-01T00:00:00Z"
-        }
+        old_decision = {"decision": {"status": "allow", "policy": "test"}, "timestamp": "2023-01-01T00:00:00Z"}
 
         result = serializer.migrate_decision(old_decision, "2.0.0")
         assert result.success
@@ -495,24 +478,21 @@ class TestGuardianSerializer:
                 "status": "allow",
                 "policy": "test/v1.0.0",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "confidence": 0.95
+                "confidence": 0.95,
             },
             "subject": {
                 "correlation_id": str(uuid.uuid4()),
                 "actor": {"type": "user", "id": "test-user"},
-                "operation": {"name": "test_operation"}
+                "operation": {"name": "test_operation"},
             },
             "context": {
                 "environment": {"region": "us-west-1", "runtime": "prod"},
-                "features": {"enforcement_enabled": True}
+                "features": {"enforcement_enabled": True},
             },
             "metrics": {"latency_ms": 50},
             "enforcement": {"mode": "enforced"},
-            "audit": {
-                "event_id": str(uuid.uuid4()),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            },
-            "integrity": {"content_sha256": "a" * 64}
+            "audit": {"event_id": str(uuid.uuid4()), "timestamp": datetime.now(timezone.utc).isoformat()},
+            "integrity": {"content_sha256": "a" * 64},
         }
 
 
@@ -590,7 +570,7 @@ class TestPerformanceBenchmarks:
 
         # Performance targets
         assert avg_latency < 10  # Average under 10ms
-        assert p99_latency < 50   # P99 under 50ms
+        assert p99_latency < 50  # P99 under 50ms
 
         print(f"Average end-to-end latency: {avg_latency:.2f}ms")
         print(f"P99 latency: {p99_latency:.2f}ms")
@@ -613,7 +593,7 @@ class TestPerformanceBenchmarks:
 
         # Measure memory
         current_snapshot = tracemalloc.take_snapshot()
-        top_stats = current_snapshot.compare_to(baseline_snapshot, 'lineno')
+        top_stats = current_snapshot.compare_to(baseline_snapshot, "lineno")
 
         total_memory_mb = sum(stat.size for stat in top_stats) / 1024 / 1024
 
@@ -632,33 +612,26 @@ class TestPerformanceBenchmarks:
                 "policy": "benchmark/v1.0.0",
                 "timestamp": "2023-01-01T00:00:00Z",
                 "confidence": 0.95,
-                "severity": "low"
+                "severity": "low",
             },
             "subject": {
                 "correlation_id": "benchmark-123",
                 "actor": {"type": "user", "id": "benchmark-user", "tier": "T3"},
-                "operation": {"name": "benchmark_operation", "resource": "test"}
+                "operation": {"name": "benchmark_operation", "resource": "test"},
             },
             "context": {
                 "environment": {"region": "us-west-1", "runtime": "prod", "version": "1.0.0"},
-                "features": {"enforcement_enabled": True, "emergency_active": False}
+                "features": {"enforcement_enabled": True, "emergency_active": False},
             },
-            "metrics": {
-                "latency_ms": 25,
-                "risk_score": 0.1,
-                "drift_score": 0.05,
-                "quota_remaining": 1000
-            },
+            "metrics": {"latency_ms": 25, "risk_score": 0.1, "drift_score": 0.05, "quota_remaining": 1000},
             "enforcement": {"mode": "enforced", "actions": ["log_only"]},
             "audit": {
                 "event_id": "benchmark-audit-123",
                 "timestamp": "2023-01-01T00:00:00Z",
-                "source_system": "guardian"
+                "source_system": "guardian",
             },
-            "reasons": [
-                {"code": "POLICY_ALLOW", "message": "Request allowed by policy"}
-            ],
-            "integrity": {"content_sha256": "b" * 64}
+            "reasons": [{"code": "POLICY_ALLOW", "message": "Request allowed by policy"}],
+            "integrity": {"content_sha256": "b" * 64},
         }
 
 
@@ -675,24 +648,18 @@ class TestSystemIntegration:
                 "status": "allow",
                 "policy": "integration_test/v1.0.0",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "confidence": 0.95
+                "confidence": 0.95,
             },
             "subject": {
                 "correlation_id": str(uuid.uuid4()),
                 "actor": {"type": "user", "id": "integration-test-user"},
-                "operation": {"name": "integration_test"}
+                "operation": {"name": "integration_test"},
             },
-            "context": {
-                "environment": {"region": "test", "runtime": "ci"},
-                "features": {"enforcement_enabled": True}
-            },
+            "context": {"environment": {"region": "test", "runtime": "ci"}, "features": {"enforcement_enabled": True}},
             "metrics": {"latency_ms": 10},
             "enforcement": {"mode": "enforced"},
-            "audit": {
-                "event_id": str(uuid.uuid4()),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            },
-            "integrity": {"content_sha256": "c" * 64}
+            "audit": {"event_id": str(uuid.uuid4()), "timestamp": datetime.now(timezone.utc).isoformat()},
+            "integrity": {"content_sha256": "c" * 64},
         }
 
         # Step 1: Validate
@@ -719,6 +686,7 @@ class TestSystemIntegration:
         assert health["system"]["status"] == "operational"
         assert health["integration_health"]["schema_registry_healthy"]
         assert health["integration_health"]["serialization_healthy"]
+
 
 # Run performance benchmarks if this file is executed directly
 if __name__ == "__main__":

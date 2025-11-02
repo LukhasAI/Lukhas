@@ -33,26 +33,39 @@ try:
 except ImportError:
     # Fallback MemoryBridge if not available
     class MemoryBridge:
-        def __init__(self): pass
-        async def retrieve_memory_context(self, *args): return {'memories': []}
-        async def validate_memory_consistency(self, *args): return {'consistency_score': 0.8}
+        def __init__(self):
+            pass
+
+        async def retrieve_memory_context(self, *args):
+            return {"memories": []}
+
+        async def validate_memory_consistency(self, *args):
+            return {"consistency_score": 0.8}
+
+
 try:
     from ..observability.prometheus_metrics import LUKHASMetrics
 except ImportError:
     # Fallback if metrics not available
     class LUKHASMetrics:
-        def __init__(self): pass
+        def __init__(self):
+            pass
+
         @staticmethod
         def memory_contradiction_detection_time_seconds():
             class MockMetric:
-                def observe(self, value): pass
+                def observe(self, value):
+                    pass
+
             return MockMetric()
+
 
 logger = logging.getLogger(__name__)
 
 
 class MemoryConflictType(Enum):
     """Types of memory-reasoning conflicts"""
+
     SEMANTIC_INCONSISTENCY = "semantic_inconsistency"
     TEMPORAL_CONTRADICTION = "temporal_contradiction"
     FACTUAL_CONFLICT = "factual_conflict"
@@ -63,6 +76,7 @@ class MemoryConflictType(Enum):
 @dataclass
 class MemoryValidationContext:
     """Context for memory-reasoning validation"""
+
     memory_signals: List[Dict[str, Any]]
     reasoning_chains: List[Any]
     query_context: str
@@ -76,6 +90,7 @@ class MemoryValidationContext:
 @dataclass
 class MemoryContradictionResult:
     """Result of memory-reasoning contradiction detection"""
+
     memory_conflicts_found: int
     conflict_types: Dict[MemoryConflictType, int]
     contradictory_memory_pairs: List[Tuple[str, str]]
@@ -104,14 +119,12 @@ class MemoryContradictionBridge:
         contradiction_integrator: Optional[ContradictionIntegrator] = None,
         enable_temporal_validation: bool = True,
         enable_semantic_validation: bool = True,
-        max_validation_time_ms: float = 10.0
+        max_validation_time_ms: float = 10.0,
     ):
         """Initialize memory-contradiction bridge."""
         self.memory_bridge = memory_bridge or self._create_fallback_memory_bridge()
         self.contradiction_integrator = contradiction_integrator or ContradictionIntegrator(
-            accuracy_target=0.98,
-            max_detection_time_ms=5.0,
-            enable_adaptive_strategies=True
+            accuracy_target=0.98, max_detection_time_ms=5.0, enable_adaptive_strategies=True
         )
         self.enable_temporal_validation = enable_temporal_validation
         self.enable_semantic_validation = enable_semantic_validation
@@ -125,7 +138,7 @@ class MemoryContradictionBridge:
             "temporal_conflicts": 0,
             "semantic_conflicts": 0,
             "avg_validation_time_ms": 0.0,
-            "validation_success_rate": 0.0
+            "validation_success_rate": 0.0,
         }
 
         # Memory coherence tracking
@@ -138,8 +151,7 @@ class MemoryContradictionBridge:
         )
 
     async def validate_memory_reasoning_consistency(
-        self,
-        context: MemoryValidationContext
+        self, context: MemoryValidationContext
     ) -> MemoryContradictionResult:
         """
         Validate consistency between memory signals and reasoning chains.
@@ -163,9 +175,7 @@ class MemoryContradictionBridge:
             confidence_issues = []
 
             # Validate memory-memory consistency
-            memory_memory_conflicts = await self._validate_memory_memory_consistency(
-                context.memory_signals, context
-            )
+            memory_memory_conflicts = await self._validate_memory_memory_consistency(context.memory_signals, context)
             memory_conflicts.extend(memory_memory_conflicts)
 
             # Validate memory-reasoning consistency
@@ -177,9 +187,7 @@ class MemoryContradictionBridge:
 
             # Validate temporal consistency
             if self.enable_temporal_validation:
-                temporal_conflicts = await self._validate_temporal_consistency(
-                    context.memory_signals, context
-                )
+                temporal_conflicts = await self._validate_temporal_consistency(context.memory_signals, context)
                 temporal_inconsistencies.extend(temporal_conflicts)
 
             # Validate semantic consistency
@@ -197,27 +205,30 @@ class MemoryContradictionBridge:
 
             # Aggregate results
             total_conflicts = (
-                len(memory_conflicts) + len(reasoning_memory_conflicts) +
-                len(temporal_inconsistencies) + len(semantic_conflicts) +
-                len(confidence_issues)
+                len(memory_conflicts)
+                + len(reasoning_memory_conflicts)
+                + len(temporal_inconsistencies)
+                + len(semantic_conflicts)
+                + len(confidence_issues)
             )
 
             # Update conflict type counts
             for conflict in memory_conflicts:
-                conflict_type = conflict.get('type')
+                conflict_type = conflict.get("type")
                 if conflict_type in conflict_type_counts:
                     conflict_type_counts[conflict_type] += 1
 
             # Generate recommendations
             recommendations = self._generate_memory_recommendations(
-                memory_conflicts, reasoning_memory_conflicts, temporal_inconsistencies,
-                semantic_conflicts, confidence_issues
+                memory_conflicts,
+                reasoning_memory_conflicts,
+                temporal_inconsistencies,
+                semantic_conflicts,
+                confidence_issues,
             )
 
             # Calculate validation quality
-            validation_quality = self._calculate_validation_quality(
-                context, total_conflicts, start_time
-            )
+            validation_quality = self._calculate_validation_quality(context, total_conflicts, start_time)
 
             processing_time = (time.time() - start_time) * 1000
 
@@ -232,7 +243,7 @@ class MemoryContradictionBridge:
                 processing_time_ms=processing_time,
                 validation_quality=validation_quality,
                 recommendations=recommendations,
-                success=True
+                success=True,
             )
 
             # Update statistics
@@ -256,16 +267,14 @@ class MemoryContradictionBridge:
                 validation_quality=0.0,
                 recommendations=[f"Validation error: {str(e)}"],
                 success=False,
-                error_message=str(e)
+                error_message=str(e),
             )
 
             self._update_validation_stats(error_result, success=False)
             return error_result
 
     async def _validate_memory_memory_consistency(
-        self,
-        memory_signals: List[Dict[str, Any]],
-        context: MemoryValidationContext
+        self, memory_signals: List[Dict[str, Any]], context: MemoryValidationContext
     ) -> List[Dict[str, Any]]:
         """Validate consistency between memory signals."""
         conflicts = []
@@ -275,24 +284,23 @@ class MemoryContradictionBridge:
 
         # Check for direct contradictions between memories
         for i, memory1 in enumerate(memory_signals):
-            for j, memory2 in enumerate(memory_signals[i+1:], i+1):
+            for j, memory2 in enumerate(memory_signals[i + 1 :], i + 1):
                 conflict = await self._check_memory_pair_conflict(memory1, memory2, context)
                 if conflict:
-                    conflicts.append({
-                        'type': MemoryConflictType.SEMANTIC_INCONSISTENCY,
-                        'memory1_id': memory1.get('id', f'mem_{i}'),
-                        'memory2_id': memory2.get('id', f'mem_{j}'),
-                        'conflict_description': conflict,
-                        'severity': 'medium'
-                    })
+                    conflicts.append(
+                        {
+                            "type": MemoryConflictType.SEMANTIC_INCONSISTENCY,
+                            "memory1_id": memory1.get("id", f"mem_{i}"),
+                            "memory2_id": memory2.get("id", f"mem_{j}"),
+                            "conflict_description": conflict,
+                            "severity": "medium",
+                        }
+                    )
 
         return conflicts
 
     async def _validate_memory_reasoning_consistency(
-        self,
-        memory_signals: List[Dict[str, Any]],
-        reasoning_chains: List[Any],
-        context: MemoryValidationContext
+        self, memory_signals: List[Dict[str, Any]], reasoning_chains: List[Any], context: MemoryValidationContext
     ) -> List[Dict[str, Any]]:
         """Validate consistency between memory and reasoning."""
         conflicts = []
@@ -301,28 +309,27 @@ class MemoryContradictionBridge:
             for chain_idx, chain in enumerate(reasoning_chains):
                 conflict = await self._check_memory_reasoning_conflict(memory, chain, context)
                 if conflict:
-                    conflicts.append({
-                        'type': MemoryConflictType.FACTUAL_CONFLICT,
-                        'memory_id': memory.get('id', 'unknown'),
-                        'reasoning_chain': chain_idx,
-                        'conflict_description': conflict,
-                        'severity': 'high'
-                    })
+                    conflicts.append(
+                        {
+                            "type": MemoryConflictType.FACTUAL_CONFLICT,
+                            "memory_id": memory.get("id", "unknown"),
+                            "reasoning_chain": chain_idx,
+                            "conflict_description": conflict,
+                            "severity": "high",
+                        }
+                    )
 
         return conflicts
 
     async def _validate_temporal_consistency(
-        self,
-        memory_signals: List[Dict[str, Any]],
-        context: MemoryValidationContext
+        self, memory_signals: List[Dict[str, Any]], context: MemoryValidationContext
     ) -> List[Dict[str, Any]]:
         """Validate temporal consistency of memories."""
         temporal_conflicts = []
 
         # Check for temporal ordering conflicts
         timestamped_memories = [
-            memory for memory in memory_signals
-            if memory.get('timestamp') or memory.get('created_at')
+            memory for memory in memory_signals if memory.get("timestamp") or memory.get("created_at")
         ]
 
         if len(timestamped_memories) < 2:
@@ -330,9 +337,7 @@ class MemoryContradictionBridge:
 
         # Sort by timestamp
         try:
-            timestamped_memories.sort(
-                key=lambda m: float(m.get('timestamp') or m.get('created_at', 0))
-            )
+            timestamped_memories.sort(key=lambda m: float(m.get("timestamp") or m.get("created_at", 0)))
 
             # Check for logical temporal inconsistencies
             for i in range(len(timestamped_memories) - 1):
@@ -341,13 +346,15 @@ class MemoryContradictionBridge:
 
                 conflict = await self._check_temporal_logic_conflict(earlier_memory, later_memory)
                 if conflict:
-                    temporal_conflicts.append({
-                        'type': MemoryConflictType.TEMPORAL_CONTRADICTION,
-                        'earlier_memory_id': earlier_memory.get('id', f'mem_{i}'),
-                        'later_memory_id': later_memory.get('id', f'mem_{i+1}'),
-                        'conflict_description': conflict,
-                        'severity': 'medium'
-                    })
+                    temporal_conflicts.append(
+                        {
+                            "type": MemoryConflictType.TEMPORAL_CONTRADICTION,
+                            "earlier_memory_id": earlier_memory.get("id", f"mem_{i}"),
+                            "later_memory_id": later_memory.get("id", f"mem_{i+1}"),
+                            "conflict_description": conflict,
+                            "severity": "medium",
+                        }
+                    )
 
         except (ValueError, TypeError) as e:
             logger.warning(f"Temporal validation failed: {e}")
@@ -355,10 +362,7 @@ class MemoryContradictionBridge:
         return temporal_conflicts
 
     async def _validate_semantic_consistency(
-        self,
-        memory_signals: List[Dict[str, Any]],
-        reasoning_chains: List[Any],
-        context: MemoryValidationContext
+        self, memory_signals: List[Dict[str, Any]], reasoning_chains: List[Any], context: MemoryValidationContext
     ) -> List[Dict[str, Any]]:
         """Validate semantic consistency across memory and reasoning."""
         semantic_conflicts = []
@@ -384,7 +388,7 @@ class MemoryContradictionBridge:
                     confidence_levels=[0.8],  # Default confidence
                     processing_time_budget_ms=5.0,
                     enable_resolution=False,  # Just detection
-                    metadata=context.metadata
+                    metadata=context.metadata,
                 )
 
                 try:
@@ -394,12 +398,14 @@ class MemoryContradictionBridge:
 
                     if detection_result.success and detection_result.contradictions_found > 0:
                         for report in detection_result.contradiction_reports:
-                            semantic_conflicts.append({
-                                'type': MemoryConflictType.SEMANTIC_INCONSISTENCY,
-                                'conflict_source': 'contradiction_integrator',
-                                'conflict_description': str(report),
-                                'severity': 'high' if detection_result.detection_accuracy > 0.9 else 'medium'
-                            })
+                            semantic_conflicts.append(
+                                {
+                                    "type": MemoryConflictType.SEMANTIC_INCONSISTENCY,
+                                    "conflict_source": "contradiction_integrator",
+                                    "conflict_description": str(report),
+                                    "severity": "high" if detection_result.detection_accuracy > 0.9 else "medium",
+                                }
+                            )
 
                 except Exception as e:
                     logger.warning(f"Semantic validation via contradiction integrator failed: {e}")
@@ -407,46 +413,42 @@ class MemoryContradictionBridge:
         return semantic_conflicts
 
     async def _validate_confidence_consistency(
-        self,
-        memory_signals: List[Dict[str, Any]],
-        reasoning_chains: List[Any],
-        context: MemoryValidationContext
+        self, memory_signals: List[Dict[str, Any]], reasoning_chains: List[Any], context: MemoryValidationContext
     ) -> List[Dict[str, Any]]:
         """Validate confidence consistency between memory and reasoning."""
         confidence_issues = []
 
         # Check for confidence mismatches
         for memory in memory_signals:
-            memory_confidence = memory.get('confidence', 0.5)
-            memory.get('content') or memory.get('text', '')
+            memory_confidence = memory.get("confidence", 0.5)
+            memory.get("content") or memory.get("text", "")
 
             # Check against reasoning chain confidences
             for chain_idx, chain in enumerate(reasoning_chains):
-                chain_confidence = getattr(chain, 'total_confidence', 0.5)
+                chain_confidence = getattr(chain, "total_confidence", 0.5)
 
                 # Significant confidence mismatch
                 if abs(memory_confidence - chain_confidence) > 0.4:
-                    confidence_issues.append({
-                        'type': MemoryConflictType.CONFIDENCE_MISMATCH,
-                        'memory_id': memory.get('id', 'unknown'),
-                        'memory_confidence': memory_confidence,
-                        'reasoning_chain': chain_idx,
-                        'chain_confidence': chain_confidence,
-                        'mismatch_magnitude': abs(memory_confidence - chain_confidence),
-                        'severity': 'medium'
-                    })
+                    confidence_issues.append(
+                        {
+                            "type": MemoryConflictType.CONFIDENCE_MISMATCH,
+                            "memory_id": memory.get("id", "unknown"),
+                            "memory_confidence": memory_confidence,
+                            "reasoning_chain": chain_idx,
+                            "chain_confidence": chain_confidence,
+                            "mismatch_magnitude": abs(memory_confidence - chain_confidence),
+                            "severity": "medium",
+                        }
+                    )
 
         return confidence_issues
 
     async def _check_memory_pair_conflict(
-        self,
-        memory1: Dict[str, Any],
-        memory2: Dict[str, Any],
-        context: MemoryValidationContext
+        self, memory1: Dict[str, Any], memory2: Dict[str, Any], context: MemoryValidationContext
     ) -> Optional[str]:
         """Check for conflicts between two memories."""
-        content1 = str(memory1.get('content') or memory1.get('text', '')).lower()
-        content2 = str(memory2.get('content') or memory2.get('text', '')).lower()
+        content1 = str(memory1.get("content") or memory1.get("text", "")).lower()
+        content2 = str(memory2.get("content") or memory2.get("text", "")).lower()
 
         if not content1 or not content2:
             return None
@@ -459,7 +461,7 @@ class MemoryContradictionBridge:
             ("all", "none"),
             ("is", "is not"),
             ("can", "cannot"),
-            ("will", "will not")
+            ("will", "will not"),
         ]
 
         for positive, negative in contradiction_patterns:
@@ -471,40 +473,36 @@ class MemoryContradictionBridge:
         return None
 
     async def _check_memory_reasoning_conflict(
-        self,
-        memory: Dict[str, Any],
-        reasoning_chain: Any,
-        context: MemoryValidationContext
+        self, memory: Dict[str, Any], reasoning_chain: Any, context: MemoryValidationContext
     ) -> Optional[str]:
         """Check for conflicts between memory and reasoning chain."""
-        memory_content = str(memory.get('content') or memory.get('text', '')).lower()
+        memory_content = str(memory.get("content") or memory.get("text", "")).lower()
 
-        if not hasattr(reasoning_chain, 'steps') or not reasoning_chain.steps:
+        if not hasattr(reasoning_chain, "steps") or not reasoning_chain.steps:
             return None
 
         # Check final reasoning conclusion against memory
         final_step = reasoning_chain.steps[-1]
-        if not hasattr(final_step, 'conclusion'):
+        if not hasattr(final_step, "conclusion"):
             return None
 
         conclusion = str(final_step.conclusion).lower()
 
         # Simple conflict detection
         if memory_content and conclusion:
-            if ("not" in memory_content and conclusion.replace("not", "").strip() in memory_content) or \
-               ("not" in conclusion and memory_content.replace("not", "").strip() in conclusion):
+            if ("not" in memory_content and conclusion.replace("not", "").strip() in memory_content) or (
+                "not" in conclusion and memory_content.replace("not", "").strip() in conclusion
+            ):
                 return f"Memory-reasoning contradiction: memory suggests '{memory_content[:50]}...' but reasoning concludes '{conclusion[:50]}...'"
 
         return None
 
     async def _check_temporal_logic_conflict(
-        self,
-        earlier_memory: Dict[str, Any],
-        later_memory: Dict[str, Any]
+        self, earlier_memory: Dict[str, Any], later_memory: Dict[str, Any]
     ) -> Optional[str]:
         """Check for temporal logic conflicts between memories."""
-        earlier_content = str(earlier_memory.get('content', '')).lower()
-        later_content = str(later_memory.get('content', '')).lower()
+        earlier_content = str(earlier_memory.get("content", "")).lower()
+        later_content = str(later_memory.get("content", "")).lower()
 
         # Check for temporal impossibilities
         if "will happen" in earlier_content and "already happened" in later_content:
@@ -522,16 +520,20 @@ class MemoryContradictionBridge:
         fragments = []
 
         for i, memory in enumerate(memory_signals[:5]):  # Limit for performance
-            content = memory.get('content') or memory.get('text', '')
+            content = memory.get("content") or memory.get("text", "")
             if content:
                 # Create mock fragment structure
-                fragment = type('Fragment', (), {
-                    'fragment_id': memory.get('id', f'mem_{i}'),
-                    'content': {'memory_content': content},
-                    'source_module': 'memory_system',
-                    'confidence': memory.get('confidence', 0.7),
-                    'timestamp': str(memory.get('timestamp', time.time()))
-                })()
+                fragment = type(
+                    "Fragment",
+                    (),
+                    {
+                        "fragment_id": memory.get("id", f"mem_{i}"),
+                        "content": {"memory_content": content},
+                        "source_module": "memory_system",
+                        "confidence": memory.get("confidence", 0.7),
+                        "timestamp": str(memory.get("timestamp", time.time())),
+                    },
+                )()
                 fragments.append(fragment)
 
         return fragments
@@ -541,16 +543,20 @@ class MemoryContradictionBridge:
         fragments = []
 
         for i, chain in enumerate(reasoning_chains[:3]):  # Limit for performance
-            if hasattr(chain, 'steps'):
+            if hasattr(chain, "steps"):
                 for j, step in enumerate(chain.steps[-3:]):  # Last 3 steps
-                    if hasattr(step, 'conclusion'):
-                        fragment = type('Fragment', (), {
-                            'fragment_id': f'reasoning_{i}_{j}',
-                            'content': {'reasoning_step': step.conclusion},
-                            'source_module': 'reasoning_engine',
-                            'confidence': getattr(step, 'confidence', 0.5),
-                            'timestamp': str(time.time())
-                        })()
+                    if hasattr(step, "conclusion"):
+                        fragment = type(
+                            "Fragment",
+                            (),
+                            {
+                                "fragment_id": f"reasoning_{i}_{j}",
+                                "content": {"reasoning_step": step.conclusion},
+                                "source_module": "reasoning_engine",
+                                "confidence": getattr(step, "confidence", 0.5),
+                                "timestamp": str(time.time()),
+                            },
+                        )()
                         fragments.append(fragment)
 
         return fragments
@@ -561,7 +567,7 @@ class MemoryContradictionBridge:
         reasoning_conflicts: List[Dict[str, Any]],
         temporal_conflicts: List[Dict[str, Any]],
         semantic_conflicts: List[Dict[str, Any]],
-        confidence_issues: List[Dict[str, Any]]
+        confidence_issues: List[Dict[str, Any]],
     ) -> List[str]:
         """Generate recommendations based on detected conflicts."""
         recommendations = []
@@ -581,7 +587,13 @@ class MemoryContradictionBridge:
         if confidence_issues:
             recommendations.append(f"Calibrate {len(confidence_issues)} confidence mismatches")
 
-        total_conflicts = len(memory_conflicts) + len(reasoning_conflicts) + len(temporal_conflicts) + len(semantic_conflicts) + len(confidence_issues)
+        total_conflicts = (
+            len(memory_conflicts)
+            + len(reasoning_conflicts)
+            + len(temporal_conflicts)
+            + len(semantic_conflicts)
+            + len(confidence_issues)
+        )
 
         if total_conflicts == 0:
             recommendations.append("Memory-reasoning consistency validated successfully")
@@ -591,10 +603,7 @@ class MemoryContradictionBridge:
         return recommendations
 
     def _calculate_validation_quality(
-        self,
-        context: MemoryValidationContext,
-        total_conflicts: int,
-        start_time: float
+        self, context: MemoryValidationContext, total_conflicts: int, start_time: float
     ) -> float:
         """Calculate quality score for validation process."""
         processing_time = (time.time() - start_time) * 1000
@@ -610,7 +619,7 @@ class MemoryContradictionBridge:
         # Conflict detection quality (fewer conflicts in high-quality validation)
         conflict_factor = max(0.5, 1.0 - (total_conflicts * 0.05))
 
-        return (time_efficiency * 0.4 + coverage * 0.3 + conflict_factor * 0.3)
+        return time_efficiency * 0.4 + coverage * 0.3 + conflict_factor * 0.3
 
     def _update_validation_stats(self, result: MemoryContradictionResult, success: bool):
         """Update validation statistics."""
@@ -632,24 +641,27 @@ class MemoryContradictionBridge:
             total = self.validation_stats["total_validations"]
             current_avg_time = self.validation_stats["avg_validation_time_ms"]
             self.validation_stats["avg_validation_time_ms"] = (
-                (current_avg_time * (total - 1) + result.processing_time_ms) / total
-            )
+                current_avg_time * (total - 1) + result.processing_time_ms
+            ) / total
 
         # Update success rate
-        successful_validations = (self.validation_stats["validation_success_rate"] * (self.validation_stats["total_validations"] - 1)) + (1 if success else 0)
-        self.validation_stats["validation_success_rate"] = successful_validations / self.validation_stats["total_validations"]
+        successful_validations = (
+            self.validation_stats["validation_success_rate"] * (self.validation_stats["total_validations"] - 1)
+        ) + (1 if success else 0)
+        self.validation_stats["validation_success_rate"] = (
+            successful_validations / self.validation_stats["total_validations"]
+        )
 
     def get_validation_stats(self) -> Dict[str, Any]:
         """Get comprehensive validation statistics."""
         return {
             **self.validation_stats,
             "conflict_detection_rate": (
-                self.validation_stats["conflicts_detected"] /
-                max(1, self.validation_stats["total_validations"])
+                self.validation_stats["conflicts_detected"] / max(1, self.validation_stats["total_validations"])
             ),
             "temporal_validation_enabled": self.enable_temporal_validation,
             "semantic_validation_enabled": self.enable_semantic_validation,
-            "max_validation_time_ms": self.max_validation_time_ms
+            "max_validation_time_ms": self.max_validation_time_ms,
         }
 
     def _create_fallback_memory_bridge(self) -> Optional[Any]:

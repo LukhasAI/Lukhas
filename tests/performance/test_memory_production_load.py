@@ -27,6 +27,7 @@ try:
     from core.memory.fold_system import FoldSystem
     from core.memory.recall_system import RecallSystem
     from observability.prometheus_metrics import LUKHASMetrics
+
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
     MEMORY_SYSTEMS_AVAILABLE = False
@@ -44,7 +45,7 @@ class MemoryLoadTestFramework:
             "latencies_ms": [],
             "memory_usage_mb": [],
             "cascade_events": 0,
-            "error_details": []
+            "error_details": [],
         }
 
     async def simulate_recall_workload(self, num_operations: int, concurrency: int = 10) -> Dict[str, Any]:
@@ -64,7 +65,7 @@ class MemoryLoadTestFramework:
                         "id": query_id,
                         "embedding": [0.1 * (i + query_id) for i in range(128)],
                         "top_k": 10,
-                        "filter_conditions": {"category": f"test_{query_id % 5}"}
+                        "filter_conditions": {"category": f"test_{query_id % 5}"},
                     }
 
                     result = await recall_system.recall_memories(query)
@@ -101,11 +102,7 @@ class MemoryLoadTestFramework:
                 fold_data = {
                     "fold_id": f"load_test_{i}",
                     "content": f"Test memory content {i}" * 100,  # ~2KB per fold
-                    "metadata": {
-                        "timestamp": time.time(),
-                        "type": "load_test",
-                        "priority": i % 5
-                    }
+                    "metadata": {"timestamp": time.time(), "type": "load_test", "priority": i % 5},
                 }
 
                 fold_system.create_fold(fold_data)
@@ -142,8 +139,10 @@ class MemoryLoadTestFramework:
         peak_memory = max(memory_usage) if memory_usage else 0
         avg_memory = statistics.mean(memory_usage) if memory_usage else 0
 
-        success_rate = (self.results["operations_completed"] /
-                       (self.results["operations_completed"] + self.results["operations_failed"])) * 100
+        success_rate = (
+            self.results["operations_completed"]
+            / (self.results["operations_completed"] + self.results["operations_failed"])
+        ) * 100
 
         report = f"""
 === Memory System Production Load Test Report ===
@@ -173,9 +172,9 @@ Cascade Events: {self.results['cascade_events']}
 Error Count: {len(self.results['error_details'])}
 """
 
-        if self.results['error_details']:
+        if self.results["error_details"]:
             report += "\nError Details:\n"
-            for error in set(self.results['error_details'][:5]):  # Show unique errors
+            for error in set(self.results["error_details"][:5]):  # Show unique errors
                 report += f"  - {error}\n"
 
         return report
@@ -227,8 +226,9 @@ class TestMemoryProductionLoad:
             assert p95 <= 100.0, f"P95 recall latency {p95:.2f}ms exceeds 100ms SLO"
 
             # Success rate must be ≥ 99.7%
-            success_rate = (results["operations_completed"] /
-                           (results["operations_completed"] + results["operations_failed"])) * 100
+            success_rate = (
+                results["operations_completed"] / (results["operations_completed"] + results["operations_failed"])
+            ) * 100
             assert success_rate >= 99.7, f"Success rate {success_rate:.2f}% below 99.7% SLO"
 
         # Throughput validation
@@ -295,11 +295,7 @@ class TestMemoryProductionLoad:
         if not MEMORY_SYSTEMS_AVAILABLE:
             pytest.skip("Memory systems not available")
 
-        scale_factors = {
-            "light": 100,
-            "moderate": 1000,
-            "heavy": 5000
-        }
+        scale_factors = {"light": 100, "moderate": 1000, "heavy": 5000}
 
         scale = scale_factors[load_level]
         framework = MemoryLoadTestFramework(scale_factor=scale)

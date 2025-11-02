@@ -1,4 +1,5 @@
 """Test core bridge exports and contract."""
+
 import pytest
 
 
@@ -25,7 +26,7 @@ def test_ethics_bridge_exports():
     from core.ethics import ethics
 
     # Should be a module
-    assert hasattr(ethics, '__file__')
+    assert hasattr(ethics, "__file__")
 
 
 def test_policy_guard_bridge_exports():

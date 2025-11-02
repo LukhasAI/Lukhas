@@ -25,10 +25,7 @@ class TestGuardianModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "guardian",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "guardian", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestGuardianModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import guardian
+
         self.assertIsNotNone(guardian)
 
     def test_module_version(self):
         """Test module has version information."""
         import guardian
+
         # Most modules should have version info
-        self.assertTrue(hasattr(guardian, '__version__') or
-                       hasattr(guardian, 'VERSION'))
+        self.assertTrue(hasattr(guardian, "__version__") or hasattr(guardian, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testemit_confidence_metrics(unittest.TestCase):
         """Test emit_confidence_metrics can be imported."""
         try:
             from guardian.emit import emit_confidence_metrics
+
             self.assertIsNotNone(emit_confidence_metrics)
         except ImportError:
             pytest.skip("Component emit_confidence_metrics not available")
@@ -97,6 +96,7 @@ class Testemit_exemption(unittest.TestCase):
         """Test emit_exemption can be imported."""
         try:
             from guardian.emit import emit_exemption
+
             self.assertIsNotNone(emit_exemption)
         except ImportError:
             pytest.skip("Component emit_exemption not available")
@@ -114,6 +114,7 @@ class Testemit_guardian_action_with_exemplar(unittest.TestCase):
         """Test emit_guardian_action_with_exemplar can be imported."""
         try:
             from guardian.emit import emit_guardian_action_with_exemplar
+
             self.assertIsNotNone(emit_guardian_action_with_exemplar)
         except ImportError:
             pytest.skip("Component emit_guardian_action_with_exemplar not available")
@@ -122,7 +123,6 @@ class Testemit_guardian_action_with_exemplar(unittest.TestCase):
         """Test emit_guardian_action_with_exemplar can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

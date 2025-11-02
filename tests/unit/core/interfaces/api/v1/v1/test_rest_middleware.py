@@ -118,5 +118,3 @@ def test_rate_limit_unlimited_tier_returns_unlimited_headers() -> None:
     assert resp.status_code == 200
     assert resp.headers["X-RateLimit-Limit"] == "unlimited"
     assert resp.headers["X-RateLimit-Remaining"] == "unlimited"
-
-

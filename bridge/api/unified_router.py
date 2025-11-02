@@ -45,13 +45,11 @@ except ImportError:
     except Exception as e:
         return response_data
 
-
     try:
         # Route to appropriate module based on request type
         request_type = data.get("type", "general")
 
         if request_type == "memory":
-
 
             return await memory_manager.process(data)
         elif request_type == "consciousness":
@@ -69,7 +67,6 @@ except ImportError:
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 
 logger = logging.getLogger(__name__)
@@ -97,6 +94,7 @@ def apply_api_branding(response_data: dict[str, Any]) -> dict[str, Any]:
     if not BRANDING_AVAILABLE or not api_brand_context:
         return response_data
 
+
 # Health check
 
 
@@ -113,6 +111,8 @@ async def health_check():
 @router.post("/process")
 async def process_request(data: dict[str, Any]):
     """Process a request through LUKHAS"""
+
+
 # Module status
 
 

@@ -125,15 +125,15 @@ def _compute_target(record: dict, layout: str, target_root: str) -> str:
 
 @dataclasses.dataclass
 class FileCandidate:
-    source: str                   # legacy path (repo-relative)
-    module: str                   # inferred module
-    rel_from_module: str          # path relative to module root inside legacy lane
-    lane: str                     # which legacy lane
-    import_freq: float = 0.0      # raw count
-    mtime: float = 0.0            # seconds since epoch
-    critical: bool = False        # flag from artifacts or heuristics
-    score: float = 0.0            # computed
-    target: str = ""              # Lukhas/<module>/<rel_from_module>
+    source: str  # legacy path (repo-relative)
+    module: str  # inferred module
+    rel_from_module: str  # path relative to module root inside legacy lane
+    lane: str  # which legacy lane
+    import_freq: float = 0.0  # raw count
+    mtime: float = 0.0  # seconds since epoch
+    critical: bool = False  # flag from artifacts or heuristics
+    score: float = 0.0  # computed
+    target: str = ""  # Lukhas/<module>/<rel_from_module>
 
 
 def _read_json(path: pathlib.Path) -> Optional[dict]:
@@ -274,13 +274,15 @@ def _normalize(values: List[float]) -> List[float]:
     return [(v - vmin) / (vmax - vmin) for v in values]
 
 
-def select_candidates(top: int,
-                      modules_filter: Optional[set],
-                      w_freq: float,
-                      w_recency: float,
-                      w_critical: float,
-                      layout: str = "flat",
-                      target_root: str = "Lukhas") -> List[FileCandidate]:
+def select_candidates(
+    top: int,
+    modules_filter: Optional[set],
+    w_freq: float,
+    w_recency: float,
+    w_critical: float,
+    layout: str = "flat",
+    target_root: str = "Lukhas",
+) -> List[FileCandidate]:
     files = _discover_legacy_files(modules_filter)
     if not files:
         return []
@@ -311,7 +313,7 @@ def select_candidates(top: int,
             "source": f.source,
             "module": f.module,
             "rel_from_module": f.rel_from_module,
-            "relpath": f.rel_from_module
+            "relpath": f.rel_from_module,
         }
         f.target = _compute_target(record, layout, target_root)
 
@@ -338,8 +340,7 @@ def _write_plan_jsonl(rows: List[FileCandidate], path: pathlib.Path) -> None:
             f.write(json.dumps(obj) + "\n")
 
 
-def _write_plan_md(rows: List[FileCandidate], path: pathlib.Path,
-                   params: Dict[str, str]) -> None:
+def _write_plan_md(rows: List[FileCandidate], path: pathlib.Path, params: Dict[str, str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = []
     lines.append("# Promotion Selector — Batch Plan")
@@ -351,9 +352,13 @@ def _write_plan_md(rows: List[FileCandidate], path: pathlib.Path,
     lines.append("| Rank | Score | Source (lane) | Module | → Target | ImportFreq | mtime | Critical |")
     lines.append("|---:|---:|---|---|---|---:|---:|---|")
     for i, r in enumerate(rows, 1):
-        lines.append(f"| {i} | {r.score:.3f} | `{r.source}` ({r.lane}) | `{r.module}` | `{r.target}` | {int(r.import_freq)} | {int(r.mtime)} | {r.critical} |")
+        lines.append(
+            f"| {i} | {r.score:.3f} | `{r.source}` ({r.lane}) | `{r.module}` | `{r.target}` | {int(r.import_freq)} | {int(r.mtime)} | {r.critical} |"
+        )
     lines.append("")
-    lines.append("> This plan is *selection only*. Use your promoter to apply moves with `git mv` and run MATRIZ validation.")
+    lines.append(
+        "> This plan is *selection only*. Use your promoter to apply moves with `git mv` and run MATRIZ validation."
+    )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -361,25 +366,60 @@ def _write_plan_csv(rows: List[FileCandidate], path: pathlib.Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["rank", "score", "source", "lane", "module", "rel_from_module", "target", "import_freq", "mtime", "critical"])
+        w.writerow(
+            [
+                "rank",
+                "score",
+                "source",
+                "lane",
+                "module",
+                "rel_from_module",
+                "target",
+                "import_freq",
+                "mtime",
+                "critical",
+            ]
+        )
         for i, r in enumerate(rows, 1):
-            w.writerow([i, f"{r.score:.6f}", r.source, r.lane, r.module, r.rel_from_module, r.target, int(r.import_freq), int(r.mtime), int(r.critical)])
+            w.writerow(
+                [
+                    i,
+                    f"{r.score:.6f}",
+                    r.source,
+                    r.lane,
+                    r.module,
+                    r.rel_from_module,
+                    r.target,
+                    int(r.import_freq),
+                    int(r.mtime),
+                    int(r.critical),
+                ]
+            )
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Select top-N legacy files to promote into Lukhas/ flat root.")
     ap.add_argument("--top", type=int, default=DEFAULT_TOP, help=f"How many files to select (default {DEFAULT_TOP})")
-    ap.add_argument("--modules", type=str, default="", help="Comma-separated allowlist of modules to consider (e.g., core,identity,api)")
+    ap.add_argument(
+        "--modules",
+        type=str,
+        default="",
+        help="Comma-separated allowlist of modules to consider (e.g., core,identity,api)",
+    )
     ap.add_argument("--weight-freq", type=float, default=0.7, help="Weight for import frequency")
     ap.add_argument("--weight-recency", type=float, default=0.2, help="Weight for file recency (mtime)")
     ap.add_argument("--weight-critical", type=float, default=0.1, help="Weight for critical flag")
-    ap.add_argument("--layout", choices=["flat", "legacy"], default="flat",
-                    help="Target layout for moves (default: flat)")
-    ap.add_argument("--target-root", default="Lukhas",
-                    help="Root folder for flat layout (default: Lukhas)")
+    ap.add_argument(
+        "--layout", choices=["flat", "legacy"], default="flat", help="Target layout for moves (default: flat)"
+    )
+    ap.add_argument("--target-root", default="Lukhas", help="Root folder for flat layout (default: Lukhas)")
     ap.add_argument("--dry-run", action="store_true", help="Compute but do not write artifact files")
-    ap.add_argument("--out-jsonl", type=str, default="artifacts/promotion_batch.plan.jsonl", help="Output JSONL plan path")
-    ap.add_argument("--out-md", type=str, default="artifacts/promotion_selector.md", help="Output Markdown summary path")
+    ap.add_argument(
+        "--out-jsonl", type=str, default="artifacts/promotion_batch.plan.jsonl", help="Output JSONL plan path"
+    )
+    ap.add_argument(
+        "--out-md", type=str, default="artifacts/promotion_selector.md", help="Output Markdown summary path"
+    )
     ap.add_argument("--out-csv", type=str, default="artifacts/promotion_selector.csv", help="Output CSV path")
     args = ap.parse_args(argv)
 
@@ -401,15 +441,21 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     if args.dry_run:
         for i, r in enumerate(rows, 1):
-            print(f"{i:3d}. {r.source}  →  {r.target}  (score={r.score:.3f}, freq={r.import_freq:.0f}, critical={r.critical})")
+            print(
+                f"{i:3d}. {r.source}  →  {r.target}  (score={r.score:.3f}, freq={r.import_freq:.0f}, critical={r.critical})"
+            )
         return 0
 
     _write_plan_jsonl(rows, ROOT / args.out_jsonl)
-    _write_plan_md(rows, ROOT / args.out_md, params={
-        "top": str(args.top),
-        "modules": ",".join(sorted(modules_filter)) if modules_filter else "*",
-        "weights": f"freq={args.weight_freq}, recency={args.weight_recency}, critical={args.weight_critical}",
-    })
+    _write_plan_md(
+        rows,
+        ROOT / args.out_md,
+        params={
+            "top": str(args.top),
+            "modules": ",".join(sorted(modules_filter)) if modules_filter else "*",
+            "weights": f"freq={args.weight_freq}, recency={args.weight_recency}, critical={args.weight_critical}",
+        },
+    )
     _write_plan_csv(rows, ROOT / args.out_csv)
 
     print(f"Wrote: {args.out_jsonl}")

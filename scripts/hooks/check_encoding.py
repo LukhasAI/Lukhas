@@ -10,7 +10,7 @@ from pathlib import Path
 def check_encoding(file_path: Path) -> bool:
     """Check if file is valid UTF-8."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             f.read()
         return True
     except UnicodeDecodeError as e:

@@ -25,10 +25,7 @@ class TestAdaptersModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "adapters",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "adapters", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestAdaptersModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import adapters
+
         self.assertIsNotNone(adapters)
 
     def test_module_version(self):
         """Test module has version information."""
         import adapters
+
         # Most modules should have version info
-        self.assertTrue(hasattr(adapters, '__version__') or
-                       hasattr(adapters, 'VERSION'))
+        self.assertTrue(hasattr(adapters, "__version__") or hasattr(adapters, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestOperationResult(unittest.TestCase):
         """Test OperationResult can be imported."""
         try:
             from adapters import OperationResult
+
             self.assertIsNotNone(OperationResult)
         except ImportError:
             pytest.skip("Component OperationResult not available")
@@ -97,6 +96,7 @@ class TestResourceContent(unittest.TestCase):
         """Test ResourceContent can be imported."""
         try:
             from adapters import ResourceContent
+
             self.assertIsNotNone(ResourceContent)
         except ImportError:
             pytest.skip("Component ResourceContent not available")
@@ -114,6 +114,7 @@ class TestResourceMetadata(unittest.TestCase):
         """Test ResourceMetadata can be imported."""
         try:
             from adapters import ResourceMetadata
+
             self.assertIsNotNone(ResourceMetadata)
         except ImportError:
             pytest.skip("Component ResourceMetadata not available")
@@ -122,7 +123,6 @@ class TestResourceMetadata(unittest.TestCase):
         """Test ResourceMetadata can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

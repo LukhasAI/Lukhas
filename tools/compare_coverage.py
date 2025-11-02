@@ -16,35 +16,34 @@ def load_coverage(path: str) -> Dict[str, Any]:
         print(f"❌ Coverage file not found: {path}")
         sys.exit(1)
 
-    with open(path, 'r') as f:
+    with open(path, "r") as f:
         return json.load(f)
+
 
 def extract_metrics(coverage_data: Dict[str, Any]) -> Dict[str, float]:
     """Extract key coverage metrics"""
     # Support different coverage report formats
-    if 'totals' in coverage_data:
+    if "totals" in coverage_data:
         # coverage.py format
-        totals = coverage_data['totals']
+        totals = coverage_data["totals"]
         return {
-            'line_coverage': totals.get('percent_covered', 0.0),
-            'lines_covered': totals.get('covered_lines', 0),
-            'lines_missing': totals.get('missing_lines', 0),
-            'total_lines': totals.get('num_statements', 0)
+            "line_coverage": totals.get("percent_covered", 0.0),
+            "lines_covered": totals.get("covered_lines", 0),
+            "lines_missing": totals.get("missing_lines", 0),
+            "total_lines": totals.get("num_statements", 0),
         }
-    elif 'summary' in coverage_data:
+    elif "summary" in coverage_data:
         # Custom format
-        summary = coverage_data['summary']
+        summary = coverage_data["summary"]
         return {
-            'line_coverage': summary.get('line_coverage', 0.0),
-            'branch_coverage': summary.get('branch_coverage', 0.0),
-            'total_files': summary.get('total_files', 0)
+            "line_coverage": summary.get("line_coverage", 0.0),
+            "branch_coverage": summary.get("branch_coverage", 0.0),
+            "total_files": summary.get("total_files", 0),
         }
     else:
         # Try to extract basic metrics
-        return {
-            'coverage': coverage_data.get('coverage', 0.0),
-            'files': coverage_data.get('files', 0)
-        }
+        return {"coverage": coverage_data.get("coverage", 0.0), "files": coverage_data.get("files", 0)}
+
 
 def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> bool:
     """Compare coverage metrics and return True if current >= baseline"""
@@ -85,14 +84,12 @@ def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> b
         print("💡 Add 'allow:coverage-drop' label with justification to bypass")
         return False
 
+
 def main():
     parser = argparse.ArgumentParser(description="Compare coverage reports")
-    parser.add_argument("--baseline", required=True,
-                       help="Path to baseline coverage JSON")
-    parser.add_argument("--current", required=True,
-                       help="Path to current coverage JSON")
-    parser.add_argument("--allow-drop", action="store_true",
-                       help="Allow coverage decrease")
+    parser.add_argument("--baseline", required=True, help="Path to baseline coverage JSON")
+    parser.add_argument("--current", required=True, help="Path to current coverage JSON")
+    parser.add_argument("--allow-drop", action="store_true", help="Allow coverage decrease")
     args = parser.parse_args()
 
     # Load coverage data
@@ -113,6 +110,7 @@ def main():
         print("⚠️  Coverage decreased but --allow-drop specified")
 
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

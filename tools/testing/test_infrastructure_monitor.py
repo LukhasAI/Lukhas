@@ -33,11 +33,8 @@ import psutil
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler('/tmp/test_infrastructure.log')
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler(), logging.FileHandler("/tmp/test_infrastructure.log")],
 )
 logger = logging.getLogger(__name__)
 
@@ -46,6 +43,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class TestHealthStatus(Enum):
     """Test infrastructure health status"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     CRITICAL = "critical"
@@ -54,6 +52,7 @@ class TestHealthStatus(Enum):
 
 class TestExecutionStatus(Enum):
     """Test execution status"""
+
     RUNNING = "running"
     PASSED = "passed"
     FAILED = "failed"
@@ -66,6 +65,7 @@ class TestExecutionStatus(Enum):
 @dataclass
 class ResourceMetrics:
     """System resource metrics during test execution"""
+
     cpu_percent: float
     memory_percent: float
     disk_usage_percent: float
@@ -77,6 +77,7 @@ class ResourceMetrics:
 @dataclass
 class TestExecutionMetrics:
     """Comprehensive test execution metrics"""
+
     test_id: str
     start_time: str
     end_time: Optional[str]
@@ -93,6 +94,7 @@ class TestExecutionMetrics:
 @dataclass
 class InfrastructureHealth:
     """Infrastructure health assessment"""
+
     status: TestHealthStatus
     cpu_available: bool
     memory_available: bool
@@ -116,17 +118,17 @@ class TestInfrastructureMonitor:
         self.flaky_test_registry: Dict[str, List[datetime]] = {}
 
         # Resource thresholds
-        self.cpu_threshold = self.config.get('cpu_threshold', 80.0)
-        self.memory_threshold = self.config.get('memory_threshold', 85.0)
-        self.disk_threshold = self.config.get('disk_threshold', 90.0)
+        self.cpu_threshold = self.config.get("cpu_threshold", 80.0)
+        self.memory_threshold = self.config.get("memory_threshold", 85.0)
+        self.disk_threshold = self.config.get("disk_threshold", 90.0)
 
         # Retry configuration
-        self.max_retries = self.config.get('max_retries', 3)
-        self.retry_delay = self.config.get('retry_delay', 30)
+        self.max_retries = self.config.get("max_retries", 3)
+        self.retry_delay = self.config.get("retry_delay", 30)
 
         # Monitoring intervals
-        self.health_check_interval = self.config.get('health_check_interval', 60)
-        self.metrics_collection_interval = self.config.get('metrics_collection_interval', 10)
+        self.health_check_interval = self.config.get("health_check_interval", 60)
+        self.metrics_collection_interval = self.config.get("metrics_collection_interval", 10)
 
         # Signal handling for graceful shutdown
         signal.signal(signal.SIGTERM, self._signal_handler)
@@ -138,16 +140,16 @@ class TestInfrastructureMonitor:
     def _load_config(self, config_path: Optional[Path]) -> Dict[str, Any]:
         """Load monitoring configuration"""
         default_config = {
-            'cpu_threshold': 80.0,
-            'memory_threshold': 85.0,
-            'disk_threshold': 90.0,
-            'max_retries': 3,
-            'retry_delay': 30,
-            'health_check_interval': 60,
-            'metrics_collection_interval': 10,
-            'reports_dir': 'reports/testing',
-            'cleanup_retention_days': 7,
-            'flakiness_threshold': 0.3
+            "cpu_threshold": 80.0,
+            "memory_threshold": 85.0,
+            "disk_threshold": 90.0,
+            "max_retries": 3,
+            "retry_delay": 30,
+            "health_check_interval": 60,
+            "metrics_collection_interval": 10,
+            "reports_dir": "reports/testing",
+            "cleanup_retention_days": 7,
+            "flakiness_threshold": 0.3,
         }
 
         if config_path and config_path.exists():
@@ -221,7 +223,7 @@ class TestInfrastructureMonitor:
             recommendations.append("Run memory cleanup or reduce test concurrency")
 
         # Check disk space
-        disk = psutil.disk_usage('/')
+        disk = psutil.disk_usage("/")
         disk_available = disk.percent < self.disk_threshold
         if not disk_available:
             issues.append(f"Low disk space: {disk.percent:.1f}% used")
@@ -271,7 +273,7 @@ class TestInfrastructureMonitor:
             test_database_ready=test_database_ready,
             external_services_ready=external_services_ready,
             issues=issues,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
         self.health_history.append(health)
@@ -290,6 +292,7 @@ class TestInfrastructureMonitor:
         """Check network connectivity"""
         try:
             import socket
+
             socket.create_connection(("8.8.8.8", 53), timeout=3)
             return True
         except OSError:
@@ -300,6 +303,7 @@ class TestInfrastructureMonitor:
         try:
             import coverage  # noqa: F401  # TODO: coverage; consider using impor...
             import pytest  # noqa: F401  # TODO: pytest; consider using importl...
+
             return True
         except ImportError:
             return False
@@ -324,10 +328,10 @@ class TestInfrastructureMonitor:
                 resource_metrics = ResourceMetrics(
                     cpu_percent=psutil.cpu_percent(),
                     memory_percent=psutil.virtual_memory().percent,
-                    disk_usage_percent=psutil.disk_usage('/').percent,
+                    disk_usage_percent=psutil.disk_usage("/").percent,
                     network_io=dict(psutil.net_io_counters()._asdict()),
                     load_average=list(os.getloadavg()),
-                    timestamp=current_time
+                    timestamp=current_time,
                 )
 
                 execution.resource_usage = resource_metrics
@@ -340,7 +344,7 @@ class TestInfrastructureMonitor:
         test_command: List[str],
         test_id: Optional[str] = None,
         retry_on_failure: bool = True,
-        timeout: Optional[int] = None
+        timeout: Optional[int] = None,
     ) -> TestExecutionMetrics:
         """Execute test suite with comprehensive monitoring and error handling"""
 
@@ -368,7 +372,7 @@ class TestInfrastructureMonitor:
             stderr_lines=0,
             resource_usage=self._get_current_resource_metrics(),
             performance_markers={},
-            flakiness_score=0.0
+            flakiness_score=0.0,
         )
 
         self.active_executions[test_id] = execution
@@ -430,27 +434,17 @@ class TestInfrastructureMonitor:
                 del self.active_executions[test_id]
 
     def _execute_single_attempt(
-        self,
-        test_command: List[str],
-        test_id: str,
-        timeout: Optional[int]
+        self, test_command: List[str], test_id: str, timeout: Optional[int]
     ) -> subprocess.CompletedProcess:
         """Execute a single test attempt"""
 
         # Setup environment
         env = os.environ.copy()
-        env['TEST_EXECUTION_ID'] = test_id
-        env['TEST_INFRASTRUCTURE_MONITORING'] = '1'
+        env["TEST_EXECUTION_ID"] = test_id
+        env["TEST_INFRASTRUCTURE_MONITORING"] = "1"
 
         # Execute command
-        result = subprocess.run(
-            test_command,
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            env=env
-        )
+        result = subprocess.run(test_command, cwd=ROOT, capture_output=True, text=True, timeout=timeout, env=env)
 
         return result
 
@@ -459,10 +453,10 @@ class TestInfrastructureMonitor:
         return ResourceMetrics(
             cpu_percent=psutil.cpu_percent(),
             memory_percent=psutil.virtual_memory().percent,
-            disk_usage_percent=psutil.disk_usage('/').percent,
+            disk_usage_percent=psutil.disk_usage("/").percent,
             network_io=dict(psutil.net_io_counters()._asdict()),
             load_average=list(os.getloadavg()),
-            timestamp=datetime.now(timezone.utc).isoformat()
+            timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
     def _record_test_failure(self, test_id: str):
@@ -474,9 +468,7 @@ class TestInfrastructureMonitor:
 
         # Clean old entries (keep last 30 days)
         cutoff = datetime.now(timezone.utc) - timedelta(days=30)
-        self.flaky_test_registry[test_id] = [
-            dt for dt in self.flaky_test_registry[test_id] if dt > cutoff
-        ]
+        self.flaky_test_registry[test_id] = [dt for dt in self.flaky_test_registry[test_id] if dt > cutoff]
 
     def _calculate_flakiness_score(self, test_id: str, had_retry: bool) -> float:
         """Calculate flakiness score for test"""
@@ -511,12 +503,12 @@ class TestInfrastructureMonitor:
 
     def _save_execution_metrics(self, execution: TestExecutionMetrics):
         """Save execution metrics to storage"""
-        reports_dir = Path(self.config['reports_dir'])
+        reports_dir = Path(self.config["reports_dir"])
         reports_dir.mkdir(parents=True, exist_ok=True)
 
         # Save individual execution
         execution_file = reports_dir / f"execution_{execution.test_id}.json"
-        with open(execution_file, 'w') as f:
+        with open(execution_file, "w") as f:
             json.dump(asdict(execution), f, indent=2, default=str)
 
         # Update summary
@@ -524,52 +516,52 @@ class TestInfrastructureMonitor:
 
     def _save_health_report(self, health: InfrastructureHealth):
         """Save health report"""
-        reports_dir = Path(self.config['reports_dir'])
+        reports_dir = Path(self.config["reports_dir"])
         reports_dir.mkdir(parents=True, exist_ok=True)
 
         health_file = reports_dir / "infrastructure_health_latest.json"
-        with open(health_file, 'w') as f:
+        with open(health_file, "w") as f:
             json.dump(asdict(health), f, indent=2, default=str)
 
     def _update_execution_summary(self, execution: TestExecutionMetrics):
         """Update execution summary"""
-        reports_dir = Path(self.config['reports_dir'])
+        reports_dir = Path(self.config["reports_dir"])
         summary_file = reports_dir / "execution_summary.json"
 
         if summary_file.exists():
-            with open(summary_file, 'r') as f:
+            with open(summary_file, "r") as f:
                 summary = json.load(f)
         else:
             summary = {
-                'total_executions': 0,
-                'successful_executions': 0,
-                'failed_executions': 0,
-                'average_duration': 0.0,
-                'last_updated': None
+                "total_executions": 0,
+                "successful_executions": 0,
+                "failed_executions": 0,
+                "average_duration": 0.0,
+                "last_updated": None,
             }
 
-        summary['total_executions'] += 1
+        summary["total_executions"] += 1
         if execution.status == TestExecutionStatus.PASSED:
-            summary['successful_executions'] += 1
+            summary["successful_executions"] += 1
         else:
-            summary['failed_executions'] += 1
+            summary["failed_executions"] += 1
 
         # Update average duration
-        current_avg = summary['average_duration']
-        new_count = summary['total_executions']
-        summary['average_duration'] = ((current_avg * (new_count - 1)) + execution.duration) / new_count
-        summary['last_updated'] = datetime.now(timezone.utc).isoformat()
+        current_avg = summary["average_duration"]
+        new_count = summary["total_executions"]
+        summary["average_duration"] = ((current_avg * (new_count - 1)) + execution.duration) / new_count
+        summary["last_updated"] = datetime.now(timezone.utc).isoformat()
 
-        with open(summary_file, 'w') as f:
+        with open(summary_file, "w") as f:
             json.dump(summary, f, indent=2)
 
     def cleanup_old_artifacts(self):
         """Clean up old test artifacts and reports"""
-        reports_dir = Path(self.config['reports_dir'])
+        reports_dir = Path(self.config["reports_dir"])
         if not reports_dir.exists():
             return
 
-        cutoff = datetime.now() - timedelta(days=self.config['cleanup_retention_days'])
+        cutoff = datetime.now() - timedelta(days=self.config["cleanup_retention_days"])
         cleaned_count = 0
 
         for file_path in reports_dir.glob("execution_*.json"):
@@ -587,14 +579,14 @@ class TestInfrastructureMonitor:
         latest_health = self.health_history[-1] if self.health_history else None
 
         return {
-            'monitoring_active': self.monitoring_active,
-            'active_executions': len(self.active_executions),
-            'latest_health': asdict(latest_health) if latest_health else None,
-            'flaky_tests': {
+            "monitoring_active": self.monitoring_active,
+            "active_executions": len(self.active_executions),
+            "latest_health": asdict(latest_health) if latest_health else None,
+            "flaky_tests": {
                 test_id: len(failures)
                 for test_id, failures in self.flaky_test_registry.items()
                 if len(failures) >= 3  # Only show tests with 3+ failures
-            }
+            },
         }
 
 

@@ -51,45 +51,111 @@ class ComprehensiveCoreAuditor:
         # Comprehensive category mapping with keywords
         self.component_categories = {
             "consciousness": [
-                "consciousness", "aware", "cognitive", "neural", "memory",
-                "dream", "emotion", "perception", "recognition", "learning"
+                "consciousness",
+                "aware",
+                "cognitive",
+                "neural",
+                "memory",
+                "dream",
+                "emotion",
+                "perception",
+                "recognition",
+                "learning",
             ],
             "symbolic_systems": [
-                "symbolic", "glyph", "token", "semantic", "meaning",
-                "representation", "encoding", "interpretation"
+                "symbolic",
+                "glyph",
+                "token",
+                "semantic",
+                "meaning",
+                "representation",
+                "encoding",
+                "interpretation",
             ],
             "orchestration": [
-                "orchestrat", "coordinator", "dispatcher", "scheduler",
-                "workflow", "pipeline", "process", "execution"
+                "orchestrat",
+                "coordinator",
+                "dispatcher",
+                "scheduler",
+                "workflow",
+                "pipeline",
+                "process",
+                "execution",
             ],
             "identity_auth": [
-                "identity", "auth", "user", "access", "permission",
-                "tier", "role", "security", "login", "session"
+                "identity",
+                "auth",
+                "user",
+                "access",
+                "permission",
+                "tier",
+                "role",
+                "security",
+                "login",
+                "session",
             ],
             "api_interfaces": [
-                "api", "endpoint", "route", "handler", "request",
-                "response", "middleware", "service", "client"
+                "api",
+                "endpoint",
+                "route",
+                "handler",
+                "request",
+                "response",
+                "middleware",
+                "service",
+                "client",
             ],
             "data_persistence": [
-                "database", "storage", "persistence", "repository",
-                "model", "entity", "migration", "schema"
+                "database",
+                "storage",
+                "persistence",
+                "repository",
+                "model",
+                "entity",
+                "migration",
+                "schema",
             ],
             "quantum_bio": [
-                "quantum", "bio", "physics", "algorithm", "computation",
-                "simulation", "modeling", "optimization"
+                "quantum",
+                "bio",
+                "physics",
+                "algorithm",
+                "computation",
+                "simulation",
+                "modeling",
+                "optimization",
             ],
             "testing_validation": [
-                "test", "spec", "validation", "verification", "check",
-                "assert", "mock", "fixture", "scenario"
+                "test",
+                "spec",
+                "validation",
+                "verification",
+                "check",
+                "assert",
+                "mock",
+                "fixture",
+                "scenario",
             ],
             "utilities_helpers": [
-                "util", "helper", "common", "shared", "library",
-                "tool", "function", "decorator", "mixin"
+                "util",
+                "helper",
+                "common",
+                "shared",
+                "library",
+                "tool",
+                "function",
+                "decorator",
+                "mixin",
             ],
             "configuration": [
-                "config", "setting", "environment", "parameter",
-                "option", "preference", "initialization"
-            ]
+                "config",
+                "setting",
+                "environment",
+                "parameter",
+                "option",
+                "preference",
+                "initialization",
+            ],
         }
 
         # Initialize results
@@ -103,8 +169,8 @@ class ComprehensiveCoreAuditor:
                 "timestamp": self.audit_timestamp,
                 "workspace_root": str(self.workspace_root),
                 "total_files_scanned": 0,
-                "total_directories_scanned": 0
-            }
+                "total_directories_scanned": 0,
+            },
         }
 
     def run_comprehensive_audit(self) -> Dict[str, Any]:
@@ -141,13 +207,15 @@ class ComprehensiveCoreAuditor:
         for core_dir in self.core_directories:
             dir_path = self.workspace_root / core_dir
             if dir_path.exists() and dir_path.is_dir():
-                found_directories.append({
-                    "path": str(dir_path),
-                    "relative_path": core_dir,
-                    "file_count": len(list(dir_path.rglob("*.*"))),
-                    "python_files": len(list(dir_path.rglob("*.py"))),
-                    "subdirectories": len([d for d in dir_path.iterdir() if d.is_dir()])
-                })
+                found_directories.append(
+                    {
+                        "path": str(dir_path),
+                        "relative_path": core_dir,
+                        "file_count": len(list(dir_path.rglob("*.*"))),
+                        "python_files": len(list(dir_path.rglob("*.py"))),
+                        "subdirectories": len([d for d in dir_path.iterdir() if d.is_dir()]),
+                    }
+                )
 
         self.audit_results["directories_found"] = found_directories
         self.audit_results["statistics"]["directories_found"] = len(found_directories)
@@ -183,16 +251,7 @@ class ComprehensiveCoreAuditor:
 
     def _should_skip_file(self, file_path: Path) -> bool:
         """Check if file should be skipped"""
-        skip_patterns = [
-            "__pycache__",
-            ".pyc",
-            ".git",
-            "node_modules",
-            ".venv",
-            "venv",
-            "backup",
-            "archive"
-        ]
+        skip_patterns = ["__pycache__", ".pyc", ".git", "node_modules", ".venv", "venv", "backup", "archive"]
 
         return any(pattern in str(file_path) for pattern in skip_patterns)
 
@@ -212,7 +271,7 @@ class ComprehensiveCoreAuditor:
                 "imports": self._extract_imports(content),
                 "classes": self._extract_classes(content),
                 "functions": self._extract_functions(content),
-                "keywords_found": self._find_keywords(content.lower())
+                "keywords_found": self._find_keywords(content.lower()),
             }
 
         except Exception as e:
@@ -221,19 +280,17 @@ class ComprehensiveCoreAuditor:
                 "file_path": str(file_path),
                 "relative_path": str(file_path.relative_to(self.workspace_root)),
                 "file_name": file_path.name,
-                "error": str(e)
+                "error": str(e),
             }
 
     def _extract_imports(self, content: str) -> List[str]:
         """Extract import statements from file content"""
         import re
+
         imports = []
 
         # Find import statements
-        import_patterns = [
-            r"^import\s+([^\s]+)",
-            r"^from\s+([^\s]+)\s+import"
-        ]
+        import_patterns = [r"^import\s+([^\s]+)", r"^from\s+([^\s]+)\s+import"]
 
         for line in content.split("\n"):
             for pattern in import_patterns:
@@ -246,6 +303,7 @@ class ComprehensiveCoreAuditor:
     def _extract_classes(self, content: str) -> List[str]:
         """Extract class names from file content"""
         import re
+
         classes = []
 
         for match in re.finditer(r"^class\s+(\w+)", content, re.MULTILINE):
@@ -256,6 +314,7 @@ class ComprehensiveCoreAuditor:
     def _extract_functions(self, content: str) -> List[str]:
         """Extract function names from file content"""
         import re
+
         functions = []
 
         for match in re.finditer(r"^def\s+(\w+)", content, re.MULTILINE):
@@ -315,11 +374,13 @@ class ComprehensiveCoreAuditor:
 
         # Add analysis to recommendations
         if by_directory:
-            self.audit_results["recommendations"].append({
-                "type": "unclassified_analysis",
-                "description": f"Found {len(unclassified)} unclassified components",
-                "details": dict(by_directory)
-            })
+            self.audit_results["recommendations"].append(
+                {
+                    "type": "unclassified_analysis",
+                    "description": f"Found {len(unclassified)} unclassified components",
+                    "details": dict(by_directory),
+                }
+            )
 
     def _generate_statistics(self):
         """Generate comprehensive statistics"""
@@ -348,28 +409,34 @@ class ComprehensiveCoreAuditor:
 
         # High-level recommendations
         if stats.get("consciousness_count", 0) > 0:
-            recommendations.append({
-                "type": "consciousness_components",
-                "priority": "high",
-                "description": f"Found {stats['consciousness_count']} consciousness components",
-                "action": "Review for core consciousness functionality"
-            })
+            recommendations.append(
+                {
+                    "type": "consciousness_components",
+                    "priority": "high",
+                    "description": f"Found {stats['consciousness_count']} consciousness components",
+                    "action": "Review for core consciousness functionality",
+                }
+            )
 
         if stats.get("symbolic_systems_count", 0) > 0:
-            recommendations.append({
-                "type": "symbolic_systems",
-                "priority": "high",
-                "description": f"Found {stats['symbolic_systems_count']} symbolic system components",
-                "action": "Ensure symbolic processing is properly integrated"
-            })
+            recommendations.append(
+                {
+                    "type": "symbolic_systems",
+                    "priority": "high",
+                    "description": f"Found {stats['symbolic_systems_count']} symbolic system components",
+                    "action": "Ensure symbolic processing is properly integrated",
+                }
+            )
 
         if stats.get("unclassified_count", 0) > 10:
-            recommendations.append({
-                "type": "unclassified_components",
-                "priority": "medium",
-                "description": f"{stats['unclassified_count']} components need classification",
-                "action": "Manual review and categorization needed"
-            })
+            recommendations.append(
+                {
+                    "type": "unclassified_components",
+                    "priority": "medium",
+                    "description": f"{stats['unclassified_count']} components need classification",
+                    "action": "Manual review and categorization needed",
+                }
+            )
 
     def _save_audit_results(self):
         """Save audit results to files"""

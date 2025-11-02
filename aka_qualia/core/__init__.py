@@ -1,4 +1,5 @@
 """Bridge: aka_qualia.core — core subpackage facade."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates, export_from, safe_guard
@@ -30,6 +31,7 @@ if "GLYPHToken" not in globals():
     try:
         from core.common import GLYPHToken as _GLYPHToken  # type: ignore
     except Exception:
+
         class _GLYPHToken:  # type: ignore
             """Fallback GLYPHToken representation for tests."""
 
@@ -46,6 +48,7 @@ if "GLYPHToken" not in globals():
 
 
 if "AkaQualia" not in globals():
+
     class AkaQualia:  # type: ignore
         """Fallback AkaQualia implementation placeholder."""
 

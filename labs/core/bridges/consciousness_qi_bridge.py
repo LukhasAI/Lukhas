@@ -2,6 +2,7 @@
 Consciousness-Quantum Bridge
 Bidirectional communication bridge between Consciousness and Quantum systems
 """
+
 import logging
 from typing import Any
 

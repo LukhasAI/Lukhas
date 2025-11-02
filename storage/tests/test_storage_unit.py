@@ -25,10 +25,7 @@ class TestStorageModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "storage",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "storage", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestStorageModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import storage
+
         self.assertIsNotNone(storage)
 
     def test_module_version(self):
         """Test module has version information."""
         import storage
+
         # Most modules should have version info
-        self.assertTrue(hasattr(storage, '__version__') or
-                       hasattr(storage, 'VERSION'))
+        self.assertTrue(hasattr(storage, "__version__") or hasattr(storage, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestEvent(unittest.TestCase):
         """Test Event can be imported."""
         try:
             from storage.events import Event
+
             self.assertIsNotNone(Event)
         except ImportError:
             pytest.skip("Component Event not available")
@@ -97,6 +96,7 @@ class TestEventStore(unittest.TestCase):
         """Test EventStore can be imported."""
         try:
             from storage.events import EventStore
+
             self.assertIsNotNone(EventStore)
         except ImportError:
             pytest.skip("Component EventStore not available")
@@ -114,6 +114,7 @@ class Testappend(unittest.TestCase):
         """Test append can be imported."""
         try:
             from storage.events import append
+
             self.assertIsNotNone(append)
         except ImportError:
             pytest.skip("Component append not available")
@@ -122,7 +123,6 @@ class Testappend(unittest.TestCase):
         """Test append can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

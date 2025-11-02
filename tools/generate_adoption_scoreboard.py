@@ -35,12 +35,7 @@ class AdoptionScoreboardGenerator:
                 pass
 
         # Return default structure if file doesn't exist or is invalid
-        return {
-            "version": "1.0",
-            "last_updated": self.timestamp.isoformat(),
-            "modules": {},
-            "statistics": {}
-        }
+        return {"version": "1.0", "last_updated": self.timestamp.isoformat(), "modules": {}, "statistics": {}}
 
     def analyze_current_contracts(self) -> Dict[str, Any]:
         """Analyze actual matrix contracts to determine current adoption."""
@@ -54,12 +49,12 @@ class AdoptionScoreboardGenerator:
                 with open(contract_path) as f:
                     contract = json.load(f)
 
-                module = contract.get('module', 'unknown')
+                module = contract.get("module", "unknown")
                 analysis = self._analyze_contract_tracks(contract)
                 contract_analysis[module] = {
-                    'contract_path': contract_path,
-                    'owner': contract.get('owner', {}).get('team', 'Unknown'),
-                    'tracks': analysis
+                    "contract_path": contract_path,
+                    "owner": contract.get("owner", {}).get("team", "Unknown"),
+                    "tracks": analysis,
                 }
 
             except (json.JSONDecodeError, FileNotFoundError) as e:
@@ -72,78 +67,78 @@ class AdoptionScoreboardGenerator:
         tracks = {}
 
         # Verification track analysis
-        formal = contract.get('formal', {})
-        probabilistic = formal.get('probabilistic', {})
-        has_prism = probabilistic.get('tool') == 'prism' and probabilistic.get('properties')
-        prism_model_path = probabilistic.get('model', '')
+        formal = contract.get("formal", {})
+        probabilistic = formal.get("probabilistic", {})
+        has_prism = probabilistic.get("tool") == "prism" and probabilistic.get("properties")
+        prism_model_path = probabilistic.get("model", "")
 
         if has_prism and prism_model_path and pathlib.Path(prism_model_path).exists():
-            tracks['verification'] = {
-                'enabled': True,
-                'phase': 'report-only',  # Could be enhanced to detect actual phase
-                'implementation': f"PRISM model: {prism_model_path}",
-                'last_result': "Model verified (mock result)"
+            tracks["verification"] = {
+                "enabled": True,
+                "phase": "report-only",  # Could be enhanced to detect actual phase
+                "implementation": f"PRISM model: {prism_model_path}",
+                "last_result": "Model verified (mock result)",
             }
         else:
-            tracks['verification'] = {
-                'enabled': False,
-                'phase': 'not-configured',
-                'implementation': 'No PRISM model',
-                'last_result': 'Not implemented'
+            tracks["verification"] = {
+                "enabled": False,
+                "phase": "not-configured",
+                "implementation": "No PRISM model",
+                "last_result": "Not implemented",
             }
 
         # Provenance track analysis
-        causal_prov = contract.get('causal_provenance', {})
-        cid = causal_prov.get('ipld_root_cid', '')
+        causal_prov = contract.get("causal_provenance", {})
+        cid = causal_prov.get("ipld_root_cid", "")
 
-        if cid and cid != 'bafybeipending':
-            tracks['provenance'] = {
-                'enabled': True,
-                'phase': 'soft-gate',
-                'implementation': f"CAR root: {cid[:16]}...",
-                'last_result': 'Active CID generation'
+        if cid and cid != "bafybeipending":
+            tracks["provenance"] = {
+                "enabled": True,
+                "phase": "soft-gate",
+                "implementation": f"CAR root: {cid[:16]}...",
+                "last_result": "Active CID generation",
             }
-        elif cid == 'bafybeipending':
-            tracks['provenance'] = {
-                'enabled': False,
-                'phase': 'pending',
-                'implementation': 'CAR structure ready',
-                'last_result': 'Awaiting first run'
+        elif cid == "bafybeipending":
+            tracks["provenance"] = {
+                "enabled": False,
+                "phase": "pending",
+                "implementation": "CAR structure ready",
+                "last_result": "Awaiting first run",
             }
         else:
-            tracks['provenance'] = {
-                'enabled': False,
-                'phase': 'not-configured',
-                'implementation': 'No IPLD configuration',
-                'last_result': 'Not implemented'
+            tracks["provenance"] = {
+                "enabled": False,
+                "phase": "not-configured",
+                "implementation": "No IPLD configuration",
+                "last_result": "Not implemented",
             }
 
         # Attestation track analysis
-        attestation = contract.get('attestation', {})
-        rats = attestation.get('rats', {})
-        evidence_jwt = rats.get('evidence_jwt', '')
-        policy_path = rats.get('verifier_policy', '')
+        attestation = contract.get("attestation", {})
+        rats = attestation.get("rats", {})
+        evidence_jwt = rats.get("evidence_jwt", "")
+        policy_path = rats.get("verifier_policy", "")
 
-        if evidence_jwt and evidence_jwt != 'pending':
-            tracks['attestation'] = {
-                'enabled': True,
-                'phase': 'hard-gate',
-                'implementation': f"RATS verified with {policy_path}",
-                'last_result': 'Active verification'
+        if evidence_jwt and evidence_jwt != "pending":
+            tracks["attestation"] = {
+                "enabled": True,
+                "phase": "hard-gate",
+                "implementation": f"RATS verified with {policy_path}",
+                "last_result": "Active verification",
             }
         elif policy_path and pathlib.Path(policy_path).exists():
-            tracks['attestation'] = {
-                'enabled': False,
-                'phase': 'pending',
-                'implementation': f"Policy ready: {policy_path}",
-                'last_result': 'Awaiting evidence collection'
+            tracks["attestation"] = {
+                "enabled": False,
+                "phase": "pending",
+                "implementation": f"Policy ready: {policy_path}",
+                "last_result": "Awaiting evidence collection",
             }
         else:
-            tracks['attestation'] = {
-                'enabled': False,
-                'phase': 'not-configured',
-                'implementation': 'No RATS configuration',
-                'last_result': 'Not implemented'
+            tracks["attestation"] = {
+                "enabled": False,
+                "phase": "not-configured",
+                "implementation": "No RATS configuration",
+                "last_result": "Not implemented",
             }
 
         return tracks
@@ -165,9 +160,10 @@ class AdoptionScoreboardGenerator:
         total_modules = len(contract_analysis)
         total_possible_tracks = total_modules * 3
         enabled_tracks = sum(
-            1 for module_data in contract_analysis.values()
-            for track_data in module_data['tracks'].values()
-            if track_data['enabled']
+            1
+            for module_data in contract_analysis.values()
+            for track_data in module_data["tracks"].values()
+            if track_data["enabled"]
         )
         adoption_rate = (enabled_tracks / total_possible_tracks * 100) if total_possible_tracks > 0 else 0
 
@@ -186,18 +182,18 @@ class AdoptionScoreboardGenerator:
         # Sort modules by score (number of enabled tracks)
         modules_by_score = []
         for module, data in contract_analysis.items():
-            score = sum(1 for track in data['tracks'].values() if track['enabled'])
+            score = sum(1 for track in data["tracks"].values() if track["enabled"])
             modules_by_score.append((module, data, score))
 
         modules_by_score.sort(key=lambda x: x[2], reverse=True)
 
         for module, data, score in modules_by_score:
-            verification = self._format_track_status(data['tracks']['verification'])
-            provenance = self._format_track_status(data['tracks']['provenance'])
-            attestation = self._format_track_status(data['tracks']['attestation'])
+            verification = self._format_track_status(data["tracks"]["verification"])
+            provenance = self._format_track_status(data["tracks"]["provenance"])
+            attestation = self._format_track_status(data["tracks"]["attestation"])
 
             score_display = f"{score}/3 {'🌟' * score}"
-            owner = data['owner']
+            owner = data["owner"]
 
             content += f"\n| **{module}** | {verification} | {provenance} | {attestation} | {score_display} | {owner} |"
 
@@ -215,16 +211,16 @@ class AdoptionScoreboardGenerator:
 **Owner:** {data['owner']} | **Contract:** `{data['contract_path']}`
 
 """
-            for track_name, track_data in data['tracks'].items():
-                status_emoji = "✅" if track_data['enabled'] else "⚠️" if track_data['phase'] == 'pending' else "⚪"
+            for track_name, track_data in data["tracks"].items():
+                status_emoji = "✅" if track_data["enabled"] else "⚠️" if track_data["phase"] == "pending" else "⚪"
                 phase_emoji = {
-                    'hard-gate': '🔒',
-                    'soft-gate': '⚠️',
-                    'report-only': '📊',
-                    'pending': '⏳',
-                    'planned': '📋',
-                    'not-configured': '⚪'
-                }.get(track_data['phase'], '❓')
+                    "hard-gate": "🔒",
+                    "soft-gate": "⚠️",
+                    "report-only": "📊",
+                    "pending": "⏳",
+                    "planned": "📋",
+                    "not-configured": "⚪",
+                }.get(track_data["phase"], "❓")
 
                 content += f"""- {status_emoji} **{track_name.title()}**: {phase_emoji} {track_data['phase']}
   - Implementation: {track_data['implementation']}
@@ -243,7 +239,7 @@ class AdoptionScoreboardGenerator:
         champions = [(m, s) for m, d, s in modules_by_score if s > 0]
         if champions:
             for i, (module, score) in enumerate(champions[:3]):
-                medal = ['🥇', '🥈', '🥉'][i] if i < 3 else '🏅'
+                medal = ["🥇", "🥈", "🥉"][i] if i < 3 else "🏅"
                 content += f"\n{medal} **{module.title()}** - {score}/3 tracks enabled"
         else:
             content += "\n*No modules have enabled tracks yet - be the first!*"
@@ -254,7 +250,7 @@ class AdoptionScoreboardGenerator:
 """
 
         pending_modules = [
-            (module, sum(1 for track in data['tracks'].values() if track['phase'] == 'pending'))
+            (module, sum(1 for track in data["tracks"].values() if track["phase"] == "pending"))
             for module, data, _ in modules_by_score
         ]
         pending_modules = [(m, p) for m, p in pending_modules if p > 0]
@@ -319,16 +315,12 @@ class AdoptionScoreboardGenerator:
 
     def _format_track_status(self, track_data: Dict) -> str:
         """Format track status for scoreboard table."""
-        if track_data['enabled']:
-            phase_emoji = {
-                'hard-gate': '🔒',
-                'soft-gate': '⚠️',
-                'report-only': '📊'
-            }.get(track_data['phase'], '✅')
+        if track_data["enabled"]:
+            phase_emoji = {"hard-gate": "🔒", "soft-gate": "⚠️", "report-only": "📊"}.get(track_data["phase"], "✅")
             return f"{phase_emoji} **{track_data['phase']}**"
-        elif track_data['phase'] == 'pending':
+        elif track_data["phase"] == "pending":
             return "⏳ **pending**"
-        elif track_data['phase'] == 'planned':
+        elif track_data["phase"] == "planned":
             return "📋 planned"
         else:
             return "⚪ not configured"
@@ -339,45 +331,42 @@ class AdoptionScoreboardGenerator:
         total_modules = len(contract_analysis)
         total_possible_tracks = total_modules * 3
         enabled_tracks = sum(
-            1 for module_data in contract_analysis.values()
-            for track_data in module_data['tracks'].values()
-            if track_data['enabled']
+            1
+            for module_data in contract_analysis.values()
+            for track_data in module_data["tracks"].values()
+            if track_data["enabled"]
         )
 
         # Update status data
-        self.status_data['last_updated'] = self.timestamp.isoformat()
-        self.status_data['statistics'] = {
-            'total_modules': total_modules,
-            'total_possible_tracks': total_possible_tracks,
-            'tracks_enabled': enabled_tracks,
-            'adoption_rate': (enabled_tracks / total_possible_tracks * 100) if total_possible_tracks > 0 else 0
+        self.status_data["last_updated"] = self.timestamp.isoformat()
+        self.status_data["statistics"] = {
+            "total_modules": total_modules,
+            "total_possible_tracks": total_possible_tracks,
+            "tracks_enabled": enabled_tracks,
+            "adoption_rate": (enabled_tracks / total_possible_tracks * 100) if total_possible_tracks > 0 else 0,
         }
 
         # Update module data from contract analysis
         for module, data in contract_analysis.items():
-            if module not in self.status_data['modules']:
-                self.status_data['modules'][module] = {
-                    'tracks': [],
-                    'owner': data['owner'],
-                    'contact': '@team'
-                }
+            if module not in self.status_data["modules"]:
+                self.status_data["modules"][module] = {"tracks": [], "owner": data["owner"], "contact": "@team"}
 
             # Update track status
             module_status = {}
-            for track_name, track_data in data['tracks'].items():
+            for track_name, track_data in data["tracks"].items():
                 module_status[track_name] = {
-                    'phase': track_data['phase'],
-                    'enabled': track_data['enabled'],
-                    'last_result': track_data['last_result'],
-                    'target': track_data.get('target', 'Active implementation'),
-                    'since': self.timestamp.strftime('%Y-%m-%d') if track_data['enabled'] else None
+                    "phase": track_data["phase"],
+                    "enabled": track_data["enabled"],
+                    "last_result": track_data["last_result"],
+                    "target": track_data.get("target", "Active implementation"),
+                    "since": self.timestamp.strftime("%Y-%m-%d") if track_data["enabled"] else None,
                 }
 
-            self.status_data['modules'][module]['status'] = module_status
-            self.status_data['modules'][module]['owner'] = data['owner']
+            self.status_data["modules"][module]["status"] = module_status
+            self.status_data["modules"][module]["owner"] = data["owner"]
 
         # Write updated status
-        with open(self.status_file, 'w') as f:
+        with open(self.status_file, "w") as f:
             json.dump(self.status_data, f, indent=2)
 
     def run(self, output_path: Optional[str] = None) -> str:
@@ -396,7 +385,7 @@ class AdoptionScoreboardGenerator:
 
         pathlib.Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(scoreboard_md)
 
         # Update status file
@@ -407,9 +396,10 @@ class AdoptionScoreboardGenerator:
 
         # Print summary
         enabled_count = sum(
-            1 for module_data in contract_analysis.values()
-            for track_data in module_data['tracks'].values()
-            if track_data['enabled']
+            1
+            for module_data in contract_analysis.values()
+            for track_data in module_data["tracks"].values()
+            if track_data["enabled"]
         )
         total_possible = len(contract_analysis) * 3
         adoption_rate = (enabled_count / total_possible * 100) if total_possible > 0 else 0
@@ -422,10 +412,8 @@ class AdoptionScoreboardGenerator:
 def main():
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="Generate Matrix Tracks adoption scoreboard")
-    parser.add_argument("--output", default="docs/matrix_tracks_scoreboard.md",
-                       help="Output path for scoreboard")
-    parser.add_argument("--status-file", default="docs/matrix_tracks.status.json",
-                       help="Path to status data file")
+    parser.add_argument("--output", default="docs/matrix_tracks_scoreboard.md", help="Output path for scoreboard")
+    parser.add_argument("--status-file", default="docs/matrix_tracks.status.json", help="Path to status data file")
 
     args = parser.parse_args()
 

@@ -69,9 +69,7 @@ def ledger_append(ledger: Path, rec: dict):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Collect module coverage and update manifest"
-    )
+    ap = argparse.ArgumentParser(description="Collect module coverage and update manifest")
     ap.add_argument("--module", required=True, help="path or name of module dir")
     args = ap.parse_args()
 

@@ -36,6 +36,7 @@ MODEL = "sonar"  # Use basic sonar model
 OUTDIR = pathlib.Path(os.getenv("LUKHAS_PERP_OUT", "./perp_runs")).resolve()
 OUTDIR.mkdir(parents=True, exist_ok=True)
 
+
 def _post(payload, stream=False, max_retries=5):
     """Make API request with exponential backoff."""
     assert API_KEY, "PERPLEXITY_API_KEY missing from .env file"
@@ -44,18 +45,15 @@ def _post(payload, stream=False, max_retries=5):
         try:
             r = requests.post(
                 BASE_URL,
-                headers={
-                    "Authorization": f"Bearer {API_KEY}",
-                    "Content-Type": "application/json"
-                },
+                headers={"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"},
                 json=payload,
                 stream=stream,
-                timeout=120
+                timeout=120,
             )
 
             if r.status_code == 429 or r.status_code >= 500:
                 # Backoff on rate limit / transient errors
-                wait = 2 ** attempt
+                wait = 2**attempt
                 print(f"Rate limited or server error. Waiting {wait}s...")
                 time.sleep(wait)
                 continue
@@ -66,11 +64,12 @@ def _post(payload, stream=False, max_retries=5):
         except requests.RequestException as e:
             if attempt == max_retries - 1:
                 raise
-            wait = 2 ** attempt
+            wait = 2**attempt
             print(f"Request failed, retry {attempt + 1}/{max_retries} in {wait}s: {e}")
             time.sleep(wait)
 
     raise RuntimeError("Exhausted retries")
+
 
 def chat(messages, temperature=0.7, top_p=0.9, max_tokens=4000, expect_json=False, stream=False):
     """Send chat request to Perplexity API."""
@@ -80,7 +79,7 @@ def chat(messages, temperature=0.7, top_p=0.9, max_tokens=4000, expect_json=Fals
         "temperature": temperature,
         "top_p": top_p,
         "max_tokens": max_tokens,
-        "stream": stream
+        "stream": stream,
     }
 
     # Perplexity doesn't support response_format, remove this section
@@ -97,7 +96,7 @@ def chat(messages, temperature=0.7, top_p=0.9, max_tokens=4000, expect_json=Fals
         for line in resp.iter_lines(decode_unicode=True):
             if not line or not line.startswith("data:"):
                 continue
-            data = line[len("data:"):].strip()
+            data = line[len("data:") :].strip()
             if data == "[DONE]":
                 break
             try:
@@ -120,7 +119,7 @@ def chat(messages, temperature=0.7, top_p=0.9, max_tokens=4000, expect_json=Fals
         last_brace = content.rfind("}")
 
         if first_brace != -1 and last_brace != -1:
-            content = content[first_brace:last_brace + 1]
+            content = content[first_brace : last_brace + 1]
 
         try:
             return json.loads(content)
@@ -132,11 +131,12 @@ def chat(messages, temperature=0.7, top_p=0.9, max_tokens=4000, expect_json=Fals
             print("Attempting JSON repair...")
             repair_messages = [
                 {"role": "system", "content": "You fix malformed JSON. Return valid JSON only."},
-                {"role": "user", "content": f"Repair this into valid JSON:\n\n{content}"}
+                {"role": "user", "content": f"Repair this into valid JSON:\n\n{content}"},
             ]
             return chat(repair_messages, expect_json=False, stream=False)
 
     return content
+
 
 def save(run_id, stage, obj):
     """Save stage output to versioned file."""
@@ -145,6 +145,7 @@ def save(run_id, stage, obj):
         json.dump(obj, f, indent=2, ensure_ascii=False)
     print(f"Saved {stage} → {path}")
     return str(path)
+
 
 def run_scout(run_id, meta):
     """
@@ -156,10 +157,7 @@ def run_scout(run_id, meta):
     print("=" * 50)
 
     scout_messages = [
-        {
-            "role": "system",
-            "content": "You are a research scout. Return JSON only. Search recent sources."
-        },
+        {"role": "system", "content": "You are a research scout. Return JSON only. Search recent sources."},
         {
             "role": "user",
             "content": """Task: Survey contemporary poetry & premium-brand copy to find metaphor/device trends that AVOID celestial imagery.
@@ -191,18 +189,13 @@ Output schema:
   ]
 }
 
-Return valid JSON, no prose."""
-        }
+Return valid JSON, no prose.""",
+        },
     ]
 
     scout_data = chat(scout_messages, expect_json=True, temperature=0.3)
 
-    result = {
-        "meta": meta,
-        "stage": "scout",
-        "data": scout_data,
-        "timestamp": time.time()
-    }
+    result = {"meta": meta, "stage": "scout", "data": scout_data, "timestamp": time.time()}
 
     save(run_id, "scout", result)
     print(f"Found {len(scout_data.get('citations', []))} citations")
@@ -210,6 +203,7 @@ Return valid JSON, no prose."""
     print(f"Found {len(scout_data.get('taboo_list', []))} taboo phrases")
 
     return scout_data
+
 
 def run_sift(run_id, meta, scout_data):
     """
@@ -221,10 +215,7 @@ def run_sift(run_id, meta, scout_data):
     print("=" * 50)
 
     sift_messages = [
-        {
-            "role": "system",
-            "content": "You design anti-repetition constraints. Return JSON only."
-        },
+        {"role": "system", "content": "You design anti-repetition constraints. Return JSON only."},
         {
             "role": "user",
             "content": f"""Using this SCOUT data, design a rotation system to prevent repetition in the LUKHAS 3-layer tone system (Poetic → Academic → User-Friendly).
@@ -262,23 +253,19 @@ Output schema:
   }}
 }}
 
-Return valid JSON only."""
-        }
+Return valid JSON only.""",
+        },
     ]
 
     sift_data = chat(sift_messages, expect_json=True, temperature=0.4)
 
-    result = {
-        "meta": meta,
-        "stage": "sift",
-        "data": sift_data,
-        "timestamp": time.time()
-    }
+    result = {"meta": meta, "stage": "sift", "data": sift_data, "timestamp": time.time()}
 
     save(run_id, "sift", result)
     print("Built rotation matrix and constraint system")
 
     return sift_data
+
 
 def run_synthesize(run_id, meta, scout_data, sift_data):
     """
@@ -292,7 +279,7 @@ def run_synthesize(run_id, meta, scout_data, sift_data):
     synthesize_messages = [
         {
             "role": "system",
-            "content": "You produce stylistically diverse content under strict constraints. Return JSON only."
+            "content": "You produce stylistically diverse content under strict constraints. Return JSON only.",
         },
         {
             "role": "user",
@@ -336,23 +323,19 @@ Output schema:
   ]
 }}
 
-Ensure 0 violations; auto-repair if needed. Return valid JSON only."""
-        }
+Ensure 0 violations; auto-repair if needed. Return valid JSON only.""",
+        },
     ]
 
     synthesize_data = chat(synthesize_messages, expect_json=True, temperature=0.6, max_tokens=6000)
 
-    result = {
-        "meta": meta,
-        "stage": "synthesize",
-        "data": synthesize_data,
-        "timestamp": time.time()
-    }
+    result = {"meta": meta, "stage": "synthesize", "data": synthesize_data, "timestamp": time.time()}
 
     save(run_id, "synthesize", result)
     print(f"Generated {len(synthesize_data.get('families', []))} metaphor families")
 
     return synthesize_data
+
 
 def run_stress_test(run_id, meta, synthesize_data):
     """
@@ -366,7 +349,7 @@ def run_stress_test(run_id, meta, synthesize_data):
     stress_messages = [
         {
             "role": "system",
-            "content": "You are a panel of editors: CMO (brand), Referee #2 (academic), Grandma (accessibility). Return JSON only."
+            "content": "You are a panel of editors: CMO (brand), Referee #2 (academic), Grandma (accessibility). Return JSON only.",
         },
         {
             "role": "user",
@@ -404,18 +387,13 @@ Output schema:
   }}
 }}
 
-Return valid JSON only."""
-        }
+Return valid JSON only.""",
+        },
     ]
 
     stress_data = chat(stress_messages, expect_json=True, temperature=0.3)
 
-    result = {
-        "meta": meta,
-        "stage": "stress_test",
-        "data": stress_data,
-        "timestamp": time.time()
-    }
+    result = {"meta": meta, "stage": "stress_test", "data": stress_data, "timestamp": time.time()}
 
     save(run_id, "stress_test", result)
 
@@ -424,6 +402,7 @@ Return valid JSON only."""
     print(f"Found {len(stress_data.get('issues', []))} issues")
 
     return stress_data
+
 
 def run_pipeline(theme_statement: str):
     """
@@ -446,7 +425,7 @@ def run_pipeline(theme_statement: str):
         "premise": theme_statement,
         "pipeline_version": "1.0.0",
         "lukhas_version": "Constellation Framework",
-        "timestamp": time.time()
+        "timestamp": time.time(),
     }
 
     print(f"Run ID: {run_id}")
@@ -470,7 +449,7 @@ def run_pipeline(theme_statement: str):
             "grandma_pass_rate": stress_data.get("grandma_check", {}).get("pass_rate", 0),
             "avg_novelty": stress_data.get("scores", {}).get("avg_novelty", 0),
             "issues_found": len(stress_data.get("issues", [])),
-            "output_dir": str(OUTDIR)
+            "output_dir": str(OUTDIR),
         }
 
         # Save final summary
@@ -487,15 +466,11 @@ def run_pipeline(theme_statement: str):
         return summary
 
     except Exception as e:
-        error_summary = {
-            "run_id": run_id,
-            "success": False,
-            "error": str(e),
-            "output_dir": str(OUTDIR)
-        }
+        error_summary = {"run_id": run_id, "success": False, "error": str(e), "output_dir": str(OUTDIR)}
         save(run_id, "error", {"meta": meta, "error": error_summary})
         print(f"\n❌ PIPELINE FAILED: {e}")
         raise
+
 
 if __name__ == "__main__":
     # Execute with consciousness technology focus

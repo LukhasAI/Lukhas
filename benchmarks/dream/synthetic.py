@@ -8,15 +8,18 @@ from typing import Any, Dict, List, Optional
 # Canonical emotion keys for consistency
 CANON_EMOTIONS = ["confidence", "curiosity", "joy", "fear", "anger", "sadness", "surprise", "trust"]
 
+
 @dataclass
 class SyntheticCase:
     """A synthetic test case for dream system evaluation."""
+
     case_id: str
     query_emotion: Dict[str, float]
     snapshots: List[Dict[str, Any]]
     expected_selection: str
     difficulty: str  # "easy", "medium", "hard", "adversarial"
-    scenario: str   # Description of test scenario
+    scenario: str  # Description of test scenario
+
 
 class SyntheticGenerator:
     """Generates synthetic test cases for adversarial testing."""
@@ -39,8 +42,9 @@ class SyntheticGenerator:
             emotion[key] = round(value, 3)
         return emotion
 
-    def _generate_snapshot(self, name: str, emotion: Dict[str, float],
-                         timestamp_base: float, alignment_hint: float = None) -> Dict[str, Any]:
+    def _generate_snapshot(
+        self, name: str, emotion: Dict[str, float], timestamp_base: float, alignment_hint: float = None
+    ) -> Dict[str, Any]:
         """Generate a single snapshot."""
         # Add some noise to emotion if desired
         noisy_emotion = {}
@@ -53,7 +57,7 @@ class SyntheticGenerator:
             "emotion": noisy_emotion,
             "timestamp": timestamp_base + self.rng.uniform(-10, 10),
             "content": f"Synthetic snapshot {name}",
-            "metadata": {"synthetic": True}
+            "metadata": {"synthetic": True},
         }
 
     def generate_easy_case(self, case_id: str) -> SyntheticCase:
@@ -87,7 +91,7 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection="perfect",
             difficulty="easy",
-            scenario="Clear winner with high alignment, others significantly worse"
+            scenario="Clear winner with high alignment, others significantly worse",
         )
 
     def generate_medium_case(self, case_id: str) -> SyntheticCase:
@@ -127,7 +131,7 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection=best_name,
             difficulty="medium",
-            scenario="Multiple good candidates, requiring careful comparison"
+            scenario="Multiple good candidates, requiring careful comparison",
         )
 
     def generate_hard_case(self, case_id: str) -> SyntheticCase:
@@ -171,7 +175,7 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection=expected,
             difficulty="hard",
-            scenario="Temporal tradeoff: recent mediocre vs old excellent vs medium okay"
+            scenario="Temporal tradeoff: recent mediocre vs old excellent vs medium okay",
         )
 
     def generate_adversarial_case(self, case_id: str) -> SyntheticCase:
@@ -182,7 +186,7 @@ class SyntheticGenerator:
             self._adversarial_all_zeros,
             self._adversarial_all_ones,
             self._adversarial_identical_emotions,
-            self._adversarial_sparse_emotions
+            self._adversarial_sparse_emotions,
         ]
 
         scenario_func = self.rng.choice(scenarios)
@@ -199,8 +203,11 @@ class SyntheticGenerator:
         snapshots = []
         snapshots.append(self._generate_snapshot("all_max", {k: 1.0 for k in CANON_EMOTIONS}, 100.0))
         snapshots.append(self._generate_snapshot("all_min", {k: 0.0 for k in CANON_EMOTIONS}, 100.0))
-        snapshots.append(self._generate_snapshot("alternating",
-                                                {k: 1.0 if i % 2 == 0 else 0.0 for i, k in enumerate(CANON_EMOTIONS)}, 100.0))
+        snapshots.append(
+            self._generate_snapshot(
+                "alternating", {k: 1.0 if i % 2 == 0 else 0.0 for i, k in enumerate(CANON_EMOTIONS)}, 100.0
+            )
+        )
 
         # Best match is exact copy
         snapshots.append(self._generate_snapshot("exact_match", query.copy(), 100.0))
@@ -211,7 +218,7 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection="exact_match",
             difficulty="adversarial",
-            scenario="Extreme emotion values (0.0 or 1.0 only)"
+            scenario="Extreme emotion values (0.0 or 1.0 only)",
         )
 
     def _adversarial_all_zeros(self, case_id: str) -> SyntheticCase:
@@ -229,7 +236,7 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection="also_zeros",
             difficulty="adversarial",
-            scenario="All emotions zero - testing edge case handling"
+            scenario="All emotions zero - testing edge case handling",
         )
 
     def _adversarial_all_ones(self, case_id: str) -> SyntheticCase:
@@ -247,7 +254,7 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection="also_ones",
             difficulty="adversarial",
-            scenario="All emotions maxed - testing saturation handling"
+            scenario="All emotions maxed - testing saturation handling",
         )
 
     def _adversarial_identical_emotions(self, case_id: str) -> SyntheticCase:
@@ -269,7 +276,7 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection=expected,
             difficulty="adversarial",
-            scenario="Identical emotions - testing tiebreaking logic"
+            scenario="Identical emotions - testing tiebreaking logic",
         )
 
     def _adversarial_sparse_emotions(self, case_id: str) -> SyntheticCase:
@@ -302,10 +309,13 @@ class SyntheticGenerator:
             snapshots=snapshots,
             expected_selection="sparse_match",
             difficulty="adversarial",
-            scenario="Sparse emotion vectors - testing alignment with few active dimensions"
+            scenario="Sparse emotion vectors - testing alignment with few active dimensions",
         )
 
-def generate_synthetic_corpus(count: int = 50, seed: int = 42, out_path: str = "benchmarks/dream/synthetic_corpus.json") -> str:
+
+def generate_synthetic_corpus(
+    count: int = 50, seed: int = 42, out_path: str = "benchmarks/dream/synthetic_corpus.json"
+) -> str:
     """Generate a synthetic test corpus."""
     generator = SyntheticGenerator(seed)
 
@@ -339,14 +349,16 @@ def generate_synthetic_corpus(count: int = 50, seed: int = 42, out_path: str = "
     # Convert to JSON-serializable format
     corpus_data = []
     for case in cases:
-        corpus_data.append({
-            "case_id": case.case_id,
-            "query_emotion": case.query_emotion,
-            "snapshots": case.snapshots,
-            "expected_selection": case.expected_selection,
-            "difficulty": case.difficulty,
-            "scenario": case.scenario
-        })
+        corpus_data.append(
+            {
+                "case_id": case.case_id,
+                "query_emotion": case.query_emotion,
+                "snapshots": case.snapshots,
+                "expected_selection": case.expected_selection,
+                "difficulty": case.difficulty,
+                "scenario": case.scenario,
+            }
+        )
 
     # Save corpus
     with open(out_path, "w") as f:
@@ -360,6 +372,7 @@ def generate_synthetic_corpus(count: int = 50, seed: int = 42, out_path: str = "
     print(f"  Saved to: {out_path}")
 
     return out_path
+
 
 if __name__ == "__main__":
     import sys

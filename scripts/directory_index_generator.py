@@ -20,7 +20,7 @@ class DirectoryIndexGenerator:
     def analyze_python_file(self, file_path: Path) -> Dict:
         """Analyze a Python file to extract metadata"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -54,7 +54,7 @@ class DirectoryIndexGenerator:
                 "has_contract": contract_path is not None,
                 "contract_path": str(contract_path) if contract_path else None,
                 "dependencies": [imp for imp in imports if "lukhas" in imp or "candidate" in imp],
-                "exports": classes + [f for f in functions if not f.startswith('_')]
+                "exports": classes + [f for f in functions if not f.startswith("_")],
             }
 
         except Exception:
@@ -64,7 +64,7 @@ class DirectoryIndexGenerator:
                 "has_contract": False,
                 "contract_path": None,
                 "dependencies": [],
-                "exports": []
+                "exports": [],
             }
 
     def classify_component_type(self, file_path: Path, content: str, classes: List[str], functions: List[str]) -> str:
@@ -132,7 +132,7 @@ class DirectoryIndexGenerator:
         docs = []
 
         for file_path in directory.iterdir():
-            if file_path.is_file() and file_path.suffix in ['.md', '.me']:
+            if file_path.is_file() and file_path.suffix in [".md", ".me"]:
                 doc_type = "other"
                 has_sync_header = False
 
@@ -145,18 +145,14 @@ class DirectoryIndexGenerator:
 
                 # Check for sync header
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read(500)  # Read first 500 chars
                         has_sync_header = "Context Sync Header" in content and "Schema v2.0.0" in content
                 except Exception as e:
                     logger.debug(f"Expected optional failure: {e}")
                     pass
 
-                docs.append({
-                    "filename": file_path.name,
-                    "type": doc_type,
-                    "has_sync_header": has_sync_header
-                })
+                docs.append({"filename": file_path.name, "type": doc_type, "has_sync_header": has_sync_header})
 
         return docs
 
@@ -217,18 +213,24 @@ class DirectoryIndexGenerator:
         # Common tasks
         common_tasks = []
         if any(f["component_type"] == "CONSCIOUSNESS_ENGINE" for f in python_files):
-            common_tasks.append({
-                "task": "Consciousness engine development",
-                "files_involved": [f["filename"] for f in python_files if f["component_type"] == "CONSCIOUSNESS_ENGINE"],
-                "complexity": "high"
-            })
+            common_tasks.append(
+                {
+                    "task": "Consciousness engine development",
+                    "files_involved": [
+                        f["filename"] for f in python_files if f["component_type"] == "CONSCIOUSNESS_ENGINE"
+                    ],
+                    "complexity": "high",
+                }
+            )
 
         if any(f["component_type"] == "API_INTERFACE" for f in python_files):
-            common_tasks.append({
-                "task": "API integration",
-                "files_involved": [f["filename"] for f in python_files if f["component_type"] == "API_INTERFACE"],
-                "complexity": "medium"
-            })
+            common_tasks.append(
+                {
+                    "task": "API integration",
+                    "files_involved": [f["filename"] for f in python_files if f["component_type"] == "API_INTERFACE"],
+                    "complexity": "medium",
+                }
+            )
 
         # Prerequisites
         prerequisites = ["Understanding of LUKHAS lane system", "Constellation Framework familiarity"]
@@ -245,8 +247,8 @@ class DirectoryIndexGenerator:
             "avoid_patterns": [
                 "Modifying contracts without validation",
                 "Breaking lane boundaries",
-                "Ignoring Constellation Framework integration"
-            ]
+                "Ignoring Constellation Framework integration",
+            ],
         }
 
     def generate_directory_index(self, directory: Path) -> Dict:
@@ -268,15 +270,17 @@ class DirectoryIndexGenerator:
         # Analyze subdirectories
         subdirectories = []
         for subdir in directory.iterdir():
-            if subdir.is_dir() and not subdir.name.startswith('.'):
+            if subdir.is_dir() and not subdir.name.startswith("."):
                 # Count Python files in subdirectory
                 py_count = len(list(subdir.glob("*.py")))
-                subdirectories.append({
-                    "name": subdir.name,
-                    "has_index": (subdir / "directory_index.json").exists(),
-                    "purpose": f"Subdirectory with {py_count} Python files",
-                    "component_count": py_count
-                })
+                subdirectories.append(
+                    {
+                        "name": subdir.name,
+                        "has_index": (subdir / "directory_index.json").exists(),
+                        "purpose": f"Subdirectory with {py_count} Python files",
+                        "component_count": py_count,
+                    }
+                )
 
         # Analyze documentation
         documentation = self.analyze_documentation(directory)
@@ -303,33 +307,35 @@ class DirectoryIndexGenerator:
                 "lane": lane,
                 "purpose": f"Directory containing {len(python_files)} Python files and {len(subdirectories)} subdirectories",
                 "trinity_role": trinity_roles,
-                "last_updated": datetime.now().strftime("%Y-%m-%d")
+                "last_updated": datetime.now().strftime("%Y-%m-%d"),
             },
             "component_inventory": {
                 "python_files": python_files,
                 "subdirectories": subdirectories,
-                "documentation": documentation
+                "documentation": documentation,
             },
             "schema_references": [
                 {
                     "schema_name": "directory_index",
                     "schema_path": "schemas/directory_index.schema.json",
-                    "validation_status": "valid"
+                    "validation_status": "valid",
                 }
             ],
             "agent_guidance": agent_guidance,
             "performance_metadata": {
                 "component_count": len(python_files),
-                "estimated_complexity": "high" if len(python_files) > 20 else "medium" if len(python_files) > 5 else "low",
+                "estimated_complexity": (
+                    "high" if len(python_files) > 20 else "medium" if len(python_files) > 5 else "low"
+                ),
                 "consciousness_integration": consciousness_integration,
-                "test_coverage": 85.0  # Default estimate
+                "test_coverage": 85.0,  # Default estimate
             },
             "relationships": {
-                "parent_directory": str(relative_path.parent) if relative_path.parent != Path('.') else None,
+                "parent_directory": str(relative_path.parent) if relative_path.parent != Path(".") else None,
                 "related_directories": [],  # Would need constellation analysis
                 "constellation_cluster": "unknown",
-                "dependency_weight": "moderate"  # Default estimate
-            }
+                "dependency_weight": "moderate",  # Default estimate
+            },
         }
 
         return index
@@ -340,7 +346,7 @@ class DirectoryIndexGenerator:
             "generation_timestamp": datetime.now().isoformat(),
             "total_directories": 0,
             "indexes_created": 0,
-            "errors": []
+            "errors": [],
         }
 
         def process_directory(directory: Path, current_depth: int):
@@ -349,7 +355,7 @@ class DirectoryIndexGenerator:
 
             try:
                 # Skip hidden directories and certain patterns
-                if directory.name.startswith('.') or directory.name in ['__pycache__', 'node_modules']:
+                if directory.name.startswith(".") or directory.name in ["__pycache__", "node_modules"]:
                     return
 
                 # Only process directories with Python files or important subdirectories
@@ -364,7 +370,7 @@ class DirectoryIndexGenerator:
 
                     # Save index
                     index_path = directory / "directory_index.json"
-                    with open(index_path, 'w') as f:
+                    with open(index_path, "w") as f:
                         json.dump(index, f, indent=2)
 
                     results["indexes_created"] += 1
@@ -399,14 +405,14 @@ def main():
         Path("lukhas"),
         Path("matriz"),
         Path("ethics"),
-        Path("products")
+        Path("products"),
     ]
 
     total_results = {
         "generation_timestamp": datetime.now().isoformat(),
         "total_directories": 0,
         "indexes_created": 0,
-        "errors": []
+        "errors": [],
     }
 
     for directory in key_directories:

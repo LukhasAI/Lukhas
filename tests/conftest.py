@@ -108,7 +108,9 @@ def _install_jwt_stub() -> None:
         if verify_aud and audience:
             token_aud = payload.get("aud")
             if isinstance(audience, list):
-                valid = token_aud in audience if isinstance(token_aud, str) else bool(set(audience) & set(token_aud or []))
+                valid = (
+                    token_aud in audience if isinstance(token_aud, str) else bool(set(audience) & set(token_aud or []))
+                )
             else:
                 if isinstance(token_aud, list):
                     valid = audience in token_aud
@@ -154,13 +156,11 @@ import pytest
 # Check if labs is available
 try:
     import importlib
+
     importlib.import_module("labs")
     LABS_AVAILABLE = True
 except ImportError:
     LABS_AVAILABLE = False
 
 # Skip decorator for tests requiring labs
-requires_labs = pytest.mark.skipif(
-    not LABS_AVAILABLE,
-    reason="labs not installed - skipping labs-dependent test"
-)
+requires_labs = pytest.mark.skipif(not LABS_AVAILABLE, reason="labs not installed - skipping labs-dependent test")

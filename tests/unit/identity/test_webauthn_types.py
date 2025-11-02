@@ -18,7 +18,9 @@ from typing import Any, get_type_hints
 import pytest
 
 # Import webauthn_types module directly to avoid __init__ dependencies
-webauthn_types_path = Path(__file__).parent.parent.parent.parent / "lukhas_website" / "lukhas" / "identity" / "webauthn_types.py"
+webauthn_types_path = (
+    Path(__file__).parent.parent.parent.parent / "lukhas_website" / "lukhas" / "identity" / "webauthn_types.py"
+)
 spec = __import__("importlib.util").util.spec_from_file_location("webauthn_types", webauthn_types_path)
 webauthn_types = __import__("importlib.util").util.module_from_spec(spec)
 spec.loader.exec_module(webauthn_types)
@@ -46,17 +48,12 @@ class TestPublicKeyCredentialRpEntity:
 
     def test_minimal_rp_entity(self):
         """Test RP entity with only required fields."""
-        rp: PublicKeyCredentialRpEntity = {
-            "name": "LUKHAS AI"
-        }
+        rp: PublicKeyCredentialRpEntity = {"name": "LUKHAS AI"}
         assert rp["name"] == "LUKHAS AI"
 
     def test_full_rp_entity(self):
         """Test RP entity with all fields."""
-        rp: PublicKeyCredentialRpEntity = {
-            "name": "LUKHAS AI",
-            "id": "ai"
-        }
+        rp: PublicKeyCredentialRpEntity = {"name": "LUKHAS AI", "id": "ai"}
         assert rp["name"] == "LUKHAS AI"
         assert rp["id"] == "ai"
 
@@ -67,11 +64,7 @@ class TestPublicKeyCredentialUserEntity:
     def test_user_entity_required_fields(self):
         """Test user entity with all required fields."""
         user_id = base64.urlsafe_b64encode(b"user-123").decode().rstrip("=")
-        user: PublicKeyCredentialUserEntity = {
-            "id": user_id,
-            "name": "alice@example.com",
-            "displayName": "Alice Smith"
-        }
+        user: PublicKeyCredentialUserEntity = {"id": user_id, "name": "alice@example.com", "displayName": "Alice Smith"}
         assert user["id"] == user_id
         assert user["name"] == "alice@example.com"
         assert user["displayName"] == "Alice Smith"
@@ -84,7 +77,7 @@ class TestPublicKeyCredentialUserEntity:
         user: PublicKeyCredentialUserEntity = {
             "id": user_id_b64,
             "name": "test@example.com",
-            "displayName": "Test User"
+            "displayName": "Test User",
         }
 
         # Verify we can decode it back
@@ -97,19 +90,13 @@ class TestPublicKeyCredentialParameters:
 
     def test_es256_algorithm(self):
         """Test ES256 (ECDSA with SHA-256) algorithm."""
-        param: PublicKeyCredentialParameters = {
-            "type": "public-key",
-            "alg": -7  # ES256 COSE identifier
-        }
+        param: PublicKeyCredentialParameters = {"type": "public-key", "alg": -7}  # ES256 COSE identifier
         assert param["type"] == "public-key"
         assert param["alg"] == -7
 
     def test_rs256_algorithm(self):
         """Test RS256 (RSA with SHA-256) algorithm."""
-        param: PublicKeyCredentialParameters = {
-            "type": "public-key",
-            "alg": -257  # RS256 COSE identifier
-        }
+        param: PublicKeyCredentialParameters = {"type": "public-key", "alg": -257}  # RS256 COSE identifier
         assert param["type"] == "public-key"
         assert param["alg"] == -257
 
@@ -120,10 +107,7 @@ class TestPublicKeyCredentialDescriptor:
     def test_minimal_descriptor(self):
         """Test descriptor with only required fields."""
         cred_id = base64.urlsafe_b64encode(b"credential-123").decode().rstrip("=")
-        descriptor: PublicKeyCredentialDescriptor = {
-            "type": "public-key",
-            "id": cred_id
-        }
+        descriptor: PublicKeyCredentialDescriptor = {"type": "public-key", "id": cred_id}
         assert descriptor["type"] == "public-key"
         assert descriptor["id"] == cred_id
 
@@ -133,7 +117,7 @@ class TestPublicKeyCredentialDescriptor:
         descriptor: PublicKeyCredentialDescriptor = {
             "type": "public-key",
             "id": cred_id,
-            "transports": ["internal", "hybrid"]
+            "transports": ["internal", "hybrid"],
         }
         assert "transports" in descriptor
         assert "internal" in descriptor["transports"]
@@ -148,7 +132,7 @@ class TestAuthenticatorSelectionCriteria:
         criteria: AuthenticatorSelectionCriteria = {
             "authenticatorAttachment": "platform",
             "residentKey": "required",
-            "userVerification": "required"
+            "userVerification": "required",
         }
         assert criteria["authenticatorAttachment"] == "platform"
         assert criteria["residentKey"] == "required"
@@ -158,7 +142,7 @@ class TestAuthenticatorSelectionCriteria:
         """Test cross-platform (roaming) authenticator selection."""
         criteria: AuthenticatorSelectionCriteria = {
             "authenticatorAttachment": "cross-platform",
-            "userVerification": "preferred"
+            "userVerification": "preferred",
         }
         assert criteria["authenticatorAttachment"] == "cross-platform"
         assert criteria["userVerification"] == "preferred"
@@ -174,19 +158,12 @@ class TestCredentialCreationOptions:
 
         options: CredentialCreationOptions = {
             "challenge": challenge,
-            "rp": {
-                "name": "LUKHAS AI",
-                "id": "ai"
-            },
-            "user": {
-                "id": user_id,
-                "name": "test@example.com",
-                "displayName": "Test User"
-            },
+            "rp": {"name": "LUKHAS AI", "id": "ai"},
+            "user": {"id": user_id, "name": "test@example.com", "displayName": "Test User"},
             "pubKeyCredParams": [
                 {"type": "public-key", "alg": -7},  # ES256
-                {"type": "public-key", "alg": -257}  # RS256
-            ]
+                {"type": "public-key", "alg": -257},  # RS256
+            ],
         }
 
         assert options["challenge"] == challenge
@@ -203,24 +180,16 @@ class TestCredentialCreationOptions:
         options: CredentialCreationOptions = {
             "challenge": challenge,
             "rp": {"name": "LUKHAS AI", "id": "ai"},
-            "user": {
-                "id": user_id,
-                "name": "alice@ai",
-                "displayName": "Alice"
-            },
-            "pubKeyCredParams": [
-                {"type": "public-key", "alg": -7}
-            ],
+            "user": {"id": user_id, "name": "alice@ai", "displayName": "Alice"},
+            "pubKeyCredParams": [{"type": "public-key", "alg": -7}],
             "timeout": 300000,
-            "excludeCredentials": [
-                {"type": "public-key", "id": existing_cred}
-            ],
+            "excludeCredentials": [{"type": "public-key", "id": existing_cred}],
             "authenticatorSelection": {
                 "authenticatorAttachment": "platform",
                 "residentKey": "required",
-                "userVerification": "required"
+                "userVerification": "required",
             },
-            "attestation": "direct"
+            "attestation": "direct",
         }
 
         assert options["timeout"] == 300000
@@ -239,7 +208,7 @@ class TestAuthenticatorAttestationResponse:
 
         response: AuthenticatorAttestationResponse = {
             "clientDataJSON": client_data,
-            "attestationObject": attestation_obj
+            "attestationObject": attestation_obj,
         }
 
         assert response["clientDataJSON"] == client_data
@@ -253,7 +222,7 @@ class TestAuthenticatorAttestationResponse:
             "transports": ["internal", "hybrid"],
             "authenticatorData": "YXV0aERhdGE",
             "publicKey": "cHVibGljS2V5",
-            "publicKeyAlgorithm": -7
+            "publicKeyAlgorithm": -7,
         }
 
         assert "transports" in response
@@ -274,10 +243,7 @@ class TestPublicKeyCredentialCreation:
             "id": cred_id,
             "rawId": cred_id,
             "type": "public-key",
-            "response": {
-                "clientDataJSON": client_data,
-                "attestationObject": attestation
-            }
+            "response": {"clientDataJSON": client_data, "attestationObject": attestation},
         }
 
         assert credential["id"] == cred_id
@@ -292,14 +258,9 @@ class TestPublicKeyCredentialCreation:
             "id": cred_id,
             "rawId": cred_id,
             "type": "public-key",
-            "response": {
-                "clientDataJSON": "Y2xpZW50RGF0YQ",
-                "attestationObject": "YXR0ZXN0"
-            },
+            "response": {"clientDataJSON": "Y2xpZW50RGF0YQ", "attestationObject": "YXR0ZXN0"},
             "authenticatorAttachment": "platform",
-            "clientExtensionResults": {
-                "credProps": {"rk": True}
-            }
+            "clientExtensionResults": {"credProps": {"rk": True}},
         }
 
         assert credential["authenticatorAttachment"] == "platform"
@@ -313,9 +274,7 @@ class TestCredentialRequestOptions:
         """Test request options with only required fields."""
         challenge = base64.urlsafe_b64encode(b"auth-challenge-123").decode().rstrip("=")
 
-        options: CredentialRequestOptions = {
-            "challenge": challenge
-        }
+        options: CredentialRequestOptions = {"challenge": challenge}
 
         assert options["challenge"] == challenge
 
@@ -328,10 +287,8 @@ class TestCredentialRequestOptions:
             "challenge": challenge,
             "timeout": 180000,
             "rpId": "ai",
-            "allowCredentials": [
-                {"type": "public-key", "id": cred_id}
-            ],
-            "userVerification": "required"
+            "allowCredentials": [{"type": "public-key", "id": cred_id}],
+            "userVerification": "required",
         }
 
         assert options["timeout"] == 180000
@@ -348,7 +305,7 @@ class TestAuthenticatorAssertionResponse:
         response: AuthenticatorAssertionResponse = {
             "clientDataJSON": "Y2xpZW50RGF0YQ",
             "authenticatorData": "YXV0aERhdGE",
-            "signature": "c2lnbmF0dXJl"
+            "signature": "c2lnbmF0dXJl",
         }
 
         assert response["clientDataJSON"] == "Y2xpZW50RGF0YQ"
@@ -363,7 +320,7 @@ class TestAuthenticatorAssertionResponse:
             "clientDataJSON": "Y2xpZW50RGF0YQ",
             "authenticatorData": "YXV0aERhdGE",
             "signature": "c2lnbmF0dXJl",
-            "userHandle": user_handle
+            "userHandle": user_handle,
         }
 
         assert response["userHandle"] == user_handle
@@ -383,8 +340,8 @@ class TestPublicKeyCredentialAssertion:
             "response": {
                 "clientDataJSON": "Y2xpZW50RGF0YQ",
                 "authenticatorData": "YXV0aERhdGE",
-                "signature": "c2lnbmF0dXJl"
-            }
+                "signature": "c2lnbmF0dXJl",
+            },
         }
 
         assert credential["id"] == cred_id
@@ -401,7 +358,7 @@ class TestVerificationResults:
             "verified": True,
             "credential_id": b"credential-bytes",
             "credential_public_key": b"public-key-bytes",
-            "sign_count": 0
+            "sign_count": 0,
         }
 
         assert result["verified"] is True
@@ -417,7 +374,7 @@ class TestVerificationResults:
             "aaguid": b"\x08\x98\x70\x58\xca\xdc\x4b\x81\xb6\xe1\x30\xde\x50\xdc\xbe\x96",
             "backup_eligible": True,
             "backup_state": False,
-            "user_verified": True
+            "user_verified": True,
         }
 
         assert result["aaguid"] is not None
@@ -426,10 +383,7 @@ class TestVerificationResults:
 
     def test_verified_authentication(self):
         """Test authentication verification result."""
-        result: VerifiedAuthentication = {
-            "verified": True,
-            "new_sign_count": 5
-        }
+        result: VerifiedAuthentication = {"verified": True, "new_sign_count": 5}
 
         assert result["verified"] is True
         assert result["new_sign_count"] == 5
@@ -441,7 +395,7 @@ class TestVerificationResults:
             "new_sign_count": 10,
             "backup_eligible": True,
             "backup_state": True,
-            "user_verified": True
+            "user_verified": True,
         }
 
         assert result["new_sign_count"] == 10
@@ -461,9 +415,9 @@ class TestRealWorldWebAuthnResponses:
             "response": {
                 "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiYWJjMTIzIiwib3JpZ2luIjoiaHR0cHM6Ly9haS5sdWtoYXMuYWkifQ",
                 "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViYSZYN5YgOjGh0NBcPZHZgW4",
-                "transports": ["internal"]
+                "transports": ["internal"],
             },
-            "authenticatorAttachment": "platform"
+            "authenticatorAttachment": "platform",
         }
 
         # Verify we can type this as PublicKeyCredentialCreation
@@ -482,9 +436,9 @@ class TestRealWorldWebAuthnResponses:
                 "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZGVmNDU2Iiwib3JpZ2luIjoiaHR0cHM6Ly9haS5sdWtoYXMuYWkifQ",
                 "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MFAAAABA",
                 "signature": "MEUCIQCqV3Q_jWJaVYf8FQjvPz5LTWBq4Fqh8FNvPk8b3jMxdQIgVs8gLQ",
-                "userHandle": "dXNlci0xMjM"
+                "userHandle": "dXNlci0xMjM",
             },
-            "authenticatorAttachment": "platform"
+            "authenticatorAttachment": "platform",
         }
 
         # Verify we can type this as PublicKeyCredentialAssertion

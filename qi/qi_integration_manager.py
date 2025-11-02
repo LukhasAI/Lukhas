@@ -28,7 +28,6 @@ For documentation and support: https://ai/docs
 """
 
 
-
 __module_name__ = "Quantum System"
 __version__ = "2.0.0"
 __tier__ = 2

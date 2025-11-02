@@ -20,6 +20,7 @@ from typing import Callable, List
 # Optional Prometheus metrics (safe to import; no hard dependency in tests)
 try:
     from core.metrics import tick_duration, ticker_subscriber_exceptions, ticker_ticks_dropped
+
     _PROM_AVAILABLE = True
 except Exception:
     _PROM_AVAILABLE = False
@@ -52,12 +53,12 @@ class Ticker:
         # Performance metrics
         self.metrics = {
             "ticks_processed": 0,
-            "ticks_dropped": 0,           # count of ticks where budget overran
+            "ticks_dropped": 0,  # count of ticks where budget overran
             "total_processing_time": 0.0,
             "max_processing_time": 0.0,
             "p95_processing_time": 0.0,
-            "subscriber_exceptions": 0,   # number of callback exceptions
-            "max_subscriber_time": 0.0,   # longest single-callback time (s)
+            "subscriber_exceptions": 0,  # number of callback exceptions
+            "max_subscriber_time": 0.0,  # longest single-callback time (s)
         }
 
         # Timing history for p95 calculation
@@ -90,12 +91,7 @@ class Ticker:
         Returns:
             Dictionary with timing metrics and performance data
         """
-        return {
-            "fps_target": self.fps,
-            "tick_count": self.tick_count,
-            "running": self.running,
-            **self.metrics
-        }
+        return {"fps_target": self.fps, "tick_count": self.tick_count, "running": self.running, **self.metrics}
 
     def _update_timing_metrics(self, processing_time: float) -> None:
         """Update internal timing metrics"""
@@ -135,7 +131,9 @@ class Ticker:
                         ticker_subscriber_exceptions.labels(lane=self.lane).inc()
                     except Exception:
                         pass
-                print(f"Warning: subscriber {getattr(callback, '__name__', repr(callback))} error at tick {self.tick_count}: {e}")
+                print(
+                    f"Warning: subscriber {getattr(callback, '__name__', repr(callback))} error at tick {self.tick_count}: {e}"
+                )
             finally:
                 cb_elapsed = perf_counter() - cb_start
                 if cb_elapsed > self.metrics["max_subscriber_time"]:

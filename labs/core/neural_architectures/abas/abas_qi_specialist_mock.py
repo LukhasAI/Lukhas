@@ -2,6 +2,7 @@
 ABAS Quantum Specialist Mock Implementation
 Lightweight mock implementation without heavy dependencies
 """
+
 import logging
 import random
 from dataclasses import dataclass, field

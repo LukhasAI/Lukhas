@@ -5,6 +5,7 @@
 Interface module to break circular dependencies between:
 consciousness.reflection.memory_hub <-> core.bridges.memory_consciousness_bridge
 """
+
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 

@@ -24,10 +24,10 @@ from typing import Any, Optional
 
 try:
     from webauthn import (
-# See: https://github.com/LukhasAI/Lukhas/issues/575
-# See: https://github.com/LukhasAI/Lukhas/issues/576
-# See: https://github.com/LukhasAI/Lukhas/issues/577
-# See: https://github.com/LukhasAI/Lukhas/issues/578
+        # See: https://github.com/LukhasAI/Lukhas/issues/575
+        # See: https://github.com/LukhasAI/Lukhas/issues/576
+        # See: https://github.com/LukhasAI/Lukhas/issues/577
+        # See: https://github.com/LukhasAI/Lukhas/issues/578
         verify_authentication_response as webauthn_verify_authentication_response,
     )
     from webauthn.helpers import parse_authentication_credential_json, structs
@@ -442,9 +442,7 @@ class WebAuthnManager:
                             if not isinstance(challenge_bytes, (bytes, bytearray)):
                                 raise ValueError("Invalid challenge format")
 
-                            parsed_credential = parse_authentication_credential_json(
-                                json.dumps(response)
-                            )
+                            parsed_credential = parse_authentication_credential_json(json.dumps(response))
 
                             verification = webauthn_verify_authentication_response(
                                 credential=parsed_credential,
@@ -462,15 +460,11 @@ class WebAuthnManager:
                                     "error": "Authentication verification failed",
                                 }
 
-                            credential.sign_count = getattr(
-                                verification, "new_sign_count", credential.sign_count + 1
-                            )
+                            credential.sign_count = getattr(verification, "new_sign_count", credential.sign_count + 1)
                             library_metadata = {
                                 "library_verified": True,
                                 "backup_state": getattr(verification, "backup_state", False),
-                                "backup_eligible": getattr(
-                                    verification, "backup_eligible", False
-                                ),
+                                "backup_eligible": getattr(verification, "backup_eligible", False),
                             }
                         else:
                             library_metadata = {
@@ -493,9 +487,7 @@ class WebAuthnManager:
                 del self.pending_authentications[authentication_id]
 
                 # 🧠 Update consciousness patterns
-                self._update_consciousness_patterns(
-                    user_id, "webauthn_authentication_successful"
-                )
+                self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
 
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000

@@ -13,9 +13,7 @@ if "qi" not in sys.modules:
     qi_stub.__path__ = [str(QI_PACKAGE_PATH)]
     sys.modules["qi"] = qi_stub
 
-spec = importlib.util.spec_from_file_location(
-    "qi.attention_economics", QI_PACKAGE_PATH / "attention_economics.py"
-)
+spec = importlib.util.spec_from_file_location("qi.attention_economics", QI_PACKAGE_PATH / "attention_economics.py")
 attention_economics = importlib.util.module_from_spec(spec)
 sys.modules["qi.attention_economics"] = attention_economics
 sys.modules["qi"].attention_economics = attention_economics

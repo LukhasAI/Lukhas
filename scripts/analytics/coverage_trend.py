@@ -22,6 +22,7 @@ from typing import NamedTuple
 
 class CoverageEntry(NamedTuple):
     """Parsed coverage ledger entry."""
+
     module: str
     timestamp: datetime
     coverage: float
@@ -98,14 +99,12 @@ def write_csv(trends: list[tuple[str, str, float, float]], output_path: Path) ->
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Generate coverage trend analytics from ledger"
-    )
+    parser = argparse.ArgumentParser(description="Generate coverage trend analytics from ledger")
     parser.add_argument(
         "--output",
         type=Path,
         default=Path("trends/coverage_trend.csv"),
-        help="Output CSV path (default: trends/coverage_trend.csv)"
+        help="Output CSV path (default: trends/coverage_trend.csv)",
     )
     args = parser.parse_args()
 

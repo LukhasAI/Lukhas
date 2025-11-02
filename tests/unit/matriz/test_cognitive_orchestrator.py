@@ -20,9 +20,7 @@ import pytest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 # Skip if Python < 3.10 (matriz requirement)
-pytestmark = pytest.mark.skipif(
-    sys.version_info < (3, 10), reason="matriz module requires Python 3.10+"
-)
+pytestmark = pytest.mark.skipif(sys.version_info < (3, 10), reason="matriz module requires Python 3.10+")
 
 try:
     from matriz.core.node_interface import CognitiveNode, NodeState

@@ -23,6 +23,7 @@ Integration:
 - Guardian System 2.0 multi-jurisdictional violation detection
 - Secure logging for international regulatory audit trails
 """
+
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone

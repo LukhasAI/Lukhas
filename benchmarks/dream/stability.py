@@ -10,11 +10,13 @@ from typing import Any, Dict, List
 
 SEEDS = [1, 7, 13, 42, 123, 999]
 
+
 def run_once(seed: int, out: str) -> None:
     """Run benchmark with specific seed."""
     env = os.environ.copy()
     env["LUKHAS_BENCH_SEED"] = str(seed)
     subprocess.check_call([sys.executable, "-m", "benchmarks.dream.run", "--out", out], env=env)
+
 
 def load_results(path: str) -> List[Dict[str, Any]]:
     """Load results from JSONL file."""
@@ -28,6 +30,7 @@ def load_results(path: str) -> List[Dict[str, Any]]:
             if line:
                 results.append(json.loads(line))
     return results
+
 
 def analyze_stability(results_by_seed: Dict[int, List[Dict]]) -> Dict[str, Any]:
     """Analyze stability across seeds."""
@@ -50,8 +53,8 @@ def analyze_stability(results_by_seed: Dict[int, List[Dict]]) -> Dict[str, Any]:
             continue
 
         # Extract accuracy values across seeds
-        accuracies = [r.get('accuracy', 0.0) for r in seed_results.values()]
-        selected_names = [r.get('selected_name', '') for r in seed_results.values()]
+        accuracies = [r.get("accuracy", 0.0) for r in seed_results.values()]
+        selected_names = [r.get("selected_name", "") for r in seed_results.values()]
 
         # Stability metrics
         acc_mean = statistics.mean(accuracies)
@@ -74,10 +77,11 @@ def analyze_stability(results_by_seed: Dict[int, List[Dict]]) -> Dict[str, Any]:
             "selection_consistency": round(selection_consistency, 4),
             "most_common_selection": most_common_name,
             "raw_accuracies": accuracies,
-            "raw_selections": selected_names
+            "raw_selections": selected_names,
         }
 
     return stability_report
+
 
 def run_stability_test(out_dir: str = "benchmarks/dream/stability_results") -> str:
     """Run multi-seed stability test."""
@@ -107,6 +111,7 @@ def run_stability_test(out_dir: str = "benchmarks/dream/stability_results") -> s
     print(f"Stability report saved to: {report_path}")
     return report_path
 
+
 def print_stability_summary(report_path: str) -> None:
     """Print human-readable stability summary."""
     with open(report_path, "r") as f:
@@ -119,9 +124,12 @@ def print_stability_summary(report_path: str) -> None:
             continue
 
         print(f"\n{config}:")
-        print(f"  Accuracy: {stats['accuracy_mean']:.3f} ± {stats['accuracy_stdev']:.3f} (range: {stats['accuracy_range']:.3f})")
+        print(
+            f"  Accuracy: {stats['accuracy_mean']:.3f} ± {stats['accuracy_stdev']:.3f} (range: {stats['accuracy_range']:.3f})"
+        )
         print(f"  Selection consistency: {stats['selection_consistency']:.1%}")
         print(f"  Most common: {stats['most_common_selection']}")
+
 
 if __name__ == "__main__":
     report_path = run_stability_test()

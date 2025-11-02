@@ -591,9 +591,7 @@ class FoldLineageTracker:
             }
 
         lineage_keys = {node.fold_key for node in lineage_trace}
-        fold_dream_index = {
-            node.fold_key: self._extract_dream_ids(node.causative_events) for node in lineage_trace
-        }
+        fold_dream_index = {node.fold_key: self._extract_dream_ids(node.causative_events) for node in lineage_trace}
 
         entanglement_links: list[CausalLink] = []
         dream_correlations: dict[str, dict[str, Any]] = defaultdict(
@@ -650,9 +648,7 @@ class FoldLineageTracker:
             )
 
         max_strength = max(strength_values) if strength_values else 0.0
-        correlation_score = (
-            sum(strength_values) / len(strength_values) if strength_values else 0.0
-        )
+        correlation_score = sum(strength_values) / len(strength_values) if strength_values else 0.0
 
         logger.debug(
             "FoldLineage_entanglement_analysis",
@@ -1177,9 +1173,7 @@ def create_enhanced_lineage_tracker(
             tracker.lineage_log_path = _coerce_path(
                 config["log_paths"].get("lineage"), default=tracker.lineage_log_path
             )
-            tracker.causal_map_path = _coerce_path(
-                config["log_paths"].get("causal"), default=tracker.causal_map_path
-            )
+            tracker.causal_map_path = _coerce_path(config["log_paths"].get("causal"), default=tracker.causal_map_path)
             tracker.lineage_graph_path = _coerce_path(
                 config["log_paths"].get("graph"), default=tracker.lineage_graph_path
             )

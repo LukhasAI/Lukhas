@@ -1,4 +1,5 @@
 """Summarize most frequent import failures to guide bridge/stub creation."""
+
 from __future__ import annotations
 
 import collections

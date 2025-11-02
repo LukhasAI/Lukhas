@@ -105,8 +105,10 @@ class LearningGateway(LearningGatewayInterface):
                     context=request.context,
                 )
             else:
-                return LearningResponse(success=False, error=f"Unknown operation: {request.operation}",
-            )
+                return LearningResponse(
+                    success=False,
+                    error=f"Unknown operation: {request.operation}",
+                )
 
         except Exception as e:
             return LearningResponse(

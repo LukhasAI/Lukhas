@@ -8,23 +8,28 @@ from typing import Any, Dict, List, Tuple
 
 class Environment(Enum):
     """Deployment environment types."""
+
     DEVELOPMENT = "development"
     STAGING = "staging"
     PRODUCTION = "production"
     HIGH_LOAD = "high_load"
     LOW_LATENCY = "low_latency"
 
+
 class Priority(Enum):
     """Optimization priorities."""
+
     ACCURACY = "accuracy"
     LATENCY = "latency"
     COVERAGE = "coverage"
     STABILITY = "stability"
     BALANCED = "balanced"
 
+
 @dataclass
 class ConfigProfile:
     """Configuration profile for specific environment/priority."""
+
     name: str
     environment: Environment
     priority: Priority
@@ -32,15 +37,18 @@ class ConfigProfile:
     performance_targets: Dict[str, float]
     rationale: str
 
+
 @dataclass
 class PerformanceMetrics:
     """Performance metrics for a configuration."""
+
     accuracy: float
     coverage: float
     latency_p50: float
     latency_p95: float
     stability: float
     error_rate: float
+
 
 class ConfigChooser:
     """Intelligent configuration selection system."""
@@ -64,12 +72,8 @@ class ConfigChooser:
                     "max_age_sec": 0,  # No staleness filtering
                     "half_life_sec": 0,  # No temporal weighting
                 },
-                performance_targets={
-                    "accuracy": 0.7,
-                    "latency_p95": 0.1,
-                    "coverage": 0.8
-                },
-                rationale="Development environment optimized for fast iteration"
+                performance_targets={"accuracy": 0.7, "latency_p95": 0.1, "coverage": 0.8},
+                rationale="Development environment optimized for fast iteration",
             ),
             ConfigProfile(
                 name="staging_balanced",
@@ -84,12 +88,8 @@ class ConfigChooser:
                     "max_age_sec": 300,  # 5 minutes
                     "half_life_sec": 120,  # 2 minutes
                 },
-                performance_targets={
-                    "accuracy": 0.8,
-                    "latency_p95": 0.05,
-                    "coverage": 0.85
-                },
-                rationale="Staging environment with balanced performance"
+                performance_targets={"accuracy": 0.8, "latency_p95": 0.05, "coverage": 0.85},
+                rationale="Staging environment with balanced performance",
             ),
             ConfigProfile(
                 name="prod_accuracy",
@@ -105,12 +105,8 @@ class ConfigChooser:
                     "half_life_sec": 180,  # 3 minutes
                     "hybrid_alpha": 0.6,
                 },
-                performance_targets={
-                    "accuracy": 0.9,
-                    "latency_p95": 0.1,
-                    "coverage": 0.9
-                },
-                rationale="Production environment optimized for accuracy"
+                performance_targets={"accuracy": 0.9, "latency_p95": 0.1, "coverage": 0.9},
+                rationale="Production environment optimized for accuracy",
             ),
             ConfigProfile(
                 name="prod_latency",
@@ -125,12 +121,8 @@ class ConfigChooser:
                     "max_age_sec": 0,  # No filtering for speed
                     "half_life_sec": 0,  # No temporal weighting
                 },
-                performance_targets={
-                    "accuracy": 0.8,
-                    "latency_p95": 0.02,
-                    "coverage": 0.8
-                },
-                rationale="Production environment optimized for low latency"
+                performance_targets={"accuracy": 0.8, "latency_p95": 0.02, "coverage": 0.8},
+                rationale="Production environment optimized for low latency",
             ),
             ConfigProfile(
                 name="high_load",
@@ -146,13 +138,9 @@ class ConfigChooser:
                     "half_life_sec": 0,
                     "max_snapshots": 20,  # Limit processing
                 },
-                performance_targets={
-                    "accuracy": 0.75,
-                    "latency_p95": 0.01,
-                    "coverage": 0.7
-                },
-                rationale="High load environment with aggressive optimization"
-            )
+                performance_targets={"accuracy": 0.75, "latency_p95": 0.01, "coverage": 0.7},
+                rationale="High load environment with aggressive optimization",
+            ),
         ]
 
     def extract_metrics(self, benchmark_results: List[Dict[str, Any]]) -> Dict[str, PerformanceMetrics]:
@@ -163,12 +151,12 @@ class ConfigChooser:
             config_key = f"{result.get('strategy', 'unknown')}_{result.get('use_objective', '0')}"
 
             metrics = PerformanceMetrics(
-                accuracy=result.get('accuracy', 0.0),
-                coverage=result.get('coverage>=0.5', 0.0),
-                latency_p50=result.get('p50_ms', 0.0),
-                latency_p95=result.get('p95_ms', 0.0),
-                stability=result.get('stability', 0.0),
-                error_rate=1.0 - result.get('accuracy', 0.0)  # Rough approximation
+                accuracy=result.get("accuracy", 0.0),
+                coverage=result.get("coverage>=0.5", 0.0),
+                latency_p50=result.get("p50_ms", 0.0),
+                latency_p95=result.get("p95_ms", 0.0),
+                stability=result.get("stability", 0.0),
+                error_rate=1.0 - result.get("accuracy", 0.0),  # Rough approximation
             )
 
             metrics_by_config[config_key] = metrics
@@ -183,17 +171,17 @@ class ConfigChooser:
         scores = {}
 
         # Individual metric scores (0.0 = target met, higher = worse)
-        if 'accuracy' in targets:
-            scores['accuracy'] = max(0.0, targets['accuracy'] - metrics.accuracy)
+        if "accuracy" in targets:
+            scores["accuracy"] = max(0.0, targets["accuracy"] - metrics.accuracy)
 
-        if 'latency_p95' in targets:
-            scores['latency'] = max(0.0, metrics.latency_p95 - targets['latency_p95'])
+        if "latency_p95" in targets:
+            scores["latency"] = max(0.0, metrics.latency_p95 - targets["latency_p95"])
 
-        if 'coverage' in targets:
-            scores['coverage'] = max(0.0, targets['coverage'] - metrics.coverage)
+        if "coverage" in targets:
+            scores["coverage"] = max(0.0, targets["coverage"] - metrics.coverage)
 
         # Stability score (higher is better, so invert)
-        scores['stability'] = max(0.0, 1.0 - metrics.stability)
+        scores["stability"] = max(0.0, 1.0 - metrics.stability)
 
         # Priority-weighted composite score
         weights = self._get_priority_weights(priority)
@@ -204,22 +192,23 @@ class ConfigChooser:
     def _get_priority_weights(self, priority: Priority) -> Dict[str, float]:
         """Get weights for different priorities."""
         if priority == Priority.ACCURACY:
-            return {'accuracy': 0.5, 'coverage': 0.3, 'latency': 0.1, 'stability': 0.1}
+            return {"accuracy": 0.5, "coverage": 0.3, "latency": 0.1, "stability": 0.1}
         elif priority == Priority.LATENCY:
-            return {'latency': 0.6, 'accuracy': 0.2, 'coverage': 0.1, 'stability': 0.1}
+            return {"latency": 0.6, "accuracy": 0.2, "coverage": 0.1, "stability": 0.1}
         elif priority == Priority.COVERAGE:
-            return {'coverage': 0.5, 'accuracy': 0.3, 'latency': 0.1, 'stability': 0.1}
+            return {"coverage": 0.5, "accuracy": 0.3, "latency": 0.1, "stability": 0.1}
         elif priority == Priority.STABILITY:
-            return {'stability': 0.5, 'accuracy': 0.3, 'latency': 0.1, 'coverage': 0.1}
+            return {"stability": 0.5, "accuracy": 0.3, "latency": 0.1, "coverage": 0.1}
         else:  # BALANCED
-            return {'accuracy': 0.3, 'latency': 0.3, 'coverage': 0.2, 'stability': 0.2}
+            return {"accuracy": 0.3, "latency": 0.3, "coverage": 0.2, "stability": 0.2}
 
-    def recommend_config(self, benchmark_path: str, environment: Environment,
-                        priority: Priority = Priority.BALANCED) -> Dict[str, Any]:
+    def recommend_config(
+        self, benchmark_path: str, environment: Environment, priority: Priority = Priority.BALANCED
+    ) -> Dict[str, Any]:
         """Recommend best configuration based on benchmark results."""
         # Load benchmark results
-        with open(benchmark_path, 'r') as f:
-            if benchmark_path.endswith('.jsonl'):
+        with open(benchmark_path, "r") as f:
+            if benchmark_path.endswith(".jsonl"):
                 results = []
                 for line in f:
                     line = line.strip()
@@ -235,16 +224,19 @@ class ConfigChooser:
             return {"error": "No valid benchmark results found"}
 
         # Find relevant profiles
-        relevant_profiles = [p for p in self.profiles
-                           if p.environment == environment or
-                              (p.priority == priority and p.environment in [Environment.PRODUCTION, Environment.STAGING])]
+        relevant_profiles = [
+            p
+            for p in self.profiles
+            if p.environment == environment
+            or (p.priority == priority and p.environment in [Environment.PRODUCTION, Environment.STAGING])
+        ]
 
         if not relevant_profiles:
             # Fallback: use balanced production profile
             relevant_profiles = [p for p in self.profiles if p.name == "staging_balanced"]
 
         best_config = None
-        best_score = float('inf')
+        best_score = float("inf")
         best_profile = None
         all_scores = {}
 
@@ -254,11 +246,7 @@ class ConfigChooser:
 
             for profile in relevant_profiles:
                 score, breakdown = self.score_config(metrics, profile)
-                config_scores[profile.name] = {
-                    'score': score,
-                    'breakdown': breakdown,
-                    'profile': profile
-                }
+                config_scores[profile.name] = {"score": score, "breakdown": breakdown, "profile": profile}
 
                 if score < best_score:
                     best_score = score
@@ -276,22 +264,25 @@ class ConfigChooser:
             "priority": priority.value,
             "config_details": best_profile.config if best_profile else {},
             "rationale": best_profile.rationale if best_profile else "No suitable profile found",
-            "performance_prediction": metrics_by_config.get(best_config).__dict__ if best_config in metrics_by_config else {},
-            "alternatives": []
+            "performance_prediction": (
+                metrics_by_config.get(best_config).__dict__ if best_config in metrics_by_config else {}
+            ),
+            "alternatives": [],
         }
 
         # Add top 3 alternatives
-        sorted_configs = sorted(all_scores.items(),
-                               key=lambda x: min(s['score'] for s in x[1].values()))
+        sorted_configs = sorted(all_scores.items(), key=lambda x: min(s["score"] for s in x[1].values()))
 
         for config_key, scores in sorted_configs[1:4]:  # Skip best (first)
-            best_profile_for_config = min(scores.values(), key=lambda x: x['score'])
-            recommendation["alternatives"].append({
-                "config": config_key,
-                "profile": best_profile_for_config['profile'].name,
-                "score": best_profile_for_config['score'],
-                "rationale": best_profile_for_config['profile'].rationale
-            })
+            best_profile_for_config = min(scores.values(), key=lambda x: x["score"])
+            recommendation["alternatives"].append(
+                {
+                    "config": config_key,
+                    "profile": best_profile_for_config["profile"].name,
+                    "score": best_profile_for_config["score"],
+                    "rationale": best_profile_for_config["profile"].rationale,
+                }
+            )
 
         return recommendation
 
@@ -301,19 +292,19 @@ class ConfigChooser:
         warnings = []
 
         # Check required parameters
-        required = ['strategy', 'use_objective']
+        required = ["strategy", "use_objective"]
         for param in required:
             if param not in config:
                 issues.append(f"Missing required parameter: {param}")
 
         # Validate ranges
         ranges = {
-            'alignment_threshold': (0.0, 1.0),
-            'drift_threshold': (0.0, 1.0),
-            'confidence_threshold': (0.0, 1.0),
-            'hybrid_alpha': (0.0, 1.0),
-            'max_age_sec': (0, 3600),  # Max 1 hour
-            'half_life_sec': (0, 1800)  # Max 30 minutes
+            "alignment_threshold": (0.0, 1.0),
+            "drift_threshold": (0.0, 1.0),
+            "confidence_threshold": (0.0, 1.0),
+            "hybrid_alpha": (0.0, 1.0),
+            "max_age_sec": (0, 3600),  # Max 1 hour
+            "half_life_sec": (0, 1800),  # Max 30 minutes
         }
 
         for param, (min_val, max_val) in ranges.items():
@@ -323,22 +314,19 @@ class ConfigChooser:
                     issues.append(f"{param} must be between {min_val} and {max_val}")
 
         # Validate strategy
-        valid_strategies = ['overlap', 'cosine', 'blend', 'switch', 'vote']
-        if config.get('strategy') not in valid_strategies:
+        valid_strategies = ["overlap", "cosine", "blend", "switch", "vote"]
+        if config.get("strategy") not in valid_strategies:
             issues.append(f"strategy must be one of: {valid_strategies}")
 
         # Warnings for potentially problematic combinations
-        if config.get('max_age_sec', 0) > 0 and config.get('half_life_sec', 0) == 0:
+        if config.get("max_age_sec", 0) > 0 and config.get("half_life_sec", 0) == 0:
             warnings.append("Staleness filtering enabled without temporal weighting")
 
-        if config.get('strategy') == 'blend' and 'hybrid_alpha' not in config:
+        if config.get("strategy") == "blend" and "hybrid_alpha" not in config:
             warnings.append("Blend strategy without hybrid_alpha parameter")
 
-        return {
-            "valid": len(issues) == 0,
-            "issues": issues,
-            "warnings": warnings
-        }
+        return {"valid": len(issues) == 0, "issues": issues, "warnings": warnings}
+
 
 def load_and_recommend(benchmark_path: str, environment: str, priority: str = "balanced") -> Dict[str, Any]:
     """Load benchmark results and generate recommendation."""
@@ -350,6 +338,7 @@ def load_and_recommend(benchmark_path: str, environment: str, priority: str = "b
 
     chooser = ConfigChooser()
     return chooser.recommend_config(benchmark_path, env, prio)
+
 
 if __name__ == "__main__":
     import sys
@@ -379,12 +368,12 @@ if __name__ == "__main__":
         print(f"Rationale: {recommendation['rationale']}")
 
         print("\nConfiguration:")
-        for key, value in recommendation['config_details'].items():
+        for key, value in recommendation["config_details"].items():
             print(f"  {key}: {value}")
 
-        if recommendation['alternatives']:
+        if recommendation["alternatives"]:
             print("\nAlternatives:")
-            for alt in recommendation['alternatives']:
+            for alt in recommendation["alternatives"]:
                 print(f"  {alt['config']} ({alt['profile']}) - score: {alt['score']:.3f}")
 
     except Exception as e:

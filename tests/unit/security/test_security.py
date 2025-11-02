@@ -20,12 +20,9 @@ class TestSecurityValidator:
     def validator(self):
         return SecurityValidator()
 
-    @pytest.mark.parametrize("content", [
-        "<script>alert('XSS')</script>",
-        "javascript:alert('pwned')",
-        "eval('1+1')",
-        "DROP TABLE users;"
-    ])
+    @pytest.mark.parametrize(
+        "content", ["<script>alert('XSS')</script>", "javascript:alert('pwned')", "eval('1+1')", "DROP TABLE users;"]
+    )
     def test_detects_dangerous_patterns(self, validator: SecurityValidator, content: str):
         """Tests that dangerous patterns are correctly identified."""
         issues = validator.validate_content_security(content)

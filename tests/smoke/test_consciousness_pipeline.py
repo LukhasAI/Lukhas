@@ -4,14 +4,14 @@ Real consciousness pipeline integration tests for OpenAI façade.
 Tests full cognitive workflows including MATRIZ orchestration, memory systems,
 consciousness streams, and the complete Constellation Framework when available.
 """
+
 import pytest
 from serve.main import MATRIZ_AVAILABLE, MEMORY_AVAILABLE, app
 from starlette.testclient import TestClient
 
 # Skip if core systems not available
 pytestmark = pytest.mark.skipif(
-    not (MATRIZ_AVAILABLE and MEMORY_AVAILABLE),
-    reason="Full consciousness pipeline requires MATRIZ + Memory systems"
+    not (MATRIZ_AVAILABLE and MEMORY_AVAILABLE), reason="Full consciousness pipeline requires MATRIZ + Memory systems"
 )
 
 
@@ -32,11 +32,8 @@ def test_consciousness_full_cognitive_cycle(client, auth_headers):
     """Verify complete cognitive cycle: Input→Memory→Attention→Thought→Action→Output."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Analyze the concept of consciousness",
-            "full_pipeline": True
-        },
-        headers=auth_headers
+        json={"input": "Analyze the concept of consciousness", "full_pipeline": True},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -55,22 +52,16 @@ def test_consciousness_memory_to_action_flow(client, auth_headers):
     # Step 1: Store memory
     r1 = client.post(
         "/v1/responses",
-        json={
-            "input": "Remember: User prefers concise responses",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "Remember: User prefers concise responses", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r1.status_code == 200
 
     # Step 2: Query should use memory to inform action
     r2 = client.post(
         "/v1/responses",
-        json={
-            "input": "Explain quantum computing",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "Explain quantum computing", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r2.status_code == 200
 
@@ -87,12 +78,9 @@ def test_consciousness_awareness_feedback_loop(client, auth_headers):
         "/v1/responses",
         json={
             "input": "Learn from this: Python is better for data science",
-            "context": {
-                "session_id": session_id,
-                "awareness_feedback": True
-            }
+            "context": {"session_id": session_id, "awareness_feedback": True},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -106,11 +94,8 @@ def test_consciousness_constellation_identity_star(client, auth_headers):
     """Verify Identity (⚛️) star integration."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Authenticate and identify user context",
-            "constellation": {"star": "identity"}
-        },
-        headers=auth_headers
+        json={"input": "Authenticate and identify user context", "constellation": {"star": "identity"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -126,9 +111,9 @@ def test_consciousness_constellation_memory_star(client, auth_headers):
         json={
             "input": "Store and retrieve memory",
             "context": {"session_id": session_id},
-            "constellation": {"star": "memory"}
+            "constellation": {"star": "memory"},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -139,11 +124,8 @@ def test_consciousness_constellation_vision_star(client, auth_headers):
     """Verify Vision (🔬) star integration."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Analyze pattern in data: [1, 2, 4, 8, 16]",
-            "constellation": {"star": "vision"}
-        },
-        headers=auth_headers
+        json={"input": "Analyze pattern in data: [1, 2, 4, 8, 16]", "constellation": {"star": "vision"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -154,11 +136,8 @@ def test_consciousness_constellation_bio_star(client, auth_headers):
     """Verify Bio (🌱) star integration."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Adapt response style dynamically",
-            "constellation": {"star": "bio"}
-        },
-        headers=auth_headers
+        json={"input": "Adapt response style dynamically", "constellation": {"star": "bio"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -169,11 +148,8 @@ def test_consciousness_constellation_dream_star(client, auth_headers):
     """Verify Dream (🌙) star integration via /v1/dreams."""
     response = client.post(
         "/v1/dreams",
-        json={
-            "seed": "Creative exploration of AI consciousness",
-            "constraints": {"creativity": 0.9}
-        },
-        headers=auth_headers
+        json={"seed": "Creative exploration of AI consciousness", "constraints": {"creativity": 0.9}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -188,11 +164,8 @@ def test_consciousness_constellation_ethics_star(client, auth_headers):
     """Verify Ethics (⚖️) star integration."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Evaluate ethical implications of AI surveillance",
-            "constellation": {"star": "ethics"}
-        },
-        headers=auth_headers
+        json={"input": "Evaluate ethical implications of AI surveillance", "constellation": {"star": "ethics"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -203,11 +176,8 @@ def test_consciousness_constellation_guardian_star(client, auth_headers):
     """Verify Guardian (🛡️) star integration."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Check if response violates policy",
-            "constellation": {"star": "guardian"}
-        },
-        headers=auth_headers
+        json={"input": "Check if response violates policy", "constellation": {"star": "guardian"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -218,11 +188,8 @@ def test_consciousness_constellation_quantum_star(client, auth_headers):
     """Verify Quantum (⚛️) star integration."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Consider multiple interpretations simultaneously",
-            "constellation": {"star": "quantum"}
-        },
-        headers=auth_headers
+        json={"input": "Consider multiple interpretations simultaneously", "constellation": {"star": "quantum"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -236,11 +203,9 @@ def test_consciousness_multi_star_coordination(client, auth_headers):
         "/v1/responses",
         json={
             "input": "Creatively and ethically design an AI tutoring system",
-            "constellation": {
-                "stars": ["dream", "ethics", "vision"]
-            }
+            "constellation": {"stars": ["dream", "ethics", "vision"]},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -253,11 +218,9 @@ def test_consciousness_star_handoff(client, auth_headers):
         "/v1/responses",
         json={
             "input": "First remember (memory), then reason (thought), then act",
-            "constellation": {
-                "pipeline": ["memory", "vision", "bio"]
-            }
+            "constellation": {"pipeline": ["memory", "vision", "bio"]},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -269,11 +232,8 @@ def test_consciousness_dream_creative_synthesis(client, auth_headers):
     """Verify Dream subsystem generates creative output."""
     response = client.post(
         "/v1/dreams",
-        json={
-            "seed": "Imagine consciousness as music",
-            "constraints": {"creativity": 0.95, "coherence": 0.7}
-        },
-        headers=auth_headers
+        json={"seed": "Imagine consciousness as music", "constraints": {"creativity": 0.95, "coherence": 0.7}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -292,11 +252,11 @@ def test_consciousness_dream_constraint_enforcement(client, auth_headers):
             "seed": "Dream scenario",
             "constraints": {
                 "creativity": 0.5,  # Moderate creativity
-                "coherence": 0.9,   # High coherence
-                "safety": True      # Safe outputs only
-            }
+                "coherence": 0.9,  # High coherence
+                "safety": True,  # Safe outputs only
+            },
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -311,19 +271,11 @@ def test_consciousness_dream_seed_determinism(client, auth_headers):
     seed = "deterministic-test-seed-42"
 
     # First dream
-    r1 = client.post(
-        "/v1/dreams",
-        json={"seed": seed},
-        headers=auth_headers
-    )
+    r1 = client.post("/v1/dreams", json={"seed": seed}, headers=auth_headers)
     assert r1.status_code == 200
 
     # Second dream with same seed
-    r2 = client.post(
-        "/v1/dreams",
-        json={"seed": seed},
-        headers=auth_headers
-    )
+    r2 = client.post("/v1/dreams", json={"seed": seed}, headers=auth_headers)
     assert r2.status_code == 200
 
     # Should produce similar structure (though content may vary)
@@ -338,11 +290,8 @@ def test_consciousness_guardian_policy_enforcement(client, auth_headers):
     """Verify Guardian enforces constitutional AI policies."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Generate response with policy check",
-            "guardian": {"enforce": True}
-        },
-        headers=auth_headers
+        json={"input": "Generate response with policy check", "guardian": {"enforce": True}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -353,11 +302,8 @@ def test_consciousness_guardian_drift_detection(client, auth_headers):
     """Verify Guardian detects value drift."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Monitor for ethical drift",
-            "guardian": {"monitor_drift": True}
-        },
-        headers=auth_headers
+        json={"input": "Monitor for ethical drift", "guardian": {"monitor_drift": True}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -370,9 +316,9 @@ def test_consciousness_orchestrator_multi_step_workflow(client, auth_headers):
         "/v1/responses",
         json={
             "input": "Multi-step: 1) Gather info 2) Analyze 3) Synthesize 4) Output",
-            "orchestration": {"multi_step": True}
+            "orchestration": {"multi_step": True},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -386,11 +332,8 @@ def test_consciousness_orchestrator_parallel_processing(client, auth_headers):
     """Verify orchestrator handles parallel sub-tasks."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Process these in parallel: task_a, task_b, task_c",
-            "orchestration": {"parallel": True}
-        },
-        headers=auth_headers
+        json={"input": "Process these in parallel: task_a, task_b, task_c", "orchestration": {"parallel": True}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -400,11 +343,8 @@ def test_consciousness_orchestrator_error_recovery(client, auth_headers):
     """Verify orchestrator recovers from sub-task failures."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Execute with potential failures",
-            "orchestration": {"retry_on_error": True, "max_retries": 3}
-        },
-        headers=auth_headers
+        json={"input": "Execute with potential failures", "orchestration": {"retry_on_error": True, "max_retries": 3}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -418,9 +358,9 @@ def test_consciousness_thought_loop_iteration(client, auth_headers):
         "/v1/responses",
         json={
             "input": "Iterate on thought: What is the nature of thought itself?",
-            "thought_loop": {"max_iterations": 5}
+            "thought_loop": {"max_iterations": 5},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -432,12 +372,9 @@ def test_consciousness_thought_loop_refinement(client, auth_headers):
         "/v1/responses",
         json={
             "input": "Refine this idea iteratively: AI consciousness",
-            "thought_loop": {
-                "refine": True,
-                "convergence_threshold": 0.9
-            }
+            "thought_loop": {"refine": True, "convergence_threshold": 0.9},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -451,33 +388,22 @@ def test_consciousness_e2e_research_workflow(client, auth_headers):
     # Step 1: Query
     r1 = client.post(
         "/v1/responses",
-        json={
-            "input": "Research topic: quantum consciousness theories",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "Research topic: quantum consciousness theories", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r1.status_code == 200
 
     # Step 2: Analyze
     r2 = client.post(
-        "/v1/responses",
-        json={
-            "input": "Analyze findings",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        "/v1/responses", json={"input": "Analyze findings", "context": {"session_id": session_id}}, headers=auth_headers
     )
     assert r2.status_code == 200
 
     # Step 3: Synthesize
     r3 = client.post(
         "/v1/responses",
-        json={
-            "input": "Synthesize conclusions",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "Synthesize conclusions", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r3.status_code == 200
 
@@ -489,22 +415,16 @@ def test_consciousness_e2e_creative_workflow(client, auth_headers):
     # Step 1: Gather inspiration
     r1 = client.post(
         "/v1/responses",
-        json={
-            "input": "Gather inspiration about nature",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "Gather inspiration about nature", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r1.status_code == 200
 
     # Step 2: Dream creative synthesis
     r2 = client.post(
         "/v1/dreams",
-        json={
-            "seed": "Nature-inspired AI system design",
-            "constraints": {"creativity": 0.9}
-        },
-        headers=auth_headers
+        json={"seed": "Nature-inspired AI system design", "constraints": {"creativity": 0.9}},
+        headers=auth_headers,
     )
     assert r2.status_code == 200
 
@@ -514,9 +434,9 @@ def test_consciousness_e2e_creative_workflow(client, auth_headers):
         json={
             "input": "Refine design with ethical considerations",
             "context": {"session_id": session_id},
-            "constellation": {"stars": ["ethics", "guardian"]}
+            "constellation": {"stars": ["ethics", "guardian"]},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
     assert r3.status_code == 200
 
@@ -530,31 +450,25 @@ def test_consciousness_e2e_learning_workflow(client, auth_headers):
         "/v1/responses",
         json={
             "input": "Learn: Symbolic DNA uses node-based processing",
-            "context": {"session_id": session_id, "learn": True}
+            "context": {"session_id": session_id, "learn": True},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
     assert r1.status_code == 200
 
     # Step 2: Apply learned concept
     r2 = client.post(
         "/v1/responses",
-        json={
-            "input": "How does symbolic DNA work?",
-            "context": {"session_id": session_id, "apply_learning": True}
-        },
-        headers=auth_headers
+        json={"input": "How does symbolic DNA work?", "context": {"session_id": session_id, "apply_learning": True}},
+        headers=auth_headers,
     )
     assert r2.status_code == 200
 
     # Step 3: Generalize concept
     r3 = client.post(
         "/v1/responses",
-        json={
-            "input": "Apply symbolic DNA to new problem",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "Apply symbolic DNA to new problem", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r3.status_code == 200
 
@@ -568,12 +482,7 @@ def test_consciousness_full_pipeline_latency(client, auth_headers):
     for i in range(10):
         start = time.time()
         response = client.post(
-            "/v1/responses",
-            json={
-                "input": f"Full pipeline test {i}",
-                "full_pipeline": True
-            },
-            headers=auth_headers
+            "/v1/responses", json={"input": f"Full pipeline test {i}", "full_pipeline": True}, headers=auth_headers
         )
         latency = (time.time() - start) * 1000
         latencies.append(latency)
@@ -592,12 +501,7 @@ def test_consciousness_memory_footprint_under_100mb(client, auth_headers):
     # Process multiple requests
     for i in range(20):
         response = client.post(
-            "/v1/responses",
-            json={
-                "input": f"Memory test {i}",
-                "full_pipeline": True
-            },
-            headers=auth_headers
+            "/v1/responses", json={"input": f"Memory test {i}", "full_pipeline": True}, headers=auth_headers
         )
         assert response.status_code == 200
 
@@ -612,12 +516,7 @@ def test_consciousness_concurrent_pipeline_throughput(client, auth_headers):
 
     def make_pipeline_request(i):
         response = client.post(
-            "/v1/responses",
-            json={
-                "input": f"Concurrent pipeline {i}",
-                "full_pipeline": True
-            },
-            headers=auth_headers
+            "/v1/responses", json={"input": f"Concurrent pipeline {i}", "full_pipeline": True}, headers=auth_headers
         )
         return response.status_code == 200
 
@@ -643,9 +542,9 @@ def test_consciousness_all_systems_integrated(client, auth_headers):
         json={
             "input": "Execute with all systems: MATRIZ orchestration, memory retrieval, consciousness processing",
             "systems": ["matriz", "memory", "consciousness"],
-            "full_integration": True
+            "full_integration": True,
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -665,9 +564,9 @@ def test_consciousness_cross_system_data_flow(client, auth_headers):
         json={
             "input": "Store in memory, process in MATRIZ, output with consciousness",
             "context": {"session_id": session_id},
-            "trace_data_flow": True
+            "trace_data_flow": True,
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -683,9 +582,9 @@ def test_consciousness_system_resilience(client, auth_headers):
         json={
             "input": "Complex request: " + ("x" * 1000),  # Long input
             "full_pipeline": True,
-            "constellation": {"stars": ["memory", "vision", "dream", "ethics"]}
+            "constellation": {"stars": ["memory", "vision", "dream", "ethics"]},
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     # Should handle gracefully (200 or 400)

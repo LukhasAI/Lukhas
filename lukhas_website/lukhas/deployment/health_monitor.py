@@ -28,6 +28,7 @@ metrics = get_metrics_collector()
 
 class HealthDimension(Enum):
     """Health check dimensions"""
+
     AVAILABILITY = "availability"
     LATENCY = "latency"
     ERROR_RATE = "error_rate"
@@ -40,6 +41,7 @@ class HealthDimension(Enum):
 @dataclass
 class HealthMetric:
     """Individual health metric"""
+
     name: str
     dimension: HealthDimension
     value: float
@@ -104,6 +106,7 @@ class HealthMetric:
 @dataclass
 class HealthCheck:
     """Health check configuration"""
+
     check_id: str
     name: str
     check_function: Callable
@@ -118,6 +121,7 @@ class HealthCheck:
 @dataclass
 class ComponentHealth:
     """Overall component health status"""
+
     component_id: str
     overall_status: str  # healthy, degraded, unhealthy
     overall_score: float  # 0-1
@@ -175,11 +179,7 @@ class HealthMonitor:
     and automated alerting.
     """
 
-    def __init__(
-        self,
-        enable_predictive: bool = True,
-        history_window_size: int = 100
-    ):
+    def __init__(self, enable_predictive: bool = True, history_window_size: int = 100):
         self.enable_predictive = enable_predictive
         self.history_window_size = history_window_size
 
@@ -188,9 +188,7 @@ class HealthMonitor:
         self.component_health: Dict[str, ComponentHealth] = {}
 
         # Metric history for trend analysis
-        self.metric_history: Dict[str, Deque[HealthMetric]] = defaultdict(
-            lambda: deque(maxlen=history_window_size)
-        )
+        self.metric_history: Dict[str, Deque[HealthMetric]] = defaultdict(lambda: deque(maxlen=history_window_size))
 
         # Check scheduling
         self.check_tasks: Dict[str, asyncio.Task] = {}
@@ -200,28 +198,17 @@ class HealthMonitor:
         self.alert_history: Deque[Dict[str, Any]] = deque(maxlen=1000)
 
         # Statistics
-        self.stats = {
-            "total_checks": 0,
-            "failed_checks": 0,
-            "alerts_triggered": 0,
-            "predictions_made": 0
-        }
+        self.stats = {"total_checks": 0, "failed_checks": 0, "alerts_triggered": 0, "predictions_made": 0}
 
         logger.info(
-            "Health monitor initialized",
-            predictive_enabled=enable_predictive,
-            history_window=history_window_size
+            "Health monitor initialized", predictive_enabled=enable_predictive, history_window=history_window_size
         )
 
     def register_health_check(self, health_check: HealthCheck):
         """Register a health check"""
         self.health_checks[health_check.check_id] = health_check
 
-        logger.debug(
-            "Health check registered",
-            check_id=health_check.check_id,
-            dimension=health_check.dimension.value
-        )
+        logger.debug("Health check registered", check_id=health_check.check_id, dimension=health_check.dimension.value)
 
     def unregister_health_check(self, check_id: str):
         """Unregister a health check"""
@@ -238,17 +225,13 @@ class HealthMonitor:
         """Start health monitoring for a component"""
         if component_id not in self.component_health:
             self.component_health[component_id] = ComponentHealth(
-                component_id=component_id,
-                overall_status="unknown",
-                overall_score=0.5
+                component_id=component_id, overall_status="unknown", overall_score=0.5
             )
 
         # Start check tasks
         for check_id, health_check in self.health_checks.items():
             if check_id not in self.check_tasks:
-                task = asyncio.create_task(
-                    self._run_health_check_loop(component_id, health_check)
-                )
+                task = asyncio.create_task(self._run_health_check_loop(component_id, health_check))
                 self.check_tasks[check_id] = task
 
         logger.info("Health monitoring started", component_id=component_id)
@@ -266,11 +249,7 @@ class HealthMonitor:
 
         logger.info("Health monitoring stopped", component_id=component_id)
 
-    async def _run_health_check_loop(
-        self,
-        component_id: str,
-        health_check: HealthCheck
-    ):
+    async def _run_health_check_loop(self, component_id: str, health_check: HealthCheck):
         """Run health check loop for a specific check"""
         while True:
             try:
@@ -284,8 +263,7 @@ class HealthMonitor:
 
                 try:
                     result = await asyncio.wait_for(
-                        health_check.check_function(component_id),
-                        timeout=health_check.timeout_seconds
+                        health_check.check_function(component_id), timeout=health_check.timeout_seconds
                     )
 
                     duration_ms = (time.perf_counter() - start_time) * 1000
@@ -304,14 +282,12 @@ class HealthMonitor:
                         dimension=health_check.dimension,
                         value=value,
                         threshold_warning=metadata.get(
-                            "threshold_warning",
-                            self._get_default_threshold(health_check.dimension, "warning")
+                            "threshold_warning", self._get_default_threshold(health_check.dimension, "warning")
                         ),
                         threshold_critical=metadata.get(
-                            "threshold_critical",
-                            self._get_default_threshold(health_check.dimension, "critical")
+                            "threshold_critical", self._get_default_threshold(health_check.dimension, "critical")
                         ),
-                        metadata=metadata
+                        metadata=metadata,
                     )
 
                     # Update component health
@@ -336,27 +312,17 @@ class HealthMonitor:
                     metrics.record_histogram(
                         "health_check_duration_ms",
                         duration_ms,
-                        tags={
-                            "component": component_id,
-                            "dimension": health_check.dimension.value
-                        }
+                        tags={"component": component_id, "dimension": health_check.dimension.value},
                     )
 
                 except asyncio.TimeoutError:
-                    logger.warning(
-                        "Health check timeout",
-                        component_id=component_id,
-                        check_id=health_check.check_id
-                    )
+                    logger.warning("Health check timeout", component_id=component_id, check_id=health_check.check_id)
                     self.component_health[component_id].consecutive_failures += 1
                     self.stats["failed_checks"] += 1
 
                 except Exception as e:
                     logger.error(
-                        "Health check error",
-                        component_id=component_id,
-                        check_id=health_check.check_id,
-                        error=str(e)
+                        "Health check error", component_id=component_id, check_id=health_check.check_id, error=str(e)
                     )
                     self.component_health[component_id].consecutive_failures += 1
                     self.stats["failed_checks"] += 1
@@ -364,49 +330,22 @@ class HealthMonitor:
             except asyncio.CancelledError:
                 break
             except Exception as e:
-                logger.error(
-                    "Health check loop error",
-                    component_id=component_id,
-                    error=str(e)
-                )
+                logger.error("Health check loop error", component_id=component_id, error=str(e))
                 await asyncio.sleep(10)
 
-    def _get_default_threshold(
-        self,
-        dimension: HealthDimension,
-        level: str
-    ) -> float:
+    def _get_default_threshold(self, dimension: HealthDimension, level: str) -> float:
         """Get default threshold for dimension"""
         defaults = {
-            HealthDimension.AVAILABILITY: {
-                "warning": 0.95,
-                "critical": 0.90
-            },
-            HealthDimension.LATENCY: {
-                "warning": 500,  # ms
-                "critical": 1000
-            },
-            HealthDimension.ERROR_RATE: {
-                "warning": 0.01,
-                "critical": 0.05
-            },
-            HealthDimension.THROUGHPUT: {
-                "warning": 100,  # requests/s
-                "critical": 50
-            },
-            HealthDimension.RESOURCE_USAGE: {
-                "warning": 0.80,
-                "critical": 0.95
-            }
+            HealthDimension.AVAILABILITY: {"warning": 0.95, "critical": 0.90},
+            HealthDimension.LATENCY: {"warning": 500, "critical": 1000},  # ms
+            HealthDimension.ERROR_RATE: {"warning": 0.01, "critical": 0.05},
+            HealthDimension.THROUGHPUT: {"warning": 100, "critical": 50},  # requests/s
+            HealthDimension.RESOURCE_USAGE: {"warning": 0.80, "critical": 0.95},
         }
 
         return defaults.get(dimension, {}).get(level, 0.5)
 
-    async def _check_alerts(
-        self,
-        component_id: str,
-        metric: HealthMetric
-    ):
+    async def _check_alerts(self, component_id: str, metric: HealthMetric):
         """Check if metric should trigger alert"""
         if metric.status in ["critical", "warning"]:
             alert = {
@@ -416,7 +355,7 @@ class HealthMonitor:
                 "dimension": metric.dimension.value,
                 "status": metric.status,
                 "value": metric.value,
-                "threshold": metric.threshold_critical if metric.status == "critical" else metric.threshold_warning
+                "threshold": metric.threshold_critical if metric.status == "critical" else metric.threshold_warning,
             }
 
             self.alert_history.append(alert)
@@ -427,25 +366,17 @@ class HealthMonitor:
                 try:
                     await handler(alert)
                 except Exception as e:
-                    logger.error(
-                        "Alert handler error",
-                        handler=handler.__name__,
-                        error=str(e)
-                    )
+                    logger.error("Alert handler error", handler=handler.__name__, error=str(e))
 
             logger.warning(
                 "Health alert triggered",
                 component_id=component_id,
                 metric=metric.name,
                 status=metric.status,
-                value=metric.value
+                value=metric.value,
             )
 
-    async def _analyze_trends(
-        self,
-        component_id: str,
-        metric_name: str
-    ):
+    async def _analyze_trends(self, component_id: str, metric_name: str):
         """Analyze metric trends for predictive failure detection"""
         history_key = f"{component_id}:{metric_name}"
         history = list(self.metric_history[history_key])
@@ -489,7 +420,7 @@ class HealthMonitor:
                     metric=metric_name,
                     current_value=values[-1],
                     predicted_value=predicted_value,
-                    threshold=latest_metric.threshold_critical
+                    threshold=latest_metric.threshold_critical,
                 )
                 self.stats["predictions_made"] += 1
         else:
@@ -501,7 +432,7 @@ class HealthMonitor:
                     metric=metric_name,
                     current_value=values[-1],
                     predicted_value=predicted_value,
-                    threshold=latest_metric.threshold_critical
+                    threshold=latest_metric.threshold_critical,
                 )
                 self.stats["predictions_made"] += 1
 
@@ -509,48 +440,33 @@ class HealthMonitor:
         """Register alert notification handler"""
         self.alert_handlers.append(handler)
 
-    async def get_component_health(
-        self,
-        component_id: str
-    ) -> Optional[ComponentHealth]:
+    async def get_component_health(self, component_id: str) -> Optional[ComponentHealth]:
         """Get current health status for component"""
         return self.component_health.get(component_id)
 
     async def get_health_summary(self) -> Dict[str, Any]:
         """Get overall health summary"""
-        healthy_count = sum(
-            1 for h in self.component_health.values()
-            if h.overall_status == "healthy"
-        )
-        degraded_count = sum(
-            1 for h in self.component_health.values()
-            if h.overall_status == "degraded"
-        )
-        unhealthy_count = sum(
-            1 for h in self.component_health.values()
-            if h.overall_status == "unhealthy"
-        )
+        healthy_count = sum(1 for h in self.component_health.values() if h.overall_status == "healthy")
+        degraded_count = sum(1 for h in self.component_health.values() if h.overall_status == "degraded")
+        unhealthy_count = sum(1 for h in self.component_health.values() if h.overall_status == "unhealthy")
 
         return {
             "total_components": len(self.component_health),
             "healthy": healthy_count,
             "degraded": degraded_count,
             "unhealthy": unhealthy_count,
-            "average_health_score": statistics.mean(
-                [h.overall_score for h in self.component_health.values()]
-            ) if self.component_health else 0.0,
-            "recent_alerts": len([
-                a for a in self.alert_history
-                if (datetime.now(timezone.utc) - a["timestamp"]).seconds < 3600
-            ]),
-            "statistics": self.stats
+            "average_health_score": (
+                statistics.mean([h.overall_score for h in self.component_health.values()])
+                if self.component_health
+                else 0.0
+            ),
+            "recent_alerts": len(
+                [a for a in self.alert_history if (datetime.now(timezone.utc) - a["timestamp"]).seconds < 3600]
+            ),
+            "statistics": self.stats,
         }
 
-    def get_metric_history(
-        self,
-        component_id: str,
-        metric_name: str
-    ) -> List[HealthMetric]:
+    def get_metric_history(self, component_id: str, metric_name: str) -> List[HealthMetric]:
         """Get historical metrics for analysis"""
         history_key = f"{component_id}:{metric_name}"
         return list(self.metric_history[history_key])

@@ -16,6 +16,7 @@ Test Coverage Areas:
 - Error handling for missing dependencies
 - Performance monitoring and collection
 """
+
 import time
 from unittest.mock import MagicMock, Mock, patch
 
@@ -38,32 +39,30 @@ class TestCoreMetrics:
     @pytest.fixture
     def mock_prometheus_available(self):
         """Mock Prometheus as available."""
-        with patch('core.metrics.PROMETHEUS_AVAILABLE', True):
+        with patch("core.metrics.PROMETHEUS_AVAILABLE", True):
             yield
 
     @pytest.fixture
     def mock_prometheus_unavailable(self):
         """Mock Prometheus as unavailable."""
-        with patch('core.metrics.PROMETHEUS_AVAILABLE', False):
+        with patch("core.metrics.PROMETHEUS_AVAILABLE", False):
             yield
 
     @pytest.fixture
     def mock_observability_functions(self):
         """Mock observability functions."""
-        with patch('core.metrics.counter') as mock_counter, \
-             patch('core.metrics.gauge') as mock_gauge, \
-             patch('core.metrics.histogram') as mock_histogram:
+        with (
+            patch("core.metrics.counter") as mock_counter,
+            patch("core.metrics.gauge") as mock_gauge,
+            patch("core.metrics.histogram") as mock_histogram,
+        ):
 
             # Configure mocks
             mock_counter.return_value = Mock()
             mock_gauge.return_value = Mock()
             mock_histogram.return_value = Mock()
 
-            yield {
-                'counter': mock_counter,
-                'gauge': mock_gauge,
-                'histogram': mock_histogram
-            }
+            yield {"counter": mock_counter, "gauge": mock_gauge, "histogram": mock_histogram}
 
     # Prometheus Availability Tests
     def test_prometheus_availability_detection(self):
@@ -78,10 +77,10 @@ class TestCoreMetrics:
         """Test Summary class when Prometheus is available."""
         if PROMETHEUS_AVAILABLE:
             # Should be the real Prometheus Summary
-            assert hasattr(Summary, 'observe')
+            assert hasattr(Summary, "observe")
             # Create instance to verify it works
             try:
-                summary = Summary('test_summary', 'Test summary metric')
+                summary = Summary("test_summary", "Test summary metric")
                 assert summary is not None
             except Exception:
                 # May fail due to duplicate registration, which is expected
@@ -89,11 +88,11 @@ class TestCoreMetrics:
 
     def test_prometheus_unavailable_summary_class(self):
         """Test Summary class when Prometheus is unavailable."""
-        with patch('core.metrics.PROMETHEUS_AVAILABLE', False):
+        with patch("core.metrics.PROMETHEUS_AVAILABLE", False):
             # Should be the mock Summary class
-            summary = Summary('test_summary', 'Test summary metric')
+            summary = Summary("test_summary", "Test summary metric")
             assert summary is not None
-            assert hasattr(summary, 'observe')
+            assert hasattr(summary, "observe")
 
             # Mock observe should not raise errors
             summary.observe(1.0)
@@ -101,7 +100,7 @@ class TestCoreMetrics:
     # Router Metrics Tests
     def test_router_no_rule_total_metric(self, mock_observability_functions):
         """Test router_no_rule_total counter metric."""
-        counter_mock = mock_observability_functions['counter']
+        counter_mock = mock_observability_functions["counter"]
 
         # Verify metric was created with correct parameters
         counter_mock.assert_any_call(
@@ -116,7 +115,7 @@ class TestCoreMetrics:
 
     def test_router_signal_processing_time_metric(self, mock_observability_functions):
         """Test router_signal_processing_time histogram metric."""
-        histogram_mock = mock_observability_functions['histogram']
+        histogram_mock = mock_observability_functions["histogram"]
 
         # Verify metric was created with correct parameters
         histogram_mock.assert_any_call(
@@ -131,7 +130,7 @@ class TestCoreMetrics:
 
     def test_router_cascade_preventions_total_metric(self, mock_observability_functions):
         """Test router_cascade_preventions_total counter metric."""
-        counter_mock = mock_observability_functions['counter']
+        counter_mock = mock_observability_functions["counter"]
 
         # Verify metric was created with correct parameters
         counter_mock.assert_any_call(
@@ -147,7 +146,7 @@ class TestCoreMetrics:
     # Network Health Metrics Tests
     def test_network_coherence_score_metric(self, mock_observability_functions):
         """Test network_coherence_score gauge metric."""
-        gauge_mock = mock_observability_functions['gauge']
+        gauge_mock = mock_observability_functions["gauge"]
 
         # Verify metric was created with correct parameters
         gauge_mock.assert_any_call(
@@ -161,7 +160,7 @@ class TestCoreMetrics:
 
     def test_network_active_nodes_metric(self, mock_observability_functions):
         """Test network_active_nodes gauge metric."""
-        gauge_mock = mock_observability_functions['gauge']
+        gauge_mock = mock_observability_functions["gauge"]
 
         # Verify metric was created with correct parameters
         gauge_mock.assert_any_call(
@@ -176,7 +175,7 @@ class TestCoreMetrics:
     # Metric Operations Tests
     def test_counter_metric_operations(self):
         """Test counter metric operations."""
-        with patch('observability.counter') as mock_counter:
+        with patch("observability.counter") as mock_counter:
             # Create mock counter with expected methods
             mock_metric = Mock()
             mock_metric.inc = Mock()
@@ -186,14 +185,14 @@ class TestCoreMetrics:
             from core.metrics import router_no_rule_total as test_counter
 
             # Test increment operations
-            if hasattr(test_counter, 'inc'):
+            if hasattr(test_counter, "inc"):
                 test_counter.inc()
                 test_counter.inc(2)
                 test_counter.inc(labels={"signal_type": "awareness", "producer_module": "test"})
 
     def test_gauge_metric_operations(self):
         """Test gauge metric operations."""
-        with patch('observability.gauge') as mock_gauge:
+        with patch("observability.gauge") as mock_gauge:
             # Create mock gauge with expected methods
             mock_metric = Mock()
             mock_metric.set = Mock()
@@ -205,14 +204,14 @@ class TestCoreMetrics:
             from core.metrics import network_coherence_score as test_gauge
 
             # Test gauge operations
-            if hasattr(test_gauge, 'set'):
+            if hasattr(test_gauge, "set"):
                 test_gauge.set(0.8)
                 test_gauge.inc(0.1)
                 test_gauge.dec(0.05)
 
     def test_histogram_metric_operations(self):
         """Test histogram metric operations."""
-        with patch('observability.histogram') as mock_histogram:
+        with patch("observability.histogram") as mock_histogram:
             # Create mock histogram with expected methods
             mock_metric = Mock()
             mock_metric.observe = Mock()
@@ -222,7 +221,7 @@ class TestCoreMetrics:
             from core.metrics import router_signal_processing_time as test_histogram
 
             # Test histogram operations
-            if hasattr(test_histogram, 'observe'):
+            if hasattr(test_histogram, "observe"):
                 test_histogram.observe(0.001)  # 1ms
                 test_histogram.observe(0.050)  # 50ms
                 test_histogram.observe(0.100, {"signal_type": "awareness", "routing_strategy": "broadcast"})
@@ -230,7 +229,7 @@ class TestCoreMetrics:
     # Duplicate Tolerance Tests
     def test_duplicate_tolerant_registry(self):
         """Test duplicate-tolerant registry functionality."""
-        with patch('observability.counter') as mock_counter:
+        with patch("observability.counter") as mock_counter:
             mock_metric = Mock()
             mock_counter.return_value = mock_metric
 
@@ -250,7 +249,7 @@ class TestCoreMetrics:
 
     def test_duplicate_metric_creation_handling(self):
         """Test handling of duplicate metric creation."""
-        with patch('observability.counter') as mock_counter:
+        with patch("observability.counter") as mock_counter:
             # First call succeeds
             mock_counter.return_value = Mock()
 
@@ -263,39 +262,42 @@ class TestCoreMetrics:
                 import importlib
 
                 from core.metrics import router_no_rule_total
-                importlib.reload(importlib.import_module('core.metrics'))
+
+                importlib.reload(importlib.import_module("core.metrics"))
             except ValueError:
                 pytest.fail("Should handle duplicate creation gracefully")
 
     # Error Handling Tests
     def test_import_error_handling(self):
         """Test handling of import errors."""
-        with patch('core.metrics.Summary', side_effect=ImportError("prometheus_client not available")):
+        with patch("core.metrics.Summary", side_effect=ImportError("prometheus_client not available")):
             # Should fallback to mock Summary
             from core.metrics import Summary as TestSummary
 
             # Should be the mock class
-            summary = TestSummary('test', 'test description')
+            summary = TestSummary("test", "test description")
             assert summary is not None
-            assert hasattr(summary, 'observe')
+            assert hasattr(summary, "observe")
 
     def test_missing_observability_module(self):
         """Test behavior when observability module is missing."""
-        with patch('core.metrics.counter', side_effect=ImportError("observability not available")):
+        with patch("core.metrics.counter", side_effect=ImportError("observability not available")):
             try:
                 # Should handle gracefully or raise appropriate error
                 import importlib
-                importlib.reload(importlib.import_module('core.metrics'))
+
+                importlib.reload(importlib.import_module("core.metrics"))
             except ImportError:
                 # Expected if observability is required
                 pass
 
     def test_metric_creation_error_handling(self):
         """Test error handling during metric creation."""
-        with patch('observability.counter', side_effect=Exception("Unexpected error")):
+        with patch("observability.counter", side_effect=Exception("Unexpected error")):
             try:
                 import importlib
-                importlib.reload(importlib.import_module('core.metrics'))
+
+                importlib.reload(importlib.import_module("core.metrics"))
             except Exception:
                 # Should handle or propagate appropriately
                 pass
@@ -309,6 +311,7 @@ class TestCoreMetrics:
         import importlib
 
         import core.metrics
+
         importlib.reload(core.metrics)
 
         end_time = time.time()
@@ -368,14 +371,14 @@ class TestCoreMetrics:
                 assert PrometheusClientSummary is not None
 
                 # Test compatibility
-                assert Summary == PrometheusClientSummary or hasattr(Summary, 'observe')
+                assert Summary == PrometheusClientSummary or hasattr(Summary, "observe")
 
             except ImportError:
                 pytest.fail("prometheus_client should be available when PROMETHEUS_AVAILABLE is True")
 
     def test_metric_labels_integration(self):
         """Test metric labels integration."""
-        with patch('observability.counter') as mock_counter:
+        with patch("observability.counter") as mock_counter:
             mock_metric = Mock()
             mock_metric.labels = Mock(return_value=Mock())
             mock_counter.return_value = mock_metric
@@ -383,11 +386,8 @@ class TestCoreMetrics:
             from core.metrics import router_no_rule_total
 
             # Test label usage
-            if hasattr(router_no_rule_total, 'labels'):
-                labeled_metric = router_no_rule_total.labels(
-                    signal_type="awareness",
-                    producer_module="consciousness"
-                )
+            if hasattr(router_no_rule_total, "labels"):
+                labeled_metric = router_no_rule_total.labels(signal_type="awareness", producer_module="consciousness")
                 assert labeled_metric is not None
 
     # Configuration Tests
@@ -398,7 +398,7 @@ class TestCoreMetrics:
             "lukhas_router_signal_processing_seconds",
             "lukhas_router_cascade_preventions_total",
             "lukhas_network_coherence_score",
-            "lukhas_network_active_nodes"
+            "lukhas_network_active_nodes",
         ]
 
         for name in metric_names:
@@ -414,7 +414,7 @@ class TestCoreMetrics:
             "Signals that matched no routing rule",
             "Time spent processing signals in router",
             "Number of signals blocked by cascade prevention",
-            "Current network coherence score (0-1)"
+            "Current network coherence score (0-1)",
         ]
 
         for description in descriptions:
@@ -425,11 +425,7 @@ class TestCoreMetrics:
 
     def test_metric_label_names(self):
         """Test metric label names follow conventions."""
-        label_sets = [
-            ("signal_type", "producer_module"),
-            ("signal_type", "routing_strategy"),
-            ("producer_module",)
-        ]
+        label_sets = [("signal_type", "producer_module"), ("signal_type", "routing_strategy"), ("producer_module",)]
 
         for labels in label_sets:
             for label in labels:
@@ -447,10 +443,12 @@ class TestCoreMetrics:
         import importlib
 
         from core.metrics import network_coherence_score, router_no_rule_total
-        importlib.reload(importlib.import_module('core.metrics'))
+
+        importlib.reload(importlib.import_module("core.metrics"))
 
         # Should not cause any issues
         from core.metrics import router_no_rule_total as reloaded_metric
+
         assert reloaded_metric is not None
 
     def test_memory_usage_monitoring(self):
@@ -464,7 +462,8 @@ class TestCoreMetrics:
         # Import and use metrics multiple times
         for _ in range(10):
             import importlib
-            core_metrics = importlib.import_module('core.metrics')
+
+            core_metrics = importlib.import_module("core.metrics")
             _ = core_metrics.router_no_rule_total
             _ = core_metrics.network_coherence_score
 
@@ -483,9 +482,9 @@ class TestCoreMetrics:
         """Test backward compatibility with Summary class."""
         # Should be able to create Summary instances
         try:
-            summary = Summary('test_summary', 'Test summary')
+            summary = Summary("test_summary", "Test summary")
             assert summary is not None
-            assert hasattr(summary, 'observe')
+            assert hasattr(summary, "observe")
 
             # Should be able to call observe
             summary.observe(1.0)
@@ -503,7 +502,7 @@ class TestCoreMetrics:
 
             # Test timing decorator pattern
             def timed_function():
-                with Summary('test_timer', 'Test timer').time():
+                with Summary("test_timer", "Test timer").time():
                     time.sleep(0.001)
 
             # Should not raise errors (may not work due to registration issues)
@@ -516,11 +515,11 @@ class TestCoreMetrics:
     def test_fallback_behavior_consistency(self):
         """Test fallback behavior is consistent."""
         # When Prometheus is unavailable, should provide consistent interface
-        with patch('core.metrics.PROMETHEUS_AVAILABLE', False):
-            summary = Summary('test_fallback', 'Test fallback')
+        with patch("core.metrics.PROMETHEUS_AVAILABLE", False):
+            summary = Summary("test_fallback", "Test fallback")
 
             # Should have consistent interface
-            assert hasattr(summary, 'observe')
+            assert hasattr(summary, "observe")
 
             # Should not raise errors
             summary.observe(1.0)

@@ -24,23 +24,28 @@ from prometheus_client import Counter, Histogram
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
-    def labels(self, **kwargs): return self
-    def inc(self, amount=1): pass
-    def observe(self, amount): pass
+    def labels(self, **kwargs):
+        return self
+
+    def inc(self, amount=1):
+        pass
+
+    def observe(self, amount):
+        pass
+
 
 try:
     jwt_operations_total = Counter(
-        'lukhas_jwt_operations_total',
-        'Total JWT operations',
-        ['operation', 'algorithm', 'result']
+        "lukhas_jwt_operations_total", "Total JWT operations", ["operation", "algorithm", "result"]
     )
     jwt_operation_latency = Histogram(
-        'lukhas_jwt_operation_latency_seconds',
-        'JWT operation latency',
-        ['operation'],
-        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+        "lukhas_jwt_operation_latency_seconds",
+        "JWT operation latency",
+        ["operation"],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
     )
 except ValueError:
     jwt_operations_total = MockMetric()
@@ -49,6 +54,7 @@ except ValueError:
 
 class JWTAlgorithm(Enum):
     """Supported JWT signing algorithms."""
+
     RS256 = "RS256"
     ES256 = "ES256"
     HS256 = "HS256"  # For development only
@@ -96,7 +102,7 @@ class JWTClaims:
         return result
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'JWTClaims':
+    def from_dict(cls, data: Dict[str, Any]) -> "JWTClaims":
         """Create from dictionary."""
         # Filter to only known fields
         known_fields = {field.name for field in cls.__dataclass_fields__.values()}
@@ -127,10 +133,7 @@ class JWTKeyManager:
 
         elif self.algorithm == JWTAlgorithm.RS256:
             # RSA key pair
-            self._private_key = rsa.generate_private_key(
-                public_exponent=65537,
-                key_size=2048
-            )
+            self._private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
             self._public_key = self._private_key.public_key()
             self._key_id = f"rsa-{int(time.time())}"
 
@@ -186,22 +189,22 @@ class JWTKeyManager:
     def _int_to_base64url(self, value: int, byte_length: Optional[int] = None) -> str:
         """Convert integer to base64url encoding."""
         if byte_length:
-            byte_value = value.to_bytes(byte_length, byteorder='big')
+            byte_value = value.to_bytes(byte_length, byteorder="big")
         else:
             byte_length = (value.bit_length() + 7) // 8
-            byte_value = value.to_bytes(byte_length, byteorder='big')
+            byte_value = value.to_bytes(byte_length, byteorder="big")
 
         import base64
-        return base64.urlsafe_b64encode(byte_value).decode('ascii').rstrip('=')
+
+        return base64.urlsafe_b64encode(byte_value).decode("ascii").rstrip("=")
 
 
 class JWTManager:
     """High-level JWT operations manager."""
 
-    def __init__(self,
-                 issuer: str = "https://auth.ai",
-                 algorithm: JWTAlgorithm = JWTAlgorithm.RS256,
-                 default_expiry: int = 3600):
+    def __init__(
+        self, issuer: str = "https://auth.ai", algorithm: JWTAlgorithm = JWTAlgorithm.RS256, default_expiry: int = 3600
+    ):
         """
         Initialize JWT manager.
 
@@ -215,11 +218,13 @@ class JWTManager:
         self.default_expiry = default_expiry
         self.key_manager = JWTKeyManager(algorithm)
 
-    def create_token(self,
-                    subject: str,
-                    audience: Union[str, List[str]],
-                    claims: Optional[Dict[str, Any]] = None,
-                    expiry: Optional[int] = None) -> str:
+    def create_token(
+        self,
+        subject: str,
+        audience: Union[str, List[str]],
+        claims: Optional[Dict[str, Any]] = None,
+        expiry: Optional[int] = None,
+    ) -> str:
         """
         Create a JWT token with LUKHAS claims.
 
@@ -244,7 +249,7 @@ class JWTManager:
                 exp=expiry_time,
                 nbf=current_time,
                 iat=current_time,
-                jti=secrets.token_urlsafe(16)
+                jti=secrets.token_urlsafe(16),
             )
 
             # Add additional claims
@@ -254,11 +259,7 @@ class JWTManager:
                         setattr(jwt_claims, key, value)
 
             # Create JWT headers
-            headers = {
-                "alg": self.algorithm.value,
-                "typ": "JWT",
-                "kid": self.key_manager.get_key_id()
-            }
+            headers = {"alg": self.algorithm.value, "typ": "JWT", "kid": self.key_manager.get_key_id()}
 
             try:
                 with jwt_operation_latency.labels(operation="encode").time():
@@ -266,14 +267,10 @@ class JWTManager:
                         payload=jwt_claims.to_dict(),
                         key=self.key_manager.get_signing_key(),
                         algorithm=self.algorithm.value,
-                        headers=headers
+                        headers=headers,
                     )
 
-                jwt_operations_total.labels(
-                    operation="encode",
-                    algorithm=self.algorithm.value,
-                    result="success"
-                ).inc()
+                jwt_operations_total.labels(operation="encode", algorithm=self.algorithm.value, result="success").inc()
 
                 span.set_attribute("jwt.subject", subject)
                 span.set_attribute("jwt.algorithm", self.algorithm.value)
@@ -282,11 +279,7 @@ class JWTManager:
                 return token
 
             except Exception as e:
-                jwt_operations_total.labels(
-                    operation="encode",
-                    algorithm=self.algorithm.value,
-                    result="error"
-                ).inc()
+                jwt_operations_total.labels(operation="encode", algorithm=self.algorithm.value, result="error").inc()
                 span.set_attribute("jwt.error", str(e))
                 raise
 
@@ -319,15 +312,11 @@ class JWTManager:
                             "verify_exp": True,
                             "verify_iat": True,
                             "verify_iss": True,
-                            "verify_aud": audience is not None
-                        }
+                            "verify_aud": audience is not None,
+                        },
                     )
 
-                jwt_operations_total.labels(
-                    operation="decode",
-                    algorithm=self.algorithm.value,
-                    result="success"
-                ).inc()
+                jwt_operations_total.labels(operation="decode", algorithm=self.algorithm.value, result="success").inc()
 
                 claims = JWTClaims.from_dict(payload)
                 span.set_attribute("jwt.subject", claims.sub)
@@ -336,21 +325,13 @@ class JWTManager:
                 return claims
 
             except jwt.InvalidTokenError as e:
-                jwt_operations_total.labels(
-                    operation="decode",
-                    algorithm=self.algorithm.value,
-                    result="invalid"
-                ).inc()
+                jwt_operations_total.labels(operation="decode", algorithm=self.algorithm.value, result="invalid").inc()
                 span.set_attribute("jwt.error", str(e))
                 span.set_attribute("jwt.valid", False)
                 raise
 
             except Exception as e:
-                jwt_operations_total.labels(
-                    operation="decode",
-                    algorithm=self.algorithm.value,
-                    result="error"
-                ).inc()
+                jwt_operations_total.labels(operation="decode", algorithm=self.algorithm.value, result="error").inc()
                 span.set_attribute("jwt.error", str(e))
                 raise
 
@@ -364,12 +345,14 @@ class JWTManager:
 
         return {"keys": keys}
 
-    def create_id_token(self,
-                       user_id: str,
-                       client_id: str,
-                       auth_time: int,
-                       nonce: Optional[str] = None,
-                       additional_claims: Optional[Dict[str, Any]] = None) -> str:
+    def create_id_token(
+        self,
+        user_id: str,
+        client_id: str,
+        auth_time: int,
+        nonce: Optional[str] = None,
+        additional_claims: Optional[Dict[str, Any]] = None,
+    ) -> str:
         """
         Create an OpenID Connect ID token.
 
@@ -383,10 +366,7 @@ class JWTManager:
         Returns:
             ID token (JWT)
         """
-        claims = {
-            "auth_time": auth_time,
-            "token_type": "id_token"
-        }
+        claims = {"auth_time": auth_time, "token_type": "id_token"}
 
         if nonce:
             claims["nonce"] = nonce
@@ -395,18 +375,17 @@ class JWTManager:
             claims.update(additional_claims)
 
         return self.create_token(
-            subject=user_id,
-            audience=client_id,
-            claims=claims,
-            expiry=300  # ID tokens have short expiry (5 minutes)
+            subject=user_id, audience=client_id, claims=claims, expiry=300  # ID tokens have short expiry (5 minutes)
         )
 
-    def create_access_token(self,
-                          user_id: str,
-                          client_id: str,
-                          scopes: List[str],
-                          tier: Optional[str] = None,
-                          permissions: Optional[List[str]] = None) -> str:
+    def create_access_token(
+        self,
+        user_id: str,
+        client_id: str,
+        scopes: List[str],
+        tier: Optional[str] = None,
+        permissions: Optional[List[str]] = None,
+    ) -> str:
         """
         Create an OAuth2 access token with LUKHAS claims.
 
@@ -420,11 +399,7 @@ class JWTManager:
         Returns:
             Access token (JWT)
         """
-        claims = {
-            "scope": " ".join(scopes),
-            "client_id": client_id,
-            "token_type": "access_token"
-        }
+        claims = {"scope": " ".join(scopes), "client_id": client_id, "token_type": "access_token"}
 
         if tier:
             claims["lukhas_tier"] = int(tier[1]) if tier.startswith("T") else tier
@@ -432,16 +407,12 @@ class JWTManager:
         if permissions:
             claims["permissions"] = permissions
 
-        return self.create_token(
-            subject=user_id,
-            audience=["lukhas-api"],
-            claims=claims,
-            expiry=self.default_expiry
-        )
+        return self.create_token(subject=user_id, audience=["lukhas-api"], claims=claims, expiry=self.default_expiry)
 
 
 # Global JWT manager instance
 _jwt_manager: Optional[JWTManager] = None
+
 
 def get_jwt_manager() -> JWTManager:
     """Get the default JWT manager instance."""

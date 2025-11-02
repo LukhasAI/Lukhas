@@ -44,32 +44,24 @@ logger = logging.getLogger(__name__)
 
 # Prometheus metrics
 orchestrator_requests_total = counter(
-    'lukhas_orchestrator_requests_total',
-    'Total orchestrator requests',
-    ['request_type', 'success', 'strategy']
+    "lukhas_orchestrator_requests_total", "Total orchestrator requests", ["request_type", "success", "strategy"]
 )
 
 orchestrator_latency_seconds = histogram(
-    'lukhas_orchestrator_latency_seconds',
-    'End-to-end orchestrator latency',
-    ['request_type'],
-    buckets=[0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]
+    "lukhas_orchestrator_latency_seconds",
+    "End-to-end orchestrator latency",
+    ["request_type"],
+    buckets=[0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0],
 )
 
-orchestrator_active_contexts = gauge(
-    'lukhas_orchestrator_active_contexts',
-    'Number of active contexts'
-)
+orchestrator_active_contexts = gauge("lukhas_orchestrator_active_contexts", "Number of active contexts")
 
-ab_test_traffic_ratio = gauge(
-    'lukhas_ab_test_traffic_ratio',
-    'A/B test traffic ratio',
-    ['experiment', 'variant']
-)
+ab_test_traffic_ratio = gauge("lukhas_ab_test_traffic_ratio", "A/B test traffic ratio", ["experiment", "variant"])
 
 
 class RequestType(Enum):
     """Types of orchestrator requests"""
+
     SINGLE_SHOT = "single_shot"
     STREAMING = "streaming"
     CONSENSUS = "consensus"
@@ -79,6 +71,7 @@ class RequestType(Enum):
 @dataclass
 class OrchestrationRequest:
     """Complete orchestration request"""
+
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str = ""
     request_type: RequestType = RequestType.SINGLE_SHOT
@@ -94,6 +87,7 @@ class OrchestrationRequest:
 @dataclass
 class OrchestrationResponse:
     """Complete orchestration response"""
+
     request_id: str
     session_id: str
     provider: str
@@ -175,7 +169,7 @@ class ExternalizedOrchestrator:
                     context_id = await self.context_engine.preserve_context(
                         session_id=request.session_id,
                         context_data=request.context_data,
-                        context_type=ContextType.CONVERSATION
+                        context_type=ContextType.CONVERSATION,
                     )
 
                 # Emit orchestration start event
@@ -185,10 +179,10 @@ class ExternalizedOrchestrator:
                         "request_id": request.request_id,
                         "session_id": request.session_id,
                         "request_type": request.request_type.value,
-                        "context_id": context_id
+                        "context_id": context_id,
                     },
                     source="externalized_orchestrator",
-                    mode="live"
+                    mode="live",
                 )
 
                 # Get routing configuration
@@ -199,9 +193,7 @@ class ExternalizedOrchestrator:
 
                 # Find matching routing rule
                 routing_context = RoutingContext(
-                    session_id=request.session_id,
-                    request_type=request_pattern,
-                    metadata=request.routing_hints
+                    session_id=request.session_id, request_type=request_pattern, metadata=request.routing_hints
                 )
 
                 rule = self.config_manager.get_rule_for_request(request_pattern, routing_context.metadata)
@@ -213,9 +205,7 @@ class ExternalizedOrchestrator:
                 if rule.name in [test.rules for test in config.ab_tests if test.enabled]:
                     for test in config.ab_tests:
                         if test.enabled and rule.name in test.rules:
-                            ab_variant = self.config_manager.get_ab_test_variant(
-                                request.session_id, test.name
-                            )
+                            ab_variant = self.config_manager.get_ab_test_variant(request.session_id, test.name)
                             if ab_variant:
                                 # Override rule based on A/B test
                                 rule = await self._apply_ab_test_override(rule, test, ab_variant)
@@ -225,31 +215,29 @@ class ExternalizedOrchestrator:
                 provider_health = await self.health_monitor.get_all_provider_health()
 
                 # Route the request
-                routing_result = await self.routing_engine.route_request(
-                    rule, routing_context, provider_health
-                )
+                routing_result = await self.routing_engine.route_request(rule, routing_context, provider_health)
 
                 if not routing_result:
                     raise ValueError("No available providers for request")
 
                 # Execute the request with selected provider
-                response_data = await self._execute_with_provider(
-                    request, routing_result, context_id
-                )
+                response_data = await self._execute_with_provider(request, routing_result, context_id)
 
                 # Update context with response
                 if context_id and response_data:
                     updated_context = request.context_data.copy()
-                    updated_context.update({
-                        "last_response": response_data,
-                        "provider_used": routing_result.provider,
-                        "timestamp": time.time()
-                    })
+                    updated_context.update(
+                        {
+                            "last_response": response_data,
+                            "provider_used": routing_result.provider,
+                            "timestamp": time.time(),
+                        }
+                    )
 
                     await self.context_engine.preserve_context(
                         session_id=request.session_id,
                         context_data=updated_context,
-                        context_type=ContextType.CONVERSATION
+                        context_type=ContextType.CONVERSATION,
                     )
 
                 # Build response
@@ -268,25 +256,20 @@ class ExternalizedOrchestrator:
                     metadata={
                         "rule_name": rule.name,
                         "routing_reason": routing_result.reason,
-                        "confidence": routing_result.confidence
-                    }
+                        "confidence": routing_result.confidence,
+                    },
                 )
 
                 # Record metrics
                 orchestrator_requests_total.labels(
-                    request_type=request.request_type.value,
-                    success="true",
-                    strategy=routing_result.strategy_used.value
+                    request_type=request.request_type.value, success="true", strategy=routing_result.strategy_used.value
                 ).inc()
 
-                orchestrator_latency_seconds.labels(
-                    request_type=request.request_type.value
-                ).observe(latency_ms / 1000)
+                orchestrator_latency_seconds.labels(request_type=request.request_type.value).observe(latency_ms / 1000)
 
                 if ab_variant:
                     ab_test_traffic_ratio.labels(
-                        experiment=test.name if 'test' in locals() else "unknown",
-                        variant=ab_variant
+                        experiment=test.name if "test" in locals() else "unknown", variant=ab_variant
                     ).set(1.0)
 
                 # Emit completion event
@@ -297,10 +280,10 @@ class ExternalizedOrchestrator:
                         "session_id": request.session_id,
                         "provider": routing_result.provider,
                         "latency_ms": latency_ms,
-                        "success": True
+                        "success": True,
                     },
                     source="externalized_orchestrator",
-                    mode="live"
+                    mode="live",
                 )
 
                 span.set_attribute("provider_selected", routing_result.provider)
@@ -314,9 +297,7 @@ class ExternalizedOrchestrator:
 
                 # Record error metrics
                 orchestrator_requests_total.labels(
-                    request_type=request.request_type.value,
-                    success="false",
-                    strategy="error"
+                    request_type=request.request_type.value, success="false", strategy="error"
                 ).inc()
 
                 # Emit error event
@@ -326,10 +307,10 @@ class ExternalizedOrchestrator:
                         "request_id": request.request_id,
                         "session_id": request.session_id,
                         "error": str(e),
-                        "latency_ms": latency_ms
+                        "latency_ms": latency_ms,
                     },
                     source="externalized_orchestrator",
-                    mode="live"
+                    mode="live",
                 )
 
                 span.record_exception(e)
@@ -345,10 +326,7 @@ class ExternalizedOrchestrator:
                 orchestrator_active_contexts.set(len(self.active_requests))
 
     async def _execute_with_provider(
-        self,
-        request: OrchestrationRequest,
-        routing_result: RoutingResult,
-        context_id: Optional[str]
+        self, request: OrchestrationRequest, routing_result: RoutingResult, context_id: Optional[str]
     ) -> Dict[str, Any]:
         """Execute request with selected provider"""
 
@@ -375,7 +353,7 @@ class ExternalizedOrchestrator:
                     prompt=prompt,
                     model=self._get_model_for_provider(provider),
                     max_tokens=request.metadata.get("max_tokens", 2000),
-                    temperature=request.metadata.get("temperature", 0.7)
+                    temperature=request.metadata.get("temperature", 0.7),
                 )
 
                 execution_time = time.time() - start_time
@@ -391,8 +369,8 @@ class ExternalizedOrchestrator:
                         destination_provider=provider,
                         additional_metadata={
                             "execution_time_ms": execution_time * 1000,
-                            "model_used": self._get_model_for_provider(provider)
-                        }
+                            "model_used": self._get_model_for_provider(provider),
+                        },
                     )
 
                 span.set_attribute("execution_time_ms", execution_time * 1000)
@@ -400,9 +378,9 @@ class ExternalizedOrchestrator:
 
                 return {
                     "content": response.content,
-                    "usage": getattr(response, 'usage', {}),
-                    "finish_reason": getattr(response, 'finish_reason', None),
-                    "metadata": getattr(response, 'metadata', {})
+                    "usage": getattr(response, "usage", {}),
+                    "finish_reason": getattr(response, "finish_reason", None),
+                    "metadata": getattr(response, "metadata", {}),
                 }
 
             except Exception as e:
@@ -446,7 +424,7 @@ class ExternalizedOrchestrator:
             "openai": "gpt-4",
             "anthropic": "claude-3-sonnet-20240229",
             "google": "gemini-pro",
-            "local": "llama2"
+            "local": "llama2",
         }
         return model_map.get(provider, "default")
 
@@ -485,7 +463,7 @@ class ExternalizedOrchestrator:
                 self.ab_test_state[test.name] = {
                     "traffic_split": test.traffic_split,
                     "rules": test.rules,
-                    "assignments": {}
+                    "assignments": {},
                 }
 
         logger.info(f"✅ Initialized {len(self.ab_test_state)} A/B tests")
@@ -508,13 +486,10 @@ class ExternalizedOrchestrator:
             "context_stats": context_stats,
             "circuit_breaker_status": circuit_breaker_status,
             "ab_test_state": {
-                name: {
-                    "enabled": True,
-                    "assignment_count": len(state["assignments"])
-                }
+                name: {"enabled": True, "assignment_count": len(state["assignments"])}
                 for name, state in self.ab_test_state.items()
             },
-            "configuration_version": self.config_manager.config_version
+            "configuration_version": self.config_manager.config_version,
         }
 
 

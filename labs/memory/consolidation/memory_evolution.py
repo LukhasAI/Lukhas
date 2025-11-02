@@ -1,4 +1,3 @@
-
 """Minimal memory evolution stub"""
 
 

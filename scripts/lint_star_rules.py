@@ -17,16 +17,20 @@ from pathlib import Path
 
 ERR = 0
 
+
 def die(msg: str, code: int = 1):
     print(f"[ERROR] {msg}", file=sys.stderr)
     global ERR
     ERR = 1
 
+
 def warn(msg: str):
     print(f"[WARN]  {msg}", file=sys.stderr)
 
+
 def info(msg: str):
     print(f"[INFO]  {msg}")
+
 
 def load_json(path: Path):
     try:
@@ -35,6 +39,7 @@ def load_json(path: Path):
         die(f"Failed to read JSON {path}: {e}")
         return {}
 
+
 def compile_rx(pat: str, where: str):
     try:
         return re.compile(pat, re.IGNORECASE)
@@ -42,14 +47,16 @@ def compile_rx(pat: str, where: str):
         die(f"Invalid regex in {where}: {pat} -> {e}")
         return None
 
+
 def collect_manifests(root: Path):
     for p in root.rglob("module.manifest.json"):
-        if '/.archive/' in str(p):
+        if "/.archive/" in str(p):
             continue
         try:
             yield p, json.loads(p.read_text(encoding="utf-8"))
         except Exception as e:
             warn(f"Skipping unreadable manifest {p}: {e}")
+
 
 def main():
     ap = argparse.ArgumentParser(description="Lint and sanity-check star rules; produce hit counts.")
@@ -92,16 +99,18 @@ def main():
             die(f"Confidence '{k}' must be 0..1 (got {v})")
 
     # compile patterns
-    exclusions = [(compile_rx(r["pattern"], "exclusions"), r.get("explain","")) for r in rules.get("exclusions", [])]
+    exclusions = [(compile_rx(r["pattern"], "exclusions"), r.get("explain", "")) for r in rules.get("exclusions", [])]
     rules_rx = []
     for i, r in enumerate(rules["rules"]):
         star = r.get("star")
         if star not in canonical:
             die(f"Rule #{i} references non-canonical star: {star}")
-        rx = compile_rx(r.get("pattern",""), f"rules[{i}]")
-        rules_rx.append((rx, star, r.get("source","path_keywords")))
+        rx = compile_rx(r.get("pattern", ""), f"rules[{i}]")
+        rules_rx.append((rx, star, r.get("source", "path_keywords")))
     owner_priors = [(compile_rx(r["owner_regex"], "owner_priors"), r["star"]) for r in rules.get("owner_priors", [])]
-    dep_hints = [(compile_rx(r["package_regex"], "dependency_hints"), r["star"]) for r in rules.get("dependency_hints", [])]
+    dep_hints = [
+        (compile_rx(r["package_regex"], "dependency_hints"), r["star"]) for r in rules.get("dependency_hints", [])
+    ]
 
     cap_over = {r["capability"]: r["star"] for r in rules.get("capability_overrides", [])}
     node_over = {r["node"]: r["star"] for r in rules.get("node_overrides", [])}
@@ -116,18 +125,18 @@ def main():
         "node_overrides": Counter(),
         "owner_priors": Counter(),
         "dependency_hints": Counter(),
-        "exclusions": Counter()
+        "exclusions": Counter(),
     }
     total_supporting = 0
 
     for path, m in collect_manifests(manifests_root):
-        mod = (m.get("module") or {})
+        mod = m.get("module") or {}
         name = mod.get("name") or mod.get("path") or str(path.parent)
         path_str = str(path.parent)
 
         align = m.get("constellation_alignment") or {}
         primary = align.get("primary_star", "Supporting")
-        is_supporting = (primary == "Supporting")
+        is_supporting = primary == "Supporting"
         if is_supporting:
             total_supporting += 1
 
@@ -159,14 +168,14 @@ def main():
                 hit_counts["owner_priors"][f"{star}::{rx.pattern}"] += 1
 
         # dependencies (external package names)
-        for dep in ((m.get("dependencies") or {}).get("external") or []):
-            pkg = (dep.get("package") or "")
+        for dep in (m.get("dependencies") or {}).get("external") or []:
+            pkg = dep.get("package") or ""
             for rx, star in dep_hints:
                 if rx and rx.search(pkg):
                     hit_counts["dependency_hints"][f"{star}::{rx.pattern}"] += 1
 
     # zero-hit warnings
-    zero_hit_rules = [k for k,v in hit_counts["rules"].items() if v == 0]
+    zero_hit_rules = [k for k, v in hit_counts["rules"].items() if v == 0]
     if zero_hit_rules:
         warn(f"{len(zero_hit_rules)} rules have 0 hits")
 
@@ -178,11 +187,13 @@ def main():
         "weights": weights,
         "confidence": conf,
         "totals": {
-            "manifests_scanned": sum(1 for _ in manifests_root.rglob("module.manifest.json") if '/.archive/' not in str(_)),
-            "supporting_count": total_supporting
+            "manifests_scanned": sum(
+                1 for _ in manifests_root.rglob("module.manifest.json") if "/.archive/" not in str(_)
+            ),
+            "supporting_count": total_supporting,
         },
-        "hit_counts": {k: dict(v) for k,v in hit_counts.items()},
-        "zero_hit_rules": zero_hit_rules
+        "hit_counts": {k: dict(v) for k, v in hit_counts.items()},
+        "zero_hit_rules": zero_hit_rules,
     }
     out_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     info(f"Wrote {out_path}")
@@ -193,6 +204,7 @@ def main():
         die("Zero-hit rules present and --fail-on-zero-hits used.")
         sys.exit(1)
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

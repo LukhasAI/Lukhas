@@ -35,6 +35,7 @@ from .types import AwarenessSnapshot, ConsciousnessState, ReflectionReport
 try:
     from memory.backends.base import MemoryBackend
     from memory.fold_system import MemoryFoldSystem
+
     MEMORY_AVAILABLE = True
 except ImportError:
     MEMORY_AVAILABLE = False
@@ -43,6 +44,7 @@ except ImportError:
 
 try:
     from observability.prometheus_metrics import get_lukhas_metrics
+
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     OBSERVABILITY_AVAILABLE = False
@@ -57,6 +59,7 @@ try:
         GuardianValidationType,
         create_validation_context,
     )
+
     GUARDIAN_INTEGRATION_AVAILABLE = True
 except ImportError:
     GUARDIAN_INTEGRATION_AVAILABLE = False
@@ -67,40 +70,33 @@ logger = logging.getLogger(__name__)
 
 # Prometheus metrics for reflection engine
 reflection_operations_total = Counter(
-    'lukhas_reflection_operations_total',
-    'Total reflection operations performed',
-    ['operation_type', 'success', 'lane']
+    "lukhas_reflection_operations_total", "Total reflection operations performed", ["operation_type", "success", "lane"]
 )
 
 reflection_latency_seconds = Histogram(
-    'lukhas_reflection_latency_seconds',
-    'Reflection operation latency distribution',
-    ['operation_type', 'complexity', 'lane'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_reflection_latency_seconds",
+    "Reflection operation latency distribution",
+    ["operation_type", "complexity", "lane"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
-reflection_coherence_score = Gauge(
-    'lukhas_reflection_coherence_score',
-    'Current reflection coherence score',
-    ['lane']
-)
+reflection_coherence_score = Gauge("lukhas_reflection_coherence_score", "Current reflection coherence score", ["lane"])
 
 reflection_anomalies_detected = Counter(
-    'lukhas_reflection_anomalies_detected',
-    'Total anomalies detected during reflection',
-    ['severity', 'type', 'lane']
+    "lukhas_reflection_anomalies_detected", "Total anomalies detected during reflection", ["severity", "type", "lane"]
 )
 
 reflection_memory_integration_ops = Counter(
-    'lukhas_reflection_memory_integration_ops',
-    'Memory integration operations during reflection',
-    ['operation', 'success', 'lane']
+    "lukhas_reflection_memory_integration_ops",
+    "Memory integration operations during reflection",
+    ["operation", "success", "lane"],
 )
 
 
 @dataclass
 class ReflectionConfig:
     """Configuration for ReflectionEngine"""
+
     # Performance targets (T4/0.01% standards)
     p95_target_ms: float = 100.0  # Phase 3 requirement: <100ms p95
     p99_target_ms: float = 250.0  # Aggressive target for 0.01% excellence
@@ -160,7 +156,7 @@ class ReflectionEngine:
         config: Optional[ReflectionConfig] = None,
         memory_backend: Optional[MemoryBackend] = None,
         guardian_validator: Optional[Any] = None,
-        guardian_integration: Optional[ConsciousnessGuardianIntegration] = None
+        guardian_integration: Optional[ConsciousnessGuardianIntegration] = None,
     ):
         """
         Initialize ReflectionEngine.
@@ -183,7 +179,7 @@ class ReflectionEngine:
             guardian_config = GuardianValidationConfig(
                 drift_threshold=0.15,  # From AUDITOR_CHECKLIST.md
                 p95_target_ms=self.config.p95_target_ms,
-                fail_closed_on_error=True
+                fail_closed_on_error=True,
             )
             self.guardian_integration = ConsciousnessGuardianIntegration(config=guardian_config)
         else:
@@ -195,7 +191,9 @@ class ReflectionEngine:
             raise ValueError(f"Invalid ReflectionConfig: {', '.join(config_errors)}")
 
         # Initialize metrics collection
-        self._metrics = get_lukhas_metrics() if (self.config.metrics_collection_enabled and OBSERVABILITY_AVAILABLE) else None
+        self._metrics = (
+            get_lukhas_metrics() if (self.config.metrics_collection_enabled and OBSERVABILITY_AVAILABLE) else None
+        )
         self._lane = self._metrics.lane if self._metrics else "unknown"
 
         # Performance tracking
@@ -237,7 +235,7 @@ class ReflectionEngine:
         self,
         consciousness_state: ConsciousnessState,
         awareness_snapshot: Optional[AwarenessSnapshot] = None,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[Dict[str, Any]] = None,
     ) -> ReflectionReport:
         """
         Perform comprehensive reflection analysis on consciousness state.
@@ -272,13 +270,11 @@ class ReflectionEngine:
                     correlation_id=operation_id,
                     consciousness_level=consciousness_state.level,
                     awareness_type=str(consciousness_state.awareness_level),
-                    emotional_tone=consciousness_state.emotional_tone
+                    emotional_tone=consciousness_state.emotional_tone,
                 )
 
                 # Phase 1: State coherence analysis
-                coherence_result = await self._analyze_state_coherence(
-                    consciousness_state, awareness_snapshot
-                )
+                coherence_result = await self._analyze_state_coherence(consciousness_state, awareness_snapshot)
                 report.coherence_score = coherence_result["score"]
                 report.processing_stage = "coherence_analysis"
 
@@ -297,14 +293,11 @@ class ReflectionEngine:
 
                 # Phase 4: Memory integration analysis
                 if self.config.memory_integration_enabled and self.fold_system:
-                    memory_result = await self._analyze_memory_integration(
-                        consciousness_state, context
-                    )
+                    memory_result = await self._analyze_memory_integration(consciousness_state, context)
                     # Integrate memory coherence into overall score
                     memory_weight = self.config.memory_coherence_weight
                     report.coherence_score = (
-                        report.coherence_score * (1 - memory_weight) +
-                        memory_result["memory_coherence"] * memory_weight
+                        report.coherence_score * (1 - memory_weight) + memory_result["memory_coherence"] * memory_weight
                     )
 
                 # Phase 5: Guardian safety validation
@@ -335,16 +328,12 @@ class ReflectionEngine:
 
                 # Record successful operation
                 if self._metrics:
-                    reflection_operations_total.labels(
-                        operation_type="reflect",
-                        success="true",
-                        lane=self._lane
-                    ).inc()
+                    reflection_operations_total.labels(operation_type="reflect", success="true", lane=self._lane).inc()
 
                     reflection_latency_seconds.labels(
                         operation_type="reflect",
                         complexity=self._classify_complexity(consciousness_state),
-                        lane=self._lane
+                        lane=self._lane,
                     ).observe(reflection_duration / 1000.0)
 
                     reflection_coherence_score.labels(lane=self._lane).set(report.coherence_score)
@@ -367,11 +356,7 @@ class ReflectionEngine:
 
                 # Record failed operation
                 if self._metrics:
-                    reflection_operations_total.labels(
-                        operation_type="reflect",
-                        success="false",
-                        lane=self._lane
-                    ).inc()
+                    reflection_operations_total.labels(operation_type="reflect", success="false", lane=self._lane).inc()
 
                 # Return minimal reflection report in error case
                 return ReflectionReport(
@@ -381,13 +366,11 @@ class ReflectionEngine:
                     processing_stage="error",
                     consciousness_level=consciousness_state.level,
                     awareness_type=str(consciousness_state.awareness_level),
-                    emotional_tone=consciousness_state.emotional_tone
+                    emotional_tone=consciousness_state.emotional_tone,
                 )
 
     async def _analyze_state_coherence(
-        self,
-        state: ConsciousnessState,
-        awareness: Optional[AwarenessSnapshot]
+        self, state: ConsciousnessState, awareness: Optional[AwarenessSnapshot]
     ) -> Dict[str, Any]:
         """Analyze coherence of consciousness state."""
 
@@ -414,16 +397,16 @@ class ReflectionEngine:
 
             # Calculate weighted coherence score
             total_weight = sum(weight for _, _, weight in coherence_factors)
-            coherence_score = sum(
-                score * weight for _, score, weight in coherence_factors
-            ) / total_weight if total_weight > 0 else 0.0
+            coherence_score = (
+                sum(score * weight for _, score, weight in coherence_factors) / total_weight
+                if total_weight > 0
+                else 0.0
+            )
 
             return {
                 "score": coherence_score,
                 "factors": coherence_factors,
-                "details": {
-                    factor_name: score for factor_name, score, _ in coherence_factors
-                }
+                "details": {factor_name: score for factor_name, score, _ in coherence_factors},
             }
 
     def _calculate_internal_consistency(self, state: ConsciousnessState) -> float:
@@ -447,7 +430,7 @@ class ReflectionEngine:
         consistency_checks.append(max(0.0, reasoning_meta_consistency))
 
         # Check 4: Contradiction tension should be inversely related to memory coherence
-        if hasattr(state, 'memory_coherence') and hasattr(state, 'contradiction_tension'):
+        if hasattr(state, "memory_coherence") and hasattr(state, "contradiction_tension"):
             contradiction_consistency = 1.0 - (state.contradiction_tension * state.memory_coherence) * 0.5
             consistency_checks.append(max(0.0, contradiction_consistency))
 
@@ -460,7 +443,7 @@ class ReflectionEngine:
             return 0.5  # Neutral score for insufficient history
 
         # Get recent states for stability analysis
-        recent_states = self._state_history[-min(self.config.state_stability_window, len(self._state_history)):]
+        recent_states = self._state_history[-min(self.config.state_stability_window, len(self._state_history)) :]
 
         # Calculate variance in key state dimensions
         levels = [s.level for s in recent_states] + [current_state.level]
@@ -476,22 +459,18 @@ class ReflectionEngine:
 
         return (level_stability + awareness_stability) / 2
 
-    def _calculate_awareness_alignment(
-        self,
-        state: ConsciousnessState,
-        awareness: AwarenessSnapshot
-    ) -> float:
+    def _calculate_awareness_alignment(self, state: ConsciousnessState, awareness: AwarenessSnapshot) -> float:
         """Calculate alignment between consciousness state and awareness snapshot."""
 
         alignment_factors = []
 
         # Factor 1: Signal strength vs consciousness level
-        if hasattr(awareness, 'signal_strength'):
+        if hasattr(awareness, "signal_strength"):
             signal_level_alignment = 1.0 - abs(awareness.signal_strength - state.level)
             alignment_factors.append(max(0.0, signal_level_alignment))
 
         # Factor 2: Load factor vs cognitive load
-        if hasattr(awareness, 'load_factor') and hasattr(state, 'cognitive_load'):
+        if hasattr(awareness, "load_factor") and hasattr(state, "cognitive_load"):
             load_alignment = 1.0 - abs(awareness.load_factor - state.cognitive_load)
             alignment_factors.append(max(0.0, load_alignment))
 
@@ -511,12 +490,12 @@ class ReflectionEngine:
 
         # Define optimal level ranges for each phase
         phase_ranges = {
-            "IDLE": (0.0, 0.4),      # Low consciousness appropriate for idle
-            "AWARE": (0.3, 0.8),     # Moderate to high for awareness
-            "REFLECT": (0.6, 0.9),   # High consciousness for reflection
-            "CREATE": (0.7, 1.0),    # Very high for creative work
-            "DREAM": (0.2, 0.6),     # Moderate for dream processing
-            "DECIDE": (0.5, 0.9)     # High for decision making
+            "IDLE": (0.0, 0.4),  # Low consciousness appropriate for idle
+            "AWARE": (0.3, 0.8),  # Moderate to high for awareness
+            "REFLECT": (0.6, 0.9),  # High consciousness for reflection
+            "CREATE": (0.7, 1.0),  # Very high for creative work
+            "DREAM": (0.2, 0.6),  # Moderate for dream processing
+            "DECIDE": (0.5, 0.9),  # High for decision making
         }
 
         if phase in phase_ranges:
@@ -556,7 +535,7 @@ class ReflectionEngine:
                 "drift_ema": self._drift_ema,
                 "delta_magnitude": delta_magnitude,
                 "previous_state": previous_state.phase,
-                "current_state": state.phase
+                "current_state": state.phase,
             }
 
     def _calculate_state_delta(self, prev_state: ConsciousnessState, curr_state: ConsciousnessState) -> float:
@@ -568,11 +547,11 @@ class ReflectionEngine:
 
         # Add cognitive dimension deltas if available
         cognitive_delta = 0.0
-        if hasattr(curr_state, 'cognitive_load') and hasattr(prev_state, 'cognitive_load'):
+        if hasattr(curr_state, "cognitive_load") and hasattr(prev_state, "cognitive_load"):
             cognitive_delta += abs(curr_state.cognitive_load - prev_state.cognitive_load)
-        if hasattr(curr_state, 'focus_intensity') and hasattr(prev_state, 'focus_intensity'):
+        if hasattr(curr_state, "focus_intensity") and hasattr(prev_state, "focus_intensity"):
             cognitive_delta += abs(curr_state.focus_intensity - prev_state.focus_intensity)
-        if hasattr(curr_state, 'reasoning_depth') and hasattr(prev_state, 'reasoning_depth'):
+        if hasattr(curr_state, "reasoning_depth") and hasattr(prev_state, "reasoning_depth"):
             cognitive_delta += abs(curr_state.reasoning_depth - prev_state.reasoning_depth)
 
         cognitive_delta /= 3  # Average of cognitive dimensions
@@ -581,20 +560,12 @@ class ReflectionEngine:
         phase_delta = 0.0 if curr_state.phase == prev_state.phase else 0.3
 
         # Weighted combination of deltas
-        total_delta = (
-            level_delta * 0.3 +
-            awareness_delta * 0.25 +
-            cognitive_delta * 0.25 +
-            phase_delta * 0.2
-        )
+        total_delta = level_delta * 0.3 + awareness_delta * 0.25 + cognitive_delta * 0.25 + phase_delta * 0.2
 
         return min(1.0, total_delta)
 
     async def _detect_reflection_anomalies(
-        self,
-        state: ConsciousnessState,
-        coherence_result: Dict[str, Any],
-        drift_result: Dict[str, Any]
+        self, state: ConsciousnessState, coherence_result: Dict[str, Any], drift_result: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Detect anomalies in consciousness reflection analysis."""
 
@@ -605,64 +576,68 @@ class ReflectionEngine:
             coherence_score = coherence_result["score"]
             if coherence_score < self.config.anomaly_threshold:
                 severity = "critical" if coherence_score < 0.3 else "high" if coherence_score < 0.5 else "medium"
-                anomalies.append({
-                    "type": "low_coherence",
-                    "severity": severity,
-                    "details": f"Coherence score {coherence_score:.3f} below threshold {self.config.anomaly_threshold}",
-                    "timestamp": time.time(),
-                    "score": coherence_score
-                })
+                anomalies.append(
+                    {
+                        "type": "low_coherence",
+                        "severity": severity,
+                        "details": f"Coherence score {coherence_score:.3f} below threshold {self.config.anomaly_threshold}",
+                        "timestamp": time.time(),
+                        "score": coherence_score,
+                    }
+                )
 
             # Anomaly 2: Excessive state drift
             drift_ema = drift_result["drift_ema"]
             if drift_ema > 0.8:
                 severity = "critical" if drift_ema > 0.95 else "high"
-                anomalies.append({
-                    "type": "excessive_drift",
-                    "severity": severity,
-                    "details": f"State drift EMA {drift_ema:.3f} indicates instability",
-                    "timestamp": time.time(),
-                    "drift_ema": drift_ema
-                })
+                anomalies.append(
+                    {
+                        "type": "excessive_drift",
+                        "severity": severity,
+                        "details": f"State drift EMA {drift_ema:.3f} indicates instability",
+                        "timestamp": time.time(),
+                        "drift_ema": drift_ema,
+                    }
+                )
 
             # Anomaly 3: Rapid state oscillation
             if len(self._state_history) >= 3:
                 recent_phases = [s.phase for s in self._state_history[-3:]] + [state.phase]
                 if len(set(recent_phases)) == len(recent_phases):  # All different
-                    anomalies.append({
-                        "type": "phase_oscillation",
-                        "severity": "medium",
-                        "details": f"Rapid phase changes: {' -> '.join(recent_phases)}",
-                        "timestamp": time.time(),
-                        "phases": recent_phases
-                    })
+                    anomalies.append(
+                        {
+                            "type": "phase_oscillation",
+                            "severity": "medium",
+                            "details": f"Rapid phase changes: {' -> '.join(recent_phases)}",
+                            "timestamp": time.time(),
+                            "phases": recent_phases,
+                        }
+                    )
 
             # Anomaly 4: Consciousness level inconsistency
             level_coherence_diff = abs(state.level - coherence_score)
             if level_coherence_diff > 0.5:
-                anomalies.append({
-                    "type": "level_coherence_mismatch",
-                    "severity": "medium",
-                    "details": f"Consciousness level {state.level:.3f} vs coherence {coherence_score:.3f}",
-                    "timestamp": time.time(),
-                    "difference": level_coherence_diff
-                })
+                anomalies.append(
+                    {
+                        "type": "level_coherence_mismatch",
+                        "severity": "medium",
+                        "details": f"Consciousness level {state.level:.3f} vs coherence {coherence_score:.3f}",
+                        "timestamp": time.time(),
+                        "difference": level_coherence_diff,
+                    }
+                )
 
             # Record anomalies in metrics
             if self._metrics:
                 for anomaly in anomalies:
                     reflection_anomalies_detected.labels(
-                        severity=anomaly["severity"],
-                        type=anomaly["type"],
-                        lane=self._lane
+                        severity=anomaly["severity"], type=anomaly["type"], lane=self._lane
                     ).inc()
 
             return {"anomalies": anomalies}
 
     async def _analyze_memory_integration(
-        self,
-        state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
+        self, state: ConsciousnessState, context: Optional[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """Analyze integration with memory system."""
 
@@ -688,34 +663,23 @@ class ReflectionEngine:
                 # Record memory integration metrics
                 if self._metrics:
                     reflection_memory_integration_ops.labels(
-                        operation="coherence_analysis",
-                        success="true",
-                        lane=self._lane
+                        operation="coherence_analysis", success="true", lane=self._lane
                     ).inc()
 
                 return {
                     "memory_coherence": memory_coherence,
-                    "fold_analysis": {
-                        "fold_coherence": fold_coherence,
-                        "access_patterns": access_patterns
-                    }
+                    "fold_analysis": {"fold_coherence": fold_coherence, "access_patterns": access_patterns},
                 }
 
             except Exception as e:
                 logger.error(f"Memory integration analysis failed: {e}")
                 if self._metrics:
                     reflection_memory_integration_ops.labels(
-                        operation="coherence_analysis",
-                        success="false",
-                        lane=self._lane
+                        operation="coherence_analysis", success="false", lane=self._lane
                     ).inc()
                 return {"memory_coherence": 0.3, "fold_analysis": {"error": str(e)}}
 
-    async def _analyze_fold_coherence(
-        self,
-        state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
-    ) -> float:
+    async def _analyze_fold_coherence(self, state: ConsciousnessState, context: Optional[Dict[str, Any]]) -> float:
         """Analyze coherence of memory folds."""
 
         # This is a placeholder for memory fold analysis
@@ -726,7 +690,7 @@ class ReflectionEngine:
         # 4. Assess fold temporal consistency
 
         # Return a coherence score based on available data
-        if hasattr(state, 'memory_coherence'):
+        if hasattr(state, "memory_coherence"):
             return float(state.memory_coherence)
 
         return 0.7  # Default reasonable coherence
@@ -745,7 +709,7 @@ class ReflectionEngine:
             "coherence": 0.75,
             "access_frequency": "normal",
             "pattern_regularity": "stable",
-            "utilization_efficiency": 0.8
+            "utilization_efficiency": 0.8,
         }
 
     async def _sync_with_memory_system(self) -> None:
@@ -766,10 +730,7 @@ class ReflectionEngine:
             logger.error(f"Memory system synchronization failed: {e}")
 
     async def _validate_with_guardian_integration(
-        self,
-        report: ReflectionReport,
-        state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
+        self, report: ReflectionReport, state: ConsciousnessState, context: Optional[Dict[str, Any]]
     ) -> None:
         """Validate reflection results with Guardian integration system."""
 
@@ -785,7 +746,7 @@ class ReflectionEngine:
                     user_id=context.get("user_id") if context else None,
                     session_id=context.get("session_id") if context else None,
                     tenant=context.get("tenant", "default") if context else "default",
-                    sensitive_operation=report.anomaly_count > 3  # High anomaly count = sensitive
+                    sensitive_operation=report.anomaly_count > 3,  # High anomaly count = sensitive
                 )
 
                 # Add risk indicators based on reflection results
@@ -810,7 +771,7 @@ class ReflectionEngine:
                         "details": validation_result.reason,
                         "timestamp": time.time(),
                         "confidence": validation_result.confidence,
-                        "validation_duration_ms": validation_result.validation_duration_ms
+                        "validation_duration_ms": validation_result.validation_duration_ms,
                     }
                     report.anomalies.append(guardian_anomaly)
                     report.anomaly_count += 1
@@ -822,16 +783,14 @@ class ReflectionEngine:
                                 "type": "guardian_recommendation",
                                 "severity": "medium",
                                 "details": recommendation,
-                                "timestamp": time.time()
+                                "timestamp": time.time(),
                             }
                             report.anomalies.append(guardian_rec)
                             report.anomaly_count += 1
 
                 # Update baseline state for drift detection
                 self.guardian_integration.update_baseline_state(
-                    state=state,
-                    tenant=validation_context.tenant,
-                    session_id=validation_context.session_id
+                    state=state, tenant=validation_context.tenant, session_id=validation_context.session_id
                 )
 
                 logger.debug(
@@ -847,16 +806,12 @@ class ReflectionEngine:
                     "type": "guardian_integration_error",
                     "severity": "high",  # Elevated severity for fail-closed
                     "details": f"Guardian integration validation error: {str(e)}",
-                    "timestamp": time.time()
+                    "timestamp": time.time(),
                 }
                 report.anomalies.append(error_anomaly)
                 report.anomaly_count += 1
 
-    async def _validate_with_guardian(
-        self,
-        report: ReflectionReport,
-        state: ConsciousnessState
-    ) -> None:
+    async def _validate_with_guardian(self, report: ReflectionReport, state: ConsciousnessState) -> None:
         """Validate reflection results with Guardian system (legacy)."""
 
         if not self.guardian_validator:
@@ -870,7 +825,7 @@ class ReflectionEngine:
                     "consciousness_state": asdict(state),
                     "coherence_score": report.coherence_score,
                     "anomaly_count": report.anomaly_count,
-                    "drift_ema": report.drift_ema
+                    "drift_ema": report.drift_ema,
                 }
 
                 # Request Guardian validation
@@ -884,7 +839,7 @@ class ReflectionEngine:
                         "type": "guardian_concern",
                         "severity": "high",
                         "details": validation_result.get("reason", "Guardian validation failed"),
-                        "timestamp": time.time()
+                        "timestamp": time.time(),
                     }
                     report.anomalies.append(guardian_anomaly)
                     report.anomaly_count += 1
@@ -898,7 +853,7 @@ class ReflectionEngine:
                     "type": "guardian_error",
                     "severity": "medium",
                     "details": f"Guardian validation error: {str(e)}",
-                    "timestamp": time.time()
+                    "timestamp": time.time(),
                 }
                 report.anomalies.append(error_anomaly)
                 report.anomaly_count += 1
@@ -916,14 +871,14 @@ class ReflectionEngine:
         return {
             "approved": approved,
             "confidence": 0.85,
-            "reason": "Automated validation" if approved else "Low coherence or high anomaly count"
+            "reason": "Automated validation" if approved else "Low coherence or high anomaly count",
         }
 
     def _classify_complexity(self, state: ConsciousnessState) -> str:
         """Classify complexity of consciousness state for metrics."""
 
         # Simple complexity classification based on state characteristics
-        if state.level > 0.8 and hasattr(state, 'reasoning_depth') and state.reasoning_depth > 0.7:
+        if state.level > 0.8 and hasattr(state, "reasoning_depth") and state.reasoning_depth > 0.7:
             return "high"
         elif state.level > 0.5:
             return "medium"
@@ -945,8 +900,7 @@ class ReflectionEngine:
             self._anomaly_counts = self._anomaly_counts[-max_history:]
 
         # Check for performance regressions
-        if (self.config.performance_regression_detection and
-            len(self._operation_latencies) >= 10):
+        if self.config.performance_regression_detection and len(self._operation_latencies) >= 10:
             await self._check_performance_regression(latency)
 
         # Update performance history
@@ -954,7 +908,7 @@ class ReflectionEngine:
             "timestamp": time.time(),
             "latency_ms": latency,
             "coherence_score": report.coherence_score,
-            "anomaly_count": report.anomaly_count
+            "anomaly_count": report.anomaly_count,
         }
         self._performance_history.append(performance_entry)
 
@@ -969,7 +923,9 @@ class ReflectionEngine:
             return
 
         recent_avg = statistics.mean(recent_latencies)
-        historical_avg = statistics.mean(self._operation_latencies[:-10]) if len(self._operation_latencies) > 10 else recent_avg
+        historical_avg = (
+            statistics.mean(self._operation_latencies[:-10]) if len(self._operation_latencies) > 10 else recent_avg
+        )
 
         # Check for significant regression (>20% increase)
         if recent_avg > historical_avg * 1.2:
@@ -987,7 +943,7 @@ class ReflectionEngine:
                     operation="reflection",
                     metric="latency",
                     severity=regression_severity,
-                    degradation_percent=degradation_percent
+                    degradation_percent=degradation_percent,
                 )
 
     async def _fail_safe_reflection(self, state: ConsciousnessState) -> ReflectionReport:
@@ -1003,15 +959,10 @@ class ReflectionEngine:
             processing_stage="fail_safe",
             consciousness_level=state.level,
             awareness_type=str(state.awareness_level),
-            emotional_tone=state.emotional_tone
+            emotional_tone=state.emotional_tone,
         )
 
-    async def _handle_reflection_error(
-        self,
-        error: Exception,
-        state: ConsciousnessState,
-        span: Any
-    ) -> None:
+    async def _handle_reflection_error(self, error: Exception, state: ConsciousnessState, span: Any) -> None:
         """Handle reflection processing errors with comprehensive context."""
 
         error_context = {
@@ -1020,7 +971,7 @@ class ReflectionEngine:
             "consciousness_phase": state.phase,
             "consciousness_level": state.level,
             "consecutive_errors": self._consecutive_errors,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         logger.error(f"Reflection processing failed: {error_context}")
@@ -1035,7 +986,7 @@ class ReflectionEngine:
                 category="reflection_engine",
                 severity="high" if self._consecutive_errors >= 2 else "medium",
                 operation="reflect",
-                correlation_id=error_context.get("correlation_id", "unknown")
+                correlation_id=error_context.get("correlation_id", "unknown"),
             )
 
     def update_state_history(self, state: ConsciousnessState) -> None:
@@ -1060,7 +1011,7 @@ class ReflectionEngine:
             "mean_ms": statistics.mean(latencies),
             "median_ms": statistics.median(latencies),
             "min_ms": min(latencies),
-            "max_ms": max(latencies)
+            "max_ms": max(latencies),
         }
 
         # Calculate percentiles
@@ -1081,7 +1032,7 @@ class ReflectionEngine:
                 "mean": statistics.mean(self._coherence_scores),
                 "median": statistics.median(self._coherence_scores),
                 "min": min(self._coherence_scores),
-                "max": max(self._coherence_scores)
+                "max": max(self._coherence_scores),
             }
 
         # Anomaly statistics
@@ -1090,7 +1041,7 @@ class ReflectionEngine:
             anomaly_stats = {
                 "mean_per_reflection": statistics.mean(self._anomaly_counts),
                 "max_anomalies": max(self._anomaly_counts),
-                "total_anomalies": sum(self._anomaly_counts)
+                "total_anomalies": sum(self._anomaly_counts),
             }
 
         return {
@@ -1100,7 +1051,7 @@ class ReflectionEngine:
             "fail_safe_active": self._fail_safe_active,
             "consecutive_errors": self._consecutive_errors,
             "drift_ema_current": self._drift_ema,
-            "state_history_length": len(self._state_history)
+            "state_history_length": len(self._state_history),
         }
 
     def reset_state(self) -> None:
@@ -1124,12 +1075,9 @@ class ReflectionEngine:
 
 class ReflectionError(Exception):
     """Exception raised for reflection processing errors."""
+
     pass
 
 
 # Export public API
-__all__ = [
-    "ReflectionEngine",
-    "ReflectionConfig",
-    "ReflectionError"
-]
+__all__ = ["ReflectionEngine", "ReflectionConfig", "ReflectionError"]

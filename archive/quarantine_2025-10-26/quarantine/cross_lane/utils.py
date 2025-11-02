@@ -1,14 +1,17 @@
 """Re-export for bio utilities under accepted.bio.utils"""
+
 import logging
 
 logger = logging.getLogger(__name__)
 
 try:
     from bio.bio_utilities import *
+
     logger.info("accepted.bio.utils -> bio.bio_utilities")
 except Exception:
     try:
         from bio.bio_utilities import *
+
         logger.info("accepted.bio.utils -> candidate.bio.bio_utilities")
     except Exception as e:
         logger.warning(f"Could not wire bio utils: {e}")

@@ -1,4 +1,5 @@
 """Privacy and security management"""
+
 import logging
 
 logger = logging.getLogger(__name__)

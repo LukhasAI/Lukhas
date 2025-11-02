@@ -18,6 +18,7 @@
 ║ identity management across the LUKHAS ecosystem.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import base64
 import hashlib
 import logging

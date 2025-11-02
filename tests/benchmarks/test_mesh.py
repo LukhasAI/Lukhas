@@ -2,6 +2,7 @@
 Tests for multi-agent dream mesh.
 Ensures multi-agent aggregation is deterministic and safe.
 """
+
 import os
 from unittest.mock import patch
 
@@ -21,7 +22,7 @@ class TestMeshAlignment:
         """Test that mesh is disabled by default."""
         agent_snapshots = [
             [{"emotional_context": {"confidence": 0.5, "joy": 0.8}}],
-            [{"emotional_context": {"confidence": 0.7, "joy": 0.6}}]
+            [{"emotional_context": {"confidence": 0.7, "joy": 0.6}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -35,7 +36,7 @@ class TestMeshAlignment:
         """Test mean aggregation across agents."""
         agent_snapshots = [
             [{"emotional_context": {"confidence": 0.6, "joy": 0.8}}],
-            [{"emotional_context": {"confidence": 0.4, "joy": 0.2}}]
+            [{"emotional_context": {"confidence": 0.4, "joy": 0.2}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -53,7 +54,7 @@ class TestMeshAlignment:
         agent_snapshots = [
             [{"emotional_context": {"confidence": 0.2}}],
             [{"emotional_context": {"confidence": 0.5}}],
-            [{"emotional_context": {"confidence": 0.8}}]
+            [{"emotional_context": {"confidence": 0.8}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -66,7 +67,7 @@ class TestMeshAlignment:
         """Test max aggregation across agents."""
         agent_snapshots = [
             [{"emotional_context": {"confidence": 0.3, "joy": 0.9}}],
-            [{"emotional_context": {"confidence": 0.7, "joy": 0.4}}]
+            [{"emotional_context": {"confidence": 0.7, "joy": 0.4}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -80,7 +81,7 @@ class TestMeshAlignment:
         """Test min aggregation across agents."""
         agent_snapshots = [
             [{"emotional_context": {"confidence": 0.3, "joy": 0.9}}],
-            [{"emotional_context": {"confidence": 0.7, "joy": 0.4}}]
+            [{"emotional_context": {"confidence": 0.7, "joy": 0.4}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -93,9 +94,7 @@ class TestMeshAlignment:
     def test_insufficient_agents(self):
         """Test behavior with insufficient agents."""
         # Only one agent (below minimum)
-        agent_snapshots = [
-            [{"emotional_context": {"confidence": 0.5}}]
-        ]
+        agent_snapshots = [[{"emotional_context": {"confidence": 0.5}}]]
 
         result = mesh_align(agent_snapshots)
         assert result == {}  # Should return empty
@@ -106,7 +105,7 @@ class TestMeshAlignment:
         # Use values that might aggregate outside valid range
         agent_snapshots = [
             [{"emotional_context": {"confidence": 1.5}}],  # Invalid input (will be clamped)
-            [{"emotional_context": {"confidence": -0.5}}]  # Invalid input (will be clamped)
+            [{"emotional_context": {"confidence": -0.5}}],  # Invalid input (will be clamped)
         ]
 
         result = mesh_align(agent_snapshots)
@@ -119,14 +118,8 @@ class TestMeshAlignment:
     def test_multiple_snapshots_per_agent(self):
         """Test aggregation with multiple snapshots per agent."""
         agent_snapshots = [
-            [
-                {"emotional_context": {"confidence": 0.4}},
-                {"emotional_context": {"confidence": 0.6}}
-            ],
-            [
-                {"emotional_context": {"confidence": 0.2}},
-                {"emotional_context": {"confidence": 0.8}}
-            ]
+            [{"emotional_context": {"confidence": 0.4}}, {"emotional_context": {"confidence": 0.6}}],
+            [{"emotional_context": {"confidence": 0.2}}, {"emotional_context": {"confidence": 0.8}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -140,7 +133,7 @@ class TestMeshAlignment:
         """Test handling of snapshots without emotional context."""
         agent_snapshots = [
             [{"no_emotion": "test"}],  # Missing emotional_context
-            [{"emotional_context": {"confidence": 0.5}}]
+            [{"emotional_context": {"confidence": 0.5}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -153,7 +146,7 @@ class TestMeshAlignment:
         """Test handling of invalid emotion values."""
         agent_snapshots = [
             [{"emotional_context": {"confidence": "invalid"}}],
-            [{"emotional_context": {"confidence": 0.5}}]
+            [{"emotional_context": {"confidence": 0.5}}],
         ]
 
         result = mesh_align(agent_snapshots)
@@ -189,7 +182,7 @@ class TestMeshAlignment:
         """Test mesh diversity analysis."""
         agent_snapshots = [
             [{"emotional_context": {"confidence": 0.9, "joy": 0.1}}],
-            [{"emotional_context": {"confidence": 0.1, "joy": 0.9}}]
+            [{"emotional_context": {"confidence": 0.1, "joy": 0.9}}],
         ]
 
         analysis = analyze_mesh_diversity(agent_snapshots)
@@ -214,7 +207,7 @@ class TestMeshAlignment:
         """Test mesh output validation."""
         agent_snapshots = [
             [{"emotional_context": {"confidence": 0.3, "joy": 0.7}}],
-            [{"emotional_context": {"confidence": 0.7, "joy": 0.3}}]
+            [{"emotional_context": {"confidence": 0.7, "joy": 0.3}}],
         ]
 
         aggregated = mesh_align(agent_snapshots)
@@ -241,21 +234,16 @@ class TestMeshAlignment:
     def test_custom_min_agents(self):
         """Test custom minimum agent requirement."""
         # Only 2 agents (below custom minimum of 3)
-        agent_snapshots = [
-            [{"emotional_context": {"confidence": 0.5}}],
-            [{"emotional_context": {"confidence": 0.7}}]
-        ]
+        agent_snapshots = [[{"emotional_context": {"confidence": 0.5}}], [{"emotional_context": {"confidence": 0.7}}]]
 
         result = mesh_align(agent_snapshots)
         assert result == {}  # Should be empty due to insufficient agents
 
     def test_config_reporting(self):
         """Test mesh configuration reporting."""
-        with patch.dict(os.environ, {
-            "LUKHAS_MULTI_AGENT": "1",
-            "LUKHAS_MESH_AGGREGATION": "median",
-            "LUKHAS_MESH_MIN_AGENTS": "5"
-        }):
+        with patch.dict(
+            os.environ, {"LUKHAS_MULTI_AGENT": "1", "LUKHAS_MESH_AGGREGATION": "median", "LUKHAS_MESH_MIN_AGENTS": "5"}
+        ):
             config = get_mesh_config()
 
             assert config["enabled"] is True
@@ -266,10 +254,7 @@ class TestMeshAlignment:
     @patch.dict(os.environ, {"LUKHAS_MULTI_AGENT": "1", "LUKHAS_MESH_AGGREGATION": "invalid"})
     def test_invalid_aggregation_method(self):
         """Test handling of invalid aggregation method."""
-        agent_snapshots = [
-            [{"emotional_context": {"confidence": 0.3}}],
-            [{"emotional_context": {"confidence": 0.7}}]
-        ]
+        agent_snapshots = [[{"emotional_context": {"confidence": 0.3}}], [{"emotional_context": {"confidence": 0.7}}]]
 
         result = mesh_align(agent_snapshots)
 

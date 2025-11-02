@@ -25,8 +25,10 @@ from typing import Any, Dict, List, Optional
 ROOT = Path(__file__).resolve().parents[1]
 MATRIX_CONTRACTS = ROOT / "lukhas"
 
+
 class TierLevel(Enum):
     """ΛiD tier levels with WebAuthn requirements."""
+
     GUEST = (0, "guest", False, "any")
     VISITOR = (1, "visitor", False, "any")
     FRIEND = (2, "friend", True, "any")
@@ -41,7 +43,7 @@ class TierLevel(Enum):
         self.platform_attachment = attachment
 
     @classmethod
-    def from_name(cls, name: str) -> Optional['TierLevel']:
+    def from_name(cls, name: str) -> Optional["TierLevel"]:
         """Get tier level from name."""
         for tier in cls:
             if tier.tier_name == name:
@@ -49,24 +51,28 @@ class TierLevel(Enum):
         return None
 
     @classmethod
-    def from_level(cls, level: int) -> Optional['TierLevel']:
+    def from_level(cls, level: int) -> Optional["TierLevel"]:
         """Get tier level from numeric level."""
         for tier in cls:
             if tier.level == level:
                 return tier
         return None
 
+
 @dataclass
 class WebAuthnPolicy:
     """WebAuthn policy configuration."""
+
     user_verification: bool
     platform_attachment: str
     resident_key: bool = False
     attestation: str = "none"
 
+
 @dataclass
 class ContractWebAuthnAnalysis:
     """WebAuthn analysis for a Matrix contract."""
+
     path: Path
     module: str
     webauthn_required: bool
@@ -75,6 +81,7 @@ class ContractWebAuthnAnalysis:
     recommended_policy: Optional[WebAuthnPolicy]
     current_compliance: bool
     issues: List[str]
+
 
 class WebAuthnMatrixIntegration:
     """WebAuthn integration validator for Matrix contracts."""
@@ -103,10 +110,7 @@ class WebAuthnMatrixIntegration:
             return None
 
         # Generate policy based on tier
-        policy = WebAuthnPolicy(
-            user_verification=tier.user_verification,
-            platform_attachment=tier.platform_attachment
-        )
+        policy = WebAuthnPolicy(user_verification=tier.user_verification, platform_attachment=tier.platform_attachment)
 
         # Enhanced requirements for higher tiers
         if tier.level >= TierLevel.TRUSTED.level:
@@ -132,7 +136,7 @@ class WebAuthnMatrixIntegration:
                 highest_tier=None,
                 recommended_policy=None,
                 current_compliance=False,
-                issues=[f"Invalid JSON: {e}"]
+                issues=[f"Invalid JSON: {e}"],
             )
 
         # Extract identity and WebAuthn info
@@ -171,7 +175,9 @@ class WebAuthnMatrixIntegration:
             issues.append("Critical module should require WebAuthn")
 
         if should_require_webauthn and not webauthn_required:
-            issues.append(f"WebAuthn should be required for tier {highest_tier.tier_name if highest_tier else 'unknown'}")
+            issues.append(
+                f"WebAuthn should be required for tier {highest_tier.tier_name if highest_tier else 'unknown'}"
+            )
             current_compliance = False
 
         # Check for over-engineering (WebAuthn required for low tiers)
@@ -186,7 +192,7 @@ class WebAuthnMatrixIntegration:
             highest_tier=highest_tier,
             recommended_policy=recommended_policy,
             current_compliance=current_compliance,
-            issues=issues
+            issues=issues,
         )
 
     def validate_all_contracts(self) -> List[ContractWebAuthnAnalysis]:
@@ -223,11 +229,13 @@ class WebAuthnMatrixIntegration:
             module_path = str(analysis.path.relative_to(ROOT))
             critical_patterns = ["identity", "governance", "security", "consciousness", "core"]
             if any(pattern in module_path for pattern in critical_patterns):
-                critical_modules.append({
-                    "module": analysis.module,
-                    "webauthn_required": analysis.webauthn_required,
-                    "compliant": analysis.current_compliance
-                })
+                critical_modules.append(
+                    {
+                        "module": analysis.module,
+                        "webauthn_required": analysis.webauthn_required,
+                        "compliant": analysis.current_compliance,
+                    }
+                )
 
         return {
             "summary": {
@@ -236,7 +244,7 @@ class WebAuthnMatrixIntegration:
                 "webauthn_percentage": round(100 * webauthn_required / total_contracts, 1),
                 "compliant_contracts": compliant_contracts,
                 "compliance_rate": round(100 * compliant_contracts / total_contracts, 1),
-                "contracts_with_issues": contracts_with_issues
+                "contracts_with_issues": contracts_with_issues,
             },
             "tier_distribution": tier_webauthn_distribution,
             "critical_modules": critical_modules,
@@ -247,10 +255,11 @@ class WebAuthnMatrixIntegration:
                     "module": a.module,
                     "webauthn_required": a.webauthn_required,
                     "highest_tier": a.highest_tier.tier_name if a.highest_tier else None,
-                    "issues": a.issues
+                    "issues": a.issues,
                 }
-                for a in analyses if a.issues
-            ]
+                for a in analyses
+                if a.issues
+            ],
         }
 
     def _generate_recommendations(self, analyses: List[ContractWebAuthnAnalysis]) -> List[Dict[str, str]]:
@@ -263,24 +272,30 @@ class WebAuthnMatrixIntegration:
                 module_path = str(analysis.path.relative_to(ROOT))
                 critical_patterns = ["identity", "governance", "security", "consciousness"]
                 if any(pattern in module_path for pattern in critical_patterns):
-                    recommendations.append({
-                        "type": "security",
-                        "module": analysis.module,
-                        "recommendation": "Enable WebAuthn requirement for critical security module",
-                        "rationale": f"Module {analysis.module} handles sensitive operations"
-                    })
+                    recommendations.append(
+                        {
+                            "type": "security",
+                            "module": analysis.module,
+                            "recommendation": "Enable WebAuthn requirement for critical security module",
+                            "rationale": f"Module {analysis.module} handles sensitive operations",
+                        }
+                    )
 
         # Check for high-tier modules without WebAuthn
         for analysis in analyses:
-            if (not analysis.webauthn_required and
-                analysis.highest_tier and
-                analysis.highest_tier.level >= TierLevel.INNER_CIRCLE.level):
-                recommendations.append({
-                    "type": "tier_alignment",
-                    "module": analysis.module,
-                    "recommendation": f"Enable WebAuthn for {analysis.highest_tier.tier_name} tier module",
-                    "rationale": f"Tier {analysis.highest_tier.tier_name} typically requires strong authentication"
-                })
+            if (
+                not analysis.webauthn_required
+                and analysis.highest_tier
+                and analysis.highest_tier.level >= TierLevel.INNER_CIRCLE.level
+            ):
+                recommendations.append(
+                    {
+                        "type": "tier_alignment",
+                        "module": analysis.module,
+                        "recommendation": f"Enable WebAuthn for {analysis.highest_tier.tier_name} tier module",
+                        "rationale": f"Tier {analysis.highest_tier.tier_name} typically requires strong authentication",
+                    }
+                )
 
         return recommendations
 
@@ -301,8 +316,7 @@ class WebAuthnMatrixIntegration:
                     should_enable = True
 
                 # High-tier modules should have WebAuthn
-                if (analysis.highest_tier and
-                    analysis.highest_tier.level >= TierLevel.INNER_CIRCLE.level):
+                if analysis.highest_tier and analysis.highest_tier.level >= TierLevel.INNER_CIRCLE.level:
                     should_enable = True
 
                 if should_enable and not analysis.webauthn_required:
@@ -310,7 +324,7 @@ class WebAuthnMatrixIntegration:
                         "contract": str(analysis.path.relative_to(ROOT)),
                         "module": analysis.module,
                         "action": "enable_webauthn",
-                        "reason": f"Required for {analysis.highest_tier.tier_name if analysis.highest_tier else 'critical'} module"
+                        "reason": f"Required for {analysis.highest_tier.tier_name if analysis.highest_tier else 'critical'} module",
                     }
                     changes.append(change)
 
@@ -324,6 +338,7 @@ class WebAuthnMatrixIntegration:
 
         return changes
 
+
 async def test_webauthn_flow(module: str) -> Dict[str, Any]:
     """Test WebAuthn authentication flow for a module."""
     # Placeholder for actual WebAuthn testing
@@ -333,28 +348,22 @@ async def test_webauthn_flow(module: str) -> Dict[str, Any]:
         "test_result": "simulated",
         "credential_creation": "success",
         "authentication": "success",
-        "latency_ms": 85
+        "latency_ms": 85,
     }
+
 
 def main():
     """CLI for WebAuthn Matrix integration."""
     parser = argparse.ArgumentParser(
-        description="WebAuthn Matrix Integration Validator",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        description="WebAuthn Matrix Integration Validator", formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    parser.add_argument("--validate", action="store_true",
-                       help="Validate WebAuthn configuration for all contracts")
-    parser.add_argument("--report", action="store_true",
-                       help="Generate WebAuthn compliance report")
-    parser.add_argument("--fix", action="store_true",
-                       help="Fix WebAuthn requirements based on analysis")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Show changes without applying them")
-    parser.add_argument("--test-flow", type=str,
-                       help="Test WebAuthn flow for specific module")
-    parser.add_argument("--output", type=str,
-                       help="Output file for reports (JSON format)")
+    parser.add_argument("--validate", action="store_true", help="Validate WebAuthn configuration for all contracts")
+    parser.add_argument("--report", action="store_true", help="Generate WebAuthn compliance report")
+    parser.add_argument("--fix", action="store_true", help="Fix WebAuthn requirements based on analysis")
+    parser.add_argument("--dry-run", action="store_true", help="Show changes without applying them")
+    parser.add_argument("--test-flow", type=str, help="Test WebAuthn flow for specific module")
+    parser.add_argument("--output", type=str, help="Output file for reports (JSON format)")
 
     args = parser.parse_args()
 
@@ -378,18 +387,20 @@ def main():
                 print("\n🔐 WebAuthn Matrix Integration Report")
                 print("====================================")
                 print(f"Total contracts: {report['summary']['total_contracts']}")
-                print(f"WebAuthn required: {report['summary']['webauthn_required']} ({report['summary']['webauthn_percentage']}%)")
+                print(
+                    f"WebAuthn required: {report['summary']['webauthn_required']} ({report['summary']['webauthn_percentage']}%)"
+                )
                 print(f"Compliance rate: {report['summary']['compliance_rate']}%")
 
-                if report['critical_modules']:
+                if report["critical_modules"]:
                     print(f"\n🔑 Critical modules ({len(report['critical_modules'])}):")
-                    for mod in report['critical_modules'][:5]:
-                        status = "✅" if mod['webauthn_required'] else "❌"
+                    for mod in report["critical_modules"][:5]:
+                        status = "✅" if mod["webauthn_required"] else "❌"
                         print(f"  {status} {mod['module']}")
 
-                if report['recommendations']:
+                if report["recommendations"]:
                     print(f"\n💡 Recommendations ({len(report['recommendations'])}):")
-                    for rec in report['recommendations'][:3]:
+                    for rec in report["recommendations"][:3]:
                         print(f"  - {rec['module']}: {rec['recommendation']}")
 
     if args.fix:
@@ -414,6 +425,7 @@ def main():
         print(f"📊 Test result: {result}")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

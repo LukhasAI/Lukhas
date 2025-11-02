@@ -46,40 +46,36 @@ class IntegrationTestHarness:
         observability.record_device_registration = AsyncMock()
 
         # Setup Identity Stack
-        self.components['lambda_id'] = LambdaIDSystem()
-        self.components['tier_system'] = TierSystem()
-        self.components['jwt_manager'] = JWTManager()
-        self.components['session_manager'] = SessionManager(
-            token_generator=Mock(),
-            observability=observability
-        )
-        self.components['device_registry'] = DeviceRegistry(observability)
-        self.components['oidc_provider'] = OIDCProvider(
+        self.components["lambda_id"] = LambdaIDSystem()
+        self.components["tier_system"] = TierSystem()
+        self.components["jwt_manager"] = JWTManager()
+        self.components["session_manager"] = SessionManager(token_generator=Mock(), observability=observability)
+        self.components["device_registry"] = DeviceRegistry(observability)
+        self.components["oidc_provider"] = OIDCProvider(
             issuer="https://test.ai",
-            jwt_manager=self.components['jwt_manager'],
-            session_manager=self.components['session_manager'],
-            tier_system=self.components['tier_system'],
-            observability=observability
+            jwt_manager=self.components["jwt_manager"],
+            session_manager=self.components["session_manager"],
+            tier_system=self.components["tier_system"],
+            observability=observability,
         )
 
         # Setup Memory Stack
-        self.components['memory_integrator'] = ConsciousnessMemoryIntegrator()
-        self.components['distributed_memory'] = DistributedMemoryOrchestrator(
-            memory_integrator=self.components['memory_integrator']
+        self.components["memory_integrator"] = ConsciousnessMemoryIntegrator()
+        self.components["distributed_memory"] = DistributedMemoryOrchestrator(
+            memory_integrator=self.components["memory_integrator"]
         )
-        self.components['federation_coordinator'] = FederationCoordinator(
-            federation_id="test_federation",
-            local_orchestrator=self.components['distributed_memory']
+        self.components["federation_coordinator"] = FederationCoordinator(
+            federation_id="test_federation", local_orchestrator=self.components["distributed_memory"]
         )
 
         # Setup Consciousness Stack
-        self.components['consciousness_stream'] = ConsciousnessStream()
-        self.components['memory_bridge'] = MemoryConsciousnessBridge(
-            memory_integrator=self.components['memory_integrator']
+        self.components["consciousness_stream"] = ConsciousnessStream()
+        self.components["memory_bridge"] = MemoryConsciousnessBridge(
+            memory_integrator=self.components["memory_integrator"]
         )
 
         # Setup Governance Stack
-        self.components['audit_trail'] = AuditTrail()
+        self.components["audit_trail"] = AuditTrail()
 
         # Start all components
         await self._start_all_components()
@@ -88,20 +84,20 @@ class IntegrationTestHarness:
         """Start all system components"""
 
         startup_order = [
-            'audit_trail',
-            'memory_integrator',
-            'distributed_memory',
-            'session_manager',
-            'device_registry',
-            'oidc_provider',
-            'consciousness_stream',
-            'memory_bridge',
-            'federation_coordinator'
+            "audit_trail",
+            "memory_integrator",
+            "distributed_memory",
+            "session_manager",
+            "device_registry",
+            "oidc_provider",
+            "consciousness_stream",
+            "memory_bridge",
+            "federation_coordinator",
         ]
 
         for component_name in startup_order:
             component = self.components.get(component_name)
-            if component and hasattr(component, 'start'):
+            if component and hasattr(component, "start"):
                 try:
                     await component.start()
                     print(f"✅ Started {component_name}")
@@ -112,7 +108,7 @@ class IntegrationTestHarness:
         """Cleanup all system components"""
 
         for component_name, component in self.components.items():
-            if hasattr(component, 'stop'):
+            if hasattr(component, "stop"):
                 try:
                     await component.stop()
                     print(f"🛑 Stopped {component_name}")
@@ -136,18 +132,18 @@ class TestIdentityIntegration:
         """Test complete identity flow from registration to authentication"""
 
         # Generate Lambda ID
-        lambda_id_system = integration_harness.components['lambda_id']
+        lambda_id_system = integration_harness.components["lambda_id"]
         lambda_id = await lambda_id_system.generate_lambda_id()
-        assert lambda_id.startswith('λ')
+        assert lambda_id.startswith("λ")
 
         # Set tier level
-        tier_system = integration_harness.components['tier_system']
+        tier_system = integration_harness.components["tier_system"]
         await tier_system.set_user_tier_level(lambda_id, 3, "test_promotion")
         tier_level = await tier_system.get_user_tier_level(lambda_id)
         assert tier_level == 3
 
         # Register device
-        device_registry = integration_harness.components['device_registry']
+        device_registry = integration_harness.components["device_registry"]
         from identity.session_manager import DeviceType
 
         device = await device_registry.register_device(
@@ -156,19 +152,19 @@ class TestIdentityIntegration:
             device_name="Test Browser",
             user_agent="TestAgent/1.0",
             ip_address="127.0.0.1",
-            capabilities={"biometric", "secure_element"}
+            capabilities={"biometric", "secure_element"},
         )
-        assert device.device_id.startswith('dev_')
+        assert device.device_id.startswith("dev_")
 
         # Create session
-        session_manager = integration_harness.components['session_manager']
+        session_manager = integration_harness.components["session_manager"]
         session = await session_manager.create_session(
             lambda_id=lambda_id,
             device_id=device.device_id,
             ip_address="127.0.0.1",
             user_agent="TestAgent/1.0",
             tier_level=tier_level,
-            scopes={"openid", "profile", "lukhas"}
+            scopes={"openid", "profile", "lukhas"},
         )
         assert session.is_valid
 
@@ -183,19 +179,19 @@ class TestIdentityIntegration:
         """Test OIDC authorization code flow"""
 
         # Register OIDC client
-        oidc_provider = integration_harness.components['oidc_provider']
+        oidc_provider = integration_harness.components["oidc_provider"]
 
         client = await oidc_provider.register_client(
             client_name="Test App",
             redirect_uris=["https://test.app/callback"],
             grant_types=["authorization_code", "refresh_token"],
             response_types=["code"],
-            scope=["openid", "profile", "email"]
+            scope=["openid", "profile", "email"],
         )
-        assert client.client_id.startswith('client_')
+        assert client.client_id.startswith("client_")
 
         # Generate test user
-        lambda_id_system = integration_harness.components['lambda_id']
+        lambda_id_system = integration_harness.components["lambda_id"]
         lambda_id = await lambda_id_system.generate_lambda_id()
 
         # Authorization request
@@ -204,7 +200,7 @@ class TestIdentityIntegration:
             response_type="code",
             redirect_uri="https://test.app/callback",
             scope="openid profile",
-            lambda_id=lambda_id
+            lambda_id=lambda_id,
         )
         assert auth_result["success"] is True
 
@@ -218,7 +214,7 @@ class TestIdentityIntegration:
             client_id=client.client_id,
             client_secret=client.client_secret,
             code=code,
-            redirect_uri="https://test.app/callback"
+            redirect_uri="https://test.app/callback",
         )
 
         assert "access_token" in token_result
@@ -238,39 +234,29 @@ class TestMemoryConsciousnessIntegration:
     async def test_memory_consciousness_bridge(self, integration_harness):
         """Test bidirectional memory-consciousness bridge"""
 
-        memory_bridge = integration_harness.components['memory_bridge']
-        consciousness_stream = integration_harness.components['consciousness_stream']
+        memory_bridge = integration_harness.components["memory_bridge"]
+        consciousness_stream = integration_harness.components["consciousness_stream"]
 
         # Create consciousness session
         from consciousness.types import ConsciousnessState
 
         consciousness_state = ConsciousnessState(
-            phase="AWARE",
-            awareness_level="enhanced",
-            level=0.8,
-            emotional_tone="positive"
+            phase="AWARE", awareness_level="enhanced", level=0.8, emotional_tone="positive"
         )
 
         session_created = await memory_bridge.create_consciousness_session(
-            session_id="test_session_001",
-            consciousness_state=consciousness_state,
-            context={"test": "integration"}
+            session_id="test_session_001", consciousness_state=consciousness_state, context={"test": "integration"}
         )
         assert session_created
 
         # Query relevant memories
         memories = await memory_bridge.query_consciousness_relevant_memories(
-            session_id="test_session_001",
-            consciousness_context="test_integration",
-            max_results=5
+            session_id="test_session_001", consciousness_context="test_integration", max_results=5
         )
         assert isinstance(memories, list)
 
         # Test consciousness tick with memory integration
-        metrics = await consciousness_stream.tick({
-            "test_signal": "integration_test",
-            "memory_context": "active"
-        })
+        metrics = await consciousness_stream.tick({"test_signal": "integration_test", "memory_context": "active"})
 
         assert metrics.tick_rate_hz >= 0
         print("✅ Memory-consciousness bridge functional")
@@ -278,8 +264,8 @@ class TestMemoryConsciousnessIntegration:
     async def test_distributed_memory_operations(self, integration_harness):
         """Test distributed memory operations"""
 
-        integration_harness.components['distributed_memory']
-        memory_integrator = integration_harness.components['memory_integrator']
+        integration_harness.components["distributed_memory"]
+        memory_integrator = integration_harness.components["memory_integrator"]
 
         # Create test memory fold
         from memory.consciousness_memory_integration import EmotionalContext, MemoryFoldType
@@ -287,31 +273,24 @@ class TestMemoryConsciousnessIntegration:
         test_content = {
             "test_data": "integration_test",
             "timestamp": datetime.utcnow().isoformat(),
-            "significance": "high"
+            "significance": "high",
         }
 
-        emotional_context = EmotionalContext(
-            valence=0.5,
-            arousal=0.3,
-            dominance=0.7,
-            confidence=0.9
-        )
+        emotional_context = EmotionalContext(valence=0.5, arousal=0.3, dominance=0.7, confidence=0.9)
 
         fold_id = await memory_integrator.create_consciousness_memory_fold(
             content=test_content,
             fold_type=MemoryFoldType.EPISODIC,
             consciousness_context="integration_test",
             emotional_context=emotional_context,
-            tags={"integration", "test"}
+            tags={"integration", "test"},
         )
 
-        assert fold_id.startswith('fold_')
+        assert fold_id.startswith("fold_")
 
         # Test memory recall
         recalled_memories = await memory_integrator.recall_consciousness_memory(
-            query={"test_data": "integration_test"},
-            consciousness_context="integration_test",
-            max_results=10
+            query={"test_data": "integration_test"}, consciousness_context="integration_test", max_results=10
         )
 
         assert len(recalled_memories) > 0
@@ -326,7 +305,7 @@ class TestGovernanceIntegration:
     async def test_audit_trail_integration(self, integration_harness):
         """Test audit trail with real system events"""
 
-        audit_trail = integration_harness.components['audit_trail']
+        audit_trail = integration_harness.components["audit_trail"]
 
         # Test authentication audit
         test_user = "λtest_audit_user"
@@ -335,9 +314,9 @@ class TestGovernanceIntegration:
             outcome="success",
             method="lambda_id",
             ip_address="127.0.0.1",
-            user_agent="Integration/Test"
+            user_agent="Integration/Test",
         )
-        assert auth_event_id.startswith('audit_')
+        assert auth_event_id.startswith("audit_")
 
         # Test data access audit
         data_event_id = await audit_trail.log_data_access(
@@ -345,9 +324,9 @@ class TestGovernanceIntegration:
             resource_id="memory_fold_123",
             action="read",
             outcome="success",
-            data_classification="personal"
+            data_classification="personal",
         )
-        assert data_event_id.startswith('audit_')
+        assert data_event_id.startswith("audit_")
 
         # Test Guardian decision audit
         guardian_event_id = await audit_trail.log_guardian_decision(
@@ -357,15 +336,13 @@ class TestGovernanceIntegration:
             decision_outcome="approved",
             confidence_score=0.95,
             policies_evaluated=["privacy_policy", "access_control"],
-            reasoning="User has valid permissions"
+            reasoning="User has valid permissions",
         )
-        assert guardian_event_id.startswith('audit_')
+        assert guardian_event_id.startswith("audit_")
 
         # Query audit events
         events = await audit_trail.query_events(
-            user_id=test_user,
-            start_date=datetime.utcnow() - timedelta(minutes=1),
-            limit=100
+            user_id=test_user, start_date=datetime.utcnow() - timedelta(minutes=1), limit=100
         )
 
         assert len(events) >= 3
@@ -378,7 +355,7 @@ class TestGovernanceIntegration:
         report = await audit_trail.generate_compliance_report(
             framework=ComplianceFramework.GDPR,
             start_date=datetime.utcnow() - timedelta(hours=1),
-            end_date=datetime.utcnow()
+            end_date=datetime.utcnow(),
         )
 
         assert report.framework == ComplianceFramework.GDPR
@@ -390,7 +367,7 @@ class TestGovernanceIntegration:
     async def test_integrity_verification(self, integration_harness):
         """Test audit trail integrity verification"""
 
-        audit_trail = integration_harness.components['audit_trail']
+        audit_trail = integration_harness.components["audit_trail"]
 
         # Generate some audit events
         for i in range(5):
@@ -400,11 +377,11 @@ class TestGovernanceIntegration:
                 source_component="integration_test",
                 action=f"test_operation_{i}",
                 description=f"Integration test operation {i}",
-                metadata={"iteration": i}
+                metadata={"iteration": i},
             )
 
         # Force flush to create blocks
-        if hasattr(audit_trail, '_flush_current_block'):
+        if hasattr(audit_trail, "_flush_current_block"):
             await audit_trail._flush_current_block()
 
         # Verify integrity
@@ -424,8 +401,8 @@ class TestPerformanceIntegration:
     async def test_identity_performance(self, integration_harness):
         """Test identity system performance"""
 
-        lambda_id_system = integration_harness.components['lambda_id']
-        session_manager = integration_harness.components['session_manager']
+        lambda_id_system = integration_harness.components["lambda_id"]
+        session_manager = integration_harness.components["session_manager"]
 
         # Test Lambda ID generation performance
         start_time = time.time()
@@ -448,14 +425,15 @@ class TestPerformanceIntegration:
 
         # Create test session
         from identity.session_manager import DeviceType
-        device_registry = integration_harness.components['device_registry']
+
+        device_registry = integration_harness.components["device_registry"]
 
         device = await device_registry.register_device(
             lambda_id=test_lambda_id,
             device_type=DeviceType.WEB,
             device_name="Perf Test",
             user_agent="PerfTest/1.0",
-            ip_address="127.0.0.1"
+            ip_address="127.0.0.1",
         )
 
         session = await session_manager.create_session(
@@ -463,7 +441,7 @@ class TestPerformanceIntegration:
             device_id=device.device_id,
             ip_address="127.0.0.1",
             user_agent="PerfTest/1.0",
-            tier_level=1
+            tier_level=1,
         )
 
         # Test session validation performance
@@ -483,7 +461,7 @@ class TestPerformanceIntegration:
     async def test_memory_performance(self, integration_harness):
         """Test memory system performance"""
 
-        memory_integrator = integration_harness.components['memory_integrator']
+        memory_integrator = integration_harness.components["memory_integrator"]
 
         # Test memory fold creation performance
         start_time = time.time()
@@ -497,7 +475,7 @@ class TestPerformanceIntegration:
                 fold_type=MemoryFoldType.PROCEDURAL,
                 consciousness_context=f"perf_test_{i}",
                 emotional_context=EmotionalContext(0.0, 0.3, 0.5),
-                tags={"performance", "test"}
+                tags={"performance", "test"},
             )
             fold_ids.append(fold_id)
 
@@ -513,9 +491,7 @@ class TestPerformanceIntegration:
 
         for i in range(50):
             memories = await memory_integrator.recall_consciousness_memory(
-                query={"test_data": f"performance_test_{i}"},
-                consciousness_context=f"perf_test_{i}",
-                max_results=5
+                query={"test_data": f"performance_test_{i}"}, consciousness_context=f"perf_test_{i}", max_results=5
             )
             assert len(memories) > 0
 
@@ -529,16 +505,13 @@ class TestPerformanceIntegration:
     async def test_consciousness_performance(self, integration_harness):
         """Test consciousness system performance"""
 
-        consciousness_stream = integration_harness.components['consciousness_stream']
+        consciousness_stream = integration_harness.components["consciousness_stream"]
 
         # Test consciousness tick performance
         start_time = time.time()
 
         for i in range(100):
-            metrics = await consciousness_stream.tick({
-                "test_signal": f"performance_{i}",
-                "iteration": i
-            })
+            metrics = await consciousness_stream.tick({"test_signal": f"performance_{i}", "iteration": i})
             assert metrics.tick_rate_hz >= 0
 
         tick_time = time.time() - start_time
@@ -556,7 +529,7 @@ class TestResilience:
         """Test system behavior when components fail"""
 
         # Test memory system resilience
-        memory_integrator = integration_harness.components['memory_integrator']
+        memory_integrator = integration_harness.components["memory_integrator"]
 
         # Simulate memory error by attempting invalid operation
         try:
@@ -572,14 +545,14 @@ class TestResilience:
             print(f"✅ Memory system handled error gracefully: {type(e).__name__}")
 
         # Test OIDC provider resilience
-        oidc_provider = integration_harness.components['oidc_provider']
+        oidc_provider = integration_harness.components["oidc_provider"]
 
         # Test with invalid client
         auth_result = await oidc_provider.authorize(
             client_id="invalid_client",
             response_type="code",
             redirect_uri="https://invalid.com/callback",
-            scope="openid"
+            scope="openid",
         )
 
         assert auth_result["success"] is False
@@ -590,7 +563,7 @@ class TestResilience:
     async def test_audit_trail_resilience(self, integration_harness):
         """Test audit trail resilience"""
 
-        audit_trail = integration_harness.components['audit_trail']
+        audit_trail = integration_harness.components["audit_trail"]
 
         # Test with invalid event data
         try:
@@ -600,9 +573,9 @@ class TestResilience:
                 source_component="resilience_test",
                 action="test_invalid_data",
                 description="Testing resilience with edge case data",
-                metadata={"large_data": "x" * 10000}  # Large metadata
+                metadata={"large_data": "x" * 10000},  # Large metadata
             )
-            assert event_id.startswith('audit_')
+            assert event_id.startswith("audit_")
             print("✅ Audit trail handled large metadata gracefully")
         except Exception as e:
             print(f"✅ Audit trail error handling: {type(e).__name__}")
@@ -616,7 +589,7 @@ PERFORMANCE_BENCHMARKS = {
     "memory_recall_ms": 100,
     "consciousness_tick_ms": 50,
     "oidc_token_exchange_ms": 100,
-    "audit_event_logging_ms": 10
+    "audit_event_logging_ms": 10,
 }
 
 
@@ -637,7 +610,7 @@ async def run_comprehensive_integration_test():
             TestMemoryConsciousnessIntegration(),
             TestGovernanceIntegration(),
             TestPerformanceIntegration(),
-            TestResilience()
+            TestResilience(),
         ]
 
         for suite in test_suites:
@@ -645,7 +618,7 @@ async def run_comprehensive_integration_test():
             print(f"\n🧪 Running {suite_name}")
 
             for method_name in dir(suite):
-                if method_name.startswith('test_'):
+                if method_name.startswith("test_"):
                     test_method = getattr(suite, method_name)
                     try:
                         await test_method(harness)

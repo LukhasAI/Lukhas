@@ -28,7 +28,7 @@ class ModuleContentMiner:
         init_file = module_path / "__init__.py"
         if init_file.exists():
             try:
-                with open(init_file, 'r', encoding='utf-8') as f:
+                with open(init_file, "r", encoding="utf-8") as f:
                     content = f.read()
 
                 # Parse AST to find __all__ definitions
@@ -36,7 +36,7 @@ class ModuleContentMiner:
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Assign):
                         for target in node.targets:
-                            if isinstance(target, ast.Name) and target.id == '__all__':
+                            if isinstance(target, ast.Name) and target.id == "__all__":
                                 if isinstance(node.value, ast.List):
                                     for item in node.value.elts:
                                         if isinstance(item, ast.Str):
@@ -47,7 +47,7 @@ class ModuleContentMiner:
                 # Also look for class and function definitions
                 for node in ast.walk(tree):
                     if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                        if not node.name.startswith('_'):  # Skip private
+                        if not node.name.startswith("_"):  # Skip private
                             entrypoints.append(f"{module_path.name}.{node.name}")
 
             except Exception as e:
@@ -55,17 +55,17 @@ class ModuleContentMiner:
 
         # Scan other Python files in the module
         for py_file in module_path.glob("*.py"):
-            if py_file.name.startswith('_') or py_file.name == "__init__.py":
+            if py_file.name.startswith("_") or py_file.name == "__init__.py":
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, "r", encoding="utf-8") as f:
                     content = f.read()
 
                 tree = ast.parse(content)
                 for node in ast.walk(tree):
                     if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                        if not node.name.startswith('_'):
+                        if not node.name.startswith("_"):
                             entrypoints.append(f"{module_path.name}.{py_file.stem}.{node.name}")
 
             except Exception as e:
@@ -80,18 +80,18 @@ class ModuleContentMiner:
             return None
 
         try:
-            with open(init_file, 'r', encoding='utf-8') as f:
+            with open(init_file, "r", encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
             if tree.body and isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
                 docstring = tree.body[0].value.s
                 # Extract first meaningful paragraph
-                lines = [line.strip() for line in docstring.split('\n') if line.strip()]
+                lines = [line.strip() for line in docstring.split("\n") if line.strip()]
                 if lines:
                     # Find the main description (usually after title)
                     for i, line in enumerate(lines):
-                        if i > 0 and len(line) > 50 and not line.endswith('='):
+                        if i > 0 and len(line) > 50 and not line.endswith("="):
                             return line
                     return lines[0] if lines else None
 
@@ -117,7 +117,7 @@ class ModuleContentMiner:
         for context_file in context_files:
             if context_file.exists():
                 try:
-                    with open(context_file, 'r', encoding='utf-8') as f:
+                    with open(context_file, "r", encoding="utf-8") as f:
                         content = f.read()
                     context_data[context_file.name] = content
                 except Exception as e:
@@ -129,12 +129,12 @@ class ModuleContentMiner:
         """Extract constellation framework role from content."""
         # Look for constellation patterns
         patterns = [
-            r'constellation[_\s]+role[:\s]+([a-z_\-]+)',
-            r'constellation[_\s]+framework[:\s]+([⚛️🧠🛡️🌟✨🔄🎯⭐]+)',
-            r'anchor[_\-]star[_\-]([a-z]+)',
-            r'trail[_\-]star[_\-]([a-z]+)',
-            r'watch[_\-]star[_\-]([a-z]+)',
-            r'horizon[_\-]star[_\-]([a-z]+)',
+            r"constellation[_\s]+role[:\s]+([a-z_\-]+)",
+            r"constellation[_\s]+framework[:\s]+([⚛️🧠🛡️🌟✨🔄🎯⭐]+)",
+            r"anchor[_\-]star[_\-]([a-z]+)",
+            r"trail[_\-]star[_\-]([a-z]+)",
+            r"watch[_\-]star[_\-]([a-z]+)",
+            r"horizon[_\-]star[_\-]([a-z]+)",
         ]
 
         for pattern in patterns:
@@ -150,17 +150,17 @@ class ModuleContentMiner:
 
         # Domain-specific tag mapping
         domain_tags = {
-            'consciousness': ['consciousness', 'awareness', 'cognition', 'phenomenological'],
-            'memory': ['memory', 'temporal', 'fold-architecture', 'episodic', 'semantic'],
-            'identity': ['identity', 'authentication', 'oauth2', 'webauthn', 'security'],
-            'governance': ['governance', 'ethics', 'constitutional-ai', 'guardian', 'policy'],
-            'matriz': ['bio-symbolic', 'quantum-inspired', 'symbolic-reasoning'],
-            'brain': ['cognitive', 'orchestration', 'intelligence', 'monitoring'],
-            'api': ['api', 'rest', 'graphql', 'endpoints'],
-            'bridge': ['integration', 'adapters', 'connectors'],
-            'orchestration': ['orchestration', 'coordination', 'workflow'],
-            'quantum': ['quantum', 'quantum-inspired', 'superposition'],
-            'core': ['core', 'infrastructure', 'coordination'],
+            "consciousness": ["consciousness", "awareness", "cognition", "phenomenological"],
+            "memory": ["memory", "temporal", "fold-architecture", "episodic", "semantic"],
+            "identity": ["identity", "authentication", "oauth2", "webauthn", "security"],
+            "governance": ["governance", "ethics", "constitutional-ai", "guardian", "policy"],
+            "matriz": ["bio-symbolic", "quantum-inspired", "symbolic-reasoning"],
+            "brain": ["cognitive", "orchestration", "intelligence", "monitoring"],
+            "api": ["api", "rest", "graphql", "endpoints"],
+            "bridge": ["integration", "adapters", "connectors"],
+            "orchestration": ["orchestration", "coordination", "workflow"],
+            "quantum": ["quantum", "quantum-inspired", "superposition"],
+            "core": ["core", "infrastructure", "coordination"],
         }
 
         # Add domain-specific tags
@@ -170,30 +170,31 @@ class ModuleContentMiner:
 
         # Extract from content
         content_lower = content.lower()
-        if 'webauthn' in content_lower or 'fido2' in content_lower:
-            tags.extend(['webauthn', 'passkey'])
-        if 'oauth' in content_lower:
-            tags.append('oauth2')
-        if 'consciousness' in content_lower:
-            tags.append('consciousness')
-        if 'fold' in content_lower and 'memory' in content_lower:
-            tags.append('fold-architecture')
-        if 't4' in content_lower or 'experimental' in content_lower:
-            tags.append('t4-experimental')
+        if "webauthn" in content_lower or "fido2" in content_lower:
+            tags.extend(["webauthn", "passkey"])
+        if "oauth" in content_lower:
+            tags.append("oauth2")
+        if "consciousness" in content_lower:
+            tags.append("consciousness")
+        if "fold" in content_lower and "memory" in content_lower:
+            tags.append("fold-architecture")
+        if "t4" in content_lower or "experimental" in content_lower:
+            tags.append("t4-experimental")
 
         # Check entrypoints for patterns
-        entrypoint_text = ' '.join(entrypoints).lower()
-        if 'monitor' in entrypoint_text:
-            tags.append('monitoring')
-        if 'auth' in entrypoint_text:
-            tags.append('authentication')
-        if 'orchestr' in entrypoint_text:
-            tags.append('orchestration')
+        entrypoint_text = " ".join(entrypoints).lower()
+        if "monitor" in entrypoint_text:
+            tags.append("monitoring")
+        if "auth" in entrypoint_text:
+            tags.append("authentication")
+        if "orchestr" in entrypoint_text:
+            tags.append("orchestration")
 
         return sorted(list(set(tags)))
 
-    def generate_rich_description(self, module_name: str, docstring: Optional[str],
-                                context_data: Dict[str, str], entrypoints: List[str]) -> str:
+    def generate_rich_description(
+        self, module_name: str, docstring: Optional[str], context_data: Dict[str, str], entrypoints: List[str]
+    ) -> str:
         """Generate rich T4/0.01% description."""
 
         # Use docstring if available and rich
@@ -202,24 +203,24 @@ class ModuleContentMiner:
 
         # Mine from context files
         for filename, content in context_data.items():
-            if 'lukhas_context.md' in filename:
-                lines = [line.strip() for line in content.split('\n') if line.strip()]
+            if "lukhas_context.md" in filename:
+                lines = [line.strip() for line in content.split("\n") if line.strip()]
                 for line in lines:
-                    if len(line) > 50 and not line.startswith('#') and not line.endswith('='):
+                    if len(line) > 50 and not line.startswith("#") and not line.endswith("="):
                         return line
 
         # Generate from module analysis
         domain_descriptions = {
-            'consciousness': f"Advanced consciousness processing engine implementing awareness patterns, decision-making algorithms, and phenomenological processing with {len(entrypoints)} entrypoints for cognitive state management.",
-            'memory': f"Comprehensive memory management system with fold-based architecture, temporal persistence, and consciousness-memory coupling for episodic and semantic memory operations across {len(entrypoints)} components.",
-            'identity': f"Identity and authentication infrastructure providing λID Core Identity System, WebAuthn/FIDO2 integration, OAuth2/OIDC flows, and secure credential management with namespace isolation via {len(entrypoints)} entrypoints.",
-            'governance': f"Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations with {len(entrypoints)} components.",
-            'matriz': f"MATRIZ core processing engine providing bio-symbolic adaptation, consciousness data flows, quantum-inspired algorithms, and symbolic reasoning for AGI development with {len(entrypoints)} processing nodes.",
-            'brain': f"High-level cognitive orchestration, intelligence monitoring, and unified consciousness coordination for advanced AI brain architecture with {len(entrypoints)} cognitive components.",
-            'core': f"Core orchestration and infrastructure layer providing system coordination, symbolic network integration, consciousness-core coupling, and fundamental LUKHAS primitives with {len(entrypoints)} core functions.",
-            'api': f"API gateway and service mesh providing REST/GraphQL endpoints, multi-AI orchestration, and external service integration with {len(entrypoints)} API interfaces.",
-            'bridge': f"Integration bridge and adapter framework for external services, legacy system modernization, and service mesh connectivity with {len(entrypoints)} connector components.",
-            'orchestration': f"System orchestration and workflow coordination providing multi-service integration, pipeline management, and distributed system coordination with {len(entrypoints)} orchestration functions.",
+            "consciousness": f"Advanced consciousness processing engine implementing awareness patterns, decision-making algorithms, and phenomenological processing with {len(entrypoints)} entrypoints for cognitive state management.",
+            "memory": f"Comprehensive memory management system with fold-based architecture, temporal persistence, and consciousness-memory coupling for episodic and semantic memory operations across {len(entrypoints)} components.",
+            "identity": f"Identity and authentication infrastructure providing λID Core Identity System, WebAuthn/FIDO2 integration, OAuth2/OIDC flows, and secure credential management with namespace isolation via {len(entrypoints)} entrypoints.",
+            "governance": f"Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations with {len(entrypoints)} components.",
+            "matriz": f"MATRIZ core processing engine providing bio-symbolic adaptation, consciousness data flows, quantum-inspired algorithms, and symbolic reasoning for AGI development with {len(entrypoints)} processing nodes.",
+            "brain": f"High-level cognitive orchestration, intelligence monitoring, and unified consciousness coordination for advanced AI brain architecture with {len(entrypoints)} cognitive components.",
+            "core": f"Core orchestration and infrastructure layer providing system coordination, symbolic network integration, consciousness-core coupling, and fundamental LUKHAS primitives with {len(entrypoints)} core functions.",
+            "api": f"API gateway and service mesh providing REST/GraphQL endpoints, multi-AI orchestration, and external service integration with {len(entrypoints)} API interfaces.",
+            "bridge": f"Integration bridge and adapter framework for external services, legacy system modernization, and service mesh connectivity with {len(entrypoints)} connector components.",
+            "orchestration": f"System orchestration and workflow coordination providing multi-service integration, pipeline management, and distributed system coordination with {len(entrypoints)} orchestration functions.",
         }
 
         # Match module name to domain
@@ -235,25 +236,25 @@ class ModuleContentMiner:
         dependencies = []
 
         # Common dependency patterns
-        entrypoint_text = ' '.join(entrypoints).lower()
-        if 'identity' in entrypoint_text or 'auth' in entrypoint_text:
-            if module_path.name != 'identity':
-                dependencies.append('identity')
-        if 'core' in entrypoint_text or 'orchestr' in entrypoint_text:
-            if module_path.name not in ['core', 'orchestration']:
-                dependencies.append('core')
-        if 'memory' in entrypoint_text:
-            if module_path.name != 'memory':
-                dependencies.append('memory')
+        entrypoint_text = " ".join(entrypoints).lower()
+        if "identity" in entrypoint_text or "auth" in entrypoint_text:
+            if module_path.name != "identity":
+                dependencies.append("identity")
+        if "core" in entrypoint_text or "orchestr" in entrypoint_text:
+            if module_path.name not in ["core", "orchestration"]:
+                dependencies.append("core")
+        if "memory" in entrypoint_text:
+            if module_path.name != "memory":
+                dependencies.append("memory")
 
         # Module-specific dependencies
         module_deps = {
-            'governance': ['identity', 'core'],
-            'memory': ['core'],
-            'consciousness': ['memory', 'core'],
-            'brain': ['consciousness', 'orchestration', 'core'],
-            'api': ['identity', 'core'],
-            'bridge': ['api', 'core'],
+            "governance": ["identity", "core"],
+            "memory": ["core"],
+            "consciousness": ["memory", "core"],
+            "brain": ["consciousness", "orchestration", "core"],
+            "api": ["identity", "core"],
+            "bridge": ["api", "core"],
         }
 
         if module_path.name in module_deps:
@@ -266,16 +267,16 @@ class ModuleContentMiner:
         base_spans = [f"lukhas.{module_name}.operation"]
 
         # Add specific spans based on module type
-        entrypoint_text = ' '.join(entrypoints).lower()
-        if 'auth' in entrypoint_text:
+        entrypoint_text = " ".join(entrypoints).lower()
+        if "auth" in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.auth")
-        if 'process' in entrypoint_text:
+        if "process" in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.processing")
-        if 'monitor' in entrypoint_text:
+        if "monitor" in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.monitoring")
-        if 'memory' in entrypoint_text or 'fold' in entrypoint_text:
+        if "memory" in entrypoint_text or "fold" in entrypoint_text:
             base_spans.extend([f"lukhas.{module_name}.fold", f"lukhas.{module_name}.retrieval"])
-        if 'consciousness' in entrypoint_text or 'aware' in entrypoint_text:
+        if "consciousness" in entrypoint_text or "aware" in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.consciousness")
 
         return sorted(list(set(base_spans)))
@@ -291,7 +292,7 @@ def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[s
 
     # Load existing manifest
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, "r", encoding="utf-8") as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")
@@ -335,16 +336,16 @@ def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[s
 
     # Enhance team ownership based on module type
     team_mapping = {
-        'consciousness': 'Consciousness',
-        'memory': 'Memory',
-        'identity': 'Identity',
-        'governance': 'Governance',
-        'matriz': 'MATRIZ',
-        'brain': 'Brain',
-        'core': 'Core',
-        'api': 'API',
-        'bridge': 'Integration',
-        'orchestration': 'Orchestration',
+        "consciousness": "Consciousness",
+        "memory": "Memory",
+        "identity": "Identity",
+        "governance": "Governance",
+        "matriz": "MATRIZ",
+        "brain": "Brain",
+        "core": "Core",
+        "api": "API",
+        "bridge": "Integration",
+        "orchestration": "Orchestration",
     }
 
     if module_path.name.lower() in team_mapping:
@@ -352,7 +353,7 @@ def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[s
 
     # Save enriched manifest
     try:
-        with open(manifest_file, 'w', encoding='utf-8') as f:
+        with open(manifest_file, "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2, ensure_ascii=False)
         print(f"✅ Enriched {module_path.name}: {len(entrypoints)} entrypoints, {len(tags)} tags")
         return {"entrypoints": len(entrypoints), "tags": len(tags), "description_length": len(rich_description)}
@@ -373,7 +374,18 @@ def main():
     print(f"Found {len(manifest_files)} modules to enrich")
 
     # Priority modules first (the ones we know have rich content)
-    priority_modules = ['brain', 'consciousness', 'memory', 'identity', 'governance', 'matriz', 'core', 'api', 'bridge', 'orchestration']
+    priority_modules = [
+        "brain",
+        "consciousness",
+        "memory",
+        "identity",
+        "governance",
+        "matriz",
+        "core",
+        "api",
+        "bridge",
+        "orchestration",
+    ]
 
     enriched_count = 0
     total_entrypoints = 0

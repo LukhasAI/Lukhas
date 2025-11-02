@@ -24,7 +24,7 @@ def get_trinity_python_files():
                 if ".venv" in str(py_file) or "__pycache__" in str(py_file):
                     continue
                 try:
-                    with open(py_file, 'r', encoding='utf-8') as f:
+                    with open(py_file, "r", encoding="utf-8") as f:
                         content = f.read()
                         if "Trinity" in content:
                             trinity_files.append(py_file)
@@ -33,33 +33,31 @@ def get_trinity_python_files():
 
     return trinity_files
 
+
 def safe_replace_trinity_terms(content: str) -> str:
     """Safely replace Trinity terms with Constellation equivalents"""
 
     # Class and type names
     patterns = [
-        (r'\bTrinityComponent\b', 'ConstellationComponent'),
-        (r'\bTrinityInteraction\b', 'ConstellationInteraction'),
-        (r'\bTrinityHealthStatus\b', 'ConstellationHealthStatus'),
-        (r'\bTrinityReport\b', 'ConstellationReport'),
-        (r'\bTrinityFrameworkMonitor\b', 'ConstellationFrameworkMonitor'),
-
+        (r"\bTrinityComponent\b", "ConstellationComponent"),
+        (r"\bTrinityInteraction\b", "ConstellationInteraction"),
+        (r"\bTrinityHealthStatus\b", "ConstellationHealthStatus"),
+        (r"\bTrinityReport\b", "ConstellationReport"),
+        (r"\bTrinityFrameworkMonitor\b", "ConstellationFrameworkMonitor"),
         # Method and variable names
-        (r'\btrinty_interactions\b', 'constellation_interactions'),
-        (r'\btrinty_components\b', 'constellation_components'),
-        (r'\btrinty_component\b', 'constellation_component'),
-        (r'\btrinty_impact\b', 'constellation_impact'),
-        (r'\btrinity_framework_monitor\b', 'constellation_framework_monitor'),
-
+        (r"\btrinty_interactions\b", "constellation_interactions"),
+        (r"\btrinty_components\b", "constellation_components"),
+        (r"\btrinty_component\b", "constellation_component"),
+        (r"\btrinty_impact\b", "constellation_impact"),
+        (r"\btrinity_framework_monitor\b", "constellation_framework_monitor"),
         # Method names with underscores
-        (r'\b_trinity_(\w+)', r'_constellation_\1'),
-        (r'\brecord_trinity_interaction\b', 'record_constellation_interaction'),
-        (r'\bget_trinity_(\w+)', r'get_constellation_\1'),
-
+        (r"\b_trinity_(\w+)", r"_constellation_\1"),
+        (r"\brecord_trinity_interaction\b", "record_constellation_interaction"),
+        (r"\bget_trinity_(\w+)", r"get_constellation_\1"),
         # Documentation and comments
-        (r'\bTrinity Framework\b', 'Constellation Framework'),
-        (r'\bTrinity component\b', 'Constellation component'),
-        (r'\bTrinity monitoring\b', 'Constellation monitoring'),
+        (r"\bTrinity Framework\b", "Constellation Framework"),
+        (r"\bTrinity component\b", "Constellation component"),
+        (r"\bTrinity monitoring\b", "Constellation monitoring"),
     ]
 
     result = content
@@ -67,6 +65,7 @@ def safe_replace_trinity_terms(content: str) -> str:
         result = re.sub(pattern, replacement, result)
 
     return result
+
 
 def process_file(file_path):
     """Process a single file for Trinity to Constellation migration"""
@@ -76,7 +75,7 @@ def process_file(file_path):
         shutil.copy2(file_path, backup_path)
 
         # Read content
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
         # Apply transformations
@@ -84,7 +83,7 @@ def process_file(file_path):
 
         # Only write if content changed
         if new_content != content:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
             print(f"✅ Updated: {file_path}")
             return True
@@ -96,6 +95,7 @@ def process_file(file_path):
     except Exception as e:
         print(f"❌ Error processing {file_path}: {e}")
         return False
+
 
 def main():
     """Main migration function"""
@@ -122,6 +122,7 @@ def main():
         print("3. Remove .trinity_backup files when satisfied")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

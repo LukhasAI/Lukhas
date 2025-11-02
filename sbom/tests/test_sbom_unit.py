@@ -25,10 +25,7 @@ class TestSbomModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "sbom",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "sbom", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestSbomModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import sbom
+
         self.assertIsNotNone(sbom)
 
     def test_module_version(self):
         """Test module has version information."""
         import sbom
+
         # Most modules should have version info
-        self.assertTrue(hasattr(sbom, '__version__') or
-                       hasattr(sbom, 'VERSION'))
+        self.assertTrue(hasattr(sbom, "__version__") or hasattr(sbom, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestSbomModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

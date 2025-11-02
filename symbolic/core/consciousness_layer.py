@@ -20,18 +20,21 @@ from .visual_symbol import VisualSymbol
 # Memory fold bridge integration
 try:
     from memory.fold.bridge import MemoryFoldBridge
+
     MEMORY_FOLD_AVAILABLE = True
 except ImportError:
     # Fallback for environments without memory fold bridge
     class MemoryFoldBridge:
         def publish_fold_event(self, event_type: str, payload: Dict[str, Any]) -> bool:
             return False
+
     MEMORY_FOLD_AVAILABLE = False
 
 
 @dataclass
 class ObserverContext:
     """Context of conscious observer"""
+
     observer_id: str
     consciousness_level: float
     intent: Optional[str] = None
@@ -42,6 +45,7 @@ class ObserverContext:
 @dataclass
 class TemporalRecursion:
     """Manages temporal recursion in consciousness"""
+
     past_states: List[Dict[str, Any]] = field(default_factory=list)
     recursion_depth: int = 5
     temporal_influence: float = 0.3
@@ -62,6 +66,7 @@ class TemporalRecursion:
 @dataclass
 class MemoryCorrelationTensor:
     """Links visual symbols to memory states"""
+
     correlations: np.ndarray = field(default_factory=lambda: np.zeros((100, 100)))
     symbol_indices: Dict[str, int] = field(default_factory=dict)
     next_index: int = 0
@@ -83,6 +88,7 @@ class MemoryCorrelationTensor:
 @dataclass
 class SyntheticEmotion:
     """Synthetic emotions from visual processing"""
+
     valence: float = 0.0
     arousal: float = 0.0
     dominance: float = 0.5
@@ -93,22 +99,24 @@ class SyntheticEmotion:
         return {
             "valence": self.valence * self.expression_intensity,
             "arousal": self.arousal * self.expression_intensity,
-            "dominance": self.dominance
+            "dominance": self.dominance,
         }
 
 
 class ConsciousnessIntegration:
     """Main consciousness integration layer"""
 
-    def __init__(
-        self,
-        matriz_compatible: bool = True,
-        constellation_stars: Optional[List[str]] = None
-    ):
+    def __init__(self, matriz_compatible: bool = True, constellation_stars: Optional[List[str]] = None):
         self.matriz_compatible = matriz_compatible
         self.constellation_stars = constellation_stars or [
-            "identity", "memory", "vision", "bio",
-            "dream", "ethics", "guardian", "quantum"
+            "identity",
+            "memory",
+            "vision",
+            "bio",
+            "dream",
+            "ethics",
+            "guardian",
+            "quantum",
         ]
 
         self.observer_contexts: Dict[str, ObserverContext] = {}
@@ -135,18 +143,11 @@ class ConsciousnessIntegration:
 
     def register_observer(self, observer_id: str, consciousness_level: float = 0.5) -> ObserverContext:
         """Register conscious observer"""
-        context = ObserverContext(
-            observer_id=observer_id,
-            consciousness_level=consciousness_level
-        )
+        context = ObserverContext(observer_id=observer_id, consciousness_level=consciousness_level)
         self.observer_contexts[observer_id] = context
         return context
 
-    def process_with_consciousness(
-        self,
-        symbol: VisualSymbol,
-        observer_id: str
-    ) -> Dict[str, Any]:
+    def process_with_consciousness(self, symbol: VisualSymbol, observer_id: str) -> Dict[str, Any]:
         """Process symbol through consciousness"""
         if observer_id not in self.observer_contexts:
             self.register_observer(observer_id)
@@ -160,7 +161,7 @@ class ConsciousnessIntegration:
         temporal_state = {
             "symbol_id": symbol.state.symbol_id,
             "consciousness": symbol.measure_consciousness(),
-            "time": time.time()
+            "time": time.time(),
         }
         self.temporal_recursion.add_state(temporal_state)
 
@@ -168,7 +169,7 @@ class ConsciousnessIntegration:
         emotion = SyntheticEmotion(
             valence=symbol.state.emotional_valence,
             arousal=symbol.state.emotional_arousal,
-            trigger_symbols=[symbol.state.symbol_id]
+            trigger_symbols=[symbol.state.symbol_id],
         )
         self.synthetic_emotions.append(emotion)
 
@@ -184,7 +185,7 @@ class ConsciousnessIntegration:
 
             try:
                 fold_event_published = self.memory_fold_bridge.publish_fold_event(
-                    'consciousness_symbol_processing', fold_payload
+                    "consciousness_symbol_processing", fold_payload
                 )
                 if fold_event_published:
                     self._record_fold_event(symbol.state.symbol_id)
@@ -206,15 +207,12 @@ class ConsciousnessIntegration:
             "memory_fold_integration": {
                 "fold_event_published": fold_event_published,
                 "bridge_enabled": self.fold_bridge_enabled,
-                "bridge_available": MEMORY_FOLD_AVAILABLE
-            }
+                "bridge_available": MEMORY_FOLD_AVAILABLE,
+            },
         }
 
     def _calculate_consciousness_affect_delta(
-        self,
-        symbol: VisualSymbol,
-        context: ObserverContext,
-        emotion: SyntheticEmotion
+        self, symbol: VisualSymbol, context: ObserverContext, emotion: SyntheticEmotion
     ) -> Dict[str, float]:
         """Calculate ΛTAG affect_delta for consciousness processing"""
         # Base consciousness affect
@@ -227,13 +225,13 @@ class ConsciousnessIntegration:
         temporal_influence = self.temporal_recursion.calculate_influence()
 
         return {
-            'consciousness_intensity': consciousness_intensity,
-            'emotional_magnitude': emotional_magnitude,
-            'temporal_influence': temporal_influence,
-            'combined_affect': (consciousness_intensity + emotional_magnitude + temporal_influence) / 3.0,
-            'valence_shift': emotion.valence * consciousness_intensity,
-            'arousal_shift': emotion.arousal * consciousness_intensity,
-            'dominance_shift': emotion.dominance * consciousness_intensity
+            "consciousness_intensity": consciousness_intensity,
+            "emotional_magnitude": emotional_magnitude,
+            "temporal_influence": temporal_influence,
+            "combined_affect": (consciousness_intensity + emotional_magnitude + temporal_influence) / 3.0,
+            "valence_shift": emotion.valence * consciousness_intensity,
+            "arousal_shift": emotion.arousal * consciousness_intensity,
+            "dominance_shift": emotion.dominance * consciousness_intensity,
         }
 
     def _should_publish_fold_event(self, symbol_id: str) -> bool:
@@ -269,54 +267,55 @@ class ConsciousnessIntegration:
         observer_id: str,
         context: ObserverContext,
         affect_delta: Dict[str, float],
-        temporal_state: Dict[str, Any]
+        temporal_state: Dict[str, Any],
     ) -> Dict[str, Any]:
         """Create deterministic payload for memory fold bridge"""
         return {
-            'lambda_tag': 'consciousness_processing',
-            'event_type': 'symbol_consciousness_fold',
-            'timestamp': time.time(),
-            'symbol_id': symbol.state.symbol_id,
-            'observer_context': {
-                'observer_id': observer_id,
-                'consciousness_level': context.consciousness_level,
-                'intent': context.intent,
-                'observation_count': len(context.observation_history)
+            "lambda_tag": "consciousness_processing",
+            "event_type": "symbol_consciousness_fold",
+            "timestamp": time.time(),
+            "symbol_id": symbol.state.symbol_id,
+            "observer_context": {
+                "observer_id": observer_id,
+                "consciousness_level": context.consciousness_level,
+                "intent": context.intent,
+                "observation_count": len(context.observation_history),
             },
-            'symbol_state': {
-                'visual_weight': symbol.state.visual_weight,
-                'emotional_valence': symbol.state.emotional_valence,
-                'emotional_arousal': symbol.state.emotional_arousal,
-                'consciousness_measure': symbol.measure_consciousness(),
-                'quantum_coherence': symbol.state.quantum_field.coherence,
-                'quantum_entropy': symbol.state.quantum_field.entropy
+            "symbol_state": {
+                "visual_weight": symbol.state.visual_weight,
+                "emotional_valence": symbol.state.emotional_valence,
+                "emotional_arousal": symbol.state.emotional_arousal,
+                "consciousness_measure": symbol.measure_consciousness(),
+                "quantum_coherence": symbol.state.quantum_field.coherence,
+                "quantum_entropy": symbol.state.quantum_field.entropy,
             },
-            'affect_delta': affect_delta,
-            'temporal_context': {
-                'temporal_influence': temporal_state.get('consciousness', 0.0),
-                'recursion_depth': len(self.temporal_recursion.past_states),
-                'time_delta': temporal_state['time'] - (self.temporal_recursion.past_states[-1]['time'] if self.temporal_recursion.past_states else temporal_state['time'])
+            "affect_delta": affect_delta,
+            "temporal_context": {
+                "temporal_influence": temporal_state.get("consciousness", 0.0),
+                "recursion_depth": len(self.temporal_recursion.past_states),
+                "time_delta": temporal_state["time"]
+                - (
+                    self.temporal_recursion.past_states[-1]["time"]
+                    if self.temporal_recursion.past_states
+                    else temporal_state["time"]
+                ),
             },
-            'constellation_integration': self.integrate_with_constellation(symbol),
-            'fold_metadata': {
-                'source': 'symbolic.consciousness_layer',
-                'version': '1.0',
-                'deterministic': True,
-                'guardian_safe': True
-            }
+            "constellation_integration": self.integrate_with_constellation(symbol),
+            "fold_metadata": {
+                "source": "symbolic.consciousness_layer",
+                "version": "1.0",
+                "deterministic": True,
+                "guardian_safe": True,
+            },
         }
 
     def correlate_with_memory(self, symbol_a: VisualSymbol, symbol_b: VisualSymbol):
         """Create memory correlation between symbols"""
         correlation_strength = np.dot(
             [symbol_a.state.emotional_valence, symbol_a.state.emotional_arousal],
-            [symbol_b.state.emotional_valence, symbol_b.state.emotional_arousal]
+            [symbol_b.state.emotional_valence, symbol_b.state.emotional_arousal],
         )
-        self.memory_tensor.add_correlation(
-            symbol_a.state.symbol_id,
-            symbol_b.state.symbol_id,
-            correlation_strength
-        )
+        self.memory_tensor.add_correlation(symbol_a.state.symbol_id, symbol_b.state.symbol_id, correlation_strength)
 
     def integrate_with_constellation(self, symbol: VisualSymbol) -> Dict[str, float]:
         """Integrate symbol with Constellation Framework stars"""
@@ -353,10 +352,7 @@ class ConsciousnessIntegration:
         individual_consciousness = [s.measure_consciousness() for s in symbols]
 
         # Collective emergence bonus
-        entanglement_bonus = sum(
-            1 for s in symbols
-            if len(s.state.quantum_field.entangled_symbols) > 0
-        ) / len(symbols)
+        entanglement_bonus = sum(1 for s in symbols if len(s.state.quantum_field.entangled_symbols) > 0) / len(symbols)
 
         collective = np.mean(individual_consciousness) * (1.0 + entanglement_bonus * 0.2)
         return min(1.0, collective)
@@ -372,15 +368,12 @@ class ConsciousnessIntegration:
                 "temporal_states": len(self.temporal_recursion.past_states),
                 "memory_correlations": self.memory_tensor.next_index,
                 "synthetic_emotions": len(self.synthetic_emotions),
-                "constellation_stars": self.constellation_stars
+                "constellation_stars": self.constellation_stars,
             },
-            "state": {
-                "confidence": 0.8,
-                "salience": 0.9
-            },
+            "state": {"confidence": 0.8, "salience": 0.9},
             "provenance": {
                 "producer": "symbolic.core.consciousness_layer",
                 "capabilities": ["consciousness_integration", "temporal_recursion", "synthetic_emotion"],
-                "tenant": "lukhas_agi"
-            }
+                "tenant": "lukhas_agi",
+            },
         }

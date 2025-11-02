@@ -2,6 +2,7 @@
 Minimal Actor/Agent class for symbiotic multi-agent architecture.
 Implements encapsulated state, behavior, and asynchronous message passing.
 """
+
 import queue
 import threading
 

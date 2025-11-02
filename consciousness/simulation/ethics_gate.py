@@ -5,6 +5,7 @@ from typing import Any, Dict
 
 class EthicsError(Exception): ...
 
+
 def authorize_or_raise(seed: Dict[str, Any]) -> None:
     constraints = seed.get("constraints", {})
     consent = constraints.get("consent", {})

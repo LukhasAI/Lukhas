@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 
 class DeploymentStage(Enum):
     """Deployment pipeline stages"""
+
     VALIDATION = "validation"
     TESTING = "testing"
     BUILD = "build"
@@ -41,6 +42,7 @@ class DeploymentStage(Enum):
 
 class DeploymentStatus(Enum):
     """Deployment status"""
+
     PENDING = "pending"
     RUNNING = "running"
     SUCCESS = "success"
@@ -51,6 +53,7 @@ class DeploymentStatus(Enum):
 @dataclass
 class DeploymentConfig:
     """Configuration for deployment pipeline"""
+
     environment: str
     target_branch: str = "main"
     docker_enabled: bool = True
@@ -68,6 +71,7 @@ class DeploymentConfig:
 @dataclass
 class DeploymentResult:
     """Result of a deployment operation"""
+
     deployment_id: str
     stage: DeploymentStage
     status: DeploymentStatus
@@ -86,6 +90,7 @@ class HealthChecker:
         """Check if a URL is responding healthily"""
         try:
             import httpx
+
             async with httpx.AsyncClient() as client:
                 response = await client.get(url, timeout=timeout)
                 return response.status_code == 200
@@ -98,9 +103,10 @@ class HealthChecker:
         """Check if a service is responding on a specific port"""
         try:
             import socket
+
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(5)
-            result = sock.connect_ex(('localhost', port))
+            result = sock.connect_ex(("localhost", port))
             sock.close()
             return result == 0
         except Exception as e:
@@ -112,10 +118,11 @@ class HealthChecker:
         """Check system resource availability"""
         try:
             import psutil
+
             return {
                 "cpu_available": 100 - psutil.cpu_percent(interval=1),
                 "memory_available": psutil.virtual_memory().available / (1024**3),  # GB
-                "disk_available": psutil.disk_usage('/').free / (1024**3)  # GB
+                "disk_available": psutil.disk_usage("/").free / (1024**3),  # GB
             }
         except Exception as e:
             logger.error(f"System resource check failed: {e}")
@@ -131,17 +138,10 @@ class DockerManager:
     async def build_image(self, image_name: str, tag: str = "latest", dockerfile: str = "Dockerfile") -> bool:
         """Build Docker image"""
         try:
-            cmd = [
-                "docker", "build",
-                "-t", f"{image_name}:{tag}",
-                "-f", dockerfile,
-                str(self.project_root)
-            ]
+            cmd = ["docker", "build", "-t", f"{image_name}:{tag}", "-f", dockerfile, str(self.project_root)]
 
             process = await asyncio.create_subprocess_exec(
-                *cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
+                *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
             )
 
             stdout, stderr = await process.communicate()
@@ -157,10 +157,14 @@ class DockerManager:
             logger.error(f"Docker build error: {e}")
             return False
 
-    async def run_container(self, image_name: str, tag: str = "latest",
-                          port_mapping: Optional[Dict[int, int]] = None,
-                          environment: Optional[Dict[str, str]] = None,
-                          name: Optional[str] = None) -> Optional[str]:
+    async def run_container(
+        self,
+        image_name: str,
+        tag: str = "latest",
+        port_mapping: Optional[Dict[int, int]] = None,
+        environment: Optional[Dict[str, str]] = None,
+        name: Optional[str] = None,
+    ) -> Optional[str]:
         """Run Docker container and return container ID"""
         try:
             cmd = ["docker", "run", "-d"]
@@ -182,9 +186,7 @@ class DockerManager:
             cmd.append(f"{image_name}:{tag}")
 
             process = await asyncio.create_subprocess_exec(
-                *cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
+                *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
             )
 
             stdout, stderr = await process.communicate()
@@ -205,9 +207,7 @@ class DockerManager:
         """Stop Docker container"""
         try:
             process = await asyncio.create_subprocess_exec(
-                "docker", "stop", container_id,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
+                "docker", "stop", container_id, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
             )
 
             stdout, stderr = await process.communicate()
@@ -221,9 +221,7 @@ class DockerManager:
         """Remove Docker container"""
         try:
             process = await asyncio.create_subprocess_exec(
-                "docker", "rm", container_id,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
+                "docker", "rm", container_id, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
             )
 
             stdout, stderr = await process.communicate()
@@ -260,15 +258,12 @@ class AutomatedDeploymentPipeline:
         """Load deployment configuration"""
         try:
             if self.config_path.exists():
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path, "r") as f:
                     config_data = json.load(f)
 
                 environments = {}
                 for env_name, env_config in config_data.get("environments", {}).items():
-                    environments[env_name] = DeploymentConfig(
-                        environment=env_name,
-                        **env_config
-                    )
+                    environments[env_name] = DeploymentConfig(environment=env_name, **env_config)
                 return environments
         except Exception as e:
             logger.warning(f"Failed to load deployment config: {e}")
@@ -276,17 +271,14 @@ class AutomatedDeploymentPipeline:
         # Default configuration
         return {
             "development": DeploymentConfig(
-                environment="development",
-                target_branch="develop",
-                health_check_timeout=60,
-                rollback_enabled=False
+                environment="development", target_branch="develop", health_check_timeout=60, rollback_enabled=False
             ),
             "staging": DeploymentConfig(
                 environment="staging",
                 target_branch="main",
                 health_check_url="http://localhost:8080/health",
                 health_check_timeout=120,
-                rollback_enabled=True
+                rollback_enabled=True,
             ),
             "production": DeploymentConfig(
                 environment="production",
@@ -294,26 +286,19 @@ class AutomatedDeploymentPipeline:
                 health_check_url="http://production.ai/health",
                 health_check_timeout=300,
                 rollback_enabled=True,
-                backup_enabled=True
-            )
+                backup_enabled=True,
+            ),
         }
 
     async def _run_command(self, command: str, cwd: Optional[Path] = None) -> tuple[bool, str, str]:
         """Execute a shell command asynchronously"""
         try:
             process = await asyncio.create_subprocess_shell(
-                command,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
-                cwd=cwd or self.project_root
+                command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, cwd=cwd or self.project_root
             )
 
             stdout, stderr = await process.communicate()
-            return (
-                process.returncode == 0,
-                stdout.decode().strip(),
-                stderr.decode().strip()
-            )
+            return (process.returncode == 0, stdout.decode().strip(), stderr.decode().strip())
 
         except Exception as e:
             return False, "", str(e)
@@ -363,9 +348,7 @@ class AutomatedDeploymentPipeline:
         logger.info("Running test suite")
 
         # Run unit tests
-        success, output, error = await self._run_command(
-            "python -m pytest tests/ -v --tb=short --maxfail=5"
-        )
+        success, output, error = await self._run_command("python -m pytest tests/ -v --tb=short --maxfail=5")
 
         if not success:
             logger.error(f"Unit tests failed: {error}")
@@ -374,9 +357,7 @@ class AutomatedDeploymentPipeline:
         # Run integration tests if available
         integration_tests_dir = self.project_root / "tests" / "integration"
         if integration_tests_dir.exists():
-            success, output, error = await self._run_command(
-                "python -m pytest tests/integration/ -v --tb=short"
-            )
+            success, output, error = await self._run_command("python -m pytest tests/integration/ -v --tb=short")
 
             if not success:
                 logger.error(f"Integration tests failed: {error}")
@@ -416,9 +397,7 @@ class AutomatedDeploymentPipeline:
                 return False
 
             # Tag as latest for the environment
-            success, output, error = await self._run_command(
-                f"docker tag {image_name}:{tag} {image_name}:latest"
-            )
+            success, output, error = await self._run_command(f"docker tag {image_name}:{tag} {image_name}:latest")
 
         # Run any custom build commands
         for command in config.pre_deploy_commands:
@@ -483,7 +462,7 @@ class AutomatedDeploymentPipeline:
             tag="latest",
             port_mapping=port_mapping,
             environment=config.environment_vars,
-            name=container_name
+            name=container_name,
         )
 
         return container_id is not None
@@ -543,7 +522,7 @@ class AutomatedDeploymentPipeline:
             deployment_id=deployment_id,
             stage=DeploymentStage.VALIDATION,
             status=DeploymentStatus.RUNNING,
-            started_at=datetime.now(timezone.utc)
+            started_at=datetime.now(timezone.utc),
         )
 
         self.active_deployments[deployment_id] = result
@@ -628,9 +607,7 @@ class AutomatedDeploymentPipeline:
             await self._run_command(f"docker stop {container_name}")
 
             # Restore backup
-            success, output, error = await self._run_command(
-                f"tar -xzf {latest_backup} -C {self.project_root}"
-            )
+            success, output, error = await self._run_command(f"tar -xzf {latest_backup} -C {self.project_root}")
 
             if not success:
                 logger.error(f"Backup restore failed: {error}")
@@ -696,7 +673,7 @@ class AutomatedDeploymentPipeline:
 
                 env = input("Enter environment: ").strip()
                 if env in self.environments:
-                    force = input("Force deployment? (y/n): ").strip().lower() == 'y'
+                    force = input("Force deployment? (y/n): ").strip().lower() == "y"
                     print(f"\nStarting deployment to {env}...")
 
                     result = await self.deploy(env, force=force)

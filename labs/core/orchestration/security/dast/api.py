@@ -5,6 +5,7 @@ RESTful API endpoints for the enhanced DAST system with Jobs-level UX
 and Altman Cognitive AI vision integration. Provides enterprise-grade endpoints
 for task management, collaboration, and workflow optimization.
 """
+
 import time
 from datetime import datetime, timezone
 from typing import Any, Optional

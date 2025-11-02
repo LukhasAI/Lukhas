@@ -16,7 +16,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
+
 
 class ReproducibilityAnalyzer:
     """Comprehensive reproducibility analysis for audit validation."""
@@ -32,13 +33,13 @@ class ReproducibilityAnalyzer:
         for pattern in file_patterns:
             file_path = Path(pattern)
             if file_path.exists():
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     audit_data.append(json.load(f))
             else:
                 # Handle glob patterns
                 for file_path in Path(".").glob(pattern):
                     if file_path.is_file():
-                        with open(file_path, 'r') as f:
+                        with open(file_path, "r") as f:
                             audit_data.append(json.load(f))
 
         return audit_data
@@ -53,7 +54,7 @@ class ReproducibilityAnalyzer:
             "guardian_mean": [],
             "memory_mean": [],
             "orchestrator_mean": [],
-            "creativity_mean": []
+            "creativity_mean": [],
         }
 
         for audit in audit_results:
@@ -81,17 +82,17 @@ class ReproducibilityAnalyzer:
         if len(values) < 2:
             return {
                 "reproducibility_score": 0.0,
-                "coefficient_of_variation": float('inf'),
-                "relative_std": float('inf'),
+                "coefficient_of_variation": float("inf"),
+                "relative_std": float("inf"),
                 "consistency_score": 0.0,
-                "interpretation": "Insufficient data"
+                "interpretation": "Insufficient data",
             }
 
         mean_val = np.mean(values)
         std_val = np.std(values, ddof=1)
 
         # Coefficient of variation
-        cv = std_val / mean_val if mean_val > 0 else float('inf')
+        cv = std_val / mean_val if mean_val > 0 else float("inf")
 
         # Relative standard deviation (percentage)
         relative_std = cv * 100
@@ -128,7 +129,7 @@ class ReproducibilityAnalyzer:
             "min": float(np.min(values)),
             "max": float(np.max(values)),
             "range": float(np.max(values) - np.min(values)),
-            "count": len(values)
+            "count": len(values),
         }
 
     def cross_run_variance_analysis(self, matrices: Dict[str, np.ndarray]) -> Dict[str, Any]:
@@ -144,12 +145,14 @@ class ReproducibilityAnalyzer:
             variance_metrics = self.calculate_reproducibility_metrics(values)
 
             # Add additional variance analysis
-            variance_metrics.update({
-                "variance": float(np.var(values, ddof=1)),
-                "interquartile_range": float(np.percentile(values, 75) - np.percentile(values, 25)),
-                "median_absolute_deviation": float(np.median(np.abs(values - np.median(values)))),
-                "min_max_ratio": float(np.min(values) / np.max(values)) if np.max(values) > 0 else 0.0
-            })
+            variance_metrics.update(
+                {
+                    "variance": float(np.var(values, ddof=1)),
+                    "interquartile_range": float(np.percentile(values, 75) - np.percentile(values, 25)),
+                    "median_absolute_deviation": float(np.median(np.abs(values - np.median(values)))),
+                    "min_max_ratio": float(np.min(values) / np.max(values)) if np.max(values) > 0 else 0.0,
+                }
+            )
 
             results[metric] = variance_metrics
 
@@ -180,7 +183,9 @@ class ReproducibilityAnalyzer:
         zscore_outliers = []
         for i, z_score in enumerate(modified_z_scores):
             if abs(z_score) > 3.5:  # Threshold for modified Z-score
-                zscore_outliers.append({"index": i, "value": float(values[i]), "z_score": float(z_score), "method": "zscore"})
+                zscore_outliers.append(
+                    {"index": i, "value": float(values[i]), "z_score": float(z_score), "method": "zscore"}
+                )
 
         # Combine outliers
         all_outliers = iqr_outliers + zscore_outliers
@@ -190,7 +195,7 @@ class ReproducibilityAnalyzer:
             "zscore_outliers": zscore_outliers,
             "all_outliers": all_outliers,
             "outlier_count": len(set(o["index"] for o in all_outliers)),
-            "outlier_percentage": len(set(o["index"] for o in all_outliers)) / len(values) * 100
+            "outlier_percentage": len(set(o["index"] for o in all_outliers)) / len(values) * 100,
         }
 
     def environment_consistency_analysis(self, audit_results: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -217,11 +222,13 @@ class ReproducibilityAnalyzer:
             env_analysis[env_type] = {
                 "audit_count": len(env_audits),
                 "variance_analysis": env_variance,
-                "average_reproducibility": np.mean([
-                    metrics.get("reproducibility_score", 0.0)
-                    for metrics in env_variance.values()
-                    if "error" not in metrics
-                ])
+                "average_reproducibility": np.mean(
+                    [
+                        metrics.get("reproducibility_score", 0.0)
+                        for metrics in env_variance.values()
+                        if "error" not in metrics
+                    ]
+                ),
             }
 
         return env_analysis
@@ -272,16 +279,10 @@ class ReproducibilityAnalyzer:
             "failing_metrics": failing_metrics,
             "metric_analysis": variance_analysis,
             "meets_target": overall_reproducibility >= self.target_reproducibility,
-            "recommendation": self._generate_reproducibility_recommendation(
-                overall_reproducibility, failing_metrics
-            )
+            "recommendation": self._generate_reproducibility_recommendation(overall_reproducibility, failing_metrics),
         }
 
-    def _generate_reproducibility_recommendation(
-        self,
-        score: float,
-        failing_metrics: List[str]
-    ) -> str:
+    def _generate_reproducibility_recommendation(self, score: float, failing_metrics: List[str]) -> str:
         """Generate reproducibility improvement recommendations."""
         if score >= self.target_reproducibility:
             return "Reproducibility targets met. System ready for production."
@@ -310,12 +311,12 @@ class ReproducibilityAnalyzer:
         output_path.mkdir(parents=True, exist_ok=True)
 
         # Set style
-        plt.style.use('seaborn-v0_8')
+        plt.style.use("seaborn-v0_8")
         sns.set_palette("husl")
 
         # 1. Box plots for each metric
         fig, axes = plt.subplots(2, 2, figsize=(15, 10))
-        fig.suptitle('T4/0.01% Reproducibility Analysis - Performance Distribution', fontsize=16)
+        fig.suptitle("T4/0.01% Reproducibility Analysis - Performance Distribution", fontsize=16)
 
         metrics = ["guardian_p95", "memory_p95", "orchestrator_p95", "creativity_p95"]
         titles = ["Guardian p95 (μs)", "Memory p95 (μs)", "Orchestrator p95 (μs)", "Creativity p95 (μs)"]
@@ -327,20 +328,26 @@ class ReproducibilityAnalyzer:
             if len(matrices[metric]) > 0:
                 ax.boxplot(matrices[metric], patch_artist=True)
                 ax.set_title(title)
-                ax.set_ylabel('Latency (μs)')
+                ax.set_ylabel("Latency (μs)")
                 ax.grid(True, alpha=0.3)
 
                 # Add statistics
                 mean_val = np.mean(matrices[metric])
                 cv = np.std(matrices[metric]) / mean_val * 100
-                ax.text(0.02, 0.98, f'CV: {cv:.1f}%', transform=ax.transAxes,
-                       verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat'))
+                ax.text(
+                    0.02,
+                    0.98,
+                    f"CV: {cv:.1f}%",
+                    transform=ax.transAxes,
+                    verticalalignment="top",
+                    bbox=dict(boxstyle="round", facecolor="wheat"),
+                )
             else:
-                ax.text(0.5, 0.5, 'No Data', ha='center', va='center', transform=ax.transAxes)
+                ax.text(0.5, 0.5, "No Data", ha="center", va="center", transform=ax.transAxes)
                 ax.set_title(title + " (No Data)")
 
         plt.tight_layout()
-        plt.savefig(output_path / "reproducibility_boxplots.png", dpi=300, bbox_inches='tight')
+        plt.savefig(output_path / "reproducibility_boxplots.png", dpi=300, bbox_inches="tight")
         plt.close()
 
         # 2. Reproducibility scores heatmap
@@ -353,30 +360,38 @@ class ReproducibilityAnalyzer:
 
         for metric, analysis in variance_analysis.items():
             if "error" not in analysis:
-                heatmap_data.append([
-                    analysis["reproducibility_score"],
-                    analysis["consistency_score"],
-                    1.0 - min(analysis["coefficient_of_variation"] / 0.20, 1.0)  # Normalized CV
-                ])
+                heatmap_data.append(
+                    [
+                        analysis["reproducibility_score"],
+                        analysis["consistency_score"],
+                        1.0 - min(analysis["coefficient_of_variation"] / 0.20, 1.0),  # Normalized CV
+                    ]
+                )
                 labels.append(metric.replace("_", " ").title())
 
         if heatmap_data:
             heatmap_array = np.array(heatmap_data)
-            sns.heatmap(heatmap_array,
-                       xticklabels=["Reproducibility Score", "Consistency Score", "CV Score"],
-                       yticklabels=labels,
-                       annot=True, fmt='.3f', cmap='RdYlGn',
-                       vmin=0, vmax=1, ax=ax)
+            sns.heatmap(
+                heatmap_array,
+                xticklabels=["Reproducibility Score", "Consistency Score", "CV Score"],
+                yticklabels=labels,
+                annot=True,
+                fmt=".3f",
+                cmap="RdYlGn",
+                vmin=0,
+                vmax=1,
+                ax=ax,
+            )
 
-            ax.set_title('T4/0.01% Reproducibility Metrics Heatmap', fontsize=14)
+            ax.set_title("T4/0.01% Reproducibility Metrics Heatmap", fontsize=14)
             plt.tight_layout()
-            plt.savefig(output_path / "reproducibility_heatmap.png", dpi=300, bbox_inches='tight')
+            plt.savefig(output_path / "reproducibility_heatmap.png", dpi=300, bbox_inches="tight")
 
         plt.close()
 
         # 3. Trend analysis
         fig, axes = plt.subplots(2, 2, figsize=(15, 10))
-        fig.suptitle('T4/0.01% Reproducibility - Run-to-Run Variation', fontsize=16)
+        fig.suptitle("T4/0.01% Reproducibility - Run-to-Run Variation", fontsize=16)
 
         for i, (metric, title) in enumerate(zip(metrics, titles)):
             row, col = i // 2, i % 2
@@ -384,32 +399,30 @@ class ReproducibilityAnalyzer:
 
             if len(matrices[metric]) > 0:
                 run_numbers = range(1, len(matrices[metric]) + 1)
-                ax.plot(run_numbers, matrices[metric], 'o-', linewidth=2, markersize=6)
+                ax.plot(run_numbers, matrices[metric], "o-", linewidth=2, markersize=6)
                 ax.set_title(title)
-                ax.set_xlabel('Run Number')
-                ax.set_ylabel('Latency (μs)')
+                ax.set_xlabel("Run Number")
+                ax.set_ylabel("Latency (μs)")
                 ax.grid(True, alpha=0.3)
 
                 # Add trend line
                 if len(matrices[metric]) > 2:
                     z = np.polyfit(run_numbers, matrices[metric], 1)
                     p = np.poly1d(z)
-                    ax.plot(run_numbers, p(run_numbers), '--', alpha=0.7, color='red')
+                    ax.plot(run_numbers, p(run_numbers), "--", alpha=0.7, color="red")
 
             else:
-                ax.text(0.5, 0.5, 'No Data', ha='center', va='center', transform=ax.transAxes)
+                ax.text(0.5, 0.5, "No Data", ha="center", va="center", transform=ax.transAxes)
                 ax.set_title(title + " (No Data)")
 
         plt.tight_layout()
-        plt.savefig(output_path / "reproducibility_trends.png", dpi=300, bbox_inches='tight')
+        plt.savefig(output_path / "reproducibility_trends.png", dpi=300, bbox_inches="tight")
         plt.close()
 
         print(f"📊 Visualizations saved to {output_path}/")
 
     def generate_comprehensive_report(
-        self,
-        audit_results: List[Dict[str, Any]],
-        reproducibility_matrix: Dict[str, Any]
+        self, audit_results: List[Dict[str, Any]], reproducibility_matrix: Dict[str, Any]
     ) -> str:
         """Generate comprehensive reproducibility report."""
         report_lines = []
@@ -468,7 +481,9 @@ class ReproducibilityAnalyzer:
             report_lines.append(f"- **Consistency Score:** {consistency:.1f}%")
             report_lines.append(f"- **Mean Latency:** {analysis['mean']:.1f}μs")
             report_lines.append(f"- **Standard Deviation:** {analysis['std']:.2f}μs")
-            report_lines.append(f"- **Range:** {analysis['range']:.1f}μs ({analysis['min']:.1f} - {analysis['max']:.1f})")
+            report_lines.append(
+                f"- **Range:** {analysis['range']:.1f}μs ({analysis['min']:.1f} - {analysis['max']:.1f})"
+            )
             report_lines.append(f"- **Assessment:** {analysis['interpretation']}")
             report_lines.append("")
 
@@ -507,8 +522,7 @@ def main():
     parser.add_argument("--output", required=True, help="Output analysis JSON file")
     parser.add_argument("--report", help="Output report markdown file")
     parser.add_argument("--visualizations", help="Output directory for visualizations")
-    parser.add_argument("--target-reproducibility", type=float, default=0.80,
-                       help="Target reproducibility threshold")
+    parser.add_argument("--target-reproducibility", type=float, default=0.80, help="Target reproducibility threshold")
 
     args = parser.parse_args()
 
@@ -539,19 +553,18 @@ def main():
         "environment_consistency": env_consistency,
         "audit_summary": {
             "total_audits": len(audit_results),
-            "environments": list(set(
-                audit.get("environment", {}).get("environment_type", "unknown")
-                for audit in audit_results
-            )),
-            "analysis_timestamp": Path().absolute().name  # Use current dir as timestamp
-        }
+            "environments": list(
+                set(audit.get("environment", {}).get("environment_type", "unknown") for audit in audit_results)
+            ),
+            "analysis_timestamp": Path().absolute().name,  # Use current dir as timestamp
+        },
     }
 
     # Save results
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(output_path, 'w') as f:
+    with open(output_path, "w") as f:
         json.dump(final_results, f, indent=2, sort_keys=True)
 
     # Generate report
@@ -560,7 +573,7 @@ def main():
         report_path = Path(args.report)
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report)
 
         print(f"📄 Report saved: {args.report}")

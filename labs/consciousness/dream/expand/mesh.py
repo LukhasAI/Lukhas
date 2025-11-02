@@ -2,6 +2,7 @@
 Simulated collective dreaming (multi-agent).
 Aggregates emotional contexts across multiple agents.
 """
+
 import os
 import statistics
 from typing import Any, Dict, List, Optional
@@ -9,6 +10,7 @@ from typing import Any, Dict, List, Optional
 ENABLED = os.getenv("LUKHAS_MULTI_AGENT", "0") == "1"
 AGGREGATION_METHOD = os.getenv("LUKHAS_MESH_AGGREGATION", "mean")  # mean|median|max|min
 MIN_AGENTS = int(os.getenv("LUKHAS_MESH_MIN_AGENTS", "2"))
+
 
 def mesh_align(agent_snapshots: List[List[Dict[str, Any]]]) -> Dict[str, float]:
     """
@@ -79,6 +81,7 @@ def mesh_align(agent_snapshots: List[List[Dict[str, Any]]]) -> Dict[str, float]:
 
     return aggregated
 
+
 def mesh_consensus(agent_selections: List[str], agent_confidences: List[float] = None) -> Optional[str]:
     """
     Determine consensus selection across multiple agents.
@@ -112,6 +115,7 @@ def mesh_consensus(agent_selections: List[str], agent_confidences: List[float] =
     # Find selection with highest weighted vote
     consensus_selection = max(vote_weights.keys(), key=lambda k: vote_weights[k])
     return consensus_selection
+
 
 def analyze_mesh_diversity(agent_snapshots: List[List[Dict[str, Any]]]) -> Dict[str, Any]:
     """
@@ -151,7 +155,7 @@ def analyze_mesh_diversity(agent_snapshots: List[List[Dict[str, Any]]]) -> Dict[
                 "mean": statistics.mean(values_by_agent),
                 "std_dev": statistics.stdev(values_by_agent),
                 "range": max(values_by_agent) - min(values_by_agent),
-                "agent_count": len(values_by_agent)
+                "agent_count": len(values_by_agent),
             }
 
     # Overall diversity metrics
@@ -165,11 +169,11 @@ def analyze_mesh_diversity(agent_snapshots: List[List[Dict[str, Any]]]) -> Dict[
         "agent_count": agent_count,
         "emotion_diversity": emotion_diversity,
         "overall_diversity": overall_diversity,
-        "aggregation_method": AGGREGATION_METHOD
+        "aggregation_method": AGGREGATION_METHOD,
     }
 
-def validate_mesh_output(agent_snapshots: List[List[Dict[str, Any]]],
-                        aggregated: Dict[str, float]) -> bool:
+
+def validate_mesh_output(agent_snapshots: List[List[Dict[str, Any]]], aggregated: Dict[str, float]) -> bool:
     """
     Validate that mesh aggregation produces safe output.
 
@@ -211,11 +215,12 @@ def validate_mesh_output(agent_snapshots: List[List[Dict[str, Any]]],
 
     return True
 
+
 def get_mesh_config() -> Dict[str, Any]:
     """Get current mesh configuration."""
     return {
         "enabled": ENABLED,
         "aggregation_method": AGGREGATION_METHOD,
         "min_agents": MIN_AGENTS,
-        "valid_methods": ["mean", "median", "max", "min"]
+        "valid_methods": ["mean", "median", "max", "min"],
     }

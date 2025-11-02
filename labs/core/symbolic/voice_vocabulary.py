@@ -11,6 +11,7 @@ This module defines the symbolic vocabulary for the LUKHAS Voice Module,
 providing the symbolic language elements used for voice synthesis,
 emotional expression, and vocal communication.
 """
+
 from dataclasses import dataclass
 from typing import Any
 

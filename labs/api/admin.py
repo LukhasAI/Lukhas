@@ -31,9 +31,7 @@ def require_api_key(x_api_key: Optional[str] = Header(default=None)):
 
 
 def _badge(txt, bg, fg):
-    return (
-        f'<span style="display:inline-block;padding:4px 10px;border-radius:999px;background:{bg};color:{fg};font-weight:600">{html.escape(txt)}</span>'
-    )
+    return f'<span style="display:inline-block;padding:4px 10px;border-radius:999px;background:{bg};color:{fg};font-weight:600">{html.escape(txt)}</span>'
 
 
 def _sparkline(points, width=180, height=32, pad=4):

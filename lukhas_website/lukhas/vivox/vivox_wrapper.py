@@ -82,32 +82,27 @@ VIVOX_INTEGRATION_ACTIVE = os.getenv("VIVOX_INTEGRATION_ACTIVE", "false").lower(
 class VIVOXMemoryExpansion(Protocol):
     """Protocol for VIVOX Memory Expansion implementations"""
 
-    def store_memory(self, data: dict[str, Any]) -> str:
-        ...
+    def store_memory(self, data: dict[str, Any]) -> str: ...
 
-    def retrieve_memory(self, key: str) -> dict[str, Any]:
-        ...
+    def retrieve_memory(self, key: str) -> dict[str, Any]: ...
 
 
 class VIVOXMoralAlignmentEngine(Protocol):
     """Protocol for VIVOX Moral Alignment Engine implementations"""
 
-    def evaluate_ethics(self, action: dict[str, Any]) -> dict[str, Any]:
-        ...
+    def evaluate_ethics(self, action: dict[str, Any]) -> dict[str, Any]: ...
 
 
 class VIVOXConsciousnessInterpretationLayer(Protocol):
     """Protocol for VIVOX Consciousness Interpretation Layer implementations"""
 
-    def interpret_consciousness(self, state: dict[str, Any]) -> dict[str, Any]:
-        ...
+    def interpret_consciousness(self, state: dict[str, Any]) -> dict[str, Any]: ...
 
 
 class VIVOXSelfReflectiveMemory(Protocol):
     """Protocol for VIVOX Self-Reflective Memory implementations"""
 
-    def reflect(self, memory: dict[str, Any]) -> dict[str, Any]:
-        ...
+    def reflect(self, memory: dict[str, Any]) -> dict[str, Any]: ...
 
 
 class SimulationBranch(Protocol):

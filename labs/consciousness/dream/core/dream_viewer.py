@@ -3,6 +3,7 @@ dream_viewer.py
 ----------------
 Reads and displays symbolic dream logs from data/dream_log.jsonl.
 """
+
 import json
 import os
 

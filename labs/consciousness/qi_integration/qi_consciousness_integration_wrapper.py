@@ -2,6 +2,7 @@
 Quantum Consciousness Integration Wrapper
 Integration wrapper for connecting quantum consciousness integration to the consciousness hub
 """
+
 import logging
 import uuid
 from datetime import datetime, timezone
@@ -72,9 +73,7 @@ class QIConsciousnessIntegration:
             "last_activity": datetime.now(timezone.utc).isoformat(),
         }
 
-        logger.info(
-            "QIConsciousnessIntegration initialized with config: %s", self.config
-        )
+        logger.info("QIConsciousnessIntegration initialized with config: %s", self.config)
 
     async def initialize(self):
         """Initialize the quantum consciousness integration system"""
@@ -106,15 +105,9 @@ class QIConsciousnessIntegration:
 
         # Configure quantum parameters
         self.qi_config = {
-            "consciousness_level_threshold": self.config.get(
-                "consciousness_level_threshold", 0.8
-            ),
-            "qi_coherence_target": self.config.get(
-                "qi_coherence_target", 0.9
-            ),
-            "enable_enhanced_processing": self.config.get(
-                "enable_enhanced_processing", True
-            ),
+            "consciousness_level_threshold": self.config.get("consciousness_level_threshold", 0.8),
+            "qi_coherence_target": self.config.get("qi_coherence_target", 0.9),
+            "enable_enhanced_processing": self.config.get("enable_enhanced_processing", True),
         }
 
         logger.info("Quantum consciousness systems initialized")
@@ -144,9 +137,7 @@ class QIConsciousnessIntegration:
 
         # Setup content generation parameters
         self.content_config = {
-            "enable_content_generation": self.config.get(
-                "enable_content_generation", True
-            ),
+            "enable_content_generation": self.config.get("enable_content_generation", True),
             "supported_content_types": self.config.get(
                 "supported_content_types",
                 ["haiku", "article", "social_post", "story", "generic"],
@@ -193,9 +184,7 @@ class QIConsciousnessIntegration:
                 }
 
             # Generate content using quantum consciousness system
-            if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(
-                self.qi_consciousness, "generate_conscious_content"
-            ):
+            if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(self.qi_consciousness, "generate_conscious_content"):
                 result = await self.qi_consciousness.generate_conscious_content(
                     content_type, theme, style, consciousness_level
                 )
@@ -249,9 +238,7 @@ class QIConsciousnessIntegration:
             await self.initialize()
 
         try:
-            if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(
-                self.qi_consciousness, "get_consciousness_status"
-            ):
+            if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(self.qi_consciousness, "get_consciousness_status"):
                 status = self.qi_consciousness.get_consciousness_status()
 
                 return {
@@ -259,15 +246,9 @@ class QIConsciousnessIntegration:
                     "consciousness_status": status,
                     "integration_metrics": self.consciousness_metrics,
                     "config": {
-                        "qi_enabled": self.config.get(
-                            "enable_quantum_consciousness", True
-                        ),
-                        "creative_boosts_enabled": self.config.get(
-                            "enable_creative_boosts", True
-                        ),
-                        "content_generation_enabled": self.config.get(
-                            "enable_content_generation", True
-                        ),
+                        "qi_enabled": self.config.get("enable_quantum_consciousness", True),
+                        "creative_boosts_enabled": self.config.get("enable_creative_boosts", True),
+                        "content_generation_enabled": self.config.get("enable_content_generation", True),
                     },
                     "system_status": "active",
                     "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -284,9 +265,7 @@ class QIConsciousnessIntegration:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-    async def enhance_consciousness_level(
-        self, target_level: float = 0.9
-    ) -> dict[str, Any]:
+    async def enhance_consciousness_level(self, target_level: float = 0.9) -> dict[str, Any]:
         """
         Enhance consciousness level for improved content generation
 
@@ -300,16 +279,12 @@ class QIConsciousnessIntegration:
             await self.initialize()
 
         try:
-            if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(
-                self.qi_consciousness, "consciousness_level"
-            ):
+            if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(self.qi_consciousness, "consciousness_level"):
                 current_level = self.qi_consciousness.consciousness_level
 
                 # Simulate consciousness enhancement
                 if target_level > current_level:
-                    self.qi_consciousness.consciousness_level = min(
-                        target_level, 1.0
-                    )
+                    self.qi_consciousness.consciousness_level = min(target_level, 1.0)
                     enhancement_applied = True
                 else:
                     enhancement_applied = False
@@ -377,23 +352,13 @@ class QIConsciousnessIntegration:
                 **self.consciousness_metrics,
                 "qi_consciousness_available": QUANTUM_CONSCIOUSNESS_AVAILABLE,
                 "active_sessions": len(
-                    [
-                        s
-                        for s in self.content_generation_sessions.values()
-                        if s.get("status") == "active"
-                    ]
+                    [s for s in self.content_generation_sessions.values() if s.get("status") == "active"]
                 ),
                 "total_sessions": len(self.content_generation_sessions),
                 "config": {
-                    "consciousness_level_threshold": self.config.get(
-                        "consciousness_level_threshold", 0.8
-                    ),
-                    "qi_coherence_target": self.config.get(
-                        "qi_coherence_target", 0.9
-                    ),
-                    "supported_content_types": self.config.get(
-                        "supported_content_types", []
-                    ),
+                    "consciousness_level_threshold": self.config.get("consciousness_level_threshold", 0.8),
+                    "qi_coherence_target": self.config.get("qi_coherence_target", 0.9),
+                    "supported_content_types": self.config.get("supported_content_types", []),
                 },
                 "system_status": "active",
                 "last_updated": datetime.now(timezone.utc).isoformat(),
@@ -431,19 +396,13 @@ class QIConsciousnessIntegration:
 
             # Calculate running averages
             self.consciousness_metrics["consciousness_level_average"] = (
-                self.consciousness_metrics["consciousness_level_average"]
-                * (current_sessions - 1)
-                + consciousness_level
+                self.consciousness_metrics["consciousness_level_average"] * (current_sessions - 1) + consciousness_level
             ) / current_sessions
             self.consciousness_metrics["qi_coherence_average"] = (
-                self.consciousness_metrics["qi_coherence_average"]
-                * (current_sessions - 1)
-                + qi_coherence
+                self.consciousness_metrics["qi_coherence_average"] * (current_sessions - 1) + qi_coherence
             ) / current_sessions
             self.consciousness_metrics["creative_flow_average"] = (
-                self.consciousness_metrics["creative_flow_average"]
-                * (current_sessions - 1)
-                + creative_flow
+                self.consciousness_metrics["creative_flow_average"] * (current_sessions - 1) + creative_flow
             ) / current_sessions
 
             self.consciousness_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()

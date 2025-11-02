@@ -43,6 +43,7 @@ logger = logging.getLogger(__name__)
 
 class CanaryStatus(Enum):
     """Canary deployment status."""
+
     INACTIVE = "inactive"
     STARTING = "starting"
     ACTIVE = "active"
@@ -53,6 +54,7 @@ class CanaryStatus(Enum):
 
 class AlertLevel(Enum):
     """Alert severity levels."""
+
     INFO = "info"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -62,6 +64,7 @@ class AlertLevel(Enum):
 @dataclass
 class ShadowDecision:
     """Shadow decision comparison result."""
+
     request_id: str
     timestamp: float
     baseline_decision: str
@@ -76,6 +79,7 @@ class ShadowDecision:
 @dataclass
 class BurnRateAlert:
     """Burn rate alert configuration and state."""
+
     window_duration: str  # "1h", "6h"
     threshold_multiplier: float  # 4x, 2x
     error_threshold: int  # 4 errors, 2 errors
@@ -88,6 +92,7 @@ class BurnRateAlert:
 @dataclass
 class CanaryMetrics:
     """Canary deployment metrics."""
+
     total_requests: int
     shadow_requests: int
     shadow_success_rate: float
@@ -104,6 +109,7 @@ class CanaryMetrics:
 @dataclass
 class CanaryConfig:
     """Canary deployment configuration."""
+
     traffic_percentage: float = 5.0
     decision_delta_threshold: float = 0.1  # 10% delta threshold
     max_error_rate: float = 0.05  # 5% max error rate
@@ -134,7 +140,7 @@ class MATRIZShadowCanary:
             error_rate_6h=0.0,
             burn_rate_1h=0.0,
             burn_rate_6h=0.0,
-            last_updated=time.time()
+            last_updated=time.time(),
         )
 
         # Burn rate alerting
@@ -145,7 +151,7 @@ class MATRIZShadowCanary:
                 error_threshold=4,
                 current_errors=0,
                 window_start=time.time(),
-                alert_triggered=False
+                alert_triggered=False,
             ),
             "6h": BurnRateAlert(
                 window_duration="6h",
@@ -153,8 +159,8 @@ class MATRIZShadowCanary:
                 error_threshold=2,
                 current_errors=0,
                 window_start=time.time(),
-                alert_triggered=False
-            )
+                alert_triggered=False,
+            ),
         }
 
         # Data storage
@@ -189,7 +195,7 @@ class MATRIZShadowCanary:
             "confidence": random.uniform(0.8, 0.95),
             "processing_time_ms": baseline_time,
             "policy": "baseline_policy_v2.1.0",
-            "success": True
+            "success": True,
         }
 
     async def simulate_matriz_decision(self, request_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -216,7 +222,7 @@ class MATRIZShadowCanary:
                 "confidence": confidence,
                 "processing_time_ms": matriz_time,
                 "policy": "matriz_policy_v1.0.0",
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -227,7 +233,7 @@ class MATRIZShadowCanary:
                 "processing_time_ms": 0.0,
                 "policy": "matriz_error",
                 "success": False,
-                "error": str(e)
+                "error": str(e),
             }
 
     async def process_shadow_request(self, request_data: Dict[str, Any]) -> ShadowDecision:
@@ -244,8 +250,9 @@ class MATRIZShadowCanary:
 
             # Compare decisions
             decisions_match = (
-                baseline_result["decision"] == matriz_result["decision"] and
-                abs(baseline_result["confidence"] - matriz_result["confidence"]) <= self.config.confidence_delta_threshold
+                baseline_result["decision"] == matriz_result["decision"]
+                and abs(baseline_result["confidence"] - matriz_result["confidence"])
+                <= self.config.confidence_delta_threshold
             )
 
             confidence_delta = abs(baseline_result["confidence"] - matriz_result["confidence"])
@@ -264,7 +271,7 @@ class MATRIZShadowCanary:
                 confidence_delta=confidence_delta,
                 processing_time_delta_ms=processing_time_delta,
                 error_occurred=error_occurred,
-                error_message=error_message
+                error_message=error_message,
             )
 
             # Store decision for analysis
@@ -289,7 +296,7 @@ class MATRIZShadowCanary:
                 confidence_delta=1.0,
                 processing_time_delta_ms=0.0,
                 error_occurred=True,
-                error_message=str(e)
+                error_message=str(e),
             )
 
             self.shadow_decisions.append(error_decision)
@@ -304,10 +311,7 @@ class MATRIZShadowCanary:
         current_time = time.time()
 
         # Calculate recent metrics (last 5 minutes)
-        recent_decisions = [
-            d for d in self.shadow_decisions
-            if current_time - d.timestamp <= 300  # 5 minutes
-        ]
+        recent_decisions = [d for d in self.shadow_decisions if current_time - d.timestamp <= 300]  # 5 minutes
 
         if recent_decisions:
             # Update basic metrics
@@ -384,7 +388,7 @@ class MATRIZShadowCanary:
                     "threshold": alert_config.error_threshold,
                     "burn_rate_multiplier": alert_config.threshold_multiplier,
                     "decision_match_rate": self.metrics.decision_match_rate,
-                    "message": f"MATRIZ shadow canary burn rate exceeded: {errors_in_window} errors in {window} window (threshold: {alert_config.error_threshold})"
+                    "message": f"MATRIZ shadow canary burn rate exceeded: {errors_in_window} errors in {window} window (threshold: {alert_config.error_threshold})",
                 }
 
                 self.alerts_sent.append(alert)
@@ -411,7 +415,7 @@ class MATRIZShadowCanary:
             "alert_level": AlertLevel.EMERGENCY.value,
             "message": "MATRIZ shadow canary circuit breaker triggered - stopping shadow processing",
             "error_rate_1h": self.metrics.error_rate_1h,
-            "decision_match_rate": self.metrics.decision_match_rate
+            "decision_match_rate": self.metrics.decision_match_rate,
         }
 
         self.alerts_sent.append(alert)
@@ -433,9 +437,11 @@ class MATRIZShadowCanary:
                 self.trigger_circuit_breaker()
         else:
             # Check if circuit breaker should be reset (5 minutes cooling period)
-            if (self.circuit_breaker_time and
-                time.time() - self.circuit_breaker_time > 300 and  # 5 minutes
-                self.metrics.error_rate_1h < self.config.max_error_rate):
+            if (
+                self.circuit_breaker_time
+                and time.time() - self.circuit_breaker_time > 300  # 5 minutes
+                and self.metrics.error_rate_1h < self.config.max_error_rate
+            ):
                 self.reset_circuit_breaker()
 
     async def start_canary_deployment(self):
@@ -484,7 +490,7 @@ class MATRIZShadowCanary:
                 "user_id": f"user_{request_count % 1000}",
                 "action": random.choice(["read", "write", "delete"]),
                 "resource": f"resource_{random.randint(1, 100)}",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             # Decide if this request should be shadowed
@@ -515,7 +521,7 @@ class MATRIZShadowCanary:
                 "status": self.status.value,
                 "deployment_duration_seconds": deployment_duration,
                 "traffic_percentage": self.config.traffic_percentage,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             "metrics": asdict(self.metrics),
             "performance": {
@@ -525,7 +531,7 @@ class MATRIZShadowCanary:
                 "success_rate": self.metrics.shadow_success_rate * 100,
                 "decision_match_rate": self.metrics.decision_match_rate * 100,
                 "average_confidence_delta": self.metrics.average_confidence_delta,
-                "average_processing_delta_ms": self.metrics.average_processing_delta_ms
+                "average_processing_delta_ms": self.metrics.average_processing_delta_ms,
             },
             "burn_rate_analysis": {
                 "error_rate_1h": self.metrics.error_rate_1h * 100,
@@ -533,16 +539,16 @@ class MATRIZShadowCanary:
                 "burn_rate_1h": self.metrics.burn_rate_1h,
                 "burn_rate_6h": self.metrics.burn_rate_6h,
                 "alerts_1h": self.burn_rate_alerts["1h"].alert_triggered,
-                "alerts_6h": self.burn_rate_alerts["6h"].alert_triggered
+                "alerts_6h": self.burn_rate_alerts["6h"].alert_triggered,
             },
             "safety_status": {
                 "circuit_breaker_triggered": self.circuit_breaker_triggered,
                 "circuit_breaker_time": self.circuit_breaker_time,
                 "total_alerts_sent": len(self.alerts_sent),
-                "deployment_safe": self.is_deployment_safe()
+                "deployment_safe": self.is_deployment_safe(),
             },
             "recommendations": self.generate_deployment_recommendations(),
-            "alerts": self.alerts_sent[-10:]  # Last 10 alerts
+            "alerts": self.alerts_sent[-10:],  # Last 10 alerts
         }
 
         return report
@@ -550,10 +556,10 @@ class MATRIZShadowCanary:
     def is_deployment_safe(self) -> bool:
         """Determine if deployment is safe to continue or promote."""
         return (
-            not self.circuit_breaker_triggered and
-            self.metrics.error_rate_1h <= self.config.max_error_rate and
-            self.metrics.decision_match_rate >= (1.0 - self.config.decision_delta_threshold) and
-            not any(alert["alert_triggered"] for alert in self.burn_rate_alerts.values())
+            not self.circuit_breaker_triggered
+            and self.metrics.error_rate_1h <= self.config.max_error_rate
+            and self.metrics.decision_match_rate >= (1.0 - self.config.decision_delta_threshold)
+            and not any(alert["alert_triggered"] for alert in self.burn_rate_alerts.values())
         )
 
     def generate_deployment_recommendations(self) -> List[str]:
@@ -567,7 +573,9 @@ class MATRIZShadowCanary:
             recommendations.append("⚠️ Canary deployment has issues - investigate before promotion")
 
         if self.metrics.error_rate_1h > self.config.max_error_rate:
-            recommendations.append(f"❌ Error rate {self.metrics.error_rate_1h:.1%} exceeds threshold {self.config.max_error_rate:.1%}")
+            recommendations.append(
+                f"❌ Error rate {self.metrics.error_rate_1h:.1%} exceeds threshold {self.config.max_error_rate:.1%}"
+            )
 
         if self.metrics.decision_match_rate < (1.0 - self.config.decision_delta_threshold):
             recommendations.append(f"❌ Decision match rate {self.metrics.decision_match_rate:.1%} below threshold")
@@ -597,16 +605,15 @@ async def main():
 
         # Simulate production traffic for 5 minutes
         await canary.simulate_production_traffic(
-            duration_seconds=300,  # 5 minutes
-            requests_per_second=5.0  # 5 requests per second
+            duration_seconds=300, requests_per_second=5.0  # 5 minutes  # 5 requests per second
         )
 
         # Generate and display report
         report = canary.generate_deployment_report()
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("MATRIZ SHADOW CANARY DEPLOYMENT REPORT")
-        print("="*60)
+        print("=" * 60)
 
         print(f"Status: {report['canary_deployment_report']['status'].upper()}")
         print(f"Duration: {report['canary_deployment_report']['deployment_duration_seconds']:.1f}s")
@@ -626,12 +633,14 @@ async def main():
         print(f"  Burn Rate (6h): {report['burn_rate_analysis']['burn_rate_6h']:.2f}x")
 
         print("\n🛡️ SAFETY STATUS:")
-        print(f"  Circuit Breaker: {'🔴 TRIGGERED' if report['safety_status']['circuit_breaker_triggered'] else '🟢 OK'}")
+        print(
+            f"  Circuit Breaker: {'🔴 TRIGGERED' if report['safety_status']['circuit_breaker_triggered'] else '🟢 OK'}"
+        )
         print(f"  Deployment Safe: {'✅ SAFE' if report['safety_status']['deployment_safe'] else '❌ UNSAFE'}")
         print(f"  Total Alerts: {report['safety_status']['total_alerts_sent']}")
 
         print("\n💡 RECOMMENDATIONS:")
-        for rec in report['recommendations']:
+        for rec in report["recommendations"]:
             print(f"  {rec}")
 
         # Save report
@@ -641,13 +650,15 @@ async def main():
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_path = artifacts_dir / f"matriz_canary_report_{timestamp}.json"
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(report, f, indent=2, default=str)
 
         print(f"\n📄 Report saved: {report_path}")
-        print(f"\nDeployment Status: {'🚀 READY FOR PROMOTION' if report['safety_status']['deployment_safe'] else '🛑 NEEDS INVESTIGATION'}")
+        print(
+            f"\nDeployment Status: {'🚀 READY FOR PROMOTION' if report['safety_status']['deployment_safe'] else '🛑 NEEDS INVESTIGATION'}"
+        )
 
-        return report['safety_status']['deployment_safe']
+        return report["safety_status"]["deployment_safe"]
 
     except Exception as e:
         print(f"❌ Canary deployment failed: {e}")
@@ -661,5 +672,6 @@ async def main():
 if __name__ == "__main__":
     # Run canary deployment
     import sys
+
     safe = asyncio.run(main())
     sys.exit(0 if safe else 1)

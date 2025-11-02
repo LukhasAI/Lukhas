@@ -29,9 +29,10 @@ logger = logging.getLogger(__name__)
 
 class CircuitBreakerState(Enum):
     """Circuit breaker states"""
-    CLOSED = "closed"           # Normal operation
-    OPEN = "open"               # Failing fast, blocking requests
-    HALF_OPEN = "half_open"     # Testing recovery
+
+    CLOSED = "closed"  # Normal operation
+    OPEN = "open"  # Failing fast, blocking requests
+    HALF_OPEN = "half_open"  # Testing recovery
 
 
 @dataclass
@@ -39,34 +40,35 @@ class CircuitBreakerConfig:
     """Circuit breaker configuration"""
 
     # Failure tracking
-    failure_threshold: int = 5              # Consecutive failures to open
-    success_threshold: int = 3              # Consecutive successes to close
-    timeout_duration: float = 60.0         # Open state timeout (seconds)
+    failure_threshold: int = 5  # Consecutive failures to open
+    success_threshold: int = 3  # Consecutive successes to close
+    timeout_duration: float = 60.0  # Open state timeout (seconds)
 
     # Adaptive parameters
-    enable_adaptation: bool = True          # Enable adaptive thresholds
-    failure_rate_threshold: float = 0.5     # Failure rate to open (0.0-1.0)
-    min_requests: int = 10                  # Minimum requests for rate calculation
-    rolling_window: int = 100               # Rolling window size for stats
+    enable_adaptation: bool = True  # Enable adaptive thresholds
+    failure_rate_threshold: float = 0.5  # Failure rate to open (0.0-1.0)
+    min_requests: int = 10  # Minimum requests for rate calculation
+    rolling_window: int = 100  # Rolling window size for stats
 
     # Timeout configuration
-    initial_timeout: float = 1.0           # Initial request timeout
-    max_timeout: float = 30.0              # Maximum request timeout
-    timeout_multiplier: float = 2.0       # Timeout increase factor
+    initial_timeout: float = 1.0  # Initial request timeout
+    max_timeout: float = 30.0  # Maximum request timeout
+    timeout_multiplier: float = 2.0  # Timeout increase factor
 
     # Recovery configuration
-    recovery_timeout: float = 60.0         # Time before attempting recovery
-    max_recovery_timeout: float = 300.0    # Maximum recovery timeout
-    recovery_backoff: float = 1.5          # Recovery timeout backoff
-    health_check_interval: float = 30.0    # Health check frequency
+    recovery_timeout: float = 60.0  # Time before attempting recovery
+    max_recovery_timeout: float = 300.0  # Maximum recovery timeout
+    recovery_backoff: float = 1.5  # Recovery timeout backoff
+    health_check_interval: float = 30.0  # Health check frequency
 
     # Metrics
-    enable_metrics: bool = True            # Enable Prometheus metrics
+    enable_metrics: bool = True  # Enable Prometheus metrics
 
 
 @dataclass
 class CircuitBreakerMetrics:
     """Circuit breaker runtime metrics"""
+
     state: CircuitBreakerState = CircuitBreakerState.CLOSED
     failure_count: int = 0
     success_count: int = 0
@@ -82,6 +84,7 @@ class CircuitBreakerMetrics:
 
 class CircuitBreakerError(Exception):
     """Circuit breaker is open, failing fast"""
+
     def __init__(self, message: str, retry_after: Optional[float] = None):
         super().__init__(message)
         self.retry_after = retry_after
@@ -89,6 +92,7 @@ class CircuitBreakerError(Exception):
 
 class CircuitBreakerTimeoutError(CircuitBreakerError):
     """Circuit breaker timeout exceeded"""
+
     pass
 
 
@@ -130,11 +134,7 @@ class AdaptiveCircuitBreaker:
 
         logger.info(f"CircuitBreaker '{name}' initialized: {config}")
 
-    async def __call__(self,
-                      func: Callable[..., Awaitable],
-                      *args,
-                      timeout: Optional[float] = None,
-                      **kwargs) -> Any:
+    async def __call__(self, func: Callable[..., Awaitable], *args, timeout: Optional[float] = None, **kwargs) -> Any:
         """
         Execute function through circuit breaker protection.
 
@@ -156,29 +156,21 @@ class AdaptiveCircuitBreaker:
 
         if self.state == CircuitBreakerState.OPEN:
             retry_after = self._get_retry_after()
-            raise CircuitBreakerError(
-                f"Circuit breaker '{self.name}' is OPEN",
-                retry_after=retry_after
-            )
+            raise CircuitBreakerError(f"Circuit breaker '{self.name}' is OPEN", retry_after=retry_after)
 
         # Execute with timeout and failure tracking
         return await self._execute_with_tracking(func, timeout, *args, **kwargs)
 
-    async def _execute_with_tracking(self,
-                                   func: Callable[..., Awaitable],
-                                   timeout: Optional[float],
-                                   *args,
-                                   **kwargs) -> Any:
+    async def _execute_with_tracking(
+        self, func: Callable[..., Awaitable], timeout: Optional[float], *args, **kwargs
+    ) -> Any:
         """Execute function with comprehensive tracking and timeout"""
         start_time = time.monotonic()
         execution_timeout = timeout or self.current_timeout
 
         try:
             # Execute with timeout
-            result = await asyncio.wait_for(
-                func(*args, **kwargs),
-                timeout=execution_timeout
-            )
+            result = await asyncio.wait_for(func(*args, **kwargs), timeout=execution_timeout)
 
             # Record success
             latency_ms = (time.monotonic() - start_time) * 1000
@@ -191,9 +183,7 @@ class AdaptiveCircuitBreaker:
             latency_ms = (time.monotonic() - start_time) * 1000
             await self._record_timeout(latency_ms)
 
-            raise CircuitBreakerTimeoutError(
-                f"Operation timed out after {execution_timeout:.2f}s"
-            )
+            raise CircuitBreakerTimeoutError(f"Operation timed out after {execution_timeout:.2f}s")
 
         except Exception as e:
             # Handle execution failure
@@ -215,8 +205,7 @@ class AdaptiveCircuitBreaker:
             self.current_timeout = self.config.initial_timeout
 
             # Check for state transition from HALF_OPEN to CLOSED
-            if (self.state == CircuitBreakerState.HALF_OPEN and
-                self.success_count >= self.config.success_threshold):
+            if self.state == CircuitBreakerState.HALF_OPEN and self.success_count >= self.config.success_threshold:
                 await self._transition_to_closed()
 
     async def _record_failure(self, latency_ms: float, exception: Exception):
@@ -229,10 +218,7 @@ class AdaptiveCircuitBreaker:
             self.latency_samples.append(latency_ms)
 
             # Increase timeout on failure
-            self.current_timeout = min(
-                self.current_timeout * self.config.timeout_multiplier,
-                self.config.max_timeout
-            )
+            self.current_timeout = min(self.current_timeout * self.config.timeout_multiplier, self.config.max_timeout)
 
             logger.warning(f"CircuitBreaker '{self.name}' recorded failure: {exception}")
 
@@ -251,8 +237,7 @@ class AdaptiveCircuitBreaker:
             now = time.monotonic()
 
             # Check if OPEN circuit should transition to HALF_OPEN
-            if (self.state == CircuitBreakerState.OPEN and
-                now - self.state_change_time >= self.recovery_timeout):
+            if self.state == CircuitBreakerState.OPEN and now - self.state_change_time >= self.recovery_timeout:
                 await self._transition_to_half_open()
 
     async def _check_failure_threshold(self):
@@ -263,8 +248,7 @@ class AdaptiveCircuitBreaker:
             return
 
         # Adaptive failure rate threshold
-        if (self.config.enable_adaptation and
-            len(self.request_results) >= self.config.min_requests):
+        if self.config.enable_adaptation and len(self.request_results) >= self.config.min_requests:
 
             failure_rate = self._calculate_failure_rate()
             if failure_rate >= self.config.failure_rate_threshold:
@@ -288,12 +272,14 @@ class AdaptiveCircuitBreaker:
             # Exponential backoff for recovery timeout
             self.recovery_timeout = min(
                 self.config.recovery_timeout * (self.config.recovery_backoff ** (self.recovery_attempts - 1)),
-                self.config.max_recovery_timeout
+                self.config.max_recovery_timeout,
             )
 
-            logger.warning(f"CircuitBreaker '{self.name}' OPENED: "
-                         f"{self.failure_count} failures, "
-                         f"recovery in {self.recovery_timeout:.1f}s")
+            logger.warning(
+                f"CircuitBreaker '{self.name}' OPENED: "
+                f"{self.failure_count} failures, "
+                f"recovery in {self.recovery_timeout:.1f}s"
+            )
 
     async def _transition_to_half_open(self):
         """Transition circuit breaker to HALF_OPEN state"""
@@ -372,11 +358,10 @@ class AdaptiveCircuitBreaker:
                 last_failure_time=self.last_failure_time,
                 state_change_time=self.state_change_time,
                 timeout_count=self.timeout_count,
-                recovery_attempts=self.recovery_attempts
+                recovery_attempts=self.recovery_attempts,
             )
 
-    async def health_check(self,
-                          health_func: Optional[Callable[[], Awaitable[bool]]] = None) -> bool:
+    async def health_check(self, health_func: Optional[Callable[[], Awaitable[bool]]] = None) -> bool:
         """
         Perform health check and potentially recover circuit.
 
@@ -388,10 +373,7 @@ class AdaptiveCircuitBreaker:
         """
         try:
             if health_func:
-                is_healthy = await asyncio.wait_for(
-                    health_func(),
-                    timeout=self.config.health_check_interval
-                )
+                is_healthy = await asyncio.wait_for(health_func(), timeout=self.config.health_check_interval)
             else:
                 # Default health check - just verify circuit isn't failing too much
                 is_healthy = self._calculate_failure_rate() < 0.8
@@ -421,9 +403,7 @@ class CircuitBreakerRegistry:
         self._breakers: Dict[str, AdaptiveCircuitBreaker] = {}
         self._global_config = CircuitBreakerConfig()
 
-    def create_breaker(self,
-                      name: str,
-                      config: Optional[CircuitBreakerConfig] = None) -> AdaptiveCircuitBreaker:
+    def create_breaker(self, name: str, config: Optional[CircuitBreakerConfig] = None) -> AdaptiveCircuitBreaker:
         """Create and register a new circuit breaker"""
         if name in self._breakers:
             logger.warning(f"CircuitBreaker '{name}' already exists, returning existing")
@@ -490,7 +470,7 @@ class CircuitBreakerFactory:
             failure_rate_threshold=0.3,
             initial_timeout=5.0,
             max_timeout=30.0,
-            recovery_timeout=60.0
+            recovery_timeout=60.0,
         )
 
     @staticmethod
@@ -504,7 +484,7 @@ class CircuitBreakerFactory:
             initial_timeout=2.0,
             max_timeout=15.0,
             recovery_timeout=30.0,
-            max_recovery_timeout=120.0
+            max_recovery_timeout=120.0,
         )
 
     @staticmethod
@@ -517,5 +497,5 @@ class CircuitBreakerFactory:
             failure_rate_threshold=0.2,
             initial_timeout=1.0,
             max_timeout=5.0,
-            recovery_timeout=30.0
+            recovery_timeout=30.0,
         )

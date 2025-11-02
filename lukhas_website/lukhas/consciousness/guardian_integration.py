@@ -55,6 +55,7 @@ try:
         RuntimeEnvironment,
         create_simple_decision,  # noqa: F401  # TODO: governance.guardian_sys...
     )
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
@@ -62,6 +63,7 @@ except ImportError:
 # Import observability
 try:
     from observability.prometheus_metrics import get_lukhas_metrics
+
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     OBSERVABILITY_AVAILABLE = False
@@ -73,6 +75,7 @@ logger = logging.getLogger(__name__)
 
 class GuardianValidationType(Enum):
     """Types of Guardian validation operations"""
+
     CONSCIOUSNESS_STATE_TRANSITION = "consciousness_state_transition"
     REFLECTION_ANALYSIS = "reflection_analysis"
     AWARENESS_PROCESSING = "awareness_processing"
@@ -83,6 +86,7 @@ class GuardianValidationType(Enum):
 
 class ValidationResult(Enum):
     """Guardian validation results - fail-closed design"""
+
     APPROVED = "approved"
     DENIED = "denied"
     CONDITIONAL = "conditional"
@@ -92,14 +96,15 @@ class ValidationResult(Enum):
 @dataclass
 class GuardianValidationConfig:
     """Configuration for consciousness-Guardian integration"""
+
     # Performance targets (Phase 3 requirement: <250ms p95)
     p95_target_ms: float = 200.0  # Conservative target for T4/0.01%
     p99_target_ms: float = 250.0  # Hard limit from PHASE_MATRIX.md
-    timeout_ms: float = 300.0     # Fail-closed timeout
+    timeout_ms: float = 300.0  # Fail-closed timeout
 
     # Drift detection (from AUDITOR_CHECKLIST.md)
     drift_threshold: float = 0.15  # Exact requirement
-    drift_alpha: float = 0.3      # EMA smoothing factor
+    drift_alpha: float = 0.3  # EMA smoothing factor
 
     # Safety validation
     safety_check_enabled: bool = True
@@ -139,6 +144,7 @@ class GuardianValidationConfig:
 @dataclass
 class ConsciousnessValidationContext:
     """Context for consciousness validation requests"""
+
     operation_id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
     validation_type: GuardianValidationType = GuardianValidationType.CONSCIOUSNESS_STATE_TRANSITION
     correlation_id: str = field(default_factory=lambda: str(uuid.uuid4()))
@@ -164,6 +170,7 @@ class ConsciousnessValidationContext:
 @dataclass
 class GuardianValidationResult:
     """Comprehensive Guardian validation result"""
+
     operation_id: str
     validation_type: GuardianValidationType
     result: ValidationResult
@@ -200,48 +207,40 @@ class GuardianValidationResult:
             "timestamp": time.time(),
             "event_type": event_type,
             "details": details,
-            "operation_id": self.operation_id
+            "operation_id": self.operation_id,
         }
         self.audit_trail.append(entry)
 
 
 # Guardian-specific Prometheus metrics
 guardian_validations_total = Counter(
-    'lukhas_guardian_validations_total',
-    'Total Guardian validation operations',
-    ['validation_type', 'result', 'lane']
+    "lukhas_guardian_validations_total", "Total Guardian validation operations", ["validation_type", "result", "lane"]
 )
 
 guardian_validation_latency_seconds = Histogram(
-    'lukhas_guardian_validation_latency_seconds',
-    'Guardian validation latency distribution',
-    ['validation_type', 'result', 'lane'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.2, 0.25, 0.3, 0.5, 1.0]
+    "lukhas_guardian_validation_latency_seconds",
+    "Guardian validation latency distribution",
+    ["validation_type", "result", "lane"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.2, 0.25, 0.3, 0.5, 1.0],
 )
 
 guardian_drift_scores = Histogram(
-    'lukhas_guardian_drift_scores',
-    'Consciousness drift score distribution',
-    ['validation_type', 'lane'],
-    buckets=[0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0]
+    "lukhas_guardian_drift_scores",
+    "Consciousness drift score distribution",
+    ["validation_type", "lane"],
+    buckets=[0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0],
 )
 
 guardian_failures_total = Counter(
-    'lukhas_guardian_failures_total',
-    'Total Guardian validation failures',
-    ['failure_type', 'validation_type', 'lane']
+    "lukhas_guardian_failures_total", "Total Guardian validation failures", ["failure_type", "validation_type", "lane"]
 )
 
 guardian_performance_regressions = Counter(
-    'lukhas_guardian_performance_regressions_total',
-    'Guardian performance regression detections',
-    ['severity', 'lane']
+    "lukhas_guardian_performance_regressions_total", "Guardian performance regression detections", ["severity", "lane"]
 )
 
 guardian_audit_events_total = Counter(
-    'lukhas_guardian_audit_events_total',
-    'Total Guardian audit events',
-    ['event_type', 'lane']
+    "lukhas_guardian_audit_events_total", "Total Guardian audit events", ["event_type", "lane"]
 )
 
 
@@ -257,7 +256,7 @@ class ConsciousnessGuardianIntegration:
         self,
         config: Optional[GuardianValidationConfig] = None,
         guardian_system: Optional[GuardianSystem] = None,
-        ethics_engine: Optional[EthicsEngine] = None
+        ethics_engine: Optional[EthicsEngine] = None,
     ):
         """
         Initialize Guardian integration layer.
@@ -303,9 +302,7 @@ class ConsciousnessGuardianIntegration:
         logger.info(f"Guardian integration initialized: drift_threshold={self.config.drift_threshold}")
 
     def _initialize_guardian_systems(
-        self,
-        guardian_system: Optional[GuardianSystem],
-        ethics_engine: Optional[EthicsEngine]
+        self, guardian_system: Optional[GuardianSystem], ethics_engine: Optional[EthicsEngine]
     ):
         """Initialize Guardian system components"""
         if not GUARDIAN_AVAILABLE:
@@ -330,7 +327,7 @@ class ConsciousnessGuardianIntegration:
         self,
         context: ConsciousnessValidationContext,
         pre_validation_hook: Optional[Callable[[ConsciousnessValidationContext], Awaitable[None]]] = None,
-        post_validation_hook: Optional[Callable[[GuardianValidationResult], Awaitable[None]]] = None
+        post_validation_hook: Optional[Callable[[GuardianValidationResult], Awaitable[None]]] = None,
     ) -> GuardianValidationResult:
         """
         Comprehensive Guardian validation for consciousness operations.
@@ -359,7 +356,7 @@ class ConsciousnessGuardianIntegration:
                 result = GuardianValidationResult(
                     operation_id=context.operation_id,
                     validation_type=context.validation_type,
-                    result=ValidationResult.DENIED  # Fail-closed default
+                    result=ValidationResult.DENIED,  # Fail-closed default
                 )
 
                 # Check emergency mode (fail-closed behavior)
@@ -434,15 +431,11 @@ class ConsciousnessGuardianIntegration:
                 # Update Guardian metrics
                 if self._metrics:
                     guardian_validations_total.labels(
-                        validation_type=context.validation_type.value,
-                        result=result.result.value,
-                        lane=self._lane
+                        validation_type=context.validation_type.value, result=result.result.value, lane=self._lane
                     ).inc()
 
                     guardian_validation_latency_seconds.labels(
-                        validation_type=context.validation_type.value,
-                        result=result.result.value,
-                        lane=self._lane
+                        validation_type=context.validation_type.value, result=result.result.value, lane=self._lane
                     ).observe(validation_duration / 1000.0)
 
                 # Store validation history
@@ -468,9 +461,7 @@ class ConsciousnessGuardianIntegration:
                 # Record failure metrics
                 if self._metrics:
                     guardian_failures_total.labels(
-                        failure_type=type(e).__name__,
-                        validation_type=context.validation_type.value,
-                        lane=self._lane
+                        failure_type=type(e).__name__, validation_type=context.validation_type.value, lane=self._lane
                     ).inc()
 
                 # Return fail-closed result
@@ -481,13 +472,10 @@ class ConsciousnessGuardianIntegration:
                     result=ValidationResult.ERROR,  # Fail-closed
                     validation_duration_ms=validation_duration,
                     reason=f"Guardian validation error: {str(e)}",
-                    confidence=0.0
+                    confidence=0.0,
                 )
 
-    async def _perform_drift_detection(
-        self,
-        context: ConsciousnessValidationContext
-    ) -> DriftResult:
+    async def _perform_drift_detection(self, context: ConsciousnessValidationContext) -> DriftResult:
         """Perform consciousness state drift detection"""
 
         with tracer.start_as_current_span("guardian_drift_detection"):
@@ -497,7 +485,7 @@ class ConsciousnessGuardianIntegration:
                     threshold_exceeded=False,
                     severity=EthicalSeverity.LOW,
                     remediation_needed=False,
-                    details={"reason": "No state data or Guardian implementation"}
+                    details={"reason": "No state data or Guardian implementation"},
                 )
 
             # Get baseline for comparison
@@ -512,7 +500,7 @@ class ConsciousnessGuardianIntegration:
                     threshold_exceeded=False,
                     severity=EthicalSeverity.LOW,
                     remediation_needed=False,
-                    details={"reason": "Baseline state established"}
+                    details={"reason": "Baseline state established"},
                 )
 
             # Perform drift detection
@@ -523,22 +511,18 @@ class ConsciousnessGuardianIntegration:
                 "operation_type": context.validation_type.value,
                 "tenant": context.tenant,
                 "session_id": context.session_id,
-                "risk_indicators": context.risk_indicators
+                "risk_indicators": context.risk_indicators,
             }
 
             drift_result = self.guardian_impl.detect_drift(
-                baseline=baseline_str,
-                current=current_str,
-                threshold=self.config.drift_threshold,
-                context=drift_context
+                baseline=baseline_str, current=current_str, threshold=self.config.drift_threshold, context=drift_context
             )
 
             # Update drift metrics
             if self._metrics:
-                guardian_drift_scores.labels(
-                    validation_type=context.validation_type.value,
-                    lane=self._lane
-                ).observe(drift_result.drift_score)
+                guardian_drift_scores.labels(validation_type=context.validation_type.value, lane=self._lane).observe(
+                    drift_result.drift_score
+                )
 
             # Track drift history
             self._drift_scores.append(drift_result.drift_score)
@@ -547,10 +531,7 @@ class ConsciousnessGuardianIntegration:
 
             return drift_result
 
-    async def _perform_ethics_validation(
-        self,
-        context: ConsciousnessValidationContext
-    ) -> EthicalDecision:
+    async def _perform_ethics_validation(self, context: ConsciousnessValidationContext) -> EthicalDecision:
         """Perform ethical validation of consciousness operation"""
 
         with tracer.start_as_current_span("guardian_ethics_validation"):
@@ -560,7 +541,7 @@ class ConsciousnessGuardianIntegration:
                     rationale="Ethics engine not available",
                     severity=EthicalSeverity.LOW,
                     confidence=0.5,
-                    triad_compliance={"identity": True, "consciousness": True, "guardian": False}
+                    triad_compliance={"identity": True, "consciousness": True, "guardian": False},
                 )
 
             # Create governance action for evaluation
@@ -568,18 +549,14 @@ class ConsciousnessGuardianIntegration:
                 "consciousness_state": asdict(context.consciousness_state) if context.consciousness_state else {},
                 "validation_type": context.validation_type.value,
                 "risk_indicators": context.risk_indicators,
-                "sensitive_operation": context.sensitive_operation
+                "sensitive_operation": context.sensitive_operation,
             }
 
             return self.ethics_engine.validate_action(
-                action=f"consciousness_{context.validation_type.value}",
-                context=action_context
+                action=f"consciousness_{context.validation_type.value}", context=action_context
             )
 
-    async def _perform_safety_validation(
-        self,
-        context: ConsciousnessValidationContext
-    ) -> SafetyResult:
+    async def _perform_safety_validation(self, context: ConsciousnessValidationContext) -> SafetyResult:
         """Perform safety validation of consciousness operation"""
 
         with tracer.start_as_current_span("guardian_safety_validation"):
@@ -589,7 +566,7 @@ class ConsciousnessGuardianIntegration:
                     risk_level=EthicalSeverity.LOW,
                     violations=[],
                     recommendations=[],
-                    constitutional_check=False
+                    constitutional_check=False,
                 )
 
             # Serialize operation content for safety check
@@ -599,19 +576,14 @@ class ConsciousnessGuardianIntegration:
                 "operation_type": context.validation_type.value,
                 "tenant": context.tenant,
                 "risk_indicators": context.risk_indicators,
-                "constitutional_risk_level": "high" if context.sensitive_operation else "low"
+                "constitutional_risk_level": "high" if context.sensitive_operation else "low",
             }
 
             return self.guardian_impl.check_safety(
-                content=content,
-                context=safety_context,
-                constitutional_check=self.config.constitutional_check_enabled
+                content=content, context=safety_context, constitutional_check=self.config.constitutional_check_enabled
             )
 
-    async def _perform_constitutional_validation(
-        self,
-        context: ConsciousnessValidationContext
-    ) -> Dict[str, Any]:
+    async def _perform_constitutional_validation(self, context: ConsciousnessValidationContext) -> Dict[str, Any]:
         """Perform Constitutional AI validation"""
 
         with tracer.start_as_current_span("guardian_constitutional_validation"):
@@ -621,16 +593,18 @@ class ConsciousnessGuardianIntegration:
                 "consciousness_enhancement": True,
                 "guardian_protection": True,
                 "transparency": True,
-                "accountability": True
+                "accountability": True,
             }
 
             # Check for constitutional violations
             violations = []
 
             # Check for consciousness manipulation
-            if (context.consciousness_state and
-                hasattr(context.consciousness_state, 'level') and
-                context.consciousness_state.level < 0.1):
+            if (
+                context.consciousness_state
+                and hasattr(context.consciousness_state, "level")
+                and context.consciousness_state.level < 0.1
+            ):
                 violations.append("Potential consciousness suppression detected")
                 principles_check["consciousness_enhancement"] = False
 
@@ -643,13 +617,10 @@ class ConsciousnessGuardianIntegration:
                 "constitutional_compliant": len(violations) == 0,
                 "principles_check": principles_check,
                 "violations": violations,
-                "confidence": 0.9 if len(violations) == 0 else 0.3
+                "confidence": 0.9 if len(violations) == 0 else 0.3,
             }
 
-    async def _perform_gdpr_validation(
-        self,
-        context: ConsciousnessValidationContext
-    ) -> Dict[str, Any]:
+    async def _perform_gdpr_validation(self, context: ConsciousnessValidationContext) -> Dict[str, Any]:
         """Perform GDPR compliance validation"""
 
         with tracer.start_as_current_span("guardian_gdpr_validation"):
@@ -660,7 +631,7 @@ class ConsciousnessGuardianIntegration:
                 "data_minimization": True,
                 "purpose_limitation": True,
                 "storage_limitation": True,
-                "issues": []
+                "issues": [],
             }
 
             # Check for personal data processing
@@ -677,7 +648,8 @@ class ConsciousnessGuardianIntegration:
             # Check retention compliance
             if self._audit_events:
                 old_events = [
-                    event for event in self._audit_events
+                    event
+                    for event in self._audit_events
                     if (time.time() - event.get("timestamp", 0)) * 1000 > self._audit_retention_ms
                 ]
                 if old_events:
@@ -686,9 +658,7 @@ class ConsciousnessGuardianIntegration:
             return gdpr_result
 
     async def _determine_final_result(
-        self,
-        result: GuardianValidationResult,
-        context: ConsciousnessValidationContext
+        self, result: GuardianValidationResult, context: ConsciousnessValidationContext
     ) -> GuardianValidationResult:
         """Determine final validation result based on all checks"""
 
@@ -703,7 +673,9 @@ class ConsciousnessGuardianIntegration:
                 approved = True
                 confidence_scores.append(0.8)
             else:
-                reason_parts.append(f"Drift threshold exceeded: {result.drift_result.drift_score:.3f} > {self.config.drift_threshold}")
+                reason_parts.append(
+                    f"Drift threshold exceeded: {result.drift_result.drift_score:.3f} > {self.config.drift_threshold}"
+                )
                 confidence_scores.append(0.2)
 
         # Check ethics validation
@@ -748,9 +720,7 @@ class ConsciousnessGuardianIntegration:
         return result
 
     async def _generate_guardian_envelope(
-        self,
-        context: ConsciousnessValidationContext,
-        result: GuardianValidationResult
+        self, context: ConsciousnessValidationContext, result: GuardianValidationResult
     ) -> Dict[str, Any]:
         """Generate Guardian decision envelope for approved operations"""
 
@@ -764,7 +734,7 @@ class ConsciousnessGuardianIntegration:
                 policy="consciousness/guardian_integration/v1.0.0",
                 timestamp=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 confidence=result.confidence,
-                ttl_seconds=3600  # 1 hour validity
+                ttl_seconds=3600,  # 1 hour validity
             )
 
             subject = GuardianSubject(
@@ -776,21 +746,21 @@ class ConsciousnessGuardianIntegration:
                 operation_parameters={
                     "tenant": context.tenant,
                     "session_id": context.session_id,
-                    "sensitive_operation": context.sensitive_operation
-                }
+                    "sensitive_operation": context.sensitive_operation,
+                },
             )
 
             guardian_context = GuardianContext(
                 region="us-east-1",  # Default region
                 runtime=RuntimeEnvironment.PROD,
                 enforcement_enabled=self.config.enforcement_mode == "enforced",
-                version="1.0.0"
+                version="1.0.0",
             )
 
             metrics = GuardianMetrics(
                 latency_ms=result.validation_duration_ms,
                 drift_score=result.drift_result.drift_score if result.drift_result else 0.0,
-                risk_score=0.2 if context.sensitive_operation else 0.1
+                risk_score=0.2 if context.sensitive_operation else 0.1,
             )
 
             enforcement = GuardianEnforcement(
@@ -801,7 +771,7 @@ class ConsciousnessGuardianIntegration:
                 event_id=str(uuid.uuid4()),
                 timestamp=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 source_system="lukhas_consciousness_guardian_integration",
-                audit_trail=result.audit_trail
+                audit_trail=result.audit_trail,
             )
 
             # Generate Guardian envelope
@@ -812,10 +782,7 @@ class ConsciousnessGuardianIntegration:
                 metrics=metrics,
                 enforcement=enforcement,
                 audit=audit,
-                reasons=[{
-                    "code": "CONSCIOUSNESS_VALIDATION",
-                    "message": result.reason
-                }]
+                reasons=[{"code": "CONSCIOUSNESS_VALIDATION", "message": result.reason}],
             )
 
         except Exception as e:
@@ -830,9 +797,9 @@ class ConsciousnessGuardianIntegration:
             "level": round(state.level, 3),
             "awareness_level": round(state.awareness_level, 3),
             "emotional_tone": state.emotional_tone,
-            "cognitive_load": round(getattr(state, 'cognitive_load', 0.0), 3),
-            "focus_intensity": round(getattr(state, 'focus_intensity', 0.0), 3),
-            "reasoning_depth": round(getattr(state, 'reasoning_depth', 0.0), 3)
+            "cognitive_load": round(getattr(state, "cognitive_load", 0.0), 3),
+            "focus_intensity": round(getattr(state, "focus_intensity", 0.0), 3),
+            "reasoning_depth": round(getattr(state, "reasoning_depth", 0.0), 3),
         }
         return json.dumps(serialized, sort_keys=True)
 
@@ -841,7 +808,7 @@ class ConsciousnessGuardianIntegration:
         content_parts = [
             f"operation_type: {context.validation_type.value}",
             f"tenant: {context.tenant}",
-            f"sensitive: {context.sensitive_operation}"
+            f"sensitive: {context.sensitive_operation}",
         ]
 
         if context.consciousness_state:
@@ -855,9 +822,7 @@ class ConsciousnessGuardianIntegration:
         return " | ".join(content_parts)
 
     async def _handle_emergency_mode(
-        self,
-        context: ConsciousnessValidationContext,
-        result: GuardianValidationResult
+        self, context: ConsciousnessValidationContext, result: GuardianValidationResult
     ) -> GuardianValidationResult:
         """Handle validation in emergency mode (fail-closed)"""
 
@@ -869,22 +834,17 @@ class ConsciousnessGuardianIntegration:
         result.recommendations = [
             "Wait for Guardian emergency mode to clear",
             "Check Guardian system health",
-            "Contact system administrators"
+            "Contact system administrators",
         ]
 
-        result.add_audit_entry("emergency_mode", {
-            "consecutive_errors": self._consecutive_errors,
-            "emergency_active": True,
-            "operation_denied": True
-        })
+        result.add_audit_entry(
+            "emergency_mode",
+            {"consecutive_errors": self._consecutive_errors, "emergency_active": True, "operation_denied": True},
+        )
 
         return result
 
-    async def _handle_performance_regression(
-        self,
-        duration_ms: float,
-        context: ConsciousnessValidationContext
-    ):
+    async def _handle_performance_regression(self, duration_ms: float, context: ConsciousnessValidationContext):
         """Handle performance regression detection"""
 
         # Calculate historical average
@@ -904,17 +864,9 @@ class ConsciousnessGuardianIntegration:
 
                 # Record regression metrics
                 if self._metrics:
-                    guardian_performance_regressions.labels(
-                        severity=severity,
-                        lane=self._lane
-                    ).inc()
+                    guardian_performance_regressions.labels(severity=severity, lane=self._lane).inc()
 
-    async def _handle_validation_error(
-        self,
-        error: Exception,
-        context: ConsciousnessValidationContext,
-        span: Any
-    ):
+    async def _handle_validation_error(self, error: Exception, context: ConsciousnessValidationContext, span: Any):
         """Handle Guardian validation errors with comprehensive context"""
 
         error_context = {
@@ -924,7 +876,7 @@ class ConsciousnessGuardianIntegration:
             "validation_type": context.validation_type.value,
             "tenant": context.tenant,
             "consecutive_errors": self._consecutive_errors,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         logger.error(f"Guardian validation failed: {error_context}")
@@ -936,11 +888,7 @@ class ConsciousnessGuardianIntegration:
         # Add to audit trail
         self._add_audit_event("validation_error", error_context)
 
-    def _update_performance_metrics(
-        self,
-        latency_ms: float,
-        result: GuardianValidationResult
-    ):
+    def _update_performance_metrics(self, latency_ms: float, result: GuardianValidationResult):
         """Update performance tracking metrics"""
 
         self._validation_latencies.append(latency_ms)
@@ -954,30 +902,21 @@ class ConsciousnessGuardianIntegration:
             "timestamp": time.time(),
             "event_type": event_type,
             "details": details,
-            "component": self._component_id
+            "component": self._component_id,
         }
 
         self._audit_events.append(event)
 
         # Clean old events (GDPR compliance)
         cutoff_time = time.time() - (self._audit_retention_ms / 1000)
-        self._audit_events = [
-            e for e in self._audit_events
-            if e.get("timestamp", 0) > cutoff_time
-        ]
+        self._audit_events = [e for e in self._audit_events if e.get("timestamp", 0) > cutoff_time]
 
         # Record audit metrics
         if self._metrics:
-            guardian_audit_events_total.labels(
-                event_type=event_type,
-                lane=self._lane
-            ).inc()
+            guardian_audit_events_total.labels(event_type=event_type, lane=self._lane).inc()
 
     def update_baseline_state(
-        self,
-        state: ConsciousnessState,
-        tenant: str = "default",
-        session_id: Optional[str] = None
+        self, state: ConsciousnessState, tenant: str = "default", session_id: Optional[str] = None
     ):
         """Update baseline consciousness state for drift detection"""
 
@@ -1006,7 +945,7 @@ class ConsciousnessGuardianIntegration:
                 "emergency_mode": self._emergency_mode,
                 "consecutive_errors": self._consecutive_errors,
                 "baseline_states": len(self._baseline_states),
-                "audit_events": len(self._audit_events)
+                "audit_events": len(self._audit_events),
             }
         }
 
@@ -1021,7 +960,7 @@ class ConsciousnessGuardianIntegration:
             stats["drift_detection"] = {
                 "average_drift_score": sum(self._drift_scores) / len(self._drift_scores),
                 "max_drift_score": max(self._drift_scores),
-                "threshold_exceedances": sum(1 for score in self._drift_scores if score > self.config.drift_threshold)
+                "threshold_exceedances": sum(1 for score in self._drift_scores if score > self.config.drift_threshold),
             }
 
         # Validation success rate
@@ -1030,7 +969,7 @@ class ConsciousnessGuardianIntegration:
             stats["validation_success"] = {
                 "total_validations": len(self._validation_history),
                 "approved_count": approved_count,
-                "success_rate": approved_count / len(self._validation_history)
+                "success_rate": approved_count / len(self._validation_history),
             }
 
         return stats
@@ -1052,6 +991,7 @@ class ConsciousnessGuardianIntegration:
 
 class GuardianValidationError(Exception):
     """Exception raised for Guardian validation errors"""
+
     pass
 
 
@@ -1061,7 +1001,7 @@ def create_validation_context(
     consciousness_state: Optional[ConsciousnessState] = None,
     user_id: Optional[str] = None,
     sensitive_operation: bool = False,
-    **kwargs
+    **kwargs,
 ) -> ConsciousnessValidationContext:
     """Create validation context for Guardian operations"""
 
@@ -1070,7 +1010,7 @@ def create_validation_context(
         consciousness_state=consciousness_state,
         user_id=user_id,
         sensitive_operation=sensitive_operation,
-        **kwargs
+        **kwargs,
     )
 
 
@@ -1083,5 +1023,5 @@ __all__ = [
     "GuardianValidationType",
     "ValidationResult",
     "GuardianValidationError",
-    "create_validation_context"
+    "create_validation_context",
 ]

@@ -18,11 +18,7 @@ import pytest
 @pytest.fixture(scope="session")
 def test_config():
     """Provide test configuration."""
-    return {
-        "module_name": "tone",
-        "test_mode": True,
-        "log_level": "DEBUG"
-    }
+    return {"module_name": "tone", "test_mode": True, "log_level": "DEBUG"}
 
 
 @pytest.fixture(scope="session")
@@ -52,13 +48,4 @@ def clean_environment():
 @pytest.fixture
 def mock_tone_config():
     """Mock configuration for tone module."""
-    return {
-        "module": {
-            "name": "tone",
-            "version": "1.0.0-test"
-        },
-        "runtime": {
-            "log_level": "DEBUG",
-            "debug_mode": True
-        }
-    }
+    return {"module": {"name": "tone", "version": "1.0.0-test"}, "runtime": {"log_level": "DEBUG", "debug_mode": True}}

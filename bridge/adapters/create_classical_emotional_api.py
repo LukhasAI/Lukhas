@@ -16,7 +16,8 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Classical Emotional Intelligence API",
     description="Safe, predictable emotional intelligence without quantum effects",
-    version="1.0.0")
+    version="1.0.0",
+)
 
 
 class EmotionModel(str, Enum):
@@ -552,6 +553,5 @@ async def get_emotion_models():
 
 
 if __name__ == "__main__":
-
 
     uvicorn.run(app, host="0.0.0.0", port=8005)

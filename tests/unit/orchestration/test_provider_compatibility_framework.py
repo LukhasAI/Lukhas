@@ -29,7 +29,7 @@ class TestProviderHealthValidation:
         mock_response.content = [MagicMock()]
         mock_response.content[0].text = "test response"
 
-        with patch('ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic') as mock_client_class:
+        with patch("ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic") as mock_client_class:
             mock_client = AsyncMock()
             mock_client.messages.create.return_value = mock_response
             mock_client_class.return_value = mock_client
@@ -63,7 +63,7 @@ class TestProviderHealthValidation:
         mock_response.choices = [MagicMock()]
         mock_response.choices[0].message.content = "test response"
 
-        with patch('ai_orchestration.lukhas_ai_orchestrator.openai.AsyncOpenAI') as mock_client_class:
+        with patch("ai_orchestration.lukhas_ai_orchestrator.openai.AsyncOpenAI") as mock_client_class:
             mock_client = AsyncMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_client_class.return_value = mock_client
@@ -83,7 +83,7 @@ class TestProviderHealthValidation:
         # Mock successful Ollama response
         mock_response_data = {"response": "test response"}
 
-        with patch('ai_orchestration.lukhas_ai_orchestrator.aiohttp.ClientSession') as mock_session_class:
+        with patch("ai_orchestration.lukhas_ai_orchestrator.aiohttp.ClientSession") as mock_session_class:
             mock_session = AsyncMock()
             mock_response = AsyncMock()
             mock_response.status = 200
@@ -101,7 +101,7 @@ class TestProviderHealthValidation:
 
     async def test_provider_health_validation_timeout(self):
         """Test provider health validation with timeout"""
-        with patch('ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic') as mock_client_class:
+        with patch("ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic") as mock_client_class:
             mock_client = AsyncMock()
             mock_client.messages.create.side_effect = asyncio.TimeoutError()
             mock_client_class.return_value = mock_client
@@ -126,7 +126,7 @@ class TestProviderHealthValidation:
     async def test_health_validation_performance(self):
         """Test health validation meets performance requirements"""
         # Mock fast responses
-        with patch('ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic') as mock_client_class:
+        with patch("ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic") as mock_client_class:
             mock_client = AsyncMock()
             mock_response = MagicMock()
             mock_response.content = [MagicMock()]
@@ -157,12 +157,8 @@ class TestProviderHealthStatus:
     async def test_get_all_provider_health_status(self):
         """Test getting health status for all providers"""
         # Mock all providers as healthy
-        with patch.object(self.orchestrator, 'validate_provider_health') as mock_validate:
-            mock_validate.return_value = {
-                "healthy": True,
-                "latency": 0.1,
-                "version": "compatible"
-            }
+        with patch.object(self.orchestrator, "validate_provider_health") as mock_validate:
+            mock_validate.return_value = {"healthy": True, "latency": 0.1, "version": "compatible"}
 
             result = await self.orchestrator.get_provider_health_status()
 
@@ -175,19 +171,15 @@ class TestProviderHealthStatus:
     async def test_sla_compliance_calculation(self):
         """Test SLA compliance calculation (<250ms latency)"""
         test_cases = [
-            (True, 0.1, True),    # Healthy + fast = compliant
-            (True, 0.3, False),   # Healthy + slow = non-compliant
+            (True, 0.1, True),  # Healthy + fast = compliant
+            (True, 0.3, False),  # Healthy + slow = non-compliant
             (False, 0.1, False),  # Unhealthy = non-compliant
             (False, 0.3, False),  # Unhealthy + slow = non-compliant
         ]
 
         for healthy, latency, expected_compliant in test_cases:
-            with patch.object(self.orchestrator, 'validate_provider_health') as mock_validate:
-                mock_validate.return_value = {
-                    "healthy": healthy,
-                    "latency": latency,
-                    "version": "compatible"
-                }
+            with patch.object(self.orchestrator, "validate_provider_health") as mock_validate:
+                mock_validate.return_value = {"healthy": healthy, "latency": latency, "version": "compatible"}
 
                 result = await self.orchestrator.get_provider_health_status()
                 claude_status = result["claude"]
@@ -196,7 +188,7 @@ class TestProviderHealthStatus:
 
     async def test_provider_health_status_exception_handling(self):
         """Test health status with provider exceptions"""
-        with patch.object(self.orchestrator, 'validate_provider_health') as mock_validate:
+        with patch.object(self.orchestrator, "validate_provider_health") as mock_validate:
             mock_validate.side_effect = Exception("Test exception")
 
             result = await self.orchestrator.get_provider_health_status()
@@ -218,44 +210,29 @@ class TestOptimalProviderSelection:
 
     async def test_select_optimal_provider_preferred_healthy(self):
         """Test selecting preferred provider when healthy"""
-        with patch.object(self.orchestrator, 'validate_provider_health') as mock_validate:
-            mock_validate.return_value = {
-                "healthy": True,
-                "latency": 0.1,
-                "sla_compliant": True
-            }
+        with patch.object(self.orchestrator, "validate_provider_health") as mock_validate:
+            mock_validate.return_value = {"healthy": True, "latency": 0.1, "sla_compliant": True}
 
             result = await self.orchestrator.select_optimal_provider("claude")
             assert result == "claude"
 
     async def test_select_optimal_provider_fallback_to_healthy(self):
         """Test fallback to healthy provider when preferred fails"""
+
         def mock_health_check(provider_name):
             if provider_name == "claude":
-                return {
-                    "healthy": False,
-                    "latency": 1.0,
-                    "sla_compliant": False
-                }
+                return {"healthy": False, "latency": 1.0, "sla_compliant": False}
             else:
-                return {
-                    "healthy": True,
-                    "latency": 0.1,
-                    "sla_compliant": True
-                }
+                return {"healthy": True, "latency": 0.1, "sla_compliant": True}
 
-        with patch.object(self.orchestrator, 'validate_provider_health', side_effect=mock_health_check):
+        with patch.object(self.orchestrator, "validate_provider_health", side_effect=mock_health_check):
             result = await self.orchestrator.select_optimal_provider("claude", ["gpt", "ollama"])
             assert result == "gpt"  # First healthy fallback
 
     async def test_select_optimal_provider_all_unhealthy(self):
         """Test fallback to preferred when all providers unhealthy"""
-        with patch.object(self.orchestrator, 'validate_provider_health') as mock_validate:
-            mock_validate.return_value = {
-                "healthy": False,
-                "latency": 1.0,
-                "sla_compliant": False
-            }
+        with patch.object(self.orchestrator, "validate_provider_health") as mock_validate:
+            mock_validate.return_value = {"healthy": False, "latency": 1.0, "sla_compliant": False}
 
             result = await self.orchestrator.select_optimal_provider("claude")
             assert result == "claude"  # Returns preferred despite being unhealthy
@@ -271,16 +248,17 @@ class TestProviderCompatibilityIntegration:
 
     async def test_health_framework_integration_with_routing(self):
         """Test health framework integrates with routing system"""
+
         # Mock health status
         def mock_health_check(provider_name):
             return {
                 "healthy": provider_name == "gpt",  # Only GPT healthy
                 "latency": 0.1 if provider_name == "gpt" else 1.0,
-                "sla_compliant": provider_name == "gpt"
+                "sla_compliant": provider_name == "gpt",
             }
 
-        with patch.object(self.orchestrator, 'validate_provider_health', side_effect=mock_health_check):
-            with patch.object(self.orchestrator, '_call_provider', return_value="test response") as mock_call:
+        with patch.object(self.orchestrator, "validate_provider_health", side_effect=mock_health_check):
+            with patch.object(self.orchestrator, "_call_provider", return_value="test response") as mock_call:
                 # Should route to healthy provider (gpt) instead of preferred (claude)
                 await self.orchestrator.route_request("architecture_design", "test content")
 
@@ -291,7 +269,7 @@ class TestProviderCompatibilityIntegration:
     @pytest.mark.performance
     async def test_concurrent_health_checks(self):
         """Test concurrent health checking performance"""
-        with patch.object(self.orchestrator, 'validate_provider_health') as mock_validate:
+        with patch.object(self.orchestrator, "validate_provider_health") as mock_validate:
             # Simulate realistic latency
             async def slow_health_check(provider_name):
                 await asyncio.sleep(0.05)  # 50ms per check
@@ -316,7 +294,7 @@ class TestProviderCompatibilityIntegration:
             call_count += 1
             return {"healthy": True, "latency": 0.1, "sla_compliant": True}
 
-        with patch.object(self.orchestrator, 'validate_provider_health', side_effect=counting_health_check):
+        with patch.object(self.orchestrator, "validate_provider_health", side_effect=counting_health_check):
             # Multiple calls should each trigger health check (no caching)
             await self.orchestrator.select_optimal_provider("claude")
             await self.orchestrator.select_optimal_provider("claude")
@@ -340,19 +318,11 @@ class TestProviderChaosEngineering:
         def chaotic_health_check(provider_name):
             # Randomly fail providers
             if random.random() < 0.3:  # 30% failure rate
-                return {
-                    "healthy": False,
-                    "latency": 2.0,
-                    "error": "Random chaos failure"
-                }
+                return {"healthy": False, "latency": 2.0, "error": "Random chaos failure"}
             else:
-                return {
-                    "healthy": True,
-                    "latency": random.uniform(0.05, 0.2),
-                    "sla_compliant": True
-                }
+                return {"healthy": True, "latency": random.uniform(0.05, 0.2), "sla_compliant": True}
 
-        with patch.object(self.orchestrator, 'validate_provider_health', side_effect=chaotic_health_check):
+        with patch.object(self.orchestrator, "validate_provider_health", side_effect=chaotic_health_check):
             # System should handle random failures gracefully
             for _ in range(50):
                 try:
@@ -364,12 +334,8 @@ class TestProviderChaosEngineering:
     @pytest.mark.asyncio
     async def test_all_providers_fail_scenario(self):
         """Test system behavior when all providers fail"""
-        with patch.object(self.orchestrator, 'validate_provider_health') as mock_validate:
-            mock_validate.return_value = {
-                "healthy": False,
-                "latency": 5.0,
-                "error": "All providers down"
-            }
+        with patch.object(self.orchestrator, "validate_provider_health") as mock_validate:
+            mock_validate.return_value = {"healthy": False, "latency": 5.0, "error": "All providers down"}
 
             # Should still return preferred provider as fallback
             result = await self.orchestrator.select_optimal_provider("claude")

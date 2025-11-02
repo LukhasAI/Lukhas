@@ -4,6 +4,7 @@ LUKHAS Identity Visualization Module
 This module provides dynamic visualization components for the LUKHAS identity system,
 including the LUKHAS_ORB consciousness visualization and state mapping utilities.
 """
+
 import streamlit as st
 
 from .consciousness_mapper import ConsciousnessMapper, ConsciousnessState

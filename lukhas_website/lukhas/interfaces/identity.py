@@ -12,6 +12,7 @@ to avoid circular dependencies.
 from typing import Any, Optional
 import abc
 
+
 def ensure_both_id_keys(obj: dict[str, Any], lid: Optional[str]) -> None:
     """Ensure the mapping `obj` contains both `lid` and `lambda_id` keys.
 
@@ -28,8 +29,6 @@ def ensure_both_id_keys(obj: dict[str, Any], lid: Optional[str]) -> None:
     obj.setdefault("lambda_id", lid)
 
 
-
-
 class AuthenticationIntegration(abc.ABC):
     """
     🎖️ LUKHAS Authentication Integration Bridge Interface
@@ -42,17 +41,13 @@ class AuthenticationIntegration(abc.ABC):
     """
 
     @abc.abstractmethod
-    async def initialize(self) -> None:
-        ...
+    async def initialize(self) -> None: ...
 
     @abc.abstractmethod
-    def get_component_paths(self) -> dict[str, Any]:
-        ...
+    def get_component_paths(self) -> dict[str, Any]: ...
 
     @abc.abstractmethod
-    def get_bridge_paths(self) -> dict[str, str]:
-        ...
+    def get_bridge_paths(self) -> dict[str, str]: ...
 
     @abc.abstractmethod
-    def get_integration_status(self) -> dict[str, Any]:
-        ...
+    def get_integration_status(self) -> dict[str, Any]: ...

@@ -6,6 +6,7 @@ valid numeric values that make sense for OpenAI-style client libraries.
 
 Phase 3: Added for rate-limit header validation.
 """
+
 import re
 
 from fastapi.testclient import TestClient
@@ -51,9 +52,7 @@ def test_embeddings_includes_ratelimit_headers():
     client = TestClient(app)
 
     r = client.post(
-        "/v1/embeddings",
-        json={"input": "test", "model": "lukhas-embed"},
-        headers={"Authorization": "Bearer testtoken"}
+        "/v1/embeddings", json={"input": "test", "model": "lukhas-embed"}, headers={"Authorization": "Bearer testtoken"}
     )
 
     # May be 200 (permissive) or 401/403 (strict)
@@ -73,7 +72,7 @@ def test_responses_includes_ratelimit_headers():
     r = client.post(
         "/v1/responses",
         json={"input": "test", "model": "lukhas-response", "stream": False},
-        headers={"Authorization": "Bearer testtoken"}
+        headers={"Authorization": "Bearer testtoken"},
     )
 
     # May be 200 (permissive) or 401/403 (strict)

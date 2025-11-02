@@ -24,6 +24,7 @@ from uuid import uuid4
 
 try:
     import numpy as np
+
     NUMPY_AVAILABLE = True
 except ImportError:
     NUMPY_AVAILABLE = False
@@ -34,6 +35,7 @@ from .prometheus_metrics import get_lukhas_metrics
 
 class MetricSeverity(Enum):
     """Metric alert severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -42,6 +44,7 @@ class MetricSeverity(Enum):
 
 class AnomalyType(Enum):
     """Types of anomalies detected in metrics"""
+
     PERFORMANCE_REGRESSION = "performance_regression"
     ERROR_SPIKE = "error_spike"
     UNUSUAL_PATTERN = "unusual_pattern"
@@ -53,6 +56,7 @@ class AnomalyType(Enum):
 @dataclass
 class MetricAnomaly:
     """Detected metric anomaly"""
+
     anomaly_id: str
     metric_name: str
     anomaly_type: AnomalyType
@@ -69,6 +73,7 @@ class MetricAnomaly:
 @dataclass
 class MetricThreshold:
     """Dynamic metric threshold configuration"""
+
     metric_name: str
     warning_threshold: float
     critical_threshold: float
@@ -82,6 +87,7 @@ class MetricThreshold:
 @dataclass
 class ComplianceMetric:
     """Compliance-specific metric tracking"""
+
     regulation: str
     metric_name: str
     current_value: float
@@ -156,29 +162,29 @@ class AdvancedMetricsSystem:
         default_thresholds = {
             "lukhas_response_time_seconds": MetricThreshold(
                 metric_name="lukhas_response_time_seconds",
-                warning_threshold=0.1,    # 100ms
+                warning_threshold=0.1,  # 100ms
                 critical_threshold=0.25,  # 250ms (T4 requirement)
                 emergency_threshold=1.0,  # 1s
                 evaluation_window_seconds=60,
             ),
             "lukhas_memory_recall_latency_seconds": MetricThreshold(
                 metric_name="lukhas_memory_recall_latency_seconds",
-                warning_threshold=0.05,   # 50ms
-                critical_threshold=0.1,   # 100ms
+                warning_threshold=0.05,  # 50ms
+                critical_threshold=0.1,  # 100ms
                 emergency_threshold=0.5,  # 500ms
             ),
             "lukhas_errors_total": MetricThreshold(
                 metric_name="lukhas_errors_total",
-                warning_threshold=10,     # 10 errors/window
-                critical_threshold=50,    # 50 errors/window
+                warning_threshold=10,  # 10 errors/window
+                critical_threshold=50,  # 50 errors/window
                 emergency_threshold=100,  # 100 errors/window
                 evaluation_window_seconds=300,
             ),
             "lukhas_evidence_collection_time_ms": MetricThreshold(
                 metric_name="lukhas_evidence_collection_time_ms",
-                warning_threshold=5,      # 5ms
-                critical_threshold=10,    # 10ms (requirement)
-                emergency_threshold=50,   # 50ms
+                warning_threshold=5,  # 5ms
+                critical_threshold=10,  # 10ms (requirement)
+                emergency_threshold=50,  # 50ms
             ),
         }
 
@@ -242,8 +248,7 @@ class AdvancedMetricsSystem:
 
         # Clean old metrics
         cutoff_time = timestamp - timedelta(hours=self.metric_retention_hours)
-        while (self.metric_timestamps[metric_name] and
-               self.metric_timestamps[metric_name][0] < cutoff_time):
+        while self.metric_timestamps[metric_name] and self.metric_timestamps[metric_name][0] < cutoff_time:
             self.metric_timestamps[metric_name].popleft()
             self.metric_history[metric_name].popleft()
 
@@ -252,9 +257,11 @@ class AdvancedMetricsSystem:
             await self._check_for_anomalies(metric_name, value, timestamp)
 
         # Evidence collection for critical metrics
-        if (self.evidence_metrics_enabled and
-            metric_name in self.metric_thresholds and
-            value > self.metric_thresholds[metric_name].warning_threshold):
+        if (
+            self.evidence_metrics_enabled
+            and metric_name in self.metric_thresholds
+            and value > self.metric_thresholds[metric_name].warning_threshold
+        ):
 
             await collect_evidence(
                 evidence_type=EvidenceType.PERFORMANCE_METRIC,
@@ -265,7 +272,7 @@ class AdvancedMetricsSystem:
                     "value": value,
                     "threshold": self.metric_thresholds[metric_name].warning_threshold,
                     "labels": labels,
-                }
+                },
             )
 
     async def _check_for_anomalies(
@@ -292,10 +299,10 @@ class AdvancedMetricsSystem:
                     metric_name=metric_name,
                     anomaly_type=AnomalyType.UNUSUAL_PATTERN,
                     value=value,
-                    expected_range=(mean_val - 2*std_val, mean_val + 2*std_val),
+                    expected_range=(mean_val - 2 * std_val, mean_val + 2 * std_val),
                     confidence=min(0.95, z_score / 3.0),
                     timestamp=timestamp,
-                    context={"z_score": z_score, "mean": mean_val, "std": std_val}
+                    context={"z_score": z_score, "mean": mean_val, "std": std_val},
                 )
 
         # ML-based anomaly detection
@@ -339,7 +346,7 @@ class AdvancedMetricsSystem:
                             "recent_trend": recent_trend,
                             "overall_trend": overall_trend,
                             "trend_change": recent_trend - overall_trend,
-                        }
+                        },
                     )
 
             # Seasonal pattern detection (simplified)
@@ -357,14 +364,14 @@ class AdvancedMetricsSystem:
                         metric_name=metric_name,
                         anomaly_type=AnomalyType.UNUSUAL_PATTERN,
                         value=value,
-                        expected_range=(baseline_mean - 2*baseline_std, baseline_mean + 2*baseline_std),
+                        expected_range=(baseline_mean - 2 * baseline_std, baseline_mean + 2 * baseline_std),
                         confidence=0.85,
                         timestamp=timestamp,
                         context={
                             "recent_mean": recent_mean,
                             "baseline_mean": baseline_mean,
                             "deviation": abs(recent_mean - baseline_mean),
-                        }
+                        },
                     )
 
         except Exception as e:
@@ -400,7 +407,7 @@ class AdvancedMetricsSystem:
                 context={
                     "threshold_type": severity.value,
                     "threshold_value": getattr(threshold, f"{severity.value}_threshold"),
-                }
+                },
             )
 
     async def _record_anomaly(
@@ -453,11 +460,11 @@ class AdvancedMetricsSystem:
                     "expected_range": expected_range,
                     "confidence": confidence,
                     "context": context,
-                }
+                },
             )
 
         # Update Prometheus metrics
-        if hasattr(self.prometheus_metrics, 'errors_total'):
+        if hasattr(self.prometheus_metrics, "errors_total"):
             self.prometheus_metrics.errors_total.labels(
                 component="anomaly_detection",
                 error_type=f"{anomaly_type.value}_{severity.value}",
@@ -472,19 +479,23 @@ class AdvancedMetricsSystem:
         context: Optional[Dict[str, Any]] = None,
     ):
         """Record operation timing for performance analysis"""
-        self.operation_timings[operation].append({
-            "duration_ms": duration_ms,
-            "success": success,
-            "timestamp": datetime.now(timezone.utc),
-            "context": context or {},
-        })
+        self.operation_timings[operation].append(
+            {
+                "duration_ms": duration_ms,
+                "success": success,
+                "timestamp": datetime.now(timezone.utc),
+                "context": context or {},
+            }
+        )
 
         # Async record to advanced metrics
-        asyncio.create_task(self.record_advanced_metric(
-            metric_name=f"lukhas_operation_{operation}_duration_ms",
-            value=duration_ms,
-            labels={"success": str(success)},
-        ))
+        asyncio.create_task(
+            self.record_advanced_metric(
+                metric_name=f"lukhas_operation_{operation}_duration_ms",
+                value=duration_ms,
+                labels={"success": str(success)},
+            )
+        )
 
     def update_compliance_metric(
         self,
@@ -512,19 +523,21 @@ class AdvancedMetricsSystem:
                 metric.last_violation = datetime.now(timezone.utc)
 
                 # Record compliance violation evidence
-                asyncio.create_task(collect_evidence(
-                    evidence_type=EvidenceType.REGULATORY_EVENT,
-                    source_component="advanced_metrics",
-                    operation="compliance_violation",
-                    payload={
-                        "regulation": regulation,
-                        "metric_name": metric_name,
-                        "current_value": current_value,
-                        "threshold": metric.compliance_threshold,
-                        "violation_count": metric.violation_count,
-                    },
-                    compliance_regimes=[regulation.upper()],
-                ))
+                asyncio.create_task(
+                    collect_evidence(
+                        evidence_type=EvidenceType.REGULATORY_EVENT,
+                        source_component="advanced_metrics",
+                        operation="compliance_violation",
+                        payload={
+                            "regulation": regulation,
+                            "metric_name": metric_name,
+                            "current_value": current_value,
+                            "threshold": metric.compliance_threshold,
+                            "violation_count": metric.violation_count,
+                        },
+                        compliance_regimes=[regulation.upper()],
+                    )
+                )
 
     def get_metric_statistics(self, metric_name: str) -> Dict[str, Any]:
         """Get statistical analysis of a metric"""
@@ -563,15 +576,11 @@ class AdvancedMetricsSystem:
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
 
         filtered_anomalies = [
-            anomaly for anomaly in self.detected_anomalies
-            if anomaly.timestamp >= cutoff_time and not anomaly.resolved
+            anomaly for anomaly in self.detected_anomalies if anomaly.timestamp >= cutoff_time and not anomaly.resolved
         ]
 
         if severity_filter:
-            filtered_anomalies = [
-                anomaly for anomaly in filtered_anomalies
-                if anomaly.severity == severity_filter
-            ]
+            filtered_anomalies = [anomaly for anomaly in filtered_anomalies if anomaly.severity == severity_filter]
 
         return filtered_anomalies
 
@@ -582,10 +591,7 @@ class AdvancedMetricsSystem:
         # Calculate performance metrics
         operation_stats = {}
         for operation, timings in self.operation_timings.items():
-            recent_timings = [
-                t for t in timings
-                if (current_time - t["timestamp"]).total_seconds() < 3600  # Last hour
-            ]
+            recent_timings = [t for t in timings if (current_time - t["timestamp"]).total_seconds() < 3600]  # Last hour
 
             if recent_timings:
                 durations = [t["duration_ms"] for t in recent_timings]
@@ -626,6 +632,7 @@ class AdvancedMetricsSystem:
 
     def _start_background_processing(self):
         """Start background processing tasks"""
+
         async def process_metrics():
             while True:
                 try:
@@ -664,15 +671,13 @@ class AdvancedMetricsSystem:
         # Clean old anomalies
         cutoff_time = datetime.now(timezone.utc) - timedelta(days=7)
         self.detected_anomalies = [
-            anomaly for anomaly in self.detected_anomalies
-            if anomaly.timestamp >= cutoff_time or not anomaly.resolved
+            anomaly for anomaly in self.detected_anomalies if anomaly.timestamp >= cutoff_time or not anomaly.resolved
         ]
 
         # Clean old error patterns
         for error_type in self.error_patterns:
             self.error_patterns[error_type] = [
-                timestamp for timestamp in self.error_patterns[error_type]
-                if timestamp >= cutoff_time
+                timestamp for timestamp in self.error_patterns[error_type] if timestamp >= cutoff_time
             ]
 
     async def shutdown(self):
@@ -686,16 +691,12 @@ _advanced_metrics: Optional[AdvancedMetricsSystem] = None
 
 
 def initialize_advanced_metrics(
-    enable_anomaly_detection: bool = True,
-    enable_ml_features: bool = True,
-    **kwargs
+    enable_anomaly_detection: bool = True, enable_ml_features: bool = True, **kwargs
 ) -> AdvancedMetricsSystem:
     """Initialize global advanced metrics system"""
     global _advanced_metrics
     _advanced_metrics = AdvancedMetricsSystem(
-        enable_anomaly_detection=enable_anomaly_detection,
-        enable_ml_features=enable_ml_features,
-        **kwargs
+        enable_anomaly_detection=enable_anomaly_detection, enable_ml_features=enable_ml_features, **kwargs
     )
     return _advanced_metrics
 

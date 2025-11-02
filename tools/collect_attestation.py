@@ -31,47 +31,32 @@ class MockTEE:
         """Mock AMD SEV-SNP attestation report."""
         return {
             "report_data": "0" * 64,  # User data (64 bytes)
-            "measurement": "a" * 48,   # Launch measurement (48 bytes)
-            "host_data": "0" * 32,     # Host-provided data (32 bytes)
-            "id_key_digest": "b" * 48, # ID key digest (48 bytes)
-            "author_key_digest": "c" * 48, # Author key digest (48 bytes)
-            "report_id": "d" * 32,     # Report ID (32 bytes)
+            "measurement": "a" * 48,  # Launch measurement (48 bytes)
+            "host_data": "0" * 32,  # Host-provided data (32 bytes)
+            "id_key_digest": "b" * 48,  # ID key digest (48 bytes)
+            "author_key_digest": "c" * 48,  # Author key digest (48 bytes)
+            "report_id": "d" * 32,  # Report ID (32 bytes)
             "report_id_ma": "e" * 32,  # Report ID for migration agent
-            "reported_tcb": {
-                "boot_loader": 3,
-                "tee": 0,
-                "snp": 12,
-                "microcode": 209
-            },
-            "chip_id": "f" * 64,       # Chip identifier
-            "committed_tcb": {
-                "boot_loader": 3,
-                "tee": 0,
-                "snp": 12,
-                "microcode": 209
-            }
+            "reported_tcb": {"boot_loader": 3, "tee": 0, "snp": 12, "microcode": 209},
+            "chip_id": "f" * 64,  # Chip identifier
+            "committed_tcb": {"boot_loader": 3, "tee": 0, "snp": 12, "microcode": 209},
         }
 
     @staticmethod
     def get_tdx_report() -> Optional[Dict]:
         """Mock Intel TDX attestation report."""
         return {
-            "report_data": "0" * 64,   # User data
+            "report_data": "0" * 64,  # User data
             "td_info": {
                 "attributes": "1" * 8,  # TD attributes
-                "xfam": "2" * 8,       # Extended features mask
-                "mrtd": "3" * 48,      # Measurement of TD
-                "mrconfigid": "4" * 48, # Config measurement
-                "mrowner": "5" * 48,   # Owner measurement
-                "mrownerconfig": "6" * 48, # Owner config measurement
-                "rtmrs": ["7" * 48] * 4    # Runtime measurements
+                "xfam": "2" * 8,  # Extended features mask
+                "mrtd": "3" * 48,  # Measurement of TD
+                "mrconfigid": "4" * 48,  # Config measurement
+                "mrowner": "5" * 48,  # Owner measurement
+                "mrownerconfig": "6" * 48,  # Owner config measurement
+                "rtmrs": ["7" * 48] * 4,  # Runtime measurements
             },
-            "tee_tcb_info": {
-                "valid": True,
-                "tee_type": "TDX",
-                "version": "1.0",
-                "issuer": "Intel"
-            }
+            "tee_tcb_info": {"valid": True, "tee_type": "TDX", "version": "1.0", "issuer": "Intel"},
         }
 
     @staticmethod
@@ -85,20 +70,17 @@ class MockTEE:
                 "implementation_id": "h" * 32,
                 "boot_seed": "i" * 32,
                 "hw_version": "1.0.0",
-                "sw_components": [{
-                    "measurement_type": "BL",
-                    "measurement_value": "j" * 32,
-                    "version": "1.2.3",
-                    "signer_id": "k" * 32
-                }]
+                "sw_components": [
+                    {"measurement_type": "BL", "measurement_value": "j" * 32, "version": "1.2.3", "signer_id": "k" * 32}
+                ],
             },
             "realm_token": {
                 "challenge": "l" * 64,
                 "personalization_value": "m" * 64,
                 "initial_measurement": "n" * 32,
                 "extensible_measurements": ["o" * 32] * 4,
-                "hash_algo_id": "sha-256"
-            }
+                "hash_algo_id": "sha-256",
+            },
         }
 
 
@@ -190,29 +172,18 @@ class RATSCollector:
             "exp": int(datetime.utcnow().timestamp()) + 3600,  # 1 hour validity
             "iss": f"lukhas.{self.module}",
             "sub": f"module:{self.module}",
-
             # LUKHAS-specific claims
-            "lukhas": {
-                "module": self.module,
-                "version": "1.0.0",
-                "schema_version": "1.0.0"
-            },
-
+            "lukhas": {"module": self.module, "version": "1.0.0", "schema_version": "1.0.0"},
             # Software measurements
             "software_components": self.get_code_measurements(),
-
             # TEE attestation
-            "tee_evidence": {
-                "type": self.tee_type,
-                "report": self.get_tee_evidence()
-            },
-
+            "tee_evidence": {"type": self.tee_type, "report": self.get_tee_evidence()},
             # Runtime context
             "runtime": {
                 "timestamp": datetime.utcnow().isoformat() + "Z",
                 "hostname": platform.node(),
-                "process_id": "mock-pid-12345"
-            }
+                "process_id": "mock-pid-12345",
+            },
         }
 
         return evidence
@@ -221,10 +192,7 @@ class RATSCollector:
         """Sign evidence as JWT using RS256."""
         # Generate mock key for development
         if not private_key_path:
-            private_key = rsa.generate_private_key(
-                public_exponent=65537,
-                key_size=2048
-            )
+            private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         else:
             with open(private_key_path, "rb") as f:
                 private_key = serialization.load_pem_private_key(f.read(), password=None)
@@ -234,7 +202,7 @@ class RATSCollector:
             evidence,
             private_key,
             algorithm="RS256",
-            headers={"typ": "JWT", "alg": "RS256", "kid": "lukhas-attestation-key-1"}
+            headers={"typ": "JWT", "alg": "RS256", "kid": "lukhas-attestation-key-1"},
         )
 
         return evidence_jwt
@@ -245,8 +213,9 @@ def main():
     parser = argparse.ArgumentParser(description="Collect RATS evidence for LUKHAS modules")
     parser.add_argument("--module", required=True, help="Module name")
     parser.add_argument("--output", help="Output JWT file path")
-    parser.add_argument("--tee", choices=["amd-sev-snp", "intel-tdx", "arm-cca", "mock"],
-                       help="Override TEE type detection")
+    parser.add_argument(
+        "--tee", choices=["amd-sev-snp", "intel-tdx", "arm-cca", "mock"], help="Override TEE type detection"
+    )
     parser.add_argument("--key", help="Path to private key for signing")
     parser.add_argument("--pretty", action="store_true", help="Pretty print evidence before signing")
 
@@ -276,7 +245,7 @@ def main():
 
     # Output
     if args.output:
-        with open(args.output, 'w') as f:
+        with open(args.output, "w") as f:
             f.write(evidence_jwt)
         print(f"✅ Evidence saved to: {args.output}")
     else:

@@ -18,38 +18,35 @@ class ProvenanceHeadersAdder:
 
         # File type mappings to comment styles
         self.comment_styles = {
-            '.yaml': '#',
-            '.yml': '#',
-            '.py': '#',
-            '.md': '<!--',
-            '.json': '//',  # Note: JSON doesn't support comments, but some parsers allow //
+            ".yaml": "#",
+            ".yml": "#",
+            ".py": "#",
+            ".md": "<!--",
+            ".json": "//",  # Note: JSON doesn't support comments, but some parsers allow //
         }
 
         # Files that should be marked as editable vs regenerated
         self.editable_files = {
-            'README.md',  # Humans can edit READMEs
-            'api.md',     # Documentation is editable
-            'architecture.md',
-            'troubleshooting.md'
+            "README.md",  # Humans can edit READMEs
+            "api.md",  # Documentation is editable
+            "architecture.md",
+            "troubleshooting.md",
         }
 
     def _get_git_commit(self) -> str:
         """Get current git commit hash."""
         try:
-            result = subprocess.run(
-                ['git', 'rev-parse', '--short', 'HEAD'],
-                capture_output=True, text=True, check=True
-            )
+            result = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True)
             return result.stdout.strip()
         except Exception:
             return "unknown"
 
     def create_header(self, file_path: pathlib.Path, file_type: str) -> str:
         """Create provenance header for a file."""
-        comment_char = self.comment_styles.get(file_type, '#')
+        comment_char = self.comment_styles.get(file_type, "#")
         is_editable = file_path.name in self.editable_files
 
-        if file_type == '.md':
+        if file_type == ".md":
             header = f"""<!--
 @generated LUKHAS scaffold v{self.scaffold_version}
 template_id: module.scaffold/{self.template_version}
@@ -73,9 +70,9 @@ human_editable: {str(is_editable).lower()}
     def has_provenance_header(self, file_path: pathlib.Path) -> bool:
         """Check if file already has a provenance header."""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 first_lines = f.read(500)  # Check first 500 chars
-                return '@generated LUKHAS scaffold' in first_lines
+                return "@generated LUKHAS scaffold" in first_lines
         except Exception:
             return False
 
@@ -90,14 +87,14 @@ human_editable: {str(is_editable).lower()}
 
         try:
             # Read current content
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 content = f.read()
 
             # Create header
             header = self.create_header(file_path, file_type)
 
             # Write header + content
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 f.write(header + content)
 
             return True
@@ -111,13 +108,7 @@ human_editable: {str(is_editable).lower()}
         results = {"processed": 0, "skipped": 0, "errors": 0}
 
         # Target directories and their key files
-        target_patterns = [
-            "config/*.yaml",
-            "config/*.yml",
-            "docs/*.md",
-            "tests/*.py",
-            "assets/*.md"
-        ]
+        target_patterns = ["config/*.yaml", "config/*.yml", "docs/*.md", "tests/*.py", "assets/*.md"]
 
         for pattern in target_patterns:
             for file_path in module_path.glob(pattern):
@@ -129,6 +120,7 @@ human_editable: {str(is_editable).lower()}
 
         return results
 
+
 def main():
     """Main function to add provenance headers."""
     adder = ProvenanceHeadersAdder()
@@ -138,9 +130,7 @@ def main():
     module_dirs = []
 
     for item in root_path.iterdir():
-        if (item.is_dir() and
-            not item.name.startswith('.') and
-            (item / "config").exists()):
+        if item.is_dir() and not item.name.startswith(".") and (item / "config").exists():
             module_dirs.append(item)
 
     if not module_dirs:
@@ -172,6 +162,7 @@ def main():
         print("   Use tools/sync_scaffold.py to update from templates")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

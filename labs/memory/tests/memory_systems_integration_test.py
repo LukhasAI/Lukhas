@@ -68,9 +68,9 @@ class TestMemorySystemsIntegration(unittest.TestCase):
 
         # Test data
         self.test_memories = [
-            {'content': 'Test memory 1', 'importance': 0.8, 'emotional_weight': 0.6},
-            {'content': 'Test memory 2', 'importance': 0.7, 'emotional_weight': 0.4},
-            {'content': 'Test memory 3', 'importance': 0.9, 'emotional_weight': 0.8}
+            {"content": "Test memory 1", "importance": 0.8, "emotional_weight": 0.6},
+            {"content": "Test memory 2", "importance": 0.7, "emotional_weight": 0.4},
+            {"content": "Test memory 3", "importance": 0.9, "emotional_weight": 0.8},
         ]
 
     def test_fold_manager_initialization(self):
@@ -110,9 +110,9 @@ class TestMemorySystemsIntegration(unittest.TestCase):
 
             # Test memory processing
             test_memory = {
-                'content': 'Test episodic memory',
-                'emotional_context': {'valence': 0.7, 'arousal': 0.5, 'dominance': 0.6},
-                'consciousness_state': 'awake'
+                "content": "Test episodic memory",
+                "emotional_context": {"valence": 0.7, "arousal": 0.5, "dominance": 0.6},
+                "consciousness_state": "awake",
             }
 
             # Process memory (async)
@@ -121,7 +121,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
 
             result = loop.run_until_complete(episodic_memory.process_memory(test_memory))
             self.assertIsNotNone(result)
-            self.assertEqual(result['status'], 'processed')
+            self.assertEqual(result["status"], "processed")
 
             loop.close()
 
@@ -150,8 +150,8 @@ class TestMemorySystemsIntegration(unittest.TestCase):
 
             # Check cascade prevention stats
             stats = fold_manager.get_cascade_prevention_stats()
-            self.assertGreater(stats['cascades_prevented'], 0)
-            self.assertGreaterEqual(stats['success_rate'], 0.997)  # 99.7% target
+            self.assertGreater(stats["cascades_prevented"], 0)
+            self.assertGreaterEqual(stats["success_rate"], 0.997)  # 99.7% target
 
             print(f"✅ Cascade Prevention test passed (prevented {stats['cascades_prevented']} cascades)")
 
@@ -182,12 +182,10 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             self.assertGreater(len(dream_experience.participating_memories), 0)
 
             # Test memory consolidation
-            consolidation_result = loop.run_until_complete(
-                integrator.consolidate_dream_memories(dream_experience)
-            )
+            consolidation_result = loop.run_until_complete(integrator.consolidate_dream_memories(dream_experience))
 
             self.assertIsNotNone(consolidation_result)
-            self.assertGreaterEqual(consolidation_result['consolidation_quality'], 0.0)
+            self.assertGreaterEqual(consolidation_result["consolidation_quality"], 0.0)
 
             loop.close()
 
@@ -212,29 +210,27 @@ class TestMemorySystemsIntegration(unittest.TestCase):
 
             # Test awareness trigger
             trigger_data = {
-                'content': 'Test awareness trigger',
-                'triggers': ['test_trigger'],
-                'emotional_context': {'valence': 0.7, 'arousal': 0.5},
-                'intensity': 0.8
+                "content": "Test awareness trigger",
+                "triggers": ["test_trigger"],
+                "emotional_context": {"valence": 0.7, "arousal": 0.5},
+                "intensity": 0.8,
             }
 
-            awareness_event = loop.run_until_complete(
-                awareness.process_awareness_trigger(trigger_data)
-            )
+            awareness_event = loop.run_until_complete(awareness.process_awareness_trigger(trigger_data))
 
             self.assertIsNotNone(awareness_event)
-            self.assertEqual(awareness_event.content, 'Test awareness trigger')
+            self.assertEqual(awareness_event.content, "Test awareness trigger")
             self.assertIsInstance(awareness_event.awareness_level, AwarenessLevel)
 
             # Test self-reflection
             reflection = loop.run_until_complete(awareness.generate_self_reflection())
             self.assertIsNotNone(reflection)
-            self.assertIn('reflection_id', reflection)
+            self.assertIn("reflection_id", reflection)
 
             # Test awareness state
             state = loop.run_until_complete(awareness.get_awareness_state())
             self.assertIsNotNone(state)
-            self.assertIn('consciousness_state', state)
+            self.assertIn("consciousness_state", state)
 
             loop.close()
 
@@ -262,28 +258,24 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             self.assertTrue(init_result)
 
             # Test coupling optimization
-            optimization_result = loop.run_until_complete(
-                optimizer.optimize_coupling(CouplingType.ATTENTION_MEMORY)
-            )
+            optimization_result = loop.run_until_complete(optimizer.optimize_coupling(CouplingType.ATTENTION_MEMORY))
 
             self.assertIsNotNone(optimization_result)
-            self.assertEqual(optimization_result['status'], 'completed')
-            self.assertIn('improvement', optimization_result)
+            self.assertEqual(optimization_result["status"], "completed")
+            self.assertIn("improvement", optimization_result)
 
             # Test comprehensive optimization
-            comprehensive_result = loop.run_until_complete(
-                optimizer.optimize_all_couplings()
-            )
+            comprehensive_result = loop.run_until_complete(optimizer.optimize_all_couplings())
 
             self.assertIsNotNone(comprehensive_result)
-            self.assertEqual(comprehensive_result['status'], 'completed')
-            self.assertGreaterEqual(comprehensive_result['total_couplings_optimized'], 0)
+            self.assertEqual(comprehensive_result["status"], "completed")
+            self.assertGreaterEqual(comprehensive_result["total_couplings_optimized"], 0)
 
             # Test coupling health monitoring
             health_report = loop.run_until_complete(optimizer.monitor_coupling_health())
             self.assertIsNotNone(health_report)
-            self.assertIn('overall_health', health_report)
-            self.assertGreaterEqual(health_report['overall_health'], 0.0)
+            self.assertIn("overall_health", health_report)
+            self.assertGreaterEqual(health_report["overall_health"], 0.0)
 
             loop.close()
 
@@ -311,14 +303,12 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             self.assertTrue(init_result)
 
             # Test comprehensive Constellation validation
-            validation_result = loop.run_until_complete(
-                validator.validate_trinity_compliance(ValidationLevel.STANDARD)
-            )
+            validation_result = loop.run_until_complete(validator.validate_trinity_compliance(ValidationLevel.STANDARD))
 
             self.assertIsNotNone(validation_result)
-            self.assertIn('overall_compliance', validation_result)
-            self.assertIn('overall_score', validation_result)
-            self.assertIn('component_results', validation_result)
+            self.assertIn("overall_compliance", validation_result)
+            self.assertIn("overall_score", validation_result)
+            self.assertIn("component_results", validation_result)
 
             # Check individual component validation
             for component in ConstellationComponent:
@@ -333,11 +323,13 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             # Test Constellation status
             status = loop.run_until_complete(validator.get_constellation_status())
             self.assertIsNotNone(status)
-            self.assertIn('system_references', status)
+            self.assertIn("system_references", status)
 
             loop.close()
 
-            print(f"✅ Constellation Framework Validation test passed (score: {validation_result['overall_score']:.3f})")
+            print(
+                f"✅ Constellation Framework Validation test passed (score: {validation_result['overall_score']:.3f})"
+            )
 
         except ImportError:
             print("⚠️ Constellation Framework Validator not available for testing")
@@ -364,27 +356,21 @@ class TestMemorySystemsIntegration(unittest.TestCase):
 
             # Test collapse operation verification
             collapse_operation = {
-                'operation_id': 'test_collapse_001',
-                'source_nodes': [
-                    {'node_id': 'node1', 'parent_nodes': []},
-                    {'node_id': 'node2', 'parent_nodes': []}
-                ],
-                'target_node': {'node_id': 'target', 'parent_nodes': []},
-                'timestamp': datetime.now(timezone.utc).isoformat(),
-                'expected_content_hash': 'test_hash',
-                'actual_content_hash': 'test_hash'
+                "operation_id": "test_collapse_001",
+                "source_nodes": [{"node_id": "node1", "parent_nodes": []}, {"node_id": "node2", "parent_nodes": []}],
+                "target_node": {"node_id": "target", "parent_nodes": []},
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "expected_content_hash": "test_hash",
+                "actual_content_hash": "test_hash",
             }
 
             verification_result = verifier.verify_collapse_integrity(collapse_operation)
             self.assertTrue(verification_result)
 
             # Test memory nodes
-            memory_nodes = [
-                MemoryNode('node1', 'hash1', 0.8, [], []),
-                MemoryNode('node2', 'hash2', 0.7, [], [])
-            ]
+            memory_nodes = [MemoryNode("node1", "hash1", 0.8, [], []), MemoryNode("node2", "hash2", 0.7, [], [])]
 
-            collapsed_node = MemoryNode('collapsed', 'hash_combined', 0.9, [], [])
+            collapsed_node = MemoryNode("collapsed", "hash_combined", 0.9, [], [])
 
             # Test semantic preservation
             semantic_result = verifier.validate_semantic_preservation(memory_nodes, collapsed_node)
@@ -433,18 +419,15 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             # Create multiple folds
             folds = []
             for i, memory_data in enumerate(self.test_memories):
-                fold = fold_manager.create_fold(
-                    content=memory_data['content'],
-                    causal_chain=[f"cause_{i}"]
-                )
-                fold.importance = memory_data['importance']
-                fold.emotional_valence = memory_data['emotional_weight']
+                fold = fold_manager.create_fold(content=memory_data["content"], causal_chain=[f"cause_{i}"])
+                fold.importance = memory_data["importance"]
+                fold.emotional_valence = memory_data["emotional_weight"]
                 folds.append(fold)
 
             # Test consolidation
             consolidation_result = fold_manager.consolidate()
             self.assertIsNotNone(consolidation_result)
-            self.assertTrue(consolidation_result['consolidated'])
+            self.assertTrue(consolidation_result["consolidated"])
 
             print("  ✓ Basic memory flow working")
 
@@ -465,17 +448,15 @@ class TestMemorySystemsIntegration(unittest.TestCase):
 
             # Test memory integration
             memory_data = {
-                'id': 'test_memory_001',
-                'content': 'Integration test memory',
-                'importance': 0.8,
-                'emotional_context': {'valence': 0.7, 'arousal': 0.5}
+                "id": "test_memory_001",
+                "content": "Integration test memory",
+                "importance": 0.8,
+                "emotional_context": {"valence": 0.7, "arousal": 0.5},
             }
 
-            integration_result = loop.run_until_complete(
-                awareness.integrate_with_memory(memory_data)
-            )
+            integration_result = loop.run_until_complete(awareness.integrate_with_memory(memory_data))
 
-            self.assertTrue(integration_result['integration_successful'])
+            self.assertTrue(integration_result["integration_successful"])
 
             loop.close()
 
@@ -504,11 +485,9 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             self.assertIsNotNone(dream_experience)
 
             # Test consolidation
-            consolidation_result = loop.run_until_complete(
-                integrator.consolidate_dream_memories(dream_experience)
-            )
+            consolidation_result = loop.run_until_complete(integrator.consolidate_dream_memories(dream_experience))
 
-            self.assertGreaterEqual(consolidation_result['consolidation_quality'], 0.0)
+            self.assertGreaterEqual(consolidation_result["consolidation_quality"], 0.0)
 
             loop.close()
 
@@ -530,15 +509,13 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             loop.run_until_complete(optimizer.initialize())
 
             # Test single coupling optimization
-            result = loop.run_until_complete(
-                optimizer.optimize_coupling(CouplingType.AWARENESS_MEMORY)
-            )
+            result = loop.run_until_complete(optimizer.optimize_coupling(CouplingType.AWARENESS_MEMORY))
 
-            self.assertEqual(result['status'], 'completed')
+            self.assertEqual(result["status"], "completed")
 
             # Test health monitoring
             health = loop.run_until_complete(optimizer.monitor_coupling_health())
-            self.assertIn('overall_health', health)
+            self.assertIn("overall_health", health)
 
             loop.close()
 
@@ -571,7 +548,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             print("  ⚠️ Memory creation benchmark skipped")
 
         # Test cascade prevention performance
-        if hasattr(self, 'fold_manager'):
+        if hasattr(self, "fold_manager"):
             start_time = datetime.now()
 
             # Trigger cascade prevention
@@ -612,9 +589,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             invalid_trigger = {}  # Empty trigger data
 
             try:
-                event = loop.run_until_complete(
-                    awareness.process_awareness_trigger(invalid_trigger)
-                )
+                event = loop.run_until_complete(awareness.process_awareness_trigger(invalid_trigger))
                 # Should handle gracefully
                 self.assertIsNotNone(event)
             except Exception:

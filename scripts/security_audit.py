@@ -46,6 +46,7 @@ import yaml
 
 class SecurityLevel(Enum):
     """Security severity levels."""
+
     INFO = "info"
     LOW = "low"
     MEDIUM = "medium"
@@ -55,6 +56,7 @@ class SecurityLevel(Enum):
 
 class AuditStatus(Enum):
     """Audit check status."""
+
     PASS = "pass"
     WARN = "warn"
     FAIL = "fail"
@@ -65,6 +67,7 @@ class AuditStatus(Enum):
 @dataclass
 class SecurityFinding:
     """Security audit finding."""
+
     id: str
     title: str
     severity: SecurityLevel
@@ -100,13 +103,14 @@ class SecurityFinding:
             "owasp": self.owasp,
             "tool": self.tool,
             "category": self.category,
-            "confidence": self.confidence
+            "confidence": self.confidence,
         }
 
 
 @dataclass
 class AuditReport:
     """Comprehensive security audit report."""
+
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     audit_version: str = "1.0.0"
 
@@ -140,17 +144,17 @@ class AuditReport:
         # Penalties for failures
         penalty = 0.0
         penalty += self.critical_failures * 50  # Critical failures are severe
-        penalty += self.failures * 10           # Regular failures
-        penalty += self.warnings * 1            # Warnings have minor impact
+        penalty += self.failures * 10  # Regular failures
+        penalty += self.warnings * 1  # Warnings have minor impact
 
         # Apply penalty
         score = max(0.0, base_score - penalty)
 
         # T4/0.01% requires 99.99% excellence (virtually no failures)
         self.t4_compliance = (
-            score >= 99.99 and
-            self.critical_failures == 0 and
-            self.failures <= (self.total_checks * 0.0001)  # 0.01% tolerance
+            score >= 99.99
+            and self.critical_failures == 0
+            and self.failures <= (self.total_checks * 0.0001)  # 0.01% tolerance
         )
 
         self.excellence_score = score
@@ -168,14 +172,14 @@ class AuditReport:
                 "failures": self.failures,
                 "critical_failures": self.critical_failures,
                 "excellence_score": self.excellence_score,
-                "t4_compliance": self.t4_compliance
+                "t4_compliance": self.t4_compliance,
             },
             "performance": {
                 "audit_duration": self.audit_duration,
                 "scanned_files": self.scanned_files,
-                "lines_of_code": self.lines_of_code
+                "lines_of_code": self.lines_of_code,
             },
-            "findings": [f.to_dict() for f in self.findings]
+            "findings": [f.to_dict() for f in self.findings],
         }
 
 
@@ -191,7 +195,7 @@ class SecurityAuditor:
         self.semgrep_rules = [
             ".semgrep/lukhas-security.yaml",
             ".semgrep/rules/guardian-security.yml",
-            ".semgrep/rules/production-security.yml"
+            ".semgrep/rules/production-security.yml",
         ]
 
         self.critical_paths = [
@@ -199,7 +203,7 @@ class SecurityAuditor:
             "lukhas/governance/",
             "lukhas/consciousness/",
             "scripts/",
-            "mcp-lukhas-sse/"
+            "mcp-lukhas-sse/",
         ]
 
     async def run_comprehensive_audit(self) -> AuditReport:
@@ -241,7 +245,7 @@ class SecurityAuditor:
                 severity=SecurityLevel.CRITICAL,
                 status=AuditStatus.ERROR,
                 description=f"Audit system error: {str(e)}",
-                recommendation="Fix audit system configuration and retry"
+                recommendation="Fix audit system configuration and retry",
             )
             self.report.findings.append(finding)
             self.report.critical_failures += 1
@@ -253,14 +257,7 @@ class SecurityAuditor:
 
         try:
             # Run Semgrep with custom rules
-            cmd = [
-                "semgrep",
-                "--config=.semgrep.yml",
-                "--json",
-                "--timeout=60",
-                "--verbose",
-                str(self.project_root)
-            ]
+            cmd = ["semgrep", "--config=.semgrep.yml", "--json", "--timeout=60", "--verbose", str(self.project_root)]
 
             result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.project_root)
 
@@ -276,7 +273,7 @@ class SecurityAuditor:
                     severity_map = {
                         "ERROR": SecurityLevel.HIGH,
                         "WARNING": SecurityLevel.MEDIUM,
-                        "INFO": SecurityLevel.LOW
+                        "INFO": SecurityLevel.LOW,
                     }
 
                     severity = severity_map.get(finding.get("extra", {}).get("severity", "INFO"), SecurityLevel.LOW)
@@ -285,13 +282,17 @@ class SecurityAuditor:
                         id=finding.get("check_id", "unknown"),
                         title=finding.get("extra", {}).get("message", "Security finding").split(".")[0],
                         severity=severity,
-                        status=AuditStatus.FAIL if severity in [SecurityLevel.HIGH, SecurityLevel.CRITICAL] else AuditStatus.WARN,
+                        status=(
+                            AuditStatus.FAIL
+                            if severity in [SecurityLevel.HIGH, SecurityLevel.CRITICAL]
+                            else AuditStatus.WARN
+                        ),
                         description=finding.get("extra", {}).get("message", ""),
                         file_path=finding.get("path", ""),
                         line_number=finding.get("start", {}).get("line", 0),
                         recommendation=self._get_recommendation_for_rule(finding.get("check_id", "")),
                         tool="semgrep",
-                        category="static_analysis"
+                        category="static_analysis",
                     )
 
                     self.report.findings.append(security_finding)
@@ -316,7 +317,7 @@ class SecurityAuditor:
                 severity=SecurityLevel.HIGH,
                 status=AuditStatus.ERROR,
                 description=f"Static analysis failed: {str(e)}",
-                recommendation="Install Semgrep and verify configuration"
+                recommendation="Install Semgrep and verify configuration",
             )
             self.report.findings.append(finding)
             self.report.failures += 1
@@ -333,15 +334,11 @@ class SecurityAuditor:
                 ("cryptography", "3.0.0"),  # Check for old crypto versions
                 ("requests", "2.20.0"),  # Check for vulnerable requests
                 ("urllib3", "1.24.0"),  # Check for vulnerable urllib3
-                ("pillow", "6.2.0"),   # Check for vulnerable Pillow
+                ("pillow", "6.2.0"),  # Check for vulnerable Pillow
             ]
 
             # Run pip freeze to get installed packages
-            result = subprocess.run(
-                [sys.executable, "-m", "pip", "freeze"],
-                capture_output=True,
-                text=True
-            )
+            result = subprocess.run([sys.executable, "-m", "pip", "freeze"], capture_output=True, text=True)
 
             if result.returncode == 0:
                 installed = result.stdout.lower()
@@ -349,7 +346,7 @@ class SecurityAuditor:
                 for package, min_version in vulnerable_patterns:
                     if package.lower() in installed:
                         # Extract version (simplified check)
-                        lines = [line for line in installed.split('\n') if package.lower() in line]
+                        lines = [line for line in installed.split("\n") if package.lower() in line]
                         if lines:
                             finding = SecurityFinding(
                                 id=f"dependency_{package.lower()}_check",
@@ -358,7 +355,7 @@ class SecurityAuditor:
                                 status=AuditStatus.WARN,
                                 description=f"Verify {package} version is not vulnerable",
                                 recommendation=f"Ensure {package} >= {min_version} is installed",
-                                category="dependencies"
+                                category="dependencies",
                             )
                             self.report.findings.append(finding)
                             self.report.warnings += 1
@@ -376,7 +373,7 @@ class SecurityAuditor:
                         description="Dependencies are not pinned to specific versions",
                         recommendation="Pin dependencies to specific versions for security",
                         file_path=str(req_file),
-                        category="dependencies"
+                        category="dependencies",
                     )
                     self.report.findings.append(finding)
                     self.report.warnings += 1
@@ -395,12 +392,14 @@ class SecurityAuditor:
         try:
             # Run the crypto hygiene test suite
             cmd = [
-                sys.executable, "-m", "pytest",
+                sys.executable,
+                "-m",
+                "pytest",
                 "tests/security/test_crypto_hygiene.py",
                 "-v",
                 "--tb=short",
                 "--disable-warnings",
-                "-x"  # Stop on first failure for T4/0.01%
+                "-x",  # Stop on first failure for T4/0.01%
             ]
 
             result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.project_root)
@@ -417,7 +416,7 @@ class SecurityAuditor:
                     status=AuditStatus.FAIL,
                     description="One or more cryptographic hygiene tests failed",
                     recommendation="Fix all cryptographic implementations to meet T4/0.01% standards",
-                    category="cryptography"
+                    category="cryptography",
                 )
                 self.report.findings.append(finding)
                 self.report.critical_failures += 1
@@ -430,7 +429,7 @@ class SecurityAuditor:
                 severity=SecurityLevel.HIGH,
                 status=AuditStatus.ERROR,
                 description=f"Failed to run crypto hygiene tests: {str(e)}",
-                recommendation="Install test dependencies and verify test configuration"
+                recommendation="Install test dependencies and verify test configuration",
             )
             self.report.findings.append(finding)
             self.report.failures += 1
@@ -445,7 +444,7 @@ class SecurityAuditor:
             self._check_file_permissions,
             self._check_ssl_configuration,
             self._check_cors_configuration,
-            self._check_debug_settings
+            self._check_debug_settings,
         ]
 
         for check in config_checks:
@@ -461,7 +460,7 @@ class SecurityAuditor:
                     status=AuditStatus.FAIL,
                     description=str(e),
                     recommendation="Fix configuration security issues",
-                    category="configuration"
+                    category="configuration",
                 )
                 self.report.findings.append(finding)
                 self.report.failures += 1
@@ -470,11 +469,7 @@ class SecurityAuditor:
 
     async def _check_environment_variables(self) -> None:
         """Check for secure environment variable configuration."""
-        required_env_vars = [
-            "GUARDIAN_MODE",
-            "LUKHAS_SECRET_KEY",
-            "DATABASE_URL"
-        ]
+        required_env_vars = ["GUARDIAN_MODE", "LUKHAS_SECRET_KEY", "DATABASE_URL"]
 
         for var in required_env_vars:
             if not os.getenv(var):
@@ -482,11 +477,7 @@ class SecurityAuditor:
 
     async def _check_file_permissions(self) -> None:
         """Check file permissions for sensitive files."""
-        sensitive_files = [
-            ".env",
-            "config/production.yaml",
-            "secrets.yaml"
-        ]
+        sensitive_files = [".env", "config/production.yaml", "secrets.yaml"]
 
         for file_name in sensitive_files:
             file_path = self.project_root / file_name
@@ -541,7 +532,7 @@ class SecurityAuditor:
                     status=AuditStatus.FAIL,
                     description="Guardian System directory not found",
                     recommendation="Implement Guardian System for T4/0.01% security",
-                    category="guardian"
+                    category="guardian",
                 )
                 self.report.findings.append(finding)
                 self.report.critical_failures += 1
@@ -563,7 +554,7 @@ class SecurityAuditor:
                         description="MockGuardian detected in production code path",
                         file_path=str(file_path),
                         recommendation="Use ProductionGuardian in production environment",
-                        category="guardian"
+                        category="guardian",
                     )
                     self.report.findings.append(finding)
                     self.report.critical_failures += 1
@@ -590,7 +581,7 @@ class SecurityAuditor:
                     status=AuditStatus.FAIL,
                     description="Identity System directory not found",
                     recommendation="Implement Identity System security controls",
-                    category="identity"
+                    category="identity",
                 )
                 self.report.findings.append(finding)
                 self.report.failures += 1
@@ -602,11 +593,7 @@ class SecurityAuditor:
                 content = security_file.read_text()
 
                 # Verify security features are implemented
-                required_features = [
-                    "AntiReplayProtection",
-                    "RateLimiter",
-                    "SecurityHardeningManager"
-                ]
+                required_features = ["AntiReplayProtection", "RateLimiter", "SecurityHardeningManager"]
 
                 missing_features = [f for f in required_features if f not in content]
                 if missing_features:
@@ -618,7 +605,7 @@ class SecurityAuditor:
                         description=f"Missing security features: {', '.join(missing_features)}",
                         file_path=str(security_file),
                         recommendation="Implement all required security hardening features",
-                        category="identity"
+                        category="identity",
                     )
                     self.report.findings.append(finding)
                     self.report.failures += 1
@@ -639,11 +626,7 @@ class SecurityAuditor:
 
             if consciousness_path.exists():
                 # Check for AI safety implementations
-                safety_indicators = [
-                    "safety_check",
-                    "alignment_validation",
-                    "consciousness_monitor"
-                ]
+                safety_indicators = ["safety_check", "alignment_validation", "consciousness_monitor"]
 
                 consciousness_files = list(consciousness_path.glob("**/*.py"))
                 has_safety_features = False
@@ -662,7 +645,7 @@ class SecurityAuditor:
                         status=AuditStatus.FAIL,
                         description="No consciousness safety features detected",
                         recommendation="Implement consciousness safety and alignment checks",
-                        category="consciousness"
+                        category="consciousness",
                     )
                     self.report.findings.append(finding)
                     self.report.failures += 1
@@ -681,7 +664,7 @@ class SecurityAuditor:
         compliance_standards = [
             ("GDPR", self._check_gdpr_compliance),
             ("SOC2", self._check_soc2_compliance),
-            ("ISO27001", self._check_iso27001_compliance)
+            ("ISO27001", self._check_iso27001_compliance),
         ]
 
         for standard, check_func in compliance_standards:
@@ -698,7 +681,7 @@ class SecurityAuditor:
                     status=AuditStatus.WARN,
                     description=str(e),
                     recommendation=f"Implement {standard} compliance requirements",
-                    category="compliance"
+                    category="compliance",
                 )
                 self.report.findings.append(finding)
                 self.report.warnings += 1
@@ -737,7 +720,7 @@ class SecurityAuditor:
             perf_tests = [
                 self._test_resource_limits,
                 self._test_rate_limiting_performance,
-                self._test_crypto_performance
+                self._test_crypto_performance,
             ]
 
             for test in perf_tests:
@@ -755,7 +738,7 @@ class SecurityAuditor:
                 status=AuditStatus.FAIL,
                 description=str(e),
                 recommendation="Optimize security performance to meet T4/0.01% standards",
-                category="performance"
+                category="performance",
             )
             self.report.findings.append(finding)
             self.report.failures += 1
@@ -784,7 +767,7 @@ class SecurityAuditor:
             "sql-injection-vulnerability": "Use parameterized queries or ORM methods with parameter binding",
             "hardcoded-production-secrets": "Store secrets in environment variables or secure credential management",
             "lukhas-identity-bypass": "Implement proper ΛiD validation without bypass mechanisms",
-            "guardian-system-disabled": "Use ProductionGuardian with proper policy configuration"
+            "guardian-system-disabled": "Use ProductionGuardian with proper policy configuration",
         }
         return recommendations.get(rule_id, "Follow security best practices and fix the identified vulnerability")
 
@@ -792,35 +775,21 @@ class SecurityAuditor:
 async def main():
     """Main security audit function."""
     parser = argparse.ArgumentParser(
-        description="LUKHAS Security Audit - T4/0.01% Excellence",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        description="LUKHAS Security Audit - T4/0.01% Excellence", formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
     parser.add_argument(
-        "--project-root",
-        type=Path,
-        default=Path.cwd(),
-        help="Project root directory (default: current directory)"
+        "--project-root", type=Path, default=Path.cwd(), help="Project root directory (default: current directory)"
+    )
+
+    parser.add_argument("--output", type=Path, default=None, help="Output report file (default: print to console)")
+
+    parser.add_argument(
+        "--format", choices=["json", "yaml", "text"], default="text", help="Output format (default: text)"
     )
 
     parser.add_argument(
-        "--output",
-        type=Path,
-        default=None,
-        help="Output report file (default: print to console)"
-    )
-
-    parser.add_argument(
-        "--format",
-        choices=["json", "yaml", "text"],
-        default="text",
-        help="Output format (default: text)"
-    )
-
-    parser.add_argument(
-        "--fail-on-warnings",
-        action="store_true",
-        help="Fail audit if warnings are found (strict T4/0.01% mode)"
+        "--fail-on-warnings", action="store_true", help="Fail audit if warnings are found (strict T4/0.01% mode)"
     )
 
     args = parser.parse_args()
@@ -845,9 +814,9 @@ async def main():
             args.output.write_text(output)
             print(f"\n📄 Report saved to: {args.output}")
         else:
-            print("\n" + "="*60)
+            print("\n" + "=" * 60)
             print("SECURITY AUDIT REPORT")
-            print("="*60)
+            print("=" * 60)
             print(output)
 
         # Determine exit code
@@ -875,21 +844,23 @@ def _format_text_report(report: AuditReport) -> str:
     lines = []
 
     # Summary
-    lines.extend([
-        f"Audit Timestamp: {report.timestamp.strftime('%Y-%m-%d %H:%M:%S UTC')}",
-        f"Audit Duration: {report.audit_duration:.2f} seconds",
-        "",
-        "SUMMARY:",
-        f"  Total Checks: {report.total_checks}",
-        f"  Passed: {report.passed_checks}",
-        f"  Warnings: {report.warnings}",
-        f"  Failures: {report.failures}",
-        f"  Critical Failures: {report.critical_failures}",
-        "",
-        f"T4/0.01% Excellence Score: {report.excellence_score:.4f}%",
-        f"T4/0.01% Compliance: {'✅ PASS' if report.t4_compliance else '❌ FAIL'}",
-        "",
-    ])
+    lines.extend(
+        [
+            f"Audit Timestamp: {report.timestamp.strftime('%Y-%m-%d %H:%M:%S UTC')}",
+            f"Audit Duration: {report.audit_duration:.2f} seconds",
+            "",
+            "SUMMARY:",
+            f"  Total Checks: {report.total_checks}",
+            f"  Passed: {report.passed_checks}",
+            f"  Warnings: {report.warnings}",
+            f"  Failures: {report.failures}",
+            f"  Critical Failures: {report.critical_failures}",
+            "",
+            f"T4/0.01% Excellence Score: {report.excellence_score:.4f}%",
+            f"T4/0.01% Compliance: {'✅ PASS' if report.t4_compliance else '❌ FAIL'}",
+            "",
+        ]
+    )
 
     # Findings
     if report.findings:
@@ -906,18 +877,20 @@ def _format_text_report(report: AuditReport) -> str:
             ("CRITICAL", critical_findings),
             ("HIGH", high_findings),
             ("MEDIUM", medium_findings),
-            ("LOW", low_findings)
+            ("LOW", low_findings),
         ]:
             if findings:
                 lines.append(f"{severity} SEVERITY ({len(findings)} findings):")
                 lines.append("-" * 40)
 
                 for finding in findings:
-                    lines.extend([
-                        f"  [{finding.id}] {finding.title}",
-                        f"    Status: {finding.status.value.upper()}",
-                        f"    Description: {finding.description}",
-                    ])
+                    lines.extend(
+                        [
+                            f"  [{finding.id}] {finding.title}",
+                            f"    Status: {finding.status.value.upper()}",
+                            f"    Description: {finding.description}",
+                        ]
+                    )
 
                     if finding.file_path:
                         lines.append(f"    File: {finding.file_path}:{finding.line_number or 'N/A'}")

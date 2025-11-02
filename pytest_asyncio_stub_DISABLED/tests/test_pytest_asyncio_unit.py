@@ -25,10 +25,7 @@ class TestPytestAsyncioModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "pytest_asyncio",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "pytest_asyncio", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestPytestAsyncioModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import pytest_asyncio
+
         self.assertIsNotNone(pytest_asyncio)
 
     def test_module_version(self):
         """Test module has version information."""
         import pytest_asyncio
+
         # Most modules should have version info
-        self.assertTrue(hasattr(pytest_asyncio, '__version__') or
-                       hasattr(pytest_asyncio, 'VERSION'))
+        self.assertTrue(hasattr(pytest_asyncio, "__version__") or hasattr(pytest_asyncio, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testpytest_addoption(unittest.TestCase):
         """Test pytest_addoption can be imported."""
         try:
             from pytest_asyncio import pytest_addoption
+
             self.assertIsNotNone(pytest_addoption)
         except ImportError:
             pytest.skip("Component pytest_addoption not available")
@@ -97,6 +96,7 @@ class Testpytest_configure(unittest.TestCase):
         """Test pytest_configure can be imported."""
         try:
             from pytest_asyncio import pytest_configure
+
             self.assertIsNotNone(pytest_configure)
         except ImportError:
             pytest.skip("Component pytest_configure not available")
@@ -105,7 +105,6 @@ class Testpytest_configure(unittest.TestCase):
         """Test pytest_configure can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

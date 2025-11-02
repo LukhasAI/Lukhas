@@ -1,4 +1,5 @@
 """Utilities for bridging canonical implementations across repository lanes."""
+
 from __future__ import annotations
 
 import warnings

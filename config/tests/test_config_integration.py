@@ -14,6 +14,7 @@ import pytest
 
 pytestmark = pytest.mark.integration
 
+
 class TestConfigEndToEnd:
     """End-to-end integration tests for config."""
 
@@ -25,10 +26,7 @@ class TestConfigEndToEnd:
             component = ConfigCore()
 
             # Test data pipeline
-            test_input = {
-                "test_data": "integration_test",
-                "timestamp": "2025-01-01T00:00:00Z"
-            }
+            test_input = {"test_data": "integration_test", "timestamp": "2025-01-01T00:00:00Z"}
 
             result = component.process(test_input)
 
@@ -60,6 +58,7 @@ class TestConfigEndToEnd:
 
         except ImportError:
             pytest.skip("Full consciousness integration not available")
+
 
 class TestConfigExternalIntegration:
     """Tests for config integration with external systems."""
@@ -102,6 +101,7 @@ class TestConfigExternalIntegration:
 
         except ImportError:
             pytest.skip("API integration not available")
+
 
 class TestConfigScalabilityIntegration:
     """Scalability and load testing for config."""
@@ -153,6 +153,7 @@ class TestConfigScalabilityIntegration:
         except ImportError:
             pytest.skip("High volume processing test not available")
 
+
 class TestConfigErrorRecoveryIntegration:
     """Integration tests for error handling and recovery."""
 
@@ -195,6 +196,7 @@ class TestConfigErrorRecoveryIntegration:
         except ImportError:
             pytest.skip("Circuit breaker integration not available")
 
+
 class TestConfigMonitoringIntegration:
     """Integration tests for monitoring and observability."""
 
@@ -234,24 +236,23 @@ class TestConfigMonitoringIntegration:
         except ImportError:
             pytest.skip("Metrics integration not available")
 
+
 # Fixtures for integration testing
 @pytest.fixture(scope="module")
 def config_component():
     """Fixture providing config component for testing."""
     try:
         from config import ConfigCore
+
         return ConfigCore()
     except ImportError:
         pytest.skip("ConfigCore not available")
+
 
 @pytest.fixture(scope="module")
 def test_data():
     """Fixture providing test data for config integration tests."""
     return {
-        "test_input": {
-            "module": "config",
-            "test_type": "integration",
-            "timestamp": "2025-01-01T00:00:00Z"
-        },
-        "expected_output_keys": ["result", "status", "timestamp"]
+        "test_input": {"module": "config", "test_type": "integration", "timestamp": "2025-01-01T00:00:00Z"},
+        "expected_output_keys": ["result", "status", "timestamp"],
     }

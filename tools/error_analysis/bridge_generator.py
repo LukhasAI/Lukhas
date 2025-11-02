@@ -86,17 +86,17 @@ class BridgeGenerator:
     def generate_bridge(self, module_name: str, expected_symbols: List[str] = None) -> Path:
         """Generate a bridge module for the given module name."""
         # Determine paths
-        if module_name.startswith('lukhas.'):
+        if module_name.startswith("lukhas."):
             # x.y.z → lukhas/x/y/z
-            rel_path = module_name.replace('.', '/')
-            root_module = module_name[len('lukhas.'):]
-        elif module_name.startswith('labs.'):
+            rel_path = module_name.replace(".", "/")
+            root_module = module_name[len("lukhas.") :]
+        elif module_name.startswith("labs."):
             # candidate.x.y.z → candidate/x/y/z
-            rel_path = module_name.replace('.', '/')
-            root_module = module_name[len('labs.'):]
+            rel_path = module_name.replace(".", "/")
+            root_module = module_name[len("labs.") :]
         else:
             # x.y.z → x/y/z
-            rel_path = module_name.replace('.', '/')
+            rel_path = module_name.replace(".", "/")
             root_module = module_name
 
         bridge_path = self.base_path / rel_path
@@ -113,7 +113,7 @@ class BridgeGenerator:
         content = BRIDGE_TEMPLATE.format(
             module_name=module_name,
             root_module=root_module,
-            stub_definitions=stub_defs if stub_defs else "# No pre-defined stubs"
+            stub_definitions=stub_defs if stub_defs else "# No pre-defined stubs",
         )
 
         bridge_file.write_text(content)
@@ -130,14 +130,14 @@ class BridgeGenerator:
     def generate_batch(self, module_list_file: Path, expected_symbols_map: dict = None) -> List[Path]:
         """Generate bridges for a batch of modules."""
         with open(module_list_file) as f:
-            modules = [line.strip() for line in f if line.strip() and not line.startswith('#')]
+            modules = [line.strip() for line in f if line.strip() and not line.startswith("#")]
 
         generated = []
         for module in modules:
             # Check if line has format: module_name:symbol1,symbol2
-            if ':' in module:
-                module_name, symbols_str = module.split(':', 1)
-                symbols = [s.strip() for s in symbols_str.split(',')]
+            if ":" in module:
+                module_name, symbols_str = module.split(":", 1)
+                symbols = [s.strip() for s in symbols_str.split(",")]
             else:
                 module_name = module
                 symbols = expected_symbols_map.get(module_name, []) if expected_symbols_map else []
@@ -154,10 +154,10 @@ class BridgeGenerator:
 
 def main():
     parser = argparse.ArgumentParser(description="Generate bridge modules for LUKHAS")
-    parser.add_argument('module', nargs='?', help='Module name to generate bridge for')
-    parser.add_argument('--batch', metavar='FILE', help='File with list of modules (one per line)')
-    parser.add_argument('--symbols', help='Expected symbols (comma-separated)')
-    parser.add_argument('--base-path', default='.', help='Base path for generation (default: .)')
+    parser.add_argument("module", nargs="?", help="Module name to generate bridge for")
+    parser.add_argument("--batch", metavar="FILE", help="File with list of modules (one per line)")
+    parser.add_argument("--symbols", help="Expected symbols (comma-separated)")
+    parser.add_argument("--base-path", default=".", help="Base path for generation (default: .)")
 
     args = parser.parse_args()
 
@@ -173,7 +173,7 @@ def main():
         print(f"\nGenerated {len(generated)} bridge modules")
 
     elif args.module:
-        symbols = args.symbols.split(',') if args.symbols else []
+        symbols = args.symbols.split(",") if args.symbols else []
         bridge_file = generator.generate_bridge(args.module, symbols)
         print(f"✅ Generated: {bridge_file}")
 
@@ -182,5 +182,5 @@ def main():
         sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

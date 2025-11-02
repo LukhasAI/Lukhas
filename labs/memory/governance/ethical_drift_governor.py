@@ -83,7 +83,9 @@ class EthicalDriftGovernor:
     """
 
     def __init__(self):
-        self.governance_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/ethical_governance.jsonl"
+        self.governance_log_path = (
+            "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/ethical_governance.jsonl"
+        )
         self.intervention_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/interventions.jsonl"
         self.warnings_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/ethical_warnings.jsonl"
 

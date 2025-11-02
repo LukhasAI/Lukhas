@@ -3,6 +3,7 @@ Compatibility shim for memory.fold_manager
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: accepted.memory.fold
 """
+
 import warnings
 
 import streamlit as st

@@ -26,6 +26,7 @@ from typing import Dict, List
 @dataclass
 class TerminologyRule:
     """Rule for terminology standardization"""
+
     old_term: str
     new_term: str
     category: str
@@ -34,9 +35,11 @@ class TerminologyRule:
     whole_word: bool = True
     contexts: List[str] = None  # File extensions or paths where this applies
 
+
 @dataclass
 class VocabularyIssue:
     """Detected vocabulary inconsistency"""
+
     file_path: str
     line_number: int
     old_text: str
@@ -45,6 +48,7 @@ class VocabularyIssue:
     category: str
     confidence: str  # high, medium, low
 
+
 # Constellation Framework terminology rules
 TERMINOLOGY_RULES = [
     # Core Framework Migration
@@ -52,105 +56,92 @@ TERMINOLOGY_RULES = [
         old_term="Trinity",
         new_term="Constellation Framework",
         category="framework",
-        pattern=r'\bTrinity\b',
-        contexts=[".py", ".md", ".yml", ".yaml", ".json"]
+        pattern=r"\bTrinity\b",
+        contexts=[".py", ".md", ".yml", ".yaml", ".json"],
     ),
     TerminologyRule(
         old_term="trinity",
         new_term="constellation",
         category="framework",
-        pattern=r'\btrinity\b',
-        contexts=[".py", ".md", ".yml", ".yaml"]
+        pattern=r"\btrinity\b",
+        contexts=[".py", ".md", ".yml", ".yaml"],
     ),
     TerminologyRule(
         old_term="TRINITY",
         new_term="CONSTELLATION",
         category="framework",
-        pattern=r'\bTRINITY\b',
-        contexts=[".py", ".md", ".yml", ".yaml"]
+        pattern=r"\bTRINITY\b",
+        contexts=[".py", ".md", ".yml", ".yaml"],
     ),
-
     # AGI → Cognitive AI Migration
     TerminologyRule(
         old_term="AGI",
         new_term="Cognitive AI",
         category="ai_terminology",
-        pattern=r'\bAGI\b',
-        contexts=[".md", ".rst", ".txt"]
+        pattern=r"\bAGI\b",
+        contexts=[".md", ".rst", ".txt"],
     ),
     TerminologyRule(
         old_term="Artificial General Intelligence",
         new_term="Cognitive AI",
         category="ai_terminology",
-        pattern=r'\bArtificial General Intelligence\b',
+        pattern=r"\bArtificial General Intelligence\b",
         case_sensitive=True,
-        contexts=[".md", ".rst", ".txt"]
+        contexts=[".md", ".rst", ".txt"],
     ),
-
     # Component Naming Consistency
     TerminologyRule(
-        old_term="matriz_core",
-        new_term="matriz.core",
-        category="naming",
-        pattern=r'\bmatriz_core\b',
-        contexts=[".py"]
+        old_term="matriz_core", new_term="matriz.core", category="naming", pattern=r"\bmatriz_core\b", contexts=[".py"]
     ),
     TerminologyRule(
-        old_term="lukhas_core",
-        new_term="core",
-        category="naming",
-        pattern=r'\blukhas_core\b',
-        contexts=[".py"]
+        old_term="lukhas_core", new_term="core", category="naming", pattern=r"\blukhas_core\b", contexts=[".py"]
     ),
-
     # Documentation Consistency
     TerminologyRule(
         old_term="consciousness framework",
         new_term="Constellation Framework",
         category="documentation",
-        pattern=r'\bconsciousness framework\b',
+        pattern=r"\bconsciousness framework\b",
         case_sensitive=False,
-        contexts=[".md", ".rst"]
+        contexts=[".md", ".rst"],
     ),
     TerminologyRule(
         old_term="cognitive architecture",
         new_term="Constellation Framework architecture",
         category="documentation",
-        pattern=r'\bcognitive architecture\b',
+        pattern=r"\bcognitive architecture\b",
         case_sensitive=False,
-        contexts=[".md", ".rst"]
+        contexts=[".md", ".rst"],
     ),
-
     # API Consistency
     TerminologyRule(
         old_term="CognitiveNode",
         new_term="ConstellationNode",
         category="api",
-        pattern=r'\bCognitiveNode\b',
-        contexts=[".py"]
+        pattern=r"\bCognitiveNode\b",
+        contexts=[".py"],
     ),
     TerminologyRule(
         old_term="cognitive_node",
         new_term="constellation_node",
         category="api",
-        pattern=r'\bcognitive_node\b',
-        contexts=[".py"]
+        pattern=r"\bcognitive_node\b",
+        contexts=[".py"],
     ),
-
     # Configuration Consistency
     TerminologyRule(
         old_term="COGNITIVE_LANE",
         new_term="CONSTELLATION_LANE",
         category="config",
-        pattern=r'\bCOGNITIVE_LANE\b',
-        contexts=[".py", ".yml", ".yaml", ".env"]
+        pattern=r"\bCOGNITIVE_LANE\b",
+        contexts=[".py", ".yml", ".yaml", ".env"],
     ),
     TerminologyRule(
         old_term="cognitive_mode",
         new_term="constellation_mode",
         category="config",
-        pattern=r'\bcognitive_mode\b',
-        contexts=[".py", ".yml", ".yaml"]
+        pattern=r"\bcognitive_mode\b",
+        contexts=[".py", ".yml", ".yaml"],
     ),
 ]
 
@@ -168,9 +159,19 @@ SCAN_PATTERNS = [
 
 # Directories to exclude from scanning
 EXCLUDE_DIRS = {
-    ".git", ".github", "__pycache__", ".pytest_cache", "node_modules",
-    ".venv", "venv", "env", "build", "dist", ".tox"
+    ".git",
+    ".github",
+    "__pycache__",
+    ".pytest_cache",
+    "node_modules",
+    ".venv",
+    "venv",
+    "env",
+    "build",
+    "dist",
+    ".tox",
 }
+
 
 class VocabularySweeper:
     """Main vocabulary sweep and correction engine"""
@@ -215,7 +216,7 @@ class VocabularySweeper:
 
         # Skip binary files
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 f.read(100)  # Try to read first 100 chars
         except (UnicodeDecodeError, PermissionError):
             return True
@@ -225,7 +226,7 @@ class VocabularySweeper:
     def _scan_file(self, file_path: Path):
         """Scan individual file for vocabulary issues"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
         except Exception:
             return
@@ -244,7 +245,7 @@ class VocabularySweeper:
                         suggested_text=self._apply_rule_to_line(rule, line).strip(),
                         rule_applied=f"{rule.old_term} → {rule.new_term}",
                         category=rule.category,
-                        confidence=self._calculate_confidence(rule, line, match)
+                        confidence=self._calculate_confidence(rule, line, match),
                     )
                     self.issues.append(issue)
 
@@ -257,7 +258,7 @@ class VocabularySweeper:
         file_name = file_path.name.lower()
 
         for context in rule.contexts:
-            if context.startswith('.') and file_suffix == context:
+            if context.startswith(".") and file_suffix == context:
                 return True
             elif context in str(file_path):
                 return True
@@ -267,8 +268,8 @@ class VocabularySweeper:
     def _find_pattern_matches(self, rule: TerminologyRule, line: str) -> List[re.Match]:
         """Find all matches of rule pattern in line"""
         flags = 0 if rule.case_sensitive else re.IGNORECASE
-        if rule.whole_word and not rule.pattern.startswith(r'\b'):
-            pattern = r'\b' + rule.pattern + r'\b'
+        if rule.whole_word and not rule.pattern.startswith(r"\b"):
+            pattern = r"\b" + rule.pattern + r"\b"
         else:
             pattern = rule.pattern
 
@@ -278,8 +279,8 @@ class VocabularySweeper:
         """Apply terminology rule to a line"""
         flags = 0 if rule.case_sensitive else re.IGNORECASE
 
-        if rule.whole_word and not rule.pattern.startswith(r'\b'):
-            pattern = r'\b' + rule.pattern + r'\b'
+        if rule.whole_word and not rule.pattern.startswith(r"\b"):
+            pattern = r"\b" + rule.pattern + r"\b"
         else:
             pattern = rule.pattern
 
@@ -308,11 +309,11 @@ class VocabularySweeper:
             "issues_by_category": self._group_issues_by_category(),
             "issues_by_confidence": self._group_issues_by_confidence(),
             "top_issues": self._get_top_issues(),
-            "issues": [asdict(issue) for issue in self.issues]
+            "issues": [asdict(issue) for issue in self.issues],
         }
 
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 json.dump(report, f, indent=2)
             print(f"📊 Report saved to {output_file}")
 
@@ -345,12 +346,14 @@ class VocabularySweeper:
         # Convert to list and sort by count
         top_issues = []
         for rule, data in rule_counts.items():
-            top_issues.append({
-                "rule": rule,
-                "category": data["category"],
-                "count": data["count"],
-                "files_affected": len(data["files"])
-            })
+            top_issues.append(
+                {
+                    "rule": rule,
+                    "category": data["category"],
+                    "count": data["count"],
+                    "files_affected": len(data["files"]),
+                }
+            )
 
         return sorted(top_issues, key=lambda x: x["count"], reverse=True)[:limit]
 
@@ -362,8 +365,7 @@ class VocabularySweeper:
         min_confidence = confidence_levels.get(confidence_threshold, 1)
 
         applicable_issues = [
-            issue for issue in self.issues
-            if confidence_levels.get(issue.confidence, 0) >= min_confidence
+            issue for issue in self.issues if confidence_levels.get(issue.confidence, 0) >= min_confidence
         ]
 
         files_to_fix = {}
@@ -388,7 +390,7 @@ class VocabularySweeper:
             "confidence_threshold": confidence_threshold,
             "applicable_issues": len(applicable_issues),
             "files_modified": files_modified,
-            "fixes_applied": fixes_applied
+            "fixes_applied": fixes_applied,
         }
 
         status = "would be" if dry_run else "were"
@@ -401,7 +403,7 @@ class VocabularySweeper:
         full_path = self.root_path / file_path
 
         try:
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, "r", encoding="utf-8") as f:
                 content = f.read()
         except Exception:
             return False
@@ -415,7 +417,7 @@ class VocabularySweeper:
 
         if content != original_content:
             if not dry_run:
-                with open(full_path, 'w', encoding='utf-8') as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)
 
             print(f"{'Would fix' if dry_run else 'Fixed'} {file_path}")
@@ -427,8 +429,8 @@ class VocabularySweeper:
         """Apply rule to entire file content"""
         flags = 0 if rule.case_sensitive else re.IGNORECASE
 
-        if rule.whole_word and not rule.pattern.startswith(r'\b'):
-            pattern = r'\b' + rule.pattern + r'\b'
+        if rule.whole_word and not rule.pattern.startswith(r"\b"):
+            pattern = r"\b" + rule.pattern + r"\b"
         else:
             pattern = rule.pattern
 
@@ -441,8 +443,9 @@ def main():
     parser.add_argument("--fix", action="store_true", help="Apply vocabulary fixes")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be changed")
     parser.add_argument("--execute", action="store_true", help="Actually apply changes")
-    parser.add_argument("--confidence", choices=["low", "medium", "high"], default="medium",
-                       help="Minimum confidence level for fixes")
+    parser.add_argument(
+        "--confidence", choices=["low", "medium", "high"], default="medium", help="Minimum confidence level for fixes"
+    )
     parser.add_argument("--output", type=Path, help="Output file for scan results")
     parser.add_argument("--root", type=Path, help="Root directory to scan", default=Path.cwd())
 

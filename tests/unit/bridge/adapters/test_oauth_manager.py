@@ -121,8 +121,8 @@ class TestOAuthManagerUnit:
         assert mock_sleep.call_count == 2
 
         # Check backoff delays (with jitter)
-        assert 0.1 <= mock_sleep.call_args_list[0].args[0] < 1.1 # 0.1 * 2**0 + jitter
-        assert 0.2 <= mock_sleep.call_args_list[1].args[0] < 1.2 # 0.1 * 2**1 + jitter
+        assert 0.1 <= mock_sleep.call_args_list[0].args[0] < 1.1  # 0.1 * 2**0 + jitter
+        assert 0.2 <= mock_sleep.call_args_list[1].args[0] < 1.2  # 0.1 * 2**1 + jitter
 
     @pytest.mark.asyncio
     async def test_store_credentials_rate_limit(self, manager: OAuthManager):

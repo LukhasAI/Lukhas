@@ -57,6 +57,7 @@ except ImportError as e:
 
 try:
     from .expansion_api import app as expansion_app
+
     EXPANSION_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"API Expansion not available: {e}")
@@ -89,7 +90,7 @@ API_REGISTRY = {
         "app": expansion_app,
         "available": EXPANSION_AVAILABLE,
         "description": "API expansion strategy for Consciousness, Identity, and Guardian systems",
-    }
+    },
 }
 
 

@@ -29,6 +29,7 @@
 ║ All LUKHAS modules should use this service instead of direct OpenAI calls.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import hashlib
 import json

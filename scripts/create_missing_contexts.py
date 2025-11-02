@@ -37,10 +37,14 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Tests
 - _Add paths under_ `tests/…`
 - Coverage target (tier-driven): T1≥70% • T2≥50% • T3≥30% • T4=n/a
-""".lstrip("\n")
+""".lstrip(
+        "\n"
+    )
 
 
-def to_front_matter(module: str, star: str, tier: str, owner: str, matriz: List[str], colony: str, manifest_path: str) -> str:
+def to_front_matter(
+    module: str, star: str, tier: str, owner: str, matriz: List[str], colony: str, manifest_path: str
+) -> str:
     arr = ", ".join(matriz or [])
     fm = [
         "---",
@@ -83,9 +87,9 @@ def main():
 
         star = (m.get("constellation_alignment", {}) or {}).get("primary_star") or "Supporting"
         tier = (m.get("testing", {}) or {}).get("quality_tier") or "T4_experimental"
-        owner = (meta.get("owner") or "unassigned")
+        owner = meta.get("owner") or "unassigned"
         nodes = (m.get("matriz_integration", {}) or {}).get("pipeline_nodes") or []
-        colony = (mod.get("colony") or "")
+        colony = mod.get("colony") or ""
         module_name = mod.get("name") or (mod.get("path") or mf.parent.name)
 
         text = to_front_matter(module_name, star, tier, owner, nodes, colony, str(mf))
@@ -99,4 +103,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

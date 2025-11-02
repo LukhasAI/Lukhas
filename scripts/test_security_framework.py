@@ -26,7 +26,7 @@ def run_command(cmd: List[str], description: str) -> Dict[str, Any]:
             "exit_code": result.returncode,
             "stdout": result.stdout,
             "stderr": result.stderr,
-            "success": result.returncode == 0
+            "success": result.returncode == 0,
         }
     except subprocess.TimeoutExpired:
         return {
@@ -35,7 +35,7 @@ def run_command(cmd: List[str], description: str) -> Dict[str, Any]:
             "exit_code": -1,
             "stdout": "",
             "stderr": "Command timed out",
-            "success": False
+            "success": False,
         }
     except Exception as e:
         return {
@@ -44,7 +44,7 @@ def run_command(cmd: List[str], description: str) -> Dict[str, Any]:
             "exit_code": -1,
             "stdout": "",
             "stderr": str(e),
-            "success": False
+            "success": False,
         }
 
 
@@ -54,7 +54,7 @@ def validate_json_output(file_path: Path, required_fields: List[str]) -> Dict[st
         return {"valid": False, "error": "File does not exist"}
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             data = json.load(f)
 
         missing_fields = []
@@ -65,7 +65,7 @@ def validate_json_output(file_path: Path, required_fields: List[str]) -> Dict[st
         return {
             "valid": len(missing_fields) == 0,
             "missing_fields": missing_fields,
-            "data_structure": list(data.keys()) if isinstance(data, dict) else "Not a dict"
+            "data_structure": list(data.keys()) if isinstance(data, dict) else "Not a dict",
         }
     except json.JSONDecodeError as e:
         return {"valid": False, "error": f"Invalid JSON: {e}"}
@@ -91,26 +91,27 @@ def test_security_framework():
             "project_root": str(project_root),
             "artifacts_dir": str(artifacts_dir),
             "tests": [],
-            "overall_success": True
+            "overall_success": True,
         }
 
         # Test 1: Security Policy Validation
         print("\n📋 Testing Security Policy Configuration...")
         try:
             import yaml
-            with open("security/security_policy.yml", 'r') as f:
+
+            with open("security/security_policy.yml", "r") as f:
                 policy = yaml.safe_load(f)
 
             policy_test = {
                 "name": "Security Policy Validation",
                 "success": True,
-                "details": f"Policy loaded successfully with {len(policy.get('security_policy', {}))} sections"
+                "details": f"Policy loaded successfully with {len(policy.get('security_policy', {}))} sections",
             }
         except Exception as e:
             policy_test = {
                 "name": "Security Policy Validation",
                 "success": False,
-                "details": f"Policy validation failed: {e}"
+                "details": f"Policy validation failed: {e}",
             }
             test_results["overall_success"] = False
 
@@ -118,9 +119,12 @@ def test_security_framework():
 
         # Test 2: SBOM Generation
         sbom_cmd = [
-            "python3", "scripts/security_sbom_generator.py",
-            "--project-root", str(project_root),
-            "--output-dir", str(artifacts_dir)
+            "python3",
+            "scripts/security_sbom_generator.py",
+            "--project-root",
+            str(project_root),
+            "--output-dir",
+            str(artifacts_dir),
         ]
         sbom_result = run_command(sbom_cmd, "SBOM Generation")
         test_results["tests"].append(sbom_result)
@@ -131,23 +135,21 @@ def test_security_framework():
         # Validate SBOM output
         sbom_files = list(artifacts_dir.glob("lukhas-sbom-*.json"))
         if sbom_files:
-            sbom_validation = validate_json_output(
-                sbom_files[0],
-                ["bomFormat", "metadata", "components"]
+            sbom_validation = validate_json_output(sbom_files[0], ["bomFormat", "metadata", "components"])
+            test_results["tests"].append(
+                {"name": "SBOM Output Validation", "success": sbom_validation["valid"], "details": sbom_validation}
             )
-            test_results["tests"].append({
-                "name": "SBOM Output Validation",
-                "success": sbom_validation["valid"],
-                "details": sbom_validation
-            })
             if not sbom_validation["valid"]:
                 test_results["overall_success"] = False
 
         # Test 3: Security Scanner
         scanner_cmd = [
-            "python3", "scripts/security_scanner.py",
-            "--project-root", str(project_root),
-            "--output-dir", str(artifacts_dir)
+            "python3",
+            "scripts/security_scanner.py",
+            "--project-root",
+            str(project_root),
+            "--output-dir",
+            str(artifacts_dir),
         ]
         scanner_result = run_command(scanner_cmd, "Security Scanner")
         test_results["tests"].append(scanner_result)
@@ -159,22 +161,26 @@ def test_security_framework():
         scan_files = list(artifacts_dir.glob("security-scan-*.json"))
         if scan_files:
             scan_validation = validate_json_output(
-                scan_files[0],
-                ["scan_type", "security_findings", "compliance_status"]
+                scan_files[0], ["scan_type", "security_findings", "compliance_status"]
             )
-            test_results["tests"].append({
-                "name": "Security Scanner Output Validation",
-                "success": scan_validation["valid"],
-                "details": scan_validation
-            })
+            test_results["tests"].append(
+                {
+                    "name": "Security Scanner Output Validation",
+                    "success": scan_validation["valid"],
+                    "details": scan_validation,
+                }
+            )
             if not scan_validation["valid"]:
                 test_results["overall_success"] = False
 
         # Test 4: Abuse Tester (Mock Mode)
         abuse_cmd = [
-            "python3", "scripts/abuse_tester.py",
-            "--base-url", "http://localhost:8000",
-            "--output-dir", str(artifacts_dir)
+            "python3",
+            "scripts/abuse_tester.py",
+            "--base-url",
+            "http://localhost:8000",
+            "--output-dir",
+            str(artifacts_dir),
         ]
         # Note: This will fail because server isn't running, but should still produce output
         abuse_result = run_command(abuse_cmd, "Abuse Testing (Mock Mode)")
@@ -185,14 +191,15 @@ def test_security_framework():
         abuse_files = list(artifacts_dir.glob("abuse-test-*.json"))
         if abuse_files:
             abuse_validation = validate_json_output(
-                abuse_files[0],
-                ["scan_type", "security_findings", "deployment_readiness"]
+                abuse_files[0], ["scan_type", "security_findings", "deployment_readiness"]
             )
-            test_results["tests"].append({
-                "name": "Abuse Tester Output Validation",
-                "success": abuse_validation["valid"],
-                "details": abuse_validation
-            })
+            test_results["tests"].append(
+                {
+                    "name": "Abuse Tester Output Validation",
+                    "success": abuse_validation["valid"],
+                    "details": abuse_validation,
+                }
+            )
             if not abuse_validation["valid"]:
                 test_results["overall_success"] = False
 
@@ -200,24 +207,13 @@ def test_security_framework():
         print("\n📊 Testing Artifact Integration...")
 
         # Check if all expected artifacts were created
-        expected_artifacts = [
-            "lukhas-sbom-*.json",
-            "security-scan-*.json",
-            "abuse-test-*.json"
-        ]
+        expected_artifacts = ["lukhas-sbom-*.json", "security-scan-*.json", "abuse-test-*.json"]
 
-        artifact_test = {
-            "name": "Artifact Generation",
-            "success": True,
-            "details": {}
-        }
+        artifact_test = {"name": "Artifact Generation", "success": True, "details": {}}
 
         for pattern in expected_artifacts:
             files = list(artifacts_dir.glob(pattern))
-            artifact_test["details"][pattern] = {
-                "files_found": len(files),
-                "files": [f.name for f in files]
-            }
+            artifact_test["details"][pattern] = {"files_found": len(files), "files": [f.name for f in files]}
             if len(files) == 0:
                 artifact_test["success"] = False
                 test_results["overall_success"] = False
@@ -228,14 +224,14 @@ def test_security_framework():
         print("\n🔧 Testing CI Workflow Configuration...")
 
         try:
-            with open(".github/workflows/t4-validation.yml", 'r') as f:
+            with open(".github/workflows/t4-validation.yml", "r") as f:
                 workflow_content = f.read()
 
             required_jobs = [
                 "security-sbom-generation",
                 "security-static-analysis",
                 "security-abuse-testing",
-                "security-validation-summary"
+                "security-validation-summary",
             ]
 
             missing_jobs = []
@@ -249,8 +245,8 @@ def test_security_framework():
                 "details": {
                     "required_jobs": required_jobs,
                     "missing_jobs": missing_jobs,
-                    "workflow_length": len(workflow_content.split('\n'))
-                }
+                    "workflow_length": len(workflow_content.split("\n")),
+                },
             }
 
             if not workflow_test["success"]:
@@ -260,7 +256,7 @@ def test_security_framework():
             workflow_test = {
                 "name": "CI Workflow Configuration",
                 "success": False,
-                "details": f"Workflow validation failed: {e}"
+                "details": f"Workflow validation failed: {e}",
             }
             test_results["overall_success"] = False
 
@@ -270,7 +266,7 @@ def test_security_framework():
         results_file = project_root / "artifacts" / "security_framework_test_results.json"
         results_file.parent.mkdir(exist_ok=True)
 
-        with open(results_file, 'w') as f:
+        with open(results_file, "w") as f:
             json.dump(test_results, f, indent=2)
 
         # Print summary

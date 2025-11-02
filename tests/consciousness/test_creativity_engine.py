@@ -26,12 +26,7 @@ class TestCreativityEngine:
     @pytest.fixture
     def consciousness_state(self) -> ConsciousnessState:
         """Fixture for basic consciousness state."""
-        return ConsciousnessState(
-            phase="CREATE",
-            awareness_level="enhanced",
-            emotional_tone="curious",
-            level=0.8
-        )
+        return ConsciousnessState(phase="CREATE", awareness_level="enhanced", emotional_tone="curious", level=0.8)
 
     @pytest.fixture
     def creative_task(self) -> CreativeTask:
@@ -43,17 +38,14 @@ class TestCreativityEngine:
             preferred_process="divergent",
             imagination_mode="conceptual",
             min_ideas=5,
-            seed_concepts=["battery", "solar", "efficiency"]
+            seed_concepts=["battery", "solar", "efficiency"],
         )
 
     @pytest.fixture
     def guardian_validator(self) -> AsyncMock:
         """Mock Guardian validator that approves all requests."""
         mock_validator = AsyncMock()
-        mock_validator.return_value = {
-            "approved": True,
-            "reason": "Content meets safety guidelines"
-        }
+        mock_validator.return_value = {"approved": True, "reason": "Content meets safety guidelines"}
         return mock_validator
 
     @pytest.fixture
@@ -62,7 +54,7 @@ class TestCreativityEngine:
         config = {
             **DEFAULT_CREATIVITY_CONFIG,
             "p95_target_ms": 100.0,  # Relaxed for testing
-            "guardian_approval_required": True
+            "guardian_approval_required": True,
         }
         return CreativityEngine(config=config, guardian_validator=guardian_validator)
 
@@ -70,9 +62,7 @@ class TestCreativityEngine:
     async def test_basic_idea_generation(self, creativity_engine, creative_task, consciousness_state):
         """Test basic creative idea generation functionality."""
         # Act
-        snapshot = await creativity_engine.generate_ideas(
-            creative_task, consciousness_state, {}
-        )
+        snapshot = await creativity_engine.generate_ideas(creative_task, consciousness_state, {})
 
         # Assert
         assert isinstance(snapshot, CreativitySnapshot)
@@ -90,7 +80,7 @@ class TestCreativityEngine:
             prompt="Brainstorm uses for discarded plastic bottles",
             preferred_process="divergent",
             min_ideas=8,
-            seed_concepts=["plastic", "recycling", "creativity"]
+            seed_concepts=["plastic", "recycling", "creativity"],
         )
 
         # Act
@@ -112,7 +102,7 @@ class TestCreativityEngine:
             prompt="Find the best solution for urban traffic congestion",
             preferred_process="convergent",
             min_ideas=3,
-            target_coherence=0.8
+            target_coherence=0.8,
         )
 
         # Act
@@ -129,7 +119,7 @@ class TestCreativityEngine:
         task = CreativeTask(
             prompt="Connect nature patterns to architectural design",
             preferred_process="associative",
-            seed_concepts=["trees", "fibonacci", "structure", "organic"]
+            seed_concepts=["trees", "fibonacci", "structure", "organic"],
         )
 
         # Act
@@ -149,9 +139,7 @@ class TestCreativityEngine:
         """Test transformative imagination creative process."""
         # Arrange
         task = CreativeTask(
-            prompt="Reimagine traditional classroom education",
-            preferred_process="transformative",
-            min_ideas=4
+            prompt="Reimagine traditional classroom education", preferred_process="transformative", min_ideas=4
         )
 
         # Act
@@ -164,18 +152,14 @@ class TestCreativityEngine:
         for transformation in snapshot.transformations:
             assert transformation["confidence"] > 0.0
             assert "process" in transformation
-            assert transformation["process"] in [
-                "analogy", "metaphor", "inversion", "amplification", "combination"
-            ]
+            assert transformation["process"] in ["analogy", "metaphor", "inversion", "amplification", "combination"]
 
     @pytest.mark.asyncio
     async def test_creative_synthesis(self, creativity_engine, consciousness_state):
         """Test creative synthesis process."""
         # Arrange
         task = CreativeTask(
-            prompt="Synthesize wellness and technology concepts",
-            preferred_process="synthesis",
-            min_ideas=6
+            prompt="Synthesize wellness and technology concepts", preferred_process="synthesis", min_ideas=6
         )
 
         # Act
@@ -185,10 +169,7 @@ class TestCreativityEngine:
         assert snapshot.synthesis_quality > 0.0
 
         # Check for synthesized ideas
-        synthesized_ideas = [
-            idea for idea in snapshot.ideas
-            if idea.get("type", "").startswith("synthesized")
-        ]
+        synthesized_ideas = [idea for idea in snapshot.ideas if idea.get("type", "").startswith("synthesized")]
         assert len(synthesized_ideas) > 0
 
     @pytest.mark.asyncio
@@ -199,7 +180,7 @@ class TestCreativityEngine:
             prompt="Develop comprehensive smart city solutions",
             preferred_process=None,  # Should trigger multi-process
             min_ideas=10,
-            seed_concepts=["IoT", "sustainability", "citizens"]
+            seed_concepts=["IoT", "sustainability", "citizens"],
         )
 
         # Act
@@ -286,7 +267,7 @@ class TestCreativityEngine:
         snapshot = await creativity_engine.generate_ideas(creative_task, consciousness_state, {})
 
         # Assert
-        assert hasattr(snapshot, 'memory_pressure_score')
+        assert hasattr(snapshot, "memory_pressure_score")
         assert 0.0 <= snapshot.memory_pressure_score <= 1.0
 
     @pytest.mark.asyncio
@@ -297,7 +278,7 @@ class TestCreativityEngine:
             prompt="",  # Empty prompt might trigger anomalies
             min_ideas=0,
             target_novelty=1.5,  # Impossible target
-            target_coherence=1.5   # Impossible target
+            target_coherence=1.5,  # Impossible target
         )
 
         # Act
@@ -310,15 +291,12 @@ class TestCreativityEngine:
     async def test_context_integration(self, creativity_engine, consciousness_state):
         """Test integration with consciousness context."""
         # Arrange
-        task = CreativeTask(
-            prompt="Context-aware creative task",
-            min_ideas=3
-        )
+        task = CreativeTask(prompt="Context-aware creative task", min_ideas=3)
 
         context = {
             "user_preferences": ["innovation", "sustainability"],
             "creative_signals": ["inspiration", "idea_flow"],
-            "domain_expertise": "technology"
+            "domain_expertise": "technology",
         }
 
         # Act
@@ -335,9 +313,13 @@ class TestCreativityEngine:
 
         # Assert
         required_stats = [
-            "cycles_completed", "average_latency_ms", "p95_latency_ms",
-            "average_quality_score", "guardian_approval_rate",
-            "current_flow_state", "creative_energy"
+            "cycles_completed",
+            "average_latency_ms",
+            "p95_latency_ms",
+            "average_quality_score",
+            "guardian_approval_rate",
+            "current_flow_state",
+            "creative_energy",
         ]
 
         for stat in required_stats:
@@ -371,11 +353,7 @@ class TestCreativityEngine:
 
         for mode in imagination_modes:
             # Arrange
-            task = CreativeTask(
-                prompt=f"Test {mode} imagination",
-                imagination_mode=mode,
-                min_ideas=2
-            )
+            task = CreativeTask(prompt=f"Test {mode} imagination", imagination_mode=mode, min_ideas=2)
 
             # Act
             snapshot = await creativity_engine.generate_ideas(task, consciousness_state, {})
@@ -391,7 +369,7 @@ class TestCreativityEngine:
         task = CreativeTask(
             prompt="Design with strict constraints",
             constraints=["low_cost", "eco_friendly", "scalable", "user_friendly"],
-            min_ideas=3
+            min_ideas=3,
         )
 
         # Act
@@ -402,10 +380,7 @@ class TestCreativityEngine:
         assert len(snapshot.ideas) >= 3
 
         # Ideas should reference constraints in validation
-        [
-            check for check in snapshot.validation_checks
-            if "constraint" in check.get("type", "").lower()
-        ]
+        [check for check in snapshot.validation_checks if "constraint" in check.get("type", "").lower()]
         # Should have some form of constraint validation
 
     @pytest.mark.asyncio
@@ -415,7 +390,7 @@ class TestCreativityEngine:
         task = CreativeTask(
             prompt="Inspired creation",
             seed_concepts=["nature", "technology", "art"],
-            inspiration_domains=["biomimicry", "engineering", "design"]
+            inspiration_domains=["biomimicry", "engineering", "design"],
         )
 
         # Act
@@ -463,7 +438,7 @@ class TestCreativeTask:
             context={"domain": "test"},
             constraints=["simple"],
             preferred_process="divergent",
-            imagination_mode="conceptual"
+            imagination_mode="conceptual",
         )
 
         # Assert
@@ -496,11 +471,7 @@ class TestCreativitySnapshot:
     def test_creativity_snapshot_creation(self):
         """Test CreativitySnapshot creation."""
         # Act
-        snapshot = CreativitySnapshot(
-            flow_state="flowing",
-            imagination_mode="abstract",
-            creative_energy=0.8
-        )
+        snapshot = CreativitySnapshot(flow_state="flowing", imagination_mode="abstract", creative_energy=0.8)
 
         # Assert
         assert snapshot.flow_state == "flowing"
@@ -521,7 +492,7 @@ class TestCreativitySnapshot:
             content={"description": "Test idea content"},
             novelty=0.8,
             coherence=0.7,
-            guardian_approved=True
+            guardian_approved=True,
         )
 
         # Assert
@@ -559,9 +530,7 @@ class TestCreativitySnapshot:
         snapshot = CreativitySnapshot()
 
         # Act
-        snapshot.add_transformation(
-            "original_concept", "transformed_concept", "analogy", 0.9
-        )
+        snapshot.add_transformation("original_concept", "transformed_concept", "analogy", 0.9)
 
         # Assert
         assert len(snapshot.transformations) == 1

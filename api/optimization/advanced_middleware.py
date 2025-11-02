@@ -30,6 +30,7 @@ try:
         RequestContext,
         RequestPriority,
     )
+
     OPTIMIZER_AVAILABLE = True
 except ImportError:
     OPTIMIZER_AVAILABLE = False
@@ -39,6 +40,7 @@ try:
     from fastapi import HTTPException, Request, Response
     from fastapi.middleware.base import BaseHTTPMiddleware
     from starlette.middleware.base import RequestResponseEndpoint
+
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
@@ -46,6 +48,7 @@ except ImportError:
 # Security integration
 try:
     from security.security_framework import LUKHASSecurityFramework
+
     SECURITY_AVAILABLE = True
 except ImportError:
     SECURITY_AVAILABLE = False
@@ -53,6 +56,7 @@ except ImportError:
 
 class MiddlewareType(Enum):
     """Types of middleware in the processing pipeline."""
+
     SECURITY = "security"
     RATE_LIMITING = "rate_limiting"
     OPTIMIZATION = "optimization"
@@ -65,6 +69,7 @@ class MiddlewareType(Enum):
 
 class ProcessingPhase(Enum):
     """Request processing phases."""
+
     PRE_PROCESSING = "pre_processing"
     VALIDATION = "validation"
     AUTHENTICATION = "authentication"
@@ -80,6 +85,7 @@ class ProcessingPhase(Enum):
 @dataclass
 class MiddlewareConfig:
     """Configuration for middleware pipeline."""
+
     enable_security: bool = True
     enable_rate_limiting: bool = True
     enable_optimization: bool = True
@@ -98,6 +104,7 @@ class MiddlewareConfig:
 @dataclass
 class RequestMetadata:
     """Enhanced request metadata for middleware processing."""
+
     request_id: str
     start_time: float
     client_ip: str
@@ -125,32 +132,24 @@ class BaseMiddleware(ABC):
         self.middleware_type = middleware_type
         self.config = config or {}
         self.enabled = True
-        self.metrics = {
-            "requests_processed": 0,
-            "requests_blocked": 0,
-            "processing_time_ms": 0,
-            "errors": 0
-        }
+        self.metrics = {"requests_processed": 0, "requests_blocked": 0, "processing_time_ms": 0, "errors": 0}
 
     @abstractmethod
-    async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+    async def process_request(
+        self, metadata: RequestMetadata, request_data: Dict[str, Any]
+    ) -> Tuple[bool, Dict[str, Any]]:
         """Process incoming request. Returns (continue, data)."""
         pass
 
     @abstractmethod
-    async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_response(self, metadata: RequestMetadata, response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process outgoing response."""
         pass
 
     async def on_error(self, metadata: RequestMetadata, error: Exception) -> Dict[str, Any]:
         """Handle errors during processing."""
         self.metrics["errors"] += 1
-        return {
-            "error": f"Middleware {self.name} error: {str(error)}",
-            "type": type(error).__name__
-        }
+        return {"error": f"Middleware {self.name} error: {str(error)}", "type": type(error).__name__}
 
     def get_metrics(self) -> Dict[str, Any]:
         """Get middleware metrics."""
@@ -158,19 +157,20 @@ class BaseMiddleware(ABC):
             "name": self.name,
             "type": self.middleware_type.value,
             "enabled": self.enabled,
-            "metrics": dict(self.metrics)
+            "metrics": dict(self.metrics),
         }
 
 
 class SecurityMiddleware(BaseMiddleware):
     """Security validation and authentication middleware."""
 
-    def __init__(self, security_framework: Optional['LUKHASSecurityFramework'] = None):
+    def __init__(self, security_framework: Optional["LUKHASSecurityFramework"] = None):
         super().__init__("security", MiddlewareType.SECURITY)
         self.security_framework = security_framework
 
-    async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+    async def process_request(
+        self, metadata: RequestMetadata, request_data: Dict[str, Any]
+    ) -> Tuple[bool, Dict[str, Any]]:
         """Validate security and authenticate request."""
         start_time = time.time()
 
@@ -209,7 +209,7 @@ class SecurityMiddleware(BaseMiddleware):
                 "X-Content-Type-Options": "nosniff",
                 "X-Frame-Options": "DENY",
                 "X-XSS-Protection": "1; mode=block",
-                "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
             }
 
             metadata.security_context["headers"] = security_headers
@@ -224,8 +224,7 @@ class SecurityMiddleware(BaseMiddleware):
             logger.error(f"Security middleware error: {e}")
             return await self.on_error(metadata, e), {}
 
-    async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_response(self, metadata: RequestMetadata, response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Add security headers to response."""
         if "headers" not in response_data:
             response_data["headers"] = {}
@@ -238,7 +237,7 @@ class SecurityMiddleware(BaseMiddleware):
     def _determine_user_tier(self, user) -> APITier:
         """Determine user tier from user object."""
         # This would typically check user subscription, permissions, etc.
-        if hasattr(user, 'roles'):
+        if hasattr(user, "roles"):
             if "enterprise" in user.roles:
                 return APITier.ENTERPRISE
             elif "premium" in user.roles:
@@ -258,8 +257,7 @@ class SecurityMiddleware(BaseMiddleware):
             return APITier.BASIC
         return APITier.FREE
 
-    async def _check_for_threats(self, metadata: RequestMetadata,
-                               request_data: Dict[str, Any]) -> bool:
+    async def _check_for_threats(self, metadata: RequestMetadata, request_data: Dict[str, Any]) -> bool:
         """Check for security threats."""
         if not self.security_framework:
             return False
@@ -269,7 +267,7 @@ class SecurityMiddleware(BaseMiddleware):
             metadata.endpoint,
             str(request_data),
             metadata.user_agent,
-            json.dumps(metadata.custom_headers)
+            json.dumps(metadata.custom_headers),
         ]
 
         for pattern in threat_patterns:
@@ -282,12 +280,13 @@ class SecurityMiddleware(BaseMiddleware):
 class OptimizationMiddleware(BaseMiddleware):
     """API optimization and caching middleware."""
 
-    def __init__(self, optimizer: Optional['LUKHASAPIOptimizer'] = None):
+    def __init__(self, optimizer: Optional["LUKHASAPIOptimizer"] = None):
         super().__init__("optimization", MiddlewareType.OPTIMIZATION)
         self.optimizer = optimizer
 
-    async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+    async def process_request(
+        self, metadata: RequestMetadata, request_data: Dict[str, Any]
+    ) -> Tuple[bool, Dict[str, Any]]:
         """Apply optimization strategies to request."""
         start_time = time.time()
 
@@ -305,7 +304,7 @@ class OptimizationMiddleware(BaseMiddleware):
                 tier=metadata.tier,
                 priority=metadata.priority,
                 size_bytes=metadata.content_length,
-                headers=dict(metadata.custom_headers)
+                headers=dict(metadata.custom_headers),
             )
 
             # Check rate limits and cache
@@ -316,7 +315,7 @@ class OptimizationMiddleware(BaseMiddleware):
                 return False, {
                     "error": "Request blocked by optimization layer",
                     "status": 429,
-                    "details": optimization_info
+                    "details": optimization_info,
                 }
 
             # Check for cached response
@@ -339,8 +338,7 @@ class OptimizationMiddleware(BaseMiddleware):
             logger.error(f"Optimization middleware error: {e}")
             return await self.on_error(metadata, e), {}
 
-    async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_response(self, metadata: RequestMetadata, response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Complete optimization processing."""
         try:
             if self.optimizer and "context" in metadata.optimization_context:
@@ -373,8 +371,9 @@ class ValidationMiddleware(BaseMiddleware):
         super().__init__("validation", MiddlewareType.VALIDATION)
         self.max_request_size_bytes = max_request_size_mb * 1024 * 1024
 
-    async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+    async def process_request(
+        self, metadata: RequestMetadata, request_data: Dict[str, Any]
+    ) -> Tuple[bool, Dict[str, Any]]:
         """Validate request structure and content."""
         start_time = time.time()
 
@@ -385,29 +384,23 @@ class ValidationMiddleware(BaseMiddleware):
                 return False, {
                     "error": f"Request too large: {metadata.content_length} bytes",
                     "status": 413,
-                    "max_size": self.max_request_size_bytes
+                    "max_size": self.max_request_size_bytes,
                 }
 
             # Validate content type for POST/PUT requests
             if metadata.method in ["POST", "PUT", "PATCH"]:
                 if not metadata.content_type:
                     self.metrics["requests_blocked"] += 1
-                    return False, {
-                        "error": "Content-Type header required",
-                        "status": 400
-                    }
+                    return False, {"error": "Content-Type header required", "status": 400}
 
                 if metadata.content_type not in [
                     "application/json",
                     "application/x-www-form-urlencoded",
                     "multipart/form-data",
-                    "text/plain"
+                    "text/plain",
                 ]:
                     self.metrics["requests_blocked"] += 1
-                    return False, {
-                        "error": f"Unsupported content type: {metadata.content_type}",
-                        "status": 415
-                    }
+                    return False, {"error": f"Unsupported content type: {metadata.content_type}", "status": 415}
 
             # Basic JSON validation for JSON requests
             if metadata.content_type == "application/json" and request_data:
@@ -416,10 +409,7 @@ class ValidationMiddleware(BaseMiddleware):
                         json.loads(request_data)
                 except json.JSONDecodeError as e:
                     self.metrics["requests_blocked"] += 1
-                    return False, {
-                        "error": f"Invalid JSON: {str(e)}",
-                        "status": 400
-                    }
+                    return False, {"error": f"Invalid JSON: {str(e)}", "status": 400}
 
             # Sanitize request data
             sanitized_data = await self._sanitize_request_data(request_data)
@@ -434,8 +424,7 @@ class ValidationMiddleware(BaseMiddleware):
             logger.error(f"Validation middleware error: {e}")
             return await self.on_error(metadata, e), {}
 
-    async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_response(self, metadata: RequestMetadata, response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Validate and sanitize response."""
         # Add validation headers
         if "headers" not in response_data:
@@ -465,8 +454,9 @@ class AnalyticsMiddleware(BaseMiddleware):
         super().__init__("analytics", MiddlewareType.ANALYTICS)
         self.request_logs = []
 
-    async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+    async def process_request(
+        self, metadata: RequestMetadata, request_data: Dict[str, Any]
+    ) -> Tuple[bool, Dict[str, Any]]:
         """Log request for analytics."""
         # Store request start time for duration calculation
         metadata.middleware_data["analytics_start"] = time.time()
@@ -474,8 +464,7 @@ class AnalyticsMiddleware(BaseMiddleware):
         self.metrics["requests_processed"] += 1
         return True, {}
 
-    async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_response(self, metadata: RequestMetadata, response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Log response and calculate metrics."""
         end_time = time.time()
         start_time = metadata.middleware_data.get("analytics_start", metadata.start_time)
@@ -494,7 +483,7 @@ class AnalyticsMiddleware(BaseMiddleware):
             "user_agent": metadata.user_agent,
             "tier": metadata.tier.value,
             "content_length": metadata.content_length,
-            "processing_phases": metadata.processing_phases
+            "processing_phases": metadata.processing_phases,
         }
 
         # Store log entry (in production, this would go to a proper logging system)
@@ -530,7 +519,7 @@ class AnalyticsMiddleware(BaseMiddleware):
             "avg_duration_ms": avg_duration,
             "error_rate_percent": error_rate,
             "status_distribution": self._count_distribution(status_codes),
-            "top_endpoints": self._get_top_endpoints(recent_logs)
+            "top_endpoints": self._get_top_endpoints(recent_logs),
         }
 
     def _count_distribution(self, data: List[Any]) -> Dict[Any, int]:
@@ -549,8 +538,7 @@ class AnalyticsMiddleware(BaseMiddleware):
 
         return [
             {"endpoint": endpoint, "count": count}
-            for endpoint, count in sorted(endpoint_counts.items(),
-                                        key=lambda x: x[1], reverse=True)[:10]
+            for endpoint, count in sorted(endpoint_counts.items(), key=lambda x: x[1], reverse=True)[:10]
         ]
 
 
@@ -565,7 +553,7 @@ class LUKHASMiddlewarePipeline:
             "successful_requests": 0,
             "blocked_requests": 0,
             "error_requests": 0,
-            "avg_processing_time_ms": 0
+            "avg_processing_time_ms": 0,
         }
 
     def add_middleware(self, middleware: BaseMiddleware):
@@ -578,8 +566,9 @@ class LUKHASMiddlewarePipeline:
         self.middleware_stack = [m for m in self.middleware_stack if m.name != name]
         logger.info(f"Removed middleware: {name}")
 
-    async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+    async def process_request(
+        self, metadata: RequestMetadata, request_data: Dict[str, Any]
+    ) -> Tuple[bool, Dict[str, Any]]:
         """Process request through middleware pipeline."""
         start_time = time.time()
         self.processing_stats["total_requests"] += 1
@@ -593,9 +582,7 @@ class LUKHASMiddlewarePipeline:
                     continue
 
                 try:
-                    continue_processing, middleware_data = await middleware.process_request(
-                        metadata, processed_data
-                    )
+                    continue_processing, middleware_data = await middleware.process_request(metadata, processed_data)
 
                     if not continue_processing:
                         self.processing_stats["blocked_requests"] += 1
@@ -617,8 +604,8 @@ class LUKHASMiddlewarePipeline:
             total_requests = self.processing_stats["total_requests"]
             current_avg = self.processing_stats["avg_processing_time_ms"]
             self.processing_stats["avg_processing_time_ms"] = (
-                (current_avg * (total_requests - 1) + processing_time) / total_requests
-            )
+                current_avg * (total_requests - 1) + processing_time
+            ) / total_requests
 
             return True, processed_data
 
@@ -627,8 +614,7 @@ class LUKHASMiddlewarePipeline:
             self.processing_stats["error_requests"] += 1
             return False, {"error": f"Pipeline error: {str(e)}", "status": 500}
 
-    async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_response(self, metadata: RequestMetadata, response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process response through middleware pipeline (reverse order)."""
         try:
             processed_response = dict(response_data)
@@ -639,9 +625,7 @@ class LUKHASMiddlewarePipeline:
                     continue
 
                 try:
-                    processed_response = await middleware.process_response(
-                        metadata, processed_response
-                    )
+                    processed_response = await middleware.process_response(metadata, processed_response)
                 except Exception as e:
                     logger.error(f"Middleware {middleware.name} response processing failed: {e}")
                     # Continue processing other middleware
@@ -664,13 +648,14 @@ class LUKHASMiddlewarePipeline:
                 "enabled_middleware": len([m for m in self.middleware_stack if m.enabled]),
                 "security_enabled": self.config.enable_security,
                 "optimization_enabled": self.config.enable_optimization,
-                "analytics_enabled": self.config.enable_analytics
-            }
+                "analytics_enabled": self.config.enable_analytics,
+            },
         }
 
 
 # FastAPI integration
 if FASTAPI_AVAILABLE:
+
     class LUKHASFastAPIMiddleware(BaseHTTPMiddleware):
         """FastAPI middleware integration for LUKHAS."""
 
@@ -691,7 +676,7 @@ if FASTAPI_AVAILABLE:
                 method=request.method,
                 content_type=request.headers.get("content-type"),
                 content_length=int(request.headers.get("content-length", 0)),
-                custom_headers=dict(request.headers)
+                custom_headers=dict(request.headers),
             )
 
             # Extract request data
@@ -712,9 +697,7 @@ if FASTAPI_AVAILABLE:
                 # Return error response
                 status_code = processed_data.get("status", 400)
                 return Response(
-                    content=json.dumps(processed_data),
-                    status_code=status_code,
-                    media_type="application/json"
+                    content=json.dumps(processed_data), status_code=status_code, media_type="application/json"
                 )
 
             # Check for cached response
@@ -725,17 +708,14 @@ if FASTAPI_AVAILABLE:
                     content=json.dumps(response_data),
                     status_code=200,
                     media_type="application/json",
-                    headers=response_data.get("headers", {})
+                    headers=response_data.get("headers", {}),
                 )
 
             # Continue with normal processing
             response = await call_next(request)
 
             # Process response
-            response_data = {
-                "status_code": response.status_code,
-                "headers": dict(response.headers)
-            }
+            response_data = {"status_code": response.status_code, "headers": dict(response.headers)}
 
             # Read response body if needed
             if response.status_code == 200:
@@ -764,8 +744,8 @@ if FASTAPI_AVAILABLE:
 # Factory function for creating configured pipeline
 async def create_middleware_pipeline(
     config: MiddlewareConfig,
-    security_framework: Optional['LUKHASSecurityFramework'] = None,
-    optimizer: Optional['LUKHASAPIOptimizer'] = None
+    security_framework: Optional["LUKHASSecurityFramework"] = None,
+    optimizer: Optional["LUKHASAPIOptimizer"] = None,
 ) -> LUKHASMiddlewarePipeline:
     """Create a fully configured middleware pipeline."""
 
@@ -790,15 +770,13 @@ async def create_middleware_pipeline(
 
 
 if __name__ == "__main__":
+
     async def test_middleware_pipeline():
         """Test the middleware pipeline."""
 
         # Create configuration
         config = MiddlewareConfig(
-            enable_security=True,
-            enable_optimization=True,
-            enable_analytics=True,
-            enable_request_validation=True
+            enable_security=True, enable_optimization=True, enable_analytics=True, enable_request_validation=True
         )
 
         # Create pipeline
@@ -812,7 +790,7 @@ if __name__ == "__main__":
             user_agent="Test Agent",
             endpoint="/api/v1/test",
             method="GET",
-            custom_headers={"authorization": "Bearer test_token"}
+            custom_headers={"authorization": "Bearer test_token"},
         )
 
         request_data = {"test": "data"}

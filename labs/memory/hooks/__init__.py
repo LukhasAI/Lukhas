@@ -5,6 +5,7 @@ allowing plugins to process memory items before storage and after recall.
 
 ΛTAG: memory_hooks_interface
 """
+
 import streamlit as st
 
 from .base import HookExecutionError, MemoryHook, MemoryItem

@@ -17,8 +17,7 @@ from pathlib import Path
 
 def main():
     ap = argparse.ArgumentParser(description="Report compat alias hits")
-    ap.add_argument("--out", default="docs/audits/compat_alias_hits.json",
-                    help="Path to compat hits JSON file")
+    ap.add_argument("--out", default="docs/audits/compat_alias_hits.json", help="Path to compat hits JSON file")
     args = ap.parse_args()
 
     p = Path(args.out)

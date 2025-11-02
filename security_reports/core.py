@@ -47,18 +47,12 @@ class SeverityLevel(str, Enum):
             try:
                 return cls(normalized)
             except ValueError as exc:  # pragma: no cover - defensive
-                raise SecurityReportValidationError(
-                    f"Unknown severity level: {value!r}"
-                ) from exc
+                raise SecurityReportValidationError(f"Unknown severity level: {value!r}") from exc
 
-        raise SecurityReportValidationError(
-            f"Unsupported severity type: {type(value)!r}"
-        )
+        raise SecurityReportValidationError(f"Unsupported severity type: {type(value)!r}")
 
 
-_SENSITIVE_KEY_PATTERN = re.compile(
-    r"(password|secret|token|apikey|api_key|credential|privkey)", re.IGNORECASE
-)
+_SENSITIVE_KEY_PATTERN = re.compile(r"(password|secret|token|apikey|api_key|credential|privkey)", re.IGNORECASE)
 
 
 def _contains_sensitive_data(value: str) -> bool:
@@ -137,18 +131,14 @@ def validate_report(report: SecurityReport, *, allowed_detail_keys: Iterable[str
         allowed = set(allowed_detail_keys)
         missing = detail_keys - allowed
         if missing:
-            raise SecurityReportValidationError(
-                f"Unexpected detail keys present: {sorted(missing)!r}"
-            )
+            raise SecurityReportValidationError(f"Unexpected detail keys present: {sorted(missing)!r}")
 
     for key, value in report.details.items():
         if not isinstance(key, str) or not key:
             raise SecurityReportValidationError("detail keys must be non-empty strings")
 
         if isinstance(value, str) and _contains_sensitive_data(value):
-            raise SecurityReportValidationError(
-                f"detail {key!r} contains sensitive information"
-            )
+            raise SecurityReportValidationError(f"detail {key!r} contains sensitive information")
 
 
 def build_secure_payload(report: SecurityReport) -> Dict[str, Any]:
@@ -183,9 +173,7 @@ class SecurityReportRepository:
         """Return a list of reports matching *severity* (case-insensitive)."""
 
         severity_value = SeverityLevel.from_value(severity)
-        return [
-            report for report in self._storage.values() if report.severity is severity_value
-        ]
+        return [report for report in self._storage.values() if report.severity is severity_value]
 
 
 __all__ = [

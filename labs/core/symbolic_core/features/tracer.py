@@ -6,6 +6,7 @@ Symbolic Tracer
 
 Traces symbolic events and ΛTAG activity within the LUKHAS system.
 """
+
 import json
 import uuid
 from dataclasses import dataclass, field

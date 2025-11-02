@@ -37,27 +37,89 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
     # Test cases covering all dynamic ID patterns
     test_cases = [
         # UUIDs (should be detected)
-        {"label_key": "deployment_id", "label_value": "f47ac10b-58cc-4372-a567-0e02b2c3d479", "expected_violation": True, "pattern_type": "UUID"},
-        {"label_key": "correlation", "label_value": "550e8400-e29b-41d4-a716-446655440000", "expected_violation": True, "pattern_type": "UUID"},
-        {"label_key": "build_id", "label_value": "build-6ba7b810-9dad-11d1-80b4-00c04fd430c8", "expected_violation": True, "pattern_type": "UUID with prefix"},
-
+        {
+            "label_key": "deployment_id",
+            "label_value": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+            "expected_violation": True,
+            "pattern_type": "UUID",
+        },
+        {
+            "label_key": "correlation",
+            "label_value": "550e8400-e29b-41d4-a716-446655440000",
+            "expected_violation": True,
+            "pattern_type": "UUID",
+        },
+        {
+            "label_key": "build_id",
+            "label_value": "build-6ba7b810-9dad-11d1-80b4-00c04fd430c8",
+            "expected_violation": True,
+            "pattern_type": "UUID with prefix",
+        },
         # Timestamps (should be detected)
-        {"label_key": "timestamp", "label_value": "1695646894123", "expected_violation": True, "pattern_type": "Unix timestamp"},
-        {"label_key": "build_time", "label_value": "20230925134134", "expected_violation": True, "pattern_type": "Formatted timestamp"},
-        {"label_key": "deploy_time", "label_value": "ts_1695646894123456", "expected_violation": True, "pattern_type": "Prefixed timestamp"},
-
+        {
+            "label_key": "timestamp",
+            "label_value": "1695646894123",
+            "expected_violation": True,
+            "pattern_type": "Unix timestamp",
+        },
+        {
+            "label_key": "build_time",
+            "label_value": "20230925134134",
+            "expected_violation": True,
+            "pattern_type": "Formatted timestamp",
+        },
+        {
+            "label_key": "deploy_time",
+            "label_value": "ts_1695646894123456",
+            "expected_violation": True,
+            "pattern_type": "Prefixed timestamp",
+        },
         # Request/Session/User IDs (should be detected)
-        {"label_key": "request", "label_value": "req_abc123def456", "expected_violation": True, "pattern_type": "Request ID"},
-        {"label_key": "session", "label_value": "sess_xyz789abc123", "expected_violation": True, "pattern_type": "Session ID"},
+        {
+            "label_key": "request",
+            "label_value": "req_abc123def456",
+            "expected_violation": True,
+            "pattern_type": "Request ID",
+        },
+        {
+            "label_key": "session",
+            "label_value": "sess_xyz789abc123",
+            "expected_violation": True,
+            "pattern_type": "Session ID",
+        },
         {"label_key": "user", "label_value": "usr_def456ghi789", "expected_violation": True, "pattern_type": "User ID"},
-        {"label_key": "transaction", "label_value": "tx_transaction123456", "expected_violation": True, "pattern_type": "Transaction ID"},
-
+        {
+            "label_key": "transaction",
+            "label_value": "tx_transaction123456",
+            "expected_violation": True,
+            "pattern_type": "Transaction ID",
+        },
         # Valid static labels (should NOT be detected)
-        {"label_key": "environment", "label_value": "production", "expected_violation": False, "pattern_type": "Static environment"},
-        {"label_key": "version", "label_value": "v1.2.3", "expected_violation": False, "pattern_type": "Semantic version"},
+        {
+            "label_key": "environment",
+            "label_value": "production",
+            "expected_violation": False,
+            "pattern_type": "Static environment",
+        },
+        {
+            "label_key": "version",
+            "label_value": "v1.2.3",
+            "expected_violation": False,
+            "pattern_type": "Semantic version",
+        },
         {"label_key": "region", "label_value": "us-west-2", "expected_violation": False, "pattern_type": "AWS region"},
-        {"label_key": "service", "label_value": "matriz-core", "expected_violation": False, "pattern_type": "Service name"},
-        {"label_key": "component", "label_value": "decision-engine", "expected_violation": False, "pattern_type": "Component name"},
+        {
+            "label_key": "service",
+            "label_value": "matriz-core",
+            "expected_violation": False,
+            "pattern_type": "Service name",
+        },
+        {
+            "label_key": "component",
+            "label_value": "decision-engine",
+            "expected_violation": False,
+            "pattern_type": "Component name",
+        },
     ]
 
     results = {
@@ -66,7 +128,7 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
         "failed_tests": 0,
         "detection_accuracy": 0.0,
         "performance_metrics": [],
-        "test_results": []
+        "test_results": [],
     }
 
     for i, test_case in enumerate(test_cases):
@@ -81,7 +143,7 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
             operation="validation",
             phase="testing",
             lane="canary",
-            labels={test_case["label_key"]: test_case["label_value"]}
+            labels={test_case["label_key"]: test_case["label_value"]},
         )
 
         validation_time = (time.perf_counter() - start_time) * 1000  # Convert to ms
@@ -90,7 +152,7 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
         has_dynamic_violation = any("Dynamic ID detected" in v for v in violations)
         expected_violation = test_case["expected_violation"]
 
-        test_passed = (has_dynamic_violation == expected_violation)
+        test_passed = has_dynamic_violation == expected_violation
 
         test_result = {
             "pattern_type": test_case["pattern_type"],
@@ -99,7 +161,7 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
             "expected_violation": expected_violation,
             "actual_violation": has_dynamic_violation,
             "test_passed": test_passed,
-            "validation_time_ms": validation_time
+            "validation_time_ms": validation_time,
         }
 
         results["test_results"].append(test_result)
@@ -110,7 +172,9 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
             logger.info(f"✓ PASS: {test_case['pattern_type']} - {test_case['label_value'][:20]}...")
         else:
             results["failed_tests"] += 1
-            logger.error(f"✗ FAIL: {test_case['pattern_type']} - Expected: {expected_violation}, Got: {has_dynamic_violation}")
+            logger.error(
+                f"✗ FAIL: {test_case['pattern_type']} - Expected: {expected_violation}, Got: {has_dynamic_violation}"
+            )
 
     # Calculate detection accuracy
     results["detection_accuracy"] = results["passed_tests"] / results["total_tests"]
@@ -119,7 +183,9 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
     if results["performance_metrics"]:
         results["mean_latency_ms"] = sum(results["performance_metrics"]) / len(results["performance_metrics"])
         results["max_latency_ms"] = max(results["performance_metrics"])
-        results["p95_latency_ms"] = sorted(results["performance_metrics"])[int(len(results["performance_metrics"]) * 0.95)]
+        results["p95_latency_ms"] = sorted(results["performance_metrics"])[
+            int(len(results["performance_metrics"]) * 0.95)
+        ]
 
     return results["detection_accuracy"] == 1.0, results
 
@@ -133,35 +199,35 @@ def validate_ci_integration() -> Tuple[bool, Dict[str, Any]]:
         {
             "name": "Production deployment with clean labels",
             "labels": {"environment": "production", "version": "v2.1.0", "region": "us-east-1"},
-            "should_pass": True
+            "should_pass": True,
         },
         {
             "name": "Staging with build timestamp (violation)",
             "labels": {"environment": "staging", "build": "build_1695646894123"},
-            "should_pass": False
+            "should_pass": False,
         },
         {
             "name": "Canary with UUID deployment ID (violation)",
             "labels": {"environment": "canary", "deployment": "deploy-f47ac10b-58cc-4372-a567-0e02b2c3d479"},
-            "should_pass": False
+            "should_pass": False,
         },
         {
             "name": "Development with user ID (violation)",
             "labels": {"environment": "dev", "deployer": "usr_developer123"},
-            "should_pass": False
+            "should_pass": False,
         },
         {
             "name": "Valid production rollout",
             "labels": {"environment": "production", "rollout": "progressive", "version": "v2.1.1-hotfix"},
-            "should_pass": True
-        }
+            "should_pass": True,
+        },
     ]
 
     results = {
         "total_scenarios": len(ci_scenarios),
         "passed_scenarios": 0,
         "failed_scenarios": 0,
-        "scenario_results": []
+        "scenario_results": [],
     }
 
     for scenario in ci_scenarios:
@@ -173,7 +239,7 @@ def validate_ci_integration() -> Tuple[bool, Dict[str, Any]]:
             operation="ci_test",
             phase="integration",
             lane="canary",
-            labels=scenario["labels"]
+            labels=scenario["labels"],
         )
 
         has_dynamic_violations = any("Dynamic ID detected" in v for v in violations)
@@ -188,7 +254,7 @@ def validate_ci_integration() -> Tuple[bool, Dict[str, Any]]:
             "should_pass": should_pass,
             "has_dynamic_violations": has_dynamic_violations,
             "scenario_passed": scenario_passed,
-            "violations": violations
+            "violations": violations,
         }
 
         results["scenario_results"].append(scenario_result)
@@ -237,7 +303,7 @@ def main() -> int:
         overall_success = False
 
     # Performance validation
-    if pattern_results.get('p95_latency_ms', 0) > 50.0:
+    if pattern_results.get("p95_latency_ms", 0) > 50.0:
         print(f"   ⚠️  Performance warning: P95 latency {pattern_results['p95_latency_ms']:.1f}ms exceeds 50ms target")
 
     # Overall result

@@ -38,6 +38,7 @@ try:
     from opentelemetry.sdk.resources import Resource
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False
@@ -52,6 +53,7 @@ try:
         Info,
         generate_latest,
     )
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
@@ -72,113 +74,93 @@ class AuthenticationMetrics:
 
         # Authentication counters
         self.auth_attempts_total = Counter(
-            'lukhas_auth_attempts_total',
-            'Total authentication attempts',
-            ['tier', 'result', 'user_id'],
-            registry=self.registry
+            "lukhas_auth_attempts_total",
+            "Total authentication attempts",
+            ["tier", "result", "user_id"],
+            registry=self.registry,
         )
 
         self.auth_errors_total = Counter(
-            'lukhas_auth_errors_total',
-            'Total authentication errors',
-            ['tier', 'error_type'],
-            registry=self.registry
+            "lukhas_auth_errors_total", "Total authentication errors", ["tier", "error_type"], registry=self.registry
         )
 
         # Performance histograms
         self.auth_duration_seconds = Histogram(
-            'lukhas_auth_duration_seconds',
-            'Authentication duration in seconds',
-            ['tier'],
+            "lukhas_auth_duration_seconds",
+            "Authentication duration in seconds",
+            ["tier"],
             buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0],
-            registry=self.registry
+            registry=self.registry,
         )
 
         self.webauthn_challenge_duration_seconds = Histogram(
-            'lukhas_webauthn_challenge_duration_seconds',
-            'WebAuthn challenge generation duration',
+            "lukhas_webauthn_challenge_duration_seconds",
+            "WebAuthn challenge generation duration",
             buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1],
-            registry=self.registry
+            registry=self.registry,
         )
 
         self.biometric_auth_duration_seconds = Histogram(
-            'lukhas_biometric_auth_duration_seconds',
-            'Biometric authentication duration',
+            "lukhas_biometric_auth_duration_seconds",
+            "Biometric authentication duration",
             buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5],
-            registry=self.registry
+            registry=self.registry,
         )
 
         # System gauges
         self.active_sessions = Gauge(
-            'lukhas_active_sessions_total',
-            'Number of active authentication sessions',
-            registry=self.registry
+            "lukhas_active_sessions_total", "Number of active authentication sessions", registry=self.registry
         )
 
         self.guardian_validations = Counter(
-            'lukhas_guardian_validations_total',
-            'Total Guardian system validations',
-            ['action', 'result'],
-            registry=self.registry
+            "lukhas_guardian_validations_total",
+            "Total Guardian system validations",
+            ["action", "result"],
+            registry=self.registry,
         )
 
         # Security metrics
         self.security_events_total = Counter(
-            'lukhas_security_events_total',
-            'Total security events',
-            ['event_type', 'threat_level', 'action'],
-            registry=self.registry
+            "lukhas_security_events_total",
+            "Total security events",
+            ["event_type", "threat_level", "action"],
+            registry=self.registry,
         )
 
         self.rate_limit_hits = Counter(
-            'lukhas_rate_limit_hits_total',
-            'Rate limit violations',
-            ['rule_name', 'action'],
-            registry=self.registry
+            "lukhas_rate_limit_hits_total", "Rate limit violations", ["rule_name", "action"], registry=self.registry
         )
 
         self.nonce_operations = Counter(
-            'lukhas_nonce_operations_total',
-            'Nonce operations',
-            ['operation', 'result'],
-            registry=self.registry
+            "lukhas_nonce_operations_total", "Nonce operations", ["operation", "result"], registry=self.registry
         )
 
         # SLA compliance metrics
         self.sla_violations = Counter(
-            'lukhas_sla_violations_total',
-            'SLA violations by tier',
-            ['tier', 'metric'],
-            registry=self.registry
+            "lukhas_sla_violations_total", "SLA violations by tier", ["tier", "metric"], registry=self.registry
         )
 
         # System info
-        self.system_info = Info(
-            'lukhas_auth_system',
-            'Authentication system information',
-            registry=self.registry
-        )
+        self.system_info = Info("lukhas_auth_system", "Authentication system information", registry=self.registry)
 
         # Set system info
-        self.system_info.info({
-            'component': 'I.2_Tiered_Authentication',
-            'version': '1.0.0',
-            'standard': 'T4/0.01% Excellence'
-        })
+        self.system_info.info(
+            {"component": "I.2_Tiered_Authentication", "version": "1.0.0", "standard": "T4/0.01% Excellence"}
+        )
 
     def record_authentication_attempt(self, tier: str, success: bool, user_id: str, duration_seconds: float):
         """Record authentication attempt metrics."""
         if not PROMETHEUS_AVAILABLE:
             return
 
-        result = 'success' if success else 'failure'
+        result = "success" if success else "failure"
         self.auth_attempts_total.labels(tier=tier, result=result, user_id=user_id).inc()
         self.auth_duration_seconds.labels(tier=tier).observe(duration_seconds)
 
         # Check SLA compliance
-        sla_limits = {'T1': 0.05, 'T2': 0.2, 'T3': 0.15, 'T4': 0.3, 'T5': 0.4}
+        sla_limits = {"T1": 0.05, "T2": 0.2, "T3": 0.15, "T4": 0.3, "T5": 0.4}
         if tier in sla_limits and duration_seconds > sla_limits[tier]:
-            self.sla_violations.labels(tier=tier, metric='latency').inc()
+            self.sla_violations.labels(tier=tier, metric="latency").inc()
 
     def record_authentication_error(self, tier: str, error_type: str):
         """Record authentication error."""
@@ -206,7 +188,7 @@ class AuthenticationMetrics:
         if not PROMETHEUS_AVAILABLE:
             return
 
-        result = 'success' if success else 'failure'
+        result = "success" if success else "failure"
         self.guardian_validations.labels(action=action, result=result).inc()
 
     def record_security_event(self, event_type: str, threat_level: str, action: str):
@@ -214,11 +196,7 @@ class AuthenticationMetrics:
         if not PROMETHEUS_AVAILABLE:
             return
 
-        self.security_events_total.labels(
-            event_type=event_type,
-            threat_level=threat_level,
-            action=action
-        ).inc()
+        self.security_events_total.labels(event_type=event_type, threat_level=threat_level, action=action).inc()
 
     def record_rate_limit_hit(self, rule_name: str, action: str):
         """Record rate limit hit."""
@@ -232,7 +210,7 @@ class AuthenticationMetrics:
         if not PROMETHEUS_AVAILABLE:
             return
 
-        result = 'success' if success else 'failure'
+        result = "success" if success else "failure"
         self.nonce_operations.labels(operation=operation, result=result).inc()
 
     def update_active_sessions(self, count: int):
@@ -247,7 +225,7 @@ class AuthenticationMetrics:
         if not PROMETHEUS_AVAILABLE:
             return "# Prometheus not available\n"
 
-        return generate_latest(self.registry).decode('utf-8')
+        return generate_latest(self.registry).decode("utf-8")
 
 
 class OpenTelemetryTracer:
@@ -263,21 +241,20 @@ class OpenTelemetryTracer:
             return
 
         # Configure tracing
-        resource = Resource.create({
-            "service.name": service_name,
-            "service.version": "1.0.0",
-            "service.instance.id": f"{service_name}-{int(time.time())}"
-        })
+        resource = Resource.create(
+            {
+                "service.name": service_name,
+                "service.version": "1.0.0",
+                "service.instance.id": f"{service_name}-{int(time.time())}",
+            }
+        )
 
         # Set up tracer provider
         trace.set_tracer_provider(TracerProvider(resource=resource))
 
         # Configure OTLP exporter (can be configured to send to Jaeger, etc.)
         try:
-            otlp_exporter = OTLPSpanExporter(
-                endpoint="http://localhost:4317",  # Default OTLP endpoint
-                insecure=True
-            )
+            otlp_exporter = OTLPSpanExporter(endpoint="http://localhost:4317", insecure=True)  # Default OTLP endpoint
             span_processor = BatchSpanProcessor(otlp_exporter)
             trace.get_tracer_provider().add_span_processor(span_processor)
         except Exception as e:
@@ -301,8 +278,8 @@ class OpenTelemetryTracer:
                 "auth.tier": tier,
                 "auth.user_id": user_id,
                 "auth.correlation_id": correlation_id,
-                "auth.component": "tiered_authenticator"
-            }
+                "auth.component": "tiered_authenticator",
+            },
         ) as span:
             yield span
 
@@ -318,8 +295,8 @@ class OpenTelemetryTracer:
             attributes={
                 "webauthn.user_id": user_id,
                 "webauthn.correlation_id": correlation_id,
-                "webauthn.component": "enhanced_webauthn_service"
-            }
+                "webauthn.component": "enhanced_webauthn_service",
+            },
         ) as span:
             yield span
 
@@ -335,8 +312,8 @@ class OpenTelemetryTracer:
             attributes={
                 "webauthn.challenge_id": challenge_id,
                 "webauthn.correlation_id": correlation_id,
-                "webauthn.component": "enhanced_webauthn_service"
-            }
+                "webauthn.component": "enhanced_webauthn_service",
+            },
         ) as span:
             yield span
 
@@ -353,8 +330,8 @@ class OpenTelemetryTracer:
                 "biometric.user_id": user_id,
                 "biometric.modality": modality,
                 "biometric.nonce": nonce,
-                "biometric.component": "mock_biometric_provider"
-            }
+                "biometric.component": "mock_biometric_provider",
+            },
         ) as span:
             yield span
 
@@ -370,20 +347,21 @@ class OpenTelemetryTracer:
             attributes={
                 "security.ip_address": ip_address,
                 "security.endpoint": endpoint,
-                "security.component": "security_hardening_manager"
-            }
+                "security.component": "security_hardening_manager",
+            },
         ) as span:
             yield span
 
     def add_span_event(self, span: Any, name: str, attributes: Dict[str, Any]):
         """Add event to current span."""
-        if span and hasattr(span, 'add_event'):
+        if span and hasattr(span, "add_event"):
             span.add_event(name, attributes)
 
     def set_span_status(self, span: Any, success: bool, message: str = ""):
         """Set span status."""
-        if span and hasattr(span, 'set_status'):
+        if span and hasattr(span, "set_status"):
             from opentelemetry.trace import Status, StatusCode
+
             status_code = StatusCode.OK if success else StatusCode.ERROR
             span.set_status(Status(status_code, message))
 
@@ -404,7 +382,7 @@ class StructuredLogger:
         duration_ms: float,
         reason: str = "",
         ip_address: str = "",
-        user_agent: str = ""
+        user_agent: str = "",
     ):
         """Log authentication attempt with full context."""
         log_data = {
@@ -416,7 +394,7 @@ class StructuredLogger:
             "duration_ms": duration_ms,
             "ip_address": ip_address,
             "user_agent": user_agent,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         if reason:
@@ -435,7 +413,7 @@ class StructuredLogger:
         ip_address: str,
         description: str,
         indicators: List[str],
-        correlation_id: str = ""
+        correlation_id: str = "",
     ):
         """Log security event."""
         log_data = {
@@ -447,7 +425,7 @@ class StructuredLogger:
             "description": description,
             "indicators": indicators,
             "correlation_id": correlation_id,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         if threat_level in ["high", "critical"]:
@@ -456,12 +434,7 @@ class StructuredLogger:
             self.logger.warning("Security event detected", **log_data)
 
     def log_performance_sla_violation(
-        self,
-        tier: str,
-        operation: str,
-        duration_ms: float,
-        target_ms: float,
-        correlation_id: str = ""
+        self, tier: str, operation: str, duration_ms: float, target_ms: float, correlation_id: str = ""
     ):
         """Log SLA violation."""
         log_data = {
@@ -472,18 +445,13 @@ class StructuredLogger:
             "target_ms": target_ms,
             "violation_percent": ((duration_ms - target_ms) / target_ms) * 100,
             "correlation_id": correlation_id,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.logger.error("Performance SLA violation", **log_data)
 
     def log_guardian_validation(
-        self,
-        action: str,
-        success: bool,
-        duration_ms: float,
-        context: Dict[str, Any],
-        correlation_id: str = ""
+        self, action: str, success: bool, duration_ms: float, context: Dict[str, Any], correlation_id: str = ""
     ):
         """Log Guardian system validation."""
         log_data = {
@@ -493,7 +461,7 @@ class StructuredLogger:
             "duration_ms": duration_ms,
             "context": context,
             "correlation_id": correlation_id,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         if success:
@@ -519,27 +487,23 @@ class ObservabilityManager:
             "authentication_times": {},
             "webauthn_times": [],
             "biometric_times": [],
-            "security_check_times": []
+            "security_check_times": [],
         }
 
         # SLA targets (in milliseconds)
-        self._sla_targets = {
-            "T1": 50,
-            "T2": 200,
-            "T3": 150,
-            "T4": 300,
-            "T5": 400
-        }
+        self._sla_targets = {"T1": 50, "T2": 200, "T3": 150, "T4": 300, "T5": 400}
 
         structlog.get_logger(__name__).info(
             "Observability manager initialized",
             service_name=service_name,
             prometheus_available=PROMETHEUS_AVAILABLE,
-            otel_available=OTEL_AVAILABLE
+            otel_available=OTEL_AVAILABLE,
         )
 
     @asynccontextmanager
-    async def observe_authentication(self, tier: str, user_id: str, correlation_id: str, ip_address: str = "", user_agent: str = ""):
+    async def observe_authentication(
+        self, tier: str, user_id: str, correlation_id: str, ip_address: str = "", user_agent: str = ""
+    ):
         """Comprehensive observability wrapper for authentication."""
         start_time = time.perf_counter()
 
@@ -557,8 +521,14 @@ class ObservabilityManager:
 
                 # Log success
                 self.logger.log_authentication_attempt(
-                    tier, user_id, correlation_id, True, duration_ms,
-                    reason="success", ip_address=ip_address, user_agent=user_agent
+                    tier,
+                    user_id,
+                    correlation_id,
+                    True,
+                    duration_ms,
+                    reason="success",
+                    ip_address=ip_address,
+                    user_agent=user_agent,
                 )
 
                 # Check SLA compliance
@@ -586,8 +556,14 @@ class ObservabilityManager:
 
                 # Log error
                 self.logger.log_authentication_attempt(
-                    tier, user_id, correlation_id, False, duration_ms,
-                    reason=str(e), ip_address=ip_address, user_agent=user_agent
+                    tier,
+                    user_id,
+                    correlation_id,
+                    False,
+                    duration_ms,
+                    reason=str(e),
+                    ip_address=ip_address,
+                    user_agent=user_agent,
                 )
 
                 # Set span error
@@ -655,15 +631,28 @@ class ObservabilityManager:
                 self.tracer.set_span_status(span, False, str(e))
                 raise
 
-    def record_guardian_validation(self, action: str, success: bool, duration_ms: float, context: Dict[str, Any], correlation_id: str = ""):
+    def record_guardian_validation(
+        self, action: str, success: bool, duration_ms: float, context: Dict[str, Any], correlation_id: str = ""
+    ):
         """Record Guardian system validation."""
         self.metrics.record_guardian_validation(action, success)
         self.logger.log_guardian_validation(action, success, duration_ms, context, correlation_id)
 
-    def record_security_event(self, event_type: str, threat_level: str, action: str, ip_address: str, description: str, indicators: List[str], correlation_id: str = ""):
+    def record_security_event(
+        self,
+        event_type: str,
+        threat_level: str,
+        action: str,
+        ip_address: str,
+        description: str,
+        indicators: List[str],
+        correlation_id: str = "",
+    ):
         """Record security event."""
         self.metrics.record_security_event(event_type, threat_level, action)
-        self.logger.log_security_event(event_type, threat_level, action, ip_address, description, indicators, correlation_id)
+        self.logger.log_security_event(
+            event_type, threat_level, action, ip_address, description, indicators, correlation_id
+        )
 
     def record_rate_limit_hit(self, rule_name: str, action: str):
         """Record rate limit hit."""
@@ -683,7 +672,7 @@ class ObservabilityManager:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "service_name": self.service_name,
             "sla_targets": self._sla_targets,
-            "performance_data": {}
+            "performance_data": {},
         }
 
         # Authentication performance by tier
@@ -702,7 +691,7 @@ class ObservabilityManager:
                 "p95_ms": round(p95_time, 2),
                 "target_ms": target,
                 "sla_compliance_rate": 1.0 - (sla_violations / len(times)),
-                "sla_violations": sla_violations
+                "sla_violations": sla_violations,
             }
 
         # WebAuthn performance
@@ -711,7 +700,7 @@ class ObservabilityManager:
             summary["performance_data"]["webauthn"] = {
                 "samples": len(times),
                 "mean_ms": round(sum(times) / len(times), 2),
-                "p95_ms": round(sorted(times)[int(len(times) * 0.95)], 2)
+                "p95_ms": round(sorted(times)[int(len(times) * 0.95)], 2),
             }
 
         # Biometric performance
@@ -720,7 +709,7 @@ class ObservabilityManager:
             summary["performance_data"]["biometric"] = {
                 "samples": len(times),
                 "mean_ms": round(sum(times) / len(times), 2),
-                "p95_ms": round(sorted(times)[int(len(times) * 0.95)], 2)
+                "p95_ms": round(sorted(times)[int(len(times) * 0.95)], 2),
             }
 
         return summary
@@ -738,9 +727,9 @@ class ObservabilityManager:
             "observability": {
                 "prometheus_available": PROMETHEUS_AVAILABLE,
                 "opentelemetry_available": OTEL_AVAILABLE,
-                "structured_logging": True
+                "structured_logging": True,
             },
-            "performance_summary": self.get_performance_summary()
+            "performance_summary": self.get_performance_summary(),
         }
 
 

@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Session:
     """Session data structure"""
+
     session_id: str
     user_id: str
     username: str
@@ -84,7 +85,7 @@ class SessionService(SessionManagerInterface):
                 expires_at=now + kwargs.get("ttl", self.default_ttl),
                 ip_address=kwargs.get("ip_address"),
                 user_agent=kwargs.get("user_agent"),
-                metadata=kwargs.get("metadata", {})
+                metadata=kwargs.get("metadata", {}),
             )
 
             # Enforce max sessions per user
@@ -247,7 +248,7 @@ class SessionService(SessionManagerInterface):
             "active_users": len(self.user_sessions),
             "default_ttl": self.default_ttl,
             "max_sessions_per_user": self.max_sessions_per_user,
-            "cleanup_interval": self.cleanup_interval
+            "cleanup_interval": self.cleanup_interval,
         }
 
     async def get_stats(self) -> dict[str, Any]:
@@ -266,10 +267,7 @@ class SessionService(SessionManagerInterface):
                 "active_sessions": len(self.sessions) - expired_count,
                 "unique_users": len(self.user_sessions),
                 "average_session_duration_seconds": avg_duration,
-                "sessions_per_user": {
-                    user_id: len(sessions)
-                    for user_id, sessions in self.user_sessions.items()
-                }
+                "sessions_per_user": {user_id: len(sessions) for user_id, sessions in self.user_sessions.items()},
             }
         except Exception as e:
             logger.error(f"Stats calculation failed: {e}")

@@ -196,9 +196,7 @@ sys.modules["governance.identity.auth_integrations.qrg_bridge"] = auth_integrati
 sys.modules["governance.identity.auth_integrations.wallet_bridge"] = auth_integrations_pkg.wallet_bridge
 
 
-labs_identity_sso = __import__(
-    "labs.governance.identity.core.sing.sso_engine", fromlist=["LambdaSSOEngine"]
-)
+labs_identity_sso = __import__("labs.governance.identity.core.sing.sso_engine", fromlist=["LambdaSSOEngine"])
 core_sing_pkg.sso_engine = labs_identity_sso
 sys.modules["governance.identity.core.sing.sso_engine"] = labs_identity_sso
 
@@ -471,4 +469,3 @@ def test_guardian_sentinel_extensions():
 
     quantum = sentinel.detect_quantum_entanglement(["⚛️", "🧠", "🛡️", "🔗"])
     assert quantum["entangled"]
-

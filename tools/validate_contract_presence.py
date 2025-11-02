@@ -26,9 +26,11 @@ ROOT = Path(__file__).resolve().parents[1]
 LUKHAS_DIR = ROOT / "lukhas"
 MANIFESTS_DIR = ROOT / "manifests"
 
+
 @dataclass
 class ModuleContractCheck:
     """Results of module contract validation."""
+
     module_path: Path
     module_name: str
     has_init: bool
@@ -45,6 +47,7 @@ class ModuleContractCheck:
     def __post_init__(self):
         if self.manifest_capabilities is None:
             self.manifest_capabilities = []
+
 
 class ContractPresenceValidator:
     """Validates Matrix contract presence for all modules."""
@@ -66,10 +69,7 @@ class ContractPresenceValidator:
                 manifest_data = json.loads(manifest_file.read_text())
                 module_name = manifest_data.get("identity", {}).get("module_name", "")
                 if module_name:
-                    self.manifests_cache[module_name] = {
-                        "path": manifest_file,
-                        "data": manifest_data
-                    }
+                    self.manifests_cache[module_name] = {"path": manifest_file, "data": manifest_data}
             except (json.JSONDecodeError, KeyError):
                 pass  # Skip invalid manifests
 
@@ -161,8 +161,7 @@ class ContractPresenceValidator:
                 capabilities = manifest_data.get("capabilities", [])
                 if isinstance(capabilities, list):
                     manifest_capabilities = [
-                        cap.get("name", cap) if isinstance(cap, dict) else cap
-                        for cap in capabilities
+                        cap.get("name", cap) if isinstance(cap, dict) else cap for cap in capabilities
                     ]
 
                 # Extract Constellation star
@@ -182,7 +181,7 @@ class ContractPresenceValidator:
             manifest_path=manifest_path,
             has_manifest=has_manifest,
             manifest_capabilities=manifest_capabilities,
-            constellation_star=constellation_star
+            constellation_star=constellation_star,
         )
 
     def validate_all_modules(self) -> List[ModuleContractCheck]:
@@ -195,7 +194,9 @@ class ContractPresenceValidator:
 
         return results
 
-    def generate_enforcement_report(self, results: List[ModuleContractCheck], include_manifest_coverage: bool = False) -> Dict[str, Any]:
+    def generate_enforcement_report(
+        self, results: List[ModuleContractCheck], include_manifest_coverage: bool = False
+    ) -> Dict[str, Any]:
         """Generate enforcement report for CI/CD."""
         total_modules = len(results)
         modules_with_contracts = sum(1 for r in results if r.contract_exists)
@@ -212,32 +213,28 @@ class ContractPresenceValidator:
                 "modules_with_identity": modules_with_identity,
                 "contract_coverage": round(100 * modules_with_contracts / total_modules, 1) if total_modules > 0 else 0,
                 "identity_coverage": round(100 * modules_with_identity / total_modules, 1) if total_modules > 0 else 0,
-                "failing_modules": len(failing_modules)
+                "failing_modules": len(failing_modules),
             },
             "enforcement_status": "PASS" if len(failing_modules) == 0 else "FAIL",
             "missing_contracts": [
                 {
                     "module": r.module_name,
                     "path": str(r.module_path.relative_to(ROOT)),
-                    "expected_contract": str(r.expected_contract.relative_to(ROOT))
+                    "expected_contract": str(r.expected_contract.relative_to(ROOT)),
                 }
-                for r in results if not r.contract_exists
+                for r in results
+                if not r.contract_exists
             ],
             "invalid_contracts": [
-                {
-                    "module": r.module_name,
-                    "contract": str(r.expected_contract.relative_to(ROOT)),
-                    "issues": r.issues
-                }
-                for r in results if r.contract_exists and not r.contract_valid
+                {"module": r.module_name, "contract": str(r.expected_contract.relative_to(ROOT)), "issues": r.issues}
+                for r in results
+                if r.contract_exists and not r.contract_valid
             ],
             "modules_without_identity": [
-                {
-                    "module": r.module_name,
-                    "contract": str(r.expected_contract.relative_to(ROOT))
-                }
-                for r in results if r.contract_exists and r.contract_valid and not r.has_identity_block
-            ]
+                {"module": r.module_name, "contract": str(r.expected_contract.relative_to(ROOT))}
+                for r in results
+                if r.contract_exists and r.contract_valid and not r.has_identity_block
+            ],
         }
 
         # Add manifest coverage report if requested
@@ -251,20 +248,19 @@ class ContractPresenceValidator:
                 "manifest_coverage": round(100 * modules_with_manifests / total_modules, 1) if total_modules > 0 else 0,
                 "full_coverage": round(100 * modules_with_both / total_modules, 1) if total_modules > 0 else 0,
                 "modules_with_contract_no_manifest": [
-                    {
-                        "module": r.module_name,
-                        "contract": str(r.expected_contract.relative_to(ROOT))
-                    }
-                    for r in results if r.contract_exists and not r.has_manifest
+                    {"module": r.module_name, "contract": str(r.expected_contract.relative_to(ROOT))}
+                    for r in results
+                    if r.contract_exists and not r.has_manifest
                 ],
                 "modules_with_manifest_no_contract": [
                     {
                         "module": r.module_name,
                         "manifest": str(r.manifest_path.relative_to(ROOT)) if r.manifest_path else "",
                         "capabilities": r.manifest_capabilities,
-                        "constellation_star": r.constellation_star
+                        "constellation_star": r.constellation_star,
                     }
-                    for r in results if r.has_manifest and not r.contract_exists
+                    for r in results
+                    if r.has_manifest and not r.contract_exists
                 ],
                 "contract_to_manifest_mapping": [
                     {
@@ -272,10 +268,11 @@ class ContractPresenceValidator:
                         "contract": str(r.expected_contract.relative_to(ROOT)),
                         "manifest": str(r.manifest_path.relative_to(ROOT)) if r.manifest_path else None,
                         "capabilities": r.manifest_capabilities,
-                        "constellation_star": r.constellation_star
+                        "constellation_star": r.constellation_star,
                     }
-                    for r in results if r.contract_exists and r.has_manifest
-                ]
+                    for r in results
+                    if r.contract_exists and r.has_manifest
+                ],
             }
 
         return report
@@ -302,9 +299,7 @@ class ContractPresenceValidator:
     def suggest_contracts_from_manifests(self, results: List[ModuleContractCheck]) -> Dict[str, Any]:
         """Suggest contract content based on manifest capabilities."""
         if not self.enable_manifest_integration:
-            return {
-                "error": "Manifest integration not enabled. Use --manifest-coverage flag."
-            }
+            return {"error": "Manifest integration not enabled. Use --manifest-coverage flag."}
 
         suggestions = []
 
@@ -312,28 +307,22 @@ class ContractPresenceValidator:
             if result.has_manifest and not result.contract_exists:
                 # Generate intelligent suggestions based on manifest
                 suggestion = self._generate_intelligent_contract_suggestion(
-                    result.module_name,
-                    result.manifest_capabilities,
-                    result.constellation_star
+                    result.module_name, result.manifest_capabilities, result.constellation_star
                 )
-                suggestions.append({
-                    "module": result.module_name,
-                    "manifest_path": str(result.manifest_path.relative_to(ROOT)) if result.manifest_path else "",
-                    "capabilities": result.manifest_capabilities,
-                    "constellation_star": result.constellation_star,
-                    "suggested_contract": suggestion
-                })
+                suggestions.append(
+                    {
+                        "module": result.module_name,
+                        "manifest_path": str(result.manifest_path.relative_to(ROOT)) if result.manifest_path else "",
+                        "capabilities": result.manifest_capabilities,
+                        "constellation_star": result.constellation_star,
+                        "suggested_contract": suggestion,
+                    }
+                )
 
-        return {
-            "total_suggestions": len(suggestions),
-            "suggestions": suggestions
-        }
+        return {"total_suggestions": len(suggestions), "suggestions": suggestions}
 
     def _generate_intelligent_contract_suggestion(
-        self,
-        module_name: str,
-        capabilities: List[str],
-        constellation_star: Optional[str]
+        self, module_name: str, capabilities: List[str], constellation_star: Optional[str]
     ) -> Dict[str, Any]:
         """Generate intelligent contract template based on manifest capabilities."""
         simple_name = module_name.split(".")[-1] if "." in module_name else module_name
@@ -349,25 +338,26 @@ class ContractPresenceValidator:
                     "endpoint": f"/api/v1/{simple_name}/{cap.lower().replace(' ', '_')}",
                     "method": "POST",
                     "capability": cap,
-                    "requires_auth": True
+                    "requires_auth": True,
                 }
                 for cap in capabilities[:5]  # Limit to top 5 capabilities
             ]
 
             # Add capability-specific scopes
-            contract["identity"]["scopes"].extend([
-                f"{simple_name}.{cap.lower().replace(' ', '_')}"
-                for cap in capabilities[:3]  # Top 3 as scopes
-            ])
+            contract["identity"]["scopes"].extend(
+                [f"{simple_name}.{cap.lower().replace(' ', '_')}" for cap in capabilities[:3]]  # Top 3 as scopes
+            )
 
             # Add capability-specific telemetry
-            contract["telemetry"]["spans"].extend([
-                {
-                    "name": f"{simple_name}.{cap.lower().replace(' ', '_')}",
-                    "attrs": ["code.function", "capability.name"]
-                }
-                for cap in capabilities[:3]
-            ])
+            contract["telemetry"]["spans"].extend(
+                [
+                    {
+                        "name": f"{simple_name}.{cap.lower().replace(' ', '_')}",
+                        "attrs": ["code.function", "capability.name"],
+                    }
+                    for cap in capabilities[:3]
+                ]
+            )
 
         # Enhance based on Constellation star
         if constellation_star:
@@ -377,7 +367,7 @@ class ContractPresenceValidator:
                 "💠 Skill": ["authenticated"],
                 "🎯 Guard": ["trusted", "core"],
                 "⚛️ Core": ["trusted", "core"],
-                "🔧 Bridge": ["authenticated"]
+                "🔧 Bridge": ["authenticated"],
             }
 
             star_tiers_numeric = {
@@ -386,7 +376,7 @@ class ContractPresenceValidator:
                 "💠 Skill": [2, 3, 4, 5],
                 "🎯 Guard": [4, 5],
                 "⚛️ Core": [4, 5],
-                "🔧 Bridge": [2, 3, 4, 5]
+                "🔧 Bridge": [2, 3, 4, 5],
             }
 
             if constellation_star in star_tiers:
@@ -405,35 +395,29 @@ class ContractPresenceValidator:
         return {
             "schema_version": "1.0.0",
             "module": module_name,
-            "owner": {
-                "team": "Core",
-                "codeowners": ["@gonzo.dominguez", "@lukhas-core"]
-            },
-            "interface": {
-                "public_api": [],
-                "contracts": []
-            },
+            "owner": {"team": "Core", "codeowners": ["@gonzo.dominguez", "@lukhas-core"]},
+            "interface": {"public_api": [], "contracts": []},
             "params": {},
             "gates": [
                 {"metric": "security.osv_high", "op": "==", "value": 0},
-                {"metric": "symbolic.DriftScore", "op": ">=", "value": 0.010}
+                {"metric": "symbolic.DriftScore", "op": ">=", "value": 0.010},
             ],
             "telemetry": {
                 "opentelemetry_semconv_version": "1.37.0",
                 "spans": [{"name": f"{simple_name}.operation", "attrs": ["code.function"]}],
-                "metrics": [{"name": f"lukhas.{simple_name}.latency", "unit": "s", "type": "histogram"}]
+                "metrics": [{"name": f"lukhas.{simple_name}.latency", "unit": "s", "type": "histogram"}],
             },
             "symbolic_diagnostics": {
                 "CollapseHash": "sha256:pending",
                 "DriftScore": 0.010,
                 "EthicalDriftIndex": 0.0,
-                "ConvergencePct": 0.0
+                "ConvergencePct": 0.0,
             },
             "lineage": {
                 "openlineage_event_id": "",
                 "datasets_in": [],
                 "datasets_out": [],
-                "job": f"lukhas.{simple_name}.job"
+                "job": f"lukhas.{simple_name}.job",
             },
             "provenance": {
                 "@context": "",
@@ -441,7 +425,7 @@ class ContractPresenceValidator:
                 "branch": "",
                 "built_by": {},
                 "environment": {"os": "", "cpu": "", "python": ""},
-                "config_fingerprint": "sha256:"
+                "config_fingerprint": "sha256:",
             },
             "identity": {
                 "requires_auth": True,
@@ -450,13 +434,14 @@ class ContractPresenceValidator:
                 "required_tiers_numeric": [3],
                 "scopes": [f"{simple_name}.read", f"{simple_name}.write"],
                 "webauthn_required": False,
-                "api_policies": []
+                "api_policies": [],
             },
             "docs": {
                 "lens_markdown": f"../products/intelligence/lens/{simple_name}.qmd",
-                "design_notes": f"../docs/{simple_name}/architecture.md"
-            }
+                "design_notes": f"../docs/{simple_name}/architecture.md",
+            },
         }
+
 
 def main():
     """CLI for contract presence validation."""
@@ -476,25 +461,23 @@ Examples:
 
   # Create missing contracts
   python validate_contract_presence.py --create-missing --dry-run
-        """
+        """,
     )
 
-    parser.add_argument("--check", action="store_true",
-                       help="Check contract presence for all modules")
-    parser.add_argument("--enforce", action="store_true",
-                       help="Enforce contract presence (fail if missing)")
-    parser.add_argument("--create-missing", action="store_true",
-                       help="Create missing contract files")
-    parser.add_argument("--manifest-coverage", action="store_true",
-                       help="Include manifest coverage in report and enable manifest integration")
-    parser.add_argument("--suggest-contracts", action="store_true",
-                       help="Suggest contract content based on manifest capabilities")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Show what would be created without creating files")
-    parser.add_argument("--output", type=str,
-                       help="Output file for reports (JSON format)")
-    parser.add_argument("--quiet", action="store_true",
-                       help="Suppress verbose output")
+    parser.add_argument("--check", action="store_true", help="Check contract presence for all modules")
+    parser.add_argument("--enforce", action="store_true", help="Enforce contract presence (fail if missing)")
+    parser.add_argument("--create-missing", action="store_true", help="Create missing contract files")
+    parser.add_argument(
+        "--manifest-coverage",
+        action="store_true",
+        help="Include manifest coverage in report and enable manifest integration",
+    )
+    parser.add_argument(
+        "--suggest-contracts", action="store_true", help="Suggest contract content based on manifest capabilities"
+    )
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be created without creating files")
+    parser.add_argument("--output", type=str, help="Output file for reports (JSON format)")
+    parser.add_argument("--quiet", action="store_true", help="Suppress verbose output")
 
     args = parser.parse_args()
 
@@ -540,7 +523,7 @@ Examples:
                     print(f"\n  Module: {suggestion['module']}")
                     print(f"  Star: {suggestion.get('constellation_star', 'N/A')}")
                     print(f"  Capabilities: {', '.join(suggestion.get('capabilities', [])[:3])}")
-                    if len(suggestion.get('capabilities', [])) > 3:
+                    if len(suggestion.get("capabilities", [])) > 3:
                         print(f"                 (+{len(suggestion['capabilities']) - 3} more)")
 
         return 0
@@ -570,27 +553,27 @@ Examples:
                 print(f"Full coverage (contract + manifest): {mi['full_coverage']}%")
                 print(f"Modules with both: {mi['modules_with_both_contract_and_manifest']}")
 
-                if mi['modules_with_contract_no_manifest']:
+                if mi["modules_with_contract_no_manifest"]:
                     print(f"\n⚠️  Contracts without manifests ({len(mi['modules_with_contract_no_manifest'])}):")
-                    for item in mi['modules_with_contract_no_manifest'][:3]:
+                    for item in mi["modules_with_contract_no_manifest"][:3]:
                         print(f"  - {item['module']}")
 
-                if mi['modules_with_manifest_no_contract']:
+                if mi["modules_with_manifest_no_contract"]:
                     print(f"\n⚠️  Manifests without contracts ({len(mi['modules_with_manifest_no_contract'])}):")
-                    for item in mi['modules_with_manifest_no_contract'][:3]:
+                    for item in mi["modules_with_manifest_no_contract"][:3]:
                         print(f"  - {item['module']} (Star: {item.get('constellation_star', 'N/A')})")
 
-            if report['missing_contracts']:
+            if report["missing_contracts"]:
                 print(f"\n❌ Missing contracts ({len(report['missing_contracts'])}):")
-                for missing in report['missing_contracts'][:5]:
+                for missing in report["missing_contracts"][:5]:
                     print(f"  - {missing['module']}")
 
-            if report['invalid_contracts']:
+            if report["invalid_contracts"]:
                 print(f"\n🔧 Invalid contracts ({len(report['invalid_contracts'])}):")
-                for invalid in report['invalid_contracts'][:5]:
+                for invalid in report["invalid_contracts"][:5]:
                     print(f"  - {invalid['module']}: {', '.join(invalid['issues'][:2])}")
 
-        if args.enforce and report['enforcement_status'] == "FAIL":
+        if args.enforce and report["enforcement_status"] == "FAIL":
             print("\n❌ ENFORCEMENT FAILURE: Some modules lack valid Matrix contracts")
             return 1
 
@@ -613,6 +596,7 @@ Examples:
                 print("✅ All modules already have contracts")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

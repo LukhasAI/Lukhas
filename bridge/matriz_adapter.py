@@ -2,6 +2,7 @@
 MATRIZ Adapter for Bridge Module
 Emits MATRIZ-compliant nodes for external API integration events
 """
+
 import json
 import time
 import uuid

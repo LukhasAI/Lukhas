@@ -23,15 +23,18 @@ except ImportError:  # pragma: no cover
 
 # --- Test Fixtures and Helpers ---
 
+
 @pytest.fixture
 def default_config() -> MetricsConfig:
     """Returns a default MetricsConfig."""
     return MetricsConfig()
 
+
 @pytest.fixture
 def metrics_computer(default_config: MetricsConfig) -> AkaQualiaMetrics:
     """Returns an AkaQualiaMetrics instance with default config."""
     return AkaQualiaMetrics(config=default_config)
+
 
 def create_proto_qualia(**kwargs) -> ProtoQualia:
     """Helper function to create a ProtoQualia instance with default values."""
@@ -48,6 +51,7 @@ def create_proto_qualia(**kwargs) -> ProtoQualia:
     defaults.update(kwargs)
     return ProtoQualia(**defaults)
 
+
 def create_phenomenal_scene(**kwargs) -> PhenomenalScene:
     """Helper function to create a PhenomenalScene instance with default values."""
     defaults = {
@@ -58,17 +62,18 @@ def create_phenomenal_scene(**kwargs) -> PhenomenalScene:
         "timestamp": 12345.0,
         "transform_chain": [],
     }
-    if 'proto' in kwargs:
+    if "proto" in kwargs:
         # if proto is passed, don't use the default one
         pass
-    elif 'proto_kwargs' in kwargs:
-        defaults['proto'] = create_proto_qualia(**kwargs.pop('proto_kwargs'))
+    elif "proto_kwargs" in kwargs:
+        defaults["proto"] = create_proto_qualia(**kwargs.pop("proto_kwargs"))
 
     defaults.update(kwargs)
     return PhenomenalScene(**defaults)
 
 
 # --- Test Class for AkaQualiaMetrics ---
+
 
 @pytest.mark.tier3
 @pytest.mark.performance
@@ -104,9 +109,9 @@ class TestAkaQualiaMetrics:
         "tone, arousal, clarity, expected_energy",
         [
             (0.5, 0.8, 0.6, 0.67),  # Base case
-            (0.0, 0.0, 1.0, 0.0),   # Zero energy case (perfect clarity)
+            (0.0, 0.0, 1.0, 0.0),  # Zero energy case (perfect clarity)
             (-1.0, 1.0, 0.0, 1.0),  # Max energy case
-            (-0.7, 0.2, 0.9, 0.34), # Negative tone case
+            (-0.7, 0.2, 0.9, 0.34),  # Negative tone case
             (0.8, 0.1, 0.3, 0.37),  # Low arousal case
         ],
     )
@@ -132,10 +137,7 @@ class TestAkaQualiaMetrics:
 
     def test_compute_energy_snapshot(self, metrics_computer: AkaQualiaMetrics):
         """Tests the creation of an energy snapshot."""
-        scene = create_phenomenal_scene(
-            proto_kwargs={"tone": -0.5, "arousal": 0.8, "clarity": 0.6},
-            timestamp=999.0
-        )
+        scene = create_phenomenal_scene(proto_kwargs={"tone": -0.5, "arousal": 0.8, "clarity": 0.6}, timestamp=999.0)
         # Expected energy = 0.6*0.8 + 0.3*|-0.5| + 0.1*(1-0.6) = 0.48 + 0.15 + 0.04 = 0.67
         expected_energy = 0.67
 
@@ -154,14 +156,20 @@ class TestAkaQualiaMetrics:
         "arousal_before, arousal_after, policy_work, expected_delta, expected_validity",
         [
             (0.8, 0.3, 0.0, 0.30, False),  # High delta, no work -> invalid
-            (0.8, 0.3, 0.3, 0.30, True),   # Delta matches work -> valid
+            (0.8, 0.3, 0.3, 0.30, True),  # Delta matches work -> valid
             (0.8, 0.3, 0.29, 0.30, True),  # Delta close to work -> valid
             (0.8, 0.3, 0.2, 0.30, False),  # Delta far from work -> invalid
-            (0.3, 0.8, 0.0, -0.30, False), # Negative delta (energy increase)
+            (0.3, 0.8, 0.0, -0.30, False),  # Negative delta (energy increase)
         ],
     )
     def test_compute_repair_delta(
-        self, metrics_computer: AkaQualiaMetrics, arousal_before, arousal_after, policy_work, expected_delta, expected_validity
+        self,
+        metrics_computer: AkaQualiaMetrics,
+        arousal_before,
+        arousal_after,
+        policy_work,
+        expected_delta,
+        expected_validity,
     ):
         """Tests the repair delta calculation and energy conservation check."""
         # Using only arousal for simplicity. tone=0.5, clarity=0.5 are constant.
@@ -169,12 +177,18 @@ class TestAkaQualiaMetrics:
         # E_before = 0.6 * arousal_before + 0.20
         # E_after = 0.6 * arousal_after + 0.20
         # Delta = E_before - E_after = 0.6 * (arousal_before - arousal_after)
-        snapshot_before = metrics_computer.compute_energy_snapshot(create_phenomenal_scene(proto_kwargs={"arousal": arousal_before}))
-        snapshot_after = metrics_computer.compute_energy_snapshot(create_phenomenal_scene(proto_kwargs={"arousal": arousal_after}))
+        snapshot_before = metrics_computer.compute_energy_snapshot(
+            create_phenomenal_scene(proto_kwargs={"arousal": arousal_before})
+        )
+        snapshot_after = metrics_computer.compute_energy_snapshot(
+            create_phenomenal_scene(proto_kwargs={"arousal": arousal_after})
+        )
 
         # Manual calculation of expected delta based on the formula in the docstring
         calculated_expected_delta = 0.6 * (arousal_before - arousal_after)
-        assert math.isclose(expected_delta, calculated_expected_delta, rel_tol=1e-9), "Test case expected_delta is miscalculated"
+        assert math.isclose(
+            expected_delta, calculated_expected_delta, rel_tol=1e-9
+        ), "Test case expected_delta is miscalculated"
 
         repair_delta, conservation_valid = metrics_computer.compute_repair_delta(
             snapshot_before, snapshot_after, policy_work=policy_work
@@ -193,10 +207,14 @@ class TestAkaQualiaMetrics:
 
     def test_compute_drift_phi_identical_scenes(self, metrics_computer: AkaQualiaMetrics):
         """Tests that drift is ~0 for identical consecutive scenes."""
-        scene1 = create_phenomenal_scene(proto_kwargs={"tone": 0.1, "arousal": 0.2, "clarity": 0.3, "embodiment": 0.4, "narrative_gravity": 0.5})
+        scene1 = create_phenomenal_scene(
+            proto_kwargs={"tone": 0.1, "arousal": 0.2, "clarity": 0.3, "embodiment": 0.4, "narrative_gravity": 0.5}
+        )
         metrics_computer.scene_history.append(scene1)
 
-        scene2 = create_phenomenal_scene(proto_kwargs={"tone": 0.1, "arousal": 0.2, "clarity": 0.3, "embodiment": 0.4, "narrative_gravity": 0.5})
+        scene2 = create_phenomenal_scene(
+            proto_kwargs={"tone": 0.1, "arousal": 0.2, "clarity": 0.3, "embodiment": 0.4, "narrative_gravity": 0.5}
+        )
         drift = metrics_computer.compute_drift_phi(scene2)
 
         assert math.isclose(drift, 0.0, abs_tol=1e-9)
@@ -238,29 +256,31 @@ class TestAkaQualiaMetrics:
             (
                 {"calm_focus": True},
                 {"tone": 0.2, "arousal": 0.4, "clarity": 0.8, "embodiment": 0.7, "narrative_gravity": 0.2},
-                True, # Should be perfectly congruent
+                True,  # Should be perfectly congruent
             ),
             (
                 {"creative_flow": True},
                 {"tone": 0.3, "arousal": 0.6, "clarity": 0.7, "embodiment": 0.6, "narrative_gravity": 0.7},
-                True, # Should be perfectly congruent
+                True,  # Should be perfectly congruent
             ),
             (
                 {"calm_focus": True},
                 {"tone": -1.0, "arousal": 1.0, "clarity": 0.0, "embodiment": 0.0, "narrative_gravity": 1.0},
-                False, # Should be highly incongruent
+                False,  # Should be highly incongruent
             ),
-        ]
+        ],
     )
-    def test_compute_congruence_index(self, metrics_computer: AkaQualiaMetrics, goals, proto_kwargs, expected_congruence_high):
+    def test_compute_congruence_index(
+        self, metrics_computer: AkaQualiaMetrics, goals, proto_kwargs, expected_congruence_high
+    ):
         """Tests the congruence index calculation against different goals."""
         scene = create_phenomenal_scene(proto_kwargs=proto_kwargs)
         congruence = metrics_computer.compute_congruence_index(scene, goals)
 
         if expected_congruence_high:
-            assert congruence > 0.95 # Expect high congruence for matching vectors
+            assert congruence > 0.95  # Expect high congruence for matching vectors
         else:
-            assert congruence < 0.7 # Relaxed threshold, as 0.643 is still not congruent
+            assert congruence < 0.7  # Relaxed threshold, as 0.643 is still not congruent
 
     # --- Tests for compute_sublimation_rate ---
 
@@ -271,8 +291,8 @@ class TestAkaQualiaMetrics:
             (["foo", "bar"], 0.0),
             (["sublimate", "bar"], 0.5),
             (["transform", "sublimate"], 1.0),
-            (["sublimate_a", "transform_b", "c"], 2/3),
-        ]
+            (["sublimate_a", "transform_b", "c"], 2 / 3),
+        ],
     )
     def test_compute_sublimation_rate(self, metrics_computer: AkaQualiaMetrics, transform_chain, expected_rate):
         """Tests the sublimation rate calculation."""
@@ -287,7 +307,9 @@ class TestAkaQualiaMetrics:
         consecutive_limit = metrics_computer.config.over_sublimation_consecutive
 
         # Create a scene that will trigger the alert
-        scene = create_phenomenal_scene(transform_chain=["sublimate"] * int(threshold * 10 + 1), proto_kwargs={"clarity": 1})
+        scene = create_phenomenal_scene(
+            transform_chain=["sublimate"] * int(threshold * 10 + 1), proto_kwargs={"clarity": 1}
+        )
 
         for i in range(consecutive_limit):
             assert metrics_computer.consecutive_over_sublimation == i
@@ -380,7 +402,7 @@ class TestAkaQualiaMetrics:
         assert 0.0 <= metrics.sublimation_rate <= 1.0
         assert 0.0 <= metrics.neurosis_risk <= 1.0
         assert 0.0 <= metrics.qualia_novelty <= 1.0
-        assert metrics.repair_delta == 0.0 # No energy_before provided
+        assert metrics.repair_delta == 0.0  # No energy_before provided
 
         # Check that history was updated
         assert len(metrics_computer.scene_history) == 1
@@ -393,18 +415,24 @@ class TestAkaQualiaMetrics:
         metrics_computer.config.drift_alert_threshold = 0.4
 
         # Scene 1 - establishes history
-        scene1 = create_phenomenal_scene(proto_kwargs={"tone": 1, "arousal": 0, "clarity": 0, "embodiment": 0, "narrative_gravity": 0})
+        scene1 = create_phenomenal_scene(
+            proto_kwargs={"tone": 1, "arousal": 0, "clarity": 0, "embodiment": 0, "narrative_gravity": 0}
+        )
         metrics_computer.compute_comprehensive_metrics(scene1, {}, [])
         assert metrics_computer.get_alert_status()["drift_alerts"] == 0
 
         # Scene 2 - orthogonal, drift should be 0.5, triggering an alert
-        scene2 = create_phenomenal_scene(proto_kwargs={"tone": 0, "arousal": 1, "clarity": 0, "embodiment": 0, "narrative_gravity": 0})
+        scene2 = create_phenomenal_scene(
+            proto_kwargs={"tone": 0, "arousal": 1, "clarity": 0, "embodiment": 0, "narrative_gravity": 0}
+        )
         metrics_computer.compute_comprehensive_metrics(scene2, {}, [])
         assert metrics_computer.get_alert_status()["drift_alerts"] == 1
 
         # Scene 3 - opposite, drift should be 1.0, triggering another alert
         # Arousal cannot be negative. Create a different high-drift vector.
-        scene3 = create_phenomenal_scene(proto_kwargs={"tone": -1, "arousal": 0, "clarity": 0, "embodiment": 0, "narrative_gravity": 0})
+        scene3 = create_phenomenal_scene(
+            proto_kwargs={"tone": -1, "arousal": 0, "clarity": 0, "embodiment": 0, "narrative_gravity": 0}
+        )
         metrics_computer.compute_comprehensive_metrics(scene3, {}, [])
         assert metrics_computer.get_alert_status()["drift_alerts"] == 2
 

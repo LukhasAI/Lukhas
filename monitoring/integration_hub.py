@@ -60,7 +60,7 @@ class MonitoringConfig:
 class LUKHASMonitoringHub:
     """
     Central hub for LUKHAS monitoring and resilience systems.
-    
+
     Integrates telemetry, circuit breakers, health monitoring, and auto-healing
     into a unified observability platform.
     """
@@ -68,7 +68,7 @@ class LUKHASMonitoringHub:
     def __init__(self, config: Optional[MonitoringConfig] = None):
         """
         Initialize monitoring hub.
-        
+
         Args:
             config: Monitoring configuration
         """
@@ -79,7 +79,7 @@ class LUKHASMonitoringHub:
         self.telemetry = TelemetryCollector(
             max_events=self.config.max_events,
             max_metrics=self.config.max_metrics,
-            flush_interval_sec=self.config.telemetry_flush_interval
+            flush_interval_sec=self.config.telemetry_flush_interval,
         )
 
         self.circuit_breaker_registry = CircuitBreakerRegistry()
@@ -87,7 +87,7 @@ class LUKHASMonitoringHub:
         self.health_monitor = HealthMonitoringSystem(
             check_interval_sec=self.config.health_check_interval,
             enable_predictive_analysis=self.config.enable_predictive_analysis,
-            enable_auto_healing=self.config.enable_auto_healing
+            enable_auto_healing=self.config.enable_auto_healing,
         )
 
         # State tracking
@@ -118,14 +118,16 @@ class LUKHASMonitoringHub:
 
         logger.info("LUKHAS monitoring integrations initialized")
 
-    def register_service_monitoring(self,
-                                  service_name: str,
-                                  health_check_func: callable,
-                                  circuit_breaker_config: Optional[CircuitBreakerConfig] = None,
-                                  restart_command: Optional[str] = None) -> None:
+    def register_service_monitoring(
+        self,
+        service_name: str,
+        health_check_func: callable,
+        circuit_breaker_config: Optional[CircuitBreakerConfig] = None,
+        restart_command: Optional[str] = None,
+    ) -> None:
         """
         Register comprehensive monitoring for a service.
-        
+
         Args:
             service_name: Name of the service
             health_check_func: Function to check service health
@@ -141,7 +143,7 @@ class LUKHASMonitoringHub:
         cb_config = circuit_breaker_config or CircuitBreakerConfig(
             failure_threshold=self.config.default_failure_threshold,
             recovery_timeout_sec=self.config.default_recovery_timeout,
-            adaptive_thresholds=self.config.enable_adaptive_thresholds
+            adaptive_thresholds=self.config.enable_adaptive_thresholds,
         )
         self.circuit_breaker_registry.register(service_name, cb_config)
 
@@ -151,9 +153,7 @@ class LUKHASMonitoringHub:
             self.health_monitor.register_healing_action(restart_action)
 
         # Setup correlation
-        self.component_correlations[service_name] = {
-            "health_monitor", "circuit_breaker", "telemetry"
-        }
+        self.component_correlations[service_name] = {"health_monitor", "circuit_breaker", "telemetry"}
 
         self.telemetry.emit_event(
             component="monitoring_hub",
@@ -163,8 +163,8 @@ class LUKHASMonitoringHub:
                 "service_name": service_name,
                 "has_circuit_breaker": True,
                 "has_health_check": True,
-                "has_auto_healing": restart_command is not None
-            }
+                "has_auto_healing": restart_command is not None,
+            },
         )
 
         logger.info(f"Registered comprehensive monitoring for service: {service_name}")
@@ -183,28 +183,32 @@ class LUKHASMonitoringHub:
                 "type": "error_correlation",
                 "component": event.component,
                 "event": event.to_dict(),
-                "correlated_systems": []
+                "correlated_systems": [],
             }
 
             # Check circuit breaker states for this component
             cb = self.circuit_breaker_registry.get(event.component)
             if cb:
-                correlation_event["correlated_systems"].append({
-                    "system": "circuit_breaker",
-                    "component": event.component,
-                    "state": cb.state.value,
-                    "failure_rate": cb.stats.current_failure_rate
-                })
+                correlation_event["correlated_systems"].append(
+                    {
+                        "system": "circuit_breaker",
+                        "component": event.component,
+                        "state": cb.state.value,
+                        "failure_rate": cb.stats.current_failure_rate,
+                    }
+                )
 
             # Check health status
             if event.component in self.health_monitor.component_health:
                 health = self.health_monitor.component_health[event.component]
-                correlation_event["correlated_systems"].append({
-                    "system": "health_monitor",
-                    "component": event.component,
-                    "status": health.status.value,
-                    "last_check": health.last_check
-                })
+                correlation_event["correlated_systems"].append(
+                    {
+                        "system": "health_monitor",
+                        "component": event.component,
+                        "status": health.status.value,
+                        "last_check": health.last_check,
+                    }
+                )
 
             self.cross_system_events.append(correlation_event)
 
@@ -223,9 +227,11 @@ class LUKHASMonitoringHub:
 
         if any(stress_metric in metric.metric_name.lower() for stress_metric in stress_metrics):
             # Check if this metric indicates potential issues
-            if ((metric.metric_name in ["cpu_usage", "memory_usage"] and metric.value > 80) or
-                (metric.metric_name == "response_time" and metric.value > 1000) or
-                (metric.metric_name == "error_rate" and metric.value > 0.1)):
+            if (
+                (metric.metric_name in ["cpu_usage", "memory_usage"] and metric.value > 80)
+                or (metric.metric_name == "response_time" and metric.value > 1000)
+                or (metric.metric_name == "error_rate" and metric.value > 0.1)
+            ):
 
                 # Emit correlation warning
                 self.telemetry.emit_event(
@@ -233,20 +239,14 @@ class LUKHASMonitoringHub:
                     event_type="performance_correlation",
                     message=f"Performance degradation detected: {metric.metric_name}={metric.value}",
                     severity=SeverityLevel.WARNING,
-                    data={
-                        "metric": metric.to_dict(),
-                        "threshold_exceeded": True
-                    }
+                    data={"metric": metric.to_dict(), "threshold_exceeded": True},
                 )
 
     @asynccontextmanager
-    async def monitor_operation(self,
-                               operation_name: str,
-                               component: str,
-                               use_circuit_breaker: bool = True):
+    async def monitor_operation(self, operation_name: str, component: str, use_circuit_breaker: bool = True):
         """
         Context manager for comprehensive operation monitoring.
-        
+
         Args:
             operation_name: Name of the operation
             component: Component performing the operation
@@ -269,11 +269,7 @@ class LUKHASMonitoringHub:
                     yield span
 
                 # Record success metric
-                self.telemetry.emit_metric(
-                    component=component,
-                    metric_name=f"{operation_name}_success",
-                    value=1.0
-                )
+                self.telemetry.emit_metric(component=component, metric_name=f"{operation_name}_success", value=1.0)
 
             except Exception as e:
                 # Record failure
@@ -284,20 +280,12 @@ class LUKHASMonitoringHub:
                     event_type="operation_failed",
                     message=f"Operation {operation_name} failed: {e}",
                     severity=SeverityLevel.ERROR,
-                    data={
-                        "operation": operation_name,
-                        "error": str(e),
-                        "error_type": type(e).__name__
-                    },
+                    data={"operation": operation_name, "error": str(e), "error_type": type(e).__name__},
                     trace_id=span.trace_id,
-                    span_id=span.span_id
+                    span_id=span.span_id,
                 )
 
-                self.telemetry.emit_metric(
-                    component=component,
-                    metric_name=f"{operation_name}_failure",
-                    value=1.0
-                )
+                self.telemetry.emit_metric(component=component, metric_name=f"{operation_name}_failure", value=1.0)
 
                 raise
 
@@ -333,19 +321,18 @@ class LUKHASMonitoringHub:
                 "circuit_breakers": circuit_breaker_stats,
                 "correlations": {
                     "cross_system_events": self.cross_system_events[-50:],  # Last 50 events
-                    "component_correlations": dict(self.component_correlations)
+                    "component_correlations": dict(self.component_correlations),
                 },
-                "performance_summary": self._generate_performance_summary()
+                "performance_summary": self._generate_performance_summary(),
             }
 
         except Exception as e:
             logger.error(f"Error updating dashboard cache: {e}")
             self.dashboard_state["error"] = str(e)
 
-    def _calculate_overall_status(self,
-                                telemetry_overview: Dict[str, Any],
-                                health_overview: Dict[str, Any],
-                                circuit_breaker_stats: Dict[str, Any]) -> str:
+    def _calculate_overall_status(
+        self, telemetry_overview: Dict[str, Any], health_overview: Dict[str, Any], circuit_breaker_stats: Dict[str, Any]
+    ) -> str:
         """Calculate overall system status from all monitoring data."""
 
         # Health system status weights the most
@@ -353,16 +340,17 @@ class LUKHASMonitoringHub:
         health_score = health_overview.get("overall_health_score", 0.5)
 
         # Circuit breaker status
-        open_circuits = sum(
-            1 for stats in circuit_breaker_stats.values()
-            if stats["state"] == "open"
-        )
+        open_circuits = sum(1 for stats in circuit_breaker_stats.values() if stats["state"] == "open")
 
         # Telemetry system health
         telemetry_health = telemetry_overview.get("overall_health", 0.5)
 
         # Calculate combined score
-        combined_score = (health_score * 0.6) + (telemetry_health * 0.3) + ((1.0 - min(open_circuits / max(len(circuit_breaker_stats), 1), 1.0)) * 0.1)
+        combined_score = (
+            (health_score * 0.6)
+            + (telemetry_health * 0.3)
+            + ((1.0 - min(open_circuits / max(len(circuit_breaker_stats), 1), 1.0)) * 0.1)
+        )
 
         # Determine status
         if combined_score >= 0.9 and health_status == "healthy":
@@ -384,39 +372,36 @@ class LUKHASMonitoringHub:
             return {"status": "no_data"}
 
         # Analyze response times
-        response_times = [
-            m.value for m in recent_metrics
-            if "response_time" in m.metric_name.lower()
-        ]
+        response_times = [m.value for m in recent_metrics if "response_time" in m.metric_name.lower()]
 
         # Analyze error rates
         error_metrics = [
-            m.value for m in recent_metrics
-            if "error" in m.metric_name.lower() or "failure" in m.metric_name.lower()
+            m.value for m in recent_metrics if "error" in m.metric_name.lower() or "failure" in m.metric_name.lower()
         ]
 
         summary = {
             "total_metrics": len(recent_metrics),
             "response_time_analysis": {},
             "error_analysis": {},
-            "resource_utilization": {}
+            "resource_utilization": {},
         }
 
         if response_times:
             import statistics
+
             summary["response_time_analysis"] = {
                 "count": len(response_times),
                 "average": statistics.mean(response_times),
                 "median": statistics.median(response_times),
                 "max": max(response_times),
-                "min": min(response_times)
+                "min": min(response_times),
             }
 
         if error_metrics:
             summary["error_analysis"] = {
                 "count": len(error_metrics),
                 "total_errors": sum(error_metrics),
-                "average_error_rate": sum(error_metrics) / len(error_metrics) if error_metrics else 0
+                "average_error_rate": sum(error_metrics) / len(error_metrics) if error_metrics else 0,
             }
 
         return summary
@@ -448,7 +433,7 @@ class LUKHASMonitoringHub:
                 component="monitoring_hub",
                 event_type="system_started",
                 message="LUKHAS monitoring hub started successfully",
-                severity=SeverityLevel.INFO
+                severity=SeverityLevel.INFO,
             )
 
             logger.info("LUKHAS monitoring hub started successfully")
@@ -515,19 +500,17 @@ def get_monitoring_hub() -> LUKHASMonitoringHub:
 
 
 # Convenience functions
-async def monitor_operation(operation_name: str,
-                          component: str,
-                          use_circuit_breaker: bool = True):
+async def monitor_operation(operation_name: str, component: str, use_circuit_breaker: bool = True):
     """Convenience function for operation monitoring."""
-    return get_monitoring_hub().monitor_operation(
-        operation_name, component, use_circuit_breaker
-    )
+    return get_monitoring_hub().monitor_operation(operation_name, component, use_circuit_breaker)
 
 
-def register_service(service_name: str,
-                    health_check_func: callable,
-                    circuit_breaker_config: Optional[CircuitBreakerConfig] = None,
-                    restart_command: Optional[str] = None) -> None:
+def register_service(
+    service_name: str,
+    health_check_func: callable,
+    circuit_breaker_config: Optional[CircuitBreakerConfig] = None,
+    restart_command: Optional[str] = None,
+) -> None:
     """Convenience function for service registration."""
     get_monitoring_hub().register_service_monitoring(
         service_name, health_check_func, circuit_breaker_config, restart_command
@@ -548,7 +531,7 @@ if __name__ == "__main__":
         hub.register_service_monitoring(
             service_name="demo_service",
             health_check_func=demo_health_check,
-            restart_command="echo 'Restarting demo service'"
+            restart_command="echo 'Restarting demo service'",
         )
 
         # Start monitoring

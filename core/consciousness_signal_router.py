@@ -6,6 +6,7 @@ This module provides sophisticated routing, filtering, and network management
 for consciousness signals across the distributed architecture, ensuring
 proper flow control, cascade prevention, and network health monitoring.
 """
+
 import logging
 import threading
 import time
@@ -145,8 +146,13 @@ class ConsciousnessSignalRouter:
 
     # Required signal types for minimal viable routing coverage
     REQUIRED_SIGNAL_TYPES = {
-        "AWARENESS", "REFLECTION", "EVOLUTION", "INTEGRATION",
-        "BIO_ADAPTATION", "TRINITY_SYNC", "NETWORK_PULSE"
+        "AWARENESS",
+        "REFLECTION",
+        "EVOLUTION",
+        "INTEGRATION",
+        "BIO_ADAPTATION",
+        "TRINITY_SYNC",
+        "NETWORK_PULSE",
     }
 
     def boot_sanity_check(self) -> None:
@@ -168,22 +174,20 @@ class ConsciousnessSignalRouter:
         # Probe critical signal types to ensure routing works at boot
         # Already imported at module level - no need for local import
         probe_awareness = ConsciousnessSignal(
-            signal_type=ConsciousnessSignalType.AWARENESS,
-            consciousness_id="probe",
-            producer_module="consciousness"
+            signal_type=ConsciousnessSignalType.AWARENESS, consciousness_id="probe", producer_module="consciousness"
         )
         if not self._find_applicable_rules(probe_awareness):
             raise RuntimeError("Router sanity: AWARENESS has no applicable rule at boot")
 
         probe_network = ConsciousnessSignal(
-            signal_type=ConsciousnessSignalType.NETWORK_PULSE,
-            consciousness_id="probe",
-            producer_module="orchestration"
+            signal_type=ConsciousnessSignalType.NETWORK_PULSE, consciousness_id="probe", producer_module="orchestration"
         )
         if not self._find_applicable_rules(probe_network):
             raise RuntimeError("Router sanity: NETWORK_PULSE has no applicable rule at boot")
 
-        logger.info(f"✅ Router sanity check passed: {len(self.routing_rules)} rules, {len(present)} signal types covered")
+        logger.info(
+            f"✅ Router sanity check passed: {len(self.routing_rules)} rules, {len(present)} signal types covered"
+        )
 
     def _initialize_default_routing_rules(self):
         """Initialize default routing rules for core modules"""
@@ -309,7 +313,9 @@ class ConsciousnessSignalRouter:
             if signal.constellation_alignment:
                 coherence = signal.constellation_alignment.consciousness_coherence >= 0.7
                 if not coherence:
-                    logger.debug(f"Signal {signal.signal_id} coherence too low: {signal.constellation_alignment.consciousness_coherence:.2f}")
+                    logger.debug(
+                        f"Signal {signal.signal_id} coherence too low: {signal.constellation_alignment.consciousness_coherence:.2f}"
+                    )
                 return coherence
             awareness_ok = signal.awareness_level >= 0.6
             if not awareness_ok:
@@ -328,11 +334,15 @@ class ConsciousnessSignalRouter:
 
             constellation = signal.constellation_alignment
             avg_compliance = (
-                constellation.identity_auth_score + constellation.consciousness_coherence + constellation.guardian_compliance
+                constellation.identity_auth_score
+                + constellation.consciousness_coherence
+                + constellation.guardian_compliance
             ) / 3
             compliant = avg_compliance >= 0.8 and len(constellation.violation_flags) == 0
             if not compliant:
-                logger.debug(f"Signal {signal.signal_id} constellation compliance: {avg_compliance:.2f}, violations: {len(constellation.violation_flags)}")
+                logger.debug(
+                    f"Signal {signal.signal_id} constellation compliance: {avg_compliance:.2f}, violations: {len(constellation.violation_flags)}"
+                )
             return compliant
 
         def frequency_band_filter(signal: ConsciousnessSignal) -> bool:
@@ -419,10 +429,11 @@ class ConsciousnessSignalRouter:
             if not applicable_rules:
                 # Increment metric for monitoring
                 router_no_rule_total.labels(
-                    signal_type=signal.signal_type.value,
-                    producer_module=signal.producer_module
+                    signal_type=signal.signal_type.value, producer_module=signal.producer_module
                 ).inc()
-                logger.warning(f"No routing rules found for signal {signal.signal_id} ({signal.signal_type.value} from {signal.producer_module})")
+                logger.warning(
+                    f"No routing rules found for signal {signal.signal_id} ({signal.signal_type.value} from {signal.producer_module})"
+                )
                 return []
 
             # Select best routing rule (highest priority)
@@ -436,9 +447,7 @@ class ConsciousnessSignalRouter:
             # Check cascade prevention
             if not self.cascade_detector.check_signal(signal, best_rule.cascade_threshold):
                 # Increment metrics for monitoring
-                router_cascade_preventions_total.labels(
-                    producer_module=signal.producer_module
-                ).inc()
+                router_cascade_preventions_total.labels(producer_module=signal.producer_module).inc()
                 logger.warning(f"Signal {signal.signal_id} blocked by cascade prevention")
                 self.routing_stats["cascade_preventions"] += 1
                 return []

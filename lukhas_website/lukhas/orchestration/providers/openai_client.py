@@ -30,16 +30,12 @@ class OpenAIClient(BaseAIClient):
         self.organization = kwargs.get("organization", os.getenv("OPENAI_ORGANIZATION"))
 
         # Available models
-        self.models = [
-            "gpt-4-turbo-preview",
-            "gpt-4",
-            "gpt-3.5-turbo",
-            "gpt-3.5-turbo-16k"
-        ]
+        self.models = ["gpt-4-turbo-preview", "gpt-4", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"]
 
         if ENABLE_OPENAI_CALLS:
             try:
                 import openai
+
                 self.openai = openai
                 if self.api_key:
                     self.openai.api_key = self.api_key
@@ -60,7 +56,7 @@ class OpenAIClient(BaseAIClient):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate response from OpenAI API or mock"""
 
@@ -104,7 +100,7 @@ class OpenAIClient(BaseAIClient):
             usage = {
                 "prompt_tokens": response.usage.prompt_tokens,
                 "completion_tokens": response.usage.completion_tokens,
-                "total_tokens": response.usage.total_tokens
+                "total_tokens": response.usage.total_tokens,
             }
 
             return AIResponse(
@@ -116,9 +112,9 @@ class OpenAIClient(BaseAIClient):
                 metadata={
                     "openai_response_id": response.id,
                     "openai_model": response.model,
-                    "created": response.created
+                    "created": response.created,
                 },
-                finish_reason=finish_reason
+                finish_reason=finish_reason,
             )
 
         except Exception as e:
@@ -137,7 +133,7 @@ class OpenAIClient(BaseAIClient):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate mock response when OpenAI is disabled or unavailable"""
 
@@ -160,14 +156,10 @@ class OpenAIClient(BaseAIClient):
             usage={
                 "prompt_tokens": len(prompt.split()),
                 "completion_tokens": len(mock_content.split()),
-                "total_tokens": len(prompt.split()) + len(mock_content.split())
+                "total_tokens": len(prompt.split()) + len(mock_content.split()),
             },
-            metadata={
-                "mock": True,
-                "feature_flag_enabled": ENABLE_OPENAI_CALLS,
-                "api_key_present": bool(self.api_key)
-            },
-            finish_reason="stop"
+            metadata={"mock": True, "feature_flag_enabled": ENABLE_OPENAI_CALLS, "api_key_present": bool(self.api_key)},
+            finish_reason="stop",
         )
 
     async def health_check(self) -> bool:
@@ -188,12 +180,7 @@ class OpenAIClient(BaseAIClient):
         """Get available OpenAI models"""
         return self.models.copy()
 
-    def estimate_cost(
-        self,
-        prompt: str,
-        model: str,
-        max_tokens: Optional[int] = None
-    ) -> float:
+    def estimate_cost(self, prompt: str, model: str, max_tokens: Optional[int] = None) -> float:
         """Estimate cost for OpenAI request"""
         if not ENABLE_OPENAI_CALLS:
             return 0.0
@@ -203,7 +190,7 @@ class OpenAIClient(BaseAIClient):
             "gpt-4": 0.03,  # Input tokens
             "gpt-4-turbo-preview": 0.01,
             "gpt-3.5-turbo": 0.001,
-            "gpt-3.5-turbo-16k": 0.003
+            "gpt-3.5-turbo-16k": 0.003,
         }
 
         base_cost = cost_per_1k_tokens.get(model, 0.001)

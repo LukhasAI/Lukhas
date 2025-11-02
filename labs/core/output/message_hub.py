@@ -21,26 +21,37 @@ except ImportError:
             return lambda *args, **kwargs: None
 
         sidebar = property(lambda self: self)
+
         def title(self, *args, **kwargs):
             return None
+
         def checkbox(self, *args, **kwargs):
             return False
+
         def selectbox(self, *args, **kwargs):
             return ""
+
         def text_input(self, *args, **kwargs):
             return ""
+
         def text_area(self, *args, **kwargs):
             return ""
+
         def button(self, *args, **kwargs):
             return False
+
         def tabs(self, *args, **kwargs):
             return [self] * len(args[0])
+
         def subheader(self, *args, **kwargs):
             return None
+
         def code(self, *args, **kwargs):
             return None
+
         def markdown(self, *args, **kwargs):
             return None
+
         def expander(self, *args, **kwargs):
             return self
 

@@ -1,4 +1,5 @@
 """Guardian serialization for LUKHAS governance system."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

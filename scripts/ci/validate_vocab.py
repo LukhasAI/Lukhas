@@ -31,7 +31,8 @@ def main():
 
     # Find all manifests
     manifests = [
-        m for m in root.rglob("module.manifest.json")
+        m
+        for m in root.rglob("module.manifest.json")
         if not any(part in m.parts for part in ["node_modules", ".venv", "dist", "__pycache__"])
     ]
 
@@ -48,20 +49,14 @@ def main():
             unknown_features = [f for f in manifest_features if f not in features]
 
             if unknown_features:
-                errors.append((
-                    manifest_path.parent.name,
-                    f"unknown features: {', '.join(unknown_features)}"
-                ))
+                errors.append((manifest_path.parent.name, f"unknown features: {', '.join(unknown_features)}"))
 
             # Check tags
             manifest_tags = data.get("tags", [])
             invalid_tags = [t for t in manifest_tags if t not in allowed_tags]
 
             if invalid_tags:
-                errors.append((
-                    manifest_path.parent.name,
-                    f"non-canonical tags: {', '.join(invalid_tags)}"
-                ))
+                errors.append((manifest_path.parent.name, f"non-canonical tags: {', '.join(invalid_tags)}"))
 
         except (json.JSONDecodeError, KeyError) as e:
             errors.append((manifest_path.parent.name, f"error reading: {e}"))

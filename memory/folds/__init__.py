@@ -1,4 +1,5 @@
 """Memory fold exports that gracefully bridge legacy implementations."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -33,31 +34,39 @@ for module in _CANDIDATES:
 
 
 if "FoldEngine" not in globals():
+
     class FoldEngine:  # type: ignore[misc]
         def execute(self, *args: Any, **kwargs: Any) -> None:
             return None
 
 
 if "SoftDelete" not in globals():
+
     class SoftDelete:  # type: ignore[misc]
         def __call__(self, *args: Any, **kwargs: Any) -> None:
             return None
 
 
 if "FoldManager" not in globals():
+
     class FoldManager:  # type: ignore[misc]
         def manage(self, *args: Any, **kwargs: Any) -> None:
             return None
+
 
 # Added for test compatibility (memory.folds.FoldGuard)
 try:
     from candidate.memory.folds import FoldGuard
 except ImportError:
+
     class FoldGuard:
         """Stub for FoldGuard."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

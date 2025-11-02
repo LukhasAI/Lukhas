@@ -16,10 +16,8 @@ JULES_DOWNLOAD = Path("/Users/agi_dev/Downloads/BATCH-JULES-2025-10-08-01")
 FILE_MAPPING = {
     # API implementation files
     "openai_modulated_service.py": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
-
     # Governance files
     "auth_glyph_registry.py": "candidate/governance/auth_glyph_registry.py",
-
     # Adapter files (candidate/bridge/adapters or matriz/adapters)
     "bio_adapter.py": "matriz/adapters/bio_adapter.py",
     "bridge_adapter.py": "matriz/adapters/bridge_adapter.py",
@@ -32,17 +30,14 @@ FILE_MAPPING = {
     "identity_adapter.py": "matriz/adapters/identity_adapter.py",
     "memory_adapter.py": "matriz/adapters/memory_adapter.py",
     "orchestration_adapter.py": "matriz/adapters/orchestration_adapter.py",
-
     # Core files
     "fold_engine.py": "candidate/memory/fold_system/fold_engine.py",
     "cloud_consolidation.py": "candidate/core/cloud_consolidation.py",
-
     # Test files
     "test_adapters_integration.py": "tests/integration/matriz/test_adapters_integration.py",
     "test_adapters_unit.py": "tests/unit/matriz/test_adapters_unit.py",
     "test_crypto_hygiene.py": "tests/security/test_crypto_hygiene.py",
     "conftest.py": "tests/conftest.py",  # May need to merge with existing
-
     # __init__ files (need context to determine which module)
     "__init__.py": "matriz/adapters/__init__.py",
     "__init__-2.py": "candidate/bridge/api/__init__.py",
@@ -50,7 +45,6 @@ FILE_MAPPING = {
     "__init__-4.py": "candidate/governance/security/__init__.py",
     "__init__-5.py": "candidate/governance/policy/__init__.py",
     "__init__-6.py": "candidate/governance/consent/__init__.py",
-
     # Documentation
     "api.md": "docs/examples/api.md",
     "architecture.md": "docs/examples/architecture.md",
@@ -60,7 +54,6 @@ FILE_MAPPING = {
     "README-3.md": "candidate/governance/ethics/README.md",
     "README-4.md": "candidate/governance/security/README.md",
     "README-5.md": "candidate/governance/policy/README.md",
-
     # Empty/placeholder files (skip these)
     "MATRIX_V3_README.md": None,
     "MATRIX_V3_SLIDES.md": None,
@@ -151,11 +144,7 @@ def run_verification() -> Tuple[bool, str]:
 
     try:
         result = subprocess.run(
-            ["python", "-c", "import lukhas"],
-            cwd=REPO_ROOT,
-            capture_output=True,
-            text=True,
-            timeout=10
+            ["python", "-c", "import lukhas"], cwd=REPO_ROOT, capture_output=True, text=True, timeout=10
         )
         import_ok = result.returncode == 0
         checks.append(("Import check", import_ok, result.stderr if not import_ok else ""))
@@ -165,11 +154,7 @@ def run_verification() -> Tuple[bool, str]:
     # Check ruff
     try:
         result = subprocess.run(
-            ["ruff", "check", ".", "--quiet"],
-            cwd=REPO_ROOT,
-            capture_output=True,
-            text=True,
-            timeout=30
+            ["ruff", "check", ".", "--quiet"], cwd=REPO_ROOT, capture_output=True, text=True, timeout=30
         )
         ruff_ok = result.returncode == 0
         error_count = result.stdout.count("\n") if not ruff_ok else 0
@@ -225,7 +210,7 @@ def main():
     print("\n" + "=" * 60)
     response = input("Proceed with integration? [y/N]: ").strip().lower()
 
-    if response != 'y':
+    if response != "y":
         print("❌ Integration cancelled")
         return
 

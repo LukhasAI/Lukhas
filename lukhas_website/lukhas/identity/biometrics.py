@@ -38,6 +38,7 @@ import structlog
 # Import Guardian system for security validation
 try:
     from ..governance.guardian_system import GuardianSystem
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
@@ -98,7 +99,7 @@ class BiometricTemplate:
             "usage_count": self.usage_count,
             "enrollment_device": self.enrollment_device,
             "encryption_key_id": self.encryption_key_id,
-            "anti_spoofing_verified": self.anti_spoofing_verified
+            "anti_spoofing_verified": self.anti_spoofing_verified,
         }
 
 
@@ -186,7 +187,7 @@ class BiometricAttestation:
             "created_at": self.created_at.isoformat(),
             "nonce": self.nonce,
             "signature": self.signature,
-            "processing_time_ms": self.processing_time_ms
+            "processing_time_ms": self.processing_time_ms,
         }
 
 
@@ -204,7 +205,7 @@ class MockBiometricProvider:
         base_success_rate: float = 0.95,
         quality_threshold: float = 0.7,
         confidence_threshold: float = 0.95,
-        guardian_system: Optional[GuardianSystem] = None
+        guardian_system: Optional[GuardianSystem] = None,
     ):
         """Initialize mock biometric provider."""
         self.provider_id = provider_id
@@ -228,15 +229,14 @@ class MockBiometricProvider:
             "enrollment_times": [],
             "authentication_times": [],
             "total_authentications": 0,
-            "successful_authentications": 0
+            "successful_authentications": 0,
         }
 
         # Security state
         self._used_nonces: Set[str] = set()
         self._recent_authentications: Dict[str, List[datetime]] = {}
 
-        self.logger.info("Mock biometric provider initialized",
-                        provider_id=provider_id, success_rate=base_success_rate)
+        self.logger.info("Mock biometric provider initialized", provider_id=provider_id, success_rate=base_success_rate)
 
     def _generate_test_keys(self) -> Dict[str, str]:
         """Generate mock test keys for biometric operations."""
@@ -244,7 +244,7 @@ class MockBiometricProvider:
             "signing_key": secrets.token_hex(32),
             "encryption_key": secrets.token_hex(32),
             "template_key": secrets.token_hex(32),
-            "attestation_key": secrets.token_hex(32)
+            "attestation_key": secrets.token_hex(32),
         }
 
     def _generate_device_keys(self) -> Dict[str, Dict[str, str]]:
@@ -253,21 +253,17 @@ class MockBiometricProvider:
             "trusted_device_1": {
                 "device_id": "dev_fingerprint_001",
                 "attestation_key": secrets.token_hex(32),
-                "certificate": "mock_cert_fingerprint_001"
+                "certificate": "mock_cert_fingerprint_001",
             },
             "trusted_device_2": {
                 "device_id": "dev_face_001",
                 "attestation_key": secrets.token_hex(32),
-                "certificate": "mock_cert_face_001"
-            }
+                "certificate": "mock_cert_face_001",
+            },
         }
 
     async def enroll_biometric(
-        self,
-        user_id: str,
-        modality: BiometricModality,
-        sample_data: str,
-        device_info: Optional[Dict[str, Any]] = None
+        self, user_id: str, modality: BiometricModality, sample_data: str, device_info: Optional[Dict[str, Any]] = None
     ) -> Tuple[bool, str]:
         """
         Enroll biometric template for user.
@@ -286,11 +282,9 @@ class MockBiometricProvider:
         try:
             # Guardian pre-validation
             if self.guardian:
-                await self._guardian_validate("biometric_enrollment", {
-                    "user_id": user_id,
-                    "modality": modality.value,
-                    "device_info": device_info
-                })
+                await self._guardian_validate(
+                    "biometric_enrollment", {"user_id": user_id, "modality": modality.value, "device_info": device_info}
+                )
 
             # Validate sample quality
             quality_score = await self._assess_sample_quality(sample_data, modality)
@@ -305,7 +299,7 @@ class MockBiometricProvider:
                 quality_score=quality_score,
                 enrollment_device=device_info.get("device_id", "unknown") if device_info else "unknown",
                 encryption_key_id=self._test_keys["template_key"],
-                anti_spoofing_verified=True  # Mock anti-spoofing always passes
+                anti_spoofing_verified=True,  # Mock anti-spoofing always passes
             )
 
             # Store template
@@ -321,23 +315,29 @@ class MockBiometricProvider:
 
             # Guardian post-monitoring
             if self.guardian:
-                await self._guardian_monitor("biometric_enrolled", {
-                    "user_id": user_id,
-                    "template_id": template.template_id,
-                    "modality": modality.value,
-                    "quality_score": quality_score,
-                    "duration_ms": duration_ms
-                })
+                await self._guardian_monitor(
+                    "biometric_enrolled",
+                    {
+                        "user_id": user_id,
+                        "template_id": template.template_id,
+                        "modality": modality.value,
+                        "quality_score": quality_score,
+                        "duration_ms": duration_ms,
+                    },
+                )
 
-            self.logger.info("Biometric template enrolled",
-                           user_id=user_id, template_id=template.template_id,
-                           modality=modality.value, quality_score=quality_score)
+            self.logger.info(
+                "Biometric template enrolled",
+                user_id=user_id,
+                template_id=template.template_id,
+                modality=modality.value,
+                quality_score=quality_score,
+            )
 
             return True, template.template_id
 
         except Exception as e:
-            self.logger.error("Biometric enrollment failed",
-                            user_id=user_id, modality=modality.value, error=str(e))
+            self.logger.error("Biometric enrollment failed", user_id=user_id, modality=modality.value, error=str(e))
             return False, f"Enrollment error: {str(e)}"
 
     async def authenticate_biometric(
@@ -346,7 +346,7 @@ class MockBiometricProvider:
         sample_data: str,
         modality: BiometricModality,
         nonce: str,
-        device_info: Optional[Dict[str, Any]] = None
+        device_info: Optional[Dict[str, Any]] = None,
     ) -> BiometricAttestation:
         """
         Authenticate user using biometric sample.
@@ -371,18 +371,16 @@ class MockBiometricProvider:
                     modality=modality,
                     authenticated=False,
                     confidence=0.0,
-                    processing_time_ms=(time.perf_counter() - start_time) * 1000
+                    processing_time_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             self._used_nonces.add(nonce)
 
             # Guardian pre-validation
             if self.guardian:
-                await self._guardian_validate("biometric_authentication", {
-                    "user_id": user_id,
-                    "modality": modality.value,
-                    "nonce": nonce
-                })
+                await self._guardian_validate(
+                    "biometric_authentication", {"user_id": user_id, "modality": modality.value, "nonce": nonce}
+                )
 
             # Rate limiting check
             if await self._is_rate_limited(user_id):
@@ -391,7 +389,7 @@ class MockBiometricProvider:
                     modality=modality,
                     authenticated=False,
                     confidence=0.0,
-                    processing_time_ms=(time.perf_counter() - start_time) * 1000
+                    processing_time_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Check if user has enrolled templates
@@ -402,7 +400,7 @@ class MockBiometricProvider:
                     modality=modality,
                     authenticated=False,
                     confidence=0.0,
-                    processing_time_ms=(time.perf_counter() - start_time) * 1000
+                    processing_time_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Create biometric sample
@@ -410,7 +408,7 @@ class MockBiometricProvider:
                 modality=modality,
                 sample_data=sample_data,
                 quality_score=await self._assess_sample_quality(sample_data, modality),
-                capture_device=device_info.get("device_id", "unknown") if device_info else "unknown"
+                capture_device=device_info.get("device_id", "unknown") if device_info else "unknown",
             )
 
             # Anti-spoofing detection
@@ -426,7 +424,7 @@ class MockBiometricProvider:
                     authenticated=False,
                     confidence=0.0,
                     anti_spoofing_passed=False,
-                    processing_time_ms=(time.perf_counter() - start_time) * 1000
+                    processing_time_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Find matching templates
@@ -434,9 +432,9 @@ class MockBiometricProvider:
 
             # Determine authentication result
             authenticated = (
-                best_match.confidence >= self.confidence_threshold and
-                best_match.decision == "accept" and
-                sample.anti_spoofing_passed
+                best_match.confidence >= self.confidence_threshold
+                and best_match.decision == "accept"
+                and sample.anti_spoofing_passed
             )
 
             # Generate device attestation
@@ -453,7 +451,7 @@ class MockBiometricProvider:
                 liveness_verified=sample.liveness_score > 0.8,
                 device_attestation=device_attestation,
                 nonce=nonce,
-                processing_time_ms=(time.perf_counter() - start_time) * 1000
+                processing_time_ms=(time.perf_counter() - start_time) * 1000,
             )
 
             # Sign attestation
@@ -474,31 +472,33 @@ class MockBiometricProvider:
 
             # Guardian post-monitoring
             if self.guardian:
-                await self._guardian_monitor("biometric_authentication_completed", {
-                    "user_id": user_id,
-                    "modality": modality.value,
-                    "authenticated": authenticated,
-                    "confidence": best_match.confidence,
-                    "duration_ms": attestation.processing_time_ms
-                })
+                await self._guardian_monitor(
+                    "biometric_authentication_completed",
+                    {
+                        "user_id": user_id,
+                        "modality": modality.value,
+                        "authenticated": authenticated,
+                        "confidence": best_match.confidence,
+                        "duration_ms": attestation.processing_time_ms,
+                    },
+                )
 
-            self.logger.info("Biometric authentication completed",
-                           user_id=user_id, modality=modality.value,
-                           authenticated=authenticated, confidence=best_match.confidence)
+            self.logger.info(
+                "Biometric authentication completed",
+                user_id=user_id,
+                modality=modality.value,
+                authenticated=authenticated,
+                confidence=best_match.confidence,
+            )
 
             return attestation
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            self.logger.error("Biometric authentication failed",
-                            user_id=user_id, modality=modality.value, error=str(e))
+            self.logger.error("Biometric authentication failed", user_id=user_id, modality=modality.value, error=str(e))
 
             return BiometricAttestation(
-                user_id=user_id,
-                modality=modality,
-                authenticated=False,
-                confidence=0.0,
-                processing_time_ms=duration_ms
+                user_id=user_id, modality=modality, authenticated=False, confidence=0.0, processing_time_ms=duration_ms
             )
 
     async def _assess_sample_quality(self, sample_data: str, modality: BiometricModality) -> float:
@@ -521,13 +521,14 @@ class MockBiometricProvider:
                 BiometricModality.FACE: 0.95,
                 BiometricModality.IRIS: 1.1,
                 BiometricModality.VOICE: 0.85,
-                BiometricModality.PALM: 0.9
+                BiometricModality.PALM: 0.9,
             }
 
             quality = base_quality * modality_multipliers.get(modality, 1.0)
 
             # Add some realistic variance
             import random
+
             quality += random.uniform(-0.1, 0.1)
 
             return max(0.0, min(1.0, quality))
@@ -548,7 +549,7 @@ class MockBiometricProvider:
             "modality": modality.value,
             "features": template_hash[:64],  # Mock feature vector
             "minutiae": template_hash[64:128] if len(template_hash) > 64 else template_hash,
-            "encryption": "aes256"
+            "encryption": "aes256",
         }
 
         return base64.b64encode(json.dumps(template).encode()).decode()
@@ -560,28 +561,21 @@ class MockBiometricProvider:
 
         # Add some realistic variance
         import random
+
         variance = random.uniform(-0.1, 0.1)
         liveness_score = max(0.0, min(1.0, base_score + variance))
 
         # Mock detection methods
-        methods = [
-            "pulse_detection",
-            "micro_movement_analysis",
-            "texture_analysis",
-            "depth_estimation"
-        ]
+        methods = ["pulse_detection", "micro_movement_analysis", "texture_analysis", "depth_estimation"]
 
         return {
             "score": liveness_score,
             "passed": liveness_score > 0.8,
-            "methods": methods[:2] if sample.modality == BiometricModality.FINGERPRINT else methods
+            "methods": methods[:2] if sample.modality == BiometricModality.FINGERPRINT else methods,
         }
 
     async def _find_best_match(
-        self,
-        sample: BiometricSample,
-        template_ids: List[str],
-        modality: BiometricModality
+        self, sample: BiometricSample, template_ids: List[str], modality: BiometricModality
     ) -> BiometricMatchResult:
         """Find best matching template for the sample."""
         best_score = 0.0
@@ -614,7 +608,7 @@ class MockBiometricProvider:
             sample_id=sample.sample_id,
             template_quality=self._templates[best_template_id].quality_score if best_template_id else 0.0,
             sample_quality=sample.quality_score,
-            anti_spoofing_score=sample.liveness_score
+            anti_spoofing_score=sample.liveness_score,
         )
 
     async def _calculate_match_score(self, sample: BiometricSample, template: BiometricTemplate) -> float:
@@ -638,6 +632,7 @@ class MockBiometricProvider:
 
             # Add some realistic variance
             import random
+
             adjusted_score += random.uniform(-0.05, 0.05)
 
             return max(0.0, min(1.0, adjusted_score))
@@ -660,7 +655,7 @@ class MockBiometricProvider:
             "trusted": trusted_device,
             "certificate_valid": trusted_device,
             "attestation_time": datetime.now(timezone.utc).isoformat(),
-            "signature": secrets.token_hex(32) if trusted_device else ""
+            "signature": secrets.token_hex(32) if trusted_device else "",
         }
 
     async def _sign_attestation(self, attestation: BiometricAttestation) -> str:
@@ -672,18 +667,14 @@ class MockBiometricProvider:
             "authenticated": attestation.authenticated,
             "confidence": attestation.confidence,
             "nonce": attestation.nonce,
-            "timestamp": attestation.created_at.isoformat()
+            "timestamp": attestation.created_at.isoformat(),
         }
 
         payload_json = json.dumps(payload, sort_keys=True)
         signing_key = self._test_keys["signing_key"]
 
         # Mock HMAC signature
-        signature = hmac.new(
-            signing_key.encode(),
-            payload_json.encode(),
-            hashlib.sha256
-        ).hexdigest()
+        signature = hmac.new(signing_key.encode(), payload_json.encode(), hashlib.sha256).hexdigest()
 
         return signature
 
@@ -706,8 +697,7 @@ class MockBiometricProvider:
         # Keep only last hour of attempts
         cutoff = now - timedelta(hours=1)
         self._recent_authentications[user_id] = [
-            attempt for attempt in self._recent_authentications[user_id]
-            if attempt > cutoff
+            attempt for attempt in self._recent_authentications[user_id] if attempt > cutoff
         ]
 
     async def _is_rate_limited(self, user_id: str) -> bool:
@@ -743,19 +733,19 @@ class MockBiometricProvider:
             "enrollment": {
                 "count": len(enroll_times),
                 "avg_ms": sum(enroll_times) / len(enroll_times) if enroll_times else 0,
-                "p95_ms": sorted(enroll_times)[int(len(enroll_times) * 0.95)] if enroll_times else 0
+                "p95_ms": sorted(enroll_times)[int(len(enroll_times) * 0.95)] if enroll_times else 0,
             },
             "authentication": {
                 "count": len(auth_times),
                 "avg_ms": sum(auth_times) / len(auth_times) if auth_times else 0,
-                "p95_ms": sorted(auth_times)[int(len(auth_times) * 0.95)] if auth_times else 0
+                "p95_ms": sorted(auth_times)[int(len(auth_times) * 0.95)] if auth_times else 0,
             },
             "success_rate": (
-                self._performance_metrics["successful_authentications"] /
-                max(1, self._performance_metrics["total_authentications"])
+                self._performance_metrics["successful_authentications"]
+                / max(1, self._performance_metrics["total_authentications"])
             ),
             "enrolled_users": len(self._user_templates),
-            "total_templates": len(self._templates)
+            "total_templates": len(self._templates),
         }
 
 
@@ -765,7 +755,7 @@ def create_mock_biometric_provider(
     base_success_rate: float = 0.95,
     quality_threshold: float = 0.7,
     confidence_threshold: float = 0.95,
-    guardian_system: Optional[GuardianSystem] = None
+    guardian_system: Optional[GuardianSystem] = None,
 ) -> MockBiometricProvider:
     """Create mock biometric provider with configuration."""
     return MockBiometricProvider(
@@ -773,7 +763,7 @@ def create_mock_biometric_provider(
         base_success_rate=base_success_rate,
         quality_threshold=quality_threshold,
         confidence_threshold=confidence_threshold,
-        guardian_system=guardian_system
+        guardian_system=guardian_system,
     )
 
 
@@ -787,20 +777,20 @@ DEVELOPMENT_TEST_DATA = {
         "bob": {
             "fingerprint_sample": base64.b64encode(b"mock_fingerprint_bob_sample").decode(),
             "iris_sample": base64.b64encode(b"mock_iris_bob_sample").decode(),
-        }
+        },
     },
     "test_devices": {
         "dev_fingerprint_001": {
             "type": "fingerprint",
             "vendor": "Mock Biometrics Inc",
             "model": "FP-3000",
-            "certificate": "mock_cert_fp_3000"
+            "certificate": "mock_cert_fp_3000",
         },
         "dev_face_001": {
             "type": "face",
             "vendor": "Mock Vision Systems",
             "model": "FC-2000",
-            "certificate": "mock_cert_fc_2000"
-        }
-    }
+            "certificate": "mock_cert_fc_2000",
+        },
+    },
 }

@@ -56,9 +56,7 @@ class LUKHASDNALink:
             return f"[Translation Error] {str(e)}"
 
     def generate_opinion(self, topic, tone="philosophical"):
-        prompt = (
-            f"As Lukhas, provide a symbolic and {tone} opinion on the topic: {topic}."
-        )
+        prompt = f"As Lukhas, provide a symbolic and {tone} opinion on the topic: {topic}."
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
@@ -100,10 +98,7 @@ class LUKHASDNALink:
                 if user_feedback_fn:
                     confirmed = user_feedback_fn(repeat_response)
                 else:
-                    confirmed = (
-                        input("✅ Did Lukhas get it right? (yes/no): ").strip().lower()
-                        == "yes"
-                    )
+                    confirmed = input("✅ Did Lukhas get it right? (yes/no): ").strip().lower() == "yes"
                 attempts += 1
 
             if confirmed:
@@ -112,9 +107,7 @@ class LUKHASDNALink:
                     "context": context,
                     "user_explanation": explanation,
                     "confirmed": True,
-                    "hash": hashlib.sha256(
-                        (unknown_term + explanation).encode()
-                    ).hexdigest()[:16],
+                    "hash": hashlib.sha256((unknown_term + explanation).encode()).hexdigest()[:16],
                     "gdpr_consent": True,
                     "source": "live_learning",
                 }
@@ -126,12 +119,10 @@ class LUKHASDNALink:
         except Exception as e:
             return f"[Learn Loop Error] {str(e)}"
 
-    def generate_email_draft(
-        self, topic, recipient="someone", language="en", tone="formal"
-    ):
+    def generate_email_draft(self, topic, recipient="someone", language="en", tone="formal"):
         """
-        Ask Lukhas to generate a symbolic email draft. User should define language,
-    tone, and purpose.
+            Ask Lukhas to generate a symbolic email draft. User should define language,
+        tone, and purpose.
         """
         prompt = (
             f"As Lukhas, draft an email in {language}, using a {tone} tone. "
@@ -166,8 +157,9 @@ class LUKHASDNALink:
         Create a platform-aware symbolic post. User chooses tone and platform.
         """
         prompt = (
-    f"As Lukhas, craft a {tone} post for {platform}. "
-    f"The post should be engaging and resonate with users symbolically. Topic: {topic}" )
+            f"As Lukhas, craft a {tone} post for {platform}. "
+            f"The post should be engaging and resonate with users symbolically. Topic: {topic}"
+        )
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
@@ -185,8 +177,9 @@ class LUKHASDNALink:
         Lukhas writes a short symbolic message based on emotion + purpose.
         """
         prompt = (
-    f"As Lukhas, write a short {emotion} text message to {recipient} with the intent to {purpose}. "
-    f"Be clear, warm, and symbolically expressive." )
+            f"As Lukhas, write a short {emotion} text message to {recipient} with the intent to {purpose}. "
+            f"Be clear, warm, and symbolically expressive."
+        )
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
@@ -194,9 +187,7 @@ class LUKHASDNALink:
                 temperature=0.6,
             )
             content = response["choices"][0]["message"]["content"]
-            self._log_output(
-                "text_message", f"{emotion} {purpose} to {recipient}", content
-            )
+            self._log_output("text_message", f"{emotion} {purpose} to {recipient}", content)
             return content
         except Exception as e:
             return f"[Text Message Error] {str(e)}"
@@ -205,10 +196,7 @@ class LUKHASDNALink:
         """
         Lukhas rewrites any draft in the desired symbolic style.
         """
-        prompt = (
-            f"As Lukhas, rewrite the following in a {style} tone. "
-            f"Preserve the original intent:\n\n{text}"
-        )
+        prompt = f"As Lukhas, rewrite the following in a {style} tone. " f"Preserve the original intent:\n\n{text}"
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
@@ -232,6 +220,7 @@ class LUKHASDNALink:
                 f.write(json.dumps(log_entry) + "\n")
         except Exception as log_err:
             print(f"[Logging Error] {str(log_err)}")
+
 
 # ════════════════════════════════════════════════════════════════════════
 # 📘 USAGE EXAMPLES:

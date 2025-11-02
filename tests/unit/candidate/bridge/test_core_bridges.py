@@ -1,4 +1,5 @@
 """Unit tests for core bridge implementations."""
+
 from __future__ import annotations
 
 import importlib.util

@@ -35,9 +35,7 @@ router = APIRouter(prefix="/consciousness", tags=["consciousness"])
 
 class ConsciousnessStateRequest(BaseModel):
     user_id: str = Field(..., description="User identifier", example="lukhas_admin")
-    include_integration: bool = Field(
-        True, description="Include system integration status"
-    )
+    include_integration: bool = Field(True, description="Include system integration status")
     include_patterns: bool = Field(True, description="Include consciousness patterns")
     depth_level: int = Field(3, description="Analysis depth level", ge=1, le=5)
 
@@ -61,9 +59,7 @@ class AwarenessAssessmentRequest(BaseModel):
         "comprehensive",
         description="Assessment type (basic, comprehensive, detailed)",
     )
-    include_recommendations: bool = Field(
-        True, description="Include awareness recommendations"
-    )
+    include_recommendations: bool = Field(True, description="Include awareness recommendations")
 
 
 class APIResponse(BaseModel):
@@ -100,9 +96,7 @@ async def get_consciousness_state(
 ):
     """Get current consciousness state and system integration status"""
     if not memory_system:
-        raise HTTPException(
-            status_code=503, detail="Consciousness system not available"
-        )
+        raise HTTPException(status_code=503, detail="Consciousness system not available")
 
     try:
         # Get system statistics for consciousness assessment
@@ -123,9 +117,7 @@ async def get_consciousness_state(
                 "emotional_processing": "✅ Online",
                 "dream_synthesis": "✅ Available",
                 "consciousness_module": "✅ Ready",
-                "openai_integration": (
-                    "✅ Available" if openai_client else "⚠️ Limited"
-                ),
+                "openai_integration": ("✅ Available" if openai_client else "⚠️ Limited"),
             }
             consciousness_state["integration_details"] = integration_status
 
@@ -164,9 +156,7 @@ async def get_consciousness_state(
 async def synthesize_consciousness(request: PatternSynthesisRequest):
     """Generate consciousness synthesis from system patterns"""
     if not memory_system:
-        raise HTTPException(
-            status_code=503, detail="Consciousness system not available"
-        )
+        raise HTTPException(status_code=503, detail="Consciousness system not available")
 
     try:
         # Note: OpenAI synthesis temporarily disabled due to project issues
@@ -246,9 +236,7 @@ async def integrate_patterns(
 ):
     """Integrate new patterns into consciousness framework"""
     if not memory_system:
-        raise HTTPException(
-            status_code=503, detail="Consciousness system not available"
-        )
+        raise HTTPException(status_code=503, detail="Consciousness system not available")
 
     try:
         # Create memory folds for new patterns
@@ -297,9 +285,7 @@ async def integrate_patterns(
 async def assess_awareness(request: AwarenessAssessmentRequest):
     """Assess current awareness levels and system consciousness"""
     if not memory_system:
-        raise HTTPException(
-            status_code=503, detail="Consciousness system not available"
-        )
+        raise HTTPException(status_code=503, detail="Consciousness system not available")
 
     try:
         # Get system statistics for awareness assessment

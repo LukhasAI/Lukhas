@@ -15,7 +15,8 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Memory Fold API",
     description="Quantum-inspired memory storage with emotional vectors and causal chains",
-    version="1.0.0")
+    version="1.0.0",
+)
 
 
 class MemoryInput(BaseModel):

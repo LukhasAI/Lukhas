@@ -31,6 +31,7 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
     if primary_path.startswith("candidate."):
         try:
             from core.registry import resolve
+
             registry_key = f"colony:{item_name.lower()}"
             result = resolve(registry_key)
             logger.debug(f"Successfully resolved {item_name} from registry key {registry_key}")

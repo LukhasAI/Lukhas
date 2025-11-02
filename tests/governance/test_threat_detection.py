@@ -4,6 +4,7 @@ Tests for threat detection alerts.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-MED-TEST-THREAT-s7t8u9v0
 """
+
 import pytest
 
 

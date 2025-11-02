@@ -58,7 +58,7 @@ logger = logging.getLogger(__name__)
 try:
     from core.symbolism.tags import TagScope as LukhaskTagScope
     from memory.fold_in_out.memory_fold_system import SymbolicTag as LukhasSymbolicTag
-    
+
     # Create compatibility aliases
     TagScope = LukhaskTagScope
     SymbolicTag = LukhasSymbolicTag
@@ -80,7 +80,7 @@ except ImportError as e:
         def __init__(self, name: str, value: Any):
             self.name = name
             self.value = value
-    
+
     # Create compatibility aliases for stubs
     TagScope = StubTagScope
     SymbolicTag = StubSymbolicTag

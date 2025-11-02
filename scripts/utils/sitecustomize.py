@@ -23,6 +23,7 @@ else:
         sys.modules.setdefault("TODO", shim)
 
 if "streamlit" not in sys.modules:
+
     def _noop(*args, **kwargs):
         return None
 
@@ -96,9 +97,7 @@ except Exception:  # pragma: no cover - executed when urllib3 missing
     exceptions_stub.InsecureRequestWarning = InsecureRequestWarning
 
     def _missing_attr(name: str):  # ΛTAG: governance_stub_guardian
-        raise AttributeError(
-            "urllib3 stub does not implement attribute %r; install urllib3 for full support" % name
-        )
+        raise AttributeError("urllib3 stub does not implement attribute %r; install urllib3 for full support" % name)
 
     def __getattr__(name: str):  # pragma: no cover - diagnostic helper
         return _missing_attr(name)

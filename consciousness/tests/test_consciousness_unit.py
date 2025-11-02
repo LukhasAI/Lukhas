@@ -25,10 +25,7 @@ class TestConsciousnessModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "consciousness",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "consciousness", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestConsciousnessModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import consciousness
+
         self.assertIsNotNone(consciousness)
 
     def test_module_version(self):
         """Test module has version information."""
         import consciousness
+
         # Most modules should have version info
-        self.assertTrue(hasattr(consciousness, '__version__') or
-                       hasattr(consciousness, 'VERSION'))
+        self.assertTrue(hasattr(consciousness, "__version__") or hasattr(consciousness, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestCONSCIOUSNESS_AVAILABLE(unittest.TestCase):
         """Test CONSCIOUSNESS_AVAILABLE can be imported."""
         try:
             from consciousness import CONSCIOUSNESS_AVAILABLE
+
             self.assertIsNotNone(CONSCIOUSNESS_AVAILABLE)
         except ImportError:
             pytest.skip("Component CONSCIOUSNESS_AVAILABLE not available")
@@ -97,6 +96,7 @@ class TestCONSCIOUSNESS_DOMAINS(unittest.TestCase):
         """Test CONSCIOUSNESS_DOMAINS can be imported."""
         try:
             from consciousness import CONSCIOUSNESS_DOMAINS
+
             self.assertIsNotNone(CONSCIOUSNESS_DOMAINS)
         except ImportError:
             pytest.skip("Component CONSCIOUSNESS_DOMAINS not available")
@@ -114,6 +114,7 @@ class TestCONSCIOUSNESS_SOURCE(unittest.TestCase):
         """Test CONSCIOUSNESS_SOURCE can be imported."""
         try:
             from consciousness import CONSCIOUSNESS_SOURCE
+
             self.assertIsNotNone(CONSCIOUSNESS_SOURCE)
         except ImportError:
             pytest.skip("Component CONSCIOUSNESS_SOURCE not available")
@@ -122,7 +123,6 @@ class TestCONSCIOUSNESS_SOURCE(unittest.TestCase):
         """Test CONSCIOUSNESS_SOURCE can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

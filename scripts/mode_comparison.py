@@ -25,7 +25,7 @@ async def run_mode_comparison(seed: int = 2025):
     modes = [
         (ConsolidationMode.MAINTENANCE, "Low throughput, minimal resource usage"),
         (ConsolidationMode.STANDARD, "Balanced throughput and safety"),
-        (ConsolidationMode.INTENSIVE, "High throughput, resource intensive")
+        (ConsolidationMode.INTENSIVE, "High throughput, resource intensive"),
     ]
 
     results = {}
@@ -47,7 +47,7 @@ async def run_mode_comparison(seed: int = 2025):
             "quarantined": metrics["quarantined_folds"],
             "structural_ok": ok_count / max(1, len(reports)),
             "runtime_ms": metrics["last_run_s"] * 1000,
-            "traces": metrics["traces_consolidated"]
+            "traces": metrics["traces_consolidated"],
         }
 
         print(f"   Folds created: {metrics['folds_created']}")
@@ -64,17 +64,24 @@ async def run_mode_comparison(seed: int = 2025):
     for mode, description in modes:
         r = results[mode]
         efficiency = r["folds"] / max(1, r["runtime_ms"]) if r["runtime_ms"] > 0 else 0
-        print(f"{mode.value:<11} │ {r['folds']:5d} │ {r['quarantined']:11d} │ {r['structural_ok']:9.1%} │ {r['runtime_ms']:6.1f}ms │ {efficiency:8.0f} f/s")
+        print(
+            f"{mode.value:<11} │ {r['folds']:5d} │ {r['quarantined']:11d} │ {r['structural_ok']:9.1%} │ {r['runtime_ms']:6.1f}ms │ {efficiency:8.0f} f/s"
+        )
 
     print("\n=== INVESTOR INSIGHTS ===")
     std = results[ConsolidationMode.STANDARD]
     intensive = results[ConsolidationMode.INTENSIVE]
     maintenance = results[ConsolidationMode.MAINTENANCE]
 
-    print(f"• INTENSIVE mode: {intensive['folds']/std['folds']:.1f}x more folds, {intensive['quarantined']/max(1,std['quarantined']):.1f}x quarantine rate")
-    print(f"• MAINTENANCE mode: {maintenance['folds']/std['folds']:.1f}x folds, {maintenance['quarantined']/max(1,std['quarantined']):.1f}x quarantine rate")
+    print(
+        f"• INTENSIVE mode: {intensive['folds']/std['folds']:.1f}x more folds, {intensive['quarantined']/max(1,std['quarantined']):.1f}x quarantine rate"
+    )
+    print(
+        f"• MAINTENANCE mode: {maintenance['folds']/std['folds']:.1f}x folds, {maintenance['quarantined']/max(1,std['quarantined']):.1f}x quarantine rate"
+    )
     print(f"• All modes maintain ≥{min(r['structural_ok'] for r in results.values()):.0%} structural integrity")
     print("• Control dial: adjust mode based on workload vs safety requirements")
+
 
 if __name__ == "__main__":
     asyncio.run(run_mode_comparison())

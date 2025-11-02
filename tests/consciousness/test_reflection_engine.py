@@ -60,11 +60,7 @@ class TestReflectionEngineUnit:
     @pytest.fixture
     async def consciousness_state(self):
         """Create a test consciousness state"""
-        state = ConsciousnessState(
-            level=0.8,
-            awareness_type="enhanced",
-            emotional_tone="positive"
-        )
+        state = ConsciousnessState(level=0.8, awareness_type="enhanced", emotional_tone="positive")
         await state.initialize()
         return state
 
@@ -227,17 +223,9 @@ class TestReflectionEngineProperty:
 
     @given(
         initial_level=st.floats(min_value=0.0, max_value=1.0),
-        level_changes=st.lists(
-            st.floats(min_value=-0.1, max_value=0.1),
-            min_size=3,
-            max_size=10
-        )
+        level_changes=st.lists(st.floats(min_value=-0.1, max_value=0.1), min_size=3, max_size=10),
     )
-    @settings(
-        max_examples=50,
-        deadline=5000,
-        suppress_health_check=[HealthCheck.function_scoped_fixture]
-    )
+    @settings(max_examples=50, deadline=5000, suppress_health_check=[HealthCheck.function_scoped_fixture])
     async def test_coherence_monotonicity_property(self, initial_level, level_changes):
         """
         Property test: coherence should increase as state deltas shrink
@@ -271,19 +259,14 @@ class TestReflectionEngineProperty:
                 early_coherence = statistics.mean(coherence_scores[1:4])  # Skip first (perfect score)
 
                 # Allow some tolerance for natural variation
-                assert recent_coherence >= early_coherence - 0.1, \
-                    f"Coherence should improve with smaller changes: {early_coherence} -> {recent_coherence}"
+                assert (
+                    recent_coherence >= early_coherence - 0.1
+                ), f"Coherence should improve with smaller changes: {early_coherence} -> {recent_coherence}"
 
         finally:
             await engine.shutdown()
 
-    @given(
-        noise_levels=st.lists(
-            st.floats(min_value=0.0, max_value=0.5),
-            min_size=5,
-            max_size=15
-        )
-    )
+    @given(noise_levels=st.lists(st.floats(min_value=0.0, max_value=0.5), min_size=5, max_size=15))
     @settings(max_examples=20, deadline=10000)
     async def test_noise_injection_anomaly_property(self, noise_levels):
         """
@@ -317,8 +300,9 @@ class TestReflectionEngineProperty:
             # (allowing for statistical variation)
             if high_noise_anomalies > 0 or low_noise_anomalies > 0:
                 anomaly_ratio = high_noise_anomalies / max(1, low_noise_anomalies)
-                assert anomaly_ratio >= 0.5, \
-                    f"High noise should produce more anomalies: low={low_noise_anomalies}, high={high_noise_anomalies}"
+                assert (
+                    anomaly_ratio >= 0.5
+                ), f"High noise should produce more anomalies: low={low_noise_anomalies}, high={high_noise_anomalies}"
 
         finally:
             await engine.shutdown()
@@ -468,14 +452,13 @@ class TestReflectionEnginePerformance:
             print(f"Total anomalies: {anomaly_count}")
 
             # Validate SLO compliance
-            assert p95_latency < REFLECTION_P95_TARGET_MS, \
-                f"P95 latency {p95_latency:.3f}ms exceeds target {REFLECTION_P95_TARGET_MS}ms"
+            assert (
+                p95_latency < REFLECTION_P95_TARGET_MS
+            ), f"P95 latency {p95_latency:.3f}ms exceeds target {REFLECTION_P95_TARGET_MS}ms"
 
-            assert cv < 0.10, \
-                f"Coefficient of variation {cv:.3f} exceeds target 0.10"
+            assert cv < 0.10, f"Coefficient of variation {cv:.3f} exceeds target 0.10"
 
-            assert anomaly_count < 100, \
-                f"Excessive anomalies detected: {anomaly_count}"
+            assert anomaly_count < 100, f"Excessive anomalies detected: {anomaly_count}"
 
         finally:
             await engine.shutdown()
@@ -488,10 +471,7 @@ class TestReflectionEnginePerformance:
         Tests full integration performance including context gathering.
         """
         # Create context providers
-        providers = [
-            MockContextProvider({"memory": f"data_{i}"})
-            for i in range(3)
-        ]
+        providers = [MockContextProvider({"memory": f"data_{i}"}) for i in range(3)]
 
         engine = SelfReflectionEngine()
         await engine.init(providers)
@@ -526,8 +506,7 @@ class TestReflectionEnginePerformance:
             print(f"P95 latency: {p95_latency:.3f}ms")
 
             # E2E allows slightly higher latency due to context overhead
-            assert p95_latency < REFLECTION_P95_TARGET_MS * 2, \
-                f"E2E P95 latency {p95_latency:.3f}ms too high"
+            assert p95_latency < REFLECTION_P95_TARGET_MS * 2, f"E2E P95 latency {p95_latency:.3f}ms too high"
 
         finally:
             await engine.shutdown()
@@ -539,6 +518,7 @@ class TestReflectionEnginePerformance:
         await engine.init([])
 
         try:
+
             async def reflection_worker(worker_id: int, iterations: int):
                 """Worker function for concurrent testing"""
                 state = ConsciousnessState(level=0.5 + worker_id * 0.1)
@@ -557,10 +537,7 @@ class TestReflectionEnginePerformance:
 
             # Run concurrent workers
             print("Running concurrent performance test...")
-            tasks = [
-                reflection_worker(i, 500)
-                for i in range(4)  # 4 concurrent workers
-            ]
+            tasks = [reflection_worker(i, 500) for i in range(4)]  # 4 concurrent workers
 
             results = await asyncio.gather(*tasks)
 
@@ -578,8 +555,9 @@ class TestReflectionEnginePerformance:
             print(f"P95 latency: {p95_concurrent:.3f}ms")
 
             # Concurrent operations may have higher latency
-            assert p95_concurrent < REFLECTION_P95_TARGET_MS * 3, \
-                f"Concurrent P95 latency {p95_concurrent:.3f}ms too high"
+            assert (
+                p95_concurrent < REFLECTION_P95_TARGET_MS * 3
+            ), f"Concurrent P95 latency {p95_concurrent:.3f}ms too high"
 
         finally:
             await engine.shutdown()
@@ -628,8 +606,7 @@ class TestPrometheusRules:
 
                 # Validate alert threshold behavior
                 if rate_multiplier >= 0.15:  # Above 15% should trigger alerts
-                    assert anomaly_rate > 0.1, \
-                        f"High anomaly rate {anomaly_rate:.3f} should exceed 0.1 threshold"
+                    assert anomaly_rate > 0.1, f"High anomaly rate {anomaly_rate:.3f} should exceed 0.1 threshold"
 
                 # Reset engine state between rate tests
                 engine.anomaly_counter = 0
@@ -653,7 +630,7 @@ class TestPrometheusRules:
             engine.get_performance_stats()
 
             # Simulate performance degradation
-            with patch('time.perf_counter', side_effect=self._slow_perf_counter):
+            with patch("time.perf_counter", side_effect=self._slow_perf_counter):
                 degraded_latencies = []
                 for _ in range(20):
                     time.time()
@@ -674,7 +651,7 @@ class TestPrometheusRules:
 
     def _slow_perf_counter(self):
         """Mock perf_counter that simulates slow performance"""
-        self._call_count = getattr(self, '_call_count', 0) + 1
+        self._call_count = getattr(self, "_call_count", 0) + 1
         if self._call_count % 2 == 0:  # Return value for end timing
             return 0.025  # 25ms elapsed
         else:  # Return value for start timing

@@ -22,11 +22,13 @@ def fast_orchestrator():
     orch = AsyncOrchestrator(config)
 
     # Configure with aggressive timeouts for speed
-    orch.configure_stages([
-        {"name": "INTENT", "timeout_ms": 50, "max_retries": 1},
-        {"name": "THOUGHT", "timeout_ms": 75, "max_retries": 1},
-        {"name": "DECISION", "timeout_ms": 100, "max_retries": 1}
-    ])
+    orch.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 50, "max_retries": 1},
+            {"name": "THOUGHT", "timeout_ms": 75, "max_retries": 1},
+            {"name": "DECISION", "timeout_ms": 100, "max_retries": 1},
+        ]
+    )
 
     return orch
 
@@ -40,10 +42,7 @@ def register_fast_nodes():
     yield
 
 
-@pytest.mark.skipif(
-    os.getenv("LUKHAS_PERF") != "1",
-    reason="Performance tests only run with LUKHAS_PERF=1"
-)
+@pytest.mark.skipif(os.getenv("LUKHAS_PERF") != "1", reason="Performance tests only run with LUKHAS_PERF=1")
 @pytest.mark.asyncio
 async def test_pipeline_p95_under_budget(fast_orchestrator, register_fast_nodes):
     """Test that pipeline p95 latency is under 250ms budget."""
@@ -87,10 +86,7 @@ async def test_pipeline_p95_under_budget(fast_orchestrator, register_fast_nodes)
     assert p50 < 75.0, f"P50 latency {p50:.2f}ms is too high"
 
 
-@pytest.mark.skipif(
-    os.getenv("LUKHAS_PERF") != "1",
-    reason="Performance tests only run with LUKHAS_PERF=1"
-)
+@pytest.mark.skipif(os.getenv("LUKHAS_PERF") != "1", reason="Performance tests only run with LUKHAS_PERF=1")
 @pytest.mark.asyncio
 async def test_throughput_benchmark(fast_orchestrator, register_fast_nodes):
     """Test concurrent throughput."""
@@ -100,10 +96,7 @@ async def test_throughput_benchmark(fast_orchestrator, register_fast_nodes):
     start_time = time.perf_counter()
 
     # Run concurrent requests
-    tasks = [
-        fast_orchestrator.process_query(context)
-        for _ in range(concurrent_requests)
-    ]
+    tasks = [fast_orchestrator.process_query(context) for _ in range(concurrent_requests)]
 
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -126,10 +119,7 @@ async def test_throughput_benchmark(fast_orchestrator, register_fast_nodes):
     assert throughput_rps >= 50.0, f"Throughput {throughput_rps:.1f} req/s too low"
 
 
-@pytest.mark.skipif(
-    os.getenv("LUKHAS_PERF") != "1",
-    reason="Performance tests only run with LUKHAS_PERF=1"
-)
+@pytest.mark.skipif(os.getenv("LUKHAS_PERF") != "1", reason="Performance tests only run with LUKHAS_PERF=1")
 @pytest.mark.asyncio
 async def test_memory_efficiency(fast_orchestrator, register_fast_nodes):
     """Test memory usage doesn't grow excessively."""
@@ -154,7 +144,7 @@ async def test_memory_efficiency(fast_orchestrator, register_fast_nodes):
 
     # Final memory check
     final_snapshot = tracemalloc.take_snapshot()
-    top_stats = final_snapshot.compare_to(baseline_snapshot, 'lineno')
+    top_stats = final_snapshot.compare_to(baseline_snapshot, "lineno")
 
     total_diff = sum(stat.size_diff for stat in top_stats)
     total_diff_mb = total_diff / 1024 / 1024
@@ -168,10 +158,7 @@ async def test_memory_efficiency(fast_orchestrator, register_fast_nodes):
     tracemalloc.stop()
 
 
-@pytest.mark.skipif(
-    os.getenv("LUKHAS_PERF") != "1",
-    reason="Performance tests only run with LUKHAS_PERF=1"
-)
+@pytest.mark.skipif(os.getenv("LUKHAS_PERF") != "1", reason="Performance tests only run with LUKHAS_PERF=1")
 def test_cold_start_performance():
     """Test orchestrator initialization performance."""
     start_time = time.perf_counter()
@@ -179,11 +166,13 @@ def test_cold_start_performance():
     # Cold start
     config = {"MATRIZ_ASYNC": "1"}
     orchestrator = AsyncOrchestrator(config)
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 100},
-        {"name": "THOUGHT", "timeout_ms": 100},
-        {"name": "DECISION", "timeout_ms": 100}
-    ])
+    orchestrator.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 100},
+            {"name": "THOUGHT", "timeout_ms": 100},
+            {"name": "DECISION", "timeout_ms": 100},
+        ]
+    )
 
     end_time = time.perf_counter()
     init_time_ms = (end_time - start_time) * 1000

@@ -11,6 +11,7 @@ Usage:
   if result["breakthrough"]:
       print(f"Breakthrough detected: score={result['score']:.3f}")
 """
+
 from __future__ import annotations
 
 import math
@@ -19,21 +20,27 @@ from typing import Any, Dict
 
 try:
     from prometheus_client import Counter, Gauge
+
     PROM = True
 except Exception:
     PROM = False
 
+
 class _NoopCounter:
     def labels(self, *_, **__):
         return self
+
     def inc(self, *_):
         pass
+
 
 class _NoopGauge:
     def labels(self, *_, **__):
         return self
+
     def set(self, *_):
         pass
+
 
 # Define metrics (labeled by lane) with no-op fallbacks when Prometheus is unavailable
 if PROM:
@@ -63,6 +70,7 @@ else:
     BREAKTHROUGH_SCORE = _NoopGauge()
     BREAKTHROUGH_STD = _NoopGauge()
 
+
 class BreakthroughDetector:
     """
     Detects breakthroughs using novelty × value scoring with z-score threshold.
@@ -71,6 +79,7 @@ class BreakthroughDetector:
     using online statistics to track running mean and standard deviation.
     Warmup samples can be required before flagging using min_n.
     """
+
     __slots__ = ("mu", "sq", "n", "z", "w", "lane", "min_n", "z_per_lane")
 
     def __init__(self, novelty_w: float = 0.5, value_w: float = 0.5, z: float = 3.0, *, min_n: int = None):
@@ -83,10 +92,10 @@ class BreakthroughDetector:
             min_n: Optional minimum number of samples before any breakthrough can be flagged.
                     If None, uses env `LUKHAS_BREAKTHROUGH_WARMUP` or defaults to 16.
         """
-        self.mu = 0.0       # Running mean
-        self.sq = 0.0       # Sum of squared deviations for variance
-        self.n = 0          # Sample count
-        self.z = z          # Base Z-score threshold
+        self.mu = 0.0  # Running mean
+        self.sq = 0.0  # Sum of squared deviations for variance
+        self.n = 0  # Sample count
+        self.z = z  # Base Z-score threshold
         self.w = (novelty_w, value_w)  # Weights tuple
         self.lane = os.getenv("LUKHAS_LANE", "experimental").lower()
         # Per-lane z overrides (can be tuned later)
@@ -136,7 +145,7 @@ class BreakthroughDetector:
         self.sq += delta * delta2
 
         # Compute standard deviation
-        std = (self.sq / (self.n - 1))**0.5 if self.n > 1 else 0.0
+        std = (self.sq / (self.n - 1)) ** 0.5 if self.n > 1 else 0.0
 
         # Breakthrough detection: score > mean + z*std, with warmup gating and per-lane z
         z_eff = self.z_per_lane.get(self.lane, self.z)
@@ -169,6 +178,7 @@ class BreakthroughDetector:
 # CLI for testing
 if __name__ == "__main__":
     import sys
+
     detector = BreakthroughDetector(z=3.0)
     lane = os.getenv("LUKHAS_LANE", "experimental").lower()
 
@@ -178,7 +188,7 @@ if __name__ == "__main__":
     try:
         while True:
             line = input("> ").strip()
-            if line.lower() in ['quit', 'exit', 'q']:
+            if line.lower() in ["quit", "exit", "q"]:
                 break
             try:
                 parts = line.split()
@@ -191,8 +201,10 @@ if __name__ == "__main__":
 
                 warm = " (warming)" if result["n"] < result["min_n"] else ""
                 status = "🚨 BREAKTHROUGH" if result["breakthrough"] else "   normal"
-                print(f"{status} | score={result['score']:.3f} μ={result['mean']:.3f} "
-                      f"σ={result['std']:.3f} n={result['n']}{warm}")
+                print(
+                    f"{status} | score={result['score']:.3f} μ={result['mean']:.3f} "
+                    f"σ={result['std']:.3f} n={result['n']}{warm}"
+                )
 
             except ValueError as e:
                 print(f"Error: {e}")

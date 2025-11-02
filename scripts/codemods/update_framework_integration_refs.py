@@ -14,7 +14,7 @@ def update_framework_integration_refs():
         "candidate/consciousness/reflection/orchestration_service.py",
         "candidate/governance/security/privacy_guardian.py",
         "agents_external/CLAUDE/claude_code_agent_team.yaml",
-        "phase1_verification_pack/documentation/EXECUTION_SUMMARY.md"
+        "phase1_verification_pack/documentation/EXECUTION_SUMMARY.md",
     ]
 
     updated_count = 0
@@ -22,15 +22,15 @@ def update_framework_integration_refs():
     for file_path in target_files:
         if os.path.exists(file_path):
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, "r", encoding="utf-8") as f:
                     content = f.read()
 
                 # Replace the pattern
-                new_content = content.replace('trinity_framework_integration', 'constellation_framework_integration')
-                new_content = new_content.replace('test_trinity_validation', 'test_constellation_validation')
+                new_content = content.replace("trinity_framework_integration", "constellation_framework_integration")
+                new_content = new_content.replace("test_trinity_validation", "test_constellation_validation")
 
                 if new_content != content:
-                    with open(file_path, 'w', encoding='utf-8') as f:
+                    with open(file_path, "w", encoding="utf-8") as f:
                         f.write(new_content)
                     print(f"✅ Updated: {file_path}")
                     updated_count += 1
@@ -41,6 +41,7 @@ def update_framework_integration_refs():
                 print(f"❌ Error processing {file_path}: {e}")
 
     print(f"\n🎯 Updated {updated_count} files")
+
 
 if __name__ == "__main__":
     update_framework_integration_refs()

@@ -34,6 +34,7 @@ from observability.matriz_instrumentation import (
 
 class CacheType(Enum):
     """Types of caches used in the orchestrator"""
+
     INTENT_ANALYSIS = "intent"
     NODE_SELECTION = "node_selection"
     NODE_HEALTH = "node_health"
@@ -43,6 +44,7 @@ class CacheType(Enum):
 @dataclass
 class CacheEntry:
     """Cache entry with TTL and access tracking"""
+
     key: str
     value: Any
     created_at: float
@@ -93,13 +95,7 @@ class LRUCache:
             del self._cache[key]
 
         # Create new entry
-        entry = CacheEntry(
-            key=key,
-            value=value,
-            created_at=current_time,
-            last_accessed=current_time,
-            ttl=ttl
-        )
+        entry = CacheEntry(key=key, value=value, created_at=current_time, last_accessed=current_time, ttl=ttl)
 
         self._cache[key] = entry
 
@@ -131,7 +127,7 @@ class LRUCache:
             "hits": self._hits,
             "misses": self._misses,
             "hit_rate": hit_rate,
-            "utilization": len(self._cache) / self.max_size
+            "utilization": len(self._cache) / self.max_size,
         }
 
 
@@ -155,7 +151,7 @@ class NodePool:
             "p95_latency_ms": 0,
             "health_score": 1.0,
             "last_request": time.time(),
-            "recent_latencies": []
+            "recent_latencies": [],
         }
 
     def get_node(self, name: str) -> Optional[CognitiveNode]:
@@ -181,11 +177,7 @@ class NodePool:
             return cached
 
         # Intent mapping with health-based selection
-        intent_candidates = {
-            "mathematical": ["math", "facts"],
-            "question": ["facts", "math"],
-            "general": ["facts"]
-        }
+        intent_candidates = {"mathematical": ["math", "facts"], "question": ["facts", "math"], "general": ["facts"]}
 
         candidates = intent_candidates.get(intent, ["facts"])
         available_candidates = [name for name in candidates if name in self.nodes]
@@ -194,8 +186,7 @@ class NodePool:
             return None
 
         # Select based on health score
-        best_node = max(available_candidates,
-                       key=lambda n: self.node_stats[n]["health_score"])
+        best_node = max(available_candidates, key=lambda n: self.node_stats[n]["health_score"])
 
         # Cache decision for 30 seconds
         self._node_cache.put(cache_key, best_node, ttl=30)
@@ -270,21 +261,17 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
         """
         # Optimized default timeouts (more aggressive)
         optimized_timeouts = {
-            StageType.INTENT: 0.030,      # 30ms for intent analysis (was 50ms)
-            StageType.DECISION: 0.040,     # 40ms for decision (was 100ms)
-            StageType.PROCESSING: 0.100,   # 100ms for main processing (was 120ms)
-            StageType.VALIDATION: 0.025,   # 25ms for validation (was 40ms)
-            StageType.REFLECTION: 0.020,   # 20ms for reflection (was 30ms)
+            StageType.INTENT: 0.030,  # 30ms for intent analysis (was 50ms)
+            StageType.DECISION: 0.040,  # 40ms for decision (was 100ms)
+            StageType.PROCESSING: 0.100,  # 100ms for main processing (was 120ms)
+            StageType.VALIDATION: 0.025,  # 25ms for validation (was 40ms)
+            StageType.REFLECTION: 0.020,  # 20ms for reflection (was 30ms)
         }
 
         if stage_timeouts:
             optimized_timeouts.update(stage_timeouts)
 
-        super().__init__(
-            stage_timeouts=optimized_timeouts,
-            stage_critical=stage_critical,
-            total_timeout=total_timeout
-        )
+        super().__init__(stage_timeouts=optimized_timeouts, stage_critical=stage_critical, total_timeout=total_timeout)
 
         # Optimization components
         self.cache_enabled = cache_enabled
@@ -311,7 +298,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "timeout_fast_fails": 0,
             "circuit_breaker_trips": 0,
             "memory_access_optimizations": 0,
-            "total_optimizations_applied": 0
+            "total_optimizations_applied": 0,
         }
 
         # Initialize cognitive instrumentation
@@ -323,7 +310,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "failure_count": 0,
             "last_failure_time": 0,
             "timeout_threshold": 5,
-            "reset_timeout": 30
+            "reset_timeout": 30,
         }
 
     def register_node(self, name: str, node: CognitiveNode) -> None:
@@ -345,7 +332,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "optimized_cognitive_pipeline",
                 user_input,
                 expected_stages=expected_stages,
-                target_slo_ms=self.total_timeout * 1000
+                target_slo_ms=self.total_timeout * 1000,
             ):
                 return await self._process_query_with_observability(user_input)
         else:
@@ -394,7 +381,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                     "total_duration_ms": total_ms,
                     "optimization_failure": True,
                 },
-                "optimization_metrics": self.optimization_metrics.copy()
+                "optimization_metrics": self.optimization_metrics.copy(),
             }
 
     async def _execute_optimized_pipeline(self, user_input: str, start_time: float) -> Dict[str, Any]:
@@ -408,7 +395,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "intent_data": None,
             "selected_node": None,
             "processing_result": None,
-            "optimization_applied": []
+            "optimization_applied": [],
         }
 
         try:
@@ -417,9 +404,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             stage_results.append(intent_result)
 
             if not intent_result.success and self.stage_critical[StageType.INTENT]:
-                return self._build_optimized_error_response(
-                    "Intent analysis failed", stage_results, start_time
-                )
+                return self._build_optimized_error_response("Intent analysis failed", stage_results, start_time)
 
             pipeline_context["intent_data"] = intent_result.data if intent_result.success else {}
 
@@ -428,9 +413,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             stage_results.append(decision_result)
 
             if not decision_result.success and self.stage_critical[StageType.DECISION]:
-                return self._build_optimized_error_response(
-                    "Node selection failed", stage_results, start_time
-                )
+                return self._build_optimized_error_response("Node selection failed", stage_results, start_time)
 
             pipeline_context["selected_node"] = decision_result.data if decision_result.success else "default"
 
@@ -439,20 +422,18 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             stage_results.append(process_result)
 
             if not process_result.success and self.stage_critical[StageType.PROCESSING]:
-                return self._build_optimized_error_response(
-                    "Processing failed", stage_results, start_time
-                )
+                return self._build_optimized_error_response("Processing failed", stage_results, start_time)
 
-            pipeline_context["processing_result"] = process_result.data if process_result.success else {"answer": "Error occurred"}
+            pipeline_context["processing_result"] = (
+                process_result.data if process_result.success else {"answer": "Error occurred"}
+            )
 
             # Stage 4 & 5: Optional stages with fast skipping
             await self._execute_optional_stages(pipeline_context, stage_results)
 
             # Build optimized success response
             total_duration_ms = (time.perf_counter() - start_time) * 1000
-            return self._build_optimized_success_response(
-                pipeline_context, stage_results, total_duration_ms
-            )
+            return self._build_optimized_success_response(pipeline_context, stage_results, total_duration_ms)
 
         except asyncio.TimeoutError:
             # Fast timeout handling
@@ -465,9 +446,9 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "metrics": {
                     "total_duration_ms": total_ms,
                     "timeout": True,
-                    "stages_completed": len([r for r in stage_results if r.success])
+                    "stages_completed": len([r for r in stage_results if r.success]),
                 },
-                "optimization_metrics": self.optimization_metrics.copy()
+                "optimization_metrics": self.optimization_metrics.copy(),
             }
 
     @instrument_cognitive_stage("attention", node_id="intent_analyzer", slo_target_ms=30.0)
@@ -487,10 +468,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
                 duration_ms = (time.perf_counter() - stage_start) * 1000
                 return StageResult(
-                    stage_type=StageType.INTENT,
-                    success=True,
-                    data=cached_intent,
-                    duration_ms=duration_ms
+                    stage_type=StageType.INTENT, success=True, data=cached_intent, duration_ms=duration_ms
                 )
 
         # Optimized intent detection (reduce string operations)
@@ -531,12 +509,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             success = False
 
         duration_ms = (time.perf_counter() - stage_start) * 1000
-        return StageResult(
-            stage_type=StageType.INTENT,
-            success=success,
-            data=intent_data,
-            duration_ms=duration_ms
-        )
+        return StageResult(stage_type=StageType.INTENT, success=success, data=intent_data, duration_ms=duration_ms)
 
     @instrument_cognitive_stage("decision", node_id="node_selector", slo_target_ms=40.0)
     async def _optimized_select_node(self, context: Dict[str, Any]) -> StageResult:
@@ -561,21 +534,11 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             context["optimization_applied"].append("health_based_routing")
 
             duration_ms = (time.perf_counter() - stage_start) * 1000
-            return StageResult(
-                stage_type=StageType.DECISION,
-                success=True,
-                data=selected_node,
-                duration_ms=duration_ms
-            )
+            return StageResult(stage_type=StageType.DECISION, success=True, data=selected_node, duration_ms=duration_ms)
 
         except Exception as e:
             duration_ms = (time.perf_counter() - stage_start) * 1000
-            return StageResult(
-                stage_type=StageType.DECISION,
-                success=False,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+            return StageResult(stage_type=StageType.DECISION, success=False, error=str(e), duration_ms=duration_ms)
 
     @instrument_cognitive_stage("thought", node_id="thought_processor", slo_target_ms=100.0)
     async def _optimized_process_node(self, context: Dict[str, Any]) -> StageResult:
@@ -601,8 +564,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             # Optimized node execution
             loop = asyncio.get_event_loop()
             result = await asyncio.wait_for(
-                loop.run_in_executor(None, node.process, {"query": user_input}),
-                timeout=processing_timeout
+                loop.run_in_executor(None, node.process, {"query": user_input}), timeout=processing_timeout
             )
 
             duration_ms = (time.perf_counter() - stage_start) * 1000
@@ -620,12 +582,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
             context["optimization_applied"].append("optimized_node_execution")
 
-            return StageResult(
-                stage_type=StageType.PROCESSING,
-                success=True,
-                data=result,
-                duration_ms=duration_ms
-            )
+            return StageResult(stage_type=StageType.PROCESSING, success=True, data=result, duration_ms=duration_ms)
 
         except Exception as e:
             duration_ms = (time.perf_counter() - stage_start) * 1000
@@ -634,12 +591,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             if selected_node_name:
                 self.node_pool.update_node_stats(selected_node_name, duration_ms, False)
 
-            return StageResult(
-                stage_type=StageType.PROCESSING,
-                success=False,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+            return StageResult(stage_type=StageType.PROCESSING, success=False, error=str(e), duration_ms=duration_ms)
 
     def _hash_input(self, user_input: str) -> str:
         """Create hash for input caching"""
@@ -651,7 +603,9 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             return False
 
         # Check if we should reset
-        if (time.time() - self.circuit_breaker_state["last_failure_time"]) > self.circuit_breaker_state["reset_timeout"]:
+        if (time.time() - self.circuit_breaker_state["last_failure_time"]) > self.circuit_breaker_state[
+            "reset_timeout"
+        ]:
             self.circuit_breaker_state["open"] = False
             self.circuit_breaker_state["failure_count"] = 0
             return False
@@ -677,14 +631,11 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "total_duration_ms": total_ms,
                 "circuit_breaker_active": True,
             },
-            "optimization_metrics": self.optimization_metrics.copy()
+            "optimization_metrics": self.optimization_metrics.copy(),
         }
 
     def _build_optimized_success_response(
-        self,
-        context: Dict[str, Any],
-        stage_results: List[StageResult],
-        total_duration_ms: float
+        self, context: Dict[str, Any], stage_results: List[StageResult], total_duration_ms: float
     ) -> Dict[str, Any]:
         """Build optimized success response with minimal object creation"""
 
@@ -707,17 +658,14 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "stages_completed": stages_completed,
                 "stages_failed": stages_failed,
                 "within_budget": within_budget,
-                "optimizations_applied": context.get("optimization_applied", [])
+                "optimizations_applied": context.get("optimization_applied", []),
             },
             "optimization_metrics": self.optimization_metrics.copy(),
             "cache_stats": self._get_cache_stats() if self.cache_enabled else {},
         }
 
     def _build_optimized_error_response(
-        self,
-        error: str,
-        stage_results: List[StageResult],
-        start_time: float
+        self, error: str, stage_results: List[StageResult], start_time: float
     ) -> Dict[str, Any]:
         """Build optimized error response"""
         total_ms = (time.perf_counter() - start_time) * 1000
@@ -730,7 +678,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "stages_completed": sum(1 for r in stage_results if r.success),
                 "stages_failed": sum(1 for r in stage_results if not r.success),
             },
-            "optimization_metrics": self.optimization_metrics.copy()
+            "optimization_metrics": self.optimization_metrics.copy(),
         }
 
     def _serialize_stage_result(self, result: StageResult) -> Dict[str, Any]:
@@ -740,7 +688,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "success": result.success,
             "duration_ms": result.duration_ms,
             "data": result.data,
-            "error": getattr(result, 'error', None)
+            "error": getattr(result, "error", None),
         }
 
     async def _execute_optional_stages(self, context: Dict[str, Any], stage_results: List[StageResult]) -> None:
@@ -758,8 +706,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
         if "validator" in self.available_nodes and remaining_budget > 30:
             try:
                 validation_result = await asyncio.wait_for(
-                    self._quick_validate(context["processing_result"]),
-                    timeout=min(0.025, remaining_budget / 1000)
+                    self._quick_validate(context["processing_result"]), timeout=min(0.025, remaining_budget / 1000)
                 )
                 stage_results.append(validation_result)
             except asyncio.TimeoutError:
@@ -773,8 +720,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
         if remaining_budget > 20:
             try:
                 reflection_result = await asyncio.wait_for(
-                    self._quick_reflect(context),
-                    timeout=min(0.020, remaining_budget / 1000)
+                    self._quick_reflect(context), timeout=min(0.020, remaining_budget / 1000)
                 )
                 stage_results.append(reflection_result)
             except asyncio.TimeoutError:
@@ -793,21 +739,11 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
             duration_ms = (time.perf_counter() - stage_start) * 1000
 
-            return StageResult(
-                stage_type=StageType.VALIDATION,
-                success=True,
-                data=is_valid,
-                duration_ms=duration_ms
-            )
+            return StageResult(stage_type=StageType.VALIDATION, success=True, data=is_valid, duration_ms=duration_ms)
 
         except Exception as e:
             duration_ms = (time.perf_counter() - stage_start) * 1000
-            return StageResult(
-                stage_type=StageType.VALIDATION,
-                success=False,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+            return StageResult(stage_type=StageType.VALIDATION, success=False, error=str(e), duration_ms=duration_ms)
 
     async def _quick_reflect(self, context: Dict[str, Any]) -> StageResult:
         """Quick reflection with minimal processing"""
@@ -823,20 +759,12 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             duration_ms = (time.perf_counter() - stage_start) * 1000
 
             return StageResult(
-                stage_type=StageType.REFLECTION,
-                success=True,
-                data=reflection_data,
-                duration_ms=duration_ms
+                stage_type=StageType.REFLECTION, success=True, data=reflection_data, duration_ms=duration_ms
             )
 
         except Exception as e:
             duration_ms = (time.perf_counter() - stage_start) * 1000
-            return StageResult(
-                stage_type=StageType.REFLECTION,
-                success=False,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+            return StageResult(stage_type=StageType.REFLECTION, success=False, error=str(e), duration_ms=duration_ms)
 
     def _get_cache_stats(self) -> Dict[str, Any]:
         """Get comprehensive cache statistics"""
@@ -858,7 +786,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "avg_latency_ms": stats["avg_latency_ms"],
                 "p95_latency_ms": stats["p95_latency_ms"],
                 "success_rate": stats["success_count"] / max(1, stats["total_requests"]),
-                "total_requests": stats["total_requests"]
+                "total_requests": stats["total_requests"],
             }
 
         return {
@@ -869,8 +797,8 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "configuration": {
                 "cache_enabled": self.cache_enabled,
                 "total_timeout_ms": self.total_timeout * 1000,
-                "stage_timeouts_ms": {k.value: v * 1000 for k, v in self.stage_timeouts.items()}
-            }
+                "stage_timeouts_ms": {k.value: v * 1000 for k, v in self.stage_timeouts.items()},
+            },
         }
 
     async def warmup_caches(self, test_queries: List[str]) -> Dict[str, Any]:
@@ -894,5 +822,5 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "status": "completed",
             "queries_processed": processed_queries,
             "warmup_duration_ms": warmup_duration * 1000,
-            "cache_stats": self._get_cache_stats()
+            "cache_stats": self._get_cache_stats(),
         }

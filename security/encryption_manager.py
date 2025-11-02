@@ -106,9 +106,7 @@ class EncryptionManager:
         password_salt_size: int = DEFAULT_PASSWORD_SALT_SIZE,
         allowed_algorithms: Optional[Iterable[EncryptionAlgorithm]] = None,
     ) -> None:
-        self.key_store_path = key_store_path or os.path.join(
-            os.getcwd(), "keys"
-        )
+        self.key_store_path = key_store_path or os.path.join(os.getcwd(), "keys")
         self.auto_rotation = auto_rotation
         self.key_retention_days = key_retention_days
 
@@ -266,9 +264,7 @@ class EncryptionManager:
         """Return a PBKDF2 based password hash."""
 
         salt = secrets.token_bytes(self.password_salt_size)
-        digest = hashlib.pbkdf2_hmac(
-            "sha256", password.encode("utf-8"), salt, self.password_iterations
-        )
+        digest = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, self.password_iterations)
         return f"pbkdf2:{self.password_iterations}:{salt.hex()}:{digest.hex()}"
 
     def verify_password(self, password: str, hashed: str) -> bool:
@@ -289,9 +285,7 @@ class EncryptionManager:
 
         salt = bytes.fromhex(salt_hex)
         expected = bytes.fromhex(digest_hex)
-        candidate = hashlib.pbkdf2_hmac(
-            "sha256", password.encode("utf-8"), salt, iterations
-        )
+        candidate = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
         return secrets.compare_digest(candidate, expected)
 
     # ------------------------------------------------------------------
@@ -305,9 +299,7 @@ class EncryptionManager:
 
         avg_ms = self.total_time_ms / self.operation_count
         total_seconds = self.total_time_ms / 1000 if self.total_time_ms else 0.0
-        ops_per_sec = (
-            self.operation_count / total_seconds if total_seconds else 0.0
-        )
+        ops_per_sec = self.operation_count / total_seconds if total_seconds else 0.0
         return {
             "total_operations": self.operation_count,
             "average_time_ms": avg_ms,
@@ -385,9 +377,7 @@ def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> Encryp
             return EncryptionAlgorithm(value.lower())
         raise ValueError(f"Unsupported algorithm value: {value!r}")
 
-    parsed_default = (
-        _parse_algorithm(default_algorithm) if default_algorithm is not None else None
-    )
+    parsed_default = _parse_algorithm(default_algorithm) if default_algorithm is not None else None
 
     parsed_allowed: Optional[Iterable[EncryptionAlgorithm]]
     if allowed_algorithms is None:
@@ -400,16 +390,8 @@ def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> Encryp
         auto_rotation=config.get("auto_rotation", False),
         key_retention_days=config.get("key_retention_days", 90),
         default_algorithm=parsed_default,
-        password_iterations=int(
-            password_config.get(
-                "iterations", EncryptionManager.DEFAULT_PASSWORD_ITERATIONS
-            )
-        ),
-        password_salt_size=int(
-            password_config.get(
-                "salt_size", EncryptionManager.DEFAULT_PASSWORD_SALT_SIZE
-            )
-        ),
+        password_iterations=int(password_config.get("iterations", EncryptionManager.DEFAULT_PASSWORD_ITERATIONS)),
+        password_salt_size=int(password_config.get("salt_size", EncryptionManager.DEFAULT_PASSWORD_SALT_SIZE)),
         allowed_algorithms=parsed_allowed,
     )
 
@@ -423,4 +405,3 @@ def _coerce_algorithm_value(value: EncryptionAlgorithm | str) -> EncryptionAlgor
 
 
 EncryptionManager._coerce_algorithm = staticmethod(_coerce_algorithm_value)
-

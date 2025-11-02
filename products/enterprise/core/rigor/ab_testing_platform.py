@@ -141,9 +141,7 @@ class T4ABTestingPlatform:
 
         control_rate = control.conversion_rate
         challenger_rate = challenger.conversion_rate
-        pooled = (control.conversions + challenger.conversions) / (
-            control.exposures + challenger.exposures
-        )
+        pooled = (control.conversions + challenger.conversions) / (control.exposures + challenger.exposures)
         denominator = math.sqrt(pooled * (1 - pooled) * (1 / control.exposures + 1 / challenger.exposures))
         if denominator == 0:
             return 0.0

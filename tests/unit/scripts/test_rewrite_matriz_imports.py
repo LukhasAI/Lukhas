@@ -46,9 +46,9 @@ def test_no_changes_for_strings(tmp_path):
     if manifest.exists():
         data = json.loads(manifest.read_text())
         files = data.get("files_changed", [])
-        assert not any(str(p) == f or str(p.resolve()) == f for f in files), (
-            "File with only string import should not be changed"
-        )
+        assert not any(
+            str(p) == f or str(p.resolve()) == f for f in files
+        ), "File with only string import should not be changed"
     else:
         # No manifest means no changes at all — acceptable
         assert True

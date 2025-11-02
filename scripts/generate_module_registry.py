@@ -21,9 +21,7 @@ def main():
 
             # Find docs and tests
             docs = sorted([str(p.relative_to(ROOT)) for p in module_dir.rglob("*.md")])
-            tests = sorted(
-                [str(p.relative_to(ROOT)) for p in module_dir.glob("tests/**/*.py")]
-            )
+            tests = sorted([str(p.relative_to(ROOT)) for p in module_dir.glob("tests/**/*.py")])
 
             modules.append(
                 {

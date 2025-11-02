@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Dict, List
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -74,7 +74,7 @@ class ToolsHealthChecker:
             "devops/infrastructure",
             "devops/infrastructure/terraform",
             "devops/infrastructure/kubernetes",
-            "devops/infrastructure/.github/workflows"
+            "devops/infrastructure/.github/workflows",
         ]
 
         results = {}
@@ -100,7 +100,7 @@ class ToolsHealthChecker:
         results = {}
         testing_files = [
             ("test_infrastructure_monitor.py", "Test Infrastructure Monitor"),
-            ("coverage_metrics_system.py", "Coverage Metrics System")
+            ("coverage_metrics_system.py", "Coverage Metrics System"),
         ]
 
         for filename, description in testing_files:
@@ -129,7 +129,7 @@ class ToolsHealthChecker:
             ("production_alerting_system.py", "Production Alerting System"),
             ("t4_monitoring_integration.py", "T4 Monitoring Integration"),
             ("monitoring_dashboard.py", "Monitoring Dashboard"),
-            ("monitoring_config.json", "Monitoring Configuration")
+            ("monitoring_config.json", "Monitoring Configuration"),
         ]
 
         for filename, description in monitoring_files:
@@ -140,7 +140,7 @@ class ToolsHealthChecker:
         config_path = self.tools_dir / "monitoring" / "monitoring_config.json"
         if config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path, "r") as f:
                     config = json.load(f)
 
                 required_keys = ["evaluation_interval", "channels", "alert_rules"]
@@ -174,7 +174,7 @@ class ToolsHealthChecker:
             ("infrastructure/kubernetes/namespace.yaml", "Kubernetes Namespaces"),
             ("infrastructure/kubernetes/configmap.yaml", "Kubernetes ConfigMaps"),
             ("infrastructure/kubernetes/deployment.yaml", "Kubernetes Deployment"),
-            ("infrastructure/.github/workflows/ci-cd-pipeline.yml", "CI/CD Pipeline")
+            ("infrastructure/.github/workflows/ci-cd-pipeline.yml", "CI/CD Pipeline"),
         ]
 
         for filename, description in devops_files:
@@ -188,9 +188,7 @@ class ToolsHealthChecker:
         self.log_info("Checking dashboard tools...")
 
         results = {}
-        dashboard_files = [
-            ("consciousness_drift_monitor.js", "Consciousness Drift Monitor")
-        ]
+        dashboard_files = [("consciousness_drift_monitor.js", "Consciousness Drift Monitor")]
 
         for filename, description in dashboard_files:
             file_path = self.tools_dir / "dashboards" / filename
@@ -211,7 +209,7 @@ class ToolsHealthChecker:
             ("tools.monitoring.production_alerting_system", "ProductionAlertingSystem"),
             ("tools.monitoring.t4_monitoring_integration", "T4MonitoringIntegration"),
             ("tools.monitoring.monitoring_dashboard", "MonitoringDashboard"),
-            ("tools.devops.automated_deployment_pipeline", "AutomatedDeploymentPipeline")
+            ("tools.devops.automated_deployment_pipeline", "AutomatedDeploymentPipeline"),
         ]
 
         for module_name, class_name in import_tests:
@@ -234,11 +232,7 @@ class ToolsHealthChecker:
         results = {}
 
         # Required dependencies
-        required_deps = [
-            ("psutil", "System monitoring"),
-            ("httpx", "HTTP client"),
-            ("asyncio", "Async support")
-        ]
+        required_deps = [("psutil", "System monitoring"), ("httpx", "HTTP client"), ("asyncio", "Async support")]
 
         # Optional dependencies
         optional_deps = [
@@ -246,7 +240,7 @@ class ToolsHealthChecker:
             ("uvicorn", "ASGI server"),
             ("datadog", "Datadog integration"),
             ("prometheus_client", "Prometheus metrics"),
-            ("opentelemetry", "OpenTelemetry tracing")
+            ("opentelemetry", "OpenTelemetry tracing"),
         ]
 
         for dep_name, description in required_deps:
@@ -278,7 +272,7 @@ class ToolsHealthChecker:
 
         config_files = [
             ("monitoring/monitoring_config.json", "Monitoring Configuration"),
-            ("devops/deployment_config.json", "Deployment Configuration")
+            ("devops/deployment_config.json", "Deployment Configuration"),
         ]
 
         for file_path, description in config_files:
@@ -286,7 +280,7 @@ class ToolsHealthChecker:
 
             if full_path.exists():
                 try:
-                    with open(full_path, 'r') as f:
+                    with open(full_path, "r") as f:
                         json.load(f)
                     results[file_path] = True
                     self.log_info(f"Configuration: {description}")
@@ -319,10 +313,7 @@ class ToolsHealthChecker:
     def generate_health_report(self) -> str:
         """Generate comprehensive health report"""
         total_checks = sum(len(category) for category in self.results.values())
-        passed_checks = sum(
-            sum(1 for check in category.values() if check)
-            for category in self.results.values()
-        )
+        passed_checks = sum(sum(1 for check in category.values() if check) for category in self.results.values())
 
         success_rate = (passed_checks / total_checks * 100) if total_checks > 0 else 0
 
@@ -379,10 +370,7 @@ Category Breakdown:
     def get_exit_code(self) -> int:
         """Get appropriate exit code based on health check results"""
         total_checks = sum(len(category) for category in self.results.values())
-        passed_checks = sum(
-            sum(1 for check in category.values() if check)
-            for category in self.results.values()
-        )
+        passed_checks = sum(sum(1 for check in category.values() if check) for category in self.results.values())
 
         success_rate = (passed_checks / total_checks * 100) if total_checks > 0 else 0
 

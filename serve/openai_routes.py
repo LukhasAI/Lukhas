@@ -11,6 +11,7 @@ All endpoints include:
 - Request/trace ID threading
 - Dev-permissive auth (Bearer token required)
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -95,6 +96,7 @@ async def openai_metrics() -> JSONResponse:
 # OpenAI facade helpers and endpoints
 # ------------------------------------------------------------------------------
 # ΛTAG: openai_facade
+
 
 def require_api_key(
     authorization: Optional[str] = Header(None),
@@ -256,12 +258,7 @@ def create_response(
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
 
     model = payload.get("model", "lukhas-mini")
-    user_text: Any = (
-        payload.get("input")
-        or payload.get("messages")
-        or payload.get("contents")
-        or ""
-    )
+    user_text: Any = payload.get("input") or payload.get("messages") or payload.get("contents") or ""
 
     if isinstance(user_text, list):
         try:

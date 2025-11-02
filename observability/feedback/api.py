@@ -1,6 +1,7 @@
 """
 FastAPI endpoints for adaptive feedback collection and follow-ups.
 """
+
 from __future__ import annotations
 
 from typing import Any, Dict
@@ -15,6 +16,7 @@ router = APIRouter(prefix="/feedback", tags=["feedback"])
 
 class FeedbackIn(BaseModel):
     """User feedback input model."""
+
     trace_id: str
     rating_0_10: int
     text: str = ""
@@ -23,6 +25,7 @@ class FeedbackIn(BaseModel):
 
 class FollowupIn(BaseModel):
     """Follow-up answers input model."""
+
     feedback_id: str
     answers: Dict[str, str]
 
@@ -48,11 +51,7 @@ async def submit_feedback(fb: FeedbackIn) -> Dict[str, Any]:
         }
     """
     feedback_id = f"fb:{fb.trace_id}"
-    payload = {
-        "id": feedback_id,
-        "feedback_id": feedback_id,
-        **fb.model_dump()
-    }
+    payload = {"id": feedback_id, "feedback_id": feedback_id, **fb.model_dump()}
 
     # TODO: Add taxonomy classification, sentiment analysis, severity scoring
     # TODO: Enqueue adaptive follow-ups based on rating/labels
@@ -82,10 +81,7 @@ async def submit_followup(ff: FollowupIn) -> Dict[str, Any]:
           }
         }
     """
-    payload = {
-        "id": ff.feedback_id,
-        **ff.model_dump()
-    }
+    payload = {"id": ff.feedback_id, **ff.model_dump()}
 
     # TODO: Merge into existing feedback_event payload
     # TODO: Update severity/priority based on followup
@@ -123,6 +119,6 @@ async def get_feedback_card(trace_id: str) -> Dict[str, Any]:
         "trace_id": trace_id,
         "questions": [
             {"id": "rating", "type": "scale", "label": "Quick rating", "min": 0, "max": 10},
-            {"id": "text", "type": "textarea", "label": "What should improve?", "maxLength": 2000}
-        ]
+            {"id": "text", "type": "textarea", "label": "What should improve?", "maxLength": 2000},
+        ],
     }

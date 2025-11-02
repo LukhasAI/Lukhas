@@ -2,6 +2,7 @@
 Constitutional Gatekeeper stub for identity authentication.
 """
 
+
 class ConstitutionalGatekeeper:
     """Stub constitutional gatekeeper for testing."""
 
@@ -16,8 +17,10 @@ class ConstitutionalGatekeeper:
         """Check permissions."""
         return {"allowed": True, "tier": "T1"}
 
+
 # Singleton instance
 _gatekeeper = None
+
 
 def get_constitutional_gatekeeper():
     """Get or create constitutional gatekeeper instance."""
@@ -26,4 +29,5 @@ def get_constitutional_gatekeeper():
         _gatekeeper = ConstitutionalGatekeeper()
     return _gatekeeper
 
-__all__ = ['ConstitutionalGatekeeper', 'get_constitutional_gatekeeper']
+
+__all__ = ["ConstitutionalGatekeeper", "get_constitutional_gatekeeper"]

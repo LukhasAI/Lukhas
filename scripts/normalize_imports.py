@@ -99,8 +99,9 @@ def main():
     ap.add_argument("--root-pkg", default="lukhas")
     ap.add_argument("--check", action="store_true", help="Dry-run; print count of files that would change.")
     ap.add_argument("--apply", action="store_true", help="Write changes.")
-    ap.add_argument("paths", nargs="*",
-                    help="Python files to process. If empty, auto-discovers files with relative imports.")
+    ap.add_argument(
+        "paths", nargs="*", help="Python files to process. If empty, auto-discovers files with relative imports."
+    )
     args = ap.parse_args()
     repo_root = pathlib.Path(args.repo_root).resolve()
 
@@ -110,6 +111,7 @@ def main():
         try:
             import shlex
             import subprocess
+
             cmd = "rg -l 'from \\.+\\w' --glob '!venv/**' --glob '!packages/**' --glob '!**/generated/**'"
             out = subprocess.check_output(shlex.split(cmd), text=True)
             files = [pathlib.Path(x) for x in out.strip().splitlines() if x.strip()]

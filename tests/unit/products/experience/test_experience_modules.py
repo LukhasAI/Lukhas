@@ -35,9 +35,7 @@ def test_trace_dashboard_uses_streamlit_facade():
 
 
 def test_universal_adaptive_dashboard_event_bus():
-    dashboard_module = pytest.importorskip(
-        "products.experience.dashboard.interfaces.core.universal_adaptive_dashboard"
-    )
+    dashboard_module = pytest.importorskip("products.experience.dashboard.interfaces.core.universal_adaptive_dashboard")
     dashboard = dashboard_module.UniversalAdaptiveDashboard()
     assert isinstance(dashboard.event_bus, EventBus)
 
@@ -88,18 +86,14 @@ def test_grammar_validation_and_transformations():
     )
 
     assert grammar.validate([emotion_symbol, action_symbol])
-    transformed = grammar.apply_transformations(
-        [emotion_symbol, action_symbol, emotion_symbol]
-    )
+    transformed = grammar.apply_transformations([emotion_symbol, action_symbol, emotion_symbol])
     assert len(transformed) == 2
     assert "core" in transformed[0].metadata.get("grammar_tags", [])
     assert transformed[0].confidence <= 1.0
 
 
 def test_vocabulary_import_round_trip():
-    vocab_module = pytest.importorskip(
-        "products.experience.universal_language.core.vocabulary"
-    )
+    vocab_module = pytest.importorskip("products.experience.universal_language.core.vocabulary")
     UnifiedVocabulary = vocab_module.UnifiedVocabulary
     unified = UnifiedVocabulary()
     payload = {

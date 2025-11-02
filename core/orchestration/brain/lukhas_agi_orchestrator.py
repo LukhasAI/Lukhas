@@ -1,4 +1,5 @@
 """Lukhas AGI orchestrator stub for symbolic coordination."""
+
 from __future__ import annotations
 
 import asyncio

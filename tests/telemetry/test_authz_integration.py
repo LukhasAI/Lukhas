@@ -48,7 +48,7 @@ async def test_end_to_end_authorization_with_telemetry(telemetry_capture, authz_
             capability_token=f"test-token-{scenario['name']}",
             mfa_verified=scenario.get("requires_mfa", False),
             webauthn_verified=True,
-            region="us-west-2"
+            region="us-west-2",
         )
 
         # Execute authorization with telemetry capture
@@ -56,21 +56,21 @@ async def test_end_to_end_authorization_with_telemetry(telemetry_capture, authz_
 
         # Verify decision matches expected outcome
         assert decision.allowed == scenario["expected_allowed"], (
-            f"Scenario {scenario['name']}: expected {scenario['expected_allowed']}, "
-            f"got {decision.allowed}"
+            f"Scenario {scenario['name']}: expected {scenario['expected_allowed']}, " f"got {decision.allowed}"
         )
 
     # Verify all scenarios generated spans
     authz_spans = telemetry_capture.get_authz_spans()
-    assert len(authz_spans) >= len(authz_test_scenarios), (
-        f"Expected at least {len(authz_test_scenarios)} spans, got {len(authz_spans)}"
-    )
+    assert len(authz_spans) >= len(
+        authz_test_scenarios
+    ), f"Expected at least {len(authz_test_scenarios)} spans, got {len(authz_spans)}"
 
     # Verify each scenario has corresponding span with correct attributes
     for scenario in authz_test_scenarios:
         subject_data = test_subjects[scenario["subject_type"]]
         scenario_spans = [
-            span for span in authz_spans
+            span
+            for span in authz_spans
             if span.attributes.get("subject") == subject_data["subject"]
             and span.attributes.get("action") == scenario["action"]
         ]
@@ -79,9 +79,7 @@ async def test_end_to_end_authorization_with_telemetry(telemetry_capture, authz_
 
         span = scenario_spans[0]
         expected_decision = "allow" if scenario["expected_allowed"] else "deny"
-        assert span.attributes["decision"] == expected_decision, (
-            f"Scenario {scenario['name']}: span decision mismatch"
-        )
+        assert span.attributes["decision"] == expected_decision, f"Scenario {scenario['name']}: span decision mismatch"
 
 
 @pytest.mark.telemetry
@@ -92,23 +90,15 @@ async def test_middleware_handler_integration_with_telemetry(telemetry_capture, 
     middleware = MatrixAuthzMiddleware(shadow_mode=False)
 
     # Mock the capability token verification to return valid claims
-    with patch.object(middleware.verifier, 'verify_capability') as mock_verify:
+    with patch.object(middleware.verifier, "verify_capability") as mock_verify:
         mock_verify.return_value = {
             "valid": True,
             "subject": "lukhas:user:test_integration",
             "tier": "trusted",
             "tier_num": 3,
             "scopes": ["memoria.read", "memoria.store"],
-            "env": {
-                "mfa": False,
-                "webauthn_verified": True,
-                "device_id": "test-device-123",
-                "region": "us-west-2"
-            },
-            "token": {
-                "exp": 1758894061,
-                "aud": "lukhas-matrix"
-            }
+            "env": {"mfa": False, "webauthn_verified": True, "device_id": "test-device-123", "region": "us-west-2"},
+            "token": {"exp": 1758894061, "aud": "lukhas-matrix"},
         }
 
         # Call middleware handler (this simulates HTTP request handling)
@@ -116,7 +106,7 @@ async def test_middleware_handler_integration_with_telemetry(telemetry_capture, 
             capability_token=mock_capability_token,
             module="memoria",
             action="recall",
-            context={"request_id": "test-123"}
+            context={"request_id": "test-123"},
         )
 
         assert allowed is True, f"Expected authorization to succeed, got: {reason}"
@@ -155,7 +145,7 @@ async def test_shadow_mode_telemetry_emission(telemetry_capture, test_subjects):
         capability_token="test-token-shadow",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     # Authorization decision
@@ -181,16 +171,13 @@ async def test_authorization_with_opa_policy_integration(telemetry_capture, test
     middleware = MatrixAuthzMiddleware(shadow_mode=False)
 
     # Mock OPA evaluation to simulate real policy engine integration
-    with patch.object(middleware, '_query_opa') as mock_opa:
+    with patch.object(middleware, "_query_opa") as mock_opa:
         # Simulate OPA response
         mock_opa.return_value = {
             "allow": True,
             "reason": "OPA policy evaluation",
             "policy_sha": "opa_live_12345",
-            "decision_metadata": {
-                "policy_version": "v1.2.3",
-                "evaluation_time_ms": 5.5
-            }
+            "decision_metadata": {"policy_version": "v1.2.3", "evaluation_time_ms": 5.5},
         }
 
         trusted_subject = test_subjects["trusted"]
@@ -204,7 +191,7 @@ async def test_authorization_with_opa_policy_integration(telemetry_capture, test
             capability_token="test-token-opa",
             mfa_verified=False,
             webauthn_verified=True,
-            region="us-west-2"
+            region="us-west-2",
         )
 
         decision = await middleware.authorize_request(request)
@@ -267,16 +254,16 @@ async def test_authorization_matrix_test_integration(telemetry_capture):
             capability_token="test-matrix-token",
             mfa_verified=opa_input["env"]["mfa"],
             webauthn_verified=opa_input["env"]["webauthn_verified"],
-            region=opa_input["env"]["region"]
+            region=opa_input["env"]["region"],
         )
 
         decision = await middleware.authorize_request(request)
 
         # Verify decision matches test case expectation
         expected = test_case["expected"]
-        assert decision.allowed == expected, (
-            f"Test case {test_case['name']}: expected {expected}, got {decision.allowed}"
-        )
+        assert (
+            decision.allowed == expected
+        ), f"Test case {test_case['name']}: expected {expected}, got {decision.allowed}"
 
     # Verify telemetry was emitted for all test cases
     authz_spans = telemetry_capture.get_authz_spans()
@@ -305,7 +292,7 @@ async def test_concurrent_authorization_telemetry(telemetry_capture, test_subjec
             capability_token=f"test-token-concurrent-{i}",
             mfa_verified=False,
             webauthn_verified=True,
-            region="us-west-2"
+            region="us-west-2",
         )
 
         task = middleware.authorize_request(request)
@@ -336,7 +323,7 @@ async def test_authorization_error_propagation_with_telemetry(telemetry_capture,
     middleware = MatrixAuthzMiddleware(shadow_mode=False)
 
     # Simulate contract loading error
-    with patch.object(middleware, 'load_contract') as mock_load:
+    with patch.object(middleware, "load_contract") as mock_load:
         mock_load.side_effect = FileNotFoundError("Contract not found")
 
         trusted_subject = test_subjects["trusted"]
@@ -350,7 +337,7 @@ async def test_authorization_error_propagation_with_telemetry(telemetry_capture,
             capability_token="test-token-error",
             mfa_verified=False,
             webauthn_verified=True,
-            region="us-west-2"
+            region="us-west-2",
         )
 
         decision = await middleware.authorize_request(request)
@@ -392,7 +379,7 @@ def test_telemetry_span_export_format_compatibility(telemetry_capture, test_subj
             capability_token="test-token-export",
             mfa_verified=False,
             webauthn_verified=True,
-            region="us-west-2"
+            region="us-west-2",
         )
 
         await middleware.authorize_request(request)

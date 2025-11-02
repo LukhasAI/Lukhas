@@ -4,6 +4,7 @@ Fault Tolerance and Supervision for Swarm Architecture
 Provides supervision strategies and fault recovery for agent colonies
 with support for restart, escalate, and resume patterns.
 """
+
 import logging
 from enum import Enum
 from typing import Any, Callable, Optional, Type, Union
@@ -13,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 class SupervisionStrategy(str, Enum):
     """Supervision strategies for fault handling in agent colonies"""
+
     RESTART = "restart"  # Restart failed agent
     RESUME = "resume"  # Resume agent from last known state
     ESCALATE = "escalate"  # Escalate failure to higher level
@@ -44,7 +46,7 @@ class Supervisor:
         self,
         strategy: SupervisionStrategy = SupervisionStrategy.RESTART,
         max_retries: int = 3,
-        backoff_seconds: float = 1.0
+        backoff_seconds: float = 1.0,
     ):
         """
         Initialize supervisor with strategy
@@ -69,10 +71,7 @@ class Supervisor:
         logger.info(f"Supervisor initialized with strategy: {strategy.value}")
 
     def handle_failure(
-        self,
-        agent_id: str,
-        exception: Exception,
-        context: Optional[dict[str, Any]] = None
+        self, agent_id: str, exception: Exception, context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Handle agent failure according to supervision strategy
@@ -97,8 +96,8 @@ class Supervisor:
                 "agent_id": agent_id,
                 "strategy": self.strategy.value,
                 "exception": str(exception),
-                "failure_count": failure_count
-            }
+                "failure_count": failure_count,
+            },
         )
 
         # Apply supervision strategy
@@ -146,24 +145,16 @@ class Supervisor:
         """Handle restart strategy"""
         if failure_count > self.max_retries:
             logger.error(f"Agent {agent_id} exceeded max retries, stopping")
-            return {
-                "action": "stop",
-                "reason": "max_retries_exceeded",
-                "failure_count": failure_count
-            }
+            return {"action": "stop", "reason": "max_retries_exceeded", "failure_count": failure_count}
 
-        return {
-            "action": "restart",
-            "backoff": self.backoff_seconds * failure_count,
-            "attempt": failure_count
-        }
+        return {"action": "restart", "backoff": self.backoff_seconds * failure_count, "attempt": failure_count}
 
     def _handle_resume(self, agent_id: str, context: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Handle resume strategy"""
         return {
             "action": "resume",
             "state": context.get("last_state") if context else None,
-            "checkpoint": context.get("checkpoint") if context else None
+            "checkpoint": context.get("checkpoint") if context else None,
         }
 
     def _handle_escalate(self, agent_id: str, exception: Exception) -> dict[str, Any]:
@@ -172,16 +163,12 @@ class Supervisor:
             "action": "escalate",
             "agent_id": agent_id,
             "exception": str(exception),
-            "escalate_to": "colony_supervisor"
+            "escalate_to": "colony_supervisor",
         }
 
     def _handle_stop(self, agent_id: str) -> dict[str, Any]:
         """Handle stop strategy"""
-        return {
-            "action": "stop",
-            "agent_id": agent_id,
-            "reason": "stopped_by_strategy"
-        }
+        return {"action": "stop", "agent_id": agent_id, "reason": "stopped_by_strategy"}
 
     def reset_failures(self, agent_id: str) -> None:
         """Reset failure count for an agent"""
@@ -196,7 +183,7 @@ class Supervisor:
             "agents_with_failures": len(self.failure_count),
             "failure_counts": dict(self.failure_count),
             "strategy": self.strategy.value,
-            "max_retries": self.max_retries
+            "max_retries": self.max_retries,
         }
 
     def register_custom_handler(
@@ -231,9 +218,7 @@ class Supervisor:
             )
             return
 
-        raise TypeError(
-            "Custom handler target must be an agent_id (str) or Exception subclass"
-        )
+        raise TypeError("Custom handler target must be an agent_id (str) or Exception subclass")
 
 
 __all__ = [

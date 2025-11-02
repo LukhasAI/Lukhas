@@ -108,4 +108,11 @@ class TensorColonyOps:
         return simulate_throughput(colony_vectors, steps)
 
 
-__all__ = ["TensorColonyOps", "tags_to_tensor", "batch_propagate", "colony_reasoning_tensor", "simulate_throughput", "plot_throughput"]
+__all__ = [
+    "TensorColonyOps",
+    "tags_to_tensor",
+    "batch_propagate",
+    "colony_reasoning_tensor",
+    "simulate_throughput",
+    "plot_throughput",
+]

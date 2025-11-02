@@ -30,5 +30,6 @@ class SwarmResourceScheduler:
                 best_colony = colony_id
 
         print(f"Scheduler: Assigned task to colony {best_colony}")
+
     print(f"--> Best colony for memory task: {winner}")
     print(f"--> Best colony for creative task: {winner}")

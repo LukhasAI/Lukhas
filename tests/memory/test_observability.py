@@ -10,6 +10,7 @@ def test_prometheus_metrics_initialization():
     # Just ensure it initializes without error
     assert metrics is not None
 
+
 def test_prometheus_metrics_methods():
     metrics = PrometheusMetrics()
 
@@ -17,14 +18,16 @@ def test_prometheus_metrics_methods():
     metrics.observe_latency("test_op", 10.5)
     metrics.increment_counter("test_metric", {"label": "value"})
 
+
 def test_memory_tracer_initialization():
     tracer = MemoryTracer("test-service")
     assert tracer.metrics is not None
 
+
 def test_memory_tracer_trace_operation():
     tracer = MemoryTracer()
 
-    with patch('memory.observability.trace.get_tracer') as mock_get_tracer:
+    with patch("memory.observability.trace.get_tracer") as mock_get_tracer:
         mock_tracer = Mock()
         mock_span = Mock()
         mock_tracer.start_span.return_value = mock_span
@@ -35,6 +38,7 @@ def test_memory_tracer_trace_operation():
 
         assert isinstance(span_context, MemorySpan)
         mock_tracer.start_span.assert_called_with("memory.test_op")
+
 
 def test_memory_span_context_manager():
     mock_span = Mock()
@@ -52,6 +56,7 @@ def test_memory_span_context_manager():
     mock_span.end.assert_called()
     mock_metrics.increment_counter.assert_called()
     mock_metrics.observe_latency.assert_called()
+
 
 def test_memory_span_with_exception():
     mock_span = Mock()

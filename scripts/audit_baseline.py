@@ -45,6 +45,7 @@ except ImportError as e:
 @dataclass
 class AuditEnvironment:
     """Capture complete audit environment for reproducibility."""
+
     audit_id: str
     timestamp: str
     environment_type: str
@@ -77,6 +78,7 @@ class AuditEnvironment:
 @dataclass
 class BenchmarkResult:
     """Single benchmark measurement with metadata."""
+
     operation: str
     latency_us: float
     success: bool
@@ -87,6 +89,7 @@ class BenchmarkResult:
 @dataclass
 class AuditResults:
     """Complete audit results with statistical analysis."""
+
     audit_id: str
     environment: AuditEnvironment
     samples: int
@@ -143,16 +146,12 @@ class AuditFramework:
             print("Guardian system not available, using mock")
 
         # Initialize Consciousness Stream
-        config = {
-            "creativity": DEFAULT_CREATIVITY_CONFIG,
-            "guardian_validator": self._mock_guardian_validator
-        }
+        config = {"creativity": DEFAULT_CREATIVITY_CONFIG, "guardian_validator": self._mock_guardian_validator}
         self.consciousness_stream = ConsciousnessStream(config)
 
         # Initialize Creativity Engine
         self.creativity_engine = CreativityEngine(
-            config=DEFAULT_CREATIVITY_CONFIG,
-            guardian_validator=self._mock_guardian_validator
+            config=DEFAULT_CREATIVITY_CONFIG, guardian_validator=self._mock_guardian_validator
         )
 
     async def _mock_guardian_validator(self, request: Dict[str, Any]) -> Dict[str, Any]:
@@ -164,7 +163,7 @@ class AuditFramework:
             "approved": True,
             "reason": "Content meets safety guidelines",
             "confidence": 0.95,
-            "processing_time_us": 150.0
+            "processing_time_us": 150.0,
         }
 
     def capture_environment(self) -> AuditEnvironment:
@@ -177,7 +176,7 @@ class AuditFramework:
             "PYTHONHASHSEED": os.getenv("PYTHONHASHSEED", ""),
             "LUKHAS_MODE": os.getenv("LUKHAS_MODE", ""),
             "PYTHONDONTWRITEBYTECODE": os.getenv("PYTHONDONTWRITEBYTECODE", ""),
-            "AUDIT_RUN_ID": os.getenv("AUDIT_RUN_ID", "")
+            "AUDIT_RUN_ID": os.getenv("AUDIT_RUN_ID", ""),
         }
 
         # Get CPU information
@@ -186,7 +185,7 @@ class AuditFramework:
                 "brand": platform.processor(),
                 "cores": psutil.cpu_count(logical=False),
                 "threads": psutil.cpu_count(logical=True),
-                "freq_mhz": psutil.cpu_freq().max if psutil.cpu_freq() else 0
+                "freq_mhz": psutil.cpu_freq().max if psutil.cpu_freq() else 0,
             }
         except Exception as e:
             cpu_info = {"error": "Could not retrieve CPU info"}
@@ -197,7 +196,7 @@ class AuditFramework:
             memory_info = {
                 "total_gb": memory.total / (1024**3),
                 "available_gb": memory.available / (1024**3),
-                "percent_used": memory.percent
+                "percent_used": memory.percent,
             }
         except Exception as e:
             memory_info = {"error": "Could not retrieve memory info"}
@@ -219,27 +218,24 @@ class AuditFramework:
             memory_info=memory_info,
             git_commit=git_commit,
             git_branch=git_branch,
-            git_dirty=git_dirty
+            git_dirty=git_dirty,
         )
 
     def _get_git_info(self) -> tuple[Optional[str], Optional[str], bool]:
         """Get Git repository information."""
         try:
-            commit = subprocess.check_output(
-                ["git", "rev-parse", "HEAD"],
-                stderr=subprocess.DEVNULL
-            ).decode().strip()
+            commit = subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL).decode().strip()
 
-            branch = subprocess.check_output(
-                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                stderr=subprocess.DEVNULL
-            ).decode().strip()
+            branch = (
+                subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], stderr=subprocess.DEVNULL)
+                .decode()
+                .strip()
+            )
 
             # Check for uncommitted changes
-            status = subprocess.check_output(
-                ["git", "status", "--porcelain"],
-                stderr=subprocess.DEVNULL
-            ).decode().strip()
+            status = (
+                subprocess.check_output(["git", "status", "--porcelain"], stderr=subprocess.DEVNULL).decode().strip()
+            )
 
             dirty = len(status) > 0
 
@@ -259,16 +255,15 @@ class AuditFramework:
                     "type": "creative_idea",
                     "content": {"description": "Test creative idea for audit"},
                     "novelty": 0.8,
-                    "coherence": 0.7
+                    "coherence": 0.7,
                 }
                 response = await self.guardian.validate_async(request)
                 success = response.get("approved", False)
             else:
                 # Mock Guardian test
-                response = await self._mock_guardian_validator({
-                    "type": "audit_test",
-                    "content": "Test content for Guardian validation"
-                })
+                response = await self._mock_guardian_validator(
+                    {"type": "audit_test", "content": "Test content for Guardian validation"}
+                )
                 success = response.get("approved", False)
 
             end_time = time.perf_counter()
@@ -279,7 +274,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=success,
                 timestamp=time.time(),
-                metadata={"response": response}
+                metadata={"response": response},
             )
 
         except Exception as e:
@@ -291,7 +286,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=False,
                 timestamp=time.time(),
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
     async def benchmark_memory_e2e(self) -> BenchmarkResult:
@@ -301,11 +296,7 @@ class AuditFramework:
         try:
             if self.consciousness_stream:
                 # Create consciousness state
-                ConsciousnessState(
-                    phase="AWARE",
-                    awareness_level="enhanced",
-                    level=0.8
-                )
+                ConsciousnessState(phase="AWARE", awareness_level="enhanced", level=0.8)
 
                 # Simulate memory event creation through consciousness tick
                 signals = {"test_signal": "audit_validation", "memory_pressure": 0.3}
@@ -324,7 +315,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=success,
                 timestamp=time.time(),
-                metadata={"state": "memory_event_created"}
+                metadata={"state": "memory_event_created"},
             )
 
         except Exception as e:
@@ -336,7 +327,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=False,
                 timestamp=time.time(),
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
     async def benchmark_orchestrator_e2e(self) -> BenchmarkResult:
@@ -354,7 +345,7 @@ class AuditFramework:
                         "processing_queue_size": 5,
                         "active_threads": 2,
                         "memory_pressure": 0.1,
-                        "cpu_utilization": 0.3
+                        "cpu_utilization": 0.3,
                     }
                     await self.consciousness_stream.tick(signals)
 
@@ -373,7 +364,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=success,
                 timestamp=time.time(),
-                metadata={"cycles": 3}
+                metadata={"cycles": 3},
             )
 
         except Exception as e:
@@ -385,7 +376,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=False,
                 timestamp=time.time(),
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
     async def benchmark_creativity_e2e(self) -> BenchmarkResult:
@@ -399,19 +390,13 @@ class AuditFramework:
                     prompt="Generate audit validation ideas",
                     min_ideas=3,
                     preferred_process="divergent",
-                    imagination_mode="conceptual"
+                    imagination_mode="conceptual",
                 )
 
-                consciousness_state = ConsciousnessState(
-                    phase="CREATE",
-                    awareness_level="enhanced",
-                    level=0.8
-                )
+                consciousness_state = ConsciousnessState(phase="CREATE", awareness_level="enhanced", level=0.8)
 
                 # Generate creative ideas
-                snapshot = await self.creativity_engine.generate_ideas(
-                    task, consciousness_state, {}
-                )
+                snapshot = await self.creativity_engine.generate_ideas(task, consciousness_state, {})
 
                 success = len(snapshot.ideas) >= task.min_ideas
             else:
@@ -427,7 +412,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=success,
                 timestamp=time.time(),
-                metadata={"ideas_generated": 3 if success else 0}
+                metadata={"ideas_generated": 3 if success else 0},
             )
 
         except Exception as e:
@@ -439,7 +424,7 @@ class AuditFramework:
                 latency_us=latency_us,
                 success=False,
                 timestamp=time.time(),
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
     async def run_benchmark_suite(self, samples: int = 1000) -> AuditResults:
@@ -534,7 +519,7 @@ class AuditFramework:
             error_count=error_count,
             anomaly_count=anomaly_count,
             sha256_hash="",  # Will be calculated when serialized
-            merkle_root=None
+            merkle_root=None,
         )
 
         return results
@@ -556,7 +541,11 @@ class AuditFramework:
             "max": max(latencies),
             "p95": sorted_latencies[int(n * 0.95)],
             "p99": sorted_latencies[int(n * 0.99)],
-            "cv": statistics.stdev(latencies) / statistics.mean(latencies) if n > 1 and statistics.mean(latencies) > 0 else 0.0
+            "cv": (
+                statistics.stdev(latencies) / statistics.mean(latencies)
+                if n > 1 and statistics.mean(latencies) > 0
+                else 0.0
+            ),
         }
 
     def serialize_results(self, results: AuditResults) -> str:
@@ -566,8 +555,8 @@ class AuditFramework:
 
         # Calculate SHA256 hash of serialized data (excluding hash field)
         data["sha256_hash"] = ""
-        json_str = json.dumps(data, sort_keys=True, separators=(',', ':'))
-        hash_obj = hashlib.sha256(json_str.encode('utf-8'))
+        json_str = json.dumps(data, sort_keys=True, separators=(",", ":"))
+        hash_obj = hashlib.sha256(json_str.encode("utf-8"))
         data["sha256_hash"] = hash_obj.hexdigest()
 
         # Return final JSON with hash
@@ -600,7 +589,7 @@ def main():
         output_path = Path(args.output)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(output_data)
 
         print("\n🎯 Audit Results Summary:")

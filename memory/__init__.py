@@ -1,4 +1,5 @@
 """Bridge: memory (namespace) with preserved submodule search path."""
+
 from __future__ import annotations
 
 from importlib import import_module

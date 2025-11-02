@@ -36,6 +36,7 @@ try:
         WebAuthnCredential,
         WebAuthnManager,
     )
+
     WEBAUTHN_BASE_AVAILABLE = True
 except ImportError:
     WEBAUTHN_BASE_AVAILABLE = False
@@ -44,6 +45,7 @@ except ImportError:
 # Import Guardian system for security validation
 try:
     from ..governance.guardian_system import GuardianSystem
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
@@ -130,7 +132,7 @@ class WebAuthnCredentialMetadata:
             "backup_state": self.backup_state,
             "usage_count": self.usage_count,
             "last_ip_address": self.last_ip_address,
-            "risk_score": self.risk_score
+            "risk_score": self.risk_score,
         }
 
 
@@ -174,7 +176,7 @@ class EnhancedWebAuthnService:
         rp_id: str = "ai",
         rp_name: str = "LUKHAS AI Identity System",
         origin: str = "https://ai",
-        guardian_system: Optional[GuardianSystem] = None
+        guardian_system: Optional[GuardianSystem] = None,
     ):
         """Initialize enhanced WebAuthn service."""
         self.rp_id = rp_id
@@ -195,41 +197,32 @@ class EnhancedWebAuthnService:
         # Security configuration
         self.max_challenge_age_minutes = 5
         self.max_credential_age_days = 365
-        self.signature_algorithm_allowlist = [
-            "ES256", "ES384", "ES512", "RS256", "PS256", "EdDSA"
-        ]
+        self.signature_algorithm_allowlist = ["ES256", "ES384", "ES512", "RS256", "PS256", "EdDSA"]
 
         # Performance tracking
         self._performance_metrics = {
             "challenge_generation": [],
             "credential_verification": [],
             "total_verifications": 0,
-            "successful_verifications": 0
+            "successful_verifications": 0,
         }
 
         # Initialize base WebAuthn service if available
         if WEBAUTHN_BASE_AVAILABLE:
             try:
-                self.base_service = WebAuthnManager({
-                    "rp_id": rp_id,
-                    "rp_name": rp_name,
-                    "origin": origin
-                })
+                self.base_service = WebAuthnManager({"rp_id": rp_id, "rp_name": rp_name, "origin": origin})
             except Exception as e:
                 self.logger.warning("Failed to initialize base WebAuthn service", error=str(e))
                 self.base_service = None
         else:
             self.base_service = None
 
-        self.logger.info("Enhanced WebAuthn service initialized",
-                        rp_id=rp_id, guardian_enabled=self.guardian is not None)
+        self.logger.info(
+            "Enhanced WebAuthn service initialized", rp_id=rp_id, guardian_enabled=self.guardian is not None
+        )
 
     async def generate_authentication_challenge(
-        self,
-        user_id: str,
-        correlation_id: str,
-        ip_address: str,
-        user_agent: Optional[str] = None
+        self, user_id: str, correlation_id: str, ip_address: str, user_agent: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Generate enhanced WebAuthn authentication challenge for T4.
@@ -245,11 +238,10 @@ class EnhancedWebAuthnService:
         try:
             # Guardian pre-validation
             if self.guardian:
-                await self._guardian_validate("webauthn_challenge_request", {
-                    "user_id": user_id,
-                    "correlation_id": correlation_id,
-                    "ip_address": ip_address
-                })
+                await self._guardian_validate(
+                    "webauthn_challenge_request",
+                    {"user_id": user_id, "correlation_id": correlation_id, "ip_address": ip_address},
+                )
 
             # Check for existing user credentials
             user_credential_ids = self._user_credentials.get(user_id, [])
@@ -258,10 +250,7 @@ class EnhancedWebAuthnService:
 
             # Generate challenge
             challenge = WebAuthnChallenge(
-                user_id=user_id,
-                correlation_id=correlation_id,
-                ip_address=ip_address,
-                user_agent=user_agent
+                user_id=user_id, correlation_id=correlation_id, ip_address=ip_address, user_agent=user_agent
             )
 
             # Ensure challenge uniqueness (anti-replay)
@@ -276,10 +265,7 @@ class EnhancedWebAuthnService:
             for cred_id in user_credential_ids:
                 if cred_id in self._credentials:
                     cred = self._credentials[cred_id]
-                    allowed_credentials.append({
-                        "id": cred.credential_id,
-                        "type": "public-key"
-                    })
+                    allowed_credentials.append({"id": cred.credential_id, "type": "public-key"})
 
             # Create authentication options
             auth_options = {
@@ -291,7 +277,7 @@ class EnhancedWebAuthnService:
                 "extensions": {
                     "appid": self.rp_id,
                     "uvm": True,  # User verification methods
-                }
+                },
             }
 
             # Performance tracking
@@ -300,35 +286,38 @@ class EnhancedWebAuthnService:
 
             # Guardian post-monitoring
             if self.guardian:
-                await self._guardian_monitor("webauthn_challenge_generated", {
-                    "user_id": user_id,
-                    "challenge_id": challenge.challenge_id,
-                    "duration_ms": duration_ms,
-                    "credential_count": len(allowed_credentials)
-                })
+                await self._guardian_monitor(
+                    "webauthn_challenge_generated",
+                    {
+                        "user_id": user_id,
+                        "challenge_id": challenge.challenge_id,
+                        "duration_ms": duration_ms,
+                        "credential_count": len(allowed_credentials),
+                    },
+                )
 
-            self.logger.info("WebAuthn challenge generated",
-                           user_id=user_id, challenge_id=challenge.challenge_id,
-                           duration_ms=duration_ms)
+            self.logger.info(
+                "WebAuthn challenge generated",
+                user_id=user_id,
+                challenge_id=challenge.challenge_id,
+                duration_ms=duration_ms,
+            )
 
             return {
                 "challenge_id": challenge.challenge_id,
                 "options": auth_options,
-                "expires_at": challenge.expires_at.isoformat()
+                "expires_at": challenge.expires_at.isoformat(),
             }
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            self.logger.error("Failed to generate WebAuthn challenge",
-                            user_id=user_id, error=str(e), duration_ms=duration_ms)
+            self.logger.error(
+                "Failed to generate WebAuthn challenge", user_id=user_id, error=str(e), duration_ms=duration_ms
+            )
             raise
 
     async def verify_authentication_response(
-        self,
-        challenge_id: str,
-        webauthn_response: Dict[str, Any],
-        correlation_id: str,
-        ip_address: str
+        self, challenge_id: str, webauthn_response: Dict[str, Any], correlation_id: str, ip_address: str
     ) -> WebAuthnVerificationResult:
         """
         Verify WebAuthn authentication response for T4.
@@ -346,9 +335,7 @@ class EnhancedWebAuthnService:
             # Retrieve challenge
             if challenge_id not in self._active_challenges:
                 return WebAuthnVerificationResult(
-                    success=False,
-                    error_code="INVALID_CHALLENGE",
-                    error_message="Challenge not found or expired"
+                    success=False, error_code="INVALID_CHALLENGE", error_message="Challenge not found or expired"
                 )
 
             challenge = self._active_challenges[challenge_id]
@@ -356,9 +343,7 @@ class EnhancedWebAuthnService:
             # Validate challenge state
             if not challenge.is_valid:
                 return WebAuthnVerificationResult(
-                    success=False,
-                    error_code="CHALLENGE_INVALID",
-                    error_message="Challenge expired or already used"
+                    success=False, error_code="CHALLENGE_INVALID", error_message="Challenge expired or already used"
                 )
 
             # Increment attempt counter
@@ -366,12 +351,15 @@ class EnhancedWebAuthnService:
 
             # Guardian pre-validation
             if self.guardian:
-                await self._guardian_validate("webauthn_verification_attempt", {
-                    "challenge_id": challenge_id,
-                    "user_id": challenge.user_id,
-                    "correlation_id": correlation_id,
-                    "attempt_count": challenge.attempt_count
-                })
+                await self._guardian_validate(
+                    "webauthn_verification_attempt",
+                    {
+                        "challenge_id": challenge_id,
+                        "user_id": challenge.user_id,
+                        "correlation_id": correlation_id,
+                        "attempt_count": challenge.attempt_count,
+                    },
+                )
 
             # Extract response components
             credential_id = webauthn_response.get("id", "")
@@ -381,9 +369,7 @@ class EnhancedWebAuthnService:
             # Validate credential exists
             if credential_id not in self._credentials:
                 return WebAuthnVerificationResult(
-                    success=False,
-                    error_code="CREDENTIAL_NOT_FOUND",
-                    error_message="Credential not registered"
+                    success=False, error_code="CREDENTIAL_NOT_FOUND", error_message="Credential not registered"
                 )
 
             credential = self._credentials[credential_id]
@@ -393,13 +379,11 @@ class EnhancedWebAuthnService:
                 return WebAuthnVerificationResult(
                     success=False,
                     error_code="CREDENTIAL_USER_MISMATCH",
-                    error_message="Credential does not belong to user"
+                    error_message="Credential does not belong to user",
                 )
 
             # Perform signature verification
-            verification_result = await self._verify_signature(
-                challenge, credential, response
-            )
+            verification_result = await self._verify_signature(challenge, credential, response)
 
             # Mark challenge as used (prevent replay)
             challenge.used = True
@@ -419,40 +403,45 @@ class EnhancedWebAuthnService:
 
             # Guardian post-monitoring
             if self.guardian:
-                await self._guardian_monitor("webauthn_verification_completed", {
-                    "challenge_id": challenge_id,
-                    "user_id": challenge.user_id,
-                    "success": verification_result.success,
-                    "duration_ms": duration_ms,
-                    "risk_score": verification_result.risk_score
-                })
+                await self._guardian_monitor(
+                    "webauthn_verification_completed",
+                    {
+                        "challenge_id": challenge_id,
+                        "user_id": challenge.user_id,
+                        "success": verification_result.success,
+                        "duration_ms": duration_ms,
+                        "risk_score": verification_result.risk_score,
+                    },
+                )
 
             # Cleanup expired challenges
             await self._cleanup_expired_challenges()
 
-            self.logger.info("WebAuthn verification completed",
-                           challenge_id=challenge_id, user_id=challenge.user_id,
-                           success=verification_result.success, duration_ms=duration_ms)
+            self.logger.info(
+                "WebAuthn verification completed",
+                challenge_id=challenge_id,
+                user_id=challenge.user_id,
+                success=verification_result.success,
+                duration_ms=duration_ms,
+            )
 
             return verification_result
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            self.logger.error("WebAuthn verification failed",
-                            challenge_id=challenge_id, error=str(e), duration_ms=duration_ms)
+            self.logger.error(
+                "WebAuthn verification failed", challenge_id=challenge_id, error=str(e), duration_ms=duration_ms
+            )
 
             return WebAuthnVerificationResult(
                 success=False,
                 error_code="VERIFICATION_ERROR",
                 error_message=f"Internal verification error: {str(e)}",
-                verification_time_ms=duration_ms
+                verification_time_ms=duration_ms,
             )
 
     async def register_credential(
-        self,
-        user_id: str,
-        credential_data: Dict[str, Any],
-        attestation_verified: bool = False
+        self, user_id: str, credential_data: Dict[str, Any], attestation_verified: bool = False
     ) -> bool:
         """
         Register a new WebAuthn credential for T4 authentication.
@@ -480,7 +469,7 @@ class EnhancedWebAuthnService:
                 attestation_format=credential_data.get("attestation_format"),
                 attestation_verified=attestation_verified,
                 backup_eligible=credential_data.get("backup_eligible", False),
-                backup_state=credential_data.get("backup_state", False)
+                backup_state=credential_data.get("backup_state", False),
             )
 
             # Store credential
@@ -493,28 +482,26 @@ class EnhancedWebAuthnService:
 
             # Guardian monitoring
             if self.guardian:
-                await self._guardian_monitor("webauthn_credential_registered", {
-                    "user_id": user_id,
-                    "credential_id": credential_id,
-                    "device_type": credential.device_type,
-                    "attestation_verified": attestation_verified
-                })
+                await self._guardian_monitor(
+                    "webauthn_credential_registered",
+                    {
+                        "user_id": user_id,
+                        "credential_id": credential_id,
+                        "device_type": credential.device_type,
+                        "attestation_verified": attestation_verified,
+                    },
+                )
 
-            self.logger.info("WebAuthn credential registered",
-                           user_id=user_id, credential_id=credential_id)
+            self.logger.info("WebAuthn credential registered", user_id=user_id, credential_id=credential_id)
 
             return True
 
         except Exception as e:
-            self.logger.error("Failed to register WebAuthn credential",
-                            user_id=user_id, error=str(e))
+            self.logger.error("Failed to register WebAuthn credential", user_id=user_id, error=str(e))
             return False
 
     async def _verify_signature(
-        self,
-        challenge: WebAuthnChallenge,
-        credential: WebAuthnCredentialMetadata,
-        response: Dict[str, Any]
+        self, challenge: WebAuthnChallenge, credential: WebAuthnCredentialMetadata, response: Dict[str, Any]
     ) -> WebAuthnVerificationResult:
         """
         Verify WebAuthn signature with comprehensive security checks.
@@ -527,9 +514,7 @@ class EnhancedWebAuthnService:
 
             if not all([authenticator_data, client_data_json, signature]):
                 return WebAuthnVerificationResult(
-                    success=False,
-                    error_code="MISSING_RESPONSE_DATA",
-                    error_message="Incomplete WebAuthn response"
+                    success=False, error_code="MISSING_RESPONSE_DATA", error_message="Incomplete WebAuthn response"
                 )
 
             # Decode client data
@@ -537,9 +522,7 @@ class EnhancedWebAuthnService:
                 client_data = json.loads(base64.urlsafe_b64decode(client_data_json + "==="))
             except (json.JSONDecodeError, ValueError):
                 return WebAuthnVerificationResult(
-                    success=False,
-                    error_code="INVALID_CLIENT_DATA",
-                    error_message="Invalid client data JSON"
+                    success=False, error_code="INVALID_CLIENT_DATA", error_message="Invalid client data JSON"
                 )
 
             # Verify challenge
@@ -549,7 +532,7 @@ class EnhancedWebAuthnService:
                     success=False,
                     challenge_valid=False,
                     error_code="CHALLENGE_MISMATCH",
-                    error_message="Challenge mismatch"
+                    error_message="Challenge mismatch",
                 )
 
             # Verify origin
@@ -560,24 +543,20 @@ class EnhancedWebAuthnService:
                     origin_valid=False,
                     error_code="ORIGIN_MISMATCH",
                     error_message="Origin mismatch",
-                    risk_factors=["origin_mismatch"]
+                    risk_factors=["origin_mismatch"],
                 )
 
             # Verify type
             if client_data.get("type") != "webauthn.get":
                 return WebAuthnVerificationResult(
-                    success=False,
-                    error_code="INVALID_TYPE",
-                    error_message="Invalid ceremony type"
+                    success=False, error_code="INVALID_TYPE", error_message="Invalid ceremony type"
                 )
 
             # Parse authenticator data
             auth_data_bytes = base64.urlsafe_b64decode(authenticator_data + "===")
             if len(auth_data_bytes) < 37:
                 return WebAuthnVerificationResult(
-                    success=False,
-                    error_code="INVALID_AUTHENTICATOR_DATA",
-                    error_message="Authenticator data too short"
+                    success=False, error_code="INVALID_AUTHENTICATOR_DATA", error_message="Authenticator data too short"
                 )
 
             # Extract flags
@@ -593,7 +572,7 @@ class EnhancedWebAuthnService:
                     user_verified=False,
                     error_code="USER_NOT_VERIFIED",
                     error_message="T4 authentication requires user verification",
-                    risk_factors=["no_user_verification"]
+                    risk_factors=["no_user_verification"],
                 )
 
             # Mock signature verification (in production, use real cryptographic verification)
@@ -623,22 +602,18 @@ class EnhancedWebAuthnService:
                 user_present=user_present,
                 user_verified=user_verified,
                 risk_factors=risk_factors,
-                risk_score=risk_score
+                risk_score=risk_score,
             )
 
         except Exception as e:
             return WebAuthnVerificationResult(
                 success=False,
                 error_code="SIGNATURE_VERIFICATION_ERROR",
-                error_message=f"Signature verification error: {str(e)}"
+                error_message=f"Signature verification error: {str(e)}",
             )
 
     async def _mock_signature_verification(
-        self,
-        authenticator_data: str,
-        client_data_json: str,
-        signature: str,
-        public_key_pem: str
+        self, authenticator_data: str, client_data_json: str, signature: str, public_key_pem: str
     ) -> bool:
         """
         Mock signature verification for testing.
@@ -661,11 +636,7 @@ class EnhancedWebAuthnService:
         except Exception:
             return False
 
-    async def _update_credential_usage(
-        self,
-        credential: WebAuthnCredentialMetadata,
-        ip_address: str
-    ) -> None:
+    async def _update_credential_usage(self, credential: WebAuthnCredentialMetadata, ip_address: str) -> None:
         """Update credential usage metadata."""
         credential.last_used = datetime.now(timezone.utc)
         credential.usage_count += 1
@@ -678,10 +649,7 @@ class EnhancedWebAuthnService:
     async def _cleanup_expired_challenges(self) -> None:
         """Remove expired challenges and nonces."""
         datetime.now(timezone.utc)
-        expired_challenges = [
-            cid for cid, challenge in self._active_challenges.items()
-            if challenge.is_expired
-        ]
+        expired_challenges = [cid for cid, challenge in self._active_challenges.items() if challenge.is_expired]
 
         for cid in expired_challenges:
             challenge = self._active_challenges.pop(cid)
@@ -712,19 +680,19 @@ class EnhancedWebAuthnService:
             "challenge_generation": {
                 "count": len(challenge_gen),
                 "avg_ms": sum(challenge_gen) / len(challenge_gen) if challenge_gen else 0,
-                "p95_ms": sorted(challenge_gen)[int(len(challenge_gen) * 0.95)] if challenge_gen else 0
+                "p95_ms": sorted(challenge_gen)[int(len(challenge_gen) * 0.95)] if challenge_gen else 0,
             },
             "credential_verification": {
                 "count": len(credential_ver),
                 "avg_ms": sum(credential_ver) / len(credential_ver) if credential_ver else 0,
-                "p95_ms": sorted(credential_ver)[int(len(credential_ver) * 0.95)] if credential_ver else 0
+                "p95_ms": sorted(credential_ver)[int(len(credential_ver) * 0.95)] if credential_ver else 0,
             },
             "verification_success_rate": (
-                self._performance_metrics["successful_verifications"] /
-                max(1, self._performance_metrics["total_verifications"])
+                self._performance_metrics["successful_verifications"]
+                / max(1, self._performance_metrics["total_verifications"])
             ),
             "active_challenges": len(self._active_challenges),
-            "registered_credentials": len(self._credentials)
+            "registered_credentials": len(self._credentials),
         }
 
 
@@ -733,12 +701,7 @@ def create_enhanced_webauthn_service(
     rp_id: str = "ai",
     rp_name: str = "LUKHAS AI Identity System",
     origin: str = "https://ai",
-    guardian_system: Optional[GuardianSystem] = None
+    guardian_system: Optional[GuardianSystem] = None,
 ) -> EnhancedWebAuthnService:
     """Create enhanced WebAuthn service with configuration."""
-    return EnhancedWebAuthnService(
-        rp_id=rp_id,
-        rp_name=rp_name,
-        origin=origin,
-        guardian_system=guardian_system
-    )
+    return EnhancedWebAuthnService(rp_id=rp_id, rp_name=rp_name, origin=origin, guardian_system=guardian_system)

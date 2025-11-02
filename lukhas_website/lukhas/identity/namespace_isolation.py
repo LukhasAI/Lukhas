@@ -39,15 +39,17 @@ logger = logging.getLogger(__name__)
 
 class IsolationScope(Enum):
     """Data isolation scope levels."""
-    GLOBAL = "global"          # Cross-tenant global data
-    TENANT = "tenant"          # Tenant-scoped data
-    ORGANIZATION = "org"       # Organization-scoped data
-    TEAM = "team"             # Team-scoped data
-    USER = "user"             # User-scoped data
+
+    GLOBAL = "global"  # Cross-tenant global data
+    TENANT = "tenant"  # Tenant-scoped data
+    ORGANIZATION = "org"  # Organization-scoped data
+    TEAM = "team"  # Team-scoped data
+    USER = "user"  # User-scoped data
 
 
 class AccessMode(Enum):
     """Data access modes."""
+
     READ = "read"
     WRITE = "write"
     DELETE = "delete"
@@ -57,6 +59,7 @@ class AccessMode(Enum):
 @dataclass
 class NamespaceKey:
     """Cryptographic key for namespace isolation."""
+
     namespace: str
     scope: IsolationScope
     key_id: str
@@ -69,6 +72,7 @@ class NamespaceKey:
 @dataclass
 class DataAccessRequest:
     """Request for namespace-isolated data access."""
+
     namespace: str
     data_path: str
     access_mode: AccessMode
@@ -80,6 +84,7 @@ class DataAccessRequest:
 @dataclass
 class IsolatedData:
     """Namespace-isolated data container."""
+
     namespace: str
     scope: IsolationScope
     data_path: str
@@ -99,10 +104,7 @@ class NamespaceIsolationEngine:
     """
 
     def __init__(
-        self,
-        guardian: Optional[Any] = None,
-        storage_provider: Optional[Callable] = None,
-        key_rotation_days: int = 90
+        self, guardian: Optional[Any] = None, storage_provider: Optional[Callable] = None, key_rotation_days: int = 90
     ):
         self.guardian = guardian
         self.storage_provider = storage_provider or self._default_storage
@@ -116,11 +118,7 @@ class NamespaceIsolationEngine:
         self.logger = logging.getLogger(f"{__name__}.NamespaceIsolationEngine")
         self.logger.info("NamespaceIsolationEngine initialized with cryptographic isolation")
 
-    async def create_namespace(
-        self,
-        tenant: TenantMetadata,
-        master_key: Optional[str] = None
-    ) -> str:
+    async def create_namespace(self, tenant: TenantMetadata, master_key: Optional[str] = None) -> str:
         """
         Create cryptographically isolated namespace for tenant.
 
@@ -166,7 +164,7 @@ class NamespaceIsolationEngine:
                 scope=IsolationScope.TENANT,
                 key_id=f"ns_{namespace}_{int(datetime.now().timestamp())}",
                 encrypted_key=encrypted_key,
-                salt=salt
+                salt=salt,
             )
 
             self._namespace_keys[namespace] = namespace_key
@@ -175,11 +173,15 @@ class NamespaceIsolationEngine:
 
             # Guardian monitoring
             if self.guardian:
-                await self._guardian_monitor_namespace_event("namespace_created", namespace, {
-                    "tenant_id": tenant.tenant_id,
-                    "tenant_type": tenant.tenant_type.value,
-                    "key_id": namespace_key.key_id
-                })
+                await self._guardian_monitor_namespace_event(
+                    "namespace_created",
+                    namespace,
+                    {
+                        "tenant_id": tenant.tenant_id,
+                        "tenant_type": tenant.tenant_type.value,
+                        "key_id": namespace_key.key_id,
+                    },
+                )
 
             span.set_attribute("namespace", namespace)
             span.set_attribute("tenant_id", tenant.tenant_id)
@@ -191,10 +193,7 @@ class NamespaceIsolationEngine:
             return namespace
 
     async def store_data(
-        self,
-        request: DataAccessRequest,
-        data: Any,
-        scope: IsolationScope = IsolationScope.TENANT
+        self, request: DataAccessRequest, data: Any, scope: IsolationScope = IsolationScope.TENANT
     ) -> str:
         """
         Store data with namespace isolation and encryption.
@@ -228,7 +227,7 @@ class NamespaceIsolationEngine:
                 scope=scope,
                 data_path=request.data_path,
                 encrypted_data=encrypted_data,
-                metadata=request.metadata.copy()
+                metadata=request.metadata.copy(),
             )
 
             # Log access
@@ -239,11 +238,11 @@ class NamespaceIsolationEngine:
 
             # Guardian monitoring
             if self.guardian:
-                await self._guardian_monitor_data_operation("data_stored", request, {
-                    "scope": scope.value,
-                    "data_size": len(serialized_data),
-                    "encrypted_size": len(encrypted_data)
-                })
+                await self._guardian_monitor_data_operation(
+                    "data_stored",
+                    request,
+                    {"scope": scope.value, "data_size": len(serialized_data), "encrypted_size": len(encrypted_data)},
+                )
 
             span.set_attribute("namespace", request.namespace)
             span.set_attribute("data_path", request.data_path)
@@ -256,11 +255,7 @@ class NamespaceIsolationEngine:
 
             return request.data_path
 
-    async def retrieve_data(
-        self,
-        request: DataAccessRequest,
-        decrypt: bool = True
-    ) -> Any:
+    async def retrieve_data(self, request: DataAccessRequest, decrypt: bool = True) -> Any:
         """
         Retrieve namespace-isolated data with decryption.
 
@@ -301,11 +296,15 @@ class NamespaceIsolationEngine:
 
             # Guardian monitoring
             if self.guardian:
-                await self._guardian_monitor_data_operation("data_retrieved", request, {
-                    "scope": isolated_data.scope.value,
-                    "encrypted_size": len(isolated_data.encrypted_data),
-                    "decrypted_size": len(decrypted_data)
-                })
+                await self._guardian_monitor_data_operation(
+                    "data_retrieved",
+                    request,
+                    {
+                        "scope": isolated_data.scope.value,
+                        "encrypted_size": len(isolated_data.encrypted_data),
+                        "decrypted_size": len(decrypted_data),
+                    },
+                )
 
             span.set_attribute("namespace", request.namespace)
             span.set_attribute("data_path", request.data_path)
@@ -317,10 +316,7 @@ class NamespaceIsolationEngine:
 
             return data
 
-    async def delete_data(
-        self,
-        request: DataAccessRequest
-    ) -> bool:
+    async def delete_data(self, request: DataAccessRequest) -> bool:
         """
         Delete namespace-isolated data.
 
@@ -356,10 +352,11 @@ class NamespaceIsolationEngine:
 
             # Guardian monitoring
             if self.guardian:
-                await self._guardian_monitor_data_operation("data_deleted", request, {
-                    "scope": isolated_data.scope.value,
-                    "data_size": len(isolated_data.encrypted_data)
-                })
+                await self._guardian_monitor_data_operation(
+                    "data_deleted",
+                    request,
+                    {"scope": isolated_data.scope.value, "data_size": len(isolated_data.encrypted_data)},
+                )
 
             span.set_attribute("namespace", request.namespace)
             span.set_attribute("data_path", request.data_path)
@@ -371,11 +368,7 @@ class NamespaceIsolationEngine:
             return True
 
     async def list_namespace_data(
-        self,
-        namespace: str,
-        requester_id: str,
-        path_prefix: str = "",
-        scope_filter: Optional[IsolationScope] = None
+        self, namespace: str, requester_id: str, path_prefix: str = "", scope_filter: Optional[IsolationScope] = None
     ) -> List[Dict[str, Any]]:
         """
         List data in namespace with access control.
@@ -391,10 +384,7 @@ class NamespaceIsolationEngine:
         """
         # Validate namespace access
         request = DataAccessRequest(
-            namespace=namespace,
-            data_path="",
-            access_mode=AccessMode.READ,
-            requester_id=requester_id
+            namespace=namespace, data_path="", access_mode=AccessMode.READ, requester_id=requester_id
         )
         await self._validate_access(request, AccessMode.READ)
 
@@ -409,18 +399,18 @@ class NamespaceIsolationEngine:
                 continue
 
             # Return metadata only
-            results.append({
-                "path": path,
-                "scope": isolated_data.scope.value,
-                "created_at": isolated_data.created_at.isoformat(),
-                "updated_at": isolated_data.updated_at.isoformat(),
-                "metadata": isolated_data.metadata,
-                "access_count": len(isolated_data.access_log)
-            })
+            results.append(
+                {
+                    "path": path,
+                    "scope": isolated_data.scope.value,
+                    "created_at": isolated_data.created_at.isoformat(),
+                    "updated_at": isolated_data.updated_at.isoformat(),
+                    "metadata": isolated_data.metadata,
+                    "access_count": len(isolated_data.access_log),
+                }
+            )
 
-        self.logger.debug(
-            f"Listed namespace data: {namespace} ({len(results)} items, requester={requester_id})"
-        )
+        self.logger.debug(f"Listed namespace data: {namespace} ({len(results)} items, requester={requester_id})")
 
         return results
 
@@ -430,7 +420,7 @@ class NamespaceIsolationEngine:
         target_namespace: str,
         permissions: List[AccessMode],
         requester_id: str,
-        expires_at: Optional[datetime] = None
+        expires_at: Optional[datetime] = None,
     ) -> str:
         """
         Grant cross-namespace access permissions.
@@ -456,10 +446,7 @@ class NamespaceIsolationEngine:
 
         # Validate requester has admin access to target namespace
         admin_request = DataAccessRequest(
-            namespace=target_namespace,
-            data_path="",
-            access_mode=AccessMode.ADMIN,
-            requester_id=requester_id
+            namespace=target_namespace, data_path="", access_mode=AccessMode.ADMIN, requester_id=requester_id
         )
         await self._validate_access(admin_request, AccessMode.ADMIN)
 
@@ -468,13 +455,17 @@ class NamespaceIsolationEngine:
 
         # Guardian monitoring
         if self.guardian:
-            await self._guardian_monitor_namespace_event("cross_namespace_access_granted", target_namespace, {
-                "source_namespace": source_namespace,
-                "permissions": [p.value for p in permissions],
-                "requester": requester_id,
-                "grant_id": grant_id,
-                "expires_at": expires_at.isoformat() if expires_at else None
-            })
+            await self._guardian_monitor_namespace_event(
+                "cross_namespace_access_granted",
+                target_namespace,
+                {
+                    "source_namespace": source_namespace,
+                    "permissions": [p.value for p in permissions],
+                    "requester": requester_id,
+                    "grant_id": grant_id,
+                    "expires_at": expires_at.isoformat() if expires_at else None,
+                },
+            )
 
         self.logger.info(
             f"Cross-namespace access granted: {source_namespace} -> {target_namespace} (grant={grant_id}, perms={[p.value for p in permissions]}, requester={requester_id})"
@@ -504,11 +495,7 @@ class NamespaceIsolationEngine:
 
         return fernet.decrypt(encrypted_data)
 
-    async def _validate_access(
-        self,
-        request: DataAccessRequest,
-        required_mode: AccessMode
-    ) -> None:
+    async def _validate_access(self, request: DataAccessRequest, required_mode: AccessMode) -> None:
         """Validate access permissions for namespace operation."""
         # Simplified access control (in production, integrate with tenant user roles)
         self._access_policies.get(request.namespace, {})
@@ -518,19 +505,14 @@ class NamespaceIsolationEngine:
             f"Access validated: {request.namespace} (requester={request.requester_id}, mode={required_mode.value})"
         )
 
-    async def _log_access(
-        self,
-        isolated_data: IsolatedData,
-        request: DataAccessRequest,
-        operation: str
-    ) -> None:
+    async def _log_access(self, isolated_data: IsolatedData, request: DataAccessRequest, operation: str) -> None:
         """Log data access for audit trail."""
         access_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "operation": operation,
             "requester": request.requester_id,
             "requester_context": request.requester_context,
-            "access_mode": request.access_mode.value
+            "access_mode": request.access_mode.value,
         }
 
         isolated_data.access_log.append(access_entry)
@@ -538,33 +520,21 @@ class NamespaceIsolationEngine:
 
     def _create_default_policies(self, tenant: TenantMetadata) -> Dict[str, Set[str]]:
         """Create default access policies for tenant."""
-        return {
-            "admin": {"read", "write", "delete", "admin"},
-            "user": {"read", "write"},
-            "readonly": {"read"}
-        }
+        return {"admin": {"read", "write", "delete", "admin"}, "user": {"read", "write"}, "readonly": {"read"}}
 
-    async def _guardian_monitor_namespace_event(
-        self,
-        event: str,
-        namespace: str,
-        context: Dict[str, Any]
-    ) -> None:
+    async def _guardian_monitor_namespace_event(self, event: str, namespace: str, context: Dict[str, Any]) -> None:
         """Guardian monitoring for namespace events."""
         if self.guardian:
             monitor_data = {
                 "event": event,
                 "namespace": namespace,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                **context
+                **context,
             }
             await self.guardian.monitor_behavior_async(monitor_data)
 
     async def _guardian_monitor_data_operation(
-        self,
-        operation: str,
-        request: DataAccessRequest,
-        context: Dict[str, Any]
+        self, operation: str, request: DataAccessRequest, context: Dict[str, Any]
     ) -> None:
         """Guardian monitoring for data operations."""
         if self.guardian:
@@ -575,7 +545,7 @@ class NamespaceIsolationEngine:
                 "requester": request.requester_id,
                 "access_mode": request.access_mode.value,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                **context
+                **context,
             }
             await self.guardian.monitor_behavior_async(monitor_data)
 
@@ -592,5 +562,5 @@ __all__ = [
     "AccessMode",
     "DataAccessRequest",
     "IsolatedData",
-    "NamespaceKey"
+    "NamespaceKey",
 ]

@@ -4,6 +4,7 @@ Tests for audit trail writing and querying.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-MED-TEST-AUDIT-o3p4q5r6
 """
+
 import pytest
 
 

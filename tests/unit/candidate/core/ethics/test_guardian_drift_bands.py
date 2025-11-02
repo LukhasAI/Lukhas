@@ -35,6 +35,7 @@ try:
         create_guardian_drift_bands,
     )
     from core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsResult
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
@@ -59,9 +60,7 @@ class TestGuardianThresholds:
     def test_threshold_validation_valid_config(self):
         """Test threshold validation with valid configuration."""
         thresholds = GuardianThresholds(
-            allow_drift_threshold=0.1,
-            guardrails_drift_threshold=0.3,
-            human_drift_threshold=0.6
+            allow_drift_threshold=0.1, guardrails_drift_threshold=0.3, human_drift_threshold=0.6
         )
 
         errors = thresholds.validate()
@@ -72,7 +71,7 @@ class TestGuardianThresholds:
         thresholds = GuardianThresholds(
             allow_drift_threshold=0.5,
             guardrails_drift_threshold=0.3,  # Invalid: should be > allow
-            human_drift_threshold=0.7
+            human_drift_threshold=0.7,
         )
 
         errors = thresholds.validate()
@@ -83,7 +82,7 @@ class TestGuardianThresholds:
         thresholds = GuardianThresholds(
             allow_drift_threshold=-0.1,  # Invalid: < 0
             guardrails_drift_threshold=1.5,  # Invalid: > 1
-            human_drift_threshold=0.5
+            human_drift_threshold=0.5,
         )
 
         errors = thresholds.validate()
@@ -102,7 +101,7 @@ class TestGuardianDriftBands:
             human_drift_threshold=0.6,
             hysteresis_buffer_allow=5.0,
             hysteresis_buffer_guardrails=10.0,
-            hysteresis_buffer_human=15.0
+            hysteresis_buffer_human=15.0,
         )
         return GuardianDriftBands(thresholds=thresholds)
 
@@ -121,9 +120,7 @@ class TestGuardianDriftBands:
     def test_initialization_invalid_config(self):
         """Test Guardian initialization fails with invalid configuration."""
         invalid_thresholds = GuardianThresholds(
-            allow_drift_threshold=0.8,
-            guardrails_drift_threshold=0.3,  # Invalid ordering
-            human_drift_threshold=0.6
+            allow_drift_threshold=0.8, guardrails_drift_threshold=0.3, human_drift_threshold=0.6  # Invalid ordering
         )
 
         with pytest.raises(ValueError, match="Invalid threshold configuration"):
@@ -135,11 +132,7 @@ class TestGuardianDriftBands:
         ethics_result = Mock()
         ethics_result.action = EthicsAction.ALLOW
 
-        drift_score = guardian_bands._calculate_drift_score(
-            {"action": "test"},
-            {"user_id": "test_user"},
-            ethics_result
-        )
+        drift_score = guardian_bands._calculate_drift_score({"action": "test"}, {"user_id": "test_user"}, ethics_result)
 
         assert 0.0 <= drift_score <= 1.0
 
@@ -149,31 +142,19 @@ class TestGuardianDriftBands:
         ethics_allow = Mock()
         ethics_allow.action = EthicsAction.ALLOW
 
-        drift_allow = guardian_bands._calculate_drift_score(
-            {"action": "test"},
-            {"user_id": "test_user"},
-            ethics_allow
-        )
+        drift_allow = guardian_bands._calculate_drift_score({"action": "test"}, {"user_id": "test_user"}, ethics_allow)
 
         # WARN case
         ethics_warn = Mock()
         ethics_warn.action = EthicsAction.WARN
 
-        drift_warn = guardian_bands._calculate_drift_score(
-            {"action": "test"},
-            {"user_id": "test_user"},
-            ethics_warn
-        )
+        drift_warn = guardian_bands._calculate_drift_score({"action": "test"}, {"user_id": "test_user"}, ethics_warn)
 
         # BLOCK case
         ethics_block = Mock()
         ethics_block.action = EthicsAction.BLOCK
 
-        drift_block = guardian_bands._calculate_drift_score(
-            {"action": "test"},
-            {"user_id": "test_user"},
-            ethics_block
-        )
+        drift_block = guardian_bands._calculate_drift_score({"action": "test"}, {"user_id": "test_user"}, ethics_block)
 
         # Should increase: ALLOW < WARN < BLOCK
         assert drift_allow < drift_warn < drift_block
@@ -211,10 +192,7 @@ class TestGuardianDriftBands:
         assert guardian_bands.current_band == GuardianBand.ALLOW
 
         result, transition = guardian_bands._apply_hysteresis(
-            GuardianBand.ALLOW_WITH_GUARDRAILS,
-            0.2,
-            "warn",
-            "test_hash"
+            GuardianBand.ALLOW_WITH_GUARDRAILS, 0.2, "warn", "test_hash"
         )
 
         assert result == GuardianBand.ALLOW_WITH_GUARDRAILS
@@ -229,12 +207,7 @@ class TestGuardianDriftBands:
         guardian_bands._set_hysteresis_buffer(GuardianBand.ALLOW_WITH_GUARDRAILS)
 
         # Try to transition down to ALLOW - should be blocked by hysteresis
-        result, transition = guardian_bands._apply_hysteresis(
-            GuardianBand.ALLOW,
-            0.01,
-            "allow",
-            "test_hash"
-        )
+        result, transition = guardian_bands._apply_hysteresis(GuardianBand.ALLOW, 0.01, "allow", "test_hash")
 
         assert result == GuardianBand.ALLOW_WITH_GUARDRAILS  # No change due to hysteresis
         assert transition is None
@@ -247,12 +220,7 @@ class TestGuardianDriftBands:
         guardian_bands.hysteresis_expires[GuardianBand.ALLOW_WITH_GUARDRAILS] = past_time
 
         # Now try to transition down - should succeed
-        result, transition = guardian_bands._apply_hysteresis(
-            GuardianBand.ALLOW,
-            0.01,
-            "allow",
-            "test_hash"
-        )
+        result, transition = guardian_bands._apply_hysteresis(GuardianBand.ALLOW, 0.01, "allow", "test_hash")
 
         assert result == GuardianBand.ALLOW
         assert transition is not None
@@ -261,72 +229,40 @@ class TestGuardianDriftBands:
     def test_guardrails_generation_by_band(self, guardian_bands):
         """Test guardrails generation for different bands."""
         # ALLOW - no guardrails
-        guardrails = guardian_bands._generate_guardrails(
-            GuardianBand.ALLOW,
-            0.01,
-            None
-        )
+        guardrails = guardian_bands._generate_guardrails(GuardianBand.ALLOW, 0.01, None)
         assert len(guardrails) == 0
 
         # ALLOW_WITH_GUARDRAILS - basic guardrails
-        guardrails = guardian_bands._generate_guardrails(
-            GuardianBand.ALLOW_WITH_GUARDRAILS,
-            0.15,
-            None
-        )
+        guardrails = guardian_bands._generate_guardrails(GuardianBand.ALLOW_WITH_GUARDRAILS, 0.15, None)
         assert "enhanced_audit_logging" in guardrails
         assert "parameter_validation_required" in guardrails
 
         # REQUIRE_HUMAN - human oversight guardrails
-        guardrails = guardian_bands._generate_guardrails(
-            GuardianBand.REQUIRE_HUMAN,
-            0.4,
-            None
-        )
+        guardrails = guardian_bands._generate_guardrails(GuardianBand.REQUIRE_HUMAN, 0.4, None)
         assert "human_approval_required" in guardrails
         assert "comprehensive_audit_trail" in guardrails
 
         # BLOCK - blocking guardrails
-        guardrails = guardian_bands._generate_guardrails(
-            GuardianBand.BLOCK,
-            0.8,
-            None
-        )
+        guardrails = guardian_bands._generate_guardrails(GuardianBand.BLOCK, 0.8, None)
         assert "operation_blocked" in guardrails
         assert "security_review_required" in guardrails
 
     def test_human_requirements_generation(self, guardian_bands):
         """Test human requirements generation for bands that need them."""
         # ALLOW and ALLOW_WITH_GUARDRAILS - no human requirements
-        requirements = guardian_bands._generate_human_requirements(
-            GuardianBand.ALLOW,
-            0.01,
-            None
-        )
+        requirements = guardian_bands._generate_human_requirements(GuardianBand.ALLOW, 0.01, None)
         assert len(requirements) == 0
 
-        requirements = guardian_bands._generate_human_requirements(
-            GuardianBand.ALLOW_WITH_GUARDRAILS,
-            0.15,
-            None
-        )
+        requirements = guardian_bands._generate_human_requirements(GuardianBand.ALLOW_WITH_GUARDRAILS, 0.15, None)
         assert len(requirements) == 0
 
         # REQUIRE_HUMAN - specific requirements
-        requirements = guardian_bands._generate_human_requirements(
-            GuardianBand.REQUIRE_HUMAN,
-            0.4,
-            None
-        )
+        requirements = guardian_bands._generate_human_requirements(GuardianBand.REQUIRE_HUMAN, 0.4, None)
         assert "review_plan_parameters" in requirements
         assert "validate_user_intent" in requirements
 
         # BLOCK - investigation requirements
-        requirements = guardian_bands._generate_human_requirements(
-            GuardianBand.BLOCK,
-            0.8,
-            None
-        )
+        requirements = guardian_bands._generate_human_requirements(GuardianBand.BLOCK, 0.8, None)
         assert "investigate_block_reason" in requirements
         assert "assess_system_security" in requirements
 
@@ -351,7 +287,12 @@ class TestGuardianDriftBands:
 
         # Verify result structure
         assert isinstance(result, GuardianBandResult)
-        assert result.band in [GuardianBand.ALLOW, GuardianBand.ALLOW_WITH_GUARDRAILS, GuardianBand.REQUIRE_HUMAN, GuardianBand.BLOCK]
+        assert result.band in [
+            GuardianBand.ALLOW,
+            GuardianBand.ALLOW_WITH_GUARDRAILS,
+            GuardianBand.REQUIRE_HUMAN,
+            GuardianBand.BLOCK,
+        ]
         assert result.drift_score >= 0.0
         assert result.ethics_action == "warn"
         assert isinstance(result.guardrails, list)
@@ -373,7 +314,7 @@ class TestGuardianDriftBands:
     def test_evaluate_error_handling(self, guardian_bands):
         """Test evaluation error handling fails closed."""
         # Force an error by providing invalid input
-        with patch.object(guardian_bands, '_calculate_drift_score', side_effect=Exception("Test error")):
+        with patch.object(guardian_bands, "_calculate_drift_score", side_effect=Exception("Test error")):
             result = guardian_bands.evaluate({}, {})
 
             # Should fail closed to most restrictive band
@@ -388,11 +329,7 @@ class TestGuardianDriftBands:
         assert guardian_bands.current_band == GuardianBand.ALLOW
 
         # Force transition to BLOCK
-        transition = guardian_bands.force_band_transition(
-            GuardianBand.BLOCK,
-            "Emergency override",
-            "admin_user"
-        )
+        transition = guardian_bands.force_band_transition(GuardianBand.BLOCK, "Emergency override", "admin_user")
 
         assert guardian_bands.current_band == GuardianBand.BLOCK
         assert transition.trigger == BandTrigger.MANUAL_OVERRIDE
@@ -410,7 +347,7 @@ class TestGuardianDriftBands:
             (base_time - timedelta(seconds=300), 0.1),
             (base_time - timedelta(seconds=200), 0.15),
             (base_time - timedelta(seconds=100), 0.25),
-            (base_time, 0.4)  # Rapid acceleration
+            (base_time, 0.4),  # Rapid acceleration
         ]
 
         acceleration = guardian_bands._calculate_drift_acceleration()
@@ -465,11 +402,7 @@ class TestGuardianFactoryFunction:
 
     def test_create_guardian_drift_bands_custom_thresholds(self):
         """Test factory function with custom thresholds."""
-        guardian = create_guardian_drift_bands(
-            allow_threshold=0.2,
-            guardrails_threshold=0.4,
-            human_threshold=0.8
-        )
+        guardian = create_guardian_drift_bands(allow_threshold=0.2, guardrails_threshold=0.4, human_threshold=0.8)
 
         assert guardian.thresholds.allow_drift_threshold == 0.2
         assert guardian.thresholds.guardrails_drift_threshold == 0.4
@@ -478,9 +411,7 @@ class TestGuardianFactoryFunction:
     def test_create_guardian_drift_bands_additional_params(self):
         """Test factory function with additional parameters."""
         guardian = create_guardian_drift_bands(
-            allow_threshold=0.1,
-            hysteresis_buffer_allow=120.0,
-            critical_violation_immediate_block=False
+            allow_threshold=0.1, hysteresis_buffer_allow=120.0, critical_violation_immediate_block=False
         )
 
         assert guardian.thresholds.allow_drift_threshold == 0.1
@@ -500,7 +431,7 @@ class TestBandTransitionScenarios:
             human_drift_threshold=0.6,
             hysteresis_buffer_allow=0.1,  # Very short for testing
             hysteresis_buffer_guardrails=0.2,
-            hysteresis_buffer_human=0.3
+            hysteresis_buffer_human=0.3,
         )
         return GuardianDriftBands(thresholds=thresholds)
 

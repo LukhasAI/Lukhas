@@ -119,6 +119,7 @@ class TestConsciousnessStream:
         # Mock an error by breaking the router
         def failing_publish(msg):
             raise ValueError("Test error")
+
         stream.router.publish = failing_publish
 
         # This should not crash
@@ -142,13 +143,24 @@ class TestConsciousnessStream:
         metrics = stream.get_stream_metrics()
 
         expected_keys = {
-            "running", "lane", "glyph_id", "tick_count", "events_processed",
-            "store_size", "store_capacity", "router_logs", "ticker_metrics",
+            "running",
+            "lane",
+            "glyph_id",
+            "tick_count",
+            "events_processed",
+            "store_size",
+            "store_capacity",
+            "router_logs",
+            "ticker_metrics",
             # Per-stream metrics
-            "breakthroughs_per_min", "tick_p95_ms", "drift_ema",
-            "total_breakthroughs", "avg_tick_processing_ms",
+            "breakthroughs_per_min",
+            "tick_p95_ms",
+            "drift_ema",
+            "total_breakthroughs",
+            "avg_tick_processing_ms",
             # Backpressure metrics
-            "backpressure_enabled", "backpressure_stats"
+            "backpressure_enabled",
+            "backpressure_stats",
         }
 
         assert set(metrics.keys()) == expected_keys
@@ -246,9 +258,11 @@ class TestConsciousnessStream:
             if i == 10:
                 # Simulate a processing breakthrough with longer delay
                 original_method = stream._on_consciousness_tick
+
                 def delayed_tick(tick_count):
                     time.sleep(0.005)  # 5ms delay
                     original_method(tick_count)
+
                 delayed_tick(i)
             else:
                 stream._on_consciousness_tick(i)
@@ -291,7 +305,7 @@ class TestConsciousnessStream:
             store_capacity=10,  # Very small capacity
             enable_backpressure=True,
             backpressure_threshold=0.8,
-            decimation_factor=2
+            decimation_factor=2,
         )
 
         # Process many events to exceed capacity
@@ -315,11 +329,7 @@ class TestConsciousnessStream:
 
     def test_backpressure_disabled(self):
         """Test stream behavior with backpressure disabled."""
-        stream = ConsciousnessStream(
-            fps=30,
-            store_capacity=100,
-            enable_backpressure=False
-        )
+        stream = ConsciousnessStream(fps=30, store_capacity=100, enable_backpressure=False)
 
         # Process some events
         for i in range(10):
@@ -343,7 +353,7 @@ class TestConsciousnessStream:
                 enable_backpressure=True,
                 backpressure_threshold=0.6,
                 decimation_factor=2,
-                decimation_strategy=strategy
+                decimation_strategy=strategy,
             )
 
             # Generate load
@@ -360,10 +370,7 @@ class TestConsciousnessStream:
     def test_zero_drops_within_budget(self):
         """Test zero drops guarantee when within capacity budget."""
         stream = ConsciousnessStream(
-            fps=30,
-            store_capacity=1000,  # Large capacity
-            enable_backpressure=True,
-            backpressure_threshold=0.8
+            fps=30, store_capacity=1000, enable_backpressure=True, backpressure_threshold=0.8  # Large capacity
         )
 
         # Process reasonable load within budget

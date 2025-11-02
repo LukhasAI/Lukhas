@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class FederationState(Enum):
     """Federation states"""
+
     INITIALIZING = "initializing"
     FORMING = "forming"
     ACTIVE = "active"
@@ -30,6 +31,7 @@ class FederationState(Enum):
 
 class LoadBalancingStrategy(Enum):
     """Load balancing strategies for federation"""
+
     ROUND_ROBIN = "round_robin"
     LEAST_LOADED = "least_loaded"
     GEOGRAPHIC = "geographic"
@@ -39,6 +41,7 @@ class LoadBalancingStrategy(Enum):
 
 class FederationRole(Enum):
     """Node roles in federation"""
+
     COORDINATOR = "coordinator"
     WORKER = "worker"
     OBSERVER = "observer"
@@ -48,6 +51,7 @@ class FederationRole(Enum):
 @dataclass
 class FederationCluster:
     """Represents a cluster in the federation"""
+
     cluster_id: str
     coordinator_node: str
     member_nodes: Set[str]
@@ -62,6 +66,7 @@ class FederationCluster:
 @dataclass
 class FederationMetrics:
     """Federation-wide metrics"""
+
     total_clusters: int = 0
     total_nodes: int = 0
     total_memory_folds: int = 0
@@ -75,6 +80,7 @@ class FederationMetrics:
 @dataclass
 class CrossClusterOperation:
     """Cross-cluster operation tracking"""
+
     operation_id: str
     operation_type: str
     source_cluster: str
@@ -93,12 +99,14 @@ class FederationCoordinator:
     Advanced coordinator for distributed memory federation with intelligent load balancing
     """
 
-    def __init__(self,
-                 federation_id: str,
-                 local_orchestrator: DistributedMemoryOrchestrator,
-                 load_balancing_strategy: LoadBalancingStrategy = LoadBalancingStrategy.ADAPTIVE,
-                 max_clusters: int = 10,
-                 health_check_interval: int = 30):
+    def __init__(
+        self,
+        federation_id: str,
+        local_orchestrator: DistributedMemoryOrchestrator,
+        load_balancing_strategy: LoadBalancingStrategy = LoadBalancingStrategy.ADAPTIVE,
+        max_clusters: int = 10,
+        health_check_interval: int = 30,
+    ):
         self.federation_id = federation_id
         self.local_orchestrator = local_orchestrator
         self.load_balancing_strategy = load_balancing_strategy
@@ -168,8 +176,7 @@ class FederationCoordinator:
         self._shutdown_event.set()
 
         # Cancel background tasks
-        for task in [self.coordination_task, self.health_monitor_task,
-                    self.optimization_task, self.load_balancer_task]:
+        for task in [self.coordination_task, self.health_monitor_task, self.optimization_task, self.load_balancer_task]:
             if task and not task.done():
                 task.cancel()
                 try:
@@ -190,7 +197,7 @@ class FederationCoordinator:
                 "federation_id": self.federation_id,
                 "local_cluster": self._get_local_cluster_info(),
                 "capabilities": list(self.local_orchestrator.local_node.capabilities),
-                "request_timestamp": datetime.utcnow().isoformat()
+                "request_timestamp": datetime.utcnow().isoformat(),
             }
 
             # Simulate join request (would use actual network in production)
@@ -230,7 +237,7 @@ class FederationCoordinator:
                 "federation_id": self.federation_id,
                 "created_at": datetime.utcnow().isoformat(),
                 "coordinator_cluster": local_cluster.cluster_id,
-                "founding_node": self.local_orchestrator.node_id
+                "founding_node": self.local_orchestrator.node_id,
             }
 
             self.state = FederationState.ACTIVE
@@ -260,7 +267,7 @@ class FederationCoordinator:
             member_nodes=set(cluster_info.get("member_nodes", [])),
             region=cluster_info.get("region", "unknown"),
             capabilities=set(cluster_info.get("capabilities", [])),
-            metadata=cluster_info.get("metadata", {})
+            metadata=cluster_info.get("metadata", {}),
         )
 
         self.clusters[cluster_id] = cluster
@@ -302,11 +309,9 @@ class FederationCoordinator:
         logger.info(f"🗑️ Removed cluster from federation: {cluster_id}")
         return True
 
-    async def route_memory_operation(self,
-                                   operation_type: str,
-                                   memory_fold_id: str,
-                                   payload: Dict[str, Any],
-                                   priority: int = 1) -> Optional[str]:
+    async def route_memory_operation(
+        self, operation_type: str, memory_fold_id: str, payload: Dict[str, Any], priority: int = 1
+    ) -> Optional[str]:
         """Route memory operation to optimal cluster"""
 
         # Determine target cluster based on load balancing strategy
@@ -325,7 +330,7 @@ class FederationCoordinator:
             target_clusters={target_cluster},
             payload=payload,
             priority=priority,
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
 
         self.pending_operations[operation_id] = operation
@@ -344,7 +349,7 @@ class FederationCoordinator:
             "operations_moved": 0,
             "clusters_rebalanced": 0,
             "load_variance_improvement": 0.0,
-            "errors": []
+            "errors": [],
         }
 
         try:
@@ -374,7 +379,9 @@ class FederationCoordinator:
                 cluster_loads_after = {cid: c.load_factor for cid, c in self.clusters.items()}
                 if cluster_loads_after:
                     avg_load_after = sum(cluster_loads_after.values()) / len(cluster_loads_after)
-                    variance_after = sum((load - avg_load_after) ** 2 for load in cluster_loads_after.values()) / len(cluster_loads_after)
+                    variance_after = sum((load - avg_load_after) ** 2 for load in cluster_loads_after.values()) / len(
+                        cluster_loads_after
+                    )
                     balance_results["load_variance_improvement"] = variance_before - variance_after
                     self.metrics.load_distribution_variance = variance_after
 
@@ -395,7 +402,7 @@ class FederationCoordinator:
             "topology_changes": 0,
             "latency_improvement_ms": 0.0,
             "efficiency_improvement": 0.0,
-            "recommendations": []
+            "recommendations": [],
         }
 
         try:
@@ -442,21 +449,21 @@ class FederationCoordinator:
                     "region": cluster.region,
                     "load_factor": cluster.load_factor,
                     "health_score": cluster.health_score,
-                    "capabilities": list(cluster.capabilities)
+                    "capabilities": list(cluster.capabilities),
                 }
                 for cluster_id, cluster in self.clusters.items()
             },
             "load_balancing": {
                 "strategy": self.load_balancing_strategy.value,
                 "pending_operations": len(self.pending_operations),
-                "load_variance": self.metrics.load_distribution_variance
+                "load_variance": self.metrics.load_distribution_variance,
             },
             "performance": {
                 "average_latency_ms": self.metrics.average_latency_ms,
                 "throughput_ops_per_sec": self.metrics.throughput_ops_per_sec,
                 "success_rate": self.metrics.success_rate,
-                "federation_health": self.metrics.federation_health
-            }
+                "federation_health": self.metrics.federation_health,
+            },
         }
 
     async def _initialize_local_cluster(self) -> FederationCluster:
@@ -469,7 +476,7 @@ class FederationCoordinator:
             coordinator_node=self.local_orchestrator.node_id,
             member_nodes={self.local_orchestrator.node_id},
             region="local",
-            capabilities=self.local_orchestrator.local_node.capabilities
+            capabilities=self.local_orchestrator.local_node.capabilities,
         )
 
         self.clusters[local_cluster_id] = cluster
@@ -490,7 +497,7 @@ class FederationCoordinator:
                 "region": cluster.region,
                 "capabilities": list(cluster.capabilities),
                 "load_factor": cluster.load_factor,
-                "health_score": cluster.health_score
+                "health_score": cluster.health_score,
             }
         return {}
 
@@ -498,10 +505,9 @@ class FederationCoordinator:
         """Get local cluster ID"""
         return f"cluster_{self.local_orchestrator.node_id}"
 
-    async def _send_federation_join_request(self,
-                                          coordinator_address: str,
-                                          coordinator_port: int,
-                                          join_request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _send_federation_join_request(
+        self, coordinator_address: str, coordinator_port: int, join_request: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Send federation join request"""
 
         # Simulate network request
@@ -511,10 +517,7 @@ class FederationCoordinator:
         return {
             "accepted": True,
             "federation_id": self.federation_id,
-            "topology": {
-                "clusters": {},
-                "coordinator_cluster": self._get_local_cluster_id()
-            }
+            "topology": {"clusters": {}, "coordinator_cluster": self._get_local_cluster_id()},
         }
 
     async def _process_federation_topology(self, topology: Dict[str, Any]):
@@ -531,10 +534,9 @@ class FederationCoordinator:
         # For now, just initialize as standalone
         logger.info(f"🔍 Federation discovery completed - standalone: {self.federation_id}")
 
-    async def _select_target_cluster(self,
-                                   operation_type: str,
-                                   memory_fold_id: str,
-                                   payload: Dict[str, Any]) -> Optional[str]:
+    async def _select_target_cluster(
+        self, operation_type: str, memory_fold_id: str, payload: Dict[str, Any]
+    ) -> Optional[str]:
         """Select target cluster based on load balancing strategy"""
 
         if not self.clusters:
@@ -570,7 +572,7 @@ class FederationCoordinator:
         if not self.clusters:
             return None
 
-        min_load = float('inf')
+        min_load = float("inf")
         selected_cluster = None
 
         for cluster_id, cluster in self.clusters.items():
@@ -586,10 +588,7 @@ class FederationCoordinator:
         # Placeholder for geographic routing
         return await self._least_loaded_selection()
 
-    async def _smart_routing_selection(self,
-                                     operation_type: str,
-                                     memory_fold_id: str,
-                                     payload: Dict[str, Any]) -> str:
+    async def _smart_routing_selection(self, operation_type: str, memory_fold_id: str, payload: Dict[str, Any]) -> str:
         """Smart routing based on operation characteristics"""
 
         # Consider operation type, memory fold characteristics, etc.
@@ -600,10 +599,7 @@ class FederationCoordinator:
             # For writes, prefer clusters with available capacity
             return await self._least_loaded_selection()
 
-    async def _adaptive_selection(self,
-                                operation_type: str,
-                                memory_fold_id: str,
-                                payload: Dict[str, Any]) -> str:
+    async def _adaptive_selection(self, operation_type: str, memory_fold_id: str, payload: Dict[str, Any]) -> str:
         """Adaptive selection based on current conditions"""
 
         # Analyze current federation state and adapt strategy
@@ -682,7 +678,7 @@ class FederationCoordinator:
             "average_latency": self.metrics.average_latency_ms,
             "load_distribution": [c.load_factor for c in self.clusters.values()],
             "health_scores": [c.health_score for c in self.clusters.values()],
-            "topology_efficiency": 0.8  # Placeholder calculation
+            "topology_efficiency": 0.8,  # Placeholder calculation
         }
 
         return analysis
@@ -695,26 +691,31 @@ class FederationCoordinator:
         # Check for load imbalance
         load_distribution = analysis.get("load_distribution", [])
         if load_distribution:
-            load_variance = sum((load - sum(load_distribution) / len(load_distribution)) ** 2
-                              for load in load_distribution) / len(load_distribution)
+            load_variance = sum(
+                (load - sum(load_distribution) / len(load_distribution)) ** 2 for load in load_distribution
+            ) / len(load_distribution)
 
             if load_variance > 0.1:
-                recommendations.append({
-                    "type": "load_rebalancing",
-                    "description": "High load variance detected, recommend rebalancing",
-                    "risk_level": "low",
-                    "expected_improvement": "20% latency reduction"
-                })
+                recommendations.append(
+                    {
+                        "type": "load_rebalancing",
+                        "description": "High load variance detected, recommend rebalancing",
+                        "risk_level": "low",
+                        "expected_improvement": "20% latency reduction",
+                    }
+                )
 
         # Check for unhealthy clusters
         health_scores = analysis.get("health_scores", [])
         if health_scores and min(health_scores) < 0.5:
-            recommendations.append({
-                "type": "cluster_isolation",
-                "description": "Unhealthy cluster detected, recommend isolation",
-                "risk_level": "medium",
-                "expected_improvement": "Improved federation stability"
-            })
+            recommendations.append(
+                {
+                    "type": "cluster_isolation",
+                    "description": "Unhealthy cluster detected, recommend isolation",
+                    "risk_level": "medium",
+                    "expected_improvement": "Improved federation stability",
+                }
+            )
 
         return recommendations
 
@@ -805,7 +806,9 @@ class FederationCoordinator:
                     balance_results = await self.balance_federation_load()
 
                     if balance_results.get("operations_moved", 0) > 0:
-                        logger.info(f"⚖️ Balanced federation load: {balance_results['operations_moved']} operations moved")
+                        logger.info(
+                            f"⚖️ Balanced federation load: {balance_results['operations_moved']} operations moved"
+                        )
 
                 await asyncio.sleep(60.0)  # Balance every minute
 

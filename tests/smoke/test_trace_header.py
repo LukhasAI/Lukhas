@@ -5,6 +5,7 @@ Verifies that all responses include X-Trace-Id header with valid hex format.
 
 Phase 3: Added as part of observability polish.
 """
+
 from __future__ import annotations
 
 import re

@@ -2,6 +2,7 @@
 Bridge for `core.common.exceptions`.
 Search order: candidate → core (root) → website; minimal stubs otherwise.
 """
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -28,14 +29,21 @@ try:
     else:
         raise ImportError("No backend found")
 except Exception:
+
     class LukhasError(Exception): ...
+
     class ConfigurationError(LukhasError): ...
+
     class DependencyMissing(LukhasError): ...
+
     __all__ = ["LukhasError", "ConfigurationError", "DependencyMissing"]
 
 # Additional exception types for test compatibility
 if "GLYPHTokenError" not in globals():
+
     class GLYPHTokenError(LukhasError):
         """Error in GLYPH token processing."""
+
         pass
+
     __all__.append("GLYPHTokenError")

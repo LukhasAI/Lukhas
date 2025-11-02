@@ -18,13 +18,13 @@ def run_benchmark(client, num_operations=1000):
         start_time = time.perf_counter()
         client.set(key, value)
         end_time = time.perf_counter()
-        set_latencies.append((end_time - start_time) * 1000) # in ms
+        set_latencies.append((end_time - start_time) * 1000)  # in ms
 
         # Benchmark GET
         start_time = time.perf_counter()
         client.get(key)
         end_time = time.perf_counter()
-        get_latencies.append((end_time - start_time) * 1000) # in ms
+        get_latencies.append((end_time - start_time) * 1000)  # in ms
 
     p95_set = np.percentile(set_latencies, 95)
     p95_get = np.percentile(get_latencies, 95)
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # This requires a running Redis instance on localhost
     try:
         redis_client = redis.Redis.from_url("redis://localhost:6379/0", decode_responses=True)
-        redis_client.ping() # Check connection
+        redis_client.ping()  # Check connection
         run_benchmark(redis_client)
     except redis.exceptions.ConnectionError as e:
         print(f"Could not connect to Redis: {e}")

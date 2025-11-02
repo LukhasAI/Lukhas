@@ -40,7 +40,7 @@ async def test_authz_check_span_emission(telemetry_capture, test_subjects):
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     # Make authorization decision (this should emit spans)
@@ -72,7 +72,7 @@ async def test_authz_span_attributes_allow(telemetry_capture, test_subjects, spa
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     # Make authorization decision
@@ -127,7 +127,7 @@ async def test_authz_span_attributes_deny(telemetry_capture, test_subjects, span
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     # Make authorization decision
@@ -177,7 +177,7 @@ async def test_authz_span_mfa_stepup(telemetry_capture, test_subjects):
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(request_no_mfa)
@@ -193,7 +193,7 @@ async def test_authz_span_mfa_stepup(telemetry_capture, test_subjects):
         capability_token="test-token-12345",
         mfa_verified=True,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     await middleware.authorize_request(request_with_mfa)
@@ -239,7 +239,7 @@ async def test_authz_span_service_account(telemetry_capture, test_subjects):
         capability_token="test-svc-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     # Make authorization decision
@@ -275,7 +275,7 @@ async def test_authz_span_performance_tracking(telemetry_capture, test_subjects)
         capability_token="test-token-12345",
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     # Make authorization decision
@@ -316,7 +316,7 @@ async def test_authz_span_error_handling(telemetry_capture, test_subjects):
         capability_token="invalid-token",  # This should cause token validation to fail
         mfa_verified=False,
         webauthn_verified=True,
-        region="us-west-2"
+        region="us-west-2",
     )
 
     # Make authorization decision (should handle error gracefully)
@@ -349,13 +349,13 @@ def test_authz_span_compatibility_with_existing_tests(telemetry_capture):
             "subject": "lukhas:user:test",
             "module": "memoria",
             "decision": "allow",
-            "reason": "Policy checks passed"
+            "reason": "Policy checks passed",
         },
         status="OK",
         status_message=None,
         duration_ms=15.5,
         trace_id="12345678901234567890123456789012",
-        span_id="1234567890123456"
+        span_id="1234567890123456",
     )
 
     # Test compatibility with temp dump format
@@ -364,6 +364,7 @@ def test_authz_span_compatibility_with_existing_tests(telemetry_capture):
 
         # Verify it can be loaded by existing test infrastructure
         import json
+
         with open(dump_path) as f:
             data = json.load(f)
 

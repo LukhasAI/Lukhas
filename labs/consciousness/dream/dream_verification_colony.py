@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class VerificationLevel(Enum):
     """Verification levels for dream validation."""
+
     BASIC = "basic"
     STANDARD = "standard"
     COMPREHENSIVE = "comprehensive"
@@ -24,6 +25,7 @@ class VerificationLevel(Enum):
 
 class VerificationStatus(Enum):
     """Status of verification process."""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     VERIFIED = "verified"
@@ -46,26 +48,42 @@ class DreamVerificationColony:
             VerificationLevel.BASIC.value: {
                 "required_checks": ["structure_validity", "content_coherence"],
                 "threshold_score": 0.6,
-                "constellation_requirement": False
+                "constellation_requirement": False,
             },
             VerificationLevel.STANDARD.value: {
                 "required_checks": ["structure_validity", "content_coherence", "symbolic_integrity"],
                 "threshold_score": 0.75,
-                "constellation_requirement": True
+                "constellation_requirement": True,
             },
             VerificationLevel.COMPREHENSIVE.value: {
-                "required_checks": ["structure_validity", "content_coherence", "symbolic_integrity", "consciousness_alignment", "memory_integration"],
+                "required_checks": [
+                    "structure_validity",
+                    "content_coherence",
+                    "symbolic_integrity",
+                    "consciousness_alignment",
+                    "memory_integration",
+                ],
                 "threshold_score": 0.85,
-                "constellation_requirement": True
+                "constellation_requirement": True,
             },
             VerificationLevel.TRINITY_CERTIFIED.value: {
-                "required_checks": ["structure_validity", "content_coherence", "symbolic_integrity", "consciousness_alignment", "memory_integration", "constellation_compliance", "guardian_validation"],
+                "required_checks": [
+                    "structure_validity",
+                    "content_coherence",
+                    "symbolic_integrity",
+                    "consciousness_alignment",
+                    "memory_integration",
+                    "constellation_compliance",
+                    "guardian_validation",
+                ],
                 "threshold_score": 0.95,
-                "constellation_requirement": True
-            }
+                "constellation_requirement": True,
+            },
         }
 
-    def initiate_verification(self, dream_id: str, dream_data: dict[str, Any], level: VerificationLevel = VerificationLevel.STANDARD) -> str:
+    def initiate_verification(
+        self, dream_id: str, dream_data: dict[str, Any], level: VerificationLevel = VerificationLevel.STANDARD
+    ) -> str:
         """⚛️ Initiate dream verification while preserving authenticity."""
         self.verification_counter += 1
         verification_id = f"verify_{self.verification_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -78,7 +96,7 @@ class DreamVerificationColony:
             "initiated_at": datetime.now(timezone.utc).isoformat(),
             "checks_completed": [],
             "verification_score": 0.0,
-            "constellation_validated": False
+            "constellation_validated": False,
         }
 
         self.verification_records[verification_id] = verification_record
@@ -127,7 +145,7 @@ class DreamVerificationColony:
             "status": record["status"],
             "score": record["verification_score"],
             "check_results": check_results,
-            "constellation_validated": record["constellation_validated"]
+            "constellation_validated": record["constellation_validated"],
         }
 
         logger.info(f"🧠 Dream verification executed: {verification_id} - Status: {record['status']}")
@@ -143,7 +161,7 @@ class DreamVerificationColony:
             "consciousness_alignment": 0.88,
             "memory_integration": 0.82,
             "constellation_compliance": 0.95,
-            "guardian_validation": 0.92
+            "guardian_validation": 0.92,
         }
 
         return check_scores.get(check_name, 0.7)
@@ -168,13 +186,16 @@ class DreamVerificationColony:
             "score": record["verification_score"],
             "checks_completed": len(record["checks_completed"]),
             "constellation_validated": record["constellation_validated"],
-            "guardian_approved": record["status"] in [VerificationStatus.VERIFIED.value, VerificationStatus.TRINITY_APPROVED.value]
+            "guardian_approved": record["status"]
+            in [VerificationStatus.VERIFIED.value, VerificationStatus.TRINITY_APPROVED.value],
         }
 
         logger.info(f"🛡️ Verification status retrieved: {verification_id}")
         return status_info
 
-    def batch_verify_dreams(self, dream_ids: list[str], level: VerificationLevel = VerificationLevel.STANDARD) -> dict[str, str]:
+    def batch_verify_dreams(
+        self, dream_ids: list[str], level: VerificationLevel = VerificationLevel.STANDARD
+    ) -> dict[str, str]:
         """Batch verification for multiple dreams."""
         verification_ids = {}
 
@@ -200,15 +221,12 @@ class DreamVerificationColony:
                 "level": record["level"],
                 "status": record["status"],
                 "score": record["verification_score"],
-                "constellation_validated": record["constellation_validated"]
+                "constellation_validated": record["constellation_validated"],
             },
-            "timeline": {
-                "initiated": record["initiated_at"],
-                "completed": record.get("completed_at", "In progress")
-            },
+            "timeline": {"initiated": record["initiated_at"], "completed": record.get("completed_at", "In progress")},
             "checks_performed": record["checks_completed"],
             "recommendations": self._generate_recommendations(record),
-            "report_generated_at": datetime.now(timezone.utc).isoformat()
+            "report_generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info(f"📊 Verification report generated: {verification_id}")

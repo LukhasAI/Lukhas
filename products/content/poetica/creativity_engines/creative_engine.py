@@ -109,6 +109,7 @@ except ImportError:  # pragma: no cover - fallback when prometheus_client missin
     class PrometheusCounter(_MetricStub):
         pass
 
+
 # ΛTAG: creativity, metrics
 HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")
 CREATIVE_REQUESTS_TOTAL = PrometheusCounter("creative_requests_total", "Total creative requests", ["type", "status"])

@@ -48,6 +48,7 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
+
 import asyncio
 import logging
 import time

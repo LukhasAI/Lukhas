@@ -14,6 +14,7 @@ import pytest
 
 pytestmark = pytest.mark.integration
 
+
 class TestDocsEndToEnd:
     """End-to-end integration tests for docs."""
 
@@ -25,10 +26,7 @@ class TestDocsEndToEnd:
             component = DocsCore()
 
             # Test data pipeline
-            test_input = {
-                'test_data': 'integration_test',
-                'timestamp': '2025-01-01T00:00:00Z'
-            }
+            test_input = {"test_data": "integration_test", "timestamp": "2025-01-01T00:00:00Z"}
 
             result = component.process(test_input)
 
@@ -54,12 +52,13 @@ class TestDocsEndToEnd:
             # Test integrated processing
             with consciousness.awareness_context():
                 with memory.session_context():
-                    result = component.process({'integration': 'test'})
+                    result = component.process({"integration": "test"})
 
             assert result is not None
 
         except ImportError:
             pytest.skip("Full consciousness integration not available")
+
 
 class TestDocsExternalIntegration:
     """Tests for docs integration with external systems."""
@@ -72,10 +71,10 @@ class TestDocsExternalIntegration:
             component = DocsCore()
 
             # Test database operations (mocked)
-            with patch('docs.database.connect') as mock_db:
-                mock_db.return_value.execute.return_value = {'success': True}
+            with patch("docs.database.connect") as mock_db:
+                mock_db.return_value.execute.return_value = {"success": True}
 
-                result = component.process({'db_operation': 'test'})
+                result = component.process({"db_operation": "test"})
 
                 # Verify database interaction
                 mock_db.assert_called()
@@ -91,17 +90,18 @@ class TestDocsExternalIntegration:
             component = DocsCore()
 
             # Mock external API calls
-            with patch('requests.post') as mock_post:
+            with patch("requests.post") as mock_post:
                 mock_post.return_value.status_code = 200
-                mock_post.return_value.json.return_value = {'status': 'success'}
+                mock_post.return_value.json.return_value = {"status": "success"}
 
-                result = component.process({'api_call': 'test'})
+                result = component.process({"api_call": "test"})
 
                 # Verify API interaction
                 assert result is not None
 
         except ImportError:
             pytest.skip("API integration not available")
+
 
 class TestDocsScalabilityIntegration:
     """Scalability and load testing for docs."""
@@ -117,7 +117,7 @@ class TestDocsScalabilityIntegration:
             component = DocsCore()
 
             def process_item(item_id):
-                return component.process({'item_id': item_id})
+                return component.process({"item_id": item_id})
 
             # Test concurrent processing
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -143,7 +143,7 @@ class TestDocsScalabilityIntegration:
             results = []
 
             for i in range(batch_size):
-                result = component.process({'batch_item': i})
+                result = component.process({"batch_item": i})
                 results.append(result)
 
             # Verify batch processing
@@ -152,6 +152,7 @@ class TestDocsScalabilityIntegration:
 
         except ImportError:
             pytest.skip("High volume processing test not available")
+
 
 class TestDocsErrorRecoveryIntegration:
     """Integration tests for error handling and recovery."""
@@ -164,11 +165,11 @@ class TestDocsErrorRecoveryIntegration:
             component = DocsCore()
 
             # Simulate external service failure
-            with patch('docs.external_service.call') as mock_service:
+            with patch("docs.external_service.call") as mock_service:
                 mock_service.side_effect = ConnectionError("Service unavailable")
 
                 # Should handle gracefully
-                result = component.process({'requires_external': True})
+                result = component.process({"requires_external": True})
 
                 # Should return fallback result or raise expected exception
                 assert result is not None or mock_service.side_effect
@@ -184,16 +185,17 @@ class TestDocsErrorRecoveryIntegration:
             component = DocsCore()
 
             # Simulate repeated failures to trigger circuit breaker
-            with patch('docs.circuit_breaker.is_open') as mock_cb:
+            with patch("docs.circuit_breaker.is_open") as mock_cb:
                 mock_cb.return_value = True
 
-                result = component.process({'circuit_test': True})
+                result = component.process({"circuit_test": True})
 
                 # Should handle circuit breaker state
                 assert result is not None
 
         except ImportError:
             pytest.skip("Circuit breaker integration not available")
+
 
 class TestDocsMonitoringIntegration:
     """Integration tests for monitoring and observability."""
@@ -206,10 +208,10 @@ class TestDocsMonitoringIntegration:
             component = DocsCore()
 
             # Test with tracing context
-            with patch('opentelemetry.trace.get_current_span') as mock_span:
+            with patch("opentelemetry.trace.get_current_span") as mock_span:
                 mock_span.return_value.set_attribute = Mock()
 
-                result = component.process({'trace_test': True})
+                result = component.process({"trace_test": True})
 
                 # Verify tracing attributes were set
                 mock_span.return_value.set_attribute.assert_called()
@@ -225,8 +227,8 @@ class TestDocsMonitoringIntegration:
             component = DocsCore()
 
             # Test metrics collection
-            with patch('prometheus_client.Counter.inc') as mock_counter:
-                component.process({'metrics_test': True})
+            with patch("prometheus_client.Counter.inc") as mock_counter:
+                component.process({"metrics_test": True})
 
                 # Verify metrics were recorded
                 mock_counter.assert_called()
@@ -234,24 +236,23 @@ class TestDocsMonitoringIntegration:
         except ImportError:
             pytest.skip("Metrics integration not available")
 
+
 # Fixtures for integration testing
 @pytest.fixture(scope="module")
 def docs_component():
     """Fixture providing docs component for testing."""
     try:
         from docs import DocsCore
+
         return DocsCore()
     except ImportError:
         pytest.skip("DocsCore not available")
+
 
 @pytest.fixture(scope="module")
 def test_data():
     """Fixture providing test data for docs integration tests."""
     return {
-        'test_input': {
-            'module': 'docs',
-            'test_type': 'integration',
-            'timestamp': '2025-01-01T00:00:00Z'
-        },
-        'expected_output_keys': ['result', 'status', 'timestamp']
+        "test_input": {"module": "docs", "test_type": "integration", "timestamp": "2025-01-01T00:00:00Z"},
+        "expected_output_keys": ["result", "status", "timestamp"],
     }

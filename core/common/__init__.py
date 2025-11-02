@@ -3,6 +3,7 @@
 Exports from the richest available backend (core.common preferred).
 Also provides real exceptions submodule for explicit imports.
 """
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -10,6 +11,7 @@ from typing import List, Optional
 
 __all__: List[str] = []
 _SRC: Optional[object] = None
+
 
 def _bind(modname: str) -> bool:
     global _SRC, __all__
@@ -23,6 +25,7 @@ def _bind(modname: str) -> bool:
     if "exceptions" not in __all__:
         __all__.append("exceptions")
     return True
+
 
 for _mod in (
     "labs.core.common",
@@ -39,5 +42,6 @@ else:
 from . import exceptions  # noqa: E402  (ensures attr exists even if backend lacks it)
 
 if _SRC is not None:
+
     def __getattr__(name: str):
         return getattr(_SRC, name)

@@ -51,13 +51,11 @@ __framework__ = "Constellation Framework - Flow Star (🌊)"
 __all__ = [
     # Main consciousness stream
     "ConsciousnessStream",
-
     # Core engines
     "AwarenessEngine",
     "CreativityEngine",
     "DreamEngine",
     "AutoConsciousness",
-
     # Core data types
     "ConsciousnessState",
     "AwarenessSnapshot",
@@ -67,11 +65,9 @@ __all__ = [
     "DreamTrace",
     "DecisionContext",
     "ConsciousnessMetrics",
-
     # Supporting types
     "GuardianResponse",
     "DreamState",
-
     # Type definitions
     "StatePhase",
     "DreamPhase",
@@ -83,15 +79,13 @@ __all__ = [
     "ConsciousnessEvent",
     "EngineState",
     "SignalData",
-
     # Configuration
     "DEFAULT_AWARENESS_CONFIG",
     "DEFAULT_REFLECTION_CONFIG",
     "DEFAULT_DREAM_CONFIG",
     "DEFAULT_CREATIVITY_CONFIG",
-
     # Metadata
     "__version__",
     "__schema_version__",
-    "__framework__"
+    "__framework__",
 ]

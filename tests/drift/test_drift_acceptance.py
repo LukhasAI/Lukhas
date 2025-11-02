@@ -17,9 +17,9 @@ import statistics
 import time
 
 # Set feature flags
-os.environ['LUKHAS_EXPERIMENTAL'] = '1'
-os.environ['LUKHAS_LANE'] = 'labs'
-os.environ['ENABLE_LLM_GUARDRAIL'] = '1'
+os.environ["LUKHAS_EXPERIMENTAL"] = "1"
+os.environ["LUKHAS_LANE"] = "labs"
+os.environ["ENABLE_LLM_GUARDRAIL"] = "1"
 
 from monitoring.drift_manager import DriftManager
 
@@ -29,23 +29,19 @@ def test_drift_delta_baseline():
     manager = DriftManager()
 
     # Baseline state
-    baseline = {
-        'compliance': 0.95,
-        'drift_score': 0.05,
-        'ethics_phi': 0.98
-    }
+    baseline = {"compliance": 0.95, "drift_score": 0.05, "ethics_phi": 0.98}
 
     # Small perturbations (should stay under 0.02 delta)
     small_changes = [
-        {'compliance': 0.94, 'drift_score': 0.06, 'ethics_phi': 0.97},  # 0.01 changes
-        {'compliance': 0.93, 'drift_score': 0.07, 'ethics_phi': 0.96},  # 0.02 changes
+        {"compliance": 0.94, "drift_score": 0.06, "ethics_phi": 0.97},  # 0.01 changes
+        {"compliance": 0.93, "drift_score": 0.07, "ethics_phi": 0.96},  # 0.02 changes
     ]
 
     print("\n=== DRIFT DELTA vs BASELINE ===")
     for i, curr in enumerate(small_changes):
-        result = manager.compute('ethical', baseline, curr)
-        delta = result['score']
-        symbols = result['top_symbols'][:3]
+        result = manager.compute("ethical", baseline, curr)
+        delta = result["score"]
+        symbols = result["top_symbols"][:3]
 
         print(f"Test {i+1}: Δdrift = {delta:.4f} (target ≤ 0.02)")
         print(f"  Top symbols: {symbols}")
@@ -63,7 +59,7 @@ def test_p95_latency_overhead():
 
     # Baseline: simulate typical processing without drift
     baseline_times = []
-    test_state = {'compliance': 0.9, 'drift_score': 0.1, 'ethics_phi': 0.95}
+    test_state = {"compliance": 0.9, "drift_score": 0.1, "ethics_phi": 0.95}
 
     for _ in range(100):
         start = time.perf_counter()
@@ -76,11 +72,11 @@ def test_p95_latency_overhead():
     # With drift calculation
     drift_times = []
     prev_state = test_state.copy()
-    curr_state = {'compliance': 0.85, 'drift_score': 0.15, 'ethics_phi': 0.92}
+    curr_state = {"compliance": 0.85, "drift_score": 0.15, "ethics_phi": 0.92}
 
     for _ in range(100):
         start = time.perf_counter()
-        _ = manager.compute('ethical', prev_state, curr_state)
+        _ = manager.compute("ethical", prev_state, curr_state)
         drift_times.append(time.perf_counter() - start)
 
     # Calculate p95
@@ -112,11 +108,11 @@ def test_policy_ledger_emission():
 
     # Perform computations
     states = [
-        ({'compliance': 0.9}, {'compliance': 0.85}),
-        ({'fold_count': 500}, {'fold_count': 550}),
-        ({'coherence': 0.95}, {'coherence': 0.90}),
+        ({"compliance": 0.9}, {"compliance": 0.85}),
+        ({"fold_count": 500}, {"fold_count": 550}),
+        ({"coherence": 0.95}, {"coherence": 0.90}),
     ]
-    kinds = ['ethical', 'memory', 'identity']
+    kinds = ["ethical", "memory", "identity"]
 
     print("\n=== POLICY LEDGER EMISSION ===")
     for i, (prev, curr) in enumerate(states):
@@ -141,20 +137,20 @@ def test_isolation_guarantee():
     manager2 = DriftManager()
 
     # State for manager1
-    state1_prev = {'compliance': 0.9, 'drift_score': 0.1}
-    state1_curr = {'compliance': 0.8, 'drift_score': 0.2}
+    state1_prev = {"compliance": 0.9, "drift_score": 0.1}
+    state1_curr = {"compliance": 0.8, "drift_score": 0.2}
 
     # State for manager2 (different)
-    state2_prev = {'fold_count': 100, 'entropy': 0.3}
-    state2_curr = {'fold_count': 200, 'entropy': 0.4}
+    state2_prev = {"fold_count": 100, "entropy": 0.3}
+    state2_curr = {"fold_count": 200, "entropy": 0.4}
 
     print("\n=== ISOLATION GUARANTEE ===")
 
     # Compute on manager1
-    manager1.compute('ethical', state1_prev, state1_curr)
+    manager1.compute("ethical", state1_prev, state1_curr)
 
     # Compute on manager2
-    manager2.compute('memory', state2_prev, state2_curr)
+    manager2.compute("memory", state2_prev, state2_curr)
 
     # Verify isolation - ledgers should be independent
     ledger1 = manager1.get_drift_history()
@@ -162,14 +158,14 @@ def test_isolation_guarantee():
 
     assert len(ledger1) == 1, "Manager1 should only have its own entry"
     assert len(ledger2) == 1, "Manager2 should only have its own entry"
-    assert ledger1[0]['kind'] == 'ethical'
-    assert ledger2[0]['kind'] == 'memory'
+    assert ledger1[0]["kind"] == "ethical"
+    assert ledger2[0]["kind"] == "memory"
 
     # Verify no state contamination
-    assert state1_prev == {'compliance': 0.9, 'drift_score': 0.1}, "State1 prev modified"
-    assert state1_curr == {'compliance': 0.8, 'drift_score': 0.2}, "State1 curr modified"
-    assert state2_prev == {'fold_count': 100, 'entropy': 0.3}, "State2 prev modified"
-    assert state2_curr == {'fold_count': 200, 'entropy': 0.4}, "State2 curr modified"
+    assert state1_prev == {"compliance": 0.9, "drift_score": 0.1}, "State1 prev modified"
+    assert state1_curr == {"compliance": 0.8, "drift_score": 0.2}, "State1 curr modified"
+    assert state2_prev == {"fold_count": 100, "entropy": 0.3}, "State2 prev modified"
+    assert state2_curr == {"fold_count": 200, "entropy": 0.4}, "State2 curr modified"
 
     print(f"Manager1 ledger: {len(ledger1)} entries (ethical)")
     print(f"Manager2 ledger: {len(ledger2)} entries (memory)")
@@ -185,10 +181,10 @@ def main():
     print("=" * 60)
 
     gates = {
-        'Δdrift ≤ 0.02': test_drift_delta_baseline(),
-        'p95 latency ≤ 5%': test_p95_latency_overhead(),
-        'Policy ledger': test_policy_ledger_emission(),
-        'Isolation ≥ 99.7%': test_isolation_guarantee(),
+        "Δdrift ≤ 0.02": test_drift_delta_baseline(),
+        "p95 latency ≤ 5%": test_p95_latency_overhead(),
+        "Policy ledger": test_policy_ledger_emission(),
+        "Isolation ≥ 99.7%": test_isolation_guarantee(),
     }
 
     print("\n" + "=" * 60)
@@ -214,6 +210,6 @@ def main():
     return all_pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     success = main()
     exit(0 if success else 1)

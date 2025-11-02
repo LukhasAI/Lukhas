@@ -39,6 +39,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class EvolutionViolation:
     """Represents a schema evolution violation."""
+
     violation_type: str
     field_path: str
     old_value: Any
@@ -58,7 +59,7 @@ class SchemaEvolutionGuard:
 
     def load_current_schema(self) -> Dict[str, Any]:
         """Load current MATRIZ schema."""
-        with open(self.schema_file, 'r', encoding='utf-8') as f:
+        with open(self.schema_file, "r", encoding="utf-8") as f:
             return json.load(f)
 
     def load_baseline_schema(self) -> Dict[str, Any]:
@@ -68,7 +69,7 @@ class SchemaEvolutionGuard:
         if not baseline_file.exists():
             pytest.skip("Baseline schema snapshot not found - run schema snapshot generation first")
 
-        with open(baseline_file, 'r', encoding='utf-8') as f:
+        with open(baseline_file, "r", encoding="utf-8") as f:
             snapshot_data = json.load(f)
 
         # Extract actual schema from snapshot format
@@ -90,9 +91,7 @@ class SchemaEvolutionGuard:
             if "properties" in schema:
                 for prop_name, prop_schema in schema["properties"].items():
                     prop_path = f"{path}.{prop_name}" if path else prop_name
-                    required_fields.update(
-                        self.extract_required_fields(prop_schema, prop_path)
-                    )
+                    required_fields.update(self.extract_required_fields(prop_schema, prop_path))
 
         return required_fields
 
@@ -109,9 +108,7 @@ class SchemaEvolutionGuard:
             if "properties" in schema:
                 for prop_name, prop_schema in schema["properties"].items():
                     prop_path = f"{path}.{prop_name}" if path else prop_name
-                    enum_values.update(
-                        self.extract_enum_values(prop_schema, prop_path)
-                    )
+                    enum_values.update(self.extract_enum_values(prop_schema, prop_path))
 
         return enum_values
 
@@ -121,10 +118,7 @@ class SchemaEvolutionGuard:
 
         if isinstance(schema, dict):
             # Extract constraint properties
-            constraint_keys = {
-                'minLength', 'maxLength', 'minimum', 'maximum',
-                'minItems', 'maxItems', 'pattern'
-            }
+            constraint_keys = {"minLength", "maxLength", "minimum", "maximum", "minItems", "maxItems", "pattern"}
 
             schema_constraints = {}
             for key in constraint_keys:
@@ -138,9 +132,7 @@ class SchemaEvolutionGuard:
             if "properties" in schema:
                 for prop_name, prop_schema in schema["properties"].items():
                     prop_path = f"{path}.{prop_name}" if path else prop_name
-                    constraints.update(
-                        self.extract_constraints(prop_schema, prop_path)
-                    )
+                    constraints.update(self.extract_constraints(prop_schema, prop_path))
 
         return constraints
 
@@ -154,14 +146,16 @@ class SchemaEvolutionGuard:
         removed_required = baseline_required - current_required
 
         for field in removed_required:
-            violations.append(EvolutionViolation(
-                violation_type="required_field_removal",
-                field_path=field,
-                old_value=True,
-                new_value=False,
-                severity="breaking",
-                description=f"Required field '{field}' was removed - breaks downstream consumers"
-            ))
+            violations.append(
+                EvolutionViolation(
+                    violation_type="required_field_removal",
+                    field_path=field,
+                    old_value=True,
+                    new_value=False,
+                    severity="breaking",
+                    description=f"Required field '{field}' was removed - breaks downstream consumers",
+                )
+            )
 
         # Check enum value removal
         baseline_enums = self.extract_enum_values(baseline)
@@ -174,14 +168,16 @@ class SchemaEvolutionGuard:
                 removed_values = baseline_values_set - current_values
 
                 for removed_value in removed_values:
-                    violations.append(EvolutionViolation(
-                        violation_type="enum_value_removal",
-                        field_path=path,
-                        old_value=list(baseline_values_set),
-                        new_value=list(current_values),
-                        severity="breaking",
-                        description=f"Enum value '{removed_value}' removed from '{path}' - breaks compatibility"
-                    ))
+                    violations.append(
+                        EvolutionViolation(
+                            violation_type="enum_value_removal",
+                            field_path=path,
+                            old_value=list(baseline_values_set),
+                            new_value=list(current_values),
+                            severity="breaking",
+                            description=f"Enum value '{removed_value}' removed from '{path}' - breaks compatibility",
+                        )
+                    )
 
         # Check constraint tightening
         baseline_constraints = self.extract_constraints(baseline)
@@ -198,20 +194,22 @@ class SchemaEvolutionGuard:
 
                         # Detect tightening based on constraint type
                         is_tightening = False
-                        if constraint_key in ['minLength', 'minimum', 'minItems'] and current_value > baseline_value:
+                        if constraint_key in ["minLength", "minimum", "minItems"] and current_value > baseline_value:
                             is_tightening = True
-                        elif constraint_key in ['maxLength', 'maximum', 'maxItems'] and current_value < baseline_value:
+                        elif constraint_key in ["maxLength", "maximum", "maxItems"] and current_value < baseline_value:
                             is_tightening = True
 
                         if is_tightening:
-                            violations.append(EvolutionViolation(
-                                violation_type="constraint_tightening",
-                                field_path=f"{path}.{constraint_key}",
-                                old_value=baseline_value,
-                                new_value=current_value,
-                                severity="breaking",
-                                description=f"Constraint '{constraint_key}' tightened from {baseline_value} to {current_value} in '{path}'"
-                            ))
+                            violations.append(
+                                EvolutionViolation(
+                                    violation_type="constraint_tightening",
+                                    field_path=f"{path}.{constraint_key}",
+                                    old_value=baseline_value,
+                                    new_value=current_value,
+                                    severity="breaking",
+                                    description=f"Constraint '{constraint_key}' tightened from {baseline_value} to {current_value} in '{path}'",
+                                )
+                            )
 
         return violations
 
@@ -220,8 +218,8 @@ class SchemaEvolutionGuard:
         modified_schema = copy.deepcopy(schema)
 
         # Remove 'decision' from root required fields
-        if 'required' in modified_schema and 'decision' in modified_schema['required']:
-            modified_schema['required'].remove('decision')
+        if "required" in modified_schema and "decision" in modified_schema["required"]:
+            modified_schema["required"].remove("decision")
             logger.info("Simulated removal of 'decision' from required fields")
 
         return modified_schema
@@ -277,7 +275,7 @@ class TestSchemaEvolutionGuard:
         assert detection_time_ms < 100, f"Evolution detection took {detection_time_ms:.2f}ms (target: <100ms)"
 
         # Log any non-breaking violations for visibility
-        breaking_violations = [v for v in violations if v.severity == 'breaking']
+        breaking_violations = [v for v in violations if v.severity == "breaking"]
 
         if violations:
             logger.info(f"Detected {len(violations)} schema evolution items:")
@@ -285,9 +283,8 @@ class TestSchemaEvolutionGuard:
                 logger.info(f"  {violation.violation_type}: {violation.description}")
 
         # Assert no breaking changes
-        assert len(breaking_violations) == 0, (
-            "Schema evolution violations detected:\n" +
-            "\n".join([f"  - {v.description}" for v in breaking_violations[:3]])
+        assert len(breaking_violations) == 0, "Schema evolution violations detected:\n" + "\n".join(
+            [f"  - {v.description}" for v in breaking_violations[:3]]
         )
 
         logger.info(f"✅ Schema evolution validation passed in {detection_time_ms:.2f}ms")
@@ -329,9 +326,7 @@ class TestSchemaEvolutionGuard:
         assert len(enum_violations) > 0, "Failed to detect enum value removal"
 
         # Verify violation details
-        processing_stage_violation = next(
-            (v for v in enum_violations if "processing_stage" in v.field_path), None
-        )
+        processing_stage_violation = next((v for v in enum_violations if "processing_stage" in v.field_path), None)
         assert processing_stage_violation is not None, "Failed to detect processing_stage enum removal"
         assert processing_stage_violation.severity == "breaking", "Enum removal should be breaking"
 
@@ -354,9 +349,7 @@ class TestSchemaEvolutionGuard:
         assert len(constraint_violations) > 0, "Failed to detect constraint tightening"
 
         # Verify violation details
-        max_length_violation = next(
-            (v for v in constraint_violations if "maxLength" in v.field_path), None
-        )
+        max_length_violation = next((v for v in constraint_violations if "maxLength" in v.field_path), None)
         assert max_length_violation is not None, "Failed to detect maxLength constraint tightening"
         assert max_length_violation.severity == "breaking", "Constraint tightening should be breaking"
         assert max_length_violation.old_value == 10000, "Incorrect old maxLength value"
@@ -375,7 +368,7 @@ class TestSchemaEvolutionGuard:
         if "properties" in modified_schema:
             modified_schema["properties"]["new_optional_field"] = {
                 "type": "string",
-                "description": "New optional field for testing"
+                "description": "New optional field for testing",
             }
 
         # Add enum value (allowed)
@@ -392,10 +385,9 @@ class TestSchemaEvolutionGuard:
         detection_time_ms = (time.perf_counter() - start_time) * 1000
 
         # Should have no breaking violations
-        breaking_violations = [v for v in violations if v.severity == 'breaking']
-        assert len(breaking_violations) == 0, (
-            "Allowed changes incorrectly flagged as breaking:\n" +
-            "\n".join([f"  - {v.description}" for v in breaking_violations])
+        breaking_violations = [v for v in violations if v.severity == "breaking"]
+        assert len(breaking_violations) == 0, "Allowed changes incorrectly flagged as breaking:\n" + "\n".join(
+            [f"  - {v.description}" for v in breaking_violations]
         )
 
         # Performance check
@@ -412,7 +404,7 @@ class TestSchemaEvolutionGuard:
             large_schema["properties"][f"test_prop_{i}"] = {
                 "type": "string",
                 "maxLength": 100,
-                "enum": [f"value_{j}" for j in range(10)]
+                "enum": [f"value_{j}" for j in range(10)],
             }
 
         # Run multiple iterations to get stable timing
@@ -455,11 +447,12 @@ class TestSchemaEvolutionGuard:
                         "type": v.violation_type,
                         "path": v.field_path,
                         "severity": v.severity,
-                        "description": v.description
-                    } for v in violations
+                        "description": v.description,
+                    }
+                    for v in violations
                 ],
-                "breaking_changes": len([v for v in violations if v.severity == 'breaking']),
-                "validation_passed": len([v for v in violations if v.severity == 'breaking']) == 0
+                "breaking_changes": len([v for v in violations if v.severity == "breaking"]),
+                "validation_passed": len([v for v in violations if v.severity == "breaking"]) == 0,
             }
 
             validation_time_ms = (time.perf_counter() - start_time) * 1000
@@ -469,13 +462,15 @@ class TestSchemaEvolutionGuard:
             report_file = Path(__file__).parent.parent.parent / "artifacts" / "schema_evolution_report.json"
             report_file.parent.mkdir(exist_ok=True)
 
-            with open(report_file, 'w') as f:
+            with open(report_file, "w") as f:
                 json.dump(report, f, indent=2)
 
             logger.info(f"Evolution validation report saved: {report_file}")
 
             # Assert CI readiness
-            assert report["validation_passed"], f"Schema evolution violations block deployment: {report['breaking_changes']} breaking changes"
+            assert report[
+                "validation_passed"
+            ], f"Schema evolution violations block deployment: {report['breaking_changes']} breaking changes"
             assert validation_time_ms < 100, f"CI validation took {validation_time_ms:.2f}ms (target: <100ms)"
 
             logger.info(f"✅ CI integration validation passed in {validation_time_ms:.2f}ms")
@@ -503,7 +498,7 @@ if __name__ == "__main__":
             violations = guard.detect_violations(baseline, current)
             detection_time = (time.perf_counter() - start_time) * 1000
 
-            breaking_violations = [v for v in violations if v.severity == 'breaking']
+            breaking_violations = [v for v in violations if v.severity == "breaking"]
 
             if breaking_violations:
                 print(f"❌ BREAKING CHANGES DETECTED ({len(breaking_violations)}):")
@@ -527,5 +522,6 @@ if __name__ == "__main__":
             return False
 
     import sys
+
     success = run_evolution_validation()
     sys.exit(0 if success else 1)

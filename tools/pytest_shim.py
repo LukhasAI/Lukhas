@@ -50,9 +50,7 @@ def run_tests(root: Path) -> tuple[int, int, int]:
                 if len(sig.parameters) == 0:
                     obj()  # no-arg test
                     passed += 1
-                elif len(sig.parameters) == 1 and "client" in sig.parameters and callable(
-                    client_factory
-                ):
+                elif len(sig.parameters) == 1 and "client" in sig.parameters and callable(client_factory):
                     cli = client_factory()
                     obj(cli)  # pass constructed client
                     passed += 1
@@ -81,4 +79,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

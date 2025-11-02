@@ -12,14 +12,10 @@ from pathlib import Path
 
 def get_missing_modules():
     """Extract all unique missing module names from pytest."""
-    result = subprocess.run(
-        ["python3", "-m", "pytest", "--collect-only", "-q"],
-        capture_output=True,
-        text=True
-    )
+    result = subprocess.run(["python3", "-m", "pytest", "--collect-only", "-q"], capture_output=True, text=True)
 
     modules = set()
-    for line in result.stderr.split('\n'):
+    for line in result.stderr.split("\n"):
         # ModuleNotFoundError: No module named 'bridge.api.analysis'
         match = re.search(r"No module named '([^']+)'", line)
         if match:
@@ -27,16 +23,17 @@ def get_missing_modules():
 
     return sorted(modules)
 
+
 def create_stub(module_path):
     """Create a stub __init__.py for a missing module."""
-    parts = module_path.split('.')
+    parts = module_path.split(".")
     dir_path = Path(*parts)
 
     # Create directory structure
     dir_path.mkdir(parents=True, exist_ok=True)
 
     # Create stub __init__.py
-    init_file = dir_path / '__init__.py'
+    init_file = dir_path / "__init__.py"
     if not init_file.exists():
         stub_content = f'''"""
 STUB MODULE: {module_path}
@@ -56,6 +53,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md
 
     return False
 
+
 def comment_out_broken_import(file_path, import_line):
     """Comment out a broken import line."""
     if not Path(file_path).exists():
@@ -74,6 +72,7 @@ def comment_out_broken_import(file_path, import_line):
         return True
 
     return False
+
 
 def main():
     print("🔍 Finding missing modules...")
@@ -102,13 +101,9 @@ def main():
     print()
 
     print("🔍 Re-checking collection...")
-    result = subprocess.run(
-        ["python3", "-m", "pytest", "--collect-only", "-q"],
-        capture_output=True,
-        text=True
-    )
+    result = subprocess.run(["python3", "-m", "pytest", "--collect-only", "-q"], capture_output=True, text=True)
 
-    errors = result.stderr.count('ERROR')
+    errors = result.stderr.count("ERROR")
     print(f"📊 Remaining errors: {errors}")
 
     if errors == 0:
@@ -121,6 +116,8 @@ def main():
         print(f"⚠️  Still have {errors} errors - may be import name errors or other issues")
         return 1
 
+
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

@@ -10,6 +10,7 @@ Features:
 - Schema validation with pydantic.
 - Immutable snapshot per TEQ evaluation.
 """
+
 import copy
 import threading
 from pathlib import Path

@@ -1,4 +1,5 @@
 """Guardian subsystem facade plus compatibility re-exports."""
+
 from __future__ import annotations
 
 from labs.governance import Guardian, PolicyGuard, PolicyResult, SafetyGuard

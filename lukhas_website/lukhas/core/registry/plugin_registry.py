@@ -42,6 +42,7 @@ class LUKHASPlugin(Protocol):
 @dataclass
 class PluginInfo:
     """Plugin metadata and configuration."""
+
     name: str
     version: str
     description: str
@@ -76,11 +77,7 @@ class PluginBase(ABC):
             self._initialize()
             self.initialized = True
 
-        self.metrics.record_plugin_operation(
-            "initialization",
-            plugin_name=self.name,
-            success=True
-        )
+        self.metrics.record_plugin_operation("initialization", plugin_name=self.name, success=True)
 
     def shutdown(self) -> None:
         """Shutdown the plugin."""
@@ -91,11 +88,7 @@ class PluginBase(ABC):
             self._shutdown()
             self.initialized = False
 
-        self.metrics.record_plugin_operation(
-            "shutdown",
-            plugin_name=self.name,
-            success=True
-        )
+        self.metrics.record_plugin_operation("shutdown", plugin_name=self.name, success=True)
 
     @abstractmethod
     def _initialize(self) -> None:
@@ -142,7 +135,7 @@ class PluginRegistry:
             "lukhas/memory/plugins",
             "lukhas/consciousness/plugins",
             "candidate/core/plugins",
-            "plugins"
+            "plugins",
         ]
 
         self.metrics = metrics or LUKHASMetrics()
@@ -168,9 +161,11 @@ class PluginRegistry:
         current_time = time.time()
 
         # Use cache if valid and not forcing refresh
-        if (not force_refresh and
-            self.discovered_plugins and
-            current_time - self._last_discovery < self._discovery_cache_duration):
+        if (
+            not force_refresh
+            and self.discovered_plugins
+            and current_time - self._last_discovery < self._discovery_cache_duration
+        ):
             return self.discovered_plugins
 
         with self.tracer.trace_operation("plugin_discovery") as span:
@@ -183,21 +178,14 @@ class PluginRegistry:
                 try:
                     discovered_count += self._discover_in_path(search_path)
                 except Exception as e:
-                    self.metrics.record_plugin_operation(
-                        "discovery",
-                        success=False,
-                        error=str(e)
-                    )
+                    self.metrics.record_plugin_operation("discovery", success=False, error=str(e))
                     # Continue discovery in other paths
 
             span.set_attribute("plugins_discovered", discovered_count)
 
         self._last_discovery = current_time
 
-        self.metrics.record_plugin_operation(
-            "discovery",
-            success=True
-        )
+        self.metrics.record_plugin_operation("discovery", success=True)
 
         return self.discovered_plugins
 
@@ -210,12 +198,14 @@ class PluginRegistry:
 
         for root, dirs, files in os.walk(search_path):
             # Skip hidden directories and __pycache__
-            dirs[:] = [d for d in dirs if not d.startswith('.') and d != '__pycache__']
+            dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
 
             for file in files:
-                if (file.endswith('_plugin.py') or
-                    file.endswith('_adapter.py') or
-                    (file.endswith('.py') and 'plugin' in file.lower())):
+                if (
+                    file.endswith("_plugin.py")
+                    or file.endswith("_adapter.py")
+                    or (file.endswith(".py") and "plugin" in file.lower())
+                ):
 
                     file_path = os.path.join(root, file)
                     try:
@@ -245,9 +235,7 @@ class PluginRegistry:
 
             # Find plugin classes
             for name, obj in inspect.getmembers(module, inspect.isclass):
-                if (issubclass(obj, PluginBase) and
-                    obj != PluginBase and
-                    not obj.__name__.startswith('_')):
+                if issubclass(obj, PluginBase) and obj != PluginBase and not obj.__name__.startswith("_"):
                     return obj
 
         except Exception as e:
@@ -255,11 +243,7 @@ class PluginRegistry:
 
         return None
 
-    def instantiate_plugin(
-        self,
-        plugin_name: str,
-        config: Optional[Dict[str, Any]] = None
-    ) -> PluginBase:
+    def instantiate_plugin(self, plugin_name: str, config: Optional[Dict[str, Any]] = None) -> PluginBase:
         """
         Instantiate a plugin by name.
 
@@ -304,11 +288,7 @@ class PluginRegistry:
 
                 span.set_attribute("success", True)
 
-                self.metrics.record_plugin_operation(
-                    "instantiation",
-                    plugin_name=plugin_name,
-                    success=True
-                )
+                self.metrics.record_plugin_operation("instantiation", plugin_name=plugin_name, success=True)
 
                 return plugin_instance
 
@@ -317,10 +297,7 @@ class PluginRegistry:
                 span.set_attribute("error", str(e))
 
                 self.metrics.record_plugin_operation(
-                    "instantiation",
-                    plugin_name=plugin_name,
-                    success=False,
-                    error=str(e)
+                    "instantiation", plugin_name=plugin_name, success=False, error=str(e)
                 )
 
                 raise ValueError(f"Failed to instantiate plugin '{plugin_name}': {e}")
@@ -347,7 +324,7 @@ class PluginRegistry:
                     description="Plugin discovered but not instantiated",
                     author="unknown",
                     category="unknown",
-                    dependencies=[]
+                    dependencies=[],
                 )
 
         return plugin_list
@@ -371,19 +348,16 @@ class PluginRegistry:
             "instantiated_plugins": len(self.instantiated_plugins),
             "plugins": {},
             "last_discovery": self._last_discovery,
-            "cache_valid": time.time() - self._last_discovery < self._discovery_cache_duration
+            "cache_valid": time.time() - self._last_discovery < self._discovery_cache_duration,
         }
 
         # Check each instantiated plugin
         for plugin_name, plugin_instance in self.instantiated_plugins.items():
-            plugin_health = {
-                "initialized": plugin_instance.initialized,
-                "healthy": True
-            }
+            plugin_health = {"initialized": plugin_instance.initialized, "healthy": True}
 
             try:
                 # Basic health check
-                if hasattr(plugin_instance, 'health_check'):
+                if hasattr(plugin_instance, "health_check"):
                     plugin_health.update(plugin_instance.health_check())
             except Exception as e:
                 plugin_health["healthy"] = False

@@ -30,7 +30,6 @@ For more information, visit: https://ai
 """
 
 
-
 # ΛTRACE: Symbolic collapse engine
 # ΛORIGIN_AGENT: Claude Code
 # ΛTASK_ID: Task 13

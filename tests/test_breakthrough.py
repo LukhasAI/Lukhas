@@ -5,6 +5,7 @@ Tier-2 robustness & performance tests for BreakthroughDetector.
 Focus: numerical stability at scale, pathological inputs, boundary z thresholds,
 independent instance behavior, and (optional) micro-benchmarks.
 """
+
 import math
 import os
 import random
@@ -14,6 +15,7 @@ import pytest
 from core.breakthrough import BreakthroughDetector
 
 # ---- Helpers ---------------------------------------------------------------
+
 
 def _seed():
     # Make runs deterministic regardless of external env
@@ -26,6 +28,7 @@ def _mk_detector(**kw) -> BreakthroughDetector:
 
 
 # ---- Tier-2 Stability ------------------------------------------------------
+
 
 @pytest.mark.tier2
 @pytest.mark.stability
@@ -114,6 +117,7 @@ def test_multiple_instances_independent_state():
 
 
 # ---- Tier-2 Performance (optional) ----------------------------------------
+
 
 @pytest.mark.tier2
 @pytest.mark.perf

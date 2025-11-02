@@ -125,11 +125,7 @@ def perform_request(
             json_body = resp.json()
         except ValueError:
             json_body = None
-        interesting_headers = {
-            k: v
-            for k, v in lower_dict(resp.headers.items()).items()
-            if k in INTERESTING_HEADERS
-        }
+        interesting_headers = {k: v for k, v in lower_dict(resp.headers.items()).items() if k in INTERESTING_HEADERS}
         return CallResult(resp.status_code, json_body, interesting_headers)
     except Exception as exc:
         return CallResult(None, None, {}, str(exc))
@@ -139,9 +135,7 @@ def compare_responses(lukhas_result: CallResult, openai_result: Optional[CallRes
     comparison: Dict[str, Any] = {}
     comparison["lukhas_status"] = lukhas_result.status
     comparison["openai_status"] = openai_result.status if openai_result else None
-    comparison["status_match"] = (
-        openai_result is not None and lukhas_result.status == openai_result.status
-    )
+    comparison["status_match"] = openai_result is not None and lukhas_result.status == openai_result.status
 
     lut_sig = json_signature(lukhas_result.json_body)
     oa_sig = json_signature(openai_result.json_body) if openai_result else None
@@ -222,19 +216,17 @@ def main() -> None:
             openai_result = perform_request(args.openai_base, args.openai_key, req, "openai")
 
         comparison = compare_responses(lukhas_result, openai_result)
-        comparison.update({
-            "name": req["name"],
-            "path": req["path"],
-            "method": req["method"],
-            "openai_checked": openai_result is not None,
-        })
+        comparison.update(
+            {
+                "name": req["name"],
+                "path": req["path"],
+                "method": req["method"],
+                "openai_checked": openai_result is not None,
+            }
+        )
 
         if comparison["openai_checked"]:
-            if (
-                comparison["status_match"]
-                and comparison["headers_match"]
-                and comparison["body_signature_match"]
-            ):
+            if comparison["status_match"] and comparison["headers_match"] and comparison["body_signature_match"]:
                 matches += 1
             else:
                 mismatches += 1

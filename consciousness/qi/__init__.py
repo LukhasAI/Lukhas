@@ -3,6 +3,7 @@ Consciousness QI module stub.
 Placeholder for quantum-inspired consciousness components.
 """
 
+
 class qi:
     """Stub class for QI functionality."""
 
@@ -21,5 +22,6 @@ class qi:
         """Stub measurement method."""
         return {"measurement": 0.5, "uncertainty": 0.1}
 
+
 # Export
-__all__ = ['qi']
+__all__ = ["qi"]

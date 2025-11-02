@@ -21,11 +21,13 @@ def test_fingerprint():
     assert fp1 != fp3  # different content
     assert len(fp1) == 64  # SHA256 hex length
 
+
 def test_embeddings_placeholder():
     embeddings = Embeddings()
     result = embeddings.embed("test text")
     assert len(result) == 1536
     assert all(x == 0.0 for x in result)
+
 
 @pytest.fixture
 def mock_store():
@@ -34,9 +36,11 @@ def mock_store():
     store.search.return_value = [("doc-id-123", 0.85)]
     return store
 
+
 @pytest.fixture
 def indexer(mock_store):
     return Indexer(mock_store)
+
 
 def test_indexer_initialization(mock_store):
     indexer = Indexer(mock_store)
@@ -47,6 +51,7 @@ def test_indexer_initialization(mock_store):
     custom_emb = Mock()
     indexer2 = Indexer(mock_store, custom_emb)
     assert indexer2.emb == custom_emb
+
 
 def test_indexer_upsert(indexer, mock_store):
     text = "test memory"
@@ -64,6 +69,7 @@ def test_indexer_upsert(indexer, mock_store):
     assert call_args.meta == meta
     assert len(call_args.embedding) == 1536
     assert call_args.id == _fingerprint(text)
+
 
 def test_indexer_search_text(indexer, mock_store):
     query = "search query"

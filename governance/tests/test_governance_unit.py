@@ -25,10 +25,7 @@ class TestGovernanceModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "governance",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "governance", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestGovernanceModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import governance
+
         self.assertIsNotNone(governance)
 
     def test_module_version(self):
         """Test module has version information."""
         import governance
+
         # Most modules should have version info
-        self.assertTrue(hasattr(governance, '__version__') or
-                       hasattr(governance, 'VERSION'))
+        self.assertTrue(hasattr(governance, "__version__") or hasattr(governance, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestAuditChain(unittest.TestCase):
         """Test AuditChain can be imported."""
         try:
             from governance.audit_trail import AuditChain
+
             self.assertIsNotNone(AuditChain)
         except ImportError:
             pytest.skip("Component AuditChain not available")
@@ -97,6 +96,7 @@ class TestAuditEvent(unittest.TestCase):
         """Test AuditEvent can be imported."""
         try:
             from governance.audit_trail import AuditEvent
+
             self.assertIsNotNone(AuditEvent)
         except ImportError:
             pytest.skip("Component AuditEvent not available")
@@ -114,6 +114,7 @@ class TestAuditEventType(unittest.TestCase):
         """Test AuditEventType can be imported."""
         try:
             from governance.audit_trail import AuditEventType
+
             self.assertIsNotNone(AuditEventType)
         except ImportError:
             pytest.skip("Component AuditEventType not available")
@@ -122,7 +123,6 @@ class TestAuditEventType(unittest.TestCase):
         """Test AuditEventType can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

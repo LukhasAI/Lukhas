@@ -2,6 +2,7 @@
 
 ΛTAG: orchestration_agent_interface
 """
+
 from abc import ABC, abstractmethod
 
 from .types import AgentCapability, AgentContext, AgentResponse

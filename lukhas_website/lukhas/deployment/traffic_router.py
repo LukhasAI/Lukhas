@@ -28,6 +28,7 @@ metrics = get_metrics_collector()
 
 class RoutingStrategy(Enum):
     """Traffic routing strategies"""
+
     ROUND_ROBIN = "round_robin"
     WEIGHTED = "weighted"
     LEAST_CONNECTIONS = "least_connections"
@@ -40,6 +41,7 @@ class RoutingStrategy(Enum):
 @dataclass
 class RoutingTarget:
     """Target for traffic routing"""
+
     target_id: str
     lane: str
     weight: float = 1.0
@@ -60,6 +62,7 @@ class RoutingTarget:
 @dataclass
 class ABTestConfig:
     """A/B test configuration"""
+
     test_id: str
     control_targets: List[str]
     treatment_targets: List[str]
@@ -90,7 +93,7 @@ class TrafficRouter:
         self,
         default_strategy: RoutingStrategy = RoutingStrategy.WEIGHTED,
         enable_caching: bool = True,
-        cache_ttl_seconds: int = 60
+        cache_ttl_seconds: int = 60,
     ):
         self.default_strategy = default_strategy
         self.enable_caching = enable_caching
@@ -108,17 +111,10 @@ class TrafficRouter:
         self.routing_cache: Dict[str, Tuple[str, datetime]] = {}
 
         # Statistics
-        self.routing_stats = defaultdict(lambda: {
-            "requests": 0,
-            "cache_hits": 0,
-            "errors": 0,
-            "total_latency_ms": 0.0
-        })
+        self.routing_stats = defaultdict(lambda: {"requests": 0, "cache_hits": 0, "errors": 0, "total_latency_ms": 0.0})
 
         logger.info(
-            "Traffic router initialized",
-            default_strategy=default_strategy.value,
-            caching_enabled=enable_caching
+            "Traffic router initialized", default_strategy=default_strategy.value, caching_enabled=enable_caching
         )
 
     def add_target(self, target: RoutingTarget):
@@ -126,12 +122,7 @@ class TrafficRouter:
         self.targets[target.target_id] = target
         self.lane_targets[target.lane].add(target.target_id)
 
-        logger.debug(
-            "Routing target added",
-            target_id=target.target_id,
-            lane=target.lane,
-            weight=target.weight
-        )
+        logger.debug("Routing target added", target_id=target.target_id, lane=target.lane, weight=target.weight)
 
     def remove_target(self, target_id: str):
         """Remove routing target"""
@@ -147,7 +138,7 @@ class TrafficRouter:
         target_id: str,
         health_score: float,
         active_connections: Optional[int] = None,
-        avg_latency_ms: Optional[float] = None
+        avg_latency_ms: Optional[float] = None,
     ):
         """Update target health metrics"""
         if target_id not in self.targets:
@@ -168,7 +159,7 @@ class TrafficRouter:
         lane: Optional[str] = None,
         strategy: Optional[RoutingStrategy] = None,
         session_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> Optional[str]:
         """
         Route request to appropriate target.
@@ -209,13 +200,13 @@ class TrafficRouter:
             # Get available targets
             if lane:
                 available_targets = [
-                    self.targets[tid] for tid in self.lane_targets.get(lane, set())
+                    self.targets[tid]
+                    for tid in self.lane_targets.get(lane, set())
                     if self.targets[tid].enabled and self.targets[tid].effective_weight > 0
                 ]
             else:
                 available_targets = [
-                    target for target in self.targets.values()
-                    if target.enabled and target.effective_weight > 0
+                    target for target in self.targets.values() if target.enabled and target.effective_weight > 0
                 ]
 
             if not available_targets:
@@ -238,11 +229,7 @@ class TrafficRouter:
             self.routing_stats[lane or "all"]["errors"] += 1
             return None
 
-    def _route_ab_test(
-        self,
-        request_id: str,
-        ab_test: ABTestConfig
-    ) -> Optional[str]:
+    def _route_ab_test(self, request_id: str, ab_test: ABTestConfig) -> Optional[str]:
         """Route request based on A/B test configuration"""
         # Generate consistent hash for request
         hash_input = f"{request_id}:{ab_test.hash_seed}".encode()
@@ -257,10 +244,7 @@ class TrafficRouter:
             targets = ab_test.control_targets
 
         # Select from available targets
-        available = [
-            tid for tid in targets
-            if tid in self.targets and self.targets[tid].enabled
-        ]
+        available = [tid for tid in targets if tid in self.targets and self.targets[tid].enabled]
 
         if available:
             return random.choice(available)
@@ -268,10 +252,7 @@ class TrafficRouter:
         return None
 
     def _apply_strategy(
-        self,
-        strategy: RoutingStrategy,
-        targets: List[RoutingTarget],
-        request_id: str
+        self, strategy: RoutingStrategy, targets: List[RoutingTarget], request_id: str
     ) -> Optional[RoutingTarget]:
         """Apply routing strategy to select target"""
         if not targets:
@@ -330,22 +311,13 @@ class TrafficRouter:
 
         return min(with_latency, key=lambda t: t.avg_latency_ms)
 
-    def _hash_based(
-        self,
-        targets: List[RoutingTarget],
-        request_id: str
-    ) -> RoutingTarget:
+    def _hash_based(self, targets: List[RoutingTarget], request_id: str) -> RoutingTarget:
         """Consistent hash-based selection"""
         hash_value = int(hashlib.sha256(request_id.encode()).hexdigest(), 16)
         index = hash_value % len(targets)
         return targets[index]
 
-    def _update_cache(
-        self,
-        session_id: Optional[str],
-        lane: Optional[str],
-        target_id: str
-    ):
+    def _update_cache(self, session_id: Optional[str], lane: Optional[str], target_id: str):
         """Update routing cache"""
         if self.enable_caching and session_id:
             cache_key = f"{session_id}:{lane or 'all'}"
@@ -359,21 +331,13 @@ class TrafficRouter:
         self.routing_stats[lane_key]["requests"] += 1
         self.routing_stats[lane_key]["total_latency_ms"] += duration_ms
 
-        metrics.record_histogram(
-            "traffic_routing_duration_ms",
-            duration_ms,
-            tags={"lane": lane_key}
-        )
+        metrics.record_histogram("traffic_routing_duration_ms", duration_ms, tags={"lane": lane_key})
 
     def add_ab_test(self, ab_test: ABTestConfig):
         """Add A/B test configuration"""
         self.ab_tests[ab_test.test_id] = ab_test
 
-        logger.info(
-            "A/B test configured",
-            test_id=ab_test.test_id,
-            traffic_split=ab_test.traffic_split
-        )
+        logger.info("A/B test configured", test_id=ab_test.test_id, traffic_split=ab_test.traffic_split)
 
     def remove_ab_test(self, test_id: str):
         """Remove A/B test"""
@@ -394,7 +358,7 @@ class TrafficRouter:
                     "cache_hit_rate": stats["cache_hits"] / total_requests,
                     "errors": stats["errors"],
                     "error_rate": stats["errors"] / total_requests,
-                    "avg_latency_ms": stats["total_latency_ms"] / total_requests
+                    "avg_latency_ms": stats["total_latency_ms"] / total_requests,
                 }
 
         return {
@@ -402,7 +366,7 @@ class TrafficRouter:
             "total_targets": len(self.targets),
             "healthy_targets": sum(1 for t in self.targets.values() if t.enabled),
             "active_ab_tests": sum(1 for t in self.ab_tests.values() if t.is_active()),
-            "cache_size": len(self.routing_cache)
+            "cache_size": len(self.routing_cache),
         }
 
     def clear_cache(self):

@@ -21,6 +21,7 @@ try:
         DashboardIdentityView,
         DashboardWidget,
     )
+
     DASHBOARD_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full dashboard system
@@ -40,13 +41,15 @@ class TestBrainDashboardWidgets:
     def mock_identity_manager(self):
         """Create mock identity manager."""
         manager = Mock(spec=IdentityManager)
-        manager.describe_permissions = AsyncMock(return_value={
-            "user_id": "test_user",
-            "tier_level": 2,
-            "attributes": {"display_name": "Test User"},
-            "scopes": ["core:read", "core:write"],
-            "active_sessions": ["session_1", "session_2"]
-        })
+        manager.describe_permissions = AsyncMock(
+            return_value={
+                "user_id": "test_user",
+                "tier_level": 2,
+                "attributes": {"display_name": "Test User"},
+                "scopes": ["core:read", "core:write"],
+                "active_sessions": ["session_1", "session_2"],
+            }
+        )
         return manager
 
     @pytest.fixture
@@ -59,10 +62,7 @@ class TestBrainDashboardWidgets:
         """Test basic widget registration."""
 
         await dashboard.register_widget(
-            widget_id="test_widget",
-            widget_type="metrics",
-            title="Test Metrics",
-            refresh_interval_ms=1000
+            widget_id="test_widget", widget_type="metrics", title="Test Metrics", refresh_interval_ms=1000
         )
 
         # Verify widget was registered
@@ -90,7 +90,7 @@ class TestBrainDashboardWidgets:
             widget_type="status",
             title="Auto Refresh Status",
             refresh_interval_ms=100,  # Fast refresh for testing
-            data_source_fn=mock_data_source
+            data_source_fn=mock_data_source,
         )
 
         # Wait for multiple refresh cycles
@@ -109,10 +109,7 @@ class TestBrainDashboardWidgets:
 
         # Register widget without auto-refresh
         await dashboard.register_widget(
-            widget_id="stale_widget",
-            widget_type="table",
-            title="Stale Data Widget",
-            refresh_interval_ms=1000
+            widget_id="stale_widget", widget_type="table", title="Stale Data Widget", refresh_interval_ms=1000
         )
 
         # Get initial widget data
@@ -120,7 +117,7 @@ class TestBrainDashboardWidgets:
         assert not widget_data["is_stale"], "Fresh widget should not be stale"
 
         # Mock time passage to make widget stale
-        with patch('time.time', return_value=time.time() + 10):  # 10 seconds later
+        with patch("time.time", return_value=time.time() + 10):  # 10 seconds later
             widget_data = await dashboard.get_widget_data("stale_widget")
             assert widget_data["is_stale"], "Old widget should be marked as stale"
 
@@ -143,7 +140,7 @@ class TestBrainDashboardWidgets:
             widget_type="graph",
             title="Error Handling Widget",
             refresh_interval_ms=50,  # Fast refresh for testing
-            data_source_fn=failing_data_source
+            data_source_fn=failing_data_source,
         )
 
         # Wait for error recovery
@@ -162,17 +159,11 @@ class TestBrainDashboardWidgets:
 
         # Register test widgets
         await dashboard.register_widget(
-            widget_id="identity_metrics",
-            widget_type="metrics",
-            title="Identity Metrics",
-            refresh_interval_ms=1000
+            widget_id="identity_metrics", widget_type="metrics", title="Identity Metrics", refresh_interval_ms=1000
         )
 
         await dashboard.register_widget(
-            widget_id="session_status",
-            widget_type="status",
-            title="Session Status",
-            refresh_interval_ms=500
+            widget_id="session_status", widget_type="status", title="Session Status", refresh_interval_ms=500
         )
 
         # Build identity panel
@@ -203,10 +194,7 @@ class TestBrainDashboardWidgets:
 
         for widget_id, widget_type, title in widgets_to_register:
             await dashboard.register_widget(
-                widget_id=widget_id,
-                widget_type=widget_type,
-                title=title,
-                refresh_interval_ms=1000
+                widget_id=widget_id, widget_type=widget_type, title=title, refresh_interval_ms=1000
             )
 
         # Get all widgets
@@ -232,7 +220,7 @@ class TestBrainDashboardWidgets:
             widget_type="table",
             title="Persistent Widget",
             refresh_interval_ms=1000,
-            data_source_fn=sync_data_source
+            data_source_fn=sync_data_source,
         )
 
         # Wait for initial data load
@@ -272,11 +260,7 @@ class TestBrainDashboardWidgets:
 
         # Create fresh widget
         fresh_widget = DashboardWidget(
-            widget_id="fresh",
-            widget_type="metrics",
-            title="Fresh Widget",
-            data={},
-            last_updated=current_time
+            widget_id="fresh", widget_type="metrics", title="Fresh Widget", data={}, last_updated=current_time
         )
 
         # Create stale widget
@@ -285,7 +269,7 @@ class TestBrainDashboardWidgets:
             widget_type="metrics",
             title="Stale Widget",
             data={},
-            last_updated=current_time - 10000  # 10 seconds ago
+            last_updated=current_time - 10000,  # 10 seconds ago
         )
 
         # Test staleness with default threshold (5 seconds)

@@ -52,33 +52,28 @@ tracer = trace.get_tracer(__name__)
 
 # Additional metrics for strategies
 strategy_selections = counter(
-    'lukhas_strategy_selections_total',
-    'Strategy selection counts',
-    ['strategy', 'rule_name']
+    "lukhas_strategy_selections_total", "Strategy selection counts", ["strategy", "rule_name"]
 )
 
 provider_selections = counter(
-    'lukhas_provider_selections_total',
-    'Provider selection counts',
-    ['provider', 'strategy', 'reason']
+    "lukhas_provider_selections_total", "Provider selection counts", ["provider", "strategy", "reason"]
 )
 
 circuit_breaker_state = gauge(
-    'lukhas_circuit_breaker_state',
-    'Circuit breaker state (0=closed, 1=open, 2=half_open)',
-    ['provider']
+    "lukhas_circuit_breaker_state", "Circuit breaker state (0=closed, 1=open, 2=half_open)", ["provider"]
 )
 
 routing_fallback_triggered = counter(
-    'lukhas_routing_fallback_triggered_total',
-    'Fallback routing triggers',
-    ['original_provider', 'fallback_provider', 'reason']
+    "lukhas_routing_fallback_triggered_total",
+    "Fallback routing triggers",
+    ["original_provider", "fallback_provider", "reason"],
 )
 
 
 @dataclass
 class RoutingContext:
     """Context for routing decisions"""
+
     session_id: str
     request_type: str
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
@@ -91,6 +86,7 @@ class RoutingContext:
 @dataclass
 class RoutingResult:
     """Result of routing decision"""
+
     provider: str
     strategy_used: RoutingStrategy
     reason: str
@@ -101,6 +97,7 @@ class RoutingResult:
 
 class CircuitBreakerState(Enum):
     """Circuit breaker states"""
+
     CLOSED = 0
     OPEN = 1
     HALF_OPEN = 2
@@ -109,6 +106,7 @@ class CircuitBreakerState(Enum):
 @dataclass
 class CircuitBreaker:
     """Circuit breaker for provider resilience"""
+
     provider: str
     state: CircuitBreakerState = CircuitBreakerState.CLOSED
     failure_count: int = 0
@@ -124,11 +122,7 @@ class BaseRoutingStrategy(ABC):
 
     def __init__(self, name: str):
         self.name = name
-        self.metrics = {
-            'total_decisions': 0,
-            'successful_decisions': 0,
-            'avg_latency_ms': 0.0
-        }
+        self.metrics = {"total_decisions": 0, "successful_decisions": 0, "avg_latency_ms": 0.0}
 
     @abstractmethod
     async def select_provider(
@@ -136,21 +130,21 @@ class BaseRoutingStrategy(ABC):
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        circuit_breakers: Dict[str, CircuitBreaker],
     ) -> Optional[RoutingResult]:
         """Select provider based on strategy"""
         pass
 
     def update_metrics(self, latency_ms: float, success: bool):
         """Update strategy metrics"""
-        self.metrics['total_decisions'] += 1
+        self.metrics["total_decisions"] += 1
         if success:
-            self.metrics['successful_decisions'] += 1
+            self.metrics["successful_decisions"] += 1
 
         # Update average latency with exponential moving average
         alpha = 0.1
-        current_avg = self.metrics['avg_latency_ms']
-        self.metrics['avg_latency_ms'] = alpha * latency_ms + (1 - alpha) * current_avg
+        current_avg = self.metrics["avg_latency_ms"]
+        self.metrics["avg_latency_ms"] = alpha * latency_ms + (1 - alpha) * current_avg
 
 
 class RoundRobinStrategy(BaseRoutingStrategy):
@@ -165,7 +159,7 @@ class RoundRobinStrategy(BaseRoutingStrategy):
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        circuit_breakers: Dict[str, CircuitBreaker],
     ) -> Optional[RoutingResult]:
 
         start_time = time.time()
@@ -176,8 +170,12 @@ class RoundRobinStrategy(BaseRoutingStrategy):
             health = provider_health.get(provider)
             breaker = circuit_breakers.get(provider)
 
-            if (health and health.status == HealthStatus.HEALTHY and
-                breaker and breaker.state == CircuitBreakerState.CLOSED):
+            if (
+                health
+                and health.status == HealthStatus.HEALTHY
+                and breaker
+                and breaker.state == CircuitBreakerState.CLOSED
+            ):
                 available_providers.append(provider)
 
         if not available_providers:
@@ -195,9 +193,7 @@ class RoundRobinStrategy(BaseRoutingStrategy):
         self.update_metrics(latency_ms, True)
 
         provider_selections.labels(
-            provider=selected_provider,
-            strategy="round_robin",
-            reason="round_robin_selection"
+            provider=selected_provider, strategy="round_robin", reason="round_robin_selection"
         ).inc()
 
         return RoutingResult(
@@ -206,7 +202,7 @@ class RoundRobinStrategy(BaseRoutingStrategy):
             reason=f"Round-robin selection ({current_count % len(available_providers)})",
             confidence=0.8,
             fallback_available=len(available_providers) > 1,
-            metadata={"position": current_count % len(available_providers)}
+            metadata={"position": current_count % len(available_providers)},
         )
 
 
@@ -221,7 +217,7 @@ class WeightedStrategy(BaseRoutingStrategy):
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        circuit_breakers: Dict[str, CircuitBreaker],
     ) -> Optional[RoutingResult]:
 
         start_time = time.time()
@@ -239,8 +235,12 @@ class WeightedStrategy(BaseRoutingStrategy):
             health = provider_health.get(provider)
             breaker = circuit_breakers.get(provider)
 
-            if (health and health.status == HealthStatus.HEALTHY and
-                breaker and breaker.state == CircuitBreakerState.CLOSED):
+            if (
+                health
+                and health.status == HealthStatus.HEALTHY
+                and breaker
+                and breaker.state == CircuitBreakerState.CLOSED
+            ):
 
                 weight = rule.weights.get(provider, 1.0)
 
@@ -276,11 +276,7 @@ class WeightedStrategy(BaseRoutingStrategy):
         latency_ms = (time.time() - start_time) * 1000
         self.update_metrics(latency_ms, True)
 
-        provider_selections.labels(
-            provider=selected_provider,
-            strategy="weighted",
-            reason="weighted_selection"
-        ).inc()
+        provider_selections.labels(provider=selected_provider, strategy="weighted", reason="weighted_selection").inc()
 
         return RoutingResult(
             provider=selected_provider,
@@ -288,7 +284,7 @@ class WeightedStrategy(BaseRoutingStrategy):
             reason=f"Weighted selection (weight: {rule.weights.get(selected_provider, 1.0)})",
             confidence=0.9,
             fallback_available=len(available_providers) > 1,
-            metadata={"weight": rule.weights.get(selected_provider, 1.0)}
+            metadata={"weight": rule.weights.get(selected_provider, 1.0)},
         )
 
 
@@ -303,7 +299,7 @@ class HealthBasedStrategy(BaseRoutingStrategy):
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        circuit_breakers: Dict[str, CircuitBreaker],
     ) -> Optional[RoutingResult]:
 
         start_time = time.time()
@@ -363,9 +359,7 @@ class HealthBasedStrategy(BaseRoutingStrategy):
         self.update_metrics(latency_ms, True)
 
         provider_selections.labels(
-            provider=selected_provider,
-            strategy="health_based",
-            reason="health_score_selection"
+            provider=selected_provider, strategy="health_based", reason="health_score_selection"
         ).inc()
 
         return RoutingResult(
@@ -377,8 +371,8 @@ class HealthBasedStrategy(BaseRoutingStrategy):
             metadata={
                 "health_score": score,
                 "success_rate": health.success_rate,
-                "avg_latency_ms": health.avg_latency_ms
-            }
+                "avg_latency_ms": health.avg_latency_ms,
+            },
         )
 
 
@@ -393,23 +387,27 @@ class LatencyBasedStrategy(BaseRoutingStrategy):
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        circuit_breakers: Dict[str, CircuitBreaker],
     ) -> Optional[RoutingResult]:
 
         start_time = time.time()
 
         # Find provider with lowest latency
         best_provider = None
-        best_latency = float('inf')
+        best_latency = float("inf")
         available_providers = []
 
         for provider in rule.providers:
             health = provider_health.get(provider)
             breaker = circuit_breakers.get(provider)
 
-            if (health and health.status in [HealthStatus.HEALTHY, HealthStatus.DEGRADED] and
-                breaker and breaker.state == CircuitBreakerState.CLOSED and
-                health.success_rate >= rule.health_threshold * 0.8):  # Slightly lower threshold
+            if (
+                health
+                and health.status in [HealthStatus.HEALTHY, HealthStatus.DEGRADED]
+                and breaker
+                and breaker.state == CircuitBreakerState.CLOSED
+                and health.success_rate >= rule.health_threshold * 0.8
+            ):  # Slightly lower threshold
 
                 available_providers.append((provider, health))
 
@@ -423,11 +421,7 @@ class LatencyBasedStrategy(BaseRoutingStrategy):
         latency_ms = (time.time() - start_time) * 1000
         self.update_metrics(latency_ms, True)
 
-        provider_selections.labels(
-            provider=best_provider,
-            strategy="latency_based",
-            reason="lowest_latency"
-        ).inc()
+        provider_selections.labels(provider=best_provider, strategy="latency_based", reason="lowest_latency").inc()
 
         return RoutingResult(
             provider=best_provider,
@@ -435,7 +429,7 @@ class LatencyBasedStrategy(BaseRoutingStrategy):
             reason=f"Latency-optimized selection ({best_latency:.1f}ms)",
             confidence=0.9,
             fallback_available=len(available_providers) > 1,
-            metadata={"selected_latency_ms": best_latency}
+            metadata={"selected_latency_ms": best_latency},
         )
 
 
@@ -445,19 +439,14 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
     def __init__(self):
         super().__init__("cost_optimized")
         # Cost per token estimates (can be externalized to config)
-        self.provider_costs = {
-            "openai": 0.00003,
-            "anthropic": 0.000015,
-            "google": 0.000001,
-            "local": 0.0
-        }
+        self.provider_costs = {"openai": 0.00003, "anthropic": 0.000015, "google": 0.000001, "local": 0.0}
 
     async def select_provider(
         self,
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        circuit_breakers: Dict[str, CircuitBreaker],
     ) -> Optional[RoutingResult]:
 
         start_time = time.time()
@@ -469,9 +458,13 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
             health = provider_health.get(provider)
             breaker = circuit_breakers.get(provider)
 
-            if (health and health.status == HealthStatus.HEALTHY and
-                breaker and breaker.state == CircuitBreakerState.CLOSED and
-                health.success_rate >= rule.health_threshold):
+            if (
+                health
+                and health.status == HealthStatus.HEALTHY
+                and breaker
+                and breaker.state == CircuitBreakerState.CLOSED
+                and health.success_rate >= rule.health_threshold
+            ):
 
                 cost = self.provider_costs.get(provider, 0.00002)
 
@@ -500,9 +493,7 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
         self.update_metrics(latency_ms, True)
 
         provider_selections.labels(
-            provider=selected_provider,
-            strategy="cost_optimized",
-            reason="cost_effectiveness"
+            provider=selected_provider, strategy="cost_optimized", reason="cost_effectiveness"
         ).inc()
 
         return RoutingResult(
@@ -511,10 +502,7 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
             reason=f"Cost-optimized selection (${cost:.6f}/token)",
             confidence=0.8,
             fallback_available=len(provider_scores) > 1,
-            metadata={
-                "cost_per_token": cost,
-                "cost_effectiveness_score": score
-            }
+            metadata={"cost_per_token": cost, "cost_effectiveness_score": score},
         )
 
 
@@ -526,7 +514,7 @@ class HybridStrategy(BaseRoutingStrategy):
         self.sub_strategies = {
             "health": HealthBasedStrategy(),
             "latency": LatencyBasedStrategy(),
-            "weighted": WeightedStrategy()
+            "weighted": WeightedStrategy(),
         }
 
     async def select_provider(
@@ -534,7 +522,7 @@ class HybridStrategy(BaseRoutingStrategy):
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        circuit_breakers: Dict[str, CircuitBreaker],
     ) -> Optional[RoutingResult]:
 
         start_time = time.time()
@@ -553,11 +541,7 @@ class HybridStrategy(BaseRoutingStrategy):
             return None
 
         # Weighted combination of strategies
-        strategy_weights = {
-            "health": 0.5,
-            "latency": 0.3,
-            "weighted": 0.2
-        }
+        strategy_weights = {"health": 0.5, "latency": 0.3, "weighted": 0.2}
 
         provider_votes = defaultdict(float)
         for strategy_name, result in results.items():
@@ -574,11 +558,7 @@ class HybridStrategy(BaseRoutingStrategy):
         latency_ms = (time.time() - start_time) * 1000
         self.update_metrics(latency_ms, True)
 
-        provider_selections.labels(
-            provider=selected_provider,
-            strategy="hybrid",
-            reason="hybrid_combination"
-        ).inc()
+        provider_selections.labels(provider=selected_provider, strategy="hybrid", reason="hybrid_combination").inc()
 
         return RoutingResult(
             provider=selected_provider,
@@ -586,10 +566,7 @@ class HybridStrategy(BaseRoutingStrategy):
             reason=f"Hybrid selection (confidence: {combined_confidence:.2f})",
             confidence=min(1.0, combined_confidence),
             fallback_available=len(provider_votes) > 1,
-            metadata={
-                "strategy_votes": dict(provider_votes),
-                "contributing_strategies": list(results.keys())
-            }
+            metadata={"strategy_votes": dict(provider_votes), "contributing_strategies": list(results.keys())},
         )
 
 
@@ -603,17 +580,14 @@ class RoutingEngine:
             RoutingStrategy.HEALTH_BASED: HealthBasedStrategy(),
             RoutingStrategy.LATENCY_BASED: LatencyBasedStrategy(),
             RoutingStrategy.COST_OPTIMIZED: CostOptimizedStrategy(),
-            RoutingStrategy.HYBRID: HybridStrategy()
+            RoutingStrategy.HYBRID: HybridStrategy(),
         }
 
         self.circuit_breakers: Dict[str, CircuitBreaker] = {}
         self.provider_health: Dict[str, ProviderHealth] = {}
 
     async def route_request(
-        self,
-        rule: RoutingRule,
-        context: RoutingContext,
-        provider_health: Optional[Dict[str, ProviderHealth]] = None
+        self, rule: RoutingRule, context: RoutingContext, provider_health: Optional[Dict[str, ProviderHealth]] = None
     ) -> Optional[RoutingResult]:
         """Route request using specified strategy"""
 
@@ -634,22 +608,15 @@ class RoutingEngine:
                     raise ValueError(f"Unknown strategy: {rule.strategy}")
 
                 # Record strategy selection
-                strategy_selections.labels(
-                    strategy=rule.strategy.value,
-                    rule_name=rule.name
-                ).inc()
+                strategy_selections.labels(strategy=rule.strategy.value, rule_name=rule.name).inc()
 
                 # Execute strategy
-                result = await strategy.select_provider(
-                    rule, context, health_data, self.circuit_breakers
-                )
+                result = await strategy.select_provider(rule, context, health_data, self.circuit_breakers)
 
                 if result:
                     # Record successful routing decision
                     routing_decisions_total.labels(
-                        strategy=rule.strategy.value,
-                        provider=result.provider,
-                        success="true"
+                        strategy=rule.strategy.value, provider=result.provider, success="true"
                     ).inc()
 
                     span.set_attribute("selected_provider", result.provider)
@@ -658,22 +625,16 @@ class RoutingEngine:
                 else:
                     # Try fallback providers if available
                     if rule.fallback_providers:
-                        result = await self._try_fallback_providers(
-                            rule, context, health_data
-                        )
+                        result = await self._try_fallback_providers(rule, context, health_data)
 
                     if not result:
                         routing_decisions_total.labels(
-                            strategy=rule.strategy.value,
-                            provider="none",
-                            success="false"
+                            strategy=rule.strategy.value, provider="none", success="false"
                         ).inc()
 
                 # Record latency
                 latency = time.time() - start_time
-                routing_latency_seconds.labels(
-                    strategy=rule.strategy.value
-                ).observe(latency)
+                routing_latency_seconds.labels(strategy=rule.strategy.value).observe(latency)
 
                 span.set_attribute("routing_latency_ms", latency * 1000)
 
@@ -683,19 +644,12 @@ class RoutingEngine:
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
 
-                routing_decisions_total.labels(
-                    strategy=rule.strategy.value,
-                    provider="error",
-                    success="false"
-                ).inc()
+                routing_decisions_total.labels(strategy=rule.strategy.value, provider="error", success="false").inc()
 
                 raise
 
     async def _try_fallback_providers(
-        self,
-        rule: RoutingRule,
-        context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth]
+        self, rule: RoutingRule, context: RoutingContext, provider_health: Dict[str, ProviderHealth]
     ) -> Optional[RoutingResult]:
         """Try fallback providers when primary strategy fails"""
 
@@ -708,20 +662,16 @@ class RoutingEngine:
             pattern=rule.pattern,
             strategy=RoutingStrategy.HEALTH_BASED,
             providers=rule.fallback_providers,
-            health_threshold=max(0.8, rule.health_threshold - 0.1)  # Lower threshold
+            health_threshold=max(0.8, rule.health_threshold - 0.1),  # Lower threshold
         )
 
         health_strategy = self.strategies[RoutingStrategy.HEALTH_BASED]
-        result = await health_strategy.select_provider(
-            fallback_rule, context, provider_health, self.circuit_breakers
-        )
+        result = await health_strategy.select_provider(fallback_rule, context, provider_health, self.circuit_breakers)
 
         if result:
             # Record fallback trigger
             routing_fallback_triggered.labels(
-                original_provider="unavailable",
-                fallback_provider=result.provider,
-                reason="primary_strategy_failed"
+                original_provider="unavailable", fallback_provider=result.provider, reason="primary_strategy_failed"
             ).inc()
 
             result.reason = f"Fallback: {result.reason}"
@@ -761,8 +711,10 @@ class RoutingEngine:
                 breaker.half_open_calls = 0
 
         # Check if open circuit should move to half-open
-        if (breaker.state == CircuitBreakerState.OPEN and
-            time.time() - breaker.last_failure_time > breaker.timeout_duration):
+        if (
+            breaker.state == CircuitBreakerState.OPEN
+            and time.time() - breaker.last_failure_time > breaker.timeout_duration
+        ):
             breaker.state = CircuitBreakerState.HALF_OPEN
             breaker.half_open_calls = 0
 
@@ -776,7 +728,7 @@ class RoutingEngine:
             status[provider] = {
                 "state": breaker.state.name,
                 "failure_count": breaker.failure_count,
-                "last_failure_time": breaker.last_failure_time
+                "last_failure_time": breaker.last_failure_time,
             }
         return status
 

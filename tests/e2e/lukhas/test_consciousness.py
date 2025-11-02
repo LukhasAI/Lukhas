@@ -26,6 +26,7 @@ except ImportError:
         # ΛTAG: security_fallback
         pass
 
+
 from consciousness import (
     AwarenessLevel,
     ConsciousnessConfig,

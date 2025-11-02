@@ -60,11 +60,13 @@ logger = logging.getLogger(__name__)
 
 class GuardianSerializationError(Exception):
     """Guardian-specific serialization exception"""
+
     pass
 
 
 class OperationType(Enum):
     """Types of Guardian operations"""
+
     SERIALIZE = "serialize"
     DESERIALIZE = "deserialize"
     VALIDATE = "validate"
@@ -75,6 +77,7 @@ class OperationType(Enum):
 @dataclass
 class GuardianOperation:
     """Guardian operation context"""
+
     operation_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     operation_type: OperationType = OperationType.SERIALIZE
     schema_version: str = "2.0.0"
@@ -91,6 +94,7 @@ class GuardianOperation:
 @dataclass
 class GuardianResult:
     """Result of Guardian operation"""
+
     success: bool
     operation: GuardianOperation
     data: Optional[Any] = None
@@ -117,9 +121,7 @@ class GuardianSerializer:
         self._initialize_system()
 
     def serialize_decision(
-        self,
-        decision_data: Dict[str, Any],
-        operation: Optional[GuardianOperation] = None
+        self, decision_data: Dict[str, Any], operation: Optional[GuardianOperation] = None
     ) -> GuardianResult:
         """Serialize Guardian decision with full validation and optimization"""
         if operation is None:
@@ -145,9 +147,7 @@ class GuardianSerializer:
             if operation.migration_enabled:
                 current_version = decision_data.get("schema_version", "1.0.0")
                 if current_version != operation.schema_version:
-                    migration_result = migrate_guardian_data(
-                        decision_data, operation.schema_version, current_version
-                    )
+                    migration_result = migrate_guardian_data(decision_data, operation.schema_version, current_version)
                     result.migration_result = migration_result
 
                     if not migration_result.success:
@@ -162,9 +162,7 @@ class GuardianSerializer:
 
             # Step 4: Serialize with optimization
             if operation.performance_optimization:
-                serialization_result = self._optimized_serialize(
-                    decision_data, operation.format, operation.compression
-                )
+                serialization_result = self._optimized_serialize(decision_data, operation.format, operation.compression)
             else:
                 serialization_result = serialize_guardian_decision(
                     decision_data, operation.format, operation.compression
@@ -180,7 +178,7 @@ class GuardianSerializer:
                 "compressed_size": serialization_result.compressed_size,
                 "compression_ratio": serialization_result.compression_ratio,
                 "format": serialization_result.format.value,
-                "compression": serialization_result.compression.value
+                "compression": serialization_result.compression.value,
             }
 
             return self._finalize_result(result, start_time)
@@ -191,9 +189,7 @@ class GuardianSerializer:
             return self._finalize_result(result, start_time)
 
     def deserialize_decision(
-        self,
-        serialized_data: bytes,
-        operation: Optional[GuardianOperation] = None
+        self, serialized_data: bytes, operation: Optional[GuardianOperation] = None
     ) -> GuardianResult:
         """Deserialize Guardian decision with validation and migration"""
         if operation is None:
@@ -213,9 +209,7 @@ class GuardianSerializer:
             if operation.migration_enabled:
                 current_version = decision_data.get("schema_version", "1.0.0")
                 if current_version != operation.schema_version:
-                    migration_result = migrate_guardian_data(
-                        decision_data, operation.schema_version, current_version
-                    )
+                    migration_result = migrate_guardian_data(decision_data, operation.schema_version, current_version)
                     result.migration_result = migration_result
 
                     if not migration_result.success:
@@ -238,7 +232,7 @@ class GuardianSerializer:
             result.data = decision_data
             result.metrics = {
                 "deserialization_time_ms": 0,  # Would be set by actual deserialization
-                "data_size": len(serialized_data) if serialized_data else 0
+                "data_size": len(serialized_data) if serialized_data else 0,
             }
 
             return self._finalize_result(result, start_time)
@@ -249,9 +243,7 @@ class GuardianSerializer:
             return self._finalize_result(result, start_time)
 
     def validate_decision(
-        self,
-        decision_data: Dict[str, Any],
-        operation: Optional[GuardianOperation] = None
+        self, decision_data: Dict[str, Any], operation: Optional[GuardianOperation] = None
     ) -> GuardianResult:
         """Validate Guardian decision with full compliance checking"""
         if operation is None:
@@ -274,7 +266,7 @@ class GuardianSerializer:
                 "validation_time_ms": validation_result.validation_time_ms,
                 "compliance_score": validation_result.compliance_score,
                 "tiers_validated": [tier.name for tier in validation_result.tiers_validated],
-                "issue_count": len(validation_result.issues)
+                "issue_count": len(validation_result.issues),
             }
 
             return self._finalize_result(result, start_time)
@@ -285,26 +277,18 @@ class GuardianSerializer:
             return self._finalize_result(result, start_time)
 
     def migrate_decision(
-        self,
-        decision_data: Dict[str, Any],
-        target_version: str,
-        operation: Optional[GuardianOperation] = None
+        self, decision_data: Dict[str, Any], target_version: str, operation: Optional[GuardianOperation] = None
     ) -> GuardianResult:
         """Migrate Guardian decision to target schema version"""
         if operation is None:
-            operation = GuardianOperation(
-                operation_type=OperationType.MIGRATE,
-                schema_version=target_version
-            )
+            operation = GuardianOperation(operation_type=OperationType.MIGRATE, schema_version=target_version)
 
         start_time = time.perf_counter()
         result = GuardianResult(success=False, operation=operation)
 
         try:
             current_version = decision_data.get("schema_version", "1.0.0")
-            migration_result = migrate_guardian_data(
-                decision_data, target_version, current_version
-            )
+            migration_result = migrate_guardian_data(decision_data, target_version, current_version)
             result.migration_result = migration_result
 
             result.success = migration_result.success
@@ -320,7 +304,9 @@ class GuardianSerializer:
                 "source_version": current_version,
                 "target_version": target_version,
                 "steps_executed": len(migration_result.steps),
-                "compatibility_type": migration_result.compatibility_type.value if migration_result.compatibility_type else None
+                "compatibility_type": (
+                    migration_result.compatibility_type.value if migration_result.compatibility_type else None
+                ),
             }
 
             return self._finalize_result(result, start_time)
@@ -331,9 +317,7 @@ class GuardianSerializer:
             return self._finalize_result(result, start_time)
 
     async def batch_serialize_decisions(
-        self,
-        decisions: List[Dict[str, Any]],
-        operation: Optional[GuardianOperation] = None
+        self, decisions: List[Dict[str, Any]], operation: Optional[GuardianOperation] = None
     ) -> List[GuardianResult]:
         """Batch serialize multiple Guardian decisions"""
         if operation is None:
@@ -344,9 +328,7 @@ class GuardianSerializer:
 
         # Use performance optimizer for batch processing
         if operation.performance_optimization:
-            return await self.performance_optimizer.batch_validate(
-                decisions, serialize_single
-            )
+            return await self.performance_optimizer.batch_validate(decisions, serialize_single)
         else:
             tasks = [serialize_single(decision) for decision in decisions]
             return await asyncio.gather(*tasks)
@@ -363,8 +345,8 @@ class GuardianSerializer:
             "system": {
                 "version": "1.0.0",
                 "phase": "Phase 7 - Guardian Schema Serializers",
-                "uptime_seconds": time.time() - getattr(self, '_start_time', time.time()),
-                "status": "operational"
+                "uptime_seconds": time.time() - getattr(self, "_start_time", time.time()),
+                "status": "operational",
             },
             "schema_registry": registry_metrics,
             "serialization_engine": serialization_metrics,
@@ -376,8 +358,8 @@ class GuardianSerializer:
                 "serialization_healthy": serialization_metrics.get("total_operations", 0) >= 0,
                 "validation_healthy": validation_metrics.get("success_rate", 0) > 0.9,
                 "migration_healthy": migration_metrics.get("success_rate", 0) > 0.9,
-                "performance_optimal": optimizer_metrics.get("cache_hit_rate", 0) > 0.8
-            }
+                "performance_optimal": optimizer_metrics.get("cache_hit_rate", 0) > 0.8,
+            },
         }
 
     def _initialize_system(self) -> None:
@@ -397,11 +379,7 @@ class GuardianSerializer:
         else:
             logger.info("Guardian serialization system initialized successfully")
 
-    def _validate_decision(
-        self,
-        decision_data: Dict[str, Any],
-        operation: GuardianOperation
-    ) -> Any:
+    def _validate_decision(self, decision_data: Dict[str, Any], operation: GuardianOperation) -> Any:
         """Validate Guardian decision data"""
         include_constitutional = operation.constitutional_ai
 
@@ -416,24 +394,16 @@ class GuardianSerializer:
             return validate_guardian_data(decision_data, True, include_constitutional)
 
     def _optimized_serialize(
-        self,
-        data: Dict[str, Any],
-        format: SerializationFormat,
-        compression: CompressionType
+        self, data: Dict[str, Any], format: SerializationFormat, compression: CompressionType
     ) -> Any:
         """Optimized serialization with performance enhancements"""
         # Use performance optimizer
         optimized_serializer = self.performance_optimizer.optimize_validation(
-            lambda d: serialize_guardian_decision(d, format, compression),
-            "guardian_serialization"
+            lambda d: serialize_guardian_decision(d, format, compression), "guardian_serialization"
         )
         return optimized_serializer(data)
 
-    def _add_system_metadata(
-        self,
-        decision_data: Dict[str, Any],
-        operation: GuardianOperation
-    ) -> Dict[str, Any]:
+    def _add_system_metadata(self, decision_data: Dict[str, Any], operation: GuardianOperation) -> Dict[str, Any]:
         """Add system metadata to Guardian decision"""
         enhanced_data = decision_data.copy()
 
@@ -441,15 +411,17 @@ class GuardianSerializer:
         if "metadata" not in enhanced_data:
             enhanced_data["metadata"] = {}
 
-        enhanced_data["metadata"].update({
-            "serialization_system": {
-                "version": "1.0.0",
-                "operation_id": operation.operation_id,
-                "timestamp": operation.timestamp.isoformat(),
-                "format": operation.format.value,
-                "compression": operation.compression.value
+        enhanced_data["metadata"].update(
+            {
+                "serialization_system": {
+                    "version": "1.0.0",
+                    "operation_id": operation.operation_id,
+                    "timestamp": operation.timestamp.isoformat(),
+                    "format": operation.format.value,
+                    "compression": operation.compression.value,
+                }
             }
-        })
+        )
 
         # Ensure schema version is set
         if "schema_version" not in enhanced_data:
@@ -457,19 +429,14 @@ class GuardianSerializer:
 
         return enhanced_data
 
-    def _finalize_result(
-        self,
-        result: GuardianResult,
-        start_time: float
-    ) -> GuardianResult:
+    def _finalize_result(self, result: GuardianResult, start_time: float) -> GuardianResult:
         """Finalize operation result with timing and logging"""
         result.execution_time_ms = (time.perf_counter() - start_time) * 1000
 
         # Log operation result
         if result.success:
             logger.debug(
-                f"Guardian {result.operation.operation_type.value} completed "
-                f"in {result.execution_time_ms:.2f}ms"
+                f"Guardian {result.operation.operation_type.value} completed " f"in {result.execution_time_ms:.2f}ms"
             )
         else:
             logger.error(
@@ -499,15 +466,12 @@ def serialize_guardian(
     decision: Dict[str, Any],
     format: SerializationFormat = SerializationFormat.MSGPACK,
     compression: CompressionType = CompressionType.ZSTD,
-    validate: bool = True
+    validate: bool = True,
 ) -> GuardianResult:
     """Serialize Guardian decision with default options"""
     serializer = get_guardian_serializer()
     operation = GuardianOperation(
-        operation_type=OperationType.SERIALIZE,
-        format=format,
-        compression=compression,
-        validation_enabled=validate
+        operation_type=OperationType.SERIALIZE, format=format, compression=compression, validation_enabled=validate
     )
     return serializer.serialize_decision(decision, operation)
 
@@ -516,44 +480,31 @@ def deserialize_guardian(
     data: bytes,
     format: SerializationFormat = SerializationFormat.MSGPACK,
     compression: CompressionType = CompressionType.ZSTD,
-    validate: bool = True
+    validate: bool = True,
 ) -> GuardianResult:
     """Deserialize Guardian decision with default options"""
     serializer = get_guardian_serializer()
     operation = GuardianOperation(
-        operation_type=OperationType.DESERIALIZE,
-        format=format,
-        compression=compression,
-        validation_enabled=validate
+        operation_type=OperationType.DESERIALIZE, format=format, compression=compression, validation_enabled=validate
     )
     return serializer.deserialize_decision(data, operation)
 
 
-def validate_guardian(
-    decision: Dict[str, Any],
-    constitutional_ai: bool = True
-) -> GuardianResult:
+def validate_guardian(decision: Dict[str, Any], constitutional_ai: bool = True) -> GuardianResult:
     """Validate Guardian decision with Constitutional AI compliance"""
     serializer = get_guardian_serializer()
-    operation = GuardianOperation(
-        operation_type=OperationType.VALIDATE,
-        constitutional_ai=constitutional_ai
-    )
+    operation = GuardianOperation(operation_type=OperationType.VALIDATE, constitutional_ai=constitutional_ai)
     return serializer.validate_decision(decision, operation)
 
 
-def migrate_guardian(
-    decision: Dict[str, Any],
-    target_version: str
-) -> GuardianResult:
+def migrate_guardian(decision: Dict[str, Any], target_version: str) -> GuardianResult:
     """Migrate Guardian decision to target schema version"""
     serializer = get_guardian_serializer()
     return serializer.migrate_decision(decision, target_version)
 
 
 async def batch_process_guardians(
-    decisions: List[Dict[str, Any]],
-    operation_type: OperationType = OperationType.SERIALIZE
+    decisions: List[Dict[str, Any]], operation_type: OperationType = OperationType.SERIALIZE
 ) -> List[GuardianResult]:
     """Batch process multiple Guardian decisions"""
     serializer = get_guardian_serializer()

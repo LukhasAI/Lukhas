@@ -88,8 +88,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         category="blocked",
         status="Dream engine dependency missing",
         notes=(
-            "DreamReflectionLoop import is also stubbed; integrating requires the external AID dream "
-            "engine package."
+            "DreamReflectionLoop import is also stubbed; integrating requires the external AID dream " "engine package."
         ),
     ),
     TodoEntry(
@@ -108,8 +107,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         category="deferred",
         status="Tier system reconciliation documented",
         notes=(
-            "Module footer reiterates the need to unify string-based tier IDs with the integer tier "
-            "decorator logic."
+            "Module footer reiterates the need to unify string-based tier IDs with the integer tier " "decorator logic."
         ),
     ),
     TodoEntry(
@@ -147,9 +145,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=716,
         category="verified",
         status="TODO scanning implemented",
-        notes=(
-            "Completeness analysis explicitly scans documentation content for TODO/FIXME markers."
-        ),
+        notes=("Completeness analysis explicitly scans documentation content for TODO/FIXME markers."),
     ),
     TodoEntry(
         path="candidate/memory/temporal/documentation_analytics.py",
@@ -157,8 +153,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         category="verified",
         status="Regex count in place",
         notes=(
-            "The regex count records how many TODO/FIXME/XXX markers exist, so no additional work is "
-            "required here."
+            "The regex count records how many TODO/FIXME/XXX markers exist, so no additional work is " "required here."
         ),
     ),
     TodoEntry(
@@ -177,8 +172,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         category="verified",
         status="Recommendations updated",
         notes=(
-            "When TODO markers exist the analyzer adds a recommendation reminding authors to complete "
-            "those items."
+            "When TODO markers exist the analyzer adds a recommendation reminding authors to complete " "those items."
         ),
     ),
     TodoEntry(
@@ -246,9 +240,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=47,
         category="deferred",
         status="Quantum decision layer pending",
-        notes=(
-            "Quantum superposition evaluation is aspirational and has not been designed or implemented yet."
-        ),
+        notes=("Quantum superposition evaluation is aspirational and has not been designed or implemented yet."),
     ),
     TodoEntry(
         path="candidate/memory/temporal/drift_dashboard_visual.py",
@@ -265,9 +257,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=51,
         category="deferred",
         status="Quantum-safe arbitration pending",
-        notes=(
-            "Distributed mesh arbitration still requires a quantum-safe design and implementation."
-        ),
+        notes=("Distributed mesh arbitration still requires a quantum-safe design and implementation."),
     ),
     TodoEntry(
         path="candidate/qi/bio/bio_components.py",
@@ -325,8 +315,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         category="blocked",
         status="Model import unresolved",
         notes=(
-            "The reasoning item model shares the same `_models.BaseModel` uncertainty as the other event "
-            "modules."
+            "The reasoning item model shares the same `_models.BaseModel` uncertainty as the other event " "modules."
         ),
     ),
     TodoEntry(
@@ -354,36 +343,28 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=640,
         category="deferred",
         status="Audit forwarding placeholder",
-        notes=(
-            "Governance actions are stored locally but are not forwarded to the centralized audit system yet."
-        ),
+        notes=("Governance actions are stored locally but are not forwarded to the centralized audit system yet."),
     ),
     TodoEntry(
         path="candidate/consciousness/reasoning/response_reasoning_summary_done_event.py",
         line=46,
         category="blocked",
         status="Model import unresolved",
-        notes=(
-            "Summary done event shares the same candidate.core.models dependency uncertainty."
-        ),
+        notes=("Summary done event shares the same candidate.core.models dependency uncertainty."),
     ),
     TodoEntry(
         path="candidate/consciousness/reasoning/response_reasoning_summary_delta_event.py",
         line=46,
         category="blocked",
         status="Model import unresolved",
-        notes=(
-            "Delta event also relies on the unconfirmed `_models.BaseModel` location."
-        ),
+        notes=("Delta event also relies on the unconfirmed `_models.BaseModel` location."),
     ),
     TodoEntry(
         path="candidate/consciousness/reasoning/response_reasoning_summary_text_delta_event.py",
         line=46,
         category="blocked",
         status="Model import unresolved",
-        notes=(
-            "Text delta event continues to import BaseModel from core.models without validation."
-        ),
+        notes=("Text delta event continues to import BaseModel from core.models without validation."),
     ),
     TodoEntry(
         path="candidate/qi/ui/abstract_reasoning_demo.original.py",
@@ -400,27 +381,21 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=251,
         category="deferred",
         status="PDF embedding unsupported",
-        notes=(
-            "CLI help text acknowledges PDF sealing remains to be implemented for the GLYPH system."
-        ),
+        notes=("CLI help text acknowledges PDF sealing remains to be implemented for the GLYPH system."),
     ),
     TodoEntry(
         path="candidate/consciousness/reasoning/response_reasoning_summary_part_done_event.py",
         line=46,
         category="blocked",
         status="Model import unresolved",
-        notes=(
-            "Summary part done event shares the same outstanding BaseModel import verification task."
-        ),
+        notes=("Summary part done event shares the same outstanding BaseModel import verification task."),
     ),
     TodoEntry(
         path="candidate/consciousness/unified/consolidate_consciousness_unification.py",
         line=32,
         category="deferred",
         status="Consolidation script is illustrative only",
-        notes=(
-            "Script prints planned steps but does not perform actual consolidation work yet."
-        ),
+        notes=("Script prints planned steps but does not perform actual consolidation work yet."),
     ),
     TodoEntry(
         path="candidate/consciousness/reasoning/analysis/engine.py",
@@ -447,9 +422,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=47,
         category="deferred",
         status="Heatmap visualization pending",
-        notes=(
-            "Dashboard UI still lacks the violation heatmap requested for operator pattern recognition."
-        ),
+        notes=("Dashboard UI still lacks the violation heatmap requested for operator pattern recognition."),
     ),
     TodoEntry(
         path="candidate/consciousness/awareness/awareness_processor.py",
@@ -457,8 +430,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         category="deferred",
         status="Dispatch map incomplete",
         notes=(
-            "Core awareness processing falls back to generic handling; dedicated handlers need to be "
-            "implemented."
+            "Core awareness processing falls back to generic handling; dedicated handlers need to be " "implemented."
         ),
     ),
     TodoEntry(
@@ -466,9 +438,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=587,
         category="deferred",
         status="Resource cleanup placeholder",
-        notes=(
-            "Shutdown routine flags TODO for releasing held resources, pending actual resource management hooks."
-        ),
+        notes=("Shutdown routine flags TODO for releasing held resources, pending actual resource management hooks."),
     ),
     TodoEntry(
         path="candidate/consciousness/dream/colony_dream_coordinator.py",
@@ -485,36 +455,28 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=161,
         category="deferred",
         status="Memory/emotion integration pending",
-        notes=(
-            "Initialization establishes baseline metrics but still needs hooks into memory and emotion subsystems."
-        ),
+        notes=("Initialization establishes baseline metrics but still needs hooks into memory and emotion subsystems."),
     ),
     TodoEntry(
         path="candidate/consciousness/awareness/awareness_engine.py",
         line=224,
         category="deferred",
         status="Handler map not implemented",
-        notes=(
-            "Core processing TODO highlights the need for a robust category-to-handler dispatch map."
-        ),
+        notes=("Core processing TODO highlights the need for a robust category-to-handler dispatch map."),
     ),
     TodoEntry(
         path="candidate/consciousness/awareness/awareness_engine.py",
         line=306,
         category="deferred",
         status="Validation checks missing",
-        notes=(
-            "Internal validation currently returns True without checking dependencies or state consistency."
-        ),
+        notes=("Internal validation currently returns True without checking dependencies or state consistency."),
     ),
     TodoEntry(
         path="candidate/consciousness/awareness/awareness_engine.py",
         line=340,
         category="deferred",
         status="Resource cleanup placeholder",
-        notes=(
-            "Shutdown method still needs concrete cleanup logic for awareness engine resources."
-        ),
+        notes=("Shutdown method still needs concrete cleanup logic for awareness engine resources."),
     ),
     TodoEntry(
         path="candidate/consciousness/awareness/awareness_protocol.py",
@@ -530,9 +492,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=24,
         category="verified",
         status="Documentation of completed TODO",
-        notes=(
-            "Header notes that TODO 75 was implemented; no outstanding action remains in this module."
-        ),
+        notes=("Header notes that TODO 75 was implemented; no outstanding action remains in this module."),
     ),
     TodoEntry(
         path="candidate/consciousness/states/emotional_memory_manager.py",
@@ -557,45 +517,35 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=6,
         category="blocked",
         status="Architecture triage pending",
-        notes=(
-            "Bio symbolic shim still needs deep architecture analysis to determine long-term integration plan."
-        ),
+        notes=("Bio symbolic shim still needs deep architecture analysis to determine long-term integration plan."),
     ),
     TodoEntry(
         path="candidate/consciousness/states/async_client.py",
         line=359,
         category="deferred",
         status="Header adjustment should move",
-        notes=(
-            "Accept header injection belongs in provider helpers; refactor remains to be performed."
-        ),
+        notes=("Accept header injection belongs in provider helpers; refactor remains to be performed."),
     ),
     TodoEntry(
         path="candidate/bridge/examples/basic/example.py",
         line=7,
         category="deferred",
         status="Example content missing",
-        notes=(
-            "Bridge example mirrors the governance stub and still requires a meaningful usage demonstration."
-        ),
+        notes=("Bridge example mirrors the governance stub and still requires a meaningful usage demonstration."),
     ),
     TodoEntry(
         path="candidate/consciousness/examples/basic/example.py",
         line=7,
         category="deferred",
         status="Example content missing",
-        notes=(
-            "Consciousness example is also a stub that needs fleshed-out tutorial content."
-        ),
+        notes=("Consciousness example is also a stub that needs fleshed-out tutorial content."),
     ),
     TodoEntry(
         path="candidate/consciousness/activation.py",
         line=5,
         category="deferred",
         status="Activation module unimplemented",
-        notes=(
-            "File only contains a placeholder TODO; actual activation logic has not been started."
-        ),
+        notes=("File only contains a placeholder TODO; actual activation logic has not been started."),
     ),
     TodoEntry(
         path="candidate/colonies/__init__.py",
@@ -621,72 +571,56 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         line=108,
         category="deferred",
         status="File rotation not implemented",
-        notes=(
-            "Trace logger setup still needs rotating file handler support to manage log size."
-        ),
+        notes=("Trace logger setup still needs rotating file handler support to manage log size."),
     ),
     TodoEntry(
         path="candidate/bridge/trace_logger.py",
         line=109,
         category="deferred",
         status="JSON formatting TODO",
-        notes=(
-            "Logging output remains unstructured; JSON formatting is noted but not implemented."
-        ),
+        notes=("Logging output remains unstructured; JSON formatting is noted but not implemented."),
     ),
     TodoEntry(
         path="candidate/bridge/trace_logger.py",
         line=110,
         category="deferred",
         status="Compression not implemented",
-        notes=(
-            "Trace archives are not compressed; infrastructure work is pending."
-        ),
+        notes=("Trace archives are not compressed; infrastructure work is pending."),
     ),
     TodoEntry(
         path="candidate/bridge/trace_logger.py",
         line=239,
         category="deferred",
         status="Trace aggregation missing",
-        notes=(
-            "get_trace_summary currently returns placeholder data without aggregating statistics."
-        ),
+        notes=("get_trace_summary currently returns placeholder data without aggregating statistics."),
     ),
     TodoEntry(
         path="candidate/bridge/trace_logger.py",
         line=240,
         category="deferred",
         status="Trace pattern analysis missing",
-        notes=(
-            "Summary method still needs logic to identify common trace patterns."
-        ),
+        notes=("Summary method still needs logic to identify common trace patterns."),
     ),
     TodoEntry(
         path="candidate/bridge/trace_logger.py",
         line=241,
         category="deferred",
         status="Summary report generation missing",
-        notes=(
-            "No narrative summary is produced yet; placeholder notes remain."
-        ),
+        notes=("No narrative summary is produced yet; placeholder notes remain."),
     ),
     TodoEntry(
         path="candidate/bridge/trace_logger.py",
         line=259,
         category="deferred",
         status="JSON export incomplete",
-        notes=(
-            "Export function returns a placeholder JSON blob; full export support is still outstanding."
-        ),
+        notes=("Export function returns a placeholder JSON blob; full export support is still outstanding."),
     ),
     TodoEntry(
         path="candidate/bridge/trace_logger.py",
         line=262,
         category="deferred",
         status="Other export formats missing",
-        notes=(
-            "CSV and additional export formats remain to be developed."
-        ),
+        notes=("CSV and additional export formats remain to be developed."),
     ),
     TodoEntry(
         path="candidate/bridge/api_gateway/route_handlers.py",

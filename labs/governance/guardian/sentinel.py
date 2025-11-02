@@ -25,6 +25,7 @@ Features:
 #TAG:surveillance
 #TAG:constellation
 """
+
 import asyncio
 import logging
 import uuid
@@ -202,7 +203,9 @@ class GuardianSentinel:
         return {
             "status": self.status.value,
             "active_profiles": len(self.monitoring_profiles),
-            "recent_alerts": len([a for a in self.alerts if (datetime.now(timezone.utc) - a.detected_at).seconds < 3600]),
+            "recent_alerts": len(
+                [a for a in self.alerts if (datetime.now(timezone.utc) - a.detected_at).seconds < 3600]
+            ),
             "metrics": self.metrics,
         }
 

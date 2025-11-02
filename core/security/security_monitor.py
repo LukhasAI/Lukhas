@@ -9,6 +9,7 @@ utilities for downstream systems (incident response, dashboards, etc.).
 The implementation intentionally keeps processing overhead low while
 still surfacing actionable signals for production and tests.
 """
+
 from __future__ import annotations
 
 from collections import defaultdict, deque
@@ -211,7 +212,9 @@ class SecurityMonitor:
             metadata_with_score = {**metadata, "anomaly_score": anomaly_score, "user_id": user_id}
             anomaly_event = SecurityEvent(
                 event_type=EventType.ANOMALOUS_BEHAVIOR,
-                severity=EventSeverity.HIGH if anomaly_score >= self.config.anomaly_score_threshold else EventSeverity.MEDIUM,
+                severity=(
+                    EventSeverity.HIGH if anomaly_score >= self.config.anomaly_score_threshold else EventSeverity.MEDIUM
+                ),
                 actor_id=user_id,
                 ip_address=source_ip,
                 metadata=metadata_with_score,
@@ -246,7 +249,11 @@ class SecurityMonitor:
 
         event = SecurityEvent(
             event_type=EventType.RATE_LIMIT_VIOLATION,
-            severity=EventSeverity.HIGH if requests_per_minute >= self.config.rate_limit_threshold * 2 else EventSeverity.MEDIUM,
+            severity=(
+                EventSeverity.HIGH
+                if requests_per_minute >= self.config.rate_limit_threshold * 2
+                else EventSeverity.MEDIUM
+            ),
             actor_id=identifier,
             ip_address=source_ip,
             metadata={"requests_per_minute": requests_per_minute, **(metadata or {})},
@@ -353,7 +360,11 @@ class SecurityMonitor:
         requests_per_minute = int(event.metadata.get("requests_per_minute", 0))
         if requests_per_minute < self.config.rate_limit_threshold:
             return None
-        severity = EventSeverity.CRITICAL if requests_per_minute >= self.config.rate_limit_threshold * 3 else EventSeverity.HIGH
+        severity = (
+            EventSeverity.CRITICAL
+            if requests_per_minute >= self.config.rate_limit_threshold * 3
+            else EventSeverity.HIGH
+        )
         return self._register_threat(
             threat_id=self._build_threat_id("rate", event),
             threat_type="rate_limit",

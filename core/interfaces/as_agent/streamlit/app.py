@@ -75,6 +75,7 @@ class ModuleDiscoveryResult:
 
 # ΛTAG: repo_root_lookup
 
+
 def _find_repo_root(start: Path) -> Path:
     """Locate the repository root by searching for a .git directory."""
 
@@ -285,12 +286,8 @@ if module_blocks and selected_module:
 if selected_block:
     full_header, body = selected_block
     st.markdown(full_header)
-    header_info_match = re.search(
-        r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL
-    )
-    usage_guide_match = re.search(
-        r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
-    )
+    header_info_match = re.search(r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL)
+    usage_guide_match = re.search(r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL)
 
     st.markdown("#")
     if header_info_match:

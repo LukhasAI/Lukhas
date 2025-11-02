@@ -20,9 +20,10 @@ seed = {
     "constraints": {
         "budgets": {"tokens": 500, "seconds": 0.5},
         "consent": {"scopes": ["simulation.read_context"]},
-        "flags": {"duress_active": False}
-    }
+        "flags": {"duress_active": False},
+    },
 }
+
 
 async def main():
     # Schedule simulation
@@ -35,12 +36,18 @@ async def main():
 
     # Collect results
     result = await api.collect(job_id)
-    print(json.dumps({
-        "trace_id": result["trace_id"],
-        "shards": len(result.get("shards", [])),
-        "matada_nodes": len(result.get("matada_nodes", [])),
-        "scores": result.get("scores", {})
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "trace_id": result["trace_id"],
+                "shards": len(result.get("shards", [])),
+                "matada_nodes": len(result.get("matada_nodes", [])),
+                "scores": result.get("scores", {}),
+            },
+            indent=2,
+        )
+    )
+
 
 if __name__ == "__main__":
     asyncio.run(main())

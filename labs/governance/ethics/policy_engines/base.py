@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 class PolicyDecision(Enum):
     """Policy evaluation decisions"""
+
     APPROVED = "approved"
     REJECTED = "rejected"
     REQUIRES_REVIEW = "requires_review"
@@ -26,6 +27,7 @@ class PolicyDecision(Enum):
 @dataclass
 class PolicyEngineResult:
     """Result of policy evaluation"""
+
     decision: PolicyDecision
     confidence: float
     reasoning: str
@@ -43,6 +45,7 @@ class PolicyEngineResult:
 @dataclass
 class PolicyContext:
     """Context for policy evaluation"""
+
     source: str = "unknown"
     target_audience: str = "general"
     content_type: str = "text"
@@ -61,11 +64,13 @@ class BasePolicyEngine(ABC):
     Provides core infrastructure for ethical policy evaluation
     """
 
-    def __init__(self,
-                 engine_name: str,
-                 confidence_threshold: float = 0.7,
-                 enable_learning: bool = True,
-                 constellation_aware: bool = True):
+    def __init__(
+        self,
+        engine_name: str,
+        confidence_threshold: float = 0.7,
+        enable_learning: bool = True,
+        constellation_aware: bool = True,
+    ):
         """Initialize base policy engine"""
         self.engine_name = engine_name
         self.confidence_threshold = confidence_threshold
@@ -83,9 +88,7 @@ class BasePolicyEngine(ABC):
 
         logger.info(f"🛡️ {self.engine_name} Policy Engine initialized")
 
-    def evaluate(self,
-                 content: str,
-                 context: Optional[PolicyContext] = None) -> PolicyEngineResult:
+    def evaluate(self, content: str, context: Optional[PolicyContext] = None) -> PolicyEngineResult:
         """
         Evaluate content against policy rules
 
@@ -129,7 +132,7 @@ class BasePolicyEngine(ABC):
                 policy_violations=["evaluation_error"],
                 recommendations=["Manual review required"],
                 metadata={"error": str(e)},
-                evaluation_time_ms=(time.time() - start_time) * 1000
+                evaluation_time_ms=(time.time() - start_time) * 1000,
             )
 
     @abstractmethod
@@ -146,10 +149,9 @@ class BasePolicyEngine(ABC):
         """
         pass
 
-    def _apply_constellation_considerations(self,
-                                         result: PolicyEngineResult,
-                                         content: str,
-                                         context: PolicyContext) -> PolicyEngineResult:
+    def _apply_constellation_considerations(
+        self, result: PolicyEngineResult, content: str, context: PolicyContext
+    ) -> PolicyEngineResult:
         """Apply Constellation Framework considerations to evaluation"""
         if not self.constellation_aware:
             return result
@@ -165,26 +167,23 @@ class BasePolicyEngine(ABC):
 
         return result
 
-    def _apply_identity_considerations(self,
-                                     result: PolicyEngineResult,
-                                     content: str,
-                                     context: PolicyContext) -> PolicyEngineResult:
+    def _apply_identity_considerations(
+        self, result: PolicyEngineResult, content: str, context: PolicyContext
+    ) -> PolicyEngineResult:
         """Apply identity-focused policy considerations"""
         # Placeholder for identity-specific policy considerations
         return result
 
-    def _apply_consciousness_considerations(self,
-                                          result: PolicyEngineResult,
-                                          content: str,
-                                          context: PolicyContext) -> PolicyEngineResult:
+    def _apply_consciousness_considerations(
+        self, result: PolicyEngineResult, content: str, context: PolicyContext
+    ) -> PolicyEngineResult:
         """Apply consciousness-focused policy considerations"""
         # Placeholder for consciousness-specific policy considerations
         return result
 
-    def _apply_guardian_considerations(self,
-                                     result: PolicyEngineResult,
-                                     content: str,
-                                     context: PolicyContext) -> PolicyEngineResult:
+    def _apply_guardian_considerations(
+        self, result: PolicyEngineResult, content: str, context: PolicyContext
+    ) -> PolicyEngineResult:
         """Apply guardian-focused policy considerations"""
         # Placeholder for guardian-specific policy considerations
         return result
@@ -229,7 +228,7 @@ class BasePolicyEngine(ABC):
             "approval_rate": approved / total,
             "average_confidence": avg_confidence,
             "average_evaluation_time_ms": avg_time,
-            "engine_name": self.engine_name
+            "engine_name": self.engine_name,
         }
 
     def get_engine_status(self) -> Dict[str, Any]:
@@ -242,5 +241,5 @@ class BasePolicyEngine(ABC):
             "learning_enabled": self.enable_learning,
             "policy_rules_count": len(self.policy_rules),
             "evaluation_history_size": len(self.evaluation_history),
-            "violation_patterns_count": len(self.violation_patterns)
+            "violation_patterns_count": len(self.violation_patterns),
         }

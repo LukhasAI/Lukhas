@@ -17,51 +17,51 @@ DOCS_ROOT = REPO_ROOT / "docs"
 INVENTORY_DIR = DOCS_ROOT / "_inventory"
 MANIFEST_PATH = INVENTORY_DIR / "docs_manifest.json"
 
-LINK_PATTERN = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+LINK_PATTERN = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def categorize_link(link_url: str) -> str:
     """Categorize link by type."""
-    if link_url.startswith('http://') or link_url.startswith('https://'):
-        return 'external'
+    if link_url.startswith("http://") or link_url.startswith("https://"):
+        return "external"
 
-    if not link_url or link_url.startswith('#'):
-        return 'anchor'
+    if not link_url or link_url.startswith("#"):
+        return "anchor"
 
-    if link_url.startswith('/docs/'):
-        return 'external_path'  # Website paths, not repo
+    if link_url.startswith("/docs/"):
+        return "external_path"  # Website paths, not repo
 
-    if '**' in link_url or link_url.count('(') > 0:
-        return 'malformed'
+    if "**" in link_url or link_url.count("(") > 0:
+        return "malformed"
 
     # Check if it looks like a valid relative path
-    if link_url.endswith('.md'):
-        return 'missing_file'
+    if link_url.endswith(".md"):
+        return "missing_file"
 
-    return 'other'
+    return "other"
 
 
 def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
     """Scan all docs for broken links and categorize."""
     broken_by_category = defaultdict(list)
-    docs_by_path = {d['path']: d for d in docs}
+    docs_by_path = {d["path"]: d for d in docs}
 
     for doc in docs:
-        if doc.get('redirect'):
+        if doc.get("redirect"):
             continue
 
-        file_path = Path(doc['path'])
+        file_path = Path(doc["path"])
         if not file_path.exists():
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
         except Exception:
             continue
@@ -74,26 +74,31 @@ def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
             category = categorize_link(link_url)
 
             # Check if target exists (for relative links)
-            if category == 'missing_file':
+            if category == "missing_file":
                 # Simple check: does it appear in any doc path?
-                found = any(link_url in d['path'] or link_url in d['path'].replace('docs/', '')
-                           for d in docs_by_path.values())
+                found = any(
+                    link_url in d["path"] or link_url in d["path"].replace("docs/", "") for d in docs_by_path.values()
+                )
 
                 if not found:
-                    broken_by_category[category].append({
-                        'source': doc['path'],
-                        'text': link_text,
-                        'url': link_url,
-                        'line': content[:match.start()].count('\n') + 1,
-                    })
+                    broken_by_category[category].append(
+                        {
+                            "source": doc["path"],
+                            "text": link_text,
+                            "url": link_url,
+                            "line": content[: match.start()].count("\n") + 1,
+                        }
+                    )
 
-            elif category in ['malformed', 'external_path']:
-                broken_by_category[category].append({
-                    'source': doc['path'],
-                    'text': link_text,
-                    'url': link_url,
-                    'line': content[:match.start()].count('\n') + 1,
-                })
+            elif category in ["malformed", "external_path"]:
+                broken_by_category[category].append(
+                    {
+                        "source": doc["path"],
+                        "text": link_text,
+                        "url": link_url,
+                        "line": content[: match.start()].count("\n") + 1,
+                    }
+                )
 
     return broken_by_category
 
@@ -101,15 +106,15 @@ def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
 def generate_issue_for_category(category: str, links: List[Dict]) -> str:
     """Generate GitHub issue markdown for a category of broken links."""
     titles = {
-        'missing_file': 'Broken Links: Missing Files',
-        'malformed': 'Broken Links: Malformed Syntax',
-        'external_path': 'Broken Links: External Website Paths',
+        "missing_file": "Broken Links: Missing Files",
+        "malformed": "Broken Links: Malformed Syntax",
+        "external_path": "Broken Links: External Website Paths",
     }
 
     descriptions = {
-        'missing_file': 'Links pointing to .md files that do not exist in the repository.',
-        'malformed': 'Links with invalid markdown syntax (e.g., `**kwargs`, extra parentheses).',
-        'external_path': 'Links pointing to website paths (/docs/intro/...) that are not in the repo.',
+        "missing_file": "Links pointing to .md files that do not exist in the repository.",
+        "malformed": "Links with invalid markdown syntax (e.g., `**kwargs`, extra parentheses).",
+        "external_path": "Links pointing to website paths (/docs/intro/...) that are not in the repo.",
     }
 
     issue = [
@@ -129,7 +134,7 @@ def generate_issue_for_category(category: str, links: List[Dict]) -> str:
     # Group by source file
     by_source = defaultdict(list)
     for link in links:
-        by_source[link['source']].append(link)
+        by_source[link["source"]].append(link)
 
     for source in sorted(by_source.keys())[:50]:  # Limit to 50 files
         source_links = by_source[source]
@@ -148,30 +153,32 @@ def generate_issue_for_category(category: str, links: List[Dict]) -> str:
         issue.append(f"*... and {len(by_source) - 50} more files*")
         issue.append("")
 
-    issue.extend([
-        "## Resolution Steps",
-        "",
-        "### For Missing Files",
-        "1. Create the missing file if content exists elsewhere",
-        "2. Update link to point to correct location",
-        "3. Remove link if content is obsolete",
-        "",
-        "### For Malformed Syntax",
-        "1. Fix markdown syntax",
-        "2. Escape special characters if needed",
-        "3. Use code blocks for non-link content",
-        "",
-        "### For External Paths",
-        "1. Verify if content exists on website",
-        "2. Update to correct URL if moved",
-        "3. Remove if obsolete",
-        "",
-        "---",
-        "",
-        "*Auto-generated by `scripts/links_triage.py`*",
-    ])
+    issue.extend(
+        [
+            "## Resolution Steps",
+            "",
+            "### For Missing Files",
+            "1. Create the missing file if content exists elsewhere",
+            "2. Update link to point to correct location",
+            "3. Remove link if content is obsolete",
+            "",
+            "### For Malformed Syntax",
+            "1. Fix markdown syntax",
+            "2. Escape special characters if needed",
+            "3. Use code blocks for non-link content",
+            "",
+            "### For External Paths",
+            "1. Verify if content exists on website",
+            "2. Update to correct URL if moved",
+            "3. Remove if obsolete",
+            "",
+            "---",
+            "",
+            "*Auto-generated by `scripts/links_triage.py`*",
+        ]
+    )
 
-    return '\n'.join(issue)
+    return "\n".join(issue)
 
 
 def main():
@@ -185,7 +192,7 @@ def main():
     # Load manifest
     print(f"📂 Loading manifest from {MANIFEST_PATH}...")
     manifest = load_manifest()
-    docs = manifest['documents']
+    docs = manifest["documents"]
 
     # Scan for broken links
     print(f"🔍 Scanning {len(docs)} documents for broken links...")
@@ -212,7 +219,7 @@ def main():
         issue_md = generate_issue_for_category(category, links)
         output_path = output_dir / f"{category}.md"
 
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(issue_md)
 
         print(f"✅ Generated: {output_path}")
@@ -224,7 +231,9 @@ def main():
     print()
     print("# Create GitHub issues:")
     for category in broken_by_category.keys():
-        print(f"gh issue create --title 'Broken Links: {category}' --body-file 'docs/_generated/link_triage/{category}.md' --label 'docs:{category}'")
+        print(
+            f"gh issue create --title 'Broken Links: {category}' --body-file 'docs/_generated/link_triage/{category}.md' --label 'docs:{category}'"
+        )
 
     print()
 

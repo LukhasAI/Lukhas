@@ -14,6 +14,7 @@ Features:
 - <100ms p95 latency for token validation
 - OAuth2/OIDC compatible token management
 """
+
 import hashlib
 import secrets
 import time

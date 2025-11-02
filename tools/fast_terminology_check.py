@@ -19,12 +19,24 @@ def run_fast_terminology_check():
     # 1. Check for Trinity stragglers (most critical)
     print("🔍 Checking for Trinity stragglers...")
     try:
-        result = subprocess.run([
-            "grep", "-r", "--include=*.py", "--include=*.md", "--include=*.yml",
-            "Trinity", "lukhas/", "matriz/", "guardian/"
-        ], capture_output=True, text=True, timeout=30)
+        result = subprocess.run(
+            [
+                "grep",
+                "-r",
+                "--include=*.py",
+                "--include=*.md",
+                "--include=*.yml",
+                "Trinity",
+                "lukhas/",
+                "matriz/",
+                "guardian/",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
 
-        trinity_count = len(result.stdout.split('\n')) if result.stdout.strip() else 0
+        trinity_count = len(result.stdout.split("\n")) if result.stdout.strip() else 0
         results["trinity_clean"] = trinity_count == 0
         print(f"   Trinity references found: {trinity_count}")
 
@@ -38,7 +50,7 @@ def run_fast_terminology_check():
     for file_path in ["guardian/flag_snapshot.sh", "lukhas/api/system_endpoints.py"]:
         if Path(file_path).exists():
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     content = f.read()
                     if "v2.0.0" in content:
                         schema_files += 1
@@ -58,9 +70,12 @@ def run_fast_terminology_check():
 
     for pattern in search_patterns:
         try:
-            result = subprocess.run([
-                "grep", "-r", "--include=*.py", "-i", pattern
-            ] + search_dirs, capture_output=True, text=True, timeout=10)
+            result = subprocess.run(
+                ["grep", "-r", "--include=*.py", "-i", pattern] + search_dirs,
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
 
             if result.stdout.strip():
                 context_indicators += 1
@@ -79,10 +94,12 @@ def run_fast_terminology_check():
     modern_terms = ["LUKHAS", "Constellation", "Cognitive AI", "MATRIZ"]
     for term in modern_terms:
         try:
-            result = subprocess.run([
-                "grep", "-r", "--include=*.py", "--include=*.md",
-                term, "lukhas/", "docs/"
-            ], capture_output=True, text=True, timeout=10)
+            result = subprocess.run(
+                ["grep", "-r", "--include=*.py", "--include=*.md", term, "lukhas/", "docs/"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
 
             if result.stdout.strip():
                 coherent_terms += 1
@@ -122,8 +139,9 @@ def run_fast_terminology_check():
         "compliance_rate": compliance_rate,
         "checks_passed": passed_checks,
         "total_checks": total_checks,
-        "detailed_results": results
+        "detailed_results": results,
     }
+
 
 if __name__ == "__main__":
     result = run_fast_terminology_check()

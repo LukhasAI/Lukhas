@@ -23,16 +23,14 @@ from starlette.routing import Route
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class LukhasMCPRestWrapper:
     """REST API wrapper for LUKHAS MCP server functionality."""
 
     def __init__(self):
         self.session_id = str(uuid.uuid4())
         self.initialized = True
-        self.server_info = {
-            "name": "lukhas-ai-rest-wrapper",
-            "version": "1.0.0"
-        }
+        self.server_info = {"name": "lukhas-ai-rest-wrapper", "version": "1.0.0"}
 
     async def list_directory_impl(self, path: str) -> Dict[str, Any]:
         """Internal implementation of list_directory."""
@@ -42,10 +40,7 @@ class LukhasMCPRestWrapper:
             abs_path = os.path.abspath(path)
 
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
-                return {
-                    "error": f"Path '{path}' not allowed",
-                    "allowed_roots": allowed_roots
-                }
+                return {"error": f"Path '{path}' not allowed", "allowed_roots": allowed_roots}
 
             if not os.path.exists(path):
                 return {"error": f"Path '{path}' does not exist"}
@@ -59,11 +54,7 @@ class LukhasMCPRestWrapper:
                 item_type = "directory" if os.path.isdir(full_path) else "file"
                 size = os.path.getsize(full_path) if os.path.isfile(full_path) else None
 
-                item_info = {
-                    "name": item,
-                    "type": item_type,
-                    "path": full_path
-                }
+                item_info = {"name": item, "type": item_type, "path": full_path}
                 if size is not None:
                     item_info["size_bytes"] = size
 
@@ -74,7 +65,7 @@ class LukhasMCPRestWrapper:
                 "path": path,
                 "items": items,
                 "total_items": len(items),
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework",
             }
 
         except Exception as e:
@@ -89,10 +80,7 @@ class LukhasMCPRestWrapper:
             abs_path = os.path.abspath(path)
 
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
-                return {
-                    "error": f"Path '{path}' not allowed",
-                    "allowed_roots": allowed_roots
-                }
+                return {"error": f"Path '{path}' not allowed", "allowed_roots": allowed_roots}
 
             if not os.path.exists(path):
                 return {"error": f"File '{path}' does not exist"}
@@ -103,11 +91,9 @@ class LukhasMCPRestWrapper:
             # Check file size (limit to 1MB)
             file_size = os.path.getsize(path)
             if file_size > 1024 * 1024:  # 1MB
-                return {
-                    "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
-                }
+                return {"error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"}
 
-            with open(path, 'r', encoding='utf-8', errors='replace') as f:
+            with open(path, "r", encoding="utf-8", errors="replace") as f:
                 lines = f.readlines()
 
             # Limit the number of lines
@@ -118,7 +104,7 @@ class LukhasMCPRestWrapper:
                 content_lines = lines
                 truncated = False
 
-            content = ''.join(content_lines)
+            content = "".join(content_lines)
 
             return {
                 "success": True,
@@ -128,22 +114,22 @@ class LukhasMCPRestWrapper:
                 "displayed_lines": len(content_lines),
                 "truncated": truncated,
                 "file_size_bytes": file_size,
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework",
             }
 
         except UnicodeDecodeError:
-            return {
-                "error": f"File '{path}' appears to be a binary file or uses unsupported encoding"
-            }
+            return {"error": f"File '{path}' appears to be a binary file or uses unsupported encoding"}
         except Exception as e:
             logger.error(f"Error reading file {path}: {e}")
             return {"error": f"Error reading file: {str(e)}"}
+
 
 # Global server instance
 mcp_wrapper = LukhasMCPRestWrapper()
 
 # Create FastMCP server for SSE transport (ChatGPT Connectors)
 mcp = FastMCP(name="lukhas-mcp-server")
+
 
 @mcp.tool()
 def list_directory(path: str) -> dict:
@@ -153,10 +139,7 @@ def list_directory(path: str) -> dict:
     abs_path = os.path.abspath(path)
 
     if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
-        return {
-            "error": f"Path '{path}' not allowed",
-            "allowed_roots": allowed_roots
-        }
+        return {"error": f"Path '{path}' not allowed", "allowed_roots": allowed_roots}
 
     if not os.path.exists(path):
         return {"error": f"Path '{path}' does not exist"}
@@ -171,11 +154,7 @@ def list_directory(path: str) -> dict:
             item_type = "directory" if os.path.isdir(full_path) else "file"
             size = os.path.getsize(full_path) if os.path.isfile(full_path) else None
 
-            item_info = {
-                "name": item,
-                "type": item_type,
-                "path": full_path
-            }
+            item_info = {"name": item, "type": item_type, "path": full_path}
             if size is not None:
                 item_info["size_bytes"] = size
 
@@ -186,10 +165,11 @@ def list_directory(path: str) -> dict:
             "path": path,
             "items": items,
             "total_items": len(items),
-            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
+            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework",
         }
     except Exception as e:
         return {"error": f"Error listing directory: {str(e)}"}
+
 
 @mcp.tool()
 def read_file(path: str, max_lines: int = 100) -> dict:
@@ -199,10 +179,7 @@ def read_file(path: str, max_lines: int = 100) -> dict:
     abs_path = os.path.abspath(path)
 
     if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
-        return {
-            "error": f"Path '{path}' not allowed",
-            "allowed_roots": allowed_roots
-        }
+        return {"error": f"Path '{path}' not allowed", "allowed_roots": allowed_roots}
 
     if not os.path.exists(path):
         return {"error": f"File '{path}' does not exist"}
@@ -214,11 +191,9 @@ def read_file(path: str, max_lines: int = 100) -> dict:
         # Check file size (limit to 1MB)
         file_size = os.path.getsize(path)
         if file_size > 1024 * 1024:  # 1MB
-            return {
-                "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
-            }
+            return {"error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"}
 
-        with open(path, 'r', encoding='utf-8', errors='replace') as f:
+        with open(path, "r", encoding="utf-8", errors="replace") as f:
             lines = f.readlines()
 
         # Limit the number of lines
@@ -229,7 +204,7 @@ def read_file(path: str, max_lines: int = 100) -> dict:
             content_lines = lines
             truncated = False
 
-        content = ''.join(content_lines)
+        content = "".join(content_lines)
 
         return {
             "success": True,
@@ -239,30 +214,33 @@ def read_file(path: str, max_lines: int = 100) -> dict:
             "displayed_lines": len(content_lines),
             "truncated": truncated,
             "file_size_bytes": file_size,
-            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
+            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework",
         }
     except UnicodeDecodeError:
-        return {
-            "error": f"File '{path}' appears to be a binary file or uses unsupported encoding"
-        }
+        return {"error": f"File '{path}' appears to be a binary file or uses unsupported encoding"}
     except Exception as e:
         return {"error": f"Error reading file: {str(e)}"}
+
 
 # OAuth PRM configuration
 OIDC_DISCOVERY = os.getenv("OAUTH_ISSUER", "").rstrip("/")
 OAUTH_AUDIENCE = os.getenv("OAUTH_AUDIENCE", "")
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 
+
 async def health_check(request):
     """Health check endpoint."""
-    return JSONResponse({
-        "status": "healthy",
-        "timestamp": time.time(),
-        "server": "LUKHAS MCP REST Wrapper for ChatGPT",
-        "version": "1.0.0",
-        "constellation_framework": "⚛️🧠🛡️",
-        "session_id": mcp_wrapper.session_id
-    })
+    return JSONResponse(
+        {
+            "status": "healthy",
+            "timestamp": time.time(),
+            "server": "LUKHAS MCP REST Wrapper for ChatGPT",
+            "version": "1.0.0",
+            "constellation_framework": "⚛️🧠🛡️",
+            "session_id": mcp_wrapper.session_id,
+        }
+    )
+
 
 async def get_server_info(request):
     """Get LUKHAS AI server information."""
@@ -276,14 +254,14 @@ async def get_server_info(request):
                 "components": {
                     "⚛️ Identity": "Lambda ID system, authentication, symbolic self-representation",
                     "🧠 Consciousness": "692-module cognitive processing, memory systems, awareness",
-                    "🛡️ Guardian": "Constitutional AI, ethical frameworks, drift detection"
-                }
+                    "🛡️ Guardian": "Constitutional AI, ethical frameworks, drift detection",
+                },
             },
             "architecture": {
                 "lane_based": True,
                 "total_files": "~7,000 Python files",
-                "lanes": ["lukhas/", "candidate/", "matriz/", "core/", "tests/", "mcp-servers/"]
-            }
+                "lanes": ["lukhas/", "candidate/", "matriz/", "core/", "tests/", "mcp-servers/"],
+            },
         },
         "rest_wrapper": {
             "name": "LUKHAS MCP REST Wrapper",
@@ -292,12 +270,13 @@ async def get_server_info(request):
             "capabilities": ["list_directory", "read_file", "system_info"],
             "security": {
                 "path_sandboxing": True,
-                "allowed_roots": os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
-            }
-        }
+                "allowed_roots": os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(","),
+            },
+        },
     }
 
     return JSONResponse(info)
+
 
 async def list_directory_rest(request):
     """REST endpoint to list directory contents."""
@@ -311,6 +290,7 @@ async def list_directory_rest(request):
     except Exception as e:
         logger.error(f"Error in list_directory endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
+
 
 async def read_file_rest(request):
     """REST endpoint to read file contents."""
@@ -331,6 +311,7 @@ async def read_file_rest(request):
         logger.error(f"Error in read_file endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
 
+
 async def list_directory_post(request):
     """POST endpoint to list directory contents."""
     try:
@@ -343,6 +324,7 @@ async def list_directory_post(request):
     except Exception as e:
         logger.error(f"Error in list_directory POST endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
+
 
 async def read_file_post(request):
     """POST endpoint to read file contents."""
@@ -361,6 +343,7 @@ async def read_file_post(request):
         logger.error(f"Error in read_file POST endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
 
+
 async def get_openapi_spec(request):
     """Serve OpenAPI specification for ChatGPT Connectors."""
     openapi_spec = {
@@ -369,15 +352,12 @@ async def get_openapi_spec(request):
             "title": "LUKHAS AI REST API",
             "description": "Access LUKHAS AI Platform capabilities through the Constellation Framework (⚛️🧠🛡️). This REST API provides ChatGPT Connectors with secure file system access and LUKHAS AI information.",
             "version": "1.0.0",
-            "contact": {
-                "name": "LUKHAS AI Platform",
-                "url": "https://github.com/LUKHAS-AI/LUKHAS"
-            }
+            "contact": {"name": "LUKHAS AI Platform", "url": "https://github.com/LUKHAS-AI/LUKHAS"},
         },
         "servers": [
             {
                 "url": "https://lukhas-mcp-production.up.railway.app",
-                "description": "LUKHAS AI REST API Production Server"
+                "description": "LUKHAS AI REST API Production Server",
             }
         ],
         "paths": {
@@ -395,16 +375,19 @@ async def get_openapi_spec(request):
                                         "type": "object",
                                         "properties": {
                                             "status": {"type": "string", "example": "healthy"},
-                                            "server": {"type": "string", "example": "LUKHAS MCP REST Wrapper for ChatGPT"},
+                                            "server": {
+                                                "type": "string",
+                                                "example": "LUKHAS MCP REST Wrapper for ChatGPT",
+                                            },
                                             "version": {"type": "string", "example": "1.0.0"},
                                             "constellation_framework": {"type": "string", "example": "⚛️🧠🛡️"},
-                                            "session_id": {"type": "string", "format": "uuid"}
-                                        }
+                                            "session_id": {"type": "string", "format": "uuid"},
+                                        },
                                     }
                                 }
-                            }
+                            },
                         }
-                    }
+                    },
                 }
             },
             "/info": {
@@ -421,13 +404,13 @@ async def get_openapi_spec(request):
                                         "type": "object",
                                         "properties": {
                                             "lukhas_ai": {"type": "object"},
-                                            "rest_wrapper": {"type": "object"}
-                                        }
+                                            "rest_wrapper": {"type": "object"},
+                                        },
                                     }
                                 }
-                            }
+                            },
                         }
-                    }
+                    },
                 }
             },
             "/list-directory": {
@@ -441,7 +424,7 @@ async def get_openapi_spec(request):
                             "in": "query",
                             "required": True,
                             "description": "Directory path to list (must be within allowed roots)",
-                            "schema": {"type": "string", "example": "/tmp"}
+                            "schema": {"type": "string", "example": "/tmp"},
                         }
                     ],
                     "responses": {
@@ -456,13 +439,13 @@ async def get_openapi_spec(request):
                                             "path": {"type": "string"},
                                             "items": {"type": "array"},
                                             "total_items": {"type": "integer"},
-                                            "lukhas_ai": {"type": "string"}
-                                        }
+                                            "lukhas_ai": {"type": "string"},
+                                        },
                                     }
                                 }
-                            }
+                            },
                         }
-                    }
+                    },
                 }
             },
             "/read-file": {
@@ -476,15 +459,15 @@ async def get_openapi_spec(request):
                             "in": "query",
                             "required": True,
                             "description": "File path to read (must be within allowed roots)",
-                            "schema": {"type": "string", "example": "/tmp/example.txt"}
+                            "schema": {"type": "string", "example": "/tmp/example.txt"},
                         },
                         {
                             "name": "max_lines",
                             "in": "query",
                             "required": False,
                             "description": "Maximum number of lines to read",
-                            "schema": {"type": "integer", "default": 100, "example": 100}
-                        }
+                            "schema": {"type": "integer", "default": 100, "example": 100},
+                        },
                     ],
                     "responses": {
                         "200": {
@@ -499,26 +482,27 @@ async def get_openapi_spec(request):
                                             "content": {"type": "string"},
                                             "total_lines": {"type": "integer"},
                                             "file_size_bytes": {"type": "integer"},
-                                            "lukhas_ai": {"type": "string"}
-                                        }
+                                            "lukhas_ai": {"type": "string"},
+                                        },
                                     }
                                 }
-                            }
+                            },
                         }
-                    }
+                    },
                 }
-            }
+            },
         },
         "security": [],
         "tags": [
             {
                 "name": "LUKHAS AI",
-                "description": "LUKHAS AI Platform operations powered by the Constellation Framework ⚛️🧠🛡️"
+                "description": "LUKHAS AI Platform operations powered by the Constellation Framework ⚛️🧠🛡️",
             }
-        ]
+        ],
     }
 
     return JSONResponse(openapi_spec)
+
 
 async def oauth_prm(request):
     """OAuth Protected Resource Metadata (RFC 9728) endpoint."""
@@ -529,10 +513,11 @@ async def oauth_prm(request):
     prm_data = {
         "resource": PUBLIC_BASE_URL,
         "authorization_servers": [OIDC_DISCOVERY],  # issuer
-        "bearer_methods_supported": ["header"]
+        "bearer_methods_supported": ["header"],
     }
 
     return JSONResponse(prm_data)
+
 
 # Define routes
 routes = [

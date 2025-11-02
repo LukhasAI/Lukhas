@@ -6,13 +6,7 @@ from types import ModuleType
 
 import pytest
 
-MODULE_PATH = (
-    Path(__file__).resolve().parents[3]
-    / "lukhas_website"
-    / "lukhas"
-    / "identity"
-    / "webauthn_production.py"
-)
+MODULE_PATH = Path(__file__).resolve().parents[3] / "lukhas_website" / "lukhas" / "identity" / "webauthn_production.py"
 
 
 def _install_opentelemetry_stub() -> None:
@@ -153,9 +147,7 @@ async def test_begin_authentication_uses_public_key_credential_descriptor(monkey
             def model_dump(self):
                 return {
                     "challenge": "server-challenge",
-                    "allowCredentials": [
-                        {"id": "placeholder", "type": "public-key"}
-                    ],
+                    "allowCredentials": [{"id": "placeholder", "type": "public-key"}],
                 }
 
         return _DummyOptions()

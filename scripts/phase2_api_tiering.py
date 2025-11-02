@@ -54,7 +54,7 @@ API_TIER_RULES = {
 def analyze_api_module(manifest_path: pathlib.Path) -> Tuple[str, float, str]:
     """
     Analyze API module and suggest star rating.
-    
+
     Returns: (suggested_star, confidence, reason)
     """
     try:
@@ -146,13 +146,15 @@ def main():
         current_star = (data.get("constellation_alignment", {}) or {}).get("primary_star", "Supporting")
 
         if suggested_star != current_star and confidence >= args.min_confidence:
-            changes.append({
-                "path": str(manifest),
-                "current": current_star,
-                "suggested": suggested_star,
-                "confidence": confidence,
-                "reason": reason,
-            })
+            changes.append(
+                {
+                    "path": str(manifest),
+                    "current": current_star,
+                    "suggested": suggested_star,
+                    "confidence": confidence,
+                    "reason": reason,
+                }
+            )
 
             status = "[DRY]" if args.dry_run else "[OK]"
             print(f"{status} {manifest.parent.name}")

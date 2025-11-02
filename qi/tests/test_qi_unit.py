@@ -25,10 +25,7 @@ class TestQiModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "qi",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "qi", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestQiModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import qi
+
         self.assertIsNotNone(qi)
 
     def test_module_version(self):
         """Test module has version information."""
         import qi
+
         # Most modules should have version info
-        self.assertTrue(hasattr(qi, '__version__') or
-                       hasattr(qi, 'VERSION'))
+        self.assertTrue(hasattr(qi, "__version__") or hasattr(qi, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestQI_AVAILABLE(unittest.TestCase):
         """Test QI_AVAILABLE can be imported."""
         try:
             from qi import QI_AVAILABLE
+
             self.assertIsNotNone(QI_AVAILABLE)
         except ImportError:
             pytest.skip("Component QI_AVAILABLE not available")
@@ -97,6 +96,7 @@ class TestQI_AWARENESS_AVAILABLE(unittest.TestCase):
         """Test QI_AWARENESS_AVAILABLE can be imported."""
         try:
             from qi import QI_AWARENESS_AVAILABLE
+
             self.assertIsNotNone(QI_AWARENESS_AVAILABLE)
         except ImportError:
             pytest.skip("Component QI_AWARENESS_AVAILABLE not available")
@@ -114,6 +114,7 @@ class TestQI_BIO_AVAILABLE(unittest.TestCase):
         """Test QI_BIO_AVAILABLE can be imported."""
         try:
             from qi import QI_BIO_AVAILABLE
+
             self.assertIsNotNone(QI_BIO_AVAILABLE)
         except ImportError:
             pytest.skip("Component QI_BIO_AVAILABLE not available")
@@ -122,7 +123,6 @@ class TestQI_BIO_AVAILABLE(unittest.TestCase):
         """Test QI_BIO_AVAILABLE can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

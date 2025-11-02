@@ -87,9 +87,9 @@ class MemorySystemConsolidator:
         """Merge two implementations, keeping the best parts of each."""
         try:
             # Read source and target files
-            with open(source, 'r', encoding='utf-8') as f:
+            with open(source, "r", encoding="utf-8") as f:
                 source_content = f.read()
-            with open(target, 'r', encoding='utf-8') as f:
+            with open(target, "r", encoding="utf-8") as f:
                 target_content = f.read()
 
             # Implement smart merging logic
@@ -97,11 +97,11 @@ class MemorySystemConsolidator:
 
             # Create backup before merging
             backup_path = target.with_suffix(f"{target.suffix}.backup")
-            with open(backup_path, 'w', encoding='utf-8') as f:
+            with open(backup_path, "w", encoding="utf-8") as f:
                 f.write(target_content)
 
             # Write merged content
-            with open(target, 'w', encoding='utf-8') as f:
+            with open(target, "w", encoding="utf-8") as f:
                 f.write(merged_content)
 
             logger.info(f"Successfully merged {source} into {target} (backup: {backup_path})")
@@ -109,7 +109,9 @@ class MemorySystemConsolidator:
         except Exception as e:
             logger.error(f"Failed to merge {source} into {target}: {e}")
 
-    def _smart_merge_content(self, source_content: str, target_content: str, source_path: Path, target_path: Path) -> str:
+    def _smart_merge_content(
+        self, source_content: str, target_content: str, source_path: Path, target_path: Path
+    ) -> str:
         """Perform intelligent content merging based on code analysis."""
 
         # Extract metadata for merging decisions
@@ -117,11 +119,11 @@ class MemorySystemConsolidator:
         target_meta = self._extract_content_metadata(target_content, target_path)
 
         # Determine merge strategy based on content type
-        if source_path.suffix == '.py' and target_path.suffix == '.py':
+        if source_path.suffix == ".py" and target_path.suffix == ".py":
             return self._merge_python_files(source_content, target_content, source_meta, target_meta)
-        elif source_path.suffix in ['.md', '.txt']:
+        elif source_path.suffix in [".md", ".txt"]:
             return self._merge_text_files(source_content, target_content, source_meta, target_meta)
-        elif source_path.suffix == '.json':
+        elif source_path.suffix == ".json":
             return self._merge_json_files(source_content, target_content)
         else:
             return self._merge_generic_files(source_content, target_content, source_meta, target_meta)
@@ -136,22 +138,22 @@ class MemorySystemConsolidator:
             "docstrings": [],
             "todos": [],
             "lambda_annotations": [],
-            "modification_markers": []
+            "modification_markers": [],
         }
 
         lines = content.splitlines()
 
         for i, line in enumerate(lines):
             # Extract imports
-            if line.strip().startswith(('import ', 'from ')):
+            if line.strip().startswith(("import ", "from ")):
                 metadata["imports"].append((i + 1, line.strip()))
 
             # Extract class definitions
-            if line.strip().startswith('class '):
+            if line.strip().startswith("class "):
                 metadata["classes"].append((i + 1, line.strip()))
 
             # Extract function definitions
-            if line.strip().startswith('def '):
+            if line.strip().startswith("def "):
                 metadata["functions"].append((i + 1, line.strip()))
 
             # Extract docstrings
@@ -159,16 +161,18 @@ class MemorySystemConsolidator:
                 metadata["docstrings"].append((i + 1, line.strip()))
 
             # Extract TODOs
-            if 'TODO' in line.upper():
+            if "TODO" in line.upper():
                 metadata["todos"].append((i + 1, line.strip()))
 
             # Extract LAMBDA annotations
-            if any(marker in line for marker in ['ΛTRACE', 'ΛNOTE', 'ΛEXPOSE', 'ΛSEED']):
+            if any(marker in line for marker in ["ΛTRACE", "ΛNOTE", "ΛEXPOSE", "ΛSEED"]):
                 metadata["lambda_annotations"].append((i + 1, line.strip()))
 
         return metadata
 
-    def _merge_python_files(self, source_content: str, target_content: str, source_meta: dict, target_meta: dict) -> str:
+    def _merge_python_files(
+        self, source_content: str, target_content: str, source_meta: dict, target_meta: dict
+    ) -> str:
         """Merge Python files intelligently."""
         # Prioritize newer implementations and preserve LAMBDA annotations
         target_lines = target_content.splitlines()
@@ -186,7 +190,7 @@ class MemorySystemConsolidator:
             # Find insertion point for imports (after existing imports)
             import_insert_line = 0
             for i, line in enumerate(target_lines):
-                if line.strip().startswith(('import ', 'from ')):
+                if line.strip().startswith(("import ", "from ")):
                     import_insert_line = i + 1
 
             for imp in sorted(missing_imports):
@@ -206,7 +210,7 @@ class MemorySystemConsolidator:
 """
         merged_lines.insert(0, merge_header)
 
-        return '\n'.join(merged_lines)
+        return "\n".join(merged_lines)
 
     def _merge_text_files(self, source_content: str, target_content: str, source_meta: dict, target_meta: dict) -> str:
         """Merge text/markdown files."""
@@ -248,7 +252,9 @@ class MemorySystemConsolidator:
         # Fallback to text merge
         return target_content + "\n\n" + source_content
 
-    def _merge_generic_files(self, source_content: str, target_content: str, source_meta: dict, target_meta: dict) -> str:
+    def _merge_generic_files(
+        self, source_content: str, target_content: str, source_meta: dict, target_meta: dict
+    ) -> str:
         """Generic file merging strategy."""
         # Conservative merge: append source to target with separator
         separator = f"\n\n{'=' * 50}\n# MERGED FROM SOURCE\n{'=' * 50}\n\n"

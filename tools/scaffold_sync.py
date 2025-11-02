@@ -24,14 +24,17 @@ IGNORE = []
 
 # Load ignore patterns
 if IGNORE_FILE.exists():
-    IGNORE = [line.strip() for line in IGNORE_FILE.read_text().splitlines()
-              if line.strip() and not line.startswith('#')]
+    IGNORE = [
+        line.strip() for line in IGNORE_FILE.read_text().splitlines() if line.strip() and not line.startswith("#")
+    ]
 
 PROV_PREFIX = "# @generated LUKHAS scaffold v1"
+
 
 def sha256_bytes(b: bytes) -> str:
     """Calculate SHA256 hash of bytes."""
     return hashlib.sha256(b).hexdigest()
+
 
 def load_module_manifest(module_path: pathlib.Path) -> Dict[str, Any]:
     """Load module manifest for template context."""
@@ -44,6 +47,7 @@ def load_module_manifest(module_path: pathlib.Path) -> Dict[str, Any]:
             pass
     return {}
 
+
 def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str, Any]:
     """Generate template context from module data."""
     context = {
@@ -52,7 +56,7 @@ def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str
         "module_title": module_name.replace("_", " ").title(),
         "module_entrypoints": [],
         "module_description": f"LUKHAS {module_name} module",
-        "module_tags": ["lukhas", "consciousness"]
+        "module_tags": ["lukhas", "consciousness"],
     }
 
     # Extract manifest data comprehensively
@@ -106,6 +110,7 @@ def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str
 
     return context
 
+
 def render_template(env: Environment, template_rel: str, context: Dict[str, Any]) -> str:
     """Render template with context and add provenance header."""
     template = env.get_template(template_rel)
@@ -128,6 +133,7 @@ def render_template(env: Environment, template_rel: str, context: Dict[str, Any]
 
     return header + content
 
+
 def list_template_files() -> List[str]:
     """List all template files to process."""
     if not TEMPLATES.exists():
@@ -149,17 +155,19 @@ def list_template_files() -> List[str]:
 
     return sorted(templates)
 
+
 def is_generated_file(file_path: pathlib.Path) -> bool:
     """Check if file has provenance header."""
     if not file_path.exists():
         return False
 
     try:
-        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             first_line = f.readline().strip()
             return first_line == PROV_PREFIX.strip()
     except Exception:
         return False
+
 
 def should_overwrite(target_path: pathlib.Path, new_content: str, force: bool = False) -> bool:
     """Determine if file should be overwritten."""
@@ -173,29 +181,23 @@ def should_overwrite(target_path: pathlib.Path, new_content: str, force: bool = 
     if is_generated_file(target_path):
         # Check if content has changed
         try:
-            current_content = target_path.read_text(encoding='utf-8', errors='ignore')
+            current_content = target_path.read_text(encoding="utf-8", errors="ignore")
             return current_content != new_content
         except Exception:
             return True
 
     return False  # Don't overwrite human-edited files
 
-def sync_module(module_path: pathlib.Path, templates: List[str],
-                env: Environment, dry_run: bool = False,
-                force: bool = False) -> Dict[str, Any]:
+
+def sync_module(
+    module_path: pathlib.Path, templates: List[str], env: Environment, dry_run: bool = False, force: bool = False
+) -> Dict[str, Any]:
     """Sync templates to a single module."""
     module_name = module_path.name
     manifest = load_module_manifest(module_path)
     context = get_template_context(module_name, manifest)
 
-    results = {
-        "module": module_name,
-        "actions": [],
-        "created": 0,
-        "updated": 0,
-        "skipped": 0,
-        "errors": 0
-    }
+    results = {"module": module_name, "actions": [], "created": 0, "updated": 0, "skipped": 0, "errors": 0}
 
     for template_rel in templates:
         # Calculate target path - render filename to handle template variables
@@ -203,6 +205,7 @@ def sync_module(module_path: pathlib.Path, templates: List[str],
 
         # Render the filename to substitute variables like {{ module }}
         from jinja2 import Template as JinjaTemplate
+
         filename_template = JinjaTemplate(target_rel)
         target_rel = filename_template.render(**context)
 
@@ -222,7 +225,7 @@ def sync_module(module_path: pathlib.Path, templates: List[str],
                     target_path.parent.mkdir(parents=True, exist_ok=True)
 
                     # Write file
-                    target_path.write_text(new_content, encoding='utf-8')
+                    target_path.write_text(new_content, encoding="utf-8")
 
                     if target_path.exists():
                         results["updated" if target_path.stat().st_size > 0 else "created"] += 1
@@ -233,36 +236,25 @@ def sync_module(module_path: pathlib.Path, templates: List[str],
             else:
                 results["skipped"] += 1
 
-            results["actions"].append({
-                "template": template_rel,
-                "target": str(target_path),
-                "action": action
-            })
+            results["actions"].append({"template": template_rel, "target": str(target_path), "action": action})
 
         except Exception as e:
             results["errors"] += 1
-            results["actions"].append({
-                "template": template_rel,
-                "target": str(target_path),
-                "action": "error",
-                "error": str(e)
-            })
+            results["actions"].append(
+                {"template": template_rel, "target": str(target_path), "action": "error", "error": str(e)}
+            )
 
     return results
+
 
 def main():
     """Main scaffold sync function."""
     parser = argparse.ArgumentParser(description="Sync module scaffolds with provenance tracking")
-    parser.add_argument("--modules-root", default="lukhas",
-                       help="Root directory containing modules")
-    parser.add_argument("--only-module", action="append",
-                       help="Sync specific module(s) only")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Show what would be done without making changes")
-    parser.add_argument("--force", action="store_true",
-                       help="Overwrite human-edited files")
-    parser.add_argument("--json", action="store_true",
-                       help="Output results as JSON")
+    parser.add_argument("--modules-root", default="lukhas", help="Root directory containing modules")
+    parser.add_argument("--only-module", action="append", help="Sync specific module(s) only")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
+    parser.add_argument("--force", action="store_true", help="Overwrite human-edited files")
+    parser.add_argument("--json", action="store_true", help="Output results as JSON")
 
     args = parser.parse_args()
 
@@ -286,10 +278,7 @@ def main():
         sys.exit(1)
 
     # Find modules
-    all_modules = [
-        p.name for p in modules_root.iterdir()
-        if p.is_dir() and not p.name.startswith('.')
-    ]
+    all_modules = [p.name for p in modules_root.iterdir() if p.is_dir() and not p.name.startswith(".")]
 
     if args.only_module:
         modules = [m for m in all_modules if m in set(args.only_module)]
@@ -328,9 +317,9 @@ def main():
                 "created": total_created,
                 "updated": total_updated,
                 "skipped": total_skipped,
-                "errors": total_errors
+                "errors": total_errors,
             },
-            "results": all_results
+            "results": all_results,
         }
         print(json.dumps(output, indent=2))
     else:
@@ -353,6 +342,7 @@ def main():
             print("\n✅ Scaffold sync completed successfully")
 
     return 0 if total_errors == 0 else 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

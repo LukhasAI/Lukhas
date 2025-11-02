@@ -4,6 +4,7 @@ Original: visualizer_core.py
 Advanced: visualizer_core.py
 Integration Date: 2025-05-31T07:55:28.267934
 """
+
 #!/usr/bin/env python3
 # 📄 MODULE: visualizer.py
 # 🔎 PURPOSE: Convert flashbacks into visual prompts for OpenAI DALL·E or other generators

@@ -2,6 +2,7 @@
 MATRIZ Adapter for Bio Module
 Emits MATRIZ-compliant nodes for bio-inspired processing events
 """
+
 import json
 import time
 import uuid

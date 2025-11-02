@@ -21,6 +21,7 @@ from memory.observability import MemoryTracer
 
 class TestPgClient:
     """Test database client."""
+
     def __init__(self):
         self.call_count = 0
 
@@ -28,8 +29,10 @@ class TestPgClient:
         self.call_count += 1
         return {"affected_rows": 1}
 
+
 class TestVectorStore(PgVectorStore):
     """Test vector store with actual implementations."""
+
     def __init__(self, conn, table="test_store", dim: int = 1536):
         super().__init__(conn, table, dim)
         self.storage = {}
@@ -66,6 +69,7 @@ class TestVectorStore(PgVectorStore):
 
     def stats(self):
         return {"table": self.table, "dim": self.dim, "count": len(self.storage)}
+
 
 async def test_memory_orchestrator_integration():
     """Test MemoryOrchestrator with all components."""
@@ -108,8 +112,9 @@ async def test_memory_orchestrator_integration():
         "add_event_ms": add_duration,
         "query_ms": query_duration,
         "events_stored": stats["count"],
-        "integration_success": True
+        "integration_success": True,
     }
+
 
 async def test_guardian_integration():
     """Test Guardian integration hooks."""
@@ -155,8 +160,9 @@ async def test_guardian_integration():
     return {
         "guardian_validate_calls": guardian.validate_calls,
         "guardian_monitor_calls": guardian.monitor_calls,
-        "guardian_integration_success": True
+        "guardian_integration_success": True,
     }
+
 
 def test_component_contracts():
     """Test that all components meet their contracts."""
@@ -183,11 +189,12 @@ def test_component_contracts():
     # Test MemoryTracer
     tracer = MemoryTracer()
     span_context = tracer.trace_operation("test")
-    assert hasattr(span_context, '__enter__')
-    assert hasattr(span_context, '__exit__')
+    assert hasattr(span_context, "__enter__")
+    assert hasattr(span_context, "__exit__")
     print("   ✅ MemoryTracer contract")
 
     return {"contract_validation_success": True}
+
 
 async def run_performance_baseline():
     """Run performance baseline for key operations."""
@@ -221,12 +228,8 @@ async def run_performance_baseline():
 
     print(f"   {'✅' if sla_met else '❌'} SLA compliance: {sla_met}")
 
-    return {
-        "avg_latency_us": avg_latency,
-        "p95_latency_us": p95_latency,
-        "sla_target_us": 1000,
-        "sla_met": sla_met
-    }
+    return {"avg_latency_us": avg_latency, "p95_latency_us": p95_latency, "sla_target_us": 1000, "sla_met": sla_met}
+
 
 async def main():
     """Run complete M.1 integration validation."""
@@ -250,17 +253,19 @@ async def main():
 
         # Overall assessment
         all_success = (
-            results["contracts"]["contract_validation_success"] and
-            results["orchestrator"]["integration_success"] and
-            results["guardian"]["guardian_integration_success"] and
-            results["performance"]["sla_met"]
+            results["contracts"]["contract_validation_success"]
+            and results["orchestrator"]["integration_success"]
+            and results["guardian"]["guardian_integration_success"]
+            and results["performance"]["sla_met"]
         )
 
         print("\n🏆 INTEGRATION VALIDATION SUMMARY")
         print("=" * 35)
         print(f"Component Contracts: {'✅ PASS' if results['contracts']['contract_validation_success'] else '❌ FAIL'}")
         print(f"Orchestrator Integration: {'✅ PASS' if results['orchestrator']['integration_success'] else '❌ FAIL'}")
-        print(f"Guardian Integration: {'✅ PASS' if results['guardian']['guardian_integration_success'] else '❌ FAIL'}")
+        print(
+            f"Guardian Integration: {'✅ PASS' if results['guardian']['guardian_integration_success'] else '❌ FAIL'}"
+        )
         print(f"Performance SLA: {'✅ PASS' if results['performance']['sla_met'] else '❌ FAIL'}")
         print("")
         print(f"Overall M.1 Status: {'🎉 SUCCESS - READY FOR DEPLOYMENT' if all_success else '🔧 NEEDS WORK'}")
@@ -270,8 +275,10 @@ async def main():
     except Exception as e:
         print(f"❌ Validation failed with error: {e}")
         import traceback
+
         traceback.print_exc()
         return {"error": str(e)}
+
 
 if __name__ == "__main__":
     asyncio.run(main())

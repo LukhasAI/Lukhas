@@ -8,9 +8,7 @@ from core.quantum_financial.quantum_financial_consciousness_engine import (
 @pytest.mark.asyncio
 async def test_exchange_rate_structure():
     engine = QuantumFinancialConsciousnessEngine()
-    result = await engine.calculate_consciousness_exchange_rate(
-        "alice", {"impact": 10}
-    )
+    result = await engine.calculate_consciousness_exchange_rate("alice", {"impact": 10})
 
     assert set(result.keys()) == {
         "consciousness_tokens_earned",
@@ -28,15 +26,11 @@ async def test_exchange_rate_structure():
 async def test_exchange_proposals_respect_profiles():
     engine = QuantumFinancialConsciousnessEngine()
 
-    stressed = await engine.propose_consciousness_based_exchange(
-        {"financial_stress": 0.9}, {}
-    )
+    stressed = await engine.propose_consciousness_based_exchange({"financial_stress": 0.9}, {})
     assert stressed["exchange_type"] == "gift_economy"
     assert stressed["financial_requirement"] == 0
 
-    abundant = await engine.propose_consciousness_based_exchange(
-        {"abundance_consciousness": 0.9}, {}
-    )
+    abundant = await engine.propose_consciousness_based_exchange({"abundance_consciousness": 0.9}, {})
     assert abundant["exchange_type"] == "abundance_based"
     assert "suggested_contribution" in abundant
 

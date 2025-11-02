@@ -31,15 +31,17 @@ logger = logging.getLogger(__name__)
 
 class ThoughtComplexity(Enum):
     """Complexity levels for thought processing"""
-    SIMPLE = "simple"          # Basic synthesis (< 3 inference steps)
-    MODERATE = "moderate"      # Medium reasoning (3-7 steps)
-    COMPLEX = "complex"        # Deep reasoning (7-12 steps)
-    EXPERT = "expert"         # Expert-level reasoning (12+ steps)
+
+    SIMPLE = "simple"  # Basic synthesis (< 3 inference steps)
+    MODERATE = "moderate"  # Medium reasoning (3-7 steps)
+    COMPLEX = "complex"  # Deep reasoning (7-12 steps)
+    EXPERT = "expert"  # Expert-level reasoning (12+ steps)
 
 
 @dataclass
 class ThoughtContext:
     """Context for thought processing"""
+
     query: str
     memory_signals: List[Dict[str, Any]]
     consciousness_state: Optional[ConsciousnessState]
@@ -58,6 +60,7 @@ class ThoughtContext:
 @dataclass
 class ThoughtResult:
     """Result of enhanced thought processing"""
+
     synthesis: str
     confidence: float
     reasoning_chains: List[Any]  # InferenceChain objects
@@ -86,7 +89,7 @@ class EnhancedThoughtEngine:
         max_inference_depth: int = 12,
         default_time_budget_ms: float = 180.0,  # T4/0.01% budget allocation
         contradiction_threshold: float = 0.98,
-        enable_meta_cognitive: bool = True
+        enable_meta_cognitive: bool = True,
     ):
         """Initialize enhanced thought engine."""
         self.max_inference_depth = max_inference_depth
@@ -100,7 +103,7 @@ class EnhancedThoughtEngine:
             max_chains=3,
             confidence_threshold=0.1,
             max_processing_time_ms=default_time_budget_ms * 0.7,  # 70% for inference
-            contradiction_threshold=contradiction_threshold
+            contradiction_threshold=contradiction_threshold,
         )
 
         # Performance tracking
@@ -111,7 +114,7 @@ class EnhancedThoughtEngine:
             "contradictions_detected": 0,
             "avg_inference_depth": 0.0,
             "avg_processing_time_ms": 0.0,
-            "cognitive_load_avg": 0.0
+            "cognitive_load_avg": 0.0,
         }
 
         # Meta-cognitive assessor (will be enhanced later)
@@ -168,7 +171,7 @@ class EnhancedThoughtEngine:
                 supporting_memory_ids=[],
                 affect_delta=0.0,
                 success=False,
-                error_message=str(e)
+                error_message=str(e),
             )
 
             self._update_thought_stats(error_result, success=False)
@@ -182,18 +185,28 @@ class EnhancedThoughtEngine:
 
         # Check for reasoning keywords
         reasoning_keywords = [
-            "why", "how", "because", "therefore", "if", "then",
-            "cause", "effect", "implies", "reasoning", "logic"
+            "why",
+            "how",
+            "because",
+            "therefore",
+            "if",
+            "then",
+            "cause",
+            "effect",
+            "implies",
+            "reasoning",
+            "logic",
         ]
         has_reasoning_keywords = any(kw in context.query.lower() for kw in reasoning_keywords)
 
         # Strategy selection logic
-        if (context.complexity_level in [ThoughtComplexity.COMPLEX, ThoughtComplexity.EXPERT] or
-            has_reasoning_keywords or
-            query_complexity > 10):
+        if (
+            context.complexity_level in [ThoughtComplexity.COMPLEX, ThoughtComplexity.EXPERT]
+            or has_reasoning_keywords
+            or query_complexity > 10
+        ):
             return "deep_inference"
-        elif (context.complexity_level == ThoughtComplexity.MODERATE or
-              memory_richness > 5):
+        elif context.complexity_level == ThoughtComplexity.MODERATE or memory_richness > 5:
             return "enhanced_basic"
         else:
             return "basic"
@@ -211,8 +224,8 @@ class EnhancedThoughtEngine:
             context={
                 "query": context.query,
                 "memory_signals": context.memory_signals[:5],  # Limit for performance
-                "processing_mode": "thought_synthesis"
-            }
+                "processing_mode": "thought_synthesis",
+            },
         )
 
         # Extract reasoning chains
@@ -222,28 +235,26 @@ class EnhancedThoughtEngine:
         reasoning_chains.extend(inference_result.alternative_chains)
 
         # Generate synthesis from inference result
-        synthesis = await self._build_synthesis_from_inference(
-            context, inference_result, reasoning_chains
-        )
+        synthesis = await self._build_synthesis_from_inference(context, inference_result, reasoning_chains)
 
         # Perform meta-cognitive assessment
-        meta_assessment = await self._assess_thought_quality(
-            context, inference_result, reasoning_chains
-        ) if self.enable_meta_cognitive else {}
+        meta_assessment = (
+            await self._assess_thought_quality(context, inference_result, reasoning_chains)
+            if self.enable_meta_cognitive
+            else {}
+        )
 
         # Calculate metrics
         processing_time = (time.time() - start_time) * 1000
         cognitive_load = self._calculate_cognitive_load(
-            inference_result.max_depth_explored,
-            len(reasoning_chains),
-            processing_time
+            inference_result.max_depth_explored, len(reasoning_chains), processing_time
         )
 
         quality_score = self._calculate_quality_score(
             inference_result.confidence_score,
             inference_result.reasoning_quality,
             len(reasoning_chains),
-            inference_result.contradictions_detected
+            inference_result.contradictions_detected,
         )
 
         return ThoughtResult(
@@ -258,7 +269,7 @@ class EnhancedThoughtEngine:
             quality_score=quality_score,
             supporting_memory_ids=self._extract_memory_ids(context.memory_signals),
             affect_delta=self._calculate_affect_delta(context, inference_result),
-            success=inference_result.success
+            success=inference_result.success,
         )
 
     async def _enhanced_basic_synthesis(self, context: ThoughtContext, start_time: float) -> ThoughtResult:
@@ -266,10 +277,7 @@ class EnhancedThoughtEngine:
 
         # Use inference engine with reduced depth
         limited_engine = DeepInferenceEngine(
-            max_depth=5,
-            max_chains=2,
-            confidence_threshold=0.2,
-            max_processing_time_ms=context.time_budget_ms * 0.5
+            max_depth=5, max_chains=2, confidence_threshold=0.2, max_processing_time_ms=context.time_budget_ms * 0.5
         )
 
         premise = await self._build_inference_premise(context)
@@ -283,7 +291,7 @@ class EnhancedThoughtEngine:
         meta_assessment = {
             "reasoning_mode": "enhanced_basic",
             "confidence_level": "moderate" if inference_result.confidence_score > 0.6 else "low",
-            "depth_adequate": inference_result.max_depth_explored >= 3
+            "depth_adequate": inference_result.max_depth_explored >= 3,
         }
 
         processing_time = (time.time() - start_time) * 1000
@@ -300,7 +308,7 @@ class EnhancedThoughtEngine:
             quality_score=min(0.8, inference_result.reasoning_quality + 0.2),
             supporting_memory_ids=self._extract_memory_ids(context.memory_signals),
             affect_delta=self._calculate_affect_delta(context, inference_result),
-            success=True
+            success=True,
         )
 
     async def _basic_synthesis(self, context: ThoughtContext, start_time: float) -> ThoughtResult:
@@ -330,17 +338,14 @@ class EnhancedThoughtEngine:
             confidence=confidence,
             reasoning_chains=[],
             contradictions_found=0,
-            meta_cognitive_assessment={
-                "reasoning_mode": "basic",
-                "confidence_level": "basic"
-            },
+            meta_cognitive_assessment={"reasoning_mode": "basic", "confidence_level": "basic"},
             inference_depth_reached=1,
             processing_time_ms=processing_time,
             cognitive_load=0.1,
             quality_score=0.6,
             supporting_memory_ids=self._extract_memory_ids(context.memory_signals),
             affect_delta=0.05 * len(context.memory_signals),
-            success=True
+            success=True,
         )
 
     async def _build_inference_premise(self, context: ThoughtContext) -> str:
@@ -364,10 +369,7 @@ class EnhancedThoughtEngine:
         return premise
 
     async def _build_synthesis_from_inference(
-        self,
-        context: ThoughtContext,
-        inference_result: InferenceResult,
-        reasoning_chains: List[Any]
+        self, context: ThoughtContext, inference_result: InferenceResult, reasoning_chains: List[Any]
     ) -> str:
         """Build thought synthesis from inference results."""
 
@@ -390,7 +392,11 @@ class EnhancedThoughtEngine:
             synthesis = f"Deep reasoning on '{context.query}': {insights_text}"
 
             # Add confidence indicator
-            confidence_level = "high" if inference_result.confidence_score > 0.8 else "moderate" if inference_result.confidence_score > 0.5 else "low"
+            confidence_level = (
+                "high"
+                if inference_result.confidence_score > 0.8
+                else "moderate" if inference_result.confidence_score > 0.5 else "low"
+            )
             synthesis += f" [Confidence: {confidence_level}]"
 
             # Add contradiction warning if found
@@ -401,11 +407,7 @@ class EnhancedThoughtEngine:
 
         return synthesis
 
-    async def _build_enhanced_basic_synthesis(
-        self,
-        context: ThoughtContext,
-        inference_result: InferenceResult
-    ) -> str:
+    async def _build_enhanced_basic_synthesis(self, context: ThoughtContext, inference_result: InferenceResult) -> str:
         """Build synthesis for enhanced basic mode."""
 
         base_synthesis = f"Analysis of '{context.query}'"
@@ -421,10 +423,7 @@ class EnhancedThoughtEngine:
         return base_synthesis
 
     async def _assess_thought_quality(
-        self,
-        context: ThoughtContext,
-        inference_result: InferenceResult,
-        reasoning_chains: List[Any]
+        self, context: ThoughtContext, inference_result: InferenceResult, reasoning_chains: List[Any]
     ) -> Dict[str, Any]:
         """Perform meta-cognitive assessment of thought quality."""
 
@@ -434,20 +433,28 @@ class EnhancedThoughtEngine:
             "depth_adequacy": self._assess_depth_adequacy(inference_result, context),
             "confidence_calibration": self._assess_confidence_calibration(inference_result),
             "contradiction_handling": self._assess_contradiction_handling(inference_result),
-            "overall_quality": 0.0
+            "overall_quality": 0.0,
         }
 
         # Calculate overall quality score
-        quality_components = [v for k, v in assessment.items() if k != "overall_quality" and isinstance(v, (int, float))]
+        quality_components = [
+            v for k, v in assessment.items() if k != "overall_quality" and isinstance(v, (int, float))
+        ]
         if quality_components:
             assessment["overall_quality"] = sum(quality_components) / len(quality_components)
 
         # Add qualitative assessments
-        assessment.update({
-            "reasoning_strategy": self._identify_reasoning_strategy(reasoning_chains),
-            "improvement_suggestions": self._generate_improvement_suggestions(assessment),
-            "cognitive_efficiency": min(1.0, inference_result.reasoning_quality / max(0.1, inference_result.performance_metrics.get("total_processing_time_ms", 100) / 100))
-        })
+        assessment.update(
+            {
+                "reasoning_strategy": self._identify_reasoning_strategy(reasoning_chains),
+                "improvement_suggestions": self._generate_improvement_suggestions(assessment),
+                "cognitive_efficiency": min(
+                    1.0,
+                    inference_result.reasoning_quality
+                    / max(0.1, inference_result.performance_metrics.get("total_processing_time_ms", 100) / 100),
+                ),
+            }
+        )
 
         return assessment
 
@@ -457,17 +464,17 @@ class EnhancedThoughtEngine:
             return 0.0
 
         primary_chain = reasoning_chains[0]
-        if not hasattr(primary_chain, 'steps') or not primary_chain.steps:
+        if not hasattr(primary_chain, "steps") or not primary_chain.steps:
             return 0.0
 
         # Check logical flow between steps
         coherence_score = 1.0
         for i in range(1, len(primary_chain.steps)):
-            prev_step = primary_chain.steps[i-1]
+            prev_step = primary_chain.steps[i - 1]
             curr_step = primary_chain.steps[i]
 
             # Check if current premise relates to previous conclusion
-            if hasattr(curr_step, 'premise') and hasattr(prev_step, 'conclusion'):
+            if hasattr(curr_step, "premise") and hasattr(prev_step, "conclusion"):
                 if curr_step.premise.lower() in prev_step.conclusion.lower():
                     coherence_score *= 1.0  # Maintain score
                 else:
@@ -496,7 +503,7 @@ class EnhancedThoughtEngine:
             ThoughtComplexity.SIMPLE: 2,
             ThoughtComplexity.MODERATE: 5,
             ThoughtComplexity.COMPLEX: 8,
-            ThoughtComplexity.EXPERT: 12
+            ThoughtComplexity.EXPERT: 12,
         }.get(context.complexity_level, 5)
 
         actual_depth = inference_result.max_depth_explored
@@ -540,14 +547,16 @@ class EnhancedThoughtEngine:
             return "none"
 
         primary_chain = reasoning_chains[0]
-        if not hasattr(primary_chain, 'steps') or not primary_chain.steps:
+        if not hasattr(primary_chain, "steps") or not primary_chain.steps:
             return "basic"
 
         # Count inference types
         type_counts = {}
         for step in primary_chain.steps:
-            if hasattr(step, 'inference_type'):
-                inference_type = step.inference_type.value if hasattr(step.inference_type, 'value') else str(step.inference_type)
+            if hasattr(step, "inference_type"):
+                inference_type = (
+                    step.inference_type.value if hasattr(step.inference_type, "value") else str(step.inference_type)
+                )
                 type_counts[inference_type] = type_counts.get(inference_type, 0) + 1
 
         if not type_counts:
@@ -587,16 +596,12 @@ class EnhancedThoughtEngine:
         time_factor = min(1.0, processing_time / 200.0)  # Max 200ms expected
 
         # Weighted combination
-        cognitive_load = (depth_factor * 0.4 + chain_factor * 0.3 + time_factor * 0.3)
+        cognitive_load = depth_factor * 0.4 + chain_factor * 0.3 + time_factor * 0.3
 
         return min(1.0, cognitive_load)
 
     def _calculate_quality_score(
-        self,
-        confidence: float,
-        reasoning_quality: float,
-        chain_count: int,
-        contradictions: int
+        self, confidence: float, reasoning_quality: float, chain_count: int, contradictions: int
     ) -> float:
         """Calculate overall quality score for the thought."""
 
@@ -630,10 +635,7 @@ class EnhancedThoughtEngine:
 
     def _extract_memory_ids(self, memory_signals: List[Dict[str, Any]]) -> List[str]:
         """Extract memory IDs from memory signals."""
-        return [
-            memory.get("id") for memory in memory_signals
-            if isinstance(memory, dict) and memory.get("id")
-        ]
+        return [memory.get("id") for memory in memory_signals if isinstance(memory, dict) and memory.get("id")]
 
     def _update_thought_stats(self, result: ThoughtResult, success: bool) -> None:
         """Update performance statistics."""
@@ -652,18 +654,16 @@ class EnhancedThoughtEngine:
 
         current_avg_depth = self.thought_stats["avg_inference_depth"]
         self.thought_stats["avg_inference_depth"] = (
-            (current_avg_depth * (total - 1) + result.inference_depth_reached) / total
-        )
+            current_avg_depth * (total - 1) + result.inference_depth_reached
+        ) / total
 
         current_avg_time = self.thought_stats["avg_processing_time_ms"]
         self.thought_stats["avg_processing_time_ms"] = (
-            (current_avg_time * (total - 1) + result.processing_time_ms) / total
-        )
+            current_avg_time * (total - 1) + result.processing_time_ms
+        ) / total
 
         current_avg_load = self.thought_stats["cognitive_load_avg"]
-        self.thought_stats["cognitive_load_avg"] = (
-            (current_avg_load * (total - 1) + result.cognitive_load) / total
-        )
+        self.thought_stats["cognitive_load_avg"] = (current_avg_load * (total - 1) + result.cognitive_load) / total
 
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get current performance statistics."""
@@ -679,8 +679,8 @@ class EnhancedThoughtEngine:
                 "max_inference_depth": self.max_inference_depth,
                 "default_time_budget_ms": self.default_time_budget_ms,
                 "contradiction_threshold": self.contradiction_threshold,
-                "meta_cognitive_enabled": self.enable_meta_cognitive
-            }
+                "meta_cognitive_enabled": self.enable_meta_cognitive,
+            },
         }
 
 
@@ -690,14 +690,11 @@ async def synthesize_thought_enhanced(
     memory_signals: List[Dict[str, Any]],
     complexity: ThoughtComplexity = ThoughtComplexity.MODERATE,
     max_depth: int = 8,
-    time_budget_ms: float = 150.0
+    time_budget_ms: float = 150.0,
 ) -> ThoughtResult:
     """Convenience function for enhanced thought synthesis."""
 
-    engine = EnhancedThoughtEngine(
-        max_inference_depth=max_depth,
-        default_time_budget_ms=time_budget_ms
-    )
+    engine = EnhancedThoughtEngine(max_inference_depth=max_depth, default_time_budget_ms=time_budget_ms)
 
     context = ThoughtContext(
         query=query,
@@ -705,7 +702,7 @@ async def synthesize_thought_enhanced(
         consciousness_state=None,
         complexity_level=complexity,
         max_inference_depth=max_depth,
-        time_budget_ms=time_budget_ms
+        time_budget_ms=time_budget_ms,
     )
 
     return await engine.synthesize_thought(context)
@@ -717,5 +714,5 @@ __all__ = [
     "ThoughtContext",
     "ThoughtResult",
     "ThoughtComplexity",
-    "synthesize_thought_enhanced"
+    "synthesize_thought_enhanced",
 ]

@@ -25,10 +25,7 @@ class TestAnalyticsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "analytics",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "analytics", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestAnalyticsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import analytics
+
         self.assertIsNotNone(analytics)
 
     def test_module_version(self):
         """Test module has version information."""
         import analytics
+
         # Most modules should have version info
-        self.assertTrue(hasattr(analytics, '__version__') or
-                       hasattr(analytics, 'VERSION'))
+        self.assertTrue(hasattr(analytics, "__version__") or hasattr(analytics, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestANALYTICS_DOMAINS(unittest.TestCase):
         """Test ANALYTICS_DOMAINS can be imported."""
         try:
             from analytics import ANALYTICS_DOMAINS
+
             self.assertIsNotNone(ANALYTICS_DOMAINS)
         except ImportError:
             pytest.skip("Component ANALYTICS_DOMAINS not available")
@@ -97,6 +96,7 @@ class TestMETRICS_AVAILABLE(unittest.TestCase):
         """Test METRICS_AVAILABLE can be imported."""
         try:
             from analytics import METRICS_AVAILABLE
+
             self.assertIsNotNone(METRICS_AVAILABLE)
         except ImportError:
             pytest.skip("Component METRICS_AVAILABLE not available")
@@ -114,6 +114,7 @@ class Test__author__(unittest.TestCase):
         """Test __author__ can be imported."""
         try:
             from analytics import __author__
+
             self.assertIsNotNone(__author__)
         except ImportError:
             pytest.skip("Component __author__ not available")
@@ -122,7 +123,6 @@ class Test__author__(unittest.TestCase):
         """Test __author__ can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

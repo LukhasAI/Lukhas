@@ -5,6 +5,7 @@ Hybrid component - exists in quantum superposition
 #TAG:superposition
 #TAG:hybrid
 """
+
 # Colony base for propagation
 from typing import Any
 

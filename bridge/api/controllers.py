@@ -84,7 +84,9 @@ try:
 
     logger.info("ΛTRACE: Successfully imported Cognitive module services and IdentityClient.")
 except ImportError as e:
-    logger.warning(f"ΛTRACE: Some Cognitive module service imports failed: {e}. Using fallback classes for development.")
+    logger.warning(
+        f"ΛTRACE: Some Cognitive module service imports failed: {e}. Using fallback classes for development."
+    )
     # ΛCORE: Import fallback services from dedicated module
     from .fallback_services import (
         FallbackConsciousnessService as ConsciousnessService,
@@ -1055,7 +1057,9 @@ if __name__ == "__main__":
         "yes",
     ]
 
-    logger.info(f"🚀 LUKHAS Cognitive AI API Server starting on {host_setting}:{port_setting} (Debug: {debug_setting})...")
+    logger.info(
+        f"🚀 LUKHAS Cognitive AI API Server starting on {host_setting}:{port_setting} (Debug: {debug_setting})..."
+    )
     logger.info(f"🔗 API Base Path: {BASE_PATH}")
     logger.info("🔑 Authentication expected via 'X-User-ID' header.")
     logger.info(f"🩺 Health Check endpoint available at: {BASE_PATH}/health")

@@ -81,15 +81,9 @@ class ConsentLedgerV2:
         consent_handler_db = str(self.db_path.parent / "consent_handler.db")
         trace_handler_db = str(self.db_path.parent / "trace_handler.db")
 
-        self.consent_handler = IdempotentConsentHandler(
-            str(self.db_path),
-            consent_handler_db
-        )
+        self.consent_handler = IdempotentConsentHandler(str(self.db_path), consent_handler_db)
 
-        self.trace_handler = IdempotentTraceHandler(
-            str(self.db_path.parent / "lambda_traces.db"),
-            trace_handler_db
-        )
+        self.trace_handler = IdempotentTraceHandler(str(self.db_path.parent / "lambda_traces.db"), trace_handler_db)
 
         # Handler orchestrator
         self.orchestrator = ConsentHandlerOrchestrator(self.event_bus)
@@ -126,6 +120,7 @@ class ConsentLedgerV2:
 
     def _start_async_components(self):
         """Start async event loop in separate thread"""
+
         def run_event_loop():
             self._event_loop = asyncio.new_event_loop()
             asyncio.set_event_loop(self._event_loop)
@@ -203,9 +198,7 @@ class ConsentLedgerV2:
                 # Calculate expiration
                 expires_at = None
                 if expires_in_days:
-                    expires_at = (
-                        datetime.now(timezone.utc) + timedelta(days=expires_in_days)
-                    ).isoformat()
+                    expires_at = (datetime.now(timezone.utc) + timedelta(days=expires_in_days)).isoformat()
 
                 # Default data subject rights
                 default_rights = [
@@ -331,7 +324,9 @@ class ConsentLedgerV2:
                 logger.error(f"Failed to revoke consent {consent_id}: {e}")
                 return False
 
-    def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+    def check_consent(
+        self, lid: str, resource_type: str, action: str, context: Optional[Dict] = None
+    ) -> Dict[str, Any]:
         """
         Check consent with event sourcing.
         Maintains ConsentLedgerV1 API compatibility.
@@ -342,11 +337,14 @@ class ConsentLedgerV2:
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT consent_id, scopes, purpose, expires_at, lawful_basis
                     FROM consent_records
                     WHERE lid = ? AND resource_type = ? AND is_active = 1
-                """, (lid, resource_type))
+                """,
+                    (lid, resource_type),
+                )
 
                 result = cursor.fetchone()
 
@@ -380,10 +378,7 @@ class ConsentLedgerV2:
                 )
 
                 # Append check event (async, non-blocking)
-                asyncio.run_coroutine_threadsafe(
-                    self.event_bus.append_event(check_event),
-                    self._event_loop
-                )
+                asyncio.run_coroutine_threadsafe(self.event_bus.append_event(check_event), self._event_loop)
 
                 # Return result immediately (backward compatibility)
                 response = {
@@ -522,10 +517,9 @@ class ConsentLedgerV2:
         try:
             # Stop handler orchestrator
             if self._event_loop and self.orchestrator:
-                asyncio.run_coroutine_threadsafe(
-                    self.orchestrator.stop_processing(),
-                    self._event_loop
-                ).result(timeout=10)
+                asyncio.run_coroutine_threadsafe(self.orchestrator.stop_processing(), self._event_loop).result(
+                    timeout=10
+                )
 
             # Stop event loop
             if self._event_loop:
@@ -553,4 +547,5 @@ def ConsentLedgerV1(*args, **kwargs):
 # For complete backward compatibility, we can also expose the original class name
 class ConsentLedgerV1(ConsentLedgerV2):
     """Backward compatibility alias"""
+
     pass

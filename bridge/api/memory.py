@@ -83,10 +83,7 @@ def convert_numpy_to_serializable(obj: Any) -> Any:
         return [convert_numpy_to_serializable(item) for item in obj]
     elif hasattr(obj, "__dict__"):
         # Handle custom objects by converting their attributes
-        return {
-            key: convert_numpy_to_serializable(value)
-            for key, value in obj.__dict__.items()
-        }
+        return {key: convert_numpy_to_serializable(value) for key, value in obj.__dict__.items()}
     else:
         return obj
 
@@ -102,36 +99,24 @@ class MemoryCreateRequest(BaseModel):
         description="Primary emotion for the memory",
         example="enlightenment",
     )
-    context_snippet: str = Field(
-        ..., description="Memory content/context", min_length=10
-    )
+    context_snippet: str = Field(..., description="Memory content/context", min_length=10)
     user_id: str = Field(..., description="User identifier", example="lukhas_admin")
-    metadata: Optional[dict[str, Any]] = Field(
-        default_factory=dict, description="Additional metadata"
-    )
+    metadata: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional metadata")
 
 
 class MemoryRecallRequest(BaseModel):
     user_id: str = Field(..., description="User identifier")
-    filter_emotion: Optional[str] = Field(
-        None, description="Filter by specific emotion"
-    )
+    filter_emotion: Optional[str] = Field(None, description="Filter by specific emotion")
     user_tier: int = Field(5, description="User access tier (0-5)", ge=0, le=5)
-    limit: int = Field(
-        50, description="Maximum number of memories to return", ge=1, le=1000
-    )
+    limit: int = Field(50, description="Maximum number of memories to return", ge=1, le=1000)
 
 
 class EnhancedRecallRequest(BaseModel):
     user_id: str = Field(..., description="User identifier")
     target_emotion: str = Field(..., description="Target emotion for enhanced recall")
     user_tier: int = Field(5, description="User access tier (0-5)", ge=0, le=5)
-    emotion_threshold: float = Field(
-        0.3, description="Emotion similarity threshold", ge=0.0, le=1.0
-    )
-    context_query: Optional[str] = Field(
-        None, description="Context query for semantic search"
-    )
+    emotion_threshold: float = Field(0.3, description="Emotion similarity threshold", ge=0.0, le=1.0)
+    context_query: Optional[str] = Field(None, description="Context query for semantic search")
     max_results: int = Field(20, description="Maximum results to return", ge=1, le=100)
 
 
@@ -264,9 +249,7 @@ async def memory_history(user_id: str, limit: int = 20):
     try:
         folds = memory_system.database.get_folds(user_id=user_id, limit=limit)
         if metrics_view:
-            metrics_view.update_memory_metrics(
-                hits=len(folds), misses=0 if folds else 1
-            )
+            metrics_view.update_memory_metrics(hits=len(folds), misses=0 if folds else 1)
         return APIResponse(
             status="success",
             data={"memories": folds, "count": len(folds)},
@@ -282,9 +265,7 @@ async def memory_history(user_id: str, limit: int = 20):
 async def get_statistics(
     include_users: bool = Query(True, description="Include user statistics"),
     include_emotions: bool = Query(True, description="Include emotion statistics"),
-    include_vectors: bool = Query(
-        False, description="Include emotion vector statistics"
-    ),
+    include_vectors: bool = Query(False, description="Include emotion vector statistics"),
 ):
     """Get comprehensive memory system statistics"""
     if not memory_system:

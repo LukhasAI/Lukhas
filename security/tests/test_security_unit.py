@@ -39,15 +39,9 @@ if SECURITY_MODULE is None:
 IDENTITY_GUARD_MODULE = _load_module("security.IDENTITY_GUARD")
 
 IDENTITY_GUARD_CLASS = (
-    getattr(IDENTITY_GUARD_MODULE, "IdentityGuard", None)
-    if IDENTITY_GUARD_MODULE is not None
-    else None
+    getattr(IDENTITY_GUARD_MODULE, "IdentityGuard", None) if IDENTITY_GUARD_MODULE is not None else None
 )
-IDENTITY_GUARD_MAIN = (
-    getattr(IDENTITY_GUARD_MODULE, "main", None)
-    if IDENTITY_GUARD_MODULE is not None
-    else None
-)
+IDENTITY_GUARD_MAIN = getattr(IDENTITY_GUARD_MODULE, "main", None) if IDENTITY_GUARD_MODULE is not None else None
 
 
 class TestSecurityModule(unittest.TestCase):
@@ -71,9 +65,7 @@ class TestSecurityModule(unittest.TestCase):
 
     def test_module_version(self):
         """Test module has version information."""
-        version_present = any(
-            hasattr(SECURITY_MODULE, attr) for attr in ("__version__", "VERSION")
-        )
+        version_present = any(hasattr(SECURITY_MODULE, attr) for attr in ("__version__", "VERSION"))
         self.assertTrue(version_present or SECURITY_MODULE.__doc__)
 
     def test_module_initialization(self):
@@ -103,15 +95,13 @@ class TestSecurityModule(unittest.TestCase):
             self.skipTest("IdentityGuard component unavailable")
 
         guard = IDENTITY_GUARD_CLASS()
-        with tempfile.NamedTemporaryFile(
-            "w", suffix=".py", prefix="api_guard_", delete=False
-        ) as tmp_file:
+        with tempfile.NamedTemporaryFile("w", suffix=".py", prefix="api_guard_", delete=False) as tmp_file:
             tmp_file.write(
                 "from fastapi import APIRouter\n"
                 "router = APIRouter()\n\n"
-                "@router.get(\"/items\")\n"
+                '@router.get("/items")\n'
                 "def list_items():\n"
-                "    data = {\"value\": 1}\n"
+                '    data = {"value": 1}\n'
                 "    return data\n"
             )
             temp_path = Path(tmp_file.name)
@@ -132,16 +122,14 @@ class TestSecurityModule(unittest.TestCase):
             self.skipTest("IdentityGuard component unavailable")
 
         guard = IDENTITY_GUARD_CLASS()
-        with tempfile.NamedTemporaryFile(
-            "w", suffix=".py", prefix="api_guard_", delete=False
-        ) as tmp_file:
+        with tempfile.NamedTemporaryFile("w", suffix=".py", prefix="api_guard_", delete=False) as tmp_file:
             tmp_file.write(
                 "from fastapi import APIRouter, Depends\n"
                 "from identity.middleware import AuthContext, require_t3_or_above\n\n"
                 "router = APIRouter()\n\n"
-                "@router.get(\"/items\")\n"
+                '@router.get("/items")\n'
                 "def list_items(user: AuthContext = Depends(require_t3_or_above)):\n"
-                "    data = {\"user_id\": user.user_id}\n"
+                '    data = {"user_id": user.user_id}\n'
                 "    return data\n"
             )
             temp_path = Path(tmp_file.name)
@@ -174,15 +162,13 @@ class TestIdentityGuard(unittest.TestCase):
 
         guard = IDENTITY_GUARD_CLASS()
 
-        with tempfile.NamedTemporaryFile(
-            "w", suffix=".py", prefix="api_guard_", delete=False
-        ) as tmp_file:
+        with tempfile.NamedTemporaryFile("w", suffix=".py", prefix="api_guard_", delete=False) as tmp_file:
             tmp_file.write(
                 "from fastapi import APIRouter\n"
                 "router = APIRouter()\n\n"
-                "@router.get(\"/items\")\n"
+                '@router.get("/items")\n'
                 "def list_items():\n"
-                "    data = {\"value\": 1}\n"
+                '    data = {"value": 1}\n'
                 "    return data\n"
             )
             temp_path = Path(tmp_file.name)
@@ -207,9 +193,10 @@ class Testmain(unittest.TestCase):
 
     def test_main_instantiation(self):
         """Test main can be instantiated."""
-        with mock.patch.object(sys, "argv", ["identity_guard"]), mock.patch(
-            "security.IDENTITY_GUARD.IdentityGuard"
-        ) as guard_cls:
+        with (
+            mock.patch.object(sys, "argv", ["identity_guard"]),
+            mock.patch("security.IDENTITY_GUARD.IdentityGuard") as guard_cls,
+        ):
             guard_instance = guard_cls.return_value
             guard_instance.validate_changes.return_value = True
 
@@ -220,9 +207,11 @@ class Testmain(unittest.TestCase):
     def test_main_pre_commit_exit_codes(self):
         """Pre-commit flag should exit with appropriate status code."""
 
-        with mock.patch.object(sys, "argv", ["identity_guard", "--pre-commit"]), mock.patch(
-            "security.IDENTITY_GUARD.IdentityGuard"
-        ) as guard_cls, mock.patch("security.IDENTITY_GUARD.sys.exit") as mock_exit:
+        with (
+            mock.patch.object(sys, "argv", ["identity_guard", "--pre-commit"]),
+            mock.patch("security.IDENTITY_GUARD.IdentityGuard") as guard_cls,
+            mock.patch("security.IDENTITY_GUARD.sys.exit") as mock_exit,
+        ):
             guard_instance = guard_cls.return_value
             guard_instance.validate_changes.return_value = False
 
@@ -241,16 +230,14 @@ class TestValidateChanges(unittest.TestCase):
     def test_validate_changes_returns_true_for_compliant_file(self):
         """Compliant files should pass validation."""
 
-        with tempfile.NamedTemporaryFile(
-            "w", suffix=".py", prefix="api_guard_", delete=False
-        ) as tmp_file:
+        with tempfile.NamedTemporaryFile("w", suffix=".py", prefix="api_guard_", delete=False) as tmp_file:
             tmp_file.write(
                 "from fastapi import APIRouter, Depends\n"
                 "from identity.middleware import AuthContext, require_t3_or_above\n\n"
                 "router = APIRouter()\n\n"
-                "@router.get(\"/items\")\n"
+                '@router.get("/items")\n'
                 "def list_items(user: AuthContext = Depends(require_t3_or_above)):\n"
-                "    data = {\"user_id\": user.user_id}\n"
+                '    data = {"user_id": user.user_id}\n'
                 "    return data\n"
             )
             temp_path = Path(tmp_file.name)
@@ -265,15 +252,13 @@ class TestValidateChanges(unittest.TestCase):
     def test_validate_changes_returns_false_for_unprotected_file(self):
         """Violations should cause validate_changes to fail."""
 
-        with tempfile.NamedTemporaryFile(
-            "w", suffix=".py", prefix="api_guard_", delete=False
-        ) as tmp_file:
+        with tempfile.NamedTemporaryFile("w", suffix=".py", prefix="api_guard_", delete=False) as tmp_file:
             tmp_file.write(
                 "from fastapi import APIRouter\n\n"
                 "router = APIRouter()\n\n"
-                "@router.get(\"/items\")\n"
+                '@router.get("/items")\n'
                 "def list_items():\n"
-                "    data = {\"value\": 1}\n"
+                '    data = {"value": 1}\n'
                 "    return data\n"
             )
             temp_path = Path(tmp_file.name)
@@ -284,7 +269,6 @@ class TestValidateChanges(unittest.TestCase):
             self.assertFalse(result)
         finally:
             temp_path.unlink(missing_ok=True)
-
 
 
 if __name__ == "__main__":

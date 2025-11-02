@@ -29,11 +29,7 @@ class DataAnalysisPlugin(PluginBase):
             author="LUKHAS AI Team",
             category="analytics",
             dependencies=[],
-            performance_profile={
-                "average_latency_ms": 25,
-                "memory_usage_mb": 15,
-                "cpu_intensive": True
-            }
+            performance_profile={"average_latency_ms": 25, "memory_usage_mb": 15, "cpu_intensive": True},
         )
 
     def _initialize(self) -> None:
@@ -48,24 +44,17 @@ class DataAnalysisPlugin(PluginBase):
 
         # Simulate analysis operations
         if self.enable_statistics:
-            analyzed_data["statistics"] = {
-                "mean": 42.0,
-                "std": 3.14,
-                "count": 100
-            }
+            analyzed_data["statistics"] = {"mean": 42.0, "std": 3.14, "count": 100}
 
         if self.enable_patterns:
-            analyzed_data["patterns"] = [
-                {"type": "trend", "confidence": 0.85},
-                {"type": "anomaly", "confidence": 0.12}
-            ]
+            analyzed_data["patterns"] = [{"type": "trend", "confidence": 0.85}, {"type": "anomaly", "confidence": 0.12}]
 
         # Add analysis metadata
         analyzed_data["analysis"] = {
             "plugin": self.name,
             "version": self.version,
             "processing_time_ms": (time.time() - start_time) * 1000,
-            "operations": ["statistics", "patterns"] if self.enable_statistics and self.enable_patterns else []
+            "operations": ["statistics", "patterns"] if self.enable_statistics and self.enable_patterns else [],
         }
 
         return analyzed_data

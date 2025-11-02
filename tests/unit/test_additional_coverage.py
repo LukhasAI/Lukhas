@@ -19,9 +19,8 @@ if repo_root not in sys.path:
 os.environ.setdefault("PYTHONPATH", repo_root)
 
 if "_bridgeutils" not in sys.modules:
-    sys.modules["_bridgeutils"] = SimpleNamespace(
-        bridge_from_candidates=lambda *candidates: (set(), {})
-    )
+    sys.modules["_bridgeutils"] = SimpleNamespace(bridge_from_candidates=lambda *candidates: (set(), {}))
+
 
 # ΛTAG: coverage_extension_module_loader
 def _load_module(module_name: str, relative_path: str):
@@ -50,9 +49,7 @@ RedactingFilter = observability_log_redaction.RedactingFilter
 # ΛTAG: coverage_extension_observability_events
 observability_events = _load_module("observability.events", "observability/events.py")
 # ΛTAG: coverage_extension_observability_prom_registry
-observability_prom_registry = _load_module(
-    "observability.prometheus_registry", "observability/prometheus_registry.py"
-)
+observability_prom_registry = _load_module("observability.prometheus_registry", "observability/prometheus_registry.py")
 prometheus_registry = observability_prom_registry
 # ΛTAG: coverage_extension_core_swarm
 core_swarm = _load_module("core.swarm", "core/swarm.py")
@@ -67,9 +64,7 @@ def _make_log_record(message: str) -> logging.LogRecord:
 
 def test_redacting_filter_scrubs_known_secret_patterns():
     """Ensure the log redaction filter removes token patterns without mutating clean text."""
-    record = _make_log_record(
-        "User sk-SECRET12345 requested Bearer TOKEN_ABC123 with APIKEY=Z12345678"
-    )
+    record = _make_log_record("User sk-SECRET12345 requested Bearer TOKEN_ABC123 with APIKEY=Z12345678")
     filter_ = RedactingFilter()
 
     assert filter_.filter(record) is True
@@ -136,6 +131,7 @@ def test_prometheus_registry_caches_duplicate_metrics(restored_prometheus_regist
 
 def test_swarm_agent_receive_returns_placeholder_response(monkeypatch):
     """Fallback swarm implementation should accept messages and provide placeholder responses."""
+
     class StubSupervisor:
         def __init__(self, *args, **kwargs):
             self.children = {}
@@ -158,6 +154,8 @@ def test_swarm_agent_receive_returns_placeholder_response(monkeypatch):
     assert fallback["agent_id"] == "agent-1"
 
     assert "agent-1" in colony.supervisor.children
+
+
 """Additional unit coverage for observability and swarm fallbacks."""
 
 from __future__ import annotations
@@ -178,9 +176,7 @@ if repo_root not in sys.path:
 os.environ.setdefault("PYTHONPATH", repo_root)
 
 if "_bridgeutils" not in sys.modules:
-    sys.modules["_bridgeutils"] = SimpleNamespace(
-        bridge_from_candidates=lambda *candidates: (set(), {})
-    )
+    sys.modules["_bridgeutils"] = SimpleNamespace(bridge_from_candidates=lambda *candidates: (set(), {}))
 
 if "psutil" not in sys.modules:
     sys.modules["psutil"] = SimpleNamespace(
@@ -190,6 +186,7 @@ if "psutil" not in sys.modules:
 
 if "yaml" not in sys.modules:
     sys.modules["yaml"] = SimpleNamespace(safe_load=lambda *_, **__: {})
+
 
 # ΛTAG: coverage_extension_module_loader
 def _load_module(module_name: str, relative_path: str):
@@ -218,9 +215,7 @@ RedactingFilter = observability_log_redaction.RedactingFilter
 # ΛTAG: coverage_extension_observability_events
 observability_events = _load_module("observability.events", "observability/events.py")
 # ΛTAG: coverage_extension_observability_prom_registry
-observability_prom_registry = _load_module(
-    "observability.prometheus_registry", "observability/prometheus_registry.py"
-)
+observability_prom_registry = _load_module("observability.prometheus_registry", "observability/prometheus_registry.py")
 prometheus_registry = observability_prom_registry
 # ΛTAG: coverage_extension_core_swarm
 core_swarm = _load_module("core.swarm", "core/swarm.py")
@@ -250,9 +245,7 @@ def _make_log_record(message: str) -> logging.LogRecord:
 
 def test_redacting_filter_scrubs_known_secret_patterns():
     """Ensure the log redaction filter removes token patterns without mutating clean text."""
-    record = _make_log_record(
-        "User sk-SECRET12345 requested Bearer TOKEN_ABC123 with APIKEY=Z12345678"
-    )
+    record = _make_log_record("User sk-SECRET12345 requested Bearer TOKEN_ABC123 with APIKEY=Z12345678")
     filter_ = RedactingFilter()
 
     assert filter_.filter(record) is True
@@ -319,6 +312,7 @@ def test_prometheus_registry_caches_duplicate_metrics(restored_prometheus_regist
 
 def test_swarm_agent_receive_returns_placeholder_response(monkeypatch):
     """Fallback swarm implementation should accept messages and provide placeholder responses."""
+
     class StubSupervisor:
         def __init__(self, *args, **kwargs):
             self.children = {}
@@ -453,9 +447,7 @@ def test_otel_compat_falls_back_to_noop_when_opentelemetry_unavailable(monkeypat
     otel_stub.__getattr__ = _missing_attr  # type: ignore[attr-defined]
     monkeypatch.setitem(sys.modules, "opentelemetry", otel_stub)
 
-    compat_module = _load_module(
-        "observability.otel_compat_fallback", "observability/otel_compat.py"
-    )
+    compat_module = _load_module("observability.otel_compat_fallback", "observability/otel_compat.py")
 
     noop = compat_module.trace
     assert noop is compat_module.metrics

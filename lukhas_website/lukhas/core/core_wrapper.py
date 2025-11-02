@@ -59,24 +59,19 @@ class SymbolicResult:
 class GlyphEngine(Protocol):
     """Protocol for GLYPH engine implementations"""
 
-    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None) -> Any:
-        ...
+    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None) -> Any: ...
 
-    def decode_glyph(self, glyph_repr: Any) -> Any:
-        ...
+    def decode_glyph(self, glyph_repr: Any) -> Any: ...
 
-    def create_triad_glyph(self, emphasis: str) -> Any:
-        ...
+    def create_triad_glyph(self, emphasis: str) -> Any: ...
 
 
 class ActorSystem(Protocol):
     """Protocol for actor system implementations"""
 
-    def send(self, actor_id: str, message: Any) -> None:
-        ...
+    def send(self, actor_id: str, message: Any) -> None: ...
 
-    def register(self, actor_id: str, actor: Any) -> None:
-        ...
+    def register(self, actor_id: str, actor: Any) -> None: ...
 
 
 class SymbolicWorld(Protocol):
@@ -84,8 +79,7 @@ class SymbolicWorld(Protocol):
 
     symbols: dict[str, Any]
 
-    def create_symbol(self, name: str, properties: dict[str, Any]) -> None:
-        ...
+    def create_symbol(self, name: str, properties: dict[str, Any]) -> None: ...
 
     def link_symbols(
         self,
@@ -93,21 +87,17 @@ class SymbolicWorld(Protocol):
         symbol2: Any,
         relationship_type: str,
         properties: dict[str, Any],
-    ) -> None:
-        ...
+    ) -> None: ...
 
-    def get_related_symbols(self, symbol: Any) -> list[Any]:
-        ...
+    def get_related_symbols(self, symbol: Any) -> list[Any]: ...
 
 
 class SymbolicReasoner(Protocol):
     """Protocol for symbolic reasoner implementations"""
 
-    def reason(self, symbol: Any) -> dict[str, Any]:
-        ...
+    def reason(self, symbol: Any) -> dict[str, Any]: ...
 
-    def find_patterns(self, symbols: list[Any]) -> list[dict[str, Any]]:
-        ...
+    def find_patterns(self, symbols: list[Any]) -> list[dict[str, Any]]: ...
 
 
 # Registry for implementations (populated by candidate modules at runtime)
@@ -642,8 +632,7 @@ def get_core_status() -> dict[str, Any]:
 class DecisionEngine(Protocol):
     """Protocol for decision engine implementations"""
 
-    def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]:
-        ...
+    def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]: ...
 
 
 _DECISION_REGISTRY: dict[str, DecisionEngine] = {}

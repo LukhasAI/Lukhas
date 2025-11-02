@@ -1,4 +1,5 @@
 """Bridge for tools.collapse_simulator_main -> candidate entrypoint."""
+
 from __future__ import annotations
 
 import warnings

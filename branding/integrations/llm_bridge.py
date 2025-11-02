@@ -44,6 +44,7 @@ def _get_llm_wrapper_classes() -> dict[str, Type[LLMWrapperProtocol]]:
             return wrappers
     except Exception as e:
         import logging
+
         logging.getLogger(__name__).debug(f"Entry point discovery failed: {e}")
 
     # Fallback: Try to get from registered components
@@ -58,6 +59,7 @@ def _get_llm_wrapper_classes() -> dict[str, Type[LLMWrapperProtocol]]:
             return wrappers
     except Exception as e:
         import logging
+
         logging.getLogger(__name__).debug(f"Registry lookup failed: {e}")
 
     # Last resort: Dynamic import with safety checks
@@ -67,6 +69,7 @@ def _get_llm_wrapper_classes() -> dict[str, Type[LLMWrapperProtocol]]:
 def _safe_dynamic_import_fallback() -> dict[str, Type[LLMWrapperProtocol]]:
     """Safe fallback for dynamic imports"""
     import logging
+
     logger = logging.getLogger(__name__)
     wrappers = {}
 
@@ -84,7 +87,7 @@ def _safe_dynamic_import_fallback() -> dict[str, Type[LLMWrapperProtocol]]:
             wrapper_class = getattr(module, class_name)
 
             # Validate protocol compliance
-            if hasattr(wrapper_class, '__call__'):  # Basic callable check
+            if hasattr(wrapper_class, "__call__"):  # Basic callable check
                 wrappers[name] = wrapper_class
                 logger.info(f"Loaded {name} wrapper via fallback")
             else:

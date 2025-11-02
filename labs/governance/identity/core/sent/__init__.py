@@ -33,6 +33,7 @@ Usage:
     result = consent_mgr.collect_consent(user_id, "memory", metadata)
     status = consent_mgr.get_consent_status(user_id)
 """
+
 import logging
 
 import streamlit as st

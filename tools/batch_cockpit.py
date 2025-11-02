@@ -27,10 +27,12 @@ def run_cmd(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
 
     return result
 
+
 def get_candidate_count() -> int:
     """Get current candidate/ file count"""
     result = run_cmd("find candidate/ -type f -name '*.py' | wc -l", check=False)
     return int(result.stdout.strip())
+
 
 def update_promotion_log(batch_num: int, files_promoted: int, validation_status: dict):
     """Update promotion_log.md with batch results"""
@@ -69,17 +71,19 @@ core/ → ~{156 + files_promoted} files (previous + {files_promoted} batch {batc
     with open("artifacts/promotion_log.md", "a") as f:
         f.write(log_entry)
 
+
 def create_import_health_check():
     """Create/update import_failures.json"""
     import_check = {
         "failures": [],
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "batch": f"promotion_batch_{datetime.now().strftime('%Y%m%d')}",
-        "status": "success"
+        "status": "success",
     }
 
     with open("artifacts/import_failures.json", "w") as f:
         json.dump(import_check, f, indent=2)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Batch Cockpit - Automated promotion conveyor")
@@ -131,13 +135,15 @@ def main():
         "imports": True,
         "matriz_details": "",
         "coverage_details": "",
-        "import_details": "No failures detected"
+        "import_details": "No failures detected",
     }
 
     # MATRIZ validation
     matriz_result = run_cmd("make validate-matrix-all", check=False)
     validation_status["matriz"] = matriz_result.returncode == 0
-    validation_status["matriz_details"] = f"{'PASS' if validation_status['matriz'] else 'FAIL'} - {matriz_result.returncode} exit code"
+    validation_status["matriz_details"] = (
+        f"{'PASS' if validation_status['matriz'] else 'FAIL'} - {matriz_result.returncode} exit code"
+    )
 
     # Coverage check (mock for now - replace with actual coverage generation)
     print("📊 Coverage check (baseline maintained)")
@@ -217,7 +223,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
         # Create PR and get PR number
         result = run_cmd(f'gh pr create --title "{pr_title}" --body "{pr_body}"')
         pr_url = result.stdout.strip()
-        pr_number = pr_url.split('/')[-1] if pr_url else None
+        pr_number = pr_url.split("/")[-1] if pr_url else None
 
         # Add dashboard comment
         if pr_number and pr_number.isdigit():
@@ -228,8 +234,11 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
     print("=" * 60)
     print(f"✅ Promoted: {files_promoted} files")
     print(f"📊 candidate/ files: {initial_count} → {get_candidate_count()}")
-    print(f"🔍 Validation: {'🟢 all pass' if all(validation_status[k] for k in ['matriz', 'coverage', 'imports']) else '🟡 review needed'}")
+    print(
+        f"🔍 Validation: {'🟢 all pass' if all(validation_status[k] for k in ['matriz', 'coverage', 'imports']) else '🟡 review needed'}"
+    )
     print("🚀 Conveyor ready for next batch")
+
 
 if __name__ == "__main__":
     main()

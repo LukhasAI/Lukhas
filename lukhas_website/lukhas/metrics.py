@@ -29,24 +29,38 @@ def _noop_histogram(*_labels):
     @contextmanager
     def _timer():
         yield
+
     return _timer()
 
 
 class _NoopCounter:
-    def labels(self, *_args, **_kwargs): return self
-    def inc(self, *_args, **_kwargs): pass
+    def labels(self, *_args, **_kwargs):
+        return self
+
+    def inc(self, *_args, **_kwargs):
+        pass
 
 
 class _NoopHistogram:
-    def labels(self, *_args, **_kwargs): return self
-    def time(self): return _noop_histogram()
+    def labels(self, *_args, **_kwargs):
+        return self
+
+    def time(self):
+        return _noop_histogram()
 
 
 class _NoopGauge:
-    def labels(self, *_args, **_kwargs): return self
-    def set(self, *_args, **_kwargs): pass
-    def inc(self, *_args, **_kwargs): pass
-    def dec(self, *_args, **_kwargs): pass
+    def labels(self, *_args, **_kwargs):
+        return self
+
+    def set(self, *_args, **_kwargs):
+        pass
+
+    def inc(self, *_args, **_kwargs):
+        pass
+
+    def dec(self, *_args, **_kwargs):
+        pass
 
 
 if Counter is None or Histogram is None or Gauge is None:
@@ -80,149 +94,123 @@ if Counter is None or Histogram is None or Gauge is None:
 else:
     # Core pipeline metrics
     stage_latency = Histogram(
-        "matriz_stage_latency_seconds",
-        "Latency per MATRIZ stage",
-        ["stage", "constellation_star"]
+        "matriz_stage_latency_seconds", "Latency per MATRIZ stage", ["stage", "constellation_star"]
     )
-    stage_timeouts = Counter(
-        "matriz_stage_timeouts_total",
-        "Timeouts per stage",
-        ["stage"]
-    )
-    guardian_band = Counter(
-        "guardian_risk_band_total",
-        "Guardian decisions per risk band",
-        ["band", "action"]
-    )
+    stage_timeouts = Counter("matriz_stage_timeouts_total", "Timeouts per stage", ["stage"])
+    guardian_band = Counter("guardian_risk_band_total", "Guardian decisions per risk band", ["band", "action"])
 
     retry_attempts_total = Counter(
-        "matriz_stage_retry_attempts_total",
-        "Retry attempts per stage and error type",
-        ["stage", "error_type"]
+        "matriz_stage_retry_attempts_total", "Retry attempts per stage and error type", ["stage", "error_type"]
     )  # # ΛTAG: error_recovery
 
     mtrx_stage_duration_seconds = Histogram(
-        "mtrx_stage_duration_seconds",
-        "Observed duration per stage execution",
-        ["stage", "node", "outcome"]
+        "mtrx_stage_duration_seconds", "Observed duration per stage execution", ["stage", "node", "outcome"]
     )
 
-    mtrx_orch_timeout_total = Counter(
-        "mtrx_orch_timeout_total",
-        "Total orchestrator stage timeouts",
-        ["stage"]
-    )
+    mtrx_orch_timeout_total = Counter("mtrx_orch_timeout_total", "Total orchestrator stage timeouts", ["stage"])
 
     mtrx_orch_retry_total = Counter(
-        "mtrx_orch_retry_total",
-        "Retry attempts triggered within the orchestrator",
-        ["stage", "reason"]
+        "mtrx_orch_retry_total", "Retry attempts triggered within the orchestrator", ["stage", "reason"]
     )
 
     mtrx_orch_circuit_open_total = Counter(
-        "mtrx_orch_circuit_open_total",
-        "Circuit breaker activations per stage/node",
-        ["stage", "node"]
+        "mtrx_orch_circuit_open_total", "Circuit breaker activations per stage/node", ["stage", "node"]
     )
 
     # Domain-specific AI metrics
     memory_cascade_prevention_rate = Gauge(
-        "matriz_memory_cascade_prevention_rate",
-        "Rate of prevented memory cascades (target: 0.997)",
-        ["memory_type"]
+        "matriz_memory_cascade_prevention_rate", "Rate of prevented memory cascades (target: 0.997)", ["memory_type"]
     )
 
     guardian_violations_total = Counter(
-        "matriz_guardian_violations_total",
-        "Total Guardian ethics violations detected",
-        ["violation_type", "severity"]
+        "matriz_guardian_violations_total", "Total Guardian ethics violations detected", ["violation_type", "severity"]
     )
 
     consciousness_state_changes = Counter(
         "matriz_consciousness_state_changes_total",
         "Consciousness state transitions",
-        ["from_state", "to_state", "trigger"]
+        ["from_state", "to_state", "trigger"],
     )
 
     reasoning_chain_length = Histogram(
         "matriz_reasoning_chain_length",
         "Length of reasoning chains in cognitive processing",
-        ["node_type", "complexity"]
+        ["node_type", "complexity"],
     )
 
     ethics_risk_distribution = Histogram(
-        "matriz_ethics_risk_distribution",
-        "Distribution of ethics risk scores across decisions",
-        ["stage", "risk_band"]
+        "matriz_ethics_risk_distribution", "Distribution of ethics risk scores across decisions", ["stage", "risk_band"]
     )
 
     node_confidence_scores = Histogram(
-        "matriz_node_confidence_scores",
-        "Confidence scores from cognitive nodes",
-        ["node_type", "stage"]
+        "matriz_node_confidence_scores", "Confidence scores from cognitive nodes", ["node_type", "stage"]
     )
 
     pipeline_success_rate = Gauge(
-        "matriz_pipeline_success_rate",
-        "Overall pipeline success rate (rolling window)",
-        ["pipeline_type"]
+        "matriz_pipeline_success_rate", "Overall pipeline success rate (rolling window)", ["pipeline_type"]
     )
 
     active_memory_folds = Gauge(
-        "matriz_active_memory_folds",
-        "Number of active memory folds (target: <1000)",
-        ["fold_type"]
+        "matriz_active_memory_folds", "Number of active memory folds (target: <1000)", ["fold_type"]
     )
 
     constellation_star_activations = Counter(
         "matriz_constellation_star_activations_total",
         "Constellation star activations by type",
-        ["star", "activation_type"]
+        ["star", "activation_type"],
     )
 
     arbitration_decisions_total = Counter(
-        "matriz_arbitration_decisions_total",
-        "Consensus arbitration decisions",
-        ["outcome", "proposal_count"]
+        "matriz_arbitration_decisions_total", "Consensus arbitration decisions", ["outcome", "proposal_count"]
     )
 
     oscillation_detections_total = Counter(
         "matriz_oscillation_detections_total",
         "Meta-controller oscillation detections",
-        ["pattern_type", "stages_involved"]
+        ["pattern_type", "stages_involved"],
     )
 
     # Parallel execution metrics
     parallel_batch_duration = Histogram(
-        "matriz_parallel_batch_duration_seconds",
-        "Duration of parallel batch execution",
-        ["batch_index", "batch_size"]
+        "matriz_parallel_batch_duration_seconds", "Duration of parallel batch execution", ["batch_index", "batch_size"]
     )
 
     parallel_speedup_ratio = Gauge(
         "matriz_parallel_speedup_ratio",
         "Speedup ratio: sequential_time / parallel_time",
-        ["stage_count", "execution_mode"]
+        ["stage_count", "execution_mode"],
     )
 
     parallel_execution_mode_total = Counter(
         "matriz_parallel_execution_mode_total",
         "Count of executions by mode (sequential/parallel/adaptive)",
-        ["mode", "chosen_reason"]
+        ["mode", "chosen_reason"],
     )
 
 __all__ = [
     # Core metrics
-    "stage_latency", "stage_timeouts", "guardian_band",
-    "mtrx_stage_duration_seconds", "mtrx_orch_timeout_total",
-    "mtrx_orch_retry_total", "mtrx_orch_circuit_open_total",
+    "stage_latency",
+    "stage_timeouts",
+    "guardian_band",
+    "mtrx_stage_duration_seconds",
+    "mtrx_orch_timeout_total",
+    "mtrx_orch_retry_total",
+    "mtrx_orch_circuit_open_total",
     # Domain-specific metrics
-    "memory_cascade_prevention_rate", "guardian_violations_total",
-    "consciousness_state_changes", "reasoning_chain_length",
-    "ethics_risk_distribution", "node_confidence_scores",
-    "pipeline_success_rate", "active_memory_folds",
-    "constellation_star_activations", "arbitration_decisions_total",
-    "oscillation_detections_total", "retry_attempts_total",
+    "memory_cascade_prevention_rate",
+    "guardian_violations_total",
+    "consciousness_state_changes",
+    "reasoning_chain_length",
+    "ethics_risk_distribution",
+    "node_confidence_scores",
+    "pipeline_success_rate",
+    "active_memory_folds",
+    "constellation_star_activations",
+    "arbitration_decisions_total",
+    "oscillation_detections_total",
+    "retry_attempts_total",
     # Parallel execution metrics
-    "parallel_batch_duration", "parallel_speedup_ratio", "parallel_execution_mode_total"
+    "parallel_batch_duration",
+    "parallel_speedup_ratio",
+    "parallel_execution_mode_total",
 ]

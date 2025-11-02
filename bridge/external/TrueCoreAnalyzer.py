@@ -148,7 +148,9 @@ class TrueCoreAnalyzer:
 
     def generate_analysis_report(self):
         """Generate analysis showing true core vs bloat"""
-        report_path = f"{self.workspace_path}/TRUE_CORE_ANALYSIS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
+        report_path = (
+            f"{self.workspace_path}/TRUE_CORE_ANALYSIS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
+        )
 
         with open(report_path, "w") as f:
             f.write("# lukhas True Core Analysis\n")

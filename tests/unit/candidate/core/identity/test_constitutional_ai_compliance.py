@@ -22,10 +22,12 @@ def mock_validator():
     """Fixture for a mocked ConstitutionalAIValidator."""
     return AsyncMock(spec=ConstitutionalAIValidator)
 
+
 @pytest.fixture
 def monitor(mock_validator):
     """Fixture for a ConstitutionalAIComplianceMonitor with a mocked validator."""
     return ConstitutionalAIComplianceMonitor(validator=mock_validator)
+
 
 @pytest.mark.asyncio
 async def test_monitor_initialization(monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock):
@@ -36,8 +38,11 @@ async def test_monitor_initialization(monitor: ConstitutionalAIComplianceMonitor
     assert len(monitor.detected_violations) == 0
     assert len(monitor.enforcement_log) == 0
 
+
 @pytest.mark.asyncio
-async def test_monitor_constitutional_compliance_compliant(monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock):
+async def test_monitor_constitutional_compliance_compliant(
+    monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock
+):
     """Test monitoring a compliant action."""
     action = AIAction(action_type="test_action", identity_id="user-123")
 
@@ -45,7 +50,9 @@ async def test_monitor_constitutional_compliance_compliant(monitor: Constitution
         constitutional_compliant=True,
         overall_compliance_score=0.9,
         compliance_level=ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
-        decision_context=ConstitutionalValidationContext(decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123")
+        decision_context=ConstitutionalValidationContext(
+            decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"
+        ),
     )
     mock_validator.validate_identity_decision.return_value = mock_validation_result
 
@@ -57,8 +64,11 @@ async def test_monitor_constitutional_compliance_compliant(monitor: Constitution
     assert len(monitor.action_history) == 1
     assert len(monitor.compliance_results) == 1
 
+
 @pytest.mark.asyncio
-async def test_monitor_constitutional_compliance_non_compliant(monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock):
+async def test_monitor_constitutional_compliance_non_compliant(
+    monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock
+):
     """Test monitoring a non-compliant action."""
     action = AIAction(action_type="test_action", identity_id="user-123")
 
@@ -66,7 +76,9 @@ async def test_monitor_constitutional_compliance_non_compliant(monitor: Constitu
         constitutional_compliant=False,
         overall_compliance_score=0.3,
         compliance_level=ComplianceLevel.NON_COMPLIANCE,
-        decision_context=ConstitutionalValidationContext(decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123")
+        decision_context=ConstitutionalValidationContext(
+            decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"
+        ),
     )
     mock_validator.validate_identity_decision.return_value = mock_validation_result
 
@@ -76,21 +88,37 @@ async def test_monitor_constitutional_compliance_non_compliant(monitor: Constitu
     assert len(monitor.action_history) == 1
     assert len(monitor.compliance_results) == 1
 
+
 @pytest.mark.asyncio
 async def test_detect_violations(monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock):
     """Test violation detection."""
     compliant_action = AIAction(action_type="compliant_action", identity_id="user-123")
     non_compliant_action = AIAction(action_type="non_compliant_action", identity_id="user-123")
 
-    compliant_result = ConstitutionalValidationResult(constitutional_compliant=True, overall_compliance_score=0.9, compliance_level=ComplianceLevel.SUBSTANTIAL_COMPLIANCE, decision_context=ConstitutionalValidationContext(decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"))
-    non_compliant_result = ConstitutionalValidationResult(constitutional_compliant=False, overall_compliance_score=0.3, compliance_level=ComplianceLevel.NON_COMPLIANCE, decision_context=ConstitutionalValidationContext(decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"), principle_evaluations={})
+    compliant_result = ConstitutionalValidationResult(
+        constitutional_compliant=True,
+        overall_compliance_score=0.9,
+        compliance_level=ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
+        decision_context=ConstitutionalValidationContext(
+            decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"
+        ),
+    )
+    non_compliant_result = ConstitutionalValidationResult(
+        constitutional_compliant=False,
+        overall_compliance_score=0.3,
+        compliance_level=ComplianceLevel.NON_COMPLIANCE,
+        decision_context=ConstitutionalValidationContext(
+            decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"
+        ),
+        principle_evaluations={},
+    )
 
     # We need to mock the decision_data to differentiate calls
-    compliant_action.parameters = {'action_type': 'compliant_action'}
-    non_compliant_action.parameters = {'action_type': 'non_compliant_action'}
+    compliant_action.parameters = {"action_type": "compliant_action"}
+    non_compliant_action.parameters = {"action_type": "non_compliant_action"}
 
     async def side_effect(context: ConstitutionalValidationContext):
-        if context.decision_data['action_type'] == "compliant_action":
+        if context.decision_data["action_type"] == "compliant_action":
             return compliant_result
         return non_compliant_result
 
@@ -102,22 +130,30 @@ async def test_detect_violations(monitor: ConstitutionalAIComplianceMonitor, moc
     assert violations[0].actions[0] == non_compliant_action
     assert len(monitor.detected_violations) == 1
 
+
 @pytest.mark.asyncio
-@pytest.mark.parametrize("score,expected_action", [
-    (0.9, EnforcementAction.ALLOW),
-    (0.75, EnforcementAction.ALERT),
-    (0.55, EnforcementAction.ESCALATE),
-    (0.3, EnforcementAction.BLOCK),
-])
-async def test_enforce_constitutional_constraints_graduated_response(monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock, score, expected_action):
+@pytest.mark.parametrize(
+    "score,expected_action",
+    [
+        (0.9, EnforcementAction.ALLOW),
+        (0.75, EnforcementAction.ALERT),
+        (0.55, EnforcementAction.ESCALATE),
+        (0.3, EnforcementAction.BLOCK),
+    ],
+)
+async def test_enforce_constitutional_constraints_graduated_response(
+    monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock, score, expected_action
+):
     """Test the graduated enforcement response based on compliance score."""
     action = AIAction(action_type="test_action", identity_id="user-123")
 
     mock_validation_result = ConstitutionalValidationResult(
         constitutional_compliant=score >= 0.8,
         overall_compliance_score=score,
-        compliance_level=ComplianceLevel.NON_COMPLIANCE, # Simplified for test
-        decision_context=ConstitutionalValidationContext(decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123")
+        compliance_level=ComplianceLevel.NON_COMPLIANCE,  # Simplified for test
+        decision_context=ConstitutionalValidationContext(
+            decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"
+        ),
     )
     mock_validator.validate_identity_decision.return_value = mock_validation_result
 
@@ -125,6 +161,7 @@ async def test_enforce_constitutional_constraints_graduated_response(monitor: Co
 
     assert result.enforcement_action == expected_action
     assert len(monitor.enforcement_log) == 1
+
 
 @pytest.mark.asyncio
 async def test_enforce_emergency_override(monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock):
@@ -134,9 +171,11 @@ async def test_enforce_emergency_override(monitor: ConstitutionalAIComplianceMon
     mock_validation_result = ConstitutionalValidationResult(
         constitutional_compliant=True,
         decision_approved=True,
-        overall_compliance_score=0.65, # Lower than normal approval, but approved due to emergency
+        overall_compliance_score=0.65,  # Lower than normal approval, but approved due to emergency
         compliance_level=ComplianceLevel.PARTIAL_COMPLIANCE,
-        decision_context=ConstitutionalValidationContext(decision_type=DecisionType.EMERGENCY_OVERRIDE, identity_id="admin-001")
+        decision_context=ConstitutionalValidationContext(
+            decision_type=DecisionType.EMERGENCY_OVERRIDE, identity_id="admin-001"
+        ),
     )
     mock_validator.validate_identity_decision.return_value = mock_validation_result
 
@@ -145,13 +184,22 @@ async def test_enforce_emergency_override(monitor: ConstitutionalAIComplianceMon
     assert result.enforcement_action == EnforcementAction.ALLOW
     assert "Emergency override approved" in result.reason
 
+
 @pytest.mark.asyncio
 async def test_get_compliance_monitor_status(monitor: ConstitutionalAIComplianceMonitor, mock_validator: AsyncMock):
     """Test the status reporting method."""
     # Mock a non-compliant action to populate logs
     action = AIAction(action_type="test_action", identity_id="user-123")
-    action.parameters = {'action_type': 'test_action'} # for side_effect
-    mock_validation_result = ConstitutionalValidationResult(constitutional_compliant=False, overall_compliance_score=0.3, compliance_level=ComplianceLevel.NON_COMPLIANCE, decision_context=ConstitutionalValidationContext(decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"), principle_evaluations={})
+    action.parameters = {"action_type": "test_action"}  # for side_effect
+    mock_validation_result = ConstitutionalValidationResult(
+        constitutional_compliant=False,
+        overall_compliance_score=0.3,
+        compliance_level=ComplianceLevel.NON_COMPLIANCE,
+        decision_context=ConstitutionalValidationContext(
+            decision_type=DecisionType.DATA_PROCESSING, identity_id="user-123"
+        ),
+        principle_evaluations={},
+    )
     mock_validator.validate_identity_decision.return_value = mock_validation_result
 
     await monitor.enforce_constitutional_constraints(action)

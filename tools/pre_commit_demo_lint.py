@@ -30,22 +30,17 @@ def validate_demo_script(script_path: str) -> List[str]:
             errors.append("Script is not executable (missing +x permission)")
 
         # Check shebang
-        with open(script_file, 'r') as f:
+        with open(script_file, "r") as f:
             first_line = f.readline().strip()
 
-        if not first_line.startswith('#!/'):
+        if not first_line.startswith("#!/"):
             errors.append("Missing shebang line")
-        elif 'bash' not in first_line and 'sh' not in first_line:
+        elif "bash" not in first_line and "sh" not in first_line:
             errors.append("Shebang should use bash or sh")
 
         # Basic syntax check with bash -n
         try:
-            result = subprocess.run(
-                ['bash', '-n', script_path],
-                capture_output=True,
-                text=True,
-                timeout=5
-            )
+            result = subprocess.run(["bash", "-n", script_path], capture_output=True, text=True, timeout=5)
             if result.returncode != 0:
                 errors.append(f"Bash syntax error: {result.stderr.strip()}")
         except subprocess.TimeoutExpired:
@@ -54,43 +49,43 @@ def validate_demo_script(script_path: str) -> List[str]:
             errors.append("bash not available for syntax check")
 
         # Check for common anti-patterns
-        with open(script_file, 'r') as f:
+        with open(script_file, "r") as f:
             content = f.read()
 
         # Check for set -e (fail fast)
-        if 'set -e' not in content:
+        if "set -e" not in content:
             errors.append("Consider adding 'set -e' for fail-fast behavior")
 
         # Check for hardcoded paths that might not work in CI
-        suspicious_paths = ['/usr/local/', '/home/', '~/', '/Users/']
-        for line_num, line in enumerate(content.split('\n'), 1):
+        suspicious_paths = ["/usr/local/", "/home/", "~/", "/Users/"]
+        for line_num, line in enumerate(content.split("\n"), 1):
             for path in suspicious_paths:
-                if path in line and not line.strip().startswith('#'):
+                if path in line and not line.strip().startswith("#"):
                     errors.append(f"Line {line_num}: Suspicious hardcoded path: {path}")
 
         # Check for missing error handling on critical commands
-        critical_commands = ['python3', 'make', 'docker', 'git']
-        lines = content.split('\n')
+        critical_commands = ["python3", "make", "docker", "git"]
+        lines = content.split("\n")
         for line_num, line in enumerate(lines, 1):
             line = line.strip()
-            if any(cmd in line for cmd in critical_commands) and not line.startswith('#'):
+            if any(cmd in line for cmd in critical_commands) and not line.startswith("#"):
                 # Check if command has error handling (|| true, or next line handles error)
-                if '|| ' not in line and 'set -e' not in content:
+                if "|| " not in line and "set -e" not in content:
                     next_line = lines[line_num] if line_num < len(lines) else ""
-                    if not ('if' in next_line or 'echo' in line):
+                    if not ("if" in next_line or "echo" in line):
                         # This is just a warning, not an error
                         pass
 
         # Check for demo-specific requirements
-        if 'matrix_tracks' in script_path:
+        if "matrix_tracks" in script_path:
             # Demo should have descriptive output
-            if 'echo' not in content:
+            if "echo" not in content:
                 errors.append("Demo script should have descriptive echo statements for user feedback")
 
             # Demo should handle tool availability gracefully
-            tools = ['prism', 'ipfs', 'osv-scanner']
+            tools = ["prism", "ipfs", "osv-scanner"]
             for tool in tools:
-                if tool in content and 'command -v' not in content:
+                if tool in content and "command -v" not in content:
                     errors.append(f"Demo uses {tool} but doesn't check availability with 'command -v'")
 
     except Exception as e:

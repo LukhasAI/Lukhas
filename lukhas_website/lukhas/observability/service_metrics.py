@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 class ServiceType(Enum):
     """Types of services monitored"""
+
     MEMORY = "memory"
     REGISTRY = "registry"
     IDENTITY = "identity"
@@ -38,6 +39,7 @@ class ServiceType(Enum):
 
 class MetricType(Enum):
     """Types of metrics collected"""
+
     COUNTER = "counter"
     HISTOGRAM = "histogram"
     GAUGE = "gauge"
@@ -47,6 +49,7 @@ class MetricType(Enum):
 @dataclass
 class ServiceMetric:
     """Individual service metric"""
+
     name: str
     service: ServiceType
     metric_type: MetricType
@@ -59,11 +62,12 @@ class ServiceMetric:
 @dataclass
 class SLOBurnRate:
     """SLO burn rate calculation"""
+
     service: str
     slo_target: float  # Target SLO (e.g., 0.999 for 99.9%)
-    time_window: str   # Time window (e.g., "1h", "6h", "24h")
+    time_window: str  # Time window (e.g., "1h", "6h", "24h")
     error_rate: float  # Current error rate
-    burn_rate: float   # Rate at which error budget is consumed
+    burn_rate: float  # Rate at which error budget is consumed
     budget_remaining: float  # Remaining error budget (0.0-1.0)
     alert_threshold: float  # Alert when burn rate exceeds this
     critical_threshold: float  # Critical alert threshold
@@ -72,6 +76,7 @@ class SLOBurnRate:
 @dataclass
 class T4ComplianceMetrics:
     """T4/0.01% excellence compliance tracking"""
+
     service: str
     operation: str
     p95_latency_ms: float
@@ -113,76 +118,63 @@ class ServiceMetricsCollector:
             ServiceType.MEMORY: {
                 "slo_target": 0.999,  # 99.9% availability
                 "latency_targets": {
-                    "search": 50.0,    # p95 <50ms
-                    "upsert": 100.0,   # p95 <100ms
-                    "batch": 200.0     # p95 <200ms
+                    "search": 50.0,  # p95 <50ms
+                    "upsert": 100.0,  # p95 <100ms
+                    "batch": 200.0,  # p95 <200ms
                 },
                 "burn_rate_windows": ["1h", "6h", "24h"],
-                "alert_thresholds": {
-                    "warning": 2.0,
-                    "critical": 10.0
-                }
+                "alert_thresholds": {"warning": 2.0, "critical": 10.0},
             },
             ServiceType.REGISTRY: {
                 "slo_target": 0.9995,  # 99.95% availability
                 "latency_targets": {
-                    "discovery": 10.0,   # p95 <10ms
-                    "resolve": 5.0,      # p95 <5ms
-                    "register": 20.0     # p95 <20ms
+                    "discovery": 10.0,  # p95 <10ms
+                    "resolve": 5.0,  # p95 <5ms
+                    "register": 20.0,  # p95 <20ms
                 },
                 "burn_rate_windows": ["1h", "6h"],
-                "alert_thresholds": {
-                    "warning": 1.5,
-                    "critical": 5.0
-                }
+                "alert_thresholds": {"warning": 1.5, "critical": 5.0},
             },
             ServiceType.IDENTITY: {
                 "slo_target": 0.9999,  # 99.99% availability
                 "latency_targets": {
                     "authenticate": 100.0,  # p95 <100ms
-                    "authorize": 50.0,      # p95 <50ms
-                    "webauthn": 200.0       # p95 <200ms
+                    "authorize": 50.0,  # p95 <50ms
+                    "webauthn": 200.0,  # p95 <200ms
                 },
                 "burn_rate_windows": ["1h", "6h", "24h"],
-                "alert_thresholds": {
-                    "warning": 2.0,
-                    "critical": 8.0
-                }
+                "alert_thresholds": {"warning": 2.0, "critical": 8.0},
             },
             ServiceType.CONSCIOUSNESS: {
                 "slo_target": 0.995,  # 99.5% availability
                 "latency_targets": {
-                    "process": 500.0,      # p95 <500ms
-                    "dream": 1000.0,       # p95 <1000ms
-                    "awareness": 100.0     # p95 <100ms
+                    "process": 500.0,  # p95 <500ms
+                    "dream": 1000.0,  # p95 <1000ms
+                    "awareness": 100.0,  # p95 <100ms
                 },
                 "burn_rate_windows": ["6h", "24h"],
-                "alert_thresholds": {
-                    "warning": 3.0,
-                    "critical": 12.0
-                }
+                "alert_thresholds": {"warning": 3.0, "critical": 12.0},
             },
             ServiceType.GOVERNANCE: {
                 "slo_target": 0.9999,  # 99.99% availability
                 "latency_targets": {
-                    "policy_check": 50.0,   # p95 <50ms
-                    "consent": 100.0,       # p95 <100ms
-                    "audit": 200.0          # p95 <200ms
+                    "policy_check": 50.0,  # p95 <50ms
+                    "consent": 100.0,  # p95 <100ms
+                    "audit": 200.0,  # p95 <200ms
                 },
                 "burn_rate_windows": ["1h", "6h", "24h"],
-                "alert_thresholds": {
-                    "warning": 1.0,
-                    "critical": 4.0
-                }
-            }
+                "alert_thresholds": {"warning": 1.0, "critical": 4.0},
+            },
         }
 
-    def create_standard_labels(self,
-                              lane: Optional[str] = None,
-                              component: Optional[str] = None,
-                              operation: Optional[str] = None,
-                              provider: Optional[str] = None,
-                              **custom_labels) -> Dict[str, str]:
+    def create_standard_labels(
+        self,
+        lane: Optional[str] = None,
+        component: Optional[str] = None,
+        operation: Optional[str] = None,
+        provider: Optional[str] = None,
+        **custom_labels,
+    ) -> Dict[str, str]:
         """Create standardized Prometheus labels for T4/0.01% compliance"""
         labels = {}
 
@@ -201,28 +193,26 @@ class ServiceMetricsCollector:
 
         return labels
 
-    def record_metric(self,
-                     name: str,
-                     value: float,
-                     service: ServiceType,
-                     metric_type: MetricType = MetricType.GAUGE,
-                     labels: Optional[Dict[str, str]] = None,
-                     help_text: str = "",
-                     lane: Optional[str] = None,
-                     component: Optional[str] = None,
-                     operation: Optional[str] = None,
-                     provider: Optional[str] = None):
+    def record_metric(
+        self,
+        name: str,
+        value: float,
+        service: ServiceType,
+        metric_type: MetricType = MetricType.GAUGE,
+        labels: Optional[Dict[str, str]] = None,
+        help_text: str = "",
+        lane: Optional[str] = None,
+        component: Optional[str] = None,
+        operation: Optional[str] = None,
+        provider: Optional[str] = None,
+    ):
         """Record a service metric with standardized labels"""
         with self._lock:
             metric_key = f"{service.value}_{name}"
 
             # Create standardized labels
             standard_labels = self.create_standard_labels(
-                lane=lane,
-                component=component,
-                operation=operation,
-                provider=provider,
-                **(labels or {})
+                lane=lane, component=component, operation=operation, provider=provider, **(labels or {})
             )
 
             metric = ServiceMetric(
@@ -231,7 +221,7 @@ class ServiceMetricsCollector:
                 metric_type=metric_type,
                 value=value,
                 labels=standard_labels,
-                help_text=help_text
+                help_text=help_text,
             )
 
             self.metrics[metric_key] = metric
@@ -240,11 +230,7 @@ class ServiceMetricsCollector:
             # Update Prometheus metrics (mock)
             self._update_prometheus_metric(metric)
 
-    def record_operation_latency(self,
-                               service: ServiceType,
-                               operation: str,
-                               latency_ms: float,
-                               success: bool = True):
+    def record_operation_latency(self, service: ServiceType, operation: str, latency_ms: float, success: bool = True):
         """Record operation latency for T4/0.01% excellence tracking"""
         with self._lock:
             # Record basic latency metric
@@ -253,7 +239,7 @@ class ServiceMetricsCollector:
                 latency_ms,
                 service,
                 MetricType.HISTOGRAM,
-                {"operation": operation, "success": str(success)}
+                {"operation": operation, "success": str(success)},
             )
 
             # Update T4 compliance metrics
@@ -272,7 +258,7 @@ class ServiceMetricsCollector:
                     slo_target_ms=target_latency,
                     compliance_rate=0.0,
                     total_operations=0,
-                    failed_operations=0
+                    failed_operations=0,
                 )
 
             compliance = self.t4_compliance[compliance_key]
@@ -297,9 +283,7 @@ class ServiceMetricsCollector:
                     compliant_ops = sum(1 for lat in recent_latencies if lat <= compliance.slo_target_ms)
                     compliance.compliance_rate = compliant_ops / len(recent_latencies)
 
-    def calculate_burn_rate(self,
-                          service: ServiceType,
-                          time_window: str = "1h") -> Optional[SLOBurnRate]:
+    def calculate_burn_rate(self, service: ServiceType, time_window: str = "1h") -> Optional[SLOBurnRate]:
         """Calculate SLO burn rate for a service"""
         with self._lock:
             config = self.service_configs.get(service)
@@ -332,7 +316,7 @@ class ServiceMetricsCollector:
                 burn_rate=burn_rate,
                 budget_remaining=budget_remaining,
                 alert_threshold=alert_threshold,
-                critical_threshold=critical_threshold
+                critical_threshold=critical_threshold,
             )
 
             # Store for tracking
@@ -341,11 +325,7 @@ class ServiceMetricsCollector:
 
             # Record as metric
             self.record_metric(
-                f"slo_burn_rate_{time_window}",
-                burn_rate,
-                service,
-                MetricType.GAUGE,
-                {"time_window": time_window}
+                f"slo_burn_rate_{time_window}", burn_rate, service, MetricType.GAUGE, {"time_window": time_window}
             )
 
             return burn_rate_metric
@@ -353,10 +333,10 @@ class ServiceMetricsCollector:
     def _calculate_error_rate(self, service: ServiceType, time_window: str) -> float:
         """Calculate error rate for a service in given time window"""
         # Parse time window
-        if time_window.endswith('h'):
+        if time_window.endswith("h"):
             hours = int(time_window[:-1])
             window_seconds = hours * 3600
-        elif time_window.endswith('m'):
+        elif time_window.endswith("m"):
             minutes = int(time_window[:-1])
             window_seconds = minutes * 60
         else:
@@ -377,9 +357,9 @@ class ServiceMetricsCollector:
                     continue
 
                 # Count operations with success/failure labels
-                if 'success' in metric.labels:
+                if "success" in metric.labels:
                     total_ops += 1
-                    if metric.labels['success'] == 'False':
+                    if metric.labels["success"] == "False":
                         error_ops += 1
 
         return error_ops / total_ops if total_ops > 0 else 0.0
@@ -400,18 +380,15 @@ class ServiceMetricsCollector:
             pass
 
         self.prometheus_metrics[metric_name] = {
-            'value': metric.value,
-            'labels': metric.labels,
-            'timestamp': metric.timestamp
+            "value": metric.value,
+            "labels": metric.labels,
+            "timestamp": metric.timestamp,
         }
 
     def get_service_metrics(self, service: ServiceType) -> Dict[str, ServiceMetric]:
         """Get all metrics for a specific service"""
         with self._lock:
-            return {
-                key: metric for key, metric in self.metrics.items()
-                if metric.service == service
-            }
+            return {key: metric for key, metric in self.metrics.items() if metric.service == service}
 
     def get_t4_compliance_report(self) -> Dict[str, Dict[str, Any]]:
         """Get T4/0.01% excellence compliance report"""
@@ -422,15 +399,15 @@ class ServiceMetricsCollector:
                 is_compliant = compliance.p95_latency_ms <= compliance.slo_target_ms
 
                 report[key] = {
-                    'service': compliance.service,
-                    'operation': compliance.operation,
-                    'p95_latency_ms': compliance.p95_latency_ms,
-                    'p99_latency_ms': compliance.p99_latency_ms,
-                    'slo_target_ms': compliance.slo_target_ms,
-                    'compliance_rate': compliance.compliance_rate,
-                    't4_compliant': is_compliant,
-                    'total_operations': compliance.total_operations,
-                    'error_rate': compliance.failed_operations / max(compliance.total_operations, 1)
+                    "service": compliance.service,
+                    "operation": compliance.operation,
+                    "p95_latency_ms": compliance.p95_latency_ms,
+                    "p99_latency_ms": compliance.p99_latency_ms,
+                    "slo_target_ms": compliance.slo_target_ms,
+                    "compliance_rate": compliance.compliance_rate,
+                    "t4_compliant": is_compliant,
+                    "total_operations": compliance.total_operations,
+                    "error_rate": compliance.failed_operations / max(compliance.total_operations, 1),
                 }
 
             return report
@@ -448,14 +425,14 @@ class ServiceMetricsCollector:
                     alert_level = "warning"
 
                 status[key] = {
-                    'service': burn_rate.service,
-                    'time_window': burn_rate.time_window,
-                    'slo_target': burn_rate.slo_target,
-                    'error_rate': burn_rate.error_rate,
-                    'burn_rate': burn_rate.burn_rate,
-                    'budget_remaining': burn_rate.budget_remaining,
-                    'alert_level': alert_level,
-                    'budget_exhaustion_time': self._calculate_exhaustion_time(burn_rate)
+                    "service": burn_rate.service,
+                    "time_window": burn_rate.time_window,
+                    "slo_target": burn_rate.slo_target,
+                    "error_rate": burn_rate.error_rate,
+                    "burn_rate": burn_rate.burn_rate,
+                    "budget_remaining": burn_rate.budget_remaining,
+                    "alert_level": alert_level,
+                    "budget_exhaustion_time": self._calculate_exhaustion_time(burn_rate),
                 }
 
             return status
@@ -482,35 +459,39 @@ class ServiceMetricsCollector:
 
         # Check burn rate alerts
         for key, status in self.get_burn_rate_status().items():
-            if status['alert_level'] != 'ok':
-                severity = 'critical' if status['alert_level'] == 'critical' else 'warning'
+            if status["alert_level"] != "ok":
+                severity = "critical" if status["alert_level"] == "critical" else "warning"
 
-                alerts.append({
-                    'type': 'burn_rate',
-                    'severity': severity,
-                    'service': status['service'],
-                    'message': f"High burn rate: {status['burn_rate']:.2f}x normal",
-                    'details': {
-                        'burn_rate': status['burn_rate'],
-                        'budget_remaining': status['budget_remaining'],
-                        'exhaustion_time': status['budget_exhaustion_time']
+                alerts.append(
+                    {
+                        "type": "burn_rate",
+                        "severity": severity,
+                        "service": status["service"],
+                        "message": f"High burn rate: {status['burn_rate']:.2f}x normal",
+                        "details": {
+                            "burn_rate": status["burn_rate"],
+                            "budget_remaining": status["budget_remaining"],
+                            "exhaustion_time": status["budget_exhaustion_time"],
+                        },
                     }
-                })
+                )
 
         # Check T4 compliance alerts
         for key, compliance in self.get_t4_compliance_report().items():
-            if not compliance['t4_compliant']:
-                alerts.append({
-                    'type': 't4_compliance',
-                    'severity': 'warning',
-                    'service': compliance['service'],
-                    'message': f"T4 SLO violation: p95={compliance['p95_latency_ms']:.1f}ms > {compliance['slo_target_ms']:.1f}ms",
-                    'details': {
-                        'p95_latency_ms': compliance['p95_latency_ms'],
-                        'slo_target_ms': compliance['slo_target_ms'],
-                        'compliance_rate': compliance['compliance_rate']
+            if not compliance["t4_compliant"]:
+                alerts.append(
+                    {
+                        "type": "t4_compliance",
+                        "severity": "warning",
+                        "service": compliance["service"],
+                        "message": f"T4 SLO violation: p95={compliance['p95_latency_ms']:.1f}ms > {compliance['slo_target_ms']:.1f}ms",
+                        "details": {
+                            "p95_latency_ms": compliance["p95_latency_ms"],
+                            "slo_target_ms": compliance["slo_target_ms"],
+                            "compliance_rate": compliance["compliance_rate"],
+                        },
                     }
-                })
+                )
 
         return alerts
 
@@ -525,8 +506,8 @@ class ServiceMetricsCollector:
 
             # Add labels
             label_str = ""
-            if metric_data['labels']:
-                label_pairs = [f'{k}="{v}"' for k, v in metric_data['labels'].items()]
+            if metric_data["labels"]:
+                label_pairs = [f'{k}="{v}"' for k, v in metric_data["labels"].items()]
                 label_str = "{" + ",".join(label_pairs) + "}"
 
             lines.append(f"{metric_name}{label_str} {metric_data['value']}")
@@ -539,10 +520,10 @@ class ServiceMetricsCollector:
 
         for service_type in ServiceType:
             service_metrics = self.get_service_metrics(service_type)
-            compliance_data = {k: v for k, v in self.get_t4_compliance_report().items()
-                             if v['service'] == service_type.value}
-            burn_rates = {k: v for k, v in self.get_burn_rate_status().items()
-                         if v['service'] == service_type.value}
+            compliance_data = {
+                k: v for k, v in self.get_t4_compliance_report().items() if v["service"] == service_type.value
+            }
+            burn_rates = {k: v for k, v in self.get_burn_rate_status().items() if v["service"] == service_type.value}
 
             # Calculate overall health score
             health_score = 1.0
@@ -550,27 +531,27 @@ class ServiceMetricsCollector:
 
             # Check T4 compliance
             for comp_key, comp_data in compliance_data.items():
-                if not comp_data['t4_compliant']:
+                if not comp_data["t4_compliant"]:
                     health_score *= 0.8
                     issues.append(f"T4 SLO violation: {comp_data['operation']}")
 
             # Check burn rates
             for burn_key, burn_data in burn_rates.items():
-                if burn_data['alert_level'] == 'critical':
+                if burn_data["alert_level"] == "critical":
                     health_score *= 0.5
                     issues.append(f"Critical burn rate: {burn_data['time_window']}")
-                elif burn_data['alert_level'] == 'warning':
+                elif burn_data["alert_level"] == "warning":
                     health_score *= 0.7
                     issues.append(f"High burn rate: {burn_data['time_window']}")
 
             summary[service_type.value] = {
-                'health_score': health_score,
-                'status': 'healthy' if health_score > 0.8 else 'degraded' if health_score > 0.5 else 'unhealthy',
-                'metric_count': len(service_metrics),
-                'compliance_checks': len(compliance_data),
-                'burn_rate_monitors': len(burn_rates),
-                'issues': issues,
-                'last_updated': time.time()
+                "health_score": health_score,
+                "status": "healthy" if health_score > 0.8 else "degraded" if health_score > 0.5 else "unhealthy",
+                "metric_count": len(service_metrics),
+                "compliance_checks": len(compliance_data),
+                "burn_rate_monitors": len(burn_rates),
+                "issues": issues,
+                "last_updated": time.time(),
             }
 
         return summary
@@ -588,11 +569,7 @@ def get_metrics_collector() -> ServiceMetricsCollector:
     return _global_metrics_collector
 
 
-def record_service_operation(service: ServiceType,
-                           operation: str,
-                           latency_ms: float,
-                           success: bool = True,
-                           **labels):
+def record_service_operation(service: ServiceType, operation: str, latency_ms: float, success: bool = True, **labels):
     """Convenience function to record service operations"""
     collector = get_metrics_collector()
     collector.record_operation_latency(service, operation, latency_ms, success)
@@ -600,11 +577,7 @@ def record_service_operation(service: ServiceType,
     # Record additional metrics
     if labels:
         collector.record_metric(
-            f"{operation}_total",
-            1,
-            service,
-            MetricType.COUNTER,
-            {**labels, 'success': str(success)}
+            f"{operation}_total", 1, service, MetricType.COUNTER, {**labels, "success": str(success)}
         )
 
 
@@ -612,8 +585,8 @@ def get_service_health() -> Dict[str, Any]:
     """Get overall service health status"""
     collector = get_metrics_collector()
     return {
-        'services': collector.get_service_health_summary(),
-        't4_compliance': collector.get_t4_compliance_report(),
-        'burn_rates': collector.get_burn_rate_status(),
-        'active_alerts': collector.get_alerts()
+        "services": collector.get_service_health_summary(),
+        "t4_compliance": collector.get_t4_compliance_report(),
+        "burn_rates": collector.get_burn_rate_status(),
+        "active_alerts": collector.get_alerts(),
     }

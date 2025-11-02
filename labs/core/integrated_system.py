@@ -6,6 +6,7 @@ This module demonstrates how Event Sourcing, Actor System,
 Distributed Tracing, and Efficient Communication work together
 to create a sustainable, energy-efficient AI system.
 """
+
 import asyncio
 import logging
 import uuid

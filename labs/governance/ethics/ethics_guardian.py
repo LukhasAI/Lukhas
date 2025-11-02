@@ -180,7 +180,8 @@ class EthicsGuardian:
             "last_operation": self.last_operation,
             "task_data": self.task_data,
             "has_base_guardian": self._guardian is not None,
-            "created_at": getattr(self._guardian, "last_assessment_time", None) or datetime.now(timezone.utc).isoformat(),
+            "created_at": getattr(self._guardian, "last_assessment_time", None)
+            or datetime.now(timezone.utc).isoformat(),
         }
 
     def _fallback_assessment(self, context: dict[str, Any]) -> dict[str, Any]:

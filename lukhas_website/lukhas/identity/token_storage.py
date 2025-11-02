@@ -22,57 +22,53 @@ from prometheus_client import Counter, Gauge, Histogram
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
     def labels(self, **kwargs):
         return self
+
     def inc(self, amount=1):
         pass
+
     def dec(self, amount=1):
         pass
+
     def observe(self, amount):
         pass
 
+
 try:
     token_storage_operations_total = Counter(
-        'lukhas_token_storage_operations_total',
-        'Total token storage operations',
-        ['component', 'operation', 'status']
+        "lukhas_token_storage_operations_total", "Total token storage operations", ["component", "operation", "status"]
     )
 except ValueError:
     token_storage_operations_total = MockMetric()
 
 try:
     token_storage_latency_seconds = Histogram(
-        'lukhas_token_storage_latency_seconds',
-        'Token storage operation latency',
-        ['component', 'operation'],
-        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+        "lukhas_token_storage_latency_seconds",
+        "Token storage operation latency",
+        ["component", "operation"],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
     )
 except ValueError:
     token_storage_latency_seconds = MockMetric()
 
 try:
-    active_tokens_gauge = Gauge(
-        'lukhas_active_tokens_total',
-        'Number of active tokens',
-        ['component', 'realm']
-    )
+    active_tokens_gauge = Gauge("lukhas_active_tokens_total", "Number of active tokens", ["component", "realm"])
 except ValueError:
     active_tokens_gauge = MockMetric()
 
 try:
-    revoked_tokens_gauge = Gauge(
-        'lukhas_revoked_tokens_total',
-        'Number of revoked tokens',
-        ['component', 'realm']
-    )
+    revoked_tokens_gauge = Gauge("lukhas_revoked_tokens_total", "Number of revoked tokens", ["component", "realm"])
 except ValueError:
     revoked_tokens_gauge = MockMetric()
 
 
 class TokenStatus(Enum):
     """Token lifecycle status."""
+
     ACTIVE = "active"
     EXPIRED = "expired"
     REVOKED = "revoked"
@@ -86,6 +82,7 @@ class StoredToken:
 
     Comprehensive token information for lifecycle management.
     """
+
     jti: str  # JWT ID (primary key)
     alias: str  # ΛiD alias
     kid: str  # Key ID used for signing
@@ -114,10 +111,7 @@ class StoredToken:
     def is_active(self) -> bool:
         """Check if token is currently active."""
         now = int(time.time())
-        return (
-            self.status == TokenStatus.ACTIVE and
-            self.exp > now
-        )
+        return self.status == TokenStatus.ACTIVE and self.exp > now
 
     @property
     def is_expired(self) -> bool:
@@ -137,6 +131,7 @@ class KeyRotationRecord:
 
     Tracks key lifecycle for security audit and rotation management.
     """
+
     kid: str
     created_at: int
     activated_at: Optional[int] = None
@@ -148,10 +143,7 @@ class KeyRotationRecord:
     @property
     def is_active(self) -> bool:
         """Check if key is currently active."""
-        return (
-            self.activated_at is not None and
-            self.deactivated_at is None
-        )
+        return self.activated_at is not None and self.deactivated_at is None
 
     @property
     def age_hours(self) -> float:
@@ -190,16 +182,7 @@ class TokenStorage:
         if self.storage_path:
             self._load_from_storage()
 
-    def store_token(
-        self,
-        jti: str,
-        alias: str,
-        kid: str,
-        iat: int,
-        exp: int,
-        realm: str,
-        zone: str
-    ) -> StoredToken:
+    def store_token(self, jti: str, alias: str, kid: str, iat: int, exp: int, realm: str, zone: str) -> StoredToken:
         """
         Store new token record.
 
@@ -225,15 +208,7 @@ class TokenStorage:
 
             try:
                 # Create storage record
-                stored_token = StoredToken(
-                    jti=jti,
-                    alias=alias,
-                    kid=kid,
-                    iat=iat,
-                    exp=exp,
-                    realm=realm,
-                    zone=zone
-                )
+                stored_token = StoredToken(jti=jti, alias=alias, kid=kid, iat=iat, exp=exp, realm=realm, zone=zone)
 
                 # Store in memory
                 self._tokens[jti] = stored_token
@@ -244,21 +219,15 @@ class TokenStorage:
 
                 # Update metrics
                 token_storage_operations_total.labels(
-                    component=self._component_id,
-                    operation="store",
-                    status="success"
+                    component=self._component_id, operation="store", status="success"
                 ).inc()
 
-                active_tokens_gauge.labels(
-                    component=self._component_id,
-                    realm=realm
-                ).inc()
+                active_tokens_gauge.labels(component=self._component_id, realm=realm).inc()
 
                 processing_time = time.time() - start_time
-                token_storage_latency_seconds.labels(
-                    component=self._component_id,
-                    operation="store"
-                ).observe(processing_time)
+                token_storage_latency_seconds.labels(component=self._component_id, operation="store").observe(
+                    processing_time
+                )
 
                 span.set_attribute("processing_time_ms", processing_time * 1000)
 
@@ -266,9 +235,7 @@ class TokenStorage:
 
             except Exception as e:
                 token_storage_operations_total.labels(
-                    component=self._component_id,
-                    operation="store",
-                    status="error"
+                    component=self._component_id, operation="store", status="error"
                 ).inc()
 
                 span.record_exception(e)
@@ -308,36 +275,26 @@ class TokenStorage:
 
                 # Update metrics
                 token_storage_operations_total.labels(
-                    component=self._component_id,
-                    operation="get",
-                    status="success" if token else "not_found"
+                    component=self._component_id, operation="get", status="success" if token else "not_found"
                 ).inc()
 
                 processing_time = time.time() - start_time
-                token_storage_latency_seconds.labels(
-                    component=self._component_id,
-                    operation="get"
-                ).observe(processing_time)
+                token_storage_latency_seconds.labels(component=self._component_id, operation="get").observe(
+                    processing_time
+                )
 
                 return token
 
             except Exception as e:
                 token_storage_operations_total.labels(
-                    component=self._component_id,
-                    operation="get",
-                    status="error"
+                    component=self._component_id, operation="get", status="error"
                 ).inc()
 
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
                 raise
 
-    def revoke_token(
-        self,
-        jti: str,
-        revoked_by: str,
-        reason: str = "user_request"
-    ) -> bool:
+    def revoke_token(self, jti: str, revoked_by: str, reason: str = "user_request") -> bool:
         """
         Revoke token by JWT ID.
 
@@ -377,26 +334,17 @@ class TokenStorage:
 
                 # Update metrics
                 token_storage_operations_total.labels(
-                    component=self._component_id,
-                    operation="revoke",
-                    status="success"
+                    component=self._component_id, operation="revoke", status="success"
                 ).inc()
 
-                active_tokens_gauge.labels(
-                    component=self._component_id,
-                    realm=token.realm
-                ).dec()
+                active_tokens_gauge.labels(component=self._component_id, realm=token.realm).dec()
 
-                revoked_tokens_gauge.labels(
-                    component=self._component_id,
-                    realm=token.realm
-                ).inc()
+                revoked_tokens_gauge.labels(component=self._component_id, realm=token.realm).inc()
 
                 processing_time = time.time() - start_time
-                token_storage_latency_seconds.labels(
-                    component=self._component_id,
-                    operation="revoke"
-                ).observe(processing_time)
+                token_storage_latency_seconds.labels(component=self._component_id, operation="revoke").observe(
+                    processing_time
+                )
 
                 span.set_attribute("processing_time_ms", processing_time * 1000)
 
@@ -404,9 +352,7 @@ class TokenStorage:
 
             except Exception as e:
                 token_storage_operations_total.labels(
-                    component=self._component_id,
-                    operation="revoke",
-                    status="error"
+                    component=self._component_id, operation="revoke", status="error"
                 ).inc()
 
                 span.record_exception(e)
@@ -425,12 +371,7 @@ class TokenStorage:
         """
         return jti in self._revocation_blacklist
 
-    def record_key_rotation(
-        self,
-        old_kid: str,
-        new_kid: str,
-        reason: str = "scheduled"
-    ) -> KeyRotationRecord:
+    def record_key_rotation(self, old_kid: str, new_kid: str, reason: str = "scheduled") -> KeyRotationRecord:
         """
         Record key rotation event.
 
@@ -453,11 +394,7 @@ class TokenStorage:
 
         # Create new key record
         new_record = KeyRotationRecord(
-            kid=new_kid,
-            created_at=now,
-            activated_at=now,
-            rotation_reason=reason,
-            predecessor_kid=old_kid
+            kid=new_kid, created_at=now, activated_at=now, rotation_reason=reason, predecessor_kid=old_kid
         )
 
         self._key_rotation_history.append(new_record)
@@ -544,7 +481,7 @@ class TokenStorage:
             "cache_hits": self._cache_hits,
             "cache_misses": self._cache_misses,
             "storage_path": self.storage_path,
-            "timestamp": now
+            "timestamp": now,
         }
 
     def _load_from_storage(self) -> None:
@@ -553,7 +490,7 @@ class TokenStorage:
             return
 
         try:
-            with open(self.storage_path, 'r') as f:
+            with open(self.storage_path, "r") as f:
                 data = json.load(f)
 
             # Load tokens
@@ -581,12 +518,12 @@ class TokenStorage:
         data = {
             "tokens": [asdict(token) for token in self._tokens.values()],
             "key_rotations": [asdict(rotation) for rotation in self._key_rotation_history],
-            "timestamp": int(time.time())
+            "timestamp": int(time.time()),
         }
 
         try:
             os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
-            with open(self.storage_path, 'w') as f:
+            with open(self.storage_path, "w") as f:
                 json.dump(data, f, indent=2)
         except Exception:
             # Log error but don't fail operation
@@ -594,9 +531,4 @@ class TokenStorage:
 
 
 # Export public interface
-__all__ = [
-    "TokenStorage",
-    "StoredToken",
-    "KeyRotationRecord",
-    "TokenStatus"
-]
+__all__ = ["TokenStorage", "StoredToken", "KeyRotationRecord", "TokenStatus"]

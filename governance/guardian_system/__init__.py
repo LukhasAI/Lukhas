@@ -1,4 +1,5 @@
 """Bridge: governance.guardian_system — guardian orchestration layer."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates, export_from, safe_guard
@@ -24,31 +25,39 @@ except Exception:
 
 # Ensure GuardianSystem is always available (commonly expected by tests)
 if "GuardianSystem" not in globals():
+
     class GuardianSystem:
         """Stub GuardianSystem class."""
+
         def __init__(self, *a, **k):
             pass
+
     globals()["GuardianSystem"] = GuardianSystem
     if "GuardianSystem" not in __all__:
         __all__.append("GuardianSystem")
 
 # Add stubs for commonly expected symbols if not found
 if not __all__:
+
     class Guardian:
         """Stub Guardian class."""
+
         def __init__(self, *a, **k):
             raise NotImplementedError("Guardian not wired")
 
     class PolicyGuard:
         """Stub PolicyGuard class."""
+
         pass
 
     class PolicyResult:
         """Stub PolicyResult class."""
+
         pass
 
     class ReplayDecision:
         """Stub ReplayDecision class."""
+
         pass
 
     def start(*_, **__):
@@ -59,8 +68,10 @@ if not __all__:
 
 # Lazily expose a `start()` no-op if tests call into it
 if "start" not in globals():
+
     def start(*_, **__):  # type: ignore
         return None
+
     if "start" not in __all__:
         __all__.append("start")
 

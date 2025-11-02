@@ -7,6 +7,7 @@
 
 Memory Services API Example
 """
+
 import asyncio
 
 from memory_services import MemoryQuery, MemoryServicesAPI, MemoryStore

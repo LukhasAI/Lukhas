@@ -42,12 +42,12 @@ def find_front_matter_bounds(text: str) -> Tuple[int, int]:
         ValueError: no fm start
     """
     lines = text.splitlines()
-    if not lines or not lines[0].strip() == '---':
-        raise ValueError('no fm start')
+    if not lines or not lines[0].strip() == "---":
+        raise ValueError("no fm start")
     for i in range(1, min(len(lines), 200)):
-        if lines[i].strip() == '---':
+        if lines[i].strip() == "---":
             return (0, i)
-    raise ValueError('no fm end')
+    raise ValueError("no fm end")
 
 
 def patch_owner_in_fm(text: str, owner: str) -> str:
@@ -82,19 +82,19 @@ def patch_owner_in_fm(text: str, owner: str) -> str:
     out_fm = []
     saw_owner = False
     for line in fm:
-        if line.strip().startswith('owner:'):
-            out_fm.append(f'owner: {owner}')
+        if line.strip().startswith("owner:"):
+            out_fm.append(f"owner: {owner}")
             saw_owner = True
         else:
             out_fm.append(line)
     if not saw_owner:
-        out_fm.append(f'owner: {owner}')
+        out_fm.append(f"owner: {owner}")
     new_lines = []
     new_lines.extend(lines[: start + 1])
     new_lines.extend(out_fm)
-    new_lines.append('---')
+    new_lines.append("---")
     new_lines.extend(lines[end + 1 :])
-    return '\n'.join(new_lines) + ('\n' if text.endswith('\n') else '')
+    return "\n".join(new_lines) + ("\n" if text.endswith("\n") else "")
 
 
 def get_tier_and_owner(mf: pathlib.Path) -> tuple[str, str]:
@@ -122,9 +122,9 @@ def get_tier_and_owner(mf: pathlib.Path) -> tuple[str, str]:
         >>> get_tier_and_owner(Path("manifests/candidate/experimental/module.manifest.json"))
         ('T4_experimental', 'unassigned')
     """
-    m = json.loads(mf.read_text(encoding='utf-8'))
-    tier = (m.get('testing', {}) or {}).get('quality_tier') or ''
-    owner = (m.get('metadata', {}) or {}).get('owner') or ''
+    m = json.loads(mf.read_text(encoding="utf-8"))
+    tier = (m.get("testing", {}) or {}).get("quality_tier") or ""
+    owner = (m.get("metadata", {}) or {}).get("owner") or ""
     return tier, owner
 
 
@@ -147,7 +147,7 @@ def is_archived(path: pathlib.Path) -> bool:
         >>> is_archived(Path("manifests/core/identity/module.manifest.json"))
         False
     """
-    return any(part == '.archive' for part in path.parts)
+    return any(part == ".archive" for part in path.parts)
 
 
 def main() -> None:
@@ -176,21 +176,21 @@ def main() -> None:
     """
     changed = 0
     skipped = 0
-    for mf in ROOT.rglob('module.manifest.json'):
+    for mf in ROOT.rglob("module.manifest.json"):
         if is_archived(mf):
             continue
         try:
             tier, m_owner = get_tier_and_owner(mf)
         except Exception:
             continue
-        if tier not in ('T1_critical', 'T2_important'):
+        if tier not in ("T1_critical", "T2_important"):
             continue
 
-        ctx = mf.parent / 'lukhas_context.md'
+        ctx = mf.parent / "lukhas_context.md"
         if not ctx.exists():
             continue
         try:
-            text = ctx.read_text(encoding='utf-8', errors='ignore')
+            text = ctx.read_text(encoding="utf-8", errors="ignore")
         except Exception:
             continue
         try:
@@ -201,18 +201,17 @@ def main() -> None:
         fm_block = text.splitlines()[start + 1 : end]
         current = None
         for line in fm_block:
-            if line.strip().startswith('owner:'):
-                current = line.split(':', 1)[1].strip()
+            if line.strip().startswith("owner:"):
+                current = line.split(":", 1)[1].strip()
                 break
-        if current and current.lower() not in ('', 'unassigned', 'none', '-'):
+        if current and current.lower() not in ("", "unassigned", "none", "-"):
             continue
-        new_text = patch_owner_in_fm(text, 'triage@lukhas')
-        ctx.write_text(new_text, encoding='utf-8')
-        print(f'[OK] owner set: {ctx}')
+        new_text = patch_owner_in_fm(text, "triage@lukhas")
+        ctx.write_text(new_text, encoding="utf-8")
+        print(f"[OK] owner set: {ctx}")
         changed += 1
-    print(f'Changed: {changed} | Skipped(no-fm): {skipped}')
+    print(f"Changed: {changed} | Skipped(no-fm): {skipped}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-

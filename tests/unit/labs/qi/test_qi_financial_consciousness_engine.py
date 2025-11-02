@@ -1,4 +1,5 @@
 """Tests for the labs Qi Financial consciousness engine token protocol."""
+
 from __future__ import annotations
 
 import importlib.util

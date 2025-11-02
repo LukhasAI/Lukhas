@@ -54,12 +54,7 @@ class SLOMonitor:
             reports = glob.glob("reports/matrix_tracks_status_*.md")
 
             if not reports:
-                return {
-                    "value": 0.0,
-                    "status": "unknown",
-                    "message": "No gate reports found",
-                    "data_points": 0
-                }
+                return {"value": 0.0, "status": "unknown", "message": "No gate reports found", "data_points": 0}
 
             # Mock data - in production, parse actual CI failure logs
             total_runs = 50  # Mock: CI runs in past week
@@ -79,8 +74,8 @@ class SLOMonitor:
                 "details": {
                     "total_runs": total_runs,
                     "infrastructure_failures": infrastructure_failures,
-                    "failure_types": []  # Would list specific failure types
-                }
+                    "failure_types": [],  # Would list specific failure types
+                },
             }
 
         except Exception as e:
@@ -88,7 +83,7 @@ class SLOMonitor:
                 "value": None,
                 "status": "error",
                 "message": f"Failed to calculate flakiness rate: {e}",
-                "data_points": 0
+                "data_points": 0,
             }
 
     def calculate_osv_mean_time_to_green(self) -> Dict[str, Any]:
@@ -110,7 +105,7 @@ class SLOMonitor:
                     "value": 0.0,
                     "status": "no_data",
                     "message": "No high-severity vulnerabilities detected in measurement window",
-                    "data_points": 0
+                    "data_points": 0,
                 }
 
             mean_time_hours = total_resolution_hours / high_severity_vulns
@@ -127,17 +122,12 @@ class SLOMonitor:
                 "details": {
                     "vulnerabilities_detected": high_severity_vulns,
                     "total_resolution_time": total_resolution_hours,
-                    "resolution_times": []  # Individual resolution times
-                }
+                    "resolution_times": [],  # Individual resolution times
+                },
             }
 
         except Exception as e:
-            return {
-                "value": None,
-                "status": "error",
-                "message": f"Failed to calculate OSV MTTG: {e}",
-                "data_points": 0
-            }
+            return {"value": None, "status": "error", "message": f"Failed to calculate OSV MTTG: {e}", "data_points": 0}
 
     def calculate_telemetry_compliance_rate(self) -> Dict[str, Any]:
         """
@@ -150,12 +140,7 @@ class SLOMonitor:
             telemetry_fixtures = glob.glob("telemetry/fixtures/*.json")
 
             if not telemetry_fixtures:
-                return {
-                    "value": 0.0,
-                    "status": "no_data",
-                    "message": "No telemetry fixtures found",
-                    "data_points": 0
-                }
+                return {"value": 0.0, "status": "no_data", "message": "No telemetry fixtures found", "data_points": 0}
 
             # Mock calculation - in production, analyze test results
             compliant_fixtures = 0
@@ -188,8 +173,8 @@ class SLOMonitor:
                 "details": {
                     "compliant_fixtures": compliant_fixtures,
                     "total_fixtures": total_fixtures,
-                    "non_compliant": total_fixtures - compliant_fixtures
-                }
+                    "non_compliant": total_fixtures - compliant_fixtures,
+                },
             }
 
         except Exception as e:
@@ -197,7 +182,7 @@ class SLOMonitor:
                 "value": None,
                 "status": "error",
                 "message": f"Failed to calculate telemetry compliance: {e}",
-                "data_points": 0
+                "data_points": 0,
             }
 
     def _validate_telemetry_fixture(self, fixture_data: Dict) -> bool:
@@ -237,7 +222,7 @@ class SLOMonitor:
             "overall_status": overall_status,
             "slos": slos,
             "summary": self._generate_summary(slos),
-            "recommendations": self._generate_recommendations(slos)
+            "recommendations": self._generate_recommendations(slos),
         }
 
         return report
@@ -247,12 +232,9 @@ class SLOMonitor:
         summary_lines = []
 
         for slo_name, slo_data in slos.items():
-            status_emoji = {
-                "passing": "✅",
-                "failing": "❌",
-                "no_data": "ℹ️",
-                "error": "⚠️"
-            }.get(slo_data["status"], "❓")
+            status_emoji = {"passing": "✅", "failing": "❌", "no_data": "ℹ️", "error": "⚠️"}.get(
+                slo_data["status"], "❓"
+            )
 
             summary_lines.append(f"{status_emoji} **{slo_name.replace('_', ' ').title()}**: {slo_data['message']}")
 
@@ -290,12 +272,12 @@ class SLOMonitor:
         # Generate markdown report
         markdown_content = self._generate_markdown_report(report)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(markdown_content)
 
         # Also save JSON for programmatic access
-        json_path = output_path.replace('.md', '.json')
-        with open(json_path, 'w') as f:
+        json_path = output_path.replace(".md", ".json")
+        with open(json_path, "w") as f:
             json.dump(report, f, indent=2)
 
         return output_path
@@ -320,13 +302,10 @@ class SLOMonitor:
 
 """
 
-        for slo_name, slo_data in report['slos'].items():
-            status_emoji = {
-                "passing": "✅",
-                "failing": "❌",
-                "no_data": "ℹ️",
-                "error": "⚠️"
-            }.get(slo_data["status"], "❓")
+        for slo_name, slo_data in report["slos"].items():
+            status_emoji = {"passing": "✅", "failing": "❌", "no_data": "ℹ️", "error": "⚠️"}.get(
+                slo_data["status"], "❓"
+            )
 
             content += f"""### {status_emoji} {slo_name.replace('_', ' ').title()}
 
@@ -335,7 +314,7 @@ class SLOMonitor:
 - **Data Points:** {slo_data['data_points']}
 """
 
-            if 'details' in slo_data:
+            if "details" in slo_data:
                 content += f"- **Details:** {json.dumps(slo_data['details'], indent=2)}\n"
 
             content += "\n"
@@ -345,7 +324,7 @@ class SLOMonitor:
 ## 🎯 Recommendations
 
 """
-        for rec in report['recommendations']:
+        for rec in report["recommendations"]:
             content += f"- {rec}\n"
 
         content += """
@@ -374,7 +353,7 @@ class SLOMonitor:
         print(f"\n📄 SLO Report saved to: {report_path}")
         print(f"📊 Overall Status: {'✅ HEALTHY' if report['overall_status'] == 'passing' else '❌ NEEDS ATTENTION'}")
         print("\nSummary:")
-        print(report['summary'])
+        print(report["summary"])
 
         return report_path
 
@@ -382,11 +361,9 @@ class SLOMonitor:
 def main():
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="Monitor Matrix Tracks SLOs")
-    parser.add_argument("--config", default="docs/matrix_tracks_slos.yaml",
-                       help="Path to SLO configuration file")
+    parser.add_argument("--config", default="docs/matrix_tracks_slos.yaml", help="Path to SLO configuration file")
     parser.add_argument("--output", help="Output path for report")
-    parser.add_argument("--json-only", action="store_true",
-                       help="Output JSON only (for programmatic use)")
+    parser.add_argument("--json-only", action="store_true", help="Output JSON only (for programmatic use)")
 
     args = parser.parse_args()
 

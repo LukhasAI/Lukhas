@@ -43,6 +43,7 @@ __tier__ = 2
 
 logger = logging.getLogger(__name__)
 
+
 class QIUIOptimizer:
     """
     Uses quantum-inspired computing to optimize UI layouts and interactions

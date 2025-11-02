@@ -2,6 +2,7 @@
 ABAS Quantum Specialist Wrapper
 Integration wrapper for quantum-biological AI specialist
 """
+
 import logging
 from typing import Any, Optional
 

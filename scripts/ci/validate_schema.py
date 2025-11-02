@@ -31,7 +31,8 @@ def main():
 
     # Find all manifests
     manifests = [
-        m for m in root.rglob("module.manifest.json")
+        m
+        for m in root.rglob("module.manifest.json")
         if not any(part in m.parts for part in ["node_modules", ".venv", "dist", "__pycache__"])
     ]
 

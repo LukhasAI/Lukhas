@@ -17,6 +17,7 @@ Test Categories:
 9. Drift detection and healing tests
 10. Performance and integration tests
 """
+
 import asyncio
 import uuid
 from datetime import datetime, timezone
@@ -99,10 +100,7 @@ class TestConsciousnessMetrics:
     def test_metrics_custom_values(self):
         """Test custom initialization of consciousness metrics."""
         metrics = ConsciousnessMetrics(
-            identity_coherence=0.8,
-            consciousness_depth=0.7,
-            guardian_alignment=0.9,
-            consciousness_level=0.6
+            identity_coherence=0.8, consciousness_depth=0.7, guardian_alignment=0.9, consciousness_level=0.6
         )
 
         assert metrics.identity_coherence == 0.8
@@ -138,10 +136,7 @@ class TestAdvancedConsciousnessEngineInitialization:
 
     def test_init_custom_config(self):
         """Test initialization with custom configuration."""
-        custom_config = {
-            "vivox_sensitivity": 0.8,
-            "constellation_threshold": 0.2
-        }
+        custom_config = {"vivox_sensitivity": 0.8, "constellation_threshold": 0.2}
         engine = AdvancedConsciousnessEngine(config=custom_config)
 
         assert engine.config == custom_config
@@ -196,8 +191,8 @@ class TestAdvancedConsciousnessEngineInitialization:
         """Test processing infrastructure initialization."""
         engine = AdvancedConsciousnessEngine()
 
-        assert hasattr(engine, 'event_queue')
-        assert hasattr(engine, 'processing_lock')
+        assert hasattr(engine, "event_queue")
+        assert hasattr(engine, "processing_lock")
         assert engine.processing_history == []
         assert engine.performance_metrics == []
 
@@ -221,12 +216,14 @@ class TestAdvancedConsciousnessEngineAsyncMethods:
     @pytest.mark.asyncio
     async def test_initialize_success_path(self, engine):
         """Test successful initialization path."""
-        with patch.object(engine, '_initialize_neural_pathways', new_callable=AsyncMock) as mock_neural, \
-             patch.object(engine, '_initialize_vivox_systems', new_callable=AsyncMock) as mock_vivox, \
-             patch.object(engine, '_initialize_trinity_framework', new_callable=AsyncMock) as mock_trinity, \
-             patch.object(engine, '_start_consciousness_loop', new_callable=AsyncMock) as mock_loop, \
-             patch.object(engine, 'validate_system_health', new_callable=AsyncMock, return_value=True) as mock_health, \
-             patch.object(engine, '_record_initialization_metrics', new_callable=AsyncMock) as mock_metrics:
+        with (
+            patch.object(engine, "_initialize_neural_pathways", new_callable=AsyncMock) as mock_neural,
+            patch.object(engine, "_initialize_vivox_systems", new_callable=AsyncMock) as mock_vivox,
+            patch.object(engine, "_initialize_trinity_framework", new_callable=AsyncMock) as mock_trinity,
+            patch.object(engine, "_start_consciousness_loop", new_callable=AsyncMock) as mock_loop,
+            patch.object(engine, "validate_system_health", new_callable=AsyncMock, return_value=True) as mock_health,
+            patch.object(engine, "_record_initialization_metrics", new_callable=AsyncMock) as mock_metrics,
+        ):
 
             result = await engine.initialize()
 
@@ -245,11 +242,13 @@ class TestAdvancedConsciousnessEngineAsyncMethods:
     @pytest.mark.asyncio
     async def test_initialize_validation_failure(self, engine):
         """Test initialization with validation failure."""
-        with patch.object(engine, '_initialize_neural_pathways', new_callable=AsyncMock), \
-             patch.object(engine, '_initialize_vivox_systems', new_callable=AsyncMock), \
-             patch.object(engine, '_initialize_trinity_framework', new_callable=AsyncMock), \
-             patch.object(engine, '_start_consciousness_loop', new_callable=AsyncMock), \
-             patch.object(engine, 'validate_system_health', new_callable=AsyncMock, return_value=False):
+        with (
+            patch.object(engine, "_initialize_neural_pathways", new_callable=AsyncMock),
+            patch.object(engine, "_initialize_vivox_systems", new_callable=AsyncMock),
+            patch.object(engine, "_initialize_trinity_framework", new_callable=AsyncMock),
+            patch.object(engine, "_start_consciousness_loop", new_callable=AsyncMock),
+            patch.object(engine, "validate_system_health", new_callable=AsyncMock, return_value=False),
+        ):
 
             result = await engine.initialize()
 
@@ -260,7 +259,7 @@ class TestAdvancedConsciousnessEngineAsyncMethods:
     @pytest.mark.asyncio
     async def test_initialize_exception_handling(self, engine):
         """Test initialization exception handling."""
-        with patch.object(engine, '_initialize_neural_pathways', side_effect=Exception("Neural error")):
+        with patch.object(engine, "_initialize_neural_pathways", side_effect=Exception("Neural error")):
             result = await engine.initialize()
 
             assert result is False
@@ -281,7 +280,7 @@ class TestAdvancedConsciousnessEngineSystemValidation:
         """Test system health validation (basic test for method existence)."""
         # This tests that the method exists and can be called
         # Actual implementation would need to be tested based on the specific logic
-        if hasattr(engine, 'validate_system_health'):
+        if hasattr(engine, "validate_system_health"):
             try:
                 result = await engine.validate_system_health()
                 assert isinstance(result, bool)
@@ -310,10 +309,7 @@ class TestAdvancedConsciousnessEngineHormoneSystem:
 
     def test_hormone_system_completeness(self, engine):
         """Test that all expected hormones are present."""
-        expected_hormones = [
-            "adrenaline", "serotonin", "dopamine",
-            "cortisol", "oxytocin", "norepinephrine"
-        ]
+        expected_hormones = ["adrenaline", "serotonin", "dopamine", "cortisol", "oxytocin", "norepinephrine"]
 
         for hormone in expected_hormones:
             assert hormone in engine.hormone_levels
@@ -369,12 +365,14 @@ class TestAdvancedConsciousnessEngineIntegration:
         assert not engine.is_running
 
         # Mock initialization dependencies for integration test
-        with patch.object(engine, '_initialize_neural_pathways', new_callable=AsyncMock), \
-             patch.object(engine, '_initialize_vivox_systems', new_callable=AsyncMock), \
-             patch.object(engine, '_initialize_trinity_framework', new_callable=AsyncMock), \
-             patch.object(engine, '_start_consciousness_loop', new_callable=AsyncMock), \
-             patch.object(engine, 'validate_system_health', new_callable=AsyncMock, return_value=True), \
-             patch.object(engine, '_record_initialization_metrics', new_callable=AsyncMock):
+        with (
+            patch.object(engine, "_initialize_neural_pathways", new_callable=AsyncMock),
+            patch.object(engine, "_initialize_vivox_systems", new_callable=AsyncMock),
+            patch.object(engine, "_initialize_trinity_framework", new_callable=AsyncMock),
+            patch.object(engine, "_start_consciousness_loop", new_callable=AsyncMock),
+            patch.object(engine, "validate_system_health", new_callable=AsyncMock, return_value=True),
+            patch.object(engine, "_record_initialization_metrics", new_callable=AsyncMock),
+        ):
 
             # Initialize
             result = await engine.initialize()
@@ -409,8 +407,8 @@ class TestAdvancedConsciousnessEngineIntegration:
         engine = AdvancedConsciousnessEngine()
 
         # Test that connectors are initialized
-        assert hasattr(engine, 'neuroplastic_connector')
-        assert hasattr(engine, 'consciousness_connector')
+        assert hasattr(engine, "neuroplastic_connector")
+        assert hasattr(engine, "consciousness_connector")
 
 
 # Test configuration for pytest

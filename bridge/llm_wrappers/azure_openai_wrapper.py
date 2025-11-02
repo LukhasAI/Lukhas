@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛAZURE}, {ΛOPENAI}, {ΛENTERPRISE}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 
 from branding.terminology import normalize_output

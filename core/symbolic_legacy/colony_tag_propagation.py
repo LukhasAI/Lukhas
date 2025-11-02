@@ -43,8 +43,8 @@ class SymbolicReasoningColony(BaseColony):
                     "id": f"node_{i}",
                     "consciousness_type": "symbolic_reasoning",
                     "mesh_generation": 0,
-                    "legacy_mode": True
-                }
+                    "legacy_mode": True,
+                },
             )
 
     def process(self, task: Any) -> dict[str, Any]:
@@ -60,7 +60,7 @@ class SymbolicReasoningColony(BaseColony):
             "mesh_generation": self.mesh_generation,
             "agent_count": len(self.agents),
             "drift_score": self.drift_score,
-            "legacy_mode": True
+            "legacy_mode": True,
         }
 
         # Update drift based on processing complexity

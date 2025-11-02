@@ -18,19 +18,37 @@ OUTPUT_DIR = DOCS_ROOT / "_generated"
 SITEMAP_PATH = OUTPUT_DIR / "SITE_MAP.md"
 
 # Required front-matter keys
-REQUIRED_KEYS = ['status', 'type', 'owner', 'module']
+REQUIRED_KEYS = ["status", "type", "owner", "module"]
 
 # Front-matter status values
 VALID_STATUSES = {
-    'wip', 'draft', 'stable', 'deprecated', 'archived',
-    'moved', 'converted', 'tracked', 'baseline-freeze'
+    "wip",
+    "draft",
+    "stable",
+    "deprecated",
+    "archived",
+    "moved",
+    "converted",
+    "tracked",
+    "baseline-freeze",
 }
 
 # Front-matter type values
 VALID_TYPES = {
-    'architecture', 'api', 'guide', 'report', 'adr', 'index',
-    'misc', 'documentation', 'runbook', 'operations', 'transcript',
-    'health-report', 'sprint-plan', 'redirect'
+    "architecture",
+    "api",
+    "guide",
+    "report",
+    "adr",
+    "index",
+    "misc",
+    "documentation",
+    "runbook",
+    "operations",
+    "transcript",
+    "health-report",
+    "sprint-plan",
+    "redirect",
 }
 
 
@@ -41,7 +59,7 @@ def load_manifest() -> Dict:
         print("   Run: python3 scripts/docs_inventory.py")
         sys.exit(1)
 
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -50,55 +68,65 @@ def check_front_matter(manifest: Dict) -> tuple[List[Dict], List[Dict]]:
     errors = []
     warnings = []
 
-    for doc in manifest['documents']:
-        if doc.get('redirect'):
+    for doc in manifest["documents"]:
+        if doc.get("redirect"):
             continue  # Skip redirect stubs
 
-        doc_path = doc['path']
+        doc_path = doc["path"]
 
         # Check if has front-matter
-        if not doc.get('has_front_matter'):
-            errors.append({
-                "file": doc_path,
-                "error": "missing_front_matter",
-                "message": "Document lacks YAML front-matter block",
-            })
+        if not doc.get("has_front_matter"):
+            errors.append(
+                {
+                    "file": doc_path,
+                    "error": "missing_front_matter",
+                    "message": "Document lacks YAML front-matter block",
+                }
+            )
             continue
 
         # Check required keys (except owner - warn separately)
         for key in REQUIRED_KEYS:
-            if key == 'owner':
+            if key == "owner":
                 continue  # Handle owner separately below
-            if key not in doc or doc[key] == 'unknown':
-                errors.append({
-                    "file": doc_path,
-                    "error": f"missing_key_{key}",
-                    "message": f"Front-matter missing required key: {key}",
-                })
+            if key not in doc or doc[key] == "unknown":
+                errors.append(
+                    {
+                        "file": doc_path,
+                        "error": f"missing_key_{key}",
+                        "message": f"Front-matter missing required key: {key}",
+                    }
+                )
 
         # Warn on owner: unknown (don't fail CI yet - grace period until 2025-10-13)
-        if doc.get('owner') in ['unknown', '', None]:
-            warnings.append({
-                "file": doc_path,
-                "warning": "owner_unknown",
-                "message": "Owner is 'unknown' - assignment recommended (see OWNERS_BACKLOG.md)",
-            })
+        if doc.get("owner") in ["unknown", "", None]:
+            warnings.append(
+                {
+                    "file": doc_path,
+                    "warning": "owner_unknown",
+                    "message": "Owner is 'unknown' - assignment recommended (see OWNERS_BACKLOG.md)",
+                }
+            )
 
         # Validate status value
-        if doc.get('status') and doc['status'] not in VALID_STATUSES:
-            errors.append({
-                "file": doc_path,
-                "error": "invalid_status",
-                "message": f"Invalid status: {doc['status']} (must be one of {VALID_STATUSES})",
-            })
+        if doc.get("status") and doc["status"] not in VALID_STATUSES:
+            errors.append(
+                {
+                    "file": doc_path,
+                    "error": "invalid_status",
+                    "message": f"Invalid status: {doc['status']} (must be one of {VALID_STATUSES})",
+                }
+            )
 
         # Validate type value
-        if doc.get('type') and doc['type'] not in VALID_TYPES:
-            errors.append({
-                "file": doc_path,
-                "error": "invalid_type",
-                "message": f"Invalid type: {doc['type']} (must be one of {VALID_TYPES})",
-            })
+        if doc.get("type") and doc["type"] not in VALID_TYPES:
+            errors.append(
+                {
+                    "file": doc_path,
+                    "error": "invalid_type",
+                    "message": f"Invalid type: {doc['type']} (must be one of {VALID_TYPES})",
+                }
+            )
 
     return errors, warnings
 
@@ -107,26 +135,27 @@ def check_manifest_completeness(manifest: Dict) -> List[Dict]:
     """Check that all .md files are in manifest."""
     errors = []
 
-    manifest_paths = {doc['path'] for doc in manifest['documents']}
+    manifest_paths = {doc["path"] for doc in manifest["documents"]}
 
     # Scan filesystem
     for md_file in DOCS_ROOT.rglob("*.md"):
         # Skip excluded directories
-        if any(excluded in md_file.parts for excluded in
-               {'.git', '__pycache__', 'node_modules', 'venv'}):
+        if any(excluded in md_file.parts for excluded in {".git", "__pycache__", "node_modules", "venv"}):
             continue
 
-        if '_generated' in md_file.parts or '_inventory' in md_file.parts:
+        if "_generated" in md_file.parts or "_inventory" in md_file.parts:
             continue
 
         rel_path = str(md_file.relative_to(DOCS_ROOT.parent))
 
         if rel_path not in manifest_paths:
-            errors.append({
-                "file": rel_path,
-                "error": "not_in_manifest",
-                "message": "File exists but not in manifest (orphan?)",
-            })
+            errors.append(
+                {
+                    "file": rel_path,
+                    "error": "not_in_manifest",
+                    "message": "File exists but not in manifest (orphan?)",
+                }
+            )
 
     return errors
 
@@ -138,11 +167,11 @@ def check_sitemap_fresh(manifest: Dict) -> bool:
         return False
 
     # Check if generated date matches
-    with open(SITEMAP_PATH, 'r', encoding='utf-8') as f:
+    with open(SITEMAP_PATH, "r", encoding="utf-8") as f:
         content = f.read()
 
     # Simple check: does it contain all doc count?
-    expected_count = str(manifest['total_documents'])
+    expected_count = str(manifest["total_documents"])
     if expected_count not in content:
         print("⚠️  Site map appears stale (doc count mismatch)")
         return False
@@ -154,23 +183,25 @@ def check_encoding(manifest: Dict) -> List[Dict]:
     """Check that all markdown files are UTF-8 encoded."""
     errors = []
 
-    for doc in manifest['documents']:
-        if doc.get('redirect'):
+    for doc in manifest["documents"]:
+        if doc.get("redirect"):
             continue
 
-        file_path = Path(doc['path'])
+        file_path = Path(doc["path"])
         if not file_path.exists():
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 f.read()
         except UnicodeDecodeError as e:
-            errors.append({
-                "file": doc['path'],
-                "error": "non_utf8_encoding",
-                "message": f"File is not UTF-8 encoded: {e}",
-            })
+            errors.append(
+                {
+                    "file": doc["path"],
+                    "error": "non_utf8_encoding",
+                    "message": f"File is not UTF-8 encoded: {e}",
+                }
+            )
 
     return errors
 
@@ -186,18 +217,18 @@ def check_internal_links(manifest: Dict) -> List[Dict]:
     checked = 0
     max_check = 50  # Limit for CI performance
 
-    LINK_PATTERN = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+    LINK_PATTERN = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
-    docs_by_path = {doc['path']: doc for doc in manifest['documents']}
+    docs_by_path = {doc["path"]: doc for doc in manifest["documents"]}
 
-    for doc in manifest['documents'][:max_check]:
-        if doc.get('redirect'):
+    for doc in manifest["documents"][:max_check]:
+        if doc.get("redirect"):
             continue
 
         checked += 1
 
         try:
-            with open(doc['path'], 'r', encoding='utf-8') as f:
+            with open(doc["path"], "r", encoding="utf-8") as f:
                 content = f.read()
 
             for match in LINK_PATTERN.finditer(content):
@@ -205,29 +236,32 @@ def check_internal_links(manifest: Dict) -> List[Dict]:
                 link_url = match.group(2)
 
                 # Skip external
-                if link_url.startswith('http://') or link_url.startswith('https://'):
+                if link_url.startswith("http://") or link_url.startswith("https://"):
                     continue
 
                 # Skip anchors only
-                if not link_url or link_url.startswith('#'):
+                if not link_url or link_url.startswith("#"):
                     continue
 
                 # Simple check: does target exist in manifest?
                 # This is a simplified check for CI performance
-                found = any(link_url in d['path'] or link_url in d['path'].replace('docs/', '')
-                           for d in docs_by_path.values())
+                found = any(
+                    link_url in d["path"] or link_url in d["path"].replace("docs/", "") for d in docs_by_path.values()
+                )
 
                 if not found:
-                    errors.append({
-                        "file": doc['path'],
-                        "link_text": link_text,
-                        "link_url": link_url,
-                        "error": "broken_link",
-                        "message": f"Link target not found: {link_url}",
-                    })
+                    errors.append(
+                        {
+                            "file": doc["path"],
+                            "link_text": link_text,
+                            "link_url": link_url,
+                            "error": "broken_link",
+                            "message": f"Link target not found: {link_url}",
+                        }
+                    )
 
                     # Limit errors per file
-                    if len([e for e in errors if e['file'] == doc['path']]) >= 3:
+                    if len([e for e in errors if e["file"] == doc["path"]]) >= 3:
                         break
 
         except Exception:
@@ -315,7 +349,7 @@ def main():
         # Group by file
         by_file = {}
         for error in link_errors:
-            f = error['file']
+            f = error["file"]
             if f not in by_file:
                 by_file[f] = []
             by_file[f].append(error)

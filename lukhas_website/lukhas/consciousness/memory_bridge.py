@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 class BridgeState(Enum):
     """Memory-consciousness bridge states"""
+
     INITIALIZING = "initializing"
     ACTIVE = "active"
     SYNCHRONIZING = "synchronizing"
@@ -35,6 +36,7 @@ class BridgeState(Enum):
 
 class SyncMode(Enum):
     """Synchronization modes"""
+
     REAL_TIME = "real_time"
     BATCH = "batch"
     ADAPTIVE = "adaptive"
@@ -43,6 +45,7 @@ class SyncMode(Enum):
 @dataclass
 class BridgeMetrics:
     """Memory-consciousness bridge metrics"""
+
     sync_latency_ms: float = 0.0
     memory_write_rate: float = 0.0
     consciousness_update_rate: float = 0.0
@@ -56,6 +59,7 @@ class BridgeMetrics:
 @dataclass
 class MemoryConsciousnessEvent:
     """Event for memory-consciousness synchronization"""
+
     event_id: str
     event_type: str  # "memory_to_consciousness" or "consciousness_to_memory"
     source_component: str
@@ -73,12 +77,14 @@ class MemoryConsciousnessBridge:
     Advanced bidirectional integration layer between consciousness and memory systems
     """
 
-    def __init__(self,
-                 memory_integrator: ConsciousnessMemoryIntegrator,
-                 sync_mode: SyncMode = SyncMode.ADAPTIVE,
-                 sync_interval_ms: int = 100,
-                 batch_size: int = 10,
-                 max_queue_size: int = 1000):
+    def __init__(
+        self,
+        memory_integrator: ConsciousnessMemoryIntegrator,
+        sync_mode: SyncMode = SyncMode.ADAPTIVE,
+        sync_interval_ms: int = 100,
+        batch_size: int = 10,
+        max_queue_size: int = 1000,
+    ):
         self.memory_integrator = memory_integrator
         self.sync_mode = sync_mode
         self.sync_interval_ms = sync_interval_ms
@@ -120,7 +126,7 @@ class MemoryConsciousnessBridge:
 
         try:
             # Initialize memory integrator if needed
-            if not hasattr(self.memory_integrator, '_memory_folds'):
+            if not hasattr(self.memory_integrator, "_memory_folds"):
                 await self.memory_integrator.initialize_memory_consciousness_coupling()
 
             # Start background tasks
@@ -156,10 +162,9 @@ class MemoryConsciousnessBridge:
 
         logger.info("✅ Memory-Consciousness Bridge stopped")
 
-    async def create_consciousness_session(self,
-                                         session_id: str,
-                                         consciousness_state: ConsciousnessState,
-                                         context: Optional[Dict[str, Any]] = None) -> bool:
+    async def create_consciousness_session(
+        self, session_id: str, consciousness_state: ConsciousnessState, context: Optional[Dict[str, Any]] = None
+    ) -> bool:
         """Create a new consciousness session with memory integration"""
 
         if session_id in self.consciousness_sessions:
@@ -174,7 +179,7 @@ class MemoryConsciousnessBridge:
             "created_at": datetime.utcnow(),
             "last_updated": datetime.utcnow(),
             "memory_folds": set(),
-            "sync_count": 0
+            "sync_count": 0,
         }
 
         self.consciousness_sessions[session_id] = session_data
@@ -192,11 +197,11 @@ class MemoryConsciousnessBridge:
             payload={
                 "action": "session_created",
                 "session_id": session_id,
-                "consciousness_state": asdict(consciousness_state)
+                "consciousness_state": asdict(consciousness_state),
             },
             timestamp=datetime.utcnow(),
             priority=3,
-            correlation_id=session_id
+            correlation_id=session_id,
         )
         await self._queue_consciousness_to_memory_event(event)
 
@@ -204,12 +209,14 @@ class MemoryConsciousnessBridge:
         logger.info(f"📝 Created consciousness session: {session_id}")
         return True
 
-    async def update_consciousness_session(self,
-                                         session_id: str,
-                                         consciousness_state: ConsciousnessState,
-                                         awareness: Optional[AwarenessSnapshot] = None,
-                                         reflection: Optional[ReflectionReport] = None,
-                                         dream: Optional[DreamTrace] = None) -> bool:
+    async def update_consciousness_session(
+        self,
+        session_id: str,
+        consciousness_state: ConsciousnessState,
+        awareness: Optional[AwarenessSnapshot] = None,
+        reflection: Optional[ReflectionReport] = None,
+        dream: Optional[DreamTrace] = None,
+    ) -> bool:
         """Update consciousness session with new state and artifacts"""
 
         if session_id not in self.consciousness_sessions:
@@ -249,11 +256,11 @@ class MemoryConsciousnessBridge:
                     "action": "session_updated",
                     "session_id": session_id,
                     "memory_events": memory_events,
-                    "consciousness_state": asdict(consciousness_state)
+                    "consciousness_state": asdict(consciousness_state),
                 },
                 timestamp=datetime.utcnow(),
                 priority=2,
-                correlation_id=session_id
+                correlation_id=session_id,
             )
             await self._queue_consciousness_to_memory_event(event)
 
@@ -261,10 +268,9 @@ class MemoryConsciousnessBridge:
         logger.debug(f"🔄 Updated consciousness session: {session_id}")
         return True
 
-    async def query_consciousness_relevant_memories(self,
-                                                  session_id: str,
-                                                  consciousness_context: str,
-                                                  max_results: int = 10) -> List[Tuple[str, MemoryFold, float]]:
+    async def query_consciousness_relevant_memories(
+        self, session_id: str, consciousness_context: str, max_results: int = 10
+    ) -> List[Tuple[str, MemoryFold, float]]:
         """Query memories relevant to current consciousness context"""
 
         if session_id not in self.consciousness_sessions:
@@ -272,11 +278,7 @@ class MemoryConsciousnessBridge:
             return []
 
         # Build query from consciousness context
-        query = {
-            "consciousness_context": consciousness_context,
-            "session_id": session_id,
-            "emotional_weighting": True
-        }
+        query = {"consciousness_context": consciousness_context, "session_id": session_id, "emotional_weighting": True}
 
         # Get consciousness state for context
         session = self.consciousness_sessions[session_id]
@@ -284,10 +286,7 @@ class MemoryConsciousnessBridge:
 
         # Query memory integrator
         results = await self.memory_integrator.recall_consciousness_memory(
-            query=query,
-            consciousness_context=consciousness_context,
-            max_results=max_results,
-            emotional_weight=0.4
+            query=query, consciousness_context=consciousness_context, max_results=max_results, emotional_weight=0.4
         )
 
         # Queue memory-to-consciousness event
@@ -300,20 +299,18 @@ class MemoryConsciousnessBridge:
                 "action": "memory_recalled",
                 "session_id": session_id,
                 "query": query,
-                "result_count": len(results)
+                "result_count": len(results),
             },
             timestamp=datetime.utcnow(),
             priority=2,
-            correlation_id=session_id
+            correlation_id=session_id,
         )
         await self._queue_memory_to_consciousness_event(event)
 
         logger.debug(f"🔍 Retrieved {len(results)} memories for session: {session_id}")
         return results
 
-    async def integrate_memory_into_consciousness(self,
-                                                session_id: str,
-                                                memory_fold: MemoryFold) -> bool:
+    async def integrate_memory_into_consciousness(self, session_id: str, memory_fold: MemoryFold) -> bool:
         """Integrate a memory fold into consciousness processing"""
 
         if session_id not in self.consciousness_sessions:
@@ -346,11 +343,11 @@ class MemoryConsciousnessBridge:
                 "session_id": session_id,
                 "fold_id": memory_fold.fold_id,
                 "fold_type": memory_fold.fold_type.value,
-                "emotional_context": asdict(memory_fold.emotional_context)
+                "emotional_context": asdict(memory_fold.emotional_context),
             },
             timestamp=datetime.utcnow(),
             priority=3,
-            correlation_id=session_id
+            correlation_id=session_id,
         )
         await self._queue_memory_to_consciousness_event(event)
 
@@ -385,7 +382,7 @@ class MemoryConsciousnessBridge:
                 "sync_latency_ms": sync_latency,
                 "consciousness_fold_id": consciousness_fold_id,
                 "memory_sync_count": memory_sync_count,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
             self.sync_history.append(sync_record)
 
@@ -396,11 +393,7 @@ class MemoryConsciousnessBridge:
             self.metrics.error_count += 1
             self.metrics.integration_success_rate = max(0.0, self.metrics.integration_success_rate - 0.05)
 
-            error_record = {
-                "session_id": session_id,
-                "error": str(e),
-                "timestamp": datetime.utcnow().isoformat()
-            }
+            error_record = {"session_id": session_id, "error": str(e), "timestamp": datetime.utcnow().isoformat()}
             self.error_history.append(error_record)
 
             logger.error(f"❌ Synchronization failed for session {session_id}: {e}")
@@ -415,14 +408,14 @@ class MemoryConsciousnessBridge:
             "awareness_level": consciousness_state.awareness_level,
             "consciousness_level": consciousness_state.level,
             "emotional_tone": consciousness_state.emotional_tone,
-            "context": consciousness_state.context
+            "context": consciousness_state.context,
         }
 
         emotional_context = EmotionalContext(
             valence=0.0,  # Neutral for session creation
             arousal=0.3,  # Light arousal for new session
             dominance=0.7,  # High control for session management
-            confidence=0.9
+            confidence=0.9,
         )
 
         fold_id = await self.memory_integrator.create_consciousness_memory_fold(
@@ -430,7 +423,7 @@ class MemoryConsciousnessBridge:
             fold_type=MemoryFoldType.IDENTITY,
             consciousness_context=f"session_{session_id}",
             emotional_context=emotional_context,
-            tags={"session", "identity", session_id}
+            tags={"session", "identity", session_id},
         )
 
         # Update session tracking
@@ -450,15 +443,15 @@ class MemoryConsciousnessBridge:
             "anomalies": awareness.anomalies,
             "drift_ema": awareness.drift_ema,
             "load_factor": awareness.load_factor,
-            "signal_count": len(awareness.signals) if awareness.signals else 0
+            "signal_count": len(awareness.signals) if awareness.signals else 0,
         }
 
         # High arousal for anomalies
         emotional_context = EmotionalContext(
             valence=-0.2,  # Slightly negative for anomalies
-            arousal=0.8,   # High arousal for attention
-            dominance=0.4, # Lower control due to anomalies
-            confidence=0.8
+            arousal=0.8,  # High arousal for attention
+            dominance=0.4,  # Lower control due to anomalies
+            confidence=0.8,
         )
 
         fold_id = await self.memory_integrator.create_consciousness_memory_fold(
@@ -466,7 +459,7 @@ class MemoryConsciousnessBridge:
             fold_type=MemoryFoldType.EPISODIC,
             consciousness_context=f"session_{session_id}_awareness",
             emotional_context=emotional_context,
-            tags={"awareness", "anomaly", session_id}
+            tags={"awareness", "anomaly", session_id},
         )
 
         self.session_memory_mappings[session_id].add(fold_id)
@@ -480,7 +473,7 @@ class MemoryConsciousnessBridge:
             "coherence_score": reflection.coherence_score,
             "drift_ema": reflection.drift_ema,
             "state_delta_magnitude": reflection.state_delta_magnitude,
-            "reflection_duration_ms": reflection.reflection_duration_ms
+            "reflection_duration_ms": reflection.reflection_duration_ms,
         }
 
         # Emotional context based on coherence score
@@ -488,8 +481,8 @@ class MemoryConsciousnessBridge:
         emotional_context = EmotionalContext(
             valence=valence,
             arousal=0.6,  # Moderate arousal for reflection
-            dominance=0.8, # High control for self-reflection
-            confidence=0.9
+            dominance=0.8,  # High control for self-reflection
+            confidence=0.9,
         )
 
         fold_id = await self.memory_integrator.create_consciousness_memory_fold(
@@ -497,7 +490,7 @@ class MemoryConsciousnessBridge:
             fold_type=MemoryFoldType.SEMANTIC,
             consciousness_context=f"session_{session_id}_reflection",
             emotional_context=emotional_context,
-            tags={"reflection", "coherence", session_id}
+            tags={"reflection", "coherence", session_id},
         )
 
         self.session_memory_mappings[session_id].add(fold_id)
@@ -508,17 +501,19 @@ class MemoryConsciousnessBridge:
 
         content = {
             "session_id": session_id,
-            "dream_phase": dream.phase if hasattr(dream, 'phase') else "unknown",
-            "consolidation_results": dream.consolidation_results if hasattr(dream, 'consolidation_results') else {},
-            "memory_integration_count": dream.memory_integration_count if hasattr(dream, 'memory_integration_count') else 0
+            "dream_phase": dream.phase if hasattr(dream, "phase") else "unknown",
+            "consolidation_results": dream.consolidation_results if hasattr(dream, "consolidation_results") else {},
+            "memory_integration_count": (
+                dream.memory_integration_count if hasattr(dream, "memory_integration_count") else 0
+            ),
         }
 
         # Creative/mystical emotional context for dreams
         emotional_context = EmotionalContext(
             valence=0.3,  # Slightly positive for creative dreams
             arousal=0.4,  # Moderate arousal for dream state
-            dominance=0.2, # Low control in dream state
-            confidence=0.6  # Dreams are less certain
+            dominance=0.2,  # Low control in dream state
+            confidence=0.6,  # Dreams are less certain
         )
 
         fold_id = await self.memory_integrator.create_consciousness_memory_fold(
@@ -526,7 +521,7 @@ class MemoryConsciousnessBridge:
             fold_type=MemoryFoldType.DREAM,
             consciousness_context=f"session_{session_id}_dream",
             emotional_context=emotional_context,
-            tags={"dream", "consolidation", session_id}
+            tags={"dream", "consolidation", session_id},
         )
 
         self.session_memory_mappings[session_id].add(fold_id)
@@ -543,14 +538,14 @@ class MemoryConsciousnessBridge:
             "session_id": session_id,
             "sync_type": "consciousness_to_memory",
             "consciousness_state": consciousness_state,
-            "sync_timestamp": datetime.utcnow().isoformat()
+            "sync_timestamp": datetime.utcnow().isoformat(),
         }
 
         fold_id = await self.memory_integrator.create_consciousness_memory_fold(
             content=content,
             fold_type=MemoryFoldType.PROCEDURAL,
             consciousness_context=f"session_{session_id}_sync",
-            tags={"sync", "consciousness", session_id}
+            tags={"sync", "consciousness", session_id},
         )
 
         return fold_id
@@ -562,15 +557,10 @@ class MemoryConsciousnessBridge:
         consciousness_context = f"session_{session_id}"
 
         # Query for relevant memories
-        query = {
-            "session_relevance": True,
-            "consciousness_context": consciousness_context
-        }
+        query = {"session_relevance": True, "consciousness_context": consciousness_context}
 
         memories = await self.memory_integrator.recall_consciousness_memory(
-            query=query,
-            consciousness_context=consciousness_context,
-            max_results=5
+            query=query, consciousness_context=consciousness_context, max_results=5
         )
 
         # Integrate relevant memories
@@ -606,7 +596,9 @@ class MemoryConsciousnessBridge:
         self.memory_event_handlers["memory_recalled"].append(self._handle_memory_recalled)
 
         # Consciousness event handlers
-        self.consciousness_event_handlers["consciousness_state_changed"].append(self._handle_consciousness_state_changed)
+        self.consciousness_event_handlers["consciousness_state_changed"].append(
+            self._handle_consciousness_state_changed
+        )
         self.consciousness_event_handlers["decision_made"].append(self._handle_decision_made)
 
     async def _handle_memory_fold_created(self, event_data: Dict[str, Any]):
@@ -647,14 +639,14 @@ class MemoryConsciousnessBridge:
                 "session_id": session_id,
                 "decision_type": "autonomous_decision",
                 "confidence": decision_data.get("confidence"),
-                "action_count": decision_data.get("action_count", 0)
+                "action_count": decision_data.get("action_count", 0),
             }
 
             await self.memory_integrator.create_consciousness_memory_fold(
                 content=content,
                 fold_type=MemoryFoldType.PROCEDURAL,
                 consciousness_context=f"session_{session_id}_decision",
-                tags={"decision", "autonomous", session_id}
+                tags={"decision", "autonomous", session_id},
             )
 
     async def _sync_loop(self):
@@ -802,13 +794,13 @@ class MemoryConsciousnessBridge:
             "metrics": asdict(self.metrics),
             "queue_sizes": {
                 "consciousness_to_memory": len(self.consciousness_to_memory_queue),
-                "memory_to_consciousness": len(self.memory_to_consciousness_queue)
+                "memory_to_consciousness": len(self.memory_to_consciousness_queue),
             },
             "session_count": len(self.consciousness_sessions),
             "mapping_counts": {
                 "memory_consciousness_map": len(self.memory_consciousness_map),
-                "consciousness_memory_map": len(self.consciousness_memory_map)
+                "consciousness_memory_map": len(self.consciousness_memory_map),
             },
             "recent_sync_history": list(self.sync_history)[-10:],
-            "recent_errors": list(self.error_history)[-5:]
+            "recent_errors": list(self.error_history)[-5:],
         }

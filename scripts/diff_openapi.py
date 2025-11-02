@@ -35,7 +35,7 @@ def required_params(op):
 
 
 def has_required_body(op):
-    rb = (op.get("requestBody") or {})
+    rb = op.get("requestBody") or {}
     return bool(rb.get("required") is True)
 
 
@@ -69,8 +69,12 @@ def main():
     for p in sorted(set(bpaths.keys()) & set(cpaths.keys())):
         bops = bpaths[p] or {}
         cops = cpaths[p] or {}
-        bmethods = set(k.lower() for k in bops.keys() if k.lower() in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'])
-        cmethods = set(k.lower() for k in cops.keys() if k.lower() in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'])
+        bmethods = set(
+            k.lower() for k in bops.keys() if k.lower() in ["get", "post", "put", "delete", "patch", "options", "head"]
+        )
+        cmethods = set(
+            k.lower() for k in cops.keys() if k.lower() in ["get", "post", "put", "delete", "patch", "options", "head"]
+        )
 
         # removed methods
         for m in sorted(bmethods - cmethods):
@@ -93,12 +97,12 @@ def main():
             br = required_params(bop)
             cr = required_params(cop)
             removed = br - cr
-            for (loc, name) in sorted(removed):
+            for loc, name in sorted(removed):
                 problems.append(f"REMOVED required param: {m.upper()} {p} [{loc}:{name}]")
 
             # Additive notes (non-breaking)
             added = cr - br
-            for (loc, name) in sorted(added):
+            for loc, name in sorted(added):
                 notes.append(f"ADDED required param: {m.upper()} {p} [{loc}:{name}]")
 
     # New paths (non-breaking, informational)

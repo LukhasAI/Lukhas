@@ -2,6 +2,7 @@
 VIVOX State Variety Enhancement
 Improves consciousness state determination for more varied states
 """
+
 from typing import Optional
 
 import numpy as np

@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛCONSENSUS}, {ΛVOTING}, {ΛSYNTHESIS}, {ΛQUALITY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import time
 from dataclasses import dataclass

@@ -4,6 +4,7 @@ Standalone SymbolicContext Enum for LUKHAS Consciousness System
 
 This module provides the SymbolicContext enum without dependencies for easier importing.
 """
+
 from enum import Enum
 
 

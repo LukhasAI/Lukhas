@@ -219,9 +219,7 @@ async def test_compliance_violation_blocks_decision(monkeypatch):
         required_actions=[_RemediationAction.REQUEST_HUMAN_REVIEW],
         compliance_explanation="Detected critical violation",
         violation_summary="Detected risk",
-        principle_checks={
-            "autonomy": _ComplianceCheck(compliant=False, compliance_score=0.3, confidence=0.6)
-        },
+        principle_checks={"autonomy": _ComplianceCheck(compliant=False, compliance_score=0.3, confidence=0.6)},
     )
 
     decision = _base_decision(_DecisionType.CONTENT_GENERATION)
@@ -256,9 +254,7 @@ async def test_compliance_violation_blocks_decision(monkeypatch):
     assert compliance_ctx["overall_compliant"] is False
     assert compliance_ctx["decision_allowed"] is False
     assert compliance_ctx["violation_summary"] == "Detected risk"
-    assert compliance_ctx["required_actions"] == [
-        _RemediationAction.REQUEST_HUMAN_REVIEW.value
-    ]
+    assert compliance_ctx["required_actions"] == [_RemediationAction.REQUEST_HUMAN_REVIEW.value]
     assert middleware.integration_metrics["compliance_checks"] == 1
     assert compliance_engine.calls, "Compliance engine should be invoked"
 

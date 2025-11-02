@@ -21,7 +21,7 @@ class ConsciousnessContractGenerator:
     def analyze_component_file(self, file_path: Path) -> Dict:
         """Analyze a Python consciousness component file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Parse AST
@@ -34,7 +34,7 @@ class ConsciousnessContractGenerator:
                 "imports": [],
                 "async_methods": [],
                 "performance_hints": [],
-                "trinity_references": []
+                "trinity_references": [],
             }
 
             for node in ast.walk(tree):
@@ -141,25 +141,30 @@ class ConsciousnessContractGenerator:
             "constellation_integration": {
                 "identity_coupling": "identity" in analysis.get("trinity_references", []),
                 "consciousness_role": "primary" if "engine" in str(file_path).lower() else "secondary",
-                "guardian_validation": "guardian" in analysis.get("trinity_references", []) or component_type in ["CONSCIOUSNESS_ENGINE", "DECISION_MAKER"]
+                "guardian_validation": "guardian" in analysis.get("trinity_references", [])
+                or component_type in ["CONSCIOUSNESS_ENGINE", "DECISION_MAKER"],
             },
             "cognitive_processing": {
                 "processing_mode": analysis.get("processing_mode", "synchronous"),
                 "input_types": self._infer_input_types(component_type, analysis),
                 "output_types": self._infer_output_types(component_type, analysis),
-                "cascade_prevention": True  # Default to true for all consciousness components
+                "cascade_prevention": True,  # Default to true for all consciousness components
             },
             "performance_contract": {
                 "latency_target": "<250ms",
                 "throughput_target": 50.0,
                 "availability_target": 0.997,
-                "memory_limit": "100MB"
+                "memory_limit": "100MB",
             },
             "governance": {
-                "ethics_validation": "required" if component_type in ["CONSCIOUSNESS_ENGINE", "DECISION_MAKER"] else "optional",
+                "ethics_validation": (
+                    "required" if component_type in ["CONSCIOUSNESS_ENGINE", "DECISION_MAKER"] else "optional"
+                ),
                 "consent_required": component_type in ["CONSCIOUSNESS_ENGINE", "MEMORY_INTERFACE"],
                 "audit_level": "full" if component_type in ["CONSCIOUSNESS_ENGINE"] else "metadata",
-                "privacy_classification": "confidential" if component_type in ["CONSCIOUSNESS_ENGINE", "MEMORY_INTERFACE"] else "internal"
+                "privacy_classification": (
+                    "confidential" if component_type in ["CONSCIOUSNESS_ENGINE", "MEMORY_INTERFACE"] else "internal"
+                ),
             },
             "dependencies": [],  # Would need deeper analysis
             "metadata": {
@@ -167,8 +172,8 @@ class ConsciousnessContractGenerator:
                 "last_updated": datetime.now().isoformat(),
                 "maintainer": "LUKHAS Consciousness Team",
                 "documentation_url": f"https://docs.ai/consciousness/{component_id.replace('.', '/')}",
-                "test_coverage": 85.0  # Default estimate
-            }
+                "test_coverage": 85.0,  # Default estimate
+            },
         }
 
         return contract
@@ -186,7 +191,7 @@ class ConsciousnessContractGenerator:
             "EMOTION_PROCESSOR": ["EMOTIONAL_STATE", "SENSORY_INPUT"],
             "MEMORY_INTERFACE": ["MEMORY_DATA"],
             "CREATIVITY_ENGINE": ["CREATIVE_STIMULUS", "EMOTIONAL_STATE"],
-            "DREAM_PROCESSOR": ["DREAM_STATE", "MEMORY_DATA"]
+            "DREAM_PROCESSOR": ["DREAM_STATE", "MEMORY_DATA"],
         }
 
         return base_inputs + type_inputs.get(component_type, [])
@@ -202,7 +207,7 @@ class ConsciousnessContractGenerator:
             "EMOTION_PROCESSOR": ["EMOTIONAL_RESPONSE"],
             "MEMORY_INTERFACE": ["MEMORY_UPDATE"],
             "CREATIVITY_ENGINE": ["CREATIVE_EXPRESSION"],
-            "DREAM_PROCESSOR": ["DREAM_CONTENT"]
+            "DREAM_PROCESSOR": ["DREAM_CONTENT"],
         }
 
         return type_outputs.get(component_type, ["CONSCIOUSNESS_STATE"])
@@ -214,7 +219,7 @@ class ConsciousnessContractGenerator:
             "total_files": 0,
             "contracts_generated": 0,
             "errors": [],
-            "summary": {}
+            "summary": {},
         }
 
         if not self.consciousness_dir.exists():
@@ -238,7 +243,7 @@ class ConsciousnessContractGenerator:
                     contract_name = py_file.stem + ".json"
                     contract_path = self.contracts_dir / contract_name
 
-                    with open(contract_path, 'w') as f:
+                    with open(contract_path, "w") as f:
                         json.dump(contract, f, indent=2)
 
                     results["contracts_generated"] += 1
@@ -256,7 +261,9 @@ class ConsciousnessContractGenerator:
 
         results["summary"] = {
             "component_types": component_types,
-            "success_rate": results["contracts_generated"] / results["total_files"] if results["total_files"] > 0 else 0
+            "success_rate": (
+                results["contracts_generated"] / results["total_files"] if results["total_files"] > 0 else 0
+            ),
         }
 
         return results

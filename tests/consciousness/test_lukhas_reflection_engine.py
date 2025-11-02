@@ -32,7 +32,7 @@ class TestReflectionEngineCore:
             coherence_threshold=0.8,
             drift_alpha=0.3,
             memory_integration_enabled=False,  # Disable for unit tests
-            guardian_validation_required=False  # Disable for unit tests
+            guardian_validation_required=False,  # Disable for unit tests
         )
 
     @pytest.fixture
@@ -48,18 +48,14 @@ class TestReflectionEngineCore:
             reasoning_depth=0.7,
             contradiction_tension=0.2,
             meta_awareness=0.65,
-            emotional_tone="focused"
+            emotional_tone="focused",
         )
 
     @pytest.fixture
     def awareness_snapshot(self):
         """Create test awareness snapshot."""
         snapshot = AwarenessSnapshot(
-            drift_ema=0.1,
-            load_factor=0.6,
-            signal_strength=0.8,
-            signal_noise_ratio=0.9,
-            processing_time_ms=15.0
+            drift_ema=0.1, load_factor=0.6, signal_strength=0.8, signal_noise_ratio=0.9, processing_time_ms=15.0
         )
         # Add test anomaly
         snapshot.add_anomaly("test_anomaly", "medium", "Test anomaly for reflection")
@@ -86,17 +82,11 @@ class TestReflectionEngineCore:
 
     @pytest.mark.asyncio
     async def test_reflection_with_awareness_integration(
-        self,
-        reflection_engine,
-        consciousness_state,
-        awareness_snapshot
+        self, reflection_engine, consciousness_state, awareness_snapshot
     ):
         """Test reflection with awareness snapshot integration."""
 
-        report = await reflection_engine.reflect(
-            consciousness_state,
-            awareness_snapshot=awareness_snapshot
-        )
+        report = await reflection_engine.reflect(consciousness_state, awareness_snapshot=awareness_snapshot)
 
         # Verify awareness integration
         assert report.coherence_score > 0.0
@@ -131,7 +121,9 @@ class TestReflectionEngineCore:
             mean_latency = statistics.mean(latencies)
             stdev_latency = statistics.stdev(latencies)
             cv = stdev_latency / mean_latency if mean_latency > 0 else 0
-            assert cv <= reflection_engine.config.cv_target, f"CV {cv:.3f} exceeds target {reflection_engine.config.cv_target}"
+            assert (
+                cv <= reflection_engine.config.cv_target
+            ), f"CV {cv:.3f} exceeds target {reflection_engine.config.cv_target}"
 
     def test_configuration_validation(self):
         """Test configuration validation."""
@@ -145,7 +137,7 @@ class TestReflectionEngineCore:
             ReflectionConfig(p95_target_ms=-1.0),  # Negative target
             ReflectionConfig(coherence_threshold=1.5),  # Above 1.0
             ReflectionConfig(drift_alpha=-0.1),  # Negative alpha
-            ReflectionConfig(state_stability_window=0)  # Zero window
+            ReflectionConfig(state_stability_window=0),  # Zero window
         ]
 
         for config in invalid_configs:
@@ -163,7 +155,7 @@ class TestReflectionEngineCore:
             focus_intensity=0.75,
             memory_coherence=0.8,
             reasoning_depth=0.75,
-            meta_awareness=0.7
+            meta_awareness=0.7,
         )
 
         coherence_result = await reflection_engine._analyze_state_coherence(coherent_state, None)
@@ -173,7 +165,7 @@ class TestReflectionEngineCore:
         incoherent_state = ConsciousnessState(
             level=0.9,
             awareness_level=0.2,  # Low awareness with high consciousness
-            cognitive_load=0.1,   # Low load with high consciousness
+            cognitive_load=0.1,  # Low load with high consciousness
             focus_intensity=0.1,  # Low focus with high consciousness
         )
 
@@ -191,10 +183,7 @@ class TestReflectionEngineCore:
 
         # Update state and perform second reflection
         modified_state = ConsciousnessState(
-            phase="AWARE",  # Different phase
-            level=0.6,      # Lower level
-            awareness_level=0.5,
-            emotional_tone="calm"
+            phase="AWARE", level=0.6, awareness_level=0.5, emotional_tone="calm"  # Different phase  # Lower level
         )
 
         report2 = await reflection_engine.reflect(modified_state)
@@ -207,10 +196,7 @@ class TestReflectionEngineCore:
 
         # Create state that should trigger anomalies
         anomalous_state = ConsciousnessState(
-            level=0.9,
-            awareness_level=0.1,  # Inconsistent with high level
-            phase="REFLECT",
-            emotional_tone="confused"
+            level=0.9, awareness_level=0.1, phase="REFLECT", emotional_tone="confused"  # Inconsistent with high level
         )
 
         report = await reflection_engine.reflect(anomalous_state)
@@ -248,7 +234,7 @@ class TestReflectionEngineCore:
         """Test error handling and fail-safe mechanisms."""
 
         # Create engine with mocked dependencies that will fail
-        with patch('consciousness.reflection_engine.tracer') as mock_tracer:
+        with patch("consciousness.reflection_engine.tracer") as mock_tracer:
             mock_span = Mock()
             mock_span.record_exception = Mock()
             mock_span.set_status = Mock()
@@ -258,8 +244,7 @@ class TestReflectionEngineCore:
             reflection_engine = ReflectionEngine(config=config)
 
             # Force an error in state coherence analysis
-            with patch.object(reflection_engine, '_analyze_state_coherence',
-                             side_effect=Exception("Test error")):
+            with patch.object(reflection_engine, "_analyze_state_coherence", side_effect=Exception("Test error")):
 
                 consciousness_state = ConsciousnessState()
                 report = await reflection_engine.reflect(consciousness_state)
@@ -289,7 +274,7 @@ class TestReflectionEngineCore:
 
         # Add states to history
         for i in range(150):  # More than max history
-            state = ConsciousnessState(level=i/150)
+            state = ConsciousnessState(level=i / 150)
             reflection_engine.update_state_history(state)
 
         # Should maintain reasonable history size
@@ -324,17 +309,9 @@ class TestReflectionEnginePropertyBased:
 
     @given(
         initial_level=st.floats(min_value=0.0, max_value=1.0),
-        level_changes=st.lists(
-            st.floats(min_value=-0.1, max_value=0.1),
-            min_size=3,
-            max_size=10
-        )
+        level_changes=st.lists(st.floats(min_value=-0.1, max_value=0.1), min_size=3, max_size=10),
     )
-    @settings(
-        max_examples=20,
-        deadline=5000,
-        suppress_health_check=[HealthCheck.function_scoped_fixture]
-    )
+    @settings(max_examples=20, deadline=5000, suppress_health_check=[HealthCheck.function_scoped_fixture])
     @pytest.mark.asyncio
     async def test_coherence_monotonicity_property(self, initial_level, level_changes):
         """
@@ -342,10 +319,7 @@ class TestReflectionEnginePropertyBased:
 
         This tests that more consistent states generally have higher coherence.
         """
-        config = ReflectionConfig(
-            memory_integration_enabled=False,
-            guardian_validation_required=False
-        )
+        config = ReflectionConfig(memory_integration_enabled=False, guardian_validation_required=False)
 
         reflection_engine = ReflectionEngine(config=config)
 
@@ -355,7 +329,7 @@ class TestReflectionEnginePropertyBased:
                 level=initial_level,
                 awareness_level=initial_level,
                 cognitive_load=initial_level * 0.8,
-                focus_intensity=initial_level * 0.9
+                focus_intensity=initial_level * 0.9,
             )
 
             consistent_report = await reflection_engine.reflect(consistent_state)
@@ -364,8 +338,8 @@ class TestReflectionEnginePropertyBased:
             inconsistent_state = ConsciousnessState(
                 level=initial_level,
                 awareness_level=max(0.0, min(1.0, initial_level + 0.5)),  # Very different
-                cognitive_load=max(0.0, min(1.0, initial_level - 0.4)),   # Very different
-                focus_intensity=max(0.0, min(1.0, initial_level + 0.3))   # Different
+                cognitive_load=max(0.0, min(1.0, initial_level - 0.4)),  # Very different
+                focus_intensity=max(0.0, min(1.0, initial_level + 0.3)),  # Different
             )
 
             inconsistent_report = await reflection_engine.reflect(inconsistent_state)
@@ -383,10 +357,10 @@ class TestReflectionEnginePropertyBased:
         anomaly_inducing_states=st.lists(
             st.tuples(
                 st.floats(min_value=-0.5, max_value=1.5),  # May be out of range
-                st.floats(min_value=-0.5, max_value=1.5)   # May be out of range
+                st.floats(min_value=-0.5, max_value=1.5),  # May be out of range
             ),
             min_size=5,
-            max_size=15
+            max_size=15,
         )
     )
     @settings(max_examples=15, deadline=10000)
@@ -397,10 +371,7 @@ class TestReflectionEnginePropertyBased:
 
         States with out-of-range values should trigger anomaly detection.
         """
-        config = ReflectionConfig(
-            memory_integration_enabled=False,
-            guardian_validation_required=False
-        )
+        config = ReflectionConfig(memory_integration_enabled=False, guardian_validation_required=False)
 
         reflection_engine = ReflectionEngine(config=config)
 
@@ -414,10 +385,7 @@ class TestReflectionEnginePropertyBased:
                 valid_awareness = max(0.0, min(1.0, awareness))
 
                 # Test valid state
-                valid_state = ConsciousnessState(
-                    level=valid_level,
-                    awareness_level=valid_awareness
-                )
+                valid_state = ConsciousnessState(level=valid_level, awareness_level=valid_awareness)
                 valid_report = await reflection_engine.reflect(valid_state)
                 valid_anomalies += valid_report.anomaly_count
 
@@ -450,9 +418,7 @@ class TestReflectionEnginePerformance:
         Tests the core reflection loop performance for Phase 3 compliance.
         """
         config = ReflectionConfig(
-            p95_target_ms=100.0,  # Phase 3 target
-            memory_integration_enabled=False,
-            guardian_validation_required=False
+            p95_target_ms=100.0, memory_integration_enabled=False, guardian_validation_required=False  # Phase 3 target
         )
 
         reflection_engine = ReflectionEngine(config=config)
@@ -478,8 +444,7 @@ class TestReflectionEnginePerformance:
                 anomaly_count += report.anomaly_count
 
                 # Small state perturbations to avoid staleness
-                consciousness_state.level = max(0.0, min(1.0,
-                    consciousness_state.level + (i % 100 - 50) * 0.001))
+                consciousness_state.level = max(0.0, min(1.0, consciousness_state.level + (i % 100 - 50) * 0.001))
 
             total_time = time.perf_counter() - start_time
 
@@ -496,14 +461,11 @@ class TestReflectionEnginePerformance:
             print(f"Total anomalies: {anomaly_count}")
 
             # Validate Phase 3 SLO compliance
-            assert p95_latency < 100.0, \
-                f"P95 latency {p95_latency:.3f}ms exceeds Phase 3 target 100ms"
+            assert p95_latency < 100.0, f"P95 latency {p95_latency:.3f}ms exceeds Phase 3 target 100ms"
 
-            assert cv < 0.15, \
-                f"Coefficient of variation {cv:.3f} exceeds acceptable threshold"
+            assert cv < 0.15, f"Coefficient of variation {cv:.3f} exceeds acceptable threshold"
 
-            assert anomaly_count < 200, \
-                f"Excessive anomalies detected: {anomaly_count}"
+            assert anomaly_count < 200, f"Excessive anomalies detected: {anomaly_count}"
 
         finally:
             pass
@@ -511,20 +473,15 @@ class TestReflectionEnginePerformance:
     @pytest.mark.asyncio
     async def test_concurrent_reflection_performance(self):
         """Test performance under concurrent reflection loads"""
-        config = ReflectionConfig(
-            memory_integration_enabled=False,
-            guardian_validation_required=False
-        )
+        config = ReflectionConfig(memory_integration_enabled=False, guardian_validation_required=False)
 
         reflection_engine = ReflectionEngine(config=config)
 
         try:
+
             async def reflection_worker(worker_id: int, iterations: int):
                 """Worker function for concurrent testing"""
-                state = ConsciousnessState(
-                    level=0.5 + worker_id * 0.1,
-                    phase="REFLECT"
-                )
+                state = ConsciousnessState(level=0.5 + worker_id * 0.1, phase="REFLECT")
 
                 latencies = []
                 for i in range(iterations):
@@ -539,10 +496,7 @@ class TestReflectionEnginePerformance:
 
             # Run concurrent workers
             print("Running concurrent performance test...")
-            tasks = [
-                reflection_worker(i, 500)
-                for i in range(4)  # 4 concurrent workers
-            ]
+            tasks = [reflection_worker(i, 500) for i in range(4)]  # 4 concurrent workers
 
             results = await asyncio.gather(*tasks)
 
@@ -560,8 +514,7 @@ class TestReflectionEnginePerformance:
             print(f"P95 latency: {p95_concurrent:.3f}ms")
 
             # Concurrent operations may have higher latency but should still be reasonable
-            assert p95_concurrent < 200.0, \
-                f"Concurrent P95 latency {p95_concurrent:.3f}ms too high"
+            assert p95_concurrent < 200.0, f"Concurrent P95 latency {p95_concurrent:.3f}ms too high"
 
         finally:
             pass
@@ -574,7 +527,7 @@ class TestReflectionEnginePerformance:
 
         # Generate many state history entries
         for i in range(1000):
-            state = ConsciousnessState(level=i/1000)
+            state = ConsciousnessState(level=i / 1000)
             reflection_engine.update_state_history(state)
 
         # Should handle large history gracefully
@@ -591,10 +544,7 @@ class TestReflectionEngineIntegration:
     @pytest.mark.asyncio
     async def test_memory_integration_disabled(self):
         """Test memory system integration when disabled"""
-        config = ReflectionConfig(
-            memory_integration_enabled=False,
-            guardian_validation_required=False
-        )
+        config = ReflectionConfig(memory_integration_enabled=False, guardian_validation_required=False)
 
         reflection_engine = ReflectionEngine(config=config)
         consciousness_state = ConsciousnessState(phase="REFLECT", level=0.8)
@@ -608,10 +558,7 @@ class TestReflectionEngineIntegration:
     @pytest.mark.asyncio
     async def test_guardian_integration_disabled(self):
         """Test Guardian system integration when disabled"""
-        config = ReflectionConfig(
-            guardian_validation_required=False,
-            memory_integration_enabled=False
-        )
+        config = ReflectionConfig(guardian_validation_required=False, memory_integration_enabled=False)
 
         reflection_engine = ReflectionEngine(config=config)
         consciousness_state = ConsciousnessState(phase="REFLECT", level=0.8)
@@ -627,7 +574,7 @@ class TestReflectionEngineIntegration:
         """Test Prometheus metrics integration when enabled"""
         config = ReflectionConfig(metrics_collection_enabled=True)
 
-        with patch('consciousness.reflection_engine.get_lukhas_metrics') as mock_metrics:
+        with patch("consciousness.reflection_engine.get_lukhas_metrics") as mock_metrics:
             mock_metrics_instance = Mock()
             mock_metrics_instance.lane = "test"
             mock_metrics.return_value = mock_metrics_instance
@@ -649,10 +596,7 @@ if __name__ == "__main__":
         print("Running basic LUKHAS reflection engine tests...")
 
         # Test 1: Basic functionality
-        config = ReflectionConfig(
-            memory_integration_enabled=False,
-            guardian_validation_required=False
-        )
+        config = ReflectionConfig(memory_integration_enabled=False, guardian_validation_required=False)
         reflection_engine = ReflectionEngine(config=config)
 
         state = ConsciousnessState(level=0.7, phase="REFLECT")

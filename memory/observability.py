@@ -25,6 +25,7 @@ class PrometheusMetrics:
         # TODO: counter.labels(**labels).inc()
         pass
 
+
 class MemoryTracer:
     """OpenTelemetry tracing for memory operations."""
 
@@ -34,11 +35,8 @@ class MemoryTracer:
 
     def trace_operation(self, operation: str, span_name: Optional[str] = None):
         """Context manager for tracing memory operations."""
-        return MemorySpan(
-            self.tracer.start_span(span_name or f"memory.{operation}"),
-            self.metrics,
-            operation
-        )
+        return MemorySpan(self.tracer.start_span(span_name or f"memory.{operation}"), self.metrics, operation)
+
 
 class MemorySpan:
     """Context manager for traced memory operations."""
@@ -58,7 +56,9 @@ class MemorySpan:
 
         if exc_type is None:
             self.span.set_status(Status(StatusCode.OK))
-            self.metrics.increment_counter("memory_operations_total", {"operation": self.operation, "status": "success"})
+            self.metrics.increment_counter(
+                "memory_operations_total", {"operation": self.operation, "status": "success"}
+            )
         else:
             self.span.set_status(Status(StatusCode.ERROR, str(exc_val)))
             self.metrics.increment_counter("memory_operations_total", {"operation": self.operation, "status": "error"})

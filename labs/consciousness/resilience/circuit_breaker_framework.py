@@ -538,9 +538,9 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
             "status": "fallback_used",
             "message": "Memory cascade prevention active - using cached data",
             "degraded_service": True,
-            "cascade_probability": statistics.mean(self.cascade_probability_history)
-            if self.cascade_probability_history
-            else 0.001,
+            "cascade_probability": (
+                statistics.mean(self.cascade_probability_history) if self.cascade_probability_history else 0.001
+            ),
         }
 
     async def _execute_trip_actions(self, trip_event: CircuitBreakerTrip):
@@ -586,18 +586,18 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
         """Get consciousness state for memory cascade breaker"""
         return {
             "memory_integrity_score": self.memory_integrity_score,
-            "cascade_probability": statistics.mean(self.cascade_probability_history)
-            if self.cascade_probability_history
-            else 0.001,
+            "cascade_probability": (
+                statistics.mean(self.cascade_probability_history) if self.cascade_probability_history else 0.001
+            ),
             "consciousness_preservation": self.metrics.consciousness_preservation_rate,
         }
 
     async def _get_memory_state(self) -> dict[str, float]:
         """Get memory state metrics"""
         return {
-            "cascade_probability": statistics.mean(self.cascade_probability_history)
-            if self.cascade_probability_history
-            else 0.001,
+            "cascade_probability": (
+                statistics.mean(self.cascade_probability_history) if self.cascade_probability_history else 0.001
+            ),
             "integrity_score": self.memory_integrity_score,
             "stability_trend": self._calculate_stability_trend(),
         }
@@ -674,7 +674,11 @@ class ConstellationCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
 
         # Check component balance
         component_variance = statistics.variance(
-            [constellation_metrics["identity"], constellation_metrics["consciousness"], constellation_metrics["guardian"]]
+            [
+                constellation_metrics["identity"],
+                constellation_metrics["consciousness"],
+                constellation_metrics["guardian"],
+            ]
         )
 
         if component_variance > 0.1:  # Components too imbalanced
@@ -716,7 +720,9 @@ class ConstellationCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         )
 
         if current_coherence < self.config.triad_coherence_threshold * 0.8:  # 20% below threshold
-            raise ConstellationCoherenceError(f"Post-execution Constellation coherence critical: {current_coherence:.3f}")
+            raise ConstellationCoherenceError(
+                f"Post-execution Constellation coherence critical: {current_coherence:.3f}"
+            )
 
     async def _handle_blocked_request(self, *args, **kwargs) -> Any:
         """Handle blocked request with Constellation-preserving fallback"""
@@ -771,9 +777,9 @@ class ConstellationCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         """Get consciousness state for Constellation coherence breaker"""
         return {
             "triad_coherence": statistics.mean(self.triad_coherence_history) if self.triad_coherence_history else 0.8,
-            "consciousness_depth": statistics.mean(self.consciousness_depth_history)
-            if self.consciousness_depth_history
-            else 0.7,
+            "consciousness_depth": (
+                statistics.mean(self.consciousness_depth_history) if self.consciousness_depth_history else 0.7
+            ),
             "preservation_rate": self.metrics.consciousness_preservation_rate,
         }
 
@@ -782,24 +788,24 @@ class ConstellationCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         return {
             "triad_coherence_impact": 1.0
             - (statistics.mean(self.triad_coherence_history) if self.triad_coherence_history else 0.8),
-            "identity_stability": statistics.mean(self.identity_stability_history)
-            if self.identity_stability_history
-            else 0.8,
+            "identity_stability": (
+                statistics.mean(self.identity_stability_history) if self.identity_stability_history else 0.8
+            ),
         }
 
     async def _get_triad_metrics(self) -> dict[str, float]:
         """Get Constellation Framework metrics"""
         return {
             "triad_coherence": statistics.mean(self.triad_coherence_history) if self.triad_coherence_history else 0.8,
-            "identity_stability": statistics.mean(self.identity_stability_history)
-            if self.identity_stability_history
-            else 0.8,
-            "consciousness_depth": statistics.mean(self.consciousness_depth_history)
-            if self.consciousness_depth_history
-            else 0.7,
-            "guardian_protection": statistics.mean(self.guardian_protection_history)
-            if self.guardian_protection_history
-            else 0.9,
+            "identity_stability": (
+                statistics.mean(self.identity_stability_history) if self.identity_stability_history else 0.8
+            ),
+            "consciousness_depth": (
+                statistics.mean(self.consciousness_depth_history) if self.consciousness_depth_history else 0.7
+            ),
+            "guardian_protection": (
+                statistics.mean(self.guardian_protection_history) if self.guardian_protection_history else 0.9
+            ),
         }
 
 
@@ -850,8 +856,8 @@ class ConsciousnessCircuitBreakerFramework:
             triad_coherence_threshold=0.6,
             timeout_duration=10.0,
         )
-        self.circuit_breakers[CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION] = ConstellationCoherencePreservationBreaker(
-            triad_config
+        self.circuit_breakers[CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION] = (
+            ConstellationCoherencePreservationBreaker(triad_config)
         )
 
     def register_circuit_breaker(self, breaker: ConsciousnessCircuitBreaker):

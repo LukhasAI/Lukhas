@@ -31,10 +31,7 @@ from ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schem
 from ledger.metrics import get_metrics, reset_metrics
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='[LEDGER-VALIDATION] %(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="[LEDGER-VALIDATION] %(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -80,6 +77,7 @@ class LedgerPerformanceValidator:
         # Cleanup
         if self.temp_dir:
             import shutil
+
             try:
                 shutil.rmtree(self.temp_dir)
             except Exception as e:
@@ -88,7 +86,7 @@ class LedgerPerformanceValidator:
     def load_json_schema(self) -> Dict[str, Any]:
         """Load and validate JSON schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path, "r") as f:
                 schema = json.load(f)
 
             # Validate schema itself
@@ -164,11 +162,11 @@ class LedgerPerformanceValidator:
         compliance_rate = schema_valid_count / len(events) if events else 0
 
         result = {
-            'total_events': len(events),
-            'schema_valid_events': schema_valid_count,
-            'compliance_rate': compliance_rate,
-            'validation_errors': validation_errors[:10],  # Limit to first 10 errors
-            'schema_compliant': compliance_rate == 1.0,
+            "total_events": len(events),
+            "schema_valid_events": schema_valid_count,
+            "compliance_rate": compliance_rate,
+            "validation_errors": validation_errors[:10],  # Limit to first 10 errors
+            "schema_compliant": compliance_rate == 1.0,
         }
 
         logger.info(f"Schema compliance: {compliance_rate:.2%} ({schema_valid_count}/{len(events)})")
@@ -201,11 +199,7 @@ class LedgerPerformanceValidator:
                 failed_appends += 1
 
         if not append_times:
-            return {
-                'append_times_ms': [],
-                'performance_compliant': False,
-                'error': 'No successful appends recorded'
-            }
+            return {"append_times_ms": [], "performance_compliant": False, "error": "No successful appends recorded"}
 
         # Calculate statistics
         p50_ms = statistics.median(append_times)
@@ -219,21 +213,21 @@ class LedgerPerformanceValidator:
         t4_compliant = p95_ms < 50.0
 
         result = {
-            'total_samples': len(events),
-            'successful_appends': len(append_times),
-            'failed_appends': failed_appends,
-            'append_times_ms': append_times,
-            'statistics': {
-                'p50_ms': p50_ms,
-                'p95_ms': p95_ms,
-                'p99_ms': p99_ms,
-                'avg_ms': avg_ms,
-                'max_ms': max_ms,
-                'min_ms': min_ms,
+            "total_samples": len(events),
+            "successful_appends": len(append_times),
+            "failed_appends": failed_appends,
+            "append_times_ms": append_times,
+            "statistics": {
+                "p50_ms": p50_ms,
+                "p95_ms": p95_ms,
+                "p99_ms": p99_ms,
+                "avg_ms": avg_ms,
+                "max_ms": max_ms,
+                "min_ms": min_ms,
             },
-            'performance_compliant': t4_compliant,
-            't4_requirement_ms': 50.0,
-            'performance_margin_ms': 50.0 - p95_ms,
+            "performance_compliant": t4_compliant,
+            "t4_requirement_ms": 50.0,
+            "performance_margin_ms": 50.0 - p95_ms,
         }
 
         logger.info(f"Append performance - P95: {p95_ms:.2f}ms, Avg: {avg_ms:.2f}ms, T4 compliant: {t4_compliant}")
@@ -252,39 +246,45 @@ class LedgerPerformanceValidator:
 
             replay_iterator = await self.event_bus.replay(1)  # From offset 1
             async for event, offset in replay_iterator:
-                replay_events.append({
-                    'event_id': event.event_id,
-                    'offset': offset.offset,
-                    'hash': event.compute_hash(),
-                    'timestamp': event.timestamp,
-                })
+                replay_events.append(
+                    {
+                        "event_id": event.event_id,
+                        "offset": offset.offset,
+                        "hash": event.compute_hash(),
+                        "timestamp": event.timestamp,
+                    }
+                )
 
             replay_time_ms = (time.perf_counter() - start_time) * 1000
 
-            replay_results.append({
-                'attempt': attempt + 1,
-                'events': replay_events,
-                'replay_time_ms': replay_time_ms,
-                'event_count': len(replay_events),
-            })
+            replay_results.append(
+                {
+                    "attempt": attempt + 1,
+                    "events": replay_events,
+                    "replay_time_ms": replay_time_ms,
+                    "event_count": len(replay_events),
+                }
+            )
 
             logger.info(f"Replay attempt {attempt + 1}: {len(replay_events)} events in {replay_time_ms:.2f}ms")
 
         # Check determinism
         deterministic = True
-        first_replay = replay_results[0]['events']
+        first_replay = replay_results[0]["events"]
 
         for i in range(1, len(replay_results)):
-            current_replay = replay_results[i]['events']
+            current_replay = replay_results[i]["events"]
 
             if len(first_replay) != len(current_replay):
                 deterministic = False
                 break
 
             for j in range(len(first_replay)):
-                if (first_replay[j]['event_id'] != current_replay[j]['event_id'] or
-                    first_replay[j]['offset'] != current_replay[j]['offset'] or
-                    first_replay[j]['hash'] != current_replay[j]['hash']):
+                if (
+                    first_replay[j]["event_id"] != current_replay[j]["event_id"]
+                    or first_replay[j]["offset"] != current_replay[j]["offset"]
+                    or first_replay[j]["hash"] != current_replay[j]["hash"]
+                ):
                     deterministic = False
                     break
 
@@ -292,11 +292,11 @@ class LedgerPerformanceValidator:
                 break
 
         result = {
-            'replay_attempts': len(replay_results),
-            'deterministic': deterministic,
-            'event_count': len(first_replay) if first_replay else 0,
-            'replay_times_ms': [r['replay_time_ms'] for r in replay_results],
-            'avg_replay_time_ms': statistics.mean([r['replay_time_ms'] for r in replay_results]),
+            "replay_attempts": len(replay_results),
+            "deterministic": deterministic,
+            "event_count": len(first_replay) if first_replay else 0,
+            "replay_times_ms": [r["replay_time_ms"] for r in replay_results],
+            "avg_replay_time_ms": statistics.mean([r["replay_time_ms"] for r in replay_results]),
         }
 
         logger.info(f"Replay determinism: {deterministic}, {result['event_count']} events replayed")
@@ -307,33 +307,35 @@ class LedgerPerformanceValidator:
         timestamp = time.time()
 
         artifact = {
-            'validation_metadata': {
-                'timestamp': timestamp,
-                'iso_timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(timestamp)),
-                'validator_version': '2.0.0',
-                'sample_count': self.sample_count,
-                'schema_path': str(self.schema_path),
-                'environment': {
-                    'python_version': sys.version,
-                    'platform': sys.platform,
+            "validation_metadata": {
+                "timestamp": timestamp,
+                "iso_timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(timestamp)),
+                "validator_version": "2.0.0",
+                "sample_count": self.sample_count,
+                "schema_path": str(self.schema_path),
+                "environment": {
+                    "python_version": sys.version,
+                    "platform": sys.platform,
                 },
             },
-            'validation_results': self.validation_results,
-            'compliance_summary': {
-                'schema_compliant': self.validation_results.get('schema', {}).get('schema_compliant', False),
-                'performance_compliant': self.validation_results.get('performance', {}).get('performance_compliant', False),
-                'replay_deterministic': self.validation_results.get('replay', {}).get('deterministic', False),
-                'overall_compliant': False,  # Will be calculated
-            }
+            "validation_results": self.validation_results,
+            "compliance_summary": {
+                "schema_compliant": self.validation_results.get("schema", {}).get("schema_compliant", False),
+                "performance_compliant": self.validation_results.get("performance", {}).get(
+                    "performance_compliant", False
+                ),
+                "replay_deterministic": self.validation_results.get("replay", {}).get("deterministic", False),
+                "overall_compliant": False,  # Will be calculated
+            },
         }
 
         # Calculate overall compliance
         compliance_checks = [
-            artifact['compliance_summary']['schema_compliant'],
-            artifact['compliance_summary']['performance_compliant'],
-            artifact['compliance_summary']['replay_deterministic'],
+            artifact["compliance_summary"]["schema_compliant"],
+            artifact["compliance_summary"]["performance_compliant"],
+            artifact["compliance_summary"]["replay_deterministic"],
         ]
-        artifact['compliance_summary']['overall_compliant'] = all(compliance_checks)
+        artifact["compliance_summary"]["overall_compliant"] = all(compliance_checks)
 
         return artifact
 
@@ -345,9 +347,9 @@ class LedgerPerformanceValidator:
         events = self.generate_test_events()
 
         # Run validation tests
-        self.validation_results['schema'] = await self.validate_schema_compliance(events)
-        self.validation_results['performance'] = await self.validate_append_performance(events)
-        self.validation_results['replay'] = await self.validate_replay_determinism()
+        self.validation_results["schema"] = await self.validate_schema_compliance(events)
+        self.validation_results["performance"] = await self.validate_append_performance(events)
+        self.validation_results["replay"] = await self.validate_replay_determinism()
 
         # Generate evidence artifact
         artifact = await self.generate_evidence_artifact()
@@ -359,16 +361,16 @@ class LedgerPerformanceValidator:
         artifact_filename = f"ledger_validation_{int(time.time())}.json"
         artifact_path = artifacts_dir / artifact_filename
 
-        with open(artifact_path, 'w') as f:
+        with open(artifact_path, "w") as f:
             json.dump(artifact, f, indent=2, default=str)
 
         logger.info(f"Evidence artifact saved: {artifact_path}")
 
         # Summary results
-        overall_compliant = artifact['compliance_summary']['overall_compliant']
-        p95_ms = self.validation_results['performance']['statistics']['p95_ms']
-        schema_rate = self.validation_results['schema']['compliance_rate']
-        deterministic = self.validation_results['replay']['deterministic']
+        overall_compliant = artifact["compliance_summary"]["overall_compliant"]
+        p95_ms = self.validation_results["performance"]["statistics"]["p95_ms"]
+        schema_rate = self.validation_results["schema"]["compliance_rate"]
+        deterministic = self.validation_results["replay"]["deterministic"]
 
         logger.info("=" * 60)
         logger.info("T4/0.01% EXCELLENCE VALIDATION RESULTS")
@@ -401,7 +403,7 @@ async def main():
             artifact = await validator.run_full_validation()
 
             # Check for CI failure
-            if args.fail_on_non_compliance and not artifact['compliance_summary']['overall_compliant']:
+            if args.fail_on_non_compliance and not artifact["compliance_summary"]["overall_compliant"]:
                 logger.error("VALIDATION FAILED - T4/0.01% excellence requirements not met")
                 sys.exit(1)
             else:
@@ -412,6 +414,7 @@ async def main():
         logger.error(f"Validation failed with exception: {e}")
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         sys.exit(1)
 

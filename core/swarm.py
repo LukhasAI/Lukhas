@@ -8,6 +8,7 @@ including the fractal, multi-layered design of agents, colonies, and the swarm.
 MIGRATION NOTE: This module now imports from enhanced_swarm for improved functionality
 while maintaining backward compatibility.
 """
+
 import time
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -17,16 +18,20 @@ from typing import Any, Dict, Optional
 try:
     from core.fault_tolerance import SupervisionStrategy
 except Exception:
+
     class SupervisionStrategy(Enum):  # minimal fallback
         RESTART = "restart"
         IGNORE = "ignore"
 
+
 try:
     from core.minimal_actor import Actor
 except Exception:
+
     class Actor:  # minimal fallback
         def __init__(self, *_: Any, **__: Any) -> None:
             pass
+
 
 # Import enhanced implementations for better functionality
 try:

@@ -1,4 +1,5 @@
 """Utility for summarizing Hidden Gems integration manifest entries."""
+
 from __future__ import annotations
 
 import argparse
@@ -131,18 +132,14 @@ def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
     ]
 
     for lane, stats in sorted(lane_summary.items()):
-        lines.append(
-            f"- {lane}: {int(stats['count'])} modules · {stats['effort']:.1f} effort hours"
-        )
+        lines.append(f"- {lane}: {int(stats['count'])} modules · {stats['effort']:.1f} effort hours")
 
     lines.append("")
     lines.append(f"Top {min(top_n, total_modules)} modules by score:")
 
     top_modules = sorted(gems, key=lambda gem: gem.score, reverse=True)[:top_n]
     for gem in top_modules:
-        lines.append(
-            f"- {gem.score:.1f} · {gem.module} → {gem.target_location} ({gem.effort_hours:.1f}h)"
-        )
+        lines.append(f"- {gem.score:.1f} · {gem.module} → {gem.target_location} ({gem.effort_hours:.1f}h)")
 
     return "\n".join(lines)
 
@@ -160,9 +157,7 @@ def _build_parser() -> argparse.ArgumentParser:
     """Construct the CLI argument parser."""
 
     parser = argparse.ArgumentParser(
-        description=(
-            "Summarize low-complexity high-score modules from the Hidden Gems integration manifest"
-        )
+        description=("Summarize low-complexity high-score modules from the Hidden Gems integration manifest")
     )
     parser.add_argument(
         "--manifest",
@@ -202,9 +197,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     try:
         # ΛTAG: hidden_gems_cli_validation
         manifest_payload = load_manifest(manifest_path)
-        gems = extract_hidden_gems(
-            manifest_payload, min_score=args.min_score, complexity=args.complexity
-        )
+        gems = extract_hidden_gems(manifest_payload, min_score=args.min_score, complexity=args.complexity)
         summary = format_summary(gems, top_n=args.top)
     except ManifestFormatError as exc:
         print(f"Error: {exc}", file=sys.stderr)

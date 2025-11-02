@@ -35,6 +35,7 @@
 ║ • Predictive Processing Framework (Clark, 2013)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -155,7 +156,7 @@ class AwarenessEngine:
             "attention_focus": [],
             "symbolic_context": {},
             "temporal_coherence": 0.0,
-            "integration_status": "initializing"
+            "integration_status": "initializing",
         }
 
         # Setup consciousness monitoring subsystems
@@ -165,7 +166,7 @@ class AwarenessEngine:
                 "active_streams": [],
                 "focus_intensity": 0.5,
                 "attention_distribution": {},
-                "symbolic_resonance": 0.0
+                "symbolic_resonance": 0.0,
             }
 
             # Setup symbolic integration layer
@@ -173,7 +174,7 @@ class AwarenessEngine:
                 "pattern_cache": {},
                 "active_patterns": set(),
                 "coherence_threshold": 0.75,
-                "integration_buffer": []
+                "integration_buffer": [],
             }
 
             # Initialize temporal coherence tracking
@@ -181,21 +182,21 @@ class AwarenessEngine:
                 "short_term_memory": [],
                 "long_term_patterns": {},
                 "coherence_score": 0.0,
-                "last_update": datetime.now(timezone.utc)
+                "last_update": datetime.now(timezone.utc),
             }
 
             # Setup consciousness feedback loops
             self.feedback_loops = {
                 "awareness_feedback": {"enabled": True, "sensitivity": 0.8},
                 "symbolic_feedback": {"enabled": True, "resonance_threshold": 0.6},
-                "temporal_feedback": {"enabled": True, "coherence_window": 60}  # seconds
+                "temporal_feedback": {"enabled": True, "coherence_window": 60},  # seconds
             }
 
             # Initialize consciousness validation system
             self.validation_system = {
                 "coherence_validator": self._validate_consciousness_coherence,
                 "integration_validator": self._validate_symbolic_integration,
-                "temporal_validator": self._validate_temporal_coherence
+                "temporal_validator": self._validate_temporal_coherence,
             }
 
             # Setup consciousness metrics collection
@@ -204,7 +205,7 @@ class AwarenessEngine:
                 "symbolic_integrations": 0,
                 "coherence_violations": 0,
                 "successful_processes": 0,
-                "last_reset": datetime.now(timezone.utc)
+                "last_reset": datetime.now(timezone.utc),
             }
 
             self.consciousness_state["integration_status"] = "initialized"
@@ -234,11 +235,13 @@ class AwarenessEngine:
             self.temporal_coherence["coherence_score"] = baseline_awareness
 
             # Update consciousness state
-            self.consciousness_state.update({
-                "awareness_level": baseline_awareness,
-                "temporal_coherence": baseline_awareness,
-                "integration_status": "calibrated"
-            })
+            self.consciousness_state.update(
+                {
+                    "awareness_level": baseline_awareness,
+                    "temporal_coherence": baseline_awareness,
+                    "integration_status": "calibrated",
+                }
+            )
 
             self.instance_logger.debug("ΛTRACE: Consciousness baseline calibration complete")
 

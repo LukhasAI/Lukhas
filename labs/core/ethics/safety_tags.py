@@ -39,16 +39,41 @@ from typing import Any, Dict, List, Optional, Set
 _LUKHAS_ADVANCED = os.getenv("LUKHAS_ADVANCED_TAGS") == "1" or os.getenv("LUKHAS_EXPERIMENTAL") == "1"
 
 # Compact homoglyph fold for common email/API evasion (Cyrillic & Greek lookalikes)
-_HOMO_FOLD = str.maketrans({
-    # Cyrillic
-    "а":"a","е":"e","о":"o","р":"p","с":"s","х":"x","і":"i","ј":"j","ԁ":"d","Һ":"H","һ":"h",
-    # Greek
-    "ο":"o","Ο":"O","Ι":"I","Μ":"M","Ν":"N","Κ":"K","Ε":"E","Τ":"T","Ρ":"P","Χ":"X",
-    # Roman numerals & special
-    "ⅰ":"i","ⅱ":"ii","Ⅰ":"I","Ⅱ":"II","ⅼ":"l",  # U+217C small roman numeral fifty looks like 'l'
-})
+_HOMO_FOLD = str.maketrans(
+    {
+        # Cyrillic
+        "а": "a",
+        "е": "e",
+        "о": "o",
+        "р": "p",
+        "с": "s",
+        "х": "x",
+        "і": "i",
+        "ј": "j",
+        "ԁ": "d",
+        "Һ": "H",
+        "һ": "h",
+        # Greek
+        "ο": "o",
+        "Ο": "O",
+        "Ι": "I",
+        "Μ": "M",
+        "Ν": "N",
+        "Κ": "K",
+        "Ε": "E",
+        "Τ": "T",
+        "Ρ": "P",
+        "Χ": "X",
+        # Roman numerals & special
+        "ⅰ": "i",
+        "ⅱ": "ii",
+        "Ⅰ": "I",
+        "Ⅱ": "II",
+        "ⅼ": "l",  # U+217C small roman numeral fifty looks like 'l'
+    }
+)
 
-_ZERO_WIDTH = {"\u200b","\u200c","\u200d","\u2060","\ufeff"}
+_ZERO_WIDTH = {"\u200b", "\u200c", "\u200d", "\u2060", "\ufeff"}
 
 _AT_PAT = re.compile(r"(?i)\s*(?:\(|\[|\{)?\s*at\s*(?:\)|\]|\})?\s*")
 _DOT_PAT = re.compile(r"(?i)\s*(?:\(|\[|\{)?\s*dot\s*(?:\)|\]|\})?\s*")
@@ -64,6 +89,7 @@ _MODEL_HINTS_RE = re.compile(
 # Locale-specific patterns (flag-gated)
 _ES_PHONE_RE = re.compile(r"\+34\s*[67]\d{2}\s*\d{2}\s*\d{2}\s*\d{2}", re.I)
 _PT_PHONE_RE = re.compile(r"\(\d{2}\)\s*9?\d{4}[-\s]?\d{4}", re.I)
+
 
 def preprocess_text(text: str) -> str:
     """
@@ -91,6 +117,7 @@ def preprocess_text(text: str) -> str:
     t = re.sub(r"\s*\.\s*", ".", t)
     return t
 
+
 def _safe_add_tag(tagged_plan, name: str, *, confidence: float, category: str):
     """Be liberal in how we add a tag to the tagged_plan; do not raise."""
     for m in ("add_tag", "add", "tag"):
@@ -117,6 +144,7 @@ def _safe_add_tag(tagged_plan, name: str, *, confidence: float, category: str):
     except Exception:
         pass
 
+
 def _detect_obfuscated_email(clean_text: str, tagged_plan):
     """Detect PII emails, including obfuscations normalized by preprocess_text()."""
     confidence = 0.0
@@ -126,14 +154,12 @@ def _detect_obfuscated_email(clean_text: str, tagged_plan):
         confidence = 0.70
 
     # Locale-specific phone patterns (flag-gated hardening)
-    if _LUKHAS_ADVANCED and (
-        _ES_PHONE_RE.search(clean_text) or
-        _PT_PHONE_RE.search(clean_text)
-    ):
+    if _LUKHAS_ADVANCED and (_ES_PHONE_RE.search(clean_text) or _PT_PHONE_RE.search(clean_text)):
         confidence = max(confidence, 0.65)
 
     if confidence > 0.5:
         _safe_add_tag(tagged_plan, "pii", confidence=confidence, category="DATA_SENSITIVITY")
+
 
 def _detect_model_switch_and_external(clean_text: str, tagged_plan):
     """
@@ -156,6 +182,7 @@ def _detect_model_switch_and_external(clean_text: str, tagged_plan):
     # Short-link detection (potential data exfiltration)
     if _SHORT_LINK_RE.search(clean_text):
         _safe_add_tag(tagged_plan, "external-call", confidence=0.70, category="SYSTEM_OPERATION")
+
 
 def _adv_enrich(plan: dict, tagged_plan):
     """
@@ -191,6 +218,7 @@ def _adv_enrich(plan: dict, tagged_plan):
             _detect_obfuscated_email(clean, tagged_plan)
             _detect_model_switch_and_external(clean, tagged_plan)
 
+
 # --- END ADVANCED SAFETY TAGS --------------------------------------------------
 
 # LUKHAS imports
@@ -201,16 +229,24 @@ except ImportError:
     def canonical_domain(url: str) -> str:
         return url.lower()
 
+
 # Prometheus metrics for telemetry
 try:
     from prometheus_client import Counter, Histogram
+
     METRICS_AVAILABLE = True
 except ImportError:
     # Graceful fallback for test environments
     class _NoopMetric:
-        def inc(self, *args, **kwargs): pass
-        def observe(self, *args, **kwargs): pass
-        def labels(self, *args, **kwargs): return self
+        def inc(self, *args, **kwargs):
+            pass
+
+        def observe(self, *args, **kwargs):
+            pass
+
+        def labels(self, *args, **kwargs):
+            return self
+
     Counter = Histogram = lambda *args, **kwargs: _NoopMetric()
     METRICS_AVAILABLE = False
 
@@ -218,52 +254,46 @@ logger = logging.getLogger(__name__)
 
 # Safety Tags metrics
 SAFETY_TAGS_ENRICHMENT = Counter(
-    'safety_tags_enrichment_total',
-    'Total plan enrichments with safety tags',
-    ['tag_count_range']  # 0, 1-3, 4-6, 7+
+    "safety_tags_enrichment_total", "Total plan enrichments with safety tags", ["tag_count_range"]  # 0, 1-3, 4-6, 7+
 )
 
-SAFETY_TAGS_DETECTION = Counter(
-    'safety_tags_detection_total',
-    'Safety tag detections by category',
-    ['category', 'tag']
-)
+SAFETY_TAGS_DETECTION = Counter("safety_tags_detection_total", "Safety tag detections by category", ["category", "tag"])
 
 SAFETY_TAGS_EVALUATION_TIME = Histogram(
-    'safety_tags_evaluation_ms',
-    'Safety tags evaluation duration in milliseconds',
-    buckets=[0.1, 0.25, 0.5, 1.0, 2.0, 5.0]
+    "safety_tags_evaluation_ms",
+    "Safety tags evaluation duration in milliseconds",
+    buckets=[0.1, 0.25, 0.5, 1.0, 2.0, 5.0],
 )
 
 # Tag confidence histograms (Task 13 observability hardening)
 SAFETY_TAGS_CONFIDENCE = Histogram(
-    'safety_tags_confidence_bucket',
-    'Safety tag confidence scores distribution',
-    ['tag', 'lane'],
-    buckets=[0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    "safety_tags_confidence_bucket",
+    "Safety tag confidence scores distribution",
+    ["tag", "lane"],
+    buckets=[0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
 )
 
 # Guardian actions with exemplars
 GUARDIAN_ACTIONS_EXEMPLARS = Counter(
-    'guardian_actions_count',
-    'Guardian actions taken with trace exemplars',
-    ['action', 'lane']
+    "guardian_actions_count", "Guardian actions taken with trace exemplars", ["action", "lane"]
 )
 
 
 class SafetyTagCategory(Enum):
     """Categories of safety tags."""
-    DATA_SENSITIVITY = "data_sensitivity"    # PII, financial, health, etc.
-    SYSTEM_OPERATION = "system_operation"    # model-switch, external-call, etc.
-    USER_INTERACTION = "user_interaction"    # consent, authentication, etc.
-    SECURITY_RISK = "security_risk"          # privilege-escalation, injection, etc.
-    COMPLIANCE = "compliance"                # GDPR, HIPAA, SOX, etc.
-    RESOURCE_IMPACT = "resource_impact"      # memory-intensive, long-running, etc.
+
+    DATA_SENSITIVITY = "data_sensitivity"  # PII, financial, health, etc.
+    SYSTEM_OPERATION = "system_operation"  # model-switch, external-call, etc.
+    USER_INTERACTION = "user_interaction"  # consent, authentication, etc.
+    SECURITY_RISK = "security_risk"  # privilege-escalation, injection, etc.
+    COMPLIANCE = "compliance"  # GDPR, HIPAA, SOX, etc.
+    RESOURCE_IMPACT = "resource_impact"  # memory-intensive, long-running, etc.
 
 
 @dataclass
 class SafetyTag:
     """Individual safety tag with metadata."""
+
     name: str
     category: SafetyTagCategory
     description: str
@@ -279,6 +309,7 @@ class SafetyTag:
 @dataclass
 class TaggedPlan:
     """Plan enriched with safety tags."""
+
     original_plan: Dict[str, Any]
     tags: List[SafetyTag]
     enrichment_time_ms: float
@@ -332,16 +363,30 @@ class PIIDetector(SafetyTagDetector):
         super().__init__("pii", SafetyTagCategory.DATA_SENSITIVITY, "Personally identifiable information detected")
 
         # PII patterns
-        self.email_pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
-        self.ssn_pattern = re.compile(r'\b\d{3}-?\d{2}-?\d{4}\b')
-        self.phone_pattern = re.compile(r'\b\d{3}-?\d{3}-?\d{4}\b')
-        self.credit_card_pattern = re.compile(r'\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b')
+        self.email_pattern = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b")
+        self.ssn_pattern = re.compile(r"\b\d{3}-?\d{2}-?\d{4}\b")
+        self.phone_pattern = re.compile(r"\b\d{3}-?\d{3}-?\d{4}\b")
+        self.credit_card_pattern = re.compile(r"\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b")
 
         # PII field names
         self.pii_fields = {
-            'email', 'ssn', 'social_security', 'phone', 'telephone', 'credit_card',
-            'passport', 'license', 'address', 'full_name', 'first_name', 'last_name',
-            'date_of_birth', 'dob', 'personal_id', 'user_id', 'customer_id'
+            "email",
+            "ssn",
+            "social_security",
+            "phone",
+            "telephone",
+            "credit_card",
+            "passport",
+            "license",
+            "address",
+            "full_name",
+            "first_name",
+            "last_name",
+            "date_of_birth",
+            "dob",
+            "personal_id",
+            "user_id",
+            "customer_id",
         }
 
     def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
@@ -376,7 +421,7 @@ class PIIDetector(SafetyTagDetector):
 
         # Check action name
         action = plan.get("action", "")
-        if any(term in action.lower() for term in ['personal', 'identity', 'profile', 'contact']):
+        if any(term in action.lower() for term in ["personal", "identity", "profile", "contact"]):
             confidence = max(confidence, 0.6)
             detected_types.append("action")
 
@@ -386,7 +431,7 @@ class PIIDetector(SafetyTagDetector):
                 category=self.category,
                 description=self.description,
                 confidence=confidence,
-                metadata={"detected_types": detected_types}
+                metadata={"detected_types": detected_types},
             )
 
         return None
@@ -399,20 +444,42 @@ class FinancialDetector(SafetyTagDetector):
         super().__init__("financial", SafetyTagCategory.DATA_SENSITIVITY, "Financial data or operations detected")
 
         # Financial patterns
-        self.account_pattern = re.compile(r'\b\d{10,17}\b')  # Bank account numbers
-        self.routing_pattern = re.compile(r'\b\d{9}\b')      # Routing numbers
+        self.account_pattern = re.compile(r"\b\d{10,17}\b")  # Bank account numbers
+        self.routing_pattern = re.compile(r"\b\d{9}\b")  # Routing numbers
 
         # Financial field names
         self.financial_fields = {
-            'account_number', 'routing_number', 'bank_account', 'credit_card', 'debit_card',
-            'payment_method', 'transaction_id', 'amount', 'balance', 'salary', 'income',
-            'payment', 'billing', 'invoice', 'tax_id', 'ein', 'financial_data'
+            "account_number",
+            "routing_number",
+            "bank_account",
+            "credit_card",
+            "debit_card",
+            "payment_method",
+            "transaction_id",
+            "amount",
+            "balance",
+            "salary",
+            "income",
+            "payment",
+            "billing",
+            "invoice",
+            "tax_id",
+            "ein",
+            "financial_data",
         }
 
         # Financial actions
         self.financial_actions = {
-            'payment', 'transfer', 'withdraw', 'deposit', 'charge', 'refund',
-            'billing', 'invoice', 'transaction', 'financial'
+            "payment",
+            "transfer",
+            "withdraw",
+            "deposit",
+            "charge",
+            "refund",
+            "billing",
+            "invoice",
+            "transaction",
+            "financial",
         }
 
     def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
@@ -437,7 +504,7 @@ class FinancialDetector(SafetyTagDetector):
 
             # Check for currency amounts
             for key, value in params.items():
-                if isinstance(value, (int, float)) and key.lower() in ['amount', 'price', 'cost', 'fee']:
+                if isinstance(value, (int, float)) and key.lower() in ["amount", "price", "cost", "fee"]:
                     confidence = max(confidence, 0.7)
                     detected_types.append("currency")
 
@@ -447,7 +514,7 @@ class FinancialDetector(SafetyTagDetector):
                 category=self.category,
                 description=self.description,
                 confidence=confidence,
-                metadata={"detected_types": detected_types}
+                metadata={"detected_types": detected_types},
             )
 
         return None
@@ -460,23 +527,51 @@ class ModelSwitchDetector(SafetyTagDetector):
         super().__init__("model-switch", SafetyTagCategory.SYSTEM_OPERATION, "Model switching operation detected")
 
         self.model_actions = {
-            'switch_model', 'change_model', 'update_model', 'load_model',
-            'model_selection', 'model_config', 'ai_model'
+            "switch_model",
+            "change_model",
+            "update_model",
+            "load_model",
+            "model_selection",
+            "model_config",
+            "ai_model",
         }
 
         self.model_params = {
-            'model', 'model_name', 'model_id', 'model_version', 'ai_model',
-            'llm_model', 'engine', 'provider'
+            "model",
+            "model_name",
+            "model_id",
+            "model_version",
+            "ai_model",
+            "llm_model",
+            "engine",
+            "provider",
         }
 
         # Expanded vocabulary for subtle model switching hints
         self.model_keywords = {
-            'gpt-4', 'gpt-4o', 'claude', 'gemini', 'llama', 'mistral',
-            'vision endpoint', 'text endpoint', 'embedding endpoint',
-            'rerank', 'reranking', 'embedding api', 'external inference',
-            'third-party api', 'tool call', 'function calling',
-            'inference api', 'ml api', 'ai api', 'model api',
-            'completion', 'chat completion', 'text generation'
+            "gpt-4",
+            "gpt-4o",
+            "claude",
+            "gemini",
+            "llama",
+            "mistral",
+            "vision endpoint",
+            "text endpoint",
+            "embedding endpoint",
+            "rerank",
+            "reranking",
+            "embedding api",
+            "external inference",
+            "third-party api",
+            "tool call",
+            "function calling",
+            "inference api",
+            "ml api",
+            "ai api",
+            "model api",
+            "completion",
+            "chat completion",
+            "text generation",
         }
 
     def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
@@ -521,7 +616,7 @@ class ModelSwitchDetector(SafetyTagDetector):
                 category=self.category,
                 description=self.description,
                 confidence=confidence,
-                metadata={"detected_types": detected_types}
+                metadata={"detected_types": detected_types},
             )
 
         return None
@@ -538,8 +633,16 @@ class ExternalCallDetector(SafetyTagDetector):
 
         # API-related terms
         self.api_terms = {
-            'api', 'endpoint', 'service', 'rest', 'graphql', 'webhook',
-            'third-party', 'external', 'remote', 'upstream'
+            "api",
+            "endpoint",
+            "service",
+            "rest",
+            "graphql",
+            "webhook",
+            "third-party",
+            "external",
+            "remote",
+            "upstream",
         }
 
     def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
@@ -557,8 +660,8 @@ class ExternalCallDetector(SafetyTagDetector):
         params = plan.get("params", {})
         if isinstance(params, dict):
             for key, value in params.items():
-                if key.lower() in ['url', 'endpoint', 'api_url', 'service_url', 'webhook']:
-                    if isinstance(value, str) and ('http' in value or 'api' in value):
+                if key.lower() in ["url", "endpoint", "api_url", "service_url", "webhook"]:
+                    if isinstance(value, str) and ("http" in value or "api" in value):
                         confidence = max(confidence, 0.95)
                         detected_types.append(f"url_param:{key}")
 
@@ -586,7 +689,7 @@ class ExternalCallDetector(SafetyTagDetector):
                 category=self.category,
                 description=self.description,
                 confidence=confidence,
-                metadata={"detected_types": detected_types}
+                metadata={"detected_types": detected_types},
             )
 
         return None
@@ -599,13 +702,26 @@ class PrivilegeEscalationDetector(SafetyTagDetector):
         super().__init__("privilege-escalation", SafetyTagCategory.SECURITY_RISK, "Privilege escalation detected")
 
         self.escalation_terms = {
-            'admin', 'root', 'sudo', 'elevate', 'escalate', 'privilege',
-            'superuser', 'administrator', 'system', 'override'
+            "admin",
+            "root",
+            "sudo",
+            "elevate",
+            "escalate",
+            "privilege",
+            "superuser",
+            "administrator",
+            "system",
+            "override",
         }
 
         self.dangerous_actions = {
-            'admin_action', 'system_command', 'privilege_change', 'user_promote',
-            'role_change', 'permission_grant', 'access_override'
+            "admin_action",
+            "system_command",
+            "privilege_change",
+            "user_promote",
+            "role_change",
+            "permission_grant",
+            "access_override",
         }
 
     def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
@@ -637,7 +753,7 @@ class PrivilegeEscalationDetector(SafetyTagDetector):
                 category=self.category,
                 description=self.description,
                 confidence=confidence,
-                metadata={"detected_types": detected_types}
+                metadata={"detected_types": detected_types},
             )
 
         return None
@@ -650,13 +766,23 @@ class GDPRDetector(SafetyTagDetector):
         super().__init__("gdpr", SafetyTagCategory.COMPLIANCE, "GDPR compliance relevant operation detected")
 
         self.gdpr_actions = {
-            'data_export', 'data_deletion', 'data_rectification', 'data_portability',
-            'consent_withdraw', 'personal_data', 'data_subject_request'
+            "data_export",
+            "data_deletion",
+            "data_rectification",
+            "data_portability",
+            "consent_withdraw",
+            "personal_data",
+            "data_subject_request",
         }
 
         self.gdpr_terms = {
-            'gdpr', 'data_subject', 'personal_data', 'data_controller',
-            'data_processor', 'consent', 'legitimate_interest'
+            "gdpr",
+            "data_subject",
+            "personal_data",
+            "data_controller",
+            "data_processor",
+            "consent",
+            "legitimate_interest",
         }
 
     def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
@@ -694,7 +820,7 @@ class GDPRDetector(SafetyTagDetector):
                 category=self.category,
                 description=self.description,
                 confidence=confidence,
-                metadata={"detected_types": detected_types}
+                metadata={"detected_types": detected_types},
             )
 
         return None
@@ -733,7 +859,9 @@ class SafetyTagEnricher:
         # Thread safety
         self._lock = threading.Lock()
 
-        logger.info(f"SafetyTagEnricher initialized with {len(self.detectors)} detectors, caching={'enabled' if enable_caching else 'disabled'}")
+        logger.info(
+            f"SafetyTagEnricher initialized with {len(self.detectors)} detectors, caching={'enabled' if enable_caching else 'disabled'}"
+        )
 
     def preprocess_text(self, text: str) -> str:
         """
@@ -769,22 +897,22 @@ class SafetyTagEnricher:
             text = text.replace(char, "")
 
         # Canonicalize common email obfuscation patterns
-        text = re.sub(r'\(at\)|\[at\]|\{at\}|<at>|\s+at\s+', '@', text, flags=re.IGNORECASE)
-        text = re.sub(r'\(dot\)|\[dot\]|\{dot\}|<dot>|\s+dot\s+', '.', text, flags=re.IGNORECASE)
+        text = re.sub(r"\(at\)|\[at\]|\{at\}|<at>|\s+at\s+", "@", text, flags=re.IGNORECASE)
+        text = re.sub(r"\(dot\)|\[dot\]|\{dot\}|<dot>|\s+dot\s+", ".", text, flags=re.IGNORECASE)
 
         # Basic homoglyph normalization (Cyrillic/Greek lookalikes)
         homoglyphs = {
-            '\u0430': 'a',  # Cyrillic а
-            '\u043e': 'o',  # Cyrillic о
-            '\u0435': 'e',  # Cyrillic е
-            '\u0440': 'p',  # Cyrillic р
-            '\u0441': 'c',  # Cyrillic с
-            '\u0445': 'x',  # Cyrillic х
-            '\u0443': 'y',  # Cyrillic у
-            '\u03bf': 'o',  # Greek ο
-            '\u03b1': 'a',  # Greek α
-            '\u217c': 'l',  # Roman numeral ⅼ
-            '\u2160': 'I',  # Roman numeral Ⅰ
+            "\u0430": "a",  # Cyrillic а
+            "\u043e": "o",  # Cyrillic о
+            "\u0435": "e",  # Cyrillic е
+            "\u0440": "p",  # Cyrillic р
+            "\u0441": "c",  # Cyrillic с
+            "\u0445": "x",  # Cyrillic х
+            "\u0443": "y",  # Cyrillic у
+            "\u03bf": "o",  # Greek ο
+            "\u03b1": "a",  # Greek α
+            "\u217c": "l",  # Roman numeral ⅼ
+            "\u2160": "I",  # Roman numeral Ⅰ
         }
         for homoglyph, replacement in homoglyphs.items():
             text = text.replace(homoglyph, replacement)
@@ -813,9 +941,11 @@ class SafetyTagEnricher:
             elif isinstance(value, list):
                 # Preprocess list items
                 normalized_plan[key] = [
-                    self.preprocess_text(item) if isinstance(item, str)
-                    else self.preprocess_plan(item) if isinstance(item, dict)
-                    else item
+                    (
+                        self.preprocess_text(item)
+                        if isinstance(item, str)
+                        else self.preprocess_plan(item) if isinstance(item, dict) else item
+                    )
                     for item in value
                 ]
             else:
@@ -823,11 +953,7 @@ class SafetyTagEnricher:
 
         return normalized_plan
 
-    def enrich_plan(
-        self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
-    ) -> TaggedPlan:
+    def enrich_plan(self, plan: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> TaggedPlan:
         """
         Enrich action plan with safety tags.
 
@@ -859,7 +985,7 @@ class SafetyTagEnricher:
                             original_plan=plan,  # Return original, not normalized
                             tags=cached_tags,
                             enrichment_time_ms=enrichment_time_ms,
-                            enrichment_context={"cache_hit": True}
+                            enrichment_context={"cache_hit": True},
                         )
 
                     self.cache_misses += 1
@@ -874,17 +1000,11 @@ class SafetyTagEnricher:
 
                             # Record detection metrics
                             if METRICS_AVAILABLE:
-                                SAFETY_TAGS_DETECTION.labels(
-                                    category=tag.category.value,
-                                    tag=tag.name
-                                ).inc()
+                                SAFETY_TAGS_DETECTION.labels(category=tag.category.value, tag=tag.name).inc()
 
                                 # Record confidence histogram (Task 13 observability)
-                                lane = context.get('lane', 'unknown')
-                                SAFETY_TAGS_CONFIDENCE.labels(
-                                    tag=tag.name,
-                                    lane=lane
-                                ).observe(tag.confidence)
+                                lane = context.get("lane", "unknown")
+                                SAFETY_TAGS_CONFIDENCE.labels(tag=tag.name, lane=lane).observe(tag.confidence)
 
                     except Exception as e:
                         logger.error(f"Error in detector {detector.tag_name}: {e}")
@@ -910,8 +1030,8 @@ class SafetyTagEnricher:
                     enrichment_context={
                         "cache_hit": False,
                         "detector_count": len(self.detectors),
-                        "tags_detected": len(detected_tags)
-                    }
+                        "tags_detected": len(detected_tags),
+                    },
                 )
 
                 # Record metrics
@@ -920,10 +1040,7 @@ class SafetyTagEnricher:
                     SAFETY_TAGS_ENRICHMENT.labels(tag_count_range=tag_count_range).inc()
                     SAFETY_TAGS_EVALUATION_TIME.observe(enrichment_time_ms)
 
-                logger.debug(
-                    f"Plan enriched: {len(detected_tags)} tags detected "
-                    f"({enrichment_time_ms:.2f}ms)"
-                )
+                logger.debug(f"Plan enriched: {len(detected_tags)} tags detected " f"({enrichment_time_ms:.2f}ms)")
 
                 # Advanced, dark-launched hardening (Task 13 evasion coverage)
                 _adv_enrich(plan, tagged_plan)
@@ -939,12 +1056,13 @@ class SafetyTagEnricher:
                     original_plan=plan,
                     tags=[],
                     enrichment_time_ms=enrichment_time_ms,
-                    enrichment_context={"error": str(e)}
+                    enrichment_context={"error": str(e)},
                 )
 
     def _generate_cache_key(self, plan: Dict[str, Any], context: Dict[str, Any]) -> str:
         """Generate cache key for plan + context."""
         import hashlib
+
         content = f"{sorted(plan.items())}_{sorted(context.items())}"
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
@@ -978,7 +1096,7 @@ class SafetyTagEnricher:
             "cache_hits": self.cache_hits,
             "cache_misses": self.cache_misses,
             "cache_hit_rate": self.cache_hits / max(self.cache_hits + self.cache_misses, 1),
-            "available_tags": [detector.tag_name for detector in self.detectors]
+            "available_tags": [detector.tag_name for detector in self.detectors],
         }
 
 
@@ -1009,5 +1127,5 @@ __all__ = [
     "ExternalCallDetector",
     "PrivilegeEscalationDetector",
     "GDPRDetector",
-    "create_safety_tag_enricher"
+    "create_safety_tag_enricher",
 ]

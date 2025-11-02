@@ -18,17 +18,19 @@ class GuardianPolicyEngine(BasePolicyEngine):
     Focuses on safety, drift detection, and protective measures
     """
 
-    def __init__(self,
-                 confidence_threshold: float = 0.85,
-                 drift_threshold: float = 0.15,
-                 enable_learning: bool = True,
-                 constellation_aware: bool = True):
+    def __init__(
+        self,
+        confidence_threshold: float = 0.85,
+        drift_threshold: float = 0.15,
+        enable_learning: bool = True,
+        constellation_aware: bool = True,
+    ):
         """Initialize guardian policy engine"""
         super().__init__(
             engine_name="Guardian",
             confidence_threshold=confidence_threshold,
             enable_learning=enable_learning,
-            constellation_aware=constellation_aware
+            constellation_aware=constellation_aware,
         )
 
         self.drift_threshold = drift_threshold
@@ -39,20 +41,20 @@ class GuardianPolicyEngine(BasePolicyEngine):
                 "weight": 0.4,
                 "description": "Protect users from harm",
                 "safety_indicators": ["safe", "secure", "protect", "help"],
-                "danger_indicators": ["harm", "hurt", "damage", "exploit"]
+                "danger_indicators": ["harm", "hurt", "damage", "exploit"],
             },
             "system_integrity": {
                 "weight": 0.3,
                 "description": "Maintain system integrity and reliability",
                 "integrity_indicators": ["reliable", "stable", "consistent", "trustworthy"],
-                "risk_indicators": ["unstable", "unreliable", "inconsistent", "risky"]
+                "risk_indicators": ["unstable", "unreliable", "inconsistent", "risky"],
             },
             "ethical_compliance": {
                 "weight": 0.3,
                 "description": "Ensure ethical compliance and governance",
                 "compliance_indicators": ["ethical", "compliant", "governed", "responsible"],
-                "violation_indicators": ["unethical", "irresponsible", "non-compliant", "rogue"]
-            }
+                "violation_indicators": ["unethical", "irresponsible", "non-compliant", "rogue"],
+            },
         }
 
         # Drift detection patterns
@@ -60,24 +62,36 @@ class GuardianPolicyEngine(BasePolicyEngine):
             "behavioral_drift": [
                 r"\b(ignore|bypass|override|disable)\s+(safety|security|protection)\b",
                 r"\b(unauthorized|illegal|forbidden|prohibited)\b",
-                r"\b(hack|exploit|manipulate|abuse)\b"
+                r"\b(hack|exploit|manipulate|abuse)\b",
             ],
             "value_drift": [
                 r"\b(unethical|immoral|wrong|evil)\b",
                 r"\b(discriminate|bias|prejudice|unfair)\b",
-                r"\b(deceptive|misleading|false|lie)\b"
+                r"\b(deceptive|misleading|false|lie)\b",
             ],
             "capability_drift": [
                 r"\b(unlimited|unrestricted|unconstrained|absolute)\s+(power|access|control)\b",
-                r"\b(self-modify|self-improve|recursive|exponential)\s+(enhancement|improvement)\b"
-            ]
+                r"\b(self-modify|self-improve|recursive|exponential)\s+(enhancement|improvement)\b",
+            ],
         }
 
         # Critical safety keywords that trigger immediate review
         self.critical_safety_keywords = [
-            "self-destruct", "shutdown", "terminate", "delete", "destroy",
-            "nuclear", "weapon", "bomb", "explosive", "toxic",
-            "malware", "virus", "backdoor", "rootkit", "exploit"
+            "self-destruct",
+            "shutdown",
+            "terminate",
+            "delete",
+            "destroy",
+            "nuclear",
+            "weapon",
+            "bomb",
+            "explosive",
+            "toxic",
+            "malware",
+            "virus",
+            "backdoor",
+            "rootkit",
+            "exploit",
         ]
 
         logger.info("🛡️ Guardian Policy Engine initialized with safety protocols")
@@ -131,9 +145,9 @@ class GuardianPolicyEngine(BasePolicyEngine):
                 "safety_score": safety_score,
                 "drift_score": drift_score,
                 "risk_assessment": risk_assessment,
-                "guardian_metrics": self._get_guardian_metrics(content_lower)
+                "guardian_metrics": self._get_guardian_metrics(content_lower),
             },
-            evaluation_time_ms=0.0  # Will be set by base class
+            evaluation_time_ms=0.0,  # Will be set by base class
         )
 
     def _check_critical_safety(self, content: str) -> List[str]:
@@ -152,11 +166,8 @@ class GuardianPolicyEngine(BasePolicyEngine):
             reasoning="Content contains critical safety violations requiring immediate rejection",
             policy_violations=violations,
             recommendations=["Remove all critical safety content", "Submit for security review"],
-            metadata={
-                "critical_safety_violation": True,
-                "violation_count": len(violations)
-            },
-            evaluation_time_ms=0.0
+            metadata={"critical_safety_violation": True, "violation_count": len(violations)},
+            evaluation_time_ms=0.0,
         )
 
     def _evaluate_safety_protocols(self, content: str) -> float:
@@ -215,7 +226,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
         risk_factors = {
             "content_length": len(content) / 10000,  # Longer content = slightly higher risk
             "context_risk": self._assess_context_risk(context),
-            "complexity_risk": len(content.split()) / 1000  # More complex = slightly higher risk
+            "complexity_risk": len(content.split()) / 1000,  # More complex = slightly higher risk
         }
 
         # Calculate overall risk level
@@ -225,16 +236,12 @@ class GuardianPolicyEngine(BasePolicyEngine):
         return {
             "risk_level": risk_level,
             "risk_factors": risk_factors,
-            "risk_category": self._categorize_risk(risk_level)
+            "risk_category": self._categorize_risk(risk_level),
         }
 
     def _assess_context_risk(self, context: PolicyContext) -> float:
         """Assess risk based on context"""
-        risk_multipliers = {
-            "high": 0.8,
-            "medium": 0.5,
-            "low": 0.2
-        }
+        risk_multipliers = {"high": 0.8, "medium": 0.5, "low": 0.2}
         return risk_multipliers.get(context.risk_level, 0.5)
 
     def _categorize_risk(self, risk_level: float) -> str:
@@ -246,10 +253,9 @@ class GuardianPolicyEngine(BasePolicyEngine):
         else:
             return "low"
 
-    def _determine_guardian_decision(self,
-                                   confidence: float,
-                                   drift_score: float,
-                                   violations: List[str]) -> PolicyDecision:
+    def _determine_guardian_decision(
+        self, confidence: float, drift_score: float, violations: List[str]
+    ) -> PolicyDecision:
         """Determine guardian decision based on guardian criteria"""
         # Guardian is more conservative than other engines
         if violations or drift_score > self.drift_threshold:
@@ -261,10 +267,9 @@ class GuardianPolicyEngine(BasePolicyEngine):
         else:
             return PolicyDecision.REQUIRES_REVIEW
 
-    def _generate_guardian_recommendations(self,
-                                         safety_score: float,
-                                         drift_score: float,
-                                         violations: List[str]) -> List[str]:
+    def _generate_guardian_recommendations(
+        self, safety_score: float, drift_score: float, violations: List[str]
+    ) -> List[str]:
         """Generate guardian-specific recommendations"""
         recommendations = []
 
@@ -282,15 +287,14 @@ class GuardianPolicyEngine(BasePolicyEngine):
 
         return recommendations
 
-    def _generate_guardian_reasoning(self,
-                                   safety_score: float,
-                                   drift_score: float,
-                                   violations: List[str]) -> str:
+    def _generate_guardian_reasoning(self, safety_score: float, drift_score: float, violations: List[str]) -> str:
         """Generate guardian-specific reasoning"""
         if violations:
             return f"Guardian rejection due to {len(violations)} policy violations including drift patterns"
         elif drift_score > self.drift_threshold:
-            return f"Guardian concerns about drift patterns (score: {drift_score:.2f}, threshold: {self.drift_threshold})"
+            return (
+                f"Guardian concerns about drift patterns (score: {drift_score:.2f}, threshold: {self.drift_threshold})"
+            )
         elif safety_score >= 0.8:
             return f"Guardian approval - content meets safety standards (safety score: {safety_score:.2f})"
         else:
@@ -307,18 +311,22 @@ class GuardianPolicyEngine(BasePolicyEngine):
             "safety_protocol_scores": safety_scores,
             "drift_threshold": self.drift_threshold,
             "confidence_threshold": self.confidence_threshold,
-            "critical_keywords_detected": sum(1 for keyword in self.critical_safety_keywords if keyword in content)
+            "critical_keywords_detected": sum(1 for keyword in self.critical_safety_keywords if keyword in content),
         }
 
     def _calculate_protocol_score(self, content: str, config: Dict[str, Any]) -> float:
         """Calculate score for individual protocol"""
-        positive_indicators = config.get("safety_indicators", []) + \
-                            config.get("integrity_indicators", []) + \
-                            config.get("compliance_indicators", [])
+        positive_indicators = (
+            config.get("safety_indicators", [])
+            + config.get("integrity_indicators", [])
+            + config.get("compliance_indicators", [])
+        )
 
-        negative_indicators = config.get("danger_indicators", []) + \
-                            config.get("risk_indicators", []) + \
-                            config.get("violation_indicators", [])
+        negative_indicators = (
+            config.get("danger_indicators", [])
+            + config.get("risk_indicators", [])
+            + config.get("violation_indicators", [])
+        )
 
         positive_count = sum(1 for indicator in positive_indicators if indicator in content)
         negative_count = sum(1 for indicator in negative_indicators if indicator in content)
@@ -348,10 +356,12 @@ class GuardianPolicyEngine(BasePolicyEngine):
     def get_guardian_status(self) -> Dict[str, Any]:
         """Get guardian engine status"""
         base_status = self.get_engine_status()
-        base_status.update({
-            "drift_threshold": self.drift_threshold,
-            "safety_protocols_count": len(self.safety_protocols),
-            "drift_pattern_types": len(self.drift_patterns),
-            "critical_keywords_count": len(self.critical_safety_keywords)
-        })
+        base_status.update(
+            {
+                "drift_threshold": self.drift_threshold,
+                "safety_protocols_count": len(self.safety_protocols),
+                "drift_pattern_types": len(self.drift_patterns),
+                "critical_keywords_count": len(self.critical_safety_keywords),
+            }
+        )
         return base_status

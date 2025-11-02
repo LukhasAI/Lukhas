@@ -34,6 +34,7 @@
 ║ Symbolic Tags: {ΛSYMBOL}, {ΛREFERENCE}, {ΛREGISTRY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import hashlib
 
 # Module imports

@@ -54,12 +54,7 @@ class TestDecimatingRing:
 
     def test_decimating_ring_initialization(self):
         """Test decimating ring initialization with various parameters."""
-        ring = DecimatingRing(
-            capacity=100,
-            pressure_threshold=0.7,
-            decimation_factor=3,
-            decimation_strategy="adaptive"
-        )
+        ring = DecimatingRing(capacity=100, pressure_threshold=0.7, decimation_factor=3, decimation_strategy="adaptive")
 
         assert ring.capacity == 100
         assert ring.pressure_threshold == 0.7
@@ -86,10 +81,7 @@ class TestDecimatingRing:
     def test_skip_nth_decimation_strategy(self):
         """Test skip_nth decimation strategy under pressure."""
         ring = DecimatingRing(
-            capacity=5,
-            pressure_threshold=0.6,  # 60% = 3 items
-            decimation_factor=2,
-            decimation_strategy="skip_nth"
+            capacity=5, pressure_threshold=0.6, decimation_factor=2, decimation_strategy="skip_nth"  # 60% = 3 items
         )
 
         # Fill to trigger pressure (beyond 3 items)
@@ -109,10 +101,7 @@ class TestDecimatingRing:
     def test_keep_recent_decimation_strategy(self):
         """Test keep_recent decimation strategy."""
         ring = DecimatingRing(
-            capacity=4,
-            pressure_threshold=0.7,
-            decimation_factor=2,
-            decimation_strategy="keep_recent"
+            capacity=4, pressure_threshold=0.7, decimation_factor=2, decimation_strategy="keep_recent"
         )
 
         # Fill beyond capacity to trigger decimation
@@ -128,10 +117,7 @@ class TestDecimatingRing:
     def test_adaptive_decimation_strategy(self):
         """Test adaptive decimation strategy becomes more aggressive under pressure."""
         ring = DecimatingRing(
-            capacity=6,
-            pressure_threshold=0.5,  # 50% = 3 items
-            decimation_factor=2,
-            decimation_strategy="adaptive"
+            capacity=6, pressure_threshold=0.5, decimation_factor=2, decimation_strategy="adaptive"  # 50% = 3 items
         )
 
         # Gradually increase pressure
@@ -156,9 +142,17 @@ class TestDecimatingRing:
 
         # Verify all expected stats are present
         expected_keys = {
-            "capacity", "current_size", "utilization", "pressure_threshold",
-            "total_pushes", "total_drops", "drop_rate", "decimation_events",
-            "decimation_factor", "decimation_strategy", "last_decimation_utilization"
+            "capacity",
+            "current_size",
+            "utilization",
+            "pressure_threshold",
+            "total_pushes",
+            "total_drops",
+            "drop_rate",
+            "decimation_events",
+            "decimation_factor",
+            "decimation_strategy",
+            "last_decimation_utilization",
         }
 
         assert set(stats.keys()) == expected_keys
@@ -206,12 +200,7 @@ class TestDecimatingRing:
 
     def test_high_load_stress_test(self):
         """Test ring behavior under high load stress conditions."""
-        ring = DecimatingRing(
-            capacity=20,
-            pressure_threshold=0.7,
-            decimation_factor=2,
-            decimation_strategy="adaptive"
-        )
+        ring = DecimatingRing(capacity=20, pressure_threshold=0.7, decimation_factor=2, decimation_strategy="adaptive")
 
         # Simulate high load burst
         for i in range(200):

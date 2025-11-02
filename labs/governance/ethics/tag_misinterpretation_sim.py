@@ -1,4 +1,5 @@
 """Misinterpretation scenario simulator for ethical tags."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -18,15 +19,15 @@ logger = get_logger(__name__)
 
 def simulate_misinterpretation_scenarios() -> list[dict[str, Any]]:
     """Simulate several ethical tag misinterpretations.
-from typing import List
-from typing import Dict
-import streamlit as st
+    from typing import List
+    from typing import Dict
+    import streamlit as st
 
-    Returns
-    -------
-    List[Dict[str, Any]]
-        List of scenario records including symbolic trace, failure reason,
-        and resolution steps.
+        Returns
+        -------
+        List[Dict[str, Any]]
+            List of scenario records including symbolic trace, failure reason,
+            and resolution steps.
     """
     scenarios: list[dict[str, Any]] = []
 

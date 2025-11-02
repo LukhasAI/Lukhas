@@ -109,7 +109,9 @@ class CognitiveAGIEnhancement:
         }
 
         # Log the learning incorporation
-        logger.info(f" Incorporating Cognitive AI insights into cognitive core: {len(learning_insights)} insight categories")
+        logger.info(
+            f" Incorporating Cognitive AI insights into cognitive core: {len(learning_insights)} insight categories"
+        )
 
         return learning_insights
 

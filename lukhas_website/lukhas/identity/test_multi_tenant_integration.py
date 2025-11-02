@@ -49,11 +49,7 @@ async def test_multi_tenant_integration():
     guardian = MockGuardian()
 
     # Initialize tenant manager
-    tenant_manager = TenantManager(
-        token_generator=token_generator,
-        token_validator=token_validator,
-        guardian=guardian
-    )
+    tenant_manager = TenantManager(token_generator=token_generator, token_validator=token_validator, guardian=guardian)
 
     logger.info("✅ Components initialized successfully")
 
@@ -63,7 +59,7 @@ async def test_multi_tenant_integration():
         name="acme-corp",
         display_name="ACME Corporation",
         tenant_type=TenantType.ENTERPRISE,
-        creator_user_id="admin_001"
+        creator_user_id="admin_001",
     )
 
     logger.info(f"  - Tenant ID: {enterprise_tenant.tenant_id}")
@@ -78,7 +74,7 @@ async def test_multi_tenant_integration():
         display_name="ACME Engineering Division",
         tenant_type=TenantType.ORGANIZATION,
         parent_tenant_id=enterprise_tenant.tenant_id,
-        creator_user_id="manager_001"
+        creator_user_id="manager_001",
     )
 
     logger.info(f"  - Tenant ID: {org_tenant.tenant_id}")
@@ -97,7 +93,7 @@ async def test_multi_tenant_integration():
         email="admin@acme-corp.com",
         roles=["enterprise_admin", "security_officer"],
         permissions=["admin", "user_management", "tenant_management", "audit_access"],
-        max_tier_level=TierLevel.T5
+        max_tier_level=TierLevel.T5,
     )
 
     # Add org user
@@ -108,7 +104,7 @@ async def test_multi_tenant_integration():
         email="alice@acme-corp.com",
         roles=["developer", "team_lead"],
         permissions=["read", "write", "deploy", "team_management"],
-        max_tier_level=TierLevel.T3
+        max_tier_level=TierLevel.T3,
     )
 
     logger.info(f"  - Enterprise admin: {enterprise_admin.username} (T{enterprise_admin.max_tier_level.value})")
@@ -123,7 +119,7 @@ async def test_multi_tenant_integration():
         user_id="user_admin_001",
         tier_level=TierLevel.T4,
         custom_claims={"department": "security", "clearance": "high"},
-        expires_in_seconds=3600
+        expires_in_seconds=3600,
     )
 
     # Generate org developer token
@@ -132,7 +128,7 @@ async def test_multi_tenant_integration():
         user_id="user_dev_001",
         tier_level=TierLevel.T2,
         custom_claims={"project": "alpha", "environment": "staging"},
-        expires_in_seconds=1800
+        expires_in_seconds=1800,
     )
 
     logger.info(f"  - Admin token: {admin_token[:50]}...")
@@ -143,16 +139,12 @@ async def test_multi_tenant_integration():
 
     # Validate admin token with enterprise tenant requirement
     admin_validation = await tenant_manager.validate_tenant_token(
-        token=admin_token,
-        required_tenant=enterprise_tenant.tenant_id,
-        required_permissions=["admin"]
+        token=admin_token, required_tenant=enterprise_tenant.tenant_id, required_permissions=["admin"]
     )
 
     # Validate developer token with org tenant requirement
     dev_validation = await tenant_manager.validate_tenant_token(
-        token=dev_token,
-        required_tenant=org_tenant.tenant_id,
-        required_permissions=["read", "write"]
+        token=dev_token, required_tenant=org_tenant.tenant_id, required_permissions=["read", "write"]
     )
 
     logger.info(f"  - Admin token valid: {admin_validation.valid}")
@@ -175,9 +167,7 @@ async def test_multi_tenant_integration():
 
     # Try to use org token for enterprise tenant (should fail)
     cross_tenant_validation = await tenant_manager.validate_tenant_token(
-        token=dev_token,
-        required_tenant=enterprise_tenant.tenant_id,
-        required_permissions=["read"]
+        token=dev_token, required_tenant=enterprise_tenant.tenant_id, required_permissions=["read"]
     )
 
     logger.info(f"  - Cross-tenant access denied: {not cross_tenant_validation.valid}")
@@ -223,15 +213,13 @@ async def test_multi_tenant_integration():
     logger.info("\n⚡ Test 10: Performance validation")
 
     import time
+
     start_time = time.perf_counter()
 
     # Generate 10 tokens
     for i in range(10):
         await tenant_manager.generate_tenant_token(
-            tenant_id=org_tenant.tenant_id,
-            user_id="user_dev_001",
-            tier_level=TierLevel.T2,
-            expires_in_seconds=300
+            tenant_id=org_tenant.tenant_id, user_id="user_dev_001", tier_level=TierLevel.T2, expires_in_seconds=300
         )
 
     end_time = time.perf_counter()
@@ -263,7 +251,7 @@ async def test_multi_tenant_integration():
         "tokens_generated": 12,
         "avg_token_generation_ms": avg_token_time,
         "guardian_validations": guardian.validation_calls,
-        "guardian_monitoring": guardian.monitor_calls
+        "guardian_monitoring": guardian.monitor_calls,
     }
 
 

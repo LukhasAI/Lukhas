@@ -118,9 +118,7 @@ def export_as_text_narration():
 
         if elevenlabs_enabled:
             try:
-                print(
-                    f"🧪 Attempting to generate audio for: {entry.get('message_id', 'unknown_dream')}"
-                )
+                print(f"🧪 Attempting to generate audio for: {entry.get('message_id', 'unknown_dream')}")
                 client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
                 audio_stream = client.text_to_speech.convert(
                     text=entry["text"],
@@ -156,9 +154,7 @@ def export_as_text_narration():
                 if not args.mute:
                     try:
                         # Use secure subprocess wrapper with input sanitization
-                        clean_text = entry["text"].replace('"', '\\"')[
-                            :200
-                        ]  # Limit length and escape quotes
+                        clean_text = entry["text"].replace('"', '\\"')[:200]  # Limit length and escape quotes
                         safe_subprocess_run(["say", clean_text], timeout=30)
                         print("🗣️ Fallback narration via macOS 'say' succeeded.")
                     except SecurityError as say_error:
@@ -171,9 +167,7 @@ def export_as_text_narration():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Export LUKHAS narrations as audio")
-    parser.add_argument(
-        "--mute", action="store_true", help="Mute autoplay after export"
-    )
+    parser.add_argument("--mute", action="store_true", help="Mute autoplay after export")
     args = parser.parse_args()
 
     print("🧠 Starting LUKHAS audio exporter...")

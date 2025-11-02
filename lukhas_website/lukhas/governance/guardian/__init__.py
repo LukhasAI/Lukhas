@@ -76,19 +76,11 @@ class MockGuardian:
 
     async def validate_request_async(self, request: dict) -> dict:
         """Mock async request validation"""
-        return {
-            "approved": True,
-            "reason": "Mock Guardian approval",
-            "confidence": 0.95
-        }
+        return {"approved": True, "reason": "Mock Guardian approval", "confidence": 0.95}
 
     def validate_action(self, action: dict) -> dict:
         """Mock synchronous action validation"""
-        return {
-            "allowed": True,
-            "reason": "Mock Guardian validation",
-            "confidence": 0.95
-        }
+        return {"allowed": True, "reason": "Mock Guardian validation", "confidence": 0.95}
 
 
 # Global guardian instance

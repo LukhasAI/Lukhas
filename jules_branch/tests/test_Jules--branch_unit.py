@@ -25,10 +25,7 @@ class TestJulesBranchModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "Jules--branch",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "Jules--branch", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestJulesBranchModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         # import jules_branch  # Module name with hyphen - skipping
-        self.assertIsNotNone(Jules--branch)  # noqa: F821  # TODO: Jules
+        self.assertIsNotNone(Jules - -branch)  # noqa: F821  # TODO: Jules
 
     def test_module_version(self):
         """Test module has version information."""
         # import jules_branch  # Module name with hyphen - skipping
         # Most modules should have version info
-        self.assertTrue(hasattr(Jules--branch, '__version__') or  # noqa: F821  # TODO: Jules
-                       hasattr(Jules--branch, 'VERSION'))  # noqa: F821  # TODO: Jules
+        self.assertTrue(
+            hasattr(Jules - -branch, "__version__") or hasattr(Jules - -branch, "VERSION")  # noqa: F821  # TODO: Jules
+        )  # noqa: F821  # TODO: Jules
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestJulesBranchModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

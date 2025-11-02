@@ -1,4 +1,5 @@
 """Stable bridge for API settings surfaces used across main."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -43,6 +44,7 @@ for _name in list(__all__):
 
 
 if "Settings" not in globals():
+
     @dataclass
     class Settings:  # type: ignore[override]
         env: str = "dev"
@@ -53,6 +55,7 @@ if "Settings" not in globals():
 
 
 if "get_settings" not in globals():
+
     def get_settings() -> Settings:  # type: ignore[override]
         return Settings()
 
@@ -62,6 +65,7 @@ if "settings" not in globals():
 
 
 if "settings_router" not in globals():
+
     class _Router:
         def __init__(self) -> None:
             self.routes: list[Any] = []
@@ -74,5 +78,6 @@ if "ENV" not in globals():
 
 
 if "load_env" not in globals():
+
     def load_env(*_args: Any, **_kwargs: Any) -> Optional[Settings]:
         return settings

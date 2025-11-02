@@ -2,6 +2,7 @@
 LUKHAS Service Container - Professional Dependency Injection
 Centralizes service management without adding bridge components
 """
+
 import inspect
 import logging
 from abc import ABC, abstractmethod

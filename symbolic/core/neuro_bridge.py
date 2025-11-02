@@ -20,6 +20,7 @@ from .visual_symbol import VisualSymbol
 @dataclass
 class SceneGraph:
     """Structured scene representation"""
+
     objects: Dict[str, Dict[str, Any]] = field(default_factory=dict)
     attributes: Dict[str, List[str]] = field(default_factory=dict)
     relationships: List[Tuple[str, str, str]] = field(default_factory=list)  # (obj1, relation, obj2)
@@ -34,6 +35,7 @@ class SceneGraph:
 @dataclass
 class PerceptionValueField:
     """Assigns consciousness-aware values to visual elements"""
+
     values: Dict[str, float] = field(default_factory=dict)
     emotional_coupling: Dict[str, Tuple[float, float]] = field(default_factory=dict)  # (valence, arousal)
 
@@ -46,20 +48,20 @@ class PerceptionValueField:
 @dataclass
 class GlobalWorkspace:
     """Broadcasts visual symbols to all MATRIZ nodes"""
+
     broadcast_queue: List[Dict[str, Any]] = field(default_factory=list)
     subscribers: List[str] = field(default_factory=list)
 
     def broadcast(self, symbol: VisualSymbol):
-        self.broadcast_queue.append({
-            "time": time.time(),
-            "symbol": symbol.to_dict(),
-            "matriz_node": symbol.state.to_matriz_node()
-        })
+        self.broadcast_queue.append(
+            {"time": time.time(), "symbol": symbol.to_dict(), "matriz_node": symbol.state.to_matriz_node()}
+        )
 
 
 @dataclass
 class EmotionalCoupling:
     """Links visual symbols to emotional states"""
+
     symbol_emotions: Dict[str, Tuple[float, float]] = field(default_factory=dict)
     resonance_patterns: List[Dict[str, float]] = field(default_factory=list)
 
@@ -84,11 +86,7 @@ class NeuroSymbolicBridge:
         self.processed_symbols[symbol_id] = symbol
 
         # Extract scene elements
-        self.scene_graph.add_object(
-            symbol_id,
-            symbol.state.symbol,
-            position=(np.random.random(), np.random.random())
-        )
+        self.scene_graph.add_object(symbol_id, symbol.state.symbol, position=(np.random.random(), np.random.random()))
 
         # Assign perception value
         value = symbol.state.quantum_field.calculate_probability()
@@ -96,11 +94,7 @@ class NeuroSymbolicBridge:
         self.perception_values.assign_value(symbol_id, value, emotion)
 
         # Emotional coupling
-        self.emotional_coupling.couple(
-            symbol_id,
-            symbol.state.emotional_valence,
-            symbol.state.emotional_arousal
-        )
+        self.emotional_coupling.couple(symbol_id, symbol.state.emotional_valence, symbol.state.emotional_arousal)
 
         # Broadcast to global workspace
         if self.matriz_compatible:
@@ -111,7 +105,7 @@ class NeuroSymbolicBridge:
             "scene_position": self.scene_graph.objects[symbol_id]["position"],
             "perception_value": value,
             "emotional_state": emotion,
-            "broadcast": self.matriz_compatible
+            "broadcast": self.matriz_compatible,
         }
 
     def generate_scene_graph(self, symbols: List[VisualSymbol]) -> SceneGraph:
@@ -121,14 +115,10 @@ class NeuroSymbolicBridge:
 
         # Infer relationships
         for i, sym1 in enumerate(symbols):
-            for sym2 in symbols[i+1:]:
+            for sym2 in symbols[i + 1 :]:
                 # Check for entanglement as relationship
                 if sym2.state.symbol_id in sym1.state.quantum_field.entangled_symbols:
-                    self.scene_graph.add_relationship(
-                        sym1.state.symbol_id,
-                        "entangled_with",
-                        sym2.state.symbol_id
-                    )
+                    self.scene_graph.add_relationship(sym1.state.symbol_id, "entangled_with", sym2.state.symbol_id)
 
         return self.scene_graph
 
@@ -142,15 +132,12 @@ class NeuroSymbolicBridge:
                 "processed_symbols": len(self.processed_symbols),
                 "scene_objects": len(self.scene_graph.objects),
                 "relationships": len(self.scene_graph.relationships),
-                "broadcast_queue": len(self.global_workspace.broadcast_queue)
+                "broadcast_queue": len(self.global_workspace.broadcast_queue),
             },
-            "state": {
-                "confidence": 0.9,
-                "salience": len(self.processed_symbols) / 100.0
-            },
+            "state": {"confidence": 0.9, "salience": len(self.processed_symbols) / 100.0},
             "provenance": {
                 "producer": "symbolic.core.neuro_bridge",
                 "capabilities": ["scene_graph", "global_workspace", "emotional_coupling"],
-                "tenant": "lukhas_agi"
-            }
+                "tenant": "lukhas_agi",
+            },
         }

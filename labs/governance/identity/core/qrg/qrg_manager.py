@@ -19,6 +19,7 @@
 ║ purposes within the LUKHAS ecosystem.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import hashlib
 import json
 import logging

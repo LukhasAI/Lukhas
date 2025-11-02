@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class UserCredentials:
     """User credentials for password authentication"""
+
     username: str
     password_hash: str
     salt: str
@@ -59,10 +60,7 @@ class PasswordAuthenticator(AuthenticatorInterface):
             password_hash = self._hash_password(password, salt)
 
             self.users[username] = UserCredentials(
-                username=username,
-                password_hash=password_hash,
-                salt=salt,
-                roles=roles
+                username=username, password_hash=password_hash, salt=salt, roles=roles
             )
 
         logger.info(f"Loaded {len(self.users)} users for password authentication")
@@ -93,64 +91,40 @@ class PasswordAuthenticator(AuthenticatorInterface):
         try:
             # Check lockout
             if self._is_locked_out(username):
-                return AuthResult(
-                    success=False,
-                    error="Account locked due to too many failed attempts"
-                )
+                return AuthResult(success=False, error="Account locked due to too many failed attempts")
 
             # Get user credentials
             user_creds = self.users.get(username)
             if not user_creds:
                 self._record_failed_attempt(username)
-                return AuthResult(
-                    success=False,
-                    error="Invalid username or password"
-                )
+                return AuthResult(success=False, error="Invalid username or password")
 
             # Check if account is active
             if not user_creds.active:
-                return AuthResult(
-                    success=False,
-                    error="Account is deactivated"
-                )
+                return AuthResult(success=False, error="Account is deactivated")
 
             # Verify password
             if not self._verify_password(password, user_creds.password_hash, user_creds.salt):
                 self._record_failed_attempt(username)
-                return AuthResult(
-                    success=False,
-                    error="Invalid username or password"
-                )
+                return AuthResult(success=False, error="Invalid username or password")
 
             # Successful authentication
             self._clear_failed_attempts(username)
             return AuthResult(
-                success=True,
-                user_id=f"user_{username}",
-                username=username,
-                roles=user_creds.roles.copy()
+                success=True, user_id=f"user_{username}", username=username, roles=user_creds.roles.copy()
             )
 
         except Exception as e:
             logger.error(f"Password authentication failed: {e}")
-            return AuthResult(
-                success=False,
-                error="Authentication error occurred"
-            )
+            return AuthResult(success=False, error="Authentication error occurred")
 
     async def authenticate_token(self, token: str, **kwargs) -> AuthResult:
         """Password authenticator doesn't handle tokens"""
-        return AuthResult(
-            success=False,
-            error="Token authentication not supported by password authenticator"
-        )
+        return AuthResult(success=False, error="Token authentication not supported by password authenticator")
 
     async def authenticate_api_key(self, api_key: str, service_name: str = "unknown") -> AuthResult:
         """Password authenticator doesn't handle API keys"""
-        return AuthResult(
-            success=False,
-            error="API key authentication not supported by password authenticator"
-        )
+        return AuthResult(success=False, error="API key authentication not supported by password authenticator")
 
     def add_user(self, username: str, password: str, roles: list[str] = None) -> bool:
         """Add new user (for management purposes)"""
@@ -163,10 +137,7 @@ class PasswordAuthenticator(AuthenticatorInterface):
             password_hash = self._hash_password(password, salt)
 
             self.users[username] = UserCredentials(
-                username=username,
-                password_hash=password_hash,
-                salt=salt,
-                roles=roles
+                username=username, password_hash=password_hash, salt=salt, roles=roles
             )
 
             logger.info(f"Added user {username}")
@@ -209,7 +180,7 @@ class ApiKeyAuthenticator(AuthenticatorInterface):
             self.api_keys[api_key] = {
                 "service_name": key_config.get("service_name", "unknown"),
                 "roles": key_config.get("roles", ["api_user"]),
-                "active": key_config.get("active", True)
+                "active": key_config.get("active", True),
             }
 
         # Load from environment
@@ -218,7 +189,7 @@ class ApiKeyAuthenticator(AuthenticatorInterface):
             self.api_keys[env_api_key] = {
                 "service_name": "lukhas_system",
                 "roles": ["admin", "api_user"],
-                "active": True
+                "active": True,
             }
 
         logger.info(f"Loaded {len(self.api_keys)} API keys")
@@ -226,46 +197,33 @@ class ApiKeyAuthenticator(AuthenticatorInterface):
     async def authenticate_user(self, username: str, password: str, **kwargs) -> AuthResult:
         """API key authenticator doesn't handle username/password"""
         return AuthResult(
-            success=False,
-            error="Username/password authentication not supported by API key authenticator"
+            success=False, error="Username/password authentication not supported by API key authenticator"
         )
 
     async def authenticate_token(self, token: str, **kwargs) -> AuthResult:
         """API key authenticator doesn't handle tokens"""
-        return AuthResult(
-            success=False,
-            error="Token authentication not supported by API key authenticator"
-        )
+        return AuthResult(success=False, error="Token authentication not supported by API key authenticator")
 
     async def authenticate_api_key(self, api_key: str, service_name: str = "unknown") -> AuthResult:
         """Authenticate with API key"""
         try:
             key_info = self.api_keys.get(api_key)
             if not key_info:
-                return AuthResult(
-                    success=False,
-                    error="Invalid API key"
-                )
+                return AuthResult(success=False, error="Invalid API key")
 
             if not key_info.get("active", True):
-                return AuthResult(
-                    success=False,
-                    error="API key is deactivated"
-                )
+                return AuthResult(success=False, error="API key is deactivated")
 
             return AuthResult(
                 success=True,
                 user_id=f"api_{key_info['service_name']}",
                 username=f"api_user_{service_name}",
-                roles=key_info["roles"].copy()
+                roles=key_info["roles"].copy(),
             )
 
         except Exception as e:
             logger.error(f"API key authentication failed: {e}")
-            return AuthResult(
-                success=False,
-                error="API key authentication error occurred"
-            )
+            return AuthResult(success=False, error="API key authentication error occurred")
 
     def add_api_key(self, api_key: str, service_name: str, roles: list[str] = None) -> bool:
         """Add new API key"""
@@ -273,11 +231,7 @@ class ApiKeyAuthenticator(AuthenticatorInterface):
             if api_key in self.api_keys:
                 return False
 
-            self.api_keys[api_key] = {
-                "service_name": service_name,
-                "roles": roles or ["api_user"],
-                "active": True
-            }
+            self.api_keys[api_key] = {"service_name": service_name, "roles": roles or ["api_user"], "active": True}
 
             logger.info(f"Added API key for service {service_name}")
             return True

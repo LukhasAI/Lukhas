@@ -52,6 +52,7 @@ except ImportError as e:
 @dataclass
 class PerformanceMetrics:
     """Performance metrics for ΛiD token operations."""
+
     operation: str
     latency_ms: float
     success: bool
@@ -101,42 +102,33 @@ class LiDTokenSystemTest:
             self.secret_provider = EnvironmentSecretProvider("test_secret_change_in_production")
 
             # Initialize token generator
-            self.token_generator = TokenGenerator(
-                secret_provider=self.secret_provider,
-                ttl_seconds=3600,
-                issuer="ai"
-            )
+            self.token_generator = TokenGenerator(secret_provider=self.secret_provider, ttl_seconds=3600, issuer="ai")
 
             # Create Guardian validator mock for testing
             def mock_guardian_validator(context: Dict[str, Any]) -> Dict[str, Any]:
                 """Mock Guardian validator for testing."""
-                return {
-                    "approved": True,
-                    "reason": "Test Guardian validation approved",
-                    "score": 0.95
-                }
+                return {"approved": True, "reason": "Test Guardian validation approved", "score": 0.95}
 
             # Initialize token validator
             self.token_validator = TokenValidator(
                 secret_provider=self.secret_provider,
                 guardian_validator=mock_guardian_validator,
                 cache_size=1000,
-                cache_ttl_seconds=300
+                cache_ttl_seconds=300,
             )
 
             # Initialize authentication service
-            self.auth_service = AuthenticationService({
-                "storage_path": "/tmp/lukhas_test_auth",
-                "session_timeout": 3600,
-                "token_cache_size": 1000,
-                "token_cache_ttl": 300
-            })
+            self.auth_service = AuthenticationService(
+                {
+                    "storage_path": "/tmp/lukhas_test_auth",
+                    "session_timeout": 3600,
+                    "token_cache_size": 1000,
+                    "token_cache_ttl": 300,
+                }
+            )
 
             # Initialize introspection service
-            self.introspection_service = TokenIntrospectionService(
-                auth_service=self.auth_service,
-                cache_ttl_seconds=60
-            )
+            self.introspection_service = TokenIntrospectionService(auth_service=self.auth_service, cache_ttl_seconds=60)
 
             logger.info("✅ ΛiD token system test environment ready")
             return True
@@ -156,11 +148,9 @@ class LiDTokenSystemTest:
             alias = make_alias("enterprise", "prod", 2)
             generation_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="alias_generation",
-                latency_ms=generation_time,
-                success=True
-            ))
+            self.metrics.append(
+                PerformanceMetrics(operation="alias_generation", latency_ms=generation_time, success=True)
+            )
 
             logger.info(f"Generated alias: {alias}")
 
@@ -169,12 +159,14 @@ class LiDTokenSystemTest:
             is_valid, error_msg = validate_alias_format(alias)
             validation_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="alias_validation",
-                latency_ms=validation_time,
-                success=is_valid,
-                error=error_msg if not is_valid else None
-            ))
+            self.metrics.append(
+                PerformanceMetrics(
+                    operation="alias_validation",
+                    latency_ms=validation_time,
+                    success=is_valid,
+                    error=error_msg if not is_valid else None,
+                )
+            )
 
             if not is_valid:
                 logger.error(f"❌ Alias validation failed: {error_msg}")
@@ -185,11 +177,9 @@ class LiDTokenSystemTest:
             parsed = parse_alias(alias)
             parsing_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="alias_parsing",
-                latency_ms=parsing_time,
-                success=parsed is not None
-            ))
+            self.metrics.append(
+                PerformanceMetrics(operation="alias_parsing", latency_ms=parsing_time, success=parsed is not None)
+            )
 
             if not parsed:
                 logger.error("❌ Alias parsing failed")
@@ -200,12 +190,7 @@ class LiDTokenSystemTest:
 
         except Exception as e:
             logger.error(f"❌ Alias test failed: {e}")
-            self.metrics.append(PerformanceMetrics(
-                operation="alias_test",
-                latency_ms=0,
-                success=False,
-                error=str(e)
-            ))
+            self.metrics.append(PerformanceMetrics(operation="alias_test", latency_ms=0, success=False, error=str(e)))
             return False
 
     def test_token_generation_and_validation(self) -> bool:
@@ -225,25 +210,19 @@ class LiDTokenSystemTest:
                 "aud": "lukhas",
                 "lukhas_tier": 2,
                 "lukhas_namespace": "test",
-                "permissions": ["read", "write", "test"]
+                "permissions": ["read", "write", "test"],
             }
 
-            token_response: TokenResponse = self.token_generator.create(
-                claims=claims,
-                realm="enterprise",
-                zone="test"
-            )
+            token_response: TokenResponse = self.token_generator.create(claims=claims, realm="enterprise", zone="test")
 
             if not isinstance(token_response.claims, TokenClaims):
                 raise TypeError("Token response did not include TokenClaims payload")
 
             generation_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="token_generation",
-                latency_ms=generation_time,
-                success=True
-            ))
+            self.metrics.append(
+                PerformanceMetrics(operation="token_generation", latency_ms=generation_time, success=True)
+            )
 
             logger.info(f"Generated token with alias: {token_response.alias}")
             logger.info(f"Token expires at: {time.ctime(token_response.exp)}")
@@ -256,22 +235,21 @@ class LiDTokenSystemTest:
                 guardian_enabled=True,
                 ethical_validation_enabled=True,
                 client_ip="127.0.0.1",
-                user_agent="ΛiD-Test/1.0"
+                user_agent="ΛiD-Test/1.0",
             )
 
-            validation_result: ValidationResult = self.token_validator.validate(
-                token_response.jwt,
-                validation_context
-            )
+            validation_result: ValidationResult = self.token_validator.validate(token_response.jwt, validation_context)
 
             validation_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="token_validation",
-                latency_ms=validation_time,
-                success=validation_result.valid,
-                error=validation_result.error_message if not validation_result.valid else None
-            ))
+            self.metrics.append(
+                PerformanceMetrics(
+                    operation="token_validation",
+                    latency_ms=validation_time,
+                    success=validation_result.valid,
+                    error=validation_result.error_message if not validation_result.valid else None,
+                )
+            )
 
             if not validation_result.valid:
                 logger.error(f"❌ Token validation failed: {validation_result.error_message}")
@@ -294,12 +272,7 @@ class LiDTokenSystemTest:
 
         except Exception as e:
             logger.error(f"❌ Token generation/validation test failed: {e}")
-            self.metrics.append(PerformanceMetrics(
-                operation="token_test",
-                latency_ms=0,
-                success=False,
-                error=str(e)
-            ))
+            self.metrics.append(PerformanceMetrics(operation="token_test", latency_ms=0, success=False, error=str(e)))
             return False
 
     def test_authentication_service_integration(self) -> bool:
@@ -314,19 +287,14 @@ class LiDTokenSystemTest:
             start_time = time.time()
 
             test_user = self.auth_service.create_user(
-                username="testuser",
-                password="TestPassword123!",
-                email="test@ai",
-                permissions=["read", "write", "test"]
+                username="testuser", password="TestPassword123!", email="test@ai", permissions=["read", "write", "test"]
             )
 
             user_creation_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="user_creation",
-                latency_ms=user_creation_time,
-                success=True
-            ))
+            self.metrics.append(
+                PerformanceMetrics(operation="user_creation", latency_ms=user_creation_time, success=True)
+            )
 
             logger.info(f"Created test user: {test_user.user_id}")
 
@@ -334,19 +302,19 @@ class LiDTokenSystemTest:
             start_time = time.time()
 
             auth_result: AuthResult = self.auth_service.authenticate_user(
-                username="testuser",
-                password="TestPassword123!",
-                auth_method="lid_token"
+                username="testuser", password="TestPassword123!", auth_method="lid_token"
             )
 
             auth_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="lid_token_auth",
-                latency_ms=auth_time,
-                success=auth_result.success,
-                error=auth_result.error if not auth_result.success else None
-            ))
+            self.metrics.append(
+                PerformanceMetrics(
+                    operation="lid_token_auth",
+                    latency_ms=auth_time,
+                    success=auth_result.success,
+                    error=auth_result.error if not auth_result.success else None,
+                )
+            )
 
             if not auth_result.success:
                 logger.error(f"❌ ΛiD token authentication failed: {auth_result.error}")
@@ -356,7 +324,9 @@ class LiDTokenSystemTest:
             logger.info(f"  - User ID: {auth_result.user_id}")
             logger.info(f"  - Auth Method: {auth_result.auth_method}")
             logger.info(f"  - Permissions: {auth_result.permissions}")
-            logger.info(f"  - Token expires: {time.ctime(auth_result.expires_at) if auth_result.expires_at else 'Unknown'}")
+            logger.info(
+                f"  - Token expires: {time.ctime(auth_result.expires_at) if auth_result.expires_at else 'Unknown'}"
+            )
 
             # Test token validation through auth service
             start_time = time.time()
@@ -365,12 +335,14 @@ class LiDTokenSystemTest:
 
             token_auth_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="token_auth_service",
-                latency_ms=token_auth_time,
-                success=token_auth_result.success,
-                error=token_auth_result.error if not token_auth_result.success else None
-            ))
+            self.metrics.append(
+                PerformanceMetrics(
+                    operation="token_auth_service",
+                    latency_ms=token_auth_time,
+                    success=token_auth_result.success,
+                    error=token_auth_result.error if not token_auth_result.success else None,
+                )
+            )
 
             if not token_auth_result.success:
                 logger.error(f"❌ Token authentication via service failed: {token_auth_result.error}")
@@ -381,12 +353,9 @@ class LiDTokenSystemTest:
 
         except Exception as e:
             logger.error(f"❌ Authentication service integration test failed: {e}")
-            self.metrics.append(PerformanceMetrics(
-                operation="auth_service_test",
-                latency_ms=0,
-                success=False,
-                error=str(e)
-            ))
+            self.metrics.append(
+                PerformanceMetrics(operation="auth_service_test", latency_ms=0, success=False, error=str(e))
+            )
             return False
 
     def test_token_introspection(self) -> bool:
@@ -404,14 +373,10 @@ class LiDTokenSystemTest:
                 "aud": "lukhas",
                 "lukhas_tier": 3,
                 "lukhas_namespace": "introspection_test",
-                "permissions": ["read", "write", "admin"]
+                "permissions": ["read", "write", "admin"],
             }
 
-            token_response: TokenResponse = self.token_generator.create(
-                claims=claims,
-                realm="enterprise",
-                zone="prod"
-            )
+            token_response: TokenResponse = self.token_generator.create(claims=claims, realm="enterprise", zone="prod")
 
             # Test introspection
             start_time = time.time()
@@ -423,7 +388,7 @@ class LiDTokenSystemTest:
                 client_secret="test_secret_12345",
                 client_ip="127.0.0.1",
                 user_agent="ΛiD-Test/1.0",
-                request_id="test_request_001"
+                request_id="test_request_001",
             )
 
             introspection_response: IntrospectionResponse = self.introspection_service.introspect_token(
@@ -432,12 +397,14 @@ class LiDTokenSystemTest:
 
             introspection_time = (time.time() - start_time) * 1000
 
-            self.metrics.append(PerformanceMetrics(
-                operation="token_introspection",
-                latency_ms=introspection_time,
-                success=introspection_response.active,
-                error=introspection_response.error if not introspection_response.active else None
-            ))
+            self.metrics.append(
+                PerformanceMetrics(
+                    operation="token_introspection",
+                    latency_ms=introspection_time,
+                    success=introspection_response.active,
+                    error=introspection_response.error if not introspection_response.active else None,
+                )
+            )
 
             if not introspection_response.active:
                 logger.error(f"❌ Token introspection failed: {introspection_response.error}")
@@ -477,12 +444,9 @@ class LiDTokenSystemTest:
 
         except Exception as e:
             logger.error(f"❌ Token introspection test failed: {e}")
-            self.metrics.append(PerformanceMetrics(
-                operation="introspection_test",
-                latency_ms=0,
-                success=False,
-                error=str(e)
-            ))
+            self.metrics.append(
+                PerformanceMetrics(operation="introspection_test", latency_ms=0, success=False, error=str(e))
+            )
             return False
 
     def benchmark_performance(self, iterations: int = 100) -> bool:
@@ -504,39 +468,28 @@ class LiDTokenSystemTest:
                     "aud": "lukhas",
                     "lukhas_tier": 2,
                     "lukhas_namespace": f"benchmark_{i}",
-                    "permissions": ["read", "write"]
+                    "permissions": ["read", "write"],
                 }
 
                 # Generate token
-                token_response = self.token_generator.create(
-                    claims=claims,
-                    realm="benchmark",
-                    zone="test"
-                )
+                token_response = self.token_generator.create(claims=claims, realm="benchmark", zone="test")
 
                 # Validate token
                 validation_context = ValidationContext(
-                    expected_audience="lukhas",
-                    guardian_enabled=True,
-                    ethical_validation_enabled=True
+                    expected_audience="lukhas", guardian_enabled=True, ethical_validation_enabled=True
                 )
 
-                self.token_validator.validate(
-                    token_response.jwt,
-                    validation_context
-                )
+                self.token_validator.validate(token_response.jwt, validation_context)
 
                 # Introspect token
                 introspection_request = IntrospectionRequest(
                     token=token_response.jwt,
                     token_type_hint="lid_token",
                     client_id="benchmark_client",
-                    client_secret="benchmark_secret_12345"
+                    client_secret="benchmark_secret_12345",
                 )
 
-                self.introspection_service.introspect_token(
-                    introspection_request
-                )
+                self.introspection_service.introspect_token(introspection_request)
 
                 workflow_time = (time.time() - workflow_start) * 1000
                 workflow_times.append(workflow_time)
@@ -564,22 +517,15 @@ class LiDTokenSystemTest:
             else:
                 logger.warning(f"🎯 ⚠️ P95 target missed: {p95:.2f}ms (target: <100ms)")
 
-            self.metrics.append(PerformanceMetrics(
-                operation="workflow_benchmark_p95",
-                latency_ms=p95,
-                success=p95 < 100
-            ))
+            self.metrics.append(
+                PerformanceMetrics(operation="workflow_benchmark_p95", latency_ms=p95, success=p95 < 100)
+            )
 
             return True
 
         except Exception as e:
             logger.error(f"❌ Performance benchmark failed: {e}")
-            self.metrics.append(PerformanceMetrics(
-                operation="benchmark",
-                latency_ms=0,
-                success=False,
-                error=str(e)
-            ))
+            self.metrics.append(PerformanceMetrics(operation="benchmark", latency_ms=0, success=False, error=str(e)))
             return False
 
     def print_performance_summary(self):
@@ -645,7 +591,7 @@ class LiDTokenSystemTest:
             ("Token Generation & Validation", self.test_token_generation_and_validation),
             ("Authentication Service Integration", self.test_authentication_service_integration),
             ("Token Introspection", self.test_token_introspection),
-            ("Performance Benchmark", lambda: self.benchmark_performance(50))
+            ("Performance Benchmark", lambda: self.benchmark_performance(50)),
         ]
 
         for test_name, test_func in tests:

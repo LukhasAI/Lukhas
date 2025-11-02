@@ -12,13 +12,13 @@ from pathlib import Path
 def fix_file(filepath):
     """Fix E402 errors in a single file."""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
     except (IOError, OSError, UnicodeDecodeError) as e:
         print(f"Failed to read {filepath}: {e}")
         return False
 
-    lines = content.split('\n')
+    lines = content.split("\n")
     if not lines:
         return False
 
@@ -33,7 +33,7 @@ def fix_file(filepath):
     i = 0
 
     # Extract shebang
-    if lines[0].startswith('#!'):
+    if lines[0].startswith("#!"):
         shebang = lines[0]
         i = 1
 
@@ -63,19 +63,19 @@ def fix_file(filepath):
             break
 
         # Collect early imports (before docstring)
-        if stripped.startswith('import ') or stripped.startswith('from '):
+        if stripped.startswith("import ") or stripped.startswith("from "):
             early_imports.append(line)
             i += 1
             continue
 
         # Logger definition
-        if 'logger' in stripped.lower() and ('getLogger' in line or 'logging.get' in line):
+        if "logger" in stripped.lower() and ("getLogger" in line or "logging.get" in line):
             logger_def = line
             i += 1
             continue
 
         # Skip blank lines and comments
-        if not stripped or stripped.startswith('#'):
+        if not stripped or stripped.startswith("#"):
             i += 1
             continue
 
@@ -89,13 +89,13 @@ def fix_file(filepath):
         stripped = line.strip()
 
         # Collect imports
-        if stripped.startswith('import ') or stripped.startswith('from '):
+        if stripped.startswith("import ") or stripped.startswith("from "):
             late_imports.append(line)
             i += 1
             continue
 
         # Try/except blocks often contain imports
-        if stripped.startswith('try:'):
+        if stripped.startswith("try:"):
             # Capture entire try block
             indent_level = len(line) - len(line.lstrip())
             late_imports.append(line)
@@ -105,12 +105,12 @@ def fix_file(filepath):
                 block_stripped = block_line.strip()
                 block_indent = len(block_line) - len(block_line.lstrip())
 
-                if block_stripped and block_indent <= indent_level and not block_stripped.startswith('except'):
+                if block_stripped and block_indent <= indent_level and not block_stripped.startswith("except"):
                     break
 
                 late_imports.append(block_line)
                 i += 1
-                if block_stripped.startswith('except'):
+                if block_stripped.startswith("except"):
                     # Continue capturing except block
                     i += 1
                     while i < len(lines):
@@ -133,7 +133,7 @@ def fix_file(filepath):
             continue
 
         # Comments in import section
-        if stripped.startswith('#') and in_import_block:
+        if stripped.startswith("#") and in_import_block:
             late_imports.append(line)
             i += 1
             continue
@@ -153,29 +153,29 @@ def fix_file(filepath):
     # Docstring
     if docstring_lines:
         new_lines.extend(docstring_lines)
-        new_lines.append('')
+        new_lines.append("")
 
     # All imports (early + late)
     all_imports = early_imports + late_imports
     if all_imports:
         new_lines.extend(all_imports)
-        new_lines.append('')
+        new_lines.append("")
 
     # Logger definition
     if logger_def:
         new_lines.append(logger_def)
-        new_lines.append('')
+        new_lines.append("")
 
     # Rest of code
     new_lines.extend(rest_lines)
 
     # Write back
-    new_content = '\n'.join(new_lines)
+    new_content = "\n".join(new_lines)
 
     # Only write if content changed
     if new_content != content:
         try:
-            with open(filepath, 'w', encoding='utf-8') as f:
+            with open(filepath, "w", encoding="utf-8") as f:
                 f.write(new_content)
             return True
         except (IOError, OSError) as e:
@@ -188,22 +188,22 @@ def fix_file(filepath):
 def main():
     # Get files with E402 errors
     result = subprocess.run(
-        ['python3', '-m', 'ruff', 'check', '.', '--select', 'E402', '--output-format=concise'],
+        ["python3", "-m", "ruff", "check", ".", "--select", "E402", "--output-format=concise"],
         capture_output=True,
-        text=True
+        text=True,
     )
 
     files = set()
-    for line in result.stdout.split('\n'):
-        if 'E402' in line:
-            parts = line.split(':')
-            if parts and not any(x in parts[0] for x in ['archive/', 'gemini-dev/', 'b1db8919']):
+    for line in result.stdout.split("\n"):
+        if "E402" in line:
+            parts = line.split(":")
+            if parts and not any(x in parts[0] for x in ["archive/", "gemini-dev/", "b1db8919"]):
                 files.add(parts[0])
 
     print(f"Found {len(files)} files with E402 errors")
 
     # Focus on high-priority directories first
-    priority_dirs = ['bridge/', 'core/', 'matriz/', 'lukhas/']
+    priority_dirs = ["bridge/", "core/", "matriz/", "lukhas/"]
     priority_files = [f for f in files if any(f.startswith(d) for d in priority_dirs)]
 
     print(f"Fixing {len(priority_files)} files in priority directories")
@@ -219,14 +219,20 @@ def main():
 
     # Check remaining errors
     result = subprocess.run(
-        ['python3', '-m', 'ruff', 'check', '.', '--select', 'E402', '--output-format=concise'],
+        ["python3", "-m", "ruff", "check", ".", "--select", "E402", "--output-format=concise"],
         capture_output=True,
-        text=True
+        text=True,
     )
 
-    remaining = len([l for l in result.stdout.split('\n') if 'E402' in l and not any(x in l for x in ['archive/', 'gemini-dev/', 'b1db8919'])])
+    remaining = len(
+        [
+            l
+            for l in result.stdout.split("\n")
+            if "E402" in l and not any(x in l for x in ["archive/", "gemini-dev/", "b1db8919"])
+        ]
+    )
     print(f"Remaining E402 errors: {remaining}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

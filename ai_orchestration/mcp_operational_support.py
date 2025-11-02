@@ -14,30 +14,39 @@ import psutil
 # These would be more fleshed out in a real implementation
 class MCPServerContext:
     """Represents the context of the MCP server."""
+
     def __init__(self):
         self.active_connections = 0
         self.requests_per_minute = 0
         self.error_rate = 0.0
 
+
 class OperationalMetrics:
     """Represents the collected operational metrics."""
+
     def __init__(self, metrics: Dict[str, Any]):
         self.metrics = metrics
         self.timestamp = time.time()
 
+
 class AnalysisResult:
     """Represents the result of an operational analysis."""
+
     def __init__(self, findings: List[str]):
         self.findings = findings
 
+
 class SupportIncident:
     """Represents a support incident."""
+
     def __init__(self, incident_id: str, description: str):
         self.incident_id = incident_id
         self.description = description
 
+
 class WorkflowResult:
     """Represents the result of an automated workflow."""
+
     def __init__(self, success: bool, message: str):
         self.success = success
         self.message = message
@@ -47,6 +56,7 @@ class LUKHASMCPOperationalSupport:
     """
     Provides operational support for the LUKHAS MCP server.
     """
+
     def __init__(self):
         logging.info("LUKHAS MCP Operational Support initialized.")
 

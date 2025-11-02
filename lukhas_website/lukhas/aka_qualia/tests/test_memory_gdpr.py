@@ -323,6 +323,7 @@ class TestPrivacyHashing:
 
         # Create two memory clients with different salts
         from aka_qualia.memory_sql import SqlMemory
+
         memory1 = SqlMemory(sqlite_engine, "salt_1", is_prod=True)
         memory2 = SqlMemory(sqlite_engine, "salt_2", is_prod=True)
 

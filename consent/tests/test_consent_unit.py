@@ -25,10 +25,7 @@ class TestConsentModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "consent",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "consent", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestConsentModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import consent
+
         self.assertIsNotNone(consent)
 
     def test_module_version(self):
         """Test module has version information."""
         import consent
+
         # Most modules should have version info
-        self.assertTrue(hasattr(consent, '__version__') or
-                       hasattr(consent, 'VERSION'))
+        self.assertTrue(hasattr(consent, "__version__") or hasattr(consent, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestConsentStatsResponse(unittest.TestCase):
         """Test ConsentStatsResponse can be imported."""
         try:
             from consent.api import ConsentStatsResponse
+
             self.assertIsNotNone(ConsentStatsResponse)
         except ImportError:
             pytest.skip("Component ConsentStatsResponse not available")
@@ -97,6 +96,7 @@ class TestEscalateRequest(unittest.TestCase):
         """Test EscalateRequest can be imported."""
         try:
             from consent.api import EscalateRequest
+
             self.assertIsNotNone(EscalateRequest)
         except ImportError:
             pytest.skip("Component EscalateRequest not available")
@@ -114,6 +114,7 @@ class TestEscalateResponse(unittest.TestCase):
         """Test EscalateResponse can be imported."""
         try:
             from consent.api import EscalateResponse
+
             self.assertIsNotNone(EscalateResponse)
         except ImportError:
             pytest.skip("Component EscalateResponse not available")
@@ -122,7 +123,6 @@ class TestEscalateResponse(unittest.TestCase):
         """Test EscalateResponse can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

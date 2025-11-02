@@ -52,15 +52,17 @@ class TestMemoryFold:
         """Test the initial importance score calculation for different priorities and types."""
         # High priority episodic memory
         fold_high = MemoryFold(key="high", content="", priority=MemoryPriority.HIGH, memory_type=MemoryType.EPISODIC)
-        assert 0.79 <= fold_high.importance_score <= 0.81 # around 0.80
+        assert 0.79 <= fold_high.importance_score <= 0.81  # around 0.80
 
         # Critical identity memory
-        fold_critical = MemoryFold(key="critical", content="", priority=MemoryPriority.CRITICAL, memory_type=MemoryType.IDENTITY)
-        assert fold_critical.importance_score > 0.95 # should be very high
+        fold_critical = MemoryFold(
+            key="critical", content="", priority=MemoryPriority.CRITICAL, memory_type=MemoryType.IDENTITY
+        )
+        assert fold_critical.importance_score > 0.95  # should be very high
 
         # Low priority context memory
         fold_low = MemoryFold(key="low", content="", priority=MemoryPriority.LOW, memory_type=MemoryType.CONTEXT)
-        assert 0.24 <= fold_low.importance_score <= 0.26 # around 0.30 - 0.05 = 0.25
+        assert 0.24 <= fold_low.importance_score <= 0.26  # around 0.30 - 0.05 = 0.25
 
     def test_update(self):
         """Test the update method."""

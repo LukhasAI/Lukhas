@@ -28,6 +28,7 @@ from labs.bridge.api.onboarding import (
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def api():
     """Fresh OnboardingAPI instance for each test."""
@@ -56,16 +57,14 @@ async def session_with_consent(api):
     result = await api.start_onboarding(email="test@example.com")
     session_id = result["session_id"]
     await api.setup_tier(session_id=session_id, tier="free")
-    await api.collect_consent(
-        session_id=session_id,
-        consents={"data_processing": True, "analytics": True}
-    )
+    await api.collect_consent(session_id=session_id, consents={"data_processing": True, "analytics": True})
     return session_id
 
 
 # ============================================================================
 # Test Onboarding Start (TODO-HIGH-BRIDGE-API-a1b2c3d4)
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.unit
@@ -75,7 +74,7 @@ async def test_onboarding_start_success(api):
         email="test@example.com",
         metadata={"source": "web", "device": "desktop"},
         ip_address="192.168.1.1",
-        user_agent="Mozilla/5.0"
+        user_agent="Mozilla/5.0",
     )
 
     # Verify response structure
@@ -139,6 +138,7 @@ async def test_onboarding_session_expiration_set(api):
 # Test Tier Setup (TODO-HIGH-BRIDGE-API-e5f6a7b8)
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_tier_setup_free_tier(api, started_session):
@@ -163,11 +163,7 @@ async def test_tier_setup_free_tier(api, started_session):
 @pytest.mark.unit
 async def test_tier_setup_pro_with_payment(api, started_session):
     """Test pro tier assignment with valid payment token."""
-    result = await api.setup_tier(
-        session_id=started_session,
-        tier="pro",
-        payment_token="tok_valid_payment_12345678"
-    )
+    result = await api.setup_tier(session_id=started_session, tier="pro", payment_token="tok_valid_payment_12345678")
 
     assert result["tier"] == "pro"
     assert result["tier_config"]["max_requests_per_day"] > 100
@@ -226,19 +222,16 @@ async def test_tier_configuration_schema_loading():
 # Test Consent Collection (TODO-HIGH-BRIDGE-API-c9d0e1f2)
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_consent_collection_success(api, session_with_tier):
     """Test successful GDPR-compliant consent collection."""
     result = await api.collect_consent(
         session_id=session_with_tier,
-        consents={
-            "data_processing": True,
-            "analytics": True,
-            "marketing": False
-        },
+        consents={"data_processing": True, "analytics": True, "marketing": False},
         ip_address="192.168.1.1",
-        user_agent="Mozilla/5.0"
+        user_agent="Mozilla/5.0",
     )
 
     assert result["session_id"] == session_with_tier
@@ -266,8 +259,7 @@ async def test_consent_missing_required(api, session_with_tier):
     """Test consent collection fails without required data_processing consent."""
     with pytest.raises(ValueError, match="Required consent missing"):
         await api.collect_consent(
-            session_id=session_with_tier,
-            consents={"analytics": True, "marketing": False}  # Missing data_processing
+            session_id=session_with_tier, consents={"analytics": True, "marketing": False}  # Missing data_processing
         )
 
 
@@ -277,8 +269,7 @@ async def test_consent_required_denied(api, session_with_tier):
     """Test consent collection fails if required consent is denied."""
     with pytest.raises(ValueError, match="must consent"):
         await api.collect_consent(
-            session_id=session_with_tier,
-            consents={"data_processing": False}  # Required consent denied
+            session_id=session_with_tier, consents={"data_processing": False}  # Required consent denied
         )
 
 
@@ -299,9 +290,7 @@ async def test_consent_revocation_flow(api, session_with_consent):
 
     # Revoke consent
     result = await api.revoke_consent(
-        session_id=session_with_consent,
-        consent_id=consent_to_revoke.consent_id,
-        ip_address="192.168.1.1"
+        session_id=session_with_consent, consent_id=consent_to_revoke.consent_id, ip_address="192.168.1.1"
     )
 
     assert result["status"] == "revoked"
@@ -316,13 +305,13 @@ async def test_consent_revocation_flow(api, session_with_consent):
 # Test Onboarding Completion (TODO-HIGH-BRIDGE-API-g3h4i5j6)
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_onboarding_completion_success(api, session_with_consent):
     """Test successful onboarding completion with identity activation."""
     result = await api.complete_onboarding(
-        session_id=session_with_consent,
-        profile_data={"name": "Test User", "preferences": {"theme": "dark"}}
+        session_id=session_with_consent, profile_data={"name": "Test User", "preferences": {"theme": "dark"}}
     )
 
     assert result["status"] == "completed"
@@ -349,15 +338,8 @@ async def test_onboarding_lambda_id_generation(api):
     start = await api.start_onboarding(email="test@example.com")
     session_id = start["session_id"]
 
-    await api.setup_tier(
-        session_id=session_id,
-        tier="pro",
-        payment_token="tok_test_payment"
-    )
-    await api.collect_consent(
-        session_id=session_id,
-        consents={"data_processing": True}
-    )
+    await api.setup_tier(session_id=session_id, tier="pro", payment_token="tok_test_payment")
+    await api.collect_consent(session_id=session_id, consents={"data_processing": True})
 
     result = await api.complete_onboarding(session_id=session_id)
 
@@ -396,15 +378,13 @@ async def test_onboarding_completion_missing_consent(api, session_with_tier):
 # Integration Tests - Full Flows
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.integration
 async def test_full_onboarding_flow_free_tier(api):
     """Integration test: Complete free tier onboarding flow."""
     # Step 1: Start
-    start = await api.start_onboarding(
-        email="integration@example.com",
-        metadata={"source": "integration_test"}
-    )
+    start = await api.start_onboarding(email="integration@example.com", metadata={"source": "integration_test"})
     session_id = start["session_id"]
     assert start["status"] == "initiated"
 
@@ -414,20 +394,12 @@ async def test_full_onboarding_flow_free_tier(api):
 
     # Step 3: Collect consent
     consent = await api.collect_consent(
-        session_id=session_id,
-        consents={
-            "data_processing": True,
-            "analytics": True,
-            "marketing": False
-        }
+        session_id=session_id, consents={"data_processing": True, "analytics": True, "marketing": False}
     )
     assert consent["guardian_validation"] == "PASSED"
 
     # Step 4: Complete
-    completion = await api.complete_onboarding(
-        session_id=session_id,
-        profile_data={"name": "Integration User"}
-    )
+    completion = await api.complete_onboarding(session_id=session_id, profile_data={"name": "Integration User"})
 
     assert completion["status"] == "completed"
     assert completion["identity_activated"] is True
@@ -442,17 +414,10 @@ async def test_full_onboarding_flow_pro_tier(api):
     start = await api.start_onboarding(email="pro@example.com")
     session_id = start["session_id"]
 
-    tier = await api.setup_tier(
-        session_id=session_id,
-        tier="pro",
-        payment_token="tok_integration_payment"
-    )
+    tier = await api.setup_tier(session_id=session_id, tier="pro", payment_token="tok_integration_payment")
     assert tier["tier"] == "pro"
 
-    await api.collect_consent(
-        session_id=session_id,
-        consents={"data_processing": True}
-    )
+    await api.collect_consent(session_id=session_id, consents={"data_processing": True})
 
     completion = await api.complete_onboarding(session_id=session_id)
 
@@ -476,6 +441,7 @@ async def test_session_status_retrieval(api, session_with_consent):
 # ============================================================================
 # Error Handling & Edge Cases
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.unit
@@ -501,10 +467,7 @@ async def test_invalid_session_operations(api):
         await api.setup_tier(session_id="fake_session", tier="free")
 
     with pytest.raises(ValueError, match="Session not found"):
-        await api.collect_consent(
-            session_id="fake_session",
-            consents={"data_processing": True}
-        )
+        await api.collect_consent(session_id="fake_session", consents={"data_processing": True})
 
     with pytest.raises(ValueError, match="Session not found"):
         await api.complete_onboarding(session_id="fake_session")
@@ -515,10 +478,7 @@ async def test_invalid_session_operations(api):
 async def test_revoke_nonexistent_consent(api, session_with_consent):
     """Test revoking non-existent consent ID."""
     with pytest.raises(ValueError, match="Consent not found"):
-        await api.revoke_consent(
-            session_id=session_with_consent,
-            consent_id="fake_consent_id"
-        )
+        await api.revoke_consent(session_id=session_with_consent, consent_id="fake_consent_id")
 
 
 @pytest.mark.asyncio
@@ -544,7 +504,7 @@ async def test_consent_record_structure(api, session_with_tier):
         session_id=session_with_tier,
         consents={"data_processing": True, "marketing": False},
         ip_address="10.0.0.1",
-        user_agent="Test Agent"
+        user_agent="Test Agent",
     )
 
     session = api.sessions[session_with_tier]
@@ -564,6 +524,7 @@ async def test_consent_record_structure(api, session_with_tier):
 # ============================================================================
 # Coverage: Additional Test Cases
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.unit
@@ -587,17 +548,11 @@ async def test_payment_verification_placeholder(api, started_session):
     """Test payment verification logic (placeholder for real integration)."""
     # Valid payment token format
     result = await api.setup_tier(
-        session_id=started_session,
-        tier="pro",
-        payment_token="tok_valid_12345678"  # 8+ characters
+        session_id=started_session, tier="pro", payment_token="tok_valid_12345678"  # 8+ characters
     )
     assert result["tier"] == "pro"
 
     # Invalid payment token (too short) should fail
     start2 = await api.start_onboarding(email="test2@example.com")
     with pytest.raises(ValueError, match="Payment verification failed"):
-        await api.setup_tier(
-            session_id=start2["session_id"],
-            tier="pro",
-            payment_token="short"  # < 8 characters
-        )
+        await api.setup_tier(session_id=start2["session_id"], tier="pro", payment_token="short")  # < 8 characters

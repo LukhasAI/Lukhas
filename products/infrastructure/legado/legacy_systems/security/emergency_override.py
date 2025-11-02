@@ -65,7 +65,9 @@ def check_safety_flags(
     return triggered
 
 
-def _prepare_log_entry(reason: str, user_context: Optional[Mapping[str, Any]], profile: SafetyProfile) -> Mapping[str, Any]:
+def _prepare_log_entry(
+    reason: str, user_context: Optional[Mapping[str, Any]], profile: SafetyProfile
+) -> Mapping[str, Any]:
     sanitized_reason = sanitize_input(reason)
     user_info = {
         "user": sanitize_input(user_context.get("user", "unknown")) if user_context else "unknown",

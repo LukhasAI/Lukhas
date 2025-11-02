@@ -108,9 +108,7 @@ def test_verify_session_token_accepts_registered_token(oscillator_with_store):
 
 
 def test_verify_session_token_rejects_expired_token(tmp_path):
-    current_time = {
-        "value": datetime(2025, 1, 1, 12, 0, tzinfo=timezone.utc)
-    }
+    current_time = {"value": datetime(2025, 1, 1, 12, 0, tzinfo=timezone.utc)}
 
     def clock() -> datetime:
         return current_time["value"]

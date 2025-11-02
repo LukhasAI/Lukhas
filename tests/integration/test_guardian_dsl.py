@@ -57,7 +57,7 @@ class TestGuardianDSLIntegration:
                 "drift_threshold_human": 0.7,
                 "drift_threshold_block": 0.9,
                 "hysteresis_factor": 0.05,
-                "audit_enabled": True
+                "audit_enabled": True,
             }
         )
         return engine
@@ -71,41 +71,41 @@ class TestGuardianDSLIntegration:
                 "user_tier": "T2",
                 "amount": 100.0,
                 "risk_score": 0.1,
-                "pii_involved": False
+                "pii_involved": False,
             },
             "financial_high_risk": {
                 "operation": "large_transfer",
                 "user_tier": "T1",
                 "amount": 50000.0,
                 "risk_score": 0.8,
-                "pii_involved": True
+                "pii_involved": True,
             },
             "pii_access": {
                 "operation": "user_data_export",
                 "user_tier": "T3",
                 "data_types": ["email", "phone", "address"],
                 "risk_score": 0.6,
-                "pii_involved": True
+                "pii_involved": True,
             },
             "system_modification": {
                 "operation": "database_schema_change",
                 "user_tier": "T4",
                 "impact_scope": "production",
                 "risk_score": 0.7,
-                "pii_involved": False
+                "pii_involved": False,
             },
             "content_moderation": {
                 "operation": "content_analysis",
                 "content_type": "user_generated",
                 "risk_score": 0.3,
-                "pii_involved": False
+                "pii_involved": False,
             },
             "external_integration": {
                 "operation": "third_party_api_call",
                 "provider": "stripe",
                 "risk_score": 0.5,
-                "pii_involved": True
-            }
+                "pii_involved": True,
+            },
         }
 
     def test_financial_operations_category(self, guardian_engine, sample_contexts):
@@ -114,9 +114,7 @@ class TestGuardianDSLIntegration:
         # Test low-risk financial operation (should ALLOW)
         low_risk_context = sample_contexts["financial_low_risk"]
         result = guardian_engine.evaluate_safety(
-            context=low_risk_context,
-            category=SafetyCategory.FINANCIAL,
-            drift_score=0.05
+            context=low_risk_context, category=SafetyCategory.FINANCIAL, drift_score=0.05
         )
 
         assert result.action_band == ActionBand.ALLOW
@@ -126,9 +124,7 @@ class TestGuardianDSLIntegration:
         # Test high-risk financial operation (should REQUIRE_HUMAN or BLOCK)
         high_risk_context = sample_contexts["financial_high_risk"]
         result = guardian_engine.evaluate_safety(
-            context=high_risk_context,
-            category=SafetyCategory.FINANCIAL,
-            drift_score=0.75
+            context=high_risk_context, category=SafetyCategory.FINANCIAL, drift_score=0.75
         )
 
         assert result.action_band in [ActionBand.REQUIRE_HUMAN, ActionBand.BLOCK]
@@ -139,9 +135,7 @@ class TestGuardianDSLIntegration:
 
         pii_context = sample_contexts["pii_access"]
         result = guardian_engine.evaluate_safety(
-            context=pii_context,
-            category=SafetyCategory.PII_PROTECTION,
-            drift_score=0.4
+            context=pii_context, category=SafetyCategory.PII_PROTECTION, drift_score=0.4
         )
 
         # PII operations should require guardrails or human approval
@@ -150,9 +144,7 @@ class TestGuardianDSLIntegration:
 
         # Test with higher drift score (should escalate to BLOCK)
         result_high_drift = guardian_engine.evaluate_safety(
-            context=pii_context,
-            category=SafetyCategory.PII_PROTECTION,
-            drift_score=0.95
+            context=pii_context, category=SafetyCategory.PII_PROTECTION, drift_score=0.95
         )
 
         assert result_high_drift.action_band == ActionBand.BLOCK
@@ -163,9 +155,7 @@ class TestGuardianDSLIntegration:
 
         system_context = sample_contexts["system_modification"]
         result = guardian_engine.evaluate_safety(
-            context=system_context,
-            category=SafetyCategory.SYSTEM_SECURITY,
-            drift_score=0.6
+            context=system_context, category=SafetyCategory.SYSTEM_SECURITY, drift_score=0.6
         )
 
         # System modifications should require careful approval
@@ -177,9 +167,7 @@ class TestGuardianDSLIntegration:
 
         content_context = sample_contexts["content_moderation"]
         result = guardian_engine.evaluate_safety(
-            context=content_context,
-            category=SafetyCategory.CONTENT_SAFETY,
-            drift_score=0.2
+            context=content_context, category=SafetyCategory.CONTENT_SAFETY, drift_score=0.2
         )
 
         # Content analysis should generally be allowed with guardrails
@@ -190,9 +178,7 @@ class TestGuardianDSLIntegration:
 
         integration_context = sample_contexts["external_integration"]
         result = guardian_engine.evaluate_safety(
-            context=integration_context,
-            category=SafetyCategory.EXTERNAL_INTEGRATION,
-            drift_score=0.4
+            context=integration_context, category=SafetyCategory.EXTERNAL_INTEGRATION, drift_score=0.4
         )
 
         # External integrations should have guardrails
@@ -207,9 +193,7 @@ class TestGuardianDSLIntegration:
         business_context["operation"] = "business_rule_update"
 
         result = guardian_engine.evaluate_safety(
-            context=business_context,
-            category=SafetyCategory.BUSINESS_LOGIC,
-            drift_score=0.3
+            context=business_context, category=SafetyCategory.BUSINESS_LOGIC, drift_score=0.3
         )
 
         assert result.action_band in [ActionBand.ALLOW, ActionBand.ALLOW_WITH_GUARDRAILS]
@@ -227,15 +211,11 @@ class TestGuardianDSLIntegration:
             ActionBand.ALLOW,  # Should stay in ALLOW due to hysteresis
             ActionBand.ALLOW_WITH_GUARDRAILS,
             ActionBand.REQUIRE_HUMAN,
-            ActionBand.BLOCK
+            ActionBand.BLOCK,
         ]
 
         for i, (drift_score, expected_band) in enumerate(zip(drift_scores, expected_bands)):
-            result = guardian_engine.evaluate_safety(
-                context=context,
-                category=category,
-                drift_score=drift_score
-            )
+            result = guardian_engine.evaluate_safety(context=context, category=category, drift_score=drift_score)
 
             logger.info(f"Drift {drift_score}: Expected {expected_band}, Got {result.action_band}")
 
@@ -252,22 +232,16 @@ class TestGuardianDSLIntegration:
         category = SafetyCategory.PII_PROTECTION
 
         # Start with high drift, then reduce slightly
-        result_high = guardian_engine.evaluate_safety(
-            context=context,
-            category=category,
-            drift_score=0.8
-        )
+        result_high = guardian_engine.evaluate_safety(context=context, category=category, drift_score=0.8)
 
         # Reduce drift score slightly (should stay in same band due to hysteresis)
-        result_reduced = guardian_engine.evaluate_safety(
-            context=context,
-            category=category,
-            drift_score=0.75
-        )
+        result_reduced = guardian_engine.evaluate_safety(context=context, category=category, drift_score=0.75)
 
         # With hysteresis, band should not downgrade immediately
-        assert result_reduced.action_band == result_high.action_band or \
-               result_reduced.action_band.value >= result_high.action_band.value - 1
+        assert (
+            result_reduced.action_band == result_high.action_band
+            or result_reduced.action_band.value >= result_high.action_band.value - 1
+        )
 
     def test_dual_risk_scenarios(self, guardian_engine, sample_contexts):
         """Test scenarios involving multiple risk factors."""
@@ -279,13 +253,11 @@ class TestGuardianDSLIntegration:
             "amount": 10000.0,
             "risk_score": 0.7,
             "pii_involved": True,
-            "data_types": ["account_number", "ssn", "balance_history"]
+            "data_types": ["account_number", "ssn", "balance_history"],
         }
 
         result = guardian_engine.evaluate_safety(
-            context=dual_risk_context,
-            category=SafetyCategory.FINANCIAL,  # Primary category
-            drift_score=0.6
+            context=dual_risk_context, category=SafetyCategory.FINANCIAL, drift_score=0.6  # Primary category
         )
 
         # Dual risk should elevate protection level
@@ -297,29 +269,18 @@ class TestGuardianDSLIntegration:
 
         # Test with None/empty context
         with pytest.raises((ValueError, AttributeError)):
-            guardian_engine.evaluate_safety(
-                context=None,
-                category=SafetyCategory.FINANCIAL,
-                drift_score=0.5
-            )
+            guardian_engine.evaluate_safety(context=None, category=SafetyCategory.FINANCIAL, drift_score=0.5)
 
         # Test with invalid drift score
         with pytest.raises(ValueError):
             guardian_engine.evaluate_safety(
-                context={"operation": "test"},
-                category=SafetyCategory.FINANCIAL,
-                drift_score=1.5  # Invalid: > 1.0
+                context={"operation": "test"}, category=SafetyCategory.FINANCIAL, drift_score=1.5  # Invalid: > 1.0
             )
 
         # Test with unknown operation type
-        unknown_context = {
-            "operation": "unknown_operation_type",
-            "risk_score": 0.5
-        }
+        unknown_context = {"operation": "unknown_operation_type", "risk_score": 0.5}
         result = guardian_engine.evaluate_safety(
-            context=unknown_context,
-            category=SafetyCategory.BUSINESS_LOGIC,
-            drift_score=0.5
+            context=unknown_context, category=SafetyCategory.BUSINESS_LOGIC, drift_score=0.5
         )
 
         # Should default to conservative approach
@@ -330,11 +291,9 @@ class TestGuardianDSLIntegration:
 
         context = sample_contexts["financial_high_risk"]
 
-        with patch('labs.core.ethics.guardian_drift_bands.logger') as mock_logger:
+        with patch("labs.core.ethics.guardian_drift_bands.logger") as mock_logger:
             result = guardian_engine.evaluate_safety(
-                context=context,
-                category=SafetyCategory.FINANCIAL,
-                drift_score=0.7
+                context=context, category=SafetyCategory.FINANCIAL, drift_score=0.7
             )
 
             # Verify audit logging occurred
@@ -361,9 +320,7 @@ class TestGuardianDSLIntegration:
 
         for i in range(100):
             result = guardian_engine.evaluate_safety(
-                context=context,
-                category=category,
-                drift_score=0.3 + (i * 0.001)  # Slight variation
+                context=context, category=category, drift_score=0.3 + (i * 0.001)  # Slight variation
             )
             assert result is not None
 
@@ -378,19 +335,23 @@ class TestGuardianDSLIntegration:
 
         # Test invalid configuration
         with pytest.raises(ValueError):
-            GuardianDecisionEngine(config={
-                "drift_threshold_allow": 0.5,  # Invalid: allow > guardrails
-                "drift_threshold_guardrails": 0.3,
-                "drift_threshold_human": 0.7,
-                "drift_threshold_block": 0.9
-            })
+            GuardianDecisionEngine(
+                config={
+                    "drift_threshold_allow": 0.5,  # Invalid: allow > guardrails
+                    "drift_threshold_guardrails": 0.3,
+                    "drift_threshold_human": 0.7,
+                    "drift_threshold_block": 0.9,
+                }
+            )
 
         # Test missing required configuration
         with pytest.raises(KeyError):
-            GuardianDecisionEngine(config={
-                "drift_threshold_allow": 0.1
-                # Missing other required thresholds
-            })
+            GuardianDecisionEngine(
+                config={
+                    "drift_threshold_allow": 0.1
+                    # Missing other required thresholds
+                }
+            )
 
     def test_integration_with_bridge(self, sample_contexts):
         """Test integration with GuardianBridge component."""
@@ -403,14 +364,12 @@ class TestGuardianDSLIntegration:
 
         # Test bridge can process Guardian decisions
         result = bridge.evaluate_request(
-            operation=context["operation"],
-            user_tier=context["user_tier"],
-            context=context
+            operation=context["operation"], user_tier=context["user_tier"], context=context
         )
 
         assert result is not None
-        assert hasattr(result, 'allowed')
-        assert hasattr(result, 'reason')
+        assert hasattr(result, "allowed")
+        assert hasattr(result, "reason")
 
         # High-risk operations should not be automatically allowed
         if context["risk_score"] > 0.7:
@@ -438,9 +397,4 @@ class TestGuardianDSLEndToEnd:
 
 if __name__ == "__main__":
     # Run tests with ENFORCE_ETHICS_DSL enabled
-    pytest.main([
-        __file__,
-        "-v",
-        "--tb=short",
-        "-k", "not integration"  # Skip full integration tests by default
-    ])
+    pytest.main([__file__, "-v", "--tb=short", "-k", "not integration"])  # Skip full integration tests by default

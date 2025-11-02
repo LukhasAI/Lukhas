@@ -25,10 +25,7 @@ class TestDiagnosticsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "diagnostics",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "diagnostics", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestDiagnosticsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import diagnostics
+
         self.assertIsNotNone(diagnostics)
 
     def test_module_version(self):
         """Test module has version information."""
         import diagnostics
+
         # Most modules should have version info
-        self.assertTrue(hasattr(diagnostics, '__version__') or
-                       hasattr(diagnostics, 'VERSION'))
+        self.assertTrue(hasattr(diagnostics, "__version__") or hasattr(diagnostics, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testcalculate_drift_score(unittest.TestCase):
         """Test calculate_drift_score can be imported."""
         try:
             from diagnostics.drift_diagnostics import calculate_drift_score
+
             self.assertIsNotNone(calculate_drift_score)
         except ImportError:
             pytest.skip("Component calculate_drift_score not available")
@@ -97,6 +96,7 @@ class Testdetect_collapse_points(unittest.TestCase):
         """Test detect_collapse_points can be imported."""
         try:
             from diagnostics.drift_diagnostics import detect_collapse_points
+
             self.assertIsNotNone(detect_collapse_points)
         except ImportError:
             pytest.skip("Component detect_collapse_points not available")
@@ -114,6 +114,7 @@ class Testgenerate_entropy_map_from_memory(unittest.TestCase):
         """Test generate_entropy_map_from_memory can be imported."""
         try:
             from diagnostics.drift_diagnostics import generate_entropy_map_from_memory
+
             self.assertIsNotNone(generate_entropy_map_from_memory)
         except ImportError:
             pytest.skip("Component generate_entropy_map_from_memory not available")
@@ -122,7 +123,6 @@ class Testgenerate_entropy_map_from_memory(unittest.TestCase):
         """Test generate_entropy_map_from_memory can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

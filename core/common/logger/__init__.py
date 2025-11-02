@@ -1,4 +1,5 @@
 """Compat logger shim exposing getLogger(name: str=None) -> Logger."""
+
 from __future__ import annotations
 
 import logging
@@ -16,13 +17,16 @@ globals().update(_exp)
 
 # Ensure getLogger exists with proper signature
 if "getLogger" not in globals():
+
     def getLogger(name: Optional[str] = None) -> logging.Logger:
         """Get logger with optional name (strict but forgiving)."""
         return logging.getLogger(name or "")
+
     __all__ = list(__all__) + ["getLogger"] if __all__ else ["getLogger"]
 else:
     # Wrap existing getLogger for compat
     _orig = globals()["getLogger"]
+
     def getLogger(name: Optional[str] = None) -> logging.Logger:
         """Compat wrapper for getLogger."""
         try:
@@ -30,5 +34,6 @@ else:
         except TypeError:
             # Fallback to stdlib if signature mismatch
             return logging.getLogger(name or "")
+
 
 safe_guard(__name__, __all__)

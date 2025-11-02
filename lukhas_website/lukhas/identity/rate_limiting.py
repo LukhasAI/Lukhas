@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class RateLimitType(Enum):
     """Rate limit types"""
+
     WEBAUTHN_REGISTRATION = "webauthn_registration"
     WEBAUTHN_AUTHENTICATION = "webauthn_authentication"
     TOKEN_VALIDATION = "token_validation"
@@ -29,6 +30,7 @@ class RateLimitType(Enum):
 @dataclass
 class RateLimitConfig:
     """Rate limit configuration"""
+
     requests_per_minute: int
     requests_per_hour: int
     burst_allowance: int = 5
@@ -42,29 +44,17 @@ class RateLimiter:
     def __init__(self):
         self.configs = {
             RateLimitType.WEBAUTHN_REGISTRATION: RateLimitConfig(
-                requests_per_minute=5,
-                requests_per_hour=20,
-                burst_allowance=2,
-                lockout_duration_minutes=30
+                requests_per_minute=5, requests_per_hour=20, burst_allowance=2, lockout_duration_minutes=30
             ),
             RateLimitType.WEBAUTHN_AUTHENTICATION: RateLimitConfig(
-                requests_per_minute=30,
-                requests_per_hour=200,
-                burst_allowance=10,
-                lockout_duration_minutes=10
+                requests_per_minute=30, requests_per_hour=200, burst_allowance=10, lockout_duration_minutes=10
             ),
             RateLimitType.TOKEN_VALIDATION: RateLimitConfig(
-                requests_per_minute=100,
-                requests_per_hour=2000,
-                burst_allowance=50,
-                lockout_duration_minutes=5
+                requests_per_minute=100, requests_per_hour=2000, burst_allowance=50, lockout_duration_minutes=5
             ),
             RateLimitType.API_GENERAL: RateLimitConfig(
-                requests_per_minute=60,
-                requests_per_hour=1000,
-                burst_allowance=20,
-                lockout_duration_minutes=5
-            )
+                requests_per_minute=60, requests_per_hour=1000, burst_allowance=20, lockout_duration_minutes=5
+            ),
         }
 
         # In-memory storage (for production, use Redis)
@@ -73,10 +63,9 @@ class RateLimiter:
         self._lockouts: Dict[str, float] = {}
         self._violation_counts: Dict[str, int] = defaultdict(int)
 
-    def _get_client_key(self,
-                       client_identifier: str,
-                       rate_limit_type: RateLimitType,
-                       additional_context: Optional[str] = None) -> str:
+    def _get_client_key(
+        self, client_identifier: str, rate_limit_type: RateLimitType, additional_context: Optional[str] = None
+    ) -> str:
         """Generate client key for rate limiting"""
         parts = [client_identifier, rate_limit_type.value]
         if additional_context:
@@ -105,20 +94,16 @@ class RateLimiter:
                 del self._hour_windows[key]
 
         # Clean expired lockouts
-        expired_lockouts = [
-            key for key, lockout_until in self._lockouts.items()
-            if lockout_until < current_time
-        ]
+        expired_lockouts = [key for key, lockout_until in self._lockouts.items() if lockout_until < current_time]
         for key in expired_lockouts:
             del self._lockouts[key]
             # Reduce violation count on lockout expiry
             if key in self._violation_counts:
                 self._violation_counts[key] = max(0, self._violation_counts[key] - 1)
 
-    async def check_rate_limit(self,
-                              client_identifier: str,
-                              rate_limit_type: RateLimitType,
-                              request_context: Optional[Dict[str, Any]] = None) -> Tuple[bool, Dict[str, Any]]:
+    async def check_rate_limit(
+        self, client_identifier: str, rate_limit_type: RateLimitType, request_context: Optional[Dict[str, Any]] = None
+    ) -> Tuple[bool, Dict[str, Any]]:
         """
         Check if request should be rate limited
 
@@ -137,7 +122,7 @@ class RateLimiter:
         additional_context = None
         if request_context:
             # Add user ID to context for per-user limits
-            user_id = request_context.get('user_id')
+            user_id = request_context.get("user_id")
             if user_id:
                 additional_context = f"user:{user_id}"
 
@@ -155,7 +140,7 @@ class RateLimiter:
                     "error": "rate_limit_exceeded",
                     "message": "Client is locked out due to rate limit violations",
                     "lockout_remaining_seconds": remaining_lockout,
-                    "retry_after": int(remaining_lockout) + 1
+                    "retry_after": int(remaining_lockout) + 1,
                 }
 
         # Get current windows
@@ -193,17 +178,19 @@ class RateLimiter:
             if violation_count >= 3:  # 3 strikes rule
                 lockout_duration = config.lockout_duration_minutes * 60
                 # Progressive lockout: longer for repeat offenders
-                lockout_duration *= (1 + violation_count * 0.5)
+                lockout_duration *= 1 + violation_count * 0.5
                 self._lockouts[client_key] = current_time + lockout_duration
 
-                logger.warning(f"Rate limit lockout applied: client={client_identifier}, type={rate_limit_type.value}, duration={lockout_duration}s")
+                logger.warning(
+                    f"Rate limit lockout applied: client={client_identifier}, type={rate_limit_type.value}, duration={lockout_duration}s"
+                )
 
                 return False, {
                     "error": "rate_limit_exceeded",
                     "message": "Rate limit exceeded, lockout applied",
                     "lockout_duration_seconds": lockout_duration,
                     "retry_after": int(lockout_duration) + 1,
-                    "violation_count": violation_count + 1
+                    "violation_count": violation_count + 1,
                 }
 
             # Determine which limit was exceeded
@@ -216,7 +203,9 @@ class RateLimiter:
                 limit_type = "per_hour"
                 limit_value = config.requests_per_hour
 
-            logger.warning(f"Rate limit exceeded: client={client_identifier}, type={rate_limit_type.value}, limit={limit_type}")
+            logger.warning(
+                f"Rate limit exceeded: client={client_identifier}, type={rate_limit_type.value}, limit={limit_type}"
+            )
 
             return False, {
                 "error": "rate_limit_exceeded",
@@ -225,7 +214,7 @@ class RateLimiter:
                 "limit_value": limit_value,
                 "current_usage": minute_requests if limit_type == "per_minute" else hour_requests,
                 "retry_after": int(retry_after) + 1,
-                "violation_count": violation_count + 1
+                "violation_count": violation_count + 1,
             }
 
         # Request allowed - record it
@@ -242,12 +231,10 @@ class RateLimiter:
             "remaining_hour": remaining_hour,
             "reset_minute": int(current_time + (60 - (current_time % 60))),
             "reset_hour": int(current_time + (3600 - (current_time % 3600))),
-            "burst_remaining": burst_available - 1
+            "burst_remaining": burst_available - 1,
         }
 
-    def get_client_status(self,
-                         client_identifier: str,
-                         rate_limit_type: RateLimitType) -> Dict[str, Any]:
+    def get_client_status(self, client_identifier: str, rate_limit_type: RateLimitType) -> Dict[str, Any]:
         """Get current rate limit status for client"""
         current_time = time.time()
         client_key = self._get_client_key(client_identifier, rate_limit_type)
@@ -271,7 +258,7 @@ class RateLimiter:
             "is_locked_out": is_locked_out,
             "lockout_remaining": max(0, lockout_until - current_time) if is_locked_out else 0,
             "violation_count": self._violation_counts[client_key],
-            "timestamp": current_time
+            "timestamp": current_time,
         }
 
 
@@ -289,9 +276,7 @@ def get_rate_limiter() -> RateLimiter:
 
 
 # FastAPI dependency
-async def check_webauthn_rate_limit(client_ip: str,
-                                   operation: str,
-                                   user_id: Optional[str] = None) -> Dict[str, Any]:
+async def check_webauthn_rate_limit(client_ip: str, operation: str, user_id: Optional[str] = None) -> Dict[str, Any]:
     """FastAPI dependency for WebAuthn rate limiting"""
     rate_limiter = get_rate_limiter()
 
@@ -305,16 +290,13 @@ async def check_webauthn_rate_limit(client_ip: str,
 
     context = {"user_id": user_id} if user_id else None
 
-    allowed, metadata = await rate_limiter.check_rate_limit(
-        client_ip, limit_type, context
-    )
+    allowed, metadata = await rate_limiter.check_rate_limit(client_ip, limit_type, context)
 
     if not allowed:
         from fastapi import HTTPException
+
         raise HTTPException(
-            status_code=429,
-            detail=metadata,
-            headers={"Retry-After": str(metadata.get("retry_after", 60))}
+            status_code=429, detail=metadata, headers={"Retry-After": str(metadata.get("retry_after", 60))}
         )
 
     return metadata

@@ -29,7 +29,7 @@ from observability.opentelemetry_tracing import (
 class TestLUKHASTracerWithoutOTel:
     """Test LUKHAS tracer behavior when OpenTelemetry is not available"""
 
-    @patch('observability.opentelemetry_tracing.OTEL_AVAILABLE', False)
+    @patch("observability.opentelemetry_tracing.OTEL_AVAILABLE", False)
     def test_tracer_initialization_without_otel(self):
         """Test tracer initialization when OpenTelemetry is not available"""
         tracer = LUKHASTracer("test-service")
@@ -38,7 +38,7 @@ class TestLUKHASTracerWithoutOTel:
         assert tracer.service_name == "test-service"
         assert tracer.service_version == "1.0.0"
 
-    @patch('observability.opentelemetry_tracing.OTEL_AVAILABLE', False)
+    @patch("observability.opentelemetry_tracing.OTEL_AVAILABLE", False)
     def test_mock_operations_without_otel(self):
         """Test that mock operations work when OpenTelemetry is not available"""
         tracer = LUKHASTracer("test-service")
@@ -76,13 +76,13 @@ class TestLUKHASTracerWithOTel:
         tracer = LUKHASTracer("test-service", enable_auto_instrumentation=False)
 
         # Check that metrics are created
-        assert hasattr(tracer, 'memory_operations_counter')
-        assert hasattr(tracer, 'memory_recall_latency')
-        assert hasattr(tracer, 'fold_operations_counter')
-        assert hasattr(tracer, 'matriz_stage_duration')
-        assert hasattr(tracer, 'matriz_pipeline_duration')
-        assert hasattr(tracer, 'plugin_discovery_counter')
-        assert hasattr(tracer, 'plugin_instantiation_counter')
+        assert hasattr(tracer, "memory_operations_counter")
+        assert hasattr(tracer, "memory_recall_latency")
+        assert hasattr(tracer, "fold_operations_counter")
+        assert hasattr(tracer, "matriz_stage_duration")
+        assert hasattr(tracer, "matriz_pipeline_duration")
+        assert hasattr(tracer, "plugin_discovery_counter")
+        assert hasattr(tracer, "plugin_instantiation_counter")
 
     def test_trace_operation_context_manager(self):
         """Test the trace_operation context manager"""
@@ -126,11 +126,7 @@ class TestLUKHASTracerWithOTel:
 
         # Should not raise exceptions
         tracer.trace_matriz_pipeline(
-            total_duration_ms=180.0,
-            stages_completed=4,
-            stages_failed=1,
-            within_budget=True,
-            user_query="What is 2+2?"
+            total_duration_ms=180.0, stages_completed=4, stages_failed=1, within_budget=True, user_query="What is 2+2?"
         )
 
     def test_plugin_operation_tracing(self):
@@ -185,6 +181,7 @@ class TestTracingDecorators:
 
     def test_trace_function_decorator(self):
         """Test the trace_function decorator"""
+
         @trace_function("custom_operation", {"component": "test"})
         def test_function(x, y):
             return x + y
@@ -195,6 +192,7 @@ class TestTracingDecorators:
 
     def test_trace_function_decorator_with_exception(self):
         """Test trace_function decorator with exception"""
+
         @trace_function("failing_operation")
         def failing_function():
             raise RuntimeError("Test error")
@@ -204,6 +202,7 @@ class TestTracingDecorators:
 
     def test_trace_function_decorator_with_class_method(self):
         """Test trace_function decorator on class methods"""
+
         class TestClass:
             @trace_function("class_method")
             def test_method(self, value):
@@ -304,14 +303,14 @@ class TestTracingIntegration:
 class TestEnvironmentConfiguration:
     """Test environment-based configuration"""
 
-    @patch.dict('os.environ', {'LUKHAS_JAEGER_ENDPOINT': 'localhost:14268'})
+    @patch.dict("os.environ", {"LUKHAS_JAEGER_ENDPOINT": "localhost:14268"})
     def test_jaeger_endpoint_from_env(self):
         """Test Jaeger endpoint configuration from environment"""
         tracer = initialize_tracing(enable_auto_instrumentation=False)
         # Should not raise exceptions during initialization
         assert tracer is not None
 
-    @patch.dict('os.environ', {'LUKHAS_OTLP_ENDPOINT': 'http://localhost:4317'})
+    @patch.dict("os.environ", {"LUKHAS_OTLP_ENDPOINT": "http://localhost:4317"})
     def test_otlp_endpoint_from_env(self):
         """Test OTLP endpoint configuration from environment"""
         tracer = initialize_tracing(enable_auto_instrumentation=False)
@@ -341,6 +340,7 @@ class TestPerformanceAndScaling:
     def test_concurrent_tracing(self):
         """Test concurrent tracing operations"""
         import threading
+
         tracer = get_lukhas_tracer()
         errors = []
 

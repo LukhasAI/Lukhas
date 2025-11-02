@@ -25,10 +25,7 @@ class TestMcpLukhasSseModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "mcp-lukhas-sse",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "mcp-lukhas-sse", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,16 @@ class TestMcpLukhasSseModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         # import mcp_lukhas_sse  # Module name with hyphen - skipping
-        self.assertIsNotNone(mcp-lukhas-sse)  # noqa: F821  # TODO: mcp
+        self.assertIsNotNone(mcp - lukhas - sse)  # noqa: F821  # TODO: mcp
 
     def test_module_version(self):
         """Test module has version information."""
         # import mcp_lukhas_sse  # Module name with hyphen - skipping
         # Most modules should have version info
-        self.assertTrue(hasattr(mcp-lukhas-sse, '__version__') or  # noqa: F821  # TODO: mcp
-                       hasattr(mcp-lukhas-sse, 'VERSION'))  # noqa: F821  # TODO: mcp
+        self.assertTrue(
+            hasattr(mcp - lukhas - sse, "__version__")  # noqa: F821  # TODO: mcp
+            or hasattr(mcp - lukhas - sse, "VERSION")
+        )  # noqa: F821  # TODO: mcp
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -122,7 +121,6 @@ class Testread_file(unittest.TestCase):
         """Test read_file can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

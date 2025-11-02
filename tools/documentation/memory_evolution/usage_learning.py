@@ -68,17 +68,11 @@ class UsageBasedLearning:
         # TODO: Implement pattern identification logic
         # This appears to be incomplete code that was not fully implemented
         for i in range(len(self.interactions) - window_size + 1):
-            window = self.interactions[i:i + window_size]
+            window = self.interactions[i : i + window_size]
             # Extract patterns from the window of interactions
-            [
-                f"{interaction.doc_id}:{interaction.interaction_type}"
-                for interaction in window
-            ]
+            [f"{interaction.doc_id}:{interaction.interaction_type}" for interaction in window]
             # Filter patterns by frequency threshold
-            [
-                pattern for pattern in self.patterns.values()
-                if pattern.frequency >= min_frequency
-            ]
+            [pattern for pattern in self.patterns.values() if pattern.frequency >= min_frequency]
 
     def recommend_next_docs(self, current_doc: str, user_id: str) -> list[str]:
         """Recommend next documents based on patterns and user preferences."""

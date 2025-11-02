@@ -45,15 +45,9 @@ def count_hits(data):
         if "total_hits" in data:
             return data["total_hits"]
         if "aliases" in data:
-            return sum(
-                alias.get("hit_count", 0)
-                for alias in data["aliases"]
-            )
+            return sum(alias.get("hit_count", 0) for alias in data["aliases"])
         # Fallback: count all numeric values
-        return sum(
-            v for v in data.values()
-            if isinstance(v, (int, float))
-        )
+        return sum(v for v in data.values() if isinstance(v, (int, float)))
 
     return 0
 
@@ -73,11 +67,7 @@ def format_summary(data):
         lines.append("")
         lines.append("Top 10 Most Used Aliases:")
 
-        sorted_aliases = sorted(
-            data["aliases"],
-            key=lambda x: x.get("hit_count", 0),
-            reverse=True
-        )[:10]
+        sorted_aliases = sorted(data["aliases"], key=lambda x: x.get("hit_count", 0), reverse=True)[:10]
 
         for i, alias in enumerate(sorted_aliases, 1):
             name = alias.get("name", "unknown")
@@ -89,24 +79,14 @@ def format_summary(data):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Check compat layer alias hits"
-    )
+    ap = argparse.ArgumentParser(description="Check compat layer alias hits")
     ap.add_argument(
         "--file",
         default="docs/audits/compat_alias_hits.json",
-        help="Path to alias hits JSON (default: docs/audits/compat_alias_hits.json)"
+        help="Path to alias hits JSON (default: docs/audits/compat_alias_hits.json)",
     )
-    ap.add_argument(
-        "--max-hits",
-        type=int,
-        help="Maximum allowed hits (exit 1 if exceeded)"
-    )
-    ap.add_argument(
-        "--trend",
-        action="store_true",
-        help="Show trend over time (requires historical data)"
-    )
+    ap.add_argument("--max-hits", type=int, help="Maximum allowed hits (exit 1 if exceeded)")
+    ap.add_argument("--trend", action="store_true", help="Show trend over time (requires historical data)")
     args = ap.parse_args()
 
     file_path = Path(args.file)

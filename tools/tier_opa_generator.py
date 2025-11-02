@@ -28,7 +28,7 @@ def load_tier_permissions() -> Dict[str, Any]:
 
 def calculate_permissions_checksum(permissions: Dict[str, Any]) -> str:
     """Calculate SHA256 checksum of tier permissions for policy validation."""
-    canonical_json = json.dumps(permissions, sort_keys=True, separators=(',', ':'))
+    canonical_json = json.dumps(permissions, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(canonical_json.encode()).hexdigest()
 
 
@@ -53,7 +53,7 @@ def generate_rego_bundle(permissions: Dict[str, Any]) -> str:
         limits = tier_data["rate_limits"]
         tier_rate_limits[tier_name] = {
             "generation_per_hour": limits.get("generation_per_hour", 0),
-            "api_calls_per_minute": limits.get("api_calls_per_minute", 0)
+            "api_calls_per_minute": limits.get("api_calls_per_minute", 0),
         }
 
         # Feature flags per tier
@@ -61,13 +61,13 @@ def generate_rego_bundle(permissions: Dict[str, Any]) -> str:
         tier_features[tier_name] = {
             "api_access": features.get("api_access", "read_only"),
             "biometric_auth": features.get("biometric_auth", False),
-            "multi_device_sync": features.get("multi_device_sync", False)
+            "multi_device_sync": features.get("multi_device_sync", False),
         }
 
     checksum = calculate_permissions_checksum(permissions)
     timestamp = datetime.now(timezone.utc).isoformat()
 
-    rego_content = f'''# Matrix Tracks Identity Authorization Policy
+    rego_content = f"""# Matrix Tracks Identity Authorization Policy
 # Generated from canonical ΛiD tier_permissions.json
 # DO NOT EDIT - Run tools/tier_opa_generator.py to regenerate
 #
@@ -215,7 +215,7 @@ decision_metadata := {{
     "features": tier_features[input.tier],
     "timestamp": time.now_ns()
 }}
-'''
+"""
 
     return rego_content
 
@@ -223,7 +223,7 @@ decision_metadata := {{
 def generate_test_fixtures(permissions: Dict[str, Any]) -> str:
     """Generate OPA test fixtures from tier permissions."""
 
-    test_content = f'''# Matrix Tracks Identity Authorization Tests
+    test_content = f"""# Matrix Tracks Identity Authorization Tests
 # Generated from canonical ΛiD tier_permissions.json
 
 package matrix.authz
@@ -326,7 +326,7 @@ test_expired_token {{
         "env": {{"mfa": false, "webauthn_verified": true}}
     }}
 }}
-'''
+"""
 
     return test_content
 
@@ -366,12 +366,8 @@ def main():
     # Validate generated Rego syntax
     try:
         import subprocess
-        result = subprocess.run(
-            ["opa", "fmt", str(policy_file)],
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
+
+        result = subprocess.run(["opa", "fmt", str(policy_file)], capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             print("✅ Generated Rego syntax is valid")
         else:

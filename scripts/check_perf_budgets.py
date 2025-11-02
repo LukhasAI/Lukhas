@@ -92,7 +92,7 @@ def main():
     reports = [
         ("Unit contracts", "reports/unit.json"),
         ("Capabilities", "reports/capabilities.json"),
-        ("E2E smoke", "reports/e2e.json")
+        ("E2E smoke", "reports/e2e.json"),
     ]
 
     print("=== Performance Budget Check ===")

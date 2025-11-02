@@ -163,9 +163,7 @@ class TestImportSafety:
 
         except ImportError as e:
             if "labs" in str(e) or "candidate" in str(e):
-                raise AssertionError(
-                    f"Registry has import-time dependency: {e}"
-                ) from e
+                raise AssertionError(f"Registry has import-time dependency: {e}") from e
             raise
 
     def test_registry_instantiation_no_imports(self):

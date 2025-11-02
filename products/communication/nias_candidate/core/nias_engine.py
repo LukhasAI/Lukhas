@@ -21,6 +21,8 @@ except (ImportError, AttributeError):  # pragma: no cover - fallback path
                 return _Decision()
 
         return _EthicsEngine()
+
+
 try:
     from ethics.seedra import get_seedra
 except ImportError:  # pragma: no cover - fallback for sandbox
@@ -31,6 +33,8 @@ except ImportError:  # pragma: no cover - fallback for sandbox
                 return {"allowed": True}
 
         return _Seedra()
+
+
 try:
     from symbolic.core import Symbol, SymbolicVocabulary, get_symbolic_vocabulary
 except ImportError:  # pragma: no cover - fallback for sandbox
@@ -49,6 +53,7 @@ except ImportError:  # pragma: no cover - fallback for sandbox
 
     def get_symbolic_vocabulary() -> SymbolicVocabulary:  # type: ignore[override]
         return SymbolicVocabulary()
+
 
 logger = logging.getLogger(__name__)
 
@@ -127,27 +132,33 @@ class ContextAwareRecommendation:
         if isinstance(result, dict):
             if "recommendations" in result and isinstance(result["recommendations"], list):
                 for rec in result["recommendations"]:
-                    payloads.append({
-                        "context": rec,
-                        "user_id": user_context.get("user_id"),
-                        "source": "dast",
-                    })
+                    payloads.append(
+                        {
+                            "context": rec,
+                            "user_id": user_context.get("user_id"),
+                            "source": "dast",
+                        }
+                    )
             elif result:
-                payloads.append({
-                    "context": result,
-                    "user_id": user_context.get("user_id"),
-                    "source": "dast_context",
-                })
+                payloads.append(
+                    {
+                        "context": result,
+                        "user_id": user_context.get("user_id"),
+                        "source": "dast_context",
+                    }
+                )
         elif isinstance(result, list):
             for entry in result:
                 payloads.extend(self._build_recommendations(entry, user_context))
 
         if not payloads:
-            payloads.append({
-                "context": {"signals": user_context.get("signals", {})},
-                "user_id": user_context.get("user_id"),
-                "source": "fallback",
-            })
+            payloads.append(
+                {
+                    "context": {"signals": user_context.get("signals", {})},
+                    "user_id": user_context.get("user_id"),
+                    "source": "fallback",
+                }
+            )
 
         return payloads
 

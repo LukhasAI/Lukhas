@@ -21,6 +21,7 @@ class LukhasAPIUser(HttpUser):
     """
     Simulates a user interacting with LUKHAS API endpoints.
     """
+
     # Wait 0.5-2 seconds between tasks
     wait_time = between(0.5, 2)
 
@@ -50,11 +51,7 @@ class LukhasAPIUser(HttpUser):
     @task(3)  # Weight: 30% of requests
     def health_check(self):
         """Lightweight health check endpoint."""
-        with self.client.get(
-            "/health",
-            catch_response=True,
-            name="/health (GET)"
-        ) as response:
+        with self.client.get("/health", catch_response=True, name="/health (GET)") as response:
             if response.status_code == 200:
                 response.success()
             else:
@@ -70,11 +67,7 @@ class LukhasAPIUser(HttpUser):
         }
 
         with self.client.post(
-            "/v1/responses",
-            json=payload,
-            headers=self.headers,
-            catch_response=True,
-            name="/v1/responses (POST)"
+            "/v1/responses", json=payload, headers=self.headers, catch_response=True, name="/v1/responses (POST)"
         ) as response:
             if response.status_code in [200, 201]:
                 try:
@@ -95,7 +88,7 @@ class LukhasAPIUser(HttpUser):
             "model": random.choice(self.models),
             "messages": [
                 {"role": "system", "content": "You are a consciousness-aware AI assistant."},
-                {"role": "user", "content": random.choice(self.test_inputs)}
+                {"role": "user", "content": random.choice(self.test_inputs)},
             ],
             "max_tokens": 100,
             "temperature": 0.7,
@@ -106,7 +99,7 @@ class LukhasAPIUser(HttpUser):
             json=payload,
             headers=self.headers,
             catch_response=True,
-            name="/v1/chat/completions (POST)"
+            name="/v1/chat/completions (POST)",
         ) as response:
             if response.status_code == 200:
                 try:
@@ -126,6 +119,7 @@ class LukhasHeavyUser(HttpUser):
     Simulates a heavy user with more demanding requests.
     Use this class to test system under high load with complex requests.
     """
+
     wait_time = between(1, 3)
 
     def on_start(self):
@@ -141,10 +135,16 @@ class LukhasHeavyUser(HttpUser):
         payload = {
             "model": "lukhas-consciousness-v1",
             "messages": [
-                {"role": "system", "content": "You are a consciousness-aware AI assistant with deep knowledge of cognitive science."},
+                {
+                    "role": "system",
+                    "content": "You are a consciousness-aware AI assistant with deep knowledge of cognitive science.",
+                },
                 {"role": "user", "content": "Explain the relationship between consciousness and quantum mechanics."},
-                {"role": "assistant", "content": "Consciousness and quantum mechanics intersect in fascinating ways..."},
-                {"role": "user", "content": "Can you elaborate on quantum coherence in biological systems?"}
+                {
+                    "role": "assistant",
+                    "content": "Consciousness and quantum mechanics intersect in fascinating ways...",
+                },
+                {"role": "user", "content": "Can you elaborate on quantum coherence in biological systems?"},
             ],
             "max_tokens": 500,
             "temperature": 0.8,
@@ -155,7 +155,7 @@ class LukhasHeavyUser(HttpUser):
             json=payload,
             headers=self.headers,
             catch_response=True,
-            name="/v1/chat/completions [COMPLEX] (POST)"
+            name="/v1/chat/completions [COMPLEX] (POST)",
         ) as response:
             if response.status_code == 200:
                 response.success()

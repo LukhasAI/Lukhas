@@ -1,4 +1,5 @@
 """MATRIZ DecisionNode implementation."""
+
 from typing import Any, Dict, List
 
 from matriz.core.node_interface import NodeState

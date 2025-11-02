@@ -103,7 +103,11 @@ class MemoryEventFactory:
             {
                 "affect_delta": affect_delta,
                 "driftScore": drift_score,
-                "driftTrend": sum(list(self._drift_history)[-3:]) / min(len(self._drift_history), 3) if self._drift_history else 0.0,
+                "driftTrend": (
+                    sum(list(self._drift_history)[-3:]) / min(len(self._drift_history), 3)
+                    if self._drift_history
+                    else 0.0
+                ),
             }
         )
 

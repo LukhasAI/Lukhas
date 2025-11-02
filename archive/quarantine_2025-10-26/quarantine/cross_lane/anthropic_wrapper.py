@@ -6,6 +6,7 @@ Production facade for the Anthropic wrapper, bridging to the candidate implement
 This maintains lane separation while providing stable access to Anthropic functionality.
 Uses lazy loading to prevent circular imports.
 """
+
 import logging
 
 logger = logging.getLogger(__name__)

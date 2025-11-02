@@ -11,10 +11,7 @@ from tools.ci.split_batches import BatchSplitter  # noqa: E402
 
 
 def test_extract_todo_text_handles_language_block():
-    section = (
-        "**File**: `candidate/core/module.py`\n"
-        "**TODO Text:** ```python\nImplement deterministic control\n```"
-    )
+    section = "**File**: `candidate/core/module.py`\n" "**TODO Text:** ```python\nImplement deterministic control\n```"
     builder = TodoManifestBuilder()
     assert builder._extract_todo_text(section) == "Implement deterministic control"
 

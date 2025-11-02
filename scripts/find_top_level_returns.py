@@ -27,6 +27,7 @@ def has_top_level_return(path: Path) -> bool:
                     return True
     return False
 
+
 def main():
     root = Path(".")
     suspects = []
@@ -40,6 +41,7 @@ def main():
         sys.exit(1)
     print("[OK] no top-level returns detected")
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

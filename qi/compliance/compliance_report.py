@@ -163,9 +163,7 @@ class ComplianceReport(TypedDict):
 class GuardianAuditInterface:
     """Mock interface to Guardian System audit trails."""
 
-    def get_access_logs(
-        self, user_id: str, start_date: datetime, end_date: datetime
-    ) -> List[AccessRecord]:
+    def get_access_logs(self, user_id: str, start_date: datetime, end_date: datetime) -> List[AccessRecord]:
         """Retrieve access logs from Guardian System.
 
         In production, this would query the actual Guardian audit trail.
@@ -420,9 +418,7 @@ class ComplianceReportGenerator:
         """Retrieve consent history for user."""
         return self._guardian.get_consent_records(user_id)
 
-    def _get_access_log(
-        self, user_id: str, start_date: datetime, end_date: datetime
-    ) -> List[AccessRecord]:
+    def _get_access_log(self, user_id: str, start_date: datetime, end_date: datetime) -> List[AccessRecord]:
         """Retrieve data access log for user within date range."""
         all_logs = self._guardian.get_access_logs(user_id, start_date, end_date)
 
@@ -494,9 +490,7 @@ class ComplianceReportGenerator:
             },
         ]
 
-    def _get_security_events(
-        self, user_id: str, start_date: datetime, end_date: datetime
-    ) -> List[SecurityEvent]:
+    def _get_security_events(self, user_id: str, start_date: datetime, end_date: datetime) -> List[SecurityEvent]:
         """Retrieve security events for user within date range."""
         all_events = self._guardian.get_security_events(user_id, start_date, end_date)
 
@@ -559,8 +553,7 @@ class ComplianceReportGenerator:
 
         # Add third-country transfer info
         non_eu_transfers = [
-            tp for tp in report["third_party_disclosures"]
-            if "European Union" not in tp.get("location", "")
+            tp for tp in report["third_party_disclosures"] if "European Union" not in tp.get("location", "")
         ]
         report["metadata"]["third_country_transfers"] = len(non_eu_transfers)
 
@@ -614,13 +607,12 @@ class ComplianceReportGenerator:
 
         # International transfers
         international_transfers = [
-            tp for tp in report["third_party_disclosures"]
-            if "Brazil" not in tp.get("location", "")
+            tp for tp in report["third_party_disclosures"] if "Brazil" not in tp.get("location", "")
         ]
         report["metadata"]["international_transfers"] = len(international_transfers)
-        report["metadata"]["safeguards_for_transfers"] = [
-            tp["safeguards"] for tp in international_transfers
-        ] if international_transfers else []
+        report["metadata"]["safeguards_for_transfers"] = (
+            [tp["safeguards"] for tp in international_transfers] if international_transfers else []
+        )
 
         report["metadata"]["retention_period"] = "See Retention Compliance section"
         report["metadata"]["data_subject_rights"] = (
@@ -653,15 +645,17 @@ class ComplianceReportGenerator:
             status_text = "Active" if consent["active"] else f"Withdrawn ({consent.get('withdrawn_at', 'N/A')})"
             scope_text = ", ".join(consent["scope"])
 
-            html.extend([
-                "      <tr>",
-                f'        <td>{consent["timestamp"]}</td>',
-                f'        <td>{consent["purpose"]}</td>',
-                f'        <td>{consent["legal_basis"]}</td>',
-                f'        <td>{scope_text}</td>',
-                f'        <td class="{status_class}">{status_text}</td>',
-                "      </tr>",
-            ])
+            html.extend(
+                [
+                    "      <tr>",
+                    f'        <td>{consent["timestamp"]}</td>',
+                    f'        <td>{consent["purpose"]}</td>',
+                    f'        <td>{consent["legal_basis"]}</td>',
+                    f"        <td>{scope_text}</td>",
+                    f'        <td class="{status_class}">{status_text}</td>',
+                    "      </tr>",
+                ]
+            )
 
         html.extend(["    </table>", "  </div>"])
         return html
@@ -685,16 +679,18 @@ class ComplianceReportGenerator:
         for access in accesses:
             categories_text = ", ".join(access["data_categories"])
 
-            html.extend([
-                "      <tr>",
-                f'        <td>{access["timestamp"]}</td>',
-                f'        <td>{access["accessor"]}</td>',
-                f'        <td>{access["accessor_type"]}</td>',
-                f'        <td>{categories_text}</td>',
-                f'        <td>{access["purpose"]}</td>',
-                f'        <td>{access["legal_basis"]}</td>',
-                "      </tr>",
-            ])
+            html.extend(
+                [
+                    "      <tr>",
+                    f'        <td>{access["timestamp"]}</td>',
+                    f'        <td>{access["accessor"]}</td>',
+                    f'        <td>{access["accessor_type"]}</td>',
+                    f"        <td>{categories_text}</td>",
+                    f'        <td>{access["purpose"]}</td>',
+                    f'        <td>{access["legal_basis"]}</td>',
+                    "      </tr>",
+                ]
+            )
 
         html.extend(["    </table>", "  </div>"])
         return html
@@ -718,14 +714,16 @@ class ComplianceReportGenerator:
             years = days // 365
             period_text = f"{years} years" if years > 0 else f"{days} days"
 
-            html.extend([
-                "      <tr>",
-                f'        <td>{policy["data_category"]}</td>',
-                f'        <td>{period_text} ({days} days)</td>',
-                f'        <td>{policy["next_deletion_date"]}</td>',
-                f'        <td>{policy["policy_basis"]}</td>',
-                "      </tr>",
-            ])
+            html.extend(
+                [
+                    "      <tr>",
+                    f'        <td>{policy["data_category"]}</td>',
+                    f"        <td>{period_text} ({days} days)</td>",
+                    f'        <td>{policy["next_deletion_date"]}</td>',
+                    f'        <td>{policy["policy_basis"]}</td>',
+                    "      </tr>",
+                ]
+            )
 
         html.extend(["    </table>", "  </div>"])
         return html
@@ -749,15 +747,17 @@ class ComplianceReportGenerator:
             scope_text = ", ".join(deletion["scope"])
             status_badge = self._get_status_badge(deletion["status"])
 
-            html.extend([
-                "      <tr>",
-                f'        <td>{deletion["timestamp"]}</td>',
-                f'        <td>{deletion["request_type"]}</td>',
-                f'        <td>{scope_text}</td>',
-                f'        <td>{status_badge}</td>',
-                f'        <td>{deletion.get("completed_at", "N/A")}</td>',
-                "      </tr>",
-            ])
+            html.extend(
+                [
+                    "      <tr>",
+                    f'        <td>{deletion["timestamp"]}</td>',
+                    f'        <td>{deletion["request_type"]}</td>',
+                    f"        <td>{scope_text}</td>",
+                    f"        <td>{status_badge}</td>",
+                    f'        <td>{deletion.get("completed_at", "N/A")}</td>',
+                    "      </tr>",
+                ]
+            )
 
         html.extend(["    </table>", "  </div>"])
         return html
@@ -782,16 +782,18 @@ class ComplianceReportGenerator:
             categories_text = ", ".join(tp["data_categories"])
             safeguards_text = ", ".join(tp["safeguards"])
 
-            html.extend([
-                "      <tr>",
-                f'        <td>{tp["name"]}</td>',
-                f'        <td>{tp["purpose"]}</td>',
-                f'        <td>{categories_text}</td>',
-                f'        <td>{tp["legal_basis"]}</td>',
-                f'        <td>{safeguards_text}</td>',
-                f'        <td>{tp["location"]}</td>',
-                "      </tr>",
-            ])
+            html.extend(
+                [
+                    "      <tr>",
+                    f'        <td>{tp["name"]}</td>',
+                    f'        <td>{tp["purpose"]}</td>',
+                    f"        <td>{categories_text}</td>",
+                    f'        <td>{tp["legal_basis"]}</td>',
+                    f"        <td>{safeguards_text}</td>",
+                    f'        <td>{tp["location"]}</td>',
+                    "      </tr>",
+                ]
+            )
 
         html.extend(["    </table>", "  </div>"])
         return html
@@ -815,15 +817,17 @@ class ComplianceReportGenerator:
             severity_badge = self._get_severity_badge(event["severity"])
             resolved_text = "Yes" if event["resolved"] else "No"
 
-            html.extend([
-                "      <tr>",
-                f'        <td>{event["timestamp"]}</td>',
-                f'        <td>{event["event_type"]}</td>',
-                f'        <td>{event["description"]}</td>',
-                f'        <td>{severity_badge}</td>',
-                f'        <td>{resolved_text}</td>',
-                "      </tr>",
-            ])
+            html.extend(
+                [
+                    "      <tr>",
+                    f'        <td>{event["timestamp"]}</td>',
+                    f'        <td>{event["event_type"]}</td>',
+                    f'        <td>{event["description"]}</td>',
+                    f"        <td>{severity_badge}</td>",
+                    f"        <td>{resolved_text}</td>",
+                    "      </tr>",
+                ]
+            )
 
         html.extend(["    </table>", "  </div>"])
         return html

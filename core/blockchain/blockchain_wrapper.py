@@ -1,4 +1,5 @@
 """Minimal blockchain wrapper for immutable Healix audit events."""
+
 from __future__ import annotations
 
 import hashlib

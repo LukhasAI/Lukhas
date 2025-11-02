@@ -40,6 +40,7 @@ def create_authority_content_summary(pillar_name: str, theme: str, frequency: st
 @dataclass
 class AuthorityScore:
     """Represents the calculated authority score and its components."""
+
     overall_score: float
     consciousness_depth: float
     technical_expertise: float
@@ -51,6 +52,7 @@ class AuthorityScore:
 @dataclass
 class Strategy:
     """Recommended positioning strategy."""
+
     name: str
     description: str
     key_actions: list[str] = field(default_factory=list)
@@ -106,6 +108,7 @@ class ConsciousnessAuthorityBuilder:
         try:
             from consciousness.consciousness_wrapper import ConsciousnessWrapper
             from identity.lambda_id_wrapper import LambdaIdWrapper
+
             self.identity_wrapper = LambdaIdWrapper()
             self.consciousness_wrapper = ConsciousnessWrapper()
         except ImportError:
@@ -149,11 +152,11 @@ class ConsciousnessAuthorityBuilder:
             "profile_completeness": 0.05,
         }
         overall_score = (
-            consciousness_depth * weights["consciousness_depth"] +
-            technical_expertise * weights["technical_expertise"] +
-            community_engagement * weights["community_engagement"] +
-            innovation_leadership * weights["innovation_leadership"] +
-            profile_completeness * weights["profile_completeness"]
+            consciousness_depth * weights["consciousness_depth"]
+            + technical_expertise * weights["technical_expertise"]
+            + community_engagement * weights["community_engagement"]
+            + innovation_leadership * weights["innovation_leadership"]
+            + profile_completeness * weights["profile_completeness"]
         )
 
         return AuthorityScore(
@@ -215,7 +218,7 @@ class ConsciousnessAuthorityBuilder:
                     "Create open-source tools for consciousness development.",
                     "Host workshops and webinars on technical topics.",
                 ],
-                potential_impact="Become a trusted authority among the technical community."
+                potential_impact="Become a trusted authority among the technical community.",
             )
         elif strongest_area == "community_engagement":
             return Strategy(
@@ -226,7 +229,7 @@ class ConsciousnessAuthorityBuilder:
                     "Host regular community events and AMAs.",
                     "Spotlight community members and their projects.",
                 ],
-                potential_impact="Create a loyal following and a strong network effect."
+                potential_impact="Create a loyal following and a strong network effect.",
             )
         elif strongest_area == "innovation_leadership":
             return Strategy(
@@ -237,9 +240,9 @@ class ConsciousnessAuthorityBuilder:
                     "Launch a podcast or video series on innovation.",
                     "Collaborate with other visionaries on research projects.",
                 ],
-                potential_impact="Become known as a key influencer shaping the industry's future."
+                potential_impact="Become known as a key influencer shaping the industry's future.",
             )
-        else: # Default to consciousness_depth
+        else:  # Default to consciousness_depth
             return Strategy(
                 name="The Philosopher-King",
                 description="Focus on the deep philosophical and ethical implications of consciousness technology.",
@@ -248,7 +251,7 @@ class ConsciousnessAuthorityBuilder:
                     "Engage in debates and discussions on AI ethics.",
                     "Develop and publish a personal manifesto on conscious AI.",
                 ],
-                potential_impact="Become a respected voice on the moral and philosophical dimensions of AI."
+                potential_impact="Become a respected voice on the moral and philosophical dimensions of AI.",
             )
 
     def _establish_brand_philosophy(self) -> dict[str, str]:

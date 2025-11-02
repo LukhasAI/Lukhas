@@ -200,7 +200,9 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 bio_symbolic_data = self._create_authentication_bio_data(authentication_tier, biometric_data)
 
                 # Create Constellation compliance data
-                constellation_compliance = self._create_authentication_trinity_compliance(authentication_tier, namespace_data)
+                constellation_compliance = self._create_authentication_trinity_compliance(
+                    authentication_tier, namespace_data
+                )
 
                 # Create temporal context
                 temporal_context = TemporalContext(

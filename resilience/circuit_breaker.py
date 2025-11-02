@@ -25,13 +25,15 @@ logger = logging.getLogger(__name__)
 
 class CircuitState(Enum):
     """Circuit breaker states."""
-    CLOSED = "closed"      # Normal operation
-    OPEN = "open"          # Failing, rejecting requests
+
+    CLOSED = "closed"  # Normal operation
+    OPEN = "open"  # Failing, rejecting requests
     HALF_OPEN = "half_open"  # Testing recovery
 
 
 class FailurePattern(Enum):
     """Types of failure patterns detected."""
+
     TIMEOUT = "timeout"
     EXCEPTION = "exception"
     SLOW_RESPONSE = "slow_response"
@@ -44,24 +46,24 @@ class CircuitBreakerConfig:
     """Configuration for circuit breaker."""
 
     # Failure thresholds
-    failure_threshold: int = 5              # Failures before opening
-    failure_rate_threshold: float = 0.5     # Failure rate (0-1) before opening
-    slow_call_threshold: float = 2.0        # Slow call duration threshold (seconds)
-    slow_call_rate_threshold: float = 0.5   # Slow call rate before opening
+    failure_threshold: int = 5  # Failures before opening
+    failure_rate_threshold: float = 0.5  # Failure rate (0-1) before opening
+    slow_call_threshold: float = 2.0  # Slow call duration threshold (seconds)
+    slow_call_rate_threshold: float = 0.5  # Slow call rate before opening
 
     # Time windows
-    failure_window_sec: float = 60.0        # Window for counting failures
-    recovery_timeout_sec: float = 30.0      # Time in OPEN before trying HALF_OPEN
-    half_open_calls: int = 3                # Test calls in HALF_OPEN state
+    failure_window_sec: float = 60.0  # Window for counting failures
+    recovery_timeout_sec: float = 30.0  # Time in OPEN before trying HALF_OPEN
+    half_open_calls: int = 3  # Test calls in HALF_OPEN state
 
     # Advanced features
-    adaptive_thresholds: bool = True        # Enable adaptive threshold learning
-    exponential_backoff: bool = True        # Use exponential backoff for recovery
-    jitter: bool = True                     # Add jitter to prevent thundering herd
+    adaptive_thresholds: bool = True  # Enable adaptive threshold learning
+    exponential_backoff: bool = True  # Use exponential backoff for recovery
+    jitter: bool = True  # Add jitter to prevent thundering herd
 
     # Health scoring
-    health_check_interval: float = 10.0     # Health check frequency
-    auto_healing_enabled: bool = True       # Enable automatic healing attempts
+    health_check_interval: float = 10.0  # Health check frequency
+    auto_healing_enabled: bool = True  # Enable automatic healing attempts
 
 
 @dataclass
@@ -109,7 +111,7 @@ class CircuitBreakerStats:
             "state_changes": self.state_changes,
             "last_state_change": self.last_state_change,
             "time_in_open": self.time_in_open,
-            "time_in_half_open": self.time_in_half_open
+            "time_in_half_open": self.time_in_half_open,
         }
 
 
@@ -125,9 +127,7 @@ class FailureDetector(ABC):
 class DefaultFailureDetector(FailureDetector):
     """Default failure detection strategy."""
 
-    def __init__(self,
-                 slow_call_threshold: float = 2.0,
-                 timeout_threshold: float = 30.0):
+    def __init__(self, slow_call_threshold: float = 2.0, timeout_threshold: float = 30.0):
         self.slow_call_threshold = slow_call_threshold
         self.timeout_threshold = timeout_threshold
 
@@ -145,9 +145,7 @@ class DefaultFailureDetector(FailureDetector):
 class AdaptiveThresholdCalculator:
     """Calculates adaptive thresholds based on historical performance."""
 
-    def __init__(self,
-                 history_size: int = 1000,
-                 percentile: float = 0.95):
+    def __init__(self, history_size: int = 1000, percentile: float = 0.95):
         self.history_size = history_size
         self.percentile = percentile
         self.response_times: deque = deque(maxlen=history_size)
@@ -189,13 +187,15 @@ class AdaptiveThresholdCalculator:
 class CircuitBreaker:
     """Advanced circuit breaker with adaptive behavior."""
 
-    def __init__(self,
-                 name: str,
-                 config: Optional[CircuitBreakerConfig] = None,
-                 failure_detector: Optional[FailureDetector] = None):
+    def __init__(
+        self,
+        name: str,
+        config: Optional[CircuitBreakerConfig] = None,
+        failure_detector: Optional[FailureDetector] = None,
+    ):
         """
         Initialize circuit breaker.
-        
+
         Args:
             name: Circuit breaker identifier
             config: Configuration parameters
@@ -235,6 +235,7 @@ class CircuitBreaker:
         # Telemetry integration
         try:
             from observability.telemetry_system import get_telemetry
+
             self.telemetry = get_telemetry()
         except ImportError:
             self.telemetry = None
@@ -243,20 +244,14 @@ class CircuitBreaker:
         """Emit telemetry event if available."""
         if self.telemetry:
             self.telemetry.emit_event(
-                component=f"circuit_breaker.{self.name}",
-                event_type=event_type,
-                message=message,
-                **kwargs
+                component=f"circuit_breaker.{self.name}", event_type=event_type, message=message, **kwargs
             )
 
     def _emit_metric(self, metric_name: str, value: float, **kwargs) -> None:
         """Emit telemetry metric if available."""
         if self.telemetry:
             self.telemetry.emit_metric(
-                component=f"circuit_breaker.{self.name}",
-                metric_name=metric_name,
-                value=value,
-                **kwargs
+                component=f"circuit_breaker.{self.name}", metric_name=metric_name, value=value, **kwargs
             )
 
     def _clean_old_calls(self) -> None:
@@ -274,10 +269,8 @@ class CircuitBreaker:
             return 0.0, 0.0
 
         total_calls = len(self.recent_calls)
-        failed_calls = sum(1 for call in self.recent_calls
-                          if self.failure_detector.is_failure(call))
-        slow_calls = sum(1 for call in self.recent_calls
-                        if call.duration_sec > self.config.slow_call_threshold)
+        failed_calls = sum(1 for call in self.recent_calls if self.failure_detector.is_failure(call))
+        slow_calls = sum(1 for call in self.recent_calls if call.duration_sec > self.config.slow_call_threshold)
 
         failure_rate = failed_calls / total_calls
         slow_rate = slow_calls / total_calls
@@ -303,13 +296,11 @@ class CircuitBreaker:
 
         # Check thresholds
         if failure_rate >= failure_threshold:
-            self._emit_telemetry("circuit_opening",
-                               f"Circuit opening due to failure rate: {failure_rate:.2f}")
+            self._emit_telemetry("circuit_opening", f"Circuit opening due to failure rate: {failure_rate:.2f}")
             return True
 
         if slow_rate >= slow_threshold:
-            self._emit_telemetry("circuit_opening",
-                               f"Circuit opening due to slow rate: {slow_rate:.2f}")
+            self._emit_telemetry("circuit_opening", f"Circuit opening due to slow rate: {slow_rate:.2f}")
             return True
 
         return False
@@ -329,7 +320,7 @@ class CircuitBreaker:
         if self.config.jitter:
             jitter_factor = 0.1  # ±10%
             jitter = random.uniform(-jitter_factor, jitter_factor)
-            recovery_timeout *= (1 + jitter)
+            recovery_timeout *= 1 + jitter
 
         return time_in_open >= recovery_timeout
 
@@ -349,11 +340,11 @@ class CircuitBreaker:
         if new_state == CircuitState.CLOSED:
             self.backoff_multiplier = 1.0  # Reset on successful recovery
         elif new_state == CircuitState.OPEN and old_state == CircuitState.HALF_OPEN:
-            self.backoff_multiplier = min(self.backoff_multiplier * 2,
-                                        self.max_backoff / self.config.recovery_timeout_sec)
+            self.backoff_multiplier = min(
+                self.backoff_multiplier * 2, self.max_backoff / self.config.recovery_timeout_sec
+            )
 
-        self._emit_telemetry("state_change",
-                           f"Circuit state: {old_state.value} → {new_state.value}")
+        self._emit_telemetry("state_change", f"Circuit state: {old_state.value} → {new_state.value}")
         self._emit_metric("circuit_state", float(list(CircuitState).index(new_state)))
 
     def _record_call(self, result: CallResult) -> None:
@@ -384,9 +375,7 @@ class CircuitBreaker:
 
         # Calculate average response time
         if self.recent_calls:
-            self.stats.average_response_time = statistics.mean(
-                call.duration_sec for call in self.recent_calls
-            )
+            self.stats.average_response_time = statistics.mean(call.duration_sec for call in self.recent_calls)
 
         # Update adaptive calculator with success rate
         if self.adaptive_calculator and len(self.recent_calls) >= 10:
@@ -402,13 +391,13 @@ class CircuitBreaker:
     async def protect(self, operation_name: str = "operation"):
         """
         Context manager for circuit breaker protection.
-        
+
         Args:
             operation_name: Name of the operation being protected
-            
+
         Yields:
             None if call is allowed, raises CircuitBreakerOpenError if rejected
-            
+
         Raises:
             CircuitBreakerOpenError: If circuit is open and call is rejected
         """
@@ -416,8 +405,7 @@ class CircuitBreaker:
         # Check if call should be allowed
         if not self._is_call_allowed():
             self.stats.rejected_calls += 1
-            self._emit_telemetry("call_rejected",
-                               f"Call rejected in {self.state.value} state")
+            self._emit_telemetry("call_rejected", f"Call rejected in {self.state.value} state")
             raise CircuitBreakerOpenError(f"Circuit breaker {self.name} is {self.state.value}")
 
         start_time = time.time()
@@ -429,8 +417,7 @@ class CircuitBreaker:
             # Use telemetry tracing if available
             if self.telemetry:
                 async with self.telemetry.trace_operation(
-                    operation_name=f"circuit_breaker.{operation_name}",
-                    component=f"circuit_breaker.{self.name}"
+                    operation_name=f"circuit_breaker.{operation_name}", component=f"circuit_breaker.{self.name}"
                 ) as span:
                     span.add_log(f"Circuit state: {self.state.value}")
                     yield
@@ -455,7 +442,7 @@ class CircuitBreaker:
                 duration_sec=duration,
                 success=success,
                 failure_pattern=failure_pattern,
-                error_message=error_message
+                error_message=error_message,
             )
 
             self._record_call(result)
@@ -503,7 +490,7 @@ class CircuitBreaker:
     async def health_check(self) -> bool:
         """
         Perform health check for the protected service.
-        
+
         Returns:
             True if service is healthy, False otherwise
         """
@@ -523,8 +510,8 @@ class CircuitBreaker:
 
             # Consider healthy if rates are below thresholds
             is_healthy = (
-                failure_rate < self.config.failure_rate_threshold * 0.5 and
-                slow_rate < self.config.slow_call_rate_threshold * 0.5
+                failure_rate < self.config.failure_rate_threshold * 0.5
+                and slow_rate < self.config.slow_call_rate_threshold * 0.5
             )
 
             if is_healthy:
@@ -538,10 +525,8 @@ class CircuitBreaker:
                 self.consecutive_health_failures += 1
 
                 # If too many consecutive failures, force open
-                if (self.consecutive_health_failures >= 3 and
-                    self.state != CircuitState.OPEN):
-                    self._emit_telemetry("health_degraded",
-                                       "Multiple health check failures, opening circuit")
+                if self.consecutive_health_failures >= 3 and self.state != CircuitState.OPEN:
+                    self._emit_telemetry("health_degraded", "Multiple health check failures, opening circuit")
                     self._transition_to_state(CircuitState.OPEN)
 
             self._emit_metric("health_check_success", 1.0 if is_healthy else 0.0)
@@ -560,13 +545,9 @@ class CircuitBreaker:
         current_time = time.time()
 
         if self.state == CircuitState.OPEN:
-            self.stats.time_in_open += current_time - max(
-                self.state_change_time, current_time - 1.0
-            )
+            self.stats.time_in_open += current_time - max(self.state_change_time, current_time - 1.0)
         elif self.state == CircuitState.HALF_OPEN:
-            self.stats.time_in_half_open += current_time - max(
-                self.state_change_time, current_time - 1.0
-            )
+            self.stats.time_in_half_open += current_time - max(self.state_change_time, current_time - 1.0)
 
         return self.stats
 
@@ -584,6 +565,7 @@ class CircuitBreaker:
 
 class CircuitBreakerOpenError(Exception):
     """Exception raised when circuit breaker is open."""
+
     pass
 
 
@@ -594,10 +576,12 @@ class CircuitBreakerRegistry:
         self.circuit_breakers: Dict[str, CircuitBreaker] = {}
         self.health_check_task: Optional[asyncio.Task] = None
 
-    def register(self,
-                 name: str,
-                 config: Optional[CircuitBreakerConfig] = None,
-                 failure_detector: Optional[FailureDetector] = None) -> CircuitBreaker:
+    def register(
+        self,
+        name: str,
+        config: Optional[CircuitBreakerConfig] = None,
+        failure_detector: Optional[FailureDetector] = None,
+    ) -> CircuitBreaker:
         """Register a new circuit breaker."""
 
         if name in self.circuit_breakers:
@@ -615,10 +599,7 @@ class CircuitBreakerRegistry:
         """Get statistics for all circuit breakers."""
 
         return {
-            name: {
-                "state": cb.state.value,
-                "stats": cb.get_stats().to_dict()
-            }
+            name: {"state": cb.state.value, "stats": cb.get_stats().to_dict()}
             for name, cb in self.circuit_breakers.items()
         }
 
@@ -645,10 +626,7 @@ class CircuitBreakerRegistry:
         while True:
             try:
                 # Run health checks for all circuit breakers
-                tasks = [
-                    cb.health_check()
-                    for cb in self.circuit_breakers.values()
-                ]
+                tasks = [cb.health_check() for cb in self.circuit_breakers.values()]
 
                 if tasks:
                     await asyncio.gather(*tasks, return_exceptions=True)
@@ -676,12 +654,12 @@ def get_circuit_breaker_registry() -> CircuitBreakerRegistry:
     return _global_registry
 
 
-def circuit_breaker(name: str,
-                   config: Optional[CircuitBreakerConfig] = None,
-                   failure_detector: Optional[FailureDetector] = None):
+def circuit_breaker(
+    name: str, config: Optional[CircuitBreakerConfig] = None, failure_detector: Optional[FailureDetector] = None
+):
     """
     Decorator for circuit breaker protection.
-    
+
     Args:
         name: Circuit breaker name
         config: Circuit breaker configuration
@@ -711,11 +689,7 @@ if __name__ == "__main__":
     async def demo_circuit_breaker():
 
         # Create circuit breaker
-        config = CircuitBreakerConfig(
-            failure_threshold=3,
-            failure_rate_threshold=0.5,
-            recovery_timeout_sec=10.0
-        )
+        config = CircuitBreakerConfig(failure_threshold=3, failure_rate_threshold=0.5, recovery_timeout_sec=10.0)
 
         cb = CircuitBreaker("demo_service", config)
 

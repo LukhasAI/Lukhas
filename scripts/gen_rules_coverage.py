@@ -19,16 +19,18 @@ from pathlib import Path
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
-def as_table(title: str, rows: list[tuple[str,int]]) -> str:
+
+def as_table(title: str, rows: list[tuple[str, int]]) -> str:
     lines = [f"## {title}", "", "| Key | Count |", "|---|---:|"]
     for k, v in rows:
         lines.append(f"| `{k}` | {v} |")
     lines.append("")
     return "\n".join(lines)
 
+
 def main():
     lint_path = Path("docs/audits/star_rules_lint.json")
-    out_path  = Path("docs/audits/star_rules_coverage.md")
+    out_path = Path("docs/audits/star_rules_coverage.md")
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     if not lint_path.exists():
@@ -57,7 +59,9 @@ def main():
     # Zero-hit rules
     zero = data.get("zero_hit_rules", [])
     if zero:
-        md.append("## Zero-hit rules (needs review)\n\nThese regex rules matched nothing across the current manifests. Consider deleting, fixing, or moving them into `rules/experiments/`.\n")
+        md.append(
+            "## Zero-hit rules (needs review)\n\nThese regex rules matched nothing across the current manifests. Consider deleting, fixing, or moving them into `rules/experiments/`.\n"
+        )
         md.append("| Rule |")
         md.append("|---|")
         for z in zero:
@@ -82,6 +86,7 @@ def main():
 
     out_path.write_text("\n".join(md) + "\n", encoding="utf-8")
     print(f"[OK] Wrote {out_path}")
+
 
 if __name__ == "__main__":
     main()

@@ -8,6 +8,7 @@ Validates:
 - Rate limiting works correctly under load
 - Response ID uniqueness under concurrency
 """
+
 import concurrent.futures
 import threading
 
@@ -32,6 +33,7 @@ def auth_headers():
 
 def test_concurrent_models_requests(client, auth_headers):
     """Verify concurrent /v1/models requests work correctly."""
+
     def make_request():
         response = client.get("/v1/models", headers=auth_headers)
         return response.status_code
@@ -51,11 +53,7 @@ def test_concurrent_responses_unique_ids(client, auth_headers):
     lock = threading.Lock()
 
     def make_request(query_num):
-        response = client.post(
-            "/v1/responses",
-            json={"input": f"concurrent query {query_num}"},
-            headers=auth_headers
-        )
+        response = client.post("/v1/responses", json={"input": f"concurrent query {query_num}"}, headers=auth_headers)
         if response.status_code == 200:
             resp_id = response.json()["id"]
             with lock:
@@ -67,8 +65,7 @@ def test_concurrent_responses_unique_ids(client, auth_headers):
         [f.result() for f in futures]
 
     # All IDs should be unique
-    assert len(response_ids) == len(set(response_ids)), \
-        "Duplicate response IDs found in concurrent requests"
+    assert len(response_ids) == len(set(response_ids)), "Duplicate response IDs found in concurrent requests"
 
 
 def test_concurrent_embeddings_requests(client, auth_headers):
@@ -77,17 +74,15 @@ def test_concurrent_embeddings_requests(client, auth_headers):
     lock = threading.Lock()
 
     def make_request(text):
-        response = client.post(
-            "/v1/embeddings",
-            json={"input": text},
-            headers=auth_headers
-        )
+        response = client.post("/v1/embeddings", json={"input": text}, headers=auth_headers)
         with lock:
-            results.append({
-                "status": response.status_code,
-                "text": text,
-                "embedding": response.json()["data"][0]["embedding"] if response.status_code == 200 else None
-            })
+            results.append(
+                {
+                    "status": response.status_code,
+                    "text": text,
+                    "embedding": response.json()["data"][0]["embedding"] if response.status_code == 200 else None,
+                }
+            )
 
     texts = [f"text {i}" for i in range(10)]
 
@@ -116,20 +111,12 @@ def test_concurrent_different_endpoints(client, auth_headers):
             results.append(("models", response.status_code))
 
     def call_responses():
-        response = client.post(
-            "/v1/responses",
-            json={"input": "concurrent test"},
-            headers=auth_headers
-        )
+        response = client.post("/v1/responses", json={"input": "concurrent test"}, headers=auth_headers)
         with lock:
             results.append(("responses", response.status_code))
 
     def call_embeddings():
-        response = client.post(
-            "/v1/embeddings",
-            json={"input": "concurrent test"},
-            headers=auth_headers
-        )
+        response = client.post("/v1/embeddings", json={"input": "concurrent test"}, headers=auth_headers)
         with lock:
             results.append(("embeddings", response.status_code))
 
@@ -154,6 +141,7 @@ def test_concurrent_different_endpoints(client, auth_headers):
 
 def test_metrics_thread_safe(client, auth_headers):
     """Verify metrics tracking is thread-safe under concurrent load."""
+
     def make_requests():
         for _ in range(5):
             client.get("/v1/models", headers=auth_headers)
@@ -233,6 +221,7 @@ def test_concurrent_auth_validation(client):
 
 def test_concurrent_health_checks(client):
     """Verify health endpoints handle concurrent requests."""
+
     def check_healthz():
         return client.get("/healthz").status_code
 
@@ -298,21 +287,13 @@ def test_concurrent_tenant_isolation(client):
     lock = threading.Lock()
 
     def tenant1_request():
-        response = client.post(
-            "/v1/responses",
-            json={"input": "tenant1 query"},
-            headers=tenant1_headers
-        )
+        response = client.post("/v1/responses", json={"input": "tenant1 query"}, headers=tenant1_headers)
         if response.status_code == 200:
             with lock:
                 tenant1_ids.append(response.json()["id"])
 
     def tenant2_request():
-        response = client.post(
-            "/v1/responses",
-            json={"input": "tenant2 query"},
-            headers=tenant2_headers
-        )
+        response = client.post("/v1/responses", json={"input": "tenant2 query"}, headers=tenant2_headers)
         if response.status_code == 200:
             with lock:
                 tenant2_ids.append(response.json()["id"])
@@ -327,8 +308,7 @@ def test_concurrent_tenant_isolation(client):
 
     # Response IDs should be unique across all requests
     all_ids = tenant1_ids + tenant2_ids
-    assert len(all_ids) == len(set(all_ids)), \
-        "Duplicate IDs found across tenants"
+    assert len(all_ids) == len(set(all_ids)), "Duplicate IDs found across tenants"
 
     # Both tenants should have responses
     assert len(tenant1_ids) > 0

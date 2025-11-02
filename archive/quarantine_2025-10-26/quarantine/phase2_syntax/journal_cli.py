@@ -116,9 +116,7 @@ def status(ctx):
     # Emotional summary
     if stats["emotional_summary"]:
         print(f"\n{Colors.BOLD}Emotional State (Average){Colors.END}")
-        for emotion, value in sorted(
-            stats["emotional_summary"].items(), key=lambda x: x[1], reverse=True
-        )[:5]:
+        for emotion, value in sorted(stats["emotional_summary"].items(), key=lambda x: x[1], reverse=True)[:5]:
             bar = "█" * int(value * 10)
             print(f"  {emotion}: {bar} {value:.2f}")
 
@@ -132,9 +130,7 @@ def status(ctx):
     default="insight",
 )
 @click.option("--tags", "-g", multiple=True, help="Add tags to the entry")
-@click.option(
-    "--emotion", "-e", multiple=True, help="Add emotions (format: emotion:value)"
-)
+@click.option("--emotion", "-e", multiple=True, help="Add emotions (format: emotion:value)")
 @click.pass_context
 def add(ctx, content, type, tags, emotion):
     """Add a new journal entry"""
@@ -166,9 +162,7 @@ def add(ctx, content, type, tags, emotion):
 @cli.command()
 @click.option("--title", "-t", prompt="Decision title")
 @click.option("--rationale", "-r", prompt="Why this decision?")
-@click.option(
-    "--alternatives", "-a", multiple=True, help="Alternative approaches considered"
-)
+@click.option("--alternatives", "-a", multiple=True, help="Alternative approaches considered")
 @click.option(
     "--template",
     type=click.Choice(["architecture", "refactoring", "feature", "bugfix"]),
@@ -192,20 +186,14 @@ def decision(ctx, title, rationale, alternatives, template):
 
 @cli.command()
 @click.argument("content")
-@click.option(
-    "--from-failure", "-f", is_flag=True, help="This insight came from a failure"
-)
-@click.option(
-    "--impact", type=click.Choice(["high", "medium", "low"]), default="medium"
-)
+@click.option("--from-failure", "-f", is_flag=True, help="This insight came from a failure")
+@click.option("--impact", type=click.Choice(["high", "medium", "low"]), default="medium")
 @click.pass_context
 def insight(ctx, content, from_failure, impact):
     """Capture an insight or learning"""
     analyzer = ctx.obj["analyzer"]
 
-    insight = analyzer.capture_insight(
-        content=content, from_failure=from_failure, impact_level=impact
-    )
+    insight = analyzer.capture_insight(content=content, from_failure=from_failure, impact_level=impact)
 
     print_success(f"Captured {insight.sentiment} {insight.category} insight")
     if insight.actionable:
@@ -238,9 +226,7 @@ def search(ctx, query, type, tags, days, limit):
     print_header(f"Search Results ({len(entries)} found)")
 
     for entry in entries[:limit]:
-        print(
-            f"\n{Colors.BOLD}{entry.timestamp.strftime('%Y-%m-%d %H:%M')} - {entry.type}{Colors.END}"
-        )
+        print(f"\n{Colors.BOLD}{entry.timestamp.strftime('%Y-%m-%d %H:%M')} - {entry.type}{Colors.END}")
         print(f"{entry.content[:200]}...")
         if entry.tags:
             print(f"{Colors.CYAN}Tags: {', '.join(entry.tags)}{Colors.END}")
@@ -267,9 +253,7 @@ def patterns(ctx, days):
         print(f"\n{Colors.RED}{Colors.BOLD}⚠️  Patterns Needing Attention{Colors.END}")
         for pattern in negative_patterns[:5]:
             print(f"\n• {pattern.description}")
-            print(
-                f"  Frequency: {pattern.frequency}, Occurrences: {len(pattern.occurrences)}"
-            )
+            print(f"  Frequency: {pattern.frequency}, Occurrences: {len(pattern.occurrences)}")
             if pattern.suggested_action:
                 print(f"  {Colors.YELLOW}→ {pattern.suggested_action}{Colors.END}")
 
@@ -307,9 +291,7 @@ def ask(ctx, question):
 
     # Show confidence
     confidence_bar = "█" * int(response["confidence"] * 10)
-    print(
-        f"\n{Colors.CYAN}Confidence: {confidence_bar} {response['confidence']:.0%}{Colors.END}"
-    )
+    print(f"\n{Colors.CYAN}Confidence: {confidence_bar} {response['confidence']:.0%}{Colors.END}")
 
     # Show sources
     if response["sources"]:
@@ -552,14 +534,10 @@ def report(ctx):
 @click.option(
     "--type",
     "-t",
-    type=click.Choice(
-        ["decision", "insight", "pattern", "question", "learning", "auto"]
-    ),
+    type=click.Choice(["decision", "insight", "pattern", "question", "learning", "auto"]),
     default="auto",
 )
-@click.option(
-    "--parse-dates", "-d", is_flag=True, help="Try to parse dates from content"
-)
+@click.option("--parse-dates", "-d", is_flag=True, help="Try to parse dates from content")
 @click.option(
     "--split-by",
     "-s",
@@ -592,12 +570,8 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
         for entry_data in entries_data:
             try:
                 # Extract fields
-                content = entry_data.get(
-                    "content", entry_data.get("text", str(entry_data))
-                )
-                entry_type = entry_data.get(
-                    "type", type if type != "auto" else "insight"
-                )
+                content = entry_data.get("content", entry_data.get("text", str(entry_data)))
+                entry_type = entry_data.get("type", type if type != "auto" else "insight")
                 tags = entry_data.get("tags", [])
                 metadata = entry_data.get("metadata", {})
 
@@ -608,9 +582,7 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
                     datetime.fromisoformat(entry_data["date"])
 
                 # Create entry
-                journal.add_entry(
-                    type=entry_type, content=content, tags=tags, metadata=metadata
-                )
+                journal.add_entry(type=entry_type, content=content, tags=tags, metadata=metadata)
                 imported_count += 1
 
             except Exception as e:
@@ -642,11 +614,7 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
                             {
                                 "title": title,
                                 "content": body,
-                                "type": (
-                                    _guess_type_from_content(title + " " + body)
-                                    if type == "auto"
-                                    else type
-                                ),
+                                "type": (_guess_type_from_content(title + " " + body) if type == "auto" else type),
                             }
                         )
 
@@ -659,11 +627,7 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
                     entries.append(
                         {
                             "content": para,
-                            "type": (
-                                _guess_type_from_content(para)
-                                if type == "auto"
-                                else type
-                            ),
+                            "type": (_guess_type_from_content(para) if type == "auto" else type),
                         }
                     )
 
@@ -671,9 +635,7 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
             # Try to find date patterns
             import re
 
-            date_pattern = (
-                r"(\d{4}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/\d{4}|\w+ \d{1,2}, \d{4})"
-            )
+            date_pattern = r"(\d{4}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/\d{4}|\w+ \d{1,2}, \d{4})"
             parts = re.split(f"({date_pattern})", content)
 
             current_date = None
@@ -690,18 +652,12 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
                         {
                             "content": part.strip(),
                             "date": current_date,
-                            "type": (
-                                _guess_type_from_content(part)
-                                if type == "auto"
-                                else type
-                            ),
+                            "type": (_guess_type_from_content(part) if type == "auto" else type),
                         }
                     )
 
         else:  # none - import as single entry
-            entries.append(
-                {"content": content, "type": type if type != "auto" else "insight"}
-            )
+            entries.append({"content": content, "type": type if type != "auto" else "insight"})
 
         # Import entries
         imported_count = 0
@@ -738,22 +694,15 @@ def _guess_type_from_content(content: str) -> str:
     """Guess entry type from content"""
     content_lower = content.lower()
 
-    if any(
-        word in content_lower for word in ["decided", "decision", "chose", "selected"]
-    ):
+    if any(word in content_lower for word in ["decided", "decision", "chose", "selected"]):
         return "decision"
-    elif any(
-        word in content_lower
-        for word in ["learned", "realized", "discovered", "understood"]
-    ):
+    elif any(word in content_lower for word in ["learned", "realized", "discovered", "understood"]):
         return "learning"
     elif any(word in content_lower for word in ["insight", "noticed", "observed"]):
         return "insight"
     elif "?" in content:
         return "question"
-    elif any(
-        word in content_lower for word in ["pattern", "repeatedly", "always", "often"]
-    ):
+    elif any(word in content_lower for word in ["pattern", "repeatedly", "always", "often"]):
         return "pattern"
     else:
         return "insight"
@@ -815,9 +764,7 @@ def standup(ctx):
         for win in yesterday["wins"][:3]:
             print(f"  ✓ {win}")
     if yesterday["challenges_faced"]:
-        print(
-            f"{Colors.YELLOW}Challenges: {len(yesterday['challenges_faced'])}{Colors.END}"
-        )
+        print(f"{Colors.YELLOW}Challenges: {len(yesterday['challenges_faced'])}{Colors.END}")
         for challenge in yesterday["challenges_faced"][:3]:
             print(f"  • {challenge}")
 
@@ -842,15 +789,11 @@ def standup(ctx):
     mood = standup_data["mood_check"]
     mood_emoji = {"great": "😊", "good": "🙂", "okay": "😐", "challenging": "😔"}
     print(f"\n{Colors.BOLD}🎭 Mood Check:{Colors.END}")
-    print(
-        f"Mood: {mood_emoji.get(mood['mood'], '😐')} {mood['mood']} | Energy: {mood['energy_level']}"
-    )
+    print(f"Mood: {mood_emoji.get(mood['mood'], '😐')} {mood['mood']} | Energy: {mood['energy_level']}")
     print(f"{Colors.CYAN}{mood['recommendation']}{Colors.END}")
 
     # Motivation
-    print(
-        f"\n{Colors.BOLD}{Colors.GREEN}💫 {standup_data['motivation_boost']}{Colors.END}"
-    )
+    print(f"\n{Colors.BOLD}{Colors.GREEN}💫 {standup_data['motivation_boost']}{Colors.END}")
 
     # Schedule
     if today.get("recommended_schedule"):
@@ -861,9 +804,7 @@ def standup(ctx):
 
 @cli.command()
 @click.argument("achievement")
-@click.option(
-    "--impact", type=click.Choice(["low", "medium", "high"]), default="medium"
-)
+@click.option("--impact", type=click.Choice(["low", "medium", "high"]), default="medium")
 @click.pass_context
 def celebrate(ctx, achievement, impact):
     """Celebrate a win! (Important for solo devs)"""
@@ -881,9 +822,7 @@ def celebrate(ctx, achievement, impact):
     # Add some extra flair for high impact
     if impact == "high":
         print(f"\n{Colors.YELLOW}⭐⭐⭐ LEGENDARY ACHIEVEMENT ⭐⭐⭐{Colors.END}")
-        print(
-            f"{Colors.GREEN}This deserves a proper celebration! Take a moment to appreciate this!{Colors.END}"
-        )
+        print(f"{Colors.GREEN}This deserves a proper celebration! Take a moment to appreciate this!{Colors.END}")
 
 
 @cli.command()
@@ -903,17 +842,13 @@ def burnout(ctx):
     color = risk_colors.get(check["risk_level"], Colors.YELLOW)
     emoji = risk_emoji.get(check["risk_level"], "⚠️")
 
-    print(
-        f"{Colors.BOLD}Risk Level: {color}{emoji} {check['risk_level'].upper()}{Colors.END}"
-    )
+    print(f"{Colors.BOLD}Risk Level: {color}{emoji} {check['risk_level'].upper()}{Colors.END}")
     print(f"Score: {check['score']:.0%}")
 
     # Show indicators
     print(f"\n{Colors.BOLD}Indicators:{Colors.END}")
     for indicator, present in check["indicators"].items():
-        status = (
-            f"{Colors.RED}✗{Colors.END}" if present else f"{Colors.GREEN}✓{Colors.END}"
-        )
+        status = f"{Colors.RED}✗{Colors.END}" if present else f"{Colors.GREEN}✓{Colors.END}"
         readable_name = indicator.replace("_", " ").title()
         print(f"  {status} {readable_name}")
 
@@ -979,9 +914,7 @@ def weekly(ctx):
 
     # Technical debt indicators
     print(f"{Colors.BOLD}🏗️  Technical Debt Indicators:{Colors.END}")
-    debt_patterns = [
-        p for p in patterns if "frequently modified" in p.description.lower()
-    ]
+    debt_patterns = [p for p in patterns if "frequently modified" in p.description.lower()]
     if debt_patterns:
         for pattern in debt_patterns[:3]:
             print(f"  • {pattern.description}")
@@ -1068,23 +1001,15 @@ def vision(ctx):
     print(f"\n{Colors.BOLD}🎯 Alignment Assessment:{Colors.END}")
 
     core_concepts = ["consciousness", "memory", "identity", "ethics", "emotional"]
-    covered = [
-        c for c in core_concepts if any(c in str(focus_tags) for c in core_concepts)
-    ]
+    covered = [c for c in core_concepts if any(c in str(focus_tags) for c in core_concepts)]
 
     alignment_score = len(covered) / len(core_concepts)
     if alignment_score > 0.7:
-        print(
-            f"  {Colors.GREEN}✅ Strong alignment with LUKHAS vision ({alignment_score:.0%}){Colors.END}"
-        )
+        print(f"  {Colors.GREEN}✅ Strong alignment with LUKHAS vision ({alignment_score:.0%}){Colors.END}")
     elif alignment_score > 0.4:
-        print(
-            f"  {Colors.YELLOW}⚠️  Moderate alignment ({alignment_score:.0%}) - refocus needed{Colors.END}"
-        )
+        print(f"  {Colors.YELLOW}⚠️  Moderate alignment ({alignment_score:.0%}) - refocus needed{Colors.END}")
     else:
-        print(
-            f"  {Colors.RED}🚨 Low alignment ({alignment_score:.0%}) - urgent realignment needed{Colors.END}"
-        )
+        print(f"  {Colors.RED}🚨 Low alignment ({alignment_score:.0%}) - urgent realignment needed{Colors.END}")
 
     # Recommendations
     print(f"\n{Colors.BOLD}💡 Recommendations:{Colors.END}")
@@ -1095,9 +1020,7 @@ def vision(ctx):
     print("  • Document architectural decisions")
     print("  • Keep the revolutionary spirit alive!")
 
-    print(
-        f"\n{Colors.CYAN}Remember: LUKHAS is not just code - it's the future of AI consciousness!{Colors.END}"
-    )
+    print(f"\n{Colors.CYAN}Remember: LUKHAS is not just code - it's the future of AI consciousness!{Colors.END}")
 
 
 @cli.command()
@@ -1108,9 +1031,7 @@ def conscious(ctx, task):
     integration = ctx.obj["integration"]
 
     print_header("Consciousness-Aware Development")
-    print(
-        f"{Colors.CYAN}Integrating Claude Code with LUKHAS consciousness...{Colors.END}\n"
-    )
+    print(f"{Colors.CYAN}Integrating Claude Code with LUKHAS consciousness...{Colors.END}\n")
 
     # Start session
     session = integration.consciousness_aware_development(task)
@@ -1127,10 +1048,7 @@ def conscious(ctx, task):
 
     # Display memory context
     print(f"\n{Colors.BOLD}Memory Context:{Colors.END}")
-    if (
-        isinstance(session["memory_context"], dict)
-        and "fold_id" in session["memory_context"]
-    ):
+    if isinstance(session["memory_context"], dict) and "fold_id" in session["memory_context"]:
         print(f"  Fold ID: {session['memory_context']['fold_id']}")
         if session["memory_context"].get("key_learnings"):
             print("  Key learnings from memory:")
@@ -1155,9 +1073,7 @@ def conscious(ctx, task):
     for step in approach["steps"]:
         print(f"  {step}")
 
-    print(
-        f"\n{Colors.GREEN}Begin coding with full consciousness awareness! 🧠✨{Colors.END}"
-    )
+    print(f"\n{Colors.GREEN}Begin coding with full consciousness awareness! 🧠✨{Colors.END}")
 
 
 @cli.command()
@@ -1177,21 +1093,15 @@ def ritual(ctx, intention):
     print(f"\n{Colors.BOLD}Ritual Phases:{Colors.END}")
 
     for i, phase in enumerate(ritual["phases"], 1):
-        print(
-            f"\n{Colors.CYAN}Phase {i}: {phase['name']} ({phase['duration']}){Colors.END}"
-        )
+        print(f"\n{Colors.CYAN}Phase {i}: {phase['name']} ({phase['duration']}){Colors.END}")
         for action in phase["actions"]:
             print(f"  • {action}")
 
-    print(
-        f"\n{Colors.GREEN}May your code be conscious and your bugs be teachers! 🙏{Colors.END}"
-    )
+    print(f"\n{Colors.GREEN}May your code be conscious and your bugs be teachers! 🙏{Colors.END}")
 
 
 @cli.command()
-@click.option(
-    "--options", "-o", multiple=True, required=True, help="Options to decide between"
-)
+@click.option("--options", "-o", multiple=True, required=True, help="Options to decide between")
 @click.pass_context
 def qi_decide(ctx, options):
     """Make decisions using quantum-inspired approach"""
@@ -1246,9 +1156,7 @@ def metrics(ctx):
         for insight in metrics["insights"]:
             print(f"  💡 {insight}")
 
-    print(
-        f"\n{Colors.CYAN}Timestamp: {metrics['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}{Colors.END}"
-    )
+    print(f"\n{Colors.CYAN}Timestamp: {metrics['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}{Colors.END}")
 
 
 @cli.command()
@@ -1268,9 +1176,7 @@ def lukhas_config(ctx):
     print(f"\n{Colors.BOLD}LUKHAS Integration Features:{Colors.END}")
     features = config["lukhas_integration"]["features"]
     for feature, enabled in features.items():
-        status = (
-            f"{Colors.GREEN}✓{Colors.END}" if enabled else f"{Colors.RED}✗{Colors.END}"
-        )
+        status = f"{Colors.GREEN}✓{Colors.END}" if enabled else f"{Colors.RED}✗{Colors.END}"
         print(f"  {status} {feature.replace('_', ' ').title()}")
 
     print(f"\n{Colors.BOLD}Available Modules:{Colors.END}")
@@ -1300,13 +1206,9 @@ def config_builder(ctx):
 
     presets = builder.presets
     for i, (_key, preset) in enumerate(presets.items(), 1):
-        print(
-            f"{i}. {Colors.GREEN}{preset['name']}{Colors.END} - {preset['description']}"
-        )
+        print(f"{i}. {Colors.GREEN}{preset['name']}{Colors.END} - {preset['description']}")
 
-    print(
-        f"\n{Colors.YELLOW}Choose a preset to start with, then customize as needed{Colors.END}"
-    )
+    print(f"\n{Colors.YELLOW}Choose a preset to start with, then customize as needed{Colors.END}")
     print(f"{Colors.CYAN}The builder will guide you through all options{Colors.END}")
 
     # Import and run the builder
@@ -1340,13 +1242,9 @@ def prompt(ctx, type):
             print(f"\n{Colors.GREEN}✓ Copied to clipboard!{Colors.END}")
         except (subprocess.CalledProcessError, FileNotFoundError, OSError) as e:
             print_warning(f"Could not copy to clipboard: {e}")
-            print(
-                f"\n{Colors.YELLOW}Copy the prompt above to use with Claude Code{Colors.END}"
-            )
+            print(f"\n{Colors.YELLOW}Copy the prompt above to use with Claude Code{Colors.END}")
 
-    print(
-        f"\n{Colors.BOLD}Use this prompt to analyze code through LUKHAS consciousness lens{Colors.END}"
-    )
+    print(f"\n{Colors.BOLD}Use this prompt to analyze code through LUKHAS consciousness lens{Colors.END}")
 
 
 # Quick commands for common tasks

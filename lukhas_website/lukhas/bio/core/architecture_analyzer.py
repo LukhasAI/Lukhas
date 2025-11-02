@@ -44,17 +44,13 @@ class BioSymbolicArchitectureAnalyzer:
         print(f"Analyzing hierarchy at: {bio_path}")
         return HierarchyAnalysis(depth=0, complexity=0.0, nodes=0)
 
-    def design_integration_pathway(
-        self, current_arch: Architecture, target_arch: Architecture
-    ) -> IntegrationPath:
+    def design_integration_pathway(self, current_arch: Architecture, target_arch: Architecture) -> IntegrationPath:
         """Design optimal integration pathway between architectures."""
         # This is a stub implementation.
         print(f"Designing pathway from {current_arch.name} to {target_arch.name}")
         return IntegrationPath(steps=[], estimated_effort=0.0)
 
-    def validate_symbolic_processing(
-        self, symbolic_data: SymbolicData
-    ) -> ProcessingResult:
+    def validate_symbolic_processing(self, symbolic_data: SymbolicData) -> ProcessingResult:
         """Validate symbolic processing capabilities."""
         # This is a stub implementation.
         print(f"Validating symbolic data for glyph: {symbolic_data.glyph}")

@@ -38,7 +38,7 @@ class TestCosineSimilarity:
         vector_a = [1.0, 2.0, 3.0]
         vector_b = [4.0, 5.0, 6.0]
         # Computed manually: dot=32, norms=√14 and √77 → cosine ≈ 0.9746
-        expected = 32 / ((14 ** 0.5) * (77 ** 0.5))
+        expected = 32 / ((14**0.5) * (77**0.5))
         assert pytest.approx(expected) == _cosine(vector_a, vector_b)
 
     # ΛTAG: similarity_guards

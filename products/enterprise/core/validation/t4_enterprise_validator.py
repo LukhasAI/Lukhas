@@ -887,9 +887,7 @@ class T4EnterpriseValidator:
         readiness_status = (
             "🟢 READY"
             if report.enterprise_readiness >= 90
-            else "🟡 NEEDS OPTIMIZATION"
-            if report.enterprise_readiness >= 70
-            else "🔴 NOT READY"
+            else "🟡 NEEDS OPTIMIZATION" if report.enterprise_readiness >= 70 else "🔴 NOT READY"
         )
         print(f"   Status: {readiness_status}")
 

@@ -184,9 +184,7 @@ class AuditLogger:
             iterations=100000,
         )
         kdf.derive(key.encode())
-        self.cipher_suite = Fernet(
-            Fernet.generate_key()
-        )
+        self.cipher_suite = Fernet(Fernet.generate_key())
         # Use derived key in production
 
     def _get_current_log_file(self) -> Path:
@@ -297,9 +295,7 @@ class AuditLogger:
 
                 # Encrypt if enabled
                 if self.cipher_suite:
-                    encrypted = self.cipher_suite.encrypt(
-                        json.dumps(log_entry).encode()
-                    )
+                    encrypted = self.cipher_suite.encrypt(json.dumps(log_entry).encode())
                     await f.write(encrypted.decode() + "\n")
                 else:
                     await f.write(json.dumps(log_entry) + "\n")
@@ -365,10 +361,7 @@ class AuditLogger:
                             continue
                         if actor_id and event.actor.get("id") != actor_id:
                             continue
-                        if (
-                            resource_type
-                            and event.resource.get("type") != resource_type
-                        ):
+                        if resource_type and event.resource.get("type") != resource_type:
                             continue
                         if not (start_time <= event.timestamp <= end_time):
                             continue
@@ -380,9 +373,7 @@ class AuditLogger:
 
         return results
 
-    async def verify_integrity(
-        self, start_date: datetime, end_date: datetime
-    ) -> dict[str, Any]:
+    async def verify_integrity(self, start_date: datetime, end_date: datetime) -> dict[str, Any]:
         """Verify audit log integrity"""
         results = {"valid": True, "files_checked": 0, "events_checked": 0, "errors": []}
 
@@ -423,15 +414,11 @@ class AuditLogger:
                         results["events_checked"] += 1
 
                     except Exception as e:
-                        results["errors"].append(
-                            {"file": str(log_file), "error": str(e)}
-                        )
+                        results["errors"].append({"file": str(log_file), "error": str(e)})
 
         return results
 
-    async def export_for_compliance(
-        self, start_date: datetime, end_date: datetime, format: str = "json"
-    ) -> Path:
+    async def export_for_compliance(self, start_date: datetime, end_date: datetime, format: str = "json") -> Path:
         """Export audit logs for compliance reporting"""
         export_dir = self.log_dir / "exports"
         export_dir.mkdir(exist_ok=True)
@@ -486,9 +473,7 @@ async def log_login(
 ):
     """Log login attempt"""
     event = AuditEvent(
-        event_type=(
-            AuditEventType.LOGIN_SUCCESS if success else AuditEventType.LOGIN_FAILURE
-        ),
+        event_type=(AuditEventType.LOGIN_SUCCESS if success else AuditEventType.LOGIN_FAILURE),
         actor={"id": user_id, "type": "user"},
         resource={"type": "authentication", "id": "system"},
         action="login",
@@ -541,16 +526,12 @@ async def log_security_event(
 async def main():
     """Example usage"""
     # Initialize logger
-    audit_logger = AuditLogger(
-        encryption_key="your-secret-key", rotation_size_mb=50, retention_days=2555
-    )
+    audit_logger = AuditLogger(encryption_key="your-secret-key", rotation_size_mb=50, retention_days=2555)
 
     # Log some events
     await log_login(audit_logger, "user123", True, "192.168.1.1")
 
-    await log_data_access(
-        audit_logger, "user123", "memory", "mem_456", "fold_memory", tier_level=3
-    )
+    await log_data_access(audit_logger, "user123", "memory", "mem_456", "fold_memory", tier_level=3)
 
     # Query logs
     from datetime import timedelta

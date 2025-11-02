@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 class SessionState(Enum):
     """Session lifecycle states"""
+
     ACTIVE = "active"
     EXPIRED = "expired"
     REVOKED = "revoked"
@@ -29,6 +30,7 @@ class SessionState(Enum):
 
 class DeviceType(Enum):
     """Supported device types for registry"""
+
     DESKTOP = "desktop"
     MOBILE = "mobile"
     TABLET = "tablet"
@@ -40,6 +42,7 @@ class DeviceType(Enum):
 @dataclass
 class DeviceInfo:
     """Device registration information"""
+
     device_id: str
     device_type: DeviceType
     device_name: str
@@ -56,6 +59,7 @@ class DeviceInfo:
 @dataclass
 class SessionInfo:
     """Session lifecycle information"""
+
     session_id: str
     lambda_id: str
     device_id: str
@@ -72,10 +76,7 @@ class SessionInfo:
     @property
     def is_valid(self) -> bool:
         """Check if session is currently valid"""
-        return (
-            self.state == SessionState.ACTIVE and
-            self.expires_at > datetime.utcnow()
-        )
+        return self.state == SessionState.ACTIVE and self.expires_at > datetime.utcnow()
 
     @property
     def remaining_ttl(self) -> int:
@@ -91,13 +92,15 @@ class SessionManager:
     Manages session lifecycle, device binding, and security controls
     """
 
-    def __init__(self,
-                 token_generator: TokenGenerator,
-                 observability: IdentityObservability,
-                 session_ttl: int = 3600,  # 1 hour default
-                 device_trust_threshold: float = 0.7,
-                 max_sessions_per_device: int = 5,
-                 max_devices_per_user: int = 10):
+    def __init__(
+        self,
+        token_generator: TokenGenerator,
+        observability: IdentityObservability,
+        session_ttl: int = 3600,  # 1 hour default
+        device_trust_threshold: float = 0.7,
+        max_sessions_per_device: int = 5,
+        max_devices_per_user: int = 10,
+    ):
         self.token_generator = token_generator
         self.observability = observability
         self.session_ttl = session_ttl
@@ -109,7 +112,7 @@ class SessionManager:
         self.sessions: Dict[str, SessionInfo] = {}
         self.devices: Dict[str, DeviceInfo] = {}
         self.user_sessions: Dict[str, Set[str]] = {}  # lambda_id -> session_ids
-        self.user_devices: Dict[str, Set[str]] = {}   # lambda_id -> device_ids
+        self.user_devices: Dict[str, Set[str]] = {}  # lambda_id -> device_ids
         self.device_sessions: Dict[str, Set[str]] = {}  # device_id -> session_ids
 
         # Cleanup task
@@ -130,13 +133,15 @@ class SessionManager:
                 pass
             self._cleanup_task = None
 
-    async def register_device(self,
-                            lambda_id: str,
-                            device_type: DeviceType,
-                            device_name: str,
-                            user_agent: str,
-                            ip_address: str,
-                            capabilities: Optional[Set[str]] = None) -> DeviceInfo:
+    async def register_device(
+        self,
+        lambda_id: str,
+        device_type: DeviceType,
+        device_name: str,
+        user_agent: str,
+        ip_address: str,
+        capabilities: Optional[Set[str]] = None,
+    ) -> DeviceInfo:
         """Register a new device for a user"""
 
         # Check device limits
@@ -169,7 +174,7 @@ class SessionManager:
             last_seen=now,
             trust_level=0.3,  # New devices start with low trust
             capabilities=capabilities or set(),
-            metadata={"registration_ip": ip_address}
+            metadata={"registration_ip": ip_address},
         )
 
         # Store device
@@ -184,14 +189,16 @@ class SessionManager:
         logger.info(f"Device registered: {device_id} for user {lambda_id}")
         return device_info
 
-    async def create_session(self,
-                           lambda_id: str,
-                           device_id: str,
-                           ip_address: str,
-                           user_agent: str,
-                           tier_level: int,
-                           scopes: Optional[Set[str]] = None,
-                           custom_ttl: Optional[int] = None) -> SessionInfo:
+    async def create_session(
+        self,
+        lambda_id: str,
+        device_id: str,
+        ip_address: str,
+        user_agent: str,
+        tier_level: int,
+        scopes: Optional[Set[str]] = None,
+        custom_ttl: Optional[int] = None,
+    ) -> SessionInfo:
         """Create a new session for authenticated user"""
 
         # Validate device ownership
@@ -227,7 +234,7 @@ class SessionManager:
             user_agent=user_agent,
             tier_level=tier_level,
             scopes=scopes or set(),
-            metadata={"creation_ip": ip_address}
+            metadata={"creation_ip": ip_address},
         )
 
         # Store session
@@ -379,7 +386,7 @@ class SessionManager:
             "old_trust": old_trust,
             "new_trust": device.trust_level,
             "delta": trust_delta,
-            "reason": reason
+            "reason": reason,
         }
 
         logger.info(f"Device trust updated: {device_id}, {old_trust:.3f} -> {device.trust_level:.3f} ({reason})")
@@ -450,14 +457,12 @@ class SessionManager:
             "total_devices": len(self.devices),
             "total_users": len(self.user_sessions),
             "session_states": {
-                state.value: sum(1 for s in self.sessions.values() if s.state == state)
-                for state in SessionState
+                state.value: sum(1 for s in self.sessions.values() if s.state == state) for state in SessionState
             },
             "device_types": {
-                dtype.value: sum(1 for d in self.devices.values() if d.device_type == dtype)
-                for dtype in DeviceType
+                dtype.value: sum(1 for d in self.devices.values() if d.device_type == dtype) for dtype in DeviceType
             },
-            "trusted_devices": sum(1 for d in self.devices.values() if d.trust_level >= self.device_trust_threshold)
+            "trusted_devices": sum(1 for d in self.devices.values() if d.trust_level >= self.device_trust_threshold),
         }
 
 

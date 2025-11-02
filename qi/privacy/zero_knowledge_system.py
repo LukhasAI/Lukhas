@@ -99,14 +99,18 @@ class ZeroKnowledgeProof:
 class ZkSnarkProof(ZeroKnowledgeProof):
     """Proof generated using zk-SNARK style circuits."""
 
-    def __init__(self, proof_data: Dict[str, Any], public_input: Dict[str, Any], metadata: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self, proof_data: Dict[str, Any], public_input: Dict[str, Any], metadata: Optional[Dict[str, Any]] = None
+    ):
         super().__init__("zksnark", proof_data, public_input, metadata or {})
 
 
 class BulletProof(ZeroKnowledgeProof):
     """Proof generated using Bulletproof-style range proofs."""
 
-    def __init__(self, proof_data: Dict[str, Any], public_input: Dict[str, Any], metadata: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self, proof_data: Dict[str, Any], public_input: Dict[str, Any], metadata: Optional[Dict[str, Any]] = None
+    ):
         super().__init__("bulletproof", proof_data, public_input, metadata or {})
 
 
@@ -164,9 +168,7 @@ class ZeroKnowledgePrivacyEngine:
         """Generate a zero-knowledge proof for a computation."""
         if proof_type == "adaptive":
             proof_type = (
-                "zksnark"
-                if statement.requires_non_interactive and statement.circuit_size < 10_000
-                else "bulletproof"
+                "zksnark" if statement.requires_non_interactive and statement.circuit_size < 10_000 else "bulletproof"
             )
 
         if proof_type == "zksnark":
@@ -243,7 +245,9 @@ class ZeroKnowledgePrivacyEngine:
             "metadata": {"privacy_preserved": preserve_privacy, **metadata},
         }
 
-    async def prepare_secure_response(self, qi_result: Any, qi_session: Any, include_telemetry: bool = True) -> Dict[str, Any]:
+    async def prepare_secure_response(
+        self, qi_result: Any, qi_session: Any, include_telemetry: bool = True
+    ) -> Dict[str, Any]:
         """Assemble a secure response payload for downstream consumers."""
         response = {
             "decision": getattr(qi_result, "decision", None),

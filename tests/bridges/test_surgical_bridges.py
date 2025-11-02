@@ -1,4 +1,5 @@
 """Contract tests for surgical bridge additions."""
+
 import pytest
 
 

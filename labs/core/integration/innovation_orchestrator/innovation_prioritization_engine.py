@@ -3,6 +3,7 @@ Innovation Prioritization Engine
 
 Prioritizes innovations based on impact and feasibility.
 """
+
 import logging
 from typing import Any
 

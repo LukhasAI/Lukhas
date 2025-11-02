@@ -5,6 +5,7 @@ Entrypoints Smoke Test - Quick connector sanity checks
 Quick validation that canonical public APIs import correctly and have expected types.
 Perfect for CI gates and connector health checks.
 """
+
 import pytest
 
 
@@ -14,6 +15,7 @@ def test_core_api_imports():
     try:
         # Test that core module imports successfully
         import core
+
         assert core is not None
 
         # Try importing GLYPH-related components if they exist
@@ -41,10 +43,12 @@ def test_matriz_api_imports():
     try:
         # Import MATRIZ package and expose lowercase alias for compatibility in tests
         import matriz as matriz  # type: ignore
+
         assert matriz is not None
 
         # Verify we can import the traces router (main API)
         from matriz.traces_router import router as traces_router
+
         assert traces_router is not None
         assert hasattr(traces_router, "routes")
 
@@ -64,6 +68,7 @@ def test_identity_api_imports():
             identity_spec = importlib.util.find_spec("identity")
             if identity_spec is not None:
                 from lukhas import identity
+
                 assert identity is not None
         except ImportError:
             pass
@@ -128,11 +133,7 @@ def test_basic_types_and_constants():
     import uuid
 
     # Verify we can create basic data structures
-    test_data = {
-        "timestamp": datetime.datetime.now().isoformat(),
-        "id": str(uuid.uuid4()),
-        "status": "healthy"
-    }
+    test_data = {"timestamp": datetime.datetime.now().isoformat(), "id": str(uuid.uuid4()), "status": "healthy"}
 
     # Verify JSON serialization works
     serialized = json.dumps(test_data)

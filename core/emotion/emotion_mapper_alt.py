@@ -1,4 +1,5 @@
 """Alternate emotion mapping utilities for Healix integrations."""
+
 from __future__ import annotations
 
 import logging

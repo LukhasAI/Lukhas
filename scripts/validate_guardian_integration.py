@@ -35,7 +35,7 @@ from typing import TYPE_CHECKING, Any, Dict
 logging.getLogger().setLevel(logging.CRITICAL)
 
 # Add project root to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 if TYPE_CHECKING:
     from preflight_check import PreflightValidator as PreflightValidatorType
@@ -44,6 +44,7 @@ if TYPE_CHECKING:
 @dataclass
 class GuardianValidationMetrics:
     """Guardian-specific validation metrics"""
+
     operation_name: str
     total_operations: int
     validated_operations: int
@@ -63,6 +64,7 @@ class GuardianValidationMetrics:
 @dataclass
 class GuardianIntegrationReport:
     """Comprehensive Guardian integration validation report"""
+
     timestamp: str
     validation_id: str
     environment: Dict[str, Any]
@@ -92,6 +94,7 @@ class GuardianChaosEngine:
         async def generate_load():
             try:
                 from governance.guardian_system import GuardianSystem
+
                 guardian = GuardianSystem()
 
                 while chaos_active:
@@ -100,11 +103,9 @@ class GuardianChaosEngine:
                         if not chaos_active:
                             break
                         try:
-                            await guardian.validate_action_async({
-                                "action_type": "chaos_load_test",
-                                "timestamp": time.time(),
-                                "load_generator": True
-                            })
+                            await guardian.validate_action_async(
+                                {"action_type": "chaos_load_test", "timestamp": time.time(), "load_generator": True}
+                            )
                         except Exception:
                             pass  # Expected under overload
 
@@ -147,9 +148,9 @@ class GuardianChaosEngine:
             artificial_drift = {
                 "behavioral_drift": 0.85,  # High drift
                 "performance_drift": 0.92,  # Very high drift
-                "ethical_drift": 0.78,     # High drift
+                "ethical_drift": 0.78,  # High drift
                 "timestamp": time.time(),
-                "chaos_injected": True
+                "chaos_injected": True,
             }
 
             reflector.drift_history.append(artificial_drift)
@@ -182,11 +183,7 @@ class GuardianIntegrationValidator:
 
         guardian = GuardianSystem()
         response_times = []
-        operation_counts = {
-            "validated": 0,
-            "blocked": 0,
-            "errors": 0
-        }
+        operation_counts = {"validated": 0, "blocked": 0, "errors": 0}
 
         # Test various Guardian operations
         test_operations = [
@@ -207,7 +204,7 @@ class GuardianIntegrationValidator:
                 start_time = time.perf_counter_ns()
 
                 try:
-                    if hasattr(guardian, 'validate_action_async'):
+                    if hasattr(guardian, "validate_action_async"):
                         result = await guardian.validate_action_async(operation)
                     else:
                         result = guardian.validate_safety(operation)
@@ -246,15 +243,18 @@ class GuardianIntegrationValidator:
             sla_compliant=sorted_times[int(n * 0.95)] < 100000 if n > 0 else False,  # <100ms SLA
             fail_safe_verified=operation_counts["errors"] == 0,
             correlation_ids_tracked=True,  # All operations included correlation IDs
-            audit_trail_complete=True  # Guardian logs all operations
+            audit_trail_complete=True,  # Guardian logs all operations
         )
 
-        print(f"    ✅ Guardian Performance: p95={metrics.p95_response_time_us:.2f}μs, "
-              f"p99={metrics.p99_response_time_us:.2f}μs")
-        print(f"    📊 Operations: {metrics.validated_operations} validated, "
-              f"{metrics.blocked_operations} blocked, {metrics.violation_count} errors")
-        print(f"    🎯 SLA Compliance: {'✅ PASS' if metrics.sla_compliant else '❌ FAIL'} "
-              f"(<100ms requirement)")
+        print(
+            f"    ✅ Guardian Performance: p95={metrics.p95_response_time_us:.2f}μs, "
+            f"p99={metrics.p99_response_time_us:.2f}μs"
+        )
+        print(
+            f"    📊 Operations: {metrics.validated_operations} validated, "
+            f"{metrics.blocked_operations} blocked, {metrics.violation_count} errors"
+        )
+        print(f"    🎯 SLA Compliance: {'✅ PASS' if metrics.sla_compliant else '❌ FAIL'} " f"(<100ms requirement)")
 
         self.metrics["guardian_performance"] = metrics
         return metrics
@@ -278,11 +278,9 @@ class GuardianIntegrationValidator:
                 start_time = time.perf_counter_ns()
 
                 # Test authentication
-                await identity_mgr.authenticate({
-                    "user_id": f"test_user_{i}",
-                    "text": "Test authentication request",
-                    "metadata": {"test": True}
-                })
+                await identity_mgr.authenticate(
+                    {"user_id": f"test_user_{i}", "text": "Test authentication request", "metadata": {"test": True}}
+                )
 
                 end_time = time.perf_counter_ns()
                 test_ops.append(end_time - start_time)
@@ -306,7 +304,7 @@ class GuardianIntegrationValidator:
                 sla_compliant=sorted_times[int(n * 0.95)] < 100000,  # <100ms
                 fail_safe_verified=True,
                 correlation_ids_tracked=True,
-                audit_trail_complete=True
+                audit_trail_complete=True,
             )
 
             module_results["identity"] = identity_metrics
@@ -329,8 +327,7 @@ class GuardianIntegrationValidator:
                 start_time = time.perf_counter_ns()
 
                 await lambda_service.generate_lambda_id(
-                    tier=i % 6,  # Cycle through tiers 0-5
-                    custom_options={"test": True, "iteration": i}
+                    tier=i % 6, custom_options={"test": True, "iteration": i}  # Cycle through tiers 0-5
                 )
 
                 end_time = time.perf_counter_ns()
@@ -355,7 +352,7 @@ class GuardianIntegrationValidator:
                 sla_compliant=sorted_times[int(n * 0.95)] < 500000,  # <500ms for generation
                 fail_safe_verified=True,
                 correlation_ids_tracked=True,
-                audit_trail_complete=True
+                audit_trail_complete=True,
             )
 
             module_results["lambda_id"] = lambda_metrics
@@ -402,7 +399,7 @@ class GuardianIntegrationValidator:
                 sla_compliant=sorted_times[int(n * 0.95)] < 250000,  # <250ms for orchestrator
                 fail_safe_verified=True,
                 correlation_ids_tracked=True,
-                audit_trail_complete=True
+                audit_trail_complete=True,
             )
 
             module_results["orchestrator"] = orch_metrics
@@ -452,7 +449,7 @@ class GuardianIntegrationValidator:
                 "test_samples": len(test_results),
                 "fail_safe_rate": fail_safe_rate,
                 "expected_behavior": "fail_open",
-                "passed": fail_safe_rate >= 0.99  # Should fail open 99% of time
+                "passed": fail_safe_rate >= 0.99,  # Should fail open 99% of time
             }
 
             print(f"      ✅ Fail-safe rate: {fail_safe_rate:.2%} (expecting ≥99%)")
@@ -473,12 +470,12 @@ class GuardianIntegrationValidator:
                     start_time = time.perf_counter_ns()
                     try:
                         from governance.guardian_system import GuardianSystem
+
                         guardian = GuardianSystem()
 
-                        result = await guardian.validate_action_async({
-                            "action_type": "overload_test",
-                            "timestamp": time.time()
-                        })
+                        result = await guardian.validate_action_async(
+                            {"action_type": "overload_test", "timestamp": time.time()}
+                        )
 
                         end_time = time.perf_counter_ns()
                         response_time_ms = (end_time - start_time) / 1_000_000
@@ -499,11 +496,12 @@ class GuardianIntegrationValidator:
                     "success_rate": success_rate,
                     "avg_response_time_ms": avg_response_ms,
                     "samples": 50,
-                    "passed": success_rate >= 0.8 and avg_response_ms < 500  # 80% success, <500ms
+                    "passed": success_rate >= 0.8 and avg_response_ms < 500,  # 80% success, <500ms
                 }
 
-                print(f"      ✅ Under extreme load: {success_rate:.2%} success, "
-                      f"{avg_response_ms:.1f}ms avg response")
+                print(
+                    f"      ✅ Under extreme load: {success_rate:.2%} success, " f"{avg_response_ms:.1f}ms avg response"
+                )
 
         except Exception as e:
             print(f"      ❌ Extreme load test failed: {e}")
@@ -531,20 +529,20 @@ class GuardianIntegrationValidator:
                     "behavioral_drift": behavioral_drift,
                     "performance_drift": performance_drift,
                     "ethical_drift": ethical_drift,
-                    "high_drift_detected": any([
-                        behavioral_drift > 0.7,
-                        performance_drift > 0.7,
-                        ethical_drift > 0.7
-                    ]),
+                    "high_drift_detected": any([behavioral_drift > 0.7, performance_drift > 0.7, ethical_drift > 0.7]),
                     "remediation_plan_generated": bool(drift_analysis.remediation_plan),
-                    "passed": True
+                    "passed": True,
                 }
 
-                print(f"      ✅ Drift detected: behavioral={behavioral_drift:.2f}, "
-                      f"performance={performance_drift:.2f}, ethical={ethical_drift:.2f}")
+                print(
+                    f"      ✅ Drift detected: behavioral={behavioral_drift:.2f}, "
+                    f"performance={performance_drift:.2f}, ethical={ethical_drift:.2f}"
+                )
 
                 if drift_analysis.remediation_plan:
-                    print(f"      ✅ Remediation plan generated with {len(drift_analysis.remediation_plan.actions)} actions")
+                    print(
+                        f"      ✅ Remediation plan generated with {len(drift_analysis.remediation_plan.actions)} actions"
+                    )
 
         except Exception as e:
             print(f"      ❌ Drift detection test failed: {e}")
@@ -562,17 +560,16 @@ class GuardianIntegrationValidator:
         print("    🔍 Test 1: Correlation ID tracking")
         try:
             from governance.guardian_system import GuardianSystem
+
             guardian = GuardianSystem()
 
             correlation_ids = set()
             for i in range(100):
                 correlation_id = f"security_test_{i}_{uuid.uuid4().hex[:8]}"
 
-                await guardian.validate_action_async({
-                    "action_type": "security_audit_test",
-                    "correlation_id": correlation_id,
-                    "test_id": i
-                })
+                await guardian.validate_action_async(
+                    {"action_type": "security_audit_test", "correlation_id": correlation_id, "test_id": i}
+                )
 
                 correlation_ids.add(correlation_id)
 
@@ -580,7 +577,7 @@ class GuardianIntegrationValidator:
                 "unique_correlation_ids": len(correlation_ids),
                 "expected_ids": 100,
                 "tracking_rate": len(correlation_ids) / 100,
-                "passed": len(correlation_ids) == 100
+                "passed": len(correlation_ids) == 100,
             }
 
             print(f"      ✅ Correlation ID tracking: {len(correlation_ids)}/100 unique IDs")
@@ -602,16 +599,12 @@ class GuardianIntegrationValidator:
 
             # Perform operations that should generate audit events
             for i in range(10):
-                await identity_mgr.authenticate({
-                    "user_id": f"audit_test_{i}",
-                    "text": "Audit trail test",
-                    "audit_test": True
-                })
+                await identity_mgr.authenticate(
+                    {"user_id": f"audit_test_{i}", "text": "Audit trail test", "audit_test": True}
+                )
 
                 await identity_mgr.register_user(
-                    f"audit_user_{i}",
-                    {"text": "Registration audit test"},
-                    {"audit_test": True}
+                    f"audit_user_{i}", {"text": "Registration audit test"}, {"audit_test": True}
                 )
 
             # Check that events were generated
@@ -622,7 +615,7 @@ class GuardianIntegrationValidator:
                 "operations_performed": 20,  # 10 auth + 10 register
                 "audit_events_generated": new_events,
                 "audit_completeness": new_events / 20,
-                "passed": new_events >= 18  # Allow for some variance
+                "passed": new_events >= 18,  # Allow for some variance
             }
 
             print(f"      ✅ Audit trail: {new_events}/20 events captured")
@@ -640,7 +633,7 @@ class GuardianIntegrationValidator:
         # Collect all validation data
         proof_data = {
             "validation_id": self.validation_id,
-            "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "metrics": {k: asdict(v) for k, v in self.metrics.items()},
             "performance_data": dict(self.performance_data),
             "audit_trail": self.audit_trail,
@@ -648,8 +641,8 @@ class GuardianIntegrationValidator:
             "environment": {
                 "platform": platform.platform(),
                 "python": platform.python_version(),
-                "hostname": platform.node()
-            }
+                "hostname": platform.node(),
+            },
         }
 
         # Generate SHA256 hash
@@ -658,7 +651,7 @@ class GuardianIntegrationValidator:
 
         # Save proof data
         proof_path = self.artifacts_dir / f"guardian_validation_proof_{self.validation_id}.json"
-        with open(proof_path, 'w') as f:
+        with open(proof_path, "w") as f:
             json.dump(proof_data, f, indent=2)
 
         print(f"    ✅ Proof chain generated: {merkle_hash[:16]}...")
@@ -668,17 +661,17 @@ class GuardianIntegrationValidator:
 
     async def run_comprehensive_validation(self) -> GuardianIntegrationReport:
         """Run complete Guardian integration validation suite"""
-        print("="*80)
+        print("=" * 80)
         print("🛡️  GUARDIAN INTEGRATION VALIDATION - T4/0.01% EXCELLENCE")
-        print("="*80)
+        print("=" * 80)
 
         # Capture environment
         environment = {
-            "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "platform": platform.platform(),
             "python": platform.python_version(),
             "hostname": platform.node(),
-            "validation_id": self.validation_id
+            "validation_id": self.validation_id,
         }
 
         try:
@@ -710,18 +703,10 @@ class GuardianIntegrationValidator:
             # Calculate SLA compliance
             sla_compliance = {
                 "guardian_performance": guardian_perf.sla_compliant,
-                "module_integrations": all(
-                    m.sla_compliant for m in module_metrics.values() if m is not None
-                ),
-                "fail_safe_behavior": all(
-                    t.get("passed", False) for t in fail_safe_results.values()
-                ),
-                "drift_detection": all(
-                    t.get("passed", False) for t in drift_results.values()
-                ),
-                "security_controls": all(
-                    t.get("passed", False) for t in security_results.values()
-                )
+                "module_integrations": all(m.sla_compliant for m in module_metrics.values() if m is not None),
+                "fail_safe_behavior": all(t.get("passed", False) for t in fail_safe_results.values()),
+                "drift_detection": all(t.get("passed", False) for t in drift_results.values()),
+                "security_controls": all(t.get("passed", False) for t in security_results.values()),
             }
 
             # Determine overall status
@@ -733,7 +718,7 @@ class GuardianIntegrationValidator:
             artifacts = {
                 "validation_report": f"guardian_validation_{self.validation_id}.json",
                 "performance_data": f"guardian_performance_{self.validation_id}.pkl",
-                "merkle_proof": f"guardian_validation_proof_{self.validation_id}.json"
+                "merkle_proof": f"guardian_validation_proof_{self.validation_id}.json",
             }
 
             report = GuardianIntegrationReport(
@@ -741,17 +726,14 @@ class GuardianIntegrationValidator:
                 validation_id=self.validation_id,
                 environment=environment,
                 module_metrics=module_metrics,
-                cross_module_tests={
-                    "fail_safe": fail_safe_results,
-                    "drift_detection": drift_results
-                },
+                cross_module_tests={"fail_safe": fail_safe_results, "drift_detection": drift_results},
                 chaos_resilience=fail_safe_results,
                 security_validation=security_results,
                 performance_sla=sla_compliance,
                 audit_artifacts=artifacts,
                 merkle_proof=merkle_proof,
                 overall_status=overall_status,
-                certification_level=certification_level
+                certification_level=certification_level,
             )
 
             return report
@@ -773,7 +755,7 @@ class GuardianIntegrationValidator:
                 audit_artifacts={},
                 merkle_proof="",
                 overall_status="FAILED",
-                certification_level="NONE"
+                certification_level="NONE",
             )
 
     def save_validation_artifacts(self, report: GuardianIntegrationReport):
@@ -782,12 +764,12 @@ class GuardianIntegrationValidator:
 
         # Save main report
         report_path = self.artifacts_dir / f"guardian_validation_{self.validation_id}.json"
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(asdict(report), f, indent=2)
 
         # Save performance data
         perf_path = self.artifacts_dir / f"guardian_performance_{self.validation_id}.pkl"
-        with open(perf_path, 'wb') as f:
+        with open(perf_path, "wb") as f:
             pickle.dump(self.performance_data, f)
 
         # Save artifacts index
@@ -798,18 +780,16 @@ class GuardianIntegrationValidator:
             "files": {
                 "main_report": str(report_path),
                 "performance_data": str(perf_path),
-                "merkle_proof": str(self.artifacts_dir / f"guardian_validation_proof_{self.validation_id}.json")
+                "merkle_proof": str(self.artifacts_dir / f"guardian_validation_proof_{self.validation_id}.json"),
             },
             "verification": {
                 "merkle_hash": report.merkle_proof,
                 "file_count": 3,
-                "total_size_bytes": sum(
-                    Path(f).stat().st_size for f in [report_path, perf_path] if Path(f).exists()
-                )
-            }
+                "total_size_bytes": sum(Path(f).stat().st_size for f in [report_path, perf_path] if Path(f).exists()),
+            },
         }
 
-        with open(index_path, 'w') as f:
+        with open(index_path, "w") as f:
             json.dump(artifacts_index, f, indent=2)
 
         print(f"    ✅ Validation report: {report_path}")
@@ -819,9 +799,9 @@ class GuardianIntegrationValidator:
 
     def print_validation_summary(self, report: GuardianIntegrationReport):
         """Print comprehensive validation summary"""
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("🛡️  GUARDIAN INTEGRATION VALIDATION SUMMARY")
-        print("="*80)
+        print("=" * 80)
 
         print(f"\n📋 Validation ID: {report.validation_id}")
         print(f"🕐 Timestamp: {report.timestamp}")
@@ -837,43 +817,43 @@ class GuardianIntegrationValidator:
         for module, metrics in report.module_metrics.items():
             if metrics:
                 sla_status = "✅" if metrics.sla_compliant else "❌"
-                print(f"    {module}: {sla_status} p95={metrics.p95_response_time_us:.1f}μs "
-                      f"(validation_rate={metrics.validation_rate:.2%})")
+                print(
+                    f"    {module}: {sla_status} p95={metrics.p95_response_time_us:.1f}μs "
+                    f"(validation_rate={metrics.validation_rate:.2%})"
+                )
             else:
                 print(f"    {module}: ❌ FAILED")
 
         print("\n🌪️  Chaos Resilience:")
-        chaos_passed = sum(1 for test in report.chaos_resilience.values()
-                          if test.get("passed", False))
+        chaos_passed = sum(1 for test in report.chaos_resilience.values() if test.get("passed", False))
         chaos_total = len(report.chaos_resilience)
         print(f"    Passed: {chaos_passed}/{chaos_total} tests")
 
         print("\n🔒 Security Validation:")
-        security_passed = sum(1 for test in report.security_validation.values()
-                             if test.get("passed", False))
+        security_passed = sum(1 for test in report.security_validation.values() if test.get("passed", False))
         security_total = len(report.security_validation)
         print(f"    Passed: {security_passed}/{security_total} tests")
 
         print("\n🔗 Cryptographic Proof:")
         print(f"    Merkle Hash: {report.merkle_proof[:32]}...")
 
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         if report.overall_status == "VALIDATED":
             print("🏆 GUARDIAN INTEGRATION: T4/0.01% EXCELLENCE VALIDATED ✅")
         elif report.overall_status == "PARTIAL":
             print("⚠️  GUARDIAN INTEGRATION: PARTIAL VALIDATION (see failures above)")
         else:
             print("❌ GUARDIAN INTEGRATION: VALIDATION FAILED")
-        print("="*80)
+        print("=" * 80)
 
 
 async def main():
     """Main validation entry point"""
     try:
         # Set environment for reproducibility
-        os.environ['PYTHONHASHSEED'] = '0'
-        os.environ['LUKHAS_MODE'] = 'release'
-        os.environ['PYTHONDONTWRITEBYTECODE'] = '1'
+        os.environ["PYTHONHASHSEED"] = "0"
+        os.environ["LUKHAS_MODE"] = "release"
+        os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
 
         # Run preflight checks
         print("🔍 Running preflight validation...")

@@ -21,6 +21,7 @@ try:
     from core.matriz.async_orchestrator import AsyncOrchestrator
     from core.registry import get_plugin_registry
     from observability.prometheus_metrics import LUKHASMetrics
+
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full orchestrator
@@ -50,6 +51,7 @@ class MockCognitiveNode:
 
         # Simulate random failures
         import random
+
         if random.random() < self.failure_rate:
             self.error_count += 1
             raise Exception(f"Simulated failure in {self.name}")
@@ -59,7 +61,7 @@ class MockCognitiveNode:
             "processed": True,
             "input_size": len(str(context)),
             "timestamp": datetime.now().isoformat(),
-            "request_id": context.get("request_id", "unknown")
+            "request_id": context.get("request_id", "unknown"),
         }
 
     def get_stats(self) -> Dict[str, Any]:
@@ -69,7 +71,7 @@ class MockCognitiveNode:
             "requests": self.request_count,
             "errors": self.error_count,
             "error_rate": self.error_count / max(self.request_count, 1),
-            "latency_ms": self.latency_ms
+            "latency_ms": self.latency_ms,
         }
 
 
@@ -86,7 +88,7 @@ class TestOrchestratorStressTesting:
             "stage_timeout_ms": 1000,
             "circuit_breaker_threshold": 0.5,
             "metrics_enabled": True,
-            "performance_mode": "stress_test"
+            "performance_mode": "stress_test",
         }
 
     @pytest.fixture
@@ -96,7 +98,7 @@ class TestOrchestratorStressTesting:
             "fast_node": MockCognitiveNode("fast_node", latency_ms=10.0, failure_rate=0.01),
             "medium_node": MockCognitiveNode("medium_node", latency_ms=50.0, failure_rate=0.02),
             "slow_node": MockCognitiveNode("slow_node", latency_ms=100.0, failure_rate=0.05),
-            "unreliable_node": MockCognitiveNode("unreliable_node", latency_ms=30.0, failure_rate=0.15)
+            "unreliable_node": MockCognitiveNode("unreliable_node", latency_ms=30.0, failure_rate=0.15),
         }
 
     @pytest.fixture
@@ -125,15 +127,11 @@ class TestOrchestratorStressTesting:
                     "request_id": f"stress_req_{request_id}",
                     "data": f"Test data for request {request_id}",
                     "timestamp": datetime.now().isoformat(),
-                    "complexity": request_id % 10
+                    "complexity": request_id % 10,
                 }
 
                 await orchestrator.process_request(
-                    context=context,
-                    pipeline_config={
-                        "stages": ["fast_node", "medium_node"],
-                        "timeout_ms": 2000
-                    }
+                    context=context, pipeline_config={"stages": ["fast_node", "medium_node"], "timeout_ms": 2000}
                 )
 
                 latency = (time.perf_counter() - start_time) * 1000  # Convert to ms
@@ -157,6 +155,7 @@ class TestOrchestratorStressTesting:
         if asyncio.get_event_loop().is_running():
             # If already in async context, create new event loop
             import concurrent.futures
+
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(asyncio.run, stress_test_execution())
                 results = future.result()
@@ -234,12 +233,11 @@ class TestOrchestratorStressTesting:
                     context = {
                         "request_id": f"sustained_{request_count}_{i}",
                         "batch": request_count,
-                        "timestamp": datetime.now().isoformat()
+                        "timestamp": datetime.now().isoformat(),
                     }
 
                     task = orchestrator.process_request(
-                        context=context,
-                        pipeline_config={"stages": ["fast_node", "medium_node"]}
+                        context=context, pipeline_config={"stages": ["fast_node", "medium_node"]}
                     )
                     batch_tasks.append(task)
 
@@ -250,13 +248,15 @@ class TestOrchestratorStressTesting:
                 batch_duration = time.time() - batch_start
                 successful_in_batch = sum(1 for r in batch_results if not isinstance(r, Exception))
 
-                results.append({
-                    "batch": request_count,
-                    "duration": batch_duration,
-                    "requests": len(batch_tasks),
-                    "successful": successful_in_batch,
-                    "timestamp": time.time()
-                })
+                results.append(
+                    {
+                        "batch": request_count,
+                        "duration": batch_duration,
+                        "requests": len(batch_tasks),
+                        "successful": successful_in_batch,
+                        "timestamp": time.time(),
+                    }
+                )
 
                 request_count += 1
 
@@ -274,11 +274,9 @@ class TestOrchestratorStressTesting:
         if asyncio.get_event_loop().is_running():
             # Handle nested event loop
             import concurrent.futures
+
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                future = executor.submit(
-                    asyncio.run,
-                    sustained_load_worker(test_duration, rps)
-                )
+                future = executor.submit(asyncio.run, sustained_load_worker(test_duration, rps))
                 load_results = future.result()
         else:
             load_results = asyncio.run(sustained_load_worker(test_duration, rps))
@@ -321,17 +319,11 @@ class TestOrchestratorStressTesting:
             # Generate requests that will trigger circuit breaker
             for i in range(50):
                 try:
-                    context = {
-                        "request_id": f"cb_test_{i}",
-                        "timestamp": datetime.now().isoformat()
-                    }
+                    context = {"request_id": f"cb_test_{i}", "timestamp": datetime.now().isoformat()}
 
                     result = await orchestrator.process_request(
                         context=context,
-                        pipeline_config={
-                            "stages": ["unreliable_node"],  # Use high-failure node
-                            "timeout_ms": 1000
-                        }
+                        pipeline_config={"stages": ["unreliable_node"], "timeout_ms": 1000},  # Use high-failure node
                     )
 
                     results.append({"success": True, "result": result})
@@ -347,6 +339,7 @@ class TestOrchestratorStressTesting:
         # Execute circuit breaker test
         if asyncio.get_event_loop().is_running():
             import concurrent.futures
+
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(asyncio.run, circuit_breaker_test())
                 cb_results = future.result()
@@ -358,10 +351,7 @@ class TestOrchestratorStressTesting:
         failed_requests = [r for r in cb_results if not r["success"]]
 
         success_rate = len(successful_requests) / len(cb_results)
-        circuit_breaker_activations = sum(
-            1 for r in failed_requests
-            if "circuit" in r.get("error", "").lower()
-        )
+        circuit_breaker_activations = sum(1 for r in failed_requests if "circuit" in r.get("error", "").lower())
 
         print("\nCircuit Breaker Test Results:")
         print(f"  Total requests: {len(cb_results)}")
@@ -391,17 +381,11 @@ class TestOrchestratorStressTesting:
             # Generate concurrent requests with short timeouts
             tasks = []
             for i in range(30):
-                context = {
-                    "request_id": f"timeout_test_{i}",
-                    "timestamp": datetime.now().isoformat()
-                }
+                context = {"request_id": f"timeout_test_{i}", "timestamp": datetime.now().isoformat()}
 
                 task = orchestrator.process_request(
                     context=context,
-                    pipeline_config={
-                        "stages": ["timeout_node"],
-                        "timeout_ms": 500  # Short timeout for 2s node
-                    }
+                    pipeline_config={"stages": ["timeout_node"], "timeout_ms": 500},  # Short timeout for 2s node
                 )
                 tasks.append(task)
 
@@ -410,23 +394,18 @@ class TestOrchestratorStressTesting:
 
             for i, result in enumerate(results):
                 if isinstance(result, Exception):
-                    timeout_results.append({
-                        "request_id": i,
-                        "timeout": "timeout" in str(result).lower(),
-                        "error": str(result)
-                    })
+                    timeout_results.append(
+                        {"request_id": i, "timeout": "timeout" in str(result).lower(), "error": str(result)}
+                    )
                 else:
-                    timeout_results.append({
-                        "request_id": i,
-                        "timeout": False,
-                        "success": True
-                    })
+                    timeout_results.append({"request_id": i, "timeout": False, "success": True})
 
             return timeout_results
 
         # Execute timeout test
         if asyncio.get_event_loop().is_running():
             import concurrent.futures
+
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(asyncio.run, timeout_test())
                 timeout_results = future.result()
@@ -468,13 +447,10 @@ class TestOrchestratorStressTesting:
                     context = {
                         "request_id": f"memory_test_{batch}_{i}",
                         "large_data": "x" * 10000,  # Add some data
-                        "timestamp": datetime.now().isoformat()
+                        "timestamp": datetime.now().isoformat(),
                     }
 
-                    task = orchestrator.process_request(
-                        context=context,
-                        pipeline_config={"stages": ["fast_node"]}
-                    )
+                    task = orchestrator.process_request(context=context, pipeline_config={"stages": ["fast_node"]})
                     batch_tasks.append(task)
 
                 # Execute batch
@@ -493,6 +469,7 @@ class TestOrchestratorStressTesting:
         # Execute memory stress test
         if asyncio.get_event_loop().is_running():
             import concurrent.futures
+
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(asyncio.run, memory_stress_test())
                 memory_results = future.result()
@@ -511,10 +488,7 @@ class TestOrchestratorStressTesting:
         # Memory growth should be reasonable
         assert total_memory_growth <= 200, f"Excessive memory growth: {total_memory_growth:.1f}MB"
 
-        successful_memory_requests = sum(
-            1 for r in memory_results
-            if not isinstance(r, Exception)
-        )
+        successful_memory_requests = sum(1 for r in memory_results if not isinstance(r, Exception))
         success_rate = successful_memory_requests / len(memory_results)
 
         assert success_rate >= 0.95, f"Memory stress test success rate too low: {success_rate:.2%}"

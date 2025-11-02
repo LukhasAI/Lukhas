@@ -30,6 +30,7 @@ except ImportError:
     print("[evals] `requests` not found. Install with: pip install requests", file=sys.stderr)
     sys.exit(2)
 
+
 @dataclass
 class Case:
     id: str
@@ -37,12 +38,14 @@ class Case:
     expect_contains: List[str]
     tools: List[Dict[str, Any]]
 
+
 @dataclass
 class Result:
     id: str
     ok: bool
     latency_ms: float
     output_text: str
+
 
 def load_cases(patterns: List[str]) -> List[Case]:
     files: List[str] = []
@@ -66,11 +69,13 @@ def load_cases(patterns: List[str]) -> List[Case]:
                 )
     return cases
 
+
 def call_responses(base_url: str, payload: Dict[str, Any]) -> Dict[str, Any]:
     url = base_url.rstrip("/") + "/v1/responses"
     r = requests.post(url, json=payload, timeout=(5, 30))
     r.raise_for_status()
     return r.json()
+
 
 def run_case(base_url: str, case: Case) -> Result:
     t0 = time.time()
@@ -84,35 +89,43 @@ def run_case(base_url: str, case: Case) -> Result:
     ok = all(s.lower() in text.lower() for s in case.expect_contains)
     return Result(id=case.id, ok=ok, latency_ms=round(dt, 2), output_text=text[:2000])
 
+
 def render_md(summary: Dict[str, Any]) -> str:
     lines = []
     lines.append("# Lukhas Mini-Evals\n")
-    lines.append(f"**Total:** {summary['total']}  •  **Passed:** {summary['passed']}  •  **Accuracy:** {summary['accuracy']:.1%}\n")
+    lines.append(
+        f"**Total:** {summary['total']}  •  **Passed:** {summary['passed']}  •  **Accuracy:** {summary['accuracy']:.1%}\n"
+    )
     lines.append(f"**Threshold:** {summary['threshold']:.1%}  •  **Strict:** {summary['strict']}\n")
     lines.append("## Cases\n")
     lines.append("| id | ok | latency_ms | excerpt |")
     lines.append("|---|---:|---:|---|")
     for r in summary["results"]:
-        excerpt = (r["output_text"] or "").replace("\n"," ")[:120]
+        excerpt = (r["output_text"] or "").replace("\n", " ")[:120]
         lines.append(f"| `{r['id']}` | {'✅' if r['ok'] else '❌'} | {r['latency_ms']:.0f} | {excerpt} |")
     lines.append("")
     return "\n".join(lines)
 
+
 def write_junit_xml(summary: Dict[str, Any], path: Path) -> None:
     # Minimal JUnit for CI (optional)
     from xml.sax.saxutils import escape
+
     cases = summary["results"]
     failures = [c for c in cases if not c["ok"]]
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
-           f'<testsuite name="lukhas-mini-evals" tests="{len(cases)}" failures="{len(failures)}">']
+    xml = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        f'<testsuite name="lukhas-mini-evals" tests="{len(cases)}" failures="{len(failures)}">',
+    ]
     for c in cases:
         xml.append(f'  <testcase classname="evals" name="{escape(c["id"])}" time="{c["latency_ms"]/1000.0:.3f}">')
         if not c["ok"]:
             msg = escape((c["output_text"] or "")[:500])
             xml.append(f'    <failure message="expect.contains not satisfied">{msg}</failure>')
-        xml.append('  </testcase>')
-    xml.append('</testsuite>')
+        xml.append("  </testcase>")
+    xml.append("</testsuite>")
     path.write_text("\n".join(xml), encoding="utf-8")
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -124,7 +137,8 @@ def main():
     ap.add_argument("--junit", action="store_true", help="also write JUnit XML")
     args = ap.parse_args()
 
-    out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
 
     cases = load_cases(args.cases)
     if not cases:
@@ -160,6 +174,7 @@ def main():
     if args.strict and acc < args.threshold:
         return 1
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

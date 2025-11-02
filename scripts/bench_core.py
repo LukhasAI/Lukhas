@@ -24,6 +24,7 @@ import psutil
 @dataclass
 class BenchmarkResult:
     """Structured benchmark result with statistical metadata"""
+
     name: str
     type: str  # 'unit' or 'e2e'
     samples: int
@@ -45,14 +46,15 @@ class BenchmarkResult:
 
     def calculate_sha(self) -> str:
         """Calculate SHA256 of result for tamper evidence"""
-        data = json.dumps({
-            'name': self.name,
-            'samples': self.samples,
-            'p95_us': self.p95_us,
-            'latencies_hash': hashlib.sha256(
-                str(self.latencies_ns).encode()
-            ).hexdigest()[:16]
-        }, sort_keys=True)
+        data = json.dumps(
+            {
+                "name": self.name,
+                "samples": self.samples,
+                "p95_us": self.p95_us,
+                "latencies_hash": hashlib.sha256(str(self.latencies_ns).encode()).hexdigest()[:16],
+            },
+            sort_keys=True,
+        )
         return hashlib.sha256(data.encode()).hexdigest()
 
 
@@ -67,17 +69,17 @@ class PerformanceBenchmark:
         """Capture runtime environment for reproducibility"""
         cpu_freq = psutil.cpu_freq()
         return {
-            'platform': platform.platform(),
-            'processor': platform.processor(),
-            'python': platform.python_version(),
-            'cpu_count': psutil.cpu_count(),
-            'cpu_freq_current': cpu_freq.current if cpu_freq else None,
-            'cpu_freq_max': cpu_freq.max if cpu_freq else None,
-            'memory_gb': psutil.virtual_memory().total / (1024**3),
-            'pythonhashseed': os.environ.get('PYTHONHASHSEED', 'random'),
-            'lukhas_mode': os.environ.get('LUKHAS_MODE', 'debug'),
-            'timestamp': time.time(),
-            'hostname': platform.node()
+            "platform": platform.platform(),
+            "processor": platform.processor(),
+            "python": platform.python_version(),
+            "cpu_count": psutil.cpu_count(),
+            "cpu_freq_current": cpu_freq.current if cpu_freq else None,
+            "cpu_freq_max": cpu_freq.max if cpu_freq else None,
+            "memory_gb": psutil.virtual_memory().total / (1024**3),
+            "pythonhashseed": os.environ.get("PYTHONHASHSEED", "random"),
+            "lukhas_mode": os.environ.get("LUKHAS_MODE", "debug"),
+            "timestamp": time.time(),
+            "hostname": platform.node(),
         }
 
     def percentile(self, data: List[float], p: float) -> float:
@@ -92,8 +94,7 @@ class PerformanceBenchmark:
         weight = idx - lower
         return sorted_data[lower] * (1 - weight) + sorted_data[upper] * weight
 
-    def bootstrap_ci(self, data: List[float], n_bootstrap: int = 1000,
-                    confidence: float = 0.95) -> Tuple[float, float]:
+    def bootstrap_ci(self, data: List[float], n_bootstrap: int = 1000, confidence: float = 0.95) -> Tuple[float, float]:
         """Calculate bootstrap confidence interval for p95"""
         if len(data) < 10:
             return (min(data), max(data)) if data else (0.0, 0.0)
@@ -116,8 +117,9 @@ class PerformanceBenchmark:
 
         return ci_lower, ci_upper
 
-    def benchmark_function(self, func, name: str, benchmark_type: str = 'unit',
-                         warmup: int = 100, samples: int = 2000) -> BenchmarkResult:
+    def benchmark_function(
+        self, func, name: str, benchmark_type: str = "unit", warmup: int = 100, samples: int = 2000
+    ) -> BenchmarkResult:
         """Benchmark a function with statistical rigor"""
         print(f"🔬 Benchmarking {name} ({benchmark_type})...")
 
@@ -132,6 +134,7 @@ class PerformanceBenchmark:
 
         # Force GC before measurement
         import gc
+
         gc.collect()
         gc.disable()  # Disable GC during measurement
 
@@ -180,7 +183,7 @@ class PerformanceBenchmark:
             max_us=max(latencies_us),
             throughput_per_sec=throughput,
             environment=self.environment,
-            timestamp=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+            timestamp=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         )
 
         result.sha256 = result.calculate_sha()
@@ -221,24 +224,24 @@ class PerformanceBenchmark:
         # Calculate throughput variance (steady-state check)
         interval_throughputs = []
         for i in range(1, len(checkpoint_ops)):
-            interval_ops = checkpoint_ops[i] - checkpoint_ops[i-1]
+            interval_ops = checkpoint_ops[i] - checkpoint_ops[i - 1]
             interval_throughputs.append(interval_ops)  # ops per second
 
         throughput_stdev = statistics.stdev(interval_throughputs) if len(interval_throughputs) > 1 else 0
         throughput_cv = throughput_stdev / statistics.mean(interval_throughputs) if interval_throughputs else 0
 
         result = {
-            'name': name,
-            'type': 'throughput',
-            'duration_sec': total_duration,
-            'total_operations': operations,
-            'throughput_ops_per_sec': throughput,
-            'throughput_stdev': throughput_stdev,
-            'throughput_cv': throughput_cv,  # Coefficient of variation (lower is more steady)
-            'steady_state': throughput_cv < 0.1,  # <10% variation = steady
-            'checkpoints': list(zip(checkpoint_times, checkpoint_ops)),
-            'environment': self.environment,
-            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+            "name": name,
+            "type": "throughput",
+            "duration_sec": total_duration,
+            "total_operations": operations,
+            "throughput_ops_per_sec": throughput,
+            "throughput_stdev": throughput_stdev,
+            "throughput_cv": throughput_cv,  # Coefficient of variation (lower is more steady)
+            "steady_state": throughput_cv < 0.1,  # <10% variation = steady
+            "checkpoints": list(zip(checkpoint_times, checkpoint_ops)),
+            "environment": self.environment,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         }
 
         print(f"  ✅ Complete: {throughput:.0f} ops/sec (CV={throughput_cv:.2%})")
@@ -248,63 +251,53 @@ class PerformanceBenchmark:
     def generate_report(self, output_file: str = None) -> Dict[str, Any]:
         """Generate comprehensive benchmark report"""
         report = {
-            'version': '1.0.0',
-            'environment': self.environment,
-            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
-            'benchmarks': []
+            "version": "1.0.0",
+            "environment": self.environment,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "benchmarks": [],
         }
 
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("📊 PERFORMANCE VALIDATION REPORT")
-        print("="*80)
+        print("=" * 80)
 
         # Separate unit and E2E results
-        unit_results = [r for r in self.results if r.type == 'unit']
-        e2e_results = [r for r in self.results if r.type == 'e2e']
+        unit_results = [r for r in self.results if r.type == "unit"]
+        e2e_results = [r for r in self.results if r.type == "e2e"]
 
         if unit_results:
             print("\n🔬 UNIT/MOCK BENCHMARKS (in-process, no IO)")
-            print("-"*60)
+            print("-" * 60)
             print(f"{'Component':<30} {'P50':<10} {'P95':<15} {'P99':<10} {'N':<8} {'Status'}")
-            print("-"*60)
+            print("-" * 60)
 
             for r in unit_results:
                 ci_range = f"[{r.ci95_lower_us:.1f}-{r.ci95_upper_us:.1f}]"
                 status = "✅" if r.p95_us < 100 else "⚠️"
-                print(f"{r.name:<30} {r.p50_us:<10.2f} {r.p95_us:.2f} {ci_range:<15} {r.p99_us:<10.2f} {r.samples:<8} {status}")
+                print(
+                    f"{r.name:<30} {r.p50_us:<10.2f} {r.p95_us:.2f} {ci_range:<15} {r.p99_us:<10.2f} {r.samples:<8} {status}"
+                )
 
-                report['benchmarks'].append({
-                    'name': r.name,
-                    'type': r.type,
-                    'metrics': asdict(r),
-                    'sha256': r.sha256
-                })
+                report["benchmarks"].append({"name": r.name, "type": r.type, "metrics": asdict(r), "sha256": r.sha256})
 
         if e2e_results:
             print("\n🌐 END-TO-END BENCHMARKS (real IO/network)")
-            print("-"*60)
+            print("-" * 60)
             print(f"{'Component':<30} {'P50':<10} {'P95 [CI95%]':<20} {'P99':<10} {'N':<8} {'Status'}")
-            print("-"*60)
+            print("-" * 60)
 
             for r in e2e_results:
                 ci_range = f"{r.p95_us:.1f} [{r.ci95_lower_us:.1f}-{r.ci95_upper_us:.1f}]"
                 status = self._get_sla_status(r.name, r.p95_us)
                 print(f"{r.name:<30} {r.p50_us:<10.2f} {ci_range:<20} {r.p99_us:<10.2f} {r.samples:<8} {status}")
 
-                report['benchmarks'].append({
-                    'name': r.name,
-                    'type': r.type,
-                    'metrics': asdict(r),
-                    'sha256': r.sha256
-                })
+                report["benchmarks"].append({"name": r.name, "type": r.type, "metrics": asdict(r), "sha256": r.sha256})
 
         # Calculate report hash
-        report['report_sha256'] = hashlib.sha256(
-            json.dumps(report['benchmarks'], sort_keys=True).encode()
-        ).hexdigest()
+        report["report_sha256"] = hashlib.sha256(json.dumps(report["benchmarks"], sort_keys=True).encode()).hexdigest()
 
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 json.dump(report, f, indent=2, default=str)
             print(f"\n💾 Report saved to: {output_file}")
 
@@ -315,9 +308,9 @@ class PerformanceBenchmark:
     def _get_sla_status(self, name: str, p95_us: float) -> str:
         """Determine SLA compliance status"""
         sla_thresholds = {
-            'guardian': 100000,  # 100ms
-            'memory': 100,       # 100μs
-            'orchestrator': 250000,  # 250ms
+            "guardian": 100000,  # 100ms
+            "memory": 100,  # 100μs
+            "orchestrator": 250000,  # 250ms
         }
 
         for key, threshold in sla_thresholds.items():
@@ -328,7 +321,7 @@ class PerformanceBenchmark:
     def validate_sla(self, sla_requirements: Dict[str, float]) -> bool:
         """Validate results against SLA requirements"""
         print("\n⚖️  SLA VALIDATION")
-        print("-"*60)
+        print("-" * 60)
 
         all_pass = True
 
@@ -340,15 +333,14 @@ class PerformanceBenchmark:
                 continue
 
             # Use E2E if available, otherwise unit
-            e2e = [r for r in matching if r.type == 'e2e']
+            e2e = [r for r in matching if r.type == "e2e"]
             result = e2e[0] if e2e else matching[0]
 
             passed = result.p95_us <= max_p95_us
             all_pass = all_pass and passed
 
             status = "✅ PASS" if passed else "❌ FAIL"
-            print(f"{name:<25} Required: <{max_p95_us:>8.1f}μs   "
-                  f"Actual: {result.p95_us:>8.1f}μs   {status}")
+            print(f"{name:<25} Required: <{max_p95_us:>8.1f}μs   " f"Actual: {result.p95_us:>8.1f}μs   {status}")
 
         return all_pass
 
@@ -362,21 +354,13 @@ def main():
         time.sleep(0.00001)  # Simulate 10μs operation
 
     # Run benchmark
-    bench.benchmark_function(
-        example_func,
-        name="example_operation",
-        benchmark_type="unit",
-        warmup=50,
-        samples=1000
-    )
+    bench.benchmark_function(example_func, name="example_operation", benchmark_type="unit", warmup=50, samples=1000)
 
     # Generate report
     bench.generate_report("benchmark_results.json")
 
     # Validate SLAs
-    sla_requirements = {
-        "example": 100.0  # 100μs max
-    }
+    sla_requirements = {"example": 100.0}  # 100μs max
 
     if bench.validate_sla(sla_requirements):
         print("\n✅ All SLAs passed!")

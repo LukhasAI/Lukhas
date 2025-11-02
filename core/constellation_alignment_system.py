@@ -13,6 +13,7 @@ all consciousness signals maintain proper alignment across eight fundamental sta
 🛡️ GUARDIAN - The Watch Star: safety compliance and cascade prevention
 ⚛️ QUANTUM - The Ambiguity Star: quantum-inspired uncertainty as fertile ground
 """
+
 import logging
 import threading
 import time

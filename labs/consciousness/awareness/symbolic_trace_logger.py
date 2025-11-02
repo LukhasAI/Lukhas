@@ -13,6 +13,7 @@ from typing import Any, Optional
 @dataclass
 class SymbolicTrace:
     """Represents a symbolic trace entry."""
+
     timestamp: float
     trace_id: str
     component: str
@@ -35,9 +36,14 @@ class SymbolicTraceLogger:
         self.traces: list[SymbolicTrace] = []
         self.trace_counter = 0
 
-    def trace(self, component: str, message: str, level: str = "INFO",
-              context: Optional[dict[str, Any]] = None,
-              symbolic_markers: Optional[list[str]] = None) -> None:
+    def trace(
+        self,
+        component: str,
+        message: str,
+        level: str = "INFO",
+        context: Optional[dict[str, Any]] = None,
+        symbolic_markers: Optional[list[str]] = None,
+    ) -> None:
         """Log a symbolic trace entry."""
         if context is None:
             context = {}
@@ -54,7 +60,7 @@ class SymbolicTraceLogger:
             level=level,
             message=message,
             context=context,
-            symbolic_markers=symbolic_markers
+            symbolic_markers=symbolic_markers,
         )
 
         self.traces.append(trace)

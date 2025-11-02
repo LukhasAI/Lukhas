@@ -117,7 +117,9 @@ class ClaudeLUKHASIntegration:
     def _measure_current_consciousness(self) -> float:
         """Measure current consciousness level based on recent activity"""
         # Analyze recent journal entries for consciousness indicators
-        recent_entries = self.journal.search(date_range=(datetime.now(timezone.utc) - timedelta(hours=24), datetime.now(timezone.utc)))
+        recent_entries = self.journal.search(
+            date_range=(datetime.now(timezone.utc) - timedelta(hours=24), datetime.now(timezone.utc))
+        )
 
         consciousness_score = 0.5  # Base level
 
@@ -427,7 +429,9 @@ class ClaudeLUKHASIntegration:
 
     def _calculate_emotional_coherence(self) -> float:
         """Calculate emotional coherence from recent entries"""
-        recent_entries = self.journal.search(date_range=(datetime.now(timezone.utc) - timedelta(hours=12), datetime.now(timezone.utc)))
+        recent_entries = self.journal.search(
+            date_range=(datetime.now(timezone.utc) - timedelta(hours=12), datetime.now(timezone.utc))
+        )
 
         if not recent_entries:
             return 0.5

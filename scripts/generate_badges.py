@@ -30,12 +30,18 @@ def badge_svg(label, value, color):
 </svg>
 """
 
+
 def pct_color(p):
-    if p >= 90: return "#4c1"
-    if p >= 70: return "#97CA00"
-    if p >= 50: return "#dfb317"
-    if p >= 30: return "#fe7d37"
+    if p >= 90:
+        return "#4c1"
+    if p >= 70:
+        return "#97CA00"
+    if p >= 50:
+        return "#dfb317"
+    if p >= 30:
+        return "#fe7d37"
     return "#e05d44"
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -46,12 +52,15 @@ def main():
 
     inv = json.load(open(args.inventory, "r", encoding="utf-8"))
     total = int(inv.get("statistics", {}).get("total_modules", len(inv.get("inventory", [])) or 0))
-    out_dir = pathlib.Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = pathlib.Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     # Manifest coverage
     manifests = list(pathlib.Path(args.manifests_root).rglob("module.manifest.json"))
     m_pct = round(100.0 * (len(manifests) / max(1, total)), 1)
-    (out_dir / "manifest_coverage.svg").write_text(badge_svg("manifests", f"{m_pct}%", pct_color(m_pct)), encoding="utf-8")
+    (out_dir / "manifest_coverage.svg").write_text(
+        badge_svg("manifests", f"{m_pct}%", pct_color(m_pct)), encoding="utf-8"
+    )
 
     # Context coverage
     contexts = list(pathlib.Path(args.manifests_root).rglob("lukhas_context.md"))
@@ -59,6 +68,7 @@ def main():
     (out_dir / "context_coverage.svg").write_text(badge_svg("context", f"{c_pct}%", pct_color(c_pct)), encoding="utf-8")
 
     print(f"Badges → {out_dir}/manifest_coverage.svg, {out_dir}/context_coverage.svg")
+
 
 if __name__ == "__main__":
     main()

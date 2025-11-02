@@ -18,11 +18,7 @@ import pytest
 @pytest.fixture(scope="session")
 def test_config():
     """Provide test configuration."""
-    return {
-        "module_name": "perp_runs",
-        "test_mode": True,
-        "log_level": "DEBUG"
-    }
+    return {"module_name": "perp_runs", "test_mode": True, "log_level": "DEBUG"}
 
 
 @pytest.fixture(scope="session")
@@ -53,12 +49,6 @@ def clean_environment():
 def mock_perp_runs_config():
     """Mock configuration for perp_runs module."""
     return {
-        "module": {
-            "name": "perp_runs",
-            "version": "1.0.0-test"
-        },
-        "runtime": {
-            "log_level": "DEBUG",
-            "debug_mode": True
-        }
+        "module": {"name": "perp_runs", "version": "1.0.0-test"},
+        "runtime": {"log_level": "DEBUG", "debug_mode": True},
     }

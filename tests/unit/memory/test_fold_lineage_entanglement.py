@@ -33,6 +33,7 @@ from memory.fold_lineage_tracker import CausationType, FoldLineageTracker  # noq
 # ΛTAG: fold_lineage
 def _configure_tracker_paths(tracker: FoldLineageTracker, tmp_path: Path) -> None:
     if not hasattr(flt_module.logger, "bind"):
+
         def _bind_logger(self, **_kwargs):
             return self
 

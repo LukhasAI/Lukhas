@@ -28,6 +28,7 @@ from uuid import uuid4
 
 try:
     import aiohttp
+
     AIOHTTP_AVAILABLE = True
 except ImportError:
     AIOHTTP_AVAILABLE = False
@@ -38,6 +39,7 @@ from .evidence_collection import EvidenceType, collect_evidence
 
 class AlertState(Enum):
     """Alert state lifecycle"""
+
     FIRING = "firing"
     ACKNOWLEDGED = "acknowledged"
     RESOLVED = "resolved"
@@ -47,6 +49,7 @@ class AlertState(Enum):
 
 class NotificationChannel(Enum):
     """Available notification channels"""
+
     EMAIL = "email"
     SLACK = "slack"
     PAGERDUTY = "pagerduty"
@@ -57,6 +60,7 @@ class NotificationChannel(Enum):
 
 class EscalationLevel(Enum):
     """Alert escalation levels"""
+
     L1_MONITORING = "l1_monitoring"
     L2_ENGINEERING = "l2_engineering"
     L3_SENIOR_ENGINEERING = "l3_senior_engineering"
@@ -67,6 +71,7 @@ class EscalationLevel(Enum):
 @dataclass
 class AlertRule:
     """Alert rule configuration"""
+
     rule_id: str
     name: str
     condition: str  # Metric condition expression
@@ -83,6 +88,7 @@ class AlertRule:
 @dataclass
 class Alert:
     """Active alert instance"""
+
     alert_id: str
     rule_id: str
     title: str
@@ -109,6 +115,7 @@ class Alert:
 @dataclass
 class NotificationTemplate:
     """Notification message template"""
+
     channel: NotificationChannel
     subject_template: str
     body_template: str
@@ -118,6 +125,7 @@ class NotificationTemplate:
 @dataclass
 class EscalationPolicy:
     """Escalation policy configuration"""
+
     policy_id: str
     name: str
     escalation_rules: Dict[EscalationLevel, Dict[str, Any]]
@@ -185,7 +193,7 @@ class IntelligentAlertingSystem:
         """Load alerting configuration from file"""
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path, "r") as f:
                     config = json.load(f)
 
                 # Load alert rules
@@ -360,9 +368,7 @@ This is an automated alert from LUKHAS AI System.
             return ""
 
         # Generate alert fingerprint for deduplication
-        fingerprint = self._generate_alert_fingerprint(
-            rule_id, source_component, metric_name, labels or {}
-        )
+        fingerprint = self._generate_alert_fingerprint(rule_id, source_component, metric_name, labels or {})
 
         # Check if alert is suppressed
         if fingerprint in self.alert_fingerprints:
@@ -440,6 +446,7 @@ This is an automated alert from LUKHAS AI System.
             "labels": sorted(labels.items()),
         }
         import hashlib
+
         return hashlib.md5(json.dumps(fingerprint_data, sort_keys=True).encode()).hexdigest()
 
     def _is_alert_storm(self, rule_id: str) -> bool:
@@ -449,7 +456,8 @@ This is an automated alert from LUKHAS AI System.
 
         rule = self.alert_rules[rule_id]
         recent_alerts = [
-            timestamp for timestamp in self.alert_rate_tracker[rule_id]
+            timestamp
+            for timestamp in self.alert_rate_tracker[rule_id]
             if (datetime.now(timezone.utc) - timestamp).total_seconds() < 3600  # Last hour
         ]
 
@@ -498,11 +506,13 @@ This is an automated alert from LUKHAS AI System.
                 success = await self._send_notification(alert, channel)
 
                 # Record notification attempt
-                alert.notification_history.append({
-                    "channel": channel.value,
-                    "success": success,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                })
+                alert.notification_history.append(
+                    {
+                        "channel": channel.value,
+                        "success": success,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
 
             except Exception as e:
                 print(f"Failed to send notification via {channel.value}: {e}")
@@ -553,17 +563,17 @@ This is an automated alert from LUKHAS AI System.
 
         try:
             msg = MIMEMultipart()
-            msg['From'] = self.smtp_config['from_email']
-            msg['To'] = self.smtp_config['to_email']
-            msg['Subject'] = subject
+            msg["From"] = self.smtp_config["from_email"]
+            msg["To"] = self.smtp_config["to_email"]
+            msg["Subject"] = subject
 
-            msg.attach(MIMEText(body, 'plain'))
+            msg.attach(MIMEText(body, "plain"))
 
-            with smtplib.SMTP(self.smtp_config['smtp_server'], self.smtp_config['smtp_port']) as server:
-                if self.smtp_config.get('use_tls'):
+            with smtplib.SMTP(self.smtp_config["smtp_server"], self.smtp_config["smtp_port"]) as server:
+                if self.smtp_config.get("use_tls"):
                     server.starttls()
-                if self.smtp_config.get('username'):
-                    server.login(self.smtp_config['username'], self.smtp_config['password'])
+                if self.smtp_config.get("username"):
+                    server.login(self.smtp_config["username"], self.smtp_config["password"])
                 server.send_message(msg)
 
             return True
@@ -577,7 +587,7 @@ This is an automated alert from LUKHAS AI System.
         if not AIOHTTP_AVAILABLE:
             return False
 
-        webhook_url = self.smtp_config.get('webhook_url') if self.smtp_config else None
+        webhook_url = self.smtp_config.get("webhook_url") if self.smtp_config else None
         if not webhook_url:
             return False
 
@@ -594,9 +604,7 @@ This is an automated alert from LUKHAS AI System.
 
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    webhook_url,
-                    json=payload,
-                    timeout=aiohttp.ClientTimeout(total=self.webhook_timeout)
+                    webhook_url, json=payload, timeout=aiohttp.ClientTimeout(total=self.webhook_timeout)
                 ) as response:
                     return response.status < 400
 
@@ -693,10 +701,7 @@ This is an automated alert from LUKHAS AI System.
 
         # Recent alerts (active + recently resolved)
         recent_alerts = [a for a in self.active_alerts.values()]
-        recent_alerts.extend([
-            a for a in self.alert_history
-            if a.created_at >= cutoff_time
-        ])
+        recent_alerts.extend([a for a in self.alert_history if a.created_at >= cutoff_time])
 
         # Statistics
         stats = {
@@ -717,10 +722,7 @@ This is an automated alert from LUKHAS AI System.
             # Resolution time for resolved alerts
             resolved_alerts = [a for a in recent_alerts if a.resolved_at]
             if resolved_alerts:
-                resolution_times = [
-                    (a.resolved_at - a.created_at).total_seconds() / 60
-                    for a in resolved_alerts
-                ]
+                resolution_times = [(a.resolved_at - a.created_at).total_seconds() / 60 for a in resolved_alerts]
                 stats["average_resolution_time_minutes"] = sum(resolution_times) / len(resolution_times)
 
             # Acknowledgment rate
@@ -731,6 +733,7 @@ This is an automated alert from LUKHAS AI System.
 
     def _start_background_tasks(self):
         """Start background tasks for alert management"""
+
         async def escalation_worker():
             while True:
                 try:
@@ -773,9 +776,11 @@ This is an automated alert from LUKHAS AI System.
             for level, delay in rule.escalation_rules.items():
                 escalation_time = alert.created_at + delay
 
-                if (current_time >= escalation_time and
-                    alert.escalation_level.value < level.value and
-                    alert.state != AlertState.ACKNOWLEDGED):
+                if (
+                    current_time >= escalation_time
+                    and alert.escalation_level.value < level.value
+                    and alert.state != AlertState.ACKNOWLEDGED
+                ):
 
                     await self._escalate_alert(alert, level)
 
@@ -808,10 +813,7 @@ This is an automated alert from LUKHAS AI System.
         cutoff_time = datetime.now(timezone.utc) - timedelta(days=self.alert_history_days)
 
         # Clean alert history
-        self.alert_history = [
-            alert for alert in self.alert_history
-            if alert.created_at >= cutoff_time
-        ]
+        self.alert_history = [alert for alert in self.alert_history if alert.created_at >= cutoff_time]
 
         # Clean alert fingerprints
         self.alert_fingerprints = {
@@ -822,10 +824,9 @@ This is an automated alert from LUKHAS AI System.
 
         # Clean alert rate trackers
         for rule_id in self.alert_rate_tracker:
-            self.alert_rate_tracker[rule_id] = deque([
-                timestamp for timestamp in self.alert_rate_tracker[rule_id]
-                if timestamp >= cutoff_time
-            ], maxlen=100)
+            self.alert_rate_tracker[rule_id] = deque(
+                [timestamp for timestamp in self.alert_rate_tracker[rule_id] if timestamp >= cutoff_time], maxlen=100
+            )
 
     async def shutdown(self):
         """Shutdown alerting system"""
@@ -839,10 +840,7 @@ This is an automated alert from LUKHAS AI System.
 _alerting_system: Optional[IntelligentAlertingSystem] = None
 
 
-def initialize_alerting(
-    config_path: str = "./config/alerting.json",
-    **kwargs
-) -> IntelligentAlertingSystem:
+def initialize_alerting(config_path: str = "./config/alerting.json", **kwargs) -> IntelligentAlertingSystem:
     """Initialize global alerting system"""
     global _alerting_system
     _alerting_system = IntelligentAlertingSystem(config_path=config_path, **kwargs)

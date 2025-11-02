@@ -27,6 +27,7 @@ def test_my_feature(client: TestClient) -> None:
 
 Phase 3: Added for test reliability polish (Task 6).
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -57,16 +58,17 @@ INVALID_TOKEN_WRONG_PREFIX = "sk-openai-wrong-prefix-12345678"
 # Header Builders
 # =============================================================================
 
+
 def golden_auth_headers(extra: dict[str, str] | None = None) -> dict[str, str]:
     """
     Build auth headers with golden token.
-    
+
     Args:
         extra: Optional extra headers to merge (e.g., Idempotency-Key, X-Custom-Header)
-    
+
     Returns:
         Headers dict with Authorization + any extras
-    
+
     Example:
         headers = golden_auth_headers({"Idempotency-Key": "test-123"})
     """
@@ -79,14 +81,14 @@ def golden_auth_headers(extra: dict[str, str] | None = None) -> dict[str, str]:
 def tier_auth_headers(tier: int, extra: dict[str, str] | None = None) -> dict[str, str]:
     """
     Build auth headers for specific tier.
-    
+
     Args:
         tier: Tier level (0-3)
         extra: Optional extra headers
-    
+
     Returns:
         Headers dict with tier-specific token
-    
+
     Example:
         headers = tier_auth_headers(3)  # Enterprise tier
     """
@@ -106,14 +108,14 @@ def tier_auth_headers(tier: int, extra: dict[str, str] | None = None) -> dict[st
 def org_auth_headers(org_id: int, extra: dict[str, str] | None = None) -> dict[str, str]:
     """
     Build auth headers for specific org.
-    
+
     Args:
         org_id: Organization ID (1 or 2)
         extra: Optional extra headers
-    
+
     Returns:
         Headers dict with org-specific token
-    
+
     Example:
         headers = org_auth_headers(1)  # Org 1
     """
@@ -131,13 +133,13 @@ def org_auth_headers(org_id: int, extra: dict[str, str] | None = None) -> dict[s
 def invalid_auth_headers(token_type: str = "short") -> dict[str, str]:
     """
     Build headers with intentionally invalid token for negative testing.
-    
+
     Args:
         token_type: Type of invalid token ('short', 'malformed', 'wrong_prefix')
-    
+
     Returns:
         Headers dict with invalid token
-    
+
     Example:
         headers = invalid_auth_headers("short")
         r = client.post("/v1/responses", headers=headers, json=payload)
@@ -168,16 +170,17 @@ VALID_TOKEN = GOLDEN_TOKEN
 # Golden Test Data
 # =============================================================================
 
+
 def golden_embed_payload(input_text: str = "hello world") -> dict[str, Any]:
     """
     Build standard embeddings payload.
-    
+
     Args:
         input_text: Text to embed (default: "hello world")
-    
+
     Returns:
         Embeddings API payload dict
-    
+
     Example:
         payload = golden_embed_payload("test input")
         r = client.post("/v1/embeddings", headers=GOLDEN_AUTH_HEADERS, json=payload)
@@ -189,21 +192,19 @@ def golden_embed_payload(input_text: str = "hello world") -> dict[str, Any]:
 
 
 def golden_response_payload(
-    input_text: str = "hi",
-    stream: bool = False,
-    model: str = "lukhas-response"
+    input_text: str = "hi", stream: bool = False, model: str = "lukhas-response"
 ) -> dict[str, Any]:
     """
     Build standard responses payload.
-    
+
     Args:
         input_text: Input text (default: "hi")
         stream: Enable streaming (default: False)
         model: Model name (default: "lukhas-response")
-    
+
     Returns:
         Responses API payload dict
-    
+
     Example:
         payload = golden_response_payload("test", stream=True)
         r = client.post("/v1/responses", headers=GOLDEN_AUTH_HEADERS, json=payload)
@@ -218,13 +219,13 @@ def golden_response_payload(
 def golden_dream_payload(prompt: str = "test dream") -> dict[str, Any]:
     """
     Build standard dreams payload.
-    
+
     Args:
         prompt: Dream prompt (default: "test dream")
-    
+
     Returns:
         Dreams API payload dict
-    
+
     Example:
         payload = golden_dream_payload("lucid dream test")
         r = client.post("/v1/dreams", headers=GOLDEN_AUTH_HEADERS, json=payload)
@@ -239,17 +240,18 @@ def golden_dream_payload(prompt: str = "test dream") -> dict[str, Any]:
 # Test Isolation Helpers
 # =============================================================================
 
+
 def unique_idempotency_key(test_name: str, iteration: int = 0) -> str:
     """
     Generate unique idempotency key for test.
-    
+
     Args:
         test_name: Name of test (e.g., "test_replay_cache")
         iteration: Optional iteration counter for multi-call tests
-    
+
     Returns:
         Unique idempotency key string
-    
+
     Example:
         key = unique_idempotency_key("test_cache_hit")
         headers = golden_auth_headers({"Idempotency-Key": key})
@@ -265,13 +267,13 @@ def unique_idempotency_key(test_name: str, iteration: int = 0) -> str:
 def golden_trace_header(test_name: str) -> dict[str, str]:
     """
     Generate consistent trace header for test.
-    
+
     Args:
         test_name: Name of test
-    
+
     Returns:
         Headers dict with X-Trace-Id
-    
+
     Example:
         headers = {**GOLDEN_AUTH_HEADERS, **golden_trace_header("test_tracing")}
     """

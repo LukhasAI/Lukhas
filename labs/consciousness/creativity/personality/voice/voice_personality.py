@@ -56,7 +56,6 @@ MODULE_NAME = "voice_personality"
 # Import personality components
 try:
 
-
     HAIKU_AVAILABLE = True
 except ImportError:
     HAIKU_AVAILABLE = False

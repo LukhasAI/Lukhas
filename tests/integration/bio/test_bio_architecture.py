@@ -74,10 +74,10 @@ class TestBioSymbolicArchitecture:
         orchestrator = BioSymbolicOrchestrator()
 
         inputs = [
-            {"type": "rhythm", "frequency": 0.05, "timestamp": "now"}, # CIRCADIAN
-            {"type": "energy", "level": 0.9, "timestamp": "now"},   # POWER_ABUNDANT
-            {"type": "stress", "response": "flow", "timestamp": "now"}, # STRESS_FLOW
-            {"type": "energy", "level": 0.6, "timestamp": "now"},   # POWER_BALANCED
+            {"type": "rhythm", "frequency": 0.05, "timestamp": "now"},  # CIRCADIAN
+            {"type": "energy", "level": 0.9, "timestamp": "now"},  # POWER_ABUNDANT
+            {"type": "stress", "response": "flow", "timestamp": "now"},  # STRESS_FLOW
+            {"type": "energy", "level": 0.6, "timestamp": "now"},  # POWER_BALANCED
         ]
 
         with patch("bio.core.bio_symbolic.bio_feedback_loop") as mock_feedback_loop:

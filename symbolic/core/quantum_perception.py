@@ -32,22 +32,25 @@ from .visual_symbol import QuantumState, VisualSymbol
 # ΛTRACE imports for symbolic trace routing
 try:
     from core.traces.trace_router import TraceRouter
+
     TRACE_ROUTER_AVAILABLE = True
 except ImportError:
     # Fallback for environments without trace router
     class TraceRouter:
         def route_symbolic_trace(self, event_type: str, payload: Dict[str, Any]) -> None:
             pass
+
     TRACE_ROUTER_AVAILABLE = False
 
 
 class ObservationType(Enum):
     """Types of observation that affect quantum states"""
-    PASSIVE = "passive"          # Minimal interaction
-    ACTIVE = "active"            # Direct observation
+
+    PASSIVE = "passive"  # Minimal interaction
+    ACTIVE = "active"  # Direct observation
     INTENTIONAL = "intentional"  # Conscious, directed observation
     UNCONSCIOUS = "unconscious"  # Background processing
-    COLLECTIVE = "collective"    # Multiple observers
+    COLLECTIVE = "collective"  # Multiple observers
 
 
 @dataclass
@@ -58,8 +61,9 @@ class ObserverEffect:
     Different observers collapse wave functions differently based on
     their consciousness level and observation type.
     """
+
     observer_id: str
-    consciousness_level: float       # 0.0 to 1.0
+    consciousness_level: float  # 0.0 to 1.0
     observation_type: ObservationType
     intent_vector: Optional[np.ndarray] = None  # Direction of conscious intent
     emotional_state: Optional[Dict[str, float]] = None
@@ -71,7 +75,7 @@ class ObserverEffect:
             ObservationType.ACTIVE: 0.5,
             ObservationType.INTENTIONAL: 0.9,
             ObservationType.UNCONSCIOUS: 0.3,
-            ObservationType.COLLECTIVE: 0.7
+            ObservationType.COLLECTIVE: 0.7,
         }[self.observation_type]
 
         # Consciousness amplifies collapse
@@ -86,6 +90,7 @@ class WaveFunctionCollapse:
     Records the transformation from superposition to definite state
     through observation, maintaining full history for interpretability.
     """
+
     collapse_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: float = field(default_factory=time.time)
     pre_state: Optional[Dict[str, Any]] = None
@@ -111,7 +116,7 @@ class WaveFunctionCollapse:
             "coherence": symbol.state.quantum_field.coherence,
             "amplitude": symbol.state.quantum_field.amplitude,
             "phase": symbol.state.quantum_field.phase,
-            "entropy": symbol.state.quantum_field.entropy
+            "entropy": symbol.state.quantum_field.entropy,
         }
 
         # Calculate collapse based on observer
@@ -125,7 +130,7 @@ class WaveFunctionCollapse:
             "coherence": symbol.state.quantum_field.coherence,
             "amplitude": symbol.state.quantum_field.amplitude,
             "phase": symbol.state.quantum_field.phase,
-            "entropy": symbol.state.quantum_field.entropy
+            "entropy": symbol.state.quantum_field.entropy,
         }
 
         self.observer = observer
@@ -136,7 +141,7 @@ class WaveFunctionCollapse:
             "symbol_id": symbol.state.symbol_id,
             "collapse_strength": collapse_strength,
             "state_change": self.post_state,
-            "observer_id": observer.observer_id
+            "observer_id": observer.observer_id,
         }
 
 
@@ -150,6 +155,7 @@ class EntangledSymbolPair:
     one immediately affects the state of the other, regardless of distance.
     Enhanced with health tracking and ΛTAG drift warnings.
     """
+
     symbol_a: VisualSymbol
     symbol_b: VisualSymbol
     entanglement_strength: float = 0.5
@@ -167,14 +173,10 @@ class EntangledSymbolPair:
         """Measure current correlation between entangled symbols"""
         # Quantum correlation based on field states
         coherence_correlation = 1.0 - abs(
-            self.symbol_a.state.quantum_field.coherence -
-            self.symbol_b.state.quantum_field.coherence
+            self.symbol_a.state.quantum_field.coherence - self.symbol_b.state.quantum_field.coherence
         )
 
-        phase_correlation = np.cos(
-            self.symbol_a.state.quantum_field.phase -
-            self.symbol_b.state.quantum_field.phase
-        )
+        phase_correlation = np.cos(self.symbol_a.state.quantum_field.phase - self.symbol_b.state.quantum_field.phase)
 
         # Combined correlation metric
         correlation = (coherence_correlation + phase_correlation) / 2 * self.entanglement_strength
@@ -185,7 +187,7 @@ class EntangledSymbolPair:
             "correlation": correlation,
             "coherence_diff": self.symbol_a.state.quantum_field.coherence - self.symbol_b.state.quantum_field.coherence,
             "phase_diff": self.symbol_a.state.quantum_field.phase - self.symbol_b.state.quantum_field.phase,
-            "entanglement_health": self.entanglement_health
+            "entanglement_health": self.entanglement_health,
         }
         self.correlation_history.append(correlation_entry)
 
@@ -199,7 +201,9 @@ class EntangledSymbolPair:
         # Calculate health based on correlation stability
         if len(self.correlation_history) >= 2:
             # Recent correlation variance as health indicator
-            recent_correlations = [entry["correlation"] for entry in self.correlation_history[-self.health_window_size:]]
+            recent_correlations = [
+                entry["correlation"] for entry in self.correlation_history[-self.health_window_size :]
+            ]
             correlation_variance = np.var(recent_correlations) if len(recent_correlations) > 1 else 0.0
             correlation_mean = np.mean(recent_correlations)
 
@@ -220,7 +224,12 @@ class EntangledSymbolPair:
             "time": time.time(),
             "health": self.entanglement_health,
             "correlation": current_correlation,
-            "stability": 1.0 - (np.var([entry["correlation"] for entry in self.correlation_history[-5:]]) if len(self.correlation_history) >= 2 else 0.0)
+            "stability": 1.0
+            - (
+                np.var([entry["correlation"] for entry in self.correlation_history[-5:]])
+                if len(self.correlation_history) >= 2
+                else 0.0
+            ),
         }
         self.health_history.append(health_entry)
 
@@ -240,23 +249,28 @@ class EntangledSymbolPair:
 
         # Generate drift warning payload
         warning_payload = {
-            'lambda_tag': 'drift',
-            'event_type': 'entanglement_health_degradation',
-            'symbol_a_id': self.symbol_a.state.symbol_id,
-            'symbol_b_id': self.symbol_b.state.symbol_id,
-            'entanglement_health': self.entanglement_health,
-            'drift_threshold': self.drift_threshold,
-            'entanglement_strength': self.entanglement_strength,
-            'correlation_variance': np.var([entry["correlation"] for entry in self.correlation_history[-5:]]) if len(self.correlation_history) >= 2 else 0.0,
-            'timestamp': current_time,
-            'severity': 'HIGH' if self.entanglement_health < 0.2 else 'MEDIUM'
+            "lambda_tag": "drift",
+            "event_type": "entanglement_health_degradation",
+            "symbol_a_id": self.symbol_a.state.symbol_id,
+            "symbol_b_id": self.symbol_b.state.symbol_id,
+            "entanglement_health": self.entanglement_health,
+            "drift_threshold": self.drift_threshold,
+            "entanglement_strength": self.entanglement_strength,
+            "correlation_variance": (
+                np.var([entry["correlation"] for entry in self.correlation_history[-5:]])
+                if len(self.correlation_history) >= 2
+                else 0.0
+            ),
+            "timestamp": current_time,
+            "severity": "HIGH" if self.entanglement_health < 0.2 else "MEDIUM",
         }
 
         # Route warning through trace system if available
         try:
             from core.traces.trace_router import TraceRouter
+
             trace_router = TraceRouter()
-            trace_router.route_symbolic_trace('entanglement_drift_warning', warning_payload)
+            trace_router.route_symbolic_trace("entanglement_drift_warning", warning_payload)
         except ImportError:
             # Fallback logging if trace router unavailable
             print(f"ΛTAG:drift - Entanglement health degraded: {warning_payload}")
@@ -264,61 +278,79 @@ class EntangledSymbolPair:
     def summarize_health(self) -> Dict[str, Any]:
         """
         Deterministic helper for downstream analytics.
-        
+
         Returns:
             Comprehensive health summary for analytics
         """
         if not self.health_history:
             return {
-                'current_health': self.entanglement_health,
-                'health_trend': 'stable',
-                'risk_level': 'low',
-                'correlation_stability': 1.0,
-                'recommendations': []
+                "current_health": self.entanglement_health,
+                "health_trend": "stable",
+                "risk_level": "low",
+                "correlation_stability": 1.0,
+                "recommendations": [],
             }
 
         # Calculate health trend
         recent_health = [entry["health"] for entry in self.health_history[-5:]]
-        health_trend = 'improving' if len(recent_health) >= 2 and recent_health[-1] > recent_health[0] else \
-                      'degrading' if len(recent_health) >= 2 and recent_health[-1] < recent_health[0] else \
-                      'stable'
+        health_trend = (
+            "improving"
+            if len(recent_health) >= 2 and recent_health[-1] > recent_health[0]
+            else "degrading" if len(recent_health) >= 2 and recent_health[-1] < recent_health[0] else "stable"
+        )
 
         # Calculate correlation stability
         recent_correlations = [entry["correlation"] for entry in self.correlation_history[-10:]]
         correlation_stability = 1.0 - (np.var(recent_correlations) if len(recent_correlations) > 1 else 0.0)
 
         # Determine risk level
-        risk_level = 'high' if self.entanglement_health < 0.2 else \
-                    'medium' if self.entanglement_health < self.drift_threshold else \
-                    'low'
+        risk_level = (
+            "high"
+            if self.entanglement_health < 0.2
+            else "medium" if self.entanglement_health < self.drift_threshold else "low"
+        )
 
         # Generate recommendations
         recommendations = []
         if self.entanglement_health < self.drift_threshold:
-            recommendations.append('Consider field stabilization to restore entanglement health')
+            recommendations.append("Consider field stabilization to restore entanglement health")
         if correlation_stability < 0.6:
-            recommendations.append('High correlation variance detected - investigate environmental factors')
+            recommendations.append("High correlation variance detected - investigate environmental factors")
         if self.entanglement_strength < 0.3:
-            recommendations.append('Entanglement strength declining - may need re-entanglement')
+            recommendations.append("Entanglement strength declining - may need re-entanglement")
 
         return {
-            'current_health': self.entanglement_health,
-            'health_trend': health_trend,
-            'risk_level': risk_level,
-            'correlation_stability': correlation_stability,
-            'entanglement_strength': self.entanglement_strength,
-            'age_seconds': time.time() - self.creation_time,
-            'total_observations': len(self.correlation_history),
-            'drift_warnings_issued': len([entry for entry in self.health_history if entry.get('health', 1.0) < self.drift_threshold]),
-            'recommendations': recommendations,
-            'analytics_metadata': {
-                'last_updated': time.time(),
-                'health_window_size': self.health_window_size,
-                'drift_threshold': self.drift_threshold,
-                'mean_health': np.mean([entry["health"] for entry in self.health_history]) if self.health_history else self.entanglement_health,
-                'min_health': min([entry["health"] for entry in self.health_history]) if self.health_history else self.entanglement_health,
-                'max_health': max([entry["health"] for entry in self.health_history]) if self.health_history else self.entanglement_health
-            }
+            "current_health": self.entanglement_health,
+            "health_trend": health_trend,
+            "risk_level": risk_level,
+            "correlation_stability": correlation_stability,
+            "entanglement_strength": self.entanglement_strength,
+            "age_seconds": time.time() - self.creation_time,
+            "total_observations": len(self.correlation_history),
+            "drift_warnings_issued": len(
+                [entry for entry in self.health_history if entry.get("health", 1.0) < self.drift_threshold]
+            ),
+            "recommendations": recommendations,
+            "analytics_metadata": {
+                "last_updated": time.time(),
+                "health_window_size": self.health_window_size,
+                "drift_threshold": self.drift_threshold,
+                "mean_health": (
+                    np.mean([entry["health"] for entry in self.health_history])
+                    if self.health_history
+                    else self.entanglement_health
+                ),
+                "min_health": (
+                    min([entry["health"] for entry in self.health_history])
+                    if self.health_history
+                    else self.entanglement_health
+                ),
+                "max_health": (
+                    max([entry["health"] for entry in self.health_history])
+                    if self.health_history
+                    else self.entanglement_health
+                ),
+            },
         }
 
     def propagate_observation(self, observed_symbol: VisualSymbol, observer: ObserverEffect):
@@ -351,6 +383,7 @@ class FieldCoherence:
     Field coherence determines how well quantum properties are preserved
     and how symbols can maintain superposition and entanglement.
     """
+
     global_coherence: float = 1.0
     local_coherences: Dict[str, float] = field(default_factory=dict)
     noise_level: float = 0.01
@@ -370,11 +403,11 @@ class FieldCoherence:
     def apply_decoherence(self, rate: float = 0.01):
         """Apply decoherence to the field"""
         # Global decoherence
-        self.global_coherence *= (1.0 - rate)
+        self.global_coherence *= 1.0 - rate
 
         # Local decoherence with temperature effects
         for key in self.local_coherences:
-            self.local_coherences[key] *= (1.0 - rate * self.temperature)
+            self.local_coherences[key] *= 1.0 - rate * self.temperature
 
         # Increase noise with decoherence
         self.noise_level = min(1.0, self.noise_level + rate * 0.1)
@@ -400,10 +433,7 @@ class QuantumPerceptionField:
     """
 
     def __init__(
-        self,
-        observer_id: str,
-        consciousness_level: float = 0.5,
-        field_dimensions: Tuple[int, int, int] = (10, 10, 10)
+        self, observer_id: str, consciousness_level: float = 0.5, field_dimensions: Tuple[int, int, int] = (10, 10, 10)
     ):
         """
         Initialize a quantum perception field.
@@ -428,7 +458,7 @@ class QuantumPerceptionField:
             observer_id: ObserverEffect(
                 observer_id=observer_id,
                 consciousness_level=consciousness_level,
-                observation_type=ObservationType.ACTIVE
+                observation_type=ObservationType.ACTIVE,
             )
         }
 
@@ -472,7 +502,7 @@ class QuantumPerceptionField:
         self,
         symbol_id: str,
         observer_id: Optional[str] = None,
-        observation_type: ObservationType = ObservationType.ACTIVE
+        observation_type: ObservationType = ObservationType.ACTIVE,
     ) -> Optional[Dict[str, Any]]:
         """
         Observe a symbol in the field, causing quantum effects.
@@ -496,7 +526,7 @@ class QuantumPerceptionField:
             self.registered_observers[observer_id] = ObserverEffect(
                 observer_id=observer_id,
                 consciousness_level=0.3,  # Default for unknown observers
-                observation_type=observation_type
+                observation_type=observation_type,
             )
 
         observer = self.registered_observers[observer_id]
@@ -516,7 +546,7 @@ class QuantumPerceptionField:
             pre_observation_entropy,
             symbol.state.quantum_field.entropy,
             pre_observation_coherence,
-            symbol.state.quantum_field.coherence
+            symbol.state.quantum_field.coherence,
         )
 
         collapse_hash = self._generate_collapse_hash(symbol, observer, result)
@@ -525,33 +555,33 @@ class QuantumPerceptionField:
         # Enhanced result with ΛTRACE metadata
         enhanced_result = {
             **result,
-            'lambda_trace': {
-                'drift_score': drift_score,
-                'collapse_hash': collapse_hash,
-                'affect_delta': affect_delta,
-                'observer_id': observer_id,
-                'symbol_id': symbol_id,
-                'observation_timestamp': time.time(),
-                'field_coherence': self.field_coherence.current_coherence,
-                'observation_count': self.observation_count + 1
-            }
+            "lambda_trace": {
+                "drift_score": drift_score,
+                "collapse_hash": collapse_hash,
+                "affect_delta": affect_delta,
+                "observer_id": observer_id,
+                "symbol_id": symbol_id,
+                "observation_timestamp": time.time(),
+                "field_coherence": self.field_coherence.current_coherence,
+                "observation_count": self.observation_count + 1,
+            },
         }
 
         # Route ΛTRACE event with deterministic flag support
-        if hasattr(self, '_trace_enabled') and self._trace_enabled:
+        if hasattr(self, "_trace_enabled") and self._trace_enabled:
             trace_router = TraceRouter()
             provenance_payload = {
-                'event_type': 'quantum_observation',
-                'symbol_id': symbol_id,
-                'observer_id': observer_id,
-                'observation_type': observation_type.value,
-                'drift_score': drift_score,
-                'collapse_hash': collapse_hash,
-                'affect_delta': affect_delta,
-                'field_entropy': self.field_entropy,
-                'provenance_chain': self._build_provenance_chain(symbol, observer)
+                "event_type": "quantum_observation",
+                "symbol_id": symbol_id,
+                "observer_id": observer_id,
+                "observation_type": observation_type.value,
+                "drift_score": drift_score,
+                "collapse_hash": collapse_hash,
+                "affect_delta": affect_delta,
+                "field_entropy": self.field_entropy,
+                "provenance_chain": self._build_provenance_chain(symbol, observer),
             }
-            trace_router.route_symbolic_trace('quantum_observation', provenance_payload)
+            trace_router.route_symbolic_trace("quantum_observation", provenance_payload)
 
         # Propagate to entangled symbols
         for pair in self.entangled_pairs:
@@ -594,7 +624,7 @@ class QuantumPerceptionField:
         self.entangled_pairs.append(pair)
 
         # Entanglement affects field coherence
-        self.field_coherence.global_coherence *= (1.0 + strength * 0.05)
+        self.field_coherence.global_coherence *= 1.0 + strength * 0.05
         self.field_coherence.global_coherence = min(1.0, self.field_coherence.global_coherence)
 
         return True
@@ -619,7 +649,9 @@ class QuantumPerceptionField:
             state_counts[symbol.state.quantum_state] += 1
 
         # Measure entanglement
-        avg_correlation = np.mean([pair.measure_correlation() for pair in self.entangled_pairs]) if self.entangled_pairs else 0
+        avg_correlation = (
+            np.mean([pair.measure_correlation() for pair in self.entangled_pairs]) if self.entangled_pairs else 0
+        )
 
         return {
             "field_id": self.observer_id,
@@ -632,33 +664,29 @@ class QuantumPerceptionField:
                 "entropy": self.field_entropy,
                 "global_coherence": self.field_coherence.global_coherence,
                 "temperature": self.field_coherence.temperature,
-                "noise": self.field_coherence.noise_level
+                "noise": self.field_coherence.noise_level,
             },
             "symbol_metrics": {
                 "avg_coherence": avg_coherence,
                 "avg_entropy": avg_entropy,
                 "avg_correlation": avg_correlation,
-                "state_distribution": {s.value: c for s, c in state_counts.items()}
+                "state_distribution": {s.value: c for s, c in state_counts.items()},
             },
-            "observers": len(self.registered_observers)
+            "observers": len(self.registered_observers),
         }
 
     def _calculate_drift_score(
-        self,
-        pre_entropy: float,
-        post_entropy: float,
-        pre_coherence: float,
-        post_coherence: float
+        self, pre_entropy: float, post_entropy: float, pre_coherence: float, post_coherence: float
     ) -> float:
         """
         Calculate drift score from observation-induced state changes.
-        
+
         Args:
             pre_entropy: Entropy before observation
-            post_entropy: Entropy after observation  
+            post_entropy: Entropy after observation
             pre_coherence: Coherence before observation
             post_coherence: Coherence after observation
-            
+
         Returns:
             Drift score (0.0 = stable, 1.0 = maximum drift)
         """
@@ -673,19 +701,16 @@ class QuantumPerceptionField:
         return max(0.0, min(1.0, drift_score))
 
     def _generate_collapse_hash(
-        self,
-        symbol: 'VisualSymbol',
-        observer: 'ObserverEffect',
-        result: Dict[str, Any]
+        self, symbol: "VisualSymbol", observer: "ObserverEffect", result: Dict[str, Any]
     ) -> str:
         """
         Generate deterministic hash for collapse event.
-        
+
         Args:
             symbol: The observed symbol
             observer: The observer effect
             result: The observation result
-            
+
         Returns:
             Hexadecimal hash string for collapse identification
         """
@@ -693,19 +718,16 @@ class QuantumPerceptionField:
         return hashlib.sha256(collapse_data.encode()).hexdigest()[:16]
 
     def _calculate_affect_delta(
-        self,
-        observer: 'ObserverEffect',
-        observation_type: ObservationType,
-        drift_score: float
+        self, observer: "ObserverEffect", observation_type: ObservationType, drift_score: float
     ) -> Dict[str, float]:
         """
         Calculate affective impact of observation.
-        
+
         Args:
             observer: The observer effect
             observation_type: Type of observation performed
             drift_score: Calculated drift score
-            
+
         Returns:
             Dictionary containing affective delta measurements
         """
@@ -715,7 +737,7 @@ class QuantumPerceptionField:
             ObservationType.ACTIVE: 0.3,
             ObservationType.INTENTIONAL: 0.6,
             ObservationType.UNCONSCIOUS: 0.05,
-            ObservationType.COLLECTIVE: 0.4
+            ObservationType.COLLECTIVE: 0.4,
         }.get(observation_type, 0.2)
 
         # Modulate by consciousness level and drift
@@ -727,60 +749,57 @@ class QuantumPerceptionField:
         dominance = consciousness_modifier * (1.0 - drift_score * 0.3)
 
         return {
-            'valence': max(-1.0, min(1.0, valence)),
-            'arousal': max(0.0, min(1.0, arousal)),
-            'dominance': max(0.0, min(1.0, dominance)),
-            'intensity': (abs(valence) + arousal + dominance) / 3.0
+            "valence": max(-1.0, min(1.0, valence)),
+            "arousal": max(0.0, min(1.0, arousal)),
+            "dominance": max(0.0, min(1.0, dominance)),
+            "intensity": (abs(valence) + arousal + dominance) / 3.0,
         }
 
-    def _build_provenance_chain(
-        self,
-        symbol: 'VisualSymbol',
-        observer: 'ObserverEffect'
-    ) -> List[Dict[str, Any]]:
+    def _build_provenance_chain(self, symbol: "VisualSymbol", observer: "ObserverEffect") -> List[Dict[str, Any]]:
         """
         Build provenance chain for guardian auditing.
-        
+
         Args:
             symbol: The observed symbol
             observer: The observer effect
-            
+
         Returns:
             List of provenance events leading to this observation
         """
         provenance = []
 
         # Symbol creation provenance
-        provenance.append({
-            'event': 'symbol_creation',
-            'symbol_id': symbol.state.symbol_id,
-            'timestamp': getattr(symbol, '_creation_time', time.time()),
-            'initial_state': symbol.state.current_state.value
-        })
+        provenance.append(
+            {
+                "event": "symbol_creation",
+                "symbol_id": symbol.state.symbol_id,
+                "timestamp": getattr(symbol, "_creation_time", time.time()),
+                "initial_state": symbol.state.current_state.value,
+            }
+        )
 
         # Observer registration provenance
-        provenance.append({
-            'event': 'observer_registration',
-            'observer_id': observer.observer_id,
-            'consciousness_level': observer.consciousness_level,
-            'registration_time': getattr(observer, '_registration_time', time.time())
-        })
+        provenance.append(
+            {
+                "event": "observer_registration",
+                "observer_id": observer.observer_id,
+                "consciousness_level": observer.consciousness_level,
+                "registration_time": getattr(observer, "_registration_time", time.time()),
+            }
+        )
 
         # Recent field interactions
-        if hasattr(self, 'interaction_history'):
-            recent_interactions = getattr(self, 'interaction_history', [])[-5:]
+        if hasattr(self, "interaction_history"):
+            recent_interactions = getattr(self, "interaction_history", [])[-5:]
             for interaction in recent_interactions:
-                provenance.append({
-                    'event': 'field_interaction',
-                    **interaction
-                })
+                provenance.append({"event": "field_interaction", **interaction})
 
         return provenance
 
     def enable_trace(self, enabled: bool = True) -> None:
         """
         Enable or disable ΛTRACE event routing.
-        
+
         Args:
             enabled: Whether to enable trace routing
         """
@@ -813,7 +832,7 @@ class QuantumPerceptionField:
 
         # Entanglement decay
         for pair in self.entangled_pairs:
-            pair.entanglement_strength *= (1.0 - time_step * 0.01)
+            pair.entanglement_strength *= 1.0 - time_step * 0.01
 
         # Remove weak entanglements
         self.entangled_pairs = [p for p in self.entangled_pairs if p.entanglement_strength > 0.01]
@@ -830,14 +849,14 @@ class QuantumPerceptionField:
             "state": {
                 "confidence": self.field_coherence.global_coherence,
                 "salience": self.field_energy,
-                "novelty": 1.0 / (1.0 + self.observation_count * 0.01)
+                "novelty": 1.0 / (1.0 + self.observation_count * 0.01),
             },
             "provenance": {
                 "producer": "symbolic.core.quantum_perception",
                 "capabilities": ["quantum_observation", "entanglement", "field_evolution"],
                 "tenant": "lukhas_agi",
-                "trace_id": str(uuid.uuid4())
-            }
+                "trace_id": str(uuid.uuid4()),
+            },
         }
 
     def __repr__(self) -> str:

@@ -25,6 +25,7 @@ Features:
 #TAG:constitutional
 #TAG:constellation
 """
+
 import asyncio
 import logging
 import time
@@ -989,7 +990,8 @@ class EnhancedGuardianSystem:
             "drift_threshold": self.drift_threshold,
             "constitutional_enforcement": self.constitutional_enforcement_active,
             "system_uptime": (
-                datetime.now(timezone.utc) - datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+                datetime.now(timezone.utc)
+                - datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
             ).total_seconds(),
         }
 

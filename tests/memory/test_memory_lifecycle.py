@@ -49,7 +49,9 @@ class MockVectorStore(AbstractVectorStore):
 
     async def get(self, document_id):
         if document_id in self.deleted_ids:
-            raise DocumentNotFoundError(f"Document {document_id} not found")  # noqa: F821  # TODO: DocumentNotFoundError
+            raise DocumentNotFoundError(
+                f"Document {document_id} not found"
+            )  # noqa: F821  # TODO: DocumentNotFoundError
         return self.documents.get(document_id)
 
     async def update(self, document):
@@ -79,6 +81,7 @@ class MockVectorStore(AbstractVectorStore):
 
     async def get_stats(self):
         from memory.backends.base import StorageStats
+
         return StorageStats(
             total_documents=len(self.documents),
             total_size_bytes=0,
@@ -94,7 +97,7 @@ class MockVectorStore(AbstractVectorStore):
             compression_ratio=1.0,
             documents_by_lane={},
             documents_by_fold={},
-            avg_dimension=384
+            avg_dimension=384,
         )
 
     async def health_check(self):
@@ -134,7 +137,7 @@ class MockArchivalBackend(AbstractArchivalBackend):
             "document": document,
             "tier": tier,
             "compressed": compress,
-            "archived_at": datetime.now(timezone.utc)
+            "archived_at": datetime.now(timezone.utc),
         }
         return archive_id
 
@@ -192,10 +195,7 @@ class TestRetentionRule:
     def test_retention_rule_creation(self):
         """Test retention rule creation"""
         rule = RetentionRule(
-            name="test_rule",
-            policy=RetentionPolicy.SHORT_TERM,
-            active_retention_days=30,
-            archive_retention_days=90
+            name="test_rule", policy=RetentionPolicy.SHORT_TERM, active_retention_days=30, archive_retention_days=90
         )
 
         assert rule.name == "test_rule"
@@ -211,7 +211,7 @@ class TestRetentionRule:
             policy=RetentionPolicy.GDPR_COMPLIANT,
             conditions={"gdpr_category": "personal_data"},
             allow_anonymization=True,
-            require_explicit_deletion=True
+            require_explicit_deletion=True,
         )
 
         assert rule.policy == RetentionPolicy.GDPR_COMPLIANT
@@ -232,7 +232,7 @@ class TestGDPRTombstone:
             original_created_at=datetime.now(timezone.utc) - timedelta(days=30),
             original_lane="labs",
             content_hash="abcdef123456",
-            word_count=150
+            word_count=150,
         )
 
         assert tombstone.document_id == "test-doc"
@@ -249,7 +249,7 @@ class TestGDPRTombstone:
             deletion_reason="expiration",
             original_created_at=now - timedelta(days=10),
             original_lane="production",
-            original_tags=["tag1", "tag2"]
+            original_tags=["tag1", "tag2"],
         )
 
         # Convert to dict
@@ -278,7 +278,7 @@ class TestMemoryLifecycleManager:
             archival_backend=self.archival_backend,
             tombstone_store=self.tombstone_store,
             enable_gdpr_compliance=True,
-            default_retention_days=365
+            default_retention_days=365,
         )
 
     def test_manager_initialization(self):
@@ -311,7 +311,7 @@ class TestMemoryLifecycleManager:
             name="custom_rule",
             policy=RetentionPolicy.MEDIUM_TERM,
             conditions={"fold_id": "special_fold"},
-            active_retention_days=180
+            active_retention_days=180,
         )
 
         self.manager.add_retention_rule(new_rule)
@@ -341,37 +341,24 @@ class TestMemoryLifecycleManager:
             embedding=np.random.random(384).astype(np.float32),
             lane="labs",
             identity_id="test-identity",
-            tags=["test", "sample"]
+            tags=["test", "sample"],
         )
 
         # Test lane matching
-        assert self.manager._document_matches_conditions(
-            document, {"lane": "labs"}
-        ) is True
-        assert self.manager._document_matches_conditions(
-            document, {"lane": "production"}
-        ) is False
+        assert self.manager._document_matches_conditions(document, {"lane": "labs"}) is True
+        assert self.manager._document_matches_conditions(document, {"lane": "production"}) is False
 
         # Test identity matching
-        assert self.manager._document_matches_conditions(
-            document, {"identity_id": "test-identity"}
-        ) is True
+        assert self.manager._document_matches_conditions(document, {"identity_id": "test-identity"}) is True
 
         # Test tag matching
-        assert self.manager._document_matches_conditions(
-            document, {"tags": ["test"]}
-        ) is True
-        assert self.manager._document_matches_conditions(
-            document, {"tags": ["nonexistent"]}
-        ) is False
+        assert self.manager._document_matches_conditions(document, {"tags": ["test"]}) is True
+        assert self.manager._document_matches_conditions(document, {"tags": ["nonexistent"]}) is False
 
     def test_evaluate_retention_rule(self):
         """Test retention rule evaluation"""
         document = VectorDocument(
-            id="eval-test",
-            content="Test content",
-            embedding=np.random.random(384).astype(np.float32),
-            lane="labs"
+            id="eval-test", content="Test content", embedding=np.random.random(384).astype(np.float32), lane="labs"
         )
 
         rule = self.manager._evaluate_retention_rule(document)
@@ -386,18 +373,14 @@ class TestMemoryLifecycleManager:
             content="Content to be deleted",
             embedding=np.random.random(384).astype(np.float32),
             identity_id="test-identity",
-            metadata={"indexer": {"content_hash": "abcdef", "word_count": 5}}
+            metadata={"indexer": {"content_hash": "abcdef", "word_count": 5}},
         )
 
         # Add document to store
         await self.vector_store.add(document)
 
         # Delete with tombstone
-        success = await self.manager._delete_document_with_tombstone(
-            document,
-            "gdpr_request",
-            requested_by="user-123"
-        )
+        success = await self.manager._delete_document_with_tombstone(document, "gdpr_request", requested_by="user-123")
 
         assert success is True
         assert "tombstone-test" in self.vector_store.deleted_ids
@@ -417,7 +400,7 @@ class TestMemoryLifecycleManager:
                 id=f"gdpr-doc-{i}",
                 content=f"Personal data {i}",
                 embedding=np.random.random(384).astype(np.float32),
-                identity_id="gdpr-test-identity"
+                identity_id="gdpr-test-identity",
             )
             for i in range(3)
         ]
@@ -428,9 +411,7 @@ class TestMemoryLifecycleManager:
 
         # Process GDPR request
         summary = await self.manager.process_gdpr_deletion_request(
-            identity_id="gdpr-test-identity",
-            requested_by="privacy-officer",
-            legal_basis_removed="consent_withdrawn"
+            identity_id="gdpr-test-identity", requested_by="privacy-officer", legal_basis_removed="consent_withdrawn"
         )
 
         assert summary["identity_id"] == "gdpr-test-identity"
@@ -442,9 +423,7 @@ class TestMemoryLifecycleManager:
             assert doc.id in self.vector_store.deleted_ids
 
         # Verify tombstones created
-        tombstones = await self.tombstone_store.list_tombstones_by_identity(
-            "gdpr-test-identity"
-        )
+        tombstones = await self.tombstone_store.list_tombstones_by_identity("gdpr-test-identity")
         assert len(tombstones) == 3
 
     @pytest.mark.asyncio
@@ -455,15 +434,13 @@ class TestMemoryLifecycleManager:
             content="Personal information to anonymize",
             embedding=np.random.random(384).astype(np.float32),
             identity_id="to-anonymize",
-            metadata={"personal": True}
+            metadata={"personal": True},
         )
 
         await self.vector_store.add(document)
 
         # Anonymize
-        success = await self.manager._anonymize_document(
-            document, "privacy-request"
-        )
+        success = await self.manager._anonymize_document(document, "privacy-request")
 
         assert success is True
 
@@ -477,9 +454,7 @@ class TestMemoryLifecycleManager:
     async def test_archive_document(self):
         """Test document archival"""
         document = VectorDocument(
-            id="archive-test",
-            content="Content to archive",
-            embedding=np.random.random(384).astype(np.float32)
+            id="archive-test", content="Content to archive", embedding=np.random.random(384).astype(np.float32)
         )
 
         await self.vector_store.add(document)
@@ -488,7 +463,7 @@ class TestMemoryLifecycleManager:
             name="archive_rule",
             policy=RetentionPolicy.LONG_TERM,
             archive_tier=ArchivalTier.COLD,
-            compress_on_archive=True
+            compress_on_archive=True,
         )
 
         # Archive document
@@ -513,7 +488,7 @@ class TestMemoryLifecycleManager:
             id="expired",
             content="Expired content",
             embedding=np.random.random(384).astype(np.float32),
-            expires_at=now - timedelta(hours=1)
+            expires_at=now - timedelta(hours=1),
         )
         assert self.manager._should_delete_by_default(expired_doc, now) is True
 
@@ -522,7 +497,7 @@ class TestMemoryLifecycleManager:
             id="old",
             content="Old content",
             embedding=np.random.random(384).astype(np.float32),
-            created_at=now - timedelta(days=400)  # Older than default 365 days
+            created_at=now - timedelta(days=400),  # Older than default 365 days
         )
         assert self.manager._should_delete_by_default(old_doc, now) is True
 
@@ -531,7 +506,7 @@ class TestMemoryLifecycleManager:
             id="recent",
             content="Recent content",
             embedding=np.random.random(384).astype(np.float32),
-            created_at=now - timedelta(days=10)
+            created_at=now - timedelta(days=10),
         )
         assert self.manager._should_delete_by_default(recent_doc, now) is False
 
@@ -539,10 +514,7 @@ class TestMemoryLifecycleManager:
     async def test_background_tasks(self):
         """Test background task management"""
         # Start background tasks
-        await self.manager.start_background_tasks(
-            cleanup_interval_hours=1,
-            archival_interval_hours=24
-        )
+        await self.manager.start_background_tasks(cleanup_interval_hours=1, archival_interval_hours=24)
 
         assert self.manager._cleanup_task is not None
         assert self.manager._archival_task is not None
@@ -579,9 +551,7 @@ class TestLifecycleIntegration:
         tombstone_store = MockTombstoneStore()
 
         manager = MemoryLifecycleManager(
-            vector_store=vector_store,
-            archival_backend=archival_backend,
-            tombstone_store=tombstone_store
+            vector_store=vector_store, archival_backend=archival_backend, tombstone_store=tombstone_store
         )
 
         # Add custom rule for testing
@@ -590,7 +560,7 @@ class TestLifecycleIntegration:
             policy=RetentionPolicy.SHORT_TERM,
             conditions={"tags": ["test_lifecycle"]},
             active_retention_days=1,  # Very short for testing
-            archive_retention_days=0  # No archival, direct deletion
+            archive_retention_days=0,  # No archival, direct deletion
         )
         manager.add_retention_rule(test_rule)
 
@@ -600,7 +570,7 @@ class TestLifecycleIntegration:
             content="End to end lifecycle test",
             embedding=np.random.random(384).astype(np.float32),
             tags=["test_lifecycle"],
-            created_at=datetime.now(timezone.utc) - timedelta(days=2)  # Old enough
+            created_at=datetime.now(timezone.utc) - timedelta(days=2),  # Old enough
         )
 
         await vector_store.add(document)
@@ -630,14 +600,14 @@ class TestLifecycleIntegration:
             id="candidate-doc",
             content="Candidate lane document",
             embedding=np.random.random(384).astype(np.float32),
-            lane="labs"
+            lane="labs",
         )
 
         production_doc = VectorDocument(
             id="production-doc",
             content="Production lane document",
             embedding=np.random.random(384).astype(np.float32),
-            lane="production"
+            lane="production",
         )
 
         await vector_store.add(candidate_doc)
@@ -664,7 +634,7 @@ class TestLifecycleIntegration:
                 id=f"perf-test-{i}",
                 content=f"Performance test document {i}",
                 embedding=np.random.random(384).astype(np.float32),
-                lane="labs"
+                lane="labs",
             )
             documents.append(doc)
             await vector_store.add(doc)
@@ -673,7 +643,7 @@ class TestLifecycleIntegration:
         start_time = asyncio.get_event_loop().time()
 
         # Mock the list_expired_documents to return our test documents
-        with patch.object(vector_store, 'list_expired_documents', return_value=documents[:10]):
+        with patch.object(vector_store, "list_expired_documents", return_value=documents[:10]):
             await manager.cleanup_expired_documents(max_documents=10)
 
         end_time = asyncio.get_event_loop().time()

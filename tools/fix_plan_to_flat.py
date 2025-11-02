@@ -15,6 +15,7 @@ import sys
 
 PLAN_PATH = pathlib.Path("artifacts/promotion_batch.plan.jsonl")
 
+
 def split_source(source: str):
     parts = re.split(r"[\\/]", source)
     if len(parts) < 2:
@@ -24,9 +25,11 @@ def split_source(source: str):
     rel = "/".join(parts[2:]) if len(parts) > 2 else ""
     return lane, module, rel
 
+
 def to_flat_target(module: str, relpath: str, root="Lukhas"):
     base = f"{root.rstrip('/')}/{module}"
     return f"{base}/{relpath}" if relpath else f"{base}/"
+
 
 def main():
     if not PLAN_PATH.exists():
@@ -49,6 +52,7 @@ def main():
 
     PLAN_PATH.write_text("\n".join(json.dumps(r) for r in out) + "\n")
     print("Rewrote targets to flat layout in", PLAN_PATH)
+
 
 if __name__ == "__main__":
     main()

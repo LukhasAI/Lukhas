@@ -65,10 +65,7 @@ class PerformanceUnitTester:
         """Get current git SHA for artifact tracking."""
         try:
             result = subprocess.run(
-                ["git", "rev-parse", "HEAD"],
-                capture_output=True,
-                text=True,
-                cwd=Path(__file__).parent.parent
+                ["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=Path(__file__).parent.parent
             )
             return result.stdout.strip()
         except Exception:
@@ -79,7 +76,7 @@ class PerformanceUnitTester:
         baseline_path = self.output_dir / "baseline_unit_performance.json"
         if baseline_path.exists():
             try:
-                with open(baseline_path, 'r') as f:
+                with open(baseline_path, "r") as f:
                     return json.load(f)
             except Exception as e:
                 logging.warning(f"Could not load baseline: {e}")
@@ -128,7 +125,7 @@ class PerformanceUnitTester:
             "std_dev_ms": round(statistics.stdev(latencies), 3),
             "sample_count": len(latencies),
             "min_ms": round(min(latencies), 3),
-            "max_ms": round(max(latencies), 3)
+            "max_ms": round(max(latencies), 3),
         }
 
     def test_memory_operations(self) -> Dict[str, Any]:
@@ -158,18 +155,18 @@ class PerformanceUnitTester:
             "search": {
                 **search_metrics,
                 "slo_target_ms": self.performance_targets["memory_operation_p95_ms"],
-                "slo_compliance": search_metrics["p95_ms"] <= self.performance_targets["memory_operation_p95_ms"]
+                "slo_compliance": search_metrics["p95_ms"] <= self.performance_targets["memory_operation_p95_ms"],
             },
             "upsert": {
                 **upsert_metrics,
                 "slo_target_ms": self.performance_targets["memory_operation_p95_ms"],
-                "slo_compliance": upsert_metrics["p95_ms"] <= self.performance_targets["memory_operation_p95_ms"]
+                "slo_compliance": upsert_metrics["p95_ms"] <= self.performance_targets["memory_operation_p95_ms"],
             },
             "retrieval": {
                 **retrieval_metrics,
                 "slo_target_ms": self.performance_targets["memory_operation_p95_ms"],
-                "slo_compliance": retrieval_metrics["p95_ms"] <= self.performance_targets["memory_operation_p95_ms"]
-            }
+                "slo_compliance": retrieval_metrics["p95_ms"] <= self.performance_targets["memory_operation_p95_ms"],
+            },
         }
 
     def test_guardian_decisions(self) -> Dict[str, Any]:
@@ -193,13 +190,13 @@ class PerformanceUnitTester:
             "decision": {
                 **decision_metrics,
                 "slo_target_ms": self.performance_targets["guardian_decision_p99_ms"],
-                "slo_compliance": decision_metrics["p99_ms"] <= self.performance_targets["guardian_decision_p99_ms"]
+                "slo_compliance": decision_metrics["p99_ms"] <= self.performance_targets["guardian_decision_p99_ms"],
             },
             "validation": {
                 **validation_metrics,
                 "slo_target_ms": self.performance_targets["guardian_decision_p99_ms"],
-                "slo_compliance": validation_metrics["p99_ms"] <= self.performance_targets["guardian_decision_p99_ms"]
-            }
+                "slo_compliance": validation_metrics["p99_ms"] <= self.performance_targets["guardian_decision_p99_ms"],
+            },
         }
 
     def test_identity_operations(self) -> Dict[str, Any]:
@@ -229,18 +226,18 @@ class PerformanceUnitTester:
             "token_validation": {
                 **token_metrics,
                 "slo_target_ms": self.performance_targets["identity_auth_p95_ms"],
-                "slo_compliance": token_metrics["p95_ms"] <= self.performance_targets["identity_auth_p95_ms"]
+                "slo_compliance": token_metrics["p95_ms"] <= self.performance_targets["identity_auth_p95_ms"],
             },
             "auth_check": {
                 **auth_metrics,
                 "slo_target_ms": self.performance_targets["identity_auth_p95_ms"],
-                "slo_compliance": auth_metrics["p95_ms"] <= self.performance_targets["identity_auth_p95_ms"]
+                "slo_compliance": auth_metrics["p95_ms"] <= self.performance_targets["identity_auth_p95_ms"],
             },
             "permission_check": {
                 **permission_metrics,
                 "slo_target_ms": self.performance_targets["identity_auth_p95_ms"],
-                "slo_compliance": permission_metrics["p95_ms"] <= self.performance_targets["identity_auth_p95_ms"]
-            }
+                "slo_compliance": permission_metrics["p95_ms"] <= self.performance_targets["identity_auth_p95_ms"],
+            },
         }
 
     def test_consciousness_processing(self) -> Dict[str, Any]:
@@ -270,18 +267,21 @@ class PerformanceUnitTester:
             "reflection": {
                 **reflection_metrics,
                 "slo_target_ms": self.performance_targets["consciousness_processing_p95_ms"],
-                "slo_compliance": reflection_metrics["p95_ms"] <= self.performance_targets["consciousness_processing_p95_ms"]
+                "slo_compliance": reflection_metrics["p95_ms"]
+                <= self.performance_targets["consciousness_processing_p95_ms"],
             },
             "coherence": {
                 **coherence_metrics,
                 "slo_target_ms": self.performance_targets["consciousness_processing_p95_ms"],
-                "slo_compliance": coherence_metrics["p95_ms"] <= self.performance_targets["consciousness_processing_p95_ms"]
+                "slo_compliance": coherence_metrics["p95_ms"]
+                <= self.performance_targets["consciousness_processing_p95_ms"],
             },
             "integration": {
                 **integration_metrics,
                 "slo_target_ms": self.performance_targets["consciousness_processing_p95_ms"],
-                "slo_compliance": integration_metrics["p95_ms"] <= self.performance_targets["consciousness_processing_p95_ms"]
-            }
+                "slo_compliance": integration_metrics["p95_ms"]
+                <= self.performance_targets["consciousness_processing_p95_ms"],
+            },
         }
 
     def detect_regression(self, current_results: Dict[str, Any], baseline: Dict[str, Any]) -> Dict[str, Any]:
@@ -291,7 +291,7 @@ class PerformanceUnitTester:
                 "baseline_sha": None,
                 "performance_delta_pct": 0,
                 "regression_detected": False,
-                "analysis": "No baseline available for comparison"
+                "analysis": "No baseline available for comparison",
             }
 
         baseline_metrics = baseline["performance_metrics"]
@@ -317,7 +317,7 @@ class PerformanceUnitTester:
                 "baseline_sha": baseline.get("git_sha", "unknown"),
                 "performance_delta_pct": 0,
                 "regression_detected": False,
-                "analysis": "Insufficient data for regression analysis"
+                "analysis": "Insufficient data for regression analysis",
             }
 
         baseline_avg = statistics.mean(baseline_p95s)
@@ -335,7 +335,7 @@ class PerformanceUnitTester:
             "performance_delta_pct": round(delta_pct, 2),
             "regression_detected": regression_detected,
             "regression_threshold_pct": 10,
-            "analysis": f"{'Regression detected' if regression_detected else 'No regression'}: {delta_pct:+.2f}% change"
+            "analysis": f"{'Regression detected' if regression_detected else 'No regression'}: {delta_pct:+.2f}% change",
         }
 
     def run_all_tests(self) -> Dict[str, Any]:
@@ -361,8 +361,8 @@ class PerformanceUnitTester:
                 "memory_system": memory_results,
                 "guardian_system": guardian_results,
                 "identity_system": identity_results,
-                "consciousness_system": consciousness_results
-            }
+                "consciousness_system": consciousness_results,
+            },
         }
 
         # Regression analysis
@@ -388,7 +388,7 @@ class PerformanceUnitTester:
             "slo_compliance_rate": compliant_operations / total_operations if total_operations > 0 else 0,
             "operations_tested": total_operations,
             "operations_compliant": compliant_operations,
-            "all_targets_met": all_compliant
+            "all_targets_met": all_compliant,
         }
 
         return results
@@ -399,7 +399,7 @@ class PerformanceUnitTester:
         artifact_filename = f"unit-performance-{timestamp}.json"
         artifact_path = self.output_dir / artifact_filename
 
-        with open(artifact_path, 'w') as f:
+        with open(artifact_path, "w") as f:
             json.dump(results, f, indent=2, sort_keys=True)
 
         print(f"📊 Unit performance artifact generated: {artifact_path}")
@@ -407,12 +407,14 @@ class PerformanceUnitTester:
 
     def print_summary(self, results: Dict[str, Any]):
         """Print performance test summary."""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("🎯 UNIT PERFORMANCE VALIDATION SUMMARY")
-        print("="*60)
+        print("=" * 60)
 
         compliance = results["overall_compliance"]
-        print(f"Overall SLO Compliance: {compliance['operations_compliant']}/{compliance['operations_tested']} ({compliance['slo_compliance_rate']*100:.1f}%)")
+        print(
+            f"Overall SLO Compliance: {compliance['operations_compliant']}/{compliance['operations_tested']} ({compliance['slo_compliance_rate']*100:.1f}%)"
+        )
         print(f"All Targets Met: {'✅' if compliance['all_targets_met'] else '❌'}")
 
         print("\nRegression Analysis:")
@@ -427,7 +429,9 @@ class PerformanceUnitTester:
             for operation, metrics in service_metrics.items():
                 if isinstance(metrics, dict) and "p95_ms" in metrics:
                     compliance_icon = "✅" if metrics["slo_compliance"] else "❌"
-                    print(f"  {compliance_icon} {operation}: P95={metrics['p95_ms']:.1f}ms (target: {metrics['slo_target_ms']}ms)")
+                    print(
+                        f"  {compliance_icon} {operation}: P95={metrics['p95_ms']:.1f}ms (target: {metrics['slo_target_ms']}ms)"
+                    )
 
         print(f"\n🕒 Test completed at: {results['timestamp']}")
         print(f"📊 Git SHA: {results['git_sha']}")
@@ -464,6 +468,7 @@ def main():
     except Exception as e:
         print(f"❌ Unit performance testing failed: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)
 

@@ -31,25 +31,33 @@ from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
+
 class AccessDecision(Enum):
     """Access control decision types."""
+
     ALLOW = "allow"
     DENY = "deny"
     ABSTAIN = "abstain"  # For policy combination
 
+
 class Effect(Enum):
     """Policy effect types."""
+
     PERMIT = "permit"
     DENY = "deny"
 
+
 class PolicyTarget(Enum):
     """Policy target matching types."""
+
     EXACT = "exact"
     PATTERN = "pattern"
     WILDCARD = "wildcard"
 
+
 class ResourceType(Enum):
     """Resource types in LUKHAS system."""
+
     IDENTITY = "identity"
     MEMORY = "memory"
     CONSCIOUSNESS = "consciousness"
@@ -61,8 +69,10 @@ class ResourceType(Enum):
     DATA = "data"
     SYSTEM = "system"
 
+
 class ActionType(Enum):
     """Action types for access control."""
+
     CREATE = "create"
     READ = "read"
     UPDATE = "update"
@@ -73,18 +83,22 @@ class ActionType(Enum):
     MONITOR = "monitor"
     AUDIT = "audit"
 
+
 @dataclass
 class Permission:
     """Permission definition."""
+
     resource_type: ResourceType
     action: ActionType
     resource_pattern: str = "*"
     conditions: Dict[str, Any] = field(default_factory=dict)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class Role:
     """Role definition with permissions."""
+
     name: str
     description: str
     permissions: List[Permission] = field(default_factory=list)
@@ -93,9 +107,11 @@ class Role:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
 
+
 @dataclass
 class Subject:
     """Subject (user/service/system) for access control."""
+
     id: str
     type: str  # user, service, system, api_key
     roles: List[str] = field(default_factory=list)
@@ -105,9 +121,11 @@ class Subject:
     last_active: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
 
+
 @dataclass
 class Resource:
     """Resource definition."""
+
     id: str
     type: ResourceType
     attributes: Dict[str, Any] = field(default_factory=dict)
@@ -115,9 +133,11 @@ class Resource:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class AccessRequest:
     """Access request for evaluation."""
+
     subject: Subject
     resource: Resource
     action: ActionType
@@ -125,9 +145,11 @@ class AccessRequest:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     session_id: Optional[str] = None
 
+
 @dataclass
 class ABACPolicy:
     """Attribute-Based Access Control Policy."""
+
     id: str
     name: str
     description: str
@@ -139,9 +161,11 @@ class ABACPolicy:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
+
 @dataclass
 class AccessDecisionInfo:
     """Detailed access decision with reasoning."""
+
     decision: AccessDecision
     reason: str
     matched_policies: List[str] = field(default_factory=list)
@@ -151,13 +175,11 @@ class AccessDecisionInfo:
     metadata: Dict[str, Any] = field(default_factory=dict)
     warnings: List[str] = field(default_factory=list)
 
+
 class AccessControlSystem:
     """Comprehensive RBAC/ABAC access control system."""
 
-    def __init__(self,
-                 guardian_integration: bool = True,
-                 policy_cache_ttl: int = 300,
-                 audit_enabled: bool = True):
+    def __init__(self, guardian_integration: bool = True, policy_cache_ttl: int = 300, audit_enabled: bool = True):
 
         self.guardian_integration = guardian_integration
         self.policy_cache_ttl = policy_cache_ttl
@@ -185,82 +207,91 @@ class AccessControlSystem:
     def _initialize_defaults(self):
         """Initialize default roles and policies."""
         # Default roles
-        self.create_role(Role(
-            name="system_admin",
-            description="Full system administrator",
-            permissions=[
-                Permission(ResourceType.SYSTEM, ActionType.ADMIN),
-                Permission(ResourceType.SECURITY, ActionType.ADMIN),
-                Permission(ResourceType.GUARDIAN, ActionType.CONFIGURE),
-            ]
-        ))
+        self.create_role(
+            Role(
+                name="system_admin",
+                description="Full system administrator",
+                permissions=[
+                    Permission(ResourceType.SYSTEM, ActionType.ADMIN),
+                    Permission(ResourceType.SECURITY, ActionType.ADMIN),
+                    Permission(ResourceType.GUARDIAN, ActionType.CONFIGURE),
+                ],
+            )
+        )
 
-        self.create_role(Role(
-            name="security_admin",
-            description="Security administrator",
-            permissions=[
-                Permission(ResourceType.SECURITY, ActionType.ADMIN),
-                Permission(ResourceType.GUARDIAN, ActionType.READ),
-                Permission(ResourceType.AUDIT, ActionType.READ),
-            ]
-        ))
+        self.create_role(
+            Role(
+                name="security_admin",
+                description="Security administrator",
+                permissions=[
+                    Permission(ResourceType.SECURITY, ActionType.ADMIN),
+                    Permission(ResourceType.GUARDIAN, ActionType.READ),
+                    Permission(ResourceType.AUDIT, ActionType.READ),
+                ],
+            )
+        )
 
-        self.create_role(Role(
-            name="user",
-            description="Regular user",
-            permissions=[
-                Permission(ResourceType.IDENTITY, ActionType.READ, conditions={"self_only": True}),
-                Permission(ResourceType.MEMORY, ActionType.READ, conditions={"owner_only": True}),
-                Permission(ResourceType.CONSCIOUSNESS, ActionType.READ, conditions={"owner_only": True}),
-            ]
-        ))
+        self.create_role(
+            Role(
+                name="user",
+                description="Regular user",
+                permissions=[
+                    Permission(ResourceType.IDENTITY, ActionType.READ, conditions={"self_only": True}),
+                    Permission(ResourceType.MEMORY, ActionType.READ, conditions={"owner_only": True}),
+                    Permission(ResourceType.CONSCIOUSNESS, ActionType.READ, conditions={"owner_only": True}),
+                ],
+            )
+        )
 
-        self.create_role(Role(
-            name="api_service",
-            description="API service account",
-            permissions=[
-                Permission(ResourceType.API, ActionType.EXECUTE),
-                Permission(ResourceType.DATA, ActionType.READ),
-            ]
-        ))
+        self.create_role(
+            Role(
+                name="api_service",
+                description="API service account",
+                permissions=[
+                    Permission(ResourceType.API, ActionType.EXECUTE),
+                    Permission(ResourceType.DATA, ActionType.READ),
+                ],
+            )
+        )
 
         # Default ABAC policies
-        self.create_abac_policy(ABACPolicy(
-            id="deny_after_hours",
-            name="Deny access after hours",
-            description="Deny non-emergency access outside business hours",
-            effect=Effect.DENY,
-            target={
-                "time": {"start": "18:00", "end": "08:00"},
-                "subject.roles": {"not_contains": "emergency_responder"}
-            },
-            condition="current_time < '08:00' or current_time > '18:00'",
-            priority=100
-        ))
+        self.create_abac_policy(
+            ABACPolicy(
+                id="deny_after_hours",
+                name="Deny access after hours",
+                description="Deny non-emergency access outside business hours",
+                effect=Effect.DENY,
+                target={
+                    "time": {"start": "18:00", "end": "08:00"},
+                    "subject.roles": {"not_contains": "emergency_responder"},
+                },
+                condition="current_time < '08:00' or current_time > '18:00'",
+                priority=100,
+            )
+        )
 
-        self.create_abac_policy(ABACPolicy(
-            id="geo_restriction",
-            name="Geographic access restriction",
-            description="Restrict access based on geographic location",
-            effect=Effect.DENY,
-            target={
-                "subject.location.country": {"not_in": ["US", "CA", "GB", "DE", "FR"]}
-            },
-            condition="subject.location.country not in allowed_countries",
-            priority=200
-        ))
+        self.create_abac_policy(
+            ABACPolicy(
+                id="geo_restriction",
+                name="Geographic access restriction",
+                description="Restrict access based on geographic location",
+                effect=Effect.DENY,
+                target={"subject.location.country": {"not_in": ["US", "CA", "GB", "DE", "FR"]}},
+                condition="subject.location.country not in allowed_countries",
+                priority=200,
+            )
+        )
 
-        self.create_abac_policy(ABACPolicy(
-            id="guardian_override",
-            name="Guardian system override",
-            description="Allow Guardian system to override access controls",
-            effect=Effect.PERMIT,
-            target={
-                "subject.type": "system",
-                "subject.id": "guardian_system"
-            },
-            priority=1000
-        ))
+        self.create_abac_policy(
+            ABACPolicy(
+                id="guardian_override",
+                name="Guardian system override",
+                description="Allow Guardian system to override access controls",
+                effect=Effect.PERMIT,
+                target={"subject.type": "system", "subject.id": "guardian_system"},
+                priority=1000,
+            )
+        )
 
     def create_role(self, role: Role) -> str:
         """Create a new role."""
@@ -312,11 +343,9 @@ class AccessControlSystem:
         logger.info(f"Created ABAC policy: {policy.id}")
         return policy.id
 
-    def check_access(self,
-                    subject_id: str,
-                    resource_id: str,
-                    action: ActionType,
-                    context: Optional[Dict[str, Any]] = None) -> AccessDecisionInfo:
+    def check_access(
+        self, subject_id: str, resource_id: str, action: ActionType, context: Optional[Dict[str, Any]] = None
+    ) -> AccessDecisionInfo:
         """
         Check access for a subject to perform an action on a resource.
 
@@ -337,26 +366,21 @@ class AccessControlSystem:
             return AccessDecisionInfo(
                 decision=AccessDecision.DENY,
                 reason=f"Subject {subject_id} not found",
-                evaluation_time_ms=(time.perf_counter() - start_time) * 1000
+                evaluation_time_ms=(time.perf_counter() - start_time) * 1000,
             )
 
         if resource_id not in self.resources:
             return AccessDecisionInfo(
                 decision=AccessDecision.DENY,
                 reason=f"Resource {resource_id} not found",
-                evaluation_time_ms=(time.perf_counter() - start_time) * 1000
+                evaluation_time_ms=(time.perf_counter() - start_time) * 1000,
             )
 
         subject = self.subjects[subject_id]
         resource = self.resources[resource_id]
 
         # Create access request
-        access_request = AccessRequest(
-            subject=subject,
-            resource=resource,
-            action=action,
-            context=context
-        )
+        access_request = AccessRequest(subject=subject, resource=resource, action=action, context=context)
 
         # Check cache first
         cache_key = self._get_cache_key(subject_id, resource_id, action, context)
@@ -367,7 +391,7 @@ class AccessControlSystem:
                     decision=cached_decision,
                     reason="Cached decision",
                     evaluation_time_ms=0.1,  # Minimal cache lookup time
-                    metadata={"cached": True}
+                    metadata={"cached": True},
                 )
                 self._record_access_attempt(decision_info)
                 return decision_info
@@ -394,11 +418,7 @@ class AccessControlSystem:
 
     def _evaluate_access(self, request: AccessRequest) -> AccessDecisionInfo:
         """Evaluate access request using RBAC and ABAC."""
-        decision_info = AccessDecisionInfo(
-            decision=AccessDecision.DENY,
-            reason="Default deny",
-            confidence_score=1.0
-        )
+        decision_info = AccessDecisionInfo(decision=AccessDecision.DENY, reason="Default deny", confidence_score=1.0)
 
         # Step 1: ABAC Policy Evaluation (higher priority)
         abac_decision = self._evaluate_abac_policies(request, decision_info)
@@ -419,7 +439,7 @@ class AccessControlSystem:
                 reason="No matching permissions or policies",
                 matched_policies=abac_decision.matched_policies,
                 matched_permissions=rbac_decision.matched_permissions,
-                confidence_score=max(abac_decision.confidence_score, rbac_decision.confidence_score)
+                confidence_score=max(abac_decision.confidence_score, rbac_decision.confidence_score),
             )
 
     def _evaluate_abac_policies(self, request: AccessRequest, base_decision: AccessDecisionInfo) -> AccessDecisionInfo:
@@ -429,11 +449,7 @@ class AccessControlSystem:
         deny_policies = []
 
         # Sort policies by priority (higher priority first)
-        sorted_policies = sorted(
-            self.abac_policies.values(),
-            key=lambda p: p.priority,
-            reverse=True
-        )
+        sorted_policies = sorted(self.abac_policies.values(), key=lambda p: p.priority, reverse=True)
 
         for policy in sorted_policies:
             if not policy.is_active:
@@ -453,24 +469,26 @@ class AccessControlSystem:
                 decision=AccessDecision.DENY,
                 reason=f"Denied by policy: {deny_policies[0].name}",
                 matched_policies=[p.id for p in deny_policies],
-                confidence_score=0.9
+                confidence_score=0.9,
             )
         elif allow_policies:
             return AccessDecisionInfo(
                 decision=AccessDecision.ALLOW,
                 reason=f"Allowed by policy: {allow_policies[0].name}",
                 matched_policies=[p.id for p in allow_policies],
-                confidence_score=0.9
+                confidence_score=0.9,
             )
         else:
             return AccessDecisionInfo(
                 decision=AccessDecision.ABSTAIN,
                 reason="No matching ABAC policies",
                 matched_policies=matched_policies,
-                confidence_score=0.5
+                confidence_score=0.5,
             )
 
-    def _evaluate_rbac_permissions(self, request: AccessRequest, base_decision: AccessDecisionInfo) -> AccessDecisionInfo:
+    def _evaluate_rbac_permissions(
+        self, request: AccessRequest, base_decision: AccessDecisionInfo
+    ) -> AccessDecisionInfo:
         """Evaluate RBAC permissions."""
         subject_permissions = self._get_subject_permissions(request.subject.id)
         matched_permissions = []
@@ -484,14 +502,14 @@ class AccessControlSystem:
                 decision=AccessDecision.ALLOW,
                 reason=f"Allowed by {len(matched_permissions)} permission(s)",
                 matched_permissions=matched_permissions,
-                confidence_score=0.8
+                confidence_score=0.8,
             )
         else:
             return AccessDecisionInfo(
                 decision=AccessDecision.DENY,
                 reason="No matching RBAC permissions",
                 matched_permissions=[],
-                confidence_score=0.8
+                confidence_score=0.8,
             )
 
     def _policy_matches(self, policy: ABACPolicy, request: AccessRequest) -> bool:
@@ -505,7 +523,7 @@ class AccessControlSystem:
                 "context": request.context,
                 "current_time": datetime.now().strftime("%H:%M"),
                 "current_date": datetime.now().strftime("%Y-%m-%d"),
-                "request": asdict(request)
+                "request": asdict(request),
             }
 
             # Match target criteria
@@ -555,7 +573,7 @@ class AccessControlSystem:
 
     def _get_nested_value(self, data: Dict[str, Any], key: str) -> Any:
         """Get nested value using dot notation."""
-        keys = key.split('.')
+        keys = key.split(".")
         current = data
 
         for k in keys:
@@ -573,7 +591,7 @@ class AccessControlSystem:
         # Simple condition evaluation - in production would use a secure expression evaluator
         # For security, only allow basic comparisons and no function calls
 
-        allowed_ops = ['and', 'or', 'not', 'in', '==', '!=', '<', '>', '<=', '>=']
+        allowed_ops = ["and", "or", "not", "in", "==", "!=", "<", ">", "<=", ">="]
 
         # Basic security check
         for op in allowed_ops:
@@ -581,7 +599,7 @@ class AccessControlSystem:
                 continue
         else:
             # Check for dangerous patterns
-            dangerous_patterns = ['import', '__', 'eval', 'exec', 'open', 'file']
+            dangerous_patterns = ["import", "__", "eval", "exec", "open", "file"]
             for pattern in dangerous_patterns:
                 if pattern in condition.lower():
                     logger.warning(f"Dangerous pattern in condition: {pattern}")
@@ -682,7 +700,7 @@ class AccessControlSystem:
             guardian_context = {
                 "access_request": asdict(request),
                 "initial_decision": asdict(decision),
-                "risk_factors": self._assess_risk_factors(request)
+                "risk_factors": self._assess_risk_factors(request),
             }
 
             # Simulate Guardian decision (in production, would call actual Guardian)
@@ -709,7 +727,7 @@ class AccessControlSystem:
             "unusual_time": 0.0,
             "sensitive_resource": 0.0,
             "elevated_permissions": 0.0,
-            "subject_trustworthiness": 0.0
+            "subject_trustworthiness": 0.0,
         }
 
         # Time-based risk
@@ -773,7 +791,7 @@ class AccessControlSystem:
             "evaluation_time_ms": decision.evaluation_time_ms,
             "matched_policies": decision.matched_policies,
             "matched_permissions": [asdict(p) for p in decision.matched_permissions],
-            "context": request.context
+            "context": request.context,
         }
 
         logger.info(f"ACCESS_AUDIT: {json.dumps(audit_record)}")
@@ -796,18 +814,20 @@ class AccessControlSystem:
             "total_roles": len(self.roles),
             "total_resources": len(self.resources),
             "total_policies": len(self.abac_policies),
-            "cache_hits": len(self.policy_cache)
+            "cache_hits": len(self.policy_cache),
         }
+
 
 # Decorators for access control
 def require_permission(resource_type: ResourceType, action: ActionType, access_control: AccessControlSystem):
     """Decorator to require specific permission for function execution."""
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             # Extract subject_id and resource_id from function arguments
             # This is a simplified example - production would have more sophisticated extraction
-            subject_id = kwargs.get('subject_id') or (args[0] if args else None)
-            resource_id = kwargs.get('resource_id') or (args[1] if len(args) > 1 else None)
+            subject_id = kwargs.get("subject_id") or (args[0] if args else None)
+            resource_id = kwargs.get("resource_id") or (args[1] if len(args) > 1 else None)
 
             if not subject_id or not resource_id:
                 raise ValueError("subject_id and resource_id required for access control")
@@ -819,8 +839,11 @@ def require_permission(resource_type: ResourceType, action: ActionType, access_c
                 raise PermissionError(f"Access denied: {decision.reason}")
 
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator
+
 
 # Factory functions
 def create_access_control_system(config: Optional[Dict[str, Any]] = None) -> AccessControlSystem:
@@ -830,8 +853,9 @@ def create_access_control_system(config: Optional[Dict[str, Any]] = None) -> Acc
     return AccessControlSystem(
         guardian_integration=config.get("guardian_integration", True),
         policy_cache_ttl=config.get("policy_cache_ttl", 300),
-        audit_enabled=config.get("audit_enabled", True)
+        audit_enabled=config.get("audit_enabled", True),
     )
+
 
 if __name__ == "__main__":
     # Example usage and testing
@@ -842,28 +866,22 @@ if __name__ == "__main__":
         id="admin-001",
         type="user",
         roles=["system_admin"],
-        attributes={"clearance": "top_secret", "location": {"country": "US"}}
+        attributes={"clearance": "top_secret", "location": {"country": "US"}},
     )
 
     user_subject = Subject(
-        id="user-001",
-        type="user",
-        roles=["user"],
-        attributes={"clearance": "public", "location": {"country": "US"}}
+        id="user-001", type="user", roles=["user"], attributes={"clearance": "public", "location": {"country": "US"}}
     )
 
     sensitive_resource = Resource(
         id="security-config-001",
         type=ResourceType.SECURITY,
         attributes={"classification": "confidential"},
-        owner="system"
+        owner="system",
     )
 
     user_data_resource = Resource(
-        id="user-data-001",
-        type=ResourceType.DATA,
-        attributes={"classification": "public"},
-        owner="user-001"
+        id="user-data-001", type=ResourceType.DATA, attributes={"classification": "public"}, owner="user-001"
     )
 
     # Create subjects and resources

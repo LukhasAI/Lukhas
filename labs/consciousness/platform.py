@@ -48,7 +48,7 @@ class ConsciousnessPlatform:
             "platform": "consciousness",
             "request_id": request.get("id", "unknown"),
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "components_available": len(self.components)
+            "components_available": len(self.components),
         }
 
     def get_platform_status(self) -> dict[str, Any]:
@@ -62,7 +62,7 @@ class ConsciousnessPlatform:
             "components_count": len(self.components),
             "uptime_seconds": uptime,
             "platform_type": "consciousness",
-            "config": self.config
+            "config": self.config,
         }
 
     async def shutdown(self) -> bool:

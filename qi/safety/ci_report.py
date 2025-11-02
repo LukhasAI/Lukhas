@@ -9,20 +9,23 @@ import sys
 def _md_code_block(text: str, lang: str = "") -> str:
     return f"```{lang}\n{text}\n```"
 
+
 def _summarize(steps):
     rows = []
     for s in steps:
         name = s.get("name")
         rc = s.get("rc")
         status = "✅ PASS" if rc == 0 else "❌ FAIL"
-        rows.append((name, status, s.get("cmd","").strip()))
+        rows.append((name, status, s.get("cmd", "").strip()))
     return rows
+
 
 def _mut_summary(results):
     mv = results.get("mutation_violation")
     if not mv:
         return "No mutation violations. ✅"
     return f"**Mutation violation**: {mv['allowed_count']} > cap {mv['cap']} ❌"
+
 
 def render_markdown(report: dict) -> str:
     ts = datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")  # noqa: F821  # TODO: timezone
@@ -35,7 +38,7 @@ def render_markdown(report: dict) -> str:
     lines.append("## Steps")
     lines.append("| Step | Status | Command |")
     lines.append("|---|---|---|")
-    for (name, status, cmd) in rows:
+    for name, status, cmd in rows:
         lines.append(f"| `{name}` | {status} | `{cmd}` |")
     lines.append("")
     lines.append("## Mutation Fuzzer")
@@ -48,8 +51,11 @@ def render_markdown(report: dict) -> str:
     lines.append("</details>")
     return "\n".join(lines)
 
+
 def main():
-    out_json = os.environ.get("SAFETY_CI_JSON") or os.path.expanduser(f"{os.environ.get('LUKHAS_STATE', os.path.expanduser('~/.lukhas/state'))}/safety_ci.json")
+    out_json = os.environ.get("SAFETY_CI_JSON") or os.path.expanduser(
+        f"{os.environ.get('LUKHAS_STATE', os.path.expanduser('~/.lukhas/state'))}/safety_ci.json"
+    )
     if not os.path.exists(out_json):
         print(f"Cannot find report JSON at {out_json}", file=sys.stderr)
         sys.exit(1)
@@ -70,6 +76,7 @@ def main():
 
     # Print to stdout so you can see it locally too
     print(md)
+
 
 if __name__ == "__main__":
     main()

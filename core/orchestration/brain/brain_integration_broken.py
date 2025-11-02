@@ -37,6 +37,7 @@ try:
         MemoryBrainSpecialist,
         MultiBrainSymphonyOrchestrator,
     )
+
     SYMPHONY_AVAILABLE = True
 except ImportError:
     try:
@@ -47,6 +48,7 @@ except ImportError:
             MemoryBrainSpecialist,
             MultiBrainSymphonyOrchestrator,
         )
+
         SYMPHONY_AVAILABLE = True
     except ImportError:
         logger.warning("MultiBrainSymphony not available, using fallback components")
@@ -80,6 +82,7 @@ try:
     from .reasoning.causal_reasoning_module import (
         CausalReasoningModule,  # TODO: convert to absolute import
     )
+
     ADVANCED_AGI_COMPONENTS = True
 except ImportError:
     try:
@@ -91,6 +94,7 @@ except ImportError:
         from ethics.ethical_hierarchy import EthicalHierarchy
         from governance.dao_governance_node import DAOGovernanceNode
         from memory.enhanced_memory_manager import EnhancedMemoryManager
+
         ADVANCED_AGI_COMPONENTS = True
     except ImportError:
         logger.warning("Advanced AI components not available, using fallback implementations")
@@ -148,6 +152,7 @@ try:
         unified_identity_manager,
         verify_tier_access,
     )
+
     IDENTITY_AVAILABLE = True
     logger.info("Lukhas_ID Identity system loaded successfully")
 except ImportError as e:
@@ -158,6 +163,7 @@ except ImportError as e:
     ConsentLevel = None
     get_current_user = None
     verify_tier_access = None
+
 
 class EnhancedEmotionalProcessor:
     """Enhanced emotional processing with vector operations and voice integration"""
@@ -185,15 +191,19 @@ class EnhancedEmotionalProcessor:
         self.emotional_history = []
         self.max_history = 50
 
-    def update_emotional_state(self, primary_emotion: str, intensity: Optional[float] = None,
-                               secondary_emotions: Optional[dict[str, float]] = None,
-                               metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def update_emotional_state(
+        self,
+        primary_emotion: str,
+        intensity: Optional[float] = None,
+        secondary_emotions: Optional[dict[str, float]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Update emotional state with enhanced tracking"""
 
         # Store previous state
         self.emotional_history.append(self.current_state.copy())
         if len(self.emotional_history) > self.max_history:
-            self.emotional_history = self.emotional_history[-self.max_history:]
+            self.emotional_history = self.emotional_history[-self.max_history :]
 
         # Update state
         if primary_emotion in self.emotion_vectors:
@@ -204,9 +214,7 @@ class EnhancedEmotionalProcessor:
 
         if secondary_emotions:
             valid_secondary = {
-                e: max(0.0, min(1.0, i))
-                for e, i in secondary_emotions.items()
-                if e in self.emotion_vectors
+                e: max(0.0, min(1.0, i)) for e, i in secondary_emotions.items() if e in self.emotion_vectors
             }
             self.current_state["secondary_emotions"] = valid_secondary
 
@@ -216,8 +224,7 @@ class EnhancedEmotionalProcessor:
         if self.emotional_history:
             previous = self.emotional_history[-1]
             distance = self._calculate_emotion_distance(
-                previous["primary_emotion"],
-                self.current_state["primary_emotion"]
+                previous["primary_emotion"], self.current_state["primary_emotion"]
             )
             self.current_state["stability"] = max(0.1, 1.0 - (distance / 2.0))
 
@@ -249,29 +256,24 @@ class EnhancedEmotionalProcessor:
             "fear": {"pitch": 0.4, "speed": 0.4, "energy": 0.2},
             "surprise": {"pitch": 0.5, "speed": 0.1, "energy": 0.4},
             "trust": {"pitch": -0.1, "speed": -0.1, "energy": 0.1},
-            "anticipation": {"pitch": 0.2, "speed": 0.1, "energy": 0.3}
+            "anticipation": {"pitch": 0.2, "speed": 0.1, "energy": 0.3},
         }
 
-        adjustments = emotion_adjustments.get(
-            emotion, {"pitch": 0, "speed": 0, "energy": 0}
-        )
+        adjustments = emotion_adjustments.get(emotion, {"pitch": 0, "speed": 0, "energy": 0})
 
         return {
             "pitch_adjustment": adjustments["pitch"] * intensity,
             "speed_adjustment": adjustments["speed"] * intensity,
             "energy_adjustment": adjustments["energy"] * intensity,
             "emphasis_level": 0.5 + (intensity * 0.3),
-            "pause_threshold": (
-                0.3 + ((1.0 - self.current_state["stability"]) * 0.2)
-            )
+            "pause_threshold": (0.3 + ((1.0 - self.current_state["stability"]) * 0.2)),
         }
 
 
 class EnhancedMemorySystem:
     """Enhanced memory system with emotional integration and dream consolidation"""
 
-    def __init__(self, emotional_processor: EnhancedEmotionalProcessor,
-                 memory_path: str = "./enhanced_memory"):
+    def __init__(self, emotional_processor: EnhancedEmotionalProcessor, memory_path: str = "./enhanced_memory"):
         self.emotional_processor = emotional_processor
         self.memory_path = memory_path
         os.makedirs(memory_path, exist_ok=True)
@@ -281,18 +283,17 @@ class EnhancedMemorySystem:
         self.consolidation_queue = []
 
         # Statistics
-        self.stats = {
-            "total_memories": 0,
-            "emotional_memories": 0,
-            "consolidations": 0,
-            "retrievals": 0
-        }
+        self.stats = {"total_memories": 0, "emotional_memories": 0, "consolidations": 0, "retrievals": 0}
 
-    def store_memory_with_emotion(self, key: str, content: Any,
-                                  emotion: Optional[str] = None,
-                                  tags: Optional[list[str]] = None,
-                                  priority: str = "medium",
-                                  metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def store_memory_with_emotion(
+        self,
+        key: str,
+        content: Any,
+        emotion: Optional[str] = None,
+        tags: Optional[list[str]] = None,
+        priority: str = "medium",
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Store memory with emotional context"""
 
         # Use current emotional state if none provided
@@ -308,9 +309,7 @@ class EnhancedMemorySystem:
             "metadata": metadata or {},
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "access_count": 0,
-            "emotional_intensity": (
-                self.emotional_processor.current_state["intensity"]
-            )
+            "emotional_intensity": (self.emotional_processor.current_state["intensity"]),
         }
 
         # Store in memory
@@ -337,13 +336,12 @@ class EnhancedMemorySystem:
             "key": key,
             "emotion": emotion,
             "memory_id": str(uuid.uuid4()),
-            "timestamp": memory_entry["timestamp"]
+            "timestamp": memory_entry["timestamp"],
         }
 
-    def retrieve_with_emotional_context(self, key: Optional[str] = None,
-                                         target_emotion: Optional[str] = None,
-                                         similarity_threshold: float = 0.7
-                                         ) -> dict[str, Any]:
+    def retrieve_with_emotional_context(
+        self, key: Optional[str] = None, target_emotion: Optional[str] = None, similarity_threshold: float = 0.7
+    ) -> dict[str, Any]:
         """Retrieve memories with emotional context"""
 
         self.stats["retrievals"] += 1
@@ -352,20 +350,14 @@ class EnhancedMemorySystem:
             # Direct retrieval
             memory = self.memory_store[key]
             memory["access_count"] += 1
-            return {
-                "status": "success",
-                "memory": memory,
-                "retrieval_type": "direct"
-            }
+            return {"status": "success", "memory": memory, "retrieval_type": "direct"}
 
         elif target_emotion:
             # Emotional retrieval
             similar_memories = []
 
             for emotion, keys in self.emotional_associations.items():
-                distance = self.emotional_processor._calculate_emotion_distance(
-                    target_emotion, emotion
-                )
+                distance = self.emotional_processor._calculate_emotion_distance(target_emotion, emotion)
                 # Convert threshold to distance
                 if distance <= (2.0 - similarity_threshold * 2.0):
                     for memory_key in keys:
@@ -374,23 +366,17 @@ class EnhancedMemorySystem:
                         similar_memories.append(memory)
 
             # Sort by emotional similarity and recency
-            similar_memories.sort(key=lambda m: (
-                m.get("emotional_distance", 1.0),
-                m["timestamp"]
-            ))
+            similar_memories.sort(key=lambda m: (m.get("emotional_distance", 1.0), m["timestamp"]))
 
             return {
                 "status": "success",
                 "memories": similar_memories[:10],  # Return top 10
                 "retrieval_type": "emotional_similarity",
-                "target_emotion": target_emotion
+                "target_emotion": target_emotion,
             }
 
         else:
-            return {
-                "status": "error",
-                "message": "Either key or target_emotion must be provided"
-            }
+            return {"status": "error", "message": "Either key or target_emotion must be provided"}
 
     def dream_consolidate_memories(self, max_memories: int = 50) -> dict[str, Any]:
         """Consolidate memories through dream-like processing"""
@@ -410,11 +396,9 @@ class EnhancedMemorySystem:
                     "original_key": key,
                     "content": memory["content"],
                     "emotion": memory["emotion"],
-                    "consolidation_strength": (
-                        memory["emotional_intensity"] * memory["access_count"]
-                    ),
+                    "consolidation_strength": (memory["emotional_intensity"] * memory["access_count"]),
                     "dream_associations": self._generate_dream_associations(memory),
-                    "consolidated_at": datetime.now(timezone.utc).isoformat()
+                    "consolidated_at": datetime.now(timezone.utc).isoformat(),
                 }
 
                 consolidated_memories.append(consolidated_memory)
@@ -423,15 +407,13 @@ class EnhancedMemorySystem:
         self.consolidation_queue = self.consolidation_queue[max_memories:]
         self.stats["consolidations"] += len(consolidated_memories)
 
-        logger.info(
-            f"Consolidated {len(consolidated_memories)} memories through dream processing"
-        )
+        logger.info(f"Consolidated {len(consolidated_memories)} memories through dream processing")
 
         return {
             "status": "success",
             "consolidated_count": len(consolidated_memories),
             "remaining_queue": len(self.consolidation_queue),
-            "consolidated_memories": consolidated_memories
+            "consolidated_memories": consolidated_memories,
         }
 
     def _generate_dream_associations(self, memory: dict[str, Any]) -> list[str]:
@@ -478,8 +460,7 @@ class EnhancedBrainIntegration:
         if SYMPHONY_AVAILABLE:
             try:
                 self.symphony_orchestrator = MultiBrainSymphonyOrchestrator(
-                    emotional_oscillator=self.emotional_processor,
-                    memory_integrator=self.memory_system
+                    emotional_oscillator=self.emotional_processor, memory_integrator=self.memory_system
                 )
                 self.symphony_available = True
                 logger.info("🎼 Multi-Brain Symphony orchestrator integrated")
@@ -516,8 +497,7 @@ class EnhancedBrainIntegration:
             try:
                 # Compliance and governance systems
                 self.compliance_manager = AIComplianceManager(
-                    region=self.config.get("region", "GLOBAL"),
-                    level=self.config.get("compliance_level", "STRICT")
+                    region=self.config.get("region", "GLOBAL"), level=self.config.get("compliance_level", "STRICT")
                 )
                 self.dao_governance = DAOGovernanceNode(cognitive_system=self)
                 self.ethical_hierarchy = EthicalHierarchy()
@@ -558,7 +538,7 @@ class EnhancedBrainIntegration:
             "meta_cognitive_reflections": 0,
             "causal_inferences": 0,
             "memory_enhancements": 0,
-            "predictive_operations": 0
+            "predictive_operations": 0,
         }
 
         logger.info("✅ Enhanced Brain Integration System initialized successfully")
@@ -603,9 +583,9 @@ class EnhancedBrainIntegration:
             logger.error(f"Failed to initialize AI subsystems: {e}")
             self.advanced_agi_available = False
 
-    async def process_with_agi_enhancement(self, input_data: Any,
-                                           context: Optional[dict[str, Any]] = None
-                                           ) -> dict[str, Any]:
+    async def process_with_agi_enhancement(
+        self, input_data: Any, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Enhanced processing that integrates all AI components including
         compliance, governance, ethics, meta-cognitive, reasoning, memory,
@@ -620,7 +600,7 @@ class EnhancedBrainIntegration:
             "input_received": True,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "processing_stages": {},
-            "cognitive_enhancements": {}
+            "cognitive_enhancements": {},
         }
 
         try:
@@ -628,10 +608,8 @@ class EnhancedBrainIntegration:
             if self.advanced_agi_available:
                 # Compliance validation
                 if hasattr(self, "compliance_manager"):
-                    compliance_result = (
-                        await self.compliance_manager.validate_ai_action(
-                            {"action": "process_input", "data": input_data}, context
-                        )
+                    compliance_result = await self.compliance_manager.validate_ai_action(
+                        {"action": "process_input", "data": input_data}, context
                     )
                     result["cognitive_enhancements"]["compliance"] = compliance_result
                     self.stats["compliance_checks"] += 1
@@ -644,76 +622,49 @@ class EnhancedBrainIntegration:
 
                 # Ethical evaluation
                 if hasattr(self, "ethical_hierarchy"):
-                    ethical_result = (
-                        await self.ethical_hierarchy.evaluate_ethical_decision(
-                            input_data, context
-                        )
-                    )
+                    ethical_result = await self.ethical_hierarchy.evaluate_ethical_decision(input_data, context)
                     result["cognitive_enhancements"]["ethics"] = ethical_result
                     self.stats["ethical_evaluations"] += 1
 
                     # Warn if ethical concerns detected
                     if ethical_result.get("severity") in ["WARNING", "CRITICAL"]:
-                        result["ethical_warnings"] = ethical_result.get(
-                            "concerns", []
-                        )
+                        result["ethical_warnings"] = ethical_result.get("concerns", [])
 
             # Stage 2: Enhanced Memory and Context Processing
             if hasattr(self, "enhanced_memory_manager"):
-                memory_enhancement = (
-                    await self.enhanced_memory_manager.process_with_context(
-                        input_data, context
-                    )
-                )
+                memory_enhancement = await self.enhanced_memory_manager.process_with_context(input_data, context)
                 result["cognitive_enhancements"]["memory"] = memory_enhancement
                 self.stats["memory_enhancements"] += 1
 
             # Stage 3: Meta-Cognitive Reflection
             if hasattr(self, "meta_cognitive_system"):
-                meta_reflection = (
-                    await self.meta_cognitive_system.reflect_on_processing(
-                        input_data, context, result
-                    )
-                )
+                meta_reflection = await self.meta_cognitive_system.reflect_on_processing(input_data, context, result)
                 result["cognitive_enhancements"]["meta_cognitive"] = meta_reflection
                 self.stats["meta_cognitive_reflections"] += 1
 
             # Stage 4: Causal Reasoning
             if hasattr(self, "causal_reasoning"):
-                causal_analysis = (
-                    await self.causal_reasoning.analyze_causal_relationships(
-                        input_data, context
-                    )
-                )
+                causal_analysis = await self.causal_reasoning.analyze_causal_relationships(input_data, context)
                 result["cognitive_enhancements"]["causal_reasoning"] = causal_analysis
                 self.stats["causal_inferences"] += 1
 
             # Stage 5: Predictive Resource Management
             if hasattr(self, "predictive_manager"):
-                predictive_insights = (
-                    await self.predictive_manager.predict_resource_needs(
-                        input_data, context, result
-                    )
-                )
+                predictive_insights = await self.predictive_manager.predict_resource_needs(input_data, context, result)
                 result["cognitive_enhancements"]["prediction"] = predictive_insights
                 self.stats["predictive_operations"] += 1
 
             # Stage 6: Original Symphony Processing (if available)
             if self.symphony_available:
-                symphony_result = await self.symphony_orchestrator.process_symphony(
-                    input_data, context
-                )
+                symphony_result = await self.symphony_orchestrator.process_symphony(input_data, context)
                 result["processing_stages"]["symphony"] = symphony_result
                 self.stats["symphony_processes"] += 1
 
             # Stage 7: Governance Decision Making (for major decisions)
-            if (self.advanced_agi_available and
-                    context.get("requires_governance", False)) and hasattr(self, "dao_governance"):
-                governance_result = (
-                    await self.dao_governance.evaluate_decision(
-                        input_data, context, result
-                    )
-                )
+            if (self.advanced_agi_available and context.get("requires_governance", False)) and hasattr(
+                self, "dao_governance"
+            ):
+                governance_result = await self.dao_governance.evaluate_decision(input_data, context, result)
                 result["cognitive_enhancements"]["governance"] = governance_result
                 self.stats["governance_decisions"] += 1
 
@@ -723,9 +674,7 @@ class EnhancedBrainIntegration:
             # Update result status
             result["status"] = "completed"
             result["processing_time"] = time.time() - start_time
-            result["cognitive_integration"] = (
-                "full" if self.advanced_agi_available else "partial"
-            )
+            result["cognitive_integration"] = "full" if self.advanced_agi_available else "partial"
 
             return result
 
@@ -736,33 +685,20 @@ class EnhancedBrainIntegration:
             result["processing_time"] = time.time() - start_time
             return result
 
-    async def _integrate_agi_results(self, result: dict[str, Any],
-                                     input_data: Any,
-                                     context: dict[str, Any]) -> dict[str, Any]:
+    async def _integrate_agi_results(
+        self, result: dict[str, Any], input_data: Any, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate results from all AI components into a coherent response"""
 
         # Extract key insights from each component
         cognitive_enhancements = result.get("cognitive_enhancements", {})
         cognitive_insights = {
-            "compliance_status": (
-                cognitive_enhancements.get("compliance", {}).get("status", "unknown")
-            ),
-            "ethical_alignment": (
-                cognitive_enhancements.get("ethics", {}).get("alignment_score", 0.5)
-            ),
-            "memory_relevance": (
-                cognitive_enhancements.get("memory", {}).get("relevance_score", 0.5)
-            ),
-            "causal_confidence": (
-                cognitive_enhancements.get("causal_reasoning", {}).get("confidence", 0.5)
-            ),
-            "prediction_accuracy": (
-                cognitive_enhancements.get("prediction", {}).get("accuracy", 0.5)
-            ),
-            "meta_awareness": (
-                cognitive_enhancements.get("meta_cognitive", {})
-                .get("awareness_level", 0.5)
-            )
+            "compliance_status": (cognitive_enhancements.get("compliance", {}).get("status", "unknown")),
+            "ethical_alignment": (cognitive_enhancements.get("ethics", {}).get("alignment_score", 0.5)),
+            "memory_relevance": (cognitive_enhancements.get("memory", {}).get("relevance_score", 0.5)),
+            "causal_confidence": (cognitive_enhancements.get("causal_reasoning", {}).get("confidence", 0.5)),
+            "prediction_accuracy": (cognitive_enhancements.get("prediction", {}).get("accuracy", 0.5)),
+            "meta_awareness": (cognitive_enhancements.get("meta_cognitive", {}).get("awareness_level", 0.5)),
         }
 
         # Calculate overall AI intelligence score
@@ -781,7 +717,7 @@ class EnhancedBrainIntegration:
             "overall_score": cognitive_score,
             "insights": cognitive_insights,
             "recommendations": recommendations,
-            "integration_complete": True
+            "integration_complete": True,
         }
 
         return result

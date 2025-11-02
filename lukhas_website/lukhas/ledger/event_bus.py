@@ -42,6 +42,7 @@ class CircuitBreakerState(Enum):
 @dataclass
 class EventOffset:
     """Event offset for tracking position in event stream"""
+
     offset: int
     timestamp: str
     event_id: str
@@ -51,13 +52,14 @@ class EventOffset:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'EventOffset':
+    def from_dict(cls, data: Dict[str, Any]) -> "EventOffset":
         return cls(**data)
 
 
 @dataclass
 class DeadLetterEvent:
     """Event that failed processing and ended up in dead letter queue"""
+
     original_event: Dict[str, Any]
     error_message: str
     failure_count: int
@@ -87,6 +89,7 @@ class CircuitBreaker:
 
     def call(self, func: Callable) -> Callable:
         """Decorator for circuit breaker protection"""
+
         async def wrapper(*args, **kwargs):
             if not self.can_execute():
                 raise Exception("Circuit breaker is OPEN")
@@ -133,7 +136,7 @@ class CircuitBreaker:
 class ReplayIterator:
     """Iterator for event replay from specific offset"""
 
-    def __init__(self, bus: 'AsyncEventBus', from_offset: int, to_offset: Optional[int] = None):
+    def __init__(self, bus: "AsyncEventBus", from_offset: int, to_offset: Optional[int] = None):
         self.bus = bus
         self.from_offset = from_offset
         self.to_offset = to_offset
@@ -150,12 +153,12 @@ class ReplayIterator:
         if not event_data:
             raise StopAsyncIteration
 
-        event = create_event_from_dict(event_data['event_data'])
+        event = create_event_from_dict(event_data["event_data"])
         offset = EventOffset(
-            offset=event_data['offset'],
-            timestamp=event_data['timestamp'],
-            event_id=event_data['event_id'],
-            hash=event_data['hash']
+            offset=event_data["offset"],
+            timestamp=event_data["timestamp"],
+            event_id=event_data["event_id"],
+            hash=event_data["hash"],
         )
 
         self.current_offset += 1
@@ -186,10 +189,10 @@ class AsyncEventBus:
 
         # Performance tracking
         self.metrics = {
-            'events_appended': 0,
-            'append_times': [],
-            'replay_times': [],
-            'processing_errors': 0,
+            "events_appended": 0,
+            "append_times": [],
+            "replay_times": [],
+            "processing_errors": 0,
         }
 
         # Thread safety
@@ -214,7 +217,8 @@ class AsyncEventBus:
                 cursor.execute("PRAGMA foreign_keys=ON;")
 
                 # Event store table with offset-based indexing
-                cursor.execute("""
+                cursor.execute(
+                    """
                     CREATE TABLE IF NOT EXISTS event_store (
                         offset INTEGER PRIMARY KEY AUTOINCREMENT,
                         event_id TEXT UNIQUE NOT NULL,
@@ -230,10 +234,12 @@ class AsyncEventBus:
                         metadata TEXT,
                         schema_version TEXT DEFAULT '2.0.0'
                     )
-                """)
+                """
+                )
 
                 # Dead letter queue table
-                cursor.execute("""
+                cursor.execute(
+                    """
                     CREATE TABLE IF NOT EXISTS dead_letter_queue (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         original_event TEXT NOT NULL,
@@ -243,17 +249,20 @@ class AsyncEventBus:
                         last_failure_at TEXT NOT NULL,
                         next_retry_at TEXT
                     )
-                """)
+                """
+                )
 
                 # Offset checkpoint table for consumers
-                cursor.execute("""
+                cursor.execute(
+                    """
                     CREATE TABLE IF NOT EXISTS consumer_checkpoints (
                         consumer_id TEXT PRIMARY KEY,
                         last_processed_offset INTEGER NOT NULL,
                         updated_at TEXT NOT NULL,
                         metadata TEXT
                     )
-                """)
+                """
+                )
 
                 # Performance indexes
                 indexes = [
@@ -301,26 +310,29 @@ class AsyncEventBus:
                     cursor = conn.cursor()
 
                     try:
-                        cursor.execute("""
+                        cursor.execute(
+                            """
                             INSERT INTO event_store (
                                 event_id, event_type, aggregate_id, event_data,
                                 hash, chain_hash, timestamp, created_at,
                                 correlation_id, causation_id, metadata, schema_version
                             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """, (
-                            event.event_id,
-                            event.event_type.value,
-                            event.get_aggregate_id(),
-                            json.dumps(event_data),
-                            event_hash,
-                            chain_hash,
-                            event.timestamp,
-                            time.time(),
-                            event.correlation_id,
-                            event.causation_id,
-                            json.dumps(event.metadata),
-                            event.schema_version,
-                        ))
+                        """,
+                            (
+                                event.event_id,
+                                event.event_type.value,
+                                event.get_aggregate_id(),
+                                json.dumps(event_data),
+                                event_hash,
+                                chain_hash,
+                                event.timestamp,
+                                time.time(),
+                                event.correlation_id,
+                                event.causation_id,
+                                json.dumps(event.metadata),
+                                event.schema_version,
+                            ),
+                        )
 
                         # Get the assigned offset
                         offset = cursor.lastrowid
@@ -328,16 +340,13 @@ class AsyncEventBus:
 
                         # Create offset object
                         event_offset = EventOffset(
-                            offset=offset,
-                            timestamp=event.timestamp,
-                            event_id=event.event_id,
-                            hash=event_hash
+                            offset=offset, timestamp=event.timestamp, event_id=event.event_id, hash=event_hash
                         )
 
                         # Track performance
                         append_time_ms = (time.perf_counter() - start_time) * 1000
-                        self.metrics['append_times'].append(append_time_ms)
-                        self.metrics['events_appended'] += 1
+                        self.metrics["append_times"].append(append_time_ms)
+                        self.metrics["events_appended"] += 1
 
                         # Async dispatch to subscribers (non-blocking)
                         asyncio.create_task(self._dispatch_event(event, event_offset))
@@ -353,7 +362,7 @@ class AsyncEventBus:
                         conn.close()
 
         except Exception as e:
-            self.metrics['processing_errors'] += 1
+            self.metrics["processing_errors"] += 1
             logger.error(f"Failed to append event {event.event_id}: {e}")
             raise
 
@@ -368,9 +377,11 @@ class AsyncEventBus:
             iterator = ReplayIterator(self, from_offset, to_offset)
 
             replay_time_ms = (time.perf_counter() - start_time) * 1000
-            self.metrics['replay_times'].append(replay_time_ms)
+            self.metrics["replay_times"].append(replay_time_ms)
 
-            logger.debug(f"Replay iterator created for offset {from_offset}-{to_offset or 'end'} in {replay_time_ms:.2f}ms")
+            logger.debug(
+                f"Replay iterator created for offset {from_offset}-{to_offset or 'end'} in {replay_time_ms:.2f}ms"
+            )
 
             return iterator
 
@@ -385,28 +396,31 @@ class AsyncEventBus:
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT offset, event_id, event_type, aggregate_id, event_data,
                            hash, chain_hash, timestamp, correlation_id, causation_id, metadata
                     FROM event_store WHERE offset = ?
-                """, (offset,))
+                """,
+                    (offset,),
+                )
 
                 row = cursor.fetchone()
                 if not row:
                     return None
 
                 return {
-                    'offset': row[0],
-                    'event_id': row[1],
-                    'event_type': row[2],
-                    'aggregate_id': row[3],
-                    'event_data': json.loads(row[4]),
-                    'hash': row[5],
-                    'chain_hash': row[6],
-                    'timestamp': row[7],
-                    'correlation_id': row[8],
-                    'causation_id': row[9],
-                    'metadata': json.loads(row[10] or '{}'),
+                    "offset": row[0],
+                    "event_id": row[1],
+                    "event_type": row[2],
+                    "aggregate_id": row[3],
+                    "event_data": json.loads(row[4]),
+                    "hash": row[5],
+                    "chain_hash": row[6],
+                    "timestamp": row[7],
+                    "correlation_id": row[8],
+                    "causation_id": row[9],
+                    "metadata": json.loads(row[10] or "{}"),
                 }
 
             finally:
@@ -419,10 +433,12 @@ class AsyncEventBus:
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT hash FROM event_store
                     ORDER BY offset DESC LIMIT 1
-                """)
+                """
+                )
 
                 row = cursor.fetchone()
                 if not row:
@@ -490,18 +506,21 @@ class AsyncEventBus:
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO dead_letter_queue (
                         original_event, error_message, failure_count,
                         first_failure_at, last_failure_at
                     ) VALUES (?, ?, ?, ?, ?)
-                """, (
-                    json.dumps(dead_letter_event.original_event),
-                    dead_letter_event.error_message,
-                    dead_letter_event.failure_count,
-                    dead_letter_event.first_failure_at,
-                    dead_letter_event.last_failure_at,
-                ))
+                """,
+                    (
+                        json.dumps(dead_letter_event.original_event),
+                        dead_letter_event.error_message,
+                        dead_letter_event.failure_count,
+                        dead_letter_event.first_failure_at,
+                        dead_letter_event.last_failure_at,
+                    ),
+                )
 
                 conn.commit()
                 logger.warning(f"Event {event.event_id} added to dead letter queue")
@@ -529,16 +548,19 @@ class AsyncEventBus:
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT OR REPLACE INTO consumer_checkpoints (
                         consumer_id, last_processed_offset, updated_at, metadata
                     ) VALUES (?, ?, ?, ?)
-                """, (
-                    consumer_id,
-                    offset,
-                    datetime.now(timezone.utc).isoformat(),
-                    json.dumps(metadata or {}),
-                ))
+                """,
+                    (
+                        consumer_id,
+                        offset,
+                        datetime.now(timezone.utc).isoformat(),
+                        json.dumps(metadata or {}),
+                    ),
+                )
 
                 conn.commit()
 
@@ -552,10 +574,13 @@ class AsyncEventBus:
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT last_processed_offset FROM consumer_checkpoints
                     WHERE consumer_id = ?
-                """, (consumer_id,))
+                """,
+                    (consumer_id,),
+                )
 
                 row = cursor.fetchone()
                 return row[0] if row else None
@@ -565,17 +590,17 @@ class AsyncEventBus:
 
     def get_performance_metrics(self) -> Dict[str, Any]:
         """Get performance metrics for monitoring"""
-        append_times = self.metrics['append_times']
-        replay_times = self.metrics['replay_times']
+        append_times = self.metrics["append_times"]
+        replay_times = self.metrics["replay_times"]
 
         return {
-            'events_appended': self.metrics['events_appended'],
-            'processing_errors': self.metrics['processing_errors'],
-            'append_p95_ms': sorted(append_times)[int(len(append_times) * 0.95)] if append_times else 0,
-            'append_avg_ms': sum(append_times) / len(append_times) if append_times else 0,
-            'replay_avg_ms': sum(replay_times) / len(replay_times) if replay_times else 0,
-            'circuit_breaker_state': self.circuit_breaker.state.value,
-            'dead_letter_queue_size': len(self.dead_letter_queue),
+            "events_appended": self.metrics["events_appended"],
+            "processing_errors": self.metrics["processing_errors"],
+            "append_p95_ms": sorted(append_times)[int(len(append_times) * 0.95)] if append_times else 0,
+            "append_avg_ms": sum(append_times) / len(append_times) if append_times else 0,
+            "replay_avg_ms": sum(replay_times) / len(replay_times) if replay_times else 0,
+            "circuit_breaker_state": self.circuit_breaker.state.value,
+            "dead_letter_queue_size": len(self.dead_letter_queue),
         }
 
     async def health_check(self) -> Dict[str, Any]:
@@ -585,15 +610,15 @@ class AsyncEventBus:
             metrics = self.get_performance_metrics()
 
             return {
-                'status': 'healthy',
-                'latest_offset': latest_offset,
-                'metrics': metrics,
-                'database_path': str(self.db_path),
-                'subscribers_count': sum(len(subs) for subs in self.subscribers.values()),
+                "status": "healthy",
+                "latest_offset": latest_offset,
+                "metrics": metrics,
+                "database_path": str(self.db_path),
+                "subscribers_count": sum(len(subs) for subs in self.subscribers.values()),
             }
 
         except Exception as e:
             return {
-                'status': 'unhealthy',
-                'error': str(e),
+                "status": "unhealthy",
+                "error": str(e),
             }

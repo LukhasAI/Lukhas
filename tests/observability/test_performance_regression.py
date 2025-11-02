@@ -36,16 +36,21 @@ def mock_dependencies():
     mock_alerting_system.trigger_alert = AsyncMock()
 
     return {
-        'advanced_metrics': mock_advanced_metrics,
-        'alerting_system': mock_alerting_system,
+        "advanced_metrics": mock_advanced_metrics,
+        "alerting_system": mock_alerting_system,
     }
 
 
 @pytest.fixture
 async def regression_detector(mock_dependencies):
     """Create performance regression detector for testing"""
-    with patch('observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['advanced_metrics']):
-        with patch('observability.performance_regression.get_alerting_system', return_value=mock_dependencies['alerting_system']):
+    with patch(
+        "observability.performance_regression.get_advanced_metrics", return_value=mock_dependencies["advanced_metrics"]
+    ):
+        with patch(
+            "observability.performance_regression.get_alerting_system",
+            return_value=mock_dependencies["alerting_system"],
+        ):
             detector = PerformanceRegressionDetector(
                 baseline_window_days=1,  # Short for testing
                 detection_sensitivity=0.8,
@@ -128,7 +133,9 @@ class TestPerformanceRegressionDetector:
         assert baseline is not None
 
         # Record regression value
-        await regression_detector.record_performance_metric(metric_name, component, 0.5)  # 500ms - significant regression
+        await regression_detector.record_performance_metric(
+            metric_name, component, 0.5
+        )  # 500ms - significant regression
 
         # Should detect regression
         regressions = [r for r in regression_detector.detected_regressions.values() if r.metric_name == metric_name]
@@ -150,17 +157,18 @@ class TestPerformanceRegressionDetector:
 
         for i, value in enumerate(trend_values):
             timestamp = base_time + timedelta(minutes=i)
-            await regression_detector.record_performance_metric(
-                metric_name, component, value, timestamp=timestamp
-            )
+            await regression_detector.record_performance_metric(metric_name, component, value, timestamp=timestamp)
 
         # Establish baseline (early values)
         baseline = await regression_detector.establish_baseline(metric_name, component)
         assert baseline is not None
 
         # Should detect trend regression
-        [r for r in regression_detector.detected_regressions.values()
-                      if r.metric_name == metric_name and r.detection_method == DetectionMethod.TREND_ANALYSIS]
+        [
+            r
+            for r in regression_detector.detected_regressions.values()
+            if r.metric_name == metric_name and r.detection_method == DetectionMethod.TREND_ANALYSIS
+        ]
         # Note: Trend detection requires scipy and sufficient data points
 
     @pytest.mark.asyncio
@@ -175,6 +183,7 @@ class TestPerformanceRegressionDetector:
         # Generate training data
         try:
             import numpy as np
+
             np.random.seed(42)
             training_data = np.random.normal(0.1, 0.01, 100)  # Mean=100ms, low variance
         except ImportError:
@@ -191,8 +200,11 @@ class TestPerformanceRegressionDetector:
         await regression_detector.record_performance_metric(metric_name, component, 1.0)  # 10x increase
 
         # Check for ML-detected regression
-        [r for r in regression_detector.detected_regressions.values()
-                         if r.metric_name == metric_name and r.detection_method == DetectionMethod.ISOLATION_FOREST]
+        [
+            r
+            for r in regression_detector.detected_regressions.values()
+            if r.metric_name == metric_name and r.detection_method == DetectionMethod.ISOLATION_FOREST
+        ]
         # ML detection might not always trigger depending on the model
 
     def test_regression_severity_classification(self, regression_detector):
@@ -208,6 +220,7 @@ class TestPerformanceRegressionDetector:
         """Test regression resolution tracking"""
         # Create a test regression
         from uuid import uuid4
+
         regression_id = str(uuid4())
 
         regression = PerformanceRegression(
@@ -238,6 +251,7 @@ class TestPerformanceRegressionDetector:
         """Test false positive marking and learning"""
         # Create a test regression
         from uuid import uuid4
+
         regression_id = str(uuid4())
 
         regression = PerformanceRegression(
@@ -374,6 +388,7 @@ class TestPerformanceRegressionDetector:
     @pytest.mark.asyncio
     async def test_concurrent_metric_recording(self, regression_detector):
         """Test concurrent performance metric recording"""
+
         async def record_metrics(component_id, count):
             for i in range(count):
                 await regression_detector.record_performance_metric(
@@ -388,7 +403,8 @@ class TestPerformanceRegressionDetector:
 
         # Verify all metrics were recorded
         total_recorded = sum(
-            len(timeseries) for key, timeseries in regression_detector.metric_timeseries.items()
+            len(timeseries)
+            for key, timeseries in regression_detector.metric_timeseries.items()
             if "concurrent_test" in key
         )
         assert total_recorded == 50  # 5 components * 10 metrics each
@@ -404,14 +420,10 @@ class TestPerformanceRegressionDetector:
         recent_timestamp = datetime.now(timezone.utc)
 
         # Record old metric
-        await regression_detector.record_performance_metric(
-            metric_name, component, 0.1, timestamp=old_timestamp
-        )
+        await regression_detector.record_performance_metric(metric_name, component, 0.1, timestamp=old_timestamp)
 
         # Record recent metric (should trigger cleanup)
-        await regression_detector.record_performance_metric(
-            metric_name, component, 0.2, timestamp=recent_timestamp
-        )
+        await regression_detector.record_performance_metric(metric_name, component, 0.2, timestamp=recent_timestamp)
 
         metric_key = f"{component}_{metric_name}"
 
@@ -428,9 +440,7 @@ class TestPerformanceRegressionDetector:
         base_time = datetime.now(timezone.utc)
 
         # Record primary metric regression
-        await regression_detector.record_performance_metric(
-            "response_time", "api_service", 0.5, timestamp=base_time
-        )
+        await regression_detector.record_performance_metric("response_time", "api_service", 0.5, timestamp=base_time)
 
         # Record correlated metrics around the same time
         await regression_detector.record_performance_metric(
@@ -454,6 +464,7 @@ class TestPerformanceRegressionDetector:
 
         # Create test regression
         from uuid import uuid4
+
         regression = PerformanceRegression(
             regression_id=str(uuid4()),
             metric_name="response_time",
@@ -481,8 +492,14 @@ class TestIntegrationFunctions:
 
     def test_initialize_regression_detector(self, mock_dependencies):
         """Test regression detector initialization"""
-        with patch('observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['advanced_metrics']):
-            with patch('observability.performance_regression.get_alerting_system', return_value=mock_dependencies['alerting_system']):
+        with patch(
+            "observability.performance_regression.get_advanced_metrics",
+            return_value=mock_dependencies["advanced_metrics"],
+        ):
+            with patch(
+                "observability.performance_regression.get_alerting_system",
+                return_value=mock_dependencies["alerting_system"],
+            ):
                 detector = initialize_regression_detector(
                     baseline_window_days=7,
                     enable_ml_detection=False,
@@ -495,7 +512,7 @@ class TestIntegrationFunctions:
     @pytest.mark.asyncio
     async def test_convenience_functions(self, regression_detector):
         """Test convenience functions"""
-        with patch('observability.performance_regression.get_regression_detector', return_value=regression_detector):
+        with patch("observability.performance_regression.get_regression_detector", return_value=regression_detector):
             # Test record_performance_data function
             await record_performance_data(
                 metric_name="convenience_test",

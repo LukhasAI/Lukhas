@@ -36,6 +36,7 @@ import structlog
 # Import I.1 ΛiD Token System and existing LUKHAS infrastructure
 try:
     from . import ΛTOKEN_SYSTEM_AVAILABLE
+
     if ΛTOKEN_SYSTEM_AVAILABLE:
         from .alias_format import (  # noqa: F401  # TODO: .alias_format.verify_crc; cons...
             make_alias,
@@ -44,6 +45,7 @@ try:
         from .token_generator import EnvironmentSecretProvider, TokenGenerator
         from .token_storage import TokenStorage
         from .token_validator import TokenValidator, ValidationContext
+
         ΛID_INTEGRATION = True
         print("✅ I.1 ΛiD Token System integration enabled")
     else:
@@ -187,9 +189,7 @@ class TieredAuthenticator:
     """
 
     def __init__(
-        self,
-        security_policy: Optional[SecurityPolicy] = None,
-        guardian_system: Optional[GuardianSystem] = None
+        self, security_policy: Optional[SecurityPolicy] = None, guardian_system: Optional[GuardianSystem] = None
     ):
         """Initialize the tiered authenticator."""
         self.logger = logger.bind(component="TieredAuthenticator")
@@ -200,7 +200,7 @@ class TieredAuthenticator:
         self.password_hasher = argon2.PasswordHasher(
             time_cost=self.policy.argon2_time_cost,
             memory_cost=self.policy.argon2_memory_cost,
-            parallelism=self.policy.argon2_parallelism
+            parallelism=self.policy.argon2_parallelism,
         )
 
         # Initialize infrastructure components
@@ -226,9 +226,7 @@ class TieredAuthenticator:
                 # Legacy components (graceful degradation)
                 try:
                     if create_enhanced_webauthn_service:
-                        self.webauthn = create_enhanced_webauthn_service(
-                            guardian_system=self.guardian
-                        )
+                        self.webauthn = create_enhanced_webauthn_service(guardian_system=self.guardian)
                     else:
                         self.webauthn = None
                 except Exception as e:
@@ -319,7 +317,7 @@ class TieredAuthenticator:
                 expires_at=datetime.now(timezone.utc) + timedelta(hours=24),
                 correlation_id=ctx.correlation_id,
                 guardian_validated=self.guardian is not None,
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
 
             # Guardian post-monitoring
@@ -336,7 +334,7 @@ class TieredAuthenticator:
                 ok=False,
                 reason=f"internal_error: {str(e)}",
                 correlation_id=ctx.correlation_id,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
             self.logger.error("T1 authentication failed", error=str(e), correlation_id=ctx.correlation_id)
@@ -362,7 +360,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="missing_credentials",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Check account lockout
@@ -372,7 +370,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="account_locked",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Guardian pre-validation
@@ -389,7 +387,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="invalid_credentials",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Clear failed attempts on successful authentication
@@ -408,15 +406,14 @@ class TieredAuthenticator:
                 expires_at=datetime.now(timezone.utc) + timedelta(hours=8),
                 correlation_id=ctx.correlation_id,
                 guardian_validated=self.guardian is not None,
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
 
             # Guardian post-monitoring
             if self.guardian:
                 await self._guardian_monitor("auth_t2_success", ctx, result)
 
-            self.logger.info("T2 authentication successful",
-                           user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.info("T2 authentication successful", user_id=ctx.username, correlation_id=ctx.correlation_id)
             return result
 
         except Exception as e:
@@ -426,11 +423,12 @@ class TieredAuthenticator:
                 ok=False,
                 reason=f"internal_error: {str(e)}",
                 correlation_id=ctx.correlation_id,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
-            self.logger.error("T2 authentication failed", error=str(e),
-                            user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.error(
+                "T2 authentication failed", error=str(e), user_id=ctx.username, correlation_id=ctx.correlation_id
+            )
             return error_result
 
     async def authenticate_T3(self, ctx: AuthContext) -> AuthResult:
@@ -453,7 +451,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="requires_t2_authentication",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Validate required credentials
@@ -463,7 +461,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="missing_totp_token",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Guardian pre-validation
@@ -479,7 +477,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="invalid_totp_token",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Generate T3 token
@@ -496,15 +494,14 @@ class TieredAuthenticator:
                 correlation_id=ctx.correlation_id,
                 guardian_validated=self.guardian is not None,
                 tier_elevation_path="T1→T2→T3",
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
 
             # Guardian post-monitoring
             if self.guardian:
                 await self._guardian_monitor("auth_t3_success", ctx, result)
 
-            self.logger.info("T3 authentication successful",
-                           user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.info("T3 authentication successful", user_id=ctx.username, correlation_id=ctx.correlation_id)
             return result
 
         except Exception as e:
@@ -514,11 +511,12 @@ class TieredAuthenticator:
                 ok=False,
                 reason=f"internal_error: {str(e)}",
                 correlation_id=ctx.correlation_id,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
-            self.logger.error("T3 authentication failed", error=str(e),
-                            user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.error(
+                "T3 authentication failed", error=str(e), user_id=ctx.username, correlation_id=ctx.correlation_id
+            )
             return error_result
 
     async def authenticate_T4(self, ctx: AuthContext) -> AuthResult:
@@ -541,7 +539,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="requires_t3_authentication",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Validate required credentials
@@ -551,7 +549,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="missing_webauthn_response",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Guardian pre-validation
@@ -574,7 +572,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason=failure_reason,
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             verified_user = verification_result.user_id or ctx.username
@@ -585,7 +583,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="webauthn_user_mismatch",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Generate T4 token
@@ -602,15 +600,14 @@ class TieredAuthenticator:
                 correlation_id=ctx.correlation_id,
                 guardian_validated=self.guardian is not None,
                 tier_elevation_path="T1→T2→T3→T4",
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
 
             # Guardian post-monitoring
             if self.guardian:
                 await self._guardian_monitor("auth_t4_success", ctx, result)
 
-            self.logger.info("T4 authentication successful",
-                           user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.info("T4 authentication successful", user_id=ctx.username, correlation_id=ctx.correlation_id)
             return result
 
         except Exception as e:
@@ -620,11 +617,12 @@ class TieredAuthenticator:
                 ok=False,
                 reason=f"internal_error: {str(e)}",
                 correlation_id=ctx.correlation_id,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
-            self.logger.error("T4 authentication failed", error=str(e),
-                            user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.error(
+                "T4 authentication failed", error=str(e), user_id=ctx.username, correlation_id=ctx.correlation_id
+            )
             return error_result
 
     async def authenticate_T5(self, ctx: AuthContext) -> AuthResult:
@@ -647,7 +645,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="requires_t4_authentication",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Validate required credentials
@@ -657,7 +655,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="missing_biometric_attestation",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Guardian pre-validation
@@ -673,7 +671,7 @@ class TieredAuthenticator:
                     ok=False,
                     reason="invalid_biometric_attestation",
                     correlation_id=ctx.correlation_id,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Generate T5 token (highest privilege)
@@ -690,15 +688,14 @@ class TieredAuthenticator:
                 correlation_id=ctx.correlation_id,
                 guardian_validated=self.guardian is not None,
                 tier_elevation_path="T1→T2→T3→T4→T5",
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
 
             # Guardian post-monitoring
             if self.guardian:
                 await self._guardian_monitor("auth_t5_success", ctx, result)
 
-            self.logger.info("T5 authentication successful",
-                           user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.info("T5 authentication successful", user_id=ctx.username, correlation_id=ctx.correlation_id)
             return result
 
         except Exception as e:
@@ -708,11 +705,12 @@ class TieredAuthenticator:
                 ok=False,
                 reason=f"internal_error: {str(e)}",
                 correlation_id=ctx.correlation_id,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
-            self.logger.error("T5 authentication failed", error=str(e),
-                            user_id=ctx.username, correlation_id=ctx.correlation_id)
+            self.logger.error(
+                "T5 authentication failed", error=str(e), user_id=ctx.username, correlation_id=ctx.correlation_id
+            )
             return error_result
 
     # Guardian integration methods
@@ -721,12 +719,15 @@ class TieredAuthenticator:
         """Guardian pre-validation hook."""
         if self.guardian:
             try:
-                await self.guardian.validate_action_async(action, {
-                    "correlation_id": ctx.correlation_id,
-                    "ip_address": ctx.ip_address,
-                    "username": ctx.username,
-                    "timestamp": ctx.timestamp.isoformat()
-                })
+                await self.guardian.validate_action_async(
+                    action,
+                    {
+                        "correlation_id": ctx.correlation_id,
+                        "ip_address": ctx.ip_address,
+                        "username": ctx.username,
+                        "timestamp": ctx.timestamp.isoformat(),
+                    },
+                )
             except Exception as e:
                 self.logger.warning("Guardian validation failed", action=action, error=str(e))
                 # Continue with authentication for graceful degradation
@@ -735,14 +736,16 @@ class TieredAuthenticator:
         """Guardian post-monitoring hook."""
         if self.guardian:
             try:
-                await self.guardian.monitor_behavior_async({
-                    "event": event,
-                    "correlation_id": ctx.correlation_id,
-                    "tier": result.tier,
-                    "success": result.ok,
-                    "duration_ms": result.duration_ms,
-                    "user_id": result.user_id
-                })
+                await self.guardian.monitor_behavior_async(
+                    {
+                        "event": event,
+                        "correlation_id": ctx.correlation_id,
+                        "tier": result.tier,
+                        "success": result.ok,
+                        "duration_ms": result.duration_ms,
+                        "user_id": result.user_id,
+                    }
+                )
             except Exception as e:
                 self.logger.warning("Guardian monitoring failed", event=event, error=str(e))
 
@@ -753,6 +756,7 @@ class TieredAuthenticator:
         try:
             # Add timing normalization for consistency
             import asyncio
+
             await asyncio.sleep(0.001)  # 1ms constant delay for timing normalization
 
             # Mock implementation - in production, retrieve from secure storage
@@ -764,11 +768,13 @@ class TieredAuthenticator:
         except argon2.exceptions.VerifyMismatchError:
             # Ensure constant timing even for errors
             import asyncio
+
             await asyncio.sleep(0.001)
             return False
         except Exception:
             # Ensure constant timing for all error cases
             import asyncio
+
             await asyncio.sleep(0.001)
             return False
 
@@ -780,6 +786,7 @@ class TieredAuthenticator:
 
             # Add small constant delay to normalize timing and reduce variance
             import asyncio
+
             await asyncio.sleep(0.001)  # 1ms constant delay for timing normalization
 
             totp = pyotp.TOTP(totp_secret)
@@ -787,6 +794,7 @@ class TieredAuthenticator:
         except Exception:
             # Ensure constant timing even for errors
             import asyncio
+
             await asyncio.sleep(0.001)
             return False
 
@@ -851,6 +859,7 @@ class TieredAuthenticator:
         try:
             # Add timing normalization for consistency
             import asyncio
+
             await asyncio.sleep(0.002)  # 2ms constant delay for biometric processing simulation
 
             confidence = attestation.get("confidence", 0.0)
@@ -865,6 +874,7 @@ class TieredAuthenticator:
         except Exception:
             # Ensure constant timing even for errors
             import asyncio
+
             await asyncio.sleep(0.002)
             return False
 
@@ -883,7 +893,7 @@ class TieredAuthenticator:
                     "auth_tier": tier,
                     "correlation_id": ctx.correlation_id,
                     "ip_address": ctx.ip_address,
-                    "permissions": self._get_tier_permissions(tier)
+                    "permissions": self._get_tier_permissions(tier),
                 }
 
                 if user_id:
@@ -903,7 +913,7 @@ class TieredAuthenticator:
                         iat=response.claims.iat,
                         exp=response.claims.exp,
                         realm=realm,
-                        zone=zone
+                        zone=zone,
                     )
 
                 return response.jwt
@@ -921,7 +931,14 @@ class TieredAuthenticator:
             "T2": ["public_read", "authenticated_read", "basic_write"],
             "T3": ["public_read", "authenticated_read", "basic_write", "mfa_protected"],
             "T4": ["public_read", "authenticated_read", "basic_write", "mfa_protected", "hardware_verified"],
-            "T5": ["public_read", "authenticated_read", "basic_write", "mfa_protected", "hardware_verified", "biometric_verified"]
+            "T5": [
+                "public_read",
+                "authenticated_read",
+                "basic_write",
+                "mfa_protected",
+                "hardware_verified",
+                "biometric_verified",
+            ],
         }
         return permissions_map.get(tier, [])
 
@@ -932,10 +949,7 @@ class TieredAuthenticator:
         try:
             if self.token_validator:
                 # Use I.1 ΛiD Token System for validation
-                context = ValidationContext(
-                    guardian_enabled=self.guardian is not None,
-                    ethical_validation_enabled=True
-                )
+                context = ValidationContext(guardian_enabled=self.guardian is not None, ethical_validation_enabled=True)
 
                 result = self.token_validator.verify(token, context)
 
@@ -944,7 +958,7 @@ class TieredAuthenticator:
                         tier="T1",  # Default to lowest tier on failure
                         ok=False,
                         reason=f"token_validation_failed: {result.error_message}",
-                        duration_ms=(time.perf_counter() - start_time) * 1000
+                        duration_ms=(time.perf_counter() - start_time) * 1000,
                     )
 
                 # Extract tier information from token claims
@@ -957,7 +971,7 @@ class TieredAuthenticator:
                         tier=auth_tier,
                         ok=False,
                         reason=f"insufficient_tier: required {required_tier}, got {auth_tier}",
-                        duration_ms=(time.perf_counter() - start_time) * 1000
+                        duration_ms=(time.perf_counter() - start_time) * 1000,
                     )
 
                 return AuthResult(
@@ -968,7 +982,7 @@ class TieredAuthenticator:
                     jwt_token=token,
                     correlation_id=result.claims.get("correlation_id"),
                     guardian_validated=result.guardian_approved,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
             else:
                 # Fallback validation
@@ -977,7 +991,7 @@ class TieredAuthenticator:
                     ok=True,  # Permissive fallback
                     reason="fallback_validation",
                     jwt_token=token,
-                    duration_ms=(time.perf_counter() - start_time) * 1000
+                    duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
         except Exception as e:
@@ -986,7 +1000,7 @@ class TieredAuthenticator:
                 tier="T1",
                 ok=False,
                 reason=f"validation_error: {str(e)}",
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
             )
 
     def _tier_level(self, tier: Tier) -> int:
@@ -1017,7 +1031,7 @@ class TieredAuthenticator:
                 "count": 0,
                 "first_attempt": now,
                 "last_attempt": now,
-                "ip_addresses": set()
+                "ip_addresses": set(),
             }
 
         attempt_data = self._failed_attempts[username]
@@ -1029,8 +1043,9 @@ class TieredAuthenticator:
         if attempt_data["count"] >= self.policy.max_attempts:
             attempt_data["locked_until"] = now + timedelta(minutes=self.policy.lockout_duration_minutes)
 
-            self.logger.warning("Account locked due to failed attempts",
-                              username=username, attempt_count=attempt_data["count"])
+            self.logger.warning(
+                "Account locked due to failed attempts", username=username, attempt_count=attempt_data["count"]
+            )
 
     async def _clear_failed_attempts(self, username: str) -> None:
         """Clear failed attempts on successful authentication."""
@@ -1040,8 +1055,7 @@ class TieredAuthenticator:
 
 # Convenience factory function
 def create_tiered_authenticator(
-    security_policy: Optional[SecurityPolicy] = None,
-    guardian_system: Optional[GuardianSystem] = None
+    security_policy: Optional[SecurityPolicy] = None, guardian_system: Optional[GuardianSystem] = None
 ) -> TieredAuthenticator:
     """Create a tiered authenticator with optional configuration."""
     return TieredAuthenticator(security_policy, guardian_system)
@@ -1092,7 +1106,7 @@ class Tiers:
                 webauthn_response=ctx.get("webauthn_response"),
                 biometric_attestation=ctx.get("biometric_attestation"),
                 existing_tier=ctx.get("existing_tier"),
-                nonce=ctx.get("nonce")
+                nonce=ctx.get("nonce"),
             )
         else:
             # Fallback for unknown context types

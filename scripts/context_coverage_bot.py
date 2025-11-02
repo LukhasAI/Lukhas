@@ -91,6 +91,7 @@ def main():
 
     root = pathlib.Path(args.manifests)
     all_files = list(root.rglob("module.manifest.json"))
+
     def is_archived(path: pathlib.Path) -> bool:
         """Check if a path contains an archived directory component.
 
@@ -101,6 +102,7 @@ def main():
             bool: True if any path component is '.archive', False otherwise.
         """
         return any(part == ".archive" for part in path.parts)
+
     manifest_files = [p for p in all_files if not is_archived(p)]
     ctx_files = [mf.parent / "lukhas_context.md" for mf in manifest_files]
 

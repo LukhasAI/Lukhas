@@ -604,9 +604,7 @@ def test_consciousness_module_imports():
     activation_orchestrator = importlib.import_module("consciousness.activation_orchestrator")
     registry = importlib.import_module("consciousness.registry")
     constellation_integration = importlib.import_module("consciousness.constellation_integration")
-    consciousness_memory_integration = importlib.import_module(
-        "memory.consciousness_memory_integration"
-    )
+    consciousness_memory_integration = importlib.import_module("memory.consciousness_memory_integration")
 
     assert registry is not None
     assert constellation_integration is not None

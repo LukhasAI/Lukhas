@@ -1,4 +1,5 @@
 """Utilities for working with Constellation star canon metadata."""
+
 from __future__ import annotations
 
 from typing import Dict, Iterable, List
@@ -48,4 +49,3 @@ def iter_star_definitions(canon: Dict[str, object]) -> Iterable[Dict[str, str]]:
         for entry in stars:
             if isinstance(entry, dict) and all(key in entry for key in _DEF_KEYS):
                 yield entry
-

@@ -59,11 +59,17 @@ def create_pr(branch: str, base: str, labels: List[str], dry_run: bool) -> bool:
         f"Please review and merge according to T4 standards."
     )
     args = [
-        "gh", "pr", "create",
-        "--base", base,
-        "--head", branch,
-        "--title", title,
-        "--body", body,
+        "gh",
+        "pr",
+        "create",
+        "--base",
+        base,
+        "--head",
+        branch,
+        "--title",
+        title,
+        "--body",
+        body,
     ]
     if labels:
         args += ["--label", ",".join(labels)]
@@ -114,4 +120,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

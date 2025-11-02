@@ -25,10 +25,7 @@ class TestTraceLogsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "trace_logs",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "trace_logs", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestTraceLogsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import trace_logs
+
         self.assertIsNotNone(trace_logs)
 
     def test_module_version(self):
         """Test module has version information."""
         import trace_logs
+
         # Most modules should have version info
-        self.assertTrue(hasattr(trace_logs, '__version__') or
-                       hasattr(trace_logs, 'VERSION'))
+        self.assertTrue(hasattr(trace_logs, "__version__") or hasattr(trace_logs, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestTraceLogsModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

@@ -38,7 +38,6 @@ except ImportError:
     logger.warning("MΛTRIZ RL components not available; using mock systems for metamorphic tests")
 
 
-
 class MetamorphicRelation(Enum):
     """Metamorphic relations for consciousness testing"""
 
@@ -359,7 +358,9 @@ class MetamorphicConsciousnessTesting:
                 logger.warning("ConsciousnessBuffer unavailable, continuing without memory integration: %s", exc)
 
             try:
-                self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # noqa: F821  # TODO: ConsciousnessMetaLearning
+                self.meta_learning = ConsciousnessMetaLearning(
+                    max_experiences=128
+                )  # noqa: F821  # TODO: ConsciousnessMetaLearning
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("ConsciousnessMetaLearning unavailable: %s", exc)
 
@@ -540,9 +541,9 @@ class MetamorphicConsciousnessTesting:
             self._ensure_coordination_agents()
             proposals = {
                 "guardian_observer": "pass" if relation_holds else "investigate",
-                "metamorphic_monitor": "pass"
-                if follow_up_result.state.get("temporal_coherence", 0.95) >= 0.95
-                else "investigate",
+                "metamorphic_monitor": (
+                    "pass" if follow_up_result.state.get("temporal_coherence", 0.95) >= 0.95 else "investigate"
+                ),
             }
             coordination_decision = self.coordination.coordinate_decision("metamorphic_relation", proposals)
             self.coordination_events += 1

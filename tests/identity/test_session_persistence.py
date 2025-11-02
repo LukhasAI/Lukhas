@@ -30,7 +30,7 @@ class MockSecretProvider:
         self.secrets = secrets or {
             "test-key-1": b"secret-key-for-testing-purposes-32-bytes",
             "test-key-2": b"rotated-secret-key-for-testing-32-b",
-            "current": b"current-active-key-for-testing-32-b"
+            "current": b"current-active-key-for-testing-32-b",
         }
         self.current_kid = "current"
 
@@ -58,7 +58,7 @@ class TestSessionData:
             created_at=now,
             expires_at=expires,
             last_accessed=now,
-            metadata={"test": "data"}
+            metadata={"test": "data"},
         )
 
         assert session.session_id == "test-session-id"
@@ -78,7 +78,7 @@ class TestSessionData:
             created_at=now,
             expires_at=now + timedelta(hours=1),
             last_accessed=now,
-            metadata={}
+            metadata={},
         )
         assert not future_session.is_expired()
 
@@ -90,7 +90,7 @@ class TestSessionData:
             created_at=now - timedelta(hours=2),
             expires_at=now - timedelta(hours=1),
             last_accessed=now - timedelta(hours=1),
-            metadata={}
+            metadata={},
         )
         assert expired_session.is_expired()
 
@@ -104,7 +104,7 @@ class TestSessionData:
             created_at=now - timedelta(minutes=30),
             expires_at=now + timedelta(hours=1),
             last_accessed=now - timedelta(minutes=10),
-            metadata={}
+            metadata={},
         )
 
         old_access_time = session.last_accessed
@@ -123,7 +123,7 @@ class TestSessionData:
             created_at=now,
             expires_at=now + timedelta(hours=1),
             last_accessed=now,
-            metadata={"key": "value", "number": 42}
+            metadata={"key": "value", "number": 42},
         )
 
         # Convert to dict and back
@@ -167,7 +167,7 @@ class TestSQLiteSessionStore:
             created_at=now,
             expires_at=now + timedelta(hours=1),
             last_accessed=now,
-            metadata={"test": "data"}
+            metadata={"test": "data"},
         )
 
         # Store session
@@ -198,7 +198,7 @@ class TestSQLiteSessionStore:
             created_at=now,
             expires_at=now + timedelta(hours=1),
             last_accessed=now,
-            metadata={}
+            metadata={},
         )
 
         # Store and verify
@@ -223,7 +223,7 @@ class TestSQLiteSessionStore:
             created_at=now - timedelta(hours=2),
             expires_at=now - timedelta(hours=1),
             last_accessed=now - timedelta(hours=1),
-            metadata={}
+            metadata={},
         )
 
         # Create valid session
@@ -234,7 +234,7 @@ class TestSQLiteSessionStore:
             created_at=now,
             expires_at=now + timedelta(hours=1),
             last_accessed=now,
-            metadata={}
+            metadata={},
         )
 
         # Store both sessions
@@ -263,7 +263,7 @@ class TestSQLiteSessionStore:
                 created_at=now,
                 expires_at=now + timedelta(hours=1),
                 last_accessed=now,
-                metadata={"index": i}
+                metadata={"index": i},
             )
             for i in range(5)
         ]
@@ -294,7 +294,7 @@ class TestSQLiteSessionStore:
                 created_at=now,
                 expires_at=now + timedelta(hours=1),
                 last_accessed=now,
-                metadata={}
+                metadata={},
             )
             await sqlite_store.put(session)
 
@@ -328,7 +328,7 @@ class TestRedisSessionStore:
             created_at=now,
             expires_at=now + timedelta(hours=1),
             last_accessed=now,
-            metadata={"redis": "test"}
+            metadata={"redis": "test"},
         )
 
         # Store session
@@ -354,20 +354,13 @@ class TestSessionManager:
     def session_manager(self, temp_db_path):
         """Provide session manager with SQLite backend"""
         store = SQLiteSessionStore(db_path=temp_db_path)
-        return SessionManager(
-            store=store,
-            default_ttl_seconds=3600,
-            auto_sweep=False  # Disable for testing
-        )
+        return SessionManager(store=store, default_ttl_seconds=3600, auto_sweep=False)  # Disable for testing
 
     @pytest.mark.asyncio
     async def test_create_session(self, session_manager):
         """Test creating sessions through manager"""
         session = await session_manager.create_session(
-            user_id="manager-user",
-            tier="T3",
-            metadata={"manager": "test"},
-            ttl_seconds=7200
+            user_id="manager-user", tier="T3", metadata={"manager": "test"}, ttl_seconds=7200
         )
 
         assert session.user_id == "manager-user"
@@ -386,9 +379,7 @@ class TestSessionManager:
         sessions = []
         for i in range(3):
             session = await session_manager.create_session(
-                user_id="multi-session-user",
-                tier="T1",
-                metadata={"session": i}
+                user_id="multi-session-user", tier="T1", metadata={"session": i}
             )
             sessions.append(session)
 
@@ -399,10 +390,7 @@ class TestSessionManager:
     @pytest.mark.asyncio
     async def test_delete_session(self, session_manager):
         """Test deleting sessions through manager"""
-        session = await session_manager.create_session(
-            user_id="delete-user",
-            tier="T1"
-        )
+        session = await session_manager.create_session(user_id="delete-user", tier="T1")
 
         # Verify exists
         retrieved = await session_manager.get_session(session.session_id)
@@ -421,10 +409,7 @@ class TestSessionManager:
         """Test session manager statistics"""
         # Create some sessions
         for i in range(2):
-            await session_manager.create_session(
-                user_id=f"stats-user-{i}",
-                tier="T1"
-            )
+            await session_manager.create_session(user_id=f"stats-user-{i}", tier="T1")
 
         stats = await session_manager.get_statistics()
         assert stats["session_count"] >= 2
@@ -441,11 +426,7 @@ class TestTokenGeneratorCRC32:
     @pytest.fixture
     def token_generator(self, secret_provider):
         """Provide token generator"""
-        return TokenGenerator(
-            secret_provider=secret_provider,
-            ttl_seconds=3600,
-            issuer="test.ai"
-        )
+        return TokenGenerator(secret_provider=secret_provider, ttl_seconds=3600, issuer="test.ai")
 
     def test_crc32_calculation(self):
         """Test CRC32 checksum calculation"""
@@ -453,7 +434,7 @@ class TestTokenGeneratorCRC32:
         crc = _calculate_crc32(test_data)
 
         assert len(crc) == 8  # 8 hex characters
-        assert all(c in '0123456789abcdef' for c in crc)
+        assert all(c in "0123456789abcdef" for c in crc)
 
         # Verify consistency
         assert _calculate_crc32(test_data) == crc
@@ -473,17 +454,9 @@ class TestTokenGeneratorCRC32:
 
     def test_enhanced_token_creation(self, token_generator):
         """Test creating tokens with CRC32 enhancement"""
-        claims = {
-            "aud": "test-audience",
-            "lukhas_tier": 2,
-            "permissions": ["read", "write"]
-        }
+        claims = {"aud": "test-audience", "lukhas_tier": 2, "permissions": ["read", "write"]}
 
-        response = token_generator.create(
-            claims=claims,
-            realm="test-realm",
-            zone="test-zone"
-        )
+        response = token_generator.create(claims=claims, realm="test-realm", zone="test-zone")
 
         # Verify response structure
         assert isinstance(response, TokenResponse)
@@ -494,17 +467,13 @@ class TestTokenGeneratorCRC32:
         assert response.schema_version == "1.1.0"
 
         # Verify JWT has CRC32 trailer
-        jwt_parts = response.jwt.split('.')
+        jwt_parts = response.jwt.split(".")
         assert len(jwt_parts) == 4  # header.payload.signature.crc32
 
     def test_crc32_validation(self, token_generator):
         """Test CRC32 validation of tokens"""
         claims = {"test": "data"}
-        response = token_generator.create(
-            claims=claims,
-            realm="test",
-            zone="test"
-        )
+        response = token_generator.create(claims=claims, realm="test", zone="test")
 
         # Valid CRC32
         assert token_generator.validate_crc32(response.jwt) is True
@@ -519,17 +488,13 @@ class TestTokenGeneratorCRC32:
     def test_jwt_extraction(self, token_generator):
         """Test extracting standard JWT from enhanced token"""
         claims = {"test": "extraction"}
-        response = token_generator.create(
-            claims=claims,
-            realm="test",
-            zone="test"
-        )
+        response = token_generator.create(claims=claims, realm="test", zone="test")
 
         # Extract standard JWT
         standard_jwt = token_generator.extract_jwt_from_enhanced(response.jwt)
 
         # Should have 3 parts (no CRC32)
-        parts = standard_jwt.split('.')
+        parts = standard_jwt.split(".")
         assert len(parts) == 3
 
         # Should be valid JWT format
@@ -545,11 +510,7 @@ class TestTokenGeneratorCRC32:
         assert token_generator.kid == "test-key-1"
 
         # Create token with new key
-        response = token_generator.create(
-            claims={"test": "rotation"},
-            realm="test",
-            zone="test"
-        )
+        response = token_generator.create(claims={"test": "rotation"}, realm="test", zone="test")
         assert response.kid == "test-key-1"
 
     def test_legacy_jwt_compatibility(self, token_generator):
@@ -560,7 +521,7 @@ class TestTokenGeneratorCRC32:
         legacy_jwt = token_generator._create_jwt(claims)
 
         # Should have 3 parts (no CRC32)
-        parts = legacy_jwt.split('.')
+        parts = legacy_jwt.split(".")
         assert len(parts) == 3
 
         # Should be valid JWT
@@ -600,11 +561,7 @@ class TestPerformanceRequirements:
 
         for i in range(100):
             start = time.perf_counter()
-            await session_manager.create_session(
-                user_id=f"perf-user-{i}",
-                tier="T1",
-                metadata={"test": i}
-            )
+            await session_manager.create_session(user_id=f"perf-user-{i}", tier="T1", metadata={"test": i})
             duration = (time.perf_counter() - start) * 1000  # ms
             durations.append(duration)
 
@@ -619,10 +576,7 @@ class TestPerformanceRequirements:
     async def test_session_read_performance(self, session_manager):
         """Test session read performance <3ms p95"""
         # Create test session
-        session = await session_manager.create_session(
-            user_id="perf-read-user",
-            tier="T1"
-        )
+        session = await session_manager.create_session(user_id="perf-read-user", tier="T1")
 
         durations = []
 
@@ -648,11 +602,7 @@ class TestPerformanceRequirements:
 
         for i in range(1000):
             start = time.perf_counter()
-            generator.create(
-                claims={"test": i},
-                realm="perf",
-                zone="test"
-            )
+            generator.create(claims={"test": i}, realm="perf", zone="test")
             duration = (time.perf_counter() - start) * 1000  # ms
             durations.append(duration)
 
@@ -712,20 +662,14 @@ class TestIntegrationScenarios:
 
         # Step 1: Create session
         session = await session_manager.create_session(
-            user_id="integration-user",
-            tier="T2",
-            metadata={"device": "test-device"}
+            user_id="integration-user", tier="T2", metadata={"device": "test-device"}
         )
 
         # Step 2: Generate token for session
         token_response = token_generator.create(
-            claims={
-                "session_id": session.session_id,
-                "lukhas_tier": 2,
-                "permissions": ["read", "write"]
-            },
+            claims={"session_id": session.session_id, "lukhas_tier": 2, "permissions": ["read", "write"]},
             realm="integration",
-            zone="test"
+            zone="test",
         )
 
         # Step 3: Validate token CRC32
@@ -744,26 +688,15 @@ class TestIntegrationScenarios:
         session_manager, token_generator = full_system
 
         # Create session and token with initial key
-        session = await session_manager.create_session(
-            user_id="rotation-user",
-            tier="T1"
-        )
+        session = await session_manager.create_session(user_id="rotation-user", tier="T1")
 
-        old_token = token_generator.create(
-            claims={"session_id": session.session_id},
-            realm="rotation",
-            zone="test"
-        )
+        old_token = token_generator.create(claims={"session_id": session.session_id}, realm="rotation", zone="test")
 
         # Rotate key
         token_generator.rotate_key("test-key-1")
 
         # Create new token with rotated key
-        new_token = token_generator.create(
-            claims={"session_id": session.session_id},
-            realm="rotation",
-            zone="test"
-        )
+        new_token = token_generator.create(claims={"session_id": session.session_id}, realm="rotation", zone="test")
 
         # Both tokens should be valid (different keys)
         assert token_generator.validate_crc32(new_token.jwt)

@@ -27,6 +27,7 @@ except ImportError as e:
 DEFAULT_AWAIT_TIMEOUT_S = 10.0  # cap awaits to avoid hanging CI
 STRESS_TEST_DURATION_S = float(__import__("os").environ.get("LUKHAS_STRESS_DURATION", "3.0"))
 
+
 async def _guarded(awaitable, timeout: float = DEFAULT_AWAIT_TIMEOUT_S):
     """Await with a timeout to prevent hangs; raises asyncio.TimeoutError on breach."""
     return await asyncio.wait_for(awaitable, timeout=timeout)
@@ -175,9 +176,7 @@ class TestConsciousnessEmergence:
 
             # If patterns were processed, validate they show measurable transformations
             if processor_stats.get("signals_processed", 0) > 0:
-                assert (
-                    processor_stats["adaptation_rate"] > 0
-                ), "Should have successful adaptations if signals processed"
+                assert processor_stats["adaptation_rate"] > 0, "Should have successful adaptations if signals processed"
 
         finally:
             await _guarded(system.stop_system())
@@ -221,7 +220,9 @@ class TestConsciousnessEmergence:
 
                 if signals_processed > 0:
                     prevention_rate = cascade_preventions / signals_processed
-                    assert prevention_rate >= 0.0, f"Cascade prevention rate: {prevention_rate:.3f}"  # Allow any prevention rate for now
+                    assert (
+                        prevention_rate >= 0.0
+                    ), f"Cascade prevention rate: {prevention_rate:.3f}"  # Allow any prevention rate for now
 
             # Validate rapid processing didn't cause system degradation
             final_status = system.get_system_status()

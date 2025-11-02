@@ -24,16 +24,11 @@ class TestOrchestratoresWithCircuitBreakers:
 
     def setup_method(self):
         """Set up test orchestrator with mock nodes"""
-        self.orchestrator = AsyncCognitiveOrchestrator(
-            total_timeout=0.500  # 500ms total budget for testing
-        )
+        self.orchestrator = AsyncCognitiveOrchestrator(total_timeout=0.500)  # 500ms total budget for testing
 
         # Create mock nodes
         self.mock_node = Mock(spec=CognitiveNode)
-        self.mock_node.process.return_value = {
-            "answer": "Test response",
-            "confidence": 0.9
-        }
+        self.mock_node.process.return_value = {"answer": "Test response", "confidence": 0.9}
 
         self.orchestrator.register_node("test_node", self.mock_node)
 
@@ -73,16 +68,13 @@ class TestOrchestratoresWithCircuitBreakers:
                 else:
                     breaker_states.append(status)
 
-            assert any(
-                state in {"open", "half_open"} for state in breaker_states if state
-            ) or any(state is not None for state in breaker_states)
+            assert any(state in {"open", "half_open"} for state in breaker_states if state) or any(
+                state is not None for state in breaker_states
+            )
 
         # Now fix the mock and test recovery
         self.mock_node.process.side_effect = None
-        self.mock_node.process.return_value = {
-            "answer": "Recovery response",
-            "confidence": 0.8
-        }
+        self.mock_node.process.return_value = {"answer": "Recovery response", "confidence": 0.8}
 
         # Give time for recovery timeout (circuit breakers have 30s recovery)
         # In test, we'll just verify the mechanism exists
@@ -92,13 +84,14 @@ class TestOrchestratoresWithCircuitBreakers:
     @pytest.mark.asyncio
     async def test_performance_degradation_detection(self):
         """Test that performance degradation is detected"""
+
         # Create slow responses to trigger performance degradation
         async def slow_process(*args, **kwargs):
             await asyncio.sleep(0.1)  # 100ms delay
             return {"answer": "Slow response", "confidence": 0.7}
 
         # Patch the node processing to be slow
-        with patch.object(self.orchestrator, '_process_node_async', slow_process):
+        with patch.object(self.orchestrator, "_process_node_async", slow_process):
             for i in range(10):
                 try:
                     await self.orchestrator.process_query(f"slow query {i}")
@@ -113,12 +106,13 @@ class TestOrchestratoresWithCircuitBreakers:
     @pytest.mark.asyncio
     async def test_adaptive_timeout_behavior(self):
         """Test that timeouts are enforced properly"""
+
         # Create a very slow mock that will definitely timeout
         async def timeout_process(*args, **kwargs):
             await asyncio.sleep(1.0)  # 1 second - much longer than 120ms stage timeout
             return {"answer": "Too slow", "confidence": 0.1}
 
-        with patch.object(self.orchestrator, '_process_node_async', timeout_process):
+        with patch.object(self.orchestrator, "_process_node_async", timeout_process):
             start_time = time.perf_counter()
             result = await self.orchestrator.process_query("timeout test")
             end_time = time.perf_counter()
@@ -192,10 +186,7 @@ class TestOrchestratoresWithCircuitBreakers:
 
         # Check that validation stage was attempted but failed gracefully
         if "stages" in result:
-            validation_stages = [
-                stage for stage in result["stages"]
-                if stage.get("stage_type", "") == "validation"
-            ]
+            validation_stages = [stage for stage in result["stages"] if stage.get("stage_type", "") == "validation"]
             if validation_stages:
                 # Validation should have failed but not stopped the pipeline
                 assert not validation_stages[0]["success"]

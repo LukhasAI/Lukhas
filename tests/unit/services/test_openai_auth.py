@@ -1,4 +1,5 @@
 """Unit tests for OpenAI façade authentication helpers."""
+
 from __future__ import annotations
 
 import json

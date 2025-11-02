@@ -32,6 +32,7 @@ Author: Lukhas AI Research Team - Global Compliance Division
 Version: 1.0.0 - Global Institutional Edition
 Date: June 2025
 """
+
 import json
 import logging
 import uuid

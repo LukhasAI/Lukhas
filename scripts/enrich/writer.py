@@ -64,17 +64,14 @@ def ledger_append(root: Path, module_dir: Path, before: Dict, after: Dict):
     sha = hashlib.sha1(manifest_json.encode()).hexdigest()
 
     # Find changed fields
-    diff_fields = sorted(
-        set(after.keys()) ^ set(before.keys()) |
-        {k for k in after if before.get(k) != after.get(k)}
-    )
+    diff_fields = sorted(set(after.keys()) ^ set(before.keys()) | {k for k in after if before.get(k) != after.get(k)})
 
     # Create audit record
     record = {
         "module": module_name,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "sha": sha,
-        "diff_fields": diff_fields
+        "diff_fields": diff_fields,
     }
 
     # Append to ledger (NDJSON format)
@@ -111,7 +108,7 @@ def has_source_changed(module_dir: Path, last_hashes: Dict[str, str]) -> bool:
         "claude.me",
         "lukhas_context.md",
         "__init__.py",
-        "module.manifest.json"  # Check if someone manually edited
+        "module.manifest.json",  # Check if someone manually edited
     ]
 
     for source in sources:

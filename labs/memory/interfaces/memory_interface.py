@@ -10,6 +10,7 @@ from typing import Any, Optional
 
 class ValidationResult(Enum):
     """Memory validation result states"""
+
     VALID = "valid"
     INVALID = "invalid"
     CORRUPTED = "corrupted"
@@ -19,6 +20,7 @@ class ValidationResult(Enum):
 @dataclass
 class MemoryOperation:
     """Basic memory operation structure"""
+
     operation_type: str
     content: Optional[Any] = None
     metadata: Optional[dict] = None

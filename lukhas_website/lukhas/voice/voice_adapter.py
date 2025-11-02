@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 class VoiceStyle(Enum):
     """Available voice styles"""
+
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
     GUARDIAN = "guardian"
@@ -28,6 +29,7 @@ class VoiceStyle(Enum):
 @dataclass
 class AdaptationContext:
     """Context for voice adaptation"""
+
     audience: str = "general"
     purpose: str = "communication"
     formality_level: float = 0.5
@@ -39,6 +41,7 @@ class AdaptationContext:
 @dataclass
 class AdaptationResult:
     """Result of voice adaptation"""
+
     original_text: str
     adapted_text: str
     style_applied: str
@@ -53,10 +56,12 @@ class VoiceAdapter:
     Adjusts voice output based on context, audience, and purpose
     """
 
-    def __init__(self,
-                 default_style: VoiceStyle = VoiceStyle.CONSCIOUSNESS,
-                 enable_context_learning: bool = True,
-                 constellation_integration: bool = True):
+    def __init__(
+        self,
+        default_style: VoiceStyle = VoiceStyle.CONSCIOUSNESS,
+        enable_context_learning: bool = True,
+        constellation_integration: bool = True,
+    ):
         """Initialize voice adapter"""
         self.default_style = default_style
         self.enable_context_learning = enable_context_learning
@@ -70,57 +75,51 @@ class VoiceAdapter:
                 "depth": 0.8,
                 "complexity": 0.7,
                 "empathy": 0.8,
-                "technical": 0.6
+                "technical": 0.6,
             },
             VoiceStyle.IDENTITY: {
                 "tone": "authentic",
                 "depth": 0.7,
                 "complexity": 0.6,
                 "empathy": 0.7,
-                "technical": 0.5
+                "technical": 0.5,
             },
             VoiceStyle.GUARDIAN: {
                 "tone": "protective",
                 "depth": 0.6,
                 "complexity": 0.7,
                 "empathy": 0.6,
-                "technical": 0.7
+                "technical": 0.7,
             },
             VoiceStyle.TECHNICAL: {
                 "tone": "precise",
                 "depth": 0.5,
                 "complexity": 0.9,
                 "empathy": 0.3,
-                "technical": 0.9
+                "technical": 0.9,
             },
             VoiceStyle.CREATIVE: {
                 "tone": "imaginative",
                 "depth": 0.8,
                 "complexity": 0.6,
                 "empathy": 0.7,
-                "technical": 0.4
+                "technical": 0.4,
             },
             VoiceStyle.FORMAL: {
                 "tone": "professional",
                 "depth": 0.5,
                 "complexity": 0.7,
                 "empathy": 0.4,
-                "technical": 0.6
+                "technical": 0.6,
             },
-            VoiceStyle.CASUAL: {
-                "tone": "friendly",
-                "depth": 0.4,
-                "complexity": 0.4,
-                "empathy": 0.6,
-                "technical": 0.3
-            },
+            VoiceStyle.CASUAL: {"tone": "friendly", "depth": 0.4, "complexity": 0.4, "empathy": 0.6, "technical": 0.3},
             VoiceStyle.EMPATHETIC: {
                 "tone": "caring",
                 "depth": 0.7,
                 "complexity": 0.5,
                 "empathy": 0.9,
-                "technical": 0.4
-            }
+                "technical": 0.4,
+            },
         }
 
         # Context learning storage
@@ -129,11 +128,13 @@ class VoiceAdapter:
 
         logger.info(f"🎭 Voice Adapter initialized with {len(self.style_configs)} styles")
 
-    def adapt(self,
-              text: str,
-              style: Union[str, VoiceStyle] = None,
-              context: Optional[AdaptationContext] = None,
-              learn_from_adaptation: bool = True) -> AdaptationResult:
+    def adapt(
+        self,
+        text: str,
+        style: Union[str, VoiceStyle] = None,
+        context: Optional[AdaptationContext] = None,
+        learn_from_adaptation: bool = True,
+    ) -> AdaptationResult:
         """
         Adapt text to specified style and context
 
@@ -186,8 +187,8 @@ class VoiceAdapter:
             metadata={
                 "style_config": style_config,
                 "constellation_integration": self.constellation_integration,
-                "context_learning": self.enable_context_learning
-            }
+                "context_learning": self.enable_context_learning,
+            },
         )
 
         # Learn from adaptation if enabled
@@ -196,11 +197,9 @@ class VoiceAdapter:
 
         return result
 
-    def _apply_style_adaptation(self,
-                              text: str,
-                              style: VoiceStyle,
-                              config: Dict[str, float],
-                              context: AdaptationContext) -> str:
+    def _apply_style_adaptation(
+        self, text: str, style: VoiceStyle, config: Dict[str, float], context: AdaptationContext
+    ) -> str:
         """Apply style-specific adaptation"""
         adapted = text
 
@@ -218,10 +217,7 @@ class VoiceAdapter:
 
         return adapted
 
-    def _apply_constellation_adaptation(self,
-                                      text: str,
-                                      style: VoiceStyle,
-                                      context: AdaptationContext) -> str:
+    def _apply_constellation_adaptation(self, text: str, style: VoiceStyle, context: AdaptationContext) -> str:
         """Apply Constellation Framework-specific adaptations"""
         if not self.constellation_integration:
             return text
@@ -274,29 +270,28 @@ class VoiceAdapter:
         # Placeholder for guardian focus adaptation
         return text
 
-    def _calculate_adaptation_metrics(self,
-                                    original: str,
-                                    adapted: str,
-                                    config: Dict[str, float]) -> Dict[str, float]:
+    def _calculate_adaptation_metrics(self, original: str, adapted: str, config: Dict[str, float]) -> Dict[str, float]:
         """Calculate adaptation quality metrics"""
         return {
             "adaptation_ratio": len(adapted) / max(len(original), 1),
             "style_alignment": sum(config.values()) / len(config),
             "text_coherence": 0.85,  # Placeholder
             "context_relevance": 0.80,  # Placeholder
-            "constellation_integration": 0.75 if self.constellation_integration else 0.0
+            "constellation_integration": 0.75 if self.constellation_integration else 0.0,
         }
 
     def _learn_from_adaptation(self, result: AdaptationResult) -> None:
         """Learn from adaptation for future improvements"""
         if self.enable_context_learning:
             # Store adaptation for learning
-            self.context_history.append({
-                "style": result.style_applied,
-                "context": result.context_used,
-                "metrics": result.adaptation_metrics,
-                "success_indicators": self._extract_success_indicators(result)
-            })
+            self.context_history.append(
+                {
+                    "style": result.style_applied,
+                    "context": result.context_used,
+                    "metrics": result.adaptation_metrics,
+                    "success_indicators": self._extract_success_indicators(result),
+                }
+            )
 
             # Limit history size
             if len(self.context_history) > 1000:
@@ -307,7 +302,7 @@ class VoiceAdapter:
         return {
             "coherence_score": result.adaptation_metrics.get("text_coherence", 0.0),
             "relevance_score": result.adaptation_metrics.get("context_relevance", 0.0),
-            "adaptation_quality": result.adaptation_metrics.get("style_alignment", 0.0)
+            "adaptation_quality": result.adaptation_metrics.get("style_alignment", 0.0),
         }
 
     def _create_empty_result(self, text: str) -> AdaptationResult:
@@ -318,7 +313,7 @@ class VoiceAdapter:
             style_applied=self.default_style.value,
             context_used=AdaptationContext(),
             adaptation_metrics={},
-            metadata={"empty_input": True}
+            metadata={"empty_input": True},
         )
 
     def get_available_styles(self) -> List[str]:
@@ -343,5 +338,5 @@ class VoiceAdapter:
             "constellation_integration": self.constellation_integration,
             "context_learning": self.enable_context_learning,
             "adaptation_history_size": len(self.context_history),
-            "styles": list(self.style_configs.keys())
+            "styles": list(self.style_configs.keys()),
         }

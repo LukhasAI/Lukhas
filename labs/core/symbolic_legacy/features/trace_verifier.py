@@ -5,6 +5,7 @@ Symbolic Trace Verifier
 
 Verifies symbolic traces against the AGENT_FLOW_MAP.md.
 """
+
 from typing import Any
 
 

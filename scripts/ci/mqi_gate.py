@@ -65,10 +65,7 @@ def score_manifest(manifest_path: Path) -> tuple[int, list[str]]:
     # 4. APIs import-verified + doc_ok (15 points)
     apis = data.get("apis", {})
     if apis:
-        verified = sum(
-            1 for v in apis.values()
-            if isinstance(v, dict) and v.get("import_verified") and v.get("doc_ok")
-        )
+        verified = sum(1 for v in apis.values() if isinstance(v, dict) and v.get("import_verified") and v.get("doc_ok"))
         total = len(apis)
 
         if verified == total:
@@ -136,17 +133,8 @@ def score_manifest(manifest_path: Path) -> tuple[int, list[str]]:
 
 def main():
     parser = argparse.ArgumentParser(description="MQI gate for manifest quality")
-    parser.add_argument(
-        "--min",
-        type=int,
-        default=90,
-        help="Minimum MQI score required (default: 90)"
-    )
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Show scores for all manifests"
-    )
+    parser.add_argument("--min", type=int, default=90, help="Minimum MQI score required (default: 90)")
+    parser.add_argument("--verbose", action="store_true", help="Show scores for all manifests")
 
     args = parser.parse_args()
 
@@ -154,7 +142,8 @@ def main():
 
     # Find all manifests
     manifests = [
-        m for m in root.rglob("module.manifest.json")
+        m
+        for m in root.rglob("module.manifest.json")
         if not any(part in m.parts for part in ["node_modules", ".venv", "dist", "__pycache__"])
     ]
 

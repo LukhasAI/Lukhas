@@ -7,10 +7,7 @@ from pathlib import Path
 
 def test_no_importlib_candidate_shims():
     """Ensure no direct importlib.import_module("candidate.*") calls outside allowed files."""
-    allowed_files = {
-        "lukhas/core/registry.py",
-        "candidate/core/orchestration/loader.py"
-    }
+    allowed_files = {"lukhas/core/registry.py", "candidate/core/orchestration/loader.py"}
 
     violations = []
 
@@ -23,7 +20,7 @@ def test_no_importlib_candidate_shims():
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Parse AST
@@ -31,12 +28,14 @@ def test_no_importlib_candidate_shims():
 
             # Look for importlib.import_module calls with candidate modules
             for node in ast.walk(tree):
-                if (isinstance(node, ast.Call) and
-                    isinstance(node.func, ast.Attribute) and
-                    isinstance(node.func.value, ast.Name) and
-                    node.func.value.id == "importlib" and
-                    node.func.attr == "import_module" and
-                    node.args):
+                if (
+                    isinstance(node, ast.Call)
+                    and isinstance(node.func, ast.Attribute)
+                    and isinstance(node.func.value, ast.Name)
+                    and node.func.value.id == "importlib"
+                    and node.func.attr == "import_module"
+                    and node.args
+                ):
 
                     # Check if argument contains "candidate"
                     arg = node.args[0]

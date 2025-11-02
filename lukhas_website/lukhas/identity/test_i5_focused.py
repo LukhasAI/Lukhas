@@ -57,11 +57,7 @@ async def test_i5_focused():
     guardian = MockGuardian()
 
     # Initialize I.5 components
-    tenant_manager = TenantManager(
-        token_generator=token_generator,
-        token_validator=token_validator,
-        guardian=guardian
-    )
+    tenant_manager = TenantManager(token_generator=token_generator, token_validator=token_validator, guardian=guardian)
 
     namespace_engine = NamespaceIsolationEngine(guardian=guardian)
 
@@ -72,9 +68,7 @@ async def test_i5_focused():
 
     # Enterprise tenant
     enterprise = await tenant_manager.create_tenant(
-        name="alpha-corp",
-        display_name="Alpha Corporation",
-        tenant_type=TenantType.ENTERPRISE
+        name="alpha-corp", display_name="Alpha Corporation", tenant_type=TenantType.ENTERPRISE
     )
 
     # Engineering organization
@@ -82,7 +76,7 @@ async def test_i5_focused():
         name="alpha-engineering",
         display_name="Alpha Engineering",
         tenant_type=TenantType.ORGANIZATION,
-        parent_tenant_id=enterprise.tenant_id
+        parent_tenant_id=enterprise.tenant_id,
     )
 
     logger.info(f"  ✅ Enterprise: {enterprise.name} (ns: {enterprise.namespace})")
@@ -108,7 +102,7 @@ async def test_i5_focused():
         email="admin@alpha-corp.com",
         roles=["enterprise_admin"],
         permissions=["full_access", "financial_data", "audit_access"],
-        max_tier_level=TierLevel.ADMIN
+        max_tier_level=TierLevel.ADMIN,
     )
 
     # Engineering developer
@@ -119,7 +113,7 @@ async def test_i5_focused():
         email="alice@alpha-corp.com",
         roles=["developer"],
         permissions=["code_access", "deploy", "testing"],
-        max_tier_level=TierLevel.ELEVATED
+        max_tier_level=TierLevel.ELEVATED,
     )
 
     logger.info(f"  ✅ Admin: {admin_user.username} (tier: {admin_user.max_tier_level.name})")
@@ -132,14 +126,14 @@ async def test_i5_focused():
         tenant_id=enterprise.tenant_id,
         user_id="admin_001",
         tier_level=TierLevel.ADMIN,
-        custom_claims={"department": "executive", "clearance": "high"}
+        custom_claims={"department": "executive", "clearance": "high"},
     )
 
     dev_token = await tenant_manager.generate_tenant_token(
         tenant_id=engineering.tenant_id,
         user_id="dev_001",
         tier_level=TierLevel.ELEVATED,
-        custom_claims={"team": "backend", "project": "api_v2"}
+        custom_claims={"team": "backend", "project": "api_v2"},
     )
 
     logger.info(f"  ✅ Admin token: {admin_token[:50]}...")
@@ -149,18 +143,14 @@ async def test_i5_focused():
     logger.info("\n💾 Test 5: Storing namespace-isolated data")
 
     # Enterprise financial data
-    financial_data = {
-        "quarterly_revenue": 10000000,
-        "profit_margin": 0.25,
-        "confidential": True
-    }
+    financial_data = {"quarterly_revenue": 10000000, "profit_margin": 0.25, "confidential": True}
 
     financial_request = DataAccessRequest(
         namespace=ent_ns,
         data_path="finance/q3_2024",
         access_mode=AccessMode.WRITE,
         requester_id="admin_001",
-        metadata={"classification": "confidential"}
+        metadata={"classification": "confidential"},
     )
 
     await namespace_engine.store_data(financial_request, financial_data, IsolationScope.TENANT)
@@ -170,7 +160,7 @@ async def test_i5_focused():
         "repository": "alpha-api-v2",
         "commit_hash": "abc123def456",
         "build_status": "passing",
-        "coverage": 0.92
+        "coverage": 0.92,
     }
 
     code_request = DataAccessRequest(
@@ -178,7 +168,7 @@ async def test_i5_focused():
         data_path="projects/api_v2/status",
         access_mode=AccessMode.WRITE,
         requester_id="dev_001",
-        metadata={"project": "api_v2", "branch": "main"}
+        metadata={"project": "api_v2", "branch": "main"},
     )
 
     await namespace_engine.store_data(code_request, code_data, IsolationScope.ORGANIZATION)
@@ -191,34 +181,24 @@ async def test_i5_focused():
 
     # Admin accesses financial data
     admin_validation = await tenant_manager.validate_tenant_token(
-        token=admin_token,
-        required_tenant=enterprise.tenant_id,
-        required_permissions=["financial_data"]
+        token=admin_token, required_tenant=enterprise.tenant_id, required_permissions=["financial_data"]
     )
 
     if admin_validation.valid:
         financial_retrieve = DataAccessRequest(
-            namespace=ent_ns,
-            data_path="finance/q3_2024",
-            access_mode=AccessMode.READ,
-            requester_id="admin_001"
+            namespace=ent_ns, data_path="finance/q3_2024", access_mode=AccessMode.READ, requester_id="admin_001"
         )
         retrieved_financial = await namespace_engine.retrieve_data(financial_retrieve)
         logger.info(f"  ✅ Admin retrieved: Q3 revenue = ${retrieved_financial['quarterly_revenue']:,}")
 
     # Developer accesses code data
     dev_validation = await tenant_manager.validate_tenant_token(
-        token=dev_token,
-        required_tenant=engineering.tenant_id,
-        required_permissions=["code_access"]
+        token=dev_token, required_tenant=engineering.tenant_id, required_permissions=["code_access"]
     )
 
     if dev_validation.valid:
         code_retrieve = DataAccessRequest(
-            namespace=eng_ns,
-            data_path="projects/api_v2/status",
-            access_mode=AccessMode.READ,
-            requester_id="dev_001"
+            namespace=eng_ns, data_path="projects/api_v2/status", access_mode=AccessMode.READ, requester_id="dev_001"
         )
         retrieved_code = await namespace_engine.retrieve_data(code_retrieve)
         logger.info(f"  ✅ Developer retrieved: {retrieved_code['repository']} - {retrieved_code['build_status']}")
@@ -228,9 +208,7 @@ async def test_i5_focused():
 
     # Try dev token on enterprise data (should fail)
     cross_tenant_validation = await tenant_manager.validate_tenant_token(
-        token=dev_token,
-        required_tenant=enterprise.tenant_id,
-        required_permissions=["financial_data"]
+        token=dev_token, required_tenant=enterprise.tenant_id, required_permissions=["financial_data"]
     )
 
     logger.info(f"  ✅ Cross-tenant access denied: {not cross_tenant_validation.valid}")
@@ -244,9 +222,7 @@ async def test_i5_focused():
     start_time = time.perf_counter()
     for i in range(25):
         await tenant_manager.generate_tenant_token(
-            tenant_id=engineering.tenant_id,
-            user_id="dev_001",
-            tier_level=TierLevel.AUTHENTICATED
+            tenant_id=engineering.tenant_id, user_id="dev_001", tier_level=TierLevel.AUTHENTICATED
         )
     token_time = (time.perf_counter() - start_time) / 25 * 1000
 
@@ -254,10 +230,7 @@ async def test_i5_focused():
     start_time = time.perf_counter()
     for i in range(10):
         test_request = DataAccessRequest(
-            namespace=eng_ns,
-            data_path=f"test/item_{i}",
-            access_mode=AccessMode.WRITE,
-            requester_id="dev_001"
+            namespace=eng_ns, data_path=f"test/item_{i}", access_mode=AccessMode.WRITE, requester_id="dev_001"
         )
         await namespace_engine.store_data(test_request, {"test": i})
     data_time = (time.perf_counter() - start_time) / 10 * 1000
@@ -309,7 +282,7 @@ async def test_i5_focused():
         "guardian_validations": guardian.validation_calls,
         "guardian_monitoring": guardian.monitor_calls,
         "cross_tenant_access_denied": True,
-        "i1_integration_working": admin_validation.valid and dev_validation.valid
+        "i1_integration_working": admin_validation.valid and dev_validation.valid,
     }
 
 

@@ -26,7 +26,7 @@ from memory.adaptive_memory import (
 
 def generate_random_content(size: int = 100) -> str:
     """Generate random content for testing"""
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=size))
+    return "".join(random.choices(string.ascii_letters + string.digits, k=size))
 
 
 class TestTopKRecall:
@@ -71,10 +71,7 @@ class TestTopKRecall:
         # Test recall performance
         latencies = []
         for _ in range(10):
-            recalled, latency = memory.recall_top_k(
-                k=20,
-                tags=[f"tag{random.randint(0, 99)}"]
-            )
+            recalled, latency = memory.recall_top_k(k=20, tags=[f"tag{random.randint(0, 99)}"])
             latencies.append(latency)
 
         avg_latency = sum(latencies) / len(latencies)
@@ -108,11 +105,7 @@ class TestTopKRecall:
         assert len(even_items) > 0
 
         # Test combined filters
-        group0_semantic, _ = memory.recall_top_k(
-            k=5,
-            memory_type=MemoryType.SEMANTIC,
-            tags=["group0"]
-        )
+        group0_semantic, _ = memory.recall_top_k(k=5, memory_type=MemoryType.SEMANTIC, tags=["group0"])
         assert len(group0_semantic) > 0
 
     def test_relevance_scoring(self):
@@ -152,8 +145,9 @@ class TestTopKRecall:
         new_important_idx = next(i for i, content in enumerate(contents) if "New important" in content)
         old_unimportant_idx = next(i for i, content in enumerate(contents) if "Old unimportant" in content)
 
-        assert scores[new_important_idx] > scores[old_unimportant_idx], \
-            f"New important item should score higher: {scores[new_important_idx]:.10f} vs {scores[old_unimportant_idx]:.10f}"
+        assert (
+            scores[new_important_idx] > scores[old_unimportant_idx]
+        ), f"New important item should score higher: {scores[new_important_idx]:.10f} vs {scores[old_unimportant_idx]:.10f}"
 
     def test_context_window_generation(self):
         """Test context window generation with token limits"""
@@ -230,10 +224,7 @@ class TestTopKRecall:
         memory.store(content="Item 3", embedding=embedding3)
 
         # Recall with query embedding similar to item 1
-        recalled, _ = memory.recall_top_k(
-            k=2,
-            query_embedding=[0.95, 0.05, 0.0]
-        )
+        recalled, _ = memory.recall_top_k(k=2, query_embedding=[0.95, 0.05, 0.0])
 
         # Should recall items 1 and 3 (similar embeddings)
         contents = [item.content for item in recalled]
@@ -285,10 +276,7 @@ class TestScheduledFolding:
         assert memory.metrics["consolidations"] > 0
 
         # Should have consolidated item
-        consolidated_items = [
-            item for item in memory.items.values()
-            if item.id.startswith("fold_")
-        ]
+        consolidated_items = [item for item in memory.items.values() if item.id.startswith("fold_")]
         assert len(consolidated_items) > 0
 
     def test_fold_size_trigger(self):

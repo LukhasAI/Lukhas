@@ -16,6 +16,7 @@ import pytest
 @dataclass
 class SLOMetric:
     """SLO metric with burn rate calculation"""
+
     name: str
     slo_target_ms: float
     error_budget: float
@@ -65,7 +66,7 @@ class BurnRateCalculator:
         slo = self.SLO_TARGETS[metric_name]
 
         # Burn rate = current error rate / error budget
-        return error_rate / slo.error_budget if slo.error_budget > 0 else float('inf')
+        return error_rate / slo.error_budget if slo.error_budget > 0 else float("inf")
 
     def check_burn_rate_violation(self, metric_name: str) -> Dict[str, bool]:
         """Check if burn rate exceeds thresholds"""
@@ -145,7 +146,7 @@ class TestBurnRateCalculation:
         for i in range(8):
             calc.add_metric("guardian_latency", now - timedelta(minutes=i), 80.0)
         for i in range(2):
-            calc.add_metric("guardian_latency", now - timedelta(minutes=i+8), 150.0)  # violation
+            calc.add_metric("guardian_latency", now - timedelta(minutes=i + 8), 150.0)  # violation
 
         error_rate = calc.calculate_error_rate("guardian_latency", 1)
         assert error_rate == 0.2  # 20%
@@ -186,7 +187,7 @@ class TestBurnRateCalculation:
 
         # Add 3 violations in 6 hours (exceeds 2 error threshold)
         for i in range(97):
-            calc.add_metric("guardian_latency", now - timedelta(hours=i/20), 80.0)
+            calc.add_metric("guardian_latency", now - timedelta(hours=i / 20), 80.0)
         for i in range(3):
             calc.add_metric("guardian_latency", now - timedelta(hours=i), 150.0)
 
@@ -201,7 +202,7 @@ class TestBurnRateCalculation:
 
         # Add minimal violations within thresholds
         for i in range(98):
-            calc.add_metric("guardian_latency", now - timedelta(hours=i/20), 80.0)
+            calc.add_metric("guardian_latency", now - timedelta(hours=i / 20), 80.0)
         for i in range(2):  # Only 2 violations, within 6h threshold
             calc.add_metric("guardian_latency", now - timedelta(hours=i), 150.0)
 
@@ -216,9 +217,9 @@ class TestBurnRateCalculation:
 
         # Test each metric individually
         metrics_to_test = [
-            ("guardian_latency", 100.0, 150.0),   # Target: 100ms, violation: 150ms
-            ("memory_latency", 1000.0, 1500.0),   # Target: 1ms, violation: 1.5ms
-            ("orchestrator_latency", 250000.0, 300000.0)  # Target: 250ms, violation: 300ms
+            ("guardian_latency", 100.0, 150.0),  # Target: 100ms, violation: 150ms
+            ("memory_latency", 1000.0, 1500.0),  # Target: 1ms, violation: 1.5ms
+            ("orchestrator_latency", 250000.0, 300000.0),  # Target: 250ms, violation: 300ms
         ]
 
         for metric_name, target, violation_value in metrics_to_test:
@@ -251,7 +252,7 @@ class TestBurnRateCalculation:
 
         result = calc.check_burn_rate_violation("guardian_latency")
         assert result["1h_violation"] is False  # Old violations should not count
-        assert result["6h_violation"] is True   # But should affect 6h window
+        assert result["6h_violation"] is True  # But should affect 6h window
 
     @pytest.mark.performance
     def test_burn_rate_calculation_performance(self):
@@ -305,15 +306,15 @@ class TestSLOBurnRateIntegration:
 
         # 95% fast responses
         for i in range(950):
-            observations.append((now - timedelta(seconds=i*3.6), 75.0 + (i % 20)))
+            observations.append((now - timedelta(seconds=i * 3.6), 75.0 + (i % 20)))
 
         # 4% borderline responses
         for i in range(40):
-            observations.append((now - timedelta(seconds=i*3.6 + 950*3.6), 95.0))
+            observations.append((now - timedelta(seconds=i * 3.6 + 950 * 3.6), 95.0))
 
         # 1% SLO violations
         for i in range(10):
-            observations.append((now - timedelta(seconds=i*3.6 + 990*3.6), 150.0))
+            observations.append((now - timedelta(seconds=i * 3.6 + 990 * 3.6), 150.0))
 
         # Add all observations
         for timestamp, latency in observations:
@@ -367,23 +368,23 @@ class TestSLOBurnRateIntegration:
         # Create scenario with recent improvement after earlier problems
         # Hours 3-6: High error rate (old)
         for i in range(50):
-            calc.add_metric("guardian_latency", now - timedelta(hours=3 + i/12.5), 150.0)
+            calc.add_metric("guardian_latency", now - timedelta(hours=3 + i / 12.5), 150.0)
 
         # Hours 1-3: Medium error rate
         for i in range(60):
-            calc.add_metric("guardian_latency", now - timedelta(hours=1 + i/30), 120.0)
+            calc.add_metric("guardian_latency", now - timedelta(hours=1 + i / 30), 120.0)
 
         # Last hour: Good performance
         for i in range(58):
             calc.add_metric("guardian_latency", now - timedelta(minutes=i), 80.0)
         for i in range(2):  # Minimal violations
-            calc.add_metric("guardian_latency", now - timedelta(minutes=i+58), 110.0)
+            calc.add_metric("guardian_latency", now - timedelta(minutes=i + 58), 110.0)
 
         result = calc.check_burn_rate_violation("guardian_latency")
 
         # Should show recovery: 1h window good, 6h window still affected
         assert result["1h_violation"] is False  # Recent recovery
-        assert result["6h_violation"] is True   # Historical problems still impact 6h window
+        assert result["6h_violation"] is True  # Historical problems still impact 6h window
 
 
 if __name__ == "__main__":

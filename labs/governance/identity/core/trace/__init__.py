@@ -11,6 +11,7 @@ Features:
 - Pattern recognition integration
 - Compliance tracking
 """
+
 import logging
 
 import streamlit as st

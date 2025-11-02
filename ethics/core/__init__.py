@@ -49,6 +49,7 @@ except Exception:  # pragma: no cover
     class SharedEthicsEngine:  # type: ignore
         pass
 
+
 __all__ = [
     "DecisionType",
     "EthicalConstraint",
@@ -58,4 +59,3 @@ __all__ = [
     "SharedEthicsEngine",
     "get_shared_ethics_engine",
 ]
-

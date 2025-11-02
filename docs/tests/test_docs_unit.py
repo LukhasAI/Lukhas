@@ -23,14 +23,16 @@ def test_module_imports():
     except ImportError as e:
         pytest.skip(f"Module docs not available: {e}")
 
+
 def test_module_has_init():
     """Test that the docs module has proper __init__.py."""
     try:
         module = importlib.import_module("docs")
         # Check for common attributes
-        assert hasattr(module, '__file__')
+        assert hasattr(module, "__file__")
     except ImportError:
         pytest.skip("Module docs not available")
+
 
 class TestDocsCore:
     """Unit tests for docs core functionality."""
@@ -39,6 +41,7 @@ class TestDocsCore:
         """Test basic component instantiation."""
         try:
             from docs import DocsCore
+
             component = DocsCore()
             assert component is not None
         except ImportError:
@@ -49,10 +52,7 @@ class TestDocsCore:
         try:
             from docs.config import DocsConfig
 
-            config = DocsConfig(
-                debug_mode=True,
-                performance_monitoring=False
-            )
+            config = DocsConfig(debug_mode=True, performance_monitoring=False)
 
             assert config.debug_mode is True
             assert config.performance_monitoring is False
@@ -74,6 +74,7 @@ class TestDocsCore:
 
         except ImportError:
             pytest.skip("DocsCore not available")
+
 
 class TestDocsIntegration:
     """Unit tests for docs integration points."""
@@ -103,11 +104,12 @@ class TestDocsIntegration:
             component = DocsCore()
 
             # Test MATRIZ pipeline methods
-            assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert hasattr(component, "process")
+            assert callable(getattr(component, "process"))
 
         except ImportError:
             pytest.skip("DocsCore not available")
+
 
 class TestDocsObservability:
     """Unit tests for docs observability features."""
@@ -120,7 +122,7 @@ class TestDocsObservability:
             component = DocsCore()
 
             # Mock span collection
-            with patch('observability.span_manager.create_span') as mock_span:
+            with patch("observability.span_manager.create_span") as mock_span:
                 component.process({})
 
                 # Verify span creation
@@ -137,7 +139,7 @@ class TestDocsObservability:
             component = DocsCore()
 
             # Test metrics collection
-            with patch('monitoring.metrics.record_metric') as mock_metric:
+            with patch("monitoring.metrics.record_metric") as mock_metric:
                 component.process({})
 
                 # Verify metric recording
@@ -145,6 +147,7 @@ class TestDocsObservability:
 
         except ImportError:
             pytest.skip("Metrics collection not available")
+
 
 class TestDocsPerformance:
     """Performance and regression tests for docs."""
@@ -184,7 +187,7 @@ class TestDocsPerformance:
 
             # Process multiple items
             for i in range(100):
-                component.process({'iteration': i})
+                component.process({"iteration": i})
 
             final_memory = process.memory_info().rss
             memory_increase = final_memory - initial_memory
@@ -195,15 +198,10 @@ class TestDocsPerformance:
         except (ImportError, AttributeError):
             pytest.skip("Memory testing not available")
 
+
 # Configuration for pytest
 def pytest_configure(config):
     """Configure pytest for docs tests."""
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
-    config.addinivalue_line(
-        "markers", "performance: mark test as performance test"
-    )
-    config.addinivalue_line(
-        "markers", "slow: mark test as slow running"
-    )
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "performance: mark test as performance test")
+    config.addinivalue_line("markers", "slow: mark test as slow running")

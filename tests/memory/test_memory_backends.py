@@ -40,7 +40,7 @@ class TestVectorDocument:
             embedding=embedding,
             metadata={"test": True},
             identity_id="user-123",
-            lane="labs"
+            lane="labs",
         )
 
         assert doc.id == "test-doc"
@@ -54,11 +54,7 @@ class TestVectorDocument:
         # Create unnormalized embedding
         embedding = np.array([3.0, 4.0], dtype=np.float32)  # Magnitude = 5.0
 
-        doc = VectorDocument(
-            id="norm-test",
-            content="Normalization test",
-            embedding=embedding
-        )
+        doc = VectorDocument(id="norm-test", content="Normalization test", embedding=embedding)
 
         # Should be normalized to unit length
         assert np.allclose(np.linalg.norm(doc.embedding), 1.0, atol=1e-6)
@@ -69,11 +65,7 @@ class TestVectorDocument:
         now = datetime.now(timezone.utc)
 
         # Non-expiring document
-        doc1 = VectorDocument(
-            id="no-expire",
-            content="Never expires",
-            embedding=np.array([1.0], dtype=np.float32)
-        )
+        doc1 = VectorDocument(id="no-expire", content="Never expires", embedding=np.array([1.0], dtype=np.float32))
         assert doc1.is_expired is False
 
         # Future expiration
@@ -81,7 +73,7 @@ class TestVectorDocument:
             id="future-expire",
             content="Expires in future",
             embedding=np.array([1.0], dtype=np.float32),
-            expires_at=now + timedelta(hours=1)
+            expires_at=now + timedelta(hours=1),
         )
         assert doc2.is_expired is False
 
@@ -90,16 +82,14 @@ class TestVectorDocument:
             id="past-expire",
             content="Already expired",
             embedding=np.array([1.0], dtype=np.float32),
-            expires_at=now - timedelta(hours=1)
+            expires_at=now - timedelta(hours=1),
         )
         assert doc3.is_expired is True
 
     def test_document_access_tracking(self):
         """Test access tracking functionality"""
         doc = VectorDocument(
-            id="access-test",
-            content="Access tracking test",
-            embedding=np.array([1.0], dtype=np.float32)
+            id="access-test", content="Access tracking test", embedding=np.array([1.0], dtype=np.float32)
         )
 
         initial_count = doc.access_count
@@ -123,7 +113,7 @@ class TestVectorDocument:
             lane="production",
             fold_id="fold-789",
             tags=["test", "serialization"],
-            expires_at=now + timedelta(days=1)
+            expires_at=now + timedelta(days=1),
         )
 
         # Convert to dict
@@ -144,9 +134,7 @@ class TestVectorDocument:
         """Test document validation and type conversion"""
         # Test with list embedding (should convert to numpy array)
         doc = VectorDocument(
-            id="validation-test",
-            content="Type validation",
-            embedding=[0.1, 0.2, 0.3]  # List instead of numpy array
+            id="validation-test", content="Type validation", embedding=[0.1, 0.2, 0.3]  # List instead of numpy array
         )
 
         assert isinstance(doc.embedding, np.ndarray)
@@ -156,7 +144,7 @@ class TestVectorDocument:
         doc2 = VectorDocument(
             id="dtype-test",
             content="Dtype conversion",
-            embedding=np.array([0.1, 0.2], dtype=np.float64)  # float64 -> float32
+            embedding=np.array([0.1, 0.2], dtype=np.float64),  # float64 -> float32
         )
 
         assert doc2.embedding.dtype == np.float32
@@ -184,11 +172,7 @@ class TestInMemoryVectorStore:
         await self.store.initialize()
 
         embedding = np.random.random(384).astype(np.float32)
-        doc = VectorDocument(
-            id="add-test",
-            content="Add test document",
-            embedding=embedding
-        )
+        doc = VectorDocument(id="add-test", content="Add test document", embedding=embedding)
 
         success = await self.store.add(doc)
         assert success is True
@@ -201,11 +185,7 @@ class TestInMemoryVectorStore:
 
         # Wrong dimension (384 expected, 256 provided)
         embedding = np.random.random(256).astype(np.float32)
-        doc = VectorDocument(
-            id="dim-mismatch",
-            content="Dimension mismatch test",
-            embedding=embedding
-        )
+        doc = VectorDocument(id="dim-mismatch", content="Dimension mismatch test", embedding=embedding)
 
         with pytest.raises(DimensionMismatchError):
             await self.store.add(doc)
@@ -218,11 +198,7 @@ class TestInMemoryVectorStore:
         documents = []
         for i in range(5):
             embedding = np.random.random(384).astype(np.float32)
-            doc = VectorDocument(
-                id=f"bulk-{i}",
-                content=f"Bulk test document {i}",
-                embedding=embedding
-            )
+            doc = VectorDocument(id=f"bulk-{i}", content=f"Bulk test document {i}", embedding=embedding)
             documents.append(doc)
 
         results = await self.store.bulk_add(documents)
@@ -237,12 +213,7 @@ class TestInMemoryVectorStore:
 
         # Add document
         embedding = np.random.random(384).astype(np.float32)
-        doc = VectorDocument(
-            id="get-test",
-            content="Get test document",
-            embedding=embedding,
-            metadata={"test": "get"}
-        )
+        doc = VectorDocument(id="get-test", content="Get test document", embedding=embedding, metadata={"test": "get"})
         await self.store.add(doc)
 
         # Retrieve document
@@ -266,19 +237,12 @@ class TestInMemoryVectorStore:
 
         # Add original document
         embedding = np.random.random(384).astype(np.float32)
-        doc = VectorDocument(
-            id="update-test",
-            content="Original content",
-            embedding=embedding
-        )
+        doc = VectorDocument(id="update-test", content="Original content", embedding=embedding)
         await self.store.add(doc)
 
         # Update document
         updated_doc = VectorDocument(
-            id="update-test",
-            content="Updated content",
-            embedding=embedding,
-            metadata={"updated": True}
+            id="update-test", content="Updated content", embedding=embedding, metadata={"updated": True}
         )
 
         success = await self.store.update(updated_doc)
@@ -296,11 +260,7 @@ class TestInMemoryVectorStore:
 
         # Add document
         embedding = np.random.random(384).astype(np.float32)
-        doc = VectorDocument(
-            id="delete-test",
-            content="Delete test document",
-            embedding=embedding
-        )
+        doc = VectorDocument(id="delete-test", content="Delete test document", embedding=embedding)
         await self.store.add(doc)
 
         # Delete document
@@ -327,10 +287,7 @@ class TestInMemoryVectorStore:
                 embedding[1:] = 0.1
 
             doc = VectorDocument(
-                id=f"search-{i}",
-                content=f"Search test document {i}",
-                embedding=embedding,
-                metadata={"index": i}
+                id=f"search-{i}", content=f"Search test document {i}", embedding=embedding, metadata={"index": i}
             )
             documents.append(doc)
 
@@ -364,28 +321,20 @@ class TestInMemoryVectorStore:
                 content=f"Filter test {i}",
                 embedding=embedding,
                 lane="labs" if i < 3 else "production",
-                tags=["even" if i % 2 == 0 else "odd"]
+                tags=["even" if i % 2 == 0 else "odd"],
             )
             await self.store.add(doc)
 
         query = np.random.random(384).astype(np.float32)
 
         # Search with lane filter
-        results = await self.store.search(
-            query,
-            k=10,
-            filters={"lane": "labs"}
-        )
+        results = await self.store.search(query, k=10, filters={"lane": "labs"})
 
         assert len(results) == 3
         assert all(r.document.lane == "labs" for r in results)
 
         # Search with tag filter
-        results = await self.store.search(
-            query,
-            k=10,
-            filters={"tags": ["even"]}
-        )
+        results = await self.store.search(query, k=10, filters={"tags": ["even"]})
 
         # Should return documents with even indices
         even_indices = [int(r.document.id.split("-")[1]) for r in results]
@@ -397,16 +346,12 @@ class TestInMemoryVectorStore:
         await self.store.initialize()
 
         # Mock embedding generation for text search
-        with patch.object(self.store, '_generate_embedding') as mock_embed:
+        with patch.object(self.store, "_generate_embedding") as mock_embed:
             mock_embed.return_value = np.random.random(384).astype(np.float32)
 
             # Add a document first
             embedding = np.random.random(384).astype(np.float32)
-            doc = VectorDocument(
-                id="text-search",
-                content="Text search test",
-                embedding=embedding
-            )
+            doc = VectorDocument(id="text-search", content="Text search test", embedding=embedding)
             await self.store.add(doc)
 
             # Perform text search
@@ -427,14 +372,14 @@ class TestInMemoryVectorStore:
             id="expired",
             content="Expired document",
             embedding=np.random.random(384).astype(np.float32),
-            expires_at=now - timedelta(hours=1)
+            expires_at=now - timedelta(hours=1),
         )
 
         valid_doc = VectorDocument(
             id="valid",
             content="Valid document",
             embedding=np.random.random(384).astype(np.float32),
-            expires_at=now + timedelta(hours=1)
+            expires_at=now + timedelta(hours=1),
         )
 
         await self.store.add(expired_doc)
@@ -461,7 +406,7 @@ class TestInMemoryVectorStore:
                 id=f"stats-{i}",
                 content=f"Stats document {i}",
                 embedding=np.random.random(384).astype(np.float32),
-                lane="labs" if i < 2 else "production"
+                lane="labs" if i < 2 else "production",
             )
             await self.store.add(doc)
 
@@ -479,11 +424,7 @@ class TestInMemoryVectorStore:
         await self.store.initialize()
 
         embedding = np.random.random(384).astype(np.float32)
-        doc = VectorDocument(
-            id="perf-test",
-            content="Performance test",
-            embedding=embedding
-        )
+        doc = VectorDocument(id="perf-test", content="Performance test", embedding=embedding)
 
         # Test add performance (<100ms p95)
         start_time = asyncio.get_event_loop().time()
@@ -515,7 +456,7 @@ class TestInMemoryVectorStore:
                 id=f"identity-{i}",
                 content=f"Identity test {i}",
                 embedding=np.random.random(384).astype(np.float32),
-                identity_id="user-123" if i < 2 else "user-456"
+                identity_id="user-123" if i < 2 else "user-456",
             )
             await self.store.add(doc)
 
@@ -534,11 +475,7 @@ class TestFAISSVectorStore:
     def setup_method(self):
         """Setup test environment"""
         self.temp_dir = tempfile.mkdtemp()
-        self.store = FAISSVectorStore(
-            dimension=384,
-            index_type="flat",
-            storage_path=self.temp_dir
-        )
+        self.store = FAISSVectorStore(dimension=384, index_type="flat", storage_path=self.temp_dir)
 
     def teardown_method(self):
         """Cleanup test environment"""
@@ -563,10 +500,7 @@ class TestFAISSVectorStore:
         for i in range(10):
             embedding = np.random.random(384).astype(np.float32)
             doc = VectorDocument(
-                id=f"faiss-{i}",
-                content=f"FAISS test document {i}",
-                embedding=embedding,
-                metadata={"index": i}
+                id=f"faiss-{i}", content=f"FAISS test document {i}", embedding=embedding, metadata={"index": i}
             )
             documents.append(doc)
 
@@ -587,11 +521,7 @@ class TestFAISSVectorStore:
 
         # Add document
         embedding = np.random.random(384).astype(np.float32)
-        doc = VectorDocument(
-            id="persistence-test",
-            content="Persistence test",
-            embedding=embedding
-        )
+        doc = VectorDocument(id="persistence-test", content="Persistence test", embedding=embedding)
         await self.store.add(doc)
 
         # Save index
@@ -599,11 +529,7 @@ class TestFAISSVectorStore:
         await self.store.shutdown()
 
         # Create new store and load index
-        new_store = FAISSVectorStore(
-            dimension=384,
-            index_type="flat",
-            storage_path=self.temp_dir
-        )
+        new_store = FAISSVectorStore(dimension=384, index_type="flat", storage_path=self.temp_dir)
         await new_store.initialize()
         await new_store.load_index()
 
@@ -614,21 +540,14 @@ class TestFAISSVectorStore:
         await new_store.shutdown()
 
 
-@pytest.mark.skipif(
-    not os.getenv("POSTGRES_TEST_URL"),
-    reason="PostgreSQL test database not configured"
-)
+@pytest.mark.skipif(not os.getenv("POSTGRES_TEST_URL"), reason="PostgreSQL test database not configured")
 class TestPgVectorStore:
     """Test PostgreSQL vector store implementation"""
 
     def setup_method(self):
         """Setup test environment"""
         self.db_url = os.getenv("POSTGRES_TEST_URL")
-        self.store = PgVectorStore(
-            connection_string=self.db_url,
-            dimension=384,
-            table_name="test_vectors"
-        )
+        self.store = PgVectorStore(connection_string=self.db_url, dimension=384, table_name="test_vectors")
 
     @pytest.mark.asyncio
     async def test_pgvector_initialization(self):
@@ -646,10 +565,7 @@ class TestPgVectorStore:
             # Add document
             embedding = np.random.random(384).astype(np.float32)
             doc = VectorDocument(
-                id="pg-test",
-                content="PostgreSQL test",
-                embedding=embedding,
-                metadata={"db": "postgresql"}
+                id="pg-test", content="PostgreSQL test", embedding=embedding, metadata={"db": "postgresql"}
             )
 
             success = await self.store.add(doc)
@@ -690,11 +606,7 @@ class TestPgVectorStore:
             documents = []
             for i in range(100):
                 embedding = np.random.random(384).astype(np.float32)
-                doc = VectorDocument(
-                    id=f"perf-{i}",
-                    content=f"Performance test {i}",
-                    embedding=embedding
-                )
+                doc = VectorDocument(id=f"perf-{i}", content=f"Performance test {i}", embedding=embedding)
                 documents.append(doc)
 
             await self.store.bulk_add(documents)
@@ -719,10 +631,7 @@ class TestVectorStoreComparison:
     @pytest.mark.asyncio
     async def test_consistency_across_stores(self):
         """Test that all stores behave consistently"""
-        stores = [
-            InMemoryVectorStore(dimension=128),
-            FAISSVectorStore(dimension=128, index_type="flat")
-        ]
+        stores = [InMemoryVectorStore(dimension=128), FAISSVectorStore(dimension=128, index_type="flat")]
 
         for store in stores:
             await store.initialize()
@@ -734,7 +643,7 @@ class TestVectorStoreComparison:
                     id="consistency-test",
                     content="Consistency test",
                     embedding=embedding,
-                    metadata={"store": store.__class__.__name__}
+                    metadata={"store": store.__class__.__name__},
                 )
 
                 # Add document
@@ -757,10 +666,7 @@ class TestVectorStoreComparison:
     @pytest.mark.asyncio
     async def test_error_handling_consistency(self):
         """Test consistent error handling across stores"""
-        stores = [
-            InMemoryVectorStore(dimension=256),
-            FAISSVectorStore(dimension=256, index_type="flat")
-        ]
+        stores = [InMemoryVectorStore(dimension=256), FAISSVectorStore(dimension=256, index_type="flat")]
 
         for store in stores:
             await store.initialize()
@@ -768,11 +674,7 @@ class TestVectorStoreComparison:
             try:
                 # Test dimension mismatch error
                 wrong_embedding = np.random.random(128).astype(np.float32)
-                doc = VectorDocument(
-                    id="error-test",
-                    content="Error test",
-                    embedding=wrong_embedding
-                )
+                doc = VectorDocument(id="error-test", content="Error test", embedding=wrong_embedding)
 
                 with pytest.raises(DimensionMismatchError):
                     await store.add(doc)

@@ -1,4 +1,5 @@
 """Tests for LUKHAS Hybrid Registry Prototype."""
+
 import json
 import pathlib
 

@@ -32,8 +32,12 @@ class TestLaneConsistency:
         """Test that schema registry returns expected canonical lanes."""
         expected_lanes = ["labs", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
-        assert len(canonical_lanes) == len(expected_lanes), f"Lane count mismatch: {len(canonical_lanes)} != {len(expected_lanes)}"
-        assert set(canonical_lanes) == set(expected_lanes), f"Lane set mismatch: {set(canonical_lanes)} != {set(expected_lanes)}"
+        assert len(canonical_lanes) == len(
+            expected_lanes
+        ), f"Lane count mismatch: {len(canonical_lanes)} != {len(expected_lanes)}"
+        assert set(canonical_lanes) == set(
+            expected_lanes
+        ), f"Lane set mismatch: {set(canonical_lanes)} != {set(expected_lanes)}"
 
     def test_guardian_schema_uses_canonical_lanes(self, canonical_lanes: List[str]):
         """Test that Guardian schema uses the canonical lane enum."""
@@ -43,8 +47,9 @@ class TestLaneConsistency:
         # Extract lane enum from Guardian schema
         guardian_lanes = schema["$defs"]["Subject"]["properties"]["lane"]["enum"]
 
-        assert set(guardian_lanes) == set(canonical_lanes), \
-            f"Guardian schema lanes don't match canonical: {set(guardian_lanes)} != {set(canonical_lanes)}"
+        assert set(guardian_lanes) == set(
+            canonical_lanes
+        ), f"Guardian schema lanes don't match canonical: {set(guardian_lanes)} != {set(canonical_lanes)}"
 
     def test_luke_lane_enum_completeness(self):
         """Test that LUKHASLane enum has all expected values."""
@@ -104,6 +109,7 @@ class TestLaneConsistency:
 
         # Any component importing this should get the same canonical set
         from governance.schema_registry import get_lane_enum as test_import
+
         imported_set = set(test_import())
 
         assert canonical_set == imported_set, "Lane enum import inconsistency detected"
@@ -176,7 +182,7 @@ class TestLaneEnumIntegration:
         # These should be invalid (case mismatch)
         assert not LUKHASLane.is_valid_lane("CANDIDATE")  # should be "candidate"
         assert not LUKHASLane.is_valid_lane("Production")  # should be "production"
-        assert not LUKHASLane.is_valid_lane("matriz")      # should be "MATRIZ"
+        assert not LUKHASLane.is_valid_lane("matriz")  # should be "MATRIZ"
 
         # These should be valid (correct case)
         assert LUKHASLane.is_valid_lane("labs")

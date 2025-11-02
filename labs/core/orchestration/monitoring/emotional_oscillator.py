@@ -5,7 +5,6 @@ Advanced: emotional_oscillator.py
 Integration Date: 2025-05-31T07:55:28.263428
 """
 
-
 """
 📦 MODULE      : oscillator.py
 🧾 DESCRIPTION : Emotional oscillator for LUKHAS_AGI_3.8 subsystems (e.g., ethics, risk).

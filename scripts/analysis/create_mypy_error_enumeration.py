@@ -308,7 +308,9 @@ def main():
                     ],
                     key=lambda x: (x["critical"], x["errors"]),
                     reverse=True,
-                )[:10],  # Top 10
+                )[
+                    :10
+                ],  # Top 10
             },
             "files": {
                 file_path: {

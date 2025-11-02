@@ -36,21 +36,13 @@ class ReasoningReportGenerator:
         Returns:
             A string containing the symbolic representation of the trace.
         """
-        formatted_trace = (
-            f"**Request ID:** {trace.get('reasoning_request_id', 'N/A')}\n"
-        )
-        formatted_trace += (
-            f"**Timestamp:** {trace.get('reasoning_timestamp_utc', 'N/A')}\n"
-        )
-        formatted_trace += (
-            f"**Overall Confidence:** {trace.get('overall_confidence', 'N/A')}\n"
-        )
+        formatted_trace = f"**Request ID:** {trace.get('reasoning_request_id', 'N/A')}\n"
+        formatted_trace += f"**Timestamp:** {trace.get('reasoning_timestamp_utc', 'N/A')}\n"
+        formatted_trace += f"**Overall Confidence:** {trace.get('overall_confidence', 'N/A')}\n"
 
         primary_conclusion = trace.get("primary_conclusion")
         if primary_conclusion:
-            formatted_trace += (
-                f"**Primary Conclusion:** {primary_conclusion.get('summary', 'N/A')}\n"
-            )
+            formatted_trace += f"**Primary Conclusion:** {primary_conclusion.get('summary', 'N/A')}\n"
 
         formatted_trace += "### Logical Chains\n"
         for chain_id, chain in trace.get("identified_logical_chains", {}).items():

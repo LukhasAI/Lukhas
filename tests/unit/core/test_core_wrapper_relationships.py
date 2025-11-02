@@ -11,7 +11,9 @@ class StubSymbol:
 
 
 class StubRelationship:
-    def __init__(self, symbol1: StubSymbol, symbol2: StubSymbol, relationship_type: str, properties: dict | None = None):
+    def __init__(
+        self, symbol1: StubSymbol, symbol2: StubSymbol, relationship_type: str, properties: dict | None = None
+    ):
         self.symbol1 = symbol1
         self.symbol2 = symbol2
         self.type = relationship_type
@@ -29,7 +31,9 @@ class StubSymbolicWorld:
         self.symbols[name] = symbol
         return symbol
 
-    def link_symbols(self, symbol1: StubSymbol, symbol2: StubSymbol, relationship_type: str, properties: dict | None = None) -> None:
+    def link_symbols(
+        self, symbol1: StubSymbol, symbol2: StubSymbol, relationship_type: str, properties: dict | None = None
+    ) -> None:
         relationship = StubRelationship(symbol1, symbol2, relationship_type, properties)
         self.relationships.setdefault(symbol1.name, []).append(relationship)
         self.relationships.setdefault(symbol2.name, []).append(relationship)

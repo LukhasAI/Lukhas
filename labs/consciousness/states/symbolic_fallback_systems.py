@@ -17,6 +17,7 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass
@@ -195,9 +196,7 @@ class BioSymbolicFallbackManager:
         fallback_level = self._determine_fallback_level(component, error, context)
         reason = self._determine_fallback_reason(error)
 
-        logger.warning(
-            f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error)[:100]}"
-        )
+        logger.warning(f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error)[:100]}")
 
         # Check circuit breaker
         if self._should_circuit_break(component):
@@ -448,18 +447,10 @@ class BioSymbolicFallbackManager:
         return {
             "task_id": task_id,
             "thresholds": {
-                "tier1": {
-                    "heart_rate": {"low": 0.3, "high": 0.7, "critical": 0.9}
-                },
-                "tier2": {
-                    "stress_state": {"low": 0.4, "high": 0.7, "critical": 0.85}
-                },
-                "tier3": {
-                    "coherence": {"low": 0.5, "high": 0.7, "critical": 0.85}
-                },
-                "tier4": {
-                    "entanglement": {"low": 0.6, "high": 0.8, "critical": 0.95}
-                },
+                "tier1": {"heart_rate": {"low": 0.3, "high": 0.7, "critical": 0.9}},
+                "tier2": {"stress_state": {"low": 0.4, "high": 0.7, "critical": 0.85}},
+                "tier3": {"coherence": {"low": 0.5, "high": 0.7, "critical": 0.85}},
+                "tier4": {"entanglement": {"low": 0.6, "high": 0.8, "critical": 0.95}},
             },
             "confidence": 0.6,
             "context_modifiers": {},
@@ -473,11 +464,7 @@ class BioSymbolicFallbackManager:
         """Moderate threshold fallback - conservative thresholds."""
         return {
             "task_id": task_id,
-            "thresholds": {
-                "tier1": {
-                    "heart_rate": {"low": 0.4, "high": 0.6, "critical": 0.8}
-                }
-            },
+            "thresholds": {"tier1": {"heart_rate": {"low": 0.4, "high": 0.6, "critical": 0.8}}},
             "confidence": 0.4,
             "context_modifiers": {},
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -490,11 +477,7 @@ class BioSymbolicFallbackManager:
         """Severe threshold fallback - very conservative."""
         return {
             "task_id": task_id,
-            "thresholds": {
-                "tier1": {
-                    "heart_rate": {"low": 0.5, "high": 0.5, "critical": 0.7}
-                }
-            },
+            "thresholds": {"tier1": {"heart_rate": {"low": 0.5, "high": 0.5, "critical": 0.7}}},
             "confidence": 0.2,
             "context_modifiers": {},
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -780,7 +763,9 @@ class BioSymbolicFallbackManager:
         """Generate comprehensive system health report."""
         total_fallbacks = len(self.fallback_history)
         recent_fallbacks = [
-            event for event in self.fallback_history if event.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)
+            event
+            for event in self.fallback_history
+            if event.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)
         ]
 
         fallback_by_level = defaultdict(int)
@@ -822,7 +807,9 @@ class BioSymbolicFallbackManager:
 
         # Check recent fallback activity
         recent_fallbacks = [
-            event for event in self.fallback_history if event.timestamp > datetime.now(timezone.utc) - timedelta(minutes=30)
+            event
+            for event in self.fallback_history
+            if event.timestamp > datetime.now(timezone.utc) - timedelta(minutes=30)
         ]
 
         if len(recent_fallbacks) > 10:

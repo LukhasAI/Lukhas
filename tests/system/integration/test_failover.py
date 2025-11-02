@@ -19,9 +19,7 @@ RUN_SYSTEM_TESTS = os.getenv("RUN_SYSTEM_TESTS") == "1"
 HAS_DOCKER = shutil.which("docker-compose") or shutil.which("docker")
 pytestmark = pytest.mark.skipif(
     not RUN_SYSTEM_TESTS or not HAS_DOCKER,
-    reason=(
-        "System tests require RUN_SYSTEM_TESTS=1 and Docker tooling; skipping to protect CI"
-    ),
+    reason=("System tests require RUN_SYSTEM_TESTS=1 and Docker tooling; skipping to protect CI"),
 )
 
 
@@ -48,6 +46,7 @@ def system_up():
     finally:
         subprocess.run(["docker-compose", "-f", DOCKER_COMPOSE_FILE, "down"], check=True)
 
+
 @pytest.mark.tier2
 @pytest.mark.system
 def test_redis_failover(system_up):
@@ -67,7 +66,7 @@ def test_redis_failover(system_up):
 
         # 3. Restart the redis service
         subprocess.run(["docker-compose", "-f", DOCKER_COMPOSE_FILE, "start", "redis"], check=True)
-        time.sleep(5) # Give it some time to recover
+        time.sleep(5)  # Give it some time to recover
 
         # 4. Check if the system is fully healthy again
         response = requests.get(health_url)

@@ -3,6 +3,7 @@ Cognitive Core bridge - canonical namespace for cognitive infrastructure.
 
 Bridges to existing cognitive implementations in consciousness/cognitive.
 """
+
 from __future__ import annotations
 
 from importlib import import_module

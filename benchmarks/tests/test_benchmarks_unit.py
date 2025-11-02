@@ -25,10 +25,7 @@ class TestBenchmarksModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "benchmarks",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "benchmarks", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestBenchmarksModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import benchmarks
+
         self.assertIsNotNone(benchmarks)
 
     def test_module_version(self):
         """Test module has version information."""
         import benchmarks
+
         # Most modules should have version info
-        self.assertTrue(hasattr(benchmarks, '__version__') or
-                       hasattr(benchmarks, 'VERSION'))
+        self.assertTrue(hasattr(benchmarks, "__version__") or hasattr(benchmarks, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestMATRIZBenchmarks(unittest.TestCase):
         """Test MATRIZBenchmarks can be imported."""
         try:
             from benchmarks.matriz_pipeline import matrizBenchmarks
+
             self.assertIsNotNone(MATRIZBenchmarks)
         except ImportError:
             pytest.skip("Component MATRIZBenchmarks not available")
@@ -97,6 +96,7 @@ class TestBenchmarkResult(unittest.TestCase):
         """Test BenchmarkResult can be imported."""
         try:
             from benchmarks.memory_bench import BenchmarkResult
+
             self.assertIsNotNone(BenchmarkResult)
         except ImportError:
             pytest.skip("Component BenchmarkResult not available")
@@ -114,6 +114,7 @@ class Testbenchmark_adaptive_memory(unittest.TestCase):
         """Test benchmark_adaptive_memory can be imported."""
         try:
             from benchmarks.memory_bench import benchmark_adaptive_memory
+
             self.assertIsNotNone(benchmark_adaptive_memory)
         except ImportError:
             pytest.skip("Component benchmark_adaptive_memory not available")
@@ -122,7 +123,6 @@ class Testbenchmark_adaptive_memory(unittest.TestCase):
         """Test benchmark_adaptive_memory can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

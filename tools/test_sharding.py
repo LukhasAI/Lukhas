@@ -21,7 +21,7 @@ class TestSharding:
 
         # Find test files in module directories
         for test_file in self.root_path.glob(pattern):
-            if test_file.is_file() and not str(test_file).startswith('.'):
+            if test_file.is_file() and not str(test_file).startswith("."):
                 test_files.append(test_file)
 
         # Also look for tests in tests/ directories
@@ -37,24 +37,24 @@ class TestSharding:
             file_size = test_file.stat().st_size
 
             # Read file to check for complexity indicators
-            with open(test_file, 'r') as f:
+            with open(test_file, "r") as f:
                 content = f.read()
 
             # Base duration from file size (rough heuristic)
             base_duration = file_size / 1000  # 1 second per KB
 
             # Adjust based on content patterns
-            if 'asyncio' in content or 'async def' in content:
+            if "asyncio" in content or "async def" in content:
                 base_duration *= 1.5  # Async tests often take longer
 
-            if 'integration' in str(test_file).lower():
+            if "integration" in str(test_file).lower():
                 base_duration *= 2.0  # Integration tests are slower
 
-            if 'consciousness' in content.lower():
+            if "consciousness" in content.lower():
                 base_duration *= 1.3  # Consciousness tests can be complex
 
             # Count test functions
-            test_func_count = content.count('def test_')
+            test_func_count = content.count("def test_")
             if test_func_count > 10:
                 base_duration *= 1.2  # Many tests = longer file
 
@@ -63,8 +63,7 @@ class TestSharding:
         except Exception:
             return 5.0  # Default fallback
 
-    def create_balanced_shards(self, test_files: List[pathlib.Path],
-                              num_shards: int) -> List[List[pathlib.Path]]:
+    def create_balanced_shards(self, test_files: List[pathlib.Path], num_shards: int) -> List[List[pathlib.Path]]:
         """Create balanced test shards using a greedy algorithm."""
         if not test_files:
             return [[] for _ in range(num_shards)]
@@ -87,8 +86,7 @@ class TestSharding:
 
         return shards
 
-    def create_module_based_shards(self, test_files: List[pathlib.Path],
-                                  num_shards: int) -> List[List[pathlib.Path]]:
+    def create_module_based_shards(self, test_files: List[pathlib.Path], num_shards: int) -> List[List[pathlib.Path]]:
         """Create shards based on module groupings."""
         # Group tests by module
         module_groups: Dict[str, List[pathlib.Path]] = {}
@@ -125,8 +123,7 @@ class TestSharding:
 
         return shards
 
-    def generate_ci_config(self, shards: List[List[pathlib.Path]],
-                          output_format: str = "github") -> str:
+    def generate_ci_config(self, shards: List[List[pathlib.Path]], output_format: str = "github") -> str:
         """Generate CI configuration for test sharding."""
         if output_format == "github":
             return self._generate_github_actions_config(shards)
@@ -137,21 +134,13 @@ class TestSharding:
 
     def _generate_github_actions_config(self, shards: List[List[pathlib.Path]]) -> str:
         """Generate GitHub Actions matrix strategy."""
-        config = {
-            "strategy": {
-                "matrix": {
-                    "shard": list(range(len(shards))),
-                    "include": []
-                }
-            }
-        }
+        config = {"strategy": {"matrix": {"shard": list(range(len(shards))), "include": []}}}
 
         for i, shard in enumerate(shards):
             shard_paths = [str(f) for f in shard]
-            config["strategy"]["matrix"]["include"].append({
-                "shard": i,
-                "test_files": " ".join(shard_paths) if shard_paths else "# No tests"
-            })
+            config["strategy"]["matrix"]["include"].append(
+                {"shard": i, "test_files": " ".join(shard_paths) if shard_paths else "# No tests"}
+            )
 
         return json.dumps(config, indent=2)
 
@@ -185,11 +174,7 @@ class TestSharding:
             total_estimated_time += duration
 
             if module_name not in module_stats:
-                module_stats[module_name] = {
-                    "test_count": 0,
-                    "estimated_duration": 0.0,
-                    "files": []
-                }
+                module_stats[module_name] = {"test_count": 0, "estimated_duration": 0.0, "files": []}
 
             module_stats[module_name]["test_count"] += 1
             module_stats[module_name]["estimated_duration"] += duration
@@ -200,22 +185,18 @@ class TestSharding:
             "total_estimated_time": total_estimated_time,
             "module_count": len(module_stats),
             "modules": module_stats,
-            "average_time_per_test": total_estimated_time / total_tests if total_tests > 0 else 0
+            "average_time_per_test": total_estimated_time / total_tests if total_tests > 0 else 0,
         }
+
 
 def main():
     """Main function for test sharding."""
     parser = argparse.ArgumentParser(description="Test sharding for CI optimization")
-    parser.add_argument("--shards", "-s", type=int, default=4,
-                       help="Number of shards to create")
-    parser.add_argument("--strategy", choices=["balanced", "module"], default="balanced",
-                       help="Sharding strategy")
-    parser.add_argument("--output", "-o", choices=["github", "pytest"], default="pytest",
-                       help="Output format")
-    parser.add_argument("--analyze", action="store_true",
-                       help="Analyze current test distribution")
-    parser.add_argument("--pattern", default="**/test_*.py",
-                       help="Test file pattern")
+    parser.add_argument("--shards", "-s", type=int, default=4, help="Number of shards to create")
+    parser.add_argument("--strategy", choices=["balanced", "module"], default="balanced", help="Sharding strategy")
+    parser.add_argument("--output", "-o", choices=["github", "pytest"], default="pytest", help="Output format")
+    parser.add_argument("--analyze", action="store_true", help="Analyze current test distribution")
+    parser.add_argument("--pattern", default="**/test_*.py", help="Test file pattern")
 
     args = parser.parse_args()
 
@@ -238,8 +219,7 @@ def main():
         print()
 
         print("Top 10 modules by test count:")
-        modules_by_count = sorted(analysis['modules'].items(),
-                                key=lambda x: x[1]['test_count'], reverse=True)
+        modules_by_count = sorted(analysis["modules"].items(), key=lambda x: x[1]["test_count"], reverse=True)
         for module, stats in modules_by_count[:10]:
             print(f"  {module}: {stats['test_count']} tests ({stats['estimated_duration']:.1f}s)")
 
@@ -273,6 +253,7 @@ def main():
     print(config)
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

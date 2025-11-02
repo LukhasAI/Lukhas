@@ -8,6 +8,7 @@ Author: lukhas AI Team
 
 TAGS: [CRITICAL, KeyFile, Visualization]
 """
+
 from datetime import timezone
 
 #!/usr/bin/env python3
@@ -234,7 +235,9 @@ class HealixVisualizer:
                     {
                         "resonance": memory["resonance"],
                         "strand": strand_type.value,
-                        "age_hours": (datetime.now(timezone.utc) - datetime.fromisoformat(memory["created"])).total_seconds()
+                        "age_hours": (
+                            datetime.now(timezone.utc) - datetime.fromisoformat(memory["created"])
+                        ).total_seconds()
                         / 3600,
                         "mutations": len(memory.get("mutations", [])),
                     }

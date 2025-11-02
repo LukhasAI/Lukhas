@@ -22,6 +22,7 @@ try:
         schedule_simulation,
         validate_ethics_gate,
     )
+
     SIMULATION_AVAILABLE = True
 except ImportError:
     SIMULATION_AVAILABLE = False
@@ -36,7 +37,7 @@ class TestSimulationSmoke:
             "user_id": "test_user_001",
             "simulation_type": "consciousness_probe",
             "ethics_validated": True,
-            "consent_granted": True
+            "consent_granted": True,
         }
 
     @pytest.mark.skipif(not SIMULATION_AVAILABLE, reason="Simulation module not available")
@@ -112,10 +113,7 @@ class TestSimulationSmoke:
             "type": "simulation_node",
             "id": "sim_001",
             "data": {"experiment_type": "consciousness_probe"},
-            "metadata": {
-                "created_at": "2025-01-01T00:00:00Z",
-                "ethics_validated": True
-            }
+            "metadata": {"created_at": "2025-01-01T00:00:00Z", "ethics_validated": True},
         }
 
         # Should not raise validation error
@@ -145,13 +143,15 @@ class TestSimulationSmoke:
             import sys
 
             from consciousness.simulation import core
-            simulation_modules = [name for name in sys.modules.keys()
-                                if name.startswith('consciousness.simulation')]
 
-            adapter_imports = [name for name in sys.modules.keys()
-                             if name.startswith('adapters') and
-                             any(sim_mod in sys.modules.get(name, {}).get('__file__', '')
-                                 for sim_mod in simulation_modules)]
+            simulation_modules = [name for name in sys.modules.keys() if name.startswith("consciousness.simulation")]
+
+            adapter_imports = [
+                name
+                for name in sys.modules.keys()
+                if name.startswith("adapters")
+                and any(sim_mod in sys.modules.get(name, {}).get("__file__", "") for sim_mod in simulation_modules)
+            ]
 
             assert len(adapter_imports) == 0, f"Found adapter imports in simulation: {adapter_imports}"
 
@@ -186,10 +186,7 @@ class TestSimulationIntegration:
             "simulation_type": "consciousness_probe",
             "ethics_validated": True,
             "consent_granted": True,
-            "capabilities": [
-                "consciousness.simulation.schedule",
-                "consciousness.simulation.collect"
-            ]
+            "capabilities": ["consciousness.simulation.schedule", "consciousness.simulation.collect"],
         }
 
         # Enable simulation for this test

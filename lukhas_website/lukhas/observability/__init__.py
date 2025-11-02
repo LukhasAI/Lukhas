@@ -127,7 +127,6 @@ __all__ = [
     "get_lukhas_metrics",
     "shutdown_metrics",
     "PROMETHEUS_AVAILABLE",
-
     # Phase 5 Evidence Collection
     "EvidenceCollectionEngine",
     "EvidenceRecord",
@@ -136,7 +135,6 @@ __all__ = [
     "initialize_evidence_collection",
     "get_evidence_engine",
     "collect_evidence",
-
     # Phase 5 Advanced Metrics
     "AdvancedMetricsSystem",
     "MetricAnomaly",
@@ -146,7 +144,6 @@ __all__ = [
     "get_advanced_metrics",
     "record_metric",
     "record_operation_performance",
-
     # Phase 5 Intelligent Alerting
     "IntelligentAlertingSystem",
     "AlertState",
@@ -155,14 +152,12 @@ __all__ = [
     "initialize_alerting",
     "get_alerting_system",
     "trigger_alert",
-
     # Phase 5 Compliance Dashboard
     "ComplianceDashboard",
     "ComplianceStatus",
     "AuditReport",
     "initialize_compliance_dashboard",
     "get_compliance_dashboard",
-
     # Phase 5 Performance Regression Detection
     "PerformanceRegressionDetector",
     "PerformanceBaseline",
@@ -172,7 +167,6 @@ __all__ = [
     "initialize_regression_detector",
     "get_regression_detector",
     "record_performance_data",
-
     # Phase 5 Evidence Archival
     "EvidenceArchivalSystem",
     "StorageTier",
@@ -181,7 +175,6 @@ __all__ = [
     "initialize_archival_system",
     "get_archival_system",
     "schedule_archival",
-
     # Phase 5 Enhanced Distributed Tracing
     "EnhancedLUKHASTracer",
     "TraceConfig",
@@ -194,7 +187,6 @@ __all__ = [
     "create_correlation_id",
     "propagate_trace_context",
     "extract_trace_context",
-
     # Phase 5 Security Hardening
     "ObservabilitySecurityHardening",
     "SecurityLevel",
@@ -216,7 +208,7 @@ async def initialize_phase5_observability(
     enable_evidence_archival: bool = True,
     enable_enhanced_tracing: bool = True,
     enable_security_hardening: bool = True,
-    **kwargs
+    **kwargs,
 ) -> dict:
     """
     Initialize complete Phase 5 observability stack.
@@ -232,28 +224,28 @@ async def initialize_phase5_observability(
 
     try:
         if enable_evidence_collection:
-            components['evidence_collection'] = initialize_evidence_collection(**kwargs.get('evidence', {}))
+            components["evidence_collection"] = initialize_evidence_collection(**kwargs.get("evidence", {}))
 
         if enable_advanced_metrics:
-            components['advanced_metrics'] = initialize_advanced_metrics(**kwargs.get('metrics', {}))
+            components["advanced_metrics"] = initialize_advanced_metrics(**kwargs.get("metrics", {}))
 
         if enable_intelligent_alerting:
-            components['intelligent_alerting'] = initialize_alerting(**kwargs.get('alerting', {}))
+            components["intelligent_alerting"] = initialize_alerting(**kwargs.get("alerting", {}))
 
         if enable_compliance_dashboard:
-            components['compliance_dashboard'] = initialize_compliance_dashboard(**kwargs.get('compliance', {}))
+            components["compliance_dashboard"] = initialize_compliance_dashboard(**kwargs.get("compliance", {}))
 
         if enable_performance_regression:
-            components['performance_regression'] = initialize_regression_detector(**kwargs.get('regression', {}))
+            components["performance_regression"] = initialize_regression_detector(**kwargs.get("regression", {}))
 
         if enable_evidence_archival:
-            components['evidence_archival'] = initialize_archival_system(**kwargs.get('archival', {}))
+            components["evidence_archival"] = initialize_archival_system(**kwargs.get("archival", {}))
 
         if enable_enhanced_tracing:
-            components['enhanced_tracing'] = initialize_enhanced_tracing(**kwargs.get('tracing', {}))
+            components["enhanced_tracing"] = initialize_enhanced_tracing(**kwargs.get("tracing", {}))
 
         if enable_security_hardening:
-            components['security_hardening'] = initialize_security_hardening(**kwargs.get('security', {}))
+            components["security_hardening"] = initialize_security_hardening(**kwargs.get("security", {}))
 
         print(f"Phase 5 observability initialized with {len(components)} components")
         return components
@@ -262,7 +254,7 @@ async def initialize_phase5_observability(
         print(f"Error initializing Phase 5 observability: {e}")
         # Cleanup any partially initialized components
         for component in components.values():
-            if hasattr(component, 'shutdown'):
+            if hasattr(component, "shutdown"):
                 try:
                     await component.shutdown()
                 except Exception:
@@ -287,15 +279,17 @@ async def shutdown_phase5_observability():
             security_hardening,
         )
 
-        shutdown_tasks.extend([
-            evidence_collection.shutdown_evidence_collection(),
-            advanced_metrics.shutdown_advanced_metrics(),
-            intelligent_alerting.shutdown_alerting(),
-            compliance_dashboard.shutdown_compliance_dashboard(),
-            performance_regression.shutdown_regression_detector(),
-            evidence_archival.shutdown_archival_system(),
-            security_hardening.shutdown_security_hardening(),
-        ])
+        shutdown_tasks.extend(
+            [
+                evidence_collection.shutdown_evidence_collection(),
+                advanced_metrics.shutdown_advanced_metrics(),
+                intelligent_alerting.shutdown_alerting(),
+                compliance_dashboard.shutdown_compliance_dashboard(),
+                performance_regression.shutdown_regression_detector(),
+                evidence_archival.shutdown_archival_system(),
+                security_hardening.shutdown_security_hardening(),
+            ]
+        )
 
         # Also shutdown enhanced tracing
         enhanced_distributed_tracing.shutdown_enhanced_tracing()
@@ -310,7 +304,9 @@ async def shutdown_phase5_observability():
 
 
 # Add shutdown to __all__
-__all__.extend([
-    "initialize_phase5_observability",
-    "shutdown_phase5_observability",
-])
+__all__.extend(
+    [
+        "initialize_phase5_observability",
+        "shutdown_phase5_observability",
+    ]
+)

@@ -25,10 +25,7 @@ class TestExamplesModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "examples",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "examples", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestExamplesModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import examples
+
         self.assertIsNotNone(examples)
 
     def test_module_version(self):
         """Test module has version information."""
         import examples
+
         # Most modules should have version info
-        self.assertTrue(hasattr(examples, '__version__') or
-                       hasattr(examples, 'VERSION'))
+        self.assertTrue(hasattr(examples, "__version__") or hasattr(examples, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestEnterpriseDemo(unittest.TestCase):
         """Test EnterpriseDemo can be imported."""
         try:
             from examples.enterprise_demo import EnterpriseDemo
+
             self.assertIsNotNone(EnterpriseDemo)
         except ImportError:
             pytest.skip("Component EnterpriseDemo not available")
@@ -97,6 +96,7 @@ class TestIntegratedLukhasDemo(unittest.TestCase):
         """Test IntegratedLukhasDemo can be imported."""
         try:
             from examples.integrated_demo import IntegratedLukhasDemo
+
             self.assertIsNotNone(IntegratedLukhasDemo)
         except ImportError:
             pytest.skip("Component IntegratedLukhasDemo not available")
@@ -114,6 +114,7 @@ class Testdisplay_response(unittest.TestCase):
         """Test display_response can be imported."""
         try:
             from examples.integrated_demo import display_response
+
             self.assertIsNotNone(display_response)
         except ImportError:
             pytest.skip("Component display_response not available")
@@ -122,7 +123,6 @@ class Testdisplay_response(unittest.TestCase):
         """Test display_response can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

@@ -26,44 +26,26 @@ Based on cutting-edge 2025 research in:
 from typing import Any, Dict, List, Optional, Tuple
 
 # Core components
-from .visual_symbol import (
-    VisualSymbol,
-    QuantumField,
-    SymbolicState,
-    PerceptionToken,
-    EmergentSymbol
-)
+from .visual_symbol import VisualSymbol, QuantumField, SymbolicState, PerceptionToken, EmergentSymbol
 
 from .quantum_perception import (
     QuantumPerceptionField,
     WaveFunctionCollapse,
     EntangledSymbolPair,
     FieldCoherence,
-    ObserverEffect
+    ObserverEffect,
 )
 
-from .recursive_emergence import (
-    RecursiveSymbolicEngine,
-    QSymbol,
-    SymbolicDrift,
-    ContradictionEntropy,
-    BootstrapParadox
-)
+from .recursive_emergence import RecursiveSymbolicEngine, QSymbol, SymbolicDrift, ContradictionEntropy, BootstrapParadox
 
-from .neuro_bridge import (
-    NeuroSymbolicBridge,
-    SceneGraph,
-    PerceptionValueField,
-    GlobalWorkspace,
-    EmotionalCoupling
-)
+from .neuro_bridge import NeuroSymbolicBridge, SceneGraph, PerceptionValueField, GlobalWorkspace, EmotionalCoupling
 
 from .consciousness_layer import (
     ConsciousnessIntegration,
     ObserverContext,
     TemporalRecursion,
     MemoryCorrelationTensor,
-    SyntheticEmotion
+    SyntheticEmotion,
 )
 
 # Version and metadata
@@ -79,46 +61,38 @@ __all__ = [
     "SymbolicState",
     "PerceptionToken",
     "EmergentSymbol",
-
     # Quantum perception
     "QuantumPerceptionField",
     "WaveFunctionCollapse",
     "EntangledSymbolPair",
     "FieldCoherence",
     "ObserverEffect",
-
     # Recursive emergence
     "RecursiveSymbolicEngine",
     "QSymbol",
     "SymbolicDrift",
     "ContradictionEntropy",
     "BootstrapParadox",
-
     # Neuro-symbolic bridge
     "NeuroSymbolicBridge",
     "SceneGraph",
     "PerceptionValueField",
     "GlobalWorkspace",
     "EmotionalCoupling",
-
     # Consciousness layer
     "ConsciousnessIntegration",
     "ObserverContext",
     "TemporalRecursion",
     "MemoryCorrelationTensor",
     "SyntheticEmotion",
-
     # Factory functions
     "create_visual_symbol",
     "create_perception_field",
-    "create_consciousness_layer"
+    "create_consciousness_layer",
 ]
 
-def create_visual_symbol(
-    symbol: str,
-    meaning: str,
-    quantum_state: Optional[Dict[str, Any]] = None
-) -> VisualSymbol:
+
+def create_visual_symbol(symbol: str, meaning: str, quantum_state: Optional[Dict[str, Any]] = None) -> VisualSymbol:
     """
     Factory function to create a quantum-aware visual symbol.
 
@@ -131,15 +105,11 @@ def create_visual_symbol(
         VisualSymbol with initialized quantum fields
     """
     return VisualSymbol(
-        symbol=symbol,
-        meaning=meaning,
-        quantum_field=QuantumField(quantum_state) if quantum_state else QuantumField()
+        symbol=symbol, meaning=meaning, quantum_field=QuantumField(quantum_state) if quantum_state else QuantumField()
     )
 
-def create_perception_field(
-    observer_id: str,
-    consciousness_level: float = 0.5
-) -> QuantumPerceptionField:
+
+def create_perception_field(observer_id: str, consciousness_level: float = 0.5) -> QuantumPerceptionField:
     """
     Initialize a quantum perception field for an observer.
 
@@ -150,14 +120,11 @@ def create_perception_field(
     Returns:
         Configured QuantumPerceptionField
     """
-    return QuantumPerceptionField(
-        observer_id=observer_id,
-        consciousness_level=consciousness_level
-    )
+    return QuantumPerceptionField(observer_id=observer_id, consciousness_level=consciousness_level)
+
 
 def create_consciousness_layer(
-    matriz_compatible: bool = True,
-    constellation_stars: Optional[List[str]] = None
+    matriz_compatible: bool = True, constellation_stars: Optional[List[str]] = None
 ) -> ConsciousnessIntegration:
     """
     Create a consciousness integration layer.
@@ -172,10 +139,8 @@ def create_consciousness_layer(
     if constellation_stars is None:
         constellation_stars = ["identity", "memory", "vision", "bio", "dream", "ethics", "guardian", "quantum"]
 
-    return ConsciousnessIntegration(
-        matriz_compatible=matriz_compatible,
-        constellation_stars=constellation_stars
-    )
+    return ConsciousnessIntegration(matriz_compatible=matriz_compatible, constellation_stars=constellation_stars)
+
 
 # Module initialization
 print(f"🌌 LUKHAS Quantum Visual Symbol Core v{__version__} initialized")
@@ -186,6 +151,7 @@ print(f"   Components: {len(__all__)} quantum-aware classes available")
 # Placeholder classes for backwards compatibility
 class Symbol:
     """Placeholder Symbol class for backwards compatibility."""
+
     def __init__(self, name="", value=None):
         self.name = name
         self.value = value
@@ -193,6 +159,7 @@ class Symbol:
 
 class SymbolicVocabulary:
     """Placeholder SymbolicVocabulary class for backwards compatibility."""
+
     def __init__(self):
         self.symbols = {}
 

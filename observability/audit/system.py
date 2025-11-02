@@ -42,6 +42,7 @@ def _redact(input_data: Any, consent_scopes: List[str]) -> Any:
 
 class DecisionType(Enum):
     """Types of decisions tracked in the audit system"""
+
     CONSCIOUSNESS_PROCESSING = "consciousness_processing"
     MEMORY_OPERATION = "memory_operation"
     IDENTITY_VALIDATION = "identity_validation"
@@ -53,6 +54,7 @@ class DecisionType(Enum):
 
 class ConfidenceLevel(Enum):
     """Confidence level classifications"""
+
     VERY_LOW = "very_low"
     LOW = "low"
     MEDIUM = "medium"
@@ -63,6 +65,7 @@ class ConfidenceLevel(Enum):
 @dataclass
 class BrainContext:
     """Context for a participating brain in multi-brain decisions"""
+
     brain_id: str
     activation_level: float
     weight: float
@@ -72,6 +75,7 @@ class BrainContext:
 @dataclass
 class DecisionNode:
     """A single decision node in the audit trail"""
+
     node_id: str
     timestamp: float
     decision_type: DecisionType
@@ -118,7 +122,9 @@ class DecisionNode:
             "raw_confidence": self.raw_confidence,
             "calibrated_confidence": self.calibrated_confidence,
             "uncertainty": self.uncertainty,
-            "confidence_level": self.confidence_level.value if isinstance(self.confidence_level, Enum) else self.confidence_level,
+            "confidence_level": (
+                self.confidence_level.value if isinstance(self.confidence_level, Enum) else self.confidence_level
+            ),
             "safety_checks": self.safety_checks,
             "safety_score": self.safety_score,
             "validation_status": self.validation_status,
@@ -190,7 +196,7 @@ class AuditTrail:
         parent_nodes: List[str] = None,
         active_brains: List[BrainContext] = None,
         tags: List[str] = None,
-        consent_scopes: List[str] = None
+        consent_scopes: List[str] = None,
     ) -> str:
         """
         Create a new decision node with consent-aware redaction
@@ -219,7 +225,7 @@ class AuditTrail:
             input_hash=self.hash_input(redacted_input),
             parent_nodes=parent_nodes or [],
             active_brains=active_brains or [],
-            tags=tags or []
+            tags=tags or [],
         )
 
         self.active_decisions[node_id] = node
@@ -255,7 +261,7 @@ class AuditTrail:
         raw_confidence: float,
         calibrated_confidence: float,
         execution_time_ms: float = 0.0,
-        memory_used_mb: float = 0.0
+        memory_used_mb: float = 0.0,
     ):
         """
         Finalize a decision and move it to completed
@@ -346,6 +352,6 @@ class AuditTrail:
 
     def export_audit_trail(self, output_path: str):
         """Export the complete audit trail to a file"""
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             for node in self.completed_decisions.values():
                 f.write(json.dumps(node.to_dict(), default=str) + "\n")

@@ -5,6 +5,7 @@ LUKHAS Memory Fold System
 Central memory fold architecture implementing the research paper's
 memory fold concept with optimized hybrid implementations.
 """
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -23,14 +24,17 @@ try:
     logger.info("✅ Memory fold system components loaded successfully")
 except ImportError as e:
     logger.debug(f"Memory fold system import issue (using compatibility layer): {e}")
+
     # Create compatibility classes for systems that depend on these
     class MemoryFoldSystem:
         def __init__(self, config=None):
             self.config = config or {}
+
     class MemoryItem:
         def __init__(self, **kwargs):
             for k, v in kwargs.items():
                 setattr(self, k, v)
+
     class HybridMemoryItem:
         def __init__(self, **kwargs):
             for k, v in kwargs.items():
@@ -56,11 +60,15 @@ __all__ = [
 try:
     from labs.candidate.memory.fold_system import FoldManager  # noqa: F401
 except ImportError:
+
     class FoldManager:
         """Stub for FoldManager."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

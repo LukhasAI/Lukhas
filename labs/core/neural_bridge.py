@@ -2,6 +2,7 @@
 Neuroplastic Module Bridge
 Enables cross-module communication with hormone-based signaling
 """
+
 from collections import defaultdict
 from typing import Any
 

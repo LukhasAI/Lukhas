@@ -4,6 +4,7 @@ LUKHAS Metrics Contract and Compatibility Layer
 Provides canonical metric schemas and compatibility shims for legacy aliases.
 Prevents test/UI drift by normalizing metric key names across the system.
 """
+
 from dataclasses import dataclass
 from typing import Any, Dict, Mapping
 
@@ -11,6 +12,7 @@ from typing import Any, Dict, Mapping
 @dataclass(frozen=True)
 class BioProcessorStats:
     """Canonical schema for bio-symbolic processor statistics"""
+
     signals_processed: int
     adaptations_applied: int
     patterns_evolved: int
@@ -25,6 +27,7 @@ class BioProcessorStats:
 @dataclass(frozen=True)
 class RouterStats:
     """Canonical schema for consciousness signal router statistics"""
+
     signals_processed: int
     cascade_preventions: int
     avg_routing_time_ms: float
@@ -38,6 +41,7 @@ class RouterStats:
 @dataclass(frozen=True)
 class NetworkMetrics:
     """Canonical schema for network health metrics"""
+
     total_nodes: int
     active_nodes: int
     network_coherence: float
@@ -55,12 +59,10 @@ LEGACY_ALIASES: Mapping[str, str] = {
     "total_processed": "signals_processed",
     "avg_processing_time": "avg_processing_time_ms",
     "adaptation_success_rate": "adaptation_rate",
-
     # Router aliases
     "signals_routed": "signals_processed",
     "cascade_prevented": "cascade_preventions",
     "routing_latency_avg": "avg_routing_time_ms",
-
     # Network aliases
     "coherence_score": "network_coherence",
     "node_count": "total_nodes",

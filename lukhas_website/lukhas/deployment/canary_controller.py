@@ -22,6 +22,7 @@ from .lane_manager import Lane, LaneManager
 
 class CanaryState(Enum):
     """Canary deployment states"""
+
     PENDING = "pending"
     INITIALIZING = "initializing"
     RAMPING = "ramping"
@@ -35,15 +36,17 @@ class CanaryState(Enum):
 
 class CanaryStrategy(Enum):
     """Canary deployment strategies"""
-    LINEAR = "linear"        # Linear traffic increase
+
+    LINEAR = "linear"  # Linear traffic increase
     EXPONENTIAL = "exponential"  # Exponential traffic increase
-    BLUE_GREEN = "blue_green"    # Blue-green deployment
+    BLUE_GREEN = "blue_green"  # Blue-green deployment
     FEATURE_FLAG = "feature_flag"  # Feature flag based
 
 
 @dataclass
 class CanaryConfig:
     """Configuration for a canary deployment"""
+
     deployment_id: str
     service_name: str
     version: str
@@ -80,6 +83,7 @@ class CanaryConfig:
 @dataclass
 class CanaryMetrics:
     """Real-time metrics for a canary deployment"""
+
     deployment_id: str
     timestamp: datetime
     current_traffic: float
@@ -96,6 +100,7 @@ class CanaryMetrics:
 @dataclass
 class CanaryDeployment:
     """Active canary deployment state"""
+
     config: CanaryConfig
     state: CanaryState
     started_at: datetime
@@ -115,7 +120,7 @@ class CanaryController:
         lane_manager: LaneManager,
         constellation: ConstellationFramework,
         metrics_collector: MetricsCollector,
-        guardian: GuardianValidator
+        guardian: GuardianValidator,
     ):
         self.lane_manager = lane_manager
         self.constellation = constellation
@@ -143,31 +148,25 @@ class CanaryController:
         self.metrics_collector.register_histogram(
             "canary_deployment_duration_seconds",
             "Duration of canary deployments",
-            buckets=[60, 300, 600, 1200, 1800, 3600, 7200]
+            buckets=[60, 300, 600, 1200, 1800, 3600, 7200],
         )
 
         self.metrics_collector.register_counter(
-            "canary_deployments_total",
-            "Total canary deployments",
-            labels=["strategy", "result"]
+            "canary_deployments_total", "Total canary deployments", labels=["strategy", "result"]
         )
 
         self.metrics_collector.register_gauge(
-            "canary_traffic_percentage",
-            "Current canary traffic percentage",
-            labels=["deployment_id", "service_name"]
+            "canary_traffic_percentage", "Current canary traffic percentage", labels=["deployment_id", "service_name"]
         )
 
         self.metrics_collector.register_counter(
-            "canary_rollbacks_total",
-            "Total canary rollbacks",
-            labels=["reason", "service_name"]
+            "canary_rollbacks_total", "Total canary rollbacks", labels=["reason", "service_name"]
         )
 
         self.metrics_collector.register_histogram(
             "canary_validation_latency_seconds",
             "Canary validation check latency",
-            buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
+            buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0],
         )
 
     async def start(self):
@@ -183,11 +182,7 @@ class CanaryController:
 
         # Register with Constellation Framework
         if self.constellation:
-            await self.constellation.register_component(
-                "canary_controller",
-                self,
-                health_check=self._health_check
-            )
+            await self.constellation.register_component("canary_controller", self, health_check=self._health_check)
 
         self.logger.info("Canary Controller started successfully")
 
@@ -229,9 +224,7 @@ class CanaryController:
             # Check for conflicts
             existing = self._find_conflicting_deployment(config)
             if existing:
-                raise LUKHASError(
-                    f"Conflicting deployment exists: {existing.config.deployment_id}"
-                )
+                raise LUKHASError(f"Conflicting deployment exists: {existing.config.deployment_id}")
 
             # Guardian validation
             guardian_context = {
@@ -239,13 +232,11 @@ class CanaryController:
                 "version": config.version,
                 "strategy": config.strategy.value,
                 "target_lane": config.target_lane.value,
-                "max_error_rate": config.max_error_rate
+                "max_error_rate": config.max_error_rate,
             }
 
             guardian_result = await self.guardian.validate_action_async(
-                "canary_deployment",
-                guardian_context,
-                timeout=10.0
+                "canary_deployment", guardian_context, timeout=10.0
             )
 
             if not guardian_result.allowed:
@@ -253,11 +244,7 @@ class CanaryController:
 
             # Create deployment
             deployment = CanaryDeployment(
-                config=config,
-                state=CanaryState.PENDING,
-                started_at=datetime.now(),
-                current_step=0,
-                current_traffic=0.0
+                config=config, state=CanaryState.PENDING, started_at=datetime.now(), current_step=0, current_traffic=0.0
             )
 
             self._active_deployments[config.deployment_id] = deployment
@@ -273,14 +260,12 @@ class CanaryController:
             deployment.current_traffic = config.initial_traffic
 
             self.logger.info(
-                f"Started canary deployment {config.deployment_id} for "
-                f"{config.service_name} v{config.version}"
+                f"Started canary deployment {config.deployment_id} for " f"{config.service_name} v{config.version}"
             )
 
             # Update metrics
             self.metrics_collector.increment_counter(
-                "canary_deployments_total",
-                labels={"strategy": config.strategy.value, "result": "started"}
+                "canary_deployments_total", labels={"strategy": config.strategy.value, "result": "started"}
             )
 
             # Constellation Framework coordination
@@ -314,15 +299,15 @@ class CanaryController:
         # Validate lane assignment
         lane_config = await self.lane_manager.get_lane_assignment(config.service_name)
         if not lane_config:
-            await self.lane_manager.assign_service_to_lane(
-                config.service_name, "deployment", config.target_lane
-            )
+            await self.lane_manager.assign_service_to_lane(config.service_name, "deployment", config.target_lane)
 
     def _find_conflicting_deployment(self, config: CanaryConfig) -> Optional[CanaryDeployment]:
         """Find conflicting active deployments"""
         for deployment in self._active_deployments.values():
-            if (deployment.config.service_name == config.service_name and
-                deployment.state in [CanaryState.RAMPING, CanaryState.MONITORING]):
+            if deployment.config.service_name == config.service_name and deployment.state in [
+                CanaryState.RAMPING,
+                CanaryState.MONITORING,
+            ]:
                 return deployment
         return None
 
@@ -331,11 +316,7 @@ class CanaryController:
         config = deployment.config
 
         # Configure lane for canary traffic
-        await self.lane_manager.assign_service_to_lane(
-            f"{config.service_name}_canary",
-            "canary",
-            config.target_lane
-        )
+        await self.lane_manager.assign_service_to_lane(f"{config.service_name}_canary", "canary", config.target_lane)
 
         # Initialize traffic distribution
         await self._update_traffic_distribution(deployment, 0.0)
@@ -393,9 +374,7 @@ class CanaryController:
             try:
                 await self._process_deployment(deployment)
             except Exception as e:
-                self.logger.error(
-                    f"Error processing deployment {deployment_id}: {e}"
-                )
+                self.logger.error(f"Error processing deployment {deployment_id}: {e}")
                 deployment.errors.append(str(e))
                 await self._initiate_rollback(deployment, f"processing_error: {e}")
 
@@ -428,19 +407,13 @@ class CanaryController:
         expected_step = int(step_elapsed / config.step_duration)
 
         if expected_step > deployment.current_step:
-            new_traffic = min(
-                deployment.current_traffic + config.step_size,
-                config.target_traffic
-            )
+            new_traffic = min(deployment.current_traffic + config.step_size, config.target_traffic)
 
             await self._update_traffic_distribution(deployment, new_traffic)
             deployment.current_step = expected_step
             deployment.current_traffic = new_traffic
 
-            self.logger.info(
-                f"Increased traffic for deployment {config.deployment_id} "
-                f"to {new_traffic:.1f}%"
-            )
+            self.logger.info(f"Increased traffic for deployment {config.deployment_id} " f"to {new_traffic:.1f}%")
 
             # Check if ramping is complete
             if new_traffic >= config.target_traffic:
@@ -478,20 +451,13 @@ class CanaryController:
 
             duration = (deployment.completed_at - deployment.started_at).total_seconds()
             self.logger.info(
-                f"Completed canary deployment {deployment.config.deployment_id} "
-                f"in {duration:.0f} seconds"
+                f"Completed canary deployment {deployment.config.deployment_id} " f"in {duration:.0f} seconds"
             )
 
             # Update metrics
-            self.metrics_collector.record_histogram(
-                "canary_deployment_duration_seconds", duration
-            )
+            self.metrics_collector.record_histogram("canary_deployment_duration_seconds", duration)
             self.metrics_collector.increment_counter(
-                "canary_deployments_total",
-                labels={
-                    "strategy": deployment.config.strategy.value,
-                    "result": "completed"
-                }
+                "canary_deployments_total", labels={"strategy": deployment.config.strategy.value, "result": "completed"}
             )
 
         except Exception as e:
@@ -510,8 +476,7 @@ class CanaryController:
             del self._active_deployments[deployment.config.deployment_id]
 
             self.logger.info(
-                f"Rolled back deployment {deployment.config.deployment_id}: "
-                f"{deployment.rollback_reason}"
+                f"Rolled back deployment {deployment.config.deployment_id}: " f"{deployment.rollback_reason}"
             )
 
             # Update metrics
@@ -519,8 +484,8 @@ class CanaryController:
                 "canary_rollbacks_total",
                 labels={
                     "reason": deployment.rollback_reason or "unknown",
-                    "service_name": deployment.config.service_name
-                }
+                    "service_name": deployment.config.service_name,
+                },
             )
 
         except Exception as e:
@@ -540,9 +505,7 @@ class CanaryController:
         throughput = await self._get_service_throughput(config.service_name)
 
         # Calculate health score
-        health_score = self._calculate_deployment_health(
-            error_rate, latency_p95, success_rate, config
-        )
+        health_score = self._calculate_deployment_health(error_rate, latency_p95, success_rate, config)
 
         return CanaryMetrics(
             deployment_id=config.deployment_id,
@@ -554,9 +517,8 @@ class CanaryController:
             success_rate=success_rate,
             throughput_rps=throughput,
             health_score=health_score,
-            sla_violations=len([m for m in deployment.metrics_history
-                              if m.error_rate > config.max_error_rate]),
-            active_connections=100  # Placeholder
+            sla_violations=len([m for m in deployment.metrics_history if m.error_rate > config.max_error_rate]),
+            active_connections=100,  # Placeholder
         )
 
     async def _get_service_error_rate(self, service_name: str) -> float:
@@ -574,24 +536,16 @@ class CanaryController:
         return 50.0  # 50 RPS
 
     def _calculate_deployment_health(
-        self,
-        error_rate: float,
-        latency: float,
-        success_rate: float,
-        config: CanaryConfig
+        self, error_rate: float, latency: float, success_rate: float, config: CanaryConfig
     ) -> float:
         """Calculate overall health score for deployment"""
         error_score = max(0.0, 1.0 - (error_rate / config.max_error_rate))
         latency_score = max(0.0, 1.0 - (latency / config.max_latency_p95))
         success_score = success_rate
 
-        return (error_score * 0.4 + latency_score * 0.3 + success_score * 0.3)
+        return error_score * 0.4 + latency_score * 0.3 + success_score * 0.3
 
-    async def _check_sla_violations(
-        self,
-        deployment: CanaryDeployment,
-        metrics: CanaryMetrics
-    ) -> bool:
+    async def _check_sla_violations(self, deployment: CanaryDeployment, metrics: CanaryMetrics) -> bool:
         """Check if current metrics violate SLA thresholds"""
         config = deployment.config
 
@@ -608,18 +562,13 @@ class CanaryController:
 
         if violations and config.rollback_on_sla_violation:
             self.logger.warning(
-                f"SLA violations detected for deployment {config.deployment_id}: "
-                f"{', '.join(violations)}"
+                f"SLA violations detected for deployment {config.deployment_id}: " f"{', '.join(violations)}"
             )
             return True
 
         return False
 
-    async def _update_traffic_distribution(
-        self,
-        deployment: CanaryDeployment,
-        traffic_percentage: float
-    ):
+    async def _update_traffic_distribution(self, deployment: CanaryDeployment, traffic_percentage: float):
         """Update traffic distribution for deployment"""
         config = deployment.config
 
@@ -627,26 +576,19 @@ class CanaryController:
         self.metrics_collector.set_gauge(
             "canary_traffic_percentage",
             traffic_percentage,
-            labels={
-                "deployment_id": config.deployment_id,
-                "service_name": config.service_name
-            }
+            labels={"deployment_id": config.deployment_id, "service_name": config.service_name},
         )
 
         # This would update actual traffic routing
         # For now, just log the change
-        self.logger.info(
-            f"Updated traffic for deployment {config.deployment_id} to {traffic_percentage:.1f}%"
-        )
+        self.logger.info(f"Updated traffic for deployment {config.deployment_id} to {traffic_percentage:.1f}%")
 
     async def _initiate_rollback(self, deployment: CanaryDeployment, reason: str):
         """Initiate rollback for a deployment"""
         deployment.state = CanaryState.ROLLING_BACK
         deployment.rollback_reason = reason
 
-        self.logger.warning(
-            f"Initiating rollback for deployment {deployment.config.deployment_id}: {reason}"
-        )
+        self.logger.warning(f"Initiating rollback for deployment {deployment.config.deployment_id}: {reason}")
 
         # Execute rollback callbacks
         callbacks = self._rollback_callbacks.get(deployment.config.deployment_id, [])
@@ -664,9 +606,7 @@ class CanaryController:
         await self._update_traffic_distribution(deployment, 0.0)
 
         # Clean up canary resources
-        await self.lane_manager.force_lane_switch(
-            config.target_lane, Lane.MATRIZ, "rollback"
-        )
+        await self.lane_manager.force_lane_switch(config.target_lane, Lane.MATRIZ, "rollback")
 
         self.logger.info(f"Executed rollback for deployment {config.deployment_id}")
 
@@ -723,10 +663,7 @@ class CanaryController:
             deployment = self._active_deployments[deployment_id]
         else:
             # Check history
-            deployment = next(
-                (d for d in self._deployment_history if d.config.deployment_id == deployment_id),
-                None
-            )
+            deployment = next((d for d in self._deployment_history if d.config.deployment_id == deployment_id), None)
 
         if not deployment:
             return None
@@ -740,38 +677,31 @@ class CanaryController:
                 "service_name": deployment.config.service_name,
                 "version": deployment.config.version,
                 "strategy": deployment.config.strategy.value,
-                "target_lane": deployment.config.target_lane.value
+                "target_lane": deployment.config.target_lane.value,
             },
             "progress": {
                 "current_step": deployment.current_step,
                 "current_traffic": deployment.current_traffic,
-                "target_traffic": deployment.config.target_traffic
+                "target_traffic": deployment.config.target_traffic,
             },
             "timing": {
                 "started_at": deployment.started_at.isoformat(),
-                "completed_at": deployment.completed_at.isoformat() if deployment.completed_at else None
+                "completed_at": deployment.completed_at.isoformat() if deployment.completed_at else None,
             },
             "metrics": {
                 "error_rate": latest_metrics.error_rate if latest_metrics else 0.0,
                 "latency_p95": latest_metrics.latency_p95 if latest_metrics else 0.0,
-                "health_score": latest_metrics.health_score if latest_metrics else 0.0
+                "health_score": latest_metrics.health_score if latest_metrics else 0.0,
             },
             "errors": deployment.errors,
-            "rollback_reason": deployment.rollback_reason
+            "rollback_reason": deployment.rollback_reason,
         }
 
     async def list_active_deployments(self) -> List[Dict[str, Any]]:
         """List all active deployments"""
-        return [
-            await self.get_deployment_status(deployment_id)
-            for deployment_id in self._active_deployments.keys()
-        ]
+        return [await self.get_deployment_status(deployment_id) for deployment_id in self._active_deployments.keys()]
 
-    def register_rollback_callback(
-        self,
-        deployment_id: str,
-        callback: Callable[[CanaryDeployment, str], Any]
-    ):
+    def register_rollback_callback(self, deployment_id: str, callback: Callable[[CanaryDeployment, str], Any]):
         """Register callback for rollback events"""
         if deployment_id not in self._rollback_callbacks:
             self._rollback_callbacks[deployment_id] = []
@@ -786,5 +716,5 @@ class CanaryController:
             "states": {
                 state.value: len([d for d in self._active_deployments.values() if d.state == state])
                 for state in CanaryState
-            }
+            },
         }

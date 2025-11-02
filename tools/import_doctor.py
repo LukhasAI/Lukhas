@@ -18,15 +18,15 @@ from pathlib import Path
 ART = Path("artifacts")
 ART.mkdir(exist_ok=True, parents=True)
 
+
 def run_collect():
     # Collect-only to avoid executing tests; keep stderr merged.
-    proc = subprocess.run(
-        ["python3", "-m", "pytest", "--collect-only", "-q"],
-        capture_output=True, text=True
-    )
+    proc = subprocess.run(["python3", "-m", "pytest", "--collect-only", "-q"], capture_output=True, text=True)
     return proc.stdout + "\n" + proc.stderr
 
+
 MISS_RE = re.compile(r"ModuleNotFoundError: No module named ['\"](lukhas(?:\.[A-Za-z0-9_]+)+)['\"]")
+
 
 def main():
     out = run_collect()
@@ -69,6 +69,7 @@ def main():
 
     Path(ART / "lukhas_shim_map.json").write_text(json.dumps(hot or pkg_map, indent=2))
     print(f"✅ Wrote {ART/'import_missing.json'}, {ART/'import_clusters.json'}, {ART/'lukhas_shim_map.json'}")
+
 
 if __name__ == "__main__":
     sys.exit(main())

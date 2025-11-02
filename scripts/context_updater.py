@@ -20,7 +20,7 @@ class ContextUpdater:
             "lane_based_evolution": True,
             "legacy_core_sunset": True,
             "production_safeguards": True,
-            "governance_framework_complete": True
+            "governance_framework_complete": True,
         }
 
     def find_context_files(self) -> List[Path]:
@@ -43,7 +43,7 @@ class ContextUpdater:
         reasons = []
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Check for outdated information
@@ -75,7 +75,7 @@ class ContextUpdater:
 
     def generate_architecture_summary(self) -> str:
         """Generate current architecture summary"""
-        return '''
+        return """
 ## Current Architecture Status (Schema v2.0.0)
 
 ### **Consciousness Architecture**
@@ -96,17 +96,12 @@ class ContextUpdater:
 - **Integration Lane**: 1,042 files (candidate/core - 253 cognitive components)
 - **Production Lane**: 174 files (lukhas domain - battle-tested)
 - **Products Domain**: 4,093 files (production deployment systems)
-'''
+"""
 
     def scan_all_files(self) -> Dict:
         """Scan all context files and identify update needs"""
         files = self.find_context_files()
-        results = {
-            "total_files": len(files),
-            "files_needing_update": 0,
-            "files_current": 0,
-            "analysis": []
-        }
+        results = {"total_files": len(files), "files_needing_update": 0, "files_current": 0, "analysis": []}
 
         for file_path in files:
             needs_update, reasons = self.analyze_file_needs_update(file_path)
@@ -115,7 +110,7 @@ class ContextUpdater:
                 "path": str(file_path),
                 "needs_update": needs_update,
                 "reasons": reasons,
-                "relative_path": str(file_path.relative_to(self.root_path))
+                "relative_path": str(file_path.relative_to(self.root_path)),
             }
 
             results["analysis"].append(file_result)
@@ -156,17 +151,19 @@ class ContextUpdater:
                     report.append(f"- {reason}")
                 report.append("")
 
-        report.extend([
-            "## Recommended Actions",
-            "1. Update schema references to v2.0.0",
-            "2. Add 692 cognitive components information",
-            "3. Document lane-based evolution architecture",
-            "4. Include legacy core sunset status",
-            "5. Add distributed consciousness architecture details",
-            "",
-            "## Architecture Summary for Updates",
-            self.generate_architecture_summary()
-        ])
+        report.extend(
+            [
+                "## Recommended Actions",
+                "1. Update schema references to v2.0.0",
+                "2. Add 692 cognitive components information",
+                "3. Document lane-based evolution architecture",
+                "4. Include legacy core sunset status",
+                "5. Add distributed consciousness architecture details",
+                "",
+                "## Architecture Summary for Updates",
+                self.generate_architecture_summary(),
+            ]
+        )
 
         return "\\n".join(report)
 

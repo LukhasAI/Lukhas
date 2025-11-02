@@ -23,9 +23,7 @@ except ImportError:  # pragma: no cover - executed in degraded environments
         SYSTEM_NAME = getattr(_mod, "SYSTEM_NAME")
         normalize_chunk = getattr(_mod, "normalize_chunk")
         normalize_output = getattr(_mod, "normalize_output")
-        validate_branding_compliance = getattr(
-            _mod, "validate_branding_compliance"
-        )
+        validate_branding_compliance = getattr(_mod, "validate_branding_compliance")
     except Exception:
         raise
 

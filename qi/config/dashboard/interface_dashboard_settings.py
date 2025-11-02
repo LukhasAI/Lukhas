@@ -1,4 +1,3 @@
-
 """
 
 #TAG:qim
@@ -12,7 +11,6 @@ Original: dashboard_settings.py
 Advanced: dashboard_settings.py
 Integration Date: 2025-05-31T07:55:27.731081
 """
-
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

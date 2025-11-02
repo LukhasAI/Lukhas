@@ -34,6 +34,7 @@ from opentelemetry import trace
 tracer = trace.get_tracer(__name__)
 logger = structlog.get_logger(__name__)
 
+
 @dataclass
 class DiscoveryDocument:
     """OpenID Connect Discovery 1.0 compliant configuration document with security validation."""
@@ -77,11 +78,11 @@ class DiscoveryDocument:
 
         # Validate all endpoints use HTTPS
         endpoints = [
-            ('issuer', self.issuer),
-            ('authorization_endpoint', self.authorization_endpoint),
-            ('token_endpoint', self.token_endpoint),
-            ('jwks_uri', self.jwks_uri),
-            ('userinfo_endpoint', self.userinfo_endpoint),
+            ("issuer", self.issuer),
+            ("authorization_endpoint", self.authorization_endpoint),
+            ("token_endpoint", self.token_endpoint),
+            ("jwks_uri", self.jwks_uri),
+            ("userinfo_endpoint", self.userinfo_endpoint),
         ]
 
         for endpoint_name, endpoint_url in endpoints:
@@ -89,19 +90,19 @@ class DiscoveryDocument:
                 self.validation_errors.append(f"{endpoint_name} must use HTTPS")
 
         # Validate response types are secure
-        if 'token' in self.response_types_supported or 'id_token' in self.response_types_supported:
+        if "token" in self.response_types_supported or "id_token" in self.response_types_supported:
             self.validation_errors.append("Implicit flow response types are discouraged")
 
         # Validate signing algorithms exclude 'none'
-        if 'none' in self.id_token_signing_alg_values_supported:
+        if "none" in self.id_token_signing_alg_values_supported:
             self.validation_errors.append("'none' algorithm not allowed for ID tokens")
 
         # Validate PKCE is required
-        if 'S256' not in self.code_challenge_methods_supported:
+        if "S256" not in self.code_challenge_methods_supported:
             self.validation_errors.append("PKCE with S256 method must be supported")
 
         # Validate required scopes
-        if 'openid' not in self.scopes_supported:
+        if "openid" not in self.scopes_supported:
             self.validation_errors.append("'openid' scope must be supported")
 
         # Validate issuer matches endpoint domains
@@ -109,9 +110,7 @@ class DiscoveryDocument:
         for endpoint_name, endpoint_url in endpoints[1:]:  # Skip issuer itself
             endpoint_domain = urlparse(endpoint_url).netloc
             if endpoint_domain != issuer_domain:
-                self.validation_errors.append(
-                    f"{endpoint_name} domain must match issuer domain"
-                )
+                self.validation_errors.append(f"{endpoint_name} domain must match issuer domain")
 
         self.security_validated = len(self.validation_errors) == 0
         return self.security_validated
@@ -120,7 +119,7 @@ class DiscoveryDocument:
         """Validate endpoint uses HTTPS."""
         try:
             parsed = urlparse(url)
-            return parsed.scheme == 'https'
+            return parsed.scheme == "https"
         except Exception:
             return False
 
@@ -128,10 +127,10 @@ class DiscoveryDocument:
         """Generate cryptographic hash of document for integrity validation."""
         doc_dict = self.to_dict()
         # Remove dynamic fields for consistent hashing
-        doc_dict.pop('lukhas_extensions', None)
+        doc_dict.pop("lukhas_extensions", None)
 
-        doc_json = json.dumps(doc_dict, sort_keys=True, separators=(',', ':'))
-        self.document_hash = hashlib.sha256(doc_json.encode('utf-8')).hexdigest()
+        doc_json = json.dumps(doc_dict, sort_keys=True, separators=(",", ":"))
+        self.document_hash = hashlib.sha256(doc_json.encode("utf-8")).hexdigest()
         return self.document_hash
 
     def verify_document_integrity(self, expected_hash: Optional[str] = None) -> bool:
@@ -150,20 +149,22 @@ class DiscoveryDocument:
         result = {}
 
         # Core OIDC Discovery fields
-        result.update({
-            "issuer": self.issuer,
-            "authorization_endpoint": self.authorization_endpoint,
-            "token_endpoint": self.token_endpoint,
-            "jwks_uri": self.jwks_uri,
-            "userinfo_endpoint": self.userinfo_endpoint,
-            "response_types_supported": self.response_types_supported,
-            "subject_types_supported": self.subject_types_supported,
-            "id_token_signing_alg_values_supported": self.id_token_signing_alg_values_supported,
-            "scopes_supported": self.scopes_supported,
-            "token_endpoint_auth_methods_supported": self.token_endpoint_auth_methods_supported,
-            "code_challenge_methods_supported": self.code_challenge_methods_supported,
-            "grant_types_supported": self.grant_types_supported,
-        })
+        result.update(
+            {
+                "issuer": self.issuer,
+                "authorization_endpoint": self.authorization_endpoint,
+                "token_endpoint": self.token_endpoint,
+                "jwks_uri": self.jwks_uri,
+                "userinfo_endpoint": self.userinfo_endpoint,
+                "response_types_supported": self.response_types_supported,
+                "subject_types_supported": self.subject_types_supported,
+                "id_token_signing_alg_values_supported": self.id_token_signing_alg_values_supported,
+                "scopes_supported": self.scopes_supported,
+                "token_endpoint_auth_methods_supported": self.token_endpoint_auth_methods_supported,
+                "code_challenge_methods_supported": self.code_challenge_methods_supported,
+                "grant_types_supported": self.grant_types_supported,
+            }
+        )
 
         # Optional endpoints
         if self.revocation_endpoint:
@@ -186,7 +187,7 @@ class DiscoveryDocument:
             "version": "1.0.0",
             "generated_at": self.generated_at.isoformat(),
             "security_validated": self.security_validated,
-            "document_hash": self.document_hash
+            "document_hash": self.document_hash,
         }
 
         # Security metadata for monitoring
@@ -216,23 +217,25 @@ class DiscoveryProvider:
             base_url: Base URL for the OIDC provider (e.g., https://auth.ai)
             custom_config: Optional custom configuration overrides
         """
-        self.base_url = base_url.rstrip('/')
+        self.base_url = base_url.rstrip("/")
         self.custom_config = custom_config or {}
-        self.fail_closed = self.custom_config.get('fail_closed', True)
+        self.fail_closed = self.custom_config.get("fail_closed", True)
 
         # Caching and performance
         self._cached_document: Optional[DiscoveryDocument] = None
         self._cache_timestamp: Optional[datetime] = None
-        self._cache_ttl = timedelta(minutes=self.custom_config.get('cache_ttl_minutes', 30))
+        self._cache_ttl = timedelta(minutes=self.custom_config.get("cache_ttl_minutes", 30))
 
         # Security tracking
         self._security_events: List[Dict[str, Any]] = []
         self._validation_failures = 0
 
-        logger.info("DiscoveryProvider initialized",
-                   base_url=self.base_url,
-                   fail_closed=self.fail_closed,
-                   cache_ttl_minutes=self._cache_ttl.total_seconds() / 60)
+        logger.info(
+            "DiscoveryProvider initialized",
+            base_url=self.base_url,
+            fail_closed=self.fail_closed,
+            cache_ttl_minutes=self._cache_ttl.total_seconds() / 60,
+        )
 
     async def get_discovery_document(self) -> DiscoveryDocument:
         """Get OpenID Connect Discovery document with performance and security validation."""
@@ -242,9 +245,9 @@ class DiscoveryProvider:
             try:
                 # Check cache validity
                 cache_valid = (
-                    self._cached_document is not None and
-                    self._cache_timestamp is not None and
-                    datetime.now(timezone.utc) - self._cache_timestamp < self._cache_ttl
+                    self._cached_document is not None
+                    and self._cache_timestamp is not None
+                    and datetime.now(timezone.utc) - self._cache_timestamp < self._cache_ttl
                 )
 
                 if cache_valid and self._cached_document.security_validated:
@@ -252,9 +255,11 @@ class DiscoveryProvider:
                     latency_ms = (time.perf_counter() - start_time) * 1000
                     span.set_attribute("oidc.latency_ms", latency_ms)
 
-                    logger.debug("Discovery document cache hit",
-                               latency_ms=latency_ms,
-                               cache_age_minutes=(datetime.now(timezone.utc) - self._cache_timestamp).total_seconds() / 60)
+                    logger.debug(
+                        "Discovery document cache hit",
+                        latency_ms=latency_ms,
+                        cache_age_minutes=(datetime.now(timezone.utc) - self._cache_timestamp).total_seconds() / 60,
+                    )
 
                     return self._cached_document
 
@@ -267,16 +272,18 @@ class DiscoveryProvider:
                     self._validation_failures += 1
 
                     security_event = {
-                        'event_type': 'discovery_validation_failure',
-                        'timestamp': datetime.now(timezone.utc).isoformat(),
-                        'errors': document.validation_errors,
-                        'fail_closed': self.fail_closed
+                        "event_type": "discovery_validation_failure",
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "errors": document.validation_errors,
+                        "fail_closed": self.fail_closed,
                     }
                     self._security_events.append(security_event)
 
-                    logger.error("Discovery document security validation failed",
-                               errors=document.validation_errors,
-                               fail_closed=self.fail_closed)
+                    logger.error(
+                        "Discovery document security validation failed",
+                        errors=document.validation_errors,
+                        fail_closed=self.fail_closed,
+                    )
 
                     if self.fail_closed:
                         raise SecurityValidationError(
@@ -294,23 +301,21 @@ class DiscoveryProvider:
                 span.set_attribute("oidc.latency_ms", latency_ms)
                 span.set_attribute("oidc.security_validated", document.security_validated)
 
-                logger.info("Discovery document generated",
-                          latency_ms=latency_ms,
-                          security_validated=document.security_validated,
-                          validation_errors=len(document.validation_errors))
+                logger.info(
+                    "Discovery document generated",
+                    latency_ms=latency_ms,
+                    security_validated=document.security_validated,
+                    validation_errors=len(document.validation_errors),
+                )
 
                 # Performance target validation (<50ms)
                 if latency_ms > 50:
-                    logger.warning("Discovery document latency exceeded target",
-                                 latency_ms=latency_ms,
-                                 target_ms=50)
+                    logger.warning("Discovery document latency exceeded target", latency_ms=latency_ms, target_ms=50)
 
                 return document
 
             except Exception as e:
-                logger.error("Discovery document generation error",
-                           error=str(e),
-                           fail_closed=self.fail_closed)
+                logger.error("Discovery document generation error", error=str(e), fail_closed=self.fail_closed)
 
                 if self.fail_closed:
                     raise
@@ -331,35 +336,36 @@ class DiscoveryProvider:
             "token_endpoint": f"{self.base_url}/oauth2/token",
             "jwks_uri": f"{self.base_url}/.well-known/jwks.json",
             "userinfo_endpoint": f"{self.base_url}/oauth2/userinfo",
-
             # Security-hardened response types (Authorization Code Flow only)
             "response_types_supported": ["code"],
-
             # Subject types (public for simplicity, pairwise for privacy)
             "subject_types_supported": ["public", "pairwise"],
-
             # Strong signing algorithms (exclude 'none')
             "id_token_signing_alg_values_supported": ["RS256", "RS384", "RS512", "ES256", "ES384", "ES512"],
-
             # Comprehensive scope support
             "scopes_supported": [
-                "openid", "profile", "email", "phone", "address",
-                "lukhas:tier", "lukhas:admin", "lukhas:identity",
-                "lukhas:namespace", "lukhas:guardian"
+                "openid",
+                "profile",
+                "email",
+                "phone",
+                "address",
+                "lukhas:tier",
+                "lukhas:admin",
+                "lukhas:identity",
+                "lukhas:namespace",
+                "lukhas:guardian",
             ],
-
             # Client authentication methods (secure defaults)
             "token_endpoint_auth_methods_supported": [
-                "client_secret_basic", "client_secret_post",
-                "private_key_jwt", "client_secret_jwt"
+                "client_secret_basic",
+                "client_secret_post",
+                "private_key_jwt",
+                "client_secret_jwt",
             ],
-
             # PKCE support (S256 only for security)
             "code_challenge_methods_supported": ["S256"],
-
             # Grant types (secure subset)
             "grant_types_supported": ["authorization_code", "refresh_token"],
-
             # Token management endpoints
             "revocation_endpoint": f"{self.base_url}/oauth2/revoke",
             "introspection_endpoint": f"{self.base_url}/oauth2/introspect",
@@ -385,38 +391,36 @@ class DiscoveryProvider:
 
         for key, value in custom_config.items():
             # Skip internal/security fields
-            if key.startswith('_') or key in ['fail_closed', 'cache_ttl_minutes']:
+            if key.startswith("_") or key in ["fail_closed", "cache_ttl_minutes"]:
                 continue
 
             # Validate specific security-sensitive fields
-            if key == 'response_types_supported':
+            if key == "response_types_supported":
                 # Only allow secure response types
-                safe_types = [t for t in value if t in ['code']]
+                safe_types = [t for t in value if t in ["code"]]
                 if len(safe_types) != len(value):
-                    security_violations.append(
-                        f"Removed insecure response types: {set(value) - set(safe_types)}"
-                    )
+                    security_violations.append(f"Removed insecure response types: {set(value) - set(safe_types)}")
                 safe_config[key] = safe_types
 
-            elif key == 'id_token_signing_alg_values_supported':
+            elif key == "id_token_signing_alg_values_supported":
                 # Exclude 'none' algorithm
-                safe_algs = [alg for alg in value if alg != 'none']
-                if 'none' in value:
+                safe_algs = [alg for alg in value if alg != "none"]
+                if "none" in value:
                     security_violations.append("Removed 'none' algorithm from ID token signing")
                 safe_config[key] = safe_algs
 
-            elif key == 'code_challenge_methods_supported':
+            elif key == "code_challenge_methods_supported":
                 # Only allow S256
-                if 'S256' not in value:
+                if "S256" not in value:
                     security_violations.append("Added required S256 PKCE method")
-                    safe_config[key] = ['S256'] + [m for m in value if m != 'plain']
+                    safe_config[key] = ["S256"] + [m for m in value if m != "plain"]
                 else:
-                    safe_config[key] = [m for m in value if m != 'plain']
+                    safe_config[key] = [m for m in value if m != "plain"]
 
-            elif key == 'token_endpoint_auth_methods_supported':
+            elif key == "token_endpoint_auth_methods_supported":
                 # Remove 'none' if present for public clients
-                secure_methods = [m for m in value if m != 'none']
-                if 'none' in value:
+                secure_methods = [m for m in value if m != "none"]
+                if "none" in value:
                     security_violations.append("Removed 'none' client authentication method")
                 safe_config[key] = secure_methods
 
@@ -424,9 +428,9 @@ class DiscoveryProvider:
                 safe_config[key] = value
 
         if security_violations and self.fail_closed:
-            logger.warning("Security violations in custom config",
-                         violations=security_violations,
-                         fail_closed=self.fail_closed)
+            logger.warning(
+                "Security violations in custom config", violations=security_violations, fail_closed=self.fail_closed
+            )
 
         return safe_config
 
@@ -439,73 +443,61 @@ class DiscoveryProvider:
     async def validate_client_metadata(self, client_metadata: Dict[str, Any]) -> Dict[str, Any]:
         """Validate client metadata against discovery document."""
         discovery_doc = await self.get_discovery_document()
-        validation_result = {
-            'valid': True,
-            'errors': [],
-            'warnings': []
-        }
+        validation_result = {"valid": True, "errors": [], "warnings": []}
 
         # Validate redirect URIs
-        redirect_uris = client_metadata.get('redirect_uris', [])
+        redirect_uris = client_metadata.get("redirect_uris", [])
         for uri in redirect_uris:
-            if not uri.startswith('https://'):
-                validation_result['errors'].append(f"Redirect URI must use HTTPS: {uri}")
-                validation_result['valid'] = False
+            if not uri.startswith("https://"):
+                validation_result["errors"].append(f"Redirect URI must use HTTPS: {uri}")
+                validation_result["valid"] = False
 
         # Validate response types
-        response_types = client_metadata.get('response_types', [])
+        response_types = client_metadata.get("response_types", [])
         supported_response_types = set(discovery_doc.response_types_supported)
         for response_type in response_types:
             if response_type not in supported_response_types:
-                validation_result['errors'].append(
-                    f"Unsupported response type: {response_type}"
-                )
-                validation_result['valid'] = False
+                validation_result["errors"].append(f"Unsupported response type: {response_type}")
+                validation_result["valid"] = False
 
         # Validate grant types
-        grant_types = client_metadata.get('grant_types', [])
+        grant_types = client_metadata.get("grant_types", [])
         supported_grant_types = set(discovery_doc.grant_types_supported)
         for grant_type in grant_types:
             if grant_type not in supported_grant_types:
-                validation_result['errors'].append(f"Unsupported grant type: {grant_type}")
-                validation_result['valid'] = False
+                validation_result["errors"].append(f"Unsupported grant type: {grant_type}")
+                validation_result["valid"] = False
 
         # Validate scopes
-        scope = client_metadata.get('scope', '')
+        scope = client_metadata.get("scope", "")
         if scope:
             requested_scopes = set(scope.split())
             supported_scopes = set(discovery_doc.scopes_supported)
             unsupported_scopes = requested_scopes - supported_scopes
             if unsupported_scopes:
-                validation_result['warnings'].append(
-                    f"Unsupported scopes: {unsupported_scopes}"
-                )
+                validation_result["warnings"].append(f"Unsupported scopes: {unsupported_scopes}")
 
         return validation_result
 
     async def get_security_metrics(self) -> Dict[str, Any]:
         """Get security metrics for monitoring."""
         return {
-            'validation_failures': self._validation_failures,
-            'security_events': len(self._security_events),
-            'cache_hits': 1 if self._cached_document else 0,
-            'cache_age_minutes': (
+            "validation_failures": self._validation_failures,
+            "security_events": len(self._security_events),
+            "cache_hits": 1 if self._cached_document else 0,
+            "cache_age_minutes": (
                 (datetime.now(timezone.utc) - self._cache_timestamp).total_seconds() / 60
-                if self._cache_timestamp else 0
+                if self._cache_timestamp
+                else 0
             ),
-            'last_validation_time': (
-                self._cached_document.generated_at.isoformat()
-                if self._cached_document else None
-            ),
-            'document_hash': (
-                self._cached_document.document_hash
-                if self._cached_document else None
-            )
+            "last_validation_time": (self._cached_document.generated_at.isoformat() if self._cached_document else None),
+            "document_hash": (self._cached_document.document_hash if self._cached_document else None),
         }
 
 
 class SecurityValidationError(Exception):
     """Exception raised for discovery document security validation failures."""
+
     pass
 
 
@@ -515,8 +507,8 @@ def create_default_discovery_provider() -> DiscoveryProvider:
 
     # Environment-based customization with security validation
     custom_config = {
-        'fail_closed': os.getenv("OIDC_FAIL_CLOSED", "true").lower() == "true",
-        'cache_ttl_minutes': int(os.getenv("OIDC_CACHE_TTL_MINUTES", "30"))
+        "fail_closed": os.getenv("OIDC_FAIL_CLOSED", "true").lower() == "true",
+        "cache_ttl_minutes": int(os.getenv("OIDC_CACHE_TTL_MINUTES", "30")),
     }
 
     # Override specific fields if provided

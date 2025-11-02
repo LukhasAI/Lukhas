@@ -60,6 +60,7 @@ __tier__ = 2
 
 logger = logging.getLogger(__name__)
 
+
 class QISecurityLevel(Enum):
     """Quantum security levels for web interfaces"""
 

@@ -41,6 +41,7 @@ try:
     from matriz.core.node_interface import NodeState
 
     from core.matrix.nodes.base import BaseMatrixNode
+
     MATRIZ_AVAILABLE = True
 except ImportError:
     # Fallback for when MATRIZ is not available
@@ -65,7 +66,7 @@ class EnhancedThoughtNode:
         max_inference_depth: int = 12,
         contradiction_threshold: float = 0.98,
         time_budget_ms: float = 180.0,
-        enable_meta_cognitive: bool = True
+        enable_meta_cognitive: bool = True,
     ):
         """Initialize enhanced thought node."""
         self.tenant = tenant
@@ -79,27 +80,24 @@ class EnhancedThoughtNode:
             confidence_threshold=0.1,
             max_processing_time_ms=time_budget_ms * 0.6,  # 60% for inference
             contradiction_threshold=contradiction_threshold,
-            circuit_breaker_threshold=3
+            circuit_breaker_threshold=3,
         )
 
         self.thought_engine = EnhancedThoughtEngine(
             max_inference_depth=max_inference_depth,
             default_time_budget_ms=time_budget_ms,
             contradiction_threshold=contradiction_threshold,
-            enable_meta_cognitive=enable_meta_cognitive
+            enable_meta_cognitive=enable_meta_cognitive,
         )
 
         self.contradiction_integrator = ContradictionIntegrator(
             accuracy_target=contradiction_threshold,
             max_detection_time_ms=5.0,  # Fast real-time detection
             enable_adaptive_strategies=True,
-            enable_meta_feedback=True
+            enable_meta_feedback=True,
         )
 
-        self.enhanced_awareness = EnhancedAwarenessEngine(
-            enable_auto_adjustment=True,
-            assessment_frequency_ratio=0.2
-        )
+        self.enhanced_awareness = EnhancedAwarenessEngine(enable_auto_adjustment=True, assessment_frequency_ratio=0.2)
 
         # Performance tracking
         self.processing_stats = {
@@ -108,7 +106,7 @@ class EnhancedThoughtNode:
             "deep_reasoning_used": 0,
             "contradictions_detected": 0,
             "avg_processing_time_ms": 0.0,
-            "t4_compliance_rate": 0.0
+            "t4_compliance_rate": 0.0,
         }
 
         # MATRIZ compatibility
@@ -119,7 +117,7 @@ class EnhancedThoughtNode:
             "meta_cognitive_assessment",
             "hypothesis_generation",
             "context_integration",
-            "affect_tracking"
+            "affect_tracking",
         ]
 
         logger.info(
@@ -161,7 +159,7 @@ class EnhancedThoughtNode:
                 time_budget_ms=self.time_budget_ms,
                 enable_contradiction_detection=True,
                 enable_meta_cognitive_checks=self.enable_meta_cognitive,
-                metadata=input_data.get("metadata", {})
+                metadata=input_data.get("metadata", {}),
             )
 
             # Perform enhanced thought synthesis
@@ -174,16 +172,20 @@ class EnhancedThoughtNode:
                     scope=ContradictionScope.CHAIN_LEVEL,
                     source_component="enhanced_thought_node",
                     reasoning_depth=thought_result.inference_depth_reached,
-                    confidence_levels=[chain.total_confidence for chain in thought_result.reasoning_chains if hasattr(chain, 'total_confidence')],
+                    confidence_levels=[
+                        chain.total_confidence
+                        for chain in thought_result.reasoning_chains
+                        if hasattr(chain, "total_confidence")
+                    ],
                     processing_time_budget_ms=5.0,  # Fast detection
                     enable_resolution=True,
-                    metadata={"thought_context": True}
+                    metadata={"thought_context": True},
                 )
 
                 # Convert reasoning chains to inference steps for contradiction detection
                 all_steps = []
                 for chain in thought_result.reasoning_chains:
-                    if hasattr(chain, 'steps'):
+                    if hasattr(chain, "steps"):
                         all_steps.extend(chain.steps)
 
                 if all_steps:
@@ -197,7 +199,7 @@ class EnhancedThoughtNode:
                     consciousness_state,
                     signals=self._extract_signals(input_data, thought_result),
                     recent_inference=self._create_inference_result_from_thought(thought_result),
-                    recent_thought=self._create_thought_summary(thought_result)
+                    recent_thought=self._create_thought_summary(thought_result),
                 )
             else:
                 enhanced_snapshot = None
@@ -236,10 +238,7 @@ class EnhancedThoughtNode:
             return asyncio.run(self.process_async(input_data))
 
     def _determine_complexity(
-        self,
-        query: str,
-        memory_signals: List[Dict[str, Any]],
-        input_data: Dict[str, Any]
+        self, query: str, memory_signals: List[Dict[str, Any]], input_data: Dict[str, Any]
     ) -> ThoughtComplexity:
         """Determine appropriate processing complexity level."""
 
@@ -255,8 +254,17 @@ class EnhancedThoughtNode:
 
         # Check for reasoning keywords
         reasoning_keywords = [
-            "why", "how", "because", "therefore", "explain", "analyze",
-            "compare", "evaluate", "synthesize", "infer", "conclude"
+            "why",
+            "how",
+            "because",
+            "therefore",
+            "explain",
+            "analyze",
+            "compare",
+            "evaluate",
+            "synthesize",
+            "infer",
+            "conclude",
         ]
         has_reasoning = any(kw in query.lower() for kw in reasoning_keywords)
 
@@ -277,7 +285,7 @@ class EnhancedThoughtNode:
             "cpu_utilization": min(1.0, thought_result.processing_time_ms / self.time_budget_ms),
             "inference_depth": thought_result.inference_depth_reached,
             "reasoning_quality": thought_result.quality_score,
-            "contradictions_found": thought_result.contradictions_found
+            "contradictions_found": thought_result.contradictions_found,
         }
 
     def _create_inference_result_from_thought(self, thought_result: ThoughtResult) -> Optional[InferenceResult]:
@@ -290,33 +298,37 @@ class EnhancedThoughtNode:
         alternative_chains = thought_result.reasoning_chains[1:] if len(thought_result.reasoning_chains) > 1 else []
 
         # Mock inference result structure for compatibility
-        return type('InferenceResult', (), {
-            'success': thought_result.success,
-            'confidence_score': thought_result.confidence,
-            'reasoning_quality': thought_result.quality_score,
-            'max_depth_explored': thought_result.inference_depth_reached,
-            'total_steps': sum(len(getattr(chain, 'steps', [])) for chain in thought_result.reasoning_chains),
-            'contradictions_detected': thought_result.contradictions_found,
-            'circular_logic_detected': 0,  # Not tracked in ThoughtResult
-            'primary_chain': primary_chain,
-            'alternative_chains': alternative_chains,
-            'performance_metrics': {
-                'total_processing_time_ms': thought_result.processing_time_ms,
-                'within_time_budget': thought_result.processing_time_ms <= self.time_budget_ms
-            }
-        })()
+        return type(
+            "InferenceResult",
+            (),
+            {
+                "success": thought_result.success,
+                "confidence_score": thought_result.confidence,
+                "reasoning_quality": thought_result.quality_score,
+                "max_depth_explored": thought_result.inference_depth_reached,
+                "total_steps": sum(len(getattr(chain, "steps", [])) for chain in thought_result.reasoning_chains),
+                "contradictions_detected": thought_result.contradictions_found,
+                "circular_logic_detected": 0,  # Not tracked in ThoughtResult
+                "primary_chain": primary_chain,
+                "alternative_chains": alternative_chains,
+                "performance_metrics": {
+                    "total_processing_time_ms": thought_result.processing_time_ms,
+                    "within_time_budget": thought_result.processing_time_ms <= self.time_budget_ms,
+                },
+            },
+        )()
 
     def _create_thought_summary(self, thought_result: ThoughtResult) -> Dict[str, Any]:
         """Create thought summary for awareness tracking."""
         return {
-            'synthesis': thought_result.synthesis,
-            'confidence': thought_result.confidence,
-            'quality_score': thought_result.quality_score,
-            'processing_time_ms': thought_result.processing_time_ms,
-            'cognitive_load': thought_result.cognitive_load,
-            'inference_depth': thought_result.inference_depth_reached,
-            'contradictions': thought_result.contradictions_found,
-            'success': thought_result.success
+            "synthesis": thought_result.synthesis,
+            "confidence": thought_result.confidence,
+            "quality_score": thought_result.quality_score,
+            "processing_time_ms": thought_result.processing_time_ms,
+            "cognitive_load": thought_result.cognitive_load,
+            "inference_depth": thought_result.inference_depth_reached,
+            "contradictions": thought_result.contradictions_found,
+            "success": thought_result.success,
         }
 
     def _create_matriz_result(
@@ -325,7 +337,7 @@ class EnhancedThoughtNode:
         thought_result: ThoughtResult,
         contradiction_result: Optional[Any],
         enhanced_snapshot: Optional[Any],
-        start_time: float
+        start_time: float,
     ) -> Dict[str, Any]:
         """Create MATRIZ-compatible result."""
 
@@ -334,17 +346,12 @@ class EnhancedThoughtNode:
         # Build result structure compatible with MATRIZ expectations
         result = {
             # Core thought synthesis result
-            "answer": {
-                "summary": thought_result.synthesis,
-                "support": input_data.get("recall_matches", [])
-            },
-
+            "answer": {"summary": thought_result.synthesis, "support": input_data.get("recall_matches", [])},
             # MATRIZ metadata
             "confidence": thought_result.confidence,
             "affect_delta": thought_result.affect_delta,
             "processing_time_ms": processing_time,
             "success": thought_result.success,
-
             # Enhanced cognitive features
             "enhanced_features": {
                 "inference_depth_reached": thought_result.inference_depth_reached,
@@ -353,8 +360,8 @@ class EnhancedThoughtNode:
                 "quality_score": thought_result.quality_score,
                 "cognitive_load": thought_result.cognitive_load,
                 "meta_cognitive_assessment": thought_result.meta_cognitive_assessment,
-                "t4_compliant": processing_time <= 250.0
-            }
+                "t4_compliant": processing_time <= 250.0,
+            },
         }
 
         # Add contradiction detection results
@@ -364,7 +371,7 @@ class EnhancedThoughtNode:
                 "detection_accuracy": contradiction_result.detection_accuracy,
                 "processing_time_ms": contradiction_result.processing_time_ms,
                 "recommendations": contradiction_result.recommendations,
-                "success": contradiction_result.success
+                "success": contradiction_result.success,
             }
 
         # Add enhanced awareness data
@@ -375,7 +382,7 @@ class EnhancedThoughtNode:
                 "meta_reasoning_quality": enhanced_snapshot.meta_reasoning_quality,
                 "actionable_insights_count": len(enhanced_snapshot.actionable_insights),
                 "cognitive_adjustments": enhanced_snapshot.cognitive_adjustments,
-                "performance_trend": enhanced_snapshot.performance_trend
+                "performance_trend": enhanced_snapshot.performance_trend,
             }
 
         # Create MATRIZ NodeState if available
@@ -384,13 +391,13 @@ class EnhancedThoughtNode:
                 confidence=thought_result.confidence,
                 salience=min(1.0, 0.5 + thought_result.quality_score * 0.5),
                 valence=max(0.0, min(1.0, 0.5 + thought_result.affect_delta)),
-                arousal=min(1.0, thought_result.cognitive_load)
+                arousal=min(1.0, thought_result.cognitive_load),
             )
 
             # Create MATRIZ node (simplified version)
             result["matriz_node"] = {
                 "node_type": "ENHANCED_HYPOTHESIS",
-                "state": state.__dict__ if hasattr(state, '__dict__') else {},
+                "state": state.__dict__ if hasattr(state, "__dict__") else {},
                 "additional_data": {
                     "query": input_data.get("query", ""),
                     "summary": thought_result.synthesis,
@@ -398,21 +405,20 @@ class EnhancedThoughtNode:
                     "memory_signal_count": len(input_data.get("recall_matches", [])),
                     "enhanced_processing": True,
                     "inference_depth": thought_result.inference_depth_reached,
-                    "reasoning_quality": thought_result.quality_score
-                }
+                    "reasoning_quality": thought_result.quality_score,
+                },
             }
 
         return result
 
-    def _create_error_result(self, input_data: Dict[str, Any], error_message: str, processing_time: float) -> Dict[str, Any]:
+    def _create_error_result(
+        self, input_data: Dict[str, Any], error_message: str, processing_time: float
+    ) -> Dict[str, Any]:
         """Create error result compatible with MATRIZ."""
         query = input_data.get("query", "")
 
         return {
-            "answer": {
-                "summary": f"Error processing '{query}': {error_message}",
-                "support": []
-            },
+            "answer": {"summary": f"Error processing '{query}': {error_message}", "support": []},
             "confidence": 0.0,
             "affect_delta": 0.0,
             "processing_time_ms": processing_time,
@@ -425,8 +431,8 @@ class EnhancedThoughtNode:
                 "quality_score": 0.0,
                 "cognitive_load": 1.0,
                 "meta_cognitive_assessment": {"error": error_message},
-                "t4_compliant": processing_time <= 250.0
-            }
+                "t4_compliant": processing_time <= 250.0,
+            },
         }
 
     def _update_performance_stats(self, thought_result: Optional[ThoughtResult], start_time: float, success: bool):
@@ -446,9 +452,7 @@ class EnhancedThoughtNode:
         # Update running averages
         total = self.processing_stats["total_thoughts"]
         current_avg_time = self.processing_stats["avg_processing_time_ms"]
-        self.processing_stats["avg_processing_time_ms"] = (
-            (current_avg_time * (total - 1) + processing_time) / total
-        )
+        self.processing_stats["avg_processing_time_ms"] = (current_avg_time * (total - 1) + processing_time) / total
 
         # T4 compliance rate
         if processing_time <= 250.0:
@@ -472,7 +476,7 @@ class EnhancedThoughtNode:
             "enhanced_thought_node": base_stats,
             "deep_inference_engine": self.deep_inference_engine.get_performance_stats(),
             "thought_engine": self.thought_engine.get_performance_stats(),
-            "contradiction_integrator": self.contradiction_integrator.get_performance_stats()
+            "contradiction_integrator": self.contradiction_integrator.get_performance_stats(),
         }
 
         if self.enhanced_awareness:
@@ -483,6 +487,7 @@ class EnhancedThoughtNode:
 
 # MATRIZ Base Class Integration (if available)
 if MATRIZ_AVAILABLE:
+
     class MATRIZEnhancedThoughtNode(BaseMatrixNode):
         """MATRIZ-integrated enhanced thought node."""
 
@@ -495,7 +500,7 @@ if MATRIZ_AVAILABLE:
                     "meta_cognitive_assessment",
                     "hypothesis_generation",
                     "context_integration",
-                    "affect_tracking"
+                    "affect_tracking",
                 ],
                 tenant=tenant,
             )
@@ -521,7 +526,7 @@ if MATRIZ_AVAILABLE:
                 confidence=confidence,
                 salience=min(1.0, 0.5 + enhanced_result.get("enhanced_features", {}).get("quality_score", 0.5) * 0.5),
                 valence=max(0.0, min(1.0, 0.5 + enhanced_result.get("affect_delta", 0.0))),
-                arousal=min(1.0, enhanced_result.get("enhanced_features", {}).get("cognitive_load", 0.3))
+                arousal=min(1.0, enhanced_result.get("enhanced_features", {}).get("cognitive_load", 0.3)),
             )
 
             # Create trigger
@@ -538,8 +543,8 @@ if MATRIZ_AVAILABLE:
                     "supporting_memory_ids": supporting_ids,
                     "memory_signal_count": len(memory_signals),
                     "affect_delta": enhanced_result.get("affect_delta", 0.0),
-                    **enhanced_result.get("enhanced_features", {})
-                }
+                    **enhanced_result.get("enhanced_features", {}),
+                },
             )
 
             # Log enhanced features
@@ -551,8 +556,8 @@ if MATRIZ_AVAILABLE:
                     "inference_depth": enhanced_result.get("enhanced_features", {}).get("inference_depth_reached", 0),
                     "contradictions": enhanced_result.get("enhanced_features", {}).get("contradictions_detected", 0),
                     "quality_score": enhanced_result.get("enhanced_features", {}).get("quality_score", 0.0),
-                    "t4_compliant": enhanced_result.get("enhanced_features", {}).get("t4_compliant", False)
-                }
+                    "t4_compliant": enhanced_result.get("enhanced_features", {}).get("t4_compliant", False),
+                },
             )
 
             # Create final result
@@ -564,12 +569,14 @@ if MATRIZ_AVAILABLE:
             )
 
             # Add enhanced features to result
-            result.update({
-                "affect_delta": enhanced_result.get("affect_delta", 0.0),
-                "enhanced_features": enhanced_result.get("enhanced_features", {}),
-                "contradiction_analysis": enhanced_result.get("contradiction_analysis"),
-                "awareness_snapshot": enhanced_result.get("awareness_snapshot")
-            })
+            result.update(
+                {
+                    "affect_delta": enhanced_result.get("affect_delta", 0.0),
+                    "enhanced_features": enhanced_result.get("enhanced_features", {}),
+                    "contradiction_analysis": enhanced_result.get("contradiction_analysis"),
+                    "awareness_snapshot": enhanced_result.get("awareness_snapshot"),
+                }
+            )
 
             return result
 

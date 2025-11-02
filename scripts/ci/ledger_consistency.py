@@ -26,6 +26,7 @@ from typing import NamedTuple
 
 class ManifestChange(NamedTuple):
     """Represents a changed manifest file."""
+
     path: Path
     module: str
     commit_timestamp: datetime
@@ -33,6 +34,7 @@ class ManifestChange(NamedTuple):
 
 class LedgerEntry(NamedTuple):
     """Represents a ledger entry."""
+
     ledger_type: str  # scaffold, test_scaffold, coverage, bench
     module: str
     timestamp: datetime
@@ -93,8 +95,7 @@ def read_ledger_entries(ledger_path: Path, ledger_type: str) -> list[LedgerEntry
 
 
 def check_ledger_consistency(
-    manifests: list[ManifestChange],
-    tolerance_minutes: int = 1
+    manifests: list[ManifestChange], tolerance_minutes: int = 1
 ) -> tuple[list[str], list[str]]:
     """Check if all manifest changes have corresponding ledger entries.
 
@@ -122,7 +123,8 @@ def check_ledger_consistency(
     for manifest_change in manifests:
         # Find ledger entries for this module within tolerance window
         matching_entries = [
-            entry for entry in all_entries
+            entry
+            for entry in all_entries
             if entry.module == manifest_change.module
             and abs(entry.timestamp - manifest_change.commit_timestamp) <= tolerance
         ]
@@ -132,7 +134,10 @@ def check_ledger_consistency(
             print(f"✅ {manifest_change.module}: {len(matching_entries)} ledger entries within ±{tolerance_minutes}min")
         else:
             invalid_modules.append(manifest_change.module)
-            print(f"❌ {manifest_change.module}: NO ledger entries within ±{tolerance_minutes}min of commit", file=sys.stderr)
+            print(
+                f"❌ {manifest_change.module}: NO ledger entries within ±{tolerance_minutes}min of commit",
+                file=sys.stderr,
+            )
             print(f"   Commit timestamp: {manifest_change.commit_timestamp.isoformat()}", file=sys.stderr)
             print(f"   Manifest path: {manifest_change.path}", file=sys.stderr)
 
@@ -140,20 +145,9 @@ def check_ledger_consistency(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Validate that manifest changes have corresponding ledger entries"
-    )
-    parser.add_argument(
-        "--commit-ref",
-        default="HEAD",
-        help="Git commit ref to check (default: HEAD)"
-    )
-    parser.add_argument(
-        "--tolerance",
-        type=int,
-        default=1,
-        help="Tolerance window in minutes (default: 1)"
-    )
+    parser = argparse.ArgumentParser(description="Validate that manifest changes have corresponding ledger entries")
+    parser.add_argument("--commit-ref", default="HEAD", help="Git commit ref to check (default: HEAD)")
+    parser.add_argument("--tolerance", type=int, default=1, help="Tolerance window in minutes (default: 1)")
     args = parser.parse_args()
 
     print(f"🔍 Checking ledger consistency for commit: {args.commit_ref}")

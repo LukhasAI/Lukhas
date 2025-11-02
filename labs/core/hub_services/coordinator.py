@@ -118,7 +118,9 @@ class HubCoordinator:
 
         This is the main entry point for cross-module communication.
         """
-        request_id = f"{request.source_module.value}_{request.target_module.value}_{datetime.now(timezone.utc).timestamp()}"
+        request_id = (
+            f"{request.source_module.value}_{request.target_module.value}_{datetime.now(timezone.utc).timestamp()}"
+        )
 
         try:
             # Check if target module is available
@@ -179,7 +181,9 @@ class HubCoordinator:
         Submit a request for async processing.
         Returns immediately with a request ID.
         """
-        request_id = f"{request.source_module.value}_{request.target_module.value}_{datetime.now(timezone.utc).timestamp()}"
+        request_id = (
+            f"{request.source_module.value}_{request.target_module.value}_{datetime.now(timezone.utc).timestamp()}"
+        )
         self._active_requests[request_id] = request
         await self._request_queue.put((request_id, request))
         return request_id

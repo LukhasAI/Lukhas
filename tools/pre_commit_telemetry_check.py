@@ -20,11 +20,7 @@ def validate_telemetry_fixture(fixture_path: str) -> List[str]:
             fixture_data = json.load(f)
 
         # Required attributes per OpenTelemetry semconv v1.37.0
-        required_span_attrs = {
-            "code.function",
-            "module",
-            "otel.semconv.version"
-        }
+        required_span_attrs = {"code.function", "module", "otel.semconv.version"}
 
         # Check spans
         spans = fixture_data.get("spans", [])

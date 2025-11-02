@@ -65,7 +65,7 @@ class TestMetricsConfig:
 class TestLUKHASMetricsWithoutPrometheus:
     """Test LUKHAS metrics when Prometheus client is not available"""
 
-    @patch('observability.prometheus_metrics.PROMETHEUS_AVAILABLE', False)
+    @patch("observability.prometheus_metrics.PROMETHEUS_AVAILABLE", False)
     def test_metrics_initialization_without_prometheus(self):
         """Test metrics initialization when Prometheus is not available"""
         metrics = LUKHASMetrics()
@@ -73,7 +73,7 @@ class TestLUKHASMetricsWithoutPrometheus:
         assert not metrics.enabled
         assert metrics.config.enabled is True  # Config says enabled, but no client
 
-    @patch('observability.prometheus_metrics.PROMETHEUS_AVAILABLE', False)
+    @patch("observability.prometheus_metrics.PROMETHEUS_AVAILABLE", False)
     def test_mock_operations_without_prometheus(self):
         """Test that operations work when Prometheus is not available"""
         metrics = LUKHASMetrics()
@@ -104,9 +104,9 @@ class TestLUKHASMetricsWithPrometheus:
 
         assert metrics.enabled
         assert metrics.registry is not None
-        assert hasattr(metrics, 'system_uptime')
-        assert hasattr(metrics, 'requests_total')
-        assert hasattr(metrics, 'memory_operations_total')
+        assert hasattr(metrics, "system_uptime")
+        assert hasattr(metrics, "requests_total")
+        assert hasattr(metrics, "memory_operations_total")
 
     def test_system_metrics_recording(self):
         """Test system metrics recording"""
@@ -145,16 +145,10 @@ class TestLUKHASMetricsWithPrometheus:
         metrics.record_memory_operation("recall", False, 0.150, 1000)
 
         # Record memory stats
-        metrics.record_memory_stats(
-            {"semantic": 100, "episodic": 50},
-            {"active": 1024000, "compressed": 512000}
-        )
+        metrics.record_memory_stats({"semantic": 100, "episodic": 50}, {"active": 1024000, "compressed": 512000})
 
         # Record fold operations
-        metrics.record_fold_operation(
-            "compression", True, 0.6,
-            {"active": 10, "compressed": 25, "evicted": 5}
-        )
+        metrics.record_fold_operation("compression", True, 0.6, {"active": 10, "compressed": 25, "evicted": 5})
 
     def test_matriz_metrics_recording(self):
         """Test MATRIZ orchestration metrics recording"""
@@ -185,11 +179,13 @@ class TestLUKHASMetricsWithPrometheus:
         metrics.record_plugin_operation("instantiation", False, plugin_name="broken_node")
 
         # Record plugin stats
-        metrics.record_plugin_stats({
-            "cognitive": {"active": 15, "failed": 2},
-            "memory": {"active": 8, "failed": 0},
-            "orchestration": {"active": 5, "failed": 1},
-        })
+        metrics.record_plugin_stats(
+            {
+                "cognitive": {"active": 15, "failed": 2},
+                "memory": {"active": 8, "failed": 0},
+                "orchestration": {"active": 5, "failed": 1},
+            }
+        )
 
     def test_lane_label_instrumentation(self):
         """Ensure lane labels are applied to emitted metrics."""
@@ -259,7 +255,7 @@ class TestLUKHASMetricsWithPrometheus:
         metrics = LUKHASMetrics(config)
 
         # Mock the start_http_server function to avoid actually starting server
-        with patch('observability.prometheus_metrics.start_http_server') as mock_start:
+        with patch("observability.prometheus_metrics.start_http_server") as mock_start:
             mock_start.return_value = None
             result = metrics.start_http_server(port=0)  # Use port 0 to avoid conflicts
             assert result is True
@@ -315,10 +311,7 @@ class TestMetricsIntegration:
         metrics.record_fold_operation("eviction", True)
 
         # Update stats
-        metrics.record_memory_stats(
-            {"semantic": 150, "episodic": 75},
-            {"active": 2048000, "compressed": 1024000}
-        )
+        metrics.record_memory_stats({"semantic": 150, "episodic": 75}, {"active": 2048000, "compressed": 1024000})
 
     def test_matriz_system_integration(self):
         """Test metrics integration with MATRIZ orchestration"""
@@ -364,11 +357,13 @@ class TestMetricsIntegration:
             metrics.record_plugin_operation("instantiation", success, plugin_name=plugin)
 
         # Update plugin stats
-        metrics.record_plugin_stats({
-            "cognitive": {"active": 12, "failed": 1},
-            "memory": {"active": 6, "failed": 0},
-            "orchestration": {"active": 4, "failed": 0},
-        })
+        metrics.record_plugin_stats(
+            {
+                "cognitive": {"active": 12, "failed": 1},
+                "memory": {"active": 6, "failed": 0},
+                "orchestration": {"active": 4, "failed": 0},
+            }
+        )
 
     def test_error_scenarios(self):
         """Test metrics with various error scenarios"""
@@ -458,7 +453,7 @@ class TestMetricsConfiguration:
         summary = metrics.get_metrics_summary()
         assert summary["enabled"] is False
 
-    @patch.dict('os.environ', {}, clear=True)
+    @patch.dict("os.environ", {}, clear=True)
     def test_environment_configuration(self):
         """Test configuration from environment variables"""
         # Test without environment variables

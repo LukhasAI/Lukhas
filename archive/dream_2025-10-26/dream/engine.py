@@ -399,9 +399,11 @@ class DreamEngine:
                 "speaker": "self" if dream_type == DreamType.CONSCIOUSNESS_EXPLORATION else "other",
                 "content_type": "wisdom" if dream_type == DreamType.SYMBOLIC else "conversation",
                 "understanding_level": context.consciousness_level,
-                "emotional_context": max(context.emotional_state.items(), key=lambda x: x[1])[0]
-                if context.emotional_state
-                else "neutral",
+                "emotional_context": (
+                    max(context.emotional_state.items(), key=lambda x: x[1])[0]
+                    if context.emotional_state
+                    else "neutral"
+                ),
             },
             symbolic_meaning="inner_voice" if dream_type == DreamType.CONSCIOUSNESS_EXPLORATION else None,
             emotional_weight=0.6,
@@ -577,9 +579,11 @@ class DreamEngine:
         emotional_elements = [e for e in dream.elements if e.element_type == "emotion"]
         return {
             "emotions_processed": len(emotional_elements),
-            "emotional_intensity": sum(e.emotional_weight for e in emotional_elements) / len(emotional_elements)
-            if emotional_elements
-            else 0.0,
+            "emotional_intensity": (
+                sum(e.emotional_weight for e in emotional_elements) / len(emotional_elements)
+                if emotional_elements
+                else 0.0
+            ),
             "resolution_achieved": dream.dream_type == DreamType.HEALING,
         }
 

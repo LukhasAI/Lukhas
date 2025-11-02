@@ -15,9 +15,7 @@ def mesh_service(monkeypatch: pytest.MonkeyPatch) -> MeshTopologyService:
     """Provide an isolated mesh topology service for each test."""
 
     service = MeshTopologyService()
-    monkeypatch.setattr(
-        colony_tag_propagation, "get_mesh_topology_service", lambda: service
-    )
+    monkeypatch.setattr(colony_tag_propagation, "get_mesh_topology_service", lambda: service)
     return service
 
 
@@ -38,9 +36,7 @@ def test_colony_initialization_registers_mesh_agents(
 
     metrics = mesh_service.get_mesh_metrics()
     assert metrics["total_agents"] == 3
-    assert all(
-        agent["node_type"] == "symbolic_reasoning" for agent in metrics["agents"].values()
-    )
+    assert all(agent["node_type"] == "symbolic_reasoning" for agent in metrics["agents"].values())
 
 
 def test_process_updates_drift_and_mesh_metrics(
@@ -88,9 +84,7 @@ async def test_propagate_belief_tracks_decay(monkeypatch: pytest.MonkeyPatch) ->
     """Belief propagation with a single agent should exhibit exponential decay."""
 
     service = MeshTopologyService()
-    monkeypatch.setattr(
-        colony_tag_propagation, "get_mesh_topology_service", lambda: service
-    )
+    monkeypatch.setattr(colony_tag_propagation, "get_mesh_topology_service", lambda: service)
     colony = colony_tag_propagation.SymbolicReasoningColony("colony-decay", agent_count=1)
 
     initial_strength = 0.8
@@ -110,6 +104,4 @@ async def test_propagate_belief_tracks_decay(monkeypatch: pytest.MonkeyPatch) ->
     assert belief_state[agent_id] == pytest.approx(expected_strength)
     assert len(colony.propagation_history) == iterations
     # ΛTAG: belief_decay - track symbolic decay across recorded propagation history
-    assert colony.propagation_history[-1]["belief_distribution"][agent_id] == pytest.approx(
-        expected_strength
-    )
+    assert colony.propagation_history[-1]["belief_distribution"][agent_id] == pytest.approx(expected_strength)

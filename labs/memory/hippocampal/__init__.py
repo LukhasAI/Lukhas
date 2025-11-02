@@ -2,6 +2,7 @@
 Hippocampal Memory System
 Fast episodic memory encoding with pattern separation and completion
 """
+
 import streamlit as st
 
 from .hippocampal_buffer import EpisodicMemory, HippocampalBuffer, HippocampalState

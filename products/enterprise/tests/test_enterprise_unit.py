@@ -25,10 +25,7 @@ class TestEnterpriseModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "enterprise",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "enterprise", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestEnterpriseModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import enterprise
+
         self.assertIsNotNone(enterprise)
 
     def test_module_version(self):
         """Test module has version information."""
         import enterprise
+
         # Most modules should have version info
-        self.assertTrue(hasattr(enterprise, '__version__') or
-                       hasattr(enterprise, 'VERSION'))
+        self.assertTrue(hasattr(enterprise, "__version__") or hasattr(enterprise, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testcompliance(unittest.TestCase):
         """Test compliance can be imported."""
         try:
             from enterprise import compliance
+
             self.assertIsNotNone(compliance)
         except ImportError:
             pytest.skip("Component compliance not available")
@@ -97,6 +96,7 @@ class Testcore(unittest.TestCase):
         """Test core can be imported."""
         try:
             from enterprise import core
+
             self.assertIsNotNone(core)
         except ImportError:
             pytest.skip("Component core not available")
@@ -114,6 +114,7 @@ class Testeconomic(unittest.TestCase):
         """Test economic can be imported."""
         try:
             from enterprise import economic
+
             self.assertIsNotNone(economic)
         except ImportError:
             pytest.skip("Component economic not available")
@@ -122,7 +123,6 @@ class Testeconomic(unittest.TestCase):
         """Test economic can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

@@ -43,6 +43,7 @@ from lukhas.identity.webauthn_verify import (
 
 # Test fixtures
 
+
 @pytest.fixture
 def ec_key_pair() -> tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]:
     """Generate an ES256 (P-256) key pair for testing."""
@@ -63,7 +64,7 @@ def rsa_key_pair() -> tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]:
 def test_challenge() -> str:
     """Generate a test challenge (base64url-encoded)."""
     challenge_bytes = b"test_challenge_random_bytes_12345678"
-    return base64.urlsafe_b64encode(challenge_bytes).decode('utf-8').rstrip('=')
+    return base64.urlsafe_b64encode(challenge_bytes).decode("utf-8").rstrip("=")
 
 
 @pytest.fixture
@@ -80,21 +81,17 @@ def test_rp_id() -> str:
 
 def _base64url_encode(data: bytes) -> str:
     """Encode bytes to base64url string (without padding)."""
-    return base64.urlsafe_b64encode(data).decode('utf-8').rstrip('=')
+    return base64.urlsafe_b64encode(data).decode("utf-8").rstrip("=")
 
 
-def _create_client_data_json(
-    challenge: str,
-    origin: str,
-    type_: str = "webauthn.get"
-) -> bytes:
+def _create_client_data_json(challenge: str, origin: str, type_: str = "webauthn.get") -> bytes:
     """Create a clientDataJSON for testing."""
     client_data = {
         "type": type_,
         "challenge": challenge,
         "origin": origin,
     }
-    return json.dumps(client_data).encode('utf-8')
+    return json.dumps(client_data).encode("utf-8")
 
 
 def _create_authenticator_data(
@@ -107,7 +104,7 @@ def _create_authenticator_data(
 ) -> bytes:
     """Create authenticator data for testing."""
     # RP ID hash (32 bytes)
-    rp_id_hash = hashlib.sha256(rp_id.encode('utf-8')).digest()
+    rp_id_hash = hashlib.sha256(rp_id.encode("utf-8")).digest()
 
     # Flags (1 byte)
     flags = 0
@@ -121,7 +118,7 @@ def _create_authenticator_data(
         flags |= 0x10  # BS (Backup State)
 
     # Sign count (4 bytes, big-endian)
-    sign_count_bytes = struct.pack('>I', sign_count)
+    sign_count_bytes = struct.pack(">I", sign_count)
 
     return rp_id_hash + bytes([flags]) + sign_count_bytes
 
@@ -160,9 +157,9 @@ def _create_assertion_es256(
 
     # Encode public key (uncompressed point format)
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     # Build assertion
@@ -174,7 +171,7 @@ def _create_assertion_es256(
             "clientDataJSON": _base64url_encode(client_data_json),
             "authenticatorData": _base64url_encode(authenticator_data),
             "signature": _base64url_encode(signature),
-        }
+        },
     }
 
     return assertion, public_key_b64
@@ -209,8 +206,7 @@ def _create_assertion_rs256(
 
     # Encode public key (DER format)
     public_key_der = public_key.public_bytes(
-        encoding=serialization.Encoding.DER,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
+        encoding=serialization.Encoding.DER, format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
     public_key_b64 = _base64url_encode(public_key_der)
 
@@ -223,7 +219,7 @@ def _create_assertion_rs256(
             "clientDataJSON": _base64url_encode(client_data_json),
             "authenticatorData": _base64url_encode(authenticator_data),
             "signature": _base64url_encode(signature),
-        }
+        },
     }
 
     return assertion, public_key_b64
@@ -231,16 +227,16 @@ def _create_assertion_rs256(
 
 @pytest.fixture
 def sample_credential_es256(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
 ) -> WebAuthnCredential:
     """Create a sample WebAuthn credential with ES256 key."""
     _, public_key = ec_key_pair
 
     # Encode public key (uncompressed point format)
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     return {
@@ -253,6 +249,7 @@ def sample_credential_es256(
 
 
 # Test: Helper functions
+
 
 def test_base64url_decode_valid() -> None:
     """Test base64url decoding with valid input."""
@@ -310,12 +307,12 @@ def test_parse_authenticator_data_valid(test_rp_id: str) -> None:
 
     parsed = _parse_authenticator_data(auth_data)
 
-    assert parsed['sign_count'] == 42
-    assert parsed['user_present'] is True
-    assert parsed['user_verified'] is True
-    assert parsed['backup_eligible'] is True
-    assert parsed['backup_state'] is False
-    assert len(parsed['rp_id_hash']) == 32
+    assert parsed["sign_count"] == 42
+    assert parsed["user_present"] is True
+    assert parsed["user_verified"] is True
+    assert parsed["backup_eligible"] is True
+    assert parsed["backup_state"] is False
+    assert len(parsed["rp_id_hash"]) == 32
 
 
 def test_parse_authenticator_data_too_short() -> None:
@@ -331,9 +328,9 @@ def test_parse_client_data_json_valid(test_challenge: str, test_origin: str) -> 
     client_data_json = _create_client_data_json(test_challenge, test_origin)
     parsed = _parse_client_data_json(client_data_json)
 
-    assert parsed['type'] == "webauthn.get"
-    assert parsed['challenge'] == test_challenge
-    assert parsed['origin'] == test_origin
+    assert parsed["type"] == "webauthn.get"
+    assert parsed["challenge"] == test_challenge
+    assert parsed["origin"] == test_origin
 
 
 def test_parse_client_data_json_invalid_json() -> None:
@@ -346,10 +343,12 @@ def test_parse_client_data_json_invalid_json() -> None:
 
 def test_parse_client_data_json_missing_type() -> None:
     """Test parsing clientDataJSON missing 'type' field."""
-    client_data = json.dumps({
-        "challenge": "test",
-        "origin": "https://example.com",
-    }).encode('utf-8')
+    client_data = json.dumps(
+        {
+            "challenge": "test",
+            "origin": "https://example.com",
+        }
+    ).encode("utf-8")
 
     with pytest.raises(InvalidAssertionError, match="Missing 'type'"):
         _parse_client_data_json(client_data)
@@ -357,10 +356,12 @@ def test_parse_client_data_json_missing_type() -> None:
 
 def test_parse_client_data_json_missing_challenge() -> None:
     """Test parsing clientDataJSON missing 'challenge' field."""
-    client_data = json.dumps({
-        "type": "webauthn.get",
-        "origin": "https://example.com",
-    }).encode('utf-8')
+    client_data = json.dumps(
+        {
+            "type": "webauthn.get",
+            "origin": "https://example.com",
+        }
+    ).encode("utf-8")
 
     with pytest.raises(InvalidAssertionError, match="Missing 'challenge'"):
         _parse_client_data_json(client_data)
@@ -368,10 +369,12 @@ def test_parse_client_data_json_missing_challenge() -> None:
 
 def test_parse_client_data_json_missing_origin() -> None:
     """Test parsing clientDataJSON missing 'origin' field."""
-    client_data = json.dumps({
-        "type": "webauthn.get",
-        "challenge": "test",
-    }).encode('utf-8')
+    client_data = json.dumps(
+        {
+            "type": "webauthn.get",
+            "challenge": "test",
+        }
+    ).encode("utf-8")
 
     with pytest.raises(InvalidAssertionError, match="Missing 'origin'"):
         _parse_client_data_json(client_data)
@@ -379,8 +382,9 @@ def test_parse_client_data_json_missing_origin() -> None:
 
 # Test: ES256 signature verification
 
+
 def test_verify_signature_es256_valid(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
 ) -> None:
     """Test ES256 signature verification with valid signature."""
     private_key, public_key = ec_key_pair
@@ -391,16 +395,16 @@ def test_verify_signature_es256_valid(
 
     # Encode public key (uncompressed point format)
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
 
     # Verify (should not raise)
     _verify_signature_es256(public_key_bytes, signed_data, signature)
 
 
 def test_verify_signature_es256_invalid_signature(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
 ) -> None:
     """Test ES256 signature verification with invalid signature."""
     private_key, public_key = ec_key_pair
@@ -411,9 +415,9 @@ def test_verify_signature_es256_invalid_signature(
 
     # Encode public key
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
 
     # Verify should fail
     with pytest.raises(InvalidSignatureError, match="ES256 signature verification failed"):
@@ -421,7 +425,7 @@ def test_verify_signature_es256_invalid_signature(
 
 
 def test_verify_signature_es256_wrong_data(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
 ) -> None:
     """Test ES256 signature verification with modified data."""
     private_key, public_key = ec_key_pair
@@ -433,9 +437,9 @@ def test_verify_signature_es256_wrong_data(
 
     # Encode public key
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
 
     # Verify with modified data should fail
     with pytest.raises(InvalidSignatureError):
@@ -454,9 +458,8 @@ def test_verify_signature_es256_invalid_public_key() -> None:
 
 # Test: RS256 signature verification
 
-def test_verify_signature_rs256_valid(
-    rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]
-) -> None:
+
+def test_verify_signature_rs256_valid(rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]) -> None:
     """Test RS256 signature verification with valid signature."""
     private_key, public_key = rsa_key_pair
     signed_data = b"test data to sign"
@@ -466,17 +469,14 @@ def test_verify_signature_rs256_valid(
 
     # Encode public key (DER format)
     public_key_der = public_key.public_bytes(
-        encoding=serialization.Encoding.DER,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
+        encoding=serialization.Encoding.DER, format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
     # Verify (should not raise)
     _verify_signature_rs256(public_key_der, signed_data, signature)
 
 
-def test_verify_signature_rs256_invalid_signature(
-    rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]
-) -> None:
+def test_verify_signature_rs256_invalid_signature(rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]) -> None:
     """Test RS256 signature verification with invalid signature."""
     private_key, public_key = rsa_key_pair
     signed_data = b"test data to sign"
@@ -486,8 +486,7 @@ def test_verify_signature_rs256_invalid_signature(
 
     # Encode public key
     public_key_der = public_key.public_bytes(
-        encoding=serialization.Encoding.DER,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
+        encoding=serialization.Encoding.DER, format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
     # Verify should fail
@@ -506,6 +505,7 @@ def test_verify_signature_rs256_invalid_public_key() -> None:
 
 
 # Test: verify_assertion (ES256)
+
 
 def test_verify_assertion_es256_success(
     ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
@@ -531,14 +531,12 @@ def test_verify_assertion_es256_success(
     }
 
     # Verify assertion
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is True
-    assert result['user_id'] == "alice@example.com"
-    assert result['credential_id'] == "test_credential_id"
-    assert result['new_sign_count'] == 1
+    assert result["success"] is True
+    assert result["user_id"] == "alice@example.com"
+    assert result["credential_id"] == "test_credential_id"
+    assert result["new_sign_count"] == 1
 
 
 def test_verify_assertion_es256_with_user_verification(
@@ -552,8 +550,7 @@ def test_verify_assertion_es256_with_user_verification(
 
     # Create assertion with user_verified=True
     assertion, public_key_b64 = _create_assertion_es256(
-        private_key, public_key, test_challenge, test_origin, test_rp_id,
-        sign_count=1, user_verified=True
+        private_key, public_key, test_challenge, test_origin, test_rp_id, sign_count=1, user_verified=True
     )
 
     credential: WebAuthnCredential = {
@@ -564,12 +561,10 @@ def test_verify_assertion_es256_with_user_verification(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is True
-    assert result.get('user_verified') is True
+    assert result["success"] is True
+    assert result.get("user_verified") is True
 
 
 def test_verify_assertion_rs256_success(
@@ -596,13 +591,11 @@ def test_verify_assertion_rs256_success(
     }
 
     # Verify assertion
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is True
-    assert result['user_id'] == "bob@example.com"
-    assert result['new_sign_count'] == 1
+    assert result["success"] is True
+    assert result["user_id"] == "bob@example.com"
+    assert result["new_sign_count"] == 1
 
 
 def test_verify_assertion_missing_response_field(
@@ -617,12 +610,10 @@ def test_verify_assertion_missing_response_field(
         # Missing 'response'
     }
 
-    result = verify_assertion(
-        assertion, sample_credential_es256, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, sample_credential_es256, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Missing 'response' field" in result['error']
+    assert result["success"] is False
+    assert "Missing 'response' field" in result["error"]
 
 
 def test_verify_assertion_missing_client_data_json(
@@ -638,15 +629,13 @@ def test_verify_assertion_missing_client_data_json(
             # Missing 'clientDataJSON'
             "authenticatorData": "test",
             "signature": "test",
-        }
+        },
     }
 
-    result = verify_assertion(
-        assertion, sample_credential_es256, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, sample_credential_es256, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Missing 'clientDataJSON'" in result['error']
+    assert result["success"] is False
+    assert "Missing 'clientDataJSON'" in result["error"]
 
 
 def test_verify_assertion_invalid_type(
@@ -662,9 +651,7 @@ def test_verify_assertion_invalid_type(
     authenticator_data = _create_authenticator_data(test_rp_id, 1)
 
     # Create client data with wrong type
-    client_data_json = _create_client_data_json(
-        test_challenge, test_origin, type_="webauthn.create"
-    )
+    client_data_json = _create_client_data_json(test_challenge, test_origin, type_="webauthn.create")
 
     # Compute signed data and signature
     client_data_hash = hashlib.sha256(client_data_json).digest()
@@ -673,9 +660,9 @@ def test_verify_assertion_invalid_type(
 
     # Encode public key
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     assertion = {
@@ -684,7 +671,7 @@ def test_verify_assertion_invalid_type(
             "clientDataJSON": _base64url_encode(client_data_json),
             "authenticatorData": _base64url_encode(authenticator_data),
             "signature": _base64url_encode(signature),
-        }
+        },
     }
 
     credential: WebAuthnCredential = {
@@ -695,12 +682,10 @@ def test_verify_assertion_invalid_type(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Invalid type" in result['error']
+    assert result["success"] is False
+    assert "Invalid type" in result["error"]
 
 
 def test_verify_assertion_origin_mismatch(
@@ -726,12 +711,10 @@ def test_verify_assertion_origin_mismatch(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Origin mismatch" in result['error']
+    assert result["success"] is False
+    assert "Origin mismatch" in result["error"]
 
 
 def test_verify_assertion_challenge_mismatch(
@@ -757,12 +740,10 @@ def test_verify_assertion_challenge_mismatch(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Challenge verification failed" in result['error']
+    assert result["success"] is False
+    assert "Challenge verification failed" in result["error"]
 
 
 def test_verify_assertion_rp_id_mismatch(
@@ -788,12 +769,10 @@ def test_verify_assertion_rp_id_mismatch(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "RP ID hash mismatch" in result['error']
+    assert result["success"] is False
+    assert "RP ID hash mismatch" in result["error"]
 
 
 def test_verify_assertion_sign_counter_replay_attack(
@@ -819,13 +798,11 @@ def test_verify_assertion_sign_counter_replay_attack(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Sign counter did not increment" in result['error']
-    assert "replay attack" in result['error'].lower()
+    assert result["success"] is False
+    assert "Sign counter did not increment" in result["error"]
+    assert "replay attack" in result["error"].lower()
 
 
 def test_verify_assertion_sign_counter_rollback(
@@ -851,12 +828,10 @@ def test_verify_assertion_sign_counter_rollback(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Sign counter did not increment" in result['error']
+    assert result["success"] is False
+    assert "Sign counter did not increment" in result["error"]
 
 
 def test_verify_assertion_sign_counter_from_zero(
@@ -883,14 +858,12 @@ def test_verify_assertion_sign_counter_from_zero(
     }
 
     # This should succeed (counter=0 is allowed when credential counter is also 0)
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
     # Note: Some authenticators don't implement counters and always return 0
     # The current implementation allows this for counter=0 credentials
-    assert result['success'] is True
-    assert result['new_sign_count'] == 0
+    assert result["success"] is True
+    assert result["new_sign_count"] == 0
 
 
 def test_verify_assertion_invalid_signature(
@@ -908,7 +881,7 @@ def test_verify_assertion_invalid_signature(
     )
 
     # Corrupt the signature
-    assertion['response']['signature'] = _base64url_encode(b"invalid_signature_bytes")
+    assertion["response"]["signature"] = _base64url_encode(b"invalid_signature_bytes")
 
     credential: WebAuthnCredential = {
         "user_id": "user_123",
@@ -918,12 +891,10 @@ def test_verify_assertion_invalid_signature(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Signature verification failed" in result['error']
+    assert result["success"] is False
+    assert "Signature verification failed" in result["error"]
 
 
 def test_verify_assertion_user_presence_not_set(
@@ -952,9 +923,9 @@ def test_verify_assertion_user_presence_not_set(
 
     # Encode public key
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     assertion = {
@@ -963,7 +934,7 @@ def test_verify_assertion_user_presence_not_set(
             "clientDataJSON": _base64url_encode(client_data_json),
             "authenticatorData": _base64url_encode(authenticator_data),
             "signature": _base64url_encode(signature),
-        }
+        },
     }
 
     credential: WebAuthnCredential = {
@@ -974,15 +945,14 @@ def test_verify_assertion_user_presence_not_set(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "User presence flag not set" in result['error']
+    assert result["success"] is False
+    assert "User presence flag not set" in result["error"]
 
 
 # Test: Integration with WebAuthnCredentialStore
+
 
 def test_verify_assertion_integration_with_store(
     ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
@@ -996,9 +966,9 @@ def test_verify_assertion_integration_with_store(
 
     # Create and store credential
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     credential_data = {
@@ -1018,38 +988,37 @@ def test_verify_assertion_integration_with_store(
     assertion1, _ = _create_assertion_es256(
         private_key, public_key, test_challenge, test_origin, test_rp_id, sign_count=1
     )
-    assertion1['id'] = "alice_yubikey"
+    assertion1["id"] = "alice_yubikey"
 
     # Verify assertion
-    result1 = verify_assertion(
-        assertion1, stored_credential, test_challenge, test_origin, test_rp_id
-    )
+    result1 = verify_assertion(assertion1, stored_credential, test_challenge, test_origin, test_rp_id)
 
-    assert result1['success'] is True
-    assert result1['new_sign_count'] == 1
+    assert result1["success"] is True
+    assert result1["new_sign_count"] == 1
 
     # Update counter in store
-    store.update_credential("alice_yubikey", {
-        "counter": result1['new_sign_count'],
-        "last_used": datetime.now(timezone.utc).isoformat(),
-    })
+    store.update_credential(
+        "alice_yubikey",
+        {
+            "counter": result1["new_sign_count"],
+            "last_used": datetime.now(timezone.utc).isoformat(),
+        },
+    )
 
     # Second authentication (counter must increment)
     updated_credential = store.get_credential("alice_yubikey")
     assert updated_credential is not None
-    assert updated_credential['counter'] == 1
+    assert updated_credential["counter"] == 1
 
     assertion2, _ = _create_assertion_es256(
         private_key, public_key, test_challenge, test_origin, test_rp_id, sign_count=2
     )
-    assertion2['id'] = "alice_yubikey"
+    assertion2["id"] = "alice_yubikey"
 
-    result2 = verify_assertion(
-        assertion2, updated_credential, test_challenge, test_origin, test_rp_id
-    )
+    result2 = verify_assertion(assertion2, updated_credential, test_challenge, test_origin, test_rp_id)
 
-    assert result2['success'] is True
-    assert result2['new_sign_count'] == 2
+    assert result2["success"] is True
+    assert result2["new_sign_count"] == 2
 
 
 def test_verify_assertion_multiple_authentications(
@@ -1063,9 +1032,9 @@ def test_verify_assertion_multiple_authentications(
 
     # Encode public key
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     # Start with counter = 0
@@ -1080,19 +1049,16 @@ def test_verify_assertion_multiple_authentications(
     # Simulate 5 authentications
     for i in range(1, 6):
         assertion, _ = _create_assertion_es256(
-            private_key, public_key, test_challenge, test_origin, test_rp_id,
-            sign_count=i
+            private_key, public_key, test_challenge, test_origin, test_rp_id, sign_count=i
         )
 
-        result = verify_assertion(
-            assertion, credential, test_challenge, test_origin, test_rp_id
-        )
+        result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-        assert result['success'] is True
-        assert result['new_sign_count'] == i
+        assert result["success"] is True
+        assert result["new_sign_count"] == i
 
         # Update counter for next iteration
-        credential['counter'] = result['new_sign_count']
+        credential["counter"] = result["new_sign_count"]
 
 
 def test_verify_assertion_backup_flags(
@@ -1123,9 +1089,9 @@ def test_verify_assertion_backup_flags(
 
     # Encode public key
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     assertion = {
@@ -1134,7 +1100,7 @@ def test_verify_assertion_backup_flags(
             "clientDataJSON": _base64url_encode(client_data_json),
             "authenticatorData": _base64url_encode(authenticator_data),
             "signature": _base64url_encode(signature),
-        }
+        },
     }
 
     credential: WebAuthnCredential = {
@@ -1145,16 +1111,15 @@ def test_verify_assertion_backup_flags(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is True
-    assert result.get('backup_eligible') is True
-    assert result.get('backup_state') is True
+    assert result["success"] is True
+    assert result.get("backup_eligible") is True
+    assert result.get("backup_state") is True
 
 
 # Test: Error handling edge cases
+
 
 def test_verify_assertion_malformed_base64(
     sample_credential_es256: WebAuthnCredential,
@@ -1169,15 +1134,13 @@ def test_verify_assertion_malformed_base64(
             "clientDataJSON": "!!!invalid_base64!!!",
             "authenticatorData": "test",
             "signature": "test",
-        }
+        },
     }
 
-    result = verify_assertion(
-        assertion, sample_credential_es256, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, sample_credential_es256, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "Failed to decode" in result['error']
+    assert result["success"] is False
+    assert "Failed to decode" in result["error"]
 
 
 def test_verify_assertion_short_authenticator_data(
@@ -1197,9 +1160,9 @@ def test_verify_assertion_short_authenticator_data(
 
     # Encode public key
     public_numbers = public_key.public_numbers()
-    x_bytes = public_numbers.x.to_bytes(32, 'big')
-    y_bytes = public_numbers.y.to_bytes(32, 'big')
-    public_key_bytes = b'\x04' + x_bytes + y_bytes
+    x_bytes = public_numbers.x.to_bytes(32, "big")
+    y_bytes = public_numbers.y.to_bytes(32, "big")
+    public_key_bytes = b"\x04" + x_bytes + y_bytes
     public_key_b64 = _base64url_encode(public_key_bytes)
 
     assertion = {
@@ -1208,7 +1171,7 @@ def test_verify_assertion_short_authenticator_data(
             "clientDataJSON": _base64url_encode(client_data_json),
             "authenticatorData": _base64url_encode(short_auth_data),
             "signature": _base64url_encode(b"fake_signature"),
-        }
+        },
     }
 
     credential: WebAuthnCredential = {
@@ -1219,15 +1182,14 @@ def test_verify_assertion_short_authenticator_data(
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
-    result = verify_assertion(
-        assertion, credential, test_challenge, test_origin, test_rp_id
-    )
+    result = verify_assertion(assertion, credential, test_challenge, test_origin, test_rp_id)
 
-    assert result['success'] is False
-    assert "too short" in result['error']
+    assert result["success"] is False
+    assert "too short" in result["error"]
 
 
 # Test: Constant-time comparison security property
+
 
 def test_constant_time_comparison_used_for_challenge() -> None:
     """Test that challenge comparison uses constant-time function.
@@ -1243,14 +1205,15 @@ def test_constant_time_comparison_used_for_challenge() -> None:
 
 # Test: Export verification
 
+
 def test_module_exports() -> None:
     """Test that all expected symbols are exported."""
     from lukhas.identity import webauthn_verify
 
-    assert hasattr(webauthn_verify, 'verify_assertion')
-    assert hasattr(webauthn_verify, 'VerificationResult')
-    assert hasattr(webauthn_verify, 'InvalidSignatureError')
-    assert hasattr(webauthn_verify, 'InvalidChallengeError')
-    assert hasattr(webauthn_verify, 'ReplayAttackError')
-    assert hasattr(webauthn_verify, 'InvalidAssertionError')
-    assert hasattr(webauthn_verify, 'CredentialNotFoundError')
+    assert hasattr(webauthn_verify, "verify_assertion")
+    assert hasattr(webauthn_verify, "VerificationResult")
+    assert hasattr(webauthn_verify, "InvalidSignatureError")
+    assert hasattr(webauthn_verify, "InvalidChallengeError")
+    assert hasattr(webauthn_verify, "ReplayAttackError")
+    assert hasattr(webauthn_verify, "InvalidAssertionError")
+    assert hasattr(webauthn_verify, "CredentialNotFoundError")

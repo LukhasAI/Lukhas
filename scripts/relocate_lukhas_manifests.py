@@ -14,6 +14,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 LUKHAS_MANIFESTS = ROOT / "manifests" / "lukhas"
 MANIFESTS = ROOT / "manifests"
 
+
 def main():
     if not LUKHAS_MANIFESTS.exists():
         print("No manifests/lukhas directory found. Nothing to relocate.")
@@ -30,7 +31,7 @@ def main():
     for old_manifest in manifest_files:
         try:
             # Read the manifest to get the actual module path
-            with open(old_manifest, 'r', encoding='utf-8') as f:
+            with open(old_manifest, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
             module_path = data.get("module", {}).get("path", "")
@@ -79,6 +80,7 @@ def main():
     if errors > 0:
         return 1
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

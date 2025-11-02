@@ -25,6 +25,7 @@ from .pipeline_stage import PipelineStage, StageResult
 @dataclass
 class PipelineResult:
     """Result of pipeline execution."""
+
     success: bool
     output: Optional[Dict[str, Any]]
     stage_results: Dict[str, StageResult]
@@ -110,10 +111,7 @@ class AsyncOrchestrator:
                             # Stage timeout
                             timeout_error = Exception(f"Stage {stage.name} timed out after {self.stage_timeout}s")
                             stage_results[stage.name] = StageResult(
-                                success=False,
-                                output=None,
-                                processing_time=self.stage_timeout,
-                                error=timeout_error
+                                success=False, output=None, processing_time=self.stage_timeout, error=timeout_error
                             )
 
                             if stage.critical:
@@ -123,10 +121,7 @@ class AsyncOrchestrator:
                         except Exception as e:
                             # Unexpected stage error
                             stage_results[stage.name] = StageResult(
-                                success=False,
-                                output=None,
-                                processing_time=0.0,
-                                error=e
+                                success=False, output=None, processing_time=0.0, error=e
                             )
 
                             if stage.critical:
@@ -147,7 +142,7 @@ class AsyncOrchestrator:
             duration=total_duration,
             success=pipeline_error is None,
             within_budget=total_duration < self.total_timeout,
-            stages_completed=len([r for r in stage_results.values() if r.success])
+            stages_completed=len([r for r in stage_results.values() if r.success]),
         )
 
         # Determine overall success
@@ -158,7 +153,7 @@ class AsyncOrchestrator:
             output=current_data if success else None,
             stage_results=stage_results,
             total_duration=total_duration,
-            error=pipeline_error
+            error=pipeline_error,
         )
 
     async def _execute_stage(self, stage: PipelineStage, input_data: Dict[str, Any]) -> StageResult:
@@ -180,19 +175,9 @@ class AsyncOrchestrator:
             processing_time = time.time() - start_time
 
             # Record stage metrics
-            self.metrics.record_matriz_stage(
-                stage=stage.name,
-                duration=processing_time,
-                success=True,
-                timeout=False
-            )
+            self.metrics.record_matriz_stage(stage=stage.name, duration=processing_time, success=True, timeout=False)
 
-            return StageResult(
-                success=True,
-                output=output,
-                processing_time=processing_time,
-                error=None
-            )
+            return StageResult(success=True, output=output, processing_time=processing_time, error=None)
 
         except Exception as e:
             processing_time = time.time() - start_time
@@ -200,18 +185,10 @@ class AsyncOrchestrator:
             # Record failure metrics
             is_timeout = isinstance(e, asyncio.TimeoutError)
             self.metrics.record_matriz_stage(
-                stage=stage.name,
-                duration=processing_time,
-                success=False,
-                timeout=is_timeout
+                stage=stage.name, duration=processing_time, success=False, timeout=is_timeout
             )
 
-            return StageResult(
-                success=False,
-                output=None,
-                processing_time=processing_time,
-                error=e
-            )
+            return StageResult(success=False, output=None, processing_time=processing_time, error=e)
 
     async def health_check(self) -> Dict[str, Any]:
         """Perform orchestrator health check."""
@@ -222,19 +199,15 @@ class AsyncOrchestrator:
             "performance_targets": {
                 "stage_timeout_ms": self.stage_timeout * 1000,
                 "total_timeout_ms": self.total_timeout * 1000,
-            }
+            },
         }
 
         # Check each stage
         for stage in self.stages:
-            stage_health = {
-                "name": stage.name,
-                "critical": stage.critical,
-                "healthy": True
-            }
+            stage_health = {"name": stage.name, "critical": stage.critical, "healthy": True}
 
             # Basic stage health check (if plugin supports it)
-            if hasattr(stage.plugin, 'health_check'):
+            if hasattr(stage.plugin, "health_check"):
                 try:
                     plugin_health = await stage.plugin.health_check()
                     stage_health.update(plugin_health)
@@ -255,7 +228,7 @@ class AsyncOrchestrator:
             "configuration": {
                 "stage_timeout_ms": self.stage_timeout * 1000,
                 "total_timeout_ms": self.total_timeout * 1000,
-            }
+            },
         }
 
 
@@ -276,8 +249,5 @@ class MockAsyncOrchestrator(AsyncOrchestrator):
         await asyncio.sleep(0.001)
 
         return PipelineResult(
-            success=True,
-            output={"mock": True, "input": input_data},
-            stage_results={},
-            total_duration=0.001
+            success=True, output={"mock": True, "input": input_data}, stage_results={}, total_duration=0.001
         )

@@ -4,6 +4,7 @@ Capability test: Zero unrouted signals during consciousness cycles
 This test ensures no signals go unrouted during normal operation,
 preventing silent routing failures that could degrade system performance.
 """
+
 import pytest
 
 from core.matriz_consciousness_integration import create_matriz_consciousness_system
@@ -14,11 +15,11 @@ def _get_no_rule_count():
     """Get current count of unrouted signals from Prometheus counter"""
     try:
         # Handle both real Prometheus counters and mock counters
-        if hasattr(router_no_rule_total, '_value'):
-            if hasattr(router_no_rule_total._value, 'get'):
+        if hasattr(router_no_rule_total, "_value"):
+            if hasattr(router_no_rule_total._value, "get"):
                 return router_no_rule_total._value.get()
             else:
-                return getattr(router_no_rule_total._value, '_value', 0)
+                return getattr(router_no_rule_total._value, "_value", 0)
         else:
             return 0
     except Exception:

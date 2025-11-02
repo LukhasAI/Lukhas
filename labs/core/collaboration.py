@@ -6,7 +6,6 @@ This module implements the high-level communication and collaboration patterns
 that define how the Symbiotic Swarm accomplishes complex tasks.
 """
 
-
 from core.coordination import ContractNetInitiator, ContractNetParticipant
 
 

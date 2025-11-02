@@ -25,10 +25,7 @@ class TestBioModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "bio",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "bio", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestBioModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import bio
+
         self.assertIsNotNone(bio)
 
     def test_module_version(self):
         """Test module has version information."""
         import bio
+
         # Most modules should have version info
-        self.assertTrue(hasattr(bio, '__version__') or
-                       hasattr(bio, 'VERSION'))
+        self.assertTrue(hasattr(bio, "__version__") or hasattr(bio, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestBioUtilities(unittest.TestCase):
         """Test BioUtilities can be imported."""
         try:
             from bio.bio_utilities import BioUtilities
+
             self.assertIsNotNone(BioUtilities)
         except ImportError:
             pytest.skip("Component BioUtilities not available")
@@ -97,6 +96,7 @@ class TestFatigueLevel(unittest.TestCase):
         """Test FatigueLevel can be imported."""
         try:
             from bio.bio_utilities import FatigueLevel
+
             self.assertIsNotNone(FatigueLevel)
         except ImportError:
             pytest.skip("Component FatigueLevel not available")
@@ -114,6 +114,7 @@ class Testadapt_to_environment(unittest.TestCase):
         """Test adapt_to_environment can be imported."""
         try:
             from bio.bio_utilities import adapt_to_environment
+
             self.assertIsNotNone(adapt_to_environment)
         except ImportError:
             pytest.skip("Component adapt_to_environment not available")
@@ -122,7 +123,6 @@ class Testadapt_to_environment(unittest.TestCase):
         """Test adapt_to_environment can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

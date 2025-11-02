@@ -21,7 +21,13 @@ def create_sentiment_symbolic_display(polarity: str, score: float, component: st
     Returns:
         A symbolic string representing the sentiment with appropriate emoji and formatting
     """
-    sentiment_symbols = {"very_positive": "🌟", "positive": "✅", "neutral": "⚖️", "negative": "⚠️", "very_negative": "🚨"}
+    sentiment_symbols = {
+        "very_positive": "🌟",
+        "positive": "✅",
+        "neutral": "⚖️",
+        "negative": "⚠️",
+        "very_negative": "🚨",
+    }
 
     constellation_symbols = {"identity": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
 
@@ -733,9 +739,7 @@ class BrandSentimentEngine:
                 "trend": (
                     "improving"
                     if dimension_scores[-1] > dimension_scores[0]
-                    else "declining"
-                    if len(dimension_scores) > 1
-                    else "stable"
+                    else "declining" if len(dimension_scores) > 1 else "stable"
                 ),
             }
 
@@ -748,9 +752,7 @@ class BrandSentimentEngine:
                 "trend": (
                     "improving"
                     if component_scores[-1] > component_scores[0]
-                    else "declining"
-                    if len(component_scores) > 1
-                    else "stable"
+                    else "declining" if len(component_scores) > 1 else "stable"
                 ),
             }
 
@@ -763,9 +765,7 @@ class BrandSentimentEngine:
                 "trend": (
                     "improving"
                     if overall_sentiments[-1] > overall_sentiments[0]
-                    else "declining"
-                    if len(overall_sentiments) > 1
-                    else "stable"
+                    else "declining" if len(overall_sentiments) > 1 else "stable"
                 ),
             },
             "average_confidence": sum(confidences) / len(confidences),
@@ -904,9 +904,7 @@ class BrandSentimentEngine:
                     "performance_level": (
                         "excellent"
                         if dimension_data["average"] > 0.7
-                        else "good"
-                        if dimension_data["average"] > 0.3
-                        else "needs_improvement"
+                        else "good" if dimension_data["average"] > 0.3 else "needs_improvement"
                     ),
                 }
 

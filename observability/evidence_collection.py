@@ -79,9 +79,7 @@ except Exception:
 # Added for test compatibility (observability.evidence_collection.initialize_evidence_collection)
 try:
     _mod = _importlib.import_module("labs.observability.evidence_collection")
-    initialize_evidence_collection = getattr(
-        _mod, "initialize_evidence_collection"
-    )
+    initialize_evidence_collection = getattr(_mod, "initialize_evidence_collection")
 except Exception:
 
     def initialize_evidence_collection(*args, **kwargs):

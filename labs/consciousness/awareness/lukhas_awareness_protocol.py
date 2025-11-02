@@ -8,6 +8,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class LucasAwarenessProtocol:
     """
     Core consciousness awareness protocol for LUKHAS Cognitive AI.
@@ -34,7 +35,7 @@ class LucasAwarenessProtocol:
             "status": "processed",
             "awareness_level": self.consciousness_level,
             "timestamp": signal.get("timestamp"),
-            "response": "awareness signal acknowledged"
+            "response": "awareness signal acknowledged",
         }
 
     def update_consciousness_level(self, level: float) -> None:
@@ -57,5 +58,5 @@ class LucasAwarenessProtocol:
         return {
             "state": self.awareness_state,
             "consciousness_level": self.consciousness_level,
-            "protocol_version": "1.0.0"
+            "protocol_version": "1.0.0",
         }

@@ -25,10 +25,7 @@ class TestVivoxModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "vivox",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "vivox", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestVivoxModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import vivox
+
         self.assertIsNotNone(vivox)
 
     def test_module_version(self):
         """Test module has version information."""
         import vivox
+
         # Most modules should have version info
-        self.assertTrue(hasattr(vivox, '__version__') or
-                       hasattr(vivox, 'VERSION'))
+        self.assertTrue(hasattr(vivox, "__version__") or hasattr(vivox, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestVivoxModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

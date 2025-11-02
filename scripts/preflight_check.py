@@ -35,8 +35,7 @@ class PreflightValidator:
         self.checks = []
         self.start_time = time.time()
 
-    def add_check(self, category: str, name: str, status: str,
-                  details: str = "", critical: bool = True):
+    def add_check(self, category: str, name: str, status: str, details: str = "", critical: bool = True):
         """Add validation check result"""
         check = {
             "category": category,
@@ -44,7 +43,7 @@ class PreflightValidator:
             "status": status,  # PASS, FAIL, WARN, SKIP
             "details": details,
             "critical": critical,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
         self.checks.append(check)
 
@@ -56,9 +55,7 @@ class PreflightValidator:
     def run_command(self, cmd: List[str], timeout: int = 10) -> Tuple[int, str, str]:
         """Execute command with timeout and capture output"""
         try:
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=timeout
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
             return result.returncode, result.stdout, result.stderr
         except subprocess.TimeoutExpired:
             return -1, "", "Command timeout"
@@ -72,29 +69,26 @@ class PreflightValidator:
         print("🔧 Validating CPU governor configuration...")
 
         if platform.system() != "Linux":
-            self.add_check("cpu", "governor", "SKIP",
-                          "CPU governor check only available on Linux", False)
+            self.add_check("cpu", "governor", "SKIP", "CPU governor check only available on Linux", False)
             return
 
         try:
             # Check if cpupower is available
             ret, out, err = self.run_command(["which", "cpupower"])
             if ret != 0:
-                self.add_check("cpu", "governor", "WARN",
-                              "cpupower not available, cannot verify governor")
+                self.add_check("cpu", "governor", "WARN", "cpupower not available, cannot verify governor")
                 return
 
             # Get current governor
             ret, out, err = self.run_command(["cpupower", "frequency-info", "-p"])
             if ret != 0:
-                self.add_check("cpu", "governor", "FAIL",
-                              f"Failed to read CPU governor: {err}")
+                self.add_check("cpu", "governor", "FAIL", f"Failed to read CPU governor: {err}")
                 return
 
             # Parse governor from output
             governor = "unknown"
-            for line in out.split('\n'):
-                if 'governor' in line.lower():
+            for line in out.split("\n"):
+                if "governor" in line.lower():
                     parts = line.split()
                     if len(parts) >= 3:
                         governor = parts[-1].strip('"')
@@ -102,23 +96,19 @@ class PreflightValidator:
 
             # Validate governor is performance or userspace
             if governor in ["performance", "userspace"]:
-                self.add_check("cpu", "governor", "PASS",
-                              f"CPU governor: {governor}")
+                self.add_check("cpu", "governor", "PASS", f"CPU governor: {governor}")
             else:
-                self.add_check("cpu", "governor", "FAIL",
-                              f"CPU governor '{governor}' not optimal for benchmarking")
+                self.add_check("cpu", "governor", "FAIL", f"CPU governor '{governor}' not optimal for benchmarking")
 
         except Exception as e:
-            self.add_check("cpu", "governor", "FAIL",
-                          f"CPU governor validation failed: {e}")
+            self.add_check("cpu", "governor", "FAIL", f"CPU governor validation failed: {e}")
 
     def validate_turbo_boost(self):
         """Validate Intel Turbo Boost / AMD Boost state"""
         print("⚡ Validating CPU turbo boost configuration...")
 
         if platform.system() != "Linux":
-            self.add_check("cpu", "turbo", "SKIP",
-                          "Turbo boost check only available on Linux", False)
+            self.add_check("cpu", "turbo", "SKIP", "Turbo boost check only available on Linux", False)
             return
 
         try:
@@ -129,11 +119,9 @@ class PreflightValidator:
                     no_turbo = f.read().strip()
 
                 if no_turbo == "0":
-                    self.add_check("cpu", "turbo", "WARN",
-                                  "Intel Turbo Boost enabled (may cause variability)")
+                    self.add_check("cpu", "turbo", "WARN", "Intel Turbo Boost enabled (may cause variability)")
                 else:
-                    self.add_check("cpu", "turbo", "PASS",
-                                  "Intel Turbo Boost disabled")
+                    self.add_check("cpu", "turbo", "PASS", "Intel Turbo Boost disabled")
                 return
 
             # Check AMD boost
@@ -143,19 +131,15 @@ class PreflightValidator:
                     boost = f.read().strip()
 
                 if boost == "1":
-                    self.add_check("cpu", "turbo", "WARN",
-                                  "AMD Boost enabled (may cause variability)")
+                    self.add_check("cpu", "turbo", "WARN", "AMD Boost enabled (may cause variability)")
                 else:
-                    self.add_check("cpu", "turbo", "PASS",
-                                  "AMD Boost disabled")
+                    self.add_check("cpu", "turbo", "PASS", "AMD Boost disabled")
                 return
 
-            self.add_check("cpu", "turbo", "SKIP",
-                          "CPU boost control not found", False)
+            self.add_check("cpu", "turbo", "SKIP", "CPU boost control not found", False)
 
         except Exception as e:
-            self.add_check("cpu", "turbo", "FAIL",
-                          f"Turbo boost validation failed: {e}")
+            self.add_check("cpu", "turbo", "FAIL", f"Turbo boost validation failed: {e}")
 
     def validate_ntp_sync(self):
         """Validate NTP synchronization for accurate timestamps"""
@@ -168,36 +152,30 @@ class PreflightValidator:
                 synchronized = False
                 ntp_active = False
 
-                for line in out.split('\n'):
+                for line in out.split("\n"):
                     line = line.strip().lower()
-                    if 'ntp synchronized: yes' in line or 'system clock synchronized: yes' in line:
+                    if "ntp synchronized: yes" in line or "system clock synchronized: yes" in line:
                         synchronized = True
-                    if 'ntp service: active' in line or 'ntp enabled: yes' in line:
+                    if "ntp service: active" in line or "ntp enabled: yes" in line:
                         ntp_active = True
 
                 if synchronized and ntp_active:
-                    self.add_check("time", "ntp_sync", "PASS",
-                                  "NTP synchronized and active")
+                    self.add_check("time", "ntp_sync", "PASS", "NTP synchronized and active")
                 elif synchronized:
-                    self.add_check("time", "ntp_sync", "PASS",
-                                  "Time synchronized (NTP or other)")
+                    self.add_check("time", "ntp_sync", "PASS", "Time synchronized (NTP or other)")
                 else:
-                    self.add_check("time", "ntp_sync", "FAIL",
-                                  "Time not synchronized")
+                    self.add_check("time", "ntp_sync", "FAIL", "Time not synchronized")
                 return
 
             # Fallback: check ntpstat
             ret, out, err = self.run_command(["ntpstat"])
             if ret == 0:
-                self.add_check("time", "ntp_sync", "PASS",
-                              "NTP synchronized (ntpstat)")
+                self.add_check("time", "ntp_sync", "PASS", "NTP synchronized (ntpstat)")
             else:
-                self.add_check("time", "ntp_sync", "FAIL",
-                              "NTP not synchronized")
+                self.add_check("time", "ntp_sync", "FAIL", "NTP not synchronized")
 
         except Exception as e:
-            self.add_check("time", "ntp_sync", "FAIL",
-                          f"NTP validation failed: {e}")
+            self.add_check("time", "ntp_sync", "FAIL", f"NTP validation failed: {e}")
 
     def validate_tool_versions(self):
         """Validate required tool versions are pinned and available"""
@@ -216,19 +194,17 @@ class PreflightValidator:
             ret, out, err = self.run_command(config["check_cmd"])
 
             if ret != 0:
-                self.add_check("tools", tool, "FAIL",
-                              "Tool not found or not executable")
+                self.add_check("tools", tool, "FAIL", "Tool not found or not executable")
                 continue
 
             # Extract version (simplified)
             version = "unknown"
-            for line in (out + err).split('\n'):
-                if any(v in line.lower() for v in ['version', tool]):
+            for line in (out + err).split("\n"):
+                if any(v in line.lower() for v in ["version", tool]):
                     version = line.strip()
                     break
 
-            self.add_check("tools", tool, "PASS",
-                          f"Available: {version}")
+            self.add_check("tools", tool, "PASS", f"Available: {version}")
 
     def validate_container_enforcement(self):
         """Validate non-root container enforcement"""
@@ -236,25 +212,21 @@ class PreflightValidator:
 
         # Check if running in container
         in_container = (
-            Path("/.dockerenv").exists() or
-            os.getenv("container") is not None or
-            Path("/proc/1/cgroup").exists() and
-            any("docker" in line or "containerd" in line
-                for line in Path("/proc/1/cgroup").read_text().split('\n'))
+            Path("/.dockerenv").exists()
+            or os.getenv("container") is not None
+            or Path("/proc/1/cgroup").exists()
+            and any("docker" in line or "containerd" in line for line in Path("/proc/1/cgroup").read_text().split("\n"))
         )
 
         if not in_container:
-            self.add_check("security", "container", "SKIP",
-                          "Not running in container", False)
+            self.add_check("security", "container", "SKIP", "Not running in container", False)
             return
 
         # Check if running as root
         if os.getuid() == 0:
-            self.add_check("security", "container", "FAIL",
-                          "Running as root in container (security violation)")
+            self.add_check("security", "container", "FAIL", "Running as root in container (security violation)")
         else:
-            self.add_check("security", "container", "PASS",
-                          f"Running as non-root user (UID: {os.getuid()})")
+            self.add_check("security", "container", "PASS", f"Running as non-root user (UID: {os.getuid()})")
 
     def validate_noise_thresholds(self):
         """Validate system noise and load thresholds"""
@@ -266,62 +238,46 @@ class PreflightValidator:
         load_percent = (load_avg[0] / cpu_count) * 100
 
         if load_percent > 50:
-            self.add_check("noise", "cpu_load", "FAIL",
-                          f"High CPU load: {load_percent:.1f}% (>{cpu_count/2} cores)")
+            self.add_check("noise", "cpu_load", "FAIL", f"High CPU load: {load_percent:.1f}% (>{cpu_count/2} cores)")
         elif load_percent > 20:
-            self.add_check("noise", "cpu_load", "WARN",
-                          f"Moderate CPU load: {load_percent:.1f}%")
+            self.add_check("noise", "cpu_load", "WARN", f"Moderate CPU load: {load_percent:.1f}%")
         else:
-            self.add_check("noise", "cpu_load", "PASS",
-                          f"Low CPU load: {load_percent:.1f}%")
+            self.add_check("noise", "cpu_load", "PASS", f"Low CPU load: {load_percent:.1f}%")
 
         # Memory pressure check
         mem = psutil.virtual_memory()
         if mem.percent > 80:
-            self.add_check("noise", "memory", "FAIL",
-                          f"High memory usage: {mem.percent:.1f}%")
+            self.add_check("noise", "memory", "FAIL", f"High memory usage: {mem.percent:.1f}%")
         elif mem.percent > 60:
-            self.add_check("noise", "memory", "WARN",
-                          f"Moderate memory usage: {mem.percent:.1f}%")
+            self.add_check("noise", "memory", "WARN", f"Moderate memory usage: {mem.percent:.1f}%")
         else:
-            self.add_check("noise", "memory", "PASS",
-                          f"Memory usage: {mem.percent:.1f}%")
+            self.add_check("noise", "memory", "PASS", f"Memory usage: {mem.percent:.1f}%")
 
         # Disk I/O check (simplified)
         try:
             disk_io = psutil.disk_io_counters()
             if disk_io:
                 # Check if there's significant disk activity (heuristic)
-                self.add_check("noise", "disk_io", "PASS",
-                              "Disk I/O monitoring available")
+                self.add_check("noise", "disk_io", "PASS", "Disk I/O monitoring available")
             else:
-                self.add_check("noise", "disk_io", "SKIP",
-                              "Disk I/O stats not available", False)
+                self.add_check("noise", "disk_io", "SKIP", "Disk I/O stats not available", False)
         except Exception as e:
-            self.add_check("noise", "disk_io", "SKIP",
-                          f"Disk I/O check failed: {e}", False)
+            self.add_check("noise", "disk_io", "SKIP", f"Disk I/O check failed: {e}", False)
 
     def validate_environment_vars(self):
         """Validate required environment variables"""
         print("🌍 Validating environment configuration...")
 
-        required_vars = {
-            "PYTHONHASHSEED": "0",
-            "LUKHAS_MODE": "release",
-            "PYTHONDONTWRITEBYTECODE": "1"
-        }
+        required_vars = {"PYTHONHASHSEED": "0", "LUKHAS_MODE": "release", "PYTHONDONTWRITEBYTECODE": "1"}
 
         for var, expected in required_vars.items():
             actual = os.getenv(var)
             if actual == expected:
-                self.add_check("env", var, "PASS",
-                              f"{var}={actual}")
+                self.add_check("env", var, "PASS", f"{var}={actual}")
             elif actual is None:
-                self.add_check("env", var, "FAIL",
-                              f"{var} not set (expected: {expected})")
+                self.add_check("env", var, "FAIL", f"{var} not set (expected: {expected})")
             else:
-                self.add_check("env", var, "FAIL",
-                              f"{var}={actual} (expected: {expected})")
+                self.add_check("env", var, "FAIL", f"{var}={actual} (expected: {expected})")
 
     def validate_python_environment(self):
         """Validate Python environment for reproducibility"""
@@ -330,22 +286,18 @@ class PreflightValidator:
         # Python version check
         version = sys.version_info
         if version >= (3, 9):
-            self.add_check("python", "version", "PASS",
-                          f"Python {version.major}.{version.minor}.{version.micro}")
+            self.add_check("python", "version", "PASS", f"Python {version.major}.{version.minor}.{version.micro}")
         else:
-            self.add_check("python", "version", "FAIL",
-                          f"Python {version.major}.{version.minor}.{version.micro} < 3.9")
+            self.add_check("python", "version", "FAIL", f"Python {version.major}.{version.minor}.{version.micro} < 3.9")
 
         # Check for required packages
         required_packages = ["psutil", "numpy", "hypothesis"]
         for package in required_packages:
             try:
                 __import__(package)
-                self.add_check("python", f"package_{package}", "PASS",
-                              f"{package} available")
+                self.add_check("python", f"package_{package}", "PASS", f"{package} available")
             except ImportError:
-                self.add_check("python", f"package_{package}", "FAIL",
-                              f"{package} not available")
+                self.add_check("python", f"package_{package}", "FAIL", f"{package} not available")
 
     def run_all_validations(self):
         """Execute all preflight validations"""
@@ -395,14 +347,14 @@ class PreflightValidator:
         report = {
             "audit_run_id": self.audit_run_id,
             "preflight_version": "1.0.0",
-            "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "duration_seconds": duration,
             "platform": {
                 "system": platform.system(),
                 "release": platform.release(),
                 "machine": platform.machine(),
                 "processor": platform.processor(),
-                "python_version": platform.python_version()
+                "python_version": platform.python_version(),
             },
             "summary": {
                 "total_checks": len(self.checks),
@@ -411,17 +363,17 @@ class PreflightValidator:
                 "warnings": sum(1 for c in self.checks if c["status"] == "WARN"),
                 "skipped": sum(1 for c in self.checks if c["status"] == "SKIP"),
                 "critical_violations": len(self.violations),
-                "validation_passed": len(self.violations) == 0
+                "validation_passed": len(self.violations) == 0,
             },
             "checks": self.checks,
             "violations": self.violations,
-            "warnings": self.warnings
+            "warnings": self.warnings,
         }
 
         # Ensure output directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(report, f, indent=2)
 
         print(f"\n📄 Preflight report saved: {output_path}")

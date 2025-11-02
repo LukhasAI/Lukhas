@@ -15,8 +15,17 @@ from typing import List
 import yaml
 
 EXCLUDE_DIRS = {
-    ".venv", ".venv_*", "venv", "__pycache__", ".pytest_cache",
-    "node_modules", ".git", "dist", "build", "*.egg-info", "htmlcov"
+    ".venv",
+    ".venv_*",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    "node_modules",
+    ".git",
+    "dist",
+    "build",
+    "*.egg-info",
+    "htmlcov",
 }
 
 REQUIRED_FIELDS = {"module", "title"}
@@ -25,6 +34,7 @@ REQUIRED_FIELDS = {"module", "title"}
 def should_exclude(path: Path) -> bool:
     """Check if path should be excluded."""
     import re
+
     for part in path.parts:
         if any(re.match(pattern.replace("*", ".*"), part) for pattern in EXCLUDE_DIRS):
             return True

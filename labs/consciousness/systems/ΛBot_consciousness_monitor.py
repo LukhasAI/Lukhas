@@ -266,7 +266,9 @@ class ΛBotConsciousnessMonitor:
                 "timestamp": "2025-01-01T09:30:00",
             },
         ]
-        developer_model = await self.cognitive_core.theory_of_mind.model_developer_state("dev_001", developer_interactions)
+        developer_model = await self.cognitive_core.theory_of_mind.model_developer_state(
+            "dev_001", developer_interactions
+        )
         logger.info(
             f"  ✅ Developer Model: {developer_model['knowledge_level']} knowledge, {developer_model['emotional_state']} emotional state"
         )

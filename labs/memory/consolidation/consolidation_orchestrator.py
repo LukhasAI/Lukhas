@@ -36,6 +36,7 @@ if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
 """
+
 from __future__ import annotations
 
 import random
@@ -46,50 +47,61 @@ from typing import Any, Dict, Iterable, List, Optional, Protocol
 
 # -------------------- Enums -------------------- #
 
+
 class SleepStage(Enum):
     REM = "rem"
     NREM_1 = "nrem_1"
     NREM_2 = "nrem_2"
     NREM_3 = "nrem_3"
 
+
 class ConsolidationMode(Enum):
     STANDARD = "standard"
     INTENSIVE = "intensive"
     MAINTENANCE = "maintenance"
 
+
 # -------------------- Protocols -------------------- #
+
 
 class MemoryStoreProtocol(Protocol):
     def iter_recent_traces(self, limit: int) -> Iterable["MemoryTrace"]: ...
     def write_long_term(self, folds: List["MemoryFold"]) -> None: ...
     def mark_consolidated(self, trace_ids: List[str]) -> None: ...
 
+
 class ConsciousnessAdapter(Protocol):
     def publish_event(self, event: str, payload: Dict[str, Any]) -> None: ...
 
+
 # -------------------- Data Models -------------------- #
+
 
 @dataclass
 class MemoryTrace:
     trace_id: str
     salience: float  # 0..1
-    domain: str      # e.g., "episodic", "semantic", "procedural"
+    domain: str  # e.g., "episodic", "semantic", "procedural"
     payload: Dict[str, Any]
+
 
 @dataclass
 class MemoryFold:
     fold_id: str
     origin_trace_ids: List[str]
-    quality: float       # 0..1 heuristic after consolidation
+    quality: float  # 0..1 heuristic after consolidation
     domain: str
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 # -------------------- Default Minimal Implementations -------------------- #
+
 
 class InMemoryStore:
     """Demo store for local validation and tests.
     Replace with your production stores (e.g., hippocampal-cache + cortex DB).
     """
+
     def __init__(self, short_term: List[MemoryTrace] | None = None):
         self.short_term = short_term or []
         self.long_term: List[MemoryFold] = []
@@ -118,12 +130,15 @@ class InMemoryStore:
     def mark_consolidated(self, trace_ids: List[str]) -> None:
         self.short_term = [t for t in self.short_term if t.trace_id not in trace_ids]
 
+
 class BasicConsciousnessAdapter:
     def publish_event(self, event: str, payload: Dict[str, Any]) -> None:
         # Replace with event bus / logger / ethics pipeline
         print(f"[consciousness] {event}: {payload}")
 
+
 # -------------------- Orchestrator -------------------- #
+
 
 class ConsolidationOrchestrator:
     """Coordinates sleep-stage cycles and consolidation batches.
@@ -187,6 +202,7 @@ class ConsolidationOrchestrator:
 
             # Quarantine failing folds and enforce fold cap
             from memory.structural_conscience import StructuralConscience
+
             validator = StructuralConscience()
             validated = []
             for f in folds:
@@ -195,9 +211,7 @@ class ConsolidationOrchestrator:
                     validated.append(f)
                 else:
                     self._metrics["quarantined_folds"] += 1
-                    self.consciousness.publish_event("fold_quarantined", {
-                        "issues": r.issues, "domain": f.domain
-                    })
+                    self.consciousness.publish_event("fold_quarantined", {"issues": r.issues, "domain": f.domain})
 
             # Cap per run
             remaining = max(0, self.max_folds_per_run - self._metrics["folds_created"])
@@ -210,11 +224,9 @@ class ConsolidationOrchestrator:
             self._metrics["batches"] += 1
             self._metrics["folds_created"] += len(validated)
             self._metrics["traces_consolidated"] += len(batch)
-            self.consciousness.publish_event("stage_consolidated", {
-                "stage": stage.value,
-                "batch": len(batch),
-                "folds": len(validated)
-            })
+            self.consciousness.publish_event(
+                "stage_consolidated", {"stage": stage.value, "batch": len(batch), "folds": len(validated)}
+            )
         elif stage is SleepStage.REM:
             # Cross-domain integration / association strengthening
             self.consciousness.publish_event("stage_rem_integration", {"stage": stage.value})

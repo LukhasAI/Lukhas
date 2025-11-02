@@ -29,30 +29,23 @@ LOCATION_RULES = {
     "consciousness.cognitive": "matriz/consciousness/cognitive/",
     "consciousness.dream": "matriz/consciousness/dream/",
     "consciousness.core": "matriz/consciousness/core/",
-
     # Memory systems
     "memory.core": "matriz/memory/core/",
     "memory.temporal": "matriz/memory/temporal/",
     "memory.folds": "matriz/memory/folds/",
-
     # Identity & Auth
     "identity": "core/identity/",
-
     # Governance & Ethics
     "governance": "core/governance/",
-
     # Core integration
     "core.colonies": "core/colonies/",
     "core.glyph": "core/glyph/",
     "core.symbolic": "core/symbolic/",
     "core.integration": "core/integration/",
-
     # Bio-inspired systems
     "bio": "matriz/bio/",
-
     # Quantum-inspired
     "quantum": "matriz/quantum/",
-
     # API/Serve layer
     "serve": "serve/",
     "api": "serve/api/",
@@ -88,7 +81,7 @@ def determine_target_location(module_path: str) -> dict[str, str]:
         if len(parts) >= len(pattern_parts):
             if all(parts[i] == pattern_parts[i] for i in range(len(pattern_parts))):
                 # Construct target path
-                remaining = parts[len(pattern_parts):]
+                remaining = parts[len(pattern_parts) :]
                 if remaining:
                     full_target = target_dir + "/".join(remaining[:-1]) + "/"
                     target_file = remaining[-1] + ".py"
@@ -206,13 +199,9 @@ def generate_integration_steps(
 
     # Step 2: Dependencies
     if module["imports_core"] == "yes" or module["imports_matriz"] == "yes":
-        steps.append(
-            "CHECK_DEPS: Verify all imports from core/matriz are valid and available"
-        )
+        steps.append("CHECK_DEPS: Verify all imports from core/matriz are valid and available")
     else:
-        steps.append(
-            "CHECK_DEPS: Identify and resolve external dependencies, add core imports if needed"
-        )
+        steps.append("CHECK_DEPS: Identify and resolve external dependencies, add core imports if needed")
 
     # Step 3: Tests
     steps.append(
@@ -223,27 +212,19 @@ def generate_integration_steps(
     steps.append(f"MOVE: git mv {source_path} {target_path}")
 
     # Step 5: Update imports
-    steps.append(
-        "UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules"
-    )
+    steps.append("UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules")
 
     # Step 6: Integration
     if "engine" in module["module"].lower() or "system" in module["module"].lower():
-        steps.append(
-            "INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)"
-        )
+        steps.append("INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)")
     else:
-        steps.append(
-            "INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)"
-        )
+        steps.append("INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)")
 
     # Step 7: Test
     steps.append("TEST: Run pytest tests/integration/ and tests/smoke/ to verify")
 
     # Step 8: Document
-    steps.append(
-        "DOCUMENT: Update docs/architecture/ with new component location and purpose"
-    )
+    steps.append("DOCUMENT: Update docs/architecture/ with new component location and purpose")
 
     # Step 9: Commit
     steps.append(
@@ -297,32 +278,34 @@ def main():
         )
         steps = generate_integration_steps(gem, location, complexity)
 
-        integration_manifest.append({
-            "module": gem["module"],
-            "score": gem["score"],
-            "current_location": gem["module"].replace(".", "/") + ".py",
-            "target_location": location["target_dir"] + location["target_file"],
-            "location_reasoning": location["reasoning"],
-            "complexity": complexity["complexity"],
-            "effort_hours": complexity["effort_hours"],
-            "risk_level": complexity["risk_level"],
-            "complexity_rationale": complexity["rationale"],
-            "loc": gem["loc"],
-            "classes": gem["classes"],
-            "functions": gem["functions"],
-            "imports_core": gem["imports_core"] == "yes",
-            "imports_matriz": gem["imports_matriz"] == "yes",
-            "integration_steps": steps,
-            "dependencies": {
-                "core": gem["imports_core"] == "yes",
-                "matriz": gem["imports_matriz"] == "yes",
-            },
-            "metadata": {
-                "last_modified_days": gem["last_modified_days"],
-                "in_archive": gem["archive"] == "yes",
-                "in_candidate_labs": gem["candidate_labs"] == "yes",
-            },
-        })
+        integration_manifest.append(
+            {
+                "module": gem["module"],
+                "score": gem["score"],
+                "current_location": gem["module"].replace(".", "/") + ".py",
+                "target_location": location["target_dir"] + location["target_file"],
+                "location_reasoning": location["reasoning"],
+                "complexity": complexity["complexity"],
+                "effort_hours": complexity["effort_hours"],
+                "risk_level": complexity["risk_level"],
+                "complexity_rationale": complexity["rationale"],
+                "loc": gem["loc"],
+                "classes": gem["classes"],
+                "functions": gem["functions"],
+                "imports_core": gem["imports_core"] == "yes",
+                "imports_matriz": gem["imports_matriz"] == "yes",
+                "integration_steps": steps,
+                "dependencies": {
+                    "core": gem["imports_core"] == "yes",
+                    "matriz": gem["imports_matriz"] == "yes",
+                },
+                "metadata": {
+                    "last_modified_days": gem["last_modified_days"],
+                    "in_archive": gem["archive"] == "yes",
+                    "in_candidate_labs": gem["candidate_labs"] == "yes",
+                },
+            }
+        )
 
     # Sort by score descending
     integration_manifest.sort(key=lambda x: x["score"], reverse=True)
@@ -387,7 +370,7 @@ def main():
             f.write(f"**Why**: {module['complexity_rationale']}\n\n")
             f.write(f"**Location Reasoning**: {module['location_reasoning']}\n\n")
             f.write("**Integration Steps**:\n\n")
-            for step_num, step in enumerate(module['integration_steps'], 1):
+            for step_num, step in enumerate(module["integration_steps"], 1):
                 action = step.split(":")[0]
                 detail = ":".join(step.split(":")[1:]).strip() if ":" in step else ""
                 f.write(f"{step_num}. **{action}**: {detail}\n")
@@ -406,9 +389,11 @@ def main():
             f.write("|--------|-------|--------|--------|------|\n")
 
             for m in modules_at_level[:10]:  # First 10 at each level
-                short_name = m['module'].split('.')[-1]
-                target_short = '/'.join(m['target_location'].split('/')[-2:])
-                f.write(f"| {short_name} | {m['score']} | {target_short} | {m['effort_hours']}h | {m['risk_level']} |\n")
+                short_name = m["module"].split(".")[-1]
+                target_short = "/".join(m["target_location"].split("/")[-2:])
+                f.write(
+                    f"| {short_name} | {m['score']} | {target_short} | {m['effort_hours']}h | {m['risk_level']} |\n"
+                )
 
             if len(modules_at_level) > 10:
                 f.write(f"\n*...and {len(modules_at_level) - 10} more*\n")
@@ -419,7 +404,7 @@ def main():
 
         by_location = {}
         for m in integration_manifest:
-            target_dir = m['target_location'].split('/')[0]
+            target_dir = m["target_location"].split("/")[0]
             if target_dir not in by_location:
                 by_location[target_dir] = []
             by_location[target_dir].append(m)
@@ -429,8 +414,10 @@ def main():
             f.write(f"### {location}/ ({len(modules)} modules)\n\n")
 
             for m in modules[:5]:  # First 5 per location
-                f.write(f"- **{m['module'].split('.')[-1]}** (score: {m['score']}, "
-                       f"complexity: {m['complexity']}) → `{m['target_location']}`\n")
+                f.write(
+                    f"- **{m['module'].split('.')[-1]}** (score: {m['score']}, "
+                    f"complexity: {m['complexity']}) → `{m['target_location']}`\n"
+                )
 
             if len(modules) > 5:
                 f.write(f"- *...and {len(modules) - 5} more*\n")
@@ -460,7 +447,7 @@ def main():
             f.write(f"**Complexity Rationale**: {module['complexity_rationale']}\n\n")
 
             f.write("**Integration Steps**:\n\n")
-            for step_num, step in enumerate(module['integration_steps'], 1):
+            for step_num, step in enumerate(module["integration_steps"], 1):
                 f.write(f"{step_num}. {step}\n")
 
             f.write("\n---\n\n")

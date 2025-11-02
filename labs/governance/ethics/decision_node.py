@@ -11,6 +11,7 @@ Original: ethics_node.py
 Advanced: ethics_node.py
 Integration Date: 2025-05-31T07:55:28.133354
 """
+
 import hashlib
 import logging
 import time
@@ -171,7 +172,9 @@ class EthicsNode:
         risk_score = 1.0 - (overall_score * 0.8)
 
         # Determine if action is ethical based on overall score
-        config_threshold = getattr(self.cognitive.config, "ethical_threshold", 0.7) if hasattr(self.agi, "config") else 0.7
+        config_threshold = (
+            getattr(self.cognitive.config, "ethical_threshold", 0.7) if hasattr(self.agi, "config") else 0.7
+        )
         is_ethical = overall_score >= config_threshold
 
         # Generate explanation for the decision

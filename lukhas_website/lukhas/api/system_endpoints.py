@@ -18,12 +18,14 @@ from typing import Any, Dict
 
 try:
     from core.registry import get_plugin_registry
+
     REGISTRY_AVAILABLE = True
 except ImportError:
     REGISTRY_AVAILABLE = False
 
 try:
     from core.import_router import ModuleRouter
+
     ROUTER_AVAILABLE = True
 except ImportError:
     ROUTER_AVAILABLE = False
@@ -43,7 +45,7 @@ def get_plugins_status() -> Dict[str, Any]:
         return {
             "status": "unavailable",
             "error": "Registry module not available",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
     # Get plugin registry instance
@@ -60,23 +62,25 @@ def get_plugins_status() -> Dict[str, Any]:
         kind = plugin_info.category
         plugin_kinds[kind] = plugin_kinds.get(kind, 0) + 1
 
-        plugin_details.append({
-            "name": plugin_info.name,
-            "kind": kind,
-            "type": plugin_info.category,
-            "version": plugin_info.version,
-            "description": plugin_info.description,
-            "author": plugin_info.author,
-            "healthy": True,  # Assume healthy if discovered
-            "dependencies": plugin_info.dependencies
-        })
+        plugin_details.append(
+            {
+                "name": plugin_info.name,
+                "kind": kind,
+                "type": plugin_info.category,
+                "version": plugin_info.version,
+                "description": plugin_info.description,
+                "author": plugin_info.author,
+                "healthy": True,  # Assume healthy if discovered
+                "dependencies": plugin_info.dependencies,
+            }
+        )
 
     # Check discovery status
     discovery_flag = os.getenv("LUKHAS_PLUGIN_DISCOVERY", "off").lower()
     discovery_status = {
         "mode": discovery_flag,
         "enabled": discovery_flag == "auto",
-        "registry_count": len(registered_plugins)
+        "registry_count": len(registered_plugins),
     }
 
     # Coverage validation - check for expected core kinds
@@ -85,7 +89,7 @@ def get_plugins_status() -> Dict[str, Any]:
         "expected_kinds": expected_kinds,
         "found_kinds": list(plugin_kinds.keys()),
         "missing_kinds": [k for k in expected_kinds if k not in plugin_kinds],
-        "coverage_rate": len([k for k in expected_kinds if k in plugin_kinds]) / len(expected_kinds) * 100
+        "coverage_rate": len([k for k in expected_kinds if k in plugin_kinds]) / len(expected_kinds) * 100,
     }
 
     return {
@@ -95,11 +99,11 @@ def get_plugins_status() -> Dict[str, Any]:
         "registry": {
             "total_plugins": len(registered_plugins),
             "plugin_kinds": plugin_kinds,
-            "registry_size_bytes": _estimate_registry_size(registered_plugins)
+            "registry_size_bytes": _estimate_registry_size(registered_plugins),
         },
         "coverage": coverage,
         "plugins": plugin_details[:10],  # Limit to first 10 for brevity
-        "total_plugin_count": len(plugin_details)
+        "total_plugin_count": len(plugin_details),
     }
 
 
@@ -117,7 +121,7 @@ def get_system_health() -> Dict[str, Any]:
         "registry": _check_registry_health(),
         "router": _check_router_health(),
         "features": _check_feature_flags(),
-        "governance": _check_governance_health()
+        "governance": _check_governance_health(),
     }
 
     # Calculate overall health
@@ -132,8 +136,8 @@ def get_system_health() -> Dict[str, Any]:
         "summary": {
             "healthy_components": healthy_components,
             "total_components": total_components,
-            "health_percentage": (healthy_components / total_components) * 100
-        }
+            "health_percentage": (healthy_components / total_components) * 100,
+        },
     }
 
 
@@ -157,7 +161,7 @@ def get_feature_flags() -> Dict[str, Any]:
         "LUKHAS_PLUGIN_DISCOVERY": os.getenv("LUKHAS_PLUGIN_DISCOVERY", "off"),
         "ENFORCE_ETHICS_DSL": os.getenv("ENFORCE_ETHICS_DSL", "0"),
         "LUKHAS_ADVANCED_TAGS": os.getenv("LUKHAS_ADVANCED_TAGS", "0"),
-        "LUKHAS_CANARY_PERCENT": os.getenv("LUKHAS_CANARY_PERCENT", "0")
+        "LUKHAS_CANARY_PERCENT": os.getenv("LUKHAS_CANARY_PERCENT", "0"),
     }
 
     return {
@@ -167,7 +171,7 @@ def get_feature_flags() -> Dict[str, Any]:
         "env_flags": env_flags,
         "active_lane": env_flags["LUKHAS_LANE"],
         "guardian_enabled": feature_flags.get("ENFORCE_ETHICS_DSL") == "1" or env_flags["ENFORCE_ETHICS_DSL"] == "1",
-        "canary_percentage": int(feature_flags.get("LUKHAS_CANARY_PERCENT", env_flags["LUKHAS_CANARY_PERCENT"]))
+        "canary_percentage": int(feature_flags.get("LUKHAS_CANARY_PERCENT", env_flags["LUKHAS_CANARY_PERCENT"])),
     }
 
 
@@ -175,7 +179,7 @@ def _check_plugin_health(plugin: Any) -> bool:
     """Check if a plugin appears healthy"""
     try:
         # Basic health checks
-        if hasattr(plugin, 'health_check'):
+        if hasattr(plugin, "health_check"):
             return plugin.health_check()
 
         # Check if it's a callable
@@ -183,7 +187,7 @@ def _check_plugin_health(plugin: Any) -> bool:
             return True
 
         # Check if it has expected methods
-        if hasattr(plugin, 'process') or hasattr(plugin, 'execute') or hasattr(plugin, 'run'):
+        if hasattr(plugin, "process") or hasattr(plugin, "execute") or hasattr(plugin, "run"):
             return True
 
         return True  # Default to healthy if no issues detected
@@ -210,7 +214,7 @@ def _check_registry_health() -> Dict[str, Any]:
             "status": "healthy" if can_write else "degraded",
             "plugin_count": plugin_count,
             "discovery_mode": discovery_mode,
-            "can_read_write": can_write
+            "can_read_write": can_write,
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
@@ -231,7 +235,7 @@ def _check_router_health() -> Dict[str, Any]:
             "status": "healthy" if resolved else "degraded",
             "can_resolve": resolved is not None,
             "cache_size": len(router._resolve_cache),
-            "import_cache_size": len(router._import_cache)
+            "import_cache_size": len(router._import_cache),
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
@@ -251,7 +255,7 @@ def _check_feature_flags() -> Dict[str, Any]:
             "status": "healthy" if (has_config or has_env) and lane_set else "degraded",
             "config_available": has_config,
             "env_available": has_env,
-            "lane_configured": lane_set
+            "lane_configured": lane_set,
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
@@ -272,7 +276,7 @@ def _check_governance_health() -> Dict[str, Any]:
             "status": "healthy" if not emergency_active else "emergency_disabled",
             "ethics_enforcement": ethics_enabled,
             "emergency_disable_active": emergency_active,
-            "canary_percentage": flags.get("canary_percentage", 0)
+            "canary_percentage": flags.get("canary_percentage", 0),
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
@@ -282,6 +286,7 @@ def _estimate_registry_size(registry: Dict) -> int:
     """Estimate registry memory usage in bytes"""
     try:
         import sys
+
         total_size = 0
         for key, value in registry.items():
             total_size += sys.getsizeof(key)

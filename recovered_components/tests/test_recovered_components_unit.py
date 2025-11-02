@@ -25,10 +25,7 @@ class TestRecoveredComponentsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "recovered_components",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "recovered_components", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestRecoveredComponentsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import recovered_components
+
         self.assertIsNotNone(recovered_components)
 
     def test_module_version(self):
         """Test module has version information."""
         import recovered_components
+
         # Most modules should have version info
-        self.assertTrue(hasattr(recovered_components, '__version__') or
-                       hasattr(recovered_components, 'VERSION'))
+        self.assertTrue(hasattr(recovered_components, "__version__") or hasattr(recovered_components, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestRecoveredComponentsModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

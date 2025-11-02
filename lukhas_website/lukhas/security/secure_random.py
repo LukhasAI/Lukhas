@@ -341,6 +341,7 @@ def secure_nonce(nbytes: int = 16) -> bytes:
 
 # --- Quantum Entropy Stub Functions (EXPERIMENTAL) ---
 
+
 def get_quantum_random_bytes(num_bytes: int) -> bytes:
     """
     Returns a specified number of quantum-safe random bytes.
@@ -361,6 +362,7 @@ def get_quantum_random_bytes(num_bytes: int) -> bytes:
     if num_bytes < 0:
         raise ValueError("Number of bytes must be a non-negative integer.")
     return os.urandom(num_bytes)
+
 
 def get_quantum_random_int(min_val: int, max_val: int) -> int:
     """

@@ -41,6 +41,7 @@ class ErrorSeverity(Enum):
 @dataclass
 class ErrorContext:
     """Rich error context with correlation and causality."""
+
     error_id: str
     correlation_id: str
     timestamp: float
@@ -60,9 +61,9 @@ class ErrorContext:
 
 
 # Context variables for correlation
-_correlation_id: ContextVar[Optional[str]] = ContextVar('correlation_id', default=None)
-_causal_chain: ContextVar[List[str]] = ContextVar('causal_chain', default=[])
-_operation_context: ContextVar[Dict[str, Any]] = ContextVar('operation_context', default={})
+_correlation_id: ContextVar[Optional[str]] = ContextVar("correlation_id", default=None)
+_causal_chain: ContextVar[List[str]] = ContextVar("causal_chain", default=[])
+_operation_context: ContextVar[Dict[str, Any]] = ContextVar("operation_context", default={})
 
 
 class ErrorContextManager:
@@ -95,7 +96,7 @@ class ErrorContextManager:
         additional_context: Optional[Dict[str, Any]] = None,
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
-        request_id: Optional[str] = None
+        request_id: Optional[str] = None,
     ) -> ErrorContext:
         """Capture comprehensive error context."""
 
@@ -139,7 +140,7 @@ class ErrorContextManager:
             request_id=request_id,
             causal_chain=causal_chain,
             context_data=context_data,
-            system_state=system_state
+            system_state=system_state,
         )
 
         # Store and analyze
@@ -148,10 +149,7 @@ class ErrorContextManager:
 
         # Record metrics
         self.metrics.record_error_context(
-            category=category.value,
-            severity=severity.value,
-            operation=operation,
-            correlation_id=correlation_id
+            category=category.value, severity=severity.value, operation=operation, correlation_id=correlation_id
         )
 
         # Add to trace
@@ -170,43 +168,43 @@ class ErrorContextManager:
         message = str(exception).lower()
 
         # Network-related errors
-        if any(term in exception_name for term in ['connection', 'timeout', 'network', 'socket']):
+        if any(term in exception_name for term in ["connection", "timeout", "network", "socket"]):
             return ErrorCategory.NETWORK
-        if any(term in message for term in ['connection refused', 'timeout', 'network unreachable']):
+        if any(term in message for term in ["connection refused", "timeout", "network unreachable"]):
             return ErrorCategory.NETWORK
 
         # Authentication errors
-        if any(term in exception_name for term in ['auth', 'login', 'credential']):
+        if any(term in exception_name for term in ["auth", "login", "credential"]):
             return ErrorCategory.AUTHENTICATION
-        if any(term in message for term in ['unauthorized', 'invalid credentials', 'authentication']):
+        if any(term in message for term in ["unauthorized", "invalid credentials", "authentication"]):
             return ErrorCategory.AUTHENTICATION
 
         # Authorization errors
-        if any(term in exception_name for term in ['permission', 'access', 'forbidden']):
+        if any(term in exception_name for term in ["permission", "access", "forbidden"]):
             return ErrorCategory.AUTHORIZATION
-        if any(term in message for term in ['forbidden', 'access denied', 'permission']):
+        if any(term in message for term in ["forbidden", "access denied", "permission"]):
             return ErrorCategory.AUTHORIZATION
 
         # Validation errors
-        if any(term in exception_name for term in ['validation', 'value', 'type', 'attribute']):
+        if any(term in exception_name for term in ["validation", "value", "type", "attribute"]):
             return ErrorCategory.VALIDATION
-        if any(term in message for term in ['invalid', 'required', 'validation', 'format']):
+        if any(term in message for term in ["invalid", "required", "validation", "format"]):
             return ErrorCategory.VALIDATION
 
         # Resource errors
-        if any(term in exception_name for term in ['memory', 'resource', 'disk', 'file']):
+        if any(term in exception_name for term in ["memory", "resource", "disk", "file"]):
             return ErrorCategory.RESOURCE
-        if any(term in message for term in ['out of memory', 'disk full', 'resource', 'file not found']):
+        if any(term in message for term in ["out of memory", "disk full", "resource", "file not found"]):
             return ErrorCategory.RESOURCE
 
         # External service errors
-        if any(term in exception_name for term in ['http', 'api', 'service', 'external']):
+        if any(term in exception_name for term in ["http", "api", "service", "external"]):
             return ErrorCategory.EXTERNAL
-        if any(term in message for term in ['service unavailable', 'api error', 'external']):
+        if any(term in message for term in ["service unavailable", "api error", "external"]):
             return ErrorCategory.EXTERNAL
 
         # System errors
-        if any(term in exception_name for term in ['system', 'os', 'runtime']):
+        if any(term in exception_name for term in ["system", "os", "runtime"]):
             return ErrorCategory.SYSTEM
 
         return ErrorCategory.UNKNOWN
@@ -217,17 +215,17 @@ class ErrorContextManager:
         message = str(exception).lower()
 
         # Critical severity indicators
-        if any(term in exception_name for term in ['critical', 'fatal', 'system']):
+        if any(term in exception_name for term in ["critical", "fatal", "system"]):
             return ErrorSeverity.CRITICAL
-        if any(term in message for term in ['critical', 'fatal', 'system failure']):
+        if any(term in message for term in ["critical", "fatal", "system failure"]):
             return ErrorSeverity.CRITICAL
         if category == ErrorCategory.SYSTEM:
             return ErrorSeverity.CRITICAL
 
         # High severity indicators
-        if any(term in exception_name for term in ['security', 'auth', 'permission']):
+        if any(term in exception_name for term in ["security", "auth", "permission"]):
             return ErrorSeverity.HIGH
-        if any(term in message for term in ['security', 'unauthorized', 'forbidden']):
+        if any(term in message for term in ["security", "unauthorized", "forbidden"]):
             return ErrorSeverity.HIGH
         if category in [ErrorCategory.AUTHENTICATION, ErrorCategory.AUTHORIZATION]:
             return ErrorSeverity.HIGH
@@ -247,23 +245,21 @@ class ErrorContextManager:
             import psutil
 
             return {
-                'cpu_percent': psutil.cpu_percent(),
-                'memory_percent': psutil.virtual_memory().percent,
-                'disk_usage': psutil.disk_usage('/').percent,
-                'process_id': os.getpid(),
-                'thread_count': psutil.Process().num_threads(),
-                'open_files': len(psutil.Process().open_files()),
-                'timestamp': time.time()
+                "cpu_percent": psutil.cpu_percent(),
+                "memory_percent": psutil.virtual_memory().percent,
+                "disk_usage": psutil.disk_usage("/").percent,
+                "process_id": os.getpid(),
+                "thread_count": psutil.Process().num_threads(),
+                "open_files": len(psutil.Process().open_files()),
+                "timestamp": time.time(),
             }
         except ImportError:
             # Fallback to basic system info
             import os
-            return {
-                'process_id': os.getpid(),
-                'timestamp': time.time()
-            }
+
+            return {"process_id": os.getpid(), "timestamp": time.time()}
         except Exception:
-            return {'timestamp': time.time()}
+            return {"timestamp": time.time()}
 
     def _store_error(self, error_context: ErrorContext) -> None:
         """Store error context with intelligent cleanup."""
@@ -304,18 +300,12 @@ class ErrorContextManager:
             return []
 
         error_ids = self.correlation_map[correlation_id]
-        return [
-            error for error in self.error_history
-            if error.error_id in error_ids
-        ]
+        return [error for error in self.error_history if error.error_id in error_ids]
 
     def get_error_summary(self, hours: int = 24) -> Dict[str, Any]:
         """Get error summary for the specified time window."""
         cutoff_time = time.time() - (hours * 3600)
-        recent_errors = [
-            error for error in self.error_history
-            if error.timestamp >= cutoff_time
-        ]
+        recent_errors = [error for error in self.error_history if error.timestamp >= cutoff_time]
 
         # Count by category
         category_counts = {}
@@ -331,18 +321,18 @@ class ErrorContextManager:
         top_patterns = sorted(
             [(pattern, count) for pattern, count in self.error_patterns.items() if count >= self.pattern_threshold],
             key=lambda x: x[1],
-            reverse=True
+            reverse=True,
         )[:10]
 
         return {
-            'time_window_hours': hours,
-            'total_errors': len(recent_errors),
-            'unique_correlations': len(set(error.correlation_id for error in recent_errors)),
-            'categories': category_counts,
-            'severities': severity_counts,
-            'top_operations': dict(sorted(operation_counts.items(), key=lambda x: x[1], reverse=True)[:10]),
-            'recurring_patterns': dict(top_patterns),
-            'error_rate_per_hour': len(recent_errors) / max(hours, 1)
+            "time_window_hours": hours,
+            "total_errors": len(recent_errors),
+            "unique_correlations": len(set(error.correlation_id for error in recent_errors)),
+            "categories": category_counts,
+            "severities": severity_counts,
+            "top_operations": dict(sorted(operation_counts.items(), key=lambda x: x[1], reverse=True)[:10]),
+            "recurring_patterns": dict(top_patterns),
+            "error_rate_per_hour": len(recent_errors) / max(hours, 1),
         }
 
 
@@ -365,7 +355,7 @@ def error_context(
     user_id: Optional[str] = None,
     session_id: Optional[str] = None,
     request_id: Optional[str] = None,
-    **context_data
+    **context_data,
 ):
     """Context manager for enhanced error tracking."""
     # Set correlation context
@@ -381,15 +371,11 @@ def error_context(
         # Capture error context
         manager = get_error_manager()
         error_ctx = manager.capture_error(
-            exception=e,
-            operation=operation,
-            user_id=user_id,
-            session_id=session_id,
-            request_id=request_id
+            exception=e, operation=operation, user_id=user_id, session_id=session_id, request_id=request_id
         )
 
         # Add error context to exception
-        if not hasattr(e, '_lukhas_error_context'):
+        if not hasattr(e, "_lukhas_error_context"):
             e._lukhas_error_context = error_ctx
 
         raise
@@ -398,11 +384,7 @@ def error_context(
         _operation_context.reset(context_token)
 
 
-def capture_error_context(
-    exception: Exception,
-    operation: str,
-    **kwargs
-) -> ErrorContext:
+def capture_error_context(exception: Exception, operation: str, **kwargs) -> ErrorContext:
     """Capture error context for an exception."""
     manager = get_error_manager()
     return manager.capture_error(exception, operation, **kwargs)
@@ -410,11 +392,12 @@ def capture_error_context(
 
 def get_error_context_from_exception(exception: Exception) -> Optional[ErrorContext]:
     """Get error context from an exception if available."""
-    return getattr(exception, '_lukhas_error_context', None)
+    return getattr(exception, "_lukhas_error_context", None)
 
 
 def enhanced_error_handler(operation_name: str):
     """Decorator for automatic error context capture."""
+
     def decorator(func):
         async def async_wrapper(*args, **kwargs):
             with error_context(operation_name, **kwargs):
@@ -425,7 +408,9 @@ def enhanced_error_handler(operation_name: str):
                 return func(*args, **kwargs)
 
         import asyncio
+
         return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+
     return decorator
 
 

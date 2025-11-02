@@ -27,39 +27,39 @@ from .alias_format import make_alias
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
     def labels(self, **kwargs):
         return self
+
     def inc(self, amount=1):
         pass
+
     def observe(self, amount):
         pass
 
+
 try:
     token_generation_total = Counter(
-        'lukhas_token_generation_total',
-        'Total tokens generated',
-        ['component', 'realm', 'zone']
+        "lukhas_token_generation_total", "Total tokens generated", ["component", "realm", "zone"]
     )
 except ValueError:
     token_generation_total = MockMetric()
 
 try:
     token_generation_latency_seconds = Histogram(
-        'lukhas_token_generation_latency_seconds',
-        'Token generation latency',
-        ['component'],
-        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+        "lukhas_token_generation_latency_seconds",
+        "Token generation latency",
+        ["component"],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
     )
 except ValueError:
     token_generation_latency_seconds = MockMetric()
 
 try:
     token_generation_errors_total = Counter(
-        'lukhas_token_generation_errors_total',
-        'Token generation errors',
-        ['component', 'error_type']
+        "lukhas_token_generation_errors_total", "Token generation errors", ["component", "error_type"]
     )
 except ValueError:
     token_generation_errors_total = MockMetric()
@@ -72,6 +72,7 @@ class TokenClaims:
 
     Provides type-safe access to token claims with validation.
     """
+
     # Standard JWT claims
     iss: str  # Issuer
     sub: str  # Subject (usually ΛiD alias)
@@ -101,6 +102,7 @@ class TokenResponse:
 
     Contains the generated token and associated metadata.
     """
+
     alias: str
     jwt: str
     kid: str  # Key ID used for signing
@@ -150,7 +152,7 @@ def _calculate_crc32(data: bytes) -> str:
     Returns:
         Hex-encoded CRC32 checksum (8 characters)
     """
-    crc = zlib.crc32(data) & 0xffffffff
+    crc = zlib.crc32(data) & 0xFFFFFFFF
     return f"{crc:08x}"
 
 
@@ -246,11 +248,7 @@ class TokenGenerator:
     """
 
     def __init__(
-        self,
-        secret_provider: SecretProvider,
-        kid: Optional[str] = None,
-        ttl_seconds: int = 3600,
-        issuer: str = "ai"
+        self, secret_provider: SecretProvider, kid: Optional[str] = None, ttl_seconds: int = 3600, issuer: str = "ai"
     ):
         """
         Initialize token generator.
@@ -272,7 +270,7 @@ class TokenGenerator:
         claims: Dict[str, Any],
         realm: Optional[str] = None,
         zone: Optional[str] = None,
-        alias: Optional[str] = None
+        alias: Optional[str] = None,
     ) -> TokenResponse:
         """
         Create signed JWT token with ΛiD alias.
@@ -303,6 +301,7 @@ class TokenGenerator:
                     final_alias = alias
                     # Extract realm/zone from alias for metrics
                     from .alias_format import parse_alias
+
                     parsed = parse_alias(alias)
                     if parsed:
                         realm = parsed.realm
@@ -328,7 +327,7 @@ class TokenGenerator:
                     zone=zone,
                     lukhas_tier=claims.get("lukhas_tier", 1),
                     lukhas_namespace=claims.get("lukhas_namespace", "default"),
-                    permissions=claims.get("permissions", [])
+                    permissions=claims.get("permissions", []),
                 )
 
                 # Add custom claims
@@ -341,16 +340,10 @@ class TokenGenerator:
                 jwt_token, crc32_checksum = self._create_jwt_with_crc32(token_dict)
 
                 # Update metrics
-                token_generation_total.labels(
-                    component=self._component_id,
-                    realm=realm,
-                    zone=zone
-                ).inc()
+                token_generation_total.labels(component=self._component_id, realm=realm, zone=zone).inc()
 
                 processing_time = time.time() - start_time
-                token_generation_latency_seconds.labels(
-                    component=self._component_id
-                ).observe(processing_time)
+                token_generation_latency_seconds.labels(component=self._component_id).observe(processing_time)
 
                 span.set_attribute("alias", final_alias)
                 span.set_attribute("realm", realm)
@@ -363,14 +356,11 @@ class TokenGenerator:
                     kid=self.kid,
                     exp=token_claims.exp,
                     claims=token_claims,
-                    crc32=crc32_checksum
+                    crc32=crc32_checksum,
                 )
 
             except Exception as e:
-                token_generation_errors_total.labels(
-                    component=self._component_id,
-                    error_type=type(e).__name__
-                ).inc()
+                token_generation_errors_total.labels(component=self._component_id, error_type=type(e).__name__).inc()
 
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
@@ -389,16 +379,11 @@ class TokenGenerator:
             Tuple of (JWT token with CRC32, CRC32 checksum)
         """
         # Create header
-        header = {
-            "alg": "HS256",
-            "typ": "JWT",
-            "kid": self.kid,
-            "crc": True  # Indicate CRC32 support
-        }
+        header = {"alg": "HS256", "typ": "JWT", "kid": self.kid, "crc": True}  # Indicate CRC32 support
 
         # Encode header and payload
-        header_encoded = _b64url_encode(json.dumps(header, separators=(',', ':')).encode())
-        payload_encoded = _b64url_encode(json.dumps(claims, separators=(',', ':')).encode())
+        header_encoded = _b64url_encode(json.dumps(header, separators=(",", ":")).encode())
+        payload_encoded = _b64url_encode(json.dumps(claims, separators=(",", ":")).encode())
 
         # Create signing input
         signing_input = f"{header_encoded}.{payload_encoded}".encode()
@@ -412,7 +397,7 @@ class TokenGenerator:
         base_jwt = f"{signing_input.decode()}.{signature_encoded}"
 
         # Calculate CRC32 for the complete JWT
-        jwt_bytes = base_jwt.encode('utf-8')
+        jwt_bytes = base_jwt.encode("utf-8")
         crc32_checksum = _calculate_crc32(jwt_bytes)
 
         # Append CRC32 to create ΛID format: JWT.CRC32
@@ -434,8 +419,8 @@ class TokenGenerator:
         """
         enhanced_jwt, _ = self._create_jwt_with_crc32(claims)
         # Return JWT without CRC32 trailer for compatibility
-        parts = enhanced_jwt.split('.')
-        return '.'.join(parts[:3])  # header.payload.signature
+        parts = enhanced_jwt.split(".")
+        return ".".join(parts[:3])  # header.payload.signature
 
     def rotate_key(self, new_kid: str) -> None:
         """
@@ -471,16 +456,16 @@ class TokenGenerator:
         """
         try:
             # Split JWT and CRC32
-            parts = jwt_with_crc.split('.')
+            parts = jwt_with_crc.split(".")
             if len(parts) < 4:
                 return False  # Not a CRC32-enhanced token
 
             # Extract JWT and CRC32
-            jwt_part = '.'.join(parts[:-1])
+            jwt_part = ".".join(parts[:-1])
             provided_crc = parts[-1]
 
             # Verify CRC32
-            jwt_bytes = jwt_part.encode('utf-8')
+            jwt_bytes = jwt_part.encode("utf-8")
             return _verify_crc32(jwt_bytes, provided_crc)
 
         except Exception:
@@ -496,9 +481,9 @@ class TokenGenerator:
         Returns:
             Standard JWT token (header.payload.signature)
         """
-        parts = jwt_with_crc.split('.')
+        parts = jwt_with_crc.split(".")
         if len(parts) >= 4:
-            return '.'.join(parts[:-1])  # Remove CRC32
+            return ".".join(parts[:-1])  # Remove CRC32
         return jwt_with_crc  # Already standard JWT
 
     def get_performance_stats(self) -> Dict[str, Any]:
@@ -512,15 +497,9 @@ class TokenGenerator:
             "component": self._component_id,
             "current_kid": self.kid,
             "ttl_seconds": self.ttl_seconds,
-            "issuer": self.issuer
+            "issuer": self.issuer,
         }
 
 
 # Export public interface
-__all__ = [
-    "TokenGenerator",
-    "TokenClaims",
-    "TokenResponse",
-    "SecretProvider",
-    "EnvironmentSecretProvider"
-]
+__all__ = ["TokenGenerator", "TokenClaims", "TokenResponse", "SecretProvider", "EnvironmentSecretProvider"]

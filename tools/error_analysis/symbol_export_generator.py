@@ -61,12 +61,8 @@ class SymbolExportGenerator:
 
     _DETAIL_REGEXES: Tuple[re.Pattern, ...] = (
         re.compile(r"(?P<symbol>[A-Za-z0-9_]+) from (?P<module>[A-Za-z0-9_.]+)"),
-        re.compile(
-            r"cannot import name '(?P<symbol>[^']+)' from '(?P<module>[^']+)'"
-        ),
-        re.compile(
-            r"cannot import name (?P<symbol>[A-Za-z0-9_]+) from (?P<module>[A-Za-z0-9_.]+)"
-        ),
+        re.compile(r"cannot import name '(?P<symbol>[^']+)' from '(?P<module>[^']+)'"),
+        re.compile(r"cannot import name (?P<symbol>[A-Za-z0-9_]+) from (?P<module>[A-Za-z0-9_.]+)"),
     )
 
     def __init__(self, repo_root: Path):
@@ -155,18 +151,10 @@ class SymbolExportGenerator:
     def _generate_stub(self, symbol: str, symbol_type: SymbolType) -> str:
         """Generate stub code for the given symbol."""
         if symbol_type == SymbolType.ASYNC_FUNCTION:
-            return (
-                f"async def {symbol}(*args, **kwargs):\n"
-                f'    """Stub for {symbol}."""\n'
-                "    return None\n"
-            )
+            return f"async def {symbol}(*args, **kwargs):\n" f'    """Stub for {symbol}."""\n' "    return None\n"
 
         if symbol_type == SymbolType.FUNCTION:
-            return (
-                f"def {symbol}(*args, **kwargs):\n"
-                f'    """Stub for {symbol}."""\n'
-                "    return None\n"
-            )
+            return f"def {symbol}(*args, **kwargs):\n" f'    """Stub for {symbol}."""\n' "    return None\n"
 
         if symbol_type == SymbolType.CLASS:
             return (
@@ -235,7 +223,7 @@ class SymbolExportGenerator:
     def _resolve_destination(self, module: str) -> Optional[Path]:
         """Resolve module path to filesystem destination inside repo."""
         module_path = Path(*module.split("."))
-        module_file = (self.repo_root / f"{module_path}.py")
+        module_file = self.repo_root / f"{module_path}.py"
         if module_file.exists():
             return module_file.relative_to(self.repo_root)
 
@@ -317,9 +305,7 @@ class SymbolExportGenerator:
             self._append_block(destination, entry.block)
             applied += 1
 
-        print(
-            f"Plan processed: {total} entries | applied={applied} | skipped={skipped}"
-        )
+        print(f"Plan processed: {total} entries | applied={applied} | skipped={skipped}")
 
     def _already_present(self, path: Path, symbol: str) -> bool:
         """Return True if symbol already appears in target file."""
@@ -343,19 +329,14 @@ class SymbolExportGenerator:
     def _print_preview(entry: ExportPlan, idx: int) -> None:
         """Print preview for review/dry-run modes."""
         print("-" * 80)
-        print(
-            f"[{idx + 1}] {entry.symbol} ← {entry.module} "
-            f"(count={entry.count}, type={entry.symbol_type})"
-        )
+        print(f"[{idx + 1}] {entry.symbol} ← {entry.module} " f"(count={entry.count}, type={entry.symbol_type})")
         print(f"Destination: {entry.destination}")
         print(entry.block)
         print("-" * 80)
 
 
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Generate/apply symbol export stubs based on pytest analysis."
-    )
+    parser = argparse.ArgumentParser(description="Generate/apply symbol export stubs based on pytest analysis.")
     parser.add_argument(
         "--from-analysis",
         "-a",

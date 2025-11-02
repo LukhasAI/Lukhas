@@ -2,6 +2,7 @@
 Unified Module
 Auto-generated module initialization file
 """
+
 import logging
 
 import streamlit as st

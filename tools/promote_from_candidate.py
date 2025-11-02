@@ -18,34 +18,27 @@ def run_git_mv(source: str, target: str) -> bool:
     target_dir.mkdir(parents=True, exist_ok=True)
 
     try:
-        subprocess.run(
-            ["git", "mv", source, target],
-            capture_output=True,
-            text=True,
-            check=True
-        )
+        subprocess.run(["git", "mv", source, target], capture_output=True, text=True, check=True)
         return True
     except subprocess.CalledProcessError as e:
         print(f"❌ Failed to move {source} → {target}")
         print(f"   Error: {e.stderr}")
         return False
 
+
 def load_plan(plan_file: str) -> List[Dict]:
     """Load promotion plan from JSONL file"""
     plan = []
-    with open(plan_file, 'r') as f:
+    with open(plan_file, "r") as f:
         for line in f:
             if line.strip():
                 plan.append(json.loads(line))
     return plan
 
+
 def execute_promotions(plan: List[Dict], dry_run: bool = False) -> Dict:
     """Execute all promotions in the plan"""
-    results = {
-        "successful": [],
-        "failed": [],
-        "skipped": []
-    }
+    results = {"successful": [], "failed": [], "skipped": []}
 
     for item in plan:
         source = item.get("source")
@@ -80,6 +73,7 @@ def execute_promotions(plan: List[Dict], dry_run: bool = False) -> Dict:
 
     return results
 
+
 def write_summary(results: Dict, output_file: str):
     """Write promotion summary to JSON file"""
     summary = {
@@ -87,23 +81,26 @@ def write_summary(results: Dict, output_file: str):
         "successful": len(results["successful"]),
         "failed": len(results["failed"]),
         "skipped": len(results["skipped"]),
-        "details": results
+        "details": results,
     }
 
-    with open(output_file, 'w') as f:
+    with open(output_file, "w") as f:
         json.dump(summary, f, indent=2)
 
     return summary
 
+
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="Execute promotion plan")
-    parser.add_argument("--plan", default="artifacts/promotion_batch.plan.jsonl",
-                      help="Path to promotion plan JSONL file")
-    parser.add_argument("--dry-run", action="store_true",
-                      help="Show what would be done without executing")
-    parser.add_argument("--output", default="artifacts/promotion_batch.summary.json",
-                      help="Path to output summary JSON")
+    parser.add_argument(
+        "--plan", default="artifacts/promotion_batch.plan.jsonl", help="Path to promotion plan JSONL file"
+    )
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be done without executing")
+    parser.add_argument(
+        "--output", default="artifacts/promotion_batch.summary.json", help="Path to output summary JSON"
+    )
     args = parser.parse_args()
 
     # Load plan
@@ -124,7 +121,7 @@ def main():
     summary = write_summary(results, args.output)
 
     # Print results
-    print("\n" + "="*50)
+    print("\n" + "=" * 50)
     print("📊 Promotion Summary:")
     print(f"  ✅ Successful: {summary['successful']}")
     print(f"  ❌ Failed: {summary['failed']}")
@@ -137,6 +134,7 @@ def main():
 
     print(f"\n✅ Summary written to: {args.output}")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

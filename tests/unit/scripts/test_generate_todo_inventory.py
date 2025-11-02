@@ -1,12 +1,7 @@
 import importlib.util
 from pathlib import Path
 
-MODULE_PATH = (
-    Path(__file__).resolve().parents[3]
-    / "scripts"
-    / "todo_migration"
-    / "generate_todo_inventory.py"
-)
+MODULE_PATH = Path(__file__).resolve().parents[3] / "scripts" / "todo_migration" / "generate_todo_inventory.py"
 spec = importlib.util.spec_from_file_location("generate_todo_inventory", MODULE_PATH)
 inventory = importlib.util.module_from_spec(spec)
 assert spec and spec.loader  # help mypy/linters
@@ -20,9 +15,7 @@ def write_todo(tmp_path: Path, content: str) -> Path:
 
 
 def test_invalid_scope_defaults_to_unknown(tmp_path, capsys):
-    todo = (
-        "# TODO[scope:X][priority:HIGH] : Review mapping generation for safety\n"
-    )
+    todo = "# TODO[scope:X][priority:HIGH] : Review mapping generation for safety\n"
     file_path = write_todo(tmp_path, todo)
 
     entries = inventory.scan_file(file_path)
@@ -44,9 +37,7 @@ def test_invalid_priority_defaults_to_medium(tmp_path, capsys):
 
 
 def test_valid_metadata_preserved(tmp_path):
-    todo = (
-        "# TODO[scope:prod][priority:high][owner:@codex] : Ensure TODO parser handles metadata\n"
-    )
+    todo = "# TODO[scope:prod][priority:high][owner:@codex] : Ensure TODO parser handles metadata\n"
     file_path = write_todo(tmp_path, todo)
 
     entries = inventory.scan_file(file_path)

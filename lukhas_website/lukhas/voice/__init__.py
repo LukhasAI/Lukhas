@@ -15,6 +15,7 @@ try:
     from .consciousness_voice import ConsciousnessVoice
     from .voice_adapter import VoiceAdapter
     from .voice_engine import VoiceEngine
+
     VOICE_SYSTEMS_AVAILABLE = True
     logger.info("✅ Core voice systems loaded successfully")
 except ImportError as e:
@@ -53,7 +54,7 @@ def get_voice_status() -> Dict[str, Any]:
             "consciousness_voice": ConsciousnessVoice is not None,
             "voice_adapter": VoiceAdapter is not None,
         },
-        "module": "candidate.voice"
+        "module": "candidate.voice",
     }
 
 
@@ -81,7 +82,7 @@ __all__ = [
     "create_voice_engine",
     "create_consciousness_voice",
     "create_voice_adapter",
-    "VOICE_SYSTEMS_AVAILABLE"
+    "VOICE_SYSTEMS_AVAILABLE",
 ]
 
 logger.info("🎤 LUKHAS Voice Systems Module initialized")

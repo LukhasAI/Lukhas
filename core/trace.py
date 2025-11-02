@@ -7,6 +7,7 @@ Usage:
   from core.trace import mk_crumb
   trace = {"enter": mk_crumb("adapter_enter", msg.glyph, topic=msg.topic)}
 """
+
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Dict, Optional
 
@@ -19,17 +20,17 @@ def mk_crumb(event: str, glyph: Optional["GLYPH"] = None, **kv: Any) -> Dict[str
     """
     Minimal, deterministic trace crumb.
     """
-    out = {'ts': datetime.now(timezone.utc).isoformat(), 'event': event}
+    out = {"ts": datetime.now(timezone.utc).isoformat(), "event": event}
     if glyph is not None:
         # Access attributes defensively to avoid hard dependency on type
-        gid = getattr(glyph, 'id', None)
-        kind = getattr(glyph, 'kind', None)
-        ver = getattr(glyph, 'version', None)
-        out['glyph'] = {
-            'id': str(gid) if gid is not None else None,
-            'kind': kind,
-            'v': ver,
+        gid = getattr(glyph, "id", None)
+        kind = getattr(glyph, "kind", None)
+        ver = getattr(glyph, "version", None)
+        out["glyph"] = {
+            "id": str(gid) if gid is not None else None,
+            "kind": kind,
+            "v": ver,
         }
     if kv:
-        out['data'] = kv
+        out["data"] = kv
     return out

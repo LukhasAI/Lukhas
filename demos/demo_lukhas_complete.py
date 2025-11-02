@@ -42,26 +42,17 @@ def simulate_brain_decision(brain_id: str, input_data: dict) -> dict:
         decision = "analyze_deeply"
         confidence = 0.85
         activation = 0.9
-        reasoning = [
-            "Detected complex pattern requiring analysis",
-            "High confidence in analytical approach"
-        ]
+        reasoning = ["Detected complex pattern requiring analysis", "High confidence in analytical approach"]
     elif brain_id == "creative_brain":
         decision = "explore_alternatives"
         confidence = 0.75
         activation = 0.8
-        reasoning = [
-            "Multiple creative solutions possible",
-            "Recommending exploratory approach"
-        ]
+        reasoning = ["Multiple creative solutions possible", "Recommending exploratory approach"]
     elif brain_id == "safety_brain":
         decision = "analyze_deeply"
         confidence = 0.95
         activation = 1.0
-        reasoning = [
-            "Safety analysis confirms deep analysis needed",
-            "High priority on risk assessment"
-        ]
+        reasoning = ["Safety analysis confirms deep analysis needed", "High priority on risk assessment"]
     else:
         decision = "default_action"
         confidence = 0.5
@@ -73,10 +64,7 @@ def simulate_brain_decision(brain_id: str, input_data: dict) -> dict:
         "confidence": confidence,
         "activation": activation,
         "reasoning": reasoning,
-        "metadata": {
-            "brain_type": brain_id,
-            "timestamp": time.time()
-        }
+        "metadata": {"brain_type": brain_id, "timestamp": time.time()},
     }
 
 
@@ -114,7 +102,7 @@ def demo_complete_workflow():
         "input": "How can we improve memory efficiency?",
         "user_id": "user_12345",
         "email": "user@example.com",  # Will be redacted without consent
-        "priority": "high"
+        "priority": "high",
     }
 
     print(f"Task: {decision_context['task']}")
@@ -129,7 +117,7 @@ def demo_complete_workflow():
         decision_type=DecisionType.ORCHESTRATION,
         input_data=decision_context,
         tags=["demo", "multi-brain", "analysis"],
-        consent_scopes=[]  # No PII consent - will redact email
+        consent_scopes=[],  # No PII consent - will redact email
     )
 
     print(f"✅ Created audit node: {node_id}")
@@ -152,7 +140,7 @@ def demo_complete_workflow():
     result = symphony.orchestrate_decision(
         decision_context=decision_context,
         brain_functions=brain_functions,
-        consensus_method=ConsensusMethod.WEIGHTED_VOTE
+        consensus_method=ConsensusMethod.WEIGHTED_VOTE,
     )
     execution_time = (time.time() - start_time) * 1000
 
@@ -164,8 +152,8 @@ def demo_complete_workflow():
     print()
 
     print("Brain Votes:")
-    for brain_id, vote in result['brain_votes'].items():
-        conf = result['brain_confidences'][brain_id]
+    for brain_id, vote in result["brain_votes"].items():
+        conf = result["brain_confidences"][brain_id]
         print(f"  - {brain_id}: {vote} (confidence: {conf:.3f})")
     print()
 
@@ -182,7 +170,7 @@ def demo_complete_workflow():
         calibrator.record_prediction(pred, outcome)
 
     # Calibrate current confidence
-    calibrated_confidence = calibrator.calibrate(result['raw_confidence'])
+    calibrated_confidence = calibrator.calibrate(result["raw_confidence"])
 
     # Get calibration metrics
     metrics = calibrator.get_metrics()
@@ -199,21 +187,14 @@ def demo_complete_workflow():
     print("📋 Step 6: Recording Decision Reasoning")
     print("-" * 80)
 
+    audit_trail.add_reasoning_step(node_id, f"Collected decisions from {result['participating_brains']} brains")
+    audit_trail.add_reasoning_step(node_id, f"Applied {result['consensus_method']} consensus mechanism")
     audit_trail.add_reasoning_step(
-        node_id,
-        f"Collected decisions from {result['participating_brains']} brains"
-    )
-    audit_trail.add_reasoning_step(
-        node_id,
-        f"Applied {result['consensus_method']} consensus mechanism"
-    )
-    audit_trail.add_reasoning_step(
-        node_id,
-        f"Calibrated confidence from {result['raw_confidence']:.3f} to {calibrated_confidence:.3f}"
+        node_id, f"Calibrated confidence from {result['raw_confidence']:.3f} to {calibrated_confidence:.3f}"
     )
 
     # Record individual brain votes
-    for brain_id, vote in result['brain_votes'].items():
+    for brain_id, vote in result["brain_votes"].items():
         audit_trail.record_brain_vote(node_id, brain_id, vote)
 
     print("✅ Recorded 3 reasoning steps")
@@ -239,11 +220,11 @@ def demo_complete_workflow():
 
     audit_trail.finalize_decision(
         node_id=node_id,
-        decision_output=result['decision'],
-        raw_confidence=result['raw_confidence'],
+        decision_output=result["decision"],
+        raw_confidence=result["raw_confidence"],
         calibrated_confidence=calibrated_confidence,
         execution_time_ms=execution_time,
-        memory_used_mb=0.5  # Simulated
+        memory_used_mb=0.5,  # Simulated
     )
 
     print("✅ Decision finalized and appended to ledger")
@@ -260,12 +241,12 @@ def demo_complete_workflow():
     sig_path = Path("audit_logs/ledger.sig.jsonl")
 
     if ledger_path.exists():
-        with open(ledger_path, 'r') as f:
+        with open(ledger_path, "r") as f:
             lines = f.readlines()
         print(f"✅ Ledger file: {ledger_path} ({len(lines)} events)")
 
     if sig_path.exists():
-        with open(sig_path, 'r') as f:
+        with open(sig_path, "r") as f:
             sig_lines = f.readlines()
         print(f"✅ Signature file: {sig_path} ({len(sig_lines)} signatures)")
 

@@ -16,6 +16,7 @@ import pytest
 # ΛID Format and Validation Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_lambda_id_format_structure():
     """Test ΛID format structure validation."""
@@ -40,11 +41,11 @@ def test_lambda_id_invalid_formats():
     """Test detection of invalid ΛID formats."""
     invalid_ids = [
         "lambda_alpha_user123",  # Missing Λ symbol
-        "Λ_invalid_user123",      # Invalid tier
-        "Λ_alpha",                # Missing user_id
-        "_alpha_user123",         # Missing Λ
-        "Λ_ALPHA_user123",        # Wrong case
-        "Λ_alpha_user@123",       # Invalid characters
+        "Λ_invalid_user123",  # Invalid tier
+        "Λ_alpha",  # Missing user_id
+        "_alpha_user123",  # Missing Λ
+        "Λ_ALPHA_user123",  # Wrong case
+        "Λ_alpha_user@123",  # Invalid characters
     ]
 
     pattern = r"^Λ_(alpha|beta|gamma|delta)_[a-zA-Z0-9_]+$"
@@ -89,6 +90,7 @@ def test_lambda_id_user_id_extraction():
 # ============================================================================
 # Tier Validation Tests
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_tier_hierarchy_validation():
@@ -175,9 +177,11 @@ def test_tier_rate_limit_multipliers():
 # ΛID Generation Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_lambda_id_generation_format():
     """Test ΛID generation follows correct format."""
+
     def generate_lambda_id(tier: str, user_id: str) -> str:
         """Generate ΛID from tier and user_id."""
         return f"Λ_{tier}_{user_id}"
@@ -194,6 +198,7 @@ def test_lambda_id_generation_format():
 @pytest.mark.unit
 def test_lambda_id_uniqueness():
     """Test ΛID uniqueness based on user_id."""
+
     def generate_lambda_id(tier: str, user_id: str) -> str:
         return f"Λ_{tier}_{user_id}"
 
@@ -211,6 +216,7 @@ def test_lambda_id_uniqueness():
 # ============================================================================
 # ΛID Parsing Capability Tests
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_lambda_id_parse_components():
@@ -246,9 +252,11 @@ def test_lambda_id_validation_edge_cases():
 # Tier String Operations
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_tier_string_normalization():
     """Test tier string normalization."""
+
     def normalize_tier(tier: str) -> str:
         """Normalize tier to lowercase."""
         return tier.lower().strip()
@@ -288,6 +296,7 @@ def test_tier_validation_list():
 # ΛID Comparison and Equality Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_lambda_id_equality():
     """Test ΛID equality comparison."""
@@ -308,6 +317,7 @@ def test_lambda_id_equality():
 @pytest.mark.unit
 def test_lambda_id_tier_comparison():
     """Test comparing ΛIDs by tier."""
+
     def compare_lambda_ids(id1: str, id2: str) -> int:
         """Compare two ΛIDs by tier hierarchy. Returns -1, 0, or 1."""
         tier_values = {"alpha": 4, "beta": 3, "gamma": 2, "delta": 1}
@@ -338,6 +348,7 @@ def test_lambda_id_tier_comparison():
 # ============================================================================
 # ΛID Hash and Checksum Tests
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_lambda_id_hash_consistency():
@@ -373,6 +384,7 @@ def test_lambda_id_checksum_generation():
 # ============================================================================
 # Bulk ΛID Operations
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_lambda_id_batch_validation():
@@ -420,6 +432,7 @@ def test_lambda_id_tier_grouping():
 # ΛID String Formatting Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_lambda_id_display_format():
     """Test ΛID display formatting."""
@@ -454,6 +467,7 @@ def test_lambda_id_masking():
 # ============================================================================
 # ΛID Capability Tests
 # ============================================================================
+
 
 @pytest.mark.capability
 def test_lambda_id_system_capability():
@@ -497,6 +511,7 @@ def test_lambda_id_full_lifecycle():
 
     # 5. Hash generation
     import hashlib
+
     lambda_hash = hashlib.sha256(lambda_id.encode()).hexdigest()
     assert len(lambda_hash) == 64
 

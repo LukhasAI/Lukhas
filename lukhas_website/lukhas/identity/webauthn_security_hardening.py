@@ -33,6 +33,7 @@ logger = logging.getLogger(__name__)
 
 class ThreatLevel(Enum):
     """Security threat levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -41,6 +42,7 @@ class ThreatLevel(Enum):
 
 class SecurityEventType(Enum):
     """Types of security events"""
+
     RATE_LIMIT_EXCEEDED = "rate_limit_exceeded"
     CREDENTIAL_MISUSE = "credential_misuse"
     DEVICE_ANOMALY = "device_anomaly"
@@ -55,6 +57,7 @@ class SecurityEventType(Enum):
 
 class SecurityAction(Enum):
     """Security actions to take"""
+
     ALLOW = "allow"
     RATE_LIMIT = "rate_limit"
     SUSPEND_USER = "suspend_user"
@@ -67,6 +70,7 @@ class SecurityAction(Enum):
 @dataclass
 class SecurityEvent:
     """Security event record"""
+
     event_id: str
     event_type: SecurityEventType
     threat_level: ThreatLevel
@@ -83,6 +87,7 @@ class SecurityEvent:
 @dataclass
 class DeviceFingerprint:
     """Device fingerprint for anomaly detection"""
+
     fingerprint_hash: str
     user_agent: str
     screen_resolution: Optional[str] = None
@@ -99,6 +104,7 @@ class DeviceFingerprint:
 @dataclass
 class GeographicContext:
     """Geographic context for location-based security analysis"""
+
     country: str
     city: Optional[str] = None
     latitude: Optional[float] = None
@@ -109,6 +115,7 @@ class GeographicContext:
 @dataclass
 class EmergencyLockdown:
     """Emergency lockdown status and configuration"""
+
     active: bool = False
     reason: Optional[str] = None
     started_at: Optional[datetime] = None
@@ -119,6 +126,7 @@ class EmergencyLockdown:
 @dataclass
 class SecurityMetrics:
     """Security metrics collection for monitoring and alerting"""
+
     total_requests: int = 0
     blocked_requests: int = 0
     threat_events_detected: int = 0
@@ -130,6 +138,7 @@ class SecurityMetrics:
 @dataclass
 class RateLimitConfig:
     """Rate limiting configuration"""
+
     max_requests: int
     window_seconds: int
     cooldown_seconds: int = 0
@@ -139,6 +148,7 @@ class RateLimitConfig:
 @dataclass
 class GeographicContext:
     """Geographic context for access"""
+
     country: Optional[str] = None
     region: Optional[str] = None
     city: Optional[str] = None
@@ -159,10 +169,10 @@ class WebAuthnSecurityHardening:
     def __init__(self):
         # Rate limiting tracking
         self.rate_limits = {
-            'registration': RateLimitConfig(max_requests=5, window_seconds=300),  # 5 per 5min
-            'authentication': RateLimitConfig(max_requests=20, window_seconds=300),  # 20 per 5min
-            'failed_auth': RateLimitConfig(max_requests=5, window_seconds=600),  # 5 failures per 10min
-            'credential_enumeration': RateLimitConfig(max_requests=10, window_seconds=300)
+            "registration": RateLimitConfig(max_requests=5, window_seconds=300),  # 5 per 5min
+            "authentication": RateLimitConfig(max_requests=20, window_seconds=300),  # 20 per 5min
+            "failed_auth": RateLimitConfig(max_requests=5, window_seconds=600),  # 5 failures per 10min
+            "credential_enumeration": RateLimitConfig(max_requests=10, window_seconds=300),
         }
 
         self.request_tracking: Dict[str, Dict[str, deque]] = defaultdict(lambda: defaultdict(lambda: deque()))
@@ -190,7 +200,7 @@ class WebAuthnSecurityHardening:
         user_id: Optional[str],
         ip_address: str,
         user_agent: str,
-        additional_context: Optional[Dict[str, Any]] = None
+        additional_context: Optional[Dict[str, Any]] = None,
     ) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
         """Validate request security and detect threats."""
         events = []
@@ -208,15 +218,18 @@ class WebAuthnSecurityHardening:
                 ip_address=ip_address,
                 user_agent=user_agent,
                 timestamp=datetime.now(timezone.utc),
-                details={'operation': operation},
-                action_taken=SecurityAction.RATE_LIMIT
+                details={"operation": operation},
+                action_taken=SecurityAction.RATE_LIMIT,
             )
             events.append(event)
             self.security_events.append(event)
             return False, "Rate limit exceeded", events
 
         # Check for suspicious user agents
-        if any(pattern in user_agent.lower() for pattern in self.threat_patterns['suspicious_user_agents']['automated_tools']):
+        if any(
+            pattern in user_agent.lower()
+            for pattern in self.threat_patterns["suspicious_user_agents"]["automated_tools"]
+        ):
             event = SecurityEvent(
                 event_id=secrets.token_urlsafe(16),
                 event_type=SecurityEventType.SUSPICIOUS_REGISTRATION,
@@ -226,8 +239,8 @@ class WebAuthnSecurityHardening:
                 ip_address=ip_address,
                 user_agent=user_agent,
                 timestamp=datetime.now(timezone.utc),
-                details={'suspicious_agent': user_agent},
-                action_taken=SecurityAction.BLOCK_IP
+                details={"suspicious_agent": user_agent},
+                action_taken=SecurityAction.BLOCK_IP,
             )
             events.append(event)
             self.security_events.append(event)
@@ -258,30 +271,24 @@ class WebAuthnSecurityHardening:
     def _initialize_threat_patterns(self) -> Dict[str, Any]:
         """Initialize threat detection patterns"""
         return {
-            'suspicious_user_agents': {
-                'automated_tools': ['curl', 'wget', 'python-requests', 'selenium'],
-                'known_malware': ['bot', 'crawler', 'scraper'],
-                'suspicious_patterns': ['test', 'hack', 'exploit']
+            "suspicious_user_agents": {
+                "automated_tools": ["curl", "wget", "python-requests", "selenium"],
+                "known_malware": ["bot", "crawler", "scraper"],
+                "suspicious_patterns": ["test", "hack", "exploit"],
             },
-            'rapid_credential_creation': {
-                'max_credentials_per_hour': 3,
-                'max_credentials_per_day': 10
-            },
-            'geographic_impossibility': {
-                'max_travel_speed_kmh': 1000  # Speed of commercial aircraft
-            },
-            'temporal_patterns': {
-                'min_time_between_authentications_seconds': 1,
-                'max_session_duration_hours': 12
-            }
+            "rapid_credential_creation": {"max_credentials_per_hour": 3, "max_credentials_per_day": 10},
+            "geographic_impossibility": {"max_travel_speed_kmh": 1000},  # Speed of commercial aircraft
+            "temporal_patterns": {"min_time_between_authentications_seconds": 1, "max_session_duration_hours": 12},
         }
 
-    async def validate_request_security(self,
-                                      operation: str,
-                                      user_id: Optional[str],
-                                      ip_address: str,
-                                      user_agent: str,
-                                      additional_context: Optional[Dict[str, Any]] = None) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
+    async def validate_request_security(
+        self,
+        operation: str,
+        user_id: Optional[str],
+        ip_address: str,
+        user_agent: str,
+        additional_context: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
         """
         Validate request security before processing WebAuthn operations.
 
@@ -302,8 +309,8 @@ class WebAuthnSecurityHardening:
                 ip_address=ip_address,
                 user_agent=user_agent,
                 timestamp=datetime.now(timezone.utc),
-                details={'reason': 'IP blocked'},
-                action_taken=SecurityAction.BLOCK_IP
+                details={"reason": "IP blocked"},
+                action_taken=SecurityAction.BLOCK_IP,
             )
             events.append(event)
             return False, "IP address blocked due to suspicious activity", events
@@ -329,8 +336,8 @@ class WebAuthnSecurityHardening:
                 ip_address=ip_address,
                 user_agent=user_agent,
                 timestamp=datetime.now(timezone.utc),
-                details={'analysis': 'Suspicious user agent detected'},
-                action_taken=SecurityAction.RATE_LIMIT
+                details={"analysis": "Suspicious user agent detected"},
+                action_taken=SecurityAction.RATE_LIMIT,
             )
             events.append(event)
 
@@ -338,16 +345,16 @@ class WebAuthnSecurityHardening:
                 return False, "User agent indicates potential security threat", events
 
         # Device fingerprinting
-        if 'device_fingerprint' in additional_context:
+        if "device_fingerprint" in additional_context:
             fingerprint_events = await self._validate_device_fingerprint(
-                user_id, additional_context['device_fingerprint'], ip_address, user_agent
+                user_id, additional_context["device_fingerprint"], ip_address, user_agent
             )
             events.extend(fingerprint_events)
 
         # Geographic validation
-        if 'geographic_info' in additional_context:
+        if "geographic_info" in additional_context:
             geo_events = await self._validate_geographic_context(
-                user_id, additional_context['geographic_info'], ip_address
+                user_id, additional_context["geographic_info"], ip_address
             )
             events.extend(geo_events)
 
@@ -364,11 +371,9 @@ class WebAuthnSecurityHardening:
 
         return True, None, events
 
-    async def _validate_rate_limits(self,
-                                  operation: str,
-                                  user_id: Optional[str],
-                                  ip_address: str,
-                                  user_agent: str) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
+    async def _validate_rate_limits(
+        self, operation: str, user_id: Optional[str], ip_address: str, user_agent: str
+    ) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
         """Validate rate limits for the operation"""
         events = []
         now = time.time()
@@ -379,7 +384,7 @@ class WebAuthnSecurityHardening:
                 continue
 
             ip_key = f"{ip_address}:{rate_type}"
-            request_times = self.request_tracking[ip_key]['times']
+            request_times = self.request_tracking[ip_key]["times"]
 
             # Clean old requests outside window
             while request_times and now - request_times[0] > config.window_seconds:
@@ -397,12 +402,12 @@ class WebAuthnSecurityHardening:
                     user_agent=user_agent,
                     timestamp=datetime.now(timezone.utc),
                     details={
-                        'rate_type': rate_type,
-                        'requests_in_window': len(request_times),
-                        'max_allowed': config.max_requests,
-                        'window_seconds': config.window_seconds
+                        "rate_type": rate_type,
+                        "requests_in_window": len(request_times),
+                        "max_allowed": config.max_requests,
+                        "window_seconds": config.window_seconds,
                     },
-                    action_taken=SecurityAction.RATE_LIMIT
+                    action_taken=SecurityAction.RATE_LIMIT,
                 )
                 events.append(event)
 
@@ -423,7 +428,7 @@ class WebAuthnSecurityHardening:
                     continue
 
                 user_key = f"{user_id}:{rate_type}"
-                request_times = self.request_tracking[user_key]['times']
+                request_times = self.request_tracking[user_key]["times"]
 
                 # Clean old requests
                 while request_times and now - request_times[0] > config.window_seconds:
@@ -442,11 +447,11 @@ class WebAuthnSecurityHardening:
                         user_agent=user_agent,
                         timestamp=datetime.now(timezone.utc),
                         details={
-                            'rate_type': f'user_{rate_type}',
-                            'requests_in_window': len(request_times),
-                            'max_allowed': user_max
+                            "rate_type": f"user_{rate_type}",
+                            "requests_in_window": len(request_times),
+                            "max_allowed": user_max,
                         },
-                        action_taken=SecurityAction.SUSPEND_USER
+                        action_taken=SecurityAction.SUSPEND_USER,
                     )
                     events.append(event)
                     return False, f"User rate limit exceeded for {rate_type}", events
@@ -461,34 +466,32 @@ class WebAuthnSecurityHardening:
             return ThreatLevel.MEDIUM
 
         user_agent_lower = user_agent.lower()
-        patterns = self.threat_patterns['suspicious_user_agents']
+        patterns = self.threat_patterns["suspicious_user_agents"]
 
         # Check for automated tools
-        for tool in patterns['automated_tools']:
+        for tool in patterns["automated_tools"]:
             if tool in user_agent_lower:
                 return ThreatLevel.HIGH
 
         # Check for known malware patterns
-        for malware in patterns['known_malware']:
+        for malware in patterns["known_malware"]:
             if malware in user_agent_lower:
                 return ThreatLevel.CRITICAL
 
         # Check for suspicious patterns
-        for pattern in patterns['suspicious_patterns']:
+        for pattern in patterns["suspicious_patterns"]:
             if pattern in user_agent_lower:
                 return ThreatLevel.MEDIUM
 
         # Check for very old browsers (potential security risk)
-        if 'msie' in user_agent_lower or 'internet explorer' in user_agent_lower:
+        if "msie" in user_agent_lower or "internet explorer" in user_agent_lower:
             return ThreatLevel.MEDIUM
 
         return ThreatLevel.LOW
 
-    async def _validate_device_fingerprint(self,
-                                         user_id: Optional[str],
-                                         fingerprint_data: Dict[str, Any],
-                                         ip_address: str,
-                                         user_agent: str) -> List[SecurityEvent]:
+    async def _validate_device_fingerprint(
+        self, user_id: Optional[str], fingerprint_data: Dict[str, Any], ip_address: str, user_agent: str
+    ) -> List[SecurityEvent]:
         """Validate device fingerprint for anomaly detection"""
         events = []
 
@@ -515,8 +518,8 @@ class WebAuthnSecurityHardening:
                     ip_address=ip_address,
                     user_agent=user_agent,
                     timestamp=now,
-                    details={'fingerprint_hash': fingerprint_hash, 'reason': 'Previously flagged device'},
-                    action_taken=SecurityAction.REQUIRE_ADDITIONAL_AUTH
+                    details={"fingerprint_hash": fingerprint_hash, "reason": "Previously flagged device"},
+                    action_taken=SecurityAction.REQUIRE_ADDITIONAL_AUTH,
                 )
                 events.append(event)
 
@@ -525,11 +528,11 @@ class WebAuthnSecurityHardening:
             device = DeviceFingerprint(
                 fingerprint_hash=fingerprint_hash,
                 user_agent=user_agent,
-                screen_resolution=fingerprint_data.get('screen_resolution'),
-                timezone=fingerprint_data.get('timezone'),
-                language=fingerprint_data.get('language'),
-                platform=fingerprint_data.get('platform'),
-                webgl_renderer=fingerprint_data.get('webgl_renderer')
+                screen_resolution=fingerprint_data.get("screen_resolution"),
+                timezone=fingerprint_data.get("timezone"),
+                language=fingerprint_data.get("language"),
+                platform=fingerprint_data.get("platform"),
+                webgl_renderer=fingerprint_data.get("webgl_renderer"),
             )
 
             # Analyze new device for suspicious characteristics
@@ -547,8 +550,8 @@ class WebAuthnSecurityHardening:
                     ip_address=ip_address,
                     user_agent=user_agent,
                     timestamp=now,
-                    details={'fingerprint_hash': fingerprint_hash, 'analysis': 'New suspicious device'},
-                    action_taken=SecurityAction.REQUIRE_ADDITIONAL_AUTH if threat_level == ThreatLevel.HIGH else None
+                    details={"fingerprint_hash": fingerprint_hash, "analysis": "New suspicious device"},
+                    action_taken=SecurityAction.REQUIRE_ADDITIONAL_AUTH if threat_level == ThreatLevel.HIGH else None,
                 )
                 events.append(event)
 
@@ -561,14 +564,14 @@ class WebAuthnSecurityHardening:
         threat_level = ThreatLevel.LOW
 
         # Check for headless browsers (common in automation)
-        if fingerprint_data.get('webgl_renderer') == 'SwiftShader':
+        if fingerprint_data.get("webgl_renderer") == "SwiftShader":
             threat_level = ThreatLevel.MEDIUM
 
         # Check for unusual screen resolutions
-        screen_res = fingerprint_data.get('screen_resolution')
+        screen_res = fingerprint_data.get("screen_resolution")
         if screen_res:
             try:
-                width, height = map(int, screen_res.split('x'))
+                width, height = map(int, screen_res.split("x"))
                 # Very small or very large resolutions can indicate automation
                 if width < 800 or height < 600 or width > 7680 or height > 4320:
                     threat_level = ThreatLevel.MEDIUM
@@ -576,7 +579,7 @@ class WebAuthnSecurityHardening:
                 threat_level = ThreatLevel.LOW
 
         # Check for missing common properties
-        expected_properties = ['screen_resolution', 'timezone', 'language', 'platform']
+        expected_properties = ["screen_resolution", "timezone", "language", "platform"]
         missing_props = [prop for prop in expected_properties if not fingerprint_data.get(prop)]
 
         if len(missing_props) >= 3:
@@ -584,10 +587,9 @@ class WebAuthnSecurityHardening:
 
         return threat_level
 
-    async def _validate_geographic_context(self,
-                                         user_id: Optional[str],
-                                         geo_info: Dict[str, Any],
-                                         ip_address: str) -> List[SecurityEvent]:
+    async def _validate_geographic_context(
+        self, user_id: Optional[str], geo_info: Dict[str, Any], ip_address: str
+    ) -> List[SecurityEvent]:
         """Validate geographic context for access anomalies"""
         events = []
 
@@ -595,13 +597,13 @@ class WebAuthnSecurityHardening:
             return events
 
         geo_context = GeographicContext(
-            country=geo_info.get('country'),
-            region=geo_info.get('region'),
-            city=geo_info.get('city'),
-            latitude=geo_info.get('latitude'),
-            longitude=geo_info.get('longitude'),
-            timezone=geo_info.get('timezone'),
-            isp=geo_info.get('isp')
+            country=geo_info.get("country"),
+            region=geo_info.get("region"),
+            city=geo_info.get("city"),
+            latitude=geo_info.get("latitude"),
+            longitude=geo_info.get("longitude"),
+            timezone=geo_info.get("timezone"),
+            isp=geo_info.get("isp"),
         )
 
         now = datetime.now(timezone.utc)
@@ -613,12 +615,10 @@ class WebAuthnSecurityHardening:
             last_location = user_locations[-1]
 
             # Check for impossible travel (geographic impossibility)
-            if (last_location.latitude and last_location.longitude and
-                geo_context.latitude and geo_context.longitude):
+            if last_location.latitude and last_location.longitude and geo_context.latitude and geo_context.longitude:
 
                 distance_km = self._calculate_distance(
-                    last_location.latitude, last_location.longitude,
-                    geo_context.latitude, geo_context.longitude
+                    last_location.latitude, last_location.longitude, geo_context.latitude, geo_context.longitude
                 )
 
                 # Estimate minimum time based on last access
@@ -627,7 +627,7 @@ class WebAuthnSecurityHardening:
 
                 if time_diff_hours > 0:
                     travel_speed_kmh = distance_km / time_diff_hours
-                    max_speed = self.threat_patterns['geographic_impossibility']['max_travel_speed_kmh']
+                    max_speed = self.threat_patterns["geographic_impossibility"]["max_travel_speed_kmh"]
 
                     if travel_speed_kmh > max_speed:
                         event = SecurityEvent(
@@ -640,14 +640,14 @@ class WebAuthnSecurityHardening:
                             user_agent="",
                             timestamp=now,
                             details={
-                                'distance_km': distance_km,
-                                'time_hours': time_diff_hours,
-                                'calculated_speed_kmh': travel_speed_kmh,
-                                'max_speed_kmh': max_speed,
-                                'previous_location': f"{last_location.city}, {last_location.country}",
-                                'current_location': f"{geo_context.city}, {geo_context.country}"
+                                "distance_km": distance_km,
+                                "time_hours": time_diff_hours,
+                                "calculated_speed_kmh": travel_speed_kmh,
+                                "max_speed_kmh": max_speed,
+                                "previous_location": f"{last_location.city}, {last_location.country}",
+                                "current_location": f"{geo_context.city}, {geo_context.country}",
                             },
-                            action_taken=SecurityAction.REQUIRE_ADDITIONAL_AUTH
+                            action_taken=SecurityAction.REQUIRE_ADDITIONAL_AUTH,
                         )
                         events.append(event)
 
@@ -674,16 +674,15 @@ class WebAuthnSecurityHardening:
         dlat = lat2_rad - lat1_rad
         dlon = lon2_rad - lon1_rad
 
-        a = (math.sin(dlat / 2) ** 2 +
-             math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2) ** 2)
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2) ** 2
         c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
         distance = R * c
 
         return distance
 
-    async def validate_credential_binding(self,
-                                        credential: WebAuthnCredential,
-                                        request_context: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+    async def validate_credential_binding(
+        self, credential: WebAuthnCredential, request_context: Dict[str, Any]
+    ) -> Tuple[bool, Optional[str]]:
         """Validate credential binding and usage context"""
 
         # Check credential status
@@ -691,14 +690,14 @@ class WebAuthnSecurityHardening:
             return False, f"Credential status is {credential.status.value}"
 
         # Check credential expiry (if applicable)
-        if hasattr(credential, 'expires_at') and credential.expires_at:
+        if hasattr(credential, "expires_at") and credential.expires_at:
             if datetime.now(timezone.utc) > credential.expires_at:
                 return False, "Credential has expired"
 
         # Validate sign count (replay attack detection)
         if credential.sign_count > 0:
             expected_min_count = credential.sign_count
-            actual_count = request_context.get('sign_count', 0)
+            actual_count = request_context.get("sign_count", 0)
 
             if actual_count <= expected_min_count:
                 # Potential replay attack
@@ -707,44 +706,41 @@ class WebAuthnSecurityHardening:
                     ThreatLevel.HIGH,
                     credential.user_id,
                     credential.credential_id,
-                    request_context.get('ip_address'),
-                    request_context.get('user_agent'),
-                    {
-                        'expected_min_count': expected_min_count,
-                        'actual_count': actual_count
-                    },
-                    SecurityAction.REVOKE_CREDENTIAL
+                    request_context.get("ip_address"),
+                    request_context.get("user_agent"),
+                    {"expected_min_count": expected_min_count, "actual_count": actual_count},
+                    SecurityAction.REVOKE_CREDENTIAL,
                 )
                 return False, "Replay attack detected - invalid sign count"
 
         # Validate device binding (if enabled)
         if credential.credential_id in self.credential_bindings:
             binding = self.credential_bindings[credential.credential_id]
-            request_fingerprint = request_context.get('device_fingerprint', {})
+            request_fingerprint = request_context.get("device_fingerprint", {})
 
-            if binding.get('device_fingerprint') != request_fingerprint:
+            if binding.get("device_fingerprint") != request_fingerprint:
                 await self._record_security_event(
                     SecurityEventType.CREDENTIAL_MISUSE,
                     ThreatLevel.HIGH,
                     credential.user_id,
                     credential.credential_id,
-                    request_context.get('ip_address'),
-                    request_context.get('user_agent'),
-                    {'reason': 'Device fingerprint mismatch'},
-                    SecurityAction.REQUIRE_ADDITIONAL_AUTH
+                    request_context.get("ip_address"),
+                    request_context.get("user_agent"),
+                    {"reason": "Device fingerprint mismatch"},
+                    SecurityAction.REQUIRE_ADDITIONAL_AUTH,
                 )
                 return False, "Credential device binding validation failed"
 
         # Check for credential overuse patterns
         usage_pattern = await self._analyze_credential_usage_pattern(credential, request_context)
-        if usage_pattern['threat_level'] >= ThreatLevel.HIGH:
-            return False, usage_pattern['reason']
+        if usage_pattern["threat_level"] >= ThreatLevel.HIGH:
+            return False, usage_pattern["reason"]
 
         return True, None
 
-    async def _analyze_credential_usage_pattern(self,
-                                              credential: WebAuthnCredential,
-                                              request_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _analyze_credential_usage_pattern(
+        self, credential: WebAuthnCredential, request_context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Analyze credential usage patterns for anomalies"""
 
         # This would analyze:
@@ -754,21 +750,19 @@ class WebAuthnSecurityHardening:
         # - Device patterns
 
         # For now, return basic analysis
-        return {
-            'threat_level': ThreatLevel.LOW,
-            'reason': None,
-            'patterns_detected': []
-        }
+        return {"threat_level": ThreatLevel.LOW, "reason": None, "patterns_detected": []}
 
-    async def _record_security_event(self,
-                                   event_type: SecurityEventType,
-                                   threat_level: ThreatLevel,
-                                   user_id: Optional[str],
-                                   credential_id: Optional[str],
-                                   ip_address: Optional[str],
-                                   user_agent: Optional[str],
-                                   details: Dict[str, Any],
-                                   action_taken: Optional[SecurityAction] = None):
+    async def _record_security_event(
+        self,
+        event_type: SecurityEventType,
+        threat_level: ThreatLevel,
+        user_id: Optional[str],
+        credential_id: Optional[str],
+        ip_address: Optional[str],
+        user_agent: Optional[str],
+        details: Dict[str, Any],
+        action_taken: Optional[SecurityAction] = None,
+    ):
         """Record a security event"""
 
         event = SecurityEvent(
@@ -781,7 +775,7 @@ class WebAuthnSecurityHardening:
             user_agent=user_agent,
             timestamp=datetime.now(timezone.utc),
             details=details,
-            action_taken=action_taken
+            action_taken=action_taken,
         )
 
         self.security_events.append(event)
@@ -817,28 +811,28 @@ class WebAuthnSecurityHardening:
                 ip_threats[event.ip_address] += 1
 
         return {
-            'timestamp': now.isoformat(),
-            'summary': {
-                'total_events_24h': len(recent_events),
-                'blocked_ips': len(self.blocked_ips),
-                'suspicious_devices': len([d for d in self.device_fingerprints.values() if d.suspicious]),
-                'active_threats': len([e for e in recent_events if e.threat_level == ThreatLevel.CRITICAL])
+            "timestamp": now.isoformat(),
+            "summary": {
+                "total_events_24h": len(recent_events),
+                "blocked_ips": len(self.blocked_ips),
+                "suspicious_devices": len([d for d in self.device_fingerprints.values() if d.suspicious]),
+                "active_threats": len([e for e in recent_events if e.threat_level == ThreatLevel.CRITICAL]),
             },
-            'threat_distribution': dict(threat_distribution),
-            'event_types': dict(event_type_distribution),
-            'top_threat_ips': dict(sorted(ip_threats.items(), key=lambda x: x[1], reverse=True)[:10]),
-            'recent_critical_events': [
+            "threat_distribution": dict(threat_distribution),
+            "event_types": dict(event_type_distribution),
+            "top_threat_ips": dict(sorted(ip_threats.items(), key=lambda x: x[1], reverse=True)[:10]),
+            "recent_critical_events": [
                 {
-                    'event_id': e.event_id,
-                    'type': e.event_type.value,
-                    'threat_level': e.threat_level.value,
-                    'user_id': e.user_id,
-                    'timestamp': e.timestamp.isoformat(),
-                    'action_taken': e.action_taken.value if e.action_taken else None
+                    "event_id": e.event_id,
+                    "type": e.event_type.value,
+                    "threat_level": e.threat_level.value,
+                    "user_id": e.user_id,
+                    "timestamp": e.timestamp.isoformat(),
+                    "action_taken": e.action_taken.value if e.action_taken else None,
                 }
                 for e in recent_events
                 if e.threat_level == ThreatLevel.CRITICAL
-            ][:10]
+            ][:10],
         }
 
     async def emergency_lockdown(self, reason: str, duration_minutes: int = 60):
@@ -860,37 +854,52 @@ class WebAuthnSecurityHardening:
             None,
             None,
             {
-                'lockdown_reason': reason,
-                'duration_minutes': duration_minutes,
-                'initiated_at': datetime.now(timezone.utc).isoformat()
+                "lockdown_reason": reason,
+                "duration_minutes": duration_minutes,
+                "initiated_at": datetime.now(timezone.utc).isoformat(),
             },
-            SecurityAction.EMERGENCY_LOCKDOWN
+            SecurityAction.EMERGENCY_LOCKDOWN,
         )
 
     def get_security_metrics(self) -> SecurityMetrics:
         """Get comprehensive security metrics for monitoring."""
-        total_blocked = len([e for e in self.security_events if e.action_taken in [
-            SecurityAction.RATE_LIMIT, SecurityAction.SUSPEND_USER,
-            SecurityAction.REVOKE_CREDENTIAL, SecurityAction.BLOCK_IP
-        ]])
+        total_blocked = len(
+            [
+                e
+                for e in self.security_events
+                if e.action_taken
+                in [
+                    SecurityAction.RATE_LIMIT,
+                    SecurityAction.SUSPEND_USER,
+                    SecurityAction.REVOKE_CREDENTIAL,
+                    SecurityAction.BLOCK_IP,
+                ]
+            ]
+        )
 
-        threat_events = len([e for e in self.security_events if e.threat_level in [
-            ThreatLevel.HIGH, ThreatLevel.CRITICAL
-        ]])
+        threat_events = len(
+            [e for e in self.security_events if e.threat_level in [ThreatLevel.HIGH, ThreatLevel.CRITICAL]]
+        )
 
-        attack_patterns = list(set([
-            e.event_type.value for e in self.security_events
-            if e.threat_level in [ThreatLevel.HIGH, ThreatLevel.CRITICAL]
-        ]))
+        attack_patterns = list(
+            set(
+                [
+                    e.event_type.value
+                    for e in self.security_events
+                    if e.threat_level in [ThreatLevel.HIGH, ThreatLevel.CRITICAL]
+                ]
+            )
+        )
 
         return SecurityMetrics(
             total_requests=len(self.security_events),
             blocked_requests=total_blocked,
             threat_events_detected=threat_events,
             false_positives=0,  # Would be calculated based on resolved events
-            emergency_lockdowns=len([e for e in self.security_events
-                                   if e.action_taken == SecurityAction.EMERGENCY_LOCKDOWN]),
-            attack_patterns=attack_patterns
+            emergency_lockdowns=len(
+                [e for e in self.security_events if e.action_taken == SecurityAction.EMERGENCY_LOCKDOWN]
+            ),
+            attack_patterns=attack_patterns,
         )
 
     async def cleanup_old_data(self, days_to_keep: int = 90):
@@ -902,8 +911,7 @@ class WebAuthnSecurityHardening:
 
         # Clean old device fingerprints
         old_devices = [
-            fp_hash for fp_hash, device in self.device_fingerprints.items()
-            if device.last_seen < cutoff_date
+            fp_hash for fp_hash, device in self.device_fingerprints.items() if device.last_seen < cutoff_date
         ]
 
         for fp_hash in old_devices:

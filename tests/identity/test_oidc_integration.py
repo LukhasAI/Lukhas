@@ -60,7 +60,7 @@ class TestJWKSCacheIntegration:
                     "kid": "test-key-1",
                     "use": "sig",
                     "n": "test-n-value" * 100,  # Make it realistic size
-                    "e": "AQAB"
+                    "e": "AQAB",
                 }
             ]
         }
@@ -136,23 +136,17 @@ class TestRateLimitingIntegration:
         client_ip = "192.168.1.100"
 
         # First request should be allowed
-        allowed, metadata = await rate_limiter.check_rate_limit(
-            client_ip, RateLimitType.WEBAUTHN_REGISTRATION
-        )
+        allowed, metadata = await rate_limiter.check_rate_limit(client_ip, RateLimitType.WEBAUTHN_REGISTRATION)
         assert allowed is True
         assert metadata["allowed"] is True
 
         # Exhaust the rate limit (5 req/min for registration)
         for _ in range(4):  # 4 more requests (total 5)
-            allowed, metadata = await rate_limiter.check_rate_limit(
-                client_ip, RateLimitType.WEBAUTHN_REGISTRATION
-            )
+            allowed, metadata = await rate_limiter.check_rate_limit(client_ip, RateLimitType.WEBAUTHN_REGISTRATION)
             assert allowed is True
 
         # Next request should be rate limited
-        allowed, metadata = await rate_limiter.check_rate_limit(
-            client_ip, RateLimitType.WEBAUTHN_REGISTRATION
-        )
+        allowed, metadata = await rate_limiter.check_rate_limit(client_ip, RateLimitType.WEBAUTHN_REGISTRATION)
         assert allowed is False
         assert metadata["error"] == "rate_limit_exceeded"
         assert "retry_after" in metadata
@@ -187,20 +181,14 @@ class TestRateLimitingIntegration:
         for violation in range(3):
             # Exhaust limit
             for _ in range(6):  # Exceed 5 req/min limit
-                await rate_limiter.check_rate_limit(
-                    client_ip, RateLimitType.WEBAUTHN_REGISTRATION
-                )
+                await rate_limiter.check_rate_limit(client_ip, RateLimitType.WEBAUTHN_REGISTRATION)
 
             # Check violation count increases
-            status = rate_limiter.get_client_status(
-                client_ip, RateLimitType.WEBAUTHN_REGISTRATION
-            )
+            status = rate_limiter.get_client_status(client_ip, RateLimitType.WEBAUTHN_REGISTRATION)
             assert status["violation_count"] >= violation
 
         # Should eventually be locked out
-        final_status = rate_limiter.get_client_status(
-            client_ip, RateLimitType.WEBAUTHN_REGISTRATION
-        )
+        final_status = rate_limiter.get_client_status(client_ip, RateLimitType.WEBAUTHN_REGISTRATION)
         assert final_status["is_locked_out"] is True
 
 
@@ -215,7 +203,7 @@ class TestSecurityHardeningIntegration:
             ip_address="192.168.1.200",
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
             headers={"Content-Type": "application/json"},
-            endpoint="/oauth2/token"
+            endpoint="/oauth2/token",
         )
 
         assert action.value in ["allow", "throttle"]
@@ -229,7 +217,7 @@ class TestSecurityHardeningIntegration:
             ip_address="192.168.1.201",
             user_agent="sqlmap/1.4.12",  # Known attack tool
             headers={"X-Scanner": "test", "Content-Type": "application/json"},
-            endpoint="/oauth2/authorize"
+            endpoint="/oauth2/authorize",
         )
 
         # Should at least throttle or block suspicious requests
@@ -298,15 +286,9 @@ class TestMetricsCollectorIntegration:
         from identity.metrics_collector import ThreatLevel
 
         # Record security events
-        metrics_collector.record_security_event(
-            "suspicious_user_agent", ThreatLevel.MEDIUM, "blocked"
-        )
-        metrics_collector.record_security_event(
-            "rate_limit_violation", ThreatLevel.LOW, "throttled"
-        )
-        metrics_collector.record_security_event(
-            "replay_attack", ThreatLevel.HIGH, "blocked"
-        )
+        metrics_collector.record_security_event("suspicious_user_agent", ThreatLevel.MEDIUM, "blocked")
+        metrics_collector.record_security_event("rate_limit_violation", ThreatLevel.LOW, "throttled")
+        metrics_collector.record_security_event("replay_attack", ThreatLevel.HIGH, "blocked")
 
         health = metrics_collector.get_health_metrics()
         assert health["security_events"] == 3
@@ -314,9 +296,9 @@ class TestMetricsCollectorIntegration:
     def test_cache_metrics(self, metrics_collector):
         """Test cache operation metrics"""
         # Record cache operations
-        metrics_collector.record_cache_operation("jwks", "get", True)   # Hit
+        metrics_collector.record_cache_operation("jwks", "get", True)  # Hit
         metrics_collector.record_cache_operation("jwks", "get", False)  # Miss
-        metrics_collector.record_cache_operation("jwks", "get", True)   # Hit
+        metrics_collector.record_cache_operation("jwks", "get", True)  # Hit
 
         health = metrics_collector.get_health_metrics()
         assert health["cache_hit_rate_percent"] > 50  # 2 hits out of 3
@@ -354,9 +336,7 @@ class TestEndToEndOIDCFlow:
             assert jwks["keys"][0]["kid"] == "test"
 
             # Simulate rate limiting
-            allowed, _ = await rate_limiter.check_rate_limit(
-                "192.168.1.300", RateLimitType.API_GENERAL
-            )
+            allowed, _ = await rate_limiter.check_rate_limit("192.168.1.300", RateLimitType.API_GENERAL)
             assert allowed is True
 
             # Record metrics
@@ -381,21 +361,9 @@ class TestEndToEndOIDCFlow:
 
         # Simulate attack patterns
         attack_patterns = [
-            {
-                "ip": "10.0.0.1",
-                "user_agent": "sqlmap/1.4.12",
-                "headers": {"X-Scanner": "test"}
-            },
-            {
-                "ip": "10.0.0.2",
-                "user_agent": "nikto/2.1.6",
-                "headers": {"X-Exploit": "attempt"}
-            },
-            {
-                "ip": "10.0.0.3",
-                "user_agent": "python-requests/2.25.1",
-                "headers": {"Accept": "*/*"}
-            }
+            {"ip": "10.0.0.1", "user_agent": "sqlmap/1.4.12", "headers": {"X-Scanner": "test"}},
+            {"ip": "10.0.0.2", "user_agent": "nikto/2.1.6", "headers": {"X-Exploit": "attempt"}},
+            {"ip": "10.0.0.3", "user_agent": "python-requests/2.25.1", "headers": {"Accept": "*/*"}},
         ]
 
         blocked_count = 0
@@ -408,20 +376,16 @@ class TestEndToEndOIDCFlow:
                     ip_address=pattern["ip"],
                     user_agent=pattern["user_agent"],
                     headers=pattern["headers"],
-                    endpoint="/oauth2/token"
+                    endpoint="/oauth2/token",
                 )
 
                 # Rate limiting check
-                allowed, rate_metadata = await rate_limiter.check_rate_limit(
-                    pattern["ip"], RateLimitType.API_GENERAL
-                )
+                allowed, rate_metadata = await rate_limiter.check_rate_limit(pattern["ip"], RateLimitType.API_GENERAL)
 
                 if action.value == "block" or not allowed:
                     blocked_count += 1
                     metrics.record_security_event(
-                        "attack_blocked",
-                        ThreatLevel.HIGH if action.value == "block" else ThreatLevel.MEDIUM,
-                        "blocked"
+                        "attack_blocked", ThreatLevel.HIGH if action.value == "block" else ThreatLevel.MEDIUM, "blocked"
                     )
                 elif action.value == "throttle":
                     throttled_count += 1
@@ -438,7 +402,7 @@ class TestEndToEndOIDCFlow:
             ip_address="192.168.1.100",
             user_agent="Mozilla/5.0 (compatible browser)",
             headers={"Accept": "application/json"},
-            endpoint="/oauth2/authorize"
+            endpoint="/oauth2/authorize",
         )
         assert action.value == "allow", "Legitimate traffic should still be allowed"
 
@@ -456,13 +420,7 @@ class TestPerformanceBenchmarks:
             # Pre-populate cache for realistic scenario
             test_jwks = {
                 "keys": [
-                    {
-                        "kty": "RSA",
-                        "kid": f"key_{i}",
-                        "use": "sig",
-                        "n": "realistic_n_value" * 50,
-                        "e": "AQAB"
-                    }
+                    {"kty": "RSA", "kid": f"key_{i}", "use": "sig", "n": "realistic_n_value" * 50, "e": "AQAB"}
                     for i in range(5)
                 ]
             }

@@ -43,7 +43,7 @@ class TestTelemetryEvent:
             severity=SeverityLevel.INFO,
             message="Test message",
             data={"key": "value"},
-            tags={"env": "test"}
+            tags={"env": "test"},
         )
 
         assert event.event_id == "test-123"
@@ -63,7 +63,7 @@ class TestTelemetryEvent:
             component="test_component",
             event_type="test_event",
             severity=SeverityLevel.WARNING,
-            message="Test message"
+            message="Test message",
         )
 
         event_dict = event.to_dict()
@@ -88,7 +88,7 @@ class TestMetricData:
             value=85.5,
             timestamp=time.time(),
             component="system",
-            tags={"host": "server1"}
+            tags={"host": "server1"},
         )
 
         assert metric.metric_name == "cpu_usage"
@@ -105,7 +105,7 @@ class TestMetricData:
             metric_type=MetricType.HISTOGRAM,
             value=150.0,
             timestamp=1234567890.0,
-            component="api"
+            component="api",
         )
 
         metric_dict = metric.to_dict()
@@ -129,7 +129,7 @@ class TestTraceSpan:
             parent_span_id="parent-789",
             operation_name="test_operation",
             component="test_service",
-            start_time=time.time()
+            start_time=time.time(),
         )
 
         assert span.trace_id == "trace-123"
@@ -149,7 +149,7 @@ class TestTraceSpan:
             parent_span_id=None,
             operation_name="test_operation",
             component="test_service",
-            start_time=start_time
+            start_time=start_time,
         )
 
         # Simulate some processing time
@@ -170,7 +170,7 @@ class TestTraceSpan:
             parent_span_id=None,
             operation_name="test_operation",
             component="test_service",
-            start_time=time.time()
+            start_time=time.time(),
         )
 
         span.add_log("Processing started", {"step": 1})
@@ -191,7 +191,7 @@ class TestTraceSpan:
             parent_span_id=None,
             operation_name="test_operation",
             component="test_service",
-            start_time=time.time()
+            start_time=time.time(),
         )
 
         span.set_error("Connection timeout")
@@ -208,12 +208,7 @@ class TestTelemetryCollector:
     @pytest.fixture
     def collector(self):
         """Create telemetry collector for testing."""
-        return TelemetryCollector(
-            max_events=100,
-            max_metrics=200,
-            max_spans=50,
-            flush_interval_sec=60.0
-        )
+        return TelemetryCollector(max_events=100, max_metrics=200, max_spans=50, flush_interval_sec=60.0)
 
     def test_emit_event(self, collector):
         """Test emitting telemetry events."""
@@ -224,7 +219,7 @@ class TestTelemetryCollector:
             message="Test message",
             severity=SeverityLevel.INFO,
             data={"key": "value"},
-            tags={"env": "test"}
+            tags={"env": "test"},
         )
 
         assert isinstance(event, TelemetryEvent)
@@ -245,7 +240,7 @@ class TestTelemetryCollector:
             metric_name="test_metric",
             value=42.0,
             metric_type=MetricType.COUNTER,
-            tags={"env": "test"}
+            tags={"env": "test"},
         )
 
         assert isinstance(metric, MetricData)
@@ -261,11 +256,7 @@ class TestTelemetryCollector:
     def test_start_span(self, collector):
         """Test starting trace spans."""
 
-        span = collector.start_span(
-            operation_name="test_operation",
-            component="test_service",
-            tags={"version": "1.0"}
-        )
+        span = collector.start_span(operation_name="test_operation", component="test_service", tags={"version": "1.0"})
 
         assert isinstance(span, TraceSpan)
         assert span.operation_name == "test_operation"
@@ -415,11 +406,7 @@ class TestConvenienceFunctions:
     def test_emit_event_function(self):
         """Test global emit_event function."""
 
-        event = emit_event(
-            component="test",
-            event_type="test_event",
-            message="Test message"
-        )
+        event = emit_event(component="test", event_type="test_event", message="Test message")
 
         assert isinstance(event, TelemetryEvent)
         assert event.component == "test"
@@ -429,11 +416,7 @@ class TestConvenienceFunctions:
     def test_emit_metric_function(self):
         """Test global emit_metric function."""
 
-        metric = emit_metric(
-            component="test",
-            metric_name="test_metric",
-            value=123.45
-        )
+        metric = emit_metric(component="test", metric_name="test_metric", value=123.45)
 
         assert isinstance(metric, MetricData)
         assert metric.component == "test"
@@ -472,7 +455,9 @@ class TestTelemetryIntegration:
                 collector.emit_metric("api_server", "response_time", 150.0, MetricType.HISTOGRAM)
 
                 # Simulate database operation
-                async with collector.trace_operation("db_query", "database", parent_span_id=request_span.span_id) as db_span:
+                async with collector.trace_operation(
+                    "db_query", "database", parent_span_id=request_span.span_id
+                ) as db_span:
                     db_span.add_log("Executing query")
                     collector.emit_metric("database", "query_time", 50.0, MetricType.HISTOGRAM)
 
@@ -486,7 +471,7 @@ class TestTelemetryIntegration:
                     component="api_server",
                     event_type="request_completed",
                     message="Request processed successfully",
-                    severity=SeverityLevel.INFO
+                    severity=SeverityLevel.INFO,
                 )
 
                 request_span.add_log("Request processed")
@@ -520,7 +505,7 @@ class TestTelemetryIntegration:
                     component="test_service",
                     event_type="operation_error",
                     message="Operation failed",
-                    severity=SeverityLevel.ERROR
+                    severity=SeverityLevel.ERROR,
                 )
 
                 raise Exception("Simulated failure")

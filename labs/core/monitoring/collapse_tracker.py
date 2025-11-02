@@ -31,6 +31,7 @@
 ║ Symbolic Tags: {ΛCOLLAPSE}, {ΛENTROPY}, {ΛSAFETY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import json
 import logging

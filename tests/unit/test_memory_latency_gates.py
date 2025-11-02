@@ -17,7 +17,7 @@ def test_memory_latency_gates_workflow_exists():
     workflow_path = Path(".github/workflows/memory-latency-gates.yml")
     assert workflow_path.exists(), "Memory & latency gates workflow not found"
 
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path, "r") as f:
         workflow = yaml.safe_load(f)
 
     # Verify workflow structure
@@ -33,14 +33,8 @@ def test_memory_latency_gates_workflow_exists():
     steps = job["steps"]
 
     # Find memory/latency related test steps
-    memory_steps = [
-        step for step in steps
-        if "memory" in step.get("name", "").lower()
-    ]
-    latency_steps = [
-        step for step in steps
-        if "latency" in step.get("name", "").lower()
-    ]
+    memory_steps = [step for step in steps if "memory" in step.get("name", "").lower()]
+    latency_steps = [step for step in steps if "latency" in step.get("name", "").lower()]
 
     # Verify test steps exist
     assert len(memory_steps) >= 1, "Missing memory performance test steps"
@@ -57,12 +51,12 @@ def test_performance_budgets_defined():
     """Test that performance budgets are properly defined."""
     # Critical performance budgets that must be enforced in CI
     required_budgets = {
-        "memory_fold_access_ms": 10.0,      # Memory fold access time
+        "memory_fold_access_ms": 10.0,  # Memory fold access time
         "topk_recall_10k_items_ms": 100.0,  # Top-K recall for 10k items
-        "matriz_stage_latency_ms": 100.0,   # MATRIZ stage processing
-        "pipeline_total_latency_ms": 250.0, # Complete pipeline
-        "system_memory_usage_mb": 512.0,    # System memory usage
-        "cpu_average_percent": 70.0,        # CPU usage under load
+        "matriz_stage_latency_ms": 100.0,  # MATRIZ stage processing
+        "pipeline_total_latency_ms": 250.0,  # Complete pipeline
+        "system_memory_usage_mb": 512.0,  # System memory usage
+        "cpu_average_percent": 70.0,  # CPU usage under load
     }
 
     for budget_name, threshold in required_budgets.items():
@@ -99,8 +93,7 @@ def test_memory_recall_budget_enforcement():
 
     # Verify budget compliance (100ms for 10k items)
     budget_ms = 100.0
-    assert recall_time_ms <= budget_ms, \
-        f"Top-K recall time {recall_time_ms:.2f}ms exceeds {budget_ms}ms budget"
+    assert recall_time_ms <= budget_ms, f"Top-K recall time {recall_time_ms:.2f}ms exceeds {budget_ms}ms budget"
 
     # Verify correctness
     assert len(results) == 10, "Should return exactly 10 items"
@@ -113,9 +106,9 @@ def test_latency_budget_enforcement():
     """Test that latency budget enforcement is working."""
     # Simulate MATRIZ pipeline stages
     stage_budgets = {
-        "intent": 50.0,      # Intent analysis
-        "decision": 100.0,   # Decision making
-        "processing": 120.0, # Main processing
+        "intent": 50.0,  # Intent analysis
+        "decision": 100.0,  # Decision making
+        "processing": 120.0,  # Main processing
         "validation": 40.0,  # Validation
         "reflection": 30.0,  # Reflection
     }
@@ -136,13 +129,13 @@ def test_latency_budget_enforcement():
         stage_time = simulate_stage(stage_name, budget_ms)
         total_pipeline_time += stage_time
 
-        assert stage_time <= budget_ms, \
-            f"Stage {stage_name} time {stage_time:.2f}ms exceeds {budget_ms}ms budget"
+        assert stage_time <= budget_ms, f"Stage {stage_name} time {stage_time:.2f}ms exceeds {budget_ms}ms budget"
 
     # Test total pipeline budget (250ms)
     pipeline_budget_ms = 250.0
-    assert total_pipeline_time <= pipeline_budget_ms, \
-        f"Pipeline time {total_pipeline_time:.2f}ms exceeds {pipeline_budget_ms}ms budget"
+    assert (
+        total_pipeline_time <= pipeline_budget_ms
+    ), f"Pipeline time {total_pipeline_time:.2f}ms exceeds {pipeline_budget_ms}ms budget"
 
     print(f"✅ Pipeline latency: {total_pipeline_time:.2f}ms (budget: {pipeline_budget_ms}ms)")
 
@@ -150,7 +143,7 @@ def test_latency_budget_enforcement():
 def test_ci_gate_blocking_behavior():
     """Test that CI gates have proper blocking behavior."""
     workflow_path = Path(".github/workflows/memory-latency-gates.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path, "r") as f:
         content = f.read()
 
     # Should have blocking failure messages
@@ -158,12 +151,7 @@ def test_ci_gate_blocking_behavior():
     assert "exit 1" in content, "Missing immediate failure commands"
 
     # Should have status reporting
-    blocking_indicators = [
-        "BLOCKING",
-        "exit 1",
-        "budget",
-        "exceeded"
-    ]
+    blocking_indicators = ["BLOCKING", "exit 1", "budget", "exceeded"]
 
     found_indicators = sum(1 for indicator in blocking_indicators if indicator in content)
     assert found_indicators >= 3, "Workflow missing clear blocking behavior"
@@ -172,7 +160,7 @@ def test_ci_gate_blocking_behavior():
 def test_performance_reporting():
     """Test that performance results are properly reported."""
     workflow_path = Path(".github/workflows/memory-latency-gates.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path, "r") as f:
         content = f.read()
 
     # Should generate performance reports
@@ -187,12 +175,12 @@ def test_budget_thresholds_reasonable():
     """Test that budget thresholds are reasonable for production."""
     # These thresholds represent production-ready performance
     production_thresholds = {
-        "memory_fold_access": (10.0, "ms"),        # Very fast memory access
-        "topk_recall_10k": (100.0, "ms"),          # Fast search
-        "stage_latency": (100.0, "ms"),            # Responsive stages
-        "pipeline_latency": (250.0, "ms"),         # Quarter-second response
-        "memory_usage": (512.0, "MB"),             # Reasonable memory footprint
-        "cpu_usage": (70.0, "%"),                  # Not overwhelming CPU
+        "memory_fold_access": (10.0, "ms"),  # Very fast memory access
+        "topk_recall_10k": (100.0, "ms"),  # Fast search
+        "stage_latency": (100.0, "ms"),  # Responsive stages
+        "pipeline_latency": (250.0, "ms"),  # Quarter-second response
+        "memory_usage": (512.0, "MB"),  # Reasonable memory footprint
+        "cpu_usage": (70.0, "%"),  # Not overwhelming CPU
     }
 
     for metric, (threshold, unit) in production_thresholds.items():

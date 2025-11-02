@@ -2,6 +2,7 @@
 Minimal feature flags core (internal)
 Provides Flags class used by analytics and other modules.
 """
+
 from __future__ import annotations
 
 import json

@@ -33,6 +33,7 @@
 ║ Symbolic Tags: {ΛTRACE}, {ΛREPAIR}, {ΛDIAGNOSTICS}, {ΛINTEGRITY}, {ΛCORE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from typing import Any
 
 

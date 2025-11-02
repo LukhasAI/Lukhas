@@ -47,18 +47,14 @@ class _NoopMetric:
 
 def _counter(name: str, description: str, labelnames: tuple[str, ...]) -> Any:
     if Counter is None:
-        logger.warning(
-            "Prometheus client unavailable for counter", extra={"metric": name}
-        )
+        logger.warning("Prometheus client unavailable for counter", extra={"metric": name})
         return _NoopMetric()
     return Counter(name, description, labelnames=labelnames)
 
 
 def _histogram(name: str, description: str, labelnames: tuple[str, ...]) -> Any:
     if Histogram is None:
-        logger.warning(
-            "Prometheus client unavailable for histogram", extra={"metric": name}
-        )
+        logger.warning("Prometheus client unavailable for histogram", extra={"metric": name})
         return _NoopMetric()
     return Histogram(
         name,
@@ -87,10 +83,7 @@ LLM_GUARDRAIL_LATENCY = _histogram(
 
 
 def call_llm(
-    prompt: str,
-    schema: Dict[str, Any],
-    llm: Optional[Callable[[str], Dict[str, Any]]] = None,
-    **kwargs
+    prompt: str, schema: Dict[str, Any], llm: Optional[Callable[[str], Dict[str, Any]]] = None, **kwargs
 ) -> Dict[str, Any]:
     """
     Safe LLM call with JSON schema validation.
@@ -166,5 +159,5 @@ def guardrail_health() -> Dict[str, Any]:
         "enabled": os.getenv("ENABLE_LLM_GUARDRAIL", "0") == "1",
         "jsonschema_available": jsonschema is not None,
         "lane": os.getenv("LUKHAS_LANE", "experimental"),
-        "version": "1.0.0"
+        "version": "1.0.0",
     }

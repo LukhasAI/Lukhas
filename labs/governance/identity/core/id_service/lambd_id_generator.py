@@ -195,7 +195,6 @@ class LambdaIDGenerator:
             # Add more reserved combinations
         ]
 
-
     def _log_generation(self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None) -> None:
         """Log ΛiD generation event for audit trail"""
         _ = {

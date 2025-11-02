@@ -35,6 +35,7 @@
 ║ Symbolic Tags: {ΛLOG}, {ΛTRACE}, {ΛDEBUG}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 # Module imports
 import logging
 import sys

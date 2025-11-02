@@ -38,6 +38,7 @@ from labs.bridge.llm_wrappers.openai_modulated_service import (
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def vector_store_config():
     """Vector store configuration for testing."""
@@ -47,7 +48,7 @@ def vector_store_config():
         namespace="test_namespace",
         index_name="test_index",
         dimension=1536,
-        metric="cosine"
+        metric="cosine",
     )
 
 
@@ -66,9 +67,7 @@ def mock_openai_client():
 
     # Mock embeddings response
     mock_embedding_response = Mock()
-    mock_embedding_response.data = [
-        Mock(embedding=[0.1] * 1536)
-    ]
+    mock_embedding_response.data = [Mock(embedding=[0.1] * 1536)]
     mock_embedding_response.model = "text-embedding-3-small"
     mock_embedding_response.usage = Mock(total_tokens=10)
     mock_embedding_response.usage.model_dump = Mock(return_value={"total_tokens": 10})
@@ -92,9 +91,7 @@ def mock_openai_client():
 def openai_service(vector_store_config, mock_openai_client):
     """OpenAI modulated service with mocked client."""
     service = OpenAIModulatedService(
-        api_key="test_key",
-        vector_store_config=vector_store_config,
-        consciousness_integration=True
+        api_key="test_key", vector_store_config=vector_store_config, consciousness_integration=True
     )
     service.async_client = mock_openai_client
     return service
@@ -104,6 +101,7 @@ def openai_service(vector_store_config, mock_openai_client):
 # TEST-HIGH-VECTOR-01: Embedding Generation and Storage
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_vector_store_embedding_generation(openai_service):
@@ -112,7 +110,7 @@ async def test_vector_store_embedding_generation(openai_service):
         text="This is a test document for embedding generation.",
         model=ModelTier.EMBEDDING_3_SMALL,
         lambda_id="Λ_alpha_user123",
-        identity_tier="alpha"
+        identity_tier="alpha",
     )
 
     result = await openai_service.generate_embeddings(request)
@@ -129,10 +127,7 @@ async def test_vector_store_embedding_generation(openai_service):
 @pytest.mark.unit
 async def test_vector_store_embedding_batch(openai_service):
     """Test batch embedding generation."""
-    request = EmbeddingRequest(
-        text=["Document 1", "Document 2", "Document 3"],
-        model=ModelTier.EMBEDDING_3_SMALL
-    )
+    request = EmbeddingRequest(text=["Document 1", "Document 2", "Document 3"], model=ModelTier.EMBEDDING_3_SMALL)
 
     # Mock batch response
     mock_response = Mock()
@@ -160,14 +155,10 @@ async def test_vector_store_embedding_storage(openai_service):
     metadata = [
         {"category": "tech", "author": "user1"},
         {"category": "science", "author": "user2"},
-        {"category": "tech", "author": "user3"}
+        {"category": "tech", "author": "user3"},
     ]
 
-    success = await openai_service.store_embeddings(
-        texts=texts,
-        embeddings=embeddings,
-        metadata=metadata
-    )
+    success = await openai_service.store_embeddings(texts=texts, embeddings=embeddings, metadata=metadata)
 
     assert success is True
 
@@ -176,10 +167,7 @@ async def test_vector_store_embedding_storage(openai_service):
 @pytest.mark.unit
 async def test_vector_store_embedding_dimensions(openai_service):
     """Test embedding dimension verification."""
-    request = EmbeddingRequest(
-        text="Test document",
-        model=ModelTier.EMBEDDING_3_LARGE
-    )
+    request = EmbeddingRequest(text="Test document", model=ModelTier.EMBEDDING_3_LARGE)
 
     result = await openai_service.generate_embeddings(request)
 
@@ -190,6 +178,7 @@ async def test_vector_store_embedding_dimensions(openai_service):
 # ============================================================================
 # TEST-HIGH-VECTOR-02: Similarity Search
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.unit
@@ -203,11 +192,7 @@ async def test_vector_store_similarity_search(openai_service):
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings)
 
     # Search for similar documents
-    search_request = VectorSearchRequest(
-        query="machine learning",
-        top_k=2,
-        lambda_id="Λ_alpha_user123"
-    )
+    search_request = VectorSearchRequest(query="machine learning", top_k=2, lambda_id="Λ_alpha_user123")
 
     result = await openai_service.search_similar(search_request)
 
@@ -225,19 +210,11 @@ async def test_vector_store_metadata_filtering(openai_service):
 
     texts = ["Doc 1", "Doc 2", "Doc 3"]
     embeddings = [[0.1] * 1536, [0.2] * 1536, [0.3] * 1536]
-    metadata = [
-        {"category": "tech"},
-        {"category": "science"},
-        {"category": "tech"}
-    ]
+    metadata = [{"category": "tech"}, {"category": "science"}, {"category": "tech"}]
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings, metadata=metadata)
 
     # Search with metadata filter
-    search_request = VectorSearchRequest(
-        query="test query",
-        top_k=10,
-        filter_metadata={"category": "tech"}
-    )
+    search_request = VectorSearchRequest(query="test query", top_k=10, filter_metadata={"category": "tech"})
 
     result = await openai_service.search_similar(search_request)
 
@@ -259,10 +236,7 @@ async def test_vector_store_top_k_results(openai_service):
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings)
 
     # Search with top_k=3
-    search_request = VectorSearchRequest(
-        query="test",
-        top_k=3
-    )
+    search_request = VectorSearchRequest(query="test", top_k=3)
 
     result = await openai_service.search_similar(search_request)
 
@@ -291,6 +265,7 @@ async def test_vector_store_search_performance(openai_service):
 # TEST-HIGH-VECTOR-03: MEG Integration
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_vector_store_meg_integration(openai_service):
@@ -302,20 +277,12 @@ async def test_vector_store_meg_integration(openai_service):
     embeddings = [[0.1] * 1536, [0.2] * 1536]
     metadata = [
         {"type": "meg_node", "consciousness_level": "high"},
-        {"type": "meg_node", "consciousness_level": "medium"}
+        {"type": "meg_node", "consciousness_level": "medium"},
     ]
-    await openai_service.store_embeddings(
-        texts=texts,
-        embeddings=embeddings,
-        metadata=metadata
-    )
+    await openai_service.store_embeddings(texts=texts, embeddings=embeddings, metadata=metadata)
 
     # Search for MEG nodes
-    search_request = VectorSearchRequest(
-        query="consciousness",
-        top_k=5,
-        filter_metadata={"type": "meg_node"}
-    )
+    search_request = VectorSearchRequest(query="consciousness", top_k=5, filter_metadata={"type": "meg_node"})
 
     result = await openai_service.search_similar(search_request)
 
@@ -337,16 +304,12 @@ async def test_vector_store_consciousness_context(openai_service):
     embeddings = [[0.1] * 1536, [0.2] * 1536]
     metadata = [
         {"consciousness_level": "high", "awareness": "active"},
-        {"consciousness_level": "medium", "awareness": "passive"}
+        {"consciousness_level": "medium", "awareness": "passive"},
     ]
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings, metadata=metadata)
 
     # Retrieve consciousness context
-    search_request = VectorSearchRequest(
-        query="consciousness awareness",
-        top_k=2,
-        include_metadata=True
-    )
+    search_request = VectorSearchRequest(query="consciousness awareness", top_k=2, include_metadata=True)
 
     result = await openai_service.search_similar(search_request)
 
@@ -361,22 +324,16 @@ async def test_vector_store_episodic_memory_recall(openai_service):
     await openai_service.vector_store.initialize()
 
     # Store episodic memories
-    texts = [
-        "User completed onboarding on 2025-01-01",
-        "User upgraded to pro tier on 2025-02-15"
-    ]
+    texts = ["User completed onboarding on 2025-01-01", "User upgraded to pro tier on 2025-02-15"]
     embeddings = [[0.1] * 1536, [0.2] * 1536]
     metadata = [
         {"type": "episodic", "event": "onboarding", "date": "2025-01-01"},
-        {"type": "episodic", "event": "upgrade", "date": "2025-02-15"}
+        {"type": "episodic", "event": "upgrade", "date": "2025-02-15"},
     ]
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings, metadata=metadata)
 
     # Recall episodic memory
-    search_request = VectorSearchRequest(
-        query="user onboarding",
-        filter_metadata={"type": "episodic"}
-    )
+    search_request = VectorSearchRequest(query="user onboarding", filter_metadata={"type": "episodic"})
 
     result = await openai_service.search_similar(search_request)
 
@@ -387,6 +344,7 @@ async def test_vector_store_episodic_memory_recall(openai_service):
 # TEST-HIGH-VECTOR-04: RAG Pipeline
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.unit
 async def test_vector_store_rag_pipeline(openai_service):
@@ -396,18 +354,16 @@ async def test_vector_store_rag_pipeline(openai_service):
     # Store knowledge base
     texts = [
         "LUKHAS AI uses consciousness-inspired architecture",
-        "The Trinity Framework includes Identity, Consciousness, and Guardian"
+        "The Trinity Framework includes Identity, Consciousness, and Guardian",
     ]
     embeddings = [[0.1] * 1536, [0.2] * 1536]
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings)
 
     # RAG pipeline: query → retrieval → augmented completion
     completion_request = CompletionRequest(
-        messages=[
-            {"role": "user", "content": "What is LUKHAS AI?"}
-        ],
+        messages=[{"role": "user", "content": "What is LUKHAS AI?"}],
         model=ModelTier.GPT35_TURBO,
-        memory_context=["consciousness", "architecture"]  # Triggers RAG
+        memory_context=["consciousness", "architecture"],  # Triggers RAG
     )
 
     response = await openai_service.chat_completion(completion_request)
@@ -427,9 +383,7 @@ async def test_vector_store_context_augmentation(openai_service):
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings)
 
     completion_request = CompletionRequest(
-        messages=[{"role": "user", "content": "Test query"}],
-        memory_context=["test"],
-        lambda_id="Λ_alpha_user123"
+        messages=[{"role": "user", "content": "Test query"}], memory_context=["test"], lambda_id="Λ_alpha_user123"
     )
 
     # Service should augment prompt with context
@@ -450,20 +404,20 @@ async def test_vector_store_rag_response_quality(openai_service):
     await openai_service.store_embeddings(texts=texts, embeddings=embeddings)
 
     completion_request = CompletionRequest(
-        messages=[{"role": "user", "content": "Tell me about the knowledge"}],
-        memory_context=["knowledge"]
+        messages=[{"role": "user", "content": "Tell me about the knowledge"}], memory_context=["knowledge"]
     )
 
     response = await openai_service.chat_completion(completion_request)
 
     # Verify response generated
     assert response is not None
-    assert hasattr(response, 'choices')
+    assert hasattr(response, "choices")
 
 
 # ============================================================================
 # TEST-HIGH-VECTOR-05: ΛID-based Rate Limiting
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_vector_store_lambda_id_rate_limiting():
@@ -476,12 +430,12 @@ def test_vector_store_lambda_id_rate_limiting():
             "beta": 2.0,
             "gamma": 1.5,
             "delta": 1.0,
-        }
+        },
     )
 
     # Verify tier multipliers
     assert config.tier_multipliers["alpha"] == 3.0  # Enterprise: 3x limits
-    assert config.tier_multipliers["beta"] == 2.0   # Pro: 2x limits
+    assert config.tier_multipliers["beta"] == 2.0  # Pro: 2x limits
     assert config.tier_multipliers["delta"] == 1.0  # Free: 1x limits
 
 
@@ -490,17 +444,10 @@ def test_vector_store_lambda_id_rate_limiting():
 async def test_vector_store_tier_limit_enforcement(openai_service):
     """Test enforcement of tier-based limits."""
     # Free tier request
-    EmbeddingRequest(
-        text="Test",
-        lambda_id="Λ_delta_user123",
-        identity_tier="delta"
-    )
+    EmbeddingRequest(text="Test", lambda_id="Λ_delta_user123", identity_tier="delta")
 
     # Check rate limit
-    can_proceed = openai_service._check_rate_limit(
-        lambda_id="Λ_delta_user123",
-        identity_tier="delta"
-    )
+    can_proceed = openai_service._check_rate_limit(lambda_id="Λ_delta_user123", identity_tier="delta")
 
     assert can_proceed is True  # Currently always allows
 
@@ -511,11 +458,7 @@ async def test_vector_store_tier_limit_reset(openai_service):
     """Test rate limit window reset."""
     # Simulate multiple requests
     for i in range(5):
-        request = EmbeddingRequest(
-            text=f"Test {i}",
-            lambda_id="Λ_alpha_user123",
-            identity_tier="alpha"
-        )
+        request = EmbeddingRequest(text=f"Test {i}", lambda_id="Λ_alpha_user123", identity_tier="alpha")
         result = await openai_service.generate_embeddings(request)
         assert result is not None
 
@@ -523,6 +466,7 @@ async def test_vector_store_tier_limit_reset(openai_service):
 # ============================================================================
 # Additional Vector Store Tests
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.unit
@@ -552,11 +496,7 @@ async def test_vector_store_multiple_providers():
     ]
 
     for provider in providers:
-        config = VectorStoreConfig(
-            provider=provider,
-            endpoint="test",
-            dimension=1536
-        )
+        config = VectorStoreConfig(provider=provider, endpoint="test", dimension=1536)
         adapter = VectorStoreAdapter(config)
         assert adapter.config.provider == provider
 
@@ -577,6 +517,7 @@ async def test_openai_service_close(openai_service):
 # ============================================================================
 # Edge Cases and Error Handling
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.unit
@@ -611,9 +552,5 @@ async def test_vector_store_uninitialized_search(openai_service):
 def test_vector_store_invalid_provider():
     """Test handling of invalid provider configuration."""
     # This should not raise during config creation
-    config = VectorStoreConfig(
-        provider=VectorStoreProvider.FAISS,
-        endpoint="test",
-        dimension=1536
-    )
+    config = VectorStoreConfig(provider=VectorStoreProvider.FAISS, endpoint="test", dimension=1536)
     assert config.provider == VectorStoreProvider.FAISS

@@ -46,13 +46,14 @@ PERFORMANCE_TARGETS = {
     "guardian_mean_latency_ms": 1.0,
     "guardian_p95_latency_ms": 5.0,
     "soak_duration_seconds": 60.0,
-    "memory_stability_threshold": 0.2  # 20% memory growth max
+    "memory_stability_threshold": 0.2,  # 20% memory growth max
 }
 
 
 @dataclass
 class PerformanceMeasurement:
     """Individual performance measurement."""
+
     operation_type: str
     duration_ms: float
     success: bool
@@ -64,6 +65,7 @@ class PerformanceMeasurement:
 @dataclass
 class SoakTestResult:
     """Result of soak test execution."""
+
     test_name: str
     duration_seconds: float
     guardian_throughput_ops_per_sec: float
@@ -91,13 +93,13 @@ class GuardianMATRIZSoakTester:
             tenant="soak_test",
             max_inference_depth=3,  # Reduced for load testing
             total_time_budget_ms=50.0,  # Fast for throughput
-            enable_advanced_features=False  # Simplified for load testing
+            enable_advanced_features=False,  # Simplified for load testing
         )
 
         self.measurements: Dict[str, List[PerformanceMeasurement]] = {
             "guardian_serialize": [],
             "guardian_validate": [],
-            "matriz_tick": []
+            "matriz_tick": [],
         }
 
         # Memory tracking
@@ -113,45 +115,40 @@ class GuardianMATRIZSoakTester:
                 "severity": "low",
                 "confidence": 0.95,
                 "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                "ttl_seconds": 300
+                "ttl_seconds": 300,
             },
             "subject": {
                 "user_id": f"soak_user_{operation_id}",
                 "session_id": f"soak_session_{operation_id}",
                 "tier": "T4",
-                "namespace": "soak_test"
+                "namespace": "soak_test",
             },
             "context": {
                 "request_type": "soak_test_operation",
                 "operation_id": operation_id,
                 "test_data": "Guardian serializer soak test data",
-                "lane": "integration"
+                "lane": "integration",
             },
             "metrics": {
                 "processing_time_ms": 25.0,
                 "confidence_score": 0.95,
                 "quality_assessment": 0.9,
-                "risk_score": 0.05
+                "risk_score": 0.05,
             },
-            "enforcement": {
-                "enabled": True,
-                "mode": "enforced",
-                "actions": ["allow_processing"],
-                "restrictions": []
-            },
+            "enforcement": {"enabled": True, "mode": "enforced", "actions": ["allow_processing"], "restrictions": []},
             "audit": {
                 "correlation_id": f"soak_test_{operation_id}",
                 "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                 "source": "soak_test",
-                "compliance_checked": True
+                "compliance_checked": True,
             },
             "integrity": {
                 "schema_version": "2.1.0",
                 "payload_hash": f"hash_{operation_id}",
                 "signature": f"signature_{operation_id}",
                 "algorithm": "ed25519",
-                "keyid": "soak_test_key"
-            }
+                "keyid": "soak_test_key",
+            },
         }
 
     async def measure_guardian_serialize_operation(self, operation_id: str) -> PerformanceMeasurement:
@@ -184,7 +181,7 @@ class GuardianMATRIZSoakTester:
             duration_ms=duration_ms,
             success=success,
             timestamp=time.time(),
-            error=error
+            error=error,
         )
 
     async def measure_guardian_validate_operation(self, operation_id: str) -> PerformanceMeasurement:
@@ -201,7 +198,7 @@ class GuardianMATRIZSoakTester:
             validation_result = self.guardian_serializer.validate_envelope(envelope)
 
             # Check validation result
-            success = validation_result.get('valid', False)
+            success = validation_result.get("valid", False)
             if not success:
                 error = f"Validation failed: {validation_result.get('errors', [])}"
 
@@ -217,7 +214,7 @@ class GuardianMATRIZSoakTester:
             duration_ms=duration_ms,
             success=success,
             timestamp=time.time(),
-            error=error
+            error=error,
         )
 
     async def measure_matriz_tick_operation(self, operation_id: str) -> PerformanceMeasurement:
@@ -230,29 +227,23 @@ class GuardianMATRIZSoakTester:
             # Create minimal MATRIZ context
             context = MATRIZProcessingContext(
                 query=f"Soak test query {operation_id}",
-                memory_signals=[
-                    {"id": f"mem_{operation_id}", "content": "Soak test memory", "score": 0.8}
-                ],
+                memory_signals=[{"id": f"mem_{operation_id}", "content": "Soak test memory", "score": 0.8}],
                 consciousness_state=ConsciousnessState.ACTIVE,
                 processing_config={"complexity": "simple"},
                 session_id=f"matriz_soak_{operation_id}",
                 tenant="soak_test",
                 time_budget_ms=30.0,  # Fast for load testing
-                enable_all_features=False
+                enable_all_features=False,
             )
 
             # Mock the thought processing for load testing
-            with patch.object(self.matriz_loop.enhanced_thought_node, 'process_async') as mock_process:
+            with patch.object(self.matriz_loop.enhanced_thought_node, "process_async") as mock_process:
                 mock_process.return_value = {
-                    'success': True,
-                    'answer': {'summary': f'Soak test result {operation_id}'},
-                    'confidence': 0.85,
-                    'processing_time_ms': 15.0,
-                    'enhanced_features': {
-                        'inference_depth_reached': 1,
-                        'quality_score': 0.8,
-                        'cognitive_load': 0.2
-                    }
+                    "success": True,
+                    "answer": {"summary": f"Soak test result {operation_id}"},
+                    "confidence": 0.85,
+                    "processing_time_ms": 15.0,
+                    "enhanced_features": {"inference_depth_reached": 1, "quality_score": 0.8, "cognitive_load": 0.2},
                 }
 
                 # Execute MATRIZ tick
@@ -267,17 +258,14 @@ class GuardianMATRIZSoakTester:
         duration_ms = (time.perf_counter() - start_time) * 1000
 
         return PerformanceMeasurement(
-            operation_type="matriz_tick",
-            duration_ms=duration_ms,
-            success=success,
-            timestamp=time.time(),
-            error=error
+            operation_type="matriz_tick", duration_ms=duration_ms, success=success, timestamp=time.time(), error=error
         )
 
     def sample_memory_usage(self) -> float:
         """Sample current memory usage in MB."""
         try:
             import psutil
+
             process = psutil.Process()
             memory_mb = process.memory_info().rss / (1024 * 1024)
             return memory_mb
@@ -328,7 +316,9 @@ class GuardianMATRIZSoakTester:
 
         # Calculate operations per worker
         total_target_operations = int(PERFORMANCE_TARGETS["guardian_throughput_ops_per_sec"] * duration_seconds)
-        operations_per_worker = max(1, total_target_operations // (concurrent_workers * 2))  # Split between Guardian and MATRIZ
+        operations_per_worker = max(
+            1, total_target_operations // (concurrent_workers * 2)
+        )  # Split between Guardian and MATRIZ
 
         try:
             # Create memory sampling task
@@ -375,7 +365,9 @@ class GuardianMATRIZSoakTester:
             memory_mb = self.sample_memory_usage()
             self.memory_samples.append(memory_mb)
 
-    def _analyze_soak_results(self, duration_seconds: float, initial_memory: float, final_memory: float) -> SoakTestResult:
+    def _analyze_soak_results(
+        self, duration_seconds: float, initial_memory: float, final_memory: float
+    ) -> SoakTestResult:
         """Analyze soak test results and calculate performance metrics."""
 
         # Guardian operations analysis
@@ -398,10 +390,19 @@ class GuardianMATRIZSoakTester:
         all_guardian_latencies.extend([m.duration_ms for m in guardian_validate_measurements])
 
         guardian_mean_latency = statistics.mean(all_guardian_latencies) if all_guardian_latencies else 0
-        guardian_p95_latency = statistics.quantiles(all_guardian_latencies, n=20)[18] if len(all_guardian_latencies) > 20 else (max(all_guardian_latencies) if all_guardian_latencies else 0)
+        guardian_p95_latency = (
+            statistics.quantiles(all_guardian_latencies, n=20)[18]
+            if len(all_guardian_latencies) > 20
+            else (max(all_guardian_latencies) if all_guardian_latencies else 0)
+        )
 
         # Success rate calculation
-        total_attempted = total_operations + sum(1 for m in self.measurements["guardian_serialize"] if not m.success) + sum(1 for m in self.measurements["guardian_validate"] if not m.success) + sum(1 for m in self.measurements["matriz_tick"] if not m.success)
+        total_attempted = (
+            total_operations
+            + sum(1 for m in self.measurements["guardian_serialize"] if not m.success)
+            + sum(1 for m in self.measurements["guardian_validate"] if not m.success)
+            + sum(1 for m in self.measurements["matriz_tick"] if not m.success)
+        )
         success_rate = (total_operations / total_attempted) * 100 if total_attempted > 0 else 0
 
         # Memory stability analysis
@@ -420,16 +421,24 @@ class GuardianMATRIZSoakTester:
         warnings = []
 
         if not throughput_target_met:
-            errors.append(f"Guardian throughput {guardian_throughput:.1f} ops/s < target {PERFORMANCE_TARGETS['guardian_throughput_ops_per_sec']} ops/s")
+            errors.append(
+                f"Guardian throughput {guardian_throughput:.1f} ops/s < target {PERFORMANCE_TARGETS['guardian_throughput_ops_per_sec']} ops/s"
+            )
 
         if not latency_target_met:
-            errors.append(f"Guardian mean latency {guardian_mean_latency:.2f}ms > target {PERFORMANCE_TARGETS['guardian_mean_latency_ms']}ms")
+            errors.append(
+                f"Guardian mean latency {guardian_mean_latency:.2f}ms > target {PERFORMANCE_TARGETS['guardian_mean_latency_ms']}ms"
+            )
 
         if not p95_latency_target_met:
-            errors.append(f"Guardian P95 latency {guardian_p95_latency:.2f}ms > target {PERFORMANCE_TARGETS['guardian_p95_latency_ms']}ms")
+            errors.append(
+                f"Guardian P95 latency {guardian_p95_latency:.2f}ms > target {PERFORMANCE_TARGETS['guardian_p95_latency_ms']}ms"
+            )
 
         if not memory_stable:
-            warnings.append(f"Memory growth {memory_growth_pct:.1f}% exceeds stability threshold {PERFORMANCE_TARGETS['memory_stability_threshold'] * 100}%")
+            warnings.append(
+                f"Memory growth {memory_growth_pct:.1f}% exceeds stability threshold {PERFORMANCE_TARGETS['memory_stability_threshold'] * 100}%"
+            )
 
         if success_rate < 95.0:
             warnings.append(f"Success rate {success_rate:.1f}% below 95% threshold")
@@ -457,8 +466,8 @@ class GuardianMATRIZSoakTester:
                 "memory_samples": len(self.memory_samples),
                 "throughput_target_met": throughput_target_met,
                 "latency_target_met": latency_target_met,
-                "p95_target_met": p95_latency_target_met
-            }
+                "p95_target_met": p95_latency_target_met,
+            },
         )
 
 
@@ -474,8 +483,7 @@ class TestGuardianMATRIZThroughput:
 
         # Run 60-second soak test
         result = await tester.run_soak_test(
-            duration_seconds=PERFORMANCE_TARGETS["soak_duration_seconds"],
-            concurrent_workers=8
+            duration_seconds=PERFORMANCE_TARGETS["soak_duration_seconds"], concurrent_workers=8
         )
 
         # Log comprehensive results
@@ -485,9 +493,15 @@ class TestGuardianMATRIZThroughput:
         logger.info(f"Success Rate: {result.success_rate:.1f}%")
 
         logger.info("Guardian Performance:")
-        logger.info(f"  Throughput: {result.guardian_throughput_ops_per_sec:.1f} ops/s (target: ≥{PERFORMANCE_TARGETS['guardian_throughput_ops_per_sec']})")
-        logger.info(f"  Mean Latency: {result.guardian_mean_latency_ms:.2f}ms (target: ≤{PERFORMANCE_TARGETS['guardian_mean_latency_ms']}ms)")
-        logger.info(f"  P95 Latency: {result.guardian_p95_latency_ms:.2f}ms (target: ≤{PERFORMANCE_TARGETS['guardian_p95_latency_ms']}ms)")
+        logger.info(
+            f"  Throughput: {result.guardian_throughput_ops_per_sec:.1f} ops/s (target: ≥{PERFORMANCE_TARGETS['guardian_throughput_ops_per_sec']})"
+        )
+        logger.info(
+            f"  Mean Latency: {result.guardian_mean_latency_ms:.2f}ms (target: ≤{PERFORMANCE_TARGETS['guardian_mean_latency_ms']}ms)"
+        )
+        logger.info(
+            f"  P95 Latency: {result.guardian_p95_latency_ms:.2f}ms (target: ≤{PERFORMANCE_TARGETS['guardian_p95_latency_ms']}ms)"
+        )
 
         logger.info(f"MATRIZ Throughput: {result.matriz_throughput_ops_per_sec:.1f} ops/s")
         logger.info(f"Memory Stable: {'✓' if result.memory_stable else '✗'}")
@@ -504,10 +518,12 @@ class TestGuardianMATRIZThroughput:
 
         # Assertions
         assert result.performance_targets_met, f"Performance targets not met: {result.errors}"
-        assert result.guardian_throughput_ops_per_sec >= PERFORMANCE_TARGETS["guardian_throughput_ops_per_sec"], \
-            f"Guardian throughput {result.guardian_throughput_ops_per_sec:.1f} below target"
-        assert result.guardian_mean_latency_ms <= PERFORMANCE_TARGETS["guardian_mean_latency_ms"], \
-            f"Guardian mean latency {result.guardian_mean_latency_ms:.2f}ms above target"
+        assert (
+            result.guardian_throughput_ops_per_sec >= PERFORMANCE_TARGETS["guardian_throughput_ops_per_sec"]
+        ), f"Guardian throughput {result.guardian_throughput_ops_per_sec:.1f} below target"
+        assert (
+            result.guardian_mean_latency_ms <= PERFORMANCE_TARGETS["guardian_mean_latency_ms"]
+        ), f"Guardian mean latency {result.guardian_mean_latency_ms:.2f}ms above target"
         assert result.success_rate >= 95.0, f"Success rate {result.success_rate:.1f}% below 95%"
         assert result.memory_stable, "Memory not stable during soak test"
 
@@ -518,7 +534,7 @@ class TestGuardianMATRIZThroughput:
         # Run focused latency test
         result = await tester.run_soak_test(
             duration_seconds=30.0,  # Shorter focused test
-            concurrent_workers=12   # Higher concurrency for latency stress
+            concurrent_workers=12,  # Higher concurrency for latency stress
         )
 
         logger.info("Guardian Latency Stability Test:")
@@ -527,10 +543,12 @@ class TestGuardianMATRIZThroughput:
         logger.info(f"  Throughput: {result.guardian_throughput_ops_per_sec:.1f} ops/s")
 
         # Focus on latency requirements
-        assert result.guardian_mean_latency_ms <= PERFORMANCE_TARGETS["guardian_mean_latency_ms"], \
-            f"Mean latency {result.guardian_mean_latency_ms:.2f}ms exceeds 1ms target"
-        assert result.guardian_p95_latency_ms <= PERFORMANCE_TARGETS["guardian_p95_latency_ms"], \
-            f"P95 latency {result.guardian_p95_latency_ms:.2f}ms exceeds 5ms target"
+        assert (
+            result.guardian_mean_latency_ms <= PERFORMANCE_TARGETS["guardian_mean_latency_ms"]
+        ), f"Mean latency {result.guardian_mean_latency_ms:.2f}ms exceeds 1ms target"
+        assert (
+            result.guardian_p95_latency_ms <= PERFORMANCE_TARGETS["guardian_p95_latency_ms"]
+        ), f"P95 latency {result.guardian_p95_latency_ms:.2f}ms exceeds 5ms target"
 
     async def test_memory_stability_during_soak(self):
         """Test memory usage remains stable during sustained Guardian+MATRIZ load."""
@@ -538,8 +556,7 @@ class TestGuardianMATRIZThroughput:
 
         # Run memory-focused soak test
         result = await tester.run_soak_test(
-            duration_seconds=45.0,  # Medium duration
-            concurrent_workers=6    # Moderate concurrency
+            duration_seconds=45.0, concurrent_workers=6  # Medium duration  # Moderate concurrency
         )
 
         memory_growth_pct = result.detailed_metrics["memory_growth_pct"]
@@ -551,7 +568,9 @@ class TestGuardianMATRIZThroughput:
         logger.info(f"  Memory Stable: {'✓' if result.memory_stable else '✗'}")
 
         # Memory stability assertions
-        assert result.memory_stable, f"Memory growth {memory_growth_pct:.1f}% exceeds {PERFORMANCE_TARGETS['memory_stability_threshold'] * 100}% threshold"
+        assert (
+            result.memory_stable
+        ), f"Memory growth {memory_growth_pct:.1f}% exceeds {PERFORMANCE_TARGETS['memory_stability_threshold'] * 100}% threshold"
         assert abs(memory_growth_pct) <= 30.0, f"Memory growth {memory_growth_pct:.1f}% exceeds reasonable bounds"
 
 
@@ -561,10 +580,7 @@ if __name__ == "__main__":
         print("Starting Guardian MATRIZ throughput soak test...")
 
         tester = GuardianMATRIZSoakTester()
-        result = await tester.run_soak_test(
-            duration_seconds=30.0,  # Shorter for standalone run
-            concurrent_workers=6
-        )
+        result = await tester.run_soak_test(duration_seconds=30.0, concurrent_workers=6)  # Shorter for standalone run
 
         print("\n=== Guardian MATRIZ Soak Test Results ===")
         print(f"Duration: {result.duration_seconds:.1f}s")
@@ -572,9 +588,15 @@ if __name__ == "__main__":
         print(f"Success Rate: {result.success_rate:.1f}%")
 
         print("\nGuardian Performance:")
-        print(f"  Throughput: {result.guardian_throughput_ops_per_sec:.1f} ops/s ({'✓' if result.guardian_throughput_ops_per_sec >= PERFORMANCE_TARGETS['guardian_throughput_ops_per_sec'] else '✗'})")
-        print(f"  Mean Latency: {result.guardian_mean_latency_ms:.2f}ms ({'✓' if result.guardian_mean_latency_ms <= PERFORMANCE_TARGETS['guardian_mean_latency_ms'] else '✗'})")
-        print(f"  P95 Latency: {result.guardian_p95_latency_ms:.2f}ms ({'✓' if result.guardian_p95_latency_ms <= PERFORMANCE_TARGETS['guardian_p95_latency_ms'] else '✗'})")
+        print(
+            f"  Throughput: {result.guardian_throughput_ops_per_sec:.1f} ops/s ({'✓' if result.guardian_throughput_ops_per_sec >= PERFORMANCE_TARGETS['guardian_throughput_ops_per_sec'] else '✗'})"
+        )
+        print(
+            f"  Mean Latency: {result.guardian_mean_latency_ms:.2f}ms ({'✓' if result.guardian_mean_latency_ms <= PERFORMANCE_TARGETS['guardian_mean_latency_ms'] else '✗'})"
+        )
+        print(
+            f"  P95 Latency: {result.guardian_p95_latency_ms:.2f}ms ({'✓' if result.guardian_p95_latency_ms <= PERFORMANCE_TARGETS['guardian_p95_latency_ms'] else '✗'})"
+        )
 
         print(f"\nMATRIZ Throughput: {result.matriz_throughput_ops_per_sec:.1f} ops/s")
         print(f"Memory Stable: {'✓ PASS' if result.memory_stable else '✗ FAIL'}")
@@ -593,5 +615,6 @@ if __name__ == "__main__":
         return result.performance_targets_met and result.memory_stable
 
     import sys
+
     success = asyncio.run(run_soak_test())
     sys.exit(0 if success else 1)

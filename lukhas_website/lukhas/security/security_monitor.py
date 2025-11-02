@@ -35,16 +35,20 @@ from typing import Any, Callable, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
+
 class ThreatLevel(Enum):
     """Threat severity levels."""
+
     INFORMATIONAL = "informational"
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
 
+
 class EventType(Enum):
     """Security event types."""
+
     AUTHENTICATION = "authentication"
     AUTHORIZATION = "authorization"
     SYSTEM_ACCESS = "system_access"
@@ -56,8 +60,10 @@ class EventType(Enum):
     POLICY_VIOLATION = "policy_violation"
     GUARDIAN_ALERT = "guardian_alert"
 
+
 class ResponseAction(Enum):
     """Automated response actions."""
+
     LOG_ONLY = "log_only"
     ALERT = "alert"
     BLOCK_USER = "block_user"
@@ -66,9 +72,11 @@ class ResponseAction(Enum):
     QUARANTINE = "quarantine"
     GUARDIAN_OVERRIDE = "guardian_override"
 
+
 @dataclass
 class SecurityEvent:
     """Security event structure."""
+
     id: str
     event_type: EventType
     timestamp: datetime
@@ -81,9 +89,11 @@ class SecurityEvent:
     tags: Set[str] = field(default_factory=set)
     correlation_id: Optional[str] = None
 
+
 @dataclass
 class ThreatDetection:
     """Threat detection result."""
+
     id: str
     name: str
     description: str
@@ -94,9 +104,11 @@ class ThreatDetection:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     ttl_seconds: int = 3600  # Time to live for detection
 
+
 @dataclass
 class SecurityMetrics:
     """Security monitoring metrics."""
+
     total_events: int = 0
     threats_detected: int = 0
     false_positives: int = 0
@@ -104,6 +116,7 @@ class SecurityMetrics:
     events_per_second: float = 0.0
     detection_rate: float = 0.0
     last_updated: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+
 
 class ThreatDetector:
     """Base class for threat detection algorithms."""
@@ -117,13 +130,11 @@ class ThreatDetector:
         """Detect threats in security event."""
         raise NotImplementedError
 
+
 class BruteForceDetector(ThreatDetector):
     """Detect brute force authentication attempts."""
 
-    def __init__(self,
-                 max_attempts: int = 5,
-                 time_window_minutes: int = 15,
-                 lockout_duration_minutes: int = 30):
+    def __init__(self, max_attempts: int = 5, time_window_minutes: int = 15, lockout_duration_minutes: int = 30):
         super().__init__("Brute Force Detector", "Detects brute force authentication attacks")
         self.max_attempts = max_attempts
         self.time_window = timedelta(minutes=time_window_minutes)
@@ -165,11 +176,12 @@ class BruteForceDetector(ThreatDetector):
                     "source_ip": event.source_ip,
                     "attempts": len(ip_attempts),
                     "time_window": self.time_window.total_seconds(),
-                    "recommended_action": ResponseAction.BLOCK_IP.value
-                }
+                    "recommended_action": ResponseAction.BLOCK_IP.value,
+                },
             )
 
         return None
+
 
 class AnomalousAccessDetector(ThreatDetector):
     """Detect anomalous access patterns."""
@@ -192,7 +204,7 @@ class AnomalousAccessDetector(ThreatDetector):
                 "access_times": [],
                 "access_locations": set(),
                 "resource_types": set(),
-                "last_updated": now
+                "last_updated": now,
             }
 
         baseline = self.user_baselines[user_id]
@@ -246,11 +258,12 @@ class AnomalousAccessDetector(ThreatDetector):
                     "user_id": user_id,
                     "anomalies": anomalies,
                     "baseline_data_points": len(baseline["access_times"]),
-                    "recommended_action": ResponseAction.ALERT.value
-                }
+                    "recommended_action": ResponseAction.ALERT.value,
+                },
             )
 
         return None
+
 
 class PrivilegeEscalationDetector(ThreatDetector):
     """Detect privilege escalation attempts."""
@@ -258,11 +271,11 @@ class PrivilegeEscalationDetector(ThreatDetector):
     def __init__(self):
         super().__init__("Privilege Escalation Detector", "Detects privilege escalation attempts")
         self.escalation_patterns = [
-            re.compile(r'sudo|su|runas|whoami', re.IGNORECASE),
-            re.compile(r'chmod\s+[7-9][0-9][0-9]', re.IGNORECASE),
-            re.compile(r'chown\s+root', re.IGNORECASE),
-            re.compile(r'setuid|setgid', re.IGNORECASE),
-            re.compile(r'admin|administrator|root', re.IGNORECASE)
+            re.compile(r"sudo|su|runas|whoami", re.IGNORECASE),
+            re.compile(r"chmod\s+[7-9][0-9][0-9]", re.IGNORECASE),
+            re.compile(r"chown\s+root", re.IGNORECASE),
+            re.compile(r"setuid|setgid", re.IGNORECASE),
+            re.compile(r"admin|administrator|root", re.IGNORECASE),
         ]
 
     def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> Optional[ThreatDetection]:
@@ -294,11 +307,12 @@ class PrivilegeEscalationDetector(ThreatDetector):
                     "user_id": event.user_id,
                     "matched_patterns": matches,
                     "command": command,
-                    "recommended_action": ResponseAction.ESCALATE.value
-                }
+                    "recommended_action": ResponseAction.ESCALATE.value,
+                },
             )
 
         return None
+
 
 class MaliciousIPDetector(ThreatDetector):
     """Detect connections from known malicious IPs."""
@@ -315,11 +329,7 @@ class MaliciousIPDetector(ThreatDetector):
         # For demo, using some example malicious IP patterns
 
         # Add known bad IPs to threat intelligence
-        self.threat_intelligence.update([
-            "192.168.1.100",
-            "10.0.0.50",
-            "172.16.1.200"
-        ])
+        self.threat_intelligence.update(["192.168.1.100", "10.0.0.50", "172.16.1.200"])
 
         # Set reputation scores
         for ip in self.threat_intelligence:
@@ -346,19 +356,17 @@ class MaliciousIPDetector(ThreatDetector):
                     "source_ip": event.source_ip,
                     "threat_score": threat_score,
                     "threat_intelligence_match": True,
-                    "recommended_action": ResponseAction.BLOCK_IP.value
-                }
+                    "recommended_action": ResponseAction.BLOCK_IP.value,
+                },
             )
 
         return None
 
+
 class SecurityMonitor:
     """Comprehensive security monitoring system."""
 
-    def __init__(self,
-                 buffer_size: int = 10000,
-                 processing_threads: int = 4,
-                 guardian_integration: bool = True):
+    def __init__(self, buffer_size: int = 10000, processing_threads: int = 4, guardian_integration: bool = True):
 
         self.buffer_size = buffer_size
         self.processing_threads = processing_threads
@@ -374,7 +382,7 @@ class SecurityMonitor:
             BruteForceDetector(),
             AnomalousAccessDetector(),
             PrivilegeEscalationDetector(),
-            MaliciousIPDetector()
+            MaliciousIPDetector(),
         ]
 
         # Active threats and metrics
@@ -390,7 +398,7 @@ class SecurityMonitor:
             ResponseAction.BLOCK_IP: self._block_ip_handler,
             ResponseAction.ESCALATE: self._escalate_handler,
             ResponseAction.QUARANTINE: self._quarantine_handler,
-            ResponseAction.GUARDIAN_OVERRIDE: self._guardian_override_handler
+            ResponseAction.GUARDIAN_OVERRIDE: self._guardian_override_handler,
         }
 
         # Performance tracking
@@ -403,11 +411,7 @@ class SecurityMonitor:
     def _start_processing(self):
         """Start background processing threads."""
         for i in range(self.processing_threads):
-            thread = threading.Thread(
-                target=self._process_events,
-                name=f"SecurityMonitor-{i}",
-                daemon=True
-            )
+            thread = threading.Thread(target=self._process_events, name=f"SecurityMonitor-{i}", daemon=True)
             thread.start()
             self.processing_threads_list.append(thread)
 
@@ -449,7 +453,7 @@ class SecurityMonitor:
         context = {
             "recent_events": list(self.event_history)[-100:],  # Last 100 events
             "active_threats": self.active_threats,
-            "current_time": datetime.now(timezone.utc)
+            "current_time": datetime.now(timezone.utc),
         }
 
         # Run all enabled detectors
@@ -509,8 +513,8 @@ class SecurityMonitor:
                 "triggering_event": asdict(event),
                 "system_context": {
                     "active_threats": len(self.active_threats),
-                    "recent_event_count": len(self.event_history)
-                }
+                    "recent_event_count": len(self.event_history),
+                },
             }
 
             # Simulate Guardian decision
@@ -518,7 +522,7 @@ class SecurityMonitor:
                 "threat_level_adjustment": 0.0,
                 "confidence_adjustment": 0.0,
                 "recommended_actions": [],
-                "guardian_override": False
+                "guardian_override": False,
             }
 
             # Adjust threat based on Guardian assessment
@@ -551,8 +555,9 @@ class SecurityMonitor:
                 logger.warning(f"Unknown response action: {recommended}")
 
         # Escalate based on threat level and confidence
-        if threat.threat_level == ThreatLevel.CRITICAL or \
-           (threat.threat_level == ThreatLevel.HIGH and threat.confidence_score > 0.8):
+        if threat.threat_level == ThreatLevel.CRITICAL or (
+            threat.threat_level == ThreatLevel.HIGH and threat.confidence_score > 0.8
+        ):
             if ResponseAction.ESCALATE not in actions:
                 actions.append(ResponseAction.ESCALATE)
 
@@ -585,8 +590,13 @@ class SecurityMonitor:
 
             # Calculate events per second
             time_window = now - self.last_metrics_update
-            events_in_window = len([e for e in self.event_history
-                                  if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < time_window])
+            events_in_window = len(
+                [
+                    e
+                    for e in self.event_history
+                    if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < time_window
+                ]
+            )
             self.metrics.events_per_second = events_in_window / time_window
 
             # Calculate detection rate
@@ -605,18 +615,18 @@ class SecurityMonitor:
             logger.error("Security event queue full, dropping event")
             return False
 
-    def create_event(self,
-                    event_type: EventType,
-                    source_ip: Optional[str] = None,
-                    user_id: Optional[str] = None,
-                    resource_id: Optional[str] = None,
-                    action: Optional[str] = None,
-                    details: Optional[Dict[str, Any]] = None,
-                    severity: ThreatLevel = ThreatLevel.INFORMATIONAL) -> SecurityEvent:
+    def create_event(
+        self,
+        event_type: EventType,
+        source_ip: Optional[str] = None,
+        user_id: Optional[str] = None,
+        resource_id: Optional[str] = None,
+        action: Optional[str] = None,
+        details: Optional[Dict[str, Any]] = None,
+        severity: ThreatLevel = ThreatLevel.INFORMATIONAL,
+    ) -> SecurityEvent:
         """Create a security event."""
-        event_id = hashlib.sha256(
-            f"{event_type.value}{source_ip}{user_id}{time.time()}".encode()
-        ).hexdigest()[:16]
+        event_id = hashlib.sha256(f"{event_type.value}{source_ip}{user_id}{time.time()}".encode()).hexdigest()[:16]
 
         return SecurityEvent(
             id=event_id,
@@ -627,7 +637,7 @@ class SecurityMonitor:
             resource_id=resource_id,
             action=action,
             details=details or {},
-            severity=severity
+            severity=severity,
         )
 
     def get_active_threats(self) -> Dict[str, ThreatDetection]:
@@ -718,10 +728,11 @@ class SecurityMonitor:
             "confidence_score": threat.confidence_score,
             "indicators": threat.indicators,
             "response_actions": [action.value for action in actions],
-            "event_count": len(threat.events)
+            "event_count": len(threat.events),
         }
 
         logger.info(f"THREAT_DETECTION: {json.dumps(threat_log)}")
+
 
 # Factory function
 def create_security_monitor(config: Optional[Dict[str, Any]] = None) -> SecurityMonitor:
@@ -731,8 +742,9 @@ def create_security_monitor(config: Optional[Dict[str, Any]] = None) -> Security
     return SecurityMonitor(
         buffer_size=config.get("buffer_size", 10000),
         processing_threads=config.get("processing_threads", 4),
-        guardian_integration=config.get("guardian_integration", True)
+        guardian_integration=config.get("guardian_integration", True),
     )
+
 
 if __name__ == "__main__":
     # Example usage and testing
@@ -749,7 +761,7 @@ if __name__ == "__main__":
                 event_type=EventType.AUTHENTICATION,
                 source_ip="192.168.1.100",
                 user_id="test_user",
-                details={"success": False, "attempt": i + 1}
+                details={"success": False, "attempt": i + 1},
             )
             monitor.submit_event(event)
 
@@ -759,10 +771,7 @@ if __name__ == "__main__":
             event_type=EventType.DATA_ACCESS,
             source_ip="10.0.0.1",
             user_id="normal_user",
-            details={
-                "resource_type": "admin_panel",
-                "location": {"country": "RU"}  # Unusual location
-            }
+            details={"resource_type": "admin_panel", "location": {"country": "RU"}},  # Unusual location
         )
         monitor.submit_event(event)
 
@@ -772,7 +781,7 @@ if __name__ == "__main__":
             event_type=EventType.SYSTEM_ACCESS,
             source_ip="192.168.1.100",  # Known malicious IP from detector
             user_id="external_user",
-            details={"action": "system_scan"}
+            details={"action": "system_scan"},
         )
         monitor.submit_event(event)
 
@@ -782,10 +791,7 @@ if __name__ == "__main__":
             event_type=EventType.PRIVILEGE_ESCALATION,
             source_ip="10.0.0.50",
             user_id="standard_user",
-            details={
-                "command": "sudo su - root",
-                "action": "privilege_elevation"
-            }
+            details={"command": "sudo su - root", "action": "privilege_elevation"},
         )
         monitor.submit_event(event)
 
@@ -798,8 +804,7 @@ if __name__ == "__main__":
 
         print(f"\nActive Threats: {len(active_threats)}")
         for threat_id, threat in active_threats.items():
-            print(f"  - {threat.name}: {threat.threat_level.value} "
-                  f"(confidence: {threat.confidence_score:.2f})")
+            print(f"  - {threat.name}: {threat.threat_level.value} " f"(confidence: {threat.confidence_score:.2f})")
 
         print("\nMetrics:")
         print(f"  Total Events: {metrics.total_events}")

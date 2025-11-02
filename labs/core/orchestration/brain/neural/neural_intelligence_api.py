@@ -9,6 +9,7 @@ Version: 2.0
 Professional REST API for the Lukhas Neural Intelligence System.
 Preserves all unique Lukhas innovations while providing clean endpoints.
 """
+
 import logging
 from typing import Any, Optional
 

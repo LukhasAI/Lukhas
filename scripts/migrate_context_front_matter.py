@@ -280,7 +280,9 @@ def migrate_one(md_path: pathlib.Path) -> Optional[str]:
     tier = (manifest.get("testing", {}) or {}).get("quality_tier") or "T4_experimental"
     owner = (manifest.get("metadata", {}) or {}).get("owner") or "unassigned"
     star = legacy.get("star") or (manifest.get("constellation_alignment", {}) or {}).get("primary_star") or "Supporting"
-    matriz_nodes = (manifest.get("matriz_integration", {}) or {}).get("pipeline_nodes") or sanitize_nodes(legacy.get("matriz"))
+    matriz_nodes = (manifest.get("matriz_integration", {}) or {}).get("pipeline_nodes") or sanitize_nodes(
+        legacy.get("matriz")
+    )
     colony = legacy.get("colony") or (manifest.get("module", {}) or {}).get("colony")
 
     fm = {
@@ -358,4 +360,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

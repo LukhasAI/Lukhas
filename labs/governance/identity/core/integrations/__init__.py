@@ -4,6 +4,7 @@ LUKHAS Cognitive Core System Integration
 This module provides integration between the identity system and LUKHAS Cognitive AI
 core systems including memory, consciousness, and inference engines.
 """
+
 import streamlit as st
 
 from .consciousness_bridge import ConsciousnessBridge, ConsciousnessSync

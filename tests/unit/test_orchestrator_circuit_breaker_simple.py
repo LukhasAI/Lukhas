@@ -13,16 +13,11 @@ from matriz.core.node_interface import CognitiveNode
 
 def test_orchestrator_circuit_breaker_integration():
     """Test that circuit breaker features are properly integrated"""
-    orchestrator = AsyncCognitiveOrchestrator(
-        total_timeout=0.250  # 250ms total budget
-    )
+    orchestrator = AsyncCognitiveOrchestrator(total_timeout=0.250)  # 250ms total budget
 
     # Create and register a mock node
     mock_node = Mock(spec=CognitiveNode)
-    mock_node.process.return_value = {
-        "answer": "Circuit breaker test response",
-        "confidence": 0.85
-    }
+    mock_node.process.return_value = {"answer": "Circuit breaker test response", "confidence": 0.85}
     orchestrator.register_node("test_node", mock_node)
 
     # Get performance report to verify circuit breaker integration
@@ -66,8 +61,12 @@ def test_circuit_breaker_metrics_structure():
     # Verify metrics structure
     metrics = report.get("orchestrator_metrics", {})
     expected_metrics = [
-        "total_duration_ms", "stage_durations", "timeout_count",
-        "error_count", "stages_completed", "stages_skipped"
+        "total_duration_ms",
+        "stage_durations",
+        "timeout_count",
+        "error_count",
+        "stages_completed",
+        "stages_skipped",
     ]
 
     for metric in expected_metrics:

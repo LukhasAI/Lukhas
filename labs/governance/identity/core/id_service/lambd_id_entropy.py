@@ -2,6 +2,7 @@
 
 Re-exports canonical entropy implementation from `lambda_id_entropy.py`.
 """
+
 from datetime import timezone
 
 from .lambda_id_entropy import EntropyCalculator

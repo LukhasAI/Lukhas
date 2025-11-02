@@ -26,6 +26,7 @@ from uuid import uuid4
 try:
     import numpy as np
     from scipy import stats
+
     SCIPY_AVAILABLE = True
 except ImportError:
     SCIPY_AVAILABLE = False
@@ -35,6 +36,7 @@ except ImportError:
 try:
     from sklearn.ensemble import IsolationForest
     from sklearn.preprocessing import StandardScaler
+
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
@@ -46,14 +48,16 @@ from .intelligent_alerting import get_alerting_system
 
 class RegressionSeverity(Enum):
     """Performance regression severity levels"""
-    MINOR = "minor"          # 5-15% degradation
-    MODERATE = "moderate"    # 15-30% degradation
-    MAJOR = "major"          # 30-50% degradation
-    CRITICAL = "critical"    # >50% degradation
+
+    MINOR = "minor"  # 5-15% degradation
+    MODERATE = "moderate"  # 15-30% degradation
+    MAJOR = "major"  # 30-50% degradation
+    CRITICAL = "critical"  # >50% degradation
 
 
 class DetectionMethod(Enum):
     """Methods used for regression detection"""
+
     STATISTICAL_THRESHOLD = "statistical_threshold"
     Z_SCORE = "z_score"
     TREND_ANALYSIS = "trend_analysis"
@@ -65,6 +69,7 @@ class DetectionMethod(Enum):
 @dataclass
 class PerformanceBaseline:
     """Performance baseline for a metric"""
+
     metric_name: str
     component: str
     baseline_value: float
@@ -80,6 +85,7 @@ class PerformanceBaseline:
 @dataclass
 class PerformanceRegression:
     """Detected performance regression"""
+
     regression_id: str
     metric_name: str
     component: str
@@ -102,6 +108,7 @@ class PerformanceRegression:
 @dataclass
 class PerformanceAlert:
     """Performance regression alert"""
+
     alert_id: str
     regression: PerformanceRegression
     alert_level: MetricSeverity
@@ -204,8 +211,7 @@ class PerformanceRegressionDetector:
 
         # Clean old data
         cutoff_time = timestamp - timedelta(days=self.baseline_window_days * 2)
-        while (self.metric_timestamps[metric_key] and
-               self.metric_timestamps[metric_key][0] < cutoff_time):
+        while self.metric_timestamps[metric_key] and self.metric_timestamps[metric_key][0] < cutoff_time:
             self.metric_timestamps[metric_key].popleft()
             self.metric_timeseries[metric_key].popleft()
 
@@ -244,9 +250,7 @@ class PerformanceRegressionDetector:
 
         # Use data from the baseline window
         cutoff_time = datetime.now(timezone.utc) - timedelta(days=self.baseline_window_days)
-        baseline_data = [
-            (v, t) for v, t in zip(values, timestamps) if t >= cutoff_time
-        ]
+        baseline_data = [(v, t) for v, t in zip(values, timestamps) if t >= cutoff_time]
 
         if len(baseline_data) < self.min_samples_for_baseline:
             return None
@@ -268,8 +272,7 @@ class PerformanceRegressionDetector:
         # Calculate confidence interval (95%)
         if std_val > 0 and SCIPY_AVAILABLE:
             confidence_interval = stats.t.interval(
-                0.95, len(baseline_values) - 1,
-                loc=mean_val, scale=std_val / math.sqrt(len(baseline_values))
+                0.95, len(baseline_values) - 1, loc=mean_val, scale=std_val / math.sqrt(len(baseline_values))
             )
         else:
             confidence_interval = (mean_val - std_val, mean_val + std_val)
@@ -368,21 +371,15 @@ class PerformanceRegressionDetector:
         baseline = self.performance_baselines[metric_key]
 
         # Statistical threshold detection
-        regression = await self._detect_statistical_regression(
-            metric_key, baseline, value, timestamp
-        )
+        regression = await self._detect_statistical_regression(metric_key, baseline, value, timestamp)
 
         # ML-based detection
         if not regression and self.enable_ml_detection:
-            regression = await self._detect_ml_regression(
-                metric_key, baseline, value, timestamp
-            )
+            regression = await self._detect_ml_regression(metric_key, baseline, value, timestamp)
 
         # Trend analysis
         if not regression:
-            regression = await self._detect_trend_regression(
-                metric_key, baseline, value, timestamp
-            )
+            regression = await self._detect_trend_regression(metric_key, baseline, value, timestamp)
 
         if regression:
             # Add operation and context information
@@ -563,7 +560,7 @@ class PerformanceRegressionDetector:
                             "trend_slope": slope,
                             "r_squared": r_value**2,
                             "p_value": p_value,
-                        }
+                        },
                     )
 
         except Exception as e:
@@ -775,9 +772,7 @@ class PerformanceRegressionDetector:
         """Update detection accuracy statistics"""
         total = self.detection_stats["false_positives"] + self.detection_stats["true_positives"]
         if total > 0:
-            self.detection_stats["detection_accuracy"] = (
-                self.detection_stats["true_positives"] / total
-            )
+            self.detection_stats["detection_accuracy"] = self.detection_stats["true_positives"] / total
 
     def get_active_regressions(
         self,
@@ -785,10 +780,7 @@ class PerformanceRegressionDetector:
         severity_filter: Optional[RegressionSeverity] = None,
     ) -> List[PerformanceRegression]:
         """Get list of active (unresolved) regressions"""
-        regressions = [
-            r for r in self.detected_regressions.values()
-            if not r.resolved and not r.false_positive
-        ]
+        regressions = [r for r in self.detected_regressions.values() if not r.resolved and not r.false_positive]
 
         if component_filter:
             regressions = [r for r in regressions if r.component == component_filter]
@@ -802,10 +794,7 @@ class PerformanceRegressionDetector:
         """Get regression detection statistics"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
 
-        recent_regressions = [
-            r for r in self.detected_regressions.values()
-            if r.detection_timestamp >= cutoff_time
-        ]
+        recent_regressions = [r for r in self.detected_regressions.values() if r.detection_timestamp >= cutoff_time]
 
         stats = {
             "total_regressions": len(recent_regressions),
@@ -824,14 +813,13 @@ class PerformanceRegressionDetector:
                 stats["by_component"][regression.component] += 1
                 stats["by_detection_method"][regression.detection_method.value] += 1
 
-            stats["average_degradation"] = statistics.mean([
-                r.degradation_percentage for r in recent_regressions
-            ])
+            stats["average_degradation"] = statistics.mean([r.degradation_percentage for r in recent_regressions])
 
         return dict(stats)
 
     def _start_background_tasks(self):
         """Start background tasks for baseline updates and detection"""
+
         async def baseline_worker():
             while True:
                 try:
@@ -864,7 +852,7 @@ class PerformanceRegressionDetector:
         """Periodically update performance baselines"""
         for metric_key in list(self.metric_timeseries.keys()):
             if len(self.metric_timeseries[metric_key]) >= self.min_samples_for_baseline:
-                parts = metric_key.split('_', 1)
+                parts = metric_key.split("_", 1)
                 if len(parts) == 2:
                     component, metric_name = parts
                     await self.establish_baseline(metric_name, component, force_update=True)
@@ -874,19 +862,16 @@ class PerformanceRegressionDetector:
         # Clean old resolved regressions
         cutoff_time = datetime.now(timezone.utc) - timedelta(days=30)
         old_regressions = [
-            rid for rid, regression in self.detected_regressions.items()
-            if regression.resolved and regression.resolution_timestamp and
-            regression.resolution_timestamp < cutoff_time
+            rid
+            for rid, regression in self.detected_regressions.items()
+            if regression.resolved and regression.resolution_timestamp and regression.resolution_timestamp < cutoff_time
         ]
 
         for rid in old_regressions:
             del self.detected_regressions[rid]
 
         # Clean old alerts
-        old_alerts = [
-            aid for aid, alert in self.performance_alerts.items()
-            if alert.regression.resolved
-        ]
+        old_alerts = [aid for aid, alert in self.performance_alerts.items() if alert.regression.resolved]
 
         for aid in old_alerts:
             del self.performance_alerts[aid]

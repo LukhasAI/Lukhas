@@ -15,10 +15,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DOCS_ROOT = REPO_ROOT / "docs"
 
 # Excluded directories
-EXCLUDED_DIRS = {
-    '.git', '__pycache__', 'node_modules', 'venv', '.venv',
-    '_generated', '_inventory', 'archive'
-}
+EXCLUDED_DIRS = {".git", "__pycache__", "node_modules", "venv", ".venv", "_generated", "_inventory", "archive"}
 
 
 def check_encoding(file_path: Path) -> Tuple[bool, str]:
@@ -27,19 +24,19 @@ def check_encoding(file_path: Path) -> Tuple[bool, str]:
     Returns (is_valid, encoding_detected).
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             f.read()
-        return True, 'utf-8'
+        return True, "utf-8"
     except UnicodeDecodeError:
         # Try common encodings
-        for encoding in ['latin-1', 'cp1252', 'iso-8859-1']:
+        for encoding in ["latin-1", "cp1252", "iso-8859-1"]:
             try:
-                with open(file_path, 'r', encoding=encoding) as f:
+                with open(file_path, "r", encoding=encoding) as f:
                     f.read()
                 return False, encoding
             except (UnicodeDecodeError, LookupError):
                 continue
-        return False, 'unknown'
+        return False, "unknown"
 
 
 def rewrite_to_utf8(file_path: Path, source_encoding: str) -> bool:
@@ -49,15 +46,15 @@ def rewrite_to_utf8(file_path: Path, source_encoding: str) -> bool:
     """
     try:
         # Read with source encoding
-        with open(file_path, 'r', encoding=source_encoding, errors='replace') as f:
+        with open(file_path, "r", encoding=source_encoding, errors="replace") as f:
             content = f.read()
 
         # Create backup
-        backup_path = file_path.with_suffix(file_path.suffix + '.bak')
+        backup_path = file_path.with_suffix(file_path.suffix + ".bak")
         file_path.rename(backup_path)
 
         # Write as UTF-8
-        with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+        with open(file_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(content)
 
         print(f"   ✅ Rewritten: {file_path} ({source_encoding} → UTF-8)")
@@ -108,7 +105,7 @@ def main():
     print()
 
     # Parse flags
-    apply = '--apply' in sys.argv
+    apply = "--apply" in sys.argv
     dry_run = not apply
 
     if dry_run:

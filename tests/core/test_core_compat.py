@@ -26,6 +26,7 @@ class TestCoreCompatAlias:
 
         # Should work without environment variables (always available)
         import core
+
         assert core is not None
 
     def test_deprecation_warning_toggle(self, monkeypatch):

@@ -20,7 +20,7 @@ SITEMAP_PATH = OUTPUT_DIR / "SITE_MAP.md"
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -30,11 +30,11 @@ def build_directory_tree(docs: List[Dict]) -> Dict:
 
     for doc in docs:
         # Skip redirect stubs
-        if doc.get('redirect'):
+        if doc.get("redirect"):
             continue
 
         # Parse path
-        path = Path(doc['path'])
+        path = Path(doc["path"])
         parts = path.parts[1:]  # Skip 'docs'
 
         # Build tree
@@ -46,15 +46,17 @@ def build_directory_tree(docs: List[Dict]) -> Dict:
 
         # Add file
         filename = parts[-1] if parts else path.name
-        if '_files' not in current:
-            current['_files'] = []
-        current['_files'].append({
-            'name': filename,
-            'title': doc['title'],
-            'path': doc['path'],
-            'type': doc['type'],
-            'status': doc['status'],
-        })
+        if "_files" not in current:
+            current["_files"] = []
+        current["_files"].append(
+            {
+                "name": filename,
+                "title": doc["title"],
+                "path": doc["path"],
+                "type": doc["type"],
+                "status": doc["status"],
+            }
+        )
 
     return tree
 
@@ -65,8 +67,8 @@ def render_tree(tree: Dict, indent: int = 0, path_prefix: str = "") -> List[str]
     indent_str = "  " * indent
 
     # Sort directories first, then files
-    dirs = sorted([k for k in tree.keys() if k != '_files'])
-    files = tree.get('_files', [])
+    dirs = sorted([k for k in tree.keys() if k != "_files"])
+    files = tree.get("_files", [])
 
     # Render directories
     for dir_name in dirs:
@@ -75,17 +77,17 @@ def render_tree(tree: Dict, indent: int = 0, path_prefix: str = "") -> List[str]
         lines.extend(render_tree(tree[dir_name], indent + 1, subpath))
 
     # Render files
-    for file_info in sorted(files, key=lambda f: f['name']):
-        rel_path = file_info['path'].replace('docs/', '')
-        title = file_info['title']
-        doc_type = file_info['type']
-        status = file_info['status']
+    for file_info in sorted(files, key=lambda f: f["name"]):
+        rel_path = file_info["path"].replace("docs/", "")
+        title = file_info["title"]
+        doc_type = file_info["type"]
+        status = file_info["status"]
 
         # Add status badge
         badge = ""
-        if status == 'wip':
+        if status == "wip":
             badge = " 🚧"
-        elif status == 'deprecated':
+        elif status == "deprecated":
             badge = " ⚠️"
 
         lines.append(f"{indent_str}- [{title}]({rel_path}){badge} `{doc_type}`")
@@ -97,7 +99,7 @@ def generate_site_map(manifest: Dict):
     """Generate SITE_MAP.md."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    docs = manifest['documents']
+    docs = manifest["documents"]
     tree = build_directory_tree(docs)
 
     content = [
@@ -127,8 +129,8 @@ def generate_site_map(manifest: Dict):
     content.append("*Run `python3 scripts/docs_generate.py` to regenerate.*")
     content.append("")
 
-    with open(SITEMAP_PATH, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(content))
+    with open(SITEMAP_PATH, "w", encoding="utf-8") as f:
+        f.write("\n".join(content))
 
     print(f"✅ Site map written to {SITEMAP_PATH}")
 
@@ -144,25 +146,25 @@ def update_documentation_index(manifest: Dict):
         print(f"⚠️  {index_path} not found, skipping update")
         return
 
-    with open(index_path, 'r', encoding='utf-8') as f:
+    with open(index_path, "r", encoding="utf-8") as f:
         existing_content = f.read()
 
     # Parse documents by type
     docs_by_type = defaultdict(list)
-    for doc in manifest['documents']:
-        if doc.get('redirect'):
+    for doc in manifest["documents"]:
+        if doc.get("redirect"):
             continue
-        if doc['status'] == 'deprecated':
+        if doc["status"] == "deprecated":
             continue
-        docs_by_type[doc['type']].append(doc)
+        docs_by_type[doc["type"]].append(doc)
 
     # Build sections
     sections = {
-        'Architecture': docs_by_type['architecture'],
-        'API': docs_by_type['api'],
-        'Guides': docs_by_type['guide'],
-        'Reports': docs_by_type['report'],
-        'ADRs': docs_by_type['adr'],
+        "Architecture": docs_by_type["architecture"],
+        "API": docs_by_type["api"],
+        "Guides": docs_by_type["guide"],
+        "Reports": docs_by_type["report"],
+        "ADRs": docs_by_type["adr"],
     }
 
     # Append new links section (non-destructive)
@@ -183,9 +185,9 @@ def update_documentation_index(manifest: Dict):
         new_section.append(f"### {section_name}")
         new_section.append("")
 
-        for doc in sorted(docs, key=lambda d: d['title'])[:20]:  # Limit to 20
-            rel_path = doc['path'].replace('docs/', '')
-            title = doc['title']
+        for doc in sorted(docs, key=lambda d: d["title"])[:20]:  # Limit to 20
+            rel_path = doc["path"].replace("docs/", "")
+            title = doc["title"]
             new_section.append(f"- [{title}]({rel_path})")
 
         new_section.append("")
@@ -194,12 +196,12 @@ def update_documentation_index(manifest: Dict):
     if "## Auto-Generated Index" in existing_content:
         # Replace existing auto-generated section
         parts = existing_content.split("## Auto-Generated Index")
-        updated_content = parts[0] + '\n'.join(new_section)
+        updated_content = parts[0] + "\n".join(new_section)
     else:
         # Append to end
-        updated_content = existing_content + '\n'.join(new_section)
+        updated_content = existing_content + "\n".join(new_section)
 
-    with open(index_path, 'w', encoding='utf-8') as f:
+    with open(index_path, "w", encoding="utf-8") as f:
         f.write(updated_content)
 
     print(f"✅ Updated {index_path}")
@@ -215,11 +217,11 @@ def update_main_index(manifest: Dict):
         print(f"⚠️  {index_path} not found, skipping update")
         return
 
-    with open(index_path, 'r', encoding='utf-8') as f:
+    with open(index_path, "r", encoding="utf-8") as f:
         existing_content = f.read()
 
     # Build metrics section
-    metrics = manifest['metrics']
+    metrics = manifest["metrics"]
     metrics_section = [
         "",
         "---",
@@ -233,7 +235,7 @@ def update_main_index(manifest: Dict):
         "",
     ]
 
-    for doc_type, count in sorted(metrics['by_type'].items(), key=lambda x: -x[1])[:10]:
+    for doc_type, count in sorted(metrics["by_type"].items(), key=lambda x: -x[1])[:10]:
         metrics_section.append(f"- {doc_type}: {count}")
 
     metrics_section.append("")
@@ -247,11 +249,11 @@ def update_main_index(manifest: Dict):
     # Replace or append
     if "## Documentation Metrics" in existing_content:
         parts = existing_content.split("## Documentation Metrics")
-        updated_content = parts[0] + '\n'.join(metrics_section)
+        updated_content = parts[0] + "\n".join(metrics_section)
     else:
-        updated_content = existing_content + '\n'.join(metrics_section)
+        updated_content = existing_content + "\n".join(metrics_section)
 
-    with open(index_path, 'w', encoding='utf-8') as f:
+    with open(index_path, "w", encoding="utf-8") as f:
         f.write(updated_content)
 
     print(f"✅ Updated {index_path}")

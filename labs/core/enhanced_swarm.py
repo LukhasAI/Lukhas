@@ -2,6 +2,7 @@
 Enhanced Swarm Architecture Components
 Provides enhanced implementations for swarm-based consciousness systems
 """
+
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -10,6 +11,7 @@ from typing import Any, Optional
 
 class AgentState(Enum):
     """State enumeration for swarm agents."""
+
     INACTIVE = "inactive"
     ACTIVE = "active"
     PROCESSING = "processing"
@@ -17,23 +19,29 @@ class AgentState(Enum):
     ERROR = "error"
     TERMINATED = "terminated"
 
+
 class CapabilityLevel(Enum):
     """Agent capability levels"""
+
     BASIC = "basic"
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
     EXPERT = "expert"
 
+
 class MemoryType(Enum):
     """Types of agent memory"""
+
     SHORT_TERM = "short_term"
     LONG_TERM = "long_term"
     WORKING = "working"
     EPISODIC = "episodic"
 
+
 @dataclass
 class AgentCapability:
     """Represents an agent's capability in a specific domain"""
+
     domain: str
     level: CapabilityLevel = CapabilityLevel.BASIC
     confidence: float = 0.5
@@ -52,12 +60,14 @@ class AgentCapability:
             "level": self.level.value,
             "confidence": self.confidence,
             "last_updated": self.last_updated.isoformat(),
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
+
 
 @dataclass
 class AgentMemory:
     """Enhanced agent memory system"""
+
     short_term: dict[str, Any] = field(default_factory=dict)
     long_term: dict[str, Any] = field(default_factory=dict)
     working: dict[str, Any] = field(default_factory=dict)
@@ -73,15 +83,11 @@ class AgentMemory:
         elif memory_type == MemoryType.WORKING:
             self.working[key] = value
         elif memory_type == MemoryType.EPISODIC:
-            episode = {
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "key": key,
-                "value": value
-            }
+            episode = {"timestamp": datetime.now(timezone.utc).isoformat(), "key": key, "value": value}
             self.episodic.append(episode)
             # Keep only recent episodes
             if len(self.episodic) > self.max_episodic:
-                self.episodic = self.episodic[-self.max_episodic:]
+                self.episodic = self.episodic[-self.max_episodic :]
 
     def retrieve(self, memory_type: MemoryType, key: str) -> Any:
         """Retrieve memory from specified type"""
@@ -112,6 +118,7 @@ class AgentMemory:
         elif memory_type == MemoryType.EPISODIC:
             self.episodic.clear()
 
+
 class EnhancedSwarmAgent:
     """Enhanced swarm agent with advanced capabilities"""
 
@@ -135,6 +142,7 @@ class EnhancedSwarmAgent:
         if domain in self.capabilities:
             self.capabilities[domain].update_confidence(confidence)
 
+
 class EnhancedColony:
     """Enhanced colony for agent coordination"""
 
@@ -155,10 +163,8 @@ class EnhancedColony:
 
     def get_agents_with_capability(self, domain: str) -> list[EnhancedSwarmAgent]:
         """Get all agents that have a specific capability"""
-        return [
-            agent for agent in self.agents.values()
-            if domain in agent.capabilities and agent.active
-        ]
+        return [agent for agent in self.agents.values() if domain in agent.capabilities and agent.active]
+
 
 class EnhancedSwarmHub:
     """Enhanced swarm hub for multi-colony coordination"""
@@ -189,6 +195,7 @@ class EnhancedSwarmHub:
             agents.extend(colony.get_agents_with_capability(domain))
         return agents
 
+
 # Export main classes
 __all__ = [
     "AgentCapability",
@@ -197,5 +204,5 @@ __all__ = [
     "EnhancedColony",
     "EnhancedSwarmHub",
     "CapabilityLevel",
-    "MemoryType"
+    "MemoryType",
 ]

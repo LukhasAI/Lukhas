@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Optional
 
 # Add the project root to the path to allow imports
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 from adapters.openai.policy_models import Context
 from adapters.openai.policy_pdp import PDP, PolicyLoader
@@ -28,7 +28,7 @@ class TestGuardianPDP(unittest.TestCase):
         model: Optional[str] = None,
         ip: str = "10.0.0.1",
         time_utc: Optional[datetime] = None,
-        tenant_id: str = "acme"
+        tenant_id: str = "acme",
     ) -> Context:
         """Helper to create a mock context for testing."""
         return Context(
@@ -43,16 +43,12 @@ class TestGuardianPDP(unittest.TestCase):
             time_utc=time_utc or datetime(2023, 1, 1, 12, 0, 0),
             data_classification="internal",
             policy_etag=self.policy.etag,
-            trace_id="trace-abc"
+            trace_id="trace-abc",
         )
 
     def test_default_deny_when_no_rules_match(self):
         """1. PDP should deny access if no rules match the request."""
-        ctx = self._create_context(
-            scopes={"some:scope"},
-            action="nonexistent.action",
-            resource="/v1/nonexistent"
-        )
+        ctx = self._create_context(scopes={"some:scope"}, action="nonexistent.action", resource="/v1/nonexistent")
         decision = self.pdp.decide(ctx)
         self.assertFalse(decision.allow)
         self.assertEqual(decision.reason, "default_deny")
@@ -60,11 +56,7 @@ class TestGuardianPDP(unittest.TestCase):
 
     def test_allow_with_correct_scope(self):
         """2. PDP should allow access with a matching scope and resource."""
-        ctx = self._create_context(
-            scopes={"dreams:write"},
-            action="dreams.create",
-            resource="/v1/dreams"
-        )
+        ctx = self._create_context(scopes={"dreams:write"}, action="dreams.create", resource="/v1/dreams")
         decision = self.pdp.decide(ctx)
         self.assertTrue(decision.allow)
         self.assertEqual(decision.rule_id, "R-001-AllowDreamCreate")
@@ -76,7 +68,7 @@ class TestGuardianPDP(unittest.TestCase):
             scopes={"dreams:write"},
             action="dreams.create",
             resource="/v1/dreams",
-            model="model-restricted"  # This should trigger the Deny rule
+            model="model-restricted",  # This should trigger the Deny rule
         )
         decision = self.pdp.decide(ctx)
         self.assertFalse(decision.allow)
@@ -86,9 +78,7 @@ class TestGuardianPDP(unittest.TestCase):
     def test_resource_wildcard_match(self):
         """5. PDP should allow access based on a resource wildcard."""
         ctx = self._create_context(
-            scopes={"indexes:read"},
-            action="indexes.read",
-            resource="indexes/some-random-index-123"
+            scopes={"indexes:read"}, action="indexes.read", resource="indexes/some-random-index-123"
         )
         decision = self.pdp.decide(ctx)
         self.assertTrue(decision.allow)
@@ -100,7 +90,7 @@ class TestGuardianPDP(unittest.TestCase):
             scopes={"time:access"},
             action="time.check",
             resource="/v1/time",
-            time_utc=datetime(2023, 1, 1, 14, 0, 0) # 14:00 is between 09:00 and 17:00
+            time_utc=datetime(2023, 1, 1, 14, 0, 0),  # 14:00 is between 09:00 and 17:00
         )
         decision = self.pdp.decide(ctx)
         self.assertTrue(decision.allow)
@@ -112,11 +102,11 @@ class TestGuardianPDP(unittest.TestCase):
             scopes={"time:access"},
             action="time.check",
             resource="/v1/time",
-            time_utc=datetime(2023, 1, 1, 20, 0, 0) # 20:00 is outside 09:00-17:00
+            time_utc=datetime(2023, 1, 1, 20, 0, 0),  # 20:00 is outside 09:00-17:00
         )
         decision = self.pdp.decide(ctx)
         self.assertFalse(decision.allow)
-        self.assertEqual(decision.reason, "default_deny") # No allow rule matches
+        self.assertEqual(decision.reason, "default_deny")  # No allow rule matches
 
     def test_ip_cidr_condition_deny(self):
         """10. PDP should deny access from a blocked IP CIDR range."""
@@ -124,7 +114,7 @@ class TestGuardianPDP(unittest.TestCase):
             scopes={"any:scope"},
             action="any.action",
             resource="/any/resource",
-            ip="192.168.1.50" # This IP is in the denied range
+            ip="192.168.1.50",  # This IP is in the denied range
         )
         decision = self.pdp.decide(ctx)
         self.assertFalse(decision.allow)
@@ -136,13 +126,14 @@ class TestGuardianPDP(unittest.TestCase):
             scopes={"any:scope"},
             action="any.action",
             resource="/any/resource",
-            ip="10.0.0.2" # This IP is not in the denied range
+            ip="10.0.0.2",  # This IP is not in the denied range
         )
         decision = self.pdp.decide(ctx)
         # It will be denied by default, but not by the IP rule
         self.assertFalse(decision.allow)
         self.assertEqual(decision.reason, "default_deny")
         self.assertNotEqual(decision.rule_id, "R-006-DenyIpRange")
+
 
 if __name__ == "__main__":
     unittest.main()

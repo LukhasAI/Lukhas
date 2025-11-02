@@ -5,6 +5,7 @@ Memory Collapse Verifier
 Cryptographic collapse verification for DAG integrity.
 Ensures symbolic memory collapses maintain structural and semantic integrity.
 """
+
 from dataclasses import dataclass
 
 from core.symbolic.symbolic_tracer import SymbolicTracer

@@ -25,10 +25,7 @@ class TestMcpServersModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "mcp-servers",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "mcp-servers", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestMcpServersModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         # import mcp_servers  # Module name with hyphen - skipping
-        self.assertIsNotNone(mcp-servers)  # noqa: F821  # TODO: mcp
+        self.assertIsNotNone(mcp - servers)  # noqa: F821  # TODO: mcp
 
     def test_module_version(self):
         """Test module has version information."""
         # import mcp_servers  # Module name with hyphen - skipping
         # Most modules should have version info
-        self.assertTrue(hasattr(mcp-servers, '__version__') or  # noqa: F821  # TODO: mcp
-                       hasattr(mcp-servers, 'VERSION'))  # noqa: F821  # TODO: mcp
+        self.assertTrue(
+            hasattr(mcp - servers, "__version__") or hasattr(mcp - servers, "VERSION")  # noqa: F821  # TODO: mcp
+        )  # noqa: F821  # TODO: mcp
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestMcpServersModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

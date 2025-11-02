@@ -45,27 +45,30 @@ logger = logging.getLogger(__name__)
 
 class CompatibilityType(Enum):
     """Types of schema compatibility"""
-    BACKWARD = "backward"       # New schema can read old data
-    FORWARD = "forward"         # Old schema can read new data
-    FULL = "full"              # Bidirectional compatibility
-    NONE = "none"              # No compatibility
+
+    BACKWARD = "backward"  # New schema can read old data
+    FORWARD = "forward"  # Old schema can read new data
+    FULL = "full"  # Bidirectional compatibility
+    NONE = "none"  # No compatibility
 
 
 class MigrationType(Enum):
     """Types of schema migrations"""
-    FIELD_ADD = "field_add"             # Add new field
-    FIELD_REMOVE = "field_remove"       # Remove field
-    FIELD_RENAME = "field_rename"       # Rename field
+
+    FIELD_ADD = "field_add"  # Add new field
+    FIELD_REMOVE = "field_remove"  # Remove field
+    FIELD_RENAME = "field_rename"  # Rename field
     FIELD_TYPE_CHANGE = "field_type_change"  # Change field type
-    ENUM_VALUE_ADD = "enum_value_add"   # Add enum value
+    ENUM_VALUE_ADD = "enum_value_add"  # Add enum value
     ENUM_VALUE_REMOVE = "enum_value_remove"  # Remove enum value
-    STRUCTURE_CHANGE = "structure_change"    # Complex structural change
-    CUSTOM = "custom"                   # Custom transformation
+    STRUCTURE_CHANGE = "structure_change"  # Complex structural change
+    CUSTOM = "custom"  # Custom transformation
 
 
 @dataclass
 class MigrationRule:
     """Rule for data migration between schema versions"""
+
     migration_id: str
     from_version: str
     to_version: str
@@ -81,6 +84,7 @@ class MigrationRule:
 @dataclass
 class MigrationContext:
     """Context for migration operations"""
+
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     source_version: Optional[str] = None
     target_version: Optional[str] = None
@@ -94,6 +98,7 @@ class MigrationContext:
 @dataclass
 class MigrationStep:
     """Individual step in migration process"""
+
     rule: MigrationRule
     applied_at: datetime
     duration_ms: float
@@ -106,6 +111,7 @@ class MigrationStep:
 @dataclass
 class MigrationResult:
     """Result of schema migration"""
+
     success: bool
     migrated_data: Optional[Any] = None
     source_version: Optional[str] = None
@@ -144,20 +150,13 @@ class MigrationEngine:
             logger.info(f"Registered migration rule {rule.migration_id}: {rule.from_version} -> {rule.to_version}")
 
     def migrate_data(
-        self,
-        data: Any,
-        from_version: str,
-        to_version: str,
-        context: Optional[MigrationContext] = None
+        self, data: Any, from_version: str, to_version: str, context: Optional[MigrationContext] = None
     ) -> MigrationResult:
         """Migrate data from one schema version to another"""
         start_time = time.perf_counter()
 
         if context is None:
-            context = MigrationContext(
-                source_version=from_version,
-                target_version=to_version
-            )
+            context = MigrationContext(source_version=from_version, target_version=to_version)
 
         try:
             # Check if migration is needed
@@ -168,7 +167,7 @@ class MigrationEngine:
                     source_version=from_version,
                     target_version=to_version,
                     migration_time_ms=(time.perf_counter() - start_time) * 1000,
-                    compatibility_type=CompatibilityType.FULL
+                    compatibility_type=CompatibilityType.FULL,
                 )
 
             # Find migration path
@@ -179,7 +178,7 @@ class MigrationEngine:
                     source_version=from_version,
                     target_version=to_version,
                     errors=[f"No migration path found from {from_version} to {to_version}"],
-                    migration_time_ms=(time.perf_counter() - start_time) * 1000
+                    migration_time_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
             # Execute migration steps
@@ -192,9 +191,7 @@ class MigrationEngine:
                 if current_version == next_version:
                     continue
 
-                step_result = self._execute_migration_step(
-                    current_data, current_version, next_version, context
-                )
+                step_result = self._execute_migration_step(current_data, current_version, next_version, context)
                 steps.extend(step_result.steps)
                 warnings.extend(step_result.warnings)
 
@@ -205,7 +202,7 @@ class MigrationEngine:
                         target_version=to_version,
                         migration_time_ms=(time.perf_counter() - start_time) * 1000,
                         steps=steps,
-                        errors=step_result.errors
+                        errors=step_result.errors,
                     )
 
                 current_data = step_result.migrated_data
@@ -228,8 +225,8 @@ class MigrationEngine:
                 metadata={
                     "migration_path": migration_path,
                     "steps_executed": len(steps),
-                    "context_id": context.request_id
-                }
+                    "context_id": context.request_id,
+                },
             )
 
             # Update metrics
@@ -246,14 +243,11 @@ class MigrationEngine:
                 source_version=from_version,
                 target_version=to_version,
                 migration_time_ms=migration_time,
-                errors=[f"Migration failed: {str(e)}"]
+                errors=[f"Migration failed: {str(e)}"],
             )
 
     def check_compatibility(
-        self,
-        from_version: str,
-        to_version: str,
-        schema_id: str = "guardian_decision"
+        self, from_version: str, to_version: str, schema_id: str = "guardian_decision"
     ) -> CompatibilityType:
         """Check compatibility between two schema versions"""
         try:
@@ -307,49 +301,51 @@ class MigrationEngine:
     def _initialize_guardian_migrations(self) -> None:
         """Initialize default Guardian schema migrations"""
         # Migration from 1.0.0 to 2.0.0 (major version bump)
-        self.register_migration_rule(MigrationRule(
-            migration_id="guardian_1_0_0_to_2_0_0",
-            from_version="1.0.0",
-            to_version="2.0.0",
-            migration_type=MigrationType.STRUCTURE_CHANGE,
-            field_path="$",
-            transformation=self._migrate_guardian_1_to_2,
-            description="Migrate Guardian schema from v1.0.0 to v2.0.0",
-            reversible=False
-        ))
+        self.register_migration_rule(
+            MigrationRule(
+                migration_id="guardian_1_0_0_to_2_0_0",
+                from_version="1.0.0",
+                to_version="2.0.0",
+                migration_type=MigrationType.STRUCTURE_CHANGE,
+                field_path="$",
+                transformation=self._migrate_guardian_1_to_2,
+                description="Migrate Guardian schema from v1.0.0 to v2.0.0",
+                reversible=False,
+            )
+        )
 
         # Migration from 2.0.0 to 2.1.0 (minor version - backward compatible)
-        self.register_migration_rule(MigrationRule(
-            migration_id="guardian_2_0_0_to_2_1_0",
-            from_version="2.0.0",
-            to_version="2.1.0",
-            migration_type=MigrationType.FIELD_ADD,
-            field_path="extensions",
-            transformation=self._migrate_guardian_2_0_to_2_1,
-            description="Add extensions field for future compatibility",
-            reversible=True,
-            reverse_transformation=self._migrate_guardian_2_1_to_2_0
-        ))
+        self.register_migration_rule(
+            MigrationRule(
+                migration_id="guardian_2_0_0_to_2_1_0",
+                from_version="2.0.0",
+                to_version="2.1.0",
+                migration_type=MigrationType.FIELD_ADD,
+                field_path="extensions",
+                transformation=self._migrate_guardian_2_0_to_2_1,
+                description="Add extensions field for future compatibility",
+                reversible=True,
+                reverse_transformation=self._migrate_guardian_2_1_to_2_0,
+            )
+        )
 
         # Migration from 2.1.0 to 2.1.1 (patch version - fully compatible)
-        self.register_migration_rule(MigrationRule(
-            migration_id="guardian_2_1_0_to_2_1_1",
-            from_version="2.1.0",
-            to_version="2.1.1",
-            migration_type=MigrationType.ENUM_VALUE_ADD,
-            field_path="decision.status",
-            transformation=lambda x: x,  # No transformation needed
-            description="Add new enum values for decision status",
-            reversible=True,
-            reverse_transformation=lambda x: x
-        ))
+        self.register_migration_rule(
+            MigrationRule(
+                migration_id="guardian_2_1_0_to_2_1_1",
+                from_version="2.1.0",
+                to_version="2.1.1",
+                migration_type=MigrationType.ENUM_VALUE_ADD,
+                field_path="decision.status",
+                transformation=lambda x: x,  # No transformation needed
+                description="Add new enum values for decision status",
+                reversible=True,
+                reverse_transformation=lambda x: x,
+            )
+        )
 
     def _execute_migration_step(
-        self,
-        data: Any,
-        from_version: str,
-        to_version: str,
-        context: MigrationContext
+        self, data: Any, from_version: str, to_version: str, context: MigrationContext
     ) -> MigrationResult:
         """Execute a single migration step"""
         start_time = time.perf_counter()
@@ -357,8 +353,7 @@ class MigrationEngine:
         key = (from_version, to_version)
         if key not in self.migration_rules:
             return MigrationResult(
-                success=False,
-                errors=[f"No migration rules found for {from_version} -> {to_version}"]
+                success=False, errors=[f"No migration rules found for {from_version} -> {to_version}"]
             )
 
         rules = self.migration_rules[key]
@@ -387,7 +382,7 @@ class MigrationEngine:
                 success=step_success,
                 error_message=step_error,
                 data_before=data_before,
-                data_after=migrated_data if context.audit_trail and step_success else None
+                data_after=migrated_data if context.audit_trail and step_success else None,
             )
             steps.append(step)
 
@@ -403,7 +398,7 @@ class MigrationEngine:
             source_version=from_version,
             target_version=to_version,
             migration_time_ms=migration_time,
-            steps=steps
+            steps=steps,
         )
 
     def _find_migration_path(self, from_version: str, to_version: str) -> List[str]:
@@ -476,9 +471,7 @@ class MigrationEngine:
             "metrics": data.get("metrics", {}),
             "enforcement": data.get("enforcement", {"mode": "dark"}),
             "audit": data.get("audit", {}),
-            "integrity": {
-                "content_sha256": self._calculate_content_hash(data)
-            }
+            "integrity": {"content_sha256": self._calculate_content_hash(data)},
         }
 
         # Convert old fields if they exist
@@ -488,7 +481,7 @@ class MigrationEngine:
         if "emergency_active" in data:
             migrated["context"]["features"] = {
                 "emergency_active": data["emergency_active"],
-                "enforcement_enabled": True
+                "enforcement_enabled": True,
             }
 
         return migrated
@@ -517,6 +510,7 @@ class MigrationEngine:
     def _calculate_content_hash(self, data: Dict[str, Any]) -> str:
         """Calculate content hash for integrity field"""
         import hashlib
+
         content_str = json.dumps(data, sort_keys=True, ensure_ascii=True)
         return hashlib.sha256(content_str.encode()).hexdigest()
 
@@ -550,10 +544,7 @@ class MigrationMetrics:
     def get_stats(self) -> Dict[str, Any]:
         """Get migration statistics"""
         uptime = time.time() - self.start_time
-        avg_time = (
-            self.total_migration_time / self.migration_count
-            if self.migration_count > 0 else 0
-        )
+        avg_time = self.total_migration_time / self.migration_count if self.migration_count > 0 else 0
 
         return {
             "total_migrations": self.migration_count,
@@ -561,13 +552,15 @@ class MigrationMetrics:
             "failed_migrations": self.failed_migrations,
             "success_rate": (
                 (self.migration_count - self.failed_migrations) / self.migration_count
-                if self.migration_count > 0 else 1.0
+                if self.migration_count > 0
+                else 1.0
             ),
             "throughput_per_second": self.migration_count / uptime if uptime > 0 else 0,
-            "migrations_by_type": {migration_type.name: count
-                                 for migration_type, count in self.migrations_by_type.items()},
+            "migrations_by_type": {
+                migration_type.name: count for migration_type, count in self.migrations_by_type.items()
+            },
             "error_count": self.error_count,
-            "uptime_seconds": uptime
+            "uptime_seconds": uptime,
         }
 
 
@@ -590,9 +583,7 @@ def get_migration_engine() -> MigrationEngine:
 
 # Convenience functions
 def migrate_guardian_data(
-    data: Dict[str, Any],
-    target_version: str,
-    source_version: Optional[str] = None
+    data: Dict[str, Any], target_version: str, source_version: Optional[str] = None
 ) -> MigrationResult:
     """Migrate Guardian data to target version"""
     engine = get_migration_engine()
@@ -616,7 +607,7 @@ def register_custom_migration(
     transformation: Callable[[Any], Any],
     migration_type: MigrationType = MigrationType.CUSTOM,
     reversible: bool = False,
-    reverse_transformation: Optional[Callable[[Any], Any]] = None
+    reverse_transformation: Optional[Callable[[Any], Any]] = None,
 ) -> None:
     """Register custom migration rule"""
     engine = get_migration_engine()
@@ -630,7 +621,7 @@ def register_custom_migration(
         transformation=transformation,
         description=f"Custom migration from {from_version} to {to_version}",
         reversible=reversible,
-        reverse_transformation=reverse_transformation
+        reverse_transformation=reverse_transformation,
     )
 
     engine.register_migration_rule(rule)

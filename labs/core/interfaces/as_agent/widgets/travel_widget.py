@@ -27,11 +27,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 
-def suggest_travel_action(
-    current_location="Home",
-    meeting_location="City Centre",
-    meeting_time="10:00",
-    user_tier=2):
+def suggest_travel_action(current_location="Home", meeting_location="City Centre", meeting_time="10:00", user_tier=2):
     """
     Suggests a local travel method or alert based on symbolic context.
 

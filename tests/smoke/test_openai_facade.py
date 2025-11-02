@@ -13,6 +13,7 @@ def test_responses_minimal():
     assert body.get("id") and body.get("output", {}).get("text")
     assert body.get("model")  # e.g., "lukhas-matriz"
 
+
 def test_models_list():
     client = TestClient(app)
     r = client.get("/v1/models", headers=GOLDEN_AUTH_HEADERS)

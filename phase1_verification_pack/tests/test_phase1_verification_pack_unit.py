@@ -25,10 +25,7 @@ class TestPhase1VerificationPackModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "phase1_verification_pack",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "phase1_verification_pack", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,17 @@ class TestPhase1VerificationPackModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import phase1_verification_pack
+
         self.assertIsNotNone(phase1_verification_pack)
 
     def test_module_version(self):
         """Test module has version information."""
         import phase1_verification_pack
+
         # Most modules should have version info
-        self.assertTrue(hasattr(phase1_verification_pack, '__version__') or
-                       hasattr(phase1_verification_pack, 'VERSION'))
+        self.assertTrue(
+            hasattr(phase1_verification_pack, "__version__") or hasattr(phase1_verification_pack, "VERSION")
+        )
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +71,6 @@ class TestPhase1VerificationPackModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

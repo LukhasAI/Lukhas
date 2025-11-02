@@ -37,7 +37,7 @@ def test_system_startup_shutdown():
         # Step 2: Wait for services to be healthy
         health_url = f"{BASE_URL}/api/v2/health"
         is_healthy = False
-        for _ in range(30): # Wait for up to 30 seconds
+        for _ in range(30):  # Wait for up to 30 seconds
             try:
                 response = requests.get(health_url)
                 if response.status_code == 200 and response.json()["status"] == "healthy":

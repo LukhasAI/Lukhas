@@ -5,6 +5,7 @@ EMOTION - regulation Submodule
 #TAG:regulation
 #TAG:standard
 """
+
 # Colony base for propagation
 from typing import Any
 

@@ -38,6 +38,7 @@ try:
         serialization,
     )
     from cryptography.hazmat.primitives.asymmetric import ed25519
+
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
@@ -49,10 +50,12 @@ try:
     from jsonschema import (
         Draft202012Validator,  # noqa: F401  # TODO: jsonschema.Draft202012Validato...
     )
+
     SCHEMA_VALIDATION = True
 except ImportError:
     SCHEMA_VALIDATION = False
     logger.warning("jsonschema not available - schema validation disabled")
+
 
 class GuardianJSONEncoder(json.JSONEncoder):
     """Custom JSON encoder for Guardian types"""
@@ -67,6 +70,7 @@ class GuardianJSONEncoder(json.JSONEncoder):
 
 class DecisionStatus(Enum):
     """Guardian decision status enum - fail-closed design."""
+
     ALLOW = "allow"
     DENY = "deny"
     CHALLENGE = "challenge"
@@ -76,13 +80,15 @@ class DecisionStatus(Enum):
 
 class EnforcementMode(Enum):
     """Guardian enforcement mode."""
-    DARK = "dark"          # Logging only, no enforcement
-    CANARY = "canary"      # Partial enforcement for testing
+
+    DARK = "dark"  # Logging only, no enforcement
+    CANARY = "canary"  # Partial enforcement for testing
     ENFORCED = "enforced"  # Full enforcement active
 
 
 class ActorType(Enum):
     """Actor type in Guardian subject."""
+
     USER = "user"
     SERVICE = "service"
     SYSTEM = "system"
@@ -90,6 +96,7 @@ class ActorType(Enum):
 
 class RuntimeEnvironment(Enum):
     """Runtime environment."""
+
     DEV = "dev"
     CI = "ci"
     STAGING = "staging"
@@ -99,6 +106,7 @@ class RuntimeEnvironment(Enum):
 @dataclass
 class GuardianDecision:
     """Core Guardian decision data."""
+
     status: DecisionStatus
     policy: str
     timestamp: str
@@ -110,6 +118,7 @@ class GuardianDecision:
 @dataclass
 class GuardianSubject:
     """Guardian decision subject."""
+
     correlation_id: str
     actor_type: ActorType
     actor_id: str
@@ -124,6 +133,7 @@ class GuardianSubject:
 @dataclass
 class GuardianContext:
     """Guardian decision context."""
+
     region: str
     runtime: RuntimeEnvironment
     enforcement_enabled: bool = True
@@ -135,6 +145,7 @@ class GuardianContext:
 @dataclass
 class GuardianMetrics:
     """Guardian performance and risk metrics."""
+
     latency_ms: float
     risk_score: Optional[float] = None
     drift_score: Optional[float] = None
@@ -145,6 +156,7 @@ class GuardianMetrics:
 @dataclass
 class GuardianEnforcement:
     """Guardian enforcement configuration."""
+
     mode: EnforcementMode
     actions: Optional[List[str]] = None
 
@@ -152,6 +164,7 @@ class GuardianEnforcement:
 @dataclass
 class GuardianAudit:
     """Guardian audit trail."""
+
     event_id: str
     timestamp: str
     source_system: Optional[str] = None
@@ -190,10 +203,11 @@ class GuardianSystem:
             else:
                 # Default schema location
                 import pathlib
+
                 schema_file = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
 
             if os.path.exists(schema_file):
-                with open(schema_file, 'r') as f:
+                with open(schema_file, "r") as f:
                     self.schema = json.load(f)
                 logger.info(f"Guardian schema loaded from {schema_file}")
             else:
@@ -214,7 +228,7 @@ class GuardianSystem:
         approvals: Optional[List[Dict[str, Any]]] = None,
         redactions: Optional[Dict[str, str]] = None,
         extensions: Optional[Dict[str, Any]] = None,
-        debug: Optional[Dict[str, str]] = None
+        debug: Optional[Dict[str, str]] = None,
     ) -> Dict[str, Any]:
         """
         Serialize Guardian decision into T4/0.01% compliant envelope.
@@ -228,38 +242,23 @@ class GuardianSystem:
                 "status": decision.status.value,
                 "policy": decision.policy,
                 "timestamp": decision.timestamp,
-                "severity": decision.severity
+                "severity": decision.severity,
             },
             "subject": {
                 "correlation_id": subject.correlation_id,
-                "actor": {
-                    "type": subject.actor_type.value,
-                    "id": subject.actor_id
-                },
-                "operation": {
-                    "name": subject.operation_name
-                }
+                "actor": {"type": subject.actor_type.value, "id": subject.actor_id},
+                "operation": {"name": subject.operation_name},
             },
             "context": {
-                "environment": {
-                    "region": context.region,
-                    "runtime": context.runtime.value
-                },
+                "environment": {"region": context.region, "runtime": context.runtime.value},
                 "features": {
                     "enforcement_enabled": context.enforcement_enabled,
-                    "emergency_active": context.emergency_active
-                }
+                    "emergency_active": context.emergency_active,
+                },
             },
-            "metrics": {
-                "latency_ms": metrics.latency_ms
-            },
-            "enforcement": {
-                "mode": enforcement.mode.value
-            },
-            "audit": {
-                "event_id": audit.event_id,
-                "timestamp": audit.timestamp
-            }
+            "metrics": {"latency_ms": metrics.latency_ms},
+            "enforcement": {"mode": enforcement.mode.value},
+            "audit": {"event_id": audit.event_id, "timestamp": audit.timestamp},
         }
 
         # Add optional fields
@@ -336,11 +335,7 @@ class GuardianSystem:
         """
         # Canonical JSON for hashing (RFC 8785-ish)
         canonical_json = json.dumps(
-            envelope,
-            separators=(",", ":"),
-            cls=GuardianJSONEncoder,
-            sort_keys=True,
-            ensure_ascii=False
+            envelope, separators=(",", ":"), cls=GuardianJSONEncoder, sort_keys=True, ensure_ascii=False
         ).encode("utf-8")
 
         # Compute SHA256 content hash
@@ -379,21 +374,16 @@ class GuardianSystem:
 
             # Sign the content
             signature_bytes = private_key.sign(content)
-            signature_b64 = base64.b64encode(signature_bytes).decode('ascii')
+            signature_b64 = base64.b64encode(signature_bytes).decode("ascii")
 
             # Generate key ID (first 8 chars of public key hash for brevity)
             public_key = private_key.public_key()
             public_key_bytes = public_key.public_bytes(
-                encoding=serialization.Encoding.Raw,
-                format=serialization.PublicFormat.Raw
+                encoding=serialization.Encoding.Raw, format=serialization.PublicFormat.Raw
             )
             key_id = "guardian-" + hashlib.sha256(public_key_bytes).hexdigest()[:8]
 
-            return {
-                "alg": "ed25519",
-                "kid": key_id,
-                "sig": signature_b64
-            }
+            return {"alg": "ed25519", "kid": key_id, "sig": signature_b64}
 
         except Exception as e:
             logger.error(f"Signing failed: {e}")
@@ -424,11 +414,7 @@ class GuardianSystem:
 
             # Recompute canonical hash
             canonical_json = json.dumps(
-                envelope_for_hash,
-                separators=(",", ":"),
-                cls=GuardianJSONEncoder,
-                sort_keys=True,
-                ensure_ascii=False
+                envelope_for_hash, separators=(",", ":"), cls=GuardianJSONEncoder, sort_keys=True, ensure_ascii=False
             ).encode("utf-8")
 
             computed_hash = hashlib.sha256(canonical_json).hexdigest()
@@ -563,7 +549,7 @@ def create_simple_decision(
     operation: str,
     region: str = "us-east-1",
     runtime: RuntimeEnvironment = RuntimeEnvironment.PROD,
-    latency_ms: float = 0.0
+    latency_ms: float = 0.0,
 ) -> Dict[str, Any]:
     """
     Create a simple Guardian decision envelope for common use cases.
@@ -586,44 +572,22 @@ def create_simple_decision(
     now_iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     event_id = str(uuid.uuid4())
 
-    decision = GuardianDecision(
-        status=status,
-        policy=policy,
-        timestamp=now_iso
-    )
+    decision = GuardianDecision(status=status, policy=policy, timestamp=now_iso)
 
     subject = GuardianSubject(
-        correlation_id=correlation_id,
-        actor_type=ActorType.SERVICE,
-        actor_id=actor_id,
-        operation_name=operation
+        correlation_id=correlation_id, actor_type=ActorType.SERVICE, actor_id=actor_id, operation_name=operation
     )
 
-    context = GuardianContext(
-        region=region,
-        runtime=runtime
-    )
+    context = GuardianContext(region=region, runtime=runtime)
 
-    metrics = GuardianMetrics(
-        latency_ms=latency_ms
-    )
+    metrics = GuardianMetrics(latency_ms=latency_ms)
 
-    enforcement = GuardianEnforcement(
-        mode=EnforcementMode.ENFORCED
-    )
+    enforcement = GuardianEnforcement(mode=EnforcementMode.ENFORCED)
 
-    audit = GuardianAudit(
-        event_id=event_id,
-        timestamp=now_iso
-    )
+    audit = GuardianAudit(event_id=event_id, timestamp=now_iso)
 
     return guardian.serialize_decision(
-        decision=decision,
-        subject=subject,
-        context=context,
-        metrics=metrics,
-        enforcement=enforcement,
-        audit=audit
+        decision=decision, subject=subject, context=context, metrics=metrics, enforcement=enforcement, audit=audit
     )
 
 
@@ -641,5 +605,5 @@ __all__ = [
     "GuardianEnforcement",
     "GuardianAudit",
     "create_guardian_system",
-    "create_simple_decision"
+    "create_simple_decision",
 ]

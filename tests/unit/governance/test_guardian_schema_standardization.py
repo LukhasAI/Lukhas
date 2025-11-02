@@ -16,7 +16,7 @@ from unittest.mock import patch
 
 import pytest
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
 from governance.guardian_system import GuardianSystem
 
@@ -31,7 +31,7 @@ class TestGuardianResponseSchema:
     def test_schema_version_consistency(self):
         """Ensure all responses include schema_version field"""
         # Test emergency response
-        with patch.object(Path, 'exists', return_value=True):
+        with patch.object(Path, "exists", return_value=True):
             response = self.guardian.validate_safety({"test": "data"})
             assert "schema_version" in response
             assert response["schema_version"] == "1.0.0"
@@ -51,8 +51,14 @@ class TestGuardianResponseSchema:
     def test_all_responses_have_required_fields(self):
         """Verify all response types contain mandatory fields"""
         required_fields = {
-            "safe", "drift_score", "guardian_status", "emergency_active",
-            "enforcement_enabled", "schema_version", "timestamp", "correlation_id"
+            "safe",
+            "drift_score",
+            "guardian_status",
+            "emergency_active",
+            "enforcement_enabled",
+            "schema_version",
+            "timestamp",
+            "correlation_id",
         }
 
         # Test all three response scenarios
@@ -62,11 +68,11 @@ class TestGuardianResponseSchema:
             # Disabled scenario
             ({"test": "data"}, False, {"ENFORCE_ETHICS_DSL": "0"}),
             # Normal scenario
-            ({"test": "data"}, False, {"ENFORCE_ETHICS_DSL": "1"})
+            ({"test": "data"}, False, {"ENFORCE_ETHICS_DSL": "1"}),
         ]
 
         for operation, emergency_exists, env_vars in scenarios:
-            with patch.object(Path, 'exists', return_value=emergency_exists):
+            with patch.object(Path, "exists", return_value=emergency_exists):
                 with patch.dict(os.environ, env_vars, clear=False):
                     response = self.guardian.validate_safety(operation)
 
@@ -77,12 +83,12 @@ class TestGuardianResponseSchema:
     def test_emergency_active_field_accuracy(self):
         """Test emergency_active field accurately reflects emergency file status"""
         # Emergency file exists
-        with patch.object(Path, 'exists', return_value=True):
+        with patch.object(Path, "exists", return_value=True):
             response = self.guardian.validate_safety({"test": "data"})
             assert response["emergency_active"] is True
 
         # Emergency file does not exist
-        with patch.object(Path, 'exists', return_value=False):
+        with patch.object(Path, "exists", return_value=False):
             response = self.guardian.validate_safety({"test": "data"})
             assert response["emergency_active"] is False
 
@@ -130,13 +136,13 @@ class TestGuardianResponseSchema:
     def test_reason_field_optional(self):
         """Test reason field is only present when provided"""
         # Emergency response should have reason
-        with patch.object(Path, 'exists', return_value=True):
+        with patch.object(Path, "exists", return_value=True):
             response = self.guardian.validate_safety({"test": "data"})
             assert "reason" in response
             assert response["reason"] == "Emergency kill-switch activated"
 
         # Normal response should not have reason
-        with patch.object(Path, 'exists', return_value=False):
+        with patch.object(Path, "exists", return_value=False):
             response = self.guardian.validate_safety({"test": "data"})
             assert "reason" not in response
 
@@ -145,11 +151,11 @@ class TestGuardianResponseSchema:
         scenarios = [
             (True, {}),  # Emergency
             (False, {"ENFORCE_ETHICS_DSL": "0"}),  # Disabled
-            (False, {"ENFORCE_ETHICS_DSL": "1"})   # Normal
+            (False, {"ENFORCE_ETHICS_DSL": "1"}),  # Normal
         ]
 
         for emergency_exists, env_vars in scenarios:
-            with patch.object(Path, 'exists', return_value=emergency_exists):
+            with patch.object(Path, "exists", return_value=emergency_exists):
                 with patch.dict(os.environ, env_vars, clear=False):
                     response = self.guardian.validate_safety({"test": "data"})
 
@@ -245,6 +251,7 @@ class TestGuardianSchemaIntegration:
 
         # Should be serializable for HTTP responses
         import json
+
         json.dumps(response)  # Should not raise exception
 
 

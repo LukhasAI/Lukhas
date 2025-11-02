@@ -261,7 +261,7 @@ def _japanese_to_english(japanese_color: str) -> str:
         "kiiro": "yellow",
         "murasaki": "purple",
         "kuro": "black",
-        "shiro": "white"
+        "shiro": "white",
     }
     return japanese_to_english_map.get(japanese_color, japanese_color)
 

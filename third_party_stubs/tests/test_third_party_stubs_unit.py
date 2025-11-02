@@ -25,10 +25,7 @@ class TestThirdPartyStubsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "third_party_stubs",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "third_party_stubs", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestThirdPartyStubsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import third_party_stubs
+
         self.assertIsNotNone(third_party_stubs)
 
     def test_module_version(self):
         """Test module has version information."""
         import third_party_stubs
+
         # Most modules should have version info
-        self.assertTrue(hasattr(third_party_stubs, '__version__') or
-                       hasattr(third_party_stubs, 'VERSION'))
+        self.assertTrue(hasattr(third_party_stubs, "__version__") or hasattr(third_party_stubs, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestThirdPartyStubsModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

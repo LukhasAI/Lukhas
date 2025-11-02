@@ -23,10 +23,10 @@ This component handles integration functionality in the AI consciousness computi
 import asyncio
 from datetime import (
     datetime,  # Added timezone
-    )
+)
 from typing import (
     Any,  # Added List
-    )
+)
 
 import structlog  # Changed from logging
 

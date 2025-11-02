@@ -17,6 +17,7 @@ from pathlib import Path
 @dataclass
 class ReviewItem:
     """Single unmapped phrase awaiting vocabulary promotion"""
+
     raw: str
     module: str
     source: str  # e.g., "claude.me:bullets"
@@ -45,10 +46,7 @@ class ReviewQueue:
     def __init__(self, repo_root: Path):
         self.root = repo_root
         self.path = self.root / "manifests" / "review_queue.json"
-        self.data = {
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "items": []
-        }
+        self.data = {"updated_at": datetime.now(timezone.utc).isoformat(), "items": []}
 
         if self.path.exists():
             try:
@@ -83,11 +81,7 @@ class ReviewQueue:
                 item["notes"] = (item.get("notes", "") + f" module:{module}").strip()
         else:
             # New item
-            item = ReviewItem(
-                raw=raw.strip(),
-                module=module,
-                source=source
-            ).__dict__
+            item = ReviewItem(raw=raw.strip(), module=module, source=source).__dict__
             self.idx[key] = item
             self.data["items"].append(item)
 

@@ -1,6 +1,3 @@
-
-
-
 class ContractNetInitiator:
     def __init__(self, task, timeout=5):
         self.task = task

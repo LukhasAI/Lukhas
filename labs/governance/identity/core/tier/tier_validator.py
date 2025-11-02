@@ -14,6 +14,7 @@ Features:
 - WebAuthn/FIDO2 tier permission validation
 - OAuth2/OIDC scope mapping
 """
+
 import json
 import os
 import time

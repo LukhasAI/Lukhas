@@ -34,28 +34,23 @@ logger = logging.getLogger(__name__)
 
 # Metrics
 authz_decisions_total = Counter(
-    'lukhas_authz_decisions_total',
-    'Total authorization decisions',
-    ['module', 'tier', 'decision', 'reason']
+    "lukhas_authz_decisions_total", "Total authorization decisions", ["module", "tier", "decision", "reason"]
 )
 
 authz_latency_seconds = Histogram(
-    'lukhas_authz_latency_seconds',
-    'Authorization decision latency',
-    ['module', 'tier'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_authz_latency_seconds",
+    "Authorization decision latency",
+    ["module", "tier"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
-authz_active_sessions = Gauge(
-    'lukhas_authz_active_sessions',
-    'Active authorized sessions',
-    ['module', 'tier']
-)
+authz_active_sessions = Gauge("lukhas_authz_active_sessions", "Active authorized sessions", ["module", "tier"])
 
 
 @dataclass
 class AuthzRequest:
     """Authorization request context."""
+
     subject: str
     tier: str
     tier_num: int
@@ -72,6 +67,7 @@ class AuthzRequest:
 @dataclass
 class AuthzDecision:
     """Authorization decision result."""
+
     allowed: bool
     reason: str
     policy_sha: Optional[str] = None
@@ -106,7 +102,7 @@ class MatrixAuthzMiddleware:
         contract_paths = [
             Path(f"{module}/matrix_{module}.json"),
             Path(f"matrix_{module}.json"),
-            Path("memory/matrix_memoria.json") if module == "memoria" else None
+            Path("memory/matrix_memoria.json") if module == "memoria" else None,
         ]
 
         for path in contract_paths:
@@ -121,7 +117,8 @@ class MatrixAuthzMiddleware:
     def calculate_contract_sha(self, contract: Dict[str, Any]) -> str:
         """Calculate contract SHA256 for telemetry."""
         import hashlib
-        contract_json = json.dumps(contract, sort_keys=True, separators=(',', ':'))
+
+        contract_json = json.dumps(contract, sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(contract_json.encode()).hexdigest()[:16]
 
     async def authorize_request(self, request: AuthzRequest) -> AuthzDecision:
@@ -140,7 +137,7 @@ class MatrixAuthzMiddleware:
                     decision = AuthzDecision(
                         allowed=False,
                         reason=f"Invalid capability token: {capability_claims.get('error', 'unknown')}",
-                        contract_sha=contract_sha
+                        contract_sha=contract_sha,
                     )
                     return await self._finalize_decision(request, decision, span, start_time)
 
@@ -156,24 +153,18 @@ class MatrixAuthzMiddleware:
                     reason=opa_result.get("reason", "Policy evaluation"),
                     policy_sha=opa_result.get("policy_sha"),
                     contract_sha=contract_sha,
-                    metadata=opa_result.get("decision_metadata", {})
+                    metadata=opa_result.get("decision_metadata", {}),
                 )
 
                 return await self._finalize_decision(request, decision, span, start_time)
 
             except Exception as e:
                 logger.exception("Authorization error")
-                decision = AuthzDecision(
-                    allowed=False,
-                    reason=f"Authorization error: {str(e)}"
-                )
+                decision = AuthzDecision(allowed=False, reason=f"Authorization error: {str(e)}")
                 return await self._finalize_decision(request, decision, span, start_time)
 
     def _build_opa_input(
-        self,
-        request: AuthzRequest,
-        contract: Dict[str, Any],
-        capability_claims: Dict[str, Any]
+        self, request: AuthzRequest, contract: Dict[str, Any], capability_claims: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Build OPA input from request and contract."""
         return {
@@ -191,8 +182,8 @@ class MatrixAuthzMiddleware:
                 "device_id": request.device_id,
                 "region": request.region,
                 "ip": None,  # Could be added from request context
-                "time": int(time.time())
-            }
+                "time": int(time.time()),
+            },
         }
 
     async def _query_opa(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
@@ -205,10 +196,7 @@ class MatrixAuthzMiddleware:
 
         except Exception as e:
             logger.error(f"OPA query failed: {e}")
-            return {
-                "allow": False,
-                "reason": f"Policy evaluation failed: {str(e)}"
-            }
+            return {"allow": False, "reason": f"Policy evaluation failed: {str(e)}"}
 
     async def _simulate_opa_decision(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
         """Simulate OPA decision (replace with real OPA call in production)."""
@@ -217,18 +205,19 @@ class MatrixAuthzMiddleware:
         try:
             # Write input to temp file
             import tempfile
-            with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+
+            with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
                 json.dump({"input": opa_input}, f)
                 input_file = f.name
 
             # Try to call OPA if available
             try:
-                result = subprocess.run([
-                    "opa", "eval",
-                    "-d", "policies/matrix",
-                    "-I", input_file,
-                    "data.matrix.authz"
-                ], capture_output=True, text=True, timeout=1.0)
+                result = subprocess.run(
+                    ["opa", "eval", "-d", "policies/matrix", "-I", input_file, "data.matrix.authz"],
+                    capture_output=True,
+                    text=True,
+                    timeout=1.0,
+                )
 
                 if result.returncode == 0:
                     opa_output = json.loads(result.stdout)
@@ -238,7 +227,7 @@ class MatrixAuthzMiddleware:
                         "allow": authz_result.get("allow", False),
                         "reason": "OPA policy evaluation",
                         "policy_sha": "opa_live",
-                        "decision_metadata": authz_result.get("decision_metadata", {})
+                        "decision_metadata": authz_result.get("decision_metadata", {}),
                     }
 
             except (subprocess.TimeoutExpired, FileNotFoundError, json.JSONDecodeError):
@@ -257,10 +246,7 @@ class MatrixAuthzMiddleware:
 
         except Exception as e:
             logger.error(f"OPA simulation error: {e}")
-            return {
-                "allow": False,
-                "reason": f"Policy simulation failed: {str(e)}"
-            }
+            return {"allow": False, "reason": f"Policy simulation failed: {str(e)}"}
 
     def _fallback_policy_simulation(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
         """Fallback policy simulation when OPA unavailable."""
@@ -288,7 +274,7 @@ class MatrixAuthzMiddleware:
         if not tier_allowed:
             return {
                 "allow": False,
-                "reason": f"Tier {user_tier} not authorized (required: {required_tiers or required_tiers_numeric})"
+                "reason": f"Tier {user_tier} not authorized (required: {required_tiers or required_tiers_numeric})",
             }
 
         # Check scopes
@@ -297,10 +283,7 @@ class MatrixAuthzMiddleware:
 
         if required_scopes and not required_scopes.issubset(user_scopes):
             missing = required_scopes - user_scopes
-            return {
-                "allow": False,
-                "reason": f"Missing required scopes: {', '.join(missing)}"
-            }
+            return {"allow": False, "reason": f"Missing required scopes: {', '.join(missing)}"}
 
         # Check step-up requirements
         api_policies = {p["fn"]: p for p in identity.get("api_policies", [])}
@@ -310,10 +293,7 @@ class MatrixAuthzMiddleware:
             policy = api_policies[action]
             if policy.get("requires_step_up", False):
                 if not opa_input.get("env", {}).get("mfa", False):
-                    return {
-                        "allow": False,
-                        "reason": f"Step-up authentication required for {action}"
-                    }
+                    return {"allow": False, "reason": f"Step-up authentication required for {action}"}
 
         # Check token expiration and audience
         token = opa_input.get("token", {})
@@ -322,17 +302,11 @@ class MatrixAuthzMiddleware:
         current_time = opa_input.get("env", {}).get("time", int(time.time()))
 
         if token_exp > 0 and current_time >= token_exp:
-            return {
-                "allow": False,
-                "reason": "Token expired"
-            }
+            return {"allow": False, "reason": "Token expired"}
 
         # Check audience
         if token_aud and token_aud != "lukhas-matrix":
-            return {
-                "allow": False,
-                "reason": "Wrong audience in token"
-            }
+            return {"allow": False, "reason": "Wrong audience in token"}
 
         # Subject validation - check exact match first, then patterns
         accepted_subjects = identity.get("accepted_subjects", [])
@@ -353,48 +327,40 @@ class MatrixAuthzMiddleware:
                             break
 
             if not subject_allowed:
-                return {
-                    "allow": False,
-                    "reason": "Unknown service account"
-                }
+                return {"allow": False, "reason": "Unknown service account"}
 
         return {
             "allow": True,
             "reason": "Policy checks passed",
-            "decision_metadata": {
-                "tier_numeric": user_tier_num,
-                "policy_version": "fallback_v1"
-            }
+            "decision_metadata": {"tier_numeric": user_tier_num, "policy_version": "fallback_v1"},
         }
 
     async def _finalize_decision(
-        self,
-        request: AuthzRequest,
-        decision: AuthzDecision,
-        span: trace.Span,
-        start_time: float
+        self, request: AuthzRequest, decision: AuthzDecision, span: trace.Span, start_time: float
     ) -> AuthzDecision:
         """Finalize authorization decision with telemetry and metrics."""
 
         decision.decision_time_ms = (time.time() - start_time) * 1000
 
         # Update span attributes
-        span.set_attributes({
-            "subject": request.subject,
-            "tier": request.tier,
-            "tier_num": request.tier_num,
-            "scopes": ",".join(request.scopes),
-            "module": request.module,
-            "action": request.action,
-            "decision": "allow" if decision.allowed else "deny",
-            "reason": decision.reason,
-            "policy_sha": decision.policy_sha or "unknown",
-            "contract_sha": decision.contract_sha or "unknown",
-            "capability_id": request.capability_token[:16] + "...",
-            "mfa_used": request.mfa_verified,
-            "region": request.region or "unknown",
-            "decision_time_ms": decision.decision_time_ms
-        })
+        span.set_attributes(
+            {
+                "subject": request.subject,
+                "tier": request.tier,
+                "tier_num": request.tier_num,
+                "scopes": ",".join(request.scopes),
+                "module": request.module,
+                "action": request.action,
+                "decision": "allow" if decision.allowed else "deny",
+                "reason": decision.reason,
+                "policy_sha": decision.policy_sha or "unknown",
+                "contract_sha": decision.contract_sha or "unknown",
+                "capability_id": request.capability_token[:16] + "...",
+                "mfa_used": request.mfa_verified,
+                "region": request.region or "unknown",
+                "decision_time_ms": decision.decision_time_ms,
+            }
+        )
 
         # Set span status
         if decision.allowed:
@@ -407,37 +373,31 @@ class MatrixAuthzMiddleware:
             module=request.module,
             tier=request.tier,
             decision="allow" if decision.allowed else "deny",
-            reason=decision.reason[:50]  # Truncate for cardinality
+            reason=decision.reason[:50],  # Truncate for cardinality
         ).inc()
 
-        authz_latency_seconds.labels(
-            module=request.module,
-            tier=request.tier
-        ).observe(decision.decision_time_ms / 1000)
+        authz_latency_seconds.labels(module=request.module, tier=request.tier).observe(decision.decision_time_ms / 1000)
 
         # Update active sessions gauge
         if decision.allowed:
-            authz_active_sessions.labels(
-                module=request.module,
-                tier=request.tier
-            ).inc()
+            authz_active_sessions.labels(module=request.module, tier=request.tier).inc()
 
         # Log decision
         if decision.allowed:
-            logger.info(f"AuthZ ALLOW: {request.subject} -> {request.module}.{request.action} "
-                       f"({decision.decision_time_ms:.1f}ms)")
+            logger.info(
+                f"AuthZ ALLOW: {request.subject} -> {request.module}.{request.action} "
+                f"({decision.decision_time_ms:.1f}ms)"
+            )
         else:
-            logger.warning(f"AuthZ DENY: {request.subject} -> {request.module}.{request.action} "
-                          f"- {decision.reason} ({decision.decision_time_ms:.1f}ms)")
+            logger.warning(
+                f"AuthZ DENY: {request.subject} -> {request.module}.{request.action} "
+                f"- {decision.reason} ({decision.decision_time_ms:.1f}ms)"
+            )
 
         return decision
 
     async def middleware_handler(
-        self,
-        capability_token: str,
-        module: str,
-        action: str,
-        context: Optional[Dict[str, Any]] = None
+        self, capability_token: str, module: str, action: str, context: Optional[Dict[str, Any]] = None
     ) -> Tuple[bool, str]:
         """Main middleware entry point for HTTP handlers."""
 
@@ -458,7 +418,7 @@ class MatrixAuthzMiddleware:
             mfa_verified=capability_claims["env"]["mfa"],
             webauthn_verified=capability_claims["env"]["webauthn_verified"],
             device_id=capability_claims["env"]["device_id"],
-            region=capability_claims["env"]["region"]
+            region=capability_claims["env"]["region"],
         )
 
         # Make authorization decision
@@ -482,9 +442,7 @@ async def example_api_handler():
 
     # Check authorization for memory recall
     allowed, reason = await middleware.middleware_handler(
-        capability_token=capability_token,
-        module="memoria",
-        action="recall"
+        capability_token=capability_token, module="memoria", action="recall"
     )
 
     if allowed:

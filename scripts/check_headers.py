@@ -26,7 +26,7 @@ ACCEPTABLE_HEADERS = [
 def check_file_header(file_path: Path) -> bool:
     """
     Check if a Python file has the required license header.
-    
+
     Returns:
         bool: True if header present, False otherwise
     """
@@ -52,11 +52,11 @@ def check_file_header(file_path: Path) -> bool:
 def find_python_files(roots: List[Path], exclude_patterns: List[str]) -> List[Path]:
     """
     Find all Python files in given roots, excluding patterns.
-    
+
     Args:
         roots: List of root directories to search
         exclude_patterns: List of path patterns to exclude
-    
+
     Returns:
         List of Path objects for Python files
     """
@@ -80,12 +80,12 @@ def find_python_files(roots: List[Path], exclude_patterns: List[str]) -> List[Pa
 def add_header_to_file(file_path: Path, header: str, dry_run: bool = False) -> bool:
     """
     Add license header to a Python file.
-    
+
     Args:
         file_path: Path to Python file
         header: Header text to add
         dry_run: If True, don't actually modify the file
-    
+
     Returns:
         bool: True if header was added, False otherwise
     """
@@ -115,41 +115,39 @@ def add_header_to_file(file_path: Path, header: str, dry_run: bool = False) -> b
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Check and add license headers to Python files"
-    )
+    parser = argparse.ArgumentParser(description="Check and add license headers to Python files")
     parser.add_argument(
-        "files",
-        nargs="*",
-        type=Path,
-        help="Specific files to check (if not provided, scans directories)"
+        "files", nargs="*", type=Path, help="Specific files to check (if not provided, scans directories)"
     )
     parser.add_argument(
         "--dirs",
         nargs="+",
         type=Path,
         default=[Path("lukhas"), Path("matriz"), Path("core")],
-        help="Directories to scan (default: lukhas, matriz, core)"
+        help="Directories to scan (default: lukhas, matriz, core)",
     )
-    parser.add_argument(
-        "--fix",
-        action="store_true",
-        help="Add missing headers to files"
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Show what would be changed without making changes"
-    )
+    parser.add_argument("--fix", action="store_true", help="Add missing headers to files")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be changed without making changes")
     parser.add_argument(
         "--exclude",
         nargs="+",
         default=[
-            ".git", "node_modules", "__pycache__", ".venv", "venv",
-            "._cleanup_archive", "archive", "backup", "tests", "test_",
-            ".pytest_cache", "build", "dist", ".egg-info"
+            ".git",
+            "node_modules",
+            "__pycache__",
+            ".venv",
+            "venv",
+            "._cleanup_archive",
+            "archive",
+            "backup",
+            "tests",
+            "test_",
+            ".pytest_cache",
+            "build",
+            "dist",
+            ".egg-info",
         ],
-        help="Path patterns to exclude"
+        help="Path patterns to exclude",
     )
 
     args = parser.parse_args()

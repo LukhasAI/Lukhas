@@ -25,10 +25,7 @@ class TestGovernanceExtendedModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "governance_extended",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "governance_extended", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestGovernanceExtendedModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import governance_extended
+
         self.assertIsNotNone(governance_extended)
 
     def test_module_version(self):
         """Test module has version information."""
         import governance_extended
+
         # Most modules should have version info
-        self.assertTrue(hasattr(governance_extended, '__version__') or
-                       hasattr(governance_extended, 'VERSION'))
+        self.assertTrue(hasattr(governance_extended, "__version__") or hasattr(governance_extended, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestGovernanceExtendedModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

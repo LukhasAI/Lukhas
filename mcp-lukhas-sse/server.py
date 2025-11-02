@@ -107,7 +107,7 @@ async def verify_jwt_token(token: str) -> Optional[Dict[str, Any]]:
                     key,
                     algorithms=["RS256"],
                     audience=oauth_audience,
-                    issuer=oauth_issuer.rstrip('/.well-known/openid-configuration')
+                    issuer=oauth_issuer.rstrip("/.well-known/openid-configuration"),
                 )
                 return payload
             except JWTError:
@@ -163,7 +163,7 @@ class OAuth2Middleware:
                     response = JSONResponse(
                         content={"error": "Missing or invalid Authorization header"},
                         status_code=401,
-                        headers={"WWW-Authenticate": "Bearer"}
+                        headers={"WWW-Authenticate": "Bearer"},
                     )
                     await response(scope, receive, send)
                     return
@@ -176,7 +176,7 @@ class OAuth2Middleware:
                     response = JSONResponse(
                         content={"error": "Invalid or expired token"},
                         status_code=401,
-                        headers={"WWW-Authenticate": "Bearer"}
+                        headers={"WWW-Authenticate": "Bearer"},
                     )
                     await response(scope, receive, send)
                     return
@@ -229,7 +229,7 @@ def read_text(path: str) -> str:
         raise ValueError(f"Not a file: {path}")
 
     try:
-        return target_path.read_text(encoding='utf-8')
+        return target_path.read_text(encoding="utf-8")
     except UnicodeDecodeError:
         raise ValueError(f"File is not valid UTF-8: {path}")
     except PermissionError:
@@ -277,7 +277,7 @@ def write_text(path: str, content: str) -> str:
     try:
         # Create parent directories if they don't exist
         target_path.parent.mkdir(parents=True, exist_ok=True)
-        target_path.write_text(content, encoding='utf-8')
+        target_path.write_text(content, encoding="utf-8")
         return f"Successfully wrote {len(content)} characters to {path}"
     except PermissionError:
         raise PermissionError(f"Permission denied: {path}")
@@ -294,7 +294,7 @@ async def protected_resource_metadata(request: Request) -> JSONResponse:
     """OAuth Protected Resource Metadata endpoint."""
     prm = {
         "resource": public_base_url,
-        "authorization_servers": [oauth_issuer.rstrip('/.well-known/openid-configuration')]
+        "authorization_servers": [oauth_issuer.rstrip("/.well-known/openid-configuration")],
     }
     return JSONResponse(prm)
 
@@ -316,10 +316,4 @@ app.mount("/sse", sse_app)
 
 
 if __name__ == "__main__":
-    uvicorn.run(
-        "server:app",
-        host="0.0.0.0",
-        port=8080,
-        log_level="info",
-        reload=True
-    )
+    uvicorn.run("server:app", host="0.0.0.0", port=8080, log_level="info", reload=True)

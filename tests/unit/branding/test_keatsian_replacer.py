@@ -14,9 +14,7 @@ MODULE_PATH = PROJECT_ROOT / "branding" / "tools" / "keatsian_replacer.py"
 if not MODULE_PATH.exists():  # pragma: no cover
     pytest.skip("keatsian_replacer tooling not present", allow_module_level=True)
 
-spec = importlib.util.spec_from_file_location(
-    "branding.tools.keatsian_replacer", MODULE_PATH
-)
+spec = importlib.util.spec_from_file_location("branding.tools.keatsian_replacer", MODULE_PATH)
 module = importlib.util.module_from_spec(spec)
 assert spec and spec.loader  # pragma: no cover - importlib contract
 spec.loader.exec_module(module)
@@ -50,4 +48,3 @@ def test_fix_later_records_diagnostics(tmp_path: Path) -> None:
     assert payload["file"] == "branding/example.md"
     assert payload["metadata"]["stage"] == "markdown_transformation"
     assert payload["error"]["type"] == "RuntimeError"
-

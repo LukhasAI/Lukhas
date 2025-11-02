@@ -17,14 +17,15 @@ from typing import Any, Callable, Dict, List, Optional
 
 
 class CircuitState(Enum):
-    CLOSED = "closed"       # Normal operation
-    OPEN = "open"          # Failing fast
+    CLOSED = "closed"  # Normal operation
+    OPEN = "open"  # Failing fast
     HALF_OPEN = "half_open"  # Testing recovery
 
 
 @dataclass
 class CircuitMetrics:
     """Circuit breaker performance metrics."""
+
     request_count: int = 0
     failure_count: int = 0
     success_count: int = 0
@@ -51,7 +52,7 @@ class AdaptiveCircuitBreaker:
         recovery_timeout: float = 60.0,  # 60 seconds
         min_request_threshold: int = 10,
         performance_threshold_ms: float = 1000.0,  # 1s latency = degraded
-        window_size: int = 100
+        window_size: int = 100,
     ):
         self.name = name
         self.failure_threshold = failure_threshold
@@ -73,7 +74,7 @@ class AdaptiveCircuitBreaker:
 
     async def call(self, func: Callable, *args, **kwargs) -> Any:
         """Execute function with circuit breaker protection."""
-        correlation_id = kwargs.pop('correlation_id', f"cb_{int(time.time() * 1000)}")
+        correlation_id = kwargs.pop("correlation_id", f"cb_{int(time.time() * 1000)}")
 
         # Check circuit state
         if self.state == CircuitState.OPEN:
@@ -81,9 +82,7 @@ class AdaptiveCircuitBreaker:
                 self.state = CircuitState.HALF_OPEN
                 print(f"🔄 Circuit {self.name} attempting recovery (correlation: {correlation_id})")
             else:
-                raise CircuitBreakerOpenError(
-                    f"Circuit {self.name} is OPEN (correlation: {correlation_id})"
-                )
+                raise CircuitBreakerOpenError(f"Circuit {self.name} is OPEN (correlation: {correlation_id})")
 
         # Execute the function
         start_time = time.time()
@@ -107,12 +106,14 @@ class AdaptiveCircuitBreaker:
         self.metrics.request_count += 1
         self.metrics.success_count += 1
 
-        self.recent_requests.append({
-            'success': True,
-            'response_time': response_time,
-            'timestamp': time.time(),
-            'correlation_id': correlation_id
-        })
+        self.recent_requests.append(
+            {
+                "success": True,
+                "response_time": response_time,
+                "timestamp": time.time(),
+                "correlation_id": correlation_id,
+            }
+        )
         self.response_times.append(response_time)
 
         # Update performance metrics
@@ -135,14 +136,16 @@ class AdaptiveCircuitBreaker:
         self.metrics.failure_count += 1
         self.metrics.last_failure_time = time.time()
 
-        self.recent_requests.append({
-            'success': False,
-            'response_time': response_time,
-            'timestamp': time.time(),
-            'correlation_id': correlation_id,
-            'error_type': type(error).__name__,
-            'error_message': str(error)
-        })
+        self.recent_requests.append(
+            {
+                "success": False,
+                "response_time": response_time,
+                "timestamp": time.time(),
+                "correlation_id": correlation_id,
+                "error_type": type(error).__name__,
+                "error_message": str(error),
+            }
+        )
 
         # Check if we should open circuit
         if self._should_open_circuit():
@@ -156,7 +159,7 @@ class AdaptiveCircuitBreaker:
             return False
 
         # Calculate recent failure rate
-        recent_failures = sum(1 for req in self.recent_requests if not req['success'])
+        recent_failures = sum(1 for req in self.recent_requests if not req["success"])
         failure_rate = recent_failures / len(self.recent_requests)
 
         # Adaptive threshold: higher threshold during known degradation periods
@@ -173,7 +176,7 @@ class AdaptiveCircuitBreaker:
         if len(self.recent_requests) < 5:  # Need some requests to judge
             return False
 
-        recent_successes = sum(1 for req in self.recent_requests[-5:] if req['success'])
+        recent_successes = sum(1 for req in self.recent_requests[-5:] if req["success"])
         return recent_successes >= 4  # 80% success rate in recent requests
 
     def _get_adaptive_threshold(self) -> float:
@@ -224,27 +227,28 @@ class AdaptiveCircuitBreaker:
     def get_health_status(self) -> Dict[str, Any]:
         """Get detailed health status for monitoring."""
         if len(self.recent_requests) > 0:
-            failure_rate = sum(1 for req in self.recent_requests if not req['success']) / len(self.recent_requests)
+            failure_rate = sum(1 for req in self.recent_requests if not req["success"]) / len(self.recent_requests)
         else:
             failure_rate = 0.0
 
         return {
-            'circuit_name': self.name,
-            'state': self.state.value,
-            'failure_rate': failure_rate,
-            'request_count': self.metrics.request_count,
-            'success_count': self.metrics.success_count,
-            'failure_count': self.metrics.failure_count,
-            'average_response_time_ms': self.metrics.average_response_time,
-            'p95_response_time_ms': self.metrics.p95_response_time,
-            'time_in_current_state': time.time() - self.last_state_change,
-            'baseline_performance_ms': self.baseline_performance,
-            'performance_degraded': self._is_performance_degraded()
+            "circuit_name": self.name,
+            "state": self.state.value,
+            "failure_rate": failure_rate,
+            "request_count": self.metrics.request_count,
+            "success_count": self.metrics.success_count,
+            "failure_count": self.metrics.failure_count,
+            "average_response_time_ms": self.metrics.average_response_time,
+            "p95_response_time_ms": self.metrics.p95_response_time,
+            "time_in_current_state": time.time() - self.last_state_change,
+            "baseline_performance_ms": self.baseline_performance,
+            "performance_degraded": self._is_performance_degraded(),
         }
 
 
 class CircuitBreakerOpenError(Exception):
     """Exception raised when circuit breaker is open."""
+
     pass
 
 
@@ -263,10 +267,7 @@ class CircuitBreakerRegistry:
 
     def get_global_health(self) -> Dict[str, Any]:
         """Get health status of all circuit breakers."""
-        return {
-            name: breaker.get_health_status()
-            for name, breaker in self.breakers.items()
-        }
+        return {name: breaker.get_health_status() for name, breaker in self.breakers.items()}
 
     def get_degraded_services(self) -> List[str]:
         """Get list of services showing performance degradation."""
@@ -283,6 +284,7 @@ _circuit_registry = CircuitBreakerRegistry()
 
 def circuit_breaker(name: str, **kwargs):
     """Decorator for applying circuit breaker pattern."""
+
     def decorator(func):
         # Prevent double-wrapping that can cause RecursionError
         if getattr(func, "__lukhas_cb_wrapped__", False):

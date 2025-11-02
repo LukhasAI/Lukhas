@@ -25,6 +25,7 @@ class LoadTestResult:
     status: str
     error: str = ""
 
+
 class MockMATRIZOrchestrator:
     """Mock MATRIZ orchestrator for load testing"""
 
@@ -52,7 +53,7 @@ class MockMATRIZOrchestrator:
                     duration_ms=(time.perf_counter() - start_time) * 1000,
                     success=False,
                     status="backpressure",
-                    error="Max concurrent queries exceeded"
+                    error="Max concurrent queries exceeded",
                 )
 
             # Acquire semaphore for concurrency control
@@ -61,10 +62,7 @@ class MockMATRIZOrchestrator:
 
                 try:
                     # Simulate processing with timeout
-                    await asyncio.wait_for(
-                        self._simulate_processing(query_id, query),
-                        timeout=timeout_ms / 1000.0
-                    )
+                    await asyncio.wait_for(self._simulate_processing(query_id, query), timeout=timeout_ms / 1000.0)
 
                     end_time = time.perf_counter()
                     duration_ms = (end_time - start_time) * 1000
@@ -75,7 +73,7 @@ class MockMATRIZOrchestrator:
                         end_time=end_time,
                         duration_ms=duration_ms,
                         success=True,
-                        status="completed"
+                        status="completed",
                     )
 
                 except asyncio.TimeoutError:
@@ -90,7 +88,7 @@ class MockMATRIZOrchestrator:
                         duration_ms=duration_ms,
                         success=False,
                         status="timeout",
-                        error=f"Query timed out after {timeout_ms}ms"
+                        error=f"Query timed out after {timeout_ms}ms",
                     )
 
                 finally:
@@ -107,7 +105,7 @@ class MockMATRIZOrchestrator:
                 duration_ms=duration_ms,
                 success=False,
                 status="error",
-                error=str(e)
+                error=str(e),
             )
 
     async def _simulate_processing(self, query_id: int, query: str):
@@ -118,6 +116,7 @@ class MockMATRIZOrchestrator:
         processing_time = base_time + variability
 
         await asyncio.sleep(processing_time)
+
 
 async def run_orchestrator_load_test():
     """Run comprehensive orchestrator load test"""
@@ -144,10 +143,7 @@ async def run_orchestrator_load_test():
     start_time = time.perf_counter()
 
     # Execute all queries concurrently
-    tasks = [
-        orchestrator.process_query(i, query, timeout_ms)
-        for i, query in enumerate(queries)
-    ]
+    tasks = [orchestrator.process_query(i, query, timeout_ms) for i, query in enumerate(queries)]
 
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -211,7 +207,7 @@ async def run_orchestrator_load_test():
         "backpressure_working": orchestrator.backpressure_count > 0,
         "zero_unhandled_exceptions": len(exception_results) == 0,
         "graceful_degradation": len(successful_results) >= max_concurrent,  # At least max_concurrent succeeded
-        "concurrent_limit_enforced": orchestrator.backpressure_count > 0 or max_concurrent >= total_queries
+        "concurrent_limit_enforced": orchestrator.backpressure_count > 0 or max_concurrent >= total_queries,
     }
 
     print("\n🎯 ACCEPTANCE CRITERIA")
@@ -240,16 +236,17 @@ async def run_orchestrator_load_test():
             "p50_duration_ms": p50,
             "p95_duration_ms": p95,
             "p99_duration_ms": p99,
-            "total_test_time_ms": total_duration
+            "total_test_time_ms": total_duration,
         },
         "backpressure": {
             "events": orchestrator.backpressure_count,
             "timeout_events": orchestrator.timeout_count,
-            "max_concurrent": max_concurrent
+            "max_concurrent": max_concurrent,
         },
         "acceptance_criteria": acceptance_criteria,
-        "failure_modes": failure_modes
+        "failure_modes": failure_modes,
     }
+
 
 if __name__ == "__main__":
     result = asyncio.run(run_orchestrator_load_test())

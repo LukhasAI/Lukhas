@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛANTHROPIC}, {ΛCLAUDE}, {ΛLLM}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 
 from branding.terminology import normalize_output

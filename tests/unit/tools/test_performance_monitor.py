@@ -20,17 +20,18 @@ pytestmark = pytest.mark.asyncio
 
 # --- Fixtures ---
 
+
 @pytest.fixture
 def mock_psutil():
     """Fixture to mock psutil functions."""
-    with patch('labs.tools.performance_monitor.psutil') as mock_psutil_module:
+    with patch("labs.tools.performance_monitor.psutil") as mock_psutil_module:
         # Mock CPU
         mock_psutil_module.cpu_percent.return_value = 50.0
 
         # Mock Memory
         mock_mem = MagicMock()
         mock_mem.percent = 60.0
-        mock_mem.available = 2 * 1024 * 1024 * 1024 # 2 GB
+        mock_mem.available = 2 * 1024 * 1024 * 1024  # 2 GB
         mock_psutil_module.virtual_memory.return_value = mock_mem
 
         # Mock Disk
@@ -46,11 +47,13 @@ def mock_psutil():
         mock_psutil_module.net_io_counters.return_value = mock_net
 
         # Mock PIDs
-        mock_psutil_module.pids.return_value = [1, 2, 3] * 50 # 150 processes
+        mock_psutil_module.pids.return_value = [1, 2, 3] * 50  # 150 processes
 
         yield mock_psutil_module
 
+
 # --- Test Classes ---
+
 
 @pytest.mark.tier3
 @pytest.mark.performance
@@ -107,10 +110,8 @@ class TestToolExecutionMetricsCollector:
 
         metrics = await collector.collect()
 
-        assert len(metrics) == 10 # 5 metrics per tool
-        metrics_by_tool_and_name = {
-            (m.component, m.metric_name): m for m in metrics
-        }
+        assert len(metrics) == 10  # 5 metrics per tool
+        metrics_by_tool_and_name = {(m.component, m.metric_name): m for m in metrics}
 
         # Check tool_a metrics
         assert metrics_by_tool_and_name[("tool_tool_a", "avg_execution_time")].value == 3.0
@@ -133,15 +134,16 @@ class TestPerformanceAnalyzer:
     def test_analyze_metrics_and_generate_alerts(self):
         """Tests that alerts are generated when metrics exceed thresholds."""
         from labs.tools.performance_monitor import PerformanceMetric
+
         analyzer = PerformanceAnalyzer()
 
         # Create metrics that should trigger alerts
         metrics = [
-            PerformanceMetric(1, "cpu_usage", 85.0, "percent", "system"), # warning
-            PerformanceMetric(2, "memory_usage", 96.0, "percent", "system"), # critical
-            PerformanceMetric(3, "avg_execution_time", 12.0, "seconds", "tool_slow_tool"), # critical
-            PerformanceMetric(4, "error_rate", 0.15, "ratio", "tool_flaky_tool"), # warning
-            PerformanceMetric(5, "cpu_usage", 50.0, "percent", "system"), # normal
+            PerformanceMetric(1, "cpu_usage", 85.0, "percent", "system"),  # warning
+            PerformanceMetric(2, "memory_usage", 96.0, "percent", "system"),  # critical
+            PerformanceMetric(3, "avg_execution_time", 12.0, "seconds", "tool_slow_tool"),  # critical
+            PerformanceMetric(4, "error_rate", 0.15, "ratio", "tool_flaky_tool"),  # warning
+            PerformanceMetric(5, "cpu_usage", 50.0, "percent", "system"),  # normal
         ]
 
         alerts = analyzer.analyze_metrics(metrics)
@@ -164,6 +166,7 @@ class TestPerformanceOptimizer:
     def test_generate_recommendations(self):
         """Tests that correct recommendations are generated from metrics."""
         from labs.tools.performance_monitor import PerformanceMetric
+
         optimizer = PerformanceOptimizer()
 
         metrics = [
@@ -185,8 +188,8 @@ class TestPerformanceOptimizer:
 class TestPerformanceMonitor:
     """Integration tests for the main PerformanceMonitor class."""
 
-    @patch('builtins.open')
-    @patch('labs.tools.performance_monitor.asyncio.sleep', return_value=None)
+    @patch("builtins.open")
+    @patch("labs.tools.performance_monitor.asyncio.sleep", return_value=None)
     async def test_monitor_integration_loop(self, mock_sleep, mock_open, mock_psutil):
         """
         Tests the full integration of the PerformanceMonitor, including the
@@ -214,7 +217,7 @@ class TestPerformanceMonitor:
         try:
             await asyncio.wait_for(monitoring_task, timeout=1.0)
         except asyncio.CancelledError:
-            pass # This is expected
+            pass  # This is expected
 
         # --- Assert ---
         # Check the final status of the monitor

@@ -1,4 +1,5 @@
 """Tests for the REST API authentication middleware."""
+
 from __future__ import annotations
 
 import importlib
@@ -83,9 +84,7 @@ def auth_components():
     rest_pkg.__path__ = [str(ROOT / "labs" / "core" / "interfaces" / "api" / "v1" / "rest")]
 
     middleware_path = ROOT / "labs" / "core" / "interfaces" / "api" / "v1" / "rest" / "middleware.py"
-    spec = importlib.util.spec_from_file_location(
-        "labs.core.interfaces.api.v1.rest.middleware", middleware_path
-    )
+    spec = importlib.util.spec_from_file_location("labs.core.interfaces.api.v1.rest.middleware", middleware_path)
     assert spec and spec.loader  # pragma: no cover - sanity check
     middleware_module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = middleware_module

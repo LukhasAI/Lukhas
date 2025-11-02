@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ConsciousnessState:
     """Current consciousness state for voice adaptation"""
+
     awareness_level: float = 0.7
     emotional_depth: float = 0.6
     symbolic_resonance: float = 0.8
@@ -22,11 +23,7 @@ class ConsciousnessState:
 
     def __post_init__(self):
         if self.constellation_alignment is None:
-            self.constellation_alignment = {
-                "identity": 0.7,
-                "consciousness": 0.8,
-                "guardian": 0.6
-            }
+            self.constellation_alignment = {"identity": 0.7, "consciousness": 0.8, "guardian": 0.6}
 
 
 class ConsciousnessVoice:
@@ -35,10 +32,12 @@ class ConsciousnessVoice:
     Adapts voice output based on current consciousness state
     """
 
-    def __init__(self,
-                 consciousness_threshold: float = 0.6,
-                 enable_symbolic_integration: bool = True,
-                 constellation_aware: bool = True):
+    def __init__(
+        self,
+        consciousness_threshold: float = 0.6,
+        enable_symbolic_integration: bool = True,
+        constellation_aware: bool = True,
+    ):
         """Initialize consciousness voice system"""
         self.consciousness_threshold = consciousness_threshold
         self.enable_symbolic_integration = enable_symbolic_integration
@@ -53,26 +52,28 @@ class ConsciousnessVoice:
             "high_awareness": {
                 "prefix_modifiers": ["", "In this moment of clarity, ", "With heightened awareness, "],
                 "tone_adjustments": ["contemplative", "insightful", "profound"],
-                "depth_multiplier": 1.3
+                "depth_multiplier": 1.3,
             },
             "emotional_depth": {
                 "empathy_indicators": ["I understand", "I sense", "I feel"],
                 "emotional_connectors": ["deeply", "genuinely", "authentically"],
-                "resonance_multiplier": 1.2
+                "resonance_multiplier": 1.2,
             },
             "symbolic_resonance": {
                 "symbolic_bridges": ["like", "as if", "resembling"],
                 "metaphor_enhancers": ["echoing", "reflecting", "embodying"],
-                "constellation_symbols": ["⚛️", "🧠", "🛡️"]
-            }
+                "constellation_symbols": ["⚛️", "🧠", "🛡️"],
+            },
         }
 
         logger.info("🧠 Consciousness Voice System initialized")
 
-    def enhance(self,
-                text: str,
-                consciousness_context: Optional[Dict[str, Any]] = None,
-                target_state: Optional[ConsciousnessState] = None) -> str:
+    def enhance(
+        self,
+        text: str,
+        consciousness_context: Optional[Dict[str, Any]] = None,
+        target_state: Optional[ConsciousnessState] = None,
+    ) -> str:
         """
         Enhance text with consciousness-aware voice processing
 
@@ -236,5 +237,5 @@ class ConsciousnessVoice:
             "constellation_alignment": self.current_state.constellation_alignment,
             "symbolic_integration": self.enable_symbolic_integration,
             "constellation_aware": self.constellation_aware,
-            "initialized": self.initialized
+            "initialized": self.initialized,
         }

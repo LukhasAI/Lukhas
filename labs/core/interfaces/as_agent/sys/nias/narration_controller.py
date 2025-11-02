@@ -41,11 +41,7 @@ def load_user_settings():
 
 
 def filter_narration_queue(entries, tier_threshold=3):
-    return [
-        e
-        for e in entries
-        if e.get("tier", 0) >= tier_threshold and e.get("suggest_voice", False)
-    ]
+    return [e for e in entries if e.get("tier", 0) >= tier_threshold and e.get("suggest_voice", False)]
 
 
 def fetch_narration_entries():
@@ -70,11 +66,10 @@ def print_debug_narration_summary():
 
     print(f"🔊 Narration-ready entries for Tier {tier_limit}: {len(filtered)}")
     for e in filtered:
-        print(
-            f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {','.join(e.get('tags', []))}"
-        )
+        print(f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {','.join(e.get('tags', []))}")
         print(f"   📝 Summary: {e.get('summary', '—')}")
         print()
+
 
 if __name__ == "__main__":
     print_debug_narration_summary()

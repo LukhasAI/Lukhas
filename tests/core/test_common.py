@@ -16,6 +16,7 @@ Test Coverage Areas:
 - Thread safety of logger operations
 - Integration with system logging
 """
+
 import logging
 import sys
 import threading
@@ -216,7 +217,7 @@ class TestCoreCommon:
 
         # Log messages at different levels
         logger.debug("Debug message")  # Should be filtered out
-        logger.info("Info message")    # Should appear
+        logger.info("Info message")  # Should appear
         logger.warning("Warning message")  # Should appear
 
         log_output = log_capture.getvalue()
@@ -234,10 +235,10 @@ class TestCoreCommon:
         logger.addHandler(handler)
 
         # Log messages at different levels
-        logger.debug("Debug message")    # Should be filtered out
-        logger.info("Info message")      # Should be filtered out
+        logger.debug("Debug message")  # Should be filtered out
+        logger.info("Info message")  # Should be filtered out
         logger.warning("Warning message")  # Should appear
-        logger.error("Error message")    # Should appear
+        logger.error("Error message")  # Should appear
 
         log_output = log_capture.getvalue()
 
@@ -255,9 +256,9 @@ class TestCoreCommon:
         logger.addHandler(handler)
 
         # Log messages at different levels
-        logger.info("Info message")      # Should be filtered out
+        logger.info("Info message")  # Should be filtered out
         logger.warning("Warning message")  # Should be filtered out
-        logger.error("Error message")    # Should appear
+        logger.error("Error message")  # Should appear
         logger.critical("Critical message")  # Should appear
 
         log_output = log_capture.getvalue()
@@ -484,11 +485,7 @@ class TestCoreCommon:
         logger.addHandler(handler)
 
         # Log structured information
-        logger.info("User action", extra={
-            "user_id": "12345",
-            "action": "login",
-            "timestamp": time.time()
-        })
+        logger.info("User action", extra={"user_id": "12345", "action": "login", "timestamp": time.time()})
 
         log_output = log_capture.getvalue()
         assert "User action" in log_output
@@ -594,6 +591,7 @@ class TestCoreCommon:
 
         # Force garbage collection
         import gc
+
         gc.collect()
 
         # Should not cause any issues
@@ -606,7 +604,7 @@ class TestCoreCommon:
         handler = logger.handlers[0]
 
         # Verify handler has proper resource management
-        assert hasattr(handler, 'close')
+        assert hasattr(handler, "close")
         assert handler.stream is not None
 
         # Handler should be properly configured

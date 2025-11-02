@@ -21,6 +21,7 @@ def load_telemetry_dump(path):
     with open(path, "r") as f:
         return json.load(f)
 
+
 @pytest.mark.telemetry
 def test_memory_recall_span_has_semconv_attrs():
     """Test that memory.recall span exists with required semconv attributes."""
@@ -46,6 +47,7 @@ def test_memory_recall_span_has_semconv_attrs():
 
     assert found, "Expected span 'memory.recall' not found in telemetry export"
 
+
 @pytest.mark.telemetry
 def test_memory_fold_span_has_semconv_attrs():
     """Test that memory.fold span exists with required semconv attributes."""
@@ -67,6 +69,7 @@ def test_memory_fold_span_has_semconv_attrs():
 
     assert found, "Expected span 'memory.fold' not found in telemetry export"
 
+
 @pytest.mark.telemetry
 def test_latency_metric_present():
     """Test that required latency metric exists in telemetry export."""
@@ -75,6 +78,7 @@ def test_latency_metric_present():
     metric_names = {m.get("name") for m in metrics}
 
     assert "memory.latency" in metric_names, "Missing latency metric in telemetry"
+
 
 @pytest.mark.telemetry
 def test_recall_results_metric_present():
@@ -85,6 +89,7 @@ def test_recall_results_metric_present():
 
     assert "memory.recall.results" in metric_names, "Missing recall results metric"
 
+
 @pytest.mark.telemetry
 def test_cascade_prevention_counter_present():
     """Test that cascade prevention counter exists."""
@@ -93,6 +98,7 @@ def test_cascade_prevention_counter_present():
     metric_names = {m.get("name") for m in metrics}
 
     assert "memory.cascade.prevented" in metric_names, "Missing cascade prevention counter"
+
 
 @pytest.mark.telemetry
 def test_metrics_have_correct_types():
@@ -103,7 +109,7 @@ def test_metrics_have_correct_types():
     expected_types = {
         "memory.latency": "histogram",
         "memory.recall.results": "gauge",
-        "memory.cascade.prevented": "counter"
+        "memory.cascade.prevented": "counter",
     }
 
     for metric in metrics:
@@ -112,6 +118,7 @@ def test_metrics_have_correct_types():
             actual_type = metric.get("type")
             expected_type = expected_types[name]
             assert actual_type == expected_type, f"Metric {name}: expected type {expected_type}, got {actual_type}"
+
 
 @pytest.mark.telemetry
 def test_spans_have_trace_structure():
@@ -133,6 +140,7 @@ def test_spans_have_trace_structure():
         # Validate trace/span ID format (hex strings)
         assert isinstance(span["trace_id"], str) and len(span["trace_id"]) == 32, "Invalid trace_id format"
         assert isinstance(span["span_id"], str) and len(span["span_id"]) == 16, "Invalid span_id format"
+
 
 if __name__ == "__main__":
     # Run just telemetry tests when executed directly

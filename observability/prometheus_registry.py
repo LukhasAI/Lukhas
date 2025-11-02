@@ -58,15 +58,11 @@ LUKHAS_REGISTRY: CollectorRegistry = CollectorRegistry()  # auto_describe defaul
 _CACHE: Dict[Tuple[str, str, Tuple[str, ...]], object] = {}
 
 
-def _key(
-    cls: Type, name: str, labelnames: Sequence[str] | None
-) -> Tuple[str, str, Tuple[str, ...]]:
+def _key(cls: Type, name: str, labelnames: Sequence[str] | None) -> Tuple[str, str, Tuple[str, ...]]:
     return (cls.__name__, name, tuple(labelnames or ()))
 
 
-def _get_or_create(
-    cls: Type, name: str, documentation: str, labelnames: Sequence[str] | None = None, **kwargs
-):
+def _get_or_create(cls: Type, name: str, documentation: str, labelnames: Sequence[str] | None = None, **kwargs):
     k = _key(cls, name, labelnames)
     if k in _CACHE:
         return _CACHE[k]

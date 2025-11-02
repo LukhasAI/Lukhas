@@ -25,10 +25,7 @@ class TestServeModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "serve",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "serve", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestServeModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import serve
+
         self.assertIsNotNone(serve)
 
     def test_module_version(self):
         """Test module has version information."""
         import serve
+
         # Most modules should have version info
-        self.assertTrue(hasattr(serve, '__version__') or
-                       hasattr(serve, 'VERSION'))
+        self.assertTrue(hasattr(serve, "__version__") or hasattr(serve, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestConsciousnessQueryRequest(unittest.TestCase):
         """Test ConsciousnessQueryRequest can be imported."""
         try:
             from serve.agi_enhanced_consciousness_api import ConsciousnessQueryRequest
+
             self.assertIsNotNone(ConsciousnessQueryRequest)
         except ImportError:
             pytest.skip("Component ConsciousnessQueryRequest not available")
@@ -97,6 +96,7 @@ class TestConsciousnessQueryResponse(unittest.TestCase):
         """Test ConsciousnessQueryResponse can be imported."""
         try:
             from serve.agi_enhanced_consciousness_api import ConsciousnessQueryResponse
+
             self.assertIsNotNone(ConsciousnessQueryResponse)
         except ImportError:
             pytest.skip("Component ConsciousnessQueryResponse not available")
@@ -114,6 +114,7 @@ class TestDreamSessionRequest(unittest.TestCase):
         """Test DreamSessionRequest can be imported."""
         try:
             from serve.agi_enhanced_consciousness_api import DreamSessionRequest
+
             self.assertIsNotNone(DreamSessionRequest)
         except ImportError:
             pytest.skip("Component DreamSessionRequest not available")
@@ -122,7 +123,6 @@ class TestDreamSessionRequest(unittest.TestCase):
         """Test DreamSessionRequest can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

@@ -24,14 +24,25 @@ from typing import Iterator, List, Optional, Sequence
 
 # --- Config ------------------------------------------------------------------
 SKIP_DIRS = {
-    ".git", ".hg", ".svn", ".venv", "venv", "env",
-    "__pycache__", "node_modules", "dist", "build", ".mypy_cache", ".pytest_cache"
+    ".git",
+    ".hg",
+    ".svn",
+    ".venv",
+    "venv",
+    "env",
+    "__pycache__",
+    "node_modules",
+    "dist",
+    "build",
+    ".mypy_cache",
+    ".pytest_cache",
 }
 
 SCAN_EXTS = {".py", ".md", ".txt", ".yaml", ".yml", ".toml", ".ini"}
 PRIORITY_LEVELS: Sequence[str] = ("CRITICAL", "HIGH", "MED", "LOW")
 
 PATTERN = re.compile(r"(?P<kind>TODO|FIXME|BUG)(?:\[(?P<tag>[a-zA-Z0-9_\-]+)\])?\s*:\s*(?P<text>.+)")
+
 
 @dataclass(frozen=True)
 class TODORecord:
@@ -41,7 +52,9 @@ class TODORecord:
     priority: str
 
     def normalized(self) -> "TODORecord":
-        return TODORecord(file=self.file.replace('\\\\', '/'), line=str(self.line), text=self.text.strip(), priority=self.priority)
+        return TODORecord(
+            file=self.file.replace("\\\\", "/"), line=str(self.line), text=self.text.strip(), priority=self.priority
+        )
 
 
 def normalize_path(path: str | Path) -> str:

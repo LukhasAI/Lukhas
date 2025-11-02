@@ -7,13 +7,14 @@ import sys
 from pathlib import Path
 
 # Set test environment before importing server
-os.environ['OAUTH_ISSUER'] = 'https://example.com/.well-known/openid-configuration'
-os.environ['OAUTH_AUDIENCE'] = 'api://lukhas-mcp'
-os.environ['PUBLIC_BASE_URL'] = 'http://localhost:8080'
-os.environ['LUKHAS_MCP_ROOTS'] = str(Path(__file__).parent.absolute())
+os.environ["OAUTH_ISSUER"] = "https://example.com/.well-known/openid-configuration"
+os.environ["OAUTH_AUDIENCE"] = "api://lukhas-mcp"
+os.environ["PUBLIC_BASE_URL"] = "http://localhost:8080"
+os.environ["LUKHAS_MCP_ROOTS"] = str(Path(__file__).parent.absolute())
 
 # Add current directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
+
 
 async def test_oauth_basic():
     """Test basic OAuth functionality."""
@@ -32,6 +33,7 @@ async def test_oauth_basic():
     try:
         from httpx import AsyncClient  # noqa: F401  # TODO: httpx.AsyncClient; consider us...
         from jose import jwt  # noqa: F401  # TODO: jose.jwt; consider using impor...
+
         print("✓ OAuth dependencies imported successfully")
     except ImportError as e:
         print(f"❌ Import error: {e}")
@@ -49,6 +51,7 @@ async def test_oauth_basic():
 
     print("\n✅ Basic OAuth implementation test passed!")
     return True
+
 
 async def test_endpoints():
     """Test basic endpoint structure."""
@@ -84,7 +87,9 @@ async def test_endpoints():
         print(f"❌ Endpoint test failed: {e}")
         return False
 
+
 if __name__ == "__main__":
+
     async def main():
         success = await test_oauth_basic()
         if success:

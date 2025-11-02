@@ -104,7 +104,7 @@ def sync_to_notion(data: dict[str, Any], config: SyncConfig, dry_run: bool) -> b
     headers = {
         "Authorization": f"Bearer {config.notion_token}",
         "Content-Type": "application/json",
-        "Notion-Version": "2022-06-28"
+        "Notion-Version": "2022-06-28",
     }
 
     # Sync each module as a Notion page
@@ -124,17 +124,9 @@ def sync_to_notion(data: dict[str, Any], config: SyncConfig, dry_run: bool) -> b
                 "Tests": {"number": module.get("tests_count", 0)},
             }
 
-            payload = {
-                "parent": {"database_id": config.notion_database_id},
-                "properties": properties
-            }
+            payload = {"parent": {"database_id": config.notion_database_id}, "properties": properties}
 
-            response = requests.post(
-                "https://api.notion.com/v1/pages",
-                headers=headers,
-                json=payload,
-                timeout=10
-            )
+            response = requests.post("https://api.notion.com/v1/pages", headers=headers, json=payload, timeout=10)
 
             if response.status_code in (200, 201):
                 synced += 1
@@ -174,34 +166,32 @@ def sync_to_grafana(data: dict[str, Any], config: SyncConfig, dry_run: bool) -> 
 
         # Coverage metric
         if "coverage" in module and module["coverage"].get("observed") is not None:
-            metrics.append({
-                "name": "lukhas_coverage",
-                "metric": f"coverage_{module_name}",
-                "value": module["coverage"]["observed"],
-                "timestamp": timestamp
-            })
+            metrics.append(
+                {
+                    "name": "lukhas_coverage",
+                    "metric": f"coverage_{module_name}",
+                    "value": module["coverage"]["observed"],
+                    "timestamp": timestamp,
+                }
+            )
 
         # Health score metric
         if "health_score" in module:
-            metrics.append({
-                "name": "lukhas_health",
-                "metric": f"health_{module_name}",
-                "value": module["health_score"],
-                "timestamp": timestamp
-            })
+            metrics.append(
+                {
+                    "name": "lukhas_health",
+                    "metric": f"health_{module_name}",
+                    "value": module["health_score"],
+                    "timestamp": timestamp,
+                }
+            )
 
     # Send to Grafana
-    headers = {
-        "Authorization": f"Bearer {config.grafana_api_key}",
-        "Content-Type": "application/json"
-    }
+    headers = {"Authorization": f"Bearer {config.grafana_api_key}", "Content-Type": "application/json"}
 
     try:
         response = requests.post(
-            f"{config.grafana_url}/api/datasources/proxy/1/api/v1/write",
-            headers=headers,
-            json=metrics,
-            timeout=30
+            f"{config.grafana_url}/api/datasources/proxy/1/api/v1/write", headers=headers, json=metrics, timeout=30
         )
 
         if response.status_code in (200, 204):
@@ -232,10 +222,7 @@ def sync_to_webhook(data: dict[str, Any], config: SyncConfig, dry_run: bool) -> 
 
     try:
         response = requests.post(
-            config.webhook_url,
-            json=data,
-            headers={"Content-Type": "application/json"},
-            timeout=30
+            config.webhook_url, json=data, headers={"Content-Type": "application/json"}, timeout=30
         )
 
         if response.status_code in (200, 201, 202, 204):
@@ -252,26 +239,17 @@ def sync_to_webhook(data: dict[str, Any], config: SyncConfig, dry_run: bool) -> 
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Sync META_REGISTRY to external dashboards"
-    )
+    parser = argparse.ArgumentParser(description="Sync META_REGISTRY to external dashboards")
     parser.add_argument(
-        "--source",
-        type=Path,
-        default=Path("docs/_generated/META_REGISTRY.json"),
-        help="Source META_REGISTRY.json file"
+        "--source", type=Path, default=Path("docs/_generated/META_REGISTRY.json"), help="Source META_REGISTRY.json file"
     )
     parser.add_argument(
         "--target",
         choices=["notion", "grafana", "webhook", "all"],
         default="all",
-        help="Target integration (default: all)"
+        help="Target integration (default: all)",
     )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Dry-run mode (no actual API calls)"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Dry-run mode (no actual API calls)")
 
     args = parser.parse_args()
 

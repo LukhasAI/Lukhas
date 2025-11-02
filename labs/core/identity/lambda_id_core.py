@@ -823,7 +823,7 @@ class LukhasIdentityService:
 
         try:
             # Basic ΛID validation
-            if not lid or not lid.startswith(('USR-', 'AGT-', 'SVC-', 'SYS-')):
+            if not lid or not lid.startswith(("USR-", "AGT-", "SVC-", "SYS-")):
                 logger.warning(f"🛡️ Invalid ΛID format: {lid}")
                 return False
 
@@ -836,14 +836,14 @@ class LukhasIdentityService:
 
             # Check for basic authentication (simplified for orchestration)
             # In production, this would check token validity, permissions, etc.
-            if lid.startswith('USR-'):
+            if lid.startswith("USR-"):
                 # User access - basic validation
-                if resource and resource in ['gmail', 'drive', 'dropbox']:
+                if resource and resource in ["gmail", "drive", "dropbox"]:
                     # External service access requires consent validation
                     # For now, assume consent is granted in dry-run mode
                     logger.debug(f"🛡️ User {lid} access to {resource}: granted")
                     return True
-                elif action and action in ['read', 'write', 'list', 'search']:
+                elif action and action in ["read", "write", "list", "search"]:
                     # Basic actions are allowed for authenticated users
                     logger.debug(f"🛡️ User {lid} action {action}: granted")
                     return True
@@ -851,17 +851,17 @@ class LukhasIdentityService:
                     # Default allow for users
                     return True
 
-            elif lid.startswith('AGT-'):
+            elif lid.startswith("AGT-"):
                 # Agent access - validate agent capabilities
                 logger.debug(f"🛡️ Agent {lid} access: granted")
                 return True
 
-            elif lid.startswith('SVC-'):
+            elif lid.startswith("SVC-"):
                 # Service access - validate service permissions
                 logger.debug(f"🛡️ Service {lid} access: granted")
                 return True
 
-            elif lid.startswith('SYS-'):
+            elif lid.startswith("SYS-"):
                 # System access - full permissions
                 logger.debug(f"🛡️ System {lid} access: granted")
                 return True

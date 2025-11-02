@@ -18,11 +18,7 @@ import pytest
 @pytest.fixture(scope="session")
 def test_config():
     """Provide test configuration."""
-    return {
-        "module_name": "Jules--branch",
-        "test_mode": True,
-        "log_level": "DEBUG"
-    }
+    return {"module_name": "Jules--branch", "test_mode": True, "log_level": "DEBUG"}
 
 
 @pytest.fixture(scope="session")
@@ -53,12 +49,6 @@ def clean_environment():
 def mock_jules_branch_config():
     """Mock configuration for Jules--branch module."""
     return {
-        "module": {
-            "name": "Jules--branch",
-            "version": "1.0.0-test"
-        },
-        "runtime": {
-            "log_level": "DEBUG",
-            "debug_mode": True
-        }
+        "module": {"name": "Jules--branch", "version": "1.0.0-test"},
+        "runtime": {"log_level": "DEBUG", "debug_mode": True},
     }

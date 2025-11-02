@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AuthResult:
     """Result of authentication operation"""
+
     success: bool
     user_id: Optional[str] = None
     username: Optional[str] = None
@@ -33,6 +34,7 @@ class AuthResult:
 @dataclass
 class UserProfile:
     """User profile information"""
+
     user_id: str
     username: str
     email: Optional[str] = None
@@ -157,10 +159,7 @@ class AuthenticationFacade(CoreInterface):
                 logger.warning(f"Authenticator {type(authenticator).__name__} failed: {e}")
                 continue
 
-        return AuthResult(
-            success=False,
-            error="Authentication failed - no valid authenticator"
-        )
+        return AuthResult(success=False, error="Authentication failed - no valid authenticator")
 
     async def authenticate_token(self, token: str, **kwargs) -> AuthResult:
         """Authenticate user with token"""
@@ -178,7 +177,7 @@ class AuthenticationFacade(CoreInterface):
                     success=True,
                     token=token,
                     user_id="extracted_from_token",  # Placeholder
-                    username="extracted_from_token"  # Placeholder
+                    username="extracted_from_token",  # Placeholder
                 )
             else:
                 return AuthResult(success=False, error="Invalid token")
@@ -192,7 +191,7 @@ class AuthenticationFacade(CoreInterface):
 
         # Try each authenticator that supports API key auth
         for authenticator in self._authenticators:
-            if hasattr(authenticator, 'authenticate_api_key'):
+            if hasattr(authenticator, "authenticate_api_key"):
                 try:
                     result = await authenticator.authenticate_api_key(api_key, service_name, **kwargs)
                     if result.success:
@@ -201,10 +200,7 @@ class AuthenticationFacade(CoreInterface):
                     logger.warning(f"API key auth failed for {type(authenticator).__name__}: {e}")
                     continue
 
-        return AuthResult(
-            success=False,
-            error="API key authentication failed"
-        )
+        return AuthResult(success=False, error="API key authentication failed")
 
     async def create_session(self, user_id: str, **kwargs) -> Optional[str]:
         """Create user session"""

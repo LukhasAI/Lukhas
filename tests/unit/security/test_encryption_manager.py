@@ -147,10 +147,7 @@ class TestKeyGeneration:
 
     def test_key_uniqueness(self, manager):
         """Test that generated keys are unique."""
-        keys = [
-            manager.generate_key(EncryptionAlgorithm.AES_256_GCM)
-            for _ in range(10)
-        ]
+        keys = [manager.generate_key(EncryptionAlgorithm.AES_256_GCM) for _ in range(10)]
 
         # All keys should be unique
         assert len(set(keys)) == 10
@@ -290,9 +287,7 @@ class TestAEADAuthentication:
 
         # Tamper with ciphertext
         tampered = encrypted.copy()
-        tampered["ciphertext"] = bytes(
-            b ^ 0xFF for b in encrypted["ciphertext"]
-        )
+        tampered["ciphertext"] = bytes(b ^ 0xFF for b in encrypted["ciphertext"])
 
         with pytest.raises(DecryptionError, match="Decryption failed"):
             manager.decrypt(tampered, key)
@@ -357,10 +352,7 @@ class TestNonceUniqueness:
         key = manager.generate_key(EncryptionAlgorithm.AES_256_GCM)
         data = b"test data"
 
-        nonces = [
-            manager.encrypt(data, EncryptionAlgorithm.AES_256_GCM, key)["nonce"]
-            for _ in range(100)
-        ]
+        nonces = [manager.encrypt(data, EncryptionAlgorithm.AES_256_GCM, key)["nonce"] for _ in range(100)]
 
         # All nonces should be unique
         assert len(set(nonces)) == 100
@@ -375,12 +367,7 @@ class TestAssociatedData:
         aad = b"metadata: user=alice, timestamp=2025-11-01"
 
         # Encrypt with AAD
-        encrypted = manager.encrypt(
-            test_data,
-            EncryptionAlgorithm.AES_256_GCM,
-            key,
-            associated_data=aad
-        )
+        encrypted = manager.encrypt(test_data, EncryptionAlgorithm.AES_256_GCM, key, associated_data=aad)
 
         # Decrypt with same AAD
         decrypted = manager.decrypt(encrypted, key, associated_data=aad)
@@ -393,12 +380,7 @@ class TestAssociatedData:
         aad2 = b"metadata: user=bob"
 
         # Encrypt with aad1
-        encrypted = manager.encrypt(
-            test_data,
-            EncryptionAlgorithm.AES_256_GCM,
-            key,
-            associated_data=aad1
-        )
+        encrypted = manager.encrypt(test_data, EncryptionAlgorithm.AES_256_GCM, key, associated_data=aad1)
 
         # Try to decrypt with aad2
         with pytest.raises(DecryptionError, match="Decryption failed"):
@@ -410,12 +392,7 @@ class TestAssociatedData:
         aad = b"metadata: important"
 
         # Encrypt with AAD
-        encrypted = manager.encrypt(
-            test_data,
-            EncryptionAlgorithm.AES_256_GCM,
-            key,
-            associated_data=aad
-        )
+        encrypted = manager.encrypt(test_data, EncryptionAlgorithm.AES_256_GCM, key, associated_data=aad)
 
         # Try to decrypt without AAD
         with pytest.raises(DecryptionError, match="Decryption failed"):

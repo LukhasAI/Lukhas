@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 
 class AlertSeverity(Enum):
     """Alert severity levels with escalation thresholds"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -46,6 +47,7 @@ class AlertSeverity(Enum):
 
 class AlertStatus(Enum):
     """Alert lifecycle status"""
+
     ACTIVE = "active"
     ACKNOWLEDGED = "acknowledged"
     RESOLVED = "resolved"
@@ -55,6 +57,7 @@ class AlertStatus(Enum):
 @dataclass
 class AlertRule:
     """Configuration for an alert rule"""
+
     name: str
     condition: str  # Python expression to evaluate
     severity: AlertSeverity
@@ -70,6 +73,7 @@ class AlertRule:
 @dataclass
 class AlertInstance:
     """An active alert instance"""
+
     rule_name: str
     severity: AlertSeverity
     status: AlertStatus
@@ -87,6 +91,7 @@ class AlertInstance:
 @dataclass
 class SystemMetrics:
     """Current system performance metrics"""
+
     timestamp: datetime
     cpu_percent: float
     memory_percent: float
@@ -110,8 +115,9 @@ class AlertChannel:
 class EmailAlertChannel(AlertChannel):
     """Email alert notifications"""
 
-    def __init__(self, smtp_host: str, smtp_port: int, username: str, password: str,
-                 from_email: str, to_emails: List[str]):
+    def __init__(
+        self, smtp_host: str, smtp_port: int, username: str, password: str, from_email: str, to_emails: List[str]
+    ):
         self.smtp_host = smtp_host
         self.smtp_port = smtp_port
         self.username = username
@@ -123,12 +129,12 @@ class EmailAlertChannel(AlertChannel):
         """Send email alert notification"""
         try:
             msg = MIMEMultipart()
-            msg['From'] = self.from_email
-            msg['To'] = ', '.join(self.to_emails)
-            msg['Subject'] = f"[{alert.severity.value.upper()}] LUKHAS AI Alert: {alert.rule_name}"
+            msg["From"] = self.from_email
+            msg["To"] = ", ".join(self.to_emails)
+            msg["Subject"] = f"[{alert.severity.value.upper()}] LUKHAS AI Alert: {alert.rule_name}"
 
             body = self._format_alert_email(alert, metrics)
-            msg.attach(MIMEText(body, 'html'))
+            msg.attach(MIMEText(body, "html"))
 
             with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:
                 server.starttls()
@@ -148,7 +154,7 @@ class EmailAlertChannel(AlertChannel):
             AlertSeverity.LOW: "#28a745",
             AlertSeverity.MEDIUM: "#ffc107",
             AlertSeverity.HIGH: "#fd7e14",
-            AlertSeverity.CRITICAL: "#dc3545"
+            AlertSeverity.CRITICAL: "#dc3545",
         }[alert.severity]
 
         return f"""
@@ -192,25 +198,27 @@ class SlackAlertChannel(AlertChannel):
                 AlertSeverity.LOW: "good",
                 AlertSeverity.MEDIUM: "warning",
                 AlertSeverity.HIGH: "danger",
-                AlertSeverity.CRITICAL: "danger"
+                AlertSeverity.CRITICAL: "danger",
             }[alert.severity]
 
             payload = {
                 "channel": self.channel,
                 "username": "LUKHAS AI Monitoring",
                 "icon_emoji": ":warning:",
-                "attachments": [{
-                    "color": color,
-                    "title": f"{alert.severity.value.upper()}: {alert.rule_name}",
-                    "text": alert.message,
-                    "fields": [
-                        {"title": "Value", "value": f"{alert.value:.2f}", "short": True},
-                        {"title": "Threshold", "value": f"{alert.threshold:.2f}", "short": True},
-                        {"title": "CPU", "value": f"{metrics.cpu_percent:.1f}%", "short": True},
-                        {"title": "Memory", "value": f"{metrics.memory_percent:.1f}%", "short": True},
-                    ],
-                    "ts": int(alert.triggered_at.timestamp())
-                }]
+                "attachments": [
+                    {
+                        "color": color,
+                        "title": f"{alert.severity.value.upper()}: {alert.rule_name}",
+                        "text": alert.message,
+                        "fields": [
+                            {"title": "Value", "value": f"{alert.value:.2f}", "short": True},
+                            {"title": "Threshold", "value": f"{alert.threshold:.2f}", "short": True},
+                            {"title": "CPU", "value": f"{metrics.cpu_percent:.1f}%", "short": True},
+                            {"title": "Memory", "value": f"{metrics.memory_percent:.1f}%", "short": True},
+                        ],
+                        "ts": int(alert.triggered_at.timestamp()),
+                    }
+                ],
             }
 
             async with httpx.AsyncClient() as client:
@@ -244,7 +252,7 @@ class WebhookAlertChannel(AlertChannel):
                     "value": alert.value,
                     "threshold": alert.threshold,
                     "message": alert.message,
-                    "tags": list(alert.tags)
+                    "tags": list(alert.tags),
                 },
                 "metrics": {
                     "timestamp": metrics.timestamp.isoformat(),
@@ -254,17 +262,12 @@ class WebhookAlertChannel(AlertChannel):
                     "test_success_rate": metrics.test_success_rate,
                     "coverage_percentage": metrics.coverage_percentage,
                     "response_time_p95": metrics.response_time_p95,
-                    "error_rate": metrics.error_rate
-                }
+                    "error_rate": metrics.error_rate,
+                },
             }
 
             async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    self.webhook_url,
-                    json=payload,
-                    headers=self.headers,
-                    timeout=10.0
-                )
+                response = await client.post(self.webhook_url, json=payload, headers=self.headers, timeout=10.0)
                 response.raise_for_status()
 
             logger.info(f"Webhook alert sent for {alert.rule_name}")
@@ -298,7 +301,7 @@ class ProductionAlertingSystem:
             "test_success_threshold": 95.0,
             "coverage_threshold": 80.0,
             "response_time_threshold": 1000.0,  # ms
-            "error_rate_threshold": 1.0  # percent
+            "error_rate_threshold": 1.0,  # percent
         }
 
         self._init_database()
@@ -309,7 +312,7 @@ class ProductionAlertingSystem:
         """Load configuration from file or use defaults"""
         if config_path and config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path, "r") as f:
                     return json.load(f)
             except Exception as e:
                 logger.warning(f"Failed to load config from {config_path}: {e}")
@@ -329,25 +332,18 @@ class ProductionAlertingSystem:
                     "username": "",
                     "password": "",
                     "from_email": "alerts@ai",
-                    "to_emails": ["admin@ai"]
+                    "to_emails": ["admin@ai"],
                 },
-                "slack": {
-                    "enabled": False,
-                    "webhook_url": "",
-                    "channel": "#alerts"
-                },
-                "webhook": {
-                    "enabled": False,
-                    "url": "",
-                    "headers": {}
-                }
-            }
+                "slack": {"enabled": False, "webhook_url": "", "channel": "#alerts"},
+                "webhook": {"enabled": False, "url": "", "headers": {}},
+            },
         }
 
     def _init_database(self):
         """Initialize SQLite database for alert storage"""
         with sqlite3.connect(self.db_path) as conn:
-            conn.executescript("""
+            conn.executescript(
+                """
                 CREATE TABLE IF NOT EXISTS alerts (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     rule_name TEXT NOT NULL,
@@ -381,7 +377,8 @@ class ProductionAlertingSystem:
                 CREATE INDEX IF NOT EXISTS idx_alerts_rule_name ON alerts(rule_name);
                 CREATE INDEX IF NOT EXISTS idx_alerts_triggered_at ON alerts(triggered_at);
                 CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON metrics_history(timestamp);
-            """)
+            """
+            )
 
     def _load_default_rules(self):
         """Load default alert rules for LUKHAS AI infrastructure"""
@@ -391,50 +388,50 @@ class ProductionAlertingSystem:
                 condition="metrics.cpu_percent > threshold",
                 severity=AlertSeverity.HIGH,
                 threshold_value=80.0,
-                description="CPU usage exceeds acceptable threshold"
+                description="CPU usage exceeds acceptable threshold",
             ),
             AlertRule(
                 name="high_memory_usage",
                 condition="metrics.memory_percent > threshold",
                 severity=AlertSeverity.HIGH,
                 threshold_value=85.0,
-                description="Memory usage approaching critical levels"
+                description="Memory usage approaching critical levels",
             ),
             AlertRule(
                 name="disk_space_critical",
                 condition="metrics.disk_usage_percent > threshold",
                 severity=AlertSeverity.CRITICAL,
                 threshold_value=90.0,
-                description="Disk space critically low"
+                description="Disk space critically low",
             ),
             AlertRule(
                 name="test_success_rate_low",
                 condition="metrics.test_success_rate < threshold",
                 severity=AlertSeverity.MEDIUM,
                 threshold_value=95.0,
-                description="Test success rate below acceptable level"
+                description="Test success rate below acceptable level",
             ),
             AlertRule(
                 name="coverage_regression",
                 condition="metrics.coverage_percentage < threshold",
                 severity=AlertSeverity.MEDIUM,
                 threshold_value=80.0,
-                description="Test coverage below minimum requirement"
+                description="Test coverage below minimum requirement",
             ),
             AlertRule(
                 name="response_time_degradation",
                 condition="metrics.response_time_p95 > threshold",
                 severity=AlertSeverity.HIGH,
                 threshold_value=1000.0,  # ms
-                description="95th percentile response time exceeds SLA"
+                description="95th percentile response time exceeds SLA",
             ),
             AlertRule(
                 name="error_rate_spike",
                 condition="metrics.error_rate > threshold",
                 severity=AlertSeverity.HIGH,
                 threshold_value=1.0,  # percent
-                description="Error rate spike detected"
-            )
+                description="Error rate spike detected",
+            ),
         ]
 
         for rule in default_rules:
@@ -447,37 +444,39 @@ class ProductionAlertingSystem:
         # Email channel
         if config.get("email", {}).get("enabled", False):
             email_config = config["email"]
-            self.alert_channels.append(EmailAlertChannel(
-                smtp_host=email_config["smtp_host"],
-                smtp_port=email_config["smtp_port"],
-                username=email_config["username"],
-                password=email_config["password"],
-                from_email=email_config["from_email"],
-                to_emails=email_config["to_emails"]
-            ))
+            self.alert_channels.append(
+                EmailAlertChannel(
+                    smtp_host=email_config["smtp_host"],
+                    smtp_port=email_config["smtp_port"],
+                    username=email_config["username"],
+                    password=email_config["password"],
+                    from_email=email_config["from_email"],
+                    to_emails=email_config["to_emails"],
+                )
+            )
 
         # Slack channel
         if config.get("slack", {}).get("enabled", False):
             slack_config = config["slack"]
-            self.alert_channels.append(SlackAlertChannel(
-                webhook_url=slack_config["webhook_url"],
-                channel=slack_config.get("channel", "#alerts")
-            ))
+            self.alert_channels.append(
+                SlackAlertChannel(
+                    webhook_url=slack_config["webhook_url"], channel=slack_config.get("channel", "#alerts")
+                )
+            )
 
         # Generic webhook channel
         if config.get("webhook", {}).get("enabled", False):
             webhook_config = config["webhook"]
-            self.alert_channels.append(WebhookAlertChannel(
-                webhook_url=webhook_config["url"],
-                headers=webhook_config.get("headers", {})
-            ))
+            self.alert_channels.append(
+                WebhookAlertChannel(webhook_url=webhook_config["url"], headers=webhook_config.get("headers", {}))
+            )
 
     async def collect_system_metrics(self) -> SystemMetrics:
         """Collect current system performance metrics"""
         # Basic system metrics
         cpu_percent = psutil.cpu_percent(interval=1)
         memory = psutil.virtual_memory()
-        disk = psutil.disk_usage('/')
+        disk = psutil.disk_usage("/")
         network = psutil.net_io_counters()
 
         # Try to collect test metrics from coverage system
@@ -491,12 +490,14 @@ class ProductionAlertingSystem:
             coverage_db_path = Path("tools/testing/coverage_metrics.db")
             if coverage_db_path.exists():
                 with sqlite3.connect(coverage_db_path) as conn:
-                    cursor = conn.execute("""
+                    cursor = conn.execute(
+                        """
                         SELECT test_success_rate, overall_coverage_percentage
                         FROM test_runs
                         ORDER BY timestamp DESC
                         LIMIT 1
-                    """)
+                    """
+                    )
                     result = cursor.fetchone()
                     if result:
                         test_success_rate = result[0] or 100.0
@@ -514,30 +515,33 @@ class ProductionAlertingSystem:
             coverage_percentage=coverage_percentage,
             response_time_p95=response_time_p95,
             error_rate=error_rate,
-            active_connections=len(psutil.net_connections())
+            active_connections=len(psutil.net_connections()),
         )
 
     def _store_metrics(self, metrics: SystemMetrics):
         """Store metrics in database for historical tracking"""
         try:
             with sqlite3.connect(self.db_path) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT INTO metrics_history
                     (timestamp, cpu_percent, memory_percent, disk_usage_percent,
                      test_success_rate, coverage_percentage, response_time_p95,
                      error_rate, active_connections)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    metrics.timestamp,
-                    metrics.cpu_percent,
-                    metrics.memory_percent,
-                    metrics.disk_usage_percent,
-                    metrics.test_success_rate,
-                    metrics.coverage_percentage,
-                    metrics.response_time_p95,
-                    metrics.error_rate,
-                    metrics.active_connections
-                ))
+                """,
+                    (
+                        metrics.timestamp,
+                        metrics.cpu_percent,
+                        metrics.memory_percent,
+                        metrics.disk_usage_percent,
+                        metrics.test_success_rate,
+                        metrics.coverage_percentage,
+                        metrics.response_time_p95,
+                        metrics.error_rate,
+                        metrics.active_connections,
+                    ),
+                )
         except Exception as e:
             logger.error(f"Failed to store metrics: {e}")
 
@@ -555,10 +559,7 @@ class ProductionAlertingSystem:
         # Evaluate the condition
         try:
             # Create evaluation context
-            context = {
-                "metrics": metrics,
-                "threshold": rule.threshold_value
-            }
+            context = {"metrics": metrics, "threshold": rule.threshold_value}
 
             result = eval(rule.condition, {"__builtins__": {}}, context)
             return bool(result)
@@ -570,7 +571,7 @@ class ProductionAlertingSystem:
     async def _trigger_alert(self, rule: AlertRule, metrics: SystemMetrics):
         """Trigger a new alert"""
         # Get the actual value that triggered the alert
-        value = getattr(metrics, rule.condition.split('.')[1].split()[0], 0.0)
+        value = getattr(metrics, rule.condition.split(".")[1].split()[0], 0.0)
 
         alert = AlertInstance(
             rule_name=rule.name,
@@ -581,7 +582,7 @@ class ProductionAlertingSystem:
             value=value,
             threshold=rule.threshold_value,
             message=f"{rule.description}: {value:.2f} (threshold: {rule.threshold_value:.2f})",
-            tags=rule.tags.copy()
+            tags=rule.tags.copy(),
         )
 
         self.active_alerts[rule.name] = alert
@@ -599,23 +600,26 @@ class ProductionAlertingSystem:
         """Store alert in database"""
         try:
             with sqlite3.connect(self.db_path) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT INTO alerts
                     (rule_name, severity, status, triggered_at, value,
                      threshold_value, message, tags, acknowledged_by, escalated)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    alert.rule_name,
-                    alert.severity.value,
-                    alert.status.value,
-                    alert.triggered_at,
-                    alert.value,
-                    alert.threshold,
-                    alert.message,
-                    json.dumps(list(alert.tags)),
-                    alert.acknowledged_by,
-                    alert.escalated
-                ))
+                """,
+                    (
+                        alert.rule_name,
+                        alert.severity.value,
+                        alert.status.value,
+                        alert.triggered_at,
+                        alert.value,
+                        alert.threshold,
+                        alert.message,
+                        json.dumps(list(alert.tags)),
+                        alert.acknowledged_by,
+                        alert.escalated,
+                    ),
+                )
         except Exception as e:
             logger.error(f"Failed to store alert: {e}")
 
@@ -643,10 +647,12 @@ class ProductionAlertingSystem:
 
         try:
             with sqlite3.connect(self.db_path) as conn:
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT COUNT(*) FROM alerts
                     WHERE triggered_at > datetime('now', '-1 hour')
-                """)
+                """
+                )
                 count = cursor.fetchone()[0]
                 return count < max_alerts
         except Exception:
@@ -683,11 +689,14 @@ class ProductionAlertingSystem:
         # Update in database
         try:
             with sqlite3.connect(self.db_path) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     UPDATE alerts
                     SET status = ?, resolved_at = ?
                     WHERE rule_name = ? AND status = 'active'
-                """, (AlertStatus.RESOLVED.value, alert.last_updated, rule_name))
+                """,
+                    (AlertStatus.RESOLVED.value, alert.last_updated, rule_name),
+                )
         except Exception as e:
             logger.error(f"Failed to update resolved alert: {e}")
 
@@ -709,11 +718,14 @@ class ProductionAlertingSystem:
         # Update in database
         try:
             with sqlite3.connect(self.db_path) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     UPDATE alerts
                     SET status = ?, acknowledged_by = ?
                     WHERE rule_name = ? AND status = 'active'
-                """, (AlertStatus.ACKNOWLEDGED.value, acknowledged_by, rule_name))
+                """,
+                    (AlertStatus.ACKNOWLEDGED.value, acknowledged_by, rule_name),
+                )
         except Exception as e:
             logger.error(f"Failed to update acknowledged alert: {e}")
             return False
@@ -727,7 +739,7 @@ class ProductionAlertingSystem:
             "active_alerts": len(self.active_alerts),
             "alerts_by_severity": {severity.value: 0 for severity in AlertSeverity},
             "recent_alerts": [],
-            "system_health": "healthy"
+            "system_health": "healthy",
         }
 
         # Count alerts by severity
@@ -745,19 +757,21 @@ class ProductionAlertingSystem:
         # Get recent alerts from database
         try:
             with sqlite3.connect(self.db_path) as conn:
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT rule_name, severity, status, triggered_at, message
                     FROM alerts
                     ORDER BY triggered_at DESC
                     LIMIT 10
-                """)
+                """
+                )
                 summary["recent_alerts"] = [
                     {
                         "rule_name": row[0],
                         "severity": row[1],
                         "status": row[2],
                         "triggered_at": row[3],
-                        "message": row[4]
+                        "message": row[4],
                     }
                     for row in cursor.fetchall()
                 ]

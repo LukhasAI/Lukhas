@@ -82,11 +82,11 @@ def match_message_to_context(message, user_context):
             matched_tags.extend([f"dream:{symbol}" for symbol in set(message_symbols) & set(recent_symbols)])
 
     # Calculate composite score
-    composite_score = (emotion_score * 0.3 + tag_score * 0.4 + dream_score * 0.3)
+    composite_score = emotion_score * 0.3 + tag_score * 0.4 + dream_score * 0.3
 
     # Apply contextual modifiers
     symbolic_intensity = symbolic_context.get("intensity", 0.5)
-    composite_score *= (0.5 + symbolic_intensity * 0.5)
+    composite_score *= 0.5 + symbolic_intensity * 0.5
 
     # Determine decision based on thresholds
     if composite_score >= 0.7:
@@ -112,8 +112,8 @@ def match_message_to_context(message, user_context):
         "breakdown": {
             "emotion_score": round(emotion_score, 3),
             "tag_score": round(tag_score, 3),
-            "dream_score": round(dream_score, 3)
-        }
+            "dream_score": round(dream_score, 3),
+        },
     }
 
 

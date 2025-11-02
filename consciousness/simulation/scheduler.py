@@ -32,6 +32,7 @@ class JobStatus:
             "progress": round(self.progress, 3),
         }
 
+
 class SimulationScheduler:
     def __init__(self) -> None:
         self._jobs: Dict[str, JobStatus] = {}

@@ -6,6 +6,7 @@ Validates that bridges using bridge_from_candidates() work correctly:
 - Symbols are accessible
 - No import errors during collection
 """
+
 from __future__ import annotations
 
 import importlib
@@ -112,8 +113,8 @@ def test_bridge_does_not_pollute_sys_modules() -> None:
     }
 
     # Allow backend modules to be loaded too
-    unexpected = new_modules - expected - {
-        m for m in new_modules if m.startswith("lukhas_website.") or m.startswith("labs.")
-    }
+    unexpected = (
+        new_modules - expected - {m for m in new_modules if m.startswith("lukhas_website.") or m.startswith("labs.")}
+    )
 
     assert len(unexpected) < 5, f"Bridge imported unexpected modules: {unexpected}"

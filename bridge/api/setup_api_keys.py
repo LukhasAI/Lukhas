@@ -46,8 +46,6 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 
-
-
 def setup_api_keys():
     """Interactive setup for API keys"""
     print("🔐 Quantum-Secure-AI API Key Setup")
@@ -150,7 +148,6 @@ def verify_setup():
     print("🔍 Verifying API key configuration...")
 
     # Load environment variables
-
 
     load_dotenv()
 

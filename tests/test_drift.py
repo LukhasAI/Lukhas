@@ -4,6 +4,7 @@ tests/test_drift.py
 Unit tests for DriftScore v2 - windowed cosine similarity with EMA.
 Covers thresholds, EMA smoothing, and zero-vector safety.
 """
+
 import os
 
 import pytest
@@ -85,11 +86,14 @@ def test_ema_smoothing():
     assert ema3 > 0
 
 
-@pytest.mark.parametrize("lane,warn_thresh,block_thresh", [
-    ("experimental", 0.30, 0.50),
-    ("labs", 0.20, 0.35),
-    ("prod", 0.15, 0.25),
-])
+@pytest.mark.parametrize(
+    "lane,warn_thresh,block_thresh",
+    [
+        ("experimental", 0.30, 0.50),
+        ("labs", 0.20, 0.35),
+        ("prod", 0.15, 0.25),
+    ],
+)
 def test_per_lane_thresholds(lane, warn_thresh, block_thresh):
     """Test per-lane threshold behavior"""
     monitor = DriftMonitor(lane=lane)
@@ -176,22 +180,23 @@ def test_result_structure():
 
 
 # Per-lane drift thresholds testing matrix
-@pytest.mark.parametrize("lane,expected_warn,expected_block,drift_value,expected_guardian", [
-    # Experimental lane (most permissive)
-    ("experimental", 0.30, 0.50, 0.25, "allow"),
-    ("experimental", 0.30, 0.50, 0.35, "warn"),
-    ("experimental", 0.30, 0.50, 0.55, "block"),
-
-    # Candidate lane (moderate)
-    ("labs", 0.20, 0.35, 0.15, "allow"),
-    ("labs", 0.20, 0.35, 0.25, "warn"),
-    ("labs", 0.20, 0.35, 0.40, "block"),
-
-    # Production lane (most restrictive)
-    ("prod", 0.15, 0.25, 0.10, "allow"),
-    ("prod", 0.15, 0.25, 0.20, "warn"),
-    ("prod", 0.15, 0.25, 0.30, "block"),
-])
+@pytest.mark.parametrize(
+    "lane,expected_warn,expected_block,drift_value,expected_guardian",
+    [
+        # Experimental lane (most permissive)
+        ("experimental", 0.30, 0.50, 0.25, "allow"),
+        ("experimental", 0.30, 0.50, 0.35, "warn"),
+        ("experimental", 0.30, 0.50, 0.55, "block"),
+        # Candidate lane (moderate)
+        ("labs", 0.20, 0.35, 0.15, "allow"),
+        ("labs", 0.20, 0.35, 0.25, "warn"),
+        ("labs", 0.20, 0.35, 0.40, "block"),
+        # Production lane (most restrictive)
+        ("prod", 0.15, 0.25, 0.10, "allow"),
+        ("prod", 0.15, 0.25, 0.20, "warn"),
+        ("prod", 0.15, 0.25, 0.30, "block"),
+    ],
+)
 def test_drift_thresholds_matrix(lane, expected_warn, expected_block, drift_value, expected_guardian):
     """Test per-lane drift threshold matrix with exact EMA values"""
     monitor = DriftMonitor(lane=lane)
@@ -215,6 +220,7 @@ def test_drift_thresholds_matrix(lane, expected_warn, expected_block, drift_valu
     else:
         # Create vectors with specific angle
         import math
+
         angle = math.acos(max(-1.0, min(1.0, required_similarity)))
         v1 = [1.0, 0.0]
         v2 = [math.cos(angle), math.sin(angle)]
@@ -240,11 +246,14 @@ def test_lane_threshold_ordering(lane):
     assert monitor.cfg.warn_threshold < monitor.cfg.block_threshold
 
 
-@pytest.mark.parametrize("lane1,lane2", [
-    ("prod", "labs"),
-    ("labs", "experimental"),
-    ("prod", "experimental"),
-])
+@pytest.mark.parametrize(
+    "lane1,lane2",
+    [
+        ("prod", "labs"),
+        ("labs", "experimental"),
+        ("prod", "experimental"),
+    ],
+)
 def test_cross_lane_threshold_ordering(lane1, lane2):
     """Test that prod < candidate < experimental for both warn and block thresholds"""
     monitor1 = DriftMonitor(lane=lane1)

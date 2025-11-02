@@ -22,17 +22,17 @@ def mark_init_relative_imports(init_file: Path) -> int:
 
     for i, line in enumerate(lines):
         # Match relative imports
-        if re.match(r'^from \.([\w.]+)? import ', line.strip()):
+        if re.match(r"^from \.([\w.]+)? import ", line.strip()):
             # Skip if already has noqa
-            if '# noqa' in line:
+            if "# noqa" in line:
                 continue
 
             # Add noqa comment
-            lines[i] = line.rstrip() + '  # noqa: TID252 (relative imports in __init__.py are idiomatic)\n'
+            lines[i] = line.rstrip() + "  # noqa: TID252 (relative imports in __init__.py are idiomatic)\n"
             modified += 1
 
     if modified > 0:
-        init_file.write_text(''.join(lines))
+        init_file.write_text("".join(lines))
 
     return modified
 
@@ -40,7 +40,7 @@ def mark_init_relative_imports(init_file: Path) -> int:
 def main():
     """Mark all __init__.py files in production lanes."""
     repo_root = Path(__file__).parent.parent
-    production_lanes = ['lukhas', 'core', 'MATRIZ']
+    production_lanes = ["lukhas", "core", "MATRIZ"]
 
     total_marked = 0
     files_modified = 0
@@ -51,7 +51,7 @@ def main():
             continue
 
         # Find all __init__.py files
-        for init_file in lane_path.rglob('__init__.py'):
+        for init_file in lane_path.rglob("__init__.py"):
             marked = mark_init_relative_imports(init_file)
             if marked > 0:
                 total_marked += marked
@@ -62,5 +62,5 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

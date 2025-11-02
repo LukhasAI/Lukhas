@@ -49,55 +49,55 @@ class SymbolicAminoAcid(Enum):
     """20 symbolic amino acids for memory protein construction"""
 
     # Hydrophobic (Memory Core Structure)
-    IDENTITY = "I"      # Self-reference and identity
-    EXPERIENCE = "E"    # Experiential data
-    CONTEXT = "C"       # Contextual information
-    SENSATION = "S"     # Sensory data
+    IDENTITY = "I"  # Self-reference and identity
+    EXPERIENCE = "E"  # Experiential data
+    CONTEXT = "C"  # Contextual information
+    SENSATION = "S"  # Sensory data
 
     # Charged (Emotional Binding)
-    JOY = "J"          # Positive emotional charge
-    FEAR = "F"         # Negative emotional charge
-    ANGER = "A"        # Aggressive emotional charge
-    CALM = "K"         # Neutral emotional charge
+    JOY = "J"  # Positive emotional charge
+    FEAR = "F"  # Negative emotional charge
+    ANGER = "A"  # Aggressive emotional charge
+    CALM = "K"  # Neutral emotional charge
 
     # Polar (Relationship Forming)
-    BOND = "B"         # Social/emotional bonds
-    TRUST = "T"        # Trust relationships
-    DOUBT = "D"        # Uncertainty/questioning
-    HOPE = "H"         # Future-oriented positivity
+    BOND = "B"  # Social/emotional bonds
+    TRUST = "T"  # Trust relationships
+    DOUBT = "D"  # Uncertainty/questioning
+    HOPE = "H"  # Future-oriented positivity
 
     # Aromatic (Cognitive Structure)
-    LOGIC = "L"        # Logical reasoning
-    INTUITION = "N"    # Intuitive insights
-    CREATIVITY = "R"   # Creative synthesis
-    WISDOM = "W"       # Deep understanding
+    LOGIC = "L"  # Logical reasoning
+    INTUITION = "N"  # Intuitive insights
+    CREATIVITY = "R"  # Creative synthesis
+    WISDOM = "W"  # Deep understanding
 
     # Special Function
-    MEMORY = "M"       # Pure memory encoding
-    VOID = "V"         # Absence/forgetting
-    QUANTUM = "Q"      # Quantum superposition
-    TRANSFORM = "X"    # Transformation catalyst
+    MEMORY = "M"  # Pure memory encoding
+    VOID = "V"  # Absence/forgetting
+    QUANTUM = "Q"  # Quantum superposition
+    TRANSFORM = "X"  # Transformation catalyst
 
 
 class FoldingState(Enum):
     """Protein folding states for memory structures"""
 
-    UNFOLDED = "unfolded"          # Random coil, unstructured
-    PARTIALLY_FOLDED = "partial"   # Some secondary structure
-    NATIVE = "native"              # Properly folded, functional
-    MISFOLDED = "misfolded"        # Incorrectly folded, dysfunctional
-    AGGREGATED = "aggregated"      # Multiple proteins clumped together
-    DENATURED = "denatured"        # Unfolded due to stress/damage
+    UNFOLDED = "unfolded"  # Random coil, unstructured
+    PARTIALLY_FOLDED = "partial"  # Some secondary structure
+    NATIVE = "native"  # Properly folded, functional
+    MISFOLDED = "misfolded"  # Incorrectly folded, dysfunctional
+    AGGREGATED = "aggregated"  # Multiple proteins clumped together
+    DENATURED = "denatured"  # Unfolded due to stress/damage
 
 
 class SecondaryStructure(Enum):
     """Secondary structure motifs in memory proteins"""
 
-    ALPHA_HELIX = "alpha_helix"    # Stable, structured memories
-    BETA_SHEET = "beta_sheet"      # Interconnected memory networks
-    TURN = "turn"                  # Memory transitions/connections
-    LOOP = "loop"                  # Flexible, adaptable memories
-    COIL = "coil"                  # Unstructured, raw data
+    ALPHA_HELIX = "alpha_helix"  # Stable, structured memories
+    BETA_SHEET = "beta_sheet"  # Interconnected memory networks
+    TURN = "turn"  # Memory transitions/connections
+    LOOP = "loop"  # Flexible, adaptable memories
+    COIL = "coil"  # Unstructured, raw data
 
 
 @dataclass

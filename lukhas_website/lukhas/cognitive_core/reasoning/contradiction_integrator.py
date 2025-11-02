@@ -43,9 +43,14 @@ try:
 except ImportError:
     # Fallback definitions if import fails
     class SymbolicConflictResolver:
-        def __init__(self): pass
-        async def detect_symbolic_conflict(self, *args): return None
-        async def resolve_conflict(self, *args): return None
+        def __init__(self):
+            pass
+
+        async def detect_symbolic_conflict(self, *args):
+            return None
+
+        async def resolve_conflict(self, *args):
+            return None
 
     class ResolutionMode(Enum):
         AUTO = "auto"
@@ -87,21 +92,24 @@ except ImportError:
         resolved_fragments: List[SymbolicFragment]
         confidence: float = 0.5
 
+
 logger = logging.getLogger(__name__)
 
 
 class ContradictionScope(Enum):
     """Scope of contradiction detection"""
-    STEP_LEVEL = "step"          # Within a single inference step
-    CHAIN_LEVEL = "chain"        # Within an inference chain
+
+    STEP_LEVEL = "step"  # Within a single inference step
+    CHAIN_LEVEL = "chain"  # Within an inference chain
     CROSS_CHAIN = "cross_chain"  # Across multiple chains
-    MEMORY_INTEGRATION = "memory" # Between reasoning and memory
-    META_LEVEL = "meta"          # Meta-cognitive contradictions
+    MEMORY_INTEGRATION = "memory"  # Between reasoning and memory
+    META_LEVEL = "meta"  # Meta-cognitive contradictions
 
 
 @dataclass
 class ContradictionContext:
     """Context for contradiction detection"""
+
     scope: ContradictionScope
     source_component: str
     reasoning_depth: int
@@ -119,9 +127,10 @@ class ContradictionContext:
 @dataclass
 class ContradictionDetectionResult:
     """Result of contradiction detection process"""
+
     contradictions_found: int
     contradiction_reports: List[Any]  # ContradictionReport objects
-    resolution_results: List[Any]     # ConflictResolutionResult objects
+    resolution_results: List[Any]  # ConflictResolutionResult objects
     detection_accuracy: float
     processing_time_ms: float
     scope_coverage: Dict[ContradictionScope, int]
@@ -145,7 +154,7 @@ class ContradictionIntegrator:
         accuracy_target: float = 0.98,
         max_detection_time_ms: float = 5.0,  # Very fast for real-time use
         enable_adaptive_strategies: bool = True,
-        enable_meta_feedback: bool = True
+        enable_meta_feedback: bool = True,
     ):
         """Initialize contradiction integrator."""
         self.accuracy_target = accuracy_target
@@ -169,7 +178,7 @@ class ContradictionIntegrator:
             "successful_resolutions": 0,
             "avg_detection_time_ms": 0.0,
             "accuracy_rate": 0.0,
-            "false_positive_rate": 0.0
+            "false_positive_rate": 0.0,
         }
 
         # Adaptive strategy learning
@@ -178,7 +187,7 @@ class ContradictionIntegrator:
             ResolutionMode.VETO: {"success_rate": 0.8, "avg_time_ms": 2.0},
             ResolutionMode.RECONCILE: {"success_rate": 0.6, "avg_time_ms": 4.0},
             ResolutionMode.SUPPRESS: {"success_rate": 0.9, "avg_time_ms": 1.0},
-            ResolutionMode.ISOLATE: {"success_rate": 0.7, "avg_time_ms": 3.5}
+            ResolutionMode.ISOLATE: {"success_rate": 0.7, "avg_time_ms": 3.5},
         }
 
         logger.info(
@@ -187,9 +196,7 @@ class ContradictionIntegrator:
         )
 
     async def check_inference_contradictions(
-        self,
-        inference_steps: List[Any],  # InferenceStep objects
-        context: ContradictionContext
+        self, inference_steps: List[Any], context: ContradictionContext  # InferenceStep objects
     ) -> ContradictionDetectionResult:
         """
         Check for contradictions in inference reasoning chains.
@@ -211,9 +218,7 @@ class ContradictionIntegrator:
                 return self._build_empty_result(start_time)
 
             # Perform contradiction detection
-            detection_result = await self._detect_contradictions_batch(
-                fragments, context, start_time
-            )
+            detection_result = await self._detect_contradictions_batch(fragments, context, start_time)
 
             # Update performance statistics
             self._update_detection_stats(detection_result, success=True)
@@ -234,7 +239,7 @@ class ContradictionIntegrator:
                 recommendations=[f"Error in detection: {str(e)}"],
                 meta_assessment={"error": str(e)},
                 success=False,
-                error_message=str(e)
+                error_message=str(e),
             )
 
             self._update_detection_stats(error_result, success=False)
@@ -245,7 +250,7 @@ class ContradictionIntegrator:
         thought_synthesis: str,
         supporting_reasoning: List[Any],
         memory_context: List[Dict[str, Any]],
-        context: ContradictionContext
+        context: ContradictionContext,
     ) -> ContradictionDetectionResult:
         """
         Check for contradictions in thought synthesis with supporting reasoning.
@@ -266,27 +271,19 @@ class ContradictionIntegrator:
             all_fragments = []
 
             # Add synthesis as primary fragment
-            synthesis_fragment = self._create_fragment_from_synthesis(
-                thought_synthesis, context
-            )
+            synthesis_fragment = self._create_fragment_from_synthesis(thought_synthesis, context)
             all_fragments.append(synthesis_fragment)
 
             # Add reasoning fragments
-            reasoning_fragments = await self._convert_reasoning_to_fragments(
-                supporting_reasoning, context
-            )
+            reasoning_fragments = await self._convert_reasoning_to_fragments(supporting_reasoning, context)
             all_fragments.extend(reasoning_fragments)
 
             # Add memory fragments
-            memory_fragments = self._convert_memory_to_fragments(
-                memory_context, context
-            )
+            memory_fragments = self._convert_memory_to_fragments(memory_context, context)
             all_fragments.extend(memory_fragments)
 
             # Perform multi-scope contradiction detection
-            detection_result = await self._multi_scope_detection(
-                all_fragments, context, start_time
-            )
+            detection_result = await self._multi_scope_detection(all_fragments, context, start_time)
 
             self._update_detection_stats(detection_result, success=True)
             return detection_result
@@ -305,13 +302,11 @@ class ContradictionIntegrator:
                 recommendations=[f"Detection failed: {str(e)}"],
                 meta_assessment={"error": str(e)},
                 success=False,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _convert_steps_to_fragments(
-        self,
-        inference_steps: List[Any],
-        context: ContradictionContext
+        self, inference_steps: List[Any], context: ContradictionContext
     ) -> List[SymbolicFragment]:
         """Convert inference steps to symbolic fragments."""
         fragments = []
@@ -319,11 +314,11 @@ class ContradictionIntegrator:
         for i, step in enumerate(inference_steps):
             try:
                 # Extract step data
-                step_id = getattr(step, 'step_id', f'step_{i}')
-                premise = getattr(step, 'premise', '')
-                conclusion = getattr(step, 'conclusion', '')
-                confidence = getattr(step, 'confidence', 0.5)
-                inference_type = getattr(step, 'inference_type', None)
+                step_id = getattr(step, "step_id", f"step_{i}")
+                premise = getattr(step, "premise", "")
+                conclusion = getattr(step, "conclusion", "")
+                confidence = getattr(step, "confidence", 0.5)
+                inference_type = getattr(step, "inference_type", None)
 
                 # Create fragment
                 fragment = SymbolicFragment(
@@ -331,19 +326,16 @@ class ContradictionIntegrator:
                     content={
                         "premise": premise,
                         "conclusion": conclusion,
-                        "inference_type": str(inference_type) if inference_type else "unknown"
+                        "inference_type": str(inference_type) if inference_type else "unknown",
                     },
                     source_module="inference_engine",
                     timestamp=str(time.time()),
                     confidence=confidence,
                     entropy=max(0.1, 1.0 - confidence),  # Higher confidence = lower entropy
                     emotional_weight=0.5,  # Neutral for logical reasoning
-                    ethical_score=0.8,     # Assume ethical reasoning
+                    ethical_score=0.8,  # Assume ethical reasoning
                     glyph_signature=f"INF_{step_id[:8]}",
-                    metadata={
-                        "step_depth": getattr(step, 'depth', 0),
-                        "reasoning_context": context.metadata
-                    }
+                    metadata={"step_depth": getattr(step, "depth", 0), "reasoning_context": context.metadata},
                 )
 
                 fragments.append(fragment)
@@ -354,18 +346,11 @@ class ContradictionIntegrator:
 
         return fragments
 
-    def _create_fragment_from_synthesis(
-        self,
-        synthesis: str,
-        context: ContradictionContext
-    ) -> SymbolicFragment:
+    def _create_fragment_from_synthesis(self, synthesis: str, context: ContradictionContext) -> SymbolicFragment:
         """Create symbolic fragment from thought synthesis."""
         return SymbolicFragment(
             fragment_id=f"synthesis_{uuid.uuid4().hex[:8]}",
-            content={
-                "synthesis": synthesis,
-                "type": "thought_synthesis"
-            },
+            content={"synthesis": synthesis, "type": "thought_synthesis"},
             source_module="enhanced_thought_engine",
             timestamp=str(time.time()),
             confidence=0.8,  # High confidence for final synthesis
@@ -373,43 +358,39 @@ class ContradictionIntegrator:
             emotional_weight=0.6,
             ethical_score=0.9,
             glyph_signature=f"SYNTH_{hash(synthesis) % 10000:04d}",
-            metadata=context.metadata
+            metadata=context.metadata,
         )
 
     async def _convert_reasoning_to_fragments(
-        self,
-        reasoning_chains: List[Any],
-        context: ContradictionContext
+        self, reasoning_chains: List[Any], context: ContradictionContext
     ) -> List[SymbolicFragment]:
         """Convert reasoning chains to fragments."""
         fragments = []
 
         for i, chain in enumerate(reasoning_chains):
             try:
-                if hasattr(chain, 'steps'):
+                if hasattr(chain, "steps"):
                     # Convert each step in the chain
-                    step_fragments = await self._convert_steps_to_fragments(
-                        chain.steps, context
-                    )
+                    step_fragments = await self._convert_steps_to_fragments(chain.steps, context)
                     fragments.extend(step_fragments)
 
                 # Add chain-level fragment
-                if hasattr(chain, 'root_premise'):
+                if hasattr(chain, "root_premise"):
                     chain_fragment = SymbolicFragment(
                         fragment_id=f"chain_{i}_{uuid.uuid4().hex[:8]}",
                         content={
                             "chain_premise": chain.root_premise,
-                            "chain_confidence": getattr(chain, 'total_confidence', 0.5),
-                            "max_depth": getattr(chain, 'max_depth_reached', 0)
+                            "chain_confidence": getattr(chain, "total_confidence", 0.5),
+                            "max_depth": getattr(chain, "max_depth_reached", 0),
                         },
                         source_module="reasoning_chain",
                         timestamp=str(time.time()),
-                        confidence=getattr(chain, 'total_confidence', 0.5),
+                        confidence=getattr(chain, "total_confidence", 0.5),
                         entropy=0.3,
                         emotional_weight=0.4,
                         ethical_score=0.8,
                         glyph_signature=f"CHAIN_{i:03d}",
-                        metadata={"chain_index": i}
+                        metadata={"chain_index": i},
                     )
                     fragments.append(chain_fragment)
 
@@ -420,9 +401,7 @@ class ContradictionIntegrator:
         return fragments
 
     def _convert_memory_to_fragments(
-        self,
-        memory_context: List[Dict[str, Any]],
-        context: ContradictionContext
+        self, memory_context: List[Dict[str, Any]], context: ContradictionContext
     ) -> List[SymbolicFragment]:
         """Convert memory context to fragments."""
         fragments = []
@@ -434,10 +413,7 @@ class ContradictionIntegrator:
 
                 fragment = SymbolicFragment(
                     fragment_id=f"mem_{memory_id}",
-                    content={
-                        "memory_content": content,
-                        "memory_type": memory.get("type", "unknown")
-                    },
+                    content={"memory_content": content, "memory_type": memory.get("type", "unknown")},
                     source_module="memory_system",
                     timestamp=memory.get("timestamp", str(time.time())),
                     confidence=memory.get("confidence", 0.7),
@@ -445,7 +421,7 @@ class ContradictionIntegrator:
                     emotional_weight=memory.get("emotional_weight", 0.5),
                     ethical_score=memory.get("ethical_score", 0.8),
                     glyph_signature=f"MEM_{memory_id[:8]}",
-                    metadata={"memory_index": i}
+                    metadata={"memory_index": i},
                 )
 
                 fragments.append(fragment)
@@ -457,10 +433,7 @@ class ContradictionIntegrator:
         return fragments
 
     async def _detect_contradictions_batch(
-        self,
-        fragments: List[SymbolicFragment],
-        context: ContradictionContext,
-        start_time: float
+        self, fragments: List[SymbolicFragment], context: ContradictionContext, start_time: float
     ) -> ContradictionDetectionResult:
         """Perform batch contradiction detection on fragments."""
 
@@ -470,10 +443,7 @@ class ContradictionIntegrator:
 
         try:
             # Detect contradictions using the core resolver
-            report = self.conflict_resolver.detect_symbolic_conflict(
-                fragments,
-                context.metadata or {}
-            )
+            report = self.conflict_resolver.detect_symbolic_conflict(fragments, context.metadata or {})
 
             if report:
                 contradiction_reports.append(report)
@@ -481,14 +451,9 @@ class ContradictionIntegrator:
 
                 # Attempt resolution if enabled
                 if context.enable_resolution:
-                    resolution_strategy = (
-                        context.resolution_strategy or
-                        self._select_optimal_strategy(report)
-                    )
+                    resolution_strategy = context.resolution_strategy or self._select_optimal_strategy(report)
 
-                    resolution_result = self.conflict_resolver.resolve_conflict(
-                        report, resolution_strategy
-                    )
+                    resolution_result = self.conflict_resolver.resolve_conflict(report, resolution_strategy)
 
                     if resolution_result:
                         resolution_results.append(resolution_result)
@@ -506,10 +471,12 @@ class ContradictionIntegrator:
                 processing_time_ms=processing_time,
                 scope_coverage=scope_coverage,
                 recommendations=self._generate_recommendations(contradiction_reports, resolution_results),
-                meta_assessment=self._assess_detection_quality(
-                    contradiction_reports, resolution_results, processing_time
-                ) if self.enable_meta_feedback else {},
-                success=True
+                meta_assessment=(
+                    self._assess_detection_quality(contradiction_reports, resolution_results, processing_time)
+                    if self.enable_meta_feedback
+                    else {}
+                ),
+                success=True,
             )
 
         except Exception as e:
@@ -526,14 +493,11 @@ class ContradictionIntegrator:
                 recommendations=[f"Detection failed: {str(e)}"],
                 meta_assessment={"error": str(e)},
                 success=False,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _multi_scope_detection(
-        self,
-        all_fragments: List[SymbolicFragment],
-        context: ContradictionContext,
-        start_time: float
+        self, all_fragments: List[SymbolicFragment], context: ContradictionContext, start_time: float
     ) -> ContradictionDetectionResult:
         """Perform multi-scope contradiction detection."""
 
@@ -547,9 +511,7 @@ class ContradictionIntegrator:
         # Check each scope
         for scope in ContradictionScope:
             try:
-                scope_fragments = self._select_fragments_for_scope(
-                    fragment_groups, scope
-                )
+                scope_fragments = self._select_fragments_for_scope(fragment_groups, scope)
 
                 if scope_fragments:
                     scope_context = ContradictionContext(
@@ -559,12 +521,10 @@ class ContradictionIntegrator:
                         confidence_levels=context.confidence_levels,
                         processing_time_budget_ms=context.processing_time_budget_ms / len(ContradictionScope),
                         enable_resolution=context.enable_resolution,
-                        metadata={**context.metadata, "detection_scope": scope.value}
+                        metadata={**context.metadata, "detection_scope": scope.value},
                     )
 
-                    scope_result = await self._detect_contradictions_batch(
-                        scope_fragments, scope_context, start_time
-                    )
+                    scope_result = await self._detect_contradictions_batch(scope_fragments, scope_context, start_time)
 
                     if scope_result.contradictions_found > 0:
                         all_reports.extend(scope_result.contradiction_reports)
@@ -584,31 +544,25 @@ class ContradictionIntegrator:
             detection_accuracy=self._calculate_multi_scope_accuracy(scope_coverage),
             processing_time_ms=processing_time,
             scope_coverage=scope_coverage,
-            recommendations=self._generate_multi_scope_recommendations(
-                scope_coverage, all_reports, all_resolutions
+            recommendations=self._generate_multi_scope_recommendations(scope_coverage, all_reports, all_resolutions),
+            meta_assessment=(
+                self._assess_multi_scope_quality(scope_coverage, processing_time) if self.enable_meta_feedback else {}
             ),
-            meta_assessment=self._assess_multi_scope_quality(
-                scope_coverage, processing_time
-            ) if self.enable_meta_feedback else {},
-            success=True
+            success=True,
         )
 
-    def _group_fragments_by_source(
-        self, fragments: List[SymbolicFragment]
-    ) -> Dict[str, List[SymbolicFragment]]:
+    def _group_fragments_by_source(self, fragments: List[SymbolicFragment]) -> Dict[str, List[SymbolicFragment]]:
         """Group fragments by their source module."""
         groups = {}
         for fragment in fragments:
-            source = getattr(fragment, 'source_module', 'unknown')
+            source = getattr(fragment, "source_module", "unknown")
             if source not in groups:
                 groups[source] = []
             groups[source].append(fragment)
         return groups
 
     def _select_fragments_for_scope(
-        self,
-        fragment_groups: Dict[str, List[SymbolicFragment]],
-        scope: ContradictionScope
+        self, fragment_groups: Dict[str, List[SymbolicFragment]], scope: ContradictionScope
     ) -> List[SymbolicFragment]:
         """Select relevant fragments for a specific detection scope."""
 
@@ -652,10 +606,10 @@ class ContradictionIntegrator:
             return ResolutionMode.VETO  # Default safe strategy
 
         # Strategy selection based on conflict type
-        conflict_type = getattr(report, 'conflict_type', None)
-        severity = getattr(report, 'severity', None)
+        conflict_type = getattr(report, "conflict_type", None)
+        severity = getattr(report, "severity", None)
 
-        if hasattr(conflict_type, 'value'):
+        if hasattr(conflict_type, "value"):
             conflict_type_str = conflict_type.value
         else:
             conflict_type_str = str(conflict_type)
@@ -663,7 +617,7 @@ class ContradictionIntegrator:
         # Select strategy based on conflict characteristics
         if conflict_type_str == "logical":
             # Logical contradictions need careful resolution
-            if hasattr(severity, 'value') and severity.value in ['critical', 'major']:
+            if hasattr(severity, "value") and severity.value in ["critical", "major"]:
                 return ResolutionMode.ESCALATE
             else:
                 return ResolutionMode.RECONCILE
@@ -682,16 +636,11 @@ class ContradictionIntegrator:
 
         else:
             # Default to most reliable strategy
-            best_strategy = max(
-                self.strategy_effectiveness.items(),
-                key=lambda x: x[1]["success_rate"]
-            )[0]
+            best_strategy = max(self.strategy_effectiveness.items(), key=lambda x: x[1]["success_rate"])[0]
             return best_strategy
 
     def _generate_recommendations(
-        self,
-        contradiction_reports: List[ContradictionReport],
-        resolution_results: List[Any]
+        self, contradiction_reports: List[ContradictionReport], resolution_results: List[Any]
     ) -> List[str]:
         """Generate recommendations based on contradiction findings."""
 
@@ -704,9 +653,9 @@ class ContradictionIntegrator:
         # Analyze contradiction patterns
         contradiction_types = {}
         for report in contradiction_reports:
-            conflict_type = getattr(report, 'conflict_type', None)
+            conflict_type = getattr(report, "conflict_type", None)
             if conflict_type:
-                type_str = conflict_type.value if hasattr(conflict_type, 'value') else str(conflict_type)
+                type_str = conflict_type.value if hasattr(conflict_type, "value") else str(conflict_type)
                 contradiction_types[type_str] = contradiction_types.get(type_str, 0) + 1
 
         # Generate specific recommendations
@@ -719,17 +668,14 @@ class ContradictionIntegrator:
                 recommendations.append(f"Verify memory integration - {count} memory-based contradictions")
 
         # Resolution effectiveness
-        successful_resolutions = sum(1 for result in resolution_results if getattr(result, 'resolution_success', False))
+        successful_resolutions = sum(1 for result in resolution_results if getattr(result, "resolution_success", False))
         if successful_resolutions < len(contradiction_reports):
             recommendations.append("Some contradictions remain unresolved - consider alternative reasoning paths")
 
         return recommendations
 
     def _assess_detection_quality(
-        self,
-        contradiction_reports: List[Any],
-        resolution_results: List[Any],
-        processing_time: float
+        self, contradiction_reports: List[Any], resolution_results: List[Any], processing_time: float
     ) -> Dict[str, Any]:
         """Assess quality of contradiction detection process."""
 
@@ -738,12 +684,12 @@ class ContradictionIntegrator:
             "resolution_effectiveness": 0.0,
             "coverage_adequacy": 1.0 if contradiction_reports else 0.8,  # Assume good coverage
             "accuracy_confidence": self.accuracy_target,
-            "performance_rating": "excellent" if processing_time < self.max_detection_time_ms else "acceptable"
+            "performance_rating": "excellent" if processing_time < self.max_detection_time_ms else "acceptable",
         }
 
         # Calculate resolution effectiveness
         if resolution_results:
-            successful = sum(1 for result in resolution_results if getattr(result, 'resolution_success', False))
+            successful = sum(1 for result in resolution_results if getattr(result, "resolution_success", False))
             assessment["resolution_effectiveness"] = successful / len(resolution_results)
 
         # Overall quality score
@@ -751,7 +697,7 @@ class ContradictionIntegrator:
             assessment["detection_efficiency"],
             assessment["resolution_effectiveness"],
             assessment["coverage_adequacy"],
-            assessment["accuracy_confidence"]
+            assessment["accuracy_confidence"],
         ]
 
         assessment["overall_quality"] = sum(quality_components) / len(quality_components)
@@ -759,10 +705,7 @@ class ContradictionIntegrator:
         return assessment
 
     def _generate_multi_scope_recommendations(
-        self,
-        scope_coverage: Dict[ContradictionScope, int],
-        all_reports: List[Any],
-        all_resolutions: List[Any]
+        self, scope_coverage: Dict[ContradictionScope, int], all_reports: List[Any], all_resolutions: List[Any]
     ) -> List[str]:
         """Generate recommendations for multi-scope detection."""
 
@@ -803,18 +746,20 @@ class ContradictionIntegrator:
             return self.accuracy_target
 
     def _assess_multi_scope_quality(
-        self,
-        scope_coverage: Dict[ContradictionScope, int],
-        processing_time: float
+        self, scope_coverage: Dict[ContradictionScope, int], processing_time: float
     ) -> Dict[str, Any]:
         """Assess quality of multi-scope detection."""
 
         return {
             "scope_coverage": len([s for s, c in scope_coverage.items() if c > 0]),
             "total_scopes": len(ContradictionScope),
-            "detection_comprehensiveness": min(1.0, len([s for s, c in scope_coverage.items() if c > 0]) / len(ContradictionScope)),
-            "processing_efficiency": min(1.0, (self.max_detection_time_ms * len(ContradictionScope)) / max(0.1, processing_time)),
-            "scope_distribution": dict(scope_coverage)
+            "detection_comprehensiveness": min(
+                1.0, len([s for s, c in scope_coverage.items() if c > 0]) / len(ContradictionScope)
+            ),
+            "processing_efficiency": min(
+                1.0, (self.max_detection_time_ms * len(ContradictionScope)) / max(0.1, processing_time)
+            ),
+            "scope_distribution": dict(scope_coverage),
         }
 
     def _build_empty_result(self, start_time: float) -> ContradictionDetectionResult:
@@ -830,7 +775,7 @@ class ContradictionIntegrator:
             scope_coverage={scope: 0 for scope in ContradictionScope},
             recommendations=["No content to check for contradictions"],
             meta_assessment={"status": "empty_input"},
-            success=True
+            success=True,
         )
 
     def _update_detection_stats(self, result: ContradictionDetectionResult, success: bool) -> None:
@@ -842,8 +787,7 @@ class ContradictionIntegrator:
             self.detection_stats["resolutions_attempted"] += len(result.resolution_results)
 
             successful_resolutions = sum(
-                1 for res in result.resolution_results
-                if getattr(res, 'resolution_success', False)
+                1 for res in result.resolution_results if getattr(res, "resolution_success", False)
             )
             self.detection_stats["successful_resolutions"] += successful_resolutions
 
@@ -851,13 +795,11 @@ class ContradictionIntegrator:
             total = self.detection_stats["total_checks"]
             current_avg_time = self.detection_stats["avg_detection_time_ms"]
             self.detection_stats["avg_detection_time_ms"] = (
-                (current_avg_time * (total - 1) + result.processing_time_ms) / total
-            )
+                current_avg_time * (total - 1) + result.processing_time_ms
+            ) / total
 
             current_accuracy = self.detection_stats["accuracy_rate"]
-            self.detection_stats["accuracy_rate"] = (
-                (current_accuracy * (total - 1) + result.detection_accuracy) / total
-            )
+            self.detection_stats["accuracy_rate"] = (current_accuracy * (total - 1) + result.detection_accuracy) / total
 
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get current detection performance statistics."""
@@ -867,17 +809,19 @@ class ContradictionIntegrator:
             **self.detection_stats,
             "detection_rate": self.detection_stats["contradictions_found"] / total_checks,
             "resolution_success_rate": (
-                self.detection_stats["successful_resolutions"] /
-                max(1, self.detection_stats["resolutions_attempted"])
-            ) * 100,
-            "efficiency_score": min(1.0, self.max_detection_time_ms / max(0.1, self.detection_stats["avg_detection_time_ms"])),
+                self.detection_stats["successful_resolutions"] / max(1, self.detection_stats["resolutions_attempted"])
+            )
+            * 100,
+            "efficiency_score": min(
+                1.0, self.max_detection_time_ms / max(0.1, self.detection_stats["avg_detection_time_ms"])
+            ),
             "strategy_effectiveness": dict(self.strategy_effectiveness),
             "configuration": {
                 "accuracy_target": self.accuracy_target,
                 "max_detection_time_ms": self.max_detection_time_ms,
                 "adaptive_strategies": self.enable_adaptive_strategies,
-                "meta_feedback": self.enable_meta_feedback
-            }
+                "meta_feedback": self.enable_meta_feedback,
+            },
         }
 
     def reset_stats(self) -> None:
@@ -889,14 +833,9 @@ class ContradictionIntegrator:
             "successful_resolutions": 0,
             "avg_detection_time_ms": 0.0,
             "accuracy_rate": 0.0,
-            "false_positive_rate": 0.0
+            "false_positive_rate": 0.0,
         }
 
 
 # Export main classes
-__all__ = [
-    "ContradictionIntegrator",
-    "ContradictionContext",
-    "ContradictionDetectionResult",
-    "ContradictionScope"
-]
+__all__ = ["ContradictionIntegrator", "ContradictionContext", "ContradictionDetectionResult", "ContradictionScope"]

@@ -31,7 +31,8 @@ class TestSqlMemory:
         with self.engine.begin() as conn:
             # Create akaq_scene table with correct schema
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE TABLE IF NOT EXISTS akaq_scene (
                     scene_id TEXT PRIMARY KEY,
                     user_id TEXT NOT NULL,
@@ -54,12 +55,14 @@ class TestSqlMemory:
                     cfg_version TEXT,
                     ts REAL DEFAULT (julianday('now'))
                 )
-            """)
+            """
+                )
             )
 
             # Create akaq_glyph table
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE TABLE IF NOT EXISTS akaq_glyph (
                     glyph_id TEXT PRIMARY KEY,
                     scene_id TEXT,
@@ -70,7 +73,8 @@ class TestSqlMemory:
                     ts REAL DEFAULT (julianday('now')),
                     FOREIGN KEY (scene_id) REFERENCES akaq_scene(scene_id)
                 )
-            """)
+            """
+                )
             )
 
         print("Database migration applied successfully")
@@ -91,7 +95,8 @@ class TestSqlMemory:
 
             # Insert scene
             tx.execute(
-                text("""
+                text(
+                    """
                 INSERT INTO akaq_scene (
                     scene_id, user_id, subject, object, proto, proto_vec, risk, context,
                     transform_chain, collapse_hash, drift_phi, congruence_index, neurosis_risk,
@@ -103,7 +108,8 @@ class TestSqlMemory:
                     :repair_delta, :sublimation_rate, :affect_energy_before, :affect_energy_after,
                     :affect_energy_diff, :cfg_version, :ts
                 )
-            """),
+            """
+                ),
                 {
                     "scene_id": scene_id,
                     "user_id": user_id,
@@ -132,10 +138,12 @@ class TestSqlMemory:
             for glyph in glyphs:
                 glyph_id = self._generate_scene_id()
                 tx.execute(
-                    text("""
+                    text(
+                        """
                     INSERT INTO akaq_glyph (glyph_id, scene_id, user_id, key, attrs, priority)
                     VALUES (:glyph_id, :scene_id, :user_id, :key, :attrs, :priority)
-                """),
+                """
+                    ),
                     {
                         "glyph_id": glyph_id,
                         "scene_id": scene_id,

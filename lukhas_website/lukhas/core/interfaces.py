@@ -30,6 +30,7 @@ from typing import Any, Mapping, Optional, Protocol, runtime_checkable
 
 class CognitiveNodeBase(ABC):
     """Minimal ABC for dynamic discovery and execution."""
+
     name: str = "unnamed"
     AUTOINIT: bool = False  # loader respects this
 

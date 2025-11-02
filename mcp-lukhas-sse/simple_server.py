@@ -17,6 +17,7 @@ from starlette.responses import JSONResponse
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class SimpleOAuthMiddleware(BaseHTTPMiddleware):
     """Simple OAuth middleware for testing."""
 
@@ -32,37 +33,30 @@ class SimpleOAuthMiddleware(BaseHTTPMiddleware):
         # Check for Authorization header
         auth_header = request.headers.get("Authorization")
         if not auth_header:
-            return JSONResponse(
-                {"error": "Missing Authorization header"},
-                status_code=401
-            )
+            return JSONResponse({"error": "Missing Authorization header"}, status_code=401)
 
         # Extract token
         if not auth_header.startswith("Bearer "):
-            return JSONResponse(
-                {"error": "Invalid Authorization header format"},
-                status_code=401
-            )
+            return JSONResponse({"error": "Invalid Authorization header format"}, status_code=401)
 
         token = auth_header[7:]  # Remove "Bearer "
 
         # Validate JWT
         try:
-            payload = jwt.decode(token, self.oauth_secret, algorithms=['HS256'])
+            payload = jwt.decode(token, self.oauth_secret, algorithms=["HS256"])
             logger.info(f"Valid token for user: {payload.get('sub', 'unknown')}")
             # Add user info to request
             request.state.user = payload
         except JWTError as e:
             logger.warning(f"Invalid token: {e}")
-            return JSONResponse(
-                {"error": "Invalid token"},
-                status_code=403
-            )
+            return JSONResponse({"error": "Invalid token"}, status_code=403)
 
         return await call_next(request)
 
+
 # Initialize FastMCP
 mcp = FastMCP("LUKHAS OAuth MCP Server")
+
 
 @mcp.tool()
 def list_directory(path: str) -> dict:
@@ -79,15 +73,18 @@ def list_directory(path: str) -> dict:
         items = []
         for item in os.listdir(path):
             full_path = os.path.join(path, item)
-            items.append({
-                "name": item,
-                "type": "directory" if os.path.isdir(full_path) else "file",
-                "size": os.path.getsize(full_path) if os.path.isfile(full_path) else None
-            })
+            items.append(
+                {
+                    "name": item,
+                    "type": "directory" if os.path.isdir(full_path) else "file",
+                    "size": os.path.getsize(full_path) if os.path.isfile(full_path) else None,
+                }
+            )
 
         return {"path": path, "items": items}
     except Exception as e:
         return {"error": str(e)}
+
 
 @mcp.tool()
 def read_file(path: str, max_lines: int = 100) -> dict:
@@ -104,36 +101,34 @@ def read_file(path: str, max_lines: int = 100) -> dict:
         if not os.path.isfile(path):
             return {"error": "Path is not a file"}
 
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, "r", encoding="utf-8") as f:
             lines = f.readlines()[:max_lines]
 
-        return {
-            "path": path,
-            "content": "".join(lines),
-            "truncated": len(lines) >= max_lines
-        }
+        return {"path": path, "content": "".join(lines), "truncated": len(lines) >= max_lines}
     except Exception as e:
         return {"error": str(e)}
+
 
 # Create the FastMCP app first
 mcp_app = mcp.create_server()
 
 # Create Starlette app with middleware
-middleware = [
-    Middleware(SimpleOAuthMiddleware)
-]
+middleware = [Middleware(SimpleOAuthMiddleware)]
 
 app = Starlette(middleware=middleware)
+
 
 # Add health check endpoint
 @app.route("/health")
 async def health_check(request):
     return JSONResponse({"status": "healthy", "timestamp": time.time()})
 
+
 # Add MCP routes
 @app.route("/sse", methods=["GET", "POST"])
 async def mcp_endpoint(request):
     return await mcp_app(request.scope, request.receive, request._send)
+
 
 if __name__ == "__main__":
     import uvicorn

@@ -38,6 +38,7 @@ def pytest_sessionfinish(session, exitstatus):
         with out.open("w", encoding="utf-8") as f:
             for name, tb in _IMPORT_FAILS:
                 import json
+
                 f.write(json.dumps({"module": name, "trace": tb}) + "\n")
         session.config.warn("C1", f"Saved import failures → {out}")
 

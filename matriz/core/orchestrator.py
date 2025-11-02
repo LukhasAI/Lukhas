@@ -81,9 +81,7 @@ class CognitiveOrchestrator:
             validation = validator.validate_output(result)
 
             # Create validation reflection node
-            reflection_node = self._create_reflection_node(
-                result_node=result["matriz_node"], validation=validation
-            )
+            reflection_node = self._create_reflection_node(result_node=result["matriz_node"], validation=validation)
             self.matriz_graph[reflection_node["id"]] = reflection_node
 
         # 5. Build execution trace

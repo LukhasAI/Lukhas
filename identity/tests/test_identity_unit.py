@@ -25,10 +25,7 @@ class TestIdentityModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "identity",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "identity", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestIdentityModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import identity
+
         self.assertIsNotNone(identity)
 
     def test_module_version(self):
         """Test module has version information."""
         import identity
+
         # Most modules should have version info
-        self.assertTrue(hasattr(identity, '__version__') or
-                       hasattr(identity, 'VERSION'))
+        self.assertTrue(hasattr(identity, "__version__") or hasattr(identity, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestAccessContext(unittest.TestCase):
         """Test AccessContext can be imported."""
         try:
             from identity import AccessContext
+
             self.assertIsNotNone(AccessContext)
         except ImportError:
             pytest.skip("Component AccessContext not available")
@@ -97,6 +96,7 @@ class TestAccessDecision(unittest.TestCase):
         """Test AccessDecision can be imported."""
         try:
             from identity import AccessDecision
+
             self.assertIsNotNone(AccessDecision)
         except ImportError:
             pytest.skip("Component AccessDecision not available")
@@ -114,6 +114,7 @@ class TestAccessType(unittest.TestCase):
         """Test AccessType can be imported."""
         try:
             from identity import AccessType
+
             self.assertIsNotNone(AccessType)
         except ImportError:
             pytest.skip("Component AccessType not available")
@@ -122,7 +123,6 @@ class TestAccessType(unittest.TestCase):
         """Test AccessType can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

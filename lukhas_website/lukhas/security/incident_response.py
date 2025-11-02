@@ -33,16 +33,20 @@ from typing import Any, Callable, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
+
 class IncidentSeverity(Enum):
     """Incident severity levels."""
-    P0_CRITICAL = "p0_critical"      # System down, data breach
-    P1_HIGH = "p1_high"              # Significant security event
-    P2_MEDIUM = "p2_medium"          # Security concern, service degraded
-    P3_LOW = "p3_low"                # Minor security issue
-    P4_INFO = "p4_info"              # Informational, no immediate action
+
+    P0_CRITICAL = "p0_critical"  # System down, data breach
+    P1_HIGH = "p1_high"  # Significant security event
+    P2_MEDIUM = "p2_medium"  # Security concern, service degraded
+    P3_LOW = "p3_low"  # Minor security issue
+    P4_INFO = "p4_info"  # Informational, no immediate action
+
 
 class IncidentStatus(Enum):
     """Incident lifecycle status."""
+
     DETECTED = "detected"
     ANALYZING = "analyzing"
     CONTAINED = "contained"
@@ -51,8 +55,10 @@ class IncidentStatus(Enum):
     RESOLVED = "resolved"
     CLOSED = "closed"
 
+
 class IncidentCategory(Enum):
     """Incident categories for classification."""
+
     DATA_BREACH = "data_breach"
     SYSTEM_COMPROMISE = "system_compromise"
     MALWARE_INFECTION = "malware_infection"
@@ -63,8 +69,10 @@ class IncidentCategory(Enum):
     GUARDIAN_ALERT = "guardian_alert"
     SYSTEM_FAILURE = "system_failure"
 
+
 class ResponseAction(Enum):
     """Automated response actions."""
+
     ISOLATE_SYSTEM = "isolate_system"
     BLOCK_IP = "block_ip"
     DISABLE_ACCOUNT = "disable_account"
@@ -76,9 +84,11 @@ class ResponseAction(Enum):
     SNAPSHOT_SYSTEM = "snapshot_system"
     RESET_CREDENTIALS = "reset_credentials"
 
+
 @dataclass
 class IncidentArtifact:
     """Evidence and artifacts collected during incident."""
+
     id: str
     type: str  # log, file, memory_dump, network_capture, etc.
     source: str
@@ -88,9 +98,11 @@ class IncidentArtifact:
     size_bytes: int
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ResponseStep:
     """Individual response step in a playbook."""
+
     id: str
     name: str
     description: str
@@ -101,9 +113,11 @@ class ResponseStep:
     requires_approval: bool = False
     depends_on: List[str] = field(default_factory=list)
 
+
 @dataclass
 class ResponsePlaybook:
     """Response playbook for incident types."""
+
     id: str
     name: str
     description: str
@@ -114,9 +128,11 @@ class ResponsePlaybook:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
+
 @dataclass
 class Incident:
     """Security incident representation."""
+
     id: str
     title: str
     description: str
@@ -134,9 +150,11 @@ class Incident:
     resolved_at: Optional[datetime] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ExecutionResult:
     """Result of response step execution."""
+
     step_id: str
     success: bool
     output: str
@@ -145,13 +163,13 @@ class ExecutionResult:
     artifacts_collected: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class IncidentResponseSystem:
     """Comprehensive incident response automation system."""
 
-    def __init__(self,
-                 guardian_integration: bool = True,
-                 auto_containment: bool = True,
-                 evidence_retention_days: int = 365):
+    def __init__(
+        self, guardian_integration: bool = True, auto_containment: bool = True, evidence_retention_days: int = 365
+    ):
 
         self.guardian_integration = guardian_integration
         self.auto_containment = auto_containment
@@ -195,31 +213,31 @@ class IncidentResponseSystem:
                     name="Isolate Affected Systems",
                     description="Isolate systems involved in data breach",
                     action=ResponseAction.ISOLATE_SYSTEM,
-                    parameters={"isolation_level": "network"}
+                    parameters={"isolation_level": "network"},
                 ),
                 ResponseStep(
                     id="backup_evidence",
                     name="Backup Evidence",
                     description="Preserve evidence for forensic analysis",
                     action=ResponseAction.BACKUP_EVIDENCE,
-                    depends_on=["isolate_affected_systems"]
+                    depends_on=["isolate_affected_systems"],
                 ),
                 ResponseStep(
                     id="notify_incident_team",
                     name="Notify Incident Response Team",
                     description="Alert incident response team immediately",
                     action=ResponseAction.NOTIFY_TEAM,
-                    parameters={"urgency": "critical", "team": "incident_response"}
+                    parameters={"urgency": "critical", "team": "incident_response"},
                 ),
                 ResponseStep(
                     id="invoke_guardian",
                     name="Invoke Guardian System",
                     description="Activate Guardian emergency protocols",
                     action=ResponseAction.INVOKE_GUARDIAN,
-                    parameters={"emergency_level": "high"}
-                )
+                    parameters={"emergency_level": "high"},
+                ),
             ],
-            auto_execute=True
+            auto_execute=True,
         )
 
         # System compromise playbook
@@ -234,30 +252,30 @@ class IncidentResponseSystem:
                     id="snapshot_system",
                     name="Create System Snapshot",
                     description="Create forensic snapshot of compromised system",
-                    action=ResponseAction.SNAPSHOT_SYSTEM
+                    action=ResponseAction.SNAPSHOT_SYSTEM,
                 ),
                 ResponseStep(
                     id="isolate_system",
                     name="Isolate System",
                     description="Isolate compromised system from network",
                     action=ResponseAction.ISOLATE_SYSTEM,
-                    depends_on=["snapshot_system"]
+                    depends_on=["snapshot_system"],
                 ),
                 ResponseStep(
                     id="reset_credentials",
                     name="Reset Credentials",
                     description="Reset credentials for affected accounts",
                     action=ResponseAction.RESET_CREDENTIALS,
-                    requires_approval=True
+                    requires_approval=True,
                 ),
                 ResponseStep(
                     id="escalate_incident",
                     name="Escalate to Security Team",
                     description="Escalate incident to security team",
-                    action=ResponseAction.ESCALATE_INCIDENT
-                )
+                    action=ResponseAction.ESCALATE_INCIDENT,
+                ),
             ],
-            auto_execute=False  # Requires manual approval
+            auto_execute=False,  # Requires manual approval
         )
 
         # Malware infection playbook
@@ -272,24 +290,24 @@ class IncidentResponseSystem:
                     id="quarantine_file",
                     name="Quarantine Malicious Files",
                     description="Quarantine identified malicious files",
-                    action=ResponseAction.QUARANTINE_FILE
+                    action=ResponseAction.QUARANTINE_FILE,
                 ),
                 ResponseStep(
                     id="isolate_infected_system",
                     name="Isolate Infected System",
                     description="Isolate infected system to prevent spread",
                     action=ResponseAction.ISOLATE_SYSTEM,
-                    parameters={"isolation_level": "partial"}
+                    parameters={"isolation_level": "partial"},
                 ),
                 ResponseStep(
                     id="collect_malware_sample",
                     name="Collect Malware Sample",
                     description="Collect malware sample for analysis",
                     action=ResponseAction.BACKUP_EVIDENCE,
-                    parameters={"evidence_type": "malware_sample"}
-                )
+                    parameters={"evidence_type": "malware_sample"},
+                ),
             ],
-            auto_execute=True
+            auto_execute=True,
         )
 
         # DoS attack playbook
@@ -304,24 +322,24 @@ class IncidentResponseSystem:
                     id="block_attacking_ips",
                     name="Block Attacking IPs",
                     description="Block IP addresses involved in DoS attack",
-                    action=ResponseAction.BLOCK_IP
+                    action=ResponseAction.BLOCK_IP,
                 ),
                 ResponseStep(
                     id="activate_ddos_protection",
                     name="Activate DDoS Protection",
                     description="Enable additional DDoS protection measures",
                     action=ResponseAction.ISOLATE_SYSTEM,
-                    parameters={"protection_level": "enhanced"}
+                    parameters={"protection_level": "enhanced"},
                 ),
                 ResponseStep(
                     id="notify_operations",
                     name="Notify Operations Team",
                     description="Alert operations team about ongoing attack",
                     action=ResponseAction.NOTIFY_TEAM,
-                    parameters={"team": "operations", "urgency": "high"}
-                )
+                    parameters={"team": "operations", "urgency": "high"},
+                ),
             ],
-            auto_execute=True
+            auto_execute=True,
         )
 
         # Register playbooks
@@ -333,15 +351,17 @@ class IncidentResponseSystem:
         self.playbooks[playbook.id] = playbook
         logger.info(f"Registered playbook: {playbook.name}")
 
-    def create_incident(self,
-                       title: str,
-                       description: str,
-                       severity: IncidentSeverity,
-                       category: IncidentCategory,
-                       source_events: Optional[List[str]] = None,
-                       affected_systems: Optional[List[str]] = None,
-                       affected_users: Optional[List[str]] = None,
-                       auto_respond: bool = True) -> str:
+    def create_incident(
+        self,
+        title: str,
+        description: str,
+        severity: IncidentSeverity,
+        category: IncidentCategory,
+        source_events: Optional[List[str]] = None,
+        affected_systems: Optional[List[str]] = None,
+        affected_users: Optional[List[str]] = None,
+        auto_respond: bool = True,
+    ) -> str:
         """
         Create a new incident and trigger automated response.
 
@@ -374,12 +394,14 @@ class IncidentResponseSystem:
             source_events=source_events or [],
             affected_systems=affected_systems or [],
             affected_users=affected_users or [],
-            timeline=[{
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "event": "incident_created",
-                "description": "Incident created and registered",
-                "actor": "system"
-            }]
+            timeline=[
+                {
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "event": "incident_created",
+                    "description": "Incident created and registered",
+                    "actor": "system",
+                }
+            ],
         )
 
         # Store incident
@@ -454,10 +476,7 @@ class IncidentResponseSystem:
 
         # Create execution thread
         thread = threading.Thread(
-            target=self._execute_playbook_thread,
-            args=(incident, playbook),
-            name=f"Playbook-{incident.id}",
-            daemon=True
+            target=self._execute_playbook_thread, args=(incident, playbook), name=f"Playbook-{incident.id}", daemon=True
         )
 
         self.active_responses[incident.id] = thread
@@ -494,12 +513,14 @@ class IncidentResponseSystem:
 
                         if result.success:
                             executed_steps.add(step.id)
-                            self._add_timeline_entry(incident, "step_completed",
-                                                   f"Completed step: {step.name}", result.metadata)
+                            self._add_timeline_entry(
+                                incident, "step_completed", f"Completed step: {step.name}", result.metadata
+                            )
                         else:
                             failed_steps.add(step.id)
-                            self._add_timeline_entry(incident, "step_failed",
-                                                   f"Failed step: {step.name} - {result.error}")
+                            self._add_timeline_entry(
+                                incident, "step_failed", f"Failed step: {step.name} - {result.error}"
+                            )
 
                         progress_made = True
 
@@ -509,8 +530,11 @@ class IncidentResponseSystem:
 
             # Update incident status based on execution results
             if failed_steps:
-                self._add_timeline_entry(incident, "playbook_partial",
-                                       f"Playbook partially completed: {len(executed_steps)}/{len(playbook.steps)}")
+                self._add_timeline_entry(
+                    incident,
+                    "playbook_partial",
+                    f"Playbook partially completed: {len(executed_steps)}/{len(playbook.steps)}",
+                )
                 if len(executed_steps) == 0:
                     incident.status = IncidentStatus.DETECTED  # No progress made
                 else:
@@ -567,19 +591,11 @@ class IncidentResponseSystem:
                 result = self._reset_credentials(incident, step)
             else:
                 result = ExecutionResult(
-                    step_id=step.id,
-                    success=False,
-                    output="",
-                    error=f"Unknown action type: {step.action}"
+                    step_id=step.id, success=False, output="", error=f"Unknown action type: {step.action}"
                 )
 
         except Exception as e:
-            result = ExecutionResult(
-                step_id=step.id,
-                success=False,
-                output="",
-                error=str(e)
-            )
+            result = ExecutionResult(step_id=step.id, success=False, output="", error=str(e))
 
         result.execution_time_ms = (time.perf_counter() - start_time) * 1000
         return result
@@ -606,7 +622,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=len(systems_isolated) > 0,
             output=f"Isolated {len(systems_isolated)} systems",
-            metadata={"isolated_systems": systems_isolated, "isolation_level": isolation_level}
+            metadata={"isolated_systems": systems_isolated, "isolation_level": isolation_level},
         )
 
     def _block_ip(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -634,7 +650,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=len(blocked_ips) > 0,
             output=f"Blocked {len(blocked_ips)} IP addresses",
-            metadata={"blocked_ips": blocked_ips}
+            metadata={"blocked_ips": blocked_ips},
         )
 
     def _backup_evidence(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -670,18 +686,13 @@ class IncidentResponseSystem:
             incident.artifacts.extend(collected_artifacts)
 
         except Exception as e:
-            return ExecutionResult(
-                step_id=step.id,
-                success=False,
-                output="",
-                error=f"Evidence collection failed: {e}"
-            )
+            return ExecutionResult(step_id=step.id, success=False, output="", error=f"Evidence collection failed: {e}")
 
         return ExecutionResult(
             step_id=step.id,
             success=len(collected_artifacts) > 0,
             output=f"Collected {len(collected_artifacts)} evidence artifacts",
-            artifacts_collected=[a.id for a in collected_artifacts]
+            artifacts_collected=[a.id for a in collected_artifacts],
         )
 
     def _collect_logs(self, incident: Incident, evidence_path: str) -> Optional[IncidentArtifact]:
@@ -690,14 +701,14 @@ class IncidentResponseSystem:
             log_file = os.path.join(evidence_path, f"system_logs_{int(time.time())}.txt")
 
             # Simulate log collection
-            with open(log_file, 'w') as f:
+            with open(log_file, "w") as f:
                 f.write(f"# System Logs for Incident {incident.id}\n")
                 f.write(f"# Collected at: {datetime.now(timezone.utc).isoformat()}\n")
                 f.write(f"# Incident: {incident.title}\n\n")
                 f.write("Sample log entries would be collected here...\n")
 
             # Calculate hash
-            with open(log_file, 'rb') as f:
+            with open(log_file, "rb") as f:
                 file_hash = hashlib.sha256(f.read()).hexdigest()
 
             stat = os.stat(log_file)
@@ -709,7 +720,7 @@ class IncidentResponseSystem:
                 path=log_file,
                 hash_sha256=file_hash,
                 collected_at=datetime.now(timezone.utc),
-                size_bytes=stat.st_size
+                size_bytes=stat.st_size,
             )
 
         except Exception as e:
@@ -722,11 +733,11 @@ class IncidentResponseSystem:
             dump_file = os.path.join(evidence_path, f"memory_dump_{int(time.time())}.bin")
 
             # Simulate memory dump collection
-            with open(dump_file, 'wb') as f:
+            with open(dump_file, "wb") as f:
                 f.write(b"# Memory dump placeholder data\n")
                 f.write(f"# Incident: {incident.id}\n".encode())
 
-            with open(dump_file, 'rb') as f:
+            with open(dump_file, "rb") as f:
                 file_hash = hashlib.sha256(f.read()).hexdigest()
 
             stat = os.stat(dump_file)
@@ -738,7 +749,7 @@ class IncidentResponseSystem:
                 path=dump_file,
                 hash_sha256=file_hash,
                 collected_at=datetime.now(timezone.utc),
-                size_bytes=stat.st_size
+                size_bytes=stat.st_size,
             )
 
         except Exception as e:
@@ -751,10 +762,10 @@ class IncidentResponseSystem:
             pcap_file = os.path.join(evidence_path, f"network_capture_{int(time.time())}.pcap")
 
             # Simulate network capture
-            with open(pcap_file, 'wb') as f:
+            with open(pcap_file, "wb") as f:
                 f.write(b"# Network capture placeholder\n")
 
-            with open(pcap_file, 'rb') as f:
+            with open(pcap_file, "rb") as f:
                 file_hash = hashlib.sha256(f.read()).hexdigest()
 
             stat = os.stat(pcap_file)
@@ -766,7 +777,7 @@ class IncidentResponseSystem:
                 path=pcap_file,
                 hash_sha256=file_hash,
                 collected_at=datetime.now(timezone.utc),
-                size_bytes=stat.st_size
+                size_bytes=stat.st_size,
             )
 
         except Exception as e:
@@ -787,7 +798,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=True,
             output=f"Notified {team} team with {urgency} urgency",
-            metadata={"team": team, "urgency": urgency}
+            metadata={"team": team, "urgency": urgency},
         )
 
     def _escalate_incident(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -800,7 +811,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=True,
             output="Incident escalated to P0_CRITICAL",
-            metadata={"new_severity": incident.severity.value}
+            metadata={"new_severity": incident.severity.value},
         )
 
     def _invoke_guardian(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -813,14 +824,11 @@ class IncidentResponseSystem:
         guardian_response = {
             "invoked_at": datetime.now(timezone.utc).isoformat(),
             "emergency_level": emergency_level,
-            "protocols_activated": ["containment", "monitoring", "escalation"]
+            "protocols_activated": ["containment", "monitoring", "escalation"],
         }
 
         return ExecutionResult(
-            step_id=step.id,
-            success=True,
-            output="Guardian emergency protocols activated",
-            metadata=guardian_response
+            step_id=step.id, success=True, output="Guardian emergency protocols activated", metadata=guardian_response
         )
 
     def _snapshot_system(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -838,7 +846,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=len(snapshots_created) > 0,
             output=f"Created {len(snapshots_created)} system snapshots",
-            metadata={"snapshots": snapshots_created}
+            metadata={"snapshots": snapshots_created},
         )
 
     def _reset_credentials(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -855,7 +863,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=len(credentials_reset) > 0,
             output=f"Reset credentials for {len(credentials_reset)} users",
-            metadata={"users_reset": credentials_reset}
+            metadata={"users_reset": credentials_reset},
         )
 
     def _quarantine_file(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -879,7 +887,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=len(files_quarantined) > 0,
             output=f"Quarantined {len(files_quarantined)} files",
-            metadata={"quarantined_files": files_quarantined}
+            metadata={"quarantined_files": files_quarantined},
         )
 
     def _disable_account(self, incident: Incident, step: ResponseStep) -> ExecutionResult:
@@ -896,7 +904,7 @@ class IncidentResponseSystem:
             step_id=step.id,
             success=len(accounts_disabled) > 0,
             output=f"Disabled {len(accounts_disabled)} accounts",
-            metadata={"disabled_accounts": accounts_disabled}
+            metadata={"disabled_accounts": accounts_disabled},
         )
 
     def _has_approval(self, incident: Incident, step: ResponseStep) -> bool:
@@ -911,13 +919,15 @@ class IncidentResponseSystem:
         # In production, would integrate with approval workflow system
         self._add_timeline_entry(incident, "approval_requested", f"Approval requested for step: {step.name}")
 
-    def _add_timeline_entry(self, incident: Incident, event: str, description: str, metadata: Optional[Dict[str, Any]] = None):
+    def _add_timeline_entry(
+        self, incident: Incident, event: str, description: str, metadata: Optional[Dict[str, Any]] = None
+    ):
         """Add entry to incident timeline."""
         entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "event": event,
             "description": description,
-            "actor": "system"
+            "actor": "system",
         }
 
         if metadata:
@@ -938,7 +948,7 @@ class IncidentResponseSystem:
                 "severity": incident.severity.value,
                 "category": incident.category.value,
                 "affected_systems": incident.affected_systems,
-                "created_at": incident.created_at.isoformat()
+                "created_at": incident.created_at.isoformat(),
             }
 
             logger.info(f"GUARDIAN_NOTIFIED: {incident.id}")
@@ -961,8 +971,7 @@ class IncidentResponseSystem:
 
     def get_active_incidents(self) -> List[Incident]:
         """Get all active (non-closed) incidents."""
-        return [inc for inc in self.incidents.values()
-                if inc.status != IncidentStatus.CLOSED]
+        return [inc for inc in self.incidents.values() if inc.status != IncidentStatus.CLOSED]
 
     def close_incident(self, incident_id: str, resolution: str) -> bool:
         """Close an incident."""
@@ -991,8 +1000,9 @@ class IncidentResponseSystem:
             "avg_response_time_ms": avg_response_time,
             "performance_target_met": avg_response_time < 5.0,
             "registered_playbooks": len(self.playbooks),
-            "active_responses": len(self.active_responses)
+            "active_responses": len(self.active_responses),
         }
+
 
 # Factory function
 def create_incident_response_system(config: Optional[Dict[str, Any]] = None) -> IncidentResponseSystem:
@@ -1002,8 +1012,9 @@ def create_incident_response_system(config: Optional[Dict[str, Any]] = None) -> 
     return IncidentResponseSystem(
         guardian_integration=config.get("guardian_integration", True),
         auto_containment=config.get("auto_containment", True),
-        evidence_retention_days=config.get("evidence_retention_days", 365)
+        evidence_retention_days=config.get("evidence_retention_days", 365),
     )
+
 
 if __name__ == "__main__":
     # Example usage and testing
@@ -1020,7 +1031,7 @@ if __name__ == "__main__":
         severity=IncidentSeverity.P0_CRITICAL,
         category=IncidentCategory.DATA_BREACH,
         affected_systems=["db-prod-01", "web-app-01"],
-        affected_users=["compromised_admin"]
+        affected_users=["compromised_admin"],
     )
     print(f"Created incident: {breach_id}")
 
@@ -1031,7 +1042,7 @@ if __name__ == "__main__":
         description="Malicious activity detected on production server",
         severity=IncidentSeverity.P1_HIGH,
         category=IncidentCategory.SYSTEM_COMPROMISE,
-        affected_systems=["srv-prod-02"]
+        affected_systems=["srv-prod-02"],
     )
     print(f"Created incident: {compromise_id}")
 

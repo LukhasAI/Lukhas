@@ -8,6 +8,7 @@ Tests cover:
 - Concurrent access patterns
 - Hash stability and determinism
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -412,15 +413,7 @@ class TestPayloadSerialization:
         wrapper = BlockchainWrapper()
 
         payload = {
-            "level1": {
-                "level2": {
-                    "level3": {
-                        "level4": {
-                            "level5": {"data": "deep", "values": [1, 2, 3, 4, 5]}
-                        }
-                    }
-                }
-            }
+            "level1": {"level2": {"level3": {"level4": {"level5": {"data": "deep", "values": [1, 2, 3, 4, 5]}}}}}
         }
 
         wrapper.record_transaction("ref-nested", payload)

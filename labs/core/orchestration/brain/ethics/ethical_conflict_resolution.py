@@ -6,7 +6,6 @@ Integration Date: 2025-05-31T07:55:28.251360
 """
 
 
-
 def resolve_ethical_conflict(self, protest_id: str):
     """Use meta-learning to resolve complex ethical dilemmas"""
     dilemma = self.load_dilemma(protest_id)

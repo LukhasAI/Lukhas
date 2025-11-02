@@ -46,12 +46,12 @@ logger = logging.getLogger(__name__)
 
 # Critical performance thresholds for <0.01% probability range
 CRITICAL_PERFORMANCE_THRESHOLDS = {
-    'deep_inference_max_depth': 15,
-    'contradiction_detection_accuracy': 0.98,
-    'meta_assessment_reliability': 0.95,
-    'awareness_update_consistency': 0.99,
-    'circuit_breaker_activation_time_ms': 100,
-    'memory_consistency_threshold': 0.97
+    "deep_inference_max_depth": 15,
+    "contradiction_detection_accuracy": 0.98,
+    "meta_assessment_reliability": 0.95,
+    "awareness_update_consistency": 0.99,
+    "circuit_breaker_activation_time_ms": 100,
+    "memory_consistency_threshold": 0.97,
 }
 
 
@@ -62,11 +62,7 @@ class TestDeepInferenceEngineAdvanced:
     async def inference_engine(self):
         """Create configured deep inference engine."""
         engine = DeepInferenceEngine(
-            max_depth=15,
-            quality_threshold=0.8,
-            timeout_ms=2000,
-            circuit_breaker_threshold=10,
-            enable_caching=True
+            max_depth=15, quality_threshold=0.8, timeout_ms=2000, circuit_breaker_threshold=10, enable_caching=True
         )
         await engine.initialize()
         return engine
@@ -75,14 +71,10 @@ class TestDeepInferenceEngineAdvanced:
         """Test maximum depth reasoning capabilities."""
         request = InferenceRequest(
             query="Analyze recursive consciousness emergence patterns",
-            context={
-                'domain': 'consciousness_theory',
-                'complexity': 'maximum',
-                'recursive_depth': 'unlimited'
-            },
+            context={"domain": "consciousness_theory", "complexity": "maximum", "recursive_depth": "unlimited"},
             inference_type=InferenceType.DEEP_ANALYTICAL,
             max_depth=15,
-            quality_threshold=0.7
+            quality_threshold=0.7,
         )
 
         result = await inference_engine.deep_inference(request)
@@ -94,8 +86,8 @@ class TestDeepInferenceEngineAdvanced:
         # Validate reasoning quality improves with depth
         depth_quality_map = {}
         for step in result.reasoning_steps:
-            depth = step.get('depth_level', 1)
-            quality = step.get('quality_score', 0.5)
+            depth = step.get("depth_level", 1)
+            quality = step.get("quality_score", 0.5)
             depth_quality_map[depth] = quality
 
         # Deep reasoning should generally improve quality
@@ -110,17 +102,17 @@ class TestDeepInferenceEngineAdvanced:
             (InferenceType.CAUSAL_ANALYSIS, "What are the causal chains in consciousness emergence?"),
             (InferenceType.PATTERN_RECOGNITION, "Identify patterns in distributed cognitive architectures"),
             (InferenceType.ANALOGICAL_REASONING, "Compare consciousness to other emergent phenomena"),
-            (InferenceType.DEEP_ANALYTICAL, "Perform comprehensive analysis of meta-cognitive loops")
+            (InferenceType.DEEP_ANALYTICAL, "Perform comprehensive analysis of meta-cognitive loops"),
         ]
 
         results = []
         for inference_type, query in inference_types:
             request = InferenceRequest(
                 query=query,
-                context={'specialization_test': True},
+                context={"specialization_test": True},
                 inference_type=inference_type,
                 max_depth=8,
-                quality_threshold=0.7
+                quality_threshold=0.7,
             )
 
             result = await inference_engine.deep_inference(request)
@@ -135,13 +127,11 @@ class TestDeepInferenceEngineAdvanced:
             # Type-specific validations
             if inference_type == InferenceType.LOGICAL_DEDUCTION:
                 # Should have logical structure
-                assert any('logical' in step.get('reasoning_pattern', '').lower()
-                          for step in result.reasoning_steps)
+                assert any("logical" in step.get("reasoning_pattern", "").lower() for step in result.reasoning_steps)
 
             elif inference_type == InferenceType.CAUSAL_ANALYSIS:
                 # Should identify causal relationships
-                assert any('causal' in step.get('analysis_type', '').lower()
-                          for step in result.reasoning_steps)
+                assert any("causal" in step.get("analysis_type", "").lower() for step in result.reasoning_steps)
 
     async def test_circuit_breaker_under_extreme_load(self, inference_engine):
         """Test circuit breaker activation under extreme cognitive load."""
@@ -150,14 +140,10 @@ class TestDeepInferenceEngineAdvanced:
         for i in range(20):  # Exceed circuit breaker threshold
             request = InferenceRequest(
                 query=f"Extremely complex recursive analysis {i}",
-                context={
-                    'complexity': 'extreme',
-                    'recursive_loops': list(range(100)),
-                    'stress_factor': i
-                },
+                context={"complexity": "extreme", "recursive_loops": list(range(100)), "stress_factor": i},
                 inference_type=InferenceType.DEEP_ANALYTICAL,
                 max_depth=15,
-                quality_threshold=0.9
+                quality_threshold=0.9,
             )
             extreme_requests.append(request)
 
@@ -174,7 +160,7 @@ class TestDeepInferenceEngineAdvanced:
                 if "circuit breaker" in str(e).lower():
                     circuit_breaker_activated = True
                     activation_time = (time.time() - start_time) * 1000
-                    assert activation_time < CRITICAL_PERFORMANCE_THRESHOLDS['circuit_breaker_activation_time_ms']
+                    assert activation_time < CRITICAL_PERFORMANCE_THRESHOLDS["circuit_breaker_activation_time_ms"]
                 break
 
         # Circuit breaker should activate before system failure
@@ -191,17 +177,17 @@ class TestDeepInferenceEngineAdvanced:
         # First execution - no cache
         request = InferenceRequest(
             query="Standard reasoning pattern for caching test",
-            context={'cache_test': True, 'iteration': 1},
+            context={"cache_test": True, "iteration": 1},
             inference_type=InferenceType.LOGICAL_DEDUCTION,
             max_depth=10,
-            quality_threshold=0.7
+            quality_threshold=0.7,
         )
 
         first_result = await inference_engine.deep_inference(request)
         first_time = first_result.total_processing_time_ms
 
         # Second execution - should use cache
-        request.context['iteration'] = 2
+        request.context["iteration"] = 2
         second_result = await inference_engine.deep_inference(request)
         second_time = second_result.total_processing_time_ms
 
@@ -215,10 +201,10 @@ class TestDeepInferenceEngineAdvanced:
         """Test detailed reasoning step validation and consistency."""
         request = InferenceRequest(
             query="Multi-step logical analysis with validation checkpoints",
-            context={'validation_test': True},
+            context={"validation_test": True},
             inference_type=InferenceType.DEEP_ANALYTICAL,
             max_depth=12,
-            quality_threshold=0.8
+            quality_threshold=0.8,
         )
 
         result = await inference_engine.deep_inference(request)
@@ -228,21 +214,21 @@ class TestDeepInferenceEngineAdvanced:
 
         for i, step in enumerate(result.reasoning_steps):
             # Each step should have required fields
-            assert 'depth_level' in step
-            assert 'quality_score' in step
-            assert 'reasoning_content' in step
-            assert 'confidence_level' in step
+            assert "depth_level" in step
+            assert "quality_score" in step
+            assert "reasoning_content" in step
+            assert "confidence_level" in step
 
             # Steps should show progression
-            assert step['depth_level'] >= i + 1
-            assert 0.0 <= step['quality_score'] <= 1.0
-            assert 0.0 <= step['confidence_level'] <= 1.0
+            assert step["depth_level"] >= i + 1
+            assert 0.0 <= step["quality_score"] <= 1.0
+            assert 0.0 <= step["confidence_level"] <= 1.0
 
             # Later steps should generally improve
             if i > 0:
-                prev_step = result.reasoning_steps[i-1]
+                prev_step = result.reasoning_steps[i - 1]
                 # Allow some variance but expect general improvement
-                assert step['quality_score'] >= prev_step['quality_score'] - 0.2
+                assert step["quality_score"] >= prev_step["quality_score"] - 0.2
 
 
 class TestContradictionDetectionAccuracy:
@@ -255,7 +241,7 @@ class TestContradictionDetectionAccuracy:
             detection_threshold=0.98,
             resolution_confidence_threshold=0.95,
             enable_symbolic_resolution=True,
-            enable_semantic_analysis=True
+            enable_semantic_analysis=True,
         )
         await integrator.initialize()
         return integrator
@@ -264,58 +250,56 @@ class TestContradictionDetectionAccuracy:
         """Test detection of subtle logical contradictions."""
         subtle_contradictions = [
             {
-                'name': 'temporal_paradox',
-                'statements': [
+                "name": "temporal_paradox",
+                "statements": [
                     "The system state at time T determines all future states",
                     "The system exhibits true randomness in state transitions",
-                    "Randomness is fundamental, not emergent from deterministic chaos"
+                    "Randomness is fundamental, not emergent from deterministic chaos",
                 ],
-                'expected_contradictions': 2
+                "expected_contradictions": 2,
             },
             {
-                'name': 'semantic_inconsistency',
-                'statements': [
+                "name": "semantic_inconsistency",
+                "statements": [
                     "All components operate independently",
                     "System behavior emerges from component interactions",
-                    "Independence means no mutual influence"
+                    "Independence means no mutual influence",
                 ],
-                'expected_contradictions': 1
+                "expected_contradictions": 1,
             },
             {
-                'name': 'modal_logic_contradiction',
-                'statements': [
+                "name": "modal_logic_contradiction",
+                "statements": [
                     "It is necessarily true that consciousness is computable",
                     "It is possibly true that consciousness is non-computable",
-                    "What is necessarily true cannot be possibly false"
+                    "What is necessarily true cannot be possibly false",
                 ],
-                'expected_contradictions': 1
+                "expected_contradictions": 1,
             },
             {
-                'name': 'self_reference_paradox',
-                'statements': [
+                "name": "self_reference_paradox",
+                "statements": [
                     "This statement is false",
                     "All statements in this context are true",
-                    "Self-referential statements can be consistently evaluated"
+                    "Self-referential statements can be consistently evaluated",
                 ],
-                'expected_contradictions': 3
-            }
+                "expected_contradictions": 3,
+            },
         ]
 
         detection_results = []
         for test_case in subtle_contradictions:
             result = await contradiction_integrator.detect_contradictions(
-                statements=test_case['statements'],
-                context={'test_case': test_case['name']},
-                analysis_depth='deep'
+                statements=test_case["statements"], context={"test_case": test_case["name"]}, analysis_depth="deep"
             )
             detection_results.append((test_case, result))
 
         # Validate detection accuracy
-        total_expected = sum(tc['expected_contradictions'] for tc in subtle_contradictions)
+        total_expected = sum(tc["expected_contradictions"] for tc in subtle_contradictions)
         total_detected = sum(len(result.detected_contradictions) for _, result in detection_results)
 
         detection_accuracy = total_detected / total_expected if total_expected > 0 else 0
-        assert detection_accuracy >= CRITICAL_PERFORMANCE_THRESHOLDS['contradiction_detection_accuracy']
+        assert detection_accuracy >= CRITICAL_PERFORMANCE_THRESHOLDS["contradiction_detection_accuracy"]
 
         # Validate resolution quality
         for test_case, result in detection_results:
@@ -329,39 +313,39 @@ class TestContradictionDetectionAccuracy:
         """Test advanced contradiction resolution strategies."""
         complex_contradictions = [
             {
-                'type': 'hierarchical_contradiction',
-                'statements': [
+                "type": "hierarchical_contradiction",
+                "statements": [
                     "At the quantum level, particles exhibit superposition",
                     "At the classical level, objects have definite positions",
-                    "These levels are describing the same physical reality"
+                    "These levels are describing the same physical reality",
                 ],
-                'expected_resolution_type': 'hierarchical_separation'
+                "expected_resolution_type": "hierarchical_separation",
             },
             {
-                'type': 'temporal_contradiction',
-                'statements': [
+                "type": "temporal_contradiction",
+                "statements": [
                     "The system was in state A at time t1",
                     "The system was in state B at time t1",
-                    "States A and B are mutually exclusive"
+                    "States A and B are mutually exclusive",
                 ],
-                'expected_resolution_type': 'temporal_analysis'
+                "expected_resolution_type": "temporal_analysis",
             },
             {
-                'type': 'context_dependent_contradiction',
-                'statements': [
+                "type": "context_dependent_contradiction",
+                "statements": [
                     "In context C1, property P is true",
                     "In context C2, property P is false",
-                    "Contexts C1 and C2 overlap significantly"
+                    "Contexts C1 and C2 overlap significantly",
                 ],
-                'expected_resolution_type': 'context_stratification'
-            }
+                "expected_resolution_type": "context_stratification",
+            },
         ]
 
         for contradiction_case in complex_contradictions:
             result = await contradiction_integrator.resolve_contradictions(
-                statements=contradiction_case['statements'],
-                context={'resolution_test': contradiction_case['type']},
-                resolution_strategy='adaptive'
+                statements=contradiction_case["statements"],
+                context={"resolution_test": contradiction_case["type"]},
+                resolution_strategy="adaptive",
             )
 
             # Validate resolution quality
@@ -369,60 +353,61 @@ class TestContradictionDetectionAccuracy:
             assert len(result.resolution_steps) >= 3
 
             # Check for appropriate resolution strategy
-            resolution_text = ' '.join(step.get('description', '') for step in result.resolution_steps)
-            expected_type = contradiction_case['expected_resolution_type']
+            resolution_text = " ".join(step.get("description", "") for step in result.resolution_steps)
+            expected_type = contradiction_case["expected_resolution_type"]
 
-            if expected_type == 'hierarchical_separation':
-                assert any(term in resolution_text.lower() for term in ['level', 'hierarchy', 'layer'])
-            elif expected_type == 'temporal_analysis':
-                assert any(term in resolution_text.lower() for term in ['time', 'temporal', 'sequence'])
-            elif expected_type == 'context_stratification':
-                assert any(term in resolution_text.lower() for term in ['context', 'scope', 'domain'])
+            if expected_type == "hierarchical_separation":
+                assert any(term in resolution_text.lower() for term in ["level", "hierarchy", "layer"])
+            elif expected_type == "temporal_analysis":
+                assert any(term in resolution_text.lower() for term in ["time", "temporal", "sequence"])
+            elif expected_type == "context_stratification":
+                assert any(term in resolution_text.lower() for term in ["context", "scope", "domain"])
 
     async def test_contradiction_detection_performance_edge_cases(self, contradiction_integrator):
         """Test contradiction detection under performance-critical edge cases."""
         edge_cases = [
             {
-                'name': 'large_statement_set',
-                'statements': [f"Statement {i} with unique content {i*37 % 100}" for i in range(1000)],
-                'time_limit_ms': 500
+                "name": "large_statement_set",
+                "statements": [f"Statement {i} with unique content {i*37 % 100}" for i in range(1000)],
+                "time_limit_ms": 500,
             },
             {
-                'name': 'deeply_nested_logic',
-                'statements': [
+                "name": "deeply_nested_logic",
+                "statements": [
                     "If (A and B) then (C or D)",
                     "If C then (E and not F)",
                     "If D then (F and not E)",
-                    "A is true", "B is true",
-                    "E and F cannot both be false"
+                    "A is true",
+                    "B is true",
+                    "E and F cannot both be false",
                 ],
-                'time_limit_ms': 200
+                "time_limit_ms": 200,
             },
             {
-                'name': 'circular_references',
-                'statements': [
+                "name": "circular_references",
+                "statements": [
                     "X depends on Y",
                     "Y depends on Z",
                     "Z depends on X",
-                    "Dependencies are asymmetric relations"
+                    "Dependencies are asymmetric relations",
                 ],
-                'time_limit_ms': 150
-            }
+                "time_limit_ms": 150,
+            },
         ]
 
         for edge_case in edge_cases:
             start_time = time.time()
 
             result = await contradiction_integrator.detect_contradictions(
-                statements=edge_case['statements'],
-                context={'edge_case': edge_case['name']},
-                time_budget_ms=edge_case['time_limit_ms']
+                statements=edge_case["statements"],
+                context={"edge_case": edge_case["name"]},
+                time_budget_ms=edge_case["time_limit_ms"],
             )
 
             processing_time = (time.time() - start_time) * 1000
 
             # Validate performance
-            assert processing_time <= edge_case['time_limit_ms'] * 1.5  # Allow 50% overhead
+            assert processing_time <= edge_case["time_limit_ms"] * 1.5  # Allow 50% overhead
 
             # Validate quality maintained under time pressure
             if result.detected_contradictions:
@@ -440,7 +425,7 @@ class TestMetaCognitiveAssessmentReliability:
             cognitive_load_window_size=20,
             performance_history_size=200,
             adaptation_learning_rate=0.05,
-            enable_self_correction=True
+            enable_self_correction=True,
         )
         await assessor.initialize()
         return assessor
@@ -448,10 +433,10 @@ class TestMetaCognitiveAssessmentReliability:
     async def test_meta_assessment_consistency_under_varying_loads(self, meta_assessor):
         """Test meta-assessment consistency under varying cognitive loads."""
         load_scenarios = [
-            {'name': 'minimal_load', 'cognitive_load': 0.1, 'complexity': 'simple'},
-            {'name': 'moderate_load', 'cognitive_load': 0.5, 'complexity': 'moderate'},
-            {'name': 'high_load', 'cognitive_load': 0.8, 'complexity': 'complex'},
-            {'name': 'extreme_load', 'cognitive_load': 0.95, 'complexity': 'extreme'}
+            {"name": "minimal_load", "cognitive_load": 0.1, "complexity": "simple"},
+            {"name": "moderate_load", "cognitive_load": 0.5, "complexity": "moderate"},
+            {"name": "high_load", "cognitive_load": 0.8, "complexity": "complex"},
+            {"name": "extreme_load", "cognitive_load": 0.95, "complexity": "extreme"},
         ]
 
         assessment_results = []
@@ -461,20 +446,20 @@ class TestMetaCognitiveAssessmentReliability:
                 reasoning_session_id=f"consistency_test_{scenario['name']}",
                 consciousness_state=ConsciousnessState(
                     awareness_level=0.7,
-                    cognitive_load=scenario['cognitive_load'],
+                    cognitive_load=scenario["cognitive_load"],
                     focus_intensity=0.8,
                     memory_coherence=0.9,
                     reasoning_depth=0.7,
                     contradiction_tension=0.2,
                     meta_awareness=0.6,
-                    timestamp=time.time()
+                    timestamp=time.time(),
                 ),
                 recent_inferences=[],
                 recent_thoughts=[],
                 processing_history=[],
                 time_budget_ms=200,
-                assessment_depth='deep',
-                metadata={'scenario': scenario}
+                assessment_depth="deep",
+                metadata={"scenario": scenario},
             )
 
             assessment = await meta_assessor.assess_cognitive_state(context)
@@ -487,7 +472,7 @@ class TestMetaCognitiveAssessmentReliability:
             assert assessment.cognitive_load_assessment is not None
 
             # Assessment should correlate with actual cognitive load
-            actual_load = scenario['cognitive_load']
+            actual_load = scenario["cognitive_load"]
             assessed_load = assessment.cognitive_load_assessment
 
             if actual_load < 0.3:
@@ -498,7 +483,7 @@ class TestMetaCognitiveAssessmentReliability:
         # Overall reliability check
         reliability_scores = [a.assessment_reliability for _, a in assessment_results]
         avg_reliability = np.mean(reliability_scores)
-        assert avg_reliability >= CRITICAL_PERFORMANCE_THRESHOLDS['meta_assessment_reliability']
+        assert avg_reliability >= CRITICAL_PERFORMANCE_THRESHOLDS["meta_assessment_reliability"]
 
     async def test_self_correction_mechanisms(self, meta_assessor):
         """Test self-correction mechanisms and adaptation."""
@@ -509,22 +494,20 @@ class TestMetaCognitiveAssessmentReliability:
                 reasoning_session_id=f"degradation_test_{i}",
                 consciousness_state=ConsciousnessState(
                     awareness_level=0.7 - i * 0.05,  # Gradually decrease
-                    cognitive_load=0.3 + i * 0.05,   # Gradually increase
+                    cognitive_load=0.3 + i * 0.05,  # Gradually increase
                     focus_intensity=0.8 - i * 0.03,
                     memory_coherence=0.9 - i * 0.02,
                     reasoning_depth=0.7 - i * 0.04,
                     contradiction_tension=0.1 + i * 0.03,
                     meta_awareness=0.6 - i * 0.02,
-                    timestamp=time.time()
+                    timestamp=time.time(),
                 ),
                 recent_inferences=[],
                 recent_thoughts=[],
-                processing_history=[
-                    {'quality_score': 0.8 - i * 0.08, 'processing_time_ms': 50 + i * 10}
-                ],
+                processing_history=[{"quality_score": 0.8 - i * 0.08, "processing_time_ms": 50 + i * 10}],
                 time_budget_ms=200,
-                assessment_depth='standard',
-                metadata={'degradation_step': i}
+                assessment_depth="standard",
+                metadata={"degradation_step": i},
             )
             degradation_contexts.append(context)
 
@@ -539,9 +522,8 @@ class TestMetaCognitiveAssessmentReliability:
             if assessment.recommended_adjustments:
                 correction_triggered = True
                 # Should recommend appropriate corrections
-                adjustments_text = ' '.join(assessment.recommended_adjustments)
-                assert any(term in adjustments_text.lower()
-                          for term in ['reduce', 'optimize', 'adjust', 'improve'])
+                adjustments_text = " ".join(assessment.recommended_adjustments)
+                assert any(term in adjustments_text.lower() for term in ["reduce", "optimize", "adjust", "improve"])
 
         assert correction_triggered, "Self-correction should trigger under degrading performance"
 
@@ -549,56 +531,67 @@ class TestMetaCognitiveAssessmentReliability:
         """Test generation and quality of meta-cognitive insights."""
         insight_scenarios = [
             {
-                'name': 'reasoning_overconfidence',
-                'context': {
-                    'recent_inferences': [
-                        {'confidence_score': 0.95, 'success': False},
-                        {'confidence_score': 0.92, 'success': False},
-                        {'confidence_score': 0.89, 'success': True}
+                "name": "reasoning_overconfidence",
+                "context": {
+                    "recent_inferences": [
+                        {"confidence_score": 0.95, "success": False},
+                        {"confidence_score": 0.92, "success": False},
+                        {"confidence_score": 0.89, "success": True},
                     ]
                 },
-                'expected_insight_type': 'confidence_calibration'
+                "expected_insight_type": "confidence_calibration",
             },
             {
-                'name': 'processing_inefficiency',
-                'context': {
-                    'processing_history': [
-                        {'processing_time_ms': 200, 'quality_score': 0.6},
-                        {'processing_time_ms': 250, 'quality_score': 0.7},
-                        {'processing_time_ms': 300, 'quality_score': 0.65}
+                "name": "processing_inefficiency",
+                "context": {
+                    "processing_history": [
+                        {"processing_time_ms": 200, "quality_score": 0.6},
+                        {"processing_time_ms": 250, "quality_score": 0.7},
+                        {"processing_time_ms": 300, "quality_score": 0.65},
                     ]
                 },
-                'expected_insight_type': 'processing_optimization'
+                "expected_insight_type": "processing_optimization",
             },
             {
-                'name': 'contradiction_tension',
-                'context': {
-                    'consciousness_state': ConsciousnessState(
-                        awareness_level=0.7, cognitive_load=0.5, focus_intensity=0.8,
-                        memory_coherence=0.9, reasoning_depth=0.7,
+                "name": "contradiction_tension",
+                "context": {
+                    "consciousness_state": ConsciousnessState(
+                        awareness_level=0.7,
+                        cognitive_load=0.5,
+                        focus_intensity=0.8,
+                        memory_coherence=0.9,
+                        reasoning_depth=0.7,
                         contradiction_tension=0.8,  # High tension
-                        meta_awareness=0.6, timestamp=time.time()
+                        meta_awareness=0.6,
+                        timestamp=time.time(),
                     )
                 },
-                'expected_insight_type': 'contradiction_management'
-            }
+                "expected_insight_type": "contradiction_management",
+            },
         ]
 
         for scenario in insight_scenarios:
             base_context = MetaCognitiveContext(
                 reasoning_session_id=f"insight_test_{scenario['name']}",
-                consciousness_state=scenario['context'].get('consciousness_state',
+                consciousness_state=scenario["context"].get(
+                    "consciousness_state",
                     ConsciousnessState(
-                        awareness_level=0.7, cognitive_load=0.5, focus_intensity=0.8,
-                        memory_coherence=0.9, reasoning_depth=0.7, contradiction_tension=0.2,
-                        meta_awareness=0.6, timestamp=time.time()
-                    )),
-                recent_inferences=scenario['context'].get('recent_inferences', []),
-                recent_thoughts=scenario['context'].get('recent_thoughts', []),
-                processing_history=scenario['context'].get('processing_history', []),
+                        awareness_level=0.7,
+                        cognitive_load=0.5,
+                        focus_intensity=0.8,
+                        memory_coherence=0.9,
+                        reasoning_depth=0.7,
+                        contradiction_tension=0.2,
+                        meta_awareness=0.6,
+                        timestamp=time.time(),
+                    ),
+                ),
+                recent_inferences=scenario["context"].get("recent_inferences", []),
+                recent_thoughts=scenario["context"].get("recent_thoughts", []),
+                processing_history=scenario["context"].get("processing_history", []),
                 time_budget_ms=300,
-                assessment_depth='deep',
-                metadata={'insight_scenario': scenario['name']}
+                assessment_depth="deep",
+                metadata={"insight_scenario": scenario["name"]},
             )
 
             assessment = await meta_assessor.assess_cognitive_state(base_context)
@@ -607,14 +600,13 @@ class TestMetaCognitiveAssessmentReliability:
             assert len(assessment.insights) >= 1
 
             relevant_insights = [
-                insight for insight in assessment.insights
-                if insight.actionable_recommendation is not None
+                insight for insight in assessment.insights if insight.actionable_recommendation is not None
             ]
             assert len(relevant_insights) >= 1
 
             # Check insight quality and relevance
             for insight in relevant_insights:
-                assert insight.priority in ['low', 'medium', 'high']
+                assert insight.priority in ["low", "medium", "high"]
                 assert len(insight.actionable_recommendation) > 10  # Substantial recommendation
                 assert 0.0 <= insight.confidence_level <= 1.0
 
@@ -629,26 +621,22 @@ try:
         @given(
             max_depth=st.integers(min_value=1, max_value=20),
             quality_threshold=st.floats(min_value=0.1, max_value=1.0),
-            timeout_ms=st.integers(min_value=100, max_value=5000)
+            timeout_ms=st.integers(min_value=100, max_value=5000),
         )
         @settings(max_examples=50, deadline=None)
-        async def test_deep_inference_parameter_robustness(
-            self, max_depth, quality_threshold, timeout_ms
-        ):
+        async def test_deep_inference_parameter_robustness(self, max_depth, quality_threshold, timeout_ms):
             """Test deep inference robustness across parameter ranges."""
             engine = DeepInferenceEngine(
-                max_depth=max_depth,
-                quality_threshold=quality_threshold,
-                timeout_ms=timeout_ms
+                max_depth=max_depth, quality_threshold=quality_threshold, timeout_ms=timeout_ms
             )
             await engine.initialize()
 
             request = InferenceRequest(
                 query="Property-based test query",
-                context={'property_test': True},
+                context={"property_test": True},
                 inference_type=InferenceType.LOGICAL_DEDUCTION,
                 max_depth=max_depth,
-                quality_threshold=quality_threshold
+                quality_threshold=quality_threshold,
             )
 
             result = await engine.deep_inference(request)
@@ -661,16 +649,12 @@ try:
 
         @given(
             detection_threshold=st.floats(min_value=0.5, max_value=0.99),
-            num_statements=st.integers(min_value=2, max_value=20)
+            num_statements=st.integers(min_value=2, max_value=20),
         )
         @settings(max_examples=30, deadline=None)
-        async def test_contradiction_detection_parameter_robustness(
-            self, detection_threshold, num_statements
-        ):
+        async def test_contradiction_detection_parameter_robustness(self, detection_threshold, num_statements):
             """Test contradiction detection across parameter ranges."""
-            integrator = ContradictionIntegrator(
-                detection_threshold=detection_threshold
-            )
+            integrator = ContradictionIntegrator(detection_threshold=detection_threshold)
             await integrator.initialize()
 
             # Generate test statements
@@ -679,10 +663,7 @@ try:
                 # Add potential contradiction
                 statements.append("All properties are mutually exclusive")
 
-            result = await integrator.detect_contradictions(
-                statements=statements,
-                context={'property_test': True}
-            )
+            result = await integrator.detect_contradictions(statements=statements, context={"property_test": True})
 
             # Properties that should always hold
             assert result is not None
@@ -704,10 +685,10 @@ class TestCriticalEdgeCasesCoverage:
 
         request = InferenceRequest(
             query="Test extreme recursion with self-referential loops",
-            context={'extreme_test': True, 'recursion_level': 'maximum'},
+            context={"extreme_test": True, "recursion_level": "maximum"},
             inference_type=InferenceType.DEEP_ANALYTICAL,
             max_depth=50,
-            quality_threshold=0.7
+            quality_threshold=0.7,
         )
 
         # Should handle extreme depth gracefully
@@ -724,16 +705,21 @@ class TestCriticalEdgeCasesCoverage:
         context = MetaCognitiveContext(
             reasoning_session_id="zero_time_test",
             consciousness_state=ConsciousnessState(
-                awareness_level=0.7, cognitive_load=0.5, focus_intensity=0.8,
-                memory_coherence=0.9, reasoning_depth=0.7, contradiction_tension=0.2,
-                meta_awareness=0.6, timestamp=time.time()
+                awareness_level=0.7,
+                cognitive_load=0.5,
+                focus_intensity=0.8,
+                memory_coherence=0.9,
+                reasoning_depth=0.7,
+                contradiction_tension=0.2,
+                meta_awareness=0.6,
+                timestamp=time.time(),
             ),
             recent_inferences=[],
             recent_thoughts=[],
             processing_history=[],
             time_budget_ms=0,  # Zero time budget
-            assessment_depth='minimal',
-            metadata={'extreme_test': True}
+            assessment_depth="minimal",
+            metadata={"extreme_test": True},
         )
 
         # Should handle zero time budget gracefully
@@ -752,7 +738,7 @@ class TestCriticalEdgeCasesCoverage:
             context={},
             inference_type=InferenceType.LOGICAL_DEDUCTION,
             max_depth=5,
-            quality_threshold=0.5
+            quality_threshold=0.5,
         )
 
         result = await engine.deep_inference(request)
@@ -763,10 +749,7 @@ class TestCriticalEdgeCasesCoverage:
         integrator = ContradictionIntegrator()
         await integrator.initialize()
 
-        result = await integrator.detect_contradictions(
-            statements=[],  # Empty statements
-            context={}
-        )
+        result = await integrator.detect_contradictions(statements=[], context={})  # Empty statements
         assert result is not None
         assert len(result.detected_contradictions) == 0
 
@@ -774,8 +757,8 @@ class TestCriticalEdgeCasesCoverage:
         """Test protection against memory overflow in cognitive processing."""
         # Create extremely large context that could cause memory issues
         large_context = {
-            'large_data': list(range(100000)),  # Large data structure
-            'nested_structure': {f'key_{i}': list(range(1000)) for i in range(100)}
+            "large_data": list(range(100000)),  # Large data structure
+            "nested_structure": {f"key_{i}": list(range(1000)) for i in range(100)},
         }
 
         engine = DeepInferenceEngine()
@@ -786,7 +769,7 @@ class TestCriticalEdgeCasesCoverage:
             context=large_context,
             inference_type=InferenceType.PATTERN_RECOGNITION,
             max_depth=10,
-            quality_threshold=0.6
+            quality_threshold=0.6,
         )
 
         # Should handle large context without memory overflow
@@ -802,10 +785,10 @@ class TestCriticalEdgeCasesCoverage:
         async def concurrent_inference(session_id):
             request = InferenceRequest(
                 query=f"Concurrent inference {session_id}",
-                context={'session': session_id},
+                context={"session": session_id},
                 inference_type=InferenceType.LOGICAL_DEDUCTION,
                 max_depth=5,
-                quality_threshold=0.7
+                quality_threshold=0.7,
             )
             return await engine.deep_inference(request)
 
@@ -820,7 +803,7 @@ class TestCriticalEdgeCasesCoverage:
         # Results should be independent and valid
         session_ids = set()
         for result in successful_results:
-            session_id = result.context.get('session')
+            session_id = result.context.get("session")
             assert session_id not in session_ids  # No cross-contamination
             session_ids.add(session_id)
 
@@ -837,10 +820,10 @@ if __name__ == "__main__":
 
         request = InferenceRequest(
             query="Test deep reasoning capabilities",
-            context={'validation': True},
+            context={"validation": True},
             inference_type=InferenceType.DEEP_ANALYTICAL,
             max_depth=10,
-            quality_threshold=0.7
+            quality_threshold=0.7,
         )
 
         result = await engine.deep_inference(request)
@@ -851,12 +834,8 @@ if __name__ == "__main__":
         await integrator.initialize()
 
         contradiction_result = await integrator.detect_contradictions(
-            statements=[
-                "All statements are true",
-                "This statement is false",
-                "Logic is consistent"
-            ],
-            context={'validation': True}
+            statements=["All statements are true", "This statement is false", "Logic is consistent"],
+            context={"validation": True},
         )
         print(f"Contradiction detection: {len(contradiction_result.detected_contradictions)} contradictions found")
 

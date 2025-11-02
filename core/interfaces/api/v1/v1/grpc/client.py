@@ -1,6 +1,3 @@
-
-
-
 class LukhasGRPCClient:
     """gRPC client for LUKHAS service."""
 

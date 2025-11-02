@@ -69,12 +69,13 @@ async def route_signal(signal: SymbolicSignal):
             target_module="monitoring",
             payload={"error": str(e), "original_signal": signal.signal_type.value},
             timestamp=time.time(),
-            diagnostic_event=DiagnosticSignalType.OVERRIDE
+            diagnostic_event=DiagnosticSignalType.OVERRIDE,
         )
         logger.error(f"Routing failure signal emitted: {failure_signal.signal_type.value}")
 
 
 # Specialized routing functions for different signal types
+
 
 async def _route_memory_signal(signal: SymbolicSignal):
     """Route memory-related signals to memory subsystem"""
@@ -243,7 +244,7 @@ class SignalRouterMetrics:
             "avg_routing_time_ms": avg_time,
             "p95_routing_time_ms": p95_time,
             "meets_100ms_target": p95_time < 100,
-            "signals_by_type": self.signals_by_type
+            "signals_by_type": self.signals_by_type,
         }
 
 

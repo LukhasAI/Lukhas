@@ -30,7 +30,6 @@ logger = get_logger(__name__)
 # Import personality components
 try:
 
-
     HAIKU_AVAILABLE = True
 except ImportError:
     HAIKU_AVAILABLE = False

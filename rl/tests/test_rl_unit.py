@@ -25,10 +25,7 @@ class TestRlModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "rl",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "rl", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestRlModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import rl
+
         self.assertIsNotNone(rl)
 
     def test_module_version(self):
         """Test module has version information."""
         import rl
+
         # Most modules should have version info
-        self.assertTrue(hasattr(rl, '__version__') or
-                       hasattr(rl, 'VERSION'))
+        self.assertTrue(hasattr(rl, "__version__") or hasattr(rl, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestConsciousnessBuffer(unittest.TestCase):
         """Test ConsciousnessBuffer can be imported."""
         try:
             from rl import ConsciousnessBuffer
+
             self.assertIsNotNone(ConsciousnessBuffer)
         except ImportError:
             pytest.skip("Component ConsciousnessBuffer not available")
@@ -97,6 +96,7 @@ class TestConsciousnessEnvironment(unittest.TestCase):
         """Test ConsciousnessEnvironment can be imported."""
         try:
             from rl import ConsciousnessEnvironment
+
             self.assertIsNotNone(ConsciousnessEnvironment)
         except ImportError:
             pytest.skip("Component ConsciousnessEnvironment not available")
@@ -114,6 +114,7 @@ class TestConsciousnessMetaLearning(unittest.TestCase):
         """Test ConsciousnessMetaLearning can be imported."""
         try:
             from rl import ConsciousnessMetaLearning
+
             self.assertIsNotNone(ConsciousnessMetaLearning)
         except ImportError:
             pytest.skip("Component ConsciousnessMetaLearning not available")
@@ -122,7 +123,6 @@ class TestConsciousnessMetaLearning(unittest.TestCase):
         """Test ConsciousnessMetaLearning can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

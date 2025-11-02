@@ -1,4 +1,5 @@
 """Unit tests for the core ethics swarm colony engine."""
+
 from __future__ import annotations
 
 import logging

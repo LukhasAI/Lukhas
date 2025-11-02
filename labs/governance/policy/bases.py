@@ -10,6 +10,7 @@ Shared Ethics Base Classes
 
 Common base classes for ethics-related components.
 """
+
 from datetime import datetime, timezone
 from typing import Any
 

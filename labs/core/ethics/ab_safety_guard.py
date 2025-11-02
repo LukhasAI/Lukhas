@@ -34,52 +34,54 @@ logger = logging.getLogger(__name__)
 # Prometheus metrics for safety guard
 try:
     from prometheus_client import Counter, Gauge, Histogram
+
     METRICS_AVAILABLE = True
 except ImportError:
+
     class _NoopMetric:
-        def inc(self, *args, **kwargs): pass
-        def set(self, *args, **kwargs): pass
-        def observe(self, *args, **kwargs): pass
-        def labels(self, *args, **kwargs): return self
+        def inc(self, *args, **kwargs):
+            pass
+
+        def set(self, *args, **kwargs):
+            pass
+
+        def observe(self, *args, **kwargs):
+            pass
+
+        def labels(self, *args, **kwargs):
+            return self
+
     Counter = Gauge = Histogram = lambda *args, **kwargs: _NoopMetric()
     METRICS_AVAILABLE = False
 
 # Safety Guard Metrics
 SAFETY_GUARD_ENFORCEMENT = Counter(
-    'safety_guard_enforcement_total',
-    'Safety guard enforcement decisions',
-    ['lane', 'action', 'enforced']
+    "safety_guard_enforcement_total", "Safety guard enforcement decisions", ["lane", "action", "enforced"]
 )
 
 SAFETY_GUARD_ROLLBACK = Counter(
-    'safety_guard_rollback_total',
-    'Safety guard automatic rollbacks triggered',
-    ['lane', 'reason']
+    "safety_guard_rollback_total", "Safety guard automatic rollbacks triggered", ["lane", "reason"]
 )
 
 SAFETY_GUARD_CRITICAL_BLOCK_RATE = Gauge(
-    'safety_guard_critical_block_rate',
-    'Current Critical → BLOCK conversion rate',
-    ['lane']
+    "safety_guard_critical_block_rate", "Current Critical → BLOCK conversion rate", ["lane"]
 )
 
-SAFETY_GUARD_CIRCUIT_STATE = Gauge(
-    'safety_guard_circuit_state',
-    'Circuit breaker state (0=closed, 1=open)',
-    ['lane']
-)
+SAFETY_GUARD_CIRCUIT_STATE = Gauge("safety_guard_circuit_state", "Circuit breaker state (0=closed, 1=open)", ["lane"])
 
 
 class EnforcementMode(Enum):
     """Ethics enforcement modes."""
-    DISABLED = "disabled"      # No enforcement, logging only
-    LOGGING_ONLY = "logging"   # Log decisions but don't enforce
-    ENFORCE = "enforce"        # Full enforcement
+
+    DISABLED = "disabled"  # No enforcement, logging only
+    LOGGING_ONLY = "logging"  # Log decisions but don't enforce
+    ENFORCE = "enforce"  # Full enforcement
     CIRCUIT_OPEN = "circuit_open"  # Circuit breaker open, fail-safe
 
 
 class SafetyGuardState(Enum):
     """Safety guard operational states."""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     CIRCUIT_OPEN = "circuit_open"
@@ -89,17 +91,18 @@ class SafetyGuardState(Enum):
 @dataclass
 class ABSafetyConfig:
     """A/B Safety Guard configuration."""
+
     # Lane configuration
     candidate_enforcement: EnforcementMode = EnforcementMode.ENFORCE
     control_enforcement: EnforcementMode = EnforcementMode.LOGGING_ONLY
 
     # Auto-rollback thresholds
     min_critical_block_rate: float = 0.8  # Critical → BLOCK rate threshold
-    rollback_window_minutes: int = 10     # Monitoring window
-    min_samples_for_rollback: int = 20    # Minimum samples to trigger rollback
+    rollback_window_minutes: int = 10  # Monitoring window
+    min_samples_for_rollback: int = 20  # Minimum samples to trigger rollback
 
     # Circuit breaker
-    circuit_failure_threshold: int = 5    # Failures before opening
+    circuit_failure_threshold: int = 5  # Failures before opening
     circuit_recovery_time_seconds: int = 300  # Time before attempting recovery
 
     # Kill switch
@@ -135,8 +138,10 @@ class ABSafetyGuard:
         # Thread safety
         self._lock = threading.Lock()
 
-        logger.info(f"ABSafetyGuard initialized: candidate={self.config.candidate_enforcement.value}, "
-                   f"control={self.config.control_enforcement.value}")
+        logger.info(
+            f"ABSafetyGuard initialized: candidate={self.config.candidate_enforcement.value}, "
+            f"control={self.config.control_enforcement.value}"
+        )
 
     def should_enforce_ethics(self, lane: str, plan: Dict[str, Any]) -> bool:
         """
@@ -177,11 +182,7 @@ class ABSafetyGuard:
             return enforce
 
     def record_guardian_decision(
-        self,
-        lane: str,
-        action: str,
-        was_critical: bool = False,
-        was_blocked: bool = False
+        self, lane: str, action: str, was_critical: bool = False, was_blocked: bool = False
     ) -> None:
         """
         Record Guardian decision for rollback monitoring.
@@ -197,10 +198,10 @@ class ABSafetyGuard:
 
             # Record decision
             decision = {
-                'timestamp': timestamp,
-                'action': action,
-                'was_critical': was_critical,
-                'was_blocked': was_blocked
+                "timestamp": timestamp,
+                "action": action,
+                "was_critical": was_critical,
+                "was_blocked": was_blocked,
             }
 
             # Add to recent decisions
@@ -211,10 +212,7 @@ class ABSafetyGuard:
 
             # Cleanup old decisions (keep last 100 or window + buffer)
             cutoff_time = timestamp - timedelta(minutes=self.config.rollback_window_minutes + 5)
-            self.recent_decisions[lane] = [
-                d for d in self.recent_decisions[lane]
-                if d['timestamp'] >= cutoff_time
-            ]
+            self.recent_decisions[lane] = [d for d in self.recent_decisions[lane] if d["timestamp"] >= cutoff_time]
 
             # Check for rollback conditions
             self._check_rollback_conditions()
@@ -254,14 +252,13 @@ class ABSafetyGuard:
         with self._lock:
             self.circuit_failures[lane] = self.circuit_failures.get(lane, 0) + 1
 
-            logger.warning(f"Circuit failure recorded for lane {lane}: {error} "
-                          f"(failures: {self.circuit_failures[lane]})")
+            logger.warning(
+                f"Circuit failure recorded for lane {lane}: {error} " f"(failures: {self.circuit_failures[lane]})"
+            )
 
             if self.circuit_failures[lane] >= self.config.circuit_failure_threshold:
                 # Open circuit breaker
-                open_until = datetime.now(timezone.utc) + timedelta(
-                    seconds=self.config.circuit_recovery_time_seconds
-                )
+                open_until = datetime.now(timezone.utc) + timedelta(seconds=self.config.circuit_recovery_time_seconds)
                 self.circuit_open_until[lane] = open_until
 
                 logger.error(f"Circuit breaker OPEN for lane {lane} until {open_until}")
@@ -281,25 +278,20 @@ class ABSafetyGuard:
             return  # Not enough data
 
         # Get decisions within rollback window
-        cutoff_time = datetime.now(timezone.utc) - timedelta(
-            minutes=self.config.rollback_window_minutes
-        )
+        cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=self.config.rollback_window_minutes)
 
-        recent_decisions = [
-            d for d in candidate_decisions
-            if d['timestamp'] >= cutoff_time
-        ]
+        recent_decisions = [d for d in candidate_decisions if d["timestamp"] >= cutoff_time]
 
         if len(recent_decisions) < self.config.min_samples_for_rollback:
             return
 
         # Calculate Critical → BLOCK rate
-        critical_decisions = [d for d in recent_decisions if d['was_critical']]
+        critical_decisions = [d for d in recent_decisions if d["was_critical"]]
 
         if not critical_decisions:
             return  # No critical decisions to analyze
 
-        blocked_critical = [d for d in critical_decisions if d['was_blocked']]
+        blocked_critical = [d for d in critical_decisions if d["was_blocked"]]
         block_rate = len(blocked_critical) / len(critical_decisions)
 
         # Update metrics
@@ -319,10 +311,7 @@ class ABSafetyGuard:
             )
 
             if METRICS_AVAILABLE:
-                SAFETY_GUARD_ROLLBACK.labels(
-                    lane="labs",
-                    reason="critical_block_rate_low"
-                ).inc()
+                SAFETY_GUARD_ROLLBACK.labels(lane="labs", reason="critical_block_rate_low").inc()
 
             # Alert operators
             self._send_rollback_alert(block_rate, len(critical_decisions))
@@ -330,11 +319,7 @@ class ABSafetyGuard:
     def _record_enforcement_decision(self, lane: str, reason: str, enforced: bool) -> None:
         """Record enforcement decision in metrics."""
         if METRICS_AVAILABLE:
-            SAFETY_GUARD_ENFORCEMENT.labels(
-                lane=lane,
-                action=reason,
-                enforced=str(enforced).lower()
-            ).inc()
+            SAFETY_GUARD_ENFORCEMENT.labels(lane=lane, action=reason, enforced=str(enforced).lower()).inc()
 
     def _send_rollback_alert(self, block_rate: float, sample_count: int) -> None:
         """Send rollback alert to operators."""
@@ -356,14 +341,14 @@ class ABSafetyGuard:
                 if not decisions:
                     return {"total": 0, "critical_block_rate": 0.0}
 
-                critical = [d for d in decisions if d['was_critical']]
-                blocked = [d for d in critical if d['was_blocked']]
+                critical = [d for d in decisions if d["was_critical"]]
+                blocked = [d for d in critical if d["was_blocked"]]
 
                 return {
                     "total": len(decisions),
                     "critical": len(critical),
                     "blocked": len(blocked),
-                    "critical_block_rate": len(blocked) / len(critical) if critical else 0.0
+                    "critical_block_rate": len(blocked) / len(critical) if critical else 0.0,
                 }
 
             return {
@@ -371,23 +356,20 @@ class ABSafetyGuard:
                 "rollback_triggered": self.rollback_triggered,
                 "enforcement": {
                     "labs": self.config.candidate_enforcement.value,
-                    "control": self.config.control_enforcement.value
+                    "control": self.config.control_enforcement.value,
                 },
                 "circuit_breaker": {
                     "candidate_open": self._is_circuit_open("labs"),
                     "control_open": self._is_circuit_open("control"),
                     "candidate_failures": self.circuit_failures.get("labs", 0),
-                    "control_failures": self.circuit_failures.get("control", 0)
+                    "control_failures": self.circuit_failures.get("control", 0),
                 },
-                "recent_metrics": {
-                    "labs": calc_rates(candidate_decisions),
-                    "control": calc_rates(control_decisions)
-                },
+                "recent_metrics": {"labs": calc_rates(candidate_decisions), "control": calc_rates(control_decisions)},
                 "config": {
                     "min_critical_block_rate": self.config.min_critical_block_rate,
                     "rollback_window_minutes": self.config.rollback_window_minutes,
-                    "min_samples_for_rollback": self.config.min_samples_for_rollback
-                }
+                    "min_samples_for_rollback": self.config.min_samples_for_rollback,
+                },
             }
 
     def reset_rollback(self, operator_id: str) -> None:
@@ -405,6 +387,7 @@ class ABSafetyGuard:
 
 # Global instance for easy access
 _safety_guard = None
+
 
 def get_safety_guard() -> ABSafetyGuard:
     """Get global A/B Safety Guard instance."""

@@ -26,6 +26,7 @@
 ║ • Comprehensive error handling and fallbacks
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import base64
 import json

@@ -32,6 +32,7 @@ Author: Lukhas AI Research Team - UK Compliance Division
 Version: 1.0.0 - UK GDPR/DPA Edition
 Date: June 2025
 """
+
 import json
 import logging
 import uuid

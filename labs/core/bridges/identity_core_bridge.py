@@ -2,6 +2,7 @@
 Identity-Core Bridge
 Bidirectional communication bridge between identity and core systems
 """
+
 import logging
 from typing import Any
 
@@ -168,7 +169,9 @@ class IdentityCoreBridge:
     def compare_states(
         self,
         state1: dict[str, Any],
-        state2: dict[str, Any],  # TODO[CONSTELLATION:specialist] Implement Constellation identity-consciousness state comparison
+        state2: dict[
+            str, Any
+        ],  # TODO[CONSTELLATION:specialist] Implement Constellation identity-consciousness state comparison
     ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
         differences = []

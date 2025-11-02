@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 class DreamState(Enum):
     """Dream state enumeration."""
+
     DORMANT = "dormant"
     FORMING = "forming"
     ACTIVE = "active"
@@ -46,8 +47,9 @@ class DreamStateManager:
         self.state_counter = 0
         logger.info("🌙 Dream State Manager initialized - Constellation Framework active")
 
-    def create_dream_state(self, user_context: Optional[dict] = None,
-                         initial_state: DreamState = DreamState.FORMING) -> str:
+    def create_dream_state(
+        self, user_context: Optional[dict] = None, initial_state: DreamState = DreamState.FORMING
+    ) -> str:
         """
         ⚛️ Identity-coherent dream state creation.
 
@@ -69,7 +71,7 @@ class DreamStateManager:
             "last_transition": datetime.now(timezone.utc).isoformat(),
             "constellation_compliance": True,
             "state_integrity": "maintained",
-            "transition_history": [initial_state.value]
+            "transition_history": [initial_state.value],
         }
 
         self.active_states[state_id] = dream_state
@@ -111,7 +113,7 @@ class DreamStateManager:
             "current_state": target_state.value,
             "transition_valid": True,
             "constellation_validated": True,
-            "transitioned_at": current_dream["last_transition"]
+            "transitioned_at": current_dream["last_transition"],
         }
 
         logger.info(f"🧠 Dream state transitioned: {state_id} {previous_state} -> {target_state.value}")
@@ -160,7 +162,7 @@ class DreamStateManager:
             "transition_count": len(dream_state["transition_history"]),
             "uptime": self._calculate_state_age(dream_state["created_at"]),
             "health_status": "excellent",
-            "safety_validated": True
+            "safety_validated": True,
         }
 
         logger.info(f"🛡️ Dream state health monitored: {state_id}")
@@ -192,7 +194,7 @@ class DreamStateManager:
             "archive_status": "complete",
             "total_duration": self._calculate_state_age(dream_state["created_at"]),
             "transition_count": len(dream_state["transition_history"]),
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         logger.info(f"📚 Dream state archived: {state_id}")
@@ -208,7 +210,7 @@ class DreamStateManager:
             "lucid": ["active", "concluding"],
             "transitioning": ["active", "concluding"],
             "concluding": ["archived"],
-            "archived": []  # No transitions from archived state
+            "archived": [],  # No transitions from archived state
         }
 
         return target_state in valid_transitions.get(current_state, [])
@@ -226,7 +228,7 @@ class DreamStateManager:
             "archived_states": len(self.state_history),
             "total_states_managed": self.state_counter,
             "system_status": "operational",
-            "constellation_framework_active": True
+            "constellation_framework_active": True,
         }
 
 

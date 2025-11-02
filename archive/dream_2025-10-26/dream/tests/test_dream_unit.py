@@ -25,10 +25,7 @@ class TestDreamModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "dream",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "dream", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestDreamModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import dream
+
         self.assertIsNotNone(dream)
 
     def test_module_version(self):
         """Test module has version information."""
         import dream
+
         # Most modules should have version info
-        self.assertTrue(hasattr(dream, '__version__') or
-                       hasattr(dream, 'VERSION'))
+        self.assertTrue(hasattr(dream, "__version__") or hasattr(dream, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestDreamBridge(unittest.TestCase):
         """Test DreamBridge can be imported."""
         try:
             from dream import DreamBridge
+
             self.assertIsNotNone(DreamBridge)
         except ImportError:
             pytest.skip("Component DreamBridge not available")
@@ -97,6 +96,7 @@ class TestDreamProcessor(unittest.TestCase):
         """Test DreamProcessor can be imported."""
         try:
             from dream import DreamProcessor
+
             self.assertIsNotNone(DreamProcessor)
         except ImportError:
             pytest.skip("Component DreamProcessor not available")
@@ -114,6 +114,7 @@ class Testconnect(unittest.TestCase):
         """Test connect can be imported."""
         try:
             from dream import connect
+
             self.assertIsNotNone(connect)
         except ImportError:
             pytest.skip("Component connect not available")
@@ -122,7 +123,6 @@ class Testconnect(unittest.TestCase):
         """Test connect can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

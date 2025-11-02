@@ -106,7 +106,9 @@ def main(argv: Iterable[str] | None = None) -> int:
         print(json.dumps({"benchmarks": summaries}, indent=2))
     else:
         for summary in summaries:
-            print(f"🔬 {summary['name']} avg={summary['avg_ms']:.2f}ms p95={summary['p95_ms']:.2f}ms max={summary['max_ms']:.2f}ms")
+            print(
+                f"🔬 {summary['name']} avg={summary['avg_ms']:.2f}ms p95={summary['p95_ms']:.2f}ms max={summary['max_ms']:.2f}ms"
+            )
 
     # Flag perf regressions via exit code if budgets broken in non-smoke mode
     if not args.smoke:

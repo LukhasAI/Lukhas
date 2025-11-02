@@ -634,7 +634,7 @@ class ConsciousnessService:
                             {
                                 "advanced_consciousness_metrics": self._get_advanced_consciousness_metrics_internal(),
                                 "recent_cognitive_trace_summary": self._get_cognitive_trace_summary_internal(),
-                                "current_awareness_pattern_analysis": self._analyze_current_awareness_patterns_internal()
+                                "current_awareness_pattern_analysis": self._analyze_current_awareness_patterns_internal(),
                             }
                         )
                         report_state_data["report_detail_level"] = "detailed_with_consent"

@@ -448,9 +448,7 @@ class EnterprisePerformanceMonitor:
                             "p95_10": (
                                 np.percentile(recent_values, 95)
                                 if len(recent_values) > 1
-                                else recent_values[0]
-                                if recent_values
-                                else 0
+                                else recent_values[0] if recent_values else 0
                             ),
                         }
 

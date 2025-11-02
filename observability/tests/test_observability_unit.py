@@ -25,10 +25,7 @@ class TestObservabilityModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "observability",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "observability", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestObservabilityModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import observability
+
         self.assertIsNotNone(observability)
 
     def test_module_version(self):
         """Test module has version information."""
         import observability
+
         # Most modules should have version info
-        self.assertTrue(hasattr(observability, '__version__') or
-                       hasattr(observability, 'VERSION'))
+        self.assertTrue(hasattr(observability, "__version__") or hasattr(observability, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestAkaqMetrics(unittest.TestCase):
         """Test AkaqMetrics can be imported."""
         try:
             from observability import AkaqMetrics
+
             self.assertIsNotNone(AkaqMetrics)
         except ImportError:
             pytest.skip("Component AkaqMetrics not available")
@@ -97,6 +96,7 @@ class Testget_observability(unittest.TestCase):
         """Test get_observability can be imported."""
         try:
             from observability import get_observability
+
             self.assertIsNotNone(get_observability)
         except ImportError:
             pytest.skip("Component get_observability not available")
@@ -114,6 +114,7 @@ class Testmeasure_scene_processing(unittest.TestCase):
         """Test measure_scene_processing can be imported."""
         try:
             from observability import measure_scene_processing
+
             self.assertIsNotNone(measure_scene_processing)
         except ImportError:
             pytest.skip("Component measure_scene_processing not available")
@@ -122,7 +123,6 @@ class Testmeasure_scene_processing(unittest.TestCase):
         """Test measure_scene_processing can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

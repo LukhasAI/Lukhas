@@ -45,12 +45,7 @@ class TestAwarenessEngine:
     @pytest.fixture
     def sample_consciousness_state(self):
         """Create sample consciousness state."""
-        return ConsciousnessState(
-            phase="AWARE",
-            awareness_level="basic",
-            emotional_tone="neutral",
-            level=0.7
-        )
+        return ConsciousnessState(phase="AWARE", awareness_level="basic", emotional_tone="neutral", level=0.7)
 
     @pytest.fixture
     def sample_signals(self):
@@ -60,7 +55,7 @@ class TestAwarenessEngine:
             "active_threads": 3,
             "memory_pressure": 0.3,
             "cpu_utilization": 0.4,
-            "signal_strength": 0.8
+            "signal_strength": 0.8,
         }
 
     @pytest.mark.asyncio
@@ -83,10 +78,7 @@ class TestAwarenessEngine:
 
         # Perform multiple updates with changing state
         for i in range(5):
-            state = ConsciousnessState(
-                phase="AWARE",
-                level=0.5 + (i * 0.1)  # Gradually increasing level
-            )
+            state = ConsciousnessState(phase="AWARE", level=0.5 + (i * 0.1))  # Gradually increasing level
             snapshot = await awareness_engine.update(state, sample_signals)
             snapshots.append(snapshot)
 
@@ -118,7 +110,7 @@ class TestAwarenessEngine:
             "processing_queue_size": 150,
             "active_threads": 15,
             "memory_pressure": 0.9,
-            "cpu_utilization": 0.95
+            "cpu_utilization": 0.95,
         }
 
         snapshot = await awareness_engine.update(sample_consciousness_state, high_load_signals)
@@ -176,7 +168,7 @@ class TestDreamEngine:
         return [
             {"type": "reflection_completed", "data": {"score": 0.9}, "timestamp": time.time()},
             {"type": "anomaly_detected", "data": {"severity": "medium"}, "timestamp": time.time()},
-            {"type": "decision_made", "data": {"approved": True}, "timestamp": time.time()}
+            {"type": "decision_made", "data": {"approved": True}, "timestamp": time.time()},
         ]
 
     @pytest.mark.asyncio
@@ -186,9 +178,7 @@ class TestDreamEngine:
         assert initial_phase == "IDLE"
 
         dream_trace = await dream_engine.process_cycle(
-            sample_consciousness_state,
-            sample_memory_events,
-            trigger_reason="test_cycle"
+            sample_consciousness_state, sample_memory_events, trigger_reason="test_cycle"
         )
 
         # Verify dream trace structure
@@ -213,9 +203,7 @@ class TestDreamEngine:
         ]
 
         dream_trace = await dream_engine.process_cycle(
-            sample_consciousness_state,
-            large_memory_events,
-            trigger_reason="memory_pressure"
+            sample_consciousness_state, large_memory_events, trigger_reason="memory_pressure"
         )
 
         assert dream_trace.consolidation_count > 0
@@ -225,9 +213,7 @@ class TestDreamEngine:
     async def test_pattern_discovery(self, dream_engine, sample_consciousness_state, sample_memory_events):
         """Test pattern discovery functionality."""
         dream_trace = await dream_engine.process_cycle(
-            sample_consciousness_state,
-            sample_memory_events,
-            trigger_reason="pattern_discovery"
+            sample_consciousness_state, sample_memory_events, trigger_reason="pattern_discovery"
         )
 
         # Should discover some patterns
@@ -239,9 +225,7 @@ class TestDreamEngine:
         """Test that dream cycles respect maximum duration constraint."""
         start_time = time.time()
         dream_trace = await dream_engine.process_cycle(
-            sample_consciousness_state,
-            sample_memory_events,
-            trigger_reason="duration_test"
+            sample_consciousness_state, sample_memory_events, trigger_reason="duration_test"
         )
         total_time = time.time() - start_time
 
@@ -281,14 +265,14 @@ class TestAutoConsciousness:
     @pytest.fixture
     def mock_guardian_validator(self):
         """Create mock Guardian validator."""
+
         def validator(decision_context):
             # Approve if confidence > 0.7
             approved = decision_context.confidence_score > 0.7
             return GuardianResponse(
-                approved=approved,
-                reason="Test Guardian validation",
-                confidence=decision_context.confidence_score
+                approved=approved, reason="Test Guardian validation", confidence=decision_context.confidence_score
             )
+
         return validator
 
     @pytest.fixture
@@ -304,30 +288,22 @@ class TestAutoConsciousness:
     @pytest.fixture
     def sample_awareness_snapshot(self):
         """Create sample awareness snapshot."""
-        return AwarenessSnapshot(
-            drift_ema=0.3,
-            load_factor=0.5,
-            signal_strength=0.8,
-            signal_noise_ratio=2.0
-        )
+        return AwarenessSnapshot(drift_ema=0.3, load_factor=0.5, signal_strength=0.8, signal_noise_ratio=2.0)
 
     @pytest.fixture
     def sample_reflection_report(self):
         """Create sample reflection report."""
-        return ReflectionReport(
-            coherence_score=0.9,
-            drift_ema=0.2,
-            state_delta_magnitude=0.1
-        )
+        return ReflectionReport(coherence_score=0.9, drift_ema=0.2, state_delta_magnitude=0.1)
 
     @pytest.mark.asyncio
-    async def test_decision_cycle_basic(self, auto_consciousness, sample_consciousness_state,
-                                      sample_awareness_snapshot, sample_reflection_report):
+    async def test_decision_cycle_basic(
+        self, auto_consciousness, sample_consciousness_state, sample_awareness_snapshot, sample_reflection_report
+    ):
         """Test basic decision-making cycle."""
         decision_context = await auto_consciousness.decide_and_act(
             consciousness_state=sample_consciousness_state,
             awareness_snapshot=sample_awareness_snapshot,
-            reflection_report=sample_reflection_report
+            reflection_report=sample_reflection_report,
         )
 
         assert isinstance(decision_context, DecisionContext)
@@ -339,20 +315,21 @@ class TestAutoConsciousness:
         assert isinstance(decision_context.guardian_approved, bool)
 
     @pytest.mark.asyncio
-    async def test_action_generation(self, auto_consciousness, sample_consciousness_state,
-                                   sample_awareness_snapshot, sample_reflection_report):
+    async def test_action_generation(
+        self, auto_consciousness, sample_consciousness_state, sample_awareness_snapshot, sample_reflection_report
+    ):
         """Test action generation based on consciousness inputs."""
         # Create high-drift scenario
         high_drift_awareness = AwarenessSnapshot(
             drift_ema=0.9,  # High drift
             load_factor=0.9,  # High load
-            anomalies=[{"type": "critical_error", "severity": "critical"}]
+            anomalies=[{"type": "critical_error", "severity": "critical"}],
         )
 
         decision_context = await auto_consciousness.decide_and_act(
             consciousness_state=sample_consciousness_state,
             awareness_snapshot=high_drift_awareness,
-            reflection_report=sample_reflection_report
+            reflection_report=sample_reflection_report,
         )
 
         # Should generate stabilization actions
@@ -366,8 +343,7 @@ class TestAutoConsciousness:
         # High confidence scenario
         high_confidence_awareness = AwarenessSnapshot(drift_ema=0.1, load_factor=0.2)
         decision_context = await auto_consciousness.decide_and_act(
-            consciousness_state=sample_consciousness_state,
-            awareness_snapshot=high_confidence_awareness
+            consciousness_state=sample_consciousness_state, awareness_snapshot=high_confidence_awareness
         )
 
         # Guardian approval depends on both confidence and Guardian logic
@@ -386,7 +362,7 @@ class TestAutoConsciousness:
         decision_context = await auto_consciousness.decide_and_act(
             consciousness_state=sample_consciousness_state,
             awareness_snapshot=perfect_awareness,
-            reflection_report=perfect_reflection
+            reflection_report=perfect_reflection,
         )
 
         # Should have high confidence
@@ -396,9 +372,7 @@ class TestAutoConsciousness:
     async def test_performance_latency_target(self, auto_consciousness, sample_consciousness_state):
         """Test decision-making latency meets performance targets."""
         start_time = time.time()
-        await auto_consciousness.decide_and_act(
-            consciousness_state=sample_consciousness_state
-        )
+        await auto_consciousness.decide_and_act(consciousness_state=sample_consciousness_state)
         latency_ms = (time.time() - start_time) * 1000
 
         # Should complete within reasonable time for autonomous decisions
@@ -479,11 +453,7 @@ class TestConsciousnessStream:
 
         # Process multiple ticks with varying signals
         for i in range(5):
-            signals = {
-                "processing_queue_size": 10 + i,
-                "memory_pressure": 0.1 * i,
-                "cpu_utilization": 0.2 + (0.1 * i)
-            }
+            signals = {"processing_queue_size": 10 + i, "memory_pressure": 0.1 * i, "cpu_utilization": 0.2 + (0.1 * i)}
             await consciousness_stream.tick(signals)
 
         # Should have processed through multiple engines
@@ -539,17 +509,14 @@ class TestConsciousnessProperties:
     @given(
         consciousness_level=st.floats(min_value=0.0, max_value=1.0),
         drift_ema=st.floats(min_value=0.0, max_value=1.0),
-        load_factor=st.floats(min_value=0.0, max_value=1.0)
+        load_factor=st.floats(min_value=0.0, max_value=1.0),
     )
     @pytest.mark.asyncio
     async def test_awareness_engine_properties(self, consciousness_level, drift_ema, load_factor):
         """Test AwarenessEngine properties with random inputs."""
         awareness_engine = AwarenessEngine()
         state = ConsciousnessState(level=consciousness_level)
-        signals = {
-            "memory_pressure": load_factor,
-            "cpu_utilization": drift_ema
-        }
+        signals = {"memory_pressure": load_factor, "cpu_utilization": drift_ema}
 
         snapshot = await awareness_engine.update(state, signals)
 
@@ -562,17 +529,14 @@ class TestConsciousnessProperties:
 
     @given(
         memory_events_count=st.integers(min_value=0, max_value=500),
-        consciousness_level=st.floats(min_value=0.0, max_value=1.0)
+        consciousness_level=st.floats(min_value=0.0, max_value=1.0),
     )
     @pytest.mark.asyncio
     async def test_dream_engine_properties(self, memory_events_count, consciousness_level):
         """Test DreamEngine properties with random inputs."""
         dream_engine = DreamEngine()
         state = ConsciousnessState(level=consciousness_level)
-        memory_events = [
-            {"type": f"event_{i}", "timestamp": time.time()}
-            for i in range(memory_events_count)
-        ]
+        memory_events = [{"type": f"event_{i}", "timestamp": time.time()} for i in range(memory_events_count)]
 
         dream_trace = await dream_engine.process_cycle(state, memory_events)
 

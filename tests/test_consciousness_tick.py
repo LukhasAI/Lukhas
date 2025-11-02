@@ -4,6 +4,7 @@ tests/test_consciousness_tick.py
 Unit tests for ConsciousnessTicker - tick routing with ring buffer and backpressure.
 Validates tick handling, decimation, buffer management, and Prometheus metrics.
 """
+
 from unittest.mock import Mock, patch
 
 import pytest
@@ -88,7 +89,7 @@ def test_decimation_logic():
 
 def test_start_stop():
     """Test start and stop functionality"""
-    with patch.object(ConsciousnessTicker, '__init__', return_value=None):
+    with patch.object(ConsciousnessTicker, "__init__", return_value=None):
         ct = ConsciousnessTicker.__new__(ConsciousnessTicker)
         ct.ticker = Mock()
 
@@ -103,9 +104,9 @@ def test_start_stop():
 
 def test_prometheus_metrics_available():
     """Test Prometheus metrics when available"""
-    with patch('core.consciousness_ticker.PROM', True):
-        with patch('core.consciousness_ticker.TICK') as mock_tick:
-            with patch('core.consciousness_ticker.TICKS_DROPPED') as mock_dropped:
+    with patch("core.consciousness_ticker.PROM", True):
+        with patch("core.consciousness_ticker.TICK") as mock_tick:
+            with patch("core.consciousness_ticker.TICKS_DROPPED") as mock_dropped:
                 ct = ConsciousnessTicker(fps=30, cap=4)
 
                 # Trigger normal tick
@@ -123,7 +124,7 @@ def test_prometheus_metrics_available():
 
 def test_prometheus_metrics_unavailable():
     """Test graceful handling when Prometheus is unavailable"""
-    with patch('core.consciousness_ticker.PROM', False):
+    with patch("core.consciousness_ticker.PROM", False):
         ct = ConsciousnessTicker(fps=30, cap=10)
 
         # Should not raise exceptions even without Prometheus
@@ -137,11 +138,11 @@ def test_prometheus_metrics_unavailable():
 
 def test_exception_handling():
     """Test that exceptions in tick handling are properly managed"""
-    with patch('core.consciousness_ticker.SUB_EXC') as mock_exc:
+    with patch("core.consciousness_ticker.SUB_EXC") as mock_exc:
         ct = ConsciousnessTicker(fps=30, cap=10)
 
         # Mock buffer.push to raise an exception
-        with patch.object(ct.buffer, 'push', side_effect=Exception("Test error")):
+        with patch.object(ct.buffer, "push", side_effect=Exception("Test error")):
             with pytest.raises(Exception, match="Test error"):
                 ct._on_tick(1)
 
@@ -152,12 +153,12 @@ def test_exception_handling():
 
 def test_lane_environment_variable():
     """Test that LUKHAS_LANE environment variable is used"""
-    with patch('core.consciousness_ticker.LANE', 'test_lane'):
-        with patch('core.consciousness_ticker.TICK') as mock_tick:
+    with patch("core.consciousness_ticker.LANE", "test_lane"):
+        with patch("core.consciousness_ticker.TICK") as mock_tick:
             ct = ConsciousnessTicker(fps=30, cap=10)
             ct._on_tick(1)
 
-            mock_tick.labels.assert_called_with(lane='test_lane')
+            mock_tick.labels.assert_called_with(lane="test_lane")
 
 
 def test_deterministic_frame_structure():

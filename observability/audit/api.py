@@ -2,6 +2,7 @@
 FastAPI endpoints for audit trail submission and retrieval.
 Includes signed permalink generation and consent-aware redaction.
 """
+
 from __future__ import annotations
 
 import os

@@ -13,7 +13,8 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Dream Recall API",
     description="Explore parallel universe scenarios through dream-based learning",
-    version="1.0.0")
+    version="1.0.0",
+)
 
 
 class DreamScenario(BaseModel):

@@ -4,6 +4,7 @@ Unit tests for metrics contract shapes and normalization
 These tests lock down the canonical metric schemas to prevent drift
 between test expectations and actual runtime metric shapes.
 """
+
 import pytest
 from labs.core.metrics_contract import (
     BioProcessorStats,
@@ -28,7 +29,7 @@ class TestMetricsNormalization:
             "cascade_preventions": 1,
             "avg_routing_time_ms": 0.2,
             "max_routing_time_ms": 1.5,
-            "cascade_prevention_rate": 0.1
+            "cascade_prevention_rate": 0.1,
         }
 
         normalized = normalize_metrics(sample)
@@ -51,7 +52,7 @@ class TestMetricsNormalization:
             "adaptation_success_rate": 0.4,  # legacy alias for adaptation_rate
             "adaptations_applied": 2,
             "patterns_evolved": 1,
-            "coherence_violations": 0
+            "coherence_violations": 0,
         }
 
         normalized = normalize_metrics(sample)
@@ -77,7 +78,7 @@ class TestMetricsNormalization:
             "routing_latency_avg": 1.2,
             "coherence_score": 0.9,
             "node_count": 5,
-            "active_node_count": 4
+            "active_node_count": 4,
         }
 
         normalized = normalize_metrics(legacy_data)
@@ -122,7 +123,7 @@ class TestContractValidation:
             "avg_processing_time_ms": 1.5,
             "adaptation_rate": 0.3,
             "patterns_evolved": 2,
-            "coherence_violations": 1
+            "coherence_violations": 1,
         }
 
         # Should not raise any exceptions
@@ -144,7 +145,7 @@ class TestContractValidation:
             "signals_processed": 20,
             "cascade_preventions": 2,
             "avg_routing_time_ms": 0.8,
-            "cascade_prevention_rate": 0.1
+            "cascade_prevention_rate": 0.1,
         }
 
         # Should not raise any exceptions
@@ -166,7 +167,7 @@ class TestContractValidation:
             "signals_processed": "not_a_number",  # Should be numeric
             "adaptations_applied": 3,
             "avg_processing_time_ms": 1.5,
-            "adaptation_rate": 0.3
+            "adaptation_rate": 0.3,
         }
 
         with pytest.raises(AssertionError, match="signals_processed must be numeric"):
@@ -184,7 +185,7 @@ class TestSchemaDataclasses:
             patterns_evolved=2,
             coherence_violations=1,
             avg_processing_time_ms=1.5,
-            adaptation_rate=0.3
+            adaptation_rate=0.3,
         )
 
         assert stats.signals_processed == 10
@@ -193,11 +194,7 @@ class TestSchemaDataclasses:
 
     def test_router_stats_schema(self):
         """Test RouterStats dataclass"""
-        stats = RouterStats(
-            signals_processed=20,
-            cascade_preventions=2,
-            avg_routing_time_ms=0.8
-        )
+        stats = RouterStats(signals_processed=20, cascade_preventions=2, avg_routing_time_ms=0.8)
 
         assert stats.signals_processed == 20
         assert stats.cascade_preventions == 2
@@ -211,7 +208,7 @@ class TestSchemaDataclasses:
             network_coherence=0.8,
             average_latency_ms=2.0,
             processing_load_avg=0.3,
-            queue_utilization_avg=0.1
+            queue_utilization_avg=0.1,
         )
 
         assert metrics.total_nodes == 5

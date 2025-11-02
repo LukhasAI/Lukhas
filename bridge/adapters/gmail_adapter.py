@@ -3,6 +3,7 @@ Gmail Service Adapter Implementation
 Agent 3: Service Adapter Integration Specialist
 Implements OAuth2, resilience, telemetry, and consent validation
 """
+
 import asyncio
 from datetime import datetime, timezone
 from typing import Optional

@@ -653,7 +653,11 @@ class TokenBudgetController:
             "call_tracking": {
                 "total_calls_logged": len(self.call_log),
                 "recent_findings": len(
-                    [f for f in self.findings_log if (datetime.now(timezone.utc) - datetime.fromisoformat(f["timestamp"])).days < 1]
+                    [
+                        f
+                        for f in self.findings_log
+                        if (datetime.now(timezone.utc) - datetime.fromisoformat(f["timestamp"])).days < 1
+                    ]
                 ),
                 "pending_recommendations": len(pending_recommendations),
                 "applied_recommendations": len([r for r in self.recommendations_applied if r["applied"]]),

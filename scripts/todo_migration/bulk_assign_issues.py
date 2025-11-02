@@ -108,16 +108,18 @@ def main() -> int:
                 area_assignees = assignees_map.get(area, [])
                 if area_assignees:
                     try:
-                        run_cmd([
-                            "gh",
-                            "issue",
-                            "edit",
-                            str(issue),
-                            "--repo",
-                            args.repo,
-                            "--add-assignee",
-                            ",".join(area_assignees),
-                        ])
+                        run_cmd(
+                            [
+                                "gh",
+                                "issue",
+                                "edit",
+                                str(issue),
+                                "--repo",
+                                args.repo,
+                                "--add-assignee",
+                                ",".join(area_assignees),
+                            ]
+                        )
                         assigned = list(area_assignees)
                     except subprocess.CalledProcessError as e:
                         err = f"assign_failed: {e.stderr.strip()}"
@@ -128,16 +130,18 @@ def main() -> int:
                     tf.flush()
                     tmp_path = tf.name
                 try:
-                    run_cmd([
-                        "gh",
-                        "issue",
-                        "comment",
-                        str(issue),
-                        "--repo",
-                        args.repo,
-                        "--body-file",
-                        tmp_path,
-                    ])
+                    run_cmd(
+                        [
+                            "gh",
+                            "issue",
+                            "comment",
+                            str(issue),
+                            "--repo",
+                            args.repo,
+                            "--body-file",
+                            tmp_path,
+                        ]
+                    )
                     comment_posted = True
                 except subprocess.CalledProcessError as e:
                     err = (err + "; " if err else "") + f"comment_failed: {e.stderr.strip()}"
@@ -151,14 +155,16 @@ def main() -> int:
         except Exception as e:
             err = (err + "; " if err else "") + f"unexpected_error: {e}"
 
-        results.append({
-            "issue": issue,
-            "area": area,
-            "location": path_line,
-            "assigned": assigned,
-            "comment_posted": comment_posted if not args.dry_run else False,
-            "error": err,
-        })
+        results.append(
+            {
+                "issue": issue,
+                "area": area,
+                "location": path_line,
+                "assigned": assigned,
+                "comment_posted": comment_posted if not args.dry_run else False,
+                "error": err,
+            }
+        )
 
     outdir = ensure_artifacts_dir()
     out_path = outdir / "assignment_log.json"
@@ -170,4 +176,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

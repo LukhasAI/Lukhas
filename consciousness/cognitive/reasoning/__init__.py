@@ -1,4 +1,5 @@
 """Bridge for consciousness.cognitive.reasoning -> candidate."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge

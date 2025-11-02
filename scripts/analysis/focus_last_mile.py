@@ -1,4 +1,5 @@
 """Cluster import failures and pytest errors to target final bridge fixes."""
+
 from __future__ import annotations
 
 import json
@@ -41,14 +42,10 @@ def _tally_pytest_errors(report: dict[str, Any]) -> tuple[Counter[str], Counter[
     symbols = Counter()
     for entry in report.get("detailed_errors", []):
         error_text = entry.get("error", "")
-        mod_match = re.search(
-            r"ModuleNotFoundError: No module named '([^']+)'", error_text
-        )
+        mod_match = re.search(r"ModuleNotFoundError: No module named '([^']+)'", error_text)
         if mod_match:
             modules[mod_match.group(1)] += 1
-        sym_match = re.search(
-            r"ImportError.*cannot import name '([^']+)'", error_text
-        )
+        sym_match = re.search(r"ImportError.*cannot import name '([^']+)'", error_text)
         if sym_match:
             symbols[sym_match.group(1)] += 1
     return modules, symbols

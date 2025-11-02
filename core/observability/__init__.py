@@ -52,6 +52,7 @@ Usage:
 #TAG:constellation
 #TAG:guardian
 """
+
 import logging
 import time
 from typing import Any, Dict, Optional
@@ -212,7 +213,9 @@ class ObservabilityManager:
         try:
             # Initialize Constellation Framework monitoring first (foundation)
             if TRINITY_MONITORING_AVAILABLE:
-                self.constellation_monitor = ConstellationFrameworkMonitor(self.config.get("constellation_monitoring", {}))
+                self.constellation_monitor = ConstellationFrameworkMonitor(
+                    self.config.get("constellation_monitoring", {})
+                )
                 initialization_results["constellation_monitoring"] = True
                 logger.info("✅ Constellation Framework monitoring initialized")
             else:

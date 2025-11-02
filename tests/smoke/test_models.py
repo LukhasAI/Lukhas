@@ -8,6 +8,7 @@ Validates:
 - Response caching behavior
 - Model availability checks
 """
+
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
@@ -95,8 +96,7 @@ def test_models_capabilities_field(client, auth_headers):
     # Should support responses, embeddings, dreams
     expected_caps = ["responses", "embeddings", "dreams"]
     for cap in expected_caps:
-        assert cap in lukhas_model["capabilities"], \
-            f"Missing capability: {cap}"
+        assert cap in lukhas_model["capabilities"], f"Missing capability: {cap}"
 
 
 def test_models_owned_by_lukhas(client, auth_headers):
@@ -105,10 +105,7 @@ def test_models_owned_by_lukhas(client, auth_headers):
     assert response.status_code == 200
 
     data = response.json()
-    lukhas_model = next(
-        (m for m in data["data"] if m["id"] == "lukhas-matriz"),
-        None
-    )
+    lukhas_model = next((m for m in data["data"] if m["id"] == "lukhas-matriz"), None)
 
     assert lukhas_model is not None
     assert lukhas_model["owned_by"] == "lukhas-ai"
@@ -162,22 +159,15 @@ def test_models_no_duplicate_ids(client, auth_headers):
     model_ids = [m["id"] for m in models]
     unique_ids = set(model_ids)
 
-    assert len(model_ids) == len(unique_ids), \
-        f"Duplicate model IDs found: {model_ids}"
+    assert len(model_ids) == len(unique_ids), f"Duplicate model IDs found: {model_ids}"
 
 
 def test_models_invalid_token_returns_401(client):
     """Verify invalid Bearer token returns 401."""
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer short"}  # Too short (< 8 chars)
-    )
+    response = client.get("/v1/models", headers={"Authorization": "Bearer short"})  # Too short (< 8 chars)
     # Actually this will return 200 if token is >= 8 chars in stub mode
     # Let's use a token that's definitely too short
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer abc"}  # Only 3 chars
-    )
+    response = client.get("/v1/models", headers={"Authorization": "Bearer abc"})  # Only 3 chars
     assert response.status_code == 401
 
 

@@ -39,24 +39,17 @@ APPROVED_LICENSES: Set[str] = {
 def get_package_licenses() -> List[Dict[str, str]]:
     """
     Get licenses for all installed packages using pip-licenses.
-    
+
     Returns:
         List of dicts with keys: Name, Version, License
     """
     try:
         # Install pip-licenses if not available
-        subprocess.run(
-            [sys.executable, "-m", "pip", "show", "pip-licenses"],
-            capture_output=True,
-            check=False
-        )
+        subprocess.run([sys.executable, "-m", "pip", "show", "pip-licenses"], capture_output=True, check=False)
 
         # Run pip-licenses
         result = subprocess.run(
-            [sys.executable, "-m", "pip_licenses", "--format=json"],
-            capture_output=True,
-            text=True,
-            check=True
+            [sys.executable, "-m", "pip_licenses", "--format=json"], capture_output=True, text=True, check=True
         )
 
         return json.loads(result.stdout)
@@ -72,7 +65,7 @@ def get_package_licenses() -> List[Dict[str, str]]:
 def check_license_compliance(packages: List[Dict[str, str]]) -> tuple[List[Dict], List[Dict]]:
     """
     Check packages for license compliance.
-    
+
     Returns:
         tuple: (approved_packages, violations)
     """
@@ -109,14 +102,16 @@ def generate_report(packages: List[Dict], violations: List[Dict], output_path: P
     ]
 
     if violations:
-        lines.extend([
-            "## ⚠️ License Violations",
-            "",
-            "The following packages have licenses that require review:",
-            "",
-            "| Package | Version | License |",
-            "|---------|---------|---------|",
-        ])
+        lines.extend(
+            [
+                "## ⚠️ License Violations",
+                "",
+                "The following packages have licenses that require review:",
+                "",
+                "| Package | Version | License |",
+                "|---------|---------|---------|",
+            ]
+        )
 
         for pkg in sorted(violations, key=lambda p: p["Name"]):
             name = pkg["Name"]
@@ -124,42 +119,50 @@ def generate_report(packages: List[Dict], violations: List[Dict], output_path: P
             license_name = pkg["License"]
             lines.append(f"| {name} | {version} | {license_name} |")
 
-        lines.extend([
-            "",
-            "### Actions Required",
-            "",
-            "1. **Review each license** to determine compatibility",
-            "2. **Replace packages** with unapproved licenses if possible",
-            "3. **Document exceptions** in `.license-exceptions.json`",
-            "4. **Seek legal review** if unsure about compatibility",
-            "",
-        ])
+        lines.extend(
+            [
+                "",
+                "### Actions Required",
+                "",
+                "1. **Review each license** to determine compatibility",
+                "2. **Replace packages** with unapproved licenses if possible",
+                "3. **Document exceptions** in `.license-exceptions.json`",
+                "4. **Seek legal review** if unsure about compatibility",
+                "",
+            ]
+        )
     else:
-        lines.extend([
-            "## ✅ All Licenses Approved",
-            "",
-            "All installed packages use approved open-source licenses.",
-            "",
-        ])
+        lines.extend(
+            [
+                "## ✅ All Licenses Approved",
+                "",
+                "All installed packages use approved open-source licenses.",
+                "",
+            ]
+        )
 
     # Add approved licenses section
-    lines.extend([
-        "## Approved Licenses",
-        "",
-        "The following licenses are automatically approved:",
-        "",
-    ])
+    lines.extend(
+        [
+            "## Approved Licenses",
+            "",
+            "The following licenses are automatically approved:",
+            "",
+        ]
+    )
 
     for license_name in sorted(APPROVED_LICENSES):
         lines.append(f"- {license_name}")
 
-    lines.extend([
-        "",
-        "## Package Summary (Sample)",
-        "",
-        "| Package | Version | License |",
-        "|---------|---------|---------|",
-    ])
+    lines.extend(
+        [
+            "",
+            "## Package Summary (Sample)",
+            "",
+            "| Package | Version | License |",
+            "|---------|---------|---------|",
+        ]
+    )
 
     # Show sample of approved packages
     for pkg in sorted(packages[:25], key=lambda p: p["Name"]):
@@ -179,20 +182,14 @@ def generate_report(packages: List[Dict], violations: List[Dict], output_path: P
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Check Python package license compliance"
-    )
+    parser = argparse.ArgumentParser(description="Check Python package license compliance")
     parser.add_argument(
         "--out",
         type=Path,
         default=Path("docs/audits/licenses.md"),
-        help="Output file path (default: docs/audits/licenses.md)"
+        help="Output file path (default: docs/audits/licenses.md)",
     )
-    parser.add_argument(
-        "--fail-on-violation",
-        action="store_true",
-        help="Exit with code 1 if violations found"
-    )
+    parser.add_argument("--fail-on-violation", action="store_true", help="Exit with code 1 if violations found")
 
     args = parser.parse_args()
 

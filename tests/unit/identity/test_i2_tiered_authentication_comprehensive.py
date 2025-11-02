@@ -29,6 +29,7 @@ import pytest
 try:
     from hypothesis import HealthCheck, given, settings, strategies as st
     from hypothesis.strategies import text
+
     HYPOTHESIS_AVAILABLE = True
 except ImportError:
     HYPOTHESIS_AVAILABLE = False
@@ -51,6 +52,7 @@ try:
         WebAuthnChallenge,
         WebAuthnCredentialMetadata,
     )
+
     COMPONENTS_AVAILABLE = True
 except ImportError:
     COMPONENTS_AVAILABLE = False
@@ -68,7 +70,7 @@ class TestTieredAuthenticationEngine:
             max_attempts=3,
             lockout_duration_minutes=5,
             argon2_time_cost=1,  # Faster for testing
-            argon2_memory_cost=1024  # Smaller for testing
+            argon2_memory_cost=1024,  # Smaller for testing
         )
         return create_tiered_authenticator(security_policy, mock_guardian)
 
@@ -76,10 +78,7 @@ class TestTieredAuthenticationEngine:
     def auth_context(self):
         """Create basic authentication context."""
         return AuthContext(
-            ip_address="127.0.0.1",
-            user_agent="test-agent/1.0",
-            username="test_user",
-            password="test_password"
+            ip_address="127.0.0.1", user_agent="test-agent/1.0", username="test_user", password="test_password"
         )
 
     @pytest.mark.asyncio
@@ -110,7 +109,7 @@ class TestTieredAuthenticationEngine:
     async def test_t2_password_authentication_mock_success(self, authenticator, auth_context):
         """Test T2 password authentication with mock verification."""
         # Arrange - Mock password verification to pass
-        with patch.object(authenticator, '_verify_password', return_value=True):
+        with patch.object(authenticator, "_verify_password", return_value=True):
             # Act
             result = await authenticator.authenticate_T2(auth_context)
 
@@ -126,7 +125,7 @@ class TestTieredAuthenticationEngine:
     async def test_t2_password_authentication_failure(self, authenticator, auth_context):
         """Test T2 password authentication failure."""
         # Arrange - Mock password verification to fail
-        with patch.object(authenticator, '_verify_password', return_value=False):
+        with patch.object(authenticator, "_verify_password", return_value=False):
             # Act
             result = await authenticator.authenticate_T2(auth_context)
 
@@ -143,7 +142,7 @@ class TestTieredAuthenticationEngine:
         auth_context.existing_tier = "T2"
         auth_context.totp_token = "123456"
 
-        with patch.object(authenticator, '_verify_totp', return_value=True):
+        with patch.object(authenticator, "_verify_totp", return_value=True):
             # Act
             result = await authenticator.authenticate_T3(auth_context)
 
@@ -235,7 +234,7 @@ class TestTieredAuthenticationEngine:
         auth_context.existing_tier = "T4"
         auth_context.biometric_attestation = {"confidence": 0.98, "signature": "test"}
 
-        with patch.object(authenticator, '_verify_biometric', return_value=True):
+        with patch.object(authenticator, "_verify_biometric", return_value=True):
             # Act
             result = await authenticator.authenticate_T5(auth_context)
 
@@ -307,7 +306,7 @@ class TestTieredAuthenticationEngine:
     async def test_account_lockout_mechanism(self, authenticator, auth_context):
         """Test account lockout after failed attempts."""
         # Arrange - Mock password verification to fail
-        with patch.object(authenticator, '_verify_password', return_value=False):
+        with patch.object(authenticator, "_verify_password", return_value=False):
             # Act - Exceed max attempts
             for _ in range(5):  # Default max_attempts is 5
                 await authenticator.authenticate_T2(auth_context)
@@ -334,18 +333,20 @@ class TestTieredAuthenticationEngine:
         """Test performance requirements for all tiers."""
         # Performance requirements (in milliseconds)
         tier_limits = {
-            "T1": 50,   # Public access should be fastest
+            "T1": 50,  # Public access should be fastest
             "T2": 200,  # Password hashing adds overhead
             "T3": 150,  # TOTP verification
             "T4": 300,  # WebAuthn processing
-            "T5": 400   # Biometric processing
+            "T5": 400,  # Biometric processing
         }
 
         # Mock all verification methods to pass
-        with patch.object(authenticator, '_verify_password', return_value=True), \
-             patch.object(authenticator, '_verify_totp', return_value=True), \
-             patch.object(authenticator, '_verify_webauthn', return_value=True), \
-             patch.object(authenticator, '_verify_biometric', return_value=True):
+        with (
+            patch.object(authenticator, "_verify_password", return_value=True),
+            patch.object(authenticator, "_verify_totp", return_value=True),
+            patch.object(authenticator, "_verify_webauthn", return_value=True),
+            patch.object(authenticator, "_verify_biometric", return_value=True),
+        ):
 
             # Test T1
             start = time.perf_counter()
@@ -366,17 +367,15 @@ class TestTieredAuthenticationEngine:
         @given(
             ip_address=st.ip_addresses().map(str),
             username=text(min_size=1, max_size=50),
-            correlation_id=text(min_size=10, max_size=50)
+            correlation_id=text(min_size=10, max_size=50),
         )
         @settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
-        async def test_property_based_authentication_contexts(self, authenticator, ip_address, username, correlation_id):
+        async def test_property_based_authentication_contexts(
+            self, authenticator, ip_address, username, correlation_id
+        ):
             """Property-based test for authentication contexts."""
             # Arrange
-            ctx = AuthContext(
-                ip_address=ip_address,
-                username=username,
-                correlation_id=correlation_id
-            )
+            ctx = AuthContext(ip_address=ip_address, username=username, correlation_id=correlation_id)
 
             # Act
             result = await authenticator.authenticate_T1(ctx)
@@ -386,6 +385,7 @@ class TestTieredAuthenticationEngine:
             assert isinstance(result, AuthResult)
             assert result.tier == "T1"
             assert result.correlation_id == correlation_id
+
     else:
 
         @pytest.mark.skip(reason="Hypothesis not installed")
@@ -409,9 +409,7 @@ class TestWebAuthnEnhancedService:
         """Test WebAuthn challenge generation."""
         # Act
         challenge_data = await webauthn_service.generate_authentication_challenge(
-            user_id="test_user",
-            correlation_id="test_corr",
-            ip_address="127.0.0.1"
+            user_id="test_user", correlation_id="test_corr", ip_address="127.0.0.1"
         )
 
         # Assert
@@ -428,9 +426,7 @@ class TestWebAuthnEnhancedService:
         challenges = []
         for i in range(10):
             challenge_data = await webauthn_service.generate_authentication_challenge(
-                user_id=f"user_{i}",
-                correlation_id=f"corr_{i}",
-                ip_address="127.0.0.1"
+                user_id=f"user_{i}", correlation_id=f"corr_{i}", ip_address="127.0.0.1"
             )
             challenges.append(challenge_data["options"]["challenge"])
 
@@ -442,9 +438,7 @@ class TestWebAuthnEnhancedService:
         """Test challenge expiration handling."""
         # Arrange
         challenge_data = await webauthn_service.generate_authentication_challenge(
-            user_id="test_user",
-            correlation_id="test_corr",
-            ip_address="127.0.0.1"
+            user_id="test_user", correlation_id="test_corr", ip_address="127.0.0.1"
         )
 
         challenge_id = challenge_data["challenge_id"]
@@ -458,7 +452,7 @@ class TestWebAuthnEnhancedService:
             challenge_id=challenge_id,
             webauthn_response={"id": "test", "response": {}},
             correlation_id="test_corr",
-            ip_address="127.0.0.1"
+            ip_address="127.0.0.1",
         )
 
         # Assert
@@ -470,9 +464,7 @@ class TestWebAuthnEnhancedService:
         """Test anti-replay protection for challenges."""
         # Arrange
         challenge_data = await webauthn_service.generate_authentication_challenge(
-            user_id="test_user",
-            correlation_id="test_corr",
-            ip_address="127.0.0.1"
+            user_id="test_user", correlation_id="test_corr", ip_address="127.0.0.1"
         )
 
         challenge_id = challenge_data["challenge_id"]
@@ -481,14 +473,13 @@ class TestWebAuthnEnhancedService:
             "response": {
                 "authenticatorData": "dGVzdA==",
                 "clientDataJSON": "eyJjaGFsbGVuZ2UiOiJ0ZXN0IiwidHlwZSI6IndlYmF1dGhuLmdldCIsIm9yaWdpbiI6Imh0dHBzOi8vbHVraGFzLmFpIn0=",
-                "signature": "dGVzdF9zaWduYXR1cmU="
-            }
+                "signature": "dGVzdF9zaWduYXR1cmU=",
+            },
         }
 
         # Register a test credential
         await webauthn_service.register_credential(
-            user_id="test_user",
-            credential_data={"id": "test_credential", "public_key": "test_key"}
+            user_id="test_user", credential_data={"id": "test_credential", "public_key": "test_key"}
         )
 
         # Act - First verification attempt
@@ -496,7 +487,7 @@ class TestWebAuthnEnhancedService:
             challenge_id=challenge_id,
             webauthn_response=webauthn_response,
             correlation_id="test_corr",
-            ip_address="127.0.0.1"
+            ip_address="127.0.0.1",
         )
 
         # Act - Second verification attempt (should fail due to replay)
@@ -504,7 +495,7 @@ class TestWebAuthnEnhancedService:
             challenge_id=challenge_id,
             webauthn_response=webauthn_response,
             correlation_id="test_corr",
-            ip_address="127.0.0.1"
+            ip_address="127.0.0.1",
         )
 
         # Assert
@@ -520,9 +511,7 @@ class TestWebAuthnEnhancedService:
         for _ in range(100):
             start = time.perf_counter()
             await webauthn_service.generate_authentication_challenge(
-                user_id="test_user",
-                correlation_id="test_corr",
-                ip_address="127.0.0.1"
+                user_id="test_user", correlation_id="test_corr", ip_address="127.0.0.1"
             )
             duration = (time.perf_counter() - start) * 1000
             times.append(duration)
@@ -551,7 +540,7 @@ class TestBiometricProvider:
         success, result = await biometric_provider.enroll_biometric(
             user_id="test_user",
             modality=BiometricModality.FINGERPRINT,
-            sample_data="dGVzdF9maW5nZXJwcmludA=="  # base64 encoded
+            sample_data="dGVzdF9maW5nZXJwcmludA==",  # base64 encoded
         )
 
         # Assert
@@ -564,9 +553,7 @@ class TestBiometricProvider:
         """Test biometric authentication."""
         # Arrange - Enroll a template first
         await biometric_provider.enroll_biometric(
-            user_id="test_user",
-            modality=BiometricModality.FINGERPRINT,
-            sample_data="dGVzdF9maW5nZXJwcmludA=="
+            user_id="test_user", modality=BiometricModality.FINGERPRINT, sample_data="dGVzdF9maW5nZXJwcmludA=="
         )
 
         # Act
@@ -574,7 +561,7 @@ class TestBiometricProvider:
             user_id="test_user",
             sample_data="dGVzdF9maW5nZXJwcmludA==",
             modality=BiometricModality.FINGERPRINT,
-            nonce="test_nonce_123"
+            nonce="test_nonce_123",
         )
 
         # Assert
@@ -589,9 +576,7 @@ class TestBiometricProvider:
         """Test anti-spoofing detection."""
         # Arrange - Enroll a template
         await biometric_provider.enroll_biometric(
-            user_id="test_user",
-            modality=BiometricModality.FINGERPRINT,
-            sample_data="dGVzdF9maW5nZXJwcmludA=="
+            user_id="test_user", modality=BiometricModality.FINGERPRINT, sample_data="dGVzdF9maW5nZXJwcmludA=="
         )
 
         # Act
@@ -599,7 +584,7 @@ class TestBiometricProvider:
             user_id="test_user",
             sample_data="dGVzdF9maW5nZXJwcmludA==",
             modality=BiometricModality.FINGERPRINT,
-            nonce="test_nonce_456"
+            nonce="test_nonce_456",
         )
 
         # Assert
@@ -611,9 +596,7 @@ class TestBiometricProvider:
         """Test nonce replay protection."""
         # Arrange - Enroll a template
         await biometric_provider.enroll_biometric(
-            user_id="test_user",
-            modality=BiometricModality.FINGERPRINT,
-            sample_data="dGVzdF9maW5nZXJwcmludA=="
+            user_id="test_user", modality=BiometricModality.FINGERPRINT, sample_data="dGVzdF9maW5nZXJwcmludA=="
         )
 
         nonce = "test_nonce_replay"
@@ -623,7 +606,7 @@ class TestBiometricProvider:
             user_id="test_user",
             sample_data="dGVzdF9maW5nZXJwcmludA==",
             modality=BiometricModality.FINGERPRINT,
-            nonce=nonce
+            nonce=nonce,
         )
 
         # Act - Second authentication with same nonce (should fail)
@@ -631,7 +614,7 @@ class TestBiometricProvider:
             user_id="test_user",
             sample_data="dGVzdF9maW5nZXJwcmludA==",
             modality=BiometricModality.FINGERPRINT,
-            nonce=nonce
+            nonce=nonce,
         )
 
         # Assert
@@ -643,9 +626,7 @@ class TestBiometricProvider:
         """Test biometric authentication performance requirements."""
         # Arrange - Enroll template
         await biometric_provider.enroll_biometric(
-            user_id="test_user",
-            modality=BiometricModality.FINGERPRINT,
-            sample_data="dGVzdF9maW5nZXJwcmludA=="
+            user_id="test_user", modality=BiometricModality.FINGERPRINT, sample_data="dGVzdF9maW5nZXJwcmludA=="
         )
 
         # Performance requirement: <50ms p95 for authentication
@@ -657,7 +638,7 @@ class TestBiometricProvider:
                 user_id="test_user",
                 sample_data="dGVzdF9maW5nZXJwcmludA==",
                 modality=BiometricModality.FINGERPRINT,
-                nonce=f"test_nonce_{i}"
+                nonce=f"test_nonce_{i}",
             )
             duration = (time.perf_counter() - start) * 1000
             times.append(duration)
@@ -729,7 +710,7 @@ class TestSecurityHardening:
         threat_level, indicators = await security_manager.analyze_request(
             ip_address="127.0.0.1",
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            headers={"Host": "ai", "Accept": "text/html"}
+            headers={"Host": "ai", "Accept": "text/html"},
         )
 
         # Assert - Should be low threat
@@ -739,7 +720,7 @@ class TestSecurityHardening:
         threat_level_sus, indicators_sus = await security_manager.analyze_request(
             ip_address="127.0.0.1",
             user_agent="sqlmap/1.0",  # Suspicious user agent
-            headers={"X-Scanner": "test", "Host": "ai"}  # Suspicious header
+            headers={"X-Scanner": "test", "Host": "ai"},  # Suspicious header
         )
 
         # Assert - Should be higher threat
@@ -755,7 +736,7 @@ class TestSecurityHardening:
             user_agent="Mozilla/5.0 (legitimate browser)",
             headers={"Host": "ai"},
             user_id="test_user",
-            endpoint="/identity/authenticate"
+            endpoint="/identity/authenticate",
         )
 
         # Assert
@@ -777,10 +758,12 @@ class TestIntegrationScenarios:
         authenticator = create_tiered_authenticator()
 
         # Mock all verification methods
-        with patch.object(authenticator, '_verify_password', return_value=True), \
-             patch.object(authenticator, '_verify_totp', return_value=True), \
-             patch.object(authenticator, '_verify_webauthn', return_value=True), \
-             patch.object(authenticator, '_verify_biometric', return_value=True):
+        with (
+            patch.object(authenticator, "_verify_password", return_value=True),
+            patch.object(authenticator, "_verify_totp", return_value=True),
+            patch.object(authenticator, "_verify_webauthn", return_value=True),
+            patch.object(authenticator, "_verify_biometric", return_value=True),
+        ):
 
             # Act & Assert - T1
             ctx = AuthContext(ip_address="127.0.0.1", username="test_user")
@@ -834,10 +817,12 @@ class TestPerformanceBenchmarks:
         authenticator = create_tiered_authenticator()
 
         # Mock all verification methods to be fast
-        with patch.object(authenticator, '_verify_password', return_value=True), \
-             patch.object(authenticator, '_verify_totp', return_value=True), \
-             patch.object(authenticator, '_verify_webauthn', return_value=True), \
-             patch.object(authenticator, '_verify_biometric', return_value=True):
+        with (
+            patch.object(authenticator, "_verify_password", return_value=True),
+            patch.object(authenticator, "_verify_totp", return_value=True),
+            patch.object(authenticator, "_verify_webauthn", return_value=True),
+            patch.object(authenticator, "_verify_biometric", return_value=True),
+        ):
 
             # Test T1 performance (100 samples for statistical significance)
             t1_times = []
@@ -863,7 +848,7 @@ class TestPerformanceBenchmarks:
                     ip_address="127.0.0.1",
                     username="test_user",
                     password="test_password",
-                    correlation_id=f"test_t2_{i}"
+                    correlation_id=f"test_t2_{i}",
                 )
                 start = time.perf_counter()
                 result = await authenticator.authenticate_T2(ctx)
@@ -881,14 +866,10 @@ class TestPerformanceBenchmarks:
         """Test system performance under concurrent load."""
         authenticator = create_tiered_authenticator()
 
-        with patch.object(authenticator, '_verify_password', return_value=True):
+        with patch.object(authenticator, "_verify_password", return_value=True):
             # Simulate 50 concurrent T2 authentications
             async def auth_task(user_id: int):
-                ctx = AuthContext(
-                    ip_address="127.0.0.1",
-                    username=f"user_{user_id}",
-                    password="test_password"
-                )
+                ctx = AuthContext(ip_address="127.0.0.1", username=f"user_{user_id}", password="test_password")
                 start = time.perf_counter()
                 result = await authenticator.authenticate_T2(ctx)
                 duration = (time.perf_counter() - start) * 1000

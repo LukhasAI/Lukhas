@@ -2,6 +2,7 @@
 LUKHAS Self-Healing Architecture
 Autonomous error recovery and system resilience
 """
+
 import asyncio
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
@@ -404,7 +405,9 @@ class SelfHealingSystem:
             await asyncio.sleep(300)  # Every 5 minutes
 
             # Analyze recent failures
-            recent_failures = [f for f in self.failure_history if f.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)]
+            recent_failures = [
+                f for f in self.failure_history if f.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)
+            ]
 
             patterns = self._detect_failure_patterns(recent_failures)
 

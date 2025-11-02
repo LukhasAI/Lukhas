@@ -28,6 +28,7 @@ from core.identity.matriz_consciousness_identity_signals import (  # noqa: E402
 class MockBioSymbolicData:
     coherence_score: float = 0.5
 
+
 @dataclass
 class MockConsciousnessSignal:
     consciousness_id: str
@@ -38,9 +39,12 @@ class MockConsciousnessSignal:
     reflection_depth: float = 0.5
     bio_symbolic_data: MockBioSymbolicData = field(default_factory=MockBioSymbolicData)
 
+
 # Patch the ConsciousnessSignal in the module with our mock
 
-candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal  # noqa: F821  # TODO: candidate
+candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = (
+    MockConsciousnessSignal  # noqa: F821  # TODO: candidate
+)
 
 
 class TestConsciousnessIdentitySignalProcessor:
@@ -63,7 +67,7 @@ class TestConsciousnessIdentitySignalProcessor:
         assert len(result.signals_by_identity["id1"]) == 2
         assert len(result.signals_by_identity["id2"]) == 1
         assert not result.invalid_signals
-        assert result.trace_info['data']['status'] == 'SUCCESS'
+        assert result.trace_info["data"]["status"] == "SUCCESS"
 
     def test_process_signal_batch_invalid_signals(self):
         # Arrange
@@ -87,7 +91,7 @@ class TestConsciousnessIdentitySignalProcessor:
         # Assert
         assert not result.signals_by_identity
         assert not result.invalid_signals
-        assert result.trace_info['data']['num_signals'] == 0
+        assert result.trace_info["data"]["num_signals"] == 0
 
     def test_validate_identity_coherence_success(self):
         # Arrange
@@ -108,7 +112,7 @@ class TestConsciousnessIdentitySignalProcessor:
         # Assert
         assert isinstance(result, ValidationResult)
         assert result.is_coherent
-        assert result.trace_info['data']['status'] == 'SUCCESS'
+        assert result.trace_info["data"]["status"] == "SUCCESS"
 
     def test_validate_identity_coherence_failure_no_request(self):
         # Arrange
@@ -124,15 +128,16 @@ class TestConsciousnessIdentitySignalProcessor:
         # Assert
         assert not result.is_coherent
         assert "without a recent AUTHENTICATION_REQUEST" in result.reason
-        assert result.trace_info['data']['status'] == 'FAILURE'
+        assert result.trace_info["data"]["status"] == "FAILURE"
 
     def test_validate_identity_coherence_anomaly_detection(self):
         # Arrange
         failures = [
             MockConsciousnessSignal(
                 consciousness_id="id1",
-                processing_hints={"identity_signal_type": IdentitySignalType.AUTHENTICATION_FAILURE.value}
-            ) for _ in range(6)
+                processing_hints={"identity_signal_type": IdentitySignalType.AUTHENTICATION_FAILURE.value},
+            )
+            for _ in range(6)
         ]
         context = {"recent_signals": failures}
 
@@ -142,7 +147,7 @@ class TestConsciousnessIdentitySignalProcessor:
         # Assert
         assert not result.is_coherent
         assert "consecutive authentication failures" in result.reason
-        assert result.trace_info['data']['check'] == 'anomaly_detection'
+        assert result.trace_info["data"]["check"] == "anomaly_detection"
 
     def test_correlate_consciousness_state(self):
         # Arrange
@@ -152,21 +157,21 @@ class TestConsciousnessIdentitySignalProcessor:
                 processing_hints={"identity_signal_type": "TYPE_A"},
                 awareness_level=0.8,
                 reflection_depth=0.7,
-                bio_symbolic_data=MockBioSymbolicData(coherence_score=0.9)
+                bio_symbolic_data=MockBioSymbolicData(coherence_score=0.9),
             ),
             MockConsciousnessSignal(
                 consciousness_id="id1",
                 processing_hints={"identity_signal_type": "TYPE_A"},
                 awareness_level=0.6,
                 reflection_depth=0.5,
-                bio_symbolic_data=MockBioSymbolicData(coherence_score=0.7)
+                bio_symbolic_data=MockBioSymbolicData(coherence_score=0.7),
             ),
             MockConsciousnessSignal(
                 consciousness_id="id2",
                 processing_hints={"identity_signal_type": "TYPE_B"},
                 awareness_level=0.4,
                 reflection_depth=0.3,
-                bio_symbolic_data=MockBioSymbolicData(coherence_score=0.5)
+                bio_symbolic_data=MockBioSymbolicData(coherence_score=0.5),
             ),
         ]
 
@@ -181,7 +186,7 @@ class TestConsciousnessIdentitySignalProcessor:
         assert pytest.approx(result.matrix["TYPE_A"]["reflection_depth"]) == 0.6
         assert pytest.approx(result.matrix["TYPE_A"]["coherence_score"]) == 0.8
         assert pytest.approx(result.matrix["TYPE_B"]["awareness_level"]) == 0.4
-        assert result.trace_info['data']['status'] == 'SUCCESS'
+        assert result.trace_info["data"]["status"] == "SUCCESS"
 
     def test_correlate_consciousness_state_empty_list(self):
         # Arrange
@@ -192,4 +197,4 @@ class TestConsciousnessIdentitySignalProcessor:
 
         # Assert
         assert not result.matrix
-        assert result.trace_info['data']['num_signals'] == 0
+        assert result.trace_info["data"]["num_signals"] == 0

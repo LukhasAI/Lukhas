@@ -71,18 +71,10 @@ def append_ledger(rec: dict):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Scaffold module documentation from templates"
-    )
-    ap.add_argument(
-        "--module", help="single module folder (name or path)"
-    )
-    ap.add_argument(
-        "--apply", action="store_true", help="write files (default: dry-run)"
-    )
-    ap.add_argument(
-        "--verbose", "-v", action="store_true", help="verbose output"
-    )
+    ap = argparse.ArgumentParser(description="Scaffold module documentation from templates")
+    ap.add_argument("--module", help="single module folder (name or path)")
+    ap.add_argument("--apply", action="store_true", help="write files (default: dry-run)")
+    ap.add_argument("--verbose", "-v", action="store_true", help="verbose output")
     args = ap.parse_args()
 
     # Discover targets
@@ -128,11 +120,7 @@ def main():
                 "L2",
             ),
             "constellation": next(
-                (
-                    t.split(":")[1]
-                    for t in manifest.get("tags", [])
-                    if t.startswith("constellation:")
-                ),
+                (t.split(":")[1] for t in manifest.get("tags", []) if t.startswith("constellation:")),
                 "unknown",
             ),
             "tags_csv": ",".join(manifest.get("tags", [])[:6]),
@@ -142,15 +130,9 @@ def main():
             "capability3": "Capability 3 (update from manifest)",
             "upstream_modules": "TBD",
             "downstream_modules": "TBD",
-            "p95_target": manifest.get("performance", {})
-            .get("sla_targets", {})
-            .get("latency_p95_ms", "—"),
-            "p95_observed": manifest.get("performance", {})
-            .get("observed", {})
-            .get("latency_p95_ms", "—"),
-            "observed_at": manifest.get("performance", {})
-            .get("observed", {})
-            .get("observed_at", "—"),
+            "p95_target": manifest.get("performance", {}).get("sla_targets", {}).get("latency_p95_ms", "—"),
+            "p95_observed": manifest.get("performance", {}).get("observed", {}).get("latency_p95_ms", "—"),
+            "observed_at": manifest.get("performance", {}).get("observed", {}).get("observed_at", "—"),
             "coverage_target": manifest.get("testing", {}).get("coverage_target", "—"),
             "feature1": "Feature 1",
             "feature2": "Feature 2",

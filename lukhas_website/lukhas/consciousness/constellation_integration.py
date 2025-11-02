@@ -69,14 +69,14 @@ logger = logging.getLogger(__name__)
 class ConstellationFramework(Enum):
     """Constellation Framework dynamic 8-star system."""
 
-    ANCHOR = "⚛️"      # Identity systems, ΛiD authentication, namespace management
-    TRAIL = "✦"        # Memory systems, fold-based memory, temporal organization
-    HORIZON = "🔬"     # Vision systems, pattern recognition, adaptive interfaces
-    WATCH = "🛡️"      # Guardian systems, ethical validation, drift detection
-    FLOW = "🌊"        # Consciousness streams, dream states, awareness patterns
-    SPARK = "⚡"       # Creativity engines, innovation generation, breakthrough detection
-    PERSONA = "🎭"     # Voice synthesis, personality modeling, empathetic resonance
-    ORACLE = "🔮"      # Predictive reasoning, quantum superposition, future modeling
+    ANCHOR = "⚛️"  # Identity systems, ΛiD authentication, namespace management
+    TRAIL = "✦"  # Memory systems, fold-based memory, temporal organization
+    HORIZON = "🔬"  # Vision systems, pattern recognition, adaptive interfaces
+    WATCH = "🛡️"  # Guardian systems, ethical validation, drift detection
+    FLOW = "🌊"  # Consciousness streams, dream states, awareness patterns
+    SPARK = "⚡"  # Creativity engines, innovation generation, breakthrough detection
+    PERSONA = "🎭"  # Voice synthesis, personality modeling, empathetic resonance
+    ORACLE = "🔮"  # Predictive reasoning, quantum superposition, future modeling
 
 
 @dataclass
@@ -102,14 +102,14 @@ class ConstellationIntegrationConfig:
 class ConstellationState:
     """Current state of Constellation Framework dynamic 8-star integration."""
 
-    anchor_active: bool = False      # Identity systems active
-    trail_active: bool = False       # Memory systems active
-    horizon_active: bool = False     # Vision systems active
-    watch_active: bool = False       # Guardian systems active
-    flow_active: bool = False        # Consciousness streams active
-    spark_active: bool = False       # Creativity engines active
-    persona_active: bool = False     # Voice synthesis active
-    oracle_active: bool = False      # Predictive reasoning active
+    anchor_active: bool = False  # Identity systems active
+    trail_active: bool = False  # Memory systems active
+    horizon_active: bool = False  # Vision systems active
+    watch_active: bool = False  # Guardian systems active
+    flow_active: bool = False  # Consciousness streams active
+    spark_active: bool = False  # Creativity engines active
+    persona_active: bool = False  # Voice synthesis active
+    oracle_active: bool = False  # Predictive reasoning active
     integration_health: float = 0.0
     last_coherence_check: Optional[datetime] = None
     active_sessions: int = 0
@@ -615,7 +615,9 @@ class ConstellationFrameworkIntegrator:
 
                 # Log health status
                 if self.state.integration_health < 0.67:
-                    logger.warning(f"⚠️ Constellation Framework integration degraded: {self.state.integration_health:.1%}")
+                    logger.warning(
+                        f"⚠️ Constellation Framework integration degraded: {self.state.integration_health:.1%}"
+                    )
 
                 await asyncio.sleep(self.config.health_check_interval)
 
@@ -681,9 +683,9 @@ class ConstellationFrameworkIntegrator:
                 "consciousness_authenticity_score": self.state.consciousness_authenticity_score,
             },
             "system_health": {
-                "last_coherence_check": self.state.last_coherence_check.isoformat()
-                if self.state.last_coherence_check
-                else None,
+                "last_coherence_check": (
+                    self.state.last_coherence_check.isoformat() if self.state.last_coherence_check else None
+                ),
                 "coherence_threshold": 0.5,
                 "drift_threshold": self.config.ethical_drift_threshold,
                 "authenticity_threshold": self.config.consciousness_authenticity_threshold,
@@ -715,7 +717,9 @@ class ConstellationFrameworkIntegrator:
 _global_integrator: Optional[ConstellationFrameworkIntegrator] = None
 
 
-def get_constellation_integrator(config: Optional[ConstellationIntegrationConfig] = None) -> ConstellationFrameworkIntegrator:
+def get_constellation_integrator(
+    config: Optional[ConstellationIntegrationConfig] = None,
+) -> ConstellationFrameworkIntegrator:
     """Get the global Constellation Framework integrator instance."""
     global _global_integrator
     if _global_integrator is None:

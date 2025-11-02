@@ -49,10 +49,7 @@ def map_scene_to_glyphs(scene: PhenomenalScene) -> list[PhenomenalGlyph]:
 
     # Rule 1: Threat vigilance detection
     # Either high arousal+negative tone OR high/moderate risk severity
-    vigilance_needed = (
-        (pq.arousal >= 0.6 and pq.tone <= -0.2) or
-        scene.risk.severity.value in {"moderate", "high"}
-    )
+    vigilance_needed = (pq.arousal >= 0.6 and pq.tone <= -0.2) or scene.risk.severity.value in {"moderate", "high"}
     if vigilance_needed:
         glyphs.append(
             PhenomenalGlyph(

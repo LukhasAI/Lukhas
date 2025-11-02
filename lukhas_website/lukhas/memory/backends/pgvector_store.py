@@ -56,7 +56,7 @@ class PgVectorStore(AbstractVectorStore):
         index_type: str = "hnsw",  # hnsw, ivfflat
         index_params: Optional[Dict[str, Any]] = None,
         pool_size: int = 10,
-        max_pool_size: int = 20
+        max_pool_size: int = 20,
     ):
         self.connection_string = connection_string
         self.table_name = table_name
@@ -84,10 +84,7 @@ class PgVectorStore(AbstractVectorStore):
         try:
             # Create connection pool
             self.pool = await asyncpg.create_pool(
-                self.connection_string,
-                min_size=self.pool_size,
-                max_size=self.max_pool_size,
-                command_timeout=60
+                self.connection_string, min_size=self.pool_size, max_size=self.max_pool_size, command_timeout=60
             )
 
             # Initialize database schema
@@ -100,7 +97,7 @@ class PgVectorStore(AbstractVectorStore):
                 table_name=self.table_name,
                 dimension=self.dimension,
                 index_type=self.index_type,
-                pool_size=self.pool_size
+                pool_size=self.pool_size,
             )
 
         except Exception as e:
@@ -152,35 +149,47 @@ class PgVectorStore(AbstractVectorStore):
             await conn.execute(create_table_sql)
 
             # Create indexes for performance
-            await conn.execute(f"""
+            await conn.execute(
+                f"""
             CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_{self.table_name}_identity_id
             ON {self.table_name}(identity_id) WHERE identity_id IS NOT NULL;
-            """)
+            """
+            )
 
-            await conn.execute(f"""
+            await conn.execute(
+                f"""
             CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_{self.table_name}_lane
             ON {self.table_name}(lane);
-            """)
+            """
+            )
 
-            await conn.execute(f"""
+            await conn.execute(
+                f"""
             CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_{self.table_name}_fold_id
             ON {self.table_name}(fold_id) WHERE fold_id IS NOT NULL;
-            """)
+            """
+            )
 
-            await conn.execute(f"""
+            await conn.execute(
+                f"""
             CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_{self.table_name}_expires_at
             ON {self.table_name}(expires_at) WHERE expires_at IS NOT NULL;
-            """)
+            """
+            )
 
-            await conn.execute(f"""
+            await conn.execute(
+                f"""
             CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_{self.table_name}_tags
             ON {self.table_name} USING GIN(tags);
-            """)
+            """
+            )
 
-            await conn.execute(f"""
+            await conn.execute(
+                f"""
             CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_{self.table_name}_metadata
             ON {self.table_name} USING GIN(metadata);
-            """)
+            """
+            )
 
     async def _create_indexes(self) -> None:
         """Create vector similarity indexes"""
@@ -212,10 +221,7 @@ class PgVectorStore(AbstractVectorStore):
 
             await conn.execute(index_sql)
             logger.info(
-                "Vector index created",
-                index_name=index_name,
-                index_type=self.index_type,
-                params=self.index_params
+                "Vector index created", index_name=index_name, index_type=self.index_type, params=self.index_params
             )
 
     async def add(self, document: VectorDocument) -> bool:
@@ -259,7 +265,7 @@ class PgVectorStore(AbstractVectorStore):
                     document.updated_at,
                     document.expires_at,
                     document.access_count,
-                    document.last_accessed
+                    document.last_accessed,
                 )
 
             duration_ms = (time.perf_counter() - start_time) * 1000
@@ -271,7 +277,7 @@ class PgVectorStore(AbstractVectorStore):
                 document_id=document.id,
                 dimension=len(document.embedding),
                 lane=document.lane,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
             return True
@@ -280,10 +286,7 @@ class PgVectorStore(AbstractVectorStore):
             duration_ms = (time.perf_counter() - start_time) * 1000
             metrics.increment_counter("pgvector_add_errors")
             logger.error(
-                "Failed to add document to PgVector",
-                document_id=document.id,
-                error=str(e),
-                duration_ms=duration_ms
+                "Failed to add document to PgVector", document_id=document.id, error=str(e), duration_ms=duration_ms
             )
             raise VectorStoreError(f"Failed to add document: {e}") from e
 
@@ -332,15 +335,11 @@ class PgVectorStore(AbstractVectorStore):
                                 doc.updated_at,
                                 doc.expires_at,
                                 doc.access_count,
-                                doc.last_accessed
+                                doc.last_accessed,
                             )
                             results.append(True)
                         except Exception as e:
-                            logger.error(
-                                "Failed to insert document in batch",
-                                document_id=doc.id,
-                                error=str(e)
-                            )
+                            logger.error("Failed to insert document in batch", document_id=doc.id, error=str(e))
                             results.append(False)
 
             duration_ms = (time.perf_counter() - start_time) * 1000
@@ -355,7 +354,7 @@ class PgVectorStore(AbstractVectorStore):
                 total_documents=len(documents),
                 successful=success_count,
                 failed=len(documents) - success_count,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
             return results
@@ -364,10 +363,7 @@ class PgVectorStore(AbstractVectorStore):
             duration_ms = (time.perf_counter() - start_time) * 1000
             metrics.increment_counter("pgvector_bulk_add_errors")
             logger.error(
-                "Failed bulk add operation",
-                document_count=len(documents),
-                error=str(e),
-                duration_ms=duration_ms
+                "Failed bulk add operation", document_count=len(documents), error=str(e), duration_ms=duration_ms
             )
             raise VectorStoreError(f"Failed bulk add: {e}") from e
 
@@ -390,11 +386,14 @@ class PgVectorStore(AbstractVectorStore):
                     raise DocumentNotFoundError(f"Document {document_id} not found")
 
                 # Update access tracking
-                await conn.execute(f"""
+                await conn.execute(
+                    f"""
                 UPDATE {self.table_name}
                 SET access_count = access_count + 1, last_accessed = NOW()
                 WHERE id = $1;
-                """, document_id)
+                """,
+                    document_id,
+                )
 
                 # Create document from row
                 document = VectorDocument(
@@ -410,7 +409,7 @@ class PgVectorStore(AbstractVectorStore):
                     updated_at=row["updated_at"],
                     expires_at=row["expires_at"],
                     access_count=row["access_count"] + 1,
-                    last_accessed=datetime.now(timezone.utc)
+                    last_accessed=datetime.now(timezone.utc),
                 )
 
                 duration_ms = (time.perf_counter() - start_time) * 1000
@@ -425,10 +424,7 @@ class PgVectorStore(AbstractVectorStore):
             duration_ms = (time.perf_counter() - start_time) * 1000
             metrics.increment_counter("pgvector_get_errors")
             logger.error(
-                "Failed to get document from PgVector",
-                document_id=document_id,
-                error=str(e),
-                duration_ms=duration_ms
+                "Failed to get document from PgVector", document_id=document_id, error=str(e), duration_ms=duration_ms
             )
             raise VectorStoreError(f"Failed to get document: {e}") from e
 
@@ -453,11 +449,7 @@ class PgVectorStore(AbstractVectorStore):
                 metrics.increment_counter("pgvector_delete_total")
 
                 if deleted:
-                    logger.debug(
-                        "Document deleted from PgVector",
-                        document_id=document_id,
-                        duration_ms=duration_ms
-                    )
+                    logger.debug("Document deleted from PgVector", document_id=document_id, duration_ms=duration_ms)
 
                 return deleted
 
@@ -468,7 +460,7 @@ class PgVectorStore(AbstractVectorStore):
                 "Failed to delete document from PgVector",
                 document_id=document_id,
                 error=str(e),
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
             raise VectorStoreError(f"Failed to delete document: {e}") from e
 
@@ -477,7 +469,7 @@ class PgVectorStore(AbstractVectorStore):
         query_vector: np.ndarray,
         k: int = 10,
         filters: Optional[Dict[str, Any]] = None,
-        include_metadata: bool = True
+        include_metadata: bool = True,
     ) -> List[SearchResult]:
         """Vector similarity search using cosine similarity"""
         start_time = time.perf_counter()
@@ -547,7 +539,7 @@ class PgVectorStore(AbstractVectorStore):
                         updated_at=row["updated_at"],
                         expires_at=row["expires_at"],
                         access_count=row["access_count"],
-                        last_accessed=row["last_accessed"]
+                        last_accessed=row["last_accessed"],
                     )
 
                     result = SearchResult(
@@ -555,7 +547,7 @@ class PgVectorStore(AbstractVectorStore):
                         score=float(row["similarity_score"]),
                         rank=rank,
                         search_latency_ms=(time.perf_counter() - start_time) * 1000,
-                        retrieval_method="pgvector"
+                        retrieval_method="pgvector",
                     )
                     results.append(result)
 
@@ -565,11 +557,7 @@ class PgVectorStore(AbstractVectorStore):
                 metrics.record_gauge("pgvector_search_results_count", len(results))
 
                 logger.debug(
-                    "Vector search completed",
-                    k=k,
-                    results_count=len(results),
-                    duration_ms=duration_ms,
-                    filters=filters
+                    "Vector search completed", k=k, results_count=len(results), duration_ms=duration_ms, filters=filters
                 )
 
                 return results
@@ -578,19 +566,12 @@ class PgVectorStore(AbstractVectorStore):
             duration_ms = (time.perf_counter() - start_time) * 1000
             metrics.increment_counter("pgvector_search_errors")
             logger.error(
-                "Failed vector search in PgVector",
-                k=k,
-                filters=filters,
-                error=str(e),
-                duration_ms=duration_ms
+                "Failed vector search in PgVector", k=k, filters=filters, error=str(e), duration_ms=duration_ms
             )
             raise VectorStoreError(f"Failed vector search: {e}") from e
 
     async def search_by_text(
-        self,
-        query_text: str,
-        k: int = 10,
-        filters: Optional[Dict[str, Any]] = None
+        self, query_text: str, k: int = 10, filters: Optional[Dict[str, Any]] = None
     ) -> List[SearchResult]:
         """Text-based search (requires external embedding service)"""
         # This would require an embedding service integration
@@ -642,7 +623,7 @@ class PgVectorStore(AbstractVectorStore):
                         updated_at=row["updated_at"],
                         expires_at=row["expires_at"],
                         access_count=row["access_count"],
-                        last_accessed=row["last_accessed"]
+                        last_accessed=row["last_accessed"],
                     )
 
                     # Score based on text match (simplified)
@@ -653,7 +634,7 @@ class PgVectorStore(AbstractVectorStore):
                         score=max(0.0, score),
                         rank=rank,
                         search_latency_ms=(time.perf_counter() - start_time) * 1000,
-                        retrieval_method="text_search"
+                        retrieval_method="text_search",
                     )
                     results.append(result)
 
@@ -666,12 +647,7 @@ class PgVectorStore(AbstractVectorStore):
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
             metrics.increment_counter("pgvector_text_search_errors")
-            logger.error(
-                "Failed text search in PgVector",
-                query_text=query_text,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+            logger.error("Failed text search in PgVector", query_text=query_text, error=str(e), duration_ms=duration_ms)
             raise VectorStoreError(f"Failed text search: {e}") from e
 
     async def cleanup_expired(self) -> int:
@@ -694,22 +670,14 @@ class PgVectorStore(AbstractVectorStore):
                 metrics.increment_counter("pgvector_cleanup_total")
                 metrics.record_gauge("pgvector_cleanup_deleted_count", deleted_count)
 
-                logger.info(
-                    "Expired documents cleaned up",
-                    deleted_count=deleted_count,
-                    duration_ms=duration_ms
-                )
+                logger.info("Expired documents cleaned up", deleted_count=deleted_count, duration_ms=duration_ms)
 
                 return deleted_count
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
             metrics.increment_counter("pgvector_cleanup_errors")
-            logger.error(
-                "Failed to cleanup expired documents",
-                error=str(e),
-                duration_ms=duration_ms
-            )
+            logger.error("Failed to cleanup expired documents", error=str(e), duration_ms=duration_ms)
             return 0
 
     async def optimize_index(self) -> None:
@@ -728,20 +696,12 @@ class PgVectorStore(AbstractVectorStore):
                 metrics.record_histogram("pgvector_optimize_duration_ms", duration_ms)
                 metrics.increment_counter("pgvector_optimize_total")
 
-                logger.info(
-                    "Index optimization completed",
-                    table_name=self.table_name,
-                    duration_ms=duration_ms
-                )
+                logger.info("Index optimization completed", table_name=self.table_name, duration_ms=duration_ms)
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
             metrics.increment_counter("pgvector_optimize_errors")
-            logger.error(
-                "Failed to optimize indexes",
-                error=str(e),
-                duration_ms=duration_ms
-            )
+            logger.error("Failed to optimize indexes", error=str(e), duration_ms=duration_ms)
             raise VectorStoreError(f"Failed to optimize indexes: {e}") from e
 
     async def get_stats(self) -> StorageStats:
@@ -796,7 +756,7 @@ class PgVectorStore(AbstractVectorStore):
                     compression_ratio=1.0,  # PostgreSQL handles compression
                     documents_by_lane=documents_by_lane,
                     documents_by_fold=documents_by_fold,
-                    avg_dimension=float(self.dimension)
+                    avg_dimension=float(self.dimension),
                 )
 
         except Exception as e:
@@ -817,7 +777,7 @@ class PgVectorStore(AbstractVectorStore):
                 compression_ratio=1.0,
                 documents_by_lane={},
                 documents_by_fold={},
-                avg_dimension=float(self.dimension)
+                avg_dimension=float(self.dimension),
             )
 
     async def health_check(self) -> Dict[str, Any]:
@@ -830,11 +790,13 @@ class PgVectorStore(AbstractVectorStore):
                 ping_latency_ms = (time.perf_counter() - start_time) * 1000
 
                 # Get basic stats
-                stats = await conn.fetchrow(f"""
+                stats = await conn.fetchrow(
+                    f"""
                 SELECT COUNT(*) as doc_count,
                        pg_database_size(current_database()) as db_size
                 FROM {self.table_name};
-                """)
+                """
+                )
 
                 return {
                     "status": "healthy",
@@ -844,12 +806,8 @@ class PgVectorStore(AbstractVectorStore):
                     "database_size_bytes": stats["db_size"],
                     "index_type": self.index_type,
                     "dimension": self.dimension,
-                    "table_name": self.table_name
+                    "table_name": self.table_name,
                 }
 
         except Exception as e:
-            return {
-                "status": "unhealthy",
-                "error": str(e),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+            return {"status": "unhealthy", "error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}

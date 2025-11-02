@@ -26,11 +26,7 @@ class TestTelemetryIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up integration test environment."""
-        cls.integration_config = {
-            "module_name": "telemetry",
-            "integration_mode": True,
-            "timeout": 30
-        }
+        cls.integration_config = {"module_name": "telemetry", "integration_mode": True, "timeout": 30}
 
     def setUp(self):
         """Set up individual test."""
@@ -51,8 +47,6 @@ class TestTelemetryIntegration(unittest.TestCase):
         """Test integration with external dependencies."""
         # Test connectivity to external services
         pass
-
-
 
     @pytest.mark.integration
     def test_end_to_end_workflow(self):

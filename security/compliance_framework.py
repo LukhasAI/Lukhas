@@ -144,9 +144,7 @@ class ComplianceFramework:
     # ------------------------------------------------------------------
     # Automation
     # ------------------------------------------------------------------
-    def register_automation_handler(
-        self, control_id: str, handler: Callable[[Dict[str, Any]], Dict[str, Any]]
-    ) -> None:
+    def register_automation_handler(self, control_id: str, handler: Callable[[Dict[str, Any]], Dict[str, Any]]) -> None:
         """Register an automation handler for a control."""
 
         self.automation_handlers[control_id] = handler

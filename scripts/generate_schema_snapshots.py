@@ -40,18 +40,16 @@ class SchemaSnapshotGenerator:
 
     def canonicalize_json(self, data: dict) -> str:
         """Canonicalize JSON for deterministic hashing."""
-        return json.dumps(data, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+        return json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
 
     def calculate_schema_hash(self, schema_data: dict) -> str:
         """Calculate SHA256 hash of schema."""
         canonical_json = self.canonicalize_json(schema_data)
-        return hashlib.sha256(canonical_json.encode('utf-8')).hexdigest()
+        return hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
 
     def validate_schema_structure(self, schema_data: dict) -> bool:
         """Validate MATRIZ schema structure requirements."""
-        required_fields = {
-            "version", "type", "properties", "required", "additionalProperties"
-        }
+        required_fields = {"version", "type", "properties", "required", "additionalProperties"}
 
         if not isinstance(schema_data, dict):
             return False
@@ -64,10 +62,7 @@ class SchemaSnapshotGenerator:
 
         # Validate decision structure
         properties = schema_data.get("properties", {})
-        decision_required = {
-            "decision", "subject", "context", "metrics",
-            "enforcement", "audit", "integrity"
-        }
+        decision_required = {"decision", "subject", "context", "metrics", "enforcement", "audit", "integrity"}
 
         if not all(field in properties for field in decision_required):
             missing = decision_required - set(properties.keys())
@@ -85,7 +80,7 @@ class SchemaSnapshotGenerator:
             return None
 
         try:
-            with open(schema_file, 'r', encoding='utf-8') as f:
+            with open(schema_file, "r", encoding="utf-8") as f:
                 schema_data = json.load(f)
 
             # Validate schema structure
@@ -114,13 +109,13 @@ class SchemaSnapshotGenerator:
                 "required_fields": schema_data.get("required", []),
                 "decision_properties": list(schema_data.get("properties", {}).keys()),
                 "enum_constraints": self.extract_enum_constraints(schema_data),
-                "type_constraints": self.extract_type_constraints(schema_data)
+                "type_constraints": self.extract_type_constraints(schema_data),
             },
             "integrity": {
                 "canonical_schema": self.canonicalize_json(schema_data),
                 "hash_algorithm": "SHA256",
-                "validation_passed": True
-            }
+                "validation_passed": True,
+            },
         }
 
         return snapshot
@@ -159,11 +154,11 @@ class SchemaSnapshotGenerator:
 
         try:
             # Write snapshot with canonical formatting
-            with open(snapshot_file, 'w', encoding='utf-8') as f:
+            with open(snapshot_file, "w", encoding="utf-8") as f:
                 json.dump(snapshot, f, indent=2, sort_keys=True, ensure_ascii=True)
 
             # Verify snapshot can be read back
-            with open(snapshot_file, 'r', encoding='utf-8') as f:
+            with open(snapshot_file, "r", encoding="utf-8") as f:
                 verified = json.load(f)
 
             if verified != snapshot:
@@ -213,14 +208,11 @@ class SchemaSnapshotGenerator:
             return False
 
         try:
-            with open(snapshot_file, 'r', encoding='utf-8') as f:
+            with open(snapshot_file, "r", encoding="utf-8") as f:
                 snapshot = json.load(f)
 
             # Validate snapshot structure
-            required_fields = {
-                "schema_name", "schema_hash", "generated_at",
-                "validation_rules", "integrity"
-            }
+            required_fields = {"schema_name", "schema_hash", "generated_at", "validation_rules", "integrity"}
 
             if not all(field in snapshot for field in required_fields):
                 logger.error(f"Snapshot {filename} missing required fields")
@@ -245,10 +237,7 @@ class SchemaSnapshotGenerator:
 
 def main():
     """Main schema snapshot generation entry point."""
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     print("=== MATRIZ Schema Snapshot Generation ===")
     print("T4/0.01% Excellence Standards")

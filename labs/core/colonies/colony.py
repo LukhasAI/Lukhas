@@ -3,6 +3,7 @@ Enhanced Colony with Signal Bus Integration
 ===========================================
 Connects the colony architecture with our endocrine signal system.
 """
+
 import asyncio
 import logging
 import time

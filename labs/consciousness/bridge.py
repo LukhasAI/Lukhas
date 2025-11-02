@@ -25,11 +25,7 @@ class ConsciousnessBridge:
 
     def get_status(self) -> dict[str, Any]:
         """Get bridge status."""
-        return {
-            "connected": self.is_connected,
-            "bridge_type": "consciousness",
-            "config": self.config
-        }
+        return {"connected": self.is_connected, "bridge_type": "consciousness", "config": self.config}
 
 
 def create_consciousness_bridge(config: Optional[dict[str, Any]] = None) -> ConsciousnessBridge:

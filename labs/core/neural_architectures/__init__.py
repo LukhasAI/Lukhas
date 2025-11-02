@@ -12,6 +12,7 @@ This module provides sophisticated neural processing capabilities including
 adaptive neural networks, pattern recognition, cross-modal integration,
 and quantum-enhanced processing.
 """
+
 import streamlit as st
 
 try:

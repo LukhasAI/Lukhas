@@ -22,6 +22,7 @@ import pkg_resources
 @dataclass
 class VulnerabilityInfo:
     """CVE vulnerability information"""
+
     id: str
     severity: str
     score: Optional[float]
@@ -32,6 +33,7 @@ class VulnerabilityInfo:
 @dataclass
 class LicenseInfo:
     """License information for dependency"""
+
     id: str
     name: str
     url: str
@@ -41,6 +43,7 @@ class LicenseInfo:
 @dataclass
 class ComponentInfo:
     """Component information for SBOM"""
+
     bom_ref: str
     type: str
     name: str
@@ -58,14 +61,23 @@ class LUKHASSecuritySBOMGenerator:
 
     # Approved licenses for LUKHAS project
     APPROVED_LICENSES = {
-        'MIT', 'Apache-2.0', 'BSD-3-Clause', 'BSD-2-Clause',
-        'Python-2.0', 'PSF-2.0', 'ISC', 'Unlicense'
+        "MIT",
+        "Apache-2.0",
+        "BSD-3-Clause",
+        "BSD-2-Clause",
+        "Python-2.0",
+        "PSF-2.0",
+        "ISC",
+        "Unlicense",
     }
 
     # Critical CVE patterns to flag
     CRITICAL_CVE_PATTERNS = {
-        'remote_code_execution', 'sql_injection', 'xss',
-        'authentication_bypass', 'privilege_escalation'
+        "remote_code_execution",
+        "sql_injection",
+        "xss",
+        "authentication_bypass",
+        "privilege_escalation",
     }
 
     def __init__(self, project_root: Path):
@@ -79,46 +91,37 @@ class LUKHASSecuritySBOMGenerator:
         try:
             # Try to get package info from installed packages
             dist = pkg_resources.get_distribution(name)
-            if hasattr(dist, 'location') and dist.location:
+            if hasattr(dist, "location") and dist.location:
                 # Create hash based on package name and version (simplified)
-                content = f"{name}:{version}".encode('utf-8')
+                content = f"{name}:{version}".encode("utf-8")
                 sha256_hash = hashlib.sha256(content).hexdigest()
-                return [{
-                    "alg": "SHA-256",
-                    "content": sha256_hash
-                }]
+                return [{"alg": "SHA-256", "content": sha256_hash}]
         except Exception:
             pass
 
         # Fallback hash generation
-        content = f"{name}:{version}".encode('utf-8')
-        return [{
-            "alg": "SHA-256",
-            "content": hashlib.sha256(content).hexdigest()
-        }]
+        content = f"{name}:{version}".encode("utf-8")
+        return [{"alg": "SHA-256", "content": hashlib.sha256(content).hexdigest()}]
 
     def get_license_info(self, name: str, version: str) -> List[LicenseInfo]:
         """Get license information for package"""
         try:
             dist = pkg_resources.get_distribution(name)
-            license_name = getattr(dist, 'license', 'Unknown')
+            license_name = getattr(dist, "license", "Unknown")
 
-            if license_name and license_name != 'Unknown':
-                return [LicenseInfo(
-                    id=license_name,
-                    name=license_name,
-                    url=f"https://spdx.org/licenses/{license_name}.html",
-                    approved=license_name in self.APPROVED_LICENSES
-                )]
+            if license_name and license_name != "Unknown":
+                return [
+                    LicenseInfo(
+                        id=license_name,
+                        name=license_name,
+                        url=f"https://spdx.org/licenses/{license_name}.html",
+                        approved=license_name in self.APPROVED_LICENSES,
+                    )
+                ]
         except Exception:
             pass
 
-        return [LicenseInfo(
-            id="Unknown",
-            name="Unknown License",
-            url="",
-            approved=False
-        )]
+        return [LicenseInfo(id="Unknown", name="Unknown License", url="", approved=False)]
 
     def get_vulnerability_info(self, name: str, version: str) -> List[VulnerabilityInfo]:
         """Get vulnerability information (mock implementation for demo)"""
@@ -132,23 +135,25 @@ class LUKHASSecuritySBOMGenerator:
 
         # Simulate known vulnerable packages for demo
         vulnerable_packages = {
-            'requests': ['2.25.0', '2.25.1'],
-            'urllib3': ['1.26.0', '1.26.1', '1.26.2'],
-            'cryptography': ['3.0.0', '3.1.0'],
-            'pillow': ['8.0.0', '8.0.1', '8.1.0']
+            "requests": ["2.25.0", "2.25.1"],
+            "urllib3": ["1.26.0", "1.26.1", "1.26.2"],
+            "cryptography": ["3.0.0", "3.1.0"],
+            "pillow": ["8.0.0", "8.0.1", "8.1.0"],
         }
 
         if name in vulnerable_packages and version in vulnerable_packages[name]:
-            vulnerabilities.append(VulnerabilityInfo(
-                id=f"CVE-2023-{hash(f'{name}{version}') % 10000:04d}",
-                severity="HIGH",
-                score=7.5,
-                description=f"Simulated vulnerability in {name} {version}",
-                references=[
-                    f"https://nvd.nist.gov/vuln/detail/CVE-2023-{hash(f'{name}{version}') % 10000:04d}",
-                    f"https://github.com/advisories/GHSA-{hash(f'{name}{version}') % 1000:03x}"
-                ]
-            ))
+            vulnerabilities.append(
+                VulnerabilityInfo(
+                    id=f"CVE-2023-{hash(f'{name}{version}') % 10000:04d}",
+                    severity="HIGH",
+                    score=7.5,
+                    description=f"Simulated vulnerability in {name} {version}",
+                    references=[
+                        f"https://nvd.nist.gov/vuln/detail/CVE-2023-{hash(f'{name}{version}') % 10000:04d}",
+                        f"https://github.com/advisories/GHSA-{hash(f'{name}{version}') % 1000:03x}",
+                    ],
+                )
+            )
 
         return vulnerabilities
 
@@ -166,12 +171,12 @@ class LUKHASSecuritySBOMGenerator:
 
             # Extract dependencies section
             in_deps = False
-            for line in content.split('\n'):
+            for line in content.split("\n"):
                 line = line.strip()
-                if line == 'dependencies = [':
+                if line == "dependencies = [":
                     in_deps = True
                     continue
-                elif in_deps and line == ']':
+                elif in_deps and line == "]":
                     break
                 elif in_deps and line.startswith('"') and line.endswith('",'):
                     # Parse dependency line like "fastapi>=0.100.0",
@@ -189,7 +194,7 @@ class LUKHASSecuritySBOMGenerator:
             "requirements.txt",
             "requirements-prod.txt",
             "config/requirements.txt",
-            "config/requirements_core.txt"
+            "config/requirements_core.txt",
         ]
 
         for req_file in req_files:
@@ -197,9 +202,9 @@ class LUKHASSecuritySBOMGenerator:
             if req_path.exists():
                 try:
                     content = req_path.read_text()
-                    for line in content.split('\n'):
+                    for line in content.split("\n"):
                         line = line.strip()
-                        if line and not line.startswith('#'):
+                        if line and not line.startswith("#"):
                             name, version = self._parse_dependency(line)
                             if name:
                                 self._add_component(name, version, "required")
@@ -209,12 +214,12 @@ class LUKHASSecuritySBOMGenerator:
     def _parse_dependency(self, dep_line: str) -> tuple[str, str]:
         """Parse dependency line to extract name and version"""
         # Simple parsing - in production would use proper dependency parser
-        if '>=' in dep_line:
-            name, version = dep_line.split('>=')
-        elif '==' in dep_line:
-            name, version = dep_line.split('==')
-        elif '>' in dep_line:
-            name, version = dep_line.split('>')
+        if ">=" in dep_line:
+            name, version = dep_line.split(">=")
+        elif "==" in dep_line:
+            name, version = dep_line.split("==")
+        elif ">" in dep_line:
+            name, version = dep_line.split(">")
         else:
             name = dep_line
             version = "latest"
@@ -238,7 +243,7 @@ class LUKHASSecuritySBOMGenerator:
             licenses=self.get_license_info(name, version),
             vulnerabilities=self.get_vulnerability_info(name, version),
             supplier=f"PyPI package: {name}",
-            description=f"Python package {name} version {version}"
+            description=f"Python package {name} version {version}",
         )
 
         self.components.append(component)
@@ -249,9 +254,19 @@ class LUKHASSecuritySBOMGenerator:
             installed_packages = [d for d in pkg_resources.working_set]
             for dist in installed_packages:
                 # Only include packages likely to be project dependencies
-                if any(dist.project_name.startswith(prefix) for prefix in
-                      ['lukhas', 'fastapi', 'pydantic', 'numpy', 'cryptography',
-                       'openai', 'anthropic', 'aiohttp']):
+                if any(
+                    dist.project_name.startswith(prefix)
+                    for prefix in [
+                        "lukhas",
+                        "fastapi",
+                        "pydantic",
+                        "numpy",
+                        "cryptography",
+                        "openai",
+                        "anthropic",
+                        "aiohttp",
+                    ]
+                ):
                     self._add_component(dist.project_name, dist.version, "required")
         except Exception as e:
             print(f"Error analyzing installed packages: {e}")
@@ -262,8 +277,9 @@ class LUKHASSecuritySBOMGenerator:
         # Calculate security metrics
         total_components = len(self.components)
         vulnerable_components = sum(1 for c in self.components if c.vulnerabilities)
-        unlicensed_components = sum(1 for c in self.components
-                                  if not c.licenses or not any(l.approved for l in c.licenses))
+        unlicensed_components = sum(
+            1 for c in self.components if not c.licenses or not any(l.approved for l in c.licenses)
+        )
 
         critical_vulnerabilities = []
         high_vulnerabilities = []
@@ -285,31 +301,15 @@ class LUKHASSecuritySBOMGenerator:
             "version": 1,
             "metadata": {
                 "timestamp": self.timestamp,
-                "tools": [
-                    {
-                        "vendor": "LUKHAS AI",
-                        "name": "LUKHAS Security SBOM Generator",
-                        "version": "1.0.0"
-                    }
-                ],
+                "tools": [{"vendor": "LUKHAS AI", "name": "LUKHAS Security SBOM Generator", "version": "1.0.0"}],
                 "component": {
                     "type": "application",
                     "bom-ref": "lukhas-ai@1.0.0",
                     "name": "LUKHAS AI Platform",
                     "version": "1.0.0",
                     "description": "Production-ready consciousness-aware AI platform",
-                    "supplier": {
-                        "name": "LUKHAS AI",
-                        "url": ["https://ai"]
-                    },
-                    "licenses": [
-                        {
-                            "license": {
-                                "id": "MIT",
-                                "name": "MIT License"
-                            }
-                        }
-                    ]
+                    "supplier": {"name": "LUKHAS AI", "url": ["https://ai"]},
+                    "licenses": [{"license": {"id": "MIT", "name": "MIT License"}}],
                 },
                 "security_summary": {
                     "total_components": total_components,
@@ -319,16 +319,18 @@ class LUKHASSecuritySBOMGenerator:
                         "critical": len(critical_vulnerabilities),
                         "high": len(high_vulnerabilities),
                         "medium": len(medium_vulnerabilities),
-                        "total": len(critical_vulnerabilities) + len(high_vulnerabilities) + len(medium_vulnerabilities)
+                        "total": len(critical_vulnerabilities)
+                        + len(high_vulnerabilities)
+                        + len(medium_vulnerabilities),
                     },
                     "compliance_status": {
                         "license_compliant": unlicensed_components == 0,
                         "vulnerability_free": vulnerable_components == 0,
-                        "deployment_approved": vulnerable_components == 0 and unlicensed_components == 0
-                    }
-                }
+                        "deployment_approved": vulnerable_components == 0 and unlicensed_components == 0,
+                    },
+                },
             },
-            "components": []
+            "components": [],
         }
 
         # Add components to SBOM
@@ -340,7 +342,7 @@ class LUKHASSecuritySBOMGenerator:
                 "version": comp.version,
                 "scope": comp.scope,
                 "hashes": comp.hashes,
-                "licenses": [{"license": {"id": l.id, "name": l.name}} for l in comp.licenses]
+                "licenses": [{"license": {"id": l.id, "name": l.name}} for l in comp.licenses],
             }
 
             if comp.supplier:
@@ -376,7 +378,7 @@ class LUKHASSecuritySBOMGenerator:
 
         # Save to file
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(sbom, f, indent=2)
 
         print(f"💾 SBOM saved to: {output_path}")
@@ -393,17 +395,17 @@ class LUKHASSecuritySBOMGenerator:
         print(f"   High Vulnerabilities: {security_summary['vulnerabilities']['high']}")
         print(f"   License Compliant: {'✅' if security_summary['compliance_status']['license_compliant'] else '❌'}")
         print(f"   Vulnerability Free: {'✅' if security_summary['compliance_status']['vulnerability_free'] else '❌'}")
-        print(f"   Deployment Approved: {'✅' if security_summary['compliance_status']['deployment_approved'] else '❌'}")
+        print(
+            f"   Deployment Approved: {'✅' if security_summary['compliance_status']['deployment_approved'] else '❌'}"
+        )
 
         return sbom
 
 
 def main():
     parser = argparse.ArgumentParser(description="Generate LUKHAS Security SBOM")
-    parser.add_argument("--output-dir", default="artifacts",
-                       help="Output directory for SBOM file")
-    parser.add_argument("--project-root", default=".",
-                       help="Project root directory")
+    parser.add_argument("--output-dir", default="artifacts", help="Output directory for SBOM file")
+    parser.add_argument("--project-root", default=".", help="Project root directory")
 
     args = parser.parse_args()
 

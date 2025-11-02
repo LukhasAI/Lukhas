@@ -23,33 +23,35 @@ from prometheus_client import Counter, Gauge, Histogram
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
-    def labels(self, **kwargs): return self
-    def inc(self, amount=1): pass
-    def observe(self, amount): pass
-    def set(self, value): pass
+    def labels(self, **kwargs):
+        return self
+
+    def inc(self, amount=1):
+        pass
+
+    def observe(self, amount):
+        pass
+
+    def set(self, value):
+        pass
+
 
 try:
     routing_decisions_total = Counter(
-        'lukhas_routing_decisions_total',
-        'Total routing decisions',
-        ['rule_name', 'provider', 'component']
+        "lukhas_routing_decisions_total", "Total routing decisions", ["rule_name", "provider", "component"]
     )
     provider_response_time = Histogram(
-        'lukhas_provider_response_time_seconds',
-        'Provider response time',
-        ['provider', 'component'],
-        buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0, 60.0]
+        "lukhas_provider_response_time_seconds",
+        "Provider response time",
+        ["provider", "component"],
+        buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0, 60.0],
     )
-    active_providers_gauge = Gauge(
-        'lukhas_active_providers_total',
-        'Number of active providers'
-    )
+    active_providers_gauge = Gauge("lukhas_active_providers_total", "Number of active providers")
     ab_test_assignments_total = Counter(
-        'lukhas_ab_test_assignments_total',
-        'Total A/B test assignments',
-        ['test_name', 'bucket', 'provider']
+        "lukhas_ab_test_assignments_total", "Total A/B test assignments", ["test_name", "bucket", "provider"]
     )
 except ValueError:
     routing_decisions_total = MockMetric()
@@ -60,6 +62,7 @@ except ValueError:
 
 class OperatorType(Enum):
     """Routing rule operators."""
+
     EQUALS = "equals"
     IN = "in"
     NOT_EQUALS = "not_equals"
@@ -72,6 +75,7 @@ class OperatorType(Enum):
 
 class LoadBalanceStrategy(Enum):
     """Load balancing strategies."""
+
     ROUND_ROBIN = "round_robin"
     WEIGHTED = "weighted"
     LEAST_CONNECTIONS = "least_connections"
@@ -81,6 +85,7 @@ class LoadBalanceStrategy(Enum):
 @dataclass
 class RoutingCondition:
     """A single routing condition."""
+
     field: str
     operator: OperatorType
     value: Union[str, List[str], int, float]
@@ -108,23 +113,21 @@ class RoutingCondition:
             return str(self.value) in str(field_value)
         elif self.operator == OperatorType.REGEX:
             import re
+
             return bool(re.search(str(self.value), str(field_value)))
 
         return False
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingCondition':
+    def from_dict(cls, data: Dict[str, Any]) -> "RoutingCondition":
         """Create from dictionary."""
-        return cls(
-            field=data["field"],
-            operator=OperatorType(data["operator"]),
-            value=data["value"]
-        )
+        return cls(field=data["field"], operator=OperatorType(data["operator"]), value=data["value"])
 
 
 @dataclass
 class ProviderConfig:
     """Configuration for an AI provider."""
+
     name: str
     endpoint: str
     model: str
@@ -136,7 +139,7 @@ class ProviderConfig:
     api_key: Optional[str] = None
 
     @classmethod
-    def from_dict(cls, name: str, data: Dict[str, Any]) -> 'ProviderConfig':
+    def from_dict(cls, name: str, data: Dict[str, Any]) -> "ProviderConfig":
         """Create from dictionary."""
         return cls(
             name=data["name"],
@@ -147,47 +150,42 @@ class ProviderConfig:
             temperature=data.get("temperature", 0.1),
             priority=data.get("priority", 1),
             enabled=data.get("enabled", True),
-            api_key=data.get("api_key")
+            api_key=data.get("api_key"),
         )
 
 
 @dataclass
 class ABTestBucket:
     """A/B test bucket configuration."""
+
     provider: str
     percentage: float
     options: Optional[Dict[str, Any]] = None
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'ABTestBucket':
+    def from_dict(cls, data: Dict[str, Any]) -> "ABTestBucket":
         """Create from dictionary."""
-        return cls(
-            provider=data["provider"],
-            percentage=data["percentage"],
-            options=data.get("options")
-        )
+        return cls(provider=data["provider"], percentage=data["percentage"], options=data.get("options"))
 
 
 @dataclass
 class LoadBalanceTarget:
     """Load balance target configuration."""
+
     enabled: bool
     strategy: LoadBalanceStrategy
     providers: List[Dict[str, Any]]
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'LoadBalanceTarget':
+    def from_dict(cls, data: Dict[str, Any]) -> "LoadBalanceTarget":
         """Create from dictionary."""
-        return cls(
-            enabled=data["enabled"],
-            strategy=LoadBalanceStrategy(data["strategy"]),
-            providers=data["providers"]
-        )
+        return cls(enabled=data["enabled"], strategy=LoadBalanceStrategy(data["strategy"]), providers=data["providers"])
 
 
 @dataclass
 class RoutingTarget:
     """Routing target configuration."""
+
     provider: Optional[str] = None
     fallback: Optional[str] = None
     options: Optional[Dict[str, Any]] = None
@@ -195,7 +193,7 @@ class RoutingTarget:
     load_balance: Optional[LoadBalanceTarget] = None
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingTarget':
+    def from_dict(cls, data: Dict[str, Any]) -> "RoutingTarget":
         """Create from dictionary."""
         load_balance = None
         if "load_balance" in data:
@@ -206,13 +204,14 @@ class RoutingTarget:
             fallback=data.get("fallback"),
             options=data.get("options"),
             ab_test=data.get("ab_test"),
-            load_balance=load_balance
+            load_balance=load_balance,
         )
 
 
 @dataclass
 class RoutingRule:
     """A routing rule with conditions and target."""
+
     name: str
     description: str
     conditions: List[RoutingCondition]
@@ -229,12 +228,9 @@ class RoutingRule:
         return all(condition.evaluate(request_data) for condition in self.conditions)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingRule':
+    def from_dict(cls, data: Dict[str, Any]) -> "RoutingRule":
         """Create from dictionary."""
-        conditions = [
-            RoutingCondition.from_dict(cond)
-            for cond in data.get("conditions", [])
-        ]
+        conditions = [RoutingCondition.from_dict(cond) for cond in data.get("conditions", [])]
 
         return cls(
             name=data["name"],
@@ -242,13 +238,14 @@ class RoutingRule:
             conditions=conditions,
             target=RoutingTarget.from_dict(data["target"]),
             enabled=data.get("enabled", True),
-            weight=data.get("weight", 100)
+            weight=data.get("weight", 100),
         )
 
 
 @dataclass
 class RoutingResult:
     """Result of routing decision."""
+
     provider: str
     rule_name: str
     options: Dict[str, Any]
@@ -264,7 +261,7 @@ class RoutingResult:
             "options": self.options,
             "fallback_provider": self.fallback_provider,
             "ab_test_bucket": self.ab_test_bucket,
-            "processing_time_ms": self.processing_time_ms
+            "processing_time_ms": self.processing_time_ms,
         }
 
 
@@ -301,7 +298,7 @@ class ConfigurableRoutingSystem:
             if current_mtime <= self.last_config_mtime:
                 return False  # No changes
 
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path, "r") as f:
                 new_config = yaml.safe_load(f)
 
             self._validate_config(new_config)
@@ -340,9 +337,7 @@ class ConfigurableRoutingSystem:
         # Sort rules by weight (highest first)
         self.rules.sort(key=lambda r: r.weight, reverse=True)
 
-    async def route_request(self,
-                           request_data: Dict[str, Any],
-                           user_id: Optional[str] = None) -> RoutingResult:
+    async def route_request(self, request_data: Dict[str, Any], user_id: Optional[str] = None) -> RoutingResult:
         """
         Route request to appropriate provider.
 
@@ -382,7 +377,7 @@ class ConfigurableRoutingSystem:
                 routing_decisions_total.labels(
                     rule_name=matching_rule.name,
                     provider=result.provider,
-                    component=request_data.get("component", "unknown")
+                    component=request_data.get("component", "unknown"),
                 ).inc()
 
                 span.set_attribute("routing.rule_name", matching_rule.name)
@@ -400,13 +395,12 @@ class ConfigurableRoutingSystem:
                     provider=default_provider,
                     rule_name="error_fallback",
                     options={"temperature": 0.1, "max_tokens": 4096},
-                    processing_time_ms=(time.time() - start_time) * 1000
+                    processing_time_ms=(time.time() - start_time) * 1000,
                 )
 
-    async def _resolve_target(self,
-                             target: RoutingTarget,
-                             request_data: Dict[str, Any],
-                             user_id: Optional[str]) -> RoutingResult:
+    async def _resolve_target(
+        self, target: RoutingTarget, request_data: Dict[str, Any], user_id: Optional[str]
+    ) -> RoutingResult:
         """Resolve routing target to specific provider."""
 
         # Handle A/B testing
@@ -429,23 +423,18 @@ class ConfigurableRoutingSystem:
                             provider=target.fallback,
                             rule_name="",
                             options=target.options or {},
-                            fallback_provider=target.provider
+                            fallback_provider=target.provider,
                         )
 
                 raise ValueError(f"Provider {target.provider} not available")
 
-            return RoutingResult(
-                provider=target.provider,
-                rule_name="",
-                options=target.options or {}
-            )
+            return RoutingResult(provider=target.provider, rule_name="", options=target.options or {})
 
         raise ValueError("Invalid routing target configuration")
 
-    async def _resolve_ab_test(self,
-                              ab_test_config: Dict[str, Any],
-                              request_data: Dict[str, Any],
-                              user_id: Optional[str]) -> RoutingResult:
+    async def _resolve_ab_test(
+        self, ab_test_config: Dict[str, Any], request_data: Dict[str, Any], user_id: Optional[str]
+    ) -> RoutingResult:
         """Resolve A/B test target."""
         test_name = ab_test_config["test_name"]
         buckets = [ABTestBucket.from_dict(b) for b in ab_test_config["buckets"]]
@@ -455,22 +444,18 @@ class ConfigurableRoutingSystem:
         selected_bucket = next(b for b in buckets if f"{test_name}_{b.provider}" == bucket_id)
 
         # Update metrics
-        ab_test_assignments_total.labels(
-            test_name=test_name,
-            bucket=bucket_id,
-            provider=selected_bucket.provider
-        ).inc()
+        ab_test_assignments_total.labels(test_name=test_name, bucket=bucket_id, provider=selected_bucket.provider).inc()
 
         return RoutingResult(
             provider=selected_bucket.provider,
             rule_name="",
             options=selected_bucket.options or {},
-            ab_test_bucket=bucket_id
+            ab_test_bucket=bucket_id,
         )
 
-    async def _resolve_load_balance(self,
-                                   load_balance_config: LoadBalanceTarget,
-                                   request_data: Dict[str, Any]) -> RoutingResult:
+    async def _resolve_load_balance(
+        self, load_balance_config: LoadBalanceTarget, request_data: Dict[str, Any]
+    ) -> RoutingResult:
         """Resolve load balance target."""
         strategy = load_balance_config.strategy
         providers = load_balance_config.providers
@@ -486,11 +471,7 @@ class ConfigurableRoutingSystem:
             for provider_data in providers:
                 provider_name = provider_data["provider"]
                 if self.providers.get(provider_name, {}).enabled:
-                    return RoutingResult(
-                        provider=provider_name,
-                        rule_name="",
-                        options=provider_data.get("options", {})
-                    )
+                    return RoutingResult(provider=provider_name, rule_name="", options=provider_data.get("options", {}))
 
         raise ValueError("No available providers for load balancing")
 
@@ -502,7 +483,7 @@ class ConfigurableRoutingSystem:
             return self._ab_test_buckets[bucket_key]
 
         # Hash-based assignment for consistency
-        hash_input = f"{test_name}_{user_id}".encode('utf-8')
+        hash_input = f"{test_name}_{user_id}".encode("utf-8")
         hash_value = int(hashlib.sha256(hash_input).hexdigest()[:8], 16)
         percentage = (hash_value % 100) + 1
 
@@ -528,9 +509,7 @@ class ConfigurableRoutingSystem:
         self._round_robin_counters[providers_key] = (counter + 1) % len(providers)
 
         return RoutingResult(
-            provider=selected_provider["provider"],
-            rule_name="",
-            options=selected_provider.get("options", {})
+            provider=selected_provider["provider"], rule_name="", options=selected_provider.get("options", {})
         )
 
     def _weighted_select(self, providers: List[Dict[str, Any]]) -> RoutingResult:
@@ -545,17 +524,11 @@ class ConfigurableRoutingSystem:
             cumulative += provider_data.get("weight", 1)
             if selection <= cumulative:
                 return RoutingResult(
-                    provider=provider_data["provider"],
-                    rule_name="",
-                    options=provider_data.get("options", {})
+                    provider=provider_data["provider"], rule_name="", options=provider_data.get("options", {})
                 )
 
         # Fallback to first provider
-        return RoutingResult(
-            provider=providers[0]["provider"],
-            rule_name="",
-            options=providers[0].get("options", {})
-        )
+        return RoutingResult(provider=providers[0]["provider"], rule_name="", options=providers[0].get("options", {}))
 
     def _random_select(self, providers: List[Dict[str, Any]]) -> RoutingResult:
         """Random provider selection."""
@@ -563,9 +536,7 @@ class ConfigurableRoutingSystem:
 
         selected_provider = random.choice(providers)
         return RoutingResult(
-            provider=selected_provider["provider"],
-            rule_name="",
-            options=selected_provider.get("options", {})
+            provider=selected_provider["provider"], rule_name="", options=selected_provider.get("options", {})
         )
 
     def get_routing_stats(self) -> Dict[str, Any]:
@@ -574,24 +545,14 @@ class ConfigurableRoutingSystem:
             "config_version": self.config.get("routing_version"),
             "last_reload": self.last_config_mtime,
             "providers": {
-                name: {
-                    "enabled": config.enabled,
-                    "priority": config.priority,
-                    "capabilities": config.capabilities
-                }
+                name: {"enabled": config.enabled, "priority": config.priority, "capabilities": config.capabilities}
                 for name, config in self.providers.items()
             },
             "rules": {
-                rule.name: {
-                    "enabled": rule.enabled,
-                    "weight": rule.weight,
-                    "conditions_count": len(rule.conditions)
-                }
+                rule.name: {"enabled": rule.enabled, "weight": rule.weight, "conditions_count": len(rule.conditions)}
                 for rule in self.rules
             },
-            "ab_tests": {
-                "active_assignments": len(self._ab_test_buckets)
-            }
+            "ab_tests": {"active_assignments": len(self._ab_test_buckets)},
         }
 
     def preview_routing(self, request_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -599,22 +560,25 @@ class ConfigurableRoutingSystem:
         matching_rules = []
         for rule in self.rules:
             if rule.matches(request_data):
-                matching_rules.append({
-                    "name": rule.name,
-                    "description": rule.description,
-                    "weight": rule.weight,
-                    "target": rule.target.__dict__
-                })
+                matching_rules.append(
+                    {
+                        "name": rule.name,
+                        "description": rule.description,
+                        "weight": rule.weight,
+                        "target": rule.target.__dict__,
+                    }
+                )
 
         return {
             "request_data": request_data,
             "matching_rules": matching_rules,
-            "selected_rule": matching_rules[0] if matching_rules else None
+            "selected_rule": matching_rules[0] if matching_rules else None,
         }
 
 
 # Global routing system instance
 _routing_system: Optional[ConfigurableRoutingSystem] = None
+
 
 def get_routing_system() -> ConfigurableRoutingSystem:
     """Get the default routing system instance."""

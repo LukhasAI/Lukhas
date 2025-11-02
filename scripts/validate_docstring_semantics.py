@@ -67,7 +67,7 @@ def main():
 
                     # Crude slice around function
                     idx = m.start()
-                    window = src[max(0, idx - 400): idx + 400]
+                    window = src[max(0, idx - 400) : idx + 400]
 
                     if ("Args:" not in window) or ("Returns:" not in window):
                         candidates.append((f"{py.as_posix()}::{fn}", "missing Args/Returns"))

@@ -26,6 +26,4 @@ class SecurityException(RuntimeError):
 
         suffix = ")" if base.endswith(")") else ""
         base_without_suffix = base[:-1] if suffix else base
-        return (
-            f"{base_without_suffix}, code={self.code!r}, details={self.details!r}{suffix}"
-        )
+        return f"{base_without_suffix}, code={self.code!r}, details={self.details!r}{suffix}"

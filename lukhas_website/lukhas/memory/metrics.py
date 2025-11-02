@@ -1,4 +1,5 @@
 """Memory subsystem Prometheus metrics helpers."""
+
 from __future__ import annotations
 
 import os
@@ -8,6 +9,7 @@ from typing import Optional
 try:
     from prometheus_client import Counter, Gauge, Histogram
 except Exception:  # pragma: no cover - Prometheus optional dependency
+
     class _NoopMetric:
         def labels(self, *_, **__):  # type: ignore[return-value]
             return self

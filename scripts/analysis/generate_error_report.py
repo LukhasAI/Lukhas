@@ -128,16 +128,13 @@ def extract_actionable_insights(categorized: dict[str, Any]) -> list[str]:
     )[:10]
 
     if top_modules:
-        insights.append(
-            f"Top missing modules: {', '.join(f'{m} ({c} tests)' for m, c in top_modules[:5])}"
-        )
+        insights.append(f"Top missing modules: {', '.join(f'{m} ({c} tests)' for m, c in top_modules[:5])}")
 
     # Error type distribution
     error_types = categorized["by_type"]
     if "AttributeError" in error_types and error_types["AttributeError"] > 10:
         insights.append(
-            f"High AttributeError count ({error_types['AttributeError']}) suggests "
-            "sys.path or import hook issues"
+            f"High AttributeError count ({error_types['AttributeError']}) suggests " "sys.path or import hook issues"
         )
 
     if "ModuleNotFoundError" in error_types:
@@ -150,9 +147,7 @@ def extract_actionable_insights(categorized: dict[str, Any]) -> list[str]:
     test_dirs = categorized["by_test_dir"]
     if test_dirs:
         worst_dir = max(test_dirs.items(), key=lambda x: x[1])
-        insights.append(
-            f"Most affected test directory: tests/{worst_dir[0]} ({worst_dir[1]} errors)"
-        )
+        insights.append(f"Most affected test directory: tests/{worst_dir[0]} ({worst_dir[1]} errors)")
 
     return insights
 
@@ -219,8 +214,7 @@ def generate_report() -> dict[str, Any]:
                 for k, v in categorized["type_details"].items()
             },
             "by_missing_module": {
-                k: [e["test_path"] for e in v[:10]]
-                for k, v in categorized["module_details"].items()
+                k: [e["test_path"] for e in v[:10]] for k, v in categorized["module_details"].items()
             },
         },
     }

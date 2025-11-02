@@ -13,8 +13,6 @@ import numpy as np
 """
 
 
-
-
 class QIOscillator:
     def __init__(self, entanglement_factor=0.5):
         """

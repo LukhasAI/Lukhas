@@ -16,6 +16,7 @@ import pytest
 # Hash Generation Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_sha256_hash_generation():
     """Test SHA256 hash generation."""
@@ -73,6 +74,7 @@ def test_hash_sensitivity():
 # Hash Chain Building Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_hash_chain_basic():
     """Test basic hash chain construction."""
@@ -87,11 +89,7 @@ def test_hash_chain_basic():
         data = f"{previous_hash}{entry}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
 
-        chain.append({
-            "entry": entry,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        chain.append({"entry": entry, "hash": current_hash, "previous_hash": previous_hash})
 
         previous_hash = current_hash
 
@@ -113,11 +111,7 @@ def test_hash_chain_genesis():
     data = f"{genesis_hash}{first_entry}"
     first_hash = hashlib.sha256(data.encode()).hexdigest()
 
-    chain_entry = {
-        "entry": first_entry,
-        "hash": first_hash,
-        "previous_hash": genesis_hash
-    }
+    chain_entry = {"entry": first_entry, "hash": first_hash, "previous_hash": genesis_hash}
 
     # Verify genesis properties
     assert chain_entry["previous_hash"] == "0" * 64
@@ -136,17 +130,13 @@ def test_hash_chain_integrity_verification():
     for entry in entries:
         data = f"{previous_hash}{entry}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
-        chain.append({
-            "entry": entry,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        chain.append({"entry": entry, "hash": current_hash, "previous_hash": previous_hash})
         previous_hash = current_hash
 
     # Verify integrity
     is_valid = True
     for i in range(1, len(chain)):
-        if chain[i]["previous_hash"] != chain[i-1]["hash"]:
+        if chain[i]["previous_hash"] != chain[i - 1]["hash"]:
             is_valid = False
             break
 
@@ -164,11 +154,7 @@ def test_hash_chain_tampering_detection():
         entry = f"entry{i}"
         data = f"{previous_hash}{entry}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
-        chain.append({
-            "entry": entry,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        chain.append({"entry": entry, "hash": current_hash, "previous_hash": previous_hash})
         previous_hash = current_hash
 
     # Tamper with middle entry
@@ -188,9 +174,11 @@ def test_hash_chain_tampering_detection():
 # Hash Chain Validation Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_validate_hash_chain_valid():
     """Test validation of valid hash chain."""
+
     def validate_chain(chain):
         """Validate hash chain integrity."""
         for i in range(len(chain)):
@@ -203,7 +191,7 @@ def test_validate_hash_chain_valid():
                 return False
 
             # Check linkage (except first entry)
-            if i > 0 and chain[i]["previous_hash"] != chain[i-1]["hash"]:
+            if i > 0 and chain[i]["previous_hash"] != chain[i - 1]["hash"]:
                 return False
 
         return True
@@ -216,11 +204,7 @@ def test_validate_hash_chain_valid():
         entry = f"entry{i}"
         data = f"{previous_hash}{entry}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
-        chain.append({
-            "entry": entry,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        chain.append({"entry": entry, "hash": current_hash, "previous_hash": previous_hash})
         previous_hash = current_hash
 
     # Should be valid
@@ -238,11 +222,7 @@ def test_validate_hash_chain_broken_link():
         entry = f"entry{i}"
         data = f"{previous_hash}{entry}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
-        chain.append({
-            "entry": entry,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        chain.append({"entry": entry, "hash": current_hash, "previous_hash": previous_hash})
         previous_hash = current_hash
 
     # Break the link
@@ -250,7 +230,7 @@ def test_validate_hash_chain_broken_link():
 
     # Verify broken link detected
     for i in range(1, len(chain)):
-        if chain[i]["previous_hash"] != chain[i-1]["hash"]:
+        if chain[i]["previous_hash"] != chain[i - 1]["hash"]:
             # Broken link detected
             assert True
             break
@@ -260,6 +240,7 @@ def test_validate_hash_chain_broken_link():
 # Audit Trail Hash Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_audit_entry_hash():
     """Test hash generation for audit entry."""
@@ -267,7 +248,7 @@ def test_audit_entry_hash():
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "action": "data_access",
         "user_id": "user_123",
-        "result": "success"
+        "result": "success",
     }
 
     # Generate hash from entry data
@@ -283,16 +264,8 @@ def test_audit_entry_hash():
 def test_audit_trail_with_lambda_id():
     """Test audit trail with ΛID integration."""
     audit_entries = [
-        {
-            "lambda_id": "Λ_alpha_user1",
-            "action": "login",
-            "timestamp": "2025-10-09T10:00:00Z"
-        },
-        {
-            "lambda_id": "Λ_beta_user2",
-            "action": "data_access",
-            "timestamp": "2025-10-09T10:01:00Z"
-        }
+        {"lambda_id": "Λ_alpha_user1", "action": "login", "timestamp": "2025-10-09T10:00:00Z"},
+        {"lambda_id": "Λ_beta_user2", "action": "data_access", "timestamp": "2025-10-09T10:01:00Z"},
     ]
 
     # Hash each entry
@@ -308,6 +281,7 @@ def test_audit_trail_with_lambda_id():
 # ============================================================================
 # Hash Utilities Tests
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_hash_truncation():
@@ -355,7 +329,7 @@ def test_hash_empty_string():
 def test_hash_unicode_data():
     """Test hashing Unicode data."""
     unicode_data = "Hello 世界 🌍"
-    hash_value = hashlib.sha256(unicode_data.encode('utf-8')).hexdigest()
+    hash_value = hashlib.sha256(unicode_data.encode("utf-8")).hexdigest()
 
     # Should handle Unicode
     assert len(hash_value) == 64
@@ -365,6 +339,7 @@ def test_hash_unicode_data():
 # ============================================================================
 # Hash Chain Performance Tests
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_hash_chain_large_scale():
@@ -378,11 +353,7 @@ def test_hash_chain_large_scale():
         entry = f"entry_{i}"
         data = f"{previous_hash}{entry}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
-        chain.append({
-            "entry": entry,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        chain.append({"entry": entry, "hash": current_hash, "previous_hash": previous_hash})
         previous_hash = current_hash
 
     # Verify chain built successfully
@@ -397,6 +368,7 @@ def test_hash_chain_large_scale():
 # Capability Tests
 # ============================================================================
 
+
 @pytest.mark.capability
 def test_hash_chain_full_capability():
     """Test complete hash chain capability."""
@@ -410,11 +382,7 @@ def test_hash_chain_full_capability():
     for entry in entries:
         data = f"{previous_hash}{entry}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
-        chain.append({
-            "entry": entry,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        chain.append({"entry": entry, "hash": current_hash, "previous_hash": previous_hash})
         previous_hash = current_hash
 
     # 3. Verify integrity
@@ -429,7 +397,7 @@ def test_hash_chain_full_capability():
             break
 
         # Check linkage
-        if i > 0 and chain[i]["previous_hash"] != chain[i-1]["hash"]:
+        if i > 0 and chain[i]["previous_hash"] != chain[i - 1]["hash"]:
             is_valid = False
             break
 
@@ -470,11 +438,7 @@ def test_audit_trail_hash_chain_capability():
         data = f"{previous_hash}{action_str}"
         current_hash = hashlib.sha256(data.encode()).hexdigest()
 
-        audit_chain.append({
-            "action": action,
-            "hash": current_hash,
-            "previous_hash": previous_hash
-        })
+        audit_chain.append({"action": action, "hash": current_hash, "previous_hash": previous_hash})
 
         previous_hash = current_hash
 
@@ -483,7 +447,7 @@ def test_audit_trail_hash_chain_capability():
 
     # Verify linkage
     for i in range(1, len(audit_chain)):
-        assert audit_chain[i]["previous_hash"] == audit_chain[i-1]["hash"]
+        assert audit_chain[i]["previous_hash"] == audit_chain[i - 1]["hash"]
 
     # Verify tamper-evident
     # If we change any action, the hash chain breaks
@@ -491,7 +455,9 @@ def test_audit_trail_hash_chain_capability():
     audit_chain[1]["action"]["action"] = "modified"
 
     # Recalculate hash
-    action_str = f"{audit_chain[1]['action']['action']}_{audit_chain[1]['action']['user']}_{audit_chain[1]['action']['time']}"
+    action_str = (
+        f"{audit_chain[1]['action']['action']}_{audit_chain[1]['action']['user']}_{audit_chain[1]['action']['time']}"
+    )
     data = f"{audit_chain[1]['previous_hash']}{action_str}"
     new_hash = hashlib.sha256(data.encode()).hexdigest()
 

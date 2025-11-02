@@ -31,6 +31,7 @@ from anthropic import AsyncAnthropic
 # Guardian system integration for T4/0.01% excellence
 try:
     from governance.guardian_system import GuardianSystem
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
@@ -130,7 +131,7 @@ class LUKHASAIOrchestrator:
         config_path = self.workspace_root / "config" / "orchestrator_routing.yaml"
 
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path, "r") as f:
                 config = yaml.safe_load(f)
                 return config
         except FileNotFoundError:
@@ -153,8 +154,8 @@ class LUKHASAIOrchestrator:
                 "preferences": {
                     "prefer_healthy_providers": True,
                     "enable_smart_fallback": True,
-                    "log_routing_decisions": True
-                }
+                    "log_routing_decisions": True,
+                },
             }
         except yaml.YAMLError as e:
             print(f"Error loading routing config: {e}")
@@ -162,7 +163,7 @@ class LUKHASAIOrchestrator:
             return {
                 "default_provider": "claude",
                 "routing_rules": {},
-                "preferences": {"prefer_healthy_providers": True}
+                "preferences": {"prefer_healthy_providers": True},
             }
 
     def reload_routing_config(self) -> bool:
@@ -170,7 +171,9 @@ class LUKHASAIOrchestrator:
         try:
             self.routing_config.copy()
             self.routing_config = self._load_routing_config()
-            print(f"✅ Routing configuration reloaded successfully (version: {self.routing_config.get('version', 'unknown')})")
+            print(
+                f"✅ Routing configuration reloaded successfully (version: {self.routing_config.get('version', 'unknown')})"
+            )
             return True
         except Exception as e:
             print(f"❌ Failed to reload routing config: {e}")
@@ -186,7 +189,7 @@ class LUKHASAIOrchestrator:
                 "task_type": task_type,
                 "rule": task_rule,
                 "has_custom_rule": task_rule is not None,
-                "default_provider": self.routing_config.get("default_provider", "claude")
+                "default_provider": self.routing_config.get("default_provider", "claude"),
             }
         else:
             return {
@@ -194,7 +197,7 @@ class LUKHASAIOrchestrator:
                 "total_rules": len(self.routing_config.get("routing_rules", {})),
                 "default_provider": self.routing_config.get("default_provider", "claude"),
                 "preferences": self.routing_config.get("preferences", {}),
-                "available_tasks": list(self.routing_config.get("routing_rules", {}).keys())
+                "available_tasks": list(self.routing_config.get("routing_rules", {}).keys()),
             }
 
     async def validate_provider_health(self, provider_name: str) -> Dict[str, Any]:
@@ -212,10 +215,7 @@ class LUKHASAIOrchestrator:
 
                 client = AsyncAnthropic(api_key=provider.api_key)
                 response = await client.messages.create(
-                    model=provider.model,
-                    max_tokens=10,
-                    temperature=0.1,
-                    messages=[{"role": "user", "content": "test"}]
+                    model=provider.model, max_tokens=10, temperature=0.1, messages=[{"role": "user", "content": "test"}]
                 )
                 latency = time.time() - start_time
                 return {
@@ -223,7 +223,7 @@ class LUKHASAIOrchestrator:
                     "latency": latency,
                     "version": "compatible",
                     "model": provider.model,
-                    "response_length": len(response.content[0].text) if response.content else 0
+                    "response_length": len(response.content[0].text) if response.content else 0,
                 }
 
             elif provider_name == "gpt":
@@ -232,10 +232,7 @@ class LUKHASAIOrchestrator:
 
                 client = openai.AsyncOpenAI(api_key=provider.api_key)
                 response = await client.chat.completions.create(
-                    model=provider.model,
-                    max_tokens=10,
-                    temperature=0.1,
-                    messages=[{"role": "user", "content": "test"}]
+                    model=provider.model, max_tokens=10, temperature=0.1, messages=[{"role": "user", "content": "test"}]
                 )
                 latency = time.time() - start_time
                 return {
@@ -243,7 +240,7 @@ class LUKHASAIOrchestrator:
                     "latency": latency,
                     "version": "compatible",
                     "model": provider.model,
-                    "response_length": len(response.choices[0].message.content) if response.choices else 0
+                    "response_length": len(response.choices[0].message.content) if response.choices else 0,
                 }
 
             elif provider_name == "ollama":
@@ -252,10 +249,11 @@ class LUKHASAIOrchestrator:
                         "model": provider.model,
                         "prompt": "test",
                         "stream": False,
-                        "options": {"temperature": 0.1, "max_tokens": 10}
+                        "options": {"temperature": 0.1, "max_tokens": 10},
                     }
-                    async with session.post(f"{provider.endpoint}/api/generate",
-                                          json=payload, timeout=aiohttp.ClientTimeout(total=10)) as resp:
+                    async with session.post(
+                        f"{provider.endpoint}/api/generate", json=payload, timeout=aiohttp.ClientTimeout(total=10)
+                    ) as resp:
                         if resp.status == 200:
                             result = await resp.json()
                             latency = time.time() - start_time
@@ -264,7 +262,7 @@ class LUKHASAIOrchestrator:
                                 "latency": latency,
                                 "version": "compatible",
                                 "model": provider.model,
-                                "response_length": len(result.get("response", ""))
+                                "response_length": len(result.get("response", "")),
                             }
                         else:
                             latency = time.time() - start_time
@@ -297,20 +295,16 @@ class LUKHASAIOrchestrator:
                     "healthy": False,
                     "error": str(result),
                     "latency": 0.0,
-                    "sla_compliant": False
+                    "sla_compliant": False,
                 }
             else:
                 # SLA compliance: <250ms latency, healthy status
                 sla_compliant = result["healthy"] and result["latency"] < 0.25
-                health_results[provider_name] = {
-                    **result,
-                    "sla_compliant": sla_compliant
-                }
+                health_results[provider_name] = {**result, "sla_compliant": sla_compliant}
 
         return health_results
 
-    async def select_optimal_provider(self, preferred_provider: str,
-                                    fallback_providers: list[str] = None) -> str:
+    async def select_optimal_provider(self, preferred_provider: str, fallback_providers: list[str] = None) -> str:
         """Select optimal provider based on health status and SLA compliance"""
         if fallback_providers is None:
             fallback_providers = ["claude", "gpt", "ollama"]
@@ -345,11 +339,11 @@ class LUKHASAIOrchestrator:
                 "content_preview": content[:200] + "..." if len(content) > 200 else content,
                 "content_length": len(content),
                 "correlation_id": correlation_id,
-                "context": context or {}
+                "context": context or {},
             }
 
             try:
-                if hasattr(self._guardian_instance, 'validate_action_async'):
+                if hasattr(self._guardian_instance, "validate_action_async"):
                     guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
                 else:
                     guardian_result = self._guardian_instance.validate_safety(guardian_context)
@@ -392,9 +386,7 @@ class LUKHASAIOrchestrator:
                         primary_provider, fallback_providers, task_type
                     )
                 else:
-                    provider_name = await self.select_optimal_provider(
-                        primary_provider, fallback_providers
-                    )
+                    provider_name = await self.select_optimal_provider(primary_provider, fallback_providers)
             except Exception:
                 provider_name = primary_provider
         else:
@@ -439,9 +431,9 @@ class LUKHASAIOrchestrator:
 
             raise Exception(f"All AI providers failed for {task_type} [{correlation_id}]: {e}")
 
-    async def _call_provider_with_validation(self, provider_name: str, content: str,
-                                        context: dict[str, Any], task_type: str,
-                                        correlation_id: str) -> str:
+    async def _call_provider_with_validation(
+        self, provider_name: str, content: str, context: dict[str, Any], task_type: str, correlation_id: str
+    ) -> str:
         """🛡️ Call AI provider with Guardian ethical validation"""
         # Execute provider request
         response = await self._call_provider(provider_name, content, context)
@@ -456,11 +448,11 @@ class LUKHASAIOrchestrator:
                     "response_preview": response[:300] + "..." if len(response) > 300 else response,
                     "response_length": len(response),
                     "correlation_id": correlation_id,
-                    "original_context": context
+                    "original_context": context,
                 }
 
                 # Use async validation if available
-                if hasattr(self._guardian_instance, 'validate_action_async'):
+                if hasattr(self._guardian_instance, "validate_action_async"):
                     validation_result = await self._guardian_instance.validate_action_async(response_context)
                 else:
                     validation_result = self._guardian_instance.validate_safety(response_context)
@@ -558,9 +550,9 @@ class LUKHASAIOrchestrator:
 
     # Guardian Integration Methods for T4/0.01% Excellence
 
-    async def select_optimal_provider_with_ethics(self, primary_provider: str,
-                                                 fallback_providers: List[str],
-                                                 task_type: str) -> str:
+    async def select_optimal_provider_with_ethics(
+        self, primary_provider: str, fallback_providers: List[str], task_type: str
+    ) -> str:
         """Enhanced provider selection considering ethical scores and health"""
         # Start with the standard health-based selection
         try:
@@ -615,9 +607,9 @@ class LUKHASAIOrchestrator:
 
         self._provider_ethical_scores[provider_name].append(result)
 
-    def _create_ethical_violation_response(self, task_type: str, reason: str,
-                                         guardian_result: Dict[str, Any],
-                                         correlation_id: str) -> str:
+    def _create_ethical_violation_response(
+        self, task_type: str, reason: str, guardian_result: Dict[str, Any], correlation_id: str
+    ) -> str:
         """Create response for ethically blocked requests"""
         return f"""# Ethical Validation Notice
 
@@ -639,9 +631,9 @@ class LUKHASAIOrchestrator:
 For more information, consult the LUKHAS Constellation Framework ethical guidelines.
 """
 
-    def _create_response_violation_notice(self, provider_name: str, reason: str,
-                                        validation_result: Dict[str, Any],
-                                        correlation_id: str) -> str:
+    def _create_response_violation_notice(
+        self, provider_name: str, reason: str, validation_result: Dict[str, Any], correlation_id: str
+    ) -> str:
         """Create notice for ethically flagged AI responses"""
         return f"""# Response Validation Notice
 
@@ -669,16 +661,13 @@ The original AI response has been flagged for potential ethical concerns and has
     def get_guardian_orchestrator_status(self) -> Dict[str, Any]:
         """Get comprehensive Guardian-Orchestrator integration status for monitoring"""
         if not self._guardian_integration_enabled:
-            return {
-                "enabled": False,
-                "available": GUARDIAN_AVAILABLE,
-                "reason": "Guardian integration not enabled"
-            }
+            return {"enabled": False, "available": GUARDIAN_AVAILABLE, "reason": "Guardian integration not enabled"}
 
         # Calculate performance metrics
         avg_overhead = (
             sum(self._guardian_overhead_history) / len(self._guardian_overhead_history)
-            if self._guardian_overhead_history else 0
+            if self._guardian_overhead_history
+            else 0
         )
 
         max_overhead = max(self._guardian_overhead_history) if self._guardian_overhead_history else 0
@@ -693,7 +682,7 @@ The original AI response has been flagged for potential ethical concerns and has
                     "total_checks": total,
                     "violations": violations,
                     "violation_rate": violations / total if total > 0 else 0,
-                    "ethical_score": self._get_provider_ethical_score(provider)
+                    "ethical_score": self._get_provider_ethical_score(provider),
                 }
 
         # Calculate overall metrics
@@ -710,16 +699,16 @@ The original AI response has been flagged for potential ethical concerns and has
                 "blocked_requests": self._blocked_requests,
                 "validation_rate": validation_rate,
                 "block_rate": block_rate,
-                "ethical_violations": self._ethical_violations
+                "ethical_violations": self._ethical_violations,
             },
             "guardian_overhead": {
                 "avg_ms": avg_overhead,
                 "max_ms": max_overhead,
                 "total_checks": len(self._guardian_overhead_history),
-                "sla_compliant": avg_overhead < 50  # Guardian should add <50ms to maintain <250ms total SLA
+                "sla_compliant": avg_overhead < 50,  # Guardian should add <50ms to maintain <250ms total SLA
             },
             "provider_ethics": provider_ethical_summary,
-            "health_assessment": self._assess_orchestrator_guardian_health()
+            "health_assessment": self._assess_orchestrator_guardian_health(),
         }
 
     def _assess_orchestrator_guardian_health(self) -> str:
@@ -754,15 +743,12 @@ The original AI response has been flagged for potential ethical concerns and has
 
         return "healthy"
 
-    async def validate_request_ethics(self, task_type: str, content: str,
-                                    context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def validate_request_ethics(
+        self, task_type: str, content: str, context: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """Standalone method to validate request ethics"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
-            return {
-                "validated": True,
-                "reason": "Guardian validation not available",
-                "safe": True
-            }
+            return {"validated": True, "reason": "Guardian validation not available", "safe": True}
 
         correlation_id = f"standalone_{int(time.time() * 1000)}"
 
@@ -772,12 +758,12 @@ The original AI response has been flagged for potential ethical concerns and has
             "content_preview": content[:200] + "..." if len(content) > 200 else content,
             "content_length": len(content),
             "correlation_id": correlation_id,
-            "context": context or {}
+            "context": context or {},
         }
 
         try:
             # Use async validation if available for standalone validation
-            if hasattr(self._guardian_instance, 'validate_action_async'):
+            if hasattr(self._guardian_instance, "validate_action_async"):
                 result = await self._guardian_instance.validate_action_async(guardian_context)
             else:
                 result = self._guardian_instance.validate_safety(guardian_context)
@@ -789,7 +775,7 @@ The original AI response has been flagged for potential ethical concerns and has
                 "drift_score": result.get("drift_score", 0),
                 "guardian_status": result.get("guardian_status", "unknown"),
                 "correlation_id": correlation_id,
-                "guardian_result": result
+                "guardian_result": result,
             }
 
         except Exception as e:
@@ -798,7 +784,7 @@ The original AI response has been flagged for potential ethical concerns and has
                 "safe": False,
                 "reason": f"Guardian validation failed: {str(e)}",
                 "error": True,
-                "correlation_id": correlation_id
+                "correlation_id": correlation_id,
             }
 
     async def triad_documentation_generation(

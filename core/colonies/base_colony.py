@@ -4,6 +4,7 @@ Base Colony Infrastructure for LUKHAS Consciousness Mesh
 Provides foundational classes for colony-based consciousness node organization,
 supporting GLYPH symbolic communication and mesh formation.
 """
+
 import logging
 from dataclasses import dataclass, field
 from enum import Enum
@@ -14,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 class TagScope(str, Enum):
     """Scope definitions for consciousness tag propagation"""
+
     GLOBAL = "global"
     LOCAL = "local"
     COLONY = "colony"
@@ -28,6 +30,7 @@ class Tag:
     Supports GLYPH symbolic messaging across mesh nodes with
     scope, confidence tracking, and affect_delta integration.
     """
+
     key: str
     value: Any
     scope: TagScope = TagScope.LOCAL
@@ -45,6 +48,7 @@ class Tag:
 @dataclass
 class ConsensusResult:
     """Result of a consciousness colony consensus operation"""
+
     consensus_reached: bool
     decision: Any
     confidence: float
@@ -92,19 +96,11 @@ class BaseColony:
 
         # Tags and state
         self.tags: list[Tag] = []
-        self.state: dict[str, Any] = {
-            "active": False,
-            "last_consensus": None,
-            "processing_count": 0
-        }
+        self.state: dict[str, Any] = {"active": False, "last_consensus": None, "processing_count": 0}
 
         logger.info(
             "Colony initialized",
-            extra={
-                "colony_id": colony_id,
-                "capabilities": capabilities,
-                "mesh_generation": self.mesh_generation
-            }
+            extra={"colony_id": colony_id, "capabilities": capabilities, "mesh_generation": self.mesh_generation},
         )
 
     def register_agent(self, agent_id: str, agent_metadata: Optional[dict[str, Any]] = None) -> None:
@@ -117,11 +113,7 @@ class BaseColony:
         self.tags.append(tag)
         logger.debug(
             f"Tag added to colony {self.colony_id}",
-            extra={
-                "tag_key": tag.key,
-                "tag_scope": tag.scope.value,
-                "tag_confidence": tag.confidence
-            }
+            extra={"tag_key": tag.key, "tag_scope": tag.scope.value, "tag_confidence": tag.confidence},
         )
 
     def update_drift_score(self, delta: float) -> None:
@@ -129,11 +121,7 @@ class BaseColony:
         self.drift_score += delta
         logger.info(
             "Drift score updated",
-            extra={
-                "colony_id": self.colony_id,
-                "drift_delta": delta,
-                "total_drift": self.drift_score
-            }
+            extra={"colony_id": self.colony_id, "drift_delta": delta, "total_drift": self.drift_score},
         )
 
     def update_affect_delta(self, delta: float) -> None:
@@ -141,11 +129,7 @@ class BaseColony:
         self.affect_delta += delta
         logger.info(
             "Affect delta updated",
-            extra={
-                "colony_id": self.colony_id,
-                "affect_delta": delta,
-                "total_affect": self.affect_delta
-            }
+            extra={"colony_id": self.colony_id, "affect_delta": delta, "total_affect": self.affect_delta},
         )
 
     def activate(self) -> None:
@@ -170,7 +154,7 @@ class BaseColony:
             "affect_delta": self.affect_delta,
             "mesh_generation": self.mesh_generation,
             "active": self.state["active"],
-            "processing_count": self.state["processing_count"]
+            "processing_count": self.state["processing_count"],
         }
 
 

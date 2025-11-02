@@ -85,10 +85,7 @@ class TestOpenAIEmbeddingProvider:
 
     def setup_method(self):
         """Setup test environment"""
-        self.provider = OpenAIEmbeddingProvider(
-            api_key="test-key",
-            model="text-embedding-ada-002"
-        )
+        self.provider = OpenAIEmbeddingProvider(api_key="test-key", model="text-embedding-ada-002")
 
     def test_provider_properties(self):
         """Test provider properties"""
@@ -178,9 +175,7 @@ class TestDocumentIndexer:
         self.provider = OpenAIEmbeddingProvider(api_key="test")
         self.extractor = ContentExtractor()
         self.indexer = DocumentIndexer(
-            embedding_provider=self.provider,
-            content_extractor=self.extractor,
-            enable_deduplication=True
+            embedding_provider=self.provider, content_extractor=self.extractor, enable_deduplication=True
         )
 
     @pytest.mark.asyncio
@@ -191,7 +186,7 @@ class TestDocumentIndexer:
             content="This is a test document for indexing",
             metadata={"source": "test"},
             identity_id="test-identity",
-            lane="labs"
+            lane="labs",
         )
 
         assert result.success is True
@@ -207,11 +202,7 @@ class TestDocumentIndexer:
     @pytest.mark.asyncio
     async def test_index_empty_content(self):
         """Test indexing empty content"""
-        result = await self.indexer.index_document(
-            document_id="empty-doc",
-            content="",
-            lane="labs"
-        )
+        result = await self.indexer.index_document(document_id="empty-doc", content="", lane="labs")
 
         assert result.success is False
         assert "Empty or whitespace-only content" in result.error
@@ -219,11 +210,7 @@ class TestDocumentIndexer:
     @pytest.mark.asyncio
     async def test_index_missing_id(self):
         """Test indexing without document ID"""
-        result = await self.indexer.index_document(
-            document_id="",
-            content="Test content",
-            lane="labs"
-        )
+        result = await self.indexer.index_document(document_id="", content="Test content", lane="labs")
 
         assert result.success is False
         assert "Missing document ID" in result.error
@@ -234,19 +221,11 @@ class TestDocumentIndexer:
         content = "This is duplicate content for testing"
 
         # Index first document
-        result1 = await self.indexer.index_document(
-            document_id="doc-1",
-            content=content,
-            lane="labs"
-        )
+        result1 = await self.indexer.index_document(document_id="doc-1", content=content, lane="labs")
         assert result1.success is True
 
         # Index second document with same content
-        result2 = await self.indexer.index_document(
-            document_id="doc-2",
-            content=content,
-            lane="labs"
-        )
+        result2 = await self.indexer.index_document(document_id="doc-2", content=content, lane="labs")
         assert result2.success is False
         assert result2.duplicate_of == "doc-1"
         assert "Duplicate content" in result2.error
@@ -254,10 +233,7 @@ class TestDocumentIndexer:
     @pytest.mark.asyncio
     async def test_duplicate_detection_disabled(self):
         """Test indexing with deduplication disabled"""
-        indexer = DocumentIndexer(
-            embedding_provider=self.provider,
-            enable_deduplication=False
-        )
+        indexer = DocumentIndexer(embedding_provider=self.provider, enable_deduplication=False)
 
         content = "Duplicate content test"
 
@@ -273,24 +249,9 @@ class TestDocumentIndexer:
     async def test_batch_indexing(self):
         """Test batch document indexing"""
         documents = [
-            {
-                "id": "batch-doc-1",
-                "content": "First document in batch",
-                "metadata": {"batch": True},
-                "lane": "labs"
-            },
-            {
-                "id": "batch-doc-2",
-                "content": "Second document in batch",
-                "metadata": {"batch": True},
-                "lane": "labs"
-            },
-            {
-                "id": "batch-doc-3",
-                "content": "Third document in batch",
-                "metadata": {"batch": True},
-                "lane": "labs"
-            }
+            {"id": "batch-doc-1", "content": "First document in batch", "metadata": {"batch": True}, "lane": "labs"},
+            {"id": "batch-doc-2", "content": "Second document in batch", "metadata": {"batch": True}, "lane": "labs"},
+            {"id": "batch-doc-3", "content": "Third document in batch", "metadata": {"batch": True}, "lane": "labs"},
         ]
 
         results = await self.indexer.index_batch(documents)
@@ -322,11 +283,7 @@ class TestDocumentIndexer:
         """Test content analysis features"""
         content = "This is a comprehensive test document. Contact support@ai for help!"
 
-        result = await self.indexer.index_document(
-            document_id="analysis-test",
-            content=content,
-            lane="labs"
-        )
+        result = await self.indexer.index_document(document_id="analysis-test", content=content, lane="labs")
 
         assert result.success is True
         assert result.word_count > 0
@@ -344,7 +301,7 @@ class TestDocumentIndexer:
             identity_id="test-identity",
             fold_id="test-fold",
             tags=["test", "metadata"],
-            lane="labs"
+            lane="labs",
         )
 
         assert result.success is True
@@ -410,11 +367,7 @@ class TestDocumentIndexer:
         content = "Performance test document with moderate length content"
 
         start_time = asyncio.get_event_loop().time()
-        result = await self.indexer.index_document(
-            document_id="perf-test",
-            content=content,
-            lane="labs"
-        )
+        result = await self.indexer.index_document(document_id="perf-test", content=content, lane="labs")
         end_time = asyncio.get_event_loop().time()
 
         duration_ms = (end_time - start_time) * 1000
@@ -434,9 +387,7 @@ async def test_integration_indexer_with_backends():
     openai_indexer = DocumentIndexer(openai_provider)
 
     result = await openai_indexer.index_document(
-        document_id="integration-openai",
-        content="Integration test with OpenAI provider",
-        lane="labs"
+        document_id="integration-openai", content="Integration test with OpenAI provider", lane="labs"
     )
 
     assert result.success is True
@@ -447,9 +398,7 @@ async def test_integration_indexer_with_backends():
     st_indexer = DocumentIndexer(st_provider)
 
     result = await st_indexer.index_document(
-        document_id="integration-st",
-        content="Integration test with SentenceTransformers provider",
-        lane="labs"
+        document_id="integration-st", content="Integration test with SentenceTransformers provider", lane="labs"
     )
 
     assert result.success is True
@@ -466,9 +415,7 @@ async def test_concurrent_indexing():
     tasks = []
     for i in range(10):
         task = indexer.index_document(
-            document_id=f"concurrent-{i}",
-            content=f"Concurrent test document {i}",
-            lane="labs"
+            document_id=f"concurrent-{i}", content=f"Concurrent test document {i}", lane="labs"
         )
         tasks.append(task)
 
@@ -488,11 +435,7 @@ def test_indexer_configuration():
     provider = OpenAIEmbeddingProvider(api_key="test")
 
     # Test with custom configuration
-    indexer = DocumentIndexer(
-        embedding_provider=provider,
-        enable_deduplication=False,
-        dedup_threshold=0.8
-    )
+    indexer = DocumentIndexer(embedding_provider=provider, enable_deduplication=False, dedup_threshold=0.8)
 
     assert indexer.enable_deduplication is False
     assert indexer.dedup_threshold == 0.8

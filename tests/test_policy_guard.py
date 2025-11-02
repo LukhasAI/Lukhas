@@ -48,10 +48,7 @@ class TestPolicyGuard:
         guard = PolicyGuard(lane="experimental")
 
         # Test allowed kinds
-        allowed_kinds = [
-            "consciousness_tick", "action", "intention",
-            "memory_write", "reward", "breakthrough"
-        ]
+        allowed_kinds = ["consciousness_tick", "action", "intention", "memory_write", "reward", "breakthrough"]
 
         for kind in allowed_kinds:
             decision = guard.check_replay(event_kind=kind)
@@ -93,25 +90,16 @@ class TestPolicyGuard:
         PolicyGuard(lane="prod")
 
         # Experimental -> Candidate: should be allowed (same or lower level)
-        decision = cand_guard.check_replay(
-            event_kind="action",
-            source_lane="experimental"
-        )
+        decision = cand_guard.check_replay(event_kind="action", source_lane="experimental")
         assert decision.allow, "Should allow experimental -> candidate"
 
         # Candidate -> Experimental: should be denied (higher -> lower)
-        decision = exp_guard.check_replay(
-            event_kind="action",
-            source_lane="labs"
-        )
+        decision = exp_guard.check_replay(event_kind="action", source_lane="labs")
         assert not decision.allow, "Should deny candidate -> experimental"
         assert decision.result == PolicyResult.DENY_LANE
 
         # Production -> Candidate: should be denied (highest -> lower)
-        decision = cand_guard.check_replay(
-            event_kind="action",
-            source_lane="prod"
-        )
+        decision = cand_guard.check_replay(event_kind="action", source_lane="prod")
         assert not decision.allow, "Should deny prod -> candidate"
         assert decision.result == PolicyResult.DENY_LANE
 
@@ -120,44 +108,27 @@ class TestPolicyGuard:
         guard = PolicyGuard(lane="experimental")
 
         # Explicit risk level
-        decision = guard.check_replay(
-            event_kind="action",
-            payload={"risk_level": 0.5}
-        )
+        decision = guard.check_replay(event_kind="action", payload={"risk_level": 0.5})
         assert decision.allow
 
         # Error events should be high risk
-        decision = guard.check_replay(
-            event_kind="action",
-            payload={"error": "Something went wrong"}
-        )
+        decision = guard.check_replay(event_kind="action", payload={"error": "Something went wrong"})
         # Risk 0.7 should be allowed in experimental (threshold 0.8)
         assert decision.allow
 
         # External action events
-        decision = guard.check_replay(
-            event_kind="action",
-            payload={"external_action": True}
-        )
+        decision = guard.check_replay(event_kind="action", payload={"external_action": True})
         # Risk 0.6 should be allowed in experimental
         assert decision.allow
 
         # Normal events should be low risk
-        decision = guard.check_replay(
-            event_kind="action",
-            payload={"normal_data": "value"}
-        )
+        decision = guard.check_replay(event_kind="action", payload={"normal_data": "value"})
         assert decision.allow
 
     def test_rate_limiting(self):
         """Test replay rate limiting enforcement."""
         # Create guard with very low rate limit for testing
-        custom_config = {
-            "experimental": LanePolicyConfig(
-                max_replay_rate=3,  # Very low limit
-                replay_budget=100
-            )
-        }
+        custom_config = {"experimental": LanePolicyConfig(max_replay_rate=3, replay_budget=100)}  # Very low limit
         guard = PolicyGuard(lane="experimental", custom_config=custom_config)
 
         # First few requests should be allowed
@@ -177,7 +148,7 @@ class TestPolicyGuard:
             "experimental": LanePolicyConfig(
                 replay_budget=2,  # Very low budget
                 budget_window_minutes=5,
-                max_replay_rate=1000  # High rate limit so budget is the constraint
+                max_replay_rate=1000,  # High rate limit so budget is the constraint
             )
         }
         guard = PolicyGuard(lane="experimental", custom_config=custom_config)
@@ -212,10 +183,7 @@ class TestPolicyGuard:
 
         # Test log entry conversion
         log_entry = decision1.to_log_entry()
-        expected_keys = {
-            "decision_id", "timestamp", "lane", "event_kind",
-            "result", "allow", "reason"
-        }
+        expected_keys = {"decision_id", "timestamp", "lane", "event_kind", "result", "allow", "reason"}
         assert set(log_entry.keys()) == expected_keys
 
     def test_policy_stats(self):
@@ -230,10 +198,16 @@ class TestPolicyGuard:
 
         # Verify stats structure
         expected_keys = {
-            "lane", "total_decisions", "recent_decisions_5min",
-            "recent_allows", "recent_denies", "current_budget_usage",
-            "budget_capacity", "rate_limit_capacity", "max_risk_threshold",
-            "allowed_kinds"
+            "lane",
+            "total_decisions",
+            "recent_decisions_5min",
+            "recent_allows",
+            "recent_denies",
+            "current_budget_usage",
+            "budget_capacity",
+            "rate_limit_capacity",
+            "max_risk_threshold",
+            "allowed_kinds",
         }
         assert set(stats.keys()) == expected_keys
 
@@ -248,24 +222,20 @@ class TestPolicyGuard:
         lanes = ["experimental", "labs", "prod"]
         test_cases = [
             # (risk_level, expected_results_by_lane [experimental, candidate, prod])
-            (0.1, [True, True, True]),   # Low risk allowed everywhere
+            (0.1, [True, True, True]),  # Low risk allowed everywhere
             (0.3, [True, True, False]),  # Medium risk allowed in exp/candidate (0.8/0.5 thresholds)
-            (0.6, [True, False, False]), # High risk only in experimental (0.8 threshold)
-            (0.9, [False, False, False]) # Very high risk denied everywhere
+            (0.6, [True, False, False]),  # High risk only in experimental (0.8 threshold)
+            (0.9, [False, False, False]),  # Very high risk denied everywhere
         ]
 
         for risk_level, expected_results in test_cases:
             for i, lane in enumerate(lanes):
                 guard = PolicyGuard(lane=lane)
-                decision = guard.check_replay(
-                    event_kind="action",
-                    risk_level=risk_level
-                )
+                decision = guard.check_replay(event_kind="action", risk_level=risk_level)
 
                 expected_allow = expected_results[i]
                 assert decision.allow == expected_allow, (
-                    f"Risk {risk_level} in lane '{lane}': "
-                    f"expected {expected_allow}, got {decision.allow}"
+                    f"Risk {risk_level} in lane '{lane}': " f"expected {expected_allow}, got {decision.allow}"
                 )
 
     def test_factory_function(self):
@@ -317,7 +287,7 @@ class TestPolicyGuard:
             "experimental": LanePolicyConfig(
                 max_risk_level=0.9,  # Higher than default
                 max_replay_rate=3000,  # Higher than default
-                allowed_kinds={"action", "test_kind"}  # Custom allowed kinds
+                allowed_kinds={"action", "test_kind"},  # Custom allowed kinds
             )
         }
 

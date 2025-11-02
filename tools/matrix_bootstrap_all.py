@@ -31,22 +31,23 @@ TIER_MAP_NUM = {tier: i for i, tier in enumerate(TIERS)}
 
 # Module type to tier mapping (intelligent defaults)
 MODULE_TIER_MAPPING = {
-    "core": "inner_circle",        # Core system components
-    "governance": "inner_circle",   # Governance and Guardian System
-    "security": "inner_circle",     # Security-critical modules
-    "identity": "trusted",          # Identity management
-    "consciousness": "inner_circle", # Consciousness core
-    "bridge": "friend",            # External integrations
-    "adapters": "friend",          # Adapter modules
-    "api": "trusted",              # API modules
-    "orchestration": "trusted",    # Orchestration layer
-    "memory": "trusted",           # Memory systems
-    "observability": "trusted",    # Monitoring and telemetry
-    "deployment": "friend",        # Deployment utilities
-    "tools": "friend",             # Development tools
-    "branding": "visitor",         # UI/branding components
-    "accepted": "friend",          # Accepted modules
+    "core": "inner_circle",  # Core system components
+    "governance": "inner_circle",  # Governance and Guardian System
+    "security": "inner_circle",  # Security-critical modules
+    "identity": "trusted",  # Identity management
+    "consciousness": "inner_circle",  # Consciousness core
+    "bridge": "friend",  # External integrations
+    "adapters": "friend",  # Adapter modules
+    "api": "trusted",  # API modules
+    "orchestration": "trusted",  # Orchestration layer
+    "memory": "trusted",  # Memory systems
+    "observability": "trusted",  # Monitoring and telemetry
+    "deployment": "friend",  # Deployment utilities
+    "tools": "friend",  # Development tools
+    "branding": "visitor",  # UI/branding components
+    "accepted": "friend",  # Accepted modules
 }
+
 
 def discover_modules() -> List[Tuple[str, Path]]:
     """Discover all Python modules under lukhas/ with __init__.py files."""
@@ -65,6 +66,7 @@ def discover_modules() -> List[Tuple[str, Path]]:
         modules.append((pkg_name, pkg_dir))
 
     return sorted(modules)
+
 
 def extract_public_api(pkg_dir: Path) -> List[Dict[str, str]]:
     """Extract public API from package __init__.py file."""
@@ -89,35 +91,26 @@ def extract_public_api(pkg_dir: Path) -> List[Dict[str, str]]:
             names.append(item.strip())
 
         for name in names:
-            api.append({
-                "fn": name,
-                "stability": "stable" if "_" not in name else "experimental",
-                "doc": f"Public API: {name}"
-            })
+            api.append(
+                {"fn": name, "stability": "stable" if "_" not in name else "experimental", "doc": f"Public API: {name}"}
+            )
 
     # If no __all__, try to find top-level function definitions
     if not api:
         func_matches = re.findall(r"^def\s+([a-zA-Z_]\w*)\s*\(", content, re.MULTILINE)
         for func_name in func_matches:
             if not func_name.startswith("_"):  # Skip private functions
-                api.append({
-                    "fn": f"{func_name}()",
-                    "stability": "experimental",
-                    "doc": f"Function: {func_name}"
-                })
+                api.append({"fn": f"{func_name}()", "stability": "experimental", "doc": f"Function: {func_name}"})
 
     # If still no API found, try to find class definitions
     if not api:
         class_matches = re.findall(r"^class\s+([a-zA-Z_]\w*)", content, re.MULTILINE)
         for class_name in class_matches:
             if not class_name.startswith("_"):  # Skip private classes
-                api.append({
-                    "fn": class_name,
-                    "stability": "experimental",
-                    "doc": f"Class: {class_name}"
-                })
+                api.append({"fn": class_name, "stability": "experimental", "doc": f"Class: {class_name}"})
 
     return api[:10]  # Limit to first 10 items to keep contracts manageable
+
 
 def determine_module_tier(pkg_name: str) -> str:
     """Determine appropriate ΛiD tier for module based on path and type."""
@@ -139,6 +132,7 @@ def determine_module_tier(pkg_name: str) -> str:
     # Default tier
     return "trusted"
 
+
 def default_gates(pkg_name: str) -> List[Dict[str, Any]]:
     """Generate baseline gates for module."""
     gates = [
@@ -157,6 +151,7 @@ def default_gates(pkg_name: str) -> List[Dict[str, Any]]:
 
     return gates
 
+
 def telemetry_stub(pkg_name: str, semconv: str) -> Dict[str, Any]:
     """Generate OpenTelemetry telemetry configuration."""
     simple_name = pkg_name.split(".")[-1] if "." in pkg_name else pkg_name
@@ -166,22 +161,15 @@ def telemetry_stub(pkg_name: str, semconv: str) -> Dict[str, Any]:
         "spans": [
             {
                 "name": f"{simple_name}.operation",
-                "attrs": ["code.function", "module", f"lukhas.{simple_name}.operation"]
+                "attrs": ["code.function", "module", f"lukhas.{simple_name}.operation"],
             }
         ],
         "metrics": [
-            {
-                "name": f"lukhas.{simple_name}.latency",
-                "unit": "s",
-                "type": "histogram"
-            },
-            {
-                "name": f"lukhas.{simple_name}.operations",
-                "unit": "1",
-                "type": "counter"
-            }
-        ]
+            {"name": f"lukhas.{simple_name}.latency", "unit": "s", "type": "histogram"},
+            {"name": f"lukhas.{simple_name}.operations", "unit": "1", "type": "counter"},
+        ],
     }
+
 
 def identity_stub(pkg_name: str, default_tier: str) -> Dict[str, Any]:
     """Generate ΛiD identity configuration for module."""
@@ -223,47 +211,38 @@ def identity_stub(pkg_name: str, default_tier: str) -> Dict[str, Any]:
         "required_tiers_numeric": required_tiers_numeric,
         "scopes": scopes,
         "webauthn_required": tier_num >= 4,  # Require WebAuthn for sensitive modules
-        "api_policies": []
+        "api_policies": [],
     }
 
+
 def base_contract(
-    pkg_name: str,
-    team: str,
-    codeowners: List[str],
-    api: List[Dict[str, str]],
-    semconv: str,
-    default_tier: str
+    pkg_name: str, team: str, codeowners: List[str], api: List[Dict[str, str]], semconv: str, default_tier: str
 ) -> Dict[str, Any]:
     """Generate complete Matrix contract for module."""
     simple_name = pkg_name.split(".")[-1] if "." in pkg_name else pkg_name
 
     # Generate unique event ID
-    event_id = f"urn:uuid:{hashlib.md5(pkg_name.encode()).hexdigest()[:8]}-" + \
-               f"{hashlib.md5(pkg_name.encode()).hexdigest()[8:12]}-" + \
-               f"{hashlib.md5(pkg_name.encode()).hexdigest()[12:16]}-" + \
-               f"{hashlib.md5(pkg_name.encode()).hexdigest()[16:20]}-" + \
-               f"{hashlib.md5(pkg_name.encode()).hexdigest()[20:32]}"
+    event_id = (
+        f"urn:uuid:{hashlib.md5(pkg_name.encode()).hexdigest()[:8]}-"
+        + f"{hashlib.md5(pkg_name.encode()).hexdigest()[8:12]}-"
+        + f"{hashlib.md5(pkg_name.encode()).hexdigest()[12:16]}-"
+        + f"{hashlib.md5(pkg_name.encode()).hexdigest()[16:20]}-"
+        + f"{hashlib.md5(pkg_name.encode()).hexdigest()[20:32]}"
+    )
 
     return {
         "schema_version": "1.0.0",
         "module": pkg_name,
-        "owner": {
-            "team": team,
-            "codeowners": codeowners
-        },
+        "owner": {"team": team, "codeowners": codeowners},
         "interface": {
             "public_api": api,
             "contracts": [
-                {
-                    "name": "module_initialization",
-                    "type": "postcondition",
-                    "desc": "Module initializes without errors"
-                }
-            ]
+                {"name": "module_initialization", "type": "postcondition", "desc": "Module initializes without errors"}
+            ],
         },
         "params": {
             "log_level": {"type": "string", "default": "INFO", "enum": ["DEBUG", "INFO", "WARN", "ERROR"]},
-            "enable_telemetry": {"type": "bool", "default": True}
+            "enable_telemetry": {"type": "bool", "default": True},
         },
         "gates": default_gates(pkg_name),
         "telemetry": telemetry_stub(pkg_name, semconv),
@@ -271,25 +250,21 @@ def base_contract(
             "CollapseHash": "sha256:pending",
             "DriftScore": 0.010,
             "EthicalDriftIndex": 0.0,
-            "ConvergencePct": 0.0
+            "ConvergencePct": 0.0,
         },
         "lineage": {
             "openlineage_event_id": event_id,
             "datasets_in": [],
             "datasets_out": [],
-            "job": f"lukhas.{simple_name}.pipeline"
+            "job": f"lukhas.{simple_name}.pipeline",
         },
         "provenance": {
             "@context": "https://www.w3.org/ns/prov.jsonld",
             "commit": "pending",
             "branch": "main",
             "built_by": {"prov:agent": "matrix_bootstrap_all.py"},
-            "environment": {
-                "os": "pending",
-                "cpu": "pending",
-                "python": "3.11+"
-            },
-            "config_fingerprint": "sha256:pending"
+            "environment": {"os": "pending", "cpu": "pending", "python": "3.11+"},
+            "config_fingerprint": "sha256:pending",
         },
         "causal_provenance": {
             "ipld_root_cid": "bafybeipending",
@@ -297,86 +272,53 @@ def base_contract(
             "lamport_time": 0,
             "vector_clock": {simple_name: 0, "consciousness": 0, "identity": 0},
             "bft": {"algorithm": "hotstuff", "view": 0, "qc_hash": "0x0000000000000000"},
-            "crdt": {"type": "or-set", "last_join_cid": "bafybeipending"}
+            "crdt": {"type": "or-set", "last_join_cid": "bafybeipending"},
         },
         "formal": {
-            "tla_plus": {
-                "spec": f"specs/{simple_name}/module.tla",
-                "result": "UNKNOWN"
-            },
+            "tla_plus": {"spec": f"specs/{simple_name}/module.tla", "result": "UNKNOWN"},
             "proofs": [],
             "probabilistic": {
                 "tool": "prism",
                 "model": f"models/{simple_name}/behavior.pm",
-                "properties": ["P>=0.99 [F \"module_ready\"]"]
-            }
-        },
-        "privacy": {
-            "epsilon": 0.0,
-            "delta": 0.0,
-            "mechanism": "gaussian",
-            "composition": "basic"
-        },
-        "attestation": {
-            "rats": {
-                "evidence_jwt": "pending",
-                "verifier_policy": "rats/policy-v2.1.json"
+                "properties": ['P>=0.99 [F "module_ready"]'],
             },
+        },
+        "privacy": {"epsilon": 0.0, "delta": 0.0, "mechanism": "gaussian", "composition": "basic"},
+        "attestation": {
+            "rats": {"evidence_jwt": "pending", "verifier_policy": "rats/policy-v2.1.json"},
             "tee": [],
-            "ebpf": {
-                "program_id": "sha256:pending",
-                "policy": f"opa://policies/{simple_name}.rego"
-            }
+            "ebpf": {"program_id": "sha256:pending", "policy": f"opa://policies/{simple_name}.rego"},
         },
-        "crypto": {
-            "pqc": {
-                "signatures": ["ML-DSA-65"],
-                "kem": "ML-KEM-1024",
-                "hash": "SHA3-512"
-            }
-        },
+        "crypto": {"pqc": {"signatures": ["ML-DSA-65"], "kem": "ML-KEM-1024", "hash": "SHA3-512"}},
         "verifiable_claims": {
             "zk": {
                 "scheme": "groth16",
                 "circuit_cid": None,
                 "proof_uri": None,
                 "vk_uri": None,
-                "setup": {"pot_round": None, "ref": None}
+                "setup": {"pot_round": None, "ref": None},
             },
-            "mpc": {
-                "protocol": "spdz",
-                "threshold": "2/3",
-                "participants": 3
-            }
+            "mpc": {"protocol": "spdz", "threshold": "2/3", "participants": 3},
         },
-        "capabilities": {
-            "macaroons": [],
-            "policy_engine": "opa",
-            "policy_packages": [f"matrix.{simple_name}"]
-        },
+        "capabilities": {"macaroons": [], "policy_engine": "opa", "policy_packages": [f"matrix.{simple_name}"]},
         "experiments": {
             "mlflow_tracking_uri": "mlflow://lukhas",
             "last_run_id": None,
-            "dvc_metrics_ref": f"../dvc_metrics/{simple_name}.json"
+            "dvc_metrics_ref": f"../dvc_metrics/{simple_name}.json",
         },
         "energy": {
             "tool": "codecarbon",
             "last_kwh_10k": None,
             "last_emissions_kg": None,
             "location": "US-CA",
-            "artifact": f"../artifacts/{simple_name}_emissions.csv"
+            "artifact": f"../artifacts/{simple_name}_emissions.csv",
         },
         "supply_chain": {
             "sbom_ref": f"../sbom/{simple_name}.cdx.json",
             "licenses": ["Apache-2.0"],
             "sarif_report": f"../artifacts/{simple_name}.sarif.json",
             "osv_snapshot": f"../artifacts/{simple_name}.osv.json",
-            "attestations": [
-                {
-                    "type": "slsa.provenance",
-                    "uri": f"oci://registry/lukhas/{simple_name}@sha256:pending"
-                }
-            ]
+            "attestations": [{"type": "slsa.provenance", "uri": f"oci://registry/lukhas/{simple_name}@sha256:pending"}],
         },
         "tokenization": {
             "enabled": False,
@@ -391,14 +333,15 @@ def base_contract(
             "issuer": None,
             "policy_version": None,
             "proof_uri": None,
-            "note": None
+            "note": None,
         },
         "identity": identity_stub(pkg_name, default_tier),
         "docs": {
             "lens_markdown": f"../products/intelligence/lens/{simple_name}.qmd",
-            "design_notes": f"../docs/{simple_name}/architecture.md"
-        }
+            "design_notes": f"../docs/{simple_name}/architecture.md",
+        },
     }
+
 
 def write_contract(pkg_dir: Path, pkg_name: str, data: Dict[str, Any], overwrite: bool = False) -> bool:
     """Write Matrix contract to appropriate file location."""
@@ -416,6 +359,7 @@ def write_contract(pkg_dir: Path, pkg_name: str, data: Dict[str, Any], overwrite
     except OSError as e:
         print(f"ERROR writing {out_file}: {e}")
         return False
+
 
 def main():
     """Main CLI for Matrix contract bootstrap generator."""
@@ -435,23 +379,22 @@ Examples:
 
   # Generate for specific modules only
   python3 tools/matrix_bootstrap_all.py --write --modules "governance,identity,consciousness"
-        """
+        """,
     )
 
-    parser.add_argument("--write", action="store_true",
-                       help="Actually write contract files (default: dry-run)")
-    parser.add_argument("--overwrite", action="store_true",
-                       help="Force overwrite existing contracts")
-    parser.add_argument("--modules", type=str, default="",
-                       help="Comma-separated list of modules to process (default: all)")
-    parser.add_argument("--owner-team", type=str, default="Core",
-                       help="Default team ownership")
-    parser.add_argument("--codeowners", type=str, default="@gonzo.dominguez,@lukhas-core",
-                       help="Comma-separated GitHub codeowners")
-    parser.add_argument("--semconv", type=str, default="1.37.0",
-                       help="OpenTelemetry semantic conventions version")
-    parser.add_argument("--identity-default-tier", type=str, default="trusted",
-                       choices=TIERS, help="Default ΛiD tier requirement")
+    parser.add_argument("--write", action="store_true", help="Actually write contract files (default: dry-run)")
+    parser.add_argument("--overwrite", action="store_true", help="Force overwrite existing contracts")
+    parser.add_argument(
+        "--modules", type=str, default="", help="Comma-separated list of modules to process (default: all)"
+    )
+    parser.add_argument("--owner-team", type=str, default="Core", help="Default team ownership")
+    parser.add_argument(
+        "--codeowners", type=str, default="@gonzo.dominguez,@lukhas-core", help="Comma-separated GitHub codeowners"
+    )
+    parser.add_argument("--semconv", type=str, default="1.37.0", help="OpenTelemetry semantic conventions version")
+    parser.add_argument(
+        "--identity-default-tier", type=str, default="trusted", choices=TIERS, help="Default ΛiD tier requirement"
+    )
 
     args = parser.parse_args()
 
@@ -486,8 +429,7 @@ Examples:
 
         # Generate contract
         contract_data = base_contract(
-            pkg_name, args.owner_team, codeowners, api,
-            args.semconv, args.identity_default_tier
+            pkg_name, args.owner_team, codeowners, api, args.semconv, args.identity_default_tier
         )
 
         # Determine tier assignment
@@ -517,6 +459,7 @@ Examples:
         print("   💡 Use --write to generate contracts")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

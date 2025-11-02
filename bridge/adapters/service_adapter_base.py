@@ -9,6 +9,7 @@ Constellation Framework Integration:
 Service Adapter Integration Specialist
 Common resilience, telemetry, and consent validation for all adapters
 """
+
 import asyncio
 import contextlib
 import os

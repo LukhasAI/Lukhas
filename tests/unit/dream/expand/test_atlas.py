@@ -8,6 +8,7 @@ def test_log_creates_entry():
     assert result["entropy"] == 0.3
     assert "ts" in result
 
+
 def test_export_html_creates_file():
     atlas.export_html("/tmp/test_atlas.html")
     with open("/tmp/test_atlas.html") as f:

@@ -420,7 +420,9 @@ class SelfHealingDashboard:
         print("\n" + "=" * 80)
         print("🤖 LUKHAS SELF-HEALING AUTOMATION DASHBOARD")
         print("=" * 80)
-        print(f"⚛️🧠🛡️ Constellation Framework Status: {' '.join([d['icon'] for d in report['constellation_framework'].values()])}")
+        print(
+            f"⚛️🧠🛡️ Constellation Framework Status: {' '.join([d['icon'] for d in report['constellation_framework'].values()])}"
+        )
         print(f"🕐 Last Update: {datetime.fromisoformat(report['timestamp']).strftime('%Y-%m-%d %H:%M:%S UTC')}")
         print()
 

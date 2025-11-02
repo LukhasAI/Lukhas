@@ -42,6 +42,7 @@ except ImportError:
 
 try:
     from requests_oauthlib import OAuth2Session  # OAuth client for LinkedIn integrations
+
     # See: https://github.com/LukhasAI/Lukhas/issues/555 for security review context
 
     OAUTH_AVAILABLE = True

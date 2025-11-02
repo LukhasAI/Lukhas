@@ -33,21 +33,19 @@ class TestAdaptiveCircuitBreaker:
     @pytest.fixture
     def circuit_breaker(self):
         return AdaptiveCircuitBreaker(
-            name="test_circuit",
-            failure_threshold=0.5,
-            recovery_timeout=1.0,
-            min_request_threshold=5
+            name="test_circuit", failure_threshold=0.5, recovery_timeout=1.0, min_request_threshold=5
         )
 
     def test_circuit_starts_closed(self, circuit_breaker):
         """Test that circuit breaker starts in closed state."""
         health = circuit_breaker.get_health_status()
-        assert health['state'] == 'closed'
-        assert health['failure_rate'] == 0.0
+        assert health["state"] == "closed"
+        assert health["failure_rate"] == 0.0
 
     @pytest.mark.asyncio
     async def test_successful_operations(self, circuit_breaker):
         """Test that successful operations keep circuit closed."""
+
         async def success_func():
             await asyncio.sleep(0.01)
             return "success"
@@ -57,12 +55,13 @@ class TestAdaptiveCircuitBreaker:
             assert result == "success"
 
         health = circuit_breaker.get_health_status()
-        assert health['state'] == 'closed'
-        assert health['success_count'] == 10
+        assert health["state"] == "closed"
+        assert health["success_count"] == 10
 
     @pytest.mark.asyncio
     async def test_circuit_opens_on_failures(self, circuit_breaker):
         """Test that circuit opens when failure threshold is exceeded."""
+
         async def failing_func():
             raise ValueError("Test failure")
 
@@ -74,7 +73,7 @@ class TestAdaptiveCircuitBreaker:
                 pass  # Ignore both test failures and circuit breaker errors
 
         health = circuit_breaker.get_health_status()
-        assert health['state'] == 'open'
+        assert health["state"] == "open"
 
     @pytest.mark.asyncio
     async def test_circuit_fails_fast_when_open(self, circuit_breaker):
@@ -110,24 +109,20 @@ class TestPerformanceRegressionDetector:
 
     @pytest.fixture
     def detector(self):
-        return PerformanceRegressionDetector(
-            baseline_window_hours=1,
-            comparison_window_minutes=1,
-            min_samples=10
-        )
+        return PerformanceRegressionDetector(baseline_window_hours=1, comparison_window_minutes=1, min_samples=10)
 
     def test_detector_initialization(self, detector):
         """Test detector initializes correctly."""
         health = detector.get_health_summary()
-        assert health['total_operations_monitored'] == 0
-        assert health['detector_healthy'] is True
+        assert health["total_operations_monitored"] == 0
+        assert health["detector_healthy"] is True
 
     def test_operation_recording(self, detector):
         """Test that operations are recorded correctly."""
         detector.record_operation("test_op", 100.0, success=True)
 
         health = detector.get_health_summary()
-        assert health['total_operations_monitored'] == 1
+        assert health["total_operations_monitored"] == 1
 
     def test_baseline_calculation(self, detector):
         """Test baseline calculation with sufficient data."""
@@ -225,20 +220,12 @@ class TestAdaptiveTimeouts:
 
     @pytest.fixture
     def backoff(self):
-        config = BackoffConfig(
-            initial_delay=0.1,
-            max_delay=1.0,
-            max_attempts=3
-        )
+        config = BackoffConfig(initial_delay=0.1, max_delay=1.0, max_attempts=3)
         return IntelligentBackoff(config)
 
     def test_timeout_adaptation(self, timeout_manager):
         """Test that timeouts adapt based on historical data."""
-        config = TimeoutConfig(
-            base_timeout=1000,
-            max_timeout=5000,
-            min_timeout=100
-        )
+        config = TimeoutConfig(base_timeout=1000, max_timeout=5000, min_timeout=100)
         timeout_manager.register_operation("test_op", config)
 
         # Record fast operations
@@ -251,13 +238,12 @@ class TestAdaptiveTimeouts:
     @pytest.mark.asyncio
     async def test_adaptive_timeout_execution(self, timeout_manager):
         """Test execution with adaptive timeout."""
+
         async def fast_operation():
             await asyncio.sleep(0.01)
             return "success"
 
-        result = await timeout_manager.execute_with_adaptive_timeout(
-            "test_op", fast_operation
-        )
+        result = await timeout_manager.execute_with_adaptive_timeout("test_op", fast_operation)
         assert result == "success"
 
     @pytest.mark.asyncio
@@ -279,21 +265,14 @@ class TestAdaptiveTimeouts:
     @pytest.mark.asyncio
     async def test_adaptive_backoff_strategy(self):
         """Test adaptive backoff strategy."""
-        config = BackoffConfig(
-            strategy=BackoffStrategy.ADAPTIVE,
-            initial_delay=0.1,
-            max_attempts=3
-        )
+        config = BackoffConfig(strategy=BackoffStrategy.ADAPTIVE, initial_delay=0.1, max_attempts=3)
         backoff = IntelligentBackoff(config)
 
         # Record some failure history
         for _ in range(10):
-            backoff.attempt_history.append({
-                'success': False,
-                'attempt': 1,
-                'latency_ms': 100,
-                'timestamp': time.time()
-            })
+            backoff.attempt_history.append(
+                {"success": False, "attempt": 1, "latency_ms": 100, "timestamp": time.time()}
+            )
 
         delay = backoff._adaptive_delay(1)
         assert delay > config.initial_delay  # Should be more conservative with low success rate
@@ -306,8 +285,8 @@ class TestAdaptiveTimeouts:
         fib_8 = backoff._fibonacci(8)
         assert fib_8 == 21  # 8th Fibonacci number
 
-    @patch('psutil.cpu_percent')
-    @patch('psutil.virtual_memory')
+    @patch("psutil.cpu_percent")
+    @patch("psutil.virtual_memory")
     def test_load_aware_delay(self, mock_memory, mock_cpu, backoff):
         """Test load-aware delay adjustment."""
         mock_cpu.return_value = 80.0  # 80% CPU
@@ -334,7 +313,7 @@ class TestIntegration:
         @resilient_operation(
             "integration_test",
             timeout_config=TimeoutConfig(base_timeout=1000, max_timeout=5000, min_timeout=100),
-            backoff_config=BackoffConfig(max_attempts=2, initial_delay=0.1)
+            backoff_config=BackoffConfig(max_attempts=2, initial_delay=0.1),
         )
         @performance_monitor("integration_test")
         @enhanced_error_handler("integration_test")

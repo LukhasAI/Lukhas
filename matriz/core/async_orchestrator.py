@@ -59,7 +59,7 @@ try:
             logger.warning(
                 "otel_initialization_failed",
                 error=str(error),
-                msg="OpenTelemetry initialization failed, continuing without tracing"
+                msg="OpenTelemetry initialization failed, continuing without tracing",
             )
 
     _ensure_otel_initialized()
@@ -73,9 +73,7 @@ except ImportError:
 
         return nullcontext()
 
-    def instrument_matriz_stage(
-        stage_name, stage_type="processing", critical=True, slo_target_ms=None
-    ):
+    def instrument_matriz_stage(stage_name, stage_type="processing", critical=True, slo_target_ms=None):
         def decorator(func):
             return func
 
@@ -104,6 +102,7 @@ _DEFAULT_LANE = os.getenv("LUKHAS_LANE", "canary").lower()
 
 # ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
 if isinstance(Histogram, type):
+
     def _register_histogram(*args, **kwargs):
         try:
             return Histogram(*args, **kwargs)
@@ -175,9 +174,7 @@ def _record_stage_metrics(stage_type: "StageType", duration_ms: float, outcome: 
     ).inc()
 
 
-def _record_pipeline_metrics(
-    duration_ms: float, status: str, within_budget: Optional[bool]
-) -> None:
+def _record_pipeline_metrics(duration_ms: float, status: str, within_budget: Optional[bool]) -> None:
     """Record Prometheus metrics for full pipeline runs."""
     status_label = status if status in {"success", "error", "timeout"} else "unknown"
     within_label = "unknown" if within_budget is None else str(within_budget).lower()
@@ -252,9 +249,7 @@ class OrchestrationMetrics:
     stages_skipped: int = 0
 
 
-async def run_with_timeout(
-    coro: Any, stage_type: StageType, timeout_sec: Optional[float] = None
-) -> StageResult:
+async def run_with_timeout(coro: Any, stage_type: StageType, timeout_sec: Optional[float] = None) -> StageResult:
     """
     Run a coroutine with timeout and error handling.
 
@@ -373,7 +368,7 @@ class AsyncCognitiveOrchestrator:
                 "successful_durations": [],
                 "timeout_count": 0,
                 "total_attempts": 0,
-                "current_timeout": base_timeout
+                "current_timeout": base_timeout,
             }
 
         history = self.timeout_history[stage_key]
@@ -492,9 +487,9 @@ class AsyncCognitiveOrchestrator:
         # Find nodes with required capability
         candidate_nodes = []
         for node_name, node in self.available_nodes.items():
-            if hasattr(node, 'capabilities') and required_capability in getattr(node, 'capabilities', []):
+            if hasattr(node, "capabilities") and required_capability in getattr(node, "capabilities", []):
                 candidate_nodes.append(node_name)
-            elif hasattr(node, 'can_handle') and callable(getattr(node, 'can_handle')):
+            elif hasattr(node, "can_handle") and callable(getattr(node, "can_handle")):
                 try:
                     if node.can_handle(required_capability):
                         candidate_nodes.append(node_name)
@@ -530,9 +525,7 @@ class AsyncCognitiveOrchestrator:
             return raw_input
 
         if not isinstance(raw_input, str):
-            raise TypeError(
-                "AsyncCognitiveOrchestrator only supports str or dict inputs for nodes"
-            )
+            raise TypeError("AsyncCognitiveOrchestrator only supports str or dict inputs for nodes")
 
         normalized = (node_name or "").lower()
 
@@ -543,9 +536,7 @@ class AsyncCognitiveOrchestrator:
             return {"question": raw_input}
 
         if "validator" in normalized:
-            raise TypeError(
-                "Validator nodes require a dict with a 'target_output' payload"
-            )
+            raise TypeError("Validator nodes require a dict with a 'target_output' payload")
 
         return {"query": raw_input}
 
@@ -563,9 +554,7 @@ class AsyncCognitiveOrchestrator:
         stage_results = []
 
         # Use OTel instrumentation for complete pipeline tracing
-        with matriz_pipeline_span(
-            "cognitive_processing", user_input, target_slo_ms=self.total_timeout * 1000
-        ):
+        with matriz_pipeline_span("cognitive_processing", user_input, target_slo_ms=self.total_timeout * 1000):
             try:
                 # Apply total timeout to entire pipeline
                 return await asyncio.wait_for(
@@ -590,9 +579,7 @@ class AsyncCognitiveOrchestrator:
                     "orchestrator_metrics": asdict(self.metrics),
                 }
 
-    async def _process_pipeline(
-        self, user_input: str, stage_results: List[StageResult]
-    ) -> Dict[str, Any]:
+    async def _process_pipeline(self, user_input: str, stage_results: List[StageResult]) -> Dict[str, Any]:
         """
         Internal pipeline processing with stage management.
         """
@@ -608,9 +595,7 @@ class AsyncCognitiveOrchestrator:
         self._update_metrics_for_stage(intent_result)
 
         if not intent_result.success and self.stage_critical[StageType.INTENT]:
-            return self._build_error_response(
-                "Intent analysis failed", stage_results, pipeline_start
-            )
+            return self._build_error_response("Intent analysis failed", stage_results, pipeline_start)
 
         intent_node = intent_result.data if intent_result.success else {}
 
@@ -624,9 +609,7 @@ class AsyncCognitiveOrchestrator:
         self._update_metrics_for_stage(decision_result)
 
         if not decision_result.success and self.stage_critical[StageType.DECISION]:
-            return self._build_error_response(
-                "Node selection failed", stage_results, pipeline_start
-            )
+            return self._build_error_response("Node selection failed", stage_results, pipeline_start)
 
         selected_node_name = decision_result.data if decision_result.success else "default"
 
@@ -754,9 +737,7 @@ class AsyncCognitiveOrchestrator:
         return base_node
 
     @circuit_breaker("matriz_cognitive_processing", failure_threshold=0.3, recovery_timeout=30.0)
-    @instrument_matriz_stage(
-        "cognitive_processing", "processing", critical=True, slo_target_ms=120.0
-    )
+    @instrument_matriz_stage("cognitive_processing", "processing", critical=True, slo_target_ms=120.0)
     async def _process_node_async(self, node: CognitiveNode, node_input: Dict[str, Any]) -> Dict:
         """Async wrapper for node processing with circuit breaker protection"""
         if not isinstance(node_input, dict):
@@ -811,9 +792,7 @@ class AsyncCognitiveOrchestrator:
             p95_index = int(len(sorted_latencies) * 0.95)
             health["p95_latency_ms"] = sorted_latencies[p95_index]
 
-    def _build_error_response(
-        self, error: str, stage_results: List[StageResult], start_time: float
-    ) -> Dict[str, Any]:
+    def _build_error_response(self, error: str, stage_results: List[StageResult], start_time: float) -> Dict[str, Any]:
         """Build error response with metrics"""
         total_ms = (time.perf_counter() - start_time) * 1000
         _record_pipeline_metrics(total_ms, "error", False)
@@ -887,10 +866,11 @@ class AsyncCognitiveOrchestrator:
             "node_health": self.node_health,
             "performance_summary": {
                 "total_nodes": len(self.available_nodes),
-                "healthy_nodes": sum(1 for h in self.node_health.values()
-                                   if h.get("success_count", 0) > h.get("failure_count", 0)),
-                "circuit_breaker_status": get_circuit_health() if CIRCUIT_BREAKER_AVAILABLE else "not_available"
-            }
+                "healthy_nodes": sum(
+                    1 for h in self.node_health.values() if h.get("success_count", 0) > h.get("failure_count", 0)
+                ),
+                "circuit_breaker_status": get_circuit_health() if CIRCUIT_BREAKER_AVAILABLE else "not_available",
+            },
         }
 
     # === ENHANCED ASYNC INTERFACE FOR INTEGRATION ===
@@ -905,9 +885,9 @@ class AsyncCognitiveOrchestrator:
     def register_async_node(self, name: str, async_processor) -> None:
         """
         Register an async processing function as a cognitive node.
-        
+
         Args:
-            name: Node identifier  
+            name: Node identifier
             async_processor: Async function that takes data and returns result
         """
 
@@ -949,7 +929,7 @@ class AsyncCognitiveOrchestrator:
     def preserve_context(self, context_data: Dict[str, Any]) -> str:
         """
         Preserve context data for cross-orchestration continuity.
-        
+
         Returns:
             Context ID for retrieval
         """
@@ -958,7 +938,7 @@ class AsyncCognitiveOrchestrator:
             "id": context_id,
             "data": context_data,
             "timestamp": time.time(),
-            "preserved_at": time.perf_counter()
+            "preserved_at": time.perf_counter(),
         }
         self.context_memory.append(context_entry)
 
@@ -971,7 +951,7 @@ class AsyncCognitiveOrchestrator:
     def restore_context(self, context_id: str) -> Optional[Dict[str, Any]]:
         """
         Restore preserved context data.
-        
+
         Returns:
             Context data if found, None otherwise
         """
@@ -986,5 +966,5 @@ class AsyncCognitiveOrchestrator:
             "total_contexts": len(self.context_memory),
             "oldest_timestamp": min((c["timestamp"] for c in self.context_memory), default=0),
             "newest_timestamp": max((c["timestamp"] for c in self.context_memory), default=0),
-            "memory_usage_mb": len(str(self.context_memory)) / (1024 * 1024)
+            "memory_usage_mb": len(str(self.context_memory)) / (1024 * 1024),
         }

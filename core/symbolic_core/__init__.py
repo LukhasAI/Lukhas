@@ -36,20 +36,14 @@ else:
             affect_delta = float(metrics.get("affect_delta", metrics.get("affectDelta", 0.0)))
 
             if drift_score >= 0.6:
-                recommended_actions.append(
-                    f"Stabilize symbolic drift for {node_id}"
-                )
+                recommended_actions.append(f"Stabilize symbolic drift for {node_id}")
             elif affect_delta >= 0.4:
-                recommended_actions.append(
-                    f"Harmonize affect_delta for {node_id}"
-                )
+                recommended_actions.append(f"Harmonize affect_delta for {node_id}")
 
         if not recommended_actions:
             recommended_actions.append("Maintain symbolic homeostasis protocol")
 
-        collapse_hash = hashlib.sha256(
-            json.dumps(collapse_state, sort_keys=True).encode("utf-8")
-        ).hexdigest()
+        collapse_hash = hashlib.sha256(json.dumps(collapse_state, sort_keys=True).encode("utf-8")).hexdigest()
 
         # ΛTAG: collapseHash - deterministic signature for preservation plan lineage
         return {
@@ -58,11 +52,7 @@ else:
             "recommended_actions": recommended_actions,
             "analysis": {
                 "nodes_evaluated": len(collapse_state),
-                "drift_alerts": sum(
-                    1 for action in recommended_actions if "drift" in action
-                ),
-                "affect_alerts": sum(
-                    1 for action in recommended_actions if "affect_delta" in action
-                ),
+                "drift_alerts": sum(1 for action in recommended_actions if "drift" in action),
+                "affect_alerts": sum(1 for action in recommended_actions if "affect_delta" in action),
             },
         }

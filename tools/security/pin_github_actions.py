@@ -43,16 +43,16 @@ def analyze_workflow_file(filepath: Path) -> List[Tuple[str, str, int]]:
     issues = []
 
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath, "r") as f:
             lines = f.readlines()
 
         for line_num, line in enumerate(lines, 1):
             # Look for 'uses:' lines with tag references
-            match = re.search(r'uses:\s*([^@\s]+@[^@\s]+)', line.strip())
+            match = re.search(r"uses:\s*([^@\s]+@[^@\s]+)", line.strip())
             if match:
                 action_ref = match.group(1)
                 # Check if it's using a tag (not a SHA)
-                if not re.match(r'.*@[a-f0-9]{40}', action_ref):
+                if not re.match(r".*@[a-f0-9]{40}", action_ref):
                     issues.append((action_ref, line.strip(), line_num))
 
     except Exception as e:
@@ -64,7 +64,7 @@ def analyze_workflow_file(filepath: Path) -> List[Tuple[str, str, int]]:
 def update_workflow_file(filepath: Path, dry_run: bool = True) -> bool:
     """Update a workflow file to use SHA references"""
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath, "r") as f:
             content = f.read()
 
         updates_made = 0
@@ -77,7 +77,7 @@ def update_workflow_file(filepath: Path, dry_run: bool = True) -> bool:
                 print(f"   🔄 {tag_ref} → {sha_ref}")
 
         if updates_made > 0 and not dry_run:
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 f.write(content)
             print(f"   ✅ Updated {filepath} ({updates_made} actions)")
             return True
@@ -137,7 +137,9 @@ def update_workflows(dry_run: bool = True) -> None:
     if not dry_run:
         print("\n✅ SHA pinning complete!")
         print("💡 Consider setting up Dependabot to keep actions updated:")
-        print("   https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot")
+        print(
+            "   https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot"
+        )
 
 
 def main():

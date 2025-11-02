@@ -13,6 +13,7 @@ Components:
 
 Part of the LUKHAS AI Constellation Framework ⚛️🧠🛡️
 """
+
 import streamlit as st
 
 __version__ = "1.0.0"

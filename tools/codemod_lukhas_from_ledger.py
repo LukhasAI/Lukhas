@@ -13,10 +13,8 @@ from pathlib import Path
 
 LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")
 
-IMPORT_RE = re.compile(
-    r'^(?P<indent>\s*)(from\s+|import\s+)(?P<mod>lukhas(?:\.[A-Za-z0-9_]+)+)',
-    re.MULTILINE
-)
+IMPORT_RE = re.compile(r"^(?P<indent>\s*)(from\s+|import\s+)(?P<mod>lukhas(?:\.[A-Za-z0-9_]+)+)", re.MULTILINE)
+
 
 def build_mapping(threshold=3):
     if not LEDGER.exists():
@@ -37,9 +35,11 @@ def build_mapping(threshold=3):
             mapping[l] = best
     return mapping
 
+
 def rewrite_file(path: Path, mapping: dict, apply=False):
     text = path.read_text(errors="ignore")
     changed = False
+
     def subst(m):
         nonlocal changed
         mod = m.group("mod")
@@ -48,6 +48,7 @@ def rewrite_file(path: Path, mapping: dict, apply=False):
             new = mapping[mod]
             return f"{m.group('indent')}{m.group(0).strip().replace(mod, new)}"
         return m.group(0)
+
     new_text = IMPORT_RE.sub(subst, text)
     if changed and apply:
         backup = path.with_suffix(path.suffix + ".bak")
@@ -55,6 +56,7 @@ def rewrite_file(path: Path, mapping: dict, apply=False):
             shutil.copyfile(path, backup)
         path.write_text(new_text)
     return changed
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -78,6 +80,7 @@ def main():
             print(("REWRITE " if args.apply else "DRYRUN ") + str(f))
     print(f"✅ Done. Files {'rewritten' if args.apply else 'needing changes'}: {touched}")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

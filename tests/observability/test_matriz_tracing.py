@@ -30,6 +30,7 @@ try:
     from opentelemetry import trace
     from opentelemetry.baggage import get_baggage, set_baggage
     from opentelemetry.trace import Status, StatusCode
+
     OTEL_AVAILABLE = True
 except ImportError:
     # Mock classes for testing without OpenTelemetry
@@ -70,6 +71,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class SpanValidationResult:
     """Result of span validation against tracing contract."""
+
     span_name: str
     valid: bool
     has_correlation_id: bool
@@ -91,30 +93,19 @@ class MATRIZTracingContractValidator:
         self.validation_results: List[SpanValidationResult] = []
 
         # Contract requirements
-        self.required_span_names = {
-            "matriz.tick",
-            "matriz.reflect",
-            "matriz.decide"
-        }
+        self.required_span_names = {"matriz.tick", "matriz.reflect", "matriz.decide"}
 
-        self.forbidden_high_cardinality_attributes = {
-            "user_query", "full_response", "memory_content", "raw_input"
-        }
+        self.forbidden_high_cardinality_attributes = {"user_query", "full_response", "memory_content", "raw_input"}
 
     def create_matriz_span(
-        self,
-        operation: str,
-        correlation_id: str,
-        parent_span: Optional[Any] = None,
-        **attributes
+        self, operation: str, correlation_id: str, parent_span: Optional[Any] = None, **attributes
     ) -> Any:
         """Create MATRIZ span with proper tracing contract compliance."""
         span_name = f"matriz.{operation}"
 
         # Start span with optional parent context
         span = self.tracer.start_span(
-            name=span_name,
-            context=trace.set_span_in_context(parent_span) if parent_span else None
+            name=span_name, context=trace.set_span_in_context(parent_span) if parent_span else None
         )
 
         # Set correlation_id as attribute (NOT as tag/label)
@@ -138,12 +129,12 @@ class MATRIZTracingContractValidator:
         self.active_spans[span_id] = span
 
         if parent_span:
-            parent_id = getattr(parent_span, '_span_id', 'unknown')
+            parent_id = getattr(parent_span, "_span_id", "unknown")
             self.span_relationships[span_id] = parent_id
 
-        setattr(span, '_span_id', span_id)
-        setattr(span, '_correlation_id', correlation_id)
-        setattr(span, '_operation', operation)
+        setattr(span, "_span_id", span_id)
+        setattr(span, "_correlation_id", correlation_id)
+        setattr(span, "_operation", operation)
 
         return span
 
@@ -162,14 +153,14 @@ class MATRIZTracingContractValidator:
         # Store span
         span_id = str(uuid.uuid4())
         self.active_spans[span_id] = span
-        setattr(span, '_span_id', span_id)
-        setattr(span, '_correlation_id', correlation_id)
+        setattr(span, "_span_id", span_id)
+        setattr(span, "_correlation_id", correlation_id)
 
         return span
 
     def validate_span_contract_compliance(self, span: Any) -> SpanValidationResult:
         """Validate span against tracing contract requirements."""
-        span_name = getattr(span, 'name', 'unknown')
+        span_name = getattr(span, "name", "unknown")
         violations = []
 
         # Check span naming convention
@@ -181,16 +172,16 @@ class MATRIZTracingContractValidator:
         has_correlation_id = False
         correlation_id_as_attribute = False
 
-        if hasattr(span, 'attributes'):
-            attributes = getattr(span, 'attributes', {})
+        if hasattr(span, "attributes"):
+            attributes = getattr(span, "attributes", {})
         else:
             # For mock spans
-            attributes = getattr(span, 'attributes', {})
+            attributes = getattr(span, "attributes", {})
 
         if "correlation_id" in attributes:
             has_correlation_id = True
             correlation_id_as_attribute = True
-        elif hasattr(span, '_correlation_id'):
+        elif hasattr(span, "_correlation_id"):
             has_correlation_id = True
             correlation_id_as_attribute = True
 
@@ -216,7 +207,7 @@ class MATRIZTracingContractValidator:
             proper_naming=proper_naming,
             guardian_linkage=guardian_linkage,
             baggage_propagated=baggage_propagated,
-            violations=violations
+            violations=violations,
         )
 
         self.validation_results.append(result)
@@ -228,7 +219,7 @@ class MATRIZTracingContractValidator:
             "correlation_id": correlation_id,
             "spans_created": [],
             "validation_results": [],
-            "trace_complete": False
+            "trace_complete": False,
         }
 
         try:
@@ -242,7 +233,7 @@ class MATRIZTracingContractValidator:
                 correlation_id=correlation_id,
                 parent_span=guardian_span,
                 processing_time_ms=75.0,
-                confidence=0.85
+                confidence=0.85,
             )
             trace_results["spans_created"].append("matriz.tick")
 
@@ -252,7 +243,7 @@ class MATRIZTracingContractValidator:
                 correlation_id=correlation_id,
                 parent_span=tick_span,
                 meta_assessment=0.9,
-                self_awareness=0.8
+                self_awareness=0.8,
             )
             trace_results["spans_created"].append("matriz.reflect")
 
@@ -262,7 +253,7 @@ class MATRIZTracingContractValidator:
                 correlation_id=correlation_id,
                 parent_span=reflect_span,
                 decision_confidence=0.92,
-                decision_time_ms=30.0
+                decision_time_ms=30.0,
             )
             trace_results["spans_created"].append("matriz.decide")
 
@@ -295,8 +286,7 @@ class MATRIZTracingContractValidator:
                 baggage_correlation = get_baggage("correlation_id")
                 baggage_service = get_baggage("service")
 
-                return (baggage_correlation == correlation_id and
-                       baggage_service == "matriz")
+                return baggage_correlation == correlation_id and baggage_service == "matriz"
             else:
                 # Mock implementation for testing
                 return True
@@ -321,9 +311,7 @@ class TestMATRIZTracing:
 
         for operation in operations:
             span = validator.create_matriz_span(
-                operation=operation,
-                correlation_id=correlation_id,
-                test_attribute="test_value"
+                operation=operation, correlation_id=correlation_id, test_attribute="test_value"
             )
 
             result = validator.validate_span_contract_compliance(span)
@@ -404,7 +392,7 @@ class TestMATRIZTracing:
             correlation_id=correlation_id,
             user_query="This should not be included as it's high cardinality",
             full_response="This response should also be excluded",
-            allowed_attribute="This is fine"
+            allowed_attribute="This is fine",
         )
 
         # Validate span compliance
@@ -415,13 +403,17 @@ class TestMATRIZTracing:
         logger.info(f"  Violations: {result.violations}")
 
         # Check that high-cardinality attributes are not present
-        attributes = getattr(span, 'attributes', {})
+        attributes = getattr(span, "attributes", {})
         for forbidden_attr in validator.forbidden_high_cardinality_attributes:
             assert forbidden_attr not in attributes, f"Forbidden attribute '{forbidden_attr}' found in span"
-            assert f"matriz.{forbidden_attr}" not in attributes, f"Forbidden attribute 'matriz.{forbidden_attr}' found in span"
+            assert (
+                f"matriz.{forbidden_attr}" not in attributes
+            ), f"Forbidden attribute 'matriz.{forbidden_attr}' found in span"
 
         # Allowed attributes should be present
-        assert "matriz.allowed_attribute" in attributes or hasattr(span, 'allowed_attribute'), "Allowed attribute missing"
+        assert "matriz.allowed_attribute" in attributes or hasattr(
+            span, "allowed_attribute"
+        ), "Allowed attribute missing"
 
         span.end()
 
@@ -436,10 +428,7 @@ class TestMATRIZTracing:
         valid_operations = ["tick", "reflect", "decide", "full_loop"]
 
         for operation in valid_operations:
-            span = validator.create_matriz_span(
-                operation=operation,
-                correlation_id=correlation_id
-            )
+            span = validator.create_matriz_span(operation=operation, correlation_id=correlation_id)
 
             result = validator.validate_span_contract_compliance(span)
 
@@ -476,7 +465,7 @@ class TestMATRIZTracing:
             "correlation_id_attributes": sum(1 for r in all_validations if r.has_correlation_id),
             "proper_naming": sum(1 for r in all_validations if r.proper_naming),
             "guardian_linkage": sum(1 for r in all_validations if r.guardian_linkage),
-            "baggage_propagation": sum(1 for r in all_validations if r.baggage_propagated)
+            "baggage_propagation": sum(1 for r in all_validations if r.baggage_propagated),
         }
 
         logger.info("Contract Compliance:")
@@ -491,7 +480,9 @@ class TestMATRIZTracing:
 
         # All contract checks should have 100% compliance
         for check_name, check_count in contract_checks.items():
-            assert check_count == total_spans, f"Contract violation: {check_name} compliance {check_count}/{total_spans}"
+            assert (
+                check_count == total_spans
+            ), f"Contract violation: {check_name} compliance {check_count}/{total_spans}"
 
         logger.info("✅ Comprehensive tracing contract validation PASSED")
 
@@ -530,8 +521,7 @@ if __name__ == "__main__":
         print(f"   {'✓ PASS' if baggage_valid else '✗ FAIL'} - Baggage propagation")
 
         # Summary
-        all_tests_pass = (result.has_correlation_id and naming_valid and
-                         trace_complete and baggage_valid)
+        all_tests_pass = result.has_correlation_id and naming_valid and trace_complete and baggage_valid
 
         print("\n=== Tracing Contract Validation Summary ===")
         print(f"All contract requirements: {'✅ SATISFIED' if all_tests_pass else '❌ VIOLATED'}")
@@ -539,5 +529,6 @@ if __name__ == "__main__":
         return all_tests_pass
 
     import sys
+
     success = run_tracing_validation()
     sys.exit(0 if success else 1)

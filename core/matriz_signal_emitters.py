@@ -6,6 +6,7 @@ This module provides specialized signal emitters for each core module,
 ensuring proper MΛTRIZ signal emission at all consciousness boundaries
 and enabling seamless inter-module communication.
 """
+
 import logging
 import os
 from collections import defaultdict, deque
@@ -106,15 +107,15 @@ class ConsciousnessModuleEmitter:
         try:
             # Build a conflict-safe kwargs map for ConsciousnessSignal ctor
             base_kwargs = {
-                'signal_type': signal_type,
-                'consciousness_id': self.consciousness_id,
-                'producer_module': self.module_name,
-                'awareness_level': awareness_level,
-                'reflection_depth': reflection_depth,
-                'bio_symbolic_data': bio_data,
-                'constellation_alignment': constellation_compliance,
-                'target_modules': target_modules or [],
-                'processing_hints': processing_hints or {},
+                "signal_type": signal_type,
+                "consciousness_id": self.consciousness_id,
+                "producer_module": self.module_name,
+                "awareness_level": awareness_level,
+                "reflection_depth": reflection_depth,
+                "bio_symbolic_data": bio_data,
+                "constellation_alignment": constellation_compliance,
+                "target_modules": target_modules or [],
+                "processing_hints": processing_hints or {},
             }
 
             # Drop known-conflict keys from kwargs and only add non-conflicting ones
@@ -136,7 +137,9 @@ class ConsciousnessModuleEmitter:
                             )
                         logger.debug(
                             "emit_consciousness_signal: dropping conflicting kwarg '%s' (incoming=%r, kept=%r)",
-                            k, v, merged_kwargs.get(k)
+                            k,
+                            v,
+                            merged_kwargs.get(k),
                         )
                     continue
                 merged_kwargs[k] = v

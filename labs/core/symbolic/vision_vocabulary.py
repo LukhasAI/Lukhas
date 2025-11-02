@@ -11,6 +11,7 @@ This module defines the symbolic vocabulary for the LUKHAS Vision Module,
 providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
+
 from dataclasses import dataclass
 from typing import Any
 

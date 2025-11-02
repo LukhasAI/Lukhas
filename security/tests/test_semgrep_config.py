@@ -29,12 +29,8 @@ def test_authentication_stub_rule_present() -> None:
     subsequent_section = config_text[stub_block_start:]
     # Limit block to before the next rule id to reduce noise
     next_rule_index = subsequent_section.find("\n  - id:", 1)
-    stub_block = (
-        subsequent_section[:next_rule_index]
-        if next_rule_index != -1
-        else subsequent_section
-    )
+    stub_block = subsequent_section[:next_rule_index] if next_rule_index != -1 else subsequent_section
 
     assert '"authenticated": True' in stub_block or '"success": True' in stub_block
     assert "return True" in stub_block
-    assert "regex: \"(?i)auth\"" in stub_block
+    assert 'regex: "(?i)auth"' in stub_block

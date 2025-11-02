@@ -21,14 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 # Valid tier names
 VALID_TIERS = {"guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"}
-TIER_LEVELS = {
-    "guest": 0,
-    "visitor": 1,
-    "friend": 2,
-    "trusted": 3,
-    "inner_circle": 4,
-    "root_dev": 5
-}
+TIER_LEVELS = {"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}
+
 
 class MatrixValidator:
     """Comprehensive Matrix contract validator."""
@@ -94,7 +88,7 @@ class MatrixValidator:
                 "tiers_numeric": identity.get("required_tiers_numeric", []),
                 "scopes": identity.get("scopes", []),
                 "accepted_subjects": identity.get("accepted_subjects", []),
-                "api_policies": identity.get("api_policies", [])
+                "api_policies": identity.get("api_policies", []),
             }
 
             # Validate tiers
@@ -111,7 +105,9 @@ class MatrixValidator:
                         for i, (tier, num) in enumerate(zip(identity_info["tiers"], identity_info["tiers_numeric"])):
                             expected = TIER_LEVELS.get(tier)
                             if expected is not None and expected != num:
-                                errors.append(f"Identity: Tier '{tier}' has wrong numeric value {num}, expected {expected}")
+                                errors.append(
+                                    f"Identity: Tier '{tier}' has wrong numeric value {num}, expected {expected}"
+                                )
             else:
                 errors.append("Identity: No required_tiers specified")
 
@@ -164,7 +160,19 @@ class MatrixValidator:
                 if tokenization.get("enabled", False):
                     if "network" not in tokenization:
                         errors.append("Tokenization: Missing 'network' for enabled tokenization")
-                    elif tokenization["network"] not in ["solana", "ethereum", "polygon", "base", "arbitrum", "optimism", "near", "avalanche", "cosmos", "celestia", "tezos"]:
+                    elif tokenization["network"] not in [
+                        "solana",
+                        "ethereum",
+                        "polygon",
+                        "base",
+                        "arbitrum",
+                        "optimism",
+                        "near",
+                        "avalanche",
+                        "cosmos",
+                        "celestia",
+                        "tezos",
+                    ]:
                         errors.append(f"Tokenization: Invalid network '{tokenization.get('network')}'")
 
             return len(errors) == 0, errors
@@ -197,7 +205,7 @@ class MatrixValidator:
             "valid": schema_ok and identity_ok and tokenization_ok,
             "errors": all_errors,
             "identity_info": identity_info,
-            "error_count": len(all_errors)
+            "error_count": len(all_errors),
         }
 
     def validate_all(self, pattern: str, identity_lint: bool = True) -> Dict[str, Any]:
@@ -215,11 +223,7 @@ class MatrixValidator:
             "tokenization_ok": 0,
             "critical_modules": 0,
             "webauthn_required": 0,
-            "errors_by_type": {
-                "schema": 0,
-                "identity": 0,
-                "tokenization": 0
-            }
+            "errors_by_type": {"schema": 0, "identity": 0, "tokenization": 0},
         }
 
         print("\n⚡ Validating contracts...")
@@ -264,29 +268,20 @@ class MatrixValidator:
             if any(pattern in module_name_full.lower() for pattern in critical_patterns):
                 summary["critical_modules"] += 1
 
-        return {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
-            "summary": summary,
-            "modules": results
-        }
+        return {"timestamp": datetime.utcnow().isoformat() + "Z", "summary": summary, "modules": results}
+
 
 def main():
     """CLI for unified Matrix validation."""
     parser = argparse.ArgumentParser(
-        description="Unified Matrix Contract Validator",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        description="Unified Matrix Contract Validator", formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    parser.add_argument("--schema", required=True,
-                       help="Path to matrix.schema.template.json")
-    parser.add_argument("--pattern", default="**/matrix_*.json",
-                       help="Glob pattern for finding contracts")
-    parser.add_argument("--identity", action="store_true",
-                       help="Enable identity lint checks")
-    parser.add_argument("--output-json", type=str,
-                       help="Output file for JSON results")
-    parser.add_argument("--quiet", action="store_true",
-                       help="Suppress verbose output")
+    parser.add_argument("--schema", required=True, help="Path to matrix.schema.template.json")
+    parser.add_argument("--pattern", default="**/matrix_*.json", help="Glob pattern for finding contracts")
+    parser.add_argument("--identity", action="store_true", help="Enable identity lint checks")
+    parser.add_argument("--output-json", type=str, help="Output file for JSON results")
+    parser.add_argument("--quiet", action="store_true", help="Suppress verbose output")
 
     args = parser.parse_args()
 
@@ -328,6 +323,7 @@ def main():
     if results["summary"]["valid"] < results["summary"]["total"]:
         return 1
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

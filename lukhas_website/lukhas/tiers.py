@@ -4,6 +4,7 @@ LUKHAS Global Tier System Definitions
 This module provides a single source of truth for the global LUKHAS tier system,
 intended for cross-module integration and tier mapping.
 """
+
 from enum import Enum
 
 

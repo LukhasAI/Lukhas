@@ -40,9 +40,9 @@ logger = logging.getLogger(__name__)
 
 # Performance budgets (ms)
 PERFORMANCE_BUDGETS = {
-    "tick": 100.0,      # MATRIZ tick operation
-    "reflect": 10.0,    # MATRIZ reflection phase
-    "decide": 50.0,     # MATRIZ decision phase
+    "tick": 100.0,  # MATRIZ tick operation
+    "reflect": 10.0,  # MATRIZ reflection phase
+    "decide": 50.0,  # MATRIZ decision phase
 }
 
 # Test configuration
@@ -52,13 +52,14 @@ TEST_CONFIG = {
     "bootstrap_resamples": 1000,
     "confidence_level": 0.95,
     "p95_percentile": 95.0,
-    "p99_percentile": 99.0
+    "p99_percentile": 99.0,
 }
 
 
 @dataclass
 class PerformanceMeasurement:
     """Individual performance measurement with nanosecond precision."""
+
     operation: str
     duration_ns: int
     duration_ms: float
@@ -70,6 +71,7 @@ class PerformanceMeasurement:
 @dataclass
 class StatisticalResult:
     """Statistical analysis result with bootstrap CI."""
+
     operation: str
     sample_count: int
     mean_ms: float
@@ -89,6 +91,7 @@ class StatisticalResult:
 @dataclass
 class PerformanceEvidence:
     """Comprehensive performance evidence for auditing."""
+
     test_timestamp: str
     git_sha: str
     configuration: Dict[str, Any]
@@ -105,16 +108,12 @@ class MATRIZPerformanceValidator:
 
     def __init__(self):
         """Initialize performance validator."""
-        self.measurements: Dict[str, List[PerformanceMeasurement]] = {
-            "tick": [],
-            "reflect": [],
-            "decide": []
-        }
+        self.measurements: Dict[str, List[PerformanceMeasurement]] = {"tick": [], "reflect": [], "decide": []}
         self.matriz_loop = MATRIZThoughtLoop(
             tenant="perf_test",
             max_inference_depth=5,  # Reduced for performance testing
             total_time_budget_ms=200.0,
-            enable_advanced_features=True
+            enable_advanced_features=True,
         )
 
     async def measure_tick_operation(self, iteration: int) -> PerformanceMeasurement:
@@ -127,30 +126,23 @@ class MATRIZPerformanceValidator:
             # Simulate MATRIZ tick operation
             context = MATRIZProcessingContext(
                 query=f"Test query for tick {iteration}",
-                memory_signals=[
-                    {"id": f"mem_{i}", "content": f"Memory {i}", "score": 0.8}
-                    for i in range(3)
-                ],
+                memory_signals=[{"id": f"mem_{i}", "content": f"Memory {i}", "score": 0.8} for i in range(3)],
                 consciousness_state=ConsciousnessState.REFLECTION,
                 processing_config={"complexity": "simple"},
                 session_id=f"tick_test_{iteration}",
                 tenant="perf_test",
                 time_budget_ms=80.0,  # Within tick budget
-                enable_all_features=False  # Reduced for tick measurement
+                enable_all_features=False,  # Reduced for tick measurement
             )
 
             # Mock the tick phase processing
-            with patch.object(self.matriz_loop.enhanced_thought_node, 'process_async') as mock_process:
+            with patch.object(self.matriz_loop.enhanced_thought_node, "process_async") as mock_process:
                 mock_process.return_value = {
-                    'success': True,
-                    'answer': {'summary': f'Tick result {iteration}'},
-                    'confidence': 0.85,
-                    'processing_time_ms': 45.0,
-                    'enhanced_features': {
-                        'inference_depth_reached': 2,
-                        'quality_score': 0.8,
-                        'cognitive_load': 0.3
-                    }
+                    "success": True,
+                    "answer": {"summary": f"Tick result {iteration}"},
+                    "confidence": 0.85,
+                    "processing_time_ms": 45.0,
+                    "enhanced_features": {"inference_depth_reached": 2, "quality_score": 0.8, "cognitive_load": 0.3},
                 }
 
                 # Execute the tick operation
@@ -172,7 +164,7 @@ class MATRIZPerformanceValidator:
             duration_ms=duration_ms,
             success=success,
             timestamp=time.time(),
-            metadata=metadata
+            metadata=metadata,
         )
 
     async def measure_reflect_operation(self, iteration: int) -> PerformanceMeasurement:
@@ -206,7 +198,7 @@ class MATRIZPerformanceValidator:
             duration_ms=duration_ms,
             success=success,
             timestamp=time.time(),
-            metadata=metadata
+            metadata=metadata,
         )
 
     async def measure_decide_operation(self, iteration: int) -> PerformanceMeasurement:
@@ -220,33 +212,36 @@ class MATRIZPerformanceValidator:
             context = MATRIZProcessingContext(
                 query=f"Decision query {iteration}",
                 memory_signals=[
-                    {"id": f"dec_mem_{i}", "content": f"Decision memory {i}", "score": 0.9}
-                    for i in range(2)
+                    {"id": f"dec_mem_{i}", "content": f"Decision memory {i}", "score": 0.9} for i in range(2)
                 ],
                 consciousness_state=ConsciousnessState.ACTIVE,
                 processing_config={"complexity": "moderate", "decision_mode": True},
                 session_id=f"decide_test_{iteration}",
                 tenant="perf_test",
                 time_budget_ms=40.0,  # Within decide budget
-                enable_all_features=True  # Decision needs full features
+                enable_all_features=True,  # Decision needs full features
             )
 
             # Mock decision processing with Guardian integration
-            with patch.object(self.matriz_loop.enhanced_thought_node, 'process_async') as mock_process, \
-                 patch.object(self.matriz_loop.memory_contradiction_bridge, 'validate_memory_reasoning_consistency') as mock_validate:
+            with (
+                patch.object(self.matriz_loop.enhanced_thought_node, "process_async") as mock_process,
+                patch.object(
+                    self.matriz_loop.memory_contradiction_bridge, "validate_memory_reasoning_consistency"
+                ) as mock_validate,
+            ):
 
                 mock_process.return_value = {
-                    'success': True,
-                    'answer': {'summary': f'Decision result {iteration}'},
-                    'confidence': 0.9,
-                    'processing_time_ms': 25.0,
-                    'enhanced_features': {
-                        'inference_depth_reached': 3,
-                        'reasoning_chains_count': 2,
-                        'contradictions_detected': 0,
-                        'quality_score': 0.85,
-                        'cognitive_load': 0.4
-                    }
+                    "success": True,
+                    "answer": {"summary": f"Decision result {iteration}"},
+                    "confidence": 0.9,
+                    "processing_time_ms": 25.0,
+                    "enhanced_features": {
+                        "inference_depth_reached": 3,
+                        "reasoning_chains_count": 2,
+                        "contradictions_detected": 0,
+                        "quality_score": 0.85,
+                        "cognitive_load": 0.4,
+                    },
                 }
 
                 # Mock memory validation result
@@ -277,7 +272,7 @@ class MATRIZPerformanceValidator:
             duration_ms=duration_ms,
             success=success,
             timestamp=time.time(),
-            metadata=metadata
+            metadata=metadata,
         )
 
     async def run_warmup_iterations(self, warmup_count: int = 200):
@@ -323,7 +318,9 @@ class MATRIZPerformanceValidator:
 
         logger.info("Performance measurement collection completed")
 
-    def calculate_bootstrap_ci(self, values: List[float], statistic_func, n_bootstrap: int = 1000, confidence_level: float = 0.95) -> tuple:
+    def calculate_bootstrap_ci(
+        self, values: List[float], statistic_func, n_bootstrap: int = 1000, confidence_level: float = 0.95
+    ) -> tuple:
         """Calculate bootstrap confidence interval."""
         if not values:
             return 0.0, 0.0
@@ -377,7 +374,7 @@ class MATRIZPerformanceValidator:
                 durations_ms,
                 lambda x: np.percentile(x, TEST_CONFIG["p95_percentile"]),
                 TEST_CONFIG["bootstrap_resamples"],
-                TEST_CONFIG["confidence_level"]
+                TEST_CONFIG["confidence_level"],
             )
 
             # Budget compliance
@@ -401,12 +398,14 @@ class MATRIZPerformanceValidator:
                 ci95_upper_ms=ci95_upper,
                 budget_ms=budget_ms,
                 budget_compliant=budget_compliant,
-                success_rate=success_rate
+                success_rate=success_rate,
             )
 
         return results
 
-    def generate_performance_evidence(self, statistical_results: Dict[str, StatisticalResult], test_duration_ms: float) -> PerformanceEvidence:
+    def generate_performance_evidence(
+        self, statistical_results: Dict[str, StatisticalResult], test_duration_ms: float
+    ) -> PerformanceEvidence:
         """Generate comprehensive performance evidence."""
         # Overall compliance check
         overall_compliance = all(result.budget_compliant for result in statistical_results.values())
@@ -432,8 +431,7 @@ class MATRIZPerformanceValidator:
 
         # Success rates
         low_success_operations = [
-            operation for operation, result in statistical_results.items()
-            if result.success_rate < 0.95
+            operation for operation, result in statistical_results.items() if result.success_rate < 0.95
         ]
         if low_success_operations:
             recommendations.append(f"Improve reliability for: {', '.join(low_success_operations)}")
@@ -446,7 +444,7 @@ class MATRIZPerformanceValidator:
                 "warmup": TEST_CONFIG["warmup"],
                 "bootstrap_resamples": TEST_CONFIG["bootstrap_resamples"],
                 "confidence_level": TEST_CONFIG["confidence_level"],
-                "performance_budgets": PERFORMANCE_BUDGETS
+                "performance_budgets": PERFORMANCE_BUDGETS,
             },
             statistical_results=statistical_results,
             overall_compliance=overall_compliance,
@@ -455,10 +453,10 @@ class MATRIZPerformanceValidator:
                 "python_version": "3.9+",
                 "test_framework": "pytest",
                 "measurement_precision": "nanosecond",
-                "statistical_method": "bootstrap_ci95"
+                "statistical_method": "bootstrap_ci95",
             },
             budget_violations=budget_violations,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
     def save_evidence_artifact(self, evidence: PerformanceEvidence):
@@ -481,7 +479,7 @@ class MATRIZPerformanceValidator:
         evidence_dict["statistical_results"] = statistical_results_dict
 
         # Save to file
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(evidence_dict, f, indent=2)
 
         logger.info(f"Performance evidence saved to: {filepath}")
@@ -511,10 +509,14 @@ class TestMATRIZE2EPerformance:
 
         assert tick_result is not None, "No tick performance results"
         assert tick_result.success_rate >= 0.95, f"Tick success rate {tick_result.success_rate:.2%} below 95%"
-        assert tick_result.budget_compliant, f"Tick P95 {tick_result.p95_ms:.2f}ms exceeds budget {tick_result.budget_ms}ms"
+        assert (
+            tick_result.budget_compliant
+        ), f"Tick P95 {tick_result.p95_ms:.2f}ms exceeds budget {tick_result.budget_ms}ms"
 
         # Log statistical summary
-        logger.info(f"Tick Performance: P95={tick_result.p95_ms:.2f}ms, CI95=[{tick_result.ci95_lower_ms:.2f}, {tick_result.ci95_upper_ms:.2f}]")
+        logger.info(
+            f"Tick Performance: P95={tick_result.p95_ms:.2f}ms, CI95=[{tick_result.ci95_lower_ms:.2f}, {tick_result.ci95_upper_ms:.2f}]"
+        )
 
     async def test_matriz_reflect_performance_budget(self):
         """Test MATRIZ reflection operation meets P95 < 10ms budget."""
@@ -533,11 +535,17 @@ class TestMATRIZE2EPerformance:
         reflect_result = results.get("reflect")
 
         assert reflect_result is not None, "No reflection performance results"
-        assert reflect_result.success_rate >= 0.95, f"Reflection success rate {reflect_result.success_rate:.2%} below 95%"
-        assert reflect_result.budget_compliant, f"Reflection P95 {reflect_result.p95_ms:.2f}ms exceeds budget {reflect_result.budget_ms}ms"
+        assert (
+            reflect_result.success_rate >= 0.95
+        ), f"Reflection success rate {reflect_result.success_rate:.2%} below 95%"
+        assert (
+            reflect_result.budget_compliant
+        ), f"Reflection P95 {reflect_result.p95_ms:.2f}ms exceeds budget {reflect_result.budget_ms}ms"
 
         # Log statistical summary
-        logger.info(f"Reflection Performance: P95={reflect_result.p95_ms:.2f}ms, CI95=[{reflect_result.ci95_lower_ms:.2f}, {reflect_result.ci95_upper_ms:.2f}]")
+        logger.info(
+            f"Reflection Performance: P95={reflect_result.p95_ms:.2f}ms, CI95=[{reflect_result.ci95_lower_ms:.2f}, {reflect_result.ci95_upper_ms:.2f}]"
+        )
 
     async def test_matriz_decide_performance_budget(self):
         """Test MATRIZ decision operation meets P95 < 50ms budget."""
@@ -557,10 +565,14 @@ class TestMATRIZE2EPerformance:
 
         assert decide_result is not None, "No decision performance results"
         assert decide_result.success_rate >= 0.95, f"Decision success rate {decide_result.success_rate:.2%} below 95%"
-        assert decide_result.budget_compliant, f"Decision P95 {decide_result.p95_ms:.2f}ms exceeds budget {decide_result.budget_ms}ms"
+        assert (
+            decide_result.budget_compliant
+        ), f"Decision P95 {decide_result.p95_ms:.2f}ms exceeds budget {decide_result.budget_ms}ms"
 
         # Log statistical summary
-        logger.info(f"Decision Performance: P95={decide_result.p95_ms:.2f}ms, CI95=[{decide_result.ci95_lower_ms:.2f}, {decide_result.ci95_upper_ms:.2f}]")
+        logger.info(
+            f"Decision Performance: P95={decide_result.p95_ms:.2f}ms, CI95=[{decide_result.ci95_lower_ms:.2f}, {decide_result.ci95_upper_ms:.2f}]"
+        )
 
     async def test_matriz_comprehensive_e2e_performance(self):
         """Comprehensive E2E performance validation with evidence generation."""
@@ -594,7 +606,9 @@ class TestMATRIZE2EPerformance:
         # Log comprehensive summary
         logger.info("MATRIZ E2E Performance Validation Summary:")
         for operation, result in statistical_results.items():
-            logger.info(f"  {operation.upper()}: P95={result.p95_ms:.2f}ms (budget: {result.budget_ms}ms) - {'✓' if result.budget_compliant else '✗'}")
+            logger.info(
+                f"  {operation.upper()}: P95={result.p95_ms:.2f}ms (budget: {result.budget_ms}ms) - {'✓' if result.budget_compliant else '✗'}"
+            )
 
         logger.info(f"Evidence artifact: {evidence_path}")
         logger.info(f"Overall compliance: {'✓ PASSED' if evidence.overall_compliance else '✗ FAILED'}")

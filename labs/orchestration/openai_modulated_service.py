@@ -17,6 +17,7 @@ from typing import Any, AsyncIterator, Dict, List, Optional, Sequence
 
 try:
     import openai
+
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
@@ -29,6 +30,7 @@ try:
         route_signal,
     )
 except ImportError:  # pragma: no cover - fallback for minimal test envs
+
     @dataclass
     class SymbolicSignal:  # type: ignore[override]
         signal_type: Any
@@ -44,12 +46,15 @@ except ImportError:  # pragma: no cover - fallback for minimal test envs
     async def route_signal(*_args: Any, **_kwargs: Any) -> None:  # type: ignore[override]
         return None
 
+
 try:
     from orchestration.context_bus import ContextBusOrchestrator
 except ImportError:  # pragma: no cover - minimal stub
+
     class ContextBusOrchestrator:  # type: ignore[override]
         async def emit(self, *_args: Any, **_kwargs: Any) -> None:
             return None
+
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +62,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class OpenAIModelConfig:
     """Configuration for OpenAI model integration"""
+
     model_name: str
     api_key: Optional[str] = None
     max_tokens: int = 4000
@@ -69,6 +75,7 @@ class OpenAIModelConfig:
 @dataclass
 class AIModelResponse:
     """Standardized response from AI models"""
+
     model_name: str
     response_text: str
     token_count: int
@@ -113,24 +120,9 @@ class OpenAIModulatedService:
     def _initialize_default_models(self):
         """Initialize default OpenAI model configurations"""
         default_models = [
-            OpenAIModelConfig(
-                model_name="gpt-4",
-                max_tokens=4000,
-                temperature=0.7,
-                timeout_seconds=30
-            ),
-            OpenAIModelConfig(
-                model_name="gpt-3.5-turbo",
-                max_tokens=4000,
-                temperature=0.7,
-                timeout_seconds=20
-            ),
-            OpenAIModelConfig(
-                model_name="gpt-4-turbo",
-                max_tokens=8000,
-                temperature=0.7,
-                timeout_seconds=45
-            )
+            OpenAIModelConfig(model_name="gpt-4", max_tokens=4000, temperature=0.7, timeout_seconds=30),
+            OpenAIModelConfig(model_name="gpt-3.5-turbo", max_tokens=4000, temperature=0.7, timeout_seconds=20),
+            OpenAIModelConfig(model_name="gpt-4-turbo", max_tokens=8000, temperature=0.7, timeout_seconds=45),
         ]
 
         for config in default_models:
@@ -173,9 +165,7 @@ class OpenAIModulatedService:
         try:
             # Simple test request
             response = await openai.ChatCompletion.acreate(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": "Test"}],
-                max_tokens=5
+                model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Test"}], max_tokens=5
             )
             return True
         except Exception as e:
@@ -183,10 +173,7 @@ class OpenAIModulatedService:
             return False
 
     async def process_with_consensus(
-        self,
-        prompt: str,
-        models: Optional[List[str]] = None,
-        context: Optional[Dict[str, Any]] = None
+        self, prompt: str, models: Optional[List[str]] = None, context: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Process prompt with multiple models for consensus
@@ -220,12 +207,8 @@ class OpenAIModulatedService:
                 signal_type=SignalType.INTENT_PROCESS,
                 source_module="openai_service",
                 target_module="orchestrator",
-                payload={
-                    "operation": "multi_ai_consensus",
-                    "models": available_models,
-                    "prompt_length": len(prompt)
-                },
-                timestamp=time.time()
+                payload={"operation": "multi_ai_consensus", "models": available_models, "prompt_length": len(prompt)},
+                timestamp=time.time(),
             )
             await route_signal(signal)
 
@@ -244,10 +227,7 @@ class OpenAIModulatedService:
 
         for i, response in enumerate(responses):
             if isinstance(response, Exception):
-                failed_responses.append({
-                    "model": available_models[i],
-                    "error": str(response)
-                })
+                failed_responses.append({"model": available_models[i], "error": str(response)})
             else:
                 successful_responses.append(response)
 
@@ -266,15 +246,12 @@ class OpenAIModulatedService:
             "processing_stats": {
                 "models_used": len(available_models),
                 "successful_models": len(successful_responses),
-                "failed_models": len(failed_responses)
-            }
+                "failed_models": len(failed_responses),
+            },
         }
 
     async def _process_single_model(
-        self,
-        prompt: str,
-        model_name: str,
-        context: Optional[Dict[str, Any]] = None
+        self, prompt: str, model_name: str, context: Optional[Dict[str, Any]] = None
     ) -> AIModelResponse:
         """
         Process prompt with a single model
@@ -305,7 +282,7 @@ class OpenAIModulatedService:
                 messages=messages,
                 max_tokens=config.max_tokens,
                 temperature=config.temperature,
-                timeout=config.timeout_seconds
+                timeout=config.timeout_seconds,
             )
 
             # Calculate processing time
@@ -326,8 +303,8 @@ class OpenAIModulatedService:
                 metadata={
                     "finish_reason": response.choices[0].finish_reason,
                     "prompt_tokens": response.usage.prompt_tokens,
-                    "completion_tokens": response.usage.completion_tokens
-                }
+                    "completion_tokens": response.usage.completion_tokens,
+                },
             )
 
         except Exception as e:
@@ -368,17 +345,17 @@ class OpenAIModulatedService:
             "metrics": {
                 "avg_processing_time_ms": avg_processing_time,
                 "total_tokens_used": total_tokens,
-                "response_count": len(responses)
+                "response_count": len(responses),
             },
             "all_responses": [
                 {
                     "model": r.model_name,
                     "response": r.response_text,
                     "tokens": r.token_count,
-                    "time_ms": r.processing_time_ms
+                    "time_ms": r.processing_time_ms,
                 }
                 for r in responses
-            ]
+            ],
         }
 
     def _find_common_themes(self, texts: List[str]) -> List[str]:
@@ -407,7 +384,7 @@ class OpenAIModulatedService:
         variance = sum((l - avg_length) ** 2 for l in lengths) / len(lengths)
 
         # Lower variance = higher confidence (normalized to 0-1)
-        confidence = max(0.0, 1.0 - (variance / (avg_length ** 2)))
+        confidence = max(0.0, 1.0 - (variance / (avg_length**2)))
         return confidence
 
     async def health_check(self) -> Dict[str, Any]:
@@ -428,7 +405,7 @@ class OpenAIModulatedService:
                 "last_check": self.last_health_check.isoformat(),
                 "metrics": self.performance_metrics,
                 "available_models": list(self.model_configs.keys()),
-                "openai_library_available": OPENAI_AVAILABLE
+                "openai_library_available": OPENAI_AVAILABLE,
             }
 
         except Exception as e:
@@ -437,16 +414,13 @@ class OpenAIModulatedService:
                 "status": "error",
                 "healthy": False,
                 "error": str(e),
-                "last_check": datetime.now(timezone.utc).isoformat()
+                "last_check": datetime.now(timezone.utc).isoformat(),
             }
 
     def get_performance_metrics(self) -> Dict[str, Any]:
         """Get service performance metrics"""
         if self.performance_metrics["total_requests"] > 0:
-            success_rate = (
-                self.performance_metrics["successful_requests"] /
-                self.performance_metrics["total_requests"]
-            )
+            success_rate = self.performance_metrics["successful_requests"] / self.performance_metrics["total_requests"]
         else:
             success_rate = 0.0
 
@@ -454,7 +428,7 @@ class OpenAIModulatedService:
             **self.performance_metrics,
             "success_rate": success_rate,
             "is_initialized": self.is_initialized,
-            "last_health_check": self.last_health_check.isoformat() if self.last_health_check else None
+            "last_health_check": self.last_health_check.isoformat() if self.last_health_check else None,
         }
 
     async def shutdown(self):
@@ -468,7 +442,7 @@ class OpenAIModulatedService:
                 source_module="openai_service",
                 target_module="orchestrator",
                 payload={"operation": "service_shutdown", "metrics": self.performance_metrics},
-                timestamp=time.time()
+                timestamp=time.time(),
             )
             await route_signal(signal)
 
@@ -517,10 +491,7 @@ async def simple_openai_request(prompt: str, model: str = "gpt-3.5-turbo") -> st
     return response.response_text
 
 
-async def multi_model_consensus(
-    prompt: str,
-    models: Optional[List[str]] = None
-) -> Dict[str, Any]:
+async def multi_model_consensus(prompt: str, models: Optional[List[str]] = None) -> Dict[str, Any]:
     """
     Get consensus from multiple models
 

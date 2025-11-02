@@ -660,10 +660,7 @@ class QICertificateManager:
             old_cert_content = self.certificates.get(old_cert_id)
             if old_cert_content:
                 timestamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
-                backup_filename = (
-                    self.cert_store_path
-                    / f"{old_cert_id}_backup_{timestamp}.qcert"
-                )
+                backup_filename = self.cert_store_path / f"{old_cert_id}_backup_{timestamp}.qcert"
                 with open(backup_filename, "w", encoding="utf-8") as f_backup:
                     json.dump(old_cert_content, f_backup, indent=2)
                 self.log.debug("Old certificate backed up.", path=str(backup_filename))

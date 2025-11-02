@@ -40,9 +40,7 @@ def test_issue_tokens_uses_amount_for_consciousness_value(monkeypatch):
     token = protocol.issue_tokens(42.0)
 
     assert token["token_id"] == "token_1337"
-    assert token["consciousness_value"] == pytest.approx(
-        _expected_value(protocol, 42.0)
-    )
+    assert token["consciousness_value"] == pytest.approx(_expected_value(protocol, 42.0))
 
 
 def test_issue_tokens_assigns_resonance_tier(monkeypatch):

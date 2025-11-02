@@ -47,6 +47,7 @@ logger = logging.getLogger(__name__)
 
 class CoverageTarget(Enum):
     """Coverage targets for different cognitive components"""
+
     INFERENCE_ENGINE = "inference_engine"
     THOUGHT_ENGINE = "thought_engine"
     CONTRADICTION_DETECTION = "contradiction_detection"
@@ -59,6 +60,7 @@ class CoverageTarget(Enum):
 @dataclass
 class CoverageMetrics:
     """Comprehensive coverage metrics"""
+
     component_coverage: Dict[str, float] = field(default_factory=dict)
     critical_path_coverage: Dict[str, bool] = field(default_factory=dict)
     edge_case_coverage: Dict[str, int] = field(default_factory=dict)
@@ -72,6 +74,7 @@ class CoverageMetrics:
 @dataclass
 class TestScenario:
     """Individual test scenario for coverage analysis"""
+
     name: str
     category: str
     probability: float
@@ -105,7 +108,7 @@ class ComprehensiveCoverageFramework:
             CoverageTarget.META_COGNITIVE_ASSESSMENT: 0.90,
             CoverageTarget.INTEGRATION_PIPELINE: 0.92,
             CoverageTarget.ERROR_HANDLING: 0.95,
-            CoverageTarget.PERFORMANCE_CRITICAL_PATHS: 0.90
+            CoverageTarget.PERFORMANCE_CRITICAL_PATHS: 0.90,
         }
 
     async def setup_comprehensive_testing(self):
@@ -125,31 +128,27 @@ class ComprehensiveCoverageFramework:
     async def _initialize_cognitive_components(self):
         """Initialize all cognitive components for testing"""
         self.cognitive_components = {
-            'inference_engine': DeepInferenceEngine(
+            "inference_engine": DeepInferenceEngine(
                 max_depth=20,  # Extended for comprehensive testing
                 timeout_per_step=0.025,
                 circuit_breaker_threshold=5,
-                enable_detailed_logging=True
+                enable_detailed_logging=True,
             ),
-            'thought_engine': None,  # Will be initialized after inference engine
-            'contradiction_integrator': ContradictionIntegrator(
-                confidence_threshold=0.98,
-                real_time_monitoring=True,
-                detailed_analysis=True
+            "thought_engine": None,  # Will be initialized after inference engine
+            "contradiction_integrator": ContradictionIntegrator(
+                confidence_threshold=0.98, real_time_monitoring=True, detailed_analysis=True
             ),
-            'meta_assessor': MetaCognitiveAssessor(
-                assessment_depth="comprehensive",
-                performance_tracking=True,
-                detailed_metrics=True
-            )
+            "meta_assessor": MetaCognitiveAssessor(
+                assessment_depth="comprehensive", performance_tracking=True, detailed_metrics=True
+            ),
         }
 
         # Initialize thought engine with inference engine reference
-        self.cognitive_components['thought_engine'] = EnhancedThoughtEngine(
-            inference_engine=self.cognitive_components['inference_engine'],
+        self.cognitive_components["thought_engine"] = EnhancedThoughtEngine(
+            inference_engine=self.cognitive_components["inference_engine"],
             performance_budget=0.250,
             complexity_threshold=ThoughtComplexity.EXTREME,
-            enable_detailed_tracking=True
+            enable_detailed_tracking=True,
         )
 
     async def _generate_comprehensive_test_scenarios(self):
@@ -191,49 +190,57 @@ class ComprehensiveCoverageFramework:
 
         # Test all inference types
         for inference_type in InferenceType:
-            scenarios.append(TestScenario(
-                name=f"inference_type_{inference_type.value}",
-                category="inference_engine",
-                probability=0.1,
-                components_tested=["inference_engine"],
-                critical_path=True,
-                performance_sensitive=True,
-                expected_outcome="successful_inference"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"inference_type_{inference_type.value}",
+                    category="inference_engine",
+                    probability=0.1,
+                    components_tested=["inference_engine"],
+                    critical_path=True,
+                    performance_sensitive=True,
+                    expected_outcome="successful_inference",
+                )
+            )
 
         # Test various depth levels
         for depth in [1, 5, 10, 15, 20]:
-            scenarios.append(TestScenario(
-                name=f"inference_depth_{depth}",
-                category="inference_engine",
-                probability=0.05 if depth <= 10 else 0.01,
-                components_tested=["inference_engine"],
-                critical_path=depth <= 10,
-                performance_sensitive=True,
-                expected_outcome="depth_limited_inference"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"inference_depth_{depth}",
+                    category="inference_engine",
+                    probability=0.05 if depth <= 10 else 0.01,
+                    components_tested=["inference_engine"],
+                    critical_path=depth <= 10,
+                    performance_sensitive=True,
+                    expected_outcome="depth_limited_inference",
+                )
+            )
 
         # Test circuit breaker scenarios
-        scenarios.append(TestScenario(
-            name="circuit_breaker_activation",
-            category="inference_engine",
-            probability=0.005,
-            components_tested=["inference_engine"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="circuit_breaker_triggered"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="circuit_breaker_activation",
+                category="inference_engine",
+                probability=0.005,
+                components_tested=["inference_engine"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="circuit_breaker_triggered",
+            )
+        )
 
         # Test timeout scenarios
-        scenarios.append(TestScenario(
-            name="inference_timeout_boundary",
-            category="inference_engine",
-            probability=0.008,
-            components_tested=["inference_engine"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="timeout_handled"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="inference_timeout_boundary",
+                category="inference_engine",
+                probability=0.008,
+                components_tested=["inference_engine"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="timeout_handled",
+            )
+        )
 
         return scenarios
 
@@ -243,39 +250,45 @@ class ComprehensiveCoverageFramework:
 
         # Test all complexity levels
         for complexity in ThoughtComplexity:
-            scenarios.append(TestScenario(
-                name=f"thought_complexity_{complexity.name}",
-                category="thought_engine",
-                probability=0.2 if complexity in [ThoughtComplexity.SIMPLE, ThoughtComplexity.MODERATE] else 0.05,
-                components_tested=["thought_engine", "inference_engine"],
-                critical_path=True,
-                performance_sensitive=complexity != ThoughtComplexity.SIMPLE,
-                expected_outcome="thought_synthesized"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"thought_complexity_{complexity.name}",
+                    category="thought_engine",
+                    probability=0.2 if complexity in [ThoughtComplexity.SIMPLE, ThoughtComplexity.MODERATE] else 0.05,
+                    components_tested=["thought_engine", "inference_engine"],
+                    critical_path=True,
+                    performance_sensitive=complexity != ThoughtComplexity.SIMPLE,
+                    expected_outcome="thought_synthesized",
+                )
+            )
 
         # Test context variations
         context_sizes = [0, 100, 1000, 10000, 100000]
         for size in context_sizes:
-            scenarios.append(TestScenario(
-                name=f"context_size_{size}",
-                category="thought_engine",
-                probability=0.1 if size <= 1000 else 0.002,
-                components_tested=["thought_engine"],
-                critical_path=size <= 10000,
-                performance_sensitive=True,
-                expected_outcome="context_processed"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"context_size_{size}",
+                    category="thought_engine",
+                    probability=0.1 if size <= 1000 else 0.002,
+                    components_tested=["thought_engine"],
+                    critical_path=size <= 10000,
+                    performance_sensitive=True,
+                    expected_outcome="context_processed",
+                )
+            )
 
         # Test meta-cognitive integration
-        scenarios.append(TestScenario(
-            name="meta_cognitive_integration",
-            category="thought_engine",
-            probability=0.3,
-            components_tested=["thought_engine", "meta_assessor"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="meta_assessment_integrated"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="meta_cognitive_integration",
+                category="thought_engine",
+                probability=0.3,
+                components_tested=["thought_engine", "meta_assessor"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="meta_assessment_integrated",
+            )
+        )
 
         return scenarios
 
@@ -286,39 +299,45 @@ class ComprehensiveCoverageFramework:
         # Test different contradiction types
         contradiction_types = ["logical", "factual", "temporal", "causal", "probabilistic"]
         for contradiction_type in contradiction_types:
-            scenarios.append(TestScenario(
-                name=f"contradiction_{contradiction_type}",
-                category="contradiction_detection",
-                probability=0.05,
-                components_tested=["contradiction_integrator"],
-                critical_path=True,
-                performance_sensitive=True,
-                expected_outcome="contradiction_detected"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"contradiction_{contradiction_type}",
+                    category="contradiction_detection",
+                    probability=0.05,
+                    components_tested=["contradiction_integrator"],
+                    critical_path=True,
+                    performance_sensitive=True,
+                    expected_outcome="contradiction_detected",
+                )
+            )
 
         # Test confidence threshold variations
         confidence_levels = [0.80, 0.90, 0.95, 0.98, 0.99]
         for confidence in confidence_levels:
-            scenarios.append(TestScenario(
-                name=f"confidence_threshold_{confidence}",
-                category="contradiction_detection",
-                probability=0.1 if confidence >= 0.95 else 0.02,
-                components_tested=["contradiction_integrator"],
-                critical_path=confidence >= 0.98,
-                performance_sensitive=True,
-                expected_outcome="confidence_validated"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"confidence_threshold_{confidence}",
+                    category="contradiction_detection",
+                    probability=0.1 if confidence >= 0.95 else 0.02,
+                    components_tested=["contradiction_integrator"],
+                    critical_path=confidence >= 0.98,
+                    performance_sensitive=True,
+                    expected_outcome="confidence_validated",
+                )
+            )
 
         # Test cascade detection
-        scenarios.append(TestScenario(
-            name="contradiction_cascade",
-            category="contradiction_detection",
-            probability=0.001,
-            components_tested=["contradiction_integrator"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="cascade_detected"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="contradiction_cascade",
+                category="contradiction_detection",
+                probability=0.001,
+                components_tested=["contradiction_integrator"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="cascade_detected",
+            )
+        )
 
         return scenarios
 
@@ -329,37 +348,43 @@ class ComprehensiveCoverageFramework:
         # Test assessment depths
         assessment_depths = ["basic", "moderate", "comprehensive", "extreme"]
         for depth in assessment_depths:
-            scenarios.append(TestScenario(
-                name=f"assessment_depth_{depth}",
-                category="meta_cognitive",
-                probability=0.15 if depth in ["basic", "moderate"] else 0.03,
-                components_tested=["meta_assessor"],
-                critical_path=depth != "extreme",
-                performance_sensitive=depth in ["comprehensive", "extreme"],
-                expected_outcome="assessment_completed"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"assessment_depth_{depth}",
+                    category="meta_cognitive",
+                    probability=0.15 if depth in ["basic", "moderate"] else 0.03,
+                    components_tested=["meta_assessor"],
+                    critical_path=depth != "extreme",
+                    performance_sensitive=depth in ["comprehensive", "extreme"],
+                    expected_outcome="assessment_completed",
+                )
+            )
 
         # Test cognitive load monitoring
-        scenarios.append(TestScenario(
-            name="cognitive_load_monitoring",
-            category="meta_cognitive",
-            probability=0.8,
-            components_tested=["meta_assessor"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="load_monitored"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="cognitive_load_monitoring",
+                category="meta_cognitive",
+                probability=0.8,
+                components_tested=["meta_assessor"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="load_monitored",
+            )
+        )
 
         # Test self-correction mechanisms
-        scenarios.append(TestScenario(
-            name="self_correction_trigger",
-            category="meta_cognitive",
-            probability=0.05,
-            components_tested=["meta_assessor"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="correction_applied"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="self_correction_trigger",
+                category="meta_cognitive",
+                probability=0.05,
+                components_tested=["meta_assessor"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="correction_applied",
+            )
+        )
 
         return scenarios
 
@@ -368,45 +393,51 @@ class ComprehensiveCoverageFramework:
         scenarios = []
 
         # Test complete pipeline integration
-        scenarios.append(TestScenario(
-            name="complete_pipeline_integration",
-            category="integration",
-            probability=0.9,
-            components_tested=["inference_engine", "thought_engine", "contradiction_integrator", "meta_assessor"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="pipeline_completed"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="complete_pipeline_integration",
+                category="integration",
+                probability=0.9,
+                components_tested=["inference_engine", "thought_engine", "contradiction_integrator", "meta_assessor"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="pipeline_completed",
+            )
+        )
 
         # Test partial pipeline scenarios
         component_combinations = [
             ["inference_engine", "thought_engine"],
             ["thought_engine", "contradiction_integrator"],
             ["contradiction_integrator", "meta_assessor"],
-            ["inference_engine", "meta_assessor"]
+            ["inference_engine", "meta_assessor"],
         ]
 
         for components in component_combinations:
-            scenarios.append(TestScenario(
-                name=f"partial_pipeline_{'_'.join(components)}",
-                category="integration",
-                probability=0.3,
-                components_tested=components,
-                critical_path=True,
-                performance_sensitive=True,
-                expected_outcome="partial_integration_success"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"partial_pipeline_{'_'.join(components)}",
+                    category="integration",
+                    probability=0.3,
+                    components_tested=components,
+                    critical_path=True,
+                    performance_sensitive=True,
+                    expected_outcome="partial_integration_success",
+                )
+            )
 
         # Test data flow scenarios
-        scenarios.append(TestScenario(
-            name="data_flow_validation",
-            category="integration",
-            probability=0.7,
-            components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="data_flow_validated"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="data_flow_validation",
+                category="integration",
+                probability=0.7,
+                components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="data_flow_validated",
+            )
+        )
 
         return scenarios
 
@@ -421,30 +452,39 @@ class ComprehensiveCoverageFramework:
             "invalid_input",
             "component_failure",
             "resource_exhaustion",
-            "unexpected_exception"
+            "unexpected_exception",
         ]
 
         for error_type in error_types:
-            scenarios.append(TestScenario(
-                name=f"error_handling_{error_type}",
-                category="error_handling",
-                probability=0.01,
-                components_tested=["inference_engine", "thought_engine", "contradiction_integrator", "meta_assessor"],
-                critical_path=True,
-                performance_sensitive=False,
-                expected_outcome="error_handled_gracefully"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"error_handling_{error_type}",
+                    category="error_handling",
+                    probability=0.01,
+                    components_tested=[
+                        "inference_engine",
+                        "thought_engine",
+                        "contradiction_integrator",
+                        "meta_assessor",
+                    ],
+                    critical_path=True,
+                    performance_sensitive=False,
+                    expected_outcome="error_handled_gracefully",
+                )
+            )
 
         # Test recovery scenarios
-        scenarios.append(TestScenario(
-            name="system_recovery",
-            category="error_handling",
-            probability=0.005,
-            components_tested=["inference_engine", "thought_engine", "meta_assessor"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="recovery_successful"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="system_recovery",
+                category="error_handling",
+                probability=0.005,
+                components_tested=["inference_engine", "thought_engine", "meta_assessor"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="recovery_successful",
+            )
+        )
 
         return scenarios
 
@@ -453,39 +493,45 @@ class ComprehensiveCoverageFramework:
         scenarios = []
 
         # Test T4 latency compliance
-        scenarios.append(TestScenario(
-            name="t4_latency_compliance",
-            category="performance",
-            probability=1.0,
-            components_tested=["inference_engine", "thought_engine"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="latency_under_250ms"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="t4_latency_compliance",
+                category="performance",
+                probability=1.0,
+                components_tested=["inference_engine", "thought_engine"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="latency_under_250ms",
+            )
+        )
 
         # Test performance under various loads
         load_levels = [10, 50, 100, 200]
         for load in load_levels:
-            scenarios.append(TestScenario(
-                name=f"performance_load_{load}",
-                category="performance",
-                probability=0.2 if load <= 50 else 0.01,
-                components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
-                critical_path=load <= 100,
-                performance_sensitive=True,
-                expected_outcome="performance_maintained"
-            ))
+            scenarios.append(
+                TestScenario(
+                    name=f"performance_load_{load}",
+                    category="performance",
+                    probability=0.2 if load <= 50 else 0.01,
+                    components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
+                    critical_path=load <= 100,
+                    performance_sensitive=True,
+                    expected_outcome="performance_maintained",
+                )
+            )
 
         # Test memory efficiency
-        scenarios.append(TestScenario(
-            name="memory_efficiency",
-            category="performance",
-            probability=0.5,
-            components_tested=["inference_engine", "thought_engine", "meta_assessor"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="memory_within_limits"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="memory_efficiency",
+                category="performance",
+                probability=0.5,
+                components_tested=["inference_engine", "thought_engine", "meta_assessor"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="memory_within_limits",
+            )
+        )
 
         return scenarios
 
@@ -494,59 +540,69 @@ class ComprehensiveCoverageFramework:
         scenarios = []
 
         # Extremely rare logical paradoxes
-        scenarios.append(TestScenario(
-            name="russell_paradox_variant",
-            category="rare_edge_case",
-            probability=0.0001,
-            components_tested=["contradiction_integrator", "inference_engine"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="paradox_detected_and_handled"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="russell_paradox_variant",
+                category="rare_edge_case",
+                probability=0.0001,
+                components_tested=["contradiction_integrator", "inference_engine"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="paradox_detected_and_handled",
+            )
+        )
 
         # Infinite recursion attempts
-        scenarios.append(TestScenario(
-            name="infinite_recursion_attempt",
-            category="rare_edge_case",
-            probability=0.0005,
-            components_tested=["inference_engine"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="recursion_limited"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="infinite_recursion_attempt",
+                category="rare_edge_case",
+                probability=0.0005,
+                components_tested=["inference_engine"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="recursion_limited",
+            )
+        )
 
         # Memory exhaustion edge cases
-        scenarios.append(TestScenario(
-            name="memory_exhaustion_edge",
-            category="rare_edge_case",
-            probability=0.0008,
-            components_tested=["thought_engine", "meta_assessor"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="graceful_degradation"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="memory_exhaustion_edge",
+                category="rare_edge_case",
+                probability=0.0008,
+                components_tested=["thought_engine", "meta_assessor"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="graceful_degradation",
+            )
+        )
 
         # Concurrent access race conditions
-        scenarios.append(TestScenario(
-            name="race_condition_edge",
-            category="rare_edge_case",
-            probability=0.0002,
-            components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
-            critical_path=True,
-            performance_sensitive=True,
-            expected_outcome="race_condition_handled"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="race_condition_edge",
+                category="rare_edge_case",
+                probability=0.0002,
+                components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
+                critical_path=True,
+                performance_sensitive=True,
+                expected_outcome="race_condition_handled",
+            )
+        )
 
         # Malformed input edge cases
-        scenarios.append(TestScenario(
-            name="malformed_input_extreme",
-            category="rare_edge_case",
-            probability=0.0003,
-            components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
-            critical_path=True,
-            performance_sensitive=False,
-            expected_outcome="input_sanitized"
-        ))
+        scenarios.append(
+            TestScenario(
+                name="malformed_input_extreme",
+                category="rare_edge_case",
+                probability=0.0003,
+                components_tested=["inference_engine", "thought_engine", "contradiction_integrator"],
+                critical_path=True,
+                performance_sensitive=False,
+                expected_outcome="input_sanitized",
+            )
+        )
 
         return scenarios
 
@@ -566,8 +622,8 @@ class ComprehensiveCoverageFramework:
 
                 end_time = time.perf_counter()
                 scenario.execution_time_ms = (end_time - start_time) * 1000
-                scenario.actual_outcome = result.get('outcome', 'unknown')
-                scenario.success = result.get('success', False)
+                scenario.actual_outcome = result.get("outcome", "unknown")
+                scenario.success = result.get("success", False)
 
                 executed_scenarios += 1
                 if scenario.success:
@@ -607,35 +663,27 @@ class ComprehensiveCoverageFramework:
         elif scenario.category == "rare_edge_case":
             return await self._test_rare_edge_scenario(scenario)
         else:
-            return {'success': False, 'outcome': f'unknown_category_{scenario.category}'}
+            return {"success": False, "outcome": f"unknown_category_{scenario.category}"}
 
     async def _test_inference_engine_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test inference engine scenarios"""
-        inference_engine = self.cognitive_components['inference_engine']
+        inference_engine = self.cognitive_components["inference_engine"]
 
         try:
             if "inference_type_" in scenario.name:
                 inference_type = InferenceType[scenario.name.split("_")[-1].upper()]
                 result = await inference_engine.infer(
-                    "Test inference query",
-                    inference_type=inference_type,
-                    max_depth=5
+                    "Test inference query", inference_type=inference_type, max_depth=5
                 )
                 return {
-                    'success': result is not None,
-                    'outcome': 'successful_inference' if result else 'failed_inference'
+                    "success": result is not None,
+                    "outcome": "successful_inference" if result else "failed_inference",
                 }
 
             elif "inference_depth_" in scenario.name:
                 depth = int(scenario.name.split("_")[-1])
-                result = await inference_engine.infer(
-                    "Deep inference test",
-                    max_depth=depth
-                )
-                return {
-                    'success': result is not None,
-                    'outcome': 'depth_limited_inference'
-                }
+                result = await inference_engine.infer("Deep inference test", max_depth=depth)
+                return {"success": result is not None, "outcome": "depth_limited_inference"}
 
             elif "circuit_breaker" in scenario.name:
                 # Simulate circuit breaker scenario
@@ -648,30 +696,26 @@ class ComprehensiveCoverageFramework:
 
                 result = await inference_engine.infer("Test after circuit breaker")
                 return {
-                    'success': 'circuit_breaker' in str(result) if result else True,
-                    'outcome': 'circuit_breaker_triggered'
+                    "success": "circuit_breaker" in str(result) if result else True,
+                    "outcome": "circuit_breaker_triggered",
                 }
 
             elif "timeout_boundary" in scenario.name:
                 result = await asyncio.wait_for(
-                    inference_engine.infer("Timeout test", max_depth=10),
-                    timeout=0.025  # Very strict timeout
+                    inference_engine.infer("Timeout test", max_depth=10), timeout=0.025  # Very strict timeout
                 )
-                return {
-                    'success': True,
-                    'outcome': 'timeout_handled'
-                }
+                return {"success": True, "outcome": "timeout_handled"}
 
         except asyncio.TimeoutError:
-            return {'success': True, 'outcome': 'timeout_handled'}
+            return {"success": True, "outcome": "timeout_handled"}
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {"success": False, "outcome": f"error: {str(e)}"}
 
-        return {'success': False, 'outcome': 'unknown_inference_test'}
+        return {"success": False, "outcome": "unknown_inference_test"}
 
     async def _test_thought_engine_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test thought engine scenarios"""
-        thought_engine = self.cognitive_components['thought_engine']
+        thought_engine = self.cognitive_components["thought_engine"]
 
         try:
             if "thought_complexity_" in scenario.name:
@@ -679,48 +723,34 @@ class ComprehensiveCoverageFramework:
                 complexity = ThoughtComplexity[complexity_name.upper()]
 
                 result = await thought_engine.synthesize_thought(
-                    "Test thought synthesis",
-                    context={'complexity': complexity}
+                    "Test thought synthesis", context={"complexity": complexity}
                 )
 
-                return {
-                    'success': result is not None,
-                    'outcome': 'thought_synthesized'
-                }
+                return {"success": result is not None, "outcome": "thought_synthesized"}
 
             elif "context_size_" in scenario.name:
                 size = int(scenario.name.split("_")[-1])
-                large_context = {'data': 'x' * size}
+                large_context = {"data": "x" * size}
 
-                result = await thought_engine.synthesize_thought(
-                    "Context processing test",
-                    context=large_context
-                )
+                result = await thought_engine.synthesize_thought("Context processing test", context=large_context)
 
-                return {
-                    'success': result is not None,
-                    'outcome': 'context_processed'
-                }
+                return {"success": result is not None, "outcome": "context_processed"}
 
             elif "meta_cognitive_integration" in scenario.name:
                 result = await thought_engine.synthesize_thought(
-                    "Meta-cognitive integration test",
-                    context={'enable_meta_assessment': True}
+                    "Meta-cognitive integration test", context={"enable_meta_assessment": True}
                 )
 
-                return {
-                    'success': result is not None,
-                    'outcome': 'meta_assessment_integrated'
-                }
+                return {"success": result is not None, "outcome": "meta_assessment_integrated"}
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {"success": False, "outcome": f"error: {str(e)}"}
 
-        return {'success': False, 'outcome': 'unknown_thought_test'}
+        return {"success": False, "outcome": "unknown_thought_test"}
 
     async def _test_contradiction_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test contradiction detection scenarios"""
-        contradiction_integrator = self.cognitive_components['contradiction_integrator']
+        contradiction_integrator = self.cognitive_components["contradiction_integrator"]
 
         try:
             if "contradiction_" in scenario.name and "cascade" not in scenario.name:
@@ -729,100 +759,69 @@ class ComprehensiveCoverageFramework:
                 premises = [
                     f"Test statement A for {contradiction_type}",
                     f"Contradictory statement B for {contradiction_type}",
-                    f"Supporting evidence for {contradiction_type}"
+                    f"Supporting evidence for {contradiction_type}",
                 ]
 
-                result = await contradiction_integrator.detect_contradictions(
-                    premises,
-                    confidence_threshold=0.98
-                )
+                result = await contradiction_integrator.detect_contradictions(premises, confidence_threshold=0.98)
 
-                return {
-                    'success': result is not None,
-                    'outcome': 'contradiction_detected'
-                }
+                return {"success": result is not None, "outcome": "contradiction_detected"}
 
             elif "confidence_threshold_" in scenario.name:
                 threshold = float(scenario.name.split("_")[-1])
 
                 premises = ["Statement A", "Contradictory statement B"]
-                result = await contradiction_integrator.detect_contradictions(
-                    premises,
-                    confidence_threshold=threshold
-                )
+                result = await contradiction_integrator.detect_contradictions(premises, confidence_threshold=threshold)
 
-                return {
-                    'success': result is not None,
-                    'outcome': 'confidence_validated'
-                }
+                return {"success": result is not None, "outcome": "confidence_validated"}
 
             elif "contradiction_cascade" in scenario.name:
                 premises = [
                     "All statements are true",
                     "Some statements are false",
                     "This statement is false",
-                    "No statement can be both true and false"
+                    "No statement can be both true and false",
                 ]
 
-                result = await contradiction_integrator.detect_contradictions(
-                    premises,
-                    confidence_threshold=0.98
-                )
+                result = await contradiction_integrator.detect_contradictions(premises, confidence_threshold=0.98)
 
                 return {
-                    'success': result is not None and len(result.get('contradictions', [])) > 1,
-                    'outcome': 'cascade_detected'
+                    "success": result is not None and len(result.get("contradictions", [])) > 1,
+                    "outcome": "cascade_detected",
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {"success": False, "outcome": f"error: {str(e)}"}
 
-        return {'success': False, 'outcome': 'unknown_contradiction_test'}
+        return {"success": False, "outcome": "unknown_contradiction_test"}
 
     async def _test_meta_cognitive_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test meta-cognitive assessment scenarios"""
-        meta_assessor = self.cognitive_components['meta_assessor']
+        meta_assessor = self.cognitive_components["meta_assessor"]
 
         try:
             if "assessment_depth_" in scenario.name:
                 depth = scenario.name.split("_")[-1]
 
-                result = await meta_assessor.assess_cognitive_state({
-                    'assessment_depth': depth,
-                    'test_scenario': scenario.name
-                })
+                result = await meta_assessor.assess_cognitive_state(
+                    {"assessment_depth": depth, "test_scenario": scenario.name}
+                )
 
-                return {
-                    'success': result is not None,
-                    'outcome': 'assessment_completed'
-                }
+                return {"success": result is not None, "outcome": "assessment_completed"}
 
             elif "cognitive_load_monitoring" in scenario.name:
-                result = await meta_assessor.assess_cognitive_state({
-                    'monitor_load': True,
-                    'complexity': 'high'
-                })
+                result = await meta_assessor.assess_cognitive_state({"monitor_load": True, "complexity": "high"})
 
-                return {
-                    'success': result is not None and 'cognitive_load' in result,
-                    'outcome': 'load_monitored'
-                }
+                return {"success": result is not None and "cognitive_load" in result, "outcome": "load_monitored"}
 
             elif "self_correction_trigger" in scenario.name:
-                result = await meta_assessor.assess_cognitive_state({
-                    'enable_correction': True,
-                    'error_detected': True
-                })
+                result = await meta_assessor.assess_cognitive_state({"enable_correction": True, "error_detected": True})
 
-                return {
-                    'success': result is not None,
-                    'outcome': 'correction_applied'
-                }
+                return {"success": result is not None, "outcome": "correction_applied"}
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {"success": False, "outcome": f"error: {str(e)}"}
 
-        return {'success': False, 'outcome': 'unknown_meta_cognitive_test'}
+        return {"success": False, "outcome": "unknown_meta_cognitive_test"}
 
     async def _test_integration_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test integration scenarios"""
@@ -832,33 +831,29 @@ class ComprehensiveCoverageFramework:
                 query = "Complex reasoning task for full pipeline"
 
                 # Step 1: Inference
-                inference_result = await self.cognitive_components['inference_engine'].infer(
-                    query, max_depth=5
-                )
+                inference_result = await self.cognitive_components["inference_engine"].infer(query, max_depth=5)
 
                 # Step 2: Thought synthesis
-                thought_result = await self.cognitive_components['thought_engine'].synthesize_thought(
-                    query, context={'inference_result': inference_result}
+                thought_result = await self.cognitive_components["thought_engine"].synthesize_thought(
+                    query, context={"inference_result": inference_result}
                 )
 
                 # Step 3: Contradiction check
-                contradiction_result = await self.cognitive_components['contradiction_integrator'].detect_contradictions(
-                    [query, str(thought_result)], confidence_threshold=0.98
-                )
+                contradiction_result = await self.cognitive_components[
+                    "contradiction_integrator"
+                ].detect_contradictions([query, str(thought_result)], confidence_threshold=0.98)
 
                 # Step 4: Meta-cognitive assessment
-                meta_result = await self.cognitive_components['meta_assessor'].assess_cognitive_state({
-                    'pipeline_results': [inference_result, thought_result, contradiction_result]
-                })
+                meta_result = await self.cognitive_components["meta_assessor"].assess_cognitive_state(
+                    {"pipeline_results": [inference_result, thought_result, contradiction_result]}
+                )
 
-                success = all(result is not None for result in [
-                    inference_result, thought_result, contradiction_result, meta_result
-                ])
+                success = all(
+                    result is not None
+                    for result in [inference_result, thought_result, contradiction_result, meta_result]
+                )
 
-                return {
-                    'success': success,
-                    'outcome': 'pipeline_completed'
-                }
+                return {"success": success, "outcome": "pipeline_completed"}
 
             elif "partial_pipeline_" in scenario.name:
                 components = scenario.components_tested
@@ -867,54 +862,44 @@ class ComprehensiveCoverageFramework:
                 for component_name in components:
                     component = self.cognitive_components[component_name]
 
-                    if component_name == 'inference_engine':
+                    if component_name == "inference_engine":
                         result = await component.infer("Partial pipeline test")
-                    elif component_name == 'thought_engine':
+                    elif component_name == "thought_engine":
                         result = await component.synthesize_thought("Partial pipeline test")
-                    elif component_name == 'contradiction_integrator':
-                        result = await component.detect_contradictions(
-                            ["Test statement"], confidence_threshold=0.98
-                        )
-                    elif component_name == 'meta_assessor':
-                        result = await component.assess_cognitive_state({'test': True})
+                    elif component_name == "contradiction_integrator":
+                        result = await component.detect_contradictions(["Test statement"], confidence_threshold=0.98)
+                    elif component_name == "meta_assessor":
+                        result = await component.assess_cognitive_state({"test": True})
                     else:
                         result = None
 
                     results.append(result)
 
-                return {
-                    'success': all(r is not None for r in results),
-                    'outcome': 'partial_integration_success'
-                }
+                return {"success": all(r is not None for r in results), "outcome": "partial_integration_success"}
 
             elif "data_flow_validation" in scenario.name:
                 # Test data flow between components
                 initial_data = "Data flow test query"
 
-                inference_result = await self.cognitive_components['inference_engine'].infer(initial_data)
-                thought_result = await self.cognitive_components['thought_engine'].synthesize_thought(
-                    initial_data, context={'inference_data': inference_result}
+                inference_result = await self.cognitive_components["inference_engine"].infer(initial_data)
+                thought_result = await self.cognitive_components["thought_engine"].synthesize_thought(
+                    initial_data, context={"inference_data": inference_result}
                 )
-                contradiction_result = await self.cognitive_components['contradiction_integrator'].detect_contradictions(
-                    [str(thought_result)], confidence_threshold=0.98
-                )
+                contradiction_result = await self.cognitive_components[
+                    "contradiction_integrator"
+                ].detect_contradictions([str(thought_result)], confidence_threshold=0.98)
 
                 # Validate data flow
                 data_flow_valid = (
-                    inference_result is not None and
-                    thought_result is not None and
-                    contradiction_result is not None
+                    inference_result is not None and thought_result is not None and contradiction_result is not None
                 )
 
-                return {
-                    'success': data_flow_valid,
-                    'outcome': 'data_flow_validated'
-                }
+                return {"success": data_flow_valid, "outcome": "data_flow_validated"}
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {"success": False, "outcome": f"error: {str(e)}"}
 
-        return {'success': False, 'outcome': 'unknown_integration_test'}
+        return {"success": False, "outcome": "unknown_integration_test"}
 
     async def _test_error_handling_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test error handling scenarios"""
@@ -924,53 +909,44 @@ class ComprehensiveCoverageFramework:
             if error_type == "timeout":
                 try:
                     await asyncio.wait_for(
-                        self.cognitive_components['inference_engine'].infer("Timeout test", max_depth=20),
-                        timeout=0.001  # Very short timeout
+                        self.cognitive_components["inference_engine"].infer("Timeout test", max_depth=20),
+                        timeout=0.001,  # Very short timeout
                     )
-                    return {'success': False, 'outcome': 'timeout_not_triggered'}
+                    return {"success": False, "outcome": "timeout_not_triggered"}
                 except asyncio.TimeoutError:
-                    return {'success': True, 'outcome': 'error_handled_gracefully'}
+                    return {"success": True, "outcome": "error_handled_gracefully"}
 
             elif error_type == "memory":
                 # Simulate memory pressure
-                large_data = 'x' * 1000000  # 1MB string
-                result = await self.cognitive_components['thought_engine'].synthesize_thought(
-                    "Memory test", context={'large_data': large_data}
+                large_data = "x" * 1000000  # 1MB string
+                result = await self.cognitive_components["thought_engine"].synthesize_thought(
+                    "Memory test", context={"large_data": large_data}
                 )
-                return {
-                    'success': result is not None,
-                    'outcome': 'error_handled_gracefully'
-                }
+                return {"success": result is not None, "outcome": "error_handled_gracefully"}
 
             elif error_type == "input":
                 # Test invalid input handling
-                result = await self.cognitive_components['inference_engine'].infer(None)
-                return {
-                    'success': True,  # Should handle gracefully
-                    'outcome': 'error_handled_gracefully'
-                }
+                result = await self.cognitive_components["inference_engine"].infer(None)
+                return {"success": True, "outcome": "error_handled_gracefully"}  # Should handle gracefully
 
             elif "system_recovery" in scenario.name:
                 # Simulate system recovery
                 # First cause a failure
                 try:
-                    await self.cognitive_components['inference_engine'].infer("", max_depth=-1)
+                    await self.cognitive_components["inference_engine"].infer("", max_depth=-1)
                 except Exception as e:
                     logger.debug(f"Expected optional failure: {e}")
                     pass
 
                 # Then test recovery
-                result = await self.cognitive_components['inference_engine'].infer("Recovery test")
-                return {
-                    'success': result is not None,
-                    'outcome': 'recovery_successful'
-                }
+                result = await self.cognitive_components["inference_engine"].infer("Recovery test")
+                return {"success": result is not None, "outcome": "recovery_successful"}
 
         except Exception:
             # Exceptions are expected in error handling tests
-            return {'success': True, 'outcome': 'error_handled_gracefully'}
+            return {"success": True, "outcome": "error_handled_gracefully"}
 
-        return {'success': True, 'outcome': 'error_handled_gracefully'}
+        return {"success": True, "outcome": "error_handled_gracefully"}
 
     async def _test_performance_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test performance scenarios"""
@@ -978,17 +954,16 @@ class ComprehensiveCoverageFramework:
             if "t4_latency_compliance" in scenario.name:
                 start_time = time.perf_counter()
 
-                await self.cognitive_components['thought_engine'].synthesize_thought(
-                    "T4 latency compliance test",
-                    context={'complexity': ThoughtComplexity.MODERATE}
+                await self.cognitive_components["thought_engine"].synthesize_thought(
+                    "T4 latency compliance test", context={"complexity": ThoughtComplexity.MODERATE}
                 )
 
                 end_time = time.perf_counter()
                 latency_ms = (end_time - start_time) * 1000
 
                 return {
-                    'success': latency_ms < 250.0,
-                    'outcome': 'latency_under_250ms' if latency_ms < 250.0 else f'latency_violation_{latency_ms:.1f}ms'
+                    "success": latency_ms < 250.0,
+                    "outcome": "latency_under_250ms" if latency_ms < 250.0 else f"latency_violation_{latency_ms:.1f}ms",
                 }
 
             elif "performance_load_" in scenario.name:
@@ -997,9 +972,7 @@ class ComprehensiveCoverageFramework:
                 # Simulate load by running concurrent tasks
                 tasks = []
                 for i in range(min(load_level, 20)):  # Limit to prevent overwhelming
-                    task = self.cognitive_components['inference_engine'].infer(
-                        f"Load test {i}", max_depth=3
-                    )
+                    task = self.cognitive_components["inference_engine"].infer(f"Load test {i}", max_depth=3)
                     tasks.append(task)
 
                 start_time = time.perf_counter()
@@ -1011,85 +984,69 @@ class ComprehensiveCoverageFramework:
 
                 total_time_ms = (end_time - start_time) * 1000
 
-                return {
-                    'success': success_rate >= 0.8 and total_time_ms < 1000.0,
-                    'outcome': 'performance_maintained'
-                }
+                return {"success": success_rate >= 0.8 and total_time_ms < 1000.0, "outcome": "performance_maintained"}
 
             elif "memory_efficiency" in scenario.name:
                 initial_memory = self._get_memory_usage()
 
                 # Perform memory-intensive operations
                 for i in range(10):
-                    await self.cognitive_components['thought_engine'].synthesize_thought(
-                        f"Memory test {i}",
-                        context={'data': 'x' * 10000}
+                    await self.cognitive_components["thought_engine"].synthesize_thought(
+                        f"Memory test {i}", context={"data": "x" * 10000}
                     )
 
                 gc.collect()
                 final_memory = self._get_memory_usage()
                 memory_growth = final_memory - initial_memory
 
-                return {
-                    'success': memory_growth < 50 * 1024 * 1024,  # 50MB limit
-                    'outcome': 'memory_within_limits'
-                }
+                return {"success": memory_growth < 50 * 1024 * 1024, "outcome": "memory_within_limits"}  # 50MB limit
 
         except Exception as e:
-            return {'success': False, 'outcome': f'performance_error: {str(e)}'}
+            return {"success": False, "outcome": f"performance_error: {str(e)}"}
 
-        return {'success': False, 'outcome': 'unknown_performance_test'}
+        return {"success": False, "outcome": "unknown_performance_test"}
 
     async def _test_rare_edge_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
         """Test rare edge case scenarios"""
         try:
             if "russell_paradox_variant" in scenario.name:
                 paradox_statement = "Consider the set of all sets that do not contain themselves"
-                result = await self.cognitive_components['contradiction_integrator'].detect_contradictions(
+                result = await self.cognitive_components["contradiction_integrator"].detect_contradictions(
                     [paradox_statement], confidence_threshold=0.98
                 )
                 return {
-                    'success': result is not None and ('paradox' in str(result).lower() or result.get('contradictions')),
-                    'outcome': 'paradox_detected_and_handled'
+                    "success": result is not None
+                    and ("paradox" in str(result).lower() or result.get("contradictions")),
+                    "outcome": "paradox_detected_and_handled",
                 }
 
             elif "infinite_recursion_attempt" in scenario.name:
-                result = await self.cognitive_components['inference_engine'].infer(
-                    "This statement refers to itself recursively",
-                    max_depth=100  # Attempt deep recursion
+                result = await self.cognitive_components["inference_engine"].infer(
+                    "This statement refers to itself recursively", max_depth=100  # Attempt deep recursion
                 )
-                return {
-                    'success': result is not None,
-                    'outcome': 'recursion_limited'
-                }
+                return {"success": result is not None, "outcome": "recursion_limited"}
 
             elif "memory_exhaustion_edge" in scenario.name:
                 # Attempt to exhaust memory with extremely large context
-                huge_context = {'data': 'x' * 10000000}  # 10MB
-                result = await self.cognitive_components['thought_engine'].synthesize_thought(
-                    "Memory exhaustion test",
-                    context=huge_context
+                huge_context = {"data": "x" * 10000000}  # 10MB
+                result = await self.cognitive_components["thought_engine"].synthesize_thought(
+                    "Memory exhaustion test", context=huge_context
                 )
-                return {
-                    'success': result is not None,
-                    'outcome': 'graceful_degradation'
-                }
+                return {"success": result is not None, "outcome": "graceful_degradation"}
 
             elif "race_condition_edge" in scenario.name:
                 # Simulate potential race condition
                 tasks = []
                 for i in range(10):
-                    task = self.cognitive_components['inference_engine'].infer(
-                        f"Concurrent access {i}", max_depth=2
-                    )
+                    task = self.cognitive_components["inference_engine"].infer(f"Concurrent access {i}", max_depth=2)
                     tasks.append(task)
 
                 results = await asyncio.gather(*tasks, return_exceptions=True)
                 successful_results = [r for r in results if not isinstance(r, Exception)]
 
                 return {
-                    'success': len(successful_results) >= 8,  # Allow some failures
-                    'outcome': 'race_condition_handled'
+                    "success": len(successful_results) >= 8,  # Allow some failures
+                    "outcome": "race_condition_handled",
                 }
 
             elif "malformed_input_extreme" in scenario.name:
@@ -1099,27 +1056,24 @@ class ComprehensiveCoverageFramework:
                     "🤖" * 1000,  # Unicode extreme
                     "\x00\x01\x02",  # Control characters
                     "A" * 1000000,  # Extremely long input
-                    {"invalid": "dict_input"}
+                    {"invalid": "dict_input"},
                 ]
 
                 for malformed_input in malformed_inputs:
                     try:
-                        result = await self.cognitive_components['inference_engine'].infer(malformed_input)
+                        result = await self.cognitive_components["inference_engine"].infer(malformed_input)
                         # Should handle gracefully without crashing
                     except Exception:
                         # Expected to handle exceptions gracefully
                         pass
 
-                return {
-                    'success': True,  # Success if no unhandled crashes
-                    'outcome': 'input_sanitized'
-                }
+                return {"success": True, "outcome": "input_sanitized"}  # Success if no unhandled crashes
 
         except Exception as e:
             # For rare edge cases, controlled failure is acceptable
-            return {'success': True, 'outcome': f'edge_case_handled: {str(e)}'}
+            return {"success": True, "outcome": f"edge_case_handled: {str(e)}"}
 
-        return {'success': False, 'outcome': 'unknown_rare_edge_test'}
+        return {"success": False, "outcome": "unknown_rare_edge_test"}
 
     def _get_memory_usage(self) -> int:
         """Get current memory usage"""
@@ -1178,11 +1132,11 @@ class ComprehensiveCoverageFramework:
 
         # Calculate overall coverage
         component_weights = {
-            'inference_engine': 0.25,
-            'thought_engine': 0.25,
-            'contradiction_integrator': 0.20,
-            'meta_assessor': 0.15,
-            'integration': 0.15
+            "inference_engine": 0.25,
+            "thought_engine": 0.25,
+            "contradiction_integrator": 0.20,
+            "meta_assessor": 0.15,
+            "integration": 0.15,
         }
 
         weighted_coverage = 0.0
@@ -1191,7 +1145,7 @@ class ComprehensiveCoverageFramework:
             weighted_coverage += coverage * weight
 
         # Add integration coverage
-        weighted_coverage += self.coverage_metrics.integration_coverage * component_weights.get('integration', 0.15)
+        weighted_coverage += self.coverage_metrics.integration_coverage * component_weights.get("integration", 0.15)
 
         self.coverage_metrics.overall_coverage = min(1.0, weighted_coverage)
 
@@ -1205,75 +1159,74 @@ class ComprehensiveCoverageFramework:
         category_breakdown = {}
         for scenario in self.test_scenarios:
             if scenario.category not in category_breakdown:
-                category_breakdown[scenario.category] = {'total': 0, 'passed': 0, 'failed': 0}
+                category_breakdown[scenario.category] = {"total": 0, "passed": 0, "failed": 0}
 
-            category_breakdown[scenario.category]['total'] += 1
+            category_breakdown[scenario.category]["total"] += 1
             if scenario.success:
-                category_breakdown[scenario.category]['passed'] += 1
+                category_breakdown[scenario.category]["passed"] += 1
             else:
-                category_breakdown[scenario.category]['failed'] += 1
+                category_breakdown[scenario.category]["failed"] += 1
 
         # Performance analysis
         latencies = [s.execution_time_ms for s in self.test_scenarios if s.execution_time_ms > 0]
         performance_stats = {}
         if latencies:
             performance_stats = {
-                'mean_latency_ms': statistics.mean(latencies),
-                'p95_latency_ms': np.percentile(latencies, 95),
-                'p99_latency_ms': np.percentile(latencies, 99),
-                'max_latency_ms': max(latencies)
+                "mean_latency_ms": statistics.mean(latencies),
+                "p95_latency_ms": np.percentile(latencies, 95),
+                "p99_latency_ms": np.percentile(latencies, 99),
+                "max_latency_ms": max(latencies),
             }
 
         # Coverage targets compliance
         coverage_compliance = {}
         for target, required_coverage in self.coverage_targets.items():
-            component_name = target.value.replace('_', '_')  # Normalize name
+            component_name = target.value.replace("_", "_")  # Normalize name
 
             if target == CoverageTarget.INTEGRATION_PIPELINE:
                 actual_coverage = self.coverage_metrics.integration_coverage
             else:
-                actual_coverage = self.coverage_metrics.component_coverage.get(
-                    component_name.replace('_', '_'), 0.0
-                )
+                actual_coverage = self.coverage_metrics.component_coverage.get(component_name.replace("_", "_"), 0.0)
 
             coverage_compliance[target.value] = {
-                'required': required_coverage,
-                'actual': actual_coverage,
-                'compliant': actual_coverage >= required_coverage
+                "required": required_coverage,
+                "actual": actual_coverage,
+                "compliant": actual_coverage >= required_coverage,
             }
 
         report = {
-            'summary': {
-                'total_scenarios': total_scenarios,
-                'successful_scenarios': successful_scenarios,
-                'failed_scenarios': failed_scenarios,
-                'success_rate': successful_scenarios / total_scenarios if total_scenarios > 0 else 0.0,
-                'overall_coverage': self.coverage_metrics.overall_coverage,
-                'rare_scenario_coverage': self.coverage_metrics.rare_scenario_count,
-                'target_90_percent_achieved': self.coverage_metrics.overall_coverage >= 0.90
+            "summary": {
+                "total_scenarios": total_scenarios,
+                "successful_scenarios": successful_scenarios,
+                "failed_scenarios": failed_scenarios,
+                "success_rate": successful_scenarios / total_scenarios if total_scenarios > 0 else 0.0,
+                "overall_coverage": self.coverage_metrics.overall_coverage,
+                "rare_scenario_coverage": self.coverage_metrics.rare_scenario_count,
+                "target_90_percent_achieved": self.coverage_metrics.overall_coverage >= 0.90,
             },
-            'component_coverage': self.coverage_metrics.component_coverage,
-            'critical_path_coverage': {
-                'total_critical_paths': len(self.coverage_metrics.critical_path_coverage),
-                'passed_critical_paths': sum(self.coverage_metrics.critical_path_coverage.values()),
-                'critical_path_success_rate': (
-                    sum(self.coverage_metrics.critical_path_coverage.values()) /
-                    len(self.coverage_metrics.critical_path_coverage)
-                    if self.coverage_metrics.critical_path_coverage else 0.0
-                )
+            "component_coverage": self.coverage_metrics.component_coverage,
+            "critical_path_coverage": {
+                "total_critical_paths": len(self.coverage_metrics.critical_path_coverage),
+                "passed_critical_paths": sum(self.coverage_metrics.critical_path_coverage.values()),
+                "critical_path_success_rate": (
+                    sum(self.coverage_metrics.critical_path_coverage.values())
+                    / len(self.coverage_metrics.critical_path_coverage)
+                    if self.coverage_metrics.critical_path_coverage
+                    else 0.0
+                ),
             },
-            'category_breakdown': category_breakdown,
-            'performance_analysis': performance_stats,
-            'coverage_targets_compliance': coverage_compliance,
-            'rare_edge_cases': {
-                'total_rare_scenarios': sum(1 for s in self.test_scenarios if s.probability < 0.01),
-                'successful_rare_scenarios': self.coverage_metrics.rare_scenario_count,
-                'rare_scenario_success_rate': (
-                    self.coverage_metrics.rare_scenario_count /
-                    max(1, sum(1 for s in self.test_scenarios if s.probability < 0.01))
-                )
+            "category_breakdown": category_breakdown,
+            "performance_analysis": performance_stats,
+            "coverage_targets_compliance": coverage_compliance,
+            "rare_edge_cases": {
+                "total_rare_scenarios": sum(1 for s in self.test_scenarios if s.probability < 0.01),
+                "successful_rare_scenarios": self.coverage_metrics.rare_scenario_count,
+                "rare_scenario_success_rate": (
+                    self.coverage_metrics.rare_scenario_count
+                    / max(1, sum(1 for s in self.test_scenarios if s.probability < 0.01))
+                ),
             },
-            'recommendations': self._generate_coverage_recommendations()
+            "recommendations": self._generate_coverage_recommendations(),
         }
 
         return report
@@ -1292,8 +1245,7 @@ class ComprehensiveCoverageFramework:
         # Component-specific recommendations
         for component, coverage in self.coverage_metrics.component_coverage.items():
             target_coverage = self.coverage_targets.get(
-                CoverageTarget(component) if component in [t.value for t in CoverageTarget] else None,
-                0.90
+                CoverageTarget(component) if component in [t.value for t in CoverageTarget] else None, 0.90
             )
 
             if coverage < target_coverage:
@@ -1304,9 +1256,10 @@ class ComprehensiveCoverageFramework:
 
         # Critical path recommendations
         critical_path_success_rate = (
-            sum(self.coverage_metrics.critical_path_coverage.values()) /
-            len(self.coverage_metrics.critical_path_coverage)
-            if self.coverage_metrics.critical_path_coverage else 0.0
+            sum(self.coverage_metrics.critical_path_coverage.values())
+            / len(self.coverage_metrics.critical_path_coverage)
+            if self.coverage_metrics.critical_path_coverage
+            else 0.0
         )
 
         if critical_path_success_rate < 0.95:
@@ -1319,8 +1272,7 @@ class ComprehensiveCoverageFramework:
         rare_scenarios_total = sum(1 for s in self.test_scenarios if s.probability < 0.01)
         if rare_scenarios_total < 10:
             recommendations.append(
-                "Add more rare edge case scenarios (<0.01% probability) to improve "
-                "system robustness validation."
+                "Add more rare edge case scenarios (<0.01% probability) to improve " "system robustness validation."
             )
 
         # Performance recommendations
@@ -1366,8 +1318,8 @@ class TestComprehensiveCoverage:
 
         for scenario in inference_scenarios[:10]:  # Limit for test performance
             result = await framework._execute_test_scenario(scenario)
-            scenario.success = result.get('success', False)
-            scenario.actual_outcome = result.get('outcome', 'unknown')
+            scenario.success = result.get("success", False)
+            scenario.actual_outcome = result.get("outcome", "unknown")
 
             executed_count += 1
             if scenario.success:
@@ -1390,7 +1342,7 @@ class TestComprehensiveCoverage:
 
         for scenario in thought_scenarios[:8]:  # Limit for test performance
             result = await framework._execute_test_scenario(scenario)
-            scenario.success = result.get('success', False)
+            scenario.success = result.get("success", False)
 
             executed_count += 1
             if scenario.success:
@@ -1406,17 +1358,14 @@ class TestComprehensiveCoverage:
         """Test comprehensive coverage of contradiction detection"""
         framework = comprehensive_coverage_framework
 
-        contradiction_scenarios = [
-            s for s in framework.test_scenarios
-            if s.category == "contradiction_detection"
-        ]
+        contradiction_scenarios = [s for s in framework.test_scenarios if s.category == "contradiction_detection"]
 
         executed_count = 0
         success_count = 0
 
         for scenario in contradiction_scenarios[:6]:  # Limit for test performance
             result = await framework._execute_test_scenario(scenario)
-            scenario.success = result.get('success', False)
+            scenario.success = result.get("success", False)
 
             executed_count += 1
             if scenario.success:
@@ -1431,17 +1380,14 @@ class TestComprehensiveCoverage:
         """Test comprehensive coverage of integration pipeline"""
         framework = comprehensive_coverage_framework
 
-        integration_scenarios = [
-            s for s in framework.test_scenarios
-            if s.category == "integration"
-        ]
+        integration_scenarios = [s for s in framework.test_scenarios if s.category == "integration"]
 
         executed_count = 0
         success_count = 0
 
         for scenario in integration_scenarios[:5]:  # Limit for test performance
             result = await framework._execute_test_scenario(scenario)
-            scenario.success = result.get('success', False)
+            scenario.success = result.get("success", False)
 
             executed_count += 1
             if scenario.success:
@@ -1456,10 +1402,7 @@ class TestComprehensiveCoverage:
         """Test comprehensive coverage of rare edge cases"""
         framework = comprehensive_coverage_framework
 
-        rare_scenarios = [
-            s for s in framework.test_scenarios
-            if s.probability < 0.01
-        ]
+        rare_scenarios = [s for s in framework.test_scenarios if s.probability < 0.01]
 
         assert len(rare_scenarios) >= 5, "Insufficient rare edge case scenarios"
 
@@ -1469,7 +1412,7 @@ class TestComprehensiveCoverage:
         for scenario in rare_scenarios:
             try:
                 result = await framework._execute_test_scenario(scenario)
-                scenario.success = result.get('success', False)
+                scenario.success = result.get("success", False)
 
                 executed_count += 1
                 if scenario.success:
@@ -1491,10 +1434,7 @@ class TestComprehensiveCoverage:
         """Test performance critical path coverage"""
         framework = comprehensive_coverage_framework
 
-        performance_scenarios = [
-            s for s in framework.test_scenarios
-            if s.performance_sensitive
-        ]
+        performance_scenarios = [s for s in framework.test_scenarios if s.performance_sensitive]
 
         executed_count = 0
         t4_compliant_count = 0
@@ -1508,7 +1448,7 @@ class TestComprehensiveCoverage:
             latency_ms = (end_time - start_time) * 1000
 
             scenario.execution_time_ms = latency_ms
-            scenario.success = result.get('success', False)
+            scenario.success = result.get("success", False)
 
             executed_count += 1
 
@@ -1537,9 +1477,9 @@ class TestComprehensiveCoverage:
         coverage_report = framework.generate_coverage_report()
 
         # Validate coverage targets
-        assert coverage_report['summary']['total_scenarios'] >= 30, "Insufficient test scenarios executed"
+        assert coverage_report["summary"]["total_scenarios"] >= 30, "Insufficient test scenarios executed"
 
-        success_rate = coverage_report['summary']['success_rate']
+        success_rate = coverage_report["summary"]["success_rate"]
         assert success_rate >= 0.70, f"Overall success rate {success_rate:.1%} too low"
 
         # Validate component coverage
@@ -1548,8 +1488,8 @@ class TestComprehensiveCoverage:
             assert coverage > 0.0, f"No coverage for component {component}"
 
         # Validate rare scenario coverage
-        rare_scenario_stats = coverage_report['rare_edge_cases']
-        assert rare_scenario_stats['total_rare_scenarios'] >= 3, "Insufficient rare edge case scenarios"
+        rare_scenario_stats = coverage_report["rare_edge_cases"]
+        assert rare_scenario_stats["total_rare_scenarios"] >= 3, "Insufficient rare edge case scenarios"
 
         # Log comprehensive results
         logger.info("Comprehensive coverage completed:")
@@ -1559,9 +1499,9 @@ class TestComprehensiveCoverage:
         logger.info(f"  Rare scenarios: {rare_scenario_stats['successful_rare_scenarios']}")
 
         # Validate T4 performance compliance
-        performance_analysis = coverage_report.get('performance_analysis', {})
-        if 'p95_latency_ms' in performance_analysis:
-            p95_latency = performance_analysis['p95_latency_ms']
+        performance_analysis = coverage_report.get("performance_analysis", {})
+        if "p95_latency_ms" in performance_analysis:
+            p95_latency = performance_analysis["p95_latency_ms"]
             assert p95_latency < 250.0, f"P95 latency {p95_latency:.1f}ms exceeds T4 target"
 
         # Check if we achieved >90% target (relaxed for test environment)
@@ -1569,7 +1509,7 @@ class TestComprehensiveCoverage:
         logger.info(f"Coverage target achieved: {target_achieved}")
 
         # Generate recommendations
-        recommendations = coverage_report['recommendations']
+        recommendations = coverage_report["recommendations"]
         logger.info(f"Coverage recommendations: {len(recommendations)} items")
         for i, rec in enumerate(recommendations[:3]):  # Log first 3 recommendations
             logger.info(f"  {i+1}. {rec}")
@@ -1603,8 +1543,9 @@ class TestComprehensiveCoverage:
         rare_scenarios = [s for s in framework.test_scenarios if s.probability < 0.01]
         total_rare_probability = sum(s.probability for s in rare_scenarios)
 
-        assert total_rare_probability <= 0.05, \
-            f"Total rare scenario probability {total_rare_probability:.4f} exceeds reasonable threshold"
+        assert (
+            total_rare_probability <= 0.05
+        ), f"Total rare scenario probability {total_rare_probability:.4f} exceeds reasonable threshold"
 
         logger.info(f"Coverage targets validated: {len(framework.coverage_targets)} targets defined")
         logger.info(f"Scenario distribution: {category_counts}")
@@ -1613,6 +1554,7 @@ class TestComprehensiveCoverage:
 
 # Coverage test runner for standalone execution
 if __name__ == "__main__":
+
     async def run_comprehensive_coverage_analysis():
         """Run comprehensive coverage analysis"""
         framework = ComprehensiveCoverageFramework()
@@ -1637,7 +1579,9 @@ if __name__ == "__main__":
         print(f"Total Scenarios: {coverage_report['summary']['total_scenarios']}")
         print(f"Success Rate: {coverage_report['summary']['success_rate']:.1%}")
         print(f"Overall Coverage: {coverage_metrics.overall_coverage:.1%}")
-        print(f"Target 90% Achieved: {'✅ YES' if coverage_report['summary']['target_90_percent_achieved'] else '❌ NO'}")
+        print(
+            f"Target 90% Achieved: {'✅ YES' if coverage_report['summary']['target_90_percent_achieved'] else '❌ NO'}"
+        )
 
         print("\nComponent Coverage:")
         for component, coverage in coverage_metrics.component_coverage.items():
@@ -1645,23 +1589,23 @@ if __name__ == "__main__":
             print(f"  {status} {component}: {coverage:.1%}")
 
         print("\nCritical Path Coverage:")
-        critical_stats = coverage_report['critical_path_coverage']
+        critical_stats = coverage_report["critical_path_coverage"]
         print(f"  Success Rate: {critical_stats['critical_path_success_rate']:.1%}")
         print(f"  Paths Tested: {critical_stats['total_critical_paths']}")
 
         print("\nRare Edge Cases:")
-        rare_stats = coverage_report['rare_edge_cases']
+        rare_stats = coverage_report["rare_edge_cases"]
         print(f"  Total Rare Scenarios: {rare_stats['total_rare_scenarios']}")
         print(f"  Success Rate: {rare_stats['rare_scenario_success_rate']:.1%}")
 
-        if 'performance_analysis' in coverage_report:
-            perf_stats = coverage_report['performance_analysis']
+        if "performance_analysis" in coverage_report:
+            perf_stats = coverage_report["performance_analysis"]
             print("\nPerformance Analysis:")
             print(f"  P95 Latency: {perf_stats.get('p95_latency_ms', 0):.1f}ms")
             print(f"  T4 Compliant: {'✅ YES' if perf_stats.get('p95_latency_ms', 0) < 250.0 else '❌ NO'}")
 
         print("\nRecommendations:")
-        for i, rec in enumerate(coverage_report['recommendations'], 1):
+        for i, rec in enumerate(coverage_report["recommendations"], 1):
             print(f"  {i}. {rec}")
 
         # Final assessment

@@ -15,7 +15,8 @@ import hashlib
 from collections import defaultdict
 from pathlib import Path
 
-TOPS = {"consciousness","identity","governance","memory","core","labs","matriz","api"}
+TOPS = {"consciousness", "identity", "governance", "memory", "core", "labs", "matriz", "api"}
+
 
 def sha_bucket(s: str) -> int:
     """Return a deterministic integer bucket for a string using SHA256.
@@ -27,6 +28,7 @@ def sha_bucket(s: str) -> int:
         int: Integer derived from SHA256 hex digest for stable ordering.
     """
     return int(hashlib.sha256(s.encode("utf-8")).hexdigest(), 16)
+
 
 def main():
     """Build a deterministic canary list of manifest paths.
@@ -46,10 +48,7 @@ def main():
     args = p.parse_args()
 
     # Discover manifests, excluding archived snapshots
-    manifests = [
-        p for p in Path(args.root).rglob("module.manifest.json")
-        if "/.archive/" not in str(p)
-    ]
+    manifests = [p for p in Path(args.root).rglob("module.manifest.json") if "/.archive/" not in str(p)]
     if not manifests:
         raise SystemExit(f"No manifests found under {args.root}")
 
@@ -91,6 +90,7 @@ def main():
         for _key, mpath in sorted(picks, key=lambda kv: kv[0]):
             f.write(mpath + "\n")
     print(f"Wrote {len(picks)} canary items to {out}")
+
 
 if __name__ == "__main__":
     main()

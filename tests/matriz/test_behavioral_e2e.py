@@ -22,12 +22,14 @@ def full_orchestrator():
     orch = AsyncOrchestrator(config)
 
     # Configure full MATRIZ pipeline
-    orch.configure_stages([
-        {"name": "INTENT", "timeout_ms": 200},
-        {"name": "THOUGHT", "timeout_ms": 300},
-        {"name": "ACTION", "timeout_ms": 250},
-        {"name": "DECISION", "timeout_ms": 200}
-    ])
+    orch.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 200},
+            {"name": "THOUGHT", "timeout_ms": 300},
+            {"name": "ACTION", "timeout_ms": 250},
+            {"name": "DECISION", "timeout_ms": 200},
+        ]
+    )
 
     return orch
 
@@ -178,8 +180,12 @@ async def test_cognitive_loop_confidence_propagation(full_orchestrator, register
     assert ambiguous_result.success
 
     # Verify confidence scores are present and reasonable
-    confident_confidences = [r.get("confidence", 0) for r in confident_result.stage_results if isinstance(r, dict) and r.get("confidence")]
-    ambiguous_confidences = [r.get("confidence", 0) for r in ambiguous_result.stage_results if isinstance(r, dict) and r.get("confidence")]
+    confident_confidences = [
+        r.get("confidence", 0) for r in confident_result.stage_results if isinstance(r, dict) and r.get("confidence")
+    ]
+    ambiguous_confidences = [
+        r.get("confidence", 0) for r in ambiguous_result.stage_results if isinstance(r, dict) and r.get("confidence")
+    ]
 
     # Both should have confidence scores
     assert len(confident_confidences) > 0, "Confident query should have confidence scores"
@@ -205,7 +211,7 @@ async def test_cognitive_loop_memory_integration(full_orchestrator, register_ful
     context2 = {
         "query": "What should I pack for that trip?",
         # Simulate memory context from previous interaction
-        "previous_context": result1.output if result1.success else {}
+        "previous_context": result1.output if result1.success else {},
     }
     result2 = await full_orchestrator.process_query(context2)
 
@@ -226,14 +232,17 @@ async def test_cognitive_loop_error_recovery(full_orchestrator, register_full_co
     """Test cognitive loop error handling and recovery."""
     # Register a failing node temporarily
     from nodes.example_nodes import ErrorNode
+
     register("node:error_test", ErrorNode())
 
     # Configure pipeline with error node
-    full_orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 200},
-        {"name": "error_test", "timeout_ms": 100},  # This will fail
-        {"name": "DECISION", "timeout_ms": 200}
-    ])
+    full_orchestrator.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 200},
+            {"name": "error_test", "timeout_ms": 100},  # This will fail
+            {"name": "DECISION", "timeout_ms": 200},
+        ]
+    )
 
     context = {"query": "Test error handling"}
     result = await full_orchestrator.process_query(context)
@@ -255,12 +264,14 @@ async def test_cognitive_loop_visual_processing(full_orchestrator, register_full
     context = {"query": "Look at this image and describe the colors and patterns you see."}
 
     # Add vision stage to pipeline
-    full_orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 200},
-        {"name": "VISION", "timeout_ms": 300},  # Visual processing
-        {"name": "THOUGHT", "timeout_ms": 250},
-        {"name": "DECISION", "timeout_ms": 200}
-    ])
+    full_orchestrator.configure_stages(
+        [
+            {"name": "INTENT", "timeout_ms": 200},
+            {"name": "VISION", "timeout_ms": 300},  # Visual processing
+            {"name": "THOUGHT", "timeout_ms": 250},
+            {"name": "DECISION", "timeout_ms": 200},
+        ]
+    )
 
     result = await full_orchestrator.process_query(context)
 
@@ -286,10 +297,7 @@ def test_cognitive_pipeline_trace_structure():
     # This is a synchronous test to verify trace structure
     orchestrator = AsyncOrchestrator({"MATRIZ_ASYNC": "1"})
 
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 100},
-        {"name": "THOUGHT", "timeout_ms": 100}
-    ])
+    orchestrator.configure_stages([{"name": "INTENT", "timeout_ms": 100}, {"name": "THOUGHT", "timeout_ms": 100}])
 
     # Verify stage configuration
     assert len(orchestrator.stages) == 2
@@ -307,21 +315,14 @@ def test_cognitive_pipeline_trace_structure():
 async def test_cognitive_loop_concurrent_processing():
     """Test cognitive loop can handle concurrent requests."""
     orchestrator = AsyncOrchestrator({"MATRIZ_ASYNC": "1"})
-    orchestrator.configure_stages([
-        {"name": "INTENT", "timeout_ms": 150},
-        {"name": "THOUGHT", "timeout_ms": 150}
-    ])
+    orchestrator.configure_stages([{"name": "INTENT", "timeout_ms": 150}, {"name": "THOUGHT", "timeout_ms": 150}])
 
     # Register nodes
     register("node:intent", IntentNode())
     register("node:thought", ThoughtNode())
 
     # Run multiple concurrent requests
-    contexts = [
-        {"query": "What is 1+1?"},
-        {"query": "What is 2+2?"},
-        {"query": "What is 3+3?"}
-    ]
+    contexts = [{"query": "What is 1+1?"}, {"query": "What is 2+2?"}, {"query": "What is 3+3?"}]
 
     tasks = [orchestrator.process_query(ctx) for ctx in contexts]
     results = await asyncio.gather(*tasks)

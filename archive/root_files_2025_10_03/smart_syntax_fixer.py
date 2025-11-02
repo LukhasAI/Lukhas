@@ -18,7 +18,7 @@ from typing import List, Optional
 def has_syntax_error(file_path: str) -> bool:
     """Check if a Python file has syntax errors."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
         ast.parse(content)
         return False
@@ -31,7 +31,7 @@ def has_syntax_error(file_path: str) -> bool:
 def get_syntax_error_details(file_path: str) -> Optional[str]:
     """Get specific syntax error details."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
         ast.parse(content)
         return None
@@ -50,7 +50,7 @@ def fix_common_fstring_errors(content: str) -> str:
     pattern1 = r'f"([^"]*\{[^}]*)"'
     matches = re.finditer(pattern1, content)
     for match in matches:
-        if match.group(1).count('{') > match.group(1).count('}'):
+        if match.group(1).count("{") > match.group(1).count("}"):
             old = match.group(0)
             fixed = old[:-1] + '}"'
             content = content.replace(old, fixed, 1)
@@ -61,21 +61,22 @@ def fix_common_fstring_errors(content: str) -> str:
     pattern2 = r'\{"[^"]*":\s*[^,}]+(?:,\s*"[^"]*":\s*[^,}]+)*'
     matches = re.finditer(pattern2, content)
     for match in matches:
-        if match.group(0).count('{') > match.group(0).count('}'):
+        if match.group(0).count("{") > match.group(0).count("}"):
             old = match.group(0)
-            fixed = old + '}'
+            fixed = old + "}"
             content = content.replace(old, fixed, 1)
             fixes_applied.append(f"Added missing closing brace to dict: {old} -> {fixed}")
 
     # Fix malformed f-string expressions
     # Pattern: f"text{expr}[:20])}..." -> f"text{expr[:20]}..."
     pattern3 = r'f"([^"]*\{[^}]*\})\[:(\d+)\]\)\}([^"]*)"'
+
     def fix_fstring_slice(match):
         prefix = match.group(1)
         slice_num = match.group(2)
         suffix = match.group(3)
         # Remove the extra )}
-        fixed_prefix = prefix[:-1] + f'[:{slice_num}]'
+        fixed_prefix = prefix[:-1] + f"[:{slice_num}]"
         return f'f"{fixed_prefix}{suffix}"'
 
     content = re.sub(pattern3, fix_fstring_slice, content)
@@ -90,13 +91,13 @@ def fix_common_fstring_errors(content: str) -> str:
 
 def fix_return_outside_function(content: str) -> str:
     """Fix 'return' outside function errors."""
-    lines = content.split('\n')
+    lines = content.split("\n")
     for i, line in enumerate(lines):
         stripped = line.strip()
-        if stripped.startswith('return ') and not is_inside_function(lines, i):
+        if stripped.startswith("return ") and not is_inside_function(lines, i):
             # Convert return to a comment or remove it
-            lines[i] = line.replace('return ', '# return ')
-    return '\n'.join(lines)
+            lines[i] = line.replace("return ", "# return ")
+    return "\n".join(lines)
 
 
 def is_inside_function(lines: List[str], line_index: int) -> bool:
@@ -108,9 +109,9 @@ def is_inside_function(lines: List[str], line_index: int) -> bool:
         line = lines[i].strip()
         current_indent = len(lines[i]) - len(lines[i].lstrip())
 
-        if current_indent < indent_level and (line.startswith('def ') or line.startswith('async def ')):
+        if current_indent < indent_level and (line.startswith("def ") or line.startswith("async def ")):
             return True
-        elif current_indent == 0 and line and not line.startswith('#'):
+        elif current_indent == 0 and line and not line.startswith("#"):
             break
 
     return False
@@ -121,7 +122,7 @@ def apply_smart_fixes(file_path: str) -> bool:
     print(f"🔧 Fixing {file_path}")
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             original_content = f.read()
 
         # Apply fixes
@@ -135,7 +136,7 @@ def apply_smart_fixes(file_path: str) -> bool:
 
             # Only write if we actually fixed something
             if fixed_content != original_content:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(fixed_content)
                 print(f"✅ Fixed syntax errors in {file_path}")
                 return True
@@ -158,7 +159,7 @@ def find_syntax_error_files(directory: str) -> List[str]:
 
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith('.py'):
+            if file.endswith(".py"):
                 file_path = os.path.join(root, file)
                 if has_syntax_error(file_path):
                     error_files.append(file_path)
@@ -195,7 +196,7 @@ def main():
 
     # Ask for confirmation
     response = input(f"\n🚀 Apply smart fixes to {len(error_files)} files? (y/N): ")
-    if response.lower() != 'y':
+    if response.lower() != "y":
         print("❌ Aborted by user")
         return 1
 
@@ -211,8 +212,7 @@ def main():
 
     # Check final status
     print("\n🔍 Checking final status...")
-    result = subprocess.run(['ruff', 'check', 'candidate/', '--statistics'],
-                          capture_output=True, text=True)
+    result = subprocess.run(["ruff", "check", "candidate/", "--statistics"], capture_output=True, text=True)
     if result.returncode == 0:
         print("🎉 All syntax errors fixed!")
     else:

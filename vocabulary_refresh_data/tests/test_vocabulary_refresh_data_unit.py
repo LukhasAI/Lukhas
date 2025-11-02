@@ -25,10 +25,7 @@ class TestVocabularyRefreshDataModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "vocabulary_refresh_data",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "vocabulary_refresh_data", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestVocabularyRefreshDataModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import vocabulary_refresh_data
+
         self.assertIsNotNone(vocabulary_refresh_data)
 
     def test_module_version(self):
         """Test module has version information."""
         import vocabulary_refresh_data
+
         # Most modules should have version info
-        self.assertTrue(hasattr(vocabulary_refresh_data, '__version__') or
-                       hasattr(vocabulary_refresh_data, 'VERSION'))
+        self.assertTrue(hasattr(vocabulary_refresh_data, "__version__") or hasattr(vocabulary_refresh_data, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestVocabularyRefreshDataModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

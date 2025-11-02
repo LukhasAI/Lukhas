@@ -333,7 +333,9 @@ class NIASDreamBridge:
     async def extract_dream_insights(self, user_id: str, time_window: int = 3600) -> dict[str, Any]:
         """Extract insights from recent dream processing"""
         recent_dreams = [
-            msg for msg in self.dream_queue if (datetime.now(timezone.utc) - msg.created_at).total_seconds() < time_window
+            msg
+            for msg in self.dream_queue
+            if (datetime.now(timezone.utc) - msg.created_at).total_seconds() < time_window
         ]
 
         insights = {

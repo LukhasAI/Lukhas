@@ -23,6 +23,7 @@ from opentelemetry.trace import Span, StatusCode
 @dataclass
 class CapturedSpan:
     """Captured span data for testing."""
+
     name: str
     attributes: Dict[str, Any]
     status: str
@@ -38,6 +39,7 @@ class CapturedSpan:
 @dataclass
 class TelemetryCapture:
     """Container for captured telemetry data."""
+
     spans: List[CapturedSpan] = field(default_factory=list)
     metrics: List[Dict[str, Any]] = field(default_factory=list)
 
@@ -87,11 +89,11 @@ class InMemorySpanExporter(SpanExporter):
                 status=status_str,
                 status_message=status_message,
                 duration_ms=duration_ms,
-                trace_id=format(span.context.trace_id, '032x') if span.context else "",
-                span_id=format(span.context.span_id, '016x') if span.context else "",
-                parent_span_id=format(span.parent.span_id, '016x') if span.parent else None,
+                trace_id=format(span.context.trace_id, "032x") if span.context else "",
+                span_id=format(span.context.span_id, "016x") if span.context else "",
+                parent_span_id=format(span.parent.span_id, "016x") if span.parent else None,
                 start_time_ns=span.start_time or 0,
-                end_time_ns=span.end_time or 0
+                end_time_ns=span.end_time or 0,
             )
 
             self.capture.spans.append(captured_span)
@@ -137,30 +139,25 @@ def mock_capability_token():
 def test_subjects():
     """Test subjects for different authorization scenarios."""
     return {
-        "guest": {
-            "subject": "lukhas:user:test_guest",
-            "tier": "guest",
-            "tier_num": 0,
-            "scopes": []
-        },
+        "guest": {"subject": "lukhas:user:test_guest", "tier": "guest", "tier_num": 0, "scopes": []},
         "friend": {
             "subject": "lukhas:user:test_friend",
             "tier": "friend",
             "tier_num": 2,
-            "scopes": ["memoria.read", "memoria.store"]
+            "scopes": ["memoria.read", "memoria.store"],
         },
         "trusted": {
             "subject": "lukhas:user:test_trusted",
             "tier": "trusted",
             "tier_num": 3,
-            "scopes": ["memoria.read", "memoria.store", "memoria.fold"]
+            "scopes": ["memoria.read", "memoria.store", "memoria.fold"],
         },
         "service": {
             "subject": "lukhas:svc:orchestrator",
             "tier": "root_dev",
             "tier_num": 5,
-            "scopes": ["memoria.read", "memoria.store"]
-        }
+            "scopes": ["memoria.read", "memoria.store"],
+        },
     }
 
 
@@ -174,7 +171,7 @@ def authz_test_scenarios():
             "action": "recall",
             "subject_type": "trusted",
             "expected_allowed": True,
-            "expected_reason": "Policy checks passed"
+            "expected_reason": "Policy checks passed",
         },
         {
             "name": "memoria_recall_deny_guest",
@@ -182,7 +179,7 @@ def authz_test_scenarios():
             "action": "recall",
             "subject_type": "guest",
             "expected_allowed": False,
-            "expected_reason": "Tier guest not authorized"
+            "expected_reason": "Tier guest not authorized",
         },
         {
             "name": "memoria_fold_allow_mfa",
@@ -191,7 +188,7 @@ def authz_test_scenarios():
             "subject_type": "trusted",
             "expected_allowed": True,
             "expected_reason": "Policy checks passed",
-            "requires_mfa": True
+            "requires_mfa": True,
         },
         {
             "name": "memoria_fold_deny_no_mfa",
@@ -200,7 +197,7 @@ def authz_test_scenarios():
             "subject_type": "trusted",
             "expected_allowed": False,
             "expected_reason": "Step-up authentication required",
-            "requires_mfa": False
+            "requires_mfa": False,
         },
         {
             "name": "service_account_allow",
@@ -208,8 +205,8 @@ def authz_test_scenarios():
             "action": "process",
             "subject_type": "service",
             "expected_allowed": True,
-            "expected_reason": "Policy checks passed"
-        }
+            "expected_reason": "Policy checks passed",
+        },
     ]
 
 
@@ -226,13 +223,13 @@ def temp_span_dump(spans: List[CapturedSpan]):
                 "trace_id": span.trace_id,
                 "span_id": span.span_id,
                 "start_time_unix_nano": span.start_time_ns,
-                "end_time_unix_nano": span.end_time_ns
+                "end_time_unix_nano": span.end_time_ns,
             }
             for span in spans
         ]
     }
 
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
         json.dump(span_data, f, indent=2)
         temp_path = f.name
 
@@ -261,7 +258,7 @@ def span_validator():
                 "action",
                 "decision",
                 "reason",
-                "decision_time_ms"
+                "decision_time_ms",
             ]
 
             # Check required attributes exist
@@ -309,7 +306,7 @@ def matrix_contract_loader():
         contract_paths = [
             Path(f"/Users/agi_dev/LOCAL-REPOS/Lukhas/{module}/matrix_{module}.json"),
             Path(f"/Users/agi_dev/LOCAL-REPOS/Lukhas/matrix_{module}.json"),
-            Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/matrix_memoria.json") if module == "memoria" else None
+            Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/matrix_memoria.json") if module == "memoria" else None,
         ]
 
         for path in contract_paths:
@@ -320,16 +317,12 @@ def matrix_contract_loader():
         # Return a minimal default contract for testing
         return {
             "module": module,
-            "telemetry": {
-                "spans": [
-                    {"name": f"{module}.check", "attrs": ["code.function", f"lukhas.{module}"]}
-                ]
-            },
+            "telemetry": {"spans": [{"name": f"{module}.check", "attrs": ["code.function", f"lukhas.{module}"]}]},
             "identity": {
                 "requires_auth": True,
                 "required_tiers": ["friend", "trusted", "inner_circle", "root_dev"],
-                "scopes": [f"{module}.read", f"{module}.store"]
-            }
+                "scopes": [f"{module}.read", f"{module}.store"],
+            },
         }
 
     return load_contract

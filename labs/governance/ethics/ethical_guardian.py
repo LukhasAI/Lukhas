@@ -8,6 +8,7 @@
 
 Manages ethical checks for LUKHAS.
 """
+
 import logging
 from typing import Any
 

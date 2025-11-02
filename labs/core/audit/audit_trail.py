@@ -2,6 +2,7 @@
 Enterprise Cognitive AI Audit Trail System
 Provides comprehensive logging, tracking, and compliance for all Cognitive AI operations
 """
+
 import asyncio
 import gzip
 import hashlib

@@ -4,6 +4,7 @@ This file provides a consolidated OpenAI client wrapper used by the
 candidate bridge. The implementation is intentionally conservative and
 typed to reduce static-analysis noise during the migration work.
 """
+
 import asyncio
 import json
 import logging

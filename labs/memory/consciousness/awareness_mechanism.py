@@ -23,6 +23,7 @@ from typing import Any, Optional
 
 class AwarenessLevel(Enum):
     """Different levels of consciousness awareness"""
+
     UNCONSCIOUS = 0.0
     SUBCONSCIOUS = 0.3
     PRECONSCIOUS = 0.5
@@ -33,6 +34,7 @@ class AwarenessLevel(Enum):
 
 class AwarenessState(Enum):
     """Different states of awareness"""
+
     DORMANT = "dormant"
     EMERGING = "emerging"
     ACTIVE = "active"
@@ -44,6 +46,7 @@ class AwarenessState(Enum):
 @dataclass
 class AwarenessEvent:
     """Represents a single awareness event"""
+
     event_id: str
     timestamp: datetime
     awareness_level: AwarenessLevel
@@ -57,6 +60,7 @@ class AwarenessEvent:
 @dataclass
 class ConsciousnessState:
     """Current state of consciousness"""
+
     awareness_level: AwarenessLevel
     awareness_state: AwarenessState
     attention_focus: list[str]
@@ -90,7 +94,7 @@ class AwarenessMechanism:
             attention_focus=[],
             working_memory=[],
             meta_thoughts=[],
-            emotional_baseline={'valence': 0.5, 'arousal': 0.5, 'dominance': 0.5}
+            emotional_baseline={"valence": 0.5, "arousal": 0.5, "dominance": 0.5},
         )
 
         # Awareness tracking
@@ -100,20 +104,20 @@ class AwarenessMechanism:
 
         # Meta-cognitive monitoring
         self.meta_cognitive_state = {
-            'self_monitoring_active': True,
-            'reflection_depth': 0.7,
-            'introspection_frequency': 0.1,  # How often to introspect
-            'awareness_threshold': 0.5,
-            'last_self_reflection': None
+            "self_monitoring_active": True,
+            "reflection_depth": 0.7,
+            "introspection_frequency": 0.1,  # How often to introspect
+            "awareness_threshold": 0.5,
+            "last_self_reflection": None,
         }
 
         # Performance metrics
         self.awareness_metrics = {
-            'total_awareness_events': 0,
-            'average_awareness_level': 0.0,
-            'reflection_cycles_completed': 0,
-            'consciousness_state_changes': 0,
-            'meta_cognitive_insights': 0
+            "total_awareness_events": 0,
+            "average_awareness_level": 0.0,
+            "reflection_cycles_completed": 0,
+            "consciousness_state_changes": 0,
+            "meta_cognitive_insights": 0,
         }
 
     async def initialize(self) -> bool:
@@ -147,9 +151,9 @@ class AwarenessMechanism:
         awareness_level = await self._calculate_awareness_level(trigger_data)
 
         # Extract content and context
-        content = trigger_data.get('content', 'Unknown awareness trigger')
-        triggers = trigger_data.get('triggers', [])
-        emotional_context = trigger_data.get('emotional_context', {})
+        content = trigger_data.get("content", "Unknown awareness trigger")
+        triggers = trigger_data.get("triggers", [])
+        emotional_context = trigger_data.get("emotional_context", {})
 
         # Generate meta-cognitive data
         meta_cognitive_data = await self._generate_meta_cognitive_data(trigger_data)
@@ -166,12 +170,12 @@ class AwarenessMechanism:
             triggers=triggers,
             emotional_context=emotional_context,
             meta_cognitive_data=meta_cognitive_data,
-            reflection_depth=reflection_depth
+            reflection_depth=reflection_depth,
         )
 
         # Store event
         self.awareness_events.append(awareness_event)
-        self.awareness_metrics['total_awareness_events'] += 1
+        self.awareness_metrics["total_awareness_events"] += 1
 
         # Update consciousness state
         await self._update_consciousness_state(awareness_event)
@@ -205,21 +209,21 @@ class AwarenessMechanism:
         self_assessment = await self._generate_self_assessment()
 
         reflection_data = {
-            'reflection_id': f"refl_{reflection_start.strftime('%Y%m%d_%H%M%S')}",
-            'timestamp': reflection_start.isoformat(),
-            'consciousness_analysis': consciousness_analysis,
-            'recent_events_analysis': recent_events_analysis,
-            'meta_cognitive_insights': meta_insights,
-            'emotional_coherence': emotional_coherence,
-            'self_assessment': self_assessment,
-            'reflection_depth': self.meta_cognitive_state['reflection_depth'],
-            'awareness_level_during_reflection': self.consciousness_state.awareness_level.name
+            "reflection_id": f"refl_{reflection_start.strftime('%Y%m%d_%H%M%S')}",
+            "timestamp": reflection_start.isoformat(),
+            "consciousness_analysis": consciousness_analysis,
+            "recent_events_analysis": recent_events_analysis,
+            "meta_cognitive_insights": meta_insights,
+            "emotional_coherence": emotional_coherence,
+            "self_assessment": self_assessment,
+            "reflection_depth": self.meta_cognitive_state["reflection_depth"],
+            "awareness_level_during_reflection": self.consciousness_state.awareness_level.name,
         }
 
         # Store reflection
         self.reflection_history.append(reflection_data)
-        self.awareness_metrics['reflection_cycles_completed'] += 1
-        self.meta_cognitive_state['last_self_reflection'] = reflection_start.isoformat()
+        self.awareness_metrics["reflection_cycles_completed"] += 1
+        self.meta_cognitive_state["last_self_reflection"] = reflection_start.isoformat()
 
         self.logger.info(f"Generated self-reflection: {reflection_data['reflection_id']}")
 
@@ -229,7 +233,7 @@ class AwarenessMechanism:
         """Update current attention focus"""
 
         # Limit attention focus to prevent overwhelm
-        max_focus_items = self.config.get('max_attention_focus', 7)
+        max_focus_items = self.config.get("max_attention_focus", 7)
 
         # Update consciousness state
         self.consciousness_state.attention_focus = focus_items[:max_focus_items]
@@ -240,11 +244,13 @@ class AwarenessMechanism:
 
         # Generate awareness event for significant attention changes
         if len(focus_items) > max_focus_items * 0.8:
-            await self.process_awareness_trigger({
-                'content': 'High attention load detected',
-                'triggers': ['attention_overload'],
-                'emotional_context': {'arousal': 0.8, 'valence': 0.3}
-            })
+            await self.process_awareness_trigger(
+                {
+                    "content": "High attention load detected",
+                    "triggers": ["attention_overload"],
+                    "emotional_context": {"arousal": 0.8, "valence": 0.3},
+                }
+            )
 
     async def integrate_with_memory(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Integrate awareness with memory systems"""
@@ -254,43 +260,45 @@ class AwarenessMechanism:
 
         # Generate awareness events from memory
         if consciousness_relevance > 0.6:
-            awareness_event = await self.process_awareness_trigger({
-                'content': f"Memory with high consciousness relevance: {memory_data.get('id', 'unknown')}",
-                'triggers': ['memory_integration'],
-                'emotional_context': memory_data.get('emotional_context', {}),
-                'memory_reference': memory_data.get('id')
-            })
+            awareness_event = await self.process_awareness_trigger(
+                {
+                    "content": f"Memory with high consciousness relevance: {memory_data.get('id', 'unknown')}",
+                    "triggers": ["memory_integration"],
+                    "emotional_context": memory_data.get("emotional_context", {}),
+                    "memory_reference": memory_data.get("id"),
+                }
+            )
 
             return {
-                'integration_successful': True,
-                'consciousness_relevance': consciousness_relevance,
-                'awareness_event_generated': awareness_event.event_id
+                "integration_successful": True,
+                "consciousness_relevance": consciousness_relevance,
+                "awareness_event_generated": awareness_event.event_id,
             }
 
         return {
-            'integration_successful': True,
-            'consciousness_relevance': consciousness_relevance,
-            'awareness_event_generated': None
+            "integration_successful": True,
+            "consciousness_relevance": consciousness_relevance,
+            "awareness_event_generated": None,
         }
 
     async def get_awareness_state(self) -> dict[str, Any]:
         """Get current awareness state"""
 
         return {
-            'consciousness_state': {
-                'awareness_level': self.consciousness_state.awareness_level.name,
-                'awareness_state': self.consciousness_state.awareness_state.name,
-                'attention_focus_count': len(self.consciousness_state.attention_focus),
-                'working_memory_items': len(self.consciousness_state.working_memory),
-                'meta_thoughts_count': len(self.consciousness_state.meta_thoughts),
-                'emotional_baseline': self.consciousness_state.emotional_baseline,
-                'temporal_coherence': self.consciousness_state.temporal_coherence,
-                'last_update': self.consciousness_state.last_update.isoformat()
+            "consciousness_state": {
+                "awareness_level": self.consciousness_state.awareness_level.name,
+                "awareness_state": self.consciousness_state.awareness_state.name,
+                "attention_focus_count": len(self.consciousness_state.attention_focus),
+                "working_memory_items": len(self.consciousness_state.working_memory),
+                "meta_thoughts_count": len(self.consciousness_state.meta_thoughts),
+                "emotional_baseline": self.consciousness_state.emotional_baseline,
+                "temporal_coherence": self.consciousness_state.temporal_coherence,
+                "last_update": self.consciousness_state.last_update.isoformat(),
             },
-            'meta_cognitive_state': self.meta_cognitive_state.copy(),
-            'awareness_metrics': self.awareness_metrics.copy(),
-            'recent_events_count': len(self.awareness_events[-10:]),
-            'reflection_history_count': len(self.reflection_history)
+            "meta_cognitive_state": self.meta_cognitive_state.copy(),
+            "awareness_metrics": self.awareness_metrics.copy(),
+            "recent_events_count": len(self.awareness_events[-10:]),
+            "reflection_history_count": len(self.reflection_history),
         }
 
     # Private methods for internal processing
@@ -322,8 +330,8 @@ class AwarenessMechanism:
         base_level = self.consciousness_state.awareness_level.value
 
         # Adjust based on trigger intensity
-        trigger_intensity = trigger_data.get('intensity', 0.5)
-        emotional_intensity = sum(abs(v - 0.5) for v in trigger_data.get('emotional_context', {}).values())
+        trigger_intensity = trigger_data.get("intensity", 0.5)
+        emotional_intensity = sum(abs(v - 0.5) for v in trigger_data.get("emotional_context", {}).values())
 
         # Calculate combined awareness
         combined_level = (base_level + trigger_intensity + emotional_intensity) / 3.0
@@ -347,13 +355,13 @@ class AwarenessMechanism:
         """Generate meta-cognitive data for awareness event"""
 
         return {
-            'thinking_about_thinking': True,
-            'self_monitoring_active': self.meta_cognitive_state['self_monitoring_active'],
-            'cognitive_load': len(self.consciousness_state.working_memory) / 10.0,
-            'attention_distribution': self._calculate_attention_distribution(),
-            'meta_level': 'primary',  # Could be primary, secondary, tertiary
-            'recursive_depth': 1,
-            'cognitive_coherence': self.consciousness_state.temporal_coherence
+            "thinking_about_thinking": True,
+            "self_monitoring_active": self.meta_cognitive_state["self_monitoring_active"],
+            "cognitive_load": len(self.consciousness_state.working_memory) / 10.0,
+            "attention_distribution": self._calculate_attention_distribution(),
+            "meta_level": "primary",  # Could be primary, secondary, tertiary
+            "recursive_depth": 1,
+            "cognitive_coherence": self.consciousness_state.temporal_coherence,
         }
 
     def _calculate_attention_distribution(self) -> dict[str, float]:
@@ -367,16 +375,15 @@ class AwarenessMechanism:
         attention_per_item = 1.0 / len(focus_items)
         return {item: attention_per_item for item in focus_items}
 
-    async def _calculate_reflection_depth(self, trigger_data: dict[str, Any],
-                                        awareness_level: AwarenessLevel) -> float:
+    async def _calculate_reflection_depth(self, trigger_data: dict[str, Any], awareness_level: AwarenessLevel) -> float:
         """Calculate depth of reflection needed"""
 
         # Base depth from awareness level
         base_depth = awareness_level.value
 
         # Adjust based on trigger complexity
-        trigger_complexity = len(trigger_data.get('triggers', [])) / 10.0
-        emotional_complexity = len(trigger_data.get('emotional_context', {})) / 5.0
+        trigger_complexity = len(trigger_data.get("triggers", [])) / 10.0
+        emotional_complexity = len(trigger_data.get("emotional_context", {})) / 5.0
 
         reflection_depth = (base_depth + trigger_complexity + emotional_complexity) / 3.0
         return max(0.0, min(1.0, reflection_depth))
@@ -405,7 +412,7 @@ class AwarenessMechanism:
         self.consciousness_state.last_update = datetime.now(timezone.utc)
 
         # Track state changes
-        self.awareness_metrics['consciousness_state_changes'] += 1
+        self.awareness_metrics["consciousness_state_changes"] += 1
 
     async def _trigger_deep_reflection(self, awareness_event: AwarenessEvent):
         """Trigger deep reflection based on significant awareness event"""
@@ -417,13 +424,13 @@ class AwarenessMechanism:
         self.consciousness_state.meta_thoughts.append(meta_thought)
 
         # Limit meta-thoughts to prevent overflow
-        max_meta_thoughts = self.config.get('max_meta_thoughts', 10)
+        max_meta_thoughts = self.config.get("max_meta_thoughts", 10)
         if len(self.consciousness_state.meta_thoughts) > max_meta_thoughts:
             self.consciousness_state.meta_thoughts = self.consciousness_state.meta_thoughts[-max_meta_thoughts:]
 
         # Increase reflection depth temporarily
-        original_depth = self.meta_cognitive_state['reflection_depth']
-        self.meta_cognitive_state['reflection_depth'] = min(1.0, original_depth + 0.2)
+        original_depth = self.meta_cognitive_state["reflection_depth"]
+        self.meta_cognitive_state["reflection_depth"] = min(1.0, original_depth + 0.2)
 
         # Schedule reflection depth return to normal
         asyncio.create_task(self._restore_reflection_depth(original_depth))
@@ -431,26 +438,22 @@ class AwarenessMechanism:
     async def _restore_reflection_depth(self, original_depth: float, delay: float = 60.0):
         """Restore reflection depth to original after delay"""
         await asyncio.sleep(delay)
-        self.meta_cognitive_state['reflection_depth'] = original_depth
+        self.meta_cognitive_state["reflection_depth"] = original_depth
 
     async def _perform_awareness_monitoring(self):
         """Perform regular awareness monitoring"""
 
         # Check for spontaneous awareness events
         if len(self.consciousness_state.working_memory) > 8:
-            await self.process_awareness_trigger({
-                'content': 'Working memory approaching capacity',
-                'triggers': ['memory_load'],
-                'intensity': 0.7
-            })
+            await self.process_awareness_trigger(
+                {"content": "Working memory approaching capacity", "triggers": ["memory_load"], "intensity": 0.7}
+            )
 
         # Check for attention fragmentation
         if len(self.consciousness_state.attention_focus) > 5:
-            await self.process_awareness_trigger({
-                'content': 'Attention highly fragmented',
-                'triggers': ['attention_fragmentation'],
-                'intensity': 0.6
-            })
+            await self.process_awareness_trigger(
+                {"content": "Attention highly fragmented", "triggers": ["attention_fragmentation"], "intensity": 0.6}
+            )
 
     async def _perform_meta_cognitive_processing(self):
         """Perform meta-cognitive processing"""
@@ -458,37 +461,37 @@ class AwarenessMechanism:
         # Update awareness metrics
         if self.awareness_events:
             levels = [event.awareness_level.value for event in self.awareness_events[-100:]]
-            self.awareness_metrics['average_awareness_level'] = sum(levels) / len(levels)
+            self.awareness_metrics["average_awareness_level"] = sum(levels) / len(levels)
 
         # Check if reflection is needed
-        last_reflection = self.meta_cognitive_state.get('last_self_reflection')
+        last_reflection = self.meta_cognitive_state.get("last_self_reflection")
         if not last_reflection or self._time_since_last_reflection() > 300:  # 5 minutes
             await self.generate_self_reflection()
 
     def _time_since_last_reflection(self) -> float:
         """Calculate time since last self-reflection in seconds"""
-        last_reflection = self.meta_cognitive_state.get('last_self_reflection')
+        last_reflection = self.meta_cognitive_state.get("last_self_reflection")
         if not last_reflection:
-            return float('inf')
+            return float("inf")
 
-        last_time = datetime.fromisoformat(last_reflection.replace('Z', '+00:00'))
+        last_time = datetime.fromisoformat(last_reflection.replace("Z", "+00:00"))
         return (datetime.now(timezone.utc) - last_time).total_seconds()
 
     async def _initialize_working_memory(self):
         """Initialize working memory with basic items"""
         self.consciousness_state.working_memory = [
-            'awareness_mechanism_active',
-            'consciousness_monitoring',
-            'meta_cognitive_processing'
+            "awareness_mechanism_active",
+            "consciousness_monitoring",
+            "meta_cognitive_processing",
         ]
 
     async def _analyze_consciousness_state(self) -> dict[str, Any]:
         """Analyze current consciousness state"""
         return {
-            'awareness_level_stability': self._calculate_awareness_stability(),
-            'attention_coherence': self._calculate_attention_coherence(),
-            'emotional_balance': self._calculate_emotional_balance(),
-            'working_memory_efficiency': self._calculate_working_memory_efficiency()
+            "awareness_level_stability": self._calculate_awareness_stability(),
+            "attention_coherence": self._calculate_attention_coherence(),
+            "emotional_balance": self._calculate_emotional_balance(),
+            "working_memory_efficiency": self._calculate_working_memory_efficiency(),
         }
 
     def _calculate_awareness_stability(self) -> float:
@@ -497,7 +500,9 @@ class AwarenessMechanism:
             return 1.0
 
         recent_levels = [event.awareness_level.value for event in self.awareness_events[-10:]]
-        variance = sum((level - sum(recent_levels)/len(recent_levels))**2 for level in recent_levels) / len(recent_levels)
+        variance = sum((level - sum(recent_levels) / len(recent_levels)) ** 2 for level in recent_levels) / len(
+            recent_levels
+        )
         return max(0.0, 1.0 - variance)
 
     def _calculate_attention_coherence(self) -> float:
@@ -507,7 +512,7 @@ class AwarenessMechanism:
 
         # Simplified coherence based on number of focus items
         focus_count = len(self.consciousness_state.attention_focus)
-        optimal_focus = self.config.get('optimal_attention_focus', 3)
+        optimal_focus = self.config.get("optimal_attention_focus", 3)
         coherence = 1.0 - abs(focus_count - optimal_focus) / optimal_focus
         return max(0.0, coherence)
 
@@ -525,7 +530,7 @@ class AwarenessMechanism:
     def _calculate_working_memory_efficiency(self) -> float:
         """Calculate working memory efficiency"""
         current_load = len(self.consciousness_state.working_memory)
-        optimal_load = self.config.get('optimal_working_memory', 7)
+        optimal_load = self.config.get("optimal_working_memory", 7)
 
         if current_load <= optimal_load:
             return 1.0
@@ -538,7 +543,7 @@ class AwarenessMechanism:
         recent_events = self.awareness_events[-20:]  # Last 20 events
 
         if not recent_events:
-            return {'no_recent_events': True}
+            return {"no_recent_events": True}
 
         # Analyze patterns
         level_distribution = {}
@@ -552,10 +557,10 @@ class AwarenessMechanism:
                 trigger_frequency[trigger] = trigger_frequency.get(trigger, 0) + 1
 
         return {
-            'event_count': len(recent_events),
-            'level_distribution': level_distribution,
-            'trigger_frequency': trigger_frequency,
-            'average_reflection_depth': sum(e.reflection_depth for e in recent_events) / len(recent_events)
+            "event_count": len(recent_events),
+            "level_distribution": level_distribution,
+            "trigger_frequency": trigger_frequency,
+            "average_reflection_depth": sum(e.reflection_depth for e in recent_events) / len(recent_events),
         }
 
     async def _generate_meta_cognitive_insights(self) -> list[str]:
@@ -563,7 +568,7 @@ class AwarenessMechanism:
         insights = []
 
         # Analyze awareness patterns
-        if self.awareness_metrics['average_awareness_level'] > 0.8:
+        if self.awareness_metrics["average_awareness_level"] > 0.8:
             insights.append("Maintaining high awareness levels consistently")
 
         if len(self.consciousness_state.meta_thoughts) > 5:
@@ -580,22 +585,22 @@ class AwarenessMechanism:
 
         # Calculate emotional variance
         mean_emotion = sum(baseline.values()) / len(baseline)
-        variance = sum((v - mean_emotion)**2 for v in baseline.values()) / len(baseline)
+        variance = sum((v - mean_emotion) ** 2 for v in baseline.values()) / len(baseline)
 
         return {
-            'emotional_variance': variance,
-            'emotional_mean': mean_emotion,
-            'coherence_score': max(0.0, 1.0 - variance),
-            'dominant_emotion': max(baseline.items(), key=lambda x: x[1])[0] if baseline else None
+            "emotional_variance": variance,
+            "emotional_mean": mean_emotion,
+            "coherence_score": max(0.0, 1.0 - variance),
+            "dominant_emotion": max(baseline.items(), key=lambda x: x[1])[0] if baseline else None,
         }
 
     async def _generate_self_assessment(self) -> dict[str, Any]:
         """Generate self-assessment"""
         return {
-            'consciousness_effectiveness': self._assess_consciousness_effectiveness(),
-            'meta_cognitive_performance': self._assess_meta_cognitive_performance(),
-            'awareness_integration': self._assess_awareness_integration(),
-            'overall_coherence': self._assess_overall_coherence()
+            "consciousness_effectiveness": self._assess_consciousness_effectiveness(),
+            "meta_cognitive_performance": self._assess_meta_cognitive_performance(),
+            "awareness_integration": self._assess_awareness_integration(),
+            "overall_coherence": self._assess_overall_coherence(),
         }
 
     def _assess_consciousness_effectiveness(self) -> float:
@@ -604,14 +609,14 @@ class AwarenessMechanism:
             self.consciousness_state.temporal_coherence,
             self._calculate_awareness_stability(),
             self._calculate_attention_coherence(),
-            self._calculate_working_memory_efficiency()
+            self._calculate_working_memory_efficiency(),
         ]
         return sum(factors) / len(factors)
 
     def _assess_meta_cognitive_performance(self) -> float:
         """Assess meta-cognitive performance"""
         reflection_frequency = len(self.reflection_history)
-        insights_generated = self.awareness_metrics.get('meta_cognitive_insights', 0)
+        insights_generated = self.awareness_metrics.get("meta_cognitive_insights", 0)
 
         # Simple performance metric
         base_performance = 0.7  # Baseline
@@ -623,7 +628,7 @@ class AwarenessMechanism:
     def _assess_awareness_integration(self) -> float:
         """Assess how well awareness integrates with other systems"""
         # Simplified assessment based on event processing
-        events_processed = self.awareness_metrics['total_awareness_events']
+        events_processed = self.awareness_metrics["total_awareness_events"]
 
         if events_processed == 0:
             return 0.5  # Neutral if no events
@@ -637,7 +642,7 @@ class AwarenessMechanism:
             self._assess_consciousness_effectiveness(),
             self._assess_meta_cognitive_performance(),
             self._assess_awareness_integration(),
-            self.consciousness_state.temporal_coherence
+            self.consciousness_state.temporal_coherence,
         ]
         return sum(components) / len(components)
 
@@ -647,28 +652,28 @@ class AwarenessMechanism:
         relevance_score = 0.0
 
         # Check for consciousness-related keywords
-        content = str(memory_data.get('content', '')).lower()
-        consciousness_keywords = ['awareness', 'consciousness', 'reflection', 'meta', 'thinking', 'self']
+        content = str(memory_data.get("content", "")).lower()
+        consciousness_keywords = ["awareness", "consciousness", "reflection", "meta", "thinking", "self"]
 
         keyword_matches = sum(1 for keyword in consciousness_keywords if keyword in content)
         relevance_score += min(0.4, keyword_matches / len(consciousness_keywords))
 
         # Check emotional context alignment
-        memory_emotions = memory_data.get('emotional_context', {})
+        memory_emotions = memory_data.get("emotional_context", {})
         current_emotions = self.consciousness_state.emotional_baseline
 
         emotion_alignment = 0.0
         for emotion in current_emotions:
             if emotion in memory_emotions:
                 diff = abs(current_emotions[emotion] - memory_emotions[emotion])
-                emotion_alignment += (1.0 - diff)
+                emotion_alignment += 1.0 - diff
 
         if current_emotions:
             emotion_alignment /= len(current_emotions)
             relevance_score += emotion_alignment * 0.3
 
         # Check importance score
-        importance = memory_data.get('importance', 0.5)
+        importance = memory_data.get("importance", 0.5)
         relevance_score += importance * 0.3
 
         return min(1.0, relevance_score)

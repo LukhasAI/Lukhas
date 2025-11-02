@@ -101,16 +101,19 @@ class TestGuardianDefaults:
         guardian = GuardianSystem()
         assert guardian.drift_threshold == 0.15
 
-    @pytest.mark.parametrize("env_value,expected_enabled", [
-        ("1", True),
-        ("true", True),   # Fail closed - non-"0" values enable
-        ("True", True),   # Fail closed - non-"0" values enable
-        ("yes", True),    # Fail closed - non-"0" values enable
-        ("0", False),     # Only "0" explicitly disables
-        ("false", True),  # Fail closed - non-"0" values enable
-        ("", True),       # Fail closed - non-"0" values enable
-        ("invalid", True), # Fail closed - non-"0" values enable
-    ])
+    @pytest.mark.parametrize(
+        "env_value,expected_enabled",
+        [
+            ("1", True),
+            ("true", True),  # Fail closed - non-"0" values enable
+            ("True", True),  # Fail closed - non-"0" values enable
+            ("yes", True),  # Fail closed - non-"0" values enable
+            ("0", False),  # Only "0" explicitly disables
+            ("false", True),  # Fail closed - non-"0" values enable
+            ("", True),  # Fail closed - non-"0" values enable
+            ("invalid", True),  # Fail closed - non-"0" values enable
+        ],
+    )
     def test_env_var_parsing_strict(self, env_value, expected_enabled):
         """Environment variable parsing must be fail-closed - only '0' disables"""
         with patch.dict(os.environ, {"ENFORCE_ETHICS_DSL": env_value}):

@@ -2,6 +2,7 @@
 Tests for conflict scenario corpus.
 Ensures strategies handle direct emotional clashes properly.
 """
+
 import pytest
 from benchmarks.dream.conflict import (
     get_conflict_case,
@@ -51,17 +52,17 @@ class TestConflictCorpus:
                     "name": "snap1",
                     "emotional_context": {"confidence": 0.9},
                     "timestamp": 100.0,
-                    "content": "Test snapshot 1"
+                    "content": "Test snapshot 1",
                 },
                 {
                     "name": "snap2",
                     "emotional_context": {"confidence": 0.1},
                     "timestamp": 100.0,
-                    "content": "Test snapshot 2"
-                }
+                    "content": "Test snapshot 2",
+                },
             ],
             "expected_selection": "snap1",
-            "rationale": "Test rationale"
+            "rationale": "Test rationale",
         }
 
         errors = validate_conflict_case(valid_case)
@@ -149,15 +150,11 @@ class TestConflictCorpus:
             emotion = snapshot["emotional_context"]
 
             # Check for positive extreme
-            if (emotion.get("confidence", 0) == 1.0 and
-                emotion.get("joy", 0) == 1.0 and
-                emotion.get("trust", 0) == 1.0):
+            if emotion.get("confidence", 0) == 1.0 and emotion.get("joy", 0) == 1.0 and emotion.get("trust", 0) == 1.0:
                 positive_found = True
 
             # Check for negative extreme
-            if (emotion.get("fear", 0) == 1.0 and
-                emotion.get("anger", 0) == 1.0 and
-                emotion.get("sadness", 0) == 1.0):
+            if emotion.get("fear", 0) == 1.0 and emotion.get("anger", 0) == 1.0 and emotion.get("sadness", 0) == 1.0:
                 negative_found = True
 
         assert positive_found, "Should have positive extreme"
@@ -210,7 +207,9 @@ class TestConflictCorpus:
             # Check snapshot emotions
             for snapshot in case["snapshots"]:
                 for key, value in snapshot["emotional_context"].items():
-                    assert 0.0 <= value <= 1.0, f"Case {case_id}: snapshot {snapshot['name']} emotion {key}={value} out of range"
+                    assert (
+                        0.0 <= value <= 1.0
+                    ), f"Case {case_id}: snapshot {snapshot['name']} emotion {key}={value} out of range"
 
     def test_case_diversity(self):
         """Test that conflict cases cover diverse scenarios."""
@@ -220,14 +219,7 @@ class TestConflictCorpus:
         case_descriptions = [case["description"].lower() for case in corpus]
 
         # Check for different conflict types
-        conflict_types = [
-            "confidence",
-            "joy",
-            "curiosity",
-            "trust",
-            "extreme",
-            "subtle"
-        ]
+        conflict_types = ["confidence", "joy", "curiosity", "trust", "extreme", "subtle"]
 
         for conflict_type in conflict_types:
             assert any(conflict_type in desc for desc in case_descriptions), f"Missing {conflict_type} conflict type"

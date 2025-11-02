@@ -6,6 +6,7 @@ Enables hybrid AI decision-making with both centralized and distributed intellig
 
 Based on GPT5 audit recommendations for parallel AI orchestration.
 """
+
 import asyncio
 import logging
 import time
@@ -160,6 +161,7 @@ class GPTColonyOrchestrator:
             try:
                 # Import signal bus lazily
                 from orchestration.signals.signal_bus import SignalBus
+
                 self._signal_bus = SignalBus()
                 self._signal_bus_loaded = True
             except ImportError as e:
@@ -230,9 +232,7 @@ class GPTColonyOrchestrator:
         colony_task = asyncio.create_task(self._process_with_colony(task))
 
         # Wait for both
-        gpt_response, colony_response = await asyncio.gather(
-            gpt_task, colony_task, return_exceptions=True
-        )
+        gpt_response, colony_response = await asyncio.gather(gpt_task, colony_task, return_exceptions=True)
 
         # Handle exceptions
         if isinstance(gpt_response, Exception):
@@ -381,9 +381,7 @@ class GPTColonyOrchestrator:
         max_iterations = 3
         convergence_threshold = 0.9
 
-        result = OrchestrationResult(
-            task_id=task.task_id, mode_used=OrchestrationMode.COLLABORATIVE
-        )
+        result = OrchestrationResult(task_id=task.task_id, mode_used=OrchestrationMode.COLLABORATIVE)
 
         current_context = task.context.copy()
 
@@ -481,10 +479,7 @@ class GPTColonyOrchestrator:
         # GPT aggregates colony results
         aggregation_context = {
             **task.context,
-            "colony_results": [
-                {"decision": str(r.decision), "confidence": r.confidence}
-                for r in colony_results
-            ],
+            "colony_results": [{"decision": str(r.decision), "confidence": r.confidence} for r in colony_results],
         }
 
         gpt_final = await self._process_with_gpt(
@@ -521,11 +516,7 @@ class GPTColonyOrchestrator:
         colony_responses = await asyncio.gather(*colony_tasks, return_exceptions=True)
 
         # Filter successful responses
-        valid_responses = [
-            r
-            for r in colony_responses
-            if not isinstance(r, Exception) and r is not None
-        ]
+        valid_responses = [r for r in colony_responses if not isinstance(r, Exception) and r is not None]
 
         if not valid_responses:
             return OrchestrationResult(
@@ -576,9 +567,7 @@ class GPTColonyOrchestrator:
             result.confidence = gpt_synthesis.get("confidence", 0.5)
         else:
             result.final_decision = best_decision
-            result.confidence = (
-                decisions[best_decision]["total_confidence"] / max(1, total_confidence)
-            )
+            result.confidence = decisions[best_decision]["total_confidence"] / max(1, total_confidence)
 
         result.metadata["colonies_participated"] = len(valid_responses)
         result.metadata["federated_consensus"] = best_decision
@@ -593,6 +582,7 @@ class GPTColonyOrchestrator:
                 from labs.consciousness.reflection.openai_modulated_service import OpenAICapability
             else:
                 import importlib
+
                 module = importlib.import_module("labs.consciousness.reflection.openai_modulated_service")
                 OpenAICapability = getattr(module, "OpenAICapability")
 
@@ -624,9 +614,7 @@ class GPTColonyOrchestrator:
         colony_id = next(iter(self.colonies.keys()))
         return await self._process_with_specific_colony(task, colony_id)
 
-    async def _process_with_specific_colony(
-        self, task: OrchestrationTask, colony_id: str
-    ) -> Optional[ConsensusResult]:
+    async def _process_with_specific_colony(self, task: OrchestrationTask, colony_id: str) -> Optional[ConsensusResult]:
         """Process task with specific colony"""
         try:
             colony = self.colonies.get(colony_id)
@@ -641,9 +629,7 @@ class GPTColonyOrchestrator:
             logger.error(f"Colony processing error: {e}")
             return None
 
-    def _responses_agree(
-        self, gpt_response: dict[str, Any], colony_response: ConsensusResult
-    ) -> bool:
+    def _responses_agree(self, gpt_response: dict[str, Any], colony_response: ConsensusResult) -> bool:
         """Check if GPT and Colony responses agree"""
         if not gpt_response or not colony_response:
             return False
@@ -667,14 +653,12 @@ class GPTColonyOrchestrator:
         """Update performance metrics"""
         # Simplified metric tracking
         if result.gpt_response:
-            self.performance_metrics[
-                "gpt_success_rate"
-            ] = self.performance_metrics["gpt_success_rate"] * 0.9 + 0.1
+            self.performance_metrics["gpt_success_rate"] = self.performance_metrics["gpt_success_rate"] * 0.9 + 0.1
 
         if result.colony_response:
-            self.performance_metrics[
-                "colony_success_rate"
-            ] = self.performance_metrics["colony_success_rate"] * 0.9 + 0.1
+            self.performance_metrics["colony_success_rate"] = (
+                self.performance_metrics["colony_success_rate"] * 0.9 + 0.1
+            )
 
         if result.confidence > 0.8:
             self.performance_metrics["collaboration_improvement"] = (
@@ -682,8 +666,7 @@ class GPTColonyOrchestrator:
             )
 
         self.performance_metrics["avg_processing_time"] = (
-            self.performance_metrics["avg_processing_time"] * 0.9
-            + result.processing_time * 0.1
+            self.performance_metrics["avg_processing_time"] * 0.9 + result.processing_time * 0.1
         )
 
     async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):
@@ -704,10 +687,7 @@ class GPTColonyOrchestrator:
             "completed_tasks": len(self.results),
             "registered_colonies": len(self.colonies),
             "orchestration_modes_used": {
-                mode.value: (
-                    sum(1 for r in self.results.values() if r.mode_used == mode)
-                )
-                for mode in OrchestrationMode
+                mode.value: (sum(1 for r in self.results.values() if r.mode_used == mode)) for mode in OrchestrationMode
             },
         }
 

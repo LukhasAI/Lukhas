@@ -25,6 +25,7 @@ Features:
 #TAG:constitutional
 #TAG:constellation
 """
+
 import asyncio
 import logging
 import statistics
@@ -672,7 +673,9 @@ class AdvancedDriftDetector:
                 method_parameters={
                     "threshold": self.drift_threshold,
                     "methods_used": list(drift_scores.keys()),
-                    "baseline_age": (datetime.now(timezone.utc) - baseline.get("created_at", datetime.now(timezone.utc))).total_seconds(),
+                    "baseline_age": (
+                        datetime.now(timezone.utc) - baseline.get("created_at", datetime.now(timezone.utc))
+                    ).total_seconds(),
                 },
             )
 

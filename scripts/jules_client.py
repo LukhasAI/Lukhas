@@ -27,17 +27,10 @@ class JulesClient:
             raise ValueError("JULES_API_KEY not found in environment")
 
         self.base_url = "https://jules.googleapis.com/v1alpha"
-        self.headers = {
-            "X-Goog-Api-Key": self.api_key,
-            "Content-Type": "application/json"
-        }
+        self.headers = {"X-Goog-Api-Key": self.api_key, "Content-Type": "application/json"}
 
     def _make_request(
-        self,
-        method: str,
-        endpoint: str,
-        data: Optional[Dict[str, Any]] = None,
-        timeout: int = 30
+        self, method: str, endpoint: str, data: Optional[Dict[str, Any]] = None, timeout: int = 30
     ) -> Dict[str, Any]:
         """Make HTTP request to Jules API."""
         url = f"{self.base_url}/{endpoint}"
@@ -46,12 +39,7 @@ class JulesClient:
             if method == "GET":
                 response = requests.get(url, headers=self.headers, timeout=timeout)
             elif method == "POST":
-                response = requests.post(
-                    url,
-                    headers=self.headers,
-                    json=data,
-                    timeout=timeout
-                )
+                response = requests.post(url, headers=self.headers, json=data, timeout=timeout)
             else:
                 raise ValueError(f"Unsupported method: {method}")
 
@@ -75,19 +63,12 @@ class JulesClient:
         return self._make_request("GET", "sources")
 
     def create_session(
-        self,
-        prompt: str,
-        source_id: str = "github/LukhasAI/Lukhas",
-        ref: str = "main"
+        self, prompt: str, source_id: str = "github/LukhasAI/Lukhas", ref: str = "main"
     ) -> Dict[str, Any]:
         """Create a new Jules session."""
         print(f"🚀 Creating Jules session for source {source_id}...")
 
-        payload = {
-            "prompt": prompt,
-            "source": f"sources/{source_id}",
-            "ref": ref
-        }
+        payload = {"prompt": prompt, "source": f"sources/{source_id}", "ref": ref}
 
         return self._make_request("POST", "sessions", data=payload, timeout=60)
 
@@ -109,7 +90,7 @@ class JulesClient:
 
 def load_task_prompt(task_file: Path) -> str:
     """Extract the task prompt from the Jules task file."""
-    with open(task_file, 'r') as f:
+    with open(task_file, "r") as f:
         content = f.read()
 
     # Extract prompt between EOF markers
@@ -140,17 +121,11 @@ def main():
         "--task-file",
         type=Path,
         default=Path("docs/gonzo/JULES_TASK1_READY.md"),
-        help="Path to task file containing prompt"
+        help="Path to task file containing prompt",
     )
+    create_parser.add_argument("--prompt", type=str, help="Direct prompt text (overrides --task-file)")
     create_parser.add_argument(
-        "--prompt",
-        type=str,
-        help="Direct prompt text (overrides --task-file)"
-    )
-    create_parser.add_argument(
-        "--source-id",
-        default="github/LukhasAI/Lukhas",
-        help="Jules source ID (e.g., github/LukhasAI/Lukhas)"
+        "--source-id", default="github/LukhasAI/Lukhas", help="Jules source ID (e.g., github/LukhasAI/Lukhas)"
     )
     create_parser.add_argument("--ref", default="main", help="Git ref")
 
@@ -184,11 +159,7 @@ def main():
             else:
                 prompt = load_task_prompt(args.task_file)
 
-            result = client.create_session(
-                prompt=prompt,
-                source_id=args.source_id,
-                ref=args.ref
-            )
+            result = client.create_session(prompt=prompt, source_id=args.source_id, ref=args.ref)
             print("✅ Session created successfully!")
             print(json.dumps(result, indent=2))
 

@@ -10,11 +10,7 @@ import json
 import pathlib
 import sys
 
-paths = [
-    pathlib.Path("reports/unit.json"),
-    pathlib.Path("reports/capabilities.json"),
-    pathlib.Path("reports/e2e.json")
-]
+paths = [pathlib.Path("reports/unit.json"), pathlib.Path("reports/capabilities.json"), pathlib.Path("reports/e2e.json")]
 
 total_reruns = 0
 for p in paths:

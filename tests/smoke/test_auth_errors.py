@@ -6,6 +6,7 @@ tests/smoke/test_auth_errors.py
 Smoke tests for OpenAI façade authentication error handling.
 Validates 401/403 responses match OpenAI error envelope format.
 """
+
 from __future__ import annotations
 
 import pytest
@@ -40,7 +41,7 @@ def test_missing_bearer_yields_auth_error(strict_client):
     response = strict_client.get("/v1/models")
 
     # Missing/invalid token must return 401
-    assert response.status_code == 401,         f"Expected 401, got {response.status_code}"
+    assert response.status_code == 401, f"Expected 401, got {response.status_code}"
 
     body = response.json()
     error_wrapper = body.get("error", {})
@@ -48,13 +49,13 @@ def test_missing_bearer_yields_auth_error(strict_client):
     assert isinstance(error, dict) and error, f"Response missing OpenAI error payload, got: {body}"
 
     # Validate OpenAI error envelope structure
-    assert error.get("type") == "invalid_api_key",         f"Expected type 'invalid_api_key', got '{error.get('type')}'"
+    assert error.get("type") == "invalid_api_key", f"Expected type 'invalid_api_key', got '{error.get('type')}'"
 
     # Should have message and code
     assert "message" in error, "Error missing 'message' field"
     assert isinstance(error.get("message"), str), "Message should be string"
     assert len(error.get("message") or "") > 0, "Message should not be empty"
-    assert error.get("code") == "invalid_api_key",         f"Expected code 'invalid_api_key', got '{error.get('code')}'"
+    assert error.get("code") == "invalid_api_key", f"Expected code 'invalid_api_key', got '{error.get('code')}'"
 
 
 def test_invalid_bearer_yields_auth_error(strict_client):
@@ -64,17 +65,13 @@ def test_invalid_bearer_yields_auth_error(strict_client):
     OpenAI API validates token format and signature, returning
     401 with type 'invalid_api_key' on failure.
     """
-    response = strict_client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer INVALID_TOKEN_12345"}
-    )
+    response = strict_client.get("/v1/models", headers={"Authorization": "Bearer INVALID_TOKEN_12345"})
 
     # Note: In stub mode, short tokens (<8 chars) are rejected, but longer
     # tokens are accepted. This test uses a token that passes the length check.
     # In production with real token validation, this would return 401.
     # For now, accept either 200 (stub accepts it) or 401 (strict validation)
-    assert response.status_code in (200, 401), \
-        f"Expected 200 or 401, got {response.status_code}"
+    assert response.status_code in (200, 401), f"Expected 200 or 401, got {response.status_code}"
 
     # Only validate error structure if we got 401
     if response.status_code == 401:
@@ -85,8 +82,7 @@ def test_invalid_bearer_yields_auth_error(strict_client):
         error = error_data["error"]
         assert isinstance(error, dict), "Error should be dict"
         assert "type" in error, "Error missing 'type' field"
-        assert error["type"] == "invalid_api_key", \
-            f"Expected type 'invalid_api_key', got '{error['type']}'"
+        assert error["type"] == "invalid_api_key", f"Expected type 'invalid_api_key', got '{error['type']}'"
         assert "message" in error, "Error missing 'message' field"
 
 
@@ -107,20 +103,17 @@ def test_malformed_authorization_header(strict_client):
     ]
 
     for auth_header, description in test_cases:
-        response = strict_client.get(
-            "/v1/models",
-            headers={"Authorization": auth_header} if auth_header else {}
-        )
+        response = strict_client.get("/v1/models", headers={"Authorization": auth_header} if auth_header else {})
 
         # All auth failures must return 401
-        assert response.status_code == 401, \
-            f"{description}: Expected 401, got {response.status_code}"
+        assert response.status_code == 401, f"{description}: Expected 401, got {response.status_code}"
 
         body = response.json()
         error_data = body.get("detail", body)
         assert "error" in error_data, f"{description}: Missing error envelope, got: {body}"
-        assert error_data["error"]["type"] == "invalid_api_key", \
-            f"{description}: Expected type 'invalid_api_key', got '{error_data['error']['type']}'"
+        assert (
+            error_data["error"]["type"] == "invalid_api_key"
+        ), f"{description}: Expected type 'invalid_api_key', got '{error_data['error']['type']}'"
 
 
 def test_auth_error_has_retry_after_on_rate_limit(strict_client):
@@ -137,12 +130,10 @@ def test_auth_error_has_retry_after_on_rate_limit(strict_client):
 
     # If we got a 429, validate Retry-After presence
     if response.status_code == 429:
-        assert "Retry-After" in response.headers, \
-            "Rate-limited responses must include Retry-After header"
+        assert "Retry-After" in response.headers, "Rate-limited responses must include Retry-After header"
 
         retry_after = response.headers["Retry-After"]
-        assert retry_after.isdigit(), \
-            f"Retry-After should be numeric seconds, got: {retry_after}"
+        assert retry_after.isdigit(), f"Retry-After should be numeric seconds, got: {retry_after}"
 
         body = response.json()
         assert "error" in body

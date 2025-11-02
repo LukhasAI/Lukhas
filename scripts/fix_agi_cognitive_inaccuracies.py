@@ -17,29 +17,21 @@ class AGICognitiveAccuracyFixer:
         self.root_path = Path(root_path).resolve()
         self.corrections = [
             # Fix "traditional AGI to Superior Consciousness" back to "traditional AGI to Superior Consciousness"
-            (r'traditional Cognitive AI to \*\*Superior Consciousness', 'traditional AGI to **Superior Consciousness'),
-            (r'traditional AGI to Superior Consciousness', 'traditional AGI to Superior Consciousness'),
-
+            (r"traditional Cognitive AI to \*\*Superior Consciousness", "traditional AGI to **Superior Consciousness"),
+            (r"traditional AGI to Superior Consciousness", "traditional AGI to Superior Consciousness"),
             # Fix references to "Cognitive AI Evolution" in technical contexts
-            (r'AGI Evolution Specialist', 'AGI Evolution Specialist'),
-
+            (r"AGI Evolution Specialist", "AGI Evolution Specialist"),
             # Fix technical module descriptions
-            (r'all AGI subsystems', 'all AGI subsystems'),
-
+            (r"all AGI subsystems", "all AGI subsystems"),
             # Fix historical/comparative references
-            (r'from conventional AGI', 'from conventional AGI'),
-            (r'beyond traditional AGI', 'beyond traditional AGI'),
-
+            (r"from conventional AGI", "from conventional AGI"),
+            (r"beyond traditional AGI", "beyond traditional AGI"),
             # Fix research terminology
-            (r'AGI research', 'AGI research'),
-            (r'in AGI development', 'in AGI development'),
+            (r"AGI research", "AGI research"),
+            (r"in AGI development", "in AGI development"),
         ]
 
-        self.stats = {
-            'files_processed': 0,
-            'files_changed': 0,
-            'total_corrections': 0
-        }
+        self.stats = {"files_processed": 0, "files_changed": 0, "total_corrections": 0}
 
     def should_process_file(self, file_path: Path) -> bool:
         """Check if file should be processed."""
@@ -47,9 +39,9 @@ class AGICognitiveAccuracyFixer:
             return False
 
         # Focus on documentation and key module files
-        if file_path.suffix in ['.md', '.py', '.json']:
+        if file_path.suffix in [".md", ".py", ".json"]:
             # Skip certain directories
-            skip_dirs = {'.git', '__pycache__', '.pytest_cache', 'node_modules'}
+            skip_dirs = {".git", "__pycache__", ".pytest_cache", "node_modules"}
             if any(part in skip_dirs for part in file_path.parts):
                 return False
             return True
@@ -72,18 +64,18 @@ class AGICognitiveAccuracyFixer:
     def process_file(self, file_path: Path) -> bool:
         """Process a single file."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 original_content = f.read()
 
             new_content, corrections_made = self.fix_file_content(original_content)
 
             if corrections_made > 0:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(new_content)
 
                 print(f"📝 {file_path.relative_to(self.root_path)}")
-                self.stats['files_changed'] += 1
-                self.stats['total_corrections'] += corrections_made
+                self.stats["files_changed"] += 1
+                self.stats["total_corrections"] += corrections_made
                 return True
 
             return False
@@ -109,7 +101,7 @@ class AGICognitiveAccuracyFixer:
 
         # Process files
         for file_path in files_to_process:
-            self.stats['files_processed'] += 1
+            self.stats["files_processed"] += 1
             self.process_file(file_path)
 
         # Report results
@@ -117,6 +109,7 @@ class AGICognitiveAccuracyFixer:
         print(f"📊 Files processed: {self.stats['files_processed']}")
         print(f"📝 Files changed: {self.stats['files_changed']}")
         print(f"🔧 Total corrections: {self.stats['total_corrections']}")
+
 
 if __name__ == "__main__":
     fixer = AGICognitiveAccuracyFixer()

@@ -1,4 +1,3 @@
-
 """
 QI Entanglement stubs (Tier 1 + Tier 2)
 
@@ -58,6 +57,7 @@ class QuantumState:
         amplitude: Placeholder scalar (not physically meaningful)
         phase: Placeholder scalar (not physically meaningful)
     """
+
     id: str = field(default_factory=lambda: f"QS-{uuid.uuid4().hex[:8]}")
     amplitude: float = 0.0
     phase: float = 0.0
@@ -174,7 +174,7 @@ def seed_random_state(seed: int, *, prefix: str = "QS") -> QuantumState:
     # Single-step LCG based on provided seed
     a = 1664525
     c = 1013904223
-    m = 2 ** 32
+    m = 2**32
 
     x1 = (a * (seed & 0xFFFFFFFF) + c) % m
     x2 = (a * x1 + c) % m
@@ -185,11 +185,8 @@ def seed_random_state(seed: int, *, prefix: str = "QS") -> QuantumState:
 
     # Scale to small, well-behaved ranges
     amplitude = (f1 * 2.0) - 1.0  # [-1, 1)
-    phase = (f2 * 2.0) - 1.0      # [-1, 1)
+    phase = (f2 * 2.0) - 1.0  # [-1, 1)
 
     state = QuantumState(id=f"{prefix}-{seed}", amplitude=amplitude, phase=phase)
     register_state(state, overwrite=True)
-    logger.debug(
-        "seed_random_state: seed=%d amplitude=%.6f phase=%.6f id=%s",
-        seed, amplitude, phase, state.id
-    )
+    logger.debug("seed_random_state: seed=%d amplitude=%.6f phase=%.6f id=%s", seed, amplitude, phase, state.id)

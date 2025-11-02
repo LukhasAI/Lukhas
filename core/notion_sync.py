@@ -186,7 +186,9 @@ def make_flat_block(module_name, header_text, usage_text):
                 "rich_text": [
                     {
                         "type": "text",
-                        "text": {"content": f"🕒 Synced on {datetime.datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"},
+                        "text": {
+                            "content": f"🕒 Synced on {datetime.datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"
+                        },
                     }
                 ]
             },
@@ -424,9 +426,9 @@ def run_legacy_streamlit_mode():
 
             # Status Dashboard
             st.subheader("📊 Sync Status")
-            if 'last_sync_time' not in st.session_state:
+            if "last_sync_time" not in st.session_state:
                 st.session_state.last_sync_time = "Not yet synced"
-            if 'last_sync_status' not in st.session_state:
+            if "last_sync_status" not in st.session_state:
                 st.session_state.last_sync_status = "N/A"
 
             col1, col2 = st.columns(2)
@@ -437,7 +439,7 @@ def run_legacy_streamlit_mode():
 
             if st.button("🔄 Refresh Status"):
                 # In a real app, this would query a backend for the status
-                st.session_state.last_sync_time = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+                st.session_state.last_sync_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
                 st.session_state.last_sync_status = "Refreshed"
                 st.rerun()
 

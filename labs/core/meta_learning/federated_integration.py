@@ -5,6 +5,7 @@ Federated Learning Integration - Minimal Implementation
 Minimal implementation to satisfy imports for the enhancement system.
 This is a placeholder until the full federated learning system is developed.
 """
+
 from enum import Enum
 from typing import Any, Optional
 

@@ -43,9 +43,7 @@ def rewrite_json_strings(obj, old: str, new: str):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Update path strings in JSON manifest files"
-    )
+    ap = argparse.ArgumentParser(description="Update path strings in JSON manifest files")
     ap.add_argument("--root", required=True, help="Root directory to scan")
     ap.add_argument("--from", dest="old", required=True, help="Old path prefix")
     ap.add_argument("--to", dest="new", required=True, help="New path prefix")
@@ -75,10 +73,7 @@ def main():
             if args.dry_run:
                 print(f"Would update: {jf}")
             else:
-                jf.write_text(
-                    json.dumps(new_data, ensure_ascii=False, indent=2) + "\n",
-                    encoding="utf-8"
-                )
+                jf.write_text(json.dumps(new_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
                 print(f"✏️  Updated: {jf}")
             changed += 1
             changed_files.append(str(jf))

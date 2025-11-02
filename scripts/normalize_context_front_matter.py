@@ -10,15 +10,27 @@ FRONT_MATTER_RE = re.compile(r"(?s)\A---\n(.*?)\n---\n(.*)\Z")
 YAML_KV_RE = re.compile(r"^([a-zA-Z0-9_]+):\s*(.*)$")
 
 CANONICAL_ORDER = [
-    "title","slug","owner","lane","star","stability","last_reviewed",
-    "constellation_stars","related_modules","manifests","links"
+    "title",
+    "slug",
+    "owner",
+    "lane",
+    "star",
+    "stability",
+    "last_reviewed",
+    "constellation_stars",
+    "related_modules",
+    "manifests",
+    "links",
 ]
+
 
 def _read(p: Path) -> str:
     return p.read_text(encoding="utf-8")
 
+
 def _write(p: Path, s: str):
     p.write_text(s, encoding="utf-8")
+
 
 def _parse_front_matter(raw: str):
     """Very small YAML subset parser for key: value and simple lists/dicts.
@@ -36,7 +48,7 @@ def _parse_front_matter(raw: str):
             continue
         # nested dict simple case: key: value under 'links:' etc
         if line.startswith("  ") and ":" in line and cur_dict is not None:
-            k,v = line.strip().split(":",1)
+            k, v = line.strip().split(":", 1)
             v = v.strip().strip('"')
             cur_dict[k] = v
             continue
@@ -45,7 +57,7 @@ def _parse_front_matter(raw: str):
             # unknown line, ignore
             continue
         key, val = m.group(1), m.group(2).strip()
-        if val == "" and key in ("constellation_stars","related_modules","manifests"):
+        if val == "" and key in ("constellation_stars", "related_modules", "manifests"):
             cur_list = []
             data[key] = cur_list
         elif val == "" and key == "links":
@@ -57,15 +69,18 @@ def _parse_front_matter(raw: str):
             data[key] = val.strip('"')
     return data
 
+
 def _dump_yaml(data: dict) -> str:
-    def dump_scalar(k,v):
-        if v is None: return f"{k}:"
+    def dump_scalar(k, v):
+        if v is None:
+            return f"{k}:"
         if isinstance(v, str):
             # quote only if contains special chars
-            if any(c in v for c in [":","#","{","}","[","]","'",'"']):
+            if any(c in v for c in [":", "#", "{", "}", "[", "]", "'", '"']):
                 return f'{k}: "{v}"'
             return f"{k}: {v}"
-        if isinstance(v, (int,float)): return f"{k}: {v}"
+        if isinstance(v, (int, float)):
+            return f"{k}: {v}"
         if isinstance(v, list):
             lines = [f"{k}:"]
             for item in v:
@@ -75,9 +90,10 @@ def _dump_yaml(data: dict) -> str:
             lines = [f"{k}:"]
             for dk in sorted(v.keys()):
                 dv = v[dk]
-                if dv is None: lines.append(f"  {dk}:")
+                if dv is None:
+                    lines.append(f"  {dk}:")
                 else:
-                    if any(c in str(dv) for c in [":","#","{","}","[","]","'",'"']):
+                    if any(c in str(dv) for c in [":", "#", "{", "}", "[", "]", "'", '"']):
                         lines.append(f'  {dk}: "{dv}"')
                     else:
                         lines.append(f"  {dk}: {dv}")
@@ -95,21 +111,24 @@ def _dump_yaml(data: dict) -> str:
         out_lines.append(dump_scalar(k, data[k]))
     return "\n".join(out_lines)
 
+
 def _merge(a: dict, b: dict) -> dict:
     """b overrides a; lists get merged/deduped/sorted; dicts merged shallowly"""
     out = dict(a)
-    for k,v in b.items():
+    for k, v in b.items():
         if isinstance(v, list):
             existing = out.get(k, [])
             merged = sorted({*existing, *v})
             out[k] = list(merged)
         elif isinstance(v, dict):
             ex = out.get(k, {})
-            m = dict(ex); m.update(v)
+            m = dict(ex)
+            m.update(v)
             out[k] = m
         else:
             out[k] = v
     return out
+
 
 def _extract_or_default_front_matter(text: str):
     m = FRONT_MATTER_RE.match(text)
@@ -118,8 +137,10 @@ def _extract_or_default_front_matter(text: str):
         return _parse_front_matter(fm_raw), body
     return {}, text
 
+
 def _render(fm: dict, body: str) -> str:
     return f"---\n{_dump_yaml(fm)}\n---\n{body.lstrip()}"
+
 
 def _module_slug_from_path(root: Path, file_path: Path) -> str:
     # heuristic: docs/context/a/b/CONTEXT.md -> a.b
@@ -129,10 +150,11 @@ def _module_slug_from_path(root: Path, file_path: Path) -> str:
         rel = file_path
     parts = list(rel.parts)
     # drop leading 'docs' 'context' like segments
-    parts = [p for p in parts if p not in {"docs","context"}]
+    parts = [p for p in parts if p not in {"docs", "context"}]
     if parts and parts[-1].lower().endswith(".md"):
-        parts[-1] = parts[-1].rsplit(".",1)[0]
-    return ".".join(p for p in parts if p not in {"CONTEXT","context","README"})
+        parts[-1] = parts[-1].rsplit(".", 1)[0]
+    return ".".join(p for p in parts if p not in {"CONTEXT", "context", "README"})
+
 
 def _load_manifest_map(manifests_dir: Path):
     m = {}
@@ -142,7 +164,8 @@ def _load_manifest_map(manifests_dir: Path):
         except Exception:
             continue
         slug = js.get("module") or js.get("slug") or js.get("name")
-        if not slug: continue
+        if not slug:
+            continue
         if isinstance(slug, dict):
             slug = slug.get("name")
 
@@ -154,6 +177,7 @@ def _load_manifest_map(manifests_dir: Path):
             "path": str(p),
         }
     return m
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -190,15 +214,16 @@ def main():
             "star": (manifest["star"] if manifest else fm.get("star") or ""),
             "stability": fm.get("stability") or args.stability,
             "last_reviewed": fm.get("last_reviewed") or today,
-            "constellation_stars": sorted(set(
-                (fm.get("constellation_stars") or []) + ([manifest["star"]] if manifest and manifest["star"] else [])
-            )),
-            "related_modules": sorted(set(
-                (fm.get("related_modules") or []) + (manifest.get("related", []) if manifest else [])
-            )),
-            "manifests": sorted(set(
-                (fm.get("manifests") or []) + ([manifest["path"]] if manifest else [])
-            )),
+            "constellation_stars": sorted(
+                set(
+                    (fm.get("constellation_stars") or [])
+                    + ([manifest["star"]] if manifest and manifest["star"] else [])
+                )
+            ),
+            "related_modules": sorted(
+                set((fm.get("related_modules") or []) + (manifest.get("related", []) if manifest else []))
+            ),
+            "manifests": sorted(set((fm.get("manifests") or []) + ([manifest["path"]] if manifest else []))),
             "links": fm.get("links") or {},
         }
 
@@ -228,6 +253,7 @@ def main():
     if missing:
         # non-fatal exit so CI can still pass; the report lists gaps
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

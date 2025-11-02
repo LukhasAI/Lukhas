@@ -11,6 +11,7 @@ The CLI surfaces deterministic stub data when the full dream API is
 unavailable.  The structure of the report matches the expectations of the
 Drift Dream Test task so downstream dashboards and auditors can depend on it.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -67,9 +68,7 @@ def build_parser() -> argparse.ArgumentParser:
     """Configure CLI argument parsing."""
 
     parser = argparse.ArgumentParser(
-        description=(
-            "Probe symbolic drift for a given dream symbol and emit a JSON report."
-        )
+        description=("Probe symbolic drift for a given dream symbol and emit a JSON report.")
     )
     parser.add_argument("--symbol", required=True, help="Symbol to evaluate")
     parser.add_argument("--user", required=True, help="User identifier")
@@ -103,9 +102,7 @@ def _compute_symbolic_metrics(rng: Random, request: DriftDreamProbeRequest) -> D
     drift_delta = round(rng.uniform(0.01, 0.2), 3)
     drift_score = round(drift_delta * rng.uniform(1.1, 1.4), 3)
     affect_delta = round(rng.uniform(-0.05, 0.05), 3)
-    collapse_hash_seed = f"{request.symbol}:{request.user}:{request.seed}:{request.recursive}".encode(
-        "utf-8"
-    )
+    collapse_hash_seed = f"{request.symbol}:{request.user}:{request.seed}:{request.recursive}".encode("utf-8")
     collapse_hash = sha1(collapse_hash_seed).hexdigest()[:16]
 
     telemetry = DriftTelemetry(

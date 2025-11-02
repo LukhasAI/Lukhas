@@ -135,7 +135,9 @@ class QICreativeEngine:
 
         # Security components
         self.creative_ip_protector = CreativeIPProtector()
-        self.zero_knowledge_validator = ZeroKnowledgeCreativityValidator()  # noqa: F821  # TODO: ZeroKnowledgeCreativityValidat...
+        self.zero_knowledge_validator = (
+            ZeroKnowledgeCreativityValidator()
+        )  # noqa: F821  # TODO: ZeroKnowledgeCreativityValidat...
 
         # Multi-modal generators
         self.generators = {
@@ -311,11 +313,15 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
         self.qi_syllable_counter = QISyllableCounter()  # noqa: F821  # TODO: QISyllableCounter
         self.semantic_entangler = SemanticEntangler()  # noqa: F821  # TODO: SemanticEntangler
         self.cultural_haiku_patterns = {}  # Will be loaded asynchronously
-        self.emotion_to_imagery_mapper = EmotionImageryQuantumMapper()  # noqa: F821  # TODO: EmotionImageryQuantumMapper
+        self.emotion_to_imagery_mapper = (
+            EmotionImageryQuantumMapper()
+        )  # noqa: F821  # TODO: EmotionImageryQuantumMapper
 
         # Advanced linguistic models
         self.phonetic_harmony_analyzer = PhoneticHarmonyAnalyzer()  # noqa: F821  # TODO: PhoneticHarmonyAnalyzer
-        self.kireji_quantum_selector = KirejiQuantumSelector()  # Cutting words  # noqa: F821  # TODO: KirejiQuantumSelector
+        self.kireji_quantum_selector = (
+            KirejiQuantumSelector()
+        )  # Cutting words  # noqa: F821  # TODO: KirejiQuantumSelector
         self.seasonal_reference_encoder = SeasonalReferenceEncoder()  # noqa: F821  # TODO: SeasonalReferenceEncoder
 
         # Mark for initialization
@@ -474,7 +480,9 @@ class QIMusicComposer(CreativeExpressionProtocol):
     """
 
     def __init__(self):
-        self.harmonic_quantum_inspired_processor = HarmonicQuantumInspiredProcessor()  # noqa: F821  # TODO: HarmonicQuantumInspiredProcess...
+        self.harmonic_quantum_inspired_processor = (
+            HarmonicQuantumInspiredProcessor()
+        )  # noqa: F821  # TODO: HarmonicQuantumInspiredProcess...
         self.rhythm_pattern_superposer = RhythmPatternSuperposer()  # noqa: F821  # TODO: RhythmPatternSuperposer
         self.emotional_melody_weaver = EmotionalMelodyWeaver()  # noqa: F821  # TODO: EmotionalMelodyWeaver
         self.cultural_scale_library = CulturalScaleQuantumLibrary()  # noqa: F821  # TODO: CulturalScaleQuantumLibrary
@@ -759,7 +767,9 @@ class AdaptiveCreativePersonalization:
     def __init__(self):
         self.aesthetic_profiler = QIAestheticProfiler()  # noqa: F821  # TODO: QIAestheticProfiler
         self.cultural_resonance_tuner = CulturalResonanceTuner()  # noqa: F821  # TODO: CulturalResonanceTuner
-        self.emotional_preference_learner = EmotionalPreferenceLearner()  # noqa: F821  # TODO: EmotionalPreferenceLearner
+        self.emotional_preference_learner = (
+            EmotionalPreferenceLearner()
+        )  # noqa: F821  # TODO: EmotionalPreferenceLearner
         self.creativity_style_evolver = CreativityStyleEvolver()  # noqa: F821  # TODO: CreativityStyleEvolver
 
     async def personalize_creation(
@@ -837,7 +847,9 @@ class LukhasCreativeExpressionEngine:
         self.creativity_monitor = CreativityMonitor()  # noqa: F821  # TODO: CreativityMonitor
         self.evolution_engine = CreativeEvolutionEngine()  # noqa: F821  # TODO: CreativeEvolutionEngine
 
-    async def create(self, request: CreativeRequest, user_session: UserSession) -> ProtectedCreativeWork:  # noqa: F821  # TODO: CreativeRequest
+    async def create(
+        self, request: CreativeRequest, user_session: UserSession
+    ) -> ProtectedCreativeWork:  # noqa: F821  # TODO: CreativeRequest
         """
         Main entry point for creative generation
         """
@@ -868,7 +880,9 @@ class LukhasCreativeExpressionEngine:
 
         return protected
 
-    async def _prepare_quantum_context(self, request: CreativeRequest, user_session: UserSession) -> QIContext:  # noqa: F821  # TODO: CreativeRequest
+    async def _prepare_quantum_context(
+        self, request: CreativeRequest, user_session: UserSession
+    ) -> QIContext:  # noqa: F821  # TODO: CreativeRequest
         """Prepare quantum context from request and user session"""
         return QIContext(
             coherence_time=10.0,

@@ -25,10 +25,7 @@ class TestMemoryModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "memory",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "memory", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestMemoryModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import memory
+
         self.assertIsNotNone(memory)
 
     def test_module_version(self):
         """Test module has version information."""
         import memory
+
         # Most modules should have version info
-        self.assertTrue(hasattr(memory, '__version__') or
-                       hasattr(memory, 'VERSION'))
+        self.assertTrue(hasattr(memory, "__version__") or hasattr(memory, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestFallbackFoldLineageTracker(unittest.TestCase):
         """Test FallbackFoldLineageTracker can be imported."""
         try:
             from memory import FallbackFoldLineageTracker
+
             self.assertIsNotNone(FallbackFoldLineageTracker)
         except ImportError:
             pytest.skip("Component FallbackFoldLineageTracker not available")
@@ -97,6 +96,7 @@ class TestFallbackFoldManager(unittest.TestCase):
         """Test FallbackFoldManager can be imported."""
         try:
             from memory import FallbackFoldManager
+
             self.assertIsNotNone(FallbackFoldManager)
         except ImportError:
             pytest.skip("Component FallbackFoldManager not available")
@@ -114,6 +114,7 @@ class TestFallbackHierarchicalDataStore(unittest.TestCase):
         """Test FallbackHierarchicalDataStore can be imported."""
         try:
             from memory import FallbackHierarchicalDataStore
+
             self.assertIsNotNone(FallbackHierarchicalDataStore)
         except ImportError:
             pytest.skip("Component FallbackHierarchicalDataStore not available")
@@ -122,7 +123,6 @@ class TestFallbackHierarchicalDataStore(unittest.TestCase):
         """Test FallbackHierarchicalDataStore can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ Advanced Cognitive Architecture for Cognitive Artificial Intelligence
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
+
 from datetime import timezone
 
 """
@@ -371,7 +372,9 @@ class FederatedLearningIntegration:
     def get_federation_status(self) -> dict[str, Any]:
         """Get current federation status and health metrics"""
 
-        active_nodes = [node for node in self.nodes.values() if datetime.now(timezone.utc) - node.last_sync < timedelta(days=1)]
+        active_nodes = [
+            node for node in self.nodes.values() if datetime.now(timezone.utc) - node.last_sync < timedelta(days=1)
+        ]
 
         avg_trust = sum(node.trust_score for node in self.nodes.values()) / len(self.nodes) if self.nodes else 0
         avg_compliance = (

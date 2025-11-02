@@ -8,6 +8,7 @@ Usage:
   ct = ConsciousnessTicker(fps=30, cap=120)
   ct.start()
 """
+
 from time import perf_counter
 
 from core.clock import Ticker
@@ -15,20 +16,32 @@ from core.ring import Ring
 
 try:
     from prometheus_client import Counter, Histogram
-    TICK = Histogram("lukhas_tick_duration_seconds","Tick time",["lane"])
-    TICKS_DROPPED = Counter("lukhas_ticks_dropped_total","Dropped ticks",["lane"])
-    SUB_EXC = Counter("lukhas_subscriber_exceptions_total","Subscriber exceptions",["lane"])
-    PROM=True
+
+    TICK = Histogram("lukhas_tick_duration_seconds", "Tick time", ["lane"])
+    TICKS_DROPPED = Counter("lukhas_ticks_dropped_total", "Dropped ticks", ["lane"])
+    SUB_EXC = Counter("lukhas_subscriber_exceptions_total", "Subscriber exceptions", ["lane"])
+    PROM = True
 except Exception:
+
     class _N:
-        def labels(self,*_,**__): return self
-        def observe(self,*_): pass
-        def inc(self,*_): pass
-    TICK=_N(); TICKS_DROPPED=_N(); SUB_EXC=_N(); PROM=False
+        def labels(self, *_, **__):
+            return self
+
+        def observe(self, *_):
+            pass
+
+        def inc(self, *_):
+            pass
+
+    TICK = _N()
+    TICKS_DROPPED = _N()
+    SUB_EXC = _N()
+    PROM = False
 
 import os
 
-LANE = os.getenv("LUKHAS_LANE","experimental")
+LANE = os.getenv("LUKHAS_LANE", "experimental")
+
 
 class ConsciousnessTicker:
     def __init__(self, fps: int = 30, cap: int = 120):
@@ -52,7 +65,7 @@ class ConsciousnessTicker:
 
     def _decimate(self):
         frames = self.buffer.pop_all()
-        keep = frames[-(self.buffer.capacity // 2):]
+        keep = frames[-(self.buffer.capacity // 2) :]
         for f in keep:
             self.buffer.push(f)
         # A "drop" is conceptual at the coordinator level too

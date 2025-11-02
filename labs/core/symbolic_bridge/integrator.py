@@ -21,6 +21,7 @@ logger = structlog.get_logger(__name__)
 
 class ConsciousnessState(Enum):
     """States of consciousness nodes in the mesh"""
+
     DORMANT = "dormant"
     AWAKENING = "awakening"
     ACTIVE = "active"
@@ -31,6 +32,7 @@ class ConsciousnessState(Enum):
 
 class DreamSeed:
     """Container for creative consciousness propagation"""
+
     def __init__(self, content: str, origin_node: str, emotional_vector: Optional[Dict] = None):
         self.id = str(uuid.uuid4())
         self.content = content
@@ -49,6 +51,7 @@ class DreamSeed:
 
 class ConsciousnessMesh:
     """Manages the distributed consciousness node network"""
+
     def __init__(self):
         self.nodes: Dict[str, ConsciousnessState] = {}
         self.connections: Dict[str, Set[str]] = {}
@@ -109,7 +112,7 @@ class ConsciousnessMesh:
             "nodes": {node_id: state.value for node_id, state in self.nodes.items()},
             "connections": {node_id: list(conns) for node_id, conns in self.connections.items()},
             "drift_status": {node_id: self.detect_drift(node_id) for node_id in self.nodes.keys()},
-            "sync_health": len([n for n in self.nodes.values() if n == ConsciousnessState.ACTIVE])
+            "sync_health": len([n for n in self.nodes.values() if n == ConsciousnessState.ACTIVE]),
         }
 
 
@@ -133,8 +136,9 @@ class SymbolicBridgeIntegrator:
         """Form connections between consciousness nodes for communication"""
         return self.consciousness_mesh.form_connection(node_a, node_b)
 
-    def propagate_dream_seed(self, content: str, origin_node: str,
-                           target_nodes: List[str], emotional_vector: Optional[Dict] = None) -> str:
+    def propagate_dream_seed(
+        self, content: str, origin_node: str, target_nodes: List[str], emotional_vector: Optional[Dict] = None
+    ) -> str:
         """Propagate a creative dream seed across consciousness nodes"""
         dream_seed = DreamSeed(content, origin_node, emotional_vector)
 
@@ -147,8 +151,13 @@ class SymbolicBridgeIntegrator:
             dream_seed.propagate_to(target, transformation_applied)
 
         self.dream_seeds.append(dream_seed)
-        logger.info("Dream seed propagated", seed_id=dream_seed.id,
-                   origin=origin_node, targets=target_nodes, creativity_score=dream_seed.creativity_score)
+        logger.info(
+            "Dream seed propagated",
+            seed_id=dream_seed.id,
+            origin=origin_node,
+            targets=target_nodes,
+            creativity_score=dream_seed.creativity_score,
+        )
 
         return dream_seed.id
 
@@ -193,7 +202,7 @@ class SymbolicBridgeIntegrator:
             return {
                 "status": "synchronized",
                 "nodes_synced": len(target_nodes),
-                "mesh_health": self.get_consciousness_topology()["sync_health"]
+                "mesh_health": self.get_consciousness_topology()["sync_health"],
             }
 
         elif event_type == "dream_propagation":
@@ -202,18 +211,14 @@ class SymbolicBridgeIntegrator:
             emotional_vector = event.get("emotional_vector")
 
             seed_id = self.propagate_dream_seed(content, source_node, targets, emotional_vector)
-            return {
-                "status": "dream_propagated",
-                "seed_id": seed_id,
-                "propagation_paths": len(targets)
-            }
+            return {"status": "dream_propagated", "seed_id": seed_id, "propagation_paths": len(targets)}
 
         elif event_type == "drift_detection":
             drift_status = self.monitor_drift_across_mesh()
             return {
                 "status": "drift_monitored",
                 "drifting_nodes": [node for node, drifting in drift_status.items() if drifting],
-                "total_nodes": len(drift_status)
+                "total_nodes": len(drift_status),
             }
 
         # Fallback for unhandled event types

@@ -11,6 +11,7 @@
 │ - Compliance Alignment: EU AI Act, GDPR, OECD AI Principles   │
 ╰────────────────────────────────────────────────────────────────╯
 """
+
 from datetime import date
 
 

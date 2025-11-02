@@ -33,6 +33,7 @@ from labs.bridge.adapters.api_framework import (
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def hs256_adapter():
     """JWT adapter with HS256 algorithm."""
@@ -54,23 +55,18 @@ def rs256_keys():
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives.asymmetric import rsa
 
-    private_key = rsa.generate_private_key(
-        public_exponent=65537,
-        key_size=2048,
-        backend=default_backend()
-    )
+    private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
 
     private_pem = private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.PKCS8,
-        encryption_algorithm=serialization.NoEncryption()
-    ).decode('utf-8')
+        encryption_algorithm=serialization.NoEncryption(),
+    ).decode("utf-8")
 
     public_key = private_key.public_key()
     public_pem = public_key.public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
-    ).decode('utf-8')
+        encoding=serialization.Encoding.PEM, format=serialization.PublicFormat.SubjectPublicKeyInfo
+    ).decode("utf-8")
 
     return {"private": private_pem, "public": public_pem}
 
@@ -92,6 +88,7 @@ def rs256_adapter(rs256_keys):
 # TEST-HIGH-JWT-01: Token Creation
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_jwt_token_creation_hs256(hs256_adapter):
     """Test JWT token creation with HS256 algorithm."""
@@ -100,7 +97,7 @@ def test_jwt_token_creation_hs256(hs256_adapter):
         token_type=TokenType.ACCESS,
         scopes=["read", "write"],
         lambda_id="Λ_alpha_user123",
-        identity_tier="alpha"
+        identity_tier="alpha",
     )
 
     # Verify token is a string
@@ -122,10 +119,7 @@ def test_jwt_token_creation_hs256(hs256_adapter):
 def test_jwt_token_creation_rs256(rs256_adapter):
     """Test JWT token creation with RS256 algorithm."""
     token = rs256_adapter.create_token(
-        subject="user_456",
-        token_type=TokenType.ACCESS,
-        lambda_id="Λ_beta_user456",
-        identity_tier="beta"
+        subject="user_456", token_type=TokenType.ACCESS, lambda_id="Λ_beta_user456", identity_tier="beta"
     )
 
     assert isinstance(token, str)
@@ -156,10 +150,7 @@ def test_jwt_token_creation_refresh(hs256_adapter):
 def test_jwt_token_creation_custom_ttl(hs256_adapter):
     """Test token creation with custom TTL."""
     custom_ttl = 7200  # 2 hours
-    token = hs256_adapter.create_token(
-        subject="user_123",
-        custom_ttl=custom_ttl
-    )
+    token = hs256_adapter.create_token(subject="user_123", custom_ttl=custom_ttl)
 
     decoded = hs256_adapter.decode_without_verification(token)
     exp = decoded["exp"]
@@ -175,7 +166,7 @@ def test_jwt_token_lambda_id_embedding(hs256_adapter):
         subject="user_123",
         lambda_id="Λ_gamma_user123",
         identity_tier="gamma",
-        metadata={"device": "mobile", "platform": "ios"}
+        metadata={"device": "mobile", "platform": "ios"},
     )
 
     decoded = hs256_adapter.decode_without_verification(token)
@@ -188,13 +179,11 @@ def test_jwt_token_lambda_id_embedding(hs256_adapter):
 # TEST-HIGH-JWT-02: Token Verification
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_jwt_token_verification_valid(hs256_adapter):
     """Test verification of valid JWT tokens."""
-    token = hs256_adapter.create_token(
-        subject="user_123",
-        scopes=["read", "write"]
-    )
+    token = hs256_adapter.create_token(subject="user_123", scopes=["read", "write"])
 
     result = hs256_adapter.verify_token(token)
 
@@ -209,10 +198,7 @@ def test_jwt_token_verification_valid(hs256_adapter):
 def test_jwt_token_verification_expired(hs256_adapter):
     """Test rejection of expired tokens."""
     # Create token with very short TTL
-    token = hs256_adapter.create_token(
-        subject="user_123",
-        custom_ttl=1  # 1 second
-    )
+    token = hs256_adapter.create_token(subject="user_123", custom_ttl=1)  # 1 second
 
     # Wait for expiration
     time.sleep(2)
@@ -230,9 +216,9 @@ def test_jwt_token_verification_tampered(hs256_adapter):
     token = hs256_adapter.create_token(subject="user_123")
 
     # Tamper with token (modify payload)
-    parts = token.split('.')
+    parts = token.split(".")
     # Change a character in the payload
-    tampered_payload = parts[1][:-1] + ('X' if parts[1][-1] != 'X' else 'Y')
+    tampered_payload = parts[1][:-1] + ("X" if parts[1][-1] != "X" else "Y")
     tampered_token = f"{parts[0]}.{tampered_payload}.{parts[2]}"
 
     result = hs256_adapter.verify_token(tampered_token)
@@ -249,7 +235,7 @@ def test_jwt_token_verification_wrong_issuer(hs256_adapter):
         secret_key="test_secret_key_super_secure_123",
         algorithm=JWTAlgorithm.HS256,
         issuer="wrong-issuer",
-        audience="lukhas-platform"
+        audience="lukhas-platform",
     )
     token = wrong_adapter.create_token(subject="user_123")
 
@@ -266,7 +252,7 @@ def test_jwt_token_verification_wrong_audience(hs256_adapter):
         secret_key="test_secret_key_super_secure_123",
         algorithm=JWTAlgorithm.HS256,
         issuer="lukhas-test",
-        audience="wrong-audience"
+        audience="wrong-audience",
     )
     token = wrong_adapter.create_token(subject="user_123")
 
@@ -286,7 +272,7 @@ def test_jwt_token_verification_signature(hs256_adapter):
         secret_key="different_secret_key_456",
         algorithm=JWTAlgorithm.HS256,
         issuer="lukhas-test",
-        audience="lukhas-platform"
+        audience="lukhas-platform",
     )
 
     result = wrong_adapter.verify_token(token)
@@ -298,16 +284,10 @@ def test_jwt_token_verification_signature(hs256_adapter):
 @pytest.mark.unit
 def test_jwt_token_verification_required_scopes(hs256_adapter):
     """Test verification with required scopes."""
-    token = hs256_adapter.create_token(
-        subject="user_123",
-        scopes=["read"]
-    )
+    token = hs256_adapter.create_token(subject="user_123", scopes=["read"])
 
     # Verify with required scopes
-    result = hs256_adapter.verify_token(
-        token,
-        required_scopes=["read", "write"]
-    )
+    result = hs256_adapter.verify_token(token, required_scopes=["read", "write"])
 
     assert result.valid is False
     assert result.error_code == "INSUFFICIENT_SCOPES"
@@ -317,16 +297,10 @@ def test_jwt_token_verification_required_scopes(hs256_adapter):
 @pytest.mark.unit
 def test_jwt_token_verification_expected_type(hs256_adapter):
     """Test verification with expected token type."""
-    token = hs256_adapter.create_token(
-        subject="user_123",
-        token_type=TokenType.ACCESS
-    )
+    token = hs256_adapter.create_token(subject="user_123", token_type=TokenType.ACCESS)
 
     # Verify expecting refresh token
-    result = hs256_adapter.verify_token(
-        token,
-        expected_type=TokenType.REFRESH
-    )
+    result = hs256_adapter.verify_token(token, expected_type=TokenType.REFRESH)
 
     assert result.valid is False
     assert result.error_code == "INVALID_TOKEN_TYPE"
@@ -336,6 +310,7 @@ def test_jwt_token_verification_expected_type(hs256_adapter):
 # TEST-HIGH-JWT-03: ΛID Integration
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_jwt_lambda_id_integration_creation(hs256_adapter):
     """Test ΛID embedding in JWT claims during creation."""
@@ -343,7 +318,7 @@ def test_jwt_lambda_id_integration_creation(hs256_adapter):
         adapter=hs256_adapter,
         lambda_id="Λ_alpha_user123",
         identity_tier="alpha",
-        scopes=["identity:read", "identity:write"]
+        scopes=["identity:read", "identity:write"],
     )
 
     result = hs256_adapter.verify_token(token)
@@ -357,18 +332,10 @@ def test_jwt_lambda_id_integration_creation(hs256_adapter):
 @pytest.mark.unit
 def test_jwt_lambda_id_tier_validation_alpha(hs256_adapter):
     """Test tier validation for alpha tier."""
-    token = create_identity_token(
-        adapter=hs256_adapter,
-        lambda_id="Λ_alpha_user123",
-        identity_tier="alpha"
-    )
+    token = create_identity_token(adapter=hs256_adapter, lambda_id="Λ_alpha_user123", identity_tier="alpha")
 
     # Verify with alpha requirement
-    result = verify_identity_token(
-        adapter=hs256_adapter,
-        token=token,
-        required_tier="alpha"
-    )
+    result = verify_identity_token(adapter=hs256_adapter, token=token, required_tier="alpha")
 
     assert result.valid is True
 
@@ -376,18 +343,10 @@ def test_jwt_lambda_id_tier_validation_alpha(hs256_adapter):
 @pytest.mark.unit
 def test_jwt_lambda_id_tier_validation_insufficient(hs256_adapter):
     """Test rejection of insufficient tier."""
-    token = create_identity_token(
-        adapter=hs256_adapter,
-        lambda_id="Λ_delta_user123",
-        identity_tier="delta"
-    )
+    token = create_identity_token(adapter=hs256_adapter, lambda_id="Λ_delta_user123", identity_tier="delta")
 
     # Verify requiring alpha (higher tier)
-    result = verify_identity_token(
-        adapter=hs256_adapter,
-        token=token,
-        required_tier="alpha"
-    )
+    result = verify_identity_token(adapter=hs256_adapter, token=token, required_tier="alpha")
 
     assert result.valid is False
     assert result.error_code == "INSUFFICIENT_TIER"
@@ -400,11 +359,7 @@ def test_jwt_lambda_id_tier_access_control(hs256_adapter):
     tiers = ["alpha", "beta", "gamma", "delta"]
 
     for tier in tiers:
-        token = create_identity_token(
-            adapter=hs256_adapter,
-            lambda_id=f"Λ_{tier}_user123",
-            identity_tier=tier
-        )
+        token = create_identity_token(adapter=hs256_adapter, lambda_id=f"Λ_{tier}_user123", identity_tier=tier)
 
         result = hs256_adapter.verify_token(token)
         assert result.valid is True
@@ -415,16 +370,10 @@ def test_jwt_lambda_id_tier_access_control(hs256_adapter):
 def test_jwt_lambda_id_missing_verification(hs256_adapter):
     """Test handling of tokens without ΛID."""
     # Create token without lambda_id
-    token = hs256_adapter.create_token(
-        subject="user_123",
-        lambda_id=None  # No ΛID
-    )
+    token = hs256_adapter.create_token(subject="user_123", lambda_id=None)  # No ΛID
 
     # Verify with ΛID requirement
-    result = hs256_adapter.verify_token(
-        token,
-        verify_lambda_id=True
-    )
+    result = hs256_adapter.verify_token(token, verify_lambda_id=True)
 
     # Should still be valid but log warning
     assert result.valid is True
@@ -435,6 +384,7 @@ def test_jwt_lambda_id_missing_verification(hs256_adapter):
 # TEST-HIGH-JWT-04: Rate Limiting
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_jwt_rate_limiting_free_tier(hs256_adapter):
     """Test rate limiting for free tier."""
@@ -442,10 +392,7 @@ def test_jwt_rate_limiting_free_tier(hs256_adapter):
     lambda_id = "Λ_delta_user123"  # delta = free tier
 
     # Check rate limit (should use tier multiplier of 1.0)
-    can_proceed = hs256_adapter._check_rate_limit(
-        lambda_id=lambda_id,
-        identity_tier="delta"
-    )
+    can_proceed = hs256_adapter._check_rate_limit(lambda_id=lambda_id, identity_tier="delta")
 
     assert can_proceed is True  # Currently always allows
 
@@ -455,10 +402,7 @@ def test_jwt_rate_limiting_pro_multiplier(hs256_adapter):
     """Test rate limiting with pro tier multiplier."""
     lambda_id = "Λ_beta_user123"  # beta = pro tier
 
-    can_proceed = hs256_adapter._check_rate_limit(
-        lambda_id=lambda_id,
-        identity_tier="beta"
-    )
+    can_proceed = hs256_adapter._check_rate_limit(lambda_id=lambda_id, identity_tier="beta")
 
     assert can_proceed is True
 
@@ -468,10 +412,7 @@ def test_jwt_rate_limiting_enterprise_multiplier(hs256_adapter):
     """Test rate limiting with enterprise tier multiplier."""
     lambda_id = "Λ_alpha_user123"  # alpha = enterprise tier
 
-    can_proceed = hs256_adapter._check_rate_limit(
-        lambda_id=lambda_id,
-        identity_tier="alpha"
-    )
+    can_proceed = hs256_adapter._check_rate_limit(lambda_id=lambda_id, identity_tier="alpha")
 
     assert can_proceed is True
 
@@ -489,7 +430,7 @@ def test_jwt_rate_limit_enforcement():
             "beta": 2.0,
             "gamma": 1.5,
             "delta": 1.0,
-        }
+        },
     )
 
     # Verify multipliers
@@ -503,15 +444,13 @@ def test_jwt_rate_limit_enforcement():
 # Token Lifecycle Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_jwt_token_refresh_flow(hs256_adapter):
     """Test token refresh flow."""
     # Create refresh token
     refresh_token = hs256_adapter.create_token(
-        subject="user_123",
-        token_type=TokenType.REFRESH,
-        scopes=["read", "write"],
-        lambda_id="Λ_alpha_user123"
+        subject="user_123", token_type=TokenType.REFRESH, scopes=["read", "write"], lambda_id="Λ_alpha_user123"
     )
 
     # Use refresh token to get new access token
@@ -549,10 +488,7 @@ def test_jwt_token_revocation(hs256_adapter):
 def test_jwt_get_token_info(hs256_adapter):
     """Test getting token information without verification."""
     token = hs256_adapter.create_token(
-        subject="user_123",
-        lambda_id="Λ_alpha_user123",
-        identity_tier="alpha",
-        scopes=["read", "write"]
+        subject="user_123", lambda_id="Λ_alpha_user123", identity_tier="alpha", scopes=["read", "write"]
     )
 
     info = hs256_adapter.get_token_info(token)
@@ -569,6 +505,7 @@ def test_jwt_get_token_info(hs256_adapter):
 # ============================================================================
 # Edge Cases and Error Handling
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_jwt_adapter_initialization_errors():
@@ -587,11 +524,7 @@ def test_jwt_token_creation_without_signing_key(hs256_adapter):
     """Test token creation error handling."""
     # Remove private key for signing
     adapter = JWTAdapter(
-        secret_key=None,
-        public_key="fake_key",
-        algorithm=JWTAlgorithm.RS256,
-        issuer="test",
-        audience="test"
+        secret_key=None, public_key="fake_key", algorithm=JWTAlgorithm.RS256, issuer="test", audience="test"
     )
 
     with pytest.raises(ValueError, match="Cannot create token"):

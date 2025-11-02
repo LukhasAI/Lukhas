@@ -757,7 +757,11 @@ class LambdaIDController:
 
         except Exception as e:
             self.logger.error(f"ΛTRACE ({req_id}): General health check procedure failed: {e}", exc_info=True)
-            return {"overall_status": "unhealthy", "error_details": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
+            return {
+                "overall_status": "unhealthy",
+                "error_details": str(e),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
 
     # --- Private Helper Methods ---
     # Human-readable comment: Validates if a given tier is within the acceptable range.

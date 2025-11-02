@@ -15,6 +15,7 @@ Performance Targets:
 - Token validation: <10ms
 - Identity lookup: <5ms
 """
+
 import logging
 from typing import Any, Optional
 

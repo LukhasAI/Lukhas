@@ -7,6 +7,7 @@ Constellation Framework Integration: ⚛️🧠🛡️
 - 🧠 Consciousness: Brand awareness and consistent messaging
 - 🛡️ Guardian: Approved terminology and compliance standards
 """
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates
@@ -22,6 +23,7 @@ globals().update(_exports)
 
 try:
     from .initializer import initialize_branding
+
     __all__.append("initialize_branding")
 except Exception:
     pass

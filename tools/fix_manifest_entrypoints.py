@@ -28,17 +28,10 @@ def get_historical_entrypoints(repo_root: Path) -> Dict[str, List[str]]:
 
     # Get list of all manifests in that commit
     result = subprocess.run(
-        ["git", "ls-tree", "-r", "--name-only", "1d6383f45"],
-        cwd=repo_root,
-        capture_output=True,
-        text=True,
-        check=True
+        ["git", "ls-tree", "-r", "--name-only", "1d6383f45"], cwd=repo_root, capture_output=True, text=True, check=True
     )
 
-    manifest_paths = [
-        line for line in result.stdout.strip().split('\n')
-        if line.endswith('module.manifest.json')
-    ]
+    manifest_paths = [line for line in result.stdout.strip().split("\n") if line.endswith("module.manifest.json")]
 
     entrypoints_by_module = {}
 
@@ -46,11 +39,7 @@ def get_historical_entrypoints(repo_root: Path) -> Dict[str, List[str]]:
         # Get the manifest content from that commit
         try:
             result = subprocess.run(
-                ["git", "show", f"1d6383f45:{manifest_path}"],
-                cwd=repo_root,
-                capture_output=True,
-                text=True,
-                check=True
+                ["git", "show", f"1d6383f45:{manifest_path}"], cwd=repo_root, capture_output=True, text=True, check=True
             )
 
             data = json.loads(result.stdout)
@@ -112,6 +101,7 @@ def validate_entrypoint(entrypoint: str, module_dir: Path) -> Tuple[bool, str, s
 
         # Suppress warnings during import
         import warnings
+
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             module = importlib.import_module(module_path)
@@ -132,9 +122,7 @@ def validate_entrypoint(entrypoint: str, module_dir: Path) -> Tuple[bool, str, s
 
 
 def fix_manifest_entrypoints(
-    manifest_path: Path,
-    historical_entrypoints: List[str],
-    dry_run: bool = False
+    manifest_path: Path, historical_entrypoints: List[str], dry_run: bool = False
 ) -> Tuple[int, int, int]:
     """
     Fix entrypoints in a manifest file.
@@ -148,7 +136,7 @@ def fix_manifest_entrypoints(
     print(f"\n🔧 Processing: {module_name}")
 
     # Load current manifest
-    with open(manifest_path, 'r', encoding='utf-8') as f:
+    with open(manifest_path, "r", encoding="utf-8") as f:
         manifest = json.load(f)
 
     validated_entrypoints = []
@@ -156,9 +144,7 @@ def fix_manifest_entrypoints(
     removed_entrypoints = []
 
     for entrypoint in historical_entrypoints:
-        is_valid, corrected_module, corrected_attr = validate_entrypoint(
-            entrypoint, module_dir
-        )
+        is_valid, corrected_module, corrected_attr = validate_entrypoint(entrypoint, module_dir)
 
         if is_valid:
             corrected_ep = f"{corrected_module}.{corrected_attr}"
@@ -177,9 +163,9 @@ def fix_manifest_entrypoints(
     if not dry_run:
         manifest["runtime"]["entrypoints"] = validated_entrypoints
 
-        with open(manifest_path, 'w', encoding='utf-8') as f:
+        with open(manifest_path, "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2, ensure_ascii=False)
-            f.write('\n')  # Add trailing newline
+            f.write("\n")  # Add trailing newline
 
     return len(fixed_entrypoints), len(removed_entrypoints), len(validated_entrypoints)
 
@@ -187,11 +173,7 @@ def fix_manifest_entrypoints(
 def main() -> int:
     """Main entry point."""
     parser = argparse.ArgumentParser(description="Fix manifest entrypoints")
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Show what would be done without making changes"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
     args = parser.parse_args()
 
     # Determine repository root
@@ -226,9 +208,7 @@ def main() -> int:
             print(f"\n⚠️  Skipping {manifest_path.name} (file no longer exists)")
             continue
 
-        fixed, removed, kept = fix_manifest_entrypoints(
-            manifest_path, entrypoints, args.dry_run
-        )
+        fixed, removed, kept = fix_manifest_entrypoints(manifest_path, entrypoints, args.dry_run)
 
         total_fixed += fixed
         total_removed += removed

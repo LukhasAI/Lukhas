@@ -25,6 +25,7 @@ class StagePlugin(Protocol):
 @dataclass
 class StageResult:
     """Result of stage execution."""
+
     success: bool
     output: Optional[Dict[str, Any]]
     processing_time: float
@@ -44,6 +45,7 @@ class PipelineStage:
         retry_count: Number of retries on failure (default: 0)
         dependencies: List of stage names this stage depends on
     """
+
     name: str
     plugin: StagePlugin
     critical: bool = True
@@ -56,7 +58,7 @@ class PipelineStage:
         if not self.name:
             raise ValueError("Stage name cannot be empty")
 
-        if not hasattr(self.plugin, 'process'):
+        if not hasattr(self.plugin, "process"):
             raise ValueError("Plugin must implement process method")
 
         if self.retry_count < 0:
@@ -83,10 +85,7 @@ class BaseStagePlugin:
         # Default: pass through input data
         output = {
             "processed_by": self.name,
-            "stage_metadata": {
-                "call_count": self.call_count,
-                "plugin_name": self.name
-            }
+            "stage_metadata": {"call_count": self.call_count, "plugin_name": self.name},
         }
 
         self.last_output = output
@@ -98,5 +97,5 @@ class BaseStagePlugin:
             "plugin_name": self.name,
             "healthy": True,
             "call_count": self.call_count,
-            "last_call_success": self.last_output is not None
+            "last_call_success": self.last_output is not None,
         }

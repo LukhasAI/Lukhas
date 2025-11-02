@@ -35,9 +35,9 @@ async def temp_dirs():
     with tempfile.TemporaryDirectory() as temp_dir:
         base_path = Path(temp_dir)
         yield {
-            'evidence': base_path / 'evidence',
-            'reports': base_path / 'reports',
-            'config': base_path / 'config',
+            "evidence": base_path / "evidence",
+            "reports": base_path / "reports",
+            "config": base_path / "config",
         }
 
 
@@ -45,9 +45,9 @@ async def temp_dirs():
 def mock_external_dependencies():
     """Mock external dependencies"""
     return {
-        'prometheus_metrics': MagicMock(),
-        'smtp_config': None,  # Disable email for testing
-        'cloud_clients': {},
+        "prometheus_metrics": MagicMock(),
+        "smtp_config": None,  # Disable email for testing
+        "cloud_clients": {},
     }
 
 
@@ -60,7 +60,7 @@ async def integrated_observability_stack(temp_dirs, mock_external_dependencies):
 
     # Initialize components
     evidence_engine = EvidenceCollectionEngine(
-        storage_path=str(temp_dirs['evidence']),
+        storage_path=str(temp_dirs["evidence"]),
         retention_days=30,
         compression_enabled=True,
         encryption_enabled=True,
@@ -81,35 +81,38 @@ async def integrated_observability_stack(temp_dirs, mock_external_dependencies):
     )
 
     alerting_system = IntelligentAlertingSystem(
-        config_path=str(temp_dirs['config'] / 'alerting.json'),
-        smtp_config=mock_external_dependencies['smtp_config'],
+        config_path=str(temp_dirs["config"] / "alerting.json"),
+        smtp_config=mock_external_dependencies["smtp_config"],
         enable_storm_detection=True,
     )
 
     compliance_dashboard = ComplianceDashboard(
-        dashboard_config_path=str(temp_dirs['config'] / 'compliance.json'),
-        reports_output_path=str(temp_dirs['reports']),
+        dashboard_config_path=str(temp_dirs["config"] / "compliance.json"),
+        reports_output_path=str(temp_dirs["reports"]),
         enable_automated_reports=False,  # Disable for testing
     )
 
     # Mock dependencies for components
-    with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_external_dependencies['prometheus_metrics']):
-        with patch('observability.performance_regression.get_advanced_metrics', return_value=advanced_metrics):
-            with patch('observability.performance_regression.get_alerting_system', return_value=alerting_system):
+    with patch(
+        "observability.advanced_metrics.get_lukhas_metrics",
+        return_value=mock_external_dependencies["prometheus_metrics"],
+    ):
+        with patch("observability.performance_regression.get_advanced_metrics", return_value=advanced_metrics):
+            with patch("observability.performance_regression.get_alerting_system", return_value=alerting_system):
 
                 stack = {
-                    'evidence': evidence_engine,
-                    'metrics': advanced_metrics,
-                    'performance': performance_detector,
-                    'alerting': alerting_system,
-                    'compliance': compliance_dashboard,
+                    "evidence": evidence_engine,
+                    "metrics": advanced_metrics,
+                    "performance": performance_detector,
+                    "alerting": alerting_system,
+                    "compliance": compliance_dashboard,
                 }
 
                 yield stack
 
                 # Cleanup
                 for component in stack.values():
-                    if hasattr(component, 'shutdown'):
+                    if hasattr(component, "shutdown"):
                         await component.shutdown()
 
 
@@ -122,7 +125,7 @@ class TestObservabilityIntegration:
         stack = integrated_observability_stack
 
         # Step 1: Collect evidence
-        evidence_id = await stack['evidence'].collect_evidence(
+        evidence_id = await stack["evidence"].collect_evidence(
             evidence_type=EvidenceType.PERFORMANCE_METRIC,
             source_component="integration_test",
             operation="e2e_test",
@@ -136,21 +139,21 @@ class TestObservabilityIntegration:
         assert evidence_id is not None
 
         # Step 2: Record corresponding metrics
-        await stack['metrics'].record_advanced_metric(
+        await stack["metrics"].record_advanced_metric(
             metric_name="integration_response_time",
             value=0.15,
             labels={"test": "e2e"},
         )
 
         # Step 3: Record performance data
-        await stack['performance'].record_performance_metric(
+        await stack["performance"].record_performance_metric(
             metric_name="response_time",
             component="integration_test",
             value=0.15,
         )
 
         # Step 4: Trigger alert (simulate threshold breach)
-        alert_id = await stack['alerting'].trigger_alert(
+        alert_id = await stack["alerting"].trigger_alert(
             rule_id="high_response_time",
             source_component="integration_test",
             metric_name="response_time",
@@ -161,9 +164,9 @@ class TestObservabilityIntegration:
         assert alert_id is not None
 
         # Verify integration
-        assert len(stack['evidence']._evidence_buffer) > 0
-        assert "integration_response_time" in stack['metrics'].metric_history
-        assert len(stack['alerting'].active_alerts) > 0
+        assert len(stack["evidence"]._evidence_buffer) > 0
+        assert "integration_response_time" in stack["metrics"].metric_history
+        assert len(stack["alerting"].active_alerts) > 0
 
     @pytest.mark.asyncio
     async def test_compliance_evidence_integration(self, integrated_observability_stack):
@@ -171,7 +174,7 @@ class TestObservabilityIntegration:
         stack = integrated_observability_stack
 
         # Collect GDPR compliance evidence
-        evidence_id = await stack['evidence'].collect_evidence(
+        evidence_id = await stack["evidence"].collect_evidence(
             evidence_type=EvidenceType.REGULATORY_EVENT,
             source_component="gdpr_processor",
             operation="data_deletion",
@@ -185,14 +188,14 @@ class TestObservabilityIntegration:
         )
 
         # Update compliance metrics
-        stack['metrics'].update_compliance_metric(
+        stack["metrics"].update_compliance_metric(
             regulation="GDPR",
             metric_name="data_retention_compliance",
             current_value=98.5,  # Slightly below 100%
         )
 
         # Assess compliance
-        gdpr_status = await stack['compliance'].assess_compliance_status(ComplianceRegime.GDPR)
+        gdpr_status = await stack["compliance"].assess_compliance_status(ComplianceRegime.GDPR)
 
         assert gdpr_status is not None
         assert evidence_id is not None
@@ -209,18 +212,18 @@ class TestObservabilityIntegration:
         # Establish baseline with normal values
         baseline_values = [0.1] * 10  # 100ms baseline
         for value in baseline_values:
-            await stack['performance'].record_performance_metric(metric_name, component, value)
+            await stack["performance"].record_performance_metric(metric_name, component, value)
 
         # Establish baseline
-        baseline = await stack['performance'].establish_baseline(metric_name, component)
+        baseline = await stack["performance"].establish_baseline(metric_name, component)
         assert baseline is not None
 
         # Record performance regression
-        await stack['performance'].record_performance_metric(metric_name, component, 0.5)  # 500ms - major regression
+        await stack["performance"].record_performance_metric(metric_name, component, 0.5)  # 500ms - major regression
 
         # Should trigger alert
-        regressions = list(stack['performance'].detected_regressions.values())
-        list(stack['alerting'].active_alerts.values())
+        regressions = list(stack["performance"].detected_regressions.values())
+        list(stack["alerting"].active_alerts.values())
 
         # Verify regression was detected and alert was created
         assert len(regressions) > 0
@@ -233,7 +236,7 @@ class TestObservabilityIntegration:
 
         # Record normal metrics to establish baseline
         for i in range(20):
-            await stack['metrics'].record_advanced_metric(
+            await stack["metrics"].record_advanced_metric(
                 metric_name="correlation_test_metric",
                 value=100.0 + (i % 5),  # Normal variation
             )
@@ -242,7 +245,7 @@ class TestObservabilityIntegration:
         correlation_id = f"correlation_test_{datetime.now().timestamp()}"
 
         # Record evidence of the anomalous event
-        evidence_id = await stack['evidence'].collect_evidence(
+        evidence_id = await stack["evidence"].collect_evidence(
             evidence_type=EvidenceType.SYSTEM_EVENT,
             source_component="anomaly_test",
             operation="anomalous_operation",
@@ -255,14 +258,14 @@ class TestObservabilityIntegration:
         )
 
         # Record anomalous metric
-        await stack['metrics'].record_advanced_metric(
+        await stack["metrics"].record_advanced_metric(
             metric_name="correlation_test_metric",
             value=500.0,  # Way outside normal range
         )
 
         # Verify both evidence and anomaly were recorded
         assert evidence_id is not None
-        stack['metrics'].get_anomaly_summary(hours_back=1)
+        stack["metrics"].get_anomaly_summary(hours_back=1)
         # Anomaly detection depends on sufficient baseline data
 
     @pytest.mark.asyncio
@@ -273,7 +276,7 @@ class TestObservabilityIntegration:
         correlation_id = "test_correlation_12345"
 
         # Record evidence with correlation ID
-        evidence_id = await stack['evidence'].collect_evidence(
+        evidence_id = await stack["evidence"].collect_evidence(
             evidence_type=EvidenceType.USER_INTERACTION,
             source_component="frontend",
             operation="user_action",
@@ -282,14 +285,14 @@ class TestObservabilityIntegration:
         )
 
         # Record metrics with same correlation
-        await stack['metrics'].record_advanced_metric(
+        await stack["metrics"].record_advanced_metric(
             metric_name="user_action_duration",
             value=0.05,
             labels={"correlation_id": correlation_id},
         )
 
         # Record performance data
-        await stack['performance'].record_performance_metric(
+        await stack["performance"].record_performance_metric(
             metric_name="action_response_time",
             component="frontend",
             value=0.05,
@@ -313,7 +316,7 @@ class TestObservabilityIntegration:
         ]
 
         for regime, operation, payload in compliance_evidence:
-            await stack['evidence'].collect_evidence(
+            await stack["evidence"].collect_evidence(
                 evidence_type=EvidenceType.REGULATORY_EVENT,
                 source_component="compliance_test",
                 operation=operation,
@@ -322,13 +325,13 @@ class TestObservabilityIntegration:
             )
 
         # Flush evidence to storage
-        await stack['evidence'].flush_evidence_buffer()
+        await stack["evidence"].flush_evidence_buffer()
 
         # Generate compliance reports
         reports = {}
         for regime in [ComplianceRegime.GDPR, ComplianceRegime.SOX, ComplianceRegime.CCPA]:
             try:
-                report = await stack['compliance'].generate_compliance_report(
+                report = await stack["compliance"].generate_compliance_report(
                     regulation=regime,
                     report_type="daily",
                 )
@@ -360,7 +363,7 @@ class TestObservabilityIntegration:
             evidence_id="trace_test_evidence_1",
             evidence_type="user_interaction",
         ):
-            evidence_id = await integrated_observability_stack['evidence'].collect_evidence(
+            evidence_id = await integrated_observability_stack["evidence"].collect_evidence(
                 evidence_type=EvidenceType.USER_INTERACTION,
                 source_component="tracing_test",
                 operation="traced_operation",
@@ -374,7 +377,7 @@ class TestObservabilityIntegration:
             current_value=0.12,
             baseline_value=0.10,
         ):
-            await integrated_observability_stack['performance'].record_performance_metric(
+            await integrated_observability_stack["performance"].record_performance_metric(
                 metric_name="traced_latency",
                 component="traced_service",
                 value=0.12,
@@ -386,7 +389,7 @@ class TestObservabilityIntegration:
             compliance_regime="GDPR",
             compliance_score=95.5,
         ):
-            await integrated_observability_stack['compliance'].assess_compliance_status(ComplianceRegime.GDPR)
+            await integrated_observability_stack["compliance"].assess_compliance_status(ComplianceRegime.GDPR)
 
         assert evidence_id is not None
 
@@ -401,7 +404,7 @@ class TestObservabilityIntegration:
 
             # Evidence collection load
             for i in range(50):
-                task = stack['evidence'].collect_evidence(
+                task = stack["evidence"].collect_evidence(
                     evidence_type=EvidenceType.SYSTEM_EVENT,
                     source_component=f"load_test_{i % 5}",
                     operation="load_test_operation",
@@ -411,7 +414,7 @@ class TestObservabilityIntegration:
 
             # Metrics recording load
             for i in range(50):
-                task = stack['metrics'].record_advanced_metric(
+                task = stack["metrics"].record_advanced_metric(
                     metric_name=f"load_test_metric_{i % 10}",
                     value=0.1 + (i * 0.001),
                     labels={"load_test": "true"},
@@ -420,7 +423,7 @@ class TestObservabilityIntegration:
 
             # Performance data load
             for i in range(50):
-                task = stack['performance'].record_performance_metric(
+                task = stack["performance"].record_performance_metric(
                     metric_name="load_test_latency",
                     component=f"load_service_{i % 3}",
                     value=0.05 + (i * 0.001),
@@ -430,6 +433,7 @@ class TestObservabilityIntegration:
             await asyncio.gather(*tasks)
 
         import time
+
         start_time = time.time()
         await generate_load()
         end_time = time.time()
@@ -438,9 +442,9 @@ class TestObservabilityIntegration:
         assert duration < 10.0, f"High load test took {duration}s, should be <10s"
 
         # Verify data integrity
-        assert len(stack['evidence']._evidence_buffer) > 0
-        assert len(stack['metrics'].metric_history) > 0
-        assert len(stack['performance'].metric_timeseries) > 0
+        assert len(stack["evidence"]._evidence_buffer) > 0
+        assert len(stack["metrics"].metric_history) > 0
+        assert len(stack["performance"].metric_timeseries) > 0
 
     @pytest.mark.asyncio
     async def test_error_resilience_integration(self, integrated_observability_stack):
@@ -449,7 +453,7 @@ class TestObservabilityIntegration:
 
         # Test with invalid evidence data
         try:
-            await stack['evidence'].collect_evidence(
+            await stack["evidence"].collect_evidence(
                 evidence_type=EvidenceType.ERROR_EVENT,
                 source_component="error_test",
                 operation="intentional_error_test",
@@ -461,7 +465,7 @@ class TestObservabilityIntegration:
 
         # Test with invalid metric data
         try:
-            await stack['metrics'].record_advanced_metric(
+            await stack["metrics"].record_advanced_metric(
                 metric_name="error_test_metric",
                 value="invalid_value",  # Should cause type error
             )
@@ -470,7 +474,7 @@ class TestObservabilityIntegration:
 
         # Test with invalid performance data
         try:
-            await stack['performance'].record_performance_metric(
+            await stack["performance"].record_performance_metric(
                 metric_name="error_test_performance",
                 component="error_service",
                 value=None,  # Invalid value
@@ -480,7 +484,7 @@ class TestObservabilityIntegration:
 
         # System should continue functioning
         # Record valid data to verify
-        evidence_id = await stack['evidence'].collect_evidence(
+        evidence_id = await stack["evidence"].collect_evidence(
             evidence_type=EvidenceType.SYSTEM_EVENT,
             source_component="resilience_test",
             operation="post_error_test",
@@ -494,11 +498,11 @@ class TestObservabilityIntegration:
         stack = integrated_observability_stack
 
         # Test that components have consistent configuration
-        assert stack['evidence'].compression_enabled is True
-        assert stack['evidence'].encryption_enabled is True
-        assert stack['metrics'].enable_anomaly_detection is True
-        assert stack['performance'].enable_ml_detection is False  # As configured
-        assert stack['alerting'].enable_storm_detection is True
+        assert stack["evidence"].compression_enabled is True
+        assert stack["evidence"].encryption_enabled is True
+        assert stack["metrics"].enable_anomaly_detection is True
+        assert stack["performance"].enable_ml_detection is False  # As configured
+        assert stack["alerting"].enable_storm_detection is True
 
     @pytest.mark.asyncio
     async def test_shutdown_integration(self, integrated_observability_stack):
@@ -506,7 +510,7 @@ class TestObservabilityIntegration:
         stack = integrated_observability_stack
 
         # Record some data before shutdown
-        await stack['evidence'].collect_evidence(
+        await stack["evidence"].collect_evidence(
             evidence_type=EvidenceType.SYSTEM_EVENT,
             source_component="shutdown_test",
             operation="pre_shutdown_operation",
@@ -515,7 +519,7 @@ class TestObservabilityIntegration:
 
         # Test graceful shutdown
         for component_name, component in stack.items():
-            if hasattr(component, 'shutdown'):
+            if hasattr(component, "shutdown"):
                 try:
                     await component.shutdown()
                     print(f"{component_name} shutdown completed")
@@ -540,7 +544,7 @@ class TestPerformanceIntegration:
         start_time = time.perf_counter()
 
         for i in range(100):
-            await stack['evidence'].collect_evidence(
+            await stack["evidence"].collect_evidence(
                 evidence_type=EvidenceType.PERFORMANCE_METRIC,
                 source_component="performance_test",
                 operation="overhead_test",
@@ -567,35 +571,37 @@ class TestPerformanceIntegration:
             operations = []
 
             # Evidence collection
-            operations.extend([
-                stack['evidence'].collect_evidence(
-                    evidence_type=EvidenceType.SYSTEM_EVENT,
-                    source_component="concurrent_test",
-                    operation=f"concurrent_op_{i}",
-                    payload={"id": i},
-                ) for i in range(20)
-            ])
+            operations.extend(
+                [
+                    stack["evidence"].collect_evidence(
+                        evidence_type=EvidenceType.SYSTEM_EVENT,
+                        source_component="concurrent_test",
+                        operation=f"concurrent_op_{i}",
+                        payload={"id": i},
+                    )
+                    for i in range(20)
+                ]
+            )
 
             # Metrics recording
-            operations.extend([
-                stack['metrics'].record_advanced_metric(
-                    f"concurrent_metric_{i}",
-                    0.1 + (i * 0.01)
-                ) for i in range(20)
-            ])
+            operations.extend(
+                [stack["metrics"].record_advanced_metric(f"concurrent_metric_{i}", 0.1 + (i * 0.01)) for i in range(20)]
+            )
 
             # Performance recording
-            operations.extend([
-                stack['performance'].record_performance_metric(
-                    "concurrent_perf",
-                    f"service_{i}",
-                    0.05 + (i * 0.001)
-                ) for i in range(20)
-            ])
+            operations.extend(
+                [
+                    stack["performance"].record_performance_metric(
+                        "concurrent_perf", f"service_{i}", 0.05 + (i * 0.001)
+                    )
+                    for i in range(20)
+                ]
+            )
 
             return await asyncio.gather(*operations)
 
         import time
+
         start_time = time.time()
         results = await concurrent_operations()
         end_time = time.time()

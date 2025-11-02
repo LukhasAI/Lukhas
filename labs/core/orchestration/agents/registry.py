@@ -2,6 +2,7 @@
 
 ΛTAG: orchestration_agent_registry
 """
+
 from typing import Optional
 
 from .base import OrchestrationAgent

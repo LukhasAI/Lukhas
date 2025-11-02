@@ -23,7 +23,8 @@ class Decision:
         chosen_approach: str,
         expected_outcome: str,
         files_affected: list[str],
-        commit_hash: Optional[str] = None):
+        commit_hash: Optional[str] = None,
+    ):
         self.title = title
         self.rationale = rationale
         self.alternatives = alternatives

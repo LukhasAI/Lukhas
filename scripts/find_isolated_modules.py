@@ -24,10 +24,10 @@ def get_imports(file_path: Path) -> set[str]:
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             for alias in node.names:
-                imports.add(alias.name.split('.')[0])
+                imports.add(alias.name.split(".")[0])
         elif isinstance(node, ast.ImportFrom):
             if node.module:
-                imports.add(node.module.split('.')[0])
+                imports.add(node.module.split(".")[0])
 
     return imports
 
@@ -36,30 +36,35 @@ def should_skip(path: Path) -> bool:
     """Check if path should be excluded from analysis."""
     parts = path.parts
     skip_patterns = {
-        'tests', 'docs', '__pycache__', '.venv', 'venv',
-        'node_modules', 'dist', 'build', '.git', 'fixtures'
+        "tests",
+        "docs",
+        "__pycache__",
+        ".venv",
+        "venv",
+        "node_modules",
+        "dist",
+        "build",
+        ".git",
+        "fixtures",
     }
-    return any(p in skip_patterns or p.startswith('.') for p in parts)
+    return any(p in skip_patterns or p.startswith(".") for p in parts)
 
 
 def module_name_from_path(path: Path, root: Path) -> str:
     """Convert file path to Python module name."""
     rel = path.relative_to(root)
     parts = list(rel.parts)
-    if parts[-1] == '__init__.py':
+    if parts[-1] == "__init__.py":
         parts = parts[:-1]
-    elif parts[-1].endswith('.py'):
+    elif parts[-1].endswith(".py"):
         parts[-1] = parts[-1][:-3]
 
-    return '.'.join(parts) if parts else ''
+    return ".".join(parts) if parts else ""
 
 
 def main():
     root = Path(__file__).parent.parent
-    python_files = [
-        p for p in root.rglob('*.py')
-        if not should_skip(p) and p.name != 'setup.py'
-    ]
+    python_files = [p for p in root.rglob("*.py") if not should_skip(p) and p.name != "setup.py"]
 
     # Build import graph
     module_imports = {}  # module -> set of modules it imports
@@ -67,7 +72,7 @@ def main():
 
     for py_file in python_files:
         mod_name = module_name_from_path(py_file, root)
-        if not mod_name or mod_name.startswith('.'):
+        if not mod_name or mod_name.startswith("."):
             continue
 
         all_modules.add(mod_name)
@@ -89,7 +94,7 @@ def main():
     no_outgoing = []
 
     for mod in sorted(all_modules):
-        if incoming[mod] == 0 and not mod.startswith('serve'):  # serve.main is entrypoint
+        if incoming[mod] == 0 and not mod.startswith("serve"):  # serve.main is entrypoint
             no_incoming.append(mod)
         if outgoing[mod] == 0:
             no_outgoing.append(mod)
@@ -113,5 +118,5 @@ def main():
         print(f"\n*... and {len(no_outgoing) - 50} more*")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

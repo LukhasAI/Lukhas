@@ -26,6 +26,7 @@ from urllib.parse import urlparse
 
 class DSLError(Exception):
     """DSL compilation or evaluation error."""
+
     pass
 
 
@@ -89,7 +90,7 @@ def not_has_consent(value: Any) -> bool:
     if isinstance(value, bool):
         return not value
     if isinstance(value, str):
-        return value.lower() in ('false', 'no', 'deny', 'reject', '')
+        return value.lower() in ("false", "no", "deny", "reject", "")
     return False
 
 
@@ -124,7 +125,7 @@ def canonical_domain(url: str) -> str:
             return ""
 
         # Validate that we have a real scheme (not just any "://")
-        if parsed.scheme not in ('http', 'https', 'ftp', 'ftps'):
+        if parsed.scheme not in ("http", "https", "ftp", "ftps"):
             return ""
 
         # Normalize case and remove trailing dots
@@ -133,13 +134,14 @@ def canonical_domain(url: str) -> str:
         # Handle IDN domains - try to encode to ASCII
         try:
             # Simple ASCII check first
-            hostname.encode('ascii')
+            hostname.encode("ascii")
             canonical = hostname
         except UnicodeEncodeError:
             # Handle internationalized domains
             try:
                 import idna
-                canonical = idna.encode(hostname).decode('ascii')
+
+                canonical = idna.encode(hostname).decode("ascii")
             except (ImportError, idna.core.IDNAError):
                 # Fallback: use original but normalized
                 canonical = hostname
@@ -181,8 +183,7 @@ def domain_etld1(url_or_domain: Any, target_etld1: str) -> bool:
 
     # Simple eTLD+1 approximation: check if source ends with target
     # For production, consider using a proper public suffix list
-    return (source_domain == target_canonical or
-            source_domain.endswith('.' + target_canonical))
+    return source_domain == target_canonical or source_domain.endswith("." + target_canonical)
 
 
 # Units parsing helpers
@@ -194,7 +195,7 @@ def parse_bytes(value_str: str) -> int:
     value_str = value_str.strip().upper()
 
     # Extract number and unit
-    match = re.match(r'^(\d+(?:\.\d+)?)\s*([KMGT]?I?B?)$', value_str)
+    match = re.match(r"^(\d+(?:\.\d+)?)\s*([KMGT]?I?B?)$", value_str)
     if not match:
         # Try plain number
         try:
@@ -207,12 +208,20 @@ def parse_bytes(value_str: str) -> int:
 
     # Unit multipliers
     multipliers = {
-        '': 1, 'B': 1,
-        'KB': 1000, 'KIB': 1024,
-        'MB': 1000**2, 'MIB': 1024**2,
-        'GB': 1000**3, 'GIB': 1024**3,
-        'TB': 1000**4, 'TIB': 1024**4,
-        'K': 1024, 'M': 1024**2, 'G': 1024**3, 'T': 1024**4  # Common shorthand
+        "": 1,
+        "B": 1,
+        "KB": 1000,
+        "KIB": 1024,
+        "MB": 1000**2,
+        "MIB": 1024**2,
+        "GB": 1000**3,
+        "GIB": 1024**3,
+        "TB": 1000**4,
+        "TIB": 1024**4,
+        "K": 1024,
+        "M": 1024**2,
+        "G": 1024**3,
+        "T": 1024**4,  # Common shorthand
     }
 
     multiplier = multipliers.get(unit, None)
@@ -230,7 +239,7 @@ def parse_seconds(value_str: str) -> float:
     value_str = value_str.strip().lower()
 
     # Extract number and unit
-    match = re.match(r'^(\d+(?:\.\d+)?)\s*([a-z]*)$', value_str)
+    match = re.match(r"^(\d+(?:\.\d+)?)\s*([a-z]*)$", value_str)
     if not match:
         raise ValueError(f"Invalid time value: {value_str}")
 
@@ -239,12 +248,30 @@ def parse_seconds(value_str: str) -> float:
 
     # Unit multipliers (to seconds)
     multipliers = {
-        '': 1, 's': 1, 'sec': 1, 'second': 1, 'seconds': 1,
-        'ms': 0.001, 'msec': 0.001, 'millisecond': 0.001, 'milliseconds': 0.001,
-        'us': 0.000001, 'μs': 0.000001, 'microsecond': 0.000001, 'microseconds': 0.000001,
-        'm': 60, 'min': 60, 'minute': 60, 'minutes': 60,
-        'h': 3600, 'hr': 3600, 'hour': 3600, 'hours': 3600,
-        'd': 86400, 'day': 86400, 'days': 86400,
+        "": 1,
+        "s": 1,
+        "sec": 1,
+        "second": 1,
+        "seconds": 1,
+        "ms": 0.001,
+        "msec": 0.001,
+        "millisecond": 0.001,
+        "milliseconds": 0.001,
+        "us": 0.000001,
+        "μs": 0.000001,
+        "microsecond": 0.000001,
+        "microseconds": 0.000001,
+        "m": 60,
+        "min": 60,
+        "minute": 60,
+        "minutes": 60,
+        "h": 3600,
+        "hr": 3600,
+        "hour": 3600,
+        "hours": 3600,
+        "d": 86400,
+        "day": 86400,
+        "days": 86400,
     }
 
     multiplier = multipliers.get(unit, None)
@@ -286,7 +313,7 @@ def param_seconds_lte(param_value: Any, limit_str: str) -> bool:
 
 def _resolve_path_in_dict(path: str, data: Dict[str, Any]) -> Any:
     """Resolve dotted path in dictionary."""
-    parts = path.split('.')
+    parts = path.split(".")
     obj = data
 
     for part in parts:
@@ -308,7 +335,7 @@ def has_tag(tags: Any, tag_name: str) -> bool:
     if isinstance(tags, list):
         # Check if list contains SafetyTag objects or strings
         for tag in tags:
-            if hasattr(tag, 'name'):
+            if hasattr(tag, "name"):
                 # SafetyTag object
                 if tag.name == tag_name:
                     return True
@@ -321,7 +348,7 @@ def has_tag(tags: Any, tag_name: str) -> bool:
         return tag_name in tags
     elif isinstance(tags, str):
         # Comma-separated tag string
-        return tag_name in tags.split(',')
+        return tag_name in tags.split(",")
 
     return False
 
@@ -337,7 +364,7 @@ def has_category(tags: Any, category_name: str) -> bool:
         "data_sensitivity": ["pii", "financial", "health", "sensitive"],
         "system_operation": ["model-switch", "external-call", "admin", "system"],
         "security_risk": ["privilege-escalation", "injection", "exploit"],
-        "compliance": ["gdpr", "hipaa", "sox", "compliance"]
+        "compliance": ["gdpr", "hipaa", "sox", "compliance"],
     }
 
     if category_name not in category_patterns:
@@ -350,7 +377,7 @@ def has_category(tags: Any, category_name: str) -> bool:
     elif isinstance(tags, dict):
         return any(tag in tags for tag in category_tags)
     elif isinstance(tags, str):
-        tag_list = tags.split(',')
+        tag_list = tags.split(",")
         return any(tag in tag_list for tag in category_tags)
 
     return False
@@ -382,8 +409,14 @@ def requires_human_for_tags(tags: Any, *tag_names: str) -> bool:
 
     # Tags that require human oversight
     human_required_tags = {
-        "pii", "financial", "privilege-escalation", "gdpr",
-        "model-switch", "admin", "delete", "sensitive"
+        "pii",
+        "financial",
+        "privilege-escalation",
+        "gdpr",
+        "model-switch",
+        "admin",
+        "delete",
+        "sensitive",
     }
 
     for tag_name in tag_names:
@@ -400,10 +433,10 @@ def high_risk_tag_combination(tags: Any) -> bool:
 
     # Define high-risk combinations
     risk_combinations = [
-        ["pii", "external-call"],        # PII + external call
-        ["financial", "model-switch"],   # Financial + model switch
-        ["privilege-escalation", "admin"], # Privilege escalation + admin
-        ["gdpr", "delete"],              # GDPR + deletion
+        ["pii", "external-call"],  # PII + external call
+        ["financial", "model-switch"],  # Financial + model switch
+        ["privilege-escalation", "admin"],  # Privilege escalation + admin
+        ["gdpr", "delete"],  # GDPR + deletion
     ]
 
     for combination in risk_combinations:
@@ -431,28 +464,28 @@ def not_op(condition: bool) -> bool:
 
 # DSL Compiler
 PREDICATES = {
-    'contains': contains,
-    'equals': equals,
-    'greater_than': greater_than,
-    'less_than': less_than,
-    'matches': matches,
-    'is_empty': is_empty,
-    'is_present': is_present,
-    'not_has_consent': not_has_consent,
-    'domain_is': domain_is,
-    'domain_etld1': domain_etld1,
-    'param_bytes_lte': param_bytes_lte,
-    'param_seconds_lte': param_seconds_lte,
+    "contains": contains,
+    "equals": equals,
+    "greater_than": greater_than,
+    "less_than": less_than,
+    "matches": matches,
+    "is_empty": is_empty,
+    "is_present": is_present,
+    "not_has_consent": not_has_consent,
+    "domain_is": domain_is,
+    "domain_etld1": domain_etld1,
+    "param_bytes_lte": param_bytes_lte,
+    "param_seconds_lte": param_seconds_lte,
     # Safety Tags predicates (Task 13)
-    'has_tag': has_tag,
-    'has_category': has_category,
-    'tag_confidence': tag_confidence,
-    'requires_human_for_tags': requires_human_for_tags,
-    'high_risk_tag_combination': high_risk_tag_combination,
+    "has_tag": has_tag,
+    "has_category": has_category,
+    "tag_confidence": tag_confidence,
+    "requires_human_for_tags": requires_human_for_tags,
+    "high_risk_tag_combination": high_risk_tag_combination,
     # Logical operators
-    'and': and_op,
-    'or': or_op,
-    'not': not_op,
+    "and": and_op,
+    "or": or_op,
+    "not": not_op,
 }
 
 
@@ -511,12 +544,12 @@ def _parse_expression(expr: str) -> Dict[str, Any]:
     expr = expr.strip()
 
     # Handle logical operators (and, or, not)
-    for op in ['and', 'or', 'not']:
+    for op in ["and", "or", "not"]:
         if expr.startswith(f"{op}("):
             return _parse_logical(op, expr)
 
     # Handle predicates
-    match = re.match(r'^(\w+)\((.*)\)$', expr)
+    match = re.match(r"^(\w+)\((.*)\)$", expr)
     if not match:
         raise DSLError(f"Invalid expression: {expr}")
 
@@ -529,11 +562,7 @@ def _parse_expression(expr: str) -> Dict[str, Any]:
     # Parse arguments
     args = _parse_arguments(args_str)
 
-    return {
-        'type': 'predicate',
-        'name': predicate,
-        'args': args
-    }
+    return {"type": "predicate", "name": predicate, "args": args}
 
 
 def _parse_logical(op: str, expr: str) -> Dict[str, Any]:
@@ -542,17 +571,13 @@ def _parse_logical(op: str, expr: str) -> Dict[str, Any]:
     if not expr.startswith(f"{op}(") or not expr.endswith(")"):
         raise DSLError(f"Invalid {op} expression: {expr}")
 
-    content = expr[len(op)+1:-1]
+    content = expr[len(op) + 1 : -1]
 
     # Parse nested expressions
     sub_exprs = _split_arguments(content)
     children = [_parse_expression(sub) for sub in sub_exprs]
 
-    return {
-        'type': 'logical',
-        'operator': op,
-        'children': children
-    }
+    return {"type": "logical", "operator": op, "children": children}
 
 
 def _parse_arguments(args_str: str) -> list:
@@ -564,19 +589,18 @@ def _parse_arguments(args_str: str) -> list:
         arg = arg.strip()
 
         # String literal
-        if (arg.startswith('"') and arg.endswith('"')) or \
-           (arg.startswith("'") and arg.endswith("'")):
-            parsed.append({'type': 'literal', 'value': arg[1:-1]})
+        if (arg.startswith('"') and arg.endswith('"')) or (arg.startswith("'") and arg.endswith("'")):
+            parsed.append({"type": "literal", "value": arg[1:-1]})
         # Number literal
-        elif re.match(r'^-?\d+(\.\d+)?$', arg):
-            value = float(arg) if '.' in arg else int(arg)
-            parsed.append({'type': 'literal', 'value': value})
+        elif re.match(r"^-?\d+(\.\d+)?$", arg):
+            value = float(arg) if "." in arg else int(arg)
+            parsed.append({"type": "literal", "value": value})
         # Boolean literal
-        elif arg in ('true', 'false'):
-            parsed.append({'type': 'literal', 'value': arg == 'true'})
+        elif arg in ("true", "false"):
+            parsed.append({"type": "literal", "value": arg == "true"})
         # Path reference
         else:
-            parsed.append({'type': 'path', 'value': arg})
+            parsed.append({"type": "path", "value": arg})
 
     return parsed
 
@@ -597,48 +621,48 @@ def _split_arguments(text: str) -> list:
             current.append(char)
         elif in_quote:
             current.append(char)
-        elif char == '(':
+        elif char == "(":
             depth += 1
             current.append(char)
-        elif char == ')':
+        elif char == ")":
             depth -= 1
             current.append(char)
-        elif char == ',' and depth == 0:
-            args.append(''.join(current).strip())
+        elif char == "," and depth == 0:
+            args.append("".join(current).strip())
             current = []
         else:
             current.append(char)
 
     if current:
-        args.append(''.join(current).strip())
+        args.append("".join(current).strip())
 
     return args
 
 
 def _evaluate_ast(ast: Dict[str, Any], plan: Dict[str, Any], context: Dict[str, Any]) -> bool:
     """Evaluate AST against plan and context."""
-    if ast['type'] == 'logical':
-        op = ast['operator']
-        children = ast['children']
+    if ast["type"] == "logical":
+        op = ast["operator"]
+        children = ast["children"]
 
-        if op == 'and':
+        if op == "and":
             return all(_evaluate_ast(child, plan, context) for child in children)
-        elif op == 'or':
+        elif op == "or":
             return any(_evaluate_ast(child, plan, context) for child in children)
-        elif op == 'not':
+        elif op == "not":
             return not _evaluate_ast(children[0], plan, context)
         else:
             raise DSLError(f"Unknown logical operator: {op}")
 
-    elif ast['type'] == 'predicate':
-        predicate = PREDICATES[ast['name']]
+    elif ast["type"] == "predicate":
+        predicate = PREDICATES[ast["name"]]
         args = []
 
-        for arg in ast['args']:
-            if arg['type'] == 'literal':
-                args.append(arg['value'])
-            elif arg['type'] == 'path':
-                value = _resolve_path(arg['value'], plan, context)
+        for arg in ast["args"]:
+            if arg["type"] == "literal":
+                args.append(arg["value"])
+            elif arg["type"] == "path":
+                value = _resolve_path(arg["value"], plan, context)
                 args.append(value)
             else:
                 raise DSLError(f"Unknown argument type: {arg['type']}")
@@ -651,10 +675,10 @@ def _evaluate_ast(ast: Dict[str, Any], plan: Dict[str, Any], context: Dict[str, 
 
 def _resolve_path(path: str, plan: Dict[str, Any], context: Dict[str, Any]) -> Any:
     """Resolve dotted path in plan or context."""
-    parts = path.split('.')
+    parts = path.split(".")
 
     # Determine root
-    if parts[0] == 'context':
+    if parts[0] == "context":
         obj = context
         parts = parts[1:]
     else:

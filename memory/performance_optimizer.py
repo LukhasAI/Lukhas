@@ -19,6 +19,7 @@ from weakref import WeakSet
 try:
     from memory.core.memory_core import MemoryFold, MemoryItem
     from memory.fold_lineage_tracker import CausalLink, CausationType
+
     MEMORY_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full memory system
@@ -85,13 +86,10 @@ class OptimizationResult:
 class FoldPerformanceOptimizer:
     """High-performance optimizer for memory fold operations."""
 
-    def __init__(self,
-                 cache_size: int = 10000,
-                 batch_threshold: int = 50,
-                 optimization_interval_sec: float = 30.0):
+    def __init__(self, cache_size: int = 10000, batch_threshold: int = 50, optimization_interval_sec: float = 30.0):
         """
         Initialize performance optimizer.
-        
+
         Args:
             cache_size: Maximum number of cached fold operations
             batch_threshold: Minimum items for batch processing
@@ -129,9 +127,7 @@ class FoldPerformanceOptimizer:
         """Start the background optimization service."""
 
         if self.auto_optimization_task is None:
-            self.auto_optimization_task = asyncio.create_task(
-                self._auto_optimization_loop()
-            )
+            self.auto_optimization_task = asyncio.create_task(self._auto_optimization_loop())
 
     async def stop_optimization_service(self) -> None:
         """Stop the background optimization service."""
@@ -181,10 +177,7 @@ class FoldPerformanceOptimizer:
         # Implement LRU eviction if cache is full
         if len(self.result_cache) >= self.cache_size:
             # Remove oldest 10% of entries
-            sorted_entries = sorted(
-                self.result_cache.items(),
-                key=lambda x: x[1][1]  # Sort by timestamp
-            )
+            sorted_entries = sorted(self.result_cache.items(), key=lambda x: x[1][1])  # Sort by timestamp
             remove_count = max(1, len(sorted_entries) // 10)
             for key, _ in sorted_entries[:remove_count]:
                 del self.result_cache[key]
@@ -196,8 +189,7 @@ class FoldPerformanceOptimizer:
 
         start_time = time.time()
         operation_hash = self._generate_operation_hash(
-            "consolidate",
-            {"fold_id": fold.id, "item_count": len(fold.items)}
+            "consolidate", {"fold_id": fold.id, "item_count": len(fold.items)}
         )
 
         # Check cache first
@@ -231,21 +223,23 @@ class FoldPerformanceOptimizer:
             metadata={
                 "optimization_type": "intelligent_consolidation",
                 "batch_processed": original_size >= self.batch_threshold,
-                "performance_tier": "fast" if optimization_time_ms < 50 else "normal"
-            }
+                "performance_tier": "fast" if optimization_time_ms < 50 else "normal",
+            },
         )
 
         # Cache result
         await self._cache_result(operation_hash, result)
 
         # Record performance
-        self.operation_history.append({
-            "timestamp": time.time(),
-            "operation": "consolidation",
-            "duration_ms": optimization_time_ms,
-            "cache_hit": False,
-            "fold_id": fold.id
-        })
+        self.operation_history.append(
+            {
+                "timestamp": time.time(),
+                "operation": "consolidation",
+                "duration_ms": optimization_time_ms,
+                "cache_hit": False,
+                "fold_id": fold.id,
+            }
+        )
 
         return result
 
@@ -283,12 +277,12 @@ class FoldPerformanceOptimizer:
 
         for item in items:
             # Group by content type or tags
-            if hasattr(item, 'tags') and item.tags:
+            if hasattr(item, "tags") and item.tags:
                 group_key = sorted(item.tags)[0]  # Use first tag as group key
-            elif hasattr(item, 'content') and isinstance(item.content, dict):
-                group_key = item.content.get('type', 'default')
+            elif hasattr(item, "content") and isinstance(item.content, dict):
+                group_key = item.content.get("type", "default")
             else:
-                group_key = 'default'
+                group_key = "default"
 
             groups[group_key].append(item)
 
@@ -301,9 +295,9 @@ class FoldPerformanceOptimizer:
         unique_items = []
         seen_content = set()
 
-        for item in sorted(items, key=lambda x: getattr(x, 'importance_score', 0.0), reverse=True):
+        for item in sorted(items, key=lambda x: getattr(x, "importance_score", 0.0), reverse=True):
             # Create content hash for deduplication
-            content_str = str(item.content) if hasattr(item, 'content') else str(item.id)
+            content_str = str(item.content) if hasattr(item, "content") else str(item.id)
             content_hash = hashlib.sha256(content_str.encode()).hexdigest()
 
             if content_hash not in seen_content and self._is_item_worth_keeping(item):
@@ -316,11 +310,11 @@ class FoldPerformanceOptimizer:
         """Determine if memory item is worth keeping."""
 
         # Basic importance threshold
-        if hasattr(item, 'importance_score'):
+        if hasattr(item, "importance_score"):
             return item.importance_score > 0.1
 
         # Content-based filtering
-        if hasattr(item, 'content') and isinstance(item.content, dict):
+        if hasattr(item, "content") and isinstance(item.content, dict):
             # Keep items with substantive content
             return len(str(item.content)) > 10
 
@@ -356,8 +350,7 @@ class FoldPerformanceOptimizer:
 
         # Clean result cache
         expired_keys = [
-            key for key, (_, timestamp) in self.result_cache.items()
-            if (current_time - timestamp) > self.cache_ttl_sec
+            key for key, (_, timestamp) in self.result_cache.items() if (current_time - timestamp) > self.cache_ttl_sec
         ]
 
         for key in expired_keys:
@@ -365,8 +358,7 @@ class FoldPerformanceOptimizer:
 
         # Clean fold cache
         expired_keys = [
-            key for key, (_, timestamp) in self.fold_cache.items()
-            if (current_time - timestamp) > self.cache_ttl_sec
+            key for key, (_, timestamp) in self.fold_cache.items() if (current_time - timestamp) > self.cache_ttl_sec
         ]
 
         for key in expired_keys:
@@ -377,10 +369,7 @@ class FoldPerformanceOptimizer:
 
         while not self.optimization_queue.empty():
             try:
-                optimization_request = await asyncio.wait_for(
-                    self.optimization_queue.get(),
-                    timeout=0.1
-                )
+                optimization_request = await asyncio.wait_for(self.optimization_queue.get(), timeout=0.1)
                 await self._handle_optimization_request(optimization_request)
             except asyncio.TimeoutError:
                 break
@@ -432,20 +421,20 @@ class FoldPerformanceOptimizer:
                 "average_duration_ms": self.metrics.average_duration_ms,
                 "cache_hit_rate": self.metrics.cache_hit_rate,
                 "batch_operations": self.metrics.batch_operations,
-                "optimization_saves_ms": self.metrics.optimization_saves_ms
+                "optimization_saves_ms": self.metrics.optimization_saves_ms,
             },
             "cache_status": {
                 "result_cache_size": len(self.result_cache),
                 "fold_cache_size": len(self.fold_cache),
                 "cache_ttl_sec": self.cache_ttl_sec,
-                "max_cache_size": self.cache_size
+                "max_cache_size": self.cache_size,
             },
             "performance_health": {
                 "is_healthy": self.metrics.average_duration_ms < self.slow_operation_threshold_ms,
                 "cache_efficiency": "good" if self.metrics.cache_hit_rate > 0.7 else "needs_improvement",
-                "batch_efficiency": "enabled" if self.metrics.batch_operations > 0 else "not_used"
+                "batch_efficiency": "enabled" if self.metrics.batch_operations > 0 else "not_used",
             },
-            "recent_operations": list(self.operation_history)[-10:]  # Last 10 operations
+            "recent_operations": list(self.operation_history)[-10:],  # Last 10 operations
         }
 
 

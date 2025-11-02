@@ -23,10 +23,7 @@ def integrate_hidden_gem(module_path: str) -> Dict[str, Any]:
     """
     print(f"🎯 Integrating: {module_path}")
 
-    results = {
-        "module": module_path,
-        "steps": []
-    }
+    results = {"module": module_path, "steps": []}
 
     # Step 1: Move to production
     print("  📦 Moving to production location...")
@@ -95,7 +92,7 @@ def move_to_production(module_path: str) -> str:
 def fix_imports(module_path: str):
     """Fix common import issues in module"""
 
-    with open(module_path, 'r') as f:
+    with open(module_path, "r") as f:
         content = f.read()
 
     # Fix common patterns
@@ -115,14 +112,11 @@ def fix_imports(module_path: str):
 
     # Fix logger issues if present
     import re
-    # Fix logger.method("msg", key=value) -> logger.method("msg: key=%s", value)
-    content = re.sub(
-        r'(logger\.\w+)\((".*?"),\s*(\w+)=(.*?)\)',
-        r'\1(\2 + ": \3=%s", \4)',
-        content
-    )
 
-    with open(module_path, 'w') as f:
+    # Fix logger.method("msg", key=value) -> logger.method("msg: key=%s", value)
+    content = re.sub(r'(logger\.\w+)\((".*?"),\s*(\w+)=(.*?)\)', r'\1(\2 + ": \3=%s", \4)', content)
+
+    with open(module_path, "w") as f:
         f.write(content)
 
 
@@ -145,11 +139,13 @@ def generate_matriz_schema(module_path: str) -> str:
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef):
                 methods = [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
-                classes.append({
-                    "name": node.name,
-                    "methods": methods[:5],  # Limit to first 5 methods
-                    "description": ast.get_docstring(node) or f"{node.name} class"
-                })
+                classes.append(
+                    {
+                        "name": node.name,
+                        "methods": methods[:5],  # Limit to first 5 methods
+                        "description": ast.get_docstring(node) or f"{node.name} class",
+                    }
+                )
 
     # Detect constellation stars based on module name
     stars = []
@@ -176,7 +172,6 @@ def generate_matriz_schema(module_path: str) -> str:
         "type": module_name.replace("_", "-"),
         "matriz_compatible": True,
         "description": f"{module_name} module for LUKHAS AGI system",
-
         "capabilities": {
             "sends": [
                 {
@@ -184,7 +179,7 @@ def generate_matriz_schema(module_path: str) -> str:
                     "schema": "StateUpdate",
                     "frequency": "on_change",
                     "latency_target_ms": 50,
-                    "description": f"State update from {module_name}"
+                    "description": f"State update from {module_name}",
                 }
             ],
             "receives": [
@@ -193,38 +188,24 @@ def generate_matriz_schema(module_path: str) -> str:
                     "schema": "ProcessRequest",
                     "handler": "process",
                     "required": True,
-                    "description": f"Process request for {module_name}"
+                    "description": f"Process request for {module_name}",
                 }
-            ]
+            ],
         },
-
         "main_classes": classes[:3],  # Limit to first 3 classes
-
-        "dependencies": [
-            "numpy",
-            "time",
-            "uuid",
-            "dataclasses"
-        ],
-
-        "performance": {
-            "max_latency_ms": 100,
-            "memory_limit_mb": 50,
-            "cpu_cores": 1
-        },
-
+        "dependencies": ["numpy", "time", "uuid", "dataclasses"],
+        "performance": {"max_latency_ms": 100, "memory_limit_mb": 50, "cpu_cores": 1},
         "constellation_integration": {
             "stars": list(set(stars)),
             "primary_star": stars[0] if stars else "memory",
-            "validates": True
+            "validates": True,
         },
-
         "governance": {
             "requires_consent": ["processing"],
             "audit_level": "standard",
             "provenance_tracking": True,
-            "interpretability": "medium"
-        }
+            "interpretability": "medium",
+        },
     }
 
     # Save schema
@@ -232,7 +213,7 @@ def generate_matriz_schema(module_path: str) -> str:
     schema_dir.mkdir(parents=True, exist_ok=True)
     schema_path = schema_dir / f"{module_name}_schema.json"
 
-    with open(schema_path, 'w') as f:
+    with open(schema_path, "w") as f:
         json.dump(schema, f, indent=2)
 
     return str(schema_path)
@@ -293,7 +274,7 @@ class Test{module_name.replace("_", "").title()}:
     test_dir.mkdir(parents=True, exist_ok=True)
     test_path = test_dir / f"test_{module_name}.py"
 
-    with open(test_path, 'w') as f:
+    with open(test_path, "w") as f:
         f.write(test_content)
 
     return str(test_path)
@@ -303,17 +284,13 @@ def validate_module(module_path: str) -> Dict[str, Any]:
     """Validate module MATRIZ readiness"""
 
     module_name = Path(module_path).stem
-    results = {
-        "module": module_name,
-        "checks": {},
-        "ready": False
-    }
+    results = {"module": module_name, "checks": {}, "ready": False}
 
     # Check 1: Module imports
     try:
         # Try to import (this is a simplified check)
         with open(module_path) as f:
-            compile(f.read(), module_path, 'exec')
+            compile(f.read(), module_path, "exec")
         results["checks"]["imports"] = True
     except Exception as e:
         results["checks"]["imports"] = False
@@ -380,7 +357,7 @@ def main():
     print(f"  New Path: {results.get('new_path', 'N/A')}")
     print(f"  Schema: {results.get('schema', 'N/A')}")
     print(f"  Test: {results.get('test', 'N/A')}")
-    if 'validation' in results:
+    if "validation" in results:
         print(f"  Readiness Score: {results['validation']['score']:.0f}%")
         print(f"  Ready: {'✅ Yes' if results['validation']['ready'] else '❌ No'}")
 

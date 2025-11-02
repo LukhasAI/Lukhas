@@ -8,6 +8,7 @@
 Global Hub Registry
 Central registry for all system hubs
 """
+
 import logging
 from typing import Any
 

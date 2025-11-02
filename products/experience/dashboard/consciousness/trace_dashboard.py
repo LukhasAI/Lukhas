@@ -14,6 +14,7 @@ except ImportError:  # pragma: no cover - exercised via fallback in tests
         overlap = len({item.get("key") for item in invoked} & {item.get("key") for item in optimal})
         return round(overlap / optimal_count, 4)
 
+
 # ΛTAG: streamlit_dashboard
 st = get_streamlit()
 

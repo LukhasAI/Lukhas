@@ -58,11 +58,13 @@ except ImportError:
     IntegrationLayer = MagicMock
 
 if "EthicsEngine" not in globals():
+
     class EthicsEngine:
         """Fallback ethics engine stub."""
 
         def __call__(self, *args, **kwargs):
             return None
+
 
 if "MemoryManager" not in globals() or isinstance(MemoryManager, MagicMock):  # type: ignore
 
@@ -74,6 +76,7 @@ if "MemoryManager" not in globals() or isinstance(MemoryManager, MagicMock):  # 
 
         def summarize(self):
             return {}
+
 
 __all__ = [
     "EthicsEngine",

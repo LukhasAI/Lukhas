@@ -24,13 +24,15 @@ def find_test_classes(py: Path):
             out.append((node.name, node.lineno))
     return out
 
-def apply_renames(py: Path, dups: list[tuple[str,int,int]]):
+
+def apply_renames(py: Path, dups: list[tuple[str, int, int]]):
     # dups: (orig_name, lineno, suffix_index)
     lines = py.read_text(encoding="utf-8").splitlines()
     for orig, lineno, idx in sorted(dups, key=lambda x: -x[1]):  # bottom-up edit
-        line = lines[lineno-1]
-        lines[lineno-1] = line.replace(f"class {orig}", f"class {orig}_{idx}")
+        line = lines[lineno - 1]
+        lines[lineno - 1] = line.replace(f"class {orig}", f"class {orig}_{idx}")
     py.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
 
 def main():
     ap = argparse.ArgumentParser(description="Detect duplicate Test classes; optionally rename.")
@@ -52,7 +54,7 @@ def main():
                 dups.append((name, lineno, counter[name]))  # suffix with 2,3,...
         if dups:
             dup_total += len(dups)
-            print(f"[DUP] {py}: " + ", ".join([f"{n}@{ln}:{i}" for n,ln,i in dups]))
+            print(f"[DUP] {py}: " + ", ".join([f"{n}@{ln}:{i}" for n, ln, i in dups]))
             if args.apply:
                 apply_renames(py, dups)
 
@@ -63,6 +65,7 @@ def main():
             print("[OK] No duplicate test classes found.")
         else:
             print(f"[INFO] Found {dup_total} duplicates (run with --apply to rename).")
+
 
 if __name__ == "__main__":
     sys.exit(main())

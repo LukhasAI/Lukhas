@@ -13,11 +13,11 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
     """Add SBOM reference to a matrix contract."""
     try:
         # Read existing contract
-        with open(contract_path, 'r') as f:
+        with open(contract_path, "r") as f:
             contract = json.load(f)
 
         # Check if SBOM reference already exists
-        if 'sbom_reference' in contract:
+        if "sbom_reference" in contract:
             print(f"⏭️  SBOM reference already exists in {contract_path.name}")
             return False
 
@@ -33,8 +33,8 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
                 "security_posture": {
                     "attestation_coverage": True,
                     "supply_chain_integrity": True,
-                    "telemetry_compliance": True
-                }
+                    "telemetry_compliance": True,
+                },
             }
         }
 
@@ -47,7 +47,7 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
             contract_path.rename(backup_path)
 
             # Write updated contract
-            with open(contract_path, 'w') as f:
+            with open(contract_path, "w") as f:
                 json.dump(contract, f, indent=2)
 
             print(f"✅ Updated {contract_path.name}")
@@ -93,7 +93,9 @@ def main():
 
     if updated_count > 0:
         print(f"\n🎯 Success! Updated {updated_count} matrix contracts with SBOM references.")
-        print("This should resolve many of the 102 security alerts and significantly improve the security posture score.")
+        print(
+            "This should resolve many of the 102 security alerts and significantly improve the security posture score."
+        )
         return 0
     else:
         print("\n⚠️ No contracts were updated. They may already have SBOM references.")

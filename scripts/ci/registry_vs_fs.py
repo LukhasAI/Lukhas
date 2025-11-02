@@ -54,25 +54,18 @@ def check_module(module: dict, root: Path, verbose: bool = False) -> List[str]:
 
     if docs_dir.exists() and docs_dir.is_dir():
         # FS has docs/ - check registry lists them
-        fs_docs = set([
-            str(p.relative_to(root))
-            for p in docs_dir.rglob("*.md")
-        ])
+        fs_docs = set([str(p.relative_to(root)) for p in docs_dir.rglob("*.md")])
 
         missing_from_registry = fs_docs - registry_docs
         if missing_from_registry:
-            errors.append(
-                f"{module_name}: docs/ exists but {len(missing_from_registry)} files not in registry"
-            )
+            errors.append(f"{module_name}: docs/ exists but {len(missing_from_registry)} files not in registry")
             if verbose:
                 for doc in sorted(missing_from_registry)[:5]:
                     errors.append(f"  Missing: {doc}")
     else:
         # FS has no docs/ - registry should be empty
         if registry_docs:
-            errors.append(
-                f"{module_name}: registry lists {len(registry_docs)} docs but docs/ does not exist"
-            )
+            errors.append(f"{module_name}: registry lists {len(registry_docs)} docs but docs/ does not exist")
 
     # Check tests
     registry_tests = set(module.get("tests", []))
@@ -80,38 +73,25 @@ def check_module(module: dict, root: Path, verbose: bool = False) -> List[str]:
 
     if tests_dir.exists() and tests_dir.is_dir():
         # FS has tests/ - check registry lists them
-        fs_tests = set([
-            str(p.relative_to(root))
-            for p in tests_dir.rglob("*.py")
-        ])
+        fs_tests = set([str(p.relative_to(root)) for p in tests_dir.rglob("*.py")])
 
         missing_from_registry = fs_tests - registry_tests
         if missing_from_registry:
-            errors.append(
-                f"{module_name}: tests/ exists but {len(missing_from_registry)} files not in registry"
-            )
+            errors.append(f"{module_name}: tests/ exists but {len(missing_from_registry)} files not in registry")
             if verbose:
                 for test in sorted(missing_from_registry)[:5]:
                     errors.append(f"  Missing: {test}")
     else:
         # FS has no tests/ - registry should be empty
         if registry_tests:
-            errors.append(
-                f"{module_name}: registry lists {len(registry_tests)} tests but tests/ does not exist"
-            )
+            errors.append(f"{module_name}: registry lists {len(registry_tests)} tests but tests/ does not exist")
 
     return errors
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Validate MODULE_REGISTRY.json against filesystem"
-    )
-    ap.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Show detailed error messages"
-    )
+    ap = argparse.ArgumentParser(description="Validate MODULE_REGISTRY.json against filesystem")
+    ap.add_argument("--verbose", action="store_true", help="Show detailed error messages")
     args = ap.parse_args()
 
     # Load registry

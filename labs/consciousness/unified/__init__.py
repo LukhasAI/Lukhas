@@ -5,6 +5,7 @@ CONSCIOUSNESS - unified Submodule
 #TAG:unified
 #TAG:standard
 """
+
 # Colony base for propagation
 from typing import Any
 

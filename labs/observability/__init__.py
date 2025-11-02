@@ -4,6 +4,7 @@ Observability package - canonical namespace for metrics/tracing/logging.
 Production-safe façade for observability primitives.
 Incremental implementation - start minimal, flesh out as needed.
 """
+
 from __future__ import annotations
 
 __all__ = [

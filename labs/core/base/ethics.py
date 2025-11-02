@@ -36,6 +36,7 @@
 ║ Symbolic Tags: {ΛETHICS}, {ΛSAFETY}, {ΛPRINCIPLES}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 # Module imports
 import logging
 from dataclasses import dataclass

@@ -18,6 +18,7 @@
 ║ unlocking new capabilities and visual styles at each tier.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import json
 import logging
 from dataclasses import dataclass

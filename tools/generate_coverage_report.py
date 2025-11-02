@@ -15,7 +15,7 @@ from pathlib import Path
 def main():
     """Generate the coverage report."""
     # Scan for contracts
-    contracts = sorted(glob.glob('contracts/matrix_*.json'))
+    contracts = sorted(glob.glob("contracts/matrix_*.json"))
     valid_contracts = 0
     total_contracts = len(contracts)
     webauthn_modules = []
@@ -24,8 +24,8 @@ def main():
         try:
             with open(contract_path) as f:
                 contract = json.load(f)
-            if contract.get('identity', {}).get('webauthn_required', False):
-                module = contract_path.split('/')[-1].replace('matrix_', '').replace('.json', '')
+            if contract.get("identity", {}).get("webauthn_required", False):
+                module = contract_path.split("/")[-1].replace("matrix_", "").replace(".json", "")
                 webauthn_modules.append(module)
             valid_contracts += 1
         except Exception as e:
@@ -35,17 +35,17 @@ def main():
     # Load AuthZ data
     authz_data = {}
     try:
-        with open('artifacts/matrix_validation_results.json') as f:
+        with open("artifacts/matrix_validation_results.json") as f:
             authz_data = json.load(f)
     except Exception as e:
         logger.debug(f"Expected optional failure: {e}")
-        authz_data = {'summary': {'pass_rate': 0.963, 'passed': 2391, 'total_tests': 2484}}
+        authz_data = {"summary": {"pass_rate": 0.963, "passed": 2391, "total_tests": 2484}}
 
-    pass_rate = authz_data.get('summary', {}).get('pass_rate', 0.963)
-    passed_tests = authz_data.get('summary', {}).get('passed', 2391)
-    total_tests = authz_data.get('summary', {}).get('total_tests', 2484)
+    pass_rate = authz_data.get("summary", {}).get("pass_rate", 0.963)
+    passed_tests = authz_data.get("summary", {}).get("passed", 2391)
+    total_tests = authz_data.get("summary", {}).get("total_tests", 2484)
 
-    timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+    timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
     # Generate report content
     report = f"""# Matrix Identity Coverage Report
@@ -77,9 +77,9 @@ _Generated: {timestamp}_
         try:
             with open(contract_path) as f:
                 contract = json.load(f)
-            module = contract_path.split('/')[-1].replace('matrix_', '').replace('.json', '')
-            webauthn = '✅' if contract.get('identity', {}).get('webauthn_required', False) else '❌'
-            coverage = '40/40' if module in ['governance', 'identity'] else '38/40'
+            module = contract_path.split("/")[-1].replace("matrix_", "").replace(".json", "")
+            webauthn = "✅" if contract.get("identity", {}).get("webauthn_required", False) else "❌"
+            coverage = "40/40" if module in ["governance", "identity"] else "38/40"
             report += f"""
 | `{module}` | ✅ | ✅ | {webauthn} | {coverage} |"""
         except Exception as e:
@@ -114,13 +114,13 @@ All validation checks passed successfully.
 """
 
     # Ensure output directory exists
-    Path('tests').mkdir(exist_ok=True)
+    Path("tests").mkdir(exist_ok=True)
 
     # Write report
-    with open('tests/matrix_coverage_report.md', 'w') as f:
+    with open("tests/matrix_coverage_report.md", "w") as f:
         f.write(report)
 
-    print('✅ Coverage report generated: tests/matrix_coverage_report.md')
+    print("✅ Coverage report generated: tests/matrix_coverage_report.md")
 
 
 if __name__ == "__main__":

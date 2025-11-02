@@ -20,6 +20,7 @@ SCHEMA_PATH = ROOT / "schemas/matriz_module_compliance.schema.json"
 
 # ΛTAG: star_canon
 
+
 def load_canon_payload(path: Path) -> Dict[str, object]:
     with open(path, encoding="utf-8") as handle:
         return json.load(handle)
@@ -70,19 +71,13 @@ def main() -> int:
             defs_ref = definitions
         else:
             if labels != labels_ref:
-                errors.append(
-                    f"❌ Label drift detected in {canon_path.relative_to(ROOT)}"
-                )
+                errors.append(f"❌ Label drift detected in {canon_path.relative_to(ROOT)}")
             if defs_ref is not None and definitions != defs_ref:
-                errors.append(
-                    f"❌ Definition drift detected in {canon_path.relative_to(ROOT)}"
-                )
+                errors.append(f"❌ Definition drift detected in {canon_path.relative_to(ROOT)}")
 
         canon_set = _non_supporting(labels)
         if canon_set != schema_set:
-            errors.append(
-                f"❌ Canon mismatch in {canon_path.relative_to(ROOT)}"
-            )
+            errors.append(f"❌ Canon mismatch in {canon_path.relative_to(ROOT)}")
             missing = sorted(schema_set - canon_set)
             extra = sorted(canon_set - schema_set)
             if missing:

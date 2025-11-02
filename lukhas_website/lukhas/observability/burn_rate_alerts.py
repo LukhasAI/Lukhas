@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 class AlertSeverity(Enum):
     """Alert severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -34,15 +35,17 @@ class AlertSeverity(Enum):
 
 class BurnRateWindow(Enum):
     """Time windows for burn rate calculation"""
-    FAST_1H = "1h"      # Fast burn: 1 hour window
-    FAST_6H = "6h"      # Medium burn: 6 hour window
-    SLOW_24H = "24h"    # Slow burn: 24 hour window
-    SLOW_7D = "7d"      # Very slow burn: 7 day window
+
+    FAST_1H = "1h"  # Fast burn: 1 hour window
+    FAST_6H = "6h"  # Medium burn: 6 hour window
+    SLOW_24H = "24h"  # Slow burn: 24 hour window
+    SLOW_7D = "7d"  # Very slow burn: 7 day window
 
 
 @dataclass
 class SLODefinition:
     """Service Level Objective definition"""
+
     service: str
     slo_name: str
     target: float  # e.g., 0.999 for 99.9%
@@ -54,6 +57,7 @@ class SLODefinition:
 @dataclass
 class BurnRateThreshold:
     """Burn rate threshold configuration"""
+
     window: BurnRateWindow
     threshold: float  # Burn rate multiplier (e.g., 2.0 = 2x normal)
     alert_severity: AlertSeverity
@@ -64,6 +68,7 @@ class BurnRateThreshold:
 @dataclass
 class BurnRateCalculation:
     """Burn rate calculation result"""
+
     slo: SLODefinition
     window: BurnRateWindow
     window_duration_hours: float
@@ -78,6 +83,7 @@ class BurnRateCalculation:
 @dataclass
 class BurnRateAlert:
     """Burn rate alert"""
+
     alert_id: str
     slo: SLODefinition
     burn_calculation: BurnRateCalculation
@@ -107,36 +113,37 @@ class BurnRateCalculator:
                 window=BurnRateWindow.FAST_1H,
                 threshold=14.4,  # Burns 2% budget in 1h (exhausts in ~50h)
                 alert_severity=AlertSeverity.CRITICAL,
-                cooldown_minutes=5
+                cooldown_minutes=5,
             ),
             BurnRateWindow.FAST_6H: BurnRateThreshold(
                 window=BurnRateWindow.FAST_6H,
-                threshold=6.0,   # Burns 2% budget in 6h (exhausts in ~12.5d)
+                threshold=6.0,  # Burns 2% budget in 6h (exhausts in ~12.5d)
                 alert_severity=AlertSeverity.CRITICAL,
-                cooldown_minutes=15
+                cooldown_minutes=15,
             ),
-
             # Slow burn alerts (advance warning)
             BurnRateWindow.SLOW_24H: BurnRateThreshold(
                 window=BurnRateWindow.SLOW_24H,
-                threshold=3.0,   # Burns 5% budget in 24h (exhausts in ~20d)
+                threshold=3.0,  # Burns 5% budget in 24h (exhausts in ~20d)
                 alert_severity=AlertSeverity.WARNING,
-                cooldown_minutes=60
+                cooldown_minutes=60,
             ),
             BurnRateWindow.SLOW_7D: BurnRateThreshold(
                 window=BurnRateWindow.SLOW_7D,
-                threshold=1.0,   # Burns 10% budget in 7d (exhausts in ~70d)
+                threshold=1.0,  # Burns 10% budget in 7d (exhausts in ~70d)
                 alert_severity=AlertSeverity.INFO,
-                cooldown_minutes=240
-            )
+                cooldown_minutes=240,
+            ),
         }
 
-    def calculate_burn_rate(self,
-                          slo: SLODefinition,
-                          window: BurnRateWindow,
-                          error_count: int,
-                          total_requests: int,
-                          window_duration_minutes: int) -> BurnRateCalculation:
+    def calculate_burn_rate(
+        self,
+        slo: SLODefinition,
+        window: BurnRateWindow,
+        error_count: int,
+        total_requests: int,
+        window_duration_minutes: int,
+    ) -> BurnRateCalculation:
         """Calculate burn rate for given window"""
 
         # Calculate error rate
@@ -180,16 +187,16 @@ class BurnRateCalculator:
             budget_consumed_percent=budget_consumed_percent,
             time_to_exhaustion_hours=time_to_exhaustion_hours,
             alert_triggered=alert_triggered,
-            severity=severity
+            severity=severity,
         )
 
     def _parse_time_period_to_hours(self, time_period: str) -> float:
         """Parse time period string to hours"""
-        if time_period.endswith('d'):
+        if time_period.endswith("d"):
             return float(time_period[:-1]) * 24
-        elif time_period.endswith('h'):
+        elif time_period.endswith("h"):
             return float(time_period[:-1])
-        elif time_period.endswith('m'):
+        elif time_period.endswith("m"):
             return float(time_period[:-1]) / 60
         else:
             # Default to 30 days
@@ -226,8 +233,7 @@ class BurnRateAlertManager:
         self.notification_handlers[channel] = handler
         logger.info(f"Registered notification handler: {channel}")
 
-    async def evaluate_burn_rates(self,
-                                metrics: Dict[str, Dict[str, Any]]) -> List[BurnRateCalculation]:
+    async def evaluate_burn_rates(self, metrics: Dict[str, Dict[str, Any]]) -> List[BurnRateCalculation]:
         """Evaluate burn rates for all registered SLOs"""
         calculations = []
 
@@ -242,8 +248,8 @@ class BurnRateAlertManager:
                 window_minutes = self._window_to_minutes(window)
 
                 # Get metrics for this window
-                error_count = slo_metrics.get(f'errors_{window.value}', 0)
-                total_requests = slo_metrics.get(f'requests_{window.value}', 0)
+                error_count = slo_metrics.get(f"errors_{window.value}", 0)
+                total_requests = slo_metrics.get(f"requests_{window.value}", 0)
 
                 if total_requests == 0:
                     continue
@@ -267,7 +273,7 @@ class BurnRateAlertManager:
             BurnRateWindow.FAST_1H: 60,
             BurnRateWindow.FAST_6H: 360,
             BurnRateWindow.SLOW_24H: 1440,
-            BurnRateWindow.SLOW_7D: 10080
+            BurnRateWindow.SLOW_7D: 10080,
         }
         return window_mapping.get(window, 60)
 
@@ -290,12 +296,12 @@ class BurnRateAlertManager:
             timestamp=datetime.utcnow(),
             message=self._generate_alert_message(calculation),
             details={
-                'burn_rate': calculation.burn_rate,
-                'error_rate': calculation.error_rate,
-                'budget_consumed_percent': calculation.budget_consumed_percent,
-                'time_to_exhaustion_hours': calculation.time_to_exhaustion_hours,
-                'window': calculation.window.value
-            }
+                "burn_rate": calculation.burn_rate,
+                "error_rate": calculation.error_rate,
+                "budget_consumed_percent": calculation.budget_consumed_percent,
+                "time_to_exhaustion_hours": calculation.time_to_exhaustion_hours,
+                "window": calculation.window.value,
+            },
         )
 
         # Store alert
@@ -382,30 +388,23 @@ class BurnRateAlertManager:
     def get_slo_status_dashboard(self) -> Dict[str, Any]:
         """Get SLO status dashboard data"""
         dashboard = {
-            'timestamp': datetime.utcnow().isoformat(),
-            'slos': {},
-            'active_alerts': len(self.active_alerts),
-            'alert_summary': {
-                'critical': 0,
-                'warning': 0,
-                'info': 0
-            }
+            "timestamp": datetime.utcnow().isoformat(),
+            "slos": {},
+            "active_alerts": len(self.active_alerts),
+            "alert_summary": {"critical": 0, "warning": 0, "info": 0},
         }
 
         # Count alerts by severity
         for alert in self.active_alerts.values():
-            dashboard['alert_summary'][alert.severity.value] += 1
+            dashboard["alert_summary"][alert.severity.value] += 1
 
         # SLO status
         for slo_name, slo in self.slos.items():
-            dashboard['slos'][slo_name] = {
-                'target': slo.target,
-                'error_budget_percent': slo.error_budget_percent,
-                'service': slo.service,
-                'alerts': [
-                    alert.alert_id for alert in self.active_alerts.values()
-                    if alert.slo.slo_name == slo_name
-                ]
+            dashboard["slos"][slo_name] = {
+                "target": slo.target,
+                "error_budget_percent": slo.error_budget_percent,
+                "service": slo.service,
+                "alerts": [alert.alert_id for alert in self.active_alerts.values() if alert.slo.slo_name == slo_name],
             }
 
         return dashboard
@@ -432,22 +431,22 @@ class CIPipelineIntegration:
         active_alerts = self.alert_manager.get_active_alerts()
 
         # Filter alerts for this service
-        service_alerts = [
-            alert for alert in active_alerts
-            if alert.slo.service == service
-        ]
+        service_alerts = [alert for alert in active_alerts if alert.slo.service == service]
 
         # Check for critical alerts
         critical_alerts = [
-            alert for alert in service_alerts
-            if alert.severity in [AlertSeverity.CRITICAL, AlertSeverity.EMERGENCY]
+            alert for alert in service_alerts if alert.severity in [AlertSeverity.CRITICAL, AlertSeverity.EMERGENCY]
         ]
 
         if critical_alerts:
-            return False, f"Critical SLO burn rate alerts active: {len(critical_alerts)}", {
-                'critical_alerts': [alert.alert_id for alert in critical_alerts],
-                'recommendation': 'Wait for burn rate to stabilize before deploying'
-            }
+            return (
+                False,
+                f"Critical SLO burn rate alerts active: {len(critical_alerts)}",
+                {
+                    "critical_alerts": [alert.alert_id for alert in critical_alerts],
+                    "recommendation": "Wait for burn rate to stabilize before deploying",
+                },
+            )
 
         # Check for fast burn rates even without alerts
         fast_burns = []
@@ -457,10 +456,14 @@ class CIPipelineIntegration:
                     fast_burns.append(alert)
 
         if fast_burns:
-            return False, f"Fast burn rates detected: {len(fast_burns)}", {
-                'fast_burns': [alert.alert_id for alert in fast_burns],
-                'recommendation': 'Monitor burn rates closely, consider postponing deployment'
-            }
+            return (
+                False,
+                f"Fast burn rates detected: {len(fast_burns)}",
+                {
+                    "fast_burns": [alert.alert_id for alert in fast_burns],
+                    "recommendation": "Monitor burn rates closely, consider postponing deployment",
+                },
+            )
 
         # Check overall error budget
         low_budget_slos = []
@@ -474,27 +477,29 @@ class CIPipelineIntegration:
                     low_budget_slos.append(slo.slo_name)
 
         if low_budget_slos:
-            return False, f"Low error budget: {low_budget_slos}", {
-                'low_budget_slos': low_budget_slos,
-                'recommendation': 'Wait for error budget to replenish'
-            }
+            return (
+                False,
+                f"Low error budget: {low_budget_slos}",
+                {"low_budget_slos": low_budget_slos, "recommendation": "Wait for error budget to replenish"},
+            )
 
-        return True, "Deployment safety check passed", {
-            'service_alerts': len(service_alerts),
-            'recommendation': 'Safe to deploy'
-        }
+        return (
+            True,
+            "Deployment safety check passed",
+            {"service_alerts": len(service_alerts), "recommendation": "Safe to deploy"},
+        )
 
     def generate_deployment_report(self, service: str) -> Dict[str, Any]:
         """Generate deployment safety report"""
         is_safe, reason, details = self.check_deployment_safety(service)
 
         return {
-            'service': service,
-            'timestamp': datetime.utcnow().isoformat(),
-            'deployment_safe': is_safe,
-            'safety_reason': reason,
-            'details': details,
-            'slo_dashboard': self.alert_manager.get_slo_status_dashboard()
+            "service": service,
+            "timestamp": datetime.utcnow().isoformat(),
+            "deployment_safe": is_safe,
+            "safety_reason": reason,
+            "details": details,
+            "slo_dashboard": self.alert_manager.get_slo_status_dashboard(),
         }
 
 
@@ -503,16 +508,22 @@ async def slack_burn_rate_notification(alert: BurnRateAlert):
     """Send burn rate alert to Slack"""
     message = {
         "text": f"🔥 SLO Burn Rate Alert: {alert.slo.service}",
-        "attachments": [{
-            "color": "danger" if alert.severity == AlertSeverity.CRITICAL else "warning",
-            "fields": [
-                {"title": "SLO", "value": alert.slo.slo_name, "short": True},
-                {"title": "Burn Rate", "value": f"{alert.burn_calculation.burn_rate:.1f}x", "short": True},
-                {"title": "Window", "value": alert.burn_calculation.window.value, "short": True},
-                {"title": "Budget Used", "value": f"{alert.burn_calculation.budget_consumed_percent:.1f}%", "short": True},
-                {"title": "Message", "value": alert.message, "short": False}
-            ]
-        }]
+        "attachments": [
+            {
+                "color": "danger" if alert.severity == AlertSeverity.CRITICAL else "warning",
+                "fields": [
+                    {"title": "SLO", "value": alert.slo.slo_name, "short": True},
+                    {"title": "Burn Rate", "value": f"{alert.burn_calculation.burn_rate:.1f}x", "short": True},
+                    {"title": "Window", "value": alert.burn_calculation.window.value, "short": True},
+                    {
+                        "title": "Budget Used",
+                        "value": f"{alert.burn_calculation.budget_consumed_percent:.1f}%",
+                        "short": True,
+                    },
+                    {"title": "Message", "value": alert.message, "short": False},
+                ],
+            }
+        ],
     }
 
     # This would send to actual Slack webhook
@@ -526,7 +537,7 @@ async def pagerduty_burn_rate_notification(alert: BurnRateAlert):
             "summary": alert.message,
             "severity": alert.severity.value,
             "source": f"{alert.slo.service}.{alert.slo.slo_name}",
-            "details": alert.details
+            "details": alert.details,
         }
 
         # This would create actual PagerDuty incident
@@ -541,27 +552,27 @@ def create_lukhas_slos() -> List[SLODefinition]:
             slo_name="search_availability",
             target=0.999,  # 99.9%
             time_period="30d",
-            description="Memory search operations availability"
+            description="Memory search operations availability",
         ),
         SLODefinition(
             service="memory",
             slo_name="search_latency",
-            target=0.95,   # 95% under 50ms
+            target=0.95,  # 95% under 50ms
             time_period="30d",
-            description="Memory search p95 latency < 50ms"
+            description="Memory search p95 latency < 50ms",
         ),
         SLODefinition(
             service="identity",
             slo_name="auth_availability",
             target=0.9999,  # 99.99%
             time_period="30d",
-            description="Identity authentication availability"
+            description="Identity authentication availability",
         ),
         SLODefinition(
             service="governance",
             slo_name="consent_availability",
             target=0.9999,  # 99.99%
             time_period="30d",
-            description="Consent checking availability"
-        )
+            description="Consent checking availability",
+        ),
     ]

@@ -668,9 +668,7 @@ class ExtremeAuthPerformanceOptimizer:
                     "performance_level": (
                         "ultra_fast"
                         if metrics.total_duration_ms < 10
-                        else "fast"
-                        if metrics.is_target_met()
-                        else "needs_optimization"
+                        else "fast" if metrics.is_target_met() else "needs_optimization"
                     ),
                 },
                 "openai_scale_ready": metrics.is_target_met() and metrics.total_duration_ms < 15.0,

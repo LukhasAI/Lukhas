@@ -12,11 +12,14 @@ from labs.orchestration.multi_model_orchestration import (
 
 class MockContextBus:
     """A mock context bus that has a no-op emit method."""
+
     async def emit(self, *args, **kwargs):
-        await asyncio.sleep(0) # Simulate async behavior
+        await asyncio.sleep(0)  # Simulate async behavior
+
 
 class MockBridge:
     """A mock model bridge that simulates the behavior of a real bridge."""
+
     def __init__(self, model_name: str):
         self.model_name = model_name
 
@@ -24,8 +27,17 @@ class MockBridge:
         await asyncio.sleep(0.01)
         # Simulate a lower confidence for unsafe prompts to test consensus logic
         if "violence" in prompt or "harm" in prompt:
-            return {"text": f"Mock unsafe response from {self.model_name}", "confidence": 0.2, "tokens": {"input": 10, "output": 10}}
-        return {"text": f"Mock safe response from {self.model_name}", "confidence": 0.9, "tokens": {"input": 10, "output": 10}}
+            return {
+                "text": f"Mock unsafe response from {self.model_name}",
+                "confidence": 0.2,
+                "tokens": {"input": 10, "output": 10},
+            }
+        return {
+            "text": f"Mock safe response from {self.model_name}",
+            "confidence": 0.9,
+            "tokens": {"input": 10, "output": 10},
+        }
+
 
 @pytest.fixture
 def orchestrator():
@@ -44,6 +56,7 @@ def orchestrator():
     }
     return orch
 
+
 @pytest.mark.asyncio
 async def test_parallel_orchestration_with_mock_bridges(orchestrator):
     """
@@ -56,7 +69,7 @@ async def test_parallel_orchestration_with_mock_bridges(orchestrator):
         models=[ModelProvider.OPENAI_GPT4, ModelProvider.ANTHROPIC_CLAUDE],
         consensus_strategy=ConsensusStrategy.BEST_CONFIDENCE,
         orchestration_mode=OrchestrationMode.PARALLEL,
-        requires_guardian_oversight=False, # Explicitly disable for this test
+        requires_guardian_oversight=False,  # Explicitly disable for this test
     )
 
     result = await orchestrator.orchestrate(prompt, pipeline)
@@ -67,6 +80,7 @@ async def test_parallel_orchestration_with_mock_bridges(orchestrator):
     # The mock bridge always returns a confidence of 0.9 for safe prompts
     assert result.confidence_score == pytest.approx(0.9)
     assert result.consensus_text.startswith("Mock safe response from")
+
 
 @pytest.mark.asyncio
 async def test_orchestration_blocked_by_guardian(orchestrator):
@@ -85,6 +99,7 @@ async def test_orchestration_blocked_by_guardian(orchestrator):
 
     with pytest.raises(PermissionError, match="Guardian oversight blocked orchestration"):
         await orchestrator.orchestrate(prompt, pipeline)
+
 
 @pytest.mark.asyncio
 async def test_orchestration_allowed_by_guardian(orchestrator):

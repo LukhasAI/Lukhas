@@ -47,14 +47,11 @@ class TestMemorySynchronizer:
         fold_data = {
             "fold_id": "test_fold_001",
             "content": {"memories": ["item1", "item2"]},
-            "metadata": {"timestamp": datetime.utcnow().isoformat()}
+            "metadata": {"timestamp": datetime.utcnow().isoformat()},
         }
 
         result = syncer.sync_fold(
-            source_lane="experimental",
-            target_lane="experimental",
-            fold_data=fold_data,
-            fold_id="test_fold_001"
+            source_lane="experimental", target_lane="experimental", fold_data=fold_data, fold_id="test_fold_001"
         )
 
         assert result.result == SyncResult.SUCCESS
@@ -72,19 +69,11 @@ class TestMemorySynchronizer:
         fold_data = {"fold_id": "test", "content": {}}
 
         # Experimental allows cross-lane by default
-        result = exp_syncer.sync_fold(
-            source_lane="labs",
-            target_lane="experimental",
-            fold_data=fold_data
-        )
+        result = exp_syncer.sync_fold(source_lane="labs", target_lane="experimental", fold_data=fold_data)
         assert result.result == SyncResult.SUCCESS
 
         # Production disallows cross-lane by default
-        result = prod_syncer.sync_fold(
-            source_lane="labs",
-            target_lane="prod",
-            fold_data=fold_data
-        )
+        result = prod_syncer.sync_fold(source_lane="labs", target_lane="prod", fold_data=fold_data)
         assert result.result == SyncResult.ERROR_LANE_POLICY
         assert "policy" in result.error_message.lower()
 
@@ -92,11 +81,7 @@ class TestMemorySynchronizer:
         """Test fanout budget limit enforcement."""
         # Create syncer with very low fanout limit
         custom_config = {
-            "experimental": SyncBudgetConfig(
-                max_fanout=2,  # Very low limit
-                max_fanin=10,
-                ops_budget_per_tick=100
-            )
+            "experimental": SyncBudgetConfig(max_fanout=2, max_fanin=10, ops_budget_per_tick=100)  # Very low limit
         }
         syncer = MemorySynchronizer(lane="experimental", custom_config=custom_config)
 
@@ -113,10 +98,7 @@ class TestMemorySynchronizer:
 
         # Third operation should fail due to fanout limit being exhausted
         result = syncer.sync_fold(
-            source_lane="experimental",
-            target_lane="third_lane",
-            fold_data=fold_data,
-            fold_id="test_overflow"
+            source_lane="experimental", target_lane="third_lane", fold_data=fold_data, fold_id="test_overflow"
         )
         assert result.result == SyncResult.ERROR_FANOUT
         assert "fanout" in result.error_message.lower()
@@ -129,11 +111,7 @@ class TestMemorySynchronizer:
         """Test fanin budget limit enforcement."""
         # Create syncer with very low fanin limit
         custom_config = {
-            "experimental": SyncBudgetConfig(
-                max_fanout=10,
-                max_fanin=1,  # Very low limit
-                ops_budget_per_tick=100
-            )
+            "experimental": SyncBudgetConfig(max_fanout=10, max_fanin=1, ops_budget_per_tick=100)  # Very low limit
         }
         syncer = MemorySynchronizer(lane="experimental", custom_config=custom_config)
 
@@ -148,10 +126,7 @@ class TestMemorySynchronizer:
 
         # Second operation should fail due to fanin limit being exhausted
         result = syncer.sync_fold(
-            source_lane="other_candidate",
-            target_lane="experimental",
-            fold_data=fold_data,
-            fold_id="test_overflow"
+            source_lane="other_candidate", target_lane="experimental", fold_data=fold_data, fold_id="test_overflow"
         )
         assert result.result == SyncResult.ERROR_FANIN
         assert "fanin" in result.error_message.lower()
@@ -162,12 +137,7 @@ class TestMemorySynchronizer:
     def test_depth_limit_enforcement(self):
         """Test operation depth limit enforcement."""
         # Create syncer with very low depth limit
-        custom_config = {
-            "experimental": SyncBudgetConfig(
-                max_depth=1,  # Very low limit
-                ops_budget_per_tick=100
-            )
-        }
+        custom_config = {"experimental": SyncBudgetConfig(max_depth=1, ops_budget_per_tick=100)}  # Very low limit
         syncer = MemorySynchronizer(lane="experimental", custom_config=custom_config)
 
         fold_data = {"fold_id": "test", "content": {}}
@@ -182,7 +152,7 @@ class TestMemorySynchronizer:
             target_lane="experimental",
             fold_data=fold_data,
             fold_id="test_deep",
-            parent_op_id=parent_op_id
+            parent_op_id=parent_op_id,
         )
         assert result.result == SyncResult.ERROR_DEPTH
         assert "depth" in result.error_message.lower()
@@ -194,7 +164,7 @@ class TestMemorySynchronizer:
             "experimental": SyncBudgetConfig(
                 ops_budget_per_tick=2,  # Very low limit
                 budget_window_seconds=60,  # Long window
-                data_budget_per_tick_mb=100  # High data limit
+                data_budget_per_tick_mb=100,  # High data limit
             )
         }
         syncer = MemorySynchronizer(lane="experimental", custom_config=custom_config)
@@ -204,19 +174,13 @@ class TestMemorySynchronizer:
         # First two operations should succeed
         for i in range(2):
             result = syncer.sync_fold(
-                source_lane="experimental",
-                target_lane="experimental",
-                fold_data=fold_data,
-                fold_id=f"test_{i}"
+                source_lane="experimental", target_lane="experimental", fold_data=fold_data, fold_id=f"test_{i}"
             )
             assert result.result == SyncResult.SUCCESS
 
         # Third operation should fail due to budget exhaustion
         result = syncer.sync_fold(
-            source_lane="experimental",
-            target_lane="experimental",
-            fold_data=fold_data,
-            fold_id="test_overflow"
+            source_lane="experimental", target_lane="experimental", fold_data=fold_data, fold_id="test_overflow"
         )
         assert result.result == SyncResult.ERROR_BUDGET
         assert "budget" in result.error_message.lower()
@@ -228,23 +192,17 @@ class TestMemorySynchronizer:
             "experimental": SyncBudgetConfig(
                 ops_budget_per_tick=100,  # High ops limit
                 data_budget_per_tick_mb=0.001,  # Very low data limit (1KB)
-                budget_window_seconds=60
+                budget_window_seconds=60,
             )
         }
         syncer = MemorySynchronizer(lane="experimental", custom_config=custom_config)
 
         # Create large data payload
-        large_data = {
-            "fold_id": "test",
-            "content": {"large_field": "x" * 5000}  # ~5KB of data
-        }
+        large_data = {"fold_id": "test", "content": {"large_field": "x" * 5000}}  # ~5KB of data
 
         # Operation should fail due to data budget
         result = syncer.sync_fold(
-            source_lane="experimental",
-            target_lane="experimental",
-            fold_data=large_data,
-            fold_id="test_large"
+            source_lane="experimental", target_lane="experimental", fold_data=large_data, fold_id="test_large"
         )
         assert result.result == SyncResult.ERROR_BUDGET
         assert "budget" in result.error_message.lower()
@@ -258,7 +216,7 @@ class TestMemorySynchronizer:
             source_lane="experimental",
             target_lane="experimental",
             fold_data="invalid_data",  # Not a dict
-            fold_id="test"
+            fold_id="test",
         )
         assert result.result == SyncResult.ERROR_DATA_VALIDATION
 
@@ -267,20 +225,14 @@ class TestMemorySynchronizer:
             source_lane="experimental",
             target_lane="experimental",
             fold_data={},  # Missing fold_id or content
-            fold_id="test"
+            fold_id="test",
         )
         assert result.result == SyncResult.ERROR_DATA_VALIDATION
 
     def test_resource_management(self):
         """Test resource reservation and release."""
         # Create syncer with small limits to test resource management
-        custom_config = {
-            "experimental": SyncBudgetConfig(
-                max_fanout=2,
-                max_fanin=2,
-                ops_budget_per_tick=100
-            )
-        }
+        custom_config = {"experimental": SyncBudgetConfig(max_fanout=2, max_fanin=2, ops_budget_per_tick=100)}
         syncer = MemorySynchronizer(lane="experimental", custom_config=custom_config)
 
         fold_data = {"fold_id": "test", "content": {}}
@@ -290,10 +242,7 @@ class TestMemorySynchronizer:
         for i in range(2):
             # Simulate operations in progress by not completing them immediately
             result = syncer.sync_fold(
-                source_lane="experimental",
-                target_lane="labs",
-                fold_data=fold_data,
-                fold_id=f"test_{i}"
+                source_lane="experimental", target_lane="labs", fold_data=fold_data, fold_id=f"test_{i}"
             )
             results.append(result)
 
@@ -322,16 +271,25 @@ class TestMemorySynchronizer:
 
         # Verify stats structure
         expected_keys = {
-            "lane", "total_operations", "recent_operations", "successful_operations",
-            "success_rate", "current_fanout", "current_fanin", "fanout_capacity",
-            "fanin_capacity", "ops_budget_utilization", "max_depth", "active_operations"
+            "lane",
+            "total_operations",
+            "recent_operations",
+            "successful_operations",
+            "success_rate",
+            "current_fanout",
+            "current_fanin",
+            "fanout_capacity",
+            "fanin_capacity",
+            "ops_budget_utilization",
+            "max_depth",
+            "active_operations",
         }
         assert set(stats.keys()) == expected_keys
 
         # Verify stats values
         assert stats["total_operations"] == 3
         assert stats["successful_operations"] == 2
-        assert stats["success_rate"] == 2/3
+        assert stats["success_rate"] == 2 / 3
 
     def test_sync_operation_logging(self):
         """Test synchronization operation logging."""
@@ -351,9 +309,19 @@ class TestMemorySynchronizer:
         # Test log entry serialization
         log_dict = result.to_dict()
         expected_keys = {
-            "op_id", "timestamp", "source_lane", "target_lane", "operation_type",
-            "fold_id", "data_size", "fanout_cost", "fanin_cost", "depth_level",
-            "result", "duration_ms", "error_message"
+            "op_id",
+            "timestamp",
+            "source_lane",
+            "target_lane",
+            "operation_type",
+            "fold_id",
+            "data_size",
+            "fanout_cost",
+            "fanin_cost",
+            "depth_level",
+            "result",
+            "duration_ms",
+            "error_message",
         }
         assert set(log_dict.keys()) == expected_keys
 
@@ -361,20 +329,13 @@ class TestMemorySynchronizer:
         """Test synchronization operation idempotency."""
         syncer = MemorySynchronizer(lane="experimental")
 
-        fold_data = {
-            "fold_id": "idempotent_test",
-            "content": {"data": "value"},
-            "version": 1
-        }
+        fold_data = {"fold_id": "idempotent_test", "content": {"data": "value"}, "version": 1}
 
         # Perform same operation multiple times
         results = []
         for i in range(3):
             result = syncer.sync_fold(
-                source_lane="experimental",
-                target_lane="experimental",
-                fold_data=fold_data,
-                fold_id="idempotent_test"
+                source_lane="experimental", target_lane="experimental", fold_data=fold_data, fold_id="idempotent_test"
             )
             results.append(result)
 
@@ -397,7 +358,7 @@ class TestMemorySynchronizer:
                 source_lane="experimental",
                 target_lane="experimental",
                 fold_data={**fold_data, "instance": i},
-                fold_id=f"concurrent_{i}"
+                fold_id=f"concurrent_{i}",
             )
 
         # Run concurrent operations
@@ -416,9 +377,9 @@ class TestMemorySynchronizer:
     def test_lane_configuration_matrix(self):
         """Test synchronization behavior across different lane configurations."""
         test_cases = [
-            ("experimental", 12, 8, True),   # High limits, cross-lane allowed
-            ("labs", 8, 4, True),       # Medium limits, cross-lane allowed
-            ("prod", 4, 2, False)            # Low limits, cross-lane disallowed
+            ("experimental", 12, 8, True),  # High limits, cross-lane allowed
+            ("labs", 8, 4, True),  # Medium limits, cross-lane allowed
+            ("prod", 4, 2, False),  # Low limits, cross-lane disallowed
         ]
 
         fold_data = {"fold_id": "test", "content": {}}
@@ -432,11 +393,7 @@ class TestMemorySynchronizer:
             assert syncer.config.allow_cross_lane_sync == cross_lane_allowed
 
             # Test cross-lane behavior
-            result = syncer.sync_fold(
-                source_lane="other_lane",
-                target_lane=lane,
-                fold_data=fold_data
-            )
+            result = syncer.sync_fold(source_lane="other_lane", target_lane=lane, fold_data=fold_data)
 
             if cross_lane_allowed:
                 assert result.result == SyncResult.SUCCESS
@@ -452,7 +409,7 @@ class TestMemorySynchronizer:
                 max_depth=5,
                 ops_budget_per_tick=200,
                 data_budget_per_tick_mb=50.0,
-                allow_cross_lane_sync=False
+                allow_cross_lane_sync=False,
             )
         }
 
@@ -480,7 +437,7 @@ class TestMemorySynchronizer:
                 source_lane="experimental",
                 target_lane="experimental",
                 fold_data={**fold_data, "instance": i},
-                fold_id=f"perf_{i}"
+                fold_id=f"perf_{i}",
             )
             assert result.result == SyncResult.SUCCESS
 
@@ -522,10 +479,7 @@ class TestMemorySynchronizer:
         """Test budget window sliding behavior."""
         # Create syncer with tight budget and short window
         custom_config = {
-            "experimental": SyncBudgetConfig(
-                ops_budget_per_tick=2,
-                budget_window_seconds=1  # Very short window
-            )
+            "experimental": SyncBudgetConfig(ops_budget_per_tick=2, budget_window_seconds=1)  # Very short window
         }
         syncer = MemorySynchronizer(lane="experimental", custom_config=custom_config)
 

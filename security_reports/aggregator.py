@@ -133,9 +133,7 @@ class SecurityReportAggregator:
 
         sorted_vulns = sorted(
             vulnerabilities.values(),
-            key=lambda item: (
-                item.package or "", item.identifier, _SEVERITY_ORDER.get(item.severity or "", -1) * -1
-            ),
+            key=lambda item: (item.package or "", item.identifier, _SEVERITY_ORDER.get(item.severity or "", -1) * -1),
         )
 
         return SecuritySummary(
@@ -237,7 +235,9 @@ def _to_tuple(value: object) -> Tuple[str, ...]:
     return (text,) if text else ()
 
 
-def _merge_record(target: MutableMapping[Tuple[str, Optional[str]], VulnerabilityRecord], record: VulnerabilityRecord) -> None:
+def _merge_record(
+    target: MutableMapping[Tuple[str, Optional[str]], VulnerabilityRecord], record: VulnerabilityRecord
+) -> None:
     key = (record.identifier, record.package)
     if key in target:
         target[key] = target[key].merge(record)

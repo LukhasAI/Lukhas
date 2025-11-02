@@ -124,10 +124,7 @@ class EnvironmentConfig:
 
     def validate_required(self) -> None:
         """Validate all required environment variables are set"""
-        missing = [
-            var for var in self._required_vars
-            if not os.environ.get(var) and var not in self._yaml_config
-        ]
+        missing = [var for var in self._required_vars if not os.environ.get(var) and var not in self._yaml_config]
 
         if missing:
             raise ValueError(f"Missing required environment variables: {', '.join(missing)}")

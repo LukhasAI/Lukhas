@@ -1,4 +1,5 @@
 """Awareness log synchronization with tier gating."""
+
 import json
 import logging
 from pathlib import Path
@@ -18,9 +19,7 @@ class AwarenessLogSynchronizer:
     def __init__(self, log_path: str):
         self.log_path = Path(log_path)
         self.instance_logger = logger.getChild(self.__class__.__name__)
-        self.instance_logger.debug(
-            "\u039bTRACE: Initialized AwarenessLogSynchronizer", log_path=str(self.log_path)
-        )
+        self.instance_logger.debug("\u039bTRACE: Initialized AwarenessLogSynchronizer", log_path=str(self.log_path))
 
     def _read_logs(self) -> list[dict[str, Any]]:
         """Read raw log entries.

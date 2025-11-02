@@ -16,13 +16,15 @@ import pytest
 # String Casing Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_to_snake_case():
     """Test conversion to snake_case."""
+
     def to_snake_case(text: str) -> str:
         """Convert text to snake_case."""
         # Insert underscore before capitals
-        text = re.sub(r'(?<!^)(?=[A-Z])', '_', text)
+        text = re.sub(r"(?<!^)(?=[A-Z])", "_", text)
         return text.lower()
 
     assert to_snake_case("camelCase") == "camel_case"
@@ -34,13 +36,14 @@ def test_to_snake_case():
 @pytest.mark.unit
 def test_to_camel_case():
     """Test conversion to camelCase."""
+
     def to_camel_case(text: str) -> str:
         """Convert text to camelCase."""
-        parts = text.split('_')
+        parts = text.split("_")
         if not parts:
             return text
 
-        return parts[0].lower() + ''.join(word.capitalize() for word in parts[1:])
+        return parts[0].lower() + "".join(word.capitalize() for word in parts[1:])
 
     assert to_camel_case("snake_case") == "snakeCase"
     assert to_camel_case("multiple_word_string") == "multipleWordString"
@@ -51,10 +54,11 @@ def test_to_camel_case():
 @pytest.mark.unit
 def test_to_pascal_case():
     """Test conversion to PascalCase."""
+
     def to_pascal_case(text: str) -> str:
         """Convert text to PascalCase."""
-        parts = text.split('_')
-        return ''.join(word.capitalize() for word in parts)
+        parts = text.split("_")
+        return "".join(word.capitalize() for word in parts)
 
     assert to_pascal_case("snake_case") == "SnakeCase"
     assert to_pascal_case("multiple_words") == "MultipleWords"
@@ -64,11 +68,12 @@ def test_to_pascal_case():
 @pytest.mark.unit
 def test_to_kebab_case():
     """Test conversion to kebab-case."""
+
     def to_kebab_case(text: str) -> str:
         """Convert text to kebab-case."""
         # Convert to snake_case first, then replace underscores
-        text = re.sub(r'(?<!^)(?=[A-Z])', '_', text)
-        return text.lower().replace('_', '-')
+        text = re.sub(r"(?<!^)(?=[A-Z])", "_", text)
+        return text.lower().replace("_", "-")
 
     assert to_kebab_case("camelCase") == "camel-case"
     assert to_kebab_case("PascalCase") == "pascal-case"
@@ -79,9 +84,11 @@ def test_to_kebab_case():
 # String Truncation Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_truncate_simple():
     """Test simple string truncation."""
+
     def truncate(text: str, max_length: int) -> str:
         """Truncate string to max_length."""
         if len(text) <= max_length:
@@ -96,6 +103,7 @@ def test_truncate_simple():
 @pytest.mark.unit
 def test_truncate_with_ellipsis():
     """Test string truncation with ellipsis."""
+
     def truncate_ellipsis(text: str, max_length: int) -> str:
         """Truncate string with ellipsis."""
         if len(text) <= max_length:
@@ -104,7 +112,7 @@ def test_truncate_with_ellipsis():
         if max_length < 3:
             return text[:max_length]
 
-        return text[:max_length - 3] + "..."
+        return text[: max_length - 3] + "..."
 
     assert truncate_ellipsis("short", 10) == "short"
     assert truncate_ellipsis("this is a very long string", 15) == "this is a ve..."
@@ -115,6 +123,7 @@ def test_truncate_with_ellipsis():
 @pytest.mark.unit
 def test_truncate_word_boundary():
     """Test truncation at word boundary."""
+
     def truncate_words(text: str, max_length: int) -> str:
         """Truncate at word boundary."""
         if len(text) <= max_length:
@@ -122,7 +131,7 @@ def test_truncate_word_boundary():
 
         # Find last space before max_length
         truncated = text[:max_length]
-        last_space = truncated.rfind(' ')
+        last_space = truncated.rfind(" ")
 
         if last_space > 0:
             return text[:last_space] + "..."
@@ -141,38 +150,42 @@ def test_truncate_word_boundary():
 # String Padding Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_pad_left():
     """Test left padding."""
-    def pad_left(text: str, width: int, char: str = ' ') -> str:
+
+    def pad_left(text: str, width: int, char: str = " ") -> str:
         """Pad string on the left."""
         if len(text) >= width:
             return text
         return char * (width - len(text)) + text
 
     assert pad_left("123", 5) == "  123"
-    assert pad_left("test", 10, '0') == "000000test"
+    assert pad_left("test", 10, "0") == "000000test"
     assert pad_left("already_long", 5) == "already_long"
 
 
 @pytest.mark.unit
 def test_pad_right():
     """Test right padding."""
-    def pad_right(text: str, width: int, char: str = ' ') -> str:
+
+    def pad_right(text: str, width: int, char: str = " ") -> str:
         """Pad string on the right."""
         if len(text) >= width:
             return text
         return text + char * (width - len(text))
 
     assert pad_right("123", 5) == "123  "
-    assert pad_right("test", 10, '-') == "test------"
+    assert pad_right("test", 10, "-") == "test------"
     assert pad_right("already_long", 5) == "already_long"
 
 
 @pytest.mark.unit
 def test_pad_center():
     """Test center padding."""
-    def pad_center(text: str, width: int, char: str = ' ') -> str:
+
+    def pad_center(text: str, width: int, char: str = " ") -> str:
         """Center text with padding."""
         if len(text) >= width:
             return text
@@ -192,9 +205,11 @@ def test_pad_center():
 # String Extraction Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_extract_between():
     """Test extracting text between delimiters."""
+
     def extract_between(text: str, start: str, end: str) -> Optional[str]:
         """Extract text between start and end delimiters."""
         start_idx = text.find(start)
@@ -217,6 +232,7 @@ def test_extract_between():
 @pytest.mark.unit
 def test_extract_all_between():
     """Test extracting all occurrences between delimiters."""
+
     def extract_all_between(text: str, start: str, end: str) -> List[str]:
         """Extract all occurrences between delimiters."""
         results = []
@@ -249,10 +265,12 @@ def test_extract_all_between():
 # String Splitting Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_split_preserve_quotes():
     """Test splitting while preserving quoted strings."""
-    def split_preserve_quotes(text: str, delimiter: str = ' ') -> List[str]:
+
+    def split_preserve_quotes(text: str, delimiter: str = " ") -> List[str]:
         """Split text preserving quoted strings."""
         parts = []
         current = []
@@ -263,14 +281,14 @@ def test_split_preserve_quotes():
                 in_quotes = not in_quotes
             elif char == delimiter and not in_quotes:
                 if current:
-                    parts.append(''.join(current))
+                    parts.append("".join(current))
                     current = []
                 continue
 
             current.append(char)
 
         if current:
-            parts.append(''.join(current))
+            parts.append("".join(current))
 
         return parts
 
@@ -284,6 +302,7 @@ def test_split_preserve_quotes():
 @pytest.mark.unit
 def test_split_max_parts():
     """Test splitting with maximum parts."""
+
     def split_max(text: str, delimiter: str, max_parts: int) -> List[str]:
         """Split text with maximum number of parts."""
         return text.split(delimiter, max_parts - 1)
@@ -298,12 +317,14 @@ def test_split_max_parts():
 # String Cleaning Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_remove_punctuation():
     """Test removing punctuation."""
+
     def remove_punctuation(text: str) -> str:
         """Remove punctuation from text."""
-        return re.sub(r'[^\w\s]', '', text)
+        return re.sub(r"[^\w\s]", "", text)
 
     assert remove_punctuation("hello, world!") == "hello world"
     assert remove_punctuation("test-case_123") == "testcase_123"
@@ -313,9 +334,10 @@ def test_remove_punctuation():
 @pytest.mark.unit
 def test_remove_extra_spaces():
     """Test removing extra spaces."""
+
     def remove_extra_spaces(text: str) -> str:
         """Collapse multiple spaces to single space."""
-        return ' '.join(text.split())
+        return " ".join(text.split())
 
     assert remove_extra_spaces("hello    world") == "hello world"
     assert remove_extra_spaces("  leading and trailing  ") == "leading and trailing"
@@ -325,9 +347,10 @@ def test_remove_extra_spaces():
 @pytest.mark.unit
 def test_remove_numbers():
     """Test removing numbers."""
+
     def remove_numbers(text: str) -> str:
         """Remove all numbers from text."""
-        return re.sub(r'\d', '', text)
+        return re.sub(r"\d", "", text)
 
     assert remove_numbers("test123") == "test"
     assert remove_numbers("abc123def456") == "abcdef"
@@ -338,9 +361,11 @@ def test_remove_numbers():
 # String Comparison Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_fuzzy_match():
     """Test fuzzy string matching."""
+
     def fuzzy_match(str1: str, str2: str, threshold: float = 0.8) -> bool:
         """Simple fuzzy string matching."""
         str1 = str1.lower()
@@ -368,6 +393,7 @@ def test_fuzzy_match():
 @pytest.mark.unit
 def test_starts_with_any():
     """Test if string starts with any of the prefixes."""
+
     def starts_with_any(text: str, prefixes: List[str]) -> bool:
         """Check if text starts with any of the prefixes."""
         return any(text.startswith(prefix) for prefix in prefixes)
@@ -380,6 +406,7 @@ def test_starts_with_any():
 @pytest.mark.unit
 def test_ends_with_any():
     """Test if string ends with any of the suffixes."""
+
     def ends_with_any(text: str, suffixes: List[str]) -> bool:
         """Check if text ends with any of the suffixes."""
         return any(text.endswith(suffix) for suffix in suffixes)
@@ -393,9 +420,11 @@ def test_ends_with_any():
 # ΛID String Operations Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_lambda_id_format():
     """Test ΛID string formatting."""
+
     def format_lambda_id(tier: str, user_id: str) -> str:
         """Format ΛID string."""
         return f"Λ_{tier}_{user_id}"
@@ -407,9 +436,10 @@ def test_lambda_id_format():
 @pytest.mark.unit
 def test_lambda_id_display():
     """Test ΛID display formatting."""
+
     def display_lambda_id(lambda_id: str) -> str:
         """Format ΛID for display."""
-        parts = lambda_id.split('_')
+        parts = lambda_id.split("_")
         if len(parts) != 3:
             return lambda_id
 
@@ -425,9 +455,10 @@ def test_lambda_id_display():
 @pytest.mark.unit
 def test_lambda_id_mask():
     """Test ΛID masking for privacy."""
+
     def mask_lambda_id(lambda_id: str) -> str:
         """Mask ΛID user_id for privacy."""
-        parts = lambda_id.split('_')
+        parts = lambda_id.split("_")
         if len(parts) != 3:
             return lambda_id
 
@@ -447,25 +478,27 @@ def test_lambda_id_mask():
 # Capability Tests
 # ============================================================================
 
+
 @pytest.mark.capability
 def test_string_pipeline():
     """Test complete string processing pipeline."""
+
     def process_input(text: str) -> str:
         """Process user input through pipeline."""
         # 1. Remove extra whitespace
-        text = ' '.join(text.split())
+        text = " ".join(text.split())
 
         # 2. Strip
         text = text.strip()
 
         # 3. Remove punctuation
-        text = re.sub(r'[^\w\s]', '', text)
+        text = re.sub(r"[^\w\s]", "", text)
 
         # 4. Convert to lowercase
         text = text.lower()
 
         # 5. Remove extra spaces again
-        text = ' '.join(text.split())
+        text = " ".join(text.split())
 
         return text
 
@@ -487,7 +520,7 @@ def test_text_analysis_pipeline():
     assert len(words) == 9
 
     # Character count (no spaces)
-    chars = len(text.replace(' ', ''))
+    chars = len(text.replace(" ", ""))
     assert chars == 35
 
     # Unique words
@@ -511,7 +544,7 @@ def test_trinity_symbol_formatting():
         "bio": "🌱",
         "dream": "🌙",
         "ethics": "⚖️",
-        "quantum": "⚛️"
+        "quantum": "⚛️",
     }
 
     def format_trinity_message(component: str, message: str) -> str:

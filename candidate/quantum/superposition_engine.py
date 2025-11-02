@@ -1,4 +1,5 @@
 """Quantum-inspired superposition utilities for the QI-AGI system."""
+
 from __future__ import annotations
 
 import cmath
@@ -38,10 +39,7 @@ class QuantumSuperpositionEngine:
             raise ValueError("Cannot create a superposition without options")
 
         context = context or {}
-        amplitudes = [
-            self._compute_amplitude(index, option, context)
-            for index, option in enumerate(options)
-        ]
+        amplitudes = [self._compute_amplitude(index, option, context) for index, option in enumerate(options)]
 
         # ΛTAG: interference_modulation - apply contextual interference effects
         interference_events: list[dict[str, Any]] = []

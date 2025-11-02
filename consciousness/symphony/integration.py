@@ -18,6 +18,7 @@ import numpy as np
 
 class ConsensusMethod(Enum):
     """Methods for achieving consensus across brains"""
+
     WEIGHTED_VOTE = "weighted_vote"
     UNANIMOUS = "unanimous"
     MAJORITY = "majority"
@@ -27,6 +28,7 @@ class ConsensusMethod(Enum):
 @dataclass
 class BrainDecision:
     """A decision from a single brain"""
+
     brain_id: str
     decision: Any
     raw_confidence: float
@@ -38,6 +40,7 @@ class BrainDecision:
 @dataclass
 class BrainConfig:
     """Configuration for a brain in the symphony"""
+
     brain_id: str
     weight: float = 1.0
     activation_threshold: float = 0.5
@@ -60,7 +63,7 @@ class MultiBrainSymphony:
         self,
         brains: Optional[Dict[str, BrainConfig]] = None,
         default_consensus: ConsensusMethod = ConsensusMethod.WEIGHTED_VOTE,
-        audit_trail: Optional[Any] = None
+        audit_trail: Optional[Any] = None,
     ):
         """
         Initialize multi-brain symphony
@@ -82,20 +85,13 @@ class MultiBrainSymphony:
         brain_id: str,
         weight: float = 1.0,
         activation_threshold: float = 0.5,
-        specialization: Optional[str] = None
+        specialization: Optional[str] = None,
     ):
         """Add a brain to the symphony"""
         self.brains[brain_id] = BrainConfig(
-            brain_id=brain_id,
-            weight=weight,
-            activation_threshold=activation_threshold,
-            specialization=specialization
+            brain_id=brain_id, weight=weight, activation_threshold=activation_threshold, specialization=specialization
         )
-        self.brain_metrics[brain_id] = {
-            "total_decisions": 0,
-            "consensus_agreement": 0.0,
-            "avg_confidence": 0.0
-        }
+        self.brain_metrics[brain_id] = {"total_decisions": 0, "consensus_agreement": 0.0, "avg_confidence": 0.0}
 
     def remove_brain(self, brain_id: str):
         """Remove a brain from the symphony"""
@@ -114,7 +110,7 @@ class MultiBrainSymphony:
         decision_context: Dict[str, Any],
         brain_functions: Dict[str, Callable],
         consensus_method: Optional[ConsensusMethod] = None,
-        min_activation: float = 0.3
+        min_activation: float = 0.3,
     ) -> Dict[str, Any]:
         """
         Orchestrate a decision across multiple brains
@@ -155,14 +151,16 @@ class MultiBrainSymphony:
                 if activation < max(brain_config.activation_threshold, min_activation):
                     continue
 
-                brain_decisions.append(BrainDecision(
-                    brain_id=brain_id,
-                    decision=decision,
-                    raw_confidence=confidence,
-                    activation_level=activation,
-                    reasoning=reasoning,
-                    metadata=decision_result.get("metadata", {})
-                ))
+                brain_decisions.append(
+                    BrainDecision(
+                        brain_id=brain_id,
+                        decision=decision,
+                        raw_confidence=confidence,
+                        activation_level=activation,
+                        reasoning=reasoning,
+                        metadata=decision_result.get("metadata", {}),
+                    )
+                )
 
             except Exception as e:
                 # Log error but continue with other brains
@@ -176,7 +174,7 @@ class MultiBrainSymphony:
                 "raw_confidence": 0.0,
                 "calibrated_confidence": 0.0,
                 "participating_brains": 0,
-                "error": "No brains participated in decision"
+                "error": "No brains participated in decision",
             }
 
         # Achieve consensus
@@ -196,8 +194,8 @@ class MultiBrainSymphony:
             "metadata": {
                 "brain_count": len(brain_decisions),
                 "avg_activation": np.mean([bd.activation_level for bd in brain_decisions]),
-                "consensus_strength": self._compute_consensus_strength(brain_decisions, consensus_result["decision"])
-            }
+                "consensus_strength": self._compute_consensus_strength(brain_decisions, consensus_result["decision"]),
+            },
         }
 
     def _achieve_consensus(self, brain_decisions: List[BrainDecision], method: ConsensusMethod) -> Dict[str, Any]:
@@ -256,11 +254,7 @@ class MultiBrainSymphony:
             confidence: Confidence of the decision
         """
         if brain_id not in self.brain_metrics:
-            self.brain_metrics[brain_id] = {
-                "total_decisions": 0,
-                "consensus_agreement": 0.0,
-                "avg_confidence": 0.0
-            }
+            self.brain_metrics[brain_id] = {"total_decisions": 0, "consensus_agreement": 0.0, "avg_confidence": 0.0}
 
         metrics = self.brain_metrics[brain_id]
         n = metrics["total_decisions"]
@@ -310,12 +304,12 @@ class MultiBrainSymphony:
                     "weight": config.weight,
                     "activation_threshold": config.activation_threshold,
                     "enabled": config.enabled,
-                    "specialization": config.specialization
+                    "specialization": config.specialization,
                 }
                 for brain_id, config in self.brains.items()
             },
             "default_consensus": self.default_consensus.value,
-            "brain_metrics": self.brain_metrics
+            "brain_metrics": self.brain_metrics,
         }
 
     def import_configuration(self, config: Dict[str, Any]):
@@ -327,7 +321,7 @@ class MultiBrainSymphony:
                 weight=brain_data["weight"],
                 activation_threshold=brain_data["activation_threshold"],
                 enabled=brain_data.get("enabled", True),
-                specialization=brain_data.get("specialization")
+                specialization=brain_data.get("specialization"),
             )
 
         consensus_str = config.get("default_consensus", "weighted_vote")

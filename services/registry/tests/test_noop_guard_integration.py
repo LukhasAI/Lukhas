@@ -3,6 +3,7 @@
 This test verifies that the detect_and_handle_noop() function correctly
 identifies chmod-only changes and skips committing them.
 """
+
 import os
 import shutil
 import subprocess
@@ -18,7 +19,7 @@ def run_cmd(cmd, cwd, env=None):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        env=env or os.environ.copy()
+        env=env or os.environ.copy(),
     )
     return proc.returncode, proc.stdout, proc.stderr
 
@@ -89,7 +90,8 @@ def test_noop_guard_skips_chmod_only(tmp_path):
     # Alternative: Test the guard function in isolation
     # Extract and test just the detect_and_handle_noop logic
     guard_test_script = repo / "test_guard.sh"
-    guard_test_script.write_text("""#!/bin/bash
+    guard_test_script.write_text(
+        """#!/bin/bash
 set -euo pipefail
 
 # Source the guard function (extract from batch_next.sh)
@@ -128,7 +130,8 @@ else
   echo "ERROR: Guard failed to detect chmod-only change"
   exit 1
 fi
-""")
+"""
+    )
     guard_test_script.chmod(0o755)
 
     rc, out, err = run_cmd(str(guard_test_script), cwd=repo, env=env)

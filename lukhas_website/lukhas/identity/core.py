@@ -61,7 +61,9 @@ class IdentitySystem:
             logger.debug("Identity configuration unavailable: %s", exc)
 
         configuration.setdefault("database_url", get_setting("identity.database_url", "sqlite:///:memory:"))
-        configuration.setdefault("jwt_secret", get_setting("identity.jwt_secret", os.getenv("JWT_SECRET", "test-secret")))
+        configuration.setdefault(
+            "jwt_secret", get_setting("identity.jwt_secret", os.getenv("JWT_SECRET", "test-secret"))
+        )
 
         if override:
             configuration.update(override)

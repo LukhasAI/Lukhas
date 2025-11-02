@@ -5,6 +5,7 @@ thin facade that should be replaced by direct usage of the canonical MATRIZ
 entrypoints. All call paths raise a clear error until wired to real
 implementations.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -35,9 +36,7 @@ class MATRIZThoughtLoop:
         self.context = context or MATRIZProcessingContext()
 
     def run(self, *args: Any, **kwargs: Any) -> Any:
-        raise _NotWiredError(
-            "MATRIZThoughtLoop shim invoked. Wire to canonical MATRIZ runtime or update tests."
-        )
+        raise _NotWiredError("MATRIZThoughtLoop shim invoked. Wire to canonical MATRIZ runtime or update tests.")
 
 
 # Backwards-compatible aliases often referenced by tests
@@ -50,4 +49,3 @@ __all__ = [
     "matrizProcessingContext",
     "matrizThoughtLoop",
 ]
-

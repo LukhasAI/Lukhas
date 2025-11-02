@@ -46,6 +46,7 @@ import pytest
 try:
     from hypothesis import HealthCheck, assume, given, settings, strategies as st
     from hypothesis.stateful import Bundle, RuleBasedStateMachine, initialize, invariant, rule
+
     HYPOTHESIS_AVAILABLE = True
 except ImportError:
     HYPOTHESIS_AVAILABLE = False
@@ -56,6 +57,7 @@ try:
 
     from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
     from memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
+
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
     MEMORY_SYSTEMS_AVAILABLE = False
@@ -64,13 +66,14 @@ except ImportError:
 # Skip if dependencies not available
 pytestmark = pytest.mark.skipif(
     not (HYPOTHESIS_AVAILABLE and MEMORY_SYSTEMS_AVAILABLE),
-    reason="Hypothesis and memory systems required for property testing"
+    reason="Hypothesis and memory systems required for property testing",
 )
 
 
 @dataclass
 class MemoryOperation:
     """Represents a memory operation for property testing"""
+
     op_type: str  # 'store', 'recall', 'fold'
     content: str
     embedding: List[float]
@@ -88,11 +91,7 @@ def memory_content_strategy(draw):
     content_id = draw(st.integers(min_value=0, max_value=50000))
 
     return f"{content_type}_memory_{content_id}_" + draw(
-        st.text(
-            alphabet="abcdefghijklmnopqrstuvwxyz0123456789 ",
-            min_size=10,
-            max_size=200
-        )
+        st.text(alphabet="abcdefghijklmnopqrstuvwxyz0123456789 ", min_size=10, max_size=200)
     )
 
 
@@ -103,14 +102,16 @@ def embedding_strategy(draw, dimensions=None):
         dimensions = draw(st.integers(min_value=8, max_value=512))
 
     # Generate raw components
-    components = draw(st.lists(
-        st.floats(min_value=-2.0, max_value=2.0, allow_nan=False, allow_infinity=False),
-        min_size=dimensions,
-        max_size=dimensions
-    ))
+    components = draw(
+        st.lists(
+            st.floats(min_value=-2.0, max_value=2.0, allow_nan=False, allow_infinity=False),
+            min_size=dimensions,
+            max_size=dimensions,
+        )
+    )
 
     # Normalize to unit vector for realistic embeddings
-    magnitude = sum(x*x for x in components) ** 0.5
+    magnitude = sum(x * x for x in components) ** 0.5
     if magnitude > 0:
         components = [x / magnitude for x in components]
 
@@ -127,11 +128,7 @@ def memory_operation_strategy(draw):
     timestamp = draw(st.floats(min_value=1000000, max_value=2000000))
 
     return MemoryOperation(
-        op_type=op_type,
-        content=content,
-        embedding=embedding,
-        importance=importance,
-        timestamp=timestamp
+        op_type=op_type, content=content, embedding=embedding, importance=importance, timestamp=timestamp
     )
 
 
@@ -157,7 +154,7 @@ def memory_workload_strategy(draw, min_ops=1000, max_ops=10000):
                 content=draw(memory_content_strategy()),
                 embedding=draw(embedding_strategy(dimensions=128)),
                 importance=draw(st.floats(min_value=0.0, max_value=1.0)),
-                timestamp=time.time() + i * 0.001  # Spread operations over time
+                timestamp=time.time() + i * 0.001,  # Spread operations over time
             )
         )
 
@@ -175,7 +172,7 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
         self.operation_latencies: List[float] = []
         self.cascade_events = 0
 
-    stored_memories = Bundle('stored_memories')
+    stored_memories = Bundle("stored_memories")
 
     @rule(target=stored_memories)
     def store_memory(self):
@@ -187,20 +184,14 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
 
         try:
             memory_item = self.memory_system.store(
-                content=content,
-                memory_type=MemoryType.SEMANTIC,
-                importance=importance
+                content=content, memory_type=MemoryType.SEMANTIC, importance=importance
             )
 
             latency_ms = (time.perf_counter() - start_time) * 1000
             self.operation_latencies.append(latency_ms)
 
             if memory_item:
-                self.stored_items[memory_item.id] = {
-                    'content': content,
-                    'importance': importance,
-                    'item': memory_item
-                }
+                self.stored_items[memory_item.id] = {"content": content, "importance": importance, "item": memory_item}
                 return memory_item.id
 
         except Exception:
@@ -228,11 +219,12 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
             # Property: Results should be ordered by relevance/importance
             if len(results) > 1:
                 for i in range(len(results) - 1):
-                    current_importance = getattr(results[i], 'importance', 0)
-                    next_importance = getattr(results[i + 1], 'importance', 0)
+                    current_importance = getattr(results[i], "importance", 0)
+                    next_importance = getattr(results[i + 1], "importance", 0)
                     # Monotonicity: importance should be non-increasing
-                    assert current_importance >= next_importance, \
-                        f"Top-K monotonicity violated: {current_importance} < {next_importance}"
+                    assert (
+                        current_importance >= next_importance
+                    ), f"Top-K monotonicity violated: {current_importance} < {next_importance}"
 
         except Exception:
             self.cascade_events += 1
@@ -248,9 +240,7 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
 
         try:
             fold = self.fold_manager.create_fold(
-                content=memory_data['content'],
-                importance=memory_data['importance'],
-                mode="live"
+                content=memory_data["content"], importance=memory_data["importance"], mode="live"
             )
 
             latency_ms = (time.perf_counter() - start_time) * 1000
@@ -258,7 +248,7 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
 
             # Property: Fold should be created successfully
             assert fold is not None
-            assert fold.content == memory_data['content']
+            assert fold.content == memory_data["content"]
 
         except Exception:
             self.cascade_events += 1
@@ -272,8 +262,7 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
             p95_index = int(len(sorted_latencies) * 0.95)
             p95_latency = sorted_latencies[p95_index] if p95_index < len(sorted_latencies) else sorted_latencies[-1]
 
-            assert p95_latency <= 100.0, \
-                f"P95 latency {p95_latency:.2f}ms exceeds 100ms budget"
+            assert p95_latency <= 100.0, f"P95 latency {p95_latency:.2f}ms exceeds 100ms budget"
 
     @invariant()
     def cascade_prevention_invariant(self):
@@ -281,8 +270,7 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
         total_operations = len(self.operation_latencies) + self.cascade_events
         if total_operations > 100:  # Only check after sufficient operations
             prevention_rate = 1.0 - (self.cascade_events / total_operations)
-            assert prevention_rate >= 0.997, \
-                f"Cascade prevention rate {prevention_rate:.4f} below 99.7% target"
+            assert prevention_rate >= 0.997, f"Cascade prevention rate {prevention_rate:.4f} below 99.7% target"
 
     @invariant()
     def memory_system_coherence_invariant(self):
@@ -300,11 +288,12 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
 
 # Property-based test functions
 
+
 @given(workload=memory_workload_strategy(min_ops=1000, max_ops=5000))
 @settings(
     max_examples=3,  # Expensive tests - fewer examples
     deadline=60000,  # 60 second timeout
-    suppress_health_check=[HealthCheck.too_slow, HealthCheck.large_base_example]
+    suppress_health_check=[HealthCheck.too_slow, HealthCheck.large_base_example],
 )
 def test_memory_system_10k_operations_invariants(workload):
     """
@@ -333,45 +322,38 @@ def test_memory_system_10k_operations_invariants(workload):
                     content=operation.content,
                     memory_type=MemoryType.SEMANTIC,
                     importance=operation.importance,
-                    embedding=operation.embedding
+                    embedding=operation.embedding,
                 )
                 if memory_item:
                     stored_items.append(memory_item.id)
 
             elif operation.op_type == "recall_k" and stored_items:
                 k = min(10, len(stored_items))
-                results, duration_ms = memory_system.recall_top_k(
-                    k=k,
-                    query_embedding=operation.embedding
-                )
+                results, duration_ms = memory_system.recall_top_k(k=k, query_embedding=operation.embedding)
 
                 # Property: Top-K monotonicity
                 if len(results) > 1:
                     similarities = []
                     for result in results:
-                        if hasattr(result, 'embedding') and result.embedding:
+                        if hasattr(result, "embedding") and result.embedding:
                             # Calculate similarity with query
-                            sim = sum(a*b for a, b in zip(operation.embedding, result.embedding))
+                            sim = sum(a * b for a, b in zip(operation.embedding, result.embedding))
                             similarities.append(sim)
 
                     # Similarities should be non-increasing (monotonic)
                     for j in range(len(similarities) - 1):
-                        assert similarities[j] >= similarities[j+1], \
-                            f"Top-K monotonicity violated at position {j}: {similarities[j]} < {similarities[j+1]}"
+                        assert (
+                            similarities[j] >= similarities[j + 1]
+                        ), f"Top-K monotonicity violated at position {j}: {similarities[j]} < {similarities[j+1]}"
 
             elif operation.op_type == "fold_create":
-                fold_manager.create_fold(
-                    content=operation.content,
-                    importance=operation.importance,
-                    mode="live"
-                )
+                fold_manager.create_fold(content=operation.content, importance=operation.importance, mode="live")
 
             latency_ms = (time.perf_counter() - start_time) * 1000
             latencies.append(latency_ms)
 
             # Property: Latency budget adherence
-            assert latency_ms <= 250.0, \
-                f"Operation {i} exceeded 250ms latency budget: {latency_ms:.2f}ms"
+            assert latency_ms <= 250.0, f"Operation {i} exceeded 250ms latency budget: {latency_ms:.2f}ms"
 
         except Exception:
             cascade_events += 1
@@ -383,8 +365,9 @@ def test_memory_system_10k_operations_invariants(workload):
             total_ops = len(latencies) + cascade_events
             if total_ops > 0:
                 prevention_rate = 1.0 - (cascade_events / total_ops)
-                assert prevention_rate >= 0.995, \
-                    f"Cascade prevention rate {prevention_rate:.4f} below 99.5% at operation {i}"
+                assert (
+                    prevention_rate >= 0.995
+                ), f"Cascade prevention rate {prevention_rate:.4f} below 99.5% at operation {i}"
 
     # Final invariant verification
     total_operations = len(latencies) + cascade_events
@@ -396,8 +379,7 @@ def test_memory_system_10k_operations_invariants(workload):
 
         # Property: Cascade prevention target
         prevention_rate = 1.0 - (cascade_events / total_operations)
-        assert prevention_rate >= 0.997, \
-            f"Cascade prevention rate {prevention_rate:.4f} below 99.7% target"
+        assert prevention_rate >= 0.997, f"Cascade prevention rate {prevention_rate:.4f} below 99.7% target"
 
     # Property: Latency budget compliance
     if latencies:
@@ -405,31 +387,17 @@ def test_memory_system_10k_operations_invariants(workload):
         p95_index = int(len(sorted_latencies) * 0.95)
         p95_latency = sorted_latencies[p95_index] if p95_index < len(sorted_latencies) else sorted_latencies[-1]
 
-        assert p95_latency <= 100.0, \
-            f"P95 latency {p95_latency:.2f}ms exceeds 100ms budget"
+        assert p95_latency <= 100.0, f"P95 latency {p95_latency:.2f}ms exceeds 100ms budget"
 
         avg_latency = sum(latencies) / len(latencies)
-        assert avg_latency <= 50.0, \
-            f"Average latency {avg_latency:.2f}ms exceeds 50ms target"
+        assert avg_latency <= 50.0, f"Average latency {avg_latency:.2f}ms exceeds 50ms target"
 
 
 @given(
-    k_values=st.lists(
-        st.integers(min_value=1, max_value=20),
-        min_size=3,
-        max_size=10
-    ),
-    operations=st.lists(
-        memory_operation_strategy(),
-        min_size=100,
-        max_size=500
-    )
+    k_values=st.lists(st.integers(min_value=1, max_value=20), min_size=3, max_size=10),
+    operations=st.lists(memory_operation_strategy(), min_size=100, max_size=500),
 )
-@settings(
-    max_examples=2,
-    deadline=30000,
-    suppress_health_check=[HealthCheck.too_slow, HealthCheck.large_base_example]
-)
+@settings(max_examples=2, deadline=30000, suppress_health_check=[HealthCheck.too_slow, HealthCheck.large_base_example])
 def test_topk_monotonicity_under_adversarial_workload(k_values, operations):
     """
     Property test: Top-K recall maintains monotonicity under adversarial access patterns
@@ -444,10 +412,7 @@ def test_topk_monotonicity_under_adversarial_workload(k_values, operations):
     for i, op in enumerate(operations[:500]):  # First 500 as baseline
         if op.op_type in ["store", "fold_create"]:
             memory_item = memory_system.store(
-                content=op.content,
-                memory_type=MemoryType.SEMANTIC,
-                importance=op.importance,
-                embedding=op.embedding
+                content=op.content, memory_type=MemoryType.SEMANTIC, importance=op.importance, embedding=op.embedding
             )
             if memory_item:
                 stored_embeddings.append(op.embedding)
@@ -461,30 +426,25 @@ def test_topk_monotonicity_under_adversarial_workload(k_values, operations):
         for query_op in operations[500:]:  # Use remaining as queries
             start_time = time.perf_counter()
 
-            results, duration_ms = memory_system.recall_top_k(
-                k=k,
-                query_embedding=query_op.embedding
-            )
+            results, duration_ms = memory_system.recall_top_k(k=k, query_embedding=query_op.embedding)
 
             latency_ms = (time.perf_counter() - start_time) * 1000
 
             # Property: Latency under skew should still meet budget
-            assert latency_ms <= 200.0, \
-                f"Query latency {latency_ms:.2f}ms exceeds budget under skew"
+            assert latency_ms <= 200.0, f"Query latency {latency_ms:.2f}ms exceeds budget under skew"
 
             # Property: Should return at most K results
-            assert len(results) <= k, \
-                f"Returned {len(results)} results for k={k}"
+            assert len(results) <= k, f"Returned {len(results)} results for k={k}"
 
             # Property: Results should maintain similarity ordering
             if len(results) > 1:
                 similarities = []
                 for result in results:
-                    if hasattr(result, 'embedding') and result.embedding:
+                    if hasattr(result, "embedding") and result.embedding:
                         # Calculate cosine similarity
-                        dot_product = sum(a*b for a, b in zip(query_op.embedding, result.embedding))
-                        norm_query = sum(a*a for a in query_op.embedding) ** 0.5
-                        norm_result = sum(b*b for b in result.embedding) ** 0.5
+                        dot_product = sum(a * b for a, b in zip(query_op.embedding, result.embedding))
+                        norm_query = sum(a * a for a in query_op.embedding) ** 0.5
+                        norm_result = sum(b * b for b in result.embedding) ** 0.5
 
                         if norm_query > 0 and norm_result > 0:
                             similarity = dot_product / (norm_query * norm_result)
@@ -492,16 +452,13 @@ def test_topk_monotonicity_under_adversarial_workload(k_values, operations):
 
                 # Property: Similarities should be monotonically non-increasing
                 for i in range(len(similarities) - 1):
-                    assert similarities[i] >= similarities[i+1] - 1e-6, \
-                        f"Similarity monotonicity violated: {similarities[i]:.6f} < {similarities[i+1]:.6f}"
+                    assert (
+                        similarities[i] >= similarities[i + 1] - 1e-6
+                    ), f"Similarity monotonicity violated: {similarities[i]:.6f} < {similarities[i+1]:.6f}"
 
 
 @given(st.data())
-@settings(
-    max_examples=2,
-    deadline=30000,
-    suppress_health_check=[HealthCheck.too_slow]
-)
+@settings(max_examples=2, deadline=30000, suppress_health_check=[HealthCheck.too_slow])
 def test_memory_system_stateful_properties(data):
     """
     Stateful property testing using Hypothesis state machine
@@ -528,6 +485,7 @@ def test_memory_system_stateful_properties(data):
 
 # Performance regression tests
 
+
 @pytest.mark.performance
 @pytest.mark.parametrize("batch_size", [100, 500])
 def test_memory_system_10k_batch_operations(batch_size):
@@ -542,6 +500,7 @@ def test_memory_system_10k_batch_operations(batch_size):
 
     # Use deterministic generation for reproducibility
     import random
+
     rng = random.Random(42)
 
     operation_latencies = []
@@ -580,10 +539,7 @@ def test_memory_system_10k_batch_operations(batch_size):
             try:
                 if op_type == "store":
                     memory_item = memory_system.store(
-                        content=content,
-                        memory_type=MemoryType.SEMANTIC,
-                        importance=importance,
-                        embedding=embedding
+                        content=content, memory_type=MemoryType.SEMANTIC, importance=importance, embedding=embedding
                     )
                     if memory_item:
                         stored_items.append((memory_item.id, embedding, importance))
@@ -592,10 +548,7 @@ def test_memory_system_10k_batch_operations(batch_size):
                     k = min(rng.randint(1, 10), len(stored_items))
                     query_embedding = [rng.gauss(0, 1) for _ in range(64)]
 
-                    results, duration_ms = memory_system.recall_top_k(
-                        k=k,
-                        query_embedding=query_embedding
-                    )
+                    results, duration_ms = memory_system.recall_top_k(k=k, query_embedding=query_embedding)
 
                     # Property: Top-K monotonicity check
                     if len(results) > 1:
@@ -604,16 +557,16 @@ def test_memory_system_10k_batch_operations(batch_size):
                             # Find matching stored item for similarity calculation
                             matching_item = None
                             for item_id, item_embedding, item_importance in stored_items:
-                                if hasattr(result, 'id') and result.id == item_id:
+                                if hasattr(result, "id") and result.id == item_id:
                                     matching_item = (item_embedding, item_importance)
                                     break
 
                             if matching_item:
                                 item_embedding, item_importance = matching_item
                                 # Calculate cosine similarity
-                                dot_product = sum(a*b for a, b in zip(query_embedding, item_embedding))
-                                norm_query = sum(a*a for a in query_embedding) ** 0.5
-                                norm_item = sum(b*b for b in item_embedding) ** 0.5
+                                dot_product = sum(a * b for a, b in zip(query_embedding, item_embedding))
+                                norm_query = sum(a * a for a in query_embedding) ** 0.5
+                                norm_item = sum(b * b for b in item_embedding) ** 0.5
 
                                 if norm_query > 0 and norm_item > 0:
                                     similarity = dot_product / (norm_query * norm_item)
@@ -621,16 +574,12 @@ def test_memory_system_10k_batch_operations(batch_size):
 
                         # Check monotonicity
                         for i in range(len(similarities) - 1):
-                            if similarities[i] < similarities[i+1] - 1e-6:
+                            if similarities[i] < similarities[i + 1] - 1e-6:
                                 monotonicity_violations += 1
                                 break
 
                 elif op_type == "fold_create":
-                    fold_manager.create_fold(
-                        content=content,
-                        importance=importance,
-                        mode="live"
-                    )
+                    fold_manager.create_fold(content=content, importance=importance, mode="live")
 
                 # Record timing
                 latency_ms = (time.perf_counter() - start_time) * 1000
@@ -638,8 +587,7 @@ def test_memory_system_10k_batch_operations(batch_size):
                 operation_latencies.append(latency_ms)
 
                 # Property: Individual operation latency budget
-                assert latency_ms <= 200.0, \
-                    f"Operation {operation_id} exceeded 200ms budget: {latency_ms:.2f}ms"
+                assert latency_ms <= 200.0, f"Operation {operation_id} exceeded 200ms budget: {latency_ms:.2f}ms"
 
             except Exception as e:
                 cascade_events += 1
@@ -666,8 +614,7 @@ def test_memory_system_10k_batch_operations(batch_size):
         print(f"   Monotonicity Violations: {monotonicity_violations}")
 
         # Property: 99.7% cascade prevention target
-        assert prevention_rate >= 0.997, \
-            f"Cascade prevention rate {prevention_rate:.4f} below 99.7% target"
+        assert prevention_rate >= 0.997, f"Cascade prevention rate {prevention_rate:.4f} below 99.7% target"
 
     # Property: Latency budget adherence at scale
     if operation_latencies:
@@ -683,12 +630,10 @@ def test_memory_system_10k_batch_operations(batch_size):
         print(f"   P99 Latency: {p99_latency:.2f}ms")
 
         # Property: P95 latency budget
-        assert p95_latency <= 100.0, \
-            f"P95 latency {p95_latency:.2f}ms exceeds 100ms budget at 10k scale"
+        assert p95_latency <= 100.0, f"P95 latency {p95_latency:.2f}ms exceeds 100ms budget at 10k scale"
 
         # Property: Average latency efficiency
-        assert avg_latency <= 50.0, \
-            f"Average latency {avg_latency:.2f}ms exceeds 50ms efficiency target"
+        assert avg_latency <= 50.0, f"Average latency {avg_latency:.2f}ms exceeds 50ms efficiency target"
 
     # Property: Top-K monotonicity should be maintained (adjust for real-world tolerance)
     total_recalls = sum(1 for lat in operation_latencies if lat > 0)  # Approximate recall count
@@ -699,8 +644,7 @@ def test_memory_system_10k_batch_operations(batch_size):
         # Adjusted expectation: 80% monotonicity for real-world performance
         # Note: Perfect monotonicity may not be achievable due to floating-point precision
         # and concurrent access patterns in adaptive memory systems
-        assert monotonicity_rate >= 0.80, \
-            f"Top-K monotonicity rate {monotonicity_rate:.4f} below 80% target"
+        assert monotonicity_rate >= 0.80, f"Top-K monotonicity rate {monotonicity_rate:.4f} below 80% target"
 
     print("✅ 10k operations test passed all invariants!")
 
@@ -719,6 +663,7 @@ def test_memory_performance_regression_at_scale(operation_count):
 
     # Generate deterministic test data
     import random
+
     rng = random.Random(42)
 
     store_latencies = []
@@ -734,18 +679,14 @@ def test_memory_performance_regression_at_scale(operation_count):
         start_time = time.perf_counter()
 
         memory_system.store(
-            content=content,
-            memory_type=MemoryType.SEMANTIC,
-            importance=importance,
-            embedding=embedding
+            content=content, memory_type=MemoryType.SEMANTIC, importance=importance, embedding=embedding
         )
 
         latency_ms = (time.perf_counter() - start_time) * 1000
         store_latencies.append(latency_ms)
 
         # Ensure reasonable per-operation latency
-        assert latency_ms <= 100.0, \
-            f"Store operation {i} took {latency_ms:.2f}ms (over 100ms budget)"
+        assert latency_ms <= 100.0, f"Store operation {i} took {latency_ms:.2f}ms (over 100ms budget)"
 
     # Phase 2: Recall operations
     recall_count = min(500, operation_count // 10)
@@ -760,8 +701,7 @@ def test_memory_performance_regression_at_scale(operation_count):
         latency_ms = (time.perf_counter() - start_time) * 1000
         recall_latencies.append(latency_ms)
 
-        assert latency_ms <= 150.0, \
-            f"Recall operation {i} took {latency_ms:.2f}ms (over 150ms budget)"
+        assert latency_ms <= 150.0, f"Recall operation {i} took {latency_ms:.2f}ms (over 150ms budget)"
 
     # Phase 3: Fold operations
     fold_count = min(100, operation_count // 50)
@@ -771,17 +711,12 @@ def test_memory_performance_regression_at_scale(operation_count):
 
         start_time = time.perf_counter()
 
-        fold_manager.create_fold(
-            content=content,
-            importance=importance,
-            mode="live"
-        )
+        fold_manager.create_fold(content=content, importance=importance, mode="live")
 
         latency_ms = (time.perf_counter() - start_time) * 1000
         fold_latencies.append(latency_ms)
 
-        assert latency_ms <= 50.0, \
-            f"Fold operation {i} took {latency_ms:.2f}ms (over 50ms budget)"
+        assert latency_ms <= 50.0, f"Fold operation {i} took {latency_ms:.2f}ms (over 50ms budget)"
 
     # Performance analysis
     store_p95 = sorted(store_latencies)[int(len(store_latencies) * 0.95)] if store_latencies else 0

@@ -17,9 +17,6 @@ import numpy as np
 """
 
 
-
-
-
 class MitoEthicsSync:
     """
     Uses symbolic phase oscillations to coordinate ethical state alignment across Cognitive AI nodes.

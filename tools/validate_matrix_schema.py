@@ -17,9 +17,11 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACTS_DIR = ROOT / "contracts"
 SCHEMA_FILE = ROOT / "matrix.schema.template.json"
 
+
 def load_schema() -> Dict[str, Any]:
     """Load the Matrix contract schema."""
     return json.loads(SCHEMA_FILE.read_text())
+
 
 def validate_contract(contract_path: Path, schema: Dict[str, Any]) -> Tuple[bool, List[str]]:
     """Validate a contract against the schema."""
@@ -48,10 +50,7 @@ def validate_contract(contract_path: Path, schema: Dict[str, Any]) -> Tuple[bool
                 if len(tiers) != len(nums):
                     errors.append("identity: tier arrays length mismatch")
 
-                tier_map = {
-                    "guest": 0, "visitor": 1, "friend": 2,
-                    "trusted": 3, "inner_circle": 4, "root_dev": 5
-                }
+                tier_map = {"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}
 
                 for i, tier in enumerate(tiers):
                     if i < len(nums) and tier_map.get(tier) != nums[i]:
@@ -69,6 +68,7 @@ def validate_contract(contract_path: Path, schema: Dict[str, Any]) -> Tuple[bool
         return False, [f"JSON parsing error: {e}"]
     except Exception as e:
         return False, [f"Unexpected error: {e}"]
+
 
 def main():
     """Validate all Matrix contracts."""
@@ -147,6 +147,7 @@ def main():
     print("  • Service account patterns (lukhas:user:*, lukhas:svc:*)")
 
     return 0 if valid_count == len(contracts) else 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

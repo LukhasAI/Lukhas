@@ -28,6 +28,7 @@ Key Components:
 - MatrizConsciousnessCoordinator: Consciousness-aware coordination
 - OrchestrationCore: Main system orchestrator (existing)
 """
+
 import importlib.util
 
 # Import MΛTRIZ consciousness coordination
@@ -56,6 +57,7 @@ except ImportError:
     class OrchestrationCore:
         def __init__(self, *args, **kwargs):
             pass
+
     OrchestrationCoreClass = OrchestrationCore
 from .matriz_consciousness_coordinator import (
     MatrizConsciousnessCoordinator,

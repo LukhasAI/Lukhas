@@ -2,6 +2,7 @@
 Audit trail data models for LUKHAS decision traces.
 All models are Pydantic for validation and JSON serialization.
 """
+
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
@@ -11,6 +12,7 @@ from pydantic import BaseModel, Field
 
 class DecisionTrace(BaseModel):
     """Complete decision trace with timing and outcome metadata."""
+
     trace_id: str
     user_id: Optional[str] = None
     session_id: Optional[str] = None
@@ -26,6 +28,7 @@ class DecisionTrace(BaseModel):
 
 class TraceSpan(BaseModel):
     """Individual operation span within a trace."""
+
     span_id: str
     trace_id: str
     module: str  # e.g., "Intent" | "Memory" | "Ethics" | "Action"
@@ -39,6 +42,7 @@ class TraceSpan(BaseModel):
 
 class EvidenceLink(BaseModel):
     """Link to evidence source with consent metadata."""
+
     span_id: str
     source_type: str  # "qrg" | "glymps" | "memory" | "api" | "doc"
     uri_or_key: str
@@ -51,6 +55,7 @@ class EvidenceLink(BaseModel):
 
 class GovernanceEvent(BaseModel):
     """Governance decision event for audit trail."""
+
     event_id: str
     trace_id: str
     rule_id: str
@@ -61,6 +66,7 @@ class GovernanceEvent(BaseModel):
 
 class FeedbackEvent(BaseModel):
     """User feedback event linked to trace."""
+
     feedback_id: str
     trace_id: str
     rating_0_10: int

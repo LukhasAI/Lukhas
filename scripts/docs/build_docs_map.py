@@ -24,8 +24,17 @@ ART = Path("artifacts")
 ART.mkdir(exist_ok=True, parents=True)
 
 EXCLUDE_DIRS = {
-    ".venv", ".venv_*", "venv", "__pycache__", ".pytest_cache",
-    "node_modules", ".git", "dist", "build", "*.egg-info", "htmlcov"
+    ".venv",
+    ".venv_*",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    "node_modules",
+    ".git",
+    "dist",
+    "build",
+    "*.egg-info",
+    "htmlcov",
 }
 
 
@@ -145,7 +154,7 @@ def build_mapping() -> Dict[str, Dict]:
             "module": module,
             "confidence": confidence,
             "strategy": strategy,
-            "frontmatter": frontmatter or {}
+            "frontmatter": frontmatter or {},
         }
 
     return mapping

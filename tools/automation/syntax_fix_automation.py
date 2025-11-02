@@ -31,11 +31,24 @@ class AutomatedSyntaxFixer:
     def get_syntax_error_count(self) -> int:
         """Get current syntax error count using ruff"""
         try:
-            result = subprocess.run([
-                ".venv/bin/ruff", "check",
-                "branding/", "candidate/", "tools/", "products/", "matriz/", "next_gen/", "lukhas/",
-                "--select=E999", "--output-format=concise"
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                [
+                    ".venv/bin/ruff",
+                    "check",
+                    "branding/",
+                    "candidate/",
+                    "tools/",
+                    "products/",
+                    "matriz/",
+                    "next_gen/",
+                    "lukhas/",
+                    "--select=E999",
+                    "--output-format=concise",
+                ],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
 
             lines = result.stderr.split("\n")
             for line in lines:
@@ -116,10 +129,13 @@ class AutomatedSyntaxFixer:
             for i, line in enumerate(lines):
                 stripped = line.strip()
                 # Check if this looks like an incomplete dictionary entry
-                if (stripped.endswith(",") and
-                    '"' in stripped and ":" in stripped and
-                    i + 1 < len(lines) and
-                    lines[i + 1].strip() in ["}", "},"]):
+                if (
+                    stripped.endswith(",")
+                    and '"' in stripped
+                    and ":" in stripped
+                    and i + 1 < len(lines)
+                    and lines[i + 1].strip() in ["}", "},"]
+                ):
 
                     # Check if the next line should be }}
                     next_line = lines[i + 1].strip()
@@ -176,9 +192,12 @@ class AutomatedSyntaxFixer:
     def test_compilation(self, file_path: Path) -> bool:
         """Test if file compiles successfully"""
         try:
-            result = subprocess.run([
-                "python3", "-c", f'import py_compile; py_compile.compile("{file_path}", doraise=True)'
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                ["python3", "-c", f'import py_compile; py_compile.compile("{file_path}", doraise=True)'],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
             return result.returncode == 0
         except Exception:
             return False
@@ -264,8 +283,9 @@ class AutomatedSyntaxFixer:
             "errors_eliminated": errors_eliminated,
             "error_count_before": self.error_count_before,
             "error_count_after": self.error_count_after,
-            "fixed_files": self.fixed_files
+            "fixed_files": self.fixed_files,
         }
+
 
 if __name__ == "__main__":
     fixer = AutomatedSyntaxFixer(".")

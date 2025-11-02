@@ -5,7 +5,6 @@ Simple access control provider for consciousness reasoning components.
 """
 
 
-
 class AccessController:
     """Simple access controller for reasoning engine operations"""
 

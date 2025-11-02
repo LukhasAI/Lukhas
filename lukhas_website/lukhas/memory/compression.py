@@ -22,6 +22,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 try:
     import zstandard as zstd
+
     ZSTD_AVAILABLE = True
 except ImportError:
     ZSTD_AVAILABLE = False
@@ -38,21 +39,23 @@ metrics = get_metrics_collector()
 
 class CompressionAlgorithm(Enum):
     """Supported compression algorithms"""
-    ZSTD = "zstd"           # Zstandard - best balance
-    GZIP = "gzip"           # Standard gzip
-    BZIP2 = "bzip2"         # High compression ratio
-    LZMA = "lzma"           # Maximum compression
-    LZ4 = "lz4"             # Fastest compression
-    NONE = "none"           # No compression
+
+    ZSTD = "zstd"  # Zstandard - best balance
+    GZIP = "gzip"  # Standard gzip
+    BZIP2 = "bzip2"  # High compression ratio
+    LZMA = "lzma"  # Maximum compression
+    LZ4 = "lz4"  # Fastest compression
+    NONE = "none"  # No compression
 
 
 class CompressionLevel(Enum):
     """Compression level presets"""
-    FASTEST = 1             # Speed optimized
-    FAST = 3                # Good speed/ratio balance
-    BALANCED = 6            # Default balanced
-    GOOD = 9                # Better compression
-    BEST = 12               # Maximum compression
+
+    FASTEST = 1  # Speed optimized
+    FAST = 3  # Good speed/ratio balance
+    BALANCED = 6  # Default balanced
+    GOOD = 9  # Better compression
+    BEST = 12  # Maximum compression
 
 
 @dataclass
@@ -60,11 +63,12 @@ class CompressionResult:
     """
     Result of compression operation.
     """
+
     success: bool = False
     error: Optional[str] = None
 
     # Data
-    compressed_data: bytes = b''
+    compressed_data: bytes = b""
     original_size: int = 0
     compressed_size: int = 0
 
@@ -97,11 +101,12 @@ class DecompressionResult:
     """
     Result of decompression operation.
     """
+
     success: bool = False
     error: Optional[str] = None
 
     # Data
-    decompressed_data: bytes = b''
+    decompressed_data: bytes = b""
     decompressed_size: int = 0
 
     # Validation
@@ -117,6 +122,7 @@ class CompressionStats:
     """
     Compression system statistics.
     """
+
     # Operations
     compression_operations: int = 0
     decompression_operations: int = 0
@@ -151,18 +157,16 @@ class CompressionStats:
         if result.success:
             self.total_compression_time_ms += result.compression_time_ms
             self.total_bytes_processed += result.original_size
-            self.total_bytes_saved += (result.original_size - result.compressed_size)
+            self.total_bytes_saved += result.original_size - result.compressed_size
 
             # Update averages
             self.avg_compression_speed_mbps = (
-                (self.avg_compression_speed_mbps * (self.compression_operations - 1) +
-                 result.compression_speed_mbps) / self.compression_operations
-            )
+                self.avg_compression_speed_mbps * (self.compression_operations - 1) + result.compression_speed_mbps
+            ) / self.compression_operations
 
             self.avg_compression_ratio = (
-                (self.avg_compression_ratio * (self.compression_operations - 1) +
-                 result.compression_ratio) / self.compression_operations
-            )
+                self.avg_compression_ratio * (self.compression_operations - 1) + result.compression_ratio
+            ) / self.compression_operations
 
             # Track algorithm usage
             algo_name = result.algorithm.value
@@ -179,9 +183,9 @@ class CompressionStats:
 
             # Update average decompression speed
             self.avg_decompression_speed_mbps = (
-                (self.avg_decompression_speed_mbps * (self.decompression_operations - 1) +
-                 result.decompression_speed_mbps) / self.decompression_operations
-            )
+                self.avg_decompression_speed_mbps * (self.decompression_operations - 1)
+                + result.decompression_speed_mbps
+            ) / self.decompression_operations
         else:
             self.decompression_errors += 1
 
@@ -197,11 +201,7 @@ class AbstractCompressor(ABC):
         pass
 
     @abstractmethod
-    def decompress(
-        self,
-        compressed_data: bytes,
-        expected_checksum: Optional[str] = None
-    ) -> DecompressionResult:
+    def decompress(self, compressed_data: bytes, expected_checksum: Optional[str] = None) -> DecompressionResult:
         """Decompress data"""
         pass
 
@@ -256,11 +256,7 @@ class ZstdCompressor(AbstractCompressor):
     def compress(self, data: bytes, level: int = 6) -> CompressionResult:
         """Compress data using Zstandard"""
         start_time = time.perf_counter()
-        result = CompressionResult(
-            original_size=len(data),
-            algorithm=self.algorithm,
-            level=level
-        )
+        result = CompressionResult(original_size=len(data), algorithm=self.algorithm, level=level)
 
         try:
             # Clamp level to valid range
@@ -277,9 +273,7 @@ class ZstdCompressor(AbstractCompressor):
             result.compressed_size = len(compressed)
             result.checksum = self._calculate_checksum(data)
             result.compression_time_ms = (time.perf_counter() - start_time) * 1000
-            result.compression_speed_mbps = self._calculate_speed_mbps(
-                len(data), result.compression_time_ms
-            )
+            result.compression_speed_mbps = self._calculate_speed_mbps(len(data), result.compression_time_ms)
             result.success = True
 
             logger.debug(
@@ -288,7 +282,7 @@ class ZstdCompressor(AbstractCompressor):
                 compressed_size=result.compressed_size,
                 ratio=result.compression_ratio,
                 speed_mbps=result.compression_speed_mbps,
-                level=level
+                level=level,
             )
 
         except Exception as e:
@@ -297,11 +291,7 @@ class ZstdCompressor(AbstractCompressor):
 
         return result
 
-    def decompress(
-        self,
-        compressed_data: bytes,
-        expected_checksum: Optional[str] = None
-    ) -> DecompressionResult:
+    def decompress(self, compressed_data: bytes, expected_checksum: Optional[str] = None) -> DecompressionResult:
         """Decompress Zstandard data"""
         start_time = time.perf_counter()
         result = DecompressionResult()
@@ -321,7 +311,7 @@ class ZstdCompressor(AbstractCompressor):
             # Validate checksum if provided
             if expected_checksum:
                 actual_checksum = self._calculate_checksum(decompressed)
-                result.checksum_valid = (actual_checksum == expected_checksum)
+                result.checksum_valid = actual_checksum == expected_checksum
             else:
                 result.checksum_valid = True
 
@@ -346,11 +336,7 @@ class GzipCompressor(AbstractCompressor):
     def compress(self, data: bytes, level: int = 6) -> CompressionResult:
         """Compress data using gzip"""
         start_time = time.perf_counter()
-        result = CompressionResult(
-            original_size=len(data),
-            algorithm=self.algorithm,
-            level=level
-        )
+        result = CompressionResult(original_size=len(data), algorithm=self.algorithm, level=level)
 
         try:
             # Clamp level to valid range
@@ -358,7 +344,7 @@ class GzipCompressor(AbstractCompressor):
 
             # Compress using BytesIO
             buffer = io.BytesIO()
-            with gzip.GzipFile(fileobj=buffer, mode='wb', compresslevel=level) as gz_file:
+            with gzip.GzipFile(fileobj=buffer, mode="wb", compresslevel=level) as gz_file:
                 gz_file.write(data)
 
             compressed = buffer.getvalue()
@@ -368,9 +354,7 @@ class GzipCompressor(AbstractCompressor):
             result.compressed_size = len(compressed)
             result.checksum = self._calculate_checksum(data)
             result.compression_time_ms = (time.perf_counter() - start_time) * 1000
-            result.compression_speed_mbps = self._calculate_speed_mbps(
-                len(data), result.compression_time_ms
-            )
+            result.compression_speed_mbps = self._calculate_speed_mbps(len(data), result.compression_time_ms)
             result.success = True
 
         except Exception as e:
@@ -379,11 +363,7 @@ class GzipCompressor(AbstractCompressor):
 
         return result
 
-    def decompress(
-        self,
-        compressed_data: bytes,
-        expected_checksum: Optional[str] = None
-    ) -> DecompressionResult:
+    def decompress(self, compressed_data: bytes, expected_checksum: Optional[str] = None) -> DecompressionResult:
         """Decompress gzip data"""
         start_time = time.perf_counter()
         result = DecompressionResult()
@@ -391,7 +371,7 @@ class GzipCompressor(AbstractCompressor):
         try:
             # Decompress using BytesIO
             buffer = io.BytesIO(compressed_data)
-            with gzip.GzipFile(fileobj=buffer, mode='rb') as gz_file:
+            with gzip.GzipFile(fileobj=buffer, mode="rb") as gz_file:
                 decompressed = gz_file.read()
 
             # Calculate metrics
@@ -405,7 +385,7 @@ class GzipCompressor(AbstractCompressor):
             # Validate checksum if provided
             if expected_checksum:
                 actual_checksum = self._calculate_checksum(decompressed)
-                result.checksum_valid = (actual_checksum == expected_checksum)
+                result.checksum_valid = actual_checksum == expected_checksum
             else:
                 result.checksum_valid = True
 
@@ -430,11 +410,7 @@ class Bz2Compressor(AbstractCompressor):
     def compress(self, data: bytes, level: int = 6) -> CompressionResult:
         """Compress data using bzip2"""
         start_time = time.perf_counter()
-        result = CompressionResult(
-            original_size=len(data),
-            algorithm=self.algorithm,
-            level=level
-        )
+        result = CompressionResult(original_size=len(data), algorithm=self.algorithm, level=level)
 
         try:
             # Clamp level to valid range
@@ -448,9 +424,7 @@ class Bz2Compressor(AbstractCompressor):
             result.compressed_size = len(compressed)
             result.checksum = self._calculate_checksum(data)
             result.compression_time_ms = (time.perf_counter() - start_time) * 1000
-            result.compression_speed_mbps = self._calculate_speed_mbps(
-                len(data), result.compression_time_ms
-            )
+            result.compression_speed_mbps = self._calculate_speed_mbps(len(data), result.compression_time_ms)
             result.success = True
 
         except Exception as e:
@@ -459,11 +433,7 @@ class Bz2Compressor(AbstractCompressor):
 
         return result
 
-    def decompress(
-        self,
-        compressed_data: bytes,
-        expected_checksum: Optional[str] = None
-    ) -> DecompressionResult:
+    def decompress(self, compressed_data: bytes, expected_checksum: Optional[str] = None) -> DecompressionResult:
         """Decompress bzip2 data"""
         start_time = time.perf_counter()
         result = DecompressionResult()
@@ -483,7 +453,7 @@ class Bz2Compressor(AbstractCompressor):
             # Validate checksum if provided
             if expected_checksum:
                 actual_checksum = self._calculate_checksum(decompressed)
-                result.checksum_valid = (actual_checksum == expected_checksum)
+                result.checksum_valid = actual_checksum == expected_checksum
             else:
                 result.checksum_valid = True
 
@@ -507,10 +477,7 @@ class AdaptiveCompressionManager:
         self.stats = CompressionStats()
 
         # Initialize compressors
-        self.compressors = {
-            CompressionAlgorithm.GZIP: GzipCompressor(),
-            CompressionAlgorithm.BZIP2: Bz2Compressor()
-        }
+        self.compressors = {CompressionAlgorithm.GZIP: GzipCompressor(), CompressionAlgorithm.BZIP2: Bz2Compressor()}
 
         # Add Zstd if available
         if ZSTD_AVAILABLE:
@@ -518,32 +485,32 @@ class AdaptiveCompressionManager:
 
         # Content type hints for algorithm selection
         self.content_hints = {
-            'text': CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE else CompressionAlgorithm.GZIP,
-            'json': CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE else CompressionAlgorithm.GZIP,
-            'xml': CompressionAlgorithm.BZIP2,  # XML compresses well with bzip2
-            'binary': CompressionAlgorithm.GZIP,
-            'default': CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE else CompressionAlgorithm.GZIP
+            "text": CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE else CompressionAlgorithm.GZIP,
+            "json": CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE else CompressionAlgorithm.GZIP,
+            "xml": CompressionAlgorithm.BZIP2,  # XML compresses well with bzip2
+            "binary": CompressionAlgorithm.GZIP,
+            "default": CompressionAlgorithm.ZSTD if ZSTD_AVAILABLE else CompressionAlgorithm.GZIP,
         }
 
         # Performance thresholds for adaptive selection
         self.size_thresholds = {
-            'small': 1024,        # <1KB - fast compression
-            'medium': 1024 * 100, # <100KB - balanced
-            'large': 1024 * 1024  # >1MB - maximum compression
+            "small": 1024,  # <1KB - fast compression
+            "medium": 1024 * 100,  # <100KB - balanced
+            "large": 1024 * 1024,  # >1MB - maximum compression
         }
 
         logger.info(
             "Compression manager initialized",
             algorithms_available=list(self.compressors.keys()),
             zstd_available=ZSTD_AVAILABLE,
-            adaptive_enabled=enable_adaptive
+            adaptive_enabled=enable_adaptive,
         )
 
     def _select_algorithm_and_level(
         self,
         data: bytes,
         content_type: Optional[str] = None,
-        priority: str = "balanced"  # "speed", "balanced", "ratio"
+        priority: str = "balanced",  # "speed", "balanced", "ratio"
     ) -> Tuple[CompressionAlgorithm, int]:
         """
         Select optimal compression algorithm and level.
@@ -560,7 +527,7 @@ class AdaptiveCompressionManager:
 
         if not self.enable_adaptive:
             # Use default algorithm and level
-            default_algo = self.content_hints.get('default')
+            default_algo = self.content_hints.get("default")
             return default_algo, 6
 
         # Select algorithm based on content type hint
@@ -569,17 +536,17 @@ class AdaptiveCompressionManager:
         else:
             # Analyze content to guess type
             try:
-                data_str = data.decode('utf-8', errors='ignore')[:1000]
-                if data_str.strip().startswith('{') or data_str.strip().startswith('['):
-                    algorithm = self.content_hints['json']
-                elif data_str.strip().startswith('<'):
-                    algorithm = self.content_hints['xml']
+                data_str = data.decode("utf-8", errors="ignore")[:1000]
+                if data_str.strip().startswith("{") or data_str.strip().startswith("["):
+                    algorithm = self.content_hints["json"]
+                elif data_str.strip().startswith("<"):
+                    algorithm = self.content_hints["xml"]
                 elif all(ord(c) < 128 for c in data_str[:100]):
-                    algorithm = self.content_hints['text']
+                    algorithm = self.content_hints["text"]
                 else:
-                    algorithm = self.content_hints['binary']
+                    algorithm = self.content_hints["binary"]
             except Exception as e:
-                algorithm = self.content_hints['default']
+                algorithm = self.content_hints["default"]
 
         # Ensure algorithm is available
         if algorithm not in self.compressors:
@@ -587,23 +554,23 @@ class AdaptiveCompressionManager:
 
         # Select compression level based on size and priority
         if priority == "speed":
-            if data_size < self.size_thresholds['small']:
+            if data_size < self.size_thresholds["small"]:
                 level = 1
-            elif data_size < self.size_thresholds['medium']:
+            elif data_size < self.size_thresholds["medium"]:
                 level = 3
             else:
                 level = 1  # Large files - prioritize speed
         elif priority == "ratio":
-            if data_size < self.size_thresholds['small']:
+            if data_size < self.size_thresholds["small"]:
                 level = 6  # Small files don't benefit much from max compression
-            elif data_size < self.size_thresholds['medium']:
+            elif data_size < self.size_thresholds["medium"]:
                 level = 9
             else:
                 level = 9  # Large files - maximum compression
         else:  # balanced
-            if data_size < self.size_thresholds['small']:
+            if data_size < self.size_thresholds["small"]:
                 level = 3
-            elif data_size < self.size_thresholds['medium']:
+            elif data_size < self.size_thresholds["medium"]:
                 level = 6
             else:
                 level = 6
@@ -620,7 +587,7 @@ class AdaptiveCompressionManager:
         content_type: Optional[str] = None,
         algorithm: Optional[CompressionAlgorithm] = None,
         level: Optional[int] = None,
-        priority: str = "balanced"
+        priority: str = "balanced",
     ) -> CompressionResult:
         """
         Compress data asynchronously with adaptive algorithm selection.
@@ -637,15 +604,13 @@ class AdaptiveCompressionManager:
         """
         # Convert string to bytes if needed
         if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
+            data_bytes = data.encode("utf-8")
         else:
             data_bytes = data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:
-            selected_algo, selected_level = self._select_algorithm_and_level(
-                data_bytes, content_type, priority
-            )
+            selected_algo, selected_level = self._select_algorithm_and_level(data_bytes, content_type, priority)
             if algorithm is None:
                 algorithm = selected_algo
             if level is None:
@@ -654,20 +619,14 @@ class AdaptiveCompressionManager:
         # Get compressor
         if algorithm not in self.compressors:
             return CompressionResult(
-                error=f"Unsupported compression algorithm: {algorithm}",
-                original_size=len(data_bytes)
+                error=f"Unsupported compression algorithm: {algorithm}", original_size=len(data_bytes)
             )
 
         compressor = self.compressors[algorithm]
 
         # Run compression in thread pool to avoid blocking
         loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(
-            None,
-            compressor.compress,
-            data_bytes,
-            level
-        )
+        result = await loop.run_in_executor(None, compressor.compress, data_bytes, level)
 
         # Update statistics
         self.stats.update_from_compression(result)
@@ -675,28 +634,18 @@ class AdaptiveCompressionManager:
         # Record metrics
         if result.success:
             metrics.record_histogram(
-                "compression_duration_ms",
-                result.compression_time_ms,
-                tags={"algorithm": algorithm.value}
+                "compression_duration_ms", result.compression_time_ms, tags={"algorithm": algorithm.value}
             )
-            metrics.record_histogram(
-                "compression_ratio",
-                result.compression_ratio,
-                tags={"algorithm": algorithm.value}
-            )
+            metrics.record_histogram("compression_ratio", result.compression_ratio, tags={"algorithm": algorithm.value})
             metrics.record_gauge(
-                "compression_speed_mbps",
-                result.compression_speed_mbps,
-                tags={"algorithm": algorithm.value}
+                "compression_speed_mbps", result.compression_speed_mbps, tags={"algorithm": algorithm.value}
             )
             metrics.increment_counter(
-                "compression_operations_total",
-                tags={"algorithm": algorithm.value, "result": "success"}
+                "compression_operations_total", tags={"algorithm": algorithm.value, "result": "success"}
             )
         else:
             metrics.increment_counter(
-                "compression_operations_total",
-                tags={"algorithm": algorithm.value, "result": "error"}
+                "compression_operations_total", tags={"algorithm": algorithm.value, "result": "error"}
             )
 
         logger.debug(
@@ -707,16 +656,13 @@ class AdaptiveCompressionManager:
             compressed_size=result.compressed_size,
             ratio=result.compression_ratio,
             speed_mbps=result.compression_speed_mbps,
-            success=result.success
+            success=result.success,
         )
 
         return result
 
     async def decompress_async(
-        self,
-        compressed_data: bytes,
-        algorithm: CompressionAlgorithm,
-        expected_checksum: Optional[str] = None
+        self, compressed_data: bytes, algorithm: CompressionAlgorithm, expected_checksum: Optional[str] = None
     ) -> DecompressionResult:
         """
         Decompress data asynchronously.
@@ -731,20 +677,13 @@ class AdaptiveCompressionManager:
         """
         # Get compressor
         if algorithm not in self.compressors:
-            return DecompressionResult(
-                error=f"Unsupported compression algorithm: {algorithm}"
-            )
+            return DecompressionResult(error=f"Unsupported compression algorithm: {algorithm}")
 
         compressor = self.compressors[algorithm]
 
         # Run decompression in thread pool to avoid blocking
         loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(
-            None,
-            compressor.decompress,
-            compressed_data,
-            expected_checksum
-        )
+        result = await loop.run_in_executor(None, compressor.decompress, compressed_data, expected_checksum)
 
         # Update statistics
         self.stats.update_from_decompression(result)
@@ -752,23 +691,17 @@ class AdaptiveCompressionManager:
         # Record metrics
         if result.success:
             metrics.record_histogram(
-                "decompression_duration_ms",
-                result.decompression_time_ms,
-                tags={"algorithm": algorithm.value}
+                "decompression_duration_ms", result.decompression_time_ms, tags={"algorithm": algorithm.value}
             )
             metrics.record_gauge(
-                "decompression_speed_mbps",
-                result.decompression_speed_mbps,
-                tags={"algorithm": algorithm.value}
+                "decompression_speed_mbps", result.decompression_speed_mbps, tags={"algorithm": algorithm.value}
             )
             metrics.increment_counter(
-                "decompression_operations_total",
-                tags={"algorithm": algorithm.value, "result": "success"}
+                "decompression_operations_total", tags={"algorithm": algorithm.value, "result": "success"}
             )
         else:
             metrics.increment_counter(
-                "decompression_operations_total",
-                tags={"algorithm": algorithm.value, "result": "error"}
+                "decompression_operations_total", tags={"algorithm": algorithm.value, "result": "error"}
             )
 
         return result
@@ -779,22 +712,20 @@ class AdaptiveCompressionManager:
         content_type: Optional[str] = None,
         algorithm: Optional[CompressionAlgorithm] = None,
         level: Optional[int] = None,
-        priority: str = "balanced"
+        priority: str = "balanced",
     ) -> CompressionResult:
         """
         Synchronous compression wrapper.
         """
         # Convert string to bytes if needed
         if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
+            data_bytes = data.encode("utf-8")
         else:
             data_bytes = data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:
-            selected_algo, selected_level = self._select_algorithm_and_level(
-                data_bytes, content_type, priority
-            )
+            selected_algo, selected_level = self._select_algorithm_and_level(data_bytes, content_type, priority)
             if algorithm is None:
                 algorithm = selected_algo
             if level is None:
@@ -803,8 +734,7 @@ class AdaptiveCompressionManager:
         # Get compressor
         if algorithm not in self.compressors:
             return CompressionResult(
-                error=f"Unsupported compression algorithm: {algorithm}",
-                original_size=len(data_bytes)
+                error=f"Unsupported compression algorithm: {algorithm}", original_size=len(data_bytes)
             )
 
         compressor = self.compressors[algorithm]
@@ -816,18 +746,13 @@ class AdaptiveCompressionManager:
         return result
 
     def decompress_sync(
-        self,
-        compressed_data: bytes,
-        algorithm: CompressionAlgorithm,
-        expected_checksum: Optional[str] = None
+        self, compressed_data: bytes, algorithm: CompressionAlgorithm, expected_checksum: Optional[str] = None
     ) -> DecompressionResult:
         """
         Synchronous decompression wrapper.
         """
         if algorithm not in self.compressors:
-            return DecompressionResult(
-                error=f"Unsupported compression algorithm: {algorithm}"
-            )
+            return DecompressionResult(error=f"Unsupported compression algorithm: {algorithm}")
 
         compressor = self.compressors[algorithm]
         result = compressor.decompress(compressed_data, expected_checksum)
@@ -844,29 +769,26 @@ class AdaptiveCompressionManager:
                 "compression_operations": self.stats.compression_operations,
                 "decompression_operations": self.stats.decompression_operations,
                 "compression_errors": self.stats.compression_errors,
-                "decompression_errors": self.stats.decompression_errors
+                "decompression_errors": self.stats.decompression_errors,
             },
             "performance": {
                 "avg_compression_speed_mbps": self.stats.avg_compression_speed_mbps,
                 "avg_decompression_speed_mbps": self.stats.avg_decompression_speed_mbps,
                 "total_compression_time_ms": self.stats.total_compression_time_ms,
-                "total_decompression_time_ms": self.stats.total_decompression_time_ms
+                "total_decompression_time_ms": self.stats.total_decompression_time_ms,
             },
             "quality": {
                 "avg_compression_ratio": self.stats.avg_compression_ratio,
                 "total_bytes_processed": self.stats.total_bytes_processed,
                 "total_bytes_saved": self.stats.total_bytes_saved,
-                "space_savings_percent": self.stats.overall_space_savings_percent
+                "space_savings_percent": self.stats.overall_space_savings_percent,
             },
-            "usage": {
-                "algorithm_usage": self.stats.algorithm_usage,
-                "level_usage": self.stats.level_usage
-            },
+            "usage": {"algorithm_usage": self.stats.algorithm_usage, "level_usage": self.stats.level_usage},
             "configuration": {
                 "adaptive_enabled": self.enable_adaptive,
                 "available_algorithms": [algo.value for algo in self.compressors.keys()],
-                "zstd_available": ZSTD_AVAILABLE
-            }
+                "zstd_available": ZSTD_AVAILABLE,
+            },
         }
 
         return stats_dict
@@ -875,7 +797,7 @@ class AdaptiveCompressionManager:
         self,
         test_data: bytes,
         algorithms: Optional[List[CompressionAlgorithm]] = None,
-        levels: Optional[List[int]] = None
+        levels: Optional[List[int]] = None,
     ) -> Dict[str, Dict[str, Any]]:
         """
         Benchmark different algorithms and levels for given data.
@@ -908,18 +830,12 @@ class AdaptiveCompressionManager:
                 level = max(compressor.min_level, min(level, compressor.max_level))
 
                 # Test compression
-                compression_result = await self.compress_async(
-                    test_data,
-                    algorithm=algorithm,
-                    level=level
-                )
+                compression_result = await self.compress_async(test_data, algorithm=algorithm, level=level)
 
                 if compression_result.success:
                     # Test decompression
                     decompression_result = await self.decompress_async(
-                        compression_result.compressed_data,
-                        algorithm,
-                        compression_result.checksum
+                        compression_result.compressed_data, algorithm, compression_result.checksum
                     )
 
                     algorithm_results[f"level_{level}"] = {
@@ -928,19 +844,19 @@ class AdaptiveCompressionManager:
                             "ratio": compression_result.compression_ratio,
                             "speed_mbps": compression_result.compression_speed_mbps,
                             "time_ms": compression_result.compression_time_ms,
-                            "space_saved_percent": compression_result.space_saved_percent
+                            "space_saved_percent": compression_result.space_saved_percent,
                         },
                         "decompression": {
                             "success": decompression_result.success,
                             "speed_mbps": decompression_result.decompression_speed_mbps,
                             "time_ms": decompression_result.decompression_time_ms,
-                            "checksum_valid": decompression_result.checksum_valid
-                        }
+                            "checksum_valid": decompression_result.checksum_valid,
+                        },
                     }
                 else:
                     algorithm_results[f"level_{level}"] = {
                         "compression": {"success": False, "error": compression_result.error},
-                        "decompression": {"success": False}
+                        "decompression": {"success": False},
                     }
 
             results[algorithm.value] = algorithm_results
@@ -949,7 +865,7 @@ class AdaptiveCompressionManager:
             "Algorithm benchmarking completed",
             test_data_size=len(test_data),
             algorithms_tested=len(algorithms),
-            levels_tested=len(levels)
+            levels_tested=len(levels),
         )
 
         return results

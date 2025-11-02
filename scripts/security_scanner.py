@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class SecurityFinding:
     """Security finding from scanner"""
+
     rule_id: str
     severity: str
     category: str
@@ -32,6 +33,7 @@ class SecurityFinding:
 @dataclass
 class VulnerabilityFinding:
     """Vulnerability finding from dependency scan"""
+
     package_name: str
     package_version: str
     vulnerability_id: str
@@ -43,6 +45,7 @@ class VulnerabilityFinding:
 @dataclass
 class SecretFinding:
     """Secret detection finding"""
+
     secret_type: str
     file_path: str
     line_number: int
@@ -83,10 +86,7 @@ class LUKHASSecurityScanner:
                     "severity": "ERROR",
                     "languages": ["python"],
                     "pattern": "$GUARDIAN.validate_request(..., bypass=True, ...)",
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["guardian-bypass"]
-                    }
+                    "metadata": {"category": "security", "subcategory": ["guardian-bypass"]},
                 },
                 {
                     "id": "lukhas-consciousness-unvalidated",
@@ -94,17 +94,10 @@ class LUKHASSecurityScanner:
                     "severity": "WARNING",
                     "languages": ["python"],
                     "patterns": [
-                        {
-                            "pattern": "consciousness.$METHOD(...)"
-                        },
-                        {
-                            "pattern-not-inside": "guardian.validate(...)"
-                        }
+                        {"pattern": "consciousness.$METHOD(...)"},
+                        {"pattern-not-inside": "guardian.validate(...)"},
                     ],
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["consciousness-validation"]
-                    }
+                    "metadata": {"category": "security", "subcategory": ["consciousness-validation"]},
                 },
                 {
                     "id": "lukhas-memory-injection",
@@ -112,17 +105,10 @@ class LUKHASSecurityScanner:
                     "severity": "ERROR",
                     "languages": ["python"],
                     "pattern-either": [
-                        {
-                            "pattern": "memory.query($USER_INPUT)"
-                        },
-                        {
-                            "pattern": "memory.embed($USER_INPUT)"
-                        }
+                        {"pattern": "memory.query($USER_INPUT)"},
+                        {"pattern": "memory.embed($USER_INPUT)"},
                     ],
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["injection"]
-                    }
+                    "metadata": {"category": "security", "subcategory": ["injection"]},
                 },
                 {
                     "id": "lukhas-identity-weak-auth",
@@ -130,17 +116,10 @@ class LUKHASSecurityScanner:
                     "severity": "WARNING",
                     "languages": ["python"],
                     "pattern-either": [
-                        {
-                            "pattern": "jwt.decode(..., verify=False, ...)"
-                        },
-                        {
-                            "pattern": "auth_required=False"
-                        }
+                        {"pattern": "jwt.decode(..., verify=False, ...)"},
+                        {"pattern": "auth_required=False"},
                     ],
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["authentication"]
-                    }
+                    "metadata": {"category": "security", "subcategory": ["authentication"]},
                 },
                 {
                     "id": "lukhas-oidc-insecure",
@@ -148,20 +127,11 @@ class LUKHASSecurityScanner:
                     "severity": "ERROR",
                     "languages": ["python"],
                     "pattern-either": [
-                        {
-                            "pattern": "verify_signature=False"
-                        },
-                        {
-                            "pattern": "verify_aud=False"
-                        },
-                        {
-                            "pattern": "verify_iss=False"
-                        }
+                        {"pattern": "verify_signature=False"},
+                        {"pattern": "verify_aud=False"},
+                        {"pattern": "verify_iss=False"},
                     ],
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["oidc"]
-                    }
+                    "metadata": {"category": "security", "subcategory": ["oidc"]},
                 },
                 {
                     "id": "lukhas-hardcoded-secrets",
@@ -169,23 +139,12 @@ class LUKHASSecurityScanner:
                     "severity": "ERROR",
                     "languages": ["python"],
                     "pattern-either": [
-                        {
-                            "pattern": "$VAR = \"sk-...\""
-                        },
-                        {
-                            "pattern": "$VAR = \"ghp_...\""
-                        },
-                        {
-                            "pattern": "password = \"...\""
-                        },
-                        {
-                            "pattern": "api_key = \"...\""
-                        }
+                        {"pattern": '$VAR = "sk-..."'},
+                        {"pattern": '$VAR = "ghp_..."'},
+                        {"pattern": 'password = "..."'},
+                        {"pattern": 'api_key = "..."'},
                     ],
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["secrets"]
-                    }
+                    "metadata": {"category": "security", "subcategory": ["secrets"]},
                 },
                 {
                     "id": "lukhas-sql-injection",
@@ -193,17 +152,10 @@ class LUKHASSecurityScanner:
                     "severity": "ERROR",
                     "languages": ["python"],
                     "pattern-either": [
-                        {
-                            "pattern": "cursor.execute(f\"... {$VAR} ...\")"
-                        },
-                        {
-                            "pattern": "query = f\"... {$VAR} ...\""
-                        }
+                        {"pattern": 'cursor.execute(f"... {$VAR} ...")'},
+                        {"pattern": 'query = f"... {$VAR} ..."'},
                     ],
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["injection"]
-                    }
+                    "metadata": {"category": "security", "subcategory": ["injection"]},
                 },
                 {
                     "id": "lukhas-unsafe-deserialization",
@@ -211,27 +163,19 @@ class LUKHASSecurityScanner:
                     "severity": "ERROR",
                     "languages": ["python"],
                     "pattern-either": [
-                        {
-                            "pattern": "pickle.loads($VAR)"
-                        },
-                        {
-                            "pattern": "marshal.loads($VAR)"
-                        },
-                        {
-                            "pattern": "eval($VAR)"
-                        }
+                        {"pattern": "pickle.loads($VAR)"},
+                        {"pattern": "marshal.loads($VAR)"},
+                        {"pattern": "eval($VAR)"},
                     ],
-                    "metadata": {
-                        "category": "security",
-                        "subcategory": ["deserialization"]
-                    }
-                }
+                    "metadata": {"category": "security", "subcategory": ["deserialization"]},
+                },
             ]
         }
 
         rules_file = rules_dir / "lukhas_security_rules.yml"
-        with open(rules_file, 'w') as f:
+        with open(rules_file, "w") as f:
             import yaml
+
             yaml.dump(lukhas_rules, f, default_flow_style=False)
 
         return rules_file
@@ -249,12 +193,15 @@ class LUKHASSecurityScanner:
             # Run semgrep with custom rules
             cmd = [
                 "semgrep",
-                "--config", str(custom_rules),
-                "--config", "p/python",
-                "--config", "p/security-audit",
+                "--config",
+                str(custom_rules),
+                "--config",
+                "p/python",
+                "--config",
+                "p/security-audit",
                 "--json",
                 "--quiet",
-                str(self.project_root)
+                str(self.project_root),
             ]
 
             result = subprocess.run(cmd, capture_output=True, text=True)
@@ -272,7 +219,7 @@ class LUKHASSecurityScanner:
                             file_path=finding["path"],
                             line_number=finding["start"]["line"],
                             code_snippet=finding["extra"].get("lines", ""),
-                            fix_suggestion=finding["extra"].get("fix", None)
+                            fix_suggestion=finding["extra"].get("fix", None),
                         )
                         findings.append(security_finding)
             else:
@@ -294,11 +241,14 @@ class LUKHASSecurityScanner:
         try:
             cmd = [
                 "bandit",
-                "-r", str(self.project_root),
-                "-f", "json",
+                "-r",
+                str(self.project_root),
+                "-f",
+                "json",
                 "-ll",  # Low confidence threshold
-                "-i",   # Skip tests directory
-                "--exclude", "*/tests/*,*/test_*,*/.venv/*,*/venv/*,*/node_modules/*"
+                "-i",  # Skip tests directory
+                "--exclude",
+                "*/tests/*,*/test_*,*/.venv/*,*/venv/*,*/node_modules/*",
             ]
 
             result = subprocess.run(cmd, capture_output=True, text=True)
@@ -318,7 +268,7 @@ class LUKHASSecurityScanner:
                             file_path=finding["filename"],
                             line_number=finding["line_number"],
                             code_snippet=finding["code"],
-                            fix_suggestion=finding.get("more_info", None)
+                            fix_suggestion=finding.get("more_info", None),
                         )
                         findings.append(security_finding)
             else:
@@ -354,7 +304,7 @@ class LUKHASSecurityScanner:
                             vulnerability_id=vuln["vulnerability_id"],
                             severity="HIGH",  # Safety doesn't provide severity levels
                             description=vuln["advisory"],
-                            fix_version=None  # Could extract from advisory text
+                            fix_version=None,  # Could extract from advisory text
                         )
                         findings.append(vulnerability_finding)
 
@@ -396,8 +346,8 @@ class LUKHASSecurityScanner:
                 continue
 
             try:
-                content = py_file.read_text(encoding='utf-8')
-                lines = content.split('\n')
+                content = py_file.read_text(encoding="utf-8")
+                lines = content.split("\n")
 
                 for line_num, line in enumerate(lines, 1):
                     for secret_type, pattern in secret_patterns.items():
@@ -405,10 +355,20 @@ class LUKHASSecurityScanner:
 
                         for match in matches:
                             # Skip if it looks like a test or example
-                            if any(skip in line.lower() for skip in [
-                                "test", "example", "demo", "placeholder",
-                                "fake", "mock", "sample", "todo", "fixme"
-                            ]):
+                            if any(
+                                skip in line.lower()
+                                for skip in [
+                                    "test",
+                                    "example",
+                                    "demo",
+                                    "placeholder",
+                                    "fake",
+                                    "mock",
+                                    "sample",
+                                    "todo",
+                                    "fixme",
+                                ]
+                            ):
                                 continue
 
                             secret_finding = SecretFinding(
@@ -416,7 +376,9 @@ class LUKHASSecurityScanner:
                                 file_path=str(py_file.relative_to(self.project_root)),
                                 line_number=line_num,
                                 pattern=match.group()[:50] + "..." if len(match.group()) > 50 else match.group(),
-                                confidence="HIGH" if secret_type in ["openai_api_key", "anthropic_api_key"] else "MEDIUM"
+                                confidence=(
+                                    "HIGH" if secret_type in ["openai_api_key", "anthropic_api_key"] else "MEDIUM"
+                                ),
                             )
                             findings.append(secret_finding)
 
@@ -445,11 +407,11 @@ class LUKHASSecurityScanner:
 
         # Determine deployment status
         deployment_blocked = (
-            critical_count > self.max_critical_findings or
-            high_count > self.max_high_findings or
-            vuln_critical > 0 or
-            vuln_high > 0 or
-            high_conf_secrets > self.max_secrets
+            critical_count > self.max_critical_findings
+            or high_count > self.max_high_findings
+            or vuln_critical > 0
+            or vuln_high > 0
+            or high_conf_secrets > self.max_secrets
         )
 
         report = {
@@ -459,7 +421,7 @@ class LUKHASSecurityScanner:
             "scanner_info": {
                 "version": "1.0.0",
                 "tools_used": ["semgrep", "bandit", "safety", "custom_secrets_scanner"],
-                "rules_applied": ["lukhas_custom", "python_security", "security_audit"]
+                "rules_applied": ["lukhas_custom", "python_security", "security_audit"],
             },
             "security_findings": {
                 "static_analysis": {
@@ -467,26 +429,26 @@ class LUKHASSecurityScanner:
                     "high": high_count,
                     "medium": medium_count,
                     "low": low_count,
-                    "total": len(self.static_findings)
+                    "total": len(self.static_findings),
                 },
                 "dependencies": {
                     "critical": vuln_critical,
                     "high": vuln_high,
                     "medium": vuln_medium,
-                    "total": len(self.vulnerability_findings)
+                    "total": len(self.vulnerability_findings),
                 },
                 "secrets": {
                     "high_confidence": high_conf_secrets,
                     "medium_confidence": medium_conf_secrets,
-                    "total": len(self.secret_findings)
+                    "total": len(self.secret_findings),
                 },
                 "overall": {
                     "critical": critical_count + vuln_critical,
                     "high": high_count + vuln_high,
                     "medium": medium_count + vuln_medium,
                     "low": low_count,
-                    "secrets": len(self.secret_findings)
-                }
+                    "secrets": len(self.secret_findings),
+                },
             },
             "compliance_status": {
                 "t4_excellence_standards": {
@@ -495,27 +457,27 @@ class LUKHASSecurityScanner:
                     "max_secrets_allowed": self.max_secrets,
                     "critical_compliant": critical_count <= self.max_critical_findings,
                     "high_compliant": high_count <= self.max_high_findings,
-                    "secrets_compliant": high_conf_secrets <= self.max_secrets
+                    "secrets_compliant": high_conf_secrets <= self.max_secrets,
                 },
                 "dependency_security": {
                     "vulnerable_packages": len(self.vulnerability_findings),
                     "critical_vulnerabilities": vuln_critical,
                     "high_vulnerabilities": vuln_high,
-                    "dependency_compliant": vuln_critical == 0 and vuln_high == 0
+                    "dependency_compliant": vuln_critical == 0 and vuln_high == 0,
                 },
                 "secrets_management": {
                     "hardcoded_secrets_detected": len(self.secret_findings),
                     "high_confidence_secrets": high_conf_secrets,
-                    "secrets_compliant": high_conf_secrets == 0
-                }
+                    "secrets_compliant": high_conf_secrets == 0,
+                },
             },
             "deployment_readiness": "BLOCKED" if deployment_blocked else "APPROVED",
             "recommendations": self._generate_recommendations(),
             "findings_details": {
                 "static_analysis": [asdict(f) for f in self.static_findings],
                 "vulnerabilities": [asdict(v) for v in self.vulnerability_findings],
-                "secrets": [asdict(s) for s in self.secret_findings]
-            }
+                "secrets": [asdict(s) for s in self.secret_findings],
+            },
         }
 
         return report
@@ -523,9 +485,7 @@ class LUKHASSecurityScanner:
     def _get_git_sha(self) -> str:
         """Get current git SHA"""
         try:
-            result = subprocess.run(["git", "rev-parse", "HEAD"],
-                                   capture_output=True, text=True,
-                                   cwd=self.project_root)
+            result = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=self.project_root)
             if result.returncode == 0:
                 return result.stdout.strip()
         except Exception:
@@ -569,7 +529,7 @@ class LUKHASSecurityScanner:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = self.output_dir / f"security-scan-{timestamp}.json"
 
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
         print("\n📊 Security Scan Results:")

@@ -59,9 +59,7 @@ def _looks_like_triple_quoted(token_string: str) -> bool:
     return stripped.startswith('"""') or stripped.startswith("'''")
 
 
-def _extract_todos_from_string_token(
-    filepath: Path, token: tokenize.TokenInfo
-) -> List[Dict[str, str]]:
+def _extract_todos_from_string_token(filepath: Path, token: tokenize.TokenInfo) -> List[Dict[str, str]]:
     try:
         string_value = ast.literal_eval(token.string)
     except (ValueError, SyntaxError):
@@ -87,6 +85,7 @@ def _extract_todos_from_string_token(
                 break
 
     return todos
+
 
 # Security/safety keywords that require special handling
 SECURITY_KEYWORDS = [
@@ -142,9 +141,7 @@ def is_security_related(message: str) -> bool:
     return any(keyword in message_lower for keyword in SECURITY_KEYWORDS)
 
 
-def create_todo_entry(
-    filepath: Path, line_num: int, match_groups: Tuple[Optional[str], ...]
-) -> Dict[str, str]:
+def create_todo_entry(filepath: Path, line_num: int, match_groups: Tuple[Optional[str], ...]) -> Dict[str, str]:
     message = (match_groups[-1] or "").strip()
     metadata = parse_todo_metadata(match_groups[:-1])
 

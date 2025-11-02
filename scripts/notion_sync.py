@@ -58,7 +58,7 @@ REPORTS_DIR = ROOT / "reports"
 HEADERS = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
     "Notion-Version": "2022-06-28",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
 }
 
 
@@ -92,8 +92,7 @@ def append_ledger(record: Dict[str, Any]):
 def md_diff(before: str, after: str) -> str:
     """Generate unified diff"""
     diff = difflib.unified_diff(
-        before.splitlines(), after.splitlines(),
-        fromfile="notion(before)", tofile="notion(after)", lineterm=""
+        before.splitlines(), after.splitlines(), fromfile="notion(before)", tofile="notion(after)", lineterm=""
     )
     return "\n".join(diff)
 
@@ -135,13 +134,7 @@ class NotionClient:
     def find_page_by_module(self, module: str) -> Optional[str]:
         """Find existing page by Module title"""
         url = f"https://api.notion.com/v1/databases/{self.db_id}/query"
-        payload = {
-            "filter": {
-                "property": "Module",
-                "title": {"equals": module}
-            },
-            "page_size": 1
-        }
+        payload = {"filter": {"property": "Module", "title": {"equals": module}}, "page_size": 1}
         res = self._post(url, payload)
         results = res.get("results", [])
         if results:
@@ -159,36 +152,18 @@ class NotionClient:
             return None
 
     def create_or_update_page(
-        self,
-        module: str,
-        props: Dict[str, Any],
-        blocks: List[Dict[str, Any]],
-        page_id: Optional[str],
-        dry_run: bool
+        self, module: str, props: Dict[str, Any], blocks: List[Dict[str, Any]], page_id: Optional[str], dry_run: bool
     ) -> Dict[str, Any]:
         """Create new page or update existing one"""
         if page_id:
             if dry_run:
-                return {
-                    "action": "update(dry-run)",
-                    "page_id": page_id,
-                    "properties": props,
-                    "blocks": blocks
-                }
+                return {"action": "update(dry-run)", "page_id": page_id, "properties": props, "blocks": blocks}
             url = f"https://api.notion.com/v1/pages/{page_id}"
             return self._patch(url, {"properties": props})
         else:
-            payload = {
-                "parent": {"database_id": self.db_id},
-                "properties": props,
-                "children": blocks
-            }
+            payload = {"parent": {"database_id": self.db_id}, "properties": props, "children": blocks}
             if dry_run:
-                return {
-                    "action": "create(dry-run)",
-                    "properties": props,
-                    "blocks": blocks
-                }
+                return {"action": "create(dry-run)", "properties": props, "blocks": blocks}
             url = "https://api.notion.com/v1/pages"
             return self._post(url, payload)
 
@@ -225,24 +200,12 @@ def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str
         api_lines.append(f"- {name} ({mod})  import:{iv}  docs:{doc}")
 
     props = {
-        "Module": {
-            "title": [{"text": {"content": manifest.get("module", "")}}]
-        },
-        "Description": {
-            "rich_text": [{"text": {"content": manifest.get("description", "")[:2000]}}]
-        },
-        "Features": {
-            "multi_select": feat_select
-        },
-        "APIs": {
-            "rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "—"}}]
-        },
-        "Provenance SHA": {
-            "rich_text": [{"text": {"content": content_sha}}]
-        },
-        "Updated At": {
-            "date": {"start": utcnow()}
-        }
+        "Module": {"title": [{"text": {"content": manifest.get("module", "")}}]},
+        "Description": {"rich_text": [{"text": {"content": manifest.get("description", "")[:2000]}}]},
+        "Features": {"multi_select": feat_select},
+        "APIs": {"rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "—"}}]},
+        "Provenance SHA": {"rich_text": [{"text": {"content": content_sha}}]},
+        "Updated At": {"date": {"start": utcnow()}},
     }
 
     # Add optional numeric fields (Notion rejects null numbers)
@@ -271,21 +234,24 @@ def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
 
     text = "📊 Observed Metrics\n" + "\n".join(rows)
 
-    return [{
-        "object": "block",
-        "type": "callout",
-        "callout": {
-            "rich_text": [{"type": "text", "text": {"content": text}}],
-            "icon": {"emoji": "📊"},
-            "color": "gray_background"
+    return [
+        {
+            "object": "block",
+            "type": "callout",
+            "callout": {
+                "rich_text": [{"type": "text", "text": {"content": text}}],
+                "icon": {"emoji": "📊"},
+                "color": "gray_background",
+            },
         }
-    }]
+    ]
 
 
 def load_manifests(root: Path, selection: Optional[str]) -> List[Path]:
     """Find manifests to sync"""
     paths = [
-        m for m in root.rglob("module.manifest.json")
+        m
+        for m in root.rglob("module.manifest.json")
         if not any(part in m.parts for part in ["node_modules", ".venv", "dist", "__pycache__"])
     ]
 
@@ -310,17 +276,13 @@ def validate_manifest(path: Path, validator: Draft202012Validator, vocab_feature
     bad_tags = [t for t in data.get("tags", []) if t not in vocab_tags]
 
     if unknown or bad_tags:
-        raise ValueError(
-            f"Vocab violation: unknown_features={unknown}, bad_tags={bad_tags}"
-        )
+        raise ValueError(f"Vocab violation: unknown_features={unknown}, bad_tags={bad_tags}")
 
     return data
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Sync enriched manifests to Notion database"
-    )
+    ap = argparse.ArgumentParser(description="Sync enriched manifests to Notion database")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--all", action="store_true", help="Sync all manifests")
     g.add_argument("--module", help="Sync a single module by folder name")
@@ -390,51 +352,59 @@ def main():
             preview = md_diff(before, after)
             print(preview or f"~ {module}: would {action}")
 
-            append_ledger({
-                "ts": utcnow(),
-                "module": module,
-                "page_id": page_id,
-                "sha": sha,
-                "action": f"{action}-dryrun",
-                "status": "preview"
-            })
+            append_ledger(
+                {
+                    "ts": utcnow(),
+                    "module": module,
+                    "page_id": page_id,
+                    "sha": sha,
+                    "action": f"{action}-dryrun",
+                    "status": "preview",
+                }
+            )
 
         elif not unchanged:
             # Upsert
             try:
                 res = client.create_or_update_page(module, props, blocks, page_id, dry_run=False)
-                append_ledger({
-                    "ts": utcnow(),
-                    "module": module,
-                    "page_id": res.get("id", page_id),
-                    "sha": sha,
-                    "action": action,
-                    "status": "success"
-                })
+                append_ledger(
+                    {
+                        "ts": utcnow(),
+                        "module": module,
+                        "page_id": res.get("id", page_id),
+                        "sha": sha,
+                        "action": action,
+                        "status": "success",
+                    }
+                )
                 print(f"✅ {module}: {action}")
 
             except Exception as err:
-                append_ledger({
-                    "ts": utcnow(),
-                    "module": module,
-                    "page_id": page_id,
-                    "sha": sha,
-                    "action": action,
-                    "status": "error",
-                    "error": str(err)
-                })
+                append_ledger(
+                    {
+                        "ts": utcnow(),
+                        "module": module,
+                        "page_id": page_id,
+                        "sha": sha,
+                        "action": action,
+                        "status": "error",
+                        "error": str(err),
+                    }
+                )
                 print(f"❌ {module}: {err}")
                 continue
         else:
             # Unchanged skip
-            append_ledger({
-                "ts": utcnow(),
-                "module": module,
-                "page_id": page_id,
-                "sha": sha,
-                "action": "skip",
-                "status": "sha_match"
-            })
+            append_ledger(
+                {
+                    "ts": utcnow(),
+                    "module": module,
+                    "page_id": page_id,
+                    "sha": sha,
+                    "action": "skip",
+                    "status": "sha_match",
+                }
+            )
             print(f"⏭️  {module}: skip (sha match)")
 
         reports.append(result)
@@ -446,7 +416,7 @@ def main():
         totals = {
             "create": sum(1 for r in reports if r["action"] == "create"),
             "update": sum(1 for r in reports if r["action"] == "update"),
-            "skip": sum(1 for r in reports if r["action"].startswith("skip"))
+            "skip": sum(1 for r in reports if r["action"].startswith("skip")),
         }
 
         md_lines = [
@@ -457,7 +427,7 @@ def main():
             f"- **Created**: {totals['create']}",
             f"- **Updated**: {totals['update']}",
             f"- **Skipped**: {totals['skip']}",
-            ""
+            "",
         ]
 
         if reports:

@@ -1,4 +1,5 @@
 """Test consciousness bridge exports and contract."""
+
 import pytest
 
 
@@ -7,7 +8,7 @@ def test_dream_bridge_exports():
     from consciousness.dream import dream
 
     # Should be a module
-    assert hasattr(dream, '__file__')
+    assert hasattr(dream, "__file__")
 
 
 def test_awareness_bridge_exports():
@@ -15,7 +16,7 @@ def test_awareness_bridge_exports():
     from consciousness.awareness import awareness
 
     # Should be a module
-    assert hasattr(awareness, '__file__')
+    assert hasattr(awareness, "__file__")
 
 
 def test_reflection_bridge_exports():

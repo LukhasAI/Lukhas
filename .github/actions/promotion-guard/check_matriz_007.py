@@ -34,6 +34,7 @@ if not REPO:
 
 API_BASE = f"https://api.github.com/repos/{REPO}"
 
+
 def fetch_issue(n: str) -> dict:
     url = f"{API_BASE}/issues/{n}"
     headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
@@ -43,7 +44,8 @@ def fetch_issue(n: str) -> dict:
         sys.exit(1)
     return resp.json()
 
-def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> Tuple[List[Tuple[int,str]], List[Tuple[int,str]]]:
+
+def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> Tuple[List[Tuple[int, str]], List[Tuple[int, str]]]:
     """
     Return (checked_items, unchecked_items)
     Each item is (line_number, line_text)
@@ -72,33 +74,34 @@ def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> Tuple[List[T
         ln = lines[i].strip()
         # stop if we hit another top heading or "Week <n>" heading when we started under Week 6
         if heading_idx is not None:
-            if re.match(r'^\s*#+\s+', lines[i]) or re.match(r'^\s*Week\s+\d+', lines[i], re.I):
+            if re.match(r"^\s*#+\s+", lines[i]) or re.match(r"^\s*Week\s+\d+", lines[i], re.I):
                 # Stop if it's a new heading and it's not the first lines immediately after our heading
-                if i > heading_idx + 1 and ln != '':
+                if i > heading_idx + 1 and ln != "":
                     break
         # Match checkbox patterns
-        m_checked = re.match(r'^\s*[-*]\s*\[\s*[xX]\s*\]\s*(.+)', ln)
-        m_unchecked = re.match(r'^\s*[-*]\s*\[\s*\]\s*(.+)', ln)
+        m_checked = re.match(r"^\s*[-*]\s*\[\s*[xX]\s*\]\s*(.+)", ln)
+        m_unchecked = re.match(r"^\s*[-*]\s*\[\s*\]\s*(.+)", ln)
         if m_checked:
-            checked.append((i+1, m_checked.group(1).strip()))
+            checked.append((i + 1, m_checked.group(1).strip()))
         elif m_unchecked:
-            unchecked.append((i+1, m_unchecked.group(1).strip()))
+            unchecked.append((i + 1, m_unchecked.group(1).strip()))
         # Stop heuristics: if heading was not found and we've scanned a chunk with checkboxes, stop after pass
-        if heading_idx is None and (checked or unchecked) and ln == '':
+        if heading_idx is None and (checked or unchecked) and ln == "":
             # ended checkbox region
             break
         i += 1
     return checked, unchecked
+
 
 def print_blockers(issue):
     state = issue.get("state")
     title = issue.get("title")
     number = issue.get("number")
     body = issue.get("body") or ""
-    print("="*80)
+    print("=" * 80)
     print(f"MATRIZ Issue #{number}: {title}")
     print(f"State: {state.upper()}")
-    print("="*80)
+    print("=" * 80)
     print()
     # Find week6 checkboxes
     checked, unchecked = extract_week6_checkboxes(body, WEEK_HEADING)
@@ -112,7 +115,9 @@ def print_blockers(issue):
             blockers.append(f" - Line {ln}: {txt}")
     # If no explicit Week 6 found and issue open, warn
     if not checked and not unchecked:
-        blockers.append("No Week 6 checklist section found. Ensure a 'Week 6' checklist exists in the issue body and all items are checked.")
+        blockers.append(
+            "No Week 6 checklist section found. Ensure a 'Week 6' checklist exists in the issue body and all items are checked."
+        )
     if not blockers:
         print("No blockers found: Issue appears CLOSED and Week 6 checklist (if present) has all items checked.")
         return []
@@ -122,11 +127,18 @@ def print_blockers(issue):
         print(" * " + b)
     print()
     print("REMEDIATION:")
-    print(" - Close the issue #{} after confirming Week 6 completion. Use the issue checklist to mark items done.".format(ISSUE_NUMBER))
-    print(" - Ensure the Week 6 checklist in the issue body contains items such as: 'Dilithium2 sign/verify passed', 'Key rotation implemented', 'Red-team sign-off', 'Performance validated', etc.")
+    print(
+        " - Close the issue #{} after confirming Week 6 completion. Use the issue checklist to mark items done.".format(
+            ISSUE_NUMBER
+        )
+    )
+    print(
+        " - Ensure the Week 6 checklist in the issue body contains items such as: 'Dilithium2 sign/verify passed', 'Key rotation implemented', 'Red-team sign-off', 'Performance validated', etc."
+    )
     print(" - After closing and verifying, re-run CI to allow promotion.")
-    print("="*80)
+    print("=" * 80)
     return blockers
+
 
 def main():
     issue = fetch_issue(ISSUE_NUMBER)
@@ -138,6 +150,7 @@ def main():
     else:
         print("\nPromotion guard: PASS — MATRIZ-007 appears completed for Week 6.")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

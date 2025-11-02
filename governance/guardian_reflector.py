@@ -22,26 +22,29 @@ logger = logging.getLogger(__name__)
 
 class DriftSeverity(Enum):
     """Drift severity levels for escalation management"""
-    MINIMAL = "minimal"          # < 0.05 - Normal variation
-    LOW = "low"                 # 0.05-0.10 - Minor concern
-    MODERATE = "moderate"       # 0.10-0.15 - Monitoring required
-    HIGH = "high"              # 0.15-0.25 - Threshold exceeded, action needed
-    CRITICAL = "critical"       # > 0.25 - Immediate intervention required
+
+    MINIMAL = "minimal"  # < 0.05 - Normal variation
+    LOW = "low"  # 0.05-0.10 - Minor concern
+    MODERATE = "moderate"  # 0.10-0.15 - Monitoring required
+    HIGH = "high"  # 0.15-0.25 - Threshold exceeded, action needed
+    CRITICAL = "critical"  # > 0.25 - Immediate intervention required
 
 
 class DriftType(Enum):
     """Types of drift patterns detected"""
-    BEHAVIORAL = "behavioral"   # Changes in behavior patterns
-    PERFORMANCE = "performance" # Performance degradation
-    ETHICAL = "ethical"        # Ethical compliance issues
-    FREQUENCY = "frequency"    # Request frequency anomalies
-    CONTENT = "content"        # Content/response quality drift
-    TEMPORAL = "temporal"      # Time-based pattern changes
+
+    BEHAVIORAL = "behavioral"  # Changes in behavior patterns
+    PERFORMANCE = "performance"  # Performance degradation
+    ETHICAL = "ethical"  # Ethical compliance issues
+    FREQUENCY = "frequency"  # Request frequency anomalies
+    CONTENT = "content"  # Content/response quality drift
+    TEMPORAL = "temporal"  # Time-based pattern changes
 
 
 @dataclass
 class DriftIndicator:
     """Individual drift measurement and metadata"""
+
     drift_type: DriftType
     severity: DriftSeverity
     score: float
@@ -55,6 +58,7 @@ class DriftIndicator:
 @dataclass
 class DriftAnalysis:
     """Comprehensive drift analysis result"""
+
     overall_drift_score: float
     severity: DriftSeverity
     indicators: List[DriftIndicator]
@@ -69,6 +73,7 @@ class DriftAnalysis:
 @dataclass
 class RemediationPlan:
     """Automated remediation plan for drift issues"""
+
     plan_id: str
     drift_analysis: DriftAnalysis
     actions: List[Dict[str, Any]]
@@ -104,9 +109,9 @@ class GuardianReflector:
         # Drift tracking and analysis
         self.drift_history: deque = deque(maxlen=1000)  # Last 1000 measurements
         self.drift_windows = {
-            "short": deque(maxlen=50),   # Last 50 for immediate analysis
-            "medium": deque(maxlen=200), # Last 200 for trend analysis
-            "long": deque(maxlen=500)    # Last 500 for baseline
+            "short": deque(maxlen=50),  # Last 50 for immediate analysis
+            "medium": deque(maxlen=200),  # Last 200 for trend analysis
+            "long": deque(maxlen=500),  # Last 500 for baseline
         }
 
         # Pattern recognition and prediction
@@ -139,7 +144,7 @@ class GuardianReflector:
             Comprehensive drift analysis with predictions and recommendations
         """
         start_time = time.time()
-        correlation_id = context_data.get('correlation_id', str(uuid.uuid4()))
+        correlation_id = context_data.get("correlation_id", str(uuid.uuid4()))
 
         try:
             self.logger.debug(f"Starting drift analysis - correlation_id: {correlation_id}")
@@ -158,9 +163,7 @@ class GuardianReflector:
             prediction = await self._predict_future_drift(indicators, context_data)
 
             # Generate remediation recommendations
-            recommendations = await self._generate_remediation_recommendations(
-                indicators, overall_score, severity
-            )
+            recommendations = await self._generate_remediation_recommendations(indicators, overall_score, severity)
 
             # Calculate confidence score
             confidence = self._calculate_analysis_confidence(indicators, len(self.drift_history))
@@ -174,7 +177,7 @@ class GuardianReflector:
                 remediation_recommendations=recommendations,
                 correlation_id=correlation_id,
                 analysis_timestamp=time.time(),
-                confidence_score=confidence
+                confidence_score=confidence,
             )
 
             # Store for trend analysis
@@ -210,7 +213,7 @@ class GuardianReflector:
         Returns:
             Risk prediction with confidence intervals and timeframes
         """
-        correlation_id = behavioral_data.get('correlation_id', str(uuid.uuid4()))
+        correlation_id = behavioral_data.get("correlation_id", str(uuid.uuid4()))
 
         try:
             # Extract risk indicators from behavioral data
@@ -229,18 +232,16 @@ class GuardianReflector:
                 "risk_breakdown": {
                     "short_term": short_term_risk,  # Next 1-5 minutes
                     "medium_term": medium_term_risk,  # Next 15-30 minutes
-                    "long_term": long_term_risk    # Next 1-4 hours
+                    "long_term": long_term_risk,  # Next 1-4 hours
                 },
                 "risk_factors": risk_indicators,
                 "confidence": confidence,
                 "prediction_timestamp": time.time(),
                 "correlation_id": correlation_id,
-                "risk_level": self._categorize_risk_level(
-                    max(short_term_risk, medium_term_risk, long_term_risk)
-                ),
+                "risk_level": self._categorize_risk_level(max(short_term_risk, medium_term_risk, long_term_risk)),
                 "recommended_actions": self._recommend_risk_mitigation_actions(
                     max(short_term_risk, medium_term_risk, long_term_risk)
-                )
+                ),
             }
 
             return risk_prediction
@@ -276,8 +277,8 @@ class GuardianReflector:
 
         # Determine if human approval is required
         approval_required = (
-            drift_analysis.severity in [DriftSeverity.HIGH, DriftSeverity.CRITICAL] or
-            risk_assessment.get("intervention_risk", 0.0) > 0.3
+            drift_analysis.severity in [DriftSeverity.HIGH, DriftSeverity.CRITICAL]
+            or risk_assessment.get("intervention_risk", 0.0) > 0.3
         )
 
         plan = RemediationPlan(
@@ -288,7 +289,7 @@ class GuardianReflector:
             estimated_effectiveness=effectiveness,
             estimated_duration_minutes=duration,
             risk_assessment=risk_assessment,
-            approval_required=approval_required
+            approval_required=approval_required,
         )
 
         self.logger.info(
@@ -300,49 +301,56 @@ class GuardianReflector:
 
     # Private helper methods for drift analysis
 
-    async def _detect_multi_dimensional_drift(self, context_data: Dict[str, Any],
-                                            correlation_id: str) -> List[DriftIndicator]:
+    async def _detect_multi_dimensional_drift(
+        self, context_data: Dict[str, Any], correlation_id: str
+    ) -> List[DriftIndicator]:
         """Detect drift across multiple dimensions"""
         indicators = []
 
         # Behavioral drift detection
         behavioral_drift = await self._detect_behavioral_drift(context_data)
         if behavioral_drift > 0.01:  # Minimal threshold for detection
-            indicators.append(DriftIndicator(
-                drift_type=DriftType.BEHAVIORAL,
-                severity=self._determine_severity(behavioral_drift),
-                score=behavioral_drift,
-                timestamp=time.time(),
-                correlation_id=correlation_id,
-                source="behavioral_analyzer",
-                confidence=0.85
-            ))
+            indicators.append(
+                DriftIndicator(
+                    drift_type=DriftType.BEHAVIORAL,
+                    severity=self._determine_severity(behavioral_drift),
+                    score=behavioral_drift,
+                    timestamp=time.time(),
+                    correlation_id=correlation_id,
+                    source="behavioral_analyzer",
+                    confidence=0.85,
+                )
+            )
 
         # Performance drift detection
         performance_drift = await self._detect_performance_drift(context_data)
         if performance_drift > 0.01:
-            indicators.append(DriftIndicator(
-                drift_type=DriftType.PERFORMANCE,
-                severity=self._determine_severity(performance_drift),
-                score=performance_drift,
-                timestamp=time.time(),
-                correlation_id=correlation_id,
-                source="performance_analyzer",
-                confidence=0.90
-            ))
+            indicators.append(
+                DriftIndicator(
+                    drift_type=DriftType.PERFORMANCE,
+                    severity=self._determine_severity(performance_drift),
+                    score=performance_drift,
+                    timestamp=time.time(),
+                    correlation_id=correlation_id,
+                    source="performance_analyzer",
+                    confidence=0.90,
+                )
+            )
 
         # Ethical drift detection
         ethical_drift = await self._detect_ethical_drift(context_data)
         if ethical_drift > 0.01:
-            indicators.append(DriftIndicator(
-                drift_type=DriftType.ETHICAL,
-                severity=self._determine_severity(ethical_drift),
-                score=ethical_drift,
-                timestamp=time.time(),
-                correlation_id=correlation_id,
-                source="ethical_analyzer",
-                confidence=0.95  # High confidence for ethical assessments
-            ))
+            indicators.append(
+                DriftIndicator(
+                    drift_type=DriftType.ETHICAL,
+                    severity=self._determine_severity(ethical_drift),
+                    score=ethical_drift,
+                    timestamp=time.time(),
+                    correlation_id=correlation_id,
+                    source="ethical_analyzer",
+                    confidence=0.95,  # High confidence for ethical assessments
+                )
+            )
 
         return indicators
 
@@ -394,12 +402,12 @@ class GuardianReflector:
 
         # Weight different drift types
         weights = {
-            DriftType.ETHICAL: 1.0,      # Highest weight for ethical drift
-            DriftType.BEHAVIORAL: 0.8,   # High weight for behavioral
+            DriftType.ETHICAL: 1.0,  # Highest weight for ethical drift
+            DriftType.BEHAVIORAL: 0.8,  # High weight for behavioral
             DriftType.PERFORMANCE: 0.6,  # Moderate weight for performance
-            DriftType.FREQUENCY: 0.4,    # Lower weight for frequency
-            DriftType.CONTENT: 0.5,      # Moderate weight for content
-            DriftType.TEMPORAL: 0.3      # Lowest weight for temporal
+            DriftType.FREQUENCY: 0.4,  # Lower weight for frequency
+            DriftType.CONTENT: 0.5,  # Moderate weight for content
+            DriftType.TEMPORAL: 0.3,  # Lowest weight for temporal
         }
 
         weighted_sum = 0.0
@@ -437,8 +445,8 @@ class GuardianReflector:
             return "stable"
 
         # Simple trend detection
-        first_half = recent_scores[:len(recent_scores)//2]
-        second_half = recent_scores[len(recent_scores)//2:]
+        first_half = recent_scores[: len(recent_scores) // 2]
+        second_half = recent_scores[len(recent_scores) // 2 :]
 
         first_avg = statistics.mean(first_half)
         second_avg = statistics.mean(second_half)
@@ -451,8 +459,9 @@ class GuardianReflector:
         else:
             return "stable"
 
-    async def _predict_future_drift(self, indicators: List[DriftIndicator],
-                                   context_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _predict_future_drift(
+        self, indicators: List[DriftIndicator], context_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Predict future drift patterns"""
         # Simple prediction model (enhanced in future phases)
         current_score = self._calculate_overall_drift_score(indicators)
@@ -475,12 +484,12 @@ class GuardianReflector:
             "next_15_minutes": predicted_15min,
             "confidence": 0.7,  # Conservative confidence
             "factors": ["trend_analysis", "current_indicators"],
-            "risk_of_threshold_breach": max(0.0, (predicted_15min - self.drift_threshold) / self.drift_threshold)
+            "risk_of_threshold_breach": max(0.0, (predicted_15min - self.drift_threshold) / self.drift_threshold),
         }
 
-    async def _generate_remediation_recommendations(self, indicators: List[DriftIndicator],
-                                                   overall_score: float,
-                                                   severity: DriftSeverity) -> List[str]:
+    async def _generate_remediation_recommendations(
+        self, indicators: List[DriftIndicator], overall_score: float, severity: DriftSeverity
+    ) -> List[str]:
         """Generate actionable remediation recommendations"""
         recommendations = []
 
@@ -533,7 +542,7 @@ class GuardianReflector:
             remediation_recommendations=["Manual review recommended due to analysis error"],
             correlation_id=correlation_id,
             analysis_timestamp=time.time(),
-            confidence_score=0.1
+            confidence_score=0.1,
         )
 
     # Additional helper methods for risk prediction and remediation...
@@ -546,34 +555,33 @@ class GuardianReflector:
         # Frequency-based risk
         request_frequency = behavioral_data.get("request_frequency", 1.0)
         if request_frequency > 10:  # High frequency threshold
-            indicators.append({
-                "type": "high_frequency",
-                "severity": min(1.0, request_frequency / 20),
-                "description": "High request frequency detected"
-            })
+            indicators.append(
+                {
+                    "type": "high_frequency",
+                    "severity": min(1.0, request_frequency / 20),
+                    "description": "High request frequency detected",
+                }
+            )
 
         # Content-based risk
         content_risk = behavioral_data.get("content_risk_score", 0.0)
         if content_risk > 0.1:
-            indicators.append({
-                "type": "content_risk",
-                "severity": content_risk,
-                "description": "Potentially risky content detected"
-            })
+            indicators.append(
+                {"type": "content_risk", "severity": content_risk, "description": "Potentially risky content detected"}
+            )
 
         return indicators
 
-    async def _calculate_temporal_risk(self, risk_indicators: List[Dict[str, Any]],
-                                      timeframe: str) -> float:
+    async def _calculate_temporal_risk(self, risk_indicators: List[Dict[str, Any]], timeframe: str) -> float:
         """Calculate risk for specific timeframe"""
         if not risk_indicators:
             return 0.05  # Baseline risk
 
         # Weight factors by timeframe
         timeframe_weights = {
-            "short_term": 1.0,   # Immediate risk
+            "short_term": 1.0,  # Immediate risk
             "medium_term": 0.7,  # Reduced over time
-            "long_term": 0.4     # Further reduced
+            "long_term": 0.4,  # Further reduced
         }
 
         weight = timeframe_weights.get(timeframe, 0.5)
@@ -581,8 +589,9 @@ class GuardianReflector:
 
         return min(1.0, base_risk * weight)
 
-    def _calculate_prediction_confidence(self, behavioral_data: Dict[str, Any],
-                                       risk_indicators: List[Dict[str, Any]]) -> float:
+    def _calculate_prediction_confidence(
+        self, behavioral_data: Dict[str, Any], risk_indicators: List[Dict[str, Any]]
+    ) -> float:
         """Calculate confidence in risk prediction"""
         # Base confidence on data quality and historical accuracy
         data_quality = min(1.0, len(behavioral_data) / 10)  # More data = higher confidence
@@ -606,16 +615,15 @@ class GuardianReflector:
         actions = []
 
         if risk_score >= 0.6:
-            actions.extend([
-                "Immediate human oversight required",
-                "Enable enhanced safety protocols",
-                "Restrict high-risk operations"
-            ])
+            actions.extend(
+                [
+                    "Immediate human oversight required",
+                    "Enable enhanced safety protocols",
+                    "Restrict high-risk operations",
+                ]
+            )
         elif risk_score >= 0.3:
-            actions.extend([
-                "Increase monitoring frequency",
-                "Enable additional validation checks"
-            ])
+            actions.extend(["Increase monitoring frequency", "Enable additional validation checks"])
         else:
             actions.append("Continue standard monitoring")
 
@@ -625,22 +633,17 @@ class GuardianReflector:
         """Create fallback risk prediction on errors"""
         return {
             "overall_risk_score": 0.2,  # Conservative assumption
-            "risk_breakdown": {
-                "short_term": 0.2,
-                "medium_term": 0.15,
-                "long_term": 0.1
-            },
+            "risk_breakdown": {"short_term": 0.2, "medium_term": 0.15, "long_term": 0.1},
             "risk_factors": [],
             "confidence": 0.1,
             "prediction_timestamp": time.time(),
             "correlation_id": correlation_id,
             "risk_level": "medium",
             "recommended_actions": ["Manual review recommended due to prediction error"],
-            "error": "risk_prediction_failed"
+            "error": "risk_prediction_failed",
         }
 
-    def _calculate_analysis_confidence(self, indicators: List[DriftIndicator],
-                                     history_size: int) -> float:
+    def _calculate_analysis_confidence(self, indicators: List[DriftIndicator], history_size: int) -> float:
         """Calculate confidence in drift analysis"""
         if not indicators:
             return 0.1
@@ -669,24 +672,29 @@ class GuardianReflector:
         actions = []
 
         if drift_analysis.severity in [DriftSeverity.HIGH, DriftSeverity.CRITICAL]:
-            actions.append({
-                "type": "immediate_review",
-                "description": "Immediate human review of system state",
-                "automated": False,
-                "estimated_time_minutes": 15
-            })
+            actions.append(
+                {
+                    "type": "immediate_review",
+                    "description": "Immediate human review of system state",
+                    "automated": False,
+                    "estimated_time_minutes": 15,
+                }
+            )
 
-        actions.append({
-            "type": "increase_monitoring",
-            "description": "Temporarily increase monitoring frequency",
-            "automated": True,
-            "estimated_time_minutes": 1
-        })
+        actions.append(
+            {
+                "type": "increase_monitoring",
+                "description": "Temporarily increase monitoring frequency",
+                "automated": True,
+                "estimated_time_minutes": 1,
+            }
+        )
 
         return actions
 
-    def _estimate_remediation_effectiveness(self, drift_analysis: DriftAnalysis,
-                                          actions: List[Dict[str, Any]]) -> float:
+    def _estimate_remediation_effectiveness(
+        self, drift_analysis: DriftAnalysis, actions: List[Dict[str, Any]]
+    ) -> float:
         """Estimate remediation effectiveness"""
         # Simple effectiveness estimation
         base_effectiveness = 0.6
@@ -705,18 +713,18 @@ class GuardianReflector:
         """Estimate total remediation duration"""
         return sum(action.get("estimated_time_minutes", 5) for action in actions)
 
-    def _assess_remediation_risks(self, drift_analysis: DriftAnalysis,
-                                 actions: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _assess_remediation_risks(self, drift_analysis: DriftAnalysis, actions: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Assess risks of remediation actions"""
         return {
             "intervention_risk": 0.1,  # Low risk for monitoring changes
             "service_disruption_risk": 0.05,
             "false_positive_risk": 0.2,
-            "assessment_timestamp": time.time()
+            "assessment_timestamp": time.time(),
         }
 
 
 # Supporting classes for advanced analysis
+
 
 class TrendAnalyzer:
     """Advanced trend analysis for drift patterns"""
@@ -739,12 +747,10 @@ class DriftPredictor:
     async def predict(self, current_indicators: List[DriftIndicator]) -> Dict[str, float]:
         """Predict future drift scores"""
         # Simplified prediction
-        current_score = sum(ind.score for ind in current_indicators) / len(current_indicators) if current_indicators else 0.1
-        return {
-            "5_minute": current_score * 1.1,
-            "15_minute": current_score * 1.2,
-            "1_hour": current_score * 1.0
-        }
+        current_score = (
+            sum(ind.score for ind in current_indicators) / len(current_indicators) if current_indicators else 0.1
+        )
+        return {"5_minute": current_score * 1.1, "15_minute": current_score * 1.2, "1_hour": current_score * 1.0}
 
 
 class RemediationEngine:

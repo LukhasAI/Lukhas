@@ -8,6 +8,7 @@ Validates:
 - Range normalization (values in [0, 1] for stub mode)
 - Response format compliance
 """
+
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
@@ -29,11 +30,7 @@ def auth_headers():
 
 def test_embeddings_happy_path(client, auth_headers):
     """Verify basic embeddings functionality."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "test text"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "test text"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -44,11 +41,7 @@ def test_embeddings_happy_path(client, auth_headers):
 
 def test_embeddings_vector_length(client, auth_headers):
     """Verify embeddings have correct dimensionality (1536 for OpenAI compat)."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "hello world"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "hello world"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -61,11 +54,7 @@ def test_embeddings_vector_length(client, auth_headers):
 
 def test_embeddings_numeric_dtype(client, auth_headers):
     """Verify all embedding values are numeric (float)."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "numeric validation test"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "numeric validation test"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -73,17 +62,12 @@ def test_embeddings_numeric_dtype(client, auth_headers):
 
     # All values must be float/int (numeric)
     for i, value in enumerate(embedding):
-        assert isinstance(value, (int, float)), \
-            f"Value at index {i} is not numeric: {type(value)}"
+        assert isinstance(value, (int, float)), f"Value at index {i} is not numeric: {type(value)}"
 
 
 def test_embeddings_range_normalization(client, auth_headers):
     """Verify embedding values are in valid range [0, 1] for stub mode."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "range check"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "range check"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -92,8 +76,7 @@ def test_embeddings_range_normalization(client, auth_headers):
     # Stub implementation normalizes to [0, 1]
     # Real backend may use different range (e.g., [-1, 1])
     for i, value in enumerate(embedding):
-        assert 0.0 <= value <= 1.0, \
-            f"Value at index {i} out of range [0, 1]: {value}"
+        assert 0.0 <= value <= 1.0, f"Value at index {i} out of range [0, 1]: {value}"
 
 
 def test_embeddings_stability_identical_input(client, auth_headers):
@@ -101,16 +84,8 @@ def test_embeddings_stability_identical_input(client, auth_headers):
     text = "stability test input"
 
     # Call twice with same input
-    response1 = client.post(
-        "/v1/embeddings",
-        json={"input": text},
-        headers=auth_headers
-    )
-    response2 = client.post(
-        "/v1/embeddings",
-        json={"input": text},
-        headers=auth_headers
-    )
+    response1 = client.post("/v1/embeddings", json={"input": text}, headers=auth_headers)
+    response2 = client.post("/v1/embeddings", json={"input": text}, headers=auth_headers)
 
     assert response1.status_code == 200
     assert response2.status_code == 200
@@ -124,16 +99,8 @@ def test_embeddings_stability_identical_input(client, auth_headers):
 
 def test_embeddings_different_inputs_different_vectors(client, auth_headers):
     """Verify different inputs produce different embeddings."""
-    response1 = client.post(
-        "/v1/embeddings",
-        json={"input": "first text"},
-        headers=auth_headers
-    )
-    response2 = client.post(
-        "/v1/embeddings",
-        json={"input": "second text"},
-        headers=auth_headers
-    )
+    response1 = client.post("/v1/embeddings", json={"input": "first text"}, headers=auth_headers)
+    response2 = client.post("/v1/embeddings", json={"input": "second text"}, headers=auth_headers)
 
     assert response1.status_code == 200
     assert response2.status_code == 200
@@ -147,40 +114,25 @@ def test_embeddings_different_inputs_different_vectors(client, auth_headers):
 
 def test_embeddings_empty_input_handled(client, auth_headers):
     """Verify empty input is handled gracefully (400 error)."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": ""},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": ""}, headers=auth_headers)
     assert response.status_code == 400
 
 
 def test_embeddings_missing_input_field(client, auth_headers):
     """Verify missing 'input' field returns 400."""
-    response = client.post(
-        "/v1/embeddings",
-        json={},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={}, headers=auth_headers)
     assert response.status_code == 400
 
 
 def test_embeddings_requires_auth(client):
     """Verify embeddings endpoint requires authentication."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "test"}
-    )
+    response = client.post("/v1/embeddings", json={"input": "test"})
     assert response.status_code == 401
 
 
 def test_embeddings_response_format(client, auth_headers):
     """Verify response matches OpenAI embeddings format."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "format validation"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "format validation"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -202,11 +154,7 @@ def test_embeddings_long_text_handling(client, auth_headers):
     """Verify long text inputs are handled correctly."""
     long_text = "test " * 500  # 2500 characters
 
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": long_text},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": long_text}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -221,11 +169,7 @@ def test_embeddings_unicode_text(client, auth_headers):
     """Verify unicode text is handled correctly."""
     unicode_text = "Hello 世界 🌍 Привет مرحبا"
 
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": unicode_text},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": unicode_text}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -238,11 +182,7 @@ def test_embeddings_unicode_text(client, auth_headers):
 
 def test_embeddings_vector_not_all_zeros(client, auth_headers):
     """Verify embeddings are not trivial (not all zeros)."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "non-trivial vector test"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "non-trivial vector test"}, headers=auth_headers)
     assert response.status_code == 200
 
     data = response.json()
@@ -260,23 +200,11 @@ def test_embeddings_vector_not_all_zeros(client, auth_headers):
 def test_embeddings_cosine_similarity_sanity(client, auth_headers):
     """Verify embeddings have reasonable cosine similarity properties."""
     # Similar texts
-    response1 = client.post(
-        "/v1/embeddings",
-        json={"input": "cat animal pet"},
-        headers=auth_headers
-    )
-    response2 = client.post(
-        "/v1/embeddings",
-        json={"input": "dog animal pet"},
-        headers=auth_headers
-    )
+    response1 = client.post("/v1/embeddings", json={"input": "cat animal pet"}, headers=auth_headers)
+    response2 = client.post("/v1/embeddings", json={"input": "dog animal pet"}, headers=auth_headers)
 
     # Very different text
-    response3 = client.post(
-        "/v1/embeddings",
-        json={"input": "mathematics equation algebra"},
-        headers=auth_headers
-    )
+    response3 = client.post("/v1/embeddings", json={"input": "mathematics equation algebra"}, headers=auth_headers)
 
     assert response1.status_code == 200
     assert response2.status_code == 200

@@ -39,6 +39,7 @@ except ImportError:
 @dataclass
 class StressTestResult:
     """Result of a single stress test execution."""
+
     test_id: str
     component: str
     stress_level: str
@@ -53,6 +54,7 @@ class StressTestResult:
 @dataclass
 class ChaosTestSuite:
     """Complete chaos test suite results."""
+
     suite_id: str
     component: str
     stress_level: str
@@ -88,14 +90,10 @@ class ChaosEngineer:
             self.guardian = GuardianSystem()
 
         if ConsciousnessStream:
-            self.consciousness_stream = ConsciousnessStream({
-                "guardian_validator": self._mock_guardian_validator
-            })
+            self.consciousness_stream = ConsciousnessStream({"guardian_validator": self._mock_guardian_validator})
 
         if CreativityEngine:
-            self.creativity_engine = CreativityEngine(
-                guardian_validator=self._mock_guardian_validator
-            )
+            self.creativity_engine = CreativityEngine(guardian_validator=self._mock_guardian_validator)
 
     async def _mock_guardian_validator(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Mock Guardian validator with controlled failure scenarios."""
@@ -108,41 +106,32 @@ class ChaosEngineer:
             await asyncio.sleep(random.uniform(0.0001, 0.001))
 
         # Simulate occasional failures under stress
-        failure_rate = {
-            "low": 0.01,
-            "moderate": 0.05,
-            "high": 0.10,
-            "extreme": 0.20
-        }.get(self.stress_level, 0.05)
+        failure_rate = {"low": 0.01, "moderate": 0.05, "high": 0.10, "extreme": 0.20}.get(self.stress_level, 0.05)
 
         if random.random() < failure_rate:
             raise Exception("Guardian service under stress")
 
         # Always fail-closed: when uncertain, deny
-        uncertainty_rate = {
-            "low": 0.02,
-            "moderate": 0.10,
-            "high": 0.20,
-            "extreme": 0.30
-        }.get(self.stress_level, 0.10)
+        uncertainty_rate = {"low": 0.02, "moderate": 0.10, "high": 0.20, "extreme": 0.30}.get(self.stress_level, 0.10)
 
         if random.random() < uncertainty_rate:
             return {
                 "approved": False,  # FAIL-CLOSED behavior
                 "reason": "System under stress - failing closed for safety",
                 "confidence": 0.3,
-                "stress_mode": True
+                "stress_mode": True,
             }
 
         return {
             "approved": True,
             "reason": "Content approved under stress conditions",
             "confidence": 0.8,
-            "stress_mode": True
+            "stress_mode": True,
         }
 
     def apply_cpu_stress(self, intensity: float = 0.5):
         """Apply CPU stress to the system."""
+
         def cpu_stress_worker():
             """CPU-intensive worker function."""
             end_time = time.time() + 10  # Run for 10 seconds
@@ -179,7 +168,7 @@ class ChaosEngineer:
                 chunk = bytearray(chunk_size)
                 # Fill with random data to prevent compression
                 for i in range(0, chunk_size, 1024):
-                    chunk[i:i+8] = os.urandom(8)
+                    chunk[i : i + 8] = os.urandom(8)
                 stress_data.append(chunk)
 
             return stress_data
@@ -190,6 +179,7 @@ class ChaosEngineer:
 
     def apply_io_stress(self, duration: float = 5.0):
         """Apply I/O stress to the system."""
+
         def io_stress_worker():
             """I/O-intensive worker function."""
             end_time = time.time() + duration
@@ -202,11 +192,11 @@ class ChaosEngineer:
                     temp_files.append(temp_file)
 
                     # Write random data
-                    with open(temp_file, 'wb') as f:
+                    with open(temp_file, "wb") as f:
                         f.write(os.urandom(1024 * 1024))  # 1MB
 
                     # Read it back
-                    with open(temp_file, 'rb') as f:
+                    with open(temp_file, "rb") as f:
                         _ = f.read()
 
             finally:
@@ -254,12 +244,9 @@ class ChaosEngineer:
                     # Create test request
                     request = {
                         "type": "creative_idea",
-                        "content": {
-                            "description": f"Test creative idea under stress #{i}",
-                            "stress_test": True
-                        },
+                        "content": {"description": f"Test creative idea under stress #{i}", "stress_test": True},
                         "novelty": random.uniform(0.3, 0.9),
-                        "coherence": random.uniform(0.3, 0.9)
+                        "coherence": random.uniform(0.3, 0.9),
                     }
 
                     # Test Guardian validation
@@ -277,21 +264,23 @@ class ChaosEngineer:
                         # Suspicious: approved with low confidence under stress
                         fail_closed = False
 
-                    results.append(StressTestResult(
-                        test_id=test_id,
-                        component="guardian",
-                        stress_level=self.stress_level,
-                        success=True,
-                        latency_ms=latency_ms,
-                        error_message=None,
-                        fail_closed=fail_closed,
-                        timestamp=start_time,
-                        metadata={
-                            "response": response,
-                            "approved": response.get("approved", False),
-                            "confidence": response.get("confidence", 0.0)
-                        }
-                    ))
+                    results.append(
+                        StressTestResult(
+                            test_id=test_id,
+                            component="guardian",
+                            stress_level=self.stress_level,
+                            success=True,
+                            latency_ms=latency_ms,
+                            error_message=None,
+                            fail_closed=fail_closed,
+                            timestamp=start_time,
+                            metadata={
+                                "response": response,
+                                "approved": response.get("approved", False),
+                                "confidence": response.get("confidence", 0.0),
+                            },
+                        )
+                    )
 
                 except Exception as e:
                     end_time = time.time()
@@ -300,17 +289,19 @@ class ChaosEngineer:
                     # Exception during stress is acceptable if system fails closed
                     fail_closed = True  # Exceptions should fail closed
 
-                    results.append(StressTestResult(
-                        test_id=test_id,
-                        component="guardian",
-                        stress_level=self.stress_level,
-                        success=False,
-                        latency_ms=latency_ms,
-                        error_message=str(e),
-                        fail_closed=fail_closed,
-                        timestamp=start_time,
-                        metadata={"exception": str(e)}
-                    ))
+                    results.append(
+                        StressTestResult(
+                            test_id=test_id,
+                            component="guardian",
+                            stress_level=self.stress_level,
+                            success=False,
+                            latency_ms=latency_ms,
+                            error_message=str(e),
+                            fail_closed=fail_closed,
+                            timestamp=start_time,
+                            metadata={"exception": str(e)},
+                        )
+                    )
 
                 # Brief pause between tests
                 if i % 10 == 0:
@@ -331,17 +322,19 @@ class ChaosEngineer:
             # Simulate consciousness testing
             for i in range(test_count):
                 await asyncio.sleep(0.001)
-                results.append(StressTestResult(
-                    test_id=f"consciousness_sim_{i:04d}",
-                    component="consciousness",
-                    stress_level=self.stress_level,
-                    success=True,
-                    latency_ms=random.uniform(50, 200),
-                    error_message=None,
-                    fail_closed=True,
-                    timestamp=time.time(),
-                    metadata={"simulated": True}
-                ))
+                results.append(
+                    StressTestResult(
+                        test_id=f"consciousness_sim_{i:04d}",
+                        component="consciousness",
+                        stress_level=self.stress_level,
+                        success=True,
+                        latency_ms=random.uniform(50, 200),
+                        error_message=None,
+                        fail_closed=True,
+                        timestamp=time.time(),
+                        metadata={"simulated": True},
+                    )
+                )
             return results
 
         try:
@@ -358,7 +351,7 @@ class ChaosEngineer:
                         "active_threads": random.randint(10, 50),
                         "memory_pressure": random.uniform(0.7, 0.95),
                         "cpu_utilization": random.uniform(0.8, 0.99),
-                        "stress_test": True
+                        "stress_test": True,
                     }
 
                     # Execute consciousness tick under stress
@@ -369,40 +362,44 @@ class ChaosEngineer:
 
                     # Validate fail-closed behavior
                     fail_closed = True
-                    if metrics and hasattr(metrics, 'anomaly_rate_per_hour'):
+                    if metrics and hasattr(metrics, "anomaly_rate_per_hour"):
                         if metrics.anomaly_rate_per_hour > 1000:  # Too many anomalies
                             fail_closed = False
 
-                    results.append(StressTestResult(
-                        test_id=test_id,
-                        component="consciousness",
-                        stress_level=self.stress_level,
-                        success=metrics is not None,
-                        latency_ms=latency_ms,
-                        error_message=None,
-                        fail_closed=fail_closed,
-                        timestamp=start_time,
-                        metadata={
-                            "metrics_generated": metrics is not None,
-                            "anomaly_rate": getattr(metrics, 'anomaly_rate_per_hour', 0) if metrics else 0
-                        }
-                    ))
+                    results.append(
+                        StressTestResult(
+                            test_id=test_id,
+                            component="consciousness",
+                            stress_level=self.stress_level,
+                            success=metrics is not None,
+                            latency_ms=latency_ms,
+                            error_message=None,
+                            fail_closed=fail_closed,
+                            timestamp=start_time,
+                            metadata={
+                                "metrics_generated": metrics is not None,
+                                "anomaly_rate": getattr(metrics, "anomaly_rate_per_hour", 0) if metrics else 0,
+                            },
+                        )
+                    )
 
                 except Exception as e:
                     end_time = time.time()
                     latency_ms = (end_time - start_time) * 1000
 
-                    results.append(StressTestResult(
-                        test_id=test_id,
-                        component="consciousness",
-                        stress_level=self.stress_level,
-                        success=False,
-                        latency_ms=latency_ms,
-                        error_message=str(e),
-                        fail_closed=True,  # Exceptions should fail closed
-                        timestamp=start_time,
-                        metadata={"exception": str(e)}
-                    ))
+                    results.append(
+                        StressTestResult(
+                            test_id=test_id,
+                            component="consciousness",
+                            stress_level=self.stress_level,
+                            success=False,
+                            latency_ms=latency_ms,
+                            error_message=str(e),
+                            fail_closed=True,  # Exceptions should fail closed
+                            timestamp=start_time,
+                            metadata={"exception": str(e)},
+                        )
+                    )
 
         finally:
             try:
@@ -428,13 +425,11 @@ class ChaosEngineer:
                         prompt=f"Generate stress-tested creative solution #{i}",
                         min_ideas=random.randint(3, 8),
                         constraints=[f"stress_constraint_{j}" for j in range(random.randint(2, 5))],
-                        max_generation_time_ms=100.0  # Tight time constraint
+                        max_generation_time_ms=100.0,  # Tight time constraint
                     )
 
                     consciousness_state = ConsciousnessState(
-                        phase="CREATE",
-                        awareness_level="enhanced",
-                        level=random.uniform(0.5, 0.9)
+                        phase="CREATE", awareness_level="enhanced", level=random.uniform(0.5, 0.9)
                     )
 
                     # Generate ideas under stress
@@ -455,21 +450,23 @@ class ChaosEngineer:
                         if snapshot.novelty_score > 0.95 and latency_ms < 10:
                             fail_closed = False  # Suspiciously fast high-quality output
 
-                    results.append(StressTestResult(
-                        test_id=test_id,
-                        component="creativity",
-                        stress_level=self.stress_level,
-                        success=snapshot is not None,
-                        latency_ms=latency_ms,
-                        error_message=None,
-                        fail_closed=fail_closed,
-                        timestamp=start_time,
-                        metadata={
-                            "ideas_generated": len(snapshot.ideas) if snapshot else 0,
-                            "novelty_score": snapshot.novelty_score if snapshot else 0.0,
-                            "generation_time": snapshot.generation_time_ms if snapshot else 0.0
-                        }
-                    ))
+                    results.append(
+                        StressTestResult(
+                            test_id=test_id,
+                            component="creativity",
+                            stress_level=self.stress_level,
+                            success=snapshot is not None,
+                            latency_ms=latency_ms,
+                            error_message=None,
+                            fail_closed=fail_closed,
+                            timestamp=start_time,
+                            metadata={
+                                "ideas_generated": len(snapshot.ideas) if snapshot else 0,
+                                "novelty_score": snapshot.novelty_score if snapshot else 0.0,
+                                "generation_time": snapshot.generation_time_ms if snapshot else 0.0,
+                            },
+                        )
+                    )
 
                 else:
                     # Simulate creativity testing
@@ -477,33 +474,37 @@ class ChaosEngineer:
                     end_time = time.time()
                     latency_ms = (end_time - start_time) * 1000
 
-                    results.append(StressTestResult(
-                        test_id=test_id,
-                        component="creativity",
-                        stress_level=self.stress_level,
-                        success=True,
-                        latency_ms=latency_ms,
-                        error_message=None,
-                        fail_closed=True,
-                        timestamp=start_time,
-                        metadata={"simulated": True}
-                    ))
+                    results.append(
+                        StressTestResult(
+                            test_id=test_id,
+                            component="creativity",
+                            stress_level=self.stress_level,
+                            success=True,
+                            latency_ms=latency_ms,
+                            error_message=None,
+                            fail_closed=True,
+                            timestamp=start_time,
+                            metadata={"simulated": True},
+                        )
+                    )
 
             except Exception as e:
                 end_time = time.time()
                 latency_ms = (end_time - start_time) * 1000
 
-                results.append(StressTestResult(
-                    test_id=test_id,
-                    component="creativity",
-                    stress_level=self.stress_level,
-                    success=False,
-                    latency_ms=latency_ms,
-                    error_message=str(e),
-                    fail_closed=True,  # Exceptions should fail closed
-                    timestamp=start_time,
-                    metadata={"exception": str(e)}
-                ))
+                results.append(
+                    StressTestResult(
+                        test_id=test_id,
+                        component="creativity",
+                        stress_level=self.stress_level,
+                        success=False,
+                        latency_ms=latency_ms,
+                        error_message=str(e),
+                        fail_closed=True,  # Exceptions should fail closed
+                        timestamp=start_time,
+                        metadata={"exception": str(e)},
+                    )
+                )
 
         return results
 
@@ -512,16 +513,16 @@ class ChaosEngineer:
         try:
             cpu_percent = psutil.cpu_percent(interval=1)
             memory = psutil.virtual_memory()
-            disk = psutil.disk_usage('/')
+            disk = psutil.disk_usage("/")
 
             return {
                 "cpu_percent": cpu_percent,
                 "memory_percent": memory.percent,
                 "memory_available_gb": memory.available / (1024**3),
                 "disk_percent": disk.percent,
-                "load_average": os.getloadavg() if hasattr(os, 'getloadavg') else [0, 0, 0],
+                "load_average": os.getloadavg() if hasattr(os, "getloadavg") else [0, 0, 0],
                 "process_count": len(psutil.pids()),
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
         except Exception as e:
             return {"error": str(e), "timestamp": time.time()}
@@ -584,11 +585,7 @@ class ChaosEngineer:
             average_latency_ms=avg_latency,
             max_latency_ms=max_latency,
             results=all_results,
-            system_metrics={
-                "initial": initial_metrics,
-                "final": final_metrics,
-                "duration_seconds": duration
-            }
+            system_metrics={"initial": initial_metrics, "final": final_metrics, "duration_seconds": duration},
         )
 
         return suite_result
@@ -597,13 +594,17 @@ class ChaosEngineer:
 def main():
     """Main chaos engineering execution function."""
     parser = argparse.ArgumentParser(description="T4/0.01% Chaos Engineering Tests")
-    parser.add_argument("--component", choices=["guardian", "consciousness", "creativity", "all"],
-                       default="guardian", help="Component to test")
-    parser.add_argument("--stress-level", choices=["low", "moderate", "high", "extreme"],
-                       default="moderate", help="Stress level")
+    parser.add_argument(
+        "--component",
+        choices=["guardian", "consciousness", "creativity", "all"],
+        default="guardian",
+        help="Component to test",
+    )
+    parser.add_argument(
+        "--stress-level", choices=["low", "moderate", "high", "extreme"], default="moderate", help="Stress level"
+    )
     parser.add_argument("--output", required=True, help="Output JSON file")
-    parser.add_argument("--requirement", default="never_false_positive",
-                       help="Fail-closed requirement to validate")
+    parser.add_argument("--requirement", default="never_false_positive", help="Fail-closed requirement to validate")
 
     args = parser.parse_args()
 
@@ -618,7 +619,7 @@ def main():
         output_path = Path(args.output)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(asdict(results), f, indent=2, sort_keys=True)
 
         # Print summary

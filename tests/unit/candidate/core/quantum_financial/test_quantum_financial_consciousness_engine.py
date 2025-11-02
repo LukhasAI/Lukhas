@@ -1,4 +1,5 @@
 """Tests for Quantum Financial Consciousness Engine deterministic logic."""
+
 from __future__ import annotations
 
 import importlib.util

@@ -3,6 +3,7 @@ AI Capability Level Definitions
 
 This module defines the different levels of AI capability that the system can achieve.
 """
+
 from enum import Enum
 
 

@@ -25,46 +25,39 @@ tracer = trace.get_tracer(__name__)
 
 # Prometheus metrics
 dream_cycles_total = Counter(
-    'lukhas_dream_cycles_total',
-    'Total number of dream cycles completed',
-    ['component', 'reason']
+    "lukhas_dream_cycles_total", "Total number of dream cycles completed", ["component", "reason"]
 )
 
 dream_phase_duration_seconds = Histogram(
-    'lukhas_dream_phase_duration_seconds',
-    'Duration of dream phases',
-    ['component', 'phase'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_dream_phase_duration_seconds",
+    "Duration of dream phases",
+    ["component", "phase"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
 dream_phase_current = Enum(
-    'lukhas_dream_phase_current',
-    'Current dream phase',
-    ['component'],
-    states=['IDLE', 'ENTERING', 'DREAMING', 'EXITING']
+    "lukhas_dream_phase_current",
+    "Current dream phase",
+    ["component"],
+    states=["IDLE", "ENTERING", "DREAMING", "EXITING"],
 )
 
 dream_memory_events_processed = Counter(
-    'lukhas_dream_memory_events_processed_total',
-    'Total memory events processed during dreams',
-    ['component']
+    "lukhas_dream_memory_events_processed_total", "Total memory events processed during dreams", ["component"]
 )
 
 dream_patterns_discovered = Counter(
-    'lukhas_dream_patterns_discovered_total',
-    'Total patterns discovered during dreams',
-    ['component']
+    "lukhas_dream_patterns_discovered_total", "Total patterns discovered during dreams", ["component"]
 )
 
 dream_consolidation_ratio = Gauge(
-    'lukhas_dream_consolidation_ratio',
-    'Memory compression ratio achieved',
-    ['component']
+    "lukhas_dream_consolidation_ratio", "Memory compression ratio achieved", ["component"]
 )
 
 
 class DreamState(PyEnum):
     """Internal dream state tracking."""
+
     IDLE = "IDLE"
     ENTERING = "ENTERING"
     DREAMING = "DREAMING"
@@ -105,10 +98,7 @@ class DreamEngine:
         self._last_consolidation_time = 0.0
 
     async def process_cycle(
-        self,
-        state: ConsciousnessState,
-        memory_events: List[Dict[str, Any]],
-        trigger_reason: str = "scheduled"
+        self, state: ConsciousnessState, memory_events: List[Dict[str, Any]], trigger_reason: str = "scheduled"
     ) -> DreamTrace:
         """
         Execute complete dream cycle with FSM phase transitions.
@@ -130,10 +120,7 @@ class DreamEngine:
 
             try:
                 # Initialize dream trace
-                dream_trace = DreamTrace(
-                    reason=trigger_reason,
-                    memory_events_processed=len(memory_events)
-                )
+                dream_trace = DreamTrace(reason=trigger_reason, memory_events_processed=len(memory_events))
 
                 # Execute FSM transitions
                 await self._transition_to_entering(dream_trace)
@@ -146,22 +133,13 @@ class DreamEngine:
                 dream_trace.consolidation_count = self._consolidation_count
 
                 # Update Prometheus metrics
-                dream_cycles_total.labels(
-                    component=self._component_id,
-                    reason=trigger_reason
-                ).inc()
+                dream_cycles_total.labels(component=self._component_id, reason=trigger_reason).inc()
 
-                dream_memory_events_processed.labels(
-                    component=self._component_id
-                ).inc(len(memory_events))
+                dream_memory_events_processed.labels(component=self._component_id).inc(len(memory_events))
 
-                dream_patterns_discovered.labels(
-                    component=self._component_id
-                ).inc(len(dream_trace.top_k_motifs))
+                dream_patterns_discovered.labels(component=self._component_id).inc(len(dream_trace.top_k_motifs))
 
-                dream_consolidation_ratio.labels(
-                    component=self._component_id
-                ).set(dream_trace.compression_ratio)
+                dream_consolidation_ratio.labels(component=self._component_id).set(dream_trace.compression_ratio)
 
                 # Update performance tracking
                 self._dream_cycles_completed += 1
@@ -198,16 +176,10 @@ class DreamEngine:
         await asyncio.sleep(0.001)  # Brief transition delay
 
         phase_duration = time.time() - phase_start
-        dream_phase_duration_seconds.labels(
-            component=self._component_id,
-            phase="ENTERING"
-        ).observe(phase_duration)
+        dream_phase_duration_seconds.labels(component=self._component_id, phase="ENTERING").observe(phase_duration)
 
     async def _transition_to_dreaming(
-        self,
-        dream_trace: DreamTrace,
-        state: ConsciousnessState,
-        memory_events: List[Dict[str, Any]]
+        self, dream_trace: DreamTrace, state: ConsciousnessState, memory_events: List[Dict[str, Any]]
     ) -> None:
         """Transition from ENTERING to DREAMING phase."""
         phase_start = time.time()
@@ -231,10 +203,7 @@ class DreamEngine:
             dream_trace.add_association("truncation", {"reason": "max_duration_exceeded", "elapsed_ms": elapsed_ms})
 
         phase_duration = time.time() - phase_start
-        dream_phase_duration_seconds.labels(
-            component=self._component_id,
-            phase="DREAMING"
-        ).observe(phase_duration)
+        dream_phase_duration_seconds.labels(component=self._component_id, phase="DREAMING").observe(phase_duration)
 
     async def _transition_to_exiting(self, dream_trace: DreamTrace) -> None:
         """Transition from DREAMING to EXITING phase."""
@@ -250,10 +219,7 @@ class DreamEngine:
         await self._finalize_dream_artifacts(dream_trace)
 
         phase_duration = time.time() - phase_start
-        dream_phase_duration_seconds.labels(
-            component=self._component_id,
-            phase="EXITING"
-        ).observe(phase_duration)
+        dream_phase_duration_seconds.labels(component=self._component_id, phase="EXITING").observe(phase_duration)
 
     async def _transition_to_idle(self, dream_trace: DreamTrace) -> None:
         """Transition from EXITING to IDLE phase."""
@@ -270,10 +236,7 @@ class DreamEngine:
         self._last_consolidation_time = time.time()
 
         phase_duration = time.time() - phase_start
-        dream_phase_duration_seconds.labels(
-            component=self._component_id,
-            phase="IDLE"
-        ).observe(phase_duration)
+        dream_phase_duration_seconds.labels(component=self._component_id, phase="IDLE").observe(phase_duration)
 
     async def _force_transition_to_idle(self) -> None:
         """Force transition to IDLE on error conditions."""
@@ -281,11 +244,7 @@ class DreamEngine:
         self._dream_session_id = None
         dream_phase_current.labels(component=self._component_id).state("IDLE")
 
-    async def _process_memory_consolidation(
-        self,
-        dream_trace: DreamTrace,
-        memory_events: List[Dict[str, Any]]
-    ) -> None:
+    async def _process_memory_consolidation(self, dream_trace: DreamTrace, memory_events: List[Dict[str, Any]]) -> None:
         """Process memory events for consolidation."""
 
         # Add new events to buffer
@@ -309,10 +268,7 @@ class DreamEngine:
 
             dream_trace.consolidation_count = consolidated_count
 
-    async def _consolidate_similar_events(
-        self,
-        events: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+    async def _consolidate_similar_events(self, events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Consolidate similar memory events."""
         if not events:
             return []
@@ -334,7 +290,7 @@ class DreamEngine:
                     "type": f"consolidated_{event_type}",
                     "original_count": len(group),
                     "consolidation_timestamp": time.time(),
-                    "summary": f"Consolidated {len(group)} {event_type} events"
+                    "summary": f"Consolidated {len(group)} {event_type} events",
                 }
                 consolidated.append(consolidated_event)
             else:
@@ -343,11 +299,7 @@ class DreamEngine:
 
         return consolidated
 
-    async def _discover_patterns(
-        self,
-        dream_trace: DreamTrace,
-        state: ConsciousnessState
-    ) -> None:
+    async def _discover_patterns(self, dream_trace: DreamTrace, state: ConsciousnessState) -> None:
         """Discover patterns in memory and consciousness state."""
         if not self.pattern_discovery_enabled:
             return
@@ -389,7 +341,7 @@ class DreamEngine:
                 "source": motif,
                 "target": "consciousness_state",
                 "strength": random.uniform(0.3, 0.9),
-                "type": "pattern_correlation"
+                "type": "pattern_correlation",
             }
             associations.append(association)
 
@@ -402,17 +354,13 @@ class DreamEngine:
                         "source": motifs[i],
                         "target": motifs[j],
                         "strength": random.uniform(0.2, 0.6),
-                        "type": "motif_connection"
+                        "type": "motif_connection",
                     }
                     associations.append(association)
 
         dream_trace.associations = associations
 
-    async def _calculate_compression_metrics(
-        self,
-        dream_trace: DreamTrace,
-        input_events: List[Dict[str, Any]]
-    ) -> None:
+    async def _calculate_compression_metrics(self, dream_trace: DreamTrace, input_events: List[Dict[str, Any]]) -> None:
         """Calculate memory compression ratio achieved."""
         if not input_events:
             dream_trace.compression_ratio = 1.0
@@ -485,7 +433,7 @@ class DreamEngine:
                 "average_duration_ms": 0.0,
                 "consolidation_rate": 0.0,
                 "discovered_motifs": 0,
-                "compression_efficiency": 0.0
+                "compression_efficiency": 0.0,
             }
 
         return {
@@ -494,7 +442,7 @@ class DreamEngine:
             "consolidation_rate": self._consolidation_count / self._dream_cycles_completed,
             "discovered_motifs": len(self._discovered_motifs),
             "compression_efficiency": 1.0 - (len(self._memory_buffer) / max(self._consolidation_count, 1)),
-            "current_phase": self._current_phase.value
+            "current_phase": self._current_phase.value,
         }
 
     def reset_state(self) -> None:

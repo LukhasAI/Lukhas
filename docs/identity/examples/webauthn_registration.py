@@ -52,6 +52,7 @@ try:
     )
 except ImportError:
     print("Note: LUKHAS modules not available. Using simplified types.")
+
     # Fallback type definitions for testing without LUKHAS installed
     class WebAuthnCredentialStore:
         def __init__(self):
@@ -68,15 +69,16 @@ except ImportError:
 
 
 # Configuration
-RP_ID = "localhost"              # Relying Party ID (your domain)
-RP_NAME = "LUKHAS Demo App"      # Relying Party name
-ORIGIN = "http://localhost:5000" # Expected origin (HTTPS in production)
-TIMEOUT_MS = 60000               # Registration timeout (60 seconds)
+RP_ID = "localhost"  # Relying Party ID (your domain)
+RP_NAME = "LUKHAS Demo App"  # Relying Party name
+ORIGIN = "http://localhost:5000"  # Expected origin (HTTPS in production)
+TIMEOUT_MS = 60000  # Registration timeout (60 seconds)
 
 
 @dataclass
 class RegistrationSession:
     """Stores registration challenge and metadata."""
+
     user_id: str
     username: str
     challenge: str
@@ -91,11 +93,7 @@ credential_store = WebAuthnCredentialStore()
 
 # In-memory user database (for demo)
 users_db: Dict[str, Dict] = {
-    "testuser": {
-        "user_id": "user_123",
-        "username": "testuser@example.com",
-        "display_name": "Test User"
-    }
+    "testuser": {"user_id": "user_123", "username": "testuser@example.com", "display_name": "Test User"}
 }
 
 # Initialize FastAPI app
@@ -118,7 +116,7 @@ def generate_registration_options(
     rp_id: str = RP_ID,
     rp_name: str = RP_NAME,
     timeout_ms: int = TIMEOUT_MS,
-    require_resident_key: bool = False
+    require_resident_key: bool = False,
 ) -> Tuple[CredentialCreationOptions, str]:
     """Generate WebAuthn registration options.
 
@@ -146,38 +144,31 @@ def generate_registration_options(
     """
     # Generate cryptographically secure challenge (256 bits = 32 bytes)
     challenge_bytes = secrets.token_bytes(32)
-    challenge = base64.urlsafe_b64encode(challenge_bytes).decode('utf-8').rstrip('=')
+    challenge = base64.urlsafe_b64encode(challenge_bytes).decode("utf-8").rstrip("=")
 
     # Encode user ID as base64url
-    user_id_bytes = user_id.encode('utf-8')
-    user_id_encoded = base64.urlsafe_b64encode(user_id_bytes).decode('utf-8').rstrip('=')
+    user_id_bytes = user_id.encode("utf-8")
+    user_id_encoded = base64.urlsafe_b64encode(user_id_bytes).decode("utf-8").rstrip("=")
 
     # Relying Party entity
-    rp: PublicKeyCredentialRpEntity = {
-        "name": rp_name,
-        "id": rp_id
-    }
+    rp: PublicKeyCredentialRpEntity = {"name": rp_name, "id": rp_id}
 
     # User entity
-    user: PublicKeyCredentialUserEntity = {
-        "id": user_id_encoded,
-        "name": username,
-        "displayName": display_name
-    }
+    user: PublicKeyCredentialUserEntity = {"id": user_id_encoded, "name": username, "displayName": display_name}
 
     # Supported public key algorithms (in COSE format)
     # Recommendation order: prefer ES256, fallback to RS256, EdDSA
     pub_key_cred_params: List[PublicKeyCredentialParameters] = [
-        {"type": "public-key", "alg": -7},     # ES256: ECDSA with SHA-256 (Recommended)
-        {"type": "public-key", "alg": -257},   # RS256: RSA with SHA-256 (Fallback)
-        {"type": "public-key", "alg": -8},     # EdDSA: Edwards-curve DSA (Fallback)
+        {"type": "public-key", "alg": -7},  # ES256: ECDSA with SHA-256 (Recommended)
+        {"type": "public-key", "alg": -257},  # RS256: RSA with SHA-256 (Fallback)
+        {"type": "public-key", "alg": -8},  # EdDSA: Edwards-curve DSA (Fallback)
     ]
 
     # Authenticator selection criteria
     authenticator_selection: AuthenticatorSelectionCriteria = {
         "authenticatorAttachment": "platform",  # Prefer platform authenticators (Face ID, Touch ID)
         "residentKey": "preferred" if not require_resident_key else "required",
-        "userVerification": "preferred"  # Require user verification (biometric/PIN)
+        "userVerification": "preferred",  # Require user verification (biometric/PIN)
     }
 
     # Build credential creation options
@@ -190,17 +181,14 @@ def generate_registration_options(
         "excludeCredentials": [],  # Will be populated with existing credentials
         "authenticatorSelection": authenticator_selection,
         "attestation": "direct",  # Request attestation statement
-        "extensions": {}  # No extensions used in this example
+        "extensions": {},  # No extensions used in this example
     }
 
     return options, challenge
 
 
 def verify_credential_registration(
-    credential: PublicKeyCredentialCreation,
-    expected_challenge: str,
-    expected_origin: str,
-    expected_rp_id: str
+    credential: PublicKeyCredentialCreation, expected_challenge: str, expected_origin: str, expected_rp_id: str
 ) -> Dict:
     """Verify WebAuthn registration response.
 
@@ -250,7 +238,7 @@ def verify_credential_registration(
             expected_challenge=challenge_bytes,
             expected_origin=expected_origin,
             expected_rp_id=expected_rp_id,
-            require_user_verification=True  # Enforce user verification
+            require_user_verification=True,  # Enforce user verification
         )
 
         if not verified.verified:
@@ -263,9 +251,9 @@ def verify_credential_registration(
             "counter": verified.sign_count,
             "aaguid": verified.aaguid.hex() if verified.aaguid else None,
             "transports": credential.get("response", {}).get("transports", []),
-            "backup_eligible": getattr(verified, 'backup_eligible', False),
-            "backup_state": getattr(verified, 'backup_state', False),
-            "user_verified": getattr(verified, 'user_verified', False)
+            "backup_eligible": getattr(verified, "backup_eligible", False),
+            "backup_state": getattr(verified, "backup_state", False),
+            "user_verified": getattr(verified, "user_verified", False),
         }
 
     except Exception as e:
@@ -273,6 +261,7 @@ def verify_credential_registration(
 
 
 # --- API Endpoints ---
+
 
 @app.post("/api/auth/webauthn/register/begin")
 async def start_registration(request_data: Dict) -> JSONResponse:
@@ -305,7 +294,7 @@ async def start_registration(request_data: Dict) -> JSONResponse:
     """
     user_id = request_data.get("user_id")
     username = request_data.get("username")
-    display_name = request_data.get("display_name", username.split('@')[0] if username else "User")
+    display_name = request_data.get("display_name", username.split("@")[0] if username else "User")
 
     # Validation
     if not user_id or not username:
@@ -322,27 +311,18 @@ async def start_registration(request_data: Dict) -> JSONResponse:
     # Generate registration options
     try:
         options, challenge = generate_registration_options(
-            user_id=user_id,
-            username=username,
-            display_name=display_name
+            user_id=user_id, username=username, display_name=display_name
         )
 
         # Populate excludeCredentials with user's existing credentials
         options["excludeCredentials"] = [
-            {
-                "type": "public-key",
-                "id": cred["credential_id"],
-                "transports": cred.get("transports", [])
-            }
+            {"type": "public-key", "id": cred["credential_id"], "transports": cred.get("transports", [])}
             for cred in existing_creds
         ]
 
         # Store challenge in session for later verification
         challenge_store[user_id] = RegistrationSession(
-            user_id=user_id,
-            username=username,
-            challenge=challenge,
-            created_at=datetime.now(timezone.utc).isoformat()
+            user_id=user_id, username=username, challenge=challenge, created_at=datetime.now(timezone.utc).isoformat()
         )
 
         # Return options to frontend
@@ -404,10 +384,7 @@ async def complete_registration(request_data: Dict) -> JSONResponse:
     # Verify the credential
     try:
         verified_data = verify_credential_registration(
-            credential=credential,
-            expected_challenge=session.challenge,
-            expected_origin=ORIGIN,
-            expected_rp_id=RP_ID
+            credential=credential, expected_challenge=session.challenge, expected_origin=ORIGIN, expected_rp_id=RP_ID
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Verification failed: {str(e)}")
@@ -428,19 +405,17 @@ async def complete_registration(request_data: Dict) -> JSONResponse:
                 "backup_state": verified_data.get("backup_state", False),
                 "metadata": {
                     "registration_ip": "127.0.0.1",  # Would come from request
-                    "user_agent": "Mozilla/5.0..."   # Would come from request
-                }
-            }
+                    "user_agent": "Mozilla/5.0...",  # Would come from request
+                },
+            },
         )
 
         # Clean up challenge
         del challenge_store[user_id]
 
-        return JSONResponse({
-            "status": "success",
-            "credential_id": verified_data["credential_id"],
-            "message": "Registration complete"
-        })
+        return JSONResponse(
+            {"status": "success", "credential_id": verified_data["credential_id"], "message": "Registration complete"}
+        )
 
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -471,20 +446,22 @@ async def list_credentials(user_id: str) -> JSONResponse:
     """
     credentials = credential_store.list_credentials(user_id)
 
-    return JSONResponse({
-        "count": len(credentials),
-        "credentials": [
-            {
-                "credential_id": cred["credential_id"],
-                "device_name": cred.get("device_name", "Unknown Device"),
-                "created_at": cred["created_at"],
-                "last_used": cred.get("last_used"),
-                "transports": cred.get("transports", []),
-                "backup_eligible": cred.get("backup_eligible", False)
-            }
-            for cred in credentials
-        ]
-    })
+    return JSONResponse(
+        {
+            "count": len(credentials),
+            "credentials": [
+                {
+                    "credential_id": cred["credential_id"],
+                    "device_name": cred.get("device_name", "Unknown Device"),
+                    "created_at": cred["created_at"],
+                    "last_used": cred.get("last_used"),
+                    "transports": cred.get("transports", []),
+                    "backup_eligible": cred.get("backup_eligible", False),
+                }
+                for cred in credentials
+            ],
+        }
+    )
 
 
 @app.delete("/api/auth/webauthn/credentials/{credential_id}")
@@ -514,10 +491,7 @@ async def delete_credential(user_id: str, credential_id: str) -> JSONResponse:
 
     # Delete credential
     if credential_store.delete_credential(credential_id):
-        return JSONResponse({
-            "status": "success",
-            "message": "Credential deleted"
-        })
+        return JSONResponse({"status": "success", "message": "Credential deleted"})
 
     raise HTTPException(status_code=500, detail="Failed to delete credential")
 

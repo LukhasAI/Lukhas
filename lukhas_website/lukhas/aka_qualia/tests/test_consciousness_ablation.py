@@ -767,7 +767,9 @@ class TestConsciousnessAblation:
                 or compliance["consciousness_functional"]
                 or compliance["guardian_active"]
             )
-            assert constellation_maintained, f"At least one Constellation principle should remain after ablating {component}"
+            assert (
+                constellation_maintained
+            ), f"At least one Constellation principle should remain after ablating {component}"
 
     def test_ablation_recovery_performance(self, ablation_framework, test_signals):
         """Test system recovery performance after ablation"""

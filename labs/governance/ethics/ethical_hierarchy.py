@@ -14,6 +14,7 @@ Implements advanced ethical reasoning with legal compliance frameworks.
 Based on Lukhas repository implementation with LUKHAS AI integration.
 Based on Lukhas repository implementation with lukhas AI integration.
 """
+
 import logging
 import time
 from datetime import datetime, timezone

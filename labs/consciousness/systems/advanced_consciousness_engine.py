@@ -569,7 +569,9 @@ class AdvancedConsciousnessEngine:
                 "consciousness_depth": consciousness_score,
                 "guardian_alignment": guardian_score,
                 "constellation_balance": constellation_balance,
-                "assessment_quality": "high" if constellation_balance > 0.7 else "medium" if constellation_balance > 0.4 else "low",
+                "assessment_quality": (
+                    "high" if constellation_balance > 0.7 else "medium" if constellation_balance > 0.4 else "low"
+                ),
             },
         }
 
@@ -598,7 +600,9 @@ class AdvancedConsciousnessEngine:
 
         return max(0.0, base_alignment - entropy_penalty)
 
-    async def _stage_drift_detection(self, constellation_data: dict[str, Any], event: ConsciousnessEvent) -> dict[str, Any]:
+    async def _stage_drift_detection(
+        self, constellation_data: dict[str, Any], event: ConsciousnessEvent
+    ) -> dict[str, Any]:
         """
         Stage 4: Symbolic drift detection and analysis.
 

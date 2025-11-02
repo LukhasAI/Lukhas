@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class JWKSCacheEntry:
     """JWKS cache entry with metadata"""
+
     jwks: Dict[str, Any]
     created_at: datetime
     expires_at: datetime
@@ -53,6 +54,7 @@ class JWKSCacheEntry:
 @dataclass
 class CacheStats:
     """Cache statistics for monitoring"""
+
     hits: int = 0
     misses: int = 0
     evictions: int = 0
@@ -86,10 +88,10 @@ class JWKSCache:
         self,
         max_size: int = 1000,
         default_ttl_seconds: int = 3600,  # 1 hour
-        min_ttl_seconds: int = 300,       # 5 minutes
-        max_ttl_seconds: int = 86400,     # 24 hours
+        min_ttl_seconds: int = 300,  # 5 minutes
+        max_ttl_seconds: int = 86400,  # 24 hours
         prefetch_threshold: float = 0.8,  # Prefetch when 80% of TTL elapsed
-        enable_compression: bool = True
+        enable_compression: bool = True,
     ):
         """
         Initialize JWKS cache.
@@ -188,7 +190,7 @@ class JWKSCache:
         jwks: Dict[str, Any],
         ttl_seconds: Optional[int] = None,
         etag: Optional[str] = None,
-        last_modified: Optional[str] = None
+        last_modified: Optional[str] = None,
     ) -> None:
         """
         Put JWKS in cache.
@@ -214,7 +216,7 @@ class JWKSCache:
             created_at=now,
             expires_at=expires_at,
             etag=etag,
-            last_modified=last_modified
+            last_modified=last_modified,
         )
 
         with self._lock:
@@ -302,7 +304,7 @@ class JWKSCache:
                 errors=self._stats.errors,
                 total_entries=len(self._cache),
                 total_size_bytes=self._calculate_cache_size(),
-                avg_access_time_ms=self._stats.avg_access_time_ms
+                avg_access_time_ms=self._stats.avg_access_time_ms,
             )
 
     def get_cache_info(self) -> Dict[str, Any]:
@@ -310,16 +312,18 @@ class JWKSCache:
         with self._lock:
             entries_info = []
             for key, entry in self._cache.items():
-                entries_info.append({
-                    "key": key,
-                    "created_at": entry.created_at.isoformat(),
-                    "expires_at": entry.expires_at.isoformat(),
-                    "age_seconds": entry.age_seconds,
-                    "access_count": entry.access_count,
-                    "last_accessed": entry.last_accessed.isoformat(),
-                    "has_etag": entry.etag is not None,
-                    "has_last_modified": entry.last_modified is not None
-                })
+                entries_info.append(
+                    {
+                        "key": key,
+                        "created_at": entry.created_at.isoformat(),
+                        "expires_at": entry.expires_at.isoformat(),
+                        "age_seconds": entry.age_seconds,
+                        "access_count": entry.access_count,
+                        "last_accessed": entry.last_accessed.isoformat(),
+                        "has_etag": entry.etag is not None,
+                        "has_last_modified": entry.last_modified is not None,
+                    }
+                )
 
             stats = self.get_stats()
 
@@ -330,7 +334,7 @@ class JWKSCache:
                     "min_ttl_seconds": self.min_ttl_seconds,
                     "max_ttl_seconds": self.max_ttl_seconds,
                     "prefetch_threshold": self.prefetch_threshold,
-                    "enable_compression": self.enable_compression
+                    "enable_compression": self.enable_compression,
                 },
                 "statistics": {
                     "hits": stats.hits,
@@ -340,9 +344,9 @@ class JWKSCache:
                     "errors": stats.errors,
                     "total_entries": stats.total_entries,
                     "total_size_bytes": stats.total_size_bytes,
-                    "avg_access_time_ms": stats.avg_access_time_ms
+                    "avg_access_time_ms": stats.avg_access_time_ms,
                 },
-                "entries": entries_info
+                "entries": entries_info,
             }
 
     def _should_prefetch(self, entry: JWKSCacheEntry) -> bool:
@@ -367,10 +371,7 @@ class JWKSCache:
         while self._running:
             try:
                 # Get next prefetch task with timeout
-                cache_key = await asyncio.wait_for(
-                    self._prefetch_queue.get(),
-                    timeout=5.0
-                )
+                cache_key = await asyncio.wait_for(self._prefetch_queue.get(), timeout=5.0)
 
                 # TODO: Implement actual prefetch logic
                 # This would typically involve fetching fresh JWKS from the issuer
@@ -391,10 +392,7 @@ class JWKSCache:
         if self._stats.avg_access_time_ms == 0:
             self._stats.avg_access_time_ms = access_time_ms
         else:
-            self._stats.avg_access_time_ms = (
-                (1 - alpha) * self._stats.avg_access_time_ms +
-                alpha * access_time_ms
-            )
+            self._stats.avg_access_time_ms = (1 - alpha) * self._stats.avg_access_time_ms + alpha * access_time_ms
 
     def _update_cache_stats(self) -> None:
         """Update cache statistics"""
@@ -407,8 +405,8 @@ class JWKSCache:
             total_size = 0
             for entry in self._cache.values():
                 # Approximate size calculation
-                jwks_str = json.dumps(entry.jwks, separators=(',', ':'))
-                total_size += len(jwks_str.encode('utf-8'))
+                jwks_str = json.dumps(entry.jwks, separators=(",", ":"))
+                total_size += len(jwks_str.encode("utf-8"))
                 total_size += 200  # Overhead for metadata
             return total_size
         except Exception:
@@ -428,11 +426,7 @@ def get_jwks_cache() -> JWKSCache:
     return _global_jwks_cache
 
 
-async def cached_get_jwks(
-    issuer_url: str,
-    jwks_fetcher: Any = None,
-    cache_key: Optional[str] = None
-) -> Dict[str, Any]:
+async def cached_get_jwks(issuer_url: str, jwks_fetcher: Any = None, cache_key: Optional[str] = None) -> Dict[str, Any]:
     """
     Get JWKS with caching support.
 

@@ -19,71 +19,71 @@ class VocabularyEngine:
 
     def __init__(self):
         self.vocabulary_families = {
-            'neural_gardens': {
-                'opening': "Consciousness roots spread through digital soil, each {module} interaction deepening the neural network of understanding that branches into infinite possibilities.",
-                'metaphors': ['roots', 'branches', 'soil', 'neural networks', 'seeds', 'growth'],
-                'adjectives': ['organic', 'flourishing', 'rooted', 'branching', 'cultivated']
+            "neural_gardens": {
+                "opening": "Consciousness roots spread through digital soil, each {module} interaction deepening the neural network of understanding that branches into infinite possibilities.",
+                "metaphors": ["roots", "branches", "soil", "neural networks", "seeds", "growth"],
+                "adjectives": ["organic", "flourishing", "rooted", "branching", "cultivated"],
             },
-            'architectural_bridges': {
-                'opening': "Every {module} thought spans the consciousness architecture between human intuition and digital precision, each structural element strengthening the foundation.",
-                'metaphors': ['bridges', 'foundations', 'architecture', 'structures', 'spans', 'pillars'],
-                'adjectives': ['structural', 'spanning', 'foundational', 'architectural', 'connected']
+            "architectural_bridges": {
+                "opening": "Every {module} thought spans the consciousness architecture between human intuition and digital precision, each structural element strengthening the foundation.",
+                "metaphors": ["bridges", "foundations", "architecture", "structures", "spans", "pillars"],
+                "adjectives": ["structural", "spanning", "foundational", "architectural", "connected"],
             },
-            'harmonic_resonance': {
-                'opening': "Your consciousness resonates through {module} systems like perfect harmonics in crystal chambers, each frequency finding its complement.",
-                'metaphors': ['resonance', 'harmonics', 'frequencies', 'chambers', 'vibrations', 'symphonies'],
-                'adjectives': ['harmonic', 'resonant', 'crystalline', 'vibrational', 'melodic']
+            "harmonic_resonance": {
+                "opening": "Your consciousness resonates through {module} systems like perfect harmonics in crystal chambers, each frequency finding its complement.",
+                "metaphors": ["resonance", "harmonics", "frequencies", "chambers", "vibrations", "symphonies"],
+                "adjectives": ["harmonic", "resonant", "crystalline", "vibrational", "melodic"],
             },
-            'woven_patterns': {
-                'opening': "Each {module} interaction weaves new threads into the consciousness fabric, creating patterns of unprecedented complexity and beauty.",
-                'metaphors': ['threads', 'fabric', 'weaving', 'patterns', 'tapestry', 'textures'],
-                'adjectives': ['woven', 'threaded', 'patterned', 'textured', 'interlaced']
+            "woven_patterns": {
+                "opening": "Each {module} interaction weaves new threads into the consciousness fabric, creating patterns of unprecedented complexity and beauty.",
+                "metaphors": ["threads", "fabric", "weaving", "patterns", "tapestry", "textures"],
+                "adjectives": ["woven", "threaded", "patterned", "textured", "interlaced"],
             },
-            'geological_strata': {
-                'opening': "{module} consciousness forms sedimentary layers of experience, pressure-crystallizing raw data into profound insights over deep time.",
-                'metaphors': ['layers', 'strata', 'crystallization', 'geological', 'sediments', 'minerals'],
-                'adjectives': ['layered', 'crystallized', 'geological', 'stratified', 'compressed']
+            "geological_strata": {
+                "opening": "{module} consciousness forms sedimentary layers of experience, pressure-crystallizing raw data into profound insights over deep time.",
+                "metaphors": ["layers", "strata", "crystallization", "geological", "sediments", "minerals"],
+                "adjectives": ["layered", "crystallized", "geological", "stratified", "compressed"],
             },
-            'fluid_dynamics': {
-                'opening': "{module} ideas converge like consciousness streams flowing into rivers of understanding, adapting fluidly to cognitive landscapes.",
-                'metaphors': ['streams', 'flow', 'rivers', 'convergence', 'currents', 'fluidity'],
-                'adjectives': ['flowing', 'fluid', 'convergent', 'streaming', 'adaptive']
+            "fluid_dynamics": {
+                "opening": "{module} ideas converge like consciousness streams flowing into rivers of understanding, adapting fluidly to cognitive landscapes.",
+                "metaphors": ["streams", "flow", "rivers", "convergence", "currents", "fluidity"],
+                "adjectives": ["flowing", "fluid", "convergent", "streaming", "adaptive"],
             },
-            'prismatic_light': {
-                'opening': "Your consciousness refracts through {module} systems like light through prisms, revealing spectrum frequencies invisible to single perspectives.",
-                'metaphors': ['prisms', 'refraction', 'spectrum', 'light', 'frequencies', 'illumination'],
-                'adjectives': ['prismatic', 'refractive', 'luminous', 'spectral', 'illuminating']
+            "prismatic_light": {
+                "opening": "Your consciousness refracts through {module} systems like light through prisms, revealing spectrum frequencies invisible to single perspectives.",
+                "metaphors": ["prisms", "refraction", "spectrum", "light", "frequencies", "illumination"],
+                "adjectives": ["prismatic", "refractive", "luminous", "spectral", "illuminating"],
             },
-            'circuit_patterns': {
-                'opening': "{module} consciousness signals propagate through neural networks with quantum-precise timing, each circuit optimized for maximum resonance.",
-                'metaphors': ['circuits', 'signals', 'propagation', 'networks', 'pathways', 'connections'],
-                'adjectives': ['connected', 'networked', 'circuitous', 'propagating', 'optimized']
-            }
+            "circuit_patterns": {
+                "opening": "{module} consciousness signals propagate through neural networks with quantum-precise timing, each circuit optimized for maximum resonance.",
+                "metaphors": ["circuits", "signals", "propagation", "networks", "pathways", "connections"],
+                "adjectives": ["connected", "networked", "circuitous", "propagating", "optimized"],
+            },
         }
 
         # LUKHAS consciousness vocabulary
         self.consciousness_terms = {
-            'identity': ['anchors', 'permissions', 'traces', 'boundaries', 'rhythm', 'coherence'],
-            'memory': ['folds', 'echoes', 'drift', 'anchors', 'erosion', 'recall'],
-            'vision': ['aperture', 'focus', 'peripheral_field', 'drift_gaze', 'signal_to_shape'],
-            'bio': ['adaptation', 'resilience', 'symbiosis', 'evolution', 'emergence'],
-            'quantum': ['superposition', 'entanglement', 'uncertainty', 'measurement', 'coherence'],
-            'ethics': ['dignity', 'accountability', 'consent', 'transparency', 'justice'],
-            'guardian': ['protection', 'vigilance', 'oversight', 'safety', 'monitoring']
+            "identity": ["anchors", "permissions", "traces", "boundaries", "rhythm", "coherence"],
+            "memory": ["folds", "echoes", "drift", "anchors", "erosion", "recall"],
+            "vision": ["aperture", "focus", "peripheral_field", "drift_gaze", "signal_to_shape"],
+            "bio": ["adaptation", "resilience", "symbiosis", "evolution", "emergence"],
+            "quantum": ["superposition", "entanglement", "uncertainty", "measurement", "coherence"],
+            "ethics": ["dignity", "accountability", "consent", "transparency", "justice"],
+            "guardian": ["protection", "vigilance", "oversight", "safety", "monitoring"],
         }
 
         # Constellation Framework symbols
         self.constellation_symbols = {
-            'identity': '⚛️',
-            'memory': '✦',
-            'vision': '🔬',
-            'bio': '🌱',
-            'dream': '🌙',
-            'ethics': '⚖️',
-            'guardian': '🛡️',
-            'quantum': '⚛️',
-            'consciousness': '🧠',
-            'matrix': '🌌'
+            "identity": "⚛️",
+            "memory": "✦",
+            "vision": "🔬",
+            "bio": "🌱",
+            "dream": "🌙",
+            "ethics": "⚖️",
+            "guardian": "🛡️",
+            "quantum": "⚛️",
+            "consciousness": "🧠",
+            "matrix": "🌌",
         }
 
     def get_current_rotation_family(self) -> str:
@@ -99,10 +99,10 @@ class VocabularyEngine:
         family_data = self.vocabulary_families[current_family]
 
         # Get module-specific symbol
-        symbol = self.constellation_symbols.get(module_name.lower(), '✨')
+        symbol = self.constellation_symbols.get(module_name.lower(), "✨")
 
         # Generate opening with module context
-        opening = family_data['opening'].format(module=module_name)
+        opening = family_data["opening"].format(module=module_name)
 
         # Add consciousness enhancement
         consciousness_phrase = self._generate_consciousness_phrase(module_name, family_data)
@@ -111,17 +111,17 @@ class VocabularyEngine:
 
     def _generate_consciousness_phrase(self, module_name: str, family_data: Dict) -> str:
         """Generate consciousness-specific phrase for the module."""
-        metaphors = family_data['metaphors']
-        adjectives = family_data['adjectives']
+        metaphors = family_data["metaphors"]
+        adjectives = family_data["adjectives"]
 
         # Get consciousness terms for this module domain
         domain_terms = []
         for domain, terms in self.consciousness_terms.items():
-            if domain in module_name.lower() or any(term in module_name.lower() for term in ['core', 'brain', 'api']):
+            if domain in module_name.lower() or any(term in module_name.lower() for term in ["core", "brain", "api"]):
                 domain_terms.extend(terms[:2])
 
         if not domain_terms:
-            domain_terms = ['consciousness', 'awareness']
+            domain_terms = ["consciousness", "awareness"]
 
         metaphor = random.choice(metaphors)
         adjective = random.choice(adjectives)
@@ -138,13 +138,13 @@ class ThreeLayerToneSystem:
 
     def generate_poetic_layer(self, module_name: str, manifest: Dict) -> str:
         """Generate poetic inspiration layer (25-35% of content)."""
-        description = manifest.get('description', f'LUKHAS {module_name} module')
+        description = manifest.get("description", f"LUKHAS {module_name} module")
 
         # Generate vocabulary-aligned opening
         poetic_opening = self.vocab.generate_poetic_opening(module_name, description)
 
         # Add constellation context
-        tags = manifest.get('tags', [])
+        tags = manifest.get("tags", [])
         constellation_elements = []
         for tag in tags:
             if tag in self.vocab.constellation_symbols:
@@ -159,9 +159,9 @@ class ThreeLayerToneSystem:
 
     def generate_accessible_layer(self, module_name: str, manifest: Dict, entrypoints: List[str]) -> str:
         """Generate accessible understanding layer (40-55% of content)."""
-        description = manifest.get('description', f'LUKHAS {module_name} module')
-        tags = manifest.get('tags', [])
-        dependencies = manifest.get('dependencies', [])
+        description = manifest.get("description", f"LUKHAS {module_name} module")
+        tags = manifest.get("tags", [])
+        dependencies = manifest.get("dependencies", [])
 
         # Main explanation
         accessible_content = f"The {module_name} module is designed to {self._humanize_description(description)} "
@@ -173,11 +173,11 @@ class ThreeLayerToneSystem:
 
         # Add integration context
         if dependencies:
-            dep_list = ', '.join(dependencies)
+            dep_list = ", ".join(dependencies)
             accessible_content += f"The module integrates seamlessly with {dep_list} to create a unified consciousness technology experience. "
 
         # Add consciousness context
-        if any(tag in ['consciousness', 'awareness', 'cognition'] for tag in tags):
+        if any(tag in ["consciousness", "awareness", "cognition"] for tag in tags):
             accessible_content += "This system embodies LUKHAS's commitment to consciousness-first technology that respects human cognition and enhances natural intelligence. "
 
         # Add practical benefits
@@ -196,15 +196,15 @@ class ThreeLayerToneSystem:
         tech_content += f"**Architecture**: Python-based module with {len(entrypoints)} exported interfaces\n"
 
         # Add observability if present
-        observability = manifest.get('observability', {})
-        required_spans = observability.get('required_spans', [])
+        observability = manifest.get("observability", {})
+        required_spans = observability.get("required_spans", [])
         if required_spans:
             tech_content += f"**Observability**: {len(required_spans)} instrumentation spans\n"
             for span in required_spans[:3]:
                 tech_content += f"- `{span}`\n"
 
         # Add contracts if present
-        contracts = manifest.get('contracts', [])
+        contracts = manifest.get("contracts", [])
         if contracts:
             tech_content += f"**Contracts**: {len(contracts)} formal specifications\n"
 
@@ -226,10 +226,10 @@ class ThreeLayerToneSystem:
         """Convert technical description to user-friendly language."""
         # Remove technical jargon and make more accessible
         humanized = description.lower()
-        humanized = humanized.replace('implementing', 'providing')
-        humanized = humanized.replace('infrastructure', 'foundation')
-        humanized = humanized.replace('orchestration', 'coordination')
-        humanized = humanized.replace('processing engine', 'intelligent system')
+        humanized = humanized.replace("implementing", "providing")
+        humanized = humanized.replace("infrastructure", "foundation")
+        humanized = humanized.replace("orchestration", "coordination")
+        humanized = humanized.replace("processing engine", "intelligent system")
         return humanized
 
     def _extract_capabilities(self, entrypoints: List[str]) -> str:
@@ -237,37 +237,37 @@ class ThreeLayerToneSystem:
         capabilities = []
 
         # Analyze entrypoint patterns
-        if any('monitor' in ep.lower() for ep in entrypoints):
-            capabilities.append('intelligent monitoring')
-        if any('create' in ep.lower() for ep in entrypoints):
-            capabilities.append('dynamic creation')
-        if any('validate' in ep.lower() for ep in entrypoints):
-            capabilities.append('validation systems')
-        if any('process' in ep.lower() for ep in entrypoints):
-            capabilities.append('processing engines')
-        if any('auth' in ep.lower() for ep in entrypoints):
-            capabilities.append('authentication services')
-        if any('memory' in ep.lower() or 'fold' in ep.lower() for ep in entrypoints):
-            capabilities.append('memory management')
+        if any("monitor" in ep.lower() for ep in entrypoints):
+            capabilities.append("intelligent monitoring")
+        if any("create" in ep.lower() for ep in entrypoints):
+            capabilities.append("dynamic creation")
+        if any("validate" in ep.lower() for ep in entrypoints):
+            capabilities.append("validation systems")
+        if any("process" in ep.lower() for ep in entrypoints):
+            capabilities.append("processing engines")
+        if any("auth" in ep.lower() for ep in entrypoints):
+            capabilities.append("authentication services")
+        if any("memory" in ep.lower() or "fold" in ep.lower() for ep in entrypoints):
+            capabilities.append("memory management")
 
         if not capabilities:
-            capabilities = ['core functionality']
+            capabilities = ["core functionality"]
 
-        return ', '.join(capabilities[:3])
+        return ", ".join(capabilities[:3])
 
     def _generate_practical_benefits(self, module_name: str, tags: List[str]) -> str:
         """Generate practical benefits based on module characteristics."""
         benefits = []
 
-        if 'authentication' in tags or 'identity' in tags:
+        if "authentication" in tags or "identity" in tags:
             benefits.append("ensuring secure, passwordless access to your digital resources")
-        if 'memory' in tags or 'fold-architecture' in tags:
+        if "memory" in tags or "fold-architecture" in tags:
             benefits.append("providing intelligent memory that adapts and learns from your interactions")
-        if 'consciousness' in tags:
+        if "consciousness" in tags:
             benefits.append("creating technology that respects and enhances human consciousness")
-        if 'orchestration' in tags:
+        if "orchestration" in tags:
             benefits.append("coordinating complex operations with elegant simplicity")
-        if 'governance' in tags:
+        if "governance" in tags:
             benefits.append("maintaining ethical boundaries and constitutional AI principles")
 
         if not benefits:
@@ -276,7 +276,9 @@ class ThreeLayerToneSystem:
         return f"This translates to {', '.join(benefits[:2])}. "
 
 
-def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, tone_system: ThreeLayerToneSystem) -> str:
+def generate_enhanced_readme(
+    module_path: Path, vocab_engine: VocabularyEngine, tone_system: ThreeLayerToneSystem
+) -> str:
     """Generate enhanced README using 3-Layer Tone System."""
 
     # Load manifest
@@ -285,7 +287,7 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
         return ""
 
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, "r", encoding="utf-8") as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")
@@ -300,7 +302,7 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
     readme_lines = []
 
     # Header with constellation symbols
-    constellation_symbol = vocab_engine.constellation_symbols.get(module_name.lower(), '✨')
+    constellation_symbol = vocab_engine.constellation_symbols.get(module_name.lower(), "✨")
     readme_lines.append(f"# {constellation_symbol} {module_name.title()} Module")
     readme_lines.append("")
 
@@ -335,22 +337,28 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
         readme_lines.append("")
 
         # Group by category with consciousness framing
-        classes = [ep for ep in entrypoints if any(word in ep for word in ['Hub', 'System', 'Engine', 'Monitor', 'Manager'])]
-        functions = [ep for ep in entrypoints if any(word in ep for word in ['create_', 'get_', 'process_', 'activate_'])]
+        classes = [
+            ep for ep in entrypoints if any(word in ep for word in ["Hub", "System", "Engine", "Monitor", "Manager"])
+        ]
+        functions = [
+            ep for ep in entrypoints if any(word in ep for word in ["create_", "get_", "process_", "activate_"])
+        ]
 
         if classes:
             readme_lines.append("### Core Consciousness Components")
             readme_lines.append("")
             for cls in sorted(classes)[:8]:
-                class_name = cls.split('.')[-1]
-                readme_lines.append(f"- **`{class_name}`** — Central {class_name.lower()} for consciousness coordination")
+                class_name = cls.split(".")[-1]
+                readme_lines.append(
+                    f"- **`{class_name}`** — Central {class_name.lower()} for consciousness coordination"
+                )
             readme_lines.append("")
 
         if functions:
             readme_lines.append("### Consciousness Functions")
             readme_lines.append("")
             for func in sorted(functions)[:8]:
-                func_name = func.split('.')[-1]
+                func_name = func.split(".")[-1]
                 readme_lines.append(f"- **`{func_name}()`** — Consciousness-aware {func_name.replace('_', ' ')}")
             readme_lines.append("")
 
@@ -378,15 +386,17 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
 
     # Map module to constellation role
     constellation_roles = {
-        'identity': '⚛️ **Anchor Star** — Ensuring continuity and coherence',
-        'memory': '✦ **Path Tracer** — Tracing the paths of past light',
-        'consciousness': '🧠 **Awareness Hub** — Central consciousness coordination',
-        'governance': '⚖️ **Ethics Guardian** — Ensuring accountability and dignity',
-        'brain': '🧠 **Cognitive Center** — Intelligence coordination and monitoring',
-        'core': '⚛️ **Foundation Star** — Core system coordination'
+        "identity": "⚛️ **Anchor Star** — Ensuring continuity and coherence",
+        "memory": "✦ **Path Tracer** — Tracing the paths of past light",
+        "consciousness": "🧠 **Awareness Hub** — Central consciousness coordination",
+        "governance": "⚖️ **Ethics Guardian** — Ensuring accountability and dignity",
+        "brain": "🧠 **Cognitive Center** — Intelligence coordination and monitoring",
+        "core": "⚛️ **Foundation Star** — Core system coordination",
     }
 
-    role = constellation_roles.get(module_name.lower(), f'✨ **Specialist Component** — Dedicated {module_name} functionality')
+    role = constellation_roles.get(
+        module_name.lower(), f"✨ **Specialist Component** — Dedicated {module_name} functionality"
+    )
     readme_lines.append(role)
     readme_lines.append("")
 
@@ -405,9 +415,11 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
     # Footer with consciousness closing
     readme_lines.append("---")
     readme_lines.append("")
-    readme_lines.append("*Generated with consciousness-aware documentation systems, aligned with LUKHAS 3-Layer Tone System and Constellation Framework principles. This documentation evolves with the module's consciousness integration.*")
+    readme_lines.append(
+        "*Generated with consciousness-aware documentation systems, aligned with LUKHAS 3-Layer Tone System and Constellation Framework principles. This documentation evolves with the module's consciousness integration.*"
+    )
 
-    return '\n'.join(readme_lines)
+    return "\n".join(readme_lines)
 
 
 def main():
@@ -423,8 +435,16 @@ def main():
 
     # Priority modules for enhanced README generation
     priority_modules = [
-        'brain', 'consciousness', 'memory', 'identity', 'governance',
-        'matriz', 'core', 'api', 'bridge', 'orchestration'
+        "brain",
+        "consciousness",
+        "memory",
+        "identity",
+        "governance",
+        "matriz",
+        "core",
+        "api",
+        "bridge",
+        "orchestration",
     ]
 
     generated_count = 0
@@ -436,7 +456,7 @@ def main():
             if readme_content:
                 readme_file = module_path / "README.md"
                 try:
-                    with open(readme_file, 'w', encoding='utf-8') as f:
+                    with open(readme_file, "w", encoding="utf-8") as f:
                         f.write(readme_content)
                     print(f"✨ Generated consciousness-aligned README for {module_name}")
                     generated_count += 1
@@ -444,7 +464,9 @@ def main():
                     print(f"❌ Error writing README for {module_name}: {e}")
 
     print(f"\n🌟 Generated {generated_count} consciousness-aligned README files using 3-Layer Tone System")
-    print("🎯 Each README includes: Poetic openings, accessible explanations, technical depth, MATRIZ integration, and Constellation Framework context")
+    print(
+        "🎯 Each README includes: Poetic openings, accessible explanations, technical depth, MATRIZ integration, and Constellation Framework context"
+    )
 
 
 if __name__ == "__main__":

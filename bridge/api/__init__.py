@@ -1,4 +1,5 @@
 """Pre-freeze bridge surface for `bridge.api` expected by tests."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge
@@ -25,6 +26,7 @@ if not isinstance(__all__, list):
     __all__ = list(__all__)
 
 if "RouteHandlers" not in globals():
+
     class RouteHandlers:
         """Minimal mountable stub to keep collection healthy."""
 

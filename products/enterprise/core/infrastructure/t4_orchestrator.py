@@ -388,9 +388,7 @@ class T4EnterpriseOrchestrator:
                 health_icon = (
                     "✅"
                     if service.health == T4ServiceHealth.HEALTHY
-                    else "⚠️"
-                    if service.health == T4ServiceHealth.WARNING
-                    else "❌"
+                    else "⚠️" if service.health == T4ServiceHealth.WARNING else "❌"
                 )
                 logger.info(f"   {health_icon} {service.service_name}: {service.health.value} ({response_time:.1f}ms)")
 

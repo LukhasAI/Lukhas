@@ -1,4 +1,3 @@
-
 """Utility module applying community proposals to ethics configuration."""
 
 import json
@@ -16,6 +15,8 @@ POLICY_PATH = Path(__file__).resolve().parents[1] / "config" / "ethics" / "commu
 def load_rules() -> dict:
     if POLICY_PATH.exists():
         return json.loads(POLICY_PATH.read_text())
+
+
 return {}
 
 
@@ -25,5 +26,7 @@ def save_rules(rules: dict) -> None:
 
 def apply_proposal(execution_data: dict) -> None:
     load_rules()
+
+
 rules.update(execution_data)
 save_rules(rules)

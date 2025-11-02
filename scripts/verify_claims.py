@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class ClaimTarget:
     """Performance claim target with tolerance."""
+
     component: str
     metric: str
     target_value: float
@@ -28,6 +29,7 @@ class ClaimTarget:
 @dataclass
 class VerificationResult:
     """Result of a single claim verification."""
+
     claim: ClaimTarget
     measured_value: Optional[float]
     within_tolerance: bool
@@ -53,7 +55,7 @@ class ClaimsVerifier:
                 target_value=168.0,
                 unit="μs",
                 tolerance_percent=self.tolerance_percent,
-                description="Guardian E2E response time (p95)"
+                description="Guardian E2E response time (p95)",
             ),
             ClaimTarget(
                 component="memory",
@@ -61,7 +63,7 @@ class ClaimsVerifier:
                 target_value=178.0,
                 unit="μs",
                 tolerance_percent=self.tolerance_percent,
-                description="Memory event creation time (p95)"
+                description="Memory event creation time (p95)",
             ),
             ClaimTarget(
                 component="orchestrator",
@@ -69,7 +71,7 @@ class ClaimsVerifier:
                 target_value=54000.0,  # 54ms in microseconds
                 unit="μs",
                 tolerance_percent=self.tolerance_percent,
-                description="Orchestrator health check time (p95)"
+                description="Orchestrator health check time (p95)",
             ),
             ClaimTarget(
                 component="creativity",
@@ -77,7 +79,7 @@ class ClaimsVerifier:
                 target_value=50000.0,  # 50ms in microseconds
                 unit="μs",
                 tolerance_percent=25.0,  # More tolerance for new component
-                description="Creativity engine processing time (p95)"
+                description="Creativity engine processing time (p95)",
             ),
             # Additional performance claims
             ClaimTarget(
@@ -86,7 +88,7 @@ class ClaimsVerifier:
                 target_value=150.0,
                 unit="μs",
                 tolerance_percent=15.0,
-                description="Guardian E2E mean response time"
+                description="Guardian E2E mean response time",
             ),
             ClaimTarget(
                 component="memory",
@@ -94,56 +96,52 @@ class ClaimsVerifier:
                 target_value=160.0,
                 unit="μs",
                 tolerance_percent=15.0,
-                description="Memory event creation mean time"
-            )
+                description="Memory event creation mean time",
+            ),
         ]
 
     def load_baseline_data(self, baseline_file: str) -> Dict[str, Any]:
         """Load baseline audit data from file."""
         baseline_path = Path(baseline_file)
 
-        if baseline_path.suffix.lower() == '.md':
+        if baseline_path.suffix.lower() == ".md":
             # Parse from markdown audit report
             return self._parse_markdown_claims(baseline_path)
         else:
             # Load from JSON
-            with open(baseline_path, 'r') as f:
+            with open(baseline_path, "r") as f:
                 return json.load(f)
 
     def _parse_markdown_claims(self, md_file: Path) -> Dict[str, Any]:
         """Parse claims from markdown audit report."""
-        with open(md_file, 'r') as f:
+        with open(md_file, "r") as f:
             content = f.read()
 
         # Extract performance claims using regex
         claims_data = {}
 
         # Pattern to match performance claims like "Guardian E2E: 168.18μs"
-        pattern = r'(\w+)\s+E2E:\s*([0-9,.]+)μs'
+        pattern = r"(\w+)\s+E2E:\s*([0-9,.]+)μs"
         matches = re.findall(pattern, content, re.IGNORECASE)
 
         for component, value_str in matches:
             # Clean value string and convert to float
-            value = float(value_str.replace(',', ''))
+            value = float(value_str.replace(",", ""))
 
             component_lower = component.lower()
             if component_lower not in claims_data:
                 claims_data[component_lower] = {}
 
-            claims_data[component_lower]['p95_latency_us'] = value
+            claims_data[component_lower]["p95_latency_us"] = value
 
         return claims_data
 
     def load_results_data(self, results_file: str) -> Dict[str, Any]:
         """Load measurement results from file."""
-        with open(results_file, 'r') as f:
+        with open(results_file, "r") as f:
             return json.load(f)
 
-    def extract_measurement_value(
-        self,
-        results_data: Dict[str, Any],
-        claim: ClaimTarget
-    ) -> Optional[float]:
+    def extract_measurement_value(self, results_data: Dict[str, Any], claim: ClaimTarget) -> Optional[float]:
         """Extract measurement value for a specific claim."""
 
         # Map component names to result data structure
@@ -151,14 +149,11 @@ class ClaimsVerifier:
             "guardian": "guardian_stats",
             "memory": "memory_stats",
             "orchestrator": "orchestrator_stats",
-            "creativity": "creativity_stats"
+            "creativity": "creativity_stats",
         }
 
         # Map metric names
-        metric_mapping = {
-            "p95_latency_us": "p95",
-            "mean_latency_us": "mean"
-        }
+        metric_mapping = {"p95_latency_us": "p95", "mean_latency_us": "mean"}
 
         component_key = component_mapping.get(claim.component)
         metric_key = metric_mapping.get(claim.metric)
@@ -173,11 +168,7 @@ class ClaimsVerifier:
 
         return component_data.get(metric_key)
 
-    def verify_claim(
-        self,
-        claim: ClaimTarget,
-        measured_value: Optional[float]
-    ) -> VerificationResult:
+    def verify_claim(self, claim: ClaimTarget, measured_value: Optional[float]) -> VerificationResult:
         """Verify a single performance claim."""
 
         if measured_value is None:
@@ -187,7 +178,7 @@ class ClaimsVerifier:
                 within_tolerance=False,
                 deviation_percent=0.0,
                 status="MISSING",
-                details="Measurement data not found"
+                details="Measurement data not found",
             )
 
         # Calculate tolerance bounds
@@ -218,13 +209,11 @@ class ClaimsVerifier:
             within_tolerance=within_tolerance,
             deviation_percent=deviation_percent,
             status=status,
-            details=details
+            details=details,
         )
 
     def verify_all_claims(
-        self,
-        baseline_data: Dict[str, Any],
-        results_data: Dict[str, Any]
+        self, baseline_data: Dict[str, Any], results_data: Dict[str, Any]
     ) -> List[VerificationResult]:
         """Verify all T4/0.01% performance claims."""
 
@@ -247,10 +236,7 @@ class ClaimsVerifier:
         return verification_results
 
     def generate_verification_report(
-        self,
-        verification_results: List[VerificationResult],
-        baseline_file: str,
-        results_file: str
+        self, verification_results: List[VerificationResult], baseline_file: str, results_file: str
     ) -> str:
         """Generate comprehensive verification report."""
 
@@ -344,31 +330,30 @@ class ClaimsVerifier:
         return "\n".join(report_lines)
 
     def export_verification_json(
-        self,
-        verification_results: List[VerificationResult],
-        baseline_file: str,
-        results_file: str
+        self, verification_results: List[VerificationResult], baseline_file: str, results_file: str
     ) -> Dict[str, Any]:
         """Export verification results as JSON."""
 
         # Convert results to serializable format
         results_data = []
         for result in verification_results:
-            results_data.append({
-                "claim": {
-                    "component": result.claim.component,
-                    "metric": result.claim.metric,
-                    "target_value": result.claim.target_value,
-                    "unit": result.claim.unit,
-                    "tolerance_percent": result.claim.tolerance_percent,
-                    "description": result.claim.description
-                },
-                "measured_value": result.measured_value,
-                "within_tolerance": result.within_tolerance,
-                "deviation_percent": result.deviation_percent,
-                "status": result.status,
-                "details": result.details
-            })
+            results_data.append(
+                {
+                    "claim": {
+                        "component": result.claim.component,
+                        "metric": result.claim.metric,
+                        "target_value": result.claim.target_value,
+                        "unit": result.claim.unit,
+                        "tolerance_percent": result.claim.tolerance_percent,
+                        "description": result.claim.description,
+                    },
+                    "measured_value": result.measured_value,
+                    "within_tolerance": result.within_tolerance,
+                    "deviation_percent": result.deviation_percent,
+                    "status": result.status,
+                    "details": result.details,
+                }
+            )
 
         # Summary statistics
         total_claims = len(verification_results)
@@ -381,7 +366,7 @@ class ClaimsVerifier:
                 "baseline_file": baseline_file,
                 "results_file": results_file,
                 "default_tolerance_percent": self.tolerance_percent,
-                "verification_timestamp": Path(__file__).stat().st_mtime
+                "verification_timestamp": Path(__file__).stat().st_mtime,
             },
             "summary": {
                 "total_claims": total_claims,
@@ -389,9 +374,9 @@ class ClaimsVerifier:
                 "failed_claims": failed_claims,
                 "missing_claims": missing_claims,
                 "success_rate": passed_claims / total_claims if total_claims > 0 else 0.0,
-                "overall_status": "PASS" if failed_claims == 0 and missing_claims == 0 else "FAIL"
+                "overall_status": "PASS" if failed_claims == 0 and missing_claims == 0 else "FAIL",
             },
-            "verification_results": results_data
+            "verification_results": results_data,
         }
 
 
@@ -422,28 +407,24 @@ def main():
 
     # Generate and save report
     if args.report:
-        report = verifier.generate_verification_report(
-            verification_results, args.baseline, args.results
-        )
+        report = verifier.generate_verification_report(verification_results, args.baseline, args.results)
 
         report_path = Path(args.report)
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report)
 
         print(f"📄 Verification report saved: {args.report}")
 
     # Export JSON data
     if args.output:
-        verification_data = verifier.export_verification_json(
-            verification_results, args.baseline, args.results
-        )
+        verification_data = verifier.export_verification_json(verification_results, args.baseline, args.results)
 
         output_path = Path(args.output)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(verification_data, f, indent=2, sort_keys=True)
 
         print(f"📊 Verification data saved: {args.output}")

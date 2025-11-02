@@ -15,7 +15,8 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Classical Dream API",
     description="Safe, deterministic dream exploration without quantum effects",
-    version="1.0.0")
+    version="1.0.0",
+)
 
 
 class ClassicalDreamScenario(BaseModel):

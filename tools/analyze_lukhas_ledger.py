@@ -11,6 +11,7 @@ from pathlib import Path
 LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")
 REPORT = Path("artifacts/IMPORT_MIGRATION_REPORT.md")
 
+
 def read_ledger():
     if not LEDGER.exists():
         print(f"no ledger at {LEDGER}", file=sys.stderr)
@@ -22,6 +23,7 @@ def read_ledger():
             yield json.loads(line)
         except Exception:
             continue
+
 
 def main():
     alias_counts = Counter()
@@ -72,6 +74,7 @@ def main():
         lines.append("")
     REPORT.write_text("\n".join(lines))
     print(f"✅ Wrote {REPORT}")
+
 
 if __name__ == "__main__":
     main()

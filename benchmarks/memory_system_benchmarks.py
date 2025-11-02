@@ -26,6 +26,7 @@ import pytest
 @dataclass
 class MemoryItem:
     """Test memory item for benchmarking"""
+
     id: str
     content: str
     embedding: List[float]
@@ -36,6 +37,7 @@ class MemoryItem:
         if not self.embedding:
             # Generate random embedding for testing
             self.embedding = [random.gauss(0, 1) for _ in range(384)]
+
 
 class MockMemorySystem:
     """Mock memory system for benchmarking"""
@@ -128,6 +130,7 @@ class MockMemorySystem:
         successful_operations = self.total_operations - self.cascade_prevented_count
         return successful_operations / self.total_operations
 
+
 class MemorySystemBenchmarks:
     """Comprehensive memory system benchmarks"""
 
@@ -146,7 +149,7 @@ class MemorySystemBenchmarks:
                 content=f"Test memory content {i} with various complexity and information",
                 embedding=[],  # Will be auto-generated
                 timestamp=time.time() + i,
-                importance=random.uniform(0.1, 1.0)
+                importance=random.uniform(0.1, 1.0),
             )
             items.append(item)
 
@@ -192,14 +195,10 @@ class MemorySystemBenchmarks:
                 "mean": round(mean_latency, 2),
                 "p50": round(p50, 2),
                 "p95": round(p95, 2),
-                "p99": round(p99, 2)
+                "p99": round(p99, 2),
             },
-            "slo_compliance": {
-                "target_p95_ms": 100.0,
-                "actual_p95_ms": round(p95, 2),
-                "compliant": p95 < 100.0
-            },
-            "performance_grade": "excellent" if p95 < 50 else "good" if p95 < 100 else "needs_improvement"
+            "slo_compliance": {"target_p95_ms": 100.0, "actual_p95_ms": round(p95, 2), "compliant": p95 < 100.0},
+            "performance_grade": "excellent" if p95 < 50 else "good" if p95 < 100 else "needs_improvement",
         }
 
         print("📊 Recall Latency Results:")
@@ -251,13 +250,13 @@ class MemorySystemBenchmarks:
             "slo_compliance": {
                 "target_prevention_rate": 99.7,
                 "actual_prevention_rate": round(prevention_rate, 3),
-                "compliant": prevention_rate >= 99.7
+                "compliant": prevention_rate >= 99.7,
             },
             "memory_efficiency": {
                 "final_items": len(self.memory_system.items),
                 "capacity": self.memory_system.capacity,
-                "utilization": round(len(self.memory_system.items) / self.memory_system.capacity * 100, 1)
-            }
+                "utilization": round(len(self.memory_system.items) / self.memory_system.capacity * 100, 1),
+            },
         }
 
         print("📊 Cascade Prevention Results:")
@@ -273,8 +272,8 @@ class MemorySystemBenchmarks:
 
         schedules = {
             "MAINTENANCE": {"interval": 24, "thoroughness": 0.1},  # Daily, light
-            "STANDARD": {"interval": 8, "thoroughness": 0.3},     # 3x daily, medium
-            "INTENSIVE": {"interval": 2, "thoroughness": 0.7}     # 12x daily, thorough
+            "STANDARD": {"interval": 8, "thoroughness": 0.3},  # 3x daily, medium
+            "INTENSIVE": {"interval": 2, "thoroughness": 0.7},  # 12x daily, thorough
         }
 
         schedule_results = {}
@@ -302,24 +301,22 @@ class MemorySystemBenchmarks:
                 "consolidation_time_ms": round(actual_time, 2),
                 "items_processed": items_processed,
                 "efficiency_items_per_ms": round(efficiency, 2),
-                "recommended_for": self._get_schedule_recommendation(schedule_name)
+                "recommended_for": self._get_schedule_recommendation(schedule_name),
             }
 
         results = {
             "test": "consolidation_schedules",
             "schedules": schedule_results,
-            "recommendations": {
-                "production": "STANDARD",
-                "development": "MAINTENANCE",
-                "high_load": "INTENSIVE"
-            }
+            "recommendations": {"production": "STANDARD", "development": "MAINTENANCE", "high_load": "INTENSIVE"},
         }
 
         print("📊 Consolidation Schedule Results:")
         for name, data in schedule_results.items():
-            print(f"   {name}: {data['consolidation_time_ms']:.1f}ms, "
-                  f"{data['items_processed']} items, "
-                  f"{data['efficiency_items_per_ms']:.1f} items/ms")
+            print(
+                f"   {name}: {data['consolidation_time_ms']:.1f}ms, "
+                f"{data['items_processed']} items, "
+                f"{data['efficiency_items_per_ms']:.1f} items/ms"
+            )
 
         return results
 
@@ -328,7 +325,7 @@ class MemorySystemBenchmarks:
         recommendations = {
             "MAINTENANCE": "Low-traffic environments, development, cost optimization",
             "STANDARD": "Production workloads, balanced performance and resource usage",
-            "INTENSIVE": "High-traffic, latency-critical applications, peak performance"
+            "INTENSIVE": "High-traffic, latency-critical applications, peak performance",
         }
         return recommendations.get(schedule_name, "General purpose")
 
@@ -348,7 +345,7 @@ class MemorySystemBenchmarks:
         # Load items in batches
         batch_size = 1000
         for i in range(0, len(test_data), batch_size):
-            batch = test_data[i:i + batch_size]
+            batch = test_data[i : i + batch_size]
             batch_start = time.perf_counter()
 
             for item in batch:
@@ -392,17 +389,23 @@ class MemorySystemBenchmarks:
                 "total_time_ms": round(query_time, 2),
                 "avg_latency_ms": round(avg_query_latency, 2),
                 "max_latency_ms": round(max_query_latency, 2),
-                "throughput_queries_per_sec": round(stress_queries / (query_time / 1000), 1)
+                "throughput_queries_per_sec": round(stress_queries / (query_time / 1000), 1),
             },
             "system_health": {
                 "memory_items": len(self.memory_system.items),
                 "access_count": self.memory_system.access_count,
-                "capacity_utilization": round(len(self.memory_system.items) / self.memory_system.capacity * 100, 1)
+                "capacity_utilization": round(len(self.memory_system.items) / self.memory_system.capacity * 100, 1),
             },
             "performance_assessment": {
-                "load_performance": "excellent" if load_throughput > 1000 else "good" if load_throughput > 500 else "needs_improvement",
-                "query_performance": "excellent" if avg_query_latency < 50 else "good" if avg_query_latency < 100 else "needs_improvement"
-            }
+                "load_performance": (
+                    "excellent" if load_throughput > 1000 else "good" if load_throughput > 500 else "needs_improvement"
+                ),
+                "query_performance": (
+                    "excellent"
+                    if avg_query_latency < 50
+                    else "good" if avg_query_latency < 100 else "needs_improvement"
+                ),
+            },
         }
 
         print("📊 Stress Test Results:")
@@ -411,6 +414,7 @@ class MemorySystemBenchmarks:
         print(f"   System Health: {results['system_health']['capacity_utilization']}% capacity used")
 
         return results
+
 
 async def run_all_memory_benchmarks():
     """Run complete memory system benchmark suite"""
@@ -456,6 +460,7 @@ async def run_all_memory_benchmarks():
         print(f"❌ Benchmark suite failed: {e}")
         return []
 
+
 # pytest integration
 @pytest.mark.benchmark
 @pytest.mark.asyncio
@@ -465,6 +470,7 @@ async def test_memory_recall_latency():
     results = await benchmarks.benchmark_recall_latency(20)
     assert results["slo_compliance"]["compliant"], "Memory recall latency SLO violated"
 
+
 @pytest.mark.benchmark
 @pytest.mark.asyncio
 async def test_cascade_prevention():
@@ -472,6 +478,7 @@ async def test_cascade_prevention():
     benchmarks = MemorySystemBenchmarks()
     results = await benchmarks.benchmark_cascade_prevention(1000)
     assert results["slo_compliance"]["compliant"], "Cascade prevention SLO violated"
+
 
 if __name__ == "__main__":
     asyncio.run(run_all_memory_benchmarks())

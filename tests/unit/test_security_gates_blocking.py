@@ -17,7 +17,7 @@ def test_security_audit_workflow_blocking():
     workflow_path = Path(".github/workflows/security-audit.yml")
     assert workflow_path.exists(), "Security audit workflow not found"
 
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path, "r") as f:
         workflow = yaml.safe_load(f)
 
     # Verify workflow structure
@@ -28,14 +28,8 @@ def test_security_audit_workflow_blocking():
     steps = job["steps"]
 
     # Find security-related steps
-    pip_audit_steps = [
-        step for step in steps
-        if "run pip-audit" in step.get("name", "").lower()
-    ]
-    sbom_steps = [
-        step for step in steps
-        if "sbom" in step.get("name", "").lower()
-    ]
+    pip_audit_steps = [step for step in steps if "run pip-audit" in step.get("name", "").lower()]
+    sbom_steps = [step for step in steps if "sbom" in step.get("name", "").lower()]
 
     # Verify pip-audit steps exist and are blocking
     assert len(pip_audit_steps) >= 1, "Missing pip-audit steps"
@@ -68,12 +62,7 @@ def test_security_tools_installed():
 
     for tool_name, version_cmd in required_tools:
         try:
-            result = subprocess.run(
-                version_cmd.split(),
-                capture_output=True,
-                text=True,
-                timeout=10
-            )
+            result = subprocess.run(version_cmd.split(), capture_output=True, text=True, timeout=10)
             assert result.returncode == 0, f"{tool_name} not available or not working"
         except (subprocess.TimeoutExpired, FileNotFoundError):
             # Tool not installed - that's fine for unit test environment
@@ -82,10 +71,7 @@ def test_security_tools_installed():
 
 def test_requirements_files_exist():
     """Test that required dependency files exist for security scanning"""
-    required_files = [
-        "requirements.txt",
-        "constraints.txt"
-    ]
+    required_files = ["requirements.txt", "constraints.txt"]
 
     for file_path in required_files:
         path = Path(file_path)
@@ -100,7 +86,7 @@ def test_makefile_sbom_target():
         print("⚠️ Makefile not found - skipping SBOM target test")
         return
 
-    with open(makefile_path, 'r') as f:
+    with open(makefile_path, "r") as f:
         makefile_content = f.read()
 
     # Should have sbom target
@@ -113,18 +99,14 @@ def test_makefile_sbom_target():
 def test_security_workflow_permissions():
     """Test that security workflow has appropriate permissions"""
     workflow_path = Path(".github/workflows/security-audit.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path, "r") as f:
         workflow = yaml.safe_load(f)
 
     job = workflow["jobs"]["security-audit"]
     permissions = job.get("permissions", {})
 
     # Security audit should have these permissions
-    required_permissions = {
-        "contents": "read",
-        "security-events": "write",
-        "pull-requests": "write"
-    }
+    required_permissions = {"contents": "read", "security-events": "write", "pull-requests": "write"}
 
     for perm, level in required_permissions.items():
         assert perm in permissions, f"Missing required permission: {perm}"
@@ -134,7 +116,7 @@ def test_security_workflow_permissions():
 def test_security_gates_fail_fast():
     """Test that security gates are configured to fail fast"""
     workflow_path = Path(".github/workflows/security-audit.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path, "r") as f:
         content = f.read()
 
     # Should have immediate exit 1 on vulnerabilities
@@ -143,31 +125,28 @@ def test_security_gates_fail_fast():
 
     # Should not have continue-on-error for security steps
     security_sections = [
-        section for section in content.split("- name:")
+        section
+        for section in content.split("- name:")
         if any(keyword in section.lower() for keyword in ["pip-audit", "sbom", "security"])
     ]
 
     for section in security_sections:
         if "continue-on-error: true" in section:
             # Check if this is in a comment or acceptable context
-            lines = section.split('\n')
+            lines = section.split("\n")
             for line in lines:
-                if "continue-on-error: true" in line and not line.strip().startswith('#'):
+                if "continue-on-error: true" in line and not line.strip().startswith("#"):
                     raise AssertionError(f"Found continue-on-error: true in security section: {line}")
 
 
 def test_blocking_configuration_comments():
     """Test that workflow has proper documentation about blocking behavior"""
     workflow_path = Path(".github/workflows/security-audit.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path, "r") as f:
         content = f.read()
 
     # Should document blocking behavior
-    blocking_indicators = [
-        "BLOCKING",
-        "exit 1",
-        "vulnerabilities found"
-    ]
+    blocking_indicators = ["BLOCKING", "exit 1", "vulnerabilities found"]
 
     found_indicators = sum(1 for indicator in blocking_indicators if indicator in content)
     assert found_indicators >= 2, "Workflow missing clear blocking behavior documentation"

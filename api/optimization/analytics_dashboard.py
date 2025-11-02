@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 try:
     import numpy as np
     import pandas as pd
+
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
@@ -31,6 +32,7 @@ except ImportError:
 try:
     from sklearn.cluster import KMeans
     from sklearn.preprocessing import StandardScaler
+
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
@@ -38,6 +40,7 @@ except ImportError:
 
 class MetricType(Enum):
     """Types of metrics collected."""
+
     PERFORMANCE = "performance"
     USAGE = "usage"
     ERROR = "error"
@@ -48,6 +51,7 @@ class MetricType(Enum):
 
 class AlertSeverity(Enum):
     """Alert severity levels."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -56,6 +60,7 @@ class AlertSeverity(Enum):
 
 class TimeWindow(Enum):
     """Time windows for analytics."""
+
     REAL_TIME = "real_time"
     LAST_MINUTE = "last_minute"
     LAST_HOUR = "last_hour"
@@ -67,6 +72,7 @@ class TimeWindow(Enum):
 @dataclass
 class MetricPoint:
     """Individual metric data point."""
+
     timestamp: float
     value: float
     labels: Dict[str, str] = field(default_factory=dict)
@@ -76,6 +82,7 @@ class MetricPoint:
 @dataclass
 class Alert:
     """System alert."""
+
     id: str
     severity: AlertSeverity
     title: str
@@ -92,6 +99,7 @@ class Alert:
 @dataclass
 class BusinessInsight:
     """Business intelligence insight."""
+
     id: str
     title: str
     description: str
@@ -106,6 +114,7 @@ class BusinessInsight:
 @dataclass
 class APIEndpointMetrics:
     """Comprehensive metrics for API endpoint."""
+
     endpoint: str
     method: str
     total_requests: int = 0
@@ -114,7 +123,7 @@ class APIEndpointMetrics:
     avg_response_time: float = 0.0
     p95_response_time: float = 0.0
     p99_response_time: float = 0.0
-    min_response_time: float = float('inf')
+    min_response_time: float = float("inf")
     max_response_time: float = 0.0
     error_rate: float = 0.0
     cache_hit_rate: float = 0.0
@@ -133,33 +142,31 @@ class MetricsCollector:
         self.user_metrics: Dict[str, Dict[str, Any]] = defaultdict(dict)
         self.system_metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
 
-    async def record_metric(self, metric_name: str, value: float,
-                          labels: Dict[str, str] = None,
-                          metadata: Dict[str, Any] = None):
+    async def record_metric(
+        self, metric_name: str, value: float, labels: Dict[str, str] = None, metadata: Dict[str, Any] = None
+    ):
         """Record a metric point."""
-        point = MetricPoint(
-            timestamp=time.time(),
-            value=value,
-            labels=labels or {},
-            metadata=metadata or {}
-        )
+        point = MetricPoint(timestamp=time.time(), value=value, labels=labels or {}, metadata=metadata or {})
 
         self.metrics[metric_name].append(point)
 
-    async def record_api_request(self, endpoint: str, method: str,
-                                response_time: float, status_code: int,
-                                user_id: Optional[str] = None,
-                                request_size: int = 0, response_size: int = 0,
-                                cache_hit: bool = False):
+    async def record_api_request(
+        self,
+        endpoint: str,
+        method: str,
+        response_time: float,
+        status_code: int,
+        user_id: Optional[str] = None,
+        request_size: int = 0,
+        response_size: int = 0,
+        cache_hit: bool = False,
+    ):
         """Record API request metrics."""
         endpoint_key = f"{method}:{endpoint}"
 
         # Update or create endpoint metrics
         if endpoint_key not in self.endpoint_metrics:
-            self.endpoint_metrics[endpoint_key] = APIEndpointMetrics(
-                endpoint=endpoint,
-                method=method
-            )
+            self.endpoint_metrics[endpoint_key] = APIEndpointMetrics(endpoint=endpoint, method=method)
 
         metrics = self.endpoint_metrics[endpoint_key]
         metrics.total_requests += 1
@@ -179,8 +186,8 @@ class MetricsCollector:
             metrics.avg_response_time = response_time
         else:
             metrics.avg_response_time = (
-                (metrics.avg_response_time * (total_requests - 1) + response_time) / total_requests
-            )
+                metrics.avg_response_time * (total_requests - 1) + response_time
+            ) / total_requests
 
         # Update error rate
         metrics.error_rate = (metrics.failed_requests / metrics.total_requests) * 100
@@ -191,8 +198,8 @@ class MetricsCollector:
         # Update cache metrics
         if cache_hit:
             # Recalculate cache hit rate
-            cache_hits = getattr(metrics, '_cache_hits', 0) + 1
-            setattr(metrics, '_cache_hits', cache_hits)
+            cache_hits = getattr(metrics, "_cache_hits", 0) + 1
+            setattr(metrics, "_cache_hits", cache_hits)
             metrics.cache_hit_rate = (cache_hits / metrics.total_requests) * 100
 
         metrics.last_updated = datetime.now()
@@ -209,7 +216,7 @@ class MetricsCollector:
                     "endpoints": set(),
                     "total_response_time": 0,
                     "first_seen": datetime.now(),
-                    "last_seen": datetime.now()
+                    "last_seen": datetime.now(),
                 }
 
             user_data = self.user_metrics[user_id]
@@ -218,25 +225,21 @@ class MetricsCollector:
             user_data["total_response_time"] += response_time
             user_data["last_seen"] = datetime.now()
 
-    async def get_metrics(self, metric_name: str,
-                         time_window: TimeWindow = TimeWindow.LAST_HOUR) -> List[MetricPoint]:
+    async def get_metrics(self, metric_name: str, time_window: TimeWindow = TimeWindow.LAST_HOUR) -> List[MetricPoint]:
         """Get metrics for specified time window."""
         if metric_name not in self.metrics:
             return []
 
         cutoff_time = self._get_cutoff_time(time_window)
-        return [point for point in self.metrics[metric_name]
-                if point.timestamp >= cutoff_time]
+        return [point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time]
 
-    async def get_endpoint_metrics(self, endpoint: str = None,
-                                 method: str = None) -> Dict[str, APIEndpointMetrics]:
+    async def get_endpoint_metrics(self, endpoint: str = None, method: str = None) -> Dict[str, APIEndpointMetrics]:
         """Get endpoint metrics."""
         if endpoint and method:
             endpoint_key = f"{method}:{endpoint}"
             return {endpoint_key: self.endpoint_metrics.get(endpoint_key)}
         elif endpoint:
-            return {k: v for k, v in self.endpoint_metrics.items()
-                    if v.endpoint == endpoint}
+            return {k: v for k, v in self.endpoint_metrics.items() if v.endpoint == endpoint}
         else:
             return dict(self.endpoint_metrics)
 
@@ -268,16 +271,21 @@ class AlertManager:
         self.alert_rules: List[Dict[str, Any]] = []
         self.alert_history: deque = deque(maxlen=1000)
 
-    def add_alert_rule(self, metric_name: str, threshold: float,
-                      severity: AlertSeverity, comparison: str = "greater",
-                      description: str = ""):
+    def add_alert_rule(
+        self,
+        metric_name: str,
+        threshold: float,
+        severity: AlertSeverity,
+        comparison: str = "greater",
+        description: str = "",
+    ):
         """Add alert rule."""
         rule = {
             "metric_name": metric_name,
             "threshold": threshold,
             "severity": severity,
             "comparison": comparison,
-            "description": description
+            "description": description,
         }
         self.alert_rules.append(rule)
 
@@ -294,9 +302,7 @@ class AlertManager:
         comparison = rule["comparison"]
 
         # Get recent metrics
-        recent_metrics = await metrics_collector.get_metrics(
-            metric_name, TimeWindow.LAST_MINUTE
-        )
+        recent_metrics = await metrics_collector.get_metrics(metric_name, TimeWindow.LAST_MINUTE)
 
         if not recent_metrics:
             return
@@ -326,7 +332,7 @@ class AlertManager:
                     metric_type=MetricType.PERFORMANCE,
                     threshold=threshold,
                     current_value=current_value,
-                    timestamp=datetime.now()
+                    timestamp=datetime.now(),
                 )
 
                 self.alerts[alert_id] = alert
@@ -390,7 +396,8 @@ class IntelligenceEngine:
 
         # Find slow endpoints
         slow_endpoints = [
-            (key, metrics) for key, metrics in endpoint_metrics.items()
+            (key, metrics)
+            for key, metrics in endpoint_metrics.items()
             if metrics.avg_response_time > 1000  # > 1 second
         ]
 
@@ -410,16 +417,15 @@ class IntelligenceEngine:
                     "endpoint": metrics.endpoint,
                     "avg_response_time": metrics.avg_response_time,
                     "total_requests": metrics.total_requests,
-                    "p95_response_time": metrics.p95_response_time
+                    "p95_response_time": metrics.p95_response_time,
                 },
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
             insights.append(insight)
 
         # Find high error rate endpoints
         error_endpoints = [
-            (key, metrics) for key, metrics in endpoint_metrics.items()
-            if metrics.error_rate > 5  # > 5% error rate
+            (key, metrics) for key, metrics in endpoint_metrics.items() if metrics.error_rate > 5  # > 5% error rate
         ]
 
         if error_endpoints:
@@ -438,9 +444,9 @@ class IntelligenceEngine:
                     "endpoint": metrics.endpoint,
                     "error_rate": metrics.error_rate,
                     "failed_requests": metrics.failed_requests,
-                    "total_requests": metrics.total_requests
+                    "total_requests": metrics.total_requests,
                 },
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
             insights.append(insight)
 
@@ -455,11 +461,7 @@ class IntelligenceEngine:
 
         if len(user_metrics) >= 10:  # Need sufficient data
             # Find power users
-            power_users = sorted(
-                user_metrics.items(),
-                key=lambda x: x[1]["total_requests"],
-                reverse=True
-            )[:5]
+            power_users = sorted(user_metrics.items(), key=lambda x: x[1]["total_requests"], reverse=True)[:5]
 
             if power_users and power_users[0][1]["total_requests"] > 100:
                 user_id, data = power_users[0]
@@ -476,9 +478,9 @@ class IntelligenceEngine:
                         "user_id": user_id,
                         "total_requests": data["total_requests"],
                         "unique_endpoints": len(data["endpoints"]),
-                        "avg_response_time": data["total_response_time"] / data["total_requests"]
+                        "avg_response_time": data["total_response_time"] / data["total_requests"],
                     },
-                    timestamp=datetime.now()
+                    timestamp=datetime.now(),
                 )
                 insights.append(insight)
 
@@ -486,11 +488,7 @@ class IntelligenceEngine:
         endpoint_metrics = await metrics_collector.get_endpoint_metrics()
 
         if endpoint_metrics:
-            popular_endpoints = sorted(
-                endpoint_metrics.items(),
-                key=lambda x: x[1].total_requests,
-                reverse=True
-            )[:3]
+            popular_endpoints = sorted(endpoint_metrics.items(), key=lambda x: x[1].total_requests, reverse=True)[:3]
 
             most_popular = popular_endpoints[0][1]
 
@@ -505,10 +503,12 @@ class IntelligenceEngine:
                 supporting_data={
                     "endpoint": most_popular.endpoint,
                     "total_requests": most_popular.total_requests,
-                    "percentage_of_traffic": (most_popular.total_requests /
-                                            sum(m.total_requests for m in endpoint_metrics.values())) * 100
+                    "percentage_of_traffic": (
+                        most_popular.total_requests / sum(m.total_requests for m in endpoint_metrics.values())
+                    )
+                    * 100,
                 },
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
             insights.append(insight)
 
@@ -541,9 +541,9 @@ class IntelligenceEngine:
                         supporting_data={
                             "recent_avg_errors": recent_avg,
                             "older_avg_errors": older_avg,
-                            "increase_percentage": ((recent_avg - older_avg) / older_avg) * 100
+                            "increase_percentage": ((recent_avg - older_avg) / older_avg) * 100,
                         },
-                        timestamp=datetime.now()
+                        timestamp=datetime.now(),
                     )
                     insights.append(insight)
 
@@ -574,9 +574,9 @@ class IntelligenceEngine:
                         "total_requests": total_requests,
                         "total_data_transfer_mb": total_data_transfer,
                         "unique_users": unique_users,
-                        "avg_requests_per_user": total_requests / unique_users if unique_users > 0 else 0
+                        "avg_requests_per_user": total_requests / unique_users if unique_users > 0 else 0,
                     },
-                    timestamp=datetime.now()
+                    timestamp=datetime.now(),
                 )
                 insights.append(insight)
 
@@ -601,15 +601,11 @@ class AnalyticsDashboard:
             2000,  # 2 seconds
             AlertSeverity.WARNING,
             "greater",
-            "Average API response time is high"
+            "Average API response time is high",
         )
 
         self.alert_manager.add_alert_rule(
-            "api.error_rate",
-            10,  # 10%
-            AlertSeverity.ERROR,
-            "greater",
-            "API error rate is too high"
+            "api.error_rate", 10, AlertSeverity.ERROR, "greater", "API error rate is too high"  # 10%
         )
 
         self.alert_manager.add_alert_rule(
@@ -617,18 +613,23 @@ class AnalyticsDashboard:
             1000,  # 1000 RPS
             AlertSeverity.WARNING,
             "greater",
-            "High API request rate detected"
+            "High API request rate detected",
         )
 
-    async def record_api_request(self, endpoint: str, method: str,
-                               response_time: float, status_code: int,
-                               user_id: Optional[str] = None,
-                               request_size: int = 0, response_size: int = 0,
-                               cache_hit: bool = False):
+    async def record_api_request(
+        self,
+        endpoint: str,
+        method: str,
+        response_time: float,
+        status_code: int,
+        user_id: Optional[str] = None,
+        request_size: int = 0,
+        response_size: int = 0,
+        cache_hit: bool = False,
+    ):
         """Record API request metrics."""
         await self.metrics_collector.record_api_request(
-            endpoint, method, response_time, status_code,
-            user_id, request_size, response_size, cache_hit
+            endpoint, method, response_time, status_code, user_id, request_size, response_size, cache_hit
         )
 
         # Record additional system metrics
@@ -637,8 +638,7 @@ class AnalyticsDashboard:
 
         if status_code >= 400:
             await self.metrics_collector.record_metric("api.errors", 1)
-            await self.metrics_collector.record_metric("api.error_rate",
-                                                     (status_code >= 400) * 100)
+            await self.metrics_collector.record_metric("api.error_rate", (status_code >= 400) * 100)
 
     async def get_dashboard_data(self, time_window: TimeWindow = TimeWindow.LAST_HOUR) -> Dict[str, Any]:
         """Get comprehensive dashboard data."""
@@ -654,21 +654,21 @@ class AnalyticsDashboard:
 
         # Calculate summary statistics
         total_requests = sum(m.total_requests for m in endpoint_metrics.values())
-        avg_response_time = statistics.mean([m.avg_response_time for m in endpoint_metrics.values()]) if endpoint_metrics else 0
-        overall_error_rate = (sum(m.failed_requests for m in endpoint_metrics.values()) / total_requests * 100) if total_requests > 0 else 0
+        avg_response_time = (
+            statistics.mean([m.avg_response_time for m in endpoint_metrics.values()]) if endpoint_metrics else 0
+        )
+        overall_error_rate = (
+            (sum(m.failed_requests for m in endpoint_metrics.values()) / total_requests * 100)
+            if total_requests > 0
+            else 0
+        )
         unique_users = len(self.metrics_collector.user_metrics)
 
         # Get top endpoints
-        top_endpoints = sorted(
-            endpoint_metrics.items(),
-            key=lambda x: x[1].total_requests,
-            reverse=True
-        )[:10]
+        top_endpoints = sorted(endpoint_metrics.items(), key=lambda x: x[1].total_requests, reverse=True)[:10]
 
         # Get recent metrics
-        response_time_metrics = await self.metrics_collector.get_metrics(
-            "api.response_time.avg", time_window
-        )
+        response_time_metrics = await self.metrics_collector.get_metrics("api.response_time.avg", time_window)
 
         return {
             "summary": {
@@ -677,7 +677,7 @@ class AnalyticsDashboard:
                 "error_rate_percent": overall_error_rate,
                 "unique_users": unique_users,
                 "active_alerts": len(active_alerts),
-                "total_endpoints": len(endpoint_metrics)
+                "total_endpoints": len(endpoint_metrics),
             },
             "top_endpoints": [
                 {
@@ -685,7 +685,7 @@ class AnalyticsDashboard:
                     "method": metrics.method,
                     "requests": metrics.total_requests,
                     "avg_response_time": metrics.avg_response_time,
-                    "error_rate": metrics.error_rate
+                    "error_rate": metrics.error_rate,
                 }
                 for key, metrics in top_endpoints
             ],
@@ -697,7 +697,7 @@ class AnalyticsDashboard:
                     "description": alert.description,
                     "current_value": alert.current_value,
                     "threshold": alert.threshold,
-                    "timestamp": alert.timestamp.isoformat()
+                    "timestamp": alert.timestamp.isoformat(),
                 }
                 for alert in active_alerts
             ],
@@ -710,18 +710,15 @@ class AnalyticsDashboard:
                     "confidence": insight.confidence,
                     "impact": insight.impact,
                     "recommendation": insight.recommendation,
-                    "timestamp": insight.timestamp.isoformat()
+                    "timestamp": insight.timestamp.isoformat(),
                 }
                 for insight in insights[:10]  # Top 10 insights
             ],
             "performance_trend": [
-                {
-                    "timestamp": point.timestamp,
-                    "response_time": point.value
-                }
+                {"timestamp": point.timestamp, "response_time": point.value}
                 for point in response_time_metrics[-50:]  # Last 50 points
             ],
-            "time_window": time_window.value
+            "time_window": time_window.value,
         }
 
     async def get_endpoint_details(self, endpoint: str, method: str) -> Dict[str, Any]:
@@ -766,15 +763,12 @@ class AnalyticsDashboard:
                 "p99_response_time": p99,
                 "error_rate": metrics.error_rate,
                 "cache_hit_rate": metrics.cache_hit_rate,
-                "data_transferred_mb": metrics.data_transferred_mb
+                "data_transferred_mb": metrics.data_transferred_mb,
             },
             "performance_trend": [
-                {
-                    "timestamp": point.timestamp,
-                    "response_time": point.value
-                }
+                {"timestamp": point.timestamp, "response_time": point.value}
                 for point in response_time_metrics[-100:]  # Last 100 points
-            ]
+            ],
         }
 
     async def run_analytics_loop(self, interval_seconds: int = 60):
@@ -804,6 +798,7 @@ async def create_analytics_dashboard() -> AnalyticsDashboard:
 
 
 if __name__ == "__main__":
+
     async def test_analytics_dashboard():
         """Test the analytics dashboard."""
         dashboard = await create_analytics_dashboard()
@@ -818,7 +813,7 @@ if __name__ == "__main__":
                 user_id=f"user_{i % 10}",
                 request_size=1024,
                 response_size=2048,
-                cache_hit=(i % 3 == 0)  # 33% cache hit rate
+                cache_hit=(i % 3 == 0),  # 33% cache hit rate
             )
 
         # Get dashboard data
@@ -832,16 +827,16 @@ if __name__ == "__main__":
         print(f"  Active Alerts: {dashboard_data['summary']['active_alerts']}")
 
         print("\n🔝 Top Endpoints:")
-        for endpoint in dashboard_data['top_endpoints'][:3]:
+        for endpoint in dashboard_data["top_endpoints"][:3]:
             print(f"  {endpoint['method']} {endpoint['endpoint']}: {endpoint['requests']} requests")
 
         print("\n💡 Insights:")
-        for insight in dashboard_data['insights'][:3]:
+        for insight in dashboard_data["insights"][:3]:
             print(f"  {insight['title']}: {insight['description']}")
 
-        if dashboard_data['alerts']:
+        if dashboard_data["alerts"]:
             print("\n🚨 Active Alerts:")
-            for alert in dashboard_data['alerts']:
+            for alert in dashboard_data["alerts"]:
                 print(f"  {alert['severity'].upper()}: {alert['title']}")
 
     asyncio.run(test_analytics_dashboard())

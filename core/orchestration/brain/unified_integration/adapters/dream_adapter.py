@@ -4,6 +4,7 @@ Original: dream_adapter.py
 Advanced: dream_adapter.py
 Integration Date: 2025-05-31T07:55:29.982795
 """
+
 import asyncio
 import logging
 import time
@@ -59,16 +60,15 @@ class DreamEngineAdapter:
                 self._handle_get_state(content)
 
         except Exception as e:
-            logger.error(f"Error handling message: {e}",
-        )
+            logger.error(
+                f"Error handling message: {e}",
+            )
 
     def _update_state(self, status: str, duration: int = 0) -> None:
         """Update and log the dream state"""
         self.dream_state["status"] = status
         self.dream_state["duration"] = duration
-        self.dream_state["start_time"] = (
-            time.time() if status == "dreaming" else None
-        )
+        self.dream_state["start_time"] = time.time() if status == "dreaming" else None
         self.dream_state["last_updated"] = time.time()
         logger.info(f"Dream state updated: {self.dream_state}")
 

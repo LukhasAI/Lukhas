@@ -7,6 +7,7 @@ Provides a `get_app()` factory callable so existing tooling like:
 
 continues to work after the API server was consolidated under `serve/main.py`.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -25,4 +26,3 @@ def get_app() -> Any:
 
 
 __all__ = ["get_app"]
-

@@ -25,10 +25,7 @@ class TestNextGenModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "next_gen",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "next_gen", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestNextGenModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import next_gen
+
         self.assertIsNotNone(next_gen)
 
     def test_module_version(self):
         """Test module has version information."""
         import next_gen
+
         # Most modules should have version info
-        self.assertTrue(hasattr(next_gen, '__version__') or
-                       hasattr(next_gen, 'VERSION'))
+        self.assertTrue(hasattr(next_gen, "__version__") or hasattr(next_gen, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestNextGenModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

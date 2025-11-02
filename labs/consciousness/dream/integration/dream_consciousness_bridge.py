@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class ConsciousnessBridgeState(Enum):
     """States for consciousness bridge integration."""
+
     DISCONNECTED = "disconnected"
     CONNECTING = "connecting"
     ACTIVE = "active"
@@ -49,7 +50,7 @@ class DreamConsciousnessBridge:
             "established_at": datetime.now(timezone.utc).isoformat(),
             "last_sync": None,
             "sync_count": 0,
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         self.active_connections[bridge_id] = connection
@@ -73,7 +74,7 @@ class DreamConsciousnessBridge:
             "dream_state": self._extract_dream_state(connection["dream_id"]),
             "consciousness_state": self._extract_consciousness_state(connection["consciousness_context"]),
             "synchronization_quality": self._calculate_sync_quality(),
-            "constellation_coherence": self._validate_trinity_coherence()
+            "constellation_coherence": self._validate_trinity_coherence(),
         }
 
         # Update connection
@@ -94,7 +95,7 @@ class DreamConsciousnessBridge:
             "state": "active",
             "intensity": 0.8,
             "symbolic_content": ["⚛️", "🧠", "🛡️"],
-            "temporal_position": "mid_sequence"
+            "temporal_position": "mid_sequence",
         }
 
     def _extract_consciousness_state(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -102,12 +103,8 @@ class DreamConsciousnessBridge:
         return {
             "awareness_level": "heightened",
             "processing_mode": "symbolic",
-            "constellation_balance": {
-                "identity": 0.85,
-                "consciousness": 0.90,
-                "guardian": 0.88
-            },
-            "integration_readiness": True
+            "constellation_balance": {"identity": 0.85, "consciousness": 0.90, "guardian": 0.88},
+            "integration_readiness": True,
         }
 
     def _calculate_sync_quality(self) -> float:
@@ -132,7 +129,7 @@ class DreamConsciousnessBridge:
             "validated_content_count": len(validated_content),
             "validated_content": validated_content,
             "transfer_timestamp": datetime.now(timezone.utc).isoformat(),
-            "guardian_approved": True
+            "guardian_approved": True,
         }
 
         logger.info(f"🛡️ Symbolic content transferred: {bridge_id} - {len(validated_content)} symbols")
@@ -157,7 +154,7 @@ class DreamConsciousnessBridge:
             "total_syncs": connection["sync_count"],
             "duration": "calculated",
             "closed_at": datetime.now(timezone.utc).isoformat(),
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         # Update bridge state if no active connections
@@ -174,7 +171,7 @@ class DreamConsciousnessBridge:
             "active_connections": len(self.active_connections),
             "total_synchronizations": len(self.synchronization_log),
             "system_health": "optimal",
-            "constellation_operational": True
+            "constellation_operational": True,
         }
 
 

@@ -21,9 +21,7 @@ class AutoLintFixer:
     def run_command(self, cmd: list[str]) -> tuple[int, str, str]:
         """Run a command and return exit code, stdout, stderr"""
         try:
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, cwd=self.project_root
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.project_root)
             return result.returncode, result.stdout, result.stderr
         except Exception as e:
             return 1, "", str(e)
@@ -34,9 +32,7 @@ class AutoLintFixer:
         dirs = ["lukhas", "bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
-                code, out, err = self.run_command(
-                    ["black", "--line-length", "79", dir_name]
-                )
+                code, out, err = self.run_command(["black", "--line-length", "79", dir_name])
                 if code == 0:
                     self.issues_fixed.append(f"Black formatted {dir_name}")
                 else:
@@ -197,9 +193,7 @@ class AutoLintFixer:
 
         if missing:
             print(f"📦 Installing missing tools: {', '.join(missing)}")
-            self.run_command(
-                [sys.executable, "-m", "pip", "install", *missing, "--quiet"]
-            )
+            self.run_command([sys.executable, "-m", "pip", "install", *missing, "--quiet"])
 
 
 if __name__ == "__main__":

@@ -18,6 +18,7 @@ import yaml
 # YAML Parsing Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_yaml_parse_basic():
     """Test basic YAML parsing."""
@@ -91,6 +92,7 @@ description: |
 # JSON Parsing Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_json_parse_basic():
     """Test basic JSON parsing."""
@@ -106,7 +108,7 @@ def test_json_parse_basic():
 @pytest.mark.unit
 def test_json_parse_nested():
     """Test nested JSON parsing."""
-    json_content = '''
+    json_content = """
 {
   "user": {
     "id": "user123",
@@ -116,7 +118,7 @@ def test_json_parse_nested():
     }
   }
 }
-'''
+"""
 
     data = json.loads(json_content)
 
@@ -139,33 +141,29 @@ def test_json_parse_array():
 # Configuration Validation Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_config_required_fields():
     """Test configuration required fields validation."""
+
     def validate_config(config: Dict[str, Any]) -> bool:
         """Validate configuration has required fields."""
         required_fields = ["name", "version", "enabled"]
         return all(field in config for field in required_fields)
 
     # Valid config
-    valid_config = {
-        "name": "service",
-        "version": "1.0",
-        "enabled": True
-    }
+    valid_config = {"name": "service", "version": "1.0", "enabled": True}
     assert validate_config(valid_config)
 
     # Invalid config (missing field)
-    invalid_config = {
-        "name": "service",
-        "version": "1.0"
-    }
+    invalid_config = {"name": "service", "version": "1.0"}
     assert not validate_config(invalid_config)
 
 
 @pytest.mark.unit
 def test_config_type_validation():
     """Test configuration type validation."""
+
     def validate_types(config: Dict[str, Any]) -> bool:
         """Validate configuration field types."""
         if not isinstance(config.get("name"), str):
@@ -180,25 +178,18 @@ def test_config_type_validation():
         return True
 
     # Valid types
-    valid_config = {
-        "name": "service",
-        "port": 8000,
-        "enabled": True
-    }
+    valid_config = {"name": "service", "port": 8000, "enabled": True}
     assert validate_types(valid_config)
 
     # Invalid types
-    invalid_config = {
-        "name": "service",
-        "port": "8000",  # Should be int
-        "enabled": True
-    }
+    invalid_config = {"name": "service", "port": "8000", "enabled": True}  # Should be int
     assert not validate_types(invalid_config)
 
 
 @pytest.mark.unit
 def test_config_value_constraints():
     """Test configuration value constraints."""
+
     def validate_constraints(config: Dict[str, Any]) -> bool:
         """Validate configuration value constraints."""
         # Port must be 1-65535
@@ -214,17 +205,14 @@ def test_config_value_constraints():
         return True
 
     # Valid constraints
-    valid_config = {
-        "name": "service",
-        "port": 8000
-    }
+    valid_config = {"name": "service", "port": 8000}
     assert validate_constraints(valid_config)
 
     # Invalid constraints
     invalid_configs = [
-        {"name": "service", "port": 0},      # Port too low
+        {"name": "service", "port": 0},  # Port too low
         {"name": "service", "port": 70000},  # Port too high
-        {"name": "", "port": 8000},          # Empty name
+        {"name": "", "port": 8000},  # Empty name
     ]
 
     for config in invalid_configs:
@@ -235,17 +223,14 @@ def test_config_value_constraints():
 # Configuration Defaults Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_config_default_values():
     """Test configuration default value application."""
+
     def apply_defaults(config: Dict[str, Any]) -> Dict[str, Any]:
         """Apply default values to configuration."""
-        defaults = {
-            "host": "localhost",
-            "port": 8000,
-            "debug": False,
-            "timeout": 30
-        }
+        defaults = {"host": "localhost", "port": 8000, "debug": False, "timeout": 30}
 
         # Merge with defaults
         result = defaults.copy()
@@ -259,14 +244,15 @@ def test_config_default_values():
 
     # Verify defaults applied
     assert full_config["host"] == "0.0.0.0"  # Overridden
-    assert full_config["port"] == 8000       # Default
-    assert full_config["debug"] is True      # Overridden
-    assert full_config["timeout"] == 30      # Default
+    assert full_config["port"] == 8000  # Default
+    assert full_config["debug"] is True  # Overridden
+    assert full_config["timeout"] == 30  # Default
 
 
 @pytest.mark.unit
 def test_config_environment_override():
     """Test configuration environment variable override."""
+
     def apply_env_overrides(config: Dict[str, Any], env: Dict[str, str]) -> Dict[str, Any]:
         """Apply environment variable overrides to config."""
         result = config.copy()
@@ -292,6 +278,7 @@ def test_config_environment_override():
 # ============================================================================
 # Tier Configuration Tests
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_tier_config_parsing():
@@ -323,6 +310,7 @@ tiers:
 @pytest.mark.unit
 def test_tier_config_validation():
     """Test tier configuration validation."""
+
     def validate_tier_config(config: Dict[str, Any]) -> bool:
         """Validate tier configuration structure."""
         required_tiers = ["alpha", "beta", "gamma", "delta"]
@@ -352,17 +340,14 @@ def test_tier_config_validation():
             "alpha": {"multiplier": 3.0, "rate_limit": 300},
             "beta": {"multiplier": 2.0, "rate_limit": 200},
             "gamma": {"multiplier": 1.5, "rate_limit": 150},
-            "delta": {"multiplier": 1.0, "rate_limit": 100}
+            "delta": {"multiplier": 1.0, "rate_limit": 100},
         }
     }
     assert validate_tier_config(valid_config)
 
     # Invalid config (missing tier)
     invalid_config = {
-        "tiers": {
-            "alpha": {"multiplier": 3.0, "rate_limit": 300},
-            "beta": {"multiplier": 2.0, "rate_limit": 200}
-        }
+        "tiers": {"alpha": {"multiplier": 3.0, "rate_limit": 300}, "beta": {"multiplier": 2.0, "rate_limit": 200}}
     }
     assert not validate_tier_config(invalid_config)
 
@@ -371,31 +356,26 @@ def test_tier_config_validation():
 # Configuration Merging Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_config_merge_flat():
     """Test flat configuration merging."""
-    base_config = {
-        "host": "localhost",
-        "port": 8000,
-        "debug": False
-    }
+    base_config = {"host": "localhost", "port": 8000, "debug": False}
 
-    override_config = {
-        "port": 9000,
-        "debug": True
-    }
+    override_config = {"port": 9000, "debug": True}
 
     # Merge (override takes precedence)
     merged = {**base_config, **override_config}
 
     assert merged["host"] == "localhost"  # From base
-    assert merged["port"] == 9000         # Overridden
-    assert merged["debug"] is True        # Overridden
+    assert merged["port"] == 9000  # Overridden
+    assert merged["debug"] is True  # Overridden
 
 
 @pytest.mark.unit
 def test_config_merge_nested():
     """Test nested configuration merging."""
+
     def deep_merge(base: Dict, override: Dict) -> Dict:
         """Deep merge two dictionaries."""
         result = base.copy()
@@ -408,41 +388,27 @@ def test_config_merge_nested():
 
         return result
 
-    base = {
-        "database": {
-            "host": "localhost",
-            "port": 5432,
-            "pool": {"min": 1, "max": 10}
-        }
-    }
+    base = {"database": {"host": "localhost", "port": 5432, "pool": {"min": 1, "max": 10}}}
 
-    override = {
-        "database": {
-            "port": 5433,
-            "pool": {"max": 20}
-        }
-    }
+    override = {"database": {"port": 5433, "pool": {"max": 20}}}
 
     merged = deep_merge(base, override)
 
     assert merged["database"]["host"] == "localhost"  # Preserved
-    assert merged["database"]["port"] == 5433         # Overridden
-    assert merged["database"]["pool"]["min"] == 1     # Preserved
-    assert merged["database"]["pool"]["max"] == 20    # Overridden
+    assert merged["database"]["port"] == 5433  # Overridden
+    assert merged["database"]["pool"]["min"] == 1  # Preserved
+    assert merged["database"]["pool"]["max"] == 20  # Overridden
 
 
 # ============================================================================
 # Configuration Serialization Tests
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_config_to_yaml():
     """Test configuration serialization to YAML."""
-    config = {
-        "name": "service",
-        "version": "1.0",
-        "tiers": ["alpha", "beta", "gamma", "delta"]
-    }
+    config = {"name": "service", "version": "1.0", "tiers": ["alpha", "beta", "gamma", "delta"]}
 
     yaml_str = yaml.dump(config)
 
@@ -456,11 +422,7 @@ def test_config_to_yaml():
 @pytest.mark.unit
 def test_config_to_json():
     """Test configuration serialization to JSON."""
-    config = {
-        "name": "service",
-        "port": 8000,
-        "enabled": True
-    }
+    config = {"name": "service", "port": 8000, "enabled": True}
 
     json_str = json.dumps(config, indent=2)
 
@@ -474,22 +436,19 @@ def test_config_to_json():
 # Capability Tests
 # ============================================================================
 
+
 @pytest.mark.capability
 def test_config_full_lifecycle():
     """Test complete configuration lifecycle."""
     # 1. Create config
     config = {
-        "service": {
-            "name": "lukhas-api",
-            "version": "1.0.0",
-            "port": 8000
-        },
+        "service": {"name": "lukhas-api", "version": "1.0.0", "port": 8000},
         "tiers": {
             "alpha": {"multiplier": 3.0},
             "beta": {"multiplier": 2.0},
             "gamma": {"multiplier": 1.5},
-            "delta": {"multiplier": 1.0}
-        }
+            "delta": {"multiplier": 1.0},
+        },
     }
 
     # 2. Serialize to YAML
@@ -515,22 +474,10 @@ def test_matriz_yaml_structure():
     """Test ops/matriz.yaml configuration structure."""
     matriz_structure = {
         "lanes": {
-            "lukhas": {
-                "path": "lukhas/",
-                "allowed_imports": ["core", "matriz", "universal_language"]
-            },
-            "labs": {
-                "path": "candidate/",
-                "allowed_imports": ["core", "matriz"]
-            },
-            "core": {
-                "path": "core/",
-                "allowed_imports": []
-            },
-            "matriz": {
-                "path": "matriz/",
-                "allowed_imports": ["core"]
-            }
+            "lukhas": {"path": "lukhas/", "allowed_imports": ["core", "matriz", "universal_language"]},
+            "labs": {"path": "candidate/", "allowed_imports": ["core", "matriz"]},
+            "core": {"path": "core/", "allowed_imports": []},
+            "matriz": {"path": "matriz/", "allowed_imports": ["core"]},
         }
     }
 

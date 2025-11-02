@@ -25,6 +25,7 @@
 ║ Returns a unified sentiment score and label.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from typing import Optional
 
 import numpy as np

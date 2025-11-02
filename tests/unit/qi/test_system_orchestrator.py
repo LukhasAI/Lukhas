@@ -129,8 +129,6 @@ SecurityException = importlib.import_module("qi.security").SecurityException
 QIAGISystem = importlib.import_module("qi.states.system_orchestrator").QIAGISystem
 
 
-
-
 def test_qiagisystem_init_requires_security_mesh():
     orchestrator_module = importlib.import_module("qi.states.system_orchestrator")
     _install_orchestrator_dependency_stubs(orchestrator_module)
@@ -147,6 +145,8 @@ def test_qiagisystem_init_requires_security_mesh():
 
     assert exc_info.value.code == "missing_security_mesh"
     assert exc_info.value.details.get("config_type") == config.__class__.__name__
+
+
 class _StubSecurityMesh:
     def __init__(self, *, valid: bool) -> None:
         self._valid = valid

@@ -25,10 +25,7 @@ class TestAiOrchestrationModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "ai_orchestration",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "ai_orchestration", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestAiOrchestrationModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import ai_orchestration
+
         self.assertIsNotNone(ai_orchestration)
 
     def test_module_version(self):
         """Test module has version information."""
         import ai_orchestration
+
         # Most modules should have version info
-        self.assertTrue(hasattr(ai_orchestration, '__version__') or
-                       hasattr(ai_orchestration, 'VERSION'))
+        self.assertTrue(hasattr(ai_orchestration, "__version__") or hasattr(ai_orchestration, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestAIProvider(unittest.TestCase):
         """Test AIProvider can be imported."""
         try:
             from ai_orchestration.lukhas_ai_orchestrator import AIProvider
+
             self.assertIsNotNone(AIProvider)
         except ImportError:
             pytest.skip("Component AIProvider not available")
@@ -97,6 +96,7 @@ class TestLUKHASAIOrchestrator(unittest.TestCase):
         """Test LUKHASAIOrchestrator can be imported."""
         try:
             from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
+
             self.assertIsNotNone(LUKHASAIOrchestrator)
         except ImportError:
             pytest.skip("Component LUKHASAIOrchestrator not available")
@@ -114,6 +114,7 @@ class Testget_guardian_orchestrator_status(unittest.TestCase):
         """Test get_guardian_orchestrator_status can be imported."""
         try:
             from ai_orchestration.lukhas_ai_orchestrator import get_guardian_orchestrator_status
+
             self.assertIsNotNone(get_guardian_orchestrator_status)
         except ImportError:
             pytest.skip("Component get_guardian_orchestrator_status not available")
@@ -122,7 +123,6 @@ class Testget_guardian_orchestrator_status(unittest.TestCase):
         """Test get_guardian_orchestrator_status can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

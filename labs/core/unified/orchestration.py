@@ -3,6 +3,7 @@ Bio-orchestration system for LUKHAS
 =======================================
 Minimal implementation to support dream and consciousness systems.
 """
+
 import logging
 from typing import Any, Callable, Optional
 

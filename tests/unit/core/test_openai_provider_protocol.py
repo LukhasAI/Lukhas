@@ -3,6 +3,7 @@
 Verifies that the Protocol can be implemented by mock classes and used
 for type-safe dependency injection without requiring actual OpenAI clients.
 """
+
 from __future__ import annotations
 
 from typing import Any

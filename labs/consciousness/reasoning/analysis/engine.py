@@ -4,6 +4,7 @@ import os
 # Try to use structlog if available, fall back to standard logging
 try:
     import structlog
+
     logger = structlog.get_logger(__name__)
     STRUCTLOG_AVAILABLE = True
 except ImportError:

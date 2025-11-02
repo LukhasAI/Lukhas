@@ -68,9 +68,7 @@ def _load_vocabulary_module() -> ModuleType:
 
         vision_module.VisionSymbolicVocabulary = VisionSymbolicVocabulary  # type: ignore[attr-defined]
         sys.modules["symbolic.vocabularies.vision_vocabulary"] = vision_module
-    spec = importlib.util.spec_from_file_location(
-        "branding.vocabularies.vocabulary_creativity_engine", module_path
-    )
+    spec = importlib.util.spec_from_file_location("branding.vocabularies.vocabulary_creativity_engine", module_path)
     if spec is None or spec.loader is None:  # pragma: no cover - defensive guard
         raise RuntimeError("Unable to load vocabulary creativity engine module")
 

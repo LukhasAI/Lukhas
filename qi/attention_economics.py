@@ -475,9 +475,7 @@ class QIAttentionEconomics:
 
         return True
 
-    async def _notify_entanglement(
-        self, tokens: list[AttentionToken], entanglement_type: str
-    ) -> None:
+    async def _notify_entanglement(self, tokens: list[AttentionToken], entanglement_type: str) -> None:
         """Notify the consciousness hub about a new entanglement."""
 
         if not tokens or self._consciousness_messenger is None:
@@ -518,15 +516,11 @@ class QIAttentionEconomics:
                     payload=payload,
                 )
             except Exception as exc:  # pragma: no cover - defensive logging
-                logger.exception(
-                    "Failed to notify consciousness hub for owner %s: %s", owner_id, exc
-                )
+                logger.exception("Failed to notify consciousness hub for owner %s: %s", owner_id, exc)
                 continue
 
             if not success:
-                logger.warning(
-                    "Consciousness hub notification declined for owner %s", owner_id
-                )
+                logger.warning("Consciousness hub notification declined for owner %s", owner_id)
 
     async def submit_attention_bid(self, bid: AttentionBid) -> dict[str, Any]:
         """Submit a bid for user attention"""
@@ -742,7 +736,9 @@ class QIAttentionEconomics:
     async def get_market_report(self) -> dict[str, Any]:
         """Generate comprehensive market report"""
         total_tokens = len(self.tokens)
-        active_tokens = len([t for t in self.tokens.values() if t.expires_at and t.expires_at > datetime.now(timezone.utc)])
+        active_tokens = len(
+            [t for t in self.tokens.values() if t.expires_at and t.expires_at > datetime.now(timezone.utc)]
+        )
 
         report = {
             "market_overview": {
@@ -804,7 +800,9 @@ class QIAttentionEconomics:
                     "type": t.token_type.value,
                     "value": t.value,
                     "qi_value": t.calculate_quantum_value(),
-                    "expires_in": ((t.expires_at - datetime.now(timezone.utc)).total_seconds() if t.expires_at else None),
+                    "expires_in": (
+                        (t.expires_at - datetime.now(timezone.utc)).total_seconds() if t.expires_at else None
+                    ),
                     "entangled": len(t.entangled_with) > 0,
                 }
                 for t in active_tokens

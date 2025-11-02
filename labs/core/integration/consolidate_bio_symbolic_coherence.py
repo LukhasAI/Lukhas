@@ -37,7 +37,7 @@ def consolidate_bio_symbolic_coherence():
         "bio_rhythm_sync": ["candidate/bio/oscillator.py", "candidate/qi/bio/*.py"],
         "symbolic_mutation": ["candidate/emotion/*.py", "candidate/consciousness/*.py"],
         "pattern_matching": ["candidate/core/interfaces/*/symbolic_matcher.py"],
-        "coherence_amplification": ["candidate/qi/coordination/*.py"]
+        "coherence_amplification": ["candidate/qi/coordination/*.py"],
     }
 
     # 2. Extract common patterns and create unified interfaces
@@ -48,25 +48,17 @@ def consolidate_bio_symbolic_coherence():
                 "BiologicalRhythmTracker",
                 "SymbolicPatternMatcher",
                 "CoherenceAmplifier",
-                "BioSymbolicSynchronizer"
-            ]
+                "BioSymbolicSynchronizer",
+            ],
         },
         "coherence_engine.py": {
             "description": "Core coherence calculation and optimization engine",
-            "components": [
-                "CoherenceCalculator",
-                "OptimizationAlgorithms",
-                "ThresholdManager"
-            ]
+            "components": ["CoherenceCalculator", "OptimizationAlgorithms", "ThresholdManager"],
         },
         "pattern_evolution.py": {
             "description": "Symbolic mutation and evolution tracking",
-            "components": [
-                "MutationTracker",
-                "EvolutionEngine",
-                "PatternHistory"
-            ]
-        }
+            "components": ["MutationTracker", "EvolutionEngine", "PatternHistory"],
+        },
     }
 
     # 3. Create unified interfaces
@@ -130,7 +122,7 @@ class BioSymbolicBridge(IBioSymbolicCoherence):
         union = bio_patterns | symbolic_patterns
 
         return len(intersection) / len(union) if union else 0.5
-"""
+""",
     }
 
     # 4. Migrate functionality - create implementation files
@@ -177,7 +169,7 @@ class {filename.replace('.py', '').title().replace('_', '')}:
         }}
 '''
 
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             f.write(implementation)
 
     # 5. Update imports - create __init__.py with exports
@@ -204,7 +196,7 @@ __all__ = [
 TARGET_COHERENCE = 1.0222  # 102.22% Constellation Framework target
 '''
 
-    with open(init_file, 'w') as f:
+    with open(init_file, "w") as f:
         f.write(init_content)
 
     # 6. Run basic validation
@@ -212,7 +204,7 @@ TARGET_COHERENCE = 1.0222  # 102.22% Constellation Framework target
         "files_created": len(list(target_dir.glob("*.py"))),
         "interfaces_defined": len(interface_code),
         "target_coherence": 1.0222,
-        "consolidation_complete": True
+        "consolidation_complete": True,
     }
 
     print(f"   Validation: {validation_results}")

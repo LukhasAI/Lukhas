@@ -16,6 +16,7 @@ import yaml
 @dataclass
 class ReadinessScore:
     """Module readiness score breakdown."""
+
     module_name: str
     total_score: int
     max_score: int
@@ -24,14 +25,15 @@ class ReadinessScore:
     status: str
     recommendations: List[str]
 
+
 class ModuleReadinessScorer:
     def __init__(self):
         self.max_scores = {
-            "manifest": 25,     # Valid manifest with complete metadata
-            "matriz": 25,       # MATRIZ contract compliance
-            "documentation": 20, # Complete docs with real content
-            "testing": 20,      # Tests passing with coverage
-            "configuration": 10  # Valid config files
+            "manifest": 25,  # Valid manifest with complete metadata
+            "matriz": 25,  # MATRIZ contract compliance
+            "documentation": 20,  # Complete docs with real content
+            "testing": 20,  # Tests passing with coverage
+            "configuration": 10,  # Valid config files
         }
 
     def _check_manifest_validity(self, module_path: pathlib.Path) -> Tuple[int, List[str]]:
@@ -241,11 +243,7 @@ class ModuleReadinessScorer:
             return score, issues
 
         # Required config files (8 points)
-        config_files = {
-            "config.yaml": 3,
-            "logging.yaml": 3,
-            "environment.yaml": 2
-        }
+        config_files = {"config.yaml": 3, "logging.yaml": 3, "environment.yaml": 2}
 
         for config_file, points in config_files.items():
             config_path = config_dir / config_file
@@ -288,7 +286,7 @@ class ModuleReadinessScorer:
             ("matriz", self._check_matriz_compliance),
             ("documentation", self._check_documentation_quality),
             ("testing", self._check_testing_status),
-            ("configuration", self._check_configuration_validity)
+            ("configuration", self._check_configuration_validity),
         ]
 
         for check_name, check_func in checks:
@@ -299,7 +297,7 @@ class ModuleReadinessScorer:
                 "score": score,
                 "max_score": self.max_scores[check_name],
                 "percentage": (score / self.max_scores[check_name]) * 100,
-                "issues": issues
+                "issues": issues,
             }
 
             all_recommendations.extend(issues)
@@ -325,7 +323,7 @@ class ModuleReadinessScorer:
             percentage=percentage,
             breakdown=breakdown,
             status=status,
-            recommendations=all_recommendations
+            recommendations=all_recommendations,
         )
 
     def generate_scoreboard(self, scores: List[ReadinessScore]) -> str:
@@ -344,7 +342,9 @@ class ModuleReadinessScorer:
         lines.append("📊 Summary:")
         lines.append(f"   Total modules: {total_modules}")
         lines.append(f"   Ready modules: {ready_modules} ({ready_modules/total_modules*100:.1f}%)")
-        lines.append(f"   Good+ modules: {ready_modules + good_modules} ({(ready_modules + good_modules)/total_modules*100:.1f}%)")
+        lines.append(
+            f"   Good+ modules: {ready_modules + good_modules} ({(ready_modules + good_modules)/total_modules*100:.1f}%)"
+        )
         lines.append(f"   Average score: {avg_score:.1f}%")
         lines.append("")
 
@@ -352,10 +352,11 @@ class ModuleReadinessScorer:
         top_scores = sorted(scores, key=lambda x: x.percentage, reverse=True)[:10]
         lines.append("🌟 Top 10 Modules:")
         for i, score in enumerate(top_scores, 1):
-            status_emoji = {"READY": "✅", "GOOD": "🟢", "NEEDS_WORK": "🟡",
-                           "INCOMPLETE": "🟠", "NOT_READY": "🔴"}
+            status_emoji = {"READY": "✅", "GOOD": "🟢", "NEEDS_WORK": "🟡", "INCOMPLETE": "🟠", "NOT_READY": "🔴"}
             emoji = status_emoji.get(score.status, "❓")
-            lines.append(f"   {i:2d}. {emoji} {score.module_name}: {score.percentage:.1f}% ({score.total_score}/{score.max_score})")
+            lines.append(
+                f"   {i:2d}. {emoji} {score.module_name}: {score.percentage:.1f}% ({score.total_score}/{score.max_score})"
+            )
 
         lines.append("")
 
@@ -366,11 +367,11 @@ class ModuleReadinessScorer:
 
         lines.append("📈 Status Distribution:")
         for status, count in sorted(status_counts.items()):
-            emoji = {"READY": "✅", "GOOD": "🟢", "NEEDS_WORK": "🟡",
-                    "INCOMPLETE": "🟠", "NOT_READY": "🔴"}[status]
+            emoji = {"READY": "✅", "GOOD": "🟢", "NEEDS_WORK": "🟡", "INCOMPLETE": "🟠", "NOT_READY": "🔴"}[status]
             lines.append(f"   {emoji} {status}: {count} modules")
 
         return "\n".join(lines)
+
 
 def main():
     """Main function for module readiness scoring."""
@@ -378,14 +379,12 @@ def main():
 
     parser = argparse.ArgumentParser(description="Module Readiness Scoring System")
     parser.add_argument("--module", help="Score specific module only")
-    parser.add_argument("--threshold", type=float, default=0.0,
-                       help="Only show modules below this score threshold")
-    parser.add_argument("--status", choices=["READY", "GOOD", "NEEDS_WORK", "INCOMPLETE", "NOT_READY"],
-                       help="Filter by status")
-    parser.add_argument("--detailed", action="store_true",
-                       help="Show detailed breakdown for each module")
-    parser.add_argument("--json", action="store_true",
-                       help="Output results as JSON")
+    parser.add_argument("--threshold", type=float, default=0.0, help="Only show modules below this score threshold")
+    parser.add_argument(
+        "--status", choices=["READY", "GOOD", "NEEDS_WORK", "INCOMPLETE", "NOT_READY"], help="Filter by status"
+    )
+    parser.add_argument("--detailed", action="store_true", help="Show detailed breakdown for each module")
+    parser.add_argument("--json", action="store_true", help="Output results as JSON")
 
     args = parser.parse_args()
 
@@ -404,9 +403,7 @@ def main():
     else:
         # Score all modules with config directories
         for item in root_path.iterdir():
-            if (item.is_dir() and
-                not item.name.startswith('.') and
-                (item / "config").exists()):
+            if item.is_dir() and not item.name.startswith(".") and (item / "config").exists():
                 scores.append(scorer.calculate_module_score(item))
 
     if not scores:
@@ -424,15 +421,17 @@ def main():
     if args.json:
         output = []
         for score in scores:
-            output.append({
-                "module": score.module_name,
-                "score": score.total_score,
-                "max_score": score.max_score,
-                "percentage": score.percentage,
-                "status": score.status,
-                "breakdown": score.breakdown,
-                "recommendations": score.recommendations
-            })
+            output.append(
+                {
+                    "module": score.module_name,
+                    "score": score.total_score,
+                    "max_score": score.max_score,
+                    "percentage": score.percentage,
+                    "status": score.status,
+                    "breakdown": score.breakdown,
+                    "recommendations": score.recommendations,
+                }
+            )
         print(json.dumps(output, indent=2))
     else:
         if len(scores) > 1 and not args.detailed:
@@ -446,11 +445,14 @@ def main():
                 if args.detailed:
                     print("\n   Breakdown:")
                     for category, details in score.breakdown.items():
-                        print(f"     {category}: {details['score']}/{details['max_score']} ({details['percentage']:.1f}%)")
-                        for issue in details['issues']:
+                        print(
+                            f"     {category}: {details['score']}/{details['max_score']} ({details['percentage']:.1f}%)"
+                        )
+                        for issue in details["issues"]:
                             print(f"       • {issue}")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

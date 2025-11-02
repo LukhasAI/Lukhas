@@ -47,10 +47,7 @@ class TestCircuitBreakerConfig:
         """Test custom configuration values."""
 
         config = CircuitBreakerConfig(
-            failure_threshold=10,
-            failure_rate_threshold=0.7,
-            recovery_timeout_sec=60.0,
-            adaptive_thresholds=False
+            failure_threshold=10, failure_rate_threshold=0.7, recovery_timeout_sec=60.0, adaptive_thresholds=False
         )
 
         assert config.failure_threshold == 10
@@ -65,12 +62,7 @@ class TestCallResult:
     def test_successful_call_result(self):
         """Test creating successful call results."""
 
-        result = CallResult(
-            timestamp=time.time(),
-            duration_sec=0.5,
-            success=True,
-            response_data={"status": "ok"}
-        )
+        result = CallResult(timestamp=time.time(), duration_sec=0.5, success=True, response_data={"status": "ok"})
 
         assert result.success is True
         assert result.duration_sec == 0.5
@@ -85,7 +77,7 @@ class TestCallResult:
             duration_sec=2.0,
             success=False,
             failure_pattern=FailurePattern.TIMEOUT,
-            error_message="Connection timeout"
+            error_message="Connection timeout",
         )
 
         assert result.success is False
@@ -102,11 +94,7 @@ class TestDefaultFailureDetector:
 
         detector = DefaultFailureDetector(slow_call_threshold=1.0)
 
-        result = CallResult(
-            timestamp=time.time(),
-            duration_sec=0.5,
-            success=True
-        )
+        result = CallResult(timestamp=time.time(), duration_sec=0.5, success=True)
 
         assert detector.is_failure(result) is False
 
@@ -116,10 +104,7 @@ class TestDefaultFailureDetector:
         detector = DefaultFailureDetector()
 
         result = CallResult(
-            timestamp=time.time(),
-            duration_sec=0.5,
-            success=False,
-            failure_pattern=FailurePattern.EXCEPTION
+            timestamp=time.time(), duration_sec=0.5, success=False, failure_pattern=FailurePattern.EXCEPTION
         )
 
         assert detector.is_failure(result) is True
@@ -129,11 +114,7 @@ class TestDefaultFailureDetector:
 
         detector = DefaultFailureDetector(slow_call_threshold=1.0)
 
-        result = CallResult(
-            timestamp=time.time(),
-            duration_sec=2.0,
-            success=True
-        )
+        result = CallResult(timestamp=time.time(), duration_sec=2.0, success=True)
 
         assert detector.is_failure(result) is True
 
@@ -163,7 +144,7 @@ class TestAdaptiveThresholdCalculator:
         # Adaptive threshold should be based on 95th percentile
         threshold = calculator.get_adaptive_slow_threshold()
         assert threshold > 0.6  # Should be higher than most values
-        assert threshold < 2.0   # But less than the outlier
+        assert threshold < 2.0  # But less than the outlier
 
     def test_adaptive_failure_threshold(self):
         """Test adaptive failure rate threshold calculation."""
@@ -210,7 +191,7 @@ class TestCircuitBreaker:
             failure_threshold=3,
             failure_rate_threshold=0.5,
             recovery_timeout_sec=1.0,  # Short timeout for testing
-            adaptive_thresholds=False  # Disable for predictable testing
+            adaptive_thresholds=False,  # Disable for predictable testing
         )
 
     @pytest.fixture
@@ -375,10 +356,7 @@ class TestCircuitBreaker:
         # Add some failures to make it unhealthy
         for _ in range(5):
             result = CallResult(
-                timestamp=time.time(),
-                duration_sec=0.1,
-                success=False,
-                failure_pattern=FailurePattern.EXCEPTION
+                timestamp=time.time(), duration_sec=0.1, success=False, failure_pattern=FailurePattern.EXCEPTION
             )
             circuit_breaker._record_call(result)
 
@@ -393,10 +371,7 @@ class TestRestartServiceAction:
     def test_can_handle_unhealthy_service(self):
         """Test action can handle unhealthy services."""
 
-        action = RestartServiceAction(
-            service_name="test_service",
-            restart_command="echo 'restart test_service'"
-        )
+        action = RestartServiceAction(service_name="test_service", restart_command="echo 'restart test_service'")
 
         from monitoring.health_system import ComponentHealth, ComponentType, HealthStatus
 
@@ -406,7 +381,7 @@ class TestRestartServiceAction:
             component_type=ComponentType.SERVICE,
             status=HealthStatus.UNHEALTHY,
             metrics={},
-            last_check=time.time()
+            last_check=time.time(),
         )
 
         assert action.can_handle(unhealthy_component) is True
@@ -417,7 +392,7 @@ class TestRestartServiceAction:
             component_type=ComponentType.SERVICE,
             status=HealthStatus.HEALTHY,
             metrics={},
-            last_check=time.time()
+            last_check=time.time(),
         )
 
         assert action.can_handle(healthy_component) is False
@@ -428,7 +403,7 @@ class TestRestartServiceAction:
             component_type=ComponentType.SERVICE,
             status=HealthStatus.UNHEALTHY,
             metrics={},
-            last_check=time.time()
+            last_check=time.time(),
         )
 
         assert action.can_handle(different_service) is False
@@ -437,10 +412,7 @@ class TestRestartServiceAction:
     async def test_execute_restart_action(self):
         """Test executing restart action."""
 
-        action = RestartServiceAction(
-            service_name="test_service",
-            restart_command="echo 'service restarted' && exit 0"
-        )
+        action = RestartServiceAction(service_name="test_service", restart_command="echo 'service restarted' && exit 0")
 
         from monitoring.health_system import ComponentHealth, ComponentType, HealthStatus
 
@@ -449,7 +421,7 @@ class TestRestartServiceAction:
             component_type=ComponentType.SERVICE,
             status=HealthStatus.UNHEALTHY,
             metrics={},
-            last_check=time.time()
+            last_check=time.time(),
         )
 
         # Execute restart action
@@ -462,9 +434,7 @@ class TestRestartServiceAction:
         """Test restart rate limiting."""
 
         action = RestartServiceAction(
-            service_name="test_service",
-            restart_command="echo 'restart'",
-            max_restarts_per_hour=2
+            service_name="test_service", restart_command="echo 'restart'", max_restarts_per_hour=2
         )
 
         from monitoring.health_system import ComponentHealth, ComponentType, HealthStatus
@@ -474,7 +444,7 @@ class TestRestartServiceAction:
             component_type=ComponentType.SERVICE,
             status=HealthStatus.UNHEALTHY,
             metrics={},
-            last_check=time.time()
+            last_check=time.time(),
         )
 
         # Should be able to handle first two restarts
@@ -619,10 +589,7 @@ class TestIntegrationScenarios:
     async def test_adaptive_behavior_over_time(self):
         """Test adaptive behavior over time."""
 
-        config = CircuitBreakerConfig(
-            adaptive_thresholds=True,
-            failure_threshold=5
-        )
+        config = CircuitBreakerConfig(adaptive_thresholds=True, failure_threshold=5)
         cb = CircuitBreaker("adaptive_test", config)
 
         # Simulate varying performance over time

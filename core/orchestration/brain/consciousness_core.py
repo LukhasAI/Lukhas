@@ -42,7 +42,9 @@ class ConsciousnessCore:
 
     def __init__(self, config: LukhasConfig):
         self.config = config
-        self.current_state = ConsciousnessState(level=ConsciousnessLevel.DORMANT, activated_at=datetime.now(timezone.utc))
+        self.current_state = ConsciousnessState(
+            level=ConsciousnessLevel.DORMANT, activated_at=datetime.now(timezone.utc)
+        )
         self.evolution_history: list[ConsciousnessState] = []
         self.active_processes: dict[str, Any] = {}
 

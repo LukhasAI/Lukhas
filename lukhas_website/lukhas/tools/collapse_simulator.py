@@ -6,6 +6,7 @@ cycles across memory, ethical, and identity scenarios.
 # ΛTAG: collapse
 # ΛTAG: trace_repair_hook
 """
+
 from __future__ import annotations
 
 import argparse
@@ -66,38 +67,30 @@ class SimulationContext:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "Simulate collapse scenarios and optionally invoke the TraceRepairEngine "
-            "to evaluate repair readiness."
+            "Simulate collapse scenarios and optionally invoke the TraceRepairEngine " "to evaluate repair readiness."
         )
     )
-    parser.add_argument(
-        "scenario",
-        choices=("memory", "ethical", "identity"),
-        help="Collapse scenario to simulate."
-    )
+    parser.add_argument("scenario", choices=("memory", "ethical", "identity"), help="Collapse scenario to simulate.")
     parser.add_argument(
         "--iterations",
         type=int,
         default=DEFAULT_ITERATIONS,
-        help="Number of collapse iterations to simulate (default: %(default)s)."
+        help="Number of collapse iterations to simulate (default: %(default)s).",
     )
     parser.add_argument(
         "--noise",
         type=float,
         default=DEFAULT_NOISE,
-        help="Deterministic noise factor applied to drift calculations (default: %(default)s)."
+        help="Deterministic noise factor applied to drift calculations (default: %(default)s).",
     )
     parser.add_argument(
         "--output",
         type=pathlib.Path,
         default=DEFAULT_OUTPUT_PATH,
-        help="Path to write JSON summary (default: codex_artifacts/collapse_simulator.json)."
+        help="Path to write JSON summary (default: codex_artifacts/collapse_simulator.json).",
     )
     parser.add_argument(
-        "--seed",
-        type=int,
-        default=None,
-        help="Optional seed to override deterministic seed synthesis."
+        "--seed", type=int, default=None, help="Optional seed to override deterministic seed synthesis."
     )
     return parser
 
@@ -156,9 +149,7 @@ def simulate_collapse(
         context.record_step(drift_score, affect_delta, collapse_hash)
 
         if repair_engine is not None:
-            logger.debug(
-                "Attempting TraceRepairEngine invocation for scenario=%s iteration=%s", scenario, index
-            )
+            logger.debug("Attempting TraceRepairEngine invocation for scenario=%s iteration=%s", scenario, index)
             context.repair_attempts += 1
             if invoke_trace_repair(repair_engine, scenario, drift_score, top_symbols):
                 context.repair_successes += 1
@@ -211,7 +202,7 @@ def compute_collapse_hash(scenario: str, drift_score: float, affect_delta: float
     """Compute symbolic collapse hash for the iteration."""
 
     digest_input = f"{scenario}:{drift_score}:{affect_delta}:{index}".encode("utf-8")
-    return str(abs(hash(digest_input)) % 10 ** 10).zfill(10)
+    return str(abs(hash(digest_input)) % 10**10).zfill(10)
 
 
 def derive_top_symbols(scenario: str) -> List[str]:

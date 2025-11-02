@@ -22,6 +22,7 @@ from typing import NamedTuple
 
 class BenchEntry(NamedTuple):
     """Parsed benchmark ledger entry."""
+
     module: str
     timestamp: datetime
     p50: float
@@ -104,14 +105,12 @@ def write_csv(trends: list[tuple[str, str, float, float, float, float, str]], ou
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Generate benchmark trend analytics from ledger"
-    )
+    parser = argparse.ArgumentParser(description="Generate benchmark trend analytics from ledger")
     parser.add_argument(
         "--output",
         type=Path,
         default=Path("trends/bench_trend.csv"),
-        help="Output CSV path (default: trends/bench_trend.csv)"
+        help="Output CSV path (default: trends/bench_trend.csv)",
     )
     args = parser.parse_args()
 

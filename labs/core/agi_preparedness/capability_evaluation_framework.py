@@ -22,6 +22,7 @@ Integration:
 - Guardian System 2.0 Cognitive AI capability violation detection
 - Democratic oversight for Cognitive AI governance decisions
 """
+
 import logging
 import math
 from dataclasses import dataclass, field
@@ -1126,7 +1127,10 @@ class CapabilityEvaluationFramework:
             return 0.0
 
     async def _project_agi_timeline(
-        self, cognitive_likelihood_score: float, capability_growth_rate: float, domain_scores: dict[CapabilityDomain, float]
+        self,
+        cognitive_likelihood_score: float,
+        capability_growth_rate: float,
+        domain_scores: dict[CapabilityDomain, float],
     ) -> Optional[datetime]:
         """Project timeline to Cognitive AI achievement"""
 
@@ -1224,7 +1228,8 @@ class CapabilityEvaluationFramework:
         }
 
         self.logger.critical(
-            f"Cognitive AI THRESHOLD DETECTED: {profile.system_name} - " f"Likelihood: {profile.cognitive_likelihood_score:.3f}"
+            f"Cognitive AI THRESHOLD DETECTED: {profile.system_name} - "
+            f"Likelihood: {profile.cognitive_likelihood_score:.3f}"
         )
 
         # Execute all alert callbacks
@@ -1257,7 +1262,11 @@ class CapabilityEvaluationFramework:
             "systems_assessed": len(set(p.system_name for p in profiles)),
             "domains_with_measurements": len(set(m.domain for m in measurements)),
             "cognitive_candidates": len(
-                [p for p in profiles if p.cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]]
+                [
+                    p
+                    for p in profiles
+                    if p.cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]
+                ]
             ),
             "superhuman_capabilities_detected": len([p for p in profiles if p.superhuman_domains]),
             "systems_above_safety_thresholds": len(
@@ -1310,7 +1319,11 @@ class CapabilityEvaluationFramework:
             },
             "cognitive_assessment": {
                 "cognitive_candidates_identified": len(
-                    [p for p in profiles if p.cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]]
+                    [
+                        p
+                        for p in profiles
+                        if p.cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]
+                    ]
                 ),
                 "highest_agi_likelihood_system": (
                     max(profiles, key=lambda p: p.cognitive_likelihood_score).system_name if profiles else None

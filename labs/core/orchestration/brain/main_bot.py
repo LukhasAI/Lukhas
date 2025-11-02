@@ -15,6 +15,7 @@ Licensed under the LUKHAS Core License - see LICENSE.md for details.
 EXTRACTED FROM: enhanced_bot_primary.py (EnhancedAGIBot class, lines 836-1163)
 ENHANCEMENT: Added professional structure while preserving ALL original logic
 """
+
 import asyncio
 import hashlib
 import logging

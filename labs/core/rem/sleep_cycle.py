@@ -4,6 +4,7 @@ sleep_cycle.py
 Triggers a symbolic sleep/dream cycle for Lucʌs.
 Logs a memory trace, folds it, seeds a dream, and stores the dream output.
 """
+
 from dream.core.dream_log import dream_logger
 from modules.dream_seed import seed_dream
 from modules.fold_token import fold_trace

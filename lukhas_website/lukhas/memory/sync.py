@@ -13,6 +13,7 @@ Usage:
         # Sync completed safely
         pass
 """
+
 from __future__ import annotations
 
 import logging
@@ -28,7 +29,10 @@ from uuid import UUID, uuid4
 # Optional Prometheus metrics
 try:
     from prometheus_client import Counter, Gauge, Histogram
-    MEMORY_SYNC_OPS_TOTAL = Counter("lukhas_memory_sync_ops_total", "Memory sync operations", ["source_lane", "target_lane", "result"])
+
+    MEMORY_SYNC_OPS_TOTAL = Counter(
+        "lukhas_memory_sync_ops_total", "Memory sync operations", ["source_lane", "target_lane", "result"]
+    )
     MEMORY_SYNC_DURATION = Histogram("lukhas_memory_sync_duration_seconds", "Memory sync duration", ["operation"])
     MEMORY_FANOUT_GAUGE = Gauge("lukhas_memory_fanout_current", "Current memory fanout", ["lane"])
     MEMORY_BUDGET_UTILIZATION = Gauge("lukhas_memory_budget_utilization", "Budget utilization ratio", ["lane"])
@@ -36,11 +40,20 @@ try:
     PROM = True
 except Exception:
     PROM = False
+
     class _NoopMetric:
-        def labels(self, *_, **__): return self
-        def inc(self, *_): pass
-        def observe(self, *_): pass
-        def set(self, *_): pass
+        def labels(self, *_, **__):
+            return self
+
+        def inc(self, *_):
+            pass
+
+        def observe(self, *_):
+            pass
+
+        def set(self, *_):
+            pass
+
     MEMORY_SYNC_OPS_TOTAL = _NoopMetric()
     MEMORY_SYNC_DURATION = _NoopMetric()
     MEMORY_FANOUT_GAUGE = _NoopMetric()
@@ -53,6 +66,7 @@ logger = logging.getLogger(__name__)
 
 class SyncResult(Enum):
     """Memory synchronization operation results."""
+
     SUCCESS = "success"
     ERROR_FANOUT = "error_fanout"
     ERROR_FANIN = "error_fanin"
@@ -66,6 +80,7 @@ class SyncResult(Enum):
 @dataclass(frozen=True)
 class SyncOperation:
     """Memory synchronization operation record."""
+
     op_id: UUID
     timestamp: datetime
     source_lane: str
@@ -95,13 +110,14 @@ class SyncOperation:
             "depth_level": self.depth_level,
             "result": self.result.value,
             "duration_ms": self.duration_ms,
-            "error_message": self.error_message
+            "error_message": self.error_message,
         }
 
 
 @dataclass
 class SyncBudgetConfig:
     """Configuration for synchronization budgets and limits."""
+
     # Fanout limits (number of concurrent outbound sync operations)
     max_fanout: int = 8
 
@@ -132,7 +148,7 @@ DEFAULT_SYNC_CONFIGS: Dict[str, SyncBudgetConfig] = {
         ops_budget_per_tick=100,
         data_budget_per_tick_mb=20.0,
         allow_cross_lane_sync=True,
-        require_governance_approval=False
+        require_governance_approval=False,
     ),
     "candidate": SyncBudgetConfig(
         max_fanout=8,
@@ -141,7 +157,7 @@ DEFAULT_SYNC_CONFIGS: Dict[str, SyncBudgetConfig] = {
         ops_budget_per_tick=50,
         data_budget_per_tick_mb=10.0,
         allow_cross_lane_sync=True,
-        require_governance_approval=True
+        require_governance_approval=True,
     ),
     "prod": SyncBudgetConfig(
         max_fanout=4,
@@ -150,8 +166,8 @@ DEFAULT_SYNC_CONFIGS: Dict[str, SyncBudgetConfig] = {
         ops_budget_per_tick=25,
         data_budget_per_tick_mb=5.0,
         allow_cross_lane_sync=False,
-        require_governance_approval=True
-    )
+        require_governance_approval=True,
+    ),
 }
 
 
@@ -179,8 +195,8 @@ class MemorySynchronizer:
 
         # Synchronization state tracking
         self._active_fanout: Dict[str, Set[UUID]] = defaultdict(set)  # lane -> operation_ids
-        self._active_fanin: Dict[str, Set[UUID]] = defaultdict(set)   # lane -> operation_ids
-        self._operation_depth: Dict[UUID, int] = {}                   # op_id -> depth
+        self._active_fanin: Dict[str, Set[UUID]] = defaultdict(set)  # lane -> operation_ids
+        self._operation_depth: Dict[UUID, int] = {}  # op_id -> depth
 
         # Budget tracking
         self._ops_history: deque = deque(maxlen=1000)  # Recent operations for budget calculation
@@ -201,7 +217,7 @@ class MemorySynchronizer:
         fold_data: Dict[str, Any],
         fold_id: Optional[str] = None,
         operation_type: str = "fold_sync",
-        parent_op_id: Optional[UUID] = None
+        parent_op_id: Optional[UUID] = None,
     ) -> SyncOperation:
         """
         Synchronize memory fold between lanes with governance checks.
@@ -231,10 +247,18 @@ class MemorySynchronizer:
                 # 1. Check lane policy
                 if not self._check_lane_policy(source_lane, target_lane):
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
                         SyncResult.ERROR_LANE_POLICY,
-                        "Cross-lane sync not permitted by policy"
+                        "Cross-lane sync not permitted by policy",
                     )
                     self._log_operation(result)
                     return result
@@ -242,10 +266,18 @@ class MemorySynchronizer:
                 # 2. Check fanout limits
                 if fanout_cost > 0 and not self._check_fanout_budget(target_lane, fanout_cost):
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
                         SyncResult.ERROR_FANOUT,
-                        f"Fanout limit {self.config.max_fanout} exceeded"
+                        f"Fanout limit {self.config.max_fanout} exceeded",
                     )
                     self._log_operation(result)
                     return result
@@ -253,10 +285,18 @@ class MemorySynchronizer:
                 # 3. Check fanin limits
                 if fanin_cost > 0 and not self._check_fanin_budget(source_lane, fanin_cost):
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
                         SyncResult.ERROR_FANIN,
-                        f"Fanin limit {self.config.max_fanin} exceeded"
+                        f"Fanin limit {self.config.max_fanin} exceeded",
                     )
                     self._log_operation(result)
                     return result
@@ -264,10 +304,18 @@ class MemorySynchronizer:
                 # 4. Check depth limits
                 if depth_level > self.config.max_depth:
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
                         SyncResult.ERROR_DEPTH,
-                        f"Depth limit {self.config.max_depth} exceeded"
+                        f"Depth limit {self.config.max_depth} exceeded",
                     )
                     self._log_operation(result)
                     return result
@@ -275,10 +323,18 @@ class MemorySynchronizer:
                 # 5. Check operation budget
                 if not self._check_ops_budget():
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
                         SyncResult.ERROR_BUDGET,
-                        f"Operation budget {self.config.ops_budget_per_tick} exceeded"
+                        f"Operation budget {self.config.ops_budget_per_tick} exceeded",
                     )
                     self._log_operation(result)
                     return result
@@ -286,10 +342,18 @@ class MemorySynchronizer:
                 # 6. Check data budget
                 if not self._check_data_budget(data_size):
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
                         SyncResult.ERROR_BUDGET,
-                        f"Data budget {self.config.data_budget_per_tick_mb}MB exceeded"
+                        f"Data budget {self.config.data_budget_per_tick_mb}MB exceeded",
                     )
                     self._log_operation(result)
                     return result
@@ -297,10 +361,18 @@ class MemorySynchronizer:
                 # 7. Validate fold data
                 if not self._validate_fold_data(fold_data):
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
                         SyncResult.ERROR_DATA_VALIDATION,
-                        "Fold data validation failed"
+                        "Fold data validation failed",
                     )
                     self._log_operation(result)
                     return result
@@ -315,9 +387,19 @@ class MemorySynchronizer:
                     # Sync successful
                     duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
                     result = self._create_sync_operation(
-                        op_id, start_time, source_lane, target_lane, operation_type,
-                        fold_id, data_size, fanout_cost, fanin_cost, depth_level,
-                        SyncResult.SUCCESS, None, duration_ms
+                        op_id,
+                        start_time,
+                        source_lane,
+                        target_lane,
+                        operation_type,
+                        fold_id,
+                        data_size,
+                        fanout_cost,
+                        fanin_cost,
+                        depth_level,
+                        SyncResult.SUCCESS,
+                        None,
+                        duration_ms,
                     )
 
                     # Update budgets
@@ -330,9 +412,19 @@ class MemorySynchronizer:
             except Exception as e:
                 duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
                 result = self._create_sync_operation(
-                    op_id, start_time, source_lane, target_lane, operation_type,
-                    fold_id, 0, fanout_cost, fanin_cost, depth_level,
-                    SyncResult.ERROR_CONCURRENCY, str(e), duration_ms
+                    op_id,
+                    start_time,
+                    source_lane,
+                    target_lane,
+                    operation_type,
+                    fold_id,
+                    0,
+                    fanout_cost,
+                    fanin_cost,
+                    depth_level,
+                    SyncResult.ERROR_CONCURRENCY,
+                    str(e),
+                    duration_ms,
                 )
                 logger.exception(f"Memory sync operation {op_id} failed: {e}")
 
@@ -343,10 +435,11 @@ class MemorySynchronizer:
         """Estimate data size in bytes (simplified implementation)."""
         try:
             import json
-            return len(json.dumps(data).encode('utf-8'))
+
+            return len(json.dumps(data).encode("utf-8"))
         except Exception:
             # Fallback estimation
-            return len(str(data).encode('utf-8'))
+            return len(str(data).encode("utf-8"))
 
     def _calculate_depth(self, parent_op_id: Optional[UUID]) -> int:
         """Calculate operation depth based on parent operation."""
@@ -379,10 +472,7 @@ class MemorySynchronizer:
         window_start = now - timedelta(seconds=self.config.budget_window_seconds)
 
         # Count recent operations
-        recent_ops = [
-            op for op in self._ops_history
-            if op.timestamp >= window_start
-        ]
+        recent_ops = [op for op in self._ops_history if op.timestamp >= window_start]
 
         return len(recent_ops) < self.config.ops_budget_per_tick
 
@@ -393,8 +483,7 @@ class MemorySynchronizer:
 
         # Calculate recent data usage
         recent_data_mb = sum(
-            op.data_size / (1024 * 1024) for op in self._data_usage_history
-            if op.timestamp >= window_start
+            op.data_size / (1024 * 1024) for op in self._data_usage_history if op.timestamp >= window_start
         )
 
         data_size_mb = data_size / (1024 * 1024)
@@ -411,8 +500,9 @@ class MemorySynchronizer:
 
         return True
 
-    def _reserve_resources(self, op_id: UUID, source_lane: str, target_lane: str,
-                          fanout_cost: int, fanin_cost: int, depth_level: int):
+    def _reserve_resources(
+        self, op_id: UUID, source_lane: str, target_lane: str, fanout_cost: int, fanin_cost: int, depth_level: int
+    ):
         """Reserve synchronization resources."""
         if fanout_cost > 0:
             self._active_fanout[target_lane].add(op_id)
@@ -422,8 +512,7 @@ class MemorySynchronizer:
 
         self._operation_depth[op_id] = depth_level
 
-    def _release_resources(self, op_id: UUID, source_lane: str, target_lane: str,
-                          fanout_cost: int, fanin_cost: int):
+    def _release_resources(self, op_id: UUID, source_lane: str, target_lane: str, fanout_cost: int, fanin_cost: int):
         """Release synchronization resources."""
         if fanout_cost > 0:
             self._active_fanout[target_lane].discard(op_id)
@@ -441,14 +530,25 @@ class MemorySynchronizer:
 
         # Simulate some processing time
         import time
+
         time.sleep(0.001)  # 1ms simulated sync time
 
-    def _create_sync_operation(self, op_id: UUID, start_time: datetime,
-                              source_lane: str, target_lane: str, operation_type: str,
-                              fold_id: Optional[str], data_size: int,
-                              fanout_cost: int, fanin_cost: int, depth_level: int,
-                              result: SyncResult, error_message: Optional[str] = None,
-                              duration_ms: Optional[float] = None) -> SyncOperation:
+    def _create_sync_operation(
+        self,
+        op_id: UUID,
+        start_time: datetime,
+        source_lane: str,
+        target_lane: str,
+        operation_type: str,
+        fold_id: Optional[str],
+        data_size: int,
+        fanout_cost: int,
+        fanin_cost: int,
+        depth_level: int,
+        result: SyncResult,
+        error_message: Optional[str] = None,
+        duration_ms: Optional[float] = None,
+    ) -> SyncOperation:
         """Create sync operation record."""
         if duration_ms is None:
             duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
@@ -466,7 +566,7 @@ class MemorySynchronizer:
             depth_level=depth_level,
             result=result,
             duration_ms=duration_ms,
-            error_message=error_message
+            error_message=error_message,
         )
 
     def _record_operation(self, operation: SyncOperation):
@@ -488,20 +588,13 @@ class MemorySynchronizer:
         # Update Prometheus metrics
         if PROM:
             MEMORY_SYNC_OPS_TOTAL.labels(
-                source_lane=operation.source_lane,
-                target_lane=operation.target_lane,
-                result=operation.result.value
+                source_lane=operation.source_lane, target_lane=operation.target_lane, result=operation.result.value
             ).inc()
 
-            MEMORY_SYNC_DURATION.labels(operation=operation.operation_type).observe(
-                operation.duration_ms / 1000.0
-            )
+            MEMORY_SYNC_DURATION.labels(operation=operation.operation_type).observe(operation.duration_ms / 1000.0)
 
             if operation.result != SyncResult.SUCCESS:
-                MEMORY_SYNC_ERRORS_TOTAL.labels(
-                    lane=self.lane,
-                    error_type=operation.result.value
-                ).inc()
+                MEMORY_SYNC_ERRORS_TOTAL.labels(lane=self.lane, error_type=operation.result.value).inc()
 
     def get_sync_stats(self) -> Dict[str, Any]:
         """Get current synchronization statistics."""
@@ -531,7 +624,7 @@ class MemorySynchronizer:
             "fanin_capacity": self.config.max_fanin,
             "ops_budget_utilization": min(1.0, ops_utilization),
             "max_depth": self.config.max_depth,
-            "active_operations": len(self._operation_depth)
+            "active_operations": len(self._operation_depth),
         }
 
     def get_sync_log(self, limit: Optional[int] = None) -> List[SyncOperation]:

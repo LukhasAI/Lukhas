@@ -693,7 +693,9 @@ class QIConsciousnessHub:
         base_coherence = state.coherence
 
         # Reduce coherence for rapid state changes
-        recent_states = [s for s in self.state_history[-10:] if s.timestamp > datetime.now(timezone.utc).timestamp() - 300]
+        recent_states = [
+            s for s in self.state_history[-10:] if s.timestamp > datetime.now(timezone.utc).timestamp() - 300
+        ]
         state_changes = len({s.state_type for s in recent_states})
 
         coherence_penalty = (state_changes - 1) * 0.1

@@ -2,11 +2,13 @@
 Cross-dream resonance modeling (opt-in).
 Maintains emotional continuity across dream selections.
 """
+
 import os
 from typing import Dict, Optional
 
 ENABLED = os.getenv("LUKHAS_DREAM_RESONANCE", "0") == "1"
 DECAY = float(os.getenv("LUKHAS_RESONANCE_DECAY", "0.9"))
+
 
 class ResonanceField:
     """
@@ -57,13 +59,15 @@ class ResonanceField:
         if len(self.history) > 100:  # Limit history size
             self.history.pop(0)
 
-        self.history.append({
-            "type": event_type,
-            "original": original.copy(),
-            "blended": blended.copy(),
-            "decay_factor": DECAY,
-            "enabled": ENABLED
-        })
+        self.history.append(
+            {
+                "type": event_type,
+                "original": original.copy(),
+                "blended": blended.copy(),
+                "decay_factor": DECAY,
+                "enabled": ENABLED,
+            }
+        )
 
     def reset(self):
         """Reset resonance field state."""
@@ -77,7 +81,7 @@ class ResonanceField:
             "decay_factor": DECAY,
             "has_previous": self.last_vector is not None,
             "last_vector": self.last_vector.copy() if self.last_vector else None,
-            "history_length": len(self.history)
+            "history_length": len(self.history),
         }
 
     def validate_resonance(self, original: Dict[str, float], resonant: Dict[str, float]) -> bool:
@@ -110,17 +114,20 @@ class ResonanceField:
 
         return True
 
+
 def create_resonance_field() -> ResonanceField:
     """Factory function to create resonance field."""
     return ResonanceField()
+
 
 def get_resonance_config() -> Dict[str, any]:
     """Get current resonance configuration."""
     return {
         "enabled": ENABLED,
         "decay_factor": DECAY,
-        "safe_range": DECAY >= 0.1 and DECAY <= 0.99  # Reasonable decay range
+        "safe_range": DECAY >= 0.1 and DECAY <= 0.99,  # Reasonable decay range
     }
+
 
 def simulate_resonance_decay(initial_value: float, steps: int) -> list[float]:
     """

@@ -37,6 +37,7 @@
 ║ Symbolic Tags: {ΛGMAIL}, {ΛEMAIL}, {ΛOAUTH}, {ΛINTEGRATION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import base64
 import email

@@ -21,8 +21,7 @@ try:
     import oqs  # type: ignore
 except ImportError as exc:  # pragma: no cover - import guard for CI diagnostics
     raise SystemExit(
-        "python-oqs module is not available. Ensure liboqs and liboqs-python "
-        "are installed on the runner."
+        "python-oqs module is not available. Ensure liboqs and liboqs-python " "are installed on the runner."
     ) from exc
 
 

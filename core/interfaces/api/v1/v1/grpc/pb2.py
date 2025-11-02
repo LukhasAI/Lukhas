@@ -2,6 +2,7 @@
 Generated gRPC message classes for LUKHAS Cognitive AI Protocol
 Auto-generated from proto - DO NOT EDIT MANUALLY
 """
+
 import time
 from typing import Any
 

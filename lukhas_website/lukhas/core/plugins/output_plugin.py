@@ -29,11 +29,7 @@ class OutputFormattingPlugin(PluginBase):
             author="LUKHAS AI Team",
             category="output",
             dependencies=[],
-            performance_profile={
-                "average_latency_ms": 5,
-                "memory_usage_mb": 5,
-                "cpu_intensive": False
-            }
+            performance_profile={"average_latency_ms": 5, "memory_usage_mb": 5, "cpu_intensive": False},
         )
 
     def _initialize(self) -> None:
@@ -56,7 +52,7 @@ class OutputFormattingPlugin(PluginBase):
                 "version": self.version,
                 "processing_time_ms": (time.time() - start_time) * 1000,
                 "format": self.format_type,
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
         return formatted_data

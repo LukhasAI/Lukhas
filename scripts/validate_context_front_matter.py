@@ -27,10 +27,12 @@ from star_canon_utils import extract_canon_labels, normalize_star_label
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs" / "audits" / "context_lint.txt"
 
+
 def load_star_canon():
     # Prefer python package if present
     try:
         from star_canon import canon as canon_fn  # type: ignore
+
         payload = canon_fn()
         extract_canon_labels(payload)
         return payload
@@ -44,11 +46,14 @@ def load_star_canon():
         return payload
     return {"stars": [], "aliases": {}}
 
+
 def normalize_star(name: str, canon: dict) -> str:
     return normalize_star_label(name, canon)
 
+
 FM_START = re.compile(r"^\s*---\s*$")
-FM_END   = re.compile(r"^\s*---\s*$")
+FM_END = re.compile(r"^\s*---\s*$")
+
 
 def parse_front_matter(md_text: str):
     """
@@ -71,6 +76,7 @@ def parse_front_matter(md_text: str):
     # Try PyYAML if available
     try:
         import yaml  # type: ignore
+
         data = yaml.safe_load(block) or {}
         return data
     except Exception:
@@ -111,6 +117,7 @@ def parse_front_matter(md_text: str):
                 set_kv(map_stack[-1], k, v)
     return data
 
+
 def read_manifest_for(md_path: pathlib.Path):
     mf = md_path.parent / "module.manifest.json"
     if not mf.exists():
@@ -119,6 +126,7 @@ def read_manifest_for(md_path: pathlib.Path):
         return json.loads(mf.read_text(encoding="utf-8"))
     except Exception:
         return None
+
 
 def main():
     ROOT / "docs"
@@ -185,10 +193,12 @@ def main():
             missing_nodes = [n for n in (m_nodes or []) if n not in (matriz or [])]
             if missing_nodes:
                 failures += 1
-                rows.append(f"[FAIL] {ctx}: missing MATRIZ nodes: {missing_nodes} (manifest={m_nodes}, context={matriz})")
+                rows.append(
+                    f"[FAIL] {ctx}: missing MATRIZ nodes: {missing_nodes} (manifest={m_nodes}, context={matriz})"
+                )
 
             # Owner discipline for T1/T2
-            if (m_tier in ("T1_critical", "T2_important")):
+            if m_tier in ("T1_critical", "T2_important"):
                 if not owner or owner.lower() == "unassigned":
                     failures += 1
                     rows.append(f"[FAIL] {ctx}: T1/T2 must have owner (found '{owner or 'none'}')")
@@ -208,6 +218,7 @@ def main():
     print(summary.strip())
     if failures:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

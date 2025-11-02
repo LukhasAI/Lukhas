@@ -2,6 +2,7 @@
 Core-Safety Bridge
 Bidirectional communication bridge between core and safety systems
 """
+
 import logging
 from typing import Any
 
@@ -174,50 +175,54 @@ class CoreSafetyBridge:
         differences = []
 
         # ⚛️ Identity Component Comparison
-        identity_diff = self._compare_identity_states(
-            state1.get("identity", {}), state2.get("identity", {})
-        )
+        identity_diff = self._compare_identity_states(state1.get("identity", {}), state2.get("identity", {}))
         if identity_diff:
-            differences.append({
-                "component": "identity",
-                "symbol": "⚛️",
-                "differences": identity_diff,
-                "severity": self._assess_identity_drift_severity(identity_diff)
-            })
+            differences.append(
+                {
+                    "component": "identity",
+                    "symbol": "⚛️",
+                    "differences": identity_diff,
+                    "severity": self._assess_identity_drift_severity(identity_diff),
+                }
+            )
 
         # 🧠 Consciousness Component Comparison
         consciousness_diff = self._compare_consciousness_states(
             state1.get("consciousness", {}), state2.get("consciousness", {})
         )
         if consciousness_diff:
-            differences.append({
-                "component": "consciousness",
-                "symbol": "🧠",
-                "differences": consciousness_diff,
-                "severity": self._assess_consciousness_drift_severity(consciousness_diff)
-            })
+            differences.append(
+                {
+                    "component": "consciousness",
+                    "symbol": "🧠",
+                    "differences": consciousness_diff,
+                    "severity": self._assess_consciousness_drift_severity(consciousness_diff),
+                }
+            )
 
         # 🛡️ Guardian Component Comparison
-        guardian_diff = self._compare_guardian_states(
-            state1.get("guardian", {}), state2.get("guardian", {})
-        )
+        guardian_diff = self._compare_guardian_states(state1.get("guardian", {}), state2.get("guardian", {}))
         if guardian_diff:
-            differences.append({
-                "component": "guardian",
-                "symbol": "🛡️",
-                "differences": guardian_diff,
-                "severity": self._assess_guardian_drift_severity(guardian_diff)
-            })
+            differences.append(
+                {
+                    "component": "guardian",
+                    "symbol": "🛡️",
+                    "differences": guardian_diff,
+                    "severity": self._assess_guardian_drift_severity(guardian_diff),
+                }
+            )
 
         # Constellation Framework holistic assessment
         if differences:
             constellation_health = self._assess_trinity_coherence(differences)
-            differences.append({
-                "component": "constellation_framework",
-                "symbol": "⚛️🧠🛡️",
-                "coherence_score": constellation_health,
-                "recommendation": self._get_trinity_recommendation(constellation_health)
-            })
+            differences.append(
+                {
+                    "component": "constellation_framework",
+                    "symbol": "⚛️🧠🛡️",
+                    "coherence_score": constellation_health,
+                    "recommendation": self._get_trinity_recommendation(constellation_health),
+                }
+            )
 
         return differences
 
@@ -269,7 +274,9 @@ class CoreSafetyBridge:
     def _assess_trinity_coherence(self, differences: list) -> float:
         """Assess overall Constellation Framework coherence (0.0-1.0)"""
         total_components = 3  # ⚛️🧠🛡️
-        affected_components = len([d for d in differences if d["component"] in ["identity", "consciousness", "guardian"]])
+        affected_components = len(
+            [d for d in differences if d["component"] in ["identity", "consciousness", "guardian"]]
+        )
         return 1.0 - (affected_components / total_components)
 
     def _get_trinity_recommendation(self, coherence_score: float) -> str:

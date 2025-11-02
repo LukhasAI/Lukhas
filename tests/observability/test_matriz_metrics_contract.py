@@ -37,7 +37,15 @@ class MATRIZMetricsContractValidator:
         """Initialize contract validator."""
         self.metrics_collector = ServiceMetricsCollector()
         self.contract_violations = []
-        self.forbidden_labels = {"correlation_id", "request_id", "trace_id", "span_id", "session_id", "user_id", "timestamp"}
+        self.forbidden_labels = {
+            "correlation_id",
+            "request_id",
+            "trace_id",
+            "span_id",
+            "session_id",
+            "user_id",
+            "timestamp",
+        }
         self.dynamic_id_patterns = [
             r".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*",  # UUIDs
             r".*[0-9]{13,}.*",  # Timestamps (13+ digits)
@@ -67,12 +75,16 @@ class MATRIZMetricsContractValidator:
         if "lane" in labels:
             lane_value = labels["lane"]
             if not LUKHASLane.is_valid_lane(lane_value):
-                violations.append(f"Invalid lane value '{lane_value}' in metric '{metric_name}' - must be from canonical enum")
+                violations.append(
+                    f"Invalid lane value '{lane_value}' in metric '{metric_name}' - must be from canonical enum"
+                )
 
         # Check label value format
         for label_key, label_value in labels.items():
             if not self._is_valid_label_value(label_value):
-                violations.append(f"Invalid label value format '{label_value}' for key '{label_key}' in metric '{metric_name}'")
+                violations.append(
+                    f"Invalid label value format '{label_value}' for key '{label_key}' in metric '{metric_name}'"
+                )
 
         # Check for dynamic ID patterns that would cause cardinality explosion
         dynamic_violations = self.validate_dynamic_id_prevention(metric_name, labels)
@@ -88,7 +100,9 @@ class MATRIZMetricsContractValidator:
             # Check if value matches any dynamic ID pattern
             for pattern in self.dynamic_id_patterns:
                 if re.match(pattern, str(label_value), re.IGNORECASE):
-                    violations.append(f"Dynamic ID detected in label '{label_key}={label_value}' for metric '{metric_name}' - pattern: {pattern}")
+                    violations.append(
+                        f"Dynamic ID detected in label '{label_key}={label_value}' for metric '{metric_name}' - pattern: {pattern}"
+                    )
                     break
 
         return violations
@@ -114,7 +128,7 @@ class MATRIZMetricsContractValidator:
             "tick": [0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 1.0],  # tick < 100ms
             "reflect": [0.001, 0.002, 0.005, 0.01, 0.025, 0.05],  # reflect < 10ms
             "decide": [0.001, 0.005, 0.01, 0.025, 0.05, 0.1],  # decide < 50ms
-            "full_loop": [0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]  # full loop < 250ms
+            "full_loop": [0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0],  # full loop < 250ms
         }
 
         if operation_type in expected_buckets:
@@ -152,18 +166,13 @@ class MATRIZMetricsContractValidator:
         operation: str = "tick",
         phase: str = "processing",
         lane: str = "production",
-        labels: Dict[str, Any] = None
+        labels: Dict[str, Any] = None,
     ) -> List[str]:
         """Record MATRIZ metric and validate against contracts."""
         violations = []
 
         # Prepare labels
-        metric_labels = {
-            "lane": lane,
-            "component": "matriz",
-            "phase": phase,
-            "operation": operation
-        }
+        metric_labels = {"lane": lane, "component": "matriz", "phase": phase, "operation": operation}
 
         # Add any additional labels
         if labels:
@@ -185,11 +194,7 @@ class MATRIZMetricsContractValidator:
         # Record the metric (with violations tracked)
         try:
             self.metrics_collector.record_metric(
-                name=name,
-                value=value,
-                service=service,
-                metric_type=metric_type,
-                labels=metric_labels
+                name=name, value=value, service=service, metric_type=metric_type, labels=metric_labels
             )
         except Exception as e:
             violations.append(f"Failed to record metric '{name}': {str(e)}")
@@ -218,7 +223,7 @@ class TestMATRIZMetricsContract:
             ("span_id", "span_789abc"),
             ("session_id", "sess_xyz123"),
             ("user_id", "user_456def"),
-            ("timestamp", "1695646894123")
+            ("timestamp", "1695646894123"),
         ]
 
         for forbidden_label, test_value in forbidden_test_cases:
@@ -230,7 +235,7 @@ class TestMATRIZMetricsContract:
                 operation="tick",
                 phase="processing",
                 lane="production",
-                labels={forbidden_label: test_value}
+                labels={forbidden_label: test_value},
             )
 
             # Assert violation detected for forbidden labels
@@ -249,7 +254,7 @@ class TestMATRIZMetricsContract:
             operation="test",
             phase="processing",
             lane="production",
-            labels={"deployment_id": "deploy-f47ac10b-58cc-4372-a567-0e02b2c3d479"}  # UUID hidden in deployment
+            labels={"deployment_id": "deploy-f47ac10b-58cc-4372-a567-0e02b2c3d479"},  # UUID hidden in deployment
         )
 
         dynamic_violations = [v for v in violations if "Dynamic ID detected" in v]
@@ -265,7 +270,7 @@ class TestMATRIZMetricsContract:
         test_cases = [
             ({"component": "matriz", "phase": "processing"}, "lane"),  # Missing lane
             ({"lane": "production", "phase": "processing"}, "component"),  # Missing component
-            ({"lane": "production", "component": "matriz"}, "phase")  # Missing phase
+            ({"lane": "production", "component": "matriz"}, "phase"),  # Missing phase
         ]
 
         for incomplete_labels, missing_label in test_cases:
@@ -292,7 +297,7 @@ class TestMATRIZMetricsContract:
                 metric_type=MetricType.HISTOGRAM,
                 operation="reflect",
                 phase="meta_cognitive",
-                lane=lane
+                lane=lane,
             )
 
             # No violations should occur for valid lanes
@@ -307,7 +312,7 @@ class TestMATRIZMetricsContract:
             metric_type=MetricType.HISTOGRAM,
             operation="decide",
             phase="decision",
-            lane="invalid_lane"  # This should be flagged
+            lane="invalid_lane",  # This should be flagged
         )
 
         lane_violations = [v for v in violations if "Invalid lane value" in v]
@@ -324,7 +329,7 @@ class TestMATRIZMetricsContract:
             ("with spaces", "spaces"),
             ("with\nnewlines", "newlines"),
             ("with\ttabs", "tabs"),
-            ("", "empty")
+            ("", "empty"),
         ]
 
         for invalid_value, case_name in invalid_cases:
@@ -335,7 +340,7 @@ class TestMATRIZMetricsContract:
                 metric_type=MetricType.COUNTER,
                 operation="test",
                 phase=invalid_value,  # Use invalid value for phase
-                lane="production"
+                lane="production",
             )
 
             format_violations = [v for v in violations if "Invalid label value format" in v]
@@ -352,7 +357,7 @@ class TestMATRIZMetricsContract:
                 metric_type=MetricType.COUNTER,
                 operation="test",
                 phase=valid_value,
-                lane="production"
+                lane="production",
             )
 
             format_violations = [v for v in violations if "Invalid label value format" in v and valid_value in v]
@@ -369,7 +374,7 @@ class TestMATRIZMetricsContract:
             "550e8400-e29b-41d4-a716-446655440000",  # Standard UUID v4
             "f47ac10b-58cc-4372-a567-0e02b2c3d479",  # Another UUID v4
             "6ba7b810-9dad-11d1-80b4-00c04fd430c8",  # UUID v1
-            "prefix-550e8400-e29b-41d4-a716-446655440000-suffix"  # UUID with prefix/suffix
+            "prefix-550e8400-e29b-41d4-a716-446655440000-suffix",  # UUID with prefix/suffix
         ]
 
         for uuid_value in uuid_test_cases:
@@ -381,7 +386,7 @@ class TestMATRIZMetricsContract:
                 operation="test",
                 phase="processing",
                 lane="production",
-                labels={"dynamic_uuid": uuid_value}
+                labels={"dynamic_uuid": uuid_value},
             )
 
             # Assert UUID was detected as dynamic ID
@@ -396,10 +401,10 @@ class TestMATRIZMetricsContract:
 
         # Test various timestamp formats that should be detected and forbidden
         timestamp_test_cases = [
-            "1695646894123",      # 13-digit Unix timestamp (ms)
-            "1695646894123456",   # 16-digit Unix timestamp (μs)
-            "20230925134134",     # 14-digit timestamp format
-            "ts_1695646894123",   # Prefixed timestamp
+            "1695646894123",  # 13-digit Unix timestamp (ms)
+            "1695646894123456",  # 16-digit Unix timestamp (μs)
+            "20230925134134",  # 14-digit timestamp format
+            "ts_1695646894123",  # Prefixed timestamp
         ]
 
         for timestamp_value in timestamp_test_cases:
@@ -411,7 +416,7 @@ class TestMATRIZMetricsContract:
                 operation="test",
                 phase="processing",
                 lane="production",
-                labels={"dynamic_timestamp": timestamp_value}
+                labels={"dynamic_timestamp": timestamp_value},
             )
 
             # Assert timestamp was detected as dynamic ID
@@ -441,7 +446,7 @@ class TestMATRIZMetricsContract:
                 operation="test",
                 phase="processing",
                 lane="production",
-                labels={"dynamic_id": id_value}
+                labels={"dynamic_id": id_value},
             )
 
             # Assert ID was detected as dynamic ID
@@ -459,23 +464,23 @@ class TestMATRIZMetricsContract:
             {
                 "scenario": "Production metric with clean labels",
                 "labels": {"environment": "production", "version": "v1.2.3", "deployment": "stable"},
-                "should_pass": True
+                "should_pass": True,
             },
             {
                 "scenario": "Metric with sneaky UUID in deployment label",
                 "labels": {"environment": "production", "deployment": "deploy-550e8400-e29b-41d4-a716-446655440000"},
-                "should_pass": False
+                "should_pass": False,
             },
             {
                 "scenario": "Metric with timestamp in version label",
                 "labels": {"environment": "staging", "version": "build-1695646894123"},
-                "should_pass": False
+                "should_pass": False,
             },
             {
                 "scenario": "Valid semantic versioning and environment",
                 "labels": {"environment": "canary", "version": "v2.1.0-rc.1", "region": "us-west-2"},
-                "should_pass": True
-            }
+                "should_pass": True,
+            },
         ]
 
         passed_scenarios = 0
@@ -490,7 +495,7 @@ class TestMATRIZMetricsContract:
                 operation="test",
                 phase="ci_validation",
                 lane="production",
-                labels=scenario_config["labels"]
+                labels=scenario_config["labels"],
             )
 
             has_dynamic_id_violations = any("Dynamic ID detected" in v for v in violations)
@@ -499,21 +504,29 @@ class TestMATRIZMetricsContract:
 
             if should_pass:
                 # Should have no dynamic ID violations
-                assert not has_dynamic_id_violations, f"CI scenario '{scenario_name}' should pass but has dynamic ID violations: {violations}"
+                assert (
+                    not has_dynamic_id_violations
+                ), f"CI scenario '{scenario_name}' should pass but has dynamic ID violations: {violations}"
                 passed_scenarios += 1
                 logger.info(f"✓ CI scenario PASS: {scenario_name}")
             else:
                 # Should have dynamic ID violations
-                assert has_dynamic_id_violations, f"CI scenario '{scenario_name}' should fail with dynamic ID violations but passed"
+                assert (
+                    has_dynamic_id_violations
+                ), f"CI scenario '{scenario_name}' should fail with dynamic ID violations but passed"
                 logger.info(f"✓ CI scenario FAIL (expected): {scenario_name}")
 
         # Assert overall CI integration effectiveness
         expected_pass_rate = sum(1 for s in ci_test_scenarios if s["should_pass"]) / total_scenarios
         actual_pass_rate = passed_scenarios / total_scenarios
 
-        assert actual_pass_rate == expected_pass_rate, f"CI integration pass rate mismatch: {actual_pass_rate} vs {expected_pass_rate}"
+        assert (
+            actual_pass_rate == expected_pass_rate
+        ), f"CI integration pass rate mismatch: {actual_pass_rate} vs {expected_pass_rate}"
 
-        logger.info(f"✅ CI integration for dynamic ID prevention: {passed_scenarios}/{total_scenarios} scenarios passed as expected")
+        logger.info(
+            f"✅ CI integration for dynamic ID prevention: {passed_scenarios}/{total_scenarios} scenarios passed as expected"
+        )
 
     def test_comprehensive_dynamic_id_hardening(self):
         """Comprehensive test ensuring ALL dynamic ID patterns are caught."""
@@ -524,23 +537,18 @@ class TestMATRIZMetricsContract:
             # UUIDs
             {"pattern_type": "UUID", "value": "f47ac10b-58cc-4372-a567-0e02b2c3d479", "should_detect": True},
             {"pattern_type": "UUID", "value": "not-a-uuid", "should_detect": False},
-
             # Timestamps
             {"pattern_type": "Timestamp", "value": "1695646894123", "should_detect": True},
             {"pattern_type": "Timestamp", "value": "123", "should_detect": False},  # Too short
-
             # Request IDs
             {"pattern_type": "Request ID", "value": "req_abc123", "should_detect": True},
             {"pattern_type": "Request ID", "value": "request_normal", "should_detect": False},
-
             # Session IDs
             {"pattern_type": "Session ID", "value": "sess_xyz789", "should_detect": True},
             {"pattern_type": "Session ID", "value": "session_type", "should_detect": False},
-
             # User IDs
             {"pattern_type": "User ID", "value": "usr_def456", "should_detect": True},
             {"pattern_type": "User ID", "value": "user_role", "should_detect": False},
-
             # Transaction IDs
             {"pattern_type": "Transaction ID", "value": "tx_transaction123", "should_detect": True},
             {"pattern_type": "Transaction ID", "value": "transaction_type", "should_detect": False},
@@ -562,7 +570,7 @@ class TestMATRIZMetricsContract:
                 operation="test",
                 phase="comprehensive",
                 lane="production",
-                labels={"test_label": test_value}
+                labels={"test_label": test_value},
             )
 
             has_dynamic_detection = any("Dynamic ID detected" in v for v in violations)
@@ -596,7 +604,7 @@ class TestMATRIZMetricsContract:
             ("tick", "lukhas_matriz_tick_duration_seconds", 0.075),
             ("reflect", "lukhas_matriz_reflect_duration_seconds", 0.005),
             ("decide", "lukhas_matriz_decide_duration_seconds", 0.030),
-            ("full_loop", "lukhas_matriz_full_loop_duration_seconds", 0.200)
+            ("full_loop", "lukhas_matriz_full_loop_duration_seconds", 0.200),
         ]
 
         for operation, metric_name, test_value in operation_test_cases:
@@ -607,7 +615,7 @@ class TestMATRIZMetricsContract:
                 metric_type=MetricType.HISTOGRAM,
                 operation=operation,
                 phase="processing",
-                lane="production"
+                lane="production",
             )
 
             # Check that histogram buckets validation was invoked
@@ -623,7 +631,7 @@ class TestMATRIZMetricsContract:
             ("lukhas_matriz_tick_duration_seconds", MetricType.HISTOGRAM),
             ("lukhas_matriz_operations_total", MetricType.COUNTER),
             ("lukhas_matriz_active_sessions", MetricType.GAUGE),
-            ("lukhas_consciousness_matriz_latency_seconds", MetricType.HISTOGRAM)
+            ("lukhas_consciousness_matriz_latency_seconds", MetricType.HISTOGRAM),
         ]
 
         for metric_name, metric_type in valid_metrics:
@@ -634,7 +642,7 @@ class TestMATRIZMetricsContract:
                 metric_type=metric_type,
                 operation="test",
                 phase="processing",
-                lane="production"
+                lane="production",
             )
 
             naming_violations = [v for v in violations if "missing expected prefix" in v]
@@ -644,7 +652,7 @@ class TestMATRIZMetricsContract:
         invalid_metrics = [
             ("matriz_tick_duration_seconds", "missing lukhas prefix"),
             ("lukhas_matriz_tick_duration_milliseconds", "should end with _seconds"),
-            ("lukhas_matriz_operations_count", "counter should end with _total")
+            ("lukhas_matriz_operations_count", "counter should end with _total"),
         ]
 
         for invalid_name, issue in invalid_metrics:
@@ -655,7 +663,7 @@ class TestMATRIZMetricsContract:
                 metric_type=MetricType.COUNTER,
                 operation="test",
                 phase="processing",
-                lane="production"
+                lane="production",
             )
 
             # Some naming violation should be detected
@@ -675,7 +683,7 @@ class TestMATRIZMetricsContract:
                 "operation": "tick",
                 "phase": "cognitive_processing",
                 "lane": "production",
-                "expected_compliant": True
+                "expected_compliant": True,
             },
             {
                 "name": "lukhas_matriz_reflect_duration_seconds",
@@ -685,7 +693,7 @@ class TestMATRIZMetricsContract:
                 "operation": "reflect",
                 "phase": "meta_assessment",
                 "lane": "canary",
-                "expected_compliant": True
+                "expected_compliant": True,
             },
             {
                 "name": "lukhas_matriz_decide_duration_seconds",
@@ -695,7 +703,7 @@ class TestMATRIZMetricsContract:
                 "operation": "decide",
                 "phase": "decision_making",
                 "lane": "MATRIZ",
-                "expected_compliant": True
+                "expected_compliant": True,
             },
             {
                 "name": "invalid_metric_name",
@@ -706,8 +714,8 @@ class TestMATRIZMetricsContract:
                 "phase": "processing",
                 "lane": "invalid_lane",
                 "labels": {"correlation_id": "forbidden"},
-                "expected_compliant": False
-            }
+                "expected_compliant": False,
+            },
         ]
 
         compliant_count = 0
@@ -723,7 +731,7 @@ class TestMATRIZMetricsContract:
                 operation=metric_config["operation"],
                 phase=metric_config["phase"],
                 lane=metric_config["lane"],
-                labels=labels
+                labels=labels,
             )
 
             is_compliant = len(violations) == 0
@@ -765,7 +773,7 @@ if __name__ == "__main__":
             value=1.0,
             service=ServiceType.CONSCIOUSNESS,
             metric_type=MetricType.COUNTER,
-            labels={"correlation_id": "forbidden_value"}
+            labels={"correlation_id": "forbidden_value"},
         )
         print(f"   {'✓ PASS' if len(violations) > 0 else '✗ FAIL'} - Correlation ID properly forbidden")
 
@@ -775,7 +783,7 @@ if __name__ == "__main__":
             name="lukhas_matriz_valid_metric",
             value=1.0,
             service=ServiceType.CONSCIOUSNESS,
-            metric_type=MetricType.COUNTER
+            metric_type=MetricType.COUNTER,
         )
         print(f"   {'✓ PASS' if len(complete_violations) == 0 else '✗ FAIL'} - Required labels present")
 
@@ -786,7 +794,7 @@ if __name__ == "__main__":
             value=1.0,
             service=ServiceType.CONSCIOUSNESS,
             metric_type=MetricType.COUNTER,
-            lane="invalid_lane_value"
+            lane="invalid_lane_value",
         )
         print(f"   {'✓ PASS' if len(invalid_lane_violations) > 0 else '✗ FAIL'} - Invalid lanes properly rejected")
 
@@ -797,7 +805,7 @@ if __name__ == "__main__":
             value=1.0,
             service=ServiceType.CONSCIOUSNESS,
             metric_type=MetricType.COUNTER,
-            phase="invalid phase with spaces"
+            phase="invalid phase with spaces",
         )
         print(f"   {'✓ PASS' if len(format_violations) > 0 else '✗ FAIL'} - Invalid label formats rejected")
 
@@ -810,5 +818,6 @@ if __name__ == "__main__":
         return total_violations >= 3
 
     import sys
+
     success = run_contract_validation()
     sys.exit(0 if success else 1)

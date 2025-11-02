@@ -128,6 +128,7 @@ def _build_request(headers: list[tuple[bytes, bytes]] | None = None) -> Request:
 
     return Request(scope, receive)
 
+
 from lukhas_website.lukhas.api.routing_admin import (
     ADMIN_PERMISSION,
     get_admin_user,
@@ -146,9 +147,7 @@ async def test_get_admin_user_valid_token(monkeypatch):
             "claims": {"aud": "lukhas-routing-admin"},
         }
 
-    monkeypatch.setattr(
-        "lukhas_website.lukhas.api.routing_admin.verify_token", mock_verify
-    )
+    monkeypatch.setattr("lukhas_website.lukhas.api.routing_admin.verify_token", mock_verify)
 
     credentials = HTTPAuthorizationCredentials(scheme="Bearer", credentials="valid-token")
 
@@ -168,9 +167,7 @@ async def test_get_admin_user_missing_permission(monkeypatch):
             "permissions": ["routing:read"],
         }
 
-    monkeypatch.setattr(
-        "lukhas_website.lukhas.api.routing_admin.verify_token", mock_verify
-    )
+    monkeypatch.setattr("lukhas_website.lukhas.api.routing_admin.verify_token", mock_verify)
 
     credentials = HTTPAuthorizationCredentials(scheme="Bearer", credentials="valid-token")
 
@@ -187,9 +184,7 @@ async def test_get_admin_user_invalid_token(monkeypatch):
     async def mock_verify(token, **kwargs):
         raise ValueError("invalid token")
 
-    monkeypatch.setattr(
-        "lukhas_website.lukhas.api.routing_admin.verify_token", mock_verify
-    )
+    monkeypatch.setattr("lukhas_website.lukhas.api.routing_admin.verify_token", mock_verify)
 
     credentials = HTTPAuthorizationCredentials(scheme="Bearer", credentials="invalid")
 

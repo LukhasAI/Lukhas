@@ -1,4 +1,5 @@
 """Aka_qualia bridge contract tests."""
+
 import importlib as I
 
 

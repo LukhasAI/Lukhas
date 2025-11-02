@@ -8,8 +8,6 @@ class IntrinsicEthicalGovernor:
         self.throttle_threshold = throttle_threshold
         self.cooldown = cooldown
 
-
-
         async def check_and_throttle(self, cycle_count: int) -> None:
             if cycle_count % self.throttle_threshold == 0 and cycle_count > 0:
                 self.log.warning("[ΛBLOCKED] runaway process throttled", cycle=cycle_count)

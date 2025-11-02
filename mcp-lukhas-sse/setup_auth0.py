@@ -15,10 +15,10 @@ def setup_auth0_config():
     current_config = {}
 
     if env_file.exists():
-        with open(env_file, 'r') as f:
+        with open(env_file, "r") as f:
             for line in f:
-                if '=' in line and not line.strip().startswith('#'):
-                    key, value = line.strip().split('=', 1)
+                if "=" in line and not line.strip().startswith("#"):
+                    key, value = line.strip().split("=", 1)
                     current_config[key] = value
 
     print("Please provide your Auth0 configuration values:")
@@ -51,7 +51,7 @@ def setup_auth0_config():
         "WRITE_ENABLED": current_config.get("WRITE_ENABLED", "false"),
         "OAUTH_ISSUER": oauth_issuer,
         "OAUTH_AUDIENCE": api_identifier,
-        "PUBLIC_BASE_URL": public_url
+        "PUBLIC_BASE_URL": public_url,
     }
 
     # Write new .env file
@@ -79,8 +79,8 @@ PUBLIC_BASE_URL={new_config['PUBLIC_BASE_URL']}
     print("-" * 40)
 
     confirm = input("\n✅ Save this configuration? (y/N): ").strip().lower()
-    if confirm in ['y', 'yes']:
-        with open(env_file, 'w') as f:
+    if confirm in ["y", "yes"]:
+        with open(env_file, "w") as f:
             f.write(env_content)
 
         print(f"✅ Configuration saved to {env_file}")
@@ -95,6 +95,7 @@ PUBLIC_BASE_URL={new_config['PUBLIC_BASE_URL']}
     else:
         print("❌ Configuration not saved")
         return False
+
 
 if __name__ == "__main__":
     try:

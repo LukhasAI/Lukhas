@@ -33,7 +33,7 @@ class TestAuthenticationValidator:
             "user_id": "test-user",
             "tier": "LAMBDA_TIER_3",
             "exp": datetime.now(timezone.utc) + timedelta(hours=1),
-            "iat": datetime.now(timezone.utc)
+            "iat": datetime.now(timezone.utc),
         }
         token = self.create_jwt("test-secret", payload)
         result = await validator.validate_jwt_token(token)
@@ -46,7 +46,7 @@ class TestAuthenticationValidator:
             "user_id": "test-user",
             "tier": "LAMBDA_TIER_3",
             "exp": datetime.now(timezone.utc) - timedelta(hours=1),
-            "iat": datetime.now(timezone.utc) - timedelta(hours=2)
+            "iat": datetime.now(timezone.utc) - timedelta(hours=2),
         }
         token = self.create_jwt("test-secret", payload)
         result = await validator.validate_jwt_token(token)
@@ -58,7 +58,7 @@ class TestAuthenticationValidator:
         """Tests an invalid API key."""
         result = await validator.validate_api_key("invalid-key", required_permissions=["orchestration"])
         assert result.is_valid is False
-        assert result.errors[0]['type'] == ValidationErrorType.AUTHENTICATION_FAILED.value
+        assert result.errors[0]["type"] == ValidationErrorType.AUTHENTICATION_FAILED.value
 
     async def test_valid_api_key_with_sufficient_permissions(self, validator: AuthenticationValidator):
         """Tests a valid API key with sufficient permissions."""
@@ -70,4 +70,4 @@ class TestAuthenticationValidator:
         """Tests a valid API key with insufficient permissions."""
         result = await validator.validate_api_key("lukhas-test-key-long-enough", required_permissions=["admin"])
         assert result.is_valid is False
-        assert result.errors[0]['type'] == ValidationErrorType.AUTHORIZATION_FAILED.value
+        assert result.errors[0]["type"] == ValidationErrorType.AUTHORIZATION_FAILED.value

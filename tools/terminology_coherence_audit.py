@@ -24,6 +24,7 @@ class TerminologyIssue:
     context: str
     severity: str  # 'critical', 'warning', 'info'
 
+
 class TerminologyAuditor:
     """Comprehensive terminology coherence auditor"""
 
@@ -39,21 +40,29 @@ class TerminologyAuditor:
             "super intelligence": "advanced cognitive intelligence",
             "superintelligence": "advanced_cognitive_intelligence",
             "general AI": "cognitive AI",
-            "artificial_general_intelligence": "cognitive_artificial_intelligence"
+            "artificial_general_intelligence": "cognitive_artificial_intelligence",
         }
 
         # Required schema versions
         self.required_schemas = {
             "v2.0.0": ["guardian", "flag_snapshot", "governance"],
             "constellation-v1.0": ["framework", "architecture"],
-            "lukhas-v3.0": ["api", "core", "system"]
+            "lukhas-v3.0": ["api", "core", "system"],
         }
 
         # Approved terminology patterns
         self.approved_terms = {
-            "LUKHAS", "Constellation Framework", "Cognitive AI", "MATRIZ",
-            "Guardian System", "Lambda ID", "consciousness", "memory folds",
-            "cascade prevention", "T4 standards", "0.01% excellence"
+            "LUKHAS",
+            "Constellation Framework",
+            "Cognitive AI",
+            "MATRIZ",
+            "Guardian System",
+            "Lambda ID",
+            "consciousness",
+            "memory folds",
+            "cascade prevention",
+            "T4 standards",
+            "0.01% excellence",
         }
 
         self.issues = []
@@ -65,7 +74,7 @@ class TerminologyAuditor:
         issues = []
 
         try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 lines = f.readlines()
                 self.total_lines += len(lines)
 
@@ -83,7 +92,7 @@ class TerminologyAuditor:
                             old_term=old_term,
                             suggested_replacement=new_term,
                             context=line.strip()[:100],
-                            severity="critical" if old_term in ["Trinity", "AGI"] else "warning"
+                            severity="critical" if old_term in ["Trinity", "AGI"] else "warning",
                         )
                         issues.append(issue)
 
@@ -102,7 +111,7 @@ class TerminologyAuditor:
                             old_term="outdated schema version",
                             suggested_replacement="v2.0.0 or constellation-v1.0",
                             context=line.strip()[:100],
-                            severity="warning"
+                            severity="warning",
                         )
                         issues.append(issue)
 
@@ -114,12 +123,12 @@ class TerminologyAuditor:
     def scan_directory(self, directory: Path, extensions: Set[str] = None) -> None:
         """Scan directory recursively for terminology issues"""
         if extensions is None:
-            extensions = {'.py', '.md', '.yml', '.yaml', '.json', '.sh', '.js', '.ts'}
+            extensions = {".py", ".md", ".yml", ".yaml", ".json", ".sh", ".js", ".ts"}
 
-        for file_path in directory.rglob('*'):
+        for file_path in directory.rglob("*"):
             if file_path.is_file() and file_path.suffix in extensions:
                 # Skip certain directories
-                skip_dirs = {'.git', '__pycache__', '.pytest_cache', 'node_modules', '.venv'}
+                skip_dirs = {".git", "__pycache__", ".pytest_cache", "node_modules", ".venv"}
                 if any(skip_dir in file_path.parts for skip_dir in skip_dirs):
                     continue
 
@@ -133,13 +142,13 @@ class TerminologyAuditor:
             r"context.*count.*\d+",
             r"total.*contexts?.*\d+",
             r"\d+.*context",
-            r"constellation.*size.*\d+"
+            r"constellation.*size.*\d+",
         ]
 
         context_files = []
-        for file_path in Path('.').rglob('*.py'):
+        for file_path in Path(".").rglob("*.py"):
             try:
-                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                     for pattern in context_patterns:
                         if re.search(pattern, content, re.IGNORECASE):
@@ -151,7 +160,7 @@ class TerminologyAuditor:
         return {
             "context_tracking_files": len(context_files),
             "files_with_counts": context_files[:10],  # First 10 for brevity
-            "auto_generated": len(context_files) > 5  # Heuristic
+            "auto_generated": len(context_files) > 5,  # Heuristic
         }
 
     def generate_report(self) -> Dict[str, Any]:
@@ -185,34 +194,37 @@ class TerminologyAuditor:
                 "files_scanned": self.scanned_files,
                 "total_lines": self.total_lines,
                 "total_issues": total_issues,
-                "issue_rate_per_file": round(issue_rate, 2)
+                "issue_rate_per_file": round(issue_rate, 2),
             },
             "issues_by_severity": {
                 "critical": len(critical_issues),
                 "warning": len(warning_issues),
-                "info": len(info_issues)
+                "info": len(info_issues),
             },
-            "issues_by_term": {
-                term: len(issues) for term, issues in issues_by_term.items()
-            },
+            "issues_by_term": {term: len(issues) for term, issues in issues_by_term.items()},
             "context_analysis": context_data,
             "compliance": {
                 "score": compliance_score,
-                "grade": "A" if compliance_score >= 95 else "B" if compliance_score >= 85 else "C" if compliance_score >= 75 else "D",
+                "grade": (
+                    "A"
+                    if compliance_score >= 95
+                    else "B" if compliance_score >= 85 else "C" if compliance_score >= 75 else "D"
+                ),
                 "clean_files": self.scanned_files - len(set(i.file_path for i in self.issues)),
-                "problematic_files": len(set(i.file_path for i in self.issues))
+                "problematic_files": len(set(i.file_path for i in self.issues)),
             },
             "top_issues": [
                 {
-                    "file": issue.file_path.split('/')[-1],
+                    "file": issue.file_path.split("/")[-1],
                     "line": issue.line_number,
                     "term": issue.old_term,
                     "replacement": issue.suggested_replacement,
-                    "severity": issue.severity
+                    "severity": issue.severity,
                 }
                 for issue in (critical_issues + warning_issues)[:10]
-            ]
+            ],
         }
+
 
 def run_terminology_audit():
     """Run comprehensive terminology coherence audit"""
@@ -224,7 +236,7 @@ def run_terminology_audit():
     print("🔍 Scanning codebase for terminology issues...")
 
     # Scan key directories only for performance
-    key_dirs = ['lukhas', 'matriz', 'guardian', 'tests', 'tools', 'docs']
+    key_dirs = ["lukhas", "matriz", "guardian", "tests", "tools", "docs"]
     for dir_name in key_dirs:
         dir_path = Path(dir_name)
         if dir_path.exists():
@@ -242,7 +254,7 @@ def run_terminology_audit():
     print("-" * 40)
 
     # Issue breakdown
-    issues = report['issues_by_severity']
+    issues = report["issues_by_severity"]
     total_issues = sum(issues.values())
 
     print(f"Total Issues Found: {total_issues}")
@@ -251,30 +263,30 @@ def run_terminology_audit():
     print(f"  Info: {issues['info']} (minor inconsistencies)")
 
     # Compliance scoring
-    compliance = report['compliance']
+    compliance = report["compliance"]
     print(f"\nCompliance Score: {compliance['score']}/100 (Grade: {compliance['grade']})")
     print(f"Clean Files: {compliance['clean_files']}/{report['scan_summary']['files_scanned']}")
 
     # Context analysis
-    context = report['context_analysis']
+    context = report["context_analysis"]
     print(f"\nContext Tracking: {context['context_tracking_files']} files")
     print(f"Auto-generated: {'✅ YES' if context['auto_generated'] else '❌ NO'}")
 
     # Schema compliance
-    schema_compliant = issues['critical'] == 0 and issues['warning'] <= 5
+    schema_compliant = issues["critical"] == 0 and issues["warning"] <= 5
     print(f"Schema v2.0.0 Compliance: {'✅ PASS' if schema_compliant else '❌ FAIL'}")
 
     # Show top issues if any
     if total_issues > 0:
         print("\n🔧 TOP ISSUES TO FIX")
         print("-" * 40)
-        for i, issue in enumerate(report['top_issues'][:5], 1):
-            severity_emoji = "🚨" if issue['severity'] == 'critical' else "⚠️"
+        for i, issue in enumerate(report["top_issues"][:5], 1):
+            severity_emoji = "🚨" if issue["severity"] == "critical" else "⚠️"
             print(f"{i}. {severity_emoji} {issue['file']}:{issue['line']}")
             print(f"   '{issue['term']}' → '{issue['replacement']}'")
 
     # Overall assessment
-    terminology_pass = compliance['score'] >= 85
+    terminology_pass = compliance["score"] >= 85
 
     print("\n🎯 OVERALL ASSESSMENT")
     print("-" * 40)
@@ -282,15 +294,16 @@ def run_terminology_audit():
     print(f"Schema Migration: {'✅ COMPLETE' if schema_compliant else '🟡 IN PROGRESS'}")
     print(f"Context Generation: {'✅ IMPLEMENTED' if context['auto_generated'] else '❌ MISSING'}")
 
-    final_grade = "EXCELLENT" if compliance['score'] >= 95 else "GOOD" if compliance['score'] >= 85 else "NEEDS_WORK"
+    final_grade = "EXCELLENT" if compliance["score"] >= 95 else "GOOD" if compliance["score"] >= 85 else "NEEDS_WORK"
     print(f"\nFinal Grade: {final_grade}")
 
     return {
         "audit_passed": terminology_pass,
-        "compliance_score": compliance['score'],
+        "compliance_score": compliance["score"],
         "total_issues": total_issues,
-        "report": report
+        "report": report,
     }
+
 
 if __name__ == "__main__":
     result = run_terminology_audit()

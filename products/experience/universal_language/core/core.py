@@ -21,7 +21,6 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-
 class SymbolicDomain(Enum):
     """Core domains in the universal language"""
 

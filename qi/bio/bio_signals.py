@@ -1,4 +1,3 @@
-
 # TAG:qim
 # TAG:qi_states
 # TAG:neuroplastic

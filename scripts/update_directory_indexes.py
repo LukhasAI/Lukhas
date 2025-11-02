@@ -24,14 +24,17 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class ConstellationMetadata:
     """Metadata for Constellation Framework integration"""
+
     framework_version: str = "2.0.0"
     star_role: Optional[str] = None
     cluster_name: Optional[str] = None
     cognitive_domains: List[str] = None
 
+
 @dataclass
 class MatrizPipelineMetadata:
     """MATRIZ pipeline integration levels"""
+
     memory_stage: str = "inactive"
     attention_stage: str = "inactive"
     thought_stage: str = "inactive"
@@ -39,13 +42,16 @@ class MatrizPipelineMetadata:
     decision_stage: str = "inactive"
     awareness_stage: str = "inactive"
 
+
 @dataclass
 class T4ComplianceMetadata:
     """T4/0.01% implementation standards"""
+
     compliance_level: str = "experimental"  # experimental, integration, production
     plugin_registry_compatible: bool = True
     constructor_aware_instantiation: bool = True
     performance_tier: str = "standard"  # standard, optimized, high_performance
+
 
 class DirectoryIndexUpdater:
     """Updates directory_index.json files with modern architecture"""
@@ -58,42 +64,29 @@ class DirectoryIndexUpdater:
         "governance": "watch_star",
         "guardian": "watch_star",
         "security": "watch_star",
-        "ethics": "watch_star"
+        "ethics": "watch_star",
     }
 
     # Component type modernization
     COMPONENT_TYPE_MAPPINGS = {
         "TRINITY_BRIDGE": "CONSTELLATION_BRIDGE",
         "TRINITY_CORE": "CONSTELLATION_CORE",
-        "TRINITY_SERVICE": "CONSTELLATION_SERVICE"
+        "TRINITY_SERVICE": "CONSTELLATION_SERVICE",
     }
 
     # MATRIZ pipeline activation patterns
     MATRIZ_PATTERNS = {
-        "memory": {
-            "memory_stage": "primary",
-            "attention_stage": "supporting",
-            "awareness_stage": "supporting"
-        },
+        "memory": {"memory_stage": "primary", "attention_stage": "supporting", "awareness_stage": "supporting"},
         "consciousness": {
             "memory_stage": "active",
             "attention_stage": "active",
             "thought_stage": "active",
             "awareness_stage": "active",
-            "decision_stage": "experimental"
+            "decision_stage": "experimental",
         },
-        "identity": {
-            "action_stage": "active",
-            "decision_stage": "active"
-        },
-        "governance": {
-            "decision_stage": "primary",
-            "awareness_stage": "active"
-        },
-        "reasoning": {
-            "thought_stage": "primary",
-            "attention_stage": "active"
-        }
+        "identity": {"action_stage": "active", "decision_stage": "active"},
+        "governance": {"decision_stage": "primary", "awareness_stage": "active"},
+        "reasoning": {"thought_stage": "primary", "attention_stage": "active"},
     }
 
     def __init__(self, root_path: str):
@@ -107,12 +100,7 @@ class DirectoryIndexUpdater:
 
         print(f"Found {len(index_files)} directory_index.json files")
 
-        results = {
-            "total_files": len(index_files),
-            "updated_files": 0,
-            "errors": [],
-            "summary": {}
-        }
+        results = {"total_files": len(index_files), "updated_files": 0, "errors": [], "summary": {}}
 
         for index_file in index_files:
             try:
@@ -127,7 +115,7 @@ class DirectoryIndexUpdater:
             "constellation_framework_version": "2.0.0",
             "matriz_pipeline_enabled": True,
             "t4_compliance_enabled": True,
-            "trinity_references_removed": True
+            "trinity_references_removed": True,
         }
 
         return results
@@ -135,7 +123,7 @@ class DirectoryIndexUpdater:
     def update_single_index(self, index_file: Path) -> bool:
         """Update a single directory_index.json file"""
         try:
-            with open(index_file, 'r', encoding='utf-8') as f:
+            with open(index_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
             # Skip if already at latest schema version
@@ -145,7 +133,7 @@ class DirectoryIndexUpdater:
 
             updated_data = self.modernize_index_data(data, index_file)
 
-            with open(index_file, 'w', encoding='utf-8') as f:
+            with open(index_file, "w", encoding="utf-8") as f:
                 json.dump(updated_data, f, indent=2, ensure_ascii=False)
 
             print(f"Updated: {index_file}")
@@ -161,33 +149,23 @@ class DirectoryIndexUpdater:
         data["schema_version"] = "3.0.0"
 
         # 2. Update directory metadata
-        data["directory_metadata"] = self.update_directory_metadata(
-            data.get("directory_metadata", {}), file_path
-        )
+        data["directory_metadata"] = self.update_directory_metadata(data.get("directory_metadata", {}), file_path)
 
         # 3. Update component inventory
         if "component_inventory" in data:
-            data["component_inventory"] = self.update_component_inventory(
-                data["component_inventory"], file_path
-            )
+            data["component_inventory"] = self.update_component_inventory(data["component_inventory"], file_path)
 
         # 4. Update agent guidance
         if "agent_guidance" in data:
-            data["agent_guidance"] = self.update_agent_guidance(
-                data["agent_guidance"]
-            )
+            data["agent_guidance"] = self.update_agent_guidance(data["agent_guidance"])
 
         # 5. Update performance metadata
         if "performance_metadata" in data:
-            data["performance_metadata"] = self.update_performance_metadata(
-                data["performance_metadata"], file_path
-            )
+            data["performance_metadata"] = self.update_performance_metadata(data["performance_metadata"], file_path)
 
         # 6. Update relationships
         if "relationships" in data:
-            data["relationships"] = self.update_relationships(
-                data["relationships"], file_path
-            )
+            data["relationships"] = self.update_relationships(data["relationships"], file_path)
 
         return data
 
@@ -236,7 +214,9 @@ class DirectoryIndexUpdater:
 
                 # Add modern component types based on naming patterns
                 filename = file_info.get("filename", "")
-                file_info["component_type"] = self.determine_modern_component_type(filename, file_info.get("component_type"))
+                file_info["component_type"] = self.determine_modern_component_type(
+                    filename, file_info.get("component_type")
+                )
 
         return inventory
 
@@ -248,8 +228,7 @@ class DirectoryIndexUpdater:
             prerequisites = guidance["prerequisites"]
             # Replace Trinity with Constellation
             guidance["prerequisites"] = [
-                prereq.replace("Trinity Framework", "Constellation Framework")
-                for prereq in prerequisites
+                prereq.replace("Trinity Framework", "Constellation Framework") for prereq in prerequisites
             ]
 
             # Add modern prerequisites
@@ -257,7 +236,7 @@ class DirectoryIndexUpdater:
                 "Understanding of LUKHAS lane system",
                 "Constellation Framework familiarity",
                 "MATRIZ pipeline architecture",
-                "T4/0.01% implementation standards"
+                "T4/0.01% implementation standards",
             ]
 
             for prereq in modern_prereqs:
@@ -270,15 +249,14 @@ class DirectoryIndexUpdater:
 
             # Replace Trinity references
             guidance["avoid_patterns"] = [
-                pattern.replace("Trinity Framework", "Constellation Framework")
-                for pattern in avoid_patterns
+                pattern.replace("Trinity Framework", "Constellation Framework") for pattern in avoid_patterns
             ]
 
             # Add modern avoid patterns
             modern_patterns = [
                 "Breaking constructor-aware instantiation patterns",
                 "Bypassing T4/0.01% validation standards",
-                "Ignoring MATRIZ pipeline integration requirements"
+                "Ignoring MATRIZ pipeline integration requirements",
             ]
 
             for pattern in modern_patterns:
@@ -355,7 +333,7 @@ class DirectoryIndexUpdater:
                 "thought_stage": "experimental",
                 "action_stage": "inactive",
                 "decision_stage": "inactive",
-                "awareness_stage": "experimental"
+                "awareness_stage": "experimental",
             }
 
         return None
@@ -370,7 +348,7 @@ class DirectoryIndexUpdater:
             "memory": ["memory_management", "temporal_processing"],
             "reasoning": ["symbolic_reasoning", "causal_inference"],
             "dream": ["dream_synthesis", "creative_processing"],
-            "quantum": ["quantum_consciousness", "superposition_processing"]
+            "quantum": ["quantum_consciousness", "superposition_processing"],
         }
 
         for keyword, domain_list in domain_mappings.items():
@@ -400,7 +378,7 @@ class DirectoryIndexUpdater:
             "CONSCIOUSNESS_ENGINE": ["consciousness", "awareness"],
             "IDENTITY_SERVICE": ["identity", "auth"],
             "GUARDIAN_VALIDATOR": ["guardian", "validator", "ethics"],
-            "DREAM_PROCESSOR": ["dream", "creative"]
+            "DREAM_PROCESSOR": ["dream", "creative"],
         }
 
         filename_lower = filename.lower()
@@ -421,7 +399,7 @@ class DirectoryIndexUpdater:
                 "fold_based_storage": True,
                 "cascade_prevention": "99.7%",
                 "temporal_memory": True,
-                "consciousness_integration": True
+                "consciousness_integration": True,
             }
 
         if "identity" in path_str:
@@ -429,7 +407,7 @@ class DirectoryIndexUpdater:
                 "webauthn_support": True,
                 "passkey_authentication": True,
                 "multi_tier_access": True,
-                "namespace_isolation": True
+                "namespace_isolation": True,
             }
 
         if "governance" in path_str or "guardian" in path_str:
@@ -437,7 +415,7 @@ class DirectoryIndexUpdater:
                 "constitutional_ai": True,
                 "drift_detection": True,
                 "compliance_monitoring": True,
-                "audit_trails": True
+                "audit_trails": True,
             }
 
         return metadata
@@ -475,7 +453,7 @@ class DirectoryIndexUpdater:
             "governance": "watch_star_governance",
             "guardian": "watch_star_guardian",
             "security": "watch_star_security",
-            "ethics": "watch_star_ethics"
+            "ethics": "watch_star_ethics",
         }
 
         for keyword, cluster in cluster_mappings.items():
@@ -483,6 +461,7 @@ class DirectoryIndexUpdater:
                 return cluster
 
         return "unknown"
+
 
 def main():
     """Main execution function"""
@@ -500,13 +479,13 @@ def main():
     print(f"Files updated: {results['updated_files']}")
     print(f"Errors encountered: {len(results['errors'])}")
 
-    if results['errors']:
+    if results["errors"]:
         print("\nErrors:")
-        for error in results['errors']:
+        for error in results["errors"]:
             print(f"  - {error}")
 
     print("\nSummary:")
-    for key, value in results['summary'].items():
+    for key, value in results["summary"].items():
         print(f"  - {key}: {value}")
 
     print("\nAll directory_index.json files have been updated with:")
@@ -516,6 +495,7 @@ def main():
     print("  ✓ Enhanced plugin registry compatibility")
     print("  ✓ Constructor-aware instantiation patterns")
     print("  ✓ Trinity references removed")
+
 
 if __name__ == "__main__":
     main()

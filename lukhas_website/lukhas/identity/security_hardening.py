@@ -34,6 +34,7 @@ import structlog
 # Import Guardian system for security monitoring
 try:
     from ..governance.guardian_system import GuardianSystem
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
@@ -99,7 +100,7 @@ class SecurityEvent:
             "indicators": self.indicators,
             "risk_score": self.risk_score,
             "timestamp": self.timestamp.isoformat(),
-            "correlation_id": self.correlation_id
+            "correlation_id": self.correlation_id,
         }
 
 
@@ -162,10 +163,7 @@ class AntiReplayProtection:
     """
 
     def __init__(
-        self,
-        nonce_lifetime_minutes: int = 15,
-        max_nonces_per_user: int = 100,
-        cleanup_interval_seconds: int = 300
+        self, nonce_lifetime_minutes: int = 15, max_nonces_per_user: int = 100, cleanup_interval_seconds: int = 300
     ):
         """Initialize anti-replay protection."""
         self.nonce_lifetime_minutes = nonce_lifetime_minutes
@@ -183,7 +181,7 @@ class AntiReplayProtection:
             "nonces_generated": 0,
             "nonces_validated": 0,
             "replay_attempts_blocked": 0,
-            "expired_nonces_cleaned": 0
+            "expired_nonces_cleaned": 0,
         }
 
         # Start cleanup task
@@ -192,6 +190,7 @@ class AntiReplayProtection:
 
     def _start_cleanup_task(self) -> None:
         """Start background nonce cleanup task."""
+
         async def cleanup_loop():
             while True:
                 try:
@@ -203,11 +202,7 @@ class AntiReplayProtection:
 
         self._cleanup_task = asyncio.create_task(cleanup_loop())
 
-    async def generate_nonce(
-        self,
-        user_id: Optional[str] = None,
-        endpoint: Optional[str] = None
-    ) -> str:
+    async def generate_nonce(self, user_id: Optional[str] = None, endpoint: Optional[str] = None) -> str:
         """
         Generate cryptographically secure nonce.
 
@@ -229,11 +224,7 @@ class AntiReplayProtection:
             nonce = f"nonce_{timestamp}_{nonce_hash[:16]}"
 
             # Store nonce record
-            record = NonceRecord(
-                nonce=nonce,
-                user_id=user_id,
-                endpoint=endpoint
-            )
+            record = NonceRecord(nonce=nonce, user_id=user_id, endpoint=endpoint)
 
             self._nonces[nonce] = record
 
@@ -245,7 +236,7 @@ class AntiReplayProtection:
                 if len(self._user_nonces[user_id]) > self.max_nonces_per_user:
                     oldest_nonce = min(
                         self._user_nonces[user_id],
-                        key=lambda n: self._nonces[n].created_at if n in self._nonces else datetime.min
+                        key=lambda n: self._nonces[n].created_at if n in self._nonces else datetime.min,
                     )
                     await self._remove_nonce(oldest_nonce)
 
@@ -259,10 +250,7 @@ class AntiReplayProtection:
             raise
 
     async def validate_nonce(
-        self,
-        nonce: str,
-        user_id: Optional[str] = None,
-        endpoint: Optional[str] = None
+        self, nonce: str, user_id: Optional[str] = None, endpoint: Optional[str] = None
     ) -> Tuple[bool, str]:
         """
         Validate nonce for anti-replay protection.
@@ -320,10 +308,7 @@ class AntiReplayProtection:
     async def _cleanup_expired_nonces(self) -> None:
         """Clean up expired nonces."""
         now = datetime.now(timezone.utc)
-        expired_nonces = [
-            nonce for nonce, record in self._nonces.items()
-            if record.expires_at < now
-        ]
+        expired_nonces = [nonce for nonce, record in self._nonces.items() if record.expires_at < now]
 
         for nonce in expired_nonces:
             await self._remove_nonce(nonce)
@@ -338,9 +323,7 @@ class AntiReplayProtection:
             **self._stats,
             "active_nonces": len(self._nonces),
             "users_with_nonces": len(self._user_nonces),
-            "avg_nonces_per_user": (
-                len(self._nonces) / max(1, len(self._user_nonces))
-            )
+            "avg_nonces_per_user": (len(self._nonces) / max(1, len(self._user_nonces))),
         }
 
 
@@ -367,12 +350,7 @@ class RateLimiter:
         self._penalties: Dict[str, int] = defaultdict(int)
 
         # Statistics
-        self._stats = {
-            "requests_processed": 0,
-            "requests_blocked": 0,
-            "requests_throttled": 0,
-            "unique_ips": 0
-        }
+        self._stats = {"requests_processed": 0, "requests_blocked": 0, "requests_throttled": 0, "unique_ips": 0}
 
     def _default_rules(self) -> None:
         """Set up default rate limiting rules."""
@@ -383,33 +361,19 @@ class RateLimiter:
                 window_seconds=60,
                 action=SecurityAction.THROTTLE,
                 burst_allowance=3,
-                progressive_penalties=True
+                progressive_penalties=True,
             ),
             "webauthn_challenge": RateLimitRule(
-                name="webauthn_challenge",
-                max_requests=5,
-                window_seconds=60,
-                action=SecurityAction.THROTTLE
+                name="webauthn_challenge", max_requests=5, window_seconds=60, action=SecurityAction.THROTTLE
             ),
             "biometric_auth": RateLimitRule(
-                name="biometric_auth",
-                max_requests=3,
-                window_seconds=60,
-                action=SecurityAction.BLOCK
+                name="biometric_auth", max_requests=3, window_seconds=60, action=SecurityAction.BLOCK
             ),
-            "global": RateLimitRule(
-                name="global",
-                max_requests=100,
-                window_seconds=60,
-                action=SecurityAction.BLOCK
-            )
+            "global": RateLimitRule(name="global", max_requests=100, window_seconds=60, action=SecurityAction.BLOCK),
         }
 
     async def check_rate_limit(
-        self,
-        identifier: str,
-        rule_name: str = "global",
-        context: Optional[Dict[str, Any]] = None
+        self, identifier: str, rule_name: str = "global", context: Optional[Dict[str, Any]] = None
     ) -> Tuple[SecurityAction, str]:
         """
         Check if request should be rate limited.
@@ -484,11 +448,7 @@ class RateLimiter:
             return SecurityAction.ALLOW, "check_error"
 
     async def _apply_rate_limit_action(
-        self,
-        identifier: str,
-        rule: RateLimitRule,
-        request_count: int,
-        context: Optional[Dict[str, Any]]
+        self, identifier: str, rule: RateLimitRule, request_count: int, context: Optional[Dict[str, Any]]
     ) -> None:
         """Apply rate limiting action."""
         try:
@@ -512,7 +472,7 @@ class RateLimiter:
                     ip_address=identifier,
                     description=f"IP blocked for {block_duration} due to rate limit violation",
                     indicators=[f"rule:{rule.name}", f"requests:{request_count}"],
-                    risk_score=min(request_count / rule.max_requests, 10.0)
+                    risk_score=min(request_count / rule.max_requests, 10.0),
                 )
 
                 await self._log_security_event(event)
@@ -548,7 +508,7 @@ class RateLimiter:
             **self._stats,
             "active_blocks": len(self._blocked_ips),
             "tracked_identifiers": len(self._request_history),
-            "rules_configured": len(self._rules)
+            "rules_configured": len(self._rules),
         }
 
 
@@ -571,21 +531,29 @@ class RequestAnalyzer:
 
         # Suspicious indicators
         self._suspicious_user_agents = {
-            "sqlmap", "nikto", "nmap", "masscan", "zap", "burp",
-            "python-requests", "curl/", "wget/", "libwww-perl"
+            "sqlmap",
+            "nikto",
+            "nmap",
+            "masscan",
+            "zap",
+            "burp",
+            "python-requests",
+            "curl/",
+            "wget/",
+            "libwww-perl",
         }
 
         self._suspicious_headers = {
-            "x-forwarded-for", "x-real-ip", "x-cluster-client-ip",
-            "x-scanner", "x-exploit", "x-injection"
+            "x-forwarded-for",
+            "x-real-ip",
+            "x-cluster-client-ip",
+            "x-scanner",
+            "x-exploit",
+            "x-injection",
         }
 
         # Statistics
-        self._stats = {
-            "requests_analyzed": 0,
-            "anomalies_detected": 0,
-            "threats_identified": 0
-        }
+        self._stats = {"requests_analyzed": 0, "anomalies_detected": 0, "threats_identified": 0}
 
     async def analyze_request(
         self,
@@ -593,7 +561,7 @@ class RequestAnalyzer:
         user_agent: str,
         headers: Dict[str, str],
         request_body: Optional[bytes] = None,
-        endpoint: Optional[str] = None
+        endpoint: Optional[str] = None,
     ) -> Tuple[ThreatLevel, List[str]]:
         """
         Analyze request for security threats and anomalies.
@@ -612,9 +580,7 @@ class RequestAnalyzer:
             self._stats["requests_analyzed"] += 1
 
             # Create request fingerprint
-            fingerprint = await self._create_fingerprint(
-                ip_address, user_agent, headers, request_body, endpoint
-            )
+            fingerprint = await self._create_fingerprint(ip_address, user_agent, headers, request_body, endpoint)
 
             # Analyze fingerprint
             threat_level, indicators = await self._analyze_fingerprint(fingerprint)
@@ -645,7 +611,7 @@ class RequestAnalyzer:
         user_agent: str,
         headers: Dict[str, str],
         request_body: Optional[bytes],
-        endpoint: Optional[str]
+        endpoint: Optional[str],
     ) -> RequestFingerprint:
         """Create request fingerprint for analysis."""
         # Create request hash
@@ -657,14 +623,13 @@ class RequestAnalyzer:
 
         # Identify suspicious headers
         suspicious_headers = [
-            header for header in headers.keys()
+            header
+            for header in headers.keys()
             if any(suspicious in header.lower() for suspicious in self._suspicious_headers)
         ]
 
         # Calculate anomaly score
-        anomaly_score = await self._calculate_anomaly_score(
-            ip_address, user_agent, headers
-        )
+        anomaly_score = await self._calculate_anomaly_score(ip_address, user_agent, headers)
 
         return RequestFingerprint(
             ip_address=ip_address,
@@ -673,19 +638,16 @@ class RequestAnalyzer:
             request_size=len(request_body) if request_body else 0,
             headers_count=len(headers),
             suspicious_headers=suspicious_headers,
-            anomaly_score=anomaly_score
+            anomaly_score=anomaly_score,
         )
 
-    async def _analyze_fingerprint(
-        self, fingerprint: RequestFingerprint
-    ) -> Tuple[ThreatLevel, List[str]]:
+    async def _analyze_fingerprint(self, fingerprint: RequestFingerprint) -> Tuple[ThreatLevel, List[str]]:
         """Analyze request fingerprint for threats."""
         indicators = []
         threat_score = 0.0
 
         # Check user agent
-        if any(suspicious in fingerprint.user_agent.lower()
-               for suspicious in self._suspicious_user_agents):
+        if any(suspicious in fingerprint.user_agent.lower() for suspicious in self._suspicious_user_agents):
             indicators.append("suspicious_user_agent")
             threat_score += 0.3
 
@@ -726,9 +688,7 @@ class RequestAnalyzer:
 
         return threat_level, indicators
 
-    async def _calculate_anomaly_score(
-        self, ip_address: str, user_agent: str, headers: Dict[str, str]
-    ) -> float:
+    async def _calculate_anomaly_score(self, ip_address: str, user_agent: str, headers: Dict[str, str]) -> float:
         """Calculate behavioral anomaly score."""
         try:
             # Get request history for IP
@@ -763,7 +723,7 @@ class RequestAnalyzer:
         return {
             **self._stats,
             "tracked_ips": len(self._request_history),
-            "baseline_patterns": len(self._baseline_patterns)
+            "baseline_patterns": len(self._baseline_patterns),
         }
 
 
@@ -791,9 +751,7 @@ class SecurityHardeningManager:
 
         self.logger.info("Security hardening manager initialized")
 
-    async def generate_nonce(
-        self, user_id: Optional[str] = None, endpoint: Optional[str] = None
-    ) -> str:
+    async def generate_nonce(self, user_id: Optional[str] = None, endpoint: Optional[str] = None) -> str:
         """Generate anti-replay nonce."""
         return await self.anti_replay.generate_nonce(user_id, endpoint)
 
@@ -815,12 +773,10 @@ class SecurityHardeningManager:
         user_agent: str,
         headers: Dict[str, str],
         request_body: Optional[bytes] = None,
-        endpoint: Optional[str] = None
+        endpoint: Optional[str] = None,
     ) -> Tuple[ThreatLevel, List[str]]:
         """Analyze request for threats."""
-        return await self.request_analyzer.analyze_request(
-            ip_address, user_agent, headers, request_body, endpoint
-        )
+        return await self.request_analyzer.analyze_request(ip_address, user_agent, headers, request_body, endpoint)
 
     async def comprehensive_security_check(
         self,
@@ -830,7 +786,7 @@ class SecurityHardeningManager:
         nonce: Optional[str] = None,
         user_id: Optional[str] = None,
         endpoint: Optional[str] = None,
-        request_body: Optional[bytes] = None
+        request_body: Optional[bytes] = None,
     ) -> Tuple[SecurityAction, Dict[str, Any]]:
         """
         Perform comprehensive security check.
@@ -845,7 +801,7 @@ class SecurityHardeningManager:
                 "endpoint": endpoint,
                 "checks_performed": [],
                 "threats_detected": [],
-                "actions_taken": []
+                "actions_taken": [],
             }
 
             final_action = SecurityAction.ALLOW
@@ -856,10 +812,7 @@ class SecurityHardeningManager:
             )
 
             security_report["checks_performed"].append("rate_limiting")
-            security_report["rate_limit"] = {
-                "action": rate_action.value,
-                "reason": rate_reason
-            }
+            security_report["rate_limit"] = {"action": rate_action.value, "reason": rate_reason}
 
             if rate_action in [SecurityAction.BLOCK, SecurityAction.THROTTLE]:
                 final_action = rate_action
@@ -869,10 +822,7 @@ class SecurityHardeningManager:
             if nonce:
                 nonce_valid, nonce_reason = await self.validate_nonce(nonce, user_id, endpoint)
                 security_report["checks_performed"].append("nonce_validation")
-                security_report["nonce_validation"] = {
-                    "valid": nonce_valid,
-                    "reason": nonce_reason
-                }
+                security_report["nonce_validation"] = {"valid": nonce_valid, "reason": nonce_reason}
 
                 if not nonce_valid:
                     final_action = SecurityAction.BLOCK
@@ -885,10 +835,7 @@ class SecurityHardeningManager:
             )
 
             security_report["checks_performed"].append("request_analysis")
-            security_report["request_analysis"] = {
-                "threat_level": threat_level.value,
-                "indicators": indicators
-            }
+            security_report["request_analysis"] = {"threat_level": threat_level.value, "indicators": indicators}
 
             # Escalate action based on threat level
             if threat_level == ThreatLevel.CRITICAL:
@@ -911,7 +858,7 @@ class SecurityHardeningManager:
                     user_agent=user_agent,
                     endpoint=endpoint,
                     description=f"Security check completed with {len(security_report['threats_detected'])} threats",
-                    indicators=security_report["threats_detected"]
+                    indicators=security_report["threats_detected"],
                 )
 
                 await self._log_security_event(event)
@@ -921,17 +868,14 @@ class SecurityHardeningManager:
 
         except Exception as e:
             self.logger.error("Comprehensive security check failed", error=str(e))
-            return SecurityAction.ALLOW, {
-                "error": "security_check_failed",
-                "message": str(e)
-            }
+            return SecurityAction.ALLOW, {"error": "security_check_failed", "message": str(e)}
 
     async def _log_security_event(self, event: SecurityEvent) -> None:
         """Log security event."""
         # Add to internal log
         self._security_events.append(event)
         if len(self._security_events) > self._max_events:
-            self._security_events = self._security_events[-self._max_events:]
+            self._security_events = self._security_events[-self._max_events :]
 
         # Log to structured logging
         self.logger.warning("Security event logged", **event.to_dict())
@@ -951,17 +895,14 @@ class SecurityHardeningManager:
             "request_analysis": self.request_analyzer.get_stats(),
             "security_events": {
                 "total_events": len(self._security_events),
-                "recent_events": len([
-                    e for e in self._security_events
-                    if e.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)
-                ])
-            }
+                "recent_events": len(
+                    [e for e in self._security_events if e.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)]
+                ),
+            },
         }
 
 
 # Factory function for dependency injection
-def create_security_hardening_manager(
-    guardian_system: Optional[GuardianSystem] = None
-) -> SecurityHardeningManager:
+def create_security_hardening_manager(guardian_system: Optional[GuardianSystem] = None) -> SecurityHardeningManager:
     """Create security hardening manager with configuration."""
     return SecurityHardeningManager(guardian_system)

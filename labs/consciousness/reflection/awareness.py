@@ -23,17 +23,21 @@ class CardiolipinEncoder:
     def __init__(self):
         self.initialized = True
 
+
 class CristaFilter:
     def __init__(self):
         self.initialized = True
+
 
 class ProtonGradient:
     def __init__(self):
         self.initialized = True
 
+
 class QIAttentionGate:
     def __init__(self):
         self.initialized = True
+
 
 logger = get_logger(__name__)
 

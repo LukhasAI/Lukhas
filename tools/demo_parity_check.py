@@ -45,10 +45,7 @@ class DemoParityChecker:
                 # Run PRISM syntax check
                 try:
                     result = subprocess.run(
-                        ["prism", "-parseonly", str(prism_model_path)],
-                        capture_output=True,
-                        text=True,
-                        timeout=30
+                        ["prism", "-parseonly", str(prism_model_path)], capture_output=True, text=True, timeout=30
                     )
                     if result.returncode != 0:
                         issues.append(f"PRISM model syntax error: {result.stderr}")
@@ -76,7 +73,7 @@ class DemoParityChecker:
             "status": "passing" if not issues else "failing",
             "issues": issues,
             "tools_checked": ["prism"],
-            "prism_available": prism_available if 'prism_available' in locals() else False
+            "prism_available": prism_available if "prism_available" in locals() else False,
         }
 
     def check_provenance_track_parity(self) -> Dict[str, Any]:
@@ -92,17 +89,16 @@ class DemoParityChecker:
             demo_content = demo_script.read_text()
 
             # Verify demo calls production tool with correct arguments
-            if f"python3 {production_tool.relative_to('.')}" not in demo_content and \
-               "python3 ../../../tools/generate_car.py" not in demo_content:
+            if (
+                f"python3 {production_tool.relative_to('.')}" not in demo_content
+                and "python3 ../../../tools/generate_car.py" not in demo_content
+            ):
                 issues.append("Demo script doesn't call production generate_car.py tool")
 
             # Check production tool CLI interface
             try:
                 result = subprocess.run(
-                    ["python3", str(production_tool), "--help"],
-                    capture_output=True,
-                    text=True,
-                    timeout=10
+                    ["python3", str(production_tool), "--help"], capture_output=True, text=True, timeout=10
                 )
 
                 if result.returncode == 0:
@@ -148,7 +144,7 @@ class DemoParityChecker:
             "status": "passing" if not issues else "failing",
             "issues": issues,
             "tools_checked": ["generate_car.py"],
-            "production_tool_available": production_tool.exists()
+            "production_tool_available": production_tool.exists(),
         }
 
     def check_attestation_track_parity(self) -> Dict[str, Any]:
@@ -202,10 +198,7 @@ class DemoParityChecker:
         if production_tool.exists():
             try:
                 result = subprocess.run(
-                    ["python3", str(production_tool), "--help"],
-                    capture_output=True,
-                    text=True,
-                    timeout=10
+                    ["python3", str(production_tool), "--help"], capture_output=True, text=True, timeout=10
                 )
 
                 if result.returncode == 0:
@@ -227,17 +220,13 @@ class DemoParityChecker:
             "status": "passing" if not issues else "failing",
             "issues": issues,
             "tools_checked": ["collect_attestation.py"],
-            "production_tool_available": production_tool.exists()
+            "production_tool_available": production_tool.exists(),
         }
 
     def _check_tool_availability(self, tool_name: str, version_args: List[str]) -> bool:
         """Check if external tool is available."""
         try:
-            result = subprocess.run(
-                [tool_name] + version_args,
-                capture_output=True,
-                timeout=5
-            )
+            result = subprocess.run([tool_name] + version_args, capture_output=True, timeout=5)
             return result.returncode == 0
         except (subprocess.TimeoutExpired, FileNotFoundError):
             return False
@@ -263,7 +252,7 @@ class DemoParityChecker:
             "overall_status": overall_status,
             "total_issues": total_issues,
             "tracks": results,
-            "recommendations": self._generate_recommendations(results)
+            "recommendations": self._generate_recommendations(results),
         }
 
         return summary
@@ -315,9 +304,9 @@ class DemoParityChecker:
 **Issues:** {len(track_result['issues'])}
 
 """
-            if track_result['issues']:
+            if track_result["issues"]:
                 content += "**Issues Found:**\n"
-                for issue in track_result['issues']:
+                for issue in track_result["issues"]:
                     content += f"- {issue}\n"
                 content += "\n"
 
@@ -326,7 +315,7 @@ class DemoParityChecker:
 ## 🎯 Recommendations
 
 """
-        for rec in results['recommendations']:
+        for rec in results["recommendations"]:
             content += f"{rec}\n"
 
         content += """
@@ -336,12 +325,12 @@ class DemoParityChecker:
 """
 
         # Write report
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(content)
 
         # Also save JSON
-        json_path = output_path.replace('.md', '.json')
-        with open(json_path, 'w') as f:
+        json_path = output_path.replace(".md", ".json")
+        with open(json_path, "w") as f:
             json.dump(results, f, indent=2)
 
         return output_path
@@ -366,14 +355,14 @@ def main():
         print(f"\n📄 Parity report saved to: {report_path}")
         print(f"📊 Overall Status: {'✅ PASSING' if results['overall_status'] == 'passing' else '❌ FAILING'}")
 
-        if results['total_issues'] > 0:
+        if results["total_issues"] > 0:
             print(f"\n⚠️ Found {results['total_issues']} parity issue(s):")
-            for track_name, track_result in results['tracks'].items():
-                for issue in track_result['issues']:
+            for track_name, track_result in results["tracks"].items():
+                for issue in track_result["issues"]:
                     print(f"   - {track_name}: {issue}")
 
     # Exit with error if requested and issues found
-    if args.fail_on_issues and results['total_issues'] > 0:
+    if args.fail_on_issues and results["total_issues"] > 0:
         sys.exit(1)
 
 

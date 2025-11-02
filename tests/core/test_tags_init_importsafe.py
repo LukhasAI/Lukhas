@@ -1,4 +1,5 @@
 """Import safety tests for core.tags module."""
+
 import importlib
 
 
@@ -22,19 +23,20 @@ def test_tags_dir_proxy_has_expected_names(monkeypatch):
     fake.get_tag_registry = lambda: "MockRegistry"
 
     # Temporarily install the fake module
-    sys.modules['labs.core.tags'] = fake
+    sys.modules["labs.core.tags"] = fake
 
     try:
         import core.tags
+
         # Test that dir() includes the expected tag system exports
         tag_dir = dir(core.tags)
-        assert 'TagRegistry' in tag_dir
-        assert 'TagDefinition' in tag_dir
-        assert 'get_tag_registry' in tag_dir
+        assert "TagRegistry" in tag_dir
+        assert "TagDefinition" in tag_dir
+        assert "get_tag_registry" in tag_dir
     finally:
         # Clean up
-        if 'labs.core.tags' in sys.modules:
-            del sys.modules['labs.core.tags']
+        if "labs.core.tags" in sys.modules:
+            del sys.modules["labs.core.tags"]
 
 
 def test_tags_lazy_attribute_access():

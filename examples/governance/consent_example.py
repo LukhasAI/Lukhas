@@ -16,12 +16,14 @@ _audit_log: List[Dict[str, Any]] = []
 
 class ConsentDeniedException(Exception):
     """Raised when consent is not granted for a specific data access."""
+
     pass
 
 
 @dataclass
 class GuardianPolicy:
     """Defines a data usage policy."""
+
     purpose: str
     data_types: List[str]
     retention_days: int

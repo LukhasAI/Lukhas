@@ -25,10 +25,7 @@ class TestModulationModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "modulation",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "modulation", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestModulationModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import modulation
+
         self.assertIsNotNone(modulation)
 
     def test_module_version(self):
         """Test module has version information."""
         import modulation
+
         # Most modules should have version info
-        self.assertTrue(hasattr(modulation, '__version__') or
-                       hasattr(modulation, 'VERSION'))
+        self.assertTrue(hasattr(modulation, "__version__") or hasattr(modulation, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestEndocrineLLMOrchestrator(unittest.TestCase):
         """Test EndocrineLLMOrchestrator can be imported."""
         try:
             from modulation import EndocrineLLMOrchestrator
+
             self.assertIsNotNone(EndocrineLLMOrchestrator)
         except ImportError:
             pytest.skip("Component EndocrineLLMOrchestrator not available")
@@ -97,6 +96,7 @@ class TestEndocrineSignalEmitter(unittest.TestCase):
         """Test EndocrineSignalEmitter can be imported."""
         try:
             from modulation import EndocrineSignalEmitter
+
             self.assertIsNotNone(EndocrineSignalEmitter)
         except ImportError:
             pytest.skip("Component EndocrineSignalEmitter not available")
@@ -114,6 +114,7 @@ class TestModulatedOpenAIClient(unittest.TestCase):
         """Test ModulatedOpenAIClient can be imported."""
         try:
             from modulation import ModulatedOpenAIClient
+
             self.assertIsNotNone(ModulatedOpenAIClient)
         except ImportError:
             pytest.skip("Component ModulatedOpenAIClient not available")
@@ -122,7 +123,6 @@ class TestModulatedOpenAIClient(unittest.TestCase):
         """Test ModulatedOpenAIClient can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

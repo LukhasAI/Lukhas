@@ -26,11 +26,7 @@ class TestGovernanceIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up integration test environment."""
-        cls.integration_config = {
-            "module_name": "governance",
-            "integration_mode": True,
-            "timeout": 30
-        }
+        cls.integration_config = {"module_name": "governance", "integration_mode": True, "timeout": 30}
 
     def setUp(self):
         """Set up individual test."""
@@ -52,7 +48,6 @@ class TestGovernanceIntegration(unittest.TestCase):
         # Test connectivity to external services
         pass
 
-
     @pytest.mark.integration
     def test_core_integration(self):
         """Test integration with core module."""
@@ -70,7 +65,6 @@ class TestGovernanceIntegration(unittest.TestCase):
         """Test integration with memory module."""
         # Test memory integration
         pass
-
 
     @pytest.mark.integration
     def test_end_to_end_workflow(self):

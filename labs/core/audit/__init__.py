@@ -2,6 +2,7 @@
 LUKHAS Cognitive AI Enterprise Audit Trail System
 Complete auditing and compliance for Cognitive AI operations
 """
+
 import streamlit as st
 
 from .audit_analytics import (

@@ -4,6 +4,7 @@ import streamlit as st
 import time
 from typing import Dict
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════

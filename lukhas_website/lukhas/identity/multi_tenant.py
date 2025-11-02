@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 
 class TenantStatus(Enum):
     """Tenant lifecycle status."""
+
     PENDING = "pending"
     ACTIVE = "active"
     SUSPENDED = "suspended"
@@ -47,14 +48,16 @@ class TenantStatus(Enum):
 
 class TenantType(Enum):
     """Tenant organization type."""
-    ENTERPRISE = "enterprise"      # Top-level organizational tenant
+
+    ENTERPRISE = "enterprise"  # Top-level organizational tenant
     ORGANIZATION = "organization"  # Department/division level
-    TEAM = "team"                 # Project/team level
-    INDIVIDUAL = "individual"      # Personal tenant
+    TEAM = "team"  # Project/team level
+    INDIVIDUAL = "individual"  # Personal tenant
 
 
 class TenantPlan(Enum):
     """Tenant service plan levels."""
+
     FREE = "free"
     STARTER = "starter"
     PROFESSIONAL = "professional"
@@ -65,6 +68,7 @@ class TenantPlan(Enum):
 @dataclass
 class TenantQuotas:
     """Tenant resource quotas and limits."""
+
     max_users: int = 50
     max_identities_per_user: int = 10
     max_tier_level: TierLevel = TierLevel.ELEVATED
@@ -79,6 +83,7 @@ class TenantQuotas:
 @dataclass
 class TenantSecurityPolicy:
     """Tenant-specific security policies."""
+
     enforce_mfa: bool = True
     min_tier_level: TierLevel = TierLevel.PUBLIC
     max_session_duration_hours: int = 8
@@ -93,6 +98,7 @@ class TenantSecurityPolicy:
 @dataclass
 class TenantMetadata:
     """Tenant metadata and configuration."""
+
     # Basic tenant information
     tenant_id: str
     name: str
@@ -143,6 +149,7 @@ class TenantMetadata:
 @dataclass
 class TenantUser:
     """User within a specific tenant context."""
+
     user_id: str
     tenant_id: str
     username: str
@@ -169,7 +176,7 @@ class TenantManager:
         token_generator: Optional[TokenGenerator] = None,
         token_validator: Optional[TokenValidator] = None,
         guardian: Optional[Any] = None,
-        storage_provider: Optional[Callable] = None
+        storage_provider: Optional[Callable] = None,
     ):
         self.token_generator = token_generator
         self.token_validator = token_validator
@@ -191,7 +198,7 @@ class TenantManager:
         tenant_type: TenantType = TenantType.ORGANIZATION,
         parent_tenant_id: Optional[str] = None,
         creator_user_id: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> TenantMetadata:
         """
         Create a new tenant with secure namespace isolation.
@@ -240,7 +247,7 @@ class TenantManager:
                 parent_tenant_id=parent_tenant_id,
                 root_tenant_id=root_tenant_id,
                 created_by=creator_user_id,
-                **kwargs
+                **kwargs,
             )
 
             # Guardian pre-validation
@@ -288,10 +295,7 @@ class TenantManager:
         return None
 
     async def update_tenant(
-        self,
-        tenant_id: str,
-        updates: Dict[str, Any],
-        updater_user_id: Optional[str] = None
+        self, tenant_id: str, updates: Dict[str, Any], updater_user_id: Optional[str] = None
     ) -> TenantMetadata:
         """
         Update tenant configuration.
@@ -338,7 +342,7 @@ class TenantManager:
         user_id: str,
         tier_level: TierLevel = TierLevel.AUTHENTICATED,
         custom_claims: Optional[Dict[str, Any]] = None,
-        expires_in_seconds: int = 3600
+        expires_in_seconds: int = 3600,
     ) -> str:
         """
         Generate ΛiD token scoped to specific tenant.
@@ -388,7 +392,7 @@ class TenantManager:
                 "user_id": user_id,
                 "username": user.username,
                 "roles": user.roles,
-                "exp": int(time.time()) + expires_in_seconds
+                "exp": int(time.time()) + expires_in_seconds,
             }
 
             if custom_claims:
@@ -400,18 +404,16 @@ class TenantManager:
 
             # Generate token
             response = self.token_generator.create(
-                realm=tenant.namespace,
-                zone=f"tenant_{tenant.tenant_type.value}",
-                claims=token_claims
+                realm=tenant.namespace, zone=f"tenant_{tenant.tenant_type.value}", claims=token_claims
             )
 
             # Guardian post-monitoring
             if self.guardian:
-                await self._guardian_monitor_tenant_event("token_generated", tenant, {
-                    "user_id": user_id,
-                    "tier_level": tier_level.value,
-                    "expires_in": expires_in_seconds
-                })
+                await self._guardian_monitor_tenant_event(
+                    "token_generated",
+                    tenant,
+                    {"user_id": user_id, "tier_level": tier_level.value, "expires_in": expires_in_seconds},
+                )
 
             span.set_attribute("tenant_id", tenant_id)
             span.set_attribute("user_id", user_id)
@@ -425,10 +427,7 @@ class TenantManager:
             return response.jwt
 
     async def validate_tenant_token(
-        self,
-        token: str,
-        required_tenant: Optional[str] = None,
-        required_permissions: Optional[List[str]] = None
+        self, token: str, required_tenant: Optional[str] = None, required_permissions: Optional[List[str]] = None
     ) -> ValidationResult:
         """
         Validate tenant-scoped token with namespace verification.
@@ -445,10 +444,7 @@ class TenantManager:
             raise ValueError("Token validator not available")
 
         # Basic token validation
-        context = ValidationContext(
-            guardian_enabled=self.guardian is not None,
-            ethical_validation_enabled=True
-        )
+        context = ValidationContext(guardian_enabled=self.guardian is not None, ethical_validation_enabled=True)
 
         result = self.token_validator.verify(token, context)
 
@@ -471,8 +467,7 @@ class TenantManager:
                 return result
 
             # Check if token is scoped to the required tenant
-            if (token_tenant_id != tenant.tenant_id and
-                token_namespace != tenant.namespace):
+            if token_tenant_id != tenant.tenant_id and token_namespace != tenant.namespace:
                 result.valid = False
                 result.error_code = "tenant_mismatch"
                 result.error_message = f"Token not scoped to tenant '{required_tenant}'"
@@ -507,7 +502,7 @@ class TenantManager:
         email: str,
         roles: Optional[List[str]] = None,
         permissions: Optional[List[str]] = None,
-        max_tier_level: TierLevel = TierLevel.ELEVATED
+        max_tier_level: TierLevel = TierLevel.ELEVATED,
     ) -> TenantUser:
         """
         Add user to tenant with specified roles and permissions.
@@ -552,7 +547,7 @@ class TenantManager:
             email=email,
             roles=roles or [],
             permissions=permissions or [],
-            max_tier_level=max_tier_level
+            max_tier_level=max_tier_level,
         )
 
         # Guardian validation
@@ -566,12 +561,11 @@ class TenantManager:
 
         # Guardian monitoring
         if self.guardian:
-            await self._guardian_monitor_tenant_event("user_added", tenant, {
-                "user_id": user_id,
-                "username": username,
-                "roles": roles,
-                "max_tier_level": max_tier_level.value
-            })
+            await self._guardian_monitor_tenant_event(
+                "user_added",
+                tenant,
+                {"user_id": user_id, "username": username, "roles": roles, "max_tier_level": max_tier_level.value},
+            )
 
         self.logger.info(
             f"User added to tenant successfully: {username} (user={user_id}, tenant={tenant_id}, tier={max_tier_level.value})"
@@ -579,11 +573,7 @@ class TenantManager:
 
         return user
 
-    async def get_tenant_user(
-        self,
-        tenant_id: str,
-        user_id: str
-    ) -> Optional[TenantUser]:
+    async def get_tenant_user(self, tenant_id: str, user_id: str) -> Optional[TenantUser]:
         """
         Retrieve user within specific tenant context.
 
@@ -600,12 +590,7 @@ class TenantManager:
                 return user
         return None
 
-    async def list_tenant_users(
-        self,
-        tenant_id: str,
-        limit: int = 100,
-        offset: int = 0
-    ) -> List[TenantUser]:
+    async def list_tenant_users(self, tenant_id: str, limit: int = 100, offset: int = 0) -> List[TenantUser]:
         """
         List users in tenant with pagination.
 
@@ -618,7 +603,7 @@ class TenantManager:
             List of tenant users
         """
         users = self._tenant_users.get(tenant_id, [])
-        return users[offset:offset + limit]
+        return users[offset : offset + limit]
 
     async def get_user_tenants(self, user_id: str) -> List[TenantMetadata]:
         """
@@ -646,75 +631,69 @@ class TenantManager:
     async def _guardian_validate_tenant_creation(self, tenant: TenantMetadata) -> None:
         """Guardian validation for tenant creation."""
         if self.guardian:
-            await self.guardian.validate_action_async("create_tenant", {
-                "tenant_id": tenant.tenant_id,
-                "name": tenant.name,
-                "tenant_type": tenant.tenant_type.value,
-                "parent_tenant_id": tenant.parent_tenant_id
-            })
+            await self.guardian.validate_action_async(
+                "create_tenant",
+                {
+                    "tenant_id": tenant.tenant_id,
+                    "name": tenant.name,
+                    "tenant_type": tenant.tenant_type.value,
+                    "parent_tenant_id": tenant.parent_tenant_id,
+                },
+            )
 
     async def _guardian_validate_tenant_update(
-        self,
-        tenant: TenantMetadata,
-        updates: Dict[str, Any],
-        updater_user_id: Optional[str]
+        self, tenant: TenantMetadata, updates: Dict[str, Any], updater_user_id: Optional[str]
     ) -> None:
         """Guardian validation for tenant updates."""
         if self.guardian:
-            await self.guardian.validate_action_async("update_tenant", {
-                "tenant_id": tenant.tenant_id,
-                "updates": list(updates.keys()),
-                "updater": updater_user_id
-            })
+            await self.guardian.validate_action_async(
+                "update_tenant",
+                {"tenant_id": tenant.tenant_id, "updates": list(updates.keys()), "updater": updater_user_id},
+            )
 
     async def _guardian_validate_token_generation(
-        self,
-        tenant: TenantMetadata,
-        user: TenantUser,
-        claims: Dict[str, Any]
+        self, tenant: TenantMetadata, user: TenantUser, claims: Dict[str, Any]
     ) -> None:
         """Guardian validation for token generation."""
         if self.guardian:
-            await self.guardian.validate_action_async("generate_tenant_token", {
-                "tenant_id": tenant.tenant_id,
-                "user_id": user.user_id,
-                "tier_level": claims.get("lukhas_tier"),
-                "permissions": claims.get("permissions", [])
-            })
+            await self.guardian.validate_action_async(
+                "generate_tenant_token",
+                {
+                    "tenant_id": tenant.tenant_id,
+                    "user_id": user.user_id,
+                    "tier_level": claims.get("lukhas_tier"),
+                    "permissions": claims.get("permissions", []),
+                },
+            )
 
-    async def _guardian_validate_token_access(
-        self,
-        tenant: TenantMetadata,
-        claims: Dict[str, Any]
-    ) -> None:
+    async def _guardian_validate_token_access(self, tenant: TenantMetadata, claims: Dict[str, Any]) -> None:
         """Guardian validation for token access."""
         if self.guardian:
-            await self.guardian.validate_action_async("validate_tenant_token", {
-                "tenant_id": tenant.tenant_id,
-                "namespace": tenant.namespace,
-                "user_id": claims.get("user_id"),
-                "permissions": claims.get("permissions", [])
-            })
+            await self.guardian.validate_action_async(
+                "validate_tenant_token",
+                {
+                    "tenant_id": tenant.tenant_id,
+                    "namespace": tenant.namespace,
+                    "user_id": claims.get("user_id"),
+                    "permissions": claims.get("permissions", []),
+                },
+            )
 
-    async def _guardian_validate_user_addition(
-        self,
-        tenant: TenantMetadata,
-        user: TenantUser
-    ) -> None:
+    async def _guardian_validate_user_addition(self, tenant: TenantMetadata, user: TenantUser) -> None:
         """Guardian validation for adding user to tenant."""
         if self.guardian:
-            await self.guardian.validate_action_async("add_tenant_user", {
-                "tenant_id": tenant.tenant_id,
-                "user_id": user.user_id,
-                "roles": user.roles,
-                "max_tier_level": user.max_tier_level.value
-            })
+            await self.guardian.validate_action_async(
+                "add_tenant_user",
+                {
+                    "tenant_id": tenant.tenant_id,
+                    "user_id": user.user_id,
+                    "roles": user.roles,
+                    "max_tier_level": user.max_tier_level.value,
+                },
+            )
 
     async def _guardian_monitor_tenant_event(
-        self,
-        event: str,
-        tenant: TenantMetadata,
-        context: Optional[Dict[str, Any]] = None
+        self, event: str, tenant: TenantMetadata, context: Optional[Dict[str, Any]] = None
     ) -> None:
         """Guardian monitoring for tenant events."""
         if self.guardian:
@@ -723,7 +702,7 @@ class TenantManager:
                 "tenant_id": tenant.tenant_id,
                 "namespace": tenant.namespace,
                 "tenant_type": tenant.tenant_type.value,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             if context:
                 monitor_data.update(context)
@@ -746,5 +725,5 @@ __all__ = [
     "TenantType",
     "TenantPlan",
     "TenantQuotas",
-    "TenantSecurityPolicy"
+    "TenantSecurityPolicy",
 ]

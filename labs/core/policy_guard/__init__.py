@@ -1,4 +1,5 @@
 """Governance policy guard facade for candidate core import paths."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -27,17 +28,20 @@ for _symbol in list(__all__):
 
 
 if "PolicyResult" not in globals():
+
     class PolicyResult:  # type: ignore[misc]
         ok: bool = True
         reason: str = "noop"
 
 
 if "ReplayDecision" not in globals():
+
     class ReplayDecision:  # type: ignore[misc]
         allow: bool = True
 
 
 if "PolicyGuard" not in globals():
+
     class PolicyGuard:  # type: ignore[misc]
         def evaluate(self, *args, **kwargs) -> PolicyResult:
             return PolicyResult()

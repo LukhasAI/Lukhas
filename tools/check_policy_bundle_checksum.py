@@ -17,6 +17,7 @@ POLICIES_DIR = ROOT / "policies" / "matrix"
 CHECKSUM_FILE = ROOT / "artifacts" / "policy_bundle.sha256"
 TIER_PERMISSIONS = ROOT / "labs" / "governance" / "identity" / "config" / "tier_permissions.json"
 
+
 def compute_file_hash(file_path: Path) -> str:
     """Compute SHA256 hash of a file."""
     sha256_hash = hashlib.sha256()
@@ -27,6 +28,7 @@ def compute_file_hash(file_path: Path) -> str:
         return sha256_hash.hexdigest()
     except FileNotFoundError:
         return ""
+
 
 def compute_bundle_hash() -> Dict[str, str]:
     """Compute hashes for all policy files."""
@@ -54,6 +56,7 @@ def compute_bundle_hash() -> Dict[str, str]:
     hashes["aggregate"] = aggregate.hexdigest()
     return hashes
 
+
 def load_stored_checksum() -> Dict[str, str]:
     """Load stored checksums."""
     if CHECKSUM_FILE.exists():
@@ -64,10 +67,12 @@ def load_stored_checksum() -> Dict[str, str]:
             return {}
     return {}
 
+
 def save_checksum(hashes: Dict[str, str]):
     """Save checksums to file."""
     CHECKSUM_FILE.parent.mkdir(parents=True, exist_ok=True)
     CHECKSUM_FILE.write_text(json.dumps(hashes, indent=2, sort_keys=True))
+
 
 def main():
     """Check policy bundle checksums."""
@@ -134,6 +139,7 @@ def main():
 
     print("\n✅ All policy checksums match - no drift detected")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

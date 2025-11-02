@@ -1,4 +1,5 @@
 """Shim exposing `labs.core.bridges.consciousness_qi_bridge` without package deps."""
+
 from __future__ import annotations
 
 from importlib.util import module_from_spec, spec_from_file_location

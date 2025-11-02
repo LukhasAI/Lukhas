@@ -1,4 +1,5 @@
 """Governance facade exporting canonical guardian and policy symbols."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -32,17 +33,20 @@ for mod, symbols in _CANDIDATE_SOURCES:
 
 
 if "PolicyResult" not in globals():
+
     class PolicyResult:  # type: ignore[misc]
         pass
 
 
 if "PolicyGuard" not in globals():
+
     class PolicyGuard:  # type: ignore[misc]
         def __call__(self, *args, **kwargs):
             return PolicyResult()
 
 
 if "Guardian" not in globals():
+
     class Guardian:  # type: ignore[misc]
         """Fallback guardian implementation."""
 
@@ -55,6 +59,7 @@ if "Guardian" not in globals():
 
 
 if "SafetyGuard" not in globals():
+
     class SafetyGuard:  # type: ignore[misc]
         def __call__(self, *args, **kwargs):
             return PolicyResult()

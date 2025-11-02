@@ -46,15 +46,20 @@ def create_mock_contract(module: str, tiers: List[str], scopes: List[str], webau
             "requires_auth": True,
             "accepted_subjects": ["lukhas:user:*"],
             "required_tiers": tiers,
-            "required_tiers_numeric": [{"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}[t] for t in tiers],
+            "required_tiers_numeric": [
+                {"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}[t]
+                for t in tiers
+            ],
             "scopes": scopes,
             "webauthn_required": webauthn,
-            "api_policies": []
-        }
+            "api_policies": [],
+        },
     }
 
 
-def simulate_authz_check(tracer, input_data: Dict[str, Any], contract: Dict[str, Any], allow: bool = True) -> Dict[str, Any]:
+def simulate_authz_check(
+    tracer, input_data: Dict[str, Any], contract: Dict[str, Any], allow: bool = True
+) -> Dict[str, Any]:
     """Simulate an authorization check with telemetry."""
     with tracer.start_as_current_span("authz.check") as span:
         # Compute contract hash
@@ -69,22 +74,24 @@ def simulate_authz_check(tracer, input_data: Dict[str, Any], contract: Dict[str,
         masked_capability = f"{capability_id[:8]}***{capability_id[-4:]}"
 
         # Set span attributes
-        span.set_attributes({
-            "subject": input_data["subject"],
-            "tier": input_data["tier"],
-            "tier_num": input_data.get("tier_num", 0),
-            "scopes": ",".join(input_data.get("scopes", [])),
-            "module": input_data["module"],
-            "action": input_data["action"],
-            "decision": "allow" if allow else "deny",
-            "reason": "Authorized by tier and scope" if allow else "Insufficient tier level",
-            "policy_sha": policy_sha,
-            "contract_sha": contract_sha,
-            "capability_id": masked_capability,
-            "mfa_used": input_data.get("mfa_used", False),
-            "region": input_data.get("region", "us-west-2"),
-            "decision_time_ms": 42,
-        })
+        span.set_attributes(
+            {
+                "subject": input_data["subject"],
+                "tier": input_data["tier"],
+                "tier_num": input_data.get("tier_num", 0),
+                "scopes": ",".join(input_data.get("scopes", [])),
+                "module": input_data["module"],
+                "action": input_data["action"],
+                "decision": "allow" if allow else "deny",
+                "reason": "Authorized by tier and scope" if allow else "Insufficient tier level",
+                "policy_sha": policy_sha,
+                "contract_sha": contract_sha,
+                "capability_id": masked_capability,
+                "mfa_used": input_data.get("mfa_used", False),
+                "region": input_data.get("region", "us-west-2"),
+                "decision_time_ms": 42,
+            }
+        )
 
         # Set span status
         if allow:
@@ -117,7 +124,7 @@ class TestAuthzTelemetrySmoke:
             "action": "read",
             "capability_id": "cap_1234567890abcdef",
             "mfa_used": False,
-            "region": "us-west-2"
+            "region": "us-west-2",
         }
 
         # Simulate authorization
@@ -162,7 +169,7 @@ class TestAuthzTelemetrySmoke:
             "action": "enforce",
             "capability_id": "cap_abcdef1234567890",
             "mfa_used": False,
-            "region": "eu-west-1"
+            "region": "eu-west-1",
         }
 
         # Simulate authorization denial
@@ -202,7 +209,7 @@ class TestAuthzTelemetrySmoke:
             "action": "login",
             "capability_id": "cap_secure_token_123",
             "mfa_used": True,
-            "region": "us-east-1"
+            "region": "us-east-1",
         }
 
         # Simulate authorization
@@ -236,7 +243,7 @@ class TestAuthzTelemetrySmoke:
             "action": "dispatch",
             "capability_id": "svc_token_orchestration",
             "mfa_used": False,
-            "region": "us-west-2"
+            "region": "us-west-2",
         }
 
         # Simulate authorization
@@ -266,11 +273,12 @@ class TestAuthzTelemetrySmoke:
             "action": "query",
             "capability_id": "cap_perf_test_123",
             "mfa_used": False,
-            "region": "us-west-2"
+            "region": "us-west-2",
         }
 
         # Simulate multiple authorization checks
         import time
+
         start_time = time.time()
 
         for i in range(10):

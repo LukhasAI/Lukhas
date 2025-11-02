@@ -18,6 +18,7 @@ import pytest
 try:
     from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
     from matriz.core.node_interface import CognitiveNode
+
     MATRIZ_AVAILABLE = True
 except ImportError:
     MATRIZ_AVAILABLE = False
@@ -36,7 +37,7 @@ class TestAsyncOrchestratorIntegration:
             total_timeout=0.5,  # 500ms for integration tests
             stage_timeouts={
                 # Custom timeouts for testing
-            }
+            },
         )
 
     @pytest.mark.asyncio
@@ -66,7 +67,7 @@ class TestAsyncOrchestratorIntegration:
             "user_id": "test_user_123",
             "session": "session_abc",
             "preferences": {"theme": "dark", "language": "en"},
-            "workflow_state": {"step": 3, "progress": 0.75}
+            "workflow_state": {"step": 3, "progress": 0.75},
         }
 
         context_id = orchestrator.preserve_context(test_context)
@@ -121,7 +122,7 @@ class TestAsyncOrchestratorIntegration:
             orchestrator.process_query_async("5 + 3"),
             orchestrator.process_query_async("What is the capital of France?"),
             orchestrator.process_query_async("10 + 20"),
-            orchestrator.process_query_async("How does quantum computing work?")
+            orchestrator.process_query_async("How does quantum computing work?"),
         ]
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -203,11 +204,7 @@ class TestAsyncOrchestratorIntegration:
         # Create many contexts
         context_ids = []
         for i in range(100):
-            context_data = {
-                "id": i,
-                "data": f"test_data_{i}",
-                "metadata": {"created": time.time()}
-            }
+            context_data = {"id": i, "data": f"test_data_{i}", "metadata": {"created": time.time()}}
             context_id = orchestrator.preserve_context(context_data)
             context_ids.append(context_id)
 

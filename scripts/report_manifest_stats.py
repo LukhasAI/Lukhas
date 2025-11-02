@@ -28,11 +28,13 @@ def load_json(p: Path) -> Any:
         print(f"[WARN] Failed to parse {p}: {e}", file=sys.stderr)
         return None
 
+
 def coalesce(*vals):
     for v in vals:
         if v not in (None, "", []):
             return v
     return None
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -44,7 +46,7 @@ def main():
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    manifest_paths = sorted([p for p in root.rglob("module.manifest.json") if '/.archive/' not in str(p)])
+    manifest_paths = sorted([p for p in root.rglob("module.manifest.json") if "/.archive/" not in str(p)])
     if not manifest_paths:
         print(f"[ERROR] No manifests found under {root}", file=sys.stderr)
         sys.exit(2)
@@ -66,7 +68,7 @@ def main():
             continue
 
         module = data.get("module", {}) if isinstance(data.get("module"), dict) else {}
-        align  = data.get("constellation_alignment", {}) if isinstance(data.get("constellation_alignment"), dict) else {}
+        align = data.get("constellation_alignment", {}) if isinstance(data.get("constellation_alignment"), dict) else {}
         testing = data.get("testing", {}) if isinstance(data.get("testing"), dict) else {}
         mi = data.get("matriz_integration", {}) if isinstance(data.get("matriz_integration"), dict) else {}
 
@@ -99,15 +101,17 @@ def main():
             invalid_stars.append(f"{name} (deprecated, use '🔮 Oracle (Quantum)')")
 
         if len(sample_modules) < 25:
-            sample_modules.append({
-                "module": name,
-                "star": star,
-                "tier": tier or "",
-                "has_tests": has_tests,
-                "nodes": pipeline_nodes,
-                "colony": colony if colony is not None else "",
-                "file": str(mp),
-            })
+            sample_modules.append(
+                {
+                    "module": name,
+                    "star": star,
+                    "tier": tier or "",
+                    "has_tests": has_tests,
+                    "nodes": pipeline_nodes,
+                    "colony": colony if colony is not None else "",
+                    "file": str(mp),
+                }
+            )
 
     stats = {
         "total_manifests": sum(star_counts.values()),
@@ -125,7 +129,7 @@ def main():
     }
 
     json_path = out_dir / "manifest_stats.json"
-    md_path   = out_dir / "manifest_stats.md"
+    md_path = out_dir / "manifest_stats.md"
 
     with json_path.open("w", encoding="utf-8") as f:
         json.dump(stats, f, indent=2, ensure_ascii=False)
@@ -163,7 +167,9 @@ def main():
     md.append("| Module | Star | Tier | Has Tests | Nodes | Colony | File |\n")
     md.append("|---|---|---|---:|---|---|---|\n")
     for s in stats["sample"]:
-        md.append(f"| {s['module']} | {s['star']} | {s['tier']} | {str(s['has_tests']).lower()} | {', '.join(s['nodes'])} | {s['colony']} | `{s['file']}` |\n")
+        md.append(
+            f"| {s['module']} | {s['star']} | {s['tier']} | {str(s['has_tests']).lower()} | {', '.join(s['nodes'])} | {s['colony']} | `{s['file']}` |\n"
+        )
 
     with md_path.open("w", encoding="utf-8") as f:
         f.write("".join(md))
@@ -173,6 +179,7 @@ def main():
     print(f"[SUMMARY] Tiers: {dict(tier_counts)}")
     if gaps["invalid_stars"]:
         print(f"[WARN] Invalid stars detected: {len(gaps['invalid_stars'])}")
+
 
 if __name__ == "__main__":
     main()

@@ -25,6 +25,7 @@ import pytest
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 async def integrated_system():
     """Fully integrated system instance."""
@@ -42,6 +43,7 @@ async def integrated_system():
 # TEST-HIGH-INT-ONBOARDING-01: E2E Onboarding Flow
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.integration
 async def test_integration_onboarding_full_flow(integrated_system):
@@ -51,7 +53,7 @@ async def test_integration_onboarding_full_flow(integrated_system):
         "tier": "alpha",
         "email": "test@example.com",
         "consent_gdpr": True,
-        "consent_data_processing": True
+        "consent_data_processing": True,
     }
 
     # Mock onboarding response
@@ -59,7 +61,7 @@ async def test_integration_onboarding_full_flow(integrated_system):
         "user_id": "user_123",
         "lambda_id": "Λ_alpha_user123",
         "tier": "alpha",
-        "created_at": datetime.now(timezone.utc).isoformat()
+        "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
     # Execute onboarding
@@ -78,11 +80,7 @@ async def test_integration_onboarding_full_flow(integrated_system):
 async def test_integration_onboarding_gdpr_consent(integrated_system):
     """Test GDPR consent validation in onboarding."""
     # Without consent
-    no_consent = {
-        "tier": "beta",
-        "email": "test@example.com",
-        "consent_gdpr": False
-    }
+    no_consent = {"tier": "beta", "email": "test@example.com", "consent_gdpr": False}
 
     integrated_system.onboarding.create_user.side_effect = ValueError("GDPR consent required")
 
@@ -108,24 +106,19 @@ async def test_integration_onboarding_tier_validation(integrated_system):
 # TEST-HIGH-INT-JWT-LAMBDA-01: JWT + ΛID Integration
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.integration
 async def test_integration_jwt_lambda_id_embedding(integrated_system):
     """Test JWT token with embedded ΛID claims."""
     # Create user with ΛID
-    user = {
-        "user_id": "user_456",
-        "lambda_id": "Λ_beta_user456",
-        "tier": "beta"
-    }
+    user = {"user_id": "user_456", "lambda_id": "Λ_beta_user456", "tier": "beta"}
 
     # Generate JWT with ΛID
     integrated_system.jwt_adapter.create_token.return_value = "eyJhbGc..."
 
     token = integrated_system.jwt_adapter.create_token(
-        user_id=user["user_id"],
-        lambda_id=user["lambda_id"],
-        tier=user["tier"]
+        user_id=user["user_id"], lambda_id=user["lambda_id"], tier=user["tier"]
     )
 
     # Verify token created
@@ -135,7 +128,7 @@ async def test_integration_jwt_lambda_id_embedding(integrated_system):
     integrated_system.jwt_adapter.verify_token.return_value = {
         "user_id": "user_456",
         "lambda_id": "Λ_beta_user456",
-        "tier": "beta"
+        "tier": "beta",
     }
 
     decoded = integrated_system.jwt_adapter.verify_token(token)
@@ -151,7 +144,7 @@ async def test_integration_jwt_tier_based_access(integrated_system):
     integrated_system.jwt_adapter.verify_token.return_value = {
         "user_id": "user_alpha",
         "tier": "alpha",
-        "lambda_id": "Λ_alpha_user123"
+        "lambda_id": "Λ_alpha_user123",
     }
 
     decoded = integrated_system.jwt_adapter.verify_token(alpha_token)
@@ -164,7 +157,7 @@ async def test_integration_jwt_tier_based_access(integrated_system):
     integrated_system.jwt_adapter.verify_token.return_value = {
         "user_id": "user_delta",
         "tier": "delta",
-        "lambda_id": "Λ_delta_user456"
+        "lambda_id": "Λ_delta_user456",
     }
 
     decoded = integrated_system.jwt_adapter.verify_token(delta_token)
@@ -176,6 +169,7 @@ async def test_integration_jwt_tier_based_access(integrated_system):
 # ============================================================================
 # TEST-HIGH-INT-VECTOR-RAG-01: Vector Store + RAG Pipeline
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.integration
@@ -192,12 +186,10 @@ async def test_integration_vector_rag_pipeline(integrated_system):
     # Step 2: Similarity search
     integrated_system.vector_store.similarity_search.return_value = [
         {"text": "Consciousness is awareness...", "score": 0.95},
-        {"text": "Neural correlates of consciousness...", "score": 0.87}
+        {"text": "Neural correlates of consciousness...", "score": 0.87},
     ]
 
-    results = await integrated_system.vector_store.similarity_search(
-        query_embedding, k=2
-    )
+    results = await integrated_system.vector_store.similarity_search(query_embedding, k=2)
     assert len(results) == 2
     assert results[0]["score"] > results[1]["score"]
 
@@ -210,7 +202,7 @@ async def test_integration_vector_rag_pipeline(integrated_system):
     # Step 4: Generate response with context
     integrated_system.vector_store.generate_response.return_value = {
         "response": "Based on the context, consciousness refers to awareness...",
-        "sources": ["doc1", "doc2"]
+        "sources": ["doc1", "doc2"],
     }
 
     response = await integrated_system.vector_store.generate_response(augmented_query)
@@ -226,11 +218,7 @@ async def test_integration_vector_meg_memory_retrieval(integrated_system):
 
     # MEG retrieval
     integrated_system.vector_store.retrieve_from_meg.return_value = [
-        {
-            "type": "episodic_memory",
-            "content": "Dream state alpha wave patterns...",
-            "consciousness_level": 0.85
-        }
+        {"type": "episodic_memory", "content": "Dream state alpha wave patterns...", "consciousness_level": 0.85}
     ]
 
     memories = await integrated_system.vector_store.retrieve_from_meg(query)
@@ -244,16 +232,12 @@ async def test_integration_vector_meg_memory_retrieval(integrated_system):
 # TEST-HIGH-INT-EXPLAIN-01: Explainability Multi-Modal
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.integration
 async def test_integration_explainability_multimodal(integrated_system):
     """Test multi-modal explanation generation (text + visual + symbolic)."""
-    decision = {
-        "decision_id": "dec_123",
-        "action": "content_moderation",
-        "result": "approved",
-        "confidence": 0.92
-    }
+    decision = {"decision_id": "dec_123", "action": "content_moderation", "result": "approved", "confidence": 0.92}
 
     # Generate text explanation
     integrated_system.explainability.generate_text.return_value = {
@@ -266,7 +250,7 @@ async def test_integration_explainability_multimodal(integrated_system):
     # Generate visual explanation
     integrated_system.explainability.generate_visual.return_value = {
         "graph": "decision_tree_visualization",
-        "format": "svg"
+        "format": "svg",
     }
 
     visual_explain = await integrated_system.explainability.generate_visual(decision)
@@ -275,7 +259,7 @@ async def test_integration_explainability_multimodal(integrated_system):
     # Generate symbolic trace
     integrated_system.explainability.generate_symbolic_trace.return_value = {
         "trace": ["Input", "EthicsCheck", "GuardianVerify", "Output"],
-        "glyphs": ["⚛️", "🛡️", "✓"]
+        "glyphs": ["⚛️", "🛡️", "✓"],
     }
 
     symbolic_explain = await integrated_system.explainability.generate_symbolic_trace(decision)
@@ -286,22 +270,18 @@ async def test_integration_explainability_multimodal(integrated_system):
 # TEST-HIGH-INT-GOV-01: Governance Full Pipeline
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.integration
 async def test_integration_governance_full_pipeline(integrated_system):
     """Test complete governance pipeline: ethics → compliance → audit."""
-    action = {
-        "action": "data_processing",
-        "user": "user_123",
-        "data_sensitivity": "high",
-        "consent_given": True
-    }
+    action = {"action": "data_processing", "user": "user_123", "data_sensitivity": "high", "consent_given": True}
 
     # Step 1: Ethical decision
     integrated_system.governance.ethical_decision.return_value = {
         "decision": "approve",
         "confidence": 0.95,
-        "reasoning": "Consent given, GDPR compliant"
+        "reasoning": "Consent given, GDPR compliant",
     }
 
     ethical_result = await integrated_system.governance.ethical_decision(action)
@@ -311,7 +291,7 @@ async def test_integration_governance_full_pipeline(integrated_system):
     integrated_system.governance.check_compliance.return_value = {
         "compliant": True,
         "frameworks": ["GDPR", "CCPA"],
-        "score": 98.5
+        "score": 98.5,
     }
 
     compliance_result = await integrated_system.governance.check_compliance(action)
@@ -321,13 +301,11 @@ async def test_integration_governance_full_pipeline(integrated_system):
     integrated_system.governance.log_audit.return_value = {
         "audit_id": "audit_123",
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "hash": "abc123def456"
+        "hash": "abc123def456",
     }
 
     audit_result = await integrated_system.governance.log_audit(
-        action=action,
-        ethical_decision=ethical_result,
-        compliance_check=compliance_result
+        action=action, ethical_decision=ethical_result, compliance_check=compliance_result
     )
 
     assert "audit_id" in audit_result
@@ -342,13 +320,13 @@ async def test_integration_governance_violation_escalation(integrated_system):
         "action": "data_access",
         "user": "user_456",
         "data_sensitivity": "critical",
-        "consent_given": False
+        "consent_given": False,
     }
 
     # Ethical decision should deny
     integrated_system.governance.ethical_decision.return_value = {
         "decision": "deny",
-        "reasoning": "No consent for critical data"
+        "reasoning": "No consent for critical data",
     }
 
     result = await integrated_system.governance.ethical_decision(violation_action)
@@ -356,15 +334,9 @@ async def test_integration_governance_violation_escalation(integrated_system):
     assert result["decision"] == "deny"
 
     # Should trigger escalation
-    integrated_system.governance.escalate.return_value = {
-        "escalated": True,
-        "alert_sent": True
-    }
+    integrated_system.governance.escalate.return_value = {"escalated": True, "alert_sent": True}
 
-    escalation = await integrated_system.governance.escalate(
-        decision=result,
-        action=violation_action
-    )
+    escalation = await integrated_system.governance.escalate(decision=result, action=violation_action)
 
     assert escalation["escalated"] is True
 
@@ -372,6 +344,7 @@ async def test_integration_governance_violation_escalation(integrated_system):
 # ============================================================================
 # Advanced Integration Tests
 # ============================================================================
+
 
 @pytest.mark.asyncio
 @pytest.mark.integration
@@ -381,28 +354,22 @@ async def test_integration_full_user_journey(integrated_system):
     integrated_system.onboarding.create_user.return_value = {
         "user_id": "user_789",
         "lambda_id": "Λ_gamma_user789",
-        "tier": "gamma"
+        "tier": "gamma",
     }
 
-    user = await integrated_system.onboarding.create_user(
-        tier="gamma",
-        email="test@example.com",
-        consent_gdpr=True
-    )
+    user = await integrated_system.onboarding.create_user(tier="gamma", email="test@example.com", consent_gdpr=True)
 
     # Step 2: JWT generation
     integrated_system.jwt_adapter.create_token.return_value = "jwt_token_789"
 
     token = integrated_system.jwt_adapter.create_token(
-        user_id=user["user_id"],
-        lambda_id=user["lambda_id"],
-        tier=user["tier"]
+        user_id=user["user_id"], lambda_id=user["lambda_id"], tier=user["tier"]
     )
 
     # Step 3: Make authenticated request
     integrated_system.jwt_adapter.verify_token.return_value = {
         "user_id": user["user_id"],
-        "lambda_id": user["lambda_id"]
+        "lambda_id": user["lambda_id"],
     }
 
     verified = integrated_system.jwt_adapter.verify_token(token)
@@ -410,9 +377,7 @@ async def test_integration_full_user_journey(integrated_system):
     # Step 4: Access vector store (with ΛID rate limiting)
     integrated_system.vector_store.check_rate_limit.return_value = True
 
-    can_access = await integrated_system.vector_store.check_rate_limit(
-        verified["lambda_id"]
-    )
+    can_access = await integrated_system.vector_store.check_rate_limit(verified["lambda_id"])
 
     assert can_access is True
 
@@ -422,35 +387,25 @@ async def test_integration_full_user_journey(integrated_system):
 async def test_integration_cross_component_data_flow(integrated_system):
     """Test data flow across multiple components."""
     # Data originates from governance check
-    governance_decision = {
-        "decision": "approve",
-        "lambda_id": "Λ_alpha_user100"
-    }
+    governance_decision = {"decision": "approve", "lambda_id": "Λ_alpha_user100"}
 
     # Flows to JWT adapter
     integrated_system.jwt_adapter.create_token.return_value = "token_100"
 
-    token = integrated_system.jwt_adapter.create_token(
-        lambda_id=governance_decision["lambda_id"]
-    )
+    token = integrated_system.jwt_adapter.create_token(lambda_id=governance_decision["lambda_id"])
 
     # Token used for vector store access
-    integrated_system.jwt_adapter.verify_token.return_value = {
-        "lambda_id": governance_decision["lambda_id"]
-    }
+    integrated_system.jwt_adapter.verify_token.return_value = {"lambda_id": governance_decision["lambda_id"]}
 
     verified = integrated_system.jwt_adapter.verify_token(token)
 
     # Vector store query with verified identity
     integrated_system.vector_store.query.return_value = {
         "results": ["result1", "result2"],
-        "lambda_id": verified["lambda_id"]
+        "lambda_id": verified["lambda_id"],
     }
 
-    results = await integrated_system.vector_store.query(
-        query="test",
-        lambda_id=verified["lambda_id"]
-    )
+    results = await integrated_system.vector_store.query(query="test", lambda_id=verified["lambda_id"])
 
     # Verify data flow maintained lambda_id throughout
     assert results["lambda_id"] == governance_decision["lambda_id"]
@@ -460,19 +415,15 @@ async def test_integration_cross_component_data_flow(integrated_system):
 # Edge Cases & Error Scenarios
 # ============================================================================
 
+
 @pytest.mark.asyncio
 @pytest.mark.integration
 async def test_integration_component_failure_handling(integrated_system):
     """Test system behavior when one component fails."""
     # Onboarding succeeds
-    integrated_system.onboarding.create_user.return_value = {
-        "user_id": "user_999",
-        "lambda_id": "Λ_delta_user999"
-    }
+    integrated_system.onboarding.create_user.return_value = {"user_id": "user_999", "lambda_id": "Λ_delta_user999"}
 
-    user = await integrated_system.onboarding.create_user(
-        tier="delta", email="test@example.com", consent_gdpr=True
-    )
+    user = await integrated_system.onboarding.create_user(tier="delta", email="test@example.com", consent_gdpr=True)
 
     # JWT adapter fails
     integrated_system.jwt_adapter.create_token.side_effect = Exception("JWT service unavailable")
@@ -486,6 +437,7 @@ async def test_integration_component_failure_handling(integrated_system):
 @pytest.mark.integration
 async def test_integration_timeout_handling(integrated_system):
     """Test timeout handling in integrated workflows."""
+
     # Simulate slow vector store
     async def slow_search(*args, **kwargs):
         await asyncio.sleep(10)  # Intentionally slow
@@ -495,7 +447,4 @@ async def test_integration_timeout_handling(integrated_system):
 
     # Should timeout
     with pytest.raises(asyncio.TimeoutError):
-        await asyncio.wait_for(
-            integrated_system.vector_store.similarity_search([0.1] * 1536),
-            timeout=1.0
-        )
+        await asyncio.wait_for(integrated_system.vector_store.similarity_search([0.1] * 1536), timeout=1.0)

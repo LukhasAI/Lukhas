@@ -3,6 +3,7 @@ Emotion Cycler
 ==============
 Cycles emotional states to stabilize drift feedback loops.
 """
+
 import logging
 from typing import Optional
 

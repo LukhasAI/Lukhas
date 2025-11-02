@@ -45,6 +45,7 @@ __tier__ = 2
 
 logger = logging.getLogger(__name__)
 
+
 class TestQuantumIntegration(unittest.TestCase):
     def setUp(self):
         # Configure quantum settings for faster testing

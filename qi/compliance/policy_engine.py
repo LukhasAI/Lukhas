@@ -98,7 +98,9 @@ class PolicyEngine:
 
     # ------------------------------------------------------------------
     @staticmethod
-    def apply_overrides(base: MutableMapping[str, Any], overrides: Optional[Mapping[str, Any]]) -> MutableMapping[str, Any]:
+    def apply_overrides(
+        base: MutableMapping[str, Any], overrides: Optional[Mapping[str, Any]]
+    ) -> MutableMapping[str, Any]:
         """Return *base* merged with *overrides* (non-destructive)."""
 
         if not overrides:

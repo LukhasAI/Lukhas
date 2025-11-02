@@ -25,14 +25,16 @@ class TestExternalGmailAdapterUnit:
     def oauth_manager(self):
         """Returns a mock OAuthManager."""
         manager = OAuthManager()
-        manager.get_credentials = AsyncMock(return_value={
-            "token": "fake_token",
-            "refresh_token": "fake_refresh_token",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "client_id": "fake_client_id",
-            "client_secret": "fake_client_secret",
-            "scopes": ["https://www.googleapis.com/auth/gmail.readonly"],
-        })
+        manager.get_credentials = AsyncMock(
+            return_value={
+                "token": "fake_token",
+                "refresh_token": "fake_refresh_token",
+                "token_uri": "https://oauth2.googleapis.com/token",
+                "client_id": "fake_client_id",
+                "client_secret": "fake_client_secret",
+                "scopes": ["https://www.googleapis.com/auth/gmail.readonly"],
+            }
+        )
         return manager
 
     @pytest.fixture

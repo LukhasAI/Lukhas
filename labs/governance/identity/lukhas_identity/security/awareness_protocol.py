@@ -1,5 +1,3 @@
-
-
 # 📦 MODULE      : lukhas_awareness_protocol.py
 # 🧾 DESCRIPTION : Context-aware tier fallback + symbolic awareness for post-recovery access
 # 🧩 TYPE        : Security Middleware        🔧 VERSION: v0.1.0

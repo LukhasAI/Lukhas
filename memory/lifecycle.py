@@ -56,11 +56,8 @@ __all__ = [
 
 try:
     from memory.retention import AbstractArchivalBackend, ArchivalTier  # noqa: F401
-    __all__.extend(
-        name
-        for name in ("ArchivalTier", "AbstractArchivalBackend")
-        if name not in __all__
-    )
+
+    __all__.extend(name for name in ("ArchivalTier", "AbstractArchivalBackend") if name not in __all__)
 except Exception:
     pass
 
@@ -68,6 +65,7 @@ except Exception:
 try:
     from memory.tombstones import FileTombstoneStore, GDPRTombstone
 except Exception:
+
     class FileTombstoneStore:
         def __init__(self, *args, **kwargs):
             self.args = args
@@ -81,6 +79,7 @@ except Exception:
 
     class GDPRTombstone(FileTombstoneStore):
         pass
+
 
 for _name in ("FileTombstoneStore", "GDPRTombstone"):
     if _name not in globals():

@@ -2,12 +2,14 @@
 Noise injection for symbolic/emotional dream space.
 Opt-in only: disabled by default for safety.
 """
+
 import os
 import random
 from typing import Dict
 
 LEVEL = os.getenv("LUKHAS_NOISE_LEVEL", "off")  # off|low|med|high
 INTENSITY = {"low": 0.05, "med": 0.15, "high": 0.3}.get(LEVEL, 0.0)
+
 
 def inject_noise(em: Dict[str, float]) -> Dict[str, float]:
     """
@@ -30,13 +32,11 @@ def inject_noise(em: Dict[str, float]) -> Dict[str, float]:
 
     return noisy_em
 
+
 def get_noise_config() -> Dict[str, any]:
     """Get current noise configuration for debugging."""
-    return {
-        "level": LEVEL,
-        "intensity": INTENSITY,
-        "enabled": INTENSITY > 0
-    }
+    return {"level": LEVEL, "intensity": INTENSITY, "enabled": INTENSITY > 0}
+
 
 def validate_noise_output(original: Dict[str, float], noisy: Dict[str, float]) -> bool:
     """

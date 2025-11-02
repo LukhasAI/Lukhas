@@ -14,14 +14,16 @@ from typing import Any, Dict, List
 
 def load_json(path: Path) -> Dict[str, Any]:
     """Load JSON file safely"""
-    with open(path, 'r', encoding='utf-8') as f:
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 def save_json(path: Path, data: Dict[str, Any]) -> None:
     """Save JSON file with formatting"""
-    with open(path, 'w', encoding='utf-8') as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, sort_keys=False)
-        f.write('\n')
+        f.write("\n")
+
 
 def detect_module_entrypoints(module_dir: Path) -> List[str]:
     """Detect actual Python entrypoints in module"""
@@ -31,7 +33,7 @@ def detect_module_entrypoints(module_dir: Path) -> List[str]:
     init_file = module_dir / "__init__.py"
     if init_file.exists():
         try:
-            content = init_file.read_text(encoding='utf-8')
+            content = init_file.read_text(encoding="utf-8")
             # Look for __all__ exports
             if "__all__" in content:
                 entrypoints.append(f"{module_dir.name}")
@@ -57,6 +59,7 @@ def detect_module_entrypoints(module_dir: Path) -> List[str]:
 
     return entrypoints
 
+
 def extract_rich_description(module_name: str, legacy_data: Dict[str, Any]) -> str:
     """Extract rich description from legacy metadata"""
 
@@ -71,7 +74,7 @@ def extract_rich_description(module_name: str, legacy_data: Dict[str, Any]) -> s
         "bridge": "External service integration bridge providing OAuth flows, API adapters, service mesh coordination, and secure credential management for third-party connectivity.",
         "api": "RESTful API infrastructure with GraphQL support, WebSocket real-time capabilities, multi-AI orchestration endpoints, and comprehensive API gateway functionality.",
         "quantum": "Quantum-inspired computing algorithms implementing superposition-based decision making, quantum state simulation, and bio-quantum hybrid processing systems.",
-        "orchestration": "Multi-AI orchestration platform coordinating GPT-4, Claude, Gemini consensus workflows with Context Bus implementation and sub-100ms API latency optimization."
+        "orchestration": "Multi-AI orchestration platform coordinating GPT-4, Claude, Gemini consensus workflows with Context Bus implementation and sub-100ms API latency optimization.",
     }
 
     # Check for rich description in legacy data
@@ -85,7 +88,11 @@ def extract_rich_description(module_name: str, legacy_data: Dict[str, Any]) -> s
             return f"LUKHAS {module_name} module implementing {', '.join(cognitive_domains)} with consciousness integration and MATRIZ pipeline compatibility."
 
     # Return domain-specific description or fallback
-    return domain_descriptions.get(module_name, f"LUKHAS {module_name} module providing specialized functionality within the consciousness-driven AGI architecture.")
+    return domain_descriptions.get(
+        module_name,
+        f"LUKHAS {module_name} module providing specialized functionality within the consciousness-driven AGI architecture.",
+    )
+
 
 def extract_rich_tags(module_name: str, legacy_data: Dict[str, Any]) -> List[str]:
     """Extract meaningful tags from module name and legacy data"""
@@ -101,7 +108,7 @@ def extract_rich_tags(module_name: str, legacy_data: Dict[str, Any]) -> List[str
         "bridge": ["bridge", "integration", "adapters", "external-services"],
         "api": ["api", "rest", "graphql", "websocket", "orchestration"],
         "quantum": ["quantum", "superposition", "quantum-computing", "bio-quantum"],
-        "orchestration": ["orchestration", "multi-ai", "consensus", "context-bus"]
+        "orchestration": ["orchestration", "multi-ai", "consensus", "context-bus"],
     }
 
     tags = list(name_tags.get(module_name, [module_name.replace("_", "-")]))
@@ -131,6 +138,7 @@ def extract_rich_tags(module_name: str, legacy_data: Dict[str, Any]) -> List[str
 
     return list(set(tags))  # Remove duplicates
 
+
 def extract_dependencies(module_name: str, legacy_data: Dict[str, Any]) -> List[str]:
     """Extract module dependencies from legacy data"""
     dependencies = []
@@ -147,7 +155,10 @@ def extract_dependencies(module_name: str, legacy_data: Dict[str, Any]) -> List[
 
         # Filter to likely module dependencies (not system packages)
         for dep in all_deps:
-            if any(keyword in dep.lower() for keyword in ['lukhas', 'matriz', 'consciousness', 'memory', 'identity', 'governance']):
+            if any(
+                keyword in dep.lower()
+                for keyword in ["lukhas", "matriz", "consciousness", "memory", "identity", "governance"]
+            ):
                 dependencies.append(dep)
 
     # Add logical dependencies based on module type
@@ -158,13 +169,14 @@ def extract_dependencies(module_name: str, legacy_data: Dict[str, Any]) -> List[
         "orchestration": ["core", "api"],
         "quantum": ["core", "consciousness"],
         "memory": ["core"],
-        "consciousness": ["core", "memoria"]
+        "consciousness": ["core", "memoria"],
     }
 
     if module_name in logical_deps:
         dependencies.extend(logical_deps[module_name])
 
     return list(set(dependencies))
+
 
 def extract_observability_spans(module_name: str, legacy_data: Dict[str, Any]) -> List[str]:
     """Extract required observability spans for module"""
@@ -178,10 +190,11 @@ def extract_observability_spans(module_name: str, legacy_data: Dict[str, Any]) -
         "governance": ["governance.policy", "governance.ethics"],
         "matriz": ["matriz.processing", "matriz.symbolic"],
         "orchestration": ["orchestration.multi_ai", "orchestration.consensus"],
-        "bridge": ["bridge.external", "bridge.oauth"]
+        "bridge": ["bridge.external", "bridge.oauth"],
     }
 
     return span_patterns.get(module_name, [f"lukhas.{module_name}.operation"])
+
 
 def determine_team_ownership(module_name: str, legacy_data: Dict[str, Any]) -> Dict[str, Any]:
     """Determine appropriate team ownership"""
@@ -197,10 +210,11 @@ def determine_team_ownership(module_name: str, legacy_data: Dict[str, Any]) -> D
         "orchestration": {"team": "Orchestration", "codeowners": ["@lukhas-orchestration", "@lukhas-ai"]},
         "bridge": {"team": "Integration", "codeowners": ["@lukhas-integration", "@lukhas-adapters"]},
         "quantum": {"team": "Quantum", "codeowners": ["@lukhas-quantum", "@lukhas-research"]},
-        "core": {"team": "Core", "codeowners": ["@lukhas-core"]}
+        "core": {"team": "Core", "codeowners": ["@lukhas-core"]},
     }
 
     return team_mapping.get(module_name, {"team": "Core", "codeowners": ["@lukhas-core"]})
+
 
 def enrich_manifest(module_dir: Path) -> bool:
     """Enrich a single module manifest with rich metadata"""
@@ -254,6 +268,7 @@ def enrich_manifest(module_dir: Path) -> bool:
     save_json(manifest_file, manifest)
     return True
 
+
 def main():
     parser = argparse.ArgumentParser(description="Enrich module manifests with rich metadata")
     parser.add_argument("--root", default=".", help="Root directory to scan")
@@ -267,7 +282,18 @@ def main():
     print("🔍 Enriching module manifests with domain-specific metadata...")
 
     # Focus on key modules if none specified
-    key_modules = ["consciousness", "memory", "identity", "governance", "matriz", "core", "api", "bridge", "orchestration", "quantum"]
+    key_modules = [
+        "consciousness",
+        "memory",
+        "identity",
+        "governance",
+        "matriz",
+        "core",
+        "api",
+        "bridge",
+        "orchestration",
+        "quantum",
+    ]
 
     target_modules = args.modules if args.modules else key_modules
 
@@ -286,6 +312,7 @@ def main():
         print(f"✅ Enriched {enriched_count} module manifests")
     else:
         print(f"🏁 Dry run complete - would enrich {len(target_modules)} modules")
+
 
 if __name__ == "__main__":
     main()

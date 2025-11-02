@@ -48,6 +48,7 @@ try:
     )
 except ImportError:
     print("Note: LUKHAS modules not available. Using simplified types.")
+
     class WebAuthnCredentialStore:
         def __init__(self):
             self._credentials = {}
@@ -66,14 +67,15 @@ except ImportError:
 
 
 # Configuration
-RP_ID = "localhost"              # Relying Party ID (your domain)
-ORIGIN = "http://localhost:5000" # Expected origin (HTTPS in production)
-TIMEOUT_MS = 60000               # Authentication timeout (60 seconds)
+RP_ID = "localhost"  # Relying Party ID (your domain)
+ORIGIN = "http://localhost:5000"  # Expected origin (HTTPS in production)
+TIMEOUT_MS = 60000  # Authentication timeout (60 seconds)
 
 
 @dataclass
 class AuthenticationSession:
     """Stores authentication challenge and metadata."""
+
     username: str
     challenge: str
     created_at: str
@@ -99,10 +101,7 @@ app.add_middleware(
 
 
 def generate_authentication_options(
-    username: str,
-    rp_id: str = RP_ID,
-    timeout_ms: int = TIMEOUT_MS,
-    user_verification: str = "preferred"
+    username: str, rp_id: str = RP_ID, timeout_ms: int = TIMEOUT_MS, user_verification: str = "preferred"
 ) -> Tuple[CredentialRequestOptions, str]:
     """Generate WebAuthn authentication options.
 
@@ -131,18 +130,14 @@ def generate_authentication_options(
     """
     # Generate cryptographically secure challenge (256 bits = 32 bytes)
     challenge_bytes = secrets.token_bytes(32)
-    challenge = base64.urlsafe_b64encode(challenge_bytes).decode('utf-8').rstrip('=')
+    challenge = base64.urlsafe_b64encode(challenge_bytes).decode("utf-8").rstrip("=")
 
     # Get user's registered credentials (empty list OK - user picks which to use)
     user_credentials = credential_store.list_credentials(username)
 
     # Build allow credentials list (hints which credentials can be used)
     allow_credentials = [
-        {
-            "type": "public-key",
-            "id": cred["credential_id"],
-            "transports": cred.get("transports", [])
-        }
+        {"type": "public-key", "id": cred["credential_id"], "transports": cred.get("transports", [])}
         for cred in user_credentials
     ]
 
@@ -153,7 +148,7 @@ def generate_authentication_options(
         "rpId": rp_id,
         "allowCredentials": allow_credentials,
         "userVerification": user_verification,
-        "extensions": {}
+        "extensions": {},
     }
 
     return options, challenge
@@ -165,7 +160,7 @@ def verify_credential_authentication(
     expected_origin: str,
     expected_rp_id: str,
     username: str,
-    credential_store: WebAuthnCredentialStore
+    credential_store: WebAuthnCredentialStore,
 ) -> Dict:
     """Verify WebAuthn authentication assertion.
 
@@ -232,7 +227,7 @@ def verify_credential_authentication(
             expected_rp_id=expected_rp_id,
             credential_public_key=public_key_bytes,
             credential_current_sign_count=stored_credential["counter"],
-            require_user_verification=True  # Enforce user verification
+            require_user_verification=True,  # Enforce user verification
         )
 
         if not verified.verified:
@@ -251,22 +246,20 @@ def verify_credential_authentication(
         # Extract verified data
         return {
             "new_sign_count": verified.new_sign_count,
-            "user_verified": getattr(verified, 'user_verified', False),
-            "backup_eligible": getattr(verified, 'backup_eligible', False),
-            "backup_state": getattr(verified, 'backup_state', False)
+            "user_verified": getattr(verified, "user_verified", False),
+            "backup_eligible": getattr(verified, "backup_eligible", False),
+            "backup_state": getattr(verified, "backup_state", False),
         }
 
     except ValueError as e:
         if "cloned authenticator" in str(e):
             # Log security alert for suspicious activity
-            raise HTTPException(
-                status_code=403,
-                detail="Security check failed. Please re-register your device."
-            )
+            raise HTTPException(status_code=403, detail="Security check failed. Please re-register your device.")
         raise ValueError(f"Authentication verification failed: {str(e)}")
 
 
 # --- API Endpoints ---
+
 
 @app.post("/api/auth/webauthn/authenticate/begin")
 async def start_authentication(request_data: Dict) -> JSONResponse:
@@ -312,15 +305,12 @@ async def start_authentication(request_data: Dict) -> JSONResponse:
     # Generate authentication options
     try:
         options, challenge = generate_authentication_options(
-            username=username,
-            user_verification="required"  # Require user verification for auth
+            username=username, user_verification="required"  # Require user verification for auth
         )
 
         # Store challenge in session for later verification
         challenge_store[username] = AuthenticationSession(
-            username=username,
-            challenge=challenge,
-            created_at=datetime.now(timezone.utc).isoformat()
+            username=username, challenge=challenge, created_at=datetime.now(timezone.utc).isoformat()
         )
 
         # Return options to frontend
@@ -385,7 +375,7 @@ async def complete_authentication(request_data: Dict) -> JSONResponse:
             expected_origin=ORIGIN,
             expected_rp_id=RP_ID,
             username=username,
-            credential_store=credential_store
+            credential_store=credential_store,
         )
     except HTTPException:
         raise
@@ -397,10 +387,7 @@ async def complete_authentication(request_data: Dict) -> JSONResponse:
     try:
         updated = credential_store.update_credential(
             credential_id=credential_id,
-            updates={
-                "counter": verified_data["new_sign_count"],
-                "last_used": datetime.now(timezone.utc).isoformat()
-            }
+            updates={"counter": verified_data["new_sign_count"], "last_used": datetime.now(timezone.utc).isoformat()},
         )
 
         if not updated:
@@ -416,13 +403,15 @@ async def complete_authentication(request_data: Dict) -> JSONResponse:
     # This is where you would create your application's authentication token
     session_token = f"session_{username}_{secrets.token_hex(32)}"
 
-    return JSONResponse({
-        "status": "success",
-        "message": "Authentication successful",
-        "session_token": session_token,
-        "user_verified": verified_data["user_verified"],
-        "backup_state": verified_data["backup_state"]
-    })
+    return JSONResponse(
+        {
+            "status": "success",
+            "message": "Authentication successful",
+            "session_token": session_token,
+            "user_verified": verified_data["user_verified"],
+            "backup_state": verified_data["backup_state"],
+        }
+    )
 
 
 @app.get("/api/auth/webauthn/credentials")
@@ -449,20 +438,22 @@ async def list_credentials(user_id: str) -> JSONResponse:
     """
     credentials = credential_store.list_credentials(user_id)
 
-    return JSONResponse({
-        "count": len(credentials),
-        "credentials": [
-            {
-                "credential_id": cred["credential_id"],
-                "device_name": cred.get("device_name", "Unknown Device"),
-                "created_at": cred["created_at"],
-                "last_used": cred.get("last_used"),
-                "counter": cred["counter"],
-                "transports": cred.get("transports", [])
-            }
-            for cred in credentials
-        ]
-    })
+    return JSONResponse(
+        {
+            "count": len(credentials),
+            "credentials": [
+                {
+                    "credential_id": cred["credential_id"],
+                    "device_name": cred.get("device_name", "Unknown Device"),
+                    "created_at": cred["created_at"],
+                    "last_used": cred.get("last_used"),
+                    "counter": cred["counter"],
+                    "transports": cred.get("transports", []),
+                }
+                for cred in credentials
+            ],
+        }
+    )
 
 
 @app.delete("/api/auth/webauthn/credentials/{credential_id}")
@@ -492,10 +483,7 @@ async def delete_credential(user_id: str, credential_id: str) -> JSONResponse:
 
     # Delete credential
     if credential_store.delete_credential(credential_id):
-        return JSONResponse({
-            "status": "success",
-            "message": "Credential revoked"
-        })
+        return JSONResponse({"status": "success", "message": "Credential revoked"})
 
     raise HTTPException(status_code=500, detail="Failed to delete credential")
 

@@ -4,6 +4,7 @@ Tests for QRS (Quantum Response Signature) Manager.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-HIGH-TEST-QRS-e5f6g7h8
 """
+
 from typing import Any, Dict
 from unittest.mock import MagicMock, Mock, patch
 
@@ -14,7 +15,7 @@ import pytest
 @pytest.fixture
 def mock_crypto_functions():
     """Mock cryptographic functions for testing."""
-    with patch('hashlib.sha256') as mock_sha256:
+    with patch("hashlib.sha256") as mock_sha256:
         mock_sha256.return_value.hexdigest.return_value = "mock_hash_value"
         yield mock_sha256
 
@@ -26,7 +27,7 @@ def valid_qrs_data():
         "request_id": "req_12345",
         "response_payload": {"status": "success", "data": {"key": "value"}},
         "timestamp": 1735678800,
-        "service": "api.ai"
+        "service": "api.ai",
     }
 
 
@@ -38,7 +39,7 @@ def sample_qrs_signature():
         "signature": "0x1234567890abcdef",
         "hash": "mock_hash_value",
         "algorithm": "SHA256-QRS",
-        "created_at": 1735678800
+        "created_at": 1735678800,
     }
 
 
@@ -220,7 +221,7 @@ def test_qrs_with_large_payload():
         "request_id": "req_12345",
         "response_payload": {"data": "x" * (1024 * 1024)},  # 1MB
         "timestamp": 1735678800,
-        "service": "api.ai"
+        "service": "api.ai",
     }
     pytest.skip("Pending implementation")
 

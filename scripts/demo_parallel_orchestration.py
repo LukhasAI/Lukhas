@@ -37,7 +37,7 @@ class DemoCognitiveNode(CognitiveNodeBase):
             "ethics_risk": 0.1,
             "reasoning_chain": [f"{self.name}_analysis", f"{self.name}_synthesis"],
             "processing_time": processing_time,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
 
@@ -62,11 +62,7 @@ async def demo_sequential_vs_parallel():
     # Setup
     setup_demo_registry()
 
-    config = {
-        "MATRIZ_ASYNC": "1",
-        "MATRIZ_PARALLEL": "1",
-        "MATRIZ_MAX_PARALLEL": "3"
-    }
+    config = {"MATRIZ_ASYNC": "1", "MATRIZ_PARALLEL": "1", "MATRIZ_MAX_PARALLEL": "3"}
 
     orchestrator = AsyncOrchestrator(config)
 
@@ -84,14 +80,11 @@ async def demo_sequential_vs_parallel():
 
     # Test contexts
     contexts = [
-        {
-            "query": "Simple query",
-            "user_id": "demo_user_1"
-        },
+        {"query": "Simple query", "user_id": "demo_user_1"},
         {
             "query": "This is a more complex query that requires deeper analysis and processing across multiple cognitive dimensions",
-            "user_id": "demo_user_2"
-        }
+            "user_id": "demo_user_2",
+        },
     ]
 
     for i, context in enumerate(contexts, 1):
@@ -147,11 +140,7 @@ async def demo_batch_execution():
 
     setup_demo_registry()
 
-    config = {
-        "MATRIZ_ASYNC": "1",
-        "MATRIZ_PARALLEL": "1",
-        "MATRIZ_MAX_PARALLEL": "2"  # Smaller batches for demo
-    }
+    config = {"MATRIZ_ASYNC": "1", "MATRIZ_PARALLEL": "1", "MATRIZ_MAX_PARALLEL": "2"}  # Smaller batches for demo
 
     orchestrator = AsyncOrchestrator(config)
 
@@ -164,10 +153,7 @@ async def demo_batch_execution():
 
     orchestrator.configure_stages(stages)
 
-    context = {
-        "query": "Batch processing demonstration with multiple cognitive stages",
-        "user_id": "batch_demo"
-    }
+    context = {"query": "Batch processing demonstration with multiple cognitive stages", "user_id": "batch_demo"}
 
     print(f"🧠 Processing: {context['query']}")
     print(f"📦 Max Parallel Stages: {orchestrator.max_parallel_stages}")

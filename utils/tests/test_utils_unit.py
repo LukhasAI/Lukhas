@@ -25,10 +25,7 @@ class TestUtilsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "utils",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "utils", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestUtilsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import utils
+
         self.assertIsNotNone(utils)
 
     def test_module_version(self):
         """Test module has version information."""
         import utils
+
         # Most modules should have version info
-        self.assertTrue(hasattr(utils, '__version__') or
-                       hasattr(utils, 'VERSION'))
+        self.assertTrue(hasattr(utils, "__version__") or hasattr(utils, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testutc_now(unittest.TestCase):
         """Test utc_now can be imported."""
         try:
             from utils.time import utc_now
+
             self.assertIsNotNone(utc_now)
         except ImportError:
             pytest.skip("Component utc_now not available")
@@ -88,7 +87,6 @@ class Testutc_now(unittest.TestCase):
         """Test utc_now can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

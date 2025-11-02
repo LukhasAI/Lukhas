@@ -16,6 +16,7 @@ Test Coverage Areas:
 - API endpoint functionality and routing
 - Performance monitoring and metrics
 """
+
 import asyncio
 import json
 import time
@@ -44,12 +45,7 @@ class TestAPISystem:
     @pytest.fixture
     def api_system(self):
         """Create a test API system instance."""
-        return APISystem(
-            enable_auth=True,
-            enable_cors=True,
-            debug_mode=False,
-            rate_limit_enabled=True
-        )
+        return APISystem(enable_auth=True, enable_cors=True, debug_mode=False, rate_limit_enabled=True)
 
     @pytest.fixture
     def test_app(self, api_system):
@@ -70,12 +66,7 @@ class TestAPISystem:
     @pytest.fixture
     def mock_user_context(self):
         """Create mock user context."""
-        return {
-            "user_id": "test_user_123",
-            "tier_level": 3,
-            "permissions": ["read", "write"],
-            "authenticated": True
-        }
+        return {"user_id": "test_user_123", "tier_level": 3, "permissions": ["read", "write"], "authenticated": True}
 
     # Application Initialization Tests
     def test_api_system_initialization(self, api_system):
@@ -98,7 +89,7 @@ class TestAPISystem:
         # Check if CORS middleware is in the middleware stack
         cors_middleware_found = False
         for middleware in test_app.user_middleware:
-            if hasattr(middleware, 'cls') and 'CORS' in str(middleware.cls):
+            if hasattr(middleware, "cls") and "CORS" in str(middleware.cls):
                 cors_middleware_found = True
                 break
 
@@ -129,20 +120,13 @@ class TestAPISystem:
     # Authentication and Authorization Tests
     def test_authentication_enabled(self, test_client, mock_auth_token):
         """Test authentication when enabled."""
-        with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+        with patch("core.api.api_system.get_auth_system") as mock_get_auth:
             mock_auth = Mock()
-            mock_auth.validate_token.return_value = {
-                "valid": True,
-                "user_id": "test_user",
-                "tier_level": 3
-            }
+            mock_auth.validate_token.return_value = {"valid": True, "user_id": "test_user", "tier_level": 3}
             mock_get_auth.return_value = mock_auth
 
             # Test protected endpoint
-            response = test_client.get(
-                "/api/v1/health",
-                headers={"Authorization": mock_auth_token}
-            )
+            response = test_client.get("/api/v1/health", headers={"Authorization": mock_auth_token})
 
             # Should succeed with valid token
             assert response.status_code == 200
@@ -160,24 +144,18 @@ class TestAPISystem:
 
     def test_invalid_token_handling(self, test_client):
         """Test handling of invalid authentication tokens."""
-        with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+        with patch("core.api.api_system.get_auth_system") as mock_get_auth:
             mock_auth = Mock()
-            mock_auth.validate_token.return_value = {
-                "valid": False,
-                "error": "Invalid token"
-            }
+            mock_auth.validate_token.return_value = {"valid": False, "error": "Invalid token"}
             mock_get_auth.return_value = mock_auth
 
-            response = test_client.get(
-                "/api/v1/health",
-                headers={"Authorization": "Bearer invalid_token"}
-            )
+            response = test_client.get("/api/v1/health", headers={"Authorization": "Bearer invalid_token"})
 
             assert response.status_code == 401
 
     def test_missing_token_handling(self, test_client):
         """Test handling of missing authentication tokens."""
-        with patch('core.api.api_system.get_auth_system'):
+        with patch("core.api.api_system.get_auth_system"):
             response = test_client.get("/api/v1/health")
 
             # Should return 401 when auth is enabled but no token provided
@@ -185,7 +163,7 @@ class TestAPISystem:
 
     def test_user_context_extraction(self, api_system, mock_user_context):
         """Test user context extraction from authentication."""
-        with patch('core.api.api_system.get_current_user', return_value=mock_user_context):
+        with patch("core.api.api_system.get_current_user", return_value=mock_user_context):
             user_context = get_current_user("Bearer test_token")
 
             assert user_context["user_id"] == "test_user_123"
@@ -195,17 +173,17 @@ class TestAPISystem:
     # Service Integration Tests
     def test_symbolic_engine_integration(self, test_client, mock_auth_token):
         """Test integration with symbolic reasoning engine."""
-        with patch('core.api.api_system.SymbolicEngine') as MockSymbolicEngine:
+        with patch("core.api.api_system.SymbolicEngine") as MockSymbolicEngine:
             mock_engine = Mock()
             mock_engine.reason.return_value = {
                 "reasoning": "Test symbolic reasoning result",
                 "confidence": 0.95,
-                "symbols": ["test", "symbol"]
+                "symbols": ["test", "symbol"],
             }
             MockSymbolicEngine.return_value = mock_engine
 
             # Mock authentication
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+            with patch("core.api.api_system.get_auth_system") as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
@@ -213,7 +191,7 @@ class TestAPISystem:
                 response = test_client.post(
                     "/api/v1/symbolic/reason",
                     json={"text": "test reasoning input"},
-                    headers={"Authorization": mock_auth_token}
+                    headers={"Authorization": mock_auth_token},
                 )
 
                 if response.status_code == 200:
@@ -223,16 +201,18 @@ class TestAPISystem:
 
     def test_coordination_manager_integration(self, test_client, mock_auth_token):
         """Test integration with coordination manager."""
-        with patch('core.api.api_system.CoordinationManager') as MockCoordination:
+        with patch("core.api.api_system.CoordinationManager") as MockCoordination:
             mock_coordinator = Mock()
-            mock_coordinator.coordinate = AsyncMock(return_value={
-                "status": "coordinated",
-                "actions": ["action1", "action2"],
-                "coordination_id": "coord_123"
-            })
+            mock_coordinator.coordinate = AsyncMock(
+                return_value={
+                    "status": "coordinated",
+                    "actions": ["action1", "action2"],
+                    "coordination_id": "coord_123",
+                }
+            )
             MockCoordination.return_value = mock_coordinator
 
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+            with patch("core.api.api_system.get_auth_system") as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
@@ -240,7 +220,7 @@ class TestAPISystem:
                 response = test_client.post(
                     "/api/v1/coordinate",
                     json={"request": "test coordination"},
-                    headers={"Authorization": mock_auth_token}
+                    headers={"Authorization": mock_auth_token},
                 )
 
                 if response.status_code == 200:
@@ -249,16 +229,14 @@ class TestAPISystem:
 
     def test_consciousness_integration(self, test_client, mock_auth_token):
         """Test integration with unified consciousness system."""
-        with patch('core.api.api_system.UnifiedConsciousness') as MockConsciousness:
+        with patch("core.api.api_system.UnifiedConsciousness") as MockConsciousness:
             mock_consciousness = Mock()
-            mock_consciousness.process = AsyncMock(return_value={
-                "awareness_level": 0.8,
-                "coherence_score": 0.9,
-                "consciousness_state": "active"
-            })
+            mock_consciousness.process = AsyncMock(
+                return_value={"awareness_level": 0.8, "coherence_score": 0.9, "consciousness_state": "active"}
+            )
             MockConsciousness.return_value = mock_consciousness
 
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+            with patch("core.api.api_system.get_auth_system") as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
@@ -266,7 +244,7 @@ class TestAPISystem:
                 response = test_client.post(
                     "/api/v1/consciousness/process",
                     json={"input": "test consciousness input"},
-                    headers={"Authorization": mock_auth_token}
+                    headers={"Authorization": mock_auth_token},
                 )
 
                 if response.status_code == 200:
@@ -278,29 +256,25 @@ class TestAPISystem:
         """Test handling of validation errors."""
         # Send invalid JSON
         response = test_client.post(
-            "/api/v1/symbolic/reason",
-            data="invalid json",
-            headers={"Content-Type": "application/json"}
+            "/api/v1/symbolic/reason", data="invalid json", headers={"Content-Type": "application/json"}
         )
 
         assert response.status_code == 422
 
     def test_internal_server_error_handling(self, test_client, mock_auth_token):
         """Test handling of internal server errors."""
-        with patch('core.api.api_system.SymbolicEngine') as MockSymbolicEngine:
+        with patch("core.api.api_system.SymbolicEngine") as MockSymbolicEngine:
             mock_engine = Mock()
             mock_engine.reason.side_effect = Exception("Internal error")
             MockSymbolicEngine.return_value = mock_engine
 
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+            with patch("core.api.api_system.get_auth_system") as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
 
                 response = test_client.post(
-                    "/api/v1/symbolic/reason",
-                    json={"text": "test"},
-                    headers={"Authorization": mock_auth_token}
+                    "/api/v1/symbolic/reason", json={"text": "test"}, headers={"Authorization": mock_auth_token}
                 )
 
                 assert response.status_code == 500
@@ -335,11 +309,7 @@ class TestAPISystem:
         # Check for security headers (if implemented)
         headers = response.headers
         # Common security headers that should be present
-        expected_headers = [
-            "X-Content-Type-Options",
-            "X-Frame-Options",
-            "X-XSS-Protection"
-        ]
+        expected_headers = ["X-Content-Type-Options", "X-Frame-Options", "X-XSS-Protection"]
 
         # Note: Not all headers may be implemented, so we check if any are present
         security_headers_present = any(header in headers for header in expected_headers)
@@ -361,10 +331,7 @@ class TestAPISystem:
         # Send very large request
         large_data = {"data": "x" * 10000}  # 10KB of data
 
-        response = test_client.post(
-            "/api/v1/symbolic/reason",
-            json=large_data
-        )
+        response = test_client.post("/api/v1/symbolic/reason", json=large_data)
 
         # Should either process or reject based on size limits
         assert response.status_code in [200, 413, 422, 401]
@@ -380,15 +347,11 @@ class TestAPISystem:
 
     def test_status_endpoint(self, test_client):
         """Test system status endpoint."""
-        with patch('core.api.api_system.get_system_status') as mock_status:
+        with patch("core.api.api_system.get_system_status") as mock_status:
             mock_status.return_value = {
                 "system": "operational",
-                "services": {
-                    "symbolic_engine": "healthy",
-                    "consciousness": "healthy",
-                    "coordination": "healthy"
-                },
-                "uptime": 3600
+                "services": {"symbolic_engine": "healthy", "consciousness": "healthy", "coordination": "healthy"},
+                "uptime": 3600,
             }
 
             response = test_client.get("/api/v1/status")
@@ -399,15 +362,12 @@ class TestAPISystem:
 
     def test_symbolic_reasoning_endpoint(self, test_client, mock_auth_token):
         """Test symbolic reasoning endpoint."""
-        with patch('core.api.api_system.SymbolicEngine') as MockEngine:
+        with patch("core.api.api_system.SymbolicEngine") as MockEngine:
             mock_engine = Mock()
-            mock_engine.reason.return_value = {
-                "reasoning": "Test result",
-                "confidence": 0.85
-            }
+            mock_engine.reason.return_value = {"reasoning": "Test result", "confidence": 0.85}
             MockEngine.return_value = mock_engine
 
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+            with patch("core.api.api_system.get_auth_system") as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
@@ -415,7 +375,7 @@ class TestAPISystem:
                 response = test_client.post(
                     "/api/v1/symbolic/reason",
                     json={"text": "test reasoning"},
-                    headers={"Authorization": mock_auth_token}
+                    headers={"Authorization": mock_auth_token},
                 )
 
                 if response.status_code == 200:
@@ -424,15 +384,12 @@ class TestAPISystem:
 
     def test_consciousness_endpoint(self, test_client, mock_auth_token):
         """Test consciousness processing endpoint."""
-        with patch('core.api.api_system.UnifiedConsciousness') as MockConsciousness:
+        with patch("core.api.api_system.UnifiedConsciousness") as MockConsciousness:
             mock_consciousness = Mock()
-            mock_consciousness.process = AsyncMock(return_value={
-                "awareness_level": 0.75,
-                "coherence_score": 0.88
-            })
+            mock_consciousness.process = AsyncMock(return_value={"awareness_level": 0.75, "coherence_score": 0.88})
             MockConsciousness.return_value = mock_consciousness
 
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+            with patch("core.api.api_system.get_auth_system") as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
@@ -440,7 +397,7 @@ class TestAPISystem:
                 response = test_client.post(
                     "/api/v1/consciousness/process",
                     json={"input": "test consciousness"},
-                    headers={"Authorization": mock_auth_token}
+                    headers={"Authorization": mock_auth_token},
                 )
 
                 if response.status_code == 200:
@@ -518,11 +475,7 @@ class TestAPISystem:
 
     def test_cors_configuration(self):
         """Test CORS configuration options."""
-        cors_api = APISystem(
-            enable_cors=True,
-            cors_origins=["http://localhost:3000"],
-            cors_methods=["GET", "POST"]
-        )
+        cors_api = APISystem(enable_cors=True, cors_origins=["http://localhost:3000"], cors_methods=["GET", "POST"])
 
         assert cors_api.enable_cors is True
         # Test that app was created successfully with CORS config
@@ -548,7 +501,7 @@ class TestAPISystem:
     # Integration and System Tests
     def test_full_api_workflow(self, test_client, mock_auth_token):
         """Test complete API workflow."""
-        with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+        with patch("core.api.api_system.get_auth_system") as mock_get_auth:
             mock_auth = Mock()
             mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
             mock_get_auth.return_value = mock_auth
@@ -562,15 +515,13 @@ class TestAPISystem:
             assert status_response.status_code in [200, 404]  # May not be implemented
 
             # 3. Make authenticated request
-            with patch('core.api.api_system.SymbolicEngine') as MockEngine:
+            with patch("core.api.api_system.SymbolicEngine") as MockEngine:
                 mock_engine = Mock()
                 mock_engine.reason.return_value = {"reasoning": "test"}
                 MockEngine.return_value = mock_engine
 
                 reason_response = test_client.post(
-                    "/api/v1/symbolic/reason",
-                    json={"text": "test"},
-                    headers={"Authorization": mock_auth_token}
+                    "/api/v1/symbolic/reason", json={"text": "test"}, headers={"Authorization": mock_auth_token}
                 )
 
                 # Should succeed or return expected error
@@ -578,16 +529,14 @@ class TestAPISystem:
 
     def test_service_fallback_behavior(self, test_client, mock_auth_token):
         """Test fallback behavior when services are unavailable."""
-        with patch('core.api.api_system.SymbolicEngine', side_effect=ImportError("Service unavailable")):
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+        with patch("core.api.api_system.SymbolicEngine", side_effect=ImportError("Service unavailable")):
+            with patch("core.api.api_system.get_auth_system") as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
 
                 response = test_client.post(
-                    "/api/v1/symbolic/reason",
-                    json={"text": "test"},
-                    headers={"Authorization": mock_auth_token}
+                    "/api/v1/symbolic/reason", json={"text": "test"}, headers={"Authorization": mock_auth_token}
                 )
 
                 # Should handle service unavailability gracefully

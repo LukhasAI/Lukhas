@@ -378,11 +378,7 @@ class MatrizConsciousnessSystem:
             node_id = f"{self.consciousness_id}_{module_name}"
 
             # Register the node
-            self.signal_router.register_node(
-                node_id=node_id,
-                module_name=module_name,
-                capabilities=capabilities
-            )
+            self.signal_router.register_node(node_id=node_id, module_name=module_name, capabilities=capabilities)
 
             # Register basic signal handlers for each node
             for signal_type in ConsciousnessSignalType:

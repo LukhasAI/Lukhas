@@ -39,6 +39,7 @@ __tier__ = 4
 
 logger = logging.getLogger(__name__)
 
+
 class SecurityLevel(Enum):
     """Explicit security levels mapping to NIST categories"""
 

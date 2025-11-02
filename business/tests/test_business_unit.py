@@ -25,10 +25,7 @@ class TestBusinessModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "business",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "business", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestBusinessModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import business
+
         self.assertIsNotNone(business)
 
     def test_module_version(self):
         """Test module has version information."""
         import business
+
         # Most modules should have version info
-        self.assertTrue(hasattr(business, '__version__') or
-                       hasattr(business, 'VERSION'))
+        self.assertTrue(hasattr(business, "__version__") or hasattr(business, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestBUSINESS_DOMAINS(unittest.TestCase):
         """Test BUSINESS_DOMAINS can be imported."""
         try:
             from business import BUSINESS_DOMAINS
+
             self.assertIsNotNone(BUSINESS_DOMAINS)
         except ImportError:
             pytest.skip("Component BUSINESS_DOMAINS not available")
@@ -97,6 +96,7 @@ class Test__author__(unittest.TestCase):
         """Test __author__ can be imported."""
         try:
             from business import __author__
+
             self.assertIsNotNone(__author__)
         except ImportError:
             pytest.skip("Component __author__ not available")
@@ -114,6 +114,7 @@ class Test__version__(unittest.TestCase):
         """Test __version__ can be imported."""
         try:
             from business import __version__
+
             self.assertIsNotNone(__version__)
         except ImportError:
             pytest.skip("Component __version__ not available")
@@ -122,7 +123,6 @@ class Test__version__(unittest.TestCase):
         """Test __version__ can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

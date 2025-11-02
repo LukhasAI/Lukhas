@@ -52,10 +52,12 @@ def _make_integrity_probe():
         return None
     try:
         from qi.states.integrity_probe import IntegrityProbe
+
         return IntegrityProbe(None, None, None)
     except Exception as e:
         logger.warning(f"AkaQualia: Integrity probe init failed: {e}")
         return None
+
 
 logger = logging.getLogger(__name__)
 
@@ -566,23 +568,23 @@ class AkaQualia:
             try:
                 # Create state snapshot for drift calculation
                 integrity_state = {
-                    'ethical': {
-                        'compliance': getattr(policy, 'gain', 1.0),
-                        'energy_conservation': not conservation_violation,
-                        'regulation_actions': len(policy.actions) if policy.actions else 0
+                    "ethical": {
+                        "compliance": getattr(policy, "gain", 1.0),
+                        "energy_conservation": not conservation_violation,
+                        "regulation_actions": len(policy.actions) if policy.actions else 0,
                     },
-                    'memory': {
-                        'scene_history_length': len(self.scene_history),
-                        'metrics_history_length': len(self.metrics_history),
-                        'energy_snapshots_length': len(self.energy_snapshots),
-                        'vivox_collapse_hash': vivox_results.get('collapse_hash', 'none') if vivox_results else 'none'
+                    "memory": {
+                        "scene_history_length": len(self.scene_history),
+                        "metrics_history_length": len(self.metrics_history),
+                        "energy_snapshots_length": len(self.energy_snapshots),
+                        "vivox_collapse_hash": vivox_results.get("collapse_hash", "none") if vivox_results else "none",
                     },
-                    'identity': {
-                        'proto_arousal': regulated_scene.proto.arousal,
-                        'proto_clarity': regulated_scene.proto.clarity,
-                        'proto_embodiment': regulated_scene.proto.embodiment,
-                        'glyph_count': len(glyphs)
-                    }
+                    "identity": {
+                        "proto_arousal": regulated_scene.proto.arousal,
+                        "proto_clarity": regulated_scene.proto.clarity,
+                        "proto_embodiment": regulated_scene.proto.embodiment,
+                        "glyph_count": len(glyphs),
+                    },
                 }
 
                 # Run micro-check and add top_symbols to context if drift detected
@@ -605,25 +607,28 @@ class AkaQualia:
             Dict containing processing results
         """
         # Create minimal test signals
-        signals = {'test': True, 'energy': 0.5}
-        goals = {'stability': 1.0}
-        ethics_state = {'compliance': 0.95}
-        guardian_state = {'active': True}
-        memory_ctx = {'test_context': True}
+        signals = {"test": True, "energy": 0.5}
+        goals = {"stability": 1.0}
+        ethics_state = {"compliance": 0.95}
+        guardian_state = {"active": True}
+        memory_ctx = {"test_context": True}
 
         # Call the full step method (but sync version for testing)
         import asyncio
+
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
             # Use asyncio.run for Python 3.7+ compatibility
-            result = loop.run_until_complete(self.step(
-                signals=signals,
-                goals=goals,
-                ethics_state=ethics_state,
-                guardian_state=guardian_state,
-                memory_ctx=memory_ctx
-            ))
+            result = loop.run_until_complete(
+                self.step(
+                    signals=signals,
+                    goals=goals,
+                    ethics_state=ethics_state,
+                    guardian_state=guardian_state,
+                    memory_ctx=memory_ctx,
+                )
+            )
             return result
         finally:
             loop.close()

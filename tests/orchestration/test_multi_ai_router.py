@@ -34,11 +34,7 @@ class TestModelSelector:
 
     def test_register_model(self):
         """Test model registration"""
-        model = AIModel(
-            provider=AIProvider.OPENAI,
-            model_id="gpt-4",
-            weight=1.0
-        )
+        model = AIModel(provider=AIProvider.OPENAI, model_id="gpt-4", weight=1.0)
 
         self.selector.register_model(model)
 
@@ -57,10 +53,7 @@ class TestModelSelector:
 
         # Request specific models
         request = RoutingRequest(
-            prompt="test",
-            models=["openai:gpt-4", "anthropic:claude-3-sonnet"],
-            min_responses=2,
-            max_responses=2
+            prompt="test", models=["openai:gpt-4", "anthropic:claude-3-sonnet"], min_responses=2, max_responses=2
         )
 
         selected = self.selector.select_models(request)
@@ -77,7 +70,7 @@ class TestModelSelector:
             weight=0.8,
             avg_latency=0.5,
             success_rate=0.95,
-            cost_per_token=0.000002
+            cost_per_token=0.000002,
         )
 
         slow_model = AIModel(
@@ -86,7 +79,7 @@ class TestModelSelector:
             weight=1.0,
             avg_latency=2.0,
             success_rate=0.98,
-            cost_per_token=0.00003
+            cost_per_token=0.00003,
         )
 
         self.selector.register_model(fast_model)
@@ -104,18 +97,14 @@ class TestModelSelector:
         self.selector.register_model(model)
 
         # Update performance
-        self.selector.update_performance(
-            AIProvider.OPENAI, "gpt-4", 1.5, True
-        )
+        self.selector.update_performance(AIProvider.OPENAI, "gpt-4", 1.5, True)
 
         updated_model = self.selector.models["openai:gpt-4"]
         assert updated_model.avg_latency == 1.5
         assert updated_model.success_rate > 0
 
         # Update with failure
-        self.selector.update_performance(
-            AIProvider.OPENAI, "gpt-4", 3.0, False
-        )
+        self.selector.update_performance(AIProvider.OPENAI, "gpt-4", 3.0, False)
 
         # Should update moving averages
         assert updated_model.success_rate < 1.0
@@ -138,7 +127,7 @@ class TestConsensusEngine:
                 latency=1.0,
                 tokens_used=10,
                 cost=0.001,
-                confidence=0.9
+                confidence=0.9,
             ),
             AIResponse(
                 provider=AIProvider.ANTHROPIC,
@@ -147,7 +136,7 @@ class TestConsensusEngine:
                 latency=1.5,
                 tokens_used=12,
                 cost=0.002,
-                confidence=0.8
+                confidence=0.8,
             ),
             AIResponse(
                 provider=AIProvider.GOOGLE,
@@ -156,8 +145,8 @@ class TestConsensusEngine:
                 latency=0.8,
                 tokens_used=8,
                 cost=0.0005,
-                confidence=0.7
-            )
+                confidence=0.7,
+            ),
         ]
 
     @pytest.mark.asyncio
@@ -208,7 +197,7 @@ class TestConsensusEngine:
                 latency=1.0,
                 tokens_used=10,
                 cost=0.001,
-                confidence=0.9
+                confidence=0.9,
             ),
             AIResponse(
                 provider=AIProvider.ANTHROPIC,
@@ -217,7 +206,7 @@ class TestConsensusEngine:
                 latency=1.2,
                 tokens_used=10,
                 cost=0.002,
-                confidence=0.85
+                confidence=0.85,
             ),
             AIResponse(
                 provider=AIProvider.GOOGLE,
@@ -226,8 +215,8 @@ class TestConsensusEngine:
                 latency=0.9,
                 tokens_used=9,
                 cost=0.0005,
-                confidence=0.8
-            )
+                confidence=0.8,
+            ),
         ]
 
         result = await self.engine._hybrid_consensus(responses)
@@ -252,9 +241,7 @@ class TestConsensusEngine:
         assert identical_similarity == 1.0
 
         # Test completely different texts
-        different_similarity = await self.engine._calculate_similarity(
-            "Machine learning", "Cooking recipes"
-        )
+        different_similarity = await self.engine._calculate_similarity("Machine learning", "Cooking recipes")
         assert different_similarity < 0.5
 
 
@@ -273,7 +260,7 @@ class TestMultiAIRouter:
             prompt="What is the meaning of life?",
             consensus_type=ConsensusType.MAJORITY,
             min_responses=2,
-            max_responses=3
+            max_responses=3,
         )
 
         # Mock AI clients
@@ -294,10 +281,7 @@ class TestMultiAIRouter:
     async def test_route_request_timeout(self):
         """Test request timeout handling"""
         request = RoutingRequest(
-            prompt="Test prompt",
-            timeout=0.1,  # Very short timeout
-            min_responses=1,
-            max_responses=2
+            prompt="Test prompt", timeout=0.1, min_responses=1, max_responses=2  # Very short timeout
         )
 
         # Should handle timeout gracefully
@@ -307,11 +291,7 @@ class TestMultiAIRouter:
     @pytest.mark.asyncio
     async def test_route_request_insufficient_responses(self):
         """Test handling of insufficient responses"""
-        request = RoutingRequest(
-            prompt="Test prompt",
-            min_responses=5,  # More than available models
-            max_responses=5
-        )
+        request = RoutingRequest(prompt="Test prompt", min_responses=5, max_responses=5)  # More than available models
 
         # Should raise error for insufficient responses
         with pytest.raises(ValueError, match="Only .* models available"):
@@ -370,7 +350,7 @@ class TestRoutingRequestValidation:
             min_responses=1,
             max_responses=1,
             timeout=10.0,
-            metadata={"custom": True}
+            metadata={"custom": True},
         )
 
         assert request.prompt == "custom prompt"
@@ -397,12 +377,7 @@ class TestPerformanceRequirements:
         import os
         from datetime import datetime
 
-        request = RoutingRequest(
-            prompt="Quick test",
-            min_responses=1,
-            max_responses=2,
-            timeout=5.0
-        )
+        request = RoutingRequest(prompt="Quick test", min_responses=1, max_responses=2, timeout=5.0)
 
         latencies = []
 
@@ -417,18 +392,18 @@ class TestPerformanceRequirements:
             except Exception as e:
                 # Log but don't fail test for individual request failures
                 print(f"Request failed: {e}")
-                latencies.append(float('inf'))
+                latencies.append(float("inf"))
 
         # Calculate p95
-        valid_latencies = [l for l in latencies if l != float('inf')]
+        valid_latencies = [l for l in latencies if l != float("inf")]
         valid_latencies.sort()
         p95_index = int(0.95 * len(valid_latencies))
         p50_index = int(0.50 * len(valid_latencies))
         p99_index = min(int(0.99 * len(valid_latencies)), len(valid_latencies) - 1)
 
-        p95_latency = valid_latencies[p95_index] if valid_latencies else float('inf')
-        p50_latency = valid_latencies[p50_index] if valid_latencies else float('inf')
-        p99_latency = valid_latencies[p99_index] if valid_latencies else float('inf')
+        p95_latency = valid_latencies[p95_index] if valid_latencies else float("inf")
+        p50_latency = valid_latencies[p50_index] if valid_latencies else float("inf")
+        p99_latency = valid_latencies[p99_index] if valid_latencies else float("inf")
 
         print(f"P95 routing latency: {p95_latency:.3f}s")
 
@@ -437,16 +412,16 @@ class TestPerformanceRequirements:
             "test": "orchestration_routing_latency",
             "timestamp": datetime.utcnow().isoformat(),
             "metrics": {
-                "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
-                "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
-                "p99_ms": p99_latency * 1000 if p99_latency != float('inf') else None,
+                "p50_ms": p50_latency * 1000 if p50_latency != float("inf") else None,
+                "p95_ms": p95_latency * 1000 if p95_latency != float("inf") else None,
+                "p99_ms": p99_latency * 1000 if p99_latency != float("inf") else None,
                 "samples": len(valid_latencies),
                 "failed_samples": len(latencies) - len(valid_latencies),
                 "target_p95_ms": 250,
-                "actual_p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
-                "passed": p95_latency < 0.25
+                "actual_p95_ms": p95_latency * 1000 if p95_latency != float("inf") else None,
+                "passed": p95_latency < 0.25,
             },
-            "latencies_ms": [l * 1000 for l in valid_latencies[:10]]  # First 10 samples
+            "latencies_ms": [l * 1000 for l in valid_latencies[:10]],  # First 10 samples
         }
 
         # Save artifact
@@ -472,7 +447,7 @@ class TestPerformanceRequirements:
                 latency=1.0,
                 tokens_used=10,
                 cost=0.001,
-                confidence=0.8
+                confidence=0.8,
             )
             for i in range(3)
         ]
@@ -507,7 +482,7 @@ class TestOrchestrationIntegration:
             consensus_type=ConsensusType.HYBRID,
             min_responses=2,
             max_responses=3,
-            metadata={"test": "integration"}
+            metadata={"test": "integration"},
         )
 
         result = await router.route_request(request)

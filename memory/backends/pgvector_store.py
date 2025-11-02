@@ -8,6 +8,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 # TODO: replace with real DB client (psycopg or sqlalchemy)
 class _PgClient: ...
 
+
 @dataclass(frozen=True)
 class VectorDoc:
     id: str
@@ -15,10 +16,12 @@ class VectorDoc:
     embedding: List[float]
     meta: Dict[str, Any]
 
+
 class PgVectorStore:
     """Minimal pgvector-backed store (scaffold).
     API is intentionally simple for mocking & tests.
     """
+
     def __init__(self, conn: _PgClient, table="mem_store", dim: int = 1536):
         self.conn = conn
         self.table = table
@@ -33,8 +36,9 @@ class PgVectorStore:
         """Bulk insert. TODO: chunked COPY for perf."""
         raise NotImplementedError("implement bulk_add()")
 
-    def search(self, embedding: List[float], k: int = 10,
-               filters: Optional[Dict[str, Any]] = None) -> List[Tuple[str, float]]:
+    def search(
+        self, embedding: List[float], k: int = 10, filters: Optional[Dict[str, Any]] = None
+    ) -> List[Tuple[str, float]]:
         """Return [(id, score)] by cosine distance. TODO: apply filters."""
         raise NotImplementedError("implement search()")
 

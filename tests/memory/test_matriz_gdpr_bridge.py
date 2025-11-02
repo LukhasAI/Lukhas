@@ -37,6 +37,7 @@ logger = logging.getLogger(__name__)
 
 class TombstoneStatus(Enum):
     """Tombstone status types."""
+
     ACTIVE = "active"
     SCHEDULED_DELETION = "scheduled_deletion"
     TOMBSTONED = "tombstoned"
@@ -45,6 +46,7 @@ class TombstoneStatus(Enum):
 
 class GDPRViolationType(Enum):
     """GDPR violation types."""
+
     TOMBSTONE_ACCESS = "tombstone_access"
     TRACE_RETENTION = "trace_retention"
     AUDIT_EXPOSURE = "audit_exposure"
@@ -54,6 +56,7 @@ class GDPRViolationType(Enum):
 @dataclass
 class MemoryFragment:
     """Memory fragment with GDPR tracking."""
+
     fragment_id: str
     user_id: str
     content_hash: str
@@ -67,6 +70,7 @@ class MemoryFragment:
 @dataclass
 class MATRIZDecisionTrace:
     """MATRIZ decision trace with memory references."""
+
     trace_id: str
     decision_timestamp: float
     referenced_memories: List[str]  # fragment_ids
@@ -78,6 +82,7 @@ class MATRIZDecisionTrace:
 @dataclass
 class GDPRViolation:
     """GDPR compliance violation."""
+
     violation_type: GDPRViolationType
     timestamp: float
     fragment_id: Optional[str]
@@ -100,7 +105,7 @@ class MATRIZGDPRBridge:
             "tombstone_checks": 0,
             "violation_detections": 0,
             "trace_purges": 0,
-            "memory_queries": 0
+            "memory_queries": 0,
         }
 
     def store_memory_fragment(self, fragment: MemoryFragment):
@@ -151,10 +156,12 @@ class MATRIZGDPRBridge:
             "purged_traces": len(purged_traces),
             "processing_time_ms": processing_time,
             "fragment_ids": tombstoned_fragments,
-            "trace_ids": purged_traces
+            "trace_ids": purged_traces,
         }
 
-    def validate_memory_access(self, fragment_id: str, context: str = "matriz_query") -> Tuple[bool, Optional[GDPRViolation]]:
+    def validate_memory_access(
+        self, fragment_id: str, context: str = "matriz_query"
+    ) -> Tuple[bool, Optional[GDPRViolation]]:
         """Validate that memory access respects tombstone status."""
         start_time = time.perf_counter()
 
@@ -178,7 +185,7 @@ class MATRIZGDPRBridge:
                 trace_id=None,
                 user_id=fragment.user_id,
                 details=f"Attempted access to {fragment.tombstone_status.value} memory from {context}",
-                severity="CRITICAL"
+                severity="CRITICAL",
             )
 
             self.violations.append(violation)
@@ -193,9 +200,7 @@ class MATRIZGDPRBridge:
         return True, None
 
     def matriz_decision_with_memory_query(
-        self,
-        decision_context: Dict[str, Any],
-        memory_fragments_needed: List[str]
+        self, decision_context: Dict[str, Any], memory_fragments_needed: List[str]
     ) -> Tuple[Dict[str, Any], List[GDPRViolation]]:
         """Simulate MATRIZ decision process with memory queries and GDPR validation."""
         start_time = time.perf_counter()
@@ -222,7 +227,7 @@ class MATRIZGDPRBridge:
             "accessible_memory_count": len(accessible_memories),
             "blocked_memory_count": len(blocked_memories),
             "gdpr_compliant": len(violations) == 0,
-            "processing_time_ms": (time.perf_counter() - start_time) * 1000
+            "processing_time_ms": (time.perf_counter() - start_time) * 1000,
         }
 
         # Store decision trace (only if GDPR compliant)
@@ -233,7 +238,7 @@ class MATRIZGDPRBridge:
                 referenced_memories=accessible_memories,
                 decision_output=decision_output,
                 user_context=decision_context.get("user_id"),
-                is_sanitized=False
+                is_sanitized=False,
             )
             self.decision_traces[trace.trace_id] = trace
 
@@ -252,7 +257,7 @@ class MATRIZGDPRBridge:
             "decision_id": trace.decision_output.get("decision_id", "[REDACTED]"),
             "gdpr_sanitized": True,
             "sanitization_timestamp": time.time(),
-            "original_memory_count": len(trace.referenced_memories)
+            "original_memory_count": len(trace.referenced_memories),
         }
         trace.user_context = "[REDACTED-GDPR]"
         trace.is_sanitized = True
@@ -269,8 +274,7 @@ class MATRIZGDPRBridge:
         status_counts = {}
         for status in TombstoneStatus:
             status_counts[status.value] = sum(
-                1 for frag in self.memory_fragments.values()
-                if frag.tombstone_status == status
+                1 for frag in self.memory_fragments.values() if frag.tombstone_status == status
             )
 
         # Analyze traces
@@ -286,8 +290,9 @@ class MATRIZGDPRBridge:
 
         # Performance metrics
         if self.compliance_metrics["memory_queries"] > 0:
-            violation_rate = (self.compliance_metrics["violation_detections"] /
-                            self.compliance_metrics["memory_queries"]) * 100
+            violation_rate = (
+                self.compliance_metrics["violation_detections"] / self.compliance_metrics["memory_queries"]
+            ) * 100
         else:
             violation_rate = 0.0
 
@@ -302,7 +307,7 @@ class MATRIZGDPRBridge:
             "violation_rate_percent": violation_rate,
             "compliance_metrics": self.compliance_metrics.copy(),
             "gdpr_compliant": len(self.violations) == 0,
-            "tombstoned_users": len(self.tombstone_index)
+            "tombstoned_users": len(self.tombstone_index),
         }
 
 
@@ -325,7 +330,7 @@ class TestMATRIZGDPRBridge:
                 user_id=user_id,
                 content_hash=hashlib.sha256(f"content_{i}".encode()).hexdigest(),
                 creation_timestamp=time.time() - (i * 60),  # Staggered creation
-                tombstone_status=TombstoneStatus.ACTIVE
+                tombstone_status=TombstoneStatus.ACTIVE,
             )
             memories.append(fragment)
             gdpr_bridge.store_memory_fragment(fragment)
@@ -348,7 +353,9 @@ class TestMATRIZGDPRBridge:
 
         assert not is_accessible, "Tombstoned memory should NOT be accessible"
         assert violation is not None, "Violation should be detected for tombstoned access"
-        assert violation.violation_type == GDPRViolationType.TOMBSTONE_ACCESS, "Should detect tombstone access violation"
+        assert (
+            violation.violation_type == GDPRViolationType.TOMBSTONE_ACCESS
+        ), "Should detect tombstone access violation"
         assert violation.user_id == user_id, "Violation should track correct user"
 
         logger.info(f"✅ Tombstone blocking test passed - {len(memories)} memories protected")
@@ -371,7 +378,7 @@ class TestMATRIZGDPRBridge:
                 user_id=active_user,
                 content_hash=hashlib.sha256(f"active_content_{i}".encode()).hexdigest(),
                 creation_timestamp=time.time(),
-                tombstone_status=TombstoneStatus.ACTIVE
+                tombstone_status=TombstoneStatus.ACTIVE,
             )
             active_memories.append(fragment)
             gdpr_bridge.store_memory_fragment(fragment)
@@ -383,7 +390,7 @@ class TestMATRIZGDPRBridge:
                 user_id=tombstone_user,
                 content_hash=hashlib.sha256(f"tombstone_content_{i}".encode()).hexdigest(),
                 creation_timestamp=time.time(),
-                tombstone_status=TombstoneStatus.ACTIVE
+                tombstone_status=TombstoneStatus.ACTIVE,
             )
             tombstone_memories.append(fragment)
             gdpr_bridge.store_memory_fragment(fragment)
@@ -397,18 +404,18 @@ class TestMATRIZGDPRBridge:
         decision_context = {
             "user_id": "mixed_context_user",
             "query": "test decision with mixed memory access",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
-        decision_output, violations = gdpr_bridge.matriz_decision_with_memory_query(
-            decision_context, all_memory_ids
-        )
+        decision_output, violations = gdpr_bridge.matriz_decision_with_memory_query(decision_context, all_memory_ids)
 
         # Assertions
         assert decision_output["accessible_memory_count"] == 3, "Should access only active memories"
         assert decision_output["blocked_memory_count"] == 3, "Should block all tombstoned memories"
         assert len(violations) == 3, "Should detect 3 GDPR violations"
-        assert decision_output["gdpr_compliant"] is False, "Decision should be flagged as non-compliant due to attempted access"
+        assert (
+            decision_output["gdpr_compliant"] is False
+        ), "Decision should be flagged as non-compliant due to attempted access"
 
         # Verify violations
         for violation in violations:
@@ -441,7 +448,7 @@ class TestMATRIZGDPRBridge:
                 user_id=user_id,
                 content_hash=hashlib.sha256(f"trace_content_{i}".encode()).hexdigest(),
                 creation_timestamp=time.time(),
-                tombstone_status=TombstoneStatus.ACTIVE
+                tombstone_status=TombstoneStatus.ACTIVE,
             )
             memories.append(fragment)
             gdpr_bridge.store_memory_fragment(fragment)
@@ -477,7 +484,8 @@ class TestMATRIZGDPRBridge:
 
         # Verify the unrelated trace remains unsanitized
         unrelated_traces = sum(
-            1 for trace in gdpr_bridge.decision_traces.values()
+            1
+            for trace in gdpr_bridge.decision_traces.values()
             if not trace.is_sanitized and len(trace.referenced_memories) == 0
         )
         assert unrelated_traces == 1, "Unrelated trace should remain unsanitized"
@@ -487,7 +495,9 @@ class TestMATRIZGDPRBridge:
             if trace.is_sanitized:
                 assert trace.user_context == "[REDACTED-GDPR]", "User context should be redacted"
                 assert trace.decision_output.get("gdpr_sanitized") is True, "Output should be marked as sanitized"
-                assert all(mem_id == "[REDACTED-GDPR]" for mem_id in trace.referenced_memories), "Memory IDs should be redacted"
+                assert all(
+                    mem_id == "[REDACTED-GDPR]" for mem_id in trace.referenced_memories
+                ), "Memory IDs should be redacted"
 
         logger.info(f"✅ Decision trace purging test passed - sanitized {sanitized_traces} traces")
 
@@ -506,7 +516,7 @@ class TestMATRIZGDPRBridge:
                     user_id=user_id,
                     content_hash=hashlib.sha256(f"perf_content_{user_id}_{i}".encode()).hexdigest(),
                     creation_timestamp=time.time(),
-                    tombstone_status=TombstoneStatus.ACTIVE
+                    tombstone_status=TombstoneStatus.ACTIVE,
                 )
                 all_fragments.append(fragment)
                 gdpr_bridge.store_memory_fragment(fragment)
@@ -523,9 +533,7 @@ class TestMATRIZGDPRBridge:
         # Test 1000 memory accesses
         for fragment in all_fragments[:1000]:
             start_time = time.perf_counter()
-            is_accessible, violation = gdpr_bridge.validate_memory_access(
-                fragment.fragment_id, "performance_test"
-            )
+            is_accessible, violation = gdpr_bridge.validate_memory_access(fragment.fragment_id, "performance_test")
             access_time = (time.perf_counter() - start_time) * 1000  # ms
 
             access_times.append(access_time)
@@ -544,7 +552,9 @@ class TestMATRIZGDPRBridge:
 
         # Correctness verification
         expected_violations = 500  # 5 users * 100 memories each
-        assert violation_count == expected_violations, f"Expected {expected_violations} violations, got {violation_count}"
+        assert (
+            violation_count == expected_violations
+        ), f"Expected {expected_violations} violations, got {violation_count}"
 
         logger.info("✅ Real-time performance test passed:")
         logger.info(f"   Mean: {mean_access_time:.2f}ms")
@@ -573,7 +583,7 @@ class TestMATRIZGDPRBridge:
                     user_id=user_id,
                     content_hash=hashlib.sha256(f"audit_content_{user_id}_{i}".encode()).hexdigest(),
                     creation_timestamp=time.time(),
-                    tombstone_status=initial_status
+                    tombstone_status=initial_status,
                 )
                 all_fragment_ids.append(fragment.fragment_id)
                 gdpr_bridge.store_memory_fragment(fragment)
@@ -592,8 +602,7 @@ class TestMATRIZGDPRBridge:
 
         # Violating decision (should generate violations)
         gdpr_bridge.matriz_decision_with_memory_query(
-            {"user_id": "mixed_user", "type": "violating"},
-            active_memories[:1] + tombstoned_memories[:2]
+            {"user_id": "mixed_user", "type": "violating"}, active_memories[:1] + tombstoned_memories[:2]
         )
 
         # Run comprehensive audit
@@ -647,7 +656,7 @@ class TestMATRIZGDPRBridge:
             user_id=user_id,
             content_hash="edge_hash",
             creation_timestamp=time.time(),
-            tombstone_status=TombstoneStatus.ACTIVE
+            tombstone_status=TombstoneStatus.ACTIVE,
         )
         gdpr_bridge.store_memory_fragment(fragment)
 
@@ -673,7 +682,13 @@ class TestMATRIZGDPRBridge:
         assert mean_rapid_time < 5.0, f"Rapid access mean time {mean_rapid_time:.2f}ms too slow"
 
         # All rapid accesses should detect violations (memory is tombstoned)
-        violations_detected = sum(1 for _, v in [gdpr_bridge.validate_memory_access(fragment.fragment_id, f"rapid_check_{i}") for i in range(10)] if not _)
+        violations_detected = sum(
+            1
+            for _, v in [
+                gdpr_bridge.validate_memory_access(fragment.fragment_id, f"rapid_check_{i}") for i in range(10)
+            ]
+            if not _
+        )
         assert violations_detected == 10, "All rapid accesses to tombstoned memory should be violations"
 
         logger.info(f"✅ GDPR edge cases test passed - {violations_detected} violations correctly detected")
@@ -699,7 +714,7 @@ if __name__ == "__main__":
                 user_id=user_id,
                 content_hash=hashlib.sha256(f"validation_content_{i}".encode()).hexdigest(),
                 creation_timestamp=time.time(),
-                tombstone_status=TombstoneStatus.ACTIVE
+                tombstone_status=TombstoneStatus.ACTIVE,
             )
             memories.append(fragment)
             gdpr_bridge.store_memory_fragment(fragment)
@@ -766,7 +781,7 @@ if __name__ == "__main__":
             ("Access blocking", blocked_count == len(memories)),
             ("Violation detection", violation_count > 0),
             ("Access performance", p95_time < 10.0),
-            ("No false negatives", accessible_count == len(memories))  # Before deletion
+            ("No false negatives", accessible_count == len(memories)),  # Before deletion
         ]
 
         print(f"\n{'='*60}")
@@ -784,5 +799,6 @@ if __name__ == "__main__":
         return overall_success
 
     import sys
+
     success = run_gdpr_validation()
     sys.exit(0 if success else 1)

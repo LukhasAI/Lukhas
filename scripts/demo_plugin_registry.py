@@ -97,12 +97,14 @@ def demo_compatibility_features():
 
     # Show alias support
     from core.registry import ALIASES
+
     print("Legacy group aliases:")
     for legacy, modern in ALIASES.items():
         print(f"  {legacy} → {modern}")
 
     # Show environment variable control
     import os
+
     compat_mode = os.getenv("MATRIZ_COMPAT_IMPORTS", "1")
     print(f"\nCompatibility mode: {'enabled' if compat_mode == '1' else 'disabled'}")
 

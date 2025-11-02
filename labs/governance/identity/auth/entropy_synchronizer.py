@@ -220,7 +220,9 @@ class EntropySynchronizer:
 
         # Check temporal freshness
         if "timestamp" in entropy_data:
-            age_seconds = (datetime.now(timezone.utc) - datetime.fromisoformat(entropy_data["timestamp"])).total_seconds()
+            age_seconds = (
+                datetime.now(timezone.utc) - datetime.fromisoformat(entropy_data["timestamp"])
+            ).total_seconds()
             freshness_score = max(0.0, 1.0 - (age_seconds / 60.0))  # Decay over 1 minute
             quality_factors.append(freshness_score)
 

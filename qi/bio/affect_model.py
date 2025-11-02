@@ -12,7 +12,6 @@ Bio Affect Model
 Provides simple emotional repair utilities for dream synthesis.
 """
 
-
 # ΛTAG: emotional_repair_model
 SADNESS_THRESHOLD = 0.6
 

@@ -4,6 +4,7 @@ Capability test: Backpressure and burst emission handling
 This test ensures the system can handle burst signal emissions without
 deadlocking and that proper decimation/backpressure occurs under load.
 """
+
 import asyncio
 
 import pytest
@@ -76,10 +77,7 @@ async def test_concurrent_module_emissions():
 
         # Execute concurrently with timeout
         try:
-            results = await asyncio.wait_for(
-                asyncio.gather(*concurrent_tasks, return_exceptions=True),
-                timeout=15.0
-            )
+            results = await asyncio.wait_for(asyncio.gather(*concurrent_tasks, return_exceptions=True), timeout=15.0)
         except asyncio.TimeoutError:
             pytest.fail("Concurrent emissions timed out")
 

@@ -34,28 +34,29 @@ logger = logging.getLogger(__name__)
 APPROVED_ACTIONS = {
     "actions/checkout": {
         "v4": "692973e3d937129bcbf40652eb9f2f61becf3332",  # v4.1.7
-        "v3": "f43a0e5ff2bd294095638e18286ca9a3d1956744"   # v3.6.0
+        "v3": "f43a0e5ff2bd294095638e18286ca9a3d1956744",  # v3.6.0
     },
     "actions/setup-python": {
         "v5": "82c7e631bb3cdc910f68e0081d67478d79c6982d",  # v5.1.0
-        "v4": "65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236"   # v4.7.1
+        "v4": "65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236",  # v4.7.1
     },
     "actions/cache": {
         "v4": "0c45773b623bea8c8e75f6c82b208c3cf94ea4f9",  # v4.0.2
-        "v3": "88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8"   # v3.3.1
+        "v3": "88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8",  # v3.3.1
     },
     "actions/upload-artifact": {
         "v4": "65462800fd760344b1a7b4382951275a0abb4808",  # v4.3.3
-        "v3": "a8a3f3ad30e3422c9c7b888a15615d19a852ae32"   # v3.1.3
+        "v3": "a8a3f3ad30e3422c9c7b888a15615d19a852ae32",  # v3.1.3
     },
     "actions/download-artifact": {
         "v4": "c14a0b9e72d31fbb7b7f3466e2a4f96c6498a1b0",  # v4.1.7
-        "v3": "9bc31d5ccc31df68ecc42ccf4149144866c47d8a"   # v3.0.2
-    }
+        "v3": "9bc31d5ccc31df68ecc42ccf4149144866c47d8a",  # v3.0.2
+    },
 }
 
 # Pattern to match GitHub Actions usage
-ACTION_PATTERN = re.compile(r'uses:\s*([^@\s]+)@([^\s]+)')
+ACTION_PATTERN = re.compile(r"uses:\s*([^@\s]+)@([^\s]+)")
+
 
 def find_workflow_files(workflows_dir: Path) -> List[Path]:
     """Find all GitHub Actions workflow files."""
@@ -67,15 +68,16 @@ def find_workflow_files(workflows_dir: Path) -> List[Path]:
 
     return workflow_files
 
+
 def parse_workflow_actions(workflow_file: Path) -> List[Tuple[str, str, int]]:
     """Parse GitHub Actions from workflow file."""
     actions = []
 
     try:
-        with open(workflow_file, 'r') as f:
+        with open(workflow_file, "r") as f:
             content = f.read()
 
-        for line_num, line in enumerate(content.split('\n'), 1):
+        for line_num, line in enumerate(content.split("\n"), 1):
             match = ACTION_PATTERN.search(line)
             if match:
                 action_name = match.group(1)
@@ -87,13 +89,16 @@ def parse_workflow_actions(workflow_file: Path) -> List[Tuple[str, str, int]]:
 
     return actions
 
+
 def is_sha_pinned(ref: str) -> bool:
     """Check if reference is SHA-pinned (40-character hex)."""
-    return bool(re.match(r'^[a-f0-9]{40}$', ref))
+    return bool(re.match(r"^[a-f0-9]{40}$", ref))
+
 
 def is_action_approved(action_name: str) -> bool:
     """Check if action is in approved allowlist."""
     return action_name in APPROVED_ACTIONS
+
 
 def get_latest_sha_for_tag(action_name: str, tag: str) -> str:
     """Get latest SHA for a given tag from GitHub API."""
@@ -104,7 +109,7 @@ def get_latest_sha_for_tag(action_name: str, tag: str) -> str:
 
         if response.status_code == 200:
             data = response.json()
-            return data['object']['sha']
+            return data["object"]["sha"]
         else:
             # Try getting from releases API
             api_url = f"https://api.github.com/repos/{action_name}/releases/tags/{tag}"
@@ -112,12 +117,13 @@ def get_latest_sha_for_tag(action_name: str, tag: str) -> str:
 
             if response.status_code == 200:
                 data = response.json()
-                return data['target_commitish']
+                return data["target_commitish"]
 
     except Exception as e:
         logger.warning(f"Could not fetch SHA for {action_name}@{tag}: {e}")
 
     return None
+
 
 def verify_workflow_security(workflow_file: Path, fix_issues: bool = False) -> Dict[str, any]:
     """Verify security of actions in workflow file."""
@@ -130,22 +136,16 @@ def verify_workflow_security(workflow_file: Path, fix_issues: bool = False) -> D
         "unpinned_actions": 0,
         "unauthorized_actions": 0,
         "issues": [],
-        "fixed": []
+        "fixed": [],
     }
 
-
-    with open(workflow_file, 'r') as f:
+    with open(workflow_file, "r") as f:
         original_content = f.read()
 
     modified_content = original_content
 
     for action_name, action_ref, line_num in actions:
-        issue = {
-            "action": f"{action_name}@{action_ref}",
-            "line": line_num,
-            "type": None,
-            "severity": "high"
-        }
+        issue = {"action": f"{action_name}@{action_ref}", "line": line_num, "type": None, "severity": "high"}
 
         # Check if action is approved
         if not is_action_approved(action_name):
@@ -181,33 +181,26 @@ def verify_workflow_security(workflow_file: Path, fix_issues: bool = False) -> D
                 new_uses = f"uses: {action_name}@{approved_sha}  # {action_ref}"
                 modified_content = modified_content.replace(old_uses, new_uses)
 
-                results["fixed"].append({
-                    "action": action_name,
-                    "old_ref": action_ref,
-                    "new_ref": approved_sha,
-                    "line": line_num
-                })
+                results["fixed"].append(
+                    {"action": action_name, "old_ref": action_ref, "new_ref": approved_sha, "line": line_num}
+                )
 
     # Write fixed content if modifications were made
     if fix_issues and modified_content != original_content:
-        with open(workflow_file, 'w') as f:
+        with open(workflow_file, "w") as f:
             f.write(modified_content)
         logger.info(f"Fixed {len(results['fixed'])} actions in {workflow_file}")
 
     return results
 
+
 def main():
     parser = argparse.ArgumentParser(description="Verify GitHub Actions security")
-    parser.add_argument("--workflows-dir",
-                       default=".github/workflows",
-                       help="Directory containing workflow files")
-    parser.add_argument("--fix",
-                       action="store_true",
-                       help="Automatically fix unpinned actions")
-    parser.add_argument("--fail-on-issues",
-                       action="store_true",
-                       default=True,
-                       help="Exit with error code if issues found")
+    parser.add_argument("--workflows-dir", default=".github/workflows", help="Directory containing workflow files")
+    parser.add_argument("--fix", action="store_true", help="Automatically fix unpinned actions")
+    parser.add_argument(
+        "--fail-on-issues", action="store_true", default=True, help="Exit with error code if issues found"
+    )
 
     args = parser.parse_args()
 
@@ -232,7 +225,7 @@ def main():
         "total_unpinned": 0,
         "total_unauthorized": 0,
         "files_with_issues": 0,
-        "all_issues": []
+        "all_issues": [],
     }
 
     for workflow_file in workflow_files:
@@ -257,14 +250,18 @@ def main():
             logger.info(f"  Fixed {len(file_results['fixed'])} actions in {workflow_file.name}")
 
     # Summary report
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("🛡️  GitHub Actions Security Report")
-    print("="*70)
+    print("=" * 70)
     print(f"Workflow files scanned: {overall_results['total_files']}")
     print(f"Actions found: {overall_results['total_actions']}")
     print(f"SHA-pinned actions: {overall_results['total_pinned']} ✅")
-    print(f"Unpinned actions: {overall_results['total_unpinned']} {'⚠️' if overall_results['total_unpinned'] > 0 else '✅'}")
-    print(f"Unauthorized actions: {overall_results['total_unauthorized']} {'❌' if overall_results['total_unauthorized'] > 0 else '✅'}")
+    print(
+        f"Unpinned actions: {overall_results['total_unpinned']} {'⚠️' if overall_results['total_unpinned'] > 0 else '✅'}"
+    )
+    print(
+        f"Unauthorized actions: {overall_results['total_unauthorized']} {'❌' if overall_results['total_unauthorized'] > 0 else '✅'}"
+    )
 
     if overall_results["total_actions"] > 0:
         pinning_rate = (overall_results["total_pinned"] / overall_results["total_actions"]) * 100
@@ -294,6 +291,7 @@ def main():
             return 1
         else:
             return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

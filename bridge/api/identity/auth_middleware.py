@@ -1,4 +1,5 @@
 """Identity auth middleware shim for Oneiric Core API tests."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -31,6 +32,7 @@ get_current_user = _find("get_current_user")
 
 
 if AuthUser is None:
+
     class AuthUser:  # type: ignore[misc]
         def __init__(self, id: str = "test-user", tier: str = "experimental", lukhas_id: str | None = None) -> None:
             self.id = id
@@ -39,11 +41,13 @@ if AuthUser is None:
 
 
 if AuthContext is None:
+
     class AuthContext:  # type: ignore[misc]
         def __init__(self, user: AuthUser | None = None) -> None:
             self.user = user or AuthUser()
 
 
 if get_current_user is None:
+
     def get_current_user() -> AuthUser:
         return AuthUser()

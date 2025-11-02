@@ -25,10 +25,7 @@ class TestLukhasAiIntroModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "lukhas-ai-intro",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "lukhas-ai-intro", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,16 @@ class TestLukhasAiIntroModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         # import lukhas_ai_intro  # Module name with hyphen - skipping
-        self.assertIsNotNone(lukhas-ai-intro)  # noqa: F821  # TODO: lukhas
+        self.assertIsNotNone(lukhas - ai - intro)  # noqa: F821  # TODO: lukhas
 
     def test_module_version(self):
         """Test module has version information."""
         # import lukhas_ai_intro  # Module name with hyphen - skipping
         # Most modules should have version info
-        self.assertTrue(hasattr(lukhas-ai-intro, '__version__') or  # noqa: F821  # TODO: lukhas
-                       hasattr(lukhas-ai-intro, 'VERSION'))  # noqa: F821  # TODO: lukhas
+        self.assertTrue(
+            hasattr(lukhas - ai - intro, "__version__")  # noqa: F821  # TODO: lukhas
+            or hasattr(lukhas - ai - intro, "VERSION")
+        )  # noqa: F821  # TODO: lukhas
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +70,6 @@ class TestLukhasAiIntroModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

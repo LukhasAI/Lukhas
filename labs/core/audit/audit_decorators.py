@@ -17,7 +17,8 @@ def audit_operation(
     operation_type: Optional[str] = None,
     capture_args: bool = True,
     capture_result: bool = True,
-    severity: AuditSeverity = AuditSeverity.INFO):
+    severity: AuditSeverity = AuditSeverity.INFO,
+):
     """
     Decorator to audit any operation
 

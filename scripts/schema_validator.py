@@ -22,7 +22,7 @@ class LUKHASSchemaValidator:
     def load_schema(self, schema_path: Path) -> Dict:
         """Load a JSON schema file"""
         try:
-            with open(schema_path, 'r') as f:
+            with open(schema_path, "r") as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
@@ -30,7 +30,7 @@ class LUKHASSchemaValidator:
     def load_document(self, doc_path: Path) -> Dict:
         """Load a JSON document to validate"""
         try:
-            with open(doc_path, 'r') as f:
+            with open(doc_path, "r") as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load document: {e}"}
@@ -50,15 +50,9 @@ class LUKHASSchemaValidator:
     def find_documents_for_schema(self, schema_name: str) -> List[Path]:
         """Find documents that should be validated against a schema"""
         document_map = {
-            "architecture_master.schema.json": [
-                "docs/LUKHAS_ARCHITECTURE_MASTER.json"
-            ],
-            "dependency_matrix.schema.json": [
-                "docs/architecture/DEPENDENCY_MATRIX.json"
-            ],
-            "matriz_graph.schema.json": [
-                "MATRIZ/demo_export.json"
-            ]
+            "architecture_master.schema.json": ["docs/LUKHAS_ARCHITECTURE_MASTER.json"],
+            "dependency_matrix.schema.json": ["docs/architecture/DEPENDENCY_MATRIX.json"],
+            "matriz_graph.schema.json": ["MATRIZ/demo_export.json"],
         }
 
         docs = []
@@ -74,13 +68,9 @@ class LUKHASSchemaValidator:
             "validation_timestamp": datetime.now().isoformat(),
             "total_schemas": 0,
             "total_documents": 0,
-            "validation_summary": {
-                "schemas_valid": 0,
-                "documents_valid": 0,
-                "total_errors": 0
-            },
+            "validation_summary": {"schemas_valid": 0, "documents_valid": 0, "total_errors": 0},
             "schema_results": {},
-            "recommendations": []
+            "recommendations": [],
         }
 
         if not self.schemas_dir.exists():
@@ -98,7 +88,7 @@ class LUKHASSchemaValidator:
                 "schema_errors": [],
                 "documents": {},
                 "document_count": 0,
-                "documents_valid_count": 0
+                "documents_valid_count": 0,
             }
 
             # Load and validate schema itself
@@ -124,16 +114,13 @@ class LUKHASSchemaValidator:
                     document = self.load_document(doc_path)
 
                     if "error" in document:
-                        schema_result["documents"][doc_name] = {
-                            "valid": False,
-                            "errors": [document["error"]]
-                        }
+                        schema_result["documents"][doc_name] = {"valid": False, "errors": [document["error"]]}
                     else:
                         is_valid, errors = self.validate_document(document, schema)
                         schema_result["documents"][doc_name] = {
                             "valid": is_valid,
                             "errors": errors,
-                            "path": str(doc_path)
+                            "path": str(doc_path),
                         }
 
                         if is_valid:
@@ -188,7 +175,7 @@ class LUKHASSchemaValidator:
             f"- Valid Schemas: {results['validation_summary']['schemas_valid']}",
             f"- Valid Documents: {results['validation_summary']['documents_valid']}",
             f"- Total Errors: {results['validation_summary']['total_errors']}",
-            ""
+            "",
         ]
 
         # Add details for each schema
@@ -228,7 +215,7 @@ if __name__ == "__main__":
     print("JSON Results:")
     print(json.dumps(results, indent=2))
 
-    print("\\n" + "="*50 + "\\n")
+    print("\\n" + "=" * 50 + "\\n")
 
     # Generate readable report
     report = validator.generate_report()

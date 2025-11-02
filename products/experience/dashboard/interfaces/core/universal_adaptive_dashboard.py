@@ -79,7 +79,10 @@ class AdaptiveDashboard:
             # Return no-op methods for missing implementation
             def noop(*args, **kwargs):
                 return None
+
             return noop
+
+
 from system.common.event_bus import EventBus
 
 from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony

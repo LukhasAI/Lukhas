@@ -38,56 +38,92 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
     module_configs = {
         "identity": {
             "public_api": [
-                {"fn": "authenticate(credentials: dict) -> dict", "stability": "stable", "doc": "Authenticate user credentials"},
-                {"fn": "authorize(user_id: str, resource: str) -> bool", "stability": "stable", "doc": "Authorize user access to resource"},
-                {"fn": "create_session(user_id: str) -> str", "stability": "stable", "doc": "Create new user session"}
+                {
+                    "fn": "authenticate(credentials: dict) -> dict",
+                    "stability": "stable",
+                    "doc": "Authenticate user credentials",
+                },
+                {
+                    "fn": "authorize(user_id: str, resource: str) -> bool",
+                    "stability": "stable",
+                    "doc": "Authorize user access to resource",
+                },
+                {"fn": "create_session(user_id: str) -> str", "stability": "stable", "doc": "Create new user session"},
             ],
             "contracts": [
-                {"name": "auth_token_validity", "type": "invariant", "desc": "Auth tokens remain valid for session duration"},
-                {"name": "webauthn_compliance", "type": "postcondition", "desc": "WebAuthn flows comply with FIDO2 specification"}
+                {
+                    "name": "auth_token_validity",
+                    "type": "invariant",
+                    "desc": "Auth tokens remain valid for session duration",
+                },
+                {
+                    "name": "webauthn_compliance",
+                    "type": "postcondition",
+                    "desc": "WebAuthn flows comply with FIDO2 specification",
+                },
             ],
             "gates": [
                 {"metric": "latency.auth_s", "op": "<=", "value": 2},
                 {"metric": "symbolic.DriftScore", "op": ">=", "value": 0.010},
                 {"metric": "security.osv_high", "op": "==", "value": 0},
                 {"metric": "attestation.rats_verified", "op": "==", "value": 1},
-                {"metric": "identity.auth_success_rate", "op": ">=", "value": 0.999}
+                {"metric": "identity.auth_success_rate", "op": ">=", "value": 0.999},
             ],
             "spans": [
                 {"name": "identity.authenticate", "attrs": ["code.function", "module", "auth.method"]},
-                {"name": "identity.authorize", "attrs": ["code.function", "module", "resource.type"]}
+                {"name": "identity.authorize", "attrs": ["code.function", "module", "resource.type"]},
             ],
             "metrics": [
                 {"name": "identity.auth.latency", "unit": "s", "type": "histogram"},
-                {"name": "identity.sessions.active", "unit": "1", "type": "gauge"}
-            ]
+                {"name": "identity.sessions.active", "unit": "1", "type": "gauge"},
+            ],
         },
         "consciousness": {
             "public_api": [
-                {"fn": "process(input: str) -> dict", "stability": "experimental", "doc": "Process input through consciousness layers"},
-                {"fn": "dream(symbols: list) -> dict", "stability": "experimental", "doc": "Generate dream sequences from symbols"},
-                {"fn": "emerge(patterns: dict) -> bool", "stability": "experimental", "doc": "Facilitate consciousness emergence"}
+                {
+                    "fn": "process(input: str) -> dict",
+                    "stability": "experimental",
+                    "doc": "Process input through consciousness layers",
+                },
+                {
+                    "fn": "dream(symbols: list) -> dict",
+                    "stability": "experimental",
+                    "doc": "Generate dream sequences from symbols",
+                },
+                {
+                    "fn": "emerge(patterns: dict) -> bool",
+                    "stability": "experimental",
+                    "doc": "Facilitate consciousness emergence",
+                },
             ],
             "contracts": [
-                {"name": "awareness_continuity", "type": "invariant", "desc": "Awareness levels maintain continuity over time"},
-                {"name": "emergence_coherence", "type": "postcondition", "desc": "Emergent patterns exhibit coherence properties"}
+                {
+                    "name": "awareness_continuity",
+                    "type": "invariant",
+                    "desc": "Awareness levels maintain continuity over time",
+                },
+                {
+                    "name": "emergence_coherence",
+                    "type": "postcondition",
+                    "desc": "Emergent patterns exhibit coherence properties",
+                },
             ],
             "gates": [
                 {"metric": "latency.process_s", "op": "<=", "value": 5},
                 {"metric": "symbolic.DriftScore", "op": ">=", "value": 0.015},
                 {"metric": "security.osv_high", "op": "==", "value": 0},
                 {"metric": "attestation.rats_verified", "op": "==", "value": 1},
-                {"metric": "consciousness.awareness_stability", "op": ">=", "value": 0.80}
+                {"metric": "consciousness.awareness_stability", "op": ">=", "value": 0.80},
             ],
             "spans": [
                 {"name": "consciousness.process", "attrs": ["code.function", "module", "awareness.level"]},
-                {"name": "consciousness.dream", "attrs": ["code.function", "module", "dream.state"]}
+                {"name": "consciousness.dream", "attrs": ["code.function", "module", "dream.state"]},
             ],
             "metrics": [
                 {"name": "consciousness.awareness.level", "unit": "1", "type": "gauge"},
-                {"name": "consciousness.dreams.generated", "unit": "1", "type": "counter"}
-            ]
-        }
+                {"name": "consciousness.dreams.generated", "unit": "1", "type": "counter"},
+            ],
+        },
     }
 
     # Apply module-specific config if available
@@ -110,14 +146,10 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
             {"metric": "latency.runtime_s_10k", "op": "<=", "value": 30},
             {"metric": "symbolic.DriftScore", "op": ">=", "value": 0.010},
             {"metric": "security.osv_high", "op": "==", "value": 0},
-            {"metric": "attestation.rats_verified", "op": "==", "value": 1}
+            {"metric": "attestation.rats_verified", "op": "==", "value": 1},
         ]
-        contract["telemetry"]["spans"] = [
-            {"name": f"{module}.process", "attrs": ["code.function", "module"]}
-        ]
-        contract["telemetry"]["metrics"] = [
-            {"name": f"lukhas.{module}.operations", "unit": "1", "type": "counter"}
-        ]
+        contract["telemetry"]["spans"] = [{"name": f"{module}.process", "attrs": ["code.function", "module"]}]
+        contract["telemetry"]["metrics"] = [{"name": f"lukhas.{module}.operations", "unit": "1", "type": "counter"}]
 
     # Update SBOM reference
     contract["supply_chain"]["sbom_ref"] = f"../sbom/{module}.cdx.json"
@@ -134,7 +166,7 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
 
 def write_contract_file(contract: Dict[str, Any], output_path: pathlib.Path) -> None:
     """Write contract to JSON file with pretty formatting."""
-    with open(output_path, 'w') as f:
+    with open(output_path, "w") as f:
         json.dump(contract, f, indent=2, sort_keys=False)
 
 
@@ -151,43 +183,23 @@ def create_directory_structure(module: str, output_dir: pathlib.Path) -> None:
         "run_id": f"run-{module}-001",
         "module": module,
         "timestamp": "2025-09-26T00:00:00Z",
-        "environment": {
-            "os": "Darwin 25.1.0",
-            "cpu": "Apple M4",
-            "python": "3.11.6"
-        },
-        "metrics": {
-            "latency.runtime_s_10k": 25.0,
-            "symbolic.DriftScore": 0.012,
-            "security.osv_high": 0
-        },
-        "attestation": {
-            "rats_verified": 1
-        }
+        "environment": {"os": "Darwin 25.1.0", "cpu": "Apple M4", "python": "3.11.6"},
+        "metrics": {"latency.runtime_s_10k": 25.0, "symbolic.DriftScore": 0.012, "security.osv_high": 0},
+        "attestation": {"rats_verified": 1},
     }
 
     run_file = runs_dir / f"{module}_2025-09-26T00-00-00Z.json"
-    with open(run_file, 'w') as f:
+    with open(run_file, "w") as f:
         json.dump(run_report, f, indent=2)
 
 
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(description="Initialize Matrix contract for a new module")
+    parser.add_argument("--module", required=True, help="Module name (e.g., identity, consciousness, api)")
+    parser.add_argument("--output", default=".", help="Output directory (default: current directory)")
     parser.add_argument(
-        "--module",
-        required=True,
-        help="Module name (e.g., identity, consciousness, api)"
-    )
-    parser.add_argument(
-        "--output",
-        default=".",
-        help="Output directory (default: current directory)"
-    )
-    parser.add_argument(
-        "--no-dirs",
-        action="store_true",
-        help="Don't create directory structure, just generate contract file"
+        "--no-dirs", action="store_true", help="Don't create directory structure, just generate contract file"
     )
 
     args = parser.parse_args()

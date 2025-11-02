@@ -11,4 +11,3 @@ def test_import_system_integration_hub():
         pytest.skip(f"optional or unresolved dependency: {e}")
 
     assert hasattr(mod, "SystemIntegrationHub")
-

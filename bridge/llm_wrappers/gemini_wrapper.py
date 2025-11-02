@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛGEMINI}, {ΛGOOGLE}, {ΛMULTIMODAL}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 
 from branding.terminology import normalize_output

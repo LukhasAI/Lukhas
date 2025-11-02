@@ -1,4 +1,5 @@
 """Tests for the core endocrine hormone system."""
+
 from __future__ import annotations
 
 import asyncio
@@ -23,10 +24,7 @@ def test_reward_response_increases_dopamine(endocrine_system: EndocrineSystem) -
 
     endocrine_system.trigger_reward_response(intensity=0.6)
 
-    assert (
-        endocrine_system.hormones[HormoneType.DOPAMINE].level
-        >= baseline
-    )
+    assert endocrine_system.hormones[HormoneType.DOPAMINE].level >= baseline
 
 
 def test_effects_snapshot_contains_expected_metrics(endocrine_system: EndocrineSystem) -> None:

@@ -33,34 +33,41 @@ def test_microcheck_triggers_once(monkeypatch):
     # spy on on_exceed from the actual drift manager
     fired = {"n": 0}
     original_on_exceed = q.integrity_probe.drift_manager.on_exceed
+
     def spy_on_exceed(kind, score, ctx):
         fired["n"] += 1
         return original_on_exceed(kind, score, ctx)
+
     monkeypatch.setattr(q.integrity_probe.drift_manager, "on_exceed", spy_on_exceed)
 
     # inject a failing probe once
     called = {"n": 0}
     original_run_check = q.integrity_probe.run_consistency_check
+
     def fake_check(state=None):
         called["n"] += 1
         if called["n"] == 1:
             # First call: inject high drift that should trigger repair
             threshold = float(os.environ.get("DRIFT_SAFE_THRESHOLD", "0.15"))
-            monkeypatch.setattr(q.integrity_probe.drift_manager, "compute",
-                              lambda kind, prev, curr: {
-                                  'score': threshold + 0.10,  # Above threshold + margin
-                                  'top_symbols': ['test.injection'],
-                                  'confidence': 1.0,
-                                  'kind': kind,
-                                  'metadata': {}
-                              })
+            monkeypatch.setattr(
+                q.integrity_probe.drift_manager,
+                "compute",
+                lambda kind, prev, curr: {
+                    "score": threshold + 0.10,  # Above threshold + margin
+                    "top_symbols": ["test.injection"],
+                    "confidence": 1.0,
+                    "kind": kind,
+                    "metadata": {},
+                },
+            )
             # Ensure we have state for drift calculation
-            q.integrity_probe.prev_state = {'ethical': {'test': 'prev'}}
-            q.integrity_probe.curr_state = {'ethical': {'test': 'curr'}}
+            q.integrity_probe.prev_state = {"ethical": {"test": "prev"}}
+            q.integrity_probe.curr_state = {"ethical": {"test": "curr"}}
             return original_run_check(state)
         else:
             # Subsequent calls: normal behavior
             return True
+
     monkeypatch.setattr(q.integrity_probe, "run_consistency_check", fake_check)
 
     # run a few ticks
@@ -110,7 +117,9 @@ def test_microcheck_performance_overhead():
     passes_pct = overhead_pct <= 5.0
     passes_abs = overhead_abs <= 0.010  # 10ms
 
-    assert passes_pct or passes_abs, f"Performance overhead {overhead_pct:.1f}% / {overhead_abs*1000:.3f}ms exceeds limits"
+    assert (
+        passes_pct or passes_abs
+    ), f"Performance overhead {overhead_pct:.1f}% / {overhead_abs*1000:.3f}ms exceeds limits"
 
 
 def test_microcheck_no_false_positives():
@@ -132,6 +141,7 @@ def test_microcheck_no_false_positives():
 
     # Use partial monkey patch to preserve original behavior
     import types
+
     dm.on_exceed = types.MethodType(lambda self, kind, score, ctx: tracking_on_exceed(kind, score, ctx), dm)
 
     # Run stable processing for multiple ticks
@@ -168,11 +178,11 @@ def test_microcheck_detects_injected_inconsistency():
 
     def injected_drift_compute(kind, prev, curr):
         result = original_compute(kind, prev, curr)
-        if kind == 'ethical':
+        if kind == "ethical":
             # Inject critical drift on ethical dimension
             threshold = float(os.environ.get("DRIFT_SAFE_THRESHOLD", "0.15"))
-            result['score'] = threshold + 0.10  # Above threshold + margin
-            result['top_symbols'] = ['ethical.test_injection']
+            result["score"] = threshold + 0.10  # Above threshold + margin
+            result["top_symbols"] = ["ethical.test_injection"]
         return result
 
     q.integrity_probe.drift_manager.compute = injected_drift_compute
@@ -186,7 +196,7 @@ def test_microcheck_detects_injected_inconsistency():
     q.integrity_probe.drift_manager.compute = original_compute
 
     # Should have detected at least one ethical drift
-    ethical_drifts = [d for d in detected_drifts if d[0] == 'ethical']
+    ethical_drifts = [d for d in detected_drifts if d[0] == "ethical"]
     assert len(ethical_drifts) > 0, "Failed to detect injected ethical drift"
     assert any(score >= 0.15 for _, score in ethical_drifts), "Detected drift below critical threshold"
 
@@ -203,13 +213,21 @@ def test_microcheck_telemetry():
     q = AkaQualia()
 
     # Get initial metric values
-    initial_attempts = metrics['attempts']._value._value if 'attempts' in metrics and hasattr(metrics['attempts']._value, '_value') else 0
+    initial_attempts = (
+        metrics["attempts"]._value._value
+        if "attempts" in metrics and hasattr(metrics["attempts"]._value, "_value")
+        else 0
+    )
 
     # Run processing
     q.tick_once()
 
     # Check metrics were updated
-    final_attempts = metrics['attempts']._value._value if 'attempts' in metrics and hasattr(metrics['attempts']._value, '_value') else 0
+    final_attempts = (
+        metrics["attempts"]._value._value
+        if "attempts" in metrics and hasattr(metrics["attempts"]._value, "_value")
+        else 0
+    )
 
     assert final_attempts > initial_attempts, "Micro-check attempts metric not incremented"
 
@@ -229,6 +247,7 @@ def test_threshold_consistency():
     try:
         # Clear singleton to force fresh read
         import monitoring.drift_manager
+
         monitoring.drift_manager._drift_manager = None
 
         # Create fresh instances that should read the env var
@@ -244,13 +263,15 @@ def test_threshold_consistency():
         # IntegrityProbe should read same env var (via factory or singleton)
         if q.integrity_probe:
             # Test by checking the actual threshold used in comparison
-            assert q.integrity_probe.drift_manager.critical_threshold == expected, \
-                f"IntegrityProbe drift_manager threshold {q.integrity_probe.drift_manager.critical_threshold} != {expected}"
+            assert (
+                q.integrity_probe.drift_manager.critical_threshold == expected
+            ), f"IntegrityProbe drift_manager threshold {q.integrity_probe.drift_manager.critical_threshold} != {expected}"
 
     finally:
         # Restore default and clear singleton
         os.environ["DRIFT_SAFE_THRESHOLD"] = "0.15"
         import monitoring.drift_manager
+
         monitoring.drift_manager._drift_manager = None
 
 
@@ -281,8 +302,8 @@ def test_dwell_after_successful_repair():
 
         # Check ledger - should have 1 exceedance + 4 dwell_skip events
         new_entries = dm.drift_ledger[initial_ledger_size:]
-        exceedance_entries = [e for e in new_entries if e.get('event') == 'threshold_exceeded']
-        dwell_skip_entries = [e for e in new_entries if e.get('event') == 'repair_skipped_dwell']
+        exceedance_entries = [e for e in new_entries if e.get("event") == "threshold_exceeded"]
+        dwell_skip_entries = [e for e in new_entries if e.get("event") == "repair_skipped_dwell"]
 
         assert len(exceedance_entries) == 1, f"Expected 1 exceedance event, got {len(exceedance_entries)}"
         assert len(dwell_skip_entries) == 4, f"Expected 4 dwell skip events, got {len(dwell_skip_entries)}"
@@ -296,8 +317,10 @@ def test_dwell_after_successful_repair():
 
         # Check that a new exceedance was recorded (not skipped)
         final_entries = dm.drift_ledger[initial_ledger_size:]
-        final_exceedance_entries = [e for e in final_entries if e.get('event') == 'threshold_exceeded']
-        assert len(final_exceedance_entries) == 2, f"Expected 2 exceedance events after dwell, got {len(final_exceedance_entries)}"
+        final_exceedance_entries = [e for e in final_entries if e.get("event") == "threshold_exceeded"]
+        assert (
+            len(final_exceedance_entries) == 2
+        ), f"Expected 2 exceedance events after dwell, got {len(final_exceedance_entries)}"
 
     finally:
         # Restore default
@@ -322,14 +345,19 @@ def test_microcheck_with_rate_limiting():
         return original_on_exceed(kind, score, ctx)
 
     import types
+
     dm.on_exceed = types.MethodType(lambda self, kind, score, ctx: rate_limit_tracking_on_exceed(kind, score, ctx), dm)
 
     # Force consistent drift detection
     def always_critical_drift_compute(kind, prev, curr):
-        result = dm._compute_ethical_drift(prev, curr) if kind == 'ethical' else {'score': 0.0, 'top_symbols': [], 'confidence': 1.0, 'metadata': {}}
+        result = (
+            dm._compute_ethical_drift(prev, curr)
+            if kind == "ethical"
+            else {"score": 0.0, "top_symbols": [], "confidence": 1.0, "metadata": {}}
+        )
         threshold = float(os.environ.get("DRIFT_SAFE_THRESHOLD", "0.15"))
-        result['score'] = threshold + 0.10  # Above threshold + margin
-        result['top_symbols'] = [f'{kind}.rate_limit_test']
+        result["score"] = threshold + 0.10  # Above threshold + margin
+        result["top_symbols"] = [f"{kind}.rate_limit_test"]
         return result
 
     dm.compute = types.MethodType(lambda self, kind, prev, curr: always_critical_drift_compute(kind, prev, curr), dm)
@@ -340,9 +368,9 @@ def test_microcheck_with_rate_limiting():
         time.sleep(0.1)  # Small delay between ticks
 
     # Should respect rate limiting (max 3 attempts per 5 minutes per kind)
-    ethical_attempts = [a for a in repair_attempts if a[1] == 'ethical']
+    ethical_attempts = [a for a in repair_attempts if a[1] == "ethical"]
     assert len(ethical_attempts) <= 3, f"Rate limiting not working: {len(ethical_attempts)} attempts > 3 limit"
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

@@ -43,7 +43,7 @@ class TestRedisIdempotencyStore(unittest.TestCase):
 
     def test_ttl_expiry(self):
         """Test that a key expires after the TTL."""
-        self.store.ttl = 1 # override for faster test
+        self.store.ttl = 1  # override for faster test
         key = self.store.key("route", "tenant", "ttl_key")
         status = 201
         headers = {}
@@ -103,6 +103,7 @@ class TestRedisIdempotencyStore(unittest.TestCase):
         _, retrieved_headers, _, _ = result
 
         self.assertEqual(headers, retrieved_headers)
+
 
 if __name__ == "__main__":
     unittest.main()

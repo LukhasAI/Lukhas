@@ -18,6 +18,7 @@ LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")
 BUDGET = int(os.getenv("LUKHAS_IMPORT_BUDGET", "999999"))
 BASELINE_FILE = Path("artifacts/legacy_import_baseline.json")
 
+
 def count_aliases():
     if not LEDGER.exists():
         return 0
@@ -31,6 +32,7 @@ def count_aliases():
         except Exception:
             pass
     return n
+
 
 def main():
     current = count_aliases()
@@ -60,6 +62,7 @@ def main():
 
     print("PASS")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -4,6 +4,7 @@ tests/unit/observability/test_grafana_dashboard_json.py
 Tiny CI guard to ensure the four load-bearing PromQL expressions don't vanish.
 Prevents dashboard drift during refactoring or metric name changes.
 """
+
 import json
 from pathlib import Path
 
@@ -16,8 +17,8 @@ def test_dashboard_queries_present():
     expected = {
         '1000 * histogram_quantile(0.95, sum by (le, lane) (rate(lukhas_tick_duration_seconds_bucket{lane=~"$lane"}[5m])))',
         'lukhas_drift_ema{lane=~"$lane"}',
-        'rate(lukhas_memory_circuit_breaks_total[5m]) * 60',
-        'rate(lukhas_breakthrough_flags_total[5m]) * 60',
+        "rate(lukhas_memory_circuit_breaks_total[5m]) * 60",
+        "rate(lukhas_breakthrough_flags_total[5m]) * 60",
     }
     missing = expected - exprs
     assert not missing, f"Missing queries: {missing}"
@@ -42,7 +43,7 @@ def test_dashboard_structure():
         "Consciousness Tick p95 (ms)",
         "Drift EMA by Lane",
         "Memory Circuit Breaks (rate / min)",
-        "Breakthroughs / min"
+        "Breakthroughs / min",
     }
     assert panel_titles == expected_titles
 

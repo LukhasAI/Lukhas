@@ -13,6 +13,7 @@ Test Categories:
 5. Error handling and fallback tests
 6. Integration tests
 """
+
 import asyncio
 from datetime import datetime, timezone
 from unittest.mock import AsyncMock, Mock, patch
@@ -72,7 +73,7 @@ class TestOrchestrationCoreComponentInitialization:
     @pytest.mark.asyncio
     async def test_initialize_memory_system_success(self, orchestrator):
         """Test successful memory system initialization."""
-        with patch('core.orchestration.core.MemoryManager') as mock_memory_manager:
+        with patch("core.orchestration.core.MemoryManager") as mock_memory_manager:
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
             mock_memory_manager.return_value = mock_instance
@@ -85,7 +86,7 @@ class TestOrchestrationCoreComponentInitialization:
     @pytest.mark.asyncio
     async def test_initialize_memory_system_not_available(self, orchestrator):
         """Test memory system initialization when MemoryManager not available."""
-        with patch('core.orchestration.core.MemoryManager', None):
+        with patch("core.orchestration.core.MemoryManager", None):
             await orchestrator._initialize_memory_system()
 
             assert orchestrator.memory_manager is None
@@ -93,7 +94,7 @@ class TestOrchestrationCoreComponentInitialization:
     @pytest.mark.asyncio
     async def test_initialize_memory_system_type_error_fallback(self, orchestrator):
         """Test memory system initialization with TypeError fallback."""
-        with patch('core.orchestration.core.MemoryManager') as mock_memory_manager:
+        with patch("core.orchestration.core.MemoryManager") as mock_memory_manager:
             # First call raises TypeError, second succeeds
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
@@ -106,7 +107,7 @@ class TestOrchestrationCoreComponentInitialization:
     @pytest.mark.asyncio
     async def test_initialize_bio_core_success(self, orchestrator):
         """Test successful bio core initialization."""
-        with patch('core.orchestration.core.BioCore') as mock_bio_core:
+        with patch("core.orchestration.core.BioCore") as mock_bio_core:
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
             mock_bio_core.return_value = mock_instance
@@ -119,7 +120,7 @@ class TestOrchestrationCoreComponentInitialization:
     @pytest.mark.asyncio
     async def test_initialize_bio_core_not_available(self, orchestrator):
         """Test bio core initialization when BioCore not available."""
-        with patch('core.orchestration.core.BioCore', None):
+        with patch("core.orchestration.core.BioCore", None):
             await orchestrator._initialize_bio_core()
 
             assert orchestrator.bio_core is None
@@ -127,7 +128,7 @@ class TestOrchestrationCoreComponentInitialization:
     @pytest.mark.asyncio
     async def test_initialize_awareness_system_success(self, orchestrator):
         """Test successful awareness system initialization."""
-        with patch('core.orchestration.core.BioAwarenessSystem') as mock_awareness:
+        with patch("core.orchestration.core.BioAwarenessSystem") as mock_awareness:
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
             mock_awareness.return_value = mock_instance
@@ -140,7 +141,7 @@ class TestOrchestrationCoreComponentInitialization:
     @pytest.mark.asyncio
     async def test_initialize_awareness_system_not_available(self, orchestrator):
         """Test awareness system initialization when BioAwarenessSystem not available."""
-        with patch('core.orchestration.core.BioAwarenessSystem', None):
+        with patch("core.orchestration.core.BioAwarenessSystem", None):
             await orchestrator._initialize_awareness_system()
 
             assert orchestrator.awareness_system is None
@@ -157,13 +158,15 @@ class TestOrchestrationCoreFullInitialization:
     @pytest.mark.asyncio
     async def test_initialize_success_path(self, orchestrator):
         """Test successful full initialization."""
-        with patch.object(orchestrator, '_initialize_memory_system', new_callable=AsyncMock) as mock_memory, \
-             patch.object(orchestrator, '_initialize_bio_core', new_callable=AsyncMock) as mock_bio, \
-             patch.object(orchestrator, '_initialize_awareness_system', new_callable=AsyncMock) as mock_awareness, \
-             patch.object(orchestrator, '_initialize_ethics_and_compliance', new_callable=AsyncMock) as mock_ethics, \
-             patch.object(orchestrator, '_initialize_dream_engine', new_callable=AsyncMock) as mock_dream, \
-             patch.object(orchestrator, '_register_core_modules', new_callable=AsyncMock) as mock_register, \
-             patch.object(orchestrator, '_initiate_consciousness_loop', new_callable=AsyncMock) as mock_consciousness:
+        with (
+            patch.object(orchestrator, "_initialize_memory_system", new_callable=AsyncMock) as mock_memory,
+            patch.object(orchestrator, "_initialize_bio_core", new_callable=AsyncMock) as mock_bio,
+            patch.object(orchestrator, "_initialize_awareness_system", new_callable=AsyncMock) as mock_awareness,
+            patch.object(orchestrator, "_initialize_ethics_and_compliance", new_callable=AsyncMock) as mock_ethics,
+            patch.object(orchestrator, "_initialize_dream_engine", new_callable=AsyncMock) as mock_dream,
+            patch.object(orchestrator, "_register_core_modules", new_callable=AsyncMock) as mock_register,
+            patch.object(orchestrator, "_initiate_consciousness_loop", new_callable=AsyncMock) as mock_consciousness,
+        ):
 
             result = await orchestrator.initialize()
 
@@ -182,7 +185,7 @@ class TestOrchestrationCoreFullInitialization:
     @pytest.mark.asyncio
     async def test_initialize_failure_path(self, orchestrator):
         """Test initialization failure handling."""
-        with patch.object(orchestrator, '_initialize_memory_system', side_effect=Exception("Memory error")):
+        with patch.object(orchestrator, "_initialize_memory_system", side_effect=Exception("Memory error")):
             result = await orchestrator.initialize()
 
             assert result is False
@@ -201,17 +204,17 @@ class TestOrchestrationCoreErrorHandling:
     async def test_component_initialization_graceful_degradation(self, orchestrator):
         """Test that component initialization failures don't crash the system."""
         # Test memory system failure
-        with patch('core.orchestration.core.MemoryManager', side_effect=Exception("Memory error")):
+        with patch("core.orchestration.core.MemoryManager", side_effect=Exception("Memory error")):
             await orchestrator._initialize_memory_system()
             assert orchestrator.memory_manager is None
 
         # Test bio core failure
-        with patch('core.orchestration.core.BioCore', side_effect=Exception("Bio error")):
+        with patch("core.orchestration.core.BioCore", side_effect=Exception("Bio error")):
             await orchestrator._initialize_bio_core()
             assert orchestrator.bio_core is None
 
         # Test awareness system failure
-        with patch('core.orchestration.core.BioAwarenessSystem', side_effect=Exception("Awareness error")):
+        with patch("core.orchestration.core.BioAwarenessSystem", side_effect=Exception("Awareness error")):
             await orchestrator._initialize_awareness_system()
             assert orchestrator.awareness_system is None
 
@@ -226,16 +229,16 @@ class TestOrchestrationCoreIntegration:
 
         # ModuleRegistry should be initialized
         assert orchestrator.module_registry is not None
-        assert hasattr(orchestrator.module_registry, 'register')
+        assert hasattr(orchestrator.module_registry, "register")
 
     def test_emotional_state_structure(self):
         """Test emotional state has correct structure."""
         orchestrator = OrchestrationCore()
 
         emotional_state = orchestrator.emotional_state
-        assert 'valence' in emotional_state
-        assert 'arousal' in emotional_state
-        assert 'dominance' in emotional_state
+        assert "valence" in emotional_state
+        assert "arousal" in emotional_state
+        assert "dominance" in emotional_state
         assert all(isinstance(v, (int, float)) for v in emotional_state.values())
 
     def test_consciousness_level_initialization(self):

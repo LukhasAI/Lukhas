@@ -69,6 +69,7 @@ REQUIRED_DEFAULTS = {
 
 SKIP_DIRS = {"_generated", "_inventory", "archive"}
 
+
 @dataclass
 class Result:
     path: str
@@ -136,7 +137,7 @@ def extract_front_matter(content: str) -> Tuple[Optional[Dict], str]:
     if not match:
         return None, content
     fm_text = match.group(1)
-    body = content[match.end():]
+    body = content[match.end() :]
     return safe_yaml_load(fm_text), body
 
 
@@ -210,7 +211,7 @@ def normalize_file(doc: Dict, dry_run: bool, only_missing: bool, backups: bool) 
 
     new_content = f"---\n{new_fm_yaml}---\n\n{body}"
 
-    updated = (new_content != content)
+    updated = new_content != content
 
     if updated and not dry_run:
         if backups:
@@ -219,7 +220,7 @@ def normalize_file(doc: Dict, dry_run: bool, only_missing: bool, backups: bool) 
             except Exception:
                 pass
         # Python 3.9 compatible: write_text doesn't support newline parameter
-        with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+        with open(file_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(new_content)
 
     sha_after = sha256_text(new_content)

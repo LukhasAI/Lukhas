@@ -20,12 +20,14 @@ from typing_extensions import NotRequired, TypedDict
 
 # Base WebAuthn Types
 
+
 class PublicKeyCredentialRpEntity(TypedDict):
     """Relying Party entity descriptor.
 
     Describes the organization responsible for the registration and
     authentication ceremony.
     """
+
     name: str
     id: NotRequired[str]
 
@@ -35,6 +37,7 @@ class PublicKeyCredentialUserEntity(TypedDict):
 
     Describes the user account for which the credential is generated.
     """
+
     id: str  # Base64url-encoded user handle
     name: str
     displayName: str
@@ -45,6 +48,7 @@ class PublicKeyCredentialParameters(TypedDict):
 
     Specifies the public key algorithm and credential type.
     """
+
     type: Literal["public-key"]
     alg: int  # COSE algorithm identifier (e.g., -7 for ES256, -257 for RS256)
 
@@ -54,6 +58,7 @@ class PublicKeyCredentialDescriptor(TypedDict):
 
     Used to identify existing credentials or specify allowed credentials.
     """
+
     type: Literal["public-key"]
     id: str  # Base64url-encoded credential ID
     transports: NotRequired[list[Literal["usb", "nfc", "ble", "internal", "hybrid"]]]
@@ -64,6 +69,7 @@ class AuthenticatorSelectionCriteria(TypedDict):
 
     Specifies requirements for the authenticator to be used.
     """
+
     authenticatorAttachment: NotRequired[Literal["platform", "cross-platform"]]
     residentKey: NotRequired[Literal["discouraged", "preferred", "required"]]
     requireResidentKey: NotRequired[bool]
@@ -72,11 +78,13 @@ class AuthenticatorSelectionCriteria(TypedDict):
 
 # Credential Creation (Registration) Types
 
+
 class CredentialCreationOptions(TypedDict):
     """Options for creating a new public key credential (registration).
 
     Passed to navigator.credentials.create() in the browser.
     """
+
     challenge: str  # Base64url-encoded challenge
     rp: PublicKeyCredentialRpEntity
     user: PublicKeyCredentialUserEntity
@@ -93,6 +101,7 @@ class AuthenticatorAttestationResponse(TypedDict):
 
     Contains the attestation object and client data JSON.
     """
+
     clientDataJSON: str  # Base64url-encoded client data
     attestationObject: str  # Base64url-encoded attestation object
     transports: NotRequired[list[Literal["usb", "nfc", "ble", "internal", "hybrid"]]]
@@ -106,6 +115,7 @@ class PublicKeyCredentialCreation(TypedDict):
 
     The complete credential object returned from navigator.credentials.create().
     """
+
     id: str  # Base64url-encoded credential ID
     rawId: str  # Base64url-encoded credential ID
     type: Literal["public-key"]
@@ -116,11 +126,13 @@ class PublicKeyCredentialCreation(TypedDict):
 
 # Credential Request (Authentication) Types
 
+
 class CredentialRequestOptions(TypedDict):
     """Options for requesting credential authentication.
 
     Passed to navigator.credentials.get() in the browser.
     """
+
     challenge: str  # Base64url-encoded challenge
     timeout: NotRequired[int]  # Milliseconds
     rpId: NotRequired[str]
@@ -134,6 +146,7 @@ class AuthenticatorAssertionResponse(TypedDict):
 
     Contains the assertion signature and related data.
     """
+
     clientDataJSON: str  # Base64url-encoded client data
     authenticatorData: str  # Base64url-encoded authenticator data
     signature: str  # Base64url-encoded signature
@@ -145,6 +158,7 @@ class PublicKeyCredentialAssertion(TypedDict):
 
     The complete credential object returned from navigator.credentials.get().
     """
+
     id: str  # Base64url-encoded credential ID
     rawId: str  # Base64url-encoded credential ID
     type: Literal["public-key"]
@@ -161,11 +175,13 @@ PublicKeyCredential = Union[PublicKeyCredentialCreation, PublicKeyCredentialAsse
 
 # Server-side verification structures (internal use)
 
+
 class VerifiedRegistration(TypedDict):
     """Result of server-side registration verification.
 
     Internal type for webauthn library verification results.
     """
+
     verified: bool
     credential_id: bytes
     credential_public_key: bytes
@@ -182,6 +198,7 @@ class VerifiedAuthentication(TypedDict):
 
     Internal type for webauthn library verification results.
     """
+
     verified: bool
     new_sign_count: int
     backup_eligible: NotRequired[bool]
@@ -193,25 +210,20 @@ __all__ = [
     # Relying Party and User entities
     "PublicKeyCredentialRpEntity",
     "PublicKeyCredentialUserEntity",
-
     # Credential parameters and descriptors
     "PublicKeyCredentialParameters",
     "PublicKeyCredentialDescriptor",
     "AuthenticatorSelectionCriteria",
-
     # Registration (creation) types
     "CredentialCreationOptions",
     "AuthenticatorAttestationResponse",
     "PublicKeyCredentialCreation",
-
     # Authentication (assertion) types
     "CredentialRequestOptions",
     "AuthenticatorAssertionResponse",
     "PublicKeyCredentialAssertion",
-
     # Generic types
     "PublicKeyCredential",
-
     # Verification results (server-side)
     "VerifiedRegistration",
     "VerifiedAuthentication",

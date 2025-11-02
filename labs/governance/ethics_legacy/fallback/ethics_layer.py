@@ -2,6 +2,7 @@
 
 #REVIVED_25_07_2025
 """
+
 from __future__ import annotations
 
 from collections.abc import Iterable

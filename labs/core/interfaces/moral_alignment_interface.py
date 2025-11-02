@@ -5,6 +5,7 @@
 Interface module to break circular dependencies between:
 vivox.moral_alignment.precedent_seeds <-> vivox.moral_alignment.vivox_mae_core
 """
+
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 

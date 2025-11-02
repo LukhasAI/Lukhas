@@ -2,6 +2,7 @@
 Tests for adaptive strategy evolution.
 Validates genetic algorithm functionality and safety constraints.
 """
+
 import os
 from unittest.mock import patch
 
@@ -36,7 +37,7 @@ class TestStrategyGenome:
         # Test values outside valid range
         config = {
             "alignment_threshold": 1.5,  # > 1.0
-            "drift_threshold": -0.5,     # < 0.0
+            "drift_threshold": -0.5,  # < 0.0
             "confidence_threshold": 0.5,  # Valid
         }
 
@@ -73,17 +74,9 @@ class TestStrategyGenome:
     @patch.dict(os.environ, {"LUKHAS_STRATEGY_EVOLVE": "1"})
     def test_genome_crossover(self):
         """Test genome crossover functionality."""
-        parent1 = StrategyGenome({
-            "alignment_threshold": 0.2,
-            "drift_threshold": 0.2,
-            "confidence_threshold": 0.2
-        })
+        parent1 = StrategyGenome({"alignment_threshold": 0.2, "drift_threshold": 0.2, "confidence_threshold": 0.2})
 
-        parent2 = StrategyGenome({
-            "alignment_threshold": 0.8,
-            "drift_threshold": 0.8,
-            "confidence_threshold": 0.8
-        })
+        parent2 = StrategyGenome({"alignment_threshold": 0.8, "drift_threshold": 0.8, "confidence_threshold": 0.8})
 
         child1, child2 = parent1.crossover(parent2)
 
@@ -126,11 +119,7 @@ class TestStrategyGenome:
 
     def test_dream_config_conversion(self):
         """Test conversion to dream system configuration."""
-        genome = StrategyGenome({
-            "alignment_threshold": 0.6,
-            "drift_threshold": 0.4,
-            "hybrid_alpha": 0.7
-        })
+        genome = StrategyGenome({"alignment_threshold": 0.6, "drift_threshold": 0.4, "hybrid_alpha": 0.7})
 
         config = genome.to_dream_config()
 
@@ -139,6 +128,7 @@ class TestStrategyGenome:
         assert config["hybrid_alpha"] == 0.7
         assert config["strategy"] == "blend"
         assert config["use_objective"] == "1"
+
 
 class TestEvolutionEngine:
     """Test evolution engine functionality."""
@@ -166,10 +156,7 @@ class TestEvolutionEngine:
     @patch.dict(os.environ, {"LUKHAS_STRATEGY_EVOLVE": "1"})
     def test_seeded_population(self):
         """Test population initialization with seed configurations."""
-        seed_configs = [
-            {"alignment_threshold": 0.3},
-            {"alignment_threshold": 0.7}
-        ]
+        seed_configs = [{"alignment_threshold": 0.3}, {"alignment_threshold": 0.7}]
 
         engine = EvolutionEngine(population_size=4)
         engine.initialize_population(seed_configs)
@@ -233,10 +220,7 @@ class TestEvolutionEngine:
         engine = EvolutionEngine(population_size=4)
 
         # Create parent genomes
-        parents = [
-            StrategyGenome({"alignment_threshold": 0.2}),
-            StrategyGenome({"alignment_threshold": 0.8})
-        ]
+        parents = [StrategyGenome({"alignment_threshold": 0.2}), StrategyGenome({"alignment_threshold": 0.8})]
 
         # Set fitness for elitism
         parents[0].fitness = 0.9
@@ -285,16 +269,14 @@ class TestEvolutionEngine:
 
         assert stats["enabled"] is False
 
+
 class TestEvolutionPersistence:
     """Test strategy saving and loading."""
 
     @patch.dict(os.environ, {"LUKHAS_STRATEGY_EVOLVE": "1"})
     def test_save_strategy(self):
         """Test saving strategy configuration."""
-        config = {
-            "alignment_threshold": 0.7,
-            "drift_threshold": 0.3
-        }
+        config = {"alignment_threshold": 0.7, "drift_threshold": 0.3}
 
         # Should not raise exception
         save_strategy(config, "/tmp/test_strategy.json")
@@ -308,6 +290,7 @@ class TestEvolutionPersistence:
 
         # File should not be created
         import os
+
         assert not os.path.exists("/tmp/test_strategy_disabled.json")
 
     def test_load_strategy_not_found(self):
@@ -322,12 +305,15 @@ class TestEvolutionPersistence:
 
     def test_config_reporting(self):
         """Test evolution configuration reporting."""
-        with patch.dict(os.environ, {
-            "LUKHAS_STRATEGY_EVOLVE": "1",
-            "LUKHAS_EVOLVE_MUTATION_RATE": "0.2",
-            "LUKHAS_EVOLVE_MUTATION_STRENGTH": "0.1",
-            "LUKHAS_EVOLVE_POPULATION_SIZE": "15"
-        }):
+        with patch.dict(
+            os.environ,
+            {
+                "LUKHAS_STRATEGY_EVOLVE": "1",
+                "LUKHAS_EVOLVE_MUTATION_RATE": "0.2",
+                "LUKHAS_EVOLVE_MUTATION_STRENGTH": "0.1",
+                "LUKHAS_EVOLVE_POPULATION_SIZE": "15",
+            },
+        ):
             config = get_evolution_config()
 
             assert config["enabled"] is True

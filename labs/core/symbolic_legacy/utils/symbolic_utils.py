@@ -1,4 +1,3 @@
-
 """
 Symbolic utilities for dream and emotion processing.
 

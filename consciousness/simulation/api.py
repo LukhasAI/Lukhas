@@ -14,10 +14,12 @@ from .summarizer import build_dream_result, build_matada_nodes
 
 log = logging.getLogger("consciousness.simulation")
 
+
 class DreamSeed(TypedDict):
     goal: str
     context: Dict[str, Any]
     constraints: Dict[str, Any]
+
 
 class DreamResult(TypedDict):
     shards: list[dict]
@@ -26,10 +28,15 @@ class DreamResult(TypedDict):
     matada_nodes: list[dict]
     schema_ref: str
 
+
 class SimulationDisabledError(RuntimeError): ...
+
+
 class PolicyViolation(RuntimeError): ...
 
+
 _scheduler: Optional[SimulationScheduler] = None
+
 
 def _get_scheduler() -> SimulationScheduler:
     global _scheduler
@@ -37,23 +44,30 @@ def _get_scheduler() -> SimulationScheduler:
         _scheduler = SimulationScheduler()
     return _scheduler
 
+
 def _require_enabled():
-    if os.getenv("SIMULATION_ENABLED", "false").lower() not in ("1","true","yes","on"):
+    if os.getenv("SIMULATION_ENABLED", "false").lower() not in ("1", "true", "yes", "on"):
         raise SimulationDisabledError("Simulation lane disabled (SIMULATION_ENABLED is false).")
+
 
 def _load_schema() -> dict:
     p = Path("schemas/matriz_node_v1.json")
-    return json.loads(p.read_text()) if p.exists() else {"$id":"lukhas://schemas/matriz_node_v1.json","type":"object"}
+    return (
+        json.loads(p.read_text()) if p.exists() else {"$id": "lukhas://schemas/matriz_node_v1.json", "type": "object"}
+    )
+
 
 def _jsonschema_validate(instance: dict, schema: dict) -> None:
     try:
         import jsonschema
+
         jsonschema.validate(instance=instance, schema=schema)
     except ModuleNotFoundError:
         # Soft-degrade if jsonschema not installed; CI should install it.
         log.warning("jsonschema not installed; MATADA validation skipped.")
     except Exception as e:
         raise PolicyViolation(f"MATADA node failed schema validation: {e}") from e
+
 
 async def schedule(seed: DreamSeed) -> str:
     _require_enabled()
@@ -68,12 +82,14 @@ async def schedule(seed: DreamSeed) -> str:
     await _get_scheduler().enqueue(job_id, seed, trace_id)
     return job_id
 
+
 async def status(job_id: str) -> Dict[str, Any]:
     _require_enabled()
     s = _get_scheduler().get(job_id)
     if not s:
         return {"state": "unknown", "job_id": job_id}
     return s.model_dump()
+
 
 async def collect(job_id: str) -> DreamResult:
     _require_enabled()
@@ -88,7 +104,9 @@ async def collect(job_id: str) -> DreamResult:
 
     # MATADA envelope: build nodes & validate against schema
     schema = _load_schema()
-    nodes = build_matada_nodes(seed, rollouts, trace_id, schema_ref=schema.get("$id","lukhas://schemas/matriz_node_v1.json"))
+    nodes = build_matada_nodes(
+        seed, rollouts, trace_id, schema_ref=schema.get("$id", "lukhas://schemas/matriz_node_v1.json")
+    )
     for n in nodes:
         _jsonschema_validate(n, schema)
 
@@ -96,7 +114,7 @@ async def collect(job_id: str) -> DreamResult:
     result: DreamResult = {
         **base,
         "matada_nodes": nodes,
-        "schema_ref": schema.get("$id","lukhas://schemas/matriz_node_v1.json"),
+        "schema_ref": schema.get("$id", "lukhas://schemas/matriz_node_v1.json"),
     }
     log.info("Λ-trace seed_collected", extra={"trace_id": trace_id, "num_shards": len(result["shards"])})
     return result

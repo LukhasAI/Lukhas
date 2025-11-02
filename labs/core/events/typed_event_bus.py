@@ -2,6 +2,7 @@
 Enhanced Event Bus with Typed Domain Events
 Professional event-driven architecture implementation
 """
+
 import asyncio
 import contextlib
 import logging

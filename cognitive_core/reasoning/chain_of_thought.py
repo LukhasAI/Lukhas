@@ -22,6 +22,7 @@ try:
 except ImportError:
     DREAM_VOCAB_AVAILABLE = False
 
+
 # Try to import consciousness wrapper for integration
 def _load_consciousness_wrapper() -> tuple[bool, Optional[type]]:
     """Lazily import the consciousness wrapper when available.

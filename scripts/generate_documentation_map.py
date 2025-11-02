@@ -74,9 +74,7 @@ def main():
         md_idx.append(f"## {const.title()}")
         md_idx.append("")
         for m in sorted(mods, key=lambda x: x["name"]):
-            readme = next(
-                (p for p in m.get("docs", []) if p.endswith("README.md")), m.get("path")
-            )
+            readme = next((p for p in m.get("docs", []) if p.endswith("README.md")), m.get("path"))
             desc = m.get("description", "")[:80]
             md_idx.append(f"- [{m['name']}]({readme}) — {desc}")
         md_idx.append("")
@@ -86,9 +84,7 @@ def main():
         md_idx.append("## Other Modules")
         md_idx.append("")
         for m in sorted(uncategorized, key=lambda x: x["name"]):
-            readme = next(
-                (p for p in m.get("docs", []) if p.endswith("README.md")), m.get("path")
-            )
+            readme = next((p for p in m.get("docs", []) if p.endswith("README.md")), m.get("path"))
             desc = m.get("description", "")[:80]
             md_idx.append(f"- [{m['name']}]({readme}) — {desc}")
 

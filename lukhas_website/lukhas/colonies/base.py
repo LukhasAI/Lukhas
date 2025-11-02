@@ -3,6 +3,7 @@ LUKHAS AI Colony System - Base Infrastructure
 Core interfaces and management for agent colonies
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field

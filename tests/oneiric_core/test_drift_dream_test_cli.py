@@ -1,4 +1,5 @@
 """Tests for the drift dream CLI scaffold."""
+
 from __future__ import annotations
 
 import json

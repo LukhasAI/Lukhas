@@ -69,7 +69,8 @@ Experience = namedtuple(
         "priority",
         "memory_id",
         "consciousness_level",
-    ])
+    ],
+)
 
 
 class ReplayStrategy(Enum):

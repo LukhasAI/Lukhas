@@ -40,40 +40,31 @@ logger = logging.getLogger(__name__)
 
 # Prometheus metrics for routing performance
 routing_decisions_total = counter(
-    'lukhas_routing_decisions_total',
-    'Total routing decisions made',
-    ['strategy', 'provider', 'success']
+    "lukhas_routing_decisions_total", "Total routing decisions made", ["strategy", "provider", "success"]
 )
 
 routing_latency_seconds = histogram(
-    'lukhas_routing_latency_seconds',
-    'Routing decision latency',
-    ['strategy'],
-    buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_routing_latency_seconds",
+    "Routing decision latency",
+    ["strategy"],
+    buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
 context_handoff_duration = histogram(
-    'lukhas_context_handoff_duration_seconds',
-    'Context handoff duration',
-    ['source', 'destination'],
-    buckets=[0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
+    "lukhas_context_handoff_duration_seconds",
+    "Context handoff duration",
+    ["source", "destination"],
+    buckets=[0.05, 0.1, 0.25, 0.5, 1.0, 2.0],
 )
 
-config_reload_total = counter(
-    'lukhas_config_reload_total',
-    'Total configuration reloads',
-    ['source', 'success']
-)
+config_reload_total = counter("lukhas_config_reload_total", "Total configuration reloads", ["source", "success"])
 
-ab_test_assignments = counter(
-    'lukhas_ab_test_assignments_total',
-    'A/B test assignments',
-    ['experiment', 'variant']
-)
+ab_test_assignments = counter("lukhas_ab_test_assignments_total", "A/B test assignments", ["experiment", "variant"])
 
 
 class RoutingStrategy(Enum):
     """Routing strategy types"""
+
     ROUND_ROBIN = "round_robin"
     WEIGHTED = "weighted"
     HEALTH_BASED = "health_based"
@@ -85,6 +76,7 @@ class RoutingStrategy(Enum):
 
 class HealthStatus(Enum):
     """Provider health status"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     UNHEALTHY = "unhealthy"
@@ -94,6 +86,7 @@ class HealthStatus(Enum):
 @dataclass
 class ProviderHealth:
     """Provider health metrics"""
+
     provider: str
     status: HealthStatus = HealthStatus.UNKNOWN
     avg_latency_ms: float = 0.0
@@ -106,6 +99,7 @@ class ProviderHealth:
 @dataclass
 class RoutingRule:
     """Individual routing rule configuration"""
+
     name: str
     pattern: str
     strategy: RoutingStrategy
@@ -120,6 +114,7 @@ class RoutingRule:
 @dataclass
 class ABTestConfig:
     """A/B test configuration"""
+
     name: str
     enabled: bool
     traffic_split: Dict[str, int]  # variant_name -> percentage
@@ -130,6 +125,7 @@ class ABTestConfig:
 @dataclass
 class RoutingConfiguration:
     """Complete routing configuration"""
+
     version: str
     default_strategy: RoutingStrategy
     default_providers: List[str]
@@ -149,7 +145,7 @@ class ConfigurationFileHandler(FileSystemEventHandler):
         self.config_manager = config_manager
 
     def on_modified(self, event):
-        if not event.is_directory and event.src_path.endswith('.yaml'):
+        if not event.is_directory and event.src_path.endswith(".yaml"):
             logger.info(f"Configuration file changed: {event.src_path}")
             asyncio.create_task(self.config_manager.reload_configuration())
 
@@ -195,12 +191,12 @@ class RoutingConfigurationManager:
                 logger.warning(f"Config file not found: {self.config_path}, creating default")
                 await self.create_default_configuration()
 
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path, "r") as f:
                 config_data = yaml.safe_load(f)
 
             # Parse configuration
             self.current_config = self._parse_configuration(config_data)
-            self.config_version = config_data.get('version', '1.0.0')
+            self.config_version = config_data.get("version", "1.0.0")
             self.last_reload = time.time()
 
             config_reload_total.labels(source="file", success="true").inc()
@@ -230,15 +226,12 @@ class RoutingConfigurationManager:
 
                 # Emit configuration change event
                 from .kernel_bus import emit
+
                 await emit(
                     "orchestration.config.changed",
-                    {
-                        "old_version": old_version,
-                        "new_version": self.config_version,
-                        "timestamp": time.time()
-                    },
+                    {"old_version": old_version, "new_version": self.config_version, "timestamp": time.time()},
                     source="routing_config",
-                    mode="live"
+                    mode="live",
                 )
 
         except Exception as e:
@@ -247,11 +240,7 @@ class RoutingConfigurationManager:
     def start_file_watcher(self) -> None:
         """Start file system watcher for hot-reload"""
         if self.config_path.parent.exists():
-            self.observer.schedule(
-                self.file_handler,
-                str(self.config_path.parent),
-                recursive=False
-            )
+            self.observer.schedule(self.file_handler, str(self.config_path.parent), recursive=False)
             self.observer.start()
             logger.info(f"📁 File watcher started for {self.config_path.parent}")
 
@@ -285,7 +274,7 @@ class RoutingConfigurationManager:
             name="default",
             pattern="*",
             strategy=self.current_config.default_strategy,
-            providers=self.current_config.default_providers
+            providers=self.current_config.default_providers,
         )
 
     def get_ab_test_variant(self, session_id: str, experiment_name: str) -> Optional[str]:
@@ -338,7 +327,7 @@ class RoutingConfigurationManager:
                     "weights": {"anthropic": 0.6, "openai": 0.3, "google": 0.1},
                     "health_threshold": 0.95,
                     "latency_threshold_ms": 250.0,
-                    "fallback_providers": ["openai", "google"]
+                    "fallback_providers": ["openai", "google"],
                 },
                 {
                     "name": "code_generation",
@@ -347,7 +336,7 @@ class RoutingConfigurationManager:
                     "providers": ["openai", "anthropic", "google"],
                     "health_threshold": 0.95,
                     "latency_threshold_ms": 200.0,
-                    "fallback_providers": ["anthropic", "google"]
+                    "fallback_providers": ["anthropic", "google"],
                 },
                 {
                     "name": "analysis_tasks",
@@ -356,8 +345,8 @@ class RoutingConfigurationManager:
                     "providers": ["google", "openai", "anthropic"],
                     "health_threshold": 0.90,
                     "latency_threshold_ms": 150.0,
-                    "fallback_providers": ["openai", "anthropic"]
-                }
+                    "fallback_providers": ["openai", "anthropic"],
+                },
             ],
             "ab_tests": [
                 {
@@ -365,7 +354,7 @@ class RoutingConfigurationManager:
                     "enabled": False,
                     "traffic_split": {"anthropic": 50, "openai": 50},
                     "rules": ["documentation_tasks"],
-                    "metadata": {"description": "Test Claude vs GPT for documentation tasks"}
+                    "metadata": {"description": "Test Claude vs GPT for documentation tasks"},
                 }
             ],
             "health_check_interval": 30.0,
@@ -375,14 +364,14 @@ class RoutingConfigurationManager:
             "metadata": {
                 "created_by": "lukhas_orchestration",
                 "created_at": time.time(),
-                "description": "Default LUKHAS routing configuration"
-            }
+                "description": "Default LUKHAS routing configuration",
+            },
         }
 
         # Ensure directory exists
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(self.config_path, 'w') as f:
+        with open(self.config_path, "w") as f:
             yaml.dump(default_config, f, default_flow_style=False, indent=2)
 
         logger.info(f"✅ Default configuration created: {self.config_path}")
@@ -392,43 +381,43 @@ class RoutingConfigurationManager:
 
         # Parse routing rules
         rules = []
-        for rule_data in config_data.get('rules', []):
+        for rule_data in config_data.get("rules", []):
             rule = RoutingRule(
-                name=rule_data['name'],
-                pattern=rule_data['pattern'],
-                strategy=RoutingStrategy(rule_data['strategy']),
-                providers=rule_data['providers'],
-                weights=rule_data.get('weights'),
-                health_threshold=rule_data.get('health_threshold', 0.95),
-                latency_threshold_ms=rule_data.get('latency_threshold_ms', 250.0),
-                fallback_providers=rule_data.get('fallback_providers'),
-                metadata=rule_data.get('metadata', {})
+                name=rule_data["name"],
+                pattern=rule_data["pattern"],
+                strategy=RoutingStrategy(rule_data["strategy"]),
+                providers=rule_data["providers"],
+                weights=rule_data.get("weights"),
+                health_threshold=rule_data.get("health_threshold", 0.95),
+                latency_threshold_ms=rule_data.get("latency_threshold_ms", 250.0),
+                fallback_providers=rule_data.get("fallback_providers"),
+                metadata=rule_data.get("metadata", {}),
             )
             rules.append(rule)
 
         # Parse A/B tests
         ab_tests = []
-        for test_data in config_data.get('ab_tests', []):
+        for test_data in config_data.get("ab_tests", []):
             test = ABTestConfig(
-                name=test_data['name'],
-                enabled=test_data['enabled'],
-                traffic_split=test_data['traffic_split'],
-                rules=test_data['rules'],
-                metadata=test_data.get('metadata', {})
+                name=test_data["name"],
+                enabled=test_data["enabled"],
+                traffic_split=test_data["traffic_split"],
+                rules=test_data["rules"],
+                metadata=test_data.get("metadata", {}),
             )
             ab_tests.append(test)
 
         return RoutingConfiguration(
-            version=config_data['version'],
-            default_strategy=RoutingStrategy(config_data['default_strategy']),
-            default_providers=config_data['default_providers'],
+            version=config_data["version"],
+            default_strategy=RoutingStrategy(config_data["default_strategy"]),
+            default_providers=config_data["default_providers"],
             rules=rules,
             ab_tests=ab_tests,
-            health_check_interval=config_data.get('health_check_interval', 30.0),
-            circuit_breaker_threshold=config_data.get('circuit_breaker_threshold', 5),
-            circuit_breaker_timeout=config_data.get('circuit_breaker_timeout', 60.0),
-            context_timeout=config_data.get('context_timeout', 10.0),
-            metadata=config_data.get('metadata', {})
+            health_check_interval=config_data.get("health_check_interval", 30.0),
+            circuit_breaker_threshold=config_data.get("circuit_breaker_threshold", 5),
+            circuit_breaker_timeout=config_data.get("circuit_breaker_timeout", 60.0),
+            context_timeout=config_data.get("context_timeout", 10.0),
+            metadata=config_data.get("metadata", {}),
         )
 
     def _matches_pattern(self, pattern: str, request_type: str, context: Dict[str, Any]) -> bool:
@@ -438,7 +427,7 @@ class RoutingConfigurationManager:
             return True
 
         # Split pattern by | for OR logic
-        patterns = [p.strip() for p in pattern.split('|')]
+        patterns = [p.strip() for p in pattern.split("|")]
 
         request_lower = request_type.lower()
 

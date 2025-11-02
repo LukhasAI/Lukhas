@@ -26,6 +26,7 @@ from labs.bridge.api.controllers import (
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def import_controller():
     """Fresh import controller instance."""
@@ -42,7 +43,7 @@ def matriz_yaml_path():
 def matriz_config(matriz_yaml_path):
     """Load matriz.yaml configuration."""
     if matriz_yaml_path.exists():
-        with open(matriz_yaml_path, 'r') as f:
+        with open(matriz_yaml_path, "r") as f:
             return yaml.safe_load(f)
     return None
 
@@ -50,6 +51,7 @@ def matriz_config(matriz_yaml_path):
 # ============================================================================
 # TEST-HIGH-CONTROLLER-01: Lane Detection
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_import_controller_lane_detection_lukhas(import_controller):
@@ -150,6 +152,7 @@ def test_import_controller_valid_import_candidate_to_core(import_controller):
 # ============================================================================
 # TEST-HIGH-CONTROLLER-02: YAML Compliance
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_import_controller_yaml_config_exists(matriz_yaml_path):
@@ -274,6 +277,7 @@ def test_import_controller_yaml_candidate_rules(matriz_config):
 # Integration Tests
 # ============================================================================
 
+
 @pytest.mark.integration
 def test_import_controller_full_validation(import_controller, matriz_config):
     """Test complete import validation workflow."""
@@ -302,24 +306,22 @@ def test_import_controller_full_validation(import_controller, matriz_config):
 def test_import_controller_scan_directory(import_controller):
     """Test scanning a directory for import violations."""
     # Scan candidate/ directory
-    violations = import_controller.scan_directory(
-        Path("candidate/"),
-        recursive=True
-    )
+    violations = import_controller.scan_directory(Path("candidate/"), recursive=True)
 
     # Should return list of violations (may be empty if compliant)
     assert isinstance(violations, list)
 
     # If violations found, verify structure
     for violation in violations:
-        assert hasattr(violation, 'source_file')
-        assert hasattr(violation, 'import_statement')
-        assert hasattr(violation, 'violation_type')
+        assert hasattr(violation, "source_file")
+        assert hasattr(violation, "import_statement")
+        assert hasattr(violation, "violation_type")
 
 
 # ============================================================================
 # Edge Cases
 # ============================================================================
+
 
 @pytest.mark.unit
 def test_import_controller_unknown_lane(import_controller):
@@ -348,12 +350,7 @@ def test_import_controller_relative_imports(import_controller):
 def test_import_controller_stdlib_imports(import_controller):
     """Test that stdlib imports are always allowed."""
     source_file = Path("candidate/bridge/api/service.py")
-    stdlib_imports = [
-        "import os",
-        "from pathlib import Path",
-        "import asyncio",
-        "from typing import List"
-    ]
+    stdlib_imports = ["import os", "from pathlib import Path", "import asyncio", "from typing import List"]
 
     for import_stmt in stdlib_imports:
         violation = import_controller.check_import(source_file, import_stmt)
@@ -365,11 +362,7 @@ def test_import_controller_third_party_imports(import_controller):
     """Test handling of third-party imports."""
     # After Phase 5B: api at root level
     source_file = Path("api/service.py")
-    third_party_imports = [
-        "import numpy",
-        "from fastapi import FastAPI",
-        "import pandas as pd"
-    ]
+    third_party_imports = ["import numpy", "from fastapi import FastAPI", "import pandas as pd"]
 
     for import_stmt in third_party_imports:
         violation = import_controller.check_import(source_file, import_stmt)
@@ -401,6 +394,7 @@ def test_import_controller_malformed_import(import_controller):
 # Performance Tests
 # ============================================================================
 
+
 @pytest.mark.performance
 def test_import_controller_scan_performance(import_controller):
     """Test import scanning performance."""
@@ -409,10 +403,7 @@ def test_import_controller_scan_performance(import_controller):
     start = time.time()
 
     # Scan small directory
-    violations = import_controller.scan_directory(
-        Path("candidate/bridge/api/"),
-        recursive=False
-    )
+    violations = import_controller.scan_directory(Path("candidate/bridge/api/"), recursive=False)
 
     elapsed = time.time() - start
 

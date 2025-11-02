@@ -32,9 +32,7 @@ def _load_bridge_token_map() -> type:
     """Dynamically load the BridgeTokenMap class without importing heavy dependencies."""
 
     module_path = Path(__file__).resolve().parents[1] / "core" / "symbolic_bridge" / "token_map.py"
-    spec = importlib.util.spec_from_file_location(
-        "labs.core.symbolic_bridge.token_map", module_path
-    )
+    spec = importlib.util.spec_from_file_location("labs.core.symbolic_bridge.token_map", module_path)
     module = importlib.util.module_from_spec(spec)
     assert spec and spec.loader
     spec.loader.exec_module(module)
@@ -126,13 +124,16 @@ def test_synchronize_temporal_state_tracks_drift_and_status(token_map: BridgeTok
     assert record.temporal_signature == "ultradian_sync"
 
     beyond_window = within_window + timedelta(seconds=10)
-    assert token_map.synchronize_temporal_state(
-        "mesh_a",
-        "mesh_b",
-        "seed_token",
-        timestamp=beyond_window,
-        tolerance_ms=1000,
-    ) is False
+    assert (
+        token_map.synchronize_temporal_state(
+            "mesh_a",
+            "mesh_b",
+            "seed_token",
+            timestamp=beyond_window,
+            tolerance_ms=1000,
+        )
+        is False
+    )
     record = token_map.get_mapping_record("mesh_a", "mesh_b", "seed_token")
     assert record is not None
     assert record.sync_drift_ms == pytest.approx(10000.0, rel=1e-4)
@@ -162,9 +163,12 @@ def test_temporal_status_returns_full_snapshot(token_map: BridgeTokenMap) -> Non
 def test_synchronize_unknown_mapping_returns_false(token_map: BridgeTokenMap) -> None:
     """Synchronizing a missing mapping fails without raising."""
 
-    assert token_map.synchronize_temporal_state(
-        "unknown",
-        "mesh_x",
-        "token",  # missing mapping
-        timestamp=datetime.now(timezone.utc),
-    ) is False
+    assert (
+        token_map.synchronize_temporal_state(
+            "unknown",
+            "mesh_x",
+            "token",  # missing mapping
+            timestamp=datetime.now(timezone.utc),
+        )
+        is False
+    )

@@ -6,6 +6,7 @@ Resolution order:
 
 If no backend is available, provide minimal stubs to satisfy imports in tests.
 """
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -15,11 +16,13 @@ from dataclasses import dataclass
 
 __all__: List[str] = []
 
+
 def _try(n: str):
     try:
         return import_module(n)
     except Exception:
         return None
+
 
 # Try backends in order (avoid self to prevent recursion)
 _CANDIDATES = (
@@ -40,6 +43,7 @@ for _cand in _CANDIDATES:
 
 # Provide minimal stubs if no backend found
 if _SRC is None:
+
     class CognitiveLoadLevel(str, Enum):  # type: ignore[no-redef]
         LOW = "low"
         MEDIUM = "medium"
@@ -51,10 +55,13 @@ if _SRC is None:
         reasoning_depth: int = 0
         notes: str = ""
 
-    __all__.extend([
-        "CognitiveLoadLevel",
-        "MetaCognitiveAssessment",
-    ])
+    __all__.extend(
+        [
+            "CognitiveLoadLevel",
+            "MetaCognitiveAssessment",
+        ]
+    )
+
 
 def __getattr__(name: str):
     """Lazy attribute access fallback to selected backend if available."""

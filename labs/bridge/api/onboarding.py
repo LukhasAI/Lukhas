@@ -184,13 +184,15 @@ class OnboardingSession:
             "email": self.email,
             "status": self.status.value,
             "tier": self.tier.value if self.tier else None,
-            "tier_config": {
-                "max_requests_per_day": self.tier_config.max_requests_per_day,
-                "max_context_length": self.tier_config.max_context_length,
-                "features": self.tier_config.features,
-            }
-            if self.tier_config
-            else None,
+            "tier_config": (
+                {
+                    "max_requests_per_day": self.tier_config.max_requests_per_day,
+                    "max_context_length": self.tier_config.max_context_length,
+                    "features": self.tier_config.features,
+                }
+                if self.tier_config
+                else None
+            ),
             "consents": [c.to_dict() for c in self.consents],
             "metadata": self.metadata,
             "created_at": self.created_at.isoformat(),
@@ -262,7 +264,9 @@ class OnboardingAPI:
             raise ValueError("Invalid email address")
 
         # Check for existing active sessions
-        active_sessions = [s for s in self.sessions.values() if s.email == email and s.status != OnboardingStatus.COMPLETED]
+        active_sessions = [
+            s for s in self.sessions.values() if s.email == email and s.status != OnboardingStatus.COMPLETED
+        ]
 
         if active_sessions:
             raise ValueError(f"User already has active onboarding session: {active_sessions[0].session_id}")
@@ -345,7 +349,11 @@ class OnboardingAPI:
         # Validate session
         session = self._get_session(session_id)
 
-        if session.status not in [OnboardingStatus.INITIATED, OnboardingStatus.EMAIL_VERIFIED, OnboardingStatus.PROFILE_SETUP]:
+        if session.status not in [
+            OnboardingStatus.INITIATED,
+            OnboardingStatus.EMAIL_VERIFIED,
+            OnboardingStatus.PROFILE_SETUP,
+        ]:
             raise ValueError(f"Cannot setup tier in current status: {session.status.value}")
 
         # Parse and validate tier
@@ -528,7 +536,9 @@ class OnboardingAPI:
 
         # Validate prerequisites
         if session.status != OnboardingStatus.CONSENT_COLLECTED:
-            raise ValueError(f"Cannot complete onboarding in current status: {session.status.value}. Complete all prerequisite steps.")
+            raise ValueError(
+                f"Cannot complete onboarding in current status: {session.status.value}. Complete all prerequisite steps."
+            )
 
         if not session.tier or not session.tier_config:
             raise ValueError("Tier not assigned. Complete tier setup first.")
@@ -579,7 +589,10 @@ class OnboardingAPI:
             "trinity_framework": {
                 "identity": {"lambda_id": lambda_id, "tier": session.tier.value if session.tier else None},
                 "consciousness": {"profile_initialized": bool(profile_data)},
-                "guardian": {"consents_collected": len(session.consents), "audit_trail_active": bool(self.trace_logger)},
+                "guardian": {
+                    "consents_collected": len(session.consents),
+                    "audit_trail_active": bool(self.trace_logger),
+                },
             },
         }
 
@@ -740,7 +753,9 @@ class OnboardingAPI:
         return {
             "consent_id": consent_id,
             "status": "revoked",
-            "revoked_at": consent_record.withdrawal_timestamp.isoformat() if consent_record.withdrawal_timestamp else None,
+            "revoked_at": (
+                consent_record.withdrawal_timestamp.isoformat() if consent_record.withdrawal_timestamp else None
+            ),
         }
 
 

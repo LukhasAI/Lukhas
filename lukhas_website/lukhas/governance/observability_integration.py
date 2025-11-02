@@ -37,6 +37,7 @@ from typing import Any, Dict, List, Optional
 try:
     import prometheus_client
     from prometheus_client import Counter, Enum as PrometheusEnum, Gauge, Histogram
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
@@ -46,6 +47,7 @@ try:
     from opentelemetry.exporter.jaeger.thrift import JaegerExporter
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
     OPENTELEMETRY_AVAILABLE = True
 except ImportError:
     OPENTELEMETRY_AVAILABLE = False
@@ -57,6 +59,7 @@ logger = logging.getLogger(__name__)
 
 class MetricType(Enum):
     """Types of metrics to collect"""
+
     COUNTER = "counter"
     HISTOGRAM = "histogram"
     GAUGE = "gauge"
@@ -66,6 +69,7 @@ class MetricType(Enum):
 @dataclass
 class MetricDefinition:
     """Definition of a metric to collect"""
+
     name: str
     type: MetricType
     description: str
@@ -92,13 +96,13 @@ class GuardianMetricsCollector:
         self.metrics["guardian_operations_total"].labels(
             operation=operation_type,
             status=success_status,
-            format=result.operation.format.value if hasattr(result.operation, 'format') else "unknown"
+            format=result.operation.format.value if hasattr(result.operation, "format") else "unknown",
         ).inc()
 
         # Record operation latency
-        self.metrics["guardian_operation_duration_seconds"].labels(
-            operation=operation_type
-        ).observe(result.execution_time_ms / 1000.0)
+        self.metrics["guardian_operation_duration_seconds"].labels(operation=operation_type).observe(
+            result.execution_time_ms / 1000.0
+        )
 
         # Record validation metrics if available
         if result.validation_result:
@@ -109,7 +113,7 @@ class GuardianMetricsCollector:
             self._record_migration_metrics(result.migration_result)
 
         # Record serialization metrics if available
-        if hasattr(result, 'metrics') and result.metrics:
+        if hasattr(result, "metrics") and result.metrics:
             self._record_serialization_metrics(result.metrics)
 
     def record_validation_metrics(self, validation_result: Any) -> None:
@@ -122,20 +126,17 @@ class GuardianMetricsCollector:
         self.metrics["guardian_validations_total"].labels(status=status).inc()
 
         # Record validation latency
-        self.metrics["guardian_validation_duration_seconds"].observe(
-            validation_result.validation_time_ms / 1000.0
-        )
+        self.metrics["guardian_validation_duration_seconds"].observe(validation_result.validation_time_ms / 1000.0)
 
         # Record compliance score
-        if hasattr(validation_result, 'compliance_score'):
+        if hasattr(validation_result, "compliance_score"):
             self.metrics["guardian_compliance_score"].set(validation_result.compliance_score)
 
         # Record issue counts
-        if hasattr(validation_result, 'issues'):
+        if hasattr(validation_result, "issues"):
             for issue in validation_result.issues:
                 self.metrics["guardian_validation_issues_total"].labels(
-                    severity=issue.severity.value,
-                    tier=issue.tier.name
+                    severity=issue.severity.value, tier=issue.tier.name
                 ).inc()
 
     def record_serialization_metrics(self, serialization_metrics: Dict[str, Any]) -> None:
@@ -145,15 +146,11 @@ class GuardianMetricsCollector:
 
         # Record serialization size metrics
         if "compressed_size" in serialization_metrics:
-            self.metrics["guardian_serialization_bytes"].observe(
-                serialization_metrics["compressed_size"]
-            )
+            self.metrics["guardian_serialization_bytes"].observe(serialization_metrics["compressed_size"])
 
         # Record compression ratio
         if "compression_ratio" in serialization_metrics:
-            self.metrics["guardian_compression_ratio"].observe(
-                serialization_metrics["compression_ratio"]
-            )
+            self.metrics["guardian_compression_ratio"].observe(serialization_metrics["compression_ratio"])
 
         # Record serialization time
         if "serialization_time_ms" in serialization_metrics:
@@ -187,15 +184,15 @@ class GuardianMetricsCollector:
             if isinstance(health_info, dict):
                 # Circuit breaker state
                 if "circuit_state" in health_info:
-                    self.metrics["guardian_circuit_breaker_state"].labels(
-                        integration=integration
-                    ).state(health_info["circuit_state"])
+                    self.metrics["guardian_circuit_breaker_state"].labels(integration=integration).state(
+                        health_info["circuit_state"]
+                    )
 
                 # Failure count
                 if "failure_count" in health_info:
-                    self.metrics["guardian_circuit_breaker_failures_total"].labels(
-                        integration=integration
-                    ).set(health_info["failure_count"])
+                    self.metrics["guardian_circuit_breaker_failures_total"].labels(integration=integration).set(
+                        health_info["failure_count"]
+                    )
 
     def get_metrics_summary(self) -> Dict[str, Any]:
         """Get summary of collected metrics"""
@@ -210,7 +207,7 @@ class GuardianMetricsCollector:
             summary = {
                 "total_metrics": len(families),
                 "guardian_specific_metrics": len([f for f in families if f.name.startswith("guardian_")]),
-                "collection_timestamp": time.time()
+                "collection_timestamp": time.time(),
             }
 
             return summary
@@ -231,113 +228,80 @@ class GuardianMetricsCollector:
                 "guardian_operations_total",
                 MetricType.COUNTER,
                 "Total Guardian operations",
-                ["operation", "status", "format"]
+                ["operation", "status", "format"],
             ),
             MetricDefinition(
                 "guardian_operation_duration_seconds",
                 MetricType.HISTOGRAM,
                 "Guardian operation duration",
                 ["operation"],
-                [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0, 5.0]
+                [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0, 5.0],
             ),
             MetricDefinition(
-                "guardian_validations_total",
-                MetricType.COUNTER,
-                "Total Guardian validations",
-                ["status"]
+                "guardian_validations_total", MetricType.COUNTER, "Total Guardian validations", ["status"]
             ),
             MetricDefinition(
                 "guardian_validation_duration_seconds",
                 MetricType.HISTOGRAM,
                 "Guardian validation duration",
                 [],
-                [0.001, 0.005, 0.01, 0.05, 0.1, 0.5]
+                [0.001, 0.005, 0.01, 0.05, 0.1, 0.5],
             ),
+            MetricDefinition("guardian_compliance_score", MetricType.GAUGE, "Guardian compliance score", []),
             MetricDefinition(
-                "guardian_compliance_score",
-                MetricType.GAUGE,
-                "Guardian compliance score",
-                []
-            ),
-            MetricDefinition(
-                "guardian_validation_issues_total",
-                MetricType.COUNTER,
-                "Total validation issues",
-                ["severity", "tier"]
+                "guardian_validation_issues_total", MetricType.COUNTER, "Total validation issues", ["severity", "tier"]
             ),
             MetricDefinition(
                 "guardian_serialization_bytes",
                 MetricType.HISTOGRAM,
                 "Guardian serialization size in bytes",
                 [],
-                [100, 500, 1000, 5000, 10000, 50000, 100000]
+                [100, 500, 1000, 5000, 10000, 50000, 100000],
             ),
             MetricDefinition(
                 "guardian_compression_ratio",
                 MetricType.HISTOGRAM,
                 "Guardian compression ratio",
                 [],
-                [1.0, 1.5, 2.0, 3.0, 5.0, 10.0]
+                [1.0, 1.5, 2.0, 3.0, 5.0, 10.0],
             ),
             MetricDefinition(
                 "guardian_serialization_duration_seconds",
                 MetricType.HISTOGRAM,
                 "Guardian serialization duration",
                 [],
-                [0.001, 0.005, 0.01, 0.05, 0.1]
+                [0.001, 0.005, 0.01, 0.05, 0.1],
             ),
+            MetricDefinition("guardian_cache_hit_rate", MetricType.GAUGE, "Guardian cache hit rate", []),
+            MetricDefinition("guardian_cache_size", MetricType.GAUGE, "Guardian cache size", []),
+            MetricDefinition("guardian_memory_usage_mb", MetricType.GAUGE, "Guardian memory usage in MB", []),
             MetricDefinition(
-                "guardian_cache_hit_rate",
-                MetricType.GAUGE,
-                "Guardian cache hit rate",
-                []
-            ),
-            MetricDefinition(
-                "guardian_cache_size",
-                MetricType.GAUGE,
-                "Guardian cache size",
-                []
-            ),
-            MetricDefinition(
-                "guardian_memory_usage_mb",
-                MetricType.GAUGE,
-                "Guardian memory usage in MB",
-                []
-            ),
-            MetricDefinition(
-                "guardian_circuit_breaker_state",
-                MetricType.ENUM,
-                "Circuit breaker state",
-                ["integration"]
+                "guardian_circuit_breaker_state", MetricType.ENUM, "Circuit breaker state", ["integration"]
             ),
             MetricDefinition(
                 "guardian_circuit_breaker_failures_total",
                 MetricType.GAUGE,
                 "Circuit breaker failure count",
-                ["integration"]
-            )
+                ["integration"],
+            ),
         ]
 
         # Create Prometheus metrics
         for metric_def in metric_definitions:
             if metric_def.type == MetricType.COUNTER:
-                self.metrics[metric_def.name] = Counter(
-                    metric_def.name, metric_def.description, metric_def.labels
-                )
+                self.metrics[metric_def.name] = Counter(metric_def.name, metric_def.description, metric_def.labels)
             elif metric_def.type == MetricType.HISTOGRAM:
                 self.metrics[metric_def.name] = Histogram(
-                    metric_def.name, metric_def.description, metric_def.labels,
-                    buckets=metric_def.buckets
+                    metric_def.name, metric_def.description, metric_def.labels, buckets=metric_def.buckets
                 )
             elif metric_def.type == MetricType.GAUGE:
-                self.metrics[metric_def.name] = Gauge(
-                    metric_def.name, metric_def.description, metric_def.labels
-                )
+                self.metrics[metric_def.name] = Gauge(metric_def.name, metric_def.description, metric_def.labels)
             elif metric_def.type == MetricType.ENUM:
                 self.metrics[metric_def.name] = PrometheusEnum(
-                    metric_def.name, metric_def.description,
+                    metric_def.name,
+                    metric_def.description,
                     states=["closed", "open", "half_open"],
-                    labelnames=metric_def.labels
+                    labelnames=metric_def.labels,
                 )
 
         logger.info("Guardian metrics collector initialized")
@@ -354,8 +318,7 @@ class GuardianMetricsCollector:
         # Record migration result
         status = "success" if migration_result.success else "failure"
         self.metrics["guardian_migrations_total"] = self.metrics.get(
-            "guardian_migrations_total",
-            Counter("guardian_migrations_total", "Total Guardian migrations", ["status"])
+            "guardian_migrations_total", Counter("guardian_migrations_total", "Total Guardian migrations", ["status"])
         )
         self.metrics["guardian_migrations_total"].labels(status=status).inc()
 
@@ -382,11 +345,11 @@ class GuardianTracing:
                 "guardian.operation_id": operation.operation_id,
                 "guardian.operation_type": operation.operation_type.value,
                 "guardian.schema_version": operation.schema_version,
-                "guardian.format": operation.format.value if hasattr(operation, 'format') else "unknown",
-                "guardian.compression": operation.compression.value if hasattr(operation, 'compression') else "none",
+                "guardian.format": operation.format.value if hasattr(operation, "format") else "unknown",
+                "guardian.compression": operation.compression.value if hasattr(operation, "compression") else "none",
                 "guardian.validation_enabled": operation.validation_enabled,
-                "guardian.migration_enabled": operation.migration_enabled
-            }
+                "guardian.migration_enabled": operation.migration_enabled,
+            },
         )
 
     def add_span_event(self, event_name: str, attributes: Optional[Dict[str, Any]] = None):
@@ -412,10 +375,7 @@ class GuardianTracing:
                 if success:
                     span.set_status(trace.Status(trace.StatusCode.OK))
                 else:
-                    span.set_status(trace.Status(
-                        trace.StatusCode.ERROR,
-                        error_message or "Operation failed"
-                    ))
+                    span.set_status(trace.Status(trace.StatusCode.ERROR, error_message or "Operation failed"))
         except Exception as e:
             logger.debug(f"Failed to set span status: {e}")
 
@@ -449,9 +409,11 @@ class GuardianTracing:
 
     def _noop_context_manager(self):
         """No-op context manager when tracing is not available"""
+
         class NoopContext:
             def __enter__(self):
                 return self
+
             def __exit__(self, *args):
                 pass
 
@@ -477,7 +439,7 @@ class GuardianHealthCheck:
             "prometheus_available": PROMETHEUS_AVAILABLE,
             "opentelemetry_available": OPENTELEMETRY_AVAILABLE,
             "metrics_collector_healthy": True,
-            "uptime_seconds": time.time() - self.start_time
+            "uptime_seconds": time.time() - self.start_time,
         }
 
         # Combine health status
@@ -485,7 +447,7 @@ class GuardianHealthCheck:
             **system_health,
             "observability": observability_health,
             "timestamp": time.time(),
-            "overall_status": self._determine_overall_status(system_health, observability_health)
+            "overall_status": self._determine_overall_status(system_health, observability_health),
         }
 
         return health_status
@@ -497,38 +459,25 @@ class GuardianHealthCheck:
 
         # System is ready if core components are healthy
         ready = (
-            integration_health.get("schema_registry_healthy", False) and
-            integration_health.get("serialization_healthy", False) and
-            integration_health.get("validation_healthy", False)
+            integration_health.get("schema_registry_healthy", False)
+            and integration_health.get("serialization_healthy", False)
+            and integration_health.get("validation_healthy", False)
         )
 
-        return {
-            "ready": ready,
-            "timestamp": time.time(),
-            "components": integration_health
-        }
+        return {"ready": ready, "timestamp": time.time(), "components": integration_health}
 
     def get_liveness_status(self) -> Dict[str, Any]:
         """Get liveness status for Kubernetes/container orchestration"""
         # Basic liveness check - system is alive if it can respond
-        return {
-            "alive": True,
-            "timestamp": time.time(),
-            "uptime_seconds": time.time() - self.start_time
-        }
+        return {"alive": True, "timestamp": time.time(), "uptime_seconds": time.time() - self.start_time}
 
-    def _determine_overall_status(
-        self,
-        system_health: Dict[str, Any],
-        observability_health: Dict[str, Any]
-    ) -> str:
+    def _determine_overall_status(self, system_health: Dict[str, Any], observability_health: Dict[str, Any]) -> str:
         """Determine overall system status"""
         integration_health = system_health.get("integration_health", {})
 
         # Critical components must be healthy
-        critical_healthy = (
-            integration_health.get("schema_registry_healthy", False) and
-            integration_health.get("serialization_healthy", False)
+        critical_healthy = integration_health.get("schema_registry_healthy", False) and integration_health.get(
+            "serialization_healthy", False
         )
 
         if not critical_healthy:
@@ -577,14 +526,16 @@ def get_health_check() -> GuardianHealthCheck:
 # Decorator for automatic tracing
 def trace_guardian_operation(operation_name: str):
     """Decorator to automatically trace Guardian operations"""
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             tracer = get_tracer()
-            operation = kwargs.get('operation') or (args[1] if len(args) > 1 else None)
+            operation = kwargs.get("operation") or (args[1] if len(args) > 1 else None)
 
-            if not operation or not hasattr(operation, 'operation_id'):
+            if not operation or not hasattr(operation, "operation_id"):
                 # Create dummy operation for tracing
                 from .guardian_serializers import GuardianOperation
+
                 operation = GuardianOperation()
 
             with tracer.trace_operation(operation_name, operation):
@@ -593,12 +544,10 @@ def trace_guardian_operation(operation_name: str):
 
                     # Record success
                     tracer.set_span_status(True)
-                    tracer.add_span_event("operation_completed", {
-                        "success": getattr(result, 'success', True)
-                    })
+                    tracer.add_span_event("operation_completed", {"success": getattr(result, "success", True)})
 
                     # Record metrics
-                    if hasattr(result, 'success') and hasattr(result, 'operation'):
+                    if hasattr(result, "success") and hasattr(result, "operation"):
                         metrics_collector = get_metrics_collector()
                         metrics_collector.record_operation(result)
 
@@ -607,13 +556,11 @@ def trace_guardian_operation(operation_name: str):
                 except Exception as e:
                     # Record failure
                     tracer.set_span_status(False, str(e))
-                    tracer.add_span_event("operation_failed", {
-                        "error": str(e),
-                        "error_type": type(e).__name__
-                    })
+                    tracer.add_span_event("operation_failed", {"error": str(e), "error_type": type(e).__name__})
                     raise
 
         return wrapper
+
     return decorator
 
 
@@ -664,7 +611,7 @@ def metrics_endpoint() -> str:
         return "# Prometheus not available\n"
 
     try:
-        return prometheus_client.generate_latest().decode('utf-8')
+        return prometheus_client.generate_latest().decode("utf-8")
     except Exception as e:
         logger.error(f"Error generating metrics: {e}")
         return f"# Error generating metrics: {str(e)}\n"

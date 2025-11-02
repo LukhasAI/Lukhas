@@ -1,6 +1,7 @@
 """Memory-Consciousness Bridge
 Bidirectional communication bridge between memory and consciousness systems
 """
+
 import logging
 from typing import Any, Optional
 

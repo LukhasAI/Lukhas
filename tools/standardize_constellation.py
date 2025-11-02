@@ -37,7 +37,6 @@ INCOMPLETE_PATTERNS = [
     # "Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️" (old Trinity-style)
     r"Identity\s*⚛️\s*\+\s*Consciousness\s*🧠\s*\+\s*Guardian\s*🛡️",
     r"⚛️\s*Identity\s*\+\s*🧠\s*Consciousness\s*\+\s*🛡️\s*Guardian",
-
     # "Constellation Framework:" followed by incomplete list
     r"Constellation Framework[:\s]+(?:Identity|Memory|Vision|Bio|Dream|Ethics|Guardian|Quantum)[^⚛️✦🔬🌱🌙⚖️🛡️]{0,200}(?!\n.*⚛️.*✦.*🔬.*🌱.*🌙.*⚖️.*🛡️)",
 ]
@@ -47,7 +46,7 @@ def count_stars_in_text(text: str, after_pos: int = 0) -> int:
     """Count unique star symbols after a given position."""
     symbols = ["⚛️", "✦", "🔬", "🌱", "🌙", "⚖️", "🛡️"]
     # Look ahead up to 2000 chars
-    search_window = text[after_pos:after_pos + 2000]
+    search_window = text[after_pos : after_pos + 2000]
     found = sum(1 for s in symbols if s in search_window)
     return found
 
@@ -58,15 +57,15 @@ def find_constellation_mentions(file_path: Path) -> List[Tuple[int, str, int]]:
     Returns list of (line_num, context, star_count)
     """
     try:
-        content = file_path.read_text(encoding='utf-8')
+        content = file_path.read_text(encoding="utf-8")
     except (UnicodeDecodeError, PermissionError):
         return []
 
     mentions = []
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     for i, line in enumerate(lines, 1):
-        if 'Constellation Framework' in line or 'constellation framework' in line.lower():
+        if "Constellation Framework" in line or "constellation framework" in line.lower():
             # Find position in full content
             pos = content.find(line)
             if pos >= 0:
@@ -93,11 +92,11 @@ def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
         return False
 
     # Ignore docstrings and code comments
-    if '"""' in line or "'''" in line or line.strip().startswith('#'):
+    if '"""' in line or "'''" in line or line.strip().startswith("#"):
         return False
 
     # Ignore lines inside code blocks (indented or after ```)
-    if line.strip().startswith('```') or re.match(r'^\s{4,}', line):
+    if line.strip().startswith("```") or re.match(r"^\s{4,}", line):
         return False
 
     # Check for old Trinity-style patterns (definitely incomplete)
@@ -107,21 +106,16 @@ def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
 
     # Check if this is an actual bullet list trying to enumerate stars
     # (vs just mentioning constellation with a star or two in the text)
-    has_multiline_star_list = bool(re.search(
-        r':\s*\n\s*[-•\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️].*\n\s*[-•\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️]',
-        combined,
-        re.MULTILINE
-    ))
+    has_multiline_star_list = bool(
+        re.search(r":\s*\n\s*[-•\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️].*\n\s*[-•\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️]", combined, re.MULTILINE)
+    )
 
     # If there's a multiline bullet list with stars but not all 8, it's incomplete
     if has_multiline_star_list and star_count < 7:
         return True
 
     # Check for inline star lists with multiple stars using separators
-    has_inline_star_list = bool(re.search(
-        r'[⚛️✦🔬🌱🌙⚖️🛡️🧠]\s*[·•\-+]\s*[⚛️✦🔬🌱🌙⚖️🛡️🧠]',
-        combined
-    ))
+    has_inline_star_list = bool(re.search(r"[⚛️✦🔬🌱🌙⚖️🛡️🧠]\s*[·•\-+]\s*[⚛️✦🔬🌱🌙⚖️🛡️🧠]", combined))
 
     # If there's an inline list with separators but not all 8, it's incomplete
     if has_inline_star_list and star_count < 7:
@@ -138,19 +132,28 @@ def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
     print("=" * 80)
     print()
 
-    exclude_dirs = {'.git', '__pycache__', '.venv', 'venv', 'node_modules',
-                    'dist', 'build', '.pytest_cache', 'artifacts'}
+    exclude_dirs = {
+        ".git",
+        "__pycache__",
+        ".venv",
+        "venv",
+        "node_modules",
+        "dist",
+        "build",
+        ".pytest_cache",
+        "artifacts",
+    }
 
     incomplete_files = []
     complete_files = []
 
-    for file_path in root_dir.rglob('*'):
+    for file_path in root_dir.rglob("*"):
         # Skip excluded directories and non-text files
         if any(p in file_path.parts for p in exclude_dirs):
             continue
         if not file_path.is_file():
             continue
-        if file_path.suffix not in ['.md', '.py', '.txt', '.rst', '.yaml', '.yml', '.me']:
+        if file_path.suffix not in [".md", ".py", ".txt", ".rst", ".yaml", ".yml", ".me"]:
             continue
 
         mentions = find_constellation_mentions(file_path)
@@ -159,14 +162,14 @@ def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
 
         # Read file for context checking
         try:
-            lines = file_path.read_text(encoding='utf-8').split('\n')
+            lines = file_path.read_text(encoding="utf-8").split("\n")
         except Exception as e:
             continue
 
         has_incomplete = False
         for line_num, line_content, star_count in mentions:
             # Get next 20 lines for context
-            next_lines = '\n'.join(lines[line_num:line_num+20])
+            next_lines = "\n".join(lines[line_num : line_num + 20])
 
             if is_incomplete_mention(line_content, star_count, next_lines):
                 has_incomplete = True
@@ -207,24 +210,24 @@ def generate_diff_preview(file_path: Path, old_content: str, new_content: str) -
     print(f"FILE: {file_path}")
     print(f"{'='*80}")
 
-    old_lines = old_content.split('\n')
-    new_lines = new_content.split('\n')
+    old_lines = old_content.split("\n")
+    new_lines = new_content.split("\n")
 
     # Find changed sections
     for i, (old, new) in enumerate(zip(old_lines, new_lines), 1):
         if old != new:
             # Show context (3 lines before/after)
-            start = max(0, i-4)
-            end = min(len(old_lines), i+3)
+            start = max(0, i - 4)
+            end = min(len(old_lines), i + 3)
 
             print(f"\n--- Line {i} (BEFORE) ---")
             for j in range(start, end):
-                prefix = ">>>" if j == i-1 else "   "
+                prefix = ">>>" if j == i - 1 else "   "
                 print(f"{prefix} {old_lines[j]}")
 
             print(f"\n+++ Line {i} (AFTER) +++")
             for j in range(start, end):
-                prefix = ">>>" if j == i-1 else "   "
+                prefix = ">>>" if j == i - 1 else "   "
                 if j < len(new_lines):
                     print(f"{prefix} {new_lines[j]}")
 
@@ -242,18 +245,28 @@ def dry_run_report(root_dir: Path) -> List[Tuple[Path, str, str]]:
     print("    Use --apply flag to apply changes after review")
     print()
 
-    exclude_dirs = {'.git', '__pycache__', '.venv', 'venv', 'node_modules',
-                    'dist', 'build', '.pytest_cache', 'artifacts', 'docs/transcripts'}
+    exclude_dirs = {
+        ".git",
+        "__pycache__",
+        ".venv",
+        "venv",
+        "node_modules",
+        "dist",
+        "build",
+        ".pytest_cache",
+        "artifacts",
+        "docs/transcripts",
+    }
 
     changes = []
 
-    for file_path in root_dir.rglob('*'):
+    for file_path in root_dir.rglob("*"):
         # Skip excluded directories and non-text files
         if any(p in file_path.parts for p in exclude_dirs):
             continue
         if not file_path.is_file():
             continue
-        if file_path.suffix not in ['.md', '.me']:  # Only markdown and .me files for safety
+        if file_path.suffix not in [".md", ".me"]:  # Only markdown and .me files for safety
             continue
 
         mentions = find_constellation_mentions(file_path)
@@ -261,15 +274,15 @@ def dry_run_report(root_dir: Path) -> List[Tuple[Path, str, str]]:
             continue
 
         try:
-            content = file_path.read_text(encoding='utf-8')
-            lines = content.split('\n')
+            content = file_path.read_text(encoding="utf-8")
+            lines = content.split("\n")
         except Exception as e:
             continue
 
         # Check if incomplete
         has_incomplete = False
         for line_num, line_content, star_count in mentions:
-            next_lines = '\n'.join(lines[line_num:line_num+20])
+            next_lines = "\n".join(lines[line_num : line_num + 20])
             if is_incomplete_mention(line_content, star_count, next_lines):
                 has_incomplete = True
                 break
@@ -307,7 +320,7 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
     2. Find incomplete bullet lists and replace with canonical format
     3. Preserve surrounding context and formatting
     """
-    lines = content.split('\n')
+    lines = content.split("\n")
     result_lines = []
     i = 0
 
@@ -315,10 +328,10 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
         line = lines[i]
 
         # Check if this line mentions Constellation Framework
-        if 'Constellation Framework' in line or 'constellation framework' in line.lower():
+        if "Constellation Framework" in line or "constellation framework" in line.lower():
             # Get next 20 lines for context
             context_end = min(len(lines), i + 20)
-            next_lines = '\n'.join(lines[i:context_end])
+            next_lines = "\n".join(lines[i:context_end])
 
             # Count stars in context
             star_count = count_stars_in_text(next_lines, 0)
@@ -326,12 +339,11 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
             # Check if this needs replacement
             if is_incomplete_mention(line, star_count, next_lines):
                 # Detect if it's a bullet list format
-                any('•' in lines[j] or re.match(r'^\s*[-*]\s+', lines[j])
-                                 for j in range(i, min(len(lines), i + 10)))
+                any("•" in lines[j] or re.match(r"^\s*[-*]\s+", lines[j]) for j in range(i, min(len(lines), i + 10)))
 
                 # Detect indentation level
-                indent_match = re.match(r'^(\s*)', line)
-                indent = indent_match.group(1) if indent_match else ''
+                indent_match = re.match(r"^(\s*)", line)
+                indent = indent_match.group(1) if indent_match else ""
 
                 # Replace the line
                 result_lines.append(f"{indent}**Constellation Framework (8 Stars)**")
@@ -349,14 +361,14 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
                 j = i + 1
                 while j < len(lines) and j < i + 15:
                     # Stop if we hit a blank line or new section
-                    if not lines[j].strip() or lines[j].startswith('#'):
+                    if not lines[j].strip() or lines[j].startswith("#"):
                         break
                     # Stop if line has star symbols (part of incomplete list)
-                    if any(s in lines[j] for s in ['⚛️', '✦', '🔬', '🌱', '🌙', '⚖️', '🛡️', '🧠']):
+                    if any(s in lines[j] for s in ["⚛️", "✦", "🔬", "🌱", "🌙", "⚖️", "🛡️", "🧠"]):
                         j += 1
                         continue
                     # Stop if it's a bullet point continuation
-                    if re.match(r'^\s*[-*•]\s+', lines[j]):
+                    if re.match(r"^\s*[-*•]\s+", lines[j]):
                         j += 1
                         continue
                     break
@@ -367,7 +379,7 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
         result_lines.append(line)
         i += 1
 
-    return '\n'.join(result_lines)
+    return "\n".join(result_lines)
 
 
 def apply_standardization(root_dir: Path, changes: List[Tuple[Path, str, str]]) -> None:
@@ -389,7 +401,7 @@ def apply_standardization(root_dir: Path, changes: List[Tuple[Path, str, str]]) 
 
             # Only write if content actually changed
             if new_content != old_content:
-                file_path.write_text(new_content, encoding='utf-8')
+                file_path.write_text(new_content, encoding="utf-8")
                 rel_path = file_path.relative_to(root_dir)
                 print(f"✅ Updated: {rel_path}")
                 updated_count += 1
@@ -417,8 +429,8 @@ def main():
     root_dir = Path(__file__).parent.parent
 
     # Parse arguments
-    apply_mode = '--apply' in sys.argv
-    preview_mode = '--preview' in sys.argv
+    apply_mode = "--apply" in sys.argv
+    preview_mode = "--preview" in sys.argv
 
     if preview_mode:
         print("❌ --preview mode not yet implemented")
@@ -442,5 +454,5 @@ def main():
         dry_run_report(root_dir)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

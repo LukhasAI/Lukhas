@@ -23,14 +23,16 @@ def test_module_imports():
     except ImportError as e:
         pytest.skip(f"Module tests not available: {e}")
 
+
 def test_module_has_init():
     """Test that the tests module has proper __init__.py."""
     try:
         module = importlib.import_module("tests")
         # Check for common attributes
-        assert hasattr(module, '__file__')
+        assert hasattr(module, "__file__")
     except ImportError:
         pytest.skip("Module tests not available")
+
 
 class TestTestsCore:
     """Unit tests for tests core functionality."""
@@ -39,6 +41,7 @@ class TestTestsCore:
         """Test basic component instantiation."""
         try:
             from tests import TestsCore
+
             component = TestsCore()
             assert component is not None
         except ImportError:
@@ -49,10 +52,7 @@ class TestTestsCore:
         try:
             from tests.config import TestsConfig
 
-            config = TestsConfig(
-                debug_mode=True,
-                performance_monitoring=False
-            )
+            config = TestsConfig(debug_mode=True, performance_monitoring=False)
 
             assert config.debug_mode is True
             assert config.performance_monitoring is False
@@ -74,6 +74,7 @@ class TestTestsCore:
 
         except ImportError:
             pytest.skip("TestsCore not available")
+
 
 class TestTestsIntegration:
     """Unit tests for tests integration points."""
@@ -103,11 +104,12 @@ class TestTestsIntegration:
             component = TestsCore()
 
             # Test MATRIZ pipeline methods
-            assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert hasattr(component, "process")
+            assert callable(getattr(component, "process"))
 
         except ImportError:
             pytest.skip("TestsCore not available")
+
 
 class TestTestsObservability:
     """Unit tests for tests observability features."""
@@ -120,7 +122,7 @@ class TestTestsObservability:
             component = TestsCore()
 
             # Mock span collection
-            with patch('observability.span_manager.create_span') as mock_span:
+            with patch("observability.span_manager.create_span") as mock_span:
                 component.process({})
 
                 # Verify span creation
@@ -137,7 +139,7 @@ class TestTestsObservability:
             component = TestsCore()
 
             # Test metrics collection
-            with patch('monitoring.metrics.record_metric') as mock_metric:
+            with patch("monitoring.metrics.record_metric") as mock_metric:
                 component.process({})
 
                 # Verify metric recording
@@ -145,6 +147,7 @@ class TestTestsObservability:
 
         except ImportError:
             pytest.skip("Metrics collection not available")
+
 
 class TestTestsPerformance:
     """Performance and regression tests for tests."""
@@ -184,7 +187,7 @@ class TestTestsPerformance:
 
             # Process multiple items
             for i in range(100):
-                component.process({'iteration': i})
+                component.process({"iteration": i})
 
             final_memory = process.memory_info().rss
             memory_increase = final_memory - initial_memory
@@ -195,15 +198,10 @@ class TestTestsPerformance:
         except (ImportError, AttributeError):
             pytest.skip("Memory testing not available")
 
+
 # Configuration for pytest
 def pytest_configure(config):
     """Configure pytest for tests tests."""
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
-    config.addinivalue_line(
-        "markers", "performance: mark test as performance test"
-    )
-    config.addinivalue_line(
-        "markers", "slow: mark test as slow running"
-    )
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "performance: mark test as performance test")
+    config.addinivalue_line("markers", "slow: mark test as slow running")

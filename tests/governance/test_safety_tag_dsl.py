@@ -15,7 +15,7 @@ Constellation Framework: 🛡️ Guardian · ⚖️ Ethics
 Features Tested:
 - Safety tag classification (SAFE, CAUTION, DANGER, CRITICAL)
 - Tag propagation across consciousness layers
-- DSL syntax validation and parsing  
+- DSL syntax validation and parsing
 - Permission enforcement based on safety levels
 - Tag inheritance and escalation rules
 - Emergency override patterns
@@ -39,8 +39,10 @@ except ImportError:
 # Safety Tag DSL Data Structures
 # ============================================================================
 
+
 class SafetyLevel:
     """Safety classification levels for Guardian DSL"""
+
     SAFE = "SAFE"
     CAUTION = "CAUTION"
     DANGER = "DANGER"
@@ -51,25 +53,14 @@ class SafetyLevel:
     @classmethod
     def get_numeric_level(cls, level: str) -> int:
         """Convert safety level to numeric priority (higher = more restrictive)"""
-        mapping = {
-            cls.SAFE: 0,
-            cls.CAUTION: 1,
-            cls.DANGER: 2,
-            cls.CRITICAL: 3
-        }
+        mapping = {cls.SAFE: 0, cls.CAUTION: 1, cls.DANGER: 2, cls.CRITICAL: 3}
         return mapping.get(level, 0)
 
 
 class SafetyTag:
     """Individual safety tag with DSL metadata"""
 
-    def __init__(
-        self,
-        level: str,
-        category: str,
-        description: str,
-        metadata: Optional[Dict[str, Any]] = None
-    ):
+    def __init__(self, level: str, category: str, description: str, metadata: Optional[Dict[str, Any]] = None):
         self.level = level
         self.category = category
         self.description = description
@@ -86,10 +77,10 @@ class SafetyTag:
             "description": self.description,
             "timestamp": self.timestamp.isoformat(),
             "metadata": self.metadata,
-            "numeric_priority": SafetyLevel.get_numeric_level(self.level)
+            "numeric_priority": SafetyLevel.get_numeric_level(self.level),
         }
 
-    def can_inherit_from(self, parent_tag: 'SafetyTag') -> bool:
+    def can_inherit_from(self, parent_tag: "SafetyTag") -> bool:
         """Check if this tag can inherit from a parent tag"""
         parent_level = SafetyLevel.get_numeric_level(parent_tag.level)
         current_level = SafetyLevel.get_numeric_level(self.level)
@@ -138,13 +129,14 @@ class SafetyTagCollection:
             "highest_level": self.get_highest_level(),
             "tag_count": len(self.tags),
             "has_critical": self.has_critical_tags(),
-            "categories": list(set(tag.category for tag in self.tags))
+            "categories": list(set(tag.category for tag in self.tags)),
         }
 
 
 # ============================================================================
 # Test Classes
 # ============================================================================
+
 
 class TestSafetyTagBasics:
     """Test basic safety tag creation and validation"""
@@ -154,7 +146,7 @@ class TestSafetyTagBasics:
         tag = SafetyTag(
             level=SafetyLevel.CAUTION,
             category="consciousness_processing",
-            description="Consciousness integration requires careful monitoring"
+            description="Consciousness integration requires careful monitoring",
         )
 
         assert tag.level == SafetyLevel.CAUTION
@@ -176,7 +168,7 @@ class TestSafetyTagBasics:
             level=SafetyLevel.DANGER,
             category="memory_access",
             description="High-tier memory access requires approval",
-            metadata={"tier": "T4", "requires_approval": True}
+            metadata={"tier": "T4", "requires_approval": True},
         )
 
         dsl = tag.to_dsl()
@@ -267,12 +259,8 @@ class TestSafetyTagDSLSyntax:
         """Test parsing of valid safety tag DSL"""
         dsl_input = {
             "safety_rule": "CRITICAL: consciousness.modify REQUIRES dual_approval",
-            "conditions": {
-                "tier_minimum": "T4",
-                "approval_count": 2,
-                "timeout_minutes": 15
-            },
-            "actions": ["block", "audit", "notify_admin"]
+            "conditions": {"tier_minimum": "T4", "approval_count": 2, "timeout_minutes": 15},
+            "actions": ["block", "audit", "notify_admin"],
         }
 
         # This would be parsed by a real DSL parser
@@ -288,7 +276,7 @@ class TestSafetyTagDSLSyntax:
             "SAFE: general.operation ALLOWS unrestricted",
             "CAUTION: memory.read REQUIRES tier_T2",
             "DANGER: consciousness.write REQUIRES tier_T4 AND approval",
-            "CRITICAL: system.override REQUIRES dual_approval AND emergency_ticket"
+            "CRITICAL: system.override REQUIRES dual_approval AND emergency_ticket",
         ]
 
         for pattern in patterns:
@@ -421,7 +409,7 @@ class TestSafetyTagPropagation:
             level=new_level,
             category=target_layer,
             description=f"Propagated to {target_layer}: {source_tag.description}",
-            metadata=metadata
+            metadata=metadata,
         )
 
 
@@ -444,44 +432,33 @@ class TestGuardianDSLIntegration:
                 "severity": "high",
                 "confidence": 0.95,
                 "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
-                "ttl_seconds": 300
+                "ttl_seconds": 300,
             },
             "subject": {
                 "correlation_id": str(uuid.uuid4()),
                 "lane": "production",
                 "actor": {"type": "user", "id": "user-123", "tier": "T3"},
-                "operation": {"name": "consciousness.modify", "resource": "memory://vault/user-123"}
+                "operation": {"name": "consciousness.modify", "resource": "memory://vault/user-123"},
             },
             "context": {
                 "environment": {"region": "us-east-1", "runtime": "prod"},
-                "features": {"enforcement_enabled": True, "emergency_active": False}
+                "features": {"enforcement_enabled": True, "emergency_active": False},
             },
-            "metrics": {
-                "latency_ms": 45.2,
-                "risk_score": 0.85,
-                "drift_score": 0.12
-            },
-            "enforcement": {
-                "mode": "enforced",
-                "actions": ["challenge", "audit", "require_approval"]
-            },
+            "metrics": {"latency_ms": 45.2, "risk_score": 0.85, "drift_score": 0.12},
+            "enforcement": {"mode": "enforced", "actions": ["challenge", "audit", "require_approval"]},
             "audit": {
                 "event_id": str(uuid.uuid4()),
                 "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
-                "source_system": "guardian_safety_tags"
+                "source_system": "guardian_safety_tags",
             },
             "reasons": [
                 {
                     "code": "SAFETY_TAG_DANGER_LEVEL",
-                    "message": "Operation involves DANGER level safety tags requiring elevated approval"
+                    "message": "Operation involves DANGER level safety tags requiring elevated approval",
                 }
             ],
-            "extensions": {
-                "safety_tags": collection.to_dsl()
-            },
-            "integrity": {
-                "content_sha256": "a" * 64  # Mock hash
-            }
+            "extensions": {"safety_tags": collection.to_dsl()},
+            "integrity": {"content_sha256": "a" * 64},  # Mock hash
         }
 
         # Validate structure
@@ -497,7 +474,7 @@ class TestGuardianDSLIntegration:
             SafetyLevel.CRITICAL,
             "emergency_override",
             "Emergency system override",
-            metadata={"requires_dual_approval": True, "emergency_ticket": "EMRG-2025-001"}
+            metadata={"requires_dual_approval": True, "emergency_ticket": "EMRG-2025-001"},
         )
 
         # Create Guardian envelope with dual approval
@@ -509,43 +486,41 @@ class TestGuardianDSLIntegration:
                 "severity": "critical",
                 "confidence": 1.0,
                 "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
-                "ttl_seconds": 60
+                "ttl_seconds": 60,
             },
             "subject": {
                 "correlation_id": str(uuid.uuid4()),
                 "lane": "production",
                 "actor": {"type": "user", "id": "admin-456", "tier": "T5"},
-                "operation": {"name": "system.emergency_override", "resource": "system://critical"}
+                "operation": {"name": "system.emergency_override", "resource": "system://critical"},
             },
             "context": {
                 "environment": {"region": "us-east-1", "runtime": "prod"},
-                "features": {"enforcement_enabled": True, "emergency_active": True}
+                "features": {"enforcement_enabled": True, "emergency_active": True},
             },
             "metrics": {"latency_ms": 15.5},
             "enforcement": {"mode": "enforced", "actions": ["allow_with_audit"]},
             "audit": {
                 "event_id": str(uuid.uuid4()),
                 "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
-                "source_system": "guardian_emergency"
+                "source_system": "guardian_emergency",
             },
             "approvals": [
                 {
                     "approver": "admin-primary",
                     "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                     "scope": "temporary_override",
-                    "ticket": "EMRG-2025-001"
+                    "ticket": "EMRG-2025-001",
                 },
                 {
                     "approver": "admin-secondary",
                     "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                     "scope": "temporary_override",
-                    "ticket": "EMRG-2025-001"
-                }
+                    "ticket": "EMRG-2025-001",
+                },
             ],
-            "extensions": {
-                "safety_tags": SafetyTagCollection().to_dsl()
-            },
-            "integrity": {"content_sha256": "b" * 64}
+            "extensions": {"safety_tags": SafetyTagCollection().to_dsl()},
+            "integrity": {"content_sha256": "b" * 64},
         }
 
         # Validate dual approval structure
@@ -559,6 +534,7 @@ class TestGuardianDSLIntegration:
 # ============================================================================
 # Integration Tests
 # ============================================================================
+
 
 class TestSafetyTagDSLFullIntegration:
     """End-to-end integration tests for complete DSL workflow"""
@@ -588,15 +564,12 @@ class TestSafetyTagDSLFullIntegration:
                 "policy": f"safety_enforcement/{highest_level.lower()}/v1.0.0",
                 "severity": highest_level.lower(),
                 "confidence": 0.95,
-                "timestamp": datetime.now(timezone.utc).isoformat() + "Z"
+                "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             },
             "extensions": {
                 "safety_tags": collection.to_dsl(),
-                "enforcement_requirements": {
-                    "min_tier": min_tier,
-                    "requires_approval": requires_approval
-                }
-            }
+                "enforcement_requirements": {"min_tier": min_tier, "requires_approval": requires_approval},
+            },
         }
 
         # 5. Validate complete workflow

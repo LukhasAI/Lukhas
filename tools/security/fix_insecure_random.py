@@ -110,8 +110,7 @@ class InsecureRandomFixer:
             # Replace top-level `import random` with secure wrapper import
             if re.search(r"^import random\s*$", content, re.MULTILINE):
                 replacement = (
-                    "# SECURITY FIX: Replaced insecure random with secure random\n"
-                    "from security import secure_random"
+                    "# SECURITY FIX: Replaced insecure random with secure random\n" "from security import secure_random"
                 )
                 content = re.sub(r"^import random\s*$", replacement, content, flags=re.MULTILINE)
                 fixes += 1

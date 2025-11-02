@@ -34,6 +34,7 @@ class IndexingResult:
     """
     Result of document indexing operation.
     """
+
     document: Optional[VectorDocument] = None
     success: bool = False
     error: Optional[str] = None
@@ -86,7 +87,7 @@ class OpenAIEmbeddingProvider(AbstractEmbeddingProvider):
         api_key: str,
         model: str = "text-embedding-ada-002",
         max_batch_size: int = 100,
-        max_tokens_per_request: int = 8000
+        max_tokens_per_request: int = 8000,
     ):
         self.api_key = api_key
         self.model = model
@@ -97,7 +98,7 @@ class OpenAIEmbeddingProvider(AbstractEmbeddingProvider):
         self.model_dimensions = {
             "text-embedding-ada-002": 1536,
             "text-embedding-3-small": 1536,
-            "text-embedding-3-large": 3072
+            "text-embedding-3-large": 3072,
         }
 
         if model not in self.model_dimensions:
@@ -140,11 +141,7 @@ class SentenceTransformersProvider(AbstractEmbeddingProvider):
 
     def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
         self.model_name_str = model_name
-        self.model_dimensions = {
-            "all-MiniLM-L6-v2": 384,
-            "all-mpnet-base-v2": 768,
-            "all-MiniLM-L12-v2": 384
-        }
+        self.model_dimensions = {"all-MiniLM-L6-v2": 384, "all-mpnet-base-v2": 768, "all-MiniLM-L12-v2": 384}
 
         if model_name not in self.model_dimensions:
             raise ValueError(f"Unsupported sentence-transformers model: {model_name}")
@@ -184,10 +181,10 @@ class ContentExtractor:
 
     def __init__(self):
         self.text_patterns = {
-            'email': re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'),
-            'url': re.compile(r'https?://[^\s]+'),
-            'phone': re.compile(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'),
-            'date': re.compile(r'\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b')
+            "email": re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"),
+            "url": re.compile(r"https?://[^\s]+"),
+            "phone": re.compile(r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b"),
+            "date": re.compile(r"\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b"),
         }
 
     def extract_content(self, content: str, content_type: str = "text") -> Dict[str, Any]:
@@ -202,19 +199,13 @@ class ContentExtractor:
             Dictionary of extracted features
         """
         if not content or not content.strip():
-            return {
-                "word_count": 0,
-                "language": None,
-                "content_type": content_type,
-                "entities": [],
-                "features": {}
-            }
+            return {"word_count": 0, "language": None, "content_type": content_type, "entities": [], "features": {}}
 
         # Basic text statistics
         words = content.split()
         word_count = len(words)
         char_count = len(content)
-        line_count = content.count('\n') + 1
+        line_count = content.count("\n") + 1
 
         # Extract entities
         entities = []
@@ -231,10 +222,10 @@ class ContentExtractor:
             "char_count": char_count,
             "line_count": line_count,
             "avg_word_length": sum(len(word) for word in words) / len(words) if words else 0,
-            "sentence_count": content.count('.') + content.count('!') + content.count('?'),
+            "sentence_count": content.count(".") + content.count("!") + content.count("?"),
             "uppercase_ratio": sum(1 for c in content if c.isupper()) / len(content) if content else 0,
             "digit_ratio": sum(1 for c in content if c.isdigit()) / len(content) if content else 0,
-            "whitespace_ratio": sum(1 for c in content if c.isspace()) / len(content) if content else 0
+            "whitespace_ratio": sum(1 for c in content if c.isspace()) / len(content) if content else 0,
         }
 
         return {
@@ -242,7 +233,7 @@ class ContentExtractor:
             "language": language,
             "content_type": content_type,
             "entities": entities,
-            "features": features
+            "features": features,
         }
 
     def _detect_language_simple(self, content: str) -> str:
@@ -253,22 +244,18 @@ class ContentExtractor:
         content_lower = content.lower()
 
         # English indicators
-        english_words = ['the', 'and', 'to', 'of', 'a', 'in', 'is', 'it', 'you', 'that']
+        english_words = ["the", "and", "to", "of", "a", "in", "is", "it", "you", "that"]
         english_score = sum(1 for word in english_words if word in content_lower)
 
         # Spanish indicators
-        spanish_words = ['el', 'la', 'de', 'que', 'y', 'en', 'es', 'se', 'no', 'te']
+        spanish_words = ["el", "la", "de", "que", "y", "en", "es", "se", "no", "te"]
         spanish_score = sum(1 for word in spanish_words if word in content_lower)
 
         # French indicators
-        french_words = ['le', 'de', 'et', 'à', 'un', 'il', 'être', 'et', 'en', 'avoir']
+        french_words = ["le", "de", "et", "à", "un", "il", "être", "et", "en", "avoir"]
         french_score = sum(1 for word in french_words if word in content_lower)
 
-        scores = [
-            ('en', english_score),
-            ('es', spanish_score),
-            ('fr', french_score)
-        ]
+        scores = [("en", english_score), ("es", spanish_score), ("fr", french_score)]
 
         # Return language with highest score, or None if all scores are low
         max_lang, max_score = max(scores, key=lambda x: x[1])
@@ -285,7 +272,7 @@ class DocumentIndexer:
         embedding_provider: AbstractEmbeddingProvider,
         content_extractor: Optional[ContentExtractor] = None,
         enable_deduplication: bool = True,
-        dedup_threshold: float = 0.95
+        dedup_threshold: float = 0.95,
     ):
         self.embedding_provider = embedding_provider
         self.content_extractor = content_extractor or ContentExtractor()
@@ -300,7 +287,7 @@ class DocumentIndexer:
             "documents_indexed": 0,
             "duplicates_detected": 0,
             "embedding_errors": 0,
-            "total_processing_time_ms": 0.0
+            "total_processing_time_ms": 0.0,
         }
 
     def _calculate_content_hash(self, content: str) -> str:
@@ -314,8 +301,8 @@ class DocumentIndexer:
             SHA-256 hash as hexadecimal string
         """
         # Normalize content for hashing
-        normalized = re.sub(r'\s+', ' ', content.strip().lower())
-        return hashlib.sha256(normalized.encode('utf-8')).hexdigest()
+        normalized = re.sub(r"\s+", " ", content.strip().lower())
+        return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
     async def index_document(
         self,
@@ -326,7 +313,7 @@ class DocumentIndexer:
         lane: str = "candidate",
         fold_id: Optional[str] = None,
         tags: Optional[List[str]] = None,
-        expires_at: Optional[datetime] = None
+        expires_at: Optional[datetime] = None,
     ) -> IndexingResult:
         """
         Index a single document with embedding generation and analysis.
@@ -398,23 +385,25 @@ class DocumentIndexer:
                 tags=tags or [],
                 created_at=now,
                 updated_at=now,
-                expires_at=expires_at
+                expires_at=expires_at,
             )
 
             # Add extracted metadata
-            document.metadata.update({
-                "indexer": {
-                    "model": self.embedding_provider.model_name,
-                    "dimension": self.embedding_provider.dimension,
-                    "content_hash": content_hash,
-                    "word_count": result.word_count,
-                    "language": result.language,
-                    "content_type": result.content_type,
-                    "entities": result.extracted_entities,
-                    "features": result.metadata_extracted,
-                    "indexed_at": now.isoformat()
+            document.metadata.update(
+                {
+                    "indexer": {
+                        "model": self.embedding_provider.model_name,
+                        "dimension": self.embedding_provider.dimension,
+                        "content_hash": content_hash,
+                        "word_count": result.word_count,
+                        "language": result.language,
+                        "content_type": result.content_type,
+                        "entities": result.extracted_entities,
+                        "features": result.metadata_extracted,
+                        "indexed_at": now.isoformat(),
+                    }
                 }
-            })
+            )
 
             # Register content hash for deduplication
             if self.enable_deduplication:
@@ -440,7 +429,7 @@ class DocumentIndexer:
                 word_count=result.word_count,
                 language=result.language,
                 content_hash=content_hash[:16],
-                processing_time_ms=processing_time_ms
+                processing_time_ms=processing_time_ms,
             )
 
             return result
@@ -451,19 +440,13 @@ class DocumentIndexer:
             result.error = f"Indexing failed: {e}"
 
             logger.error(
-                "Failed to index document",
-                document_id=document_id,
-                error=str(e),
-                processing_time_ms=processing_time_ms
+                "Failed to index document", document_id=document_id, error=str(e), processing_time_ms=processing_time_ms
             )
 
             metrics.increment_counter("indexer_errors")
             return result
 
-    async def index_batch(
-        self,
-        documents: List[Dict[str, Any]]
-    ) -> List[IndexingResult]:
+    async def index_batch(self, documents: List[Dict[str, Any]]) -> List[IndexingResult]:
         """
         Index multiple documents in batch for better performance.
 
@@ -500,10 +483,7 @@ class DocumentIndexer:
                     embeddings = await self.embedding_provider.embed_batch(contents)
                 except Exception as e:
                     # Fallback to individual processing
-                    logger.warning(
-                        "Batch embedding failed, falling back to individual processing",
-                        error=str(e)
-                    )
+                    logger.warning("Batch embedding failed, falling back to individual processing", error=str(e))
                     embeddings = []
                     for content in contents:
                         try:
@@ -533,7 +513,7 @@ class DocumentIndexer:
                         lane=doc_data.get("lane", "candidate"),
                         fold_id=doc_data.get("fold_id"),
                         tags=doc_data.get("tags"),
-                        expires_at=doc_data.get("expires_at")
+                        expires_at=doc_data.get("expires_at"),
                     )
 
                     # Override embedding with batch result
@@ -560,33 +540,23 @@ class DocumentIndexer:
                 total_documents=len(documents),
                 successful=successful_count,
                 failed=len(documents) - successful_count,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
             )
 
             return results
 
         except Exception as e:
-            logger.error(
-                "Failed batch indexing",
-                document_count=len(documents),
-                error=str(e)
-            )
+            logger.error("Failed batch indexing", document_count=len(documents), error=str(e))
 
             # Return error results for all documents
-            return [
-                IndexingResult(error=f"Batch processing failed: {e}")
-                for _ in documents
-            ]
+            return [IndexingResult(error=f"Batch processing failed: {e}") for _ in documents]
 
     def clear_deduplication_cache(self):
         """Clear the deduplication cache"""
         cache_size = len(self.content_hashes)
         self.content_hashes.clear()
 
-        logger.info(
-            "Deduplication cache cleared",
-            entries_removed=cache_size
-        )
+        logger.info("Deduplication cache cleared", entries_removed=cache_size)
 
     def get_statistics(self) -> Dict[str, Any]:
         """
@@ -599,23 +569,21 @@ class DocumentIndexer:
 
         # Calculate averages
         if stats["documents_indexed"] > 0:
-            stats["avg_processing_time_ms"] = (
-                stats["total_processing_time_ms"] / stats["documents_indexed"]
-            )
-            stats["duplicate_rate"] = (
-                stats["duplicates_detected"] / stats["documents_indexed"]
-            )
+            stats["avg_processing_time_ms"] = stats["total_processing_time_ms"] / stats["documents_indexed"]
+            stats["duplicate_rate"] = stats["duplicates_detected"] / stats["documents_indexed"]
         else:
             stats["avg_processing_time_ms"] = 0.0
             stats["duplicate_rate"] = 0.0
 
         # Add configuration info
-        stats.update({
-            "embedding_provider": self.embedding_provider.model_name,
-            "embedding_dimension": self.embedding_provider.dimension,
-            "deduplication_enabled": self.enable_deduplication,
-            "dedup_threshold": self.dedup_threshold,
-            "cached_hashes": len(self.content_hashes)
-        })
+        stats.update(
+            {
+                "embedding_provider": self.embedding_provider.model_name,
+                "embedding_dimension": self.embedding_provider.dimension,
+                "deduplication_enabled": self.enable_deduplication,
+                "dedup_threshold": self.dedup_threshold,
+                "cached_hashes": len(self.content_hashes),
+            }
+        )
 
         return stats

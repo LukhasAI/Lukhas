@@ -48,6 +48,7 @@ try:
         EnhancedWebAuthnService,
         create_enhanced_webauthn_service,
     )
+
     IDENTITY_SYSTEM_AVAILABLE = True
 except ImportError:
     IDENTITY_SYSTEM_AVAILABLE = False
@@ -59,6 +60,7 @@ logger = structlog.get_logger(__name__)
 security = HTTPBearer(auto_error=False)
 
 # Pydantic models for API requests/responses
+
 
 class TierAuthenticationRequest(BaseModel):
     """Base authentication request."""
@@ -215,8 +217,8 @@ router = APIRouter(
         401: {"description": "Authentication failed"},
         403: {"description": "Insufficient privileges"},
         429: {"description": "Rate limit exceeded"},
-        500: {"description": "Internal server error"}
-    }
+        500: {"description": "Internal server error"},
+    },
 )
 
 # Global services (initialized on startup)
@@ -244,10 +246,7 @@ def get_user_agent(request: Request) -> Optional[str]:
     return request.headers.get("User-Agent")
 
 
-async def create_auth_context(
-    request: Request,
-    auth_request: TierAuthenticationRequest
-) -> AuthContext:
+async def create_auth_context(request: Request, auth_request: TierAuthenticationRequest) -> AuthContext:
     """Create authentication context from request."""
     return AuthContext(
         ip_address=get_client_ip(request),
@@ -262,10 +261,8 @@ async def create_auth_context(
         session_id=auth_request.session_id,
         nonce=auth_request.nonce,
         challenge_data=(
-            {"challenge_id": auth_request.webauthn_challenge_id}
-            if auth_request.webauthn_challenge_id
-            else None
-        )
+            {"challenge_id": auth_request.webauthn_challenge_id} if auth_request.webauthn_challenge_id else None
+        ),
     )
 
 
@@ -284,7 +281,7 @@ def convert_auth_result(result: AuthResult) -> AuthenticationResponse:
         duration_ms=result.duration_ms or 0.0,
         guardian_validated=result.guardian_validated,
         error_code=None if result.ok else "AUTHENTICATION_FAILED",
-        error_message=None if result.ok else result.reason
+        error_message=None if result.ok else result.reason,
     )
 
 
@@ -300,18 +297,11 @@ async def initialize_services():
             guardian = GuardianSystem()
 
             # Initialize authentication services
-            authenticator = create_tiered_authenticator(
-                security_policy=SecurityPolicy(),
-                guardian_system=guardian
-            )
+            authenticator = create_tiered_authenticator(security_policy=SecurityPolicy(), guardian_system=guardian)
 
-            webauthn_service = create_enhanced_webauthn_service(
-                guardian_system=guardian
-            )
+            webauthn_service = create_enhanced_webauthn_service(guardian_system=guardian)
 
-            biometric_provider = create_mock_biometric_provider(
-                guardian_system=guardian
-            )
+            biometric_provider = create_mock_biometric_provider(guardian_system=guardian)
 
             logger.info("Identity services initialized successfully")
         else:
@@ -323,11 +313,9 @@ async def initialize_services():
 
 # Authentication endpoints
 
+
 @router.post("/authenticate", response_model=AuthenticationResponse)
-async def authenticate(
-    auth_request: TierAuthenticationRequest,
-    request: Request
-) -> AuthenticationResponse:
+async def authenticate(auth_request: TierAuthenticationRequest, request: Request) -> AuthenticationResponse:
     """
     Authenticate user using tiered authentication system.
 
@@ -343,8 +331,7 @@ async def authenticate(
     try:
         if not authenticator:
             raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="Authentication service unavailable"
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Authentication service unavailable"
             )
 
         # Create authentication context
@@ -363,24 +350,24 @@ async def authenticate(
             result = await authenticator.authenticate_T5(auth_context)
         else:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Invalid authentication tier: {auth_request.tier}"
+                status_code=status.HTTP_400_BAD_REQUEST, detail=f"Invalid authentication tier: {auth_request.tier}"
             )
 
         # Convert result to API response
         response = convert_auth_result(result)
 
         # Log authentication attempt
-        logger.info("Authentication attempt completed",
-                   tier=auth_request.tier, success=result.ok,
-                   user_id=result.user_id, duration_ms=response.duration_ms)
+        logger.info(
+            "Authentication attempt completed",
+            tier=auth_request.tier,
+            success=result.ok,
+            user_id=result.user_id,
+            duration_ms=response.duration_ms,
+        )
 
         # Return appropriate HTTP status
         if not result.ok:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=response.dict()
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=response.dict())
 
         return response
 
@@ -388,21 +375,17 @@ async def authenticate(
         raise
     except Exception as e:
         duration_ms = (time.perf_counter() - start_time) * 1000
-        logger.error("Authentication endpoint error",
-                    tier=auth_request.tier, error=str(e), duration_ms=duration_ms)
+        logger.error("Authentication endpoint error", tier=auth_request.tier, error=str(e), duration_ms=duration_ms)
 
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Internal authentication error"
-        )
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal authentication error")
 
 
 # WebAuthn endpoints
 
+
 @router.post("/webauthn/challenge", response_model=WebAuthnChallengeResponse)
 async def generate_webauthn_challenge(
-    challenge_request: WebAuthnChallengeRequest,
-    request: Request
+    challenge_request: WebAuthnChallengeRequest, request: Request
 ) -> WebAuthnChallengeResponse:
     """
     Generate WebAuthn authentication challenge for T4 authentication.
@@ -423,34 +406,28 @@ async def generate_webauthn_challenge(
                 user_id=challenge_request.user_id,
                 correlation_id=challenge_request.correlation_id or "",
                 ip_address=get_client_ip(request),
-                user_agent=get_user_agent(request)
+                user_agent=get_user_agent(request),
             )
         else:
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="WebAuthn service unavailable"
-            )
+            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="WebAuthn service unavailable")
 
         return WebAuthnChallengeResponse(
             challenge_id=challenge_data["challenge_id"],
             options=challenge_data["options"],
-            expires_at=datetime.fromisoformat(challenge_data["expires_at"])
+            expires_at=datetime.fromisoformat(challenge_data["expires_at"]),
         )
 
     except Exception as e:
-        logger.error("WebAuthn challenge generation failed",
-                    user_id=challenge_request.user_id, error=str(e))
+        logger.error("WebAuthn challenge generation failed", user_id=challenge_request.user_id, error=str(e))
 
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to generate WebAuthn challenge"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate WebAuthn challenge"
         )
 
 
 @router.post("/webauthn/verify", response_model=WebAuthnVerificationResponse)
 async def verify_webauthn_response(
-    verification_request: WebAuthnVerificationRequest,
-    request: Request
+    verification_request: WebAuthnVerificationRequest, request: Request
 ) -> WebAuthnVerificationResponse:
     """
     Verify WebAuthn authentication response for T4 authentication.
@@ -465,16 +442,13 @@ async def verify_webauthn_response(
             service = webauthn_service
 
         if not service:
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="WebAuthn service unavailable"
-            )
+            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="WebAuthn service unavailable")
 
         result = await service.verify_authentication_response(  # type: ignore[call-arg]
             challenge_id=verification_request.challenge_id,
             webauthn_response=verification_request.webauthn_response,
             correlation_id=verification_request.correlation_id or "",
-            ip_address=get_client_ip(request)
+            ip_address=get_client_ip(request),
         )
 
         response = WebAuthnVerificationResponse(
@@ -485,35 +459,28 @@ async def verify_webauthn_response(
             user_verified=result.user_verified,
             verification_time_ms=result.verification_time_ms,
             error_code=result.error_code,
-            error_message=result.error_message
+            error_message=result.error_message,
         )
 
         if not result.success:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=response.dict()
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=response.dict())
 
         return response
 
     except HTTPException:
         raise
     except Exception as e:
-        logger.error("WebAuthn verification failed",
-                    challenge_id=verification_request.challenge_id, error=str(e))
+        logger.error("WebAuthn verification failed", challenge_id=verification_request.challenge_id, error=str(e))
 
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="WebAuthn verification error"
-        )
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="WebAuthn verification error")
 
 
 # Biometric endpoints
 
+
 @router.post("/biometric/enroll", response_model=BiometricEnrollmentResponse)
 async def enroll_biometric(
-    enrollment_request: BiometricEnrollmentRequest,
-    request: Request
+    enrollment_request: BiometricEnrollmentRequest, request: Request
 ) -> BiometricEnrollmentResponse:
     """
     Enroll biometric template for T5 authentication.
@@ -523,10 +490,7 @@ async def enroll_biometric(
     """
     try:
         if not biometric_provider:
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="Biometric service unavailable"
-            )
+            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Biometric service unavailable")
 
         # Parse modality
         try:
@@ -534,7 +498,7 @@ async def enroll_biometric(
         except ValueError:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Invalid biometric modality: {enrollment_request.modality}"
+                detail=f"Invalid biometric modality: {enrollment_request.modality}",
             )
 
         # Enroll biometric template
@@ -542,36 +506,25 @@ async def enroll_biometric(
             user_id=enrollment_request.user_id,
             modality=modality,
             sample_data=enrollment_request.sample_data,
-            device_info=enrollment_request.device_info
+            device_info=enrollment_request.device_info,
         )
 
         if success:
-            return BiometricEnrollmentResponse(
-                success=True,
-                template_id=result
-            )
+            return BiometricEnrollmentResponse(success=True, template_id=result)
         else:
-            return BiometricEnrollmentResponse(
-                success=False,
-                error_message=result
-            )
+            return BiometricEnrollmentResponse(success=False, error_message=result)
 
     except HTTPException:
         raise
     except Exception as e:
-        logger.error("Biometric enrollment failed",
-                    user_id=enrollment_request.user_id, error=str(e))
+        logger.error("Biometric enrollment failed", user_id=enrollment_request.user_id, error=str(e))
 
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Biometric enrollment error"
-        )
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Biometric enrollment error")
 
 
 @router.post("/biometric/authenticate", response_model=BiometricAuthenticationResponse)
 async def authenticate_biometric(
-    auth_request: BiometricAuthenticationRequest,
-    request: Request
+    auth_request: BiometricAuthenticationRequest, request: Request
 ) -> BiometricAuthenticationResponse:
     """
     Authenticate using biometric sample for T5 authentication.
@@ -581,18 +534,14 @@ async def authenticate_biometric(
     """
     try:
         if not biometric_provider:
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="Biometric service unavailable"
-            )
+            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Biometric service unavailable")
 
         # Parse modality
         try:
             modality = BiometricModality(auth_request.modality.lower())
         except ValueError:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Invalid biometric modality: {auth_request.modality}"
+                status_code=status.HTTP_400_BAD_REQUEST, detail=f"Invalid biometric modality: {auth_request.modality}"
             )
 
         # Authenticate biometric sample
@@ -601,41 +550,34 @@ async def authenticate_biometric(
             sample_data=auth_request.sample_data,
             modality=modality,
             nonce=auth_request.nonce,
-            device_info=auth_request.device_info
+            device_info=auth_request.device_info,
         )
 
         response = BiometricAuthenticationResponse(
             success=attestation.authenticated,
             attestation=attestation.to_dict(),
-            processing_time_ms=attestation.processing_time_ms
+            processing_time_ms=attestation.processing_time_ms,
         )
 
         if not attestation.authenticated:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=response.dict()
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=response.dict())
 
         return response
 
     except HTTPException:
         raise
     except Exception as e:
-        logger.error("Biometric authentication failed",
-                    user_id=auth_request.user_id, error=str(e))
+        logger.error("Biometric authentication failed", user_id=auth_request.user_id, error=str(e))
 
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Biometric authentication error"
-        )
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Biometric authentication error")
 
 
 # Session management endpoints
 
+
 @router.get("/session/status", response_model=SessionStatusResponse)
 async def get_session_status(
-    request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
+    request: Request, credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
 ) -> SessionStatusResponse:
     """
     Get current session authentication status.
@@ -653,27 +595,22 @@ async def get_session_status(
                 user_id="test_user",
                 session_id="session_123",
                 expires_at=datetime.now(timezone.utc),
-                created_at=datetime.now(timezone.utc)
+                created_at=datetime.now(timezone.utc),
             )
         else:
-            return SessionStatusResponse(
-                authenticated=False
-            )
+            return SessionStatusResponse(authenticated=False)
 
     except Exception as e:
         logger.error("Session status check failed", error=str(e))
 
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Session status check error"
-        )
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Session status check error")
 
 
 @router.post("/session/elevate")
 async def elevate_session_tier(
     auth_request: TierAuthenticationRequest,
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
 ) -> AuthenticationResponse:
     """
     Elevate current session to higher authentication tier.
@@ -686,6 +623,7 @@ async def elevate_session_tier(
 
 
 # Monitoring and metrics endpoints
+
 
 @router.get("/metrics", response_model=SystemMetricsResponse)
 async def get_system_metrics() -> SystemMetricsResponse:
@@ -706,7 +644,7 @@ async def get_system_metrics() -> SystemMetricsResponse:
                 "total_authentications": 0,
                 "success_rate": 0.0,
                 "avg_latency_ms": 0.0,
-                "p95_latency_ms": 0.0
+                "p95_latency_ms": 0.0,
             }
 
         if webauthn_service:
@@ -720,26 +658,24 @@ async def get_system_metrics() -> SystemMetricsResponse:
             "webauthn_available": webauthn_service is not None,
             "biometric_available": biometric_provider is not None,
             "guardian_available": guardian is not None,
-            "overall_health": "healthy"
+            "overall_health": "healthy",
         }
 
         return SystemMetricsResponse(
             authentication_metrics=auth_metrics,
             webauthn_metrics=webauthn_metrics,
             biometric_metrics=biometric_metrics,
-            system_status=system_status
+            system_status=system_status,
         )
 
     except Exception as e:
         logger.error("Metrics retrieval failed", error=str(e))
 
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Metrics retrieval error"
-        )
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Metrics retrieval error")
 
 
 # Health check endpoint
+
 
 @router.get("/health")
 async def health_check() -> Dict[str, Any]:
@@ -755,6 +691,6 @@ async def health_check() -> Dict[str, Any]:
             "authenticator": authenticator is not None,
             "webauthn": webauthn_service is not None,
             "biometric": biometric_provider is not None,
-            "guardian": guardian is not None
-        }
+            "guardian": guardian is not None,
+        },
     }

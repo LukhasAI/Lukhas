@@ -17,6 +17,7 @@ Features:
 - API key generation and authentication setup
 - Real-time validation and error handling
 """
+
 import hashlib
 import logging
 import secrets
@@ -725,7 +726,9 @@ if FASTAPI_AVAILABLE:
                     "features": tier_features.get("features", []),
                     "support_level": tier_features.get("support_level", "community"),
                 },
-                "personalized_recommendations": self._get_personalized_recommendations(use_cases),  # noqa: F821  # TODO: self
+                "personalized_recommendations": self._get_personalized_recommendations(
+                    use_cases
+                ),  # noqa: F821  # TODO: self
                 "next_steps": [
                     "Verify your email address",
                     "Explore the API documentation",

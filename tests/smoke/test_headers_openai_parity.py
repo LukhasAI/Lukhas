@@ -4,6 +4,7 @@ OpenAI compatibility header smoke tests.
 Verifies that the API façade exposes OpenAI-style request IDs and
 rate-limit aliases alongside the existing Lukhas headers.
 """
+
 import os
 
 import pytest
@@ -54,15 +55,11 @@ def test_openai_rate_limit_aliases(authz_headers):
     assert response.status_code == 200
 
     # OpenAI-style aliases should be present (with -requests suffix)
-    assert response.headers.get("x-ratelimit-limit-requests") is not None, (
-        "x-ratelimit-limit-requests header missing"
-    )
-    assert response.headers.get("x-ratelimit-remaining-requests") is not None, (
-        "x-ratelimit-remaining-requests header missing"
-    )
-    assert response.headers.get("x-ratelimit-reset-requests") is not None, (
-        "x-ratelimit-reset-requests header missing"
-    )
+    assert response.headers.get("x-ratelimit-limit-requests") is not None, "x-ratelimit-limit-requests header missing"
+    assert (
+        response.headers.get("x-ratelimit-remaining-requests") is not None
+    ), "x-ratelimit-remaining-requests header missing"
+    assert response.headers.get("x-ratelimit-reset-requests") is not None, "x-ratelimit-reset-requests header missing"
 
 
 def test_openai_organization_header_accepted(authz_headers):
@@ -77,9 +74,7 @@ def test_openai_organization_header_accepted(authz_headers):
 def test_openai_project_header_accepted(authz_headers):
     """Verify OpenAI-Project header is accepted and routed."""
     client = _client()
-    response = client.get(
-        "/v1/models", headers=authz_headers(org="org-test-123", project="proj-abc-456")
-    )
+    response = client.get("/v1/models", headers=authz_headers(org="org-test-123", project="proj-abc-456"))
     assert response.status_code == 200
     data = response.json()
     assert "data" in data or "object" in data, "Invalid models response format"

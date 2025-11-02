@@ -29,16 +29,12 @@ class GoogleClient(BaseAIClient):
         self.project_id = kwargs.get("project_id", os.getenv("GOOGLE_PROJECT_ID"))
 
         # Available models
-        self.models = [
-            "gemini-pro",
-            "gemini-pro-vision",
-            "gemini-1.0-pro",
-            "gemini-1.0-pro-vision"
-        ]
+        self.models = ["gemini-pro", "gemini-pro-vision", "gemini-1.0-pro", "gemini-1.0-pro-vision"]
 
         if ENABLE_GOOGLE_CALLS:
             try:
                 import google.generativeai as genai
+
                 self.genai = genai
                 if self.api_key:
                     genai.configure(api_key=self.api_key)
@@ -57,7 +53,7 @@ class GoogleClient(BaseAIClient):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate response from Google Gemini API or mock"""
 
@@ -90,9 +86,8 @@ class GoogleClient(BaseAIClient):
             response = await asyncio.get_event_loop().run_in_executor(
                 None,
                 lambda: ai_model.generate_content(
-                    full_prompt,
-                    generation_config=generation_config if generation_config else None
-                )
+                    full_prompt, generation_config=generation_config if generation_config else None
+                ),
             )
 
             latency_ms = (time.time() - start_time) * 1000
@@ -102,9 +97,21 @@ class GoogleClient(BaseAIClient):
 
             # Extract usage information (if available)
             usage = {
-                "prompt_tokens": response.usage_metadata.prompt_token_count if hasattr(response, 'usage_metadata') else len(prompt.split()),
-                "completion_tokens": response.usage_metadata.candidates_token_count if hasattr(response, 'usage_metadata') else len(content.split()),
-                "total_tokens": response.usage_metadata.total_token_count if hasattr(response, 'usage_metadata') else len(prompt.split()) + len(content.split())
+                "prompt_tokens": (
+                    response.usage_metadata.prompt_token_count
+                    if hasattr(response, "usage_metadata")
+                    else len(prompt.split())
+                ),
+                "completion_tokens": (
+                    response.usage_metadata.candidates_token_count
+                    if hasattr(response, "usage_metadata")
+                    else len(content.split())
+                ),
+                "total_tokens": (
+                    response.usage_metadata.total_token_count
+                    if hasattr(response, "usage_metadata")
+                    else len(prompt.split()) + len(content.split())
+                ),
             }
 
             return AIResponse(
@@ -114,12 +121,20 @@ class GoogleClient(BaseAIClient):
                 latency_ms=latency_ms,
                 usage=usage,
                 metadata={
-                    "google_response_id": getattr(response, 'response_id', None),
+                    "google_response_id": getattr(response, "response_id", None),
                     "google_model": model,
-                    "finish_reason": getattr(response.candidates[0], 'finish_reason', 'stop') if response.candidates else 'stop',
-                    "safety_ratings": [rating.__dict__ for rating in response.candidates[0].safety_ratings] if response.candidates and hasattr(response.candidates[0], 'safety_ratings') else []
+                    "finish_reason": (
+                        getattr(response.candidates[0], "finish_reason", "stop") if response.candidates else "stop"
+                    ),
+                    "safety_ratings": (
+                        [rating.__dict__ for rating in response.candidates[0].safety_ratings]
+                        if response.candidates and hasattr(response.candidates[0], "safety_ratings")
+                        else []
+                    ),
                 },
-                finish_reason=getattr(response.candidates[0], 'finish_reason', 'stop') if response.candidates else 'stop'
+                finish_reason=(
+                    getattr(response.candidates[0], "finish_reason", "stop") if response.candidates else "stop"
+                ),
             )
 
         except Exception as e:
@@ -137,7 +152,7 @@ class GoogleClient(BaseAIClient):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate mock response when Google AI is disabled or unavailable"""
 
@@ -163,15 +178,15 @@ class GoogleClient(BaseAIClient):
             usage={
                 "prompt_tokens": len(prompt.split()),
                 "completion_tokens": len(mock_content.split()),
-                "total_tokens": len(prompt.split()) + len(mock_content.split())
+                "total_tokens": len(prompt.split()) + len(mock_content.split()),
             },
             metadata={
                 "mock": True,
                 "feature_flag_enabled": ENABLE_GOOGLE_CALLS,
                 "api_key_present": bool(self.api_key),
-                "gemini_style": "comprehensive_multimodal"
+                "gemini_style": "comprehensive_multimodal",
             },
-            finish_reason="stop"
+            finish_reason="stop",
         )
 
     async def health_check(self) -> bool:
@@ -182,10 +197,7 @@ class GoogleClient(BaseAIClient):
 
         try:
             # Simple health check - list available models
-            models = await asyncio.get_event_loop().run_in_executor(
-                None,
-                lambda: list(self.genai.list_models())
-            )
+            models = await asyncio.get_event_loop().run_in_executor(None, lambda: list(self.genai.list_models()))
             return len(models) > 0
         except Exception as e:
             logger.error(f"Google AI health check failed: {e}")
@@ -195,12 +207,7 @@ class GoogleClient(BaseAIClient):
         """Get available Google AI models"""
         return self.models.copy()
 
-    def estimate_cost(
-        self,
-        prompt: str,
-        model: str,
-        max_tokens: Optional[int] = None
-    ) -> float:
+    def estimate_cost(self, prompt: str, model: str, max_tokens: Optional[int] = None) -> float:
         """Estimate cost for Google AI request"""
         if not ENABLE_GOOGLE_CALLS:
             return 0.0
@@ -210,7 +217,7 @@ class GoogleClient(BaseAIClient):
             "gemini-pro": 0.0005,  # Input tokens
             "gemini-pro-vision": 0.0025,
             "gemini-1.0-pro": 0.0005,
-            "gemini-1.0-pro-vision": 0.0025
+            "gemini-1.0-pro-vision": 0.0025,
         }
 
         base_cost = cost_per_1k_tokens.get(model, 0.0005)

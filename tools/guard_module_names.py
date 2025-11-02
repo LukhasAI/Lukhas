@@ -13,18 +13,26 @@ def main():
     """Check all directories for naming violations."""
     bad_names = []
     ignore_patterns = {
-        ".", "..", ".git", ".claude", "__pycache__", ".pytest_cache",
-        ".venv", "venv", "node_modules", ".DS_Store"
+        ".",
+        "..",
+        ".git",
+        ".claude",
+        "__pycache__",
+        ".pytest_cache",
+        ".venv",
+        "venv",
+        "node_modules",
+        ".DS_Store",
     }
 
     # Special files/dirs that don't need to follow module naming
     special_patterns = {
         r".*\.code-workspace$",  # VS Code workspace files
-        r".*\.egg-info$",        # Python package info
-        r"mcp-.*",               # MCP server directories
+        r".*\.egg-info$",  # Python package info
+        r"mcp-.*",  # MCP server directories
         r"requirements-.*\.(txt|in)$",  # Requirements files
         r".*\.(json|xml|yaml|yml|md|txt|in)$",  # Regular files
-        r"\..*",                 # Hidden files/dirs
+        r"\..*",  # Hidden files/dirs
     }
 
     root_path = pathlib.Path(".")
@@ -58,6 +66,7 @@ def main():
 
     print("✅ All module directory names are canonical")
     return 0
+
 
 if __name__ == "__main__":
     main()

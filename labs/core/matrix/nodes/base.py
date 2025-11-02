@@ -1,4 +1,5 @@
 """Shared utilities for MATRIZ cognitive nodes."""
+
 import logging
 import time
 from typing import Any, Dict

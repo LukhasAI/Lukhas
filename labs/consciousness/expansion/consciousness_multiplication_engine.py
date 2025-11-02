@@ -3,6 +3,7 @@ Consciousness Multiplication Engine
 
 Creates and coordinates multiple consciousness instances.
 """
+
 import logging
 import uuid
 from dataclasses import dataclass

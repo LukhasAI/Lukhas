@@ -8,16 +8,19 @@ Usage:
   @lane_guard(("candidate", "prod"))
   def external_action(): ...
 """
+
 import functools
 import os
 from typing import Any, Callable, Tuple
 
 LANE = os.getenv("LUKHAS_LANE", "experimental")
 
+
 def lane_guard(allowed: Tuple[str, ...] = ("candidate", "prod")) -> Callable:
     """
     Enforce lane routing. Always emits a Guardian attempt token even on block.
     """
+
     def deco(fn: Callable) -> Callable:
         @functools.wraps(fn)
         def wrapper(*args: Any, **kwargs: Any):
@@ -32,8 +35,11 @@ def lane_guard(allowed: Tuple[str, ...] = ("candidate", "prod")) -> Callable:
                 raise RuntimeError(f"Lane {LANE} not allowed for {fn.__name__}")
             _append_guardian_log_to_result(res, guardian_token)
             return res
+
         return wrapper
+
     return deco
+
 
 def _append_guardian_log_to_result(obj: Any, token: str) -> None:
     try:

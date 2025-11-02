@@ -1,4 +1,5 @@
 """Bridge: orchestration.multi_ai_router (legacy alias of routers.multi)."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates
@@ -13,7 +14,9 @@ for mod in (
     try:
         a, e = bridge_from_candidates(mod)
         if a:
-            __all__ = list(a); _exp = e; break
+            __all__ = list(a)
+            _exp = e
+            break
     except Exception:
         continue
 globals().update(_exp)

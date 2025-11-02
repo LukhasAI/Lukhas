@@ -5,6 +5,7 @@ does not import any `labs` modules at module-import time. The repository
 uses lazy runtime imports for heavy `labs` dependencies; this test will
 catch regressions where those imports are performed at import-time.
 """
+
 import importlib
 import sys
 

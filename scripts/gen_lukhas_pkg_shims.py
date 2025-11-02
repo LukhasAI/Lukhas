@@ -13,11 +13,13 @@ except Exception:
     from candidate.{real} import *
 """
 
+
 def ensure_pkg(path: Path):
     path.mkdir(parents=True, exist_ok=True)
     init = path / "__init__.py"
     if not init.exists():
         init.write_text("# package shim\n")
+
 
 def write_shim(pkg_dir: Path, leaf: str):
     if leaf == "__init__":
@@ -28,6 +30,7 @@ def write_shim(pkg_dir: Path, leaf: str):
     real_base = ".".join(pkg_dir.parts[1:])
     real = f"{real_base}.{leaf}"
     (pkg_dir / f"{leaf}.py").write_text(HEADER.format(real=real))
+
 
 def main():
     manifest = Path("artifacts/lukhas_shim_map.json")
@@ -44,6 +47,7 @@ def main():
 
     print("✅ Generated lukhas package shims from artifacts/lukhas_shim_map.json")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

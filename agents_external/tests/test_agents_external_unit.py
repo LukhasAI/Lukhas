@@ -25,10 +25,7 @@ class TestAgentsExternalModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "agents_external",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "agents_external", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestAgentsExternalModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import agents_external
+
         self.assertIsNotNone(agents_external)
 
     def test_module_version(self):
         """Test module has version information."""
         import agents_external
+
         # Most modules should have version info
-        self.assertTrue(hasattr(agents_external, '__version__') or
-                       hasattr(agents_external, 'VERSION'))
+        self.assertTrue(hasattr(agents_external, "__version__") or hasattr(agents_external, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestAgentsExternalModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

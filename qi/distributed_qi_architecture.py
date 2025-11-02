@@ -28,6 +28,7 @@ __tier__ = 2
 
 logger = logging.getLogger(__name__)
 
+
 class DistributedQuantumSafeOrchestrator:
     """
     Orchestrates distributed processing with quantum-safe communication
@@ -70,7 +71,9 @@ class DistributedQuantumSafeOrchestrator:
             self.qi_accelerator = QIProcessingUnit()  # noqa: F821  # TODO: QIProcessingUnit
 
         async def process_shard(
-            self, encrypted_shard: EncryptedDataShard, processing_plan: ProcessingPlan  # noqa: F821  # TODO: EncryptedDataShard
+            self,
+            encrypted_shard: EncryptedDataShard,
+            processing_plan: ProcessingPlan,  # noqa: F821  # TODO: EncryptedDataShard
         ) -> EncryptedResult:  # noqa: F821  # TODO: EncryptedResult
             """
             Process data shard with full encryption
@@ -100,10 +103,14 @@ class DistributedQuantumSafeOrchestrator:
         Federated learning with quantum enhancement and privacy
         """
         # 1. Initialize quantum variational circuit
-        qi_model = QIVariationalModel(num_qubits=learning_task.model_complexity, depth=learning_task.circuit_depth)  # noqa: F821  # TODO: QIVariationalModel
+        qi_model = QIVariationalModel(
+            num_qubits=learning_task.model_complexity, depth=learning_task.circuit_depth
+        )  # noqa: F821  # TODO: QIVariationalModel
 
         # 2. Distribute initial model with secure aggregation setup
-        aggregator = SecureAggregator(protocol="qi_secure_multiparty", threshold=len(participant_nodes) * 0.7)  # noqa: F821  # TODO: SecureAggregator
+        aggregator = SecureAggregator(
+            protocol="qi_secure_multiparty", threshold=len(participant_nodes) * 0.7
+        )  # noqa: F821  # TODO: SecureAggregator
 
         for _epoch in range(learning_task.num_epochs):
             # 3. Local quantum training on encrypted data

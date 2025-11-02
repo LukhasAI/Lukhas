@@ -111,9 +111,7 @@ def log_revert(ledger_path: Path, revert_entry: Dict) -> None:
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Revert manifests to previous state using enrichment ledger"
-    )
+    parser = argparse.ArgumentParser(description="Revert manifests to previous state using enrichment ledger")
     parser.add_argument(
         "--ledger",
         type=Path,

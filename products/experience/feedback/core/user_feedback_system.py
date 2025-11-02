@@ -32,11 +32,13 @@ from core.registry import register, resolve
 
 class LukhasError(Exception):
     """Base exception for LUKHAS system errors"""
+
     pass
 
 
 class ValidationError(LukhasError):
     """Exception for validation errors"""
+
     pass
 
 

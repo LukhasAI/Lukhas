@@ -13,11 +13,7 @@ def test_registration_credential_alias_when_webauthn_missing(monkeypatch):
 
     module_name = "tests.identity.webauthn_registration_alias"
     module_path = (
-        Path(__file__).resolve().parents[2]
-        / "lukhas_website"
-        / "lukhas"
-        / "identity"
-        / "webauthn_production.py"
+        Path(__file__).resolve().parents[2] / "lukhas_website" / "lukhas" / "identity" / "webauthn_production.py"
     )
 
     real_import = builtins.__import__

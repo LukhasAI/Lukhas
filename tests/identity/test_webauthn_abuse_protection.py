@@ -63,38 +63,38 @@ class TestWebAuthnAbuseProtection:
     def attack_contexts(self):
         """Common attack scenario contexts."""
         return {
-            'credential_stuffing': {
-                'user_agents': [
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Automated',
-                    'python-requests/2.28.1',
-                    'curl/7.68.0',
-                    'PostmanRuntime/7.29.2'
+            "credential_stuffing": {
+                "user_agents": [
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Automated",
+                    "python-requests/2.28.1",
+                    "curl/7.68.0",
+                    "PostmanRuntime/7.29.2",
                 ],
-                'ip_ranges': ['192.168.1.{}'.format(i) for i in range(1, 255)],
-                'request_patterns': 'rapid_sequential'
+                "ip_ranges": ["192.168.1.{}".format(i) for i in range(1, 255)],
+                "request_patterns": "rapid_sequential",
             },
-            'device_spoofing': {
-                'fingerprints': [
-                    {'screen': '1920x1080', 'timezone': 'UTC', 'language': 'en-US'},
-                    {'screen': '1366x768', 'timezone': 'PST', 'language': 'en-US'},
-                    {'screen': '2560x1440', 'timezone': 'EST', 'language': 'en-GB'}
+            "device_spoofing": {
+                "fingerprints": [
+                    {"screen": "1920x1080", "timezone": "UTC", "language": "en-US"},
+                    {"screen": "1366x768", "timezone": "PST", "language": "en-US"},
+                    {"screen": "2560x1440", "timezone": "EST", "language": "en-GB"},
                 ],
-                'rapid_switching': True
+                "rapid_switching": True,
             },
-            'geographic_anomaly': {
-                'locations': [
-                    {'country': 'US', 'city': 'New York', 'lat': 40.7128, 'lng': -74.0060},
-                    {'country': 'CN', 'city': 'Beijing', 'lat': 39.9042, 'lng': 116.4074},
-                    {'country': 'RU', 'city': 'Moscow', 'lat': 55.7558, 'lng': 37.6173}
+            "geographic_anomaly": {
+                "locations": [
+                    {"country": "US", "city": "New York", "lat": 40.7128, "lng": -74.0060},
+                    {"country": "CN", "city": "Beijing", "lat": 39.9042, "lng": 116.4074},
+                    {"country": "RU", "city": "Moscow", "lat": 55.7558, "lng": 37.6173},
                 ],
-                'time_delta': timedelta(minutes=5)
-            }
+                "time_delta": timedelta(minutes=5),
+            },
         }
 
     @pytest.mark.asyncio
     async def test_rate_limiting_abuse_detection(self, security_hardening, mock_redis):
         """Test detection and mitigation of rate limiting abuse."""
-        with patch.object(security_hardening, 'redis', mock_redis):
+        with patch.object(security_hardening, "redis", mock_redis):
 
             # Simulate credential stuffing attack
             user_id = "test_user_123"
@@ -108,10 +108,7 @@ class TestWebAuthnAbuseProtection:
             results = []
             for i in range(len(attempt_counts)):
                 is_allowed, reason, events = await security_hardening.validate_request_security(
-                    operation="authenticate",
-                    user_id=user_id,
-                    ip_address=attacker_ip,
-                    user_agent=user_agent
+                    operation="authenticate", user_id=user_id, ip_address=attacker_ip, user_agent=user_agent
                 )
                 results.append((is_allowed, reason, len(events)))
 
@@ -127,13 +124,10 @@ class TestWebAuthnAbuseProtection:
             assert results[4][2] > 0  # Security events recorded
 
             # Test rate limit recovery
-            with patch('time.time', return_value=time.time() + 3600):  # 1 hour later
+            with patch("time.time", return_value=time.time() + 3600):  # 1 hour later
                 mock_redis.get.return_value = "0"
                 is_allowed, _, _ = await security_hardening.validate_request_security(
-                    operation="authenticate",
-                    user_id=user_id,
-                    ip_address=attacker_ip,
-                    user_agent=user_agent
+                    operation="authenticate", user_id=user_id, ip_address=attacker_ip, user_agent=user_agent
                 )
                 assert is_allowed is True  # Should be allowed after cooldown
 
@@ -142,15 +136,15 @@ class TestWebAuthnAbuseProtection:
         """Test protection against credential stuffing attacks."""
 
         # Simulate distributed credential stuffing attack
-        contexts = attack_contexts['credential_stuffing']
+        contexts = attack_contexts["credential_stuffing"]
 
         blocked_attempts = 0
         security_events = []
 
         for i in range(100):  # Simulate 100 attempts
             user_id = f"victim_user_{i % 10}"  # Targeting 10 users
-            ip_address = contexts['ip_ranges'][i % len(contexts['ip_ranges'])]
-            user_agent = contexts['user_agents'][i % len(contexts['user_agents'])]
+            ip_address = contexts["ip_ranges"][i % len(contexts["ip_ranges"])]
+            user_agent = contexts["user_agents"][i % len(contexts["user_agents"])]
 
             is_allowed, reason, events = await security_hardening.validate_request_security(
                 operation="authenticate",
@@ -158,9 +152,9 @@ class TestWebAuthnAbuseProtection:
                 ip_address=ip_address,
                 user_agent=user_agent,
                 additional_context={
-                    'request_timing': time.time() - (i * 0.1),  # Rapid requests
-                    'credential_source': 'leaked_database'
-                }
+                    "request_timing": time.time() - (i * 0.1),  # Rapid requests
+                    "credential_source": "leaked_database",
+                },
             )
 
             if not is_allowed:
@@ -193,7 +187,7 @@ class TestWebAuthnAbuseProtection:
             language="en-US",
             plugins=["Chrome PDF Plugin", "Chrome PDF Viewer"],
             canvas_fingerprint="abc123def456",
-            webgl_fingerprint="gpu789xyz012"
+            webgl_fingerprint="gpu789xyz012",
         )
 
         # Establish legitimate baseline
@@ -202,23 +196,23 @@ class TestWebAuthnAbuseProtection:
             user_id=user_id,
             ip_address=base_ip,
             user_agent=legitimate_fingerprint.user_agent,
-            additional_context={'device_fingerprint': legitimate_fingerprint}
+            additional_context={"device_fingerprint": legitimate_fingerprint},
         )
         assert is_allowed is True
 
         # Simulate rapid device switching (fingerprint spoofing)
-        spoofed_contexts = attack_contexts['device_spoofing']['fingerprints']
+        spoofed_contexts = attack_contexts["device_spoofing"]["fingerprints"]
         suspicious_attempts = 0
 
         for i, context in enumerate(spoofed_contexts * 5):  # Repeat patterns
             spoofed_fingerprint = DeviceFingerprint(
                 user_agent=f"Mozilla/5.0 (Device {i})",
-                screen_resolution=context['screen'],
-                timezone=context['timezone'],
-                language=context['language'],
+                screen_resolution=context["screen"],
+                timezone=context["timezone"],
+                language=context["language"],
                 plugins=[f"Plugin {i}"],
                 canvas_fingerprint=hashlib.md5(f"canvas{i}".encode()).hexdigest(),
-                webgl_fingerprint=hashlib.md5(f"webgl{i}".encode()).hexdigest()
+                webgl_fingerprint=hashlib.md5(f"webgl{i}".encode()).hexdigest(),
             )
 
             is_allowed, reason, events = await security_hardening.validate_request_security(
@@ -226,10 +220,7 @@ class TestWebAuthnAbuseProtection:
                 user_id=user_id,
                 ip_address=base_ip,
                 user_agent=spoofed_fingerprint.user_agent,
-                additional_context={
-                    'device_fingerprint': spoofed_fingerprint,
-                    'rapid_switching': True
-                }
+                additional_context={"device_fingerprint": spoofed_fingerprint, "rapid_switching": True},
             )
 
             if not is_allowed and "device" in reason.lower():
@@ -245,18 +236,18 @@ class TestWebAuthnAbuseProtection:
         """Test detection of impossible geographic travel patterns."""
 
         user_id = "frequent_traveler_789"
-        locations = attack_contexts['geographic_anomaly']['locations']
+        locations = attack_contexts["geographic_anomaly"]["locations"]
 
         # Simulate impossible travel (NYC to Beijing in 5 minutes)
         results = []
 
         for i, location in enumerate(locations):
             geographic_context = GeographicContext(
-                country=location['country'],
-                city=location['city'],
-                latitude=location['lat'],
-                longitude=location['lng'],
-                timestamp=datetime.now() + timedelta(minutes=i * 5)
+                country=location["country"],
+                city=location["city"],
+                latitude=location["lat"],
+                longitude=location["lng"],
+                timestamp=datetime.now() + timedelta(minutes=i * 5),
             )
 
             is_allowed, reason, events = await security_hardening.validate_request_security(
@@ -264,7 +255,7 @@ class TestWebAuthnAbuseProtection:
                 user_id=user_id,
                 ip_address=f"192.0.2.{i + 1}",
                 user_agent="Mozilla/5.0 (consistent browser)",
-                additional_context={'geographic_context': geographic_context}
+                additional_context={"geographic_context": geographic_context},
             )
 
             results.append((is_allowed, reason, events))
@@ -274,8 +265,11 @@ class TestWebAuthnAbuseProtection:
         assert results[0][0] is True
 
         # Subsequent locations should trigger geographic anomaly detection
-        anomaly_detected = any("geographic" in result[1].lower() or "travel" in result[1].lower()
-                              for result in results[1:] if not result[0])
+        anomaly_detected = any(
+            "geographic" in result[1].lower() or "travel" in result[1].lower()
+            for result in results[1:]
+            if not result[0]
+        )
         assert anomaly_detected
 
     @pytest.mark.asyncio
@@ -288,10 +282,10 @@ class TestWebAuthnAbuseProtection:
 
         # Generate mock authentication token
         mock_token = {
-            'challenge': secrets.token_urlsafe(32),
-            'timestamp': int(time.time()),
-            'user_id': user_id,
-            'nonce': secrets.token_urlsafe(16)
+            "challenge": secrets.token_urlsafe(32),
+            "timestamp": int(time.time()),
+            "user_id": user_id,
+            "nonce": secrets.token_urlsafe(16),
         }
 
         # First use should be allowed
@@ -301,9 +295,9 @@ class TestWebAuthnAbuseProtection:
             ip_address=ip_address,
             user_agent=user_agent,
             additional_context={
-                'auth_token': mock_token,
-                'token_hash': hashlib.sha256(json.dumps(mock_token).encode()).hexdigest()
-            }
+                "auth_token": mock_token,
+                "token_hash": hashlib.sha256(json.dumps(mock_token).encode()).hexdigest(),
+            },
         )
         assert is_allowed_1 is True
 
@@ -315,9 +309,9 @@ class TestWebAuthnAbuseProtection:
             ip_address=ip_address,
             user_agent=user_agent,
             additional_context={
-                'auth_token': mock_token,
-                'token_hash': hashlib.sha256(json.dumps(mock_token).encode()).hexdigest()
-            }
+                "auth_token": mock_token,
+                "token_hash": hashlib.sha256(json.dumps(mock_token).encode()).hexdigest(),
+            },
         )
 
         # Should detect replay attempt
@@ -342,10 +336,7 @@ class TestWebAuthnAbuseProtection:
                 user_id=user_id,
                 ip_address=ip_address,
                 user_agent=user_agent,
-                additional_context={
-                    'session_id': f"session_{i}",
-                    'concurrent_attempt': True
-                }
+                additional_context={"session_id": f"session_{i}", "concurrent_attempt": True},
             )
             concurrent_tasks.append(task)
 
@@ -353,8 +344,7 @@ class TestWebAuthnAbuseProtection:
         results = await asyncio.gather(*concurrent_tasks, return_exceptions=True)
 
         # Count blocked requests
-        blocked_count = sum(1 for result in results
-                           if isinstance(result, tuple) and not result[0])
+        blocked_count = sum(1 for result in results if isinstance(result, tuple) and not result[0])
 
         # Should block excessive concurrent sessions
         assert blocked_count > 10
@@ -376,11 +366,7 @@ class TestWebAuthnAbuseProtection:
                 user_id=attack_user_ids[i],
                 ip_address=attack_ips[i],
                 user_agent="AttackBot/1.0",
-                additional_context={
-                    'attack_pattern': True,
-                    'bulk_request': True,
-                    'threat_score': 0.95
-                }
+                additional_context={"attack_pattern": True, "bulk_request": True, "threat_score": 0.95},
             )
 
             if not is_allowed:
@@ -400,7 +386,7 @@ class TestWebAuthnAbuseProtection:
             operation="authenticate",
             user_id="normal_user",
             ip_address="192.168.1.10",
-            user_agent="Mozilla/5.0 (normal browser)"
+            user_agent="Mozilla/5.0 (normal browser)",
         )
 
         # Should be blocked during emergency lockdown
@@ -423,10 +409,10 @@ class TestWebAuthnAbuseProtection:
                 ip_address=attacker_ip,
                 user_agent="BruteForceBot/1.0",
                 additional_context={
-                    'failed_attempts': i,
-                    'credential_guess': f"password{i:03d}",
-                    'brute_force_pattern': True
-                }
+                    "failed_attempts": i,
+                    "credential_guess": f"password{i:03d}",
+                    "brute_force_pattern": True,
+                },
             )
             attempts.append((is_allowed, reason, events))
 
@@ -459,7 +445,7 @@ class TestWebAuthnAbuseProtection:
                 user_id=f"user_{i % 100}",
                 ip_address=f"10.0.{i // 256}.{i % 256}",
                 user_agent=f"AttackAgent/{i}",
-                additional_context={'attack_simulation': True}
+                additional_context={"attack_simulation": True},
             )
             tasks.append(task)
 
@@ -486,21 +472,21 @@ class TestWebAuthnAbuseProtection:
 
         # Simulate various attack types
         attack_scenarios = [
-            {'type': 'rate_limit', 'count': 10},
-            {'type': 'credential_stuffing', 'count': 25},
-            {'type': 'device_spoofing', 'count': 15},
-            {'type': 'geographic_anomaly', 'count': 8},
-            {'type': 'token_replay', 'count': 12}
+            {"type": "rate_limit", "count": 10},
+            {"type": "credential_stuffing", "count": 25},
+            {"type": "device_spoofing", "count": 15},
+            {"type": "geographic_anomaly", "count": 8},
+            {"type": "token_replay", "count": 12},
         ]
 
         for scenario in attack_scenarios:
-            for i in range(scenario['count']):
+            for i in range(scenario["count"]):
                 await security_hardening.validate_request_security(
                     operation="authenticate",
                     user_id=f"{scenario['type']}_user_{i}",
                     ip_address=f"192.168.{hash(scenario['type']) % 255}.{i + 1}",
                     user_agent=f"{scenario['type']}_agent",
-                    additional_context={'attack_type': scenario['type']}
+                    additional_context={"attack_type": scenario["type"]},
                 )
 
         # Verify metrics collection
@@ -518,39 +504,36 @@ class TestWebAuthnAbuseProtection:
         # Simulate legitimate user behavior patterns
         legitimate_scenarios = [
             {
-                'user_id': 'mobile_user',
-                'ip_changes': ['192.168.1.50', '192.168.1.51'],  # WiFi to cellular
-                'user_agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)',
-                'behavior': 'mobile_switching'
+                "user_id": "mobile_user",
+                "ip_changes": ["192.168.1.50", "192.168.1.51"],  # WiFi to cellular
+                "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)",
+                "behavior": "mobile_switching",
             },
             {
-                'user_id': 'traveling_user',
-                'ip_changes': ['203.0.113.10', '198.51.100.20'],  # Business travel
-                'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-                'behavior': 'legitimate_travel'
+                "user_id": "traveling_user",
+                "ip_changes": ["203.0.113.10", "198.51.100.20"],  # Business travel
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "behavior": "legitimate_travel",
             },
             {
-                'user_id': 'office_user',
-                'ip_changes': ['10.0.1.100'] * 5,  # Consistent office IP
-                'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-                'behavior': 'consistent_location'
-            }
+                "user_id": "office_user",
+                "ip_changes": ["10.0.1.100"] * 5,  # Consistent office IP
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "behavior": "consistent_location",
+            },
         ]
 
         false_positives = 0
         total_legitimate_requests = 0
 
         for scenario in legitimate_scenarios:
-            for i, ip in enumerate(scenario['ip_changes']):
+            for i, ip in enumerate(scenario["ip_changes"]):
                 is_allowed, reason, events = await security_hardening.validate_request_security(
                     operation="authenticate",
-                    user_id=scenario['user_id'],
+                    user_id=scenario["user_id"],
                     ip_address=ip,
-                    user_agent=scenario['user_agent'],
-                    additional_context={
-                        'legitimate_user': True,
-                        'behavior_pattern': scenario['behavior']
-                    }
+                    user_agent=scenario["user_agent"],
+                    additional_context={"legitimate_user": True, "behavior_pattern": scenario["behavior"]},
                 )
 
                 total_legitimate_requests += 1

@@ -23,9 +23,7 @@ class RedisIdempotencyStore(IdempotencyStore):
             status = obj.get("status")
             headers = obj.get("headers", {})
             body_hex = obj.get("body_hex", "")
-            body_sha256 = obj.get(
-                "body_sha256", self._hash_body(bytes.fromhex(body_hex))
-            )  # Recalculate if missing
+            body_sha256 = obj.get("body_sha256", self._hash_body(bytes.fromhex(body_hex)))  # Recalculate if missing
 
             if status is None:
                 return None  # Invalid data

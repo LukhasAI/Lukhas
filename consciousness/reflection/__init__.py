@@ -5,6 +5,7 @@ Bridge to candidate.consciousness.reflection (single source of truth)
 Self-reflection, introspection, and alignment tracking.
 Constellation Framework: ⚛️🧠🛡️
 """
+
 from candidate.consciousness.reflection import (
     AlignmentScore,
     AlignmentStatus,

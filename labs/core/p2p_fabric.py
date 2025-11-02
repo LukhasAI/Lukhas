@@ -6,6 +6,7 @@ This module provides a simplified implementation of a P2P node, which enables
 direct, high-throughput communication between collaborating agents, bypassing
 the central event broker for data-intensive tasks.
 """
+
 import socket
 import threading
 

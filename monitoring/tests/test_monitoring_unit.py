@@ -25,10 +25,7 @@ class TestMonitoringModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "monitoring",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "monitoring", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestMonitoringModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import monitoring
+
         self.assertIsNotNone(monitoring)
 
     def test_module_version(self):
         """Test module has version information."""
         import monitoring
+
         # Most modules should have version info
-        self.assertTrue(hasattr(monitoring, '__version__') or
-                       hasattr(monitoring, 'VERSION'))
+        self.assertTrue(hasattr(monitoring, "__version__") or hasattr(monitoring, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestConsciousnessMonitor(unittest.TestCase):
         """Test ConsciousnessMonitor can be imported."""
         try:
             from monitoring import ConsciousnessMonitor
+
             self.assertIsNotNone(ConsciousnessMonitor)
         except ImportError:
             pytest.skip("Component ConsciousnessMonitor not available")
@@ -97,6 +96,7 @@ class TestMONITORING_DOMAINS(unittest.TestCase):
         """Test MONITORING_DOMAINS can be imported."""
         try:
             from monitoring import MONITORING_DOMAINS
+
             self.assertIsNotNone(MONITORING_DOMAINS)
         except ImportError:
             pytest.skip("Component MONITORING_DOMAINS not available")
@@ -114,6 +114,7 @@ class TestSystemMetrics(unittest.TestCase):
         """Test SystemMetrics can be imported."""
         try:
             from monitoring import SystemMetrics
+
             self.assertIsNotNone(SystemMetrics)
         except ImportError:
             pytest.skip("Component SystemMetrics not available")
@@ -122,7 +123,6 @@ class TestSystemMetrics(unittest.TestCase):
         """Test SystemMetrics can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

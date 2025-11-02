@@ -40,9 +40,10 @@ try:
         app,
     )
 
-    logger.info("ΛTRACE: Successfully imported EnhancedOnboardingManager, OnboardingStage, "
-                "OnboardingPersonality, and unified_api components(app, api_response)."
-                )
+    logger.info(
+        "ΛTRACE: Successfully imported EnhancedOnboardingManager, OnboardingStage, "
+        "OnboardingPersonality, and unified_api components(app, api_response)."
+    )
 except ImportError as e:
     logger.error(
         f"ΛTRACE: Critical import error in onboarding_api: {e}. Some functionalities might not work.",
@@ -55,9 +56,7 @@ except ImportError as e:
     class EnhancedOnboardingManager:  # type: ignore:
 
         def __init__(self):
-            logger.critical(
-                "ΛTRACE: Using FALLBACK EnhancedOnboardingManager due to import error."
-            )
+            logger.critical("ΛTRACE: Using FALLBACK EnhancedOnboardingManager due to import error.")
 
         def start_onboarding_session(self, *args, **kwargs) -> dict[str, Any]:
             return {"success": False, "error": "OnboardingManager not loaded"}
@@ -73,9 +72,7 @@ except ImportError as e:
 
     # If `app` from unified_api cannot be imported, this module cannot define routes on it.
     # This is a critical failure for this file's purpose.
-    if (
-        "app" not in locals() or "api_response" not in locals()
-    ):  # Check if app was successfully imported
+    if "app" not in locals() or "api_response" not in locals():  # Check if app was successfully imported
         logger.critical(
             "ΛTRACE: unified_api.app or unified_api.api_response could not be imported. Onboarding API endpoints will NOT be available."
         )
@@ -101,6 +98,7 @@ except ImportError as e:
                 }
             )
 
+
 # Initialize Enhanced Onboarding Manager if app was loaded
 if app:  # Only initialize if Flask app instance is available:
     onboarding_manager = EnhancedOnboardingManager()
@@ -118,6 +116,7 @@ def _generate_request_id(prefix: str = "req") -> str:
     """Generates a simple unique request ID for logging purposes."""
     return f"{prefix}_{int(time.time()*1000)}_{random.randint(100,999)}"
 
+
 # --- Enhanced Onboarding API Routes ---
 # All routes are conditional on `app` being successfully imported.
 
@@ -132,22 +131,16 @@ if app:  # Check if app is defined (i.e., import was successful):
         Accepts initial context data to tailor the onboarding flow.
         """
         request_id = _generate_request_id("onboard_start")
-        logger.info(
-            f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/start."
-        )
+        logger.info(f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/start.")
 
         try:
-            initial_context = (
-                request.get_json(silent=True) or {}
-            )  # Use silent=True and default to {}
+            initial_context = request.get_json(silent=True) or {}  # Use silent=True and default to {}
             logger.debug(
                 f"ΛTRACE ({request_id}): Initial context from request: {initial_context if initial_context else 'None provided'}"
             )
 
             if not onboarding_manager:  # Check if manager is initialized:
-                logger.error(
-                    f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot start session."
-                )
+                logger.error(f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot start session.")
                 return (
                     api_response(
                         success=False,
@@ -162,9 +155,7 @@ if app:  # Check if app is defined (i.e., import was successful):
             )  # This method should log its own details
 
             if result.get("success"):  # Use .get for safer access:
-                session["onboarding_session_id"] = result.get(
-                    "session_id"
-                )  # Store in Flask session
+                session["onboarding_session_id"] = result.get("session_id")  # Store in Flask session
                 logger.info(
                     f"ΛTRACE ({request_id}): Enhanced onboarding session started successfully. Session ID: {result.get('session_id')}, Current Stage: {result.get('current_stage')}."
                 )
@@ -175,9 +166,7 @@ if app:  # Check if app is defined (i.e., import was successful):
                         "current_stage": result.get("current_stage"),
                         "content": result.get("content"),  # Content for the first stage
                         "estimated_time_minutes": result.get("estimated_time_minutes"),
-                        "cultural_context_detected": result.get(
-                            "cultural_context_detected"
-                        ),
+                        "cultural_context_detected": result.get("cultural_context_detected"),
                     },
                     message="Enhanced onboarding session initiated.",
                 )
@@ -208,6 +197,7 @@ if app:  # Check if app is defined (i.e., import was successful):
                 500,
             )
 
+
 # Human-readable comment: Endpoint to progress the user to the next onboarding stage.
 if app:
 
@@ -218,16 +208,12 @@ if app:
         based on data submitted for the current stage.
         """
         request_id = _generate_request_id("onboard_progress")
-        logger.info(
-            f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/progress."
-        )
+        logger.info(f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/progress.")
 
         try:
             data = request.get_json(silent=True)  # Use silent=True
             if not data:
-                logger.warning(
-                    f"ΛTRACE ({request_id}): Missing JSON request data for onboarding progress."
-                )
+                logger.warning(f"ΛTRACE ({request_id}): Missing JSON request data for onboarding progress.")
                 return (
                     api_response(
                         success=False,
@@ -239,9 +225,7 @@ if app:
 
             session_id = data.get("session_id") or session.get("onboarding_session_id")
             if not session_id:
-                logger.warning(
-                    f"ΛTRACE ({request_id}): Missing session ID for onboarding progress."
-                )
+                logger.warning(f"ΛTRACE ({request_id}): Missing session ID for onboarding progress.")
                 return (
                     api_response(
                         success=False,
@@ -257,9 +241,7 @@ if app:
             )
 
             if not onboarding_manager:
-                logger.error(
-                    f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot progress session."
-                )
+                logger.error(f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot progress session.")
                 return (
                     api_response(
                         success=False,
@@ -269,9 +251,7 @@ if app:
                     503,
                 )
 
-            result = onboarding_manager.progress_onboarding_stage(
-                session_id, stage_data
-            )  # Manager logs details
+            result = onboarding_manager.progress_onboarding_stage(session_id, stage_data)  # Manager logs details
 
             if result.get("success"):
                 logger.info(
@@ -309,6 +289,7 @@ if app:
                 500,
             )
 
+
 # Human-readable comment: Endpoint to complete the onboarding process and create a ΛiD.
 if app:
 
@@ -318,17 +299,13 @@ if app:
         Finalizes the enhanced onboarding process for the user and attempts to create their LUKHAS ΛiD.
         """
         request_id = _generate_request_id("onboard_complete")
-        logger.info(
-            f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/complete."
-        )
+        logger.info(f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/complete.")
 
         try:
             data = request.get_json(silent=True) or {}
             session_id = data.get("session_id") or session.get("onboarding_session_id")
             if not session_id:
-                logger.warning(
-                    f"ΛTRACE ({request_id}): Missing session ID for onboarding completion."
-                )
+                logger.warning(f"ΛTRACE ({request_id}): Missing session ID for onboarding completion.")
                 return (
                     api_response(
                         success=False,
@@ -338,14 +315,10 @@ if app:
                     400,
                 )
 
-            logger.debug(
-                f"ΛTRACE ({request_id}): Completing onboarding for session ID '{session_id}'."
-            )
+            logger.debug(f"ΛTRACE ({request_id}): Completing onboarding for session ID '{session_id}'.")
 
             if not onboarding_manager:
-                logger.error(
-                    f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot complete session."
-                )
+                logger.error(f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot complete session.")
                 return (
                     api_response(
                         success=False,
@@ -355,9 +328,7 @@ if app:
                     503,
                 )
 
-            result = onboarding_manager.complete_onboarding(
-                session_id
-            )  # Manager logs details
+            result = onboarding_manager.complete_onboarding(session_id)  # Manager logs details
 
             if result.get("success"):
                 session.pop("onboarding_session_id", None)  # Clear from Flask session
@@ -396,6 +367,7 @@ if app:
                 500,
             )
 
+
 # Human-readable comment: Endpoint to get the current status of an onboarding session.
 if app:
 
@@ -411,9 +383,7 @@ if app:
 
         try:
             if not onboarding_manager:
-                logger.error(
-                    f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot get status."
-                )
+                logger.error(f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot get status.")
                 return (
                     api_response(
                         success=False,
@@ -423,9 +393,7 @@ if app:
                     503,
                 )
 
-            result = onboarding_manager.get_onboarding_status(
-                session_id
-            )  # Manager logs details
+            result = onboarding_manager.get_onboarding_status(session_id)  # Manager logs details
 
             if result.get("success"):
                 logger.info(
@@ -441,9 +409,7 @@ if app:
                     f"ΛTRACE ({request_id}): Failed to get onboarding status for session '{session_id}'. Reason: {result.get('error', 'Unknown manager error')}."
                 )
                 # 404 if session not found by manager, otherwise potentially 400 or 500
-                status_code = (
-                    404 if "not found" in result.get("error", "").lower() else 400
-                )
+                status_code = 404 if "not found" in result.get("error", "").lower() else 400
                 return (
                     api_response(
                         success=False,
@@ -467,6 +433,7 @@ if app:
                 500,
             )
 
+
 # Human-readable comment: Endpoint to retrieve available onboarding
 # personality templates.
 if app:
@@ -478,9 +445,7 @@ if app:
         descriptions, features, and recommended use cases.
         """
         request_id = _generate_request_id("onboard_tpl_pers")
-        logger.info(
-            f"ΛTRACE ({request_id}): Received GET request to /api/v2/onboarding/templates/personality."
-        )
+        logger.info(f"ΛTRACE ({request_id}): Received GET request to /api/v2/onboarding/templates/personality.")
 
         try:
             # This data could be loaded from a configuration file or database in a real system.
@@ -594,9 +559,7 @@ if app:
                 data={
                     "personality_types": personality_templates_data,
                     "default_type": "simple",
-                    "available_onboarding_stages": [
-                        stage.value for stage in OnboardingStage
-                    ],
+                    "available_onboarding_stages": [stage.value for stage in OnboardingStage],
                 },
                 message="Onboarding personality templates retrieved successfully.",
             )
@@ -615,6 +578,7 @@ if app:
                 500,
             )
 
+
 # Human-readable comment: Endpoint to retrieve available cultural context
 # templates for onboarding.
 if app:
@@ -626,9 +590,7 @@ if app:
         languages, symbols, and welcome messages for tailored onboarding.
         """
         request_id = _generate_request_id("onboard_tpl_cult")
-        logger.info(
-            f"ΛTRACE ({request_id}): Received GET request to /api/v2/onboarding/templates/cultural."
-        )
+        logger.info(f"ΛTRACE ({request_id}): Received GET request to /api/v2/onboarding/templates/cultural.")
 
         try:
             # This data could also be configurable.
@@ -742,6 +704,7 @@ if app:
                 500,
             )
 
+
 # Human-readable comment: Endpoint to get personalized symbolic
 # suggestions for onboarding.
 if app:
@@ -753,9 +716,7 @@ if app:
         cultural context, interests, and desired security level.
         """
         request_id = _generate_request_id("onboard_sugg_sym")
-        logger.info(
-            f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/suggestions/symbolic."
-        )
+        logger.info(f"ΛTRACE ({request_id}): Received POST request to /api/v2/onboarding/suggestions/symbolic.")
 
         try:
             data = request.get_json(silent=True) or {}
@@ -793,9 +754,7 @@ if app:
                         for sugg_list in cat_val.values():
                             if isinstance(sugg_list, list):
                                 total_sugg_count += len(sugg_list)
-            logger.info(
-                f"ΛTRACE ({request_id}): Generated {total_sugg_count} symbolic suggestions across categories."
-            )
+            logger.info(f"ΛTRACE ({request_id}): Generated {total_sugg_count} symbolic suggestions across categories.")
 
             return api_response(
                 success=True,
@@ -825,6 +784,7 @@ if app:
                 ),
                 500,
             )
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: onboarding_api.py

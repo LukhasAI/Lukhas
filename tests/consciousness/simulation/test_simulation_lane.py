@@ -10,6 +10,7 @@ from consciousness.simulation import api
 def run(coro):
     return asyncio.get_event_loop().run_until_complete(coro)
 
+
 def _seed(consented: bool = True, duress: bool = False):
     scopes = ["simulation.read_context"] if consented else []
     return {
@@ -22,6 +23,7 @@ def _seed(consented: bool = True, duress: bool = False):
         },
     }
 
+
 def test_schedule_and_collect_happy_path():
     job_id = run(api.schedule(_seed()))
     st = run(api.status(job_id))
@@ -33,6 +35,7 @@ def test_schedule_and_collect_happy_path():
     assert "matada_nodes" in result and len(result["matada_nodes"]) == 3
     assert all(n["id"].startswith(result["trace_id"]) for n in result["matada_nodes"])
 
+
 def test_denies_without_consent():
     try:
         run(api.schedule(_seed(consented=False)))
@@ -40,12 +43,14 @@ def test_denies_without_consent():
     except api.PolicyViolation:
         pass
 
+
 def test_denies_under_duress():
     try:
         run(api.schedule(_seed(duress=True)))
         assert False, "Expected PolicyViolation"
     except api.PolicyViolation:
         pass
+
 
 def test_feature_flag_off_blocks():
     os.environ["SIMULATION_ENABLED"] = "false"
@@ -56,6 +61,7 @@ def test_feature_flag_off_blocks():
         pass
     finally:
         os.environ["SIMULATION_ENABLED"] = "true"
+
 
 def test_no_adapter_imports():
     mod = importlib.import_module("consciousness.simulation.api")

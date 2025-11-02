@@ -26,6 +26,7 @@ from .adaptive_memory import MemoryFold, MemoryItem, MemoryType
 
 class FoldStatus(Enum):
     """Status of memory folds"""
+
     ACTIVE = "active"
     SCHEDULED = "scheduled"
     COMPRESSED = "compressed"
@@ -35,6 +36,7 @@ class FoldStatus(Enum):
 
 class CompressionLevel(Enum):
     """Compression levels for fold storage"""
+
     NONE = 0
     LIGHT = 1
     MEDIUM = 6
@@ -44,6 +46,7 @@ class CompressionLevel(Enum):
 @dataclass
 class FoldMetrics:
     """Metrics for fold performance tracking"""
+
     created_at: datetime = field(default_factory=datetime.now)
     last_accessed: Optional[datetime] = None
     access_count: int = 0
@@ -56,6 +59,7 @@ class FoldMetrics:
 @dataclass
 class ScheduledFold:
     """Enhanced memory fold with scheduling and compression"""
+
     fold: MemoryFold
     status: FoldStatus = FoldStatus.ACTIVE
     metrics: FoldMetrics = field(default_factory=FoldMetrics)
@@ -73,18 +77,13 @@ class ScheduledFold:
 
     def _calculate_content_hash(self):
         """Calculate content hash for deduplication"""
-        content_str = json.dumps(
-            [str(item.content) for item in self.fold.items],
-            sort_keys=True
-        )
+        content_str = json.dumps([str(item.content) for item in self.fold.items], sort_keys=True)
         self.content_hash = hashlib.sha256(content_str.encode()).hexdigest()[:16]
 
     def _update_metrics(self):
         """Update fold metrics"""
         self.metrics.item_count = len(self.fold.items)
-        self.metrics.size_bytes = sum(
-            len(str(item.content)) for item in self.fold.items
-        )
+        self.metrics.size_bytes = sum(len(str(item.content)) for item in self.fold.items)
 
     def compress(self, level: CompressionLevel = CompressionLevel.MEDIUM) -> bool:
         """Compress fold content"""
@@ -109,11 +108,11 @@ class ScheduledFold:
                 "metadata": {
                     "created": self.fold.created.isoformat(),
                     "size_bytes": self.fold.size_bytes,
-                }
+                },
             }
 
             # Compress data
-            json_data = json.dumps(data, separators=(',', ':')).encode()
+            json_data = json.dumps(data, separators=(",", ":")).encode()
             self.compressed_data = zlib.compress(json_data, level.value)
 
             # Calculate compression ratio
@@ -294,13 +293,9 @@ class ScheduledFoldingManager:
 
     def _check_compression_trigger(self):
         """Check if compression should be triggered"""
-        total_size = sum(
-            fold.metrics.size_bytes
-            for fold in self.active_folds.values()
-        )
+        total_size = sum(fold.metrics.size_bytes for fold in self.active_folds.values())
 
-        if (total_size > self.compression_threshold_bytes or
-            len(self.active_folds) > self.max_active_folds):
+        if total_size > self.compression_threshold_bytes or len(self.active_folds) > self.max_active_folds:
             self._compress_lru_folds()
 
     def _check_eviction_trigger(self):
@@ -312,10 +307,7 @@ class ScheduledFoldingManager:
         """Compress least recently used folds"""
         # Always compress at least 1 fold if over limit
         if len(self.active_folds) > self.max_active_folds:
-            compress_count = min(
-                self.eviction_batch_size,
-                max(1, len(self.active_folds) - self.max_active_folds // 2)
-            )
+            compress_count = min(self.eviction_batch_size, max(1, len(self.active_folds) - self.max_active_folds // 2))
         else:
             return
 
@@ -335,25 +327,19 @@ class ScheduledFoldingManager:
                 # Track compression savings
                 original_size = scheduled_fold.metrics.size_bytes
                 compressed_size = len(scheduled_fold.compressed_data or b"")
-                self.metrics["compression_saves_bytes"] += (original_size - compressed_size)
+                self.metrics["compression_saves_bytes"] += original_size - compressed_size
 
         self._update_total_size()
 
     def _evict_lru_folds(self):
         """Evict least recently used compressed folds"""
-        evict_count = min(
-            self.eviction_batch_size,
-            len(self.compressed_folds) - self.max_compressed_folds
-        )
+        evict_count = min(self.eviction_batch_size, len(self.compressed_folds) - self.max_compressed_folds)
 
         if evict_count <= 0:
             return
 
         # Sort by last access time (oldest first)
-        sorted_folds = sorted(
-            self.compressed_folds.items(),
-            key=lambda x: x[1].metrics.last_accessed or datetime.min
-        )
+        sorted_folds = sorted(self.compressed_folds.items(), key=lambda x: x[1].metrics.last_accessed or datetime.min)
 
         for fold_id, scheduled_fold in sorted_folds[:evict_count]:
             # Remove from storage
@@ -368,14 +354,8 @@ class ScheduledFoldingManager:
 
     def _update_total_size(self):
         """Update total size metrics"""
-        active_size = sum(
-            fold.metrics.size_bytes
-            for fold in self.active_folds.values()
-        )
-        compressed_size = sum(
-            len(fold.compressed_data or b"")
-            for fold in self.compressed_folds.values()
-        )
+        active_size = sum(fold.metrics.size_bytes for fold in self.active_folds.values())
+        compressed_size = sum(len(fold.compressed_data or b"") for fold in self.compressed_folds.values())
         self.metrics["total_size_bytes"] = active_size + compressed_size
 
     def _background_folding_worker(self):
@@ -392,7 +372,8 @@ class ScheduledFoldingManager:
         # Compress old active folds
         cutoff_time = datetime.now() - timedelta(minutes=30)
         candidates_for_compression = [
-            (fold_id, fold) for fold_id, fold in self.active_folds.items()
+            (fold_id, fold)
+            for fold_id, fold in self.active_folds.items()
             if (fold.metrics.last_accessed or fold.metrics.created_at) < cutoff_time
         ]
 
@@ -410,9 +391,7 @@ class ScheduledFoldingManager:
         """Start background folding thread"""
         if self._folding_thread is None:
             self._folding_thread = threading.Thread(
-                target=self._background_folding_worker,
-                daemon=True,
-                name="FoldingManager"
+                target=self._background_folding_worker, daemon=True, name="FoldingManager"
             )
             self._folding_thread.start()
 
@@ -420,10 +399,7 @@ class ScheduledFoldingManager:
         """Get folding manager status"""
         with self._lock:
             total_folds = len(self.active_folds) + len(self.compressed_folds)
-            compression_ratio = (
-                self.metrics["compression_saves_bytes"] /
-                max(1, self.metrics["total_size_bytes"])
-            )
+            compression_ratio = self.metrics["compression_saves_bytes"] / max(1, self.metrics["total_size_bytes"])
 
             return {
                 "active_folds": len(self.active_folds),
@@ -438,7 +414,7 @@ class ScheduledFoldingManager:
                     "active_capacity": len(self.active_folds) / self.max_active_folds,
                     "compressed_capacity": len(self.compressed_folds) / self.max_compressed_folds,
                     "memory_healthy": total_folds < (self.max_active_folds + self.max_compressed_folds),
-                }
+                },
             }
 
     def find_folds_by_tags(self, tags: Set[str]) -> List[str]:

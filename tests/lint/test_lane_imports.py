@@ -47,22 +47,13 @@ class LaneImportLinter:
 
         # Forbidden cross-lane imports
         self.forbidden_imports = {
-            "MATRIZ": {
-                "consciousness",
-                "governance",
-                "identity",
-                "orchestration",
-                "memory",
-                "observability"
-            },
-            "lukhas": {
-                "MATRIZ"
-            },
+            "MATRIZ": {"consciousness", "governance", "identity", "orchestration", "memory", "observability"},
+            "lukhas": {"MATRIZ"},
             "labs": {
                 "governance.guardian_serializers",
                 "identity.webauthn_production",
-                "observability.prometheus_metrics"
-            }
+                "observability.prometheus_metrics",
+            },
         }
 
         # Approved integration points (PINNED SURFACES - T4/0.01%)
@@ -70,7 +61,7 @@ class LaneImportLinter:
             "consciousness.matriz_thought_loop",
             "observability.matriz_instrumentation",
             "observability.matriz_decorators",
-            "memory.matriz_adapter"
+            "memory.matriz_adapter",
         }
 
         # Additional forbidden patterns (internal/private modules)
@@ -81,15 +72,15 @@ class LaneImportLinter:
                 "MATRIZ.experimental",
                 "MATRIZ.schemas.internal",
                 "MATRIZ.core.private",
-                "MATRIZ.processing.internal"
+                "MATRIZ.processing.internal",
             },
             "labs": {
                 "governance.guardian_serializers.production",
                 "identity.webauthn_production.core",
                 "observability.prometheus_metrics.production",
                 "orchestration.production_workflows",
-                "memory.production_stores"
-            }
+                "memory.production_stores",
+            },
         }
 
         self.violations = []
@@ -119,7 +110,7 @@ class LaneImportLinter:
         imports = set()
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Parse AST to extract imports
@@ -134,7 +125,7 @@ class LaneImportLinter:
                         imports.add(node.module)
                         # Also add sub-imports
                         for alias in node.names:
-                            if alias.name != '*':
+                            if alias.name != "*":
                                 imports.add(f"{node.module}.{alias.name}")
 
         except (SyntaxError, UnicodeDecodeError) as e:
@@ -156,9 +147,7 @@ class LaneImportLinter:
         for import_name in imports:
             # Check direct forbidden imports
             if import_name in forbidden_modules:
-                violations.append(
-                    f"{file_lane} lane file {file_path} imports forbidden module '{import_name}'"
-                )
+                violations.append(f"{file_lane} lane file {file_path} imports forbidden module '{import_name}'")
                 continue
 
             # Check if import starts with forbidden pattern
@@ -220,10 +209,12 @@ class LaneImportLinter:
 
         try:
             # Run import-linter
-            result = subprocess.run([
-                sys.executable, "-m", "importlinter",
-                "--config", str(config_path)
-            ], capture_output=True, text=True, cwd=str(self.project_root))
+            result = subprocess.run(
+                [sys.executable, "-m", "importlinter", "--config", str(config_path)],
+                capture_output=True,
+                text=True,
+                cwd=str(self.project_root),
+            )
 
             success = result.returncode == 0
             output = result.stdout + result.stderr
@@ -243,7 +234,7 @@ class LaneImportLinter:
         lane_directories = {
             "MATRIZ": self.matriz_root,
             "root": self.project_root,  # Root-level modules (former lukhas/)
-            "labs": self.candidate_root
+            "labs": self.candidate_root,
         }
 
         for lane, directory in lane_directories.items():
@@ -303,7 +294,9 @@ class TestLaneImports:
             logger.warning(f"  {violation}")
 
         # Assert no violations
-        assert len(matriz_violations) == 0, f"MATRIZ lane has {len(matriz_violations)} import violations: {matriz_violations[:3]}"
+        assert (
+            len(matriz_violations) == 0
+        ), f"MATRIZ lane has {len(matriz_violations)} import violations: {matriz_violations[:3]}"
 
         logger.info("✓ MATRIZ lane isolation maintained")
 
@@ -324,7 +317,9 @@ class TestLaneImports:
 
         # Assert no direct MATRIZ imports (approved integrations are allowed)
         direct_violations = [v for v in matriz_import_violations if "approved integration" not in v.lower()]
-        assert len(direct_violations) == 0, f"Lukhas modules have {len(direct_violations)} direct MATRIZ imports: {direct_violations[:2]}"
+        assert (
+            len(direct_violations) == 0
+        ), f"Lukhas modules have {len(direct_violations)} direct MATRIZ imports: {direct_violations[:2]}"
 
         logger.info("✓ Lukhas→MATRIZ import restrictions enforced")
 
@@ -346,8 +341,11 @@ class TestLaneImports:
             logger.warning(f"  {violation}")
 
         # Assert no production imports
-        production_violations = [v for v in candidate_violations
-                               if any(prod in v for prod in ["guardian_serializers", "webauthn_production", "prometheus_metrics"])]
+        production_violations = [
+            v
+            for v in candidate_violations
+            if any(prod in v for prod in ["guardian_serializers", "webauthn_production", "prometheus_metrics"])
+        ]
 
         assert len(production_violations) == 0, f"Candidate imports production components: {production_violations[:2]}"
 
@@ -418,11 +416,11 @@ class TestLaneImports:
         report = linter.generate_violation_report(lane_violations)
 
         logger.info("=== Lane Boundary Validation Report ===")
-        for line in report.split('\n'):
+        for line in report.split("\n"):
             if line.strip():
-                if '❌' in line or 'violation' in line.lower():
+                if "❌" in line or "violation" in line.lower():
                     logger.error(line)
-                elif '✅' in line:
+                elif "✅" in line:
                     logger.info(line)
                 else:
                     logger.info(line)
@@ -477,5 +475,6 @@ if __name__ == "__main__":
         return total_violations == 0
 
     import sys
+
     success = run_lane_validation()
     sys.exit(0 if success else 1)

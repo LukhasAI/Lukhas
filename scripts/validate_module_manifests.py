@@ -25,6 +25,7 @@ import yaml
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class ModuleManifestValidator:
     """MATRIZ module manifest validation with lane assignment verification."""
 
@@ -52,14 +53,10 @@ class ModuleManifestValidator:
             "modules_scanned": 0,
             "modules_with_manifests": 0,
             "modules_missing_manifests": 0,
-            "lane_distribution": {
-                "candidate": 0,
-                "integration": 0,
-                "production": 0
-            },
+            "lane_distribution": {"candidate": 0, "integration": 0, "production": 0},
             "validation_errors": [],
             "missing_manifests": [],
-            "invalid_manifests": []
+            "invalid_manifests": [],
         }
 
     def find_lukhas_modules(self) -> List[Path]:
@@ -118,7 +115,7 @@ class ModuleManifestValidator:
             return None
 
         try:
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path, "r") as f:
                 return yaml.safe_load(f)
         except Exception as e:
             logger.error(f"Error loading manifest {manifest_path}: {e}")
@@ -136,41 +133,41 @@ class ModuleManifestValidator:
         """
         errors = []
 
-        required_fields = ['name', 'lane', 'owner', 'description']
+        required_fields = ["name", "lane", "owner", "description"]
         for field in required_fields:
             if field not in manifest:
                 errors.append(f"Missing required field: {field}")
 
         # Validate lane value
-        valid_lanes = ['candidate', 'integration', 'production']
-        if 'lane' in manifest and manifest['lane'] not in valid_lanes:
+        valid_lanes = ["candidate", "integration", "production"]
+        if "lane" in manifest and manifest["lane"] not in valid_lanes:
             errors.append(f"Invalid lane '{manifest['lane']}', must be one of {valid_lanes}")
 
         # Validate SLO structure for non-candidate lanes
-        if manifest.get('lane') != 'candidate':
-            if 'slo' not in manifest:
+        if manifest.get("lane") != "candidate":
+            if "slo" not in manifest:
                 errors.append("SLO configuration required for integration/production lanes")
             else:
-                slo = manifest['slo']
-                if 'p95_ms' not in slo:
+                slo = manifest["slo"]
+                if "p95_ms" not in slo:
                     errors.append("SLO p95_ms configuration missing")
                 else:
-                    p95_ms = slo['p95_ms']
-                    required_metrics = ['tick', 'reflect', 'decide', 'e2e']
+                    p95_ms = slo["p95_ms"]
+                    required_metrics = ["tick", "reflect", "decide", "e2e"]
                     for metric in required_metrics:
                         if metric not in p95_ms:
                             errors.append(f"Missing SLO metric: {metric}")
 
         # Validate gates configuration
-        if 'gates' not in manifest:
+        if "gates" not in manifest:
             errors.append("Gates configuration missing")
-        elif not isinstance(manifest['gates'], list):
+        elif not isinstance(manifest["gates"], list):
             errors.append("Gates must be a list")
 
         # Validate artifacts configuration
-        if 'artifacts' not in manifest:
+        if "artifacts" not in manifest:
             errors.append("Artifacts configuration missing")
-        elif not isinstance(manifest['artifacts'], list):
+        elif not isinstance(manifest["artifacts"], list):
             errors.append("Artifacts must be a list")
 
         return errors
@@ -186,21 +183,21 @@ class ModuleManifestValidator:
             list[str]: List of validation errors, empty if none.
         """
         errors = []
-        lane = manifest.get('lane')
+        lane = manifest.get("lane")
 
         # Core infrastructure modules should be in integration or production
-        infrastructure_modules = ['core', 'governance', 'security', 'observability', 'api']
-        if module_name in infrastructure_modules and lane == 'candidate':
+        infrastructure_modules = ["core", "governance", "security", "observability", "api"]
+        if module_name in infrastructure_modules and lane == "candidate":
             errors.append(f"Infrastructure module '{module_name}' should not be in candidate lane")
 
         # Experimental modules should start in candidate
-        experimental_modules = ['bio', 'qi', 'rl', 'emotion', 'agents', 'vivox']
-        if module_name in experimental_modules and lane == 'production':
+        experimental_modules = ["bio", "qi", "rl", "emotion", "agents", "vivox"]
+        if module_name in experimental_modules and lane == "production":
             errors.append(f"Experimental module '{module_name}' should not be in production lane")
 
         # Production-critical modules
-        critical_modules = ['identity', 'memory', 'consciousness', 'governance']
-        if module_name in critical_modules and lane == 'candidate':
+        critical_modules = ["identity", "memory", "consciousness", "governance"]
+        if module_name in critical_modules and lane == "candidate":
             errors.append(f"Critical module '{module_name}' should be at least in integration lane")
 
         return errors
@@ -217,21 +214,21 @@ class ModuleManifestValidator:
         """
         errors = []
 
-        if 'dependencies' not in manifest:
+        if "dependencies" not in manifest:
             return errors
 
-        dependencies = manifest['dependencies']
+        dependencies = manifest["dependencies"]
         if not isinstance(dependencies, list):
             errors.append("Dependencies must be a list")
             return errors
 
         for dep in dependencies:
             # Validate dependency format (should be modulename)
-            if not dep.startswith('lukhas.'):
+            if not dep.startswith("lukhas."):
                 errors.append(f"Invalid dependency format: {dep} (should start with 'lukhas.')")
                 continue
 
-            module_name = dep.replace('lukhas.', '')
+            module_name = dep.replace("lukhas.", "")
             if module_name not in all_modules:
                 errors.append(f"Unknown dependency: {dep}")
 
@@ -297,7 +294,7 @@ class ModuleManifestValidator:
             self.validation_results["modules_with_manifests"] += 1
 
             # Track lane distribution
-            lane = manifest.get('lane')
+            lane = manifest.get("lane")
             if lane in self.validation_results["lane_distribution"]:
                 self.validation_results["lane_distribution"][lane] += 1
 
@@ -313,10 +310,7 @@ class ModuleManifestValidator:
             all_errors = structure_errors + assignment_errors + dependency_errors
 
             if all_errors:
-                self.validation_results["invalid_manifests"].append({
-                    "module": module_name,
-                    "errors": all_errors
-                })
+                self.validation_results["invalid_manifests"].append({"module": module_name, "errors": all_errors})
                 for error in all_errors:
                     logger.error(f"❌ {module_name}: {error}")
             else:
@@ -364,35 +358,36 @@ class ModuleManifestValidator:
 
         # Lane distribution
         report.append("📊 Lane Distribution:")
-        for lane, count in results['lane_distribution'].items():
-            percentage = (count / max(results['modules_with_manifests'], 1)) * 100
+        for lane, count in results["lane_distribution"].items():
+            percentage = (count / max(results["modules_with_manifests"], 1)) * 100
             report.append(f"  {lane}: {count} modules ({percentage:.1f}%)")
         report.append("")
 
         # Missing manifests
-        if results['missing_manifests']:
+        if results["missing_manifests"]:
             report.append("❌ Modules missing manifests:")
-            for module in results['missing_manifests']:
+            for module in results["missing_manifests"]:
                 report.append(f"  - {module}")
             report.append("")
 
         # Invalid manifests
-        if results['invalid_manifests']:
+        if results["invalid_manifests"]:
             report.append("⚠️  Modules with invalid manifests:")
-            for invalid in results['invalid_manifests']:
+            for invalid in results["invalid_manifests"]:
                 report.append(f"  {invalid['module']}:")
-                for error in invalid['errors']:
+                for error in invalid["errors"]:
                     report.append(f"    - {error}")
             report.append("")
 
         # Overall status
-        total_issues = len(results['missing_manifests']) + len(results['invalid_manifests'])
+        total_issues = len(results["missing_manifests"]) + len(results["invalid_manifests"])
         if total_issues == 0:
             report.append("🎉 All modules have valid manifests!")
         else:
             report.append(f"⚠️  {total_issues} modules need attention")
 
         return "\n".join(report)
+
 
 def main():
     """Run module manifest validation and optionally write a JSON report.
@@ -405,10 +400,8 @@ def main():
         int: Process exit code, 0 if all manifests are valid, otherwise 1.
     """
     parser = argparse.ArgumentParser(description="MATRIZ Module Manifest Validator")
-    parser.add_argument("--report",
-                       help="Output detailed validation report to JSON file")
-    parser.add_argument("--fix", action="store_true",
-                       help="Automatically fix common issues")
+    parser.add_argument("--report", help="Output detailed validation report to JSON file")
+    parser.add_argument("--fix", action="store_true", help="Automatically fix common issues")
 
     args = parser.parse_args()
 
@@ -425,19 +418,20 @@ def main():
         output_path = Path(args.report)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(results, f, indent=2)
 
         logger.info(f"📄 Detailed report written to: {output_path}")
 
     # Exit with appropriate code
-    total_issues = len(results['missing_manifests']) + len(results['invalid_manifests'])
+    total_issues = len(results["missing_manifests"]) + len(results["invalid_manifests"])
     if total_issues > 0:
         logger.error(f"❌ Validation failed: {total_issues} issues found")
         return 1
     else:
         logger.info("✅ All module manifests are valid")
         return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

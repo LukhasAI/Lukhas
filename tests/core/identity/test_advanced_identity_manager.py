@@ -7,12 +7,13 @@ PRIORITY: HIGH (critical identity and authentication system with emotional memor
 
 Test Categories:
 1. EmotionalMemoryVector tests
-2. SymbolicIdentityHash tests  
+2. SymbolicIdentityHash tests
 3. TraumaLock tests
 4. AdvancedIdentityManager tests
 5. Authentication and registration tests
 6. Privacy and security tests
 """
+
 import asyncio
 import json
 from datetime import datetime, timezone
@@ -85,7 +86,7 @@ class TestEmotionalMemoryVector:
             "arousal": 0.3,
             "dominance": 0.5,
             "trust": 0.7,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         emv.update_vector(user_id, test_vector)
@@ -104,7 +105,7 @@ class TestEmotionalMemoryVector:
             "arousal": 0.3,
             "dominance": 0.5,
             "trust": 0.7,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         emv.update_vector(user_id, test_vector)
@@ -136,12 +137,7 @@ class TestSymbolicIdentityHash:
     def test_create_hash_valid_input(self):
         """Test hash creation with valid emotional vector."""
         sih = SymbolicIdentityHash()
-        emotional_vector = {
-            "valence": 0.5,
-            "arousal": 0.3,
-            "dominance": 0.5,
-            "trust": 0.7
-        }
+        emotional_vector = {"valence": 0.5, "arousal": 0.3, "dominance": 0.5, "trust": 0.7}
 
         hash_data = sih.create_hash(emotional_vector)
 
@@ -162,12 +158,7 @@ class TestSymbolicIdentityHash:
     def test_hash_consistency(self):
         """Test that same input produces same hash."""
         sih = SymbolicIdentityHash()
-        emotional_vector = {
-            "valence": 0.5,
-            "arousal": 0.3,
-            "dominance": 0.5,
-            "trust": 0.7
-        }
+        emotional_vector = {"valence": 0.5, "arousal": 0.3, "dominance": 0.5, "trust": 0.7}
 
         hash1 = sih.create_hash(emotional_vector)
         hash2 = sih.create_hash(emotional_vector)
@@ -189,11 +180,7 @@ class TestTraumaLock:
     def test_check_and_lock_no_trauma(self):
         """Test memory with no trauma indicators."""
         tl = TraumaLock()
-        safe_vector = {
-            "valence": 0.5,
-            "arousal": 0.3,
-            "trust": 0.8
-        }
+        safe_vector = {"valence": 0.5, "arousal": 0.3, "trust": 0.8}
 
         result_vector, was_locked = tl.check_and_lock(safe_vector)
 
@@ -205,8 +192,8 @@ class TestTraumaLock:
         tl = TraumaLock()
         trauma_vector = {
             "valence": -0.8,  # Very negative
-            "arousal": 0.9,   # Very high arousal
-            "trust": 0.1      # Very low trust
+            "arousal": 0.9,  # Very high arousal
+            "trust": 0.1,  # Very low trust
         }
 
         result_vector, was_locked = tl.check_and_lock(trauma_vector)
@@ -312,7 +299,7 @@ class TestAdvancedIdentityManagerIntegration:
 
         # TraumaLock should be available
         assert aim.trauma_lock is not None
-        assert hasattr(aim.trauma_lock, 'check_and_lock')
+        assert hasattr(aim.trauma_lock, "check_and_lock")
 
     def test_emotional_consistency(self):
         """Test that emotional patterns remain consistent across interactions."""
@@ -345,7 +332,7 @@ class TestAdvancedIdentityManagerIntegration:
     @pytest.mark.asyncio
     async def test_guardian_integration_disabled_by_default(self):
         """Test that Guardian integration handles missing dependency gracefully."""
-        with patch('core.identity.manager.GUARDIAN_AVAILABLE', False):
+        with patch("core.identity.manager.GUARDIAN_AVAILABLE", False):
             aim = AdvancedIdentityManager()
 
             assert aim._guardian_integration_enabled is False

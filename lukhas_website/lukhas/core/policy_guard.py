@@ -13,6 +13,7 @@ Usage:
         # Proceed with replay
         pass
 """
+
 from __future__ import annotations
 
 import logging
@@ -27,19 +28,33 @@ from uuid import UUID, uuid4
 # Optional Prometheus metrics
 try:
     from prometheus_client import Counter, Histogram
+
     REPLAY_POLICY_DENIALS = Counter("lukhas_replay_policy_denials_total", "Policy denials", ["lane", "kind", "reason"])
     REPLAY_POLICY_ALLOWS = Counter("lukhas_replay_policy_allows_total", "Policy allows", ["lane", "kind"])
     POLICY_DECISIONS = Histogram("lukhas_policy_decision_duration_seconds", "Policy decision time", ["lane"])
-    PROMOTION_ATTEMPTS_TOTAL = Counter("lukhas_promotion_attempts_total", "Cross-lane promotion attempts", ["source_lane", "target_lane"])
-    PROMOTION_SUCCESS_TOTAL = Counter("lukhas_promotion_success_total", "Successful cross-lane promotions", ["source_lane", "target_lane"])
+    PROMOTION_ATTEMPTS_TOTAL = Counter(
+        "lukhas_promotion_attempts_total", "Cross-lane promotion attempts", ["source_lane", "target_lane"]
+    )
+    PROMOTION_SUCCESS_TOTAL = Counter(
+        "lukhas_promotion_success_total", "Successful cross-lane promotions", ["source_lane", "target_lane"]
+    )
     PROM = True
 except Exception:
     PROM = False
+
     class _NoopMetric:
-        def labels(self, *_, **__): return self
-        def inc(self, *_): pass
-        def observe(self, *_): pass
-        def set(self, *_): pass
+        def labels(self, *_, **__):
+            return self
+
+        def inc(self, *_):
+            pass
+
+        def observe(self, *_):
+            pass
+
+        def set(self, *_):
+            pass
+
     REPLAY_POLICY_DENIALS = _NoopMetric()
     REPLAY_POLICY_ALLOWS = _NoopMetric()
     POLICY_DECISIONS = _NoopMetric()
@@ -52,6 +67,7 @@ logger = logging.getLogger(__name__)
 
 class PolicyResult(Enum):
     """Policy decision outcomes."""
+
     ALLOW = "allow"
     DENY_RISK = "deny_risk"
     DENY_LANE = "deny_lane"
@@ -63,6 +79,7 @@ class PolicyResult(Enum):
 @dataclass(frozen=True)
 class ReplayDecision:
     """Policy decision for replay request."""
+
     allow: bool
     result: PolicyResult
     reason: str
@@ -80,21 +97,31 @@ class ReplayDecision:
             "event_kind": self.event_kind,
             "result": self.result.value,
             "allow": self.allow,
-            "reason": self.reason
+            "reason": self.reason,
         }
 
 
 @dataclass
 class LanePolicyConfig:
     """Lane-specific policy configuration."""
+
     # Risk thresholds (0.0 to 1.0)
     max_risk_level: float = 1.0
 
     # Allowed event kinds
-    allowed_kinds: Set[str] = field(default_factory=lambda: {
-        "consciousness_tick", "tick_processed", "stream_started", "stream_stopped",
-        "action", "intention", "memory_write", "reward", "breakthrough"
-    })
+    allowed_kinds: Set[str] = field(
+        default_factory=lambda: {
+            "consciousness_tick",
+            "tick_processed",
+            "stream_started",
+            "stream_stopped",
+            "action",
+            "intention",
+            "memory_write",
+            "reward",
+            "breakthrough",
+        }
+    )
 
     # Rate limiting (events per minute)
     max_replay_rate: int = 1000
@@ -116,22 +143,22 @@ DEFAULT_LANE_CONFIGS: Dict[str, LanePolicyConfig] = {
         max_replay_rate=2000,
         replay_budget=200,
         promotion_drift_threshold=0.35,
-        promotion_coherence_threshold=0.7
+        promotion_coherence_threshold=0.7,
     ),
     "candidate": LanePolicyConfig(
         max_risk_level=0.5,
         max_replay_rate=1000,
         replay_budget=100,
         promotion_drift_threshold=0.25,
-        promotion_coherence_threshold=0.8
+        promotion_coherence_threshold=0.8,
     ),
     "prod": LanePolicyConfig(
         max_risk_level=0.2,
         max_replay_rate=500,
         replay_budget=50,
         promotion_drift_threshold=0.15,
-        promotion_coherence_threshold=0.9
-    )
+        promotion_coherence_threshold=0.9,
+    ),
 }
 
 
@@ -171,7 +198,7 @@ class PolicyGuard:
         event_kind: str,
         payload: Optional[Dict[str, Any]] = None,
         risk_level: Optional[float] = None,
-        source_lane: Optional[str] = None
+        source_lane: Optional[str] = None,
     ) -> ReplayDecision:
         """
         Check if replay is allowed under current policy.
@@ -195,7 +222,7 @@ class PolicyGuard:
                     result=PolicyResult.DENY_KIND,
                     reason=f"Event kind '{event_kind}' not allowed in lane '{self.lane}'",
                     lane=self.lane,
-                    event_kind=event_kind
+                    event_kind=event_kind,
                 )
                 self._log_decision(decision)
                 return decision
@@ -212,7 +239,7 @@ class PolicyGuard:
                         result=PolicyResult.DENY_LANE,
                         reason=f"Cross-lane replay from '{source_lane}' to '{self.lane}' not permitted",
                         lane=self.lane,
-                        event_kind=event_kind
+                        event_kind=event_kind,
                     )
                     self._log_decision(decision)
                     return decision
@@ -226,7 +253,7 @@ class PolicyGuard:
                     result=PolicyResult.DENY_RISK,
                     reason=f"Risk level {computed_risk:.3f} exceeds threshold {self.config.max_risk_level:.3f}",
                     lane=self.lane,
-                    event_kind=event_kind
+                    event_kind=event_kind,
                 )
                 self._log_decision(decision)
                 return decision
@@ -238,7 +265,7 @@ class PolicyGuard:
                     result=PolicyResult.DENY_RATE,
                     reason=f"Replay rate limit {self.config.max_replay_rate}/min exceeded",
                     lane=self.lane,
-                    event_kind=event_kind
+                    event_kind=event_kind,
                 )
                 self._log_decision(decision)
                 return decision
@@ -250,7 +277,7 @@ class PolicyGuard:
                     result=PolicyResult.DENY_BUDGET,
                     reason=f"Replay budget {self.config.replay_budget} ops/{self.config.budget_window_minutes}min exceeded",
                     lane=self.lane,
-                    event_kind=event_kind
+                    event_kind=event_kind,
                 )
                 self._log_decision(decision)
                 return decision
@@ -261,7 +288,7 @@ class PolicyGuard:
                 result=PolicyResult.ALLOW,
                 reason="Policy checks passed",
                 lane=self.lane,
-                event_kind=event_kind
+                event_kind=event_kind,
             )
 
             # Update counters
@@ -314,10 +341,7 @@ class PolicyGuard:
 
         # Clean old entries
         cutoff = current_minute - timedelta(minutes=1)
-        self._replay_counts = {
-            ts: count for ts, count in self._replay_counts.items()
-            if ts >= cutoff
-        }
+        self._replay_counts = {ts: count for ts, count in self._replay_counts.items() if ts >= cutoff}
 
         # Check current minute's count
         current_count = self._replay_counts.get(current_minute, 0)
@@ -363,9 +387,7 @@ class PolicyGuard:
                 REPLAY_POLICY_ALLOWS.labels(lane=decision.lane, kind=decision.event_kind).inc()
             else:
                 REPLAY_POLICY_DENIALS.labels(
-                    lane=decision.lane,
-                    kind=decision.event_kind,
-                    reason=decision.result.value
+                    lane=decision.lane, kind=decision.event_kind, reason=decision.result.value
                 ).inc()
 
     def get_decision_log(self, limit: Optional[int] = None) -> List[ReplayDecision]:
@@ -380,8 +402,7 @@ class PolicyGuard:
 
         # Calculate recent metrics
         recent_decisions = [
-            d for d in self._decision_log
-            if (now - d.timestamp).total_seconds() < 300  # Last 5 minutes
+            d for d in self._decision_log if (now - d.timestamp).total_seconds() < 300  # Last 5 minutes
         ]
 
         allows = sum(1 for d in recent_decisions if d.allow)
@@ -397,7 +418,7 @@ class PolicyGuard:
             "budget_capacity": self.config.replay_budget,
             "rate_limit_capacity": self.config.max_replay_rate,
             "max_risk_threshold": self.config.max_risk_level,
-            "allowed_kinds": list(self.config.allowed_kinds)
+            "allowed_kinds": list(self.config.allowed_kinds),
         }
 
     def get_promotion_stats(self) -> Dict[str, Any]:
@@ -406,8 +427,7 @@ class PolicyGuard:
 
         # Count cross-lane decisions in recent window
         recent_decisions = [
-            d for d in self._decision_log
-            if (now - d.timestamp).total_seconds() < 600  # Last 10 minutes
+            d for d in self._decision_log if (now - d.timestamp).total_seconds() < 600  # Last 10 minutes
         ]
 
         cross_lane_attempts = 0
@@ -417,7 +437,7 @@ class PolicyGuard:
 
         for decision in recent_decisions:
             # Check if this was a cross-lane operation (we need to store source_lane in payload)
-            if hasattr(decision, 'source_lane') or 'source_lane' in (decision.reason or ''):
+            if hasattr(decision, "source_lane") or "source_lane" in (decision.reason or ""):
                 cross_lane_attempts += 1
                 path_key = f"unknown→{decision.lane}"  # We'll enhance this when we store source_lane
                 promotion_paths[path_key] += 1
@@ -434,7 +454,7 @@ class PolicyGuard:
             "promotion_paths": dict(promotion_paths),
             "successful_paths": dict(success_paths),
             "drift_threshold": self.config.promotion_drift_threshold,
-            "coherence_threshold": self.config.promotion_coherence_threshold
+            "coherence_threshold": self.config.promotion_coherence_threshold,
         }
 
     def reset_stats(self) -> None:

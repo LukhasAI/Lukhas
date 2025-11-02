@@ -18,6 +18,7 @@ import numpy as np
 @dataclass
 class CalibrationMetrics:
     """Metrics for calibration quality"""
+
     expected_calibration_error: float
     max_calibration_error: float
     brier_score: float
@@ -39,12 +40,7 @@ class AdaptiveConfidenceCalibrator:
     - ECE (Expected Calibration Error) tracking
     """
 
-    def __init__(
-        self,
-        window_size: int = 1000,
-        num_bins: int = 10,
-        refit_interval: int = 100
-    ):
+    def __init__(self, window_size: int = 1000, num_bins: int = 10, refit_interval: int = 100):
         """
         Initialize adaptive calibrator
 
@@ -213,8 +209,7 @@ class AdaptiveConfidenceCalibrator:
         calibrated_predictions = np.clip(calibrated_predictions, eps, 1 - eps)
 
         log_loss = -np.mean(
-            outcomes * np.log(calibrated_predictions) +
-            (1 - outcomes) * np.log(1 - calibrated_predictions)
+            outcomes * np.log(calibrated_predictions) + (1 - outcomes) * np.log(1 - calibrated_predictions)
         )
 
         return float(log_loss)
@@ -256,7 +251,7 @@ class AdaptiveConfidenceCalibrator:
             num_predictions=len(self.recent_predictions),
             temperature=self.temperature,
             platt_a=self.platt_a,
-            platt_b=self.platt_b
+            platt_b=self.platt_b,
         )
 
     def reset(self):
@@ -278,7 +273,7 @@ class AdaptiveConfidenceCalibrator:
             "num_bins": self.num_bins,
             "prediction_count": self.prediction_count,
             "recent_predictions": list(self.recent_predictions),
-            "recent_outcomes": list(self.recent_outcomes)
+            "recent_outcomes": list(self.recent_outcomes),
         }
 
     def import_state(self, state: Dict):

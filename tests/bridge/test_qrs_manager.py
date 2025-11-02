@@ -23,6 +23,7 @@ from labs.bridge.api.api import QRSAlgorithm as SignatureAlgorithm, QRSManager
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def qrs_manager():
     """Fresh QRS manager instance."""
@@ -38,7 +39,7 @@ def sample_request_data():
         "path": "/api/v1/query",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "lambda_id": "Λ_alpha_user123",
-        "body": {"query": "test query"}
+        "body": {"query": "test query"},
     }
 
 
@@ -46,14 +47,12 @@ def sample_request_data():
 # TEST-HIGH-API-QRS-01: QRS Signature Verification
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_qrs_signature_generation_sha256(qrs_manager, sample_request_data):
     """Test QRS signature generation with SHA256."""
     # Generate signature
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # Verify signature format
     assert signature is not None
@@ -65,10 +64,7 @@ def test_qrs_signature_generation_sha256(qrs_manager, sample_request_data):
 def test_qrs_signature_generation_sha512(qrs_manager, sample_request_data):
     """Test QRS signature generation with SHA512."""
     # Generate signature
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA512
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA512)
 
     # Verify signature format
     assert signature is not None
@@ -80,16 +76,11 @@ def test_qrs_signature_generation_sha512(qrs_manager, sample_request_data):
 def test_qrs_signature_verification_valid(qrs_manager, sample_request_data):
     """Test verification of valid QRS signatures."""
     # Generate signature
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # Verify signature
     is_valid = qrs_manager.verify_signature(
-        request_data=sample_request_data,
-        signature=signature,
-        algorithm=SignatureAlgorithm.SHA256
+        request_data=sample_request_data, signature=signature, algorithm=SignatureAlgorithm.SHA256
     )
 
     assert is_valid is True
@@ -99,10 +90,7 @@ def test_qrs_signature_verification_valid(qrs_manager, sample_request_data):
 def test_qrs_signature_verification_tampered(qrs_manager, sample_request_data):
     """Test detection of tampered signatures."""
     # Generate valid signature
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # Tamper with request data
     tampered_data = sample_request_data.copy()
@@ -110,9 +98,7 @@ def test_qrs_signature_verification_tampered(qrs_manager, sample_request_data):
 
     # Verify signature with tampered data
     is_valid = qrs_manager.verify_signature(
-        request_data=tampered_data,
-        signature=signature,
-        algorithm=SignatureAlgorithm.SHA256
+        request_data=tampered_data, signature=signature, algorithm=SignatureAlgorithm.SHA256
     )
 
     assert is_valid is False
@@ -122,16 +108,11 @@ def test_qrs_signature_verification_tampered(qrs_manager, sample_request_data):
 def test_qrs_signature_verification_wrong_algorithm(qrs_manager, sample_request_data):
     """Test signature verification with wrong algorithm."""
     # Generate with SHA256
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # Verify with SHA512
     is_valid = qrs_manager.verify_signature(
-        request_data=sample_request_data,
-        signature=signature,
-        algorithm=SignatureAlgorithm.SHA512
+        request_data=sample_request_data, signature=signature, algorithm=SignatureAlgorithm.SHA512
     )
 
     assert is_valid is False
@@ -141,15 +122,9 @@ def test_qrs_signature_verification_wrong_algorithm(qrs_manager, sample_request_
 def test_qrs_signature_deterministic(qrs_manager, sample_request_data):
     """Test that signature generation is deterministic."""
     # Generate signature twice with same data
-    signature1 = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature1 = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
-    signature2 = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature2 = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # Should be identical
     assert signature1 == signature2
@@ -174,20 +149,16 @@ def test_qrs_signature_different_keys():
 # TEST-HIGH-API-QRS-02: ΛTRACE Audit Trail Integration
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_qrs_lambda_trace_audit_entry(qrs_manager, sample_request_data):
     """Test ΛTRACE audit trail entry creation."""
     # Generate signature
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # Create audit entry
     audit_entry = qrs_manager.create_audit_entry(
-        request_data=sample_request_data,
-        signature=signature,
-        verification_result=True
+        request_data=sample_request_data, signature=signature, verification_result=True
     )
 
     # Verify audit entry structure
@@ -210,17 +181,13 @@ def test_qrs_lambda_trace_hash_chain(qrs_manager):
             "method": "GET",
             "path": f"/api/v1/resource/{i}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "lambda_id": "Λ_beta_user456"
+            "lambda_id": "Λ_beta_user456",
         }
 
-        signature = qrs_manager.generate_signature(
-            request_data, SignatureAlgorithm.SHA256
-        )
+        signature = qrs_manager.generate_signature(request_data, SignatureAlgorithm.SHA256)
 
         audit_entry = qrs_manager.create_audit_entry(
-            request_data=request_data,
-            signature=signature,
-            verification_result=True
+            request_data=request_data, signature=signature, verification_result=True
         )
 
         entries.append(audit_entry)
@@ -228,7 +195,7 @@ def test_qrs_lambda_trace_hash_chain(qrs_manager):
     # Verify hash chain
     for i in range(1, len(entries)):
         current = entries[i]
-        previous = entries[i-1]
+        previous = entries[i - 1]
 
         # Each entry should reference previous hash
         assert "previous_hash" in current
@@ -240,10 +207,7 @@ def test_qrs_lambda_trace_hash_chain(qrs_manager):
 def test_qrs_lambda_trace_verification_failures(qrs_manager, sample_request_data):
     """Test audit logging of verification failures."""
     # Generate signature
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # Tamper with data
     tampered_data = sample_request_data.copy()
@@ -251,16 +215,12 @@ def test_qrs_lambda_trace_verification_failures(qrs_manager, sample_request_data
 
     # Verify (should fail)
     is_valid = qrs_manager.verify_signature(
-        request_data=tampered_data,
-        signature=signature,
-        algorithm=SignatureAlgorithm.SHA256
+        request_data=tampered_data, signature=signature, algorithm=SignatureAlgorithm.SHA256
     )
 
     # Create audit entry for failure
     audit_entry = qrs_manager.create_audit_entry(
-        request_data=tampered_data,
-        signature=signature,
-        verification_result=is_valid
+        request_data=tampered_data, signature=signature, verification_result=is_valid
     )
 
     # Verify failure logged
@@ -275,13 +235,11 @@ def test_qrs_lambda_trace_tampering_detection(qrs_manager):
     entry = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "action": "signature_verification",
-        "result": "success"
+        "result": "success",
     }
 
     # Calculate hash
-    entry_hash = hashlib.sha256(
-        str(entry).encode()
-    ).hexdigest()
+    entry_hash = hashlib.sha256(str(entry).encode()).hexdigest()
     entry["entry_hash"] = entry_hash
 
     # Store original hash
@@ -303,20 +261,14 @@ def test_qrs_lambda_trace_tampering_detection(qrs_manager):
 # Advanced QRS Features
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_qrs_timestamp_validation(qrs_manager):
     """Test timestamp validation in requests."""
     # Recent timestamp (valid)
-    recent_data = {
-        "method": "POST",
-        "path": "/api/v1/data",
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    }
+    recent_data = {"method": "POST", "path": "/api/v1/data", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-    is_valid_time = qrs_manager.validate_timestamp(
-        recent_data["timestamp"],
-        max_age_seconds=300  # 5 minutes
-    )
+    is_valid_time = qrs_manager.validate_timestamp(recent_data["timestamp"], max_age_seconds=300)  # 5 minutes
 
     assert is_valid_time is True
 
@@ -324,13 +276,10 @@ def test_qrs_timestamp_validation(qrs_manager):
     old_data = {
         "method": "POST",
         "path": "/api/v1/data",
-        "timestamp": (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+        "timestamp": (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat(),
     }
 
-    is_valid_time = qrs_manager.validate_timestamp(
-        old_data["timestamp"],
-        max_age_seconds=300
-    )
+    is_valid_time = qrs_manager.validate_timestamp(old_data["timestamp"], max_age_seconds=300)
 
     assert is_valid_time is False
 
@@ -338,11 +287,7 @@ def test_qrs_timestamp_validation(qrs_manager):
 @pytest.mark.unit
 def test_qrs_nonce_replay_prevention(qrs_manager):
     """Test nonce-based replay attack prevention."""
-    request_data = {
-        "method": "POST",
-        "path": "/api/v1/action",
-        "nonce": "unique_nonce_123"
-    }
+    request_data = {"method": "POST", "path": "/api/v1/action", "nonce": "unique_nonce_123"}
 
     # First request with nonce (should succeed)
     is_new = qrs_manager.check_nonce(request_data["nonce"])
@@ -373,27 +318,21 @@ def test_qrs_rate_limiting_integration(qrs_manager):
 # Integration Tests
 # ============================================================================
 
+
 @pytest.mark.integration
 def test_qrs_full_request_lifecycle(qrs_manager, sample_request_data):
     """Test complete QRS request lifecycle."""
     # 1. Generate signature
-    signature = qrs_manager.generate_signature(
-        request_data=sample_request_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=sample_request_data, algorithm=SignatureAlgorithm.SHA256)
 
     # 2. Verify signature
     is_valid = qrs_manager.verify_signature(
-        request_data=sample_request_data,
-        signature=signature,
-        algorithm=SignatureAlgorithm.SHA256
+        request_data=sample_request_data, signature=signature, algorithm=SignatureAlgorithm.SHA256
     )
 
     # 3. Create audit entry
     audit_entry = qrs_manager.create_audit_entry(
-        request_data=sample_request_data,
-        signature=signature,
-        verification_result=is_valid
+        request_data=sample_request_data, signature=signature, verification_result=is_valid
     )
 
     # Verify complete lifecycle
@@ -406,16 +345,14 @@ def test_qrs_full_request_lifecycle(qrs_manager, sample_request_data):
 # Edge Cases
 # ============================================================================
 
+
 @pytest.mark.unit
 def test_qrs_empty_request_data(qrs_manager):
     """Test handling of empty request data."""
     empty_data = {}
 
     try:
-        signature = qrs_manager.generate_signature(
-            request_data=empty_data,
-            algorithm=SignatureAlgorithm.SHA256
-        )
+        signature = qrs_manager.generate_signature(request_data=empty_data, algorithm=SignatureAlgorithm.SHA256)
         # Should still generate a signature
         assert signature is not None
     except ValueError:
@@ -427,10 +364,7 @@ def test_qrs_invalid_algorithm(qrs_manager, sample_request_data):
     """Test handling of invalid signature algorithm."""
     try:
         # Invalid algorithm
-        qrs_manager.generate_signature(
-            request_data=sample_request_data,
-            algorithm="INVALID_ALGO"
-        )
+        qrs_manager.generate_signature(request_data=sample_request_data, algorithm="INVALID_ALGO")
         assert False, "Should raise error for invalid algorithm"
     except (ValueError, AttributeError):
         pass  # Expected
@@ -439,24 +373,16 @@ def test_qrs_invalid_algorithm(qrs_manager, sample_request_data):
 @pytest.mark.unit
 def test_qrs_unicode_data(qrs_manager):
     """Test QRS with Unicode/special characters."""
-    unicode_data = {
-        "method": "POST",
-        "body": {"text": "Hello 世界 🌍 émojis"}
-    }
+    unicode_data = {"method": "POST", "body": {"text": "Hello 世界 🌍 émojis"}}
 
     # Should handle Unicode gracefully
-    signature = qrs_manager.generate_signature(
-        request_data=unicode_data,
-        algorithm=SignatureAlgorithm.SHA256
-    )
+    signature = qrs_manager.generate_signature(request_data=unicode_data, algorithm=SignatureAlgorithm.SHA256)
 
     assert signature is not None
 
     # Verification should still work
     is_valid = qrs_manager.verify_signature(
-        request_data=unicode_data,
-        signature=signature,
-        algorithm=SignatureAlgorithm.SHA256
+        request_data=unicode_data, signature=signature, algorithm=SignatureAlgorithm.SHA256
     )
 
     assert is_valid is True

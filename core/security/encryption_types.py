@@ -125,7 +125,6 @@ ALGORITHM_METADATA: dict[EncryptionAlgorithm, AlgorithmMetadata] = {
         ),
         performance_tier=5,  # Excellent with hardware acceleration
     ),
-
     EncryptionAlgorithm.CHACHA20_POLY1305: AlgorithmMetadata(
         name="ChaCha20-Poly1305",
         key_size=256,
@@ -144,7 +143,6 @@ ALGORITHM_METADATA: dict[EncryptionAlgorithm, AlgorithmMetadata] = {
         ),
         performance_tier=4,  # Excellent software performance
     ),
-
     EncryptionAlgorithm.AES_256_CBC: AlgorithmMetadata(
         name="AES-256-CBC",
         key_size=256,
@@ -163,7 +161,6 @@ ALGORITHM_METADATA: dict[EncryptionAlgorithm, AlgorithmMetadata] = {
         ),
         performance_tier=3,  # Good with hardware, but requires separate MAC
     ),
-
     EncryptionAlgorithm.KYBER768: AlgorithmMetadata(
         name="Kyber768",
         key_size=768,  # Equivalent classical security bits (approximate)
@@ -182,7 +179,6 @@ ALGORITHM_METADATA: dict[EncryptionAlgorithm, AlgorithmMetadata] = {
         ),
         performance_tier=2,  # Moderate performance, computationally intensive
     ),
-
     EncryptionAlgorithm.KYBER1024: AlgorithmMetadata(
         name="Kyber1024",
         key_size=1024,  # Equivalent classical security bits (approximate)
@@ -237,11 +233,7 @@ def get_recommended_algorithms() -> list[EncryptionAlgorithm]:
         >>> print([algo.value for algo in recommended])
         ['aes-256-gcm', 'chacha20-poly1305']
     """
-    return [
-        algo
-        for algo, metadata in ALGORITHM_METADATA.items()
-        if metadata.recommended
-    ]
+    return [algo for algo, metadata in ALGORITHM_METADATA.items() if metadata.recommended]
 
 
 def get_post_quantum_algorithms() -> list[EncryptionAlgorithm]:
@@ -256,11 +248,7 @@ def get_post_quantum_algorithms() -> list[EncryptionAlgorithm]:
         >>> print([algo.value for algo in pq_algos])
         ['kyber768', 'kyber1024']
     """
-    return [
-        algo
-        for algo, metadata in ALGORITHM_METADATA.items()
-        if metadata.pq_resistant
-    ]
+    return [algo for algo, metadata in ALGORITHM_METADATA.items() if metadata.pq_resistant]
 
 
 def is_aead_algorithm(algorithm: EncryptionAlgorithm) -> bool:
@@ -324,7 +312,7 @@ def validate_algorithm_choice(
         return (
             False,
             f"Algorithm {algorithm.value} is legacy and not recommended. "
-            f"Use {get_recommended_algorithms()[0].value} instead."
+            f"Use {get_recommended_algorithms()[0].value} instead.",
         )
 
     return True, None

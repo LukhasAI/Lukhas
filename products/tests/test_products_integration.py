@@ -26,11 +26,7 @@ class TestProductsIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up integration test environment."""
-        cls.integration_config = {
-            "module_name": "products",
-            "integration_mode": True,
-            "timeout": 30
-        }
+        cls.integration_config = {"module_name": "products", "integration_mode": True, "timeout": 30}
 
     def setUp(self):
         """Set up individual test."""
@@ -52,13 +48,11 @@ class TestProductsIntegration(unittest.TestCase):
         # Test connectivity to external services
         pass
 
-
     @pytest.mark.integration
     def test_identity_integration(self):
         """Test integration with identity module."""
         # Test identity integration
         pass
-
 
     @pytest.mark.integration
     def test_end_to_end_workflow(self):

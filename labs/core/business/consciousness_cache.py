@@ -4,6 +4,7 @@ Consciousness Cache Manager for NIAS Economic Platform.
 This module implements intelligent caching of consciousness profiles to reduce
 API costs by 70% while maintaining accuracy through smart invalidation.
 """
+
 import hashlib
 import json
 from dataclasses import dataclass, field

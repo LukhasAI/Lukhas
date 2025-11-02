@@ -17,6 +17,7 @@ from pathlib import Path
 BUDGETS = Path("tests/perf/perf_budgets.json")
 JUNIT = Path("reports/junit-unit.xml")
 
+
 def _sum_junit_seconds(junit_path: Path) -> float:
     if not junit_path.exists():
         print(f"❌ Missing JUnit report: {junit_path}")
@@ -33,6 +34,7 @@ def _sum_junit_seconds(junit_path: Path) -> float:
                 pass
     return total
 
+
 def main() -> int:
     if not BUDGETS.exists():
         print(f"❌ Missing budgets file: {BUDGETS}")
@@ -43,11 +45,14 @@ def main() -> int:
     threshold_mult = float(budgets.get("threshold_multiplier", 1.0))
     effective_budget = unit_budget * threshold_mult
     if total > effective_budget:
-        print(f"❌ Performance budget exceeded: unit_contracts_total {total:.2f}s > {effective_budget:.2f}s "
-              f"(budget {unit_budget:.2f}s × {threshold_mult:g})")
+        print(
+            f"❌ Performance budget exceeded: unit_contracts_total {total:.2f}s > {effective_budget:.2f}s "
+            f"(budget {unit_budget:.2f}s × {threshold_mult:g})"
+        )
         return 1
     print(f"✅ Performance budgets within limits: unit_contracts_total {total:.2f}s ≤ {effective_budget:.2f}s")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

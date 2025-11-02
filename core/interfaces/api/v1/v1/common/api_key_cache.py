@@ -1,4 +1,5 @@
 """API key registry cache for the REST middleware."""
+
 from __future__ import annotations
 
 import hashlib
@@ -213,7 +214,11 @@ class ApiKeyCache:
 
         attributes = {
             "source": source,
-            **{k: v for k, v in entry.items() if k not in {"hash", "key", "user_id", "tier", "scopes", "revoked", "expires_at"}},
+            **{
+                k: v
+                for k, v in entry.items()
+                if k not in {"hash", "key", "user_id", "tier", "scopes", "revoked", "expires_at"}
+            },
         }
 
         return ApiKeyMetadata(

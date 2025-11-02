@@ -39,46 +39,32 @@ logger = logging.getLogger(__name__)
 
 # Prometheus metrics for T4/0.01% observability
 creativity_cycles_total = Counter(
-    'lukhas_creativity_cycles_total',
-    'Total creativity processing cycles',
-    ['component', 'process_type']
+    "lukhas_creativity_cycles_total", "Total creativity processing cycles", ["component", "process_type"]
 )
 
 creativity_latency_seconds = Histogram(
-    'lukhas_creativity_latency_seconds',
-    'Creativity processing latency',
-    ['component', 'process_type'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_creativity_latency_seconds",
+    "Creativity processing latency",
+    ["component", "process_type"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
 creativity_ideas_generated = Counter(
-    'lukhas_creativity_ideas_generated_total',
-    'Total creative ideas generated',
-    ['component', 'idea_type']
+    "lukhas_creativity_ideas_generated_total", "Total creative ideas generated", ["component", "idea_type"]
 )
 
-creativity_novelty_score = Gauge(
-    'lukhas_creativity_novelty_score',
-    'Current novelty score',
-    ['component']
-)
+creativity_novelty_score = Gauge("lukhas_creativity_novelty_score", "Current novelty score", ["component"])
 
-creativity_coherence_score = Gauge(
-    'lukhas_creativity_coherence_score',
-    'Current coherence score',
-    ['component']
-)
+creativity_coherence_score = Gauge("lukhas_creativity_coherence_score", "Current coherence score", ["component"])
 
 creativity_guardian_approvals = Counter(
-    'lukhas_creativity_guardian_approvals_total',
-    'Guardian approval decisions',
-    ['component', 'approved']
+    "lukhas_creativity_guardian_approvals_total", "Guardian approval decisions", ["component", "approved"]
 )
 
 creativity_flow_state = Gauge(
-    'lukhas_creativity_flow_state',
-    'Current creative flow state (0=blocked, 1=warming, 2=flowing, 3=peak, 4=cooling)',
-    ['component']
+    "lukhas_creativity_flow_state",
+    "Current creative flow state (0=blocked, 1=warming, 2=flowing, 3=peak, 4=cooling)",
+    ["component"],
 )
 
 
@@ -126,10 +112,7 @@ class CreativityEngine:
         self._synthesis_cache: Dict[str, Any] = {}
 
     async def generate_ideas(
-        self,
-        task: CreativeTask,
-        consciousness_state: ConsciousnessState,
-        context: Optional[Dict[str, Any]] = None
+        self, task: CreativeTask, consciousness_state: ConsciousnessState, context: Optional[Dict[str, Any]] = None
     ) -> CreativitySnapshot:
         """
         Generate creative ideas for a given task using multiple creative processes.
@@ -192,10 +175,7 @@ class CreativityEngine:
                 raise
 
     async def _initialize_creative_session(
-        self,
-        task: CreativeTask,
-        consciousness_state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
+        self, task: CreativeTask, consciousness_state: ConsciousnessState, context: Optional[Dict[str, Any]]
     ) -> CreativitySnapshot:
         """Initialize creativity snapshot for processing session."""
 
@@ -204,13 +184,14 @@ class CreativityEngine:
             imagination_mode=task.imagination_mode,
             creative_energy=self._creative_energy,
             inspiration_sources=task.seed_concepts.copy(),
-            creative_constraints=task.constraints.copy()
+            creative_constraints=task.constraints.copy(),
         )
 
         # Set creative energy based on consciousness level
         base_energy = consciousness_state.level
-        awareness_bonus = {"minimal": 0.0, "basic": 0.1, "enhanced": 0.2,
-                          "transcendent": 0.3, "unified": 0.4}[consciousness_state.awareness_level]
+        awareness_bonus = {"minimal": 0.0, "basic": 0.1, "enhanced": 0.2, "transcendent": 0.3, "unified": 0.4}[
+            consciousness_state.awareness_level
+        ]
 
         self._creative_energy = min(1.0, base_energy + awareness_bonus)
         snapshot.creative_energy = self._creative_energy
@@ -244,15 +225,10 @@ class CreativityEngine:
 
         # Update metrics
         flow_state_values = {"blocked": 0, "warming": 1, "flowing": 2, "peak": 3, "cooling": 4}
-        creativity_flow_state.labels(component=self._component_id).set(
-            flow_state_values[self._flow_state]
-        )
+        creativity_flow_state.labels(component=self._component_id).set(flow_state_values[self._flow_state])
 
     async def _execute_single_process(
-        self,
-        process_type: CreativeProcessType,
-        task: CreativeTask,
-        snapshot: CreativitySnapshot
+        self, process_type: CreativeProcessType, task: CreativeTask, snapshot: CreativitySnapshot
     ):
         """Execute a single creative process."""
 
@@ -311,16 +287,12 @@ class CreativityEngine:
                     coherence = self._calculate_coherence(idea_content, task)
 
                     snapshot.add_idea(
-                        idea_type=f"divergent_{perspective}",
-                        content=idea_content,
-                        novelty=novelty,
-                        coherence=coherence
+                        idea_type=f"divergent_{perspective}", content=idea_content, novelty=novelty, coherence=coherence
                     )
 
                     idea_count += 1
                     creativity_ideas_generated.labels(
-                        component=self._component_id,
-                        idea_type=f"divergent_{perspective}"
+                        component=self._component_id, idea_type=f"divergent_{perspective}"
                     ).inc()
 
             # Update divergence metrics
@@ -339,17 +311,14 @@ class CreativityEngine:
 
             # Filter ideas by quality thresholds
             quality_ideas = [
-                idea for idea in snapshot.ideas
+                idea
+                for idea in snapshot.ideas
                 if idea.get("novelty", 0.0) >= self.min_novelty_threshold
                 and idea.get("coherence", 0.0) >= self.min_coherence_threshold
             ]
 
             # Rank and select top ideas
-            ranked_ideas = sorted(
-                quality_ideas,
-                key=lambda x: x.get("validation_score", 0.0),
-                reverse=True
-            )
+            ranked_ideas = sorted(quality_ideas, key=lambda x: x.get("validation_score", 0.0), reverse=True)
 
             # Refine top ideas
             refined_count = 0
@@ -360,7 +329,7 @@ class CreativityEngine:
                         idea_type="convergent_refined",
                         content=refined_idea,
                         novelty=idea.get("novelty", 0.0) * 1.1,  # Slight boost for refinement
-                        coherence=idea.get("coherence", 0.0) * 1.2
+                        coherence=idea.get("coherence", 0.0) * 1.2,
                     )
                     refined_count += 1
 
@@ -402,16 +371,12 @@ class CreativityEngine:
                             coherence = self._calculate_coherence(association_idea, task)
 
                             snapshot.add_idea(
-                                idea_type="associative",
-                                content=association_idea,
-                                novelty=novelty,
-                                coherence=coherence
+                                idea_type="associative", content=association_idea, novelty=novelty, coherence=coherence
                             )
 
                             association_count += 1
                             creativity_ideas_generated.labels(
-                                component=self._component_id,
-                                idea_type="associative"
+                                component=self._component_id, idea_type="associative"
                             ).inc()
 
             span.set_attribute("associations_created", len(snapshot.associations))
@@ -424,9 +389,7 @@ class CreativityEngine:
             if not snapshot.ideas:
                 return
 
-            transformation_methods = [
-                "analogy", "metaphor", "inversion", "amplification", "combination"
-            ]
+            transformation_methods = ["analogy", "metaphor", "inversion", "amplification", "combination"]
 
             transformation_count = 0
             for idea in snapshot.ideas[-5:]:  # Transform recent ideas
@@ -434,20 +397,16 @@ class CreativityEngine:
                     if transformation_count >= 10:
                         break
 
-                    transformed = await self._apply_transformation(
-                        idea["content"], method, task, snapshot
-                    )
+                    transformed = await self._apply_transformation(idea["content"], method, task, snapshot)
 
                     if transformed:
-                        confidence = self._calculate_transformation_confidence(
-                            idea["content"], transformed, method
-                        )
+                        confidence = self._calculate_transformation_confidence(idea["content"], transformed, method)
 
                         snapshot.add_transformation(
                             original=str(idea["content"]),
                             transformed=str(transformed),
                             process=method,
-                            confidence=confidence
+                            confidence=confidence,
                         )
 
                         # Create new idea from transformation
@@ -455,16 +414,12 @@ class CreativityEngine:
                         coherence = self._calculate_coherence(transformed, task)
 
                         snapshot.add_idea(
-                            idea_type=f"transformed_{method}",
-                            content=transformed,
-                            novelty=novelty,
-                            coherence=coherence
+                            idea_type=f"transformed_{method}", content=transformed, novelty=novelty, coherence=coherence
                         )
 
                         transformation_count += 1
                         creativity_ideas_generated.labels(
-                            component=self._component_id,
-                            idea_type=f"transformed_{method}"
+                            component=self._component_id, idea_type=f"transformed_{method}"
                         ).inc()
 
             span.set_attribute("transformations_applied", len(snapshot.transformations))
@@ -494,22 +449,22 @@ class CreativityEngine:
                             idea_type="synthesized",
                             content=synthesized,
                             novelty=min(novelty, 1.0),
-                            coherence=min(coherence, 1.0)
+                            coherence=min(coherence, 1.0),
                         )
 
                         synthesis_count += 1
-                        creativity_ideas_generated.labels(
-                            component=self._component_id,
-                            idea_type="synthesized"
-                        ).inc()
+                        creativity_ideas_generated.labels(component=self._component_id, idea_type="synthesized").inc()
 
             # Update synthesis quality metric
             if synthesis_count > 0:
-                avg_synthesis_quality = sum(
-                    idea.get("validation_score", 0.0)
-                    for idea in snapshot.ideas
-                    if idea.get("type", "").startswith("synthesized")
-                ) / synthesis_count
+                avg_synthesis_quality = (
+                    sum(
+                        idea.get("validation_score", 0.0)
+                        for idea in snapshot.ideas
+                        if idea.get("type", "").startswith("synthesized")
+                    )
+                    / synthesis_count
+                )
                 snapshot.synthesis_quality = avg_synthesis_quality
 
             span.set_attribute("idea_groups", len(idea_groups))
@@ -534,12 +489,14 @@ class CreativityEngine:
 
         for idea in snapshot.ideas:
             try:
-                approval_result = await self.guardian_validator({
-                    "type": "creative_idea",
-                    "content": idea["content"],
-                    "novelty": idea.get("novelty", 0.0),
-                    "coherence": idea.get("coherence", 0.0)
-                })
+                approval_result = await self.guardian_validator(
+                    {
+                        "type": "creative_idea",
+                        "content": idea["content"],
+                        "novelty": idea.get("novelty", 0.0),
+                        "coherence": idea.get("coherence", 0.0),
+                    }
+                )
 
                 approved = approval_result.get("approved", False)
                 reason = approval_result.get("reason", "No reason provided")
@@ -547,10 +504,7 @@ class CreativityEngine:
                 idea["guardian_approved"] = approved
                 snapshot.add_guardian_approval(idea["id"], approved, reason)
 
-                creativity_guardian_approvals.labels(
-                    component=self._component_id,
-                    approved=str(approved).lower()
-                ).inc()
+                creativity_guardian_approvals.labels(component=self._component_id, approved=str(approved).lower()).inc()
 
             except Exception as e:
                 logger.warning(f"Guardian approval failed for idea {idea['id']}: {e}")
@@ -568,8 +522,7 @@ class CreativityEngine:
             snapshot.process_efficiency = min(ideas_per_ms / target_rate, 1.0)
 
         # Memory pressure assessment
-        memory_items = (len(snapshot.ideas) + len(snapshot.associations) +
-                       len(snapshot.transformations))
+        memory_items = len(snapshot.ideas) + len(snapshot.associations) + len(snapshot.transformations)
         max_memory_items = 100
         snapshot.memory_pressure_score = min(memory_items / max_memory_items, 1.0)
 
@@ -583,23 +536,15 @@ class CreativityEngine:
     def _update_metrics(self, snapshot: CreativitySnapshot, processing_time: float, process_type: str):
         """Update Prometheus metrics for observability."""
 
-        creativity_cycles_total.labels(
-            component=self._component_id,
-            process_type=process_type
-        ).inc()
+        creativity_cycles_total.labels(component=self._component_id, process_type=process_type).inc()
 
-        creativity_latency_seconds.labels(
-            component=self._component_id,
-            process_type=process_type
-        ).observe(processing_time / 1000.0)
-
-        creativity_novelty_score.labels(component=self._component_id).set(
-            snapshot.novelty_score
+        creativity_latency_seconds.labels(component=self._component_id, process_type=process_type).observe(
+            processing_time / 1000.0
         )
 
-        creativity_coherence_score.labels(component=self._component_id).set(
-            snapshot.coherence_score
-        )
+        creativity_novelty_score.labels(component=self._component_id).set(snapshot.novelty_score)
+
+        creativity_coherence_score.labels(component=self._component_id).set(snapshot.coherence_score)
 
         # Update internal tracking
         self._processing_times.append(processing_time)
@@ -635,20 +580,12 @@ class CreativityEngine:
             related.extend([f"{concept}_{domain}", f"{domain}_{concept}"])
 
         # Conceptual variations
-        related.extend([
-            f"enhanced_{concept}",
-            f"minimal_{concept}",
-            f"alternative_{concept}",
-            f"future_{concept}"
-        ])
+        related.extend([f"enhanced_{concept}", f"minimal_{concept}", f"alternative_{concept}", f"future_{concept}"])
 
         return related[:10]  # Limit to 10 for performance
 
     async def _generate_perspective_ideas(
-        self,
-        prompt: str,
-        perspective: str,
-        context: Dict[str, Any]
+        self, prompt: str, perspective: str, context: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
         """Generate ideas from a specific perspective."""
         # Simplified creative idea generation
@@ -657,7 +594,7 @@ class CreativityEngine:
         base_idea = {
             "description": f"{perspective} approach to: {prompt}",
             "perspective": perspective,
-            "context_elements": list(context.keys())[:3]
+            "context_elements": list(context.keys())[:3],
         }
 
         # Generate variations
@@ -736,11 +673,7 @@ class CreativityEngine:
         return common / max(total, 1) + random.uniform(0.1, 0.3)  # Add some randomness
 
     async def _generate_association_idea(
-        self,
-        source: str,
-        target: str,
-        prompt: str,
-        context: Dict[str, Any]
+        self, source: str, target: str, prompt: str, context: Dict[str, Any]
     ) -> Optional[Dict[str, Any]]:
         """Generate idea from concept association."""
         return {
@@ -748,14 +681,11 @@ class CreativityEngine:
             "source_concept": source,
             "target_concept": target,
             "association_type": "semantic",
-            "context_elements": list(context.keys())[:2]
+            "context_elements": list(context.keys())[:2],
         }
 
     async def _refine_idea(
-        self,
-        idea: Dict[str, Any],
-        task: CreativeTask,
-        snapshot: CreativitySnapshot
+        self, idea: Dict[str, Any], task: CreativeTask, snapshot: CreativitySnapshot
     ) -> Optional[Dict[str, Any]]:
         """Refine an existing idea."""
         original_content = idea["content"]
@@ -770,11 +700,7 @@ class CreativityEngine:
         return refined
 
     async def _apply_transformation(
-        self,
-        content: Dict[str, Any],
-        method: str,
-        task: CreativeTask,
-        snapshot: CreativitySnapshot
+        self, content: Dict[str, Any], method: str, task: CreativeTask, snapshot: CreativitySnapshot
     ) -> Optional[Dict[str, Any]]:
         """Apply transformation method to content."""
         transformed = content.copy() if isinstance(content, dict) else {"original": content}
@@ -792,10 +718,7 @@ class CreativityEngine:
         return transformed
 
     def _calculate_transformation_confidence(
-        self,
-        original: Dict[str, Any],
-        transformed: Dict[str, Any],
-        method: str
+        self, original: Dict[str, Any], transformed: Dict[str, Any], method: str
     ) -> float:
         """Calculate confidence in transformation quality."""
         # Simplified confidence calculation
@@ -824,11 +747,7 @@ class CreativityEngine:
         # Return groups with 2+ ideas
         return [group for group in groups.values() if len(group) >= 2]
 
-    async def _synthesize_idea_group(
-        self,
-        group: List[Dict[str, Any]],
-        task: CreativeTask
-    ) -> Optional[Dict[str, Any]]:
+    async def _synthesize_idea_group(self, group: List[Dict[str, Any]], task: CreativeTask) -> Optional[Dict[str, Any]]:
         """Synthesize a group of ideas into a unified concept."""
         if len(group) < 2:
             return None
@@ -837,7 +756,7 @@ class CreativityEngine:
             "description": f"Synthesis of {len(group)} ideas for: {task.prompt}",
             "source_ideas": [idea.get("id", f"idea_{i}") for i, idea in enumerate(group)],
             "synthesis_elements": [],
-            "unified_approach": True
+            "unified_approach": True,
         }
 
         # Extract key elements from each idea
@@ -857,7 +776,7 @@ class CreativityEngine:
             snapshot.add_validation_check(
                 "novelty_threshold",
                 False,
-                f"Average novelty {avg_novelty:.3f} below threshold {self.min_novelty_threshold}"
+                f"Average novelty {avg_novelty:.3f} below threshold {self.min_novelty_threshold}",
             )
             snapshot.flag_anomaly("low_novelty", f"Ideas lack sufficient originality: {avg_novelty:.3f}")
         else:
@@ -869,7 +788,7 @@ class CreativityEngine:
             snapshot.add_validation_check(
                 "coherence_threshold",
                 False,
-                f"Average coherence {avg_coherence:.3f} below threshold {self.min_coherence_threshold}"
+                f"Average coherence {avg_coherence:.3f} below threshold {self.min_coherence_threshold}",
             )
         else:
             snapshot.add_validation_check("coherence_threshold", True, "Coherence requirements met")
@@ -877,9 +796,7 @@ class CreativityEngine:
         # Fluency validation
         if snapshot.fluency_count < task.min_ideas:
             snapshot.add_validation_check(
-                "fluency_minimum",
-                False,
-                f"Generated {snapshot.fluency_count} ideas, required {task.min_ideas}"
+                "fluency_minimum", False, f"Generated {snapshot.fluency_count} ideas, required {task.min_ideas}"
             )
         else:
             snapshot.add_validation_check("fluency_minimum", True, "Fluency requirements met")
@@ -892,8 +809,7 @@ class CreativityEngine:
 
         # Elaboration depth - complexity of generated ideas
         total_complexity = sum(
-            len(str(idea.get("content", ""))) / 100.0  # Normalize by length
-            for idea in snapshot.ideas
+            len(str(idea.get("content", ""))) / 100.0 for idea in snapshot.ideas  # Normalize by length
         )
         snapshot.elaboration_depth = min(total_complexity / len(snapshot.ideas), 1.0)
 
@@ -906,7 +822,7 @@ class CreativityEngine:
                 "average_latency_ms": 0.0,
                 "p95_latency_ms": 0.0,
                 "average_quality_score": 0.0,
-                "guardian_approval_rate": 0.0
+                "guardian_approval_rate": 0.0,
             }
 
         sorted_times = sorted(self._processing_times)
@@ -920,11 +836,13 @@ class CreativityEngine:
             "cycles_completed": self._cycle_count,
             "average_latency_ms": sum(self._processing_times) / len(self._processing_times),
             "p95_latency_ms": sorted_times[p95_idx] if p95_idx < len(sorted_times) else sorted_times[-1],
-            "average_quality_score": sum(self._quality_scores) / len(self._quality_scores) if self._quality_scores else 0.0,
+            "average_quality_score": (
+                sum(self._quality_scores) / len(self._quality_scores) if self._quality_scores else 0.0
+            ),
             "guardian_approval_rate": guardian_approval_rate,
             "current_flow_state": self._flow_state,
             "creative_energy": self._creative_energy,
-            "concept_network_size": len(self._concept_network)
+            "concept_network_size": len(self._concept_network),
         }
 
     async def reset_state(self):

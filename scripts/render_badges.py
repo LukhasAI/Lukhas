@@ -21,32 +21,32 @@ INDEX_PATH = DOCS_ROOT / "reference" / "DOCUMENTATION_INDEX.md"
 
 # Badge styles (shields.io compatible)
 BADGE_STYLES = {
-    'status': {
-        'wip': '![Status: WIP](https://img.shields.io/badge/status-wip-yellow)',
-        'draft': '![Status: Draft](https://img.shields.io/badge/status-draft-orange)',
-        'stable': '![Status: Stable](https://img.shields.io/badge/status-stable-green)',
-        'deprecated': '![Status: Deprecated](https://img.shields.io/badge/status-deprecated-red)',
-        'archived': '![Status: Archived](https://img.shields.io/badge/status-archived-gray)',
-        'moved': '![Status: Moved](https://img.shields.io/badge/status-moved-blue)',
+    "status": {
+        "wip": "![Status: WIP](https://img.shields.io/badge/status-wip-yellow)",
+        "draft": "![Status: Draft](https://img.shields.io/badge/status-draft-orange)",
+        "stable": "![Status: Stable](https://img.shields.io/badge/status-stable-green)",
+        "deprecated": "![Status: Deprecated](https://img.shields.io/badge/status-deprecated-red)",
+        "archived": "![Status: Archived](https://img.shields.io/badge/status-archived-gray)",
+        "moved": "![Status: Moved](https://img.shields.io/badge/status-moved-blue)",
     },
-    'owner_template': '![Owner: {owner}](https://img.shields.io/badge/owner-{owner_slug}-lightblue)',
+    "owner_template": "![Owner: {owner}](https://img.shields.io/badge/owner-{owner_slug}-lightblue)",
 }
 
-FRONT_MATTER_PATTERN = re.compile(r'^---\n(.*?)\n---', re.DOTALL | re.MULTILINE)
-H1_PATTERN = re.compile(r'^#\s+(.+)$', re.MULTILINE)
+FRONT_MATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL | re.MULTILINE)
+H1_PATTERN = re.compile(r"^#\s+(.+)$", re.MULTILINE)
 
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def slugify_owner(owner: str) -> str:
     """Convert owner to badge-safe slug."""
     # Remove @ symbol, spaces, special chars
-    slug = owner.replace('@', '').replace(' ', '_')
-    slug = re.sub(r'[^a-zA-Z0-9_-]', '', slug)
+    slug = owner.replace("@", "").replace(" ", "_")
+    slug = re.sub(r"[^a-zA-Z0-9_-]", "", slug)
     return slug
 
 
@@ -55,16 +55,13 @@ def generate_badges(status: str, owner: str) -> List[str]:
     badges = []
 
     # Status badge
-    if status in BADGE_STYLES['status']:
-        badges.append(BADGE_STYLES['status'][status])
+    if status in BADGE_STYLES["status"]:
+        badges.append(BADGE_STYLES["status"][status])
 
     # Owner badge
-    if owner and owner != 'unknown':
+    if owner and owner != "unknown":
         owner_slug = slugify_owner(owner)
-        owner_badge = BADGE_STYLES['owner_template'].format(
-            owner=owner,
-            owner_slug=owner_slug
-        )
+        owner_badge = BADGE_STYLES["owner_template"].format(owner=owner, owner_slug=owner_slug)
         badges.append(owner_badge)
 
     return badges
@@ -76,14 +73,14 @@ def inject_badges(file_path: Path, status: str, owner: str, dry_run: bool = True
     Returns True if modified.
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
     except Exception as e:
         print(f"   ⚠️  Failed to read {file_path}: {e}")
         return False
 
     # Check if badges already exist
-    if '![Status:' in content or '![Owner:' in content:
+    if "![Status:" in content or "![Owner:" in content:
         return False  # Already has badges
 
     # Find front-matter
@@ -109,8 +106,8 @@ def inject_badges(file_path: Path, status: str, owner: str, dry_run: bool = True
     before_h1 = content[:h1_start].rstrip()
     at_and_after_h1 = content[h1_start:]
 
-    badge_block = '\n'.join(badges) + '\n\n'
-    new_content = before_h1 + '\n\n' + badge_block + at_and_after_h1
+    badge_block = "\n".join(badges) + "\n\n"
+    new_content = before_h1 + "\n\n" + badge_block + at_and_after_h1
 
     if dry_run:
         return True  # Would modify
@@ -118,12 +115,12 @@ def inject_badges(file_path: Path, status: str, owner: str, dry_run: bool = True
     # Write back
     try:
         # Create backup
-        backup_path = file_path.with_suffix(file_path.suffix + '.bak')
-        with open(backup_path, 'w', encoding='utf-8', newline='\n') as f:
+        backup_path = file_path.with_suffix(file_path.suffix + ".bak")
+        with open(backup_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(content)
 
         # Write new content
-        with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+        with open(file_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(new_content)
 
         # Remove backup on success
@@ -149,27 +146,29 @@ def generate_badge_legend() -> str:
         "",
     ]
 
-    for status, badge_md in BADGE_STYLES['status'].items():
+    for status, badge_md in BADGE_STYLES["status"].items():
         lines.append(f"- {badge_md} - {status.upper()}")
 
-    lines.extend([
-        "",
-        "### Owner Badges",
-        "",
-        "![Owner: @username](https://img.shields.io/badge/owner-username-lightblue) - Assigned owner (@username or team-name)",
-        "",
-        "### Badge Meanings",
-        "",
-        "- **WIP**: Work in progress, content incomplete",
-        "- **Draft**: Content complete but under review",
-        "- **Stable**: Production-ready, reviewed and approved",
-        "- **Deprecated**: Obsolete, kept for reference",
-        "- **Archived**: Historical record, no longer maintained",
-        "- **Moved**: Content relocated (see redirect)",
-        "",
-    ])
+    lines.extend(
+        [
+            "",
+            "### Owner Badges",
+            "",
+            "![Owner: @username](https://img.shields.io/badge/owner-username-lightblue) - Assigned owner (@username or team-name)",
+            "",
+            "### Badge Meanings",
+            "",
+            "- **WIP**: Work in progress, content incomplete",
+            "- **Draft**: Content complete but under review",
+            "- **Stable**: Production-ready, reviewed and approved",
+            "- **Deprecated**: Obsolete, kept for reference",
+            "- **Archived**: Historical record, no longer maintained",
+            "- **Moved**: Content relocated (see redirect)",
+            "",
+        ]
+    )
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def update_index_legend(dry_run: bool = True) -> bool:
@@ -179,32 +178,32 @@ def update_index_legend(dry_run: bool = True) -> bool:
         return False
 
     try:
-        with open(INDEX_PATH, 'r', encoding='utf-8') as f:
+        with open(INDEX_PATH, "r", encoding="utf-8") as f:
             content = f.read()
     except Exception as e:
         print(f"   ❌ Failed to read {INDEX_PATH}: {e}")
         return False
 
     # Check if legend already exists
-    if '## Badge Legend' in content:
+    if "## Badge Legend" in content:
         return False  # Already has legend
 
     legend = generate_badge_legend()
 
     # Append to end of file
-    new_content = content.rstrip() + '\n\n' + legend + '\n'
+    new_content = content.rstrip() + "\n\n" + legend + "\n"
 
     if dry_run:
         return True  # Would modify
 
     try:
         # Backup
-        backup_path = INDEX_PATH.with_suffix(INDEX_PATH.suffix + '.bak')
-        with open(backup_path, 'w', encoding='utf-8', newline='\n') as f:
+        backup_path = INDEX_PATH.with_suffix(INDEX_PATH.suffix + ".bak")
+        with open(backup_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(content)
 
         # Write
-        with open(INDEX_PATH, 'w', encoding='utf-8', newline='\n') as f:
+        with open(INDEX_PATH, "w", encoding="utf-8", newline="\n") as f:
             f.write(new_content)
 
         backup_path.unlink()
@@ -225,8 +224,8 @@ def main():
     print()
 
     # Parse flags
-    dry_run = '--dry-run' not in sys.argv and '--apply' not in sys.argv
-    if '--apply' in sys.argv:
+    dry_run = "--dry-run" not in sys.argv and "--apply" not in sys.argv
+    if "--apply" in sys.argv:
         dry_run = False
 
     if dry_run:
@@ -238,7 +237,7 @@ def main():
     # Load manifest
     print("📂 Loading manifest...")
     manifest = load_manifest()
-    docs = manifest['documents']
+    docs = manifest["documents"]
     print(f"   ✅ {len(docs)} documents")
     print()
 
@@ -248,17 +247,17 @@ def main():
     skipped_count = 0
 
     for doc in docs:
-        if doc.get('redirect'):
+        if doc.get("redirect"):
             continue  # Skip redirects
 
-        status = doc.get('status', 'unknown')
-        owner = doc.get('owner', 'unknown')
+        status = doc.get("status", "unknown")
+        owner = doc.get("owner", "unknown")
 
         # Skip if no valid badges
-        if status == 'unknown' and owner == 'unknown':
+        if status == "unknown" and owner == "unknown":
             continue
 
-        file_path = Path(doc['path'])
+        file_path = Path(doc["path"])
         # Ensure absolute path
         if not file_path.is_absolute():
             file_path = REPO_ROOT / file_path
@@ -300,7 +299,7 @@ def main():
     print()
 
     # Calculate coverage
-    total_eligible = len([d for d in docs if not d.get('redirect')])
+    total_eligible = len([d for d in docs if not d.get("redirect")])
     coverage_pct = (modified_count / total_eligible) * 100 if total_eligible > 0 else 0
 
     print("=" * 80)

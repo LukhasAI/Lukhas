@@ -436,9 +436,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
             "dev": ["io for technical docs", "store for distribution"],
         }
 
-        domain_suggestions = suggestions.get(
-            domain, ["ai for core experience", "com for business applications"]
-        )
+        domain_suggestions = suggestions.get(domain, ["ai for core experience", "com for business applications"])
         return "\n".join([f"- **{suggestion}**" for suggestion in domain_suggestions])
 
     def _get_related_domains(self, current_domain: str) -> list[str]:

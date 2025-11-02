@@ -5,6 +5,7 @@ LUKHAS Cognitive AI Registry Systems
 This package contains registry implementations for managing various
 components across the LUKHAS Cognitive system.
 """
+
 import streamlit as st
 
 from .intelligence_engine_registry import (

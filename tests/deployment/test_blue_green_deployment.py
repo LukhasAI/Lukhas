@@ -32,7 +32,7 @@ import yaml
 def deployment_config():
     """Load deployment configuration from docker-compose.production.yml."""
     config_path = Path(__file__).parent.parent.parent / "deployment" / "docker-compose.production.yml"
-    with open(config_path, 'r') as f:
+    with open(config_path, "r") as f:
         return yaml.safe_load(f)
 
 
@@ -100,7 +100,13 @@ class TestBlueGreenDeployment:
             assert service_name in services, f"Missing service: {service_name}"
 
         # Validate health checks for LUKHAS services
-        lukhas_services = ["lukhas-core", "lukhas-identity", "lukhas-memory", "lukhas-consciousness", "lukhas-governance"]
+        lukhas_services = [
+            "lukhas-core",
+            "lukhas-identity",
+            "lukhas-memory",
+            "lukhas-consciousness",
+            "lukhas-governance",
+        ]
         for service_name in lukhas_services:
             service_config = services[service_name]
             assert "healthcheck" in service_config, f"Missing health check for {service_name}"
@@ -147,7 +153,10 @@ class TestBlueGreenDeployment:
             ("lukhas-memory", ["postgres", "redis"]),
             ("lukhas-consciousness", ["redis", "lukhas-memory"]),
             ("lukhas-governance", ["postgres"]),
-            ("lukhas-gateway", ["lukhas-core", "lukhas-identity", "lukhas-memory", "lukhas-consciousness", "lukhas-governance"]),
+            (
+                "lukhas-gateway",
+                ["lukhas-core", "lukhas-identity", "lukhas-memory", "lukhas-consciousness", "lukhas-governance"],
+            ),
             ("grafana", ["prometheus"]),
             ("promtail", ["loki"]),
         ]
@@ -232,8 +241,9 @@ class TestBlueGreenDeployment:
                 # Fallback: Check if we have equivalent pytest tests
                 test_name = script_path.replace("scripts/", "tests/smoke/").replace(".sh", ".py")
                 test_path = project_root / test_name
-                assert test_path.exists() or "smoke" in script_path, \
-                    f"Missing smoke test: {script_path} (or equivalent pytest test)"
+                assert (
+                    test_path.exists() or "smoke" in script_path
+                ), f"Missing smoke test: {script_path} (or equivalent pytest test)"
 
         print("✅ Smoke test scenarios validated successfully")
 
@@ -283,8 +293,9 @@ class TestBlueGreenDeployment:
         # Validate Prometheus configuration
         prometheus_config = services["prometheus"]
         assert "command" in prometheus_config, "Missing Prometheus command"
-        assert any("prometheus.yml" in str(cmd) for cmd in prometheus_config["command"]), \
-            "Missing Prometheus config file"
+        assert any(
+            "prometheus.yml" in str(cmd) for cmd in prometheus_config["command"]
+        ), "Missing Prometheus config file"
 
         # Validate Grafana configuration
         grafana_config = services["grafana"]
@@ -294,8 +305,9 @@ class TestBlueGreenDeployment:
         if isinstance(grafana_env, dict):
             assert "GF_SECURITY_ADMIN_PASSWORD" in grafana_env, "Missing Grafana admin password"
         elif isinstance(grafana_env, list):
-            assert any("GF_SECURITY_ADMIN_PASSWORD" in str(env) for env in grafana_env), \
-                "Missing Grafana admin password"
+            assert any(
+                "GF_SECURITY_ADMIN_PASSWORD" in str(env) for env in grafana_env
+            ), "Missing Grafana admin password"
 
         print("✅ Monitoring stack validated successfully")
 
@@ -318,13 +330,11 @@ class TestBlueGreenDeployment:
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
         assert runbook_path.exists(), "Missing GA deployment runbook"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path, "r") as f:
             runbook_content = f.read()
-            assert "Phase 4: Production Cutover" in runbook_content, \
-                "Missing Production Cutover section in runbook"
+            assert "Phase 4: Production Cutover" in runbook_content, "Missing Production Cutover section in runbook"
             assert "DNS" in runbook_content, "Missing DNS configuration in runbook"
-            assert "aws route53 change-resource-record-sets" in runbook_content, \
-                "Missing DNS update command in runbook"
+            assert "aws route53 change-resource-record-sets" in runbook_content, "Missing DNS update command in runbook"
 
         print("✅ Production cutover readiness validated successfully")
 
@@ -346,14 +356,13 @@ class TestBlueGreenDeployment:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path, "r") as f:
             runbook_content = f.read()
-            assert "Phase 5: Blue Environment Decommission" in runbook_content, \
-                "Missing Blue Environment Decommission section"
-            assert "24-hour soak" in runbook_content or "24 hours" in runbook_content, \
-                "Missing 24-hour soak validation"
-            assert "backup" in runbook_content.lower(), \
-                "Missing backup procedures in runbook"
+            assert (
+                "Phase 5: Blue Environment Decommission" in runbook_content
+            ), "Missing Blue Environment Decommission section"
+            assert "24-hour soak" in runbook_content or "24 hours" in runbook_content, "Missing 24-hour soak validation"
+            assert "backup" in runbook_content.lower(), "Missing backup procedures in runbook"
 
         print("✅ Blue environment decommission safety validated successfully")
 
@@ -394,14 +403,15 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path, "r") as f:
             runbook_content = f.read()
-            assert "Immediate Rollback Triggers" in runbook_content, \
-                "Missing rollback triggers section"
-            assert "Error rate > 5%" in runbook_content or "error rate" in runbook_content.lower(), \
-                "Missing error rate rollback trigger"
-            assert "5 consecutive minutes" in runbook_content or "5 minutes" in runbook_content, \
-                "Missing time threshold for rollback"
+            assert "Immediate Rollback Triggers" in runbook_content, "Missing rollback triggers section"
+            assert (
+                "Error rate > 5%" in runbook_content or "error rate" in runbook_content.lower()
+            ), "Missing error rate rollback trigger"
+            assert (
+                "5 consecutive minutes" in runbook_content or "5 minutes" in runbook_content
+            ), "Missing time threshold for rollback"
 
         print("✅ Rollback trigger thresholds validated successfully")
 
@@ -422,14 +432,11 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path, "r") as f:
             runbook_content = f.read()
-            assert "Step 2: Execute DNS Cutback" in runbook_content, \
-                "Missing DNS cutback procedure"
-            assert "aws route53 change-resource-record-sets" in runbook_content, \
-                "Missing AWS Route 53 CLI command"
-            assert "TTL" in runbook_content or "60" in runbook_content, \
-                "Missing DNS TTL configuration"
+            assert "Step 2: Execute DNS Cutback" in runbook_content, "Missing DNS cutback procedure"
+            assert "aws route53 change-resource-record-sets" in runbook_content, "Missing AWS Route 53 CLI command"
+            assert "TTL" in runbook_content or "60" in runbook_content, "Missing DNS TTL configuration"
 
         print("✅ DNS cutback procedure validated successfully")
 
@@ -450,14 +457,13 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path, "r") as f:
             runbook_content = f.read()
-            assert "Step 3: Preserve Evidence" in runbook_content, \
-                "Missing evidence preservation section"
-            assert "docker logs" in runbook_content, \
-                "Missing Docker logs export"
-            assert "prometheus" in runbook_content.lower() or "metrics" in runbook_content.lower(), \
-                "Missing Prometheus metrics snapshot"
+            assert "Step 3: Preserve Evidence" in runbook_content, "Missing evidence preservation section"
+            assert "docker logs" in runbook_content, "Missing Docker logs export"
+            assert (
+                "prometheus" in runbook_content.lower() or "metrics" in runbook_content.lower()
+            ), "Missing Prometheus metrics snapshot"
 
         print("✅ Evidence preservation procedure validated successfully")
 
@@ -478,12 +484,12 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path, "r") as f:
             runbook_content = f.read()
-            assert "Auto-Rollback Script" in runbook_content or "auto_rollback.sh" in runbook_content, \
-                "Missing auto-rollback script reference"
-            assert "Prometheus" in runbook_content, \
-                "Missing Prometheus integration for auto-rollback"
+            assert (
+                "Auto-Rollback Script" in runbook_content or "auto_rollback.sh" in runbook_content
+            ), "Missing auto-rollback script reference"
+            assert "Prometheus" in runbook_content, "Missing Prometheus integration for auto-rollback"
 
         print("✅ Auto-rollback script validated successfully")
 
@@ -505,13 +511,9 @@ def test_deployment_test_suite_coverage():
     - Task 9: GA Deployment Runbook (PR #428)
     """
     # Count tests in this file
-    test_count = len([
-        name for name in dir(TestBlueGreenDeployment)
-        if name.startswith("test_")
-    ]) + len([
-        name for name in dir(TestDeploymentRollback)
-        if name.startswith("test_")
-    ])
+    test_count = len([name for name in dir(TestBlueGreenDeployment) if name.startswith("test_")]) + len(
+        [name for name in dir(TestDeploymentRollback) if name.startswith("test_")]
+    )
 
     assert test_count >= 14, f"Expected 14+ deployment tests, found {test_count}"
     print(f"✅ Deployment test suite coverage validated: {test_count} tests")

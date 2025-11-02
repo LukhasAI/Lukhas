@@ -33,6 +33,7 @@ try:
     )
     from .token_generator import EnvironmentSecretProvider, TokenGenerator
     from .token_validator import TokenValidator, ValidationContext, ValidationResult
+
     TOKEN_SYSTEM_AVAILABLE = True
 except ImportError:
     TOKEN_SYSTEM_AVAILABLE = False
@@ -312,9 +313,7 @@ class AuthenticationService:
 
                 # Initialize token generator
                 self.token_generator = TokenGenerator(
-                    secret_provider=self.secret_provider,
-                    ttl_seconds=self.session_timeout,
-                    issuer="ai"
+                    secret_provider=self.secret_provider, ttl_seconds=self.session_timeout, issuer="ai"
                 )
 
                 # Initialize Guardian validator hook
@@ -330,7 +329,7 @@ class AuthenticationService:
                     secret_provider=self.secret_provider,
                     guardian_validator=guardian_validator,
                     cache_size=self.config.get("token_cache_size", 10000),
-                    cache_ttl_seconds=self.config.get("token_cache_ttl", 300)
+                    cache_ttl_seconds=self.config.get("token_cache_ttl", 300),
                 )
 
                 self.logger.info("✅ ΛiD token system initialized successfully")
@@ -349,6 +348,7 @@ class AuthenticationService:
 
     def _create_guardian_validator(self):
         """Create Guardian validation function for token validation"""
+
         def guardian_validate(context: dict[str, Any]) -> dict[str, Any]:
             """Guardian validation function for ethical token assessment"""
             try:
@@ -360,7 +360,7 @@ class AuthenticationService:
                     "action_type": context.get("action_type", "token_validation"),
                     "target": context.get("token_claims", {}).get("sub", "unknown"),
                     "context": context,
-                    "severity": "medium"  # Token validation is medium severity
+                    "severity": "medium",  # Token validation is medium severity
                 }
 
                 # Perform Guardian validation
@@ -369,7 +369,7 @@ class AuthenticationService:
                 return {
                     "approved": guardian_result.get("allowed", True),
                     "reason": guardian_result.get("reason", "Guardian validation completed"),
-                    "score": guardian_result.get("confidence", 0.8)
+                    "score": guardian_result.get("confidence", 0.8),
                 }
 
             except ImportError:
@@ -377,16 +377,12 @@ class AuthenticationService:
                 return {
                     "approved": True,
                     "reason": "Guardian validation not available (approved by default)",
-                    "score": 1.0
+                    "score": 1.0,
                 }
             except Exception as e:
                 self.logger.warning(f"Guardian validation error: {e}")
                 # Fail open for Guardian errors
-                return {
-                    "approved": True,
-                    "reason": f"Guardian validation error (fail-open): {e}",
-                    "score": 0.5
-                }
+                return {"approved": True, "reason": f"Guardian validation error (fail-open): {e}", "score": 0.5}
 
         return guardian_validate
 
@@ -851,11 +847,7 @@ class AuthenticationService:
             AuthResult with ΛiD token
         """
         if not self._token_system_available:
-            return AuthResult(
-                success=False,
-                error="ΛiD token system not available",
-                auth_method="lid_token"
-            )
+            return AuthResult(success=False, error="ΛiD token system not available", auth_method="lid_token")
 
         # First authenticate the user with local method
         local_result = self._authenticate_local(username, password)
@@ -877,8 +869,12 @@ class AuthenticationService:
                     tier_name = self.access_tier_manager.get_user_tier(local_result.user_id)  # type: ignore[attr-defined]
                     # Convert tier name to integer
                     tier_map = {
-                        "T1_basic": 1, "T2_authenticated": 2, "T3_elevated": 3,
-                        "T4_privileged": 4, "T5_admin": 5, "T6_system": 6
+                        "T1_basic": 1,
+                        "T2_authenticated": 2,
+                        "T3_elevated": 3,
+                        "T4_privileged": 4,
+                        "T5_admin": 5,
+                        "T6_system": 6,
                     }
                     tier = tier_map.get(tier_name, 1)
                 except Exception:
@@ -889,15 +885,11 @@ class AuthenticationService:
                 "aud": "lukhas",
                 "lukhas_tier": tier,
                 "lukhas_namespace": user_data.get("namespace", "default"),
-                "permissions": user_data.get("permissions", ["basic_access"])
+                "permissions": user_data.get("permissions", ["basic_access"]),
             }
 
             # Generate ΛiD token
-            token_response = self.token_generator.create(
-                claims=claims,
-                realm=realm,
-                zone=zone
-            )
+            token_response = self.token_generator.create(claims=claims, realm=realm, zone=zone)
 
             return AuthResult(
                 success=True,
@@ -905,16 +897,12 @@ class AuthenticationService:
                 session_token=token_response.jwt,
                 permissions=claims["permissions"],
                 expires_at=token_response.exp,
-                auth_method="lid_token"
+                auth_method="lid_token",
             )
 
         except Exception as e:
             self.logger.error(f"ΛiD token generation failed: {e}")
-            return AuthResult(
-                success=False,
-                error=f"Token generation failed: {e}",
-                auth_method="lid_token"
-            )
+            return AuthResult(success=False, error=f"Token generation failed: {e}", auth_method="lid_token")
 
     def _authenticate_lid_token_direct(self, token: str, context: Optional[ValidationContext] = None) -> AuthResult:
         """
@@ -928,19 +916,13 @@ class AuthenticationService:
             AuthResult with validation status
         """
         if not self._token_system_available:
-            return AuthResult(
-                success=False,
-                error="ΛiD token system not available",
-                auth_method="lid_token_validation"
-            )
+            return AuthResult(success=False, error="ΛiD token system not available", auth_method="lid_token_validation")
 
         try:
             # Use default validation context if none provided
             if context is None:
                 context = ValidationContext(
-                    expected_audience="lukhas",
-                    guardian_enabled=True,
-                    ethical_validation_enabled=True
+                    expected_audience="lukhas", guardian_enabled=True, ethical_validation_enabled=True
                 )
 
             # Validate token
@@ -950,7 +932,7 @@ class AuthenticationService:
                 return AuthResult(
                     success=False,
                     error=validation_result.error_message or "Token validation failed",
-                    auth_method="lid_token_validation"
+                    auth_method="lid_token_validation",
                 )
 
             # Extract user information from validated token
@@ -973,16 +955,12 @@ class AuthenticationService:
                 session_token=token,
                 permissions=permissions,
                 expires_at=claims.get("exp"),
-                auth_method="lid_token_validation"
+                auth_method="lid_token_validation",
             )
 
         except Exception as e:
             self.logger.error(f"ΛiD token validation failed: {e}")
-            return AuthResult(
-                success=False,
-                error=f"Token validation failed: {e}",
-                auth_method="lid_token_validation"
-            )
+            return AuthResult(success=False, error=f"Token validation failed: {e}", auth_method="lid_token_validation")
 
     def generate_lid_token(self, user_id: str, realm: str = "lukhas", zone: str = "prod") -> Optional[str]:
         """
@@ -1008,8 +986,12 @@ class AuthenticationService:
                 try:
                     tier_name = self.access_tier_manager.get_user_tier(user_id)  # type: ignore[attr-defined]
                     tier_map = {
-                        "T1_basic": 1, "T2_authenticated": 2, "T3_elevated": 3,
-                        "T4_privileged": 4, "T5_admin": 5, "T6_system": 6
+                        "T1_basic": 1,
+                        "T2_authenticated": 2,
+                        "T3_elevated": 3,
+                        "T4_privileged": 4,
+                        "T5_admin": 5,
+                        "T6_system": 6,
                     }
                     tier = tier_map.get(tier_name, 1)
                 except Exception:
@@ -1019,14 +1001,10 @@ class AuthenticationService:
                 "aud": "lukhas",
                 "lukhas_tier": tier,
                 "lukhas_namespace": user_data.get("namespace", "default"),
-                "permissions": user_data.get("permissions", ["basic_access"])
+                "permissions": user_data.get("permissions", ["basic_access"]),
             }
 
-            token_response = self.token_generator.create(
-                claims=claims,
-                realm=realm,
-                zone=zone
-            )
+            token_response = self.token_generator.create(claims=claims, realm=realm, zone=zone)
 
             return token_response.jwt
 
@@ -1047,16 +1025,12 @@ class AuthenticationService:
         """
         if not self._token_system_available:
             return ValidationResult(
-                valid=False,
-                error_code="system_unavailable",
-                error_message="ΛiD token system not available"
+                valid=False, error_code="system_unavailable", error_message="ΛiD token system not available"
             )
 
         if context is None:
             context = ValidationContext(
-                expected_audience="lukhas",
-                guardian_enabled=True,
-                ethical_validation_enabled=True
+                expected_audience="lukhas", guardian_enabled=True, ethical_validation_enabled=True
             )
 
         return self.token_validator.validate(token, context)
@@ -1178,7 +1152,7 @@ class AuthenticationService:
         if getattr(self, "_token_system_available", False):
             status["lid_token_system"] = {
                 "cache_stats": self.token_validator.get_cache_stats() if self.token_validator else {},
-                "generator_stats": self.token_generator.get_performance_stats() if self.token_generator else {}
+                "generator_stats": self.token_generator.get_performance_stats() if self.token_generator else {},
             }
 
         # Add real component status if available
@@ -1258,12 +1232,14 @@ def authenticate_api_key(api_key: str, service_name: str = "unknown") -> AuthRes
     return get_auth_service().authenticate_api_key(api_key, service_name)
 
 
-async def verify_token(token: str,
-                      request_context: Optional[dict] = None,
-                      require_fresh_token: bool = False,
-                      allowed_issuers: Optional[list] = None,
-                      allowed_audiences: Optional[list] = None,
-                      max_token_age_seconds: Optional[int] = None) -> dict[str, Any]:
+async def verify_token(
+    token: str,
+    request_context: Optional[dict] = None,
+    require_fresh_token: bool = False,
+    allowed_issuers: Optional[list] = None,
+    allowed_audiences: Optional[list] = None,
+    max_token_age_seconds: Optional[int] = None,
+) -> dict[str, Any]:
     """
     OWASP ASVS Level 2 compliant async token verification
 
@@ -1293,7 +1269,7 @@ async def verify_token(token: str,
         raise ValueError("Token too long")
 
     # Rate limiting check (basic)
-    request_ip = request_context.get('client_ip') if request_context else 'unknown'
+    request_ip = request_context.get("client_ip") if request_context else "unknown"
     current_time = time.time()
 
     # Create token hash for replay detection
@@ -1301,7 +1277,7 @@ async def verify_token(token: str,
 
     # Check for token replay (basic implementation)
     global _token_replay_cache
-    if not hasattr(verify_token, '_token_replay_cache'):
+    if not hasattr(verify_token, "_token_replay_cache"):
         verify_token._token_replay_cache = {}
 
     if token_hash in verify_token._token_replay_cache:
@@ -1313,10 +1289,7 @@ async def verify_token(token: str,
 
     # Clean old entries from replay cache
     cutoff_time = current_time - 3600  # 1 hour
-    verify_token._token_replay_cache = {
-        k: v for k, v in verify_token._token_replay_cache.items()
-        if v > cutoff_time
-    }
+    verify_token._token_replay_cache = {k: v for k, v in verify_token._token_replay_cache.items() if v > cutoff_time}
 
     # Perform core token authentication
     auth_result = authenticate_token(token)
@@ -1331,13 +1304,13 @@ async def verify_token(token: str,
 
     # OWASP ASVS 3.1.1: Issuer validation
     if allowed_issuers:
-        token_issuer = claims.get('iss')
+        token_issuer = claims.get("iss")
         if not token_issuer or token_issuer not in allowed_issuers:
             raise ValueError(f"Invalid token issuer: {token_issuer}")
 
     # OWASP ASVS 3.1.2: Audience validation
     if allowed_audiences:
-        token_audience = claims.get('aud')
+        token_audience = claims.get("aud")
         if not token_audience:
             raise ValueError("Token missing audience claim")
 
@@ -1352,7 +1325,7 @@ async def verify_token(token: str,
 
     # OWASP ASVS 3.2.3: Token freshness validation
     if require_fresh_token or max_token_age_seconds:
-        issued_at = claims.get('iat')
+        issued_at = claims.get("iat")
         if not issued_at:
             raise ValueError("Token missing issued at claim")
 
@@ -1366,27 +1339,27 @@ async def verify_token(token: str,
     clock_skew_tolerance = 300
 
     # Check expiration with clock skew
-    expires_at = claims.get('exp')
+    expires_at = claims.get("exp")
     if expires_at and (expires_at + clock_skew_tolerance) < current_time:
         raise ValueError("Token expired")
 
     # Check not before with clock skew
-    not_before = claims.get('nbf')
+    not_before = claims.get("nbf")
     if not_before and not_before > (current_time + clock_skew_tolerance):
         raise ValueError("Token not yet valid")
 
     # OWASP ASVS 3.3.1: Secure session binding
     if request_context:
         # Validate IP binding for high-security tokens
-        token_ip = claims.get('ip')
+        token_ip = claims.get("ip")
         if token_ip and token_ip != request_ip:
             logger.warning(f"IP mismatch: token={token_ip}, request={request_ip}")
             # For high-security environments, this would be a hard failure
             # raise ValueError("IP address mismatch")
 
         # Validate user agent binding
-        token_ua = claims.get('ua')
-        request_ua = request_context.get('user_agent')
+        token_ua = claims.get("ua")
+        request_ua = request_context.get("user_agent")
         if token_ua and request_ua and token_ua != request_ua:
             logger.warning("User-Agent mismatch detected")
 
@@ -1405,9 +1378,9 @@ async def verify_token(token: str,
         "user_data": user_data,
         "claims": claims,
         "validated_at": current_time,
-        "security_level": claims.get('sec_level', 'standard'),
-        "fresh_token": token_age < 300 if 'iat' in claims else False,  # 5 minutes
-        "tenant_id": claims.get('tenant_id', 'default')
+        "security_level": claims.get("sec_level", "standard"),
+        "fresh_token": token_age < 300 if "iat" in claims else False,  # 5 minutes
+        "tenant_id": claims.get("tenant_id", "default"),
     }
 
 
@@ -1426,5 +1399,5 @@ __all__ = [
     "auth_service",
     "verify_token",
     "ValidationContext",
-    "ValidationResult"
+    "ValidationResult",
 ]

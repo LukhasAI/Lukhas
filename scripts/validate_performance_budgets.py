@@ -49,7 +49,7 @@ class PerformanceBudgetValidator:
             raise FileNotFoundError(f"Budget config not found: {self.config_file}")
 
         try:
-            with open(self.config_file, 'r', encoding='utf-8') as f:
+            with open(self.config_file, "r", encoding="utf-8") as f:
                 config = yaml.safe_load(f)
 
             logger.info(f"Loaded performance budget config: {self.config_file}")
@@ -90,7 +90,7 @@ class PerformanceBudgetValidator:
             return None
 
         try:
-            with open(artifact_path, 'r', encoding='utf-8') as f:
+            with open(artifact_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
             return data
         except (json.JSONDecodeError, IOError) as e:
@@ -115,12 +115,10 @@ class PerformanceBudgetValidator:
         budget_ms = self.budgets["performance_budgets"]["matriz_thought_loop"]["tick_operation"]["budget_ms"]
 
         # Extract p95 timing
-        p95_ms = tick_data.get("ci95_upper_ms") or tick_data.get("p95_ms", float('inf'))
+        p95_ms = tick_data.get("ci95_upper_ms") or tick_data.get("p95_ms", float("inf"))
 
         if p95_ms > budget_ms:
-            self.violations.append(
-                f"MATRIZ tick p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL"
-            )
+            self.violations.append(f"MATRIZ tick p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL")
             logger.error(f"❌ Tick budget violation: {p95_ms:.2f}ms > {budget_ms}ms")
             return False
 
@@ -145,12 +143,10 @@ class PerformanceBudgetValidator:
         budget_ms = self.budgets["performance_budgets"]["matriz_thought_loop"]["reflect_operation"]["budget_ms"]
 
         # Extract p95 timing
-        p95_ms = reflect_data.get("ci95_upper_ms") or reflect_data.get("p95_ms", float('inf'))
+        p95_ms = reflect_data.get("ci95_upper_ms") or reflect_data.get("p95_ms", float("inf"))
 
         if p95_ms > budget_ms:
-            self.violations.append(
-                f"MATRIZ reflect p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL"
-            )
+            self.violations.append(f"MATRIZ reflect p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL")
             logger.error(f"❌ Reflect budget violation: {p95_ms:.2f}ms > {budget_ms}ms")
             return False
 
@@ -175,12 +171,10 @@ class PerformanceBudgetValidator:
         budget_ms = self.budgets["performance_budgets"]["matriz_thought_loop"]["decide_operation"]["budget_ms"]
 
         # Extract p95 timing
-        p95_ms = decide_data.get("ci95_upper_ms") or decide_data.get("p95_ms", float('inf'))
+        p95_ms = decide_data.get("ci95_upper_ms") or decide_data.get("p95_ms", float("inf"))
 
         if p95_ms > budget_ms:
-            self.violations.append(
-                f"MATRIZ decide p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL"
-            )
+            self.violations.append(f"MATRIZ decide p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL")
             logger.error(f"❌ Decide budget violation: {p95_ms:.2f}ms > {budget_ms}ms")
             return False
 
@@ -196,7 +190,9 @@ class PerformanceBudgetValidator:
             self.violations.append("Guardian throughput data not found")
             return False
 
-        budget_ops_per_sec = self.budgets["performance_budgets"]["guardian_performance"]["throughput"]["budget_ops_per_sec"]
+        budget_ops_per_sec = self.budgets["performance_budgets"]["guardian_performance"]["throughput"][
+            "budget_ops_per_sec"
+        ]
 
         # Extract throughput measurement from nested structure
         throughput_metrics = guardian_data.get("throughput_metrics", {})
@@ -225,7 +221,7 @@ class PerformanceBudgetValidator:
 
         # Extract mean latency from nested structure
         latency_metrics = guardian_data.get("latency_metrics", {})
-        mean_latency_ms = latency_metrics.get("mean_latency_ms", float('inf'))
+        mean_latency_ms = latency_metrics.get("mean_latency_ms", float("inf"))
 
         if mean_latency_ms > budget_ms:
             self.violations.append(
@@ -250,12 +246,14 @@ class PerformanceBudgetValidator:
             self.violations.append("E2E orchestration timing data not found")
             return False
 
-        budget_ms = self.budgets["performance_budgets"]["cross_stack_integration"]["orchestrator_to_matriz"]["budget_ms"]
+        budget_ms = self.budgets["performance_budgets"]["cross_stack_integration"]["orchestrator_to_matriz"][
+            "budget_ms"
+        ]
 
         # Extract p95 timing from different possible structures
         if "total_time_stats" in e2e_data:
             # E2E bootstrap format
-            p95_ms = e2e_data["total_time_stats"].get("ci95_upper_ms", float('inf'))
+            p95_ms = e2e_data["total_time_stats"].get("ci95_upper_ms", float("inf"))
         elif "integration_flows" in e2e_data:
             # Cross-stack integration format - find end-to-end roundtrip
             roundtrip_flow = None
@@ -263,14 +261,12 @@ class PerformanceBudgetValidator:
                 if "end_to_end" in flow["flow_name"] or "roundtrip" in flow["flow_name"]:
                     roundtrip_flow = flow
                     break
-            p95_ms = roundtrip_flow.get("p95_ms", float('inf')) if roundtrip_flow else float('inf')
+            p95_ms = roundtrip_flow.get("p95_ms", float("inf")) if roundtrip_flow else float("inf")
         else:
-            p95_ms = e2e_data.get("e2e_p95_ms", float('inf'))
+            p95_ms = e2e_data.get("e2e_p95_ms", float("inf"))
 
         if p95_ms > budget_ms:
-            self.violations.append(
-                f"E2E orchestration p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL"
-            )
+            self.violations.append(f"E2E orchestration p95 ({p95_ms:.2f}ms) exceeds budget ({budget_ms}ms) - HARD FAIL")
             logger.error(f"❌ E2E budget violation: {p95_ms:.2f}ms > {budget_ms}ms")
             return False
 
@@ -318,13 +314,13 @@ class PerformanceBudgetValidator:
                 "matriz_decide_ms": None,
                 "guardian_throughput_ops": None,
                 "guardian_latency_ms": None,
-                "e2e_orchestration_ms": None
+                "e2e_orchestration_ms": None,
             },
             "violations": self.violations,
             "warnings": self.warnings,
             "artifacts_validated": [],
             "budget_definitions": self.budgets.get("performance_budgets", {}),
-            "locked_artifact_names": self.budgets.get("artifact_names", {}).get("performance_artifacts", [])
+            "locked_artifact_names": self.budgets.get("artifact_names", {}).get("performance_artifacts", []),
         }
 
         return report
@@ -336,7 +332,7 @@ class PerformanceBudgetValidator:
         try:
             self.artifacts_dir.mkdir(parents=True, exist_ok=True)
 
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2, sort_keys=True)
 
             logger.info(f"Budget validation report saved: {report_file}")
@@ -353,14 +349,16 @@ class PerformanceBudgetValidator:
         naming_valid = self.validate_artifact_naming()
 
         # Validate individual budgets
-        budgets_valid = all([
-            self.validate_matriz_tick_budget(),
-            self.validate_matriz_reflect_budget(),
-            self.validate_matriz_decide_budget(),
-            self.validate_guardian_throughput_budget(),
-            self.validate_guardian_latency_budget(),
-            self.validate_e2e_orchestration_budget()
-        ])
+        budgets_valid = all(
+            [
+                self.validate_matriz_tick_budget(),
+                self.validate_matriz_reflect_budget(),
+                self.validate_matriz_decide_budget(),
+                self.validate_guardian_throughput_budget(),
+                self.validate_guardian_latency_budget(),
+                self.validate_e2e_orchestration_budget(),
+            ]
+        )
 
         # Validate statistical rigor
         stats_valid = self.validate_statistical_rigor()
@@ -383,10 +381,7 @@ class PerformanceBudgetValidator:
 
 def main():
     """Main budget validation entry point."""
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     print("=== MATRIZ Performance Budget Enforcement ===")
     print("T4/0.01% Excellence Standards")

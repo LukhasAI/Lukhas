@@ -27,34 +27,34 @@ V3_DEFAULTS = {
         "issuer": None,
         "policy_version": None,
         "proof_uri": None,
-        "note": None
+        "note": None,
     },
     "glyph_provenance": {
         "glyph_signature": None,
         "entropy_phase": "null",
         "drift_index": None,
-        "attractor_state": "null"
+        "attractor_state": "null",
     },
     "dream_provenance": {
         "last_dream_cid": None,
         "drift_delta": None,
         "recurrence_score": None,
         "dream_depth": None,
-        "coherence_index": None
+        "coherence_index": None,
     },
     "guardian_check": {
         "enabled": True,
         "policy_ref": "guardian/ethics.v1",
         "dissonance_threshold": 0.05,
         "last_check_timestamp": None,
-        "drift_detection": True
+        "drift_detection": True,
     },
     "biosymbolic_map": {
         "compound": "NAD+",
         "role": "homeostasis",
         "state": "baseline",
         "pathway_coupling": None,
-        "symbolic_ph": None
+        "symbolic_ph": None,
     },
     "quantum_proof": {
         "zkp_circuit": None,
@@ -62,8 +62,8 @@ V3_DEFAULTS = {
         "post_quantum_sig": None,
         "lattice_commitment": None,
         "entanglement_witness": None,
-        "superposition_state": "null"
-    }
+        "superposition_state": "null",
+    },
 }
 
 
@@ -144,24 +144,16 @@ Examples:
   python3 tools/matrix_upgrade_v3.py                    # Upgrade all contracts
   python3 tools/matrix_upgrade_v3.py --dry-run          # Preview changes
   python3 tools/matrix_upgrade_v3.py --pattern "contracts/matrix_*.json"  # Custom pattern
-        """
+        """,
     )
 
     parser.add_argument(
         "--pattern",
         default="**/matrix_*.json",
-        help="Glob pattern for finding contract files (default: **/matrix_*.json)"
+        help="Glob pattern for finding contract files (default: **/matrix_*.json)",
     )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Preview changes without writing files"
-    )
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Show verbose output"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Preview changes without writing files")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Show verbose output")
 
     args = parser.parse_args()
 

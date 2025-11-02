@@ -27,10 +27,7 @@ from orchestration import (
 )
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -50,12 +47,7 @@ async def demonstrate_externalized_routing():
 
     # Show rule matching
     print("\n📍 Rule Matching Examples:")
-    test_patterns = [
-        "document the architecture",
-        "implement a function",
-        "analyze this data",
-        "creative naming ideas"
-    ]
+    test_patterns = ["document the architecture", "implement a function", "analyze this data", "creative naming ideas"]
 
     for pattern in test_patterns:
         rule = config_manager.get_rule_for_request(pattern, {})
@@ -76,8 +68,8 @@ async def demonstrate_health_monitoring():
     print(f"✅ Healthy providers: {health_summary['healthy_providers']}/{health_summary['total_providers']}")
 
     print("\n📊 Provider Health Details:")
-    for provider, health in health_summary['providers'].items():
-        status_emoji = "✅" if health['status'] == 'healthy' else "⚠️" if health['status'] == 'degraded' else "❌"
+    for provider, health in health_summary["providers"].items():
+        status_emoji = "✅" if health["status"] == "healthy" else "⚠️" if health["status"] == "degraded" else "❌"
         print(f"  {status_emoji} {provider}:")
         print(f"    Status: {health['status']}")
         print(f"    Success Rate: {health['success_rate']:.1%}")
@@ -97,18 +89,14 @@ async def demonstrate_context_preservation():
         "conversation_history": [
             "User: Hello, I need help with LUKHAS Phase 4",
             "AI: I'd be happy to help with LUKHAS Phase 4! What specific aspect would you like assistance with?",
-            "User: I want to understand the externalized routing system"
+            "User: I want to understand the externalized routing system",
         ],
         "user_preferences": {
             "preferred_provider": "anthropic",
             "response_style": "detailed",
-            "expertise_level": "advanced"
+            "expertise_level": "advanced",
         },
-        "session_metadata": {
-            "start_time": time.time(),
-            "phase": "4",
-            "feature": "externalized_routing"
-        }
+        "session_metadata": {"start_time": time.time(), "phase": "4", "feature": "externalized_routing"},
     }
 
     # Preserve context
@@ -116,7 +104,7 @@ async def demonstrate_context_preservation():
         session_id="demo_session_123",
         context_data=sample_context,
         context_type=ContextType.CONVERSATION,
-        ttl_seconds=3600
+        ttl_seconds=3600,
     )
 
     print(f"💾 Context preserved with ID: {context_id}")
@@ -126,7 +114,7 @@ async def demonstrate_context_preservation():
         context_id=context_id,
         source_provider="orchestrator",
         destination_provider="anthropic",
-        additional_metadata={"handoff_reason": "routing_decision"}
+        additional_metadata={"handoff_reason": "routing_decision"},
     )
 
     print(f"🔄 Context handoff: {'✅ Success' if handoff_success else '❌ Failed'}")
@@ -154,18 +142,18 @@ async def demonstrate_orchestration_flow():
         {
             "prompt": "Please document the architecture of LUKHAS Phase 4 externalized routing system",
             "context": {"task_type": "documentation", "complexity": "high"},
-            "description": "Documentation task (should route to Anthropic)"
+            "description": "Documentation task (should route to Anthropic)",
         },
         {
             "prompt": "Implement a Python function to calculate fibonacci numbers",
             "context": {"task_type": "code", "language": "python"},
-            "description": "Code generation task (should use round-robin)"
+            "description": "Code generation task (should use round-robin)",
         },
         {
             "prompt": "Analyze the performance implications of this routing strategy",
             "context": {"task_type": "analysis", "domain": "performance"},
-            "description": "Analysis task (should optimize for latency)"
-        }
+            "description": "Analysis task (should optimize for latency)",
+        },
     ]
 
     print(f"🚀 Processing {len(test_requests)} orchestration requests...\n")
@@ -180,7 +168,7 @@ async def demonstrate_orchestration_flow():
             prompt=req_config["prompt"],
             context_data=req_config["context"],
             preserve_context=True,
-            timeout_seconds=30.0
+            timeout_seconds=30.0,
         )
 
         start_time = time.time()
@@ -200,7 +188,11 @@ async def demonstrate_orchestration_flow():
             if response.ab_test_variant:
                 print(f"  🧪 A/B Test Variant: {response.ab_test_variant}")
 
-            print(f"  📄 Response preview: {response.response[:100]}..." if response.response else "  📄 No response content")
+            print(
+                f"  📄 Response preview: {response.response[:100]}..."
+                if response.response
+                else "  📄 No response content"
+            )
 
         except Exception as e:
             print(f"  ❌ Error: {str(e)}")
@@ -220,13 +212,13 @@ async def demonstrate_admin_api_integration():
     print(f"  Configuration version: {status['configuration_version']}")
 
     print("\n🔌 Circuit Breaker Status:")
-    for provider, cb_status in status['circuit_breaker_status'].items():
-        status_emoji = "🟢" if cb_status['state'] == 'CLOSED' else "🔴" if cb_status['state'] == 'OPEN' else "🟡"
+    for provider, cb_status in status["circuit_breaker_status"].items():
+        status_emoji = "🟢" if cb_status["state"] == "CLOSED" else "🔴" if cb_status["state"] == "OPEN" else "🟡"
         print(f"  {status_emoji} {provider}: {cb_status['state']} (failures: {cb_status['failure_count']})")
 
     print("\n🧪 A/B Test Status:")
-    for test_name, test_status in status['ab_test_state'].items():
-        enabled_emoji = "✅" if test_status['enabled'] else "⏸️"
+    for test_name, test_status in status["ab_test_state"].items():
+        enabled_emoji = "✅" if test_status["enabled"] else "⏸️"
         print(f"  {enabled_emoji} {test_name}: {test_status['assignment_count']} assignments")
 
 
@@ -256,7 +248,7 @@ async def demonstrate_performance_monitoring():
             prompt=f"Test request {i} for performance benchmarking",
             context_data={"benchmark": True, "iteration": i},
             preserve_context=False,  # Skip context for speed
-            timeout_seconds=10.0
+            timeout_seconds=10.0,
         )
 
         try:
@@ -313,6 +305,7 @@ async def main():
     except Exception as e:
         print(f"\n❌ Demo failed with error: {e}")
         import traceback
+
         traceback.print_exc()
 
 

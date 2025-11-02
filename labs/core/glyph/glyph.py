@@ -422,7 +422,9 @@ class Glyph:
         temporal_data = data.get("temporal_stamp", {})
         temporal_stamp = TemporalStamp(
             created_at=datetime.fromisoformat(temporal_data.get("created_at", datetime.now(timezone.utc).isoformat())),
-            last_accessed=datetime.fromisoformat(temporal_data.get("last_accessed", datetime.now(timezone.utc).isoformat())),
+            last_accessed=datetime.fromisoformat(
+                temporal_data.get("last_accessed", datetime.now(timezone.utc).isoformat())
+            ),
             expires_at=(
                 datetime.fromisoformat(temporal_data["expires_at"]) if temporal_data.get("expires_at") else None
             ),

@@ -405,7 +405,9 @@ class BaseMemoryManager(ABC):
             deleted_memories = sum(1 for meta in self._memory_index.values() if meta.get("deleted", False))
 
             # Constellation Framework specific metrics
-            identity_contexts = {meta.get("constellation_identity", "⚛️anonymous") for meta in self._memory_index.values()}
+            identity_contexts = {
+                meta.get("constellation_identity", "⚛️anonymous") for meta in self._memory_index.values()
+            }
 
             consciousness_patterns = len(self._consciousness_patterns)
 

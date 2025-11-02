@@ -25,10 +25,7 @@ class TestAgentModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "agent",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "agent", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestAgentModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import agent
+
         self.assertIsNotNone(agent)
 
     def test_module_version(self):
         """Test module has version information."""
         import agent
+
         # Most modules should have version info
-        self.assertTrue(hasattr(agent, '__version__') or
-                       hasattr(agent, 'VERSION'))
+        self.assertTrue(hasattr(agent, "__version__") or hasattr(agent, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testis_available(unittest.TestCase):
         """Test is_available can be imported."""
         try:
             from agent.collaborative import is_available
+
             self.assertIsNotNone(is_available)
         except ImportError:
             pytest.skip("Component is_available not available")
@@ -97,6 +96,7 @@ class Testget_agent_system_status(unittest.TestCase):
         """Test get_agent_system_status can be imported."""
         try:
             from agent import get_agent_system_status
+
             self.assertIsNotNone(get_agent_system_status)
         except ImportError:
             pytest.skip("Component get_agent_system_status not available")
@@ -114,6 +114,7 @@ class Testis_available_intelligence_bridge(unittest.TestCase):
         """Test is_available can be imported from intelligence_bridge."""
         try:
             from agent.intelligence_bridge import is_available
+
             self.assertIsNotNone(is_available)
         except ImportError:
             pytest.skip("Component is_available not available")
@@ -122,7 +123,6 @@ class Testis_available_intelligence_bridge(unittest.TestCase):
         """Test is_available can be instantiated (intelligence_bridge)."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

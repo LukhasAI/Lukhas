@@ -18,6 +18,7 @@ from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
 
+
 def generate_parameter_schema(capability: Dict[str, Any]) -> Dict[str, Any]:
     """
     Generate OpenAI-compatible JSON Schema parameters from capability.
@@ -42,18 +43,11 @@ def generate_parameter_schema(capability: Dict[str, Any]) -> Dict[str, Any]:
                 properties.update(iface["parameters"])
 
         if properties:
-            return {
-                "type": "object",
-                "properties": properties,
-                "required": []
-            }
+            return {"type": "object", "properties": properties, "required": []}
 
     # Default: empty object (no parameters)
-    return {
-        "type": "object",
-        "properties": {},
-        "required": []
-    }
+    return {"type": "object", "properties": {}, "required": []}
+
 
 def extract_tool_from_capability(capability: Dict[str, Any], manifest_path: Path) -> Dict[str, Any]:
     """
@@ -81,14 +75,8 @@ def extract_tool_from_capability(capability: Dict[str, Any], manifest_path: Path
     # Generate parameter schema
     parameters = generate_parameter_schema(capability)
 
-    return {
-        "type": "function",
-        "function": {
-            "name": name,
-            "description": description,
-            "parameters": parameters
-        }
-    }
+    return {"type": "function", "function": {"name": name, "description": description, "parameters": parameters}}
+
 
 def load_manifest(path: Path) -> Dict[str, Any]:
     """
@@ -105,6 +93,7 @@ def load_manifest(path: Path) -> Dict[str, Any]:
         logger.warning(f"Failed to read {path}: {e}")
         return {}
 
+
 def main():
     parser = argparse.ArgumentParser(description="Export OpenAI tool specs from LUKHAS manifests")
     parser.add_argument("--manifests", default="manifests", help="Path to manifests directory")
@@ -113,10 +102,7 @@ def main():
     args = parser.parse_args()
 
     # Setup logging
-    logging.basicConfig(
-        level=logging.DEBUG if args.verbose else logging.INFO,
-        format="%(levelname)s: %(message)s"
-    )
+    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s: %(message)s")
 
     # Create output directory
     out_dir = Path(args.out)
@@ -162,20 +148,18 @@ def main():
         "metadata": {
             "total_tools": len(tools),
             "manifests_processed": len(manifest_files) - skipped,
-            "manifests_skipped": skipped
-        }
+            "manifests_skipped": skipped,
+        },
     }
 
-    output_file.write_text(
-        json.dumps(output_data, ensure_ascii=False, indent=2),
-        encoding="utf-8"
-    )
+    output_file.write_text(json.dumps(output_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     logger.info(f"✅ Wrote {output_file} with {len(tools)} tools")
     logger.info(f"   Processed: {len(manifest_files) - skipped} manifests")
     logger.info(f"   Skipped: {skipped} manifests")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -4,6 +4,7 @@ Unit test to ensure all ConsciousnessSignalType values have routing rules and ta
 This test prevents future regressions where new signal types are added
 but no routing rules are created for them.
 """
+
 import pytest
 
 from core.consciousness_signal_router import ConsciousnessSignalRouter
@@ -24,24 +25,17 @@ def test_all_signal_types_have_rules_and_targets():
         "governance": ["compliance", "ethics", "guardian", "policy"],
         "symbolic_core": ["symbolic_processing", "pattern_recognition"],
         "bio": ["biological_modeling", "bio_symbolic_adaptation"],
-        "memory": ["storage", "retrieval", "temporal_processing"]
+        "memory": ["storage", "retrieval", "temporal_processing"],
     }
 
     for module_name, capabilities in test_nodes.items():
-        router.register_node(
-            node_id=f"test_{module_name}",
-            module_name=module_name,
-            capabilities=capabilities
-        )
+        router.register_node(node_id=f"test_{module_name}", module_name=module_name, capabilities=capabilities)
 
     # Test each signal type
     for signal_type in ConsciousnessSignalType:
         # Create test signal
         test_signal = ConsciousnessSignal(
-            signal_type=signal_type,
-            consciousness_id="test_cid",
-            producer_module="consciousness",
-            awareness_level=0.8
+            signal_type=signal_type, consciousness_id="test_cid", producer_module="consciousness", awareness_level=0.8
         )
 
         # Find applicable rules
@@ -72,7 +66,7 @@ def test_routing_rules_priority_ordering():
         signal_type=ConsciousnessSignalType.AWARENESS,
         consciousness_id="test_cid",
         producer_module="consciousness",
-        awareness_level=0.8
+        awareness_level=0.8,
     )
 
     # Find applicable rules
@@ -142,13 +136,11 @@ def test_router_metrics_integration():
     from core.metrics import router_no_rule_total
 
     # Get initial counter value (may not be zero due to other tests)
-    router_no_rule_total.labels(
-        signal_type="CUSTOM_TYPE",
-        producer_module="test_producer"
-    )._value if hasattr(router_no_rule_total.labels(
-        signal_type="CUSTOM_TYPE",
-        producer_module="test_producer"
-    ), '_value') else 0
+    (
+        router_no_rule_total.labels(signal_type="CUSTOM_TYPE", producer_module="test_producer")._value
+        if hasattr(router_no_rule_total.labels(signal_type="CUSTOM_TYPE", producer_module="test_producer"), "_value")
+        else 0
+    )
 
     # This test would require mocking or we'd need to temporarily remove all rules
     # For now, just verify the metric exists and is accessible

@@ -23,6 +23,7 @@ def test_module_imports():
     except ImportError as e:
         pytest.skip(f"Module config not available: {e}")
 
+
 def test_module_has_init():
     """Test that the config module has proper __init__.py."""
     try:
@@ -32,6 +33,7 @@ def test_module_has_init():
     except ImportError:
         pytest.skip("Module config not available")
 
+
 class TestConfigCore:
     """Unit tests for config core functionality."""
 
@@ -39,6 +41,7 @@ class TestConfigCore:
         """Test basic component instantiation."""
         try:
             from config import ConfigCore
+
             component = ConfigCore()
             assert component is not None
         except ImportError:
@@ -49,10 +52,7 @@ class TestConfigCore:
         try:
             from config.config import ConfigConfig
 
-            config = ConfigConfig(
-                debug_mode=True,
-                performance_monitoring=False
-            )
+            config = ConfigConfig(debug_mode=True, performance_monitoring=False)
 
             assert config.debug_mode is True
             assert config.performance_monitoring is False
@@ -74,6 +74,7 @@ class TestConfigCore:
 
         except ImportError:
             pytest.skip("ConfigCore not available")
+
 
 class TestConfigIntegration:
     """Unit tests for config integration points."""
@@ -109,6 +110,7 @@ class TestConfigIntegration:
 
         except ImportError:
             pytest.skip("ConfigCore not available")
+
 
 class TestConfigObservability:
     """Unit tests for config observability features."""
@@ -146,6 +148,7 @@ class TestConfigObservability:
 
         except ImportError:
             pytest.skip("Metrics collection not available")
+
 
 class TestConfigPerformance:
     """Performance and regression tests for config."""
@@ -196,15 +199,10 @@ class TestConfigPerformance:
         except (ImportError, AttributeError):
             pytest.skip("Memory testing not available")
 
+
 # Configuration for pytest
 def pytest_configure(config):
     """Configure pytest for config tests."""
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
-    config.addinivalue_line(
-        "markers", "performance: mark test as performance test"
-    )
-    config.addinivalue_line(
-        "markers", "slow: mark test as slow running"
-    )
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "performance: mark test as performance test")
+    config.addinivalue_line("markers", "slow: mark test as slow running")

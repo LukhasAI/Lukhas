@@ -19,12 +19,7 @@ class MockAIClient(BaseAIClient):
 
     def __init__(self, **kwargs):
         super().__init__(AIProvider.MOCK, **kwargs)
-        self.models = [
-            "mock-gpt-4",
-            "mock-gpt-3.5-turbo",
-            "mock-claude-3",
-            "mock-gemini-pro"
-        ]
+        self.models = ["mock-gpt-4", "mock-gpt-3.5-turbo", "mock-claude-3", "mock-gemini-pro"]
 
     async def generate(
         self,
@@ -33,7 +28,7 @@ class MockAIClient(BaseAIClient):
         max_tokens: Optional[int] = None,
         temperature: Optional[float] = None,
         system_prompt: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AIResponse:
         """Generate mock response with realistic timing"""
 
@@ -78,14 +73,10 @@ class MockAIClient(BaseAIClient):
             usage={
                 "prompt_tokens": len(prompt.split()),
                 "completion_tokens": len(response_content.split()),
-                "total_tokens": len(prompt.split()) + len(response_content.split())
+                "total_tokens": len(prompt.split()) + len(response_content.split()),
             },
-            metadata={
-                "mock": True,
-                "response_seed": response_seed,
-                "simulated_latency": simulated_latency
-            },
-            finish_reason="stop"
+            metadata={"mock": True, "response_seed": response_seed, "simulated_latency": simulated_latency},
+            finish_reason="stop",
         )
 
     async def health_check(self) -> bool:
@@ -97,24 +88,11 @@ class MockAIClient(BaseAIClient):
         """Return available mock models"""
         return self.models.copy()
 
-    async def batch_generate(
-        self,
-        prompts: List[str],
-        model: str,
-        **kwargs
-    ) -> List[AIResponse]:
+    async def batch_generate(self, prompts: List[str], model: str, **kwargs) -> List[AIResponse]:
         """Mock batch generation with parallel processing simulation"""
-        tasks = [
-            self.generate(prompt, model, **kwargs)
-            for prompt in prompts
-        ]
+        tasks = [self.generate(prompt, model, **kwargs) for prompt in prompts]
         return await asyncio.gather(*tasks)
 
-    def estimate_cost(
-        self,
-        prompt: str,
-        model: str,
-        max_tokens: Optional[int] = None
-    ) -> float:
+    def estimate_cost(self, prompt: str, model: str, max_tokens: Optional[int] = None) -> float:
         """Mock cost estimation - always free"""
         return 0.0

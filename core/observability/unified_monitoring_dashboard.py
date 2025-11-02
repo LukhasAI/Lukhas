@@ -587,7 +587,9 @@ class UnifiedMonitoringDashboard:
                             message=alert_data.get("message", "No message"),
                             priority=self._convert_to_alert_priority(alert_data.get("severity", "info")),
                             category="guardian",
-                            created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now(timezone.utc).isoformat())),
+                            created_at=datetime.fromisoformat(
+                                alert_data.get("created_at", datetime.now(timezone.utc).isoformat())
+                            ),
                             source_data=alert_data,
                             constellation_impact={"guardian": 1.0},  # 🛡️
                         )
@@ -731,7 +733,9 @@ class UnifiedMonitoringDashboard:
             recommendations.append("Memory usage high - consider cleanup procedures")
 
         # Constellation Framework recommendations
-        constellation_health_avg = sum(component["health"] for component in dashboard_data.constellation_status.values()) / 3
+        constellation_health_avg = (
+            sum(component["health"] for component in dashboard_data.constellation_status.values()) / 3
+        )
 
         if constellation_health_avg < 0.8:
             recommendations.append("Constellation Framework health below optimal - review all components")

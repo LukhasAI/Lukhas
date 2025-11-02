@@ -41,15 +41,15 @@ class PytestErrorAnalyzer:
 
     # Error pattern regex definitions
     PATTERNS = {
-        'module_not_found': re.compile(r"ModuleNotFoundError: No module named '([^']+)'"),
-        'cannot_import': re.compile(r"cannot import name '([^']+)' from '([^']+)'"),
-        'no_attribute': re.compile(r"module '([^']+)' has no attribute '([^']+)'"),
-        'no_path': re.compile(r"module '([^']+)' has no attribute '__path__'"),
-        'not_package': re.compile(r"'([^']+)' is not a package"),
-        'failed_assertion': re.compile(r"Failed: '([^']+)'"),
-        'type_error': re.compile(r"TypeError: (.+)"),
-        'attribute_error': re.compile(r"AttributeError: (.+)"),
-        'import_error': re.compile(r"ImportError: (.+)"),
+        "module_not_found": re.compile(r"ModuleNotFoundError: No module named '([^']+)'"),
+        "cannot_import": re.compile(r"cannot import name '([^']+)' from '([^']+)'"),
+        "no_attribute": re.compile(r"module '([^']+)' has no attribute '([^']+)'"),
+        "no_path": re.compile(r"module '([^']+)' has no attribute '__path__'"),
+        "not_package": re.compile(r"'([^']+)' is not a package"),
+        "failed_assertion": re.compile(r"Failed: '([^']+)'"),
+        "type_error": re.compile(r"TypeError: (.+)"),
+        "attribute_error": re.compile(r"AttributeError: (.+)"),
+        "import_error": re.compile(r"ImportError: (.+)"),
     }
 
     def __init__(self, log_file: Path):
@@ -69,18 +69,18 @@ class PytestErrorAnalyzer:
         # Parse error patterns
         for pattern_name, regex in self.PATTERNS.items():
             for match in regex.finditer(content):
-                if pattern_name == 'module_not_found':
-                    error = ErrorPattern('ModuleNotFound', match.group(1), '')
-                elif pattern_name == 'cannot_import':
-                    error = ErrorPattern('CannotImport', f"{match.group(1)} from {match.group(2)}", '')
-                elif pattern_name == 'no_attribute':
-                    error = ErrorPattern('NoAttribute', f"{match.group(1)}.{match.group(2)}", '')
-                elif pattern_name == 'no_path':
-                    error = ErrorPattern('NoPath', match.group(1), '')
-                elif pattern_name == 'not_package':
-                    error = ErrorPattern('NotPackage', match.group(1), '')
+                if pattern_name == "module_not_found":
+                    error = ErrorPattern("ModuleNotFound", match.group(1), "")
+                elif pattern_name == "cannot_import":
+                    error = ErrorPattern("CannotImport", f"{match.group(1)} from {match.group(2)}", "")
+                elif pattern_name == "no_attribute":
+                    error = ErrorPattern("NoAttribute", f"{match.group(1)}.{match.group(2)}", "")
+                elif pattern_name == "no_path":
+                    error = ErrorPattern("NoPath", match.group(1), "")
+                elif pattern_name == "not_package":
+                    error = ErrorPattern("NotPackage", match.group(1), "")
                 else:
-                    error = ErrorPattern(pattern_name.title().replace('_', ''), match.group(1), '')
+                    error = ErrorPattern(pattern_name.title().replace("_", ""), match.group(1), "")
 
                 self.errors.append(error)
                 self.error_counts[error] += 1
@@ -88,33 +88,25 @@ class PytestErrorAnalyzer:
     def generate_fix_suggestions(self) -> None:
         """Generate fix suggestions for each error pattern."""
         for error, count in self.error_counts.most_common():
-            if error.category == 'ModuleNotFound':
-                self.fix_suggestions[str(error)].append(
-                    self._generate_bridge_fix(error.detail)
-                )
-            elif error.category == 'CannotImport':
-                parts = error.detail.split(' from ')
+            if error.category == "ModuleNotFound":
+                self.fix_suggestions[str(error)].append(self._generate_bridge_fix(error.detail))
+            elif error.category == "CannotImport":
+                parts = error.detail.split(" from ")
                 if len(parts) == 2:
                     symbol, module = parts
-                    self.fix_suggestions[str(error)].append(
-                        self._generate_export_fix(module, symbol)
-                    )
-            elif error.category == 'NoAttribute':
-                parts = error.detail.split('.')
+                    self.fix_suggestions[str(error)].append(self._generate_export_fix(module, symbol))
+            elif error.category == "NoAttribute":
+                parts = error.detail.split(".")
                 if len(parts) >= 2:
-                    module, attr = '.'.join(parts[:-1]), parts[-1]
-                    self.fix_suggestions[str(error)].append(
-                        self._generate_attribute_fix(module, attr)
-                    )
-            elif error.category == 'NoPath':
-                self.fix_suggestions[str(error)].append(
-                    self._generate_package_fix(error.detail)
-                )
+                    module, attr = ".".join(parts[:-1]), parts[-1]
+                    self.fix_suggestions[str(error)].append(self._generate_attribute_fix(module, attr))
+            elif error.category == "NoPath":
+                self.fix_suggestions[str(error)].append(self._generate_package_fix(error.detail))
 
     def _generate_bridge_fix(self, module_name: str) -> str:
         """Generate bridge creation template."""
-        parts = module_name.split('.')
-        path = '/'.join(parts)
+        parts = module_name.split(".")
+        path = "/".join(parts)
 
         return f"""
 # Fix: Create bridge for {module_name}
@@ -145,7 +137,7 @@ BRIDGE
 
     def _generate_export_fix(self, module: str, symbol: str) -> str:
         """Generate export addition template."""
-        module_path = module.replace('.', '/')
+        module_path = module.replace(".", "/")
 
         return f"""
 # Fix: Add {symbol} export to {module}
@@ -176,8 +168,8 @@ EXPORT
 
     def _generate_package_fix(self, module: str) -> str:
         """Generate package conversion fix."""
-        parts = module.split('.')
-        path = '/'.join(parts)
+        parts = module.split(".")
+        path = "/".join(parts)
 
         return f"""
 # Fix: Convert {module} from module.py to package/
@@ -207,9 +199,9 @@ EXPORT
             if str(error) in self.fix_suggestions:
                 lines.append("   Suggested fix:")
                 for suggestion in self.fix_suggestions[str(error)][:1]:  # Show first suggestion
-                    for line in suggestion.strip().split('\n')[:8]:  # First 8 lines
+                    for line in suggestion.strip().split("\n")[:8]:  # First 8 lines
                         lines.append(f"   {line}")
-                    if len(suggestion.strip().split('\n')) > 8:
+                    if len(suggestion.strip().split("\n")) > 8:
                         lines.append("   ...")
 
         lines.append("\n" + "=" * 80)
@@ -221,10 +213,12 @@ EXPORT
         for error, count in self.error_counts.items():
             category_impact[error.category] += count
 
-        for i, (category, count) in enumerate(sorted(category_impact.items(), key=lambda x: x[1], reverse=True)[:10], 1):
+        for i, (category, count) in enumerate(
+            sorted(category_impact.items(), key=lambda x: x[1], reverse=True)[:10], 1
+        ):
             lines.append(f"{i}. Fix {category} errors: {count} total occurrences")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def export_json(self, output_path: Path) -> None:
         """Export analysis results as JSON."""
@@ -237,17 +231,17 @@ EXPORT
                     "category": str(error.category),
                     "detail": error.detail,
                     "count": count,
-                    "fix_suggestions": self.fix_suggestions.get(str(error), [])
+                    "fix_suggestions": self.fix_suggestions.get(str(error), []),
                 }
                 for error, count in self.error_counts.most_common()
             ],
             "category_summary": {
                 category: sum(count for e, count in self.error_counts.items() if e.category == category)
                 for category in set(e.category for e in self.error_counts.keys())
-            }
+            },
         }
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(data, f, indent=2)
 
 
@@ -274,5 +268,5 @@ def main():
     print(f"\nDetailed analysis exported to: {json_output}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

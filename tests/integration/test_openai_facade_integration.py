@@ -10,6 +10,7 @@ Integration tests for OpenAI façade with all polish improvements:
 - Rate limiting per-tenant isolation
 - OpenAPI spec generation
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -44,10 +45,7 @@ class TestTokenHashingSecurity:
         """Verify that bearer tokens are hashed before use in rate limiting."""
         # Make request with bearer token
         token = "sk-lukhas-test-secret-token-12345"
-        response = client.get(
-            "/v1/models",
-            headers={"Authorization": f"Bearer {token}"}
-        )
+        response = client.get("/v1/models", headers={"Authorization": f"Bearer {token}"})
 
         assert response.status_code == 200
 
@@ -55,10 +53,7 @@ class TestTokenHashingSecurity:
         # (we can't directly inspect rate limiter state, but we verify behavior)
 
         # Make second request with same token - should hit same rate limit bucket
-        response2 = client.get(
-            "/v1/models",
-            headers={"Authorization": f"Bearer {token}"}
-        )
+        response2 = client.get("/v1/models", headers={"Authorization": f"Bearer {token}"})
 
         assert response2.status_code == 200
 
@@ -68,14 +63,8 @@ class TestTokenHashingSecurity:
         token_b = "sk-lukhas-org-b-token-xyz789"
 
         # Both tokens should work independently
-        response_a = client.get(
-            "/v1/models",
-            headers={"Authorization": f"Bearer {token_a}"}
-        )
-        response_b = client.get(
-            "/v1/models",
-            headers={"Authorization": f"Bearer {token_b}"}
-        )
+        response_a = client.get("/v1/models", headers={"Authorization": f"Bearer {token_a}"})
+        response_b = client.get("/v1/models", headers={"Authorization": f"Bearer {token_b}"})
 
         assert response_a.status_code == 200
         assert response_b.status_code == 200
@@ -91,8 +80,8 @@ class TestProxySupport:
             "/v1/models",
             headers={
                 "Authorization": "Bearer sk-lukhas-test-token-xff",
-                "X-Forwarded-For": "203.0.113.42, 10.0.0.1, 172.16.0.1"
-            }
+                "X-Forwarded-For": "203.0.113.42, 10.0.0.1, 172.16.0.1",
+            },
         )
 
         # Should succeed and use token for rate limiting (token takes precedence)
@@ -102,10 +91,7 @@ class TestProxySupport:
         """Verify first IP is extracted from proxy chain."""
         xff_chain = "198.51.100.50, 192.168.1.1, 10.0.0.1"
 
-        response = client.get(
-            "/healthz",
-            headers={"X-Forwarded-For": xff_chain}
-        )
+        response = client.get("/healthz", headers={"X-Forwarded-For": xff_chain})
 
         assert response.status_code == 200
         data = response.json()
@@ -117,11 +103,7 @@ class TestProxySupport:
         token = "sk-lukhas-test-token-priority"
 
         response = client.get(
-            "/v1/models",
-            headers={
-                "Authorization": f"Bearer {token}",
-                "X-Forwarded-For": "198.51.100.99"
-            }
+            "/v1/models", headers={"Authorization": f"Bearer {token}", "X-Forwarded-For": "198.51.100.99"}
         )
 
         # Should succeed and use token for rate limiting, not IP
@@ -145,11 +127,7 @@ class TestTraceHeaders:
 
     def test_trace_id_consistent_format(self, client):
         """Verify trace ID format is consistent."""
-        endpoints = [
-            ("/healthz", None),
-            ("/readyz", None),
-            ("/v1/models", "Bearer sk-lukhas-test-token-trace")
-        ]
+        endpoints = [("/healthz", None), ("/readyz", None), ("/v1/models", "Bearer sk-lukhas-test-token-trace")]
 
         for endpoint, auth in endpoints:
             headers = {}
@@ -182,10 +160,7 @@ class TestAuthErrorCodes:
 
     def test_malformed_bearer_returns_invalid_api_key(self, strict_client):
         """Verify malformed Bearer returns 401 with invalid_api_key."""
-        response = strict_client.get(
-            "/v1/models",
-            headers={"Authorization": "NotBearer token123"}
-        )
+        response = strict_client.get("/v1/models", headers={"Authorization": "NotBearer token123"})
 
         assert response.status_code == 401
         body = response.json()
@@ -196,10 +171,7 @@ class TestAuthErrorCodes:
 
     def test_empty_bearer_returns_invalid_api_key(self, strict_client):
         """Verify empty Bearer returns 401 with invalid_api_key."""
-        response = strict_client.get(
-            "/v1/models",
-            headers={"Authorization": "Bearer "}
-        )
+        response = strict_client.get("/v1/models", headers={"Authorization": "Bearer "})
 
         assert response.status_code == 401
         body = response.json()
@@ -260,10 +232,7 @@ class TestEndToEndWorkflow:
         token = "Bearer sk-lukhas-test-workflow-token"
 
         # 1. Check available models
-        response = client.get(
-            "/v1/models",
-            headers={"Authorization": token}
-        )
+        response = client.get("/v1/models", headers={"Authorization": token})
         assert response.status_code == 200
 
         models_data = response.json()
@@ -274,10 +243,7 @@ class TestEndToEndWorkflow:
         response = client.post(
             "/v1/embeddings",
             headers={"Authorization": token},
-            json={
-                "input": "test embedding",
-                "model": "lukhas-matriz"
-            }
+            json={"input": "test embedding", "model": "lukhas-matriz"},
         )
         assert response.status_code == 200
 
@@ -324,14 +290,8 @@ class TestRateLimitingIntegration:
 
         # Both principals should have independent rate limits
         for i in range(3):
-            response_a = client.get(
-                "/v1/models",
-                headers={"Authorization": f"Bearer {token_a}"}
-            )
-            response_b = client.get(
-                "/v1/models",
-                headers={"Authorization": f"Bearer {token_b}"}
-            )
+            response_a = client.get("/v1/models", headers={"Authorization": f"Bearer {token_a}"})
+            response_b = client.get("/v1/models", headers={"Authorization": f"Bearer {token_b}"})
 
             assert response_a.status_code == 200
             assert response_b.status_code == 200

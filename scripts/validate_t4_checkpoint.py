@@ -27,6 +27,7 @@ from typing import NamedTuple
 
 class CheckResult(NamedTuple):
     """Result of a validation check."""
+
     name: str
     passed: bool
     message: str
@@ -38,13 +39,7 @@ def run_check(name: str, cmd: list[str], cwd: Path | None = None) -> CheckResult
     print(f"   Command: {' '.join(cmd)}")
 
     try:
-        result = subprocess.run(
-            cmd,
-            cwd=cwd,
-            capture_output=True,
-            text=True,
-            check=False
-        )
+        result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, check=False)
 
         if result.returncode == 0:
             print("   ✅ PASSED")
@@ -66,14 +61,8 @@ def run_python_script(name: str, script_path: str) -> CheckResult:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Run comprehensive T4/0.01% validation checkpoint"
-    )
-    parser.add_argument(
-        "--strict",
-        action="store_true",
-        help="Fail fast on first error (default: run all checks)"
-    )
+    parser = argparse.ArgumentParser(description="Run comprehensive T4/0.01% validation checkpoint")
+    parser.add_argument("--strict", action="store_true", help="Fail fast on first error (default: run all checks)")
     args = parser.parse_args()
 
     print("=" * 80)
@@ -83,36 +72,24 @@ def main() -> int:
     checks: list[CheckResult] = []
 
     # Check 1: Module Registry Generation
-    checks.append(run_python_script(
-        "Module Registry Generation",
-        "scripts/generate_module_registry.py"
-    ))
+    checks.append(run_python_script("Module Registry Generation", "scripts/generate_module_registry.py"))
     if args.strict and not checks[-1].passed:
         return 1
 
     # Check 2: Meta-Registry Fusion
-    checks.append(run_python_script(
-        "Meta-Registry Fusion",
-        "scripts/generate_meta_registry.py"
-    ))
+    checks.append(run_python_script("Meta-Registry Fusion", "scripts/generate_meta_registry.py"))
     if args.strict and not checks[-1].passed:
         return 1
 
     # Check 3: Documentation Map Generation
-    checks.append(run_python_script(
-        "Documentation Map Generation",
-        "scripts/generate_documentation_map.py"
-    ))
+    checks.append(run_python_script("Documentation Map Generation", "scripts/generate_documentation_map.py"))
     if args.strict and not checks[-1].passed:
         return 1
 
     # Check 4: Ledger Consistency (if in git repo)
     git_dir = Path(".git")
     if git_dir.exists():
-        checks.append(run_python_script(
-            "Ledger Consistency Check",
-            "scripts/ci/ledger_consistency.py"
-        ))
+        checks.append(run_python_script("Ledger Consistency Check", "scripts/ci/ledger_consistency.py"))
         if args.strict and not checks[-1].passed:
             return 1
     else:
@@ -121,10 +98,7 @@ def main() -> int:
     # Check 5: Coverage Trend Analytics (if ledger exists)
     coverage_ledger = Path("manifests/.ledger/coverage.ndjson")
     if coverage_ledger.exists() and coverage_ledger.stat().st_size > 0:
-        checks.append(run_python_script(
-            "Coverage Trend Analytics",
-            "scripts/analytics/coverage_trend.py"
-        ))
+        checks.append(run_python_script("Coverage Trend Analytics", "scripts/analytics/coverage_trend.py"))
         if args.strict and not checks[-1].passed:
             return 1
     else:
@@ -133,10 +107,7 @@ def main() -> int:
     # Check 6: Benchmark Trend Analytics (if ledger exists)
     bench_ledger = Path("manifests/.ledger/bench.ndjson")
     if bench_ledger.exists() and bench_ledger.stat().st_size > 0:
-        checks.append(run_python_script(
-            "Benchmark Trend Analytics",
-            "scripts/analytics/bench_trend.py"
-        ))
+        checks.append(run_python_script("Benchmark Trend Analytics", "scripts/analytics/bench_trend.py"))
         if args.strict and not checks[-1].passed:
             return 1
     else:
@@ -147,31 +118,22 @@ def main() -> int:
     if registry_path.exists():
         try:
             import json
+
             data = json.loads(registry_path.read_text())
             module_count = data.get("module_count", 0)
-            checks.append(CheckResult(
-                "MODULE_REGISTRY.json Validation",
-                True,
-                f"Valid JSON with {module_count} modules"
-            ))
+            checks.append(
+                CheckResult("MODULE_REGISTRY.json Validation", True, f"Valid JSON with {module_count} modules")
+            )
             print("\n🔍 MODULE_REGISTRY.json Validation")
             print(f"   ✅ PASSED ({module_count} modules)")
         except Exception as e:
-            checks.append(CheckResult(
-                "MODULE_REGISTRY.json Validation",
-                False,
-                str(e)
-            ))
+            checks.append(CheckResult("MODULE_REGISTRY.json Validation", False, str(e)))
             print("\n🔍 MODULE_REGISTRY.json Validation")
             print(f"   ❌ FAILED: {e}")
             if args.strict:
                 return 1
     else:
-        checks.append(CheckResult(
-            "MODULE_REGISTRY.json Validation",
-            False,
-            "Registry file not found"
-        ))
+        checks.append(CheckResult("MODULE_REGISTRY.json Validation", False, "Registry file not found"))
         print("\n🔍 MODULE_REGISTRY.json Validation")
         print("   ❌ FAILED: Registry file not found")
         if args.strict:
@@ -182,32 +144,27 @@ def main() -> int:
     if meta_registry_path.exists():
         try:
             import json
+
             data = json.loads(meta_registry_path.read_text())
             module_count = data.get("module_count", 0)
             avg_health = data.get("summary", {}).get("avg_health_score", 0)
-            checks.append(CheckResult(
-                "META_REGISTRY.json Validation",
-                True,
-                f"Valid JSON with {module_count} modules, avg health {avg_health}/100"
-            ))
+            checks.append(
+                CheckResult(
+                    "META_REGISTRY.json Validation",
+                    True,
+                    f"Valid JSON with {module_count} modules, avg health {avg_health}/100",
+                )
+            )
             print("\n🔍 META_REGISTRY.json Validation")
             print(f"   ✅ PASSED ({module_count} modules, avg health {avg_health}/100)")
         except Exception as e:
-            checks.append(CheckResult(
-                "META_REGISTRY.json Validation",
-                False,
-                str(e)
-            ))
+            checks.append(CheckResult("META_REGISTRY.json Validation", False, str(e)))
             print("\n🔍 META_REGISTRY.json Validation")
             print(f"   ❌ FAILED: {e}")
             if args.strict:
                 return 1
     else:
-        checks.append(CheckResult(
-            "META_REGISTRY.json Validation",
-            False,
-            "Meta-registry file not found"
-        ))
+        checks.append(CheckResult("META_REGISTRY.json Validation", False, "Meta-registry file not found"))
         print("\n🔍 META_REGISTRY.json Validation")
         print("   ❌ FAILED: Meta-registry file not found")
         if args.strict:

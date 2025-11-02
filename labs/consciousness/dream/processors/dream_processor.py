@@ -6,6 +6,7 @@ This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable Syste
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
+
 from typing import Any
 
 from memory.systems.helix_dna import HelixMemory

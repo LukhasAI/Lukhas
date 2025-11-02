@@ -28,19 +28,19 @@ class MockIPLDNode:
     def _generate_cid(self) -> str:
         """Generate deterministic mock CID for the node."""
         # Create deterministic JSON representation
-        content = json.dumps(self.data, sort_keys=True, separators=(',', ':'))
-        hash_bytes = hashlib.sha256(content.encode('utf-8')).digest()
+        content = json.dumps(self.data, sort_keys=True, separators=(",", ":"))
+        hash_bytes = hashlib.sha256(content.encode("utf-8")).digest()
 
         # Mock CIDv1 format: base32-encoded with prefix
         # Real CIDs are more complex, but this gives us a deterministic identifier
-        encoded = base64.b32encode(hash_bytes).decode('ascii').rstrip('=').lower()
+        encoded = base64.b32encode(hash_bytes).decode("ascii").rstrip("=").lower()
         return f"bafyrei{encoded[:48]}"  # Mock CIDv1 format
 
     def to_cbor_mock(self) -> bytes:
         """Convert to mock CBOR encoding."""
         # For sandbox mode, we'll use JSON as mock CBOR
         json_data = json.dumps(self.data, sort_keys=True)
-        return json_data.encode('utf-8')
+        return json_data.encode("utf-8")
 
 
 class MockCARFile:
@@ -60,29 +60,26 @@ class MockCARFile:
 
     def write(self, output_path: Path):
         """Write the CAR file to disk."""
-        with open(output_path, 'wb') as f:
+        with open(output_path, "wb") as f:
             # Write CAR header (simplified)
-            header = {
-                "version": 1,
-                "roots": self.roots
-            }
-            header_json = json.dumps(header).encode('utf-8')
+            header = {"version": 1, "roots": self.roots}
+            header_json = json.dumps(header).encode("utf-8")
             header_length = len(header_json)
 
             # Write header length and header
-            f.write(struct.pack('>I', header_length))
+            f.write(struct.pack(">I", header_length))
             f.write(header_json)
 
             # Write blocks
             for cid, data in self.blocks:
                 # Write block header (CID + data length)
-                cid_bytes = cid.encode('utf-8')
+                cid_bytes = cid.encode("utf-8")
                 cid_length = len(cid_bytes)
                 data_length = len(data)
 
-                f.write(struct.pack('>I', cid_length))
+                f.write(struct.pack(">I", cid_length))
                 f.write(cid_bytes)
-                f.write(struct.pack('>I', data_length))
+                f.write(struct.pack(">I", data_length))
                 f.write(data)
 
 
@@ -102,7 +99,7 @@ def load_contracts(pattern: str) -> List[Tuple[Path, Dict[str, Any]]]:
     for contract_path in sorted(contract_paths):
         path = Path(contract_path)
         try:
-            with open(path, 'r', encoding='utf-8') as f:
+            with open(path, "r", encoding="utf-8") as f:
                 contract_data = json.load(f)
             contracts.append((path, contract_data))
         except Exception as e:
@@ -123,8 +120,8 @@ def create_contract_node(contract_path: Path, contract_data: Dict[str, Any]) -> 
         Mock IPLD node
     """
     # Create deterministic hash of contract
-    contract_json = json.dumps(contract_data, sort_keys=True, separators=(',', ':'))
-    contract_hash = hashlib.sha256(contract_json.encode('utf-8')).hexdigest()
+    contract_json = json.dumps(contract_data, sort_keys=True, separators=(",", ":"))
+    contract_hash = hashlib.sha256(contract_json.encode("utf-8")).hexdigest()
 
     # Extract key metadata
     module = contract_data.get("module", contract_path.stem.replace("matrix_", ""))
@@ -139,12 +136,18 @@ def create_contract_node(contract_path: Path, contract_data: Dict[str, Any]) -> 
         "sha256": contract_hash,
         "timestamp": "2025-09-27T12:00:00.000000Z",
         "size": len(contract_json),
-        "v3_sections": []
+        "v3_sections": [],
     }
 
     # Track which v3 sections are present
-    v3_sections = ["tokenization", "glyph_provenance", "dream_provenance",
-                   "guardian_check", "biosymbolic_map", "quantum_proof"]
+    v3_sections = [
+        "tokenization",
+        "glyph_provenance",
+        "dream_provenance",
+        "guardian_check",
+        "biosymbolic_map",
+        "quantum_proof",
+    ]
 
     for section in v3_sections:
         if section in contract_data:
@@ -187,14 +190,14 @@ def create_root_node(contract_nodes: List[MockIPLDNode]) -> MockIPLDNode:
             "count": len(contract_nodes),
             "modules": sorted(modules),
             "total_size": total_size,
-            "contract_links": [node.cid for node in contract_nodes]
+            "contract_links": [node.cid for node in contract_nodes],
         },
         "v3_adoption": v3_counts,
         "schema": {
             "version": "v3.0.0",
             "generator": "lukhas:matrix:provenance:sandbox",
-            "format": "ipld-dag-cbor-mock"
-        }
+            "format": "ipld-dag-cbor-mock",
+        },
     }
 
     return MockIPLDNode(root_data)
@@ -218,22 +221,22 @@ def generate_provenance_report(root_node: MockIPLDNode, contract_nodes: List[Moc
         "summary": {
             "total_contracts": len(contract_nodes),
             "total_size": sum(node.data["size"] for node in contract_nodes),
-            "v3_sections_present": root_node.data["v3_adoption"]
+            "v3_sections_present": root_node.data["v3_adoption"],
         },
         "contracts": [
             {
                 "module": node.data["module"],
                 "cid": node.cid,
                 "sha256": node.data["sha256"],
-                "v3_sections": node.data["v3_sections"]
+                "v3_sections": node.data["v3_sections"],
             }
             for node in contract_nodes
         ],
         "verification": {
             "car_file": "artifacts/provenance.car",
             "root_cid": root_node.cid,
-            "integrity_check": "sha256_verification_available"
-        }
+            "integrity_check": "sha256_verification_available",
+        },
     }
 
 
@@ -247,31 +250,27 @@ Examples:
   python3 tools/matrix_provenance.py --contracts 'contracts/matrix_*.json'
   python3 tools/matrix_provenance.py --contracts '**/matrix_*.json' --output artifacts/full_provenance.car
   python3 tools/matrix_provenance.py --contracts 'contracts/matrix_identity*.json' --verbose
-        """
+        """,
     )
 
     parser.add_argument(
         "--contracts",
         default="contracts/matrix_*.json",
-        help="Glob pattern for Matrix contracts (default: contracts/matrix_*.json)"
+        help="Glob pattern for Matrix contracts (default: contracts/matrix_*.json)",
     )
     parser.add_argument(
         "--output",
         type=Path,
         default=Path("artifacts/provenance.car"),
-        help="Output CAR file path (default: artifacts/provenance.car)"
+        help="Output CAR file path (default: artifacts/provenance.car)",
     )
     parser.add_argument(
         "--report",
         type=Path,
         default=Path("artifacts/provenance_report.json"),
-        help="Output report file path (default: artifacts/provenance_report.json)"
+        help="Output report file path (default: artifacts/provenance_report.json)",
     )
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Show verbose output"
-    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Show verbose output")
 
     args = parser.parse_args()
 
@@ -325,9 +324,9 @@ Examples:
         # Generate provenance report
         report = generate_provenance_report(root_node, contract_nodes)
 
-        with open(args.report, 'w', encoding='utf-8') as f:
+        with open(args.report, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2)
-            f.write('\n')
+            f.write("\n")
 
         if args.verbose:
             print(f"💾 CAR file written: {args.output}")
@@ -342,6 +341,7 @@ Examples:
         print(f"❌ Error generating provenance: {e}", file=sys.stderr)
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         return 1
 

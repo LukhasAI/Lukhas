@@ -30,20 +30,22 @@ logger = logging.getLogger(__name__)
 
 class ConstellationStar(Enum):
     """Constellation Framework stars - Dynamic 8-star system with expansion capability"""
+
     # Core Constellation Stars
-    ANCHOR = "⚛️"      # Identity systems, ΛiD authentication, namespace management
-    TRAIL = "✦"        # Memory systems, fold-based memory, temporal organization
-    HORIZON = "🔬"     # Vision systems, pattern recognition, adaptive interfaces
-    WATCH = "🛡️"      # Watch systems, ethical validation, drift detection
-    FLOW = "🌊"        # Consciousness streams, dream states, awareness patterns
-    SPARK = "⚡"       # Creativity engines, innovation generation, breakthrough detection
-    PERSONA = "🎭"     # Voice synthesis, personality modeling, empathetic resonance
-    ORACLE = "🔮"      # Predictive reasoning, quantum superposition, future modeling
+    ANCHOR = "⚛️"  # Identity systems, ΛiD authentication, namespace management
+    TRAIL = "✦"  # Memory systems, fold-based memory, temporal organization
+    HORIZON = "🔬"  # Vision systems, pattern recognition, adaptive interfaces
+    WATCH = "🛡️"  # Watch systems, ethical validation, drift detection
+    FLOW = "🌊"  # Consciousness streams, dream states, awareness patterns
+    SPARK = "⚡"  # Creativity engines, innovation generation, breakthrough detection
+    PERSONA = "🎭"  # Voice synthesis, personality modeling, empathetic resonance
+    ORACLE = "🔮"  # Predictive reasoning, quantum superposition, future modeling
 
 
 @dataclass
 class ConstellationCluster:
     """Represents a cluster of related consciousness components"""
+
     cluster_id: str
     star_primary: ConstellationStar
     star_secondary: Optional[ConstellationStar]
@@ -65,9 +67,7 @@ class ConstellationFramework:
     def __init__(self):
         self.clusters: Dict[str, ConstellationCluster] = {}
         self.isolated_components: Set[str] = set()
-        self.star_mappings: Dict[ConstellationStar, List[str]] = {
-            star: [] for star in ConstellationStar
-        }
+        self.star_mappings: Dict[ConstellationStar, List[str]] = {star: [] for star in ConstellationStar}
         self.framework_version = "3.0.0"
 
     def organize_189_clusters(self) -> Dict[str, any]:
@@ -86,7 +86,7 @@ class ConstellationFramework:
             components=self._get_primary_components(),
             centrality_score=0.181,  # candidate.core.common hub
             isolation_level="interconnected",
-            created_date=datetime.now().isoformat()
+            created_date=datetime.now().isoformat(),
         )
         self.clusters[primary_cluster.cluster_id] = primary_cluster
 
@@ -104,7 +104,7 @@ class ConstellationFramework:
             "secondary_constellations": len(secondary_clusters),
             "isolated_components_addressed": len(isolated_integration),
             "star_distribution": self._calculate_star_distribution(),
-            "organization_complete": True
+            "organization_complete": True,
         }
 
     def _get_primary_components(self) -> List[str]:
@@ -117,7 +117,7 @@ class ConstellationFramework:
             "candidate.consciousness.engines.alternative",
             "candidate.consciousness.dream.processors.main",
             "candidate.consciousness.reasoning.cognitive_main",
-            "candidate.core.orchestration.consciousness_coordinator"
+            "candidate.core.orchestration.consciousness_coordinator",
         ]
 
     def _organize_secondary_clusters(self) -> Dict[str, ConstellationCluster]:
@@ -125,36 +125,48 @@ class ConstellationFramework:
         clusters = {}
 
         # Anchor Star clusters (Identity-focused)
-        anchor_clusters = self._create_star_clusters(ConstellationStar.ANCHOR, [
-            "identity_authentication_cluster",
-            "lambda_id_management_cluster",
-            "namespace_isolation_cluster",
-            "webauthn_passkey_cluster"
-        ])
+        anchor_clusters = self._create_star_clusters(
+            ConstellationStar.ANCHOR,
+            [
+                "identity_authentication_cluster",
+                "lambda_id_management_cluster",
+                "namespace_isolation_cluster",
+                "webauthn_passkey_cluster",
+            ],
+        )
 
         # Trail Star clusters (Memory-focused)
-        trail_clusters = self._create_star_clusters(ConstellationStar.TRAIL, [
-            "memory_fold_cluster",
-            "temporal_memory_cluster",
-            "cascade_prevention_cluster",
-            "experience_pattern_cluster"
-        ])
+        trail_clusters = self._create_star_clusters(
+            ConstellationStar.TRAIL,
+            [
+                "memory_fold_cluster",
+                "temporal_memory_cluster",
+                "cascade_prevention_cluster",
+                "experience_pattern_cluster",
+            ],
+        )
 
         # Horizon Star clusters (Vision/NLP-focused)
-        horizon_clusters = self._create_star_clusters(ConstellationStar.HORIZON, [
-            "nlp_interface_cluster",
-            "pattern_recognition_cluster",
-            "semantic_analysis_cluster",
-            "vision_processing_cluster"
-        ])
+        horizon_clusters = self._create_star_clusters(
+            ConstellationStar.HORIZON,
+            [
+                "nlp_interface_cluster",
+                "pattern_recognition_cluster",
+                "semantic_analysis_cluster",
+                "vision_processing_cluster",
+            ],
+        )
 
         # Watch Star clusters (Guardian-focused)
-        watch_clusters = self._create_star_clusters(ConstellationStar.WATCH, [
-            "ethics_validation_cluster",
-            "constitutional_ai_cluster",
-            "security_compliance_cluster",
-            "drift_detection_cluster"
-        ])
+        watch_clusters = self._create_star_clusters(
+            ConstellationStar.WATCH,
+            [
+                "ethics_validation_cluster",
+                "constitutional_ai_cluster",
+                "security_compliance_cluster",
+                "drift_detection_cluster",
+            ],
+        )
 
         clusters.update(anchor_clusters)
         clusters.update(trail_clusters)
@@ -163,7 +175,9 @@ class ConstellationFramework:
 
         return clusters
 
-    def _create_star_clusters(self, star: ConstellationStar, cluster_names: List[str]) -> Dict[str, ConstellationCluster]:
+    def _create_star_clusters(
+        self, star: ConstellationStar, cluster_names: List[str]
+    ) -> Dict[str, ConstellationCluster]:
         """Create clusters for a specific constellation star"""
         clusters = {}
         base_component_count = 10  # Average cluster size from analysis
@@ -177,7 +191,7 @@ class ConstellationFramework:
                 components=[f"{name}_component_{j}" for j in range(base_component_count)],
                 centrality_score=0.05 + (i * 0.01),  # Varying centrality
                 isolation_level="bridged" if i % 2 == 0 else "interconnected",
-                created_date=datetime.now().isoformat()
+                created_date=datetime.now().isoformat(),
             )
             clusters[name] = cluster
             self.star_mappings[star].append(name)
@@ -197,7 +211,7 @@ class ConstellationFramework:
             ("dream_", ConstellationStar.HORIZON),
             ("vision_", ConstellationStar.HORIZON),
             ("guardian_", ConstellationStar.WATCH),
-            ("ethics_", ConstellationStar.WATCH)
+            ("ethics_", ConstellationStar.WATCH),
         ]
 
         component_counter = 0
@@ -239,7 +253,7 @@ class ConstellationFramework:
             "connectivity_improvement": (interconnected_clusters / len(self.clusters)) * 100,
             "isolated_components_remaining": len(self.isolated_components),
             "constellation_compliance": "✅ Dynamic Constellation Framework Active",
-            "graph_density_improvement": "🔄 Bridging 189 clusters for enhanced connectivity"
+            "graph_density_improvement": "🔄 Bridging 189 clusters for enhanced connectivity",
         }
 
 
@@ -258,13 +272,13 @@ def get_constellation_context() -> Dict[str, any]:
             "flow": "🌊 Flow Star - Consciousness streams, dream states, awareness patterns",
             "spark": "⚡ Spark Star - Creativity engines, innovation generation, breakthrough detection",
             "persona": "🎭 Persona Star - Voice synthesis, personality modeling, empathetic resonance",
-            "oracle": "🔮 Oracle Star - Predictive reasoning, quantum superposition, future modeling"
+            "oracle": "🔮 Oracle Star - Predictive reasoning, quantum superposition, future modeling",
         },
         "dynamic_expansion": "Each MATRIZ pipeline node can become a star, creating an ever-evolving constellation",
         "coordination": "Dynamic 8-Star Constellation Orchestration",
         "transition_from": "4-star system (⚛️✦🔬🛡️)",
         "architecture_improvement": "8-star dynamic system with infinite MATRIZ expansion capability",
-        "status": "🌌 Active 8-Star Dynamic Constellation Coordination"
+        "status": "🌌 Active 8-Star Dynamic Constellation Coordination",
     }
 
 

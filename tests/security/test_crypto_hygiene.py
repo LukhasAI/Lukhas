@@ -37,6 +37,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 try:
     from identity.lambda_id import LambdaIDGenerator
     from identity.security_hardening import SecurityHardeningManager
+
     LUKHAS_MODULES_AVAILABLE = True
 except ImportError:
     LUKHAS_MODULES_AVAILABLE = False
@@ -79,19 +80,16 @@ class TestCryptographicWeakness:
         # DES should be rejected
         with pytest.raises((ValueError, ImportError)):
             from cryptography.hazmat.primitives.ciphers import algorithms
+
             algorithms.TripleDES(b"12345678" * 3)  # Should fail
 
     def test_strong_symmetric_encryption_allowed(self):
         """Test that strong symmetric encryption works."""
         # AES-256 should work
         key = secrets.token_bytes(32)  # 256-bit key
-        iv = secrets.token_bytes(16)   # 128-bit IV
+        iv = secrets.token_bytes(16)  # 128-bit IV
 
-        cipher = Cipher(
-            algorithms.AES(key),
-            modes.GCM(iv),
-            backend=default_backend()
-        )
+        cipher = Cipher(algorithms.AES(key), modes.GCM(iv), backend=default_backend())
 
         encryptor = cipher.encryptor()
         ciphertext = encryptor.update(b"test message") + encryptor.finalize()
@@ -112,10 +110,10 @@ class TestKeyStrengthValidation:
     def test_weak_keys_rejected(self):
         """Test that weak keys are rejected."""
         weak_keys = [
-            b"weak",           # Too short
-            b"12345678",       # Predictable
-            b"password123",    # Common pattern
-            b"a" * 16,         # No entropy
+            b"weak",  # Too short
+            b"12345678",  # Predictable
+            b"password123",  # Common pattern
+            b"a" * 16,  # No entropy
         ]
 
         for weak_key in weak_keys:
@@ -138,16 +136,12 @@ class TestKeyStrengthValidation:
         # Weak RSA keys should be rejected
         with pytest.raises(ValueError):
             rsa.generate_private_key(
-                public_exponent=65537,
-                key_size=1024,  # Too weak for modern standards
-                backend=default_backend()
+                public_exponent=65537, key_size=1024, backend=default_backend()  # Too weak for modern standards
             )
 
         # Strong RSA keys should work
         strong_key = rsa.generate_private_key(
-            public_exponent=65537,
-            key_size=4096,  # Strong key size
-            backend=default_backend()
+            public_exponent=65537, key_size=4096, backend=default_backend()  # Strong key size
         )
 
         assert strong_key.key_size >= 2048
@@ -157,21 +151,11 @@ class TestKeyStrengthValidation:
         message = b"test message"
 
         ciphertext = public_key.encrypt(
-            message,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
+            message, padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None)
         )
 
         decrypted = strong_key.decrypt(
-            ciphertext,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
+            ciphertext, padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None)
         )
 
         assert decrypted == message
@@ -226,7 +210,7 @@ class TestSecureRandomGeneration:
         def failing_random():
             raise RuntimeError("Insecure random number generation detected")
 
-        with patch.object(random, 'random', failing_random):
+        with patch.object(random, "random", failing_random):
             with pytest.raises(RuntimeError):
                 # This should fail if code tries to use insecure random
                 random.random()
@@ -307,7 +291,7 @@ class TestPasswordHashing:
             length=32,
             salt=salt,
             iterations=100000,  # Strong iteration count
-            backend=default_backend()
+            backend=default_backend(),
         )
 
         key = kdf.derive(password.encode())
@@ -317,24 +301,14 @@ class TestPasswordHashing:
         assert len(salt) == 16
 
         # Test that same password with same salt produces same key
-        kdf2 = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            iterations=100000,
-            backend=default_backend()
-        )
+        kdf2 = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000, backend=default_backend())
         key2 = kdf2.derive(password.encode())
         assert key == key2
 
         # Test that different salt produces different key
         salt3 = secrets.token_bytes(16)
         kdf3 = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt3,
-            iterations=100000,
-            backend=default_backend()
+            algorithm=hashes.SHA256(), length=32, salt=salt3, iterations=100000, backend=default_backend()
         )
         key3 = kdf3.derive(password.encode())
         assert key != key3
@@ -378,31 +352,19 @@ class TestPasswordHashing:
         # Verify timing consistency (coefficient of variation < 0.1)
         avg_time = sum(times) / len(times)
         variance = sum((t - avg_time) ** 2 for t in times) / len(times)
-        std_dev = variance ** 0.5
+        std_dev = variance**0.5
         cv = std_dev / avg_time if avg_time > 0 else 0
 
         assert cv < 0.1, f"Timing attack vulnerability detected (CV: {cv})"
 
     def _secure_hash_password(self, password: str, salt: bytes) -> bytes:
         """Securely hash a password."""
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            iterations=100000,
-            backend=default_backend()
-        )
+        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000, backend=default_backend())
         return kdf.derive(password.encode())
 
     def _verify_password(self, password: str, expected_hash: bytes, salt: bytes) -> bool:
         """Verify password in constant time."""
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            iterations=100000,
-            backend=default_backend()
-        )
+        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000, backend=default_backend())
 
         try:
             derived_hash = kdf.derive(password.encode())
@@ -452,11 +414,7 @@ class TestJWTSecurity:
         payload = {"user_id": 123, "exp": int(time.time()) + 3600}
 
         # Generate RSA key pair
-        private_key = rsa.generate_private_key(
-            public_exponent=65537,
-            key_size=2048,
-            backend=default_backend()
-        )
+        private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
         public_key = private_key.public_key()
 
         # Sign with RS256
@@ -464,8 +422,7 @@ class TestJWTSecurity:
 
         # Try to verify with HS256 (should fail)
         public_key_pem = public_key.public_key_bytes(
-            encoding=serialization.Encoding.PEM,
-            format=serialization.PublicFormat.SubjectPublicKeyInfo
+            encoding=serialization.Encoding.PEM, format=serialization.PublicFormat.SubjectPublicKeyInfo
         )
 
         with pytest.raises(jwt.InvalidTokenError):
@@ -479,7 +436,7 @@ class TestJWTSecurity:
             "iat": int(time.time()),
             "exp": int(time.time()) + 3600,
             "iss": "lukhas-auth",
-            "aud": "lukhas-api"
+            "aud": "lukhas-api",
         }
 
         # Use strong secret key
@@ -489,13 +446,7 @@ class TestJWTSecurity:
         token = jwt.encode(payload, secret_key, algorithm="HS256")
 
         # Verify token
-        decoded = jwt.decode(
-            token,
-            secret_key,
-            algorithms=["HS256"],
-            audience="lukhas-api",
-            issuer="lukhas-auth"
-        )
+        decoded = jwt.decode(token, secret_key, algorithms=["HS256"], audience="lukhas-api", issuer="lukhas-auth")
 
         assert decoded["user_id"] == 123
         assert decoded["username"] == "testuser"
@@ -505,12 +456,7 @@ class TestJWTSecurity:
         payload = {"user_id": 123, "exp": int(time.time()) + 3600}
 
         # Weak keys should be rejected
-        weak_keys = [
-            "weak",
-            "12345678",
-            "secret",
-            "password"
-        ]
+        weak_keys = ["weak", "12345678", "secret", "password"]
 
         for weak_key in weak_keys:
             with pytest.raises((ValueError, RuntimeError)):
@@ -735,11 +681,7 @@ class TestCryptographicPerformance:
         start_time = time.perf_counter()
         for _ in range(100):
             iv = secrets.token_bytes(16)
-            cipher = Cipher(
-                algorithms.AES(key),
-                modes.GCM(iv),
-                backend=default_backend()
-            )
+            cipher = Cipher(algorithms.AES(key), modes.GCM(iv), backend=default_backend())
             encryptor = cipher.encryptor()
             encryptor.update(data)
             encryptor.finalize()
@@ -758,10 +700,7 @@ class TestCryptographicCompliance:
     def test_fips_compliance(self):
         """Test FIPS-approved algorithm usage."""
         # Only FIPS-approved algorithms should be available
-        approved_hashes = {
-            'sha256', 'sha384', 'sha512',
-            'sha3_256', 'sha3_384', 'sha3_512'
-        }
+        approved_hashes = {"sha256", "sha384", "sha512", "sha3_256", "sha3_384", "sha3_512"}
 
         # Test that approved algorithms work
         for hash_name in approved_hashes:
@@ -777,11 +716,7 @@ class TestCryptographicCompliance:
 
         for key_size in valid_key_sizes:
             key = secrets.token_bytes(key_size)
-            cipher = Cipher(
-                algorithms.AES(key),
-                modes.GCM(secrets.token_bytes(16)),
-                backend=default_backend()
-            )
+            cipher = Cipher(algorithms.AES(key), modes.GCM(secrets.token_bytes(16)), backend=default_backend())
             assert cipher is not None
 
         # Invalid key sizes should fail
@@ -789,23 +724,21 @@ class TestCryptographicCompliance:
         for key_size in invalid_key_sizes:
             with pytest.raises(ValueError):
                 key = secrets.token_bytes(key_size)
-                Cipher(
-                    algorithms.AES(key),
-                    modes.ECB(),
-                    backend=default_backend()
-                )
+                Cipher(algorithms.AES(key), modes.ECB(), backend=default_backend())
 
 
 # Test runner configuration for T4/0.01% excellence
 if __name__ == "__main__":
     # Run with strict requirements for T4/0.01%
-    pytest.main([
-        __file__,
-        "-v",
-        "--tb=short",
-        "--strict-markers",
-        "--strict-config",
-        "-x",  # Stop on first failure
-        "--disable-warnings",
-        "--co"  # Collect only, don't run (for validation)
-    ])
+    pytest.main(
+        [
+            __file__,
+            "-v",
+            "--tb=short",
+            "--strict-markers",
+            "--strict-config",
+            "-x",  # Stop on first failure
+            "--disable-warnings",
+            "--co",  # Collect only, don't run (for validation)
+        ]
+    )

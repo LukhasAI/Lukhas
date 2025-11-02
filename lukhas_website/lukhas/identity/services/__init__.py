@@ -22,5 +22,5 @@ __all__ = [
     "ApiKeyAuthenticator",
     "UserCredentials",
     "create_password_authenticator",
-    "create_api_key_authenticator"
+    "create_api_key_authenticator",
 ]

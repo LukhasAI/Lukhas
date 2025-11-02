@@ -14,6 +14,7 @@ Test Categories:
 6. Bio-symbolic integration tests
 7. Pattern fusion and optimization tests
 """
+
 from datetime import datetime, timezone
 from unittest.mock import Mock, patch
 
@@ -29,16 +30,9 @@ class TestFusionPattern:
     def test_fusion_pattern_creation(self):
         """Test FusionPattern creation with neural and symbolic data."""
         neural_sig = np.array([0.1, 0.5, 0.3, 0.8])
-        symbolic_repr = {
-            "concept": "test_concept",
-            "relations": ["relation1", "relation2"],
-            "confidence": 0.9
-        }
+        symbolic_repr = {"concept": "test_concept", "relations": ["relation1", "relation2"], "confidence": 0.9}
 
-        pattern = FusionPattern(
-            neural_signature=neural_sig,
-            symbolic_representation=symbolic_repr
-        )
+        pattern = FusionPattern(neural_signature=neural_sig, symbolic_representation=symbolic_repr)
 
         assert np.array_equal(pattern.neural_signature, neural_sig)
         assert pattern.symbolic_representation == symbolic_repr
@@ -89,12 +83,8 @@ class TestFusionPattern:
         complex_symbolic = {
             "concept": "complex_test",
             "relations": ["rel1", "rel2", "rel3"],
-            "properties": {
-                "prop1": "value1",
-                "prop2": ["list", "of", "values"],
-                "prop3": {"nested": "dict"}
-            },
-            "metadata": {"created": "2023-01-01", "version": "1.0"}
+            "properties": {"prop1": "value1", "prop2": ["list", "of", "values"], "prop3": {"nested": "dict"}},
+            "metadata": {"created": "2023-01-01", "version": "1.0"},
         }
 
         pattern = FusionPattern(neural_sig, complex_symbolic)
@@ -155,7 +145,7 @@ class TestNeuroSymbolicFusionLayer:
 
         assert fusion_layer.config is not None
         assert isinstance(fusion_layer.config, dict)
-        assert hasattr(fusion_layer, 'logger')
+        assert hasattr(fusion_layer, "logger")
 
     def test_fusion_layer_initialization_custom_config(self):
         """Test fusion layer initialization with custom config."""
@@ -163,7 +153,7 @@ class TestNeuroSymbolicFusionLayer:
             "neural_weight": 0.7,
             "symbolic_weight": 0.3,
             "coherence_threshold": 0.8,
-            "fusion_mode": "adaptive"
+            "fusion_mode": "adaptive",
         }
 
         fusion_layer = NeuroSymbolicFusionLayer(config=custom_config)
@@ -174,7 +164,7 @@ class TestNeuroSymbolicFusionLayer:
         """Test that default config method returns valid configuration."""
         fusion_layer = NeuroSymbolicFusionLayer()
 
-        if hasattr(fusion_layer, '_default_config'):
+        if hasattr(fusion_layer, "_default_config"):
             default_config = fusion_layer._default_config()
             assert isinstance(default_config, dict)
 
@@ -184,15 +174,15 @@ class TestNeuroSymbolicFusionLayer:
 
         # Test that bio-symbolic components are properly initialized
         # (may be None if dependencies are not available)
-        assert hasattr(fusion_layer, 'proton_gradient')
-        assert hasattr(fusion_layer, 'attention_gate')
-        assert hasattr(fusion_layer, 'crista_filter')
+        assert hasattr(fusion_layer, "proton_gradient")
+        assert hasattr(fusion_layer, "attention_gate")
+        assert hasattr(fusion_layer, "crista_filter")
 
     def test_fusion_layer_has_required_attributes(self):
         """Test that fusion layer has required attributes."""
         fusion_layer = NeuroSymbolicFusionLayer()
 
-        required_attributes = ['config', 'logger']
+        required_attributes = ["config", "logger"]
         for attr in required_attributes:
             assert hasattr(fusion_layer, attr), f"Missing required attribute: {attr}"
 
@@ -209,19 +199,12 @@ class TestNeuroSymbolicFusionIntegration:
         symbolic_repr = {
             "concept": "object_recognition",
             "entities": ["cat", "table", "book"],
-            "relations": {
-                "cat": {"on": "table", "near": "book"},
-                "book": {"on": "table"}
-            },
-            "confidence_scores": {
-                "cat": 0.95,
-                "table": 0.88,
-                "book": 0.72
-            },
+            "relations": {"cat": {"on": "table", "near": "book"}, "book": {"on": "table"}},
+            "confidence_scores": {"cat": 0.95, "table": 0.88, "book": 0.72},
             "semantic_features": {
                 "animacy": {"cat": True, "table": False, "book": False},
-                "functionality": {"cat": "pet", "table": "furniture", "book": "media"}
-            }
+                "functionality": {"cat": "pet", "table": "furniture", "book": "media"},
+            },
         }
 
         pattern = FusionPattern(neural_sig, symbolic_repr)
@@ -239,11 +222,7 @@ class TestNeuroSymbolicFusionIntegration:
         patterns = []
         for i in range(3):
             neural_sig = np.random.rand(10)
-            symbolic_repr = {
-                "pattern_id": i,
-                "concept": f"concept_{i}",
-                "value": 0.1 * i
-            }
+            symbolic_repr = {"pattern_id": i, "concept": f"concept_{i}", "value": 0.1 * i}
             pattern = FusionPattern(neural_sig, symbolic_repr)
             patterns.append(pattern)
 
@@ -269,7 +248,7 @@ class TestNeuroSymbolicFusionIntegration:
             "different": "keys",
             "and": {"nested": {"structures": {"that": "increase", "complexity": True}}},
             "lists": [1, 2, 3, 4, 5],
-            "more": "content"
+            "more": "content",
         }
         complex_pattern = FusionPattern(neural_sig, complex_symbolic)
         complex_coherence = complex_pattern.calculate_coherence()
@@ -359,9 +338,9 @@ class TestNeuroSymbolicEdgeCases:
         fusion_layer = NeuroSymbolicFusionLayer()
 
         # Should not crash when bio-symbolic components are None
-        assert fusion_layer.proton_gradient is None or hasattr(fusion_layer.proton_gradient, '__class__')
-        assert fusion_layer.attention_gate is None or hasattr(fusion_layer.attention_gate, '__class__')
-        assert fusion_layer.crista_filter is None or hasattr(fusion_layer.crista_filter, '__class__')
+        assert fusion_layer.proton_gradient is None or hasattr(fusion_layer.proton_gradient, "__class__")
+        assert fusion_layer.attention_gate is None or hasattr(fusion_layer.attention_gate, "__class__")
+        assert fusion_layer.crista_filter is None or hasattr(fusion_layer.crista_filter, "__class__")
 
 
 # Test configuration for pytest

@@ -133,7 +133,7 @@ class SecurityAwareLogger:
         """Log security events with structured context."""
         self.logger.warning(
             f"SECURITY_EVENT: {event_type} - {message}",
-            extra={"security_event": True, "event_type": event_type, "context": context or {}}
+            extra={"security_event": True, "event_type": event_type, "context": context or {}},
         )
 
     def log_data_access(self, user_id: str, resource: str, operation: str) -> None:

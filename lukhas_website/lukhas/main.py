@@ -33,22 +33,13 @@ from orchestration.api import router as orchestration_router
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics
-api_requests_total = Counter(
-    'lukhas_api_requests_total',
-    'Total API requests',
-    ['method', 'endpoint', 'status']
-)
+api_requests_total = Counter("lukhas_api_requests_total", "Total API requests", ["method", "endpoint", "status"])
 
 api_request_duration_seconds = Histogram(
-    'lukhas_api_request_duration_seconds',
-    'API request duration',
-    ['method', 'endpoint']
+    "lukhas_api_request_duration_seconds", "API request duration", ["method", "endpoint"]
 )
 
-api_active_connections = Gauge(
-    'lukhas_api_active_connections',
-    'Active API connections'
-)
+api_active_connections = Gauge("lukhas_api_active_connections", "Active API connections")
 
 
 @asynccontextmanager
@@ -73,7 +64,7 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Add middleware
@@ -107,16 +98,9 @@ async def track_requests(request: Request, call_next):
         endpoint = request.url.path
         status = response.status_code
 
-        api_requests_total.labels(
-            method=method,
-            endpoint=endpoint,
-            status=status
-        ).inc()
+        api_requests_total.labels(method=method, endpoint=endpoint, status=status).inc()
 
-        api_request_duration_seconds.labels(
-            method=method,
-            endpoint=endpoint
-        ).observe(duration)
+        api_request_duration_seconds.labels(method=method, endpoint=endpoint).observe(duration)
 
         return response
 
@@ -128,12 +112,7 @@ async def track_requests(request: Request, call_next):
 @app.get("/health")
 async def health_check():
     """Basic health check"""
-    return {
-        "status": "healthy",
-        "service": "lukhas-api",
-        "version": "1.0.0",
-        "timestamp": time.time()
-    }
+    return {"status": "healthy", "service": "lukhas-api", "version": "1.0.0", "timestamp": time.time()}
 
 
 @app.get("/health/detailed")
@@ -148,16 +127,10 @@ async def detailed_health_check():
             "guardian": {
                 "status": "healthy" if guardian_status.get("enabled") else "degraded",
                 "mode": guardian_status.get("mode"),
-                "implementation": guardian_status.get("implementation")
+                "implementation": guardian_status.get("implementation"),
             },
-            "identity": {
-                "status": "healthy",
-                "webauthn": "available"
-            },
-            "orchestration": {
-                "status": "healthy",
-                "multi_ai": "available"
-            }
+            "identity": {"status": "healthy", "webauthn": "available"},
+            "orchestration": {"status": "healthy", "multi_ai": "available"},
         }
 
         # Overall status
@@ -170,7 +143,7 @@ async def detailed_health_check():
             "version": "1.0.0",
             "timestamp": time.time(),
             "components": components,
-            "guardian": guardian_status
+            "guardian": guardian_status,
         }
 
     except Exception as e:
@@ -191,12 +164,12 @@ async def api_status():
             "orchestration": "/orchestration",
             "health": "/health",
             "metrics": "/metrics",
-            "docs": "/docs"
+            "docs": "/docs",
         },
         "environment": {
             "guardian_mode": os.getenv("GUARDIAN_MODE", "development"),
-            "lukhas_mode": os.getenv("LUKHAS_MODE", "development")
-        }
+            "lukhas_mode": os.getenv("LUKHAS_MODE", "development"),
+        },
     }
 
 
@@ -206,17 +179,9 @@ app.mount("/metrics", metrics_app)
 
 
 # Include API routers
-app.include_router(
-    webauthn_router,
-    prefix="/identity/webauthn",
-    tags=["Identity", "WebAuthn"]
-)
+app.include_router(webauthn_router, prefix="/identity/webauthn", tags=["Identity", "WebAuthn"])
 
-app.include_router(
-    orchestration_router,
-    prefix="/orchestration",
-    tags=["Orchestration", "Multi-AI"]
-)
+app.include_router(orchestration_router, prefix="/orchestration", tags=["Orchestration", "Multi-AI"])
 
 
 # Root endpoint
@@ -233,9 +198,9 @@ async def root():
             "identity": "/identity",
             "orchestration": "/orchestration",
             "docs": "/docs",
-            "metrics": "/metrics"
+            "metrics": "/metrics",
         },
-        "timestamp": time.time()
+        "timestamp": time.time(),
     }
 
 
@@ -248,14 +213,8 @@ async def not_found_handler(request: Request, exc):
         content={
             "error": "endpoint_not_found",
             "message": f"Endpoint {request.url.path} not found",
-            "available_endpoints": [
-                "/health",
-                "/status",
-                "/identity/webauthn",
-                "/orchestration",
-                "/docs"
-            ]
-        }
+            "available_endpoints": ["/health", "/status", "/identity/webauthn", "/orchestration", "/docs"],
+        },
     )
 
 
@@ -268,8 +227,8 @@ async def internal_error_handler(request: Request, exc):
         content={
             "error": "internal_server_error",
             "message": "An internal server error occurred",
-            "request_id": getattr(request.state, 'request_id', 'unknown')
-        }
+            "request_id": getattr(request.state, "request_id", "unknown"),
+        },
     )
 
 
@@ -285,10 +244,4 @@ if __name__ == "__main__":
 
     logger.info(f"🚀 Starting LUKHAS AI API on {host}:{port}")
 
-    uvicorn.run(
-        "main:app",
-        host=host,
-        port=port,
-        reload=os.getenv("LUKHAS_MODE") == "development",
-        log_level="info"
-    )
+    uvicorn.run("main:app", host=host, port=port, reload=os.getenv("LUKHAS_MODE") == "development", log_level="info")

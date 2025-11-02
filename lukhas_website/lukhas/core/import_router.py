@@ -17,6 +17,7 @@ from typing import Any, ClassVar, Optional
 
 try:
     from prometheus_client import Counter
+
     METRICS_AVAILABLE = True
 except ImportError:
     METRICS_AVAILABLE = False
@@ -26,19 +27,15 @@ logger = logging.getLogger(__name__)
 # Router fallback metrics
 if METRICS_AVAILABLE:
     _ROUTER_FALLBACK_TOTAL = Counter(
-        "lukhas_router_fallback_total",
-        "Total router fallback attempts",
-        ["source_module", "target_module", "outcome"]
+        "lukhas_router_fallback_total", "Total router fallback attempts", ["source_module", "target_module", "outcome"]
     )
     _ROUTER_DEPRECATION_WARNINGS = Counter(
         "lukhas_router_deprecation_warnings_total",
         "Total deprecation warnings issued by router",
-        ["deprecated_module", "canonical_module"]
+        ["deprecated_module", "canonical_module"],
     )
     _ROUTER_RESOLUTION_TOTAL = Counter(
-        "lukhas_router_resolution_total",
-        "Total router resolution attempts",
-        ["module_type", "lane", "success"]
+        "lukhas_router_resolution_total", "Total router resolution attempts", ["module_type", "lane", "success"]
     )
 else:
     _ROUTER_FALLBACK_TOTAL = None
@@ -188,11 +185,7 @@ class ModuleRouter:
         success = actual_path is not None
 
         if _ROUTER_RESOLUTION_TOTAL:
-            _ROUTER_RESOLUTION_TOTAL.labels(
-                module_type=module_type,
-                lane=lane,
-                success=str(success).lower()
-            ).inc()
+            _ROUTER_RESOLUTION_TOTAL.labels(module_type=module_type, lane=lane, success=str(success).lower()).inc()
 
         if actual_path:
             # Record fallback metrics if using alternative path
@@ -200,17 +193,14 @@ class ModuleRouter:
                 outcome = "success"
                 if _ROUTER_FALLBACK_TOTAL:
                     _ROUTER_FALLBACK_TOTAL.labels(
-                        source_module=module_path,
-                        target_module=actual_path,
-                        outcome=outcome
+                        source_module=module_path, target_module=actual_path, outcome=outcome
                     ).inc()
 
                 # Check if this is a deprecated path
                 if module_path in self.MODULE_REGISTRY:
                     if _ROUTER_DEPRECATION_WARNINGS:
                         _ROUTER_DEPRECATION_WARNINGS.labels(
-                            deprecated_module=module_path,
-                            canonical_module=actual_path
+                            deprecated_module=module_path, canonical_module=actual_path
                         ).inc()
 
             try:
@@ -221,9 +211,7 @@ class ModuleRouter:
                 # Record failed fallback
                 if actual_path != module_path and _ROUTER_FALLBACK_TOTAL:
                     _ROUTER_FALLBACK_TOTAL.labels(
-                        source_module=module_path,
-                        target_module=actual_path,
-                        outcome="import_failed"
+                        source_module=module_path, target_module=actual_path, outcome="import_failed"
                     ).inc()
 
                 # Bind exception to a named variable for safe raise-from usage

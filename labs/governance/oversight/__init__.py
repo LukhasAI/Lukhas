@@ -5,6 +5,7 @@ GOVERNANCE - oversight Submodule
 #TAG:oversight
 #TAG:standard
 """
+
 # Colony base for propagation
 from typing import Any
 

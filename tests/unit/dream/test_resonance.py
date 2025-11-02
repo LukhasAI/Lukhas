@@ -2,6 +2,7 @@
 Tests for dream resonance field.
 Validates decay behavior and safety constraints.
 """
+
 import os
 from unittest.mock import patch
 
@@ -105,11 +106,7 @@ class TestResonanceField:
         """Test that resonance field tracks history properly."""
         field = ResonanceField()
 
-        emotions = [
-            {"confidence": 0.5, "joy": 0.5},
-            {"confidence": 0.8, "joy": 0.2},
-            {"confidence": 0.3, "joy": 0.9}
-        ]
+        emotions = [{"confidence": 0.5, "joy": 0.5}, {"confidence": 0.8, "joy": 0.2}, {"confidence": 0.3, "joy": 0.9}]
 
         for emotion in emotions:
             field.apply(emotion)
@@ -165,7 +162,7 @@ class TestResonanceField:
 
         # Each step should decay by factor of 0.5
         for i in range(1, len(decay_values)):
-            expected = decay_values[i-1] * 0.5
+            expected = decay_values[i - 1] * 0.5
             assert abs(decay_values[i] - expected) < 0.001
 
     def test_decay_simulation_disabled(self):

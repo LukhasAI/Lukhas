@@ -25,10 +25,7 @@ class TestEmotionModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "emotion",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "emotion", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestEmotionModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import emotion
+
         self.assertIsNotNone(emotion)
 
     def test_module_version(self):
         """Test module has version information."""
         import emotion
+
         # Most modules should have version info
-        self.assertTrue(hasattr(emotion, '__version__') or
-                       hasattr(emotion, 'VERSION'))
+        self.assertTrue(hasattr(emotion, "__version__") or hasattr(emotion, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestEMOTION_ACTIVE(unittest.TestCase):
         """Test EMOTION_ACTIVE can be imported."""
         try:
             from emotion import EMOTION_ACTIVE
+
             self.assertIsNotNone(EMOTION_ACTIVE)
         except ImportError:
             pytest.skip("Component EMOTION_ACTIVE not available")
@@ -97,6 +96,7 @@ class TestEmotionWrapper(unittest.TestCase):
         """Test EmotionWrapper can be imported."""
         try:
             from emotion import EmotionWrapper
+
             self.assertIsNotNone(EmotionWrapper)
         except ImportError:
             pytest.skip("Component EmotionWrapper not available")
@@ -114,6 +114,7 @@ class Testanalyze_emotion_stream(unittest.TestCase):
         """Test analyze_emotion_stream can be imported."""
         try:
             from emotion import analyze_emotion_stream
+
             self.assertIsNotNone(analyze_emotion_stream)
         except ImportError:
             pytest.skip("Component analyze_emotion_stream not available")
@@ -122,7 +123,6 @@ class Testanalyze_emotion_stream(unittest.TestCase):
         """Test analyze_emotion_stream can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

@@ -64,32 +64,55 @@ class VocabularyRotationEngine:
                 "user": "Imagine your mind as a garden where thoughts grow like flowers",
                 "MATRIZ": {
                     "Memory": [
-                        "rooted experiences", "neural soil", "cultivated wisdom",
-                        "planted knowledge", "memory gardens", "experiential roots"
+                        "rooted experiences",
+                        "neural soil",
+                        "cultivated wisdom",
+                        "planted knowledge",
+                        "memory gardens",
+                        "experiential roots",
                     ],
                     "Attention": [
-                        "selective pruning", "focused cultivation", "growth direction",
-                        "attention watering", "mindful tending", "cognitive gardening"
+                        "selective pruning",
+                        "focused cultivation",
+                        "growth direction",
+                        "attention watering",
+                        "mindful tending",
+                        "cognitive gardening",
                     ],
                     "Thought": [
-                        "branching insights", "cognitive blossoming", "idea germination",
-                        "thought flowering", "mental growth", "conceptual blooming"
+                        "branching insights",
+                        "cognitive blossoming",
+                        "idea germination",
+                        "thought flowering",
+                        "mental growth",
+                        "conceptual blooming",
                     ],
                     "Risk": [
-                        "toxic detection", "growth boundaries", "soil contamination",
-                        "pest management", "drought protection", "ecosystem balance"
+                        "toxic detection",
+                        "growth boundaries",
+                        "soil contamination",
+                        "pest management",
+                        "drought protection",
+                        "ecosystem balance",
                     ],
                     "Intent": [
-                        "directional growth", "purposeful flowering", "seed planning",
-                        "harvest intentions", "growth goals", "cultivation aims"
+                        "directional growth",
+                        "purposeful flowering",
+                        "seed planning",
+                        "harvest intentions",
+                        "growth goals",
+                        "cultivation aims",
                     ],
                     "Action": [
-                        "fruit bearing", "seed dispersal", "harvest time",
-                        "growth execution", "botanical action", "organic movement"
-                    ]
-                }
+                        "fruit bearing",
+                        "seed dispersal",
+                        "harvest time",
+                        "growth execution",
+                        "botanical action",
+                        "organic movement",
+                    ],
+                },
             },
-
             "architectural_bridges": {
                 "description": "Structural engineering and construction",
                 "sensory": ["visual", "spatial", "tactile"],
@@ -100,32 +123,55 @@ class VocabularyRotationEngine:
                 "user": "Think of your mind like a building with bridges connecting different rooms",
                 "MATRIZ": {
                     "Memory": [
-                        "vaulted chambers", "archive walls", "foundation stones",
-                        "memory vaults", "structural records", "cornerstone experiences"
+                        "vaulted chambers",
+                        "archive walls",
+                        "foundation stones",
+                        "memory vaults",
+                        "structural records",
+                        "cornerstone experiences",
                     ],
                     "Attention": [
-                        "gateway arches", "focus corridors", "observation towers",
-                        "attention bridges", "cognitive pathways", "mental doorways"
+                        "gateway arches",
+                        "focus corridors",
+                        "observation towers",
+                        "attention bridges",
+                        "cognitive pathways",
+                        "mental doorways",
                     ],
                     "Thought": [
-                        "spanning beams", "idea bridges", "connecting pathways",
-                        "thought architecture", "mental construction", "cognitive frameworks"
+                        "spanning beams",
+                        "idea bridges",
+                        "connecting pathways",
+                        "thought architecture",
+                        "mental construction",
+                        "cognitive frameworks",
                     ],
                     "Risk": [
-                        "structural cracks", "load limits", "foundation shifts",
-                        "safety protocols", "building codes", "stress testing"
+                        "structural cracks",
+                        "load limits",
+                        "foundation shifts",
+                        "safety protocols",
+                        "building codes",
+                        "stress testing",
                     ],
                     "Intent": [
-                        "blueprint design", "planned pathways", "architectural vision",
-                        "construction goals", "design intentions", "building plans"
+                        "blueprint design",
+                        "planned pathways",
+                        "architectural vision",
+                        "construction goals",
+                        "design intentions",
+                        "building plans",
                     ],
                     "Action": [
-                        "open doors", "crossing steps", "building progress",
-                        "construction work", "structural movement", "bridge building"
-                    ]
-                }
+                        "open doors",
+                        "crossing steps",
+                        "building progress",
+                        "construction work",
+                        "structural movement",
+                        "bridge building",
+                    ],
+                },
             },
-
             "harmonic_resonance": {
                 "description": "Musical and vibrational patterns",
                 "sensory": ["auditory", "vibrational", "kinesthetic"],
@@ -136,32 +182,55 @@ class VocabularyRotationEngine:
                 "user": "Imagine your mind like a musical instrument, where memories are strings",
                 "MATRIZ": {
                     "Memory": [
-                        "resonant strings", "echo chambers", "harmonic layers",
-                        "memory melodies", "recorded rhythms", "sonic archives"
+                        "resonant strings",
+                        "echo chambers",
+                        "harmonic layers",
+                        "memory melodies",
+                        "recorded rhythms",
+                        "sonic archives",
                     ],
                     "Attention": [
-                        "tuning forks", "focus harmonics", "frequency filters",
-                        "attention amplifiers", "signal clarity", "mindful tuning"
+                        "tuning forks",
+                        "focus harmonics",
+                        "frequency filters",
+                        "attention amplifiers",
+                        "signal clarity",
+                        "mindful tuning",
                     ],
                     "Thought": [
-                        "melodic waves", "cognitive chords", "rhythmic patterns",
-                        "thought symphonies", "mental music", "ideational harmonies"
+                        "melodic waves",
+                        "cognitive chords",
+                        "rhythmic patterns",
+                        "thought symphonies",
+                        "mental music",
+                        "ideational harmonies",
                     ],
                     "Risk": [
-                        "dissonant notes", "feedback loops", "noise interference",
-                        "sonic dangers", "frequency conflicts", "harmonic disruption"
+                        "dissonant notes",
+                        "feedback loops",
+                        "noise interference",
+                        "sonic dangers",
+                        "frequency conflicts",
+                        "harmonic disruption",
                     ],
                     "Intent": [
-                        "composed motifs", "directional beats", "musical themes",
-                        "rhythmic goals", "melodic plans", "harmonic aims"
+                        "composed motifs",
+                        "directional beats",
+                        "musical themes",
+                        "rhythmic goals",
+                        "melodic plans",
+                        "harmonic aims",
                     ],
                     "Action": [
-                        "rhythmic pulses", "performance cues", "symphony crescendo",
-                        "musical execution", "sonic movement", "harmonic expression"
-                    ]
-                }
+                        "rhythmic pulses",
+                        "performance cues",
+                        "symphony crescendo",
+                        "musical execution",
+                        "sonic movement",
+                        "harmonic expression",
+                    ],
+                },
             },
-
             "woven_patterns": {
                 "description": "Textile and fabric metaphors",
                 "sensory": ["tactile", "visual", "kinesthetic"],
@@ -172,32 +241,55 @@ class VocabularyRotationEngine:
                 "user": "Picture your mind as a fabric, where different threads of memories and focus are woven together",
                 "MATRIZ": {
                     "Memory": [
-                        "woven threads", "patterned fibers", "tapestry layers",
-                        "memory fabric", "experiential weaving", "threaded recollections"
+                        "woven threads",
+                        "patterned fibers",
+                        "tapestry layers",
+                        "memory fabric",
+                        "experiential weaving",
+                        "threaded recollections",
                     ],
                     "Attention": [
-                        "tightening weaves", "focused strands", "thread selection",
-                        "attention stitching", "mindful threading", "cognitive knitting"
+                        "tightening weaves",
+                        "focused strands",
+                        "thread selection",
+                        "attention stitching",
+                        "mindful threading",
+                        "cognitive knitting",
                     ],
                     "Thought": [
-                        "interlaced motifs", "cognitive textures", "pattern emergence",
-                        "thought weaving", "mental tapestries", "ideational fabrics"
+                        "interlaced motifs",
+                        "cognitive textures",
+                        "pattern emergence",
+                        "thought weaving",
+                        "mental tapestries",
+                        "ideational fabrics",
                     ],
                     "Risk": [
-                        "frayed edges", "loose knots", "fabric tears",
-                        "thread breaks", "pattern disruption", "textile damage"
+                        "frayed edges",
+                        "loose knots",
+                        "fabric tears",
+                        "thread breaks",
+                        "pattern disruption",
+                        "textile damage",
                     ],
                     "Intent": [
-                        "design motifs", "pattern direction", "weaving plans",
-                        "textile goals", "fabric intentions", "thread purposes"
+                        "design motifs",
+                        "pattern direction",
+                        "weaving plans",
+                        "textile goals",
+                        "fabric intentions",
+                        "thread purposes",
                     ],
                     "Action": [
-                        "woven movement", "fabric flow", "textile creation",
-                        "threading action", "pattern making", "weaving execution"
-                    ]
-                }
+                        "woven movement",
+                        "fabric flow",
+                        "textile creation",
+                        "threading action",
+                        "pattern making",
+                        "weaving execution",
+                    ],
+                },
             },
-
             "geological_strata": {
                 "description": "Earth sciences and geological formations",
                 "sensory": ["visual", "tactile", "temporal"],
@@ -208,32 +300,55 @@ class VocabularyRotationEngine:
                 "user": "Think of your mind like layers of rock built over time",
                 "MATRIZ": {
                     "Memory": [
-                        "sedimentary layers", "fossil records", "rock formations",
-                        "geological memory", "stratified experiences", "temporal deposits"
+                        "sedimentary layers",
+                        "fossil records",
+                        "rock formations",
+                        "geological memory",
+                        "stratified experiences",
+                        "temporal deposits",
                     ],
                     "Attention": [
-                        "fault lines", "pressure zones", "tectonic focus",
-                        "attention shifts", "geological stress", "crustal awareness"
+                        "fault lines",
+                        "pressure zones",
+                        "tectonic focus",
+                        "attention shifts",
+                        "geological stress",
+                        "crustal awareness",
                     ],
                     "Thought": [
-                        "crystalline formations", "mineral veins", "geological insights",
-                        "thought crystals", "mental minerals", "cognitive geology"
+                        "crystalline formations",
+                        "mineral veins",
+                        "geological insights",
+                        "thought crystals",
+                        "mental minerals",
+                        "cognitive geology",
                     ],
                     "Risk": [
-                        "earthquakes", "erosion", "volcanic disruption",
-                        "geological hazards", "seismic threats", "crustal instability"
+                        "earthquakes",
+                        "erosion",
+                        "volcanic disruption",
+                        "geological hazards",
+                        "seismic threats",
+                        "crustal instability",
                     ],
                     "Intent": [
-                        "tectonic shifts", "geological planning", "stratigraphic design",
-                        "formation goals", "geological aims", "earth intentions"
+                        "tectonic shifts",
+                        "geological planning",
+                        "stratigraphic design",
+                        "formation goals",
+                        "geological aims",
+                        "earth intentions",
                     ],
                     "Action": [
-                        "landscape changes", "surface flows", "mountain building",
-                        "geological action", "tectonic movement", "earth processes"
-                    ]
-                }
+                        "landscape changes",
+                        "surface flows",
+                        "mountain building",
+                        "geological action",
+                        "tectonic movement",
+                        "earth processes",
+                    ],
+                },
             },
-
             "fluid_dynamics": {
                 "description": "Liquid flow and hydraulic systems",
                 "sensory": ["kinesthetic", "auditory", "visual"],
@@ -244,32 +359,55 @@ class VocabularyRotationEngine:
                 "user": "Imagine your thoughts and memories flowing like water in a river",
                 "MATRIZ": {
                     "Memory": [
-                        "steady currents", "depth pools", "reservoir layers",
-                        "memory streams", "flowing recollections", "liquid archives"
+                        "steady currents",
+                        "depth pools",
+                        "reservoir layers",
+                        "memory streams",
+                        "flowing recollections",
+                        "liquid archives",
                     ],
                     "Attention": [
-                        "eddies", "focused streams", "flow convergence",
-                        "attention currents", "mindful flow", "cognitive channels"
+                        "eddies",
+                        "focused streams",
+                        "flow convergence",
+                        "attention currents",
+                        "mindful flow",
+                        "cognitive channels",
                     ],
                     "Thought": [
-                        "wave patterns", "flowing ideas", "current insights",
-                        "thought streams", "mental rivers", "ideational flow"
+                        "wave patterns",
+                        "flowing ideas",
+                        "current insights",
+                        "thought streams",
+                        "mental rivers",
+                        "ideational flow",
                     ],
                     "Risk": [
-                        "turbulence", "whirlpools", "flood overflow",
-                        "flow disruption", "hydraulic pressure", "stream obstacles"
+                        "turbulence",
+                        "whirlpools",
+                        "flood overflow",
+                        "flow disruption",
+                        "hydraulic pressure",
+                        "stream obstacles",
                     ],
                     "Intent": [
-                        "directional flow", "channeling", "stream guidance",
-                        "flow goals", "current aims", "hydraulic intentions"
+                        "directional flow",
+                        "channeling",
+                        "stream guidance",
+                        "flow goals",
+                        "current aims",
+                        "hydraulic intentions",
                     ],
                     "Action": [
-                        "ripples", "waterfalls", "tidal movements",
-                        "flow action", "stream execution", "hydraulic movement"
-                    ]
-                }
+                        "ripples",
+                        "waterfalls",
+                        "tidal movements",
+                        "flow action",
+                        "stream execution",
+                        "hydraulic movement",
+                    ],
+                },
             },
-
             "prismatic_light": {
                 "description": "Optical phenomena and light refraction",
                 "sensory": ["visual", "color", "luminous"],
@@ -280,32 +418,55 @@ class VocabularyRotationEngine:
                 "user": "Think of your mind like a prism breaking light into many colors",
                 "MATRIZ": {
                     "Memory": [
-                        "refracted beams", "color layers", "spectrum bands",
-                        "memory prisms", "chromatic archives", "spectral recollections"
+                        "refracted beams",
+                        "color layers",
+                        "spectrum bands",
+                        "memory prisms",
+                        "chromatic archives",
+                        "spectral recollections",
                     ],
                     "Attention": [
-                        "focused rays", "light filters", "beam concentration",
-                        "attention lenses", "optical focus", "luminous awareness"
+                        "focused rays",
+                        "light filters",
+                        "beam concentration",
+                        "attention lenses",
+                        "optical focus",
+                        "luminous awareness",
                     ],
                     "Thought": [
-                        "spectral facets", "prismatic shifts", "rainbow insights",
-                        "thought spectrums", "mental illumination", "cognitive light"
+                        "spectral facets",
+                        "prismatic shifts",
+                        "rainbow insights",
+                        "thought spectrums",
+                        "mental illumination",
+                        "cognitive light",
                     ],
                     "Risk": [
-                        "shadow zones", "diffusion loss", "optical distortion",
-                        "light pollution", "spectral interference", "beam disruption"
+                        "shadow zones",
+                        "diffusion loss",
+                        "optical distortion",
+                        "light pollution",
+                        "spectral interference",
+                        "beam disruption",
                     ],
                     "Intent": [
-                        "light direction", "beam shaping", "spectrum planning",
-                        "optical goals", "luminous aims", "prism intentions"
+                        "light direction",
+                        "beam shaping",
+                        "spectrum planning",
+                        "optical goals",
+                        "luminous aims",
+                        "prism intentions",
                     ],
                     "Action": [
-                        "color bursts", "radiant moves", "illumination waves",
-                        "light action", "spectral movement", "optical expression"
-                    ]
-                }
+                        "color bursts",
+                        "radiant moves",
+                        "illumination waves",
+                        "light action",
+                        "spectral movement",
+                        "optical expression",
+                    ],
+                },
             },
-
             "circuit_patterns": {
                 "description": "Electronic circuits and digital systems",
                 "sensory": ["visual", "kinesthetic", "auditory"],
@@ -316,31 +477,55 @@ class VocabularyRotationEngine:
                 "user": "Imagine your brain like an electric circuit board where memories are nodes",
                 "MATRIZ": {
                     "Memory": [
-                        "storage nodes", "data banks", "memory registers",
-                        "circuit memory", "digital archives", "electronic storage"
+                        "storage nodes",
+                        "data banks",
+                        "memory registers",
+                        "circuit memory",
+                        "digital archives",
+                        "electronic storage",
                     ],
                     "Attention": [
-                        "switches", "signal gates", "attention amplifiers",
-                        "circuit focus", "signal routing", "electronic awareness"
+                        "switches",
+                        "signal gates",
+                        "attention amplifiers",
+                        "circuit focus",
+                        "signal routing",
+                        "electronic awareness",
                     ],
                     "Thought": [
-                        "current flows", "logic paths", "circuit reasoning",
-                        "thought circuits", "mental processing", "cognitive computing"
+                        "current flows",
+                        "logic paths",
+                        "circuit reasoning",
+                        "thought circuits",
+                        "mental processing",
+                        "cognitive computing",
                     ],
                     "Risk": [
-                        "short circuits", "signal noise", "system overload",
-                        "circuit faults", "electronic threats", "digital hazards"
+                        "short circuits",
+                        "signal noise",
+                        "system overload",
+                        "circuit faults",
+                        "electronic threats",
+                        "digital hazards",
                     ],
                     "Intent": [
-                        "programmed sequences", "control signals", "circuit design",
-                        "digital goals", "electronic aims", "circuit intentions"
+                        "programmed sequences",
+                        "control signals",
+                        "circuit design",
+                        "digital goals",
+                        "electronic aims",
+                        "circuit intentions",
                     ],
                     "Action": [
-                        "output pulses", "triggered events", "digital execution",
-                        "circuit action", "electronic movement", "signal transmission"
-                    ]
-                }
-            }
+                        "output pulses",
+                        "triggered events",
+                        "digital execution",
+                        "circuit action",
+                        "electronic movement",
+                        "signal transmission",
+                    ],
+                },
+            },
         }
 
     def get_next_family(self, force_rotation: bool = False) -> Tuple[str, Dict]:
@@ -379,7 +564,7 @@ class VocabularyRotationEngine:
             "poetic": family_data.get("poetic", ""),
             "academic": family_data.get("academic", ""),
             "user": family_data.get("user", ""),
-            "family": family_name
+            "family": family_name,
         }
 
     def validate_novelty(self, text: str) -> bool:
@@ -400,10 +585,7 @@ class VocabularyRotationEngine:
 
         # Find family with minimum usage
         min_usage = min(self.usage_tracker.values())
-        least_used_families = [
-            name for name, count in self.usage_tracker.items()
-            if count == min_usage
-        ]
+        least_used_families = [name for name, count in self.usage_tracker.items() if count == min_usage]
 
         # Select random from least used
         family_name = random.choice(least_used_families)
@@ -422,7 +604,7 @@ class VocabularyRotationEngine:
             "usage_counts": self.usage_tracker.copy(),
             "total_generations": sum(self.usage_tracker.values()),
             "diversity_score": len(self.usage_tracker) / len(family_names) if family_names else 0,
-            "families_available": len(family_names)
+            "families_available": len(family_names),
         }
 
     def _load_usage_data(self):
@@ -430,10 +612,10 @@ class VocabularyRotationEngine:
         try:
             data_path = Path(self.data_file)
             if data_path.exists():
-                with open(data_path, 'r') as f:
+                with open(data_path, "r") as f:
                     data = json.load(f)
-                    self.usage_tracker = data.get('usage_tracker', {})
-                    self.current_family_index = data.get('current_family_index', 0)
+                    self.usage_tracker = data.get("usage_tracker", {})
+                    self.current_family_index = data.get("current_family_index", 0)
         except Exception:
             # Continue with empty tracking if load fails
             pass
@@ -442,11 +624,11 @@ class VocabularyRotationEngine:
         """Save usage tracking data to file."""
         try:
             data = {
-                'usage_tracker': self.usage_tracker,
-                'current_family_index': self.current_family_index,
-                'last_updated': time.time()
+                "usage_tracker": self.usage_tracker,
+                "current_family_index": self.current_family_index,
+                "last_updated": time.time(),
             }
-            with open(self.data_file, 'w') as f:
+            with open(self.data_file, "w") as f:
                 json.dump(data, f, indent=2)
         except Exception:
             # Continue silently if save fails
@@ -484,7 +666,7 @@ class VocabularyRotationEngine:
             "spectrum": "prismatic_light",
             "circuit": "circuit_patterns",
             "digital": "circuit_patterns",
-            "electronic": "circuit_patterns"
+            "electronic": "circuit_patterns",
         }
 
         family_name = theme_mappings.get(theme.lower())

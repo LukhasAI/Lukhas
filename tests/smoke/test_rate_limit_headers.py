@@ -4,6 +4,7 @@ Smoke tests for rate limit headers on API responses.
 Verifies that X-RateLimit-* headers are present on both success (200)
 and error (429) responses, per OpenAI compatibility standards.
 """
+
 import os
 
 from fastapi.testclient import TestClient
@@ -22,10 +23,7 @@ def test_headers_on_success():
     """Verify X-RateLimit-* headers present on successful requests."""
     c = _client()
     # Use /v1/models which only requires models:read (permissive in test mode)
-    r = c.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer sk-test-headers"}
-    )
+    r = c.get("/v1/models", headers={"Authorization": "Bearer sk-test-headers"})
     assert r.status_code == 200
 
     # Verify RL headers present (current_window method should exist)
@@ -45,18 +43,12 @@ def test_headers_on_429_or_ok():
 
     # Use /v1/models for simple GET requests
     # First request should succeed
-    r1 = c.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer sk-burst-test"}
-    )
+    r1 = c.get("/v1/models", headers={"Authorization": "Bearer sk-burst-test"})
     assert r1.status_code == 200
 
     # Second request - either 200 (refill) or 429 (exhausted)
     # Most likely 200 since models endpoint has high RPS
-    r2 = c.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer sk-burst-test"}
-    )
+    r2 = c.get("/v1/models", headers={"Authorization": "Bearer sk-burst-test"})
 
     if r2.status_code == 429:
         # Verify OpenAI error envelope
@@ -75,10 +67,7 @@ def test_headers_on_429_or_ok():
 def test_trace_id_present_with_rl_headers():
     """Verify X-Trace-Id and X-RateLimit-* headers coexist."""
     c = _client()
-    r = c.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer sk-test-trace"}
-    )
+    r = c.get("/v1/models", headers={"Authorization": "Bearer sk-test-trace"})
     assert r.status_code == 200
 
     # RL headers should be present (either new format or old token-based format)

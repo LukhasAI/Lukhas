@@ -24,6 +24,7 @@
 ║ data within a user's symbolic vault.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import re
 import unicodedata

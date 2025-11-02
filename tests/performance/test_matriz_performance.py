@@ -12,8 +12,8 @@ import pytest
 # Performance thresholds from architectural audit
 MATRIZ_LATENCY_THRESHOLD_MS = 250  # <250ms requirement
 MATRIZ_THROUGHPUT_THRESHOLD = 50.0  # 50 ops/sec requirement
-MATRIZ_MEMORY_THRESHOLD_MB = 100   # 100MB memory limit
-MATRIZ_P95_THRESHOLD_MS = 200      # P95 latency target
+MATRIZ_MEMORY_THRESHOLD_MB = 100  # 100MB memory limit
+MATRIZ_P95_THRESHOLD_MS = 200  # P95 latency target
 
 pytestmark = pytest.mark.performance
 
@@ -24,12 +24,7 @@ class TestMATRIZPerformance:
     @pytest.fixture(autouse=True)
     def setup_matriz_environment(self):
         """Setup MATRIZ test environment with performance monitoring"""
-        self.performance_data = {
-            'latencies': [],
-            'memory_usage': [],
-            'throughput_samples': [],
-            'error_rates': []
-        }
+        self.performance_data = {"latencies": [], "memory_usage": [], "throughput_samples": [], "error_rates": []}
 
     def measure_execution_time(self, func, *args, **kwargs):
         """Measure function execution time in milliseconds"""
@@ -37,7 +32,7 @@ class TestMATRIZPerformance:
         result = func(*args, **kwargs)
         end_time = time.perf_counter()
         latency_ms = (end_time - start_time) * 1000
-        self.performance_data['latencies'].append(latency_ms)
+        self.performance_data["latencies"].append(latency_ms)
         return result, latency_ms
 
     async def measure_async_execution_time(self, coro):
@@ -46,15 +41,18 @@ class TestMATRIZPerformance:
         result = await coro
         end_time = time.perf_counter()
         latency_ms = (end_time - start_time) * 1000
-        self.performance_data['latencies'].append(latency_ms)
+        self.performance_data["latencies"].append(latency_ms)
         return result, latency_ms
 
-    @pytest.mark.parametrize("node_type,expected_max_latency", [
-        ("memory_node", 100),      # Memory operations should be faster
-        ("consciousness_node", 200), # Consciousness processing
-        ("identity_node", 150),    # Identity operations
-        ("governance_node", 180),  # Governance validation
-    ])
+    @pytest.mark.parametrize(
+        "node_type,expected_max_latency",
+        [
+            ("memory_node", 100),  # Memory operations should be faster
+            ("consciousness_node", 200),  # Consciousness processing
+            ("identity_node", 150),  # Identity operations
+            ("governance_node", 180),  # Governance validation
+        ],
+    )
     def test_matriz_node_latency(self, node_type, expected_max_latency):
         """Test individual MATRIZ node latency requirements"""
 
@@ -78,11 +76,13 @@ class TestMATRIZPerformance:
         avg_latency = statistics.mean(latencies)
         p95_latency = statistics.quantiles(latencies, n=20)[18]  # 95th percentile
 
-        assert avg_latency < expected_max_latency, \
-            f"{node_type} average latency {avg_latency:.2f}ms exceeds {expected_max_latency}ms"
+        assert (
+            avg_latency < expected_max_latency
+        ), f"{node_type} average latency {avg_latency:.2f}ms exceeds {expected_max_latency}ms"
 
-        assert p95_latency < MATRIZ_P95_THRESHOLD_MS, \
-            f"{node_type} P95 latency {p95_latency:.2f}ms exceeds {MATRIZ_P95_THRESHOLD_MS}ms"
+        assert (
+            p95_latency < MATRIZ_P95_THRESHOLD_MS
+        ), f"{node_type} P95 latency {p95_latency:.2f}ms exceeds {MATRIZ_P95_THRESHOLD_MS}ms"
 
     def test_matriz_orchestrator_latency(self):
         """Test MATRIZ orchestrator latency under load"""
@@ -94,11 +94,7 @@ class TestMATRIZPerformance:
             start_time = time.perf_counter()
 
             # Simulate orchestrator workflow
-            self._mock_orchestrator_workflow(
-                nodes=5,
-                processing_complexity=0.8,
-                data_size_kb=10
-            )
+            self._mock_orchestrator_workflow(nodes=5, processing_complexity=0.8, data_size_kb=10)
 
             end_time = time.perf_counter()
             latency_ms = (end_time - start_time) * 1000
@@ -109,14 +105,15 @@ class TestMATRIZPerformance:
         max_latency = max(orchestrator_latencies)
         p95_latency = statistics.quantiles(orchestrator_latencies, n=20)[18]
 
-        assert avg_latency < MATRIZ_LATENCY_THRESHOLD_MS, \
-            f"Orchestrator average latency {avg_latency:.2f}ms exceeds {MATRIZ_LATENCY_THRESHOLD_MS}ms"
+        assert (
+            avg_latency < MATRIZ_LATENCY_THRESHOLD_MS
+        ), f"Orchestrator average latency {avg_latency:.2f}ms exceeds {MATRIZ_LATENCY_THRESHOLD_MS}ms"
 
-        assert p95_latency < MATRIZ_P95_THRESHOLD_MS, \
-            f"Orchestrator P95 latency {p95_latency:.2f}ms exceeds {MATRIZ_P95_THRESHOLD_MS}ms"
+        assert (
+            p95_latency < MATRIZ_P95_THRESHOLD_MS
+        ), f"Orchestrator P95 latency {p95_latency:.2f}ms exceeds {MATRIZ_P95_THRESHOLD_MS}ms"
 
-        assert max_latency < 500, \
-            f"Orchestrator max latency {max_latency:.2f}ms exceeds 500ms critical threshold"
+        assert max_latency < 500, f"Orchestrator max latency {max_latency:.2f}ms exceeds 500ms critical threshold"
 
     def test_matriz_throughput_performance(self):
         """Test MATRIZ throughput under sustained load"""
@@ -137,8 +134,9 @@ class TestMATRIZPerformance:
         actual_duration = time.time() - start_time
         throughput_ops_per_sec = operations_completed / actual_duration
 
-        assert throughput_ops_per_sec >= MATRIZ_THROUGHPUT_THRESHOLD, \
-            f"MATRIZ throughput {throughput_ops_per_sec:.1f} ops/sec below {MATRIZ_THROUGHPUT_THRESHOLD} ops/sec"
+        assert (
+            throughput_ops_per_sec >= MATRIZ_THROUGHPUT_THRESHOLD
+        ), f"MATRIZ throughput {throughput_ops_per_sec:.1f} ops/sec below {MATRIZ_THROUGHPUT_THRESHOLD} ops/sec"
 
     @pytest.mark.asyncio
     async def test_matriz_async_processing_latency(self):
@@ -161,8 +159,7 @@ class TestMATRIZPerformance:
 
         # Concurrent operations should complete much faster than sequential
         # 10 operations * 50ms = 500ms sequential, concurrent should be ~50-100ms
-        assert total_latency_ms < 150, \
-            f"Async processing latency {total_latency_ms:.2f}ms suggests poor concurrency"
+        assert total_latency_ms < 150, f"Async processing latency {total_latency_ms:.2f}ms suggests poor concurrency"
 
         assert len(results) == 10, "All async operations should complete"
 
@@ -188,22 +185,23 @@ class TestMATRIZPerformance:
         peak_memory_mb = process.memory_info().rss / 1024 / 1024
         memory_increase_mb = peak_memory_mb - baseline_memory_mb
 
-        assert memory_increase_mb < MATRIZ_MEMORY_THRESHOLD_MB, \
-            f"MATRIZ memory usage {memory_increase_mb:.1f}MB exceeds {MATRIZ_MEMORY_THRESHOLD_MB}MB threshold"
+        assert (
+            memory_increase_mb < MATRIZ_MEMORY_THRESHOLD_MB
+        ), f"MATRIZ memory usage {memory_increase_mb:.1f}MB exceeds {MATRIZ_MEMORY_THRESHOLD_MB}MB threshold"
 
         # Cleanup to validate memory release
         data_cache.clear()
 
         # Allow garbage collection
         import gc
+
         gc.collect()
 
         final_memory_mb = process.memory_info().rss / 1024 / 1024
         memory_after_cleanup = final_memory_mb - baseline_memory_mb
 
         # Memory should be mostly released
-        assert memory_after_cleanup < memory_increase_mb * 0.3, \
-            "MATRIZ memory not properly released after processing"
+        assert memory_after_cleanup < memory_increase_mb * 0.3, "MATRIZ memory not properly released after processing"
 
     def test_matriz_cascade_prevention_performance(self):
         """Test performance under cascade prevention scenarios"""
@@ -222,10 +220,7 @@ class TestMATRIZPerformance:
                 start_time = time.perf_counter()
 
                 # Simulate cascade prevention processing
-                self._mock_cascade_prevention(
-                    depth=scenario["depth"],
-                    width=scenario["width"]
-                )
+                self._mock_cascade_prevention(depth=scenario["depth"], width=scenario["width"])
 
                 end_time = time.perf_counter()
                 latency_ms = (end_time - start_time) * 1000
@@ -233,8 +228,9 @@ class TestMATRIZPerformance:
 
             avg_latency = statistics.mean(latencies)
 
-            assert avg_latency < scenario["expected_max_latency"], \
-                f"Cascade prevention latency {avg_latency:.2f}ms exceeds {scenario['expected_max_latency']}ms"
+            assert (
+                avg_latency < scenario["expected_max_latency"]
+            ), f"Cascade prevention latency {avg_latency:.2f}ms exceeds {scenario['expected_max_latency']}ms"
 
     def test_matriz_stress_testing(self):
         """Stress test MATRIZ under extreme load"""
@@ -262,11 +258,11 @@ class TestMATRIZPerformance:
         error_rate = errors / (operation_count + errors) if (operation_count + errors) > 0 else 0
 
         # Stress test validation
-        assert ops_per_second >= MATRIZ_THROUGHPUT_THRESHOLD * 0.7, \
-            f"Stress test throughput {ops_per_second:.1f} ops/sec below 70% of normal threshold"
+        assert (
+            ops_per_second >= MATRIZ_THROUGHPUT_THRESHOLD * 0.7
+        ), f"Stress test throughput {ops_per_second:.1f} ops/sec below 70% of normal threshold"
 
-        assert error_rate < 0.05, \
-            f"Stress test error rate {error_rate:.3f} exceeds 5% threshold"
+        assert error_rate < 0.05, f"Stress test error rate {error_rate:.3f} exceeds 5% threshold"
 
     # Mock helper methods for testing
     def _mock_memory_node_operation(self):
@@ -354,13 +350,15 @@ def test_matriz_performance_under_load(load_level):
 
     # Latency should scale reasonably with load
     expected_max_latency = MATRIZ_LATENCY_THRESHOLD_MS * load_level * 1.2
-    assert avg_latency < expected_max_latency, \
-        f"Load {load_level} average latency {avg_latency:.2f}ms exceeds scaled threshold {expected_max_latency:.2f}ms"
+    assert (
+        avg_latency < expected_max_latency
+    ), f"Load {load_level} average latency {avg_latency:.2f}ms exceeds scaled threshold {expected_max_latency:.2f}ms"
 
     # Throughput should not degrade too much under load
     expected_min_throughput = MATRIZ_THROUGHPUT_THRESHOLD * (1 - load_level * 0.3)
-    assert throughput >= expected_min_throughput, \
-        f"Load {load_level} throughput {throughput:.1f} ops/sec below threshold {expected_min_throughput:.1f}"
+    assert (
+        throughput >= expected_min_throughput
+    ), f"Load {load_level} throughput {throughput:.1f} ops/sec below threshold {expected_min_throughput:.1f}"
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ _TOKEN_PATTERN = re.compile(r"\b[\w\-']+\b")
 # ΛTAG: poetic_metrics
 # ΛTAG: substitution_analysis
 
+
 def render_frequency_line(
     word: str,
     count: int,
@@ -52,6 +53,7 @@ def render_frequency_line(
 
 
 # ΛTAG: vocabulary_enrichment
+
 
 def render_enrichment_summary(
     *,

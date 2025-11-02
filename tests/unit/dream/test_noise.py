@@ -2,6 +2,7 @@
 Tests for noise injection system.
 Validates noise injection clamping and safety guarantees.
 """
+
 import os
 from unittest.mock import patch
 

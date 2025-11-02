@@ -1,4 +1,5 @@
 """BioCore symbolic integration module for bio-inspired regulation."""
+
 from __future__ import annotations
 
 import logging
@@ -316,9 +317,4 @@ class BioCore:
     @staticmethod
     def _hours_since_midnight(moment: datetime) -> float:
         local = moment.astimezone(timezone.utc)
-        return (
-            local.hour
-            + local.minute / 60.0
-            + local.second / 3600.0
-            + local.microsecond / 3_600_000_000.0
-        )
+        return local.hour + local.minute / 60.0 + local.second / 3600.0 + local.microsecond / 3_600_000_000.0

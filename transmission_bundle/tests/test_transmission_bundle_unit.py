@@ -25,10 +25,7 @@ class TestTransmissionBundleModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "transmission_bundle",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "transmission_bundle", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestTransmissionBundleModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import transmission_bundle
+
         self.assertIsNotNone(transmission_bundle)
 
     def test_module_version(self):
         """Test module has version information."""
         import transmission_bundle
+
         # Most modules should have version info
-        self.assertTrue(hasattr(transmission_bundle, '__version__') or
-                       hasattr(transmission_bundle, 'VERSION'))
+        self.assertTrue(hasattr(transmission_bundle, "__version__") or hasattr(transmission_bundle, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestLUKHASTransmission(unittest.TestCase):
         """Test LUKHASTransmission can be imported."""
         try:
             from transmission_bundle.launch_transmission import LUKHASTransmission
+
             self.assertIsNotNone(LUKHASTransmission)
         except ImportError:
             pytest.skip("Component LUKHASTransmission not available")
@@ -97,6 +96,7 @@ class Testcan_start(unittest.TestCase):
         """Test can_start can be imported."""
         try:
             from transmission_bundle.launch_transmission import can_start
+
             self.assertIsNotNone(can_start)
         except ImportError:
             pytest.skip("Component can_start not available")
@@ -105,7 +105,6 @@ class Testcan_start(unittest.TestCase):
         """Test can_start can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

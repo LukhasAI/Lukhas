@@ -22,6 +22,7 @@ Version: 1.0.0 - GDPR/AI Act Edition
 Date: June 2025
 License: EU-FOSS Compliant
 """
+
 import json
 import logging
 import uuid

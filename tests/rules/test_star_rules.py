@@ -9,9 +9,10 @@ ALIAS = RULES.get("aliases", {})
 CAP_OVR = {r["capability"]: r["star"] for r in RULES.get("capability_overrides", [])}
 NODE_OVR = {r["node"]: r["star"] for r in RULES.get("node_overrides", [])}
 RULES_RX = [(re.compile(r["pattern"], re.I), r["star"]) for r in RULES.get("rules", [])]
-EXCL_RX  = [re.compile(r["pattern"], re.I) for r in RULES.get("exclusions", [])]
+EXCL_RX = [re.compile(r["pattern"], re.I) for r in RULES.get("exclusions", [])]
 CONF_MIN = float(RULES["confidence"]["min_suggest"])
 W = RULES["weights"]
+
 
 def suggest_star(path_str: str, name: str, caps: list[str], nodes: list[str], owner: str = "", deps: list[str] = None):
     deps = deps or []
@@ -43,30 +44,37 @@ def suggest_star(path_str: str, name: str, caps: list[str], nodes: list[str], ow
         return None, best[1], "below_threshold"
     return best
 
+
 def test_canonical_has_oracle_not_ambiguity():
     assert "🔮 Oracle (Quantum)" in CANON
     assert "⚛️ Ambiguity (Quantum)" not in CANON
+
 
 def test_flow_by_path_or_node():
     star, conf, _ = suggest_star("labs/consciousness/awareness", "awareness", [], ["attention"])
     assert star == "🌊 Flow (Consciousness)"
     assert conf >= 0.5
 
+
 def test_memory_by_capability():
     star, conf, _ = suggest_star("labs/bio/memory", "bio.memory", ["memory_consolidation"], [])
     assert star == "✦ Trail (Memory)"
+
 
 def test_guardian_by_auth_capability():
     star, conf, _ = suggest_star("labs/api/oidc", "oidc", ["authentication"], [])
     assert star == "🛡️ Watch (Guardian)"
 
+
 def test_vision_by_path():
     star, conf, _ = suggest_star("tools/vision/ocr", "ocr", ["ocr"], [])
     assert star == "🔬 Horizon (Vision)"
 
+
 def test_oracle_by_keyword():
     star, conf, _ = suggest_star("labs/bio/quantum_attention", "quantum_attention", ["quantum_attention"], [])
     assert star == "🔮 Oracle (Quantum)"
+
 
 def test_exclusion_stopwatch_not_guardian():
     star, conf, why = suggest_star("utils/stopwatch", "stopwatch", [], [])

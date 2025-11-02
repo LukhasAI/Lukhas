@@ -26,12 +26,14 @@ logger = logging.getLogger(__name__)
 # Optional dependencies
 try:
     import redis.asyncio as redis
+
     REDIS_AVAILABLE = True
 except ImportError:
     REDIS_AVAILABLE = False
 
 try:
     from prometheus_client import Counter, Gauge, Histogram
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
@@ -39,6 +41,7 @@ except ImportError:
 
 class APITier(Enum):
     """API access tiers with different performance guarantees."""
+
     FREE = "free"
     BASIC = "basic"
     PREMIUM = "premium"
@@ -48,6 +51,7 @@ class APITier(Enum):
 
 class OptimizationStrategy(Enum):
     """API optimization strategies."""
+
     AGGRESSIVE_CACHE = "aggressive_cache"
     BALANCED = "balanced"
     LOW_LATENCY = "low_latency"
@@ -57,6 +61,7 @@ class OptimizationStrategy(Enum):
 
 class RequestPriority(Enum):
     """Request priority levels."""
+
     CRITICAL = "critical"
     HIGH = "high"
     NORMAL = "normal"
@@ -67,6 +72,7 @@ class RequestPriority(Enum):
 @dataclass
 class APIQuota:
     """API usage quota configuration."""
+
     requests_per_minute: int = 60
     requests_per_hour: int = 1000
     requests_per_day: int = 10000
@@ -80,6 +86,7 @@ class APIQuota:
 @dataclass
 class OptimizationConfig:
     """API optimization configuration."""
+
     strategy: OptimizationStrategy = OptimizationStrategy.BALANCED
     enable_request_compression: bool = True
     enable_response_compression: bool = True
@@ -99,6 +106,7 @@ class OptimizationConfig:
 @dataclass
 class APIMetrics:
     """API performance metrics."""
+
     total_requests: int = 0
     successful_requests: int = 0
     failed_requests: int = 0
@@ -117,6 +125,7 @@ class APIMetrics:
 @dataclass
 class RequestContext:
     """Context for API request optimization."""
+
     request_id: str
     endpoint: str
     method: str
@@ -140,35 +149,23 @@ class RateLimiter:
         self.local_quotas = defaultdict(lambda: defaultdict(int))
         self.tier_configs = {
             APITier.FREE: APIQuota(
-                requests_per_minute=60,
-                requests_per_hour=1000,
-                requests_per_day=10000,
-                concurrent_requests=5
+                requests_per_minute=60, requests_per_hour=1000, requests_per_day=10000, concurrent_requests=5
             ),
             APITier.BASIC: APIQuota(
-                requests_per_minute=300,
-                requests_per_hour=10000,
-                requests_per_day=100000,
-                concurrent_requests=20
+                requests_per_minute=300, requests_per_hour=10000, requests_per_day=100000, concurrent_requests=20
             ),
             APITier.PREMIUM: APIQuota(
-                requests_per_minute=1000,
-                requests_per_hour=50000,
-                requests_per_day=1000000,
-                concurrent_requests=50
+                requests_per_minute=1000, requests_per_hour=50000, requests_per_day=1000000, concurrent_requests=50
             ),
             APITier.ENTERPRISE: APIQuota(
-                requests_per_minute=10000,
-                requests_per_hour=500000,
-                requests_per_day=10000000,
-                concurrent_requests=200
+                requests_per_minute=10000, requests_per_hour=500000, requests_per_day=10000000, concurrent_requests=200
             ),
             APITier.INTERNAL: APIQuota(
                 requests_per_minute=100000,
                 requests_per_hour=1000000,
                 requests_per_day=100000000,
-                concurrent_requests=1000
-            )
+                concurrent_requests=1000,
+            ),
         }
 
     async def is_allowed(self, context: RequestContext) -> Tuple[bool, Dict[str, Any]]:
@@ -184,7 +181,7 @@ class RateLimiter:
             "requests_per_hour": current_counts.get("hour", 0) < quota.requests_per_hour,
             "requests_per_day": current_counts.get("day", 0) < quota.requests_per_day,
             "concurrent_requests": current_counts.get("concurrent", 0) < quota.concurrent_requests,
-            "request_size": context.size_bytes <= (quota.max_request_size_mb * 1024 * 1024)
+            "request_size": context.size_bytes <= (quota.max_request_size_mb * 1024 * 1024),
         }
 
         # Check endpoint restrictions
@@ -200,7 +197,7 @@ class RateLimiter:
             "quota": quota,
             "current_counts": current_counts,
             "checks": checks,
-            "retry_after_seconds": await self._calculate_retry_after(context.tier, current_counts)
+            "retry_after_seconds": await self._calculate_retry_after(context.tier, current_counts),
         }
 
     async def _get_current_counts(self, identifier: str, tier: APITier) -> Dict[str, int]:
@@ -232,7 +229,7 @@ class RateLimiter:
                 "minute": int(results[0] or 0),
                 "hour": int(results[1] or 0),
                 "day": int(results[2] or 0),
-                "concurrent": int(results[3] or 0)
+                "concurrent": int(results[3] or 0),
             }
         except Exception as e:
             logger.warning(f"Redis rate limit check failed: {e}")
@@ -257,7 +254,7 @@ class RateLimiter:
             "minute": minute_count,
             "hour": hour_count,
             "day": day_count,
-            "concurrent": self.local_quotas[bucket_key]["concurrent"]
+            "concurrent": self.local_quotas[bucket_key]["concurrent"],
         }
 
     async def _increment_counts(self, identifier: str, tier: APITier):
@@ -325,8 +322,7 @@ class RateLimiter:
                 logger.warning(f"Redis concurrent decrement failed: {e}")
         else:
             bucket_key = f"{identifier}:{tier.value}"
-            self.local_quotas[bucket_key]["concurrent"] = max(0,
-                self.local_quotas[bucket_key]["concurrent"] - 1)
+            self.local_quotas[bucket_key]["concurrent"] = max(0, self.local_quotas[bucket_key]["concurrent"] - 1)
 
 
 class APICache:
@@ -365,23 +361,15 @@ class APICache:
         """Set cached response."""
         try:
             if self.redis_client:
-                await self.redis_client.setex(
-                    f"api_cache:{key}",
-                    ttl_seconds,
-                    json.dumps(data)
-                )
+                await self.redis_client.setex(f"api_cache:{key}", ttl_seconds, json.dumps(data))
             else:
-                self.local_cache[key] = {
-                    "data": data,
-                    "expires_at": time.time() + ttl_seconds
-                }
+                self.local_cache[key] = {"data": data, "expires_at": time.time() + ttl_seconds}
 
                 # Simple cleanup for local cache
                 if len(self.local_cache) > 10000:
                     # Remove expired entries
                     now = time.time()
-                    expired_keys = [k for k, v in self.local_cache.items()
-                                  if v["expires_at"] <= now]
+                    expired_keys = [k for k, v in self.local_cache.items() if v["expires_at"] <= now]
                     for k in expired_keys:
                         del self.local_cache[k]
 
@@ -401,8 +389,8 @@ class APICache:
             else:
                 # Simple pattern matching for local cache
                 import fnmatch
-                matching_keys = [k for k in self.local_cache.keys()
-                               if fnmatch.fnmatch(k, pattern)]
+
+                matching_keys = [k for k in self.local_cache.keys() if fnmatch.fnmatch(k, pattern)]
                 for k in matching_keys:
                     del self.local_cache[k]
                 count = len(matching_keys)
@@ -425,7 +413,7 @@ class APICache:
             "invalidations": self.cache_stats["invalidations"],
             "errors": self.cache_stats["errors"],
             "hit_rate_percent": hit_rate,
-            "local_cache_size": len(self.local_cache)
+            "local_cache_size": len(self.local_cache),
         }
 
 
@@ -438,10 +426,9 @@ class APIAnalytics:
         self.user_patterns = defaultdict(lambda: defaultdict(list))
         self.error_patterns = defaultdict(list)
 
-    async def record_request(self, context: RequestContext,
-                           response_time_ms: float,
-                           status_code: int,
-                           response_size_bytes: int):
+    async def record_request(
+        self, context: RequestContext, response_time_ms: float, status_code: int, response_size_bytes: int
+    ):
         """Record API request for analytics."""
         timestamp = time.time()
 
@@ -458,7 +445,7 @@ class APIAnalytics:
             "response_time_ms": response_time_ms,
             "status_code": status_code,
             "headers": dict(context.headers),
-            "metadata": dict(context.metadata)
+            "metadata": dict(context.metadata),
         }
 
         self.request_history.append(request_record)
@@ -478,12 +465,14 @@ class APIAnalytics:
 
         # Record errors
         if status_code >= 400:
-            self.error_patterns[endpoint_key].append({
-                "timestamp": timestamp,
-                "status_code": status_code,
-                "user_id": context.user_id,
-                "response_time_ms": response_time_ms
-            })
+            self.error_patterns[endpoint_key].append(
+                {
+                    "timestamp": timestamp,
+                    "status_code": status_code,
+                    "user_id": context.user_id,
+                    "response_time_ms": response_time_ms,
+                }
+            )
 
     async def get_endpoint_analytics(self, endpoint: str, method: str = "GET") -> Dict[str, Any]:
         """Get analytics for specific endpoint."""
@@ -511,7 +500,7 @@ class APIAnalytics:
             "avg_request_size": statistics.mean(request_sizes),
             "avg_response_size": statistics.mean(response_sizes),
             "error_rate": len([s for s in status_codes if s >= 400]) / len(status_codes) * 100,
-            "status_code_distribution": self._count_distribution(status_codes)
+            "status_code_distribution": self._count_distribution(status_codes),
         }
 
     async def get_user_analytics(self, user_id: str) -> Dict[str, Any]:
@@ -536,13 +525,12 @@ class APIAnalytics:
             "most_used_endpoints": self._count_distribution(endpoints),
             "avg_response_time_ms": statistics.mean(response_times),
             "requests_per_hour": requests_per_hour,
-            "request_pattern": self._analyze_request_pattern(timestamps)
+            "request_pattern": self._analyze_request_pattern(timestamps),
         }
 
     async def get_system_health(self) -> Dict[str, Any]:
         """Get overall system health metrics."""
-        recent_requests = [r for r in self.request_history
-                          if r["timestamp"] > time.time() - 3600]  # Last hour
+        recent_requests = [r for r in self.request_history if r["timestamp"] > time.time() - 3600]  # Last hour
 
         if not recent_requests:
             return {"error": "No recent data available"}
@@ -558,7 +546,7 @@ class APIAnalytics:
             "requests_per_second": len(recent_requests) / 3600,
             "unique_users_last_hour": len(set(r["user_id"] for r in recent_requests if r["user_id"])),
             "top_endpoints": self._get_top_endpoints(recent_requests),
-            "health_score": self._calculate_health_score(response_times, status_codes)
+            "health_score": self._calculate_health_score(response_times, status_codes),
         }
 
     def _percentile(self, data: List[float], percentile: float) -> float:
@@ -582,7 +570,7 @@ class APIAnalytics:
             return "insufficient_data"
 
         # Calculate intervals between requests
-        intervals = [timestamps[i] - timestamps[i-1] for i in range(1, len(timestamps))]
+        intervals = [timestamps[i] - timestamps[i - 1] for i in range(1, len(timestamps))]
         avg_interval = statistics.mean(intervals)
 
         if avg_interval < 1:
@@ -603,12 +591,10 @@ class APIAnalytics:
 
         return [
             {"endpoint": endpoint, "requests": count}
-            for endpoint, count in sorted(endpoint_counts.items(),
-                                        key=lambda x: x[1], reverse=True)[:10]
+            for endpoint, count in sorted(endpoint_counts.items(), key=lambda x: x[1], reverse=True)[:10]
         ]
 
-    def _calculate_health_score(self, response_times: List[float],
-                               status_codes: List[int]) -> float:
+    def _calculate_health_score(self, response_times: List[float], status_codes: List[int]) -> float:
         """Calculate overall system health score (0-100)."""
         if not response_times or not status_codes:
             return 0.0
@@ -641,12 +627,13 @@ class LUKHASAPIOptimizer:
 
         # Prometheus metrics (if available)
         if PROMETHEUS_AVAILABLE and config.enable_metrics:
-            self.request_counter = Counter('lukhas_api_requests_total',
-                                         'Total API requests', ['endpoint', 'method', 'status'])
-            self.response_time_histogram = Histogram('lukhas_api_response_time_seconds',
-                                                   'API response times', ['endpoint', 'method'])
-            self.active_requests_gauge = Gauge('lukhas_api_active_requests',
-                                             'Currently active API requests')
+            self.request_counter = Counter(
+                "lukhas_api_requests_total", "Total API requests", ["endpoint", "method", "status"]
+            )
+            self.response_time_histogram = Histogram(
+                "lukhas_api_response_time_seconds", "API response times", ["endpoint", "method"]
+            )
+            self.active_requests_gauge = Gauge("lukhas_api_active_requests", "Currently active API requests")
 
     async def process_request(self, context: RequestContext) -> Tuple[bool, Dict[str, Any]]:
         """Process API request with optimization."""
@@ -656,10 +643,7 @@ class LUKHASAPIOptimizer:
         allowed, rate_limit_info = await self.rate_limiter.is_allowed(context)
         if not allowed:
             await self.analytics.record_request(context, 0, 429, 0)
-            return False, {
-                "error": "Rate limit exceeded",
-                "rate_limit_info": rate_limit_info
-            }
+            return False, {"error": "Rate limit exceeded", "rate_limit_info": rate_limit_info}
 
         # Check cache
         cache_key = self._generate_cache_key(context)
@@ -667,25 +651,15 @@ class LUKHASAPIOptimizer:
             cached_response = await self.cache.get(cache_key)
             if cached_response:
                 response_time = (time.time() - start_time) * 1000
-                await self.analytics.record_request(context, response_time, 200,
-                                                  len(json.dumps(cached_response)))
-                return True, {
-                    "cached": True,
-                    "data": cached_response,
-                    "cache_key": cache_key
-                }
+                await self.analytics.record_request(context, response_time, 200, len(json.dumps(cached_response)))
+                return True, {"cached": True, "data": cached_response, "cache_key": cache_key}
 
         # Track active request
         self.active_requests[context.request_id] = context
 
-        return True, {
-            "cache_key": cache_key,
-            "rate_limit_info": rate_limit_info
-        }
+        return True, {"cache_key": cache_key, "rate_limit_info": rate_limit_info}
 
-    async def complete_request(self, context: RequestContext,
-                             response_data: Dict[str, Any],
-                             status_code: int):
+    async def complete_request(self, context: RequestContext, response_data: Dict[str, Any], status_code: int):
         """Complete request processing with caching and analytics."""
         response_time = (time.time() - context.start_time) * 1000
         response_size = len(json.dumps(response_data))
@@ -694,9 +668,11 @@ class LUKHASAPIOptimizer:
         self.active_requests.pop(context.request_id, None)
 
         # Cache successful responses
-        if (status_code == 200 and
-            self.config.enable_adaptive_caching and
-            self._should_cache_response(context, response_data)):
+        if (
+            status_code == 200
+            and self.config.enable_adaptive_caching
+            and self._should_cache_response(context, response_data)
+        ):
 
             cache_key = self._generate_cache_key(context)
             await self.cache.set(cache_key, response_data, self.config.cache_ttl_seconds)
@@ -708,8 +684,7 @@ class LUKHASAPIOptimizer:
         await self._update_metrics(context, response_time, status_code)
 
         # Decrement concurrent request count
-        await self.rate_limiter.decrement_concurrent(
-            context.user_id or context.api_key, context.tier)
+        await self.rate_limiter.decrement_concurrent(context.user_id or context.api_key, context.tier)
 
     async def get_optimization_stats(self) -> Dict[str, Any]:
         """Get comprehensive optimization statistics."""
@@ -726,14 +701,14 @@ class LUKHASAPIOptimizer:
                 "failed_requests": self.metrics.failed_requests,
                 "avg_response_time_ms": self.metrics.avg_response_time_ms,
                 "error_rate": self.metrics.error_rate,
-                "cache_hit_rate": cache_stats.get("hit_rate_percent", 0)
+                "cache_hit_rate": cache_stats.get("hit_rate_percent", 0),
             },
             "config": {
                 "strategy": self.config.strategy.value,
                 "caching_enabled": self.config.enable_adaptive_caching,
                 "compression_enabled": self.config.enable_response_compression,
-                "batching_enabled": self.config.enable_request_batching
-            }
+                "batching_enabled": self.config.enable_request_batching,
+            },
         }
 
     def _generate_cache_key(self, context: RequestContext) -> str:
@@ -741,7 +716,7 @@ class LUKHASAPIOptimizer:
         key_parts = [
             context.method,
             context.endpoint,
-            hashlib.md5(json.dumps(context.params, sort_keys=True).encode()).hexdigest()[:16]
+            hashlib.md5(json.dumps(context.params, sort_keys=True).encode()).hexdigest()[:16],
         ]
 
         # Include user-specific data for personalized responses
@@ -767,8 +742,7 @@ class LUKHASAPIOptimizer:
 
         return True
 
-    async def _update_metrics(self, context: RequestContext,
-                            response_time_ms: float, status_code: int):
+    async def _update_metrics(self, context: RequestContext, response_time_ms: float, status_code: int):
         """Update performance metrics."""
         self.metrics.total_requests += 1
 
@@ -782,33 +756,26 @@ class LUKHASAPIOptimizer:
             self.metrics.avg_response_time_ms = response_time_ms
         else:
             self.metrics.avg_response_time_ms = (
-                (self.metrics.avg_response_time_ms * (self.metrics.total_requests - 1) + response_time_ms) /
-                self.metrics.total_requests
-            )
+                self.metrics.avg_response_time_ms * (self.metrics.total_requests - 1) + response_time_ms
+            ) / self.metrics.total_requests
 
         # Update error rate
         self.metrics.error_rate = (self.metrics.failed_requests / self.metrics.total_requests) * 100
 
         # Update Prometheus metrics
         if PROMETHEUS_AVAILABLE and self.config.enable_metrics:
-            self.request_counter.labels(
-                endpoint=context.endpoint,
-                method=context.method,
-                status=str(status_code)
-            ).inc()
+            self.request_counter.labels(endpoint=context.endpoint, method=context.method, status=str(status_code)).inc()
 
-            self.response_time_histogram.labels(
-                endpoint=context.endpoint,
-                method=context.method
-            ).observe(response_time_ms / 1000)
+            self.response_time_histogram.labels(endpoint=context.endpoint, method=context.method).observe(
+                response_time_ms / 1000
+            )
 
             self.active_requests_gauge.set(len(self.active_requests))
 
 
 # Example usage and factory functions
 async def create_api_optimizer(
-    strategy: OptimizationStrategy = OptimizationStrategy.BALANCED,
-    redis_url: Optional[str] = None
+    strategy: OptimizationStrategy = OptimizationStrategy.BALANCED, redis_url: Optional[str] = None
 ) -> LUKHASAPIOptimizer:
     """Create API optimizer with optional Redis backend."""
 
@@ -829,8 +796,7 @@ async def create_api_optimizer(
 
 # Context manager for request processing
 @asynccontextmanager
-async def optimized_api_request(optimizer: LUKHASAPIOptimizer,
-                               context: RequestContext):
+async def optimized_api_request(optimizer: LUKHASAPIOptimizer, context: RequestContext):
     """Context manager for optimized API request processing."""
 
     # Pre-processing
@@ -847,6 +813,7 @@ async def optimized_api_request(optimizer: LUKHASAPIOptimizer,
 
 
 if __name__ == "__main__":
+
     async def test_api_optimizer():
         """Test the API optimizer."""
         optimizer = await create_api_optimizer()
@@ -858,7 +825,7 @@ if __name__ == "__main__":
             method="GET",
             user_id="test_user",
             tier=APITier.BASIC,
-            size_bytes=1024
+            size_bytes=1024,
         )
 
         # Process request
@@ -870,11 +837,7 @@ if __name__ == "__main__":
                 await asyncio.sleep(0.1)
 
                 # Complete request
-                await optimizer.complete_request(
-                    context,
-                    {"result": "success", "data": "test response"},
-                    200
-                )
+                await optimizer.complete_request(context, {"result": "success", "data": "test response"}, 200)
 
                 # Get stats
                 stats = await optimizer.get_optimization_stats()

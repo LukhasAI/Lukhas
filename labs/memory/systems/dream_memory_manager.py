@@ -168,20 +168,20 @@ class DreamMemoryManager:
     # ΛRECALL (memories_for_dreaming)
     async def process_dream_cycle(self, memories_for_dreaming: Optional[list[Any]] = None) -> dict[str, Any]:
         """
-        Initiates and processes a "dream cycle." This is where memory consolidation,
-        pattern extraction, and symbolic manipulation would occur.
-        (Currently a STUB - actual logic needs implementation). #ΛCOLLAPSE_POINT (If stub remains, dream processing collapses)
+            Initiates and processes a "dream cycle." This is where memory consolidation,
+            pattern extraction, and symbolic manipulation would occur.
+            (Currently a STUB - actual logic needs implementation). #ΛCOLLAPSE_POINT (If stub remains, dream processing collapses)
 
-        Args:
-            memories_for_dreaming (Optional[List[Any]]): A list of memories (or memory identifiers)
-    selected for processing in this dream cycle.
-    If None, the manager might use internal criteria.
-    #ΛRECALL: Input memories are recalled for processing.
-    # AIDENTITY_BRIDGE (If memories
-    # are user/agent specific)
-        Returns:
-            Dict[str, Any]: A dictionary containing the status and outcomes of the dream cycle,
-                            such as new insights, consolidated memories, or errors.
+            Args:
+                memories_for_dreaming (Optional[List[Any]]): A list of memories (or memory identifiers)
+        selected for processing in this dream cycle.
+        If None, the manager might use internal criteria.
+        #ΛRECALL: Input memories are recalled for processing.
+        # AIDENTITY_BRIDGE (If memories
+        # are user/agent specific)
+            Returns:
+                Dict[str, Any]: A dictionary containing the status and outcomes of the dream cycle,
+                                such as new insights, consolidated memories, or errors.
         """
         if not self.active:
             logger.warning(

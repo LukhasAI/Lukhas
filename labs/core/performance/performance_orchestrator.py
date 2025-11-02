@@ -17,6 +17,7 @@ Performance Targets:
 - Bio oscillators: 40Hz stable
 - Cascade prevention: 99.7% success rate
 """
+
 import asyncio
 import logging
 import time
@@ -300,11 +301,15 @@ class PerformanceOrchestrator:
                 "active_monitoring_sessions": len(self.monitoring_sessions),
                 # Constellation Framework status
                 "constellation_framework_health": {
-                    "identity_performance": current_metrics.get("constellation_framework_alignment", {}).get("identity", 0),
+                    "identity_performance": current_metrics.get("constellation_framework_alignment", {}).get(
+                        "identity", 0
+                    ),
                     "consciousness_performance": current_metrics.get("constellation_framework_alignment", {}).get(
                         "consciousness", 0
                     ),
-                    "guardian_performance": current_metrics.get("constellation_framework_alignment", {}).get("guardian", 0),
+                    "guardian_performance": current_metrics.get("constellation_framework_alignment", {}).get(
+                        "guardian", 0
+                    ),
                 },
                 # Core performance indicators
                 "core_metrics": {

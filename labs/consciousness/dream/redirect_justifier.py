@@ -4,6 +4,7 @@ Author: Jules 03
 Date: 2025-07-19
 Description: Provides a symbolic summary for dream redirects.
 """
+
 from typing import Any
 
 # LUKHAS_TAG: dream_redirect_chain

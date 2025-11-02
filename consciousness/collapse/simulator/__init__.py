@@ -1,4 +1,5 @@
 """Bridge for consciousness collapse simulator with noop fallbacks."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -31,16 +32,19 @@ ok_once = _bind("simulate_once")
 
 
 if not ok_config:
+
     class CollapseConfig:  # type: ignore[misc]
         def __init__(self, **kwargs) -> None:
             self.__dict__.update(kwargs)
 
 
 if not ok_run:
+
     def run_simulator(cfg: "CollapseConfig", *args, **kwargs):  # type: ignore[misc]
         return {"status": "noop", "steps": 0}
 
 
 if not ok_once:
+
     def simulate_once(*args, **kwargs):  # type: ignore[misc]
         return {"status": "noop"}

@@ -42,6 +42,7 @@ try:
         MemoryBrainSpecialist,
         MultiBrainSymphonyOrchestrator,
     )
+
     SYMPHONY_AVAILABLE = True
 except ImportError:
     try:
@@ -52,6 +53,7 @@ except ImportError:
             MemoryBrainSpecialist,  # noqa: F401  # TODO: MultiBrainSymphony.MemoryBrain...
             MultiBrainSymphonyOrchestrator,
         )
+
         SYMPHONY_AVAILABLE = True
     except ImportError:
         logger.warning("MultiBrainSymphony components not available")
@@ -242,15 +244,19 @@ class EnhancedEmotionalProcessor:
         self.emotional_history = []
         self.max_history = 50
 
-    def update_emotional_state(self, primary_emotion: str, intensity: Optional[float] = None,
-                              secondary_emotions: Optional[dict[str, float]] = None,
-                              metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def update_emotional_state(
+        self,
+        primary_emotion: str,
+        intensity: Optional[float] = None,
+        secondary_emotions: Optional[dict[str, float]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Update emotional state with enhanced tracking"""
 
         # Store previous state
         self.emotional_history.append(self.current_state.copy())
         if len(self.emotional_history) > self.max_history:
-            self.emotional_history = self.emotional_history[-self.max_history:]
+            self.emotional_history = self.emotional_history[-self.max_history :]
 
         # Update state
         if primary_emotion in self.emotion_vectors:
@@ -261,9 +267,7 @@ class EnhancedEmotionalProcessor:
 
         if secondary_emotions:
             valid_secondary = {
-                e: max(0.0, min(1.0, i))
-                for e, i in secondary_emotions.items()
-                if e in self.emotion_vectors
+                e: max(0.0, min(1.0, i)) for e, i in secondary_emotions.items() if e in self.emotion_vectors
             }
             self.current_state["secondary_emotions"] = valid_secondary
 
@@ -273,8 +277,7 @@ class EnhancedEmotionalProcessor:
         if self.emotional_history:
             previous = self.emotional_history[-1]
             distance = self._calculate_emotion_distance(
-                previous["primary_emotion"],
-                self.current_state["primary_emotion"]
+                previous["primary_emotion"], self.current_state["primary_emotion"]
             )
             self.current_state["stability"] = max(0.1, 1.0 - (distance / 2.0))
 
@@ -306,7 +309,7 @@ class EnhancedEmotionalProcessor:
             "fear": {"pitch": 0.4, "speed": 0.4, "energy": 0.2},
             "surprise": {"pitch": 0.5, "speed": 0.1, "energy": 0.4},
             "trust": {"pitch": -0.1, "speed": -0.1, "energy": 0.1},
-            "anticipation": {"pitch": 0.2, "speed": 0.1, "energy": 0.3}
+            "anticipation": {"pitch": 0.2, "speed": 0.1, "energy": 0.3},
         }
 
         adjustments = emotion_adjustments.get(emotion, {"pitch": 0, "speed": 0, "energy": 0})
@@ -316,8 +319,9 @@ class EnhancedEmotionalProcessor:
             "speed_adjustment": adjustments["speed"] * intensity,
             "energy_adjustment": adjustments["energy"] * intensity,
             "emphasis_level": 0.5 + (intensity * 0.3),
-            "pause_threshold": 0.3 + ((1.0 - self.current_state["stability"]) * 0.2)
+            "pause_threshold": 0.3 + ((1.0 - self.current_state["stability"]) * 0.2),
         }
+
 
 class EnhancedMemorySystem:
     """Enhanced memory system with emotional integration and dream consolidation"""
@@ -332,16 +336,17 @@ class EnhancedMemorySystem:
         self.consolidation_queue = []
 
         # Statistics
-        self.stats = {
-            "total_memories": 0,
-            "emotional_memories": 0,
-            "consolidations": 0,
-            "retrievals": 0
-        }
+        self.stats = {"total_memories": 0, "emotional_memories": 0, "consolidations": 0, "retrievals": 0}
 
-    def store_memory_with_emotion(self, key: str, content: Any, emotion: Optional[str] = None,
-                                  tags: Optional[list[str]] = None, priority: str = "medium",
-                                  metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def store_memory_with_emotion(
+        self,
+        key: str,
+        content: Any,
+        emotion: Optional[str] = None,
+        tags: Optional[list[str]] = None,
+        priority: str = "medium",
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Store memory with emotional context"""
 
         # Use current emotional state if none provided
@@ -357,7 +362,7 @@ class EnhancedMemorySystem:
             "metadata": metadata or {},
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "access_count": 0,
-            "emotional_intensity": self.emotional_processor.current_state["intensity"]
+            "emotional_intensity": self.emotional_processor.current_state["intensity"],
         }
 
         # Store in memory
@@ -384,11 +389,12 @@ class EnhancedMemorySystem:
             "key": key,
             "emotion": emotion,
             "memory_id": str(uuid.uuid4()),
-            "timestamp": memory_entry["timestamp"]
+            "timestamp": memory_entry["timestamp"],
         }
 
-    def retrieve_with_emotional_context(self, key: Optional[str] = None, target_emotion: Optional[str] = None,
-                                        similarity_threshold: float = 0.7) -> dict[str, Any]:
+    def retrieve_with_emotional_context(
+        self, key: Optional[str] = None, target_emotion: Optional[str] = None, similarity_threshold: float = 0.7
+    ) -> dict[str, Any]:
         """Retrieve memories with emotional context"""
 
         self.stats["retrievals"] += 1
@@ -397,11 +403,7 @@ class EnhancedMemorySystem:
             # Direct retrieval
             memory = self.memory_store[key]
             memory["access_count"] += 1
-            return {
-                "status": "success",
-                "memory": memory,
-                "retrieval_type": "direct"
-            }
+            return {"status": "success", "memory": memory, "retrieval_type": "direct"}
 
         elif target_emotion:
             # Emotional retrieval
@@ -422,14 +424,11 @@ class EnhancedMemorySystem:
                 "status": "success",
                 "memories": similar_memories[:10],  # Return top 10
                 "retrieval_type": "emotional_similarity",
-                "target_emotion": target_emotion
+                "target_emotion": target_emotion,
             }
 
         else:
-            return {
-                "status": "error",
-                "message": "Either key or target_emotion must be provided"
-            }
+            return {"status": "error", "message": "Either key or target_emotion must be provided"}
 
     def dream_consolidate_memories(self, max_memories: int = 50) -> dict[str, Any]:
         """Consolidate memories through dream-like processing"""
@@ -451,7 +450,7 @@ class EnhancedMemorySystem:
                     "emotion": memory["emotion"],
                     "consolidation_strength": memory["emotional_intensity"] * memory["access_count"],
                     "dream_associations": self._generate_dream_associations(memory),
-                    "consolidated_at": datetime.now(timezone.utc).isoformat()
+                    "consolidated_at": datetime.now(timezone.utc).isoformat(),
                 }
 
                 consolidated_memories.append(consolidated_memory)
@@ -466,7 +465,7 @@ class EnhancedMemorySystem:
             "status": "success",
             "consolidated_count": len(consolidated_memories),
             "remaining_queue": len(self.consolidation_queue),
-            "consolidated_memories": consolidated_memories
+            "consolidated_memories": consolidated_memories,
         }
 
     def _generate_dream_associations(self, memory: dict[str, Any]) -> list[str]:
@@ -639,8 +638,7 @@ class MultiBrain:
             available_candidates: list[tuple[str, dict[str, Any]]] = []
             for candidate_type in candidate_types:
                 available_candidates.extend(
-                    (candidate_type, entry)
-                    for entry in self.specialists.get(candidate_type, [])
+                    (candidate_type, entry) for entry in self.specialists.get(candidate_type, [])
                 )
 
             if not available_candidates:
@@ -893,8 +891,7 @@ class EnhancedBrainIntegration:
         if SYMPHONY_AVAILABLE:
             try:
                 self.symphony_orchestrator = MultiBrainSymphonyOrchestrator(
-                    emotional_oscillator=self.emotional_processor,
-                    memory_integrator=self.memory_system
+                    emotional_oscillator=self.emotional_processor, memory_integrator=self.memory_system
                 )
                 self.symphony_available = True
                 logger.info("🎼 Multi-Brain Symphony orchestrator integrated")
@@ -1006,8 +1003,9 @@ class EnhancedBrainIntegration:
         else:
             return await self._standard_processing(input_data)
 
-    async def _integrate_symphony_results(self, symphony_result: dict[str, Any],
-                                          original_input: dict[str, Any]) -> dict[str, Any]:
+    async def _integrate_symphony_results(
+        self, symphony_result: dict[str, Any], original_input: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate symphony results with brain subsystems"""
 
         integrated = {
@@ -1015,7 +1013,7 @@ class EnhancedBrainIntegration:
             "memory_integration": {},
             "voice_modulation": {},
             "dream_insights": [],
-            "learning_adaptations": []
+            "learning_adaptations": [],
         }
 
         # Process emotional context from symphony
@@ -1024,7 +1022,7 @@ class EnhancedBrainIntegration:
             self.emotional_processor.update_emotional_state(
                 primary_emotion=emotional_context["primary_emotion"],
                 intensity=emotional_context.get("intensity", 0.5),
-                metadata={"source": "symphony_processing"}
+                metadata={"source": "symphony_processing"},
             )
             integrated["emotional_processing"] = self.emotional_processor.current_state
             self.stats["emotional_updates"] += 1
@@ -1045,7 +1043,7 @@ class EnhancedBrainIntegration:
                         content=insight,
                         emotion=emotional_context.get("primary_emotion", "neutral"),
                         tags=["symphony", "insight"],
-                        priority="medium"
+                        priority="medium",
                     )
                 integrated["memory_integration"] = memory_result
                 self.stats["memory_operations"] += 1
@@ -1103,10 +1101,7 @@ class EnhancedBrainIntegration:
         # Store as memory
         memory_key = f"standard_process_{int(time.time())}"
         memory_result = self.memory_system.store_memory_with_emotion(
-            key=memory_key,
-            content=content,
-            emotion=emotion,
-            tags=["standard_processing"]
+            key=memory_key, content=content, emotion=emotion, tags=["standard_processing"]
         )
 
         self.stats["memory_operations"] += 1
@@ -1163,7 +1158,7 @@ class EnhancedBrainIntegration:
             "status": "text_only",
             "text": text,
             "emotional_modulation": voice_params,
-            "current_emotion": self.emotional_processor.current_state["primary_emotion"]
+            "current_emotion": self.emotional_processor.current_state["primary_emotion"],
         }
 
     def start_dream_consolidation(self, interval_minutes: int = 60) -> bool:
@@ -1247,7 +1242,7 @@ class EnhancedBrainIntegration:
                 "memory_system": True,
                 "symphony_orchestrator": self.symphony_available,
                 "voice_integrator": self.voice_integrator is not None,
-                "dream_engine": self.dream_engine is not None
+                "dream_engine": self.dream_engine is not None,
             },
             "current_emotional_state": self.emotional_processor.current_state,
             "memory_stats": self.memory_system.stats,
@@ -1269,7 +1264,9 @@ class EnhancedBrainIntegration:
 
         return status
 
+
 # Factory function for easy integration
+
 
 def create_enhanced_brain_integration(config: Optional[dict[str, Any]] = None) -> EnhancedBrainIntegration:
     """
@@ -1283,6 +1280,7 @@ def create_enhanced_brain_integration(config: Optional[dict[str, Any]] = None) -
     """
     return EnhancedBrainIntegration(config)
 
+
 # Demonstration
 async def demo_enhanced_integration():
     """Demonstrate the Enhanced Brain Integration system"""
@@ -1294,10 +1292,9 @@ async def demo_enhanced_integration():
 
     # Test data
     test_inputs = [
-        {"content": "I'm feeling creative and want to learn something new",
-    "type": "creative_learning"},
+        {"content": "I'm feeling creative and want to learn something new", "type": "creative_learning"},
         {"content": "This is a sad memory I want to remember", "type": "emotional_memory"},
-        {"content": "I'm excited about this new discovery!", "type": "positive_discovery"}
+        {"content": "I'm excited about this new discovery!", "type": "positive_discovery"},
     ]
 
     # Process each input
@@ -1322,6 +1319,7 @@ async def demo_enhanced_integration():
     print(f"Total memories: {status['memory_stats']['total_memories']}")
     print(f"Emotional memories: {status['memory_stats']['emotional_memories']}")
     print(f"Symphony processes: {status['processing_stats']['symphony_processes']}")
+
 
 if __name__ == "__main__":
     asyncio.run(demo_enhanced_integration())

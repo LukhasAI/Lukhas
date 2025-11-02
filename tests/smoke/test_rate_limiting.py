@@ -8,6 +8,7 @@ Validates:
 - Rate limit recovery after waiting
 - Different limits per endpoint
 """
+
 import time
 
 import pytest
@@ -56,13 +57,11 @@ def test_rate_limit_429_has_retry_after(client, auth_headers):
         response = client.get("/v1/models", headers=auth_headers)
         if response.status_code == 429:
             # Check for Retry-After header
-            assert "Retry-After" in response.headers, \
-                "429 response missing Retry-After header"
+            assert "Retry-After" in response.headers, "429 response missing Retry-After header"
 
             retry_after = response.headers["Retry-After"]
             # Should be numeric (seconds)
-            assert retry_after.replace(".", "").isdigit(), \
-                f"Retry-After should be numeric: {retry_after}"
+            assert retry_after.replace(".", "").isdigit(), f"Retry-After should be numeric: {retry_after}"
             break
 
 
@@ -100,8 +99,7 @@ def test_rate_limit_per_tenant_isolation(client, auth_headers, auth_headers_tena
 
     # Tenant2 should still work
     response_tenant2 = client.get("/v1/models", headers=auth_headers_tenant2)
-    assert response_tenant2.status_code == 200, \
-        "Tenant2 should not be affected by tenant1's rate limit"
+    assert response_tenant2.status_code == 200, "Tenant2 should not be affected by tenant1's rate limit"
 
 
 def test_rate_limit_recovery_after_wait(client, auth_headers):
@@ -117,8 +115,7 @@ def test_rate_limit_recovery_after_wait(client, auth_headers):
 
             # Should work again
             response_after = client.get("/v1/models", headers=auth_headers)
-            assert response_after.status_code == 200, \
-                "Rate limit should recover after waiting"
+            assert response_after.status_code == 200, "Rate limit should recover after waiting"
             break
 
 
@@ -159,11 +156,7 @@ def test_rate_limit_different_endpoints_separate_buckets(client, auth_headers):
     assert models_limited, "/v1/models should be rate limited"
 
     # /v1/embeddings should still work (different bucket)
-    embeddings_response = client.post(
-        "/v1/embeddings",
-        json={"input": "test"},
-        headers=auth_headers
-    )
+    embeddings_response = client.post("/v1/embeddings", json={"input": "test"}, headers=auth_headers)
     # Should get 200 (separate bucket) or 429 if also exhausted
     assert embeddings_response.status_code in [200, 429]
 
@@ -191,10 +184,7 @@ def test_rate_limit_preserves_tenant_identity(client):
 
     responses = []
     for i in range(50):
-        response = client.get(
-            "/v1/models",
-            headers={"Authorization": token}
-        )
+        response = client.get("/v1/models", headers={"Authorization": token})
         responses.append(response.status_code)
         if response.status_code == 429:
             break

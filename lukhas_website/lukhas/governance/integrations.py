@@ -43,6 +43,7 @@ logger = logging.getLogger(__name__)
 
 class IntegrationType(Enum):
     """Types of system integrations"""
+
     IDENTITY = "identity"
     MEMORY = "memory"
     CONSCIOUSNESS = "consciousness"
@@ -52,14 +53,16 @@ class IntegrationType(Enum):
 
 class CircuitState(Enum):
     """Circuit breaker states"""
-    CLOSED = "closed"       # Normal operation
-    OPEN = "open"          # Circuit broken, fail fast
-    HALF_OPEN = "half_open" # Testing recovery
+
+    CLOSED = "closed"  # Normal operation
+    OPEN = "open"  # Circuit broken, fail fast
+    HALF_OPEN = "half_open"  # Testing recovery
 
 
 @dataclass
 class IntegrationContext:
     """Context for system integration operations"""
+
     integration_type: IntegrationType
     source_system: str
     target_system: str = "guardian_serializers"
@@ -73,6 +76,7 @@ class IntegrationContext:
 @dataclass
 class IntegrationResult:
     """Result of integration operation"""
+
     success: bool
     context: IntegrationContext
     data: Optional[Any] = None
@@ -86,11 +90,7 @@ class SystemIntegration(ABC):
     """Abstract base class for system integrations"""
 
     @abstractmethod
-    def integrate(
-        self,
-        data: Any,
-        context: IntegrationContext
-    ) -> IntegrationResult:
+    def integrate(self, data: Any, context: IntegrationContext) -> IntegrationResult:
         """Integrate with target system"""
         pass
 
@@ -110,10 +110,7 @@ class CircuitBreaker:
     """Circuit breaker for integration resilience"""
 
     def __init__(
-        self,
-        failure_threshold: int = 5,
-        recovery_timeout: float = 60.0,
-        expected_exception: type = Exception
+        self, failure_threshold: int = 5, recovery_timeout: float = 60.0, expected_exception: type = Exception
     ):
         self.failure_threshold = failure_threshold
         self.recovery_timeout = recovery_timeout
@@ -141,10 +138,7 @@ class CircuitBreaker:
 
     def _should_attempt_reset(self) -> bool:
         """Check if should attempt circuit reset"""
-        return (
-            self.last_failure_time and
-            time.time() - self.last_failure_time >= self.recovery_timeout
-        )
+        return self.last_failure_time and time.time() - self.last_failure_time >= self.recovery_timeout
 
     def _on_success(self):
         """Handle successful call"""
@@ -168,11 +162,7 @@ class IdentityIntegration(SystemIntegration):
         self._identity_service = None
         self._initialize_identity_service()
 
-    def integrate(
-        self,
-        data: Any,
-        context: IntegrationContext
-    ) -> IntegrationResult:
+    def integrate(self, data: Any, context: IntegrationContext) -> IntegrationResult:
         """Integrate Guardian decision with Identity context"""
         start_time = time.perf_counter()
         result = IntegrationResult(success=False, context=context)
@@ -184,9 +174,7 @@ class IdentityIntegration(SystemIntegration):
                 actor = subject.get("actor", {})
 
                 # Validate actor authentication
-                auth_result = self.circuit_breaker.call(
-                    self._validate_actor_authentication, actor, context
-                )
+                auth_result = self.circuit_breaker.call(self._validate_actor_authentication, actor, context)
 
                 if not auth_result.get("valid", False):
                     result.errors.append("Actor authentication failed")
@@ -222,16 +210,13 @@ class IdentityIntegration(SystemIntegration):
         try:
             # Import Identity service if available
             from ...identity import get_identity_service
+
             self._identity_service = get_identity_service()
             logger.info("Identity service integration initialized")
         except ImportError:
             logger.warning("Identity service not available for integration")
 
-    def _validate_actor_authentication(
-        self,
-        actor: Dict[str, Any],
-        context: IntegrationContext
-    ) -> Dict[str, Any]:
+    def _validate_actor_authentication(self, actor: Dict[str, Any], context: IntegrationContext) -> Dict[str, Any]:
         """Validate actor authentication"""
         if not self._identity_service:
             return {"valid": False, "reason": "Identity service not available"}
@@ -252,17 +237,14 @@ class IdentityIntegration(SystemIntegration):
                 "actor_type": actor_type,
                 "tier": actor_tier,
                 "permissions": ["guardian_decision"],
-                "session_valid": True
+                "session_valid": True,
             }
             return validation_result
         except Exception as e:
             return {"valid": False, "reason": f"Authentication error: {str(e)}"}
 
     def _enhance_with_identity(
-        self,
-        decision_data: Dict[str, Any],
-        auth_result: Dict[str, Any],
-        context: IntegrationContext
+        self, decision_data: Dict[str, Any], auth_result: Dict[str, Any], context: IntegrationContext
     ) -> Dict[str, Any]:
         """Enhance Guardian decision with Identity context"""
         enhanced_data = decision_data.copy()
@@ -275,7 +257,7 @@ class IdentityIntegration(SystemIntegration):
             "validated_at": datetime.now(timezone.utc).isoformat(),
             "session_id": context.correlation_id,
             "permissions": auth_result.get("permissions", []),
-            "tier_verified": auth_result.get("tier") == enhanced_data.get("subject", {}).get("actor", {}).get("tier")
+            "tier_verified": auth_result.get("tier") == enhanced_data.get("subject", {}).get("actor", {}).get("tier"),
         }
 
         return enhanced_data
@@ -289,11 +271,7 @@ class MemoryIntegration(SystemIntegration):
         self._memory_service = None
         self._initialize_memory_service()
 
-    def integrate(
-        self,
-        data: Any,
-        context: IntegrationContext
-    ) -> IntegrationResult:
+    def integrate(self, data: Any, context: IntegrationContext) -> IntegrationResult:
         """Integrate Guardian decision with Memory storage"""
         start_time = time.perf_counter()
         result = IntegrationResult(success=False, context=context)
@@ -301,19 +279,14 @@ class MemoryIntegration(SystemIntegration):
         try:
             if isinstance(data, dict):
                 # Store Guardian decision in memory
-                storage_result = self.circuit_breaker.call(
-                    self._store_guardian_decision, data, context
-                )
+                storage_result = self.circuit_breaker.call(self._store_guardian_decision, data, context)
 
                 if storage_result.get("success", False):
-                    result.data = {
-                        **data,
-                        "memory_reference": storage_result.get("reference_id")
-                    }
+                    result.data = {**data, "memory_reference": storage_result.get("reference_id")}
                     result.success = True
                     result.metadata = {
                         "memory_id": storage_result.get("reference_id"),
-                        "storage_tier": storage_result.get("tier", "default")
+                        "storage_tier": storage_result.get("tier", "default"),
                     }
                 else:
                     result.errors.append("Failed to store Guardian decision in memory")
@@ -339,16 +312,13 @@ class MemoryIntegration(SystemIntegration):
         """Initialize Memory service connection"""
         try:
             from ...memory import get_memory_service
+
             self._memory_service = get_memory_service()
             logger.info("Memory service integration initialized")
         except ImportError:
             logger.warning("Memory service not available for integration")
 
-    def _store_guardian_decision(
-        self,
-        decision_data: Dict[str, Any],
-        context: IntegrationContext
-    ) -> Dict[str, Any]:
+    def _store_guardian_decision(self, decision_data: Dict[str, Any], context: IntegrationContext) -> Dict[str, Any]:
         """Store Guardian decision in memory"""
         if not self._memory_service:
             return {"success": False, "reason": "Memory service not available"}
@@ -365,17 +335,13 @@ class MemoryIntegration(SystemIntegration):
                 "status": decision_status,
                 "data": decision_data,
                 "timestamp": context.timestamp.isoformat(),
-                "tags": ["guardian", "decision", decision_status]
+                "tags": ["guardian", "decision", decision_status],
             }
 
             # Store in memory with appropriate indexing
             reference_id = f"guardian_{correlation_id}_{int(time.time())}"
 
-            return {
-                "success": True,
-                "reference_id": reference_id,
-                "tier": "guardian_decisions"
-            }
+            return {"success": True, "reference_id": reference_id, "tier": "guardian_decisions"}
 
         except Exception as e:
             return {"success": False, "reason": f"Storage error: {str(e)}"}
@@ -389,11 +355,7 @@ class ConsciousnessIntegration(SystemIntegration):
         self._consciousness_service = None
         self._initialize_consciousness_service()
 
-    def integrate(
-        self,
-        data: Any,
-        context: IntegrationContext
-    ) -> IntegrationResult:
+    def integrate(self, data: Any, context: IntegrationContext) -> IntegrationResult:
         """Integrate Guardian decision with Consciousness ethical validation"""
         start_time = time.perf_counter()
         result = IntegrationResult(success=False, context=context)
@@ -401,9 +363,7 @@ class ConsciousnessIntegration(SystemIntegration):
         try:
             if isinstance(data, dict):
                 # Validate ethical implications
-                ethics_result = self.circuit_breaker.call(
-                    self._validate_ethical_decision, data, context
-                )
+                ethics_result = self.circuit_breaker.call(self._validate_ethical_decision, data, context)
 
                 if ethics_result.get("valid", False):
                     # Enhance with consciousness context
@@ -437,16 +397,13 @@ class ConsciousnessIntegration(SystemIntegration):
         """Initialize Consciousness service connection"""
         try:
             from ...consciousness import get_consciousness_service
+
             self._consciousness_service = get_consciousness_service()
             logger.info("Consciousness service integration initialized")
         except ImportError:
             logger.warning("Consciousness service not available for integration")
 
-    def _validate_ethical_decision(
-        self,
-        decision_data: Dict[str, Any],
-        context: IntegrationContext
-    ) -> Dict[str, Any]:
+    def _validate_ethical_decision(self, decision_data: Dict[str, Any], context: IntegrationContext) -> Dict[str, Any]:
         """Validate ethical implications of Guardian decision"""
         if not self._consciousness_service:
             return {"valid": False, "reason": "Consciousness service not available"}
@@ -476,17 +433,14 @@ class ConsciousnessIntegration(SystemIntegration):
                 "valid": True,
                 "ethical_score": 0.9 if not warnings else 0.7,
                 "warnings": warnings,
-                "consciousness_validated": True
+                "consciousness_validated": True,
             }
 
         except Exception as e:
             return {"valid": False, "reason": f"Ethical validation error: {str(e)}"}
 
     def _enhance_with_consciousness(
-        self,
-        decision_data: Dict[str, Any],
-        ethics_result: Dict[str, Any],
-        context: IntegrationContext
+        self, decision_data: Dict[str, Any], ethics_result: Dict[str, Any], context: IntegrationContext
     ) -> Dict[str, Any]:
         """Enhance Guardian decision with Consciousness context"""
         enhanced_data = decision_data.copy()
@@ -499,7 +453,7 @@ class ConsciousnessIntegration(SystemIntegration):
             "ethical_score": ethics_result.get("ethical_score", 0.5),
             "validated_at": datetime.now(timezone.utc).isoformat(),
             "warnings": ethics_result.get("warnings", []),
-            "consciousness_system_version": "1.0.0"
+            "consciousness_system_version": "1.0.0",
         }
 
         return enhanced_data
@@ -513,11 +467,7 @@ class ObservabilityIntegration(SystemIntegration):
         self._observability_service = None
         self._initialize_observability_service()
 
-    def integrate(
-        self,
-        data: Any,
-        context: IntegrationContext
-    ) -> IntegrationResult:
+    def integrate(self, data: Any, context: IntegrationContext) -> IntegrationResult:
         """Integrate Guardian decision with Observability metrics"""
         start_time = time.perf_counter()
         result = IntegrationResult(success=False, context=context)
@@ -525,9 +475,7 @@ class ObservabilityIntegration(SystemIntegration):
         try:
             if isinstance(data, dict):
                 # Collect metrics and traces
-                metrics_result = self.circuit_breaker.call(
-                    self._collect_guardian_metrics, data, context
-                )
+                metrics_result = self.circuit_breaker.call(self._collect_guardian_metrics, data, context)
 
                 if metrics_result.get("success", False):
                     result.data = data  # Data unchanged for observability
@@ -559,16 +507,13 @@ class ObservabilityIntegration(SystemIntegration):
         """Initialize Observability service connection"""
         try:
             from ...observability import get_observability_service
+
             self._observability_service = get_observability_service()
             logger.info("Observability service integration initialized")
         except ImportError:
             logger.warning("Observability service not available for integration")
 
-    def _collect_guardian_metrics(
-        self,
-        decision_data: Dict[str, Any],
-        context: IntegrationContext
-    ) -> Dict[str, Any]:
+    def _collect_guardian_metrics(self, decision_data: Dict[str, Any], context: IntegrationContext) -> Dict[str, Any]:
         """Collect Guardian decision metrics"""
         if not self._observability_service:
             return {"success": False, "reason": "Observability service not available"}
@@ -584,17 +529,13 @@ class ObservabilityIntegration(SystemIntegration):
                 "guardian_latency_ms": metrics.get("latency_ms", 0),
                 "guardian_risk_score": metrics.get("risk_score", 0),
                 "guardian_drift_score": metrics.get("drift_score", 0),
-                "timestamp": context.timestamp.isoformat()
+                "timestamp": context.timestamp.isoformat(),
             }
 
             # Send metrics to observability system
             # In practice, this would use actual observability APIs
 
-            return {
-                "success": True,
-                "metrics": decision_metrics,
-                "trace_id": context.correlation_id
-            }
+            return {"success": True, "metrics": decision_metrics, "trace_id": context.correlation_id}
 
         except Exception as e:
             return {"success": False, "reason": f"Metrics collection error: {str(e)}"}
@@ -608,7 +549,7 @@ class IntegrationOrchestrator:
             IntegrationType.IDENTITY: IdentityIntegration(),
             IntegrationType.MEMORY: MemoryIntegration(),
             IntegrationType.CONSCIOUSNESS: ConsciousnessIntegration(),
-            IntegrationType.OBSERVABILITY: ObservabilityIntegration()
+            IntegrationType.OBSERVABILITY: ObservabilityIntegration(),
         }
         self.guardian_serializer = GuardianSerializer()
 
@@ -616,7 +557,7 @@ class IntegrationOrchestrator:
         self,
         decision_data: Dict[str, Any],
         integration_types: Optional[List[IntegrationType]] = None,
-        correlation_id: Optional[str] = None
+        correlation_id: Optional[str] = None,
     ) -> Dict[str, IntegrationResult]:
         """Process Guardian decision through all integrations"""
         if integration_types is None:
@@ -636,9 +577,7 @@ class IntegrationOrchestrator:
                 continue
 
             context = IntegrationContext(
-                integration_type=integration_type,
-                source_system="guardian_serializers",
-                correlation_id=correlation_id
+                integration_type=integration_type, source_system="guardian_serializers", correlation_id=correlation_id
             )
 
             try:
@@ -651,9 +590,7 @@ class IntegrationOrchestrator:
             except Exception as e:
                 logger.error(f"Integration {integration_type.value} failed: {e}", exc_info=True)
                 results[integration_type] = IntegrationResult(
-                    success=False,
-                    context=context,
-                    errors=[f"Integration error: {str(e)}"]
+                    success=False, context=context, errors=[f"Integration error: {str(e)}"]
                 )
 
         return results
@@ -665,13 +602,13 @@ class IntegrationOrchestrator:
         for integration_type, integration in self.integrations.items():
             health_status[integration_type.value] = {
                 "available": integration.is_available(),
-                "circuit_state": getattr(integration.circuit_breaker, 'state', CircuitState.CLOSED).value,
-                "failure_count": getattr(integration.circuit_breaker, 'failure_count', 0)
+                "circuit_state": getattr(integration.circuit_breaker, "state", CircuitState.CLOSED).value,
+                "failure_count": getattr(integration.circuit_breaker, "failure_count", 0),
             }
 
         return {
             "integrations": health_status,
-            "overall_healthy": all(status["available"] for status in health_status.values())
+            "overall_healthy": all(status["available"] for status in health_status.values()),
         }
 
 
@@ -695,7 +632,7 @@ async def process_guardian_with_integrations(
     include_identity: bool = True,
     include_memory: bool = True,
     include_consciousness: bool = True,
-    include_observability: bool = True
+    include_observability: bool = True,
 ) -> Dict[str, IntegrationResult]:
     """Process Guardian decision with specified integrations"""
     orchestrator = get_integration_orchestrator()
@@ -710,9 +647,7 @@ async def process_guardian_with_integrations(
     if include_observability:
         integration_types.append(IntegrationType.OBSERVABILITY)
 
-    return await orchestrator.process_guardian_decision(
-        decision_data, integration_types
-    )
+    return await orchestrator.process_guardian_decision(decision_data, integration_types)
 
 
 def get_integration_status() -> Dict[str, Any]:

@@ -3,6 +3,7 @@ Compatibility shim for bridge.adapter
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: accepted.adapters.base
 """
+
 import warnings
 
 from adapters.base import *

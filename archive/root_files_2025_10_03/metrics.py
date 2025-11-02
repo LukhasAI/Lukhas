@@ -2,6 +2,7 @@
 LUKHAS Metrics Collection ⚛️📊
 Prometheus-compatible metrics for monitoring and alerting.
 """
+
 import time
 
 from prometheus_client import REGISTRY, Counter, Gauge, Histogram, generate_latest

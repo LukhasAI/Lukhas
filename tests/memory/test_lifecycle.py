@@ -39,6 +39,7 @@ from memory.lifecycle import (
 @dataclass
 class VectorDocument:
     """Minimal VectorDocument for testing"""
+
     id: str
     content: str
     embedding: np.ndarray
@@ -86,7 +87,7 @@ class VectorDocument:
             "updated_at": self.updated_at.isoformat(),
             "expires_at": self.expires_at.isoformat() if self.expires_at else None,
             "access_count": self.access_count,
-            "last_accessed": self.last_accessed.isoformat() if self.last_accessed else None
+            "last_accessed": self.last_accessed.isoformat() if self.last_accessed else None,
         }
 
 
@@ -120,10 +121,7 @@ class MockVectorStore:
 
     async def list_by_identity(self, identity_id: str, limit: int) -> list[VectorDocument]:
         """List documents by identity"""
-        matching = [
-            doc for doc in self.documents.values()
-            if doc.identity_id == identity_id
-        ]
+        matching = [doc for doc in self.documents.values() if doc.identity_id == identity_id]
         return matching[:limit]
 
 
@@ -152,7 +150,7 @@ def mock_vector_store():
         lane="labs",
         tags=["test", "expired"],
         created_at=now - timedelta(days=60),  # Old document
-        expires_at=now - timedelta(days=1)   # Expired yesterday
+        expires_at=now - timedelta(days=1),  # Expired yesterday
     )
     store.documents["doc_expired_1"] = expired_doc
 
@@ -165,7 +163,7 @@ def mock_vector_store():
         lane="production",
         tags=["personal", "active"],
         metadata={"gdpr": {"category": "personal_data"}},
-        created_at=now - timedelta(days=10)
+        created_at=now - timedelta(days=10),
     )
     store.documents["doc_active_1"] = active_doc
 
@@ -194,7 +192,7 @@ def lifecycle_manager(mock_vector_store, file_archival_backend, file_tombstone_s
         archival_backend=file_archival_backend,
         tombstone_store=file_tombstone_store,
         enable_gdpr_compliance=True,
-        default_retention_days=30
+        default_retention_days=30,
     )
 
 
@@ -210,7 +208,7 @@ class TestMemoryLifecycleRetention:
             policy=RetentionPolicy.SHORT_TERM,
             conditions={"lane": "labs", "tags": ["expired"]},
             active_retention_days=7,
-            archive_retention_days=30
+            archive_retention_days=30,
         )
         lifecycle_manager.add_retention_rule(rule)
 
@@ -233,7 +231,7 @@ class TestMemoryLifecycleRetention:
             conditions={"lane": "labs"},
             active_retention_days=7,
             archive_retention_days=365,
-            archive_tier=ArchivalTier.COLD
+            archive_tier=ArchivalTier.COLD,
         )
         lifecycle_manager.add_retention_rule(rule)
 
@@ -271,15 +269,11 @@ class TestArchivalOperations:
             embedding=np.random.random(1536).astype(np.float32),
             identity_id="user_archive",
             lane="integration",
-            tags=["archive_test"]
+            tags=["archive_test"],
         )
 
         # Archive with compression
-        archive_id = await file_archival_backend.store_archived_document(
-            doc,
-            ArchivalTier.COLD,
-            compress=True
-        )
+        archive_id = await file_archival_backend.store_archived_document(doc, ArchivalTier.COLD, compress=True)
 
         assert archive_id.startswith("arch_")
 
@@ -289,7 +283,7 @@ class TestArchivalOperations:
         assert archive_path.suffix == ".gz"
 
         # Verify we can read the compressed content
-        with gzip.open(archive_path, 'rt', encoding='utf-8') as f:
+        with gzip.open(archive_path, "rt", encoding="utf-8") as f:
             archive_data = json.load(f)
 
         assert archive_data["archive_id"] == archive_id
@@ -308,14 +302,10 @@ class TestArchivalOperations:
             identity_id="user_retrieve",
             lane="production",
             tags=["retrieve_test"],
-            metadata={"test_key": "test_value"}
+            metadata={"test_key": "test_value"},
         )
 
-        archive_id = await file_archival_backend.store_archived_document(
-            original_doc,
-            ArchivalTier.WARM,
-            compress=True
-        )
+        archive_id = await file_archival_backend.store_archived_document(original_doc, ArchivalTier.WARM, compress=True)
 
         # Retrieve the document
         retrieved_doc = await file_archival_backend.retrieve_archived_document(archive_id)
@@ -337,14 +327,10 @@ class TestArchivalOperations:
             id="test_delete_archive",
             content="This will be deleted",
             embedding=np.random.random(1536).astype(np.float32),
-            lane="labs"
+            lane="labs",
         )
 
-        archive_id = await file_archival_backend.store_archived_document(
-            doc,
-            ArchivalTier.FROZEN,
-            compress=True
-        )
+        archive_id = await file_archival_backend.store_archived_document(doc, ArchivalTier.FROZEN, compress=True)
 
         # Verify file exists
         archive_path = file_archival_backend._get_archive_path(archive_id)
@@ -379,7 +365,7 @@ class TestGDPRTombstones:
             content_hash="abc123",
             word_count=150,
             language="en",
-            gdpr_category="personal_data"
+            gdpr_category="personal_data",
         )
 
         # Measure tombstone creation time
@@ -396,7 +382,7 @@ class TestGDPRTombstones:
         assert len(audit_files) > 0
 
         # Check audit event content
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], "r", encoding="utf-8") as f:
             audit_event = json.loads(f.read().strip())
 
         assert audit_event["event_type"] == "tombstone_created"
@@ -416,7 +402,7 @@ class TestGDPRTombstones:
             original_created_at=datetime.now(timezone.utc) - timedelta(days=45),
             original_lane="production",
             gdpr_category="personal_data",
-            legal_basis_removed="consent_withdrawn"
+            legal_basis_removed="consent_withdrawn",
         )
 
         await file_tombstone_store.create_tombstone(original_tombstone)
@@ -448,17 +434,17 @@ class TestGDPRTombstones:
             deleted_at=now - timedelta(days=400),  # Very old
             deletion_reason="expiration",
             original_created_at=now - timedelta(days=450),
-            original_lane="labs"
+            original_lane="labs",
         )
 
         # Create recent tombstone (should be kept)
         recent_tombstone = GDPRTombstone(
             document_id="recent_tombstone",
             identity_id="user_recent",
-            deleted_at=now - timedelta(days=30),   # Recent
+            deleted_at=now - timedelta(days=30),  # Recent
             deletion_reason="gdpr_request",
             original_created_at=now - timedelta(days=60),
-            original_lane="production"
+            original_lane="production",
         )
 
         await file_tombstone_store.create_tombstone(old_tombstone)
@@ -485,9 +471,7 @@ class TestGDPRCompliance:
         """Test processing GDPR right-to-be-forgotten request"""
         # Process GDPR deletion request
         deletion_summary = await lifecycle_manager.process_gdpr_deletion_request(
-            identity_id="user_123",
-            requested_by="data_subject",
-            legal_basis_removed="consent_withdrawn"
+            identity_id="user_123", requested_by="data_subject", legal_basis_removed="consent_withdrawn"
         )
 
         # Verify deletion summary
@@ -514,7 +498,7 @@ class TestGDPRCompliance:
             policy=RetentionPolicy.GDPR_COMPLIANT,
             conditions={"gdpr_category": "personal_data"},
             allow_anonymization=True,
-            require_explicit_deletion=False
+            require_explicit_deletion=False,
         )
         lifecycle_manager.add_retention_rule(rule)
 
@@ -548,7 +532,7 @@ class TestAuditEventGeneration:
             deleted_at=datetime.now(timezone.utc),
             deletion_reason="audit_test",
             original_created_at=datetime.now(timezone.utc) - timedelta(days=20),
-            original_lane="integration"
+            original_lane="integration",
         )
 
         await file_tombstone_store.create_tombstone(tombstone)
@@ -558,13 +542,11 @@ class TestAuditEventGeneration:
         audit_files = list(artifacts_path.glob("memory_validation_*.json"))
         assert len(audit_files) > 0
 
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], "r", encoding="utf-8") as f:
             audit_event = json.loads(f.read().strip())
 
         # Validate audit event structure
-        required_fields = [
-            "event_type", "timestamp", "tombstone", "audit_metadata"
-        ]
+        required_fields = ["event_type", "timestamp", "tombstone", "audit_metadata"]
         for field in required_fields:
             assert field in audit_event, f"Missing required field: {field}"
 
@@ -591,7 +573,7 @@ class TestAuditEventGeneration:
                 deleted_at=datetime.now(timezone.utc),
                 deletion_reason="multi_test",
                 original_created_at=datetime.now(timezone.utc) - timedelta(days=10),
-                original_lane="labs"
+                original_lane="labs",
             )
             await file_tombstone_store.create_tombstone(tombstone)
 
@@ -601,9 +583,9 @@ class TestAuditEventGeneration:
         assert len(audit_files) > 0
 
         # Count events in file
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], "r", encoding="utf-8") as f:
             content = f.read().strip()
-            events = [json.loads(line) for line in content.split('\n') if line.strip()]
+            events = [json.loads(line) for line in content.split("\n") if line.strip()]
 
         assert len(events) >= 3  # At least 3 events (could be more from other tests)
 
@@ -624,12 +606,9 @@ class TestPerformanceTargets:
         start_time = time.perf_counter()
 
         # Run cleanup with batch processing
-        stats = await lifecycle_manager.cleanup_expired_documents(
-            batch_size=1000,
-            max_documents=10000
-        )
+        stats = await lifecycle_manager.cleanup_expired_documents(batch_size=1000, max_documents=10000)
 
-        duration_s = (time.perf_counter() - start_time)
+        duration_s = time.perf_counter() - start_time
 
         # Performance target: <5s for 10k documents
         # Note: This is a scaled test since we don't have 10k real documents
@@ -648,7 +627,7 @@ class TestPerformanceTargets:
                 id=f"perf_test_{i}",
                 content=f"Performance test document {i} with substantial content to test compression and I/O performance under load conditions.",
                 embedding=np.random.random(1536).astype(np.float32),
-                lane="performance_test"
+                lane="performance_test",
             )
             documents.append(doc)
 
@@ -657,14 +636,10 @@ class TestPerformanceTargets:
         # Archive all documents
         archive_ids = []
         for doc in documents:
-            archive_id = await file_archival_backend.store_archived_document(
-                doc,
-                ArchivalTier.COLD,
-                compress=True
-            )
+            archive_id = await file_archival_backend.store_archived_document(doc, ArchivalTier.COLD, compress=True)
             archive_ids.append(archive_id)
 
-        duration_s = (time.perf_counter() - start_time)
+        duration_s = time.perf_counter() - start_time
 
         # Scale performance expectation (10 docs should be much faster than target)
         expected_max = 0.3  # 30s / 100 scale factor

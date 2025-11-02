@@ -6,16 +6,17 @@ import statistics
 import sys
 import time
 
-sys.path.append('.')
+sys.path.append(".")
 
-os.environ['LUKHAS_EXPERIMENTAL'] = '1'
-os.environ['LUKHAS_LANE'] = 'labs'
+os.environ["LUKHAS_EXPERIMENTAL"] = "1"
+os.environ["LUKHAS_LANE"] = "labs"
 
 from monitoring.drift_manager import DriftManager
 
 
 def p95(samples):
     return statistics.quantiles(samples, n=100)[94]
+
 
 def bench(fn, iters=200, warmup=30):
     random.seed(7)  # Fixed seed for repeatability
@@ -27,20 +28,19 @@ def bench(fn, iters=200, warmup=30):
         times.append(dt)
     return p95(times[warmup:]), times[warmup:]
 
+
 def baseline_compute():
     """Pure compute path - no repair triggered."""
     manager = DriftManager()
-    return manager.compute('ethical',
-                          {'compliance': 0.95},
-                          {'compliance': 0.93})  # Below threshold
+    return manager.compute("ethical", {"compliance": 0.95}, {"compliance": 0.93})  # Below threshold
+
 
 def repair_compute():
     """Compute path that triggers repair logic."""
     manager = DriftManager()
     manager._initialize_repair_engine()  # Initialize once
-    return manager.compute('ethical',
-                          {'compliance': 0.95},
-                          {'compliance': 0.70})  # Above threshold
+    return manager.compute("ethical", {"compliance": 0.95}, {"compliance": 0.70})  # Above threshold
+
 
 def main():
     print("=== CANONICAL P95 OVERHEAD BENCHMARK ===")
@@ -83,13 +83,14 @@ def main():
     print(f"OVERHEAD_PCT={pct_overhead:+.1f}")
 
     return {
-        'baseline_p95': baseline_p95,
-        'repair_p95': repair_p95,
-        'overhead_ms': abs_overhead_ms,
-        'overhead_pct': pct_overhead,
-        'passes_gate': passes_pct or passes_abs
+        "baseline_p95": baseline_p95,
+        "repair_p95": repair_p95,
+        "overhead_ms": abs_overhead_ms,
+        "overhead_pct": pct_overhead,
+        "passes_gate": passes_pct or passes_abs,
     }
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     result = main()
-    exit(0 if result['passes_gate'] else 1)
+    exit(0 if result["passes_gate"] else 1)

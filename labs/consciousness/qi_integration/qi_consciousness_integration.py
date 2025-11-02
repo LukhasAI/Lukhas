@@ -126,9 +126,7 @@ class QICreativeConsciousness:
         # Apply consciousness enhancement if available
         if self.consciousness_module:
             try:
-                conscious_experience = await self._process_conscious_experience(
-                    consciousness_context
-                )
+                conscious_experience = await self._process_conscious_experience(consciousness_context)
                 consciousness_boost = conscious_experience.get("unity_score", 1.0)
             except Exception as e:
                 self.logger.warning(f"Consciousness processing failed: {e}")
@@ -138,25 +136,15 @@ class QICreativeConsciousness:
 
         # Generate content based on type
         if content_type == "haiku":
-            content = await self._generate_conscious_haiku(
-                theme, style, consciousness_boost
-            )
+            content = await self._generate_conscious_haiku(theme, style, consciousness_boost)
         elif content_type == "article":
-            content = await self._generate_conscious_article(
-                theme, style, consciousness_boost
-            )
+            content = await self._generate_conscious_article(theme, style, consciousness_boost)
         elif content_type == "social_post":
-            content = await self._generate_conscious_social_post(
-                theme, style, consciousness_boost
-            )
+            content = await self._generate_conscious_social_post(theme, style, consciousness_boost)
         elif content_type == "story":
-            content = await self._generate_conscious_story(
-                theme, style, consciousness_boost
-            )
+            content = await self._generate_conscious_story(theme, style, consciousness_boost)
         else:
-            content = await self._generate_conscious_generic(
-                content_type, theme, style, consciousness_boost
-            )
+            content = await self._generate_conscious_generic(content_type, theme, style, consciousness_boost)
 
         return {
             "content": content,
@@ -175,9 +163,7 @@ class QICreativeConsciousness:
             },
         }
 
-    async def _process_conscious_experience(
-        self, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_conscious_experience(self, context: dict[str, Any]) -> dict[str, Any]:
         """Process a conscious experience for content generation."""
         if not self.consciousness_module:
             return {"unity_score": 1.0}
@@ -198,22 +184,14 @@ class QICreativeConsciousness:
                 neural_activations = None
 
             if neural_activations is not None:
-                experience = (
-                    await self.consciousness_module.process_conscious_experience(
-                        sensory_inputs,
-                        cognitive_state,
-                        emotional_state,
-                        attention_weights,
-                        neural_activations,
-                    )
+                experience = await self.consciousness_module.process_conscious_experience(
+                    sensory_inputs,
+                    cognitive_state,
+                    emotional_state,
+                    attention_weights,
+                    neural_activations,
                 )
-                return {
-                    "unity_score": (
-                        experience.unity_score
-                        if hasattr(experience, "unity_score")
-                        else 1.0
-                    )
-                }
+                return {"unity_score": (experience.unity_score if hasattr(experience, "unity_score") else 1.0)}
             else:
                 return {"unity_score": 1.1}  # Slight boost for consciousness attempt
 
@@ -221,9 +199,7 @@ class QICreativeConsciousness:
             self.logger.warning(f"Consciousness experience processing failed: {e}")
             return {"unity_score": 1.0}
 
-    async def _generate_conscious_haiku(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_haiku(self, theme: str, style: str, boost: float) -> str:
         """Generate consciousness-enhanced haiku."""
 
         # Haiku templates with consciousness themes
@@ -258,9 +234,7 @@ class QICreativeConsciousness:
         # Select appropriate template based on theme
         theme_key = theme.lower()
         if theme_key in haiku_templates:
-            base_haiku = haiku_templates[theme_key][
-                0
-            ]  # Use first option for consistency
+            base_haiku = haiku_templates[theme_key][0]  # Use first option for consistency
         else:
             # Generate custom haiku for unknown themes
             base_haiku = f"Quantum {theme} flows\nThrough consciousness streams of light\nMeaning crystallizes"
@@ -297,13 +271,13 @@ class QICreativeConsciousness:
 
         return "\n".join(enhanced_lines)
 
-    async def _generate_conscious_article(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_article(self, theme: str, style: str, boost: float) -> str:
         """Generate consciousness-enhanced article."""
 
         # Base article structure with consciousness awareness
-        intro = f"In the realm of {theme}, consciousness plays a pivotal role in shaping our understanding and approach."
+        intro = (
+            f"In the realm of {theme}, consciousness plays a pivotal role in shaping our understanding and approach."
+        )
 
         body_paragraphs = [
             f"The quantum nature of {theme} reveals itself through careful observation and mindful engagement. When we approach {theme} with elevated consciousness, we begin to see patterns and connections that were previously hidden.",
@@ -323,9 +297,7 @@ class QICreativeConsciousness:
 
         return article
 
-    async def _generate_conscious_social_post(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_social_post(self, theme: str, style: str, boost: float) -> str:
         """Generate consciousness-enhanced social media post."""
 
         # Social post templates with consciousness themes
@@ -336,9 +308,7 @@ class QICreativeConsciousness:
 
         return post
 
-    async def _generate_conscious_story(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_story(self, theme: str, style: str, boost: float) -> str:
         """Generate consciousness-enhanced story."""
 
         story = f"""The Quantum {theme} Discovery
@@ -356,9 +326,7 @@ The story of {theme} was just beginning, and consciousness was the key to unlock
 
         return story
 
-    async def _generate_conscious_generic(
-        self, content_type: str, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_generic(self, content_type: str, theme: str, style: str, boost: float) -> str:
         """Generate consciousness-enhanced generic content."""
 
         content = f"""Consciousness-Enhanced {content_type.title()} on {theme}
@@ -389,18 +357,12 @@ The journey into {theme} through consciousness is not just an intellectual exerc
             "bio_cognitive_boost": self.creative_boosts["bio_cognitive"],
             "creative_flow": self.creative_boosts["creative_flow"],
             "consciousness_resonance": self.creative_boosts["consciousness_resonance"],
-            "status": (
-                "QUANTUM CREATIVE CONSCIOUSNESS ACTIVE"
-                if CONSCIOUSNESS_AVAILABLE
-                else "CREATIVE MODE ACTIVE"
-            ),
+            "status": ("QUANTUM CREATIVE CONSCIOUSNESS ACTIVE" if CONSCIOUSNESS_AVAILABLE else "CREATIVE MODE ACTIVE"),
         }
 
 
 # Convenience functions for direct use
-async def generate_conscious_content(
-    content_type: str, theme: str, style: str = "professional"
-) -> dict[str, Any]:
+async def generate_conscious_content(content_type: str, theme: str, style: str = "professional") -> dict[str, Any]:
     """Convenience function for generating conscious content."""
     consciousness = QICreativeConsciousness()
     return await consciousness.generate_conscious_content(content_type, theme, style)
@@ -427,13 +389,9 @@ async def main():
 
     # Generate sample content
     print("\n🎋 Generating Conscious Haiku...")
-    haiku_result = await consciousness.generate_conscious_content(
-        "haiku", "artificial intelligence", "contemplative"
-    )
+    haiku_result = await consciousness.generate_conscious_content("haiku", "artificial intelligence", "contemplative")
     print(haiku_result["content"])
-    print(
-        f"Consciousness Boost: {haiku_result['consciousness_metrics']['consciousness_boost']:.3f}"
-    )
+    print(f"Consciousness Boost: {haiku_result['consciousness_metrics']['consciousness_boost']:.3f}")
 
     print("\n📝 Generating Conscious Article...")
     article_result = await consciousness.generate_conscious_content(

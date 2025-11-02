@@ -4,6 +4,7 @@ Identity Event Types and Structures
 Defines specialized event types for identity system coordination,
 authentication tracking, and tier-based orchestration.
 """
+
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime

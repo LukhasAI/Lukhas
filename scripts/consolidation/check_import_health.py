@@ -24,20 +24,15 @@ IMPORT_TESTS = [
     ("MATRIZ.adapters", "MATRIZ adapters"),
     ("MATRIZ.runtime", "MATRIZ runtime"),
     ("MATRIZ.nodes", "MATRIZ nodes"),
-
     # matriz (lowercase - compatibility shim, should show deprecation)
     ("matriz", "matriz compatibility shim"),
-
     # Core modules
     ("core", "Core module"),
     ("lukhas", "LUKHAS production module"),
-
     # Labs
     ("labs.consciousness.dream", "Dream synthesis (new location)"),
-
     # Bio
     ("bio", "Bio-inspired systems"),
-
     # Governance
     ("governance", "Governance module"),
 ]
@@ -81,10 +76,10 @@ def test_import(module_name: str, description: str, verbose: bool = False) -> Tu
 def main():
     parser = argparse.ArgumentParser(
         description="Check import health after directory consolidation",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output with module locations')
-    parser.add_argument('--fail-on-deprecation', action='store_true', help='Fail if deprecation warnings found')
+    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output with module locations")
+    parser.add_argument("--fail-on-deprecation", action="store_true", help="Fail if deprecation warnings found")
 
     args = parser.parse_args()
 
@@ -162,5 +157,5 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

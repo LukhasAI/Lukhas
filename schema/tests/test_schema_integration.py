@@ -14,6 +14,7 @@ import pytest
 
 pytestmark = pytest.mark.integration
 
+
 class TestSchemaEndToEnd:
     """End-to-end integration tests for schema."""
 
@@ -25,10 +26,7 @@ class TestSchemaEndToEnd:
             component = SchemaCore()
 
             # Test data pipeline
-            test_input = {
-                'test_data': 'integration_test',
-                'timestamp': '2025-01-01T00:00:00Z'
-            }
+            test_input = {"test_data": "integration_test", "timestamp": "2025-01-01T00:00:00Z"}
 
             result = component.process(test_input)
 
@@ -55,12 +53,13 @@ class TestSchemaEndToEnd:
             # Test integrated processing
             with consciousness.awareness_context():
                 with memory.session_context():
-                    result = component.process({'integration': 'test'})
+                    result = component.process({"integration": "test"})
 
             assert result is not None
 
         except ImportError:
             pytest.skip("Full consciousness integration not available")
+
 
 class TestSchemaExternalIntegration:
     """Tests for schema integration with external systems."""
@@ -73,10 +72,10 @@ class TestSchemaExternalIntegration:
             component = SchemaCore()
 
             # Test database operations (mocked)
-            with patch('schema.database.connect') as mock_db:
-                mock_db.return_value.execute.return_value = {'success': True}
+            with patch("schema.database.connect") as mock_db:
+                mock_db.return_value.execute.return_value = {"success": True}
 
-                component.process({'db_operation': 'test'})
+                component.process({"db_operation": "test"})
 
                 # Verify database interaction
                 mock_db.assert_called()
@@ -92,17 +91,18 @@ class TestSchemaExternalIntegration:
             component = SchemaCore()
 
             # Mock external API calls
-            with patch('requests.post') as mock_post:
+            with patch("requests.post") as mock_post:
                 mock_post.return_value.status_code = 200
-                mock_post.return_value.json.return_value = {'status': 'success'}
+                mock_post.return_value.json.return_value = {"status": "success"}
 
-                result = component.process({'api_call': 'test'})
+                result = component.process({"api_call": "test"})
 
                 # Verify API interaction
                 assert result is not None
 
         except ImportError:
             pytest.skip("API integration not available")
+
 
 class TestSchemaScalabilityIntegration:
     """Scalability and load testing for schema."""
@@ -118,7 +118,7 @@ class TestSchemaScalabilityIntegration:
             component = SchemaCore()
 
             def process_item(item_id):
-                return component.process({'item_id': item_id})
+                return component.process({"item_id": item_id})
 
             # Test concurrent processing
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -144,7 +144,7 @@ class TestSchemaScalabilityIntegration:
             results = []
 
             for i in range(batch_size):
-                result = component.process({'batch_item': i})
+                result = component.process({"batch_item": i})
                 results.append(result)
 
             # Verify batch processing
@@ -153,6 +153,7 @@ class TestSchemaScalabilityIntegration:
 
         except ImportError:
             pytest.skip("High volume processing test not available")
+
 
 class TestSchemaErrorRecoveryIntegration:
     """Integration tests for error handling and recovery."""
@@ -165,11 +166,11 @@ class TestSchemaErrorRecoveryIntegration:
             component = SchemaCore()
 
             # Simulate external service failure
-            with patch('schema.external_service.call') as mock_service:
+            with patch("schema.external_service.call") as mock_service:
                 mock_service.side_effect = ConnectionError("Service unavailable")
 
                 # Should handle gracefully
-                result = component.process({'requires_external': True})
+                result = component.process({"requires_external": True})
 
                 # Should return fallback result or raise expected exception
                 assert result is not None or mock_service.side_effect
@@ -185,16 +186,17 @@ class TestSchemaErrorRecoveryIntegration:
             component = SchemaCore()
 
             # Simulate repeated failures to trigger circuit breaker
-            with patch('schema.circuit_breaker.is_open') as mock_cb:
+            with patch("schema.circuit_breaker.is_open") as mock_cb:
                 mock_cb.return_value = True
 
-                result = component.process({'circuit_test': True})
+                result = component.process({"circuit_test": True})
 
                 # Should handle circuit breaker state
                 assert result is not None
 
         except ImportError:
             pytest.skip("Circuit breaker integration not available")
+
 
 class TestSchemaMonitoringIntegration:
     """Integration tests for monitoring and observability."""
@@ -207,10 +209,10 @@ class TestSchemaMonitoringIntegration:
             component = SchemaCore()
 
             # Test with tracing context
-            with patch('opentelemetry.trace.get_current_span') as mock_span:
+            with patch("opentelemetry.trace.get_current_span") as mock_span:
                 mock_span.return_value.set_attribute = Mock()
 
-                component.process({'trace_test': True})
+                component.process({"trace_test": True})
 
                 # Verify tracing attributes were set
                 mock_span.return_value.set_attribute.assert_called()
@@ -226,8 +228,8 @@ class TestSchemaMonitoringIntegration:
             component = SchemaCore()
 
             # Test metrics collection
-            with patch('prometheus_client.Counter.inc') as mock_counter:
-                component.process({'metrics_test': True})
+            with patch("prometheus_client.Counter.inc") as mock_counter:
+                component.process({"metrics_test": True})
 
                 # Verify metrics were recorded
                 mock_counter.assert_called()
@@ -235,24 +237,23 @@ class TestSchemaMonitoringIntegration:
         except ImportError:
             pytest.skip("Metrics integration not available")
 
+
 # Fixtures for integration testing
 @pytest.fixture(scope="module")
 def schema_component():
     """Fixture providing schema component for testing."""
     try:
         from schema import SchemaCore
+
         return SchemaCore()
     except ImportError:
         pytest.skip("SchemaCore not available")
+
 
 @pytest.fixture(scope="module")
 def test_data():
     """Fixture providing test data for schema integration tests."""
     return {
-        'test_input': {
-            'module': 'schema',
-            'test_type': 'integration',
-            'timestamp': '2025-01-01T00:00:00Z'
-        },
-        'expected_output_keys': ['result', 'status', 'timestamp']
+        "test_input": {"module": "schema", "test_type": "integration", "timestamp": "2025-01-01T00:00:00Z"},
+        "expected_output_keys": ["result", "status", "timestamp"],
     }

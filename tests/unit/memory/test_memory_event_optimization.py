@@ -16,7 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 import psutil
 import pytest
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
 from memory.memory_event import MemoryEvent, MemoryEventFactory
 
@@ -53,10 +53,7 @@ class TestMemoryEventOptimization:
         assert len(self.factory._drift_history) == 0
 
         # Create event with empty history
-        event = self.factory.create(
-            data={"test": "data"},
-            metadata={"affect_delta": 0.5}
-        )
+        event = self.factory.create(data={"test": "data"}, metadata={"affect_delta": 0.5})
 
         # Should not crash and should handle empty deque
         assert "driftTrend" in event.metadata["metrics"]
@@ -71,10 +68,7 @@ class TestMemoryEventOptimization:
             self.factory._drift_history.append(value)
 
         # Create event which will add one more value
-        event = self.factory.create(
-            data={"test": "data"},
-            metadata={"affect_delta": 0.6, "driftScore": 0.6}
-        )
+        event = self.factory.create(data={"test": "data"}, metadata={"affect_delta": 0.6, "driftScore": 0.6})
 
         # Should calculate trend from last 3 values: [0.4, 0.5, 0.6]
         expected_trend = (0.4 + 0.5 + 0.6) / 3
@@ -89,10 +83,7 @@ class TestMemoryEventOptimization:
 
         # Create many events to test memory bounds
         for i in range(10000):
-            self.factory.create(
-                data={"event": i},
-                metadata={"affect_delta": float(i % 100) / 100.0}
-            )
+            self.factory.create(data={"event": i}, metadata={"affect_delta": float(i % 100) / 100.0})
 
         # Force garbage collection
         gc.collect()
@@ -111,20 +102,14 @@ class TestMemoryEventOptimization:
         """Test event creation performance meets requirements"""
         # Warm up
         for _ in range(100):
-            self.factory.create(
-                data={"test": "data"},
-                metadata={"affect_delta": 0.5}
-            )
+            self.factory.create(data={"test": "data"}, metadata={"affect_delta": 0.5})
 
         # Measure performance
         start_time = time.time()
         event_count = 1000
 
         for i in range(event_count):
-            self.factory.create(
-                data={"event": i},
-                metadata={"affect_delta": float(i % 100) / 100.0}
-            )
+            self.factory.create(data={"event": i}, metadata={"affect_delta": float(i % 100) / 100.0})
 
         end_time = time.time()
         total_time = end_time - start_time
@@ -136,11 +121,11 @@ class TestMemoryEventOptimization:
     @pytest.mark.load
     def test_concurrent_event_creation(self):
         """Test thread-safe event creation under concurrent load"""
+
         def create_events(thread_id, event_count):
             for i in range(event_count):
                 self.factory.create(
-                    data={"thread": thread_id, "event": i},
-                    metadata={"affect_delta": float(i % 100) / 100.0}
+                    data={"thread": thread_id, "event": i}, metadata={"affect_delta": float(i % 100) / 100.0}
                 )
 
         # Run concurrent threads
@@ -193,10 +178,7 @@ class TestMemoryEventOptimization:
         for cycle in range(100):
             factory = MemoryEventFactory()
             for i in range(1000):
-                factory.create(
-                    data={"cycle": cycle, "event": i},
-                    metadata={"affect_delta": float(i % 100) / 100.0}
-                )
+                factory.create(data={"cycle": cycle, "event": i}, metadata={"affect_delta": float(i % 100) / 100.0})
             del factory
 
         # Force garbage collection
@@ -214,10 +196,7 @@ class TestMemoryEventOptimization:
 
         # Create extreme number of events
         for i in range(100000):
-            event = factory.create(
-                data={"stress_test": i},
-                metadata={"affect_delta": float(i % 1000) / 1000.0}
-            )
+            event = factory.create(data={"stress_test": i}, metadata={"affect_delta": float(i % 1000) / 1000.0})
 
             # Verify structure maintained
             assert "driftTrend" in event.metadata["metrics"]
@@ -225,10 +204,7 @@ class TestMemoryEventOptimization:
 
         # System should still be responsive
         start_time = time.time()
-        factory.create(
-            data={"final_test": True},
-            metadata={"affect_delta": 0.5}
-        )
+        factory.create(data={"final_test": True}, metadata={"affect_delta": 0.5})
         response_time = time.time() - start_time
 
         assert response_time < 0.01, f"System became unresponsive: {response_time:.3f}s"
@@ -236,15 +212,12 @@ class TestMemoryEventOptimization:
     def test_backward_compatibility(self):
         """Ensure optimization maintains API compatibility"""
         # Original API should still work
-        event = self.factory.create(
-            data={"test": "data"},
-            metadata={"affect_delta": 0.5}
-        )
+        event = self.factory.create(data={"test": "data"}, metadata={"affect_delta": 0.5})
 
         # Check return type and structure
         assert isinstance(event, MemoryEvent)
-        assert hasattr(event, 'data')
-        assert hasattr(event, 'metadata')
+        assert hasattr(event, "data")
+        assert hasattr(event, "metadata")
         assert "metrics" in event.metadata
         assert "driftTrend" in event.metadata["metrics"]
 
@@ -278,15 +251,9 @@ class TestMemoryEventIntegration:
         factory = MemoryEventFactory()
 
         # Create events that should trigger metrics calculations
-        event1 = factory.create(
-            data={"test": "data1"},
-            metadata={"affect_delta": 0.3}
-        )
+        event1 = factory.create(data={"test": "data1"}, metadata={"affect_delta": 0.3})
 
-        event2 = factory.create(
-            data={"test": "data2"},
-            metadata={"affect_delta": 0.7}
-        )
+        event2 = factory.create(data={"test": "data2"}, metadata={"affect_delta": 0.7})
 
         # Both events should have proper metrics
         for event in [event1, event2]:
@@ -301,10 +268,7 @@ class TestMemoryEventIntegration:
         # Create events with various drift patterns
         events = []
         for i in range(50):
-            event = factory.create(
-                data={"event": i},
-                metadata={"affect_delta": float(i % 10) / 10.0}
-            )
+            event = factory.create(data={"event": i}, metadata={"affect_delta": float(i % 10) / 10.0})
             events.append(event)
 
         # All events should be processable by Guardian

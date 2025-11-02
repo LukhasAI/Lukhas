@@ -21,25 +21,25 @@ DEDUPE_PLAN_PATH = INVENTORY_DIR / "dedupe_plan.json"
 
 # Normalized taxonomy paths (preferred locations)
 CANONICAL_PATHS = {
-    'api': 'docs/api/',
-    'architecture': 'docs/architecture/',
-    'guide': 'docs/guides/',
-    'report': 'docs/reports/',
-    'adr': 'docs/adr/',
-    'index': 'docs/reference/',
-    'misc': 'docs/',
+    "api": "docs/api/",
+    "architecture": "docs/architecture/",
+    "guide": "docs/guides/",
+    "report": "docs/reports/",
+    "adr": "docs/adr/",
+    "index": "docs/reference/",
+    "misc": "docs/",
 }
 
 # Index files that reference documents
 INDEX_FILES = [
-    'docs/INDEX.md',
-    'docs/reference/DOCUMENTATION_INDEX.md',
+    "docs/INDEX.md",
+    "docs/reference/DOCUMENTATION_INDEX.md",
 ]
 
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -49,8 +49,8 @@ def compute_text_similarity(text1: str, text2: str) -> float:
     Returns similarity score between 0 and 1.
     """
     # Tokenize and create word frequency vectors
-    words1 = re.findall(r'\w+', text1.lower())
-    words2 = re.findall(r'\w+', text2.lower())
+    words1 = re.findall(r"\w+", text1.lower())
+    words2 = re.findall(r"\w+", text2.lower())
 
     if not words1 or not words2:
         return 0.0
@@ -81,7 +81,7 @@ def read_doc_content(doc_path: str) -> str:
     """Read document content for similarity comparison."""
     try:
         full_path = Path(doc_path)
-        with open(full_path, 'r', encoding='utf-8') as f:
+        with open(full_path, "r", encoding="utf-8") as f:
             return f.read()
     except Exception:
         return ""
@@ -91,10 +91,10 @@ def is_referenced_by_index(doc_path: str) -> bool:
     """Check if document is referenced by any index file."""
     for index_file in INDEX_FILES:
         try:
-            with open(index_file, 'r', encoding='utf-8') as f:
+            with open(index_file, "r", encoding="utf-8") as f:
                 content = f.read()
                 # Check for relative path reference
-                if doc_path.replace('docs/', '') in content:
+                if doc_path.replace("docs/", "") in content:
                     return True
         except Exception:
             continue
@@ -107,8 +107,8 @@ def canonical_preference_score(doc: Dict) -> Tuple[int, int, int, str]:
     Returns tuple: (taxonomy_match, index_ref, fm_richness, -date)
     Higher is better.
     """
-    doc_path = doc['path']
-    doc_type = doc['type']
+    doc_path = doc["path"]
+    doc_type = doc["type"]
 
     # 1. Taxonomy path match
     taxonomy_score = 0
@@ -122,15 +122,15 @@ def canonical_preference_score(doc: Dict) -> Tuple[int, int, int, str]:
 
     # 3. Front-matter richness
     fm_score = 0
-    if doc['has_front_matter']:
+    if doc["has_front_matter"]:
         fm_score += 5
-        if doc['owner'] != 'unknown':
+        if doc["owner"] != "unknown":
             fm_score += 2
-        if doc.get('moved_to'):
+        if doc.get("moved_to"):
             fm_score -= 10  # Redirect stubs are less preferred
 
     # 4. Date (newer is better, use negative for reverse sort)
-    date_str = doc.get('updated_at', '2000-01-01')
+    date_str = doc.get("updated_at", "2000-01-01")
 
     return (taxonomy_score, index_score, fm_score, date_str)
 
@@ -151,7 +151,7 @@ def find_near_duplicates(docs: List[Dict], threshold: float = 0.92) -> List[List
     title_groups = defaultdict(list)
     for doc in docs:
         # Normalize title for grouping
-        normalized = re.sub(r'[^a-z0-9]', '', doc['title'].lower())
+        normalized = re.sub(r"[^a-z0-9]", "", doc["title"].lower())
         # Use first 20 chars as group key
         key = normalized[:20] if len(normalized) > 20 else normalized
         title_groups[key].append(doc)
@@ -162,24 +162,24 @@ def find_near_duplicates(docs: List[Dict], threshold: float = 0.92) -> List[List
             continue
 
         for i, doc1 in enumerate(group_docs):
-            if doc1['sha256'] in checked:
+            if doc1["sha256"] in checked:
                 continue
 
             similar_group = [doc1]
 
-            for doc2 in group_docs[i+1:]:
-                if doc2['sha256'] in checked:
+            for doc2 in group_docs[i + 1 :]:
+                if doc2["sha256"] in checked:
                     continue
 
                 # Compare titles with fuzzy matching
-                title_sim = compute_text_similarity(doc1['title'], doc2['title'])
+                title_sim = compute_text_similarity(doc1["title"], doc2["title"])
                 if title_sim >= 0.7:  # Lower threshold for titles
                     similar_group.append(doc2)
-                    checked.add(doc2['sha256'])
+                    checked.add(doc2["sha256"])
 
             if len(similar_group) > 1:
                 near_dupes.append(similar_group)
-                checked.add(doc1['sha256'])
+                checked.add(doc1["sha256"])
 
     return near_dupes
 
@@ -188,7 +188,7 @@ def create_dedupe_plan(manifest: Dict) -> Dict:
     """
     Create deduplication plan with canonical selections.
     """
-    docs = manifest['documents']
+    docs = manifest["documents"]
     plan = {
         "exact_duplicates": [],
         "near_duplicates": [],
@@ -197,35 +197,39 @@ def create_dedupe_plan(manifest: Dict) -> Dict:
     }
 
     # 1. Handle exact duplicates
-    exact_dupes = manifest['metrics']['exact_duplicate_groups']
+    exact_dupes = manifest["metrics"]["exact_duplicate_groups"]
     print(f"📋 Processing {len(exact_dupes)} exact duplicate groups...")
 
     for hash_val, paths in exact_dupes.items():
         # Get full doc info for each path
-        dupe_docs = [d for d in docs if d['path'] in paths]
+        dupe_docs = [d for d in docs if d["path"] in paths]
 
         # Sort by preference
         dupe_docs.sort(key=canonical_preference_score, reverse=True)
         canonical = dupe_docs[0]
         duplicates = dupe_docs[1:]
 
-        plan['exact_duplicates'].append({
-            "canonical": canonical['path'],
-            "duplicates": [d['path'] for d in duplicates],
-            "hash": hash_val,
-        })
+        plan["exact_duplicates"].append(
+            {
+                "canonical": canonical["path"],
+                "duplicates": [d["path"] for d in duplicates],
+                "hash": hash_val,
+            }
+        )
 
         # Create redirect actions
         for dup in duplicates:
-            plan['redirects'].append({
-                "from": dup['path'],
-                "to": canonical['path'],
-                "reason": "exact_duplicate",
-            })
+            plan["redirects"].append(
+                {
+                    "from": dup["path"],
+                    "to": canonical["path"],
+                    "reason": "exact_duplicate",
+                }
+            )
 
     # 2. Find and handle near-duplicates
     # Only check docs not already in exact duplicate groups
-    remaining_docs = [d for d in docs if d['sha256'] not in exact_dupes]
+    remaining_docs = [d for d in docs if d["sha256"] not in exact_dupes]
 
     near_dupes = find_near_duplicates(remaining_docs, threshold=0.92)
     print(f"📋 Found {len(near_dupes)} near-duplicate groups...")
@@ -236,18 +240,22 @@ def create_dedupe_plan(manifest: Dict) -> Dict:
         canonical = group[0]
         duplicates = group[1:]
 
-        plan['near_duplicates'].append({
-            "canonical": canonical['path'],
-            "duplicates": [d['path'] for d in duplicates],
-        })
+        plan["near_duplicates"].append(
+            {
+                "canonical": canonical["path"],
+                "duplicates": [d["path"] for d in duplicates],
+            }
+        )
 
         # For near-duplicates, suggest archival rather than redirect
         for dup in duplicates:
-            plan['moves_to_archive'].append({
-                "from": dup['path'],
-                "reason": "near_duplicate",
-                "canonical_alternative": canonical['path'],
-            })
+            plan["moves_to_archive"].append(
+                {
+                    "from": dup["path"],
+                    "reason": "near_duplicate",
+                    "canonical_alternative": canonical["path"],
+                }
+            )
 
     return plan
 
@@ -265,18 +273,18 @@ def write_redirects_md(plan: Dict):
         "|------|-----|--------|",
     ]
 
-    for redirect in plan['redirects']:
-        from_path = redirect['from'].replace('docs/', '')
-        to_path = redirect['to'].replace('docs/', '')
-        reason = redirect['reason']
+    for redirect in plan["redirects"]:
+        from_path = redirect["from"].replace("docs/", "")
+        to_path = redirect["to"].replace("docs/", "")
+        reason = redirect["reason"]
         content.append(f"| [{from_path}]({from_path}) | [{to_path}]({to_path}) | {reason} |")
 
     content.append("")
     content.append(f"**Total Redirects:** {len(plan['redirects'])}")
     content.append("")
 
-    with open(REDIRECTS_PATH, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(content))
+    with open(REDIRECTS_PATH, "w", encoding="utf-8") as f:
+        f.write("\n".join(content))
 
     print(f"✅ Redirects table written to {REDIRECTS_PATH}")
 
@@ -296,7 +304,7 @@ def main():
     plan = create_dedupe_plan(manifest)
 
     # Write plan
-    with open(DEDUPE_PLAN_PATH, 'w', encoding='utf-8') as f:
+    with open(DEDUPE_PLAN_PATH, "w", encoding="utf-8") as f:
         json.dump(plan, f, indent=2, ensure_ascii=False)
 
     print(f"✅ Dedupe plan written to {DEDUPE_PLAN_PATH}")
@@ -315,19 +323,19 @@ def main():
     print(f"Files to archive: {len(plan['moves_to_archive'])}")
     print()
 
-    if plan['exact_duplicates']:
+    if plan["exact_duplicates"]:
         print("Sample Exact Duplicates:")
-        for dupe in plan['exact_duplicates'][:3]:
+        for dupe in plan["exact_duplicates"][:3]:
             print(f"  Canonical: {dupe['canonical']}")
-            for dup_path in dupe['duplicates']:
+            for dup_path in dupe["duplicates"]:
                 print(f"    → {dup_path}")
             print()
 
-    if plan['near_duplicates']:
+    if plan["near_duplicates"]:
         print("Sample Near-Duplicates:")
-        for dupe in plan['near_duplicates'][:3]:
+        for dupe in plan["near_duplicates"][:3]:
             print(f"  Canonical: {dupe['canonical']}")
-            for dup_path in dupe['duplicates']:
+            for dup_path in dupe["duplicates"]:
                 print(f"    ≈ {dup_path}")
             print()
 
@@ -360,10 +368,10 @@ def apply_dedupe_plan():
         print("   Run: python3 scripts/docs_dedupe.py")
         return False
 
-    with open(DEDUPE_PLAN_PATH, 'r', encoding='utf-8') as f:
+    with open(DEDUPE_PLAN_PATH, "r", encoding="utf-8") as f:
         plan = json.load(f)
 
-    redirects = plan.get('redirects', [])
+    redirects = plan.get("redirects", [])
 
     if not redirects:
         print("ℹ️  No redirects to apply")
@@ -382,9 +390,9 @@ def apply_dedupe_plan():
     errors = []
 
     for redirect in redirects:
-        from_path = Path(redirect['from'])
-        to_path = Path(redirect['to'])
-        reason = redirect['reason']
+        from_path = Path(redirect["from"])
+        to_path = Path(redirect["to"])
+        reason = redirect["reason"]
 
         if not from_path.exists():
             errors.append(f"Source not found: {from_path}")
@@ -421,7 +429,7 @@ Please update your bookmarks.
 """
 
         try:
-            with open(from_path, 'w', encoding='utf-8') as f:
+            with open(from_path, "w", encoding="utf-8") as f:
                 f.write(redirect_content)
             redirects_created += 1
             print(f"🔀 Redirect created: {from_path} → {to_path}")
@@ -459,7 +467,7 @@ Please update your bookmarks.
 if __name__ == "__main__":
     import sys
 
-    if '--apply' in sys.argv:
+    if "--apply" in sys.argv:
         success = apply_dedupe_plan()
         sys.exit(0 if success else 1)
     else:

@@ -81,21 +81,12 @@ class LabsImportRewriter(cst.CSTTransformer):
         if not names:
             return updated_node
 
-        try_items = [
-            cst.parse_statement(
-                f"_mod = importlib.import_module({repr(module_code)})\n"
-            )
-        ]
+        try_items = [cst.parse_statement(f"_mod = importlib.import_module({repr(module_code)})\n")]
         for imported_name, alias in names:
             target = alias if alias else imported_name
-            try_items.append(
-                cst.parse_statement(f"{target} = getattr(_mod, {repr(imported_name)})\n")
-            )
+            try_items.append(cst.parse_statement(f"{target} = getattr(_mod, {repr(imported_name)})\n"))
 
-        except_items = [
-            cst.parse_statement(f"{alias if alias else name} = None\n")
-            for name, alias in names
-        ]
+        except_items = [cst.parse_statement(f"{alias if alias else name} = None\n") for name, alias in names]
 
         try_stmt = cst.Try(
             body=cst.IndentedBlock(try_items),

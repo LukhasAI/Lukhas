@@ -18,6 +18,7 @@ from pathlib import Path
 def load(path: Path) -> list[dict]:
     return json.loads(path.read_text(encoding="utf-8"))
 
+
 def counts_by_code(events: list[dict]) -> Counter:
     c = Counter()
     for e in events:
@@ -26,10 +27,11 @@ def counts_by_code(events: list[dict]) -> Counter:
             c[code] += 1
     return c
 
+
 def main():
     ap = argparse.ArgumentParser(description="Ruff ratchet: fail if tracked codes increase vs baseline.")
     ap.add_argument("--baseline", default="docs/audits/ruff_baseline.json")
-    ap.add_argument("--current",  default="docs/audits/ruff.json")
+    ap.add_argument("--current", default="docs/audits/ruff.json")
     ap.add_argument("--track", action="append", default=["F821"], help="Ruff code(s) to ratchet (repeatable).")
     ap.add_argument("--init", action="store_true", help="Create baseline from current and exit 0.")
     ap.add_argument("--write-baseline", action="store_true", help="Overwrite baseline with current counts.")
@@ -71,11 +73,12 @@ def main():
         print(f"[OK] Baseline updated: {base_path}")
 
     if bad:
-        print("[FAIL] Ratchet breached: " + ", ".join([f"{c} +{d}" for c,d in bad]))
+        print("[FAIL] Ratchet breached: " + ", ".join([f"{c} +{d}" for c, d in bad]))
         return 1
 
     print("[OK] Ratchet respected.")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

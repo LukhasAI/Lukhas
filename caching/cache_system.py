@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 try:
     import aioredis
     import redis.asyncio as redis
+
     REDIS_AVAILABLE = True
 except ImportError:
     REDIS_AVAILABLE = False
@@ -37,22 +38,25 @@ except ImportError:
 
 class CacheLevel(Enum):
     """Cache hierarchy levels."""
-    L1_MEMORY = "l1_memory"      # In-process memory cache
-    L2_REDIS = "l2_redis"        # Redis distributed cache
+
+    L1_MEMORY = "l1_memory"  # In-process memory cache
+    L2_REDIS = "l2_redis"  # Redis distributed cache
     L3_PERSISTENT = "l3_persistent"  # Persistent storage cache
 
 
 class CacheStrategy(Enum):
     """Cache replacement strategies."""
-    LRU = "lru"                  # Least Recently Used
-    LFU = "lfu"                  # Least Frequently Used
-    FIFO = "fifo"                # First In, First Out
-    TTL = "ttl"                  # Time To Live based
-    ADAPTIVE = "adaptive"         # Adaptive based on access patterns
+
+    LRU = "lru"  # Least Recently Used
+    LFU = "lfu"  # Least Frequently Used
+    FIFO = "fifo"  # First In, First Out
+    TTL = "ttl"  # Time To Live based
+    ADAPTIVE = "adaptive"  # Adaptive based on access patterns
 
 
 class CacheEventType(Enum):
     """Cache event types for monitoring."""
+
     HIT = "hit"
     MISS = "miss"
     SET = "set"
@@ -209,10 +213,7 @@ class CacheStatistics:
             "hit_ratio": self.hit_ratio,
             "memory_usage_bytes": self.memory_usage_bytes,
             "entry_count": self.entry_count,
-            "requests_per_second": len([
-                t for t in self.recent_requests
-                if time.time() - t < 1.0
-            ])
+            "requests_per_second": len([t for t in self.recent_requests if time.time() - t < 1.0]),
         }
 
 
@@ -258,10 +259,7 @@ class CacheBackend(ABC):
 class MemoryCacheBackend(CacheBackend):
     """In-memory cache backend with configurable eviction strategies."""
 
-    def __init__(self,
-                 max_size: int = 1000,
-                 default_ttl: int = 300,
-                 strategy: CacheStrategy = CacheStrategy.LRU):
+    def __init__(self, max_size: int = 1000, default_ttl: int = 300, strategy: CacheStrategy = CacheStrategy.LRU):
         self.max_size = max_size
         self.default_ttl = default_ttl
         self.strategy = strategy
@@ -319,7 +317,7 @@ class MemoryCacheBackend(CacheBackend):
             last_accessed=current_time,
             access_count=1,
             ttl_seconds=ttl_seconds,
-            size_bytes=size_bytes
+            size_bytes=size_bytes,
         )
 
         # Check if we need to evict
@@ -424,10 +422,7 @@ class MemoryCacheBackend(CacheBackend):
 
         elif self.strategy == CacheStrategy.FIFO:
             # Evict oldest entries
-            sorted_entries = sorted(
-                self.entries.items(),
-                key=lambda x: x[1].created_at
-            )
+            sorted_entries = sorted(self.entries.items(), key=lambda x: x[1].created_at)
             for key, _ in sorted_entries[:count]:
                 await self.delete(key)
                 evicted += 1
@@ -437,7 +432,7 @@ class MemoryCacheBackend(CacheBackend):
             current_time = time.time()
             sorted_entries = sorted(
                 self.entries.items(),
-                key=lambda x: (x[1].created_at + (x[1].ttl_seconds or 0)) if x[1].ttl_seconds else float('inf')
+                key=lambda x: (x[1].created_at + (x[1].ttl_seconds or 0)) if x[1].ttl_seconds else float("inf"),
             )
             for key, _ in sorted_entries[:count]:
                 await self.delete(key)
@@ -448,10 +443,7 @@ class MemoryCacheBackend(CacheBackend):
     async def _clean_expired(self) -> None:
         """Clean expired entries."""
         current_time = time.time()
-        expired_keys = [
-            key for key, entry in self.entries.items()
-            if entry.is_expired(current_time)
-        ]
+        expired_keys = [key for key, entry in self.entries.items() if entry.is_expired(current_time)]
 
         for key in expired_keys:
             await self.delete(key)
@@ -459,9 +451,7 @@ class MemoryCacheBackend(CacheBackend):
     def _update_statistics(self) -> None:
         """Update cache statistics."""
         self.statistics.entry_count = len(self.entries)
-        self.statistics.memory_usage_bytes = sum(
-            entry.size_bytes for entry in self.entries.values()
-        )
+        self.statistics.memory_usage_bytes = sum(entry.size_bytes for entry in self.entries.values())
 
 
 class RedisCacheBackend(CacheBackend):
@@ -487,7 +477,7 @@ class RedisCacheBackend(CacheBackend):
                 password=self.config.redis_password,
                 ssl=self.config.redis_ssl,
                 max_connections=self.config.redis_max_connections,
-                decode_responses=False  # We handle serialization ourselves
+                decode_responses=False,  # We handle serialization ourselves
             )
 
             # Test connection
@@ -630,8 +620,7 @@ class RedisCacheBackend(CacheBackend):
         data = serializer(value)
 
         # Compress if enabled and data is large enough
-        if (self.config.compression_enabled and
-            len(data) > self.config.compression_threshold):
+        if self.config.compression_enabled and len(data) > self.config.compression_threshold:
             data = zlib.compress(data)
             # Add compression marker
             data = b"COMPRESSED:" + data
@@ -658,9 +647,7 @@ class HierarchicalCacheManager:
 
         # Initialize cache levels
         self.l1_cache = MemoryCacheBackend(
-            max_size=config.l1_max_size,
-            default_ttl=config.l1_ttl_seconds,
-            strategy=config.l1_strategy
+            max_size=config.l1_max_size, default_ttl=config.l1_ttl_seconds, strategy=config.l1_strategy
         )
 
         self.l2_cache: Optional[RedisCacheBackend] = None
@@ -678,6 +665,7 @@ class HierarchicalCacheManager:
         # Telemetry integration
         try:
             from observability.telemetry_system import get_telemetry
+
             self.telemetry = get_telemetry()
         except ImportError:
             self.telemetry = None
@@ -792,11 +780,9 @@ class HierarchicalCacheManager:
         return invalidated
 
     @asynccontextmanager
-    async def cached_operation(self,
-                              cache_key: str,
-                              operation: Callable,
-                              ttl_seconds: Optional[int] = None,
-                              force_refresh: bool = False):
+    async def cached_operation(
+        self, cache_key: str, operation: Callable, ttl_seconds: Optional[int] = None, force_refresh: bool = False
+    ):
         """Context manager for cached operations."""
 
         # Check cache first (unless force refresh)
@@ -878,7 +864,7 @@ class HierarchicalCacheManager:
         stats["warming"] = {
             "enabled": self.warming_enabled,
             "candidates": len(self.warming_candidates),
-            "task_active": self.warming_task is not None and not self.warming_task.done()
+            "task_active": self.warming_task is not None and not self.warming_task.done(),
         }
 
         return stats
@@ -897,16 +883,13 @@ class HierarchicalCacheManager:
                 "connected_clients": info.get("connected_clients", 0),
                 "total_commands_processed": info.get("total_commands_processed", 0),
                 "keyspace_hits": info.get("keyspace_hits", 0),
-                "keyspace_misses": info.get("keyspace_misses", 0)
+                "keyspace_misses": info.get("keyspace_misses", 0),
             }
         except Exception as e:
             logger.error(f"Failed to get Redis info: {e}")
             return {"error": str(e)}
 
-    def _emit_cache_event(self,
-                         event_type: CacheEventType,
-                         key: str,
-                         level: Optional[CacheLevel] = None) -> None:
+    def _emit_cache_event(self, event_type: CacheEventType, key: str, level: Optional[CacheLevel] = None) -> None:
         """Emit cache event for monitoring."""
 
         if self.telemetry:
@@ -914,18 +897,12 @@ class HierarchicalCacheManager:
                 component="cache_manager",
                 event_type=f"cache_{event_type.value}",
                 message=f"Cache {event_type.value} for key: {key}",
-                data={
-                    "key": key,
-                    "cache_level": level.value if level else None,
-                    "event_type": event_type.value
-                }
+                data={"key": key, "cache_level": level.value if level else None, "event_type": event_type.value},
             )
 
             # Emit metrics
             self.telemetry.emit_metric(
-                component="cache_manager",
-                metric_name=f"cache_{event_type.value}_total",
-                value=1.0
+                component="cache_manager", metric_name=f"cache_{event_type.value}_total", value=1.0
             )
 
     async def _cache_warming_loop(self) -> None:
@@ -939,7 +916,7 @@ class HierarchicalCacheManager:
                     continue
 
                 # Process warming candidates in batches
-                candidates = list(self.warming_candidates)[:self.config.warming_batch_size]
+                candidates = list(self.warming_candidates)[: self.config.warming_batch_size]
                 self.warming_candidates -= set(candidates)
 
                 logger.info(f"Processing {len(candidates)} cache warming candidates")
@@ -1026,11 +1003,7 @@ if __name__ == "__main__":
     async def demo_caching():
 
         # Create cache manager
-        config = CacheConfig(
-            l1_max_size=100,
-            l1_ttl_seconds=300,
-            warming_enabled=True
-        )
+        config = CacheConfig(l1_max_size=100, l1_ttl_seconds=300, warming_enabled=True)
 
         cache_manager = HierarchicalCacheManager(config)
         await cache_manager.initialize()
@@ -1043,7 +1016,7 @@ if __name__ == "__main__":
         # Cached operation
         async def expensive_computation(x):
             await asyncio.sleep(0.1)  # Simulate expensive operation
-            return x ** 2
+            return x**2
 
         async with cache_manager.cached_operation("compute:5", lambda: expensive_computation(5)):
             pass

@@ -25,10 +25,7 @@ class TestProductsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "products",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "products", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestProductsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import products
+
         self.assertIsNotNone(products)
 
     def test_module_version(self):
         """Test module has version information."""
         import products
+
         # Most modules should have version info
-        self.assertTrue(hasattr(products, '__version__') or
-                       hasattr(products, 'VERSION'))
+        self.assertTrue(hasattr(products, "__version__") or hasattr(products, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestTestResult(unittest.TestCase):
         """Test TestResult can be imported."""
         try:
             from products.SMOKE_TEST import TestResult
+
             self.assertIsNotNone(TestResult)
         except ImportError:
             pytest.skip("Component TestResult not available")
@@ -97,6 +96,7 @@ class Testmain(unittest.TestCase):
         """Test main can be imported."""
         try:
             from products.SMOKE_TEST import main
+
             self.assertIsNotNone(main)
         except ImportError:
             pytest.skip("Component main not available")
@@ -114,6 +114,7 @@ class Testprint_results(unittest.TestCase):
         """Test print_results can be imported."""
         try:
             from products.SMOKE_TEST import print_results
+
             self.assertIsNotNone(print_results)
         except ImportError:
             pytest.skip("Component print_results not available")
@@ -122,7 +123,6 @@ class Testprint_results(unittest.TestCase):
         """Test print_results can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

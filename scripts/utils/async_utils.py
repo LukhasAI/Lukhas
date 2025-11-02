@@ -1,4 +1,5 @@
 """Async utilities bridge."""
+
 from __future__ import annotations
 
 import asyncio
@@ -15,6 +16,7 @@ except Exception:
     async def await_with_timeout(coro: Awaitable[T], timeout: float) -> T:
         """Wait for coroutine with timeout."""
         return await asyncio.wait_for(coro, timeout=timeout)
+
 else:
     await_with_timeout = _candidate_await_with_timeout
 

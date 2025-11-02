@@ -83,7 +83,7 @@ def extract_slo_data(manifest: Dict, module_name: str, tags: List[str]) -> Tuple
         "observed_p95": observed.get("latency_p95_ms"),
         "observed_at": observed.get("observed_at"),
         "coverage_target": (manifest.get("testing", {}) or {}).get("coverage_target"),
-        "coverage_observed": (manifest.get("testing", {}) or {}).get("coverage_observed")
+        "coverage_observed": (manifest.get("testing", {}) or {}).get("coverage_observed"),
     }
 
     # Calculate violations
@@ -153,7 +153,7 @@ def generate_dashboard(registry_path: Path, verbose: bool = False) -> str:
         "## Summary",
         "",
         "| Module | Lane | Target p95 (ms) | Observed p95 (ms) | Coverage Target | Coverage Observed | Freshness (days) | Status |",
-        "|--------|------|----------------:|------------------:|----------------:|------------------:|-----------------:|:------:|"
+        "|--------|------|----------------:|------------------:|----------------:|------------------:|-----------------:|:------:|",
     ]
 
     for slo in slo_data:
@@ -172,11 +172,7 @@ def generate_dashboard(registry_path: Path, verbose: bool = False) -> str:
     # Violations section
     violated = [s for s in slo_data if s["violations"]]
     if violated:
-        md_lines.extend([
-            "",
-            "## Violations",
-            ""
-        ])
+        md_lines.extend(["", "## Violations", ""])
 
         for slo in violated:
             md_lines.append(f"### `{slo['module']}`")
@@ -199,14 +195,8 @@ def generate_dashboard(registry_path: Path, verbose: bool = False) -> str:
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Generate SLO dashboard from manifest performance data"
-    )
-    ap.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Show detailed progress"
-    )
+    ap = argparse.ArgumentParser(description="Generate SLO dashboard from manifest performance data")
+    ap.add_argument("--verbose", action="store_true", help="Show detailed progress")
     args = ap.parse_args()
 
     try:

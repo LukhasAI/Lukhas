@@ -11,6 +11,7 @@ Core Principles:
 - Emotional Context: Each memory carries emotional state vectors
 - Privacy-First: Encrypted storage with differential privacy
 """
+
 from __future__ import annotations
 
 import hashlib

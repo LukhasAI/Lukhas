@@ -27,8 +27,8 @@ def hash_contract(contract_data: Dict[str, Any]) -> str:
         Hexadecimal SHA256 hash string
     """
     # Create deterministic JSON string (sorted keys, no whitespace)
-    contract_json = json.dumps(contract_data, sort_keys=True, separators=(',', ':'))
-    return hashlib.sha256(contract_json.encode('utf-8')).hexdigest()
+    contract_json = json.dumps(contract_data, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(contract_json.encode("utf-8")).hexdigest()
 
 
 def generate_mock_txid(contract_hash: str, network: str = "solana") -> str:
@@ -47,7 +47,7 @@ def generate_mock_txid(contract_hash: str, network: str = "solana") -> str:
         "ethereum": "ETH_MOCK_",
         "polygon": "MATIC_MOCK_",
         "base": "BASE_MOCK_",
-        "arbitrum": "ARB_MOCK_"
+        "arbitrum": "ARB_MOCK_",
     }
 
     prefix = network_prefixes.get(network.lower(), "MOCK_")
@@ -71,20 +71,17 @@ def generate_mock_block_info(contract_hash: str, network: str = "solana") -> Dic
     if network.lower() == "solana":
         return {
             "slot": 200000000 + (hash_int % 1000000),  # Mock Solana slot
-            "blockhash": f"MOCK_BLOCK_{contract_hash[:16].upper()}"
+            "blockhash": f"MOCK_BLOCK_{contract_hash[:16].upper()}",
         }
     else:
         return {
             "block_number": 18000000 + (hash_int % 1000000),  # Mock EVM block
-            "block_hash": f"0xMOCK{contract_hash[:56]}"
+            "block_hash": f"0xMOCK{contract_hash[:56]}",
         }
 
 
 def create_anchor_artifact(
-    contract_path: Path,
-    contract_data: Dict[str, Any],
-    network: str = "solana",
-    devnet: bool = True
+    contract_path: Path, contract_data: Dict[str, Any], network: str = "solana", devnet: bool = True
 ) -> Dict[str, Any]:
     """
     Create tokenization anchor artifact for a Matrix contract.
@@ -128,8 +125,8 @@ def create_anchor_artifact(
             "anchor_digest": f"sha256:{contract_hash}",
             "issuer": "lukhas:matrix:sandbox",
             "policy_version": "v3.0.0",
-            "note": f"Mock {network} anchor for sandbox validation"
-        }
+            "note": f"Mock {network} anchor for sandbox validation",
+        },
     }
 
     return artifact
@@ -145,37 +142,24 @@ Examples:
   python3 tools/matrix_tokenize.py --contract contracts/matrix_memoria.json
   python3 tools/matrix_tokenize.py --contract contracts/matrix_identity.json --network ethereum
   python3 tools/matrix_tokenize.py --contract contracts/matrix_governance.json --output artifacts/gov_anchor.json
-        """
+        """,
     )
 
-    parser.add_argument(
-        "--contract",
-        type=Path,
-        required=True,
-        help="Path to the Matrix contract to tokenize"
-    )
+    parser.add_argument("--contract", type=Path, required=True, help="Path to the Matrix contract to tokenize")
     parser.add_argument(
         "--output",
         type=Path,
         default=Path("artifacts/token_anchor.json"),
-        help="Output path for anchor artifact (default: artifacts/token_anchor.json)"
+        help="Output path for anchor artifact (default: artifacts/token_anchor.json)",
     )
     parser.add_argument(
         "--network",
         choices=["solana", "ethereum", "polygon", "base", "arbitrum"],
         default="solana",
-        help="Target blockchain network (default: solana)"
+        help="Target blockchain network (default: solana)",
     )
-    parser.add_argument(
-        "--mainnet",
-        action="store_true",
-        help="Use mainnet instead of devnet/testnet"
-    )
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Show verbose output"
-    )
+    parser.add_argument("--mainnet", action="store_true", help="Use mainnet instead of devnet/testnet")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Show verbose output")
 
     args = parser.parse_args()
 
@@ -186,7 +170,7 @@ Examples:
 
     try:
         # Load contract
-        with open(args.contract, 'r', encoding='utf-8') as f:
+        with open(args.contract, "r", encoding="utf-8") as f:
             contract_data = json.load(f)
 
         if args.verbose:
@@ -195,20 +179,15 @@ Examples:
             print(f"🔧 Mode: {'mainnet' if args.mainnet else 'devnet/testnet'}")
 
         # Create anchor artifact
-        artifact = create_anchor_artifact(
-            args.contract,
-            contract_data,
-            args.network,
-            devnet=not args.mainnet
-        )
+        artifact = create_anchor_artifact(args.contract, contract_data, args.network, devnet=not args.mainnet)
 
         # Ensure output directory exists
         args.output.parent.mkdir(parents=True, exist_ok=True)
 
         # Write artifact
-        with open(args.output, 'w', encoding='utf-8') as f:
+        with open(args.output, "w", encoding="utf-8") as f:
             json.dump(artifact, f, indent=2)
-            f.write('\n')
+            f.write("\n")
 
         if args.verbose:
             print(f"🔗 Generated anchor: {artifact['txid']}")

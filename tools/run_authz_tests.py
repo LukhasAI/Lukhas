@@ -37,7 +37,7 @@ class AuthzTestRunner:
         """Load authorization test matrix from YAML or JSON file."""
         try:
             with open(matrix_path) as f:
-                if matrix_path.suffix.lower() == '.yaml' or matrix_path.suffix.lower() == '.yml':
+                if matrix_path.suffix.lower() == ".yaml" or matrix_path.suffix.lower() == ".yml":
                     return yaml.safe_load(f)
                 else:
                     return json.load(f)
@@ -50,7 +50,7 @@ class AuthzTestRunner:
         contract_paths = [
             Path(f"{module}/matrix_{module}.json"),
             Path(f"matrix_{module}.json"),
-            Path("memory/matrix_memoria.json") if module == "memoria" else None
+            Path("memory/matrix_memoria.json") if module == "memoria" else None,
         ]
 
         for path in contract_paths:
@@ -64,18 +64,18 @@ class AuthzTestRunner:
         """Run single test case against OPA policy."""
         try:
             # Create temporary input file
-            with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
                 json.dump({"input": test_input}, f)
                 input_file = f.name
 
             try:
                 # Call OPA eval
-                result = subprocess.run([
-                    "opa", "eval",
-                    "-d", "policies/matrix",
-                    "-i", input_file,
-                    "data.matrix.authz.allow"
-                ], capture_output=True, text=True, timeout=5.0)
+                result = subprocess.run(
+                    ["opa", "eval", "-d", "policies/matrix", "-i", input_file, "data.matrix.authz.allow"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5.0,
+                )
 
                 if result.returncode == 0:
                     opa_output = json.loads(result.stdout)
@@ -107,17 +107,14 @@ class AuthzTestRunner:
         """Simulate policy decision when OPA unavailable."""
         try:
             from matrix_authz_middleware import MatrixAuthzMiddleware
+
             middleware = MatrixAuthzMiddleware()
             result = middleware._fallback_policy_simulation(opa_input)
             return result.get("allow", False), result.get("reason", "Simulation")
         except Exception as e:
             return False, f"Simulation error: {e}"
 
-    def build_opa_input(
-        self,
-        test_case: Dict[str, Any],
-        contract: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    def build_opa_input(self, test_case: Dict[str, Any], contract: Dict[str, Any]) -> Dict[str, Any]:
         """Build OPA input from test case and contract."""
         test_input = test_case["input"]
 
@@ -133,7 +130,7 @@ class AuthzTestRunner:
             "token": {
                 "exp": test_input.get("token", {}).get("exp", int(1758894061)),  # Future expiry by default
                 "iat": test_input.get("token", {}).get("iat", int(1758892261)),  # Recent issue by default
-                "aud": test_input.get("token", {}).get("aud", "lukhas-matrix")   # Default audience
+                "aud": test_input.get("token", {}).get("aud", "lukhas-matrix"),  # Default audience
             },
             "env": {
                 "mfa": test_input.get("env", {}).get("mfa", False),
@@ -141,17 +138,13 @@ class AuthzTestRunner:
                 "device_id": None,
                 "region": "us-west-2",
                 "ip": "192.168.1.100",
-                "time": int(1758892261)
-            }
+                "time": int(1758892261),
+            },
         }
 
         return opa_input
 
-    async def run_test_case(
-        self,
-        test_case: Dict[str, Any],
-        contract: Dict[str, Any]
-    ) -> Tuple[bool, str]:
+    async def run_test_case(self, test_case: Dict[str, Any], contract: Dict[str, Any]) -> Tuple[bool, str]:
         """Run single test case."""
         test_name = test_case["name"]
         expected = test_case["expected"]
@@ -303,4 +296,5 @@ async def main():
 
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(main())

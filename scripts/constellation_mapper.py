@@ -25,7 +25,7 @@ class ConstellationMapper:
         """Extract import dependencies from a Python file"""
         imports = set()
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -74,13 +74,11 @@ class ConstellationMapper:
                 "imports": list(imports),
                 "consciousness_imports": list(consciousness_imports),
                 "import_count": len(imports),
-                "consciousness_import_count": len(consciousness_imports)
+                "consciousness_import_count": len(consciousness_imports),
             }
 
             # Add to graph
-            self.graph.add_node(component_id,
-                               file_path=str(py_file),
-                               import_count=len(imports))
+            self.graph.add_node(component_id, file_path=str(py_file), import_count=len(imports))
 
             # Add edges for consciousness dependencies
             for dep in consciousness_imports:
@@ -101,7 +99,7 @@ class ConstellationMapper:
             cluster_analysis = {
                 "total_clusters": len(clusters),
                 "largest_cluster_size": max(len(c) for c in clusters) if clusters else 0,
-                "clusters": []
+                "clusters": [],
             }
 
             for i, cluster in enumerate(clusters, 1):
@@ -110,7 +108,7 @@ class ConstellationMapper:
                     "size": len(cluster),
                     "components": list(cluster),
                     "internal_edges": 0,
-                    "external_edges": 0
+                    "external_edges": 0,
                 }
 
                 # Count internal vs external edges
@@ -160,17 +158,16 @@ class ConstellationMapper:
                         "in_degree_centrality": in_degree_centrality.get(node, 0),
                         "out_degree_centrality": out_degree_centrality.get(node, 0),
                         "pagerank": pagerank.get(node, 0),
-                        "total_connections": self.graph.degree(node)
+                        "total_connections": self.graph.degree(node),
                     }
 
             # Sort by PageRank
-            sorted_components = sorted(centrality_metrics.items(),
-                                     key=lambda x: x[1]["pagerank"], reverse=True)
+            sorted_components = sorted(centrality_metrics.items(), key=lambda x: x[1]["pagerank"], reverse=True)
 
             return {
                 "total_components": len(centrality_metrics),
                 "top_central_components": sorted_components[:20],
-                "metrics": centrality_metrics
+                "metrics": centrality_metrics,
             }
 
         except Exception as e:
@@ -185,7 +182,7 @@ class ConstellationMapper:
             "dream_components": [],
             "trinity_components": [],
             "high_coupling_components": [],
-            "isolated_components": []
+            "isolated_components": [],
         }
 
         for component_id, info in component_deps.items():
@@ -231,7 +228,7 @@ class ConstellationMapper:
             "centrality_analysis": {},
             "architectural_patterns": {},
             "graph_statistics": {},
-            "recommendations": []
+            "recommendations": [],
         }
 
         print("Analyzing consciousness component dependencies...")
@@ -260,23 +257,35 @@ class ConstellationMapper:
             "total_edges": self.graph.number_of_edges(),
             "density": nx.density(self.graph),
             "is_connected": nx.is_weakly_connected(self.graph),
-            "number_of_weakly_connected_components": nx.number_weakly_connected_components(self.graph)
+            "number_of_weakly_connected_components": nx.number_weakly_connected_components(self.graph),
         }
 
         # System overview
         results["system_overview"] = {
             "total_consciousness_files": len(component_deps),
-            "components_with_dependencies": len([c for c in component_deps.values() if c["consciousness_import_count"] > 0]),
-            "average_dependencies_per_component": sum(c["consciousness_import_count"] for c in component_deps.values()) / len(component_deps) if component_deps else 0,
-            "most_connected_component": centrality.get("top_central_components", [{}])[0] if centrality.get("top_central_components") else None
+            "components_with_dependencies": len(
+                [c for c in component_deps.values() if c["consciousness_import_count"] > 0]
+            ),
+            "average_dependencies_per_component": (
+                sum(c["consciousness_import_count"] for c in component_deps.values()) / len(component_deps)
+                if component_deps
+                else 0
+            ),
+            "most_connected_component": (
+                centrality.get("top_central_components", [{}])[0] if centrality.get("top_central_components") else None
+            ),
         }
 
         # Generate recommendations
         if patterns.get("isolated_components_count", 0) > 50:
-            results["recommendations"].append("High number of isolated components suggests potential for better integration")
+            results["recommendations"].append(
+                "High number of isolated components suggests potential for better integration"
+            )
 
         if results["graph_statistics"]["density"] < 0.1:
-            results["recommendations"].append("Low graph density suggests loose coupling - consider architectural bridges")
+            results["recommendations"].append(
+                "Low graph density suggests loose coupling - consider architectural bridges"
+            )
 
         if clusters.get("total_clusters", 0) > 10:
             results["recommendations"].append("Multiple clusters detected - consider constellation-based organization")
@@ -295,14 +304,14 @@ class ConstellationMapper:
         # Export as JSON for web visualization
         graph_data = nx.node_link_data(self.graph)
         json_path = output_dir / "consciousness_constellation.json"
-        with open(json_path, 'w') as f:
+        with open(json_path, "w") as f:
             json.dump(graph_data, f, indent=2)
 
         return {
             "graphml_exported": str(graphml_path),
             "json_exported": str(json_path),
             "nodes": self.graph.number_of_nodes(),
-            "edges": self.graph.number_of_edges()
+            "edges": self.graph.number_of_edges(),
         }
 
 
@@ -321,7 +330,9 @@ def main():
     print("System Overview:")
     print(f"  Total consciousness files: {results['system_overview']['total_consciousness_files']}")
     print(f"  Components with dependencies: {results['system_overview']['components_with_dependencies']}")
-    print(f"  Average dependencies per component: {results['system_overview']['average_dependencies_per_component']:.1f}")
+    print(
+        f"  Average dependencies per component: {results['system_overview']['average_dependencies_per_component']:.1f}"
+    )
 
     print("\nGraph Statistics:")
     print(f"  Nodes: {results['graph_statistics']['total_nodes']}")
@@ -330,19 +341,19 @@ def main():
     print(f"  Connected: {results['graph_statistics']['is_connected']}")
 
     print("\nConstellation Clusters:")
-    if results['constellation_clusters'].get('clusters'):
+    if results["constellation_clusters"].get("clusters"):
         print(f"  Total clusters: {results['constellation_clusters']['total_clusters']}")
         print(f"  Largest cluster: {results['constellation_clusters']['largest_cluster_size']} components")
 
-        top_clusters = results['constellation_clusters']['clusters'][:5]
+        top_clusters = results["constellation_clusters"]["clusters"][:5]
         for i, cluster in enumerate(top_clusters, 1):
             print(f"    Cluster {i}: {cluster['size']} components")
 
     print("\nArchitectural Patterns:")
-    patterns = results['architectural_patterns']
+    patterns = results["architectural_patterns"]
     for pattern_name, count in patterns.items():
-        if pattern_name.endswith('_count'):
-            clean_name = pattern_name.replace('_count', '').replace('_', ' ').title()
+        if pattern_name.endswith("_count"):
+            clean_name = pattern_name.replace("_count", "").replace("_", " ").title()
             print(f"  {clean_name}: {count}")
 
     if results["recommendations"]:

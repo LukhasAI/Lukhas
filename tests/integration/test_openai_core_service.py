@@ -2,8 +2,5 @@
 
 
 def test_openai_core_service_module_imports():
-    mod = __import__(
-        "matriz.consciousness.reflection.openai_core_service", fromlist=["*"]
-    )
+    mod = __import__("matriz.consciousness.reflection.openai_core_service", fromlist=["*"])
     assert mod is not None
-

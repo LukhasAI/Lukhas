@@ -4,6 +4,7 @@ This shim avoids importing `labs.governance` at import time to respect lane
 boundaries. If attributes are accessed that aren't provided by the primary
 `governance` package, they are lazily resolved from `labs.governance`.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -12,6 +13,7 @@ from typing import Any
 # Prefer the top-level governance package if available (no labs edge)
 try:  # pragma: no cover - import-time availability
     from governance import *  # type: ignore  # noqa: F403,F401
+
     _HAS_PRIMARY = True
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False

@@ -1,4 +1,5 @@
 """Bridge: orchestration.providers.openai_modulated_service (syntax error stub)."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates, deprecate, safe_guard
@@ -15,6 +16,7 @@ except SyntaxError:
     # candidate file has syntax error; provide no-op stub
     __all__ = []
     import warnings
+
     warnings.warn(
         f"{__name__}: backend has syntax error; using no-op stub",
         UserWarning,

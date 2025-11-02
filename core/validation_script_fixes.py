@@ -69,10 +69,7 @@ def fix_validation_script():
     )
 
     # 5. Add necessary imports for ReasoningColony if not present
-    if (
-        "ReasoningColony" in content
-        and "from core.colonies.reasoning_colony import ReasoningColony" not in content
-    ):
+    if "ReasoningColony" in content and "from core.colonies.reasoning_colony import ReasoningColony" not in content:
         # Add import after the existing imports
         import_section = content.find("from core.integrated_system")
         if import_section != -1:

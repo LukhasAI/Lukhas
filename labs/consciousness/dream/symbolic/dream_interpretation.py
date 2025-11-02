@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class InterpretationMethod(Enum):
     """Methods for dream interpretation."""
+
     SYMBOLIC_ANALYSIS = "symbolic_analysis"
     NARRATIVE_RECONSTRUCTION = "narrative_reconstruction"
     EMOTIONAL_MAPPING = "emotional_mapping"
@@ -26,6 +27,7 @@ class InterpretationMethod(Enum):
 
 class InterpretationDepth(Enum):
     """Depth levels for interpretation analysis."""
+
     SURFACE = "surface"
     MEANINGFUL = "meaningful"
     PROFOUND = "profound"
@@ -34,6 +36,7 @@ class InterpretationDepth(Enum):
 
 class InterpretationConfidence(Enum):
     """Confidence levels for interpretation results."""
+
     LOW = "low"
     MODERATE = "moderate"
     HIGH = "high"
@@ -57,41 +60,43 @@ class DreamInterpretationEngine:
                 "focus": "symbolic_content",
                 "depth_weight": 0.9,
                 "constellation_emphasis": True,
-                "confidence_threshold": 0.8
+                "confidence_threshold": 0.8,
             },
             InterpretationMethod.NARRATIVE_RECONSTRUCTION.value: {
                 "focus": "story_structure",
                 "depth_weight": 0.7,
                 "constellation_emphasis": False,
-                "confidence_threshold": 0.6
+                "confidence_threshold": 0.6,
             },
             InterpretationMethod.EMOTIONAL_MAPPING.value: {
                 "focus": "emotional_content",
                 "depth_weight": 0.6,
                 "constellation_emphasis": False,
-                "confidence_threshold": 0.7
+                "confidence_threshold": 0.7,
             },
             InterpretationMethod.ARCHETYPAL_RESONANCE.value: {
                 "focus": "archetypal_patterns",
                 "depth_weight": 0.8,
                 "constellation_emphasis": True,
-                "confidence_threshold": 0.75
+                "confidence_threshold": 0.75,
             },
             InterpretationMethod.TRINITY_INTEGRATION.value: {
                 "focus": "constellation_framework",
                 "depth_weight": 1.0,
                 "constellation_emphasis": True,
-                "confidence_threshold": 0.9
+                "confidence_threshold": 0.9,
             },
             InterpretationMethod.CONSCIOUSNESS_ALIGNMENT.value: {
                 "focus": "consciousness_integration",
                 "depth_weight": 0.85,
                 "constellation_emphasis": True,
-                "confidence_threshold": 0.8
-            }
+                "confidence_threshold": 0.8,
+            },
         }
 
-    def interpret_dream(self, dream_data: dict[str, Any], method: InterpretationMethod = InterpretationMethod.TRINITY_INTEGRATION) -> str:
+    def interpret_dream(
+        self, dream_data: dict[str, Any], method: InterpretationMethod = InterpretationMethod.TRINITY_INTEGRATION
+    ) -> str:
         """⚛️ Interpret dream while preserving authentic consciousness meaning."""
         self.interpretation_counter += 1
         interpretation_id = f"interpret_{self.interpretation_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -103,19 +108,21 @@ class DreamInterpretationEngine:
             "method": method.value,
             "dream_data": dream_data,
             "started_at": datetime.now(timezone.utc).isoformat(),
-            "status": "initiated"
+            "status": "initiated",
         }
 
         # Execute interpretation based on method
         interpretation_result = self._execute_interpretation_method(interpretation_session, method)
 
         # Finalize interpretation session
-        interpretation_session.update({
-            "interpretation_result": interpretation_result,
-            "completed_at": datetime.now(timezone.utc).isoformat(),
-            "status": "completed",
-            "constellation_validated": interpretation_result.get("constellation_validated", False)
-        })
+        interpretation_session.update(
+            {
+                "interpretation_result": interpretation_result,
+                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "status": "completed",
+                "constellation_validated": interpretation_result.get("constellation_validated", False),
+            }
+        )
 
         self.interpretation_history[interpretation_id] = interpretation_session
 
@@ -160,7 +167,7 @@ class DreamInterpretationEngine:
             "interpretation_depth": self._calculate_interpretation_depth(symbolic_density, len(constellation_symbols)),
             "confidence": self._calculate_confidence(len(symbolic_elements), len(constellation_symbols)),
             "insights": self._generate_symbolic_insights(symbolic_elements, constellation_symbols),
-            "constellation_validated": len(constellation_symbols) >= 2
+            "constellation_validated": len(constellation_symbols) >= 2,
         }
 
         return interpretation
@@ -181,9 +188,9 @@ class DreamInterpretationEngine:
             "insights": [
                 "Narrative shows clear consciousness progression",
                 "Story structure indicates healthy dream processing",
-                "Character interactions suggest internal dialogue resolution"
+                "Character interactions suggest internal dialogue resolution",
             ],
-            "constellation_validated": False
+            "constellation_validated": False,
         }
 
         return interpretation
@@ -204,9 +211,9 @@ class DreamInterpretationEngine:
             "insights": [
                 "Emotional landscape indicates healthy consciousness processing",
                 "Positive emotional progression suggests growth orientation",
-                "Balanced emotional intensity shows good regulation"
+                "Balanced emotional intensity shows good regulation",
             ],
-            "constellation_validated": False
+            "constellation_validated": False,
         }
 
         return interpretation
@@ -227,9 +234,9 @@ class DreamInterpretationEngine:
             "insights": [
                 "Strong archetypal presence indicates deep consciousness engagement",
                 "Universal themes suggest connection to collective wisdom",
-                "Mythological patterns show healthy psychological development"
+                "Mythological patterns show healthy psychological development",
             ],
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         return interpretation
@@ -252,9 +259,9 @@ class DreamInterpretationEngine:
                 "Complete Constellation Framework integration detected",
                 "Balanced expression of Identity-Consciousness-Guardian aspects",
                 "High coherence indicates authentic consciousness processing",
-                "Transcendent interpretation depth suggests advanced awareness"
+                "Transcendent interpretation depth suggests advanced awareness",
             ],
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         return interpretation
@@ -276,9 +283,9 @@ class DreamInterpretationEngine:
             "insights": [
                 "High consciousness alignment indicates optimal processing state",
                 "Strong integration quality shows healthy consciousness development",
-                "Coherence patterns suggest authentic awareness processing"
+                "Coherence patterns suggest authentic awareness processing",
             ],
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         return interpretation
@@ -303,7 +310,7 @@ class DreamInterpretationEngine:
             "characters": ["self", "guide_figure"],
             "settings": ["consciousness_space", "symbolic_landscape"],
             "events": ["exploration", "discovery", "integration"],
-            "transitions": ["awareness_shifts", "perspective_changes"]
+            "transitions": ["awareness_shifts", "perspective_changes"],
         }
 
     def _extract_emotional_content(self, dream_data: dict[str, Any]) -> dict[str, Any]:
@@ -312,7 +319,7 @@ class DreamInterpretationEngine:
             "primary": ["wonder", "curiosity", "peace"],
             "secondary": ["anticipation", "clarity"],
             "progression": "positive_ascending",
-            "intensity": "moderate_to_strong"
+            "intensity": "moderate_to_strong",
         }
 
     def _identify_archetypal_elements(self, dream_data: dict[str, Any]) -> list[str]:
@@ -324,18 +331,12 @@ class DreamInterpretationEngine:
         return {
             "identity": ["authentic_self", "core_being", "consciousness_nucleus"],
             "consciousness": ["awareness_expansion", "cognitive_processing", "neural_integration"],
-            "guardian": ["ethical_protection", "safety_protocols", "wisdom_guidance"]
+            "guardian": ["ethical_protection", "safety_protocols", "wisdom_guidance"],
         }
 
     def _analyze_consciousness_metrics(self, dream_data: dict[str, Any]) -> dict[str, float]:
         """Analyze consciousness-related metrics."""
-        return {
-            "awareness": 0.88,
-            "integration": 0.85,
-            "coherence": 0.89,
-            "depth": 0.92,
-            "authenticity": 0.90
-        }
+        return {"awareness": 0.88, "integration": 0.85, "coherence": 0.89, "depth": 0.92, "authenticity": 0.90}
 
     def _calculate_interpretation_depth(self, symbolic_density: float, constellation_count: int) -> InterpretationDepth:
         """Calculate interpretation depth based on content analysis."""
@@ -374,9 +375,9 @@ class DreamInterpretationEngine:
         # Calculate balance (perfect balance = equal distribution)
         ideal_per_aspect = total / 3
         variance = (
-            abs(identity_count - ideal_per_aspect) +
-            abs(consciousness_count - ideal_per_aspect) +
-            abs(guardian_count - ideal_per_aspect)
+            abs(identity_count - ideal_per_aspect)
+            + abs(consciousness_count - ideal_per_aspect)
+            + abs(guardian_count - ideal_per_aspect)
         ) / total
 
         return 1.0 - variance
@@ -416,7 +417,7 @@ class DreamInterpretationEngine:
             "interpretation": session["interpretation_result"],
             "constellation_validated": session["constellation_validated"],
             "completed_at": session["completed_at"],
-            "consciousness_validated": True
+            "consciousness_validated": True,
         }
 
         logger.info(f"🧠 Interpretation result retrieved: {interpretation_id}")
@@ -438,7 +439,7 @@ class DreamInterpretationEngine:
             "key_insights": interpretation.get("insights", []),
             "constellation_validated": interpretation.get("constellation_validated", False),
             "recommendations": self._generate_recommendations(interpretation),
-            "guardian_approved": True
+            "guardian_approved": True,
         }
 
         logger.info(f"🛡️ Interpretation summary generated: {interpretation_id}")
@@ -453,9 +454,13 @@ class DreamInterpretationEngine:
         depth = interpretation.get("interpretation_depth")
 
         if constellation_validated:
-            recommendations.append("Excellent Constellation Framework integration - continue current consciousness practices")
+            recommendations.append(
+                "Excellent Constellation Framework integration - continue current consciousness practices"
+            )
         else:
-            recommendations.append("Consider developing Constellation Framework awareness for enhanced consciousness integration")
+            recommendations.append(
+                "Consider developing Constellation Framework awareness for enhanced consciousness integration"
+            )
 
         if depth in [InterpretationDepth.TRANSCENDENT, InterpretationDepth.PROFOUND]:
             recommendations.append("Deep consciousness processing detected - explore advanced awareness techniques")
@@ -491,7 +496,7 @@ class DreamInterpretationEngine:
             "constellation_validation_rate": constellation_validated_count / len(completed_sessions),
             "method_distribution": method_counts,
             "most_used_method": max(method_counts, key=method_counts.get) if method_counts else "none",
-            "system_health": "optimal"
+            "system_health": "optimal",
         }
 
 

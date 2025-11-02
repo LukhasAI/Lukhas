@@ -41,4 +41,3 @@ def test_memory_event_factory_tracks_drift_history():
     drift_score = second_event.metadata["metrics"]["driftScore"]
     assert drift_score == pytest.approx(0.6)
     assert second_event.metadata["metrics"]["driftTrend"] == pytest.approx((0.2 + 0.6) / 2)
-

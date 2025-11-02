@@ -56,6 +56,7 @@ class FailureSimulator:
     @staticmethod
     def simulate_cpu_exhaustion():
         """Simulate CPU exhaustion condition"""
+
         def cpu_intensive_task():
             # CPU intensive loop
             for _ in range(1000000):
@@ -72,18 +73,20 @@ class FailureSimulator:
     @staticmethod
     def simulate_file_system_failure():
         """Simulate file system failures"""
+
         def failing_open(*args, **kwargs):
             raise IOError("Simulated file system failure")
 
-        return patch('builtins.open', side_effect=failing_open)
+        return patch("builtins.open", side_effect=failing_open)
 
     @staticmethod
     def simulate_network_failure():
         """Simulate network connectivity failures"""
+
         def failing_request(*args, **kwargs):
             raise ConnectionError("Simulated network failure")
 
-        return patch('requests.get', side_effect=failing_request)
+        return patch("requests.get", side_effect=failing_request)
 
 
 class MaliciousPluginSimulator:
@@ -92,6 +95,7 @@ class MaliciousPluginSimulator:
     @staticmethod
     def create_resource_exhaustion_plugin():
         """Plugin that attempts to exhaust system resources"""
+
         class ResourceExhaustionPlugin:
             def __init__(self, name=None):
                 self.name = name
@@ -116,6 +120,7 @@ class MaliciousPluginSimulator:
     @staticmethod
     def create_infinite_loop_plugin():
         """Plugin with infinite loop in constructor"""
+
         class InfiniteLoopPlugin:
             def __init__(self, name=None):
                 self.name = name
@@ -129,6 +134,7 @@ class MaliciousPluginSimulator:
     @staticmethod
     def create_exception_throwing_plugin():
         """Plugin that throws various types of exceptions"""
+
         class ExceptionThrowingPlugin:
             def __init__(self, name=None):
                 self.name = name
@@ -149,21 +155,17 @@ class MaliciousPluginSimulator:
     @staticmethod
     def create_file_access_plugin():
         """Plugin that attempts unauthorized file access"""
+
         class FileAccessPlugin:
             def __init__(self, name=None):
                 self.name = name
                 # Attempt to read sensitive files
-                sensitive_paths = [
-                    '/etc/passwd',
-                    '/etc/shadow',
-                    os.path.expanduser('~/.ssh/id_rsa'),
-                    '/proc/version'
-                ]
+                sensitive_paths = ["/etc/passwd", "/etc/shadow", os.path.expanduser("~/.ssh/id_rsa"), "/proc/version"]
 
                 self.accessed_files = []
                 for path in sensitive_paths:
                     try:
-                        with open(path, 'r') as f:
+                        with open(path, "r") as f:
                             content = f.read(100)  # Read first 100 chars
                             self.accessed_files.append((path, len(content)))
                     except (FileNotFoundError, PermissionError, OSError):
@@ -191,16 +193,17 @@ class TestFailClosedSafetyMechanisms:
         """Test that system defaults to secure configuration"""
 
         # Save original environment
-        original_env = os.environ.get('LUKHAS_PLUGIN_DISCOVERY')
+        original_env = os.environ.get("LUKHAS_PLUGIN_DISCOVERY")
 
         try:
             # Clear discovery environment variable
-            if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
-                del os.environ['LUKHAS_PLUGIN_DISCOVERY']
+            if "LUKHAS_PLUGIN_DISCOVERY" in os.environ:
+                del os.environ["LUKHAS_PLUGIN_DISCOVERY"]
 
             # Import discovery flag (should be 'off' by default)
             from core.registry import _DISCOVERY_FLAG
-            assert _DISCOVERY_FLAG == 'off', "Discovery should be disabled by default (fail-closed)"
+
+            assert _DISCOVERY_FLAG == "off", "Discovery should be disabled by default (fail-closed)"
 
             # Registry should start empty
             assert len(_REG) == 0, "Registry should start empty"
@@ -217,15 +220,15 @@ class TestFailClosedSafetyMechanisms:
         finally:
             # Restore original environment
             if original_env is not None:
-                os.environ['LUKHAS_PLUGIN_DISCOVERY'] = original_env
+                os.environ["LUKHAS_PLUGIN_DISCOVERY"] = original_env
 
     def test_graceful_degradation_under_failures(self):
         """Test graceful degradation when components fail"""
 
         # Test registry continues to work even when discovery fails
-        with patch('core.registry.entry_points', side_effect=ImportError("Discovery failure")):
+        with patch("core.registry.entry_points", side_effect=ImportError("Discovery failure")):
             # Enable discovery for this test
-            with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
+            with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
                 # Discovery should handle the failure gracefully
                 try:
                     discover_entry_points()
@@ -233,22 +236,22 @@ class TestFailClosedSafetyMechanisms:
                     pytest.fail("Discovery should handle failures gracefully")
 
                 # Basic registry operations should still work
-                register('test:safe_plugin', {'name': 'safe_plugin'})
-                assert resolve('test:safe_plugin')['name'] == 'safe_plugin'
+                register("test:safe_plugin", {"name": "safe_plugin"})
+                assert resolve("test:safe_plugin")["name"] == "safe_plugin"
 
     def test_malicious_plugin_isolation(self):
         """Test that malicious plugins are isolated and don't crash the system"""
 
         malicious_plugins = [
-            ('resource_exhaustion', MaliciousPluginSimulator.create_resource_exhaustion_plugin()),
-            ('infinite_loop', MaliciousPluginSimulator.create_infinite_loop_plugin()),
-            ('file_access', MaliciousPluginSimulator.create_file_access_plugin())
+            ("resource_exhaustion", MaliciousPluginSimulator.create_resource_exhaustion_plugin()),
+            ("infinite_loop", MaliciousPluginSimulator.create_infinite_loop_plugin()),
+            ("file_access", MaliciousPluginSimulator.create_file_access_plugin()),
         ]
 
         for plugin_name, plugin_class in malicious_plugins:
             # Test instantiation doesn't crash the system
             try:
-                with patch('signal.alarm', return_value=None):  # Prevent real timeouts
+                with patch("signal.alarm", return_value=None):  # Prevent real timeouts
                     instance = _instantiate_plugin(plugin_name, plugin_class)
 
                     # System should survive malicious plugin instantiation
@@ -256,9 +259,11 @@ class TestFailClosedSafetyMechanisms:
                     assert instance is not None, f"Plugin instantiation should not return None for {plugin_name}"
 
                     # Registry should still function after malicious plugin
-                    register(f'test:after_{plugin_name}', {'name': f'after_{plugin_name}'})
-                    resolved = resolve(f'test:after_{plugin_name}')
-                    assert resolved['name'] == f'after_{plugin_name}', "Registry should still work after malicious plugin"
+                    register(f"test:after_{plugin_name}", {"name": f"after_{plugin_name}"})
+                    resolved = resolve(f"test:after_{plugin_name}")
+                    assert (
+                        resolved["name"] == f"after_{plugin_name}"
+                    ), "Registry should still work after malicious plugin"
 
             except Exception as e:
                 # Some exceptions are expected and should be handled gracefully
@@ -269,12 +274,7 @@ class TestFailClosedSafetyMechanisms:
     def test_exception_throwing_plugin_safety(self):
         """Test safety when plugins throw various types of exceptions"""
 
-        exception_types = [
-            'runtime_error',
-            'value_error',
-            'system_exit',
-            'keyboard_interrupt'
-        ]
+        exception_types = ["runtime_error", "value_error", "system_exit", "keyboard_interrupt"]
 
         ExceptionPlugin = MaliciousPluginSimulator.create_exception_throwing_plugin()
 
@@ -288,9 +288,9 @@ class TestFailClosedSafetyMechanisms:
                 assert instance == ExceptionPlugin, f"Should fall back to class for {exception_type}"
 
                 # Registry should still work after exception
-                register(f'test:post_{exception_type}', {'name': f'post_{exception_type}'})
-                resolved = resolve(f'test:post_{exception_type}')
-                assert resolved['name'] == f'post_{exception_type}', f"Registry should work after {exception_type}"
+                register(f"test:post_{exception_type}", {"name": f"post_{exception_type}"})
+                resolved = resolve(f"test:post_{exception_type}")
+                assert resolved["name"] == f"post_{exception_type}", f"Registry should work after {exception_type}"
 
             except SystemExit:
                 pytest.fail(f"SystemExit should be caught and handled for {exception_type}")
@@ -308,12 +308,13 @@ class TestFailClosedSafetyMechanisms:
 
         # Monitor memory usage before and after
         import psutil
+
         process = psutil.Process()
         initial_memory = process.memory_info().rss
 
         try:
             # Attempt to instantiate resource-hungry plugin
-            _instantiate_plugin('resource_exhaustion', ResourcePlugin)
+            _instantiate_plugin("resource_exhaustion", ResourcePlugin)
 
             # Check memory usage didn't grow excessively
             final_memory = process.memory_info().rss
@@ -323,8 +324,8 @@ class TestFailClosedSafetyMechanisms:
             assert memory_growth < 100 * 1024 * 1024, f"Excessive memory growth: {memory_growth / 1024 / 1024:.1f}MB"
 
             # Registry should still function
-            register('test:after_resource_exhaustion', {'name': 'survivor'})
-            assert resolve('test:after_resource_exhaustion')['name'] == 'survivor'
+            register("test:after_resource_exhaustion", {"name": "survivor"})
+            assert resolve("test:after_resource_exhaustion")["name"] == "survivor"
 
         except MemoryError:
             # MemoryError is acceptable - system protected itself
@@ -338,7 +339,7 @@ class TestFailClosedSafetyMechanisms:
         start_time = time.time()
 
         # Attempt to instantiate plugin with infinite loop
-        _instantiate_plugin('infinite_loop', InfinitePlugin)
+        _instantiate_plugin("infinite_loop", InfinitePlugin)
 
         duration = time.time() - start_time
 
@@ -347,19 +348,19 @@ class TestFailClosedSafetyMechanisms:
         assert duration < 5.0, f"Plugin instantiation took too long: {duration:.2f}s"
 
         # Registry should still work
-        register('test:after_timeout', {'name': 'timeout_survivor'})
-        assert resolve('test:after_timeout')['name'] == 'timeout_survivor'
+        register("test:after_timeout", {"name": "timeout_survivor"})
+        assert resolve("test:after_timeout")["name"] == "timeout_survivor"
 
     def test_file_system_failure_resilience(self):
         """Test resilience to file system failures"""
 
         with FailureSimulator.simulate_file_system_failure():
             # Registry should continue to work even if file operations fail
-            register('test:fs_failure', {'name': 'fs_failure_test'})
-            assert resolve('test:fs_failure')['name'] == 'fs_failure_test'
+            register("test:fs_failure", {"name": "fs_failure_test"})
+            assert resolve("test:fs_failure")["name"] == "fs_failure_test"
 
             # Discovery should handle file system failures gracefully
-            with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
+            with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
                 try:
                     discover_entry_points()
                 except IOError:
@@ -381,22 +382,22 @@ class TestFailClosedSafetyMechanisms:
                 if worker_id % 3 == 0:
                     # Memory allocation failure
                     ResourcePlugin = MaliciousPluginSimulator.create_resource_exhaustion_plugin()
-                    _instantiate_plugin(f'resource_{worker_id}', ResourcePlugin)
+                    _instantiate_plugin(f"resource_{worker_id}", ResourcePlugin)
 
                 elif worker_id % 3 == 1:
                     # Exception throwing failure
                     ExceptionPlugin = MaliciousPluginSimulator.create_exception_throwing_plugin()
-                    _instantiate_plugin('runtime_error', ExceptionPlugin)
+                    _instantiate_plugin("runtime_error", ExceptionPlugin)
 
                 else:
                     # Normal operation
-                    register(f'worker:{worker_id}', {'name': f'worker_{worker_id}'})
-                    resolve(f'worker:{worker_id}')
+                    register(f"worker:{worker_id}", {"name": f"worker_{worker_id}"})
+                    resolve(f"worker:{worker_id}")
 
-                results.put(f'worker_{worker_id}_success')
+                results.put(f"worker_{worker_id}_success")
 
             except Exception as e:
-                errors.put(f'worker_{worker_id}_error: {e}')
+                errors.put(f"worker_{worker_id}_error: {e}")
 
         # Start multiple failing workers
         threads = []
@@ -413,7 +414,7 @@ class TestFailClosedSafetyMechanisms:
         success_count = 0
         while not results.empty():
             result = results.get()
-            if 'success' in result:
+            if "success" in result:
                 success_count += 1
 
         error_count = 0
@@ -429,15 +430,15 @@ class TestFailClosedSafetyMechanisms:
         assert success_count > 0, "At least some operations should succeed"
 
         # Registry should still be functional after concurrent failures
-        register('test:post_concurrent_failures', {'name': 'survivor'})
-        assert resolve('test:post_concurrent_failures')['name'] == 'survivor'
+        register("test:post_concurrent_failures", {"name": "survivor"})
+        assert resolve("test:post_concurrent_failures")["name"] == "survivor"
 
     def test_security_policy_enforcement_under_failure(self):
         """Test that security policies are enforced even during failure conditions"""
 
         # Simulate a compromised environment with discovery enabled
-        with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
-            with patch('core.registry.entry_points') as mock_entry_points:
+        with patch.dict(os.environ, {"LUKHAS_PLUGIN_DISCOVERY": "auto"}):
+            with patch("core.registry.entry_points") as mock_entry_points:
                 # Create malicious entry point
                 malicious_ep = Mock()
                 malicious_ep.name = "malicious_plugin"
@@ -468,7 +469,7 @@ class TestFailClosedSafetyMechanisms:
         def simulate_critical_failure():
             # Register many plugins quickly to simulate system overload
             for i in range(1000):
-                register(f'overload:{i}', {'data': 'x' * 1000})
+                register(f"overload:{i}", {"data": "x" * 1000})
 
         # Monitor system state during overload
         initial_size = len(_REG)
@@ -483,8 +484,8 @@ class TestFailClosedSafetyMechanisms:
         assert final_size >= initial_size, "Registry should maintain state during overload"
 
         # System should still be responsive after overload
-        register('test:post_overload', {'name': 'post_overload'})
-        assert resolve('test:post_overload')['name'] == 'post_overload'
+        register("test:post_overload", {"name": "post_overload"})
+        assert resolve("test:post_overload")["name"] == "post_overload"
 
     def test_recovery_mechanisms(self):
         """Test that system can recover from failure states"""
@@ -494,21 +495,21 @@ class TestFailClosedSafetyMechanisms:
 
         # Corrupt registry state
         _REG.clear()
-        _REG['corrupted:plugin'] = "invalid_data"
+        _REG["corrupted:plugin"] = "invalid_data"
 
         # Test recovery
         try:
             # System should handle corrupted state
-            corrupted_value = resolve('corrupted:plugin')
+            corrupted_value = resolve("corrupted:plugin")
             assert corrupted_value == "invalid_data", "Should resolve corrupted data"
 
             # Should be able to add new clean data
-            register('recovery:test', {'name': 'recovery_test'})
-            assert resolve('recovery:test')['name'] == 'recovery_test'
+            register("recovery:test", {"name": "recovery_test"})
+            assert resolve("recovery:test")["name"] == "recovery_test"
 
             # Should be able to overwrite corrupted data
-            register('corrupted:plugin', {'name': 'cleaned_plugin'})
-            assert resolve('corrupted:plugin')['name'] == 'cleaned_plugin'
+            register("corrupted:plugin", {"name": "cleaned_plugin"})
+            assert resolve("corrupted:plugin")["name"] == "cleaned_plugin"
 
         except Exception as e:
             pytest.fail(f"Recovery mechanism failed: {e}")
@@ -517,10 +518,10 @@ class TestFailClosedSafetyMechanisms:
         """Test that system maintains safe defaults after various failures"""
 
         failure_scenarios = [
-            lambda: _instantiate_plugin('bad', MaliciousPluginSimulator.create_exception_throwing_plugin()),
+            lambda: _instantiate_plugin("bad", MaliciousPluginSimulator.create_exception_throwing_plugin()),
             lambda: discover_entry_points(),  # With no entry points available
-            lambda: register('test', None),  # Register None value
-            lambda: resolve('nonexistent'),  # Try to resolve nonexistent key
+            lambda: register("test", None),  # Register None value
+            lambda: resolve("nonexistent"),  # Try to resolve nonexistent key
         ]
 
         for i, failure_scenario in enumerate(failure_scenarios):
@@ -532,50 +533,50 @@ class TestFailClosedSafetyMechanisms:
 
             # After each failure, system should maintain safe defaults
             # Should be able to register and resolve normally
-            test_key = f'safe_default_{i}'
-            register(test_key, {'name': f'safe_{i}'})
-            assert resolve(test_key)['name'] == f'safe_{i}'
+            test_key = f"safe_default_{i}"
+            register(test_key, {"name": f"safe_{i}"})
+            assert resolve(test_key)["name"] == f"safe_{i}"
 
             # Discovery should still be disabled by default
-            original_env = os.environ.get('LUKHAS_PLUGIN_DISCOVERY')
-            if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
-                del os.environ['LUKHAS_PLUGIN_DISCOVERY']
+            original_env = os.environ.get("LUKHAS_PLUGIN_DISCOVERY")
+            if "LUKHAS_PLUGIN_DISCOVERY" in os.environ:
+                del os.environ["LUKHAS_PLUGIN_DISCOVERY"]
 
             # Discovery flag might be cached, but behavior should be safe
             # Main point is that explicit enabling is required
 
             if original_env:
-                os.environ['LUKHAS_PLUGIN_DISCOVERY'] = original_env
+                os.environ["LUKHAS_PLUGIN_DISCOVERY"] = original_env
 
     def test_isolation_boundaries_during_failures(self):
         """Test that failure in one component doesn't affect others"""
 
         # Create isolated components
-        component_a_data = {'component': 'a', 'status': 'healthy'}
-        component_b_data = {'component': 'b', 'status': 'healthy'}
+        component_a_data = {"component": "a", "status": "healthy"}
+        component_b_data = {"component": "b", "status": "healthy"}
 
-        register('component:a', component_a_data)
-        register('component:b', component_b_data)
+        register("component:a", component_a_data)
+        register("component:b", component_b_data)
 
         # Simulate failure in component A's plugin instantiation
         FailingPlugin = MaliciousPluginSimulator.create_exception_throwing_plugin()
 
         try:
-            _instantiate_plugin('runtime_error', FailingPlugin)
+            _instantiate_plugin("runtime_error", FailingPlugin)
         except Exception:
             pass  # Expected failure
 
         # Component B should be unaffected
-        component_b_resolved = resolve('component:b')
+        component_b_resolved = resolve("component:b")
         assert component_b_resolved == component_b_data, "Component B should be unaffected by A's failure"
 
         # Should be able to continue working with both components
-        register('component:c', {'component': 'c', 'status': 'healthy'})
-        assert resolve('component:c')['component'] == 'c'
+        register("component:c", {"component": "c", "status": "healthy"})
+        assert resolve("component:c")["component"] == "c"
 
         # Original components should still work
-        assert resolve('component:a') == component_a_data
-        assert resolve('component:b') == component_b_data
+        assert resolve("component:a") == component_a_data
+        assert resolve("component:b") == component_b_data
 
 
 class TestRegistryFailClosedIntegration:
@@ -586,11 +587,11 @@ class TestRegistryFailClosedIntegration:
 
         # Simulate multiple concurrent failures
         failure_conditions = [
-            'memory_pressure',
-            'malicious_plugins',
-            'file_system_errors',
-            'network_failures',
-            'concurrent_access'
+            "memory_pressure",
+            "malicious_plugins",
+            "file_system_errors",
+            "network_failures",
+            "concurrent_access",
         ]
 
         # Clear registry
@@ -603,27 +604,27 @@ class TestRegistryFailClosedIntegration:
         # Apply failure conditions one by one
         for condition in failure_conditions:
             try:
-                if condition == 'memory_pressure':
+                if condition == "memory_pressure":
                     # Simulate memory pressure
                     memory_hogs = []
                     for _ in range(10):  # Limited for test safety
                         memory_hogs.append(bytearray(1024 * 1024))  # 1MB each
 
-                elif condition == 'malicious_plugins':
+                elif condition == "malicious_plugins":
                     # Try to register malicious plugins
                     BadPlugin = MaliciousPluginSimulator.create_resource_exhaustion_plugin()
-                    _instantiate_plugin('malicious', BadPlugin)
+                    _instantiate_plugin("malicious", BadPlugin)
 
-                elif condition == 'file_system_errors':
+                elif condition == "file_system_errors":
                     # Simulate file system failures during discovery
                     with FailureSimulator.simulate_file_system_failure():
                         discover_entry_points()
 
-                elif condition == 'concurrent_access':
+                elif condition == "concurrent_access":
                     # Simulate concurrent access issues
                     def concurrent_registrations():
                         for i in range(10):
-                            register(f'concurrent:{i}', {'id': i})
+                            register(f"concurrent:{i}", {"id": i})
 
                     threads = [threading.Thread(target=concurrent_registrations) for _ in range(3)]
                     for t in threads:
@@ -632,10 +633,10 @@ class TestRegistryFailClosedIntegration:
                         t.join()
 
                 # After each failure condition, system should still be operational
-                test_key = f'post_{condition}'
-                register(test_key, {'condition': condition, 'status': 'survived'})
+                test_key = f"post_{condition}"
+                register(test_key, {"condition": condition, "status": "survived"})
                 resolved = resolve(test_key)
-                assert resolved['status'] == 'survived', f"System should survive {condition}"
+                assert resolved["status"] == "survived", f"System should survive {condition}"
 
             except Exception as e:
                 # Failures should be handled gracefully
@@ -654,8 +655,8 @@ class TestRegistryFailClosedIntegration:
                 pytest.fail(f"Registry corruption detected for key {key}: {e}")
 
         # System should still accept new registrations
-        register('final:test', {'final': True})
-        assert resolve('final:test')['final'] is True
+        register("final:test", {"final": True})
+        assert resolve("final:test")["final"] is True
 
 
 if __name__ == "__main__":

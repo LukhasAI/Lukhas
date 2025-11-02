@@ -40,8 +40,10 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
-    )
+        raise HTTPException(
+            status_code=404,
+            detail=f"Record not found for {sha}: {e}",
+        )
 
     return {"record": _summary_record(sha, rec), "link": link}  # noqa: F821  # TODO: link
 
@@ -51,7 +53,9 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
+        raise HTTPException(
+            status_code=404,
+            detail=f"Record not found for {sha}: {e}",
         )
         return FileResponse(
             path,  # noqa: F821  # TODO: path

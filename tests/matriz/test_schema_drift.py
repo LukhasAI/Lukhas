@@ -33,6 +33,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class SchemaDriftResult:
     """Result of schema drift analysis."""
+
     schema_valid: bool
     hash_matches: bool
     breaking_changes: List[str]
@@ -56,22 +57,22 @@ class MATRIZSchemaDriftDetector:
         if not self.schema_path.exists():
             raise FileNotFoundError(f"MATRIZ schema not found: {self.schema_path}")
 
-        with open(self.schema_path, 'r') as f:
+        with open(self.schema_path, "r") as f:
             self.current_schema = json.load(f)
 
         # Load snapshot
         if not self.snapshot_path.exists():
             raise FileNotFoundError(f"MATRIZ schema snapshot not found: {self.snapshot_path}")
 
-        with open(self.snapshot_path, 'r') as f:
+        with open(self.snapshot_path, "r") as f:
             self.snapshot = json.load(f)
 
     def compute_schema_hash(self, schema: Dict[str, Any]) -> str:
         """Compute deterministic hash of schema structure."""
         # Create a normalized version for hashing
         normalized = self._normalize_schema_for_hashing(schema)
-        schema_str = json.dumps(normalized, sort_keys=True, separators=(',', ':'))
-        return hashlib.sha256(schema_str.encode('utf-8')).hexdigest()
+        schema_str = json.dumps(normalized, sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(schema_str.encode("utf-8")).hexdigest()
 
     def _normalize_schema_for_hashing(self, schema: Dict[str, Any]) -> Dict[str, Any]:
         """Normalize schema for consistent hashing."""
@@ -124,11 +125,19 @@ class MATRIZSchemaDriftDetector:
         breaking_changes.extend(constraint_changes)
 
         # Check schema version pattern
-        current_version_pattern = self.current_schema.get("properties", {}).get("integrity", {}).get("properties", {}).get("schema_version", {}).get("pattern")
+        current_version_pattern = (
+            self.current_schema.get("properties", {})
+            .get("integrity", {})
+            .get("properties", {})
+            .get("schema_version", {})
+            .get("pattern")
+        )
         expected_version_pattern = self.snapshot["critical_properties"]["schema_version_pattern"]
 
         if current_version_pattern != expected_version_pattern:
-            breaking_changes.append(f"Schema version pattern changed: {current_version_pattern} != {expected_version_pattern}")
+            breaking_changes.append(
+                f"Schema version pattern changed: {current_version_pattern} != {expected_version_pattern}"
+            )
 
         return breaking_changes
 
@@ -153,7 +162,9 @@ class MATRIZSchemaDriftDetector:
         breaking_changes = []
 
         # Check processing stages
-        current_stages = self._extract_enum_values(self.current_schema, ["properties", "decision", "properties", "processing_stage", "enum"])
+        current_stages = self._extract_enum_values(
+            self.current_schema, ["properties", "decision", "properties", "processing_stage", "enum"]
+        )
         expected_stages = set(self.snapshot["critical_properties"]["processing_stages"])
 
         if current_stages is not None:
@@ -162,7 +173,9 @@ class MATRIZSchemaDriftDetector:
                 breaking_changes.append(f"Removed processing stages: {', '.join(removed_stages)}")
 
         # Check consciousness states
-        current_states = self._extract_enum_values(self.current_schema, ["properties", "subject", "properties", "consciousness_state", "enum"])
+        current_states = self._extract_enum_values(
+            self.current_schema, ["properties", "subject", "properties", "consciousness_state", "enum"]
+        )
         expected_states = set(self.snapshot["critical_properties"]["consciousness_states"])
 
         if current_states is not None:
@@ -171,7 +184,9 @@ class MATRIZSchemaDriftDetector:
                 breaking_changes.append(f"Removed consciousness states: {', '.join(removed_states)}")
 
         # Check lane values
-        current_lanes = self._extract_enum_values(self.current_schema, ["properties", "context", "properties", "lane", "enum"])
+        current_lanes = self._extract_enum_values(
+            self.current_schema, ["properties", "context", "properties", "lane", "enum"]
+        )
         expected_lanes = set(self.snapshot["critical_properties"]["lane_values"])
 
         if current_lanes is not None:
@@ -203,7 +218,7 @@ class MATRIZSchemaDriftDetector:
             (["properties", "subject", "properties", "query", "maxLength"], "max_query_length"),
             (["properties", "decision", "properties", "synthesis", "maxLength"], "max_synthesis_length"),
             (["properties", "context", "properties", "memory_signals", "maxItems"], "max_memory_signals"),
-            (["properties", "metrics", "properties", "inference_depth_reached", "maximum"], "max_inference_depth")
+            (["properties", "metrics", "properties", "inference_depth_reached", "maximum"], "max_inference_depth"),
         ]
 
         for schema_path, constraint_name in constraint_checks:
@@ -259,8 +274,8 @@ class MATRIZSchemaDriftDetector:
         snapshot_version = self.snapshot["version"]
 
         # Simple semver major version check
-        current_major = int(current_version.split('.')[0])
-        snapshot_major = int(snapshot_version.split('.')[0])
+        current_major = int(current_version.split(".")[0])
+        snapshot_major = int(snapshot_version.split(".")[0])
 
         return current_major == snapshot_major
 
@@ -293,9 +308,9 @@ class MATRIZSchemaDriftDetector:
 
         # T4 compliance check
         t4_compliant = (
-            len(breaking_changes) == 0 and
-            version_compatible and
-            self.current_schema.get("additionalProperties") is False
+            len(breaking_changes) == 0
+            and version_compatible
+            and self.current_schema.get("additionalProperties") is False
         )
 
         # Generate recommendations
@@ -319,12 +334,12 @@ class MATRIZSchemaDriftDetector:
             expected_hash=expected_hash,
             version_compatible=version_compatible,
             t4_compliant=t4_compliant,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
     def _update_snapshot(self):
         """Update snapshot file with computed hash."""
-        with open(self.snapshot_path, 'w') as f:
+        with open(self.snapshot_path, "w") as f:
             json.dump(self.snapshot, f, indent=2)
 
 
@@ -366,15 +381,7 @@ class TestMATRIZSchemaDrift:
         detector = MATRIZSchemaDriftDetector()
 
         # Check root level required fields
-        required_fields = [
-            "decision",
-            "subject",
-            "context",
-            "metrics",
-            "enforcement",
-            "audit",
-            "integrity"
-        ]
+        required_fields = ["decision", "subject", "context", "metrics", "enforcement", "audit", "integrity"]
 
         current_required = detector.current_schema.get("required", [])
 
@@ -389,8 +396,7 @@ class TestMATRIZSchemaDrift:
 
         # Processing stages compatibility
         current_stages = detector._extract_enum_values(
-            detector.current_schema,
-            ["properties", "decision", "properties", "processing_stage", "enum"]
+            detector.current_schema, ["properties", "decision", "properties", "processing_stage", "enum"]
         )
         expected_stages = detector.snapshot["critical_properties"]["processing_stages"]
 
@@ -400,8 +406,7 @@ class TestMATRIZSchemaDrift:
 
         # Consciousness states compatibility
         current_states = detector._extract_enum_values(
-            detector.current_schema,
-            ["properties", "subject", "properties", "consciousness_state", "enum"]
+            detector.current_schema, ["properties", "subject", "properties", "consciousness_state", "enum"]
         )
         expected_states = detector.snapshot["critical_properties"]["consciousness_states"]
 
@@ -417,23 +422,25 @@ class TestMATRIZSchemaDrift:
 
         # Check key performance constraints
         max_processing_time = detector._extract_constraint_value(
-            detector.current_schema,
-            ["properties", "metrics", "properties", "processing_time_ms", "maximum"]
+            detector.current_schema, ["properties", "metrics", "properties", "processing_time_ms", "maximum"]
         )
 
         if max_processing_time is not None:
             expected_max = detector.snapshot["performance_constraints"]["max_processing_time_ms"]
-            assert max_processing_time >= expected_max, f"Processing time constraint tightened: {max_processing_time} < {expected_max}"
+            assert (
+                max_processing_time >= expected_max
+            ), f"Processing time constraint tightened: {max_processing_time} < {expected_max}"
 
         # Check query length constraint
         max_query_length = detector._extract_constraint_value(
-            detector.current_schema,
-            ["properties", "subject", "properties", "query", "maxLength"]
+            detector.current_schema, ["properties", "subject", "properties", "query", "maxLength"]
         )
 
         if max_query_length is not None:
             expected_max = detector.snapshot["performance_constraints"]["max_query_length"]
-            assert max_query_length >= expected_max, f"Query length constraint tightened: {max_query_length} < {expected_max}"
+            assert (
+                max_query_length >= expected_max
+            ), f"Query length constraint tightened: {max_query_length} < {expected_max}"
 
         logger.info("✓ Performance constraints not tightened")
 
@@ -441,10 +448,18 @@ class TestMATRIZSchemaDrift:
         """Test schema version pattern remains consistent."""
         detector = MATRIZSchemaDriftDetector()
 
-        current_pattern = detector.current_schema.get("properties", {}).get("integrity", {}).get("properties", {}).get("schema_version", {}).get("pattern")
+        current_pattern = (
+            detector.current_schema.get("properties", {})
+            .get("integrity", {})
+            .get("properties", {})
+            .get("schema_version", {})
+            .get("pattern")
+        )
         expected_pattern = detector.snapshot["critical_properties"]["schema_version_pattern"]
 
-        assert current_pattern == expected_pattern, f"Schema version pattern changed: {current_pattern} != {expected_pattern}"
+        assert (
+            current_pattern == expected_pattern
+        ), f"Schema version pattern changed: {current_pattern} != {expected_pattern}"
 
         logger.info(f"✓ Schema version pattern consistent: {current_pattern}")
 
@@ -457,10 +472,14 @@ class TestMATRIZSchemaDrift:
         assert result.schema_valid, "Schema must be valid for T4 compliance"
 
         # Must have fail-closed behavior
-        assert detector.current_schema.get("additionalProperties") is False, "additionalProperties must be false for fail-closed T4 behavior"
+        assert (
+            detector.current_schema.get("additionalProperties") is False
+        ), "additionalProperties must be false for fail-closed T4 behavior"
 
         # Must have integrity block
-        assert "integrity" in detector.current_schema.get("properties", {}), "Integrity block required for T4 tamper-evident design"
+        assert "integrity" in detector.current_schema.get(
+            "properties", {}
+        ), "Integrity block required for T4 tamper-evident design"
 
         # Must be version compatible
         assert result.version_compatible, "Version compatibility required for T4 standards"
@@ -499,7 +518,9 @@ class TestMATRIZSchemaDrift:
             logger.info(f"  💡 {rec}")
 
         # Fail CI if breaking changes detected
-        assert len(result.breaking_changes) == 0, f"Schema drift CI check failed. Breaking changes: {result.breaking_changes}"
+        assert (
+            len(result.breaking_changes) == 0
+        ), f"Schema drift CI check failed. Breaking changes: {result.breaking_changes}"
 
         logger.info("✅ MATRIZ Schema Drift Analysis PASSED")
 

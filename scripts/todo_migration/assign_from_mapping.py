@@ -95,6 +95,7 @@ def main():
     print("Wrote", out)
     print("Assigned counts by area:")
     from collections import Counter
+
     c = Counter()
     for e in log:
         for _ in e["assigned"]:
@@ -104,4 +105,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-

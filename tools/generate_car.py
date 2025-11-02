@@ -24,7 +24,7 @@ class MockIPLD:
     @staticmethod
     def encode(data: Dict) -> bytes:
         """Encode data as CBOR-like format (using JSON for now)."""
-        return json.dumps(data, sort_keys=True).encode('utf-8')
+        return json.dumps(data, sort_keys=True).encode("utf-8")
 
     @staticmethod
     def generate_cid(data: bytes) -> str:
@@ -44,20 +44,13 @@ class MockCAR:
     def add_block(self, data: bytes) -> str:
         """Add a block to the CAR and return its CID."""
         cid = MockIPLD.generate_cid(data)
-        self.blocks.append({
-            "cid": cid,
-            "data": data.decode('utf-8') if isinstance(data, bytes) else data
-        })
+        self.blocks.append({"cid": cid, "data": data.decode("utf-8") if isinstance(data, bytes) else data})
         return cid
 
     def write(self):
         """Write CAR file (as JSON for now)."""
-        car_data = {
-            "version": 1,
-            "roots": [self.blocks[0]["cid"]] if self.blocks else [],
-            "blocks": self.blocks
-        }
-        with open(self.path, 'w') as f:
+        car_data = {"version": 1, "roots": [self.blocks[0]["cid"]] if self.blocks else [], "blocks": self.blocks}
+        with open(self.path, "w") as f:
             json.dump(car_data, f, indent=2)
 
 
@@ -65,7 +58,7 @@ def generate_provenance_car(
     module: str,
     gate_results: Optional[Dict] = None,
     attestation: Optional[str] = None,
-    prism_results: Optional[Dict] = None
+    prism_results: Optional[Dict] = None,
 ) -> str:
     """
     Generate IPLD CAR for comprehensive provenance.
@@ -87,11 +80,8 @@ def generate_provenance_car(
         "schema_version": "1.0.0",
         "provenance": {
             "generated_by": "matrix_gate.py",
-            "environment": {
-                "os": "Darwin",  # Would detect dynamically
-                "python": "3.11.6"
-            }
-        }
+            "environment": {"os": "Darwin", "python": "3.11.6"},  # Would detect dynamically
+        },
     }
 
     # Add gate results if provided
@@ -101,26 +91,15 @@ def generate_provenance_car(
     # Add attestation if provided
     if attestation:
         # Store only hash of JWT for privacy
-        block["attestation"] = {
-            "evidence_hash": hashlib.sha256(attestation.encode()).hexdigest(),
-            "verified": True
-        }
+        block["attestation"] = {"evidence_hash": hashlib.sha256(attestation.encode()).hexdigest(), "verified": True}
 
     # Add PRISM results if provided
     if prism_results:
-        block["verification"] = {
-            "prism": prism_results,
-            "property_satisfied": prism_results.get("result", False)
-        }
+        block["verification"] = {"prism": prism_results, "property_satisfied": prism_results.get("result", False)}
 
     # Calculate lamport time (simplified)
     previous_time = load_previous_lamport_time(module)
-    block["causal_ordering"] = {
-        "lamport_time": previous_time + 1,
-        "vector_clock": {
-            module: previous_time + 1
-        }
-    }
+    block["causal_ordering"] = {"lamport_time": previous_time + 1, "vector_clock": {module: previous_time + 1}}
 
     # Generate CAR
     car_path = f"artifacts/{module}_provenance_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.car"
@@ -171,7 +150,7 @@ def update_contract_cid(module: str, cid: str, lamport_time: int):
             contract["causal_provenance"]["last_updated"] = datetime.utcnow().isoformat() + "Z"
 
             # Write back
-            with open(contract_path, 'w') as f:
+            with open(contract_path, "w") as f:
                 json.dump(contract, f, indent=2)
 
             print(f"📝 Updated {contract_path} with CID: {cid}")
@@ -194,7 +173,7 @@ def verify_car(car_path: str) -> bool:
         for block in car_data["blocks"]:
             content = block["data"]
             if isinstance(content, str):
-                content = content.encode('utf-8')
+                content = content.encode("utf-8")
             computed_cid = MockIPLD.generate_cid(content)
             stored_cid = block["cid"]
 
@@ -245,10 +224,7 @@ def main():
 
     # Generate CAR
     cid = generate_provenance_car(
-        module=args.module,
-        gate_results=gate_results,
-        attestation=attestation,
-        prism_results=prism_results
+        module=args.module, gate_results=gate_results, attestation=attestation, prism_results=prism_results
     )
 
     print("\n🎉 Provenance CAR generated successfully!")

@@ -1,4 +1,5 @@
 """Test consciousness extension bridge exports and contract."""
+
 import pytest
 
 

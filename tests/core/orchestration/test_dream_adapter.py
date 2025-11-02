@@ -1,6 +1,6 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════════
-🌌 LUKHAS AI - Dream Engine Adapter Tests  
+🌌 LUKHAS AI - Dream Engine Adapter Tests
 ═══════════════════════════════════════════════════════════════════════════════════
 
 Test Module: test_dream_adapter
@@ -46,11 +46,7 @@ class MockUnifiedIntegration:
 
     def send_message(self, component_id: str, content: Dict[str, Any]) -> None:
         """Send a message through the integration layer"""
-        self.messages.append({
-            "component_id": component_id,
-            "content": content,
-            "timestamp": time.time()
-        })
+        self.messages.append({"component_id": component_id, "content": content, "timestamp": time.time()})
 
 
 class TestDreamEngineAdapterInitialization(unittest.TestCase):
@@ -80,10 +76,7 @@ class TestDreamEngineAdapterInitialization(unittest.TestCase):
 
         # Verify component was registered
         self.assertIn("dream_engine", self.mock_integration.components)
-        self.assertEqual(
-            self.mock_integration.components["dream_engine"],
-            adapter.handle_message
-        )
+        self.assertEqual(self.mock_integration.components["dream_engine"], adapter.handle_message)
 
     def test_multiple_adapter_instances(self):
         """Test multiple adapter instances can coexist"""
@@ -169,48 +162,31 @@ class TestDreamEngineAdapterMessageHandling(unittest.TestCase):
 
     def test_start_dream_cycle_message(self):
         """Test handling start_dream_cycle message"""
-        message = {
-            "content": {
-                "action": "start_dream_cycle",
-                "duration": 30
-            }
-        }
+        message = {"content": {"action": "start_dream_cycle", "duration": 30}}
 
-        with patch.object(self.adapter, '_handle_start_cycle') as mock_start:
+        with patch.object(self.adapter, "_handle_start_cycle") as mock_start:
             self.adapter.handle_message(message)
             mock_start.assert_called_once_with(message["content"])
 
     def test_stop_dream_cycle_message(self):
         """Test handling stop_dream_cycle message"""
-        message = {
-            "content": {
-                "action": "stop_dream_cycle"
-            }
-        }
+        message = {"content": {"action": "stop_dream_cycle"}}
 
-        with patch.object(self.adapter, '_handle_stop_cycle') as mock_stop:
+        with patch.object(self.adapter, "_handle_stop_cycle") as mock_stop:
             self.adapter.handle_message(message)
             mock_stop.assert_called_once_with(message["content"])
 
     def test_get_dream_state_message(self):
         """Test handling get_dream_state message"""
-        message = {
-            "content": {
-                "action": "get_dream_state"
-            }
-        }
+        message = {"content": {"action": "get_dream_state"}}
 
-        with patch.object(self.adapter, '_handle_get_state') as mock_get:
+        with patch.object(self.adapter, "_handle_get_state") as mock_get:
             self.adapter.handle_message(message)
             mock_get.assert_called_once_with(message["content"])
 
     def test_unknown_action_message(self):
         """Test handling unknown action message"""
-        message = {
-            "content": {
-                "action": "unknown_action"
-            }
-        }
+        message = {"content": {"action": "unknown_action"}}
 
         # Should not raise exception, just ignore
         try:
@@ -263,7 +239,7 @@ class TestDreamEngineAdapterCycleManagement(unittest.TestCase):
         await self.adapter.start_dream_cycle(30)
 
         # Try to start second cycle
-        with patch('logging.Logger.warning') as mock_warning:
+        with patch("logging.Logger.warning") as mock_warning:
             await self.adapter.start_dream_cycle(60)
             mock_warning.assert_called_once()
 
@@ -291,7 +267,7 @@ class TestDreamEngineAdapterCycleManagement(unittest.TestCase):
         self.assertEqual(self.adapter.dream_state["status"], "idle")
 
         # Try to stop
-        with patch('logging.Logger.warning') as mock_warning:
+        with patch("logging.Logger.warning") as mock_warning:
             await self.adapter.stop_dream_cycle()
             mock_warning.assert_called_once()
 
@@ -306,10 +282,7 @@ class TestDreamEngineAdapterIntegration(unittest.TestCase):
 
     def test_send_response(self):
         """Test sending response through integration layer"""
-        test_content = {
-            "status": "success",
-            "data": {"key": "value"}
-        }
+        test_content = {"status": "success", "data": {"key": "value"}}
 
         self.adapter._send_response(test_content)
 
@@ -326,7 +299,7 @@ class TestDreamEngineAdapterIntegration(unittest.TestCase):
         responses = [
             {"action": "start", "status": "initiated"},
             {"action": "processing", "status": "active"},
-            {"action": "complete", "status": "finished"}
+            {"action": "complete", "status": "finished"},
         ]
 
         for response in responses:
@@ -350,16 +323,11 @@ class TestDreamEngineAdapterErrorHandling(unittest.TestCase):
 
     def test_handle_message_exception(self):
         """Test exception handling in message processing"""
-        message = {
-            "content": {
-                "action": "start_dream_cycle",
-                "duration": 30
-            }
-        }
+        message = {"content": {"action": "start_dream_cycle", "duration": 30}}
 
         # Mock method to raise exception
-        with patch.object(self.adapter, '_handle_start_cycle', side_effect=Exception("Test error")):
-            with patch('logging.Logger.error') as mock_error:
+        with patch.object(self.adapter, "_handle_start_cycle", side_effect=Exception("Test error")):
+            with patch("logging.Logger.error") as mock_error:
                 self.adapter.handle_message(message)
                 mock_error.assert_called_once()
 
@@ -378,7 +346,7 @@ class TestDreamEngineAdapterErrorHandling(unittest.TestCase):
     async def test_async_operation_timeout(self):
         """Test async operation timeout handling"""
         # This tests robustness of async operations
-        with patch('asyncio.sleep', side_effect=asyncio.TimeoutError()):
+        with patch("asyncio.sleep", side_effect=asyncio.TimeoutError()):
             try:
                 # Should handle timeout gracefully
                 await self.adapter.start_dream_cycle(30)
@@ -407,9 +375,11 @@ class TestDreamEngineAdapterPerformance(unittest.TestCase):
 
         start_time = time.time()
 
-        with patch.object(self.adapter, '_handle_start_cycle'), \
-             patch.object(self.adapter, '_handle_stop_cycle'), \
-             patch.object(self.adapter, '_handle_get_state'):
+        with (
+            patch.object(self.adapter, "_handle_start_cycle"),
+            patch.object(self.adapter, "_handle_stop_cycle"),
+            patch.object(self.adapter, "_handle_get_state"),
+        ):
 
             for message in messages:
                 self.adapter.handle_message(message)
@@ -444,7 +414,7 @@ class TestDreamEngineAdapterPerformance(unittest.TestCase):
         # Perform operations
         for i in range(100):
             message = {"content": {"action": "get_dream_state"}}
-            with patch.object(self.adapter, '_handle_get_state'):
+            with patch.object(self.adapter, "_handle_get_state"):
                 self.adapter.handle_message(message)
 
         # Force garbage collection

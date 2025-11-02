@@ -12,7 +12,23 @@ import pathlib
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-SKIP_DIRS = {"tests", ".venv", "venv", "build", "dist", "__pycache__", "quarantine", "mcp-lukhas-sse", "site-packages", "vendor", ".git", "temp", "node_modules", "backups"}
+SKIP_DIRS = {
+    "tests",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "__pycache__",
+    "quarantine",
+    "mcp-lukhas-sse",
+    "site-packages",
+    "vendor",
+    ".git",
+    "temp",
+    "node_modules",
+    "backups",
+}
+
 
 class Rewriter(ast.NodeTransformer):
     def visit_Import(self, node):
@@ -20,10 +36,12 @@ class Rewriter(ast.NodeTransformer):
             if n.name == "core" or n.name.startswith("core."):
                 n.name = "lukhas." + n.name if not n.name.startswith("lukhas.") else n.name
         return node
+
     def visit_ImportFrom(self, node):
         if node.module and (node.module == "core" or node.module.startswith("core.")):
             node.module = "lukhas." + node.module if not node.module.startswith("lukhas.") else node.module
         return node
+
 
 def rewrite_file(p: pathlib.Path, write: bool) -> bool:
     if not p.is_file():
@@ -46,6 +64,7 @@ def rewrite_file(p: pathlib.Path, write: bool) -> bool:
         return True
     return False
 
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true", help="apply changes")
@@ -58,6 +77,7 @@ def main():
             continue
         changed += rewrite_file(path, args.write) or 0
     sys.exit(0 if not changed else (0 if args.write else 2))
+
 
 if __name__ == "__main__":
     main()

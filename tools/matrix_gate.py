@@ -42,7 +42,7 @@ def try_osv_scan(sbom_path: str, output_json_path: str) -> Optional[Dict]:
             ["osv-scanner", "--sbom", sbom_path, "--format", "json", "--output", output_json_path],
             check=True,
             capture_output=True,
-            text=True
+            text=True,
         )
         return json.load(open(output_json_path))
     except subprocess.CalledProcessError as e:
@@ -62,7 +62,11 @@ def parse_osv_result(osv_data: Optional[Dict]) -> Dict[str, Any]:
         return {"high_count": None, "scan_failed": True}
 
     # OSV scanner output structure can vary, handle multiple formats
-    vulns = osv_data.get("vulnerabilities") or osv_data.get("vulns") or osv_data.get("results", {}).get("vulnerabilities", [])
+    vulns = (
+        osv_data.get("vulnerabilities")
+        or osv_data.get("vulns")
+        or osv_data.get("results", {}).get("vulnerabilities", [])
+    )
 
     high_count = 0
     for vuln in vulns:
@@ -133,7 +137,9 @@ class MatrixGate:
             print(f"[WARN] Could not load run report {run_files[-1]}: {e}")
             return None
 
-    def enforce_gates(self, matrix: Dict, run: Optional[Dict], osv_info: Optional[Dict] = None) -> List[Tuple[str, Any, str]]:
+    def enforce_gates(
+        self, matrix: Dict, run: Optional[Dict], osv_info: Optional[Dict] = None
+    ) -> List[Tuple[str, Any, str]]:
         """
         Enforce gates from matrix contract against run metrics.
 
@@ -275,8 +281,7 @@ class MatrixGate:
 
         # Check for step-up requirements without MFA capability
         step_up_apis = [p["fn"] for p in api_policies if p.get("requires_step_up", False)]
-        if step_up_apis and not any(tier in ["trusted", "inner_circle", "root_dev"]
-                                   for tier in required_tiers):
+        if step_up_apis and not any(tier in ["trusted", "inner_circle", "root_dev"] for tier in required_tiers):
             errors.append(f"Step-up required for {step_up_apis} but no high-tier access allowed")
 
         return errors
@@ -294,7 +299,8 @@ class MatrixGate:
 
             # Calculate expected checksum
             import hashlib
-            canonical_json = json.dumps(tier_permissions, sort_keys=True, separators=(',', ':'))
+
+            canonical_json = json.dumps(tier_permissions, sort_keys=True, separators=(",", ":"))
             expected_checksum = hashlib.sha256(canonical_json.encode()).hexdigest()
 
             # Load policy checksum
@@ -306,7 +312,10 @@ class MatrixGate:
                 actual_checksum = f.read().strip()
 
             if actual_checksum != expected_checksum:
-                return False, f"Policy checksum mismatch (expected: {expected_checksum[:16]}..., got: {actual_checksum[:16]}...)"
+                return (
+                    False,
+                    f"Policy checksum mismatch (expected: {expected_checksum[:16]}..., got: {actual_checksum[:16]}...)",
+                )
 
             return True, "Policy checksum valid"
 
@@ -403,33 +412,17 @@ def main():
     parser.add_argument(
         "--pattern",
         default="**/matrix_*.json",
-        help="Glob pattern for finding matrix contracts (default: **/matrix_*.json)"
+        help="Glob pattern for finding matrix contracts (default: **/matrix_*.json)",
     )
     parser.add_argument(
         "--schema",
         default="schemas/matrix.schema.json",
-        help="Path to JSON Schema (default: schemas/matrix.schema.json)"
+        help="Path to JSON Schema (default: schemas/matrix.schema.json)",
     )
-    parser.add_argument(
-        "--strict",
-        action="store_true",
-        help="Exit with error on any gate failure"
-    )
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Verbose output"
-    )
-    parser.add_argument(
-        "--osv",
-        action="store_true",
-        help="Run OSV scanner on SBOMs and enforce security gates"
-    )
-    parser.add_argument(
-        "--identity",
-        action="store_true",
-        help="Validate identity blocks and check policy checksum"
-    )
+    parser.add_argument("--strict", action="store_true", help="Exit with error on any gate failure")
+    parser.add_argument("--verbose", action="store_true", help="Verbose output")
+    parser.add_argument("--osv", action="store_true", help="Run OSV scanner on SBOMs and enforce security gates")
+    parser.add_argument("--identity", action="store_true", help="Validate identity blocks and check policy checksum")
 
     args = parser.parse_args()
 

@@ -41,6 +41,7 @@ try:
     from cryptography.x509.oid import (
         NameOID,  # noqa: F401  # TODO: cryptography.x509.oid.NameOID;...
     )
+
     CRYPTOGRAPHY_AVAILABLE = True
 except ImportError:
     CRYPTOGRAPHY_AVAILABLE = False
@@ -49,14 +50,17 @@ except ImportError:
 try:
     from argon2 import PasswordHasher
     from argon2.exceptions import HashingError, VerifyMismatchError
+
     ARGON2_AVAILABLE = True
 except ImportError:
     ARGON2_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
+
 class KeyType(Enum):
     """Supported key types."""
+
     AES_256 = "aes-256"
     RSA_2048 = "rsa-2048"
     RSA_4096 = "rsa-4096"
@@ -64,24 +68,30 @@ class KeyType(Enum):
     EC_P384 = "ec-p384"
     ED25519 = "ed25519"
 
+
 class KeyUsage(Enum):
     """Key usage patterns."""
+
     ENCRYPTION = "encryption"
     SIGNING = "signing"
     KEY_WRAPPING = "key_wrapping"
     AUTHENTICATION = "authentication"
     DATA_ENCRYPTION = "data_encryption"
 
+
 class EncryptionAlgorithm(Enum):
     """Supported encryption algorithms."""
+
     AES_256_GCM = "aes-256-gcm"
     AES_256_CBC = "aes-256-cbc"
     RSA_OAEP = "rsa-oaep"
     EC_ENCRYPTION = "ec-encryption"
 
+
 @dataclass
 class KeyMetadata:
     """Metadata for cryptographic keys."""
+
     key_id: str
     key_type: KeyType
     key_usage: KeyUsage
@@ -96,9 +106,11 @@ class KeyMetadata:
     last_used: Optional[datetime] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class EncryptionResult:
     """Result of encryption operation."""
+
     encrypted_data: bytes
     iv: Optional[bytes] = None
     tag: Optional[bytes] = None
@@ -106,38 +118,51 @@ class EncryptionResult:
     algorithm: EncryptionAlgorithm = EncryptionAlgorithm.AES_256_GCM
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class DecryptionResult:
     """Result of decryption operation."""
+
     decrypted_data: bytes
     key_id: str = ""
     verified: bool = True
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class CryptoError(Exception):
     """Base exception for cryptographic operations."""
+
     pass
+
 
 class KeyNotFoundError(CryptoError):
     """Key not found in key store."""
+
     pass
+
 
 class KeyExpiredError(CryptoError):
     """Key has expired."""
+
     pass
+
 
 class DecryptionError(CryptoError):
     """Decryption operation failed."""
+
     pass
+
 
 class EncryptionManager:
     """Comprehensive encryption management system."""
 
-    def __init__(self,
-                 key_store_path: Optional[str] = None,
-                 hsm_config: Optional[Dict[str, Any]] = None,
-                 auto_rotation: bool = True,
-                 key_retention_days: int = 90):
+    def __init__(
+        self,
+        key_store_path: Optional[str] = None,
+        hsm_config: Optional[Dict[str, Any]] = None,
+        auto_rotation: bool = True,
+        key_retention_days: int = 90,
+    ):
 
         if not CRYPTOGRAPHY_AVAILABLE:
             raise ImportError("cryptography library required for encryption manager")
@@ -157,11 +182,7 @@ class EncryptionManager:
         # Initialize Argon2 for password hashing
         if ARGON2_AVAILABLE:
             self.password_hasher = PasswordHasher(
-                time_cost=3,
-                memory_cost=65536,  # 64 MB
-                parallelism=1,
-                hash_len=32,
-                salt_len=16
+                time_cost=3, memory_cost=65536, parallelism=1, hash_len=32, salt_len=16  # 64 MB
             )
 
         # Performance metrics
@@ -184,7 +205,7 @@ class EncryptionManager:
 
         if os.path.exists(master_key_path):
             # Load existing master key
-            with open(master_key_path, 'rb') as f:
+            with open(master_key_path, "rb") as f:
                 encrypted_key = f.read()
 
             # In production, this would be decrypted using HSM or KMS
@@ -205,7 +226,7 @@ class EncryptionManager:
 
             encrypted_key = self._encrypt_master_key(master_key, passphrase)
 
-            with open(master_key_path, 'wb') as f:
+            with open(master_key_path, "wb") as f:
                 f.write(encrypted_key)
 
             # Set secure permissions
@@ -218,15 +239,7 @@ class EncryptionManager:
         salt = secrets.token_bytes(32)
 
         # Derive key using scrypt
-        kdf = Scrypt(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            n=2**14,
-            r=8,
-            p=1,
-            backend=default_backend()
-        )
+        kdf = Scrypt(algorithm=hashes.SHA256(), length=32, salt=salt, n=2**14, r=8, p=1, backend=default_backend())
         derived_key = kdf.derive(passphrase)
 
         # Encrypt with AES-256-GCM
@@ -248,15 +261,7 @@ class EncryptionManager:
         ciphertext = encrypted_key[60:]
 
         # Derive key using scrypt
-        kdf = Scrypt(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            n=2**14,
-            r=8,
-            p=1,
-            backend=default_backend()
-        )
+        kdf = Scrypt(algorithm=hashes.SHA256(), length=32, salt=salt, n=2**14, r=8, p=1, backend=default_backend())
         derived_key = kdf.derive(passphrase)
 
         # Decrypt with AES-256-GCM
@@ -268,11 +273,13 @@ class EncryptionManager:
         except Exception as e:
             raise CryptoError(f"Failed to decrypt master key: {e}")
 
-    def generate_key(self,
-                    key_type: KeyType,
-                    key_usage: KeyUsage,
-                    key_id: Optional[str] = None,
-                    expires_in_days: Optional[int] = None) -> str:
+    def generate_key(
+        self,
+        key_type: KeyType,
+        key_usage: KeyUsage,
+        key_id: Optional[str] = None,
+        expires_in_days: Optional[int] = None,
+    ) -> str:
         """
         Generate a new cryptographic key.
 
@@ -311,7 +318,7 @@ class EncryptionManager:
             created_at=datetime.now(timezone.utc),
             expires_at=expires_at,
             algorithm=self._get_default_algorithm(key_type),
-            hsm_backed=self.hsm_config is not None
+            hsm_backed=self.hsm_config is not None,
         )
 
         # Store key (encrypted with master key)
@@ -336,27 +343,19 @@ class EncryptionManager:
             return secrets.token_bytes(32)  # 256-bit key
 
         elif key_type == KeyType.RSA_2048:
-            private_key = rsa.generate_private_key(
-                public_exponent=65537,
-                key_size=2048,
-                backend=default_backend()
-            )
+            private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
             return private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
 
         elif key_type == KeyType.RSA_4096:
-            private_key = rsa.generate_private_key(
-                public_exponent=65537,
-                key_size=4096,
-                backend=default_backend()
-            )
+            private_key = rsa.generate_private_key(public_exponent=65537, key_size=4096, backend=default_backend())
             return private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
 
         elif key_type == KeyType.EC_P256:
@@ -364,7 +363,7 @@ class EncryptionManager:
             return private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
 
         elif key_type == KeyType.EC_P384:
@@ -372,7 +371,7 @@ class EncryptionManager:
             return private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
 
         elif key_type == KeyType.ED25519:
@@ -380,7 +379,7 @@ class EncryptionManager:
             return private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
 
         else:
@@ -397,11 +396,13 @@ class EncryptionManager:
         else:
             return EncryptionAlgorithm.AES_256_GCM
 
-    def encrypt(self,
-                data: Union[str, bytes],
-                key_id: str,
-                algorithm: Optional[EncryptionAlgorithm] = None,
-                additional_data: Optional[bytes] = None) -> EncryptionResult:
+    def encrypt(
+        self,
+        data: Union[str, bytes],
+        key_id: str,
+        algorithm: Optional[EncryptionAlgorithm] = None,
+        additional_data: Optional[bytes] = None,
+    ) -> EncryptionResult:
         """
         Encrypt data with specified key.
 
@@ -418,7 +419,7 @@ class EncryptionManager:
 
         # Convert string to bytes
         if isinstance(data, str):
-            data = data.encode('utf-8')
+            data = data.encode("utf-8")
 
         # Get key
         key_metadata = self._get_key(key_id)
@@ -465,10 +466,7 @@ class EncryptionManager:
         ciphertext = encryptor.update(data) + encryptor.finalize()
 
         return EncryptionResult(
-            encrypted_data=ciphertext,
-            iv=iv,
-            tag=encryptor.tag,
-            algorithm=EncryptionAlgorithm.AES_256_GCM
+            encrypted_data=ciphertext, iv=iv, tag=encryptor.tag, algorithm=EncryptionAlgorithm.AES_256_GCM
         )
 
     def _encrypt_aes_cbc(self, data: bytes, key: bytes) -> EncryptionResult:
@@ -484,20 +482,12 @@ class EncryptionManager:
 
         ciphertext = encryptor.update(padded_data) + encryptor.finalize()
 
-        return EncryptionResult(
-            encrypted_data=ciphertext,
-            iv=iv,
-            algorithm=EncryptionAlgorithm.AES_256_CBC
-        )
+        return EncryptionResult(encrypted_data=ciphertext, iv=iv, algorithm=EncryptionAlgorithm.AES_256_CBC)
 
     def _encrypt_rsa_oaep(self, data: bytes, key_material: bytes) -> EncryptionResult:
         """Encrypt with RSA-OAEP."""
         # Load private key to get public key
-        private_key = serialization.load_pem_private_key(
-            key_material,
-            password=None,
-            backend=default_backend()
-        )
+        private_key = serialization.load_pem_private_key(key_material, password=None, backend=default_backend())
         public_key = private_key.public_key()
 
         # RSA can only encrypt limited data size
@@ -514,46 +504,38 @@ class EncryptionManager:
             encrypted_key = public_key.encrypt(
                 aes_key,
                 asym_padding.OAEP(
-                    mgf=asym_padding.MGF1(algorithm=hashes.SHA256()),
-                    algorithm=hashes.SHA256(),
-                    label=None
-                )
+                    mgf=asym_padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None
+                ),
             )
 
             # Combine encrypted key + iv + tag + data
             combined_data = (
-                len(encrypted_key).to_bytes(4, 'big') +
-                encrypted_key +
-                aes_result.iv +
-                aes_result.tag +
-                aes_result.encrypted_data
+                len(encrypted_key).to_bytes(4, "big")
+                + encrypted_key
+                + aes_result.iv
+                + aes_result.tag
+                + aes_result.encrypted_data
             )
 
             return EncryptionResult(
                 encrypted_data=combined_data,
                 algorithm=EncryptionAlgorithm.RSA_OAEP,
-                metadata={"hybrid": True, "aes_key_size": len(encrypted_key)}
+                metadata={"hybrid": True, "aes_key_size": len(encrypted_key)},
             )
         else:
             # Direct RSA encryption for small data
             ciphertext = public_key.encrypt(
                 data,
                 asym_padding.OAEP(
-                    mgf=asym_padding.MGF1(algorithm=hashes.SHA256()),
-                    algorithm=hashes.SHA256(),
-                    label=None
-                )
+                    mgf=asym_padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None
+                ),
             )
 
             return EncryptionResult(
-                encrypted_data=ciphertext,
-                algorithm=EncryptionAlgorithm.RSA_OAEP,
-                metadata={"hybrid": False}
+                encrypted_data=ciphertext, algorithm=EncryptionAlgorithm.RSA_OAEP, metadata={"hybrid": False}
             )
 
-    def decrypt(self,
-                encrypted_result: EncryptionResult,
-                additional_data: Optional[bytes] = None) -> DecryptionResult:
+    def decrypt(self, encrypted_result: EncryptionResult, additional_data: Optional[bytes] = None) -> DecryptionResult:
         """
         Decrypt data using encryption result.
 
@@ -593,7 +575,7 @@ class EncryptionManager:
             decrypted_data=decrypted_data,
             key_id=encrypted_result.key_id,
             verified=True,
-            metadata={"decryption_time_ms": processing_time}
+            metadata={"decryption_time_ms": processing_time},
         )
 
     def _decrypt_aes_gcm(self, result: EncryptionResult, key: bytes, additional_data: Optional[bytes] = None) -> bytes:
@@ -632,39 +614,30 @@ class EncryptionManager:
     def _decrypt_rsa_oaep(self, result: EncryptionResult, key_material: bytes) -> bytes:
         """Decrypt RSA-OAEP encrypted data."""
         # Load private key
-        private_key = serialization.load_pem_private_key(
-            key_material,
-            password=None,
-            backend=default_backend()
-        )
+        private_key = serialization.load_pem_private_key(key_material, password=None, backend=default_backend())
 
         if result.metadata.get("hybrid"):
             # Hybrid decryption (RSA + AES)
             data = result.encrypted_data
 
             # Extract encrypted AES key
-            key_size = int.from_bytes(data[:4], 'big')
-            encrypted_aes_key = data[4:4+key_size]
-            iv = data[4+key_size:4+key_size+12]
-            tag = data[4+key_size+12:4+key_size+12+16]
-            encrypted_data = data[4+key_size+12+16:]
+            key_size = int.from_bytes(data[:4], "big")
+            encrypted_aes_key = data[4 : 4 + key_size]
+            iv = data[4 + key_size : 4 + key_size + 12]
+            tag = data[4 + key_size + 12 : 4 + key_size + 12 + 16]
+            encrypted_data = data[4 + key_size + 12 + 16 :]
 
             # Decrypt AES key with RSA
             aes_key = private_key.decrypt(
                 encrypted_aes_key,
                 asym_padding.OAEP(
-                    mgf=asym_padding.MGF1(algorithm=hashes.SHA256()),
-                    algorithm=hashes.SHA256(),
-                    label=None
-                )
+                    mgf=asym_padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None
+                ),
             )
 
             # Decrypt data with AES
             aes_result = EncryptionResult(
-                encrypted_data=encrypted_data,
-                iv=iv,
-                tag=tag,
-                algorithm=EncryptionAlgorithm.AES_256_GCM
+                encrypted_data=encrypted_data, iv=iv, tag=tag, algorithm=EncryptionAlgorithm.AES_256_GCM
             )
 
             return self._decrypt_aes_gcm(aes_result, aes_key)
@@ -674,10 +647,8 @@ class EncryptionManager:
                 return private_key.decrypt(
                     result.encrypted_data,
                     asym_padding.OAEP(
-                        mgf=asym_padding.MGF1(algorithm=hashes.SHA256()),
-                        algorithm=hashes.SHA256(),
-                        label=None
-                    )
+                        mgf=asym_padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None
+                    ),
                 )
             except Exception as e:
                 raise DecryptionError(f"RSA decryption failed: {e}")
@@ -701,7 +672,7 @@ class EncryptionManager:
             key_type=old_key.key_type,
             key_usage=old_key.key_usage,
             key_id=new_key_id,
-            expires_in_days=None  # Inherit from rotation policy
+            expires_in_days=None,  # Inherit from rotation policy
         )
 
         # Update version
@@ -742,31 +713,21 @@ class EncryptionManager:
     def _hash_password_pbkdf2(self, password: str) -> str:
         """Fallback password hashing with PBKDF2."""
         salt = secrets.token_bytes(32)
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            iterations=100000,
-            backend=default_backend()
-        )
-        key = kdf.derive(password.encode('utf-8'))
-        return base64.b64encode(salt + key).decode('ascii')
+        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000, backend=default_backend())
+        key = kdf.derive(password.encode("utf-8"))
+        return base64.b64encode(salt + key).decode("ascii")
 
     def _verify_password_pbkdf2(self, password: str, hashed: str) -> bool:
         """Verify PBKDF2 hashed password."""
         try:
-            decoded = base64.b64decode(hashed.encode('ascii'))
+            decoded = base64.b64decode(hashed.encode("ascii"))
             salt = decoded[:32]
             stored_key = decoded[32:]
 
             kdf = PBKDF2HMAC(
-                algorithm=hashes.SHA256(),
-                length=32,
-                salt=salt,
-                iterations=100000,
-                backend=default_backend()
+                algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000, backend=default_backend()
             )
-            kdf.verify(password.encode('utf-8'), stored_key)
+            kdf.verify(password.encode("utf-8"), stored_key)
             return True
         except Exception:
             return False
@@ -795,10 +756,7 @@ class EncryptionManager:
         tag = secrets.token_bytes(16)  # This would be stored
 
         result = EncryptionResult(
-            encrypted_data=encrypted_key,
-            iv=iv,
-            tag=tag,
-            algorithm=EncryptionAlgorithm.AES_256_GCM
+            encrypted_data=encrypted_key, iv=iv, tag=tag, algorithm=EncryptionAlgorithm.AES_256_GCM
         )
 
         return self._decrypt_aes_gcm(result, self.master_key)
@@ -831,9 +789,11 @@ class EncryptionManager:
             "performance_target_met": avg_time < 5.0,
             "total_keys": len(self.keys),
             "active_keys": sum(1 for k in self.keys.values() if k.is_active),
-            "expired_keys": sum(1 for k in self.keys.values()
-                              if k.expires_at and k.expires_at < datetime.now(timezone.utc))
+            "expired_keys": sum(
+                1 for k in self.keys.values() if k.expires_at and k.expires_at < datetime.now(timezone.utc)
+            ),
         }
+
 
 # Factory functions
 def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> EncryptionManager:
@@ -844,8 +804,9 @@ def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> Encryp
         key_store_path=config.get("key_store_path"),
         hsm_config=config.get("hsm_config"),
         auto_rotation=config.get("auto_rotation", True),
-        key_retention_days=config.get("key_retention_days", 90)
+        key_retention_days=config.get("key_retention_days", 90),
     )
+
 
 if __name__ == "__main__":
     # Example usage and testing
@@ -894,4 +855,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Error: {e}")
         import traceback
+
         traceback.print_exc()

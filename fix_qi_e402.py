@@ -8,13 +8,13 @@ from pathlib import Path
 def fix_file(filepath):
     """Fix E402 errors in a single file."""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
     except (IOError, OSError, UnicodeDecodeError) as e:
         print(f"Failed to read {filepath}: {e}")
         return False
 
-    lines = content.split('\n')
+    lines = content.split("\n")
     if not lines:
         return False
 
@@ -27,7 +27,7 @@ def fix_file(filepath):
     i = 0
 
     # Extract shebang
-    if lines[0].startswith('#!'):
+    if lines[0].startswith("#!"):
         shebang = lines[0]
         i = 1
 
@@ -73,13 +73,13 @@ def fix_file(filepath):
 
     for line in before_docstring:
         stripped = line.strip()
-        if stripped.startswith('import ') or stripped.startswith('from '):
+        if stripped.startswith("import ") or stripped.startswith("from "):
             imports.append(line)
-        elif 'logger' in stripped.lower() and ('getLogger' in line or 'logging.' in line):
+        elif "logger" in stripped.lower() and ("getLogger" in line or "logging." in line):
             other.append(line)  # Logger will go after imports
-        elif stripped.startswith('__') and '=' in stripped:
+        elif stripped.startswith("__") and "=" in stripped:
             constants.append(line)  # Module constants
-        elif not stripped or stripped.startswith('#'):
+        elif not stripped or stripped.startswith("#"):
             pass  # Skip blank/comments for now
         else:
             other.append(line)
@@ -93,15 +93,15 @@ def fix_file(filepath):
     for line in after_docstring:
         stripped = line.strip()
 
-        if stripped.startswith('import ') or stripped.startswith('from '):
+        if stripped.startswith("import ") or stripped.startswith("from "):
             after_imports.append(line)
             continue
 
-        if stripped.startswith('__') and '=' in stripped and in_import_section:
+        if stripped.startswith("__") and "=" in stripped and in_import_section:
             after_constants.append(line)
             continue
 
-        if stripped.startswith('try:'):
+        if stripped.startswith("try:"):
             # Capture try/except import blocks
             indent = len(line) - len(line.lstrip())
             after_imports.append(line)
@@ -118,7 +118,7 @@ def fix_file(filepath):
             # Blank line in imports
             continue
 
-        if stripped.startswith('#') and in_import_section:
+        if stripped.startswith("#") and in_import_section:
             # Comment in imports
             continue
 
@@ -135,34 +135,34 @@ def fix_file(filepath):
 
     # Docstring
     new_lines.extend(docstring_lines)
-    new_lines.append('')
+    new_lines.append("")
 
     # All imports
     all_imports = imports + after_imports
     if all_imports:
         new_lines.extend(all_imports)
-        new_lines.append('')
+        new_lines.append("")
 
     # Module constants
     all_constants = constants + after_constants
     if all_constants:
         new_lines.extend(all_constants)
-        new_lines.append('')
+        new_lines.append("")
 
     # Logger and other early code
     if other:
         new_lines.extend(other)
-        new_lines.append('')
+        new_lines.append("")
 
     # Rest of code
     new_lines.extend(rest)
 
-    new_content = '\n'.join(new_lines)
+    new_content = "\n".join(new_lines)
 
     # Only write if changed
     if new_content != content:
         try:
-            with open(filepath, 'w', encoding='utf-8') as f:
+            with open(filepath, "w", encoding="utf-8") as f:
                 f.write(new_content)
             return True
         except Exception as e:
@@ -175,18 +175,18 @@ def fix_file(filepath):
 def main():
     # Get files with E402 in remaining directories
     result = subprocess.run(
-        ['python3', '-m', 'ruff', 'check', '.', '--select', 'E402', '--output-format=concise'],
+        ["python3", "-m", "ruff", "check", ".", "--select", "E402", "--output-format=concise"],
         capture_output=True,
-        text=True
+        text=True,
     )
 
     files = set()
-    for line in result.stdout.split('\n'):
-        if 'E402' in line:
-            parts = line.split(':')
-            if parts and not any(x in parts[0] for x in ['archive/', 'gemini-dev/', 'b1db8919']):
+    for line in result.stdout.split("\n"):
+        if "E402" in line:
+            parts = line.split(":")
+            if parts and not any(x in parts[0] for x in ["archive/", "gemini-dev/", "b1db8919"]):
                 # Focus on qi/, vivox/, products/, lukhas_website/
-                if any(parts[0].startswith(d) for d in ['qi/', 'vivox/', 'lukhas_website/']):
+                if any(parts[0].startswith(d) for d in ["qi/", "vivox/", "lukhas_website/"]):
                     files.add(parts[0])
 
     print(f"Found {len(files)} files to fix")
@@ -202,15 +202,20 @@ def main():
 
     # Check remaining
     result = subprocess.run(
-        ['python3', '-m', 'ruff', 'check', '.', '--select', 'E402', '--output-format=concise'],
+        ["python3", "-m", "ruff", "check", ".", "--select", "E402", "--output-format=concise"],
         capture_output=True,
-        text=True
+        text=True,
     )
 
-    remaining = len([l for l in result.stdout.split('\n')
-                    if 'E402' in l and not any(x in l for x in ['archive/', 'gemini-dev/', 'b1db8919'])])
+    remaining = len(
+        [
+            l
+            for l in result.stdout.split("\n")
+            if "E402" in l and not any(x in l for x in ["archive/", "gemini-dev/", "b1db8919"])
+        ]
+    )
     print(f"Remaining E402 errors: {remaining}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

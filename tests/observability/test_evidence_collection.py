@@ -135,10 +135,7 @@ class TestEvidenceCollectionEngine:
 
         # Query by evidence type
         data_access_evidence = []
-        async for evidence in evidence_engine.query_evidence(
-            evidence_type=EvidenceType.DATA_ACCESS,
-            limit=10
-        ):
+        async for evidence in evidence_engine.query_evidence(evidence_type=EvidenceType.DATA_ACCESS, limit=10):
             data_access_evidence.append(evidence)
 
         # Should find at least one data access record
@@ -212,6 +209,7 @@ class TestEvidenceCollectionEngine:
     @pytest.mark.asyncio
     async def test_concurrent_evidence_collection(self, evidence_engine):
         """Test concurrent evidence collection"""
+
         async def collect_evidence_task(task_id):
             return await evidence_engine.collect_evidence(
                 evidence_type=EvidenceType.SYSTEM_EVENT,
@@ -383,7 +381,7 @@ class TestIntegrationFunctions:
     async def test_convenience_collect_function(self, evidence_engine):
         """Test convenience collect_evidence function"""
         # Mock the global engine
-        with patch('observability.evidence_collection.get_evidence_engine', return_value=evidence_engine):
+        with patch("observability.evidence_collection.get_evidence_engine", return_value=evidence_engine):
             evidence_id = await collect_evidence(
                 evidence_type=EvidenceType.USER_INTERACTION,
                 source_component="test_component",

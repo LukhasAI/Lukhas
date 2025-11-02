@@ -29,10 +29,12 @@ def run_cmd(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
 
     return result
 
+
 def get_candidate_count() -> int:
     """Get current candidate/ file count"""
     result = run_cmd("find candidate/ -type f -name '*.py' | wc -l", check=False)
     return int(result.stdout.strip())
+
 
 def validate_checkpoint() -> dict:
     """Run full validation checkpoint"""
@@ -42,7 +44,7 @@ def validate_checkpoint() -> dict:
         "matriz": False,
         "imports": True,
         "coverage": False,
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     # MATRIZ validation
@@ -66,6 +68,7 @@ def validate_checkpoint() -> dict:
 
     return validation
 
+
 def create_burst_checkpoint(batch_nums: list, total_promoted: int, validation: dict):
     """Create checkpoint artifact for burst session"""
     checkpoint = {
@@ -75,13 +78,14 @@ def create_burst_checkpoint(batch_nums: list, total_promoted: int, validation: d
         "validation_status": validation,
         "candidate_remaining": get_candidate_count(),
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "status": "checkpoint" if validation["matriz"] and validation["imports"] else "needs_review"
+        "status": "checkpoint" if validation["matriz"] and validation["imports"] else "needs_review",
     }
 
     with open("artifacts/burst_checkpoint.json", "w") as f:
         json.dump(checkpoint, f, indent=2)
 
     return checkpoint
+
 
 def execute_batch_sequence(target_files: int, batch_size: int = 50) -> dict:
     """Execute sequence of batches to promote target_files"""
@@ -131,8 +135,9 @@ def execute_batch_sequence(target_files: int, batch_size: int = 50) -> dict:
         "total_promoted": total_promoted,
         "initial_count": initial_count,
         "final_count": final_count,
-        "target_achieved": total_promoted >= target_files
+        "target_achieved": total_promoted >= target_files,
     }
+
 
 def main():
     parser = argparse.ArgumentParser(description="Burst Cockpit - Weekend sprint mode")
@@ -185,11 +190,7 @@ def main():
     final_validation = validate_checkpoint()
 
     # Create burst checkpoint
-    checkpoint = create_burst_checkpoint(
-        result["batches_executed"],
-        result["total_promoted"],
-        final_validation
-    )
+    checkpoint = create_burst_checkpoint(result["batches_executed"], result["total_promoted"], final_validation)
 
     # Burst summary
     print("\n💥 BURST COMPLETE")
@@ -198,7 +199,9 @@ def main():
     print(f"📦 Files promoted: {result['total_promoted']}")
     print(f"📊 candidate/ drain: {result['initial_count']} → {result['final_count']}")
     print(f"🎯 Target achieved: {'✅ YES' if result['target_achieved'] else '🟡 PARTIAL'}")
-    print(f"🔍 Validation: {'✅ PASS' if final_validation['matriz'] and final_validation['imports'] else '❌ REVIEW NEEDED'}")
+    print(
+        f"🔍 Validation: {'✅ PASS' if final_validation['matriz'] and final_validation['imports'] else '❌ REVIEW NEEDED'}"
+    )
 
     # Create summary PR if successful
     if result["total_promoted"] > 0 and final_validation["matriz"] and final_validation["imports"]:
@@ -241,7 +244,7 @@ def main():
         # Create PR and get PR number
         result = run_cmd(f'gh pr create --title "{pr_title}" --body "{pr_body}"', check=False)
         pr_url = result.stdout.strip()
-        pr_number = pr_url.split('/')[-1] if pr_url else None
+        pr_number = pr_url.split("/")[-1] if pr_url else None
 
         # Add dashboard comment
         if pr_number and pr_number.isdigit():
@@ -249,6 +252,7 @@ def main():
             run_cmd(f"python3 tools/dashboard_bot.py --mode pr-comment --pr-number {pr_number}", check=False)
 
     print("📋 Checkpoint saved: artifacts/burst_checkpoint.json")
+
 
 if __name__ == "__main__":
     main()

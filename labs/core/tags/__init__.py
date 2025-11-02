@@ -2,6 +2,7 @@
 LUKHAS Tag System
 Central registry and management for all system tags
 """
+
 import streamlit as st
 
 from .registry import (

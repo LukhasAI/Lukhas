@@ -24,6 +24,7 @@ class QuarantineDisabledOrchestrator(ConsolidationOrchestrator):
     def _run_stage(self, stage):
         # Override to skip quarantine validation
         from memory.consolidation.consolidation_orchestrator import SleepStage
+
         if stage in (SleepStage.NREM_2, SleepStage.NREM_3):
             batch = self._select_batch()
             if not batch:
@@ -41,15 +42,14 @@ class QuarantineDisabledOrchestrator(ConsolidationOrchestrator):
             self._metrics["batches"] += 1
             self._metrics["folds_created"] += len(folds)
             self._metrics["traces_consolidated"] += len(batch)
-            self.consciousness.publish_event("stage_consolidated", {
-                "stage": stage.value,
-                "batch": len(batch),
-                "folds": len(folds)
-            })
+            self.consciousness.publish_event(
+                "stage_consolidated", {"stage": stage.value, "batch": len(batch), "folds": len(folds)}
+            )
         elif stage is SleepStage.REM:
             self.consciousness.publish_event("stage_rem_integration", {"stage": stage.value})
         else:
             self.consciousness.publish_event("stage_stabilize", {"stage": stage.value})
+
 
 async def run_ablation_comparison(seed: int = 1337):
     """Compare quarantine on vs off for same seed."""
@@ -85,8 +85,8 @@ async def run_ablation_comparison(seed: int = 1337):
     print(f"   Runtime: {metrics_unsafe['last_run_s']:.4f}s")
 
     print("\n=== ABLATION SUMMARY ===")
-    fold_diff = metrics_unsafe['folds_created'] - metrics_safe['folds_created']
-    safety_diff = (ok_safe/max(1,len(reports_safe))) - (ok_unsafe/max(1,len(reports_unsafe)))
+    fold_diff = metrics_unsafe["folds_created"] - metrics_safe["folds_created"]
+    safety_diff = (ok_safe / max(1, len(reports_safe))) - (ok_unsafe / max(1, len(reports_unsafe)))
 
     print(f"Quarantine cost: {fold_diff:+d} fewer folds ({fold_diff/max(1,metrics_unsafe['folds_created']):.1%})")
     print(f"Safety benefit: {safety_diff:+.1%} structural integrity improvement")
@@ -98,6 +98,7 @@ async def run_ablation_comparison(seed: int = 1337):
         for i, r in enumerate(reports_unsafe):
             if not r.ok:
                 print(f"   Fold {i}: {r.issues} (coherence={r.coherence_score}, risk={r.cascade_risk})")
+
 
 if __name__ == "__main__":
     asyncio.run(run_ablation_comparison())

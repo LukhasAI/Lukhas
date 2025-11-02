@@ -181,7 +181,9 @@ class QIEntanglement:
 
 
 # Factory function for easy instantiation
-def create_quantum_component(config: Optional[dict] = None) -> ΛQuantumEntanglement:  # noqa: F821  # TODO: ΛQuantumEntanglement
+def create_quantum_component(
+    config: Optional[dict] = None,
+) -> ΛQuantumEntanglement:  # noqa: F821  # TODO: ΛQuantumEntanglement
     """Create and return a quantum component instance"""
     return ΛQuantumEntanglement(config)  # noqa: F821  # TODO: ΛQuantumEntanglement
 

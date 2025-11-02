@@ -23,7 +23,7 @@ import time
 from typing import Any, Dict, List
 
 # Add project root to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
@@ -41,10 +41,7 @@ from observability.otel_instrumentation import (
 )
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -76,9 +73,7 @@ class MatrizObservabilityValidator:
         try:
             # Initialize base OTel instrumentation
             base_init = initialize_otel_instrumentation(
-                service_name="matriz-validation",
-                enable_prometheus=True,
-                enable_logging=True
+                service_name="matriz-validation", enable_prometheus=True, enable_logging=True
             )
 
             if not base_init:
@@ -120,10 +115,7 @@ class MatrizObservabilityValidator:
             @instrument_cognitive_stage("memory", node_id="memory_test", slo_target_ms=50.0)
             def test_memory_stage(query: str) -> Dict[str, Any]:
                 time.sleep(0.02)  # Simulate memory retrieval
-                return {
-                    "memories": ["memory1", "memory2"],
-                    "confidence": 0.9
-                }
+                return {"memories": ["memory1", "memory2"], "confidence": 0.9}
 
             result = test_memory_stage("test query")
             if result.get("memories") and result.get("confidence"):
@@ -136,10 +128,7 @@ class MatrizObservabilityValidator:
             @instrument_cognitive_stage("attention", node_id="attention_test", slo_target_ms=30.0)
             def test_attention_stage(inputs: List[str]) -> Dict[str, Any]:
                 time.sleep(0.015)  # Simulate attention processing
-                return {
-                    "focused_input": inputs[0] if inputs else None,
-                    "attention_weights": [0.8, 0.2]
-                }
+                return {"focused_input": inputs[0] if inputs else None, "attention_weights": [0.8, 0.2]}
 
             result = test_attention_stage(["primary", "secondary"])
             if result.get("focused_input") and result.get("attention_weights"):
@@ -152,11 +141,7 @@ class MatrizObservabilityValidator:
             @instrument_cognitive_stage("thought", node_id="thought_test", slo_target_ms=100.0)
             def test_thought_stage(problem: str) -> Dict[str, Any]:
                 time.sleep(0.05)  # Simulate reasoning
-                return {
-                    "solution": "42",
-                    "reasoning_depth": 5,
-                    "logic_chains": 2
-                }
+                return {"solution": "42", "reasoning_depth": 5, "logic_chains": 2}
 
             result = test_thought_stage("complex problem")
             if result.get("solution") and result.get("reasoning_depth"):
@@ -169,10 +154,7 @@ class MatrizObservabilityValidator:
             @instrument_cognitive_stage("decision", node_id="decision_test", slo_target_ms=40.0)
             def test_decision_stage(options: List[str]) -> Dict[str, Any]:
                 time.sleep(0.025)  # Simulate decision making
-                return {
-                    "chosen_option": options[0],
-                    "confidence": 0.85
-                }
+                return {"chosen_option": options[0], "confidence": 0.85}
 
             result = test_decision_stage(["option1", "option2"])
             if result.get("chosen_option") and result.get("confidence"):
@@ -185,10 +167,7 @@ class MatrizObservabilityValidator:
             @instrument_cognitive_stage("action", node_id="async_test", slo_target_ms=75.0)
             async def test_async_stage(action: str) -> Dict[str, Any]:
                 await asyncio.sleep(0.03)  # Simulate async action
-                return {
-                    "action_taken": action,
-                    "success": True
-                }
+                return {"action_taken": action, "success": True}
 
             async def run_async_test():
                 result = await test_async_stage("test_action")
@@ -230,10 +209,7 @@ class MatrizObservabilityValidator:
             expected_stages = ["memory", "attention", "thought", "action", "decision", "awareness"]
 
             async with cognitive_pipeline_span(
-                "validation_pipeline",
-                "validation query",
-                expected_stages=expected_stages,
-                target_slo_ms=200.0
+                "validation_pipeline", "validation query", expected_stages=expected_stages, target_slo_ms=200.0
             ):
                 # Simulate pipeline processing
                 await asyncio.sleep(0.05)
@@ -260,36 +236,34 @@ class MatrizObservabilityValidator:
             {
                 "name": "Focus Drift Anomaly",
                 "test": lambda: record_focus_drift("anomaly_node", [0.9, 0.1, 0.95, 0.05], window_size=4),
-                "description": "High attention weight variance"
+                "description": "High attention weight variance",
             },
-
             # Memory cascade risk
             {
                 "name": "Memory Cascade Risk",
                 "test": lambda: record_memory_cascade_risk(fold_count=980, retrieval_depth=40, cascade_detected=True),
-                "description": "Critical memory cascade conditions"
+                "description": "Critical memory cascade conditions",
             },
-
             # Thought complexity spike
             {
                 "name": "Thought Complexity Spike",
                 "test": lambda: record_thought_complexity(reasoning_depth=25, logic_chains=12, inference_steps=300),
-                "description": "Extreme reasoning complexity"
+                "description": "Extreme reasoning complexity",
             },
-
             # Low decision confidence
             {
                 "name": "Low Decision Confidence",
-                "test": lambda: record_decision_confidence(confidence_score=0.15, decision_type="critical", node_id="anomaly_node"),
-                "description": "Very low confidence decision"
+                "test": lambda: record_decision_confidence(
+                    confidence_score=0.15, decision_type="critical", node_id="anomaly_node"
+                ),
+                "description": "Very low confidence decision",
             },
-
             # Performance outlier
             {
                 "name": "Performance Outlier",
                 "test": self._test_performance_outlier,
-                "description": "Extreme processing latency"
-            }
+                "description": "Extreme processing latency",
+            },
         ]
 
         detected_anomalies = 0
@@ -311,6 +285,7 @@ class MatrizObservabilityValidator:
 
     def _test_performance_outlier(self):
         """Test performance outlier detection"""
+
         @instrument_cognitive_stage("memory", node_id="outlier_node", slo_target_ms=50.0, anomaly_detection=True)
         def slow_processing():
             time.sleep(0.200)  # 200ms - 4x the SLO target
@@ -379,7 +354,7 @@ class MatrizObservabilityValidator:
             "instrumented_p95_ms": instrumented_p95,
             "overhead_mean_percent": overhead_mean,
             "overhead_p95_percent": overhead_p95,
-            "acceptable": performance_acceptable
+            "acceptable": performance_acceptable,
         }
 
         return performance_acceptable
@@ -389,21 +364,16 @@ class MatrizObservabilityValidator:
         self.log("=== Validating Cognitive Event Instrumentation ===")
 
         try:
+
             @instrument_cognitive_event("process_matriz_event", slo_target_ms=100.0)
             def mock_process_matriz_event(event: Dict[str, Any]) -> Dict[str, Any]:
                 # Simulate MATRIZ event processing
-                stage = event.get('node_type', 'unknown').lower()
-                node_id = event.get('id', 'unknown')
+                stage = event.get("node_type", "unknown").lower()
+                node_id = event.get("id", "unknown")
 
                 time.sleep(0.03)  # Simulate processing time
 
-                return {
-                    "processed": True,
-                    "stage": stage,
-                    "node_id": node_id,
-                    "confidence": 0.85,
-                    "reasoning_depth": 3
-                }
+                return {"processed": True, "stage": stage, "node_id": node_id, "confidence": 0.85, "reasoning_depth": 3}
 
             # Test event
             test_event = {
@@ -412,14 +382,16 @@ class MatrizObservabilityValidator:
                 "data": {"query": "validation test"},
                 "connections": ["node_456"],
                 "timestamp": time.time(),
-                "metadata": {"priority": "normal"}
+                "metadata": {"priority": "normal"},
             }
 
             result = mock_process_matriz_event(test_event)
 
-            if (result.get("processed") and
-                result.get("stage") == "thought" and
-                result.get("node_id") == "test_node_validation"):
+            if (
+                result.get("processed")
+                and result.get("stage") == "thought"
+                and result.get("node_id") == "test_node_validation"
+            ):
                 self.log("✓ Cognitive event instrumentation working")
                 return True
             else:
@@ -442,7 +414,7 @@ class MatrizObservabilityValidator:
             "cognitive_events": False,
             "anomaly_detection": False,
             "performance_impact": False,
-            "overall_success": False
+            "overall_success": False,
         }
 
         # Run all validations

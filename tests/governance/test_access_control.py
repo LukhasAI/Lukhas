@@ -4,6 +4,7 @@ Tests for access control decisions.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-MED-TEST-ACCESS-k9l0m1n2
 """
+
 import pytest
 
 

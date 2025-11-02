@@ -60,19 +60,15 @@ def emit_exemption(db, rec: Dict[str, Any]) -> None:
         )
         """,
         {
-          **rec,
-          "tags": json.dumps(rec.get("tags", [])),
-          "confidences": json.dumps(rec.get("confidences", {})),
-          "user_consent_timestamp": _normalize_consent_timestamp(rec.get("user_consent_timestamp")),
+            **rec,
+            "tags": json.dumps(rec.get("tags", [])),
+            "confidences": json.dumps(rec.get("confidences", {})),
+            "user_consent_timestamp": _normalize_consent_timestamp(rec.get("user_consent_timestamp")),
         },
     )
 
 
-def validate_dual_approval(
-    approver1_id: str,
-    approver2_id: str,
-    get_tier_fn: callable
-) -> bool:
+def validate_dual_approval(approver1_id: str, approver2_id: str, get_tier_fn: callable) -> bool:
     """
     Validate dual-approval for critical overrides.
 
@@ -120,7 +116,7 @@ def emit_guardian_decision(
     approver1_id: Optional[str] = None,
     approver2_id: Optional[str] = None,
     user_consent_timestamp: Optional[Union[str, datetime]] = None,
-    consent_method: Optional[str] = None
+    consent_method: Optional[str] = None,
 ) -> None:
     """
     Convenience wrapper to emit guardian decisions.
@@ -194,20 +190,28 @@ def redact_pii_for_exemplars(data: Any) -> Any:
     """
     if isinstance(data, str):
         # Redact emails
-        data = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
-                     lambda m: f"email_{hashlib.md5(m.group().encode()).hexdigest()[:8]}", data)
+        data = re.sub(
+            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+            lambda m: f"email_{hashlib.md5(m.group().encode()).hexdigest()[:8]}",
+            data,
+        )
 
         # Redact phone numbers
-        data = re.sub(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',
-                     lambda m: f"phone_{hashlib.md5(m.group().encode()).hexdigest()[:8]}", data)
+        data = re.sub(
+            r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b", lambda m: f"phone_{hashlib.md5(m.group().encode()).hexdigest()[:8]}", data
+        )
 
         # Redact SSNs
-        data = re.sub(r'\b\d{3}[-.]?\d{2}[-.]?\d{4}\b',
-                     lambda m: f"ssn_{hashlib.md5(m.group().encode()).hexdigest()[:8]}", data)
+        data = re.sub(
+            r"\b\d{3}[-.]?\d{2}[-.]?\d{4}\b", lambda m: f"ssn_{hashlib.md5(m.group().encode()).hexdigest()[:8]}", data
+        )
 
         # Redact credit card numbers
-        data = re.sub(r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b',
-                     lambda m: f"cc_{hashlib.md5(m.group().encode()).hexdigest()[:8]}", data)
+        data = re.sub(
+            r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b",
+            lambda m: f"cc_{hashlib.md5(m.group().encode()).hexdigest()[:8]}",
+            data,
+        )
 
         return data
 
@@ -227,7 +231,7 @@ def emit_guardian_action_with_exemplar(
     plan: Dict[str, Any],
     trace_id: Optional[str] = None,
     confidence_scores: Optional[Dict[str, float]] = None,
-    emit_to_prometheus: bool = True
+    emit_to_prometheus: bool = True,
 ) -> None:
     """
     Emit Guardian action with redacted exemplar for drill-down.
@@ -267,7 +271,7 @@ def emit_guardian_action_with_exemplar(
         metric = GUARDIAN_ACTIONS_EXEMPLARS.labels(action=action, lane=lane)
 
         # Add exemplar if supported (Prometheus client v0.14+)
-        if hasattr(metric, '_exemplar'):
+        if hasattr(metric, "_exemplar"):
             metric.inc(exemplar={"trace_id": trace_id or "none", "data": json.dumps(exemplar_data)})
         else:
             # Fallback for older clients
@@ -276,14 +280,12 @@ def emit_guardian_action_with_exemplar(
     except Exception as e:
         # Don't fail the main operation due to metrics errors
         import logging
+
         logger = logging.getLogger(__name__)
         logger.warning(f"Failed to emit exemplar for action {action}: {e}")
 
 
-def emit_confidence_metrics(
-    tags: List[Dict[str, Any]],
-    lane: str = "unknown"
-) -> None:
+def emit_confidence_metrics(tags: List[Dict[str, Any]], lane: str = "unknown") -> None:
     """
     Emit confidence metrics for detected tags.
 
@@ -298,17 +300,15 @@ def emit_confidence_metrics(
             return
 
         for tag in tags:
-            tag_name = tag.get('name', 'unknown')
-            confidence = tag.get('confidence', 0.0)
+            tag_name = tag.get("name", "unknown")
+            confidence = tag.get("confidence", 0.0)
 
-            SAFETY_TAGS_CONFIDENCE.labels(
-                tag=tag_name,
-                lane=lane
-            ).observe(confidence)
+            SAFETY_TAGS_CONFIDENCE.labels(tag=tag_name, lane=lane).observe(confidence)
 
     except Exception as e:
         # Don't fail the main operation
         import logging
+
         logger = logging.getLogger(__name__)
         logger.warning(f"Failed to emit confidence metrics: {e}")
 

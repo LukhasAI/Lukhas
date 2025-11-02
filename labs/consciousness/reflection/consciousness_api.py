@@ -9,6 +9,7 @@
 Consciousness Platform API
 Commercial API for consciousness simulation and awareness tracking
 """
+
 import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

@@ -19,32 +19,38 @@ import sys
 import urllib.error
 import urllib.request
 
-HEADING_RE = re.compile(r'^\s{0,3}#{1,6}\s+(.*)\s*$')
-LINK_RE = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
+HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s+(.*)\s*$")
+LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+
 
 def slugify(text: str) -> str:
     import unicodedata
+
     text = unicodedata.normalize("NFKD", text)
-    text = re.sub(r'[^\w\s-]', '', text).strip().lower()
-    text = re.sub(r'[\s]+', '-', text)
+    text = re.sub(r"[^\w\s-]", "", text).strip().lower()
+    text = re.sub(r"[\s]+", "-", text)
     return text
+
 
 def extract_headings(md_text: str):
     anchors = set()
     for line in md_text.splitlines():
         m = HEADING_RE.match(line)
         if m:
-            anchors.add("#"+slugify(m.group(1)))
+            anchors.add("#" + slugify(m.group(1)))
     return anchors
+
 
 def iter_markdown_files(root: pathlib.Path):
     for p in root.rglob("*.md"):
-        if any(seg in p.parts for seg in (".venv","venv",".git")):
+        if any(seg in p.parts for seg in (".venv", "venv", ".git")):
             continue
         yield p
 
+
 def is_external(url: str) -> bool:
     return url.startswith("http://") or url.startswith("https://")
+
 
 def check_external(url: str) -> bool:
     try:
@@ -53,6 +59,7 @@ def check_external(url: str) -> bool:
             return 200 <= r.status < 400
     except Exception:
         return False
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -64,7 +71,8 @@ def main():
     root = pathlib.Path(args.root).resolve()
     docs = root / "docs"
     manifests = root / "manifests"
-    audit_dir = docs / "audits"; audit_dir.mkdir(parents=True, exist_ok=True)
+    audit_dir = docs / "audits"
+    audit_dir.mkdir(parents=True, exist_ok=True)
     report = []
 
     broken_internal = 0
@@ -104,7 +112,7 @@ def main():
                 continue
 
             if anchor_part:
-                anchor = "#"+slugify(anchor_part)
+                anchor = "#" + slugify(anchor_part)
                 # target headings
                 if target.suffix.lower() == ".md":
                     if target not in heading_cache:
@@ -119,6 +127,7 @@ def main():
     print(f"Broken internal: {broken_internal}; Broken external: {broken_external}")
     if broken_internal or (args.strict and broken_external):
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

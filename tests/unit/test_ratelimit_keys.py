@@ -6,6 +6,7 @@ tests/unit/test_ratelimit_keys.py
 Unit tests for RateLimiter key generation and per-tenant isolation.
 Validates that rate limits are scoped to (route, bearer_token) or (route, ip).
 """
+
 from __future__ import annotations
 
 from types import SimpleNamespace
@@ -17,10 +18,7 @@ from core.reliability.ratelimit import RateLimiter
 
 
 def _mock_request(
-    path: str = "/v1/embeddings",
-    auth: Optional[str] = None,
-    ip: str = "1.2.3.4",
-    xff: Optional[str] = None
+    path: str = "/v1/embeddings", auth: Optional[str] = None, ip: str = "1.2.3.4", xff: Optional[str] = None
 ):
     """
     Create mock FastAPI Request object for testing.
@@ -40,11 +38,7 @@ def _mock_request(
     if xff:
         headers["x-forwarded-for"] = xff
 
-    return SimpleNamespace(
-        url=SimpleNamespace(path=path),
-        headers=headers,
-        client=SimpleNamespace(host=ip)
-    )
+    return SimpleNamespace(url=SimpleNamespace(path=path), headers=headers, client=SimpleNamespace(host=ip))
 
 
 def test_key_differs_by_bearer_token():
@@ -99,8 +93,7 @@ def test_key_falls_back_to_ip_when_no_token():
     req = _mock_request(auth=None, ip="9.9.9.9")
     key = limiter._key_for_request(req)
 
-    assert key.endswith(":9.9.9.9"), \
-        f"Key should fall back to IP, got: {key}"
+    assert key.endswith(":9.9.9.9"), f"Key should fall back to IP, got: {key}"
 
 
 def test_key_isolates_different_ips():
@@ -147,12 +140,9 @@ def test_bearer_token_takes_precedence_over_ip():
     key = limiter._key_for_request(req)
 
     # Should use hashed token, not raw token or IP
-    assert ":tok:" in key, \
-        f"Bearer token should take precedence (hashed), got: {key}"
-    assert "5.5.5.5" not in key, \
-        "IP should not appear when bearer token present"
-    assert "TOKEN123" not in key, \
-        "Raw token should not appear (should be hashed)"
+    assert ":tok:" in key, f"Bearer token should take precedence (hashed), got: {key}"
+    assert "5.5.5.5" not in key, "IP should not appear when bearer token present"
+    assert "TOKEN123" not in key, "Raw token should not appear (should be hashed)"
 
 
 def test_malformed_bearer_falls_back_to_ip():
@@ -174,8 +164,7 @@ def test_malformed_bearer_falls_back_to_ip():
         req = _mock_request(auth=auth_value, ip="7.7.7.7")
         key = limiter._key_for_request(req)
 
-        assert key.endswith(":7.7.7.7"), \
-            f"{description}: Should fall back to IP, got: {key}"
+        assert key.endswith(":7.7.7.7"), f"{description}: Should fall back to IP, got: {key}"
 
 
 def test_rate_limit_enforced_per_key():
@@ -221,15 +210,11 @@ def test_anonymous_fallback_when_no_client():
     limiter = RateLimiter(default_rps=10)
 
     # Request without client attribute
-    req = SimpleNamespace(
-        url=SimpleNamespace(path="/v1/test"),
-        headers={}
-    )
+    req = SimpleNamespace(url=SimpleNamespace(path="/v1/test"), headers={})
 
     key = limiter._key_for_request(req)
 
-    assert key.endswith(":anonymous"), \
-        f"Should fall back to 'anonymous', got: {key}"
+    assert key.endswith(":anonymous"), f"Should fall back to 'anonymous', got: {key}"
 
 
 def test_key_format_consistent():
@@ -258,13 +243,11 @@ def test_key_format_consistent():
                 route = path
                 break
 
-        assert route is not None, \
-            f"Route portion should match path {req.url.path}, got key: {key}"
+        assert route is not None, f"Route portion should match path {req.url.path}, got key: {key}"
 
         # Principal is everything after the first route colon
-        principal = key[len(route)+1:]
-        assert len(principal) > 0, \
-            "Principal portion should not be empty"
+        principal = key[len(route) + 1 :]
+        assert len(principal) > 0, "Principal portion should not be empty"
 
 
 def test_x_forwarded_for_takes_precedence():
@@ -280,10 +263,8 @@ def test_x_forwarded_for_takes_precedence():
     key = limiter._key_for_request(req)
 
     # Should use first IP from XFF chain (real client), not proxy IP
-    assert key.endswith(":203.0.113.5"), \
-        f"Should use first IP from X-Forwarded-For, got: {key}"
-    assert "10.0.0.1" not in key, \
-        "Proxy IP should not be used when XFF present"
+    assert key.endswith(":203.0.113.5"), f"Should use first IP from X-Forwarded-For, got: {key}"
+    assert "10.0.0.1" not in key, "Proxy IP should not be used when XFF present"
 
 
 def test_x_forwarded_for_ignored_when_bearer_present():
@@ -298,7 +279,6 @@ def test_x_forwarded_for_ignored_when_bearer_present():
     key = limiter._key_for_request(req)
 
     # Should use hashed token, not any IP
-    assert ":tok:" in key, \
-        f"Should use hashed token over XFF, got: {key}"
+    assert ":tok:" in key, f"Should use hashed token over XFF, got: {key}"
     assert "203.0.113.5" not in key, "XFF should be ignored with bearer"
     assert "10.0.0.1" not in key, "Direct IP should be ignored with bearer"

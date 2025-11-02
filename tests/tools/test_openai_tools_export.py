@@ -13,4 +13,4 @@ def test_tools_export_shape():
         t = data["tools"][0]
         assert t.get("type") == "function"
         fn = t.get("function", {})
-        assert {"name","description","parameters"} <= set(fn.keys())
+        assert {"name", "description", "parameters"} <= set(fn.keys())

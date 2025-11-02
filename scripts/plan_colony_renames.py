@@ -27,13 +27,26 @@ BRAND_MAP = {
 }
 
 SKIP_DIRS = {
-    ".git", ".github", ".venv", "venv", "__pycache__", "node_modules",
-    "docs/postman", "docs/audits", "docs/releases",
-    "examples", "scripts", ".dev", ".idea", ".vscode",
+    ".git",
+    ".github",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "node_modules",
+    "docs/postman",
+    "docs/audits",
+    "docs/releases",
+    "examples",
+    "scripts",
+    ".dev",
+    ".idea",
+    ".vscode",
 }
+
 
 def stamp_now():
     return time.strftime("%Y-%m-%dT%H-%M-%SZ", time.gmtime())
+
 
 def looks_laneish(p: Path) -> bool:
     name = p.name
@@ -41,6 +54,7 @@ def looks_laneish(p: Path) -> bool:
         return True
     # nested pockets like src/candidate/, libs/lucas/
     return any(tok in BRAND_MAP for tok in name.split("-"))
+
 
 def propose_target(p: Path) -> Optional[Tuple[str, str]]:
     name = p.name
@@ -50,6 +64,7 @@ def propose_target(p: Path) -> Optional[Tuple[str, str]]:
     if name.startswith("lucas") and p.is_dir():
         return (str(p), str(p.with_name(re.sub(r"^lucas", "lukhas", name))))
     return None
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -90,6 +105,7 @@ def main():
 
     if not proposals:
         print("# No lane-ish directories found that require renaming.")
+
 
 if __name__ == "__main__":
     sys.exit(main())

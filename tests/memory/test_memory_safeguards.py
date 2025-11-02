@@ -26,6 +26,7 @@ try:
         MemoryType,
         get_memory_system,
     )
+
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
     MEMORY_SYSTEMS_AVAILABLE = False
@@ -34,6 +35,7 @@ except ImportError:
 @dataclass
 class TestMemoryItem:
     """Test memory item with known properties for verification"""
+
     id: str
     content: str
     embedding: List[float]
@@ -42,7 +44,7 @@ class TestMemoryItem:
     priority: int
     metadata: Dict[str, Any]
 
-    def similarity_to(self, other: 'TestMemoryItem') -> float:
+    def similarity_to(self, other: "TestMemoryItem") -> float:
         """Calculate cosine similarity for testing"""
         if len(self.embedding) != len(other.embedding):
             return 0.0
@@ -94,8 +96,8 @@ class MemorySafeguardTestFramework:
                     "test_id": i,
                     "batch": i // 1000,
                     "synthetic": True,
-                    "verification_hash": hash(f"verify_{i}_{self.seed}")
-                }
+                    "verification_hash": hash(f"verify_{i}_{self.seed}"),
+                },
             )
             items.append(item)
 
@@ -107,12 +109,7 @@ class MemorySafeguardTestFramework:
         if not MEMORY_SYSTEMS_AVAILABLE or not self.memory_system:
             return {"skipped": "Memory systems not available"}
 
-        storage_log = {
-            "stored": 0,
-            "failed": 0,
-            "errors": [],
-            "item_ids": []
-        }
+        storage_log = {"stored": 0, "failed": 0, "errors": [], "item_ids": []}
 
         for item in items:
             try:
@@ -121,7 +118,7 @@ class MemorySafeguardTestFramework:
                     content=item.content,
                     memory_type=MemoryType.SEMANTIC,  # Use semantic for test data
                     importance=item.priority / 10.0,  # Normalize priority to 0-1
-                    tags=[item.category, item.id]  # Include test ID in tags for retrieval
+                    tags=[item.category, item.id],  # Include test ID in tags for retrieval
                 )
 
                 if memory_item:
@@ -137,10 +134,7 @@ class MemorySafeguardTestFramework:
         return storage_log
 
     def verify_topk_recall_integrity(
-        self,
-        query_item: TestMemoryItem,
-        k: int = 10,
-        expected_results: Set[str] = None
+        self, query_item: TestMemoryItem, k: int = 10, expected_results: Set[str] = None
     ) -> Dict[str, Any]:
         """Verify top-K recall returns correct results"""
         if not MEMORY_SYSTEMS_AVAILABLE or not self.memory_system:
@@ -159,7 +153,7 @@ class MemorySafeguardTestFramework:
                 "returned_count": len(results) if results else 0,
                 "recall_duration_ms": recall_duration * 1000,
                 "integrity_score": 1.0,
-                "violations": []
+                "violations": [],
             }
 
             if not results:
@@ -171,13 +165,13 @@ class MemorySafeguardTestFramework:
             if len(results) > 1:
                 for i in range(len(results) - 1):
                     # AdaptiveMemorySystem should return MemoryItem objects
-                    current_score = getattr(results[i], 'importance', 0)
-                    next_score = getattr(results[i + 1], 'importance', 0)
+                    current_score = getattr(results[i], "importance", 0)
+                    next_score = getattr(results[i + 1], "importance", 0)
                     if current_score < next_score:
                         verification["violations"].append(f"ordering_violation_at_{i}")
 
             # Check for duplicate results
-            result_ids = [getattr(r, 'id', None) for r in results if hasattr(r, 'id')]
+            result_ids = [getattr(r, "id", None) for r in results if hasattr(r, "id")]
             if len(result_ids) != len(set(result_ids)):
                 verification["violations"].append("duplicate_results")
 
@@ -199,14 +193,10 @@ class MemorySafeguardTestFramework:
                 "query_id": query_item.id,
                 "error": str(e),
                 "integrity_score": 0.0,
-                "violations": ["recall_exception"]
+                "violations": ["recall_exception"],
             }
 
-    def stress_test_concurrent_operations(
-        self,
-        operation_count: int = 1000,
-        concurrency: int = 10
-    ) -> Dict[str, Any]:
+    def stress_test_concurrent_operations(self, operation_count: int = 1000, concurrency: int = 10) -> Dict[str, Any]:
         """Test memory operations under concurrent stress"""
         if not MEMORY_SYSTEMS_AVAILABLE:
             return {"skipped": "Memory systems not available"}
@@ -217,18 +207,11 @@ class MemorySafeguardTestFramework:
             "operations_failed": 0,
             "integrity_violations": 0,
             "error_details": [],
-            "performance_metrics": {
-                "min_duration_ms": float('inf'),
-                "max_duration_ms": 0.0,
-                "total_duration_ms": 0.0
-            }
+            "performance_metrics": {"min_duration_ms": float("inf"), "max_duration_ms": 0.0, "total_duration_ms": 0.0},
         }
 
         # Select random items for testing
-        test_items = self.rng.sample(
-            self.memory_items,
-            min(operation_count, len(self.memory_items))
-        )
+        test_items = self.rng.sample(self.memory_items, min(operation_count, len(self.memory_items)))
 
         def perform_recall_operation(item: TestMemoryItem) -> Dict[str, Any]:
             try:
@@ -239,15 +222,12 @@ class MemorySafeguardTestFramework:
                     "query_id": item.id,
                     "error": str(e),
                     "integrity_score": 0.0,
-                    "violations": ["operation_exception"]
+                    "violations": ["operation_exception"],
                 }
 
         # Execute concurrent operations
         with ThreadPoolExecutor(max_workers=concurrency) as executor:
-            futures = [
-                executor.submit(perform_recall_operation, item)
-                for item in test_items
-            ]
+            futures = [executor.submit(perform_recall_operation, item) for item in test_items]
 
             for future in as_completed(futures):
                 try:
@@ -279,14 +259,13 @@ class MemorySafeguardTestFramework:
         # Calculate averages
         if results["operations_completed"] > 0:
             results["performance_metrics"]["avg_duration_ms"] = (
-                results["performance_metrics"]["total_duration_ms"] /
-                results["operations_completed"]
+                results["performance_metrics"]["total_duration_ms"] / results["operations_completed"]
             )
         else:
             results["performance_metrics"]["avg_duration_ms"] = 0.0
 
         # Fix min_duration if no operations completed
-        if results["performance_metrics"]["min_duration_ms"] == float('inf'):
+        if results["performance_metrics"]["min_duration_ms"] == float("inf"):
             results["performance_metrics"]["min_duration_ms"] = 0.0
 
         return results
@@ -302,7 +281,7 @@ class MemorySafeguardTestFramework:
             "performance_degradation": 0,
             "baseline_duration": 0.0,
             "final_duration": 0.0,
-            "violation_details": []
+            "violation_details": [],
         }
 
         # Select a test item for consistency checking
@@ -311,28 +290,24 @@ class MemorySafeguardTestFramework:
         # Establish baseline performance
         baseline_result = self.verify_topk_recall_integrity(test_item, k=10)
         consistency_results["baseline_duration"] = baseline_result.get("recall_duration_ms", 0)
-        baseline_results = set(
-            r.get("id") for r in baseline_result.get("results", [])
-            if r.get("id")
-        )
+        baseline_results = set(r.get("id") for r in baseline_result.get("results", []) if r.get("id"))
 
         # Perform repeated operations
         for i in range(iterations):
             try:
                 result = self.verify_topk_recall_integrity(test_item, k=10)
-                current_results = set(
-                    r.get("id") for r in result.get("results", [])
-                    if r.get("id")
-                )
+                current_results = set(r.get("id") for r in result.get("results", []) if r.get("id"))
 
                 # Check consistency with baseline
                 if current_results != baseline_results:
                     consistency_results["consistency_violations"] += 1
-                    consistency_results["violation_details"].append({
-                        "iteration": i,
-                        "missing": baseline_results - current_results,
-                        "extra": current_results - baseline_results
-                    })
+                    consistency_results["violation_details"].append(
+                        {
+                            "iteration": i,
+                            "missing": baseline_results - current_results,
+                            "extra": current_results - baseline_results,
+                        }
+                    )
 
                 # Track performance degradation
                 current_duration = result.get("recall_duration_ms", 0)
@@ -340,15 +315,14 @@ class MemorySafeguardTestFramework:
                     consistency_results["final_duration"] = current_duration
 
                 # Consider significant slowdown as degradation
-                if (consistency_results["baseline_duration"] > 0 and
-                    current_duration > consistency_results["baseline_duration"] * 2):
+                if (
+                    consistency_results["baseline_duration"] > 0
+                    and current_duration > consistency_results["baseline_duration"] * 2
+                ):
                     consistency_results["performance_degradation"] += 1
 
             except Exception as e:
-                consistency_results["violation_details"].append({
-                    "iteration": i,
-                    "error": str(e)
-                })
+                consistency_results["violation_details"].append({"iteration": i, "error": str(e)})
 
         return consistency_results
 
@@ -379,7 +353,7 @@ class TestMemorySafeguards:
         assert len(items) == dataset_size
 
         # Store test items
-        storage_log = safeguard_framework.store_test_items(items[:min(1000, dataset_size)])
+        storage_log = safeguard_framework.store_test_items(items[: min(1000, dataset_size)])
         assert storage_log["stored"] > 0, "No memory items were stored"
 
         # Test recall integrity on sample queries
@@ -407,10 +381,7 @@ class TestMemorySafeguards:
         assert storage_log["stored"] > 0
 
         # Stress test with concurrent operations
-        stress_results = safeguard_framework.stress_test_concurrent_operations(
-            operation_count=500,
-            concurrency=20
-        )
+        stress_results = safeguard_framework.stress_test_concurrent_operations(operation_count=500, concurrency=20)
 
         # Properties to verify
         assert stress_results["operations_completed"] > 0, "No operations completed"
@@ -466,10 +437,7 @@ class TestMemorySafeguards:
         test_queries = safeguard_framework.rng.sample(items, 10)
 
         for query_item in test_queries:
-            result = safeguard_framework.verify_topk_recall_integrity(
-                query_item,
-                k=k_value
-            )
+            result = safeguard_framework.verify_topk_recall_integrity(query_item, k=k_value)
 
             # Properties to verify:
             # 1. Should return up to K results
@@ -512,7 +480,7 @@ class TestMemorySafeguards:
             category="test",
             timestamp=time.time(),
             priority=1,
-            metadata={"test": True}
+            metadata={"test": True},
         )
         result_empty = safeguard_framework.verify_topk_recall_integrity(empty_item, k=5)
         # Should handle without crashing

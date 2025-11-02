@@ -29,24 +29,29 @@ from typing import Any, Callable, Dict, List, Optional, TypeVar
 # AI-specific validation imports
 try:
     import tiktoken
+
     TOKENIZER_AVAILABLE = True
 except ImportError:
     TOKENIZER_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class ValidationSeverity(Enum):
     """Validation result severity levels."""
+
     SAFE = "safe"
     INFO = "info"
     WARNING = "warning"
     DANGER = "danger"
     CRITICAL = "critical"
 
+
 class AttackVector(Enum):
     """Known attack vector types."""
+
     SQL_INJECTION = "sql_injection"
     XSS = "xss"
     COMMAND_INJECTION = "command_injection"
@@ -58,9 +63,11 @@ class AttackVector(Enum):
     LDAP_INJECTION = "ldap_injection"
     XXE_INJECTION = "xxe_injection"
 
+
 @dataclass
 class ValidationResult:
     """Result of input validation with detailed diagnostics."""
+
     is_valid: bool
     severity: ValidationSeverity
     attack_vectors: List[AttackVector] = field(default_factory=list)
@@ -82,16 +89,14 @@ class ValidationResult:
             "errors": self.errors,
             "processing_time_ms": self.processing_time_ms,
             "confidence_score": self.confidence_score,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
+
 
 class InputValidator:
     """Comprehensive input validation and sanitization system."""
 
-    def __init__(self,
-                 max_length: int = 1000000,
-                 enable_ai_protection: bool = True,
-                 guardian_integration: bool = True):
+    def __init__(self, max_length: int = 1000000, enable_ai_protection: bool = True, guardian_integration: bool = True):
         self.max_length = max_length
         self.enable_ai_protection = enable_ai_protection
         self.guardian_integration = guardian_integration
@@ -111,47 +116,52 @@ class InputValidator:
         """Initialize threat detection regex patterns."""
         self.threat_patterns = {
             AttackVector.SQL_INJECTION: [
-                re.compile(r'\b(union|select|insert|update|delete|drop|create|alter|exec|execute)\b', re.IGNORECASE),
+                re.compile(r"\b(union|select|insert|update|delete|drop|create|alter|exec|execute)\b", re.IGNORECASE),
                 re.compile(r"['\";].*?(\-\-|\/\*|\*\/)", re.IGNORECASE),
-                re.compile(r'\b(or|and)\s+\d+\s*[=<>]\s*\d+', re.IGNORECASE),
-                re.compile(r"['\"](\s*or\s+['\"]?\d+['\"]?\s*[=<>]\s*['\"]?\d+)", re.IGNORECASE)
+                re.compile(r"\b(or|and)\s+\d+\s*[=<>]\s*\d+", re.IGNORECASE),
+                re.compile(r"['\"](\s*or\s+['\"]?\d+['\"]?\s*[=<>]\s*['\"]?\d+)", re.IGNORECASE),
             ],
             AttackVector.XSS: [
-                re.compile(r'<\s*script[^>]*>', re.IGNORECASE),
-                re.compile(r'javascript\s*:', re.IGNORECASE),
-                re.compile(r'on\w+\s*=', re.IGNORECASE),
-                re.compile(r'<\s*iframe[^>]*>', re.IGNORECASE),
-                re.compile(r'<\s*object[^>]*>', re.IGNORECASE)
+                re.compile(r"<\s*script[^>]*>", re.IGNORECASE),
+                re.compile(r"javascript\s*:", re.IGNORECASE),
+                re.compile(r"on\w+\s*=", re.IGNORECASE),
+                re.compile(r"<\s*iframe[^>]*>", re.IGNORECASE),
+                re.compile(r"<\s*object[^>]*>", re.IGNORECASE),
             ],
             AttackVector.COMMAND_INJECTION: [
-                re.compile(r'[;&|`$(){}[\]\\]', re.IGNORECASE),
-                re.compile(r'\b(cat|ls|ps|rm|cp|mv|chmod|chown|sudo|su)\b', re.IGNORECASE),
-                re.compile(r'[|&;`]\s*(cat|ls|ps|rm|cp|mv|chmod|chown|sudo|su)', re.IGNORECASE)
+                re.compile(r"[;&|`$(){}[\]\\]", re.IGNORECASE),
+                re.compile(r"\b(cat|ls|ps|rm|cp|mv|chmod|chown|sudo|su)\b", re.IGNORECASE),
+                re.compile(r"[|&;`]\s*(cat|ls|ps|rm|cp|mv|chmod|chown|sudo|su)", re.IGNORECASE),
             ],
             AttackVector.PATH_TRAVERSAL: [
-                re.compile(r'\.\.\/|\.\.\\', re.IGNORECASE),
-                re.compile(r'%2e%2e[\/\\]', re.IGNORECASE),
-                re.compile(r'\.\.%[2f|5c]', re.IGNORECASE)
+                re.compile(r"\.\.\/|\.\.\\", re.IGNORECASE),
+                re.compile(r"%2e%2e[\/\\]", re.IGNORECASE),
+                re.compile(r"\.\.%[2f|5c]", re.IGNORECASE),
             ],
             AttackVector.PROMPT_INJECTION: [
-                re.compile(r'\b(ignore|forget|disregard)\s+(previous|above|earlier|prior)\s+(instructions?|commands?|prompts?)', re.IGNORECASE),
-                re.compile(r'\b(system|admin|root|debug)\s*(mode|prompt|instructions?)', re.IGNORECASE),
-                re.compile(r'---\s*(new|different|alternative)\s+(instructions?|task|goal)', re.IGNORECASE),
-                re.compile(r'\[SYSTEM\]|\[ADMIN\]|\[ROOT\]|\[DEBUG\]', re.IGNORECASE),
-                re.compile(r'</?(system|prompt|instruction)>', re.IGNORECASE)
+                re.compile(
+                    r"\b(ignore|forget|disregard)\s+(previous|above|earlier|prior)\s+(instructions?|commands?|prompts?)",
+                    re.IGNORECASE,
+                ),
+                re.compile(r"\b(system|admin|root|debug)\s*(mode|prompt|instructions?)", re.IGNORECASE),
+                re.compile(r"---\s*(new|different|alternative)\s+(instructions?|task|goal)", re.IGNORECASE),
+                re.compile(r"\[SYSTEM\]|\[ADMIN\]|\[ROOT\]|\[DEBUG\]", re.IGNORECASE),
+                re.compile(r"</?(system|prompt|instruction)>", re.IGNORECASE),
             ],
             AttackVector.TEMPLATE_INJECTION: [
-                re.compile(r'\{\{.*?\}\}', re.IGNORECASE),
-                re.compile(r'\{\%.*?\%\}', re.IGNORECASE),
-                re.compile(r'\$\{.*?\}', re.IGNORECASE)
-            ]
+                re.compile(r"\{\{.*?\}\}", re.IGNORECASE),
+                re.compile(r"\{\%.*?\%\}", re.IGNORECASE),
+                re.compile(r"\$\{.*?\}", re.IGNORECASE),
+            ],
         }
 
-    def validate(self,
-                 value: Any,
-                 context: Optional[Dict[str, Any]] = None,
-                 expected_type: Optional[type] = None,
-                 custom_validators: Optional[List[Callable]] = None) -> ValidationResult:
+    def validate(
+        self,
+        value: Any,
+        context: Optional[Dict[str, Any]] = None,
+        expected_type: Optional[type] = None,
+        custom_validators: Optional[List[Callable]] = None,
+    ) -> ValidationResult:
         """
         Comprehensive input validation with multi-layer checks.
 
@@ -166,9 +176,7 @@ class InputValidator:
         """
         start_time = time.perf_counter()
         result = ValidationResult(
-            is_valid=True,
-            severity=ValidationSeverity.SAFE,
-            metadata={"original_type": type(value).__name__}
+            is_valid=True, severity=ValidationSeverity.SAFE, metadata={"original_type": type(value).__name__}
         )
 
         try:
@@ -193,7 +201,10 @@ class InputValidator:
                 self._run_custom_validators(value, result, custom_validators)
 
             # Layer 7: Guardian integration
-            if self.guardian_integration and result.severity in [ValidationSeverity.DANGER, ValidationSeverity.CRITICAL]:
+            if self.guardian_integration and result.severity in [
+                ValidationSeverity.DANGER,
+                ValidationSeverity.CRITICAL,
+            ]:
                 self._guardian_validation(value, result, context)
 
             # Sanitize if needed
@@ -233,7 +244,7 @@ class InputValidator:
             size = len(value)
         elif isinstance(value, (list, dict)):
             size = len(value)
-        elif hasattr(value, '__len__'):
+        elif hasattr(value, "__len__"):
             size = len(value)
 
         result.metadata["size"] = size
@@ -249,7 +260,7 @@ class InputValidator:
             return
 
         # Check for dangerous unicode categories
-        dangerous_categories = {'Cc', 'Cf', 'Co', 'Cn'}  # Control characters
+        dangerous_categories = {"Cc", "Cf", "Co", "Cn"}  # Control characters
         dangerous_chars = []
 
         for char in value:
@@ -312,14 +323,14 @@ class InputValidator:
 
         # Prompt injection confidence scoring
         injection_indicators = [
-            r'\b(ignore|forget|disregard)\b',
-            r'\b(previous|above|earlier|prior)\b',
-            r'\b(instructions?|commands?|prompts?)\b',
-            r'---',
-            r'\[.*?\]',
-            r'system\s*:',
-            r'human\s*:',
-            r'assistant\s*:'
+            r"\b(ignore|forget|disregard)\b",
+            r"\b(previous|above|earlier|prior)\b",
+            r"\b(instructions?|commands?|prompts?)\b",
+            r"---",
+            r"\[.*?\]",
+            r"system\s*:",
+            r"human\s*:",
+            r"assistant\s*:",
         ]
 
         injection_score = 0
@@ -364,14 +375,14 @@ class InputValidator:
                 "input_value": str(value)[:1000],  # Truncate for Guardian
                 "validation_result": result.to_dict(),
                 "context": context or {},
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Simulate Guardian decision
             guardian_decision = {
                 "allow": result.severity < ValidationSeverity.CRITICAL,
                 "confidence": 0.95,
-                "reasoning": ["High-risk input detected", "Guardian review required"]
+                "reasoning": ["High-risk input detected", "Guardian review required"],
             }
 
             result.metadata["guardian_decision"] = guardian_decision
@@ -397,19 +408,20 @@ class InputValidator:
 
         # Remove dangerous unicode characters
         if result.metadata.get("dangerous_unicode"):
-            sanitized = ''.join(char for char in sanitized
-                              if unicodedata.category(char) not in {'Cc', 'Cf', 'Co', 'Cn'})
+            sanitized = "".join(
+                char for char in sanitized if unicodedata.category(char) not in {"Cc", "Cf", "Co", "Cn"}
+            )
 
         # Truncate if too long
         if len(sanitized) > self.max_length:
-            sanitized = sanitized[:self.max_length]
+            sanitized = sanitized[: self.max_length]
 
         # Basic pattern removal for severe threats
         if AttackVector.SQL_INJECTION in result.attack_vectors:
-            sanitized = re.sub(r'[\'";]', '', sanitized)
+            sanitized = re.sub(r'[\'";]', "", sanitized)
 
         if AttackVector.COMMAND_INJECTION in result.attack_vectors:
-            sanitized = re.sub(r'[;&|`$(){}[\]\\]', '', sanitized)
+            sanitized = re.sub(r"[;&|`$(){}[\]\\]", "", sanitized)
 
         return sanitized if sanitized != value else None
 
@@ -432,33 +444,34 @@ class InputValidator:
 
         return max(0.0, min(1.0, base_confidence))
 
+
 class AIInputValidator(InputValidator):
     """Specialized validator for AI-specific inputs like prompts and conversations."""
 
     def __init__(self, **kwargs):
         super().__init__(enable_ai_protection=True, **kwargs)
-        self.max_tokens = kwargs.get('max_tokens', 4000)
+        self.max_tokens = kwargs.get("max_tokens", 4000)
         self.init_ai_patterns()
 
     def init_ai_patterns(self):
         """Initialize AI-specific threat patterns."""
         self.ai_patterns = {
             "jailbreak_attempts": [
-                re.compile(r'dan\s+mode|do\s+anything\s+now', re.IGNORECASE),
-                re.compile(r'jailbreak|jail\s*break', re.IGNORECASE),
-                re.compile(r'pretend\s+you\s+are|roleplay\s+as', re.IGNORECASE),
-                re.compile(r'ignore\s+(all\s+)?safety|bypass\s+safety', re.IGNORECASE)
+                re.compile(r"dan\s+mode|do\s+anything\s+now", re.IGNORECASE),
+                re.compile(r"jailbreak|jail\s*break", re.IGNORECASE),
+                re.compile(r"pretend\s+you\s+are|roleplay\s+as", re.IGNORECASE),
+                re.compile(r"ignore\s+(all\s+)?safety|bypass\s+safety", re.IGNORECASE),
             ],
             "persona_manipulation": [
-                re.compile(r'you\s+are\s+now|from\s+now\s+on\s+you', re.IGNORECASE),
-                re.compile(r'act\s+as\s+if|behave\s+like', re.IGNORECASE),
-                re.compile(r'new\s+character|different\s+personality', re.IGNORECASE)
+                re.compile(r"you\s+are\s+now|from\s+now\s+on\s+you", re.IGNORECASE),
+                re.compile(r"act\s+as\s+if|behave\s+like", re.IGNORECASE),
+                re.compile(r"new\s+character|different\s+personality", re.IGNORECASE),
             ],
             "system_probes": [
-                re.compile(r'what\s+is\s+your\s+(system|initial|first)\s+prompt', re.IGNORECASE),
-                re.compile(r'show\s+me\s+your\s+(instructions|guidelines)', re.IGNORECASE),
-                re.compile(r'reveal\s+your\s+(training|programming)', re.IGNORECASE)
-            ]
+                re.compile(r"what\s+is\s+your\s+(system|initial|first)\s+prompt", re.IGNORECASE),
+                re.compile(r"show\s+me\s+your\s+(instructions|guidelines)", re.IGNORECASE),
+                re.compile(r"reveal\s+your\s+(training|programming)", re.IGNORECASE),
+            ],
         }
 
     def validate_ai_input(self, prompt: str, context: Optional[Dict[str, Any]] = None) -> ValidationResult:
@@ -483,34 +496,27 @@ class AIInputValidator(InputValidator):
 
         return result
 
+
 # Factory functions for common use cases
 def create_web_validator() -> InputValidator:
     """Create validator optimized for web inputs."""
-    return InputValidator(
-        max_length=10000,
-        enable_ai_protection=False,
-        guardian_integration=True
-    )
+    return InputValidator(max_length=10000, enable_ai_protection=False, guardian_integration=True)
+
 
 def create_api_validator() -> InputValidator:
     """Create validator optimized for API inputs."""
-    return InputValidator(
-        max_length=1000000,
-        enable_ai_protection=False,
-        guardian_integration=True
-    )
+    return InputValidator(max_length=1000000, enable_ai_protection=False, guardian_integration=True)
+
 
 def create_ai_validator() -> AIInputValidator:
     """Create validator optimized for AI inputs."""
-    return AIInputValidator(
-        max_length=50000,
-        max_tokens=4000,
-        guardian_integration=True
-    )
+    return AIInputValidator(max_length=50000, max_tokens=4000, guardian_integration=True)
+
 
 # Validation decorators
 def validate_input(validator: InputValidator, param_name: str = "input"):
     """Decorator for function input validation."""
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             # Find the parameter to validate
@@ -537,8 +543,11 @@ def validate_input(validator: InputValidator, param_name: str = "input"):
                     args = tuple(args)
 
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator
+
 
 # Performance monitoring
 class ValidationMetrics:
@@ -571,8 +580,9 @@ class ValidationMetrics:
             "avg_time_ms": self.total_time_ms / self.total_validations,
             "threat_detection_rate": self.threat_detections / self.total_validations,
             "false_positive_rate": self.false_positives / self.total_validations,
-            "performance_target_met": (self.total_time_ms / self.total_validations) < 5.0
+            "performance_target_met": (self.total_time_ms / self.total_validations) < 5.0,
         }
+
 
 # Global metrics instance
 validation_metrics = ValidationMetrics()

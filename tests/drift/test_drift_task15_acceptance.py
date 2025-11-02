@@ -16,9 +16,9 @@ import statistics
 import time
 
 # Set feature flags
-os.environ['LUKHAS_EXPERIMENTAL'] = '1'
-os.environ['LUKHAS_LANE'] = 'labs'
-os.environ['ENABLE_LLM_GUARDRAIL'] = '1'
+os.environ["LUKHAS_EXPERIMENTAL"] = "1"
+os.environ["LUKHAS_LANE"] = "labs"
+os.environ["ENABLE_LLM_GUARDRAIL"] = "1"
 
 from monitoring.drift_manager import DriftManager
 
@@ -32,9 +32,9 @@ def test_injected_drift_reduction():
 
     # Test scenarios: (kind, initial_score, target_min_reduction_pct)
     scenarios = [
-        ('ethical', 0.25, 20.0),
-        ('memory', 0.30, 25.0),
-        ('identity', 0.22, 20.0),
+        ("ethical", 0.25, 20.0),
+        ("memory", 0.30, 25.0),
+        ("identity", 0.22, 20.0),
     ]
 
     results = {}
@@ -51,33 +51,31 @@ def test_injected_drift_reduction():
             print(f"Cycle {cycle}: {kind} drift = {current_score:.4f}")
 
             # Trigger auto-repair
-            manager.on_exceed(kind, current_score, {
-                'top_symbols': [f'{kind}.compliance', f'{kind}.test_symbol'],
-                'test_cycle': cycle
-            })
+            manager.on_exceed(
+                kind, current_score, {"top_symbols": [f"{kind}.compliance", f"{kind}.test_symbol"], "test_cycle": cycle}
+            )
 
             # Get repair result
             repair_events = [
-                e for e in manager.drift_ledger
-                if e.get('event') == 'auto_repair_success' and e.get('kind') == kind
+                e for e in manager.drift_ledger if e.get("event") == "auto_repair_success" and e.get("kind") == kind
             ]
 
             if repair_events:
                 latest_repair = repair_events[-1]
-                current_score = latest_repair['post_score']
-                improvement_pct = latest_repair['improvement_pct']
+                current_score = latest_repair["post_score"]
+                improvement_pct = latest_repair["improvement_pct"]
 
                 print(f"  -> Repair: {improvement_pct:.1f}% improvement")
                 print(f"  -> New score: {current_score:.4f}")
 
                 # Record result
                 results[kind] = {
-                    'cycles': cycle,
-                    'initial_score': initial_score,
-                    'final_score': current_score,
-                    'total_improvement': ((initial_score - current_score) / initial_score) * 100,
-                    'last_cycle_improvement': improvement_pct,
-                    'success': current_score <= manager.critical_threshold
+                    "cycles": cycle,
+                    "initial_score": initial_score,
+                    "final_score": current_score,
+                    "total_improvement": ((initial_score - current_score) / initial_score) * 100,
+                    "last_cycle_improvement": improvement_pct,
+                    "success": current_score <= manager.critical_threshold,
                 }
 
                 # Check if we've met minimum improvement threshold
@@ -91,28 +89,31 @@ def test_injected_drift_reduction():
         # If we didn't record a result but exited the loop, check the final score
         if kind not in results and current_score <= manager.critical_threshold:
             results[kind] = {
-                'cycles': cycle,
-                'initial_score': initial_score,
-                'final_score': current_score,
-                'total_improvement': ((initial_score - current_score) / initial_score) * 100,
-                'last_cycle_improvement': 0.0,  # Unknown
-                'success': True
+                "cycles": cycle,
+                "initial_score": initial_score,
+                "final_score": current_score,
+                "total_improvement": ((initial_score - current_score) / initial_score) * 100,
+                "last_cycle_improvement": 0.0,  # Unknown
+                "success": True,
             }
 
         # Verify acceptance criteria
         result = results.get(kind, {})
-        assert result.get('success', False), f"{kind} drift not reduced below threshold in {max_cycles} cycles"
+        assert result.get("success", False), f"{kind} drift not reduced below threshold in {max_cycles} cycles"
         # Only check improvement requirement if we have it recorded
-        if result.get('last_cycle_improvement', 0) > 0:
-            assert result.get('last_cycle_improvement', 0) >= min_reduction, \
-                f"{kind} improvement {result.get('last_cycle_improvement', 0):.1f}% < {min_reduction}%"
+        if result.get("last_cycle_improvement", 0) > 0:
+            assert (
+                result.get("last_cycle_improvement", 0) >= min_reduction
+            ), f"{kind} improvement {result.get('last_cycle_improvement', 0):.1f}% < {min_reduction}%"
 
         print(f"✓ {kind}: {result['total_improvement']:.1f}% total reduction in {result['cycles']} cycles")
 
     print("\n=== SUMMARY ===")
     for kind, result in results.items():
-        print(f"{kind.upper()}: {result['total_improvement']:.1f}% improvement "
-              f"in {result['cycles']} cycles (threshold met: {result['success']})")
+        print(
+            f"{kind.upper()}: {result['total_improvement']:.1f}% improvement "
+            f"in {result['cycles']} cycles (threshold met: {result['success']})"
+        )
 
     return True
 
@@ -129,9 +130,7 @@ def test_performance_overhead():
     for _ in range(100):
         start = time.perf_counter()
         # Simulate hot path: drift calculation
-        result = manager.compute('ethical',
-                               {'compliance': 0.95},
-                               {'compliance': 0.93})  # Below threshold
+        result = manager.compute("ethical", {"compliance": 0.95}, {"compliance": 0.93})  # Below threshold
         baseline_times.append(time.perf_counter() - start)
 
     # Measure with auto-repair triggered
@@ -139,15 +138,10 @@ def test_performance_overhead():
     for _ in range(100):
         start = time.perf_counter()
         # Compute drift + trigger repair
-        result = manager.compute('ethical',
-                               {'compliance': 0.95},
-                               {'compliance': 0.75})  # Above threshold
+        result = manager.compute("ethical", {"compliance": 0.95}, {"compliance": 0.75})  # Above threshold
 
-        if result['score'] > manager.critical_threshold:
-            manager.on_exceed('ethical', result['score'], {
-                'top_symbols': result['top_symbols'],
-                'perf_test': True
-            })
+        if result["score"] > manager.critical_threshold:
+            manager.on_exceed("ethical", result["score"], {"top_symbols": result["top_symbols"], "perf_test": True})
         repair_times.append(time.perf_counter() - start)
 
     # Calculate p95
@@ -165,8 +159,9 @@ def test_performance_overhead():
     passes_percentage = overhead_pct <= 5.0
     passes_absolute = overhead_ms <= 10.0
 
-    assert passes_percentage or passes_absolute, \
-        f"Performance overhead {overhead_pct:.1f}% / {overhead_ms:.3f}ms exceeds limits"
+    assert (
+        passes_percentage or passes_absolute
+    ), f"Performance overhead {overhead_pct:.1f}% / {overhead_ms:.3f}ms exceeds limits"
 
     print(f"✓ Performance overhead acceptable: {overhead_pct:.1f}% / {overhead_ms:.3f}ms")
     return True
@@ -181,24 +176,20 @@ def test_ledger_repair_rationale():
 
     # Trigger repairs for different scenarios
     test_scenarios = [
-        ('ethical', 0.25, ['ethical.compliance', 'ethical.constitutional']),
-        ('memory', 0.30, ['memory.fold_stability', 'memory.entropy']),
-        ('identity', 0.20, ['identity.coherence', 'identity.namespace_change']),
+        ("ethical", 0.25, ["ethical.compliance", "ethical.constitutional"]),
+        ("memory", 0.30, ["memory.fold_stability", "memory.entropy"]),
+        ("identity", 0.20, ["identity.coherence", "identity.namespace_change"]),
     ]
 
     rationale_checks = []
 
     for kind, score, top_symbols in test_scenarios:
         # Trigger repair
-        manager.on_exceed(kind, score, {
-            'top_symbols': top_symbols,
-            'rationale_test': True
-        })
+        manager.on_exceed(kind, score, {"top_symbols": top_symbols, "rationale_test": True})
 
         # Find repair events
         repair_events = [
-            e for e in manager.drift_ledger
-            if e.get('event') == 'auto_repair_success' and e.get('kind') == kind
+            e for e in manager.drift_ledger if e.get("event") == "auto_repair_success" and e.get("kind") == kind
         ]
 
         assert len(repair_events) > 0, f"No repair event found for {kind}"
@@ -206,23 +197,20 @@ def test_ledger_repair_rationale():
         repair_event = repair_events[-1]
 
         # Check rationale exists and is meaningful
-        assert 'rationale' in repair_event, f"No rationale in {kind} repair event"
+        assert "rationale" in repair_event, f"No rationale in {kind} repair event"
 
-        rationale = repair_event['rationale']
+        rationale = repair_event["rationale"]
         assert len(rationale) > 0, f"Empty rationale for {kind}"
-        assert 'reduced drift' in rationale.lower(), f"Rationale missing 'reduced drift' for {kind}"
-        assert repair_event['method'] in rationale.lower(), f"Rationale missing method for {kind}"
+        assert "reduced drift" in rationale.lower(), f"Rationale missing 'reduced drift' for {kind}"
+        assert repair_event["method"] in rationale.lower(), f"Rationale missing method for {kind}"
 
         # Check for improvement percentage
-        improvement_pct = repair_event.get('improvement_pct', 0)
+        improvement_pct = repair_event.get("improvement_pct", 0)
         assert str(improvement_pct)[:4] in rationale, f"Rationale missing improvement % for {kind}"
 
-        rationale_checks.append({
-            'kind': kind,
-            'rationale': rationale,
-            'improvement_pct': improvement_pct,
-            'method': repair_event['method']
-        })
+        rationale_checks.append(
+            {"kind": kind, "rationale": rationale, "improvement_pct": improvement_pct, "method": repair_event["method"]}
+        )
 
         print(f"✓ {kind}: {rationale}")
 
@@ -254,16 +242,13 @@ def main():
             success = test_func()
             duration = time.time() - start_time
 
-            results[test_name] = {
-                'success': success,
-                'duration': duration
-            }
+            results[test_name] = {"success": success, "duration": duration}
 
         except Exception as e:
             results[test_name] = {
-                'success': False,
-                'error': str(e),
-                'duration': time.time() - start_time if 'start_time' in locals() else 0
+                "success": False,
+                "error": str(e),
+                "duration": time.time() - start_time if "start_time" in locals() else 0,
             }
             print(f"❌ FAILED: {e}")
 
@@ -274,13 +259,13 @@ def main():
 
     all_pass = True
     for test_name, result in results.items():
-        status = "✅ PASS" if result['success'] else "❌ FAIL"
+        status = "✅ PASS" if result["success"] else "❌ FAIL"
         duration = f"{result['duration']:.2f}s"
         print(f"{test_name:<30} {status:<10} ({duration})")
 
-        if not result['success']:
+        if not result["success"]:
             all_pass = False
-            if 'error' in result:
+            if "error" in result:
                 print(f"   Error: {result['error']}")
 
     print("=" * 70)
@@ -298,6 +283,6 @@ def main():
     return all_pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     success = main()
     exit(0 if success else 1)

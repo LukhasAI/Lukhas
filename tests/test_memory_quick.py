@@ -61,10 +61,7 @@ def test_memory_event_bounded_optimization():
     empty_factory = MemoryEventFactory()
     assert len(empty_factory._drift_history) == 0
 
-    event = empty_factory.create(
-        data={"test": "data"},
-        metadata={"affect_delta": 0.5}
-    )
+    event = empty_factory.create(data={"test": "data"}, metadata={"affect_delta": 0.5})
 
     if "driftTrend" in event.metadata["metrics"]:
         print("  ✅ Empty deque handled gracefully")
@@ -74,10 +71,7 @@ def test_memory_event_bounded_optimization():
 
     # Test 4: Event creation
     print("\n✅ Test 4: Event Creation")
-    event = factory.create(
-        data={"test": "data"},
-        metadata={"affect_delta": 0.6}
-    )
+    event = factory.create(data={"test": "data"}, metadata={"affect_delta": 0.6})
 
     if isinstance(event, MemoryEvent):
         print(f"  ✅ Correct event type: {type(event)}")
@@ -85,7 +79,7 @@ def test_memory_event_bounded_optimization():
         print(f"  ❌ Wrong event type: {type(event)}")
         return False
 
-    if hasattr(event, 'data') and hasattr(event, 'metadata'):
+    if hasattr(event, "data") and hasattr(event, "metadata"):
         print("  ✅ Event has required attributes")
     else:
         print("  ❌ Event missing attributes")
@@ -102,10 +96,7 @@ def test_memory_event_performance():
 
     # Warm up
     for _ in range(100):
-        factory.create(
-            data={"warmup": "test"},
-            metadata={"affect_delta": 0.5}
-        )
+        factory.create(data={"warmup": "test"}, metadata={"affect_delta": 0.5})
 
     # Performance test
     times = []
@@ -113,10 +104,7 @@ def test_memory_event_performance():
 
     for i in range(event_count):
         start_time = time.time()
-        factory.create(
-            data={"event": i},
-            metadata={"affect_delta": float(i % 100) / 100.0}
-        )
+        factory.create(data={"event": i}, metadata={"affect_delta": float(i % 100) / 100.0})
         end_time = time.time()
 
         duration = (end_time - start_time) * 1000000  # Convert to μs
@@ -162,10 +150,7 @@ def test_memory_usage_bounded():
 
     # Create many events to test memory bounds
     for i in range(10000):
-        factory.create(
-            data={"event": i},
-            metadata={"affect_delta": float(i % 100) / 100.0}
-        )
+        factory.create(data={"event": i}, metadata={"affect_delta": float(i % 100) / 100.0})
 
     # Force garbage collection
     gc.collect()
@@ -208,10 +193,7 @@ def test_drift_trend_accuracy():
         factory._drift_history.append(value)
 
     # Create event which will add one more value
-    event = factory.create(
-        data={"test": "data"},
-        metadata={"affect_delta": 0.6, "driftScore": 0.6}
-    )
+    event = factory.create(data={"test": "data"}, metadata={"affect_delta": 0.6, "driftScore": 0.6})
 
     # Should calculate trend from last 3 values: [0.4, 0.5, 0.6]
     expected_trend = (0.4 + 0.5 + 0.6) / 3
@@ -266,6 +248,7 @@ def main():
     except Exception as e:
         print(f"\n❌ Memory Event test failed with error: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 

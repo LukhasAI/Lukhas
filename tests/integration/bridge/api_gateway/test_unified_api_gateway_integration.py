@@ -29,10 +29,8 @@ class TestUnifiedAPIGatewayIntegration:
                 "jwt_secret": "test-secret",
                 "jwt_algorithm": "HS256",
             },
-            "rate_limit": {
-                "default": "5/minute"
-            },
-            "handlers": {}
+            "rate_limit": {"default": "5/minute"},
+            "handlers": {},
         }
         return UnifiedAPIGateway(config=config)
 
@@ -43,24 +41,25 @@ class TestUnifiedAPIGatewayIntegration:
 
     def create_test_token(self, gateway: UnifiedAPIGateway, user_id: str) -> str:
         """Creates a test JWT token."""
-        payload = {"sub": user_id, "exp": int(time.time()) + 3600} # 1 hour expiry
+        payload = {"sub": user_id, "exp": int(time.time()) + 3600}  # 1 hour expiry
         return jwt.encode(payload, gateway.auth_middleware.jwt_secret, algorithm=gateway.auth_middleware.jwt_algorithm)
-
 
     @pytest.mark.asyncio
     async def test_integration_chat_success(self, gateway: UnifiedAPIGateway, client: TestClient):
         """Tests a successful chat request through the integrated gateway."""
         # Mock the orchestrator
         mock_orchestrator = MagicMock()
-        mock_orchestrator.orchestrate = AsyncMock(return_value=MagicMock(
-            final_response="Integration test response",
-            confidence_score=0.95,
-            individual_responses=[],
-            consensus_method="unanimous",
-            participating_models=[],
-            processing_time_ms=50,
-            quality_metrics={},
-        ))
+        mock_orchestrator.orchestrate = AsyncMock(
+            return_value=MagicMock(
+                final_response="Integration test response",
+                confidence_score=0.95,
+                individual_responses=[],
+                consensus_method="unanimous",
+                participating_models=[],
+                processing_time_ms=50,
+                quality_metrics={},
+            )
+        )
         gateway.app.state.orchestrator = mock_orchestrator
 
         # Create a valid token
@@ -81,15 +80,17 @@ class TestUnifiedAPIGatewayIntegration:
 
         # Mock the orchestrator
         mock_orchestrator = MagicMock()
-        mock_orchestrator.orchestrate = AsyncMock(return_value=MagicMock(
-            final_response="Integration test response",
-            confidence_score=0.95,
-            individual_responses=[],
-            consensus_method="unanimous",
-            participating_models=[],
-            processing_time_ms=50,
-            quality_metrics={},
-        ))
+        mock_orchestrator.orchestrate = AsyncMock(
+            return_value=MagicMock(
+                final_response="Integration test response",
+                confidence_score=0.95,
+                individual_responses=[],
+                consensus_method="unanimous",
+                participating_models=[],
+                processing_time_ms=50,
+                quality_metrics={},
+            )
+        )
         gateway.app.state.orchestrator = mock_orchestrator
 
         # Create a valid token
@@ -97,7 +98,7 @@ class TestUnifiedAPIGatewayIntegration:
         headers = {"Authorization": f"Bearer {token}"}
 
         # Override rate limiter for test
-        gateway.rate_limiter.rates = {"chat": (5, 60)} # 5 requests per 60 seconds
+        gateway.rate_limiter.rates = {"chat": (5, 60)}  # 5 requests per 60 seconds
         gateway.rate_limiter.requests = {}
 
         # Exhaust the rate limit

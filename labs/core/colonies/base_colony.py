@@ -1,6 +1,7 @@
 """
 Base class for all agent colonies.
 """
+
 import logging
 import time
 import uuid

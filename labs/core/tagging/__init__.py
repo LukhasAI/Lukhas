@@ -7,6 +7,7 @@ Auto-generated bridge following canonical pattern:
 
 Graceful fallback to stubs if no backend available.
 """
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -41,6 +42,7 @@ for _candidate in _CANDIDATES:
 
 
 if "DeduplicationCache" not in globals():
+
     class DeduplicationCache:
         """Stub for DeduplicationCache."""
 

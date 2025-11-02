@@ -42,5 +42,5 @@ def test_compliance_engine_logging_and_timezone(tmp_path):
         custom_threshold=0.8,
     )
     assert report["timestamp"].endswith("Z")
-    assert (drift_log.exists())
+    assert drift_log.exists()
     assert "AdvancedComplianceEthicsEngine" in engine.core_ethics_module.logger.name

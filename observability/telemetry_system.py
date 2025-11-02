@@ -24,37 +24,46 @@ logger = logging.getLogger(__name__)
 # Optional Prometheus integration
 try:
     from prometheus_client import Counter, Gauge, Histogram, start_http_server
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
+
     # Fallback implementations
     class Counter:
         def __init__(self, *args, **kwargs):
             self.value = 0
+
         def inc(self, amount=1):
             self.value += amount
+
         def labels(self, **kwargs):
             return self
 
     class Histogram:
         def __init__(self, *args, **kwargs):
             self.observations = []
+
         def observe(self, value):
             self.observations.append(value)
+
         def labels(self, **kwargs):
             return self
 
     class Gauge:
         def __init__(self, *args, **kwargs):
             self.value = 0
+
         def set(self, value):
             self.value = value
+
         def labels(self, **kwargs):
             return self
 
 
 class MetricType(Enum):
     """Types of telemetry metrics."""
+
     COUNTER = "counter"
     HISTOGRAM = "histogram"
     GAUGE = "gauge"
@@ -64,6 +73,7 @@ class MetricType(Enum):
 
 class SeverityLevel(Enum):
     """Severity levels for telemetry events."""
+
     DEBUG = "debug"
     INFO = "info"
     WARNING = "warning"
@@ -98,7 +108,7 @@ class TelemetryEvent:
             "data": self.data,
             "tags": self.tags,
             "trace_id": self.trace_id,
-            "span_id": self.span_id
+            "span_id": self.span_id,
         }
 
 
@@ -121,7 +131,7 @@ class MetricData:
             "value": self.value,
             "timestamp": self.timestamp,
             "component": self.component,
-            "tags": self.tags
+            "tags": self.tags,
         }
 
 
@@ -150,11 +160,7 @@ class TraceSpan:
 
     def add_log(self, message: str, data: Optional[Dict[str, Any]] = None) -> None:
         """Add log entry to span."""
-        log_entry = {
-            "timestamp": time.time(),
-            "message": message,
-            "data": data or {}
-        }
+        log_entry = {"timestamp": time.time(), "message": message, "data": data or {}}
         self.logs.append(log_entry)
 
     def set_error(self, error: str) -> None:
@@ -176,21 +182,19 @@ class TraceSpan:
             "duration_ms": self.duration_ms,
             "tags": self.tags,
             "logs": self.logs,
-            "status": self.status
+            "status": self.status,
         }
 
 
 class TelemetryCollector:
     """Central telemetry collection and processing system."""
 
-    def __init__(self,
-                 max_events: int = 10000,
-                 max_metrics: int = 50000,
-                 max_spans: int = 5000,
-                 flush_interval_sec: float = 30.0):
+    def __init__(
+        self, max_events: int = 10000, max_metrics: int = 50000, max_spans: int = 5000, flush_interval_sec: float = 30.0
+    ):
         """
         Initialize telemetry collector.
-        
+
         Args:
             max_events: Maximum number of events to keep in memory
             max_metrics: Maximum number of metrics to keep in memory
@@ -224,33 +228,31 @@ class TelemetryCollector:
         """Setup Prometheus metrics."""
 
         self.prom_events_total = Counter(
-            'lukhas_telemetry_events_total',
-            'Total number of telemetry events',
-            ['component', 'event_type', 'severity']
+            "lukhas_telemetry_events_total", "Total number of telemetry events", ["component", "event_type", "severity"]
         )
 
         self.prom_operation_duration = Histogram(
-            'lukhas_operation_duration_seconds',
-            'Duration of operations',
-            ['component', 'operation'],
-            buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]
+            "lukhas_operation_duration_seconds",
+            "Duration of operations",
+            ["component", "operation"],
+            buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0],
         )
 
         self.prom_component_health = Gauge(
-            'lukhas_component_health_score',
-            'Component health score (0-1)',
-            ['component']
+            "lukhas_component_health_score", "Component health score (0-1)", ["component"]
         )
 
-    def emit_event(self,
-                   component: str,
-                   event_type: str,
-                   message: str,
-                   severity: SeverityLevel = SeverityLevel.INFO,
-                   data: Optional[Dict[str, Any]] = None,
-                   tags: Optional[Dict[str, str]] = None,
-                   trace_id: Optional[str] = None,
-                   span_id: Optional[str] = None) -> TelemetryEvent:
+    def emit_event(
+        self,
+        component: str,
+        event_type: str,
+        message: str,
+        severity: SeverityLevel = SeverityLevel.INFO,
+        data: Optional[Dict[str, Any]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        trace_id: Optional[str] = None,
+        span_id: Optional[str] = None,
+    ) -> TelemetryEvent:
         """Emit telemetry event."""
 
         event = TelemetryEvent(
@@ -263,7 +265,7 @@ class TelemetryCollector:
             data=data or {},
             tags=tags or {},
             trace_id=trace_id,
-            span_id=span_id
+            span_id=span_id,
         )
 
         # Store event
@@ -271,11 +273,7 @@ class TelemetryCollector:
 
         # Update Prometheus metrics
         if PROMETHEUS_AVAILABLE:
-            self.prom_events_total.labels(
-                component=component,
-                event_type=event_type,
-                severity=severity.value
-            ).inc()
+            self.prom_events_total.labels(component=component, event_type=event_type, severity=severity.value).inc()
 
         # Notify subscribers
         for subscriber in self.event_subscribers:
@@ -286,20 +284,18 @@ class TelemetryCollector:
 
         # Log to standard logging
         log_level = getattr(logging, severity.value.upper())
-        logger.log(log_level, f"[{component}] {message}", extra={
-            "event_type": event_type,
-            "data": data,
-            "tags": tags
-        })
+        logger.log(log_level, f"[{component}] {message}", extra={"event_type": event_type, "data": data, "tags": tags})
 
         return event
 
-    def emit_metric(self,
-                    component: str,
-                    metric_name: str,
-                    value: float,
-                    metric_type: MetricType = MetricType.GAUGE,
-                    tags: Optional[Dict[str, str]] = None) -> MetricData:
+    def emit_metric(
+        self,
+        component: str,
+        metric_name: str,
+        value: float,
+        metric_type: MetricType = MetricType.GAUGE,
+        tags: Optional[Dict[str, str]] = None,
+    ) -> MetricData:
         """Emit telemetry metric."""
 
         metric = MetricData(
@@ -308,7 +304,7 @@ class TelemetryCollector:
             value=value,
             timestamp=time.time(),
             component=component,
-            tags=tags or {}
+            tags=tags or {},
         )
 
         # Store metric
@@ -326,12 +322,14 @@ class TelemetryCollector:
 
         return metric
 
-    def start_span(self,
-                   operation_name: str,
-                   component: str,
-                   parent_span_id: Optional[str] = None,
-                   trace_id: Optional[str] = None,
-                   tags: Optional[Dict[str, str]] = None) -> TraceSpan:
+    def start_span(
+        self,
+        operation_name: str,
+        component: str,
+        parent_span_id: Optional[str] = None,
+        trace_id: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+    ) -> TraceSpan:
         """Start a new trace span."""
 
         if trace_id is None:
@@ -344,7 +342,7 @@ class TelemetryCollector:
             operation_name=operation_name,
             component=component,
             start_time=time.time(),
-            tags=tags or {}
+            tags=tags or {},
         )
 
         # Store active span
@@ -364,18 +362,19 @@ class TelemetryCollector:
 
         # Update Prometheus metrics
         if PROMETHEUS_AVAILABLE and span.duration_ms is not None:
-            self.prom_operation_duration.labels(
-                component=span.component,
-                operation=span.operation_name
-            ).observe(span.duration_ms / 1000.0)
+            self.prom_operation_duration.labels(component=span.component, operation=span.operation_name).observe(
+                span.duration_ms / 1000.0
+            )
 
     @asynccontextmanager
-    async def trace_operation(self,
-                              operation_name: str,
-                              component: str,
-                              parent_span_id: Optional[str] = None,
-                              trace_id: Optional[str] = None,
-                              tags: Optional[Dict[str, str]] = None):
+    async def trace_operation(
+        self,
+        operation_name: str,
+        component: str,
+        parent_span_id: Optional[str] = None,
+        trace_id: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+    ):
         """Context manager for tracing operations."""
 
         span = self.start_span(
@@ -383,7 +382,7 @@ class TelemetryCollector:
             component=component,
             parent_span_id=parent_span_id,
             trace_id=trace_id,
-            tags=tags
+            tags=tags,
         )
 
         try:
@@ -403,11 +402,11 @@ class TelemetryCollector:
             self.metric_aggregations[key] = {
                 "count": 0,
                 "sum": 0.0,
-                "min": float('inf'),
-                "max": float('-inf'),
+                "min": float("inf"),
+                "max": float("-inf"),
                 "avg": 0.0,
                 "last_value": 0.0,
-                "last_timestamp": 0.0
+                "last_timestamp": 0.0,
             }
 
         agg = self.metric_aggregations[key]
@@ -424,7 +423,8 @@ class TelemetryCollector:
 
         # Calculate health based on recent events and metrics
         recent_events = [
-            e for e in list(self.events)[-1000:]  # Last 1000 events
+            e
+            for e in list(self.events)[-1000:]  # Last 1000 events
             if e.component == component and (time.time() - e.timestamp) < 300  # Last 5 minutes
         ]
 
@@ -451,7 +451,7 @@ class TelemetryCollector:
             "recent_events": len(recent_events),
             "error_count": error_count,
             "warning_count": warning_count,
-            "last_update": time.time()
+            "last_update": time.time(),
         }
 
         self.component_health[component] = health_info
@@ -462,10 +462,7 @@ class TelemetryCollector:
 
         # Component health
         components = set(e.component for e in self.events)
-        component_health = {
-            comp: self.get_component_health(comp)
-            for comp in components
-        }
+        component_health = {comp: self.get_component_health(comp) for comp in components}
 
         # Overall system health
         if component_health:
@@ -488,14 +485,16 @@ class TelemetryCollector:
             "recent_activity": {
                 "events_5min": len(recent_events),
                 "metrics_5min": len([m for m in self.metrics if (time.time() - m.timestamp) < 300]),
-                "completed_spans_5min": len([s for s in self.completed_spans if s.end_time and (time.time() - s.end_time) < 300])
+                "completed_spans_5min": len(
+                    [s for s in self.completed_spans if s.end_time and (time.time() - s.end_time) < 300]
+                ),
             },
             "storage": {
                 "events": len(self.events),
                 "metrics": len(self.metrics),
                 "active_spans": len(self.spans),
-                "completed_spans": len(self.completed_spans)
-            }
+                "completed_spans": len(self.completed_spans),
+            },
         }
 
     async def start_background_processing(self) -> None:
@@ -534,11 +533,14 @@ class TelemetryCollector:
         # For now, we'll just log a summary
 
         overview = self.get_system_overview()
-        logger.info("Telemetry flush", extra={
-            "system_health": overview["overall_health"],
-            "active_operations": overview["active_operations"],
-            "recent_events": overview["recent_activity"]["events_5min"]
-        })
+        logger.info(
+            "Telemetry flush",
+            extra={
+                "system_health": overview["overall_health"],
+                "active_operations": overview["active_operations"],
+                "recent_events": overview["recent_activity"]["events_5min"],
+            },
+        )
 
 
 # Global telemetry collector instance

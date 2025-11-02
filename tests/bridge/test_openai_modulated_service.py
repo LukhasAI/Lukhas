@@ -4,6 +4,7 @@ Tests for OpenAI Modulated Service (Vector Store Integration).
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-HIGH-TEST-VECTOR-q7r8s9t0
 """
+
 from typing import Any, Dict, List
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
@@ -28,7 +29,7 @@ def sample_embeddings():
     return [
         np.random.rand(1536).tolist(),  # OpenAI ada-002 dimension
         np.random.rand(1536).tolist(),
-        np.random.rand(1536).tolist()
+        np.random.rand(1536).tolist(),
     ]
 
 
@@ -38,7 +39,7 @@ def sample_documents():
     return [
         {"id": "doc1", "text": "This is a test document about consciousness.", "metadata": {"type": "research"}},
         {"id": "doc2", "text": "Identity verification is crucial for security.", "metadata": {"type": "identity"}},
-        {"id": "doc3", "text": "Guardian system provides ethical oversight.", "metadata": {"type": "ethics"}}
+        {"id": "doc3", "text": "Guardian system provides ethical oversight.", "metadata": {"type": "ethics"}},
     ]
 
 
@@ -47,9 +48,7 @@ def mock_openai_client():
     """Mock OpenAI client for embeddings."""
     mock = MagicMock()
     mock.embeddings = MagicMock()
-    mock.embeddings.create = AsyncMock(return_value={
-        "data": [{"embedding": np.random.rand(1536).tolist()}]
-    })
+    mock.embeddings.create = AsyncMock(return_value={"data": [{"embedding": np.random.rand(1536).tolist()}]})
     return mock
 
 
@@ -60,7 +59,7 @@ def rag_query_context():
         "query": "What is the role of consciousness in LUKHAS?",
         "top_k": 5,
         "filter": {"type": "research"},
-        "include_metadata": True
+        "include_metadata": True,
     }
 
 

@@ -45,6 +45,7 @@ log = logger
 
 try:
     from openai import APIError, OpenAI
+
     OPENAI_AVAILABLE_DREAMS = True
 except ImportError:
     log.warning(
@@ -153,16 +154,12 @@ except ImportError as e_sym_dreams_imp:
 OPENAI_API_KEY_DREAMS_ENV_VAR_CONFIG = "OPENAI_API_KEY_LUKHAS_DREAMS"
 OPENAI_API_KEY_DREAMS_CONFIG_VALUE = os.getenv(OPENAI_API_KEY_DREAMS_ENV_VAR_CONFIG)
 if not OPENAI_API_KEY_DREAMS_CONFIG_VALUE and OPENAI_AVAILABLE_DREAMS:
-    log.warning(
-        f"{OPENAI_API_KEY_DREAMS_ENV_VAR_CONFIG} not set. Real OpenAI calls for LUKHAS Dreams will fail."
-    )
+    log.warning(f"{OPENAI_API_KEY_DREAMS_ENV_VAR_CONFIG} not set. Real OpenAI calls for LUKHAS Dreams will fail.")
 
 lukhas_global_dream_openai_client: Optional[OpenAI] = None  # type: ignore
 if OPENAI_AVAILABLE_DREAMS and OPENAI_API_KEY_DREAMS_CONFIG_VALUE:
     try:
-        lukhas_global_dream_openai_client = OpenAI(
-            api_key=OPENAI_API_KEY_DREAMS_CONFIG_VALUE
-        )
+        lukhas_global_dream_openai_client = OpenAI(api_key=OPENAI_API_KEY_DREAMS_CONFIG_VALUE)
         log.debug("Real OpenAI client for LUKHAS Dreams initialized.")
     except Exception as e_client_cfg:
         log.error(
@@ -174,15 +171,11 @@ elif not OPENAI_AVAILABLE_DREAMS:
     lukhas_global_dream_openai_client = OpenAI(api_key="placeholder_dreams_api_key")
     log.debug("Using placeholder OpenAI client for LUKHAS Dreams.")
 else:
-    log.warning(
-        "OpenAI library available but API key missing for Dreams. Real OpenAI calls for dreams are disabled."
-    )
+    log.warning("OpenAI library available but API key missing for Dreams. Real OpenAI calls for dreams are disabled.")
     lukhas_global_dream_openai_client = None
 
 try:
-    DREAM_LOGS_MAIN_DIR = Path(
-        os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams")
-    )
+    DREAM_LOGS_MAIN_DIR = Path(os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams"))
     DREAM_LOGS_MAIN_DIR.mkdir(parents=True, exist_ok=True)
 except Exception as e_log_path:
     log.error(
@@ -225,9 +218,7 @@ def generate_dream_narrative(
     load_traits()
     memory_fragments_data = load_all_entries()
     if memory_fragments_data:
-        sampled = np.random.choice(
-            memory_fragments_data, size=min(3, len(memory_fragments_data)), replace=False
-        )
+        sampled = np.random.choice(memory_fragments_data, size=min(3, len(memory_fragments_data)), replace=False)
         sampled_memories = list(sampled) if not isinstance(sampled, list) else sampled
     else:
         sampled_memories = []
@@ -257,10 +248,8 @@ def generate_dream_narrative(
             prompt_approx_len=len(final_dream_user_prompt),
         )
         response_obj = lukhas_global_dream_openai_client.chat.completions.create(
-            model=model_name,
-            messages=api_messages,
-            temperature=temperature,
-            max_tokens=max_tokens)  # type: ignore
+            model=model_name, messages=api_messages, temperature=temperature, max_tokens=max_tokens
+        )  # type: ignore
         dream_narrative_content = response_obj.choices[0].message.content
         log.info(
             "LUKHAS dream narrative generated.",
@@ -340,9 +329,7 @@ def save_dream_to_log(
         "dream_log_id": unique_dream_identifier,
         "timestamp_utc_iso": current_ts_utc.isoformat(),
         "dream_narrative": dream_text_content,
-        "extracted_visual_prompts": extract_visual_prompts_from_dream(
-            dream_text_content
-        ),
+        "extracted_visual_prompts": extract_visual_prompts_from_dream(dream_text_content),
         "additional_metadata": dream_metadata or {},
     }
     try:
@@ -382,15 +369,9 @@ if __name__ == "__main__":
         temperature=0.9, max_tokens=800
     )  # Slightly adjusted params for demo
     if generated_dream_text:
-        log.info(
-            "\n🌀 LUKHAS DREAM NARRATIVE (Preview):\n"
-            + generated_dream_text[:350]
-            + "...\n"
-        )
+        log.info("\n🌀 LUKHAS DREAM NARRATIVE (Preview):\n" + generated_dream_text[:350] + "...\n")
         extracted_visuals = extract_visual_prompts_from_dream(generated_dream_text)
-        log.info(
-            "\n🖼️  EXTRACTED VISUAL PROMPTS (Sample):", count=len(extracted_visuals)
-        )
+        log.info("\n🖼️  EXTRACTED VISUAL PROMPTS (Sample):", count=len(extracted_visuals))
         for i, vp_text_item in enumerate(extracted_visuals[:2]):
             log.info(f"  VP {i+1}: {vp_text_item}")
         dream_meta_info = {
@@ -400,12 +381,8 @@ if __name__ == "__main__":
             "dream_length_chars": len(generated_dream_text),
             "survival_score": compute_survival_score(generated_dream_text),
         }
-        path_to_saved_log = save_dream_to_log(
-            generated_dream_text, dream_metadata=dream_meta_info
-        )
-        log.info(
-            "🛌 Dream narrative & metadata saved.", log_file=str(path_to_saved_log)
-        )
+        path_to_saved_log = save_dream_to_log(generated_dream_text, dream_metadata=dream_meta_info)
+        log.info("🛌 Dream narrative & metadata saved.", log_file=str(path_to_saved_log))
     else:
         log.error("LUKHAS failed to generate a dream narrative during demo execution.")
     log.info("--- LUKHAS Dream Sequence Concluded ---")

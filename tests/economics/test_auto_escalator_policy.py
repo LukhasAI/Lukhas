@@ -255,4 +255,3 @@ def test_generate_escalation_transparency_report_aggregates_context(monkeypatch)
     assert EscalatorTier.TRUSTED.value in report["tier_comparison"]
     assert set(report["tier_comparison"].keys()) == {tier.value for tier in EscalatorTier}
     assert report["methodology"]["value_weights"] == policy.value_weights
-

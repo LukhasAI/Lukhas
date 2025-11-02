@@ -13,6 +13,7 @@ Usage:
   dr = DecimatingRing(capacity=1000, pressure_threshold=0.8, decimation_factor=2)
   dr.push(data)  # Automatically decimates when under pressure
 """
+
 import logging
 from collections import deque
 from typing import Any, Optional
@@ -54,7 +55,7 @@ class DecimatingRing(Ring):
         capacity: int,
         pressure_threshold: float = 0.8,
         decimation_factor: int = 2,
-        decimation_strategy: str = "skip_nth"
+        decimation_strategy: str = "skip_nth",
     ):
         """
         Initialize decimating ring buffer.
@@ -139,8 +140,10 @@ class DecimatingRing(Ring):
         self.decimation_events += 1
         self.last_decimation_utilization = len(self.q) / self.capacity
 
-        logger.debug(f"Ring decimation applied: {len(self.q)} items remain, "
-                    f"utilization now {self.last_decimation_utilization:.2f}")
+        logger.debug(
+            f"Ring decimation applied: {len(self.q)} items remain, "
+            f"utilization now {self.last_decimation_utilization:.2f}"
+        )
 
     def get_backpressure_stats(self) -> dict:
         """Get backpressure and decimation statistics."""
@@ -155,7 +158,7 @@ class DecimatingRing(Ring):
             "decimation_events": self.decimation_events,
             "decimation_factor": self.decimation_factor,
             "decimation_strategy": self.decimation_strategy,
-            "last_decimation_utilization": self.last_decimation_utilization
+            "last_decimation_utilization": self.last_decimation_utilization,
         }
 
     def reset_stats(self):

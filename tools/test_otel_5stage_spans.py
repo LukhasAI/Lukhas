@@ -26,10 +26,12 @@ try:
         instrument_matriz_stage,
         matriz_pipeline_span,
     )
+
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False
     print("⚠️ OTEL instrumentation not available")
+
 
 @dataclass
 class TestResult:
@@ -37,6 +39,7 @@ class TestResult:
     duration_ms: float
     success: bool
     span_created: bool
+
 
 class FiveStageProcessor:
     """Mock processor that implements the 5 required MATRIZ stages"""
@@ -54,15 +57,12 @@ class FiveStageProcessor:
             "user_intent": "test_query",
             "intent_confidence": 0.95,
             "extracted_entities": ["test", "otel", "spans"],
-            "processing_time_ms": 10
+            "processing_time_ms": 10,
         }
 
-        self.stage_results.append(TestResult(
-            stage_name="intent_processing",
-            duration_ms=10,
-            success=True,
-            span_created=True
-        ))
+        self.stage_results.append(
+            TestResult(stage_name="intent_processing", duration_ms=10, success=True, span_created=True)
+        )
 
         return intent_result
 
@@ -75,15 +75,12 @@ class FiveStageProcessor:
             "chosen_strategy": "comprehensive_analysis",
             "reasoning_path": ["analyze_intent", "select_resources", "plan_execution"],
             "confidence": 0.88,
-            "estimated_complexity": "medium"
+            "estimated_complexity": "medium",
         }
 
-        self.stage_results.append(TestResult(
-            stage_name="decision_making",
-            duration_ms=15,
-            success=True,
-            span_created=True
-        ))
+        self.stage_results.append(
+            TestResult(stage_name="decision_making", duration_ms=15, success=True, span_created=True)
+        )
 
         return decision_result
 
@@ -94,23 +91,13 @@ class FiveStageProcessor:
 
         processing_result = {
             "execution_status": "completed",
-            "results": {
-                "analysis_complete": True,
-                "data_processed": 1234,
-                "insights_generated": 5
-            },
-            "performance_metrics": {
-                "throughput": "high",
-                "latency_ms": 25
-            }
+            "results": {"analysis_complete": True, "data_processed": 1234, "insights_generated": 5},
+            "performance_metrics": {"throughput": "high", "latency_ms": 25},
         }
 
-        self.stage_results.append(TestResult(
-            stage_name="processing_execution",
-            duration_ms=25,
-            success=True,
-            span_created=True
-        ))
+        self.stage_results.append(
+            TestResult(stage_name="processing_execution", duration_ms=25, success=True, span_created=True)
+        )
 
         return processing_result
 
@@ -122,20 +109,11 @@ class FiveStageProcessor:
         validation_result = {
             "validation_status": "passed",
             "quality_score": 0.92,
-            "checks_performed": [
-                "completeness_check",
-                "accuracy_validation",
-                "consistency_review"
-            ],
-            "issues_found": 0
+            "checks_performed": ["completeness_check", "accuracy_validation", "consistency_review"],
+            "issues_found": 0,
         }
 
-        self.stage_results.append(TestResult(
-            stage_name="validation",
-            duration_ms=8,
-            success=True,
-            span_created=True
-        ))
+        self.stage_results.append(TestResult(stage_name="validation", duration_ms=8, success=True, span_created=True))
 
         return validation_result
 
@@ -146,24 +124,12 @@ class FiveStageProcessor:
 
         reflection_result = {
             "reflection_status": "completed",
-            "learning_insights": [
-                "processing_efficiency_good",
-                "validation_thorough",
-                "user_intent_clear"
-            ],
-            "improvement_suggestions": [
-                "cache_frequent_patterns",
-                "optimize_validation_checks"
-            ],
-            "experience_rating": 4.2
+            "learning_insights": ["processing_efficiency_good", "validation_thorough", "user_intent_clear"],
+            "improvement_suggestions": ["cache_frequent_patterns", "optimize_validation_checks"],
+            "experience_rating": 4.2,
         }
 
-        self.stage_results.append(TestResult(
-            stage_name="reflection",
-            duration_ms=12,
-            success=True,
-            span_created=True
-        ))
+        self.stage_results.append(TestResult(stage_name="reflection", duration_ms=12, success=True, span_created=True))
 
         return reflection_result
 
@@ -201,11 +167,12 @@ class FiveStageProcessor:
                     "decision": decision_result,
                     "processing": processing_result,
                     "validation": validation_result,
-                    "reflection": reflection_result
+                    "reflection": reflection_result,
                 },
                 "total_stages": len(self.stage_results),
-                "all_spans_created": all(r.span_created for r in self.stage_results)
+                "all_spans_created": all(r.span_created for r in self.stage_results),
             }
+
 
 async def run_otel_5stage_validation():
     """Run the 5-stage OTEL validation test"""
@@ -215,9 +182,7 @@ async def run_otel_5stage_validation():
     # Initialize OTEL if available
     if OTEL_AVAILABLE:
         initialized = initialize_otel_instrumentation(
-            service_name="lukhas-matriz-test",
-            enable_prometheus=True,
-            enable_logging=True
+            service_name="lukhas-matriz-test", enable_prometheus=True, enable_logging=True
         )
         if initialized:
             print("✅ OTEL instrumentation initialized")
@@ -257,11 +222,11 @@ async def run_otel_5stage_validation():
 
         # Validate all requirements met
         requirements_met = {
-            "5_stages_executed": result['stages_executed'] == 5,
+            "5_stages_executed": result["stages_executed"] == 5,
             "all_stages_successful": all(r.success for r in processor.stage_results),
-            "all_spans_created": result['all_spans_created'],
+            "all_spans_created": result["all_spans_created"],
             "total_duration_under_slo": total_duration < 250.0,
-            "otel_available": OTEL_AVAILABLE
+            "otel_available": OTEL_AVAILABLE,
         }
 
         print("\n🎯 VALIDATION RESULTS")
@@ -284,18 +249,16 @@ async def run_otel_5stage_validation():
             "requirements_met": requirements_met,
             "stage_results": processor.stage_results,
             "total_duration_ms": total_duration,
-            "otel_available": OTEL_AVAILABLE
+            "otel_available": OTEL_AVAILABLE,
         }
 
     except Exception as e:
         print(f"❌ Pipeline execution failed: {e}")
         import traceback
+
         traceback.print_exc()
-        return {
-            "validation_passed": False,
-            "error": str(e),
-            "otel_available": OTEL_AVAILABLE
-        }
+        return {"validation_passed": False, "error": str(e), "otel_available": OTEL_AVAILABLE}
+
 
 if __name__ == "__main__":
     result = asyncio.run(run_otel_5stage_validation())

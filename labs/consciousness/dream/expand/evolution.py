@@ -2,6 +2,7 @@
 Mutation engine for evolving strategies.
 Experimental adaptive optimization of dream system parameters.
 """
+
 import hashlib
 import json
 import os
@@ -13,6 +14,7 @@ ENABLED = os.getenv("LUKHAS_STRATEGY_EVOLVE", "0") == "1"
 MUTATION_RATE = float(os.getenv("LUKHAS_EVOLVE_MUTATION_RATE", "0.1"))
 MUTATION_STRENGTH = float(os.getenv("LUKHAS_EVOLVE_MUTATION_STRENGTH", "0.05"))
 POPULATION_SIZE = int(os.getenv("LUKHAS_EVOLVE_POPULATION_SIZE", "10"))
+
 
 class StrategyGenome:
     """
@@ -59,7 +61,7 @@ class StrategyGenome:
         gene_str = json.dumps(self.genes, sort_keys=True)
         return hashlib.md5(gene_str.encode()).hexdigest()[:8]
 
-    def mutate(self, mutation_rate: float = None, mutation_strength: float = None) -> 'StrategyGenome':
+    def mutate(self, mutation_rate: float = None, mutation_strength: float = None) -> "StrategyGenome":
         """
         Create mutated copy of this genome.
 
@@ -94,7 +96,7 @@ class StrategyGenome:
 
         return StrategyGenome(mutated_config)
 
-    def crossover(self, other: 'StrategyGenome') -> Tuple['StrategyGenome', 'StrategyGenome']:
+    def crossover(self, other: "StrategyGenome") -> Tuple["StrategyGenome", "StrategyGenome"]:
         """
         Create two offspring through crossover with another genome.
 
@@ -137,7 +139,7 @@ class StrategyGenome:
             "genes": self.genes.copy(),
             "fitness": self.fitness,
             "generation": self.generation,
-            "genome_id": self.genome_id
+            "genome_id": self.genome_id,
         }
 
     def to_dream_config(self) -> Dict[str, Any]:
@@ -149,8 +151,9 @@ class StrategyGenome:
             "hybrid_alpha": self.genes["hybrid_alpha"],
             "temporal_weight": self.genes["temporal_weight"],
             "strategy": "blend",  # Use hybrid strategy for evolution
-            "use_objective": "1"   # Use scalar objectives
+            "use_objective": "1",  # Use scalar objectives
         }
+
 
 class EvolutionEngine:
     """
@@ -187,7 +190,7 @@ class EvolutionEngine:
 
         # Add seed configurations if provided
         if seed_configs:
-            for config in seed_configs[:self.population_size]:
+            for config in seed_configs[: self.population_size]:
                 genome = StrategyGenome(config)
                 self.population.append(genome)
 
@@ -281,7 +284,7 @@ class EvolutionEngine:
                 # Just mutate if same parent selected
                 offspring.append(parent1.mutate())
 
-        return offspring[:self.population_size]
+        return offspring[: self.population_size]
 
     def evolve_generation(self, benchmark_function) -> Dict[str, Any]:
         """
@@ -315,11 +318,12 @@ class EvolutionEngine:
             "population_size": len(self.population),
             "best_fitness": max(fitnesses) if fitnesses else 0.0,
             "avg_fitness": sum(fitnesses) / len(fitnesses) if fitnesses else 0.0,
-            "best_genome": self.best_genome.to_dict() if self.best_genome else None
+            "best_genome": self.best_genome.to_dict() if self.best_genome else None,
         }
 
         self.evolution_history.append(stats)
         return stats
+
 
 def save_strategy(config: Dict[str, Any], path: str = "dream_strategies.json") -> None:
     """
@@ -348,7 +352,7 @@ def save_strategy(config: Dict[str, Any], path: str = "dream_strategies.json") -
         "timestamp": time.time(),
         "evolution_enabled": ENABLED,
         "mutation_rate": MUTATION_RATE,
-        "mutation_strength": MUTATION_STRENGTH
+        "mutation_strength": MUTATION_STRENGTH,
     }
 
     try:
@@ -356,6 +360,7 @@ def save_strategy(config: Dict[str, Any], path: str = "dream_strategies.json") -
             json.dump(strategy_data, f, indent=2)
     except Exception:
         pass  # Fail silently on file errors
+
 
 def load_strategy(path: str = "dream_strategies.json") -> Optional[Dict[str, Any]]:
     """
@@ -377,11 +382,12 @@ def load_strategy(path: str = "dream_strategies.json") -> Optional[Dict[str, Any
     except Exception:
         return None
 
+
 def get_evolution_config() -> Dict[str, Any]:
     """Get current evolution configuration."""
     return {
         "enabled": ENABLED,
         "mutation_rate": MUTATION_RATE,
         "mutation_strength": MUTATION_STRENGTH,
-        "population_size": POPULATION_SIZE
+        "population_size": POPULATION_SIZE,
     }

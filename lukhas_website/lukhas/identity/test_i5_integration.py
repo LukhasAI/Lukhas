@@ -60,15 +60,9 @@ async def test_i5_complete_integration():
     guardian = MockGuardian()
 
     # Initialize I.5 components
-    tenant_manager = TenantManager(
-        token_generator=token_generator,
-        token_validator=token_validator,
-        guardian=guardian
-    )
+    tenant_manager = TenantManager(token_generator=token_generator, token_validator=token_validator, guardian=guardian)
 
-    namespace_engine = NamespaceIsolationEngine(
-        guardian=guardian
-    )
+    namespace_engine = NamespaceIsolationEngine(guardian=guardian)
 
     # Initialize I.2 Tiered Authentication
     tiered_auth = TieredAuthenticator(guardian=guardian)
@@ -83,7 +77,7 @@ async def test_i5_complete_integration():
         name="techcorp-enterprise",
         display_name="TechCorp Enterprise",
         tenant_type=TenantType.ENTERPRISE,
-        creator_user_id="system_admin"
+        creator_user_id="system_admin",
     )
 
     # Create child organization
@@ -92,7 +86,7 @@ async def test_i5_complete_integration():
         display_name="TechCorp Engineering Division",
         tenant_type=TenantType.ORGANIZATION,
         parent_tenant_id=enterprise.tenant_id,
-        creator_user_id="enterprise_admin"
+        creator_user_id="enterprise_admin",
     )
 
     # Create team under organization
@@ -101,7 +95,7 @@ async def test_i5_complete_integration():
         display_name="AI Research Team",
         tenant_type=TenantType.TEAM,
         parent_tenant_id=engineering_org.tenant_id,
-        creator_user_id="engineering_manager"
+        creator_user_id="engineering_manager",
     )
 
     logger.info(f"  - Enterprise: {enterprise.name} (ns: {enterprise.namespace})")
@@ -130,7 +124,7 @@ async def test_i5_complete_integration():
         email="ceo@techcorp.com",
         roles=["enterprise_admin", "ceo"],
         permissions=["full_admin", "financial_access", "audit_access"],
-        max_tier_level=TierLevel.SYSTEM
+        max_tier_level=TierLevel.SYSTEM,
     )
 
     # Engineering manager (T4 access)
@@ -141,7 +135,7 @@ async def test_i5_complete_integration():
         email="manager@techcorp.com",
         roles=["engineering_manager", "team_lead"],
         permissions=["team_management", "project_access", "budget_view"],
-        max_tier_level=TierLevel.ADMIN
+        max_tier_level=TierLevel.ADMIN,
     )
 
     # AI researcher (T3 access)
@@ -152,7 +146,7 @@ async def test_i5_complete_integration():
         email="alice@techcorp.com",
         roles=["researcher", "data_scientist"],
         permissions=["research_data", "model_training", "experiment_access"],
-        max_tier_level=TierLevel.ELEVATED
+        max_tier_level=TierLevel.ELEVATED,
     )
 
     logger.info(f"  - Enterprise Admin: {enterprise_admin.username} (T{enterprise_admin.max_tier_level.value})")
@@ -168,7 +162,7 @@ async def test_i5_complete_integration():
         user_id="admin_001",
         tier_level=TierLevel.SYSTEM,
         custom_claims={"clearance": "executive", "financial_access": True},
-        expires_in_seconds=3600
+        expires_in_seconds=3600,
     )
 
     # T4 engineering manager token
@@ -177,7 +171,7 @@ async def test_i5_complete_integration():
         user_id="manager_001",
         tier_level=TierLevel.ADMIN,
         custom_claims={"department": "engineering", "budget_limit": 100000},
-        expires_in_seconds=1800
+        expires_in_seconds=1800,
     )
 
     # T3 researcher token
@@ -186,7 +180,7 @@ async def test_i5_complete_integration():
         user_id="researcher_001",
         tier_level=TierLevel.ELEVATED,
         custom_claims={"project": "llm_research", "data_classification": "internal"},
-        expires_in_seconds=1200
+        expires_in_seconds=1200,
     )
 
     logger.info(f"  - Admin token (T5): {admin_token[:50]}...")
@@ -201,7 +195,7 @@ async def test_i5_complete_integration():
         "revenue_q4": 50000000,
         "expenses_q4": 35000000,
         "profit_margin": 0.30,
-        "classification": "confidential"
+        "classification": "confidential",
     }
 
     financial_request = DataAccessRequest(
@@ -209,7 +203,7 @@ async def test_i5_complete_integration():
         data_path="finance/q4_2024/summary",
         access_mode=AccessMode.WRITE,
         requester_id="admin_001",
-        metadata={"classification": "confidential", "retention_years": 7}
+        metadata={"classification": "confidential", "retention_years": 7},
     )
 
     await namespace_engine.store_data(financial_request, financial_data, IsolationScope.TENANT)
@@ -220,7 +214,7 @@ async def test_i5_complete_integration():
         "budget_allocated": 2000000,
         "team_size": 12,
         "status": "active",
-        "milestones": ["Q1: Architecture", "Q2: Prototype", "Q3: Testing"]
+        "milestones": ["Q1: Architecture", "Q2: Prototype", "Q3: Testing"],
     }
 
     project_request = DataAccessRequest(
@@ -228,7 +222,7 @@ async def test_i5_complete_integration():
         data_path="projects/agi_platform/overview",
         access_mode=AccessMode.WRITE,
         requester_id="manager_001",
-        metadata={"classification": "internal", "project_code": "AGI2024"}
+        metadata={"classification": "internal", "project_code": "AGI2024"},
     )
 
     await namespace_engine.store_data(project_request, project_data, IsolationScope.ORGANIZATION)
@@ -239,7 +233,7 @@ async def test_i5_complete_integration():
         "model_type": "transformer",
         "dataset": "custom_corpus_v3",
         "hyperparameters": {"learning_rate": 0.001, "batch_size": 32},
-        "results": {"accuracy": 0.94, "loss": 0.12}
+        "results": {"accuracy": 0.94, "loss": 0.12},
     }
 
     experiment_request = DataAccessRequest(
@@ -247,7 +241,7 @@ async def test_i5_complete_integration():
         data_path="experiments/exp_001/results",
         access_mode=AccessMode.WRITE,
         requester_id="researcher_001",
-        metadata={"experiment_date": "2024-09-23", "status": "completed"}
+        metadata={"experiment_date": "2024-09-23", "status": "completed"},
     )
 
     await namespace_engine.store_data(experiment_request, experiment_data, IsolationScope.TEAM)
@@ -261,9 +255,7 @@ async def test_i5_complete_integration():
 
     # Validate admin can access financial data
     admin_validation = await tenant_manager.validate_tenant_token(
-        token=admin_token,
-        required_tenant=enterprise.tenant_id,
-        required_permissions=["full_admin"]
+        token=admin_token, required_tenant=enterprise.tenant_id, required_permissions=["full_admin"]
     )
 
     if admin_validation.valid:
@@ -271,16 +263,14 @@ async def test_i5_complete_integration():
             namespace=enterprise_ns,
             data_path="finance/q4_2024/summary",
             access_mode=AccessMode.READ,
-            requester_id="admin_001"
+            requester_id="admin_001",
         )
         retrieved_financial = await namespace_engine.retrieve_data(financial_retrieve_request)
         logger.info(f"  - ✅ Admin accessed financial data: Q4 revenue = ${retrieved_financial['revenue_q4']:,}")
 
     # Validate manager can access project data
     manager_validation = await tenant_manager.validate_tenant_token(
-        token=manager_token,
-        required_tenant=engineering_org.tenant_id,
-        required_permissions=["project_access"]
+        token=manager_token, required_tenant=engineering_org.tenant_id, required_permissions=["project_access"]
     )
 
     if manager_validation.valid:
@@ -288,16 +278,14 @@ async def test_i5_complete_integration():
             namespace=org_ns,
             data_path="projects/agi_platform/overview",
             access_mode=AccessMode.READ,
-            requester_id="manager_001"
+            requester_id="manager_001",
         )
         retrieved_project = await namespace_engine.retrieve_data(project_retrieve_request)
         logger.info(f"  - ✅ Manager accessed project data: {retrieved_project['project_name']}")
 
     # Validate researcher can access experiment data
     researcher_validation = await tenant_manager.validate_tenant_token(
-        token=researcher_token,
-        required_tenant=ai_team.tenant_id,
-        required_permissions=["research_data"]
+        token=researcher_token, required_tenant=ai_team.tenant_id, required_permissions=["research_data"]
     )
 
     if researcher_validation.valid:
@@ -305,10 +293,12 @@ async def test_i5_complete_integration():
             namespace=team_ns,
             data_path="experiments/exp_001/results",
             access_mode=AccessMode.READ,
-            requester_id="researcher_001"
+            requester_id="researcher_001",
         )
         retrieved_experiment = await namespace_engine.retrieve_data(experiment_retrieve_request)
-        logger.info(f"  - ✅ Researcher accessed experiment data: accuracy = {retrieved_experiment['results']['accuracy']}")
+        logger.info(
+            f"  - ✅ Researcher accessed experiment data: accuracy = {retrieved_experiment['results']['accuracy']}"
+        )
 
     # Test 7: Cross-tenant access denial
     logger.info("\n🚫 Test 7: Testing cross-tenant access control")
@@ -316,9 +306,7 @@ async def test_i5_complete_integration():
     # Try researcher token on enterprise data (should fail)
     try:
         cross_tenant_validation = await tenant_manager.validate_tenant_token(
-            token=researcher_token,
-            required_tenant=enterprise.tenant_id,
-            required_permissions=["full_admin"]
+            token=researcher_token, required_tenant=enterprise.tenant_id, required_permissions=["full_admin"]
         )
         if not cross_tenant_validation.valid:
             logger.info(f"  - ✅ Cross-tenant access denied: {cross_tenant_validation.error_message}")
@@ -334,7 +322,7 @@ async def test_i5_complete_integration():
         ip_address="192.168.1.100",
         username="ceo.admin",
         password="secure_admin_password",
-        existing_tier="T4"  # Previous auth level
+        existing_tier="T4",  # Previous auth level
     )
 
     # Test T5 authentication for enterprise admin
@@ -351,7 +339,7 @@ async def test_i5_complete_integration():
         username="alice.researcher",
         password="researcher_password",
         existing_tier="T2",
-        totp_token="123456"  # Mock TOTP
+        totp_token="123456",  # Mock TOTP
     )
 
     researcher_t3_result = await tiered_auth.authenticate_T3(researcher_auth_context)
@@ -369,7 +357,7 @@ async def test_i5_complete_integration():
             tenant_id=ai_team.tenant_id,
             user_id="researcher_001",
             tier_level=TierLevel.AUTHENTICATED,
-            expires_in_seconds=300
+            expires_in_seconds=300,
         )
     token_gen_time = (time.perf_counter() - start_time) / 50 * 1000
 
@@ -377,17 +365,16 @@ async def test_i5_complete_integration():
     start_time = time.perf_counter()
     for i in range(20):
         test_request = DataAccessRequest(
-            namespace=team_ns,
-            data_path=f"test/data_{i}",
-            access_mode=AccessMode.WRITE,
-            requester_id="researcher_001"
+            namespace=team_ns, data_path=f"test/data_{i}", access_mode=AccessMode.WRITE, requester_id="researcher_001"
         )
         await namespace_engine.store_data(test_request, {"test": f"data_{i}"})
     data_store_time = (time.perf_counter() - start_time) / 20 * 1000
 
     logger.info(f"  - Token generation: {token_gen_time:.2f}ms avg")
     logger.info(f"  - Data storage: {data_store_time:.2f}ms avg")
-    logger.info(f"  - Performance targets: {'✅ PASS' if token_gen_time < 100 and data_store_time < 100 else '❌ NEEDS OPTIMIZATION'}")
+    logger.info(
+        f"  - Performance targets: {'✅ PASS' if token_gen_time < 100 and data_store_time < 100 else '❌ NEEDS OPTIMIZATION'}"
+    )
 
     # Test 10: Guardian integration summary
     logger.info("\n🛡️ Test 10: Guardian integration summary")
@@ -441,7 +428,7 @@ async def test_i5_complete_integration():
         "guardian_validations": guardian.validation_calls,
         "guardian_monitoring": guardian.monitor_calls,
         "cross_tenant_access_denied": True,
-        "tier_authentication_working": admin_t5_result.ok and researcher_t3_result.ok
+        "tier_authentication_working": admin_t5_result.ok and researcher_t3_result.ok,
     }
 
 

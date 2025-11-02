@@ -127,7 +127,9 @@ class QISubstrate:
         self.config = config or self._default_config()
 
         # Quantum environment
-        self.environment = QuantumEnvironment(**self.config.get("environment", {}))  # noqa: F821  # TODO: QuantumEnvironment
+        self.environment = QuantumEnvironment(
+            **self.config.get("environment", {})
+        )  # noqa: F821  # TODO: QuantumEnvironment
 
         # State management
         self.quantum_states: dict[str, QIState] = {}

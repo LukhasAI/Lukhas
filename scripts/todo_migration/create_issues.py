@@ -38,11 +38,7 @@ def remove_control_characters(text: str, allow_newlines: bool = True) -> str:
     if not text:
         return ""
     allowed_controls = {"\n", "\t"} if allow_newlines else set()
-    return "".join(
-        ch
-        for ch in text
-        if ch in allowed_controls or ord(ch) >= 32
-    )
+    return "".join(ch for ch in text if ch in allowed_controls or ord(ch) >= 32)
 
 
 def collapse_whitespace(text: str) -> str:
@@ -89,9 +85,7 @@ def validate_row(row: Dict[str, str]) -> Dict[str, str]:
     if not message_clean:
         raise ValueError("missing TODO message")
 
-    title_fragment = collapse_whitespace(
-        remove_control_characters(message_raw, allow_newlines=True)
-    )
+    title_fragment = collapse_whitespace(remove_control_characters(message_raw, allow_newlines=True))
     if not title_fragment:
         # Fallback to cleaned message if collapsing removed everything
         title_fragment = collapse_whitespace(message_clean)
@@ -126,9 +120,7 @@ def run_gh_issue_create(title: str, body: str, labels: str = "") -> int:
     return issue_number
 
 
-def create_issue_rest(
-    repo: str, token: str, title: str, body: str, labels: Optional[str] = None
-) -> int:
+def create_issue_rest(repo: str, token: str, title: str, body: str, labels: Optional[str] = None) -> int:
     import requests  # type: ignore
 
     url = f"https://api.github.com/repos/{repo}/issues"
@@ -174,9 +166,7 @@ def main():
             try:
                 validated_rows.append(validate_row(row))
             except ValueError as exc:
-                validation_errors.append(
-                    f"Row {idx}: {exc}"
-                )
+                validation_errors.append(f"Row {idx}: {exc}")
 
     if validation_errors:
         for err in validation_errors:
@@ -208,9 +198,7 @@ def main():
                 except Exception:
                     token = os.environ.get("GITHUB_TOKEN")
                     if not token:
-                        raise RuntimeError(
-                            "No gh CLI and no GITHUB_TOKEN; cannot create issue."
-                        )
+                        raise RuntimeError("No gh CLI and no GITHUB_TOKEN; cannot create issue.")
                     issue_number = create_issue_rest(args.repo, token, title, body, labels)
             created += 1
             mapping_key = f"{entry['file']}:{entry['line']}"

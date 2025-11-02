@@ -4,6 +4,7 @@ Quantum Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -66,9 +67,7 @@ class ConsciousnessTokenProtocol:
         # consciousness value.  ``log1p`` keeps the growth sub-linear so that
         # extremely large amounts do not explode the value while still
         # remaining sensitive to small contributions.
-        consciousness_value = round(
-            math.log1p(normalized_amount) * self._resonance_scale, 6
-        )
+        consciousness_value = round(math.log1p(normalized_amount) * self._resonance_scale, 6)
 
         # Classify the resonance band to give downstream systems a qualitative
         # signal without relying solely on the numeric value.

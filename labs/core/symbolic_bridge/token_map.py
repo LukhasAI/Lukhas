@@ -1,4 +1,5 @@
 import logging
+
 """Consciousness token mapping utilities for the symbolic bridge."""
 
 from dataclasses import dataclass, field
@@ -254,9 +255,7 @@ class BridgeTokenMap:
         }
         return schema
 
-    def _normalize_emotional_vector(
-        self, emotional_vector: Optional[dict[str, float]]
-    ) -> dict[str, float]:
+    def _normalize_emotional_vector(self, emotional_vector: Optional[dict[str, float]]) -> dict[str, float]:
         """Normalize emotional vector values to protocol ranges."""
 
         defaults = {

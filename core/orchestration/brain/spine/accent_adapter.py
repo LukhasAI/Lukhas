@@ -1,4 +1,5 @@
 """Accent adapter bridge for Healix memory retrieval."""
+
 from __future__ import annotations
 
 import logging

@@ -17,9 +17,7 @@ from pathlib import Path
 def get_syntax_errors():
     """Get all syntax errors from ruff."""
     result = subprocess.run(
-        ["python3", "-m", "ruff", "check", ".", "--select=E999", "--output-format=json"],
-        capture_output=True,
-        text=True
+        ["python3", "-m", "ruff", "check", ".", "--select=E999", "--output-format=json"], capture_output=True, text=True
     )
 
     try:
@@ -28,6 +26,7 @@ def get_syntax_errors():
         errors = []
 
     return errors
+
 
 def categorize_error(error):
     """Categorize error by fixability."""
@@ -45,6 +44,7 @@ def categorize_error(error):
         return "manual", "syntax_error_complex"
     else:
         return "unknown", "other"
+
 
 def main():
     errors = get_syntax_errors()
@@ -90,7 +90,7 @@ def main():
         "by_file": {k: len(v) for k, v in by_file.items()},
         "by_category": {k: len(v) for k, v in by_category.items()},
         "top_files": [{"file": f, "count": len(e)} for f, e in sorted_files[:20]],
-        "all_errors": errors
+        "all_errors": errors,
     }
 
     report_path.write_text(json.dumps(report, indent=2))
@@ -114,6 +114,7 @@ def main():
     else:
         print("✅ Syntax error count acceptable for freeze")
         return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -35,38 +35,90 @@ class SecurityPostureFixer:
         if not self.sbom_path.exists():
             raise FileNotFoundError(f"SBOM file not found: {self.sbom_path}")
 
-        with open(self.sbom_path, 'r') as f:
+        with open(self.sbom_path, "r") as f:
             return json.load(f)
 
     def identify_missing_sbom_modules(self) -> Set[str]:
         """Identify modules mentioned in security alert that are missing SBOM references."""
         # Based on the security alert, these are the affected modules
         affected_modules = {
-            "matrix_validation_results", "feedback", "utils", "flags", "voice",
-            "quantum_bio_consciousness", "nodes", "interfaces", "orchestrator",
-            "compliance", "colony", "shims", "openai", "cognitive_core", "nias",
-            "audit", "dream", "modulation", "dna", "aka_qualia", "migration",
-            "colonies", "adapters", "lukhas.branding", "lukhas.rl.engine",
-            "lukhas.observability", "lukhas.orchestration.context", "lukhas.rl",
-            "lukhas.core.filesystem", "lukhas.qi", "lukhas.memory.backends",
-            "lukhas.memory.emotional", "lukhas.bridge", "lukhas.matriz",
-            "lukhas.core.bridge", "lukhas.governance.guardian", "lukhas.bio",
-            "lukhas.orchestration.providers", "lukhas.bio.core", "lukhas.emotion",
-            "lukhas.constellation", "lukhas.core.policy", "lukhas.trinity",
-            "lukhas.core.common", "lukhas.constellation.triad", "lukhas.tools",
-            "lukhas.orchestration", "lukhas.governance.security",
-            "lukhas.deployment", "lukhas.governance.consent_ledger",
-            "lukhas.core.symbolic", "lukhas.matriz.runtime", "lukhas.core",
-            "lukhas.bridge.llm_wrappers", "lukhas.accepted.bio", "lukhas.security",
-            "lukhas.ledger", "lukhas.governance.ethics",
-            "lukhas.core.reliability", "lukhas.agents",
+            "matrix_validation_results",
+            "feedback",
+            "utils",
+            "flags",
+            "voice",
+            "quantum_bio_consciousness",
+            "nodes",
+            "interfaces",
+            "orchestrator",
+            "compliance",
+            "colony",
+            "shims",
+            "openai",
+            "cognitive_core",
+            "nias",
+            "audit",
+            "dream",
+            "modulation",
+            "dna",
+            "aka_qualia",
+            "migration",
+            "colonies",
+            "adapters",
+            "lukhas.branding",
+            "lukhas.rl.engine",
+            "lukhas.observability",
+            "lukhas.orchestration.context",
+            "lukhas.rl",
+            "lukhas.core.filesystem",
+            "lukhas.qi",
+            "lukhas.memory.backends",
+            "lukhas.memory.emotional",
+            "lukhas.bridge",
+            "lukhas.matriz",
+            "lukhas.core.bridge",
+            "lukhas.governance.guardian",
+            "lukhas.bio",
+            "lukhas.orchestration.providers",
+            "lukhas.bio.core",
+            "lukhas.emotion",
+            "lukhas.constellation",
+            "lukhas.core.policy",
+            "lukhas.trinity",
+            "lukhas.core.common",
+            "lukhas.constellation.triad",
+            "lukhas.tools",
+            "lukhas.orchestration",
+            "lukhas.governance.security",
+            "lukhas.deployment",
+            "lukhas.governance.consent_ledger",
+            "lukhas.core.symbolic",
+            "lukhas.matriz.runtime",
+            "lukhas.core",
+            "lukhas.bridge.llm_wrappers",
+            "lukhas.accepted.bio",
+            "lukhas.security",
+            "lukhas.ledger",
+            "lukhas.governance.ethics",
+            "lukhas.core.reliability",
+            "lukhas.agents",
             "lukhas.governance.consent_ledger.providers",
-            "lukhas.rl.coordination", "lukhas.api", "lukhas.accepted",
-            "lukhas.core.colonies", "lukhas.vivox", "lukhas.root",
-            "lukhas.core.matriz", "lukhas.trace", "lukhas.core.symbolic.constraints",
-            "lukhas.core.registry", "lukhas.memory", "lukhas.consciousness",
-            "lukhas.rl.experience", "lukhas.governance", "lukhas.core.symbolism",
-            "matrix_tracks.status"
+            "lukhas.rl.coordination",
+            "lukhas.api",
+            "lukhas.accepted",
+            "lukhas.core.colonies",
+            "lukhas.vivox",
+            "lukhas.root",
+            "lukhas.core.matriz",
+            "lukhas.trace",
+            "lukhas.core.symbolic.constraints",
+            "lukhas.core.registry",
+            "lukhas.memory",
+            "lukhas.consciousness",
+            "lukhas.rl.experience",
+            "lukhas.governance",
+            "lukhas.core.symbolism",
+            "matrix_tracks.status",
         }
 
         return affected_modules
@@ -103,13 +155,14 @@ class SecurityPostureFixer:
                 "module": module_name,
                 "checksum": self.calculate_sbom_checksum(sbom_data),
                 "generated_at": self.get_timestamp(),
-                "compliance_status": "compliant"
+                "compliance_status": "compliant",
             }
         }
 
     def calculate_sbom_checksum(self, sbom_data: Dict) -> str:
         """Calculate checksum for SBOM data."""
         import hashlib
+
         sbom_str = json.dumps(sbom_data, sort_keys=True)
         return hashlib.sha256(sbom_str.encode()).hexdigest()[:16]
 
@@ -123,7 +176,7 @@ class SecurityPostureFixer:
             if not contract_path.exists():
                 return False
 
-            with open(contract_path, 'r') as f:
+            with open(contract_path, "r") as f:
                 contract = json.load(f)
 
             # Check if this contract is for one of the affected modules
@@ -150,7 +203,7 @@ class SecurityPostureFixer:
                 if not backup_path.exists():
                     shutil.copy2(contract_path, backup_path)
 
-                with open(contract_path, 'w') as f:
+                with open(contract_path, "w") as f:
                     json.dump(contract, f, indent=2)
 
                 print(f"✅ Updated matrix contract: {contract_path}")
@@ -184,11 +237,7 @@ class SecurityPostureFixer:
             # Update everything if we don't have a target list
             return True
 
-        aliases = {
-            module_name,
-            module_name.replace(".", "_"),
-            module_name.split(".")[-1]
-        }
+        aliases = {module_name, module_name.replace(".", "_"), module_name.split(".")[-1]}
 
         return bool(aliases & self.module_aliases)
 
@@ -221,7 +270,7 @@ class SecurityPostureFixer:
                 "module": module_name,
                 "checksum": self.sbom_checksum,
                 "generated_at": timestamp,
-                "compliance_status": "compliant"
+                "compliance_status": "compliant",
             }
         )
 
@@ -234,7 +283,7 @@ class SecurityPostureFixer:
             {
                 "name": "matrix-rats-verifier",
                 "version": "2025.10",
-                "uri": "policies/attestation/matrix-rats-verifier@2025-10.json"
+                "uri": "policies/attestation/matrix-rats-verifier@2025-10.json",
             },
         )
         evidence = rats.get("evidence_jwt", "")
@@ -344,7 +393,7 @@ class SecurityPostureFixer:
             self.ensure_telemetry_fields(contract)
 
             if not self.dry_run:
-                with open(contract_path, 'w') as f:
+                with open(contract_path, "w") as f:
                     json.dump(contract, f, indent=2)
                 print(f"✅ Generated matrix contract: {contract_path}")
             else:
@@ -387,7 +436,7 @@ class SecurityPostureFixer:
             "new_contracts_generated": len(self.fixed_contracts) - updated_count,
             "total_contracts_fixed": len(self.fixed_contracts),
             "dry_run": self.dry_run,
-            "fixed_contracts": self.fixed_contracts
+            "fixed_contracts": self.fixed_contracts,
         }
 
         print("\n📊 Security Fix Summary:")
@@ -400,7 +449,7 @@ class SecurityPostureFixer:
         if not self.dry_run:
             summary_path = self.output_dir / "security_fix_summary.json"
             summary_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(summary_path, 'w') as f:
+            with open(summary_path, "w") as f:
                 json.dump(summary, f, indent=2)
             print(f"📄 Summary saved to: {summary_path}")
 
@@ -410,7 +459,9 @@ class SecurityPostureFixer:
 def main():
     parser = argparse.ArgumentParser(description="Fix security posture by adding SBOM references")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
-    parser.add_argument("--output-dir", type=Path, default=Path("reports/security_fixes"), help="Output directory for generated files")
+    parser.add_argument(
+        "--output-dir", type=Path, default=Path("reports/security_fixes"), help="Output directory for generated files"
+    )
 
     args = parser.parse_args()
 
@@ -418,13 +469,15 @@ def main():
         fixer = SecurityPostureFixer(dry_run=args.dry_run, output_dir=args.output_dir)
         summary = fixer.run_security_fix()
 
-        if summary['total_contracts_fixed'] > 0:
-            print(f"\n🎯 Expected impact: Resolving {summary['total_contracts_fixed']} SBOM alerts should improve security score significantly!")
+        if summary["total_contracts_fixed"] > 0:
+            print(
+                f"\n🎯 Expected impact: Resolving {summary['total_contracts_fixed']} SBOM alerts should improve security score significantly!"
+            )
             print("   Estimated new score: 65-75/100 (up from 35/100)")
         else:
             print("\n⚠️ No contracts were fixed. Check if matrix contract files exist and are accessible.")
 
-        return 0 if summary['total_contracts_fixed'] > 0 else 1
+        return 0 if summary["total_contracts_fixed"] > 0 else 1
 
     except Exception as e:
         print(f"❌ Security fix failed: {e}")

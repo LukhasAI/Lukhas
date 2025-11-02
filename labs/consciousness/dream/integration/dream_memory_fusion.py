@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class FusionStrategy(Enum):
     """Strategies for memory fusion with dreams."""
+
     SYMBOLIC_INTEGRATION = "symbolic_integration"
     NARRATIVE_WEAVING = "narrative_weaving"
     EMOTIONAL_RESONANCE = "emotional_resonance"
@@ -25,6 +26,7 @@ class FusionStrategy(Enum):
 
 class FusionQuality(Enum):
     """Quality levels for memory fusion."""
+
     EXCELLENT = "excellent"
     GOOD = "good"
     MODERATE = "moderate"
@@ -45,24 +47,17 @@ class DreamMemoryFusion:
     def _initialize_memory_templates(self):
         """Initialize memory fusion templates."""
         self.memory_templates = {
-            "symbolic": {
-                "priority_symbols": ["⚛️", "🧠", "🛡️"],
-                "fusion_weight": 0.9,
-                "validation_required": True
-            },
-            "narrative": {
-                "coherence_threshold": 0.7,
-                "fusion_weight": 0.8,
-                "temporal_ordering": True
-            },
-            "emotional": {
-                "resonance_threshold": 0.6,
-                "fusion_weight": 0.7,
-                "stability_check": True
-            }
+            "symbolic": {"priority_symbols": ["⚛️", "🧠", "🛡️"], "fusion_weight": 0.9, "validation_required": True},
+            "narrative": {"coherence_threshold": 0.7, "fusion_weight": 0.8, "temporal_ordering": True},
+            "emotional": {"resonance_threshold": 0.6, "fusion_weight": 0.7, "stability_check": True},
         }
 
-    def initiate_fusion(self, dream_id: str, memory_context: dict[str, Any], strategy: FusionStrategy = FusionStrategy.SYMBOLIC_INTEGRATION) -> str:
+    def initiate_fusion(
+        self,
+        dream_id: str,
+        memory_context: dict[str, Any],
+        strategy: FusionStrategy = FusionStrategy.SYMBOLIC_INTEGRATION,
+    ) -> str:
         """⚛️ Initiate memory fusion while preserving identity authenticity."""
         self.fusion_counter += 1
         fusion_id = f"fusion_{self.fusion_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -76,7 +71,7 @@ class DreamMemoryFusion:
             "status": "initiated",
             "fusion_quality": None,
             "fused_content": None,
-            "constellation_validated": False
+            "constellation_validated": False,
         }
 
         self.fusion_history[fusion_id] = fusion_session
@@ -142,9 +137,9 @@ class DreamMemoryFusion:
             "content": {
                 "fused_symbols": fused_symbols,
                 "symbol_count": len(fused_symbols),
-                "constellation_symbols": [s for s in fused_symbols if s in ["⚛️", "🧠", "🛡️"]]
+                "constellation_symbols": [s for s in fused_symbols if s in ["⚛️", "🧠", "🛡️"]],
             },
-            "constellation_validated": constellation_validated
+            "constellation_validated": constellation_validated,
         }
 
     def _fuse_narrative_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -156,9 +151,9 @@ class DreamMemoryFusion:
             "content": {
                 "narrative_threads": ["dream_sequence", "memory_echo", "consciousness_bridge"],
                 "coherence_score": 0.82,
-                "temporal_consistency": True
+                "temporal_consistency": True,
             },
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
     def _fuse_emotional_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -170,9 +165,9 @@ class DreamMemoryFusion:
             "content": {
                 "emotional_harmony": 0.78,
                 "resonance_patterns": ["wonder", "curiosity", "transcendence"],
-                "stability_maintained": True
+                "stability_maintained": True,
             },
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
     def _fuse_archetypal_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -184,9 +179,9 @@ class DreamMemoryFusion:
             "content": {
                 "archetypes": ["seeker", "guardian", "creator"],
                 "mapping_accuracy": 0.91,
-                "universal_resonance": True
+                "universal_resonance": True,
             },
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
     def _fuse_temporal_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -195,12 +190,8 @@ class DreamMemoryFusion:
             "fusion_id": session["fusion_id"],
             "strategy": "temporal_threading",
             "quality": FusionQuality.GOOD,
-            "content": {
-                "temporal_threads": 5,
-                "chronological_integrity": 0.85,
-                "causality_preserved": True
-            },
-            "constellation_validated": True
+            "content": {"temporal_threads": 5, "chronological_integrity": 0.85, "causality_preserved": True},
+            "constellation_validated": True,
         }
 
     def _extract_dream_symbols(self, dream_id: str) -> list[str]:
@@ -245,7 +236,7 @@ class DreamMemoryFusion:
             "content": session["fused_content"],
             "constellation_validated": session["constellation_validated"],
             "completed_at": session.get("completed_at"),
-            "guardian_approved": True
+            "guardian_approved": True,
         }
 
         logger.info(f"🛡️ Fusion result retrieved: {fusion_id}")
@@ -279,7 +270,7 @@ class DreamMemoryFusion:
             "quality_distribution": quality_counts,
             "strategy_usage": strategy_counts,
             "constellation_validation_rate": constellation_validated_count / len(completed_fusions),
-            "system_health": "optimal"
+            "system_health": "optimal",
         }
 
 

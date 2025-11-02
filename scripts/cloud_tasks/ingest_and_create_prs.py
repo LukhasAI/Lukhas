@@ -110,11 +110,17 @@ def create_commit(default_message: str) -> None:
 def push_and_create_pr(branch: str, base: str, title: str, body: str, labels: List[str]) -> Tuple[bool, str]:
     sh(["git", "push", "-u", "origin", branch], check=False)
     args = [
-        "gh", "pr", "create",
-        "--base", base,
-        "--head", branch,
-        "--title", title,
-        "--body", body,
+        "gh",
+        "pr",
+        "create",
+        "--base",
+        base,
+        "--head",
+        branch,
+        "--title",
+        title,
+        "--body",
+        body,
     ]
     if labels:
         args += ["--label", ",".join(labels)]
@@ -155,12 +161,14 @@ def main() -> int:
         tasks = data.get("tasks", data if isinstance(data, list) else [])
     else:
         for p in Path(args.dir).glob("*.patch"):
-            tasks.append({
-                "id": p.stem,
-                "title": p.stem,
-                "branch": f"{args.branch_prefix}{p.stem}",
-                "patch_path": str(p),
-            })
+            tasks.append(
+                {
+                    "id": p.stem,
+                    "title": p.stem,
+                    "branch": f"{args.branch_prefix}{p.stem}",
+                    "patch_path": str(p),
+                }
+            )
 
     log_entries: List[Dict] = []
     for t in tasks:
@@ -174,8 +182,7 @@ def main() -> int:
         pr_title = t.get("pr_title") or f"codex: {tid} — cloud task"
         pr_body = t.get("pr_body") or (
             f"Automated PR for Codex Cloud Task `{tid}`.\n\n"
-            f"- Base: `{base}`\n- Branch: `{branch}`\n"
-            + (f"- Patch: {patch_url}\n" if patch_url else "")
+            f"- Base: `{base}`\n- Branch: `{branch}`\n" + (f"- Patch: {patch_url}\n" if patch_url else "")
         )
 
         entry = {

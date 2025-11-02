@@ -4,6 +4,7 @@ Quantum-Inspired Attention Mechanism
 This module provides quantum-inspired attention processing for the AI system,
 implementing attention gates, superposition, and entanglement-based processing.
 """
+
 import copy
 from datetime import datetime, timezone
 

@@ -225,7 +225,7 @@ class ColonyMemoryValidator:
                 "validator_id": self.validator_id,
                 "default_mode": default_validation_mode.value,
                 "max_concurrent": max_concurrent_validations,
-            }
+            },
         )
 
     async def start(self):
@@ -259,7 +259,7 @@ class ColonyMemoryValidator:
             extra={
                 "total_validations": self.total_validations,
                 "success_rate": success_rate,
-            }
+            },
         )
 
     def register_colony(
@@ -277,7 +277,7 @@ class ColonyMemoryValidator:
             extra={
                 "colony_id": colony_id,
                 "trust_score": initial_trust_score,
-            }
+            },
         )
 
     def unregister_colony(self, colony_id: str):
@@ -371,7 +371,7 @@ class ColonyMemoryValidator:
                     "result": outcome.result.value,
                     "consensus_achieved": outcome.consensus_achieved,
                     "total_time_ms": outcome.total_time_ms,
-                }
+                },
             )
 
             return outcome
@@ -405,7 +405,7 @@ class ColonyMemoryValidator:
                 extra={
                     "available": len(available_colonies),
                     "required": request.minimum_responses,
-                }
+                },
             )
 
         # Create validation tasks
@@ -639,7 +639,9 @@ class ColonyMemoryValidator:
             expired_requests = []
 
             for request_id, request in self.active_validations.items():
-                request_timestamp = request.timestamp.timestamp() if hasattr(request.timestamp, "timestamp") else request.timestamp
+                request_timestamp = (
+                    request.timestamp.timestamp() if hasattr(request.timestamp, "timestamp") else request.timestamp
+                )
                 if current_time - request_timestamp > request.timeout_seconds * 2:
                     expired_requests.append(request_id)
 

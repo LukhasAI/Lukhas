@@ -1,4 +1,3 @@
-
 """
 ++
 |                    LUClukhasS :: FEEDBACK INSIGHT CLI (v1.0)                      |
@@ -13,6 +12,7 @@ Description:
 Usage:
     python core/modules/nias/feedback_insight_cli.py
 """
+
 import argparse
 import json
 import os

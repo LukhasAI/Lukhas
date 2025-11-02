@@ -57,8 +57,10 @@ except ImportError:
         template = env.get_template(template_rel)
         return template.render(**context)
 
-def diff_module_files(module_path: pathlib.Path, templates: List[str],
-                     env: Environment, context_lines: int = 3) -> Dict[str, Any]:
+
+def diff_module_files(
+    module_path: pathlib.Path, templates: List[str], env: Environment, context_lines: int = 3
+) -> Dict[str, Any]:
     """Generate diffs for a module's files vs templates."""
     module_name = module_path.name
     manifest = load_module_manifest(module_path)
@@ -69,13 +71,7 @@ def diff_module_files(module_path: pathlib.Path, templates: List[str],
         "diffs": [],
         "missing_files": [],
         "extra_files": [],
-        "stats": {
-            "files_compared": 0,
-            "files_different": 0,
-            "files_missing": 0,
-            "lines_added": 0,
-            "lines_removed": 0
-        }
+        "stats": {"files_compared": 0, "files_different": 0, "files_missing": 0, "lines_added": 0, "lines_removed": 0},
     }
 
     for template_rel in templates:
@@ -84,6 +80,7 @@ def diff_module_files(module_path: pathlib.Path, templates: List[str],
 
         # Render the filename to substitute variables like {{ module }}
         from jinja2 import Template as JinjaTemplate
+
         filename_template = JinjaTemplate(target_rel)
         target_rel = filename_template.render(**context)
 
@@ -99,61 +96,63 @@ def diff_module_files(module_path: pathlib.Path, templates: List[str],
             if target_path.exists():
                 # Read current content
                 try:
-                    current_content = target_path.read_text(encoding='utf-8', errors='ignore')
+                    current_content = target_path.read_text(encoding="utf-8", errors="ignore")
                     current_lines = current_content.splitlines(keepends=True)
                 except Exception as e:
                     current_lines = [f"# Error reading file: {e}\n"]
 
                 # Generate diff
-                diff_lines = list(difflib.unified_diff(
-                    current_lines, new_lines,
-                    fromfile=f"current/{target_rel}",
-                    tofile=f"template/{target_rel}",
-                    n=context_lines
-                ))
+                diff_lines = list(
+                    difflib.unified_diff(
+                        current_lines,
+                        new_lines,
+                        fromfile=f"current/{target_rel}",
+                        tofile=f"template/{target_rel}",
+                        n=context_lines,
+                    )
+                )
 
                 if diff_lines:
                     results["stats"]["files_different"] += 1
 
                     # Count added/removed lines
                     for line in diff_lines:
-                        if line.startswith('+') and not line.startswith('+++'):
+                        if line.startswith("+") and not line.startswith("+++"):
                             results["stats"]["lines_added"] += 1
-                        elif line.startswith('-') and not line.startswith('---'):
+                        elif line.startswith("-") and not line.startswith("---"):
                             results["stats"]["lines_removed"] += 1
 
-                    results["diffs"].append({
-                        "file": target_rel,
-                        "template": template_rel,
-                        "diff": ''.join(diff_lines),
-                        "has_changes": True
-                    })
+                    results["diffs"].append(
+                        {"file": target_rel, "template": template_rel, "diff": "".join(diff_lines), "has_changes": True}
+                    )
                 else:
-                    results["diffs"].append({
-                        "file": target_rel,
-                        "template": template_rel,
-                        "diff": "",
-                        "has_changes": False
-                    })
+                    results["diffs"].append(
+                        {"file": target_rel, "template": template_rel, "diff": "", "has_changes": False}
+                    )
             else:
                 # File is missing
                 results["stats"]["files_missing"] += 1
-                results["missing_files"].append({
-                    "file": target_rel,
-                    "template": template_rel,
-                    "content_preview": new_content[:200] + "..." if len(new_content) > 200 else new_content
-                })
+                results["missing_files"].append(
+                    {
+                        "file": target_rel,
+                        "template": template_rel,
+                        "content_preview": new_content[:200] + "..." if len(new_content) > 200 else new_content,
+                    }
+                )
 
         except Exception as e:
-            results["diffs"].append({
-                "file": target_rel,
-                "template": template_rel,
-                "diff": f"Error generating diff: {e}",
-                "has_changes": True,
-                "error": str(e)
-            })
+            results["diffs"].append(
+                {
+                    "file": target_rel,
+                    "template": template_rel,
+                    "diff": f"Error generating diff: {e}",
+                    "has_changes": True,
+                    "error": str(e),
+                }
+            )
 
     return results
+
 
 def format_diff_output(results: Dict[str, Any], show_unchanged: bool = False) -> str:
     """Format diff results for human-readable output."""
@@ -196,23 +195,17 @@ def format_diff_output(results: Dict[str, Any], show_unchanged: bool = False) ->
 
     return "\n".join(lines)
 
+
 def main():
     """Main diff function."""
     parser = argparse.ArgumentParser(description="Show diffs between current files and scaffold templates")
-    parser.add_argument("--modules-root", default="lukhas",
-                       help="Root directory containing modules")
-    parser.add_argument("--module",
-                       help="Show diff for specific module")
-    parser.add_argument("--all-modules", action="store_true",
-                       help="Show diffs for all modules")
-    parser.add_argument("--context", type=int, default=3,
-                       help="Number of context lines in diff")
-    parser.add_argument("--show-unchanged", action="store_true",
-                       help="Show files with no changes")
-    parser.add_argument("--json", action="store_true",
-                       help="Output results as JSON")
-    parser.add_argument("--summary-only", action="store_true",
-                       help="Show only summary statistics")
+    parser.add_argument("--modules-root", default="lukhas", help="Root directory containing modules")
+    parser.add_argument("--module", help="Show diff for specific module")
+    parser.add_argument("--all-modules", action="store_true", help="Show diffs for all modules")
+    parser.add_argument("--context", type=int, default=3, help="Number of context lines in diff")
+    parser.add_argument("--show-unchanged", action="store_true", help="Show files with no changes")
+    parser.add_argument("--json", action="store_true", help="Output results as JSON")
+    parser.add_argument("--summary-only", action="store_true", help="Show only summary statistics")
 
     args = parser.parse_args()
 
@@ -246,10 +239,7 @@ def main():
             print(f"Module not found: {args.module}", file=sys.stderr)
             sys.exit(1)
     else:
-        modules = [
-            p.name for p in modules_root.iterdir()
-            if p.is_dir() and not p.name.startswith('.')
-        ]
+        modules = [p.name for p in modules_root.iterdir() if p.is_dir() and not p.name.startswith(".")]
 
     # Generate diffs
     all_results = []
@@ -281,15 +271,15 @@ def main():
     else:
         for results in all_results:
             # Only show modules with changes unless show_unchanged is True
-            has_changes = (results["stats"]["files_different"] > 0 or
-                          results["stats"]["files_missing"] > 0)
+            has_changes = results["stats"]["files_different"] > 0 or results["stats"]["files_missing"] > 0
 
             if has_changes or args.show_unchanged:
                 print(format_diff_output(results, args.show_unchanged))
                 if len(all_results) > 1:
-                    print("\n" + "="*60 + "\n")
+                    print("\n" + "=" * 60 + "\n")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

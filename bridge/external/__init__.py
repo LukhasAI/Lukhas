@@ -5,6 +5,7 @@ BRIDGE - external Submodule
 #TAG:external
 #TAG:standard
 """
+
 # Colony base for propagation
 from typing import Any
 

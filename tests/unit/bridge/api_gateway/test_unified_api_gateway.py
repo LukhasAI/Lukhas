@@ -23,11 +23,7 @@ class TestUnifiedAPIGatewayUnit:
     def gateway(self) -> UnifiedAPIGateway:
         """Returns a UnifiedAPIGateway instance with mocked dependencies."""
         # Mock config to avoid dependency on actual config files
-        config = {
-            "auth": {},
-            "rate_limit": {},
-            "handlers": {}
-        }
+        config = {"auth": {}, "rate_limit": {}, "handlers": {}}
         gw = UnifiedAPIGateway(config=config)
         # Mock dependencies that are initialized in the constructor
         gw.auth_middleware = MagicMock()
@@ -59,7 +55,7 @@ class TestUnifiedAPIGatewayUnit:
         """Tests that the performance monitoring middleware adds the X-Response-Time header."""
         gateway.app.state.orchestrator = MagicMock()
         gateway.app.state.orchestrator.get_status = AsyncMock(return_value={})
-        response = client.get("/status") # use a different endpoint to be safe
+        response = client.get("/status")  # use a different endpoint to be safe
         assert "x-response-time" in response.headers
         assert "x-gateway-version" in response.headers
 
@@ -68,15 +64,17 @@ class TestUnifiedAPIGatewayUnit:
         """Tests the /chat endpoint on success."""
         # Mock orchestrator on the app state
         mock_orchestrator = MagicMock()
-        mock_orchestrator.orchestrate = AsyncMock(return_value=MagicMock(
-            final_response="Test response",
-            confidence_score=0.9,
-            individual_responses=[],
-            consensus_method="unanimous",
-            participating_models=[],
-            processing_time_ms=50,
-            quality_metrics={},
-        ))
+        mock_orchestrator.orchestrate = AsyncMock(
+            return_value=MagicMock(
+                final_response="Test response",
+                confidence_score=0.9,
+                individual_responses=[],
+                consensus_method="unanimous",
+                participating_models=[],
+                processing_time_ms=50,
+                quality_metrics={},
+            )
+        )
         gateway.app.state.orchestrator = mock_orchestrator
 
         response = client.post("/chat", json={"message": "Hello"})
@@ -94,6 +92,7 @@ class TestUnifiedAPIGatewayUnit:
     async def test_chat_endpoint_auth_fails(self, gateway: UnifiedAPIGateway, client: TestClient):
         """Tests that the /chat endpoint fails on authentication error."""
         from fastapi import HTTPException
+
         gateway.auth_middleware.authenticate.side_effect = HTTPException(status_code=401, detail="Unauthorized")
 
         response = client.post("/chat", json={"message": "Hello"})
@@ -105,15 +104,17 @@ class TestUnifiedAPIGatewayUnit:
     async def test_orchestrate_endpoint_success(self, gateway: UnifiedAPIGateway, client: TestClient):
         """Tests the /orchestrate endpoint on success."""
         mock_orchestrator = MagicMock()
-        mock_orchestrator.orchestrate = AsyncMock(return_value=MagicMock(
-            final_response="Test response",
-            confidence_score=0.9,
-            individual_responses=[],
-            consensus_method="unanimous",
-            participating_models=[],
-            processing_time_ms=50,
-            quality_metrics={},
-        ))
+        mock_orchestrator.orchestrate = AsyncMock(
+            return_value=MagicMock(
+                final_response="Test response",
+                confidence_score=0.9,
+                individual_responses=[],
+                consensus_method="unanimous",
+                participating_models=[],
+                processing_time_ms=50,
+                quality_metrics={},
+            )
+        )
         mock_orchestrator.performance_monitor = MagicMock()
         mock_orchestrator.performance_monitor.get_metrics = AsyncMock(return_value={"some_metric": 1})
         gateway.app.state.orchestrator = mock_orchestrator

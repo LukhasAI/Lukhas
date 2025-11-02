@@ -31,16 +31,14 @@ security = HTTPBearer()
 
 # Prometheus metrics
 orchestration_api_requests_total = counter(
-    'lukhas_orchestration_api_requests_total',
-    'Total orchestration API requests',
-    ['endpoint', 'status']
+    "lukhas_orchestration_api_requests_total", "Total orchestration API requests", ["endpoint", "status"]
 )
 
 orchestration_api_latency_seconds = histogram(
-    'lukhas_orchestration_api_latency_seconds',
-    'Orchestration API latency',
-    ['endpoint'],
-    buckets=[0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0, 30.0]
+    "lukhas_orchestration_api_latency_seconds",
+    "Orchestration API latency",
+    ["endpoint"],
+    buckets=[0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0, 30.0],
 )
 
 router = APIRouter(prefix="/orchestration", tags=["orchestration"])
@@ -48,6 +46,7 @@ router = APIRouter(prefix="/orchestration", tags=["orchestration"])
 
 class MultiAIRequest(BaseModel):
     """Multi-AI request model"""
+
     prompt: str = Field(..., description="The prompt to send to AI models")
     context: Dict[str, Any] = Field(default_factory=dict, description="Additional context")
     models: List[str] = Field(default_factory=list, description="Specific models to use")
@@ -60,6 +59,7 @@ class MultiAIRequest(BaseModel):
 
 class MultiAIResponse(BaseModel):
     """Multi-AI response model"""
+
     response: str
     confidence: float
     agreement_ratio: float
@@ -71,6 +71,7 @@ class MultiAIResponse(BaseModel):
 
 class OrchestrationStatus(BaseModel):
     """Orchestration system status"""
+
     available_providers: List[str]
     available_models: Dict[str, List[str]]
     system_health: str
@@ -86,17 +87,11 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         payload = await verify_token(token)
         return payload
     except Exception:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
 
 @router.post("/multi-ai", response_model=MultiAIResponse)
-async def route_multi_ai(
-    request: MultiAIRequest,
-    current_user: Dict[str, Any] = Depends(get_current_user)
-):
+async def route_multi_ai(request: MultiAIRequest, current_user: Dict[str, Any] = Depends(get_current_user)):
     """Route request to multiple AI models and return consensus"""
 
     with tracer.start_span("orchestration_api.multi_ai") as span:
@@ -105,6 +100,7 @@ async def route_multi_ai(
         span.set_attribute("min_responses", request.min_responses)
 
         import time
+
         start_time = time.time()
 
         try:
@@ -113,24 +109,24 @@ async def route_multi_ai(
                 consensus_type = ConsensusType(request.consensus_type)
             except ValueError:
                 raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=f"Invalid consensus type: {request.consensus_type}"
+                    status_code=status.HTTP_400_BAD_REQUEST, detail=f"Invalid consensus type: {request.consensus_type}"
                 )
 
             # Check with Guardian for ethical approval
             guardian = get_guardian()
             if guardian:
-                approval = await guardian.validate_request_async({
-                    "prompt": request.prompt,
-                    "user_id": current_user.get("sub"),
-                    "consensus_type": request.consensus_type,
-                    "models": request.models
-                })
+                approval = await guardian.validate_request_async(
+                    {
+                        "prompt": request.prompt,
+                        "user_id": current_user.get("sub"),
+                        "consensus_type": request.consensus_type,
+                        "models": request.models,
+                    }
+                )
 
                 if not approval.get("approved", False):
                     raise HTTPException(
-                        status_code=status.HTTP_403_FORBIDDEN,
-                        detail="Request blocked by Guardian system"
+                        status_code=status.HTTP_403_FORBIDDEN, detail="Request blocked by Guardian system"
                     )
 
             # Create routing request
@@ -145,8 +141,8 @@ async def route_multi_ai(
                 metadata={
                     **request.metadata,
                     "user_id": current_user.get("sub"),
-                    "tenant_id": current_user.get("tenant_id", "default")
-                }
+                    "tenant_id": current_user.get("tenant_id", "default"),
+                },
             )
 
             # Route request
@@ -157,14 +153,9 @@ async def route_multi_ai(
             latency = time.time() - start_time
 
             # Record metrics
-            orchestration_api_requests_total.labels(
-                endpoint="multi_ai",
-                status="success"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="multi_ai", status="success").inc()
 
-            orchestration_api_latency_seconds.labels(
-                endpoint="multi_ai"
-            ).observe(latency)
+            orchestration_api_latency_seconds.labels(endpoint="multi_ai").observe(latency)
 
             span.set_attribute("final_confidence", result.confidence)
             span.set_attribute("agreement_ratio", result.agreement_ratio)
@@ -177,20 +168,14 @@ async def route_multi_ai(
                 participating_models=result.participating_models,
                 consensus_type=result.consensus_type.value,
                 latency=latency,
-                metadata=result.metadata
+                metadata=result.metadata,
             )
 
         except HTTPException:
-            orchestration_api_requests_total.labels(
-                endpoint="multi_ai",
-                status="client_error"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="multi_ai", status="client_error").inc()
             raise
         except Exception as e:
-            orchestration_api_requests_total.labels(
-                endpoint="multi_ai",
-                status="server_error"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="multi_ai", status="server_error").inc()
 
             span.record_exception(e)
             span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
@@ -198,14 +183,12 @@ async def route_multi_ai(
             logger.error(f"Multi-AI routing failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Internal server error during multi-AI routing"
+                detail="Internal server error during multi-AI routing",
             )
 
 
 @router.get("/status", response_model=OrchestrationStatus)
-async def get_orchestration_status(
-    current_user: Dict[str, Any] = Depends(get_current_user)
-):
+async def get_orchestration_status(current_user: Dict[str, Any] = Depends(get_current_user)):
     """Get orchestration system status"""
 
     with tracer.start_span("orchestration_api.status"):
@@ -219,7 +202,7 @@ async def get_orchestration_status(
                 "openai": ["gpt-4", "gpt-3.5-turbo"],
                 "anthropic": ["claude-3-sonnet", "claude-3-haiku"],
                 "google": ["gemini-pro", "gemini-pro-vision"],
-                "perplexity": ["pplx-7b-online", "pplx-70b-online"]
+                "perplexity": ["pplx-7b-online", "pplx-70b-online"],
             }
 
             # Mock status values - in production, collect real metrics
@@ -229,33 +212,24 @@ async def get_orchestration_status(
                 system_health="healthy",
                 active_requests=0,  # Would be tracked in real implementation
                 total_requests=1000,  # From metrics
-                average_latency=2.5  # From metrics
+                average_latency=2.5,  # From metrics
             )
 
-            orchestration_api_requests_total.labels(
-                endpoint="status",
-                status="success"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="status", status="success").inc()
 
             return status_info
 
         except Exception as e:
-            orchestration_api_requests_total.labels(
-                endpoint="status",
-                status="server_error"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="status", status="server_error").inc()
 
             logger.error(f"Status check failed: {e}")
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to retrieve orchestration status"
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve orchestration status"
             )
 
 
 @router.get("/models")
-async def list_available_models(
-    current_user: Dict[str, Any] = Depends(get_current_user)
-):
+async def list_available_models(current_user: Dict[str, Any] = Depends(get_current_user)):
     """List all available AI models with their status"""
 
     with tracer.start_span("orchestration_api.list_models"):
@@ -264,42 +238,34 @@ async def list_available_models(
 
             models_info = []
             for key, model in router_instance.model_selector.models.items():
-                models_info.append({
-                    "id": f"{model.provider.value}:{model.model_id}",
-                    "provider": model.provider.value,
-                    "model_id": model.model_id,
-                    "available": model.available,
-                    "weight": model.weight,
-                    "avg_latency": model.avg_latency,
-                    "success_rate": model.success_rate,
-                    "cost_per_token": model.cost_per_token
-                })
+                models_info.append(
+                    {
+                        "id": f"{model.provider.value}:{model.model_id}",
+                        "provider": model.provider.value,
+                        "model_id": model.model_id,
+                        "available": model.available,
+                        "weight": model.weight,
+                        "avg_latency": model.avg_latency,
+                        "success_rate": model.success_rate,
+                        "cost_per_token": model.cost_per_token,
+                    }
+                )
 
-            orchestration_api_requests_total.labels(
-                endpoint="list_models",
-                status="success"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="list_models", status="success").inc()
 
             return {"models": models_info}
 
         except Exception as e:
-            orchestration_api_requests_total.labels(
-                endpoint="list_models",
-                status="server_error"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="list_models", status="server_error").inc()
 
             logger.error(f"List models failed: {e}")
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to list available models"
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to list available models"
             )
 
 
 @router.post("/models/{model_id}/enable")
-async def enable_model(
-    model_id: str,
-    current_user: Dict[str, Any] = Depends(get_current_user)
-):
+async def enable_model(model_id: str, current_user: Dict[str, Any] = Depends(get_current_user)):
     """Enable a specific AI model"""
 
     with tracer.start_span("orchestration_api.enable_model"):
@@ -309,48 +275,31 @@ async def enable_model(
             router_instance = get_multi_ai_router()
 
             if model_id not in router_instance.model_selector.models:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"Model not found: {model_id}"
-                )
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Model not found: {model_id}")
 
             model = router_instance.model_selector.models[model_id]
             model.available = True
 
             # Update metrics
             from orchestration.multi_ai_router import model_availability
-            model_availability.labels(
-                provider=model.provider.value,
-                model=model.model_id
-            ).set(1)
 
-            orchestration_api_requests_total.labels(
-                endpoint="enable_model",
-                status="success"
-            ).inc()
+            model_availability.labels(provider=model.provider.value, model=model.model_id).set(1)
+
+            orchestration_api_requests_total.labels(endpoint="enable_model", status="success").inc()
 
             return {"message": f"Model {model_id} enabled successfully"}
 
         except HTTPException:
             raise
         except Exception as e:
-            orchestration_api_requests_total.labels(
-                endpoint="enable_model",
-                status="server_error"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="enable_model", status="server_error").inc()
 
             logger.error(f"Enable model failed: {e}")
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to enable model"
-            )
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to enable model")
 
 
 @router.post("/models/{model_id}/disable")
-async def disable_model(
-    model_id: str,
-    current_user: Dict[str, Any] = Depends(get_current_user)
-):
+async def disable_model(model_id: str, current_user: Dict[str, Any] = Depends(get_current_user)):
     """Disable a specific AI model"""
 
     with tracer.start_span("orchestration_api.disable_model"):
@@ -360,41 +309,27 @@ async def disable_model(
             router_instance = get_multi_ai_router()
 
             if model_id not in router_instance.model_selector.models:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"Model not found: {model_id}"
-                )
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Model not found: {model_id}")
 
             model = router_instance.model_selector.models[model_id]
             model.available = False
 
             # Update metrics
             from orchestration.multi_ai_router import model_availability
-            model_availability.labels(
-                provider=model.provider.value,
-                model=model.model_id
-            ).set(0)
 
-            orchestration_api_requests_total.labels(
-                endpoint="disable_model",
-                status="success"
-            ).inc()
+            model_availability.labels(provider=model.provider.value, model=model.model_id).set(0)
+
+            orchestration_api_requests_total.labels(endpoint="disable_model", status="success").inc()
 
             return {"message": f"Model {model_id} disabled successfully"}
 
         except HTTPException:
             raise
         except Exception as e:
-            orchestration_api_requests_total.labels(
-                endpoint="disable_model",
-                status="server_error"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="disable_model", status="server_error").inc()
 
             logger.error(f"Disable model failed: {e}")
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to disable model"
-            )
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to disable model")
 
 
 # Health check endpoint
@@ -408,42 +343,24 @@ async def health_check():
             router_instance = get_multi_ai_router()
 
             # Check if we have available models
-            available_count = sum(
-                1 for model in router_instance.model_selector.models.values()
-                if model.available
-            )
+            available_count = sum(1 for model in router_instance.model_selector.models.values() if model.available)
 
             if available_count == 0:
-                raise HTTPException(
-                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                    detail="No AI models available"
-                )
+                raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="No AI models available")
 
-            orchestration_api_requests_total.labels(
-                endpoint="health_check",
-                status="success"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="health_check", status="success").inc()
 
             return {
                 "status": "healthy",
                 "available_models": available_count,
-                "timestamp": time.time()  # noqa: F821  # TODO: time
+                "timestamp": time.time(),  # noqa: F821  # TODO: time
             }
 
         except HTTPException:
-            orchestration_api_requests_total.labels(
-                endpoint="health_check",
-                status="service_unavailable"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="health_check", status="service_unavailable").inc()
             raise
         except Exception as e:
-            orchestration_api_requests_total.labels(
-                endpoint="health_check",
-                status="server_error"
-            ).inc()
+            orchestration_api_requests_total.labels(endpoint="health_check", status="server_error").inc()
 
             logger.error(f"Health check failed: {e}")
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Health check failed"
-            )
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Health check failed")

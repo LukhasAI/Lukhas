@@ -25,7 +25,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
-sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
+sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
 from memory.indexer import Embeddings, Indexer
@@ -36,6 +36,7 @@ from memory.observability import MemoryTracer
 
 class MockPgClient:
     """Mock database client for validation testing."""
+
     def __init__(self):
         self.data = {}
         self.call_count = 0
@@ -46,15 +47,17 @@ class MockPgClient:
         time.sleep(0.0001)  # 100μs
         return {"affected_rows": 1}
 
+
 class ValidationEmbeddings(Embeddings):
     """Deterministic embeddings for consistent validation."""
+
     def embed(self, text: str) -> List[float]:
         # Create deterministic embedding based on text hash
         text_hash = hashlib.sha256(text.encode()).hexdigest()
         # Convert hash to 1536-dim vector
         embedding = []
         for i in range(0, len(text_hash), 2):
-            hex_val = int(text_hash[i:i+2], 16)
+            hex_val = int(text_hash[i : i + 2], 16)
             embedding.append((hex_val - 128) / 128.0)  # Normalize to [-1, 1]
 
         # Pad or truncate to 1536 dimensions
@@ -62,8 +65,10 @@ class ValidationEmbeddings(Embeddings):
             embedding.extend(embedding)
         return embedding[:1536]
 
+
 class MockPgVectorStore(PgVectorStore):
     """Mock store with implemented methods for validation."""
+
     def __init__(self, conn, table="mem_store", dim: int = 1536):
         super().__init__(conn, table, dim)
         self.storage = {}
@@ -83,8 +88,7 @@ class MockPgVectorStore(PgVectorStore):
             ids.append(self.add(doc))
         return ids
 
-    def search(self, embedding: List[float], k: int = 10,
-               filters: Dict[str, Any] = None) -> List[tuple]:
+    def search(self, embedding: List[float], k: int = 10, filters: Dict[str, Any] = None) -> List[tuple]:
         time.perf_counter()
 
         # Simple cosine similarity search
@@ -136,11 +140,8 @@ class MockPgVectorStore(PgVectorStore):
         return deleted
 
     def stats(self) -> Dict[str, Any]:
-        return {
-            "table": self.table,
-            "dim": self.dim,
-            "count": len(self.storage)
-        }
+        return {"table": self.table, "dim": self.dim, "count": len(self.storage)}
+
 
 async def validate_memory_orchestrator_performance(samples: int = 1000) -> Dict[str, Any]:
     """Validate MemoryOrchestrator performance against T4/0.01% SLAs."""
@@ -216,9 +217,10 @@ async def validate_memory_orchestrator_performance(samples: int = 1000) -> Dict[
         # Bootstrap confidence interval
         bootstrap_means = []
         for _ in range(1000):
-            sample = [latencies[i] for i in
-                     [int(len(latencies) * __import__('random').random())
-                      for _ in range(len(latencies))]]
+            sample = [
+                latencies[i]
+                for i in [int(len(latencies) * __import__("random").random()) for _ in range(len(latencies))]
+            ]
             bootstrap_means.append(statistics.mean(sample))
         bootstrap_means.sort()
         ci_lower = bootstrap_means[25]  # 2.5th percentile
@@ -239,8 +241,8 @@ async def validate_memory_orchestrator_performance(samples: int = 1000) -> Dict[
             "sla_compliance": {
                 "mean_under_target": mean < target_us,
                 "p95_under_target": p95 < target_us,
-                "cv_under_10_percent": cv < 0.10
-            }
+                "cv_under_10_percent": cv < 0.10,
+            },
         }
 
     return {
@@ -250,18 +252,24 @@ async def validate_memory_orchestrator_performance(samples: int = 1000) -> Dict[
         "performance_metrics": {
             "add_event": calc_stats(add_latencies, "add_event", 1000.0),  # 1ms target
             "query": calc_stats(query_latencies, "query", 100000.0),  # 100ms target
-            "indexer_upsert": calc_stats(indexer_latencies, "indexer_upsert", 10000.0)  # 10ms target
+            "indexer_upsert": calc_stats(indexer_latencies, "indexer_upsert", 10000.0),  # 10ms target
         },
         "storage_metrics": store.stats(),
         "sla_summary": {
             "all_components_meeting_sla": True,  # Will be calculated
-            "overall_cv": round(statistics.mean([
-                calc_stats(add_latencies, "add_event", 1000.0)["coefficient_of_variation"],
-                calc_stats(query_latencies, "query", 100000.0)["coefficient_of_variation"],
-                calc_stats(indexer_latencies, "indexer_upsert", 10000.0)["coefficient_of_variation"]
-            ]), 4)
-        }
+            "overall_cv": round(
+                statistics.mean(
+                    [
+                        calc_stats(add_latencies, "add_event", 1000.0)["coefficient_of_variation"],
+                        calc_stats(query_latencies, "query", 100000.0)["coefficient_of_variation"],
+                        calc_stats(indexer_latencies, "indexer_upsert", 10000.0)["coefficient_of_variation"],
+                    ]
+                ),
+                4,
+            ),
+        },
     }
+
 
 def validate_component_contracts():
     """Validate that all M.1 components meet their interface contracts."""
@@ -272,9 +280,9 @@ def validate_component_contracts():
             "indexer": False,
             "memory_orchestrator": False,
             "lifecycle": False,
-            "observability": False
+            "observability": False,
         },
-        "issues": []
+        "issues": [],
     }
 
     try:
@@ -322,7 +330,7 @@ def validate_component_contracts():
         orchestrator = MemoryOrchestrator(indexer)
 
         # Test async operations exist
-        assert hasattr(orchestrator, 'add_event')
+        assert hasattr(orchestrator, "add_event")
         assert asyncio.iscoroutinefunction(orchestrator.add_event)
 
         # Test sync operations
@@ -352,8 +360,8 @@ def validate_component_contracts():
 
         # Test that trace_operation returns context manager
         span_context = tracer.trace_operation("test")
-        assert hasattr(span_context, '__enter__')
-        assert hasattr(span_context, '__exit__')
+        assert hasattr(span_context, "__enter__")
+        assert hasattr(span_context, "__exit__")
 
         results["contract_validation"]["observability"] = True
 
@@ -363,6 +371,7 @@ def validate_component_contracts():
     results["all_contracts_valid"] = all(results["contract_validation"].values())
 
     return results
+
 
 async def main():
     """Main validation execution following T4/0.01% audit checklist."""
@@ -397,8 +406,8 @@ async def main():
         print(f"   P95:  {metrics['p95_us']:.1f}μs")
         print(f"   CV:   {metrics['coefficient_of_variation']:.3f} (target: <0.10)")
 
-        sla = metrics['sla_compliance']
-        if sla['mean_under_target'] and sla['p95_under_target'] and sla['cv_under_10_percent']:
+        sla = metrics["sla_compliance"]
+        if sla["mean_under_target"] and sla["p95_under_target"] and sla["cv_under_10_percent"]:
             print("   ✅ SLA COMPLIANCE: ACHIEVED")
         else:
             print("   ❌ SLA COMPLIANCE: FAILED")
@@ -417,29 +426,29 @@ async def main():
             "component": "M.1_Memory_Storage_Retrieval",
             "audit_standard": "T4/0.01% Excellence",
             "auditor": "Claude Code",
-            "version": "1.0.0"
+            "version": "1.0.0",
         },
         "contract_validation": contract_results,
-        "performance_validation": perf_results
+        "performance_validation": perf_results,
     }
 
     report_file = artifacts_dir / f"m1_validation_{audit_id}.json"
-    with open(report_file, 'w') as f:
+    with open(report_file, "w") as f:
         json.dump(validation_report, f, indent=2)
 
     print(f"\n💾 Validation report saved: {report_file}")
 
     # Generate evidence hash
-    with open(report_file, 'rb') as f:
+    with open(report_file, "rb") as f:
         content_hash = hashlib.sha256(f.read()).hexdigest()
 
     print(f"🔒 Evidence hash: {content_hash}")
 
     # Final verdict
     all_sla_met = all(
-        metrics['sla_compliance']['mean_under_target'] and
-        metrics['sla_compliance']['p95_under_target'] and
-        metrics['sla_compliance']['cv_under_10_percent']
+        metrics["sla_compliance"]["mean_under_target"]
+        and metrics["sla_compliance"]["p95_under_target"]
+        and metrics["sla_compliance"]["cv_under_10_percent"]
         for metrics in perf_results["performance_metrics"].values()
     )
 
@@ -449,12 +458,13 @@ async def main():
     print(f"Performance SLAs: {'✅ PASS' if all_sla_met else '❌ FAIL'}")
     print("Statistical Rigor: ✅ PASS (CV <10%, CI95%)")
     print("")
-    if contract_results['all_contracts_valid'] and all_sla_met:
+    if contract_results["all_contracts_valid"] and all_sla_met:
         print("🎉 OVERALL: M.1 T4/0.01% EXCELLENCE ACHIEVED")
     else:
         print("🔧 OVERALL: M.1 REQUIRES OPTIMIZATION")
 
     return validation_report
+
 
 if __name__ == "__main__":
     asyncio.run(main())

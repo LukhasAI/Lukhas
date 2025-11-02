@@ -40,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 class WriteOperationType(Enum):
     """Write operation types"""
+
     CREATE = "create"
     UPDATE = "update"
     UPSERT = "upsert"
@@ -50,14 +51,16 @@ class WriteOperationType(Enum):
 
 class DeleteType(Enum):
     """Delete operation types"""
-    SOFT = "soft"      # Mark as deleted, keep data
-    HARD = "hard"      # Permanently remove data
-    ARCHIVE = "archive" # Move to archive storage
+
+    SOFT = "soft"  # Mark as deleted, keep data
+    HARD = "hard"  # Permanently remove data
+    ARCHIVE = "archive"  # Move to archive storage
 
 
 @dataclass
 class WriteOperation:
     """Write operation request"""
+
     operation_id: str = field(default_factory=lambda: f"op_{uuid.uuid4().hex[:8]}")
     operation_type: WriteOperationType = WriteOperationType.UPSERT
     fold_id: Optional[str] = None
@@ -73,6 +76,7 @@ class WriteOperation:
 @dataclass
 class BatchWriteOperation:
     """Batch write operation request"""
+
     batch_id: str = field(default_factory=lambda: f"batch_{uuid.uuid4().hex[:8]}")
     operations: List[WriteOperation] = field(default_factory=list)
     atomic: bool = True  # All operations succeed or all fail
@@ -81,6 +85,7 @@ class BatchWriteOperation:
 @dataclass
 class WriteResult:
     """Write operation result"""
+
     operation_id: str
     fold_id: str
     success: bool
@@ -92,6 +97,7 @@ class WriteResult:
 @dataclass
 class BatchWriteResult:
     """Batch write operation result"""
+
     batch_id: str
     total_operations: int
     successful_operations: int
@@ -109,12 +115,14 @@ class MemoryWriteService:
     performance SLOs and data consistency guarantees.
     """
 
-    def __init__(self,
-                 vector_store: VectorStoreAdapter,
-                 consciousness_integrator: Optional[ConsciousnessMemoryIntegrator] = None,
-                 max_concurrent_writes: int = 25,
-                 write_timeout_ms: int = 5000,
-                 enable_transactions: bool = True):
+    def __init__(
+        self,
+        vector_store: VectorStoreAdapter,
+        consciousness_integrator: Optional[ConsciousnessMemoryIntegrator] = None,
+        max_concurrent_writes: int = 25,
+        write_timeout_ms: int = 5000,
+        enable_transactions: bool = True,
+    ):
         """Initialize memory write service"""
         self.vector_store = vector_store
         self.consciousness_integrator = consciousness_integrator
@@ -124,12 +132,10 @@ class MemoryWriteService:
 
         # Service components
         self.circuit_breaker = MemoryCircuitBreaker(
-            failure_threshold=3,  # More sensitive for writes
-            recovery_timeout_ms=60000  # Longer recovery for writes
+            failure_threshold=3, recovery_timeout_ms=60000  # More sensitive for writes  # Longer recovery for writes
         )
         self.backpressure = BackpressureManager(
-            max_tokens=max_concurrent_writes,
-            refill_rate=5.0  # tokens per second (slower for writes)
+            max_tokens=max_concurrent_writes, refill_rate=5.0  # tokens per second (slower for writes)
         )
         self.metrics = MemoryMetrics()
 
@@ -143,14 +149,16 @@ class MemoryWriteService:
 
         logger.info(f"MemoryWriteService initialized with max_concurrent_writes={max_concurrent_writes}")
 
-    async def upsert_memory_fold(self,
-                                fold_id: Optional[str] = None,
-                                content: Optional[str] = None,
-                                fold_type: MemoryFoldType = MemoryFoldType.EPISODIC,
-                                tags: Optional[List[str]] = None,
-                                metadata: Optional[Dict[str, Any]] = None,
-                                embedding: Optional[List[float]] = None,
-                                ttl_seconds: Optional[int] = None) -> WriteResult:
+    async def upsert_memory_fold(
+        self,
+        fold_id: Optional[str] = None,
+        content: Optional[str] = None,
+        fold_type: MemoryFoldType = MemoryFoldType.EPISODIC,
+        tags: Optional[List[str]] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        embedding: Optional[List[float]] = None,
+        ttl_seconds: Optional[int] = None,
+    ) -> WriteResult:
         """
         Upsert (insert or update) a memory fold.
         Target: p95 <100ms, p99 <150ms
@@ -177,19 +185,15 @@ class MemoryWriteService:
                 tags=tags or [],
                 metadata=metadata or {},
                 embedding=embedding,
-                ttl_seconds=ttl_seconds
+                ttl_seconds=ttl_seconds,
             )
 
             async with self._write_semaphore:
-                result = await self.circuit_breaker.call(
-                    self._execute_write_operation, operation
-                )
+                result = await self.circuit_breaker.call(self._execute_write_operation, operation)
 
             # Record metrics
             write_time_ms = (time.perf_counter() - start_time) * 1000
-            self.metrics.record_write_latency(
-                write_time_ms, WriteOperationType.UPSERT.value, result.success
-            )
+            self.metrics.record_write_latency(write_time_ms, WriteOperationType.UPSERT.value, result.success)
 
             logger.debug(f"Upsert completed: {fold_id} in {write_time_ms:.2f}ms")
             return result
@@ -202,10 +206,9 @@ class MemoryWriteService:
         finally:
             self.backpressure.release_token()
 
-    async def delete_memory_fold(self,
-                                fold_id: str,
-                                delete_type: DeleteType = DeleteType.SOFT,
-                                reason: Optional[str] = None) -> WriteResult:
+    async def delete_memory_fold(
+        self, fold_id: str, delete_type: DeleteType = DeleteType.SOFT, reason: Optional[str] = None
+    ) -> WriteResult:
         """
         Delete memory fold with specified delete type.
         Target: p95 <100ms
@@ -219,19 +222,15 @@ class MemoryWriteService:
             operation = WriteOperation(
                 operation_type=WriteOperationType.DELETE,
                 fold_id=fold_id,
-                metadata={'delete_type': delete_type.value, 'reason': reason}
+                metadata={"delete_type": delete_type.value, "reason": reason},
             )
 
             async with self._write_semaphore:
-                result = await self.circuit_breaker.call(
-                    self._execute_delete_operation, operation, delete_type
-                )
+                result = await self.circuit_breaker.call(self._execute_delete_operation, operation, delete_type)
 
             # Record metrics
             delete_time_ms = (time.perf_counter() - start_time) * 1000
-            self.metrics.record_delete_latency(
-                delete_time_ms, delete_type.value, result.success
-            )
+            self.metrics.record_delete_latency(delete_time_ms, delete_type.value, result.success)
 
             logger.debug(f"Delete completed: {fold_id} ({delete_type.value}) in {delete_time_ms:.2f}ms")
             return result
@@ -268,9 +267,7 @@ class MemoryWriteService:
             for operation in batch_operation.operations:
                 try:
                     async with self._write_semaphore:
-                        result = await self.circuit_breaker.call(
-                            self._execute_write_operation, operation
-                        )
+                        result = await self.circuit_breaker.call(self._execute_write_operation, operation)
 
                     results.append(result)
                     if result.success:
@@ -292,7 +289,7 @@ class MemoryWriteService:
                         fold_id=operation.fold_id or "unknown",
                         success=False,
                         execution_time_ms=0,
-                        error_message=str(e)
+                        error_message=str(e),
                     )
                     results.append(error_result)
 
@@ -309,9 +306,7 @@ class MemoryWriteService:
 
             # Record metrics
             batch_time_ms = (time.perf_counter() - start_time) * 1000
-            self.metrics.record_batch_write_latency(
-                batch_time_ms, len(batch_operation.operations), successful_count
-            )
+            self.metrics.record_batch_write_latency(batch_time_ms, len(batch_operation.operations), successful_count)
 
             return BatchWriteResult(
                 batch_id=batch_operation.batch_id,
@@ -320,7 +315,7 @@ class MemoryWriteService:
                 failed_operations=failed_count,
                 results=results,
                 total_time_ms=batch_time_ms,
-                atomic_rollback=rollback_performed
+                atomic_rollback=rollback_performed,
             )
 
         except Exception as e:
@@ -370,19 +365,19 @@ class MemoryWriteService:
 
             # Prepare document data
             document_data = {
-                'fold_id': operation.fold_id,
-                'content': operation.content,
-                'fold_type': operation.fold_type.value if operation.fold_type else 'episodic',
-                'tags': operation.tags,
-                'metadata': operation.metadata,
-                'embedding': operation.embedding,
-                'created_at': datetime.now(timezone.utc),
-                'updated_at': datetime.now(timezone.utc)
+                "fold_id": operation.fold_id,
+                "content": operation.content,
+                "fold_type": operation.fold_type.value if operation.fold_type else "episodic",
+                "tags": operation.tags,
+                "metadata": operation.metadata,
+                "embedding": operation.embedding,
+                "created_at": datetime.now(timezone.utc),
+                "updated_at": datetime.now(timezone.utc),
             }
 
             # Add TTL if specified
             if operation.ttl_seconds:
-                document_data['expires_at'] = datetime.now(timezone.utc) + timedelta(seconds=operation.ttl_seconds)
+                document_data["expires_at"] = datetime.now(timezone.utc) + timedelta(seconds=operation.ttl_seconds)
 
             # Execute operation
             if operation.operation_type == WriteOperationType.CREATE:
@@ -398,7 +393,7 @@ class MemoryWriteService:
                 operation_id=operation.operation_id,
                 fold_id=operation.fold_id,
                 success=success,
-                execution_time_ms=execution_time_ms
+                execution_time_ms=execution_time_ms,
             )
 
         except Exception as e:
@@ -408,7 +403,7 @@ class MemoryWriteService:
                 fold_id=operation.fold_id or "unknown",
                 success=False,
                 execution_time_ms=execution_time_ms,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _execute_delete_operation(self, operation: WriteOperation, delete_type: DeleteType) -> WriteResult:
@@ -419,9 +414,9 @@ class MemoryWriteService:
             if delete_type == DeleteType.SOFT:
                 # Mark as deleted but keep data
                 update_data = {
-                    'deleted': True,
-                    'deleted_at': datetime.now(timezone.utc),
-                    'delete_reason': operation.metadata.get('reason')
+                    "deleted": True,
+                    "deleted_at": datetime.now(timezone.utc),
+                    "delete_reason": operation.metadata.get("reason"),
                 }
                 success = await self.vector_store.update_document(operation.fold_id, update_data)
 
@@ -438,7 +433,7 @@ class MemoryWriteService:
                 operation_id=operation.operation_id,
                 fold_id=operation.fold_id,
                 success=success,
-                execution_time_ms=execution_time_ms
+                execution_time_ms=execution_time_ms,
             )
 
         except Exception as e:
@@ -448,7 +443,7 @@ class MemoryWriteService:
                 fold_id=operation.fold_id,
                 success=False,
                 execution_time_ms=execution_time_ms,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _generate_embedding(self, content: str) -> List[float]:
@@ -459,10 +454,7 @@ class MemoryWriteService:
             # Fallback embedding (would need actual implementation)
             return [0.0] * 768  # Placeholder
 
-    def _validate_upsert_params(self,
-                               fold_id: str,
-                               content: Optional[str],
-                               fold_type: MemoryFoldType):
+    def _validate_upsert_params(self, fold_id: str, content: Optional[str], fold_type: MemoryFoldType):
         """Validate upsert parameters"""
         if not fold_id or len(fold_id.strip()) == 0:
             raise ValueError("fold_id cannot be empty")
@@ -475,6 +467,7 @@ class MemoryWriteService:
 
     def _start_ttl_cleanup(self):
         """Start background TTL cleanup task"""
+
         async def ttl_cleanup_loop():
             while True:
                 try:
@@ -492,10 +485,10 @@ class MemoryWriteService:
         """Get service performance metrics"""
         return {
             **self.metrics.get_metrics(),
-            'circuit_breaker_state': self.circuit_breaker.get_state(),
-            'backpressure_tokens_available': self.backpressure.get_available_tokens(),
-            'active_writes': self.max_concurrent_writes - self._write_semaphore._value,
-            'active_transactions': len(self._active_transactions)
+            "circuit_breaker_state": self.circuit_breaker.get_state(),
+            "backpressure_tokens_available": self.backpressure.get_available_tokens(),
+            "active_writes": self.max_concurrent_writes - self._write_semaphore._value,
+            "active_transactions": len(self._active_transactions),
         }
 
     async def health_check(self) -> Dict[str, Any]:
@@ -505,21 +498,21 @@ class MemoryWriteService:
             await self.vector_store.health_check()
 
             return {
-                'status': 'healthy',
-                'service': 'memory_write',
-                'performance_metrics': self.get_performance_metrics(),
-                'vector_store_healthy': True,
-                'circuit_breaker_open': self.circuit_breaker.is_open(),
-                'backpressure_active': self.backpressure.is_limiting(),
-                'ttl_cleanup_running': self._ttl_cleanup_task and not self._ttl_cleanup_task.done()
+                "status": "healthy",
+                "service": "memory_write",
+                "performance_metrics": self.get_performance_metrics(),
+                "vector_store_healthy": True,
+                "circuit_breaker_open": self.circuit_breaker.is_open(),
+                "backpressure_active": self.backpressure.is_limiting(),
+                "ttl_cleanup_running": self._ttl_cleanup_task and not self._ttl_cleanup_task.done(),
             }
         except Exception as e:
             return {
-                'status': 'unhealthy',
-                'service': 'memory_write',
-                'error': str(e),
-                'circuit_breaker_open': self.circuit_breaker.is_open(),
-                'backpressure_active': self.backpressure.is_limiting()
+                "status": "unhealthy",
+                "service": "memory_write",
+                "error": str(e),
+                "circuit_breaker_open": self.circuit_breaker.is_open(),
+                "backpressure_active": self.backpressure.is_limiting(),
             }
 
     async def shutdown(self):

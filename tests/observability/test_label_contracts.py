@@ -36,10 +36,7 @@ class TestMetricsLabelContracts:
     def test_standard_labels_generation(self):
         """Test create_standard_labels generates required labels."""
         labels = self.metrics.create_standard_labels(
-            lane=LUKHASLane.PRODUCTION,
-            component="memory_store",
-            operation="search",
-            provider="openai"
+            lane=LUKHASLane.PRODUCTION, component="memory_store", operation="search", provider="openai"
         )
 
         # Assert required labels present
@@ -57,15 +54,16 @@ class TestMetricsLabelContracts:
     def test_canonical_lane_integration(self):
         """Test labels use canonical lane enum values."""
         for lane in LUKHASLane:
-            labels = self.metrics.create_standard_labels(
-                lane=lane,
-                component="test",
-                operation="test"
-            )
+            labels = self.metrics.create_standard_labels(lane=lane, component="test", operation="test")
             assert labels["lane"] == lane
             assert labels["lane"].value in [
-                "labs", "lukhas", "MATRIZ", "integration",
-                "production", "canary", "experimental"
+                "labs",
+                "lukhas",
+                "MATRIZ",
+                "integration",
+                "production",
+                "canary",
+                "experimental",
             ]
 
     def test_service_type_mapping(self):
@@ -77,25 +75,20 @@ class TestMetricsLabelContracts:
             ServiceType.CONSCIOUSNESS: "consciousness",
             ServiceType.GOVERNANCE: "governance",
             ServiceType.ORCHESTRATION: "orchestration",
-            ServiceType.LEDGER: "ledger"
+            ServiceType.LEDGER: "ledger",
         }
 
         for service_type, expected_label in service_mappings.items():
-            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
                 self.metrics.record_metric(
-                    "test_metric",
-                    1.0,
-                    service_type,
-                    MetricType.COUNTER,
-                    component="test",
-                    operation="test"
+                    "test_metric", 1.0, service_type, MetricType.COUNTER, component="test", operation="test"
                 )
                 # Service type is stored in metric, not in labels
                 metric_key = f"{service_type.value}_test_metric"
                 assert metric_key in self.metrics.metrics
                 assert self.metrics.metrics[metric_key].service == service_type
 
-    @patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric')
+    @patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric")
     def test_record_metric_applies_labels(self, mock_update):
         """Test record_metric applies standardized labels."""
         self.metrics.record_metric(
@@ -104,7 +97,7 @@ class TestMetricsLabelContracts:
             service=ServiceType.MEMORY,
             metric_type=MetricType.COUNTER,
             operation="search",
-            lane="production"
+            lane="production",
         )
 
         # Verify metric was stored with labels
@@ -121,7 +114,7 @@ class TestMetricsLabelContracts:
     def test_burn_rate_metric_compatibility(self):
         """Test metrics are compatible with burn-rate SLO alerts."""
         # Test memory service latency metric
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             self.metrics.record_metric(
                 name="lukhas_memory_operation_duration_seconds",
                 value=0.095,  # 95ms - within 100ms SLO
@@ -129,7 +122,7 @@ class TestMetricsLabelContracts:
                 metric_type=MetricType.HISTOGRAM,
                 operation="search",
                 lane="production",
-                labels={"quantile": "0.95"}
+                labels={"quantile": "0.95"},
             )
 
             # Verify metric stored with burn-rate compatible labels
@@ -153,10 +146,7 @@ class TestMetricsLabelContracts:
 
         label_sets = []
         for case in test_cases:
-            labels = self.metrics.create_standard_labels(
-                lane=LUKHASLane.PRODUCTION,
-                **case
-            )
+            labels = self.metrics.create_standard_labels(lane=LUKHASLane.PRODUCTION, **case)
             label_sets.append(frozenset(labels.items()))
 
         # Assert no duplicate label combinations
@@ -171,9 +161,7 @@ class TestMetricsLabelContracts:
     def test_required_labels_never_none(self):
         """Test required labels are never None or empty."""
         labels = self.metrics.create_standard_labels(
-            lane=LUKHASLane.PRODUCTION,
-            component="test_component",
-            operation="test_operation"
+            lane=LUKHASLane.PRODUCTION, component="test_component", operation="test_operation"
         )
 
         for label_key, label_value in labels.items():
@@ -185,16 +173,13 @@ class TestMetricsLabelContracts:
     def test_label_value_format_validation(self):
         """Test label values follow Prometheus naming conventions."""
         labels = self.metrics.create_standard_labels(
-            lane=LUKHASLane.PRODUCTION,
-            component="memory_store",
-            operation="vector_search",
-            provider="openai-gpt4"
+            lane=LUKHASLane.PRODUCTION, component="memory_store", operation="vector_search", provider="openai-gpt4"
         )
 
         # Assert valid Prometheus label value format
         for label_value in labels.values():
             # Convert enum to string for validation
-            if hasattr(label_value, 'value'):
+            if hasattr(label_value, "value"):
                 label_str = label_value.value
             else:
                 label_str = str(label_value)
@@ -219,7 +204,7 @@ class TestMemoryLifecycleLabelContracts:
         lifecycle_operations = ["archive", "gdpr_deletion", "cleanup"]
 
         for operation in lifecycle_operations:
-            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
                 # Test duration metric
                 self.metrics.record_metric(
                     name="lukhas_memory_lifecycle_seconds",
@@ -227,7 +212,7 @@ class TestMemoryLifecycleLabelContracts:
                     service=ServiceType.MEMORY,
                     metric_type=MetricType.HISTOGRAM,
                     operation=operation,
-                    lane="production"
+                    lane="production",
                 )
 
                 # Test operations counter
@@ -237,7 +222,7 @@ class TestMemoryLifecycleLabelContracts:
                     service=ServiceType.MEMORY,
                     metric_type=MetricType.COUNTER,
                     operation=operation,
-                    lane="production"
+                    lane="production",
                 )
 
                 # Verify required labels present
@@ -262,7 +247,7 @@ class TestMemoryLifecycleLabelContracts:
         error_operations = ["archive", "gdpr_deletion"]
 
         for operation in error_operations:
-            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
                 # Test error counter
                 self.metrics.record_metric(
                     name="lukhas_memory_lifecycle_errors_total",
@@ -270,7 +255,7 @@ class TestMemoryLifecycleLabelContracts:
                     service=ServiceType.MEMORY,
                     metric_type=MetricType.COUNTER,
                     operation=operation,
-                    lane="labs"
+                    lane="labs",
                 )
 
                 # Verify required labels present
@@ -285,7 +270,7 @@ class TestMemoryLifecycleLabelContracts:
 
     def test_forbidden_correlation_id_in_labels(self):
         """Test that correlation_id is NEVER used as a Prometheus label."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             # Attempt to record metric with correlation_id in labels (should be filtered out)
             self.metrics.record_metric(
                 name="lukhas_memory_lifecycle_seconds",
@@ -294,7 +279,7 @@ class TestMemoryLifecycleLabelContracts:
                 metric_type=MetricType.HISTOGRAM,
                 operation="archive",
                 lane="production",
-                labels={"correlation_id": "should-not-appear"}  # This should be filtered out
+                labels={"correlation_id": "should-not-appear"},  # This should be filtered out
             )
 
             metric_key = "memory_lukhas_memory_lifecycle_seconds"
@@ -310,14 +295,14 @@ class TestMemoryLifecycleLabelContracts:
 
     def test_memory_upsert_latency_labels(self):
         """Test memory upsert operations have correct labels."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             self.metrics.record_metric(
                 name="lukhas_memory_upsert_seconds",
                 value=0.085,  # 85ms - within 100ms SLO
                 service=ServiceType.MEMORY,
                 metric_type=MetricType.HISTOGRAM,
                 operation="upsert",
-                lane="production"
+                lane="production",
             )
 
             metric_key = "memory_lukhas_memory_upsert_seconds"
@@ -334,14 +319,14 @@ class TestMemoryLifecycleLabelContracts:
         canonical_lanes = ["labs", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
         for lane_value in canonical_lanes:
-            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
                 self.metrics.record_metric(
                     name="lukhas_memory_lifecycle_operations_total",
                     value=1,
                     service=ServiceType.MEMORY,
                     metric_type=MetricType.COUNTER,
                     operation="archive",
-                    lane=lane_value
+                    lane=lane_value,
                 )
 
                 metric_key = "memory_lukhas_memory_lifecycle_operations_total"
@@ -361,7 +346,7 @@ class TestSLOBurnRateMetrics:
 
     def test_memory_slo_metric_format(self):
         """Test memory service SLO metrics match alerting rules."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             # Record latency metric matching burn-rate alert query
             self.metrics.record_metric(
                 name="lukhas_memory_operation_duration_seconds",
@@ -370,7 +355,7 @@ class TestSLOBurnRateMetrics:
                 metric_type=MetricType.HISTOGRAM,
                 operation="search",
                 lane="production",
-                labels={"quantile": "0.95"}
+                labels={"quantile": "0.95"},
             )
 
             # Verify labels match burn-rate alert expectations
@@ -383,7 +368,7 @@ class TestSLOBurnRateMetrics:
 
     def test_orchestrator_routing_slo_format(self):
         """Test orchestrator routing SLO metrics format."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             self.metrics.record_metric(
                 name="lukhas_orchestrator_routing_duration_seconds",
                 value=0.245,  # 245ms - within 250ms SLO
@@ -391,7 +376,7 @@ class TestSLOBurnRateMetrics:
                 metric_type=MetricType.HISTOGRAM,
                 operation="route",
                 lane="production",
-                labels={"quantile": "0.95"}
+                labels={"quantile": "0.95"},
             )
 
             metric_key = "orchestration_lukhas_orchestrator_routing_duration_seconds"
@@ -400,7 +385,7 @@ class TestSLOBurnRateMetrics:
 
     def test_identity_auth_slo_format(self):
         """Test identity authentication SLO metrics format."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             self.metrics.record_metric(
                 name="lukhas_identity_auth_duration_seconds",
                 value=0.199,  # 199ms - within 250ms SLO
@@ -408,7 +393,7 @@ class TestSLOBurnRateMetrics:
                 metric_type=MetricType.HISTOGRAM,
                 operation="authenticate",
                 lane="production",
-                labels={"quantile": "0.95"}
+                labels={"quantile": "0.95"},
             )
 
             metric_key = "identity_lukhas_identity_auth_duration_seconds"
@@ -417,7 +402,7 @@ class TestSLOBurnRateMetrics:
 
     def test_guardian_decision_slo_format(self):
         """Test guardian decision SLO metrics format."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             self.metrics.record_metric(
                 name="lukhas_guardian_decision_duration_seconds",
                 value=0.089,  # 89ms - within 100ms SLO
@@ -425,7 +410,7 @@ class TestSLOBurnRateMetrics:
                 metric_type=MetricType.HISTOGRAM,
                 operation="decide",
                 lane="production",
-                labels={"quantile": "0.95"}
+                labels={"quantile": "0.95"},
             )
 
             metric_key = "governance_lukhas_guardian_decision_duration_seconds"
@@ -442,7 +427,7 @@ class TestCorrelationTrackingMetrics:
 
     def test_correlation_tracking_counter_format(self):
         """Test correlation tracking counters match alert queries."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             # Record requests without correlation_id
             self.metrics.record_metric(
                 name="lukhas_requests_without_correlation_id",
@@ -450,7 +435,7 @@ class TestCorrelationTrackingMetrics:
                 service=ServiceType.ORCHESTRATION,
                 metric_type=MetricType.COUNTER,
                 lane="production",
-                labels={"endpoint": "/api/v1/route"}
+                labels={"endpoint": "/api/v1/route"},
             )
 
             metric_key = "orchestration_lukhas_requests_without_correlation_id"
@@ -460,14 +445,14 @@ class TestCorrelationTrackingMetrics:
 
     def test_total_requests_counter_format(self):
         """Test total requests counter format for correlation ratio."""
-        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch("observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric"):
             self.metrics.record_metric(
                 name="lukhas_requests_total",
                 value=1,
                 service=ServiceType.MEMORY,
                 metric_type=MetricType.COUNTER,
                 lane="production",
-                labels={"endpoint": "/api/v1/search"}
+                labels={"endpoint": "/api/v1/search"},
             )
 
             metric_key = "memory_lukhas_requests_total"

@@ -52,7 +52,7 @@ print("=" * 80)
 app = FastAPI(
     title="LUKHAS Registry Dev Stub",
     description="Development-only mock registry for CI smoke tests",
-    version="dev-stub-1.0.0"
+    version="dev-stub-1.0.0",
 )
 
 # In-memory storage (ephemeral)
@@ -65,13 +65,8 @@ MOCK_SCHEMA = {
     "properties": {
         "node_id": {"type": "string"},
         "capabilities": {"type": "array"},
-        "provenance_manifest": {
-            "type": "object",
-            "properties": {
-                "glymph_enabled": {"type": "boolean"}
-            }
-        }
-    }
+        "provenance_manifest": {"type": "object", "properties": {"glymph_enabled": {"type": "boolean"}}},
+    },
 }
 
 
@@ -92,11 +87,9 @@ async def dev_stub_middleware(request: Request, call_next):
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
-    return JSONResponse({
-        "status": "healthy",
-        "mode": "dev-stub",
-        "message": "Development stub is operational (CI testing only)"
-    })
+    return JSONResponse(
+        {"status": "healthy", "mode": "dev-stub", "message": "Development stub is operational (CI testing only)"}
+    )
 
 
 @app.post("/api/v1/registry/validate")
@@ -124,12 +117,14 @@ async def validate_nodespec(request: Request):
     if not isinstance(nodespec.get("capabilities"), list):
         raise HTTPException(status_code=400, detail="capabilities must be an array")
 
-    return JSONResponse({
-        "valid": True,
-        "node_id": nodespec["node_id"],
-        "dev_stub": True,
-        "message": "NodeSpec validation passed (dev stub mode)"
-    })
+    return JSONResponse(
+        {
+            "valid": True,
+            "node_id": nodespec["node_id"],
+            "dev_stub": True,
+            "message": "NodeSpec validation passed (dev stub mode)",
+        }
+    )
 
 
 @app.post("/api/v1/registry/register")
@@ -156,10 +151,7 @@ async def register_node(request: Request):
     # Check glymph_enabled (simplified check)
     provenance = nodespec.get("provenance_manifest", {})
     if not provenance.get("glymph_enabled"):
-        raise HTTPException(
-            status_code=400,
-            detail="Registration requires provenance_manifest.glymph_enabled == true"
-        )
+        raise HTTPException(status_code=400, detail="Registration requires provenance_manifest.glymph_enabled == true")
 
     # Generate mock registry_id
     registry_id = f"dev-stub-{uuid.uuid4().hex[:12]}"
@@ -169,27 +161,26 @@ async def register_node(request: Request):
         "registry_id": registry_id,
         "nodespec": nodespec,
         "registered_at": time.time(),
-        "dev_stub": True
+        "dev_stub": True,
     }
 
     # Mock checkpoint signature (NOT real crypto)
     mock_signature = f"MOCK-SIG-{uuid.uuid4().hex[:16]}"
 
-    return JSONResponse({
-        "registry_id": registry_id,
-        "node_id": nodespec["node_id"],
-        "status": "registered",
-        "checkpoint_signature": mock_signature,
-        "dev_stub": True,
-        "message": "Node registered in dev stub (ephemeral storage)"
-    })
+    return JSONResponse(
+        {
+            "registry_id": registry_id,
+            "node_id": nodespec["node_id"],
+            "status": "registered",
+            "checkpoint_signature": mock_signature,
+            "dev_stub": True,
+            "message": "Node registered in dev stub (ephemeral storage)",
+        }
+    )
 
 
 @app.get("/api/v1/registry/query")
-async def query_registry(
-    signal: Optional[str] = None,
-    capability: Optional[str] = None
-):
+async def query_registry(signal: Optional[str] = None, capability: Optional[str] = None):
     """
     Query registered nodes (mocked).
 
@@ -207,20 +198,24 @@ async def query_registry(
             if capability not in capabilities:
                 continue
 
-        results.append({
-            "registry_id": registry_id,
-            "node_id": nodespec.get("node_id"),
-            "capabilities": nodespec.get("capabilities", []),
-            "registered_at": entry.get("registered_at"),
-            "dev_stub": True
-        })
+        results.append(
+            {
+                "registry_id": registry_id,
+                "node_id": nodespec.get("node_id"),
+                "capabilities": nodespec.get("capabilities", []),
+                "registered_at": entry.get("registered_at"),
+                "dev_stub": True,
+            }
+        )
 
-    return JSONResponse({
-        "count": len(results),
-        "results": results,
-        "dev_stub": True,
-        "message": f"Query returned {len(results)} nodes from dev stub"
-    })
+    return JSONResponse(
+        {
+            "count": len(results),
+            "results": results,
+            "dev_stub": True,
+            "message": f"Query returned {len(results)} nodes from dev stub",
+        }
+    )
 
 
 @app.delete("/api/v1/registry/{registry_id}")
@@ -236,25 +231,29 @@ async def deregister_node(registry_id: str):
 
     entry = _registry.pop(registry_id)
 
-    return JSONResponse({
-        "registry_id": registry_id,
-        "node_id": entry["nodespec"].get("node_id"),
-        "status": "deregistered",
-        "dev_stub": True,
-        "message": "Node deregistered from dev stub"
-    })
+    return JSONResponse(
+        {
+            "registry_id": registry_id,
+            "node_id": entry["nodespec"].get("node_id"),
+            "status": "deregistered",
+            "dev_stub": True,
+            "message": "Node deregistered from dev stub",
+        }
+    )
 
 
 @app.get("/api/v1/registry/stats")
 async def registry_stats():
     """Dev stub statistics."""
-    return JSONResponse({
-        "total_registered": len(_registry),
-        "mode": "dev-stub",
-        "storage": "ephemeral",
-        "warning": "This is a development stub for CI testing only",
-        "registry_ids": list(_registry.keys())
-    })
+    return JSONResponse(
+        {
+            "total_registered": len(_registry),
+            "mode": "dev-stub",
+            "storage": "ephemeral",
+            "warning": "This is a development stub for CI testing only",
+            "registry_ids": list(_registry.keys()),
+        }
+    )
 
 
 if __name__ == "__main__":

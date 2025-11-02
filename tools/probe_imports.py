@@ -7,7 +7,7 @@ failed = {}
 candidates = set()
 for m in pkgutil.iter_modules():
     # focus on your top-level modules found by the probe
-    if m.name in {"qi","core","consciousness","api","identity","bridge","utils","vivox"}:
+    if m.name in {"qi", "core", "consciousness", "api", "identity", "bridge", "utils", "vivox"}:
         candidates.add(m.name)
 for m in sorted(candidates):
     try:

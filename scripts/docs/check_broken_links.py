@@ -11,14 +11,24 @@ from pathlib import Path
 from typing import List, Tuple
 
 EXCLUDE_DIRS = {
-    ".venv", ".venv_*", "venv", "__pycache__", ".pytest_cache",
-    "node_modules", ".git", "dist", "build", "*.egg-info", "htmlcov"
+    ".venv",
+    ".venv_*",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    "node_modules",
+    ".git",
+    "dist",
+    "build",
+    "*.egg-info",
+    "htmlcov",
 }
 
 
 def should_exclude(path: Path) -> bool:
     """Check if path should be excluded."""
     import re as regex_module
+
     for part in path.parts:
         if any(regex_module.match(pattern.replace("*", ".*"), part) for pattern in EXCLUDE_DIRS):
             return True
@@ -33,15 +43,15 @@ def find_broken_links(md_path: Path) -> List[Tuple[str, str, Path]]:
         content = md_path.read_text()
 
         # Find markdown links: [text](link)
-        links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+        links = re.findall(r"\[([^\]]+)\]\(([^)]+)\)", content)
 
         for text, link in links:
             # Skip absolute URLs
-            if link.startswith(('http://', 'https://', '#', 'mailto:', 'ftp://')):
+            if link.startswith(("http://", "https://", "#", "mailto:", "ftp://")):
                 continue
 
             # Split anchor from path
-            link_path = link.split('#')[0]
+            link_path = link.split("#")[0]
 
             # Skip empty paths (pure anchors)
             if not link_path:

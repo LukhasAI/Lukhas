@@ -16,7 +16,7 @@ import time
 from pathlib import Path
 
 # Add project root to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 from bench_core import PerformanceBenchmark
@@ -41,7 +41,7 @@ class E2EPerformanceSuite:
             name="guardian_validate_unit",
             benchmark_type="unit",
             warmup=200,
-            samples=5000
+            samples=5000,
         )
 
     def test_guardian_e2e(self):
@@ -60,7 +60,7 @@ class E2EPerformanceSuite:
 
             # 3. Write response to disk (simulate logging)
             log_file = Path(temp_dir) / f"guardian_{time.time_ns()}.json"
-            with open(log_file, 'w') as f:
+            with open(log_file, "w") as f:
                 json.dump(response, f)
 
             # 4. Clean up old log (simulate rotation)
@@ -70,15 +70,12 @@ class E2EPerformanceSuite:
             return response
 
         result = self.bench.benchmark_function(
-            guardian_e2e,
-            name="guardian_validate_e2e",
-            benchmark_type="e2e",
-            warmup=100,
-            samples=2000
+            guardian_e2e, name="guardian_validate_e2e", benchmark_type="e2e", warmup=100, samples=2000
         )
 
         # Cleanup
         import shutil
+
         shutil.rmtree(temp_dir, ignore_errors=True)
 
         return result
@@ -86,14 +83,11 @@ class E2EPerformanceSuite:
     def test_memory_unit(self):
         """Memory Event unit test (in-memory only)"""
         return self.bench.benchmark_function(
-            lambda: self.memory_factory.create(
-                data={"test": "data"},
-                metadata={"affect_delta": 0.5}
-            ),
+            lambda: self.memory_factory.create(data={"test": "data"}, metadata={"affect_delta": 0.5}),
             name="memory_event_create_unit",
             benchmark_type="unit",
             warmup=500,
-            samples=10000
+            samples=10000,
         )
 
     def test_memory_e2e(self):
@@ -108,19 +102,16 @@ class E2EPerformanceSuite:
             # Create event with real timestamps
             event = self.memory_factory.create(
                 data={"event_id": event_counter, "timestamp": time.time()},
-                metadata={"affect_delta": float(event_counter % 100) / 100}
+                metadata={"affect_delta": float(event_counter % 100) / 100},
             )
 
             # Simulate persistence (disk IO)
             event_file = Path(temp_dir) / f"event_{event_counter}.json"
-            with open(event_file, 'w') as f:
-                json.dump({
-                    "data": event.data,
-                    "metadata": event.metadata
-                }, f)
+            with open(event_file, "w") as f:
+                json.dump({"data": event.data, "metadata": event.metadata}, f)
 
             # Simulate read-back verification
-            with open(event_file, 'r') as f:
+            with open(event_file, "r") as f:
                 verified = json.load(f)
 
             # Cleanup (simulate rotation)
@@ -129,32 +120,23 @@ class E2EPerformanceSuite:
             return verified
 
         result = self.bench.benchmark_function(
-            memory_e2e,
-            name="memory_event_create_e2e",
-            benchmark_type="e2e",
-            warmup=100,
-            samples=2000
+            memory_e2e, name="memory_event_create_e2e", benchmark_type="e2e", warmup=100, samples=2000
         )
 
         # Cleanup
         import shutil
+
         shutil.rmtree(temp_dir, ignore_errors=True)
 
         return result
 
     def test_memory_throughput(self):
         """Test Memory Event sustained throughput"""
-        def create_event():
-            self.memory_factory.create(
-                data={"test": "data"},
-                metadata={"affect_delta": 0.5}
-            )
 
-        return self.bench.benchmark_throughput(
-            create_event,
-            name="memory_event_throughput",
-            duration_sec=10
-        )
+        def create_event():
+            self.memory_factory.create(data={"test": "data"}, metadata={"affect_delta": 0.5})
+
+        return self.bench.benchmark_throughput(create_event, name="memory_event_throughput", duration_sec=10)
 
     def test_orchestrator_unit(self):
         """Orchestrator unit test (mocked providers)"""
@@ -166,7 +148,7 @@ class E2EPerformanceSuite:
         mock_response.content[0].text = "test response"
 
         async def orchestrator_unit():
-            with patch('ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic') as mock_client:
+            with patch("ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic") as mock_client:
                 mock_client_instance = AsyncMock()
                 mock_client_instance.messages.create.return_value = mock_response
                 mock_client.return_value = mock_client_instance
@@ -183,11 +165,7 @@ class E2EPerformanceSuite:
                 loop.close()
 
         return self.bench.benchmark_function(
-            sync_wrapper,
-            name="orchestrator_health_unit",
-            benchmark_type="unit",
-            warmup=100,
-            samples=2000
+            sync_wrapper, name="orchestrator_health_unit", benchmark_type="unit", warmup=100, samples=2000
         )
 
     def test_orchestrator_e2e(self):
@@ -209,12 +187,12 @@ class E2EPerformanceSuite:
                 "latency": result["latency"],
                 "version": "compatible",
                 "model": "test-model",
-                "response_length": 100
+                "response_length": 100,
             }
 
             # Simulate writing health status to cache
             cache_file = Path("/tmp") / f"health_cache_{time.time_ns()}.json"
-            with open(cache_file, 'w') as f:
+            with open(cache_file, "w") as f:
                 json.dump(response, f)
 
             # Cleanup
@@ -232,18 +210,14 @@ class E2EPerformanceSuite:
                 loop.close()
 
         return self.bench.benchmark_function(
-            sync_wrapper,
-            name="orchestrator_health_e2e",
-            benchmark_type="e2e",
-            warmup=50,
-            samples=1000
+            sync_wrapper, name="orchestrator_health_e2e", benchmark_type="e2e", warmup=50, samples=1000
         )
 
 
 async def run_full_suite():
     """Run complete E2E performance suite"""
     print("🚀 T4/0.01% END-TO-END PERFORMANCE VALIDATION")
-    print("="*80)
+    print("=" * 80)
     print("Environment setup...")
     print(f"  PYTHONHASHSEED: {os.environ.get('PYTHONHASHSEED', 'not set')}")
     print(f"  LUKHAS_MODE: {os.environ.get('LUKHAS_MODE', 'not set')}")
@@ -254,20 +228,20 @@ async def run_full_suite():
 
     # 1. Guardian tests
     print("\n🛡️  GUARDIAN SYSTEM BENCHMARKS")
-    print("-"*60)
+    print("-" * 60)
     results.append(suite.test_guardian_unit())
     results.append(suite.test_guardian_e2e())
 
     # 2. Memory tests
     print("\n🧠 MEMORY EVENT BENCHMARKS")
-    print("-"*60)
+    print("-" * 60)
     results.append(suite.test_memory_unit())
     results.append(suite.test_memory_e2e())
     results.append(suite.test_memory_throughput())
 
     # 3. Orchestrator tests
     print("\n🤖 ORCHESTRATOR BENCHMARKS")
-    print("-"*60)
+    print("-" * 60)
     results.append(suite.test_orchestrator_unit())
     results.append(suite.test_orchestrator_e2e())
 
@@ -275,23 +249,23 @@ async def run_full_suite():
     suite.bench.generate_report("artifacts/bench_e2e.json")
 
     # Validate against T4/0.01% SLAs
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("⚖️  T4/0.01% SLA VALIDATION (E2E)")
-    print("="*80)
+    print("=" * 80)
 
     sla_requirements = {
-        "guardian_validate_e2e": 100000.0,     # 100ms
-        "memory_event_create_e2e": 1000.0,     # 1ms (more realistic for E2E)
-        "orchestrator_health_e2e": 250000.0,   # 250ms
+        "guardian_validate_e2e": 100000.0,  # 100ms
+        "memory_event_create_e2e": 1000.0,  # 1ms (more realistic for E2E)
+        "orchestrator_health_e2e": 250000.0,  # 250ms
     }
 
     passed = suite.bench.validate_sla(sla_requirements)
 
     # Print summary table
     print("\n📊 PERFORMANCE SUMMARY TABLE")
-    print("="*80)
+    print("=" * 80)
     print(f"{'Component':<30} {'SLA (E2E)':<15} {'Unit (μs)':<20} {'E2E (μs)':<20} {'Status'}")
-    print("-"*80)
+    print("-" * 80)
 
     components = [
         ("Guardian Validate", "<100ms", "guardian_validate"),
@@ -300,15 +274,15 @@ async def run_full_suite():
     ]
 
     for comp_name, sla, prefix in components:
-        unit_results = [r for r in suite.bench.results if prefix in r.name and r.type == 'unit']
-        e2e_results = [r for r in suite.bench.results if prefix in r.name and r.type == 'e2e']
+        unit_results = [r for r in suite.bench.results if prefix in r.name and r.type == "unit"]
+        e2e_results = [r for r in suite.bench.results if prefix in r.name and r.type == "e2e"]
 
         unit_str = f"{unit_results[0].p95_us:.2f}" if unit_results else "N/A"
         e2e_str = f"{e2e_results[0].p95_us:.2f}" if e2e_results else "N/A"
 
         # Check SLA for E2E
         if e2e_results:
-            sla_us = sla_requirements.get(f"{prefix}_e2e", float('inf'))
+            sla_us = sla_requirements.get(f"{prefix}_e2e", float("inf"))
             status = "✅" if e2e_results[0].p95_us < sla_us else "❌"
         else:
             status = "⚠️"
@@ -329,8 +303,8 @@ async def run_full_suite():
 def main():
     """Main entry point"""
     # Set environment for reproducibility
-    os.environ['PYTHONHASHSEED'] = '0'
-    os.environ['LUKHAS_MODE'] = 'release'
+    os.environ["PYTHONHASHSEED"] = "0"
+    os.environ["LUKHAS_MODE"] = "release"
 
     try:
         return asyncio.run(run_full_suite())
@@ -340,6 +314,7 @@ def main():
     except Exception as e:
         print(f"\n❌ Benchmark failed: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 

@@ -5,6 +5,7 @@ Constellation Framework: ⚛️🧠🛡️ Identity-Consciousness-Guardian
 Provides validation and safety checks for audio processing operations
 within the LUKHAS AI ecosystem.
 """
+
 import logging
 import time
 from dataclasses import dataclass
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 class ValidationResult(Enum):
     """Validation result status"""
+
     APPROVED = "approved"
     DENIED = "denied"
     WARNING = "warning"
@@ -25,6 +27,7 @@ class ValidationResult(Enum):
 @dataclass
 class AudioValidationContext:
     """Context for audio validation operations"""
+
     operation_type: str
     audio_format: Optional[str] = None
     quality_level: Optional[str] = None
@@ -38,6 +41,7 @@ class AudioValidationContext:
 @dataclass
 class ValidationReport:
     """Result of audio validation"""
+
     result: ValidationResult
     confidence_score: float  # 0.0 to 1.0
     validation_time_ms: float
@@ -70,29 +74,29 @@ class GuardianValidator:
             "approved": 0,
             "denied": 0,
             "warnings": 0,
-            "avg_validation_time_ms": 0.0
+            "avg_validation_time_ms": 0.0,
         }
 
         # Audio format safety rules
-        self.safe_formats = {
-            "pcm_wav", "mp3", "flac", "ogg_vorbis", "aac", "opus"
-        }
+        self.safe_formats = {"pcm_wav", "mp3", "flac", "ogg_vorbis", "aac", "opus"}
 
         # Audio quality limits
         self.quality_limits = {
             "max_file_size_mb": 100,
             "max_duration_minutes": 60,
             "min_sample_rate": 8000,
-            "max_sample_rate": 192000
+            "max_sample_rate": 192000,
         }
 
         logger.info(f"GuardianValidator initialized - strict_mode: {strict_mode}")
 
-    async def validate_audio_operation(self,
-                                     operation_type: str,
-                                     audio_data: Optional[bytes] = None,
-                                     context: Optional[AudioValidationContext] = None,
-                                     **kwargs) -> ValidationReport:
+    async def validate_audio_operation(
+        self,
+        operation_type: str,
+        audio_data: Optional[bytes] = None,
+        context: Optional[AudioValidationContext] = None,
+        **kwargs,
+    ) -> ValidationReport:
         """
         Validate an audio processing operation
 
@@ -116,8 +120,7 @@ class GuardianValidator:
             # Create default context if not provided
             if context is None:
                 context = AudioValidationContext(
-                    operation_type=operation_type,
-                    source_system=kwargs.get("source_system", "unknown")
+                    operation_type=operation_type, source_system=kwargs.get("source_system", "unknown")
                 )
 
             # Validate operation type
@@ -168,8 +171,8 @@ class GuardianValidator:
                     "operation_type": operation_type,
                     "context": context,
                     "strict_mode": self.strict_mode,
-                    "timestamp": time.time()
-                }
+                    "timestamp": time.time(),
+                },
             )
 
         except Exception as e:
@@ -180,14 +183,21 @@ class GuardianValidator:
                 validation_time_ms=(time.time() - start_time) * 1000,
                 issues_found=[f"Validation error: {e!s}"],
                 recommendations=["Review audio operation parameters"],
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
     def _validate_operation_type(self, operation_type: str) -> bool:
         """Validate audio operation type"""
         valid_operations = {
-            "encode", "decode", "process", "analyze", "enhance",
-            "convert", "filter", "normalize", "compress"
+            "encode",
+            "decode",
+            "process",
+            "analyze",
+            "enhance",
+            "convert",
+            "filter",
+            "normalize",
+            "compress",
         }
         return operation_type.lower() in valid_operations
 
@@ -275,8 +285,7 @@ class GuardianValidator:
         """Get validation statistics"""
         if self.validation_stats["total_validations"] > 0:
             self.validation_stats["avg_validation_time_ms"] = (
-                self.validation_stats.get("total_time_ms", 0) /
-                self.validation_stats["total_validations"]
+                self.validation_stats.get("total_time_ms", 0) / self.validation_stats["total_validations"]
             )
 
         return self.validation_stats.copy()
@@ -293,13 +302,13 @@ class GuardianValidator:
                 file_size_bytes=operation.get("file_size_bytes"),
                 duration_seconds=operation.get("duration_seconds"),
                 processing_intent=operation.get("processing_intent"),
-                source_system=operation.get("source_system")
+                source_system=operation.get("source_system"),
             )
 
             result = await self.validate_audio_operation(
                 operation_type=operation.get("operation_type", "unknown"),
                 audio_data=operation.get("audio_data"),
-                context=context
+                context=context,
             )
 
             results.append(result)

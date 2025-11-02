@@ -27,6 +27,7 @@
 ║ - Carbon footprint estimation
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import json
 import logging

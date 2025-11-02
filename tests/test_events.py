@@ -4,6 +4,7 @@ tests/test_events.py
 Unit tests for event-sourced storage system - Event schema and EventStore functionality.
 Covers event creation, storage operations, queries, and replay functionality.
 """
+
 from datetime import datetime, timedelta
 from unittest.mock import patch
 from uuid import UUID, uuid4
@@ -125,7 +126,7 @@ def test_capacity_limit(sample_glyph_id):
     # Should only keep the last 3
     assert len(small_store.events) == 3
     assert small_store.events[-1] == events[-1]  # Most recent
-    assert events[0] not in small_store.events   # Oldest evicted
+    assert events[0] not in small_store.events  # Oldest evicted
 
 
 def test_query_recent_basic(event_store, sample_glyph_id):
@@ -225,9 +226,9 @@ def test_query_sliding_window(event_store, sample_glyph_id):
 
     # Add events at different times
     timestamps = [
-        base_time - timedelta(minutes=2),   # Should be included (within 5 min)
-        base_time - timedelta(minutes=3),   # Should be included (within 5 min)
-        base_time - timedelta(minutes=10)   # Should be excluded (outside 5 min)
+        base_time - timedelta(minutes=2),  # Should be included (within 5 min)
+        base_time - timedelta(minutes=3),  # Should be included (within 5 min)
+        base_time - timedelta(minutes=10),  # Should be excluded (outside 5 min)
     ]
 
     for i, ts in enumerate(timestamps):
@@ -246,9 +247,9 @@ def test_replay_sequence(event_store, sample_glyph_id):
 
     # Add events with specific timestamps (out of order)
     timestamps = [
-        base_time - timedelta(minutes=5),   # Oldest
-        base_time - timedelta(minutes=1),   # Newest
-        base_time - timedelta(minutes=3),   # Middle
+        base_time - timedelta(minutes=5),  # Oldest
+        base_time - timedelta(minutes=1),  # Newest
+        base_time - timedelta(minutes=3),  # Middle
     ]
 
     for i, ts in enumerate(timestamps):
@@ -302,9 +303,9 @@ def test_clear_store(event_store, sample_glyph_id):
 
 def test_prometheus_metrics():
     """Test Prometheus metrics integration."""
-    with patch('storage.events.PROM', True):
-        with patch('storage.events.EVENTS_APPENDED') as mock_appended:
-            with patch('storage.events.STORE_SIZE') as mock_size:
+    with patch("storage.events.PROM", True):
+        with patch("storage.events.EVENTS_APPENDED") as mock_appended:
+            with patch("storage.events.STORE_SIZE") as mock_size:
                 store = EventStore()
                 event = Event.create("test", "experimental", uuid4(), {})
 
@@ -316,7 +317,7 @@ def test_prometheus_metrics():
 
 def test_prometheus_unavailable():
     """Test graceful handling when Prometheus is unavailable."""
-    with patch('storage.events.PROM', False):
+    with patch("storage.events.PROM", False):
         store = EventStore()
         event = Event.create("test", "experimental", uuid4(), {})
 

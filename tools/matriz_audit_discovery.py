@@ -18,10 +18,7 @@ def find_matrix_contracts(root_path: pathlib.Path) -> List[pathlib.Path]:
     contracts = []
 
     # Search patterns for different areas
-    search_patterns = [
-        "matrix_*.json",
-        "**/matrix_*.json"
-    ]
+    search_patterns = ["matrix_*.json", "**/matrix_*.json"]
 
     for pattern in search_patterns:
         contracts.extend(root_path.glob(pattern))
@@ -36,19 +33,19 @@ def find_matrix_contracts(root_path: pathlib.Path) -> List[pathlib.Path]:
 def get_module_name_from_contract(contract_path: pathlib.Path) -> str:
     """Extract module name from contract file, either from content or filename."""
     try:
-        with open(contract_path, 'r') as f:
+        with open(contract_path, "r") as f:
             contract_data = json.load(f)
 
         # Check if contract specifies a canonical module name
-        if 'module' in contract_data:
-            return contract_data['module']
+        if "module" in contract_data:
+            return contract_data["module"]
 
     except (json.JSONDecodeError, FileNotFoundError, KeyError):
         pass
 
     # Fall back to filename-based naming
     filename = contract_path.name
-    if filename.startswith('matrix_'):
+    if filename.startswith("matrix_"):
         return filename[7:-5]  # Remove 'matrix_' prefix and '.json' suffix
 
     return filename[:-5]  # Just remove '.json'
@@ -71,7 +68,7 @@ def discover_module_directories(root_path: pathlib.Path) -> Dict[str, List[str]]
         root_path / "identity",
         root_path / "api",
         root_path / "tools",
-        root_path / "tests"
+        root_path / "tests",
     ]
 
     # Add any directory that exists
@@ -87,7 +84,7 @@ def discover_module_directories(root_path: pathlib.Path) -> Dict[str, List[str]]
     lukhas_dir = root_path / "lukhas"
     if lukhas_dir.exists():
         for subdir in lukhas_dir.iterdir():
-            if subdir.is_dir() and not subdir.name.startswith('.'):
+            if subdir.is_dir() and not subdir.name.startswith("."):
                 module_name = subdir.name
                 if module_name not in module_dirs:
                     module_dirs[module_name] = []
@@ -116,24 +113,24 @@ def build_module_inventory(root_path: pathlib.Path) -> List[Dict[str, Any]]:
         if module_name in seen_modules:
             # Find existing entry and add contract
             for entry in inventory:
-                if entry['module'] == module_name:
-                    entry['contracts'].append(str(contract_path.relative_to(root_path)))
+                if entry["module"] == module_name:
+                    entry["contracts"].append(str(contract_path.relative_to(root_path)))
                     break
         else:
             # Create new entry
             module_entry = {
-                'module': module_name,
-                'paths': module_dirs.get(module_name, []),
-                'contracts': [str(contract_path.relative_to(root_path))],
-                'has_contract': True
+                "module": module_name,
+                "paths": module_dirs.get(module_name, []),
+                "contracts": [str(contract_path.relative_to(root_path))],
+                "has_contract": True,
             }
 
             # Look for additional paths based on contract location
             contract_dir = contract_path.parent
             if contract_dir != root_path:
                 relative_contract_dir = str(contract_dir.relative_to(root_path))
-                if relative_contract_dir not in module_entry['paths']:
-                    module_entry['paths'].append(relative_contract_dir)
+                if relative_contract_dir not in module_entry["paths"]:
+                    module_entry["paths"].append(relative_contract_dir)
 
             inventory.append(module_entry)
             seen_modules.add(module_name)
@@ -141,26 +138,21 @@ def build_module_inventory(root_path: pathlib.Path) -> List[Dict[str, Any]]:
     # Process modules without contracts
     for module_name, paths in module_dirs.items():
         if module_name not in seen_modules:
-            module_entry = {
-                'module': module_name,
-                'paths': paths,
-                'contracts': [],
-                'has_contract': False
-            }
+            module_entry = {"module": module_name, "paths": paths, "contracts": [], "has_contract": False}
             inventory.append(module_entry)
             seen_modules.add(module_name)
 
     # Sort by module name
-    inventory.sort(key=lambda x: x['module'])
+    inventory.sort(key=lambda x: x["module"])
 
     return inventory
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Discover MATRIZ modules and their locations')
-    parser.add_argument('--root', default='.', help='Root directory to scan (default: current directory)')
-    parser.add_argument('--output', default='artifacts/matriz_inventory.json', help='Output file path')
-    parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+    parser = argparse.ArgumentParser(description="Discover MATRIZ modules and their locations")
+    parser.add_argument("--root", default=".", help="Root directory to scan (default: current directory)")
+    parser.add_argument("--output", default="artifacts/matriz_inventory.json", help="Output file path")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
 
     args = parser.parse_args()
 
@@ -178,16 +170,16 @@ def main():
 
     # Prepare output
     output_data = {
-        'timestamp': '2025-09-27T13:12:00Z',
-        'root_path': str(root_path),
-        'total_modules': len(inventory),
-        'modules_with_contracts': len([m for m in inventory if m['has_contract']]),
-        'modules_without_contracts': len([m for m in inventory if not m['has_contract']]),
-        'modules': inventory
+        "timestamp": "2025-09-27T13:12:00Z",
+        "root_path": str(root_path),
+        "total_modules": len(inventory),
+        "modules_with_contracts": len([m for m in inventory if m["has_contract"]]),
+        "modules_without_contracts": len([m for m in inventory if not m["has_contract"]]),
+        "modules": inventory,
     }
 
     # Write output
-    with open(output_path, 'w') as f:
+    with open(output_path, "w") as f:
         json.dump(output_data, f, indent=2)
 
     if args.verbose:
@@ -200,5 +192,5 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

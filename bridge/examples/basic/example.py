@@ -24,9 +24,7 @@ def _load_workflow_helper(module_name: str, relative_path: str):
     return module
 
 
-_TaskRouterModule = _load_workflow_helper(
-    "bridge_examples_basic_task_router", "bridge/workflow/task_router.py"
-)
+_TaskRouterModule = _load_workflow_helper("bridge_examples_basic_task_router", "bridge/workflow/task_router.py")
 _WorkflowMonitorModule = _load_workflow_helper(
     "bridge_examples_basic_workflow_monitor", "bridge/workflow/workflow_monitor.py"
 )
@@ -106,9 +104,7 @@ def main() -> None:
         print(f" - {reason}")
     print(
         "Monitor summary: tracked_workflows={tracked_workflows}, "
-        "tracked_tasks={tracked_tasks}, completed_tasks={completed_tasks}".format(
-            **decision.monitor_summary
-        )
+        "tracked_tasks={tracked_tasks}, completed_tasks={completed_tasks}".format(**decision.monitor_summary)
     )
 
 

@@ -27,6 +27,7 @@ except ImportError:
 try:
     from abas.integration.abas_integration_hub import ABASIntegrationHub  # type: ignore
 except Exception:
+
     class ABASIntegrationHub:  # minimal stub
         """Stub for ABAS Integration Hub with no‑op registration APIs.
 
@@ -41,6 +42,8 @@ except Exception:
 
         def get_component(self, name: str) -> Optional[Any]:
             return self.components.get(name)
+
+
 try:
     from nias.integration.nias_integration_hub import NIASIntegrationHub
 except ImportError:
@@ -129,6 +132,7 @@ except ImportError:
 try:
     from qi.system_orchestrator import QIAGISystem  # type: ignore
 except Exception:
+
     class QIAGISystem:  # minimal stub
         """Quantum‑Inspired AGI Orchestrator stub.
 
@@ -148,6 +152,7 @@ except Exception:
         async def orchestrate(self, payload: dict) -> dict:
             # Return a predictable noop response
             return {"status": "ok", "received": payload}
+
 
 logger = logging.getLogger(__name__)
 
@@ -373,9 +378,7 @@ class QIAGISystem:
         logger.info("QI-AGI System stopped (stub)")
 
     async def create_superposition(
-        self,
-        options: list[dict[str, Any]],
-        context: Optional[dict[str, Any]] = None
+        self, options: list[dict[str, Any]], context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Create quantum superposition of decision options
@@ -397,19 +400,14 @@ class QIAGISystem:
         self.quantum_state["superposition_count"] += 1
         superposition_id = f"sp_{self.quantum_state['superposition_count']}"
         self._superpositions[superposition_id] = state
-        self.quantum_state["coherence"] = state.metadata.get(
-            "coherence", self.quantum_state["coherence"]
-        )
+        self.quantum_state["coherence"] = state.metadata.get("coherence", self.quantum_state["coherence"])
 
         # ΛTAG: quantum_superposition - track amplitude distribution and coherence
         response = {
             "superposition_id": superposition_id,
             "options": state.options,
             "probabilities": state.metadata.get("probabilities", []),
-            "amplitudes": [
-                {"real": amplitude.real, "imag": amplitude.imag}
-                for amplitude in state.amplitudes
-            ],
+            "amplitudes": [{"real": amplitude.real, "imag": amplitude.imag} for amplitude in state.amplitudes],
             "interference_events": state.metadata.get("interference_events", []),
             "coherence": self.quantum_state["coherence"],
             "stub": False,
@@ -417,9 +415,7 @@ class QIAGISystem:
         return response
 
     async def measure_collapse(
-        self,
-        superposition_id: str,
-        measurement_context: Optional[dict[str, Any]] = None
+        self, superposition_id: str, measurement_context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Collapse quantum superposition to single decision
@@ -461,9 +457,7 @@ class QIAGISystem:
         }
 
     async def quantum_anneal(
-        self,
-        objective_function: str,
-        constraints: Optional[dict[str, Any]] = None
+        self, objective_function: str, constraints: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Perform quantum annealing optimization

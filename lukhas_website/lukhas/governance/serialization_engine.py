@@ -46,6 +46,7 @@ try:
     import google.protobuf.message  # noqa: F401  # TODO: google.protobuf.message; consi...
     from google.protobuf import json_format
     from google.protobuf.message import Message as ProtoMessage
+
     PROTOBUF_AVAILABLE = True
 except ImportError:
     PROTOBUF_AVAILABLE = False
@@ -56,6 +57,7 @@ logger = logging.getLogger(__name__)
 
 class SerializationFormat(Enum):
     """Supported serialization formats"""
+
     JSON = "json"
     MSGPACK = "msgpack"
     PROTOBUF = "protobuf"
@@ -64,6 +66,7 @@ class SerializationFormat(Enum):
 
 class CompressionType(Enum):
     """Supported compression types"""
+
     NONE = "none"
     GZIP = "gzip"
     ZSTD = "zstd"
@@ -73,6 +76,7 @@ class CompressionType(Enum):
 @dataclass
 class SerializationResult:
     """Result of serialization operation"""
+
     data: bytes
     format: SerializationFormat
     compression: CompressionType
@@ -86,6 +90,7 @@ class SerializationResult:
 @dataclass
 class DeserializationResult:
     """Result of deserialization operation"""
+
     data: Any
     format: SerializationFormat
     compression: CompressionType
@@ -96,6 +101,7 @@ class DeserializationResult:
 
 class SerializationError(Exception):
     """Serialization-specific exception"""
+
     pass
 
 
@@ -138,17 +144,17 @@ class JSONSerializer(Serializer):
                 data,
                 ensure_ascii=self.ensure_ascii,
                 indent=self.indent,
-                separators=(',', ':'),  # Compact output
-                default=self._json_default
+                separators=(",", ":"),  # Compact output
+                default=self._json_default,
             )
-            return json_str.encode('utf-8')
+            return json_str.encode("utf-8")
         except (TypeError, ValueError) as e:
             raise SerializationError(f"JSON serialization failed: {e}")
 
     def deserialize(self, data: bytes) -> Any:
         """Deserialize JSON bytes to data"""
         try:
-            json_str = data.decode('utf-8')
+            json_str = data.decode("utf-8")
             return json.loads(json_str)
         except (UnicodeDecodeError, json.JSONDecodeError) as e:
             raise SerializationError(f"JSON deserialization failed: {e}")
@@ -164,9 +170,9 @@ class JSONSerializer(Serializer):
 
     def _json_default(self, obj: Any) -> Any:
         """Handle non-serializable objects"""
-        if hasattr(obj, 'isoformat'):  # datetime objects
+        if hasattr(obj, "isoformat"):  # datetime objects
             return obj.isoformat()
-        if hasattr(obj, '__dict__'):  # Custom objects
+        if hasattr(obj, "__dict__"):  # Custom objects
             return obj.__dict__
         raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
@@ -180,11 +186,7 @@ class MessagePackSerializer(Serializer):
     def serialize(self, data: Any) -> bytes:
         """Serialize data to MessagePack bytes"""
         try:
-            return msgpack.packb(
-                data,
-                use_bin_type=self.use_bin_type,
-                default=self._msgpack_default
-            )
+            return msgpack.packb(data, use_bin_type=self.use_bin_type, default=self._msgpack_default)
         except (TypeError, ValueError) as e:
             raise SerializationError(f"MessagePack serialization failed: {e}")
 
@@ -206,9 +208,9 @@ class MessagePackSerializer(Serializer):
 
     def _msgpack_default(self, obj: Any) -> Any:
         """Handle non-serializable objects for MessagePack"""
-        if hasattr(obj, 'isoformat'):  # datetime objects
+        if hasattr(obj, "isoformat"):  # datetime objects
             return obj.isoformat()
-        if hasattr(obj, '__dict__'):  # Custom objects
+        if hasattr(obj, "__dict__"):  # Custom objects
             return obj.__dict__
         raise TypeError(f"Object of type {type(obj)} is not MessagePack serializable")
 
@@ -372,7 +374,7 @@ class SerializationEngine:
         data: Any,
         format: SerializationFormat = SerializationFormat.MSGPACK,
         compression: CompressionType = CompressionType.NONE,
-        schema_validation: bool = True
+        schema_validation: bool = True,
     ) -> SerializationResult:
         """Serialize data with specified format and compression"""
         start_time = time.perf_counter()
@@ -385,8 +387,9 @@ class SerializationEngine:
             serializer = self.serializers[format]
 
             # Validate schema if requested
-            if schema_validation and hasattr(data, 'get') and 'decision' in data:
+            if schema_validation and hasattr(data, "get") and "decision" in data:
                 from .schema_registry import validate_guardian_decision
+
                 validation_result = validate_guardian_decision(data)
                 if not validation_result.is_valid:
                     logger.warning(f"Schema validation failed: {validation_result.errors}")
@@ -422,7 +425,7 @@ class SerializationEngine:
                 metadata={
                     "serializer": serializer.__class__.__name__,
                     "timestamp": time.time(),
-                }
+                },
             )
 
         except Exception as e:
@@ -430,10 +433,7 @@ class SerializationEngine:
             raise SerializationError(f"Serialization failed: {e}")
 
     def deserialize(
-        self,
-        data: bytes,
-        format: SerializationFormat,
-        compression: CompressionType = CompressionType.NONE
+        self, data: bytes, format: SerializationFormat, compression: CompressionType = CompressionType.NONE
     ) -> DeserializationResult:
         """Deserialize data with specified format and compression"""
         start_time = time.perf_counter()
@@ -473,7 +473,7 @@ class SerializationEngine:
                 metadata={
                     "deserializer": serializer.__class__.__name__,
                     "timestamp": time.time(),
-                }
+                },
             )
 
         except Exception as e:
@@ -486,7 +486,7 @@ class SerializationEngine:
         output_stream: BinaryIO,
         format: SerializationFormat = SerializationFormat.MSGPACK,
         compression: CompressionType = CompressionType.ZSTD,
-        batch_size: int = 1000
+        batch_size: int = 1000,
     ) -> Dict[str, Any]:
         """Serialize stream of data objects"""
         start_time = time.perf_counter()
@@ -496,12 +496,12 @@ class SerializationEngine:
         try:
             # Process in batches for memory efficiency
             for i in range(0, len(data_stream), batch_size):
-                batch = data_stream[i:i + batch_size]
+                batch = data_stream[i : i + batch_size]
 
                 for obj in batch:
                     result = self.serialize(obj, format, compression, schema_validation=False)
                     output_stream.write(result.data)
-                    output_stream.write(b'\n')  # Delimiter
+                    output_stream.write(b"\n")  # Delimiter
                     total_objects += 1
                     total_bytes += result.compressed_size
 
@@ -511,7 +511,7 @@ class SerializationEngine:
                 "total_objects": total_objects,
                 "total_bytes": total_bytes,
                 "processing_time_ms": processing_time,
-                "throughput_objects_per_second": total_objects / (processing_time / 1000) if processing_time > 0 else 0
+                "throughput_objects_per_second": total_objects / (processing_time / 1000) if processing_time > 0 else 0,
             }
 
         except Exception as e:
@@ -577,18 +577,15 @@ class SerializationMetrics:
         total_operations = self.serialization_count + self.deserialization_count
 
         avg_serialization_time = (
-            self.total_serialization_time / self.serialization_count
-            if self.serialization_count > 0 else 0
+            self.total_serialization_time / self.serialization_count if self.serialization_count > 0 else 0
         )
 
         avg_deserialization_time = (
-            self.total_deserialization_time / self.deserialization_count
-            if self.deserialization_count > 0 else 0
+            self.total_deserialization_time / self.deserialization_count if self.deserialization_count > 0 else 0
         )
 
         compression_ratio = (
-            self.total_bytes_serialized / self.total_bytes_compressed
-            if self.total_bytes_compressed > 0 else 1.0
+            self.total_bytes_serialized / self.total_bytes_compressed if self.total_bytes_compressed > 0 else 1.0
         )
 
         return {
@@ -603,7 +600,7 @@ class SerializationMetrics:
             "compression_ratio": compression_ratio,
             "error_count": self.error_count,
             "error_rate": self.error_count / total_operations if total_operations > 0 else 0,
-            "uptime_seconds": uptime
+            "uptime_seconds": uptime,
         }
 
 
@@ -628,7 +625,7 @@ def get_serialization_engine() -> SerializationEngine:
 def serialize_guardian_decision(
     decision: Dict[str, Any],
     format: SerializationFormat = SerializationFormat.MSGPACK,
-    compression: CompressionType = CompressionType.ZSTD
+    compression: CompressionType = CompressionType.ZSTD,
 ) -> SerializationResult:
     """Serialize Guardian decision with optimized defaults"""
     engine = get_serialization_engine()
@@ -638,7 +635,7 @@ def serialize_guardian_decision(
 def deserialize_guardian_decision(
     data: bytes,
     format: SerializationFormat = SerializationFormat.MSGPACK,
-    compression: CompressionType = CompressionType.ZSTD
+    compression: CompressionType = CompressionType.ZSTD,
 ) -> Dict[str, Any]:
     """Deserialize Guardian decision data"""
     engine = get_serialization_engine()

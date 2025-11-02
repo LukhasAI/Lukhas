@@ -5,6 +5,7 @@ Simulates "inner world of consciousness"
 Based on Jacobo Grinberg's vector collapse theory
 Achieves traceable state of self-awareness
 """
+
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -790,7 +791,9 @@ class VIVOXConsciousnessInterpretationLayer:
     Achieves traceable state of self-awareness
     """
 
-    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):  # noqa: F821  # TODO: VIVOXMemoryExpansion
+    def __init__(
+        self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"
+    ):  # noqa: F821  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.vivox_mae = vivox_mae
         self.consciousness_simulator = ConsciousnessSimulator()

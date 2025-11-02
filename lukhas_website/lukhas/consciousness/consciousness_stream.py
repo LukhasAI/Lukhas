@@ -52,6 +52,7 @@ try:
         GuardianValidationType,
         create_validation_context,
     )
+
     GUARDIAN_INTEGRATION_AVAILABLE = True
 except ImportError:
     GUARDIAN_INTEGRATION_AVAILABLE = False
@@ -62,36 +63,26 @@ logger = logging.getLogger(__name__)
 
 # Prometheus metrics
 consciousness_ticks_total = Counter(
-    'lukhas_consciousness_ticks_total',
-    'Total consciousness processing ticks',
-    ['component']
+    "lukhas_consciousness_ticks_total", "Total consciousness processing ticks", ["component"]
 )
 
 consciousness_tick_latency_seconds = Histogram(
-    'lukhas_consciousness_tick_latency_seconds',
-    'Consciousness tick processing latency',
-    ['component'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
+    "lukhas_consciousness_tick_latency_seconds",
+    "Consciousness tick processing latency",
+    ["component"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0],
 )
 
 consciousness_phase_duration_seconds = Histogram(
-    'lukhas_consciousness_phase_duration_seconds',
-    'Duration spent in each consciousness phase',
-    ['component', 'phase'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_consciousness_phase_duration_seconds",
+    "Duration spent in each consciousness phase",
+    ["component", "phase"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
-consciousness_level_gauge = Gauge(
-    'lukhas_consciousness_level',
-    'Current consciousness level',
-    ['component']
-)
+consciousness_level_gauge = Gauge("lukhas_consciousness_level", "Current consciousness level", ["component"])
 
-consciousness_anomaly_rate = Gauge(
-    'lukhas_consciousness_anomaly_rate',
-    'Current anomaly detection rate',
-    ['component']
-)
+consciousness_anomaly_rate = Gauge("lukhas_consciousness_anomaly_rate", "Current anomaly detection rate", ["component"])
 
 
 class ConsciousnessStream:
@@ -112,11 +103,11 @@ class ConsciousnessStream:
         if GUARDIAN_INTEGRATION_AVAILABLE and self.config.get("guardian_integration_enabled", True):
             guardian_config = GuardianValidationConfig(
                 drift_threshold=0.15,  # AUDITOR_CHECKLIST.md requirement
-                p95_target_ms=200.0,   # Conservative for Phase 3
-                p99_target_ms=250.0,   # PHASE_MATRIX.md requirement
+                p95_target_ms=200.0,  # Conservative for Phase 3
+                p99_target_ms=250.0,  # PHASE_MATRIX.md requirement
                 enforcement_mode=self.config.get("guardian_enforcement_mode", "enforced"),
                 gdpr_audit_enabled=True,
-                constitutional_check_enabled=True
+                constitutional_check_enabled=True,
             )
             self.guardian_integration = ConsciousnessGuardianIntegration(config=guardian_config)
         else:
@@ -126,18 +117,15 @@ class ConsciousnessStream:
         self.awareness_engine = AwarenessEngine(self.config.get("awareness", {}))
         self.dream_engine = DreamEngine(self.config.get("dream", {}))
         self.creativity_engine = CreativityEngine(
-            config=self.config.get("creativity", {}),
-            guardian_validator=self.config.get("guardian_validator")
+            config=self.config.get("creativity", {}), guardian_validator=self.config.get("guardian_validator")
         )
-        self.auto_consciousness = AutoConsciousness(
-            guardian_validator=self.config.get("guardian_validator")
-        )
+        self.auto_consciousness = AutoConsciousness(guardian_validator=self.config.get("guardian_validator"))
 
         # Initialize LUKHAS reflection engine
         self.reflection_engine = ReflectionEngine(
             memory_backend=self.config.get("memory_backend"),
             guardian_validator=self.config.get("guardian_validator"),
-            guardian_integration=self.guardian_integration
+            guardian_integration=self.guardian_integration,
         )
 
         # Consciousness state
@@ -278,8 +266,7 @@ class ConsciousnessStream:
         phase_duration = time.time() - phase_start_time
         self._phase_durations[self._current_state.phase].append(phase_duration)
         consciousness_phase_duration_seconds.labels(
-            component=self._component_id,
-            phase=self._current_state.phase
+            component=self._component_id, phase=self._current_state.phase
         ).observe(phase_duration)
 
     async def _process_idle_phase(self) -> None:
@@ -297,19 +284,12 @@ class ConsciousnessStream:
     async def _process_aware_phase(self) -> None:
         """Process AWARE phase - awareness monitoring."""
         try:
-            self._recent_awareness = await self.awareness_engine.update(
-                self._current_state,
-                self._signal_buffer
-            )
+            self._recent_awareness = await self.awareness_engine.update(self._current_state, self._signal_buffer)
 
             # Process awareness for memory events
             if self._recent_awareness.anomalies:
                 for anomaly in self._recent_awareness.anomalies:
-                    self._memory_events.append({
-                        "type": "anomaly_detected",
-                        "data": anomaly,
-                        "timestamp": time.time()
-                    })
+                    self._memory_events.append({"type": "anomaly_detected", "data": anomaly, "timestamp": time.time()})
 
         except Exception as e:
             logger.error(f"Awareness processing failed: {e}")
@@ -328,16 +308,14 @@ class ConsciousnessStream:
                 context={
                     "signal_buffer": self._signal_buffer,
                     "memory_events": self._memory_events[-10:],  # Recent memory events
-                    "tick_count": self._tick_count
-                }
+                    "tick_count": self._tick_count,
+                },
             )
 
             # Add reflection results to memory events
-            self._memory_events.append({
-                "type": "reflection_completed",
-                "data": asdict(self._recent_reflection),
-                "timestamp": time.time()
-            })
+            self._memory_events.append(
+                {"type": "reflection_completed", "data": asdict(self._recent_reflection), "timestamp": time.time()}
+            )
 
             # Log performance metrics
             if self._recent_reflection.reflection_duration_ms > 100:
@@ -362,34 +340,34 @@ class ConsciousnessStream:
                     context={
                         "consciousness_state": asdict(self._current_state),
                         "awareness_data": asdict(self._recent_awareness) if self._recent_awareness else {},
-                        "reflection_data": asdict(self._recent_reflection) if self._recent_reflection else {}
+                        "reflection_data": asdict(self._recent_reflection) if self._recent_reflection else {},
                     },
                     constraints=creative_triggers.get("constraints", []),
                     preferred_process=creative_triggers.get("process_type"),
                     imagination_mode=creative_triggers.get("imagination_mode", "conceptual"),
                     min_ideas=creative_triggers.get("min_ideas", 3),
-                    seed_concepts=creative_triggers.get("seed_concepts", [])
+                    seed_concepts=creative_triggers.get("seed_concepts", []),
                 )
 
                 # Generate creative ideas
                 self._recent_creativity = await self.creativity_engine.generate_ideas(
-                    creative_task,
-                    self._current_state,
-                    self._signal_buffer
+                    creative_task, self._current_state, self._signal_buffer
                 )
 
                 # Add creativity results to memory events
                 if self._recent_creativity and self._recent_creativity.ideas:
-                    self._memory_events.append({
-                        "type": "creativity_session",
-                        "data": {
-                            "ideas_generated": len(self._recent_creativity.ideas),
-                            "novelty_score": self._recent_creativity.novelty_score,
-                            "coherence_score": self._recent_creativity.coherence_score,
-                            "flow_state": self._recent_creativity.flow_state
-                        },
-                        "timestamp": time.time()
-                    })
+                    self._memory_events.append(
+                        {
+                            "type": "creativity_session",
+                            "data": {
+                                "ideas_generated": len(self._recent_creativity.ideas),
+                                "novelty_score": self._recent_creativity.novelty_score,
+                                "coherence_score": self._recent_creativity.coherence_score,
+                                "flow_state": self._recent_creativity.flow_state,
+                            },
+                            "timestamp": time.time(),
+                        }
+                    )
 
         except Exception as e:
             logger.error(f"Creative processing failed: {e}")
@@ -405,7 +383,7 @@ class ConsciousnessStream:
                 self._recent_dream = await self.dream_engine.process_cycle(
                     self._current_state,
                     self._memory_events.copy(),  # Pass copy to avoid modification
-                    trigger_reason="consciousness_cycle"
+                    trigger_reason="consciousness_cycle",
                 )
 
                 # Clear processed memory events
@@ -422,19 +400,21 @@ class ConsciousnessStream:
                 consciousness_state=self._current_state,
                 awareness_snapshot=self._recent_awareness,
                 reflection_report=self._recent_reflection,
-                dream_trace=self._recent_dream
+                dream_trace=self._recent_dream,
             )
 
             # Add decision to memory events
-            self._memory_events.append({
-                "type": "decision_made",
-                "data": {
-                    "approved": self._recent_decision.guardian_approved,
-                    "confidence": self._recent_decision.confidence_score,
-                    "action_count": len(self._recent_decision.proposed_actions)
-                },
-                "timestamp": time.time()
-            })
+            self._memory_events.append(
+                {
+                    "type": "decision_made",
+                    "data": {
+                        "approved": self._recent_decision.guardian_approved,
+                        "confidence": self._recent_decision.confidence_score,
+                        "action_count": len(self._recent_decision.proposed_actions),
+                    },
+                    "timestamp": time.time(),
+                }
+            )
 
         except Exception as e:
             logger.error(f"Decision processing failed: {e}")
@@ -450,7 +430,7 @@ class ConsciousnessStream:
             "process_type": None,
             "imagination_mode": "conceptual",
             "min_ideas": 3,
-            "seed_concepts": []
+            "seed_concepts": [],
         }
 
         # Trigger creativity if consciousness level is high
@@ -459,16 +439,17 @@ class ConsciousnessStream:
             triggers["prompt"] = "High consciousness creative exploration"
 
         # Trigger if we have interesting anomalies from awareness
-        if (self._recent_awareness and
-            len(self._recent_awareness.anomalies) > 0 and
-            any(a.get("severity") in ["medium", "high"] for a in self._recent_awareness.anomalies)):
+        if (
+            self._recent_awareness
+            and len(self._recent_awareness.anomalies) > 0
+            and any(a.get("severity") in ["medium", "high"] for a in self._recent_awareness.anomalies)
+        ):
             triggers["should_create"] = True
             triggers["prompt"] = "Creative solutions for detected anomalies"
             triggers["process_type"] = "convergent"
 
         # Trigger if reflection suggests creative opportunities
-        if (self._recent_reflection and
-            self._recent_reflection.coherence_score > 0.8):
+        if self._recent_reflection and self._recent_reflection.coherence_score > 0.8:
             triggers["should_create"] = True
             triggers["prompt"] = "Creative insights from reflection"
             triggers["process_type"] = "divergent"
@@ -476,8 +457,7 @@ class ConsciousnessStream:
         # Extract seed concepts from signal buffer
         if self._signal_buffer:
             # Look for creative cues in signals
-            creative_signals = [k for k in self._signal_buffer.keys()
-                             if "creative" in k.lower() or "idea" in k.lower()]
+            creative_signals = [k for k in self._signal_buffer.keys() if "creative" in k.lower() or "idea" in k.lower()]
             if creative_signals:
                 triggers["should_create"] = True
                 triggers["seed_concepts"] = creative_signals[:5]
@@ -546,15 +526,17 @@ class ConsciousnessStream:
         self._current_state.ts_ms = int(time.time() * 1000)
 
         # Store state history
-        self._state_history.append(ConsciousnessState(
-            phase=self._current_state.phase,
-            awareness_level=self._current_state.awareness_level,
-            emotional_tone=self._current_state.emotional_tone,
-            level=self._current_state.level,
-            ts_ms=self._current_state.ts_ms,
-            context=self._current_state.context.copy(),
-            correlation_id=self._current_state.correlation_id
-        ))
+        self._state_history.append(
+            ConsciousnessState(
+                phase=self._current_state.phase,
+                awareness_level=self._current_state.awareness_level,
+                emotional_tone=self._current_state.emotional_tone,
+                level=self._current_state.level,
+                ts_ms=self._current_state.ts_ms,
+                context=self._current_state.context.copy(),
+                correlation_id=self._current_state.correlation_id,
+            )
+        )
 
         # Keep recent history
         if len(self._state_history) > 1000:
@@ -565,7 +547,7 @@ class ConsciousnessStream:
             self.guardian_integration.update_baseline_state(
                 state=self._current_state,
                 tenant=self.config.get("tenant", "default"),
-                session_id=self.config.get("session_id")
+                session_id=self.config.get("session_id"),
             )
 
     async def _generate_metrics(self) -> ConsciousnessMetrics:
@@ -596,20 +578,20 @@ class ConsciousnessStream:
 
         # Calculate dream frequency
         dream_frequency = 0.0
-        if hasattr(self.dream_engine, 'get_performance_stats'):
+        if hasattr(self.dream_engine, "get_performance_stats"):
             dream_stats = self.dream_engine.get_performance_stats()
             if dream_stats.get("total_cycles", 0) > 0:
                 dream_frequency = dream_stats["total_cycles"] / max(self._tick_count, 1)
 
         # Calculate Guardian approval rate
         guardian_approval_rate = 0.0
-        if hasattr(self.auto_consciousness, 'get_performance_stats'):
+        if hasattr(self.auto_consciousness, "get_performance_stats"):
             decision_stats = self.auto_consciousness.get_performance_stats()
             guardian_approval_rate = decision_stats.get("approval_rate", 0.0)
 
         # Calculate decision latency
         decision_latency = 0.0
-        if hasattr(self.auto_consciousness, 'get_performance_stats'):
+        if hasattr(self.auto_consciousness, "get_performance_stats"):
             decision_stats = self.auto_consciousness.get_performance_stats()
             decision_latency = decision_stats.get("average_latency_ms", 0.0)
 
@@ -624,7 +606,7 @@ class ConsciousnessStream:
             system_load_factor=self._recent_awareness.load_factor if self._recent_awareness else 0.0,
             tick_rate_hz=tick_rate,
             decision_latency_ms=decision_latency,
-            guardian_approval_rate=guardian_approval_rate
+            guardian_approval_rate=guardian_approval_rate,
         )
 
     def _update_performance_metrics(self, tick_latency: float) -> None:
@@ -651,7 +633,7 @@ class ConsciousnessStream:
             "reflection": asdict(self._recent_reflection) if self._recent_reflection else None,
             "creativity": asdict(self._recent_creativity) if self._recent_creativity else None,
             "dream": asdict(self._recent_dream) if self._recent_dream else None,
-            "decision": asdict(self._recent_decision) if self._recent_decision else None
+            "decision": asdict(self._recent_decision) if self._recent_decision else None,
         }
 
     def get_performance_stats(self) -> Dict[str, Any]:
@@ -664,24 +646,24 @@ class ConsciousnessStream:
                 "average_tick_latency_ms": avg_tick_latency * 1000,
                 "current_phase": self._current_state.phase,
                 "consciousness_level": self._current_state.level,
-                "state_history_length": len(self._state_history)
+                "state_history_length": len(self._state_history),
             }
         }
 
         # Add engine-specific stats
-        if hasattr(self.awareness_engine, 'get_performance_stats'):
+        if hasattr(self.awareness_engine, "get_performance_stats"):
             stats["awareness_engine"] = self.awareness_engine.get_performance_stats()
 
-        if hasattr(self.reflection_engine, 'get_performance_stats'):
+        if hasattr(self.reflection_engine, "get_performance_stats"):
             stats["reflection_engine"] = self.reflection_engine.get_performance_stats()
 
-        if hasattr(self.creativity_engine, 'get_performance_stats'):
+        if hasattr(self.creativity_engine, "get_performance_stats"):
             stats["creativity_engine"] = self.creativity_engine.get_performance_stats()
 
-        if hasattr(self.dream_engine, 'get_performance_stats'):
+        if hasattr(self.dream_engine, "get_performance_stats"):
             stats["dream_engine"] = self.dream_engine.get_performance_stats()
 
-        if hasattr(self.auto_consciousness, 'get_performance_stats'):
+        if hasattr(self.auto_consciousness, "get_performance_stats"):
             stats["auto_consciousness"] = self.auto_consciousness.get_performance_stats()
 
         return stats
@@ -700,7 +682,7 @@ class ConsciousnessStream:
                 user_id=self.config.get("user_id"),
                 session_id=self.config.get("session_id"),
                 tenant=self.config.get("tenant", "default"),
-                sensitive_operation=self._current_state.phase in ["DECIDE", "CREATE"]
+                sensitive_operation=self._current_state.phase in ["DECIDE", "CREATE"],
             )
 
             # Add context from recent processing
@@ -733,17 +715,19 @@ class ConsciousnessStream:
                 )
 
                 # Add Guardian denial to memory events for tracking
-                self._memory_events.append({
-                    "type": "guardian_state_transition_denied",
-                    "data": {
-                        "reason": validation_result.reason,
-                        "confidence": validation_result.confidence,
-                        "validation_duration_ms": validation_result.validation_duration_ms,
-                        "current_phase": self._current_state.phase,
-                        "recommendations": validation_result.recommendations
-                    },
-                    "timestamp": time.time()
-                })
+                self._memory_events.append(
+                    {
+                        "type": "guardian_state_transition_denied",
+                        "data": {
+                            "reason": validation_result.reason,
+                            "confidence": validation_result.confidence,
+                            "validation_duration_ms": validation_result.validation_duration_ms,
+                            "current_phase": self._current_state.phase,
+                            "recommendations": validation_result.recommendations,
+                        },
+                        "timestamp": time.time(),
+                    }
+                )
 
                 # In fail-closed mode, we could prevent the state transition
                 # For now, we log and continue but track the denial
@@ -769,17 +753,17 @@ class ConsciousnessStream:
         self._memory_events.clear()
 
         # Reset engine states
-        if hasattr(self.awareness_engine, 'reset_state'):
+        if hasattr(self.awareness_engine, "reset_state"):
             self.awareness_engine.reset_state()
-        if hasattr(self.reflection_engine, 'reset_state'):
+        if hasattr(self.reflection_engine, "reset_state"):
             self.reflection_engine.reset_state()
-        if hasattr(self.creativity_engine, 'reset_state'):
+        if hasattr(self.creativity_engine, "reset_state"):
             await self.creativity_engine.reset_state()
-        if hasattr(self.dream_engine, 'reset_state'):
+        if hasattr(self.dream_engine, "reset_state"):
             self.dream_engine.reset_state()
-        if hasattr(self.auto_consciousness, 'reset_state'):
+        if hasattr(self.auto_consciousness, "reset_state"):
             self.auto_consciousness.reset_state()
-        if hasattr(self.guardian_integration, 'reset_state'):
+        if hasattr(self.guardian_integration, "reset_state"):
             await self.guardian_integration.reset_state()
 
 

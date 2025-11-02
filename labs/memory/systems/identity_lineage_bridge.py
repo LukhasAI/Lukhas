@@ -117,7 +117,9 @@ class IdentityLineageBridge:
 
         # Storage paths
         self.threats_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/detected_threats.jsonl"
-        self.protection_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/protection_actions.jsonl"
+        self.protection_log_path = (
+            "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/protection_actions.jsonl"
+        )
 
         logger.info(
             "IdentityLineageBridge_initialized",
@@ -219,7 +221,9 @@ class IdentityLineageBridge:
 
             # Log protection action
             protection_action = ProtectionAction(
-                action_id=hashlib.sha256(f"protect_{anchor_id}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12],
+                action_id=hashlib.sha256(
+                    f"protect_{anchor_id}_{datetime.now(timezone.utc).isoformat()}".encode()
+                ).hexdigest()[:12],
                 action_type="anchor_protection",
                 target_anchor_id=anchor_id,
                 source_threat_id="manual",
@@ -266,7 +270,9 @@ class IdentityLineageBridge:
         stability_score = lineage_analysis.get("stability_metrics", {}).get("stability_score", 1.0)
         if stability_score < 0.3:
             threat = IdentityThreat(
-                threat_id=hashlib.sha256(f"collapse_{fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12],
+                threat_id=hashlib.sha256(
+                    f"collapse_{fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()
+                ).hexdigest()[:12],
                 threat_type=ThreatType.MEMORY_COLLAPSE,
                 severity_level=1.0 - stability_score,
                 affected_anchors=self._get_affected_anchors(fold_key),
@@ -280,7 +286,9 @@ class IdentityLineageBridge:
         # Check for trauma cascade threats
         if len(trauma_markers) > 2:
             threat = IdentityThreat(
-                threat_id=hashlib.sha256(f"trauma_{fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12],
+                threat_id=hashlib.sha256(
+                    f"trauma_{fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()
+                ).hexdigest()[:12],
                 threat_type=ThreatType.TRAUMA_CASCADE,
                 severity_level=min(1.0, len(trauma_markers) / 10.0),
                 affected_anchors=self._get_affected_anchors(fold_key),

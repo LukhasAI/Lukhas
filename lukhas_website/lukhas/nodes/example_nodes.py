@@ -12,6 +12,7 @@ from core.interfaces import CognitiveNodeBase
 
 class IntentNode(CognitiveNodeBase):
     """Node that processes user intent."""
+
     name = "intent"
     AUTOINIT = True
 
@@ -29,12 +30,13 @@ class IntentNode(CognitiveNodeBase):
             "confidence": 0.8,
             "timestamp": time.time(),
             "ethics_risk": 0.1,
-            "role_weight": 0.7
+            "role_weight": 0.7,
         }
 
 
 class ThoughtNode(CognitiveNodeBase):
     """Node that generates sophisticated thoughts based on intent and context."""
+
     name = "thought"
     AUTOINIT = True
 
@@ -64,7 +66,9 @@ class ThoughtNode(CognitiveNodeBase):
                 thoughts.extend(["evaluate_options", "consider_implications", "weigh_consequences"])
 
             # Math/calculation detection
-            if any(char in query for char in "+-*/=") or any(word in query.lower() for word in ["calculate", "compute", "add", "subtract"]):
+            if any(char in query for char in "+-*/=") or any(
+                word in query.lower() for word in ["calculate", "compute", "add", "subtract"]
+            ):
                 reasoning_chain.append("Mathematical operation detected")
                 thoughts.extend(["parse_mathematical_expression", "perform_calculation", "verify_result"])
 
@@ -97,13 +101,14 @@ class ThoughtNode(CognitiveNodeBase):
             "processing_metadata": {
                 "keywords_analyzed": len(keywords),
                 "query_length": len(query),
-                "reasoning_depth": len(reasoning_chain)
-            }
+                "reasoning_depth": len(reasoning_chain),
+            },
         }
 
 
 class DecisionNode(CognitiveNodeBase):
     """Node that makes final decisions with ethics checking."""
+
     name = "decision"
     AUTOINIT = True
 
@@ -126,12 +131,13 @@ class DecisionNode(CognitiveNodeBase):
             "confidence": 0.85,
             "timestamp": time.time(),
             "ethics_risk": ethics_risk,
-            "role_weight": 0.9
+            "role_weight": 0.9,
         }
 
 
 class SlowNode(CognitiveNodeBase):
     """Node that intentionally times out for testing."""
+
     name = "slow"
     AUTOINIT = True
 
@@ -146,6 +152,7 @@ class SlowNode(CognitiveNodeBase):
 
 class ActionNode(CognitiveNodeBase):
     """Node that executes actions based on thought analysis."""
+
     name = "action"
     AUTOINIT = True
 
@@ -169,7 +176,8 @@ class ActionNode(CognitiveNodeBase):
             try:
                 # Extract numbers and basic operations (safe evaluation)
                 import re
-                math_expr = re.findall(r'[\d+\-*/\(\)\s]+', query)
+
+                math_expr = re.findall(r"[\d+\-*/\(\)\s]+", query)
                 if math_expr:
                     # Very basic calculator (unsafe eval avoided)
                     expr = math_expr[0].strip()
@@ -187,7 +195,7 @@ class ActionNode(CognitiveNodeBase):
             results["facts_found"] = [
                 "Relevant information retrieved from knowledge base",
                 "Cross-referenced with multiple sources",
-                "Confidence verified"
+                "Confidence verified",
             ]
 
         if "evaluate_options" in thoughts:
@@ -196,17 +204,13 @@ class ActionNode(CognitiveNodeBase):
             results["options_analysis"] = {
                 "primary_option": "Most likely course of action",
                 "alternatives": ["Alternative approach 1", "Alternative approach 2"],
-                "risk_assessment": "Low risk with proper safeguards"
+                "risk_assessment": "Low risk with proper safeguards",
             }
 
         if "external_api_call" in thoughts:
             # Simulate external API call (placeholder)
             actions_taken.append("api_interaction")
-            results["api_response"] = {
-                "status": "success",
-                "data": "External service response",
-                "latency_ms": 45
-            }
+            results["api_response"] = {"status": "success", "data": "External service response", "latency_ms": 45}
 
         # Default action if no specific actions identified
         if not actions_taken:
@@ -226,16 +230,13 @@ class ActionNode(CognitiveNodeBase):
             "timestamp": time.time(),
             "ethics_risk": ethics_risk,
             "role_weight": 0.9,
-            "execution_metadata": {
-                "actions_count": len(actions_taken),
-                "processing_time_ms": 25,
-                "success_rate": 1.0
-            }
+            "execution_metadata": {"actions_count": len(actions_taken), "processing_time_ms": 25, "success_rate": 1.0},
         }
 
 
 class VisionNode(CognitiveNodeBase):
     """Node that processes visual or perceptual information."""
+
     name = "vision"
     AUTOINIT = True
 
@@ -271,8 +272,8 @@ class VisionNode(CognitiveNodeBase):
             "visual_features": {
                 "complexity": min(1.0, len(query.split()) / 15.0),
                 "clarity": 0.8,
-                "interpretability": 0.9
-            }
+                "interpretability": 0.9,
+            },
         }
 
         if not visual_cues:
@@ -293,13 +294,14 @@ class VisionNode(CognitiveNodeBase):
             "perception_metadata": {
                 "visual_elements_count": len(visual_cues),
                 "processing_depth": len(processing_modes),
-                "analysis_type": "perceptual_inference"
-            }
+                "analysis_type": "perceptual_inference",
+            },
         }
 
 
 class ErrorNode(CognitiveNodeBase):
     """Node that throws errors for testing."""
+
     name = "error"
     AUTOINIT = True
 

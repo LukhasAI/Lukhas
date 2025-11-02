@@ -25,10 +25,7 @@ class TestIntegrationsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "integrations",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "integrations", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestIntegrationsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import integrations
+
         self.assertIsNotNone(integrations)
 
     def test_module_version(self):
         """Test module has version information."""
         import integrations
+
         # Most modules should have version info
-        self.assertTrue(hasattr(integrations, '__version__') or
-                       hasattr(integrations, 'VERSION'))
+        self.assertTrue(hasattr(integrations, "__version__") or hasattr(integrations, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestLUKHASConsciousnessStore(unittest.TestCase):
         """Test LUKHASConsciousnessStore can be imported."""
         try:
             from integrations.mongodb_consciousness_store import LUKHASConsciousnessStore
+
             self.assertIsNotNone(LUKHASConsciousnessStore)
         except ImportError:
             pytest.skip("Component LUKHASConsciousnessStore not available")
@@ -88,7 +87,6 @@ class TestLUKHASConsciousnessStore(unittest.TestCase):
         """Test LUKHASConsciousnessStore can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

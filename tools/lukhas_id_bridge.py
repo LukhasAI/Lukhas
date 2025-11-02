@@ -28,9 +28,11 @@ MATRIX_CONTRACTS = ROOT / "lukhas"
 CANONICAL_TIERS = ["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"]
 TIER_TO_NUMERIC = {tier: i for i, tier in enumerate(CANONICAL_TIERS)}
 
+
 @dataclass
 class ContractAnalysis:
     """Analysis results for a Matrix contract."""
+
     path: Path
     module: str
     has_identity: bool
@@ -40,6 +42,7 @@ class ContractAnalysis:
     scopes: List[str]
     accepted_subjects: List[str]
     issues: List[str]
+
 
 class LukhasIdBridge:
     """Bridge between ΛiD tier system and Matrix contracts."""
@@ -74,9 +77,12 @@ class LukhasIdBridge:
                 path=contract_path,
                 module=contract_path.stem.replace("matrix_", ""),
                 has_identity=False,
-                tiers=[], tier_numeric=[], webauthn_required=False,
-                scopes=[], accepted_subjects=[],
-                issues=[f"Invalid JSON: {e}"]
+                tiers=[],
+                tier_numeric=[],
+                webauthn_required=False,
+                scopes=[],
+                accepted_subjects=[],
+                issues=[f"Invalid JSON: {e}"],
             )
 
         # Extract identity block
@@ -97,7 +103,9 @@ class LukhasIdBridge:
                     if tier not in CANONICAL_TIERS:
                         issues.append(f"Invalid tier: {tier}")
                     elif TIER_TO_NUMERIC.get(tier) != num:
-                        issues.append(f"Tier {tier} has wrong numeric value {num}, expected {TIER_TO_NUMERIC.get(tier)}")
+                        issues.append(
+                            f"Tier {tier} has wrong numeric value {num}, expected {TIER_TO_NUMERIC.get(tier)}"
+                        )
 
         # Validate scopes format
         scopes = identity.get("scopes", [])
@@ -117,7 +125,7 @@ class LukhasIdBridge:
             webauthn_required=identity.get("webauthn_required", False),
             scopes=scopes,
             accepted_subjects=identity.get("accepted_subjects", []),
-            issues=issues
+            issues=issues,
         )
 
     def validate_all_contracts(self) -> List[ContractAnalysis]:
@@ -157,23 +165,20 @@ class LukhasIdBridge:
                 "total_contracts": total_contracts,
                 "contracts_with_identity": contracts_with_identity,
                 "contracts_with_issues": contracts_with_issues,
-                "compliance_rate": round(100 * (total_contracts - contracts_with_issues) / total_contracts, 1)
+                "compliance_rate": round(100 * (total_contracts - contracts_with_issues) / total_contracts, 1),
             },
             "tier_distribution": tier_usage,
             "webauthn_usage": {
                 "required": webauthn_required,
                 "not_required": total_contracts - webauthn_required,
-                "percentage": round(100 * webauthn_required / total_contracts, 1)
+                "percentage": round(100 * webauthn_required / total_contracts, 1),
             },
             "service_accounts": service_account_usage,
             "issues": [
-                {
-                    "contract": str(a.path.relative_to(ROOT)),
-                    "module": a.module,
-                    "issues": a.issues
-                }
-                for a in analyses if a.issues
-            ]
+                {"contract": str(a.path.relative_to(ROOT)), "module": a.module, "issues": a.issues}
+                for a in analyses
+                if a.issues
+            ],
         }
 
     def sync_tiers_to_contracts(self, dry_run: bool = True) -> List[Dict[str, Any]]:
@@ -202,7 +207,10 @@ class LukhasIdBridge:
                     if tier in canonical_mapping:
                         expected_num = canonical_mapping[tier]
                         new_numeric.append(expected_num)
-                        if len(current_numeric) <= len(new_numeric) - 1 or current_numeric[len(new_numeric) - 1] != expected_num:
+                        if (
+                            len(current_numeric) <= len(new_numeric) - 1
+                            or current_numeric[len(new_numeric) - 1] != expected_num
+                        ):
                             needs_update = True
                     else:
                         print(f"⚠️ Unknown tier '{tier}' in {contract_path}")
@@ -212,7 +220,7 @@ class LukhasIdBridge:
                         "contract": str(contract_path.relative_to(ROOT)),
                         "module": contract_data.get("module"),
                         "old_numeric": current_numeric,
-                        "new_numeric": new_numeric
+                        "new_numeric": new_numeric,
                     }
                     changes.append(change)
 
@@ -245,25 +253,20 @@ class LukhasIdBridge:
         print(f"✅ All {len(used_tiers)} used tiers are canonical")
         return True
 
+
 def main():
     """CLI for ΛiD bridge operations."""
     parser = argparse.ArgumentParser(
         description="LUKHAS ΛiD Bridge - Matrix Contracts Integration",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-    parser.add_argument("--validate", action="store_true",
-                       help="Validate all Matrix contracts against ΛiD system")
-    parser.add_argument("--report", action="store_true",
-                       help="Generate compliance report")
-    parser.add_argument("--sync", action="store_true",
-                       help="Sync tier definitions to contracts")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Show changes without applying them")
-    parser.add_argument("--check-consistency", action="store_true",
-                       help="Check tier consistency across all contracts")
-    parser.add_argument("--output", type=str,
-                       help="Output file for reports (JSON format)")
+    parser.add_argument("--validate", action="store_true", help="Validate all Matrix contracts against ΛiD system")
+    parser.add_argument("--report", action="store_true", help="Generate compliance report")
+    parser.add_argument("--sync", action="store_true", help="Sync tier definitions to contracts")
+    parser.add_argument("--dry-run", action="store_true", help="Show changes without applying them")
+    parser.add_argument("--check-consistency", action="store_true", help="Check tier consistency across all contracts")
+    parser.add_argument("--output", type=str, help="Output file for reports (JSON format)")
 
     args = parser.parse_args()
 
@@ -296,9 +299,9 @@ def main():
                 print(f"Compliance rate: {report['summary']['compliance_rate']}%")
                 print(f"WebAuthn usage: {report['webauthn_usage']['percentage']}%")
 
-                if report['issues']:
+                if report["issues"]:
                     print(f"\n⚠️ {len(report['issues'])} contracts with issues:")
-                    for issue in report['issues'][:5]:  # Show first 5
+                    for issue in report["issues"][:5]:  # Show first 5
                         print(f"  - {issue['contract']}: {', '.join(issue['issues'])}")
 
     if args.sync:
@@ -318,6 +321,7 @@ def main():
             print("✅ All contracts are up to date")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

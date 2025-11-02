@@ -34,10 +34,13 @@ except ImportError:
 
     class NoOpMetric:
         """No-op metric for when Prometheus is unavailable."""
+
         def labels(self, **kwargs):
             return self
+
         def observe(self, value):
             pass
+
         def inc(self, value=1):
             pass
 

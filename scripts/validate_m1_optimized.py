@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
-sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
+sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
 from memory.indexer import Embeddings, Indexer
@@ -30,6 +30,7 @@ from memory.memory_orchestrator import MemoryOrchestrator
 
 class OptimizedMockClient:
     """Optimized mock client with minimal, consistent latency."""
+
     def __init__(self):
         self.call_count = 0
 
@@ -37,8 +38,10 @@ class OptimizedMockClient:
         self.call_count += 1
         return {"affected_rows": 1}
 
+
 class OptimizedEmbeddings(Embeddings):
     """Optimized embeddings with caching for consistency."""
+
     def __init__(self):
         self._cache = {}
 
@@ -47,7 +50,7 @@ class OptimizedEmbeddings(Embeddings):
             return self._cache[text]
 
         # Fast deterministic embedding
-        text_bytes = text.encode('utf-8')
+        text_bytes = text.encode("utf-8")
         hash_int = int(hashlib.md5(text_bytes).hexdigest(), 16)
 
         # Generate exactly 1536 values deterministically
@@ -59,8 +62,10 @@ class OptimizedEmbeddings(Embeddings):
         self._cache[text] = embedding
         return embedding
 
+
 class OptimizedMockStore(PgVectorStore):
     """Optimized store with consistent O(1) operations."""
+
     def __init__(self, conn, table="mem_store", dim: int = 1536):
         super().__init__(conn, table, dim)
         self.storage = {}
@@ -76,8 +81,7 @@ class OptimizedMockStore(PgVectorStore):
     def bulk_add(self, docs: List[VectorDoc]) -> List[str]:
         return [self.add(doc) for doc in docs]
 
-    def search(self, embedding: List[float], k: int = 10,
-               filters: Dict[str, Any] = None) -> List[tuple]:
+    def search(self, embedding: List[float], k: int = 10, filters: Dict[str, Any] = None) -> List[tuple]:
         # Fast cosine similarity with pre-computed norms
         query_norm = sum(x * x for x in embedding) ** 0.5
         results = []
@@ -121,6 +125,7 @@ class OptimizedMockStore(PgVectorStore):
     def stats(self) -> Dict[str, Any]:
         return {"table": self.table, "dim": self.dim, "count": len(self.storage)}
 
+
 def stabilize_environment():
     """Stabilize environment for consistent measurements."""
     # Disable garbage collection during measurements
@@ -136,6 +141,7 @@ def stabilize_environment():
     for i in range(100):
         _ = sum(range(100))
         _ = hashlib.md5(f"warmup{i}".encode()).hexdigest()
+
 
 async def measure_with_warmup(operation, warmup_count: int = 10, measurement_count: int = 100):
     """Measure operation latency with proper warmup and stabilization."""
@@ -163,6 +169,7 @@ async def measure_with_warmup(operation, warmup_count: int = 10, measurement_cou
 
     return latencies
 
+
 async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
     """Validate with optimized components for T4/0.01% compliance."""
 
@@ -189,6 +196,7 @@ async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
 
     # Measure query performance
     query_counter = 0
+
     async def query_op():
         nonlocal query_counter
         query_text = f"test event {query_counter % 20}"  # Query existing data
@@ -199,6 +207,7 @@ async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
 
     # Measure indexer performance
     indexer_counter = 0
+
     async def indexer_op():
         nonlocal indexer_counter
         text = f"direct indexer {indexer_counter}"
@@ -234,6 +243,7 @@ async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
         # Bootstrap confidence interval (smaller sample for speed)
         bootstrap_means = []
         import random
+
         random.seed(42)  # Deterministic for reproducibility
         for _ in range(200):
             sample = random.choices(filtered, k=min(100, len(filtered)))
@@ -261,8 +271,8 @@ async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
                 "mean_under_target": robust_mean < target_us,
                 "p95_under_target": p95 < target_us,
                 "cv_under_10_percent": cv < 0.10,
-                "performance_headroom_percent": round((target_us - robust_mean) / target_us * 100, 1)
-            }
+                "performance_headroom_percent": round((target_us - robust_mean) / target_us * 100, 1),
+            },
         }
 
     return {
@@ -272,16 +282,17 @@ async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
         "performance_metrics": {
             "add_event": calc_robust_stats(add_latencies, "add_event", 1000.0),
             "query": calc_robust_stats(query_latencies, "query", 100000.0),
-            "indexer_upsert": calc_robust_stats(indexer_latencies, "indexer_upsert", 10000.0)
+            "indexer_upsert": calc_robust_stats(indexer_latencies, "indexer_upsert", 10000.0),
         },
         "storage_metrics": store.stats(),
         "environment": {
             "python_version": sys.version,
             "optimization_applied": True,
             "gc_disabled_during_measurement": True,
-            "outlier_filtering": True
-        }
+            "outlier_filtering": True,
+        },
     }
+
 
 async def run_statistical_validation():
     """Run comprehensive statistical validation for T4/0.01% certification."""
@@ -311,27 +322,34 @@ async def run_statistical_validation():
             "mean_across_runs": round(statistics.mean(add_event_means), 3),
             "std_dev_across_runs": round(statistics.stdev(add_event_means), 3),
             "cv_across_runs": round(statistics.stdev(add_event_means) / statistics.mean(add_event_means), 4),
-            "consistency_rating": "EXCELLENT" if statistics.stdev(add_event_means) / statistics.mean(add_event_means) < 0.05 else "GOOD"
+            "consistency_rating": (
+                "EXCELLENT" if statistics.stdev(add_event_means) / statistics.mean(add_event_means) < 0.05 else "GOOD"
+            ),
         },
         "query_reproducibility": {
             "mean_across_runs": round(statistics.mean(query_means), 3),
             "std_dev_across_runs": round(statistics.stdev(query_means), 3),
             "cv_across_runs": round(statistics.stdev(query_means) / statistics.mean(query_means), 4),
-            "consistency_rating": "EXCELLENT" if statistics.stdev(query_means) / statistics.mean(query_means) < 0.05 else "GOOD"
+            "consistency_rating": (
+                "EXCELLENT" if statistics.stdev(query_means) / statistics.mean(query_means) < 0.05 else "GOOD"
+            ),
         },
         "indexer_reproducibility": {
             "mean_across_runs": round(statistics.mean(indexer_means), 3),
             "std_dev_across_runs": round(statistics.stdev(indexer_means), 3),
             "cv_across_runs": round(statistics.stdev(indexer_means) / statistics.mean(indexer_means), 4),
-            "consistency_rating": "EXCELLENT" if statistics.stdev(indexer_means) / statistics.mean(indexer_means) < 0.05 else "GOOD"
-        }
+            "consistency_rating": (
+                "EXCELLENT" if statistics.stdev(indexer_means) / statistics.mean(indexer_means) < 0.05 else "GOOD"
+            ),
+        },
     }
 
     return {
         "baseline_performance": baseline_results,
         "reproducibility_analysis": reproducibility_analysis,
-        "reproducibility_runs": reproducibility_results
+        "reproducibility_runs": reproducibility_results,
     }
+
 
 async def main():
     """Main optimized validation execution."""
@@ -356,16 +374,22 @@ async def main():
         print(f"     CV:   {metrics['coefficient_of_variation']:>8.3f} (target: <0.100)")
         print(f"     Headroom: {metrics['sla_compliance']['performance_headroom_percent']:>5.1f}%")
 
-        sla = metrics['sla_compliance']
-        if sla['mean_under_target'] and sla['p95_under_target'] and sla['cv_under_10_percent']:
+        sla = metrics["sla_compliance"]
+        if sla["mean_under_target"] and sla["p95_under_target"] and sla["cv_under_10_percent"]:
             print("     ✅ T4/0.01% SLA: ACHIEVED")
         else:
             print("     ❌ T4/0.01% SLA: FAILED")
 
     print("\n🔄 REPRODUCIBILITY ANALYSIS:")
-    print(f"   Add Event CV across runs: {repro['add_event_reproducibility']['cv_across_runs']:.3f} ({repro['add_event_reproducibility']['consistency_rating']})")
-    print(f"   Query CV across runs:     {repro['query_reproducibility']['cv_across_runs']:.3f} ({repro['query_reproducibility']['consistency_rating']})")
-    print(f"   Indexer CV across runs:   {repro['indexer_reproducibility']['cv_across_runs']:.3f} ({repro['indexer_reproducibility']['consistency_rating']})")
+    print(
+        f"   Add Event CV across runs: {repro['add_event_reproducibility']['cv_across_runs']:.3f} ({repro['add_event_reproducibility']['consistency_rating']})"
+    )
+    print(
+        f"   Query CV across runs:     {repro['query_reproducibility']['cv_across_runs']:.3f} ({repro['query_reproducibility']['consistency_rating']})"
+    )
+    print(
+        f"   Indexer CV across runs:   {repro['indexer_reproducibility']['cv_across_runs']:.3f} ({repro['indexer_reproducibility']['consistency_rating']})"
+    )
 
     # Save comprehensive results
     artifacts_dir = Path("artifacts")
@@ -379,17 +403,17 @@ async def main():
             "audit_standard": "T4/0.01% Excellence",
             "auditor": "Claude Code",
             "version": "1.1.0_optimized",
-            "optimization_level": "T4_compliant"
+            "optimization_level": "T4_compliant",
         },
-        "validation_results": validation_results
+        "validation_results": validation_results,
     }
 
     report_file = artifacts_dir / f"m1_optimized_validation_{audit_id}.json"
-    with open(report_file, 'w') as f:
+    with open(report_file, "w") as f:
         json.dump(comprehensive_report, f, indent=2)
 
     # Generate evidence hash for tamper detection
-    with open(report_file, 'rb') as f:
+    with open(report_file, "rb") as f:
         content_hash = hashlib.sha256(f.read()).hexdigest()
 
     print(f"\n💾 Optimized validation report: {report_file}")
@@ -397,16 +421,13 @@ async def main():
 
     # T4/0.01% Final Verdict
     all_sla_met = all(
-        metrics['sla_compliance']['mean_under_target'] and
-        metrics['sla_compliance']['p95_under_target'] and
-        metrics['sla_compliance']['cv_under_10_percent']
+        metrics["sla_compliance"]["mean_under_target"]
+        and metrics["sla_compliance"]["p95_under_target"]
+        and metrics["sla_compliance"]["cv_under_10_percent"]
         for metrics in baseline["performance_metrics"].values()
     )
 
-    all_reproducible = all(
-        analysis['cv_across_runs'] < 0.10
-        for analysis in repro.values()
-    )
+    all_reproducible = all(analysis["cv_across_runs"] < 0.10 for analysis in repro.values())
 
     print("\n🏆 M.1 T4/0.01% EXCELLENCE VALIDATION")
     print("=" * 40)
@@ -423,6 +444,7 @@ async def main():
         print("🔧 VERDICT: M.1 REQUIRES ADDITIONAL OPTIMIZATION")
 
     return comprehensive_report
+
 
 if __name__ == "__main__":
     asyncio.run(main())

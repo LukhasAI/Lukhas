@@ -165,12 +165,8 @@ class PrivacyStatementGenerator:
         last_updated = context["last_updated"]
 
         if output_format == OutputFormat.HTML:
-            return self._gdpr_html_template(
-                org, data_types, purposes, retention_period, legal_basis, last_updated
-            )
-        return self._gdpr_plain_template(
-            org, data_types, purposes, retention_period, legal_basis, last_updated
-        )
+            return self._gdpr_html_template(org, data_types, purposes, retention_period, legal_basis, last_updated)
+        return self._gdpr_plain_template(org, data_types, purposes, retention_period, legal_basis, last_updated)
 
     def _gdpr_plain_template(
         self,
@@ -1133,12 +1129,8 @@ Email: {org.email}
         last_updated = context["last_updated"]
 
         if output_format == OutputFormat.HTML:
-            return self._lgpd_html_template(
-                org, data_types, purposes, retention_period, legal_basis, last_updated
-            )
-        return self._lgpd_plain_template(
-            org, data_types, purposes, retention_period, legal_basis, last_updated
-        )
+            return self._lgpd_html_template(org, data_types, purposes, retention_period, legal_basis, last_updated)
+        return self._lgpd_plain_template(org, data_types, purposes, retention_period, legal_basis, last_updated)
 
     def _lgpd_plain_template(
         self,

@@ -40,6 +40,7 @@ from core.common import get_logger
 try:
     from .consciousness_environment import ConsciousnessState, MatrizNode  # type: ignore
 except Exception:  # pragma: no cover - fallback
+
     @dataclass
     class ConsciousnessState:
         awareness_level: float = 0.0
@@ -82,6 +83,7 @@ class ConsciousnessActorCritic:
 
     def act(self, state: Any):
         return self.policy.sample_action(state), self.value.forward(state)
+
 
 logger = get_logger(__name__)
 

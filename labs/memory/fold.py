@@ -3,6 +3,7 @@ LUKHAS AI Memory - Fold System
 Fold-based memory with 99.7% cascade prevention
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime

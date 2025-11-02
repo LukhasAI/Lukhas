@@ -22,9 +22,7 @@ import pytest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 # Skip if Python < 3.10 (matriz requirement)
-pytestmark = pytest.mark.skipif(
-    sys.version_info < (3, 10), reason="matriz module requires Python 3.10+"
-)
+pytestmark = pytest.mark.skipif(sys.version_info < (3, 10), reason="matriz module requires Python 3.10+")
 
 try:
     from matriz.core.node_interface import (
@@ -164,9 +162,7 @@ class TestMATRIZNodeCreation:
         """Created MATRIZ node should have all required fields."""
         node = TestNode(node_name="test", capabilities=["test"])
 
-        matriz_node = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        matriz_node = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         # Required top-level fields
         assert "version" in matriz_node
@@ -180,9 +176,7 @@ class TestMATRIZNodeCreation:
         """Created node should have valid MATRIZ type."""
         node = TestNode(node_name="test", capabilities=["test"])
 
-        matriz_node = node.create_matriz_node(
-            node_type="COMPUTATION", state=NodeState(confidence=0.9, salience=0.8)
-        )
+        matriz_node = node.create_matriz_node(node_type="COMPUTATION", state=NodeState(confidence=0.9, salience=0.8))
 
         assert matriz_node["type"] == "COMPUTATION"
 
@@ -191,20 +185,14 @@ class TestMATRIZNodeCreation:
         node = TestNode(node_name="test", capabilities=["test"])
 
         with pytest.raises(ValueError, match="Invalid node type"):
-            node.create_matriz_node(
-                node_type="INVALID_TYPE", state=NodeState(confidence=0.8, salience=0.7)
-            )
+            node.create_matriz_node(node_type="INVALID_TYPE", state=NodeState(confidence=0.8, salience=0.7))
 
     def test_creates_unique_node_ids(self):
         """Each created node should have unique ID."""
         node = TestNode(node_name="test", capabilities=["test"])
 
-        node1 = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
-        node2 = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        node1 = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
+        node2 = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         assert node1["id"] != node2["id"]
 
@@ -256,9 +244,7 @@ class TestMATRIZNodeCreation:
         """Provenance should include producer path."""
         node = TestNode(node_name="test", capabilities=["testing"])
 
-        matriz_node = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        matriz_node = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         provenance = matriz_node["provenance"]
         assert "producer" in provenance
@@ -268,9 +254,7 @@ class TestMATRIZNodeCreation:
         """Provenance should include node capabilities."""
         node = TestNode(node_name="test", capabilities=["cap1", "cap2"])
 
-        matriz_node = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        matriz_node = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         assert "cap1" in matriz_node["provenance"]["capabilities"]
         assert "cap2" in matriz_node["provenance"]["capabilities"]
@@ -279,9 +263,7 @@ class TestMATRIZNodeCreation:
         """Provenance should include tenant."""
         node = TestNode(node_name="test", capabilities=["test"], tenant="tenant_123")
 
-        matriz_node = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        matriz_node = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         assert matriz_node["provenance"]["tenant"] == "tenant_123"
 
@@ -294,9 +276,7 @@ class TestNodeValidation:
         """Valid complete node should pass validation."""
         node = TestNode(node_name="test", capabilities=["test"])
 
-        matriz_node = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        matriz_node = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         assert node.validate_matriz_node(matriz_node) is True
 
@@ -399,9 +379,7 @@ class TestLinkCreation:
         """Should accept bidirectional direction."""
         node = TestNode(node_name="test", capabilities=["test"])
 
-        link = node.create_link(
-            target_node_id="test", link_type="semantic", direction="bidirectional"
-        )
+        link = node.create_link(target_node_id="test", link_type="semantic", direction="bidirectional")
 
         assert link.direction == "bidirectional"
 
@@ -441,9 +419,7 @@ class TestReflectionCreation:
         """Should create reflection with valid parameters."""
         node = TestNode(node_name="test", capabilities=["test"])
 
-        reflection = node.create_reflection(
-            reflection_type="affirmation", cause="validation_success"
-        )
+        reflection = node.create_reflection(reflection_type="affirmation", cause="validation_success")
 
         assert isinstance(reflection, NodeReflection)
         assert reflection.reflection_type == "affirmation"
@@ -604,9 +580,7 @@ class TestEdgeCases:
         """Node with empty capabilities should work."""
         node = TestNode(node_name="test", capabilities=[])
 
-        matriz_node = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        matriz_node = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         assert matriz_node["provenance"]["capabilities"] == []
 
@@ -615,9 +589,7 @@ class TestEdgeCases:
         long_name = "x" * 1000
         node = TestNode(node_name=long_name, capabilities=["test"])
 
-        matriz_node = node.create_matriz_node(
-            node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
-        )
+        matriz_node = node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         # Should not crash
         assert "id" in matriz_node

@@ -2,6 +2,7 @@
 LUKHAS Event Contracts - Typed events for professional module communication
 Replaces direct module calls with well-defined event contracts
 """
+
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field

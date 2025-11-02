@@ -5,6 +5,7 @@ Provides AI-powered clinical decision support while maintaining
 human oversight and following medical best practices. Integrated
 with LUKHAS ethical governance and safety systems.
 """
+
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional

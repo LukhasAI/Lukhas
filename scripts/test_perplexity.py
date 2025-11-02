@@ -14,23 +14,14 @@ print(f"API Key: {api_key[:10]}...{api_key[-5:]}")
 
 url = "https://api.perplexity.ai/chat/completions"
 
-headers = {
-    "Authorization": f"Bearer {api_key}",
-    "Content-Type": "application/json"
-}
+headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
 
 payload = {
     "model": "sonar",
     "messages": [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant."
-        },
-        {
-            "role": "user",
-            "content": "Hello, can you respond with just the word 'SUCCESS'?"
-        }
-    ]
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Hello, can you respond with just the word 'SUCCESS'?"},
+    ],
 }
 
 print("Sending request...")

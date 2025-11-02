@@ -8,9 +8,7 @@ from labs.governance.identity.core.auth import webauthn_manager
 
 
 def _setup_manager_with_pending():
-    manager = webauthn_manager.WebAuthnManager(
-        {"origin": "https://identity.lukhas.ai", "rp_id": "identity.lukhas.ai"}
-    )
+    manager = webauthn_manager.WebAuthnManager({"origin": "https://identity.lukhas.ai", "rp_id": "identity.lukhas.ai"})
     challenge = b"test-challenge"
     challenge_b64 = base64.urlsafe_b64encode(challenge).decode().rstrip("=")
     registration_id = "reg_test"

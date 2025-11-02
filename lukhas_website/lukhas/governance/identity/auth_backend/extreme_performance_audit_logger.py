@@ -610,6 +610,7 @@ class ExtremePerformanceAuditLogger:
     def _get_open_fn(self):
         """TEST SEAM: Returns the open function."""
         return open
+
     # ----------------------------------------------------------------
 
 

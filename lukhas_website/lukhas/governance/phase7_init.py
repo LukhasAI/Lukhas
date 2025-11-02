@@ -7,6 +7,7 @@ Phase 7 Guardian Serializers Initialization
 Initialization and status reporting for Guardian Schema Serializers.
 """
 
+
 def initialize_phase7_serializers():
     """Initialize Phase 7 Guardian Serializers with status reporting"""
     from . import (
@@ -41,6 +42,7 @@ def initialize_phase7_serializers():
     except Exception as e:
         print(f"⚠️  Governance module initialization warning: {e}")
         return False
+
 
 # Auto-initialize on import
 initialize_phase7_serializers()

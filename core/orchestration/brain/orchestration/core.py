@@ -347,7 +347,7 @@ class OrchestrationCore:
                 name=name,
                 version="1.0.0",
                 path=f"brain.orchestration.core.{name}",
-                min_tier=1  # Visitor tier for core modules
+                min_tier=1,  # Visitor tier for core modules
             )
             self.active_modules[name] = module
 

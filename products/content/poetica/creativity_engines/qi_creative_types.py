@@ -15,6 +15,7 @@ except ImportError:  # pragma: no cover - optional dependency
         async def process(self, input_data: Any) -> Any:  # pragma: no cover - minimal stub
             raise NotImplementedError("Quantum creative subsystem not available")
 
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -70,9 +71,11 @@ except ImportError:  # pragma: no cover - optional dependency
         def append(self, *_args, **_kwargs) -> None:
             self.operations.append(("append", _args, _kwargs))
 
+
 try:
     from qi.engines.creativity.creative_q_expression import CreativeQuantumLikeState
 except Exception:  # pragma: no cover - fallback for sandboxed envs
+
     @dataclass
     class CreativeQuantumLikeState:  # type: ignore[override]
         """Fallback creative quantum-like state."""
@@ -89,7 +92,6 @@ except Exception:  # pragma: no cover - fallback for sandboxed envs
                 "modality": "quantum",
                 "metadata": {"coherence_time": self.coherence_time},
             }
-
 
 
 @dataclass
@@ -221,6 +223,7 @@ class QuantumHaiku:
             "syllable_structure",
             [len(line.split()) for line in self.lines if line.strip()],
         )
+
     blockchain_hash: str
     license: str
     usage_rights: dict[str, Any]

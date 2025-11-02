@@ -1,4 +1,5 @@
 """Phase 8 bridge contract tests: ultra-targeted silencers."""
+
 from __future__ import annotations
 
 import pytest
@@ -7,12 +8,14 @@ import pytest
 def test_bridge_api_identity_exists():
     """bridge.api.identity can be imported."""
     import bridge.api.identity
+
     assert hasattr(bridge.api.identity, "__all__")
 
 
 def test_orchestration_openai_modulated_service_stub():
     """orchestration.providers.openai_modulated_service gracefully handles syntax errors."""
     import orchestration.providers.openai_modulated_service as mod
+
     # Should have __all__ even if empty (syntax error stub)
     assert hasattr(mod, "__all__")
 
@@ -20,12 +23,14 @@ def test_orchestration_openai_modulated_service_stub():
 def test_governance_guardian_system_enhanced():
     "governance.guardian_system bridge works with safe_guard + deprecate."
     import governance.guardian_system
+
     assert hasattr(governance.guardian_system, "__all__")
 
 
 def test_tools_performance_monitor_getlogger_compat():
     "tools.performance_monitor provides getLogger with compat shim."
     import tools.performance_monitor as pm
+
     assert hasattr(pm, "__all__")
     # Check if getLogger available (may or may not be exported)
     if "getLogger" in pm.__all__:
@@ -39,6 +44,7 @@ def test_tools_performance_monitor_getlogger_compat():
 def test_lukhas_cognitive_core_contradiction_integrator():
     """cognitive_core.reasoning.contradiction_integrator bridge works."""
     import cognitive_core.reasoning.contradiction_integrator as ci
+
     assert hasattr(ci, "__all__")
     # Check if ContradictionIntegrator available
     if "ContradictionIntegrator" in ci.__all__:

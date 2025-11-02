@@ -42,7 +42,7 @@ def golden_chat_headers() -> Dict[str, str]:
     return {
         "Authorization": f"Bearer {_get_auth_token()}",
         "Content-Type": "application/json",
-        "X-Tenant-ID": _get_tenant_id()
+        "X-Tenant-ID": _get_tenant_id(),
     }
 
 
@@ -56,11 +56,7 @@ def golden_embed_headers() -> Dict[str, str]:
     - X-Tenant-ID for tenant isolation
     """
     token = os.getenv("LUKHAS_AUTH_TOKEN_EMBED", "test-golden-token-embed-v1")
-    return {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
-        "X-Tenant-ID": _get_tenant_id()
-    }
+    return {"Authorization": f"Bearer {token}", "Content-Type": "application/json", "X-Tenant-ID": _get_tenant_id()}
 
 
 def golden_models_headers() -> Dict[str, str]:
@@ -73,11 +69,7 @@ def golden_models_headers() -> Dict[str, str]:
     - X-Tenant-ID for tenant isolation
     """
     token = os.getenv("LUKHAS_AUTH_TOKEN_MODELS", "test-golden-token-models-v1")
-    return {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
-        "X-Tenant-ID": _get_tenant_id()
-    }
+    return {"Authorization": f"Bearer {token}", "Content-Type": "application/json", "X-Tenant-ID": _get_tenant_id()}
 
 
 def golden_admin_headers() -> Dict[str, str]:
@@ -90,11 +82,7 @@ def golden_admin_headers() -> Dict[str, str]:
     - X-Admin-Request marker
     """
     token = os.getenv("LUKHAS_AUTH_TOKEN_ADMIN", "test-golden-token-admin-v1")
-    return {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
-        "X-Admin-Request": "true"
-    }
+    return {"Authorization": f"Bearer {token}", "Content-Type": "application/json", "X-Admin-Request": "true"}
 
 
 # Pytest fixtures (if using pytest)
@@ -160,28 +148,16 @@ def is_test_environment() -> bool:
 
     # Check if pytest is running
     import sys
+
     return "pytest" in sys.modules
 
 
 # Token scopes reference (for documentation)
 TOKEN_SCOPES = {
-    "chat": [
-        "chat.completions.create",
-        "chat.completions.read"
-    ],
-    "embeddings": [
-        "embeddings.create",
-        "embeddings.read"
-    ],
-    "models": [
-        "models.list",
-        "models.read"
-    ],
-    "admin": [
-        "admin.*",
-        "tenant.manage",
-        "quota.manage"
-    ]
+    "chat": ["chat.completions.create", "chat.completions.read"],
+    "embeddings": ["embeddings.create", "embeddings.read"],
+    "models": ["models.list", "models.read"],
+    "admin": ["admin.*", "tenant.manage", "quota.manage"],
 }
 
 

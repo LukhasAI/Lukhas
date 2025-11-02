@@ -1,4 +1,5 @@
 """Bridge: core.business (products/experience integration points)."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates

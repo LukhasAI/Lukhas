@@ -62,9 +62,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     # NIAS filtering for ad permissions
     from core.interfaces.as_agent.core.nias_filter import evaluate_ad_permission
 
-    vendor_name = (
-        context_data.get("vendor") if context_data else props.get("example_vendor")
-    )
+    vendor_name = context_data.get("vendor") if context_data else props.get("example_vendor")
     ad_result = evaluate_ad_permission(widget_type, vendor_name, user_tier)
 
     required_tier = props.get("required_tier", 0)
@@ -80,9 +78,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
         "title": f"{widget_type.capitalize()} Assistant",
         "cta": "Tap to confirm" if user_tier >= 4 else "Preview only",
         "vendor": vendor_name,
-        "price": (
-            context_data.get("price") if context_data else props.get("token_cost")
-        ),
+        "price": (context_data.get("price") if context_data else props.get("token_cost")),
         "ethics_score": " 92%" if props.get("ethics_scored") else None,
         "action": "launch_widget_flow",
         "nias": ad_result,  # Include NIAS ad permissions

@@ -11,10 +11,11 @@ import re
 from pathlib import Path
 
 # Old Trinity pattern
-TRINITY_PATTERN = r'(Identity\s*⚛️\s*\+\s*Consciousness\s*🧠\s*\+\s*Guardian\s*🛡️|⚛️\s*Identity\s*\+\s*🧠\s*Consciousness\s*\+\s*🛡️\s*Guardian)'
+TRINITY_PATTERN = r"(Identity\s*⚛️\s*\+\s*Consciousness\s*🧠\s*\+\s*Guardian\s*🛡️|⚛️\s*Identity\s*\+\s*🧠\s*Consciousness\s*\+\s*🛡️\s*Guardian)"
 
 # Replacement text (inline, compact format)
 CONSTELLATION_8_INLINE = "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"
+
 
 def main():
     root = Path.cwd()
@@ -41,5 +42,6 @@ def main():
 
     print(f"\n📊 Updated {count} files")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

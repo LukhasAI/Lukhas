@@ -8,6 +8,7 @@ Validates:
 - Error format consistency (OpenAI-compatible)
 - Graceful degradation
 """
+
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
@@ -30,41 +31,25 @@ def auth_headers():
 # 400 Bad Request Tests
 def test_400_missing_required_field_responses(client, auth_headers):
     """Verify 400 when required field missing in /v1/responses."""
-    response = client.post(
-        "/v1/responses",
-        json={},  # Missing 'input'
-        headers=auth_headers
-    )
+    response = client.post("/v1/responses", json={}, headers=auth_headers)  # Missing 'input'
     assert response.status_code == 400
 
 
 def test_400_empty_input_responses(client, auth_headers):
     """Verify 400 when input is empty string."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": ""},
-        headers=auth_headers
-    )
+    response = client.post("/v1/responses", json={"input": ""}, headers=auth_headers)
     assert response.status_code == 400
 
 
 def test_400_missing_input_embeddings(client, auth_headers):
     """Verify 400 when input missing in /v1/embeddings."""
-    response = client.post(
-        "/v1/embeddings",
-        json={},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={}, headers=auth_headers)
     assert response.status_code == 400
 
 
 def test_400_empty_input_embeddings(client, auth_headers):
     """Verify 400 when embeddings input is empty."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": ""},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": ""}, headers=auth_headers)
     assert response.status_code == 400
 
 
@@ -77,28 +62,19 @@ def test_401_missing_auth_header(client):
 
 def test_401_malformed_auth_header(client):
     """Verify 401 when Authorization header malformed."""
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "NotBearer token"}
-    )
+    response = client.get("/v1/models", headers={"Authorization": "NotBearer token"})
     assert response.status_code == 401
 
 
 def test_401_empty_bearer_token(client):
     """Verify 401 when Bearer token is empty."""
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer "}
-    )
+    response = client.get("/v1/models", headers={"Authorization": "Bearer "})
     assert response.status_code == 401
 
 
 def test_401_short_token(client):
     """Verify 401 when token too short (< 8 chars)."""
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer abc"}
-    )
+    response = client.get("/v1/models", headers={"Authorization": "Bearer abc"})
     assert response.status_code == 401
 
 
@@ -121,21 +97,14 @@ def test_401_error_format_openai_compatible(client):
 # 404 Not Found Tests
 def test_404_invalid_endpoint(client, auth_headers):
     """Verify 404 for non-existent endpoints."""
-    response = client.get(
-        "/v1/nonexistent",
-        headers=auth_headers
-    )
+    response = client.get("/v1/nonexistent", headers=auth_headers)
     assert response.status_code == 404
 
 
 def test_404_wrong_method(client, auth_headers):
     """Verify 405 Method Not Allowed for wrong HTTP method."""
     # /v1/models expects GET, not POST
-    response = client.post(
-        "/v1/models",
-        json={},
-        headers=auth_headers
-    )
+    response = client.post("/v1/models", json={}, headers=auth_headers)
     assert response.status_code == 405
 
 
@@ -143,11 +112,7 @@ def test_404_wrong_method(client, auth_headers):
 def test_error_messages_are_actionable(client, auth_headers):
     """Verify error messages provide actionable guidance."""
     # Missing input
-    response = client.post(
-        "/v1/responses",
-        json={},
-        headers=auth_headers
-    )
+    response = client.post("/v1/responses", json={}, headers=auth_headers)
     assert response.status_code == 400
 
     # Error should indicate what's wrong
@@ -158,10 +123,7 @@ def test_error_messages_are_actionable(client, auth_headers):
 def test_error_messages_no_sensitive_data(client):
     """Verify error messages don't leak sensitive data."""
     # Try with invalid token
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer supersecrettoken123"}
-    )
+    response = client.get("/v1/models", headers={"Authorization": "Bearer supersecrettoken123"})
     assert response.status_code in [200, 401]  # 200 if token valid, 401 if not
 
     # Response should not echo the token
@@ -173,11 +135,7 @@ def test_error_messages_no_sensitive_data(client):
 def test_graceful_degradation_matriz_unavailable(client, auth_headers):
     """Verify graceful degradation when MATRIZ unavailable."""
     # Should still work in stub mode
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test when MATRIZ down"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/responses", json={"input": "test when MATRIZ down"}, headers=auth_headers)
 
     # Should return 200 (stub mode) not 500
     assert response.status_code == 200
@@ -190,11 +148,7 @@ def test_graceful_degradation_matriz_unavailable(client, auth_headers):
 def test_graceful_degradation_memory_unavailable(client, auth_headers):
     """Verify graceful degradation when memory system unavailable."""
     # Embeddings should still work in stub mode
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": "test when memory down"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/embeddings", json={"input": "test when memory down"}, headers=auth_headers)
 
     # Should return 200 (stub mode) not 500
     assert response.status_code == 200
@@ -271,8 +225,7 @@ def test_status_codes_never_return_5xx_for_valid_requests(client, auth_headers):
             response = client.post(path, json=json_data, headers=auth_headers)
 
         # Should never be 5xx for valid requests
-        assert response.status_code < 500, \
-            f"{method} {path} returned {response.status_code}"
+        assert response.status_code < 500, f"{method} {path} returned {response.status_code}"
 
 
 # Timeout Handling Tests
@@ -292,19 +245,11 @@ def test_no_timeout_on_quick_requests(client, auth_headers):
 def test_error_recovery_after_bad_request(client, auth_headers):
     """Verify service recovers after bad requests."""
     # Make a bad request
-    bad_response = client.post(
-        "/v1/responses",
-        json={},  # Missing input
-        headers=auth_headers
-    )
+    bad_response = client.post("/v1/responses", json={}, headers=auth_headers)  # Missing input
     assert bad_response.status_code == 400
 
     # Subsequent good request should work
-    good_response = client.post(
-        "/v1/responses",
-        json={"input": "test"},
-        headers=auth_headers
-    )
+    good_response = client.post("/v1/responses", json={"input": "test"}, headers=auth_headers)
     assert good_response.status_code == 200
 
 

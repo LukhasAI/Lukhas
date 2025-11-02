@@ -8,6 +8,7 @@ Usage:
   python -m matriz.demo.router   # runs demo with fixtures
   pytest -k router -q
 """
+
 import queue
 from typing import Callable, Dict
 
@@ -32,5 +33,6 @@ class SymbolicMeshRouter:
     def start(self):
         self.running = True
         self.log("router.start", {})
+
 
 # Later, flip a DISPATCH_ENABLED feature flag to actually call node.handle(msg) per topic. Start in log-only to observe traffic safely.

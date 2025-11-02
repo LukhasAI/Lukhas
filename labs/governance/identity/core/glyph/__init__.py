@@ -4,6 +4,7 @@ LUKHAS GLYPH Pipeline
 Complete GLYPH (QRGlyph) generation pipeline with steganographic embedding,
 identity integration, and quantum-enhanced security.
 """
+
 import streamlit as st
 
 from .distributed_glyph_generation import (

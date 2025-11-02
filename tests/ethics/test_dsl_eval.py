@@ -321,7 +321,7 @@ class TestEthicsEngine:
                 rule_dsl='equals(action, "delete_user_data")',
                 action=EthicsAction.BLOCK,
                 priority=Priority.CRITICAL,
-                tags={"security"}
+                tags={"security"},
             ),
             EthicsRule(
                 name="warn_external",
@@ -329,16 +329,16 @@ class TestEthicsEngine:
                 rule_dsl='equals(action, "external_call")',
                 action=EthicsAction.WARN,
                 priority=Priority.MEDIUM,
-                tags={"audit"}
+                tags={"audit"},
             ),
             EthicsRule(
                 name="block_excessive_memory",
                 description="Block excessive memory usage",
-                rule_dsl='greater_than(params.estimated_memory_mb, 1024)',
+                rule_dsl="greater_than(params.estimated_memory_mb, 1024)",
                 action=EthicsAction.BLOCK,
                 priority=Priority.HIGH,
-                tags={"resources"}
-            )
+                tags={"resources"},
+            ),
         ]
 
         self.rule_set = RuleSet(self.test_rules)
@@ -382,10 +382,7 @@ class TestEthicsEngine:
 
     def test_priority_lattice_block_wins(self):
         """Test that BLOCK action wins over WARN in priority lattice."""
-        plan = {
-            "action": "external_call",
-            "params": {"estimated_memory_mb": 2048}
-        }
+        plan = {"action": "external_call", "params": {"estimated_memory_mb": 2048}}
         result = self.engine.evaluate_plan(plan)
 
         assert result.action == EthicsAction.BLOCK  # BLOCK wins over WARN
@@ -445,7 +442,7 @@ class TestDeterminismAndPerformance:
                 rule_dsl='and(equals(action, "test"), contains(params.data, "value"))',
                 action=EthicsAction.WARN,
                 priority=Priority.MEDIUM,
-                tags={"test"}
+                tags={"test"},
             )
         ]
         self.engine = EthicsEngine(RuleSet(rules))
@@ -459,11 +456,7 @@ class TestDeterminismAndPerformance:
         results = []
         for _ in range(10):
             result = self.engine.evaluate_plan(plan, context)
-            results.append((
-                result.action,
-                tuple(r.name for r in result.triggered_rules),
-                tuple(result.reasons)
-            ))
+            results.append((result.action, tuple(r.name for r in result.triggered_rules), tuple(result.reasons)))
 
         # All results should be identical
         assert len(set(results)) == 1
@@ -514,12 +507,11 @@ class TestRuleSetOperations:
     def setup_method(self):
         """Set up test rule set."""
         self.rules = [
-            EthicsRule("rule1", "desc1", "equals(action, 'test')",
-                      EthicsAction.BLOCK, Priority.CRITICAL, {"security"}),
-            EthicsRule("rule2", "desc2", "equals(action, 'test')",
-                      EthicsAction.WARN, Priority.MEDIUM, {"audit"}),
-            EthicsRule("rule3", "desc3", "equals(action, 'test')",
-                      EthicsAction.BLOCK, Priority.HIGH, {"security", "resources"})
+            EthicsRule("rule1", "desc1", "equals(action, 'test')", EthicsAction.BLOCK, Priority.CRITICAL, {"security"}),
+            EthicsRule("rule2", "desc2", "equals(action, 'test')", EthicsAction.WARN, Priority.MEDIUM, {"audit"}),
+            EthicsRule(
+                "rule3", "desc3", "equals(action, 'test')", EthicsAction.BLOCK, Priority.HIGH, {"security", "resources"}
+            ),
         ]
         self.rule_set = RuleSet(self.rules)
 
@@ -571,7 +563,7 @@ class TestRealWorldScenarios:
                 rule_dsl='or(equals(action, "delete_user_data"), equals(action, "access_private_info"))',
                 action=EthicsAction.BLOCK,
                 priority=Priority.CRITICAL,
-                tags={"security", "privacy"}
+                tags={"security", "privacy"},
             ),
             EthicsRule(
                 name="warn_external_calls",
@@ -579,16 +571,16 @@ class TestRealWorldScenarios:
                 rule_dsl='equals(action, "external_call")',
                 action=EthicsAction.WARN,
                 priority=Priority.MEDIUM,
-                tags={"audit", "external"}
+                tags={"audit", "external"},
             ),
             EthicsRule(
                 name="block_excessive_resources",
                 description="Block excessive resource usage",
-                rule_dsl='greater_than(params.estimated_memory_mb, 1024)',
+                rule_dsl="greater_than(params.estimated_memory_mb, 1024)",
                 action=EthicsAction.BLOCK,
                 priority=Priority.HIGH,
-                tags={"resources"}
-            )
+                tags={"resources"},
+            ),
         ]
 
         self.engine = EthicsEngine(RuleSet(default_rules))
@@ -600,8 +592,8 @@ class TestRealWorldScenarios:
             "params": {
                 "url": "https://api.openai.com/v1/chat/completions",
                 "method": "POST",
-                "estimated_memory_mb": 64
-            }
+                "estimated_memory_mb": 64,
+            },
         }
 
         result = self.engine.evaluate_plan(plan)
@@ -610,10 +602,7 @@ class TestRealWorldScenarios:
 
     def test_harmful_action_blocked(self):
         """Test that harmful actions are blocked."""
-        plan = {
-            "action": "delete_user_data",
-            "params": {"user_id": "victim_user"}
-        }
+        plan = {"action": "delete_user_data", "params": {"user_id": "victim_user"}}
 
         result = self.engine.evaluate_plan(plan)
         assert result.action == EthicsAction.BLOCK
@@ -623,10 +612,7 @@ class TestRealWorldScenarios:
         """Test resource limit enforcement."""
         plan = {
             "action": "batch_process",
-            "params": {
-                "batch_size": 500,
-                "estimated_memory_mb": 2048  # Exceeds 1024MB limit
-            }
+            "params": {"batch_size": 500, "estimated_memory_mb": 2048},  # Exceeds 1024MB limit
         }
 
         result = self.engine.evaluate_plan(plan)
@@ -637,10 +623,7 @@ class TestRealWorldScenarios:
         """Test priority lattice with multiple violations."""
         plan = {
             "action": "external_call",  # Triggers WARN
-            "params": {
-                "url": "https://api.example.com",
-                "estimated_memory_mb": 2048  # Triggers BLOCK
-            }
+            "params": {"url": "https://api.example.com", "estimated_memory_mb": 2048},  # Triggers BLOCK
         }
 
         result = self.engine.evaluate_plan(plan)
@@ -710,7 +693,7 @@ class TestProductionHardening:
                 rule_dsl='equals(action, "test")',
                 action=EthicsAction.BLOCK,
                 priority=Priority.CRITICAL,
-                tags={"test"}
+                tags={"test"},
             )
         ]
 
@@ -720,9 +703,9 @@ class TestProductionHardening:
         result = engine.evaluate_plan(plan)
 
         # Verify enhanced fields
-        assert hasattr(result, 'facts_hash')
-        assert hasattr(result, 'triggered_rule_ids')
-        assert hasattr(result, 'reason_codes')
+        assert hasattr(result, "facts_hash")
+        assert hasattr(result, "triggered_rule_ids")
+        assert hasattr(result, "reason_codes")
 
         assert result.facts_hash is not None
         assert result.triggered_rule_ids == ["test_rule"]
@@ -740,7 +723,7 @@ class TestProductionHardening:
                 rule_dsl='equals(action, "concurrent")',
                 action=EthicsAction.WARN,
                 priority=Priority.MEDIUM,
-                tags={"test"}
+                tags={"test"},
             )
         ]
 
@@ -776,15 +759,9 @@ class TestProductionHardening:
 
     def test_ruleset_hash_stability(self):
         """Test that ruleset hash is stable and changes with rule modifications."""
-        rules1 = [
-            EthicsRule("rule1", "desc1", 'equals(action, "test")', EthicsAction.BLOCK, Priority.HIGH, {"test"})
-        ]
-        rules2 = [
-            EthicsRule("rule1", "desc1", 'equals(action, "test")', EthicsAction.BLOCK, Priority.HIGH, {"test"})
-        ]
-        rules3 = [
-            EthicsRule("rule1", "desc1", 'equals(action, "other")', EthicsAction.BLOCK, Priority.HIGH, {"test"})
-        ]
+        rules1 = [EthicsRule("rule1", "desc1", 'equals(action, "test")', EthicsAction.BLOCK, Priority.HIGH, {"test"})]
+        rules2 = [EthicsRule("rule1", "desc1", 'equals(action, "test")', EthicsAction.BLOCK, Priority.HIGH, {"test"})]
+        rules3 = [EthicsRule("rule1", "desc1", 'equals(action, "other")', EthicsAction.BLOCK, Priority.HIGH, {"test"})]
 
         ruleset1 = RuleSet(rules1)
         ruleset2 = RuleSet(rules2)
@@ -807,7 +784,7 @@ class TestProductionHardening:
         assert rule(plan) is False
 
         # Test not_has_consent predicate compilation
-        rule = compile_rule('not_has_consent(params.consent)')
+        rule = compile_rule("not_has_consent(params.consent)")
         plan = {"action": "process", "params": {"consent": False}}
         assert rule(plan) is True
 

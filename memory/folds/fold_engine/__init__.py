@@ -1,4 +1,5 @@
 """Bridge: memory.folds.fold_engine"""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates

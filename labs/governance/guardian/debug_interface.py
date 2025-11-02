@@ -880,7 +880,9 @@ class DebugInterface:
 
         # Update guardian debug state (🛡️)
         guardian_components = [name for name in self.registered_components if "guardian" in name.lower()]
-        self.constellation_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
+        self.constellation_debug_state["guardian"]["protection_status"] = {
+            comp: "protected" for comp in guardian_components
+        }
 
 
 # Export main classes

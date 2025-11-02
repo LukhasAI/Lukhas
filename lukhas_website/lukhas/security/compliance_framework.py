@@ -33,8 +33,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
+
 class ComplianceStandard(Enum):
     """Supported compliance standards."""
+
     SOC2_TYPE2 = "soc2_type2"
     ISO27001 = "iso27001"
     NIST_CSF = "nist_csf"
@@ -43,23 +45,29 @@ class ComplianceStandard(Enum):
     HIPAA = "hipaa"
     PCI_DSS = "pci_dss"
 
+
 class ControlStatus(Enum):
     """Control implementation status."""
+
     NOT_IMPLEMENTED = "not_implemented"
     PARTIALLY_IMPLEMENTED = "partially_implemented"
     IMPLEMENTED = "implemented"
     VERIFIED = "verified"
     NON_COMPLIANT = "non_compliant"
 
+
 class RiskLevel(Enum):
     """Risk assessment levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
 
+
 class EvidenceType(Enum):
     """Types of compliance evidence."""
+
     POLICY_DOCUMENT = "policy_document"
     PROCEDURE = "procedure"
     LOG_FILE = "log_file"
@@ -70,9 +78,11 @@ class EvidenceType(Enum):
     SCREENSHOT = "screenshot"
     CERTIFICATE = "certificate"
 
+
 @dataclass
 class ComplianceControl:
     """Individual compliance control definition."""
+
     id: str
     name: str
     description: str
@@ -90,9 +100,11 @@ class ComplianceControl:
     next_test_due: Optional[datetime] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ComplianceEvidence:
     """Evidence for compliance control."""
+
     id: str
     control_id: str
     type: EvidenceType
@@ -107,9 +119,11 @@ class ComplianceEvidence:
     valid_until: Optional[datetime] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ComplianceAssessment:
     """Compliance assessment result."""
+
     id: str
     control_id: str
     assessment_type: str  # "automated", "manual", "walkthrough"
@@ -123,9 +137,11 @@ class ComplianceAssessment:
     confidence_score: float = 1.0
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class RiskAssessment:
     """Risk assessment for compliance."""
+
     id: str
     title: str
     description: str
@@ -141,9 +157,11 @@ class RiskAssessment:
     review_date: Optional[datetime] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ComplianceReport:
     """Compliance status report."""
+
     id: str
     standard: ComplianceStandard
     reporting_period: Tuple[datetime, datetime]
@@ -157,12 +175,11 @@ class ComplianceReport:
     generated_by: Optional[str] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class ComplianceFramework:
     """Comprehensive compliance management system."""
 
-    def __init__(self,
-                 evidence_path: str = "./compliance_evidence",
-                 guardian_integration: bool = True):
+    def __init__(self, evidence_path: str = "./compliance_evidence", guardian_integration: bool = True):
 
         self.evidence_path = evidence_path
         self.guardian_integration = guardian_integration
@@ -218,16 +235,16 @@ class ComplianceFramework:
                 requirements=[
                     "Code of conduct established and communicated",
                     "Management demonstrates integrity and ethical values",
-                    "Policies for conflicts of interest exist"
+                    "Policies for conflicts of interest exist",
                 ],
                 implementation_guidance="Establish and communicate code of conduct, demonstrate leadership commitment",
                 testing_procedures=[
                     "Review code of conduct documentation",
                     "Interview management about ethics policies",
-                    "Test communication of ethical standards"
+                    "Test communication of ethical standards",
                 ],
                 automation_possible=False,
-                frequency="annual"
+                frequency="annual",
             ),
             ComplianceControl(
                 id="CC2.1",
@@ -238,16 +255,16 @@ class ComplianceFramework:
                 requirements=[
                     "Information systems support control activities",
                     "Information quality is maintained",
-                    "Communication channels are established"
+                    "Communication channels are established",
                 ],
                 implementation_guidance="Implement information systems that support control objectives",
                 testing_procedures=[
                     "Review information system architecture",
                     "Test data quality controls",
-                    "Verify communication processes"
+                    "Verify communication processes",
                 ],
                 automation_possible=True,
-                frequency="quarterly"
+                frequency="quarterly",
             ),
             ComplianceControl(
                 id="CC6.1",
@@ -259,17 +276,17 @@ class ComplianceFramework:
                     "User access provisioning and deprovisioning",
                     "Strong authentication mechanisms",
                     "Access review processes",
-                    "Physical access controls"
+                    "Physical access controls",
                 ],
                 implementation_guidance="Implement comprehensive access control system with RBAC",
                 testing_procedures=[
                     "Test user provisioning process",
                     "Review access control configurations",
                     "Test authentication mechanisms",
-                    "Validate access reviews"
+                    "Validate access reviews",
                 ],
                 automation_possible=True,
-                frequency="monthly"
+                frequency="monthly",
             ),
             ComplianceControl(
                 id="CC7.1",
@@ -281,17 +298,17 @@ class ComplianceFramework:
                     "Capacity monitoring and management",
                     "Performance monitoring",
                     "Incident response procedures",
-                    "Change management processes"
+                    "Change management processes",
                 ],
                 implementation_guidance="Implement comprehensive system monitoring and management",
                 testing_procedures=[
                     "Review monitoring configurations",
                     "Test incident response procedures",
-                    "Validate change management process"
+                    "Validate change management process",
                 ],
                 automation_possible=True,
-                frequency="monthly"
-            )
+                frequency="monthly",
+            ),
         ]
 
         for control in soc2_controls:
@@ -310,16 +327,16 @@ class ComplianceFramework:
                     "Information security policy documented",
                     "Policy approved by management",
                     "Policy communicated to all personnel",
-                    "Policy reviewed regularly"
+                    "Policy reviewed regularly",
                 ],
                 implementation_guidance="Develop comprehensive information security policy",
                 testing_procedures=[
                     "Review policy documentation",
                     "Verify management approval",
-                    "Test policy communication"
+                    "Test policy communication",
                 ],
                 automation_possible=False,
-                frequency="annual"
+                frequency="annual",
             ),
             ComplianceControl(
                 id="A.9.1.1",
@@ -331,16 +348,16 @@ class ComplianceFramework:
                     "Access control policy documented",
                     "Role-based access controls implemented",
                     "Regular access reviews conducted",
-                    "Privileged access managed"
+                    "Privileged access managed",
                 ],
                 implementation_guidance="Implement comprehensive access control framework",
                 testing_procedures=[
                     "Review access control policies",
                     "Test RBAC implementation",
-                    "Validate access review process"
+                    "Validate access review process",
                 ],
                 automation_possible=True,
-                frequency="monthly"
+                frequency="monthly",
             ),
             ComplianceControl(
                 id="A.12.6.1",
@@ -352,17 +369,17 @@ class ComplianceFramework:
                     "Vulnerability management process established",
                     "Regular vulnerability assessments conducted",
                     "Patches and updates managed",
-                    "Vulnerability remediation tracking"
+                    "Vulnerability remediation tracking",
                 ],
                 implementation_guidance="Implement comprehensive vulnerability management program",
                 testing_procedures=[
                     "Review vulnerability management process",
                     "Test vulnerability scanning procedures",
-                    "Validate patch management process"
+                    "Validate patch management process",
                 ],
                 automation_possible=True,
-                frequency="monthly"
-            )
+                frequency="monthly",
+            ),
         ]
 
         for control in iso27001_controls:
@@ -381,16 +398,16 @@ class ComplianceFramework:
                     "Hardware asset inventory maintained",
                     "Software asset inventory maintained",
                     "Asset criticality classification",
-                    "Asset ownership documented"
+                    "Asset ownership documented",
                 ],
                 implementation_guidance="Maintain comprehensive asset inventory with automated discovery",
                 testing_procedures=[
                     "Review asset inventory completeness",
                     "Test automated discovery tools",
-                    "Validate asset classifications"
+                    "Validate asset classifications",
                 ],
                 automation_possible=True,
-                frequency="monthly"
+                frequency="monthly",
             ),
             ComplianceControl(
                 id="PR.AC-1",
@@ -402,16 +419,16 @@ class ComplianceFramework:
                     "Identity lifecycle management",
                     "Credential management processes",
                     "Multi-factor authentication",
-                    "Privileged account management"
+                    "Privileged account management",
                 ],
                 implementation_guidance="Implement comprehensive identity and access management",
                 testing_procedures=[
                     "Test identity provisioning process",
                     "Validate credential management",
-                    "Review MFA implementation"
+                    "Review MFA implementation",
                 ],
                 automation_possible=True,
-                frequency="monthly"
+                frequency="monthly",
             ),
             ComplianceControl(
                 id="DE.CM-1",
@@ -423,17 +440,17 @@ class ComplianceFramework:
                     "Network monitoring implemented",
                     "Security event correlation",
                     "Threat intelligence integration",
-                    "Baseline behavior established"
+                    "Baseline behavior established",
                 ],
                 implementation_guidance="Deploy comprehensive security monitoring and SIEM",
                 testing_procedures=[
                     "Test monitoring coverage",
                     "Validate event correlation",
-                    "Review threat intelligence feeds"
+                    "Review threat intelligence feeds",
                 ],
                 automation_possible=True,
-                frequency="continuous"
-            )
+                frequency="continuous",
+            ),
         ]
 
         for control in nist_controls:
@@ -452,16 +469,16 @@ class ComplianceFramework:
                     "Lawful basis documented for each processing activity",
                     "Consent mechanisms implemented",
                     "Consent withdrawal capabilities",
-                    "Processing records maintained"
+                    "Processing records maintained",
                 ],
                 implementation_guidance="Implement comprehensive consent management system",
                 testing_procedures=[
                     "Review consent collection mechanisms",
                     "Test consent withdrawal process",
-                    "Validate processing records"
+                    "Validate processing records",
                 ],
                 automation_possible=True,
-                frequency="monthly"
+                frequency="monthly",
             ),
             ComplianceControl(
                 id="GDPR.25",
@@ -473,16 +490,16 @@ class ComplianceFramework:
                     "Privacy impact assessments conducted",
                     "Data minimization implemented",
                     "Purpose limitation enforced",
-                    "Privacy-enhancing technologies used"
+                    "Privacy-enhancing technologies used",
                 ],
                 implementation_guidance="Integrate privacy controls into system design",
                 testing_procedures=[
                     "Review privacy impact assessments",
                     "Test data minimization controls",
-                    "Validate purpose limitation"
+                    "Validate purpose limitation",
                 ],
                 automation_possible=True,
-                frequency="quarterly"
+                frequency="quarterly",
             ),
             ComplianceControl(
                 id="GDPR.32",
@@ -494,17 +511,17 @@ class ComplianceFramework:
                     "Encryption of personal data",
                     "Integrity and confidentiality measures",
                     "Availability and resilience controls",
-                    "Regular security testing"
+                    "Regular security testing",
                 ],
                 implementation_guidance="Implement comprehensive data security measures",
                 testing_procedures=[
                     "Test encryption implementation",
                     "Validate integrity controls",
-                    "Review security testing results"
+                    "Review security testing results",
                 ],
                 automation_possible=True,
-                frequency="monthly"
-            )
+                frequency="monthly",
+            ),
         ]
 
         for control in gdpr_controls:
@@ -515,10 +532,9 @@ class ComplianceFramework:
         self.automation_handlers[control_id] = handler
         logger.info(f"Registered automation handler for control {control_id}")
 
-    def assess_control(self,
-                      control_id: str,
-                      assessment_type: str = "automated",
-                      assessor: Optional[str] = None) -> ComplianceAssessment:
+    def assess_control(
+        self, control_id: str, assessment_type: str = "automated", assessor: Optional[str] = None
+    ) -> ComplianceAssessment:
         """
         Assess compliance control implementation.
 
@@ -611,10 +627,12 @@ class ComplianceFramework:
             recommendations=recommendations,
             assessed_by="automation_system",
             confidence_score=confidence,
-            metadata=metadata
+            metadata=metadata,
         )
 
-    def _run_manual_assessment(self, control: ComplianceControl, assessment_id: str, assessor: Optional[str]) -> ComplianceAssessment:
+    def _run_manual_assessment(
+        self, control: ComplianceControl, assessment_id: str, assessor: Optional[str]
+    ) -> ComplianceAssessment:
         """Run manual control assessment (placeholder)."""
         # In a real implementation, this would integrate with assessment workflows
         # For now, return a placeholder result
@@ -628,18 +646,20 @@ class ComplianceFramework:
             recommendations=["Complete manual assessment procedures"],
             assessed_by=assessor or "manual_assessor",
             confidence_score=0.7,
-            metadata={"manual_assessment": True}
+            metadata={"manual_assessment": True},
         )
 
-    def collect_evidence(self,
-                        control_id: str,
-                        evidence_type: EvidenceType,
-                        title: str,
-                        description: str,
-                        file_path: Optional[str] = None,
-                        content: Optional[str] = None,
-                        url: Optional[str] = None,
-                        collector: Optional[str] = None) -> str:
+    def collect_evidence(
+        self,
+        control_id: str,
+        evidence_type: EvidenceType,
+        title: str,
+        description: str,
+        file_path: Optional[str] = None,
+        content: Optional[str] = None,
+        url: Optional[str] = None,
+        collector: Optional[str] = None,
+    ) -> str:
         """
         Collect compliance evidence for a control.
 
@@ -661,7 +681,7 @@ class ComplianceFramework:
         # Calculate hash if file provided
         file_hash = None
         if file_path and os.path.exists(file_path):
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 file_hash = hashlib.sha256(f.read()).hexdigest()
 
         # Create evidence record
@@ -675,7 +695,7 @@ class ComplianceFramework:
             url=url,
             content=content,
             hash_sha256=file_hash,
-            collected_by=collector
+            collected_by=collector,
         )
 
         self.evidence[evidence_id] = evidence
@@ -683,13 +703,15 @@ class ComplianceFramework:
         logger.info(f"Evidence collected for {control_id}: {title}")
         return evidence_id
 
-    def run_risk_assessment(self,
-                          title: str,
-                          description: str,
-                          risk_category: str,
-                          likelihood: RiskLevel,
-                          impact: RiskLevel,
-                          assessor: Optional[str] = None) -> str:
+    def run_risk_assessment(
+        self,
+        title: str,
+        description: str,
+        risk_category: str,
+        likelihood: RiskLevel,
+        impact: RiskLevel,
+        assessor: Optional[str] = None,
+    ) -> str:
         """
         Run risk assessment.
 
@@ -740,7 +762,7 @@ class ComplianceFramework:
             impact=impact,
             inherent_risk=inherent_risk,
             residual_risk=residual_risk,
-            risk_owner=assessor
+            risk_owner=assessor,
         )
 
         self.risk_assessments[risk_id] = risk_assessment
@@ -748,11 +770,13 @@ class ComplianceFramework:
         logger.info(f"Risk assessment completed: {title} - {inherent_risk.value} risk")
         return risk_id
 
-    def generate_compliance_report(self,
-                                 standard: ComplianceStandard,
-                                 start_date: Optional[datetime] = None,
-                                 end_date: Optional[datetime] = None,
-                                 generator: Optional[str] = None) -> ComplianceReport:
+    def generate_compliance_report(
+        self,
+        standard: ComplianceStandard,
+        start_date: Optional[datetime] = None,
+        end_date: Optional[datetime] = None,
+        generator: Optional[str] = None,
+    ) -> ComplianceReport:
         """
         Generate compliance status report.
 
@@ -780,13 +804,17 @@ class ComplianceFramework:
             "total": len(standard_controls),
             "implemented": len([c for c in standard_controls if c.status == ControlStatus.IMPLEMENTED]),
             "verified": len([c for c in standard_controls if c.status == ControlStatus.VERIFIED]),
-            "partially_implemented": len([c for c in standard_controls if c.status == ControlStatus.PARTIALLY_IMPLEMENTED]),
+            "partially_implemented": len(
+                [c for c in standard_controls if c.status == ControlStatus.PARTIALLY_IMPLEMENTED]
+            ),
             "not_implemented": len([c for c in standard_controls if c.status == ControlStatus.NOT_IMPLEMENTED]),
-            "non_compliant": len([c for c in standard_controls if c.status == ControlStatus.NON_COMPLIANT])
+            "non_compliant": len([c for c in standard_controls if c.status == ControlStatus.NON_COMPLIANT]),
         }
 
         # Calculate overall status
-        compliance_percentage = (controls_summary["implemented"] + controls_summary["verified"]) / controls_summary["total"]
+        compliance_percentage = (controls_summary["implemented"] + controls_summary["verified"]) / controls_summary[
+            "total"
+        ]
 
         if compliance_percentage >= 0.95:
             overall_status = "Fully Compliant"
@@ -815,12 +843,11 @@ class ComplianceFramework:
             "low": len([r for r in all_risks if r.residual_risk == RiskLevel.LOW]),
             "medium": len([r for r in all_risks if r.residual_risk == RiskLevel.MEDIUM]),
             "high": len([r for r in all_risks if r.residual_risk == RiskLevel.HIGH]),
-            "critical": len([r for r in all_risks if r.residual_risk == RiskLevel.CRITICAL])
+            "critical": len([r for r in all_risks if r.residual_risk == RiskLevel.CRITICAL]),
         }
 
         # Evidence count
-        standard_evidence = [e for e in self.evidence.values()
-                           if e.control_id in [c.id for c in standard_controls]]
+        standard_evidence = [e for e in self.evidence.values() if e.control_id in [c.id for c in standard_controls]]
 
         report = ComplianceReport(
             id=report_id,
@@ -832,7 +859,7 @@ class ComplianceFramework:
             recommendations=recommendations,
             risk_summary=risk_summary,
             evidence_count=len(standard_evidence),
-            generated_by=generator
+            generated_by=generator,
         )
 
         logger.info(f"Compliance report generated: {report_id} - {overall_status}")
@@ -845,8 +872,7 @@ class ComplianceFramework:
     def get_overdue_controls(self) -> List[ComplianceControl]:
         """Get controls that are overdue for testing."""
         now = datetime.now(timezone.utc)
-        return [c for c in self.controls.values()
-                if c.next_test_due and c.next_test_due < now]
+        return [c for c in self.controls.values() if c.next_test_due and c.next_test_due < now]
 
     def get_compliance_dashboard_data(self) -> Dict[str, Any]:
         """Get data for compliance dashboard."""
@@ -854,8 +880,9 @@ class ComplianceFramework:
 
         # Overall statistics
         total_controls = len(self.controls)
-        implemented_controls = len([c for c in self.controls.values()
-                                  if c.status in [ControlStatus.IMPLEMENTED, ControlStatus.VERIFIED]])
+        implemented_controls = len(
+            [c for c in self.controls.values() if c.status in [ControlStatus.IMPLEMENTED, ControlStatus.VERIFIED]]
+        )
 
         # By standard
         by_standard = {}
@@ -864,18 +891,28 @@ class ComplianceFramework:
             if standard_controls:
                 by_standard[standard.value] = {
                     "total": len(standard_controls),
-                    "implemented": len([c for c in standard_controls
-                                     if c.status in [ControlStatus.IMPLEMENTED, ControlStatus.VERIFIED]]),
-                    "compliance_percentage": len([c for c in standard_controls
-                                               if c.status in [ControlStatus.IMPLEMENTED, ControlStatus.VERIFIED]]) / len(standard_controls)
+                    "implemented": len(
+                        [
+                            c
+                            for c in standard_controls
+                            if c.status in [ControlStatus.IMPLEMENTED, ControlStatus.VERIFIED]
+                        ]
+                    ),
+                    "compliance_percentage": len(
+                        [
+                            c
+                            for c in standard_controls
+                            if c.status in [ControlStatus.IMPLEMENTED, ControlStatus.VERIFIED]
+                        ]
+                    )
+                    / len(standard_controls),
                 }
 
         # Overdue controls
         overdue_controls = self.get_overdue_controls()
 
         # Recent assessments
-        recent_assessments = sorted(self.assessments.values(),
-                                  key=lambda a: a.assessed_at, reverse=True)[:10]
+        recent_assessments = sorted(self.assessments.values(), key=lambda a: a.assessed_at, reverse=True)[:10]
 
         return {
             "overall_compliance": implemented_controls / total_controls if total_controls > 0 else 0,
@@ -883,18 +920,22 @@ class ComplianceFramework:
             "implemented_controls": implemented_controls,
             "by_standard": by_standard,
             "overdue_controls": len(overdue_controls),
-            "overdue_control_list": [{"id": c.id, "name": c.name, "due_date": c.next_test_due}
-                                   for c in overdue_controls[:10]],
-            "recent_assessments": [{"id": a.id, "control_id": a.control_id,
-                                  "result": a.result.value, "date": a.assessed_at}
-                                 for a in recent_assessments],
+            "overdue_control_list": [
+                {"id": c.id, "name": c.name, "due_date": c.next_test_due} for c in overdue_controls[:10]
+            ],
+            "recent_assessments": [
+                {"id": a.id, "control_id": a.control_id, "result": a.result.value, "date": a.assessed_at}
+                for a in recent_assessments
+            ],
             "total_evidence": len(self.evidence),
             "total_risks": len(self.risk_assessments),
-            "high_risks": len([r for r in self.risk_assessments.values()
-                             if r.residual_risk in [RiskLevel.HIGH, RiskLevel.CRITICAL]]),
+            "high_risks": len(
+                [r for r in self.risk_assessments.values() if r.residual_risk in [RiskLevel.HIGH, RiskLevel.CRITICAL]]
+            ),
             "assessment_count": self.assessment_count,
-            "automation_count": self.automation_count
+            "automation_count": self.automation_count,
         }
+
 
 # Factory function
 def create_compliance_framework(config: Optional[Dict[str, Any]] = None) -> ComplianceFramework:
@@ -903,8 +944,9 @@ def create_compliance_framework(config: Optional[Dict[str, Any]] = None) -> Comp
 
     return ComplianceFramework(
         evidence_path=config.get("evidence_path", "./compliance_evidence"),
-        guardian_integration=config.get("guardian_integration", True)
+        guardian_integration=config.get("guardian_integration", True),
     )
+
 
 # Example automation handlers
 def example_access_control_handler(control: ComplianceControl) -> Dict[str, Any]:
@@ -916,7 +958,7 @@ def example_access_control_handler(control: ComplianceControl) -> Dict[str, Any]
 
     # Mock checks
     has_rbac = True  # Would check actual RBAC implementation
-    has_mfa = True   # Would check MFA configuration
+    has_mfa = True  # Would check MFA configuration
     has_reviews = False  # Would check access review processes
 
     if not has_rbac:
@@ -936,12 +978,9 @@ def example_access_control_handler(control: ComplianceControl) -> Dict[str, Any]
         "findings": findings,
         "recommendations": recommendations,
         "confidence": 0.9,
-        "metadata": {
-            "rbac_enabled": has_rbac,
-            "mfa_enabled": has_mfa,
-            "access_reviews": has_reviews
-        }
+        "metadata": {"rbac_enabled": has_rbac, "mfa_enabled": has_mfa, "access_reviews": has_reviews},
     }
+
 
 if __name__ == "__main__":
     # Example usage and testing
@@ -967,7 +1006,7 @@ if __name__ == "__main__":
         title="Access Control Configuration",
         description="Current access control system configuration",
         content="RBAC enabled: True\nMFA required: True",
-        collector="test_user"
+        collector="test_user",
     )
     print(f"Evidence collected: {evidence_id}")
 
@@ -979,16 +1018,13 @@ if __name__ == "__main__":
         risk_category="Access Control",
         likelihood=RiskLevel.MEDIUM,
         impact=RiskLevel.HIGH,
-        assessor="risk_assessor"
+        assessor="risk_assessor",
     )
     print(f"Risk assessment: {risk_id}")
 
     # Test compliance reporting
     print("\n4. Testing Compliance Reporting:")
-    report = framework.generate_compliance_report(
-        standard=ComplianceStandard.SOC2_TYPE2,
-        generator="test_generator"
-    )
+    report = framework.generate_compliance_report(standard=ComplianceStandard.SOC2_TYPE2, generator="test_generator")
     print(f"Report generated: {report.id}")
     print(f"Overall status: {report.overall_status}")
     print(f"Controls summary: {report.controls_summary}")

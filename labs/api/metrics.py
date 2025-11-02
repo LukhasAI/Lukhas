@@ -1,6 +1,7 @@
 """Metrics API Endpoint ⚛️📊
 Prometheus-compatible metrics endpoint for monitoring.
 """
+
 from fastapi import APIRouter
 from fastapi.responses import Response
 

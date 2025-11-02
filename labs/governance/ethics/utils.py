@@ -10,6 +10,7 @@ Shared Ethics Utilities
 
 Common ethics-related functions used across the Cognitive system.
 """
+
 from typing import Any
 
 

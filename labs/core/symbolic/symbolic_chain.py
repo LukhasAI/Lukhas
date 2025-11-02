@@ -426,7 +426,8 @@ class SymbolicChain:
                     "added_glyphs": result.symbolic_diff.added_glyphs,
                     "entropy_change": result.symbolic_diff.entropy_after - result.symbolic_diff.entropy_before,
                     "drift_reduction": result.symbolic_diff.drift_before - result.symbolic_diff.drift_after,
-                    "constellation_improvement": result.symbolic_diff.constellation_after - result.symbolic_diff.constellation_before,
+                    "constellation_improvement": result.symbolic_diff.constellation_after
+                    - result.symbolic_diff.constellation_before,
                 }
 
             # Read existing audit log

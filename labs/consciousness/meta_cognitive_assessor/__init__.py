@@ -7,6 +7,7 @@ Auto-generated bridge following canonical pattern:
 
 Graceful fallback to stubs if no backend available.
 """
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -14,11 +15,13 @@ from typing import List
 
 __all__: List[str] = []
 
+
 def _try(n: str):
     try:
         return import_module(n)
     except Exception:
         return None
+
 
 # Try backends in order
 _CANDIDATES = (
@@ -41,21 +44,30 @@ for _cand in _CANDIDATES:
 # Add expected symbols as stubs if not found
 
 if "MetaCognitiveAssessor" not in globals():
+
     class MetaCognitiveAssessor:  # pragma: no cover - stub
         """Stub for MetaCognitiveAssessor."""
+
         def __init__(self, *a, **kw):
             pass
+
         def __call__(self, *a, **kw):
             return None
+
     __all__.append("MetaCognitiveAssessor")
 if "AssessmentResult" not in globals():
+
     class AssessmentResult:  # pragma: no cover - stub
         """Stub for AssessmentResult."""
+
         def __init__(self, *a, **kw):
             pass
+
         def __call__(self, *a, **kw):
             return None
+
     __all__.append("AssessmentResult")
+
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""

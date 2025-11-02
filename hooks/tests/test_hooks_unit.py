@@ -25,10 +25,7 @@ class TestHooksModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "hooks",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "hooks", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestHooksModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import hooks
+
         self.assertIsNotNone(hooks)
 
     def test_module_version(self):
         """Test module has version information."""
         import hooks
+
         # Most modules should have version info
-        self.assertTrue(hasattr(hooks, '__version__') or
-                       hasattr(hooks, 'VERSION'))
+        self.assertTrue(hasattr(hooks, "__version__") or hasattr(hooks, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestGPTInteractionStyle(unittest.TestCase):
         """Test GPTInteractionStyle can be imported."""
         try:
             from hooks.gpt_dream_reflection import GPTInteractionStyle
+
             self.assertIsNotNone(GPTInteractionStyle)
         except ImportError:
             pytest.skip("Component GPTInteractionStyle not available")
@@ -97,6 +96,7 @@ class TestGPTSymbolicBridge(unittest.TestCase):
         """Test GPTSymbolicBridge can be imported."""
         try:
             from hooks.gpt_dream_reflection import GPTSymbolicBridge
+
             self.assertIsNotNone(GPTSymbolicBridge)
         except ImportError:
             pytest.skip("Component GPTSymbolicBridge not available")
@@ -114,6 +114,7 @@ class Testcreate_gpt_context(unittest.TestCase):
         """Test create_gpt_context can be imported."""
         try:
             from hooks.gpt_dream_reflection import create_gpt_context
+
             self.assertIsNotNone(create_gpt_context)
         except ImportError:
             pytest.skip("Component create_gpt_context not available")
@@ -122,7 +123,6 @@ class Testcreate_gpt_context(unittest.TestCase):
         """Test create_gpt_context can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

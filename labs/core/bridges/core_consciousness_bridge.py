@@ -2,6 +2,7 @@
 
 Bidirectional communication between the core and consciousness systems.
 """
+
 from typing import Any, Optional
 
 

@@ -39,11 +39,7 @@ from pathlib import Path
 from typing import NamedTuple
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger(__name__)
 
 ROOT = Path(".").resolve()
@@ -52,6 +48,7 @@ FREEZE_TAG = "v0.02-final"
 
 class FreezeConfig(NamedTuple):
     """Freeze configuration from FINAL_FREEZE.json"""
+
     tag: str
     commit: str
     critical_artifacts: list[str]
@@ -59,6 +56,7 @@ class FreezeConfig(NamedTuple):
 
 class ViolationReport(NamedTuple):
     """Freeze violation report"""
+
     timestamp: str
     tag: str
     expected_commit: str
@@ -80,7 +78,7 @@ def load_freeze_config() -> FreezeConfig:
         return FreezeConfig(
             tag=data.get("tag", FREEZE_TAG),
             commit=data["commit"],
-            critical_artifacts=data.get("critical_artifacts", [])
+            critical_artifacts=data.get("critical_artifacts", []),
         )
     except Exception as e:
         logger.error(f"Failed to load freeze config: {e}")
@@ -90,10 +88,7 @@ def load_freeze_config() -> FreezeConfig:
 def get_current_commit() -> str:
     """Get current HEAD commit SHA"""
     try:
-        return subprocess.check_output(
-            ["git", "rev-parse", "HEAD"],
-            text=True
-        ).strip()
+        return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     except subprocess.CalledProcessError as e:
         logger.error(f"Failed to get current commit: {e}")
         sys.exit(1)
@@ -102,10 +97,7 @@ def get_current_commit() -> str:
 def get_tag_commit(tag: str) -> str:
     """Get commit SHA that a tag points to"""
     try:
-        return subprocess.check_output(
-            ["git", "rev-parse", tag],
-            text=True
-        ).strip()
+        return subprocess.check_output(["git", "rev-parse", tag], text=True).strip()
     except subprocess.CalledProcessError:
         logger.error(f"Tag not found: {tag}")
         sys.exit(1)
@@ -126,10 +118,7 @@ def file_hash(path: Path) -> str:
 def blob_hash_at_tag(tag: str, relpath: str) -> str:
     """Calculate SHA256 hash of file at specific tag"""
     try:
-        data = subprocess.check_output(
-            ["git", "show", f"{tag}:{relpath}"],
-            stderr=subprocess.STDOUT
-        )
+        data = subprocess.check_output(["git", "show", f"{tag}:{relpath}"], stderr=subprocess.STDOUT)
         h = hashlib.sha256()
         h.update(data)
         return h.hexdigest()
@@ -145,10 +134,7 @@ def check_freeze_integrity(config: FreezeConfig) -> ViolationReport | None:
     # Check if we're past the freeze commit
     try:
         # Get commits between freeze and HEAD
-        commits_after = subprocess.check_output(
-            ["git", "rev-list", f"{tag_commit}..HEAD"],
-            text=True
-        ).strip()
+        commits_after = subprocess.check_output(["git", "rev-list", f"{tag_commit}..HEAD"], text=True).strip()
 
         if commits_after:
             logger.warning(f"Found {len(commits_after.splitlines())} commits after freeze tag")
@@ -175,7 +161,7 @@ def check_freeze_integrity(config: FreezeConfig) -> ViolationReport | None:
             expected_commit=tag_commit,
             current_commit=current_commit,
             violated_files=violated_files,
-            file_hashes=file_hashes
+            file_hashes=file_hashes,
         )
 
     return None
@@ -300,36 +286,14 @@ def run_daemon(config: FreezeConfig, alert_dir: Path, interval: int):
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="T4/0.01% Freeze Guardian - Real-time drift monitoring"
-    )
+    parser = argparse.ArgumentParser(description="T4/0.01% Freeze Guardian - Real-time drift monitoring")
+    parser.add_argument("--interval", type=int, default=60, help="Check interval in seconds (default: 60)")
+    parser.add_argument("--once", action="store_true", help="Run once and exit (don't run as daemon)")
     parser.add_argument(
-        "--interval",
-        type=int,
-        default=60,
-        help="Check interval in seconds (default: 60)"
+        "--alert-dir", type=Path, default=Path("alerts"), help="Directory for alert logs (default: alerts/)"
     )
-    parser.add_argument(
-        "--once",
-        action="store_true",
-        help="Run once and exit (don't run as daemon)"
-    )
-    parser.add_argument(
-        "--alert-dir",
-        type=Path,
-        default=Path("alerts"),
-        help="Directory for alert logs (default: alerts/)"
-    )
-    parser.add_argument(
-        "--tag",
-        default=FREEZE_TAG,
-        help=f"Tag to monitor (default: {FREEZE_TAG})"
-    )
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Enable verbose logging"
-    )
+    parser.add_argument("--tag", default=FREEZE_TAG, help=f"Tag to monitor (default: {FREEZE_TAG})")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -341,11 +305,7 @@ def main() -> int:
 
     # Override tag if specified
     if args.tag != FREEZE_TAG:
-        config = FreezeConfig(
-            tag=args.tag,
-            commit=config.commit,
-            critical_artifacts=config.critical_artifacts
-        )
+        config = FreezeConfig(tag=args.tag, commit=config.commit, critical_artifacts=config.critical_artifacts)
 
     # Run mode
     if args.once:

@@ -726,7 +726,9 @@ class ComplianceAuditSystem:
         requests_in_period = [r for r in self.subject_requests.values() if start_date <= r.timestamp <= end_date]
 
         completed_requests = [r for r in requests_in_period if r.status == "completed"]
-        overdue_requests = [r for r in requests_in_period if r.due_date < datetime.now(timezone.utc) and r.status != "completed"]
+        overdue_requests = [
+            r for r in requests_in_period if r.due_date < datetime.now(timezone.utc) and r.status != "completed"
+        ]
 
         # Compliance violations
         violations_in_period = [

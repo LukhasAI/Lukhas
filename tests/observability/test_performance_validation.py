@@ -45,7 +45,7 @@ class TestPerformanceValidation:
         mock_prometheus.lane = "test"
         mock_prometheus.errors_total = MagicMock()
         mock_prometheus.errors_total.labels.return_value.inc = MagicMock()
-        return {'prometheus_metrics': mock_prometheus}
+        return {"prometheus_metrics": mock_prometheus}
 
     @pytest.fixture
     async def evidence_engine(self, temp_evidence_dir):
@@ -63,7 +63,9 @@ class TestPerformanceValidation:
     @pytest.fixture
     def advanced_metrics_system(self, mock_dependencies):
         """Create advanced metrics system for performance testing"""
-        with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_dependencies['prometheus_metrics']):
+        with patch(
+            "observability.advanced_metrics.get_lukhas_metrics", return_value=mock_dependencies["prometheus_metrics"]
+        ):
             system = AdvancedMetricsSystem(
                 enable_anomaly_detection=False,  # Disable for pure performance testing
                 enable_ml_features=False,
@@ -75,8 +77,11 @@ class TestPerformanceValidation:
     @pytest.fixture
     async def performance_detector(self, mock_dependencies):
         """Create performance regression detector for testing"""
-        with patch('observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['prometheus_metrics']):
-            with patch('observability.performance_regression.get_alerting_system', return_value=MagicMock()):
+        with patch(
+            "observability.performance_regression.get_advanced_metrics",
+            return_value=mock_dependencies["prometheus_metrics"],
+        ):
+            with patch("observability.performance_regression.get_alerting_system", return_value=MagicMock()):
                 detector = PerformanceRegressionDetector(
                     baseline_window_days=1,
                     enable_ml_detection=False,  # Disable for performance testing
@@ -329,10 +334,7 @@ class TestPerformanceValidation:
 
         start_total = time.perf_counter()
 
-        tasks = [
-            collect_evidence_batch(batch_id, batch_size)
-            for batch_id in range(concurrent_batches)
-        ]
+        tasks = [collect_evidence_batch(batch_id, batch_size) for batch_id in range(concurrent_batches)]
 
         batch_results = await asyncio.gather(*tasks)
 
@@ -408,10 +410,7 @@ class TestPerformanceValidation:
 
         start_total = time.perf_counter()
 
-        batch_tasks = [
-            mixed_operations_batch(batch_id, iterations_per_batch)
-            for batch_id in range(concurrent_batches)
-        ]
+        batch_tasks = [mixed_operations_batch(batch_id, iterations_per_batch) for batch_id in range(concurrent_batches)]
 
         batch_results = await asyncio.gather(*batch_tasks)
 
@@ -575,8 +574,12 @@ class TestScalabilityValidation:
         # Throughput should generally increase with load (up to a point)
         # Latency should remain reasonable even at high load
         max_load_result = results[max(load_levels)]
-        assert max_load_result['avg_latency_ms'] < 50.0, f"High load latency {max_load_result['avg_latency_ms']:.3f}ms too high"
-        assert max_load_result['throughput'] > 100.0, f"High load throughput {max_load_result['throughput']:.1f} too low"
+        assert (
+            max_load_result["avg_latency_ms"] < 50.0
+        ), f"High load latency {max_load_result['avg_latency_ms']:.3f}ms too high"
+        assert (
+            max_load_result["throughput"] > 100.0
+        ), f"High load throughput {max_load_result['throughput']:.1f} too low"
 
         print("✓ Load scaling characteristics acceptable")
 
@@ -602,7 +605,7 @@ class TestRealWorldScenarios:
             mock_prometheus.errors_total = MagicMock()
             mock_prometheus.errors_total.labels.return_value.inc = MagicMock()
 
-            with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus):
+            with patch("observability.advanced_metrics.get_lukhas_metrics", return_value=mock_prometheus):
                 advanced_metrics = AdvancedMetricsSystem(
                     enable_anomaly_detection=True,
                     enable_ml_features=False,  # Realistic setting
@@ -681,7 +684,9 @@ class TestRealWorldScenarios:
                     print(f"  Average latency: {(total_duration / total_operations) * 1000:.3f}ms")
 
                     # Production performance requirements
-                    assert overall_throughput > 200, f"Production throughput {overall_throughput:.1f} should be >200 ops/sec"
+                    assert (
+                        overall_throughput > 200
+                    ), f"Production throughput {overall_throughput:.1f} should be >200 ops/sec"
                     assert total_duration < 10.0, f"Production workload took {total_duration:.3f}s, should be <10s"
 
                     print("✓ Production workload performance acceptable")

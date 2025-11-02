@@ -53,6 +53,7 @@ class GLYPH:
     Each GLYPH represents a unique symbolic entity in the MATRIZ ecosystem
     with complete provenance and governance tracking.
     """
+
     id: UUID
     kind: str  # "intent", "memory", "attention", "action", "decision", "awareness"
     version: str = CONTRACT_VERSION
@@ -67,6 +68,7 @@ class MatrizMessage:
     All communication between MATRIZ nodes uses this canonical format
     ensuring complete auditability and governance.
     """
+
     msg_id: UUID
     ts: datetime
     lane: LANE  # "experimental", "candidate", "prod"
@@ -85,6 +87,7 @@ class MatrizResult:
     Every MATRIZ operation returns this standardized result
     with explainability traces and Guardian audit logs.
     """
+
     ok: bool
     reasons: List[str] = field(default_factory=list)
     payload: Dict[str, Any] = field(default_factory=dict)
@@ -94,9 +97,11 @@ class MatrizResult:
 
 # --- Helper utilities (T4 micro-upgrades) ---
 
+
 def canonical_json(obj: dict) -> str:
     """Deterministic, minimal JSON for hashing and auditing."""
     return json.dumps(obj, sort_keys=True, separators=(",", ":"))
+
 
 def message_digest(msg: MatrizMessage) -> str:
     """SHA-256 of canonical MatrizMessage (structure-only; no secrets)."""
@@ -117,6 +122,7 @@ def message_digest(msg: MatrizMessage) -> str:
     }
     return hashlib.sha256(canonical_json(as_dict).encode("utf-8")).hexdigest()
 
+
 def is_jsonable(x: Any) -> bool:
     """Return True if x can be json.dumps()'d."""
     try:
@@ -124,6 +130,7 @@ def is_jsonable(x: Any) -> bool:
         return True
     except Exception:
         return False
+
 
 def to_dict(msg: MatrizMessage) -> Dict[str, Any]:
     """Serialize MatrizMessage to a JSON-ready dict."""
@@ -142,6 +149,7 @@ def to_dict(msg: MatrizMessage) -> Dict[str, Any]:
         "guardian_token": msg.guardian_token,
         "idempotency_key": msg.idempotency_key,
     }
+
 
 def from_dict(d: Dict[str, Any]) -> MatrizMessage:
     """Strict deserialization with contract enforcement for v1.0.0."""
@@ -217,9 +225,7 @@ class MatrizNode:
         Raises:
             NotImplementedError: Must be implemented by subclasses
         """
-        raise NotImplementedError(
-            f"Node {self.name} must implement handle() method"
-        )
+        raise NotImplementedError(f"Node {self.name} must implement handle() method")
 
 
 # Contract validation utilities

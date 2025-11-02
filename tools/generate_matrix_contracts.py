@@ -17,14 +17,7 @@ CONTRACTS_DIR = ROOT / "contracts"
 LUKHAS_DIR = ROOT / "lukhas"
 
 # Tier definitions with numeric mappings
-TIER_MAPPINGS = {
-    "guest": 0,
-    "visitor": 1,
-    "friend": 2,
-    "trusted": 3,
-    "inner_circle": 4,
-    "root_dev": 5
-}
+TIER_MAPPINGS = {"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}
 
 # Module categorization for tier assignment
 MODULE_TIERS = {
@@ -33,26 +26,22 @@ MODULE_TIERS = {
     "identity": ["trusted", "inner_circle", "root_dev"],
     "security": ["inner_circle", "root_dev"],
     "core": ["trusted", "inner_circle"],
-
     # Service modules - medium privilege
     "consciousness": ["friend", "trusted", "inner_circle"],
     "memory": ["friend", "trusted", "inner_circle"],
     "orchestration": ["friend", "trusted"],
     "deployment": ["trusted", "inner_circle"],
     "observability": ["friend", "trusted"],
-
     # Integration modules - lower privilege
     "bridge": ["friend", "trusted"],
     "api": ["visitor", "friend", "trusted"],
     "agents": ["visitor", "friend", "trusted"],
     "tools": ["visitor", "friend"],
-
     # Public/documentation modules - minimal privilege
     "branding": ["guest", "visitor"],
     "accepted": ["guest", "visitor"],
-
     # Default for others
-    "default": ["friend", "trusted"]
+    "default": ["friend", "trusted"],
 }
 
 # Scope mappings per module type
@@ -70,8 +59,9 @@ SCOPE_PATTERNS = {
     "deployment": ["deploy", "rollback", "scale", "monitor"],
     "observability": ["trace", "metric", "log", "alert"],
     "tools": ["execute", "analyze", "generate", "validate"],
-    "default": ["read", "write", "execute", "admin"]
+    "default": ["read", "write", "execute", "admin"],
 }
+
 
 def get_module_tiers(module_name: str) -> Tuple[List[str], List[int]]:
     """Determine appropriate tiers for a module based on its type."""
@@ -86,6 +76,7 @@ def get_module_tiers(module_name: str) -> Tuple[List[str], List[int]]:
     numeric = [TIER_MAPPINGS[t] for t in default_tiers]
     return default_tiers, numeric
 
+
 def get_module_scopes(module_name: str) -> List[str]:
     """Generate appropriate scopes for a module."""
     base_name = module_name.split(".")[-1] if "." in module_name else module_name
@@ -97,6 +88,7 @@ def get_module_scopes(module_name: str) -> List[str]:
 
     # Default scopes
     return [f"{base_name}.{scope}" for scope in SCOPE_PATTERNS["default"]]
+
 
 def should_require_webauthn(module_name: str, tiers: List[str]) -> bool:
     """Determine if module should require WebAuthn."""
@@ -110,6 +102,7 @@ def should_require_webauthn(module_name: str, tiers: List[str]) -> bool:
         return True
 
     return False
+
 
 def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
     """Generate a complete Matrix contract for a module."""
@@ -131,30 +124,19 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
     contract = {
         "schema_version": "1.0.0",
         "module": f"lukhas.{module_name}",
-        "owner": {
-            "team": "lukhas-core",
-            "codeowners": ["@lukhas-devs", "@gonzo.dominguez"]
-        },
+        "owner": {"team": "lukhas-core", "codeowners": ["@lukhas-devs", "@gonzo.dominguez"]},
         "interface": {
             "public_api": [
-                {
-                    "fn": f"{simple_name}_init",
-                    "stability": "stable",
-                    "doc": f"Initialize {simple_name} module"
-                },
+                {"fn": f"{simple_name}_init", "stability": "stable", "doc": f"Initialize {simple_name} module"},
                 {
                     "fn": f"{simple_name}_process",
                     "stability": "experimental",
-                    "doc": f"Process {simple_name} operations"
-                }
+                    "doc": f"Process {simple_name} operations",
+                },
             ],
             "contracts": [
-                {
-                    "name": f"{simple_name}_invariant",
-                    "type": "invariant",
-                    "desc": f"Core invariants for {simple_name}"
-                }
-            ]
+                {"name": f"{simple_name}_invariant", "type": "invariant", "desc": f"Core invariants for {simple_name}"}
+            ],
         },
         "params": {
             "max_connections": {
@@ -162,68 +144,48 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
                 "default": 100,
                 "min": 1,
                 "max": 10000,
-                "description": "Maximum concurrent connections"
+                "description": "Maximum concurrent connections",
             },
             "timeout_ms": {
                 "type": "int",
                 "default": 5000,
                 "min": 100,
                 "max": 60000,
-                "description": "Operation timeout in milliseconds"
-            }
+                "description": "Operation timeout in milliseconds",
+            },
         },
         "gates": [
             {"metric": "coverage", "op": ">=", "value": 90},
             {"metric": "latency_ms", "op": "<=", "value": 100},
-            {"metric": "error_rate", "op": "<=", "value": 0.01}
+            {"metric": "error_rate", "op": "<=", "value": 0.01},
         ],
         "telemetry": {
             "opentelemetry_semconv_version": "1.37.0",
-            "spans": [
-                {
-                    "name": f"{simple_name}.operation",
-                    "attrs": ["code.function", "module", "tier"]
-                }
-            ],
+            "spans": [{"name": f"{simple_name}.operation", "attrs": ["code.function", "module", "tier"]}],
             "metrics": [
-                {
-                    "name": f"lukhas.{simple_name}.requests",
-                    "unit": "1",
-                    "type": "counter"
-                },
-                {
-                    "name": f"lukhas.{simple_name}.latency",
-                    "unit": "ms",
-                    "type": "histogram"
-                }
-            ]
+                {"name": f"lukhas.{simple_name}.requests", "unit": "1", "type": "counter"},
+                {"name": f"lukhas.{simple_name}.latency", "unit": "ms", "type": "histogram"},
+            ],
         },
         "symbolic_diagnostics": {
             "CollapseHash": f"sha256:pending_{simple_name}",
             "DriftScore": 0.01,
             "EthicalDriftIndex": 0.0,
-            "ConvergencePct": 95.0
+            "ConvergencePct": 95.0,
         },
         "lineage": {
             "openlineage_event_id": f"lukhas_{simple_name}_v1",
             "datasets_in": [],
             "datasets_out": [],
-            "job": f"lukhas.{simple_name}.job"
+            "job": f"lukhas.{simple_name}.job",
         },
         "provenance": {
             "@context": "https://ai/provenance/v1",
             "commit": "",
             "branch": "main",
-            "built_by": {
-                "user": "matrix-generator",
-                "timestamp": "2024-01-01T00:00:00Z"
-            },
-            "environment": {
-                "os": "darwin",
-                "cpu": "arm64",
-                "python": "3.11"
-            },
-            "config_fingerprint": f"sha256:{simple_name}_config"
+            "built_by": {"user": "matrix-generator", "timestamp": "2024-01-01T00:00:00Z"},
+            "environment": {"os": "darwin", "cpu": "arm64", "python": "3.11"},
+            "config_fingerprint": f"sha256:{simple_name}_config",
         },
         "identity": {
             "requires_auth": True,
@@ -232,14 +194,18 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
             "required_tiers_numeric": tier_nums,
             "scopes": scopes,
             "webauthn_required": webauthn,
-            "api_policies": [
-                {
-                    "fn": f"{simple_name}_admin",
-                    "requires_step_up": True,
-                    "extra_scopes": [f"{simple_name}.admin"],
-                    "rate_limit_tiered": True
-                }
-            ] if "inner_circle" in tiers or "root_dev" in tiers else []
+            "api_policies": (
+                [
+                    {
+                        "fn": f"{simple_name}_admin",
+                        "requires_step_up": True,
+                        "extra_scopes": [f"{simple_name}.admin"],
+                        "rate_limit_tiered": True,
+                    }
+                ]
+                if "inner_circle" in tiers or "root_dev" in tiers
+                else []
+            ),
         },
         "tokenization": {
             "enabled": False,
@@ -248,40 +214,27 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
             "mint_address": None,
             "anchor_txid": None,
             "policy_version": "1.0.0",
-            "note": f"Tokenization placeholder for {simple_name} module"
+            "note": f"Tokenization placeholder for {simple_name} module",
         },
         "docs": {
             "lens_markdown": f"../docs/{simple_name}/lens.md",
-            "design_notes": f"../docs/{simple_name}/architecture.md"
-        }
+            "design_notes": f"../docs/{simple_name}/architecture.md",
+        },
     }
 
     # Add specific features based on module type
     if "governance" in module_name or "security" in module_name:
-        contract["privacy"] = {
-            "epsilon": 1.0,
-            "delta": 1e-5,
-            "mechanism": "gaussian",
-            "composition": "advanced"
-        }
+        contract["privacy"] = {"epsilon": 1.0, "delta": 1e-5, "mechanism": "gaussian", "composition": "advanced"}
         contract["capabilities"] = {
             "macaroons": [
-                {
-                    "id": f"{simple_name}_capability",
-                    "caveats": ["tier >= trusted", f"scope = {simple_name}.enforce"]
-                }
+                {"id": f"{simple_name}_capability", "caveats": ["tier >= trusted", f"scope = {simple_name}.enforce"]}
             ],
             "policy_engine": "opa",
-            "policy_packages": [f"policies.{simple_name}"]
+            "policy_packages": [f"policies.{simple_name}"],
         }
 
     if "identity" in module_name or "auth" in module_name:
-        contract["attestation"] = {
-            "rats": {
-                "evidence_jwt": "",
-                "verifier_policy": f"lukhas_{simple_name}_verifier"
-            }
-        }
+        contract["attestation"] = {"rats": {"evidence_jwt": "", "verifier_policy": f"lukhas_{simple_name}_verifier"}}
 
     if "consciousness" in module_name or "memory" in module_name:
         contract["formal"] = {
@@ -289,11 +242,12 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
                 "spec": f"{simple_name}.tla",
                 "tlc_config": f"{simple_name}.cfg",
                 "result": "UNKNOWN",
-                "counterexample_hash": None
+                "counterexample_hash": None,
             }
         }
 
     return contract
+
 
 def discover_modules() -> List[Tuple[Path, str]]:
     """Discover all LUKHAS modules that need contracts."""
@@ -315,6 +269,7 @@ def discover_modules() -> List[Tuple[Path, str]]:
 
     return sorted(modules, key=lambda x: x[1])
 
+
 def validate_contract_against_schema(contract: Dict[str, Any]) -> bool:
     """Basic validation of contract structure."""
     required_fields = ["schema_version", "module", "owner", "gates"]
@@ -327,13 +282,20 @@ def validate_contract_against_schema(contract: Dict[str, Any]) -> bool:
         return False
 
     identity = contract["identity"]
-    required_identity = ["requires_auth", "accepted_subjects", "required_tiers",
-                        "required_tiers_numeric", "scopes", "webauthn_required"]
+    required_identity = [
+        "requires_auth",
+        "accepted_subjects",
+        "required_tiers",
+        "required_tiers_numeric",
+        "scopes",
+        "webauthn_required",
+    ]
     for field in required_identity:
         if field not in identity:
             return False
 
     return True
+
 
 def main():
     """Generate all Matrix contracts with identity integration."""
@@ -367,13 +329,15 @@ def main():
             contract_file = CONTRACTS_DIR / f"matrix_{module_name.replace('.', '_')}.json"
             contract_file.write_text(json.dumps(contract, indent=2) + "\n")
 
-            generated.append({
-                "module": module_name,
-                "file": str(contract_file.relative_to(ROOT)),
-                "tiers": contract["identity"]["required_tiers"],
-                "scopes": len(contract["identity"]["scopes"]),
-                "webauthn": contract["identity"]["webauthn_required"]
-            })
+            generated.append(
+                {
+                    "module": module_name,
+                    "file": str(contract_file.relative_to(ROOT)),
+                    "tiers": contract["identity"]["required_tiers"],
+                    "scopes": len(contract["identity"]["scopes"]),
+                    "webauthn": contract["identity"]["webauthn_required"],
+                }
+            )
 
         except Exception as e:
             print(f"    ❌ Error generating contract for {module_name}: {e}")
@@ -448,7 +412,7 @@ def main():
         print(f"   WebAuthn: {'Required' if g['webauthn'] else 'Not Required'}")
 
         # Show partial contract
-        contract_path = ROOT / g['file']
+        contract_path = ROOT / g["file"]
         if contract_path.exists():
             contract = json.loads(contract_path.read_text())
             print("   Identity Block:")
@@ -459,6 +423,7 @@ def main():
     print(f"   All {len(generated)} contracts are schema-compliant and ready for use.")
 
     return 0 if not failed else 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

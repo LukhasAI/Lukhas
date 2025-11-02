@@ -50,9 +50,12 @@ try:
         consolidate_identities,
     )
 except ImportError:
+
     def consolidate_identities(*args, **kwargs):
         """Stub for consolidate_identities."""
         return None
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

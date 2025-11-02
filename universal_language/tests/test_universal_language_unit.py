@@ -25,10 +25,7 @@ class TestUniversalLanguageModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "universal_language",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "universal_language", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestUniversalLanguageModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import universal_language
+
         self.assertIsNotNone(universal_language)
 
     def test_module_version(self):
         """Test module has version information."""
         import universal_language
+
         # Most modules should have version info
-        self.assertTrue(hasattr(universal_language, '__version__') or
-                       hasattr(universal_language, 'VERSION'))
+        self.assertTrue(hasattr(universal_language, "__version__") or hasattr(universal_language, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestSymbolComposer(unittest.TestCase):
         """Test SymbolComposer can be imported."""
         try:
             from universal_language.compositional import SymbolComposer
+
             self.assertIsNotNone(SymbolComposer)
         except ImportError:
             pytest.skip("Component SymbolComposer not available")
@@ -97,6 +96,7 @@ class TestSymbolProgram(unittest.TestCase):
         """Test SymbolProgram can be imported."""
         try:
             from universal_language.compositional import SymbolProgram
+
             self.assertIsNotNone(SymbolProgram)
         except ImportError:
             pytest.skip("Component SymbolProgram not available")
@@ -114,6 +114,7 @@ class TestSymbolProgramSynthesizer(unittest.TestCase):
         """Test SymbolProgramSynthesizer can be imported."""
         try:
             from universal_language.compositional import SymbolProgramSynthesizer
+
             self.assertIsNotNone(SymbolProgramSynthesizer)
         except ImportError:
             pytest.skip("Component SymbolProgramSynthesizer not available")
@@ -122,7 +123,6 @@ class TestSymbolProgramSynthesizer(unittest.TestCase):
         """Test SymbolProgramSynthesizer can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

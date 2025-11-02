@@ -30,6 +30,7 @@
 ║ - Component registration and discovery
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import contextlib
 import json

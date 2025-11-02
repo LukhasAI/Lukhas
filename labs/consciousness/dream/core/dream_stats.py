@@ -2,6 +2,7 @@
 Mock dream_stats module
 Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
+
 import random
 from datetime import datetime, timedelta, timezone
 from typing import Any

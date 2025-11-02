@@ -1,4 +1,5 @@
 """Shim: governance.guardian_system_integration → governance.guardian_system_integration."""
+
 import importlib as _importlib
 
 try:

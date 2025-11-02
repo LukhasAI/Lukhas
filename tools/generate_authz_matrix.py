@@ -22,6 +22,7 @@ import yaml
 @dataclass
 class AuthzTestCase:
     """Single authorization test case."""
+
     name: str
     subject: str
     tier: str
@@ -39,10 +40,7 @@ class AuthzMatrixGenerator:
 
     def __init__(self):
         """Initialize generator with ΛiD tier mappings."""
-        self.tier_map = {
-            "guest": 0, "visitor": 1, "friend": 2,
-            "trusted": 3, "inner_circle": 4, "root_dev": 5
-        }
+        self.tier_map = {"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}
         self.tier_names = list(self.tier_map.keys())
 
     def load_contract(self, contract_path: Path) -> Dict[str, Any]:
@@ -68,7 +66,7 @@ class AuthzMatrixGenerator:
             alt_paths = [
                 Path(f"matrix_{module_name}.json"),
                 Path(f"{module_name}/matrix_{module_name}.json"),
-                Path("memory/matrix_memoria.json") if module_name == "memoria" else None
+                Path("memory/matrix_memoria.json") if module_name == "memoria" else None,
             ]
             for path in alt_paths:
                 if path and path.exists():
@@ -98,69 +96,75 @@ class AuthzMatrixGenerator:
             tier_num = self.tier_map[tier_name]
 
             # Determine if tier should be allowed
-            tier_allowed = self._is_tier_allowed(
-                tier_name, tier_num, required_tiers, required_tiers_numeric
-            )
+            tier_allowed = self._is_tier_allowed(tier_name, tier_num, required_tiers, required_tiers_numeric)
 
             # Test each public API
             for api in public_apis:
                 fn_name = api["fn"]
 
                 # Basic access test
-                test_cases.append(AuthzTestCase(
-                    name=f"{tier_name}_{fn_name}_basic",
-                    subject=f"lukhas:user:test_{tier_name}",
-                    tier=tier_name,
-                    tier_num=tier_num,
-                    scopes=required_scopes.copy(),
-                    action=fn_name,
-                    expected=tier_allowed,
-                    reason=f"Tier {tier_name} {'allowed' if tier_allowed else 'denied'} for {fn_name}"
-                ))
-
-                # Step-up requirement test
-                if fn_name in api_policies and api_policies[fn_name].get("requires_step_up", False):
-                    # Without MFA (should fail)
-                    test_cases.append(AuthzTestCase(
-                        name=f"{tier_name}_{fn_name}_no_mfa",
-                        subject=f"lukhas:user:test_{tier_name}",
-                        tier=tier_name,
-                        tier_num=tier_num,
-                        scopes=required_scopes.copy(),
-                        action=fn_name,
-                        expected=False,
-                        mfa=False,
-                        reason=f"Step-up required for {fn_name} but MFA not provided"
-                    ))
-
-                    # With MFA (should pass if tier allowed)
-                    test_cases.append(AuthzTestCase(
-                        name=f"{tier_name}_{fn_name}_with_mfa",
+                test_cases.append(
+                    AuthzTestCase(
+                        name=f"{tier_name}_{fn_name}_basic",
                         subject=f"lukhas:user:test_{tier_name}",
                         tier=tier_name,
                         tier_num=tier_num,
                         scopes=required_scopes.copy(),
                         action=fn_name,
                         expected=tier_allowed,
-                        mfa=True,
-                        reason=f"Step-up satisfied for {fn_name} with MFA"
-                    ))
+                        reason=f"Tier {tier_name} {'allowed' if tier_allowed else 'denied'} for {fn_name}",
+                    )
+                )
+
+                # Step-up requirement test
+                if fn_name in api_policies and api_policies[fn_name].get("requires_step_up", False):
+                    # Without MFA (should fail)
+                    test_cases.append(
+                        AuthzTestCase(
+                            name=f"{tier_name}_{fn_name}_no_mfa",
+                            subject=f"lukhas:user:test_{tier_name}",
+                            tier=tier_name,
+                            tier_num=tier_num,
+                            scopes=required_scopes.copy(),
+                            action=fn_name,
+                            expected=False,
+                            mfa=False,
+                            reason=f"Step-up required for {fn_name} but MFA not provided",
+                        )
+                    )
+
+                    # With MFA (should pass if tier allowed)
+                    test_cases.append(
+                        AuthzTestCase(
+                            name=f"{tier_name}_{fn_name}_with_mfa",
+                            subject=f"lukhas:user:test_{tier_name}",
+                            tier=tier_name,
+                            tier_num=tier_num,
+                            scopes=required_scopes.copy(),
+                            action=fn_name,
+                            expected=tier_allowed,
+                            mfa=True,
+                            reason=f"Step-up satisfied for {fn_name} with MFA",
+                        )
+                    )
 
                 # Extra scopes test
                 if fn_name in api_policies and api_policies[fn_name].get("extra_scopes"):
                     extra_scopes = api_policies[fn_name]["extra_scopes"]
                     full_scopes = required_scopes + extra_scopes
 
-                    test_cases.append(AuthzTestCase(
-                        name=f"{tier_name}_{fn_name}_extra_scopes",
-                        subject=f"lukhas:user:test_{tier_name}",
-                        tier=tier_name,
-                        tier_num=tier_num,
-                        scopes=full_scopes,
-                        action=fn_name,
-                        expected=tier_allowed,
-                        reason=f"Extra scopes provided for {fn_name}"
-                    ))
+                    test_cases.append(
+                        AuthzTestCase(
+                            name=f"{tier_name}_{fn_name}_extra_scopes",
+                            subject=f"lukhas:user:test_{tier_name}",
+                            tier=tier_name,
+                            tier_num=tier_num,
+                            scopes=full_scopes,
+                            action=fn_name,
+                            expected=tier_allowed,
+                            reason=f"Extra scopes provided for {fn_name}",
+                        )
+                    )
 
         # Add edge cases
         test_cases.extend(self._generate_edge_cases(contract, module_name))
@@ -171,11 +175,7 @@ class AuthzMatrixGenerator:
         return test_cases
 
     def _is_tier_allowed(
-        self,
-        tier_name: str,
-        tier_num: int,
-        required_tiers: List[str],
-        required_tiers_numeric: List[int]
+        self, tier_name: str, tier_num: int, required_tiers: List[str], required_tiers_numeric: List[int]
     ) -> bool:
         """Determine if a tier meets the requirements."""
 
@@ -202,53 +202,61 @@ class AuthzMatrixGenerator:
 
         # Missing scopes test
         if required_scopes:
-            edge_cases.append(AuthzTestCase(
-                name="trusted_missing_scopes",
-                subject="lukhas:user:test_trusted",
-                tier="trusted",
-                tier_num=3,
-                scopes=[],  # No scopes provided
-                action="read",
-                expected=False,
-                reason="Missing required scopes"
-            ))
-
-            # Partial scopes test
-            if len(required_scopes) > 1:
-                edge_cases.append(AuthzTestCase(
-                    name="trusted_partial_scopes",
+            edge_cases.append(
+                AuthzTestCase(
+                    name="trusted_missing_scopes",
                     subject="lukhas:user:test_trusted",
                     tier="trusted",
                     tier_num=3,
-                    scopes=[required_scopes[0]],  # Only first scope
+                    scopes=[],  # No scopes provided
                     action="read",
                     expected=False,
-                    reason="Partial scopes provided"
-                ))
+                    reason="Missing required scopes",
+                )
+            )
+
+            # Partial scopes test
+            if len(required_scopes) > 1:
+                edge_cases.append(
+                    AuthzTestCase(
+                        name="trusted_partial_scopes",
+                        subject="lukhas:user:test_trusted",
+                        tier="trusted",
+                        tier_num=3,
+                        scopes=[required_scopes[0]],  # Only first scope
+                        action="read",
+                        expected=False,
+                        reason="Partial scopes provided",
+                    )
+                )
 
         # Expired token test
-        edge_cases.append(AuthzTestCase(
-            name="trusted_expired_token",
-            subject="lukhas:user:test_trusted",
-            tier="trusted",
-            tier_num=3,
-            scopes=required_scopes.copy(),
-            action="read",
-            expected=False,
-            reason="Token expired"
-        ))
+        edge_cases.append(
+            AuthzTestCase(
+                name="trusted_expired_token",
+                subject="lukhas:user:test_trusted",
+                tier="trusted",
+                tier_num=3,
+                scopes=required_scopes.copy(),
+                action="read",
+                expected=False,
+                reason="Token expired",
+            )
+        )
 
         # Wrong audience test
-        edge_cases.append(AuthzTestCase(
-            name="trusted_wrong_audience",
-            subject="lukhas:user:test_trusted",
-            tier="trusted",
-            tier_num=3,
-            scopes=required_scopes.copy(),
-            action="read",
-            expected=False,
-            reason="Wrong audience in token"
-        ))
+        edge_cases.append(
+            AuthzTestCase(
+                name="trusted_wrong_audience",
+                subject="lukhas:user:test_trusted",
+                tier="trusted",
+                tier_num=3,
+                scopes=required_scopes.copy(),
+                action="read",
+                expected=False,
+                reason="Wrong audience in token",
+            )
+        )
 
         return edge_cases
 
@@ -262,28 +270,32 @@ class AuthzMatrixGenerator:
 
         # Service account allowed
         if any("lukhas:svc:" in subj for subj in accepted_subjects):
-            service_cases.append(AuthzTestCase(
-                name="service_orchestrator_allowed",
-                subject="lukhas:svc:orchestrator",
-                tier="root_dev",  # Services typically have high tier
+            service_cases.append(
+                AuthzTestCase(
+                    name="service_orchestrator_allowed",
+                    subject="lukhas:svc:orchestrator",
+                    tier="root_dev",  # Services typically have high tier
+                    tier_num=5,
+                    scopes=required_scopes.copy(),
+                    action="process",
+                    expected=True,
+                    reason="Service account in accepted subjects",
+                )
+            )
+
+        # Service account denied
+        service_cases.append(
+            AuthzTestCase(
+                name="service_unknown_denied",
+                subject="lukhas:svc:unknown",
+                tier="root_dev",
                 tier_num=5,
                 scopes=required_scopes.copy(),
                 action="process",
-                expected=True,
-                reason="Service account in accepted subjects"
-            ))
-
-        # Service account denied
-        service_cases.append(AuthzTestCase(
-            name="service_unknown_denied",
-            subject="lukhas:svc:unknown",
-            tier="root_dev",
-            tier_num=5,
-            scopes=required_scopes.copy(),
-            action="process",
-            expected=False if accepted_subjects else True,
-            reason="Unknown service account"
-        ))
+                expected=False if accepted_subjects else True,
+                reason="Unknown service account",
+            )
+        )
 
         return service_cases
 
@@ -294,32 +306,31 @@ class AuthzMatrixGenerator:
         yaml_data = {
             "module": output_path.stem.replace("_authz", ""),
             "generated": "auto-generated by generate_authz_matrix.py",
-            "test_cases": []
+            "test_cases": [],
         }
 
         for case in test_cases:
-            yaml_data["test_cases"].append({
-                "name": case.name,
-                "input": {
-                    "subject": case.subject,
-                    "tier": case.tier,
-                    "tier_num": case.tier_num,
-                    "scopes": case.scopes,
-                    "action": case.action,
-                    "env": {
-                        "mfa": case.mfa,
-                        "webauthn_verified": case.webauthn_verified
-                    }
-                },
-                "expected": case.expected,
-                "reason": case.reason
-            })
+            yaml_data["test_cases"].append(
+                {
+                    "name": case.name,
+                    "input": {
+                        "subject": case.subject,
+                        "tier": case.tier,
+                        "tier_num": case.tier_num,
+                        "scopes": case.scopes,
+                        "action": case.action,
+                        "env": {"mfa": case.mfa, "webauthn_verified": case.webauthn_verified},
+                    },
+                    "expected": case.expected,
+                    "reason": case.reason,
+                }
+            )
 
         # Ensure output directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Save as YAML
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             yaml.dump(yaml_data, f, default_flow_style=False, sort_keys=False, indent=2)
 
     def save_matrix_json(self, test_cases: List[AuthzTestCase], output_path: Path) -> None:
@@ -337,23 +348,20 @@ class AuthzMatrixGenerator:
                         "tier_num": case.tier_num,
                         "scopes": case.scopes,
                         "action": case.action,
-                        "env": {
-                            "mfa": case.mfa,
-                            "webauthn_verified": case.webauthn_verified
-                        }
+                        "env": {"mfa": case.mfa, "webauthn_verified": case.webauthn_verified},
                     },
                     "expected": case.expected,
-                    "reason": case.reason
+                    "reason": case.reason,
                 }
                 for case in test_cases
-            ]
+            ],
         }
 
         # Ensure output directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Save as JSON
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(json_data, f, indent=2)
 
 

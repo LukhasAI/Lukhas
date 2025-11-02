@@ -27,5 +27,5 @@ __all__ = [
     "get_authentication_facade",
     "authenticate_user",
     "authenticate_token",
-    "authenticate_api_key"
+    "authenticate_api_key",
 ]

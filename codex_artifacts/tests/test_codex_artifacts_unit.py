@@ -25,10 +25,7 @@ class TestCodexArtifactsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "codex_artifacts",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "codex_artifacts", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestCodexArtifactsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import codex_artifacts
+
         self.assertIsNotNone(codex_artifacts)
 
     def test_module_version(self):
         """Test module has version information."""
         import codex_artifacts
+
         # Most modules should have version info
-        self.assertTrue(hasattr(codex_artifacts, '__version__') or
-                       hasattr(codex_artifacts, 'VERSION'))
+        self.assertTrue(hasattr(codex_artifacts, "__version__") or hasattr(codex_artifacts, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -71,7 +69,6 @@ class TestCodexArtifactsModule(unittest.TestCase):
 
 
 # Test individual components if entrypoints available
-
 
 
 if __name__ == "__main__":

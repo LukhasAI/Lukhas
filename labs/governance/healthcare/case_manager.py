@@ -5,6 +5,7 @@ Manages clinical cases, reviews, and consultations with support
 for various EHR system integrations. Integrated with LUKHAS governance
 and ethical oversight systems.
 """
+
 import asyncio
 import logging
 import uuid

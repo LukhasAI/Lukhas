@@ -38,10 +38,7 @@ class TestExperienceReplay:
         config = fixture["stream_configuration"]
 
         # Create stream with golden fixture configuration
-        stream = ConsciousnessStream(
-            fps=config["fps"],
-            store_capacity=config["store_capacity"]
-        )
+        stream = ConsciousnessStream(fps=config["fps"], store_capacity=config["store_capacity"])
 
         # Run stream for specified duration
         start_time = time.perf_counter()
@@ -56,8 +53,9 @@ class TestExperienceReplay:
         # Validate tick count
         expected_ticks = config["expected_ticks"]
         tolerance = 5  # Allow some timing variation
-        assert abs(stream.tick_count - expected_ticks) <= tolerance, \
-            f"Expected ~{expected_ticks} ticks, got {stream.tick_count}"
+        assert (
+            abs(stream.tick_count - expected_ticks) <= tolerance
+        ), f"Expected ~{expected_ticks} ticks, got {stream.tick_count}"
 
         # Validate event structure
         events = stream.get_recent_events(limit=1000)
@@ -71,8 +69,9 @@ class TestExperienceReplay:
             if "count" in expected_event:
                 expected_count = expected_event["count"]
                 # Allow some tolerance for timing-sensitive events
-                assert abs(kind_count - expected_count) <= tolerance, \
-                    f"Expected ~{expected_count} {kind} events, got {kind_count}"
+                assert (
+                    abs(kind_count - expected_count) <= tolerance
+                ), f"Expected ~{expected_count} {kind} events, got {kind_count}"
 
     def test_replay_under_load(self, golden_fixture):
         """Test experience replay functionality under load conditions."""
@@ -85,10 +84,7 @@ class TestExperienceReplay:
         concurrent = load_config["concurrent_streams"]
 
         for i in range(concurrent):
-            stream = ConsciousnessStream(
-                fps=config["fps"],
-                store_capacity=config["store_capacity"]
-            )
+            stream = ConsciousnessStream(fps=config["fps"], store_capacity=config["store_capacity"])
             streams.append(stream)
 
         # Run all streams for a short burst
@@ -113,8 +109,10 @@ class TestExperienceReplay:
             # Validate event ordering (oldest first for replay) - allow for microsecond variations
             if len(replay_events) > 1:
                 # Check that events are roughly chronological (within 1ms tolerance)
-                time_diffs = [(replay_events[j].ts - replay_events[j-1].ts).total_seconds()
-                              for j in range(1, len(replay_events))]
+                time_diffs = [
+                    (replay_events[j].ts - replay_events[j - 1].ts).total_seconds()
+                    for j in range(1, len(replay_events))
+                ]
                 # Most events should be in order, allow for some small timing variations
                 out_of_order = sum(1 for diff in time_diffs if diff < -0.001)  # 1ms tolerance
                 assert out_of_order <= 2, f"Stream {i} has {out_of_order} events significantly out of order"
@@ -143,8 +141,7 @@ class TestExperienceReplay:
                 min_val = range_spec["min"]
                 max_val = range_spec["max"]
 
-                assert min_val <= value <= max_val, \
-                    f"{metric_name}={value} outside golden range [{min_val}, {max_val}]"
+                assert min_val <= value <= max_val, f"{metric_name}={value} outside golden range [{min_val}, {max_val}]"
 
     def test_sliding_window_replay_consistency(self, golden_fixture):
         """Test sliding window replay maintains consistency under load."""
@@ -167,8 +164,9 @@ class TestExperienceReplay:
         event_count = len(replay_events)
 
         # Allow some flexibility in event count due to timing variations
-        assert expected_range["min"] <= event_count <= expected_range["max"] + 20, \
-            f"Replay returned {event_count} events, expected {expected_range['min']}-{expected_range['max']}"
+        assert (
+            expected_range["min"] <= event_count <= expected_range["max"] + 20
+        ), f"Replay returned {event_count} events, expected {expected_range['min']}-{expected_range['max']}"
 
         # Validate lane isolation
         if replay_validation["lane_isolation"]:
@@ -199,14 +197,17 @@ class TestExperienceReplay:
 
             # Validate memory usage stays bounded
             store_size = len(stream.event_store.events)
-            assert store_size <= stream.event_store.max_capacity, \
-                f"Store size {store_size} exceeds capacity {stream.event_store.max_capacity}"
+            assert (
+                store_size <= stream.event_store.max_capacity
+            ), f"Store size {store_size} exceeds capacity {stream.event_store.max_capacity}"
 
             # Validate metrics tracking stays bounded
-            assert len(stream._tick_processing_times) <= 100, \
-                f"Tick times tracking unbounded: {len(stream._tick_processing_times)}"
-            assert len(stream._breakthrough_timestamps) <= 1000, \
-                f"Breakthrough timestamps unbounded: {len(stream._breakthrough_timestamps)}"
+            assert (
+                len(stream._tick_processing_times) <= 100
+            ), f"Tick times tracking unbounded: {len(stream._tick_processing_times)}"
+            assert (
+                len(stream._breakthrough_timestamps) <= 1000
+            ), f"Breakthrough timestamps unbounded: {len(stream._breakthrough_timestamps)}"
 
     def test_golden_fixture_completeness(self, golden_fixture):
         """Test that the golden fixture covers all required fields."""
@@ -214,8 +215,13 @@ class TestExperienceReplay:
 
         # Validate required top-level fields
         required_fields = [
-            "fixture_metadata", "stream_configuration", "expected_events",
-            "performance_budgets", "metrics_validation", "replay_validation", "load_testing"
+            "fixture_metadata",
+            "stream_configuration",
+            "expected_events",
+            "performance_budgets",
+            "metrics_validation",
+            "replay_validation",
+            "load_testing",
         ]
 
         for field in required_fields:

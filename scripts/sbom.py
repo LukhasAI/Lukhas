@@ -18,14 +18,9 @@ def main():
         "--output",
         type=Path,
         default=Path("build/sbom.cyclonedx.json"),
-        help="Output file path (default: build/sbom.cyclonedx.json)"
+        help="Output file path (default: build/sbom.cyclonedx.json)",
     )
-    parser.add_argument(
-        "--format",
-        choices=["json", "xml"],
-        default="json",
-        help="Output format (default: json)"
-    )
+    parser.add_argument("--format", choices=["json", "xml"], default="json", help="Output format (default: json)")
     args = parser.parse_args()
 
     # Ensure output directory exists
@@ -34,16 +29,11 @@ def main():
     # Check if cyclonedx-bom is installed
     try:
         result = subprocess.run(
-            [sys.executable, "-m", "pip", "show", "cyclonedx-bom"],
-            capture_output=True,
-            text=True,
-            check=False
+            [sys.executable, "-m", "pip", "show", "cyclonedx-bom"], capture_output=True, text=True, check=False
         )
         if result.returncode != 0:
             print("[sbom] Installing cyclonedx-bom...")
-            subprocess.check_call(
-                [sys.executable, "-m", "pip", "install", "cyclonedx-bom"]
-            )
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "cyclonedx-bom"])
     except Exception as e:
         print(f"[sbom] Warning: Failed to check/install cyclonedx-bom: {e}")
 
@@ -52,11 +42,7 @@ def main():
         print(f"[sbom] Generating SBOM to {args.output}...")
 
         # Use cyclonedx-py command directly
-        cmd = [
-            "cyclonedx-py",
-            "-o", str(args.output),
-            "--format", args.format
-        ]
+        cmd = ["cyclonedx-py", "-o", str(args.output), "--format", args.format]
 
         subprocess.check_call(cmd)
 
@@ -83,4 +69,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-

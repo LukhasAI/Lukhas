@@ -121,7 +121,9 @@ class CausalIdentityTracker:
         self.chain_validations: dict[str, EventChainValidation] = {}
 
         # Storage paths
-        self.identity_anchor_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/identity_anchors.jsonl"
+        self.identity_anchor_path = (
+            "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/identity_anchors.jsonl"
+        )
         self.causal_origin_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/causal_origins.jsonl"
         self.validation_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/chain_validations.jsonl"
 
@@ -161,9 +163,9 @@ class CausalIdentityTracker:
             emotional_context = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
 
         # Generate unique causal origin ID
-        causal_origin_id = hashlib.sha256(f"{fold_key}_{datetime.now(timezone.utc).isoformat()}_{intent_tag}".encode()).hexdigest()[
-            :16
-        ]
+        causal_origin_id = hashlib.sha256(
+            f"{fold_key}_{datetime.now(timezone.utc).isoformat()}_{intent_tag}".encode()
+        ).hexdigest()[:16]
 
         # Create event chain hash for timeline integrity
         event_chain_hash = self._generate_event_chain_hash(fold_key, causal_origin_id)

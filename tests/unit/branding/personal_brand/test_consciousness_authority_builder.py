@@ -44,9 +44,7 @@ class TestConsciousnessAuthorityBuilder(unittest.TestCase):
         self.assertAlmostEqual(score.community_engagement, 0.02)
         self.assertAlmostEqual(score.innovation_leadership, 0.2)
 
-        expected_overall = (
-            0.2 * 0.3 + 0.35 * 0.25 + 0.02 * 0.2 + 0.2 * 0.2 + 1.0 * 0.05
-        )
+        expected_overall = 0.2 * 0.3 + 0.35 * 0.25 + 0.02 * 0.2 + 0.2 * 0.2 + 1.0 * 0.05
         self.assertAlmostEqual(score.overall_score, expected_overall)
 
     def test_build_consciousness_narrative(self):
@@ -76,5 +74,6 @@ class TestConsciousnessAuthorityBuilder(unittest.TestCase):
         self.assertIsInstance(strategy, Strategy)
         self.assertEqual(strategy.name, "The Technical Evangelist")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

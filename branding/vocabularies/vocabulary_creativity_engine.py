@@ -1008,9 +1008,7 @@ class VocabularyCreativityEngine:
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
 
     # ΛTAG: vision_symbolic_mapping
-    def map_detected_objects_to_symbols(
-        self, detected_objects: Union[Sequence[str], Iterable[str], None]
-    ) -> list[str]:
+    def map_detected_objects_to_symbols(self, detected_objects: Union[Sequence[str], Iterable[str], None]) -> list[str]:
         """Map detected object labels to unique symbolic elements."""
 
         if not detected_objects:

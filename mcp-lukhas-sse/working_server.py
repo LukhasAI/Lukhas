@@ -17,6 +17,7 @@ mcp = FastMCP("LUKHAS OAuth MCP Server")
 # OAuth configuration
 OAUTH_SECRET = "test-secret-key-for-local-development-only-do-not-use-in-production"
 
+
 def verify_token(auth_header: str) -> dict:
     """Verify JWT token and return user info."""
     if not auth_header or not auth_header.startswith("Bearer "):
@@ -25,12 +26,13 @@ def verify_token(auth_header: str) -> dict:
     token = auth_header[7:]  # Remove "Bearer "
 
     try:
-        payload = jwt.decode(token, OAUTH_SECRET, algorithms=['HS256'])
+        payload = jwt.decode(token, OAUTH_SECRET, algorithms=["HS256"])
         logger.info(f"Valid token for user: {payload.get('sub', 'unknown')}")
         return payload
     except JWTError as e:
         logger.warning(f"Invalid token: {e}")
         raise ValueError(f"Invalid token: {e}")
+
 
 @mcp.tool()
 def list_directory(path: str) -> dict:
@@ -47,15 +49,18 @@ def list_directory(path: str) -> dict:
         items = []
         for item in os.listdir(path):
             full_path = os.path.join(path, item)
-            items.append({
-                "name": item,
-                "type": "directory" if os.path.isdir(full_path) else "file",
-                "size": os.path.getsize(full_path) if os.path.isfile(full_path) else None
-            })
+            items.append(
+                {
+                    "name": item,
+                    "type": "directory" if os.path.isdir(full_path) else "file",
+                    "size": os.path.getsize(full_path) if os.path.isfile(full_path) else None,
+                }
+            )
 
         return {"path": path, "items": items}
     except Exception as e:
         return {"error": str(e)}
+
 
 @mcp.tool()
 def read_file(path: str, max_lines: int = 100) -> dict:
@@ -72,16 +77,13 @@ def read_file(path: str, max_lines: int = 100) -> dict:
         if not os.path.isfile(path):
             return {"error": "Path is not a file"}
 
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, "r", encoding="utf-8") as f:
             lines = f.readlines()[:max_lines]
 
-        return {
-            "path": path,
-            "content": "".join(lines),
-            "truncated": len(lines) >= max_lines
-        }
+        return {"path": path, "content": "".join(lines), "truncated": len(lines) >= max_lines}
     except Exception as e:
         return {"error": str(e)}
+
 
 @mcp.tool()
 def server_info() -> dict:
@@ -90,8 +92,9 @@ def server_info() -> dict:
         "name": "LUKHAS OAuth MCP Server",
         "version": "1.0.0",
         "authentication": "OAuth 2.1 (JWT)",
-        "allowed_operations": ["list_directory", "read_file", "server_info"]
+        "allowed_operations": ["list_directory", "read_file", "server_info"],
     }
+
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))

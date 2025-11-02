@@ -3,6 +3,7 @@ Consciousness Dimensionality Expander
 
 Expands consciousness into higher dimensions of awareness.
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Any

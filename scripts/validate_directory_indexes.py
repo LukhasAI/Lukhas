@@ -20,7 +20,7 @@ class DirectoryIndexValidator:
     def load_schema(self) -> Dict:
         """Load the directory index schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path, "r") as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
@@ -32,7 +32,7 @@ class DirectoryIndexValidator:
             return False, [schema["error"]]
 
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path, "r") as f:
                 index = json.load(f)
 
             jsonschema.validate(index, schema)
@@ -52,7 +52,7 @@ class DirectoryIndexValidator:
     def check_index_consistency(self, index_path: Path) -> Dict:
         """Check consistency between directory index and actual directory contents"""
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path, "r") as f:
                 index = json.load(f)
 
             directory = index_path.parent
@@ -72,7 +72,7 @@ class DirectoryIndexValidator:
 
             # Check subdirectories
             listed_subdirs = {d["name"] for d in index["component_inventory"]["subdirectories"]}
-            actual_subdirs = {d.name for d in directory.iterdir() if d.is_dir() and not d.name.startswith('.')}
+            actual_subdirs = {d.name for d in directory.iterdir() if d.is_dir() and not d.name.startswith(".")}
 
             missing_subdirs = actual_subdirs - listed_subdirs
             extra_subdirs = listed_subdirs - actual_subdirs
@@ -84,30 +84,21 @@ class DirectoryIndexValidator:
 
             # Check documentation files
             listed_docs = {d["filename"] for d in index["component_inventory"]["documentation"]}
-            actual_docs = {f.name for f in directory.iterdir()
-                          if f.is_file() and f.suffix in ['.md', '.me']}
+            actual_docs = {f.name for f in directory.iterdir() if f.is_file() and f.suffix in [".md", ".me"]}
 
             missing_docs = actual_docs - listed_docs
             if missing_docs:
                 issues.append(f"Missing documentation files in index: {missing_docs}")
 
-            return {
-                "consistent": len(issues) == 0,
-                "issues": issues,
-                "path": str(directory)
-            }
+            return {"consistent": len(issues) == 0, "issues": issues, "path": str(directory)}
 
         except Exception as e:
-            return {
-                "consistent": False,
-                "issues": [f"Error checking consistency: {e}"],
-                "path": str(index_path.parent)
-            }
+            return {"consistent": False, "issues": [f"Error checking consistency: {e}"], "path": str(index_path.parent)}
 
     def check_context_sync_integration(self, index_path: Path) -> Dict:
         """Check integration with context sync system"""
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path, "r") as f:
                 index = json.load(f)
 
             directory = index_path.parent
@@ -126,8 +117,9 @@ class DirectoryIndexValidator:
                 integration_issues.append("lukhas_context.md exists but not documented in index")
 
             # Check sync headers
-            sync_header_files = [d for d in index["component_inventory"]["documentation"]
-                               if d.get("has_sync_header", False)]
+            sync_header_files = [
+                d for d in index["component_inventory"]["documentation"] if d.get("has_sync_header", False)
+            ]
 
             if not sync_header_files and (has_claude_me or has_lukhas_context):
                 integration_issues.append("Context files present but no sync headers detected")
@@ -136,8 +128,11 @@ class DirectoryIndexValidator:
             lane = index["directory_metadata"]["lane"]
             path = index["directory_metadata"]["path"]
 
-            expected_lane = "production" if "/lukhas/" in path and "/candidate/" not in path else \
-                           "integration" if "/candidate/core/" in path else "development"
+            expected_lane = (
+                "production"
+                if "/lukhas/" in path and "/candidate/" not in path
+                else "integration" if "/candidate/core/" in path else "development"
+            )
 
             if lane != expected_lane:
                 integration_issues.append(f"Lane mismatch: expected {expected_lane}, got {lane}")
@@ -146,7 +141,7 @@ class DirectoryIndexValidator:
                 "integrated": len(integration_issues) == 0,
                 "issues": integration_issues,
                 "sync_headers": len(sync_header_files),
-                "context_files": len([f for f in documented_files if f in ["claude.me", "lukhas_context.md"]])
+                "context_files": len([f for f in documented_files if f in ["claude.me", "lukhas_context.md"]]),
             }
 
         except Exception as e:
@@ -154,7 +149,7 @@ class DirectoryIndexValidator:
                 "integrated": False,
                 "issues": [f"Error checking integration: {e}"],
                 "sync_headers": 0,
-                "context_files": 0
+                "context_files": 0,
             }
 
     def validate_all_indexes(self) -> Dict:
@@ -169,7 +164,7 @@ class DirectoryIndexValidator:
             "consistency_issues": {},
             "integration_issues": {},
             "summary": {},
-            "recommendations": []
+            "recommendations": [],
         }
 
         indexes = self.find_all_indexes()
@@ -209,23 +204,35 @@ class DirectoryIndexValidator:
 
         # Generate summary
         results["summary"] = {
-            "validation_rate": results["valid_indexes"] / results["total_indexes"] if results["total_indexes"] > 0 else 0,
-            "consistency_rate": results["consistent_indexes"] / results["total_indexes"] if results["total_indexes"] > 0 else 0,
-            "integration_rate": results["integrated_indexes"] / results["total_indexes"] if results["total_indexes"] > 0 else 0,
+            "validation_rate": (
+                results["valid_indexes"] / results["total_indexes"] if results["total_indexes"] > 0 else 0
+            ),
+            "consistency_rate": (
+                results["consistent_indexes"] / results["total_indexes"] if results["total_indexes"] > 0 else 0
+            ),
+            "integration_rate": (
+                results["integrated_indexes"] / results["total_indexes"] if results["total_indexes"] > 0 else 0
+            ),
             "validation_stats": validation_stats,
             "consistency_stats": consistency_stats,
-            "integration_stats": integration_stats
+            "integration_stats": integration_stats,
         }
 
         # Generate recommendations
         if results["valid_indexes"] < results["total_indexes"]:
-            results["recommendations"].append(f"Fix {results['total_indexes'] - results['valid_indexes']} invalid directory indexes")
+            results["recommendations"].append(
+                f"Fix {results['total_indexes'] - results['valid_indexes']} invalid directory indexes"
+            )
 
         if results["consistent_indexes"] < results["total_indexes"]:
-            results["recommendations"].append(f"Update {results['total_indexes'] - results['consistent_indexes']} inconsistent directory indexes")
+            results["recommendations"].append(
+                f"Update {results['total_indexes'] - results['consistent_indexes']} inconsistent directory indexes"
+            )
 
         if results["integrated_indexes"] < results["total_indexes"]:
-            results["recommendations"].append(f"Improve context sync integration for {results['total_indexes'] - results['integrated_indexes']} directories")
+            results["recommendations"].append(
+                f"Improve context sync integration for {results['total_indexes'] - results['integrated_indexes']} directories"
+            )
 
         if results["summary"]["validation_rate"] == 1.0 and results["summary"]["consistency_rate"] > 0.9:
             results["recommendations"].append("Directory index system is operating well - consider automation")

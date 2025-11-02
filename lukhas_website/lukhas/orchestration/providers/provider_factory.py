@@ -22,10 +22,7 @@ logger = logging.getLogger(__name__)
 ENABLE_PROVIDER_CALLS = os.getenv("LUKHAS_ENABLE_PROVIDER_CALLS", "0") == "1"
 
 
-def create_provider_client(
-    provider: AIProvider,
-    config: Optional[Dict[str, Any]] = None
-) -> BaseAIClient:
+def create_provider_client(provider: AIProvider, config: Optional[Dict[str, Any]] = None) -> BaseAIClient:
     """
     Create an AI provider client with appropriate feature flag gating
 
@@ -85,25 +82,18 @@ def get_provider_status() -> Dict[str, Dict[str, Any]]:
     Returns:
         Dictionary with provider status information
     """
-    status = {
-        "feature_flag_enabled": ENABLE_PROVIDER_CALLS,
-        "providers": {}
-    }
+    status = {"feature_flag_enabled": ENABLE_PROVIDER_CALLS, "providers": {}}
 
     for provider in AIProvider:
         if provider == AIProvider.MOCK:
-            status["providers"][provider.value] = {
-                "available": True,
-                "mode": "mock",
-                "api_key_configured": False
-            }
+            status["providers"][provider.value] = {"available": True, "mode": "mock", "api_key_configured": False}
             continue
 
         # Check for API keys
         api_key_env_vars = {
             AIProvider.OPENAI: "OPENAI_API_KEY",
             AIProvider.ANTHROPIC: "ANTHROPIC_API_KEY",
-            AIProvider.GOOGLE: "GOOGLE_API_KEY"
+            AIProvider.GOOGLE: "GOOGLE_API_KEY",
         }
 
         env_var = api_key_env_vars.get(provider)
@@ -121,7 +111,7 @@ def get_provider_status() -> Dict[str, Dict[str, Any]]:
             "available": True,
             "mode": mode,
             "api_key_configured": api_key_present,
-            "env_var": env_var
+            "env_var": env_var,
         }
 
     return status
@@ -134,25 +124,19 @@ def validate_provider_configuration() -> Dict[str, Any]:
     Returns:
         Dictionary with validation results
     """
-    validation = {
-        "valid": True,
-        "issues": [],
-        "recommendations": [],
-        "provider_status": get_provider_status()
-    }
+    validation = {"valid": True, "issues": [], "recommendations": [], "provider_status": get_provider_status()}
 
     # Check if feature flag is enabled but no API keys are configured
     if ENABLE_PROVIDER_CALLS:
         configured_providers = [
-            provider for provider, info in validation["provider_status"]["providers"].items()
+            provider
+            for provider, info in validation["provider_status"]["providers"].items()
             if info.get("api_key_configured", False)
         ]
 
         if not configured_providers:
             validation["valid"] = False
-            validation["issues"].append(
-                "LUKHAS_ENABLE_PROVIDER_CALLS=1 but no API keys configured"
-            )
+            validation["issues"].append("LUKHAS_ENABLE_PROVIDER_CALLS=1 but no API keys configured")
             validation["recommendations"].append(
                 "Configure at least one provider API key: OPENAI_API_KEY, ANTHROPIC_API_KEY, or GOOGLE_API_KEY"
             )
@@ -168,9 +152,7 @@ def validate_provider_configuration() -> Dict[str, Any]:
     # Check for partial configurations
     for provider_name, info in validation["provider_status"]["providers"].items():
         if info["mode"] == "mock_with_key":
-            validation["recommendations"].append(
-                f"{provider_name}: API key configured but feature flag disabled"
-            )
+            validation["recommendations"].append(f"{provider_name}: API key configured but feature flag disabled")
 
     return validation
 

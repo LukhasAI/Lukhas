@@ -64,7 +64,9 @@ def test_vector_store_adapter_handles_dict_matches():
 
     adapter = VectorStoreAdapter(config)
     adapter._client = SimpleNamespace(
-        search=lambda **_kwargs: [SimpleNamespace(id=match["id"], score=match["score"], payload=match["metadata"]) for match in match_dicts]
+        search=lambda **_kwargs: [
+            SimpleNamespace(id=match["id"], score=match["score"], payload=match["metadata"]) for match in match_dicts
+        ]
     )
     adapter._initialized = True
 

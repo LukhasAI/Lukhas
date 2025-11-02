@@ -1,4 +1,5 @@
 """Bridge: aka_qualia  canonical surface for qualia research components."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates, safe_guard

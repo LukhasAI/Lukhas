@@ -25,10 +25,7 @@ class TestEthicsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "ethics",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "ethics", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestEthicsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import ethics
+
         self.assertIsNotNone(ethics)
 
     def test_module_version(self):
         """Test module has version information."""
         import ethics
+
         # Most modules should have version info
-        self.assertTrue(hasattr(ethics, '__version__') or
-                       hasattr(ethics, 'VERSION'))
+        self.assertTrue(hasattr(ethics, "__version__") or hasattr(ethics, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestDecision(unittest.TestCase):
         """Test Decision can be imported."""
         try:
             from ethics import Decision
+
             self.assertIsNotNone(Decision)
         except ImportError:
             pytest.skip("Component Decision not available")
@@ -97,6 +96,7 @@ class TestEthicsEngine(unittest.TestCase):
         """Test EthicsEngine can be imported."""
         try:
             from ethics import EthicsEngine
+
             self.assertIsNotNone(EthicsEngine)
         except ImportError:
             pytest.skip("Component EthicsEngine not available")
@@ -114,6 +114,7 @@ class TestMEGPolicyBridge(unittest.TestCase):
         """Test MEGPolicyBridge can be imported."""
         try:
             from ethics import MEGPolicyBridge
+
             self.assertIsNotNone(MEGPolicyBridge)
         except ImportError:
             pytest.skip("Component MEGPolicyBridge not available")
@@ -122,7 +123,6 @@ class TestMEGPolicyBridge(unittest.TestCase):
         """Test MEGPolicyBridge can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

@@ -31,7 +31,7 @@ def test_generate_priority_files_supports_custom_output(tmp_path: Path) -> None:
                 "file": "./module/alpha.py",
                 "line": "10",
                 "text": "address security regression",
-# See: https://github.com/LukhasAI/Lukhas/issues/627
+                # See: https://github.com/LukhasAI/Lukhas/issues/627
             }
         ],
         "HIGH": [],

@@ -17,6 +17,7 @@ Usage:
         initialize_branding, get_system_signature
     )
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Any, Optional

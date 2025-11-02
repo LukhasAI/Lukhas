@@ -117,7 +117,9 @@ class ReasoningDiagnostics:
         }
 
         # Store results
-        self.diagnostic_history.append({"timestamp": datetime.now(timezone.utc), "results": results, "summary": summary})
+        self.diagnostic_history.append(
+            {"timestamp": datetime.now(timezone.utc), "results": results, "summary": summary}
+        )
 
         self.last_check_time = datetime.now(timezone.utc)
 

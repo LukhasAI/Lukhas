@@ -1,4 +1,5 @@
 """Pre-freeze bridge surface for `bridge.adapters` expected by tests."""
+
 from __future__ import annotations
 
 from _bridgeutils import bridge

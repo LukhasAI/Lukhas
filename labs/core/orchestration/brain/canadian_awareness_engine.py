@@ -74,9 +74,7 @@ class CPPAConsumerRights(Enum):
     DELETION = "deletion"  # Right to deletion/disposal
     PORTABILITY = "portability"  # Right to data portability
     WITHDRAW_CONSENT = "withdraw_consent"  # Right to withdraw consent
-    OPT_OUT_AUTOMATED = (
-        "opt_out_automated"  # Right to opt-out of automated decision-making
-    )
+    OPT_OUT_AUTOMATED = "opt_out_automated"  # Right to opt-out of automated decision-making
 
 
 class AIDAGoverance(Enum):
@@ -163,26 +161,16 @@ class CanadianInput(GlobalInstitutionalInput):
     """Canadian-specific awareness input with PIPEDA/CPPA compliance."""
 
     # PIPEDA compliance fields
-    collection_purpose: str = Field(
-        ..., description="Purpose for collecting personal information"
-    )
-    consent_obtained: bool = Field(
-        default=False, description="Whether valid consent was obtained"
-    )
-    consent_type: str = Field(
-        default="explicit", description="Type of consent (explicit/implied)"
-    )
+    collection_purpose: str = Field(..., description="Purpose for collecting personal information")
+    consent_obtained: bool = Field(default=False, description="Whether valid consent was obtained")
+    consent_type: str = Field(default="explicit", description="Type of consent (explicit/implied)")
 
     # Provincial jurisdiction
     province: ProvincialJurisdiction = Field(default=ProvincialJurisdiction.FEDERAL)
-    is_health_data: bool = Field(
-        default=False, description="Contains personal health information"
-    )
+    is_health_data: bool = Field(default=False, description="Contains personal health information")
 
     # AIDA compliance (AI systems)
-    is_ai_system: bool = Field(
-        default=False, description="Processing involves AI system"
-    )
+    is_ai_system: bool = Field(default=False, description="Processing involves AI system")
     ai_impact_level: Optional[str] = None
 
     # Indigenous data considerations
@@ -190,9 +178,7 @@ class CanadianInput(GlobalInstitutionalInput):
     indigenous_community_consent: Optional[str] = None
 
     # Language preferences
-    preferred_language: str = Field(
-        default="en", description="en/fr for bilingual compliance"
-    )
+    preferred_language: str = Field(default="en", description="en/fr for bilingual compliance")
 
 
 class CanadianOutput(GlobalInstitutionalOutput):
@@ -231,9 +217,7 @@ class CanadianOutput(GlobalInstitutionalOutput):
 
 # Canadian consciousness function with proper parameter structure for awareness processing
 def canadian_audit_log(
-    event: str,
-    data: dict[str, Any],
-    jurisdiction: ProvincialJurisdiction = ProvincialJurisdiction.FEDERAL
+    event: str, data: dict[str, Any], jurisdiction: ProvincialJurisdiction = ProvincialJurisdiction.FEDERAL
 ):
     """Canadian-specific audit logging with provincial jurisdiction tracking."""
     audit_entry = {
@@ -249,9 +233,7 @@ def canadian_audit_log(
     }
 
     # Log in both official languages for federal compliance
-    logging.getLogger("canadian_institutional_audit").info(
-        json.dumps(audit_entry, ensure_ascii=False)
-    )
+    logging.getLogger("canadian_institutional_audit").info(json.dumps(audit_entry, ensure_ascii=False))
 
 
 # ——— Canadian Institutional Awareness Modules ——————————————————————— #
@@ -309,25 +291,19 @@ class CanadianPrivacyModule:
         result = CanadianOutput(
             compliance_score=pipeda_score,
             jurisdiction=Jurisdiction.CA,
-            legal_basis=(
-                LegalBasis.CONSENT.value
-                if inputs.consent_obtained
-                else LegalBasis.LEGAL_OBLIGATION.value
-            ),
+            legal_basis=(LegalBasis.CONSENT.value if inputs.consent_obtained else LegalBasis.LEGAL_OBLIGATION.value),
             data_category=DataCategory.PERSONAL_DATA.value,
             processing_timestamp=global_timestamp(),
             # Canadian-specific fields
             pipeda_compliance_score=pipeda_score,
-            consent_validity=inputs.consent_obtained
-            and inputs.consent_type == "explicit",
+            consent_validity=inputs.consent_obtained and inputs.consent_type == "explicit",
             purpose_limitation_met=bool(inputs.collection_purpose),
             data_minimization_applied=True,  # Assume implemented
             consumer_rights_available=consumer_rights,
             automated_decision_involved=inputs.is_ai_system,
             opt_out_mechanism_provided=self.config.cppa_enabled,
             provincial_compliance_status=provincial_status,
-            health_data_protection_applied=inputs.is_health_data
-            and self.config.health_data_protection,
+            health_data_protection_applied=inputs.is_health_data and self.config.health_data_protection,
             data_transfer_assessment=transfer_assessment,
             indigenous_protocols_followed=not inputs.involves_indigenous_data
             or bool(inputs.indigenous_community_consent),
@@ -392,9 +368,7 @@ class CanadianPrivacyModule:
 
         return min(score, 100.0)
 
-    def _assess_consumer_rights(
-        self, inputs: CanadianInput
-    ) -> list[CPPAConsumerRights]:
+    def _assess_consumer_rights(self, inputs: CanadianInput) -> list[CPPAConsumerRights]:
         """Assess available CPPA consumer rights."""
         rights = []
 
@@ -420,10 +394,7 @@ class CanadianPrivacyModule:
         """Assess provincial privacy law compliance."""
         if inputs.province == ProvincialJurisdiction.FEDERAL:
             return "PIPEDA_COMPLIANT"
-        elif (
-            inputs.province == ProvincialJurisdiction.QUEBEC
-            and self.config.quebec_law25_compliance
-        ):
+        elif inputs.province == ProvincialJurisdiction.QUEBEC and self.config.quebec_law25_compliance:
             return "QUEBEC_LAW25_COMPLIANT"
         elif inputs.province in [
             ProvincialJurisdiction.BRITISH_COLUMBIA,
@@ -441,8 +412,7 @@ class CanadianPrivacyModule:
             "compliant": self.config.data_localization != DataLocalization.CANADA_ONLY,
             "localization_level": self.config.data_localization.value,
             "adequate_jurisdictions": ["EU", "UK", "Switzerland"],
-            "contractual_safeguards_required": self.config.data_localization
-            == DataLocalization.CONTRACTUAL_SAFEGUARDS,
+            "contractual_safeguards_required": self.config.data_localization == DataLocalization.CONTRACTUAL_SAFEGUARDS,
             "us_transfer_restricted": self.config.us_transfer_restrictions,
         }
 
@@ -508,9 +478,7 @@ class CanadianAIGovernanceModule:
             purpose_limitation_met=bool(inputs.collection_purpose),
             data_minimization_applied=True,
             consumer_rights_available=(
-                [CPPAConsumerRights.OPT_OUT_AUTOMATED]
-                if self.config.automated_decision_opt_out
-                else []
+                [CPPAConsumerRights.OPT_OUT_AUTOMATED] if self.config.automated_decision_opt_out else []
             ),
             automated_decision_involved=True,
             opt_out_mechanism_provided=self.config.automated_decision_opt_out,
@@ -535,8 +503,7 @@ class CanadianAIGovernanceModule:
             inputs.ai_impact_level == "high",
             inputs.is_health_data,
             inputs.involves_indigenous_data,
-            hasattr(inputs, "affects_employment")
-            and getattr(inputs, "affects_employment", False),
+            hasattr(inputs, "affects_employment") and getattr(inputs, "affects_employment", False),
         ]
         return any(high_impact_indicators)
 
@@ -615,25 +582,17 @@ class CanadianAwarenessEngine:
             if inputs.is_ai_system:
                 ai_result = self.modules["ai_governance"].process(inputs)
                 # Combine results (take lower compliance score for safety)
-                privacy_result.compliance_score = min(
-                    privacy_result.compliance_score, ai_result.compliance_score
-                )
-                privacy_result.ai_impact_assessment_required = (
-                    ai_result.ai_impact_assessment_required
-                )
+                privacy_result.compliance_score = min(privacy_result.compliance_score, ai_result.compliance_score)
+                privacy_result.ai_impact_assessment_required = ai_result.ai_impact_assessment_required
                 privacy_result.ai_bias_risk_level = ai_result.ai_bias_risk_level
-                privacy_result.ai_transparency_provided = (
-                    ai_result.ai_transparency_provided
-                )
+                privacy_result.ai_transparency_provided = ai_result.ai_transparency_provided
 
             canadian_audit_log(
                 "processing_complete",
                 {
                     "final_compliance_score": privacy_result.compliance_score,
                     "pipeda_score": privacy_result.pipeda_compliance_score,
-                    "consumer_rights_count": len(
-                        privacy_result.consumer_rights_available
-                    ),
+                    "consumer_rights_count": len(privacy_result.consumer_rights_available),
                     "provincial_status": privacy_result.provincial_compliance_status,
                 },
                 inputs.province,
@@ -705,8 +664,7 @@ if __name__ == "__main__":
     print(f"Provincial Status: {result.provincial_compliance_status}")
     print(f"AI Assessment Required: {result.ai_impact_assessment_required}")
     print(
-        f"Bilingual Support: EN={result.english_documentation_available},"
-        f"FR={result.french_documentation_available}"
+        f"Bilingual Support: EN={result.english_documentation_available}," f"FR={result.french_documentation_available}"
     )
 
     certification = certify_canadian_compliance()

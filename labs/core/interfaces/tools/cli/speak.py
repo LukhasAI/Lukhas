@@ -4,6 +4,7 @@ Original: speak.py
 Advanced: speak.py
 Integration Date: 2025-5-31T07:55:30.780336
 """
+
 # ===============================================================
 #  FILE: tools/speak.py
 #  PURPOSE: CLI command to speak symbolically with tier checks, emotion style, and logging
@@ -93,7 +94,7 @@ def main():
     voice = EMOTION_VOICES.get(args.emotion.lower(), DEFAULT_VOICE)
 
     # Keep these as print since they are CLI user output
-    print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}""")
+    print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}" "")
     if not args.preview:
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)

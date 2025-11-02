@@ -3,6 +3,7 @@ LUKHAS AI Colony System - Identity Colony
 Identity management and authentication
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
 from datetime import datetime, timezone
 from typing import Any
 

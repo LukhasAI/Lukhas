@@ -228,7 +228,12 @@ class AGIServiceConfiguration:
             },
             "cognitive_memory_consolidator": {
                 "component_factory": MemoryConsolidator,
-                "dependencies": ["cognitive_vector_memory", "cognitive_episodic_memory", "cognitive_semantic_memory", "cognitive_dream_memory"],
+                "dependencies": [
+                    "cognitive_vector_memory",
+                    "cognitive_episodic_memory",
+                    "cognitive_semantic_memory",
+                    "cognitive_dream_memory",
+                ],
                 "priority": 3,
                 "auto_initialize": True,
                 "health_monitoring": True,

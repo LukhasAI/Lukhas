@@ -31,33 +31,24 @@ logger = logging.getLogger(__name__)
 
 # Prometheus metrics
 multi_ai_requests_total = counter(
-    'lukhas_multi_ai_requests_total',
-    'Total multi-AI requests',
-    ['provider', 'model', 'consensus_type']
+    "lukhas_multi_ai_requests_total", "Total multi-AI requests", ["provider", "model", "consensus_type"]
 )
 
 multi_ai_latency_seconds = histogram(
-    'lukhas_multi_ai_latency_seconds',
-    'Multi-AI request latency',
-    ['provider', 'model'],
-    buckets=[0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0]
+    "lukhas_multi_ai_latency_seconds",
+    "Multi-AI request latency",
+    ["provider", "model"],
+    buckets=[0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0],
 )
 
-consensus_agreement_ratio = gauge(
-    'lukhas_consensus_agreement_ratio',
-    'Consensus agreement ratio',
-    ['consensus_type']
-)
+consensus_agreement_ratio = gauge("lukhas_consensus_agreement_ratio", "Consensus agreement ratio", ["consensus_type"])
 
-model_availability = gauge(
-    'lukhas_model_availability',
-    'Model availability status',
-    ['provider', 'model']
-)
+model_availability = gauge("lukhas_model_availability", "Model availability status", ["provider", "model"])
 
 
 class AIProvider(Enum):
     """Supported AI providers"""
+
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     GOOGLE = "google"
@@ -67,6 +58,7 @@ class AIProvider(Enum):
 
 class ConsensusType(Enum):
     """Types of consensus mechanisms"""
+
     MAJORITY = "majority"
     WEIGHTED = "weighted"
     UNANIMOUS = "unanimous"
@@ -77,6 +69,7 @@ class ConsensusType(Enum):
 @dataclass
 class AIModel:
     """AI model configuration"""
+
     provider: AIProvider
     model_id: str
     weight: float = 1.0
@@ -91,6 +84,7 @@ class AIModel:
 @dataclass
 class RoutingRequest:
     """Multi-AI routing request"""
+
     prompt: str
     context: Dict[str, Any] = field(default_factory=dict)
     models: List[str] = field(default_factory=list)
@@ -104,6 +98,7 @@ class RoutingRequest:
 @dataclass
 class AIResponse:
     """Response from a single AI model"""
+
     provider: AIProvider
     model_id: str
     response: str
@@ -117,6 +112,7 @@ class AIResponse:
 @dataclass
 class ConsensusResult:
     """Result of consensus evaluation"""
+
     final_response: str
     confidence: float
     agreement_ratio: float
@@ -139,28 +135,21 @@ class ModelSelector:
         self.models[key] = model
         self.performance_history[key] = []
 
-        model_availability.labels(
-            provider=model.provider.value,
-            model=model.model_id
-        ).set(1 if model.available else 0)
+        model_availability.labels(provider=model.provider.value, model=model.model_id).set(1 if model.available else 0)
 
-    def select_models(self,
-                     request: RoutingRequest,
-                     exclude_models: List[str] = None) -> List[AIModel]:
+    def select_models(self, request: RoutingRequest, exclude_models: List[str] = None) -> List[AIModel]:
         """Select optimal models for the request"""
         exclude_models = exclude_models or []
 
         # Filter available models
         available_models = [
-            model for key, model in self.models.items()
-            if model.available and key not in exclude_models
+            model for key, model in self.models.items() if model.available and key not in exclude_models
         ]
 
         if request.models:
             # Use specific models if requested
             selected = [
-                model for model in available_models
-                if f"{model.provider.value}:{model.model_id}" in request.models
+                model for model in available_models if f"{model.provider.value}:{model.model_id}" in request.models
             ]
         else:
             # Intelligent selection based on performance
@@ -172,9 +161,7 @@ class ModelSelector:
 
         return selected[:num_needed]
 
-    def _intelligent_selection(self,
-                             available_models: List[AIModel],
-                             request: RoutingRequest) -> List[AIModel]:
+    def _intelligent_selection(self, available_models: List[AIModel], request: RoutingRequest) -> List[AIModel]:
         """Intelligent model selection algorithm"""
         # Score models based on multiple factors
         scored_models = []
@@ -197,7 +184,7 @@ class ModelSelector:
 
         # Adjust for latency (lower is better)
         if model.avg_latency > 0:
-            score *= (1.0 / (1.0 + model.avg_latency))
+            score *= 1.0 / (1.0 + model.avg_latency)
 
         # Adjust for cost efficiency
         if model.cost_per_token > 0:
@@ -206,11 +193,7 @@ class ModelSelector:
 
         return score
 
-    def update_performance(self,
-                          provider: AIProvider,
-                          model_id: str,
-                          latency: float,
-                          success: bool) -> None:
+    def update_performance(self, provider: AIProvider, model_id: str, latency: float, success: bool) -> None:
         """Update model performance metrics"""
         key = f"{provider.value}:{model_id}"
         if key not in self.models:
@@ -245,9 +228,7 @@ class ConsensusEngine:
     def __init__(self):
         self.similarity_cache: Dict[str, float] = {}
 
-    async def evaluate_consensus(self,
-                               responses: List[AIResponse],
-                               consensus_type: ConsensusType) -> ConsensusResult:
+    async def evaluate_consensus(self, responses: List[AIResponse], consensus_type: ConsensusType) -> ConsensusResult:
         """Evaluate consensus from multiple AI responses"""
 
         with tracer.start_span("consensus.evaluate") as span:
@@ -285,9 +266,7 @@ class ConsensusEngine:
         # Select best response from largest group
         best_response = max(largest_group, key=lambda r: r.confidence)
 
-        consensus_agreement_ratio.labels(
-            consensus_type="majority"
-        ).set(agreement_ratio)
+        consensus_agreement_ratio.labels(consensus_type="majority").set(agreement_ratio)
 
         return ConsensusResult(
             final_response=best_response.response,
@@ -296,7 +275,7 @@ class ConsensusEngine:
             participating_models=[f"{r.provider.value}:{r.model_id}" for r in responses],
             individual_responses=responses,
             consensus_type=ConsensusType.MAJORITY,
-            metadata={"largest_group_size": len(largest_group)}
+            metadata={"largest_group_size": len(largest_group)},
         )
 
     async def _weighted_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
@@ -311,9 +290,9 @@ class ConsensusEngine:
         for response in responses:
             # Weight based on confidence, inverse latency, and success rate
             weight = (
-                response.confidence *
-                (1.0 / (1.0 + response.latency)) *
-                (1.0 / (1.0 + response.cost)) if response.cost > 0 else 1.0
+                response.confidence * (1.0 / (1.0 + response.latency)) * (1.0 / (1.0 + response.cost))
+                if response.cost > 0
+                else 1.0
             )
             weighted_responses.append((weight, response))
             total_weight += weight
@@ -327,9 +306,7 @@ class ConsensusEngine:
         # Calculate agreement ratio (normalized weight of best response)
         agreement_ratio = best_weight / total_weight if total_weight > 0 else 0
 
-        consensus_agreement_ratio.labels(
-            consensus_type="weighted"
-        ).set(agreement_ratio)
+        consensus_agreement_ratio.labels(consensus_type="weighted").set(agreement_ratio)
 
         return ConsensusResult(
             final_response=best_response.response,
@@ -338,7 +315,7 @@ class ConsensusEngine:
             participating_models=[f"{r.provider.value}:{r.model_id}" for r in responses],
             individual_responses=responses,
             consensus_type=ConsensusType.WEIGHTED,
-            metadata={"best_weight": best_weight, "total_weight": total_weight}
+            metadata={"best_weight": best_weight, "total_weight": total_weight},
         )
 
     async def _unanimous_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
@@ -352,10 +329,7 @@ class ConsensusEngine:
 
         for i in range(len(responses)):
             for j in range(i + 1, len(responses)):
-                similarity = await self._calculate_similarity(
-                    responses[i].response,
-                    responses[j].response
-                )
+                similarity = await self._calculate_similarity(responses[i].response, responses[j].response)
                 if similarity < similarity_threshold:
                     all_similar = False
                     break
@@ -371,9 +345,7 @@ class ConsensusEngine:
             # Fallback to majority consensus
             return await self._majority_consensus(responses)
 
-        consensus_agreement_ratio.labels(
-            consensus_type="unanimous"
-        ).set(agreement_ratio)
+        consensus_agreement_ratio.labels(consensus_type="unanimous").set(agreement_ratio)
 
         return ConsensusResult(
             final_response=best_response.response,
@@ -382,7 +354,7 @@ class ConsensusEngine:
             participating_models=[f"{r.provider.value}:{r.model_id}" for r in responses],
             individual_responses=responses,
             consensus_type=ConsensusType.UNANIMOUS,
-            metadata={"unanimous": all_similar}
+            metadata={"unanimous": all_similar},
         )
 
     async def _best_of_n_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
@@ -405,9 +377,7 @@ class ConsensusEngine:
         total_score = sum(score for score, _ in scored_responses)
         agreement_ratio = best_score / total_score if total_score > 0 else 0
 
-        consensus_agreement_ratio.labels(
-            consensus_type="best_of_n"
-        ).set(agreement_ratio)
+        consensus_agreement_ratio.labels(consensus_type="best_of_n").set(agreement_ratio)
 
         return ConsensusResult(
             final_response=best_response.response,
@@ -416,7 +386,7 @@ class ConsensusEngine:
             participating_models=[f"{r.provider.value}:{r.model_id}" for r in responses],
             individual_responses=responses,
             consensus_type=ConsensusType.BEST_OF_N,
-            metadata={"best_score": best_score, "all_scores": [s for s, _ in scored_responses]}
+            metadata={"best_score": best_score, "all_scores": [s for s, _ in scored_responses]},
         )
 
     async def _hybrid_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
@@ -460,9 +430,9 @@ class ConsensusEngine:
 
         return score
 
-    async def _group_similar_responses(self,
-                                     responses: List[AIResponse],
-                                     threshold: float = 0.7) -> List[List[AIResponse]]:
+    async def _group_similar_responses(
+        self, responses: List[AIResponse], threshold: float = 0.7
+    ) -> List[List[AIResponse]]:
         """Group responses by similarity"""
         groups = []
 
@@ -472,10 +442,7 @@ class ConsensusEngine:
 
             for group in groups:
                 # Check similarity with first response in group
-                similarity = await self._calculate_similarity(
-                    response.response,
-                    group[0].response
-                )
+                similarity = await self._calculate_similarity(response.response, group[0].response)
 
                 if similarity >= threshold:
                     group.append(response)
@@ -539,35 +506,23 @@ class MultiAIRouter:
     def register_default_models(self) -> None:
         """Register default AI models"""
         # OpenAI models
-        self.model_selector.register_model(AIModel(
-            provider=AIProvider.OPENAI,
-            model_id="gpt-4",
-            weight=1.0,
-            cost_per_token=0.00003
-        ))
+        self.model_selector.register_model(
+            AIModel(provider=AIProvider.OPENAI, model_id="gpt-4", weight=1.0, cost_per_token=0.00003)
+        )
 
-        self.model_selector.register_model(AIModel(
-            provider=AIProvider.OPENAI,
-            model_id="gpt-3.5-turbo",
-            weight=0.8,
-            cost_per_token=0.000002
-        ))
+        self.model_selector.register_model(
+            AIModel(provider=AIProvider.OPENAI, model_id="gpt-3.5-turbo", weight=0.8, cost_per_token=0.000002)
+        )
 
         # Anthropic models
-        self.model_selector.register_model(AIModel(
-            provider=AIProvider.ANTHROPIC,
-            model_id="claude-3-sonnet",
-            weight=1.0,
-            cost_per_token=0.000015
-        ))
+        self.model_selector.register_model(
+            AIModel(provider=AIProvider.ANTHROPIC, model_id="claude-3-sonnet", weight=1.0, cost_per_token=0.000015)
+        )
 
         # Google models
-        self.model_selector.register_model(AIModel(
-            provider=AIProvider.GOOGLE,
-            model_id="gemini-pro",
-            weight=0.9,
-            cost_per_token=0.000001
-        ))
+        self.model_selector.register_model(
+            AIModel(provider=AIProvider.GOOGLE, model_id="gemini-pro", weight=0.9, cost_per_token=0.000001)
+        )
 
         logger.info("Registered default AI models")
 
@@ -589,6 +544,7 @@ class MultiAIRouter:
                 logger.error(f"❌ Failed to initialize {provider.value} client: {e}")
                 # Fall back to mock client
                 from .providers import MockAIClient
+
                 self.ai_clients[provider] = MockAIClient()
                 logger.warning(f"🔄 Using mock client for {provider.value}")
 
@@ -600,7 +556,7 @@ class MultiAIRouter:
         """Calculate confidence score based on AI response"""
         base_confidence = 0.8  # Default confidence
 
-        if ai_response.metadata and ai_response.metadata.get('mock'):
+        if ai_response.metadata and ai_response.metadata.get("mock"):
             return base_confidence
 
         # Adjust confidence based on response characteristics
@@ -613,9 +569,9 @@ class MultiAIRouter:
             confidence -= 0.1
 
         # Factor in finish reason
-        if ai_response.finish_reason == 'stop':
+        if ai_response.finish_reason == "stop":
             confidence += 0.05
-        elif ai_response.finish_reason in ['length', 'content_filter']:
+        elif ai_response.finish_reason in ["length", "content_filter"]:
             confidence -= 0.1
 
         # Factor in latency (reasonable latency suggests good response)
@@ -649,33 +605,27 @@ class MultiAIRouter:
                 span.set_attribute("selected_models", len(selected_models))
 
                 # Send requests to selected models
-                responses = await self._send_parallel_requests(
-                    request, selected_models
-                )
+                responses = await self._send_parallel_requests(request, selected_models)
 
                 # Filter successful responses
                 successful_responses = [r for r in responses if r is not None]
 
                 if len(successful_responses) < request.min_responses:
-                    raise ValueError(f"Only {len(successful_responses)} successful responses, need {request.min_responses}")
+                    raise ValueError(
+                        f"Only {len(successful_responses)} successful responses, need {request.min_responses}"
+                    )
 
                 # Evaluate consensus
                 consensus_result = await self.consensus_engine.evaluate_consensus(
-                    successful_responses,
-                    request.consensus_type
+                    successful_responses, request.consensus_type
                 )
 
                 # Record metrics
                 latency = time.time() - start_time
-                multi_ai_latency_seconds.labels(
-                    provider="consensus",
-                    model="multi_ai"
-                ).observe(latency)
+                multi_ai_latency_seconds.labels(provider="consensus", model="multi_ai").observe(latency)
 
                 multi_ai_requests_total.labels(
-                    provider="consensus",
-                    model="multi_ai",
-                    consensus_type=request.consensus_type.value
+                    provider="consensus", model="multi_ai", consensus_type=request.consensus_type.value
                 ).inc()
 
                 span.set_attribute("final_confidence", consensus_result.confidence)
@@ -688,24 +638,19 @@ class MultiAIRouter:
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
                 raise
 
-    async def _send_parallel_requests(self,
-                                    request: RoutingRequest,
-                                    models: List[AIModel]) -> List[Optional[AIResponse]]:
+    async def _send_parallel_requests(
+        self, request: RoutingRequest, models: List[AIModel]
+    ) -> List[Optional[AIResponse]]:
         """Send requests to multiple models in parallel"""
 
         tasks = []
         for model in models:
-            task = asyncio.create_task(
-                self._send_single_request(request, model)
-            )
+            task = asyncio.create_task(self._send_single_request(request, model))
             tasks.append(task)
 
         # Wait for all requests with timeout
         try:
-            responses = await asyncio.wait_for(
-                asyncio.gather(*tasks, return_exceptions=True),
-                timeout=request.timeout
-            )
+            responses = await asyncio.wait_for(asyncio.gather(*tasks, return_exceptions=True), timeout=request.timeout)
         except asyncio.TimeoutError:
             logger.warning(f"Multi-AI request timed out after {request.timeout}s")
             responses = [None] * len(models)
@@ -721,9 +666,7 @@ class MultiAIRouter:
 
         return final_responses
 
-    async def _send_single_request(self,
-                                 request: RoutingRequest,
-                                 model: AIModel) -> Optional[AIResponse]:
+    async def _send_single_request(self, request: RoutingRequest, model: AIModel) -> Optional[AIResponse]:
         """Send request to a single AI model"""
 
         start_time = time.time()
@@ -744,32 +687,26 @@ class MultiAIRouter:
                     model=model.model_id,
                     max_tokens=request.max_tokens,
                     temperature=model.temperature,
-                    system_prompt=getattr(request, 'system_prompt', None)
+                    system_prompt=getattr(request, "system_prompt", None),
                 )
 
                 response_text = ai_response.content
-                tokens_used = ai_response.usage.get('total_tokens', len(response_text.split())) if ai_response.usage else len(response_text.split())
+                tokens_used = (
+                    ai_response.usage.get("total_tokens", len(response_text.split()))
+                    if ai_response.usage
+                    else len(response_text.split())
+                )
                 cost = tokens_used * model.cost_per_token
                 latency = time.time() - start_time
 
                 # Update model performance
-                self.model_selector.update_performance(
-                    model.provider,
-                    model.model_id,
-                    latency,
-                    True
-                )
+                self.model_selector.update_performance(model.provider, model.model_id, latency, True)
 
                 # Record metrics
-                multi_ai_latency_seconds.labels(
-                    provider=model.provider.value,
-                    model=model.model_id
-                ).observe(latency)
+                multi_ai_latency_seconds.labels(provider=model.provider.value, model=model.model_id).observe(latency)
 
                 multi_ai_requests_total.labels(
-                    provider=model.provider.value,
-                    model=model.model_id,
-                    consensus_type=request.consensus_type.value
+                    provider=model.provider.value, model=model.model_id, consensus_type=request.consensus_type.value
                 ).inc()
 
                 return AIResponse(
@@ -783,20 +720,15 @@ class MultiAIRouter:
                     metadata={
                         "temperature": model.temperature,
                         "provider_metadata": ai_response.metadata,
-                        "finish_reason": ai_response.finish_reason
-                    }
+                        "finish_reason": ai_response.finish_reason,
+                    },
                 )
 
             except Exception as e:
                 latency = time.time() - start_time
 
                 # Update model performance (failure)
-                self.model_selector.update_performance(
-                    model.provider,
-                    model.model_id,
-                    latency,
-                    False
-                )
+                self.model_selector.update_performance(model.provider, model.model_id, latency, False)
 
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
@@ -807,6 +739,7 @@ class MultiAIRouter:
 
 # Global router instance
 _global_router: Optional[MultiAIRouter] = None
+
 
 def get_multi_ai_router() -> MultiAIRouter:
     """Get global multi-AI router instance"""

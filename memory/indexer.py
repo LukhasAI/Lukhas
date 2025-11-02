@@ -44,12 +44,14 @@ class Indexer:
 try:
     from candidate.memory.indexer import ContentExtractor
 except ImportError:
+
     class ContentExtractor:
         """Stub for ContentExtractor."""
 
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
 
 _register("ContentExtractor")
 
@@ -58,6 +60,7 @@ _register("ContentExtractor")
 try:
     from candidate.memory.indexer import DocumentIndexer
 except ImportError:
+
     class DocumentIndexer:
         """Stub for DocumentIndexer."""
 
@@ -65,19 +68,23 @@ except ImportError:
             for key, value in kwargs.items():
                 setattr(self, key, value)
 
+
 _register("DocumentIndexer")
 
 # Added for test compatibility (memory.indexer.OpenAIEmbeddingProvider)
 try:
     from bridge.adapters.openai_embedding_provider import OpenAIEmbeddingProvider
+
     if "OpenAIEmbeddingProvider" not in __all__:
         __all__.append("OpenAIEmbeddingProvider")
 except ImportError:
     try:
         from candidate.memory.indexer import OpenAIEmbeddingProvider  # type: ignore
+
         if "OpenAIEmbeddingProvider" not in __all__:
             __all__.append("OpenAIEmbeddingProvider")
     except ImportError:
+
         class OpenAIEmbeddingProvider:
             """Stub embedding provider."""
 
@@ -91,6 +98,7 @@ except ImportError:
 try:
     from candidate.memory.indexer import SentenceTransformersProvider
 except ImportError:
+
     class SentenceTransformersProvider:
         """Stub sentence transformers provider."""
 
@@ -99,5 +107,6 @@ except ImportError:
 
         def embed(self, texts: Iterable[str]) -> List[List[float]]:
             return [[0.0] * 768 for _ in texts]
+
 
 _register("SentenceTransformersProvider")

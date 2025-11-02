@@ -8,4 +8,4 @@ Identity management components for CANDIDATE system.
 
 from .identity_manager import IdentityManager
 
-__all__ = ['IdentityManager']
+__all__ = ["IdentityManager"]

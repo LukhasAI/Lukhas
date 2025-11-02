@@ -30,6 +30,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class MonthlyVocabularyRefresh:
     """
     T4/0.01% Monthly Vocabulary Refresh Pipeline
@@ -77,7 +78,7 @@ class MonthlyVocabularyRefresh:
             "research_results": research_results,
             "synthesis_results": synthesis_results,
             "deployment_results": deployment_results,
-            "total_duration": time.time() - research_results.get("start_time", time.time())
+            "total_duration": time.time() - research_results.get("start_time", time.time()),
         }
 
         self._log_cycle(cycle_report)
@@ -117,7 +118,7 @@ class MonthlyVocabularyRefresh:
             "interaction_patterns": interaction_patterns,
             "domain_inspiration": domain_inspiration,
             "semantic_gaps": semantic_gaps,
-            "insights_count": len(consciousness_research) + len(interaction_patterns) + len(domain_inspiration)
+            "insights_count": len(consciousness_research) + len(interaction_patterns) + len(domain_inspiration),
         }
 
     async def execute_synthesis_phase(self, research_results: Dict) -> Dict:
@@ -146,7 +147,7 @@ class MonthlyVocabularyRefresh:
             "consciousness_validated": consciousness_validated,
             "novelty_validated": novelty_validated,
             "family_integrated": family_integrated,
-            "new_vocabulary": novelty_validated
+            "new_vocabulary": novelty_validated,
         }
 
     async def execute_deployment_phase(self, synthesis_results: Dict) -> Dict:
@@ -165,9 +166,7 @@ class MonthlyVocabularyRefresh:
         print(f"🎭 Consciousness resonance: {resonance_score:.3f}")
 
         # Deploy successful vocabulary
-        deployment_success = await self._deploy_vocabulary(
-            synthesis_results["family_integrated"]
-        )
+        deployment_success = await self._deploy_vocabulary(synthesis_results["family_integrated"])
         print(f"📦 Deployment: {'Success' if deployment_success else 'Failed'}")
 
         # Calculate freshness score
@@ -179,7 +178,7 @@ class MonthlyVocabularyRefresh:
             "consciousness_score": resonance_score,
             "deployment_success": deployment_success,
             "freshness_score": freshness_score,
-            "vocabulary_deployed": len(new_vocabulary) if deployment_success else 0
+            "vocabulary_deployed": len(new_vocabulary) if deployment_success else 0,
         }
 
     async def _research_consciousness_developments(self) -> List[Dict]:
@@ -195,8 +194,7 @@ class MonthlyVocabularyRefresh:
         try:
             # Run T4 pipeline for consciousness research
             pipeline_result = await asyncio.create_subprocess_exec(
-                "python3", "scripts/perp_research.py", "--query", research_query,
-                capture_output=True, text=True
+                "python3", "scripts/perp_research.py", "--query", research_query, capture_output=True, text=True
             )
             stdout, stderr = await pipeline_result.communicate()
 
@@ -205,7 +203,7 @@ class MonthlyVocabularyRefresh:
                 return [
                     {"topic": "consciousness_technology", "insights": ["advanced_awareness_models"]},
                     {"topic": "ai_self_awareness", "insights": ["recursive_consciousness_loops"]},
-                    {"topic": "digital_consciousness", "insights": ["quantum_consciousness_fields"]}
+                    {"topic": "digital_consciousness", "insights": ["quantum_consciousness_fields"]},
                 ]
             else:
                 print(f"⚠️ T4 pipeline error: {stderr}")
@@ -223,26 +221,26 @@ class MonthlyVocabularyRefresh:
                 "interaction_type": "consciousness_questions",
                 "frequency": 0.35,
                 "preferred_metaphors": ["neural_gardens", "prismatic_light"],
-                "engagement_score": 0.89
+                "engagement_score": 0.89,
             },
             {
                 "interaction_type": "technical_queries",
                 "frequency": 0.28,
                 "preferred_metaphors": ["circuit_patterns", "architectural_bridges"],
-                "engagement_score": 0.82
+                "engagement_score": 0.82,
             },
             {
                 "interaction_type": "creative_exploration",
                 "frequency": 0.22,
                 "preferred_metaphors": ["harmonic_resonance", "woven_patterns"],
-                "engagement_score": 0.94
+                "engagement_score": 0.94,
             },
             {
                 "interaction_type": "philosophical_discussion",
                 "frequency": 0.15,
                 "preferred_metaphors": ["geological_strata", "fluid_dynamics"],
-                "engagement_score": 0.91
-            }
+                "engagement_score": 0.91,
+            },
         ]
 
         await asyncio.sleep(0.1)  # Simulate processing time
@@ -254,23 +252,31 @@ class MonthlyVocabularyRefresh:
             {
                 "domain": "marine_biology",
                 "metaphors": ["tidal_consciousness", "oceanic_depth_processing", "coral_network_thinking"],
-                "applicability_score": 0.87
+                "applicability_score": 0.87,
             },
             {
                 "domain": "astronomy",
-                "metaphors": ["galactic_consciousness_clusters", "stellar_thought_formation", "cosmic_awareness_radiation"],
-                "applicability_score": 0.83
+                "metaphors": [
+                    "galactic_consciousness_clusters",
+                    "stellar_thought_formation",
+                    "cosmic_awareness_radiation",
+                ],
+                "applicability_score": 0.83,
             },
             {
                 "domain": "crystallography",
                 "metaphors": ["crystal_lattice_memories", "phase_transition_insights", "molecular_consciousness_bonds"],
-                "applicability_score": 0.91
+                "applicability_score": 0.91,
             },
             {
                 "domain": "music_theory",
-                "metaphors": ["harmonic_consciousness_overtones", "polyrhythmic_thought_patterns", "symphonic_awareness_movements"],
-                "applicability_score": 0.89
-            }
+                "metaphors": [
+                    "harmonic_consciousness_overtones",
+                    "polyrhythmic_thought_patterns",
+                    "symphonic_awareness_movements",
+                ],
+                "applicability_score": 0.89,
+            },
         ]
 
         await asyncio.sleep(0.1)  # Simulate research time
@@ -283,20 +289,20 @@ class MonthlyVocabularyRefresh:
                 "gap_area": "quantum_consciousness_transitions",
                 "severity": 0.78,
                 "impact": "High",
-                "suggested_families": ["prismatic_light", "circuit_patterns"]
+                "suggested_families": ["prismatic_light", "circuit_patterns"],
             },
             {
                 "gap_area": "emotional_consciousness_resonance",
                 "severity": 0.65,
                 "impact": "Medium",
-                "suggested_families": ["harmonic_resonance", "fluid_dynamics"]
+                "suggested_families": ["harmonic_resonance", "fluid_dynamics"],
             },
             {
                 "gap_area": "temporal_consciousness_evolution",
                 "severity": 0.71,
                 "impact": "High",
-                "suggested_families": ["geological_strata", "neural_gardens"]
-            }
+                "suggested_families": ["geological_strata", "neural_gardens"],
+            },
         ]
 
         await asyncio.sleep(0.1)  # Simulate analysis time
@@ -313,22 +319,26 @@ class MonthlyVocabularyRefresh:
         # Generate vocabulary from consciousness research
         for research in consciousness_research:
             for insight in research.get("insights", []):
-                vocabulary.append({
-                    "term": insight,
-                    "source": "consciousness_research",
-                    "category": research.get("topic", "general"),
-                    "resonance_potential": 0.85
-                })
+                vocabulary.append(
+                    {
+                        "term": insight,
+                        "source": "consciousness_research",
+                        "category": research.get("topic", "general"),
+                        "resonance_potential": 0.85,
+                    }
+                )
 
         # Generate vocabulary from domain inspiration
         for domain in domain_inspiration:
             for metaphor in domain.get("metaphors", []):
-                vocabulary.append({
-                    "term": metaphor,
-                    "source": "domain_inspiration",
-                    "category": domain.get("domain", "general"),
-                    "resonance_potential": domain.get("applicability_score", 0.8)
-                })
+                vocabulary.append(
+                    {
+                        "term": metaphor,
+                        "source": "domain_inspiration",
+                        "category": domain.get("domain", "general"),
+                        "resonance_potential": domain.get("applicability_score", 0.8),
+                    }
+                )
 
         await asyncio.sleep(0.1)  # Simulate synthesis time
         return vocabulary
@@ -383,7 +393,7 @@ class MonthlyVocabularyRefresh:
                 "marine_biology": "fluid_dynamics",
                 "astronomy": "prismatic_light",
                 "crystallography": "geological_strata",
-                "music_theory": "harmonic_resonance"
+                "music_theory": "harmonic_resonance",
             }
 
             family = family_mapping.get(term_category, "neural_gardens")
@@ -419,7 +429,7 @@ class MonthlyVocabularyRefresh:
             "success_count": success_count,
             "total_tests": total_tests,
             "success_rate": success_count / max(total_tests, 1),
-            "average_score": 0.86
+            "average_score": 0.86,
         }
 
     async def _measure_consciousness_resonance(self, vocabulary: List[Dict]) -> float:
@@ -427,9 +437,7 @@ class MonthlyVocabularyRefresh:
         if not vocabulary:
             return 0.0
 
-        total_resonance = sum(
-            term.get("consciousness_alignment", 0.8) for term in vocabulary
-        )
+        total_resonance = sum(term.get("consciousness_alignment", 0.8) for term in vocabulary)
 
         await asyncio.sleep(0.1)  # Simulate measurement time
         return total_resonance / len(vocabulary)
@@ -486,10 +494,13 @@ class MonthlyVocabularyRefresh:
 async def main():
     """CLI interface for monthly vocabulary refresh."""
     parser = argparse.ArgumentParser(description="LUKHAS T4/0.01% Monthly Vocabulary Refresh")
-    parser.add_argument("--phase", choices=["research", "synthesis", "deployment", "full-cycle"],
-                       default="full-cycle", help="Refresh phase to execute")
-    parser.add_argument("--data-dir", default="./vocabulary_refresh_data",
-                       help="Data directory for refresh pipeline")
+    parser.add_argument(
+        "--phase",
+        choices=["research", "synthesis", "deployment", "full-cycle"],
+        default="full-cycle",
+        help="Refresh phase to execute",
+    )
+    parser.add_argument("--data-dir", default="./vocabulary_refresh_data", help="Data directory for refresh pipeline")
 
     args = parser.parse_args()
 
@@ -508,7 +519,7 @@ async def main():
             "consciousness_research": [],
             "interaction_patterns": [],
             "domain_inspiration": [],
-            "semantic_gaps": []
+            "semantic_gaps": [],
         }
         results = await refresh_pipeline.execute_synthesis_phase(research_results)
         print(f"✅ Synthesis complete: {len(results['new_vocabulary'])} terms created")

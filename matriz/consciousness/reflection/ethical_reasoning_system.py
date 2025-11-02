@@ -2058,7 +2058,9 @@ class EthicalReasoningSystem:
             "ethical_drift_detection_status": "monitoring",
         }  # Renamed keys for clarity
 
-        recent_judgments_24h = [j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)]
+        recent_judgments_24h = [
+            j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)
+        ]
         report["recent_judgments_last_24h"] = len(recent_judgments_24h)
 
         if recent_judgments_24h:

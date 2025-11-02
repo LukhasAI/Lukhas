@@ -33,6 +33,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 try:
     import jwt  # noqa: F401  # TODO: jwt; consider using importlib....
+
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
@@ -42,6 +43,7 @@ from .evidence_collection import EvidenceType, collect_evidence
 
 class SecurityLevel(Enum):
     """Security levels for different operations"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -50,6 +52,7 @@ class SecurityLevel(Enum):
 
 class ThreatType(Enum):
     """Types of security threats detected"""
+
     UNAUTHORIZED_ACCESS = "unauthorized_access"
     DATA_TAMPERING = "data_tampering"
     INTEGRITY_VIOLATION = "integrity_violation"
@@ -63,6 +66,7 @@ class ThreatType(Enum):
 @dataclass
 class SecurityEvent:
     """Security event record"""
+
     event_id: str
     threat_type: ThreatType
     severity: SecurityLevel
@@ -80,6 +84,7 @@ class SecurityEvent:
 @dataclass
 class SecurityKey:
     """Security key with metadata"""
+
     key_id: str
     key_type: str  # "signing", "encryption", "hmac"
     key_data: bytes
@@ -93,6 +98,7 @@ class SecurityKey:
 @dataclass
 class AccessAttempt:
     """Access attempt tracking"""
+
     source_ip: str
     user_id: Optional[str]
     timestamp: datetime
@@ -197,7 +203,8 @@ class ObservabilitySecurityHardening:
         if self.security_config_path.exists():
             try:
                 import json
-                with open(self.security_config_path, 'r') as f:
+
+                with open(self.security_config_path, "r") as f:
                     self.security_config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -211,7 +218,8 @@ class ObservabilitySecurityHardening:
             # Save default configuration
             try:
                 import json
-                with open(self.security_config_path, 'w') as f:
+
+                with open(self.security_config_path, "w") as f:
                     json.dump(default_config, f, indent=2)
             except Exception:
                 pass
@@ -223,7 +231,7 @@ class ObservabilitySecurityHardening:
             signing_key_path = self.key_storage_path / "signing_key.pem"
             if signing_key_path.exists():
                 try:
-                    with open(signing_key_path, 'rb') as f:
+                    with open(signing_key_path, "rb") as f:
                         private_key = serialization.load_pem_private_key(
                             f.read(), password=None, backend=default_backend()
                         )
@@ -241,11 +249,11 @@ class ObservabilitySecurityHardening:
         # Initialize HMAC key for integrity
         hmac_key_path = self.key_storage_path / "hmac_key.bin"
         if hmac_key_path.exists():
-            with open(hmac_key_path, 'rb') as f:
+            with open(hmac_key_path, "rb") as f:
                 hmac_key = f.read()
         else:
             hmac_key = os.urandom(32)  # 256-bit key
-            with open(hmac_key_path, 'wb') as f:
+            with open(hmac_key_path, "wb") as f:
                 f.write(hmac_key)
             os.chmod(hmac_key_path, 0o600)
 
@@ -254,18 +262,16 @@ class ObservabilitySecurityHardening:
     def _generate_signing_key(self):
         """Generate RSA signing key pair"""
         private_key = rsa.generate_private_key(
-            public_exponent=65537,
-            key_size=self.security_config["signing"]["key_size"],
-            backend=default_backend()
+            public_exponent=65537, key_size=self.security_config["signing"]["key_size"], backend=default_backend()
         )
 
         # Store private key
         signing_key_path = self.key_storage_path / "signing_key.pem"
-        with open(signing_key_path, 'wb') as f:
+        with open(signing_key_path, "wb") as f:
             pem = private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
             f.write(pem)
         os.chmod(signing_key_path, 0o600)
@@ -273,10 +279,9 @@ class ObservabilitySecurityHardening:
         # Store public key
         public_key = private_key.public_key()
         public_key_path = self.key_storage_path / "signing_key_public.pem"
-        with open(public_key_path, 'wb') as f:
+        with open(public_key_path, "wb") as f:
             pem = public_key.public_bytes(
-                encoding=serialization.Encoding.PEM,
-                format=serialization.PublicFormat.SubjectPublicKeyInfo
+                encoding=serialization.Encoding.PEM, format=serialization.PublicFormat.SubjectPublicKeyInfo
             )
             f.write(pem)
 
@@ -286,7 +291,7 @@ class ObservabilitySecurityHardening:
         """Generate encryption key"""
         encryption_key = os.urandom(32)  # 256-bit key
         encryption_key_path = self.key_storage_path / "encryption_key.bin"
-        with open(encryption_key_path, 'wb') as f:
+        with open(encryption_key_path, "wb") as f:
             f.write(encryption_key)
         os.chmod(encryption_key_path, 0o600)
 
@@ -299,7 +304,7 @@ class ObservabilitySecurityHardening:
             key_bytes = key_data.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
         else:
             key_bytes = key_data
@@ -442,10 +447,7 @@ class ObservabilitySecurityHardening:
 
             # Verify signature if present
             if "signature" in security_metadata:
-                signature_valid = await self._verify_signature(
-                    evidence_json.encode(),
-                    security_metadata["signature"]
-                )
+                signature_valid = await self._verify_signature(evidence_json.encode(), security_metadata["signature"])
                 if not signature_valid:
                     await self._record_security_event(
                         ThreatType.DATA_TAMPERING,
@@ -480,17 +482,10 @@ class ObservabilitySecurityHardening:
     async def _sign_data(self, data: bytes) -> str:
         """Sign data using RSA-PSS"""
         signing_key_data = self.security_keys["primary_signing"].key_data
-        private_key = serialization.load_pem_private_key(
-            signing_key_data, password=None, backend=default_backend()
-        )
+        private_key = serialization.load_pem_private_key(signing_key_data, password=None, backend=default_backend())
 
         signature = private_key.sign(
-            data,
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
+            data, padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH), hashes.SHA256()
         )
 
         return signature.hex()
@@ -499,20 +494,15 @@ class ObservabilitySecurityHardening:
         """Verify RSA-PSS signature"""
         try:
             signing_key_data = self.security_keys["primary_signing"].key_data
-            private_key = serialization.load_pem_private_key(
-                signing_key_data, password=None, backend=default_backend()
-            )
+            private_key = serialization.load_pem_private_key(signing_key_data, password=None, backend=default_backend())
             public_key = private_key.public_key()
 
             signature = bytes.fromhex(signature_hex)
             public_key.verify(
                 signature,
                 data,
-                padding.PSS(
-                    mgf=padding.MGF1(hashes.SHA256()),
-                    salt_length=padding.PSS.MAX_LENGTH
-                ),
-                hashes.SHA256()
+                padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+                hashes.SHA256(),
             )
             return True
         except Exception:
@@ -623,8 +613,7 @@ class ObservabilitySecurityHardening:
         # Clean old attempts (older than lockout duration)
         cutoff_time = current_time - timedelta(minutes=self.lockout_duration_minutes)
         self.failed_attempts[source_ip] = [
-            attempt for attempt in self.failed_attempts[source_ip]
-            if attempt >= cutoff_time
+            attempt for attempt in self.failed_attempts[source_ip] if attempt >= cutoff_time
         ]
 
         # Check if lockout threshold exceeded
@@ -697,9 +686,11 @@ class ObservabilitySecurityHardening:
         """Detect unusual access patterns"""
         current_time = datetime.now(timezone.utc)
         recent_attempts = [
-            attempt for attempt in self.access_attempts
-            if (attempt.source_ip == source_ip and
-                (current_time - attempt.timestamp).total_seconds() < 3600)  # Last hour
+            attempt
+            for attempt in self.access_attempts
+            if (
+                attempt.source_ip == source_ip and (current_time - attempt.timestamp).total_seconds() < 3600
+            )  # Last hour
         ]
 
         # Check for unusual frequency
@@ -710,7 +701,7 @@ class ObservabilitySecurityHardening:
         if len(recent_attempts) >= 10:
             time_spans = []
             for i in range(1, len(recent_attempts)):
-                time_span = (recent_attempts[i].timestamp - recent_attempts[i-1].timestamp).total_seconds()
+                time_span = (recent_attempts[i].timestamp - recent_attempts[i - 1].timestamp).total_seconds()
                 time_spans.append(time_span)
 
             avg_time_span = sum(time_spans) / len(time_spans)
@@ -780,11 +771,13 @@ class ObservabilitySecurityHardening:
             if key.expires_at:
                 days_until_expiry = (key.expires_at - current_time).days
                 if days_until_expiry <= 7:  # Expires within 7 days
-                    expiring_keys.append({
-                        "key_id": key_id,
-                        "key_type": key.key_type,
-                        "days_until_expiry": days_until_expiry,
-                    })
+                    expiring_keys.append(
+                        {
+                            "key_id": key_id,
+                            "key_type": key.key_type,
+                            "days_until_expiry": days_until_expiry,
+                        }
+                    )
 
         return {
             "timestamp": current_time.isoformat(),
@@ -801,6 +794,7 @@ class ObservabilitySecurityHardening:
 
     def _start_background_tasks(self):
         """Start background security monitoring tasks"""
+
         async def security_monitor():
             while True:
                 try:

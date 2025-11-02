@@ -53,6 +53,7 @@ CreativeOutput = TypeVar("CreativeOutput")
 # Metrics collection - using mock implementations since prometheus is disabled
 # HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")  # Disabled - missing prometheus
 
+
 class MockCounter:
     def __init__(self, name, description, label_names=None):
         self.name = name
@@ -67,6 +68,7 @@ class MockCounter:
         self._value += value
         return self
 
+
 class MockGauge:
     def __init__(self, name, description):
         self.name = name
@@ -79,6 +81,7 @@ class MockGauge:
     def dec(self, value=1):
         self._value -= value
 
+
 class MockHistogram:
     def __init__(self, name, description):
         self.name = name
@@ -86,6 +89,7 @@ class MockHistogram:
 
     def observe(self, value):
         pass
+
 
 CREATIVE_REQUESTS_TOTAL = MockCounter("creative_requests_total", "Total creative requests", ["type", "status"])
 ACTIVE_GENERATORS = MockGauge("active_generators", "Number of active generators")
@@ -434,9 +438,7 @@ class EnterpriseNeuralHaikuGenerator:
             finally:
                 ACTIVE_GENERATORS.dec()
 
-    async def _generate_base_haiku(
-        self, context: CreativeContext, style_override: CreativeStyle | None
-    ) -> list[str]:
+    async def _generate_base_haiku(self, context: CreativeContext, style_override: CreativeStyle | None) -> list[str]:
         """Generate base haiku structure using neural guidance."""
         lines = []
         syllable_pattern = [5, 7, 5]

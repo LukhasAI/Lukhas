@@ -21,17 +21,17 @@ def mark_relative_imports(py_file: Path) -> int:
 
     for i, line in enumerate(lines):
         # Match relative imports
-        if re.match(r'^from \.([\w.]+)? import ', line.strip()):
+        if re.match(r"^from \.([\w.]+)? import ", line.strip()):
             # Skip if already has noqa
-            if '# noqa' in line:
+            if "# noqa" in line:
                 continue
 
             # Add noqa comment with TODO for future refactoring
-            lines[i] = line.rstrip() + '  # noqa: TID252 TODO: convert to absolute import\n'
+            lines[i] = line.rstrip() + "  # noqa: TID252 TODO: convert to absolute import\n"
             modified += 1
 
     if modified > 0:
-        py_file.write_text(''.join(lines))
+        py_file.write_text("".join(lines))
 
     return modified
 
@@ -45,20 +45,31 @@ def main():
     import subprocess
 
     result = subprocess.run(
-        ['python3', '-m', 'ruff', 'check', 'lukhas/', 'core/', 'MATRIZ/',
-         '--select', 'TID252', '--output-format', 'json'],
+        [
+            "python3",
+            "-m",
+            "ruff",
+            "check",
+            "lukhas/",
+            "core/",
+            "MATRIZ/",
+            "--select",
+            "TID252",
+            "--output-format",
+            "json",
+        ],
         cwd=repo_root,
         capture_output=True,
-        text=True
+        text=True,
     )
 
     violations = json.loads(result.stdout)
     files_with_violations = set()
 
     for violation in violations:
-        file_path = Path(violation['filename'])
+        file_path = Path(violation["filename"])
         # Skip __init__.py files (already handled)
-        if file_path.name != '__init__.py':
+        if file_path.name != "__init__.py":
             files_with_violations.add(repo_root / file_path)
 
     total_marked = 0
@@ -75,5 +86,5 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

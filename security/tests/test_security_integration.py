@@ -27,11 +27,7 @@ class TestSecurityIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up integration test environment."""
-        cls.integration_config = {
-            "module_name": "security",
-            "integration_mode": True,
-            "timeout": 30
-        }
+        cls.integration_config = {"module_name": "security", "integration_mode": True, "timeout": 30}
         cls.security_module = SECURITY_MODULE
 
     def setUp(self):
@@ -55,13 +51,11 @@ class TestSecurityIntegration(unittest.TestCase):
         # Test connectivity to external services
         pass
 
-
     @pytest.mark.integration
     def test_identity_integration(self):
         """Test integration with identity module."""
         # Test identity integration
         pass
-
 
     @pytest.mark.integration
     def test_end_to_end_workflow(self):

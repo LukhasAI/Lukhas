@@ -344,9 +344,7 @@ class EnhancedSwarmAgent(Actor):
         # Update or create capability
         if task_type not in self.capabilities:
             # Learn new capability
-            self.capabilities[task_type] = AgentCapability(
-                name=task_type, proficiency=0.1 if success else 0.05
-            )
+            self.capabilities[task_type] = AgentCapability(name=task_type, proficiency=0.1 if success else 0.05)
         else:
             # Improve existing capability
             cap = self.capabilities[task_type]
@@ -532,11 +530,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         self.logger.info(f"Processing task {task_id} of type {task_type}")
 
         # Integrate with BaseColony event sourcing if available
-        if (
-            BASE_COLONY_AVAILABLE
-            and hasattr(self, "aggregate")
-            and hasattr(self.aggregate, "start_task")
-        ):
+        if BASE_COLONY_AVAILABLE and hasattr(self, "aggregate") and hasattr(self.aggregate, "start_task"):
             try:
                 self.aggregate.start_task(
                     task_id,
@@ -560,11 +554,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             }
 
             # Log failure event
-            if (
-                BASE_COLONY_AVAILABLE
-                and hasattr(self, "aggregate")
-                and hasattr(self.aggregate, "complete_task")
-            ):
+            if BASE_COLONY_AVAILABLE and hasattr(self, "aggregate") and hasattr(self.aggregate, "complete_task"):
                 try:
                     self.aggregate.complete_task(task_id, result)
                 except Exception as e:
@@ -612,11 +602,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         }
 
         # Integrate with BaseColony event sourcing
-        if (
-            BASE_COLONY_AVAILABLE
-            and hasattr(self, "aggregate")
-            and hasattr(self.aggregate, "complete_task")
-        ):
+        if BASE_COLONY_AVAILABLE and hasattr(self, "aggregate") and hasattr(self.aggregate, "complete_task"):
             try:
                 self.aggregate.complete_task(task_id, final_result)
             except Exception as e:
@@ -632,9 +618,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
                 capable_agents.append(agent_id)
         return capable_agents
 
-    def _achieve_consensus(
-        self, agent_results: list[dict], required_consensus: float
-    ) -> dict[str, Any]:
+    def _achieve_consensus(self, agent_results: list[dict], required_consensus: float) -> dict[str, Any]:
         """Achieve consensus from agent results."""
         if not agent_results:
             return {"consensus_achieved": False, "result": None, "confidence": 0.0}
@@ -730,9 +714,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         if recipient in self.agents:
             self.agents[recipient].receive(message)
 
-    async def broadcast_to_agents(
-        self, message: dict[str, Any], criteria: Optional[Callable] = None
-    ):
+    async def broadcast_to_agents(self, message: dict[str, Any], criteria: Optional[Callable] = None):
         """Broadcast message to all agents or those matching criteria."""
         for agent in self.agents.values():
             if criteria is None or criteria(agent):
@@ -865,9 +847,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             if neighbor_id in self.agents:
                 neighbor = self.agents[neighbor_id]
                 if neighbor.memory.shared_knowledge:
-                    await neighbor.share_knowledge(
-                        "recovery_knowledge", neighbor.memory.shared_knowledge
-                    )
+                    await neighbor.share_knowledge("recovery_knowledge", neighbor.memory.shared_knowledge)
 
     def detect_emergent_patterns(self) -> list[dict[str, Any]]:
         """Detect emergent patterns in colony behavior."""
@@ -917,8 +897,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
                 {
                     "type": "knowledge_distribution",
                     "spread": dict(knowledge_spread),
-                    "coverage": sum(knowledge_spread.values())
-                    / (len(self.agents) * len(knowledge_spread)),
+                    "coverage": sum(knowledge_spread.values()) / (len(self.agents) * len(knowledge_spread)),
                 }
             )
 
@@ -944,14 +923,11 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             "agent_count": len(self.agents),
             "agent_states": dict(agent_states),
             "average_energy": total_energy / len(self.agents) if self.agents else 0,
-            "capabilities": {
-                name: prof / len(self.agents) for name, prof in total_capabilities.items()
-            },
+            "capabilities": {name: prof / len(self.agents) for name, prof in total_capabilities.items()},
             "collective_knowledge_items": len(self.collective_knowledge),
             "consensus_history": len(self.consensus_history),
             "emergence_patterns": len(self.emergence_patterns),
-            "network_density": sum(len(n) for n in self.agent_graph.values())
-            / (2 * len(self.agents)),
+            "network_density": sum(len(n) for n in self.agent_graph.values()) / (2 * len(self.agents)),
         }
 
 
@@ -1112,9 +1088,7 @@ class EnhancedSwarmHub:
         # First propagate to linked colonies
         for linked_colony_id in self.inter_colony_links.get(source_colony, []):
             if linked_colony_id in self.colonies:
-                await self.colonies[linked_colony_id].share_collective_knowledge(
-                    knowledge_type, knowledge
-                )
+                await self.colonies[linked_colony_id].share_collective_knowledge(knowledge_type, knowledge)
 
         # Then propagate to all colonies with delay
         await asyncio.sleep(0.1)  # Simulate propagation delay
@@ -1153,12 +1127,8 @@ class EnhancedSwarmHub:
             patterns.append(
                 {
                     "type": "knowledge_convergence",
-                    "shared_knowledge": {
-                        k: list(colonies) for k, colonies in knowledge_overlap.items()
-                    },
-                    "convergence_rate": sum(
-                        len(colonies) for colonies in knowledge_overlap.values()
-                    )
+                    "shared_knowledge": {k: list(colonies) for k, colonies in knowledge_overlap.items()},
+                    "convergence_rate": sum(len(colonies) for colonies in knowledge_overlap.values())
                     / (len(self.colonies) * len(knowledge_overlap)),
                 }
             )
@@ -1168,9 +1138,7 @@ class EnhancedSwarmHub:
         for colony in self.colonies.values():
             status = colony.get_colony_status()
             primary_cap = (
-                max(status["capabilities"].items(), key=lambda x: x[1])[0]
-                if status["capabilities"]
-                else "none"
+                max(status["capabilities"].items(), key=lambda x: x[1])[0] if status["capabilities"] else "none"
             )
             specializations[primary_cap].append(colony.colony_id)
 
@@ -1208,10 +1176,7 @@ class EnhancedSwarmHub:
             "total_agents": total_agents,
             "average_energy": total_energy / total_agents if total_agents > 0 else 0,
             "total_tasks_completed": total_tasks,
-            "inter_colony_connections": sum(
-                len(links) for links in self.inter_colony_links.values()
-            )
-            // 2,
+            "inter_colony_connections": sum(len(links) for links in self.inter_colony_links.values()) // 2,
             "global_knowledge_items": len(self.global_knowledge),
             "swarm_patterns": self.swarm_patterns,
             "colony_statuses": colony_statuses,
@@ -1269,9 +1234,7 @@ async def demonstrate_enhanced_swarm():
 
     # Achieve consensus
     print("\n=== Achieving Swarm Consensus ===")
-    consensus = await swarm.achieve_swarm_consensus(
-        "optimization_strategy", ["parallel", "sequential", "hybrid"]
-    )
+    consensus = await swarm.achieve_swarm_consensus("optimization_strategy", ["parallel", "sequential", "hybrid"])
     print(f"Consensus reached: {consensus}")
 
     # Share knowledge
@@ -1295,9 +1258,7 @@ async def demonstrate_enhanced_swarm():
         if patterns:
             print(f"\nEmergent patterns in {colony.colony_id}:")
             for pattern in patterns:
-                print(
-                    f"  - {pattern['type']}: {pattern.get('num_clusters', pattern.get('diversity', 'detected'))}"
-                )
+                print(f"  - {pattern['type']}: {pattern.get('num_clusters', pattern.get('diversity', 'detected'))}")
 
     # Get final status
     print("\n=== Final Swarm Status ===")

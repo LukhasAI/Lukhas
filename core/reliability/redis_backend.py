@@ -142,9 +142,7 @@ class RedisRateLimitBackend:
 
         try:
             # Execute Lua script atomically
-            result = self.consume_script(
-                keys=[redis_key], args=[burst, rps, tokens, now, self.ttl_seconds]
-            )
+            result = self.consume_script(keys=[redis_key], args=[burst, rps, tokens, now, self.ttl_seconds])
 
             allowed = bool(result[0])
             retry_after = float(result[1])

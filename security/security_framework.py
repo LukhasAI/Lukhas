@@ -31,6 +31,7 @@ try:
     from cryptography.hazmat.primitives import hashes, serialization
     from cryptography.hazmat.primitives.asymmetric import padding, rsa
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
@@ -39,6 +40,7 @@ except ImportError:
 
 class SecurityLevel(Enum):
     """Security clearance levels."""
+
     PUBLIC = "public"
     INTERNAL = "internal"
     CONFIDENTIAL = "confidential"
@@ -48,6 +50,7 @@ class SecurityLevel(Enum):
 
 class ThreatLevel(Enum):
     """Threat severity levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -56,6 +59,7 @@ class ThreatLevel(Enum):
 
 class AuthenticationMethod(Enum):
     """Authentication methods supported."""
+
     JWT = "jwt"
     API_KEY = "api_key"
     OAUTH2 = "oauth2"
@@ -145,7 +149,7 @@ class UserPrincipal:
             SecurityLevel.INTERNAL: 1,
             SecurityLevel.CONFIDENTIAL: 2,
             SecurityLevel.SECRET: 3,
-            SecurityLevel.TOP_SECRET: 4
+            SecurityLevel.TOP_SECRET: 4,
         }
         return level_hierarchy[self.security_level] >= level_hierarchy[required_level]
 
@@ -165,7 +169,7 @@ class UserPrincipal:
             "last_activity": self.last_activity,
             "ip_address": self.ip_address,
             "user_agent": self.user_agent,
-            "mfa_verified": self.mfa_verified
+            "mfa_verified": self.mfa_verified,
         }
 
 
@@ -202,7 +206,7 @@ class SecurityAuditEvent:
             "action": self.action,
             "outcome": self.outcome,
             "details": self.details,
-            "risk_score": self.risk_score
+            "risk_score": self.risk_score,
         }
 
 
@@ -241,17 +245,17 @@ class EncryptionService:
         """Hash password using bcrypt."""
         try:
             salt = bcrypt.gensalt(rounds=self.config.password_salt_rounds)
-            hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-            return hashed.decode('utf-8')
+            hashed = bcrypt.hashpw(password.encode("utf-8"), salt)
+            return hashed.decode("utf-8")
         except ImportError:
             # Fallback to simple hashing (NOT secure for production)
             salt = secrets.token_hex(16)
-            return hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000).hex()
+            return hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), 100000).hex()
 
     def verify_password(self, password: str, hashed: str) -> bool:
         """Verify password against hash."""
         try:
-            return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
+            return bcrypt.checkpw(password.encode("utf-8"), hashed.encode("utf-8"))
         except ImportError:
             # Fallback verification (simplified)
             return self.hash_password(password) == hashed
@@ -276,7 +280,7 @@ class JWTService:
             "session_id": user_principal.session_id,
             "iat": int(user_principal.issued_at),
             "exp": int(user_principal.expires_at),
-            "type": "access"
+            "type": "access",
         }
 
         return jwt.encode(payload, self.config.jwt_secret_key, algorithm=self.config.jwt_algorithm)
@@ -291,7 +295,7 @@ class JWTService:
             "session_id": user_principal.session_id,
             "iat": int(user_principal.issued_at),
             "exp": int(refresh_expires),
-            "type": "refresh"
+            "type": "refresh",
         }
 
         return jwt.encode(payload, self.config.jwt_secret_key, algorithm=self.config.jwt_algorithm)
@@ -300,11 +304,7 @@ class JWTService:
         """Verify and decode JWT token."""
 
         try:
-            payload = jwt.decode(
-                token,
-                self.config.jwt_secret_key,
-                algorithms=[self.config.jwt_algorithm]
-            )
+            payload = jwt.decode(token, self.config.jwt_secret_key, algorithms=[self.config.jwt_algorithm])
             return payload
         except jwt.ExpiredSignatureError:
             logger.warning("JWT token expired")
@@ -327,7 +327,7 @@ class JWTService:
             "session_id": payload["session_id"],
             "iat": int(time.time()),
             "exp": int(time.time() + (self.config.jwt_expiration_hours * 3600)),
-            "type": "access"
+            "type": "access",
         }
 
         return jwt.encode(new_payload, self.config.jwt_secret_key, algorithm=self.config.jwt_algorithm)
@@ -394,7 +394,7 @@ class RateLimiter:
             "limit": self.config.rate_limit_requests_per_minute,
             "remaining": remaining,
             "reset_time": reset_time,
-            "blocked": identifier in self.blocked_ips
+            "blocked": identifier in self.blocked_ips,
         }
 
 
@@ -407,11 +407,7 @@ class ThreatDetector:
         self.suspicious_patterns: Dict[str, int] = defaultdict(int)
         self.risk_scores: Dict[str, float] = defaultdict(float)
 
-    def analyze_request(self,
-                       ip_address: str,
-                       user_agent: str,
-                       endpoint: str,
-                       user_id: Optional[str] = None) -> float:
+    def analyze_request(self, ip_address: str, user_agent: str, endpoint: str, user_id: Optional[str] = None) -> float:
         """Analyze request and return risk score (0-1)."""
 
         if not self.config.threat_detection_enabled:
@@ -422,10 +418,7 @@ class ThreatDetector:
 
         # Check for brute force attempts
         if user_id:
-            recent_failures = [
-                t for t in self.failed_attempts[user_id]
-                if current_time - t < 300  # Last 5 minutes
-            ]
+            recent_failures = [t for t in self.failed_attempts[user_id] if current_time - t < 300]  # Last 5 minutes
             if len(recent_failures) >= 3:
                 risk_score += 0.4
 
@@ -463,9 +456,7 @@ class ThreatDetector:
 
         # Clean old attempts
         cutoff_time = current_time - (self.config.lockout_duration_minutes * 60)
-        self.failed_attempts[identifier] = [
-            t for t in self.failed_attempts[identifier] if t > cutoff_time
-        ]
+        self.failed_attempts[identifier] = [t for t in self.failed_attempts[identifier] if t > cutoff_time]
 
         # Check if should be locked
         return len(self.failed_attempts[identifier]) >= self.config.max_failed_attempts
@@ -476,9 +467,7 @@ class ThreatDetector:
         current_time = time.time()
         cutoff_time = current_time - (self.config.lockout_duration_minutes * 60)
 
-        recent_failures = [
-            t for t in self.failed_attempts[identifier] if t > cutoff_time
-        ]
+        recent_failures = [t for t in self.failed_attempts[identifier] if t > cutoff_time]
 
         return len(recent_failures) >= self.config.max_failed_attempts
 
@@ -500,23 +489,25 @@ class SecurityAuditor:
         self.config = config
         self.audit_events: deque = deque(maxlen=10000)
         self.sensitive_data_patterns = [
-            r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b',  # Credit card
-            r'\b\d{3}-\d{2}-\d{4}\b',  # SSN
-            r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'  # Email
+            r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b",  # Credit card
+            r"\b\d{3}-\d{2}-\d{4}\b",  # SSN
+            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",  # Email
         ]
 
-    def log_security_event(self,
-                          event_type: str,
-                          severity: ThreatLevel,
-                          resource: str,
-                          action: str,
-                          outcome: str,
-                          user_id: Optional[str] = None,
-                          session_id: Optional[str] = None,
-                          ip_address: Optional[str] = None,
-                          user_agent: Optional[str] = None,
-                          details: Optional[Dict[str, Any]] = None,
-                          risk_score: float = 0.0) -> SecurityAuditEvent:
+    def log_security_event(
+        self,
+        event_type: str,
+        severity: ThreatLevel,
+        resource: str,
+        action: str,
+        outcome: str,
+        user_id: Optional[str] = None,
+        session_id: Optional[str] = None,
+        ip_address: Optional[str] = None,
+        user_agent: Optional[str] = None,
+        details: Optional[Dict[str, Any]] = None,
+        risk_score: float = 0.0,
+    ) -> SecurityAuditEvent:
         """Log security audit event."""
 
         import uuid
@@ -534,7 +525,7 @@ class SecurityAuditor:
             action=action,
             outcome=outcome,
             details=details or {},
-            risk_score=risk_score
+            risk_score=risk_score,
         )
 
         # Sanitize sensitive data if not configured to audit it
@@ -545,14 +536,18 @@ class SecurityAuditor:
 
         # Log to standard logging
         log_level = logging.WARNING if severity in [ThreatLevel.HIGH, ThreatLevel.CRITICAL] else logging.INFO
-        logger.log(log_level, f"Security event: {event_type} - {outcome}", extra={
-            "event_id": event.event_id,
-            "severity": severity.value,
-            "user_id": user_id,
-            "resource": resource,
-            "action": action,
-            "risk_score": risk_score
-        })
+        logger.log(
+            log_level,
+            f"Security event: {event_type} - {outcome}",
+            extra={
+                "event_id": event.event_id,
+                "severity": severity.value,
+                "user_id": user_id,
+                "resource": resource,
+                "action": action,
+                "risk_score": risk_score,
+            },
+        )
 
         return event
 
@@ -567,6 +562,7 @@ class SecurityAuditor:
             if isinstance(value, str):
                 # Check for sensitive patterns
                 import re
+
                 for pattern in self.sensitive_data_patterns:
                     value = re.sub(pattern, "[REDACTED]", value)
             elif isinstance(value, dict):
@@ -576,12 +572,14 @@ class SecurityAuditor:
 
         return sanitized
 
-    def get_audit_events(self,
-                        start_time: Optional[float] = None,
-                        end_time: Optional[float] = None,
-                        event_type: Optional[str] = None,
-                        user_id: Optional[str] = None,
-                        severity: Optional[ThreatLevel] = None) -> List[SecurityAuditEvent]:
+    def get_audit_events(
+        self,
+        start_time: Optional[float] = None,
+        end_time: Optional[float] = None,
+        event_type: Optional[str] = None,
+        user_id: Optional[str] = None,
+        severity: Optional[ThreatLevel] = None,
+    ) -> List[SecurityAuditEvent]:
         """Get filtered audit events."""
 
         filtered_events = []
@@ -636,7 +634,7 @@ class SecurityAuditor:
             "outcome_distribution": dict(outcome_counts),
             "high_risk_events": len([e for e in events if e.risk_score > 0.7]),
             "compliance_status": "compliant" if len(events) > 0 else "no_activity",
-            "generated_at": current_time
+            "generated_at": current_time,
         }
 
 
@@ -661,15 +659,14 @@ class LUKHASSecurityFramework:
         # Integration with telemetry
         try:
             from observability.telemetry_system import get_telemetry
+
             self.telemetry = get_telemetry()
         except ImportError:
             self.telemetry = None
 
-    def authenticate_user(self,
-                         username: str,
-                         password: str,
-                         ip_address: Optional[str] = None,
-                         user_agent: Optional[str] = None) -> Optional[UserPrincipal]:
+    def authenticate_user(
+        self, username: str, password: str, ip_address: Optional[str] = None, user_agent: Optional[str] = None
+    ) -> Optional[UserPrincipal]:
         """Authenticate user with username/password."""
 
         # Check for lockout
@@ -683,16 +680,13 @@ class LUKHASSecurityFramework:
                 user_id=username,
                 ip_address=ip_address,
                 user_agent=user_agent,
-                details={"reason": "account_locked"}
+                details={"reason": "account_locked"},
             )
             return None
 
         # Analyze threat risk
         risk_score = self.threat_detector.analyze_request(
-            ip_address or "unknown",
-            user_agent or "unknown",
-            "/auth/login",
-            username
+            ip_address or "unknown", user_agent or "unknown", "/auth/login", username
         )
 
         # This would typically validate against a user database
@@ -716,7 +710,7 @@ class LUKHASSecurityFramework:
                 last_activity=current_time,
                 ip_address=ip_address,
                 user_agent=user_agent,
-                mfa_verified=False
+                mfa_verified=False,
             )
 
             # Store active session
@@ -734,7 +728,7 @@ class LUKHASSecurityFramework:
                 ip_address=ip_address,
                 user_agent=user_agent,
                 details={"security_level": principal.security_level.value},
-                risk_score=risk_score
+                risk_score=risk_score,
             )
 
             return principal
@@ -752,7 +746,7 @@ class LUKHASSecurityFramework:
                 ip_address=ip_address,
                 user_agent=user_agent,
                 details={"reason": "invalid_credentials", "will_lock": should_lock},
-                risk_score=risk_score
+                risk_score=risk_score,
             )
 
             return None
@@ -785,11 +779,13 @@ class LUKHASSecurityFramework:
         return None
 
     @asynccontextmanager
-    async def secure_operation(self,
-                              operation_name: str,
-                              principal: UserPrincipal,
-                              required_permission: Optional[str] = None,
-                              required_security_level: Optional[SecurityLevel] = None):
+    async def secure_operation(
+        self,
+        operation_name: str,
+        principal: UserPrincipal,
+        required_permission: Optional[str] = None,
+        required_security_level: Optional[SecurityLevel] = None,
+    ):
         """Context manager for secure operations with authorization."""
 
         # Check permissions
@@ -803,7 +799,7 @@ class LUKHASSecurityFramework:
                 user_id=principal.user_id,
                 session_id=principal.session_id,
                 ip_address=principal.ip_address,
-                details={"required_permission": required_permission}
+                details={"required_permission": required_permission},
             )
             raise PermissionError(f"Permission denied: {required_permission}")
 
@@ -818,7 +814,7 @@ class LUKHASSecurityFramework:
                 user_id=principal.user_id,
                 session_id=principal.session_id,
                 ip_address=principal.ip_address,
-                details={"required_security_level": required_security_level.value}
+                details={"required_security_level": required_security_level.value},
             )
             raise PermissionError(f"Insufficient security level: {required_security_level.value}")
 
@@ -832,7 +828,7 @@ class LUKHASSecurityFramework:
             outcome="started",
             user_id=principal.user_id,
             session_id=principal.session_id,
-            ip_address=principal.ip_address
+            ip_address=principal.ip_address,
         )
 
         try:
@@ -849,7 +845,7 @@ class LUKHASSecurityFramework:
                 user_id=principal.user_id,
                 session_id=principal.session_id,
                 ip_address=principal.ip_address,
-                details={"duration_seconds": duration}
+                details={"duration_seconds": duration},
             )
 
         except Exception as e:
@@ -864,7 +860,7 @@ class LUKHASSecurityFramework:
                 user_id=principal.user_id,
                 session_id=principal.session_id,
                 ip_address=principal.ip_address,
-                details={"error": str(e), "duration_seconds": duration}
+                details={"error": str(e), "duration_seconds": duration},
             )
             raise
 
@@ -883,7 +879,7 @@ class LUKHASSecurityFramework:
                 outcome="success",
                 user_id=principal.user_id,
                 session_id=session_id,
-                ip_address=principal.ip_address
+                ip_address=principal.ip_address,
             )
 
             return True
@@ -898,22 +894,23 @@ class LUKHASSecurityFramework:
             "total_audit_events": len(self.auditor.audit_events),
             "rate_limiter_status": {
                 "blocked_ips": len(self.rate_limiter.blocked_ips),
-                "tracked_identifiers": len(self.rate_limiter.request_history)
+                "tracked_identifiers": len(self.rate_limiter.request_history),
             },
             "threat_detector_status": {
                 "locked_accounts": sum(
-                    1 for attempts in self.threat_detector.failed_attempts.values()
+                    1
+                    for attempts in self.threat_detector.failed_attempts.values()
                     if len(attempts) >= self.config.max_failed_attempts
                 ),
-                "suspicious_patterns": len(self.threat_detector.suspicious_patterns)
+                "suspicious_patterns": len(self.threat_detector.suspicious_patterns),
             },
             "configuration": {
                 "jwt_expiration_hours": self.config.jwt_expiration_hours,
                 "rate_limit_per_minute": self.config.rate_limit_requests_per_minute,
                 "threat_detection_enabled": self.config.threat_detection_enabled,
                 "audit_enabled": True,
-                "encryption_available": CRYPTO_AVAILABLE
-            }
+                "encryption_available": CRYPTO_AVAILABLE,
+            },
         }
 
 

@@ -64,7 +64,7 @@ class TestSecurityFramework:
             encryption_key="test_encryption_key_32_chars_long",
             rate_limit_requests_per_minute=100,
             threat_detection_enabled=True,
-            audit_logging_enabled=True
+            audit_logging_enabled=True,
         )
 
         framework = LUKHASSecurityFramework(config)
@@ -84,7 +84,7 @@ class TestSecurityFramework:
             username="testuser",
             email="test@example.com",
             roles={"user", "tester"},
-            permissions={"read", "write"}
+            permissions={"read", "write"},
         )
 
         # Generate token
@@ -109,11 +109,7 @@ class TestSecurityFramework:
         jwt_service = security_framework.jwt_service
 
         # Create short-lived token
-        user = UserPrincipal(
-            user_id="test_user_exp",
-            username="exptest",
-            email="exp@example.com"
-        )
+        user = UserPrincipal(user_id="test_user_exp", username="exptest", email="exp@example.com")
 
         # Generate token with 1 second expiration
         token = await jwt_service.generate_token(user, expires_in_seconds=1)
@@ -230,7 +226,7 @@ class TestSecurityFramework:
             result="success",
             ip_address="192.168.1.100",
             user_agent="Test Agent",
-            additional_data={"login_method": "password"}
+            additional_data={"login_method": "password"},
         )
 
         # Log event
@@ -241,7 +237,7 @@ class TestSecurityFramework:
         events = await auditor.query_events(
             start_time=datetime.now() - timedelta(minutes=1),
             end_time=datetime.now() + timedelta(minutes=1),
-            event_type="authentication"
+            event_type="authentication",
         )
 
         assert len(events) > 0
@@ -288,7 +284,7 @@ class TestCachingSystem:
             l1_max_size=50,
             l1_ttl_seconds=300,
             l1_strategy=CacheStrategy.LRU,
-            warming_enabled=False  # Disable for testing
+            warming_enabled=False,  # Disable for testing
         )
 
         manager = HierarchicalCacheManager(config)
@@ -364,7 +360,7 @@ class TestCachingSystem:
 
         # key2 should be evicted
         assert await cache.get("key1") == "value1"  # Recently accessed
-        assert await cache.get("key2") is None      # Evicted
+        assert await cache.get("key2") is None  # Evicted
         assert await cache.get("key3") == "value3"  # Still there
         assert await cache.get("key4") == "value4"  # New entry
 
@@ -466,7 +462,7 @@ class TestDistributedStorage:
             compression_enabled=True,
             deduplication_enabled=True,
             enable_lifecycle_management=False,  # Disable for testing
-            backup_enabled=False  # Disable for testing
+            backup_enabled=False,  # Disable for testing
         )
 
         manager = DistributedStorageManager(config)
@@ -533,7 +529,7 @@ class TestDistributedStorage:
             classification=DataClassification.INTERNAL,
             storage_policy=StoragePolicy.HOT,
             custom_metadata={"author": "test_user"},
-            tags={"document", "test"}
+            tags={"document", "test"},
         )
 
         # Store object
@@ -572,7 +568,7 @@ class TestDistributedStorage:
             classification=DataClassification.INTERNAL,
             storage_policy=StoragePolicy.HOT,
             metadata={"author": "test_user"},
-            tags={"document", "test"}
+            tags={"document", "test"},
         )
         assert success
 
@@ -626,8 +622,8 @@ class TestDistributedStorage:
 
         # One should be a deduplication reference
         has_dedup_ref = (
-            obj1.custom_metadata.get("dedup_reference") is not None or
-            obj2.custom_metadata.get("dedup_reference") is not None
+            obj1.custom_metadata.get("dedup_reference") is not None
+            or obj2.custom_metadata.get("dedup_reference") is not None
         )
         assert has_dedup_ref
 
@@ -639,11 +635,7 @@ class TestDistributedStorage:
         large_data = "This is a large piece of text data that should be compressed. " * 100
 
         # Store data
-        success = await storage_manager.put(
-            "large_file.txt",
-            large_data,
-            content_type="text/plain"
-        )
+        success = await storage_manager.put("large_file.txt", large_data, content_type="text/plain")
         assert success
 
         # Retrieve data
@@ -696,34 +688,22 @@ class TestIntegration:
             security_config = SecurityConfig(
                 jwt_secret_key="integration_test_secret",
                 encryption_key="integration_test_key_32_chars!",
-                audit_logging_enabled=True
+                audit_logging_enabled=True,
             )
             security = LUKHASSecurityFramework(security_config)
             await security.initialize()
 
             # Cache manager
-            cache_config = CacheConfig(
-                l1_max_size=100,
-                warming_enabled=False
-            )
+            cache_config = CacheConfig(l1_max_size=100, warming_enabled=False)
             cache = HierarchicalCacheManager(cache_config)
             await cache.initialize()
 
             # Storage manager
-            storage_config = StorageConfig(
-                base_path=temp_dir,
-                enable_lifecycle_management=False,
-                backup_enabled=False
-            )
+            storage_config = StorageConfig(base_path=temp_dir, enable_lifecycle_management=False, backup_enabled=False)
             storage = DistributedStorageManager(storage_config)
             await storage.initialize()
 
-            yield {
-                "security": security,
-                "cache": cache,
-                "storage": storage,
-                "temp_dir": temp_dir
-            }
+            yield {"security": security, "cache": cache, "storage": storage, "temp_dir": temp_dir}
 
         finally:
             # Cleanup
@@ -746,7 +726,7 @@ class TestIntegration:
             username="integrationtest",
             email="integration@test.com",
             roles={"user"},
-            permissions={"read", "write", "delete"}
+            permissions={"read", "write", "delete"},
         )
 
         token = await security.jwt_service.generate_token(user)
@@ -766,7 +746,7 @@ class TestIntegration:
             encrypted_data,
             content_type="text/plain",
             classification=DataClassification.CONFIDENTIAL,
-            metadata={"encrypted": "true", "user_id": user.user_id}
+            metadata={"encrypted": "true", "user_id": user.user_id},
         )
         assert storage_success
 
@@ -801,7 +781,7 @@ class TestIntegration:
             resource=f"user/{user.user_id}/sensitive_doc.txt",
             action="read",
             result="success",
-            additional_data={"access_method": "integration_test"}
+            additional_data={"access_method": "integration_test"},
         )
 
         audit_logged = await security.security_auditor.log_event(audit_event)
@@ -811,7 +791,7 @@ class TestIntegration:
         audit_events = await security.security_auditor.query_events(
             start_time=datetime.now() - timedelta(minutes=1),
             end_time=datetime.now() + timedelta(minutes=1),
-            user_id=user.user_id
+            user_id=user.user_id,
         )
 
         assert len(audit_events) > 0
@@ -854,11 +834,7 @@ class TestIntegration:
         threat_detector = security.threat_detector
 
         # Test malicious key patterns
-        malicious_keys = [
-            "../../../etc/passwd",
-            "uploads/<script>alert('xss')</script>",
-            "data'; DROP TABLE files; --"
-        ]
+        malicious_keys = ["../../../etc/passwd", "uploads/<script>alert('xss')</script>", "data'; DROP TABLE files; --"]
 
         for malicious_key in malicious_keys:
             # Should detect threat in key
@@ -872,9 +848,9 @@ class TestIntegration:
                 # If not detected as threat, still attempt storage
                 # but log for analysis
                 success = await storage.put(
-                    malicious_key.replace('/', '_').replace('<', '_').replace('>', '_'),
+                    malicious_key.replace("/", "_").replace("<", "_").replace(">", "_"),
                     "test data",
-                    classification=DataClassification.PUBLIC
+                    classification=DataClassification.PUBLIC,
                 )
                 if success:
                     print(f"⚠️  Potentially malicious key stored: {malicious_key}")
@@ -911,7 +887,7 @@ class TestPerformance:
 
             # Performance should be reasonable
             assert write_time < 1.0  # Should complete 1000 writes in < 1 second
-            assert read_time < 0.5   # Should complete 1000 reads in < 0.5 seconds
+            assert read_time < 0.5  # Should complete 1000 reads in < 0.5 seconds
 
         finally:
             await cache.shutdown()
@@ -923,11 +899,7 @@ class TestPerformance:
         temp_dir = tempfile.mkdtemp()
 
         try:
-            config = StorageConfig(
-                base_path=temp_dir,
-                enable_lifecycle_management=False,
-                backup_enabled=False
-            )
+            config = StorageConfig(base_path=temp_dir, enable_lifecycle_management=False, backup_enabled=False)
             storage = DistributedStorageManager(config)
             await storage.initialize()
 
@@ -951,7 +923,7 @@ class TestPerformance:
 
             # Performance should be reasonable for local filesystem
             assert write_time < 5.0  # Should complete 100 writes in < 5 seconds
-            assert read_time < 2.0   # Should complete 100 reads in < 2 seconds
+            assert read_time < 2.0  # Should complete 100 reads in < 2 seconds
 
             await storage.shutdown()
 

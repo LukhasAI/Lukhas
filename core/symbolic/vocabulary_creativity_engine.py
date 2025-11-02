@@ -12,7 +12,6 @@ providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
 
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -24,7 +23,6 @@ from typing import Any
 This module provides the core engine for processing and managing vision-related
 symbolic vocabulary, handling visual analysis symbols, and color relationships.
 """
-
 
 
 class AnalysisType(Enum):
@@ -1050,9 +1048,7 @@ class VocabularyCreativityEngine:
         # Remove unused code block - to be implemented if needed
         return []
 
-    def get_quality_indicators(
-        self, success: bool, confidence: float, processing_time: float
-    ) -> str:
+    def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
         """Get quality indicator symbols based on analysis results."""
         symbols: list[str] = []
 

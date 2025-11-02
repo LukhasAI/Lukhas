@@ -23,30 +23,33 @@ from prometheus_client import Counter, Gauge, Histogram
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
-    def labels(self, **kwargs): return self
-    def inc(self, amount=1): pass
-    def observe(self, amount): pass
-    def set(self, value): pass
+    def labels(self, **kwargs):
+        return self
+
+    def inc(self, amount=1):
+        pass
+
+    def observe(self, amount):
+        pass
+
+    def set(self, value):
+        pass
+
 
 try:
     policy_evaluations_total = Counter(
-        'lukhas_guardian_policy_evaluations_total',
-        'Total policy evaluations',
-        ['policy_type', 'decision', 'component']
+        "lukhas_guardian_policy_evaluations_total", "Total policy evaluations", ["policy_type", "decision", "component"]
     )
     policy_evaluation_latency = Histogram(
-        'lukhas_guardian_policy_evaluation_latency_seconds',
-        'Policy evaluation latency',
-        ['policy_type'],
-        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+        "lukhas_guardian_policy_evaluation_latency_seconds",
+        "Policy evaluation latency",
+        ["policy_type"],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
     )
-    active_policies_gauge = Gauge(
-        'lukhas_guardian_active_policies_total',
-        'Number of active policies',
-        ['policy_type']
-    )
+    active_policies_gauge = Gauge("lukhas_guardian_active_policies_total", "Number of active policies", ["policy_type"])
 except ValueError:
     policy_evaluations_total = MockMetric()
     policy_evaluation_latency = MockMetric()
@@ -55,6 +58,7 @@ except ValueError:
 
 class DecisionType(Enum):
     """Guardian policy decisions."""
+
     ALLOW = "allow"
     DENY = "deny"
     REVIEW = "review"
@@ -63,6 +67,7 @@ class DecisionType(Enum):
 
 class SeverityLevel(Enum):
     """Severity levels for policy reasons."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -71,6 +76,7 @@ class SeverityLevel(Enum):
 
 class ActionType(Enum):
     """Types of actions Guardian can take."""
+
     LOG = "log"
     ALERT = "alert"
     THROTTLE = "throttle"
@@ -81,6 +87,7 @@ class ActionType(Enum):
 @dataclass
 class PolicyReason:
     """Reason for a policy decision."""
+
     code: str
     message: str
     severity: SeverityLevel
@@ -88,11 +95,7 @@ class PolicyReason:
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
-        result = {
-            "code": self.code,
-            "message": self.message,
-            "severity": self.severity.value
-        }
+        result = {"code": self.code, "message": self.message, "severity": self.severity.value}
         if self.details:
             result["details"] = self.details
         return result
@@ -101,16 +104,14 @@ class PolicyReason:
 @dataclass
 class PolicyAction:
     """Action to be taken based on policy decision."""
+
     type: ActionType
     target: str
     parameters: Optional[Dict[str, Any]] = None
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
-        result = {
-            "type": self.type.value,
-            "target": self.target
-        }
+        result = {"type": self.type.value, "target": self.target}
         if self.parameters:
             result["parameters"] = self.parameters
         return result
@@ -119,6 +120,7 @@ class PolicyAction:
 @dataclass
 class PolicyContext:
     """Context information for policy evaluation."""
+
     operation_type: str
     component: str
     user_id: Optional[str] = None
@@ -141,6 +143,7 @@ class PolicyContext:
 @dataclass
 class GuardianResponse:
     """Standardized Guardian response following G.3 schema."""
+
     schema_version: str
     timestamp: float
     correlation_id: str
@@ -161,7 +164,7 @@ class GuardianResponse:
             "emergency_active": self.emergency_active,
             "enforcement_enabled": self.enforcement_enabled,
             "decision": self.decision.value,
-            "reasons": [reason.to_dict() for reason in self.reasons]
+            "reasons": [reason.to_dict() for reason in self.reasons],
         }
 
         if self.metrics:
@@ -216,8 +219,8 @@ class DriftThresholdPolicy(PolicyRule):
                 details={
                     "current_drift": drift_score,
                     "threshold": self.threshold,
-                    "excess": drift_score - self.threshold
-                }
+                    "excess": drift_score - self.threshold,
+                },
             )
         return None
 
@@ -241,10 +244,7 @@ class RateLimitPolicy(PolicyRule):
 
         # Clean old requests (older than 1 minute)
         cutoff_time = current_time - 60
-        self._request_counts[key] = [
-            timestamp for timestamp in self._request_counts[key]
-            if timestamp > cutoff_time
-        ]
+        self._request_counts[key] = [timestamp for timestamp in self._request_counts[key] if timestamp > cutoff_time]
 
         # Add current request
         self._request_counts[key].append(current_time)
@@ -255,11 +255,7 @@ class RateLimitPolicy(PolicyRule):
                 code="RATE_LIMIT_EXCEEDED",
                 message=f"Rate limit exceeded: {len(self._request_counts[key])} requests in last minute (limit: {self.requests_per_minute})",
                 severity=SeverityLevel.MEDIUM,
-                details={
-                    "current_rate": len(self._request_counts[key]),
-                    "limit": self.requests_per_minute,
-                    "key": key
-                }
+                details={"current_rate": len(self._request_counts[key]), "limit": self.requests_per_minute, "key": key},
             )
         return None
 
@@ -273,8 +269,12 @@ class TierAccessPolicy(PolicyRule):
             "T1": {"memory": ["read"], "consciousness": [], "identity": ["public"]},
             "T2": {"memory": ["read", "write"], "consciousness": ["basic"], "identity": ["auth"]},
             "T3": {"memory": ["read", "write"], "consciousness": ["basic", "reflect"], "identity": ["auth", "mfa"]},
-            "T4": {"memory": ["read", "write", "admin"], "consciousness": ["basic", "reflect", "dream"], "identity": ["auth", "mfa", "webauthn"]},
-            "T5": {"memory": ["read", "write", "admin"], "consciousness": ["full"], "identity": ["full"]}
+            "T4": {
+                "memory": ["read", "write", "admin"],
+                "consciousness": ["basic", "reflect", "dream"],
+                "identity": ["auth", "mfa", "webauthn"],
+            },
+            "T5": {"memory": ["read", "write", "admin"], "consciousness": ["full"], "identity": ["full"]},
         }
 
     def evaluate(self, context: PolicyContext, request_data: Dict[str, Any]) -> Optional[PolicyReason]:
@@ -298,8 +298,8 @@ class TierAccessPolicy(PolicyRule):
                     "tier": context.tier,
                     "required_permission": required_permission,
                     "component": context.component,
-                    "available_permissions": component_perms
-                }
+                    "available_permissions": component_perms,
+                },
             )
         return None
 
@@ -319,7 +319,7 @@ class EmergencyStopPolicy(PolicyRule):
                 code="EMERGENCY_STOP_ACTIVE",
                 message="Emergency stop is active - all operations blocked",
                 severity=SeverityLevel.CRITICAL,
-                details={"emergency_file": str(emergency_file)}
+                details={"emergency_file": str(emergency_file)},
             )
 
         # Check for critical system state
@@ -328,7 +328,7 @@ class EmergencyStopPolicy(PolicyRule):
                 code="CRITICAL_SYSTEM_STATE",
                 message="System in critical state - risky operations blocked",
                 severity=SeverityLevel.CRITICAL,
-                details={"system_state": "critical"}
+                details={"system_state": "critical"},
             )
 
         return None
@@ -352,7 +352,7 @@ class GuardianPoliciesEngine:
             EmergencyStopPolicy(),
             DriftThresholdPolicy(threshold=0.15),
             RateLimitPolicy(requests_per_minute=100),
-            TierAccessPolicy()
+            TierAccessPolicy(),
         ]
 
         for policy in default_policies:
@@ -371,9 +371,9 @@ class GuardianPoliciesEngine:
         if name in self.policies:
             del self.policies[name]
 
-    def evaluate_policies(self,
-                         context: PolicyContext,
-                         request_data: Optional[Dict[str, Any]] = None) -> GuardianResponse:
+    def evaluate_policies(
+        self, context: PolicyContext, request_data: Optional[Dict[str, Any]] = None
+    ) -> GuardianResponse:
         """
         Evaluate all policies and return standardized Guardian response.
 
@@ -435,7 +435,7 @@ class GuardianPoliciesEngine:
                     "drift_score": request_data.get("drift_score", 0.0),
                     "confidence_score": self._calculate_confidence(reasons, policies_evaluated),
                     "policies_evaluated": policies_evaluated,
-                    "circuit_breaker_state": "closed"  # TODO: Integrate with actual circuit breaker
+                    "circuit_breaker_state": "closed",  # TODO: Integrate with actual circuit breaker
                 }
 
                 # Create response
@@ -449,14 +449,12 @@ class GuardianPoliciesEngine:
                     reasons=reasons,
                     metrics=metrics,
                     context=context,
-                    actions=actions
+                    actions=actions,
                 )
 
                 # Update Prometheus metrics
                 policy_evaluations_total.labels(
-                    policy_type="all",
-                    decision=decision.value,
-                    component=context.component
+                    policy_type="all", decision=decision.value, component=context.component
                 ).inc()
 
                 span.set_attribute("guardian.decision", decision.value)
@@ -476,21 +474,19 @@ class GuardianPoliciesEngine:
                     emergency_active=True,  # Fail safe
                     enforcement_enabled=enforcement_enabled,
                     decision=DecisionType.DENY,
-                    reasons=[PolicyReason(
-                        code="POLICY_EVALUATION_ERROR",
-                        message=f"Error during policy evaluation: {str(e)}",
-                        severity=SeverityLevel.CRITICAL,
-                        details={"error": str(e)}
-                    )],
+                    reasons=[
+                        PolicyReason(
+                            code="POLICY_EVALUATION_ERROR",
+                            message=f"Error during policy evaluation: {str(e)}",
+                            severity=SeverityLevel.CRITICAL,
+                            details={"error": str(e)},
+                        )
+                    ],
                     metrics={"processing_time_ms": (time.time() - start_time) * 1000},
-                    context=context
+                    context=context,
                 )
 
-                policy_evaluations_total.labels(
-                    policy_type="error",
-                    decision="deny",
-                    component=context.component
-                ).inc()
+                policy_evaluations_total.labels(policy_type="error", decision="deny", component=context.component).inc()
 
                 return error_response
 
@@ -503,10 +499,9 @@ class GuardianPoliciesEngine:
         """Check if policy enforcement is enabled."""
         return os.getenv("LUKHAS_GUARDIAN_ENFORCEMENT", "1") != "0"
 
-    def _make_decision(self,
-                      reasons: List[PolicyReason],
-                      emergency_active: bool,
-                      enforcement_enabled: bool) -> DecisionType:
+    def _make_decision(
+        self, reasons: List[PolicyReason], emergency_active: bool, enforcement_enabled: bool
+    ) -> DecisionType:
         """Make final policy decision based on reasons and system state."""
         if emergency_active:
             return DecisionType.DENY
@@ -540,9 +535,7 @@ class GuardianPoliciesEngine:
 
         # Reduce confidence based on severe reasons
         severe_penalty = sum(
-            0.2 if r.severity == SeverityLevel.CRITICAL else
-            0.1 if r.severity == SeverityLevel.HIGH else
-            0.05
+            0.2 if r.severity == SeverityLevel.CRITICAL else 0.1 if r.severity == SeverityLevel.HIGH else 0.05
             for r in reasons
         )
 
@@ -553,33 +546,29 @@ class GuardianPoliciesEngine:
         actions = []
 
         if reason.severity == SeverityLevel.CRITICAL:
-            actions.extend([
-                PolicyAction(ActionType.LOG, "security_log", {
-                    "level": "critical",
-                    "category": "policy_violation",
-                    "immediate": True
-                }),
-                PolicyAction(ActionType.ALERT, "ops_team", {
-                    "severity": "critical",
-                    "escalation_delay": 0
-                }),
-                PolicyAction(ActionType.AUDIT, "compliance_log", {
-                    "violation_type": reason.code,
-                    "component": context.component
-                })
-            ])
+            actions.extend(
+                [
+                    PolicyAction(
+                        ActionType.LOG,
+                        "security_log",
+                        {"level": "critical", "category": "policy_violation", "immediate": True},
+                    ),
+                    PolicyAction(ActionType.ALERT, "ops_team", {"severity": "critical", "escalation_delay": 0}),
+                    PolicyAction(
+                        ActionType.AUDIT,
+                        "compliance_log",
+                        {"violation_type": reason.code, "component": context.component},
+                    ),
+                ]
+            )
 
         elif reason.severity == SeverityLevel.HIGH:
-            actions.extend([
-                PolicyAction(ActionType.LOG, "security_log", {
-                    "level": "warning",
-                    "category": "policy_violation"
-                }),
-                PolicyAction(ActionType.ALERT, "ops_team", {
-                    "severity": "high",
-                    "escalation_delay": 300
-                })
-            ])
+            actions.extend(
+                [
+                    PolicyAction(ActionType.LOG, "security_log", {"level": "warning", "category": "policy_violation"}),
+                    PolicyAction(ActionType.ALERT, "ops_team", {"severity": "high", "escalation_delay": 300}),
+                ]
+            )
 
         return actions
 
@@ -593,15 +582,16 @@ class GuardianPoliciesEngine:
                     "name": policy.name,
                     "enabled": policy.enabled,
                     "priority": policy.priority,
-                    "type": type(policy).__name__
+                    "type": type(policy).__name__,
                 }
                 for name, policy in self.policies.items()
-            }
+            },
         }
 
 
 # Global policies engine instance
 _policies_engine: Optional[GuardianPoliciesEngine] = None
+
 
 def get_guardian_policies_engine() -> GuardianPoliciesEngine:
     """Get the default Guardian policies engine instance."""

@@ -33,18 +33,21 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 try:
     import boto3
     from botocore.exceptions import ClientError
+
     AWS_AVAILABLE = True
 except ImportError:
     AWS_AVAILABLE = False
 
 try:
     from azure.storage.blob import BlobServiceClient
+
     AZURE_AVAILABLE = True
 except ImportError:
     AZURE_AVAILABLE = False
 
 try:
     from google.cloud import storage as gcs
+
     GCS_AVAILABLE = True
 except ImportError:
     GCS_AVAILABLE = False
@@ -54,15 +57,17 @@ from .evidence_collection import ComplianceRegime, get_evidence_engine
 
 class StorageTier(Enum):
     """Storage tiers for evidence archival"""
-    HOT = "hot"           # Immediate access (0-30 days)
-    WARM = "warm"         # Frequent access (30-90 days)
-    COLD = "cold"         # Infrequent access (90 days - 1 year)
-    GLACIER = "glacier"   # Long-term archive (1+ years)
+
+    HOT = "hot"  # Immediate access (0-30 days)
+    WARM = "warm"  # Frequent access (30-90 days)
+    COLD = "cold"  # Infrequent access (90 days - 1 year)
+    GLACIER = "glacier"  # Long-term archive (1+ years)
     DEEP_ARCHIVE = "deep_archive"  # Compliance archive (7+ years)
 
 
 class CloudProvider(Enum):
     """Supported cloud storage providers"""
+
     AWS_S3 = "aws_s3"
     AZURE_BLOB = "azure_blob"
     GOOGLE_CLOUD = "gcs"
@@ -72,6 +77,7 @@ class CloudProvider(Enum):
 @dataclass
 class RetentionPolicy:
     """Evidence retention policy configuration"""
+
     regulation: ComplianceRegime
     minimum_retention_days: int
     maximum_retention_days: int
@@ -83,6 +89,7 @@ class RetentionPolicy:
 @dataclass
 class ArchivalJob:
     """Evidence archival job specification"""
+
     job_id: str
     job_type: str  # "age_based", "tier_transition", "compliance_driven"
     source_path: Path
@@ -103,6 +110,7 @@ class ArchivalJob:
 @dataclass
 class ArchivedEvidence:
     """Archived evidence metadata"""
+
     archive_id: str
     original_evidence_id: str
     evidence_type: str
@@ -252,7 +260,7 @@ class EvidenceArchivalSystem:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path, "r") as f:
                     self.config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -264,7 +272,7 @@ class EvidenceArchivalSystem:
         else:
             self.config = default_config
             # Save default configuration
-            with open(self.config_path, 'w') as f:
+            with open(self.config_path, "w") as f:
                 json.dump(default_config, f, indent=2)
 
     def _initialize_cloud_clients(self):
@@ -277,10 +285,10 @@ class EvidenceArchivalSystem:
             aws_config = self.config["cloud_storage"]["aws_s3"]
             try:
                 if aws_config.get("use_iam_role"):
-                    self.cloud_clients[CloudProvider.AWS_S3] = boto3.client('s3')
+                    self.cloud_clients[CloudProvider.AWS_S3] = boto3.client("s3")
                 elif aws_config.get("access_key_id") and aws_config.get("secret_access_key"):
                     self.cloud_clients[CloudProvider.AWS_S3] = boto3.client(
-                        's3',
+                        "s3",
                         aws_access_key_id=aws_config["access_key_id"],
                         aws_secret_access_key=aws_config["secret_access_key"],
                         region_name=aws_config.get("region", "us-east-1"),
@@ -295,8 +303,7 @@ class EvidenceArchivalSystem:
                 try:
                     account_url = f"https://{azure_config['account_name']}.blob.core.windows.net"
                     self.cloud_clients[CloudProvider.AZURE_BLOB] = BlobServiceClient(
-                        account_url=account_url,
-                        credential=azure_config["account_key"]
+                        account_url=account_url, credential=azure_config["account_key"]
                     )
                 except Exception as e:
                     print(f"Failed to initialize Azure Blob client: {e}")
@@ -308,9 +315,7 @@ class EvidenceArchivalSystem:
                 try:
                     if gcs_config.get("credentials_path"):
                         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = gcs_config["credentials_path"]
-                    self.cloud_clients[CloudProvider.GOOGLE_CLOUD] = gcs.Client(
-                        project=gcs_config["project_id"]
-                    )
+                    self.cloud_clients[CloudProvider.GOOGLE_CLOUD] = gcs.Client(project=gcs_config["project_id"])
                 except Exception as e:
                     print(f"Failed to initialize GCS client: {e}")
 
@@ -420,20 +425,18 @@ class EvidenceArchivalSystem:
         """Archive a single evidence file"""
         try:
             # Read and parse evidence file
-            if evidence_file.suffix == '.gz':
-                with gzip.open(evidence_file, 'rt') as f:
+            if evidence_file.suffix == ".gz":
+                with gzip.open(evidence_file, "rt") as f:
                     evidence_data = json.load(f)
             else:
-                with open(evidence_file, 'r') as f:
+                with open(evidence_file, "r") as f:
                     evidence_data = json.load(f)
 
             original_size = evidence_file.stat().st_size
 
             # Process each evidence record
             for evidence_record in evidence_data:
-                await self._archive_single_evidence(
-                    job, evidence_record, original_size // len(evidence_data)
-                )
+                await self._archive_single_evidence(job, evidence_record, original_size // len(evidence_data))
 
             job.evidence_count += len(evidence_data)
             job.bytes_archived += original_size
@@ -453,7 +456,7 @@ class EvidenceArchivalSystem:
 
             # Serialize evidence
             evidence_json = json.dumps(evidence_record, sort_keys=True, default=str)
-            evidence_bytes = evidence_json.encode('utf-8')
+            evidence_bytes = evidence_json.encode("utf-8")
 
             # Compress if enabled
             if job.compression_enabled:
@@ -486,9 +489,8 @@ class EvidenceArchivalSystem:
                 checksum_sha256=checksum,
                 integrity_verified=True,
                 archived_at=datetime.now(timezone.utc),
-                retention_until=datetime.now(timezone.utc) + timedelta(
-                    days=job.retention_policy.minimum_retention_days
-                ),
+                retention_until=datetime.now(timezone.utc)
+                + timedelta(days=job.retention_policy.minimum_retention_days),
                 compliance_regimes=[job.retention_policy.regulation],
             )
 
@@ -503,7 +505,7 @@ class EvidenceArchivalSystem:
         """Encrypt evidence data"""
         # Generate random key and IV for AES encryption
         key = os.urandom(32)  # 256-bit key
-        iv = os.urandom(16)   # 128-bit IV
+        iv = os.urandom(16)  # 128-bit IV
 
         # Encrypt data
         cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
@@ -542,9 +544,7 @@ class EvidenceArchivalSystem:
         else:
             raise ValueError(f"Unsupported cloud provider: {cloud_provider}")
 
-    async def _store_local(
-        self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier
-    ) -> str:
+    async def _store_local(self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier) -> str:
         """Store evidence in local filesystem"""
         # Create tier-specific directory
         tier_dir = self.local_archive_path / storage_tier.value
@@ -556,14 +556,12 @@ class EvidenceArchivalSystem:
 
         # Store evidence
         evidence_path = date_dir / f"{archive_id}.evidence"
-        with open(evidence_path, 'wb') as f:
+        with open(evidence_path, "wb") as f:
             f.write(evidence_bytes)
 
         return str(evidence_path)
 
-    async def _store_s3(
-        self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier
-    ) -> str:
+    async def _store_s3(self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier) -> str:
         """Store evidence in AWS S3"""
         if CloudProvider.AWS_S3 not in self.cloud_clients:
             raise ValueError("AWS S3 client not initialized")
@@ -592,19 +590,17 @@ class EvidenceArchivalSystem:
                 Body=evidence_bytes,
                 StorageClass=storage_class,
                 Metadata={
-                    'archive_id': archive_id,
-                    'storage_tier': storage_tier.value,
-                    'archived_at': datetime.now(timezone.utc).isoformat(),
-                }
+                    "archive_id": archive_id,
+                    "storage_tier": storage_tier.value,
+                    "archived_at": datetime.now(timezone.utc).isoformat(),
+                },
             )
             return f"s3://{bucket_name}/{s3_key}"
 
         except ClientError as e:
             raise Exception(f"Failed to store in S3: {e}")
 
-    async def _store_azure(
-        self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier
-    ) -> str:
+    async def _store_azure(self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier) -> str:
         """Store evidence in Azure Blob Storage"""
         if CloudProvider.AZURE_BLOB not in self.cloud_clients:
             raise ValueError("Azure Blob client not initialized")
@@ -627,18 +623,15 @@ class EvidenceArchivalSystem:
         blob_name = f"evidence/{storage_tier.value}/{datetime.now().strftime('%Y/%m/%d')}/{archive_id}.evidence"
 
         try:
-            blob = blob_client.get_blob_client(
-                container=container_name,
-                blob=blob_name
-            )
+            blob = blob_client.get_blob_client(container=container_name, blob=blob_name)
 
             blob.upload_blob(
                 evidence_bytes,
                 metadata={
-                    'archive_id': archive_id,
-                    'storage_tier': storage_tier.value,
-                    'archived_at': datetime.now(timezone.utc).isoformat(),
-                }
+                    "archive_id": archive_id,
+                    "storage_tier": storage_tier.value,
+                    "archived_at": datetime.now(timezone.utc).isoformat(),
+                },
             )
 
             # Set access tier
@@ -649,9 +642,7 @@ class EvidenceArchivalSystem:
         except Exception as e:
             raise Exception(f"Failed to store in Azure: {e}")
 
-    async def _store_gcs(
-        self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier
-    ) -> str:
+    async def _store_gcs(self, archive_id: str, evidence_bytes: bytes, storage_tier: StorageTier) -> str:
         """Store evidence in Google Cloud Storage"""
         if CloudProvider.GOOGLE_CLOUD not in self.cloud_clients:
             raise ValueError("Google Cloud Storage client not initialized")
@@ -678,12 +669,12 @@ class EvidenceArchivalSystem:
             blob = bucket.blob(blob_name)
 
             blob.metadata = {
-                'archive_id': archive_id,
-                'storage_tier': storage_tier.value,
-                'archived_at': datetime.now(timezone.utc).isoformat(),
+                "archive_id": archive_id,
+                "storage_tier": storage_tier.value,
+                "archived_at": datetime.now(timezone.utc).isoformat(),
             }
 
-            blob.upload_from_string(evidence_bytes, content_type='application/octet-stream')
+            blob.upload_from_string(evidence_bytes, content_type="application/octet-stream")
 
             return f"gs://{bucket_name}/{blob_name}"
 
@@ -718,7 +709,7 @@ class EvidenceArchivalSystem:
                 evidence_bytes = zlib.decompress(evidence_bytes)
 
             # Parse JSON
-            evidence_json = evidence_bytes.decode('utf-8')
+            evidence_json = evidence_bytes.decode("utf-8")
             evidence_record = json.loads(evidence_json)
 
             # Update retrieval statistics
@@ -734,7 +725,7 @@ class EvidenceArchivalSystem:
     async def _retrieve_from_storage(self, archived: ArchivedEvidence) -> bytes:
         """Retrieve evidence data from storage location"""
         if archived.cloud_provider == CloudProvider.LOCAL_FILESYSTEM:
-            with open(archived.storage_location, 'rb') as f:
+            with open(archived.storage_location, "rb") as f:
                 return f.read()
 
         elif archived.cloud_provider == CloudProvider.AWS_S3:
@@ -744,7 +735,7 @@ class EvidenceArchivalSystem:
             bucket, key = s3_url.split("/", 1)
 
             response = s3_client.get_object(Bucket=bucket, Key=key)
-            return response['Body'].read()
+            return response["Body"].read()
 
         # Add other cloud providers as needed
         else:
@@ -857,14 +848,12 @@ class EvidenceArchivalSystem:
 
     def _start_background_tasks(self):
         """Start background tasks for archival and integrity checking"""
+
         async def archival_worker():
             while True:
                 try:
                     # Process pending archival jobs
-                    pending_jobs = [
-                        job for job in self.archival_jobs.values()
-                        if job.status == "pending"
-                    ]
+                    pending_jobs = [job for job in self.archival_jobs.values() if job.status == "pending"]
 
                     for job in pending_jobs[:5]:  # Process up to 5 jobs at a time
                         await self.process_archival_job(job.job_id)
@@ -951,10 +940,7 @@ async def schedule_archival(source_path: str, target_tier: StorageTier, **kwargs
     """Convenience function for scheduling archival"""
     system = get_archival_system()
     return await system.schedule_archival_job(
-        job_type="manual",
-        source_path=source_path,
-        target_tier=target_tier,
-        **kwargs
+        job_type="manual", source_path=source_path, target_tier=target_tier, **kwargs
     )
 
 

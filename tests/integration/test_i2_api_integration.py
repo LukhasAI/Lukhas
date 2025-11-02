@@ -31,6 +31,7 @@ try:
     from identity.security_hardening import create_security_hardening_manager
     from identity.tiers import SecurityPolicy, create_tiered_authenticator
     from identity.webauthn_enhanced import create_enhanced_webauthn_service
+
     API_AVAILABLE = True
 except ImportError:
     API_AVAILABLE = False
@@ -57,10 +58,7 @@ class TestAuthenticationEndpoints:
     def test_t1_public_authentication(self, client):
         """Test T1 public authentication endpoint."""
         # Arrange
-        request_data = {
-            "tier": "T1",
-            "correlation_id": "test_correlation_123"
-        }
+        request_data = {"tier": "T1", "correlation_id": "test_correlation_123"}
 
         # Act
         response = client.post("/identity/authenticate", json=request_data)
@@ -78,13 +76,13 @@ class TestAuthenticationEndpoints:
     def test_t2_password_authentication_success(self, client):
         """Test T2 password authentication with valid credentials."""
         # Mock password verification
-        with patch('identity.tiers.TieredAuthenticator._verify_password', return_value=True):
+        with patch("identity.tiers.TieredAuthenticator._verify_password", return_value=True):
             # Arrange
             request_data = {
                 "tier": "T2",
                 "username": "test_user",
                 "password": "test_password",
-                "correlation_id": "test_t2_auth"
+                "correlation_id": "test_t2_auth",
             }
 
             # Act
@@ -100,11 +98,7 @@ class TestAuthenticationEndpoints:
     def test_t2_password_authentication_failure(self, client):
         """Test T2 password authentication with invalid credentials."""
         # Arrange
-        request_data = {
-            "tier": "T2",
-            "username": "test_user",
-            "password": "wrong_password"
-        }
+        request_data = {"tier": "T2", "username": "test_user", "password": "wrong_password"}
 
         # Act
         response = client.post("/identity/authenticate", json=request_data)
@@ -128,10 +122,7 @@ class TestAuthenticationEndpoints:
     def test_invalid_tier_validation(self, client):
         """Test validation of invalid authentication tier."""
         # Arrange
-        request_data = {
-            "tier": "T99",  # Invalid tier
-            "username": "test_user"
-        }
+        request_data = {"tier": "T99", "username": "test_user"}  # Invalid tier
 
         # Act
         response = client.post("/identity/authenticate", json=request_data)
@@ -143,15 +134,13 @@ class TestAuthenticationEndpoints:
     def test_tier_elevation_flow(self, client):
         """Test complete tier elevation flow."""
         # Mock all verification methods
-        with patch('identity.tiers.TieredAuthenticator._verify_password', return_value=True), \
-             patch('identity.tiers.TieredAuthenticator._verify_totp', return_value=True):
+        with (
+            patch("identity.tiers.TieredAuthenticator._verify_password", return_value=True),
+            patch("identity.tiers.TieredAuthenticator._verify_totp", return_value=True),
+        ):
 
             # Step 1: T2 authentication
-            t2_request = {
-                "tier": "T2",
-                "username": "test_user",
-                "password": "test_password"
-            }
+            t2_request = {"tier": "T2", "username": "test_user", "password": "test_password"}
             t2_response = client.post("/identity/authenticate", json=t2_request)
             assert t2_response.status_code == 200
             t2_data = t2_response.json()
@@ -162,7 +151,7 @@ class TestAuthenticationEndpoints:
                 "username": "test_user",
                 "existing_tier": "T2",
                 "totp_token": "123456",
-                "session_id": t2_data["session_id"]
+                "session_id": t2_data["session_id"],
             }
             t3_response = client.post("/identity/authenticate", json=t3_request)
             assert t3_response.status_code == 200
@@ -172,13 +161,9 @@ class TestAuthenticationEndpoints:
 
     def test_session_elevation_endpoint(self, client):
         """Test session tier elevation endpoint."""
-        with patch('identity.tiers.TieredAuthenticator._verify_password', return_value=True):
+        with patch("identity.tiers.TieredAuthenticator._verify_password", return_value=True):
             # Arrange
-            request_data = {
-                "tier": "T2",
-                "username": "test_user",
-                "password": "test_password"
-            }
+            request_data = {"tier": "T2", "username": "test_user", "password": "test_password"}
 
             # Act
             response = client.post("/identity/session/elevate", json=request_data)
@@ -196,10 +181,7 @@ class TestWebAuthnEndpoints:
     def test_webauthn_challenge_generation(self, client):
         """Test WebAuthn challenge generation."""
         # Arrange
-        request_data = {
-            "user_id": "test_user",
-            "correlation_id": "test_webauthn_challenge"
-        }
+        request_data = {"user_id": "test_user", "correlation_id": "test_webauthn_challenge"}
 
         # Act
         response = client.post("/identity/webauthn/challenge", json=request_data)
@@ -213,7 +195,7 @@ class TestWebAuthnEndpoints:
         request_data = {
             "challenge_id": "invalid_challenge_id",
             "webauthn_response": {"id": "test", "response": {}},
-            "correlation_id": "test_verification"
+            "correlation_id": "test_verification",
         }
 
         # Act
@@ -236,10 +218,7 @@ class TestBiometricEndpoints:
             "user_id": "test_user",
             "modality": "fingerprint",
             "sample_data": "dGVzdF9maW5nZXJwcmludF9kYXRh",  # base64
-            "device_info": {
-                "device_id": "fp_scanner_001",
-                "vendor": "Test Biometrics"
-            }
+            "device_info": {"device_id": "fp_scanner_001", "vendor": "Test Biometrics"},
         }
 
         # Act
@@ -254,11 +233,7 @@ class TestBiometricEndpoints:
     def test_biometric_enrollment_invalid_modality(self, client):
         """Test biometric enrollment with invalid modality."""
         # Arrange
-        request_data = {
-            "user_id": "test_user",
-            "modality": "invalid_modality",
-            "sample_data": "dGVzdA=="
-        }
+        request_data = {"user_id": "test_user", "modality": "invalid_modality", "sample_data": "dGVzdA=="}
 
         # Act
         response = client.post("/identity/biometric/enroll", json=request_data)
@@ -270,11 +245,7 @@ class TestBiometricEndpoints:
     def test_biometric_authentication_flow(self, client):
         """Test complete biometric authentication flow."""
         # Step 1: Enroll biometric template
-        enroll_request = {
-            "user_id": "test_user",
-            "modality": "fingerprint",
-            "sample_data": "dGVzdF9maW5nZXJwcmludA=="
-        }
+        enroll_request = {"user_id": "test_user", "modality": "fingerprint", "sample_data": "dGVzdF9maW5nZXJwcmludA=="}
         enroll_response = client.post("/identity/biometric/enroll", json=enroll_request)
         assert enroll_response.status_code == 200
 
@@ -283,7 +254,7 @@ class TestBiometricEndpoints:
             "user_id": "test_user",
             "modality": "fingerprint",
             "sample_data": "dGVzdF9maW5nZXJwcmludA==",
-            "nonce": "unique_nonce_123"
+            "nonce": "unique_nonce_123",
         }
         auth_response = client.post("/identity/biometric/authenticate", json=auth_request)
         assert auth_response.status_code == 200
@@ -294,11 +265,7 @@ class TestBiometricEndpoints:
     def test_biometric_nonce_replay_protection(self, client):
         """Test biometric nonce replay protection."""
         # Enroll template first
-        enroll_request = {
-            "user_id": "test_user",
-            "modality": "fingerprint",
-            "sample_data": "dGVzdF9maW5nZXJwcmludA=="
-        }
+        enroll_request = {"user_id": "test_user", "modality": "fingerprint", "sample_data": "dGVzdF9maW5nZXJwcmludA=="}
         client.post("/identity/biometric/enroll", json=enroll_request)
 
         nonce = "replay_test_nonce"
@@ -308,7 +275,7 @@ class TestBiometricEndpoints:
             "user_id": "test_user",
             "modality": "fingerprint",
             "sample_data": "dGVzdF9maW5nZXJwcmludA==",
-            "nonce": nonce
+            "nonce": nonce,
         }
         response1 = client.post("/identity/biometric/authenticate", json=auth_request)
         assert response1.status_code == 200
@@ -384,9 +351,7 @@ class TestErrorHandling:
         """Test handling of malformed JSON requests."""
         # Act
         response = client.post(
-            "/identity/authenticate",
-            data="invalid json{",
-            headers={"Content-Type": "application/json"}
+            "/identity/authenticate", data="invalid json{", headers={"Content-Type": "application/json"}
         )
 
         # Assert
@@ -404,7 +369,7 @@ class TestErrorHandling:
     def test_internal_server_error_handling(self, client):
         """Test handling of internal server errors."""
         # Mock an internal error
-        with patch('api.identity.authenticator', None):
+        with patch("api.identity.authenticator", None):
             # Act
             response = client.post("/identity/authenticate", json={"tier": "T1"})
 
@@ -431,10 +396,7 @@ class TestPerformanceRequirements:
 
         for i in range(100):
             start = time.perf_counter()
-            response = client.post("/identity/authenticate", json={
-                "tier": "T1",
-                "correlation_id": f"perf_test_{i}"
-            })
+            response = client.post("/identity/authenticate", json={"tier": "T1", "correlation_id": f"perf_test_{i}"})
             duration = (time.perf_counter() - start) * 1000
             times.append(duration)
             assert response.status_code == 200
@@ -455,10 +417,9 @@ class TestPerformanceRequirements:
         def make_request(request_id):
             """Make a single authentication request."""
             start = time.perf_counter()
-            response = client.post("/identity/authenticate", json={
-                "tier": "T1",
-                "correlation_id": f"concurrent_test_{request_id}"
-            })
+            response = client.post(
+                "/identity/authenticate", json={"tier": "T1", "correlation_id": f"concurrent_test_{request_id}"}
+            )
             duration = (time.perf_counter() - start) * 1000
             results.put((response.status_code, duration))
 
@@ -498,11 +459,7 @@ class TestSecurityValidation:
     def test_sql_injection_protection(self, client):
         """Test protection against SQL injection attempts."""
         # Arrange - SQL injection attempt in username
-        request_data = {
-            "tier": "T2",
-            "username": "'; DROP TABLE users; --",
-            "password": "test_password"
-        }
+        request_data = {"tier": "T2", "username": "'; DROP TABLE users; --", "password": "test_password"}
 
         # Act
         response = client.post("/identity/authenticate", json=request_data)
@@ -513,10 +470,7 @@ class TestSecurityValidation:
     def test_xss_protection(self, client):
         """Test protection against XSS attempts."""
         # Arrange - XSS attempt in correlation_id
-        request_data = {
-            "tier": "T1",
-            "correlation_id": "<script>alert('xss')</script>"
-        }
+        request_data = {"tier": "T1", "correlation_id": "<script>alert('xss')</script>"}
 
         # Act
         response = client.post("/identity/authenticate", json=request_data)
@@ -531,11 +485,7 @@ class TestSecurityValidation:
     def test_large_payload_handling(self, client):
         """Test handling of excessively large payloads."""
         # Arrange - Very large username
-        request_data = {
-            "tier": "T2",
-            "username": "a" * 10000,  # 10KB username
-            "password": "test_password"
-        }
+        request_data = {"tier": "T2", "username": "a" * 10000, "password": "test_password"}  # 10KB username
 
         # Act
         response = client.post("/identity/authenticate", json=request_data)
@@ -546,11 +496,7 @@ class TestSecurityValidation:
     def test_invalid_characters_handling(self, client):
         """Test handling of invalid characters in input."""
         # Arrange - Null bytes and control characters
-        request_data = {
-            "tier": "T2",
-            "username": "test\x00user\x01",
-            "password": "pass\x02word"
-        }
+        request_data = {"tier": "T2", "username": "test\x00user\x01", "password": "pass\x02word"}
 
         # Act
         response = client.post("/identity/authenticate", json=request_data)

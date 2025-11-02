@@ -25,7 +25,7 @@ async def test_provider_health_validation():
     mock_response.content = [MagicMock()]
     mock_response.content[0].text = "test response"
 
-    with patch('ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic') as mock_client_class:
+    with patch("ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic") as mock_client_class:
         mock_client = AsyncMock()
         mock_client.messages.create.return_value = mock_response
         mock_client_class.return_value = mock_client
@@ -79,12 +79,8 @@ async def test_provider_selection():
 
     # Test 1: Select healthy preferred provider
     print("\n✅ Test 1: Healthy Preferred Provider")
-    with patch.object(orchestrator, 'validate_provider_health') as mock_validate:
-        mock_validate.return_value = {
-            "healthy": True,
-            "latency": 0.1,
-            "sla_compliant": True
-        }
+    with patch.object(orchestrator, "validate_provider_health") as mock_validate:
+        mock_validate.return_value = {"healthy": True, "latency": 0.1, "sla_compliant": True}
 
         result = await orchestrator.select_optimal_provider("claude")
         if result == "claude":
@@ -95,21 +91,14 @@ async def test_provider_selection():
 
     # Test 2: Fallback to healthy provider
     print("\n✅ Test 2: Fallback Provider Selection")
+
     def mock_health_check(provider_name):
         if provider_name == "claude":
-            return {
-                "healthy": False,
-                "latency": 1.0,
-                "sla_compliant": False
-            }
+            return {"healthy": False, "latency": 1.0, "sla_compliant": False}
         else:
-            return {
-                "healthy": True,
-                "latency": 0.1,
-                "sla_compliant": True
-            }
+            return {"healthy": True, "latency": 0.1, "sla_compliant": True}
 
-    with patch.object(orchestrator, 'validate_provider_health', side_effect=mock_health_check):
+    with patch.object(orchestrator, "validate_provider_health", side_effect=mock_health_check):
         result = await orchestrator.select_optimal_provider("claude", ["gpt", "ollama"])
         if result == "gpt":
             print(f"  ✅ Fallback provider selected: {result}")
@@ -127,7 +116,7 @@ async def test_provider_health_performance():
     orchestrator = LUKHASAIOrchestrator("/test/workspace")
 
     # Mock fast response
-    with patch('ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic') as mock_client_class:
+    with patch("ai_orchestration.lukhas_ai_orchestrator.AsyncAnthropic") as mock_client_class:
         mock_client = AsyncMock()
         mock_response = MagicMock()
         mock_response.content = [MagicMock()]
@@ -183,13 +172,9 @@ async def test_routing_configuration():
     # Test 2: Dynamic provider selection based on task
     print("\n✅ Test 2: Task-Based Provider Selection")
     # Mock the routing logic
-    with patch.object(orchestrator, '_call_provider', return_value="test response"):
-        with patch.object(orchestrator, 'validate_provider_health') as mock_validate:
-            mock_validate.return_value = {
-                "healthy": True,
-                "latency": 0.1,
-                "sla_compliant": True
-            }
+    with patch.object(orchestrator, "_call_provider", return_value="test response"):
+        with patch.object(orchestrator, "validate_provider_health") as mock_validate:
+            mock_validate.return_value = {"healthy": True, "latency": 0.1, "sla_compliant": True}
 
             # Architecture design should prefer Claude
             await orchestrator.route_request("architecture_design", "test content")
@@ -235,6 +220,7 @@ async def main():
     except Exception as e:
         print(f"\n❌ AI Orchestrator test failed with error: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 

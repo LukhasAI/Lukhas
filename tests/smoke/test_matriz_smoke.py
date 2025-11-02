@@ -1,4 +1,5 @@
 """Smoke test for matriz modules (T1/T2 critical paths)."""
+
 import importlib
 import json
 import pathlib
@@ -9,22 +10,26 @@ import pytest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 MANIFESTS = list(ROOT.rglob("module.manifest.json"))
 
+
 def iter_star_critical():
     for mf in MANIFESTS:
         try:
             m = json.loads(mf.read_text(encoding="utf-8"))
-            tier = m.get("testing",{}).get("quality_tier","T4_experimental")
-            if tier in ("T1_critical","T2_important"):
+            tier = m.get("testing", {}).get("quality_tier", "T4_experimental")
+            if tier in ("T1_critical", "T2_important"):
                 yield mf, m
         except Exception:
             continue
 
+
 def import_path_from_manifest(m):
-    mod = m.get("module",{}).get("name") or m.get("module",{}).get("path","").replace("/","." )
+    mod = m.get("module", {}).get("name") or m.get("module", {}).get("path", "").replace("/", ".")
     return mod
 
+
 def p95_target(m):
-    return m.get("matriz_integration",{}).get("latency_target_p95", None)
+    return m.get("matriz_integration", {}).get("latency_target_p95", None)
+
 
 def fake_call(modname):
     # placeholder for a representative, fast import or constructor call
@@ -34,7 +39,8 @@ def fake_call(modname):
         importlib.import_module(modname)
     except Exception:
         return None, None
-    return (time.perf_counter() - t0)*1000, "import"
+    return (time.perf_counter() - t0) * 1000, "import"
+
 
 @pytest.mark.matriz_smoke
 def test_smoke_star_critical():
@@ -51,7 +57,7 @@ def test_smoke_star_critical():
             continue
         checked += 1
         target = p95_target(m)
-        if target and elapsed > 2.0*target:  # warn threshold; fail hard at 2x
+        if target and elapsed > 2.0 * target:  # warn threshold; fail hard at 2x
             slow.append((modname, elapsed, target))
 
     # Only fail if we have actual violations

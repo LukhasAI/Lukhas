@@ -463,7 +463,9 @@ class DynamicTierSystem:
         Returns:
             Result of elevation attempt with success status and details
         """
-        elevation_id = hashlib.md5(f"{session_id}_{target_tier.value}_{datetime.now(timezone.utc)}".encode()).hexdigest()[:10]
+        elevation_id = hashlib.md5(
+            f"{session_id}_{target_tier.value}_{datetime.now(timezone.utc)}".encode()
+        ).hexdigest()[:10]
 
         current_tier = self._get_current_tier(None, session_id)
 

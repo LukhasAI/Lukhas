@@ -25,10 +25,7 @@ class TestBridgeModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "bridge",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "bridge", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestBridgeModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import bridge
+
         self.assertIsNotNone(bridge)
 
     def test_module_version(self):
         """Test module has version information."""
         import bridge
+
         # Most modules should have version info
-        self.assertTrue(hasattr(bridge, '__version__') or
-                       hasattr(bridge, 'VERSION'))
+        self.assertTrue(hasattr(bridge, "__version__") or hasattr(bridge, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestBRIDGE_BRANDING_AVAILABLE(unittest.TestCase):
         """Test BRIDGE_BRANDING_AVAILABLE can be imported."""
         try:
             from bridge import BRIDGE_BRANDING_AVAILABLE
+
             self.assertIsNotNone(BRIDGE_BRANDING_AVAILABLE)
         except ImportError:
             pytest.skip("Component BRIDGE_BRANDING_AVAILABLE not available")
@@ -97,6 +96,7 @@ class TestBrandContext(unittest.TestCase):
         """Test BrandContext can be imported."""
         try:
             from bridge import BrandContext
+
             self.assertIsNotNone(BrandContext)
         except ImportError:
             pytest.skip("Component BrandContext not available")
@@ -114,6 +114,7 @@ class TestInterColonyBridge(unittest.TestCase):
         """Test InterColonyBridge can be imported."""
         try:
             from bridge.colony_bridge import InterColonyBridge
+
             self.assertIsNotNone(InterColonyBridge)
         except ImportError:
             pytest.skip("Component InterColonyBridge not available")
@@ -122,7 +123,6 @@ class TestInterColonyBridge(unittest.TestCase):
         """Test InterColonyBridge can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

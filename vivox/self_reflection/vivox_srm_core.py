@@ -5,6 +5,7 @@ Stores all collapses, hesitations, and moral rejections
 "Remembers not just what it did — but what it chose not to do"
 Forensically sound audit log of ethical cognition
 """
+
 import json
 from collections import defaultdict
 from dataclasses import dataclass, field

@@ -397,7 +397,9 @@ class ContextManager:
         if not summaries:
             return []
 
-        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.max_context_age_hours * 2)  # Keep summaries longer
+        cutoff_time = datetime.now(timezone.utc) - timedelta(
+            hours=self.max_context_age_hours * 2
+        )  # Keep summaries longer
 
         relevant_summaries = []
         for summary in summaries:

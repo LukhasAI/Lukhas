@@ -25,10 +25,7 @@ class TestTaggingModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "tagging",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "tagging", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestTaggingModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import tagging
+
         self.assertIsNotNone(tagging)
 
     def test_module_version(self):
         """Test module has version information."""
         import tagging
+
         # Most modules should have version info
-        self.assertTrue(hasattr(tagging, '__version__') or
-                       hasattr(tagging, 'VERSION'))
+        self.assertTrue(hasattr(tagging, "__version__") or hasattr(tagging, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestAdvancedTagResolver(unittest.TestCase):
         """Test AdvancedTagResolver can be imported."""
         try:
             from tagging import AdvancedTagResolver
+
             self.assertIsNotNone(AdvancedTagResolver)
         except ImportError:
             pytest.skip("Component AdvancedTagResolver not available")
@@ -97,6 +96,7 @@ class TestSimpleTagResolver(unittest.TestCase):
         """Test SimpleTagResolver can be imported."""
         try:
             from tagging import SimpleTagResolver
+
             self.assertIsNotNone(SimpleTagResolver)
         except ImportError:
             pytest.skip("Component SimpleTagResolver not available")
@@ -114,6 +114,7 @@ class TestSymbolicTag(unittest.TestCase):
         """Test SymbolicTag can be imported."""
         try:
             from tagging import SymbolicTag
+
             self.assertIsNotNone(SymbolicTag)
         except ImportError:
             pytest.skip("Component SymbolicTag not available")
@@ -122,7 +123,6 @@ class TestSymbolicTag(unittest.TestCase):
         """Test SymbolicTag can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

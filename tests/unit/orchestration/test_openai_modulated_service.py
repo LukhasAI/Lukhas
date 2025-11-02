@@ -1,4 +1,5 @@
 """Unit tests for the orchestration OpenAI service wrapper."""
+
 from __future__ import annotations
 
 import asyncio

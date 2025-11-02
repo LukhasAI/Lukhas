@@ -26,8 +26,9 @@ except ImportError:
     # Fallback if yaml not installed
     yaml = None
 
-DEFAULT_ROOTS = ["candidate","tools","governance","memory","ledger","lucas","Lucas","LUCAS"]
+DEFAULT_ROOTS = ["candidate", "tools", "governance", "memory", "ledger", "lucas", "Lucas", "LUCAS"]
 CFG = Path("configs/legacy_imports.yml")
+
 
 def load_cfg_roots():
     if not yaml:
@@ -40,6 +41,7 @@ def load_cfg_roots():
         except Exception:
             return DEFAULT_ROOTS, set()
     return DEFAULT_ROOTS, set()
+
 
 def main():
     roots_env = os.getenv("LUKHAS_LEGACY_ROOTS")
@@ -57,8 +59,23 @@ def main():
         if any(s.startswith(a) for a in allow):
             continue
         # Skip excluded directories
-        if any(seg in {".git","venv",".venv","node_modules","dist","build","__pycache__",
-                      ".mypy_cache",".ruff_cache",".pytest_cache",".tox"} for seg in p.parts):
+        if any(
+            seg
+            in {
+                ".git",
+                "venv",
+                ".venv",
+                "node_modules",
+                "dist",
+                "build",
+                "__pycache__",
+                ".mypy_cache",
+                ".ruff_cache",
+                ".pytest_cache",
+                ".tox",
+            }
+            for seg in p.parts
+        ):
             continue
         try:
             for i, line in enumerate(p.read_text(encoding="utf-8", errors="ignore").splitlines(), start=1):
@@ -79,6 +96,7 @@ def main():
 
     print("[legacy-imports] ✅ OK: no legacy imports outside allowlist")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

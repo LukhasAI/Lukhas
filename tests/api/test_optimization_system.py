@@ -63,7 +63,7 @@ class TestAPIOptimizer:
             enable_request_compression=True,
             cache_ttl_seconds=300,
             max_batch_size=5,
-            enable_metrics=True
+            enable_metrics=True,
         )
 
     @pytest.fixture
@@ -72,7 +72,7 @@ class TestAPIOptimizer:
         optimizer = LUKHASAPIOptimizer(optimizer_config)
         yield optimizer
         # Cleanup
-        if hasattr(optimizer, 'cleanup'):
+        if hasattr(optimizer, "cleanup"):
             await optimizer.cleanup()
 
     @pytest.fixture
@@ -88,7 +88,7 @@ class TestAPIOptimizer:
             priority=RequestPriority.NORMAL,
             size_bytes=1024,
             headers={"Content-Type": "application/json"},
-            params={"param1": "value1"}
+            params={"param1": "value1"},
         )
 
     @pytest.mark.asyncio
@@ -118,11 +118,7 @@ class TestAPIOptimizer:
 
         # Create contexts for different tiers
         free_context = RequestContext(
-            request_id="free_test",
-            endpoint="/api/v1/test",
-            method="GET",
-            tier=APITier.FREE,
-            user_id="free_user"
+            request_id="free_test", endpoint="/api/v1/test", method="GET", tier=APITier.FREE, user_id="free_user"
         )
 
         enterprise_context = RequestContext(
@@ -130,7 +126,7 @@ class TestAPIOptimizer:
             endpoint="/api/v1/test",
             method="GET",
             tier=APITier.ENTERPRISE,
-            user_id="enterprise_user"
+            user_id="enterprise_user",
         )
 
         # Get quotas for different tiers
@@ -154,11 +150,7 @@ class TestAPIOptimizer:
 
         # Create context with very low limits for testing
         context = RequestContext(
-            request_id="limit_test",
-            endpoint="/api/v1/test",
-            method="GET",
-            tier=APITier.FREE,
-            user_id="limit_test_user"
+            request_id="limit_test", endpoint="/api/v1/test", method="GET", tier=APITier.FREE, user_id="limit_test_user"
         )
 
         # Override quota for testing
@@ -247,10 +239,7 @@ class TestAPIOptimizer:
 
         # Record request
         await analytics.record_request(
-            context=request_context,
-            response_time_ms=150.5,
-            status_code=200,
-            response_size_bytes=2048
+            context=request_context, response_time_ms=150.5, status_code=200, response_size_bytes=2048
         )
 
         # Check endpoint analytics
@@ -291,7 +280,7 @@ class TestMiddlewarePipeline:
             enable_analytics=True,
             enable_request_validation=True,
             max_request_size_mb=10.0,
-            request_timeout_seconds=30.0
+            request_timeout_seconds=30.0,
         )
 
     @pytest.fixture
@@ -312,7 +301,7 @@ class TestMiddlewarePipeline:
             method="GET",
             content_type="application/json",
             content_length=1024,
-            custom_headers={"Authorization": "Bearer test_token"}
+            custom_headers={"Authorization": "Bearer test_token"},
         )
 
     @pytest.mark.asyncio
@@ -334,7 +323,7 @@ class TestMiddlewarePipeline:
             user_agent="Test Agent",
             endpoint="/api/v1/secure",
             method="GET",
-            custom_headers={"Authorization": "Bearer valid_token"}
+            custom_headers={"Authorization": "Bearer valid_token"},
         )
 
         allowed, data = await security_middleware.process_request(metadata, {})
@@ -355,7 +344,7 @@ class TestMiddlewarePipeline:
             endpoint="/api/v1/test",
             method="POST",
             content_type="application/json",
-            content_length=512
+            content_length=512,
         )
 
         allowed, data = await validation_middleware.process_request(metadata, {"test": "data"})
@@ -379,7 +368,7 @@ class TestMiddlewarePipeline:
             client_ip="192.168.1.100",
             user_agent="Test Agent",
             endpoint="/api/v1/test",
-            method="GET"
+            method="GET",
         )
 
         # Process request
@@ -403,18 +392,14 @@ class TestMiddlewarePipeline:
     async def test_full_pipeline_processing(self, middleware_pipeline, request_metadata):
         """Test complete pipeline processing."""
         # Process request
-        allowed, processed_data = await middleware_pipeline.process_request(
-            request_metadata, {"test": "input_data"}
-        )
+        allowed, processed_data = await middleware_pipeline.process_request(request_metadata, {"test": "input_data"})
 
         assert allowed == True
         assert isinstance(processed_data, dict)
 
         # Process response
         response_data = {"result": "success", "status_code": 200}
-        processed_response = await middleware_pipeline.process_response(
-            request_metadata, response_data
-        )
+        processed_response = await middleware_pipeline.process_response(request_metadata, response_data)
 
         assert "result" in processed_response
         assert processed_response["result"] == "success"
@@ -437,7 +422,7 @@ class TestMiddlewarePipeline:
             endpoint="/api/v1/test",
             method="POST",
             content_type="application/json",
-            content_length=0  # Invalid for POST
+            content_length=0,  # Invalid for POST
         )
 
         # Process should handle errors gracefully
@@ -475,8 +460,7 @@ class TestAnalyticsDashboard:
     async def test_metrics_collector_basic_operations(self, metrics_collector):
         """Test basic metrics collector operations."""
         # Record metric
-        await metrics_collector.record_metric("test_metric", 42.5,
-                                             labels={"type": "test"})
+        await metrics_collector.record_metric("test_metric", 42.5, labels={"type": "test"})
 
         # Get metrics
         metrics = await metrics_collector.get_metrics("test_metric")
@@ -495,7 +479,7 @@ class TestAnalyticsDashboard:
             user_id="test_user",
             request_size=1024,
             response_size=2048,
-            cache_hit=False
+            cache_hit=False,
         )
 
         # Check endpoint metrics
@@ -521,7 +505,7 @@ class TestAnalyticsDashboard:
             threshold=100.0,
             severity=AlertSeverity.WARNING,
             comparison="greater",
-            description="Test alert"
+            description="Test alert",
         )
 
         # Record metric that should trigger alert
@@ -547,7 +531,7 @@ class TestAnalyticsDashboard:
             method="GET",
             response_time=2500.0,  # Very slow
             status_code=200,
-            user_id="test_user"
+            user_id="test_user",
         )
 
         # Generate insights
@@ -570,7 +554,7 @@ class TestAnalyticsDashboard:
                 status_code=200 if i % 10 != 0 else 404,  # 10% error rate
                 user_id=f"user_{i % 5}",
                 request_size=1024,
-                response_size=2048
+                response_size=2048,
             )
 
         # Get dashboard data
@@ -599,7 +583,7 @@ class TestAnalyticsDashboard:
                 status_code=200,
                 user_id=f"user_{i}",
                 request_size=1024,
-                response_size=2048
+                response_size=2048,
             )
 
         # Get endpoint details
@@ -622,16 +606,10 @@ class TestIntegrationScenarios:
         """Test complete API optimization workflow."""
 
         # Create all components
-        optimizer_config = OptimizationConfig(
-            strategy=OptimizationStrategy.BALANCED,
-            enable_adaptive_caching=True
-        )
+        optimizer_config = OptimizationConfig(strategy=OptimizationStrategy.BALANCED, enable_adaptive_caching=True)
         optimizer = LUKHASAPIOptimizer(optimizer_config)
 
-        middleware_config = MiddlewareConfig(
-            enable_optimization=True,
-            enable_analytics=True
-        )
+        middleware_config = MiddlewareConfig(enable_optimization=True, enable_analytics=True)
         pipeline = await create_middleware_pipeline(middleware_config, None, optimizer)
 
         dashboard = await create_analytics_dashboard()
@@ -642,7 +620,7 @@ class TestIntegrationScenarios:
             endpoint="/api/v1/integration",
             method="GET",
             user_id="integration_user",
-            tier=APITier.PREMIUM
+            tier=APITier.PREMIUM,
         )
 
         request_metadata = RequestMetadata(
@@ -651,7 +629,7 @@ class TestIntegrationScenarios:
             client_ip="192.168.1.100",
             user_agent="Integration Test",
             endpoint="/api/v1/integration",
-            method="GET"
+            method="GET",
         )
 
         # Process through optimizer
@@ -659,9 +637,7 @@ class TestIntegrationScenarios:
         assert optimizer_allowed == True
 
         # Process through middleware pipeline
-        pipeline_allowed, pipeline_data = await pipeline.process_request(
-            request_metadata, {"test": "integration_data"}
-        )
+        pipeline_allowed, pipeline_data = await pipeline.process_request(request_metadata, {"test": "integration_data"})
         assert pipeline_allowed == True
 
         # Record in analytics dashboard
@@ -670,7 +646,7 @@ class TestIntegrationScenarios:
             method="GET",
             response_time=125.0,
             status_code=200,
-            user_id="integration_user"
+            user_id="integration_user",
         )
 
         # Complete optimizer request
@@ -700,9 +676,7 @@ class TestIntegrationScenarios:
         """Test system performance under load."""
         # Create optimized configuration
         config = OptimizationConfig(
-            strategy=OptimizationStrategy.LOW_LATENCY,
-            enable_adaptive_caching=True,
-            enable_request_batching=True
+            strategy=OptimizationStrategy.LOW_LATENCY, enable_adaptive_caching=True, enable_request_batching=True
         )
         optimizer = LUKHASAPIOptimizer(config)
 
@@ -713,7 +687,7 @@ class TestIntegrationScenarios:
                 endpoint="/api/v1/load_test",
                 method="GET",
                 user_id=f"user_{request_id % 10}",
-                tier=APITier.BASIC
+                tier=APITier.BASIC,
             )
 
             start_time = time.time()
@@ -721,9 +695,7 @@ class TestIntegrationScenarios:
             processing_time = time.time() - start_time
 
             if allowed:
-                await optimizer.complete_request(
-                    context, {"result": f"response_{request_id}"}, 200
-                )
+                await optimizer.complete_request(context, {"result": f"response_{request_id}"}, 200)
 
             return allowed, processing_time
 
@@ -742,18 +714,12 @@ class TestIntegrationScenarios:
     @pytest.mark.asyncio
     async def test_cache_effectiveness(self):
         """Test cache effectiveness under realistic scenarios."""
-        config = OptimizationConfig(
-            enable_adaptive_caching=True,
-            cache_ttl_seconds=60
-        )
+        config = OptimizationConfig(enable_adaptive_caching=True, cache_ttl_seconds=60)
         optimizer = LUKHASAPIOptimizer(config)
 
         # Make identical requests
         context = RequestContext(
-            request_id="cache_test_1",
-            endpoint="/api/v1/cacheable",
-            method="GET",
-            params={"page": 1, "limit": 10}
+            request_id="cache_test_1", endpoint="/api/v1/cacheable", method="GET", params={"page": 1, "limit": 10}
         )
 
         # First request - cache miss
@@ -789,11 +755,7 @@ class TestPerformanceBenchmarks:
         rate_limiter = RateLimiter()
 
         context = RequestContext(
-            request_id="perf_test",
-            endpoint="/api/v1/perf",
-            method="GET",
-            user_id="perf_user",
-            tier=APITier.BASIC
+            request_id="perf_test", endpoint="/api/v1/perf", method="GET", user_id="perf_user", tier=APITier.BASIC
         )
 
         # Benchmark rate limit checks

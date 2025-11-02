@@ -9,9 +9,7 @@ try:
     from .nias_core import push_symbolic_message
 except Exception as exc:  # pragma: no cover - fallback for missing backend
     push_symbolic_message = None  # type: ignore[assignment]
-    logging.getLogger(__name__).warning(
-        "nias_push_unavailable", error=str(exc)
-    )
+    logging.getLogger(__name__).warning("nias_push_unavailable", error=str(exc))
 
 logger = logging.getLogger(__name__)
 if not logger.handlers:
@@ -19,6 +17,7 @@ if not logger.handlers:
 
 
 # ΛTAG: symbolic_delivery
+
 
 def run_delivery_queue(
     queue: Iterable[dict[str, Any]],
@@ -48,12 +47,14 @@ def run_delivery_queue(
                 "delivery_push_failed",
                 extra={"message_id": message_id, "error": str(exc)},
             )
-            results.append({
-                "status": "error",
-                "reason": "push_exception",
-                "error": str(exc),
-                "message_id": message_id,
-            })
+            results.append(
+                {
+                    "status": "error",
+                    "reason": "push_exception",
+                    "error": str(exc),
+                    "message_id": message_id,
+                }
+            )
             continue
 
         logger.info(

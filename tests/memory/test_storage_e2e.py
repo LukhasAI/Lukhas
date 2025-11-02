@@ -9,10 +9,12 @@ from memory.memory_orchestrator import MemoryOrchestrator
 
 class DummyConn: ...  # TODO: mock/fixture
 
+
 @pytest.fixture
 def orch():
     store = PgVectorStore(DummyConn(), dim=8)  # small dim for tests
     return MemoryOrchestrator(Indexer(store))
+
 
 @pytest.mark.asyncio
 async def test_upsert_and_query_roundtrip(orch):
@@ -20,6 +22,7 @@ async def test_upsert_and_query_roundtrip(orch):
     assert isinstance(doc_id, str)
     res = orch.query("hello", k=3)
     assert isinstance(res, list)
+
 
 @pytest.mark.slow
 def test_search_p95_under_100ms(orch):

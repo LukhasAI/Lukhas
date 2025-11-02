@@ -37,12 +37,8 @@ try:
         SymbolicNetwork,  # This class uses SymbolicNode internally  # TODO: convert to absolute import
     )
 except ImportError:
-    logger_temp = structlog.get_logger(
-        "ΛTRACE.core.adaptive_systems.crista_optimizer.topology_manager_import_fallback"
-    )
-    logger_temp.warning(
-        "ΛTRACE: Could not import OptimizationMode or SymbolicNetwork. Using placeholders."
-    )
+    logger_temp = structlog.get_logger("ΛTRACE.core.adaptive_systems.crista_optimizer.topology_manager_import_fallback")
+    logger_temp.warning("ΛTRACE: Could not import OptimizationMode or SymbolicNetwork. Using placeholders.")
 
     # Define placeholders if necessary
 
@@ -55,11 +51,10 @@ except ImportError:
     class SymbolicNetwork:
         pass  # Basic placeholder
 
+
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py (e.g., core/__init__.py)
-logger = structlog.get_logger(
-    "ΛTRACE.core.adaptive_systems.crista_optimizer.topology_manager"
-)
+logger = structlog.get_logger("ΛTRACE.core.adaptive_systems.crista_optimizer.topology_manager")
 logger.info("ΛTRACE: Initializing topology_manager module.")
 
 # Enum for Network Health Status
@@ -76,9 +71,7 @@ class NetworkHealth(Enum):
     CRITICAL = "critical"
 
 
-logger.info(
-    f"ΛTRACE: NetworkHealth Enum defined with values: {[health.value for health in NetworkHealth]}"
-)
+logger.info(f"ΛTRACE: NetworkHealth Enum defined with values: {[health.value for health in NetworkHealth]}")
 
 # Dataclass for Comprehensive Topology Metrics
 # Stores a comprehensive set of metrics describing the network's topology and state.
@@ -98,6 +91,7 @@ class TopologyMetrics:
     network_efficiency: float = 0.0  # Composite measure of network performance
     timestamp: float = field(default_factory=time.time)
     logger.info("ΛTRACE: TopologyMetrics Dataclass defined.")
+
 
 # Manages Network Topology and Optimization Strategies
 # Manages the overall topology of a SymbolicNetwork. It analyzes network structure,
@@ -121,12 +115,8 @@ class TopologyManager:
             network (SymbolicNetwork): The symbolic network instance to manage.
         """
         self.network = network
-        self.optimization_history: list[dict[str, Any]] = (
-            []
-        )  # Stores history of optimization operations
-        self.logger = logger.getChild(
-            "TopologyManager"
-        )  # Instance-specific child logger
+        self.optimization_history: list[dict[str, Any]] = []  # Stores history of optimization operations
+        self.logger = logger.getChild("TopologyManager")  # Instance-specific child logger
 
         # Thresholds for health assessment, could be made configurable
         self.health_thresholds: dict[NetworkHealth, dict[str, float]] = {
@@ -168,12 +158,8 @@ class TopologyManager:
         nodes_list = list(self.network.nodes.values())
 
         if not nodes_list:
-            self.logger.warning(
-                "ΛTRACE: Network is empty. Returning zeroed TopologyMetrics."
-            )
-            return TopologyMetrics(
-                timestamp=time.time()
-            )  # Return default (mostly zero) metrics
+            self.logger.warning("ΛTRACE: Network is empty. Returning zeroed TopologyMetrics.")
+            return TopologyMetrics(timestamp=time.time())  # Return default (mostly zero) metrics
 
         # Basic metrics
         node_count = len(nodes_list)
@@ -182,26 +168,16 @@ class TopologyManager:
         # Or for undirected: node_count * (node_count - 1) / 2
         # Assuming an undirected graph for density as per typical network science
         # measures.
-        max_possible_connections = (
-            node_count * (node_count - 1) / 2.0 if node_count > 1 else 0.0
-        )
-        connection_density = (
-            connection_count / max_possible_connections
-            if max_possible_connections > 0
-            else 0.0
-        )
+        max_possible_connections = node_count * (node_count - 1) / 2.0 if node_count > 1 else 0.0
+        connection_density = connection_count / max_possible_connections if max_possible_connections > 0 else 0.0
         self.logger.debug(
             f"ΛTRACE: Basic metrics: Nodes={node_count}, Connections={connection_count}, "
             f"Density={connection_density:.4f}"
         )
 
         # Node-level aggregations
-        avg_error = (
-            np.mean([node.error_level for node in nodes_list]) if nodes_list else 0.0
-        )
-        avg_activity = (
-            np.mean([node.activity_level for node in nodes_list]) if nodes_list else 0.0
-        )
+        avg_error = np.mean([node.error_level for node in nodes_list]) if nodes_list else 0.0
+        avg_activity = np.mean([node.activity_level for node in nodes_list]) if nodes_list else 0.0
         total_entropy = sum(node.entropy for node in nodes_list)
         self.logger.debug(
             f"ΛTRACE: Aggregated metrics: AvgError={avg_error:.4f}, AvgActivity={avg_activity:.4f}, TotalEntropy={total_entropy:.4f}"
@@ -223,9 +199,7 @@ class TopologyManager:
             clustering_coefficient=clustering_coeff,
             average_path_length=avg_path_len,
         )
-        network_eff = self._calculate_network_efficiency_from_metrics(
-            temp_metrics_for_efficiency
-        )
+        network_eff = self._calculate_network_efficiency_from_metrics(temp_metrics_for_efficiency)
 
         self.logger.debug(
             f"ΛTRACE: Advanced metrics: ClusteringCoeff={clustering_coeff:.4f}, "
@@ -243,9 +217,7 @@ class TopologyManager:
             network_efficiency=network_eff,
             timestamp=time.time(),
         )
-        self.logger.info(
-            f"ΛTRACE: Topology analysis complete. Metrics: {final_metrics}"
-        )
+        self.logger.info(f"ΛTRACE: Topology analysis complete. Metrics: {final_metrics}")
         return final_metrics
 
     # Private method to calculate clustering coefficient
@@ -253,12 +225,8 @@ class TopologyManager:
     def _calculate_clustering_coefficient(self) -> float:
         """Calculates the average clustering coefficient of the network."""
         self.logger.debug("ΛTRACE: Calculating clustering coefficient.")
-        if (
-            len(self.network.nodes) < 3
-        ):  # Clustering requires at least 3 nodes for non-zero results typically
-            self.logger.debug(
-                "ΛTRACE: Network too small for meaningful clustering coefficient; returning 0.0."
-            )
+        if len(self.network.nodes) < 3:  # Clustering requires at least 3 nodes for non-zero results typically
+            self.logger.debug("ΛTRACE: Network too small for meaningful clustering coefficient; returning 0.0.")
             return 0.0
 
         total_node_coefficient_sum = 0.0
@@ -275,9 +243,7 @@ class TopologyManager:
             triangles_count = 0  # Number of triangles involving this node
             # Iterate over pairs of neighbors
             for i, neighbor1_id in enumerate(neighbors_list):
-                for j in range(
-                    i + 1, k_i
-                ):  # Avoid redundant pairs and self-loops with i+1
+                for j in range(i + 1, k_i):  # Avoid redundant pairs and self-loops with i+1
                     neighbor2_id = neighbors_list[j]
                     # Check if these two neighbors are connected
                     if self._are_connected(neighbor1_id, neighbor2_id):  # Already logs:
@@ -293,17 +259,10 @@ class TopologyManager:
                     f"ΛTRACE: Node '{node_id_str}' local clustering coeff: {local_coeff:.4f} (Triangles: {triangles_count}, MaxPossible: {max_possible_triangles})"
                 )
             else:
-                self.logger.debug(
-                    f"ΛTRACE: Node '{node_id_str}' has < 2 possible triangles, "
-                    "local coeff is 0."
-                )
+                self.logger.debug(f"ΛTRACE: Node '{node_id_str}' has < 2 possible triangles, " "local coeff is 0.")
 
         # Average clustering coefficient
-        avg_coeff = (
-            total_node_coefficient_sum / nodes_with_degree_ge_2
-            if nodes_with_degree_ge_2 > 0
-            else 0.0
-        )
+        avg_coeff = total_node_coefficient_sum / nodes_with_degree_ge_2 if nodes_with_degree_ge_2 > 0 else 0.0
         self.logger.debug(
             f"ΛTRACE: Average clustering coefficient calculated: {avg_coeff:.4f} over {nodes_with_degree_ge_2} nodes."
         )
@@ -315,12 +274,8 @@ class TopologyManager:
         """Calculates the average shortest path length between all pairs of nodes in the network."""
         self.logger.debug("ΛTRACE: Calculating average shortest path length.")
         node_ids_list = list(self.network.nodes.keys())
-        if (
-            len(node_ids_list) < 2
-        ):  # Path length is undefined or 0 for networks with < 2 nodes
-            self.logger.debug(
-                "ΛTRACE: Network too small for meaningful average path length; returning 0.0."
-            )
+        if len(node_ids_list) < 2:  # Path length is undefined or 0 for networks with < 2 nodes
+            self.logger.debug("ΛTRACE: Network too small for meaningful average path length; returning 0.0.")
             return 0.0
 
         total_shortest_path_sum = 0
@@ -340,18 +295,12 @@ class TopologyManager:
                     path_len = distances_from_source[target_node_id]
                     total_shortest_path_sum += path_len
                     num_paths_calculated += 1
-                    self.logger.debug(
-                        f"ΛTRACE: Path from '{source_node_id}' to '{target_node_id}' length: {path_len}"
-                    )
+                    self.logger.debug(f"ΛTRACE: Path from '{source_node_id}' to '{target_node_id}' length: {path_len}")
                 # else: target is not reachable from source in this component. Path length could be considered infinite.
                 # For simplicity, we only average over reachable pairs. Some definitions
                 # might handle this differently.
 
-        avg_len = (
-            total_shortest_path_sum / num_paths_calculated
-            if num_paths_calculated > 0
-            else float("inf")
-        )
+        avg_len = total_shortest_path_sum / num_paths_calculated if num_paths_calculated > 0 else float("inf")
         self.logger.debug(
             f"ΛTRACE: Average shortest path length calculated: {avg_len:.4f} over {num_paths_calculated} paths."
         )
@@ -359,24 +308,18 @@ class TopologyManager:
 
     # Private method to calculate network efficiency from pre-calculated metrics
 
-    def _calculate_network_efficiency_from_metrics(
-        self, current_metrics: TopologyMetrics
-    ) -> float:
+    def _calculate_network_efficiency_from_metrics(self, current_metrics: TopologyMetrics) -> float:
         """
         Calculates network efficiency based on pre-computed metrics.
         This avoids recursive calls to analyze_topology.
         """
-        self.logger.debug(
-            f"ΛTRACE: Calculating network efficiency from metrics: {current_metrics}"
-        )
+        self.logger.debug(f"ΛTRACE: Calculating network efficiency from metrics: {current_metrics}")
 
         # Weighted combination of factors
         # Ensure connection_density is not overly dominant if it's very high
         connectivity_factor = min(current_metrics.connection_density * 2.0, 1.0)
         # Performance factor: high activity and low error are good
-        performance_factor = (
-            1.0 - current_metrics.avg_error
-        ) * current_metrics.avg_activity
+        performance_factor = (1.0 - current_metrics.avg_error) * current_metrics.avg_activity
         # Structural factor: higher clustering is generally good for local efficiency
         structure_factor = current_metrics.clustering_coefficient
 
@@ -384,8 +327,7 @@ class TopologyManager:
         # If path_length is inf, this penalty becomes 0. If 0, penalty is 1.
         path_penalty = (
             1.0 / (1.0 + current_metrics.average_path_length)
-            if (current_metrics.average_path_length != float("inf")
-                and current_metrics.average_path_length >= 0)
+            if (current_metrics.average_path_length != float("inf") and current_metrics.average_path_length >= 0)
             else 0.0
         )
 
@@ -396,19 +338,10 @@ class TopologyManager:
 
         # Weights for each factor, summing to 1.0
         # These weights can be tuned based on system priorities
-        efficiency = (
-            connectivity_factor * 0.3
-            + performance_factor * 0.4
-            + structure_factor * 0.2
-            + path_penalty * 0.1
-        )
+        efficiency = connectivity_factor * 0.3 + performance_factor * 0.4 + structure_factor * 0.2 + path_penalty * 0.1
 
-        final_efficiency = max(
-            0.0, min(efficiency, 1.0)
-        )  # Ensure efficiency is between 0 and 1
-        self.logger.debug(
-            f"ΛTRACE: Calculated network efficiency: {final_efficiency:.4f}"
-        )
+        final_efficiency = max(0.0, min(efficiency, 1.0))  # Ensure efficiency is between 0 and 1
+        self.logger.debug(f"ΛTRACE: Calculated network efficiency: {final_efficiency:.4f}")
         return final_efficiency
 
     # Private helper to get neighbors of a node
@@ -417,9 +350,7 @@ class TopologyManager:
         """Gets all unique neighbors of a given node (nodes it's connected to or from)."""
         self.logger.debug(f"ΛTRACE: Getting neighbors for node '{node_id_str}'.")
         if node_id_str not in self.network.nodes:
-            self.logger.warning(
-                f"ΛTRACE: Node '{node_id_str}' not found in network when getting neighbors."
-            )
+            self.logger.warning(f"ΛTRACE: Node '{node_id_str}' not found in network when getting neighbors.")
             return []
 
         neighbors_set: set[str] = set()
@@ -449,18 +380,14 @@ class TopologyManager:
 
     def _are_connected(self, node1_id: str, node2_id: str) -> bool:
         """Checks if two nodes are directly connected (in either direction)."""
-        self.logger.debug(
-            f"ΛTRACE: Checking direct connection between '{node1_id}' and '{node2_id}'."
-        )
+        self.logger.debug(f"ΛTRACE: Checking direct connection between '{node1_id}' and '{node2_id}'.")
         # This check assumes connections list stores directed edges.
         # For an undirected sense (common in clustering coeff), check both directions.
         is_conn = (node1_id, node2_id) in self.network.connections or (
             node2_id,
             node1_id,
         ) in self.network.connections
-        self.logger.debug(
-            f"ΛTRACE: Connection status between '{node1_id}' and '{node2_id}': {is_conn}."
-        )
+        self.logger.debug(f"ΛTRACE: Connection status between '{node1_id}' and '{node2_id}': {is_conn}.")
         return is_conn
 
     # Private helper for BFS distances
@@ -469,9 +396,7 @@ class TopologyManager:
         """Calculates shortest path distances from a source node using Breadth-First Search."""
         self.logger.debug(f"ΛTRACE: Starting BFS from source node '{source_node_id}'.")
         if source_node_id not in self.network.nodes:
-            self.logger.warning(
-                f"ΛTRACE: Source node '{source_node_id}' for BFS not found in network."
-            )
+            self.logger.warning(f"ΛTRACE: Source node '{source_node_id}' for BFS not found in network.")
             return {}
 
         distances: dict[str, int] = {source_node_id: 0}
@@ -484,9 +409,7 @@ class TopologyManager:
             head += 1
             current_node_dist = distances[current_node_id]
 
-            for neighbor_id in self._get_neighbors(
-                current_node_id
-            ):  # _get_neighbors already logs
+            for neighbor_id in self._get_neighbors(current_node_id):  # _get_neighbors already logs
                 if neighbor_id not in visited_nodes:
                     visited_nodes.add(neighbor_id)
                     distances[neighbor_id] = current_node_dist + 1
@@ -502,9 +425,7 @@ class TopologyManager:
 
     # Method to recommend optimization strategy
 
-    def recommend_optimization(
-        self, current_metrics: TopologyMetrics
-    ) -> OptimizationMode:
+    def recommend_optimization(self, current_metrics: TopologyMetrics) -> OptimizationMode:
         """
         Recommends an optimization strategy based on comprehensive network metrics.
         Args:
@@ -512,16 +433,12 @@ class TopologyManager:
         Returns:
             OptimizationMode: The suggested optimization mode.
         """
-        self.logger.info(
-            f"ΛTRACE: Recommending optimization strategy based on metrics: {current_metrics}"
-        )
+        self.logger.info(f"ΛTRACE: Recommending optimization strategy based on metrics: {current_metrics}")
 
         # Priority 1: High error often requires fission to reduce load/complexity
         # on nodes
         if current_metrics.avg_error > self.network.config.fission_threshold:
-            self.logger.info(
-                "ΛTRACE: Recommendation: FISSION (due to high average error)."
-            )
+            self.logger.info("ΛTRACE: Recommendation: FISSION (due to high average error).")
             return OptimizationMode.FISSION
 
         # Priority 2: Low activity coupled with reasonable density might indicate fusion opportunity
@@ -531,28 +448,19 @@ class TopologyManager:
             current_metrics.avg_activity < self.network.config.fusion_threshold
             and current_metrics.connection_density > 0.05
         ):
-            self.logger.info(
-                "ΛTRACE: Recommendation: FUSION (due to low activity and sufficient density)."
-            )
+            self.logger.info("ΛTRACE: Recommendation: FUSION (due to low activity and sufficient density).")
             return OptimizationMode.FUSION
 
         # Priority 3: Poor overall efficiency or structural issues (low clustering) might need adaptive changes
         # "Adaptive" could imply a more complex strategy or a mix, perhaps decided by CristaOptimizer itself.
         # Thresholds for "poor efficiency" (e.g. < 0.5) and "low clustering" (e.g.
         # < 0.3) can be tuned.
-        if (
-            current_metrics.network_efficiency < 0.5
-            or current_metrics.clustering_coefficient < 0.2
-        ):
-            self.logger.info(
-                "ΛTRACE: Recommendation: ADAPTIVE (due to low efficiency or clustering)."
-            )
+        if current_metrics.network_efficiency < 0.5 or current_metrics.clustering_coefficient < 0.2:
+            self.logger.info("ΛTRACE: Recommendation: ADAPTIVE (due to low efficiency or clustering).")
             return OptimizationMode.ADAPTIVE
 
         # Default: If no pressing issues, stabilize and maintain.
-        self.logger.info(
-            "ΛTRACE: Recommendation: STABILIZATION (default maintenance mode)."
-        )
+        self.logger.info("ΛTRACE: Recommendation: STABILIZATION (default maintenance mode).")
         return OptimizationMode.STABILIZATION
 
     # Method to assess network health
@@ -565,9 +473,7 @@ class TopologyManager:
         Returns:
             NetworkHealth: The assessed health status of the network.
         """
-        self.logger.info(
-            f"ΛTRACE: Assessing network health based on metrics: {current_metrics}"
-        )
+        self.logger.info(f"ΛTRACE: Assessing network health based on metrics: {current_metrics}")
 
         # Calculate a composite health score (0-1 range, higher is better)
         # Weights can be adjusted based on what's most critical for system health.
@@ -576,14 +482,8 @@ class TopologyManager:
         activity_score_component = current_metrics.avg_activity * 0.3
         efficiency_score_component = current_metrics.network_efficiency * 0.3
 
-        overall_health_score = (
-            error_score_component
-            + activity_score_component
-            + efficiency_score_component
-        )
-        overall_health_score = max(
-            0.0, min(1.0, overall_health_score)
-        )  # Clamp to [0,1]
+        overall_health_score = error_score_component + activity_score_component + efficiency_score_component
+        overall_health_score = max(0.0, min(1.0, overall_health_score))  # Clamp to [0,1]
         self.logger.debug(
             f"ΛTRACE: Health components: ErrorScoreComp={error_score_component:.2f}, "
             f"ActivityScoreComp={activity_score_component:.2f}, EfficiencyScoreComp={efficiency_score_component:.2f}. "
@@ -593,26 +493,22 @@ class TopologyManager:
         # Determine health level based on score and potentially critical
         # individual metrics
         if (
-            current_metrics.avg_error
-            > self.health_thresholds[NetworkHealth.POOR]["error_max"]
+            current_metrics.avg_error > self.health_thresholds[NetworkHealth.POOR]["error_max"]
         ):  # If error is beyond "poor"
             health = NetworkHealth.CRITICAL
         elif (
             overall_health_score >= 0.8
-            and current_metrics.avg_error
-            < self.health_thresholds[NetworkHealth.EXCELLENT]["error_max"]
+            and current_metrics.avg_error < self.health_thresholds[NetworkHealth.EXCELLENT]["error_max"]
         ):  # Example: Excellent score AND low error
             health = NetworkHealth.EXCELLENT
         elif (
             overall_health_score >= 0.6
-            and current_metrics.avg_error
-            < self.health_thresholds[NetworkHealth.GOOD]["error_max"]
+            and current_metrics.avg_error < self.health_thresholds[NetworkHealth.GOOD]["error_max"]
         ):
             health = NetworkHealth.GOOD
         elif (
             overall_health_score >= 0.4
-            and current_metrics.avg_error
-            < self.health_thresholds[NetworkHealth.FAIR]["error_max"]
+            and current_metrics.avg_error < self.health_thresholds[NetworkHealth.FAIR]["error_max"]
         ):
             health = NetworkHealth.FAIR
         elif overall_health_score >= 0.2:
@@ -620,9 +516,7 @@ class TopologyManager:
         else:
             health = NetworkHealth.CRITICAL
 
-        self.logger.info(
-            f"ΛTRACE: Network health assessed as: {health.value} (Score: {overall_health_score:.2f})"
-        )
+        self.logger.info(f"ΛTRACE: Network health assessed as: {health.value} (Score: {overall_health_score:.2f})")
         return health
 
     # Method to identify network bottlenecks
@@ -663,11 +557,7 @@ class TopologyManager:
 
         for node_id_str, degree in node_degrees_map.items():
             if degree < isolated_degree_threshold:
-                severity = (
-                    1.0 - (degree / isolated_degree_threshold)
-                    if isolated_degree_threshold > 0
-                    else 1.0
-                )
+                severity = 1.0 - (degree / isolated_degree_threshold) if isolated_degree_threshold > 0 else 1.0
                 bottleneck_info = {
                     "type": "isolated_node",
                     "node_id": node_id_str,
@@ -676,19 +566,13 @@ class TopologyManager:
                     "recommendation": "Review node purpose; consider increasing connectivity or merging if redundant.",
                 }
                 identified_bottlenecks.append(bottleneck_info)
-                self.logger.debug(
-                    f"ΛTRACE: Bottleneck(Isolated): Node '{node_id_str}', Degree: {degree}"
-                )
+                self.logger.debug(f"ΛTRACE: Bottleneck(Isolated): Node '{node_id_str}', Degree: {degree}")
 
         # Bottleneck Type 3: Overconnected nodes (potential congestion points or "hubs")
         # "Overconnected" could be relative to average degree or an absolute threshold.
-        avg_network_degree = (
-            np.mean(list(node_degrees_map.values())) if node_degrees_map else 0.0
-        )
+        avg_network_degree = np.mean(list(node_degrees_map.values())) if node_degrees_map else 0.0
         overconnected_factor = 3.0  # e.g., degree > 3 * average
-        min_degree_for_overconnected_check = (
-            5  # Don't flag nodes in very small/sparse nets as overconnected easily
-        )
+        min_degree_for_overconnected_check = 5  # Don't flag nodes in very small/sparse nets as overconnected easily
 
         if avg_network_degree > 0:  # Only if average degree is meaningful
             for node_id_str, degree in node_degrees_map.items():
@@ -731,9 +615,7 @@ class TopologyManager:
 
     # Method to suggest topology improvements
 
-    def suggest_topology_improvements(
-        self, current_metrics: TopologyMetrics
-    ) -> list[str]:
+    def suggest_topology_improvements(self, current_metrics: TopologyMetrics) -> list[str]:
         """
         Suggests specific, human-readable improvements to the network topology
         based on its current state and metrics.
@@ -742,9 +624,7 @@ class TopologyManager:
         Returns:
             List[str]: A list of string suggestions for improvement.
         """
-        self.logger.info(
-            f"ΛTRACE: Suggesting topology improvements based on metrics: {current_metrics}"
-        )
+        self.logger.info(f"ΛTRACE: Suggesting topology improvements based on metrics: {current_metrics}")
         improvement_suggestions: list[str] = []
 
         # Density suggestions
@@ -764,9 +644,8 @@ class TopologyManager:
             )
 
         # Path length suggestions
-        if (
-            current_metrics.average_path_length > 5.0
-            and current_metrics.average_path_length != float("inf")
+        if current_metrics.average_path_length > 5.0 and current_metrics.average_path_length != float(
+            "inf"
         ):  # Threshold for long paths
             improvement_suggestions.append(
                 "Reduce average path length by introducing shortcut connections or hub-like nodes to improve global information flow."
@@ -798,9 +677,7 @@ class TopologyManager:
                 "Network topology appears relatively balanced based on current metrics. Continue monitoring."
             )
 
-        self.logger.info(
-            f"ΛTRACE: Generated {len(improvement_suggestions)} topology improvement suggestions."
-        )
+        self.logger.info(f"ΛTRACE: Generated {len(improvement_suggestions)} topology improvement suggestions.")
         return improvement_suggestions
 
     # Method to record optimization history
@@ -826,20 +703,12 @@ class TopologyManager:
             "operation_type": optimization_result_dict.get("operation_type"),
             # Convert TopologyMetrics to dict if they are objects for consistent storage
             "metrics_before": (
-                metrics_before.__dict__
-                if isinstance(metrics_before, TopologyMetrics)
-                else metrics_before
+                metrics_before.__dict__ if isinstance(metrics_before, TopologyMetrics) else metrics_before
             ),
-            "metrics_after": (
-                metrics_after.__dict__
-                if isinstance(metrics_after, TopologyMetrics)
-                else metrics_after
-            ),
+            "metrics_after": (metrics_after.__dict__ if isinstance(metrics_after, TopologyMetrics) else metrics_after),
             "success": optimization_result_dict.get("success", False),
             "nodes_affected": optimization_result_dict.get("nodes_affected", 0),
-            "error_reduction_cycle": optimization_result_dict.get(
-                "error_reduction_cycle", 0.0
-            ),
+            "error_reduction_cycle": optimization_result_dict.get("error_reduction_cycle", 0.0),
         }
         self.optimization_history.append(record)
 
@@ -847,9 +716,7 @@ class TopologyManager:
         max_history_size = 100
         if len(self.optimization_history) > max_history_size:
             self.optimization_history = self.optimization_history[-max_history_size:]
-        self.logger.info(
-            f"ΛTRACE: Optimization result recorded. History size: {len(self.optimization_history)}."
-        )
+        self.logger.info(f"ΛTRACE: Optimization result recorded. History size: {len(self.optimization_history)}.")
 
     # Method to get optimization trends
 
@@ -862,9 +729,7 @@ class TopologyManager:
         """
         self.logger.debug("ΛTRACE: Analyzing optimization trends.")
         if not self.optimization_history:
-            self.logger.info(
-                "ΛTRACE: No optimization history available to analyze trends."
-            )
+            self.logger.info("ΛTRACE: No optimization history available to analyze trends.")
             return {"trend_status": "no_data_available"}
 
         # Analyze the last N operations (e.g., last 10 or 20)
@@ -873,18 +738,12 @@ class TopologyManager:
 
         # Should not happen if self.optimization_history is not empty, but defensive.
         if not recent_ops:
-            self.logger.info(
-                "ΛTRACE: No recent operations found in history for trend analysis."
-            )
+            self.logger.info("ΛTRACE: No recent operations found in history for trend analysis.")
             return {"trend_status": "no_recent_data"}
 
-        operation_types_list = [
-            op["operation_type"] for op in recent_ops if op.get("operation_type")
-        ]
+        operation_types_list = [op["operation_type"] for op in recent_ops if op.get("operation_type")]
         successful_ops_count = sum(1 for op in recent_ops if op.get("success", False))
-        success_rate_recent = (
-            successful_ops_count / len(recent_ops) if recent_ops else 0.0
-        )
+        success_rate_recent = successful_ops_count / len(recent_ops) if recent_ops else 0.0
 
         # Analyze error trend from 'metrics_after'
         avg_errors_after_ops = [
@@ -914,11 +773,7 @@ class TopologyManager:
             from collections import Counter
 
             dominant_op_counter = Counter(operation_types_list)
-            dominant_op = (
-                dominant_op_counter.most_common(1)[0][0]
-                if dominant_op_counter
-                else None
-            )
+            dominant_op = dominant_op_counter.most_common(1)[0][0] if dominant_op_counter else None
 
         trends_summary = {
             "analysis_window_size": len(recent_ops),
@@ -926,12 +781,11 @@ class TopologyManager:
             "average_errors_in_window": avg_errors_after_ops,
             "recent_success_rate": success_rate_recent,
             "dominant_operation_type_recent": dominant_op,
-            "operation_type_counts_recent": (
-                dict(Counter(operation_types_list)) if operation_types_list else {}
-            ),
+            "operation_type_counts_recent": (dict(Counter(operation_types_list)) if operation_types_list else {}),
         }
         self.logger.info(f"ΛTRACE: Optimization trends analyzed: {trends_summary}")
         return trends_summary
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: topology_manager.py

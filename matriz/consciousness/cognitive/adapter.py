@@ -14,6 +14,7 @@
 ║ Complete cognitive adapter implementation.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import json
 import logging
@@ -293,7 +294,9 @@ class MetaLearningSystem:
             }
 
             # Track performance
-            self.performance_history.append({"timestamp": datetime.now(timezone.utc), "success": True, "features": features})
+            self.performance_history.append(
+                {"timestamp": datetime.now(timezone.utc), "success": True, "features": features}
+            )
 
     def _calculate_confidence(self, features: dict[str, Any]) -> float:
         """Calculate confidence in processing."""

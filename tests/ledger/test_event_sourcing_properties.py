@@ -47,27 +47,27 @@ from ledger.events import (
 @st.composite
 def event_id_strategy(draw):
     """Generate valid event IDs"""
-    hex_part = draw(st.text(alphabet='abcdef0123456789', min_size=32, max_size=32))
+    hex_part = draw(st.text(alphabet="abcdef0123456789", min_size=32, max_size=32))
     return f"EVT-{hex_part}"
 
 
 @st.composite
 def lid_strategy(draw):
     """Generate valid Lambda IDs"""
-    return draw(st.text(min_size=1, max_size=256, alphabet=st.characters(blacklist_categories=['C'])))
+    return draw(st.text(min_size=1, max_size=256, alphabet=st.characters(blacklist_categories=["C"])))
 
 
 @st.composite
 def consent_id_strategy(draw):
     """Generate valid consent IDs"""
-    hex_part = draw(st.text(alphabet='abcdef0123456789', min_size=32, max_size=32))
+    hex_part = draw(st.text(alphabet="abcdef0123456789", min_size=32, max_size=32))
     return f"CONSENT-{hex_part}"
 
 
 @st.composite
 def trace_id_strategy(draw):
     """Generate valid trace IDs"""
-    hex_part = draw(st.text(alphabet='abcdef0123456789', min_size=32, max_size=32))
+    hex_part = draw(st.text(alphabet="abcdef0123456789", min_size=32, max_size=32))
     return f"LT-{hex_part}"
 
 
@@ -81,7 +81,11 @@ def consent_granted_event_strategy(draw):
         resource_type=draw(st.text(min_size=1, max_size=128)),
         scopes=draw(st.lists(st.text(min_size=1, max_size=64), min_size=1, max_size=50)),
         purpose=draw(st.text(min_size=1, max_size=512)),
-        lawful_basis=draw(st.sampled_from(['consent', 'contract', 'legal_obligation', 'vital_interests', 'public_task', 'legitimate_interests'])),
+        lawful_basis=draw(
+            st.sampled_from(
+                ["consent", "contract", "legal_obligation", "vital_interests", "public_task", "legitimate_interests"]
+            )
+        ),
         consent_type=draw(st.sampled_from(list(ConsentType))),
         data_categories=draw(st.lists(st.text(min_size=1, max_size=128), max_size=20)),
         third_parties=draw(st.lists(st.text(min_size=1, max_size=256), max_size=10)),
@@ -186,9 +190,9 @@ class TestEventProperties:
         assert isinstance(parsed, dict)
 
         # Should contain required fields
-        assert parsed['event_id'] == event.event_id
-        assert parsed['lid'] == event.lid
-        assert parsed['schema_version'] == '2.0.0'
+        assert parsed["event_id"] == event.event_id
+        assert parsed["lid"] == event.lid
+        assert parsed["schema_version"] == "2.0.0"
 
     @given(events=st.lists(consent_granted_event_strategy(), min_size=1, max_size=10))
     def test_event_chain_hash_consistency(self, events):
@@ -243,7 +247,7 @@ class TestEventBusProperties:
 
         finally:
             # Cleanup
-            if hasattr(event_bus, 'db_path'):
+            if hasattr(event_bus, "db_path"):
                 try:
                     os.unlink(event_bus.db_path)
                 except Exception as e:
@@ -277,7 +281,7 @@ class TestEventBusProperties:
                 assert replays[0] == replays[i], f"Replay {i} differs from replay 0 - not deterministic"
 
         finally:
-            if hasattr(event_bus, 'db_path'):
+            if hasattr(event_bus, "db_path"):
                 try:
                     os.unlink(event_bus.db_path)
                 except Exception as e:
@@ -314,7 +318,7 @@ class TestEventBusProperties:
             assert p95_time < 50.0, f"P95 append time {p95_time:.2f}ms exceeds 50ms requirement"
 
         finally:
-            if hasattr(event_bus, 'db_path'):
+            if hasattr(event_bus, "db_path"):
                 try:
                     os.unlink(event_bus.db_path)
                 except Exception as e:
@@ -334,7 +338,7 @@ class EventHandlerStateMachine(RuleBasedStateMachine):
         self.trace_handler = None
         self.processed_events = set()
 
-    events = Bundle('events')
+    events = Bundle("events")
 
     @initialize()
     def setup(self):
@@ -345,17 +349,14 @@ class EventHandlerStateMachine(RuleBasedStateMachine):
 
         self.event_bus = AsyncEventBus(str(event_bus_path))
         self.consent_handler = IdempotentConsentHandler(
-            str(consent_db_path),
-            str(Path(self.temp_dir) / "consent_handler.db")
+            str(consent_db_path), str(Path(self.temp_dir) / "consent_handler.db")
         )
-        self.trace_handler = IdempotentTraceHandler(
-            str(trace_db_path),
-            str(Path(self.temp_dir) / "trace_handler.db")
-        )
+        self.trace_handler = IdempotentTraceHandler(str(trace_db_path), str(Path(self.temp_dir) / "trace_handler.db"))
 
     @rule(target=events, event=consent_granted_event_strategy())
     def append_consent_event(self, event):
         """Rule: Append a consent granted event"""
+
         async def _append():
             offset = await self.event_bus.append_event(event)
             return event, offset
@@ -365,6 +366,7 @@ class EventHandlerStateMachine(RuleBasedStateMachine):
     @rule(target=events, event=trace_created_event_strategy())
     def append_trace_event(self, event):
         """Rule: Append a trace created event"""
+
         async def _append():
             offset = await self.event_bus.append_event(event)
             return event, offset
@@ -405,14 +407,15 @@ class EventHandlerStateMachine(RuleBasedStateMachine):
             metrics = self.consent_handler.get_handler_metrics()
 
             # Error count should not be excessive
-            assert metrics['current_error_count'] < 10, f"Too many handler errors: {metrics['current_error_count']}"
+            assert metrics["current_error_count"] < 10, f"Too many handler errors: {metrics['current_error_count']}"
 
             # Processed event count should make sense
-            assert metrics['total_events_processed'] >= 0
+            assert metrics["total_events_processed"] >= 0
 
     def teardown(self):
         """Cleanup test resources"""
         import shutil
+
         try:
             shutil.rmtree(self.temp_dir)
         except Exception as e:
@@ -427,7 +430,7 @@ class TestIntegrationProperties:
     @pytest.mark.asyncio
     @given(
         granted_events=st.lists(consent_granted_event_strategy(), min_size=2, max_size=10),
-        revoked_events=st.lists(consent_revoked_event_strategy(), min_size=1, max_size=5)
+        revoked_events=st.lists(consent_revoked_event_strategy(), min_size=1, max_size=5),
     )
     async def test_consent_lifecycle_consistency(self, granted_events, revoked_events):
         """Property: Consent grant -> revoke lifecycle must maintain consistency"""
@@ -438,10 +441,7 @@ class TestIntegrationProperties:
             event_bus_path = Path(temp_dir) / "events.db"
             consent_db_path = Path(temp_dir) / "consent.db"
             event_bus = AsyncEventBus(str(event_bus_path))
-            handler = IdempotentConsentHandler(
-                str(consent_db_path),
-                str(Path(temp_dir) / "consent_handler.db")
-            )
+            handler = IdempotentConsentHandler(str(consent_db_path), str(Path(temp_dir) / "consent_handler.db"))
 
             # Process granted events first
             for event in granted_events:
@@ -470,10 +470,11 @@ class TestIntegrationProperties:
             # Verify handler processed all events correctly
             metrics = handler.get_handler_metrics()
             expected_events = len(granted_events) + min(len(revoked_events), len(granted_events))
-            assert metrics['total_events_processed'] == expected_events
+            assert metrics["total_events_processed"] == expected_events
 
         finally:
             import shutil
+
             try:
                 shutil.rmtree(temp_dir)
             except Exception as e:
@@ -481,10 +482,11 @@ class TestIntegrationProperties:
                 pass
 
     @pytest.mark.asyncio
-    @given(events=st.lists(
-        st.one_of(consent_granted_event_strategy(), trace_created_event_strategy()),
-        min_size=5, max_size=25
-    ))
+    @given(
+        events=st.lists(
+            st.one_of(consent_granted_event_strategy(), trace_created_event_strategy()), min_size=5, max_size=25
+        )
+    )
     @settings(deadline=10000)  # Allow more time for complex integration tests
     async def test_corruption_detection(self, events):
         """Property: System must detect any corruption in event chain"""
@@ -514,6 +516,7 @@ class TestIntegrationProperties:
 
         finally:
             import shutil
+
             try:
                 shutil.rmtree(temp_dir)
             except Exception as e:
@@ -564,6 +567,7 @@ class TestPerformanceProperties:
 
         finally:
             import shutil
+
             try:
                 shutil.rmtree(temp_dir)
             except Exception as e:

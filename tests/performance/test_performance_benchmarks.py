@@ -25,6 +25,7 @@ import pytest
 # Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def performance_system():
     """Performance testing system."""
@@ -40,23 +41,17 @@ def performance_system():
 # TEST-HIGH-PERF-ONBOARDING-01: Onboarding <100ms
 # ============================================================================
 
+
 @pytest.mark.performance
 @pytest.mark.asyncio
 async def test_performance_onboarding_single_request(performance_system):
     """Test single onboarding request <100ms."""
     # Mock fast onboarding
-    performance_system.onboarding.create_user.return_value = {
-        "user_id": "user_123",
-        "lambda_id": "Λ_alpha_user123"
-    }
+    performance_system.onboarding.create_user.return_value = {"user_id": "user_123", "lambda_id": "Λ_alpha_user123"}
 
     start = time.perf_counter()
 
-    result = await performance_system.onboarding.create_user(
-        tier="alpha",
-        email="test@example.com",
-        consent_gdpr=True
-    )
+    result = await performance_system.onboarding.create_user(tier="alpha", email="test@example.com", consent_gdpr=True)
 
     elapsed_ms = (time.perf_counter() - start) * 1000
 
@@ -69,10 +64,7 @@ async def test_performance_onboarding_single_request(performance_system):
 @pytest.mark.asyncio
 async def test_performance_onboarding_throughput(performance_system):
     """Test onboarding throughput (requests per second)."""
-    performance_system.onboarding.create_user.return_value = {
-        "user_id": "user_test",
-        "lambda_id": "Λ_beta_user"
-    }
+    performance_system.onboarding.create_user.return_value = {"user_id": "user_test", "lambda_id": "Λ_beta_user"}
 
     num_requests = 100
 
@@ -80,11 +72,7 @@ async def test_performance_onboarding_throughput(performance_system):
 
     # Concurrent requests
     tasks = [
-        performance_system.onboarding.create_user(
-            tier="beta",
-            email=f"test{i}@example.com",
-            consent_gdpr=True
-        )
+        performance_system.onboarding.create_user(tier="beta", email=f"test{i}@example.com", consent_gdpr=True)
         for i in range(num_requests)
     ]
 
@@ -101,21 +89,14 @@ async def test_performance_onboarding_throughput(performance_system):
 @pytest.mark.asyncio
 async def test_performance_onboarding_latency_percentiles(performance_system):
     """Test onboarding latency percentiles (p50, p95, p99)."""
-    performance_system.onboarding.create_user.return_value = {
-        "user_id": "user_test",
-        "lambda_id": "Λ_gamma_user"
-    }
+    performance_system.onboarding.create_user.return_value = {"user_id": "user_test", "lambda_id": "Λ_gamma_user"}
 
     latencies = []
 
     for i in range(100):
         start = time.perf_counter()
 
-        await performance_system.onboarding.create_user(
-            tier="gamma",
-            email=f"test{i}@example.com",
-            consent_gdpr=True
-        )
+        await performance_system.onboarding.create_user(tier="gamma", email=f"test{i}@example.com", consent_gdpr=True)
 
         elapsed_ms = (time.perf_counter() - start) * 1000
         latencies.append(elapsed_ms)
@@ -135,14 +116,11 @@ async def test_performance_onboarding_latency_percentiles(performance_system):
 # TEST-HIGH-PERF-QRS-01: QRS Signature <50ms
 # ============================================================================
 
+
 @pytest.mark.performance
 def test_performance_qrs_signature_generation(performance_system):
     """Test QRS signature generation <50ms."""
-    request_data = {
-        "method": "POST",
-        "path": "/api/v1/query",
-        "body": {"query": "test"}
-    }
+    request_data = {"method": "POST", "path": "/api/v1/query", "body": {"query": "test"}}
 
     performance_system.qrs_manager.generate_signature.return_value = "abc123def456"
 
@@ -201,6 +179,7 @@ def test_performance_qrs_throughput(performance_system):
 # TEST-HIGH-PERF-VECTOR-01: Vector Search <250ms
 # ============================================================================
 
+
 @pytest.mark.performance
 @pytest.mark.asyncio
 async def test_performance_vector_search(performance_system):
@@ -209,14 +188,12 @@ async def test_performance_vector_search(performance_system):
 
     performance_system.vector_store.similarity_search.return_value = [
         {"text": "result1", "score": 0.95},
-        {"text": "result2", "score": 0.87}
+        {"text": "result2", "score": 0.87},
     ]
 
     start = time.perf_counter()
 
-    results = await performance_system.vector_store.similarity_search(
-        query_embedding, k=10
-    )
+    results = await performance_system.vector_store.similarity_search(query_embedding, k=10)
 
     elapsed_ms = (time.perf_counter() - start) * 1000
 
@@ -252,12 +229,8 @@ async def test_performance_vector_rag_pipeline(performance_system):
 
     # Mock pipeline steps
     performance_system.vector_store.generate_embedding.return_value = [0.1] * 1536
-    performance_system.vector_store.similarity_search.return_value = [
-        {"text": "context1", "score": 0.95}
-    ]
-    performance_system.vector_store.generate_response.return_value = {
-        "response": "Consciousness is awareness..."
-    }
+    performance_system.vector_store.similarity_search.return_value = [{"text": "context1", "score": 0.95}]
+    performance_system.vector_store.generate_response.return_value = {"response": "Consciousness is awareness..."}
 
     start = time.perf_counter()
 
@@ -277,15 +250,12 @@ async def test_performance_vector_rag_pipeline(performance_system):
 # TEST-HIGH-PERF-EXPLAIN-01: Explainability <500ms
 # ============================================================================
 
+
 @pytest.mark.performance
 @pytest.mark.asyncio
 async def test_performance_explainability_text(performance_system):
     """Test text explanation generation <500ms."""
-    decision = {
-        "decision_id": "dec_123",
-        "action": "data_access",
-        "result": "approved"
-    }
+    decision = {"decision_id": "dec_123", "action": "data_access", "result": "approved"}
 
     performance_system.explainability.generate_text.return_value = {
         "text": "Decision was approved based on ethical guidelines..."
@@ -330,6 +300,7 @@ async def test_performance_explainability_multimodal(performance_system):
 # Additional Performance Tests
 # ============================================================================
 
+
 @pytest.mark.performance
 @pytest.mark.asyncio
 async def test_performance_jwt_operations(performance_system):
@@ -366,11 +337,7 @@ async def test_performance_memory_efficiency(performance_system):
     performance_system.onboarding.create_user.return_value = {"user_id": "test"}
 
     for i in range(1000):
-        await performance_system.onboarding.create_user(
-            tier="delta",
-            email=f"test{i}@example.com",
-            consent_gdpr=True
-        )
+        await performance_system.onboarding.create_user(tier="delta", email=f"test{i}@example.com", consent_gdpr=True)
 
     # Memory should not grow significantly
     current = sys.getsizeof(performance_system)
@@ -410,11 +377,7 @@ async def test_performance_concurrent_requests(performance_system):
 
     # Concurrent requests
     tasks = [
-        performance_system.onboarding.create_user(
-            tier="gamma",
-            email=f"concurrent{i}@example.com",
-            consent_gdpr=True
-        )
+        performance_system.onboarding.create_user(tier="gamma", email=f"concurrent{i}@example.com", consent_gdpr=True)
         for i in range(num_concurrent)
     ]
 

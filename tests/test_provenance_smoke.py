@@ -36,18 +36,11 @@ class TestProvenanceSmoke:
 
         assert report_file.exists(), "Provenance report not found"
 
-        with open(report_file, 'r') as f:
+        with open(report_file, "r") as f:
             report = json.load(f)
 
         # Check required top-level fields
-        required_fields = [
-            "provenance_version",
-            "generated",
-            "root_cid",
-            "summary",
-            "contracts",
-            "verification"
-        ]
+        required_fields = ["provenance_version", "generated", "root_cid", "summary", "contracts", "verification"]
 
         for field in required_fields:
             assert field in report, f"Missing required field: {field}"
@@ -69,7 +62,7 @@ class TestProvenanceSmoke:
             "dream_provenance",
             "guardian_check",
             "biosymbolic_map",
-            "quantum_proof"
+            "quantum_proof",
         ]
 
         for section in expected_sections:
@@ -80,7 +73,7 @@ class TestProvenanceSmoke:
         """Test that root CID has correct format."""
         report_file = Path("artifacts/provenance_report.json")
 
-        with open(report_file, 'r') as f:
+        with open(report_file, "r") as f:
             report = json.load(f)
 
         root_cid = report["root_cid"]
@@ -94,7 +87,7 @@ class TestProvenanceSmoke:
         """Test that contract entries have required structure."""
         report_file = Path("artifacts/provenance_report.json")
 
-        with open(report_file, 'r') as f:
+        with open(report_file, "r") as f:
             report = json.load(f)
 
         contracts = report["contracts"]
@@ -134,11 +127,11 @@ class TestProvenanceSmoke:
         assert size > 1000, f"CAR file seems too small: {size} bytes"
 
         # Read first 100 bytes to check for header
-        with open(car_file, 'rb') as f:
+        with open(car_file, "rb") as f:
             header_bytes = f.read(100)
 
         # Check that it contains expected header elements
-        header_str = header_bytes.decode('utf-8', errors='ignore')
+        header_str = header_bytes.decode("utf-8", errors="ignore")
         assert "version" in header_str, "CAR file header should contain 'version'"
         assert "roots" in header_str, "CAR file header should contain 'roots'"
 
@@ -154,18 +147,14 @@ class TestProvenanceSmoke:
         script_path = Path("tools/verify_provenance.sh")
 
         # Run verification script
-        result = subprocess.run(
-            [str(script_path)],
-            capture_output=True,
-            text=True,
-            cwd=Path.cwd()
-        )
+        result = subprocess.run([str(script_path)], capture_output=True, text=True, cwd=Path.cwd())
 
         assert result.returncode == 0, f"Verification script failed: {result.stderr}"
 
         # Check that output contains success message
-        assert "verification completed successfully" in result.stdout.lower(), \
-            "Verification script didn't report success"
+        assert (
+            "verification completed successfully" in result.stdout.lower()
+        ), "Verification script didn't report success"
 
     def test_tokenization_script_exists(self):
         """Test that tokenization script exists and is functional."""
@@ -176,21 +165,21 @@ class TestProvenanceSmoke:
         # Test with a sample contract
         sample_contract = Path("contracts/matrix_identity.json")
         if sample_contract.exists():
-            with tempfile.NamedTemporaryFile(suffix='.json', delete=False) as tmp:
+            with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as tmp:
                 tmp_output = Path(tmp.name)
 
             try:
                 result = subprocess.run(
                     ["python3", str(script_path), "--contract", str(sample_contract), "--output", str(tmp_output)],
                     capture_output=True,
-                    text=True
+                    text=True,
                 )
 
                 assert result.returncode == 0, f"Tokenization script failed: {result.stderr}"
                 assert tmp_output.exists(), "Tokenization script didn't create output file"
 
                 # Check output structure
-                with open(tmp_output, 'r') as f:
+                with open(tmp_output, "r") as f:
                     output = json.load(f)
 
                 required_fields = ["contract", "module", "sha256", "txid", "network", "tokenization"]
@@ -210,19 +199,25 @@ class TestProvenanceSmoke:
         assert script_path.exists(), "Provenance generation script not found"
 
         # Test with identity contracts using temporary output files
-        with tempfile.NamedTemporaryFile(suffix='.car', delete=False) as tmp_car:
+        with tempfile.NamedTemporaryFile(suffix=".car", delete=False) as tmp_car:
             tmp_car_path = Path(tmp_car.name)
-        with tempfile.NamedTemporaryFile(suffix='.json', delete=False) as tmp_report:
+        with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as tmp_report:
             tmp_report_path = Path(tmp_report.name)
 
         try:
             result = subprocess.run(
-                ["python3", str(script_path),
-                 "--contracts", "contracts/matrix_identity*.json",
-                 "--output", str(tmp_car_path),
-                 "--report", str(tmp_report_path)],
+                [
+                    "python3",
+                    str(script_path),
+                    "--contracts",
+                    "contracts/matrix_identity*.json",
+                    "--output",
+                    str(tmp_car_path),
+                    "--report",
+                    str(tmp_report_path),
+                ],
                 capture_output=True,
-                text=True
+                text=True,
             )
 
             # Should succeed even if we don't have all contracts
@@ -246,7 +241,7 @@ class TestProvenanceSmoke:
         # Load initial report
         assert report_file.exists(), "Initial provenance report not found"
 
-        with open(report_file, 'r') as f:
+        with open(report_file, "r") as f:
             initial_report = json.load(f)
 
         initial_root_cid = initial_report["root_cid"]
@@ -256,13 +251,13 @@ class TestProvenanceSmoke:
         result = subprocess.run(
             ["python3", "tools/matrix_provenance.py", "--contracts", "contracts/matrix_*.json"],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0, f"Provenance regeneration failed: {result.stderr}"
 
         # Load new report
-        with open(report_file, 'r') as f:
+        with open(report_file, "r") as f:
             new_report = json.load(f)
 
         new_root_cid = new_report["root_cid"]
@@ -276,7 +271,7 @@ class TestProvenanceSmoke:
         """Test that all contracts have v3 sections after upgrade."""
         report_file = Path("artifacts/provenance_report.json")
 
-        with open(report_file, 'r') as f:
+        with open(report_file, "r") as f:
             report = json.load(f)
 
         v3_sections = report["summary"]["v3_sections_present"]
@@ -288,14 +283,15 @@ class TestProvenanceSmoke:
             "dream_provenance",
             "guardian_check",
             "biosymbolic_map",
-            "quantum_proof"
+            "quantum_proof",
         ]
 
         for section in expected_sections:
             assert section in v3_sections, f"v3 section missing from summary: {section}"
             section_count = v3_sections[section]
-            assert section_count == total_contracts, \
-                f"Not all contracts have {section} section: {section_count}/{total_contracts}"
+            assert (
+                section_count == total_contracts
+            ), f"Not all contracts have {section} section: {section_count}/{total_contracts}"
 
 
 if __name__ == "__main__":

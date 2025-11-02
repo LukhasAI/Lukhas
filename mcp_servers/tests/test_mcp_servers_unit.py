@@ -25,10 +25,7 @@ class TestMcpServersModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "mcp_servers",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "mcp_servers", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestMcpServersModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import mcp_servers
+
         self.assertIsNotNone(mcp_servers)
 
     def test_module_version(self):
         """Test module has version information."""
         import mcp_servers
+
         # Most modules should have version info
-        self.assertTrue(hasattr(mcp_servers, '__version__') or
-                       hasattr(mcp_servers, 'VERSION'))
+        self.assertTrue(hasattr(mcp_servers, "__version__") or hasattr(mcp_servers, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestLUKHASKnowledgeBase(unittest.TestCase):
         """Test LUKHASKnowledgeBase can be imported."""
         try:
             from mcp_servers.lukhas_mcp_server import LUKHASKnowledgeBase
+
             self.assertIsNotNone(LUKHASKnowledgeBase)
         except ImportError:
             pytest.skip("Component LUKHASKnowledgeBase not available")
@@ -97,6 +96,7 @@ class TestLUKHASMCPServer(unittest.TestCase):
         """Test LUKHASMCPServer can be imported."""
         try:
             from mcp_servers.lukhas_mcp_server import LUKHASMCPServer
+
             self.assertIsNotNone(LUKHASMCPServer)
         except ImportError:
             pytest.skip("Component LUKHASMCPServer not available")
@@ -114,6 +114,7 @@ class TestLUKHASPattern(unittest.TestCase):
         """Test LUKHASPattern can be imported."""
         try:
             from mcp_servers.lukhas_mcp_server import LUKHASPattern
+
             self.assertIsNotNone(LUKHASPattern)
         except ImportError:
             pytest.skip("Component LUKHASPattern not available")
@@ -122,7 +123,6 @@ class TestLUKHASPattern(unittest.TestCase):
         """Test LUKHASPattern can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

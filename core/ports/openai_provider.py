@@ -6,6 +6,7 @@ with mocks, and clear contracts for OpenAI-dependent code.
 
 Part of T4 lane isolation initiative to remove hard dependencies on labs.
 """
+
 from __future__ import annotations
 
 from typing import Any, AsyncIterator, Iterator, Protocol
@@ -15,6 +16,7 @@ from typing_extensions import NotRequired, TypedDict
 
 class ChatMessage(TypedDict):
     """Structured chat message for OpenAI API."""
+
     role: str
     content: str
     name: NotRequired[str]
@@ -23,6 +25,7 @@ class ChatMessage(TypedDict):
 
 class ChatCompletionResponse(TypedDict):
     """Response from chat completion endpoint."""
+
     id: str
     object: str
     created: int

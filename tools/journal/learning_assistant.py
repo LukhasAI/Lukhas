@@ -268,9 +268,7 @@ class LearningAssistant:
         # Search concepts
         for concept, instances in self.knowledge_base.get("concepts", {}).items():
             if any(term in concept.lower() for term in key_terms):
-                results["concepts"].append(
-                    {"concept": concept, "instances": instances[:3]}  # Top 3 instances
-                )
+                results["concepts"].append({"concept": concept, "instances": instances[:3]})  # Top 3 instances
 
         # Search solutions
         for solution in self.knowledge_base.get("solutions", {}).values():

@@ -4,6 +4,7 @@ Qi Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -23,6 +24,8 @@ class AbundanceCalculator:
         self, contribution: dict[str, Any]
     ) -> float:  # TODO[QUANTUM-BIO:specialist] - Contribution used for consciousness calculation
         return random.uniform(1.0, 2.0)
+
+
 @dataclass(frozen=True)
 class ConsciousnessToken:
     """Represents a consciousness-backed token issuance."""

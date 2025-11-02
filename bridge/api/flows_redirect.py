@@ -5,6 +5,7 @@ Authentication Flow Redirector
 Redirects legacy authentication endpoints to the new LUKHΛS Identity System.
 Maintains backward compatibility while using the new ΛiD implementation.
 """
+
 import builtins
 import contextlib
 import logging

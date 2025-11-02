@@ -1,4 +1,3 @@
-
 # accessibility_overlay.py
 # Placeholder for Accessibility Overlay module
 

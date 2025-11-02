@@ -11,6 +11,7 @@
 │   - json                                                                  │
 └────────────────────────────────────────────────────────────────────────────┘
 """
+
 # ΛTIER: 1.1 — Symbolic Memory Initialization Layer
 import hashlib
 import json

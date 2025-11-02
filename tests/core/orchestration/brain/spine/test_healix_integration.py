@@ -1,4 +1,5 @@
 """Tests for Healix mapper dependencies and dashboard orchestration."""
+
 from __future__ import annotations
 
 from core.blockchain import BlockchainWrapper

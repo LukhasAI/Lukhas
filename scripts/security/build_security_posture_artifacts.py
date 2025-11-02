@@ -84,12 +84,7 @@ class ModuleEntry:
     def safe_name(self) -> str:
         """Return a filesystem-safe identifier for the module."""
 
-        return (
-            self.name
-            .replace("/", "_")
-            .replace(".", "_")
-            .replace("-", "_")
-        )
+        return self.name.replace("/", "_").replace(".", "_").replace("-", "_")
 
 
 def _utc_now() -> dt.datetime:
@@ -107,9 +102,9 @@ def _collect_modules(pattern: str) -> List[ModuleEntry]:
             continue
         relative = path.relative_to(PROJECT_ROOT)
         if relative.parts[:2] in {
-            ('security', 'sboms'),
-            ('security', 'attestations'),
-            ('security', 'telemetry'),
+            ("security", "sboms"),
+            ("security", "attestations"),
+            ("security", "telemetry"),
         }:
             continue
         try:
@@ -211,11 +206,7 @@ def _telemetry_overlay(module: str) -> Mapping[str, object]:
 
 def _git_rev() -> str:
     try:
-        return (
-            subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT)
-            .decode("utf-8")
-            .strip()
-        )
+        return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT).decode("utf-8").strip()
     except Exception:
         return "HEAD"
 

@@ -2,6 +2,7 @@
 Enhanced Governance Colony with Real Ethical Evaluation
 Integrates with the ethics system for actual decision-making
 """
+
 import asyncio
 import json
 import logging

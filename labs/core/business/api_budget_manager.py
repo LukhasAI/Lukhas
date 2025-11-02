@@ -4,6 +4,7 @@ API Budget Manager for NIAS Economic Platform.
 This module manages daily spending budgets for users to ensure sustainable
 unit economics while providing consciousness-aware advertising.
 """
+
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Optional

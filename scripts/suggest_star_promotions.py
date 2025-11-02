@@ -26,11 +26,14 @@ def load_json(path: Path) -> Any:
         print(f"[WARN] Could not read {path}: {e}", file=sys.stderr)
         return None
 
+
 def normalize_star(s: str) -> str:
     return s.strip()
 
+
 def build_regex(pattern: str) -> re.Pattern:
     return re.compile(pattern, re.IGNORECASE)
+
 
 def choose_best(candidates: List[Tuple[str, float, str]], min_conf: float) -> Tuple[str, float, str] | None:
     if not candidates:
@@ -39,6 +42,7 @@ def choose_best(candidates: List[Tuple[str, float, str]], min_conf: float) -> Tu
     candidates.sort(key=lambda x: (x[1], x[0]), reverse=True)
     best = candidates[0]
     return best if best[1] >= min_conf else None
+
 
 def main():
     ap = argparse.ArgumentParser(description="Suggest star promotions for Supporting modules.")
@@ -49,22 +53,29 @@ def main():
     args = ap.parse_args()
 
     ruleset = load_json(Path(args.rules)) or {}
-    min_conf = args.min_confidence if args.min_confidence is not None else float(ruleset.get("confidence", {}).get("min_suggest", 0.50))
+    min_conf = (
+        args.min_confidence
+        if args.min_confidence is not None
+        else float(ruleset.get("confidence", {}).get("min_suggest", 0.50))
+    )
     deny = set(ruleset.get("deny", []))
 
     # Compile patterns
-    rule_patterns = [(build_regex(r["pattern"]), normalize_star(r["star"]), r.get("source", "path_keywords"))
-                     for r in ruleset.get("rules", [])]
+    rule_patterns = [
+        (build_regex(r["pattern"]), normalize_star(r["star"]), r.get("source", "path_keywords"))
+        for r in ruleset.get("rules", [])
+    ]
     cap_over = {r["capability"]: normalize_star(r["star"]) for r in ruleset.get("capability_overrides", [])}
     node_over = {r["node"]: normalize_star(r["star"]) for r in ruleset.get("node_overrides", [])}
 
-    out_dir = Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     promotions = []
     counts = Counter()
 
     for mp in sorted(Path(args.manifests).rglob("module.manifest.json")):
-        if '/.archive/' in str(mp):
+        if "/.archive/" in str(mp):
             continue
         data = load_json(mp)
         if not isinstance(data, dict):
@@ -110,20 +121,22 @@ def main():
         if new_star in deny:
             continue
 
-        promotions.append({
-            "module": name,
-            "file": str(mp),
-            "current_star": primary,
-            "suggested_star": new_star,
-            "confidence": round(conf, 2),
-            "reason": reason
-        })
+        promotions.append(
+            {
+                "module": name,
+                "file": str(mp),
+                "current_star": primary,
+                "suggested_star": new_star,
+                "confidence": round(conf, 2),
+                "reason": reason,
+            }
+        )
         counts[new_star] += 1
 
     # Write CSV
     csv_path = out_dir / "star_promotions.csv"
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["module","file","current_star","suggested_star","confidence","reason"])
+        w = csv.DictWriter(f, fieldnames=["module", "file", "current_star", "suggested_star", "confidence", "reason"])
         w.writeheader()
         for row in promotions:
             w.writerow(row)
@@ -140,9 +153,12 @@ def main():
         f.write("\n## Details\n\n")
         f.write("| Module | Suggested | Confidence | Reason | File |\n|---|---|---:|---|---|\n")
         for row in promotions[:500]:
-            f.write(f"| {row['module']} | {row['suggested_star']} | {row['confidence']} | {row['reason']} | `{row['file']}` |\n")
+            f.write(
+                f"| {row['module']} | {row['suggested_star']} | {row['confidence']} | {row['reason']} | `{row['file']}` |\n"
+            )
 
     print(f"[OK] Wrote {csv_path} and {md_path}")
+
 
 if __name__ == "__main__":
     main()

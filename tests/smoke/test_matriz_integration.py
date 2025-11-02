@@ -4,15 +4,13 @@ Real MATRIZ integration tests for OpenAI façade.
 Tests actual MATRIZ cognitive orchestrator capabilities when available,
 validates graceful degradation to stub mode when unavailable.
 """
+
 import pytest
 from serve.main import MATRIZ_AVAILABLE, app
 from starlette.testclient import TestClient
 
 # Skip entire module if MATRIZ not available
-pytestmark = pytest.mark.skipif(
-    not MATRIZ_AVAILABLE,
-    reason="MATRIZ orchestrator not available (stub mode)"
-)
+pytestmark = pytest.mark.skipif(not MATRIZ_AVAILABLE, reason="MATRIZ orchestrator not available (stub mode)")
 
 
 @pytest.fixture
@@ -30,11 +28,7 @@ def auth_headers():
 # MATRIZ Cognitive Pipeline Tests
 def test_matriz_cognitive_orchestration(client, auth_headers):
     """Verify MATRIZ processes input through full cognitive pipeline."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": "What is consciousness?"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/responses", json={"input": "What is consciousness?"}, headers=auth_headers)
 
     assert response.status_code == 200
     data = response.json()
@@ -52,11 +46,8 @@ def test_matriz_memory_attention_thought_pipeline(client, auth_headers):
     """Verify Memory→Attention→Thought (MAT) stages execute."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Remember: my name is Alice. What's my name?",
-            "context": {"session_id": "test-session-123"}
-        },
-        headers=auth_headers
+        json={"input": "Remember: my name is Alice. What's my name?", "context": {"session_id": "test-session-123"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -75,7 +66,7 @@ def test_matriz_reasoning_stage(client, auth_headers):
         json={
             "input": "If A > B and B > C, then A > C. If A=5, B=3, C=1, is A > C?",
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -96,7 +87,7 @@ def test_matriz_action_stage(client, auth_headers):
         json={
             "input": "List 3 prime numbers",
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -109,11 +100,7 @@ def test_matriz_action_stage(client, auth_headers):
 
 def test_matriz_awareness_metadata(client, auth_headers):
     """Verify MATRIZ awareness stage emits processing metadata."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test awareness metadata"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/responses", json={"input": "test awareness metadata"}, headers=auth_headers)
 
     assert response.status_code == 200
     data = response.json()
@@ -133,11 +120,7 @@ def test_matriz_latency_under_250ms_target(client, auth_headers):
     latencies = []
     for _ in range(10):
         start = time.time()
-        response = client.post(
-            "/v1/responses",
-            json={"input": "quick test"},
-            headers=auth_headers
-        )
+        response = client.post("/v1/responses", json={"input": "quick test"}, headers=auth_headers)
         latency = (time.time() - start) * 1000  # ms
         latencies.append(latency)
 
@@ -157,11 +140,7 @@ def test_matriz_throughput_50_ops_per_sec(client, auth_headers):
     from concurrent.futures import ThreadPoolExecutor
 
     def make_request():
-        response = client.post(
-            "/v1/responses",
-            json={"input": "throughput test"},
-            headers=auth_headers
-        )
+        response = client.post("/v1/responses", json={"input": "throughput test"}, headers=auth_headers)
         return response.status_code == 200
 
     # Test 30 requests with 5 workers (within rate limit budget)
@@ -182,11 +161,8 @@ def test_matriz_symbolic_dna_processing(client, auth_headers):
     """Verify MATRIZ uses symbolic DNA for processing."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Process with symbolic DNA",
-            "config": {"use_symbolic": True}
-        },
-        headers=auth_headers
+        json={"input": "Process with symbolic DNA", "config": {"use_symbolic": True}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -201,11 +177,8 @@ def test_matriz_node_based_processing(client, auth_headers):
     """Verify MATRIZ node-based cognitive processing."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Multi-step reasoning: A->B->C",
-            "trace": True  # Request processing trace
-        },
-        headers=auth_headers
+        json={"input": "Multi-step reasoning: A->B->C", "trace": True},  # Request processing trace
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -223,11 +196,8 @@ def test_matriz_context_handoff_under_250ms(client, auth_headers):
     # First request establishes context
     response1 = client.post(
         "/v1/responses",
-        json={
-            "input": "Remember: the secret code is 42",
-            "context": {"session_id": "context-test"}
-        },
-        headers=auth_headers
+        json={"input": "Remember: the secret code is 42", "context": {"session_id": "context-test"}},
+        headers=auth_headers,
     )
     assert response1.status_code == 200
 
@@ -235,11 +205,8 @@ def test_matriz_context_handoff_under_250ms(client, auth_headers):
     start = time.time()
     response2 = client.post(
         "/v1/responses",
-        json={
-            "input": "What was the secret code?",
-            "context": {"session_id": "context-test"}
-        },
-        headers=auth_headers
+        json={"input": "What was the secret code?", "context": {"session_id": "context-test"}},
+        headers=auth_headers,
     )
     handoff_time = (time.time() - start) * 1000
 
@@ -256,33 +223,24 @@ def test_matriz_multi_turn_conversation(client, auth_headers):
     # Turn 1: Set context
     r1 = client.post(
         "/v1/responses",
-        json={
-            "input": "My favorite color is blue",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "My favorite color is blue", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r1.status_code == 200
 
     # Turn 2: Reference previous context
     r2 = client.post(
         "/v1/responses",
-        json={
-            "input": "What's my favorite color?",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "What's my favorite color?", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r2.status_code == 200
 
     # Turn 3: Continue conversation
     r3 = client.post(
         "/v1/responses",
-        json={
-            "input": "Why is that color special?",
-            "context": {"session_id": session_id}
-        },
-        headers=auth_headers
+        json={"input": "Why is that color special?", "context": {"session_id": session_id}},
+        headers=auth_headers,
     )
     assert r3.status_code == 200
 
@@ -292,11 +250,8 @@ def test_matriz_bio_inspired_adaptation(client, auth_headers):
     """Verify MATRIZ bio-inspired adaptation patterns."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Adapt response style to formal academic tone",
-            "config": {"adaptation": "bio-inspired"}
-        },
-        headers=auth_headers
+        json={"input": "Adapt response style to formal academic tone", "config": {"adaptation": "bio-inspired"}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -310,11 +265,8 @@ def test_matriz_quantum_inspired_superposition(client, auth_headers):
     """Verify MATRIZ quantum-inspired algorithms."""
     response = client.post(
         "/v1/responses",
-        json={
-            "input": "Consider multiple interpretations simultaneously",
-            "config": {"quantum_mode": True}
-        },
-        headers=auth_headers
+        json={"input": "Consider multiple interpretations simultaneously", "config": {"quantum_mode": True}},
+        headers=auth_headers,
     )
 
     assert response.status_code == 200
@@ -332,20 +284,15 @@ def test_matriz_memory_system_integration(client, auth_headers):
         "/v1/responses",
         json={
             "input": "Store this fact: LUKHAS means Logic Unified Knowledge Hyper Adaptable System",
-            "store_memory": True
+            "store_memory": True,
         },
-        headers=auth_headers
+        headers=auth_headers,
     )
     assert r1.status_code == 200
 
     # Retrieve memory
     r2 = client.post(
-        "/v1/responses",
-        json={
-            "input": "What does LUKHAS stand for?",
-            "use_memory": True
-        },
-        headers=auth_headers
+        "/v1/responses", json={"input": "What does LUKHAS stand for?", "use_memory": True}, headers=auth_headers
     )
     assert r2.status_code == 200
 
@@ -353,11 +300,7 @@ def test_matriz_memory_system_integration(client, auth_headers):
 def test_matriz_memory_capacity_under_100mb(client, auth_headers):
     """Verify MATRIZ memory usage stays under 100MB target."""
     # Note: This is a basic test - full memory profiling requires separate tooling
-    response = client.post(
-        "/v1/responses",
-        json={"input": "test memory footprint"},
-        headers=auth_headers
-    )
+    response = client.post("/v1/responses", json={"input": "test memory footprint"}, headers=auth_headers)
 
     assert response.status_code == 200
     # Memory usage checked via profiling tools in production
@@ -367,12 +310,7 @@ def test_matriz_memory_capacity_under_100mb(client, auth_headers):
 def test_matriz_processing_trace_available(client, auth_headers):
     """Verify MATRIZ provides processing trace when requested."""
     response = client.post(
-        "/v1/responses",
-        json={
-            "input": "Show processing steps",
-            "trace": True
-        },
-        headers=auth_headers
+        "/v1/responses", json={"input": "Show processing steps", "trace": True}, headers=auth_headers
     )
 
     assert response.status_code == 200
@@ -389,12 +327,7 @@ def test_matriz_distributed_tracing_propagation(client, auth_headers):
     trace_parent = "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01"
 
     response = client.post(
-        "/v1/responses",
-        json={"input": "test tracing"},
-        headers={
-            **auth_headers,
-            "traceparent": trace_parent
-        }
+        "/v1/responses", json={"input": "test tracing"}, headers={**auth_headers, "traceparent": trace_parent}
     )
 
     assert response.status_code == 200

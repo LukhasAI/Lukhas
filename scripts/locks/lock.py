@@ -28,9 +28,7 @@ def load(path: str) -> Optional[dict]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Create or refresh a lightweight repo-local lock."
-    )
+    parser = argparse.ArgumentParser(description="Create or refresh a lightweight repo-local lock.")
     parser.add_argument("--key", required=True, help="Logical area name, e.g. hotpaths-b1")
     parser.add_argument("--owner", required=True, help="Human-readable owner")
     parser.add_argument("--branch", default="", help="Git branch owning the work")

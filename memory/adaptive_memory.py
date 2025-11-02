@@ -29,15 +29,17 @@ logger = logging.getLogger(__name__)
 
 class MemoryType(Enum):
     """Types of memory for categorization"""
-    EPISODIC = "episodic"      # Event-based memories
-    SEMANTIC = "semantic"      # Fact-based memories
+
+    EPISODIC = "episodic"  # Event-based memories
+    SEMANTIC = "semantic"  # Fact-based memories
     PROCEDURAL = "procedural"  # How-to memories
-    EMOTIONAL = "emotional"    # Emotion-tagged memories
+    EMOTIONAL = "emotional"  # Emotion-tagged memories
 
 
 @dataclass
 class MemoryItem:
     """Enhanced memory item with relevance scoring"""
+
     id: str
     content: Any
     timestamp: datetime = field(default_factory=datetime.now)
@@ -54,9 +56,7 @@ class MemoryItem:
         """Generate ID if not provided"""
         if not self.id:
             content_str = str(self.content)[:100]
-            self.id = hashlib.md5(
-                f"{content_str}{self.timestamp.isoformat()}".encode()
-            ).hexdigest()[:16]
+            self.id = hashlib.md5(f"{content_str}{self.timestamp.isoformat()}".encode()).hexdigest()[:16]
 
     def update_access(self):
         """Update access metadata"""
@@ -83,17 +83,13 @@ class MemoryItem:
             similarity_score = (dot_product + 1) / 2  # Normalize to 0-1
 
         # Combined score with weights
-        return (
-            0.3 * recency_score +
-            0.2 * frequency_score +
-            0.3 * similarity_score +
-            0.2 * self.importance
-        )
+        return 0.3 * recency_score + 0.2 * frequency_score + 0.3 * similarity_score + 0.2 * self.importance
 
 
 @dataclass
 class MemoryFold:
     """Collection of related memories for consolidation"""
+
     id: str
     items: List[MemoryItem] = field(default_factory=list)
     created: datetime = field(default_factory=datetime.now)
@@ -112,16 +108,13 @@ class MemoryFold:
         # Consolidate if >100 items or >1MB
         return len(self.items) > 100 or self.size_bytes > 1_000_000
 
-    def consolidate(self) -> 'MemoryItem':
+    def consolidate(self) -> "MemoryItem":
         """Consolidate fold into single memory item"""
         # Combine content
         combined_content = {
             "fold_id": self.id,
             "item_count": len(self.items),
-            "time_range": (
-                min(i.timestamp for i in self.items),
-                max(i.timestamp for i in self.items)
-            ),
+            "time_range": (min(i.timestamp for i in self.items), max(i.timestamp for i in self.items)),
             "summary": self._generate_summary(),
             "key_items": self._extract_key_items(),
         }
@@ -156,10 +149,7 @@ class MemoryFold:
     def _extract_key_items(self) -> List[Dict]:
         """Extract most important items"""
         sorted_items = sorted(self.items, key=lambda x: x.importance, reverse=True)
-        return [
-            {"id": i.id, "content": str(i.content)[:100]}
-            for i in sorted_items[:5]
-        ]
+        return [{"id": i.id, "content": str(i.content)[:100]} for i in sorted_items[:5]]
 
 
 class AdaptiveMemorySystem:
@@ -213,9 +203,7 @@ class AdaptiveMemorySystem:
         self._stop_consolidation = threading.Event()
         self._start_background_consolidation()
 
-        self.embedding_index: Optional[EmbeddingIndex] = (
-            EmbeddingIndex() if self.enable_embeddings else None
-        )
+        self.embedding_index: Optional[EmbeddingIndex] = EmbeddingIndex() if self.enable_embeddings else None
 
     def store(
         self,
@@ -308,15 +296,9 @@ class AdaptiveMemorySystem:
         # Get candidate items
         candidate_ids = self._get_candidates(memory_type, tags, max_age_days)
 
-        if (
-            self.enable_embeddings
-            and query_embedding
-            and self.embedding_index is not None
-        ):
+        if self.enable_embeddings and query_embedding and self.embedding_index is not None:
             # ΛTAG: memory_embedding_index_recall
-            embedding_candidates = set(
-                self.embedding_index.query(query_embedding, k=max(k * 3, 50))
-            )
+            embedding_candidates = set(self.embedding_index.query(query_embedding, k=max(k * 3, 50)))
             logger.debug(
                 "Embedding index candidate set",
                 extra={
@@ -326,9 +308,9 @@ class AdaptiveMemorySystem:
                 },
             )
             if candidate_ids:
-                candidate_ids = [
-                    cid for cid in candidate_ids if cid in embedding_candidates
-                ] or list(embedding_candidates)
+                candidate_ids = [cid for cid in candidate_ids if cid in embedding_candidates] or list(
+                    embedding_candidates
+                )
             else:
                 candidate_ids = list(embedding_candidates)
 
@@ -421,20 +403,14 @@ class AdaptiveMemorySystem:
         # Filter by age
         if max_age_days:
             cutoff = datetime.now() - timedelta(days=max_age_days)
-            candidates = {
-                id for id in candidates
-                if id in self.items and self.items[id].timestamp >= cutoff
-            }
+            candidates = {id for id in candidates if id in self.items and self.items[id].timestamp >= cutoff}
 
         return list(candidates)
 
     def _handle_memory_pressure(self):
         """Handle when approaching memory limits"""
         # Remove least important 10%
-        sorted_items = sorted(
-            self.items.values(),
-            key=lambda x: x.get_relevance_score()
-        )
+        sorted_items = sorted(self.items.values(), key=lambda x: x.get_relevance_score())
 
         remove_count = max(1, len(self.items) // 10)  # Remove at least 1 item
         for item in sorted_items[:remove_count]:
@@ -508,10 +484,7 @@ class AdaptiveMemorySystem:
     def _start_background_consolidation(self):
         """Start background consolidation thread"""
         if self._consolidation_thread is None:
-            self._consolidation_thread = threading.Thread(
-                target=self._background_consolidation_worker,
-                daemon=True
-            )
+            self._consolidation_thread = threading.Thread(target=self._background_consolidation_worker, daemon=True)
             self._consolidation_thread.start()
 
     def _stop_background_consolidation(self):
@@ -534,13 +507,14 @@ class AdaptiveMemorySystem:
         """Get performance metrics"""
         avg_latency = (
             self.metrics["total_recall_time_ms"] / self.metrics["total_recalls"]
-            if self.metrics["total_recalls"] > 0 else 0
+            if self.metrics["total_recalls"] > 0
+            else 0
         )
 
         cache_hit_rate = (
-            self.metrics["cache_hits"] /
-            (self.metrics["cache_hits"] + self.metrics["cache_misses"])
-            if (self.metrics["cache_hits"] + self.metrics["cache_misses"]) > 0 else 0
+            self.metrics["cache_hits"] / (self.metrics["cache_hits"] + self.metrics["cache_misses"])
+            if (self.metrics["cache_hits"] + self.metrics["cache_misses"]) > 0
+            else 0
         )
 
         return {

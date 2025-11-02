@@ -17,20 +17,21 @@ from typing import List, Tuple
 def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, int]:
     """
     Replace old lane path with new in markdown links.
-    
+
     Handles both regular links [text](path) and image links ![alt](path).
-    
+
     Returns:
         tuple: (updated_text, count_of_changes)
     """
     # Pattern matches: [text](candidate/...) or ![alt](candidate/...)
-    pattern = rf'(\[!?\[[^\]]*\]\()({old_lane}/[^\)]*)\)'
+    pattern = rf"(\[!?\[[^\]]*\]\()({old_lane}/[^\)]*)\)"
 
     changes = 0
+
     def replacer(match):
         nonlocal changes
         prefix = match.group(1)  # [text]( or ![alt](
-        path = match.group(2)     # candidate/path/to/file
+        path = match.group(2)  # candidate/path/to/file
         new_path = path.replace(f"{old_lane}/", f"{new_lane}/", 1)
         changes += 1
         return f"{prefix}{new_path})"
@@ -42,7 +43,7 @@ def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, in
 def fix_file(file_path: Path, old_lane: str, new_lane: str, dry_run: bool = False) -> int:
     """
     Fix links in a single file.
-    
+
     Returns:
         int: Number of changes made
     """
@@ -67,17 +68,23 @@ def fix_file(file_path: Path, old_lane: str, new_lane: str, dry_run: bool = Fals
 def find_markdown_files(root: Path, exclude_patterns: List[str] = None) -> List[Path]:
     """
     Find all markdown files in the repository.
-    
+
     Args:
         root: Root directory to search
         exclude_patterns: List of path patterns to exclude
-    
+
     Returns:
         List of Path objects for markdown files
     """
     exclude_patterns = exclude_patterns or [
-        ".git", "node_modules", "__pycache__", ".venv", "venv",
-        "._cleanup_archive", "archive", "backup"
+        ".git",
+        "node_modules",
+        "__pycache__",
+        ".venv",
+        "venv",
+        "._cleanup_archive",
+        "archive",
+        "backup",
     ]
 
     markdown_files = []
@@ -91,35 +98,14 @@ def find_markdown_files(root: Path, exclude_patterns: List[str] = None) -> List[
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Fix lane rename links in markdown files"
-    )
+    parser = argparse.ArgumentParser(description="Fix lane rename links in markdown files")
+    parser.add_argument("--old-lane", default="candidate", help="Old lane name (default: candidate)")
+    parser.add_argument("--new-lane", default="labs", help="New lane name (default: labs)")
     parser.add_argument(
-        "--old-lane",
-        default="candidate",
-        help="Old lane name (default: candidate)"
+        "--root", type=Path, default=Path("."), help="Root directory to search (default: current directory)"
     )
-    parser.add_argument(
-        "--new-lane",
-        default="labs",
-        help="New lane name (default: labs)"
-    )
-    parser.add_argument(
-        "--root",
-        type=Path,
-        default=Path("."),
-        help="Root directory to search (default: current directory)"
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Show what would be changed without making changes"
-    )
-    parser.add_argument(
-        "--exclude",
-        nargs="+",
-        help="Additional path patterns to exclude"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be changed without making changes")
+    parser.add_argument("--exclude", nargs="+", help="Additional path patterns to exclude")
 
     args = parser.parse_args()
 
@@ -137,8 +123,14 @@ def main():
 
     # Build exclude list
     exclude_patterns = [
-        ".git", "node_modules", "__pycache__", ".venv", "venv",
-        "._cleanup_archive", "archive", "backup"
+        ".git",
+        "node_modules",
+        "__pycache__",
+        ".venv",
+        "venv",
+        "._cleanup_archive",
+        "archive",
+        "backup",
     ]
     if args.exclude:
         exclude_patterns.extend(args.exclude)

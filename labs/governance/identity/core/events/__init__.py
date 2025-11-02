@@ -3,6 +3,7 @@ Identity System Events Module
 ==============================
 Provides event types and publishers for the identity system.
 """
+
 import time
 from dataclasses import dataclass
 from enum import Enum

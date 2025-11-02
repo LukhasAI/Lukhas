@@ -123,16 +123,12 @@ def main():
             "with_coverage": sum(1 for m in meta_modules if "coverage" in m),
             "with_benchmarks": sum(1 for m in meta_modules if "performance" in m),
             "meeting_coverage_target": sum(
-                1 for m in meta_modules
-                if m.get("coverage", {}).get("meets_target") is True
+                1 for m in meta_modules if m.get("coverage", {}).get("meets_target") is True
             ),
-            "meeting_sla": sum(
-                1 for m in meta_modules
-                if m.get("performance", {}).get("meets_sla") is True
+            "meeting_sla": sum(1 for m in meta_modules if m.get("performance", {}).get("meets_sla") is True),
+            "avg_health_score": (
+                round(sum(m["health_score"] for m in meta_modules) / len(meta_modules), 1) if meta_modules else 0
             ),
-            "avg_health_score": round(
-                sum(m["health_score"] for m in meta_modules) / len(meta_modules), 1
-            ) if meta_modules else 0,
         },
     }
 

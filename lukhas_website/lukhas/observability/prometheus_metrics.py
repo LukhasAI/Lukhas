@@ -32,16 +32,27 @@ try:
         push_to_gateway,
         start_http_server,
     )
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
+
     # Mock classes for when Prometheus client is not available
     class MockMetric:
-        def inc(self, amount=1, **labels): pass
-        def dec(self, amount=1, **labels): pass
-        def set(self, value, **labels): pass
-        def observe(self, amount, **labels): pass
-        def info(self, value, **labels): pass
+        def inc(self, amount=1, **labels):
+            pass
+
+        def dec(self, amount=1, **labels):
+            pass
+
+        def set(self, value, **labels):
+            pass
+
+        def observe(self, amount, **labels):
+            pass
+
+        def info(self, value, **labels):
+            pass
 
     Counter = Histogram = Gauge = Summary = Info = MockMetric
     CollectorRegistry = None
@@ -70,6 +81,7 @@ def setup_metrics_endpoint(port: int = 8090) -> bool:
 @dataclass
 class MetricsConfig:
     """Configuration for Prometheus metrics collection"""
+
     enabled: bool = True
     namespace: str = "lukhas"
     subsystem: str = "ai"
@@ -1006,7 +1018,7 @@ class LUKHASMetrics:
         if not self.enabled:
             return "# Prometheus client not available\n"
 
-        return generate_latest(self.registry).decode('utf-8')
+        return generate_latest(self.registry).decode("utf-8")
 
 
 # Global metrics instance

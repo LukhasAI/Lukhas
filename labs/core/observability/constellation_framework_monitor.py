@@ -24,6 +24,7 @@ Features:
 #TAG:api
 #TAG:framework
 """
+
 import asyncio
 import logging
 import statistics
@@ -680,7 +681,9 @@ class ConstellationFrameworkMonitor:
 
         # Analyze recent interactions
         recent_interactions = [
-            i for i in self.constellation_interactions if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 3600  # Last hour
+            i
+            for i in self.constellation_interactions
+            if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_interactions:
@@ -706,7 +709,9 @@ class ConstellationFrameworkMonitor:
 
         return min(1.0, max(0.0, overall_coherence))
 
-    async def _calculate_sync_score(self, component1: ConstellationComponent, component2: ConstellationComponent) -> float:
+    async def _calculate_sync_score(
+        self, component1: ConstellationComponent, component2: ConstellationComponent
+    ) -> float:
         """Calculate synchronization score between two components"""
 
         # Find interactions between these components
@@ -744,7 +749,9 @@ class ConstellationFrameworkMonitor:
 
         # Analyze recent authentication events
         recent_events = [
-            e for e in self.authentication_events if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 3600  # Last hour
+            e
+            for e in self.authentication_events
+            if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_events:
@@ -772,7 +779,9 @@ class ConstellationFrameworkMonitor:
 
         # Analyze recent API metrics
         recent_metrics = [
-            m for m in self.api_metrics if (datetime.now(timezone.utc) - m.timestamp).total_seconds() < 3600  # Last hour
+            m
+            for m in self.api_metrics
+            if (datetime.now(timezone.utc) - m.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_metrics:
@@ -1072,7 +1081,9 @@ class ConstellationFrameworkMonitor:
             },
         }
 
-    async def get_constellation_report(self, time_period: Optional[tuple[datetime, datetime]] = None) -> ConstellationReport:
+    async def get_constellation_report(
+        self, time_period: Optional[tuple[datetime, datetime]] = None
+    ) -> ConstellationReport:
         """Generate comprehensive Constellation Framework report"""
 
         if not time_period:
@@ -1081,7 +1092,9 @@ class ConstellationFrameworkMonitor:
             time_period = (start_time, end_time)
 
         # Filter data for time period
-        period_interactions = [i for i in self.constellation_interactions if time_period[0] <= i.timestamp <= time_period[1]]
+        period_interactions = [
+            i for i in self.constellation_interactions if time_period[0] <= i.timestamp <= time_period[1]
+        ]
 
         period_auth_events = [e for e in self.authentication_events if time_period[0] <= e.timestamp <= time_period[1]]
 

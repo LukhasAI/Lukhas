@@ -35,6 +35,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class HandlerState:
     """State tracking for event handlers"""
+
     handler_id: str
     last_processed_offset: int
     processed_event_ids: set = field(default_factory=set)
@@ -66,26 +67,26 @@ class HandlerState:
     def to_dict(self) -> Dict[str, Any]:
         """Serialize state for persistence"""
         return {
-            'handler_id': self.handler_id,
-            'last_processed_offset': self.last_processed_offset,
-            'processed_event_ids': list(self.processed_event_ids),
-            'error_count': self.error_count,
-            'last_error': self.last_error,
-            'last_error_at': self.last_error_at,
-            'total_events_processed': self.total_events_processed,
+            "handler_id": self.handler_id,
+            "last_processed_offset": self.last_processed_offset,
+            "processed_event_ids": list(self.processed_event_ids),
+            "error_count": self.error_count,
+            "last_error": self.last_error,
+            "last_error_at": self.last_error_at,
+            "total_events_processed": self.total_events_processed,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'HandlerState':
+    def from_dict(cls, data: Dict[str, Any]) -> "HandlerState":
         """Deserialize state from persistence"""
         return cls(
-            handler_id=data['handler_id'],
-            last_processed_offset=data.get('last_processed_offset', 0),
-            processed_event_ids=set(data.get('processed_event_ids', [])),
-            error_count=data.get('error_count', 0),
-            last_error=data.get('last_error'),
-            last_error_at=data.get('last_error_at'),
-            total_events_processed=data.get('total_events_processed', 0),
+            handler_id=data["handler_id"],
+            last_processed_offset=data.get("last_processed_offset", 0),
+            processed_event_ids=set(data.get("processed_event_ids", [])),
+            error_count=data.get("error_count", 0),
+            last_error=data.get("last_error"),
+            last_error_at=data.get("last_error_at"),
+            total_events_processed=data.get("total_events_processed", 0),
         )
 
 
@@ -117,7 +118,8 @@ class BaseEventHandler(EventSubscriber, ABC):
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     CREATE TABLE IF NOT EXISTS handler_state (
                         handler_id TEXT PRIMARY KEY,
                         last_processed_offset INTEGER NOT NULL,
@@ -128,7 +130,8 @@ class BaseEventHandler(EventSubscriber, ABC):
                         total_events_processed INTEGER DEFAULT 0,
                         updated_at TEXT NOT NULL
                     )
-                """)
+                """
+                )
 
                 conn.commit()
 
@@ -142,16 +145,19 @@ class BaseEventHandler(EventSubscriber, ABC):
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT last_processed_offset, processed_event_ids, error_count,
                            last_error, last_error_at, total_events_processed
                     FROM handler_state WHERE handler_id = ?
-                """, (self.handler_id,))
+                """,
+                    (self.handler_id,),
+                )
 
                 row = cursor.fetchone()
                 if row:
                     self.state.last_processed_offset = row[0]
-                    self.state.processed_event_ids = set(json.loads(row[1] or '[]'))
+                    self.state.processed_event_ids = set(json.loads(row[1] or "[]"))
                     self.state.error_count = row[2]
                     self.state.last_error = row[3]
                     self.state.last_error_at = row[4]
@@ -167,22 +173,25 @@ class BaseEventHandler(EventSubscriber, ABC):
             cursor = conn.cursor()
 
             try:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT OR REPLACE INTO handler_state (
                         handler_id, last_processed_offset, processed_event_ids,
                         error_count, last_error, last_error_at,
                         total_events_processed, updated_at
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    self.handler_id,
-                    self.state.last_processed_offset,
-                    json.dumps(list(self.state.processed_event_ids)),
-                    self.state.error_count,
-                    self.state.last_error,
-                    self.state.last_error_at,
-                    self.state.total_events_processed,
-                    datetime.now(timezone.utc).isoformat(),
-                ))
+                """,
+                    (
+                        self.handler_id,
+                        self.state.last_processed_offset,
+                        json.dumps(list(self.state.processed_event_ids)),
+                        self.state.error_count,
+                        self.state.last_error,
+                        self.state.last_error_at,
+                        self.state.total_events_processed,
+                        datetime.now(timezone.utc).isoformat(),
+                    ),
+                )
 
                 conn.commit()
 
@@ -247,13 +256,13 @@ class BaseEventHandler(EventSubscriber, ABC):
     def get_handler_metrics(self) -> Dict[str, Any]:
         """Get handler performance metrics"""
         return {
-            'handler_id': self.handler_id,
-            'last_processed_offset': self.state.last_processed_offset,
-            'total_events_processed': self.state.total_events_processed,
-            'current_error_count': self.state.error_count,
-            'last_error': self.state.last_error,
-            'last_error_at': self.state.last_error_at,
-            'processed_events_cache_size': len(self.state.processed_event_ids),
+            "handler_id": self.handler_id,
+            "last_processed_offset": self.state.last_processed_offset,
+            "total_events_processed": self.state.total_events_processed,
+            "current_error_count": self.state.error_count,
+            "last_error": self.state.last_error,
+            "last_error_at": self.state.last_error_at,
+            "processed_events_cache_size": len(self.state.processed_event_ids),
         }
 
 
@@ -288,7 +297,8 @@ class IdempotentConsentHandler(BaseEventHandler):
             cursor.execute("PRAGMA foreign_keys=ON;")
 
             # Consent records table (projection from events)
-            cursor.execute("""
+            cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS consent_records (
                     consent_id TEXT PRIMARY KEY,
                     lid TEXT NOT NULL,
@@ -314,7 +324,8 @@ class IdempotentConsentHandler(BaseEventHandler):
                     children_data INTEGER DEFAULT 0,
                     sensitive_data INTEGER DEFAULT 0
                 )
-            """)
+            """
+            )
 
             # Indexes for performance
             indexes = [
@@ -355,7 +366,8 @@ class IdempotentConsentHandler(BaseEventHandler):
         cursor = conn.cursor()
 
         try:
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT OR REPLACE INTO consent_records (
                     consent_id, lid, resource_type, scopes, purpose,
                     lawful_basis, consent_type, granted_at, expires_at,
@@ -364,28 +376,30 @@ class IdempotentConsentHandler(BaseEventHandler):
                     retention_period, automated_decision_making, profiling,
                     children_data, sensitive_data, is_active
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
-            """, (
-                event.consent_id,
-                event.lid,
-                event.resource_type,
-                json.dumps(event.scopes),
-                event.purpose,
-                event.lawful_basis,
-                event.consent_type.value,
-                event.granted_at,
-                event.expires_at,
-                json.dumps(event.data_categories),
-                json.dumps(event.third_parties),
-                json.dumps(event.processing_locations),
-                event.trace_id,
-                event.withdrawal_method,
-                json.dumps([right.value for right in event.data_subject_rights]),
-                event.retention_period,
-                1 if event.automated_decision_making else 0,
-                1 if event.profiling else 0,
-                1 if event.children_data else 0,
-                1 if event.sensitive_data else 0,
-            ))
+            """,
+                (
+                    event.consent_id,
+                    event.lid,
+                    event.resource_type,
+                    json.dumps(event.scopes),
+                    event.purpose,
+                    event.lawful_basis,
+                    event.consent_type.value,
+                    event.granted_at,
+                    event.expires_at,
+                    json.dumps(event.data_categories),
+                    json.dumps(event.third_parties),
+                    json.dumps(event.processing_locations),
+                    event.trace_id,
+                    event.withdrawal_method,
+                    json.dumps([right.value for right in event.data_subject_rights]),
+                    event.retention_period,
+                    1 if event.automated_decision_making else 0,
+                    1 if event.profiling else 0,
+                    1 if event.children_data else 0,
+                    1 if event.sensitive_data else 0,
+                ),
+            )
 
             conn.commit()
             logger.debug(f"Consent granted: {event.consent_id}")
@@ -405,11 +419,14 @@ class IdempotentConsentHandler(BaseEventHandler):
         cursor = conn.cursor()
 
         try:
-            cursor.execute("""
+            cursor.execute(
+                """
                 UPDATE consent_records
                 SET revoked_at = ?, is_active = 0
                 WHERE consent_id = ? AND lid = ?
-            """, (event.revoked_at, event.consent_id, event.lid))
+            """,
+                (event.revoked_at, event.consent_id, event.lid),
+            )
 
             if cursor.rowcount == 0:
                 logger.warning(f"No consent record found to revoke: {event.consent_id}")
@@ -429,7 +446,9 @@ class IdempotentConsentHandler(BaseEventHandler):
     async def _handle_consent_checked(self, event: ConsentCheckedEvent) -> bool:
         """Handle consent checked event - could update analytics/audit logs"""
         # For now, just log the check - could be extended for analytics
-        logger.debug(f"Consent checked for {event.lid}: {event.action} on {event.resource_type} - {'allowed' if event.allowed else 'denied'}")
+        logger.debug(
+            f"Consent checked for {event.lid}: {event.action} on {event.resource_type} - {'allowed' if event.allowed else 'denied'}"
+        )
         return True
 
 
@@ -460,7 +479,8 @@ class IdempotentTraceHandler(BaseEventHandler):
             cursor.execute("PRAGMA foreign_keys=ON;")
 
             # Lambda traces table (same schema as original)
-            cursor.execute("""
+            cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS lambda_traces (
                     trace_id TEXT PRIMARY KEY,
                     lid TEXT NOT NULL,
@@ -484,7 +504,8 @@ class IdempotentTraceHandler(BaseEventHandler):
                     chain_integrity TEXT,
                     FOREIGN KEY (parent_trace_id) REFERENCES lambda_traces(trace_id)
                 )
-            """)
+            """
+            )
 
             # Performance indexes
             indexes = [
@@ -525,7 +546,8 @@ class IdempotentTraceHandler(BaseEventHandler):
             trace_hash = event.compute_hash()
             signature = trace_hash[:32]  # Simplified signature
 
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT OR REPLACE INTO lambda_traces (
                     trace_id, lid, parent_trace_id, action, resource,
                     purpose, timestamp, policy_verdict, capability_token_id,
@@ -534,28 +556,30 @@ class IdempotentTraceHandler(BaseEventHandler):
                     triad_consciousness_aligned, triad_guardian_approved,
                     compliance_flags, chain_integrity
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                event.trace_id,
-                event.lid,
-                event.parent_trace_id,
-                event.action,
-                event.resource,
-                event.purpose,
-                event.timestamp,
-                event.policy_verdict.value,
-                event.capability_token_id,
-                json.dumps(event.context),
-                event.explanation_unl,
-                trace_hash,
-                signature,
-                time.time(),
-                event.glyph_signature,
-                1 if event.triad_validation.get("identity_verified", False) else 0,
-                1 if event.triad_validation.get("consciousness_aligned", False) else 0,
-                1 if event.triad_validation.get("guardian_approved", False) else 0,
-                json.dumps(event.compliance_flags),
-                event.chain_integrity,
-            ))
+            """,
+                (
+                    event.trace_id,
+                    event.lid,
+                    event.parent_trace_id,
+                    event.action,
+                    event.resource,
+                    event.purpose,
+                    event.timestamp,
+                    event.policy_verdict.value,
+                    event.capability_token_id,
+                    json.dumps(event.context),
+                    event.explanation_unl,
+                    trace_hash,
+                    signature,
+                    time.time(),
+                    event.glyph_signature,
+                    1 if event.triad_validation.get("identity_verified", False) else 0,
+                    1 if event.triad_validation.get("consciousness_aligned", False) else 0,
+                    1 if event.triad_validation.get("guardian_approved", False) else 0,
+                    json.dumps(event.compliance_flags),
+                    event.chain_integrity,
+                ),
+            )
 
             conn.commit()
             logger.debug(f"Trace created: {event.trace_id}")
@@ -654,15 +678,11 @@ class ConsentHandlerOrchestrator:
 
     def get_orchestrator_metrics(self) -> Dict[str, Any]:
         """Get metrics for all handlers"""
-        metrics = {
-            'total_handlers': len(self.handlers),
-            'running': self.running,
-            'handlers': []
-        }
+        metrics = {"total_handlers": len(self.handlers), "running": self.running, "handlers": []}
 
         for handler in self.handlers:
             handler_metrics = handler.get_handler_metrics()
-            metrics['handlers'].append(handler_metrics)
+            metrics["handlers"].append(handler_metrics)
 
         return metrics
 
@@ -674,17 +694,17 @@ class ConsentHandlerOrchestrator:
 
         for handler in self.handlers:
             metrics = handler.get_handler_metrics()
-            total_processed += metrics['total_events_processed']
-            total_errors += metrics['current_error_count']
+            total_processed += metrics["total_events_processed"]
+            total_errors += metrics["current_error_count"]
 
-            if metrics['current_error_count'] < 10:  # Threshold for healthy
+            if metrics["current_error_count"] < 10:  # Threshold for healthy
                 healthy_handlers += 1
 
         return {
-            'status': 'healthy' if healthy_handlers == len(self.handlers) else 'degraded',
-            'healthy_handlers': healthy_handlers,
-            'total_handlers': len(self.handlers),
-            'total_events_processed': total_processed,
-            'total_errors': total_errors,
-            'running': self.running,
+            "status": "healthy" if healthy_handlers == len(self.handlers) else "degraded",
+            "healthy_handlers": healthy_handlers,
+            "total_handlers": len(self.handlers),
+            "total_events_processed": total_processed,
+            "total_errors": total_errors,
+            "running": self.running,
         }

@@ -1,6 +1,6 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════════
-🌌 LUKHAS AI - Voice Narration System Tests  
+🌌 LUKHAS AI - Voice Narration System Tests
 ═══════════════════════════════════════════════════════════════════════════════════
 
 Test Module: test_voice_narration
@@ -46,9 +46,9 @@ class TestVoiceNarratorProtocol(unittest.TestCase):
         narrator = EnhancedVoiceNarrator(ENHANCED_TTS_CONFIG.copy())
 
         # Should implement all protocol methods
-        self.assertTrue(hasattr(narrator, 'narrate'))
-        self.assertTrue(hasattr(narrator, 'is_available'))
-        self.assertTrue(hasattr(narrator, 'get_voice_settings'))
+        self.assertTrue(hasattr(narrator, "narrate"))
+        self.assertTrue(hasattr(narrator, "is_available"))
+        self.assertTrue(hasattr(narrator, "get_voice_settings"))
 
         # Should be callable
         self.assertTrue(callable(narrator.narrate))
@@ -60,9 +60,9 @@ class TestVoiceNarratorProtocol(unittest.TestCase):
         narrator = StubVoiceNarrator(TTS_CONFIG.copy())
 
         # Should implement core protocol methods
-        self.assertTrue(hasattr(narrator, 'narrate'))
-        self.assertTrue(hasattr(narrator, 'is_available'))
-        self.assertTrue(hasattr(narrator, 'get_voice_settings'))
+        self.assertTrue(hasattr(narrator, "narrate"))
+        self.assertTrue(hasattr(narrator, "is_available"))
+        self.assertTrue(hasattr(narrator, "get_voice_settings"))
 
 
 class TestEnhancedVoiceNarratorInitialization(unittest.TestCase):
@@ -95,7 +95,7 @@ class TestEnhancedVoiceNarratorInitialization(unittest.TestCase):
             "engine": "elevenlabs",
             "voice_id": "CUSTOM-VOICE",
             "consciousness_level": "basic",
-            "api_key": "test-key"
+            "api_key": "test-key",
         }
 
         narrator = EnhancedVoiceNarrator(config)
@@ -139,18 +139,14 @@ class TestVoiceNarratorAvailability(unittest.TestCase):
         config = {"engine": "elevenlabs", "enabled": True}
         narrator = EnhancedVoiceNarrator(config)
 
-        with patch('logging.Logger.warning') as mock_warning:
+        with patch("logging.Logger.warning") as mock_warning:
             available = narrator.is_available()
             self.assertFalse(available)
             mock_warning.assert_called_once()
 
     def test_elevenlabs_availability_with_key(self):
         """Test ElevenLabs availability with API key"""
-        config = {
-            "engine": "elevenlabs",
-            "enabled": True,
-            "api_key": "test-key-123"
-        }
+        config = {"engine": "elevenlabs", "enabled": True, "api_key": "test-key-123"}
         narrator = EnhancedVoiceNarrator(config)
 
         self.assertTrue(narrator.is_available())
@@ -164,11 +160,7 @@ class TestVoiceNarratorAvailability(unittest.TestCase):
 
     def test_azure_availability_with_key(self):
         """Test Azure availability with API key"""
-        config = {
-            "engine": "azure",
-            "enabled": True,
-            "azure_key": "test-azure-key"
-        }
+        config = {"engine": "azure", "enabled": True, "azure_key": "test-azure-key"}
         narrator = EnhancedVoiceNarrator(config)
 
         self.assertTrue(narrator.is_available())
@@ -187,7 +179,7 @@ class TestVoiceNarratorNarration(unittest.TestCase):
         text = "Test narration message"
         metadata = {"dream_id": "test-001", "priority": "normal"}
 
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             self.narrator.narrate(text, metadata)
 
         # Verify narration was processed
@@ -203,13 +195,9 @@ class TestVoiceNarratorNarration(unittest.TestCase):
     def test_consciousness_aware_narration(self):
         """Test consciousness-aware narration formatting"""
         text = "Advanced consciousness message"
-        metadata = {
-            "dream_id": "consciousness-001",
-            "consciousness_level": "advanced",
-            "priority": "high"
-        }
+        metadata = {"dream_id": "consciousness-001", "consciousness_level": "advanced", "priority": "high"}
 
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             self.narrator.narrate(text, metadata)
 
         # Should use advanced consciousness formatting
@@ -219,8 +207,7 @@ class TestVoiceNarratorNarration(unittest.TestCase):
         """Test narration when disabled"""
         self.narrator.enabled = False
 
-        with patch('builtins.print') as mock_print, \
-             patch('logging.Logger.debug') as mock_debug:
+        with patch("builtins.print") as mock_print, patch("logging.Logger.debug") as mock_debug:
 
             self.narrator.narrate("Test", {"dream_id": "test"})
 
@@ -234,18 +221,13 @@ class TestVoiceNarratorNarration(unittest.TestCase):
 
     def test_narration_with_elevenlabs_engine(self):
         """Test narration with ElevenLabs engine"""
-        config = {
-            "engine": "elevenlabs",
-            "enabled": True,
-            "api_key": "test-key"
-        }
+        config = {"engine": "elevenlabs", "enabled": True, "api_key": "test-key"}
         narrator = EnhancedVoiceNarrator(config)
 
         text = "ElevenLabs test message"
         metadata = {"dream_id": "elevenlabs-001"}
 
-        with patch('builtins.print') as mock_print, \
-             patch('logging.Logger.info') as mock_info:
+        with patch("builtins.print") as mock_print, patch("logging.Logger.info") as mock_info:
 
             narrator.narrate(text, metadata)
 
@@ -255,18 +237,13 @@ class TestVoiceNarratorNarration(unittest.TestCase):
 
     def test_narration_with_azure_engine(self):
         """Test narration with Azure engine"""
-        config = {
-            "engine": "azure",
-            "enabled": True,
-            "azure_key": "test-azure-key"
-        }
+        config = {"engine": "azure", "enabled": True, "azure_key": "test-azure-key"}
         narrator = EnhancedVoiceNarrator(config)
 
         text = "Azure test message"
         metadata = {"dream_id": "azure-001"}
 
-        with patch('builtins.print') as mock_print, \
-             patch('logging.Logger.info') as mock_info:
+        with patch("builtins.print") as mock_print, patch("logging.Logger.info") as mock_info:
 
             narrator.narrate(text, metadata)
 
@@ -277,8 +254,8 @@ class TestVoiceNarratorNarration(unittest.TestCase):
     def test_narration_error_handling(self):
         """Test narration error handling and fallback"""
         # Force an error in the narration process
-        with patch.object(self.narrator, '_narrate_internal', side_effect=Exception("Test error")) as mock_internal:
-            with patch('logging.Logger.error') as mock_error:
+        with patch.object(self.narrator, "_narrate_internal", side_effect=Exception("Test error")) as mock_internal:
+            with patch("logging.Logger.error") as mock_error:
                 self.narrator.narrate("Test", {"dream_id": "error-test"})
 
         # Should log error and update failed stats
@@ -340,7 +317,7 @@ class TestVoiceNarratorQueueManagement(unittest.TestCase):
         self.assertEqual(len(self.narrator.narration_queue), 3)
 
         # Process queue
-        with patch.object(self.narrator, 'narrate') as mock_narrate:
+        with patch.object(self.narrator, "narrate") as mock_narrate:
             self.narrator.process_queue()
 
         # Verify all items processed
@@ -358,7 +335,7 @@ class TestVoiceNarratorQueueManagement(unittest.TestCase):
         self.narrator.queue_narration("Test 2", {"dream_id": "2"})
 
         # Process one narration to update stats
-        with patch('builtins.print'):
+        with patch("builtins.print"):
             self.narrator.narrate("Direct", {"dream_id": "direct"})
 
         status = self.narrator.get_queue_status()
@@ -377,21 +354,13 @@ class TestVoiceNarratorSettings(unittest.TestCase):
 
     def test_get_voice_settings_basic(self):
         """Test getting basic voice settings"""
-        config = {
-            "engine": "internal",
-            "voice_id": "TEST-VOICE",
-            "consciousness_level": "basic",
-            "enabled": True
-        }
+        config = {"engine": "internal", "voice_id": "TEST-VOICE", "consciousness_level": "basic", "enabled": True}
         narrator = EnhancedVoiceNarrator(config)
 
         settings = narrator.get_voice_settings()
 
         # Verify all expected fields
-        expected_fields = [
-            "engine", "voice_id", "consciousness_level",
-            "enabled", "available", "stats"
-        ]
+        expected_fields = ["engine", "voice_id", "consciousness_level", "enabled", "available", "stats"]
         for field in expected_fields:
             self.assertIn(field, settings)
 
@@ -407,7 +376,7 @@ class TestVoiceNarratorSettings(unittest.TestCase):
         narrator = EnhancedVoiceNarrator(ENHANCED_TTS_CONFIG.copy())
 
         # Perform some narrations
-        with patch('builtins.print'):
+        with patch("builtins.print"):
             narrator.narrate("Test 1", {"dream_id": "1"})
             narrator.narrate("Test 2", {"dream_id": "2"})
 
@@ -427,7 +396,7 @@ class TestStubVoiceNarratorCompatibility(unittest.TestCase):
         """Test stub narrator initialization"""
         config = TTS_CONFIG.copy()
 
-        with patch('logging.Logger.warning') as mock_warning:
+        with patch("logging.Logger.warning") as mock_warning:
             narrator = StubVoiceNarrator(config)
 
         # Should warn about using legacy implementation
@@ -442,8 +411,7 @@ class TestStubVoiceNarratorCompatibility(unittest.TestCase):
         text = "Legacy test message"
         metadata = {"dream_id": "legacy-001"}
 
-        with patch('builtins.print') as mock_print, \
-             patch('logging.Logger.info') as mock_info:
+        with patch("builtins.print") as mock_print, patch("logging.Logger.info") as mock_info:
 
             narrator.narrate(text, metadata)
 
@@ -477,7 +445,7 @@ class TestVoiceNarratorPerformance(unittest.TestCase):
 
         start_time = time.time()
 
-        with patch('builtins.print'):
+        with patch("builtins.print"):
             for i in range(100):
                 narrator.narrate(f"Message {i}", {"dream_id": f"perf-{i}"})
 
@@ -502,7 +470,7 @@ class TestVoiceNarratorPerformance(unittest.TestCase):
 
         start_time = time.time()
 
-        with patch.object(narrator, 'narrate'):
+        with patch.object(narrator, "narrate"):
             narrator.process_queue()
 
         end_time = time.time()

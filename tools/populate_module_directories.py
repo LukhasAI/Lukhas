@@ -33,11 +33,11 @@ class ModuleDirectoryPopulator:
             module_name = module_path.name
 
             # Skip certain directories
-            if module_name in ['__pycache__', '.git', 'node_modules']:
+            if module_name in ["__pycache__", ".git", "node_modules"]:
                 continue
 
             try:
-                with open(manifest_file, 'r', encoding='utf-8') as f:
+                with open(manifest_file, "r", encoding="utf-8") as f:
                     manifest = json.load(f)
 
                 populated = self.populate_module_directories(module_path, manifest)
@@ -93,7 +93,7 @@ class ModuleDirectoryPopulator:
         config_file = config_dir / "config.yaml"
         if not config_file.exists() or self._is_placeholder_content(config_file):
             config_content = self._generate_module_config(module_name, manifest)
-            with open(config_file, 'w', encoding='utf-8') as f:
+            with open(config_file, "w", encoding="utf-8") as f:
                 yaml.dump(config_content, f, default_flow_style=False, sort_keys=False)
             populated = True
 
@@ -101,7 +101,7 @@ class ModuleDirectoryPopulator:
         env_config = config_dir / "environment.yaml"
         if not env_config.exists():
             env_content = self._generate_environment_config(module_name, manifest)
-            with open(env_config, 'w', encoding='utf-8') as f:
+            with open(env_config, "w", encoding="utf-8") as f:
                 yaml.dump(env_content, f, default_flow_style=False, sort_keys=False)
             populated = True
 
@@ -109,7 +109,7 @@ class ModuleDirectoryPopulator:
         logging_config = config_dir / "logging.yaml"
         if not logging_config.exists():
             logging_content = self._generate_logging_config(module_name, manifest)
-            with open(logging_config, 'w', encoding='utf-8') as f:
+            with open(logging_config, "w", encoding="utf-8") as f:
                 yaml.dump(logging_content, f, default_flow_style=False, sort_keys=False)
             populated = True
 
@@ -117,7 +117,7 @@ class ModuleDirectoryPopulator:
         readme_file = config_dir / "README.md"
         if readme_file.exists() and self._is_placeholder_content(readme_file):
             readme_content = self._generate_config_readme(module_name, manifest)
-            with open(readme_file, 'w', encoding='utf-8') as f:
+            with open(readme_file, "w", encoding="utf-8") as f:
                 f.write(readme_content)
             populated = True
 
@@ -131,7 +131,7 @@ class ModuleDirectoryPopulator:
         api_doc = docs_dir / "api.md"
         if not api_doc.exists():
             api_content = self._generate_api_documentation(module_name, manifest)
-            with open(api_doc, 'w', encoding='utf-8') as f:
+            with open(api_doc, "w", encoding="utf-8") as f:
                 f.write(api_content)
             populated = True
 
@@ -139,7 +139,7 @@ class ModuleDirectoryPopulator:
         arch_doc = docs_dir / "architecture.md"
         if not arch_doc.exists():
             arch_content = self._generate_architecture_documentation(module_name, manifest)
-            with open(arch_doc, 'w', encoding='utf-8') as f:
+            with open(arch_doc, "w", encoding="utf-8") as f:
                 f.write(arch_content)
             populated = True
 
@@ -147,7 +147,7 @@ class ModuleDirectoryPopulator:
         troubleshoot_doc = docs_dir / "troubleshooting.md"
         if not troubleshoot_doc.exists():
             troubleshoot_content = self._generate_troubleshooting_guide(module_name, manifest)
-            with open(troubleshoot_doc, 'w', encoding='utf-8') as f:
+            with open(troubleshoot_doc, "w", encoding="utf-8") as f:
                 f.write(troubleshoot_content)
             populated = True
 
@@ -155,7 +155,7 @@ class ModuleDirectoryPopulator:
         readme_file = docs_dir / "README.md"
         if readme_file.exists() and self._is_placeholder_content(readme_file):
             readme_content = self._generate_docs_readme(module_name, manifest)
-            with open(readme_file, 'w', encoding='utf-8') as f:
+            with open(readme_file, "w", encoding="utf-8") as f:
                 f.write(readme_content)
             populated = True
 
@@ -169,7 +169,7 @@ class ModuleDirectoryPopulator:
         test_config = tests_dir / "conftest.py"
         if not test_config.exists():
             config_content = self._generate_test_config(module_name, manifest)
-            with open(test_config, 'w', encoding='utf-8') as f:
+            with open(test_config, "w", encoding="utf-8") as f:
                 f.write(config_content)
             populated = True
 
@@ -177,7 +177,7 @@ class ModuleDirectoryPopulator:
         unit_test = tests_dir / f"test_{module_name}_unit.py"
         if not unit_test.exists():
             unit_content = self._generate_unit_test_template(module_name, manifest)
-            with open(unit_test, 'w', encoding='utf-8') as f:
+            with open(unit_test, "w", encoding="utf-8") as f:
                 f.write(unit_content)
             populated = True
 
@@ -185,7 +185,7 @@ class ModuleDirectoryPopulator:
         integration_test = tests_dir / f"test_{module_name}_integration.py"
         if not integration_test.exists():
             integration_content = self._generate_integration_test_template(module_name, manifest)
-            with open(integration_test, 'w', encoding='utf-8') as f:
+            with open(integration_test, "w", encoding="utf-8") as f:
                 f.write(integration_content)
             populated = True
 
@@ -193,7 +193,7 @@ class ModuleDirectoryPopulator:
         readme_file = tests_dir / "README.md"
         if readme_file.exists() and self._is_placeholder_content(readme_file):
             readme_content = self._generate_tests_readme(module_name, manifest)
-            with open(readme_file, 'w', encoding='utf-8') as f:
+            with open(readme_file, "w", encoding="utf-8") as f:
                 f.write(readme_content)
             populated = True
 
@@ -207,7 +207,7 @@ class ModuleDirectoryPopulator:
         icon_info = assets_dir / "icons.md"
         if not icon_info.exists():
             icon_content = self._generate_icon_documentation(module_name, manifest)
-            with open(icon_info, 'w', encoding='utf-8') as f:
+            with open(icon_info, "w", encoding="utf-8") as f:
                 f.write(icon_content)
             populated = True
 
@@ -219,7 +219,7 @@ class ModuleDirectoryPopulator:
             example_schema = schema_dir / f"{module_name}_example.json"
             if not example_schema.exists():
                 schema_content = self._generate_example_schema(module_name, manifest)
-                with open(example_schema, 'w', encoding='utf-8') as f:
+                with open(example_schema, "w", encoding="utf-8") as f:
                     json.dump(schema_content, f, indent=2)
                 populated = True
 
@@ -228,16 +228,10 @@ class ModuleDirectoryPopulator:
     def _is_placeholder_content(self, file_path: Path) -> bool:
         """Check if file contains placeholder content."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            placeholder_indicators = [
-                "This directory contains",
-                "placeholder",
-                "TODO",
-                "# Api Docs",
-                "# Api Config"
-            ]
+            placeholder_indicators = ["This directory contains", "placeholder", "TODO", "# Api Docs", "# Api Config"]
 
             return any(indicator in content for indicator in placeholder_indicators)
         except Exception as e:
@@ -252,14 +246,10 @@ class ModuleDirectoryPopulator:
             "module": {
                 "name": module_name,
                 "version": "1.0.0",
-                "description": manifest.get("description", f"LUKHAS {module_name} module")
+                "description": manifest.get("description", f"LUKHAS {module_name} module"),
             },
-            "runtime": {
-                "log_level": "INFO",
-                "debug_mode": False,
-                "performance_monitoring": True
-            },
-            "features": {}
+            "runtime": {"log_level": "INFO", "debug_mode": False, "performance_monitoring": True},
+            "features": {},
         }
 
         # Add feature flags based on module type
@@ -275,10 +265,7 @@ class ModuleDirectoryPopulator:
         if "authentication" in tags or "identity" in tags:
             config["features"]["webauthn_support"] = True
             config["features"]["oauth2_integration"] = True
-            config["security"] = {
-                "session_timeout": 3600,
-                "max_login_attempts": 5
-            }
+            config["security"] = {"session_timeout": 3600, "max_login_attempts": 5}
 
         if "orchestration" in tags:
             config["features"]["distributed_coordination"] = True
@@ -294,20 +281,20 @@ class ModuleDirectoryPopulator:
                     "debug": True,
                     "log_level": "DEBUG",
                     "database_url": f"sqlite:///./{module_name}_dev.db",
-                    "cache_ttl": 300
+                    "cache_ttl": 300,
                 },
                 "testing": {
                     "debug": False,
                     "log_level": "INFO",
                     "database_url": f"sqlite:///./{module_name}_test.db",
-                    "cache_ttl": 60
+                    "cache_ttl": 60,
                 },
                 "production": {
                     "debug": False,
                     "log_level": "WARNING",
                     "database_url": "${DATABASE_URL}",
-                    "cache_ttl": 3600
-                }
+                    "cache_ttl": 3600,
+                },
             }
         }
 
@@ -320,38 +307,24 @@ class ModuleDirectoryPopulator:
             "version": 1,
             "disable_existing_loggers": False,
             "formatters": {
-                "standard": {
-                    "format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-                },
-                "consciousness": {
-                    "format": "%(asctime)s [%(levelname)s] 🧠 %(name)s: %(message)s"
-                }
+                "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"},
+                "consciousness": {"format": "%(asctime)s [%(levelname)s] 🧠 %(name)s: %(message)s"},
             },
             "handlers": {
                 "console": {
                     "level": "INFO",
                     "class": "logging.StreamHandler",
-                    "formatter": "consciousness" if "consciousness" in manifest.get("tags", []) else "standard"
+                    "formatter": "consciousness" if "consciousness" in manifest.get("tags", []) else "standard",
                 },
                 "file": {
                     "level": "DEBUG",
                     "class": "logging.FileHandler",
                     "filename": f"logs/{module_name}.log",
-                    "formatter": "standard"
-                }
+                    "formatter": "standard",
+                },
             },
-            "loggers": {
-                module_name: {
-                    "handlers": ["console", "file"],
-                    "level": "DEBUG",
-                    "propagate": False
-                }
-            },
-            "observability": {
-                "spans": spans,
-                "metrics_enabled": True,
-                "tracing_enabled": True
-            }
+            "loggers": {module_name: {"handlers": ["console", "file"], "level": "DEBUG", "propagate": False}},
+            "observability": {"spans": spans, "metrics_enabled": True, "tracing_enabled": True},
         }
 
     def _generate_config_readme(self, module_name: str, manifest: Dict) -> str:
@@ -416,13 +389,13 @@ Set `LUKHAS_ENV` to override environment-specific settings:
 
         if entrypoints:
             # Group entrypoints
-            classes = [ep for ep in entrypoints if any(word in ep for word in ['Hub', 'System', 'Engine', 'Manager'])]
-            functions = [ep for ep in entrypoints if any(word in ep for word in ['create_', 'get_', 'process_'])]
+            classes = [ep for ep in entrypoints if any(word in ep for word in ["Hub", "System", "Engine", "Manager"])]
+            functions = [ep for ep in entrypoints if any(word in ep for word in ["create_", "get_", "process_"])]
 
             if classes:
                 content += "### Core Classes\n\n"
                 for cls in classes[:10]:
-                    class_name = cls.split('.')[-1]
+                    class_name = cls.split(".")[-1]
                     content += f"#### `{class_name}`\n\n"
                     content += f"**Import**: `from {cls.rsplit('.', 1)[0]} import {class_name}`\n\n"
                     content += "Core component for module operations.\n\n"
@@ -434,14 +407,15 @@ Set `LUKHAS_ENV` to override environment-specific settings:
             if functions:
                 content += "### Functions\n\n"
                 for func in functions[:10]:
-                    func_name = func.split('.')[-1]
+                    func_name = func.split(".")[-1]
                     content += f"#### `{func_name}()`\n\n"
                     content += f"**Import**: `from {func.rsplit('.', 1)[0]} import {func_name}`\n\n"
                     content += f"Function for {func_name.replace('_', ' ')} operations.\n\n"
         else:
             content += "No public entrypoints defined.\n\n"
 
-        content += """## Error Handling
+        content += (
+            """## Error Handling
 
 All API functions follow LUKHAS error handling patterns:
 
@@ -459,7 +433,9 @@ except Exception as e:
 ## Examples
 
 ```python
-import """ + module_name + """
+import """
+            + module_name
+            + """
 
 # Basic usage example
 # Initialize module
@@ -467,6 +443,7 @@ import """ + module_name + """
 # Handle results
 ```
 """
+        )
 
         return content
 
@@ -797,8 +774,8 @@ if __name__ == "__main__":
 
         # Get first few entrypoints for testing
         for entrypoint in entrypoints[:3]:
-            if '.' in entrypoint:
-                module_part, class_name = entrypoint.rsplit('.', 1)
+            if "." in entrypoint:
+                module_part, class_name = entrypoint.rsplit(".", 1)
                 test_code += f'''
 
 class Test{class_name}(unittest.TestCase):
@@ -1037,16 +1014,16 @@ Target coverage: 85%+
 
         # Get module symbol
         symbol_map = {
-            'consciousness': '🧠',
-            'memory': '📜',
-            'identity': '⚛️',
-            'governance': '⚖️',
-            'brain': '🧠',
-            'api': '🌐',
-            'orchestration': '🎼'
+            "consciousness": "🧠",
+            "memory": "📜",
+            "identity": "⚛️",
+            "governance": "⚖️",
+            "brain": "🧠",
+            "api": "🌐",
+            "orchestration": "🎼",
         }
 
-        symbol = symbol_map.get(module_name, '✨')
+        symbol = symbol_map.get(module_name, "✨")
 
         return f"""# {module_name.title()} Module Assets
 
@@ -1130,20 +1107,20 @@ Based on LUKHAS consciousness design system:
                     "properties": {
                         "name": {"type": "string", "const": module_name},
                         "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
-                        "status": {"type": "string", "enum": ["active", "inactive", "error"]}
+                        "status": {"type": "string", "enum": ["active", "inactive", "error"]},
                     },
-                    "required": ["name", "version", "status"]
+                    "required": ["name", "version", "status"],
                 },
                 "configuration": {
                     "type": "object",
                     "properties": {
                         "log_level": {"type": "string", "enum": ["DEBUG", "INFO", "WARNING", "ERROR"]},
                         "debug_mode": {"type": "boolean"},
-                        "features": {"type": "object"}
-                    }
-                }
+                        "features": {"type": "object"},
+                    },
+                },
             },
-            "required": ["module_info"]
+            "required": ["module_info"],
         }
 
         # Add module-specific properties
@@ -1152,8 +1129,8 @@ Based on LUKHAS consciousness design system:
                 "type": "object",
                 "properties": {
                     "awareness_level": {"type": "number", "minimum": 0, "maximum": 1},
-                    "processing_mode": {"type": "string", "enum": ["passive", "active", "enhanced"]}
-                }
+                    "processing_mode": {"type": "string", "enum": ["passive", "active", "enhanced"]},
+                },
             }
 
         if "memory" in tags:
@@ -1161,15 +1138,15 @@ Based on LUKHAS consciousness design system:
                 "type": "object",
                 "properties": {
                     "fold_count": {"type": "integer", "minimum": 0},
-                    "memory_usage": {"type": "number", "minimum": 0}
-                }
+                    "memory_usage": {"type": "number", "minimum": 0},
+                },
             }
 
         if entrypoints:
             schema["properties"]["entrypoints"] = {
                 "type": "array",
                 "items": {"type": "string"},
-                "examples": [entrypoints[:3]]
+                "examples": [entrypoints[:3]],
             }
 
         return schema

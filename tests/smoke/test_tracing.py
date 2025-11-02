@@ -6,6 +6,7 @@ Validates:
 - Span creation and attribute setting
 - Graceful degradation when OTEL disabled
 """
+
 import os
 
 from serve.main import app
@@ -24,8 +25,9 @@ def test_trace_headers_present_when_otel_enabled(monkeypatch):
     r = client.post("/v1/responses", headers=AUTH_HEADERS, json={"input": "trace me"})
 
     # Should have X-Trace-Id header
-    assert "X-Trace-Id" in r.headers or "trace_id" in (r.json() or {}), \
-        "Expected X-Trace-Id header when OTEL is configured"
+    assert "X-Trace-Id" in r.headers or "trace_id" in (
+        r.json() or {}
+    ), "Expected X-Trace-Id header when OTEL is configured"
 
     # If X-Trace-Id present, should be 32-char hex string
     if "X-Trace-Id" in r.headers:

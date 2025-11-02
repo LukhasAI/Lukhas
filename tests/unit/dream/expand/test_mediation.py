@@ -13,6 +13,7 @@ def test_mediate_creates_compromise():
     assert result["compromise"]["confidence"] == 0.5
     assert result["compromise"]["joy"] == 0.5
 
+
 def test_mediate_handles_missing_keys():
     a = {"confidence": 0.8}
     b = {"joy": 0.4}

@@ -30,50 +30,42 @@ logger = logging.getLogger(__name__)
 # Prometheus metrics for telemetry
 try:
     from prometheus_client import Counter, Histogram
+
     METRICS_AVAILABLE = True
 except ImportError:
     # Graceful fallback for test environments
     class _NoopMetric:
-        def inc(self, *args, **kwargs): pass
-        def observe(self, *args, **kwargs): pass
-        def labels(self, *args, **kwargs): return self
+        def inc(self, *args, **kwargs):
+            pass
+
+        def observe(self, *args, **kwargs):
+            pass
+
+        def labels(self, *args, **kwargs):
+            return self
+
     Counter = Histogram = lambda *args, **kwargs: _NoopMetric()
     METRICS_AVAILABLE = False
 
 # Ethics engine metrics
 ETHICS_EVALUATIONS = Counter(
-    'ethics_evaluations_total',
-    'Total ethics rule evaluations',
-    ['result']  # allow, warn, block
+    "ethics_evaluations_total", "Total ethics rule evaluations", ["result"]  # allow, warn, block
 )
 
-ETHICS_RULE_HITS = Counter(
-    'ethics_rule_hits_total',
-    'Ethics rule hits by name',
-    ['rule_name', 'action']
-)
+ETHICS_RULE_HITS = Counter("ethics_rule_hits_total", "Ethics rule hits by name", ["rule_name", "action"])
 
 ETHICS_DURATION = Histogram(
-    'ethics_evaluation_ms',
-    'Ethics evaluation duration in milliseconds',
-    buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
+    "ethics_evaluation_ms", "Ethics evaluation duration in milliseconds", buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
 )
 
-ETHICS_RULESET_HASH = Counter(
-    'ethics_ruleset_hash',
-    'Current ethics ruleset hash',
-    ['hash']
-)
+ETHICS_RULESET_HASH = Counter("ethics_ruleset_hash", "Current ethics ruleset hash", ["hash"])
 
-ETHICS_RULE_FIRES = Counter(
-    'ethics_rule_fires_total',
-    'Total ethics rule fires by rule ID',
-    ['rule_id', 'action']
-)
+ETHICS_RULE_FIRES = Counter("ethics_rule_fires_total", "Total ethics rule fires by rule ID", ["rule_id", "action"])
 
 
 class EthicsAction(Enum):
     """Ethics evaluation actions."""
+
     ALLOW = "allow"
     WARN = "warn"
     BLOCK = "block"
@@ -81,6 +73,7 @@ class EthicsAction(Enum):
 
 class Priority(Enum):
     """Rule priority levels."""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -89,6 +82,7 @@ class Priority(Enum):
 
 class ReasonCode(Enum):
     """Standardized reason codes for ethics violations."""
+
     # Security violations (ETH#1000-1999)
     HARMFUL_ACTION = "ETH#1001"
     DATA_EXFILTRATION = "ETH#1002"
@@ -115,25 +109,25 @@ class ReasonCode(Enum):
     UNKNOWN = "ETH#9999"
 
     @classmethod
-    def from_rule_name(cls, rule_name: str) -> 'ReasonCode':
+    def from_rule_name(cls, rule_name: str) -> "ReasonCode":
         """Map rule name to reason code."""
         mapping = {
-            'block_harmful_actions': cls.HARMFUL_ACTION,
-            'block_data_exfiltration': cls.DATA_EXFILTRATION,
-            'block_manipulation_attempts': cls.MANIPULATION_ATTEMPT,
-            'block_untrusted_domains': cls.UNTRUSTED_DOMAIN,
-            'block_privilege_escalation': cls.PRIVILEGE_ESCALATION,
-            'block_user_impersonation': cls.USER_IMPERSONATION,
-            'block_excessive_resources': cls.EXCESSIVE_MEMORY,
-            'warn_external_api_calls': cls.EXTERNAL_API_CALL,
-            'warn_user_data_access': cls.USER_DATA_ACCESS,
-            'warn_large_batch_operations': cls.LARGE_BATCH_OPERATION,
-            'warn_long_running_tasks': cls.LONG_RUNNING_TASK,
-            'warn_recursive_operations': cls.RECURSIVE_OPERATION,
-            'warn_missing_user_context': cls.MISSING_USER_CONTEXT,
-            'warn_debug_actions': cls.DEBUG_ACTION,
+            "block_harmful_actions": cls.HARMFUL_ACTION,
+            "block_data_exfiltration": cls.DATA_EXFILTRATION,
+            "block_manipulation_attempts": cls.MANIPULATION_ATTEMPT,
+            "block_untrusted_domains": cls.UNTRUSTED_DOMAIN,
+            "block_privilege_escalation": cls.PRIVILEGE_ESCALATION,
+            "block_user_impersonation": cls.USER_IMPERSONATION,
+            "block_excessive_resources": cls.EXCESSIVE_MEMORY,
+            "warn_external_api_calls": cls.EXTERNAL_API_CALL,
+            "warn_user_data_access": cls.USER_DATA_ACCESS,
+            "warn_large_batch_operations": cls.LARGE_BATCH_OPERATION,
+            "warn_long_running_tasks": cls.LONG_RUNNING_TASK,
+            "warn_recursive_operations": cls.RECURSIVE_OPERATION,
+            "warn_missing_user_context": cls.MISSING_USER_CONTEXT,
+            "warn_debug_actions": cls.DEBUG_ACTION,
             # Test rules
-            'test_rule': cls.HARMFUL_ACTION,
+            "test_rule": cls.HARMFUL_ACTION,
         }
         return mapping.get(rule_name, cls.UNKNOWN)
 
@@ -141,6 +135,7 @@ class ReasonCode(Enum):
 @dataclass
 class EthicsRule:
     """Individual ethics rule."""
+
     name: str
     description: str
     rule_dsl: str
@@ -184,6 +179,7 @@ class EthicsRule:
 @dataclass
 class EthicsResult:
     """Result of ethics evaluation."""
+
     action: EthicsAction
     triggered_rules: List[EthicsRule]
     evaluation_time_ms: float
@@ -225,11 +221,7 @@ class RuleSet:
 
         logger.info(f"RuleSet initialized with {len(self.rules)} rules, hash={self.ruleset_hash[:8]}")
 
-    def evaluate(
-        self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
-    ) -> EthicsResult:
+    def evaluate(self, plan: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> EthicsResult:
         """
         Evaluate plan against all rules with priority lattice.
 
@@ -272,14 +264,8 @@ class RuleSet:
 
                         # Record enhanced metrics
                         if METRICS_AVAILABLE:
-                            ETHICS_RULE_HITS.labels(
-                                rule_name=rule.name,
-                                action=rule.action.value
-                            ).inc()
-                            ETHICS_RULE_FIRES.labels(
-                                rule_id=rule.name,
-                                action=rule.action.value
-                            ).inc()
+                            ETHICS_RULE_HITS.labels(rule_name=rule.name, action=rule.action.value).inc()
+                            ETHICS_RULE_FIRES.labels(rule_id=rule.name, action=rule.action.value).inc()
 
                 except Exception as e:
                     logger.error(f"Error evaluating rule {rule.name}: {e}")
@@ -291,10 +277,7 @@ class RuleSet:
             evaluation_time_ms = (time.perf_counter() - start_time) * 1000
 
             # Generate facts hash from plan and context
-            facts_content = sorted([
-                ('plan', sorted(plan.items())),
-                ('context', sorted(context.items()))
-            ])
+            facts_content = sorted([("plan", sorted(plan.items())), ("context", sorted(context.items()))])
             facts_hash = hash_rule(str(facts_content))
 
             # Extract triggered rule IDs for RCA
@@ -307,7 +290,7 @@ class RuleSet:
                 plan_hash=plan_hash,
                 reasons=reasons if reasons else ["allow: no_rules_triggered"],
                 facts_hash=facts_hash,
-                triggered_rule_ids=triggered_rule_ids
+                triggered_rule_ids=triggered_rule_ids,
             )
 
             # Record metrics
@@ -334,7 +317,7 @@ class RuleSet:
                 plan_hash=plan_hash,
                 reasons=[f"block: evaluation_error ({str(e)})"],
                 facts_hash="error",
-                triggered_rule_ids=[]
+                triggered_rule_ids=[],
             )
 
             if METRICS_AVAILABLE:
@@ -371,11 +354,7 @@ class EthicsEngine:
 
         logger.info("EthicsEngine initialized")
 
-    def evaluate_plan(
-        self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
-    ) -> EthicsResult:
+    def evaluate_plan(self, plan: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> EthicsResult:
         """
         Evaluate action plan against ethics rules.
 
@@ -390,15 +369,15 @@ class EthicsEngine:
 
         # Record in audit trail with enhanced data
         audit_entry = {
-            'timestamp': time.time(),
-            'plan_hash': result.plan_hash,
-            'facts_hash': result.facts_hash,
-            'action': result.action.value,
-            'triggered_rules': result.triggered_rule_ids,
-            'reason_codes': result.reason_codes,
-            'evaluation_time_ms': result.evaluation_time_ms,
-            'reasons': result.reasons,
-            'ruleset_hash': self.rule_set.ruleset_hash
+            "timestamp": time.time(),
+            "plan_hash": result.plan_hash,
+            "facts_hash": result.facts_hash,
+            "action": result.action.value,
+            "triggered_rules": result.triggered_rule_ids,
+            "reason_codes": result.reason_codes,
+            "evaluation_time_ms": result.evaluation_time_ms,
+            "reasons": result.reasons,
+            "ruleset_hash": self.rule_set.ruleset_hash,
         }
         self.evaluation_history.append(audit_entry)
 
@@ -408,11 +387,7 @@ class EthicsEngine:
 
         return result
 
-    def is_plan_allowed(
-        self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
-    ) -> bool:
+    def is_plan_allowed(self, plan: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> bool:
         """
         Check if plan is allowed (not blocked).
 
@@ -429,15 +404,13 @@ class EthicsEngine:
     def get_stats(self) -> Dict[str, Any]:
         """Get engine statistics."""
         return {
-            'total_rules': len(self.rule_set.rules),
-            'rules_by_action': {
-                action.value: len(self.rule_set.get_rules_by_action(action))
-                for action in EthicsAction
+            "total_rules": len(self.rule_set.rules),
+            "rules_by_action": {
+                action.value: len(self.rule_set.get_rules_by_action(action)) for action in EthicsAction
             },
-            'rules_by_priority': {
-                priority.name: len(self.rule_set.get_rules_by_priority(priority))
-                for priority in Priority
+            "rules_by_priority": {
+                priority.name: len(self.rule_set.get_rules_by_priority(priority)) for priority in Priority
             },
-            'evaluation_history_size': len(self.evaluation_history),
-            'recent_evaluations': self.evaluation_history[-10:] if self.evaluation_history else []
+            "evaluation_history_size": len(self.evaluation_history),
+            "recent_evaluations": self.evaluation_history[-10:] if self.evaluation_history else [],
         }

@@ -1,4 +1,5 @@
 """Compatibility layer for the LUKHAS endocrine system in labs lane."""
+
 from __future__ import annotations
 
 from core.endocrine.hormone_system import (

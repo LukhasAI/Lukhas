@@ -5,7 +5,6 @@ Symbolic Kernel Bus Integration Examples
 Common patterns for using the new kernel bus in LUKHΛS components.
 """
 
-
 from orchestration.symbolic_kernel_bus import (
     EventPriority,
     SymbolicEffect,
@@ -57,7 +56,8 @@ def load_plugin(plugin_name: str, config: dict):
 
 def handle_memory_event(event):
     """Handle memory-related events"""
-    print(f"Memory event: {event.event_type}",
+    print(
+        f"Memory event: {event.event_type}",
         source="dream.engine",
         effects=[SymbolicEffect.DREAM_TRIGGER, SymbolicEffect.MEMORY_FOLD],
         correlation_id=dream_id,

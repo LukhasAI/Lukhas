@@ -6,6 +6,7 @@ Authentication middleware for the unified API gateway.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
+
 import logging
 from typing import Any, Optional
 

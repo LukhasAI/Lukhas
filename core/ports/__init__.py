@@ -13,6 +13,7 @@ Available Protocols:
 
 Part of T4 quality initiative for maintainable, testable architecture.
 """
+
 from core.ports.openai_provider import (
     ChatMessage,
     ChatCompletionResponse,

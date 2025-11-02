@@ -41,7 +41,7 @@ class SymbolicReasoningColony(BaseColony):
             "cache_hits": 0,
             "cache_misses": 0,
             "average_propagation_time_ms": 0.0,
-            "optimization_saves_ms": 0.0
+            "optimization_saves_ms": 0.0,
         }
 
         # Caching for expensive operations
@@ -62,26 +62,16 @@ class SymbolicReasoningColony(BaseColony):
             mesh_agent = self.mesh_service.register_agent(
                 node_type="symbolic_reasoning",
                 capabilities=["belief_propagation", "symbolic_inference", "performance_optimization"],
-                metadata={
-                    "colony_id": colony_id,
-                    "node_index": i,
-                    "performance_tier": "optimized"
-                }
+                metadata={"colony_id": colony_id, "node_index": i, "performance_tier": "optimized"},
             )
 
             # Register with local colony
             self.register_agent(
                 mesh_agent.agent_id,
-                {
-                    "mesh_agent": mesh_agent,
-                    "node_type": mesh_agent.node_type,
-                    "capabilities": mesh_agent.capabilities
-                }
+                {"mesh_agent": mesh_agent, "node_type": mesh_agent.node_type, "capabilities": mesh_agent.capabilities},
             )
 
-        logger.info(
-            f"Colony {colony_id} initialized with {len(self.agents)} agents from mesh registry"
-        )
+        logger.info(f"Colony {colony_id} initialized with {len(self.agents)} agents from mesh registry")
 
     def process(self, task: Any) -> dict[str, Any]:
         """Process a consciousness task using GLYPH symbolic reasoning"""
@@ -100,7 +90,7 @@ class SymbolicReasoningColony(BaseColony):
                 self.mesh_service.update_agent_metrics(
                     agent_id,
                     drift_delta=drift_delta / len(self.agents),
-                    affect_delta=0.01  # Small affect change per task
+                    affect_delta=0.01,  # Small affect change per task
                 )
 
         # Create consciousness processing result with mesh metadata
@@ -111,7 +101,7 @@ class SymbolicReasoningColony(BaseColony):
             "mesh_generation": self.mesh_generation,
             "agent_count": len(self.agents),
             "drift_score": self.drift_score,
-            "mesh_metrics": self.mesh_service.get_mesh_metrics()
+            "mesh_metrics": self.mesh_service.get_mesh_metrics(),
         }
 
         logger.debug(f"Consciousness task processed by colony {self.colony_id}")
@@ -135,9 +125,7 @@ class SymbolicReasoningColony(BaseColony):
         # Synchronize consensus affect_delta with mesh topology
         for agent_id in self.agents.keys():
             self.mesh_service.update_agent_metrics(
-                agent_id,
-                drift_delta=0.0,
-                affect_delta=affect_change / len(self.agents)
+                agent_id, drift_delta=0.0, affect_delta=affect_change / len(self.agents)
             )
 
         return ConsensusResult(
@@ -147,7 +135,7 @@ class SymbolicReasoningColony(BaseColony):
             votes=votes,
             participation_rate=participation_rate,
             drift_score=self.drift_score,
-            affect_delta=self.affect_delta
+            affect_delta=self.affect_delta,
         )
 
     async def propagate_belief(self, initial_belief: dict[str, Any]) -> dict[str, float]:
@@ -204,11 +192,7 @@ class SymbolicReasoningColony(BaseColony):
 
             belief_states = new_states
             self.propagation_history.append(
-                {
-                    "iteration": iteration,
-                    "belief_distribution": belief_states.copy(),
-                    "performance_optimized": True
-                }
+                {"iteration": iteration, "belief_distribution": belief_states.copy(), "performance_optimized": True}
             )
 
         # Update performance metrics
@@ -246,7 +230,7 @@ class SymbolicReasoningColony(BaseColony):
             belief.get("concept", ""),
             str(belief.get("strength", 0.0)),
             str(belief.get("iterations", 1)),
-            str(len(self.agents))
+            str(len(self.agents)),
         ]
         return "|".join(key_parts)
 
@@ -267,10 +251,7 @@ class SymbolicReasoningColony(BaseColony):
 
         # Implement simple LRU eviction
         if len(self._propagation_cache) >= 100:  # Limit cache size
-            oldest_key = min(
-                self._propagation_cache.keys(),
-                key=lambda k: self._propagation_cache[k][1]
-            )
+            oldest_key = min(self._propagation_cache.keys(), key=lambda k: self._propagation_cache[k][1])
             del self._propagation_cache[oldest_key]
 
         self._propagation_cache[cache_key] = (result, time.time())
@@ -299,9 +280,7 @@ class SymbolicReasoningColony(BaseColony):
 
             # Cache shortest paths for small graphs
             if len(self.belief_network.nodes()) <= 50:
-                self._cached_shortest_paths = dict(
-                    nx.all_pairs_shortest_path(self.belief_network)
-                )
+                self._cached_shortest_paths = dict(nx.all_pairs_shortest_path(self.belief_network))
 
         # Mark graph as clean
         self._graph_dirty = False
@@ -313,7 +292,7 @@ class SymbolicReasoningColony(BaseColony):
             "status": "optimized",
             "optimization_time_ms": optimization_time_ms,
             "centrality_cached": len(self._cached_centrality),
-            "paths_cached": len(self._cached_shortest_paths)
+            "paths_cached": len(self._cached_shortest_paths),
         }
 
     def get_performance_report(self) -> Dict[str, Any]:
@@ -329,15 +308,15 @@ class SymbolicReasoningColony(BaseColony):
                 "hit_rate": cache_hit_rate,
                 "belief_cache_size": len(self._belief_cache),
                 "propagation_cache_size": len(self._propagation_cache),
-                "cache_ttl_seconds": self.cache_ttl_seconds
+                "cache_ttl_seconds": self.cache_ttl_seconds,
             },
             "graph_optimization": {
                 "is_optimized": not self._graph_dirty,
                 "centrality_nodes": len(self._cached_centrality),
-                "cached_paths": len(self._cached_shortest_paths)
+                "cached_paths": len(self._cached_shortest_paths),
             },
             "agent_count": len(self.agents),
-            "processing_count": self.state.get("processing_count", 0)
+            "processing_count": self.state.get("processing_count", 0),
         }
 
     def _get_agent_neighbors(self, agent_id: str) -> list[str]:

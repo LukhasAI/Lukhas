@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 
 class ProcessingStage(Enum):
     """Stages of MATRIZ thought loop processing"""
+
     INITIALIZATION = "initialization"
     MEMORY_RECALL = "memory_recall"
     DEEP_INFERENCE = "deep_inference"
@@ -48,6 +49,7 @@ class ProcessingStage(Enum):
 @dataclass
 class MATRIZProcessingContext:
     """Complete context for MATRIZ thought loop processing"""
+
     query: str
     memory_signals: List[Dict[str, Any]]
     consciousness_state: Optional[ConsciousnessState]
@@ -62,6 +64,7 @@ class MATRIZProcessingContext:
 @dataclass
 class MATRIZThoughtLoopResult:
     """Complete result of MATRIZ thought loop processing"""
+
     # Core synthesis result
     synthesis: str
     confidence: float
@@ -112,7 +115,7 @@ class MATRIZThoughtLoop:
         contradiction_threshold: float = 0.98,
         total_time_budget_ms: float = 240.0,
         enable_advanced_features: bool = True,
-        performance_monitoring: bool = True
+        performance_monitoring: bool = True,
     ):
         """Initialize complete MATRIZ thought loop."""
         self.tenant = tenant
@@ -128,18 +131,18 @@ class MATRIZThoughtLoop:
             max_inference_depth=max_inference_depth,
             contradiction_threshold=contradiction_threshold,
             time_budget_ms=total_time_budget_ms * 0.7,  # 70% for thought processing
-            enable_meta_cognitive=enable_advanced_features
+            enable_meta_cognitive=enable_advanced_features,
         )
 
         self.enhanced_awareness = EnhancedAwarenessEngine(
             enable_auto_adjustment=enable_advanced_features,
-            assessment_frequency_ratio=0.3  # More frequent for complete loop
+            assessment_frequency_ratio=0.3,  # More frequent for complete loop
         )
 
         self.memory_contradiction_bridge = MemoryContradictionBridge(
             enable_temporal_validation=enable_advanced_features,
             enable_semantic_validation=enable_advanced_features,
-            max_validation_time_ms=10.0
+            max_validation_time_ms=10.0,
         )
 
         # Performance tracking
@@ -153,8 +156,8 @@ class MATRIZThoughtLoop:
                 "deep_inference_used": 0,
                 "contradiction_detection_used": 0,
                 "memory_validation_used": 0,
-                "meta_assessment_used": 0
-            }
+                "meta_assessment_used": 0,
+            },
         }
 
         # Session tracking
@@ -167,10 +170,7 @@ class MATRIZThoughtLoop:
             f"advanced_features={enable_advanced_features}"
         )
 
-    async def process_complete_thought_loop(
-        self,
-        context: MATRIZProcessingContext
-    ) -> MATRIZThoughtLoopResult:
+    async def process_complete_thought_loop(self, context: MATRIZProcessingContext) -> MATRIZThoughtLoopResult:
         """
         Process complete MATRIZ thought loop with all advanced features.
 
@@ -196,25 +196,21 @@ class MATRIZThoughtLoop:
             thought_result = await self._stage_enhanced_thought_synthesis(context)
             stage_timings[ProcessingStage.THOUGHT_SYNTHESIS] = (time.time() - stage_start) * 1000
 
-            if not thought_result['success']:
+            if not thought_result["success"]:
                 errors_encountered.append("Thought synthesis failed")
 
             # Stage 3: Memory-Reasoning Validation
             stage_start = time.time()
             memory_validation_result = None
             if self.enable_advanced_features and context.enable_all_features:
-                memory_validation_result = await self._stage_memory_validation(
-                    context, thought_result
-                )
+                memory_validation_result = await self._stage_memory_validation(context, thought_result)
                 stage_timings[ProcessingStage.MEMORY_VALIDATION] = (time.time() - stage_start) * 1000
             else:
                 stage_timings[ProcessingStage.MEMORY_VALIDATION] = 0.0
 
             # Stage 4: Awareness Update with Meta-Assessment
             stage_start = time.time()
-            awareness_result = await self._stage_awareness_update(
-                context, thought_result, memory_validation_result
-            )
+            awareness_result = await self._stage_awareness_update(context, thought_result, memory_validation_result)
             stage_timings[ProcessingStage.AWARENESS_UPDATE] = (time.time() - stage_start) * 1000
 
             # Stage 5: Finalization
@@ -255,7 +251,7 @@ class MATRIZThoughtLoop:
                 recommendations=["Investigate system error and retry"],
                 errors_encountered=errors_encountered + [str(e)],
                 warnings=warnings,
-                error_message=str(e)
+                error_message=str(e),
             )
 
             self._update_loop_stats(error_result, success=False)
@@ -268,10 +264,10 @@ class MATRIZThoughtLoop:
 
         # Store session context
         self.active_sessions[session_id] = {
-            'start_time': time.time(),
-            'query': context.query,
-            'memory_count': len(context.memory_signals),
-            'tenant': context.tenant
+            "start_time": time.time(),
+            "query": context.query,
+            "memory_count": len(context.memory_signals),
+            "tenant": context.tenant,
         }
 
         # Validate inputs
@@ -281,42 +277,36 @@ class MATRIZThoughtLoop:
         if not isinstance(context.memory_signals, list):
             context.memory_signals = []
 
-        return {
-            'session_id': session_id,
-            'input_valid': True,
-            'memory_signal_count': len(context.memory_signals)
-        }
+        return {"session_id": session_id, "input_valid": True, "memory_signal_count": len(context.memory_signals)}
 
     async def _stage_enhanced_thought_synthesis(self, context: MATRIZProcessingContext) -> Dict[str, Any]:
         """Perform enhanced thought synthesis with all advanced features."""
 
         # Prepare input for enhanced thought node
         input_data = {
-            'query': context.query,
-            'recall_matches': context.memory_signals,
-            'consciousness_state': context.consciousness_state,
-            'metadata': context.metadata,
-            'complexity': context.processing_config.get('complexity', 'moderate'),
-            'enable_advanced_features': context.enable_all_features
+            "query": context.query,
+            "recall_matches": context.memory_signals,
+            "consciousness_state": context.consciousness_state,
+            "metadata": context.metadata,
+            "complexity": context.processing_config.get("complexity", "moderate"),
+            "enable_advanced_features": context.enable_all_features,
         }
 
         # Process through enhanced thought node
         enhanced_result = await self.enhanced_thought_node.process_async(input_data)
 
         # Update feature usage tracking
-        enhanced_features = enhanced_result.get('enhanced_features', {})
-        if enhanced_features.get('inference_depth_reached', 0) > 5:
-            self.loop_stats['feature_usage']['deep_inference_used'] += 1
+        enhanced_features = enhanced_result.get("enhanced_features", {})
+        if enhanced_features.get("inference_depth_reached", 0) > 5:
+            self.loop_stats["feature_usage"]["deep_inference_used"] += 1
 
-        if enhanced_features.get('contradictions_detected', 0) > 0:
-            self.loop_stats['feature_usage']['contradiction_detection_used'] += 1
+        if enhanced_features.get("contradictions_detected", 0) > 0:
+            self.loop_stats["feature_usage"]["contradiction_detection_used"] += 1
 
         return enhanced_result
 
     async def _stage_memory_validation(
-        self,
-        context: MATRIZProcessingContext,
-        thought_result: Dict[str, Any]
+        self, context: MATRIZProcessingContext, thought_result: Dict[str, Any]
     ) -> Optional[Dict[str, Any]]:
         """Validate memory-reasoning consistency."""
 
@@ -326,12 +316,12 @@ class MATRIZThoughtLoop:
         try:
             # Extract reasoning chains from thought result
             reasoning_chains = []
-            enhanced_features = thought_result.get('enhanced_features', {})
+            enhanced_features = thought_result.get("enhanced_features", {})
 
             # Create mock reasoning chains for validation
             # In practice, these would be extracted from the actual thought processing
-            if enhanced_features.get('reasoning_chains_count', 0) > 0:
-                reasoning_chains = [{'mock_chain': True}]  # Simplified for integration
+            if enhanced_features.get("reasoning_chains_count", 0) > 0:
+                reasoning_chains = [{"mock_chain": True}]  # Simplified for integration
 
             # Create validation context
             validation_context = MemoryValidationContext(
@@ -342,7 +332,7 @@ class MATRIZThoughtLoop:
                 time_budget_ms=10.0,
                 enable_temporal_checking=True,
                 enable_semantic_checking=True,
-                metadata=context.metadata
+                metadata=context.metadata,
             )
 
             # Perform memory-reasoning validation
@@ -351,25 +341,25 @@ class MATRIZThoughtLoop:
             )
 
             if validation_result.success:
-                self.loop_stats['feature_usage']['memory_validation_used'] += 1
+                self.loop_stats["feature_usage"]["memory_validation_used"] += 1
 
             return {
-                'memory_conflicts_found': validation_result.memory_conflicts_found,
-                'validation_quality': validation_result.validation_quality,
-                'processing_time_ms': validation_result.processing_time_ms,
-                'recommendations': validation_result.recommendations,
-                'success': validation_result.success
+                "memory_conflicts_found": validation_result.memory_conflicts_found,
+                "validation_quality": validation_result.validation_quality,
+                "processing_time_ms": validation_result.processing_time_ms,
+                "recommendations": validation_result.recommendations,
+                "success": validation_result.success,
             }
 
         except Exception as e:
             logger.warning(f"Memory validation failed: {e}")
-            return {'error': str(e), 'success': False}
+            return {"error": str(e), "success": False}
 
     async def _stage_awareness_update(
         self,
         context: MATRIZProcessingContext,
         thought_result: Dict[str, Any],
-        memory_validation_result: Optional[Dict[str, Any]]
+        memory_validation_result: Optional[Dict[str, Any]],
     ) -> Optional[Dict[str, Any]]:
         """Update awareness with comprehensive cognitive assessment."""
 
@@ -379,65 +369,68 @@ class MATRIZThoughtLoop:
         try:
             # Extract signals from processing results
             signals = {
-                'processing_queue_size': 1,
-                'active_threads': 1,
-                'memory_pressure': thought_result.get('enhanced_features', {}).get('cognitive_load', 0.3),
-                'cpu_utilization': min(1.0, thought_result.get('processing_time_ms', 100) / 200),
-                'inference_depth': thought_result.get('enhanced_features', {}).get('inference_depth_reached', 0),
-                'reasoning_quality': thought_result.get('enhanced_features', {}).get('quality_score', 0.5),
-                'contradictions_found': thought_result.get('enhanced_features', {}).get('contradictions_detected', 0),
-                'memory_conflicts': memory_validation_result.get('memory_conflicts_found', 0) if memory_validation_result else 0
+                "processing_queue_size": 1,
+                "active_threads": 1,
+                "memory_pressure": thought_result.get("enhanced_features", {}).get("cognitive_load", 0.3),
+                "cpu_utilization": min(1.0, thought_result.get("processing_time_ms", 100) / 200),
+                "inference_depth": thought_result.get("enhanced_features", {}).get("inference_depth_reached", 0),
+                "reasoning_quality": thought_result.get("enhanced_features", {}).get("quality_score", 0.5),
+                "contradictions_found": thought_result.get("enhanced_features", {}).get("contradictions_detected", 0),
+                "memory_conflicts": (
+                    memory_validation_result.get("memory_conflicts_found", 0) if memory_validation_result else 0
+                ),
             }
 
             # Create recent inference result for tracking
             recent_inference = None
-            enhanced_features = thought_result.get('enhanced_features', {})
-            if enhanced_features.get('inference_depth_reached', 0) > 0:
+            enhanced_features = thought_result.get("enhanced_features", {})
+            if enhanced_features.get("inference_depth_reached", 0) > 0:
                 # Mock inference result for awareness tracking
-                recent_inference = type('MockInferenceResult', (), {
-                    'success': thought_result.get('success', False),
-                    'confidence_score': thought_result.get('confidence', 0.5),
-                    'reasoning_quality': enhanced_features.get('quality_score', 0.5),
-                    'max_depth_explored': enhanced_features.get('inference_depth_reached', 0),
-                    'contradictions_detected': enhanced_features.get('contradictions_detected', 0),
-                    'performance_metrics': {
-                        'total_processing_time_ms': thought_result.get('processing_time_ms', 0)
-                    }
-                })()
+                recent_inference = type(
+                    "MockInferenceResult",
+                    (),
+                    {
+                        "success": thought_result.get("success", False),
+                        "confidence_score": thought_result.get("confidence", 0.5),
+                        "reasoning_quality": enhanced_features.get("quality_score", 0.5),
+                        "max_depth_explored": enhanced_features.get("inference_depth_reached", 0),
+                        "contradictions_detected": enhanced_features.get("contradictions_detected", 0),
+                        "performance_metrics": {
+                            "total_processing_time_ms": thought_result.get("processing_time_ms", 0)
+                        },
+                    },
+                )()
 
             # Create recent thought summary
             recent_thought = {
-                'synthesis': thought_result.get('answer', {}).get('summary', ''),
-                'confidence': thought_result.get('confidence', 0.5),
-                'quality_score': enhanced_features.get('quality_score', 0.5),
-                'processing_time_ms': thought_result.get('processing_time_ms', 0),
-                'success': thought_result.get('success', False)
+                "synthesis": thought_result.get("answer", {}).get("summary", ""),
+                "confidence": thought_result.get("confidence", 0.5),
+                "quality_score": enhanced_features.get("quality_score", 0.5),
+                "processing_time_ms": thought_result.get("processing_time_ms", 0),
+                "success": thought_result.get("success", False),
             }
 
             # Update enhanced awareness
             enhanced_snapshot = await self.enhanced_awareness.enhanced_update(
-                context.consciousness_state,
-                signals,
-                recent_inference=recent_inference,
-                recent_thought=recent_thought
+                context.consciousness_state, signals, recent_inference=recent_inference, recent_thought=recent_thought
             )
 
             if enhanced_snapshot.meta_assessment:
-                self.loop_stats['feature_usage']['meta_assessment_used'] += 1
+                self.loop_stats["feature_usage"]["meta_assessment_used"] += 1
 
             return {
-                'cognitive_load_level': enhanced_snapshot.cognitive_load_level.value,
-                'self_awareness_score': enhanced_snapshot.self_awareness_score,
-                'meta_reasoning_quality': enhanced_snapshot.meta_reasoning_quality,
-                'cognitive_adjustments': enhanced_snapshot.cognitive_adjustments,
-                'actionable_insights_count': len(enhanced_snapshot.actionable_insights),
-                'performance_trend': enhanced_snapshot.performance_trend,
-                'snapshot': enhanced_snapshot
+                "cognitive_load_level": enhanced_snapshot.cognitive_load_level.value,
+                "self_awareness_score": enhanced_snapshot.self_awareness_score,
+                "meta_reasoning_quality": enhanced_snapshot.meta_reasoning_quality,
+                "cognitive_adjustments": enhanced_snapshot.cognitive_adjustments,
+                "actionable_insights_count": len(enhanced_snapshot.actionable_insights),
+                "performance_trend": enhanced_snapshot.performance_trend,
+                "snapshot": enhanced_snapshot,
             }
 
         except Exception as e:
             logger.warning(f"Awareness update failed: {e}")
-            return {'error': str(e)}
+            return {"error": str(e)}
 
     async def _stage_finalization(
         self,
@@ -446,7 +439,7 @@ class MATRIZThoughtLoop:
         memory_validation_result: Optional[Dict[str, Any]],
         awareness_result: Optional[Dict[str, Any]],
         stage_timings: Dict[ProcessingStage, float],
-        start_time: float
+        start_time: float,
     ) -> MATRIZThoughtLoopResult:
         """Finalize processing and create comprehensive result."""
 
@@ -454,46 +447,46 @@ class MATRIZThoughtLoop:
         t4_compliant = processing_time <= 250.0
 
         # Extract core results
-        synthesis = thought_result.get('answer', {}).get('summary', '')
-        confidence = thought_result.get('confidence', 0.0)
-        affect_delta = thought_result.get('affect_delta', 0.0)
+        synthesis = thought_result.get("answer", {}).get("summary", "")
+        confidence = thought_result.get("confidence", 0.0)
+        affect_delta = thought_result.get("affect_delta", 0.0)
 
         # Extract enhanced features
-        enhanced_features = thought_result.get('enhanced_features', {})
-        inference_depth = enhanced_features.get('inference_depth_reached', 0)
-        reasoning_chains_count = enhanced_features.get('reasoning_chains_count', 0)
-        contradictions_detected = enhanced_features.get('contradictions_detected', 0)
-        quality_score = enhanced_features.get('quality_score', 0.0)
-        cognitive_load = enhanced_features.get('cognitive_load', 0.3)
+        enhanced_features = thought_result.get("enhanced_features", {})
+        inference_depth = enhanced_features.get("inference_depth_reached", 0)
+        reasoning_chains_count = enhanced_features.get("reasoning_chains_count", 0)
+        contradictions_detected = enhanced_features.get("contradictions_detected", 0)
+        quality_score = enhanced_features.get("quality_score", 0.0)
+        cognitive_load = enhanced_features.get("cognitive_load", 0.3)
 
         # Memory validation results
         memory_conflicts = 0
         if memory_validation_result:
-            memory_conflicts = memory_validation_result.get('memory_conflicts_found', 0)
+            memory_conflicts = memory_validation_result.get("memory_conflicts_found", 0)
 
         # Meta-cognitive assessment results
         meta_assessment = None
         self_awareness_score = 0.5
         cognitive_adjustments = []
 
-        if awareness_result and 'snapshot' in awareness_result:
-            snapshot = awareness_result['snapshot']
-            if hasattr(snapshot, 'meta_assessment') and snapshot.meta_assessment:
+        if awareness_result and "snapshot" in awareness_result:
+            snapshot = awareness_result["snapshot"]
+            if hasattr(snapshot, "meta_assessment") and snapshot.meta_assessment:
                 meta_assessment = {
-                    'cognitive_load_level': snapshot.cognitive_load_level.value,
-                    'self_awareness_score': snapshot.self_awareness_score,
-                    'meta_reasoning_quality': snapshot.meta_reasoning_quality,
-                    'performance_trend': snapshot.performance_trend
+                    "cognitive_load_level": snapshot.cognitive_load_level.value,
+                    "self_awareness_score": snapshot.self_awareness_score,
+                    "meta_reasoning_quality": snapshot.meta_reasoning_quality,
+                    "performance_trend": snapshot.performance_trend,
                 }
-            self_awareness_score = awareness_result.get('self_awareness_score', 0.5)
-            cognitive_adjustments = awareness_result.get('cognitive_adjustments', [])
+            self_awareness_score = awareness_result.get("self_awareness_score", 0.5)
+            cognitive_adjustments = awareness_result.get("cognitive_adjustments", [])
 
         # Supporting data
         supporting_memory_ids = []
         memory_signals = context.memory_signals or []
         for memory in memory_signals:
-            if isinstance(memory, dict) and memory.get('id'):
-                supporting_memory_ids.append(memory['id'])
+            if isinstance(memory, dict) and memory.get("id"):
+                supporting_memory_ids.append(memory["id"])
 
         # Generate recommendations
         recommendations = []
@@ -518,13 +511,13 @@ class MATRIZThoughtLoop:
         errors_encountered = []
         warnings = []
 
-        if not thought_result.get('success', False):
+        if not thought_result.get("success", False):
             errors_encountered.append("Thought synthesis failed")
 
-        if memory_validation_result and not memory_validation_result.get('success', True):
+        if memory_validation_result and not memory_validation_result.get("success", True):
             warnings.append("Memory validation encountered issues")
 
-        if 'error' in (awareness_result or {}):
+        if "error" in (awareness_result or {}):
             warnings.append("Awareness update encountered issues")
 
         return MATRIZThoughtLoopResult(
@@ -543,85 +536,83 @@ class MATRIZThoughtLoop:
             processing_time_ms=processing_time,
             stage_timings=stage_timings,
             t4_compliant=t4_compliant,
-            success=thought_result.get('success', False),
+            success=thought_result.get("success", False),
             supporting_memory_ids=supporting_memory_ids,
-            awareness_snapshot=awareness_result.get('snapshot') if awareness_result else None,
+            awareness_snapshot=awareness_result.get("snapshot") if awareness_result else None,
             recommendations=recommendations,
             errors_encountered=errors_encountered,
-            warnings=warnings
+            warnings=warnings,
         )
 
     def _update_loop_stats(self, result: MATRIZThoughtLoopResult, success: bool):
         """Update performance statistics for the complete loop."""
-        self.loop_stats['total_loops'] += 1
+        self.loop_stats["total_loops"] += 1
 
         if success:
-            self.loop_stats['successful_loops'] += 1
+            self.loop_stats["successful_loops"] += 1
 
         # Update running averages
-        total = self.loop_stats['total_loops']
-        current_avg_time = self.loop_stats['avg_processing_time_ms']
-        self.loop_stats['avg_processing_time_ms'] = (
-            (current_avg_time * (total - 1) + result.processing_time_ms) / total
-        )
+        total = self.loop_stats["total_loops"]
+        current_avg_time = self.loop_stats["avg_processing_time_ms"]
+        self.loop_stats["avg_processing_time_ms"] = (current_avg_time * (total - 1) + result.processing_time_ms) / total
 
         # T4 compliance rate
         if result.t4_compliant:
-            compliant_count = (self.loop_stats['t4_compliance_rate'] * (total - 1)) + 1
+            compliant_count = (self.loop_stats["t4_compliance_rate"] * (total - 1)) + 1
         else:
-            compliant_count = self.loop_stats['t4_compliance_rate'] * (total - 1)
+            compliant_count = self.loop_stats["t4_compliance_rate"] * (total - 1)
 
-        self.loop_stats['t4_compliance_rate'] = compliant_count / total
+        self.loop_stats["t4_compliance_rate"] = compliant_count / total
 
         # Update stage performance
         for stage, timing in result.stage_timings.items():
-            self.loop_stats['stage_performance'][stage].append(timing)
+            self.loop_stats["stage_performance"][stage].append(timing)
 
             # Keep only recent timings
-            if len(self.loop_stats['stage_performance'][stage]) > 100:
-                self.loop_stats['stage_performance'][stage].pop(0)
+            if len(self.loop_stats["stage_performance"][stage]) > 100:
+                self.loop_stats["stage_performance"][stage].pop(0)
 
     def get_comprehensive_stats(self) -> Dict[str, Any]:
         """Get comprehensive performance statistics."""
         base_stats = dict(self.loop_stats)
 
         # Calculate success rate
-        total = max(1, base_stats['total_loops'])
-        base_stats['success_rate'] = (base_stats['successful_loops'] / total) * 100
+        total = max(1, base_stats["total_loops"])
+        base_stats["success_rate"] = (base_stats["successful_loops"] / total) * 100
 
         # Feature utilization rates
-        for feature, count in base_stats['feature_usage'].items():
-            base_stats['feature_usage'][f'{feature}_rate'] = (count / total) * 100
+        for feature, count in base_stats["feature_usage"].items():
+            base_stats["feature_usage"][f"{feature}_rate"] = (count / total) * 100
 
         # Stage performance analysis
         stage_analysis = {}
-        for stage, timings in base_stats['stage_performance'].items():
+        for stage, timings in base_stats["stage_performance"].items():
             if timings:
                 stage_analysis[stage.value] = {
-                    'mean_ms': sum(timings) / len(timings),
-                    'p95_ms': sorted(timings)[int(len(timings) * 0.95)] if len(timings) > 1 else timings[0],
-                    'samples': len(timings)
+                    "mean_ms": sum(timings) / len(timings),
+                    "p95_ms": sorted(timings)[int(len(timings) * 0.95)] if len(timings) > 1 else timings[0],
+                    "samples": len(timings),
                 }
 
-        base_stats['stage_analysis'] = stage_analysis
+        base_stats["stage_analysis"] = stage_analysis
 
         # Component stats
         component_stats = {
-            'thought_node': self.enhanced_thought_node.get_performance_stats(),
-            'awareness_engine': self.enhanced_awareness.get_enhanced_performance_stats(),
-            'memory_bridge': self.memory_contradiction_bridge.get_validation_stats()
+            "thought_node": self.enhanced_thought_node.get_performance_stats(),
+            "awareness_engine": self.enhanced_awareness.get_enhanced_performance_stats(),
+            "memory_bridge": self.memory_contradiction_bridge.get_validation_stats(),
         }
 
         return {
-            'loop_performance': base_stats,
-            'component_performance': component_stats,
-            'active_sessions': len(self.active_sessions),
-            'configuration': {
-                'max_inference_depth': self.max_inference_depth,
-                'contradiction_threshold': self.contradiction_threshold,
-                'total_time_budget_ms': self.total_time_budget_ms,
-                'advanced_features_enabled': self.enable_advanced_features
-            }
+            "loop_performance": base_stats,
+            "component_performance": component_stats,
+            "active_sessions": len(self.active_sessions),
+            "configuration": {
+                "max_inference_depth": self.max_inference_depth,
+                "contradiction_threshold": self.contradiction_threshold,
+                "total_time_budget_ms": self.total_time_budget_ms,
+                "advanced_features_enabled": self.enable_advanced_features,
+            },
         }
 
 

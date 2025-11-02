@@ -44,12 +44,12 @@ logger = logging.getLogger(__name__)
 
 # Performance targets for T4/0.01% compliance
 T4_PERFORMANCE_TARGETS = {
-    'complete_thought_loop_p95_ms': 250,
-    'deep_inference_p95_ms': 100,
-    'contradiction_detection_p95_ms': 50,
-    'memory_validation_p95_ms': 30,
-    'awareness_update_p95_ms': 25,
-    'meta_assessment_p95_ms': 50
+    "complete_thought_loop_p95_ms": 250,
+    "deep_inference_p95_ms": 100,
+    "contradiction_detection_p95_ms": 50,
+    "memory_validation_p95_ms": 30,
+    "awareness_update_p95_ms": 25,
+    "meta_assessment_p95_ms": 50,
 }
 
 
@@ -60,13 +60,13 @@ class TestMATRIZCompleteThoughtLoop:
     async def thought_loop(self):
         """Create configured MATRIZ thought loop for testing."""
         config = {
-            'max_inference_depth': 12,
-            'enable_contradiction_detection': True,
-            'enable_meta_cognitive_assessment': True,
-            'enable_memory_validation': True,
-            'performance_tracking': True,
-            'circuit_breaker_threshold': 10,
-            'timeout_ms': 5000
+            "max_inference_depth": 12,
+            "enable_contradiction_detection": True,
+            "enable_meta_cognitive_assessment": True,
+            "enable_memory_validation": True,
+            "performance_tracking": True,
+            "circuit_breaker_threshold": 10,
+            "timeout_ms": 5000,
         }
 
         loop = MATRIZThoughtLoop(config=config)
@@ -80,14 +80,14 @@ class TestMATRIZCompleteThoughtLoop:
             session_id="test_session_001",
             query="Analyze the implications of consciousness emergence in distributed systems",
             context_data={
-                'domain': 'cognitive_architecture',
-                'complexity_level': 'high',
-                'reasoning_depth': 'deep',
-                'memory_context': ['consciousness', 'emergence', 'distributed_systems']
+                "domain": "cognitive_architecture",
+                "complexity_level": "high",
+                "reasoning_depth": "deep",
+                "memory_context": ["consciousness", "emergence", "distributed_systems"],
             },
             time_budget_ms=1000,
             quality_threshold=0.8,
-            tenant="test_tenant"
+            tenant="test_tenant",
         )
 
     @pytest.fixture
@@ -101,17 +101,14 @@ class TestMATRIZCompleteThoughtLoop:
             reasoning_depth=0.8,
             contradiction_tension=0.2,
             meta_awareness=0.7,
-            timestamp=time.time()
+            timestamp=time.time(),
         )
 
-    async def test_complete_thought_loop_basic_functionality(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_complete_thought_loop_basic_functionality(self, thought_loop, sample_context, consciousness_state):
         """Test basic complete thought loop functionality."""
         # Execute complete thought loop
         result = await thought_loop.process_complete_thought_loop(
-            context=sample_context,
-            consciousness_state=consciousness_state
+            context=sample_context, consciousness_state=consciousness_state
         )
 
         # Validate result structure
@@ -131,20 +128,17 @@ class TestMATRIZCompleteThoughtLoop:
         assert result.contradiction_score <= 0.3
 
         # Validate performance
-        assert result.total_processing_time_ms < T4_PERFORMANCE_TARGETS['complete_thought_loop_p95_ms']
+        assert result.total_processing_time_ms < T4_PERFORMANCE_TARGETS["complete_thought_loop_p95_ms"]
 
-    async def test_deep_inference_integration(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_deep_inference_integration(self, thought_loop, sample_context, consciousness_state):
         """Test deep inference engine integration with 10+ levels."""
         # Configure for deep reasoning
         deep_context = sample_context
-        deep_context.context_data['reasoning_depth'] = 'maximum'
+        deep_context.context_data["reasoning_depth"] = "maximum"
         deep_context.time_budget_ms = 2000
 
         result = await thought_loop.process_complete_thought_loop(
-            context=deep_context,
-            consciousness_state=consciousness_state
+            context=deep_context, consciousness_state=consciousness_state
         )
 
         # Validate deep inference was used
@@ -165,24 +159,23 @@ class TestMATRIZCompleteThoughtLoop:
         # Deep inferences should generally have higher quality
         assert deep_quality >= early_quality * 0.9  # Allow some variance
 
-    async def test_contradiction_detection_accuracy(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_contradiction_detection_accuracy(self, thought_loop, sample_context, consciousness_state):
         """Test 98% contradiction detection mechanism."""
         # Create context with intentional contradictions
         contradictory_context = sample_context
-        contradictory_context.context_data.update({
-            'statements': [
-                "The system is completely deterministic",
-                "The system exhibits truly random behavior",
-                "All components operate synchronously",
-                "Asynchronous processing is fundamental to the architecture"
-            ]
-        })
+        contradictory_context.context_data.update(
+            {
+                "statements": [
+                    "The system is completely deterministic",
+                    "The system exhibits truly random behavior",
+                    "All components operate synchronously",
+                    "Asynchronous processing is fundamental to the architecture",
+                ]
+            }
+        )
 
         result = await thought_loop.process_complete_thought_loop(
-            context=contradictory_context,
-            consciousness_state=consciousness_state
+            context=contradictory_context, consciousness_state=consciousness_state
         )
 
         # Validate contradiction detection
@@ -195,15 +188,12 @@ class TestMATRIZCompleteThoughtLoop:
         assert contradiction_analysis.resolution_suggestions is not None
 
         # Validate performance
-        assert contradiction_analysis.processing_time_ms < T4_PERFORMANCE_TARGETS['contradiction_detection_p95_ms']
+        assert contradiction_analysis.processing_time_ms < T4_PERFORMANCE_TARGETS["contradiction_detection_p95_ms"]
 
-    async def test_meta_cognitive_self_checks(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_meta_cognitive_self_checks(self, thought_loop, sample_context, consciousness_state):
         """Test meta-cognitive self-assessment integration."""
         result = await thought_loop.process_complete_thought_loop(
-            context=sample_context,
-            consciousness_state=consciousness_state
+            context=sample_context, consciousness_state=consciousness_state
         )
 
         # Validate meta-cognitive assessment
@@ -226,13 +216,10 @@ class TestMATRIZCompleteThoughtLoop:
         assert 0.0 <= perf_metrics.confidence_calibration <= 1.0
         assert 0.0 <= perf_metrics.processing_efficiency <= 1.0
 
-    async def test_memory_reasoning_consistency(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_memory_reasoning_consistency(self, thought_loop, sample_context, consciousness_state):
         """Test memory-reasoning consistency validation."""
         result = await thought_loop.process_complete_thought_loop(
-            context=sample_context,
-            consciousness_state=consciousness_state
+            context=sample_context, consciousness_state=consciousness_state
         )
 
         # Validate memory validation results
@@ -249,28 +236,23 @@ class TestMATRIZCompleteThoughtLoop:
                 assert conflict.resolution_strategy is not None
 
         # Validate performance
-        assert memory_validation.validation_time_ms < T4_PERFORMANCE_TARGETS['memory_validation_p95_ms']
+        assert memory_validation.validation_time_ms < T4_PERFORMANCE_TARGETS["memory_validation_p95_ms"]
 
-    async def test_circuit_breaker_protection(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_circuit_breaker_protection(self, thought_loop, sample_context, consciousness_state):
         """Test circuit breaker protection under overload."""
         # Configure for potential overload
         overload_context = sample_context
         overload_context.time_budget_ms = 50  # Very tight budget
-        overload_context.context_data.update({
-            'complexity_level': 'extreme',
-            'reasoning_depth': 'maximum',
-            'stress_test': True
-        })
+        overload_context.context_data.update(
+            {"complexity_level": "extreme", "reasoning_depth": "maximum", "stress_test": True}
+        )
 
         # Execute multiple rapid requests to trigger circuit breaker
         results = []
         for i in range(15):  # Exceed circuit breaker threshold
             try:
                 result = await thought_loop.process_complete_thought_loop(
-                    context=overload_context,
-                    consciousness_state=consciousness_state
+                    context=overload_context, consciousness_state=consciousness_state
                 )
                 results.append(result)
             except Exception as e:
@@ -285,71 +267,65 @@ class TestMATRIZCompleteThoughtLoop:
             if result.success:
                 assert result.overall_quality_score >= 0.6  # Relaxed under stress
 
-    async def test_edge_case_reasoning_scenarios(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_edge_case_reasoning_scenarios(self, thought_loop, sample_context, consciousness_state):
         """Test reasoning edge cases and novel situations."""
         edge_cases = [
+            {"name": "empty_context", "context_data": {}, "expected_graceful_degradation": True},
             {
-                'name': 'empty_context',
-                'context_data': {},
-                'expected_graceful_degradation': True
+                "name": "contradictory_goals",
+                "context_data": {
+                    "goals": ["maximize_accuracy", "minimize_processing_time"],
+                    "constraints": ["unlimited_resources", "resource_constrained"],
+                },
+                "expected_contradiction_detection": True,
             },
             {
-                'name': 'contradictory_goals',
-                'context_data': {
-                    'goals': ['maximize_accuracy', 'minimize_processing_time'],
-                    'constraints': ['unlimited_resources', 'resource_constrained']
+                "name": "recursive_self_reference",
+                "context_data": {
+                    "query": "Analyze how this analysis affects the analysis itself",
+                    "self_reference_level": "high",
                 },
-                'expected_contradiction_detection': True
+                "expected_meta_reasoning": True,
             },
             {
-                'name': 'recursive_self_reference',
-                'context_data': {
-                    'query': 'Analyze how this analysis affects the analysis itself',
-                    'self_reference_level': 'high'
+                "name": "extreme_complexity",
+                "context_data": {
+                    "complexity_factors": list(range(100)),  # Many factors
+                    "interaction_matrix": [[i * j for j in range(10)] for i in range(10)],
                 },
-                'expected_meta_reasoning': True
+                "expected_complexity_management": True,
             },
-            {
-                'name': 'extreme_complexity',
-                'context_data': {
-                    'complexity_factors': list(range(100)),  # Many factors
-                    'interaction_matrix': [[i*j for j in range(10)] for i in range(10)]
-                },
-                'expected_complexity_management': True
-            }
         ]
 
         for edge_case in edge_cases:
             test_context = sample_context
-            test_context.context_data.update(edge_case['context_data'])
+            test_context.context_data.update(edge_case["context_data"])
 
             result = await thought_loop.process_complete_thought_loop(
-                context=test_context,
-                consciousness_state=consciousness_state
+                context=test_context, consciousness_state=consciousness_state
             )
 
             # Validate edge case handling
             assert result is not None
 
-            if edge_case.get('expected_graceful_degradation'):
+            if edge_case.get("expected_graceful_degradation"):
                 # Should handle empty context gracefully
                 assert result.success is True
                 assert result.overall_quality_score >= 0.3
 
-            if edge_case.get('expected_contradiction_detection'):
+            if edge_case.get("expected_contradiction_detection"):
                 # Should detect contradictions
                 assert len(result.contradiction_analysis.detected_contradictions) > 0
 
-            if edge_case.get('expected_meta_reasoning'):
+            if edge_case.get("expected_meta_reasoning"):
                 # Should engage meta-reasoning
                 assert result.meta_assessment.meta_reasoning_quality >= 0.7
 
-            if edge_case.get('expected_complexity_management'):
+            if edge_case.get("expected_complexity_management"):
                 # Should manage complexity appropriately
                 assert result.meta_assessment.cognitive_load_assessment in [
-                    CognitiveLoadLevel.HIGH, CognitiveLoadLevel.EXCESSIVE
+                    CognitiveLoadLevel.HIGH,
+                    CognitiveLoadLevel.EXCESSIVE,
                 ]
 
     async def test_performance_compliance_stress(self, thought_loop):
@@ -362,14 +338,10 @@ class TestMATRIZCompleteThoughtLoop:
             context = ThoughtLoopContext(
                 session_id=f"stress_session_{i:03d}",
                 query=f"Complex reasoning task {i} with multiple inference levels",
-                context_data={
-                    'complexity_level': 'high',
-                    'reasoning_depth': 'deep',
-                    'concurrent_id': i
-                },
+                context_data={"complexity_level": "high", "reasoning_depth": "deep", "concurrent_id": i},
                 time_budget_ms=500,
                 quality_threshold=0.75,
-                tenant=f"stress_tenant_{i % 5}"
+                tenant=f"stress_tenant_{i % 5}",
             )
             contexts.append(context)
 
@@ -381,7 +353,7 @@ class TestMATRIZCompleteThoughtLoop:
                 reasoning_depth=0.7,
                 contradiction_tension=0.1 + (i % 2) * 0.1,
                 meta_awareness=0.6,
-                timestamp=time.time()
+                timestamp=time.time(),
             )
             consciousness_states.append(state)
 
@@ -402,24 +374,21 @@ class TestMATRIZCompleteThoughtLoop:
         # Check performance targets
         processing_times = [r.total_processing_time_ms for r in successful_results]
         p95_time = sorted(processing_times)[int(0.95 * len(processing_times))]
-        assert p95_time < T4_PERFORMANCE_TARGETS['complete_thought_loop_p95_ms']
+        assert p95_time < T4_PERFORMANCE_TARGETS["complete_thought_loop_p95_ms"]
 
         # Check quality maintenance under stress
         quality_scores = [r.overall_quality_score for r in successful_results]
         avg_quality = sum(quality_scores) / len(quality_scores)
         assert avg_quality >= 0.7  # Quality should be maintained under stress
 
-    async def test_thought_loop_state_consistency(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_thought_loop_state_consistency(self, thought_loop, sample_context, consciousness_state):
         """Test state consistency across multiple thought loop executions."""
         results = []
 
         # Execute multiple thought loops with same context
         for i in range(5):
             result = await thought_loop.process_complete_thought_loop(
-                context=sample_context,
-                consciousness_state=consciousness_state
+                context=sample_context, consciousness_state=consciousness_state
             )
             results.append(result)
 
@@ -436,13 +405,10 @@ class TestMATRIZCompleteThoughtLoop:
         # All results should be successful
         assert all(r.success for r in results)
 
-    async def test_awareness_integration_feedback_loop(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_awareness_integration_feedback_loop(self, thought_loop, sample_context, consciousness_state):
         """Test awareness engine integration and feedback loop."""
         result = await thought_loop.process_complete_thought_loop(
-            context=sample_context,
-            consciousness_state=consciousness_state
+            context=sample_context, consciousness_state=consciousness_state
         )
 
         # Validate awareness snapshot
@@ -461,41 +427,36 @@ class TestMATRIZCompleteThoughtLoop:
         assert len(awareness_snapshot.cognitive_adjustments) >= 1
 
         # Check performance metrics
-        assert awareness_snapshot.base_snapshot.processing_time_ms < T4_PERFORMANCE_TARGETS['awareness_update_p95_ms']
+        assert awareness_snapshot.base_snapshot.processing_time_ms < T4_PERFORMANCE_TARGETS["awareness_update_p95_ms"]
 
     def test_thought_loop_configuration_validation(self):
         """Test thought loop configuration validation."""
         # Test valid configuration
         valid_config = {
-            'max_inference_depth': 10,
-            'enable_contradiction_detection': True,
-            'enable_meta_cognitive_assessment': True,
-            'performance_tracking': True
+            "max_inference_depth": 10,
+            "enable_contradiction_detection": True,
+            "enable_meta_cognitive_assessment": True,
+            "performance_tracking": True,
         }
 
         loop = MATRIZThoughtLoop(config=valid_config)
-        assert loop.config['max_inference_depth'] == 10
+        assert loop.config["max_inference_depth"] == 10
 
         # Test invalid configuration handling
-        invalid_config = {
-            'max_inference_depth': 0,  # Invalid
-            'timeout_ms': -100  # Invalid
-        }
+        invalid_config = {"max_inference_depth": 0, "timeout_ms": -100}  # Invalid  # Invalid
 
         with pytest.raises(ValueError):
             MATRIZThoughtLoop(config=invalid_config)
 
-    async def test_error_recovery_and_graceful_degradation(
-        self, thought_loop, sample_context, consciousness_state
-    ):
+    async def test_error_recovery_and_graceful_degradation(self, thought_loop, sample_context, consciousness_state):
         """Test error recovery and graceful degradation."""
         # Simulate component failures
-        with patch.object(thought_loop.enhanced_thought_node, 'process_enhanced_thought',
-                         side_effect=Exception("Simulated failure")):
+        with patch.object(
+            thought_loop.enhanced_thought_node, "process_enhanced_thought", side_effect=Exception("Simulated failure")
+        ):
 
             result = await thought_loop.process_complete_thought_loop(
-                context=sample_context,
-                consciousness_state=consciousness_state
+                context=sample_context, consciousness_state=consciousness_state
             )
 
             # Should gracefully handle failure
@@ -506,29 +467,33 @@ class TestMATRIZCompleteThoughtLoop:
     async def test_tenant_isolation_and_resource_management(self, thought_loop):
         """Test multi-tenant isolation and resource management."""
         contexts = []
-        for tenant_id in ['tenant_a', 'tenant_b', 'tenant_c']:
+        for tenant_id in ["tenant_a", "tenant_b", "tenant_c"]:
             context = ThoughtLoopContext(
                 session_id=f"{tenant_id}_session",
                 query=f"Tenant-specific query for {tenant_id}",
-                context_data={'tenant_data': f"sensitive_{tenant_id}"},
+                context_data={"tenant_data": f"sensitive_{tenant_id}"},
                 time_budget_ms=200,
                 quality_threshold=0.7,
-                tenant=tenant_id
+                tenant=tenant_id,
             )
             contexts.append(context)
 
         consciousness_state = ConsciousnessState(
-            awareness_level=0.8, cognitive_load=0.5, focus_intensity=0.7,
-            memory_coherence=0.9, reasoning_depth=0.8, contradiction_tension=0.2,
-            meta_awareness=0.7, timestamp=time.time()
+            awareness_level=0.8,
+            cognitive_load=0.5,
+            focus_intensity=0.7,
+            memory_coherence=0.9,
+            reasoning_depth=0.8,
+            contradiction_tension=0.2,
+            meta_awareness=0.7,
+            timestamp=time.time(),
         )
 
         # Execute for different tenants
         results = []
         for context in contexts:
             result = await thought_loop.process_complete_thought_loop(
-                context=context,
-                consciousness_state=consciousness_state
+                context=context, consciousness_state=consciousness_state
             )
             results.append(result)
 
@@ -541,7 +506,7 @@ class TestMATRIZCompleteThoughtLoop:
             result_str = str(result)
             for j, other_context in enumerate(contexts):
                 if i != j:
-                    assert other_context.context_data['tenant_data'] not in result_str
+                    assert other_context.context_data["tenant_data"] not in result_str
 
 
 # Property-based testing for edge cases
@@ -554,11 +519,9 @@ try:
         @given(
             awareness_level=st.floats(min_value=0.0, max_value=1.0),
             cognitive_load=st.floats(min_value=0.0, max_value=2.0),
-            quality_threshold=st.floats(min_value=0.1, max_value=1.0)
+            quality_threshold=st.floats(min_value=0.1, max_value=1.0),
         )
-        async def test_varying_consciousness_states(
-            self, awareness_level, cognitive_load, quality_threshold
-        ):
+        async def test_varying_consciousness_states(self, awareness_level, cognitive_load, quality_threshold):
             """Test thought loop with varying consciousness state parameters."""
             thought_loop = MATRIZThoughtLoop()
             await thought_loop.initialize()
@@ -569,7 +532,7 @@ try:
                 context_data={},
                 time_budget_ms=1000,
                 quality_threshold=quality_threshold,
-                tenant="test"
+                tenant="test",
             )
 
             consciousness_state = ConsciousnessState(
@@ -580,12 +543,11 @@ try:
                 reasoning_depth=0.7,
                 contradiction_tension=0.2,
                 meta_awareness=0.6,
-                timestamp=time.time()
+                timestamp=time.time(),
             )
 
             result = await thought_loop.process_complete_thought_loop(
-                context=context,
-                consciousness_state=consciousness_state
+                context=context, consciousness_state=consciousness_state
             )
 
             # Properties that should always hold
@@ -595,16 +557,11 @@ try:
 
         @given(
             inference_depth=st.integers(min_value=1, max_value=20),
-            time_budget=st.integers(min_value=50, max_value=5000)
+            time_budget=st.integers(min_value=50, max_value=5000),
         )
-        async def test_varying_processing_parameters(
-            self, inference_depth, time_budget
-        ):
+        async def test_varying_processing_parameters(self, inference_depth, time_budget):
             """Test thought loop with varying processing parameters."""
-            config = {
-                'max_inference_depth': inference_depth,
-                'timeout_ms': time_budget + 1000
-            }
+            config = {"max_inference_depth": inference_depth, "timeout_ms": time_budget + 1000}
 
             thought_loop = MATRIZThoughtLoop(config=config)
             await thought_loop.initialize()
@@ -612,21 +569,25 @@ try:
             context = ThoughtLoopContext(
                 session_id="property_test",
                 query="Depth test query",
-                context_data={'reasoning_depth': 'adaptive'},
+                context_data={"reasoning_depth": "adaptive"},
                 time_budget_ms=time_budget,
                 quality_threshold=0.6,
-                tenant="test"
+                tenant="test",
             )
 
             consciousness_state = ConsciousnessState(
-                awareness_level=0.7, cognitive_load=0.5, focus_intensity=0.7,
-                memory_coherence=0.8, reasoning_depth=0.8, contradiction_tension=0.2,
-                meta_awareness=0.6, timestamp=time.time()
+                awareness_level=0.7,
+                cognitive_load=0.5,
+                focus_intensity=0.7,
+                memory_coherence=0.8,
+                reasoning_depth=0.8,
+                contradiction_tension=0.2,
+                meta_awareness=0.6,
+                timestamp=time.time(),
             )
 
             result = await thought_loop.process_complete_thought_loop(
-                context=context,
-                consciousness_state=consciousness_state
+                context=context, consciousness_state=consciousness_state
             )
 
             # Properties for varying parameters
@@ -654,16 +615,21 @@ class TestThoughtLoopPerformanceBenchmarks:
         context = ThoughtLoopContext(
             session_id="benchmark",
             query="Standard benchmark query",
-            context_data={'benchmark': True},
+            context_data={"benchmark": True},
             time_budget_ms=200,
             quality_threshold=0.7,
-            tenant="benchmark"
+            tenant="benchmark",
         )
 
         consciousness_state = ConsciousnessState(
-            awareness_level=0.7, cognitive_load=0.5, focus_intensity=0.7,
-            memory_coherence=0.8, reasoning_depth=0.7, contradiction_tension=0.2,
-            meta_awareness=0.6, timestamp=time.time()
+            awareness_level=0.7,
+            cognitive_load=0.5,
+            focus_intensity=0.7,
+            memory_coherence=0.8,
+            reasoning_depth=0.7,
+            contradiction_tension=0.2,
+            meta_awareness=0.6,
+            timestamp=time.time(),
         )
 
         # Execute benchmark
@@ -671,8 +637,7 @@ class TestThoughtLoopPerformanceBenchmarks:
         for _ in range(num_requests):
             try:
                 result = await thought_loop.process_complete_thought_loop(
-                    context=context,
-                    consciousness_state=consciousness_state
+                    context=context, consciousness_state=consciousness_state
                 )
                 if result.success:
                     successful_requests += 1
@@ -697,21 +662,25 @@ if __name__ == "__main__":
         context = ThoughtLoopContext(
             session_id="smoke_test",
             query="Test consciousness emergence",
-            context_data={'test': True},
+            context_data={"test": True},
             time_budget_ms=1000,
             quality_threshold=0.7,
-            tenant="smoke"
+            tenant="smoke",
         )
 
         consciousness_state = ConsciousnessState(
-            awareness_level=0.8, cognitive_load=0.5, focus_intensity=0.7,
-            memory_coherence=0.9, reasoning_depth=0.8, contradiction_tension=0.2,
-            meta_awareness=0.7, timestamp=time.time()
+            awareness_level=0.8,
+            cognitive_load=0.5,
+            focus_intensity=0.7,
+            memory_coherence=0.9,
+            reasoning_depth=0.8,
+            contradiction_tension=0.2,
+            meta_awareness=0.7,
+            timestamp=time.time(),
         )
 
         result = await thought_loop.process_complete_thought_loop(
-            context=context,
-            consciousness_state=consciousness_state
+            context=context, consciousness_state=consciousness_state
         )
 
         print(f"Smoke test result: success={result.success}, quality={result.overall_quality_score}")

@@ -30,6 +30,7 @@ class BackoffStrategy(Enum):
 @dataclass
 class TimeoutConfig:
     """Configuration for adaptive timeouts."""
+
     base_timeout: float
     max_timeout: float
     min_timeout: float
@@ -41,6 +42,7 @@ class TimeoutConfig:
 @dataclass
 class BackoffConfig:
     """Configuration for backoff strategies."""
+
     initial_delay: float = 1.0
     max_delay: float = 300.0  # 5 minutes
     multiplier: float = 2.0
@@ -78,17 +80,11 @@ class AdaptiveTimeoutManager:
         if operation not in self.operation_data:
             # Auto-register with default config
             default_config = TimeoutConfig(
-                base_timeout=5000,  # 5 seconds
-                max_timeout=30000,  # 30 seconds
-                min_timeout=100     # 100ms
+                base_timeout=5000, max_timeout=30000, min_timeout=100  # 5 seconds  # 30 seconds  # 100ms
             )
             self.register_operation(operation, default_config)
 
-        self.operation_data[operation].append({
-            'latency_ms': latency_ms,
-            'success': success,
-            'timestamp': time.time()
-        })
+        self.operation_data[operation].append({"latency_ms": latency_ms, "success": success, "timestamp": time.time()})
 
     def get_adaptive_timeout(self, operation: str, current_load: Optional[float] = None) -> float:
         """Calculate adaptive timeout based on historical data and current load."""
@@ -102,10 +98,8 @@ class AdaptiveTimeoutManager:
             return config.base_timeout
 
         # Calculate percentile-based timeout
-        recent_data = list(data)[-min(100, len(data)):]  # Use last 100 samples
-        successful_latencies = [
-            d['latency_ms'] for d in recent_data if d['success']
-        ]
+        recent_data = list(data)[-min(100, len(data)) :]  # Use last 100 samples
+        successful_latencies = [d["latency_ms"] for d in recent_data if d["success"]]
 
         if not successful_latencies:
             return config.base_timeout
@@ -130,23 +124,14 @@ class AdaptiveTimeoutManager:
         adaptive_timeout = max(config.min_timeout, min(adaptive_timeout, config.max_timeout))
 
         # Smooth adaptation
-        current_timeout = getattr(self, f'_last_timeout_{operation}', config.base_timeout)
-        smoothed_timeout = (
-            current_timeout * (1 - config.adaptation_rate) +
-            adaptive_timeout * config.adaptation_rate
-        )
+        current_timeout = getattr(self, f"_last_timeout_{operation}", config.base_timeout)
+        smoothed_timeout = current_timeout * (1 - config.adaptation_rate) + adaptive_timeout * config.adaptation_rate
 
-        setattr(self, f'_last_timeout_{operation}', smoothed_timeout)
+        setattr(self, f"_last_timeout_{operation}", smoothed_timeout)
 
         return smoothed_timeout
 
-    async def execute_with_adaptive_timeout(
-        self,
-        operation: str,
-        coro_func: Callable,
-        *args,
-        **kwargs
-    ) -> Any:
+    async def execute_with_adaptive_timeout(self, operation: str, coro_func: Callable, *args, **kwargs) -> Any:
         """Execute a coroutine with adaptive timeout."""
         timeout = self.get_adaptive_timeout(operation)
         start_time = time.time()
@@ -191,13 +176,7 @@ class IntelligentBackoff:
         self.attempt_history: deque = deque(maxlen=1000)
         self.metrics = LUKHASMetrics()
 
-    async def execute_with_backoff(
-        self,
-        operation: str,
-        func: Callable,
-        *args,
-        **kwargs
-    ) -> Any:
+    async def execute_with_backoff(self, operation: str, func: Callable, *args, **kwargs) -> Any:
         """Execute function with intelligent backoff on failure."""
         last_exception = None
 
@@ -211,12 +190,14 @@ class IntelligentBackoff:
                     result = func(*args, **kwargs)
 
                 # Record success
-                self.attempt_history.append({
-                    'success': True,
-                    'attempt': attempt + 1,
-                    'latency_ms': (time.time() - start_time) * 1000,
-                    'timestamp': time.time()
-                })
+                self.attempt_history.append(
+                    {
+                        "success": True,
+                        "attempt": attempt + 1,
+                        "latency_ms": (time.time() - start_time) * 1000,
+                        "timestamp": time.time(),
+                    }
+                )
 
                 self.metrics.record_backoff_success(operation, attempt + 1)
                 return result
@@ -225,13 +206,15 @@ class IntelligentBackoff:
                 last_exception = e
 
                 # Record failure
-                self.attempt_history.append({
-                    'success': False,
-                    'attempt': attempt + 1,
-                    'latency_ms': (time.time() - start_time) * 1000,
-                    'timestamp': time.time(),
-                    'error': str(e)
-                })
+                self.attempt_history.append(
+                    {
+                        "success": False,
+                        "attempt": attempt + 1,
+                        "latency_ms": (time.time() - start_time) * 1000,
+                        "timestamp": time.time(),
+                        "error": str(e),
+                    }
+                )
 
                 # Don't wait after the last attempt
                 if attempt < self.config.max_attempts - 1:
@@ -262,7 +245,7 @@ class IntelligentBackoff:
     def _get_base_delay(self, attempt: int) -> float:
         """Calculate base delay using configured strategy."""
         if self.config.strategy == BackoffStrategy.EXPONENTIAL:
-            return self.config.initial_delay * (self.config.multiplier ** attempt)
+            return self.config.initial_delay * (self.config.multiplier**attempt)
 
         elif self.config.strategy == BackoffStrategy.LINEAR:
             return self.config.initial_delay * (attempt + 1)
@@ -274,7 +257,7 @@ class IntelligentBackoff:
             return self._adaptive_delay(attempt)
 
         else:
-            return self.config.initial_delay * (self.config.multiplier ** attempt)
+            return self.config.initial_delay * (self.config.multiplier**attempt)
 
     def _adaptive_delay(self, attempt: int) -> float:
         """Calculate adaptive delay based on recent success patterns."""
@@ -283,7 +266,7 @@ class IntelligentBackoff:
 
         # Analyze recent success rate
         recent_attempts = list(self.attempt_history)[-50:]  # Last 50 attempts
-        success_rate = sum(1 for a in recent_attempts if a['success']) / len(recent_attempts)
+        success_rate = sum(1 for a in recent_attempts if a["success"]) / len(recent_attempts)
 
         # Adjust delay based on success rate
         if success_rate > 0.8:  # High success rate, be more aggressive
@@ -293,7 +276,7 @@ class IntelligentBackoff:
         else:  # Low success rate, be more conservative
             multiplier = 3.0
 
-        return self.config.initial_delay * (multiplier ** attempt)
+        return self.config.initial_delay * (multiplier**attempt)
 
     def _fibonacci(self, n: int) -> int:
         """Calculate nth Fibonacci number."""
@@ -308,6 +291,7 @@ class IntelligentBackoff:
         """Get load-based delay multiplier."""
         try:
             import psutil
+
             cpu_percent = psutil.cpu_percent()
             memory_percent = psutil.virtual_memory().percent
 
@@ -326,19 +310,19 @@ class IntelligentBackoff:
 
         recent_attempts = list(self.attempt_history)[-100:]  # Last 100 attempts
 
-        success_count = sum(1 for a in recent_attempts if a['success'])
+        success_count = sum(1 for a in recent_attempts if a["success"])
         success_rate = success_count / len(recent_attempts)
 
         # Average attempts to success
-        successful_attempts = [a['attempt'] for a in recent_attempts if a['success']]
+        successful_attempts = [a["attempt"] for a in recent_attempts if a["success"]]
         avg_attempts_to_success = statistics.mean(successful_attempts) if successful_attempts else 0
 
         return {
-            'total_attempts': len(recent_attempts),
-            'success_rate': success_rate,
-            'average_attempts_to_success': avg_attempts_to_success,
-            'strategy': self.config.strategy.value,
-            'max_attempts': self.config.max_attempts
+            "total_attempts": len(recent_attempts),
+            "success_rate": success_rate,
+            "average_attempts_to_success": avg_attempts_to_success,
+            "strategy": self.config.strategy.value,
+            "max_attempts": self.config.max_attempts,
         }
 
 
@@ -363,23 +347,14 @@ def get_default_backoff() -> IntelligentBackoff:
     return _default_backoff
 
 
-async def execute_with_adaptive_timeout(
-    operation: str,
-    coro_func: Callable,
-    *args,
-    **kwargs
-) -> Any:
+async def execute_with_adaptive_timeout(operation: str, coro_func: Callable, *args, **kwargs) -> Any:
     """Execute coroutine with adaptive timeout."""
     manager = get_timeout_manager()
     return await manager.execute_with_adaptive_timeout(operation, coro_func, *args, **kwargs)
 
 
 async def execute_with_backoff(
-    operation: str,
-    func: Callable,
-    config: Optional[BackoffConfig] = None,
-    *args,
-    **kwargs
+    operation: str, func: Callable, config: Optional[BackoffConfig] = None, *args, **kwargs
 ) -> Any:
     """Execute function with intelligent backoff."""
     if config:
@@ -392,6 +367,7 @@ async def execute_with_backoff(
 
 def adaptive_timeout(operation: str, config: Optional[TimeoutConfig] = None):
     """Decorator for adaptive timeout."""
+
     def decorator(func):
         async def wrapper(*args, **kwargs):
             if config:
@@ -399,25 +375,29 @@ def adaptive_timeout(operation: str, config: Optional[TimeoutConfig] = None):
                 manager.register_operation(operation, config)
 
             return await execute_with_adaptive_timeout(operation, func, *args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
 def intelligent_backoff(operation: str, config: Optional[BackoffConfig] = None):
     """Decorator for intelligent backoff."""
+
     def decorator(func):
         async def wrapper(*args, **kwargs):
             return await execute_with_backoff(operation, func, config, *args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
 def resilient_operation(
-    operation: str,
-    timeout_config: Optional[TimeoutConfig] = None,
-    backoff_config: Optional[BackoffConfig] = None
+    operation: str, timeout_config: Optional[TimeoutConfig] = None, backoff_config: Optional[BackoffConfig] = None
 ):
     """Decorator combining adaptive timeout and intelligent backoff."""
+
     def decorator(func):
         async def wrapper(*args, **kwargs):
             # Register timeout config if provided
@@ -438,4 +418,5 @@ def resilient_operation(
             return await backoff.execute_with_backoff(operation, timeout_wrapper)
 
         return wrapper
+
     return decorator

@@ -36,9 +36,7 @@ def fix_later(
     # ΛTAG: keatsian_fallback_diagnostics
     timestamp = datetime.now(timezone.utc).isoformat()
     safe_metadata = {
-        key: value
-        if isinstance(value, (str, int, float, bool)) or value is None
-        else str(value)
+        key: value if isinstance(value, (str, int, float, bool)) or value is None else str(value)
         for key, value in (metadata or {}).items()
     }
 

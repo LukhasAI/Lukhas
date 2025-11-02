@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class VectorStoreType(Enum):
     """Supported vector store implementations"""
+
     POSTGRESQL = "postgresql"
     FAISS = "faiss"
     CHROMADB = "chromadb"
@@ -28,6 +29,7 @@ class VectorStoreType(Enum):
 @dataclass
 class VectorDocument:
     """Document with vector embedding and metadata"""
+
     id: str
     vector: List[float]
     content: str
@@ -42,6 +44,7 @@ class VectorDocument:
 @dataclass
 class VectorSearchQuery:
     """Vector similarity search query"""
+
     vector: List[float]
     top_k: int = 10
     metadata_filter: Optional[Dict[str, Any]] = None
@@ -53,6 +56,7 @@ class VectorSearchQuery:
 @dataclass
 class VectorSearchResult:
     """Single search result with score"""
+
     document: VectorDocument
     score: float
     rank: int
@@ -61,6 +65,7 @@ class VectorSearchResult:
 @dataclass
 class VectorSearchResponse:
     """Complete search response with timing"""
+
     results: List[VectorSearchResult]
     query_time_ms: float
     total_documents: int
@@ -70,6 +75,7 @@ class VectorSearchResponse:
 @dataclass
 class VectorStoreStats:
     """Vector store performance and health statistics"""
+
     total_documents: int
     vector_dimensions: int
     index_size_bytes: int
@@ -82,16 +88,19 @@ class VectorStoreStats:
 
 class VectorStoreError(Exception):
     """Base exception for vector store operations"""
+
     pass
 
 
 class VectorStoreDimensionError(VectorStoreError):
     """Vector dimension mismatch error"""
+
     pass
 
 
 class VectorStoreConnectionError(VectorStoreError):
     """Connection or availability error"""
+
     pass
 
 
@@ -118,7 +127,7 @@ class VectorStoreBase(ABC):
             average_query_time_ms=0.0,
             p95_query_time_ms=0.0,
             p99_query_time_ms=0.0,
-            error_rate=0.0
+            error_rate=0.0,
         )
         self._query_times: List[float] = []
         self._max_query_history = 1000
@@ -191,6 +200,7 @@ class VectorStoreBase(ABC):
         """Update internal statistics"""
         if self._query_times:
             import statistics
+
             self.stats.average_query_time_ms = statistics.mean(self._query_times)
 
             if len(self._query_times) >= 20:  # Need sufficient samples
@@ -213,7 +223,7 @@ class VectorStoreBase(ABC):
 
         # Keep only recent query times
         if len(self._query_times) > self._max_query_history:
-            self._query_times = self._query_times[-self._max_query_history:]
+            self._query_times = self._query_times[-self._max_query_history :]
 
     async def _validate_vector_dimensions(self, vectors: List[List[float]]) -> None:
         """Validate that all vectors have consistent dimensions"""
@@ -226,9 +236,7 @@ class VectorStoreBase(ABC):
 
         for i, vector in enumerate(vectors):
             if len(vector) != expected_dim:
-                raise VectorStoreDimensionError(
-                    f"Vector {i} has {len(vector)} dimensions, expected {expected_dim}"
-                )
+                raise VectorStoreDimensionError(f"Vector {i} has {len(vector)} dimensions, expected {expected_dim}")
 
         # Update stats
         if self.stats.vector_dimensions == 0:
@@ -247,10 +255,9 @@ class BatchVectorStoreBase(VectorStoreBase):
     """
 
     @abstractmethod
-    async def batch_upsert(self,
-                          documents: List[VectorDocument],
-                          batch_size: int = 100,
-                          parallel_batches: int = 4) -> Dict[str, Any]:
+    async def batch_upsert(
+        self, documents: List[VectorDocument], batch_size: int = 100, parallel_batches: int = 4
+    ) -> Dict[str, Any]:
         """
         Efficient batch upsert with parallel processing.
 
@@ -265,9 +272,9 @@ class BatchVectorStoreBase(VectorStoreBase):
         pass
 
     @abstractmethod
-    async def batch_search(self,
-                          queries: List[VectorSearchQuery],
-                          parallel_queries: int = 8) -> List[VectorSearchResponse]:
+    async def batch_search(
+        self, queries: List[VectorSearchQuery], parallel_queries: int = 8
+    ) -> List[VectorSearchResponse]:
         """
         Execute multiple searches in parallel.
 

@@ -20,7 +20,7 @@ def extract_module_docstring(module_path: Path) -> Optional[str]:
         return None
 
     try:
-        with open(init_file, 'r', encoding='utf-8') as f:
+        with open(init_file, "r", encoding="utf-8") as f:
             content = f.read()
 
         tree = ast.parse(content)
@@ -44,7 +44,7 @@ def generate_module_readme(module_path: Path) -> str:
         return ""
 
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, "r", encoding="utf-8") as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")
@@ -90,15 +90,15 @@ def generate_module_readme(module_path: Path) -> str:
 
     if docstring:
         # Use rich docstring content
-        docstring_lines = docstring.strip().split('\n')
+        docstring_lines = docstring.strip().split("\n")
         in_overview = False
         for line in docstring_lines:
             line = line.strip()
-            if line.startswith('=') or not line:
+            if line.startswith("=") or not line:
                 continue
             if "Key Features:" in line:
                 break
-            if in_overview or (len(line) > 20 and not line.endswith(':')):
+            if in_overview or (len(line) > 20 and not line.endswith(":")):
                 readme_lines.append(line)
                 in_overview = True
         readme_lines.append("")
@@ -111,14 +111,14 @@ def generate_module_readme(module_path: Path) -> str:
         readme_lines.append("## Key Features")
         readme_lines.append("")
         in_features = False
-        for line in docstring.split('\n'):
+        for line in docstring.split("\n"):
             line = line.strip()
             if "Key Features:" in line:
                 in_features = True
                 continue
-            if in_features and line.startswith('-'):
+            if in_features and line.startswith("-"):
                 readme_lines.append(line)
-            elif in_features and line and not line.startswith('-'):
+            elif in_features and line and not line.startswith("-"):
                 break
         readme_lines.append("")
 
@@ -130,15 +130,23 @@ def generate_module_readme(module_path: Path) -> str:
         readme_lines.append("")
 
         # Group entrypoints by category
-        classes = [ep for ep in entrypoints if any(word in ep for word in ['Class', 'System', 'Hub', 'Monitor', 'Manager', 'Tracker', 'Engine'])]
-        functions = [ep for ep in entrypoints if any(word in ep for word in ['create_', 'get_', 'process_', 'validate_', 'activate_', 'monitor_'])]
+        classes = [
+            ep
+            for ep in entrypoints
+            if any(word in ep for word in ["Class", "System", "Hub", "Monitor", "Manager", "Tracker", "Engine"])
+        ]
+        functions = [
+            ep
+            for ep in entrypoints
+            if any(word in ep for word in ["create_", "get_", "process_", "validate_", "activate_", "monitor_"])
+        ]
         [ep for ep in entrypoints if ep not in classes and ep not in functions]
 
         if classes:
             readme_lines.append("### Core Classes")
             readme_lines.append("")
             for cls in sorted(classes)[:10]:  # Top 10
-                class_name = cls.split('.')[-1]
+                class_name = cls.split(".")[-1]
                 readme_lines.append(f"- `{class_name}` - {cls}")
             readme_lines.append("")
 
@@ -146,7 +154,7 @@ def generate_module_readme(module_path: Path) -> str:
             readme_lines.append("### Functions")
             readme_lines.append("")
             for func in sorted(functions)[:10]:  # Top 10
-                func_name = func.split('.')[-1]
+                func_name = func.split(".")[-1]
                 readme_lines.append(f"- `{func_name}()` - {func}")
             readme_lines.append("")
 
@@ -160,14 +168,14 @@ def generate_module_readme(module_path: Path) -> str:
     readme_lines.append("")
     if entrypoints:
         # Show a few key imports
-        key_imports = [ep for ep in entrypoints[:3] if '.' in ep]
+        key_imports = [ep for ep in entrypoints[:3] if "." in ep]
         if key_imports:
             readme_lines.append("# Key components")
             for imp in key_imports:
-                parts = imp.split('.')
+                parts = imp.split(".")
                 if len(parts) >= 2:
                     class_name = parts[-1]
-                    module_part = '.'.join(parts[:-1])
+                    module_part = ".".join(parts[:-1])
                     readme_lines.append(f"from {module_part} import {class_name}")
     readme_lines.append("```")
     readme_lines.append("")
@@ -187,16 +195,16 @@ def generate_module_readme(module_path: Path) -> str:
         readme_lines.append("## Categories")
         readme_lines.append("")
         tag_descriptions = {
-            'consciousness': 'Consciousness processing and awareness systems',
-            'memory': 'Memory management and storage systems',
-            'identity': 'Identity and authentication systems',
-            'governance': 'Governance and policy enforcement',
-            'orchestration': 'System orchestration and coordination',
-            'webauthn': 'WebAuthn and passwordless authentication',
-            'fold-architecture': 'Fold-based memory architecture',
-            't4-experimental': 'T4/0.01% experimental systems',
-            'bio-symbolic': 'Bio-symbolic processing systems',
-            'quantum-inspired': 'Quantum-inspired algorithms'
+            "consciousness": "Consciousness processing and awareness systems",
+            "memory": "Memory management and storage systems",
+            "identity": "Identity and authentication systems",
+            "governance": "Governance and policy enforcement",
+            "orchestration": "System orchestration and coordination",
+            "webauthn": "WebAuthn and passwordless authentication",
+            "fold-architecture": "Fold-based memory architecture",
+            "t4-experimental": "T4/0.01% experimental systems",
+            "bio-symbolic": "Bio-symbolic processing systems",
+            "quantum-inspired": "Quantum-inspired algorithms",
         }
 
         for tag in sorted(tags):
@@ -223,7 +231,7 @@ def generate_module_readme(module_path: Path) -> str:
     readme_lines.append("")
     readme_lines.append("*This documentation is generated from the module manifest and source code.*")
 
-    return '\n'.join(readme_lines)
+    return "\n".join(readme_lines)
 
 
 def main():
@@ -232,8 +240,16 @@ def main():
 
     # Priority modules for README generation
     priority_modules = [
-        'brain', 'consciousness', 'memory', 'identity', 'governance',
-        'matriz', 'core', 'api', 'bridge', 'orchestration'
+        "brain",
+        "consciousness",
+        "memory",
+        "identity",
+        "governance",
+        "matriz",
+        "core",
+        "api",
+        "bridge",
+        "orchestration",
     ]
 
     print("📝 Generating comprehensive README.md files...")
@@ -247,7 +263,7 @@ def main():
             if readme_content:
                 readme_file = module_path / "README.md"
                 try:
-                    with open(readme_file, 'w', encoding='utf-8') as f:
+                    with open(readme_file, "w", encoding="utf-8") as f:
                         f.write(readme_content)
                     print(f"✅ Generated README for {module_name}")
                     generated_count += 1

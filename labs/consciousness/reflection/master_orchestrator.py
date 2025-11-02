@@ -47,6 +47,7 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛCOMPLETE: Brain/memory orchestration integration implemented with safety protocols
 AIDEA: Implement LUKHAS cycle optimization with memory integration
 """
+
 import asyncio
 import logging
 import time

@@ -29,9 +29,11 @@ from typing import Any, Dict, List, Optional
 
 try:
     import jsonschema
+
     JSONSCHEMA_AVAILABLE = True
 except ImportError:
     JSONSCHEMA_AVAILABLE = False
+
 
 def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
     """Run shell command quietly"""
@@ -41,42 +43,44 @@ def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
         print(f"Error: {result.stderr}")
     return result
 
+
 def load_json(path: Path) -> Optional[Dict[str, Any]]:
     """Load JSON file safely"""
     try:
         if not path.exists():
             return None
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print(f"⚠️  Failed to load {path}: {e}")
         return None
 
+
 def save_json(path: Path, data: Dict[str, Any]) -> None:
     """Save JSON file with proper formatting"""
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, 'w', encoding='utf-8') as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, sort_keys=False)
-        f.write('\n')
+        f.write("\n")
+
 
 def get_git_sha() -> str:
     """Get current git SHA"""
     result = run_cmd("git rev-parse HEAD")
     return result.stdout.strip()[:12] if result.returncode == 0 else "unknown"
 
+
 def stable_module_id(module_name: str) -> str:
     """Generate stable module ID"""
     h = hashlib.sha256()
-    h.update(module_name.encode('utf-8'))
-    h.update(str(Path.cwd()).encode('utf-8'))
+    h.update(module_name.encode("utf-8"))
+    h.update(str(Path.cwd()).encode("utf-8"))
     return f"mod-{h.hexdigest()[:16]}"
+
 
 def detect_matrix_contract(module_dir: Path) -> Optional[str]:
     """Detect MATRIZ contract file"""
-    candidates = [
-        f"matrix_{module_dir.name}.json",
-        "matrix.json"
-    ]
+    candidates = [f"matrix_{module_dir.name}.json", "matrix.json"]
 
     for candidate in candidates:
         if (module_dir / candidate).exists():
@@ -88,11 +92,13 @@ def detect_matrix_contract(module_dir: Path) -> Optional[str]:
 
     return None
 
+
 def detect_code_layout(module_dir: Path) -> str:
     """Detect code layout pattern"""
     if (module_dir / "src").exists():
         return "src-root"
     return "package-root"
+
 
 def create_manifest_defaults(module_name: str, module_dir: Path) -> Dict[str, Any]:
     """Create default manifest structure"""
@@ -104,52 +110,30 @@ def create_manifest_defaults(module_name: str, module_dir: Path) -> Dict[str, An
         "config": "config",
         "tests": "tests",
         "docs": "docs",
-        "assets": "assets"
+        "assets": "assets",
     }
 
     return {
         "schema_version": "1.0.0",
         "module": module_name,
         "description": f"LUKHAS {module_name} module",
-        "ownership": {
-            "team": "Core",
-            "codeowners": ["@lukhas-core"]
-        },
-        "layout": {
-            "code_layout": code_layout,
-            "paths": paths
-        },
-        "runtime": {
-            "language": "python",
-            "entrypoints": []
-        },
-        "matrix": {
-            "contract": matrix_contract or "",
-            "lane": "L2",
-            "gates_profile": "standard"
-        },
-        "identity": {
-            "requires_auth": False,
-            "tiers": [],
-            "scopes": []
-        },
+        "ownership": {"team": "Core", "codeowners": ["@lukhas-core"]},
+        "layout": {"code_layout": code_layout, "paths": paths},
+        "runtime": {"language": "python", "entrypoints": []},
+        "matrix": {"contract": matrix_contract or "", "lane": "L2", "gates_profile": "standard"},
+        "identity": {"requires_auth": False, "tiers": [], "scopes": []},
         "links": {
             "repo": "https://github.com/LukhasAI/Lukhas",
             "docs": "./docs/README.md",
-            "issues": "https://github.com/LukhasAI/Lukhas/issues"
+            "issues": "https://github.com/LukhasAI/Lukhas/issues",
         },
         "tags": [],
-        "observability": {
-            "required_spans": [],
-            "otel_semconv_version": "1.37.0"
-        },
-        "tokenization": {
-            "enabled": False,
-            "chain": "none"
-        },
+        "observability": {"required_spans": [], "otel_semconv_version": "1.37.0"},
+        "tokenization": {"enabled": False, "chain": "none"},
         "dependencies": [],
-        "contracts": [matrix_contract] if matrix_contract else []
+        "contracts": [matrix_contract] if matrix_contract else [],
     }
+
 
 def merge_manifests(existing: Dict[str, Any], defaults: Dict[str, Any]) -> Dict[str, Any]:
     """Merge existing manifest with defaults, preserving existing values"""
@@ -170,6 +154,7 @@ def merge_manifests(existing: Dict[str, Any], defaults: Dict[str, Any]) -> Dict[
 
     return result
 
+
 def ensure_required_directories(module_dir: Path, manifest: Dict[str, Any]) -> List[str]:
     """Ensure required directories exist and return list of created directories"""
     created = []
@@ -186,9 +171,10 @@ def ensure_required_directories(module_dir: Path, manifest: Dict[str, Any]) -> L
                 readme_path = dir_path / "README.md"
                 if not readme_path.exists():
                     readme_content = f"# {module_dir.name.title()} {dir_name.title()}\n\nThis directory contains {dir_name} for the {module_dir.name} module.\n"
-                    readme_path.write_text(readme_content, encoding='utf-8')
+                    readme_path.write_text(readme_content, encoding="utf-8")
 
     return created
+
 
 def validate_manifest_with_schema(manifest: Dict[str, Any], schema_path: Path) -> List[str]:
     """Validate manifest against JSON schema"""
@@ -210,18 +196,15 @@ def validate_manifest_with_schema(manifest: Dict[str, Any], schema_path: Path) -
     except Exception as e:
         return [f"Schema validation failed: {e}"]
 
+
 def discover_modules(root_dir: Path) -> Dict[str, Any]:
     """Discover all modules and their current state"""
     print("🔍 Discovering modules...")
 
-    discovery = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "root_directory": str(root_dir),
-        "modules": []
-    }
+    discovery = {"timestamp": datetime.now(timezone.utc).isoformat(), "root_directory": str(root_dir), "modules": []}
 
     for module_path in sorted(root_dir.iterdir()):
-        if not module_path.is_dir() or module_path.name.startswith('.'):
+        if not module_path.is_dir() or module_path.name.startswith("."):
             continue
 
         module_info = {
@@ -232,7 +215,7 @@ def discover_modules(root_dir: Path) -> Dict[str, Any]:
             "has_matrix_contract": bool(detect_matrix_contract(module_path)),
             "matrix_contract": detect_matrix_contract(module_path),
             "code_layout": detect_code_layout(module_path),
-            "missing_directories": []
+            "missing_directories": [],
         }
 
         # Check for missing required directories
@@ -245,6 +228,7 @@ def discover_modules(root_dir: Path) -> Dict[str, Any]:
 
     return discovery
 
+
 def upgrade_modules(root_dir: Path, force: bool = False) -> Dict[str, Any]:
     """Upgrade all modules to new manifest format"""
     print("📦 Upgrading modules...")
@@ -254,22 +238,17 @@ def upgrade_modules(root_dir: Path, force: bool = False) -> Dict[str, Any]:
         "root_directory": str(root_dir),
         "git_sha": get_git_sha(),
         "force_mode": force,
-        "modules": []
+        "modules": [],
     }
 
     for module_path in sorted(root_dir.iterdir()):
-        if not module_path.is_dir() or module_path.name.startswith('.'):
+        if not module_path.is_dir() or module_path.name.startswith("."):
             continue
 
         module_name = module_path.name
         print(f"  Processing {module_name}...")
 
-        module_log = {
-            "name": module_name,
-            "path": str(module_path),
-            "actions": [],
-            "errors": []
-        }
+        module_log = {"name": module_name, "path": str(module_path), "actions": [], "errors": []}
 
         try:
             # Check existing manifests
@@ -322,6 +301,7 @@ def upgrade_modules(root_dir: Path, force: bool = False) -> Dict[str, Any]:
 
     return upgrade_log
 
+
 def validate_modules(root_dir: Path) -> Dict[str, Any]:
     """Validate all module manifests"""
     print("🔍 Validating modules...")
@@ -330,14 +310,14 @@ def validate_modules(root_dir: Path) -> Dict[str, Any]:
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "root_directory": str(root_dir),
         "schema_available": JSONSCHEMA_AVAILABLE,
-        "modules": []
+        "modules": [],
     }
 
     schema_path = Path("schemas/module.manifest.schema.json")
     total_errors = 0
 
     for module_path in sorted(root_dir.iterdir()):
-        if not module_path.is_dir() or module_path.name.startswith('.'):
+        if not module_path.is_dir() or module_path.name.startswith("."):
             continue
 
         module_name = module_path.name
@@ -348,7 +328,7 @@ def validate_modules(root_dir: Path) -> Dict[str, Any]:
             "path": str(module_path),
             "manifest_exists": manifest_path.exists(),
             "errors": [],
-            "warnings": []
+            "warnings": [],
         }
 
         if not manifest_path.exists():
@@ -378,6 +358,7 @@ def validate_modules(root_dir: Path) -> Dict[str, Any]:
     validation_log["passed"] = total_errors == 0
 
     return validation_log
+
 
 def main():
     parser = argparse.ArgumentParser(description="Module Manifest Upgrade Tool")
@@ -415,7 +396,7 @@ def main():
             missing = ", ".join(module["missing_directories"]) or "none"
             dry_run_md += f"| {module['name']} | {legacy} | {manifest} | {matrix} | {missing} |\n"
 
-        (artifacts_dir / "module_manifest.dry_run.md").write_text(dry_run_md, encoding='utf-8')
+        (artifacts_dir / "module_manifest.dry_run.md").write_text(dry_run_md, encoding="utf-8")
 
         print("✅ Discovery complete")
         print(f"📋 Artifacts: {artifacts_dir / 'module_manifest.discovery.json'}")
@@ -452,6 +433,7 @@ def main():
     else:
         print("❌ Please specify --discover, --upgrade, or --validate")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

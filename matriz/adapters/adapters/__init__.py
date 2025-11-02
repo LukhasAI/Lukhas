@@ -3,6 +3,7 @@ MATRIZ Adapters - Node Contract Implementations
 
 All adapters implement MatrizNode.handle(MatrizMessage) -> MatrizResult
 """
+
 from .bio_adapter import BioAdapter  # (relative imports in __init__.py are idiomatic)
 from .bridge_adapter import (
     BridgeAdapter,  # (relative imports in __init__.py are idiomatic)

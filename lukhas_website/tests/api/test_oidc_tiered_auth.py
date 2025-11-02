@@ -69,6 +69,7 @@ if "observability" not in sys.modules:
     sys.modules["observability"] = observability_module
     sys.modules["observability.matriz_decorators"] = matriz_decorators_module
 
+
 def _ensure_identity_module(module_name: str, **attrs) -> None:
     full_name = f"lukhas.identity.{module_name}"
     if full_name in sys.modules:
@@ -136,6 +137,8 @@ _ensure_identity_module(
 )
 _ensure_identity_module("token_storage", TokenStorage=_StubTokenStorage)
 _ensure_identity_module("webauthn", WebAuthnService=_StubWebAuthnService)
+
+
 class _StubAuthorizationRequest(BaseModel):  # pragma: no cover - simple stub
     client_id: str | None = None
     redirect_uri: str | None = None

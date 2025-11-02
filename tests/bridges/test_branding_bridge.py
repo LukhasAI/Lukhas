@@ -1,4 +1,5 @@
 """Test branding bridge exports and contract."""
+
 import importlib as _importlib
 
 import pytest

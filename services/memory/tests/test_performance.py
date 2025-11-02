@@ -34,6 +34,7 @@ from ..metrics import get_metrics_collector, get_t4_compliance_report
 @dataclass
 class PerformanceTestResult:
     """Results from a performance test run"""
+
     operation_type: str
     sample_count: int
     duration_seconds: float
@@ -73,10 +74,7 @@ class MockVectorStore:
         self.call_count += 1
 
         # Simulate network/processing latency
-        latency = max(0.001, random.gauss(
-            self.base_latency_ms / 1000,
-            self.latency_variance / 1000
-        ))
+        latency = max(0.001, random.gauss(self.base_latency_ms / 1000, self.latency_variance / 1000))
         await asyncio.sleep(latency)
 
         # Simulate occasional failures
@@ -85,33 +83,23 @@ class MockVectorStore:
 
         # Return mock results
         from ..api_read import MemoryFold, SearchResponse, SearchResult
+
         results = [
             SearchResult(
-                fold=MemoryFold(
-                    fold_id=f"fold_{i}",
-                    content=f"Mock content {i}",
-                    metadata={"rank": i},
-                    embedding=[]
-                ),
+                fold=MemoryFold(fold_id=f"fold_{i}", content=f"Mock content {i}", metadata={"rank": i}, embedding=[]),
                 score=0.9 - (i * 0.1),
-                rank=i + 1
-            ) for i in range(min(query.top_k, 10))
+                rank=i + 1,
+            )
+            for i in range(min(query.top_k, 10))
         ]
 
-        return SearchResponse(
-            results=results,
-            query_time_ms=latency * 1000,
-            total_results=len(results)
-        )
+        return SearchResponse(results=results, query_time_ms=latency * 1000, total_results=len(results))
 
     async def upsert_documents(self, documents: List[VectorDocument]) -> Dict[str, Any]:
         self.call_count += 1
 
         # Simulate processing latency
-        latency = max(0.001, random.gauss(
-            self.base_latency_ms / 1000,
-            self.latency_variance / 1000
-        ))
+        latency = max(0.001, random.gauss(self.base_latency_ms / 1000, self.latency_variance / 1000))
         await asyncio.sleep(latency)
 
         if random.random() < self.fail_rate:
@@ -121,12 +109,7 @@ class MockVectorStore:
         for doc in documents:
             self.documents[doc.id] = doc
 
-        return {
-            'inserted': len(documents),
-            'updated': 0,
-            'failed': 0,
-            'duration_ms': latency * 1000
-        }
+        return {"inserted": len(documents), "updated": 0, "failed": 0, "duration_ms": latency * 1000}
 
 
 @pytest.fixture
@@ -138,30 +121,18 @@ async def memory_services():
 
     # Create circuit breakers
     circuit_breakers = CircuitBreakerRegistry()
-    read_breaker = circuit_breakers.create_breaker(
-        'test_read',
-        CircuitBreakerFactory.create_memory_service_config()
-    )
-    write_breaker = circuit_breakers.create_breaker(
-        'test_write',
-        CircuitBreakerFactory.create_memory_service_config()
-    )
+    read_breaker = circuit_breakers.create_breaker("test_read", CircuitBreakerFactory.create_memory_service_config())
+    write_breaker = circuit_breakers.create_breaker("test_write", CircuitBreakerFactory.create_memory_service_config())
 
     # Create backpressure
     backpressure_configs = BackpressureFactory.create_memory_service_config()
     backpressure = AdaptiveBackpressure(backpressure_configs)
 
     # Create services
-    read_service = MemoryReadService(
-        vector_store=vector_store,
-        circuit_breaker=read_breaker,
-        backpressure=backpressure
-    )
+    read_service = MemoryReadService(vector_store=vector_store, circuit_breaker=read_breaker, backpressure=backpressure)
 
     write_service = MemoryWriteService(
-        vector_store=vector_store,
-        circuit_breaker=write_breaker,
-        backpressure=backpressure
+        vector_store=vector_store, circuit_breaker=write_breaker, backpressure=backpressure
     )
 
     yield read_service, write_service, vector_store
@@ -172,11 +143,9 @@ async def memory_services():
 class TestMemoryServicePerformance:
     """Performance test suite for memory service operations"""
 
-    async def run_latency_test(self,
-                             operation_func,
-                             operation_type: str,
-                             sample_count: int = 1000,
-                             concurrency: int = 10) -> PerformanceTestResult:
+    async def run_latency_test(
+        self, operation_func, operation_type: str, sample_count: int = 1000, concurrency: int = 10
+    ) -> PerformanceTestResult:
         """Run latency performance test with statistical analysis"""
         latencies = []
         errors = 0
@@ -219,11 +188,7 @@ class TestMemoryServicePerformance:
             p50_ms = p95_ms = p99_ms = min_ms = max_ms = 0.0
 
         # T4 thresholds
-        t4_thresholds = {
-            'search': 50.0,
-            'upsert': 100.0,
-            'batch': 200.0
-        }
+        t4_thresholds = {"search": 50.0, "upsert": 100.0, "batch": 200.0}
         threshold = t4_thresholds.get(operation_type, 100.0)
 
         return PerformanceTestResult(
@@ -240,7 +205,7 @@ class TestMemoryServicePerformance:
             error_count=errors,
             error_rate=errors / sample_count if sample_count > 0 else 0.0,
             t4_compliant=p95_ms <= threshold,
-            slo_threshold_ms=threshold
+            slo_threshold_ms=threshold,
         )
 
     @pytest.mark.asyncio
@@ -251,27 +216,22 @@ class TestMemoryServicePerformance:
         # Define search operation
         async def search_operation():
             query = SearchQuery(
-                query_text=f"test query {random.randint(1, 1000)}",
-                search_type=SearchType.SEMANTIC,
-                top_k=10
+                query_text=f"test query {random.randint(1, 1000)}", search_type=SearchType.SEMANTIC, top_k=10
             )
             await read_service.search(query)
 
         # Run performance test
-        result = await self.run_latency_test(
-            search_operation,
-            'search',
-            sample_count=1000,
-            concurrency=20
-        )
+        result = await self.run_latency_test(search_operation, "search", sample_count=1000, concurrency=20)
 
         # Validate T4 requirements
         assert result.p95_ms <= 50.0, f"Search p95 ({result.p95_ms:.2f}ms) exceeds T4 requirement (50ms)"
         assert result.p99_ms <= 100.0, f"Search p99 ({result.p99_ms:.2f}ms) exceeds limit (100ms)"
         assert result.error_rate <= 0.001, f"Error rate ({result.error_rate:.3f}) exceeds 0.1%"
 
-        print(f"Search Performance: p95={result.p95_ms:.2f}ms, p99={result.p99_ms:.2f}ms, "
-              f"throughput={result.throughput_ops_per_sec:.1f} ops/sec")
+        print(
+            f"Search Performance: p95={result.p95_ms:.2f}ms, p99={result.p99_ms:.2f}ms, "
+            f"throughput={result.throughput_ops_per_sec:.1f} ops/sec"
+        )
 
     @pytest.mark.asyncio
     async def test_upsert_performance_t4_compliance(self, memory_services):
@@ -280,18 +240,12 @@ class TestMemoryServicePerformance:
 
         # Define upsert operation
         async def upsert_operation():
-            content = ''.join(random.choices(string.ascii_letters, k=1000))
-            await write_service.upsert_memory_fold(
-                content=content,
-                metadata={"test": True, "timestamp": time.time()}
-            )
+            content = "".join(random.choices(string.ascii_letters, k=1000))
+            await write_service.upsert_memory_fold(content=content, metadata={"test": True, "timestamp": time.time()})
 
         # Run performance test
         result = await self.run_latency_test(
-            upsert_operation,
-            'upsert',
-            sample_count=500,  # Smaller sample for writes
-            concurrency=10
+            upsert_operation, "upsert", sample_count=500, concurrency=10  # Smaller sample for writes
         )
 
         # Validate T4 requirements
@@ -299,8 +253,10 @@ class TestMemoryServicePerformance:
         assert result.p99_ms <= 150.0, f"Upsert p99 ({result.p99_ms:.2f}ms) exceeds limit (150ms)"
         assert result.error_rate <= 0.001, f"Error rate ({result.error_rate:.3f}) exceeds 0.1%"
 
-        print(f"Upsert Performance: p95={result.p95_ms:.2f}ms, p99={result.p99_ms:.2f}ms, "
-              f"throughput={result.throughput_ops_per_sec:.1f} ops/sec")
+        print(
+            f"Upsert Performance: p95={result.p95_ms:.2f}ms, p99={result.p99_ms:.2f}ms, "
+            f"throughput={result.throughput_ops_per_sec:.1f} ops/sec"
+        )
 
     @pytest.mark.asyncio
     async def test_batch_upsert_performance(self, memory_services):
@@ -312,8 +268,8 @@ class TestMemoryServicePerformance:
             operations = []
             for i in range(10):  # 10 operations per batch
                 op = WriteOperation(
-                    content=f"Batch content {i} " + ''.join(random.choices(string.ascii_letters, k=500)),
-                    metadata={"batch": True, "index": i}
+                    content=f"Batch content {i} " + "".join(random.choices(string.ascii_letters, k=500)),
+                    metadata={"batch": True, "index": i},
                 )
                 operations.append(op)
 
@@ -321,20 +277,17 @@ class TestMemoryServicePerformance:
             await write_service.batch_upsert(batch_op)
 
         # Run performance test
-        result = await self.run_latency_test(
-            batch_upsert_operation,
-            'batch',
-            sample_count=100,
-            concurrency=5
-        )
+        result = await self.run_latency_test(batch_upsert_operation, "batch", sample_count=100, concurrency=5)
 
         # Validate batch requirements (more lenient than individual ops)
         assert result.p95_ms <= 200.0, f"Batch p95 ({result.p95_ms:.2f}ms) exceeds requirement (200ms)"
         assert result.p99_ms <= 300.0, f"Batch p99 ({result.p99_ms:.2f}ms) exceeds limit (300ms)"
         assert result.error_rate <= 0.001, f"Error rate ({result.error_rate:.3f}) exceeds 0.1%"
 
-        print(f"Batch Performance: p95={result.p95_ms:.2f}ms, p99={result.p99_ms:.2f}ms, "
-              f"throughput={result.throughput_ops_per_sec:.1f} batches/sec")
+        print(
+            f"Batch Performance: p95={result.p95_ms:.2f}ms, p99={result.p99_ms:.2f}ms, "
+            f"throughput={result.throughput_ops_per_sec:.1f} batches/sec"
+        )
 
     @pytest.mark.asyncio
     async def test_mixed_workload_performance(self, memory_services):
@@ -348,32 +301,26 @@ class TestMemoryServicePerformance:
                 query = SearchQuery(
                     query_text=f"mixed query {random.randint(1, 100)}",
                     search_type=random.choice(list(SearchType)),
-                    top_k=random.randint(5, 20)
+                    top_k=random.randint(5, 20),
                 )
                 await read_service.search(query)
             else:
                 # Write operation
-                content = ''.join(random.choices(string.ascii_letters, k=800))
-                await write_service.upsert_memory_fold(
-                    content=content,
-                    metadata={"workload": "mixed"}
-                )
+                content = "".join(random.choices(string.ascii_letters, k=800))
+                await write_service.upsert_memory_fold(content=content, metadata={"workload": "mixed"})
 
         # Run mixed workload test
-        result = await self.run_latency_test(
-            mixed_operation,
-            'mixed',
-            sample_count=1000,
-            concurrency=25
-        )
+        result = await self.run_latency_test(mixed_operation, "mixed", sample_count=1000, concurrency=25)
 
         # Mixed workload should maintain reasonable performance
         assert result.p95_ms <= 150.0, f"Mixed workload p95 ({result.p95_ms:.2f}ms) too high"
         assert result.error_rate <= 0.005, f"Mixed workload error rate ({result.error_rate:.3f}) too high"
 
-        print(f"Mixed Workload Performance: p95={result.p95_ms:.2f}ms, "
-              f"throughput={result.throughput_ops_per_sec:.1f} ops/sec, "
-              f"error_rate={result.error_rate:.3f}")
+        print(
+            f"Mixed Workload Performance: p95={result.p95_ms:.2f}ms, "
+            f"throughput={result.throughput_ops_per_sec:.1f} ops/sec, "
+            f"error_rate={result.error_rate:.3f}"
+        )
 
     @pytest.mark.asyncio
     async def test_circuit_breaker_under_failures(self, memory_services):
@@ -385,11 +332,7 @@ class TestMemoryServicePerformance:
 
         # Define search operation
         async def failing_search_operation():
-            query = SearchQuery(
-                query_text="failing query",
-                search_type=SearchType.SEMANTIC,
-                top_k=5
-            )
+            query = SearchQuery(query_text="failing query", search_type=SearchType.SEMANTIC, top_k=5)
             try:
                 await read_service.search(query)
             except Exception:
@@ -474,25 +417,29 @@ class TestMemoryServicePerformance:
             batch_duration = time.perf_counter() - batch_start
             batch_throughput = batch_size / batch_duration
 
-            results.append({
-                'timestamp': time.perf_counter() - start_time,
-                'throughput': batch_throughput,
-                'latency_ms': batch_duration * 1000 / batch_size
-            })
+            results.append(
+                {
+                    "timestamp": time.perf_counter() - start_time,
+                    "throughput": batch_throughput,
+                    "latency_ms": batch_duration * 1000 / batch_size,
+                }
+            )
 
             # Brief pause between batches
             await asyncio.sleep(0.1)
 
         # Analyze sustained performance
-        throughputs = [r['throughput'] for r in results]
-        latencies = [r['latency_ms'] for r in results]
+        throughputs = [r["throughput"] for r in results]
+        latencies = [r["latency_ms"] for r in results]
 
         avg_throughput = statistics.mean(throughputs)
         avg_latency = statistics.mean(latencies)
         throughput_stability = statistics.stdev(throughputs) / avg_throughput
 
-        print(f"Sustained Load: avg_throughput={avg_throughput:.1f} ops/sec, "
-              f"avg_latency={avg_latency:.2f}ms, stability={throughput_stability:.3f}")
+        print(
+            f"Sustained Load: avg_throughput={avg_throughput:.1f} ops/sec, "
+            f"avg_latency={avg_latency:.2f}ms, stability={throughput_stability:.3f}"
+        )
 
         # Performance should remain stable
         assert throughput_stability < 0.5, f"Throughput too unstable: {throughput_stability:.3f}"
@@ -512,8 +459,7 @@ class TestMemoryServicePerformance:
         pooled_std = ((std1**2 + std2**2) / 2) ** 0.5
         cohens_d = abs(mean1 - mean2) / pooled_std
 
-        print(f"Statistical test: mean1={mean1:.2f}, mean2={mean2:.2f}, "
-              f"effect_size={cohens_d:.3f}")
+        print(f"Statistical test: mean1={mean1:.2f}, mean2={mean2:.2f}, " f"effect_size={cohens_d:.3f}")
 
         # For performance testing, we want to detect differences >= 5ms
         # with high confidence
@@ -536,14 +482,14 @@ async def test_complete_t4_compliance_validation():
     # Run for 60 seconds
     while time.perf_counter() - start_time < 60:
         # Simulate search operation
-        with collector.time_operation('search'):
+        with collector.time_operation("search"):
             latency = random.gauss(30, 10)  # 30ms average
             await asyncio.sleep(max(0.001, latency / 1000))
             operations_completed += 1
 
         # Simulate occasional upsert
         if random.random() < 0.2:
-            with collector.time_operation('upsert'):
+            with collector.time_operation("upsert"):
                 latency = random.gauss(50, 15)  # 50ms average
                 await asyncio.sleep(max(0.001, latency / 1000))
                 operations_completed += 1
@@ -556,7 +502,7 @@ async def test_complete_t4_compliance_validation():
     print(f"T4 Compliance Report: {compliance_report}")
 
     # Validate overall compliance
-    assert compliance_report['overall_compliant'], "T4/0.01% excellence not achieved"
+    assert compliance_report["overall_compliant"], "T4/0.01% excellence not achieved"
     assert operations_completed > 100, "Insufficient operations for validation"
 
     print(f"T4/0.01% Excellence Validation PASSED: {operations_completed} operations completed")

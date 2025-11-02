@@ -31,14 +31,17 @@ from typing import Any, Optional
 try:
     from core.common import get_logger
 except ImportError:
+
     def get_logger(name):
         return logging.getLogger(name)
+
 
 logger = get_logger(__name__)
 
 
 class EthicalDecision(Enum):
     """Possible ethical decisions"""
+
     APPROVE = "approve"
     DENY = "deny"
     REVIEW = "review"
@@ -49,6 +52,7 @@ class EthicalDecision(Enum):
 
 class EthicalPrinciple(Enum):
     """Core ethical principles"""
+
     BENEFICENCE = "beneficence"  # Do good
     NON_MALEFICENCE = "non_maleficence"  # Do no harm
     AUTONOMY = "autonomy"  # Respect autonomy
@@ -99,7 +103,7 @@ class EthicalEvaluation:
 class EthicalEngine:
     """
     Core ethical decision-making engine for LUKHAS AI
-    
+
     Provides comprehensive ethical evaluation capabilities with Constellation Framework
     integration for identity-consciousness-guardian alignment.
     """
@@ -126,7 +130,7 @@ class EthicalEngine:
             EthicalPrinciple.JUSTICE: 0.15,
             EthicalPrinciple.TRANSPARENCY: 0.1,
             EthicalPrinciple.ACCOUNTABILITY: 0.1,
-            EthicalPrinciple.PRIVACY: 0.05
+            EthicalPrinciple.PRIVACY: 0.05,
         }
 
         logger.info("🛡️ Ethical Engine initialized with Constellation Framework")
@@ -134,10 +138,10 @@ class EthicalEngine:
     def evaluate_action(self, context: EthicalContext) -> EthicalEvaluation:
         """
         Evaluate an action for ethical compliance
-        
+
         Args:
             context: Ethical context containing action and metadata
-            
+
         Returns:
             Ethical evaluation with decision and reasoning
         """
@@ -150,28 +154,19 @@ class EthicalEngine:
             risk_analysis = self._analyze_risks(context)
 
             # Calculate overall ethical score
-            overall_score = self._calculate_overall_score(
-                principle_scores, constellation_assessment, risk_analysis
-            )
+            overall_score = self._calculate_overall_score(principle_scores, constellation_assessment, risk_analysis)
 
             # Determine decision
             decision = self._determine_decision(overall_score, principle_scores)
 
             # Generate reasoning
-            reasoning = self._generate_reasoning(
-                decision, overall_score, principle_scores, constellation_assessment
-            )
+            reasoning = self._generate_reasoning(decision, overall_score, principle_scores, constellation_assessment)
 
             # Identify violated principles
-            violated_principles = [
-                principle for principle, score in principle_scores.items()
-                if score < 0.5
-            ]
+            violated_principles = [principle for principle, score in principle_scores.items() if score < 0.5]
 
             # Generate recommendations
-            recommendations = self._generate_recommendations(
-                decision, violated_principles, constellation_assessment
-            )
+            recommendations = self._generate_recommendations(decision, violated_principles, constellation_assessment)
 
             # Calculate evaluation time
             evaluation_time = (datetime.now() - start_time).total_seconds()
@@ -186,7 +181,7 @@ class EthicalEngine:
                 consciousness_impact=constellation_assessment.get("consciousness_impact", "none"),
                 guardian_status=constellation_assessment.get("guardian_status", "monitoring"),
                 evaluation_time=evaluation_time,
-                evaluator_version=self.version
+                evaluator_version=self.version,
             )
 
             logger.debug(f"Ethical evaluation completed: {decision.value} (score: {overall_score:.2f})")
@@ -202,7 +197,7 @@ class EthicalEngine:
                 reasoning=f"Evaluation error: {str(e)}",
                 recommendations=["Manual review required due to evaluation error"],
                 guardian_status="escalated",
-                evaluation_time=(datetime.now() - start_time).total_seconds()
+                evaluation_time=(datetime.now() - start_time).total_seconds(),
             )
 
     def _evaluate_principles(self, context: EthicalContext) -> dict[EthicalPrinciple, float]:
@@ -250,8 +245,15 @@ class EthicalEngine:
 
             # Check for harmful content patterns
             harmful_patterns = [
-                "violence", "harm", "dangerous", "illegal", "threat",
-                "manipulation", "deception", "exploit", "abuse"
+                "violence",
+                "harm",
+                "dangerous",
+                "illegal",
+                "threat",
+                "manipulation",
+                "deception",
+                "exploit",
+                "abuse",
             ]
 
             for pattern in harmful_patterns:
@@ -275,10 +277,7 @@ class EthicalEngine:
         benefit_score = 0.5  # Neutral baseline
 
         # Check for beneficial actions
-        beneficial_actions = [
-            "help", "assist", "create", "improve", "learn",
-            "educate", "heal", "support", "protect"
-        ]
+        beneficial_actions = ["help", "assist", "create", "improve", "learn", "educate", "heal", "support", "protect"]
 
         if any(action in context.action.lower() for action in beneficial_actions):
             benefit_score += 0.3
@@ -393,7 +392,7 @@ class EthicalEngine:
         return {
             "identity_impact": identity_impact,
             "consciousness_impact": consciousness_impact,
-            "guardian_status": guardian_status
+            "guardian_status": guardian_status,
         }
 
     def _analyze_risks(self, context: EthicalContext) -> dict[str, float]:
@@ -403,7 +402,7 @@ class EthicalEngine:
             "security_risk": self._assess_security_risk(context),
             "privacy_risk": self._assess_privacy_risk(context),
             "safety_risk": self._assess_safety_risk(context),
-            "bias_risk": self._assess_bias_risk(context)
+            "bias_risk": self._assess_bias_risk(context),
         }
 
     def _assess_security_risk(self, context: EthicalContext) -> float:
@@ -437,14 +436,13 @@ class EthicalEngine:
         self,
         principle_scores: dict[EthicalPrinciple, float],
         constellation_assessment: dict[str, str],
-        risk_analysis: dict[str, float]
+        risk_analysis: dict[str, float],
     ) -> float:
         """Calculate overall ethical score"""
 
         # Weighted principle score
         principle_score = sum(
-            score * self.principle_weights.get(principle, 0.1)
-            for principle, score in principle_scores.items()
+            score * self.principle_weights.get(principle, 0.1) for principle, score in principle_scores.items()
         )
 
         # Constellation impact modifier
@@ -464,9 +462,7 @@ class EthicalEngine:
         return max(0.0, min(1.0, overall_score))
 
     def _determine_decision(
-        self,
-        overall_score: float,
-        principle_scores: dict[EthicalPrinciple, float]
+        self, overall_score: float, principle_scores: dict[EthicalPrinciple, float]
     ) -> EthicalDecision:
         """Determine ethical decision based on scores"""
 
@@ -489,19 +485,14 @@ class EthicalEngine:
         decision: EthicalDecision,
         overall_score: float,
         principle_scores: dict[EthicalPrinciple, float],
-        constellation_assessment: dict[str, str]
+        constellation_assessment: dict[str, str],
     ) -> str:
         """Generate human-readable reasoning for the decision"""
 
-        reasoning_parts = [
-            f"Ethical decision: {decision.value} (confidence: {overall_score:.2f})"
-        ]
+        reasoning_parts = [f"Ethical decision: {decision.value} (confidence: {overall_score:.2f})"]
 
         # Principle analysis
-        low_scores = [
-            principle.value for principle, score in principle_scores.items()
-            if score < 0.5
-        ]
+        low_scores = [principle.value for principle, score in principle_scores.items() if score < 0.5]
         if low_scores:
             reasoning_parts.append(f"Concerns with: {', '.join(low_scores)}")
 
@@ -509,7 +500,7 @@ class EthicalEngine:
         constellation_impacts = [
             f"Identity: {constellation_assessment['identity_impact']}",
             f"Consciousness: {constellation_assessment['consciousness_impact']}",
-            f"Guardian: {constellation_assessment['guardian_status']}"
+            f"Guardian: {constellation_assessment['guardian_status']}",
         ]
         reasoning_parts.append(f"Constellation impact - {', '.join(constellation_impacts)}")
 
@@ -519,7 +510,7 @@ class EthicalEngine:
         self,
         decision: EthicalDecision,
         violated_principles: list[EthicalPrinciple],
-        constellation_assessment: dict[str, str]
+        constellation_assessment: dict[str, str],
     ) -> list[str]:
         """Generate actionable recommendations"""
 
@@ -550,10 +541,4 @@ class EthicalEngine:
 
 
 # Export main classes
-__all__ = [
-    "EthicalDecision",
-    "EthicalPrinciple",
-    "EthicalContext",
-    "EthicalEvaluation",
-    "EthicalEngine"
-]
+__all__ = ["EthicalDecision", "EthicalPrinciple", "EthicalContext", "EthicalEvaluation", "EthicalEngine"]

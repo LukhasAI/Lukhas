@@ -200,12 +200,15 @@ class FoldManager:
             fold = self.folds.get(fold_id)
             if fold and fold.deleted_at is not None:
                 # ΛTAG: memory_soft_delete_guard
-                logger.debug("Skipping retrieval for soft-deleted fold", extra={
-                    "fold_id": fold_id,
-                    "deleted_at": fold.deleted_at.isoformat(),
-                    "driftScore": 0.0,
-                    "affect_delta": -0.1,
-                })
+                logger.debug(
+                    "Skipping retrieval for soft-deleted fold",
+                    extra={
+                        "fold_id": fold_id,
+                        "deleted_at": fold.deleted_at.isoformat(),
+                        "driftScore": 0.0,
+                        "affect_delta": -0.1,
+                    },
+                )
                 return None
             if fold:
                 fold.accessed_count += 1

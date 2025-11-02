@@ -1,4 +1,5 @@
 """Shim to expose the production quantum financial consciousness engine."""
+
 from __future__ import annotations
 
 from importlib import import_module

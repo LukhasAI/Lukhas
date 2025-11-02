@@ -27,10 +27,10 @@ from typing import List, Tuple
 
 # Patterns for orphaned noqa comments
 PATTERNS = [
-    (r'  # noqa: F821$', ''),           # Two spaces + noqa F821
-    (r' # noqa: F821$', ''),            # One space + noqa F821
-    (r'  # noqa: invalid-syntax$', ''), # Two spaces + noqa invalid-syntax
-    (r' # noqa: invalid-syntax$', ''),  # One space + noqa invalid-syntax
+    (r"  # noqa: F821$", ""),  # Two spaces + noqa F821
+    (r" # noqa: F821$", ""),  # One space + noqa F821
+    (r"  # noqa: invalid-syntax$", ""),  # Two spaces + noqa invalid-syntax
+    (r" # noqa: invalid-syntax$", ""),  # One space + noqa invalid-syntax
 ]
 
 
@@ -53,7 +53,7 @@ def fix_file(file_path: Path, dry_run: bool = True) -> Tuple[int, List[str]]:
         (changes_made, changed_lines)
     """
     try:
-        content = file_path.read_text(encoding='utf-8')
+        content = file_path.read_text(encoding="utf-8")
     except Exception as e:
         print(f"❌ Error reading {file_path}: {e}")
         return 0, []
@@ -78,7 +78,7 @@ def fix_file(file_path: Path, dry_run: bool = True) -> Tuple[int, List[str]]:
 
     if changes > 0 and not dry_run:
         try:
-            file_path.write_text(''.join(modified_lines), encoding='utf-8')
+            file_path.write_text("".join(modified_lines), encoding="utf-8")
         except Exception as e:
             print(f"❌ Error writing {file_path}: {e}")
             return 0, []
@@ -87,26 +87,12 @@ def fix_file(file_path: Path, dry_run: bool = True) -> Tuple[int, List[str]]:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Fix orphaned noqa comments from PR 375"
-    )
+    parser = argparse.ArgumentParser(description="Fix orphaned noqa comments from PR 375")
     parser.add_argument(
-        '--roots',
-        nargs='+',
-        default=['candidate', 'core'],
-        help='Root directories to scan (default: candidate core)'
+        "--roots", nargs="+", default=["candidate", "core"], help="Root directories to scan (default: candidate core)"
     )
-    parser.add_argument(
-        '--apply',
-        action='store_true',
-        help='Apply fixes (default is dry-run)'
-    )
-    parser.add_argument(
-        '--verbose',
-        '-v',
-        action='store_true',
-        help='Show all changes line by line'
-    )
+    parser.add_argument("--apply", action="store_true", help="Apply fixes (default is dry-run)")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Show all changes line by line")
 
     args = parser.parse_args()
     dry_run = not args.apply

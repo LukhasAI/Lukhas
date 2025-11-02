@@ -1,6 +1,3 @@
-
-
-
 class ComplianceMonitor:
     def __init__(self):
         self.drift_score = 0.0  # Starts at 0 (fully compliant)

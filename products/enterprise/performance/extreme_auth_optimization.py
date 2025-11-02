@@ -24,6 +24,7 @@ from typing import Any
 # Configure logging for agent integration monitoring
 logger = logging.getLogger(__name__)
 
+
 # Agent-integrated implementation resolver with intelligent fallback
 class LukhosAuthPerformanceResolver:
     """Intelligent performance optimization resolver for LUKHAS authentication"""
@@ -39,6 +40,7 @@ class LukhosAuthPerformanceResolver:
         # Attempt 1: Enterprise Core (Full-featured, production-grade)
         try:
             from enterprise.core.performance import extreme_auth_optimization as core_impl
+
             self.implementation_source = "enterprise_core"
             self.performance_tier = "extreme"
             self.capabilities = {
@@ -46,7 +48,7 @@ class LukhosAuthPerformanceResolver:
                 "memory_optimization": True,
                 "cache_layers": True,
                 "sub_25ms_target": True,
-                "production_ready": True
+                "production_ready": True,
             }
             logger.info("✅ Agent Integration: Using enterprise/core/performance (EXTREME TIER)")
             return core_impl
@@ -56,6 +58,7 @@ class LukhosAuthPerformanceResolver:
         # Attempt 2: Products Enterprise (Production fallback)
         try:
             from products.enterprise.core.performance import extreme_auth_optimization as prod_impl
+
             self.implementation_source = "products_enterprise"
             self.performance_tier = "production"
             self.capabilities = {
@@ -63,7 +66,7 @@ class LukhosAuthPerformanceResolver:
                 "memory_optimization": True,
                 "cache_layers": False,
                 "sub_25ms_target": False,
-                "production_ready": True
+                "production_ready": True,
             }
             logger.info("✅ Agent Integration: Using products/enterprise (PRODUCTION TIER)")
             return prod_impl
@@ -83,7 +86,7 @@ class LukhosAuthPerformanceResolver:
             "memory_optimization": False,
             "cache_layers": False,
             "sub_25ms_target": False,
-            "production_ready": False
+            "production_ready": False,
         }
 
         # Return a minimal implementation object
@@ -117,7 +120,7 @@ class LukhosAuthPerformanceResolver:
                     "memory_optimization": False,
                     "cache_layers": False,
                     "sub_25ms_target": False,
-                    "production_ready": False
+                    "production_ready": False,
                 }
 
             def optimize_auth_flow(self, user_id: str) -> bool:
@@ -133,8 +136,8 @@ class LukhosAuthPerformanceResolver:
                     "capabilities": self.capabilities,
                     "recommendations": [
                         "Install enterprise performance modules for optimal performance",
-                        "Expected latency: ~95ms (vs <25ms target)"
-                    ]
+                        "Expected latency: ~95ms (vs <25ms target)",
+                    ],
                 }
 
         # Make classes available in global namespace for compatibility
@@ -148,7 +151,7 @@ class LukhosAuthPerformanceResolver:
             "memory_optimization": False,
             "cache_layers": False,
             "sub_25ms_target": False,
-            "production_ready": False
+            "production_ready": False,
         }
 
     def get_integration_status(self) -> dict[str, Any]:
@@ -158,7 +161,7 @@ class LukhosAuthPerformanceResolver:
             "performance_tier": self.performance_tier,
             "capabilities": self.capabilities,
             "agent_integration_complete": self.implementation_source != "compatibility_stub",
-            "recommended_actions": self._get_recommendations()
+            "recommended_actions": self._get_recommendations(),
         }
 
     def _get_recommendations(self) -> list[str]:
@@ -167,24 +170,27 @@ class LukhosAuthPerformanceResolver:
             return [
                 "Install enterprise performance modules for optimal authentication speed",
                 "Current performance degraded - expect higher latencies",
-                "Contact system administrator to enable full performance tier"
+                "Contact system administrator to enable full performance tier",
             ]
         elif self.implementation_source == "products_enterprise_core":
             return [
                 "Consider upgrading to enterprise/core for extreme performance tier",
-                "Current implementation suitable for production workloads"
+                "Current implementation suitable for production workloads",
             ]
         else:
             return ["Optimal performance tier active - no action required"]
+
 
 # Initialize the agent-integrated resolver
 _resolver = LukhosAuthPerformanceResolver()
 _integration_successful = _resolver.resolve_implementation()
 
+
 # Export integration status for monitoring and diagnostics
 def get_auth_performance_integration_status() -> dict[str, Any]:
     """Get the current status of authentication performance integration"""
     return _resolver.get_integration_status()
+
 
 # Export resolver for advanced usage
 __all__ = ["get_auth_performance_integration_status", "_resolver"]
@@ -197,7 +203,7 @@ if __name__ == "__main__":
     print(f"   Performance Tier: {status['performance_tier']}")
     print(f"   Integration Complete: {status['agent_integration_complete']}")
 
-    if status['recommended_actions']:
+    if status["recommended_actions"]:
         print("   Recommendations:")
-        for action in status['recommended_actions']:
+        for action in status["recommended_actions"]:
             print(f"     - {action}")

@@ -422,9 +422,7 @@ class FoldLineageTracker:
         lineage_strength = analysis["lineage_strength"]
 
         # Weighted combination of factors
-        resilience = (
-            stability * 0.4 + min(1.0, causation_diversity / 3.0) * 0.3 + lineage_strength * 0.3
-        )
+        resilience = stability * 0.4 + min(1.0, causation_diversity / 3.0) * 0.3 + lineage_strength * 0.3
 
         return round(resilience, 3)
 
@@ -516,6 +514,7 @@ class FoldLineageTracker:
                 p = count / total_links
                 if p > 0:
                     import math
+
                     pattern_diversity -= p * math.log2(p)
 
         return {

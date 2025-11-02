@@ -41,6 +41,7 @@ try:
     from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
     from matriz.core.node_interface import CognitiveNode
     from matriz.core.orchestrator import CognitiveOrchestrator
+
     MATRIZ_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full MATRIZ system
@@ -59,7 +60,7 @@ class StressTestMetrics:
     failed_requests: int = 0
     average_response_time: float = 0.0
     max_response_time: float = 0.0
-    min_response_time: float = float('inf')
+    min_response_time: float = float("inf")
     concurrent_peak: int = 0
     memory_peak_mb: float = 0.0
     error_types: Dict[str, int] = None
@@ -97,23 +98,16 @@ class MockCognitiveNode(CognitiveNode):
             "id": f"{self.name}_{self.process_count}",
             "type": "MockProcessing",
             "timestamp": self.last_processed.isoformat(),
-            "content": {
-                "input": data,
-                "processing_node": self.name,
-                "process_count": self.process_count
-            },
+            "content": {"input": data, "processing_node": self.name, "process_count": self.process_count},
             "links": [],
-            "metadata": {
-                "processing_delay": self.processing_delay,
-                "failure_rate": self.failure_rate
-            }
+            "metadata": {"processing_delay": self.processing_delay, "failure_rate": self.failure_rate},
         }
 
         return {
             "result": f"Processed by {self.name}: {data.get('query', 'unknown')}",
             "matriz_node": matriz_node,
             "processing_time": self.processing_delay,
-            "node_name": self.name
+            "node_name": self.name,
         }
 
 
@@ -216,30 +210,17 @@ class TestOrchestratorStressScenarios:
                 result = orchestrator.process_query(f"Concurrent query {query_id}")
                 processing_time = time.perf_counter() - start_time
 
-                return {
-                    "success": True,
-                    "result": result,
-                    "processing_time": processing_time,
-                    "query_id": query_id
-                }
+                return {"success": True, "result": result, "processing_time": processing_time, "query_id": query_id}
 
             except Exception as e:
-                return {
-                    "success": False,
-                    "error": str(e),
-                    "error_type": type(e).__name__,
-                    "query_id": query_id
-                }
+                return {"success": False, "error": str(e), "error_type": type(e).__name__, "query_id": query_id}
             finally:
                 with concurrent_lock:
                     concurrent_count -= 1
 
         # Execute concurrent requests
         with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-            futures = [
-                executor.submit(process_concurrent_request, i)
-                for i in range(200)
-            ]
+            futures = [executor.submit(process_concurrent_request, i) for i in range(200)]
 
             # Collect results
             response_times = []
@@ -265,9 +246,13 @@ class TestOrchestratorStressScenarios:
         # Concurrent processing assertions
         assert metrics.successful_requests > 180, f"Too many concurrent failures: {metrics.failed_requests}"
         assert metrics.concurrent_peak >= 15, f"Concurrent peak too low: {metrics.concurrent_peak}"
-        assert metrics.average_response_time < 0.5, f"Concurrent response too slow: {metrics.average_response_time:.3f}s"
+        assert (
+            metrics.average_response_time < 0.5
+        ), f"Concurrent response too slow: {metrics.average_response_time:.3f}s"
 
-        print(f"Concurrent stress test: {metrics.concurrent_peak} peak concurrent, {metrics.average_response_time:.3f}s avg")
+        print(
+            f"Concurrent stress test: {metrics.concurrent_peak} peak concurrent, {metrics.average_response_time:.3f}s avg"
+        )
 
     def test_memory_pressure_stress(self, orchestrator, stress_nodes):
         """Test orchestrator under memory pressure conditions"""
@@ -285,8 +270,8 @@ class TestOrchestratorStressScenarios:
                 "large_payload": "x" * 10000,  # 10KB payload
                 "nested_data": {
                     "arrays": [list(range(1000)) for _ in range(10)],
-                    "strings": ["large string data" * 100 for _ in range(10)]
-                }
+                    "strings": ["large string data" * 100 for _ in range(10)],
+                },
             }
             large_queries.append(large_data)
 
@@ -335,9 +320,7 @@ class TestOrchestratorStressScenarios:
             """Register a random node"""
             node_id = f"dynamic_node_{random.randint(1000, 9999)}"
             node = MockCognitiveNode(
-                node_id,
-                processing_delay=random.uniform(0.001, 0.01),
-                failure_rate=random.uniform(0.0, 0.05)
+                node_id, processing_delay=random.uniform(0.001, 0.01), failure_rate=random.uniform(0.0, 0.05)
             )
             orchestrator.register_node(node_id, node)
             active_nodes[node_id] = node
@@ -391,11 +374,7 @@ class TestOrchestratorStressScenarios:
         for i in range(5):
             failure_rate = 0.1 + (i * 0.2)  # 10% to 90% failure rate
             node_name = f"failing_node_{i}"
-            failing_nodes[node_name] = MockCognitiveNode(
-                node_name,
-                processing_delay=0.01,
-                failure_rate=failure_rate
-            )
+            failing_nodes[node_name] = MockCognitiveNode(node_name, processing_delay=0.01, failure_rate=failure_rate)
             orchestrator.register_node(node_name, failing_nodes[node_name])
 
         # Add one reliable node
@@ -579,8 +558,7 @@ class TestAsyncOrchestratorStress:
             try:
                 # Use short timeout to force timeouts on slow node
                 result = await asyncio.wait_for(
-                    async_orchestrator.process_query_async(f"Timeout test {i}"),
-                    timeout=0.5
+                    async_orchestrator.process_query_async(f"Timeout test {i}"), timeout=0.5
                 )
                 timeout_results.append({"success": True, "result": result})
             except asyncio.TimeoutError:

@@ -143,9 +143,4 @@ class AGISecuritySystem:
 
 
 # Export symbols
-__all__ = [
-    'CognitiveSecurityMonitor',
-    'CognitiveSecurityEngine',
-    'CognitiveSecurityValidator',
-    'AccessControlSystem'
-]
+__all__ = ["CognitiveSecurityMonitor", "CognitiveSecurityEngine", "CognitiveSecurityValidator", "AccessControlSystem"]

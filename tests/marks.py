@@ -1,4 +1,5 @@
 """Test markers for LUKHAS testing"""
+
 import pytest
 
 # Marker for tests that are quarantined due to known AuthZ issues

@@ -33,9 +33,9 @@ class IdentityManager:
 
     def validate_identity(self, identity: Dict[str, Any]) -> bool:
         """Validate identity structure."""
-        required_fields = ['name', 'type']
+        required_fields = ["name", "type"]
         return all(field in identity for field in required_fields)
 
 
 # Export for compatibility
-__all__ = ['IdentityManager']
+__all__ = ["IdentityManager"]

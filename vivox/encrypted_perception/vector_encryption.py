@@ -2,6 +2,7 @@
 VIVOX.EVRN Vector Encryption
 Non-reversible encryption for perceptual vectors
 """
+
 import hashlib
 from dataclasses import dataclass
 from enum import Enum

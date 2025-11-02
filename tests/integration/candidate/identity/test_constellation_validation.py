@@ -22,14 +22,10 @@ try:
 except ImportError as import_error:
     LukhasIdentityService = WebAuthnPasskeyManager = validate_constellation_framework = None  # type: ignore[assignment]
     get_identity_core_bridge = lambda: None  # type: ignore[assignment]
-    pytestmark = pytest.mark.skip(
-        reason=f"Identity integration dependencies unavailable: {import_error}"
-    )
+    pytestmark = pytest.mark.skip(reason=f"Identity integration dependencies unavailable: {import_error}")
 else:
     # ΛTAG: identity_integration_skip
-    pytestmark = pytest.mark.skip(
-        reason="Identity integration tests gated pending environment stabilization"
-    )
+    pytestmark = pytest.mark.skip(reason="Identity integration tests gated pending environment stabilization")
 
 
 async def validate_constellation_framework_integration():

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Integration manager for orchestrating Cognitive AI subsystems."""
-#TAG:consciousness
-#TAG:reflection
-#TAG:neuroplastic
-#TAG:colony
+# TAG:consciousness
+# TAG:reflection
+# TAG:neuroplastic
+# TAG:colony
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -255,7 +255,9 @@ class LukhasAGIIntegrationManager:
             # Stage 1: Cognitive AI Orchestrator processing
             cognitive_result = None
             if "cognitive_orchestrator" in self.components:
-                cognitive_result = await self.components["cognitive_orchestrator"].process_agi_request(user_input, context)
+                cognitive_result = await self.components["cognitive_orchestrator"].process_agi_request(
+                    user_input, context
+                )
                 logger.info(" Cognitive AI orchestrator processing complete")
 
             # Stage 2: Cognitive enhancement processing

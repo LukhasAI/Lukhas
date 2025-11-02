@@ -4,6 +4,7 @@ Enhanced Ethical Guardian - Advanced ethical reflection and governance system
 Provides comprehensive ethical checks, reflection capabilities, and governance
 integration for the LUKHAS AI system with Constellation Framework compliance.
 """
+
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -645,7 +646,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                     feedback_parts.append("User consent required for this operation.")
 
             if constellation_issues:
-                feedback_parts.append(f"Request may impact critical system components: {', '.join(constellation_issues)}")
+                feedback_parts.append(
+                    f"Request may impact critical system components: {', '.join(constellation_issues)}"
+                )
 
             # Personality-aware response
             mood = personality.get("mood", "neutral")

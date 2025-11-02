@@ -19,6 +19,7 @@ from typing import Dict, List, Optional, Tuple
 
 try:
     import requests
+
     REQUESTS_AVAILABLE = True
 except ImportError:
     REQUESTS_AVAILABLE = False
@@ -32,9 +33,9 @@ INVENTORY_DIR = DOCS_ROOT / "_inventory"
 MANIFEST_PATH = INVENTORY_DIR / "docs_manifest.json"
 OUTPUT_DIR = DOCS_ROOT / "_generated" / "link_triage"
 
-LINK_PATTERN = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
-ANCHOR_PATTERN = re.compile(r'^#([a-zA-Z0-9_-]+)$')
-HEADING_PATTERN = re.compile(r'^#+\s+(.+)$', re.MULTILINE)
+LINK_PATTERN = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+ANCHOR_PATTERN = re.compile(r"^#([a-zA-Z0-9_-]+)$")
+HEADING_PATTERN = re.compile(r"^#+\s+(.+)$", re.MULTILINE)
 
 # External link check config
 EXTERNAL_TIMEOUT = 5  # seconds
@@ -43,7 +44,7 @@ EXTERNAL_CHECK_LIMIT = 50  # max external links to check (avoid rate limits)
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -51,9 +52,9 @@ def slugify_heading(heading: str) -> str:
     """Convert heading text to GitHub-style anchor slug."""
     # Remove emojis, special chars, convert to lowercase, replace spaces with hyphens
     slug = heading.lower()
-    slug = re.sub(r'[^\w\s-]', '', slug)  # Remove special chars
-    slug = re.sub(r'[-\s]+', '-', slug)   # Replace spaces/hyphens with single hyphen
-    return slug.strip('-')
+    slug = re.sub(r"[^\w\s-]", "", slug)  # Remove special chars
+    slug = re.sub(r"[-\s]+", "-", slug)  # Replace spaces/hyphens with single hyphen
+    return slug.strip("-")
 
 
 def extract_anchors(content: str) -> set:
@@ -95,45 +96,46 @@ def categorize_link(link_url: str, source_path: Path, docs_by_path: Dict) -> Tup
     Returns (category, error_message).
     """
     # External links
-    if link_url.startswith('http://') or link_url.startswith('https://'):
-        return 'external', None
+    if link_url.startswith("http://") or link_url.startswith("https://"):
+        return "external", None
 
     # Anchors (same-file)
-    if link_url.startswith('#'):
+    if link_url.startswith("#"):
         anchor_match = ANCHOR_PATTERN.match(link_url)
         if anchor_match:
-            return 'anchor', None  # Will validate separately
-        return 'malformed', "Invalid anchor syntax"
+            return "anchor", None  # Will validate separately
+        return "malformed", "Invalid anchor syntax"
 
     # Empty links
     if not link_url:
-        return 'malformed', "Empty link"
+        return "malformed", "Empty link"
 
     # Website paths (external, not in repo)
-    if link_url.startswith('/docs/'):
-        return 'external_path', "Website path, not in repo"
+    if link_url.startswith("/docs/"):
+        return "external_path", "Website path, not in repo"
 
     # Malformed syntax patterns
-    if '**' in link_url or link_url.count('(') > 0:
-        return 'malformed', "Invalid markdown syntax"
+    if "**" in link_url or link_url.count("(") > 0:
+        return "malformed", "Invalid markdown syntax"
 
     # Relative paths to .md files
-    if link_url.endswith('.md'):
+    if link_url.endswith(".md"):
         # Resolve relative to source file
         target_path = (source_path.parent / link_url).resolve()
 
         # Check if target exists
         if not target_path.exists():
             # Try alternative: check if it appears in manifest
-            found = any(link_url in d['path'] or link_url in d['path'].replace('docs/', '')
-                       for d in docs_by_path.values())
+            found = any(
+                link_url in d["path"] or link_url in d["path"].replace("docs/", "") for d in docs_by_path.values()
+            )
             if not found:
-                return 'missing_file', f"Target not found: {link_url}"
+                return "missing_file", f"Target not found: {link_url}"
 
-        return 'internal_valid', None
+        return "internal_valid", None
 
     # Other relative paths
-    return 'other', None
+    return "other", None
 
 
 def scan_broken_links(docs: List[Dict], check_external: bool = False) -> Dict[str, List[Dict]]:
@@ -149,20 +151,20 @@ def scan_broken_links(docs: List[Dict], check_external: bool = False) -> Dict[st
     - internal_valid: Valid internal links (not reported)
     """
     broken_by_category = defaultdict(list)
-    docs_by_path = {Path(d['path']): d for d in docs}
+    docs_by_path = {Path(d["path"]): d for d in docs}
 
     external_checked = 0
 
     for doc in docs:
-        if doc.get('redirect'):
+        if doc.get("redirect"):
             continue
 
-        file_path = Path(doc['path'])
+        file_path = Path(doc["path"])
         if not file_path.exists():
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
         except Exception:
             continue
@@ -173,50 +175,56 @@ def scan_broken_links(docs: List[Dict], check_external: bool = False) -> Dict[st
         for match in LINK_PATTERN.finditer(content):
             link_text = match.group(1)
             link_url = match.group(2)
-            line_num = content[:match.start()].count('\n') + 1
+            line_num = content[: match.start()].count("\n") + 1
 
             # Categorize
             category, error_msg = categorize_link(link_url, file_path, docs_by_path)
 
             # Special handling for anchors
-            if category == 'anchor':
+            if category == "anchor":
                 anchor_name = link_url[1:]  # Remove leading #
                 if anchor_name not in file_anchors:
-                    broken_by_category['broken_anchor'].append({
-                        'source': str(file_path),
-                        'text': link_text,
-                        'url': link_url,
-                        'line': line_num,
-                        'error': f"Anchor not found in file (expected heading for '{anchor_name}')",
-                    })
+                    broken_by_category["broken_anchor"].append(
+                        {
+                            "source": str(file_path),
+                            "text": link_text,
+                            "url": link_url,
+                            "line": line_num,
+                            "error": f"Anchor not found in file (expected heading for '{anchor_name}')",
+                        }
+                    )
 
             # External link checking (if enabled and not too many)
-            elif category == 'external' and check_external and external_checked < EXTERNAL_CHECK_LIMIT:
+            elif category == "external" and check_external and external_checked < EXTERNAL_CHECK_LIMIT:
                 is_reachable, error = check_external_link(link_url)
                 external_checked += 1
 
                 if not is_reachable:
-                    broken_by_category['external_broken'].append({
-                        'source': str(file_path),
-                        'text': link_text,
-                        'url': link_url,
-                        'line': line_num,
-                        'error': error or "Unreachable",
-                    })
+                    broken_by_category["external_broken"].append(
+                        {
+                            "source": str(file_path),
+                            "text": link_text,
+                            "url": link_url,
+                            "line": line_num,
+                            "error": error or "Unreachable",
+                        }
+                    )
 
                 # Rate limiting
                 if external_checked % 10 == 0:
                     time.sleep(1)  # Sleep 1s every 10 requests
 
             # Report other broken categories
-            elif category in ['missing_file', 'malformed', 'external_path']:
-                broken_by_category[category].append({
-                    'source': str(file_path),
-                    'text': link_text,
-                    'url': link_url,
-                    'line': line_num,
-                    'error': error_msg or "",
-                })
+            elif category in ["missing_file", "malformed", "external_path"]:
+                broken_by_category[category].append(
+                    {
+                        "source": str(file_path),
+                        "text": link_text,
+                        "url": link_url,
+                        "line": line_num,
+                        "error": error_msg or "",
+                    }
+                )
 
     return broken_by_category
 
@@ -238,11 +246,11 @@ def generate_summary_report(broken_by_category: Dict[str, List[Dict]]) -> str:
     ]
 
     descriptions = {
-        'missing_file': 'Internal .md files that do not exist',
-        'broken_anchor': 'Anchors (#section) with no matching heading',
-        'malformed': 'Invalid markdown link syntax',
-        'external_path': 'Website paths (/docs/) not in repo',
-        'external_broken': 'External URLs returning errors',
+        "missing_file": "Internal .md files that do not exist",
+        "broken_anchor": "Anchors (#section) with no matching heading",
+        "malformed": "Invalid markdown link syntax",
+        "external_path": "Website paths (/docs/) not in repo",
+        "external_broken": "External URLs returning errors",
     }
 
     for category in sorted(broken_by_category.keys(), key=lambda c: -len(broken_by_category[c])):
@@ -250,32 +258,34 @@ def generate_summary_report(broken_by_category: Dict[str, List[Dict]]) -> str:
         desc = descriptions.get(category, "Other broken links")
         lines.append(f"| {category} | {count} | {desc} |")
 
-    lines.extend([
-        "",
-        "## Recommended Actions",
-        "",
-        "1. **missing_file** (Highest Priority): Create missing files or update links",
-        "2. **broken_anchor**: Fix heading names or anchor links",
-        "3. **malformed**: Fix markdown syntax errors",
-        "4. **external_path**: Verify website content or remove obsolete links",
-        "5. **external_broken**: Update or remove dead external links",
-        "",
-        "## Detailed Reports",
-        "",
-        "- [Internal Broken Links](internal_broken.md) - missing_file, broken_anchor, malformed",
-        "- [External Broken Links](external_broken.md) - external_path, external_broken",
-        "",
-        "---",
-        "",
-        "*Auto-generated by `scripts/links_triage_v2.py`*",
-    ])
+    lines.extend(
+        [
+            "",
+            "## Recommended Actions",
+            "",
+            "1. **missing_file** (Highest Priority): Create missing files or update links",
+            "2. **broken_anchor**: Fix heading names or anchor links",
+            "3. **malformed**: Fix markdown syntax errors",
+            "4. **external_path**: Verify website content or remove obsolete links",
+            "5. **external_broken**: Update or remove dead external links",
+            "",
+            "## Detailed Reports",
+            "",
+            "- [Internal Broken Links](internal_broken.md) - missing_file, broken_anchor, malformed",
+            "- [External Broken Links](external_broken.md) - external_path, external_broken",
+            "",
+            "---",
+            "",
+            "*Auto-generated by `scripts/links_triage_v2.py`*",
+        ]
+    )
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def generate_internal_report(broken_by_category: Dict[str, List[Dict]]) -> str:
     """Generate detailed report for internal broken links."""
-    internal_categories = ['missing_file', 'broken_anchor', 'malformed']
+    internal_categories = ["missing_file", "broken_anchor", "malformed"]
     internal_links = {k: v for k, v in broken_by_category.items() if k in internal_categories}
 
     total = sum(len(links) for links in internal_links.values())
@@ -300,7 +310,7 @@ def generate_internal_report(broken_by_category: Dict[str, List[Dict]]) -> str:
         # Group by source file
         by_source = defaultdict(list)
         for link in links:
-            by_source[link['source']].append(link)
+            by_source[link["source"]].append(link)
 
         # Batch in groups of 25
         for idx, (source, source_links) in enumerate(sorted(by_source.items())):
@@ -313,7 +323,7 @@ def generate_internal_report(broken_by_category: Dict[str, List[Dict]]) -> str:
 
             for link in source_links[:5]:  # Limit to 5 links per file
                 lines.append(f"- Line {link['line']}: `[{link['text']}]({link['url']})`")
-                if link.get('error'):
+                if link.get("error"):
                     lines.append(f"  - Error: {link['error']}")
 
             if len(source_links) > 5:
@@ -321,18 +331,20 @@ def generate_internal_report(broken_by_category: Dict[str, List[Dict]]) -> str:
 
             lines.append("")
 
-    lines.extend([
-        "---",
-        "",
-        "*See [summary.md](summary.md) for complete breakdown*",
-    ])
+    lines.extend(
+        [
+            "---",
+            "",
+            "*See [summary.md](summary.md) for complete breakdown*",
+        ]
+    )
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def generate_external_report(broken_by_category: Dict[str, List[Dict]]) -> str:
     """Generate detailed report for external broken links."""
-    external_categories = ['external_path', 'external_broken']
+    external_categories = ["external_path", "external_broken"]
     external_links = {k: v for k, v in broken_by_category.items() if k in external_categories}
 
     total = sum(len(links) for links in external_links.values())
@@ -353,10 +365,10 @@ def generate_external_report(broken_by_category: Dict[str, List[Dict]]) -> str:
         lines.append("")
 
         # Batch in groups of 25
-        for idx, link in enumerate(sorted(links, key=lambda l: l['source'])[:25]):
+        for idx, link in enumerate(sorted(links, key=lambda l: l["source"])[:25]):
             lines.append(f"### {idx + 1}. {link['source'].replace('docs/', '')}")
             lines.append(f"- Line {link['line']}: `[{link['text']}]({link['url']})`")
-            if link.get('error'):
+            if link.get("error"):
                 lines.append(f"- Error: {link['error']}")
             lines.append("")
 
@@ -364,13 +376,15 @@ def generate_external_report(broken_by_category: Dict[str, List[Dict]]) -> str:
             lines.append(f"*... and {len(links) - 25} more*")
             lines.append("")
 
-    lines.extend([
-        "---",
-        "",
-        "*See [summary.md](summary.md) for complete breakdown*",
-    ])
+    lines.extend(
+        [
+            "---",
+            "",
+            "*See [summary.md](summary.md) for complete breakdown*",
+        ]
+    )
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def main():
@@ -381,7 +395,7 @@ def main():
     print()
 
     # Parse flags
-    check_external = '--check-external' in sys.argv
+    check_external = "--check-external" in sys.argv
 
     if check_external and not REQUESTS_AVAILABLE:
         print("❌ --check-external requires 'requests' library")
@@ -391,7 +405,7 @@ def main():
     # Load manifest
     print("📂 Loading manifest...")
     manifest = load_manifest()
-    docs = manifest['documents']
+    docs = manifest["documents"]
     print(f"   ✅ {len(docs)} documents")
     print()
 
@@ -421,21 +435,21 @@ def main():
     # 1. Summary
     summary_md = generate_summary_report(broken_by_category)
     summary_path = OUTPUT_DIR / "summary.md"
-    with open(summary_path, 'w', encoding='utf-8') as f:
+    with open(summary_path, "w", encoding="utf-8") as f:
         f.write(summary_md)
     print(f"   ✅ {summary_path}")
 
     # 2. Internal
     internal_md = generate_internal_report(broken_by_category)
     internal_path = OUTPUT_DIR / "internal_broken.md"
-    with open(internal_path, 'w', encoding='utf-8') as f:
+    with open(internal_path, "w", encoding="utf-8") as f:
         f.write(internal_md)
     print(f"   ✅ {internal_path}")
 
     # 3. External
     external_md = generate_external_report(broken_by_category)
     external_path = OUTPUT_DIR / "external_broken.md"
-    with open(external_path, 'w', encoding='utf-8') as f:
+    with open(external_path, "w", encoding="utf-8") as f:
         f.write(external_md)
     print(f"   ✅ {external_path}")
 

@@ -450,12 +450,8 @@ class MemorySystem(CognitiveNode):
             # Consolidate candidates
             for memory in candidates:
                 # Boost priority and confidence for consolidation
-                memory.confidence = min(
-                    1.0, memory.confidence + self.consolidation_rules.priority_boost
-                )
-                memory.salience = min(
-                    1.0, memory.salience + self.consolidation_rules.priority_boost
-                )
+                memory.confidence = min(1.0, memory.confidence + self.consolidation_rules.priority_boost)
+                memory.salience = min(1.0, memory.salience + self.consolidation_rules.priority_boost)
 
                 # Move to consolidated memory
                 self.consolidated_memory[memory.id] = memory
@@ -782,9 +778,7 @@ class MemorySystem(CognitiveNode):
         # Build memory query
         memory_query = MemoryQuery(
             query_text=query_dict.get("text"),
-            memory_types=[
-                MemoryType(t) for t in query_dict.get("types", [MemoryType.EPISODIC.value])
-            ],
+            memory_types=[MemoryType(t) for t in query_dict.get("types", [MemoryType.EPISODIC.value])],
             tags=set(query_dict.get("tags", [])),
             min_confidence=query_dict.get("min_confidence", 0.0),
             min_salience=query_dict.get("min_salience", 0.0),
@@ -1159,9 +1153,7 @@ if __name__ == "__main__":
 
             if matriz_node["reflections"]:
                 reflection = matriz_node["reflections"][0]
-                print(
-                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:40]}..."
-                )
+                print(f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:40]}...")
 
             if is_valid:
                 success_count += 1
@@ -1174,9 +1166,7 @@ if __name__ == "__main__":
 
     # Final statistics
     print("\n" + "=" * 50)
-    print(
-        f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases) * 100:.1f}%)"
-    )
+    print(f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases) * 100:.1f}%)")
 
     # Show memory system statistics
     stats_result = memory_system.process({"operation": "stats"})
@@ -1218,9 +1208,7 @@ if __name__ == "__main__":
     print(f"Retrieved {len(retrieved)} memories matching 'sky color'")
 
     for memory in retrieved:
-        print(
-            f"  - {memory.memory_type.value}: {memory.confidence:.2f} conf, {memory.salience:.2f} sal"
-        )
+        print(f"  - {memory.memory_type.value}: {memory.confidence:.2f} conf, {memory.salience:.2f} sal")
         print(f"    Content: {str(memory.content)[:60]}...")
         print(f"    Tags: {memory.tags}")
 

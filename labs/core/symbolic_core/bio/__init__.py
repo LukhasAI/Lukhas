@@ -4,6 +4,7 @@ Bio Symbolic Processing Module
 This module provides bio-symbolic processing capabilities for the LUKHAS system.
 Includes quantum-inspired attention and biological orchestration mechanisms.
 """
+
 import streamlit as st
 
 from .bio_orchestrator import BioSymbolicOrchestrator

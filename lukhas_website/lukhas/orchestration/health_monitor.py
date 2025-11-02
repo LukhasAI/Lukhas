@@ -44,59 +44,34 @@ tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics for health monitoring
-health_check_total = counter(
-    'lukhas_health_check_total',
-    'Total health checks performed',
-    ['provider', 'result']
-)
+health_check_total = counter("lukhas_health_check_total", "Total health checks performed", ["provider", "result"])
 
 health_check_duration = histogram(
-    'lukhas_health_check_duration_seconds',
-    'Health check duration',
-    ['provider'],
-    buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_health_check_duration_seconds",
+    "Health check duration",
+    ["provider"],
+    buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
-provider_health_score = gauge(
-    'lukhas_provider_health_score',
-    'Provider health score (0-100)',
-    ['provider']
-)
+provider_health_score = gauge("lukhas_provider_health_score", "Provider health score (0-100)", ["provider"])
 
-provider_latency_ms = gauge(
-    'lukhas_provider_latency_ms',
-    'Provider average latency in milliseconds',
-    ['provider']
-)
+provider_latency_ms = gauge("lukhas_provider_latency_ms", "Provider average latency in milliseconds", ["provider"])
 
-provider_success_rate = gauge(
-    'lukhas_provider_success_rate',
-    'Provider success rate (0-1)',
-    ['provider']
-)
+provider_success_rate = gauge("lukhas_provider_success_rate", "Provider success rate (0-1)", ["provider"])
 
-provider_error_rate = gauge(
-    'lukhas_provider_error_rate',
-    'Provider error rate (0-1)',
-    ['provider']
-)
+provider_error_rate = gauge("lukhas_provider_error_rate", "Provider error rate (0-1)", ["provider"])
 
 health_status_changes = counter(
-    'lukhas_health_status_changes_total',
-    'Health status changes',
-    ['provider', 'from_status', 'to_status']
+    "lukhas_health_status_changes_total", "Health status changes", ["provider", "from_status", "to_status"]
 )
 
-sla_violations = counter(
-    'lukhas_sla_violations_total',
-    'SLA violations detected',
-    ['provider', 'violation_type']
-)
+sla_violations = counter("lukhas_sla_violations_total", "SLA violations detected", ["provider", "violation_type"])
 
 
 @dataclass
 class HealthCheckResult:
     """Result of a health check"""
+
     provider: str
     success: bool
     latency_ms: float
@@ -108,6 +83,7 @@ class HealthCheckResult:
 @dataclass
 class PerformanceMetrics:
     """Performance metrics for a provider"""
+
     provider: str
     total_requests: int = 0
     successful_requests: int = 0
@@ -120,6 +96,7 @@ class PerformanceMetrics:
 @dataclass
 class SLAThresholds:
     """SLA thresholds for monitoring"""
+
     max_latency_ms: float = 2000.0
     min_success_rate: float = 0.99
     max_error_rate: float = 0.01
@@ -219,7 +196,7 @@ class HealthMonitor:
                     prompt=test_prompt,
                     model=self._get_default_model_for_provider(provider),
                     max_tokens=10,
-                    temperature=0.0
+                    temperature=0.0,
                 )
                 check_end = time.time()
 
@@ -227,10 +204,7 @@ class HealthMonitor:
                 success = bool(response and response.content)
 
                 # Record metrics
-                health_check_total.labels(
-                    provider=provider,
-                    result="success" if success else "failure"
-                ).inc()
+                health_check_total.labels(provider=provider, result="success" if success else "failure").inc()
 
                 health_check_duration.labels(provider=provider).observe(check_end - start_time)
 
@@ -243,29 +217,21 @@ class HealthMonitor:
                     latency_ms=latency_ms,
                     metadata={
                         "response_length": len(response.content) if response and response.content else 0,
-                        "model_used": self._get_default_model_for_provider(provider)
-                    }
+                        "model_used": self._get_default_model_for_provider(provider),
+                    },
                 )
 
             except Exception as e:
                 latency_ms = (time.time() - start_time) * 1000
 
-                health_check_total.labels(
-                    provider=provider,
-                    result="error"
-                ).inc()
+                health_check_total.labels(provider=provider, result="error").inc()
 
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
 
                 logger.warning(f"Health check failed for {provider}: {e}")
 
-                return HealthCheckResult(
-                    provider=provider,
-                    success=False,
-                    latency_ms=latency_ms,
-                    error=str(e)
-                )
+                return HealthCheckResult(provider=provider, success=False, latency_ms=latency_ms, error=str(e))
 
     async def update_provider_health(self, provider: str, result: HealthCheckResult) -> None:
         """Update provider health based on check result"""
@@ -319,9 +285,7 @@ class HealthMonitor:
             logger.info(f"🔄 Provider {provider} status changed: {old_status.value} -> {new_status.value}")
 
             health_status_changes.labels(
-                provider=provider,
-                from_status=old_status.value,
-                to_status=new_status.value
+                provider=provider, from_status=old_status.value, to_status=new_status.value
             ).inc()
 
             # Notify callbacks
@@ -347,10 +311,7 @@ class HealthMonitor:
         logger.info("Initializing provider health state...")
 
         for provider in self.provider_clients.keys():
-            self.provider_health[provider] = ProviderHealth(
-                provider=provider,
-                status=HealthStatus.UNKNOWN
-            )
+            self.provider_health[provider] = ProviderHealth(provider=provider, status=HealthStatus.UNKNOWN)
             self.performance_metrics[provider] = PerformanceMetrics(provider=provider)
 
         logger.info(f"✅ Health state initialized for {len(self.provider_clients)} providers")
@@ -392,33 +353,22 @@ class HealthMonitor:
             logger.error(f"Error checking health for {provider}: {e}")
 
             # Create failure result
-            result = HealthCheckResult(
-                provider=provider,
-                success=False,
-                latency_ms=0.0,
-                error=str(e)
-            )
+            result = HealthCheckResult(provider=provider, success=False, latency_ms=0.0, error=str(e))
             await self.update_provider_health(provider, result)
 
     def _calculate_health_status(self, health: ProviderHealth) -> HealthStatus:
         """Calculate health status based on metrics"""
 
         # Unhealthy conditions
-        if (health.consecutive_failures >= 3 or
-            health.success_rate < 0.80 or
-            health.avg_latency_ms > 5000):
+        if health.consecutive_failures >= 3 or health.success_rate < 0.80 or health.avg_latency_ms > 5000:
             return HealthStatus.UNHEALTHY
 
         # Degraded conditions
-        if (health.consecutive_failures >= 1 or
-            health.success_rate < 0.95 or
-            health.avg_latency_ms > 2000):
+        if health.consecutive_failures >= 1 or health.success_rate < 0.95 or health.avg_latency_ms > 2000:
             return HealthStatus.DEGRADED
 
         # Healthy conditions
-        if (health.success_rate >= 0.95 and
-            health.avg_latency_ms <= 2000 and
-            health.consecutive_failures == 0):
+        if health.success_rate >= 0.95 and health.avg_latency_ms <= 2000 and health.consecutive_failures == 0:
             return HealthStatus.HEALTHY
 
         return HealthStatus.UNKNOWN
@@ -452,15 +402,12 @@ class HealthMonitor:
             "openai": "gpt-3.5-turbo",
             "anthropic": "claude-3-haiku-20240307",
             "google": "gemini-pro",
-            "local": "llama2"
+            "local": "llama2",
         }
         return model_map.get(provider, "default")
 
     async def _notify_health_change_callbacks(
-        self,
-        provider: str,
-        old_status: HealthStatus,
-        new_status: HealthStatus
+        self, provider: str, old_status: HealthStatus, new_status: HealthStatus
     ) -> None:
         """Notify registered callbacks of health status changes"""
 
@@ -478,33 +425,20 @@ class HealthMonitor:
 
         # Check latency SLA
         if health.avg_latency_ms > self.sla_thresholds.max_latency_ms:
-            sla_violations.labels(
-                provider=provider,
-                violation_type="latency"
-            ).inc()
+            sla_violations.labels(provider=provider, violation_type="latency").inc()
 
         # Check success rate SLA
         if health.success_rate < self.sla_thresholds.min_success_rate:
-            sla_violations.labels(
-                provider=provider,
-                violation_type="success_rate"
-            ).inc()
+            sla_violations.labels(provider=provider, violation_type="success_rate").inc()
 
         # Check error rate SLA
         error_rate = 1.0 - health.success_rate
         if error_rate > self.sla_thresholds.max_error_rate:
-            sla_violations.labels(
-                provider=provider,
-                violation_type="error_rate"
-            ).inc()
+            sla_violations.labels(provider=provider, violation_type="error_rate").inc()
 
     async def get_health_summary(self) -> Dict[str, Any]:
         """Get health summary for all providers"""
-        summary = {
-            "timestamp": time.time(),
-            "providers": {},
-            "overall_status": "healthy"
-        }
+        summary = {"timestamp": time.time(), "providers": {}, "overall_status": "healthy"}
 
         healthy_count = 0
         total_count = len(self.provider_health)
@@ -516,7 +450,7 @@ class HealthMonitor:
                 "avg_latency_ms": health.avg_latency_ms,
                 "consecutive_failures": health.consecutive_failures,
                 "last_check": health.last_check,
-                "health_score": self._calculate_health_score(health)
+                "health_score": self._calculate_health_score(health),
             }
             summary["providers"][provider] = provider_summary
 

@@ -21,12 +21,15 @@ except Exception:
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "schemas" / "module.manifest.schema.json"
 
+
 def load_schema(path: Path) -> dict:
     with path.open() as f:
         return json.load(f)
 
+
 def iter_manifests(start: Path) -> list[Path]:
     return sorted(start.rglob("module.manifest.json"))
+
 
 def semantic_checks(manifest_path: Path, data: dict) -> list[str]:
     errs = []
@@ -61,6 +64,7 @@ def semantic_checks(manifest_path: Path, data: dict) -> list[str]:
 
     return errs
 
+
 def validate_file(schema: dict, manifest_path: Path) -> tuple[bool, list[str]]:
     try:
         with manifest_path.open() as f:
@@ -76,6 +80,7 @@ def validate_file(schema: dict, manifest_path: Path) -> tuple[bool, list[str]]:
         return False, [f"json: {e}"]
     except Exception as e:
         return False, [f"unexpected: {e}"]
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -133,6 +138,7 @@ def main():
         sys.exit(1)
     print("✅ All good!")
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

@@ -5,6 +5,7 @@ that provides simple text-based intent inference.
 
 # ΛTAG: codex, intent
 """
+
 from __future__ import annotations
 
 import re

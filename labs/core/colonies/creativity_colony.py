@@ -1,6 +1,7 @@
 """
 Creativity Colony - A specialized colony for creative tasks.
 """
+
 import logging
 from typing import Any
 
@@ -15,6 +16,7 @@ except ImportError:
         # Fallback stub if bio utilities not available
         def fatigue_level(*args, **kwargs):
             return 0.0
+
 
 from core.colonies.base_colony import BaseColony
 

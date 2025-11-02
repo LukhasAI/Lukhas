@@ -16,6 +16,7 @@ from typing import Any, Dict, Optional
 # Conditional JWT import with fallback
 try:
     import jwt
+
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
@@ -28,6 +29,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class TokenClaims:
     """Token claims structure"""
+
     sub: str  # Subject (user_id)
     username: str
     iat: int  # Issued at
@@ -61,6 +63,7 @@ class TokenService(TokenManagerInterface):
             return secret
 
         import os
+
         secret = os.getenv("LUKHAS_JWT_SECRET")
         if secret:
             return secret
@@ -82,7 +85,7 @@ class TokenService(TokenManagerInterface):
                 exp=expiry,
                 roles=kwargs.get("roles", []),
                 scope=kwargs.get("scope", "user"),
-                iss=self.issuer
+                iss=self.issuer,
             )
 
             if JWT_AVAILABLE:
@@ -132,7 +135,7 @@ class TokenService(TokenManagerInterface):
                     username=payload["username"],
                     roles=payload.get("roles", []),
                     scope=payload.get("scope", "user"),
-                    **kwargs
+                    **kwargs,
                 )
             else:
                 # Fallback refresh
@@ -158,7 +161,7 @@ class TokenService(TokenManagerInterface):
         # Create deterministic token based on claims and secret
         token_data = {
             "claims": asdict(claims),
-            "secret_hash": hashlib.sha256(self.secret_key.encode()).hexdigest()[:16]
+            "secret_hash": hashlib.sha256(self.secret_key.encode()).hexdigest()[:16],
         }
 
         token_json = json.dumps(token_data, sort_keys=True)
@@ -166,12 +169,14 @@ class TokenService(TokenManagerInterface):
 
         # Simple base64-like encoding
         import base64
+
         return base64.b64encode(encoded).decode()
 
     async def _validate_fallback_token(self, token: str) -> bool:
         """Validate fallback token"""
         try:
             import base64
+
             decoded = base64.b64decode(token.encode())
             token_data = json.loads(decoded.decode())
 
@@ -194,6 +199,7 @@ class TokenService(TokenManagerInterface):
     async def _refresh_fallback_token(self, token: str, **kwargs) -> str:
         """Refresh fallback token"""
         import base64
+
         decoded = base64.b64decode(token.encode())
         token_data = json.loads(decoded.decode())
 
@@ -211,6 +217,7 @@ class TokenService(TokenManagerInterface):
         """Decode fallback token"""
         try:
             import base64
+
             decoded = base64.b64decode(token.encode())
             token_data = json.loads(decoded.decode())
             return token_data.get("claims")
@@ -224,5 +231,5 @@ class TokenService(TokenManagerInterface):
             "algorithm": self.algorithm,
             "issuer": self.issuer,
             "default_expiry": self.default_expiry,
-            "secret_configured": bool(self.secret_key)
+            "secret_configured": bool(self.secret_key),
         }

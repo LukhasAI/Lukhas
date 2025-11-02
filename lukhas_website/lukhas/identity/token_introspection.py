@@ -33,27 +33,26 @@ tracer = trace.get_tracer(__name__)
 
 # Prometheus metrics
 introspection_requests_total = Counter(
-    'lukhas_token_introspection_requests_total',
-    'Total token introspection requests',
-    ['endpoint', 'result', 'client_type']
+    "lukhas_token_introspection_requests_total",
+    "Total token introspection requests",
+    ["endpoint", "result", "client_type"],
 )
 
 introspection_latency_seconds = Histogram(
-    'lukhas_token_introspection_latency_seconds',
-    'Token introspection latency',
-    ['endpoint'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_token_introspection_latency_seconds",
+    "Token introspection latency",
+    ["endpoint"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
 rate_limit_violations_total = Counter(
-    'lukhas_token_introspection_rate_limit_violations_total',
-    'Rate limit violations for introspection',
-    ['client_id', 'violation_type']
+    "lukhas_token_introspection_rate_limit_violations_total",
+    "Rate limit violations for introspection",
+    ["client_id", "violation_type"],
 )
 
 active_introspection_sessions = Gauge(
-    'lukhas_active_introspection_sessions_total',
-    'Number of active introspection sessions'
+    "lukhas_active_introspection_sessions_total", "Number of active introspection sessions"
 )
 
 logger = logging.getLogger(__name__)
@@ -66,6 +65,7 @@ class IntrospectionRequest:
 
     Based on RFC 7662 with LUKHAS extensions.
     """
+
     # Required fields
     token: str
 
@@ -87,6 +87,7 @@ class IntrospectionResponse:
 
     RFC 7662 compliant with LUKHAS extensions.
     """
+
     # RFC 7662 required field
     active: bool
 
@@ -159,9 +160,7 @@ class RateLimiter:
             self._last_reset[client_key] = current_time
 
         # Clean old requests
-        self._request_history[client_key] = [
-            t for t in self._request_history[client_key] if t > minute_ago
-        ]
+        self._request_history[client_key] = [t for t in self._request_history[client_key] if t > minute_ago]
 
         # Reset burst counter every minute
         if current_time - self._last_reset[client_key] > 60:
@@ -177,23 +176,17 @@ class RateLimiter:
             "burst_capacity_limit": self.burst_capacity,
             "recent_requests": recent_requests,
             "burst_count": burst_count,
-            "reset_time": self._last_reset[client_key] + 60
+            "reset_time": self._last_reset[client_key] + 60,
         }
 
         # Check burst limit
         if burst_count >= self.burst_capacity:
-            rate_limit_violations_total.labels(
-                client_id=client_key[:8],
-                violation_type="burst_exceeded"
-            ).inc()
+            rate_limit_violations_total.labels(client_id=client_key[:8], violation_type="burst_exceeded").inc()
             return False, rate_limit_info
 
         # Check per-minute limit
         if recent_requests >= self.requests_per_minute:
-            rate_limit_violations_total.labels(
-                client_id=client_key[:8],
-                violation_type="rate_exceeded"
-            ).inc()
+            rate_limit_violations_total.labels(client_id=client_key[:8], violation_type="rate_exceeded").inc()
             return False, rate_limit_info
 
         # Record request
@@ -215,7 +208,7 @@ class TokenIntrospectionService:
         self,
         auth_service: Optional[AuthenticationService] = None,
         rate_limiter: Optional[RateLimiter] = None,
-        cache_ttl_seconds: int = 60
+        cache_ttl_seconds: int = 60,
     ):
         """
         Initialize token introspection service.
@@ -238,10 +231,7 @@ class TokenIntrospectionService:
 
         logger.info(f"TokenIntrospectionService initialized with cache_ttl={cache_ttl_seconds}s")
 
-    def introspect_token(
-        self,
-        request: IntrospectionRequest
-    ) -> IntrospectionResponse:
+    def introspect_token(self, request: IntrospectionRequest) -> IntrospectionResponse:
         """
         Introspect token according to RFC 7662 with LUKHAS extensions.
 
@@ -267,15 +257,13 @@ class TokenIntrospectionService:
                 if not allowed:
                     span.set_attribute("rate_limited", True)
                     introspection_requests_total.labels(
-                        endpoint="introspect",
-                        result="rate_limited",
-                        client_type=self._classify_client(request)
+                        endpoint="introspect", result="rate_limited", client_type=self._classify_client(request)
                     ).inc()
 
                     return IntrospectionResponse(
                         active=False,
                         error="rate_limit_exceeded",
-                        error_description="Too many requests. Please slow down."
+                        error_description="Too many requests. Please slow down.",
                     )
 
                 # Check cache for recent introspection
@@ -283,9 +271,7 @@ class TokenIntrospectionService:
                 if cached_response:
                     span.set_attribute("cache_hit", True)
                     introspection_requests_total.labels(
-                        endpoint="introspect",
-                        result="cached",
-                        client_type=self._classify_client(request)
+                        endpoint="introspect", result="cached", client_type=self._classify_client(request)
                     ).inc()
                     return cached_response
 
@@ -296,15 +282,11 @@ class TokenIntrospectionService:
                     if not self._authenticate_client(request.client_id, request.client_secret):
                         span.set_attribute("client_auth_failed", True)
                         introspection_requests_total.labels(
-                            endpoint="introspect",
-                            result="unauthorized",
-                            client_type="authenticated"
+                            endpoint="introspect", result="unauthorized", client_type="authenticated"
                         ).inc()
 
                         return IntrospectionResponse(
-                            active=False,
-                            error="invalid_client",
-                            error_description="Client authentication failed"
+                            active=False, error="invalid_client", error_description="Client authentication failed"
                         )
 
                 # Create validation context
@@ -315,23 +297,19 @@ class TokenIntrospectionService:
                     guardian_enabled=True,
                     ethical_validation_enabled=True,
                     rate_limit_key=client_key,
-                    max_requests_per_minute=100
+                    max_requests_per_minute=100,
                 )
 
                 # Validate token using ΛiD token system
-                if hasattr(self.auth_service, 'validate_lid_token'):
-                    validation_result = self.auth_service.validate_lid_token(
-                        request.token, validation_context
-                    )
+                if hasattr(self.auth_service, "validate_lid_token"):
+                    validation_result = self.auth_service.validate_lid_token(request.token, validation_context)
                 else:
                     # Fallback to general token authentication
                     auth_result = self.auth_service.authenticate_token(request.token)
                     validation_result = self._convert_auth_result_to_validation(auth_result)
 
                 # Build introspection response
-                response = self._build_introspection_response(
-                    validation_result, request, start_time
-                )
+                response = self._build_introspection_response(validation_result, request, start_time)
 
                 # Cache successful responses
                 if response.active:
@@ -340,9 +318,7 @@ class TokenIntrospectionService:
                 # Update metrics
                 result_type = "active" if response.active else "inactive"
                 introspection_requests_total.labels(
-                    endpoint="introspect",
-                    result=result_type,
-                    client_type=self._classify_client(request)
+                    endpoint="introspect", result=result_type, client_type=self._classify_client(request)
                 ).inc()
 
                 span.set_attribute("token_active", response.active)
@@ -356,26 +332,20 @@ class TokenIntrospectionService:
 
                 # Update error metrics
                 introspection_requests_total.labels(
-                    endpoint="introspect",
-                    result="error",
-                    client_type=self._classify_client(request)
+                    endpoint="introspect", result="error", client_type=self._classify_client(request)
                 ).inc()
 
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
 
                 return IntrospectionResponse(
-                    active=False,
-                    error="server_error",
-                    error_description="Internal server error during introspection"
+                    active=False, error="server_error", error_description="Internal server error during introspection"
                 )
 
             finally:
                 # Record latency
                 latency = time.time() - start_time
-                introspection_latency_seconds.labels(
-                    endpoint="introspect"
-                ).observe(latency)
+                introspection_latency_seconds.labels(endpoint="introspect").observe(latency)
 
     def _generate_client_key(self, request: IntrospectionRequest) -> str:
         """Generate unique client key for rate limiting."""
@@ -441,15 +411,11 @@ class TokenIntrospectionService:
 
         # Limit cache size
         while len(self._response_cache) > 1000:
-            oldest_key = min(self._response_cache.keys(),
-                           key=lambda k: self._response_cache[k][1])
+            oldest_key = min(self._response_cache.keys(), key=lambda k: self._response_cache[k][1])
             del self._response_cache[oldest_key]
 
     def _build_introspection_response(
-        self,
-        validation_result: ValidationResult,
-        request: IntrospectionRequest,
-        start_time: float
+        self, validation_result: ValidationResult, request: IntrospectionRequest, start_time: float
     ) -> IntrospectionResponse:
         """Build introspection response from validation result."""
         if not validation_result.valid:
@@ -457,7 +423,7 @@ class TokenIntrospectionService:
                 active=False,
                 error=validation_result.error_code or "invalid_token",
                 error_description=validation_result.error_message or "Token is not valid",
-                validation_time_ms=(time.time() - start_time) * 1000
+                validation_time_ms=(time.time() - start_time) * 1000,
             )
 
         claims = validation_result.claims or {}
@@ -486,7 +452,7 @@ class TokenIntrospectionService:
             namespace=validation_result.namespace,
             permissions=claims.get("permissions", []),
             guardian_approved=validation_result.guardian_approved,
-            validation_time_ms=(time.time() - start_time) * 1000
+            validation_time_ms=(time.time() - start_time) * 1000,
         )
 
         return response
@@ -497,7 +463,7 @@ class TokenIntrospectionService:
             valid=auth_result.success,
             error_message=auth_result.error,
             claims={"permissions": auth_result.permissions or []} if auth_result.success else None,
-            alias=auth_result.user_id
+            alias=auth_result.user_id,
         )
 
     def get_service_stats(self) -> Dict[str, Any]:
@@ -507,13 +473,13 @@ class TokenIntrospectionService:
             "cache_stats": {
                 "response_cache_size": len(self._response_cache),
                 "client_auth_cache_size": len(self._client_auth_cache),
-                "cache_ttl_seconds": self.cache_ttl
+                "cache_ttl_seconds": self.cache_ttl,
             },
             "rate_limiting": {
                 "requests_per_minute": self.rate_limiter.requests_per_minute,
                 "burst_capacity": self.rate_limiter.burst_capacity,
-                "tracked_clients": len(self.rate_limiter._request_history)
-            }
+                "tracked_clients": len(self.rate_limiter._request_history),
+            },
         }
 
     def clear_caches(self) -> None:
@@ -525,9 +491,7 @@ class TokenIntrospectionService:
 
 # Convenience function for creating introspection service
 def create_introspection_service(
-    requests_per_minute: int = 100,
-    burst_capacity: int = 20,
-    cache_ttl_seconds: int = 60
+    requests_per_minute: int = 100, burst_capacity: int = 20, cache_ttl_seconds: int = 60
 ) -> TokenIntrospectionService:
     """
     Create configured token introspection service.
@@ -541,10 +505,7 @@ def create_introspection_service(
         Configured TokenIntrospectionService
     """
     rate_limiter = RateLimiter(requests_per_minute, burst_capacity)
-    return TokenIntrospectionService(
-        rate_limiter=rate_limiter,
-        cache_ttl_seconds=cache_ttl_seconds
-    )
+    return TokenIntrospectionService(rate_limiter=rate_limiter, cache_ttl_seconds=cache_ttl_seconds)
 
 
 # Export public interface
@@ -553,5 +514,5 @@ __all__ = [
     "IntrospectionRequest",
     "IntrospectionResponse",
     "RateLimiter",
-    "create_introspection_service"
+    "create_introspection_service",
 ]

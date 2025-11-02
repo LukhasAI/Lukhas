@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, Mock
 
 import yaml
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 from core.reliability.ratelimit import QuotaConfig, RateLimiter
 from core.reliability.ratelimit_backends import LimiterBackend
@@ -16,10 +16,10 @@ from core.reliability.ratelimit_backends import LimiterBackend
 # A simple in-memory backend for predictable testing that handles multiple keys
 class InMemoryLimiterForTesting(LimiterBackend):
     def __init__(self):
-        self.buckets: dict[str, dict[str, float]] = {} # Store buckets per key
+        self.buckets: dict[str, dict[str, float]] = {}  # Store buckets per key
 
     def allow(self, key: str, rate: float, burst: int) -> tuple[bool, int, float]:
-        now = 1.0 # Use a fixed time for predictability
+        now = 1.0  # Use a fixed time for predictability
         if key not in self.buckets:
             self.buckets[key] = {"tokens": float(burst)}
 
@@ -28,8 +28,9 @@ class InMemoryLimiterForTesting(LimiterBackend):
         # Simple decrement for testing, not a full token bucket implementation
         if bucket["tokens"] >= 1:
             bucket["tokens"] -= 1
-            return True, int(bucket["tokens"]), now + 10.0 # Dummy reset time
+            return True, int(bucket["tokens"]), now + 10.0  # Dummy reset time
         return False, 0, now + 10.0
+
 
 class TestQuotaHierarchy(unittest.TestCase):
 
@@ -37,16 +38,12 @@ class TestQuotaHierarchy(unittest.TestCase):
         # Create a mock quota config file
         self.config_data = {
             "defaults": {"rate_per_sec": 100, "burst": 200},
-            "orgs": {
-                "org_abc": {"rate_per_sec": 50, "burst": 100}
-            },
-            "tokens": {
-                "sk-abc...": {"rate_per_sec": 5, "burst": 10}
-            },
+            "orgs": {"org_abc": {"rate_per_sec": 50, "burst": 100}},
+            "tokens": {"sk-abc...": {"rate_per_sec": 5, "burst": 10}},
             "routes": {
                 "/v1/dreams": {"rate_per_sec": 3, "burst": 5},
-                "/v1/responses": {"rate_per_sec": 40, "burst": 80}
-            }
+                "/v1/responses": {"rate_per_sec": 40, "burst": 80},
+            },
         }
         self.config_path = "test_quotas.yaml"
         with open(self.config_path, "w") as f:
@@ -93,8 +90,8 @@ class TestQuotaHierarchy(unittest.TestCase):
     def test_route_quota_is_most_restrictive(self):
         """Test that a route-specific quota can be the most restrictive."""
         rate, burst = self.quota_config.resolve_limits("org_abc", "tok_other", "/v1/dreams")
-        self.assertEqual(rate, 3) # min(default_rate, org_rate, route_rate)
-        self.assertEqual(burst, 5) # min(default_burst, org_burst, route_burst)
+        self.assertEqual(rate, 3)  # min(default_rate, org_rate, route_rate)
+        self.assertEqual(burst, 5)  # min(default_burst, org_burst, route_burst)
 
     def test_headers_correctness(self):
         """Test that the generated headers are correct."""
@@ -122,6 +119,7 @@ class TestQuotaHierarchy(unittest.TestCase):
         allowed, _ = self.rate_limiter.check_limit(request)
 
         self.assertFalse(allowed)
+
 
 if __name__ == "__main__":
     unittest.main()

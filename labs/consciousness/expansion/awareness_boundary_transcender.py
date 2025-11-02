@@ -3,6 +3,7 @@ Awareness Boundary Transcender
 
 Transcends the boundaries of conventional awareness.
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Any

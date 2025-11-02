@@ -38,7 +38,7 @@ class TestWebAuthnCredential:
             sign_count=0,
             authenticator_type=AuthenticatorType.PLATFORM,
             tier=AuthenticatorTier.T4_STRONG,
-            device_name="Test Device"
+            device_name="Test Device",
         )
 
         assert credential.credential_id == "test_credential_123"
@@ -54,10 +54,7 @@ class TestWebAuthnCredential:
     def test_credential_to_dict(self):
         """Test credential serialization to dictionary"""
         credential = WebAuthnCredential(
-            credential_id="test_credential",
-            public_key="test_key",
-            user_id="user_123",
-            device_name="iPhone"
+            credential_id="test_credential", public_key="test_key", user_id="user_123", device_name="iPhone"
         )
 
         data = credential.to_dict()
@@ -84,7 +81,7 @@ class TestWebAuthnCredential:
             "created_at": datetime.now(timezone.utc).isoformat(),
             "device_name": "YubiKey",
             "biometric_enrolled": True,
-            "backup_eligible": False
+            "backup_eligible": False,
         }
 
         credential = WebAuthnCredential.from_dict(data)
@@ -110,7 +107,7 @@ class TestWebAuthnChallenge:
             user_id="user_123",
             operation="registration",
             expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
-            tier_required=AuthenticatorTier.T4_STRONG
+            tier_required=AuthenticatorTier.T4_STRONG,
         )
 
         assert challenge.challenge_id == "challenge_123"
@@ -128,7 +125,7 @@ class TestWebAuthnChallenge:
             challenge="challenge",
             user_id="user",
             operation="registration",
-            expires_at=datetime.now(timezone.utc) - timedelta(minutes=1)
+            expires_at=datetime.now(timezone.utc) - timedelta(minutes=1),
         )
 
         assert expired_challenge.is_expired()
@@ -139,7 +136,7 @@ class TestWebAuthnChallenge:
             challenge="challenge",
             user_id="user",
             operation="registration",
-            expires_at=datetime.now(timezone.utc) + timedelta(minutes=5)
+            expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
         )
 
         assert not valid_challenge.is_expired()
@@ -155,11 +152,7 @@ class TestWebAuthnCredentialStore:
     @pytest.mark.asyncio
     async def test_store_and_get_credential(self):
         """Test credential storage and retrieval"""
-        credential = WebAuthnCredential(
-            credential_id="test_cred",
-            public_key="test_key",
-            user_id="user_123"
-        )
+        credential = WebAuthnCredential(credential_id="test_cred", public_key="test_key", user_id="user_123")
 
         await self.store.store_credential(credential)
 
@@ -176,11 +169,7 @@ class TestWebAuthnCredentialStore:
     @pytest.mark.asyncio
     async def test_update_credential(self):
         """Test credential updates"""
-        credential = WebAuthnCredential(
-            credential_id="test_cred",
-            public_key="test_key",
-            user_id="user_123"
-        )
+        credential = WebAuthnCredential(credential_id="test_cred", public_key="test_key", user_id="user_123")
 
         await self.store.store_credential(credential)
 
@@ -197,11 +186,7 @@ class TestWebAuthnCredentialStore:
     @pytest.mark.asyncio
     async def test_delete_credential(self):
         """Test credential deletion"""
-        credential = WebAuthnCredential(
-            credential_id="test_cred",
-            public_key="test_key",
-            user_id="user_123"
-        )
+        credential = WebAuthnCredential(credential_id="test_cred", public_key="test_key", user_id="user_123")
 
         await self.store.store_credential(credential)
         assert await self.store.get_credential("test_cred") is not None
@@ -221,7 +206,7 @@ class TestWebAuthnCredentialStore:
             challenge="base64_challenge",
             user_id="user_123",
             operation="registration",
-            expires_at=datetime.now(timezone.utc) + timedelta(minutes=5)
+            expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
         )
 
         await self.store.store_challenge(challenge)
@@ -243,7 +228,7 @@ class TestWebAuthnCredentialStore:
             challenge="challenge",
             user_id="user",
             operation="registration",
-            expires_at=datetime.now(timezone.utc) - timedelta(minutes=1)
+            expires_at=datetime.now(timezone.utc) - timedelta(minutes=1),
         )
 
         await self.store.store_challenge(expired_challenge)
@@ -258,20 +243,13 @@ class TestWebAuthnManager:
 
     def setup_method(self):
         """Set up test fixtures"""
-        self.manager = WebAuthnManager(
-            rp_id="test.example.com",
-            rp_name="Test App",
-            origin="https://test.example.com"
-        )
+        self.manager = WebAuthnManager(rp_id="test.example.com", rp_name="Test App", origin="https://test.example.com")
 
     @pytest.mark.asyncio
     async def test_begin_registration_mock(self):
         """Test WebAuthn registration initiation (mock implementation)"""
         options = await self.manager.begin_registration(
-            user_id="user_123",
-            username="testuser",
-            display_name="Test User",
-            tier=AuthenticatorTier.T4_STRONG
+            user_id="user_123", username="testuser", display_name="Test User", tier=AuthenticatorTier.T4_STRONG
         )
 
         # Verify registration options structure
@@ -302,9 +280,7 @@ class TestWebAuthnManager:
         """Test WebAuthn registration completion (mock implementation)"""
         # Begin registration first
         options = await self.manager.begin_registration(
-            user_id="user_123",
-            username="testuser",
-            display_name="Test User"
+            user_id="user_123", username="testuser", display_name="Test User"
         )
 
         challenge_id = options["_challenge_id"]
@@ -314,17 +290,12 @@ class TestWebAuthnManager:
             "id": "mock_credential_id",
             "rawId": "mock_raw_id",
             "type": "public-key",
-            "response": {
-                "attestationObject": "mock_attestation",
-                "clientDataJSON": "mock_client_data"
-            }
+            "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
         }
 
         # Finish registration
         credential = await self.manager.finish_registration(
-            challenge_id=challenge_id,
-            credential_data=mock_credential_data,
-            device_name="Test Device"
+            challenge_id=challenge_id, credential_data=mock_credential_data, device_name="Test Device"
         )
 
         # Verify credential was created
@@ -349,10 +320,7 @@ class TestWebAuthnManager:
         await self.register_test_credential()
 
         # Begin authentication
-        options = await self.manager.begin_authentication(
-            user_id="user_123",
-            tier=AuthenticatorTier.T4_STRONG
-        )
+        options = await self.manager.begin_authentication(user_id="user_123", tier=AuthenticatorTier.T4_STRONG)
 
         # Verify authentication options structure
         assert "challenge" in options
@@ -388,14 +356,13 @@ class TestWebAuthnManager:
             "response": {
                 "authenticatorData": "mock_auth_data",
                 "clientDataJSON": "mock_client_data",
-                "signature": "mock_signature"
-            }
+                "signature": "mock_signature",
+            },
         }
 
         # Finish authentication
         auth_credential, verification_result = await self.manager.finish_authentication(
-            challenge_id=challenge_id,
-            credential_data=mock_auth_data
+            challenge_id=challenge_id, credential_data=mock_auth_data
         )
 
         # Verify authentication result
@@ -410,20 +377,14 @@ class TestWebAuthnManager:
         """Test different authentication tiers"""
         # Test T3 tier
         t3_options = await self.manager.begin_registration(
-            user_id="user_t3",
-            username="t3user",
-            display_name="T3 User",
-            tier=AuthenticatorTier.T3_MFA
+            user_id="user_t3", username="t3user", display_name="T3 User", tier=AuthenticatorTier.T3_MFA
         )
 
         assert t3_options["authenticatorSelection"]["userVerification"] == "preferred"
 
         # Test T5 biometric tier
         t5_options = await self.manager.begin_registration(
-            user_id="user_t5",
-            username="t5user",
-            display_name="T5 User",
-            tier=AuthenticatorTier.T5_BIOMETRIC
+            user_id="user_t5", username="t5user", display_name="T5 User", tier=AuthenticatorTier.T5_BIOMETRIC
         )
 
         assert t5_options["authenticatorSelection"]["userVerification"] == "required"
@@ -437,7 +398,7 @@ class TestWebAuthnManager:
             user_id="user_platform",
             username="platform_user",
             display_name="Platform User",
-            authenticator_attachment="platform"
+            authenticator_attachment="platform",
         )
 
         assert platform_options["authenticatorSelection"]["authenticatorAttachment"] == "platform"
@@ -447,7 +408,7 @@ class TestWebAuthnManager:
             user_id="user_roaming",
             username="roaming_user",
             display_name="Roaming User",
-            authenticator_attachment="cross-platform"
+            authenticator_attachment="cross-platform",
         )
 
         assert roaming_options["authenticatorSelection"]["authenticatorAttachment"] == "cross-platform"
@@ -492,10 +453,7 @@ class TestWebAuthnManager:
     async def test_usernameless_authentication(self):
         """Test usernameless (discoverable credential) authentication"""
         # Begin authentication without user ID
-        options = await self.manager.begin_authentication(
-            user_id=None,
-            tier=AuthenticatorTier.T4_STRONG
-        )
+        options = await self.manager.begin_authentication(user_id=None, tier=AuthenticatorTier.T4_STRONG)
 
         # Should allow empty credential list for discoverable credentials
         assert "allowCredentials" in options
@@ -548,17 +506,12 @@ class TestWebAuthnManager:
         assert isinstance(descriptors[0], DummyDescriptor)
         assert descriptors[0].id == raw_bytes
 
-    async def register_test_credential(self,
-                                     user_id: str = "user_123",
-                                     credential_id: str = "test_credential",
-                                     device_name: str = "Test Device") -> WebAuthnCredential:
+    async def register_test_credential(
+        self, user_id: str = "user_123", credential_id: str = "test_credential", device_name: str = "Test Device"
+    ) -> WebAuthnCredential:
         """Helper method to register a test credential"""
         # Begin registration
-        options = await self.manager.begin_registration(
-            user_id=user_id,
-            username="testuser",
-            display_name="Test User"
-        )
+        options = await self.manager.begin_registration(user_id=user_id, username="testuser", display_name="Test User")
 
         challenge_id = options["_challenge_id"]
 
@@ -567,17 +520,12 @@ class TestWebAuthnManager:
             "id": credential_id,
             "rawId": credential_id,
             "type": "public-key",
-            "response": {
-                "attestationObject": "mock_attestation",
-                "clientDataJSON": "mock_client_data"
-            }
+            "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
         }
 
         # Finish registration
         return await self.manager.finish_registration(
-            challenge_id=challenge_id,
-            credential_data=mock_credential_data,
-            device_name=device_name
+            challenge_id=challenge_id, credential_data=mock_credential_data, device_name=device_name
         )
 
 
@@ -602,9 +550,7 @@ class TestWebAuthnPerformanceRequirements:
 
             try:
                 options = await self.manager.begin_registration(
-                    user_id=f"perf_user_{i}",
-                    username=f"perfuser{i}",
-                    display_name=f"Perf User {i}"
+                    user_id=f"perf_user_{i}", username=f"perfuser{i}", display_name=f"Perf User {i}"
                 )
 
                 latency = time.time() - start_time
@@ -616,18 +562,18 @@ class TestWebAuthnPerformanceRequirements:
 
             except Exception as e:
                 print(f"Registration failed: {e}")
-                latencies.append(float('inf'))
+                latencies.append(float("inf"))
 
         # Calculate percentiles
-        valid_latencies = [l for l in latencies if l != float('inf')]
+        valid_latencies = [l for l in latencies if l != float("inf")]
         valid_latencies.sort()
         p95_index = int(0.95 * len(valid_latencies)) if valid_latencies else 0
         p50_index = int(0.50 * len(valid_latencies)) if valid_latencies else 0
         p99_index = min(int(0.99 * len(valid_latencies)), len(valid_latencies) - 1) if valid_latencies else 0
 
-        p95_latency = valid_latencies[p95_index] if valid_latencies else float('inf')
-        p50_latency = valid_latencies[p50_index] if valid_latencies else float('inf')
-        p99_latency = valid_latencies[p99_index] if valid_latencies else float('inf')
+        p95_latency = valid_latencies[p95_index] if valid_latencies else float("inf")
+        p50_latency = valid_latencies[p50_index] if valid_latencies else float("inf")
+        p99_latency = valid_latencies[p99_index] if valid_latencies else float("inf")
 
         print(f"P95 registration latency: {p95_latency:.3f}s")
 
@@ -636,16 +582,16 @@ class TestWebAuthnPerformanceRequirements:
             "test": "webauthn_registration_latency",
             "timestamp": datetime.utcnow().isoformat(),
             "metrics": {
-                "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
-                "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
-                "p99_ms": p99_latency * 1000 if p99_latency != float('inf') else None,
+                "p50_ms": p50_latency * 1000 if p50_latency != float("inf") else None,
+                "p95_ms": p95_latency * 1000 if p95_latency != float("inf") else None,
+                "p99_ms": p99_latency * 1000 if p99_latency != float("inf") else None,
                 "samples": len(valid_latencies),
                 "failed_samples": len(latencies) - len(valid_latencies),
                 "target_p95_ms": 100,
-                "actual_p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
-                "passed": p95_latency < 0.1
+                "actual_p95_ms": p95_latency * 1000 if p95_latency != float("inf") else None,
+                "passed": p95_latency < 0.1,
             },
-            "latencies_ms": [l * 1000 for l in valid_latencies[:10]]  # First 10 samples
+            "latencies_ms": [l * 1000 for l in valid_latencies[:10]],  # First 10 samples
         }
 
         # Save artifact
@@ -673,8 +619,7 @@ class TestWebAuthnPerformanceRequirements:
 
             try:
                 options = await self.manager.begin_authentication(
-                    user_id=f"auth_user_{i}",
-                    tier=AuthenticatorTier.T4_STRONG
+                    user_id=f"auth_user_{i}", tier=AuthenticatorTier.T4_STRONG
                 )
 
                 latency = time.time() - start_time
@@ -686,18 +631,18 @@ class TestWebAuthnPerformanceRequirements:
 
             except Exception as e:
                 print(f"Authentication failed: {e}")
-                latencies.append(float('inf'))
+                latencies.append(float("inf"))
 
         # Calculate percentiles
-        valid_latencies = [l for l in latencies if l != float('inf')]
+        valid_latencies = [l for l in latencies if l != float("inf")]
         valid_latencies.sort()
         p95_index = int(0.95 * len(valid_latencies)) if valid_latencies else 0
         p50_index = int(0.50 * len(valid_latencies)) if valid_latencies else 0
         p99_index = min(int(0.99 * len(valid_latencies)), len(valid_latencies) - 1) if valid_latencies else 0
 
-        p95_latency = valid_latencies[p95_index] if valid_latencies else float('inf')
-        p50_latency = valid_latencies[p50_index] if valid_latencies else float('inf')
-        p99_latency = valid_latencies[p99_index] if valid_latencies else float('inf')
+        p95_latency = valid_latencies[p95_index] if valid_latencies else float("inf")
+        p50_latency = valid_latencies[p50_index] if valid_latencies else float("inf")
+        p99_latency = valid_latencies[p99_index] if valid_latencies else float("inf")
 
         print(f"P95 authentication latency: {p95_latency:.3f}s")
 
@@ -706,16 +651,16 @@ class TestWebAuthnPerformanceRequirements:
             "test": "webauthn_authentication_latency",
             "timestamp": datetime.utcnow().isoformat(),
             "metrics": {
-                "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
-                "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
-                "p99_ms": p99_latency * 1000 if p99_latency != float('inf') else None,
+                "p50_ms": p50_latency * 1000 if p50_latency != float("inf") else None,
+                "p95_ms": p95_latency * 1000 if p95_latency != float("inf") else None,
+                "p99_ms": p99_latency * 1000 if p99_latency != float("inf") else None,
                 "samples": len(valid_latencies),
                 "failed_samples": len(latencies) - len(valid_latencies),
                 "target_p95_ms": 100,
-                "actual_p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
-                "passed": p95_latency < 0.1
+                "actual_p95_ms": p95_latency * 1000 if p95_latency != float("inf") else None,
+                "passed": p95_latency < 0.1,
             },
-            "latencies_ms": [l * 1000 for l in valid_latencies[:10]]  # First 10 samples
+            "latencies_ms": [l * 1000 for l in valid_latencies[:10]],  # First 10 samples
         }
 
         # Save artifact
@@ -735,9 +680,7 @@ class TestWebAuthnPerformanceRequirements:
         # Register multiple credentials
         user_id = "perf_lookup_user"
         for i in range(10):
-            await self.register_test_credential(
-                user_id, f"cred_{i}", f"Device {i}"
-            )
+            await self.register_test_credential(user_id, f"cred_{i}", f"Device {i}")
 
         # Measure lookup performance
         start_time = time.time()
@@ -749,16 +692,9 @@ class TestWebAuthnPerformanceRequirements:
         assert len(credentials) == 10
         assert lookup_time < 0.01  # Should be very fast
 
-    async def register_test_credential(self,
-                                     user_id: str,
-                                     credential_id: str,
-                                     device_name: str) -> WebAuthnCredential:
+    async def register_test_credential(self, user_id: str, credential_id: str, device_name: str) -> WebAuthnCredential:
         """Helper method to register a test credential"""
-        options = await self.manager.begin_registration(
-            user_id=user_id,
-            username="testuser",
-            display_name="Test User"
-        )
+        options = await self.manager.begin_registration(user_id=user_id, username="testuser", display_name="Test User")
 
         challenge_id = options["_challenge_id"]
 
@@ -766,16 +702,11 @@ class TestWebAuthnPerformanceRequirements:
             "id": credential_id,
             "rawId": credential_id,
             "type": "public-key",
-            "response": {
-                "attestationObject": "mock_attestation",
-                "clientDataJSON": "mock_client_data"
-            }
+            "response": {"attestationObject": "mock_attestation", "clientDataJSON": "mock_client_data"},
         }
 
         return await self.manager.finish_registration(
-            challenge_id=challenge_id,
-            credential_data=mock_credential_data,
-            device_name=device_name
+            challenge_id=challenge_id, credential_data=mock_credential_data, device_name=device_name
         )
 
 
@@ -795,7 +726,7 @@ class TestWebAuthnIntegration:
             display_name="Integration User",
             tier=AuthenticatorTier.T5_BIOMETRIC,
             authenticator_attachment="platform",
-            device_name="Integration Device"
+            device_name="Integration Device",
         )
 
         assert reg_options is not None
@@ -808,15 +739,13 @@ class TestWebAuthnIntegration:
             "type": "public-key",
             "response": {
                 "attestationObject": base64.b64encode(b"mock_attestation").decode(),
-                "clientDataJSON": base64.b64encode(b"mock_client_data").decode()
-            }
+                "clientDataJSON": base64.b64encode(b"mock_client_data").decode(),
+            },
         }
 
         # 3. Complete registration
         credential = await manager.finish_registration(
-            challenge_id=challenge_id,
-            credential_data=mock_credential,
-            device_name="Integration Device"
+            challenge_id=challenge_id, credential_data=mock_credential, device_name="Integration Device"
         )
 
         assert credential.user_id == "integration_user"
@@ -825,8 +754,7 @@ class TestWebAuthnIntegration:
 
         # 4. Begin authentication
         auth_options = await manager.begin_authentication(
-            user_id="integration_user",
-            tier=AuthenticatorTier.T5_BIOMETRIC
+            user_id="integration_user", tier=AuthenticatorTier.T5_BIOMETRIC
         )
 
         assert len(auth_options["allowCredentials"]) == 1
@@ -840,14 +768,13 @@ class TestWebAuthnIntegration:
             "response": {
                 "authenticatorData": base64.b64encode(b"mock_auth_data").decode(),
                 "clientDataJSON": base64.b64encode(b"mock_client_data").decode(),
-                "signature": base64.b64encode(b"mock_signature").decode()
-            }
+                "signature": base64.b64encode(b"mock_signature").decode(),
+            },
         }
 
         # 6. Complete authentication
         auth_cred, verification = await manager.finish_authentication(
-            challenge_id=auth_challenge_id,
-            credential_data=mock_assertion
+            challenge_id=auth_challenge_id, credential_data=mock_assertion
         )
 
         assert verification["verified"] is True

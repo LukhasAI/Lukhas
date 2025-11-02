@@ -51,7 +51,7 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
             operation="retrieve",
             ts_start=start_time,
             ts_end=time.time(),
-            status="OK"
+            status="OK",
         )
         await write_json("trace_span", {"id": span.span_id, **span.model_dump()})
         result["spans"].append(span)
@@ -63,7 +63,7 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
             uri_or_key="memory://fold-850",
             sha256=hashlib.sha256(b"memory-content").hexdigest(),
             excerpt="User previously asked about consciousness systems...",
-            consent_scope="default"
+            consent_scope="default",
         )
         await write_json("evidence_link", {"id": f"{evidence.span_id}:{evidence.uri_or_key}", **evidence.model_dump()})
 
@@ -78,7 +78,7 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
             operation="focus",
             ts_start=time.time(),
             ts_end=time.time() + 0.005,
-            status="OK"
+            status="OK",
         )
         await write_json("trace_span", {"id": span.span_id, **span.model_dump()})
         result["spans"].append(span)
@@ -94,7 +94,7 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
             operation="reason",
             ts_start=time.time(),
             ts_end=time.time() + 0.015,
-            status="OK"
+            status="OK",
         )
         await write_json("trace_span", {"id": span.span_id, **span.model_dump()})
         result["spans"].append(span)
@@ -110,7 +110,7 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
             operation="validate",
             ts_start=time.time(),
             ts_end=time.time() + 0.003,
-            status="OK"
+            status="OK",
         )
         await write_json("trace_span", {"id": span.span_id, **span.model_dump()})
         result["spans"].append(span)
@@ -122,7 +122,7 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
             rule_id="guardian.safety_check",
             decision="ALLOW",
             justification="No safety violations detected",
-            feature_flags_snapshot={"guardian_v2": True}
+            feature_flags_snapshot={"guardian_v2": True},
         )
         await write_json("governance_event", {"id": gov_event.event_id, **gov_event.model_dump()})
 
@@ -174,7 +174,7 @@ async def demo_complete_observability():
     for i in range(50):
         calibrator.record_prediction(0.7 + (i % 10) * 0.03, 1.0 if i % 3 == 0 else 0.0)
 
-    calibrated = calibrator.calibrate(pipeline_result['confidence'])
+    calibrated = calibrator.calibrate(pipeline_result["confidence"])
     metrics = calibrator.get_metrics()
 
     print(f"✅ Calibrated confidence: {calibrated:.3f}")
@@ -197,7 +197,7 @@ async def demo_complete_observability():
         final_outcome={"text": pipeline_result["text"], "confidence": calibrated},
         confidence=calibrated,
         policy_version="v1",
-        git_sha="demo"
+        git_sha="demo",
     )
 
     await write_json("decision_trace", {"id": trace_id, **decision_trace.model_dump()})
@@ -253,7 +253,7 @@ async def demo_complete_observability():
         "trace_id": trace_id,
         "rating_0_10": 8,
         "text": "Great answer! Maybe add more examples.",
-        "labels": {"helpful": 1.0, "needs-examples": 0.5}
+        "labels": {"helpful": 1.0, "needs-examples": 0.5},
     }
 
     await write_json("feedback_event", feedback_payload)
@@ -291,4 +291,5 @@ async def demo_complete_observability():
 
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(demo_complete_observability())

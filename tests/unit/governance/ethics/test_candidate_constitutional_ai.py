@@ -15,6 +15,7 @@ def candidate_framework():
     """Provides a fresh instance of the candidate ConstitutionalFramework."""
     return ConstitutionalFramework()
 
+
 def test_add_and_get_constitutional_rule(candidate_framework):
     """
     Tests adding a new constitutional rule and retrieving it.
@@ -32,6 +33,7 @@ def test_add_and_get_constitutional_rule(candidate_framework):
 
     assert "test_rule_001" in candidate_framework.constitutional_rules
     assert candidate_framework.constitutional_rules["test_rule_001"].principle == EthicalPrinciple.DIGNITY
+
 
 def test_get_applicable_rules(candidate_framework):
     """
@@ -69,11 +71,12 @@ def test_get_applicable_rules(candidate_framework):
         principle=EthicalPrinciple.DIGNITY,
         description="A universal rule.",
         priority=1,
-        conditions=[], # This makes it universal
+        conditions=[],  # This makes it universal
     )
     candidate_framework.add_constitutional_rule(universal_rule)
     applicable_rules_universal = candidate_framework.get_applicable_rules(context_none)
     assert any(r.rule_id == "universal_rule_001" for r in applicable_rules_universal)
+
 
 @pytest.mark.asyncio
 async def test_safety_monitor_risk_detection(candidate_framework):
@@ -97,6 +100,7 @@ async def test_safety_monitor_risk_detection(candidate_framework):
     assert not assessment_safe.risk_factors
     assert assessment_safe.safety_level == SafetyLevel.SAFE
 
+
 @pytest.mark.asyncio
 async def test_ethical_decision_maker(candidate_framework):
     """
@@ -107,16 +111,16 @@ async def test_ethical_decision_maker(candidate_framework):
     context = {"action": "decision_making"}
     # Option 1 violates the fairness rule, Option 2 is neutral, Option 3 is beneficial
     options = [
-        "This is a biased and unfair choice.", # Should have low score
-        "This is a standard choice.", # Should have medium score
-        "This choice will help and support everyone fairly." # Should have high score
+        "This is a biased and unfair choice.",  # Should have low score
+        "This is a standard choice.",  # Should have medium score
+        "This choice will help and support everyone fairly.",  # Should have high score
     ]
 
     decision = await decision_maker.make_ethical_decision(context, options)
 
     # Check that the most beneficial option was chosen
     assert decision.decision == "This choice will help and support everyone fairly."
-    assert decision.confidence > 0.7 # Expect a high confidence score
+    assert decision.confidence > 0.7  # Expect a high confidence score
 
     # Check that the biased option was considered but not chosen
     assert any("biased" in alt for alt in decision.alternatives_considered)

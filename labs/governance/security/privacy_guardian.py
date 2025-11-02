@@ -545,7 +545,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             # Load the policies we just created
             self._load_privacy_policies()
 
-            logger.info(f"Created default privacy policies with governance and Constellation Framework: {self.policies_path}")
+            logger.info(
+                f"Created default privacy policies with governance and Constellation Framework: {self.policies_path}"
+            )
         except Exception as e:
             logger.error(f"Failed to create default policies: {e}")
 

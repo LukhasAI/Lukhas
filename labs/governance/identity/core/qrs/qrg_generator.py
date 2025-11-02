@@ -7,7 +7,6 @@ Handles expiry, validation, and session management.
 """
 
 
-
 class QRGGenerator:
     """Generate and validate QR-G codes for device pairing"""
 

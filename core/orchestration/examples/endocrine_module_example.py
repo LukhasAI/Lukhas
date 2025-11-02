@@ -2,6 +2,7 @@
 Example of a module that integrates with the endocrine orchestration system.
 This shows how modules can send stress signals and adapt to hormonal states.
 """
+
 import asyncio
 import random
 from typing import Any

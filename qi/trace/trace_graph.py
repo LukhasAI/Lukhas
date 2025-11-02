@@ -14,29 +14,37 @@ _ORIG_OPEN = builtins.open
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE, "provenance", "exec_receipts")
 
+
 def _read_json(path: str) -> dict[str, Any]:
     with _ORIG_OPEN(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def _load_receipt(receipt_id: str | None=None, receipt_path: str | None=None) -> dict[str, Any]:
+
+def _load_receipt(receipt_id: str | None = None, receipt_path: str | None = None) -> dict[str, Any]:
     if receipt_path:
         return _read_json(receipt_path)
     if not receipt_id:
         raise FileNotFoundError("Provide --receipt-id or --receipt-path")
     p = os.path.join(RECEIPTS_DIR, f"{receipt_id}.json")
-    if not os.path.exists(p): raise FileNotFoundError(p)
+    if not os.path.exists(p):
+        raise FileNotFoundError(p)
     return _read_json(p)
 
+
 def _load_prov(artifact_sha: str | None) -> dict[str, Any] | None:
-    if not artifact_sha: return None
+    if not artifact_sha:
+        return None
     try:
         from qi.safety.provenance_uploader import load_record_by_sha
+
         return load_record_by_sha(artifact_sha)
     except Exception:
         return None
 
+
 def _teq_replay(receipt: dict[str, Any], policy_root: str, overlays_dir: str | None) -> dict[str, Any]:
     from qi.safety.teq_replay import replay_from_receipt
+
     return replay_from_receipt(
         receipt=receipt,
         policy_root=policy_root,
@@ -45,20 +53,23 @@ def _teq_replay(receipt: dict[str, Any], policy_root: str, overlays_dir: str | N
         verify_provenance_attestation=False,
     )
 
+
 def _fmt_ts(ts: float) -> str:
     try:
         import datetime as _dt
+
         return _dt.datetime.utcfromtimestamp(float(ts)).strftime("%Y-%m-%d %H:%M:%SZ")
     except Exception:
         return str(ts)
+
 
 def build_dot(
     *,
     receipt: dict[str, Any],
     prov: dict[str, Any] | None,
     replay: dict[str, Any] | None = None,
-    link_base: str | None = None,      # e.g., http://127.0.0.1:8095 (receipts API)
-    prov_base: str | None = None,      # e.g., http://127.0.0.1:8088 (provenance proxy)
+    link_base: str | None = None,  # e.g., http://127.0.0.1:8095 (receipts API)
+    prov_base: str | None = None,  # e.g., http://127.0.0.1:8088 (provenance proxy)
 ) -> str:
     """
     Returns Graphviz DOT with clickable nodes. Caller can render to SVG/PNG.
@@ -110,7 +121,7 @@ created: {_fmt_ts(created)}
     # Agents
     for i, a in enumerate(ags):
         role = a.get("role")
-        aid = a.get("id","")
+        aid = a.get("id", "")
         label = aid.replace("agent:", "")
         node_name = f"agent{i}"
         node_label = f"<<b>Agent</b><br/>{role}<br/>{label}>"
@@ -134,7 +145,7 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
     reasons = []
     if replay:
         verdict = "✅ ALLOWED" if replay.get("replay", {}).get("allowed") else "❌ BLOCKED"
-        for r in (replay.get("replay", {}).get("reasons") or []):
+        for r in replay.get("replay", {}).get("reasons") or []:
             if isinstance(r, dict):
                 reasons.append(f"{r.get('kind','?')}: {r.get('reason','')}")
             else:
@@ -165,21 +176,29 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
 
     # Provenance attestation nodes (optional)
     if receipt.get("attestation"):
-        lines.append(f'  rec_att [label=<<b>Receipt Attestation</b><br/>{escape_html(receipt["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];')
+        lines.append(
+            f'  rec_att [label=<<b>Receipt Attestation</b><br/>{escape_html(receipt["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];'
+        )
         lines.append('  rec_att -> teq [label="binds", color="#7FB3E6"];')
     if prov and prov.get("attestation"):
-        lines.append(f'  prov_att [label=<<b>Provenance Attestation</b><br/>{escape_html(prov["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];')
+        lines.append(
+            f'  prov_att [label=<<b>Provenance Attestation</b><br/>{escape_html(prov["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];'
+        )
         lines.append('  prov_att -> entity [label="binds", color="#7FB3E6"];')
 
     lines.append("}")
     return "\n".join(lines)
 
+
 def pol_id_or_dash(pid: str | None) -> str:
     return f"policy: {pid}" if pid else "policy: -"
 
+
 def escape_html(s: str | None) -> str:
-    if s is None: return ""
-    return (s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;"))
+    if s is None:
+        return ""
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
 
 def render_svg(dot_src: str, out_path: str) -> str:
     try:
@@ -192,6 +211,7 @@ def render_svg(dot_src: str, out_path: str) -> str:
     with _ORIG_OPEN(out_path, "wb") as f:
         f.write(svg)
     return out_path
+
 
 # ---------------- CLI ----------------
 def main():
@@ -213,6 +233,7 @@ def main():
     dot = build_dot(receipt=r, prov=prov, replay=rep, link_base=args.link_base, prov_base=args.prov_base)
     path = render_svg(dot, args.out)
     print(path)
+
 
 if __name__ == "__main__":
     main()

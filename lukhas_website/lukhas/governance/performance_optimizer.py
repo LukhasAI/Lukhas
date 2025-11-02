@@ -47,23 +47,26 @@ logger = logging.getLogger(__name__)
 
 class OptimizationLevel(Enum):
     """Optimization levels for performance tuning"""
+
     CONSERVATIVE = "conservative"  # Minimal optimizations
-    BALANCED = "balanced"         # Balance speed and memory
-    AGGRESSIVE = "aggressive"     # Maximum performance
-    CUSTOM = "custom"            # User-defined settings
+    BALANCED = "balanced"  # Balance speed and memory
+    AGGRESSIVE = "aggressive"  # Maximum performance
+    CUSTOM = "custom"  # User-defined settings
 
 
 class CacheStrategy(Enum):
     """Caching strategies"""
-    LRU = "lru"                  # Least Recently Used
-    LFU = "lfu"                  # Least Frequently Used
-    TTL = "ttl"                  # Time To Live
-    ADAPTIVE = "adaptive"        # Adaptive based on access patterns
+
+    LRU = "lru"  # Least Recently Used
+    LFU = "lfu"  # Least Frequently Used
+    TTL = "ttl"  # Time To Live
+    ADAPTIVE = "adaptive"  # Adaptive based on access patterns
 
 
 @dataclass
 class PerformanceMetrics:
     """Performance metrics for optimization"""
+
     cache_hits: int = 0
     cache_misses: int = 0
     cache_evictions: int = 0
@@ -95,10 +98,7 @@ class ValidationCache:
     """High-performance validation cache with multiple eviction strategies"""
 
     def __init__(
-        self,
-        max_size: int = 10000,
-        strategy: CacheStrategy = CacheStrategy.LRU,
-        ttl_seconds: Optional[float] = None
+        self, max_size: int = 10000, strategy: CacheStrategy = CacheStrategy.LRU, ttl_seconds: Optional[float] = None
     ):
         self.max_size = max_size
         self.strategy = strategy
@@ -176,8 +176,7 @@ class ValidationCache:
             # Remove expired items
             current_time = time.time()
             expired_keys = [
-                k for k, timestamp in self._timestamps.items()
-                if current_time - timestamp > self.ttl_seconds
+                k for k, timestamp in self._timestamps.items() if current_time - timestamp > self.ttl_seconds
             ]
             if expired_keys:
                 key = expired_keys[0]
@@ -254,6 +253,7 @@ class CompiledValidator:
 
     def _optimize_validation_function(self, func: Callable) -> Callable:
         """Optimize validation function"""
+
         @wraps(func)
         def optimized_func(data: Any) -> Any:
             # Add common optimizations
@@ -273,7 +273,7 @@ class CompiledValidator:
     def _optimize_dict_validation(self, func: Callable, data: Dict[str, Any]) -> Any:
         """Optimize dictionary validation"""
         # Pre-check common required fields
-        if hasattr(func, '_required_fields'):
+        if hasattr(func, "_required_fields"):
             for field in func._required_fields:
                 if field not in data:
                     # Early return for missing required fields
@@ -305,7 +305,7 @@ class CompiledValidator:
 
         for idx in sample_indices:
             result = func(data[idx])
-            if hasattr(result, 'is_valid') and not result.is_valid:
+            if hasattr(result, "is_valid") and not result.is_valid:
                 return result
 
         # If samples pass, assume full validation would pass
@@ -332,10 +332,7 @@ class BatchProcessor:
         self._executor = None
 
     async def process_batch(
-        self,
-        items: List[Any],
-        processor: Callable,
-        progress_callback: Optional[Callable] = None
+        self, items: List[Any], processor: Callable, progress_callback: Optional[Callable] = None
     ) -> List[Any]:
         """Process items in batches asynchronously"""
         if not items:
@@ -345,7 +342,7 @@ class BatchProcessor:
         total_batches = len(items) // self.batch_size + (1 if len(items) % self.batch_size else 0)
 
         for i in range(0, len(items), self.batch_size):
-            batch = items[i:i + self.batch_size]
+            batch = items[i : i + self.batch_size]
             batch_results = await self._process_single_batch(batch, processor)
             results.extend(batch_results)
 
@@ -362,12 +359,10 @@ class BatchProcessor:
         # Use thread pool for CPU-bound operations
         if not self._executor:
             from concurrent.futures import ThreadPoolExecutor
+
             self._executor = ThreadPoolExecutor(max_workers=self.max_workers)
 
-        tasks = [
-            loop.run_in_executor(self._executor, processor, item)
-            for item in batch
-        ]
+        tasks = [loop.run_in_executor(self._executor, processor, item) for item in batch]
 
         return await asyncio.gather(*tasks)
 
@@ -394,6 +389,7 @@ class MemoryMappedSchemaLoader:
 
             # Use regular loading for small schemas
             import json
+
             return json.loads(schema_data.decode())
 
     def _create_mmap_schema(self, schema_id: str, schema_data: bytes) -> Dict[str, Any]:
@@ -441,11 +437,7 @@ class PerformanceOptimizer:
         self._metrics = PerformanceMetrics()
         self._auto_tune_enabled = True
 
-    def optimize_validation(
-        self,
-        validator_func: Callable,
-        pattern_id: Optional[str] = None
-    ) -> Callable:
+    def optimize_validation(self, validator_func: Callable, pattern_id: Optional[str] = None) -> Callable:
         """Optimize validation function with caching and compilation"""
         if pattern_id:
             return self.compiled_validator.compile_pattern(pattern_id, validator_func)
@@ -477,10 +469,7 @@ class PerformanceOptimizer:
         return cached_validator
 
     async def batch_validate(
-        self,
-        items: List[Any],
-        validator: Callable,
-        progress_callback: Optional[Callable] = None
+        self, items: List[Any], validator: Callable, progress_callback: Optional[Callable] = None
     ) -> List[Any]:
         """Perform batch validation with optimization"""
         return await self.batch_processor.process_batch(items, validator, progress_callback)
@@ -488,25 +477,30 @@ class PerformanceOptimizer:
     def precompile_common_patterns(self) -> None:
         """Precompile common validation patterns"""
         # Guardian decision validation
-        guardian_required_fields = {"schema_version", "decision", "subject", "context", "metrics", "enforcement", "audit", "integrity"}
+        guardian_required_fields = {
+            "schema_version",
+            "decision",
+            "subject",
+            "context",
+            "metrics",
+            "enforcement",
+            "audit",
+            "integrity",
+        }
+
         def guardian_decision_validator(data: Dict[str, Any]) -> Dict[str, bool]:
             missing_fields = guardian_required_fields - set(data.keys())
-            return {
-                "is_valid": len(missing_fields) == 0,
-                "missing_fields": list(missing_fields)
-            }
+            return {"is_valid": len(missing_fields) == 0, "missing_fields": list(missing_fields)}
 
         guardian_decision_validator._required_fields = guardian_required_fields
         self.compiled_validator.compile_pattern("guardian_decision", guardian_decision_validator)
 
         # Subject validation
         subject_required_fields = {"correlation_id", "actor", "operation"}
+
         def subject_validator(data: Dict[str, Any]) -> Dict[str, bool]:
             missing_fields = subject_required_fields - set(data.keys())
-            return {
-                "is_valid": len(missing_fields) == 0,
-                "missing_fields": list(missing_fields)
-            }
+            return {"is_valid": len(missing_fields) == 0, "missing_fields": list(missing_fields)}
 
         subject_validator._required_fields = subject_required_fields
         self.compiled_validator.compile_pattern("subject", subject_validator)
@@ -526,7 +520,7 @@ class PerformanceOptimizer:
             "memory_usage_mb": cache_metrics.memory_usage_mb,
             "cache_size": len(self.validation_cache._cache),
             "compiled_patterns": len(self.compiled_validator._compiled_patterns),
-            "auto_tune_enabled": self._auto_tune_enabled
+            "auto_tune_enabled": self._auto_tune_enabled,
         }
 
     def auto_tune(self) -> None:
@@ -538,18 +532,12 @@ class PerformanceOptimizer:
 
         # Adjust cache size based on hit rate
         if metrics["cache_hit_rate"] < 0.8:
-            self.validation_cache.max_size = min(
-                self.validation_cache.max_size * 2,
-                50000
-            )
+            self.validation_cache.max_size = min(self.validation_cache.max_size * 2, 50000)
             logger.info(f"Increased cache size to {self.validation_cache.max_size}")
 
         # Adjust batch size based on throughput
         if metrics["operations_per_second"] < 1000:
-            self.batch_processor.batch_size = min(
-                self.batch_processor.batch_size * 2,
-                5000
-            )
+            self.batch_processor.batch_size = min(self.batch_processor.batch_size * 2, 5000)
             logger.info(f"Increased batch size to {self.batch_processor.batch_size}")
 
     def _get_optimization_config(self) -> Dict[str, Any]:
@@ -560,22 +548,22 @@ class PerformanceOptimizer:
                 "batch_size": 100,
                 "max_workers": 2,
                 "enable_compilation": False,
-                "enable_vectorization": False
+                "enable_vectorization": False,
             },
             OptimizationLevel.BALANCED: {
                 "cache_size": 10000,
                 "batch_size": 1000,
                 "max_workers": 4,
                 "enable_compilation": True,
-                "enable_vectorization": False
+                "enable_vectorization": False,
             },
             OptimizationLevel.AGGRESSIVE: {
                 "cache_size": 50000,
                 "batch_size": 5000,
                 "max_workers": 8,
                 "enable_compilation": True,
-                "enable_vectorization": True
-            }
+                "enable_vectorization": True,
+            },
         }
 
         return configs.get(self.optimization_level, configs[OptimizationLevel.BALANCED])
@@ -599,7 +587,7 @@ _optimizer_lock = threading.Lock()
 
 
 def get_performance_optimizer(
-    optimization_level: OptimizationLevel = OptimizationLevel.BALANCED
+    optimization_level: OptimizationLevel = OptimizationLevel.BALANCED,
 ) -> PerformanceOptimizer:
     """Get global performance optimizer instance"""
     global _optimizer_instance
@@ -616,6 +604,7 @@ def get_performance_optimizer(
 # Decorators for easy optimization
 def cached_validation(pattern_id: Optional[str] = None):
     """Decorator for cached validation functions"""
+
     def decorator(func: Callable) -> Callable:
         optimizer = get_performance_optimizer()
         return optimizer.optimize_validation(func, pattern_id)
@@ -625,6 +614,7 @@ def cached_validation(pattern_id: Optional[str] = None):
 
 def batch_validation(batch_size: int = 1000):
     """Decorator for batch validation functions"""
+
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         async def wrapper(items: List[Any], *args, **kwargs) -> List[Any]:
@@ -644,9 +634,7 @@ def quick_guardian_validation(data: Dict[str, Any]) -> bool:
     return all(field in data for field in required_fields)
 
 
-async def batch_validate_guardian_decisions(
-    decisions: List[Dict[str, Any]]
-) -> List[bool]:
+async def batch_validate_guardian_decisions(decisions: List[Dict[str, Any]]) -> List[bool]:
     """Batch validate Guardian decisions"""
     optimizer = get_performance_optimizer()
     return await optimizer.batch_validate(decisions, quick_guardian_validation)

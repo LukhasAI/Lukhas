@@ -71,9 +71,7 @@ class VersionHeaderMiddleware(BaseHTTPMiddleware):
         resp = await call_next(request)
 
         # Try GITHUB_SHA first (CI/CD), fall back to LUKHAS_VERSION, then "dev"
-        version = (
-            os.environ.get("GITHUB_SHA", "")[:7] or os.environ.get("LUKHAS_VERSION", "") or "dev"
-        )
+        version = os.environ.get("GITHUB_SHA", "")[:7] or os.environ.get("LUKHAS_VERSION", "") or "dev"
 
         resp.headers.setdefault("X-Service-Version", version)
 

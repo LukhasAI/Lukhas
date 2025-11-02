@@ -8,7 +8,6 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
-
 class EthicalProtestModule:
     def __init__(self, federated_model: FederatedModel):
         self.legal_db = self._load_eu_protest_regulations()

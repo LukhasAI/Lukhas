@@ -4,6 +4,7 @@ tests/capabilities/test_observability_contracts.py
 Capability regression suite for observability exporters.
 Ensures exporters behave, never crash, and key metric families exist.
 """
+
 import contextlib
 import importlib
 import logging
@@ -30,13 +31,14 @@ def _reset_exporters_module(monkeypatch):
         return me
     else:
         import core.metrics_exporters as me
+
         return me
 
 
 def _free_port():
     """Get a free port for testing."""
     with contextlib.closing(socket.socket()) as s:
-        s.bind(('', 0))
+        s.bind(("", 0))
         return s.getsockname()[1]
 
 
@@ -57,6 +59,7 @@ def test_prometheus_exporter_starts_and_exposes_metrics(monkeypatch):
 
     # Late import triggers exporter on boot
     from core.metrics_exporters import enable_runtime_exporters
+
     enable_runtime_exporters()
 
     # Give the server a moment to start
@@ -142,8 +145,7 @@ def test_prometheus_exporter_handles_invalid_port(monkeypatch, caplog):
     with caplog.at_level(logging.WARNING, logger="core.metrics_exporters"):
         me = _reset_exporters_module(monkeypatch)
         me.start_prometheus_exporter()
-    assert ("Prometheus exporter not started" in caplog.text
-            or "invalid literal for int()" in caplog.text)
+    assert "Prometheus exporter not started" in caplog.text or "invalid literal for int()" in caplog.text
 
 
 @pytest.mark.capability
@@ -165,15 +167,13 @@ def test_metrics_families_present_in_output():
     # Test that basic metric attributes exist (even if no-op)
     # Use hasattr to check for either real metrics or no-op implementations
     breakthrough_has_metrics = (
-        hasattr(breakthrough, 'BREAKTHROUGH_FLAGS') or
-        hasattr(breakthrough, '_NoopCounter') or
-        callable(getattr(breakthrough, 'step', None))
+        hasattr(breakthrough, "BREAKTHROUGH_FLAGS")
+        or hasattr(breakthrough, "_NoopCounter")
+        or callable(getattr(breakthrough, "step", None))
     )
 
     events_has_metrics = (
-        hasattr(events, 'EVENTS_APPENDED') or
-        hasattr(events, '_NoopMetric') or
-        hasattr(events, 'EventStore')
+        hasattr(events, "EVENTS_APPENDED") or hasattr(events, "_NoopMetric") or hasattr(events, "EventStore")
     )
 
     assert breakthrough_has_metrics, "Breakthrough module should have metrics or detection capability"
@@ -186,6 +186,7 @@ def test_otel_missing_packages_handled_gracefully(monkeypatch, caplog):
     monkeypatch.setenv("LUKHAS_OTEL_ENDPOINT", "http://localhost:4318/v1/metrics")
 
     import builtins
+
     orig_import = builtins.__import__
 
     def mock_import(name, *args, **kwargs):
@@ -204,6 +205,7 @@ def test_otel_missing_packages_handled_gracefully(monkeypatch, caplog):
 def test_prometheus_missing_package_is_logged(monkeypatch, caplog):
     """Test exporters handle missing prometheus_client gracefully."""
     import builtins
+
     orig_import = builtins.__import__
 
     def mock_import(name, *args, **kwargs):
@@ -216,5 +218,4 @@ def test_prometheus_missing_package_is_logged(monkeypatch, caplog):
     with caplog.at_level(logging.WARNING, logger="core.metrics_exporters"):
         me = _reset_exporters_module(monkeypatch)
         me.start_prometheus_exporter()
-    assert ("Prometheus exporter not started" in caplog.text
-            or "No module named 'prometheus_client'" in caplog.text)
+    assert "Prometheus exporter not started" in caplog.text or "No module named 'prometheus_client'" in caplog.text

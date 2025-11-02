@@ -35,8 +35,10 @@ try:
     from core.common import get_logger
 except ImportError:
     import logging
+
     def get_logger(name):
         return logging.getLogger(name)
+
 
 logger = get_logger(__name__)
 
@@ -238,17 +240,18 @@ class PolicyEngines:
     def __init__(self):
         self.logger = logger
 
-    def evaluate_policy(self, policy_name: str, context: dict[str, Any] = None,
-                       content: Any = None, **kwargs) -> dict[str, Any]:
+    def evaluate_policy(
+        self, policy_name: str, context: dict[str, Any] = None, content: Any = None, **kwargs
+    ) -> dict[str, Any]:
         """
         Evaluate content against a specific policy
-        
+
         Args:
             policy_name: Name of policy to evaluate
             context: Evaluation context
             content: Content to evaluate
             **kwargs: Additional parameters
-        
+
         Returns:
             Dictionary with evaluation results
         """
@@ -284,18 +287,12 @@ class PolicyEngines:
             "compliant": compliant,
             "score": score,
             "violations": violations,
-            "metadata": {"policy": policy_name, "engine": "rehabilitated_ethics"}
+            "metadata": {"policy": policy_name, "engine": "rehabilitated_ethics"},
         }
 
     def list_policies(self) -> list[str]:
         """List available policies"""
-        return [
-            "safety",
-            "ethics",
-            "safety_policy",
-            "ethics_policy",
-            "default_policy"
-        ]
+        return ["safety", "ethics", "safety_policy", "ethics_policy", "default_policy"]
 
 
 # Export main classes and functions for compatibility

@@ -25,10 +25,7 @@ class TestDelegationReportsModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "delegation_reports",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "delegation_reports", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestDelegationReportsModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import delegation_reports
+
         self.assertIsNotNone(delegation_reports)
 
     def test_module_version(self):
         """Test module has version information."""
         import delegation_reports
+
         # Most modules should have version info
-        self.assertTrue(hasattr(delegation_reports, '__version__') or
-                       hasattr(delegation_reports, 'VERSION'))
+        self.assertTrue(hasattr(delegation_reports, "__version__") or hasattr(delegation_reports, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class Testmain(unittest.TestCase):
         """Test main can be imported."""
         try:
             from delegation_reports.generate_ruff_delegation_reports import main
+
             self.assertIsNotNone(main)
         except ImportError:
             pytest.skip("Component main not available")
@@ -97,6 +96,7 @@ class Testshort_suggestion(unittest.TestCase):
         """Test short_suggestion can be imported."""
         try:
             from delegation_reports.generate_ruff_delegation_reports import short_suggestion
+
             self.assertIsNotNone(short_suggestion)
         except ImportError:
             pytest.skip("Component short_suggestion not available")
@@ -105,7 +105,6 @@ class Testshort_suggestion(unittest.TestCase):
         """Test short_suggestion can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

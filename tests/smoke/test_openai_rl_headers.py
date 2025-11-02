@@ -9,6 +9,7 @@ Validates that all API responses include proper rate limit headers:
 OpenAI Parity: PR #406 header standards.
 Phase 4: P0 audit-ready implementation (Engineer Brief 2025-10-22).
 """
+
 from __future__ import annotations
 
 import pytest
@@ -39,11 +40,7 @@ def _assert_rl_headers(headers: dict) -> None:
 
 def test_rl_headers_on_success_embeddings(client: TestClient) -> None:
     """Verify rate limit headers present on successful embeddings request."""
-    r = client.post(
-        "/v1/embeddings",
-        json={"model": "lukhas-embed-1", "input": "hi"},
-        headers=GOLDEN_AUTH_HEADERS
-    )
+    r = client.post("/v1/embeddings", json={"model": "lukhas-embed-1", "input": "hi"}, headers=GOLDEN_AUTH_HEADERS)
     assert r.status_code in (200, 201)
     _assert_rl_headers(r.headers)
 
@@ -57,11 +54,7 @@ def test_rl_headers_on_success_models(client: TestClient) -> None:
 
 def test_rl_headers_on_success_responses(client: TestClient) -> None:
     """Verify rate limit headers present on successful responses request."""
-    r = client.post(
-        "/v1/responses",
-        json={"model": "lukhas-mini", "input": "test"},
-        headers=GOLDEN_AUTH_HEADERS
-    )
+    r = client.post("/v1/responses", json={"model": "lukhas-mini", "input": "test"}, headers=GOLDEN_AUTH_HEADERS)
     assert r.status_code == 200
     _assert_rl_headers(r.headers)
 

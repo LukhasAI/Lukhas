@@ -26,6 +26,7 @@ def main():
 
     # Import FastAPI app
     from serve.main import app
+
     spec = app.openapi()
 
     # Polish metadata
@@ -51,51 +52,51 @@ def main():
     spec["components"]["headers"]["X-Trace-Id"] = {
         "description": "W3C trace context ID (32-char hex) for request correlation",
         "schema": {"type": "string", "pattern": "^[0-9a-f]{32}$"},
-        "example": "4bf92f3577b34da6a3ce929d0e0e4736"
+        "example": "4bf92f3577b34da6a3ce929d0e0e4736",
     }
 
     spec["components"]["headers"]["X-Service-Version"] = {
         "description": "Deployment version (git SHA or version string)",
         "schema": {"type": "string"},
-        "example": "a3f2d1c"
+        "example": "a3f2d1c",
     }
 
     # OpenAI-compatible rate limit headers (Phase 3.1 Guardian)
     spec["components"]["headers"]["X-RateLimit-Limit"] = {
         "description": "Max requests allowed in the current window",
-        "schema": {"type": "integer", "minimum": 0}
+        "schema": {"type": "integer", "minimum": 0},
     }
 
     spec["components"]["headers"]["X-RateLimit-Remaining"] = {
         "description": "Requests remaining in the current window",
-        "schema": {"type": "integer", "minimum": 0}
+        "schema": {"type": "integer", "minimum": 0},
     }
 
     spec["components"]["headers"]["X-RateLimit-Reset"] = {
         "description": "Epoch seconds until the current window resets",
-        "schema": {"type": "integer", "format": "int64", "minimum": 0}
+        "schema": {"type": "integer", "format": "int64", "minimum": 0},
     }
 
     # Legacy headers (backward compat)
     spec["components"]["headers"]["X-RateLimit-Limit-Requests"] = {
         "description": "Maximum requests allowed in the current window (legacy)",
-        "schema": {"type": "integer", "minimum": 1}
+        "schema": {"type": "integer", "minimum": 1},
     }
 
     spec["components"]["headers"]["X-RateLimit-Remaining-Requests"] = {
         "description": "Remaining requests in the current window (legacy)",
-        "schema": {"type": "integer", "minimum": 0}
+        "schema": {"type": "integer", "minimum": 0},
     }
 
     spec["components"]["headers"]["X-RateLimit-Reset-Requests"] = {
         "description": "Seconds until the rate limit window resets (legacy)",
         "schema": {"type": "string"},
-        "example": "42.150"
+        "example": "42.150",
     }
 
     spec["components"]["headers"]["Retry-After"] = {
         "description": "Seconds to wait before retrying (429 responses only)",
-        "schema": {"type": "integer", "minimum": 1}
+        "schema": {"type": "integer", "minimum": 1},
     }
 
     # Attach headers to all response definitions
@@ -117,15 +118,11 @@ def main():
                 # Success responses (2xx) and error responses (4xx/5xx) get rate-limit headers
                 if str(status_code).startswith(("2", "4", "5")):
                     # New OpenAI-compatible headers
-                    response_obj["headers"]["X-RateLimit-Limit"] = {
-                        "$ref": "#/components/headers/X-RateLimit-Limit"
-                    }
+                    response_obj["headers"]["X-RateLimit-Limit"] = {"$ref": "#/components/headers/X-RateLimit-Limit"}
                     response_obj["headers"]["X-RateLimit-Remaining"] = {
                         "$ref": "#/components/headers/X-RateLimit-Remaining"
                     }
-                    response_obj["headers"]["X-RateLimit-Reset"] = {
-                        "$ref": "#/components/headers/X-RateLimit-Reset"
-                    }
+                    response_obj["headers"]["X-RateLimit-Reset"] = {"$ref": "#/components/headers/X-RateLimit-Reset"}
                     # Legacy headers for backward compat
                     response_obj["headers"]["X-RateLimit-Limit-Requests"] = {
                         "$ref": "#/components/headers/X-RateLimit-Limit-Requests"

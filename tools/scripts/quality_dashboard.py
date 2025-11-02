@@ -29,16 +29,14 @@ class QualityDashboard:
             "health_score": 85,  # Placeholder
             "test_coverage": 78,  # Placeholder
             "total_files": 2500,  # Placeholder
-            "error_count": 847,   # Placeholder
+            "error_count": 847,  # Placeholder
             "warning_count": 1234,  # Placeholder
         }
 
     def generate_html(self) -> str:
         """Generate HTML dashboard."""
         health_color = (
-            "green" if self.metrics["health_score"] >= 80
-            else "orange" if self.metrics["health_score"] >= 60
-            else "red"
+            "green" if self.metrics["health_score"] >= 80 else "orange" if self.metrics["health_score"] >= 60 else "red"
         )
 
         return f"""<!DOCTYPE html>

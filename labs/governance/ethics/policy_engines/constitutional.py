@@ -19,16 +19,15 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
     Implements constitutional AI principles with Constellation Framework integration
     """
 
-    def __init__(self,
-                 confidence_threshold: float = 0.8,
-                 enable_learning: bool = True,
-                 constellation_aware: bool = True):
+    def __init__(
+        self, confidence_threshold: float = 0.8, enable_learning: bool = True, constellation_aware: bool = True
+    ):
         """Initialize constitutional policy engine"""
         super().__init__(
             engine_name="Constitutional",
             confidence_threshold=confidence_threshold,
             enable_learning=enable_learning,
-            constellation_aware=constellation_aware
+            constellation_aware=constellation_aware,
         )
 
         # Constitutional AI principles
@@ -37,20 +36,20 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
                 "weight": 0.3,
                 "description": "Content should be helpful and constructive",
                 "positive_indicators": ["helpful", "constructive", "beneficial", "useful"],
-                "negative_indicators": ["harmful", "destructive", "useless"]
+                "negative_indicators": ["harmful", "destructive", "useless"],
             },
             "harmlessness": {
                 "weight": 0.4,
                 "description": "Content should not cause harm",
                 "positive_indicators": ["safe", "secure", "protective", "beneficial"],
-                "negative_indicators": ["harmful", "dangerous", "threatening", "destructive"]
+                "negative_indicators": ["harmful", "dangerous", "threatening", "destructive"],
             },
             "honesty": {
                 "weight": 0.3,
                 "description": "Content should be truthful and accurate",
                 "positive_indicators": ["accurate", "truthful", "factual", "honest"],
-                "negative_indicators": ["false", "misleading", "deceptive", "inaccurate"]
-            }
+                "negative_indicators": ["false", "misleading", "deceptive", "inaccurate"],
+            },
         }
 
         # LUKHAS-specific constitutional considerations
@@ -58,18 +57,18 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
             "consciousness_respect": {
                 "weight": 0.2,
                 "description": "Respect for consciousness and awareness",
-                "indicators": ["consciousness", "awareness", "mindful", "respectful"]
+                "indicators": ["consciousness", "awareness", "mindful", "respectful"],
             },
             "identity_integrity": {
                 "weight": 0.2,
                 "description": "Maintain identity integrity and authenticity",
-                "indicators": ["authentic", "genuine", "consistent", "identity"]
+                "indicators": ["authentic", "genuine", "consistent", "identity"],
             },
             "guardian_protection": {
                 "weight": 0.2,
                 "description": "Protect users and maintain safety",
-                "indicators": ["protect", "safe", "secure", "guardian"]
-            }
+                "indicators": ["protect", "safe", "secure", "guardian"],
+            },
         }
 
         # Violation patterns to detect
@@ -77,7 +76,7 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
             r"\b(harmful|dangerous|threatening|destructive)\b",
             r"\b(false|misleading|deceptive|lie|lies)\b",
             r"\b(unethical|immoral|wrong)\b",
-            r"\b(attack|assault|violence|abuse)\b"
+            r"\b(attack|assault|violence|abuse)\b",
         ]
 
         logger.info("🏛️ Constitutional Policy Engine initialized with AI principles")
@@ -132,9 +131,9 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
                 "constitutional_score": constitutional_score,
                 "lukhas_score": lukhas_score,
                 "explicit_violations": len(explicit_violations),
-                "principle_scores": self._get_detailed_scores(content_lower)
+                "principle_scores": self._get_detailed_scores(content_lower),
             },
-            evaluation_time_ms=0.0  # Will be set by base class
+            evaluation_time_ms=0.0,  # Will be set by base class
         )
 
     def _evaluate_constitutional_principles(self, content: str) -> float:
@@ -188,10 +187,7 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
 
         return violations
 
-    def _generate_reasoning(self,
-                          constitutional_score: float,
-                          lukhas_score: float,
-                          violations: List[str]) -> str:
+    def _generate_reasoning(self, constitutional_score: float, lukhas_score: float, violations: List[str]) -> str:
         """Generate human-readable reasoning for the decision"""
         if violations:
             return f"Content rejected due to policy violations: {', '.join(violations[:2])}"
@@ -244,5 +240,5 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
             "constitutional_principles": list(self.constitutional_principles.keys()),
             "lukhas_principles": list(self.lukhas_principles.keys()),
             "violation_patterns_count": len(self.violation_patterns),
-            "total_principles": len(self.constitutional_principles) + len(self.lukhas_principles)
+            "total_principles": len(self.constitutional_principles) + len(self.lukhas_principles),
         }

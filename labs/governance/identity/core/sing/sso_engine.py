@@ -683,10 +683,7 @@ class LambdaSSOEngine:
         user_id = active_tokens[0]["user_id"]
 
         scope_set = {
-            scope
-            for token in active_tokens
-            for scope in token.get("service_scope", [])
-            if isinstance(scope, str)
+            scope for token in active_tokens for scope in token.get("service_scope", []) if isinstance(scope, str)
         }
         aggregated_scope = sorted(scope_set) or ["basic"]
 
@@ -734,11 +731,7 @@ class LambdaSSOEngine:
 
         biometric_enabled = any(token.get("biometric_fallback_enabled") for token in active_tokens)
 
-        trust_level = (
-            self.device_registry.get(user_id, {})
-            .get(device_id, {})
-            .get("trust_level")
-        )
+        trust_level = self.device_registry.get(user_id, {}).get(device_id, {}).get("trust_level")
         if trust_level is None:
             trust_level = 0.5
 

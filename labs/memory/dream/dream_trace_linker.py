@@ -368,7 +368,7 @@ class DreamTraceLinker:
         emotional_resonance = self._calculate_emotional_resonance(dream_fragment, memory_trace)
 
         # Calculate overall entanglement strength
-        entanglement_strength = (symbolic_overlap * 0.4 + temporal_correlation * 0.3 + emotional_resonance * 0.3)
+        entanglement_strength = symbolic_overlap * 0.4 + temporal_correlation * 0.3 + emotional_resonance * 0.3
 
         # Only create entanglement if strength is above threshold
         if entanglement_strength < 0.3:
@@ -395,9 +395,7 @@ class DreamTraceLinker:
 
         # Update fragment and trace
         dream_fragment.linked_memories.add(memory_trace_id)
-        dream_fragment.entanglement_strength = max(
-            dream_fragment.entanglement_strength, entanglement_strength
-        )
+        dream_fragment.entanglement_strength = max(dream_fragment.entanglement_strength, entanglement_strength)
 
         memory_trace.last_dream_link = dream_fragment_id
         memory_trace.link_frequency += 1
@@ -462,7 +460,9 @@ class DreamTraceLinker:
 
         return patterns
 
-    def _extract_glyph_patterns(self, content: dict[str, Any], symbolic_patterns: list[SymbolicPattern]) -> list[GlyphType]:
+    def _extract_glyph_patterns(
+        self, content: dict[str, Any], symbolic_patterns: list[SymbolicPattern]
+    ) -> list[GlyphType]:
         """Extract GLYPH patterns for symbolic encoding."""
         glyph_patterns = []
         text_content = str(content).lower()
@@ -507,8 +507,20 @@ class DreamTraceLinker:
         """Calculate vividness score based on sensory detail."""
         text_content = str(content).lower()
         sensory_indicators = [
-            "bright", "dark", "loud", "quiet", "soft", "hard", "warm", "cold",
-            "rough", "smooth", "sweet", "bitter", "fragrant", "putrid"
+            "bright",
+            "dark",
+            "loud",
+            "quiet",
+            "soft",
+            "hard",
+            "warm",
+            "cold",
+            "rough",
+            "smooth",
+            "sweet",
+            "bitter",
+            "fragrant",
+            "putrid",
         ]
 
         detail_words = ["very", "extremely", "incredibly", "amazingly", "clearly", "vividly"]
@@ -648,16 +660,18 @@ class DreamTraceLinker:
                 dream_fragment = self.dream_fragments.get(entanglement.dream_fragment_id)
 
                 if dream_fragment:
-                    linked_dreams.append({
-                        "fragment_id": dream_fragment.fragment_id,
-                        "content": dream_fragment.content,
-                        "entanglement_strength": entanglement.entanglement_strength,
-                        "dream_state": dream_fragment.dream_state.value,
-                        "emotional_intensity": dream_fragment.emotional_intensity,
-                        "timestamp": dream_fragment.timestamp_utc,
-                        "symbolic_patterns": [p.value for p in dream_fragment.symbolic_patterns],
-                        "glyph_patterns": [g.value for g in dream_fragment.glyph_patterns],
-                    })
+                    linked_dreams.append(
+                        {
+                            "fragment_id": dream_fragment.fragment_id,
+                            "content": dream_fragment.content,
+                            "entanglement_strength": entanglement.entanglement_strength,
+                            "dream_state": dream_fragment.dream_state.value,
+                            "emotional_intensity": dream_fragment.emotional_intensity,
+                            "timestamp": dream_fragment.timestamp_utc,
+                            "symbolic_patterns": [p.value for p in dream_fragment.symbolic_patterns],
+                            "glyph_patterns": [g.value for g in dream_fragment.glyph_patterns],
+                        }
+                    )
 
         # Sort by entanglement strength
         linked_dreams.sort(key=lambda x: x["entanglement_strength"], reverse=True)
@@ -678,20 +692,21 @@ class DreamTraceLinker:
                 # Find the entanglement
                 entanglement = None
                 for ent in self.entanglements.values():
-                    if (ent.dream_fragment_id == dream_fragment_id and
-                        ent.memory_trace_id == memory_trace_id):
+                    if ent.dream_fragment_id == dream_fragment_id and ent.memory_trace_id == memory_trace_id:
                         entanglement = ent
                         break
 
                 if entanglement:
-                    linked_memories.append({
-                        "memory_key": memory_trace.memory_key,
-                        "trace_id": memory_trace.trace_id,
-                        "entanglement_strength": entanglement.entanglement_strength,
-                        "symbolic_signature": memory_trace.symbolic_signature,
-                        "dream_affinity": memory_trace.dream_affinity,
-                        "link_frequency": memory_trace.link_frequency,
-                    })
+                    linked_memories.append(
+                        {
+                            "memory_key": memory_trace.memory_key,
+                            "trace_id": memory_trace.trace_id,
+                            "entanglement_strength": entanglement.entanglement_strength,
+                            "symbolic_signature": memory_trace.symbolic_signature,
+                            "dream_affinity": memory_trace.dream_affinity,
+                            "link_frequency": memory_trace.link_frequency,
+                        }
+                    )
 
         # Sort by entanglement strength
         linked_memories.sort(key=lambda x: x["entanglement_strength"], reverse=True)
@@ -764,24 +779,26 @@ class DreamTraceLinker:
 
             # Prepare state data
             state = {
-                "dream_fragments": {
-                    fid: asdict(fragment) for fid, fragment in self.dream_fragments.items()
-                },
-                "memory_traces": {
-                    tid: asdict(trace) for tid, trace in self.memory_traces.items()
-                },
-                "entanglements": {
-                    eid: asdict(entanglement) for eid, entanglement in self.entanglements.items()
-                },
+                "dream_fragments": {fid: asdict(fragment) for fid, fragment in self.dream_fragments.items()},
+                "memory_traces": {tid: asdict(trace) for tid, trace in self.memory_traces.items()},
+                "entanglements": {eid: asdict(entanglement) for eid, entanglement in self.entanglements.items()},
                 "stats": self.stats,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Convert enums to strings for JSON serialization
             for fragment_data in state["dream_fragments"].values():
-                fragment_data["symbolic_patterns"] = [p.value if hasattr(p, "value") else p for p in fragment_data["symbolic_patterns"]]
-                fragment_data["glyph_patterns"] = [g.value if hasattr(g, "value") else g for g in fragment_data["glyph_patterns"]]
-                fragment_data["dream_state"] = fragment_data["dream_state"].value if hasattr(fragment_data["dream_state"], "value") else fragment_data["dream_state"]
+                fragment_data["symbolic_patterns"] = [
+                    p.value if hasattr(p, "value") else p for p in fragment_data["symbolic_patterns"]
+                ]
+                fragment_data["glyph_patterns"] = [
+                    g.value if hasattr(g, "value") else g for g in fragment_data["glyph_patterns"]
+                ]
+                fragment_data["dream_state"] = (
+                    fragment_data["dream_state"].value
+                    if hasattr(fragment_data["dream_state"], "value")
+                    else fragment_data["dream_state"]
+                )
                 fragment_data["linked_memories"] = list(fragment_data["linked_memories"])
 
             # Save to file

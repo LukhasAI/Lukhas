@@ -4,6 +4,7 @@ Constellation Framework: ⚛️🧠🛡️
 
 This module consolidates access to the complex dream system through a simple interface.
 """
+
 import logging
 from typing import Any
 

@@ -153,29 +153,19 @@ class DecisionAuditColony:
         audit_id = str(uuid.uuid4())
 
         # Generate symbolic trace
-        symbolic_trace = await self._generate_symbolic_trace(
-            decision_context, decision_outcome
-        )
+        symbolic_trace = await self._generate_symbolic_trace(decision_context, decision_outcome)
 
         # Get colony consensus on decision
-        colony_consensus = await self._get_colony_consensus(
-            decision_context, decision_outcome
-        )
+        colony_consensus = await self._get_colony_consensus(decision_context, decision_outcome)
 
         # Validate with swarm intelligence
-        swarm_validation = await self._validate_with_swarm(
-            decision_context, decision_outcome
-        )
+        swarm_validation = await self._validate_with_swarm(decision_context, decision_outcome)
 
         # Run compliance checks
-        compliance_checks = await self._run_compliance_checks(
-            decision_context, decision_outcome
-        )
+        compliance_checks = await self._run_compliance_checks(decision_context, decision_outcome)
 
         # Create blockchain hash for immutability
-        blockchain_hash = await self._create_blockchain_hash(
-            decision_context, decision_outcome
-        )
+        blockchain_hash = await self._create_blockchain_hash(decision_context, decision_outcome)
 
         # Create recovery checkpoint
         recovery_checkpoint = await self._create_recovery_checkpoint(decision_context)
@@ -203,15 +193,11 @@ class DecisionAuditColony:
 
         return audit_entry
 
-    async def _generate_symbolic_trace(
-        self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> str:
+    async def _generate_symbolic_trace(self, context: DecisionContext, outcome: DecisionOutcome) -> str:
         """Generate symbolic representation of decision for traceability"""
         return await self.symbolic_framework.encode_decision_flow(context, outcome)
 
-    async def _get_colony_consensus(
-        self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> dict[str, Any]:
+    async def _get_colony_consensus(self, context: DecisionContext, outcome: DecisionOutcome) -> dict[str, Any]:
         """Get consensus from relevant colonies on the decision"""
         # Implementation would query specific colonies based on decision type
         return {
@@ -221,9 +207,7 @@ class DecisionAuditColony:
             "consensus_score": 0.95,
         }
 
-    async def _validate_with_swarm(
-        self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> dict[str, Any]:
+    async def _validate_with_swarm(self, context: DecisionContext, outcome: DecisionOutcome) -> dict[str, Any]:
         """Validate decision with swarm intelligence"""
         return {
             "swarm_confidence": 0.92,
@@ -234,9 +218,7 @@ class DecisionAuditColony:
             ],
         }
 
-    async def _run_compliance_checks(
-        self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> dict[str, Any]:
+    async def _run_compliance_checks(self, context: DecisionContext, outcome: DecisionOutcome) -> dict[str, Any]:
         """Run all applicable compliance checks"""
         return {
             "gdpr_compliant": True,
@@ -245,9 +227,7 @@ class DecisionAuditColony:
             "regulatory_approval": "approved",
         }
 
-    async def _create_blockchain_hash(
-        self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> str:
+    async def _create_blockchain_hash(self, context: DecisionContext, outcome: DecisionOutcome) -> str:
         """Create immutable hash for decision integrity"""
         decision_data = json.dumps(
             {"context": asdict(context), "outcome": asdict(outcome)},
@@ -319,14 +299,10 @@ class UniversalDecisionInterceptor:
         start_time = time.time()
         try:
             # Execute the actual decision
-            result = await self._execute_monitored_decision(
-                decision_function, decision_args, decision_kwargs
-            )
+            result = await self._execute_monitored_decision(decision_function, decision_args, decision_kwargs)
 
             # Capture outcome
-            outcome = await self._capture_decision_outcome(
-                decision_id, result, time.time() - start_time, success=True
-            )
+            outcome = await self._capture_decision_outcome(decision_id, result, time.time() - start_time, success=True)
 
         except Exception as e:
             # Capture failure outcome
@@ -341,9 +317,7 @@ class UniversalDecisionInterceptor:
 
         finally:
             # ALWAYS create audit trail regardless of success/failure
-            audit_entry = await self.audit_colony.audit_decision(
-                context, outcome, audit_level
-            )
+            audit_entry = await self.audit_colony.audit_decision(context, outcome, audit_level)
 
             # Integrate with existing Golden Trio audit systems
             await self._integrate_with_golden_trio_audit(audit_entry)
@@ -383,9 +357,7 @@ class UniversalDecisionInterceptor:
         constraints = await self._get_decision_constraints(decision_type, input_data)
 
         # Generate alternatives
-        alternatives = await self._generate_alternatives(
-            decision_function, decision_args, decision_kwargs
-        )
+        alternatives = await self._generate_alternatives(decision_function, decision_args, decision_kwargs)
 
         # Assess risks
         risk_assessment = await self._assess_decision_risks(decision_type, input_data)
@@ -437,12 +409,8 @@ class UniversalDecisionInterceptor:
 
         evidence_used = await self._identify_evidence_used(decision_id)
         potential_consequences = await self._predict_consequences(result, success)
-        monitoring_requirements = await self._determine_monitoring_requirements(
-            result, success
-        )
-        rollback_plan = (
-            await self._create_rollback_plan(decision_id) if success else None
-        )
+        monitoring_requirements = await self._determine_monitoring_requirements(result, success)
+        rollback_plan = await self._create_rollback_plan(decision_id) if success else None
 
         return DecisionOutcome(
             decision_made=decision_made,
@@ -528,9 +496,7 @@ class UniversalDecisionInterceptor:
         # Logic would analyze decision type and context to identify stakeholders
         return [DecisionStakeholder.SYSTEM, DecisionStakeholder.AI_AGENT]
 
-    async def _get_decision_constraints(
-        self, decision_type: DecisionType, input_data: dict[str, Any]
-    ) -> list[str]:
+    async def _get_decision_constraints(self, decision_type: DecisionType, input_data: dict[str, Any]) -> list[str]:
         """Get applicable constraints from ethics engine and regulations"""
         constraints = []
 
@@ -559,9 +525,7 @@ class UniversalDecisionInterceptor:
             },
         ]
 
-    async def _assess_decision_risks(
-        self, decision_type: DecisionType, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _assess_decision_risks(self, decision_type: DecisionType, input_data: dict[str, Any]) -> dict[str, Any]:
         """Assess risks associated with the decision"""
         return {
             "risk_level": "medium",
@@ -601,9 +565,7 @@ class UniversalDecisionInterceptor:
         else:
             return ["potential_system_instability", "user_frustration"]
 
-    async def _determine_monitoring_requirements(
-        self, result: Any, success: bool
-    ) -> list[str]:
+    async def _determine_monitoring_requirements(self, result: Any, success: bool) -> list[str]:
         """Determine what needs to be monitored post-decision"""
         return ["system_performance", "user_satisfaction", "error_rates"]
 
@@ -632,7 +594,7 @@ class DecisionAuditDecorator:
         self,
         decision_type: DecisionType,
         audit_level: DecisionAuditLevel = DecisionAuditLevel.STANDARD,
-        interceptor: Optional[UniversalDecisionInterceptor] = None
+        interceptor: Optional[UniversalDecisionInterceptor] = None,
     ):
         self.decision_type = decision_type
         self.audit_level = audit_level
@@ -732,9 +694,7 @@ class EventBusAuditIntegration:
         }
 
         # Broadcast to event bus
-        await self.colony_swarm_integration.event_bus.publish(
-            "audit.decision_audited", event
-        )
+        await self.colony_swarm_integration.event_bus.publish("audit.decision_audited", event)
 
 
 # Example usage demonstration

@@ -45,7 +45,7 @@ from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 hypothesis.settings(
     max_examples=1000,
     deadline=10000,  # 10s for complex cognitive tests
-    suppress_health_check=[hypothesis.HealthCheck.too_slow]
+    suppress_health_check=[hypothesis.HealthCheck.too_slow],
 )
 
 logger = logging.getLogger(__name__)
@@ -53,6 +53,7 @@ logger = logging.getLogger(__name__)
 
 class EdgeCaseCategory(Enum):
     """Categories of edge cases for systematic testing"""
+
     RECURSIVE_OVERFLOW = "recursive_overflow"
     LOGICAL_PARADOX = "logical_paradox"
     CIRCULAR_REASONING = "circular_reasoning"
@@ -66,6 +67,7 @@ class EdgeCaseCategory(Enum):
 @dataclass
 class EdgeCaseScenario:
     """Structured edge case scenario for testing"""
+
     category: EdgeCaseCategory
     description: str
     input_data: Dict[str, Any]
@@ -87,141 +89,140 @@ class PropertyBasedTestFramework:
         self.contradiction_integrator = None
         self.meta_assessor = None
         self.test_scenarios: List[EdgeCaseScenario] = []
-        self.performance_metrics = {
-            'latency_samples': [],
-            'error_rates': {},
-            'cognitive_loads': [],
-            'memory_usage': []
-        }
+        self.performance_metrics = {"latency_samples": [], "error_rates": {}, "cognitive_loads": [], "memory_usage": []}
 
     async def setup_cognitive_components(self):
         """Initialize cognitive components for testing"""
         self.inference_engine = DeepInferenceEngine(
             max_depth=15,  # Extended for edge case testing
             timeout_per_step=0.020,  # Strict timing
-            circuit_breaker_threshold=3
+            circuit_breaker_threshold=3,
         )
 
         self.thought_engine = EnhancedThoughtEngine(
             inference_engine=self.inference_engine,
             complexity_threshold=ThoughtComplexity.EXTREME,
-            performance_budget=0.200  # 200ms budget
+            performance_budget=0.200,  # 200ms budget
         )
 
-        self.contradiction_integrator = ContradictionIntegrator(
-            confidence_threshold=0.98,
-            real_time_monitoring=True
-        )
+        self.contradiction_integrator = ContradictionIntegrator(confidence_threshold=0.98, real_time_monitoring=True)
 
-        self.meta_assessor = MetaCognitiveAssessor(
-            assessment_depth="comprehensive",
-            performance_tracking=True
-        )
+        self.meta_assessor = MetaCognitiveAssessor(assessment_depth="comprehensive", performance_tracking=True)
 
     def generate_edge_case_scenarios(self) -> List[EdgeCaseScenario]:
         """Generate comprehensive edge case scenarios"""
         scenarios = []
 
         # Recursive overflow scenarios
-        scenarios.extend([
-            EdgeCaseScenario(
-                category=EdgeCaseCategory.RECURSIVE_OVERFLOW,
-                description="Deep recursive inference chain (20+ levels)",
-                input_data={
-                    "query": "If A implies B, and B implies C, and C implies D... (20 levels)",
-                    "depth": 25,
-                    "circular_refs": False
-                },
-                expected_behavior="Graceful depth limiting with circuit breaker",
-                probability_estimate=0.005
-            ),
-            EdgeCaseScenario(
-                category=EdgeCaseCategory.RECURSIVE_OVERFLOW,
-                description="Infinite recursion attempt",
-                input_data={
-                    "query": "Self-referential statement that creates infinite loop",
-                    "depth": -1,  # Infinite depth request
-                    "circular_refs": True
-                },
-                expected_behavior="Circuit breaker activation within 3 steps",
-                probability_estimate=0.001
-            )
-        ])
+        scenarios.extend(
+            [
+                EdgeCaseScenario(
+                    category=EdgeCaseCategory.RECURSIVE_OVERFLOW,
+                    description="Deep recursive inference chain (20+ levels)",
+                    input_data={
+                        "query": "If A implies B, and B implies C, and C implies D... (20 levels)",
+                        "depth": 25,
+                        "circular_refs": False,
+                    },
+                    expected_behavior="Graceful depth limiting with circuit breaker",
+                    probability_estimate=0.005,
+                ),
+                EdgeCaseScenario(
+                    category=EdgeCaseCategory.RECURSIVE_OVERFLOW,
+                    description="Infinite recursion attempt",
+                    input_data={
+                        "query": "Self-referential statement that creates infinite loop",
+                        "depth": -1,  # Infinite depth request
+                        "circular_refs": True,
+                    },
+                    expected_behavior="Circuit breaker activation within 3 steps",
+                    probability_estimate=0.001,
+                ),
+            ]
+        )
 
         # Logical paradox scenarios
-        scenarios.extend([
-            EdgeCaseScenario(
-                category=EdgeCaseCategory.LOGICAL_PARADOX,
-                description="Classic liar paradox",
-                input_data={
-                    "query": "This statement is false",
-                    "context": "logical_evaluation",
-                    "require_resolution": True
-                },
-                expected_behavior="Paradox detection and meta-cognitive flagging",
-                probability_estimate=0.008
-            ),
-            EdgeCaseScenario(
-                category=EdgeCaseCategory.LOGICAL_PARADOX,
-                description="Russell's paradox variant",
-                input_data={
-                    "query": "Set of all sets that do not contain themselves",
-                    "context": "set_theory",
-                    "formal_logic": True
-                },
-                expected_behavior="Formal contradiction detection (98% accuracy)",
-                probability_estimate=0.003
-            )
-        ])
+        scenarios.extend(
+            [
+                EdgeCaseScenario(
+                    category=EdgeCaseCategory.LOGICAL_PARADOX,
+                    description="Classic liar paradox",
+                    input_data={
+                        "query": "This statement is false",
+                        "context": "logical_evaluation",
+                        "require_resolution": True,
+                    },
+                    expected_behavior="Paradox detection and meta-cognitive flagging",
+                    probability_estimate=0.008,
+                ),
+                EdgeCaseScenario(
+                    category=EdgeCaseCategory.LOGICAL_PARADOX,
+                    description="Russell's paradox variant",
+                    input_data={
+                        "query": "Set of all sets that do not contain themselves",
+                        "context": "set_theory",
+                        "formal_logic": True,
+                    },
+                    expected_behavior="Formal contradiction detection (98% accuracy)",
+                    probability_estimate=0.003,
+                ),
+            ]
+        )
 
         # Contradiction cascade scenarios
-        scenarios.extend([
-            EdgeCaseScenario(
-                category=EdgeCaseCategory.CONTRADICTION_CASCADE,
-                description="Multiple simultaneous contradictions",
-                input_data={
-                    "premises": [
-                        "All ravens are black",
-                        "Some ravens are white",
-                        "Nothing is both black and white",
-                        "All birds are ravens"
-                    ],
-                    "inference_required": True
-                },
-                expected_behavior="Cascade detection and isolation",
-                probability_estimate=0.002
-            )
-        ])
+        scenarios.extend(
+            [
+                EdgeCaseScenario(
+                    category=EdgeCaseCategory.CONTRADICTION_CASCADE,
+                    description="Multiple simultaneous contradictions",
+                    input_data={
+                        "premises": [
+                            "All ravens are black",
+                            "Some ravens are white",
+                            "Nothing is both black and white",
+                            "All birds are ravens",
+                        ],
+                        "inference_required": True,
+                    },
+                    expected_behavior="Cascade detection and isolation",
+                    probability_estimate=0.002,
+                )
+            ]
+        )
 
         # Memory pressure scenarios
-        scenarios.extend([
-            EdgeCaseScenario(
-                category=EdgeCaseCategory.MEMORY_PRESSURE,
-                description="Extreme memory consumption during reasoning",
-                input_data={
-                    "large_context": "x" * 100000,  # 100KB context
-                    "complex_reasoning": True,
-                    "memory_limit": 1024 * 1024  # 1MB limit
-                },
-                expected_behavior="Graceful degradation with memory management",
-                probability_estimate=0.006
-            )
-        ])
+        scenarios.extend(
+            [
+                EdgeCaseScenario(
+                    category=EdgeCaseCategory.MEMORY_PRESSURE,
+                    description="Extreme memory consumption during reasoning",
+                    input_data={
+                        "large_context": "x" * 100000,  # 100KB context
+                        "complex_reasoning": True,
+                        "memory_limit": 1024 * 1024,  # 1MB limit
+                    },
+                    expected_behavior="Graceful degradation with memory management",
+                    probability_estimate=0.006,
+                )
+            ]
+        )
 
         # Timeout boundary scenarios
-        scenarios.extend([
-            EdgeCaseScenario(
-                category=EdgeCaseCategory.TIMEOUT_BOUNDARY,
-                description="Processing at exact timeout boundary",
-                input_data={
-                    "processing_time": 0.249,  # Just under 250ms limit
-                    "complex_inference": True,
-                    "strict_deadline": True
-                },
-                expected_behavior="Completion within T4 latency target",
-                probability_estimate=0.004
-            )
-        ])
+        scenarios.extend(
+            [
+                EdgeCaseScenario(
+                    category=EdgeCaseCategory.TIMEOUT_BOUNDARY,
+                    description="Processing at exact timeout boundary",
+                    input_data={
+                        "processing_time": 0.249,  # Just under 250ms limit
+                        "complex_inference": True,
+                        "strict_deadline": True,
+                    },
+                    expected_behavior="Completion within T4 latency target",
+                    probability_estimate=0.004,
+                )
+            ]
+        )
 
         self.test_scenarios = scenarios
         return scenarios
@@ -241,8 +242,8 @@ class PropertyBasedTestFramework:
             latency = (end_time - start_time) * 1000  # Convert to ms
             memory_delta = end_memory - start_memory
 
-            self.performance_metrics['latency_samples'].append(latency)
-            self.performance_metrics['memory_usage'].append(memory_delta)
+            self.performance_metrics["latency_samples"].append(latency)
+            self.performance_metrics["memory_usage"].append(memory_delta)
 
             # Log performance for analysis
             logger.info(f"Test {test_name}: {latency:.2f}ms, {memory_delta}B memory")
@@ -260,26 +261,23 @@ class PropertyBasedTestFramework:
         """Calculate test coverage metrics for edge cases"""
         total_scenarios = len(self.test_scenarios)
         if total_scenarios == 0:
-            return {'coverage': 0.0}
+            return {"coverage": 0.0}
 
         # Calculate coverage by category
         category_coverage = {}
         for category in EdgeCaseCategory:
-            scenarios_in_category = sum(
-                1 for scenario in self.test_scenarios
-                if scenario.category == category
-            )
+            scenarios_in_category = sum(1 for scenario in self.test_scenarios if scenario.category == category)
             category_coverage[category.value] = scenarios_in_category / total_scenarios
 
         # Calculate overall edge case probability coverage
         total_probability = sum(scenario.probability_estimate for scenario in self.test_scenarios)
 
         return {
-            'total_scenarios': total_scenarios,
-            'category_coverage': category_coverage,
-            'probability_coverage': total_probability,
-            'target_compliance': total_probability <= 0.01,  # <0.01% target
-            'performance_samples': len(self.performance_metrics['latency_samples'])
+            "total_scenarios": total_scenarios,
+            "category_coverage": category_coverage,
+            "probability_coverage": total_probability,
+            "target_compliance": total_probability <= 0.01,  # <0.01% target
+            "performance_samples": len(self.performance_metrics["latency_samples"]),
         }
 
 
@@ -287,23 +285,31 @@ class PropertyBasedTestFramework:
 @st.composite
 def reasoning_input_strategy(draw):
     """Generate diverse reasoning inputs for property testing"""
-    query_type = draw(st.sampled_from([
-        'logical_inference', 'causal_reasoning', 'probabilistic_judgment',
-        'contradiction_detection', 'meta_cognitive_assessment'
-    ]))
+    query_type = draw(
+        st.sampled_from(
+            [
+                "logical_inference",
+                "causal_reasoning",
+                "probabilistic_judgment",
+                "contradiction_detection",
+                "meta_cognitive_assessment",
+            ]
+        )
+    )
 
-    complexity = draw(st.sampled_from([
-        ThoughtComplexity.SIMPLE, ThoughtComplexity.MODERATE,
-        ThoughtComplexity.COMPLEX, ThoughtComplexity.EXTREME
-    ]))
+    complexity = draw(
+        st.sampled_from(
+            [ThoughtComplexity.SIMPLE, ThoughtComplexity.MODERATE, ThoughtComplexity.COMPLEX, ThoughtComplexity.EXTREME]
+        )
+    )
 
     context_size = draw(st.integers(min_value=10, max_value=10000))
 
     return {
-        'query': f"Test query for {query_type}",
-        'complexity': complexity,
-        'context': 'x' * context_size,
-        'type': query_type
+        "query": f"Test query for {query_type}",
+        "complexity": complexity,
+        "context": "x" * context_size,
+        "type": query_type,
     }
 
 
@@ -317,14 +323,12 @@ def contradiction_scenario_strategy(draw):
         premise = draw(st.text(min_size=5, max_size=100))
         premises.append(premise)
 
-    contradiction_type = draw(st.sampled_from([
-        'logical', 'factual', 'temporal', 'causal', 'probabilistic'
-    ]))
+    contradiction_type = draw(st.sampled_from(["logical", "factual", "temporal", "causal", "probabilistic"]))
 
     return {
-        'premises': premises,
-        'type': contradiction_type,
-        'confidence_threshold': draw(st.floats(min_value=0.8, max_value=0.99))
+        "premises": premises,
+        "type": contradiction_type,
+        "confidence_threshold": draw(st.floats(min_value=0.8, max_value=0.99)),
     }
 
 
@@ -336,8 +340,8 @@ class CognitiveReasoningStateMachine(RuleBasedStateMachine):
     ensuring system consistency under various state transitions.
     """
 
-    reasoning_contexts = Bundle('reasoning_contexts')
-    inference_chains = Bundle('inference_chains')
+    reasoning_contexts = Bundle("reasoning_contexts")
+    inference_chains = Bundle("inference_chains")
 
     def __init__(self):
         super().__init__()
@@ -346,20 +350,14 @@ class CognitiveReasoningStateMachine(RuleBasedStateMachine):
         self.inference_history = []
         self.performance_violations = []
 
-    @rule(target=reasoning_contexts,
-          context_data=reasoning_input_strategy())
+    @rule(target=reasoning_contexts, context_data=reasoning_input_strategy())
     def create_reasoning_context(self, context_data):
         """Create a new reasoning context"""
         context_id = f"ctx_{len(self.active_contexts)}"
-        self.active_contexts[context_id] = {
-            'data': context_data,
-            'created_at': time.time(),
-            'inferences': []
-        }
+        self.active_contexts[context_id] = {"data": context_data, "created_at": time.time(), "inferences": []}
         return context_id
 
-    @rule(context=reasoning_contexts,
-          inference_type=st.sampled_from(list(InferenceType)))
+    @rule(context=reasoning_contexts, inference_type=st.sampled_from(list(InferenceType)))
     def perform_inference(self, context, inference_type):
         """Perform inference operation on context"""
         if context not in self.active_contexts:
@@ -372,10 +370,10 @@ class CognitiveReasoningStateMachine(RuleBasedStateMachine):
 
         # Mock inference operation
         inference_result = {
-            'type': inference_type,
-            'input': context_data['data']['query'],
-            'complexity': context_data['data']['complexity'],
-            'timestamp': time.time()
+            "type": inference_type,
+            "input": context_data["data"]["query"],
+            "complexity": context_data["data"]["complexity"],
+            "timestamp": time.time(),
         }
 
         end_time = time.perf_counter()
@@ -383,13 +381,9 @@ class CognitiveReasoningStateMachine(RuleBasedStateMachine):
 
         # Track performance violations
         if latency_ms > 250.0:  # T4 violation
-            self.performance_violations.append({
-                'context': context,
-                'latency': latency_ms,
-                'type': 'latency_violation'
-            })
+            self.performance_violations.append({"context": context, "latency": latency_ms, "type": "latency_violation"})
 
-        context_data['inferences'].append(inference_result)
+        context_data["inferences"].append(inference_result)
         self.inference_history.append(inference_result)
 
     @rule(contexts=st.lists(reasoning_contexts, min_size=2, max_size=5))
@@ -406,7 +400,7 @@ class CognitiveReasoningStateMachine(RuleBasedStateMachine):
         for ctx in valid_contexts:
             context_data = self.active_contexts[ctx]
             # Mock concurrent inference
-            context_data['concurrent_processed'] = True
+            context_data["concurrent_processed"] = True
 
         end_time = time.perf_counter()
         concurrent_latency = (end_time - start_time) * 1000
@@ -423,13 +417,9 @@ class CognitiveReasoningStateMachine(RuleBasedStateMachine):
     def teardown(self):
         """Validate final system state"""
         # Ensure no critical performance violations
-        critical_violations = [
-            v for v in self.performance_violations
-            if v['latency'] > 500.0  # Critical threshold
-        ]
+        critical_violations = [v for v in self.performance_violations if v["latency"] > 500.0]  # Critical threshold
 
-        assert len(critical_violations) == 0, \
-            f"Critical performance violations: {critical_violations}"
+        assert len(critical_violations) == 0, f"Critical performance violations: {critical_violations}"
 
         # Ensure reasonable inference history
         assert len(self.inference_history) > 0, "No inferences performed"
@@ -460,18 +450,15 @@ class TestCognitiveReasoningProperties:
         # Run same inference twice
         async with framework.performance_monitor("determinism_test"):
             result1 = await framework.thought_engine.synthesize_thought(
-                reasoning_input['query'],
-                context={'complexity': reasoning_input['complexity']}
+                reasoning_input["query"], context={"complexity": reasoning_input["complexity"]}
             )
 
             result2 = await framework.thought_engine.synthesize_thought(
-                reasoning_input['query'],
-                context={'complexity': reasoning_input['complexity']}
+                reasoning_input["query"], context={"complexity": reasoning_input["complexity"]}
             )
 
         # Results should be consistent (allowing for timestamp differences)
-        assert result1['content'] == result2['content'], \
-            "Inference results should be deterministic"
+        assert result1["content"] == result2["content"], "Inference results should be deterministic"
 
     @given(contradiction_scenario_strategy())
     @pytest.mark.asyncio
@@ -482,17 +469,16 @@ class TestCognitiveReasoningProperties:
 
         async with framework.performance_monitor("contradiction_test"):
             detection_result = await framework.contradiction_integrator.detect_contradictions(
-                scenario['premises'],
-                confidence_threshold=scenario['confidence_threshold']
+                scenario["premises"], confidence_threshold=scenario["confidence_threshold"]
             )
 
         # Validate detection structure
-        assert 'contradictions' in detection_result
-        assert 'confidence' in detection_result
+        assert "contradictions" in detection_result
+        assert "confidence" in detection_result
 
         # Confidence should meet threshold
-        if detection_result['contradictions']:
-            assert detection_result['confidence'] >= scenario['confidence_threshold']
+        if detection_result["contradictions"]:
+            assert detection_result["confidence"] >= scenario["confidence_threshold"]
 
     @given(st.integers(min_value=1, max_value=20))
     @pytest.mark.asyncio
@@ -506,9 +492,7 @@ class TestCognitiveReasoningProperties:
         async with framework.performance_monitor(f"recursive_depth_{depth}"):
             try:
                 result = await framework.inference_engine.infer(
-                    recursive_query,
-                    inference_type=InferenceType.DEDUCTIVE,
-                    max_depth=depth
+                    recursive_query, inference_type=InferenceType.DEDUCTIVE, max_depth=depth
                 )
 
                 # Should complete within timeout
@@ -516,7 +500,7 @@ class TestCognitiveReasoningProperties:
 
                 # Should respect circuit breaker
                 if depth > 15:  # Beyond safe depth
-                    assert 'circuit_breaker_triggered' in result.get('metadata', {})
+                    assert "circuit_breaker_triggered" in result.get("metadata", {})
 
             except asyncio.TimeoutError:
                 # Acceptable for extreme depths
@@ -557,50 +541,46 @@ class TestCognitiveReasoningProperties:
 
         # Validate performance metrics
         coverage_metrics = framework.calculate_test_coverage_metrics()
-        assert coverage_metrics['target_compliance'], "Probability coverage exceeds 0.01%"
+        assert coverage_metrics["target_compliance"], "Probability coverage exceeds 0.01%"
 
     async def _test_recursive_scenario(self, framework, scenario):
         """Test recursive overflow scenario"""
         result = await framework.inference_engine.infer(
-            scenario.input_data['query'],
-            max_depth=scenario.input_data.get('depth', 10)
+            scenario.input_data["query"], max_depth=scenario.input_data.get("depth", 10)
         )
 
         # Should handle recursion gracefully
         assert result is not None
 
-        if scenario.input_data.get('circular_refs', False):
-            assert 'circuit_breaker_triggered' in result.get('metadata', {})
+        if scenario.input_data.get("circular_refs", False):
+            assert "circuit_breaker_triggered" in result.get("metadata", {})
 
     async def _test_paradox_scenario(self, framework, scenario):
         """Test logical paradox scenario"""
         result = await framework.contradiction_integrator.detect_contradictions(
-            [scenario.input_data['query']],
-            confidence_threshold=0.98
+            [scenario.input_data["query"]], confidence_threshold=0.98
         )
 
         # Should detect paradox with high confidence
-        if 'paradox' in scenario.description.lower():
-            assert result['contradictions'] or result.get('paradoxes', [])
+        if "paradox" in scenario.description.lower():
+            assert result["contradictions"] or result.get("paradoxes", [])
 
     async def _test_cascade_scenario(self, framework, scenario):
         """Test contradiction cascade scenario"""
         result = await framework.contradiction_integrator.detect_contradictions(
-            scenario.input_data['premises'],
-            confidence_threshold=0.98
+            scenario.input_data["premises"], confidence_threshold=0.98
         )
 
         # Should detect multiple contradictions
-        assert len(result.get('contradictions', [])) >= 2
+        assert len(result.get("contradictions", [])) >= 2
 
     async def _test_memory_scenario(self, framework, scenario):
         """Test memory pressure scenario"""
-        large_context = scenario.input_data['large_context']
+        large_context = scenario.input_data["large_context"]
 
         # Should handle large input without crashing
         result = await framework.thought_engine.synthesize_thought(
-            "Analyze this large context",
-            context={'data': large_context}
+            "Analyze this large context", context={"data": large_context}
         )
 
         assert result is not None
@@ -610,8 +590,7 @@ class TestCognitiveReasoningProperties:
         start_time = time.perf_counter()
 
         result = await framework.thought_engine.synthesize_thought(
-            "Complex reasoning task",
-            context={'strict_deadline': True}
+            "Complex reasoning task", context={"strict_deadline": True}
         )
 
         end_time = time.perf_counter()
@@ -634,8 +613,7 @@ class TestStressScenarios:
         concurrent_tasks = []
         for i in range(50):  # High concurrency
             task = framework.thought_engine.synthesize_thought(
-                f"Complex reasoning task {i}",
-                context={'complexity': ThoughtComplexity.EXTREME}
+                f"Complex reasoning task {i}", context={"complexity": ThoughtComplexity.EXTREME}
             )
             concurrent_tasks.append(task)
 
@@ -666,10 +644,7 @@ class TestStressScenarios:
 
         # Run extended reasoning session
         for i in range(100):
-            await framework.thought_engine.synthesize_thought(
-                f"Reasoning iteration {i}",
-                context={'iteration': i}
-            )
+            await framework.thought_engine.synthesize_thought(f"Reasoning iteration {i}", context={"iteration": i})
 
             # Force garbage collection periodically
             if i % 10 == 0:
@@ -680,8 +655,7 @@ class TestStressScenarios:
 
         # Memory growth should be reasonable
         max_acceptable_growth = 10 * 1024 * 1024  # 10MB
-        assert memory_growth < max_acceptable_growth, \
-            f"Memory growth {memory_growth} exceeds threshold"
+        assert memory_growth < max_acceptable_growth, f"Memory growth {memory_growth} exceeds threshold"
 
     @pytest.mark.asyncio
     async def test_performance_degradation_bounds(self, cognitive_test_framework):
@@ -703,8 +677,7 @@ class TestStressScenarios:
         for i in range(50):
             start = time.perf_counter()
             await framework.thought_engine.synthesize_thought(
-                f"Load test {i}",
-                context={'complexity': ThoughtComplexity.COMPLEX}
+                f"Load test {i}", context={"complexity": ThoughtComplexity.COMPLEX}
             )
             end = time.perf_counter()
             load_times.append((end - start) * 1000)
@@ -721,16 +694,7 @@ class TestStressScenarios:
 # Test runner configuration for comprehensive edge case coverage
 if __name__ == "__main__":
     # Configure logging for test analysis
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     # Run property-based tests
-    pytest.main([
-        __file__,
-        "-v",
-        "--tb=short",
-        "--hypothesis-show-statistics",
-        "--hypothesis-profile=ci"
-    ])
+    pytest.main([__file__, "-v", "--tb=short", "--hypothesis-show-statistics", "--hypothesis-profile=ci"])

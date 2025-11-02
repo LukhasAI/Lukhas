@@ -2,6 +2,7 @@
 Storage adapters for audit trails.
 Default: Append-only JSONL files with optional Postgres backend.
 """
+
 from __future__ import annotations
 
 import json
@@ -65,10 +66,7 @@ class JSONLStorage:
         return None
 
     async def fetch_jsons_by_trace(
-        self,
-        table: str,
-        trace_id: str,
-        order_by: Optional[str] = None
+        self, table: str, trace_id: str, order_by: Optional[str] = None
     ) -> List[Dict[str, Any]]:
         """
         Fetch all JSON objects matching trace_id.
@@ -130,11 +128,7 @@ async def fetch_decision_trace(trace_id: str) -> Optional[Dict[str, Any]]:
     return await storage.fetch_decision_trace(trace_id)
 
 
-async def fetch_jsons_by_trace(
-    table: str,
-    trace_id: str,
-    order_by: Optional[str] = None
-) -> List[Dict[str, Any]]:
+async def fetch_jsons_by_trace(table: str, trace_id: str, order_by: Optional[str] = None) -> List[Dict[str, Any]]:
     """Fetch JSONs by trace ID."""
     storage = get_storage()
     return await storage.fetch_jsons_by_trace(table, trace_id, order_by)

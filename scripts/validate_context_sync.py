@@ -14,11 +14,11 @@ REQUIRED = [
 ]
 
 FILES = [
-    ROOT/"claude.me",
-    ROOT/"lukhas_context.md",
-    ROOT/"candidate/claude.me",
-    ROOT/"candidate/core/claude.me",
-    ROOT/"lukhas/claude.me",
+    ROOT / "claude.me",
+    ROOT / "lukhas_context.md",
+    ROOT / "candidate/claude.me",
+    ROOT / "candidate/core/claude.me",
+    ROOT / "lukhas/claude.me",
 ]
 
 bad = []

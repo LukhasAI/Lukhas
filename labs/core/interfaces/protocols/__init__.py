@@ -5,6 +5,7 @@ LUKHAS Cognitive AI Protocol Interfaces
 This package contains interface definitions and implementations for
 various protocols used throughout the LUKHAS Cognitive system.
 """
+
 import streamlit as st
 
 from .awareness_protocol import (

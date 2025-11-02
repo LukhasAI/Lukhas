@@ -367,7 +367,7 @@ if FASTAPI_AVAILABLE:
             plugin_details = {}
 
             for key, plugin in _REG.items():
-                category = key.split(':')[0] if ':' in key else 'unknown'
+                category = key.split(":")[0] if ":" in key else "unknown"
 
                 # Count by category
                 plugin_counts[category] = plugin_counts.get(category, 0) + 1
@@ -396,7 +396,7 @@ if FASTAPI_AVAILABLE:
                     "registry_accessible": True,
                     "discovery_enabled": _DISCOVERY_FLAG == "auto",
                     "minimum_plugins_loaded": len(_REG) > 0,
-                }
+                },
             }
 
         except Exception as e:
@@ -410,7 +410,7 @@ if FASTAPI_AVAILABLE:
                 "health": {
                     "registry_accessible": False,
                     "error_details": str(e),
-                }
+                },
             }
 
     # Include sub-applications and routers

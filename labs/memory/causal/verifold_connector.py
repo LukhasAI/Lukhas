@@ -40,9 +40,7 @@ class VeriFoldConnector:
                 raise ValueError("VeriFold chain endpoint not configured")
 
             # Generate connection ID
-            connection_id = hashlib.sha256(
-                f"{self.chain_endpoint}:{time.time()}".encode()
-            ).hexdigest()[:16]
+            connection_id = hashlib.sha256(f"{self.chain_endpoint}:{time.time()}".encode()).hexdigest()[:16]
 
             # Establish secure connection
             connection_params = {
@@ -51,7 +49,7 @@ class VeriFoldConnector:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "protocol_version": "1.0",
                 "security_hash": self._generate_security_hash(),
-                "status": "connected"
+                "status": "connected",
             }
 
             # Store connection in pool
@@ -63,17 +61,13 @@ class VeriFoldConnector:
                     "success": True,
                     "connection_id": connection_id,
                     "endpoint": self.chain_endpoint,
-                    "timestamp": connection_params["timestamp"]
+                    "timestamp": connection_params["timestamp"],
                 }
             else:
                 raise ConnectionError("Failed security verification")
 
         except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+            return {"success": False, "error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     def submit_replay_session(self, session_data):
         """Submit session data to VeriFold chain"""
@@ -103,7 +97,7 @@ class VeriFoldConnector:
                 "data_size": len(session_json),
                 "event_count": len(session_data.get("events", [])),
                 "verification_status": "pending",
-                "chain_position": self._calculate_chain_position()
+                "chain_position": self._calculate_chain_position(),
             }
 
             # Simulate blockchain submission (placeholder for actual implementation)
@@ -114,7 +108,7 @@ class VeriFoldConnector:
                 "submission_id": submission_result["submission_id"],
                 "session_hash": session_hash,
                 "chain_position": submission_record["chain_position"],
-                "timestamp": submission_record["submission_timestamp"]
+                "timestamp": submission_record["submission_timestamp"],
             }
 
         except Exception as e:
@@ -122,7 +116,7 @@ class VeriFoldConnector:
                 "success": False,
                 "error": str(e),
                 "session_id": session_data.get("session_id", "unknown"),
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def retrieve_replay_data(self, session_id):
@@ -138,7 +132,7 @@ class VeriFoldConnector:
             query_params = {
                 "session_id": session_id,
                 "query_timestamp": datetime.now(timezone.utc).isoformat(),
-                "requester_hash": self._generate_security_hash()
+                "requester_hash": self._generate_security_hash(),
             }
 
             # Simulate chain query (placeholder for actual implementation)
@@ -152,7 +146,7 @@ class VeriFoldConnector:
                         "session_id": session_id,
                         "data": retrieved_data,
                         "retrieval_timestamp": query_params["query_timestamp"],
-                        "verification_status": "verified"
+                        "verification_status": "verified",
                     }
                 else:
                     raise ValueError("Data integrity verification failed")
@@ -161,7 +155,7 @@ class VeriFoldConnector:
                     "success": False,
                     "error": "Session not found in chain",
                     "session_id": session_id,
-                    "timestamp": query_params["query_timestamp"]
+                    "timestamp": query_params["query_timestamp"],
                 }
 
         except Exception as e:
@@ -169,7 +163,7 @@ class VeriFoldConnector:
                 "success": False,
                 "error": str(e),
                 "session_id": session_id,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def verify_chain_integrity(self):
@@ -183,7 +177,7 @@ class VeriFoldConnector:
                 "block_hash_verification",
                 "sequence_verification",
                 "timestamp_verification",
-                "security_verification"
+                "security_verification",
             ]
 
             verification_results = {}
@@ -193,7 +187,7 @@ class VeriFoldConnector:
             verification_results["connection_verification"] = {
                 "passed": active_connections > 0,
                 "active_connections": active_connections,
-                "details": "Chain connection pool status"
+                "details": "Chain connection pool status",
             }
 
             # Block hash verification (simulated)
@@ -201,7 +195,7 @@ class VeriFoldConnector:
                 "passed": True,
                 "verified_blocks": 100,  # Simulated
                 "hash_mismatches": 0,
-                "details": "All block hashes verified"
+                "details": "All block hashes verified",
             }
 
             # Sequence verification
@@ -209,14 +203,14 @@ class VeriFoldConnector:
                 "passed": True,
                 "sequence_length": 100,  # Simulated
                 "gaps_detected": 0,
-                "details": "Chain sequence integrity verified"
+                "details": "Chain sequence integrity verified",
             }
 
             # Timestamp verification
             verification_results["timestamp_verification"] = {
                 "passed": True,
                 "timestamp_anomalies": 0,
-                "details": "Timestamp ordering verified"
+                "details": "Timestamp ordering verified",
             }
 
             # Security verification
@@ -224,7 +218,7 @@ class VeriFoldConnector:
             verification_results["security_verification"] = {
                 "passed": security_score >= 0.8,
                 "security_score": security_score,
-                "details": f"Security score: {security_score:.3f}"
+                "details": f"Security score: {security_score:.3f}",
             }
 
             # Overall integrity assessment
@@ -233,9 +227,10 @@ class VeriFoldConnector:
             return {
                 "integrity_verified": all_passed,
                 "verification_timestamp": datetime.now(timezone.utc).isoformat(),
-                "overall_score": sum(1 for r in verification_results.values() if r["passed"]) / len(verification_results),
+                "overall_score": sum(1 for r in verification_results.values() if r["passed"])
+                / len(verification_results),
                 "detailed_results": verification_results,
-                "recommendations": self._generate_integrity_recommendations(verification_results)
+                "recommendations": self._generate_integrity_recommendations(verification_results),
             }
 
         except Exception as e:
@@ -243,13 +238,14 @@ class VeriFoldConnector:
                 "integrity_verified": False,
                 "error": str(e),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "recommendations": ["Investigate chain connection issues"]
+                "recommendations": ["Investigate chain connection issues"],
             }
 
     def _generate_security_hash(self):
         """Generate security hash for authentication"""
         import hashlib
         import time
+
         salt = f"{self.chain_endpoint}:{time.time()}:{self.config.get('api_key', 'default')}"
         return hashlib.sha256(salt.encode()).hexdigest()[:32]
 
@@ -261,16 +257,18 @@ class VeriFoldConnector:
     def _calculate_chain_position(self):
         """Calculate position in the VeriFold chain"""
         import time
+
         # Simulated chain position calculation
         return int(time.time() * 1000) % 10000
 
     def _simulate_chain_submission(self, submission_record, session_data):
         """Simulate blockchain submission (placeholder)"""
         import uuid
+
         return {
             "submission_id": str(uuid.uuid4()),
             "status": "confirmed",
-            "block_number": submission_record["chain_position"]
+            "block_number": submission_record["chain_position"],
         }
 
     def _simulate_chain_query(self, query_params):
@@ -280,7 +278,7 @@ class VeriFoldConnector:
             "session_id": query_params["session_id"],
             "events": [],
             "metadata": {"retrieved": True},
-            "chain_hash": "mock_hash_" + query_params["session_id"][:8]
+            "chain_hash": "mock_hash_" + query_params["session_id"][:8],
         }
 
     def _verify_retrieved_data_integrity(self, data):

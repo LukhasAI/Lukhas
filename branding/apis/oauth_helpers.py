@@ -39,7 +39,15 @@ class OAuthTokenManager:
         # Refresh if token expires within 5 minutes
         return expires_at <= datetime.now(timezone.utc) + timedelta(minutes=5)
 
-    def refresh_token_sync(self, *, client_id: str, client_secret: str, refresh_token: str, token_url: str, current_access_token: Optional[str] = None) -> dict[str, Any]:
+    def refresh_token_sync(
+        self,
+        *,
+        client_id: str,
+        client_secret: str,
+        refresh_token: str,
+        token_url: str,
+        current_access_token: Optional[str] = None,
+    ) -> dict[str, Any]:
         """Perform a synchronous refresh_token call via the injected factory.
 
         Returns the token dict returned by the session.refresh_token call.

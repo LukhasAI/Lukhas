@@ -168,19 +168,26 @@ def main():
         health_data.append(health)
 
         emoji = "🟢" if health["health_score"] >= 80 else "🟡" if health["health_score"] >= 50 else "🔴"
-        print(f"  {emoji} {health['module']}: {health['health_score']}/100 (docs: {health['doc_count']}, tests: {health['test_count']})")
+        print(
+            f"  {emoji} {health['module']}: {health['health_score']}/100 (docs: {health['doc_count']}, tests: {health['test_count']})"
+        )
 
     # Write JSON report
     report_path = ART / "module_structure_report.json"
-    report_path.write_text(json.dumps({
-        "modules": health_data,
-        "summary": {
-            "total": len(health_data),
-            "with_docs": sum(1 for m in health_data if m["has_docs"]),
-            "with_tests": sum(1 for m in health_data if m["has_tests"]),
-            "avg_health": sum(m["health_score"] for m in health_data) / len(health_data) if health_data else 0
-        }
-    }, indent=2))
+    report_path.write_text(
+        json.dumps(
+            {
+                "modules": health_data,
+                "summary": {
+                    "total": len(health_data),
+                    "with_docs": sum(1 for m in health_data if m["has_docs"]),
+                    "with_tests": sum(1 for m in health_data if m["has_tests"]),
+                    "avg_health": sum(m["health_score"] for m in health_data) / len(health_data) if health_data else 0,
+                },
+            },
+            indent=2,
+        )
+    )
     print(f"\n✅ Wrote {report_path}")
 
     # Write human-readable index

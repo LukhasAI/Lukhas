@@ -28,10 +28,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -40,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[2]
 @dataclass
 class CoverageMetrics:
     """Coverage metrics for a module or package"""
+
     module_name: str
     statements: int
     missing: int
@@ -56,6 +54,7 @@ class CoverageMetrics:
 @dataclass
 class TestSuiteMetrics:
     """Metrics for a complete test suite run"""
+
     suite_name: str
     total_tests: int
     passed_tests: int
@@ -71,6 +70,7 @@ class TestSuiteMetrics:
 @dataclass
 class QualityGates:
     """Quality gate thresholds for coverage"""
+
     minimum_coverage: float = 80.0
     target_coverage: float = 90.0
     critical_modules_min: float = 95.0
@@ -84,14 +84,14 @@ class CoverageMetricsSystem:
 
     def __init__(self, config_path: Optional[Path] = None):
         self.config = self._load_config(config_path)
-        self.quality_gates = QualityGates(**self.config.get('quality_gates', {}))
+        self.quality_gates = QualityGates(**self.config.get("quality_gates", {}))
 
         # Database for storing metrics history
-        self.db_path = Path(self.config.get('database_path', 'reports/testing/coverage_metrics.db'))
+        self.db_path = Path(self.config.get("database_path", "reports/testing/coverage_metrics.db"))
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Reports directory
-        self.reports_dir = Path(self.config.get('reports_dir', 'reports/testing/coverage'))
+        self.reports_dir = Path(self.config.get("reports_dir", "reports/testing/coverage"))
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
         # Initialize database
@@ -102,31 +102,31 @@ class CoverageMetricsSystem:
     def _load_config(self, config_path: Optional[Path]) -> Dict[str, Any]:
         """Load configuration for coverage system"""
         default_config = {
-            'coverage_tools': {
-                'python': 'coverage',
-                'javascript': 'nyc',
-                'typescript': 'nyc',
+            "coverage_tools": {
+                "python": "coverage",
+                "javascript": "nyc",
+                "typescript": "nyc",
             },
-            'critical_modules': [
-                'lukhas/consciousness',
-                'lukhas/memory',
-                'lukhas/identity',
-                'lukhas/governance',
-                'candidate/consciousness',
-                'candidate/memory',
-                'candidate/identity'
+            "critical_modules": [
+                "lukhas/consciousness",
+                "lukhas/memory",
+                "lukhas/identity",
+                "lukhas/governance",
+                "candidate/consciousness",
+                "candidate/memory",
+                "candidate/identity",
             ],
-            'exclude_patterns': [
-                '*/tests/*',
-                '*/test_*',
-                '*/__pycache__/*',
-                '*/migrations/*',
-                '*/venv/*',
-                '*/node_modules/*'
+            "exclude_patterns": [
+                "*/tests/*",
+                "*/test_*",
+                "*/__pycache__/*",
+                "*/migrations/*",
+                "*/venv/*",
+                "*/node_modules/*",
             ],
-            'quality_gates': {},
-            'reports_dir': 'reports/testing/coverage',
-            'database_path': 'reports/testing/coverage_metrics.db'
+            "quality_gates": {},
+            "reports_dir": "reports/testing/coverage",
+            "database_path": "reports/testing/coverage_metrics.db",
         }
 
         if config_path and config_path.exists():
@@ -142,7 +142,8 @@ class CoverageMetricsSystem:
     def _init_database(self):
         """Initialize SQLite database for metrics storage"""
         with sqlite3.connect(self.db_path) as conn:
-            conn.executescript("""
+            conn.executescript(
+                """
                 CREATE TABLE IF NOT EXISTS coverage_runs (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     run_id TEXT UNIQUE NOT NULL,
@@ -186,7 +187,8 @@ class CoverageMetricsSystem:
                 CREATE INDEX IF NOT EXISTS idx_coverage_runs_timestamp ON coverage_runs(timestamp);
                 CREATE INDEX IF NOT EXISTS idx_module_coverage_run_id ON module_coverage(run_id);
                 CREATE INDEX IF NOT EXISTS idx_quality_gate_run_id ON quality_gate_results(run_id);
-            """)
+            """
+            )
 
     def run_coverage_analysis(self, test_suite: str = "all", include_complexity: bool = True) -> TestSuiteMetrics:
         """Run comprehensive coverage analysis"""
@@ -213,14 +215,14 @@ class CoverageMetricsSystem:
             execution_time = time.time() - start_time
             suite_metrics = TestSuiteMetrics(
                 suite_name=test_suite,
-                total_tests=test_results.get('total', 0),
-                passed_tests=test_results.get('passed', 0),
-                failed_tests=test_results.get('failed', 0),
-                skipped_tests=test_results.get('skipped', 0),
-                error_tests=test_results.get('errors', 0),
+                total_tests=test_results.get("total", 0),
+                passed_tests=test_results.get("passed", 0),
+                failed_tests=test_results.get("failed", 0),
+                skipped_tests=test_results.get("skipped", 0),
+                error_tests=test_results.get("errors", 0),
                 execution_time=execution_time,
                 coverage_overall=self._calculate_overall_coverage(coverage_data),
-                coverage_by_module=coverage_data
+                coverage_by_module=coverage_data,
             )
 
             # Store results in database
@@ -257,51 +259,47 @@ class CoverageMetricsSystem:
 
         # Build coverage command
         cmd = [
-            sys.executable, "-m", "coverage", "run",
+            sys.executable,
+            "-m",
+            "coverage",
+            "run",
             "--source=.",
-            "--omit=" + ",".join(self.config['exclude_patterns']),
-            "-m", "pytest",
+            "--omit=" + ",".join(self.config["exclude_patterns"]),
+            "-m",
+            "pytest",
             "-v",
             "--tb=short",
-            "--junitxml=reports/testing/junit.xml"
+            "--junitxml=reports/testing/junit.xml",
         ] + test_paths
 
         try:
             # Run tests with coverage
-            result = subprocess.run(
-                cmd,
-                cwd=ROOT,
-                capture_output=True,
-                text=True,
-                timeout=1800  # 30 minutes timeout
-            )
+            result = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=1800)  # 30 minutes timeout
 
             # Parse pytest results
             test_results = self._parse_pytest_output(result.stdout)
 
             # Generate coverage report
-            subprocess.run([
-                sys.executable, "-m", "coverage", "xml",
-                "-o", "reports/testing/coverage.xml"
-            ], cwd=ROOT, check=True)
+            subprocess.run(
+                [sys.executable, "-m", "coverage", "xml", "-o", "reports/testing/coverage.xml"], cwd=ROOT, check=True
+            )
 
-            subprocess.run([
-                sys.executable, "-m", "coverage", "html",
-                "-d", "reports/testing/htmlcov"
-            ], cwd=ROOT, check=True)
+            subprocess.run(
+                [sys.executable, "-m", "coverage", "html", "-d", "reports/testing/htmlcov"], cwd=ROOT, check=True
+            )
 
             return test_results
 
         except subprocess.TimeoutExpired:
             logger.error("Test execution timed out")
-            return {'total': 0, 'passed': 0, 'failed': 1, 'skipped': 0, 'errors': 0}
+            return {"total": 0, "passed": 0, "failed": 1, "skipped": 0, "errors": 0}
         except Exception as e:
             logger.error(f"Test execution failed: {e}")
-            return {'total': 0, 'passed': 0, 'failed': 1, 'skipped': 0, 'errors': 0}
+            return {"total": 0, "passed": 0, "failed": 1, "skipped": 0, "errors": 0}
 
     def _parse_pytest_output(self, output: str) -> Dict[str, int]:
         """Parse pytest output to extract test results"""
-        results = {'total': 0, 'passed': 0, 'failed': 0, 'skipped': 0, 'errors': 0}
+        results = {"total": 0, "passed": 0, "failed": 0, "skipped": 0, "errors": 0}
 
         # Try to parse from JUnit XML first
         junit_path = ROOT / "reports/testing/junit.xml"
@@ -310,28 +308,29 @@ class CoverageMetricsSystem:
                 tree = ET.parse(junit_path)
                 root = tree.getroot()
 
-                for testsuite in root.findall('.//testsuite'):
-                    results['total'] += int(testsuite.get('tests', 0))
-                    results['failed'] += int(testsuite.get('failures', 0))
-                    results['errors'] += int(testsuite.get('errors', 0))
-                    results['skipped'] += int(testsuite.get('skipped', 0))
+                for testsuite in root.findall(".//testsuite"):
+                    results["total"] += int(testsuite.get("tests", 0))
+                    results["failed"] += int(testsuite.get("failures", 0))
+                    results["errors"] += int(testsuite.get("errors", 0))
+                    results["skipped"] += int(testsuite.get("skipped", 0))
 
-                results['passed'] = results['total'] - results['failed'] - results['errors'] - results['skipped']
+                results["passed"] = results["total"] - results["failed"] - results["errors"] - results["skipped"]
                 return results
             except Exception as e:
                 logger.warning(f"Failed to parse JUnit XML: {e}")
 
         # Fallback to text parsing
-        lines = output.split('\n')
+        lines = output.split("\n")
         for line in lines:
-            if 'passed' in line and 'failed' in line:
+            if "passed" in line and "failed" in line:
                 # Try to extract numbers from summary line
                 import re
-                numbers = re.findall(r'\d+', line)
+
+                numbers = re.findall(r"\d+", line)
                 if len(numbers) >= 2:
-                    results['passed'] = int(numbers[0])
-                    results['failed'] = int(numbers[1])
-                    results['total'] = results['passed'] + results['failed']
+                    results["passed"] = int(numbers[0])
+                    results["failed"] = int(numbers[1])
+                    results["total"] = results["passed"] + results["failed"]
 
         return results
 
@@ -349,34 +348,26 @@ class CoverageMetricsSystem:
             tree = ET.parse(coverage_file)
             root = tree.getroot()
 
-            for package in root.findall('.//package'):
-                package.get('name', '')
+            for package in root.findall(".//package"):
+                package.get("name", "")
 
-                for class_elem in package.findall('.//class'):
-                    filename = class_elem.get('filename', '')
+                for class_elem in package.findall(".//class"):
+                    filename = class_elem.get("filename", "")
 
                     # Extract module name from filename
                     module_name = self._filename_to_module(filename)
 
                     # Parse line coverage
-                    lines = class_elem.findall('.//line')
+                    lines = class_elem.findall(".//line")
                     total_lines = len(lines)
-                    covered_lines = len([l for l in lines if l.get('hits', '0') != '0'])
+                    covered_lines = len([l for l in lines if l.get("hits", "0") != "0"])
 
                     if total_lines > 0:
                         coverage_percent = (covered_lines / total_lines) * 100
 
                         # Get line numbers
-                        lines_covered = [
-                            int(l.get('number', 0))
-                            for l in lines
-                            if l.get('hits', '0') != '0'
-                        ]
-                        lines_missing = [
-                            int(l.get('number', 0))
-                            for l in lines
-                            if l.get('hits', '0') == '0'
-                        ]
+                        lines_covered = [int(l.get("number", 0)) for l in lines if l.get("hits", "0") != "0"]
+                        lines_missing = [int(l.get("number", 0)) for l in lines if l.get("hits", "0") == "0"]
 
                         coverage_data[module_name] = CoverageMetrics(
                             module_name=module_name,
@@ -385,7 +376,7 @@ class CoverageMetricsSystem:
                             excluded=0,  # Will be calculated later
                             coverage_percent=coverage_percent,
                             lines_covered=lines_covered,
-                            lines_missing=lines_missing
+                            lines_missing=lines_missing,
                         )
 
         except Exception as e:
@@ -396,16 +387,16 @@ class CoverageMetricsSystem:
     def _filename_to_module(self, filename: str) -> str:
         """Convert filename to module name"""
         # Remove common path prefixes and convert to module notation
-        module = filename.replace('/', '.').replace('\\', '.')
+        module = filename.replace("/", ".").replace("\\", ".")
 
         # Remove file extension
-        if module.endswith('.py'):
+        if module.endswith(".py"):
             module = module[:-3]
 
         # Remove common prefixes
-        for prefix in ['src.', 'lib.', '']:
+        for prefix in ["src.", "lib.", ""]:
             if module.startswith(prefix):
-                module = module[len(prefix):]
+                module = module[len(prefix) :]
                 break
 
         return module
@@ -432,14 +423,14 @@ class CoverageMetricsSystem:
     def _module_to_filepath(self, module_name: str) -> Optional[Path]:
         """Convert module name to file path"""
         # Convert module notation to file path
-        file_path = module_name.replace('.', '/') + '.py'
+        file_path = module_name.replace(".", "/") + ".py"
         full_path = ROOT / file_path
 
         if full_path.exists():
             return full_path
 
         # Try alternative paths
-        for alt_root in ['src', 'lib', 'lukhas', 'labs']:
+        for alt_root in ["src", "lib", "lukhas", "labs"]:
             alt_path = ROOT / alt_root / file_path
             if alt_path.exists():
                 return alt_path
@@ -450,9 +441,12 @@ class CoverageMetricsSystem:
         """Calculate cyclomatic complexity for a file"""
         try:
             # Use radon to calculate complexity
-            result = subprocess.run([
-                sys.executable, "-m", "radon", "cc", str(file_path), "--json"
-            ], capture_output=True, text=True, timeout=30)
+            result = subprocess.run(
+                [sys.executable, "-m", "radon", "cc", str(file_path), "--json"],
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
 
             if result.returncode == 0:
                 data = json.loads(result.stdout)
@@ -460,8 +454,8 @@ class CoverageMetricsSystem:
 
                 for file_data in data.values():
                     for item in file_data:
-                        if isinstance(item, dict) and 'complexity' in item:
-                            complexities.append(item['complexity'])
+                        if isinstance(item, dict) and "complexity" in item:
+                            complexities.append(item["complexity"])
 
                 return sum(complexities) / len(complexities) if complexities else 0.0
 
@@ -491,7 +485,7 @@ class CoverageMetricsSystem:
                     risk = "high"
 
             # Adjust for critical modules
-            if any(critical in metrics.module_name for critical in self.config['critical_modules']):
+            if any(critical in metrics.module_name for critical in self.config["critical_modules"]):
                 if risk in ["medium", "high"]:
                     risk = "critical"
 
@@ -517,49 +511,50 @@ class CoverageMetricsSystem:
         gates = {}
 
         # Overall coverage gate
-        gates['overall_coverage'] = {
-            'type': 'coverage',
-            'threshold': self.quality_gates.minimum_coverage,
-            'actual': metrics.coverage_overall,
-            'passed': metrics.coverage_overall >= self.quality_gates.minimum_coverage
+        gates["overall_coverage"] = {
+            "type": "coverage",
+            "threshold": self.quality_gates.minimum_coverage,
+            "actual": metrics.coverage_overall,
+            "passed": metrics.coverage_overall >= self.quality_gates.minimum_coverage,
         }
 
         # Critical modules coverage
         critical_coverages = []
         for module_name, module_metrics in metrics.coverage_by_module.items():
-            if any(critical in module_name for critical in self.config['critical_modules']):
+            if any(critical in module_name for critical in self.config["critical_modules"]):
                 critical_coverages.append(module_metrics.coverage_percent)
 
         if critical_coverages:
             min_critical_coverage = min(critical_coverages)
-            gates['critical_modules'] = {
-                'type': 'coverage',
-                'threshold': self.quality_gates.critical_modules_min,
-                'actual': min_critical_coverage,
-                'passed': min_critical_coverage >= self.quality_gates.critical_modules_min
+            gates["critical_modules"] = {
+                "type": "coverage",
+                "threshold": self.quality_gates.critical_modules_min,
+                "actual": min_critical_coverage,
+                "passed": min_critical_coverage >= self.quality_gates.critical_modules_min,
             }
 
         # Test success rate
         if metrics.total_tests > 0:
             success_rate = (metrics.passed_tests / metrics.total_tests) * 100
-            gates['test_success_rate'] = {
-                'type': 'test_success',
-                'threshold': 100.0,
-                'actual': success_rate,
-                'passed': success_rate == 100.0
+            gates["test_success_rate"] = {
+                "type": "test_success",
+                "threshold": 100.0,
+                "actual": success_rate,
+                "passed": success_rate == 100.0,
             }
 
         # High-risk modules
         high_risk_modules = [
-            name for name, module_metrics in metrics.coverage_by_module.items()
-            if module_metrics.risk_level in ['critical', 'high']
+            name
+            for name, module_metrics in metrics.coverage_by_module.items()
+            if module_metrics.risk_level in ["critical", "high"]
         ]
 
-        gates['high_risk_modules'] = {
-            'type': 'risk',
-            'threshold': 0,
-            'actual': len(high_risk_modules),
-            'passed': len(high_risk_modules) == 0
+        gates["high_risk_modules"] = {
+            "type": "risk",
+            "threshold": 0,
+            "actual": len(high_risk_modules),
+            "passed": len(high_risk_modules) == 0,
         }
 
         return gates
@@ -570,62 +565,78 @@ class CoverageMetricsSystem:
 
         with sqlite3.connect(self.db_path) as conn:
             # Store run data
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO coverage_runs (
                     run_id, timestamp, suite_name, total_tests, passed_tests,
                     failed_tests, skipped_tests, error_tests, execution_time,
                     coverage_overall, git_commit, git_branch
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                run_id, metrics.timestamp, metrics.suite_name,
-                metrics.total_tests, metrics.passed_tests, metrics.failed_tests,
-                metrics.skipped_tests, metrics.error_tests, metrics.execution_time,
-                metrics.coverage_overall, git_info['commit'], git_info['branch']
-            ))
+            """,
+                (
+                    run_id,
+                    metrics.timestamp,
+                    metrics.suite_name,
+                    metrics.total_tests,
+                    metrics.passed_tests,
+                    metrics.failed_tests,
+                    metrics.skipped_tests,
+                    metrics.error_tests,
+                    metrics.execution_time,
+                    metrics.coverage_overall,
+                    git_info["commit"],
+                    git_info["branch"],
+                ),
+            )
 
             # Store module coverage data
             for module_metrics in metrics.coverage_by_module.values():
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT INTO module_coverage (
                         run_id, module_name, statements, missing, excluded,
                         coverage_percent, complexity_score, risk_level
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    run_id, module_metrics.module_name, module_metrics.statements,
-                    module_metrics.missing, module_metrics.excluded,
-                    module_metrics.coverage_percent, module_metrics.complexity_score,
-                    module_metrics.risk_level
-                ))
+                """,
+                    (
+                        run_id,
+                        module_metrics.module_name,
+                        module_metrics.statements,
+                        module_metrics.missing,
+                        module_metrics.excluded,
+                        module_metrics.coverage_percent,
+                        module_metrics.complexity_score,
+                        module_metrics.risk_level,
+                    ),
+                )
 
     def _store_quality_gate_results(self, run_id: str, gate_results: Dict[str, Dict[str, Any]]):
         """Store quality gate results in database"""
         with sqlite3.connect(self.db_path) as conn:
             for gate_name, result in gate_results.items():
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT INTO quality_gate_results (
                         run_id, gate_name, gate_type, threshold, actual_value, passed
                     ) VALUES (?, ?, ?, ?, ?, ?)
-                """, (
-                    run_id, gate_name, result['type'], result['threshold'],
-                    result['actual'], result['passed']
-                ))
+                """,
+                    (run_id, gate_name, result["type"], result["threshold"], result["actual"], result["passed"]),
+                )
 
     def _get_git_info(self) -> Dict[str, str]:
         """Get current git commit and branch"""
         try:
             commit = subprocess.run(
-                ['git', 'rev-parse', 'HEAD'],
-                capture_output=True, text=True, cwd=ROOT
+                ["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT
             ).stdout.strip()
 
             branch = subprocess.run(
-                ['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
-                capture_output=True, text=True, cwd=ROOT
+                ["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True, cwd=ROOT
             ).stdout.strip()
 
-            return {'commit': commit, 'branch': branch}
+            return {"commit": commit, "branch": branch}
         except Exception:
-            return {'commit': 'unknown', 'branch': 'unknown'}
+            return {"commit": "unknown", "branch": "unknown"}
 
     def generate_coverage_report(self, format_type: str = "html", days_back: int = 30) -> Path:
         """Generate comprehensive coverage report"""
@@ -636,20 +647,26 @@ class CoverageMetricsSystem:
 
         with sqlite3.connect(self.db_path) as conn:
             # Get run history
-            runs = conn.execute("""
+            runs = conn.execute(
+                """
                 SELECT * FROM coverage_runs
                 WHERE timestamp >= ?
                 ORDER BY timestamp DESC
-            """, (since_date,)).fetchall()
+            """,
+                (since_date,),
+            ).fetchall()
 
             # Get latest module coverage
             latest_run = runs[0] if runs else None
             if latest_run:
-                modules = conn.execute("""
+                modules = conn.execute(
+                    """
                     SELECT * FROM module_coverage
                     WHERE run_id = ?
                     ORDER BY coverage_percent ASC
-                """, (latest_run[1],)).fetchall()  # run_id is at index 1
+                """,
+                    (latest_run[1],),
+                ).fetchall()  # run_id is at index 1
             else:
                 modules = []
 
@@ -696,7 +713,9 @@ class CoverageMetricsSystem:
             latest = runs[0]
             coverage = latest[10]  # coverage_overall
 
-            coverage_class = "metric-good" if coverage >= 80 else "metric-warning" if coverage >= 60 else "metric-danger"
+            coverage_class = (
+                "metric-good" if coverage >= 80 else "metric-warning" if coverage >= 60 else "metric-danger"
+            )
 
             html_content += f"""
             <h2>Latest Results</h2>
@@ -753,7 +772,7 @@ class CoverageMetricsSystem:
             """
 
             for run in runs[:10]:  # Last 10 runs
-                timestamp = datetime.fromisoformat(run[2]).strftime('%m-%d %H:%M')
+                timestamp = datetime.fromisoformat(run[2]).strftime("%m-%d %H:%M")
                 html_content += f"<li>{timestamp}: {run[10]:.1f}%</li>"
 
             html_content += "</ul>"
@@ -777,31 +796,79 @@ class CoverageMetricsSystem:
             "summary": {
                 "total_runs": len(runs),
                 "latest_coverage": runs[0][10] if runs else 0,
-                "total_modules": len(modules)
+                "total_modules": len(modules),
             },
-            "latest_run": dict(zip([
-                "id", "run_id", "timestamp", "suite_name", "total_tests",
-                "passed_tests", "failed_tests", "skipped_tests", "error_tests",
-                "execution_time", "coverage_overall", "git_commit", "git_branch"
-            ], runs[0])) if runs else {},
+            "latest_run": (
+                dict(
+                    zip(
+                        [
+                            "id",
+                            "run_id",
+                            "timestamp",
+                            "suite_name",
+                            "total_tests",
+                            "passed_tests",
+                            "failed_tests",
+                            "skipped_tests",
+                            "error_tests",
+                            "execution_time",
+                            "coverage_overall",
+                            "git_commit",
+                            "git_branch",
+                        ],
+                        runs[0],
+                    )
+                )
+                if runs
+                else {}
+            ),
             "modules": [
-                dict(zip([
-                    "id", "run_id", "module_name", "statements", "missing",
-                    "excluded", "coverage_percent", "complexity_score", "risk_level"
-                ], module)) for module in modules
+                dict(
+                    zip(
+                        [
+                            "id",
+                            "run_id",
+                            "module_name",
+                            "statements",
+                            "missing",
+                            "excluded",
+                            "coverage_percent",
+                            "complexity_score",
+                            "risk_level",
+                        ],
+                        module,
+                    )
+                )
+                for module in modules
             ],
             "recent_runs": [
-                dict(zip([
-                    "id", "run_id", "timestamp", "suite_name", "total_tests",
-                    "passed_tests", "failed_tests", "skipped_tests", "error_tests",
-                    "execution_time", "coverage_overall", "git_commit", "git_branch"
-                ], run)) for run in runs[:10]
-            ]
+                dict(
+                    zip(
+                        [
+                            "id",
+                            "run_id",
+                            "timestamp",
+                            "suite_name",
+                            "total_tests",
+                            "passed_tests",
+                            "failed_tests",
+                            "skipped_tests",
+                            "error_tests",
+                            "execution_time",
+                            "coverage_overall",
+                            "git_commit",
+                            "git_branch",
+                        ],
+                        run,
+                    )
+                )
+                for run in runs[:10]
+            ],
         }
 
         # Save report
         report_path = self.reports_dir / f"coverage_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(report_data, f, indent=2)
 
         logger.info(f"JSON report generated: {report_path}")
@@ -812,12 +879,15 @@ class CoverageMetricsSystem:
         since_date = (datetime.now() - timedelta(days=days_back)).isoformat()
 
         with sqlite3.connect(self.db_path) as conn:
-            runs = conn.execute("""
+            runs = conn.execute(
+                """
                 SELECT timestamp, coverage_overall, total_tests, passed_tests
                 FROM coverage_runs
                 WHERE timestamp >= ?
                 ORDER BY timestamp ASC
-            """, (since_date,)).fetchall()
+            """,
+                (since_date,),
+            ).fetchall()
 
         if len(runs) < 2:
             return {"trend": "insufficient_data", "runs": len(runs)}
@@ -827,7 +897,9 @@ class CoverageMetricsSystem:
         start_coverage = coverages[0]
         end_coverage = coverages[-1]
 
-        trend_direction = "improving" if end_coverage > start_coverage else "declining" if end_coverage < start_coverage else "stable"
+        trend_direction = (
+            "improving" if end_coverage > start_coverage else "declining" if end_coverage < start_coverage else "stable"
+        )
         trend_magnitude = abs(end_coverage - start_coverage)
 
         # Calculate average test success rate
@@ -841,7 +913,7 @@ class CoverageMetricsSystem:
             "end_coverage": end_coverage,
             "runs_analyzed": len(runs),
             "avg_success_rate": avg_success_rate,
-            "coverage_variance": max(coverages) - min(coverages)
+            "coverage_variance": max(coverages) - min(coverages),
         }
 
 
@@ -850,15 +922,13 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="LUKHAS Coverage Metrics System")
-    parser.add_argument("--suite", choices=["all", "unit", "integration", "smoke"],
-                       default="all", help="Test suite to analyze")
-    parser.add_argument("--report-format", choices=["html", "json"],
-                       default="html", help="Report format")
-    parser.add_argument("--days-back", type=int, default=30,
-                       help="Days of history for reports")
+    parser.add_argument(
+        "--suite", choices=["all", "unit", "integration", "smoke"], default="all", help="Test suite to analyze"
+    )
+    parser.add_argument("--report-format", choices=["html", "json"], default="html", help="Report format")
+    parser.add_argument("--days-back", type=int, default=30, help="Days of history for reports")
     parser.add_argument("--config", type=Path, help="Configuration file path")
-    parser.add_argument("--no-complexity", action="store_true",
-                       help="Skip complexity analysis")
+    parser.add_argument("--no-complexity", action="store_true", help="Skip complexity analysis")
 
     args = parser.parse_args()
 
@@ -870,10 +940,7 @@ def main():
 
     # Run coverage analysis
     print(f"Running coverage analysis for {args.suite} tests...")
-    metrics = system.run_coverage_analysis(
-        test_suite=args.suite,
-        include_complexity=not args.no_complexity
-    )
+    metrics = system.run_coverage_analysis(test_suite=args.suite, include_complexity=not args.no_complexity)
 
     print("✅ Analysis complete!")
     print(f"Overall coverage: {metrics.coverage_overall:.2f}%")
@@ -882,16 +949,13 @@ def main():
 
     # Generate report
     print(f"\nGenerating {args.report_format} report...")
-    report_path = system.generate_coverage_report(
-        format_type=args.report_format,
-        days_back=args.days_back
-    )
+    report_path = system.generate_coverage_report(format_type=args.report_format, days_back=args.days_back)
     print(f"📊 Report saved: {report_path}")
 
     # Show trends
     trends = system.get_coverage_trends(days_back=args.days_back)
     print(f"\n📈 Coverage trends: {trends['trend']}")
-    if trends['trend'] != "insufficient_data":
+    if trends["trend"] != "insufficient_data":
         print(f"   Magnitude: {trends['trend_magnitude']:.2f}%")
         print(f"   Average success rate: {trends['avg_success_rate']:.1f}%")
 

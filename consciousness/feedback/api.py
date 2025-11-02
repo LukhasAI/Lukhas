@@ -46,12 +46,7 @@ def record_feedback(evt: Dict[str, Any]) -> Dict[str, Any]:
     else:
         FEEDBACK_FILE.write_text(line + "\n")
 
-    return {
-        "ok": True,
-        "stored_at": time.time(),
-        "node_id": evt["node_id"],
-        "rating": evt["rating"]
-    }
+    return {"ok": True, "stored_at": time.time(), "node_id": evt["node_id"], "rating": evt["rating"]}
 
 
 def quick_card(node_id: str, scale: int = 5) -> Dict[str, Any]:
@@ -63,18 +58,13 @@ def quick_card(node_id: str, scale: int = 5) -> Dict[str, Any]:
         "layout": {
             "rating_scale": scale,
             "fields": [
-                {
-                    "name": "comment",
-                    "label": "Tell us more",
-                    "type": "textarea",
-                    "maxLength": 2000
-                },
+                {"name": "comment", "label": "Tell us more", "type": "textarea", "maxLength": 2000},
                 {
                     "name": "tags",
                     "label": "Tags",
                     "type": "chips",
-                    "options": ["hallucination", "typo", "slow", "unsafe", "great"]
-                }
-            ]
-        }
+                    "options": ["hallucination", "typo", "slow", "unsafe", "great"],
+                },
+            ],
+        },
     }

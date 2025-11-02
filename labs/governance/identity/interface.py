@@ -19,6 +19,7 @@ Usage:
         # Proceed with operation
         client.log_activity("memory_access", user_id, {"operation": "read"})
 """
+
 import os
 import sys
 from datetime import datetime, timezone

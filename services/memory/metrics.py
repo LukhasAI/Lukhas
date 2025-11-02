@@ -14,6 +14,7 @@ from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
+
 # Mock Prometheus metrics for now - replace with actual prometheus_client
 class Counter:
     def __init__(self, name: str, documentation: str, labelnames: List[str] = None):
@@ -27,6 +28,7 @@ class Counter:
     def labels(self, **kwargs):
         return self
 
+
 class Histogram:
     def __init__(self, name: str, documentation: str, labelnames: List[str] = None, buckets: List[float] = None):
         self.name = name
@@ -38,6 +40,7 @@ class Histogram:
 
     def labels(self, **kwargs):
         return self
+
 
 class Gauge:
     def __init__(self, name: str, documentation: str, labelnames: List[str] = None):
@@ -60,63 +63,54 @@ class Gauge:
 
 # Memory service metrics
 memory_requests_total = Counter(
-    'memory_requests_total',
-    'Total memory service requests',
-    labelnames=['operation_type', 'status']
+    "memory_requests_total", "Total memory service requests", labelnames=["operation_type", "status"]
 )
 
 memory_request_duration_seconds = Histogram(
-    'memory_request_duration_seconds',
-    'Memory request duration in seconds',
-    labelnames=['operation_type'],
-    buckets=[0.001, 0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0]
+    "memory_request_duration_seconds",
+    "Memory request duration in seconds",
+    labelnames=["operation_type"],
+    buckets=[0.001, 0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0],
 )
 
 memory_circuit_breaker_state = Gauge(
-    'memory_circuit_breaker_state',
-    'Circuit breaker state (0=closed, 1=half_open, 2=open)',
-    labelnames=['breaker_name']
+    "memory_circuit_breaker_state", "Circuit breaker state (0=closed, 1=half_open, 2=open)", labelnames=["breaker_name"]
 )
 
 memory_backpressure_tokens = Gauge(
-    'memory_backpressure_tokens',
-    'Available backpressure tokens',
-    labelnames=['operation_type']
+    "memory_backpressure_tokens", "Available backpressure tokens", labelnames=["operation_type"]
 )
 
 memory_vector_store_documents = Gauge(
-    'memory_vector_store_documents',
-    'Number of documents in vector store',
-    labelnames=['store_type']
+    "memory_vector_store_documents", "Number of documents in vector store", labelnames=["store_type"]
 )
 
 memory_search_results = Histogram(
-    'memory_search_results',
-    'Number of search results returned',
-    labelnames=['search_type'],
-    buckets=[1, 5, 10, 25, 50, 100, 250, 500, 1000]
+    "memory_search_results",
+    "Number of search results returned",
+    labelnames=["search_type"],
+    buckets=[1, 5, 10, 25, 50, 100, 250, 500, 1000],
 )
 
 memory_batch_size = Histogram(
-    'memory_batch_size',
-    'Size of batch operations',
-    labelnames=['operation_type'],
-    buckets=[1, 10, 50, 100, 500, 1000, 5000, 10000]
+    "memory_batch_size",
+    "Size of batch operations",
+    labelnames=["operation_type"],
+    buckets=[1, 10, 50, 100, 500, 1000, 5000, 10000],
 )
 
 memory_errors_total = Counter(
-    'memory_errors_total',
-    'Total memory service errors',
-    labelnames=['operation_type', 'error_type']
+    "memory_errors_total", "Total memory service errors", labelnames=["operation_type", "error_type"]
 )
 
 
 @dataclass
 class PerformanceMetrics:
     """Performance metrics for T4/0.01% excellence tracking"""
+
     operation_count: int = 0
     total_latency_ms: float = 0.0
-    min_latency_ms: float = float('inf')
+    min_latency_ms: float = float("inf")
     max_latency_ms: float = 0.0
     p50_latency_ms: float = 0.0
     p95_latency_ms: float = 0.0
@@ -137,11 +131,9 @@ class MetricsCollector:
         self.operation_metrics: Dict[str, PerformanceMetrics] = defaultdict(PerformanceMetrics)
         self.start_time = time.monotonic()
 
-    def record_operation(self,
-                        operation_type: str,
-                        duration_ms: float,
-                        success: bool = True,
-                        error_type: Optional[str] = None):
+    def record_operation(
+        self, operation_type: str, duration_ms: float, success: bool = True, error_type: Optional[str] = None
+    ):
         """Record a completed operation"""
         metrics = self.operation_metrics[operation_type]
 
@@ -149,10 +141,7 @@ class MetricsCollector:
         metrics.operation_count += 1
         if not success:
             metrics.error_count += 1
-            memory_errors_total.labels(
-                operation_type=operation_type,
-                error_type=error_type or 'unknown'
-            ).inc()
+            memory_errors_total.labels(operation_type=operation_type, error_type=error_type or "unknown").inc()
 
         # Update latency tracking
         metrics.total_latency_ms += duration_ms
@@ -161,14 +150,9 @@ class MetricsCollector:
         metrics.latency_samples.append(duration_ms)
 
         # Update Prometheus metrics
-        memory_requests_total.labels(
-            operation_type=operation_type,
-            status='success' if success else 'error'
-        ).inc()
+        memory_requests_total.labels(operation_type=operation_type, status="success" if success else "error").inc()
 
-        memory_request_duration_seconds.labels(
-            operation_type=operation_type
-        ).observe(duration_ms / 1000.0)
+        memory_request_duration_seconds.labels(operation_type=operation_type).observe(duration_ms / 1000.0)
 
         # Calculate percentiles periodically
         if metrics.operation_count % 100 == 0:
@@ -178,7 +162,7 @@ class MetricsCollector:
         """Record a timeout operation"""
         metrics = self.operation_metrics[operation_type]
         metrics.timeout_count += 1
-        self.record_operation(operation_type, duration_ms, False, 'timeout')
+        self.record_operation(operation_type, duration_ms, False, "timeout")
 
     def record_search_results(self, search_type: str, result_count: int):
         """Record search result count"""
@@ -232,21 +216,21 @@ class MetricsCollector:
 
             # T4 thresholds by operation type
             t4_thresholds = {
-                'search': 50.0,      # p95 <50ms for search
-                'upsert': 100.0,     # p95 <100ms for writes
-                'batch': 200.0,      # p95 <200ms for batch
-                'default': 100.0
+                "search": 50.0,  # p95 <50ms for search
+                "upsert": 100.0,  # p95 <100ms for writes
+                "batch": 200.0,  # p95 <200ms for batch
+                "default": 100.0,
             }
 
-            threshold = t4_thresholds.get(op_type, t4_thresholds['default'])
+            threshold = t4_thresholds.get(op_type, t4_thresholds["default"])
 
             compliance[op_type] = {
-                'p95_latency_ms': metrics.p95_latency_ms,
-                'p99_latency_ms': metrics.p99_latency_ms,
-                'threshold_ms': threshold,
-                't4_compliant': metrics.p95_latency_ms <= threshold,
-                'error_rate': metrics.error_count / max(metrics.operation_count, 1),
-                'total_operations': metrics.operation_count
+                "p95_latency_ms": metrics.p95_latency_ms,
+                "p99_latency_ms": metrics.p99_latency_ms,
+                "threshold_ms": threshold,
+                "t4_compliant": metrics.p95_latency_ms <= threshold,
+                "error_rate": metrics.error_count / max(metrics.operation_count, 1),
+                "total_operations": metrics.operation_count,
             }
 
         return compliance
@@ -279,12 +263,7 @@ class OperationTimer:
             self.success = False
             self.error_type = exc_type.__name__
 
-        self.collector.record_operation(
-            self.operation_type,
-            duration_ms,
-            self.success,
-            self.error_type
-        )
+        self.collector.record_operation(self.operation_type, duration_ms, self.success, self.error_type)
 
     def mark_error(self, error_type: str):
         """Mark operation as failed with specific error type"""
@@ -313,12 +292,7 @@ class AsyncOperationTimer:
             self.success = False
             self.error_type = exc_type.__name__
 
-        self.collector.record_operation(
-            self.operation_type,
-            duration_ms,
-            self.success,
-            self.error_type
-        )
+        self.collector.record_operation(self.operation_type, duration_ms, self.success, self.error_type)
 
     def mark_error(self, error_type: str):
         """Mark operation as failed with specific error type"""
@@ -360,20 +334,19 @@ def get_t4_compliance_report() -> Dict[str, Any]:
     compliance_data = _global_collector.get_t4_compliance()
 
     # Overall compliance summary
-    total_operations = sum(data['total_operations'] for data in compliance_data.values())
-    compliant_operations = sum(1 for data in compliance_data.values() if data['t4_compliant'])
+    total_operations = sum(data["total_operations"] for data in compliance_data.values())
+    compliant_operations = sum(1 for data in compliance_data.values() if data["t4_compliant"])
     total_operation_types = len(compliance_data)
 
-    overall_compliant = (compliant_operations == total_operation_types and
-                        total_operation_types > 0)
+    overall_compliant = compliant_operations == total_operation_types and total_operation_types > 0
 
     report = {
-        'timestamp': time.time(),
-        'overall_compliant': overall_compliant,
-        'compliant_operation_types': compliant_operations,
-        'total_operation_types': total_operation_types,
-        'total_operations': total_operations,
-        'operation_details': compliance_data
+        "timestamp": time.time(),
+        "overall_compliant": overall_compliant,
+        "compliant_operation_types": compliant_operations,
+        "total_operation_types": total_operation_types,
+        "total_operations": total_operations,
+        "operation_details": compliance_data,
     }
 
     return report
@@ -384,11 +357,11 @@ def export_prometheus_metrics() -> str:
     lines = []
 
     # Add help and type information
-    lines.append('# HELP memory_requests_total Total memory service requests')
-    lines.append('# TYPE memory_requests_total counter')
+    lines.append("# HELP memory_requests_total Total memory service requests")
+    lines.append("# TYPE memory_requests_total counter")
 
     # This is a simplified export - real implementation would use prometheus_client
     lines.append('memory_requests_total{operation_type="search",status="success"} 1234')
     lines.append('memory_requests_total{operation_type="upsert",status="success"} 567')
 
-    return '\n'.join(lines)
+    return "\n".join(lines)

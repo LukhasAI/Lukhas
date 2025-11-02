@@ -31,8 +31,9 @@ async def run_single_test(seed: int) -> dict:
         "prevention_rate": prevention_rate,
         "folds_created": metrics["folds_created"],
         "quarantined": metrics["quarantined_folds"],
-        "runtime_s": metrics["last_run_s"]
+        "runtime_s": metrics["last_run_s"],
     }
+
 
 async def main():
     """Run statistical analysis across multiple seeds."""
@@ -44,8 +45,10 @@ async def main():
     for seed in seeds:
         result = await run_single_test(seed)
         results.append(result)
-        print(f"Seed {seed:4d}: {result['prevention_rate']:.3f} prevention, "
-              f"{result['folds_created']:2d} folds, {result['quarantined']:2d} quarantined")
+        print(
+            f"Seed {seed:4d}: {result['prevention_rate']:.3f} prevention, "
+            f"{result['folds_created']:2d} folds, {result['quarantined']:2d} quarantined"
+        )
 
     # Statistical summary
     rates = [r["prevention_rate"] for r in results]
@@ -71,6 +74,7 @@ async def main():
     print(f"RUNTIME_MS: {statistics.mean(runtimes)*1000:.1f} ± {statistics.stdev(runtimes)*1000:.1f}")
     print("GUARDRAIL: ≤1000 folds/run enforced")
     print(f"SAMPLES: {len(results)}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

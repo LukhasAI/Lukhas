@@ -497,7 +497,9 @@ def test_consciousness_state_properties(consciousness_state):
     assert -1.0 <= consciousness_state["valence"] <= 1.0
 
 
-@given(coherence1=consciousness_coherence_strategy(), coherence2=consciousness_coherence_strategy())  # noqa: F821  # TODO: given
+@given(
+    coherence1=consciousness_coherence_strategy(), coherence2=consciousness_coherence_strategy()
+)  # noqa: F821  # TODO: given
 def test_coherence_transitivity(coherence1, coherence2):
     """Test consciousness coherence maintains transitivity"""
 

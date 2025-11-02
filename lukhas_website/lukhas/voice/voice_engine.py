@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class VoiceProfile:
     """Voice profile configuration"""
+
     name: str
     style: str = "consciousness"
     emotional_range: float = 0.7
@@ -24,16 +25,13 @@ class VoiceProfile:
 
     def __post_init__(self):
         if self.constellation_alignment is None:
-            self.constellation_alignment = {
-                "identity": 0.8,
-                "consciousness": 0.9,
-                "guardian": 0.7
-            }
+            self.constellation_alignment = {"identity": 0.8, "consciousness": 0.9, "guardian": 0.7}
 
 
 @dataclass
 class VoiceOutput:
     """Voice processing result"""
+
     original_text: str
     processed_text: str
     voice_profile: str
@@ -48,10 +46,12 @@ class VoiceEngine:
     Handles consciousness-aware voice synthesis and adaptation
     """
 
-    def __init__(self,
-                 default_profile: str = "consciousness",
-                 enable_consciousness_enhancement: bool = True,
-                 constellation_mode: bool = True):
+    def __init__(
+        self,
+        default_profile: str = "consciousness",
+        enable_consciousness_enhancement: bool = True,
+        constellation_mode: bool = True,
+    ):
         """Initialize voice engine"""
         self.default_profile = default_profile
         self.enable_consciousness_enhancement = enable_consciousness_enhancement
@@ -61,37 +61,18 @@ class VoiceEngine:
         # Initialize voice profiles
         self.profiles = {
             "consciousness": VoiceProfile(
-                name="consciousness",
-                style="contemplative",
-                emotional_range=0.8,
-                consciousness_depth=0.9
+                name="consciousness", style="contemplative", emotional_range=0.8, consciousness_depth=0.9
             ),
-            "identity": VoiceProfile(
-                name="identity",
-                style="authentic",
-                emotional_range=0.7,
-                consciousness_depth=0.7
-            ),
-            "guardian": VoiceProfile(
-                name="guardian",
-                style="protective",
-                emotional_range=0.6,
-                consciousness_depth=0.8
-            ),
-            "default": VoiceProfile(
-                name="default",
-                style="balanced",
-                emotional_range=0.6,
-                consciousness_depth=0.6
-            )
+            "identity": VoiceProfile(name="identity", style="authentic", emotional_range=0.7, consciousness_depth=0.7),
+            "guardian": VoiceProfile(name="guardian", style="protective", emotional_range=0.6, consciousness_depth=0.8),
+            "default": VoiceProfile(name="default", style="balanced", emotional_range=0.6, consciousness_depth=0.6),
         }
 
         logger.info(f"🎤 Voice Engine initialized with {len(self.profiles)} profiles")
 
-    def process(self,
-                text: str,
-                profile: Optional[str] = None,
-                consciousness_context: Optional[Dict[str, Any]] = None) -> VoiceOutput:
+    def process(
+        self, text: str, profile: Optional[str] = None, consciousness_context: Optional[Dict[str, Any]] = None
+    ) -> VoiceOutput:
         """
         Process text through voice engine
 
@@ -126,9 +107,7 @@ class VoiceEngine:
         processing_time = (time.time() - start_time) * 1000
 
         # Calculate consciousness metrics
-        consciousness_metrics = self._calculate_consciousness_metrics(
-            text, processed_text, voice_profile
-        )
+        consciousness_metrics = self._calculate_consciousness_metrics(text, processed_text, voice_profile)
 
         return VoiceOutput(
             original_text=text,
@@ -140,8 +119,8 @@ class VoiceEngine:
                 "voice_profile": voice_profile.name,
                 "style": voice_profile.style,
                 "constellation_mode": self.constellation_mode,
-                "enhancement_applied": self.enable_consciousness_enhancement
-            }
+                "enhancement_applied": self.enable_consciousness_enhancement,
+            },
         )
 
     def _apply_voice_transformation(self, text: str, profile: VoiceProfile) -> str:
@@ -152,7 +131,7 @@ class VoiceEngine:
         # Style-based transformations
         if profile.style == "contemplative":
             # Add consciousness-aware phrasing
-            if not text.endswith(('.', '!', '?')):
+            if not text.endswith((".", "!", "?")):
                 text += "."
             # Add contemplative depth
             text = self._add_contemplative_depth(text)
@@ -209,17 +188,16 @@ class VoiceEngine:
 
         return text
 
-    def _calculate_consciousness_metrics(self,
-                                       original: str,
-                                       processed: str,
-                                       profile: VoiceProfile) -> Dict[str, float]:
+    def _calculate_consciousness_metrics(
+        self, original: str, processed: str, profile: VoiceProfile
+    ) -> Dict[str, float]:
         """Calculate consciousness-related metrics"""
         return {
             "consciousness_depth": profile.consciousness_depth,
             "emotional_range": profile.emotional_range,
             "transformation_ratio": len(processed) / max(len(original), 1),
             "constellation_alignment": sum(profile.constellation_alignment.values()) / 3,
-            "voice_coherence": 0.85  # Placeholder for actual coherence calculation
+            "voice_coherence": 0.85,  # Placeholder for actual coherence calculation
         }
 
     # Helper methods for voice transformations
@@ -276,5 +254,5 @@ class VoiceEngine:
             "consciousness_enhancement": self.enable_consciousness_enhancement,
             "constellation_mode": self.constellation_mode,
             "available_profiles": len(self.profiles),
-            "profiles": list(self.profiles.keys())
+            "profiles": list(self.profiles.keys()),
         }

@@ -119,9 +119,7 @@ def test_malformed_json_in_register_endpoint_or_parser():
 
         url = base_url.rstrip("/") + "/api/v1/registry/register"
         # Send invalid body with content-type application/json
-        r = requests.post(
-            url, data=malformed, headers={"Content-Type": "application/json"}, timeout=5
-        )
+        r = requests.post(url, data=malformed, headers={"Content-Type": "application/json"}, timeout=5)
         assert r.status_code in (400, 422)
     else:
         with pytest.raises(json.JSONDecodeError):
@@ -162,9 +160,7 @@ def test_query_with_nonexistent_signal_or_capability():
         assert target_signal not in names
 
 
-@pytest.mark.xfail(
-    reason="Registry API not yet implemented; this test expects live HTTP 403 when available."
-)
+@pytest.mark.xfail(reason="Registry API not yet implemented; this test expects live HTTP 403 when available.")
 def test_register_missing_glymph_explicit_http_403_when_api_exists():
     base_url = os.environ.get("REGISTRY_BASE_URL")
     if not base_url:

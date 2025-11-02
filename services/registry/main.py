@@ -58,9 +58,7 @@ REGISTRY_SIG = ROOT_DIR / "services" / "registry" / "checkpoint.sig"
 REGISTRY_META = ROOT_DIR / "services" / "registry" / "checkpoint.meta.json"
 HMAC_KEY = os.environ.get("REGISTRY_HMAC_KEY", "test-key-please-rotate")
 SIGNER_ID = os.environ.get("REGISTRY_SIGNER_ID", "registry-dev-signer")
-TIMESTAMP_TOLERANCE_SECONDS = int(
-    os.environ.get("REGISTRY_TIMESTAMP_TOLERANCE_SECONDS", "300")
-)
+TIMESTAMP_TOLERANCE_SECONDS = int(os.environ.get("REGISTRY_TIMESTAMP_TOLERANCE_SECONDS", "300"))
 
 FORCE_HMAC = os.environ.get("REGISTRY_FORCE_HMAC", "0") in {"1", "true", "TRUE"}
 
@@ -116,9 +114,7 @@ def _compute_legacy_hmac(payload_bytes: bytes) -> str:
     return hmac.new(HMAC_KEY.encode(), payload_bytes, hashlib.sha256).hexdigest()
 
 
-def _build_signature_bundle(
-    payload: Dict[str, Any]
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+def _build_signature_bundle(payload: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
     Build signature bundle and metadata for checkpoint payload.
 
@@ -276,14 +272,10 @@ def load_checkpoint(*, allow_stale_reset: bool = False) -> None:
     global _store
 
     try:
-        _verify_signature_bundle(
-            payload, signature_bundle, raw_payload_bytes=payload_text.encode()
-        )
+        _verify_signature_bundle(payload, signature_bundle, raw_payload_bytes=payload_text.encode())
     except StaleCheckpointError:
         if allow_stale_reset:
-            logger.warning(
-                "Stale registry checkpoint detected during bootstrap; resetting store"
-            )
+            logger.warning("Stale registry checkpoint detected during bootstrap; resetting store")
             _purge_checkpoint_artifacts()
             _store = {}
             return
@@ -299,9 +291,7 @@ async def validate_node(req: Request):
     try:
         payload = await req.json()
     except Exception as e:
-        return JSONResponse(
-            status_code=400, content={"valid": False, "error": f"Invalid JSON: {e}"}
-        )
+        return JSONResponse(status_code=400, content={"valid": False, "error": f"Invalid JSON: {e}"})
 
     if not isinstance(payload, dict):
         return JSONResponse(

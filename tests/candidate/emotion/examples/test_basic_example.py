@@ -24,4 +24,3 @@ def test_build_emotion_snapshot_and_trace(monkeypatch) -> None:
     trace = example.render_symbolic_trace(snapshot)
     assert "affect_delta" in trace
     assert "driftScore" in trace
-

@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class BaseModel(PydanticBaseModel):
     """
     LUKHAS Base Model extending Pydantic BaseModel with LUKHAS-specific features.
-    
+
     This serves as the foundation for all LUKHAS data models, providing:
     - Constellation Framework awareness
     - Identity integration hooks
@@ -34,7 +34,7 @@ class BaseModel(PydanticBaseModel):
         # Preserve field order
         str_strip_whitespace=True,
         # Additional LUKHAS-specific config
-        extra='forbid'
+        extra="forbid",
     )
 
     # Optional LUKHAS-specific metadata
@@ -47,8 +47,8 @@ class BaseModel(PydanticBaseModel):
         data = self.model_dump()
 
         # Add LUKHAS metadata if available
-        if hasattr(self, '_lukhas_metadata'):
-            data['_lukhas'] = self._lukhas_metadata
+        if hasattr(self, "_lukhas_metadata"):
+            data["_lukhas"] = self._lukhas_metadata
 
         return data
 
@@ -59,15 +59,11 @@ class BaseModel(PydanticBaseModel):
         # Log model registration for Constellation Framework
         logger.debug(
             f"ΛTRACE: Registering LUKHAS model class: {cls.__name__}",
-            extra={
-                'model_class': cls.__name__,
-                'module': cls.__module__,
-                'constellation_aware': True
-            }
+            extra={"model_class": cls.__name__, "module": cls.__module__, "constellation_aware": True},
         )
 
 
 # Re-export for compatibility with auto-generated code
-__all__ = ['BaseModel', 'PydanticBaseModel']
+__all__ = ["BaseModel", "PydanticBaseModel"]
 
 logger.info("ΛTRACE: LUKHAS Core Models module initialized")

@@ -266,9 +266,7 @@ class PublicLambdaIDPreviewer:
             },
         }
 
-    def preview_lambda_id(
-        self, lambda_id: str, include_educational: bool = True
-    ) -> PreviewResult:
+    def preview_lambda_id(self, lambda_id: str, include_educational: bool = True) -> PreviewResult:
         """
         Preview and analyze a ΛiD with comprehensive feedback.
 
@@ -307,18 +305,14 @@ class PublicLambdaIDPreviewer:
             if format_info["type"] == "commercial":
                 validation_result = self._validate_commercial_lambda_id(lambda_id)
             else:
-                validation_result = self.validator.validate_lambda_id(
-                    lambda_id, validation_level="full"
-                )
+                validation_result = self.validator.validate_lambda_id(lambda_id, validation_level="full")
 
             result.is_valid = (
                 validation_result.valid
                 if hasattr(validation_result, "valid")
                 else validation_result.get("valid", False)
             )
-            result.validation_details = self._format_validation_details(
-                validation_result
-            )
+            result.validation_details = self._format_validation_details(validation_result)
 
             # Extract tier information
             if result.is_valid:
@@ -326,25 +320,15 @@ class PublicLambdaIDPreviewer:
 
                 # Calculate entropy
                 if result.tier is not None:
-                    result.entropy_score = self.entropy_engine.calculate_entropy(
-                        lambda_id, result.tier
-                    )
-                    entropy_analysis = self.entropy_engine.analyze_entropy(
-                        lambda_id, result.tier
-                    )
-                    result.entropy_level = entropy_analysis.get(
-                        "entropy_level", "unknown"
-                    )
+                    result.entropy_score = self.entropy_engine.calculate_entropy(lambda_id, result.tier)
+                    entropy_analysis = self.entropy_engine.analyze_entropy(lambda_id, result.tier)
+                    result.entropy_level = entropy_analysis.get("entropy_level", "unknown")
 
                     # Generate analysis
-                    result.analysis = self._generate_analysis(
-                        lambda_id, format_info, entropy_analysis
-                    )
+                    result.analysis = self._generate_analysis(lambda_id, format_info, entropy_analysis)
 
                     # Generate suggestions
-                    result.suggestions = self._generate_suggestions(
-                        lambda_id, format_info, entropy_analysis
-                    )
+                    result.suggestions = self._generate_suggestions(lambda_id, format_info, entropy_analysis)
 
             # Check for warnings
             result.warnings = self._generate_warnings(lambda_id, format_info, result)
@@ -367,9 +351,7 @@ class PublicLambdaIDPreviewer:
         sanitized = input_string.strip()[:100]  # Max 100 chars
 
         # Remove control characters except printable ones
-        sanitized = "".join(
-            char for char in sanitized if ord(char) >= 32 or char in "\t\n\r"
-        )
+        sanitized = "".join(char for char in sanitized if ord(char) >= 32 or char in "\t\n\r")
 
         return sanitized
 
@@ -381,9 +363,7 @@ class PublicLambdaIDPreviewer:
         standard_pattern = r"^LUKHAS(\d)-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"
 
         # Commercial format: LUKHAS©{brand}-{tier}-{timestamp}-{symbolic}-{entropy}
-        commercial_pattern = (
-            r"^LUKHAS©([A-Z0-9]{2,8})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
-        )
+        commercial_pattern = r"^LUKHAS©([A-Z0-9]{2,8})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
 
         # Enterprise format:
         # LUKHAS⬟{brand}-{division}-{tier}-{timestamp}-{symbolic}-{entropy}
@@ -457,15 +437,11 @@ class PublicLambdaIDPreviewer:
                 "commercial_tier_match": True,
                 "symbolic_char_authorized": True,
             },
-            "warnings": [
-                "This is a demo validation - commercial ΛiDs require verification"
-            ],
+            "warnings": ["This is a demo validation - commercial ΛiDs require verification"],
             "errors": [],
         }
 
-    def _extract_tier(
-        self, lambda_id: str, format_info: dict[str, Any]
-    ) -> Optional[int]:
+    def _extract_tier(self, lambda_id: str, format_info: dict[str, Any]) -> Optional[int]:
         """Extract tier information from ΛiD."""
         if format_info["type"] in ["standard", "commercial"]:
             return format_info["components"].get("tier")
@@ -479,9 +455,7 @@ class PublicLambdaIDPreviewer:
                 "errors": getattr(validation_result, "errors", []),
                 "warnings": getattr(validation_result, "warnings", []),
                 "checks_passed": getattr(validation_result, "checks_passed", []),
-                "validation_level": getattr(
-                    validation_result, "validation_level", "unknown"
-                ),
+                "validation_level": getattr(validation_result, "validation_level", "unknown"),
             }
         elif isinstance(validation_result, dict):
             return validation_result
@@ -523,12 +497,8 @@ class PublicLambdaIDPreviewer:
             analysis["tier"] = {
                 "number": tier,
                 "name": self.educational_content["tier_explanations"][tier]["name"],
-                "description": self.educational_content["tier_explanations"][tier][
-                    "description"
-                ],
-                "features": self.educational_content["tier_explanations"][tier][
-                    "features"
-                ],
+                "description": self.educational_content["tier_explanations"][tier]["description"],
+                "features": self.educational_content["tier_explanations"][tier]["features"],
             }
 
         # Add commercial-specific analysis
@@ -536,15 +506,11 @@ class PublicLambdaIDPreviewer:
             analysis["commercial"] = {
                 "subtype": format_info.get("subtype", "business"),
                 "brand_code": format_info["components"].get("brand_code", ""),
-                "benefits": self._get_commercial_benefits(
-                    format_info.get("subtype", "business")
-                ),
+                "benefits": self._get_commercial_benefits(format_info.get("subtype", "business")),
             }
 
             if "division" in format_info["components"]:
-                analysis["commercial"]["division"] = format_info["components"][
-                    "division"
-                ]
+                analysis["commercial"]["division"] = format_info["components"]["division"]
 
         return analysis
 
@@ -572,17 +538,13 @@ class PublicLambdaIDPreviewer:
         else:
             return "poor"
 
-    def _get_security_recommendations(
-        self, entropy_analysis: dict[str, Any]
-    ) -> list[str]:
+    def _get_security_recommendations(self, entropy_analysis: dict[str, Any]) -> list[str]:
         """Get security recommendations based on entropy analysis."""
         recommendations = []
         score = entropy_analysis.get("overall_score", 0)
 
         if score < 1.5:
-            recommendations.append(
-                "Consider upgrading to a higher tier for better entropy options"
-            )
+            recommendations.append("Consider upgrading to a higher tier for better entropy options")
             recommendations.append("Use Unicode symbolic characters when available")
 
         if score < 2.5:
@@ -634,17 +596,13 @@ class PublicLambdaIDPreviewer:
         if format_info["type"] == "standard":
             tier = format_info["components"].get("tier", 0)
             if tier < 2:
-                suggestions.append(
-                    "Tier 2+ includes emoji support and recovery features"
-                )
+                suggestions.append("Tier 2+ includes emoji support and recovery features")
             if tier < 4:
                 suggestions.append("Tier 4+ includes live entropy optimization")
 
         # Commercial suggestions
         if format_info["type"] == "commercial" and format_info.get("subtype") == "business":
-            suggestions.append(
-                "Enterprise tier offers division support and advanced features"
-            )
+            suggestions.append("Enterprise tier offers division support and advanced features")
 
         return suggestions
 
@@ -667,26 +625,20 @@ class PublicLambdaIDPreviewer:
 
         # Commercial warnings
         if format_info["type"] == "commercial":
-            warnings.append(
-                "Commercial ΛiD preview - actual validation requires commercial account"
-            )
+            warnings.append("Commercial ΛiD preview - actual validation requires commercial account")
 
         return warnings
 
     def _get_educational_content(self, result: PreviewResult) -> dict[str, Any]:
         """Get relevant educational content based on the preview result."""
         content = {
-            "format_guide": self.educational_content["format_guide"].get(
-                result.format_type, {}
-            ),
+            "format_guide": self.educational_content["format_guide"].get(result.format_type, {}),
             "entropy_guide": self.educational_content["entropy_guide"],
         }
 
         # Add tier-specific content
         if result.tier is not None:
-            content["tier_info"] = self.educational_content["tier_explanations"].get(
-                result.tier, {}
-            )
+            content["tier_info"] = self.educational_content["tier_explanations"].get(result.tier, {})
 
         # Add related demos
         content["related_demos"] = self._get_related_demos(result)
@@ -701,10 +653,12 @@ class PublicLambdaIDPreviewer:
         for tier, demo_id in self.demo_lambda_ids.items():
             tier_num = int(tier.split("_")[1])
             demos.append(
-                {"id": demo_id,
-                 "description":
-                 f"Tier {tier_num} ({self.educational_content['tier_explanations'][tier_num]['name']}) Example",
-                 "category": "tier_demo", })
+                {
+                    "id": demo_id,
+                    "description": f"Tier {tier_num} ({self.educational_content['tier_explanations'][tier_num]['name']}) Example",
+                    "category": "tier_demo",
+                }
+            )
 
         # Add commercial demos
         for commercial_type, demo_id in self.commercial_demo_ids.items():
@@ -718,9 +672,7 @@ class PublicLambdaIDPreviewer:
 
         return demos
 
-    def generate_demo_lambda_id(
-        self, tier: int = 2, format_type: str = "standard"
-    ) -> dict[str, Any]:
+    def generate_demo_lambda_id(self, tier: int = 2, format_type: str = "standard") -> dict[str, Any]:
         """Generate a demo ΛiD for educational purposes."""
         try:
             if format_type == "standard":
@@ -735,14 +687,10 @@ class PublicLambdaIDPreviewer:
                     entropy_hash = "".join(random.choices("ABCDEF0123456789", k=4))
 
                     # Get tier-appropriate symbolic character
-                    tier_symbols = self.educational_content["tier_explanations"][tier][
-                        "symbolic_chars"
-                    ]
+                    tier_symbols = self.educational_content["tier_explanations"][tier]["symbolic_chars"]
                     symbolic_char = random.choice(tier_symbols)
 
-                    demo_id = (
-                        f"LUKHAS{tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
-                    )
+                    demo_id = f"LUKHAS{tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
 
                 return {
                     "success": True,
@@ -798,25 +746,16 @@ class PublicLambdaIDPreviewer:
                 "beta_access": [False, False, False, False, False, True],
             },
             "symbolic_character_access": {
-                tier: info["symbolic_chars"]
-                for tier, info in self.educational_content["tier_explanations"].items()
+                tier: info["symbolic_chars"] for tier, info in self.educational_content["tier_explanations"].items()
             },
             "upgrade_paths": {
                 tier: {
                     "next_tier": tier + 1 if tier < 5 else None,
                     "benefits": (
-                        self.educational_content["tier_explanations"][tier + 1][
-                            "features"
-                        ]
-                        if tier < 5
-                        else []
+                        self.educational_content["tier_explanations"][tier + 1]["features"] if tier < 5 else []
                     ),
                     "new_symbols": (
-                        self.educational_content["tier_explanations"][tier + 1][
-                            "symbolic_chars"
-                        ]
-                        if tier < 5
-                        else []
+                        self.educational_content["tier_explanations"][tier + 1]["symbolic_chars"] if tier < 5 else []
                     ),
                 }
                 for tier in range(6)
@@ -885,13 +824,10 @@ class PublicLambdaIDPreviewer:
                         # Get tier-specific suggestions
                         tier_info = self.educational_content["tier_explanations"][tier]
                         analysis["next_character_suggestions"] = [
-                            f"Use {char} for tier {tier}"
-                            for char in tier_info["symbolic_chars"][:3]
+                            f"Use {char} for tier {tier}" for char in tier_info["symbolic_chars"][:3]
                         ]
                     else:
-                        analysis["format_validation"]["errors"].append(
-                            f"Invalid tier: {tier}"
-                        )
+                        analysis["format_validation"]["errors"].append(f"Invalid tier: {tier}")
 
                 # Estimate current entropy
                 if len(partial_lambda_id) > 2:
@@ -900,9 +836,7 @@ class PublicLambdaIDPreviewer:
                     analysis["current_entropy"] = min(unique_chars * 0.3, 4.0)
 
             else:
-                analysis["format_validation"]["errors"].append(
-                    "Must start with LUKHAS symbol"
-                )
+                analysis["format_validation"]["errors"].append("Must start with LUKHAS symbol")
                 analysis["suggestions"].append("Start with the lambda symbol: LUKHAS")
 
         except Exception as e:
@@ -963,6 +897,7 @@ class PublicLambdaIDPreviewer:
                 "Commercial features shown as demos only",
             ],
         }
+
 
 # Web Interface HTML Template (for reference)
 

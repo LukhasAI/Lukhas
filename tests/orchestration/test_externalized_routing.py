@@ -127,23 +127,14 @@ class TestRoutingStrategies:
         """Sample provider health data"""
         return {
             "openai": ProviderHealth(
-                provider="openai",
-                status=HealthStatus.HEALTHY,
-                avg_latency_ms=150.0,
-                success_rate=0.98
+                provider="openai", status=HealthStatus.HEALTHY, avg_latency_ms=150.0, success_rate=0.98
             ),
             "anthropic": ProviderHealth(
-                provider="anthropic",
-                status=HealthStatus.HEALTHY,
-                avg_latency_ms=200.0,
-                success_rate=0.97
+                provider="anthropic", status=HealthStatus.HEALTHY, avg_latency_ms=200.0, success_rate=0.97
             ),
             "google": ProviderHealth(
-                provider="google",
-                status=HealthStatus.DEGRADED,
-                avg_latency_ms=300.0,
-                success_rate=0.92
-            )
+                provider="google", status=HealthStatus.DEGRADED, avg_latency_ms=300.0, success_rate=0.92
+            ),
         }
 
     @pytest.fixture
@@ -152,7 +143,7 @@ class TestRoutingStrategies:
         return {
             "openai": CircuitBreaker(provider="openai", state=CircuitBreakerState.CLOSED),
             "anthropic": CircuitBreaker(provider="anthropic", state=CircuitBreakerState.CLOSED),
-            "google": CircuitBreaker(provider="google", state=CircuitBreakerState.CLOSED)
+            "google": CircuitBreaker(provider="google", state=CircuitBreakerState.CLOSED),
         }
 
     @pytest.fixture
@@ -165,20 +156,16 @@ class TestRoutingStrategies:
             providers=["openai", "anthropic", "google"],
             weights={"openai": 0.5, "anthropic": 0.3, "google": 0.2},
             health_threshold=0.95,
-            latency_threshold_ms=250.0
+            latency_threshold_ms=250.0,
         )
 
     @pytest.fixture
     def routing_context(self):
         """Sample routing context"""
-        return RoutingContext(
-            session_id="test_session",
-            request_type="test_request"
-        )
+        return RoutingContext(session_id="test_session", request_type="test_request")
 
     @pytest.mark.asyncio
-    async def test_round_robin_strategy(self, sample_rule, routing_context,
-                                       sample_providers, sample_circuit_breakers):
+    async def test_round_robin_strategy(self, sample_rule, routing_context, sample_providers, sample_circuit_breakers):
         """Test round-robin routing strategy"""
         strategy = RoundRobinStrategy()
         sample_rule.strategy = RoutingStrategy.ROUND_ROBIN
@@ -196,8 +183,7 @@ class TestRoutingStrategies:
         assert len(set(selected_providers)) >= 2  # At least 2 different providers
 
     @pytest.mark.asyncio
-    async def test_weighted_strategy(self, sample_rule, routing_context,
-                                    sample_providers, sample_circuit_breakers):
+    async def test_weighted_strategy(self, sample_rule, routing_context, sample_providers, sample_circuit_breakers):
         """Test weighted routing strategy"""
         strategy = WeightedStrategy()
         sample_rule.strategy = RoutingStrategy.WEIGHTED
@@ -221,51 +207,44 @@ class TestRoutingStrategies:
             assert provider_counts["openai"] > provider_counts.get("google", 0)
 
     @pytest.mark.asyncio
-    async def test_health_based_strategy(self, sample_rule, routing_context,
-                                        sample_providers, sample_circuit_breakers):
+    async def test_health_based_strategy(self, sample_rule, routing_context, sample_providers, sample_circuit_breakers):
         """Test health-based routing strategy"""
         strategy = HealthBasedStrategy()
         sample_rule.strategy = RoutingStrategy.HEALTH_BASED
 
-        result = await strategy.select_provider(
-            sample_rule, routing_context, sample_providers, sample_circuit_breakers
-        )
+        result = await strategy.select_provider(sample_rule, routing_context, sample_providers, sample_circuit_breakers)
 
         assert result is not None
         # Should prefer healthier providers (openai or anthropic over google)
         assert result.provider in ["openai", "anthropic"]
 
     @pytest.mark.asyncio
-    async def test_latency_based_strategy(self, sample_rule, routing_context,
-                                         sample_providers, sample_circuit_breakers):
+    async def test_latency_based_strategy(
+        self, sample_rule, routing_context, sample_providers, sample_circuit_breakers
+    ):
         """Test latency-based routing strategy"""
         strategy = LatencyBasedStrategy()
         sample_rule.strategy = RoutingStrategy.LATENCY_BASED
 
-        result = await strategy.select_provider(
-            sample_rule, routing_context, sample_providers, sample_circuit_breakers
-        )
+        result = await strategy.select_provider(sample_rule, routing_context, sample_providers, sample_circuit_breakers)
 
         assert result is not None
         # Should prefer lower latency provider (openai: 150ms)
         assert result.provider == "openai"
 
     @pytest.mark.asyncio
-    async def test_circuit_breaker_behavior(self, sample_rule, routing_context,
-                                           sample_providers):
+    async def test_circuit_breaker_behavior(self, sample_rule, routing_context, sample_providers):
         """Test circuit breaker behavior"""
         # Create circuit breakers with one open
         circuit_breakers = {
             "openai": CircuitBreaker(provider="openai", state=CircuitBreakerState.OPEN),
             "anthropic": CircuitBreaker(provider="anthropic", state=CircuitBreakerState.CLOSED),
-            "google": CircuitBreaker(provider="google", state=CircuitBreakerState.CLOSED)
+            "google": CircuitBreaker(provider="google", state=CircuitBreakerState.CLOSED),
         }
 
         strategy = RoundRobinStrategy()
 
-        result = await strategy.select_provider(
-            sample_rule, routing_context, sample_providers, circuit_breakers
-        )
+        result = await strategy.select_provider(sample_rule, routing_context, sample_providers, circuit_breakers)
 
         # Should not select openai (circuit breaker open)
         assert result is not None
@@ -276,34 +255,20 @@ class TestRoutingStrategies:
         """Test behavior when no providers are available"""
         # All providers unhealthy
         unhealthy_providers = {
-            "openai": ProviderHealth(
-                provider="openai",
-                status=HealthStatus.UNHEALTHY,
-                consecutive_failures=5
-            ),
-            "anthropic": ProviderHealth(
-                provider="anthropic",
-                status=HealthStatus.UNHEALTHY,
-                consecutive_failures=5
-            ),
-            "google": ProviderHealth(
-                provider="google",
-                status=HealthStatus.UNHEALTHY,
-                consecutive_failures=5
-            )
+            "openai": ProviderHealth(provider="openai", status=HealthStatus.UNHEALTHY, consecutive_failures=5),
+            "anthropic": ProviderHealth(provider="anthropic", status=HealthStatus.UNHEALTHY, consecutive_failures=5),
+            "google": ProviderHealth(provider="google", status=HealthStatus.UNHEALTHY, consecutive_failures=5),
         }
 
         circuit_breakers = {
             "openai": CircuitBreaker(provider="openai", state=CircuitBreakerState.CLOSED),
             "anthropic": CircuitBreaker(provider="anthropic", state=CircuitBreakerState.CLOSED),
-            "google": CircuitBreaker(provider="google", state=CircuitBreakerState.CLOSED)
+            "google": CircuitBreaker(provider="google", state=CircuitBreakerState.CLOSED),
         }
 
         strategy = HealthBasedStrategy()
 
-        result = await strategy.select_provider(
-            sample_rule, routing_context, unhealthy_providers, circuit_breakers
-        )
+        result = await strategy.select_provider(sample_rule, routing_context, unhealthy_providers, circuit_breakers)
 
         # Should return None when no providers available
         assert result is None
@@ -321,7 +286,7 @@ class TestHealthMonitoring:
     @pytest.mark.asyncio
     async def test_health_check_execution(self, health_monitor):
         """Test health check execution"""
-        with patch('orchestration.providers.create_provider_client') as mock_client_factory:
+        with patch("orchestration.providers.create_provider_client") as mock_client_factory:
             # Mock client response
             mock_client = AsyncMock()
             mock_response = MagicMock()
@@ -341,12 +306,7 @@ class TestHealthMonitoring:
     async def test_health_status_calculation(self, health_monitor):
         """Test health status calculation"""
         # Test healthy status
-        health = ProviderHealth(
-            provider="test",
-            avg_latency_ms=100.0,
-            success_rate=0.99,
-            consecutive_failures=0
-        )
+        health = ProviderHealth(provider="test", avg_latency_ms=100.0, success_rate=0.99, consecutive_failures=0)
 
         status = health_monitor._calculate_health_status(health)
         assert status == HealthStatus.HEALTHY
@@ -363,12 +323,7 @@ class TestHealthMonitoring:
     async def test_health_score_calculation(self, health_monitor):
         """Test health score calculation"""
         # Perfect health
-        health = ProviderHealth(
-            provider="test",
-            avg_latency_ms=50.0,
-            success_rate=1.0,
-            consecutive_failures=0
-        )
+        health = ProviderHealth(provider="test", avg_latency_ms=50.0, success_rate=1.0, consecutive_failures=0)
 
         score = health_monitor._calculate_health_score(health)
         assert score == 100.0
@@ -399,14 +354,12 @@ class TestContextPreservation:
         context_data = {
             "conversation_history": ["Hello", "Hi there"],
             "user_preferences": {"theme": "dark"},
-            "metadata": {"timestamp": time.time()}
+            "metadata": {"timestamp": time.time()},
         }
 
         # Preserve context
         context_id = await context_engine.preserve_context(
-            session_id=session_id,
-            context_data=context_data,
-            context_type=ContextType.CONVERSATION
+            session_id=session_id, context_data=context_data, context_type=ContextType.CONVERSATION
         )
 
         assert context_id is not None
@@ -428,13 +381,11 @@ class TestContextPreservation:
         large_context = {
             "large_text": "This is a large text that should be compressed. " * 1000,
             "data": list(range(1000)),
-            "metadata": {"compressed": True}
+            "metadata": {"compressed": True},
         }
 
         context_id = await context_engine.preserve_context(
-            session_id=session_id,
-            context_data=large_context,
-            compression_level=CompressionLevel.AGGRESSIVE
+            session_id=session_id, context_data=large_context, compression_level=CompressionLevel.AGGRESSIVE
         )
 
         # Verify preservation and restoration
@@ -449,17 +400,14 @@ class TestContextPreservation:
         session_id = "test_session"
         context_data = {"test": "handoff_data"}
 
-        context_id = await context_engine.preserve_context(
-            session_id=session_id,
-            context_data=context_data
-        )
+        context_id = await context_engine.preserve_context(session_id=session_id, context_data=context_data)
 
         # Perform handoff
         success = await context_engine.handoff_context(
             context_id=context_id,
             source_provider="openai",
             destination_provider="anthropic",
-            additional_metadata={"handoff_reason": "load_balancing"}
+            additional_metadata={"handoff_reason": "load_balancing"},
         )
 
         assert success is True
@@ -478,9 +426,7 @@ class TestContextPreservation:
 
         # Preserve with very short TTL
         context_id = await context_engine.preserve_context(
-            session_id=session_id,
-            context_data=context_data,
-            ttl_seconds=1  # 1 second TTL
+            session_id=session_id, context_data=context_data, ttl_seconds=1  # 1 second TTL
         )
 
         # Should be available immediately
@@ -501,10 +447,12 @@ class TestExternalizedOrchestrator:
     @pytest.fixture
     async def orchestrator(self):
         """Create test orchestrator with mocked components"""
-        with patch('orchestration.externalized_orchestrator.get_routing_config_manager'), \
-             patch('orchestration.externalized_orchestrator.get_health_monitor'), \
-             patch('orchestration.externalized_orchestrator.get_context_preservation_engine'), \
-             patch('orchestration.externalized_orchestrator.create_provider_client'):
+        with (
+            patch("orchestration.externalized_orchestrator.get_routing_config_manager"),
+            patch("orchestration.externalized_orchestrator.get_health_monitor"),
+            patch("orchestration.externalized_orchestrator.get_context_preservation_engine"),
+            patch("orchestration.externalized_orchestrator.create_provider_client"),
+        ):
 
             orchestrator = ExternalizedOrchestrator()
 
@@ -522,10 +470,7 @@ class TestExternalizedOrchestrator:
         """Test complete orchestration request processing"""
         # Mock configuration
         mock_rule = RoutingRule(
-            name="test_rule",
-            pattern="test",
-            strategy=RoutingStrategy.HEALTH_BASED,
-            providers=["openai"]
+            name="test_rule", pattern="test", strategy=RoutingStrategy.HEALTH_BASED, providers=["openai"]
         )
 
         orchestrator.config_manager.get_configuration = MagicMock()
@@ -533,23 +478,22 @@ class TestExternalizedOrchestrator:
 
         # Mock routing result
         from orchestration.routing_strategies import RoutingResult
+
         mock_routing_result = RoutingResult(
             provider="openai",
             strategy_used=RoutingStrategy.HEALTH_BASED,
             reason="Health-based selection",
             confidence=0.9,
-            fallback_available=True
+            fallback_available=True,
         )
 
         orchestrator.routing_engine.route_request = AsyncMock(return_value=mock_routing_result)
         orchestrator.health_monitor.get_all_provider_health = AsyncMock(return_value={})
 
         # Mock provider execution
-        orchestrator._execute_with_provider = AsyncMock(return_value={
-            "content": "Test response",
-            "usage": {"total_tokens": 100},
-            "finish_reason": "stop"
-        })
+        orchestrator._execute_with_provider = AsyncMock(
+            return_value={"content": "Test response", "usage": {"total_tokens": 100}, "finish_reason": "stop"}
+        )
 
         # Mock context preservation
         orchestrator.context_engine.preserve_context = AsyncMock(return_value="test_context_id")
@@ -559,7 +503,7 @@ class TestExternalizedOrchestrator:
             session_id="test_session",
             request_type=RequestType.SINGLE_SHOT,
             prompt="Test prompt",
-            context_data={"test": "data"}
+            context_data={"test": "data"},
         )
 
         # Execute orchestration
@@ -576,14 +520,10 @@ class TestExternalizedOrchestrator:
     async def test_orchestration_error_handling(self, orchestrator):
         """Test orchestration error handling"""
         # Mock configuration to raise error
-        orchestrator.config_manager.get_rule_for_request = MagicMock(
-            side_effect=Exception("Configuration error")
-        )
+        orchestrator.config_manager.get_rule_for_request = MagicMock(side_effect=Exception("Configuration error"))
 
         request = OrchestrationRequest(
-            session_id="test_session",
-            request_type=RequestType.SINGLE_SHOT,
-            prompt="Test prompt"
+            session_id="test_session", request_type=RequestType.SINGLE_SHOT, prompt="Test prompt"
         )
 
         # Should raise exception
@@ -602,10 +542,7 @@ class TestExternalizedOrchestrator:
 
         # Rest of test setup...
         mock_rule = RoutingRule(
-            name="test_rule",
-            pattern="test",
-            strategy=RoutingStrategy.HEALTH_BASED,
-            providers=["openai"]
+            name="test_rule", pattern="test", strategy=RoutingStrategy.HEALTH_BASED, providers=["openai"]
         )
 
         orchestrator.config_manager.get_rule_for_request = MagicMock(return_value=mock_rule)
@@ -626,18 +563,15 @@ class TestPerformanceBenchmarks:
             name="benchmark_rule",
             pattern="test",
             strategy=RoutingStrategy.HEALTH_BASED,
-            providers=["openai", "anthropic", "google"]
+            providers=["openai", "anthropic", "google"],
         )
 
-        context = RoutingContext(
-            session_id="benchmark_session",
-            request_type="benchmark"
-        )
+        context = RoutingContext(session_id="benchmark_session", request_type="benchmark")
 
         provider_health = {
             "openai": ProviderHealth(provider="openai", status=HealthStatus.HEALTHY),
             "anthropic": ProviderHealth(provider="anthropic", status=HealthStatus.HEALTHY),
-            "google": ProviderHealth(provider="google", status=HealthStatus.HEALTHY)
+            "google": ProviderHealth(provider="google", status=HealthStatus.HEALTHY),
         }
 
         # Measure routing decision time
@@ -664,19 +598,14 @@ class TestPerformanceBenchmarks:
         context_data = {"test": "benchmark_data", "size": "x" * 1000}  # 1KB data
 
         # Preserve context
-        context_id = await engine.preserve_context(
-            session_id="benchmark_session",
-            context_data=context_data
-        )
+        context_id = await engine.preserve_context(session_id="benchmark_session", context_data=context_data)
 
         # Measure handoff time
         start_time = time.time()
 
         for _ in range(50):  # 50 iterations
             success = await engine.handoff_context(
-                context_id=context_id,
-                source_provider="provider_a",
-                destination_provider="provider_b"
+                context_id=context_id, source_provider="provider_a", destination_provider="provider_b"
             )
             assert success is True
 
@@ -704,7 +633,7 @@ class TestFailoverScenarios:
             pattern="test",
             strategy=RoutingStrategy.HEALTH_BASED,
             providers=["failing_provider", "backup_provider"],
-            fallback_providers=["backup_provider"]
+            fallback_providers=["backup_provider"],
         )
 
         context = RoutingContext(session_id="failover_test", request_type="test")
@@ -712,14 +641,9 @@ class TestFailoverScenarios:
         # Primary provider unhealthy, backup healthy
         provider_health = {
             "failing_provider": ProviderHealth(
-                provider="failing_provider",
-                status=HealthStatus.UNHEALTHY,
-                consecutive_failures=5
+                provider="failing_provider", status=HealthStatus.UNHEALTHY, consecutive_failures=5
             ),
-            "backup_provider": ProviderHealth(
-                provider="backup_provider",
-                status=HealthStatus.HEALTHY
-            )
+            "backup_provider": ProviderHealth(provider="backup_provider", status=HealthStatus.HEALTHY),
         }
 
         result = await routing_engine.route_request(rule, context, provider_health)
@@ -735,15 +659,14 @@ class TestFailoverScenarios:
 
         # Simulate circuit breaker opening due to failures
         routing_engine.circuit_breakers["failing_provider"] = CircuitBreaker(
-            provider="failing_provider",
-            state=CircuitBreakerState.OPEN
+            provider="failing_provider", state=CircuitBreakerState.OPEN
         )
 
         rule = RoutingRule(
             name="circuit_breaker_rule",
             pattern="test",
             strategy=RoutingStrategy.ROUND_ROBIN,
-            providers=["failing_provider", "working_provider"]
+            providers=["failing_provider", "working_provider"],
         )
 
         context = RoutingContext(session_id="circuit_test", request_type="test")
@@ -751,12 +674,9 @@ class TestFailoverScenarios:
         provider_health = {
             "failing_provider": ProviderHealth(
                 provider="failing_provider",
-                status=HealthStatus.HEALTHY  # Health looks good but circuit breaker is open
+                status=HealthStatus.HEALTHY,  # Health looks good but circuit breaker is open
             ),
-            "working_provider": ProviderHealth(
-                provider="working_provider",
-                status=HealthStatus.HEALTHY
-            )
+            "working_provider": ProviderHealth(provider="working_provider", status=HealthStatus.HEALTHY),
         }
 
         result = await routing_engine.route_request(rule, context, provider_health)
@@ -775,25 +695,18 @@ class TestFailoverScenarios:
             pattern="test",
             strategy=RoutingStrategy.HEALTH_BASED,
             providers=["provider_1", "provider_2", "provider_3"],
-            fallback_providers=["provider_3"]
+            fallback_providers=["provider_3"],
         )
 
         context = RoutingContext(session_id="resilience_test", request_type="test")
 
         # Multiple providers failing
         provider_health = {
-            "provider_1": ProviderHealth(
-                provider="provider_1",
-                status=HealthStatus.UNHEALTHY
-            ),
-            "provider_2": ProviderHealth(
-                provider="provider_2",
-                status=HealthStatus.UNHEALTHY
-            ),
+            "provider_1": ProviderHealth(provider="provider_1", status=HealthStatus.UNHEALTHY),
+            "provider_2": ProviderHealth(provider="provider_2", status=HealthStatus.UNHEALTHY),
             "provider_3": ProviderHealth(
-                provider="provider_3",
-                status=HealthStatus.DEGRADED  # Only degraded, still usable
-            )
+                provider="provider_3", status=HealthStatus.DEGRADED  # Only degraded, still usable
+            ),
         }
 
         result = await routing_engine.route_request(rule, context, provider_health)

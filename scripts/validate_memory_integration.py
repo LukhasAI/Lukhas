@@ -43,5 +43,6 @@ async def main():
     prevention_rate = round(ok_count / max(1, len(reports)), 4)
     print("CASCADE_PREVENTION_RATE:", prevention_rate)
 
+
 if __name__ == "__main__":
     asyncio.run(main())

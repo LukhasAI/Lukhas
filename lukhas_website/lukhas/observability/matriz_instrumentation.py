@@ -44,9 +44,11 @@ if OTEL_AVAILABLE:
 
 logger = logging.getLogger(__name__)
 
+
 # Cognitive stage definitions matching MATRIZ pipeline
 class CognitiveStage(Enum):
     """MATRIZ cognitive pipeline stages"""
+
     MEMORY = "memory"
     ATTENTION = "attention"
     THOUGHT = "thought"
@@ -54,13 +56,16 @@ class CognitiveStage(Enum):
     DECISION = "decision"
     AWARENESS = "awareness"
 
+
 # Cognitive-specific metrics
 _cognitive_metrics = {}
 _cognitive_initialized = False
 
+
 @dataclass
 class CognitiveMetrics:
     """Container for cognitive-specific metrics"""
+
     stage_duration_histogram: Any = None
     stage_events_counter: Any = None
     focus_drift_gauge: Any = None
@@ -71,6 +76,7 @@ class CognitiveMetrics:
     reasoning_depth_histogram: Any = None
     cognitive_load_gauge: Any = None
     anomaly_detection_counter: Any = None
+
 
 def initialize_cognitive_instrumentation(enable_metrics: bool = True) -> bool:
     """
@@ -97,68 +103,57 @@ def initialize_cognitive_instrumentation(enable_metrics: bool = True) -> bool:
             stage_duration_histogram=meter.create_histogram(
                 name="matriz_cognitive_stage_duration_seconds",
                 description="Duration of MATRIZ cognitive stage execution",
-                unit="s"
+                unit="s",
             ),
-
             stage_events_counter=meter.create_counter(
                 name="matriz_cognitive_stage_events_total",
                 description="Total cognitive stage events by outcome",
-                unit="1"
+                unit="1",
             ),
-
             # Attention and focus metrics
             focus_drift_gauge=meter.create_up_down_counter(
                 name="matriz_focus_drift_score",
                 description="Attention focus drift score (higher = more drift)",
-                unit="1"
+                unit="1",
             ),
-
             attention_weight_histogram=meter.create_histogram(
                 name="matriz_attention_weight_distribution",
                 description="Distribution of attention weights across nodes",
-                unit="1"
+                unit="1",
             ),
-
             # Memory system metrics
             memory_cascade_risk_gauge=meter.create_up_down_counter(
                 name="matriz_memory_cascade_risk",
                 description="Memory cascade risk score (0-1, higher = more risk)",
-                unit="1"
+                unit="1",
             ),
-
             # Thought processing metrics
             thought_complexity_gauge=meter.create_up_down_counter(
                 name="matriz_thought_complexity_score",
                 description="Complexity score for thought processing (reasoning depth, logic chains)",
-                unit="1"
+                unit="1",
             ),
-
             reasoning_depth_histogram=meter.create_histogram(
                 name="matriz_reasoning_depth_levels",
                 description="Distribution of reasoning depth in thought processing",
-                unit="1"
+                unit="1",
             ),
-
             # Decision making metrics
             decision_confidence_gauge=meter.create_up_down_counter(
                 name="matriz_decision_confidence_score",
                 description="Confidence score for decision making (0-1)",
-                unit="1"
+                unit="1",
             ),
-
             # Overall cognitive load
             cognitive_load_gauge=meter.create_up_down_counter(
-                name="matriz_cognitive_load",
-                description="Overall cognitive load across pipeline stages",
-                unit="1"
+                name="matriz_cognitive_load", description="Overall cognitive load across pipeline stages", unit="1"
             ),
-
             # Anomaly detection
             anomaly_detection_counter=meter.create_counter(
                 name="matriz_cognitive_anomalies_total",
                 description="Detected cognitive anomalies by type and stage",
-                unit="1"
-            )
+                unit="1",
+            ),
         )
 
         _cognitive_initialized = True
@@ -169,12 +164,13 @@ def initialize_cognitive_instrumentation(enable_metrics: bool = True) -> bool:
         logger.error(f"Failed to initialize cognitive instrumentation: {e}")
         return False
 
+
 def instrument_cognitive_stage(
     stage: Union[str, CognitiveStage],
     node_id: Optional[str] = None,
     intent_type: Optional[str] = None,
     slo_target_ms: Optional[float] = None,
-    anomaly_detection: bool = True
+    anomaly_detection: bool = True,
 ):
     """
     Decorator to instrument MATRIZ cognitive stages with comprehensive observability.
@@ -191,6 +187,7 @@ def instrument_cognitive_stage(
         async def process_memory_recall(query: str):
             return recalled_memories
     """
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         async def async_wrapper(*args, **kwargs) -> Any:
@@ -201,20 +198,25 @@ def instrument_cognitive_stage(
         @functools.wraps(func)
         def sync_wrapper(*args, **kwargs) -> Any:
             import asyncio
+
             # Convert sync to async for consistent instrumentation
             async def _async_func():
                 return func(*args, **kwargs)
-            return asyncio.run(_execute_instrumented_cognitive_stage(
-                _async_func, stage, node_id, intent_type, slo_target_ms, anomaly_detection, (), {}
-            ))
+
+            return asyncio.run(
+                _execute_instrumented_cognitive_stage(
+                    _async_func, stage, node_id, intent_type, slo_target_ms, anomaly_detection, (), {}
+                )
+            )
 
         # Return appropriate wrapper based on function type
-        if hasattr(func, '__code__') and func.__code__.co_flags & 0x80:
+        if hasattr(func, "__code__") and func.__code__.co_flags & 0x80:
             return async_wrapper
         else:
             return sync_wrapper
 
     return decorator
+
 
 async def _execute_instrumented_cognitive_stage(
     func: Callable,
@@ -224,13 +226,13 @@ async def _execute_instrumented_cognitive_stage(
     slo_target_ms: Optional[float],
     anomaly_detection: bool,
     args: tuple,
-    kwargs: dict
+    kwargs: dict,
 ) -> Any:
     """Execute cognitive stage function with full instrumentation"""
 
     if not _cognitive_initialized or not OTEL_AVAILABLE:
         # Fall back to direct execution without instrumentation
-        if hasattr(func, '__code__') and func.__code__.co_flags & 0x80:
+        if hasattr(func, "__code__") and func.__code__.co_flags & 0x80:
             return await func(*args, **kwargs)
         else:
             return func(*args, **kwargs)
@@ -252,12 +254,12 @@ async def _execute_instrumented_cognitive_stage(
             "matriz.cognitive.slo_target_ms": slo_target_ms or 0.0,
             "matriz.cognitive.anomaly_detection": anomaly_detection,
             "matriz.cognitive.function": func.__name__,
-        }
+        },
     ) as span:
 
         try:
             # Execute the function
-            if hasattr(func, '__code__') and func.__code__.co_flags & 0x80:
+            if hasattr(func, "__code__") and func.__code__.co_flags & 0x80:
                 result = await func(*args, **kwargs)
             else:
                 result = func(*args, **kwargs)
@@ -268,17 +270,18 @@ async def _execute_instrumented_cognitive_stage(
 
             # Record success metrics
             _record_cognitive_success(
-                stage_name, node_id, intent_type, duration_s, duration_ms,
-                slo_target_ms, result, anomaly_detection
+                stage_name, node_id, intent_type, duration_s, duration_ms, slo_target_ms, result, anomaly_detection
             )
 
             # Update span with success info
-            span.set_attributes({
-                "matriz.cognitive.duration_ms": duration_ms,
-                "matriz.cognitive.success": True,
-                "matriz.cognitive.within_slo": slo_target_ms is None or duration_ms <= slo_target_ms,
-                "matriz.cognitive.result_type": type(result).__name__,
-            })
+            span.set_attributes(
+                {
+                    "matriz.cognitive.duration_ms": duration_ms,
+                    "matriz.cognitive.success": True,
+                    "matriz.cognitive.within_slo": slo_target_ms is None or duration_ms <= slo_target_ms,
+                    "matriz.cognitive.result_type": type(result).__name__,
+                }
+            )
 
             span.set_status(Status(StatusCode.OK))
 
@@ -290,7 +293,7 @@ async def _execute_instrumented_cognitive_stage(
                     "duration_ms": duration_ms,
                     "within_slo": slo_target_ms is None or duration_ms <= slo_target_ms,
                     "intent_type": intent_type,
-                }
+                },
             )
 
             return result
@@ -301,17 +304,17 @@ async def _execute_instrumented_cognitive_stage(
             duration_ms = duration_s * 1000
 
             # Record error metrics
-            _record_cognitive_error(
-                stage_name, node_id, intent_type, duration_s, str(type(e).__name__)
-            )
+            _record_cognitive_error(stage_name, node_id, intent_type, duration_s, str(type(e).__name__))
 
             # Update span with error info
-            span.set_attributes({
-                "matriz.cognitive.duration_ms": duration_ms,
-                "matriz.cognitive.success": False,
-                "matriz.cognitive.error_type": type(e).__name__,
-                "matriz.cognitive.error_message": str(e)[:500],  # Truncate for span limits
-            })
+            span.set_attributes(
+                {
+                    "matriz.cognitive.duration_ms": duration_ms,
+                    "matriz.cognitive.success": False,
+                    "matriz.cognitive.error_type": type(e).__name__,
+                    "matriz.cognitive.error_message": str(e)[:500],  # Truncate for span limits
+                }
+            )
 
             span.set_status(Status(StatusCode.ERROR, str(e)))
 
@@ -324,17 +327,15 @@ async def _execute_instrumented_cognitive_stage(
                     "error_type": type(e).__name__,
                     "intent_type": intent_type,
                 },
-                exc_info=True
+                exc_info=True,
             )
 
             raise
 
+
 @contextmanager
 def cognitive_pipeline_span(
-    pipeline_name: str,
-    user_query: str,
-    expected_stages: Optional[List[str]] = None,
-    target_slo_ms: float = 250.0
+    pipeline_name: str, user_query: str, expected_stages: Optional[List[str]] = None, target_slo_ms: float = 250.0
 ):
     """
     Context manager for instrumenting complete MATRIZ cognitive pipelines.
@@ -365,7 +366,7 @@ def cognitive_pipeline_span(
             "matriz.cognitive.pipeline.user_query": user_query[:100],  # Truncate for privacy
             "matriz.cognitive.pipeline.expected_stages": ",".join(expected_stages or []),
             "matriz.cognitive.pipeline.target_slo_ms": target_slo_ms,
-        }
+        },
     ) as span:
 
         try:
@@ -384,16 +385,20 @@ def cognitive_pipeline_span(
                     attributes={
                         "pipeline": pipeline_name,
                         "query_type": _classify_query_type(user_query),
-                        "within_slo": str(within_slo).lower()
-                    }
+                        "within_slo": str(within_slo).lower(),
+                    },
                 )
 
-            span.set_attributes({
-                "matriz.cognitive.pipeline.duration_ms": duration_ms,
-                "matriz.cognitive.pipeline.success": True,
-                "matriz.cognitive.pipeline.within_slo": within_slo,
-                "matriz.cognitive.pipeline.complexity_score": _calculate_pipeline_complexity(expected_stages, duration_ms),
-            })
+            span.set_attributes(
+                {
+                    "matriz.cognitive.pipeline.duration_ms": duration_ms,
+                    "matriz.cognitive.pipeline.success": True,
+                    "matriz.cognitive.pipeline.within_slo": within_slo,
+                    "matriz.cognitive.pipeline.complexity_score": _calculate_pipeline_complexity(
+                        expected_stages, duration_ms
+                    ),
+                }
+            )
 
             span.set_status(Status(StatusCode.OK))
 
@@ -405,7 +410,7 @@ def cognitive_pipeline_span(
                     "duration_ms": duration_ms,
                     "within_slo": within_slo,
                     "target_slo_ms": target_slo_ms,
-                }
+                },
             )
 
         except Exception as e:
@@ -413,12 +418,14 @@ def cognitive_pipeline_span(
             duration_s = time.perf_counter() - start_time
             duration_ms = duration_s * 1000
 
-            span.set_attributes({
-                "matriz.cognitive.pipeline.duration_ms": duration_ms,
-                "matriz.cognitive.pipeline.success": False,
-                "matriz.cognitive.pipeline.error_type": type(e).__name__,
-                "matriz.cognitive.pipeline.error_message": str(e)[:500],
-            })
+            span.set_attributes(
+                {
+                    "matriz.cognitive.pipeline.duration_ms": duration_ms,
+                    "matriz.cognitive.pipeline.success": False,
+                    "matriz.cognitive.pipeline.error_type": type(e).__name__,
+                    "matriz.cognitive.pipeline.error_message": str(e)[:500],
+                }
+            )
 
             span.set_status(Status(StatusCode.ERROR, str(e)))
 
@@ -430,10 +437,11 @@ def cognitive_pipeline_span(
                     "duration_ms": duration_ms,
                     "error_type": type(e).__name__,
                 },
-                exc_info=True
+                exc_info=True,
             )
 
             raise
+
 
 def record_focus_drift(node_id: str, attention_weights: List[float], window_size: int = 10):
     """
@@ -453,20 +461,21 @@ def record_focus_drift(node_id: str, attention_weights: List[float], window_size
     # Calculate focus drift as variance in attention weights
     mean_weight = sum(attention_weights) / len(attention_weights)
     variance = sum((w - mean_weight) ** 2 for w in attention_weights) / len(attention_weights)
-    drift_score = variance ** 0.5  # Standard deviation as drift score
+    drift_score = variance**0.5  # Standard deviation as drift score
 
     _cognitive_metrics.focus_drift_gauge.add(
         int(drift_score * 1000),  # Scale for better granularity
         attributes={
             "node_id": node_id,
             "window_size": window_size,
-            "attention_range": _classify_attention_range(min(attention_weights), max(attention_weights))
-        }
+            "attention_range": _classify_attention_range(min(attention_weights), max(attention_weights)),
+        },
     )
 
     # Check for anomaly (drift > 2 standard deviations from normal)
     if drift_score > 0.5:  # Configurable threshold
         _record_cognitive_anomaly("focus_drift", node_id, {"drift_score": drift_score})
+
 
 def record_memory_cascade_risk(fold_count: int, retrieval_depth: int, cascade_detected: bool = False):
     """
@@ -490,17 +499,18 @@ def record_memory_cascade_risk(fold_count: int, retrieval_depth: int, cascade_de
         attributes={
             "fold_count_range": _classify_fold_count_range(fold_count),
             "retrieval_depth_range": _classify_retrieval_depth_range(retrieval_depth),
-            "cascade_detected": str(cascade_detected).lower()
-        }
+            "cascade_detected": str(cascade_detected).lower(),
+        },
     )
 
     # Check for anomaly (approaching cascade conditions)
     if fold_count > 900 or cascade_detected:  # 90% of limit or detected cascade
-        _record_cognitive_anomaly("memory_cascade_risk", "fold_system", {
-            "fold_count": fold_count,
-            "risk_score": risk_score,
-            "cascade_detected": cascade_detected
-        })
+        _record_cognitive_anomaly(
+            "memory_cascade_risk",
+            "fold_system",
+            {"fold_count": fold_count, "risk_score": risk_score, "cascade_detected": cascade_detected},
+        )
+
 
 def record_thought_complexity(reasoning_depth: int, logic_chains: int, inference_steps: int):
     """
@@ -523,24 +533,28 @@ def record_thought_complexity(reasoning_depth: int, logic_chains: int, inference
             attributes={
                 "reasoning_depth_range": _classify_reasoning_depth_range(reasoning_depth),
                 "logic_chains_range": _classify_logic_chains_range(logic_chains),
-                "inference_complexity": _classify_inference_complexity(inference_steps)
-            }
+                "inference_complexity": _classify_inference_complexity(inference_steps),
+            },
         )
 
     if _cognitive_metrics.reasoning_depth_histogram:
         _cognitive_metrics.reasoning_depth_histogram.record(
-            reasoning_depth,
-            attributes={"thought_type": "logical_reasoning"}
+            reasoning_depth, attributes={"thought_type": "logical_reasoning"}
         )
 
     # Check for anomaly (extremely high complexity)
     if complexity_score > 100:  # Configurable threshold
-        _record_cognitive_anomaly("thought_complexity", "thought_processor", {
-            "complexity_score": complexity_score,
-            "reasoning_depth": reasoning_depth,
-            "logic_chains": logic_chains,
-            "inference_steps": inference_steps
-        })
+        _record_cognitive_anomaly(
+            "thought_complexity",
+            "thought_processor",
+            {
+                "complexity_score": complexity_score,
+                "reasoning_depth": reasoning_depth,
+                "logic_chains": logic_chains,
+                "inference_steps": inference_steps,
+            },
+        )
+
 
 def record_decision_confidence(confidence_score: float, decision_type: str, node_id: str):
     """
@@ -559,21 +573,26 @@ def record_decision_confidence(confidence_score: float, decision_type: str, node
         attributes={
             "decision_type": decision_type,
             "node_id": node_id,
-            "confidence_range": _classify_confidence_range(confidence_score)
-        }
+            "confidence_range": _classify_confidence_range(confidence_score),
+        },
     )
 
     # Check for anomaly (very low confidence with high frequency)
     if confidence_score < 0.3:  # Low confidence threshold
-        _record_cognitive_anomaly("low_decision_confidence", node_id, {
-            "confidence_score": confidence_score,
-            "decision_type": decision_type
-        })
+        _record_cognitive_anomaly(
+            "low_decision_confidence", node_id, {"confidence_score": confidence_score, "decision_type": decision_type}
+        )
+
 
 def _record_cognitive_success(
-    stage_name: str, node_id: str, intent_type: Optional[str],
-    duration_s: float, duration_ms: float, slo_target_ms: Optional[float],
-    result: Any, anomaly_detection: bool
+    stage_name: str,
+    node_id: str,
+    intent_type: Optional[str],
+    duration_s: float,
+    duration_ms: float,
+    slo_target_ms: Optional[float],
+    result: Any,
+    anomaly_detection: bool,
 ):
     """Record successful cognitive stage execution metrics"""
     if not _cognitive_initialized:
@@ -590,8 +609,8 @@ def _record_cognitive_success(
                 "node_id": node_id,
                 "intent_type": intent_type or "unknown",
                 "outcome": "success",
-                "within_slo": str(within_slo).lower()
-            }
+                "within_slo": str(within_slo).lower(),
+            },
         )
 
     # Record stage events
@@ -602,20 +621,27 @@ def _record_cognitive_success(
                 "stage": stage_name,
                 "node_id": node_id,
                 "intent_type": intent_type or "unknown",
-                "outcome": "success"
-            }
+                "outcome": "success",
+            },
         )
 
     # Anomaly detection for performance outliers
     if anomaly_detection and slo_target_ms and duration_ms > (slo_target_ms * 2):
-        _record_cognitive_anomaly("performance_outlier", node_id, {
-            "stage": stage_name,
-            "duration_ms": duration_ms,
-            "slo_target_ms": slo_target_ms,
-            "outlier_ratio": duration_ms / slo_target_ms
-        })
+        _record_cognitive_anomaly(
+            "performance_outlier",
+            node_id,
+            {
+                "stage": stage_name,
+                "duration_ms": duration_ms,
+                "slo_target_ms": slo_target_ms,
+                "outlier_ratio": duration_ms / slo_target_ms,
+            },
+        )
 
-def _record_cognitive_error(stage_name: str, node_id: str, intent_type: Optional[str], duration_s: float, error_type: str):
+
+def _record_cognitive_error(
+    stage_name: str, node_id: str, intent_type: Optional[str], duration_s: float, error_type: str
+):
     """Record failed cognitive stage execution metrics"""
     if not _cognitive_initialized:
         return
@@ -629,8 +655,8 @@ def _record_cognitive_error(stage_name: str, node_id: str, intent_type: Optional
                 "node_id": node_id,
                 "intent_type": intent_type or "unknown",
                 "outcome": "error",
-                "within_slo": "false"
-            }
+                "within_slo": "false",
+            },
         )
 
     # Record stage events
@@ -641,16 +667,15 @@ def _record_cognitive_error(stage_name: str, node_id: str, intent_type: Optional
                 "stage": stage_name,
                 "node_id": node_id,
                 "intent_type": intent_type or "unknown",
-                "outcome": "error"
-            }
+                "outcome": "error",
+            },
         )
 
     # Always record errors as anomalies
-    _record_cognitive_anomaly("stage_error", node_id, {
-        "stage": stage_name,
-        "error_type": error_type,
-        "intent_type": intent_type
-    })
+    _record_cognitive_anomaly(
+        "stage_error", node_id, {"stage": stage_name, "error_type": error_type, "intent_type": intent_type}
+    )
+
 
 def _record_cognitive_anomaly(anomaly_type: str, node_id: str, context: Dict[str, Any]):
     """Record detected cognitive anomalies"""
@@ -662,37 +687,36 @@ def _record_cognitive_anomaly(anomaly_type: str, node_id: str, context: Dict[str
         attributes={
             "anomaly_type": anomaly_type,
             "node_id": node_id,
-            "severity": _classify_anomaly_severity(anomaly_type, context)
-        }
+            "severity": _classify_anomaly_severity(anomaly_type, context),
+        },
     )
 
     logger.warning(
         f"Cognitive anomaly detected: {anomaly_type}",
-        extra={
-            "anomaly_type": anomaly_type,
-            "node_id": node_id,
-            "context": context
-        }
+        extra={"anomaly_type": anomaly_type, "node_id": node_id, "context": context},
     )
+
 
 # Classification helper functions
 def _classify_query_type(user_query: str) -> str:
     """Classify user query type for metrics"""
     query_lower = user_query.lower()
-    if any(op in query_lower for op in ['+', '-', '*', '/', '=', 'calculate', 'math']):
+    if any(op in query_lower for op in ["+", "-", "*", "/", "=", "calculate", "math"]):
         return "mathematical"
-    elif '?' in query_lower:
+    elif "?" in query_lower:
         return "question"
-    elif any(word in query_lower for word in ['remember', 'recall', 'memory']):
+    elif any(word in query_lower for word in ["remember", "recall", "memory"]):
         return "memory"
     else:
         return "general"
+
 
 def _calculate_pipeline_complexity(expected_stages: Optional[List[str]], duration_ms: float) -> float:
     """Calculate pipeline complexity score"""
     base_complexity = len(expected_stages) if expected_stages else 1
     time_factor = min(duration_ms / 100, 10)  # Cap time factor at 10
     return base_complexity * (1 + time_factor / 10)
+
 
 def _classify_attention_range(min_weight: float, max_weight: float) -> str:
     """Classify attention weight range"""
@@ -703,6 +727,7 @@ def _classify_attention_range(min_weight: float, max_weight: float) -> str:
         return "medium"
     else:
         return "wide"
+
 
 def _classify_fold_count_range(fold_count: int) -> str:
     """Classify fold count range"""
@@ -715,6 +740,7 @@ def _classify_fold_count_range(fold_count: int) -> str:
     else:
         return "critical"
 
+
 def _classify_retrieval_depth_range(depth: int) -> str:
     """Classify retrieval depth range"""
     if depth < 5:
@@ -723,6 +749,7 @@ def _classify_retrieval_depth_range(depth: int) -> str:
         return "medium"
     else:
         return "deep"
+
 
 def _classify_reasoning_depth_range(depth: int) -> str:
     """Classify reasoning depth range"""
@@ -733,6 +760,7 @@ def _classify_reasoning_depth_range(depth: int) -> str:
     else:
         return "complex"
 
+
 def _classify_logic_chains_range(chains: int) -> str:
     """Classify logic chains range"""
     if chains < 2:
@@ -741,6 +769,7 @@ def _classify_logic_chains_range(chains: int) -> str:
         return "branched"
     else:
         return "complex"
+
 
 def _classify_inference_complexity(steps: int) -> str:
     """Classify inference complexity"""
@@ -751,6 +780,7 @@ def _classify_inference_complexity(steps: int) -> str:
     else:
         return "complex"
 
+
 def _classify_confidence_range(confidence: float) -> str:
     """Classify confidence score range"""
     if confidence < 0.3:
@@ -759,6 +789,7 @@ def _classify_confidence_range(confidence: float) -> str:
         return "medium"
     else:
         return "high"
+
 
 def _classify_anomaly_severity(anomaly_type: str, context: Dict[str, Any]) -> str:
     """Classify anomaly severity for alerting"""
@@ -772,6 +803,7 @@ def _classify_anomaly_severity(anomaly_type: str, context: Dict[str, Any]) -> st
     else:
         return "info"
 
+
 def get_cognitive_instrumentation_status() -> Dict[str, Any]:
     """Get current cognitive instrumentation status and configuration"""
     return {
@@ -779,15 +811,28 @@ def get_cognitive_instrumentation_status() -> Dict[str, Any]:
         "base_otel_available": OTEL_AVAILABLE,
         "base_metrics_initialized": _metrics_initialized,
         "cognitive_metrics": {
-            "stage_duration_histogram": _cognitive_metrics.stage_duration_histogram is not None if _cognitive_metrics else False,
-            "stage_events_counter": _cognitive_metrics.stage_events_counter is not None if _cognitive_metrics else False,
+            "stage_duration_histogram": (
+                _cognitive_metrics.stage_duration_histogram is not None if _cognitive_metrics else False
+            ),
+            "stage_events_counter": (
+                _cognitive_metrics.stage_events_counter is not None if _cognitive_metrics else False
+            ),
             "focus_drift_gauge": _cognitive_metrics.focus_drift_gauge is not None if _cognitive_metrics else False,
-            "memory_cascade_risk_gauge": _cognitive_metrics.memory_cascade_risk_gauge is not None if _cognitive_metrics else False,
-            "thought_complexity_gauge": _cognitive_metrics.thought_complexity_gauge is not None if _cognitive_metrics else False,
-            "decision_confidence_gauge": _cognitive_metrics.decision_confidence_gauge is not None if _cognitive_metrics else False,
-            "anomaly_detection_counter": _cognitive_metrics.anomaly_detection_counter is not None if _cognitive_metrics else False,
-        }
+            "memory_cascade_risk_gauge": (
+                _cognitive_metrics.memory_cascade_risk_gauge is not None if _cognitive_metrics else False
+            ),
+            "thought_complexity_gauge": (
+                _cognitive_metrics.thought_complexity_gauge is not None if _cognitive_metrics else False
+            ),
+            "decision_confidence_gauge": (
+                _cognitive_metrics.decision_confidence_gauge is not None if _cognitive_metrics else False
+            ),
+            "anomaly_detection_counter": (
+                _cognitive_metrics.anomaly_detection_counter is not None if _cognitive_metrics else False
+            ),
+        },
     }
+
 
 # Auto-initialize if base instrumentation is available
 if OTEL_AVAILABLE and _metrics_initialized:

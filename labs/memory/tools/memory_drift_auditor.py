@@ -101,9 +101,9 @@ class MemoryDriftAuditor:
         self.temporal_window_hours = self.config.get("temporal_window_hours", 48)
 
         # Audit metadata
-        self.audit_session_id = hashlib.sha256(
-            f"audit_{datetime.now(timezone.utc).isoformat()}".encode()
-        ).hexdigest()[:16]
+        self.audit_session_id = hashlib.sha256(f"audit_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[
+            :16
+        ]
 
         logger.info(
             "MemoryDriftAuditor initialized",
@@ -139,9 +139,7 @@ class MemoryDriftAuditor:
         Returns:
             Dictionary containing loading results and metadata
         """
-        logger.info(
-            "Loading memory snapshots", directory=fold_directory, tag="ΛAUDITOR_LOAD"
-        )
+        logger.info("Loading memory snapshots", directory=fold_directory, tag="ΛAUDITOR_LOAD")
 
         loading_results = {
             "snapshots_loaded": 0,
@@ -155,12 +153,8 @@ class MemoryDriftAuditor:
 
         try:
             # Find all JSON files in the directory
-            json_files = glob.glob(
-                os.path.join(fold_directory, "**/*.json*"), recursive=True
-            )
-            json_files.extend(
-                glob.glob(os.path.join(fold_directory, "**/*.jsonl"), recursive=True)
-            )
+            json_files = glob.glob(os.path.join(fold_directory, "**/*.json*"), recursive=True)
+            json_files.extend(glob.glob(os.path.join(fold_directory, "**/*.jsonl"), recursive=True))
 
             if not json_files:
                 logger.warning(
@@ -178,15 +172,11 @@ class MemoryDriftAuditor:
                         if self._validate_memory_snapshot(snapshot):
                             self.memory_snapshots.append(snapshot)
                             loading_results["snapshots_loaded"] += 1
-                            loading_results["fold_keys"].append(
-                                snapshot.get("key", "unknown")
-                            )
+                            loading_results["fold_keys"].append(snapshot.get("key", "unknown"))
 
                             # Track memory types
                             if "memory_type" in snapshot:
-                                loading_results["memory_types_found"].add(
-                                    snapshot["memory_type"]
-                                )
+                                loading_results["memory_types_found"].add(snapshot["memory_type"])
                         else:
                             loading_results["invalid_snapshots"] += 1
 
@@ -201,9 +191,7 @@ class MemoryDriftAuditor:
                     )
 
             # Sort snapshots chronologically
-            self.memory_snapshots.sort(
-                key=lambda x: x.get("created_at_utc", x.get("timestamp", ""))
-            )
+            self.memory_snapshots.sort(key=lambda x: x.get("created_at_utc", x.get("timestamp", "")))
 
             # Analyze temporal range
             if self.memory_snapshots:
@@ -218,9 +206,7 @@ class MemoryDriftAuditor:
             # Check chronological integrity
             loading_results["chronological_order"] = self._verify_chronological_order()
 
-            loading_results["memory_types_found"] = list(
-                loading_results["memory_types_found"]
-            )
+            loading_results["memory_types_found"] = list(loading_results["memory_types_found"])
 
             logger.info(
                 "Memory snapshot loading completed",
@@ -237,15 +223,11 @@ class MemoryDriftAuditor:
                 error=str(e),
                 tag="ΛAUDITOR_CRITICAL",
             )
-            loading_results["loading_errors"].append(
-                f"Critical loading error: {e!s}"
-            )
+            loading_results["loading_errors"].append(f"Critical loading error: {e!s}")
 
         return loading_results
 
-    def detect_memory_drift(
-        self, analysis_window: Optional[str] = None
-    ) -> dict[str, Any]:
+    def detect_memory_drift(self, analysis_window: Optional[str] = None) -> dict[str, Any]:
         """
         Track entropy and symbol divergence across sessions.
 
@@ -275,9 +257,7 @@ class MemoryDriftAuditor:
 
         try:
             # Filter snapshots by analysis window
-            filtered_snapshots = self._filter_by_time_window(
-                self.memory_snapshots, analysis_window
-            )
+            filtered_snapshots = self._filter_by_time_window(self.memory_snapshots, analysis_window)
 
             if len(filtered_snapshots) < 2:
                 logger.warning(
@@ -288,24 +268,16 @@ class MemoryDriftAuditor:
                 return drift_analysis
 
             # Analyze entropy drift across temporal sequence
-            drift_analysis["entropy_analysis"] = self._analyze_entropy_drift(
-                filtered_snapshots
-            )
+            drift_analysis["entropy_analysis"] = self._analyze_entropy_drift(filtered_snapshots)
 
             # Detect symbolic divergence patterns
-            drift_analysis["symbol_divergence"] = self._analyze_symbol_divergence(
-                filtered_snapshots
-            )
+            drift_analysis["symbol_divergence"] = self._analyze_symbol_divergence(filtered_snapshots)
 
             # Identity-level drift detection
-            drift_analysis["identity_drift"] = self._analyze_identity_drift(
-                filtered_snapshots
-            )
+            drift_analysis["identity_drift"] = self._analyze_identity_drift(filtered_snapshots)
 
             # Temporal pattern analysis
-            drift_analysis["temporal_patterns"] = self._analyze_temporal_patterns(
-                filtered_snapshots
-            )
+            drift_analysis["temporal_patterns"] = self._analyze_temporal_patterns(filtered_snapshots)
 
             # Generate drift events
             drift_events = self._generate_drift_events(
@@ -323,32 +295,22 @@ class MemoryDriftAuditor:
                 drift_analysis["severity_levels"][severity] += 1
 
             # Detect anomalies
-            drift_analysis["anomalies_detected"] = self._detect_drift_anomalies(
-                drift_events
-            )
+            drift_analysis["anomalies_detected"] = self._detect_drift_anomalies(drift_events)
 
             # Generate recommendations
-            drift_analysis["recommendation_flags"] = (
-                self._generate_drift_recommendations(drift_analysis)
-            )
+            drift_analysis["recommendation_flags"] = self._generate_drift_recommendations(drift_analysis)
 
             logger.info(
                 "Memory drift detection completed",
                 drift_events=len(drift_events),
-                entropy_changes=len(
-                    drift_analysis["entropy_analysis"].get("changes", [])
-                ),
-                identity_changes=len(
-                    drift_analysis["identity_drift"].get("changes", [])
-                ),
+                entropy_changes=len(drift_analysis["entropy_analysis"].get("changes", [])),
+                identity_changes=len(drift_analysis["identity_drift"].get("changes", [])),
                 anomalies=len(drift_analysis["anomalies_detected"]),
                 tag="ΛAUDITOR_DRIFT_COMPLETE",
             )
 
         except Exception as e:
-            logger.error(
-                "Error in memory drift detection", error=str(e), tag="ΛAUDITOR_ERROR"
-            )
+            logger.error("Error in memory drift detection", error=str(e), tag="ΛAUDITOR_ERROR")
             drift_analysis["error"] = str(e)
 
         return drift_analysis
@@ -392,9 +354,7 @@ class MemoryDriftAuditor:
                 return collapse_analysis
 
             # Detect sudden information loss
-            collapse_analysis["information_loss_events"] = (
-                self._detect_information_loss()
-            )
+            collapse_analysis["information_loss_events"] = self._detect_information_loss()
 
             # Identify phase gaps
             collapse_analysis["phase_gaps"] = self._detect_phase_gaps()
@@ -405,9 +365,7 @@ class MemoryDriftAuditor:
             # Analyze cascade patterns
             if deep_analysis:
                 collapse_analysis["cascade_patterns"] = self._analyze_cascade_patterns()
-                collapse_analysis["collapse_signatures"] = (
-                    self._analyze_collapse_signatures()
-                )
+                collapse_analysis["collapse_signatures"] = self._analyze_collapse_signatures()
 
             # Generate collapse events
             collapse_events = self._synthesize_collapse_events(
@@ -420,19 +378,13 @@ class MemoryDriftAuditor:
             self.collapse_events.extend(collapse_events)
 
             # Build forensic timeline
-            collapse_analysis["forensic_timeline"] = self._build_forensic_timeline(
-                collapse_events
-            )
+            collapse_analysis["forensic_timeline"] = self._build_forensic_timeline(collapse_events)
 
             # Assess severity
-            collapse_analysis["severity_assessment"] = self._assess_collapse_severity(
-                collapse_events
-            )
+            collapse_analysis["severity_assessment"] = self._assess_collapse_severity(collapse_events)
 
             # Identify recovery opportunities
-            collapse_analysis["recovery_opportunities"] = (
-                self._identify_recovery_opportunities(collapse_events)
-            )
+            collapse_analysis["recovery_opportunities"] = self._identify_recovery_opportunities(collapse_events)
 
             logger.info(
                 "Memory collapse tracing completed",
@@ -444,16 +396,12 @@ class MemoryDriftAuditor:
             )
 
         except Exception as e:
-            logger.error(
-                "Error in collapse event tracing", error=str(e), tag="ΛAUDITOR_ERROR"
-            )
+            logger.error("Error in collapse event tracing", error=str(e), tag="ΛAUDITOR_ERROR")
             collapse_analysis["error"] = str(e)
 
         return collapse_analysis
 
-    def generate_audit_report(
-        self, output_path: str, format_type: str = "markdown"
-    ) -> dict[str, Any]:
+    def generate_audit_report(self, output_path: str, format_type: str = "markdown") -> dict[str, Any]:
         """
         Generate comprehensive audit report in Markdown and JSON formats.
 
@@ -503,16 +451,12 @@ class MemoryDriftAuditor:
 
             # Generate reports in requested format(s)
             if format_type in ["markdown", "both"]:
-                md_path = self._generate_markdown_report(
-                    output_path, audit_data, report_metadata
-                )
+                md_path = self._generate_markdown_report(output_path, audit_data, report_metadata)
                 if md_path:
                     report_results["output_files"].append(md_path)
 
             if format_type in ["json", "both"]:
-                json_path = self._generate_json_report(
-                    output_path, audit_data, report_metadata
-                )
+                json_path = self._generate_json_report(output_path, audit_data, report_metadata)
                 if json_path:
                     report_results["output_files"].append(json_path)
 
@@ -528,15 +472,11 @@ class MemoryDriftAuditor:
         except Exception as e:
             error_msg = f"Error generating audit report: {e!s}"
             report_results["generation_errors"].append(error_msg)
-            logger.error(
-                "Audit report generation failed", error=str(e), tag="ΛAUDITOR_ERROR"
-            )
+            logger.error("Audit report generation failed", error=str(e), tag="ΛAUDITOR_ERROR")
 
         return report_results
 
-    def visualize_memory_timeline(
-        self, width: int = 80, show_events: bool = True
-    ) -> str:
+    def visualize_memory_timeline(self, width: int = 80, show_events: bool = True) -> str:
         """
         Generate ASCII timeline visualization of symbolic continuity.
 
@@ -625,18 +565,13 @@ class MemoryDriftAuditor:
                 }.get(event["severity"], "🟢")
 
                 timeline_lines.append(
-                    f"  {event['timestamp'][:19]} {severity_icon} "
-                    f"{event['type']:8} {event['description']}"
+                    f"  {event['timestamp'][:19]} {severity_icon} " f"{event['type']:8} {event['description']}"
                 )
             timeline_lines.append("")
 
         # Integrity status
-        integrity_status = (
-            "🟢 STABLE" if len(self.collapse_events) == 0 else "🟠 ISSUES DETECTED"
-        )
-        critical_drift = [
-            e for e in self.drift_events if e.get("severity") == "critical"
-        ]
+        integrity_status = "🟢 STABLE" if len(self.collapse_events) == 0 else "🟠 ISSUES DETECTED"
+        critical_drift = [e for e in self.drift_events if e.get("severity") == "critical"]
         if len(critical_drift) > 0:
             integrity_status = "🔴 CRITICAL DRIFT"
 
@@ -691,9 +626,7 @@ class MemoryDriftAuditor:
         # Validate timestamp format if present
         if "created_at_utc" in snapshot:
             try:
-                datetime.fromisoformat(
-                    snapshot["created_at_utc"].replace("Z", "+00:00")
-                )
+                datetime.fromisoformat(snapshot["created_at_utc"].replace("Z", "+00:00"))
             except (ValueError, KeyError) as e:
                 logger.debug(f"Failed to parse snapshot timestamp: {e}")
                 return False
@@ -722,26 +655,18 @@ class MemoryDriftAuditor:
 
             if current_time and previous_time:
                 try:
-                    current_dt = datetime.fromisoformat(
-                        current_time.replace("Z", "+00:00")
-                    )
-                    previous_dt = datetime.fromisoformat(
-                        previous_time.replace("Z", "+00:00")
-                    )
+                    current_dt = datetime.fromisoformat(current_time.replace("Z", "+00:00"))
+                    previous_dt = datetime.fromisoformat(previous_time.replace("Z", "+00:00"))
 
                     if current_dt < previous_dt:
                         return False
                 except (ValueError, KeyError) as e:
-                    logger.debug(
-                        f"Failed to parse timestamp in chronological check: {e}"
-                    )
+                    logger.debug(f"Failed to parse timestamp in chronological check: {e}")
                     continue
 
         return True
 
-    def _filter_by_time_window(
-        self, snapshots: list[dict[str, Any]], window: Optional[str]
-    ) -> list[dict[str, Any]]:
+    def _filter_by_time_window(self, snapshots: list[dict[str, Any]], window: Optional[str]) -> list[dict[str, Any]]:
         """Filter snapshots by time window."""
         if not window or window == "all":
             return snapshots
@@ -762,9 +687,7 @@ class MemoryDriftAuditor:
             timestamp_str = snapshot.get("created_at_utc", "")
             if timestamp_str:
                 try:
-                    snapshot_time = datetime.fromisoformat(
-                        timestamp_str.replace("Z", "+00:00")
-                    )
+                    snapshot_time = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
                     if snapshot_time >= cutoff_time:
                         filtered.append(snapshot)
                 except (ValueError, KeyError) as e:
@@ -827,18 +750,10 @@ class MemoryDriftAuditor:
 
         # Determine overall trend
         if len(entropy_analysis["entropy_trajectory"]) >= 3:
-            recent_entropies = [
-                pt["entropy"] for pt in entropy_analysis["entropy_trajectory"][-3:]
-            ]
-            if all(
-                recent_entropies[i] > recent_entropies[i - 1]
-                for i in range(1, len(recent_entropies))
-            ):
+            recent_entropies = [pt["entropy"] for pt in entropy_analysis["entropy_trajectory"][-3:]]
+            if all(recent_entropies[i] > recent_entropies[i - 1] for i in range(1, len(recent_entropies))):
                 entropy_analysis["trend"] = "increasing"
-            elif all(
-                recent_entropies[i] < recent_entropies[i - 1]
-                for i in range(1, len(recent_entropies))
-            ):
+            elif all(recent_entropies[i] < recent_entropies[i - 1] for i in range(1, len(recent_entropies))):
                 entropy_analysis["trend"] = "decreasing"
 
         return entropy_analysis
@@ -872,18 +787,12 @@ class MemoryDriftAuditor:
             entropy -= probability * math.log2(probability) if probability > 0 else 0
 
         # Normalize to [0, 1]
-        max_possible_entropy = (
-            math.log2(len(char_counts)) if len(char_counts) > 1 else 1.0
-        )
-        normalized_entropy = (
-            entropy / max_possible_entropy if max_possible_entropy > 0 else 0.0
-        )
+        max_possible_entropy = math.log2(len(char_counts)) if len(char_counts) > 1 else 1.0
+        normalized_entropy = entropy / max_possible_entropy if max_possible_entropy > 0 else 0.0
 
         return min(1.0, normalized_entropy)
 
-    def _analyze_symbol_divergence(
-        self, snapshots: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _analyze_symbol_divergence(self, snapshots: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze symbolic divergence patterns across snapshots."""
         divergence_analysis = {
             "divergence_events": [],
@@ -910,9 +819,7 @@ class MemoryDriftAuditor:
             current = symbol_patterns[i]
             previous = symbol_patterns[i - 1]
 
-            divergence_score = self._calculate_pattern_divergence(
-                previous["patterns"], current["patterns"]
-            )
+            divergence_score = self._calculate_pattern_divergence(previous["patterns"], current["patterns"])
 
             if divergence_score > self.drift_threshold:
                 divergence_event = {
@@ -945,9 +852,7 @@ class MemoryDriftAuditor:
                 word_freq[word] += 1
 
         # Top word patterns
-        patterns["word_patterns"] = sorted(
-            word_freq.items(), key=lambda x: x[1], reverse=True
-        )[:10]
+        patterns["word_patterns"] = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:10]
 
         # Semantic markers (simplified)
         semantic_keywords = [
@@ -958,9 +863,7 @@ class MemoryDriftAuditor:
             "experience",
             "knowledge",
         ]
-        patterns["semantic_markers"] = [
-            kw for kw in semantic_keywords if kw in content_str.lower()
-        ]
+        patterns["semantic_markers"] = [kw for kw in semantic_keywords if kw in content_str.lower()]
 
         # Structural elements
         patterns["structural_elements"] = {
@@ -973,9 +876,7 @@ class MemoryDriftAuditor:
 
         return patterns
 
-    def _calculate_pattern_divergence(
-        self, patterns1: dict[str, Any], patterns2: dict[str, Any]
-    ) -> float:
+    def _calculate_pattern_divergence(self, patterns1: dict[str, Any], patterns2: dict[str, Any]) -> float:
         """Calculate divergence score between two pattern sets."""
         divergence = 0.0
 
@@ -986,9 +887,7 @@ class MemoryDriftAuditor:
         if words1 or words2:
             word_intersection = len(words1.intersection(words2))
             word_union = len(words1.union(words2))
-            word_divergence = (
-                1.0 - (word_intersection / word_union) if word_union > 0 else 0.0
-            )
+            word_divergence = 1.0 - (word_intersection / word_union) if word_union > 0 else 0.0
             divergence += word_divergence * 0.4
 
         # Semantic marker divergence
@@ -998,9 +897,7 @@ class MemoryDriftAuditor:
         if markers1 or markers2:
             marker_intersection = len(markers1.intersection(markers2))
             marker_union = len(markers1.union(markers2))
-            marker_divergence = (
-                1.0 - (marker_intersection / marker_union) if marker_union > 0 else 0.0
-            )
+            marker_divergence = 1.0 - (marker_intersection / marker_union) if marker_union > 0 else 0.0
             divergence += marker_divergence * 0.3
 
         # Structural divergence
@@ -1011,18 +908,14 @@ class MemoryDriftAuditor:
         if struct1.get("memory_type") != struct2.get("memory_type"):
             structural_divergence += 0.2
 
-        importance_diff = abs(
-            struct1.get("importance_score", 0.0) - struct2.get("importance_score", 0.0)
-        )
+        importance_diff = abs(struct1.get("importance_score", 0.0) - struct2.get("importance_score", 0.0))
         structural_divergence += min(importance_diff, 0.3)
 
         divergence += structural_divergence * 0.3
 
         return min(1.0, divergence)
 
-    def _analyze_identity_drift(
-        self, snapshots: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _analyze_identity_drift(self, snapshots: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze identity-level drift patterns."""
         identity_analysis = {
             "changes": [],
@@ -1035,8 +928,7 @@ class MemoryDriftAuditor:
         identity_snapshots = [
             s
             for s in snapshots
-            if s.get("memory_type") == "identity"
-            or "identity" in str(s.get("content", "")).lower()
+            if s.get("memory_type") == "identity" or "identity" in str(s.get("content", "")).lower()
         ]
 
         if len(identity_snapshots) < 2:
@@ -1061,16 +953,12 @@ class MemoryDriftAuditor:
 
         # Calculate overall coherence
         if identity_analysis["changes"]:
-            max_change = max(
-                change["identity_change"] for change in identity_analysis["changes"]
-            )
+            max_change = max(change["identity_change"] for change in identity_analysis["changes"])
             identity_analysis["coherence_score"] = max(0.0, 1.0 - max_change)
 
         return identity_analysis
 
-    def _calculate_identity_change(
-        self, snapshot1: dict[str, Any], snapshot2: dict[str, Any]
-    ) -> float:
+    def _calculate_identity_change(self, snapshot1: dict[str, Any], snapshot2: dict[str, Any]) -> float:
         """Calculate identity change score between two snapshots."""
         content1 = str(snapshot1.get("content", "")).lower()
         content2 = str(snapshot2.get("content", "")).lower()
@@ -1114,9 +1002,7 @@ class MemoryDriftAuditor:
 
         return min(1.0, total_change)
 
-    def _analyze_temporal_patterns(
-        self, snapshots: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _analyze_temporal_patterns(self, snapshots: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze temporal patterns in memory snapshots."""
         temporal_analysis = {
             "time_gaps": [],
@@ -1132,12 +1018,8 @@ class MemoryDriftAuditor:
 
             if current_time_str and previous_time_str:
                 try:
-                    current_time = datetime.fromisoformat(
-                        current_time_str.replace("Z", "+00:00")
-                    )
-                    previous_time = datetime.fromisoformat(
-                        previous_time_str.replace("Z", "+00:00")
-                    )
+                    current_time = datetime.fromisoformat(current_time_str.replace("Z", "+00:00"))
+                    previous_time = datetime.fromisoformat(previous_time_str.replace("Z", "+00:00"))
 
                     gap_hours = (current_time - previous_time).total_seconds() / 3600
 
@@ -1147,9 +1029,7 @@ class MemoryDriftAuditor:
                                 "start_time": previous_time_str,
                                 "end_time": current_time_str,
                                 "gap_hours": round(gap_hours, 2),
-                                "severity": (
-                                    "high" if gap_hours > 168 else "medium"
-                                ),  # 1 week threshold
+                                "severity": ("high" if gap_hours > 168 else "medium"),  # 1 week threshold
                             }
                         )
                 except (ValueError, KeyError, TypeError) as e:
@@ -1213,9 +1093,7 @@ class MemoryDriftAuditor:
 
         return drift_events
 
-    def _detect_drift_anomalies(
-        self, drift_events: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _detect_drift_anomalies(self, drift_events: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Detect anomalous patterns in drift events."""
         anomalies = []
 
@@ -1225,9 +1103,7 @@ class MemoryDriftAuditor:
             timestamp_str = event.get("timestamp", "")
             if timestamp_str:
                 try:
-                    event_time = datetime.fromisoformat(
-                        timestamp_str.replace("Z", "+00:00")
-                    )
+                    event_time = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
                     event_times.append((event_time, event))
                 except (ValueError, KeyError) as e:
                     logger.debug(f"Failed to parse event timestamp: {e}")
@@ -1258,45 +1134,31 @@ class MemoryDriftAuditor:
 
         return anomalies
 
-    def _generate_drift_recommendations(
-        self, drift_analysis: dict[str, Any]
-    ) -> list[str]:
+    def _generate_drift_recommendations(self, drift_analysis: dict[str, Any]) -> list[str]:
         """Generate recommendations based on drift analysis."""
         recommendations = []
 
         # Check entropy patterns
-        entropy_changes = len(
-            drift_analysis.get("entropy_analysis", {}).get("changes", [])
-        )
+        entropy_changes = len(drift_analysis.get("entropy_analysis", {}).get("changes", []))
         if entropy_changes > 5:
-            recommendations.append(
-                "HIGH_ENTROPY_ACTIVITY: Consider memory consolidation"
-            )
+            recommendations.append("HIGH_ENTROPY_ACTIVITY: Consider memory consolidation")
 
         # Check symbol divergence
-        divergence_events = len(
-            drift_analysis.get("symbol_divergence", {}).get("divergence_events", [])
-        )
+        divergence_events = len(drift_analysis.get("symbol_divergence", {}).get("divergence_events", []))
         if divergence_events > 3:
             recommendations.append("SYMBOL_INSTABILITY: Review symbolic consistency")
 
         # Check identity coherence
-        identity_coherence = drift_analysis.get("identity_drift", {}).get(
-            "coherence_score", 1.0
-        )
+        identity_coherence = drift_analysis.get("identity_drift", {}).get("coherence_score", 1.0)
         if identity_coherence < 0.7:
-            recommendations.append(
-                "IDENTITY_DRIFT_CRITICAL: Immediate attention required"
-            )
+            recommendations.append("IDENTITY_DRIFT_CRITICAL: Immediate attention required")
         elif identity_coherence < 0.9:
             recommendations.append("IDENTITY_DRIFT_MODERATE: Monitor closely")
 
         # Check anomalies
         anomalies = len(drift_analysis.get("anomalies_detected", []))
         if anomalies > 0:
-            recommendations.append(
-                f"ANOMALIES_DETECTED: {anomalies} patterns require investigation"
-            )
+            recommendations.append(f"ANOMALIES_DETECTED: {anomalies} patterns require investigation")
 
         return recommendations
 
@@ -1370,16 +1232,10 @@ class MemoryDriftAuditor:
 
                 if current_time_str and previous_time_str:
                     try:
-                        current_time = datetime.fromisoformat(
-                            current_time_str.replace("Z", "+00:00")
-                        )
-                        previous_time = datetime.fromisoformat(
-                            previous_time_str.replace("Z", "+00:00")
-                        )
+                        current_time = datetime.fromisoformat(current_time_str.replace("Z", "+00:00"))
+                        previous_time = datetime.fromisoformat(previous_time_str.replace("Z", "+00:00"))
 
-                        gap_hours = (
-                            current_time - previous_time
-                        ).total_seconds() / 3600
+                        gap_hours = (current_time - previous_time).total_seconds() / 3600
 
                         # Memory type-specific gap thresholds
                         gap_threshold = {
@@ -1395,17 +1251,9 @@ class MemoryDriftAuditor:
                                     "timestamp": current_time_str,
                                     "memory_type": mem_type,
                                     "gap_hours": round(gap_hours, 2),
-                                    "previous_snapshot": sequence[i - 1].get(
-                                        "key", "unknown"
-                                    ),
-                                    "current_snapshot": sequence[i].get(
-                                        "key", "unknown"
-                                    ),
-                                    "severity": (
-                                        "high"
-                                        if gap_hours > gap_threshold * 2
-                                        else "medium"
-                                    ),
+                                    "previous_snapshot": sequence[i - 1].get("key", "unknown"),
+                                    "current_snapshot": sequence[i].get("key", "unknown"),
+                                    "severity": ("high" if gap_hours > gap_threshold * 2 else "medium"),
                                 }
                             )
                     except (ValueError, KeyError, TypeError) as e:
@@ -1507,9 +1355,7 @@ class MemoryDriftAuditor:
                     timestamp_str = issue["timestamp"]
                     if timestamp_str:
                         try:
-                            issue_time = datetime.fromisoformat(
-                                timestamp_str.replace("Z", "+00:00")
-                            )
+                            issue_time = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
                             issue_times.append(issue_time)
                         except (ValueError, KeyError) as e:
                             logger.debug(f"Failed to parse issue timestamp: {e}")
@@ -1524,9 +1370,7 @@ class MemoryDriftAuditor:
                                 "affected_members": len(family_issues),
                                 "time_span_hours": time_span.total_seconds() / 3600,
                                 "issues": family_issues,
-                                "severity": (
-                                    "high" if len(family_issues) > 3 else "medium"
-                                ),
+                                "severity": ("high" if len(family_issues) > 3 else "medium"),
                             }
                         )
 
@@ -1625,8 +1469,7 @@ class MemoryDriftAuditor:
                     "timestamp": gap_event["timestamp"],
                     "event_type": "phase_gap",
                     "severity": gap_event["severity"],
-                    "description": f"Phase gap in {gap_event['memory_type']}: "
-                    f"{gap_event['gap_hours']}h",
+                    "description": f"Phase gap in {gap_event['memory_type']}: " f"{gap_event['gap_hours']}h",
                     "metadata": gap_event,
                 }
             )
@@ -1648,9 +1491,7 @@ class MemoryDriftAuditor:
 
         return collapse_events
 
-    def _build_forensic_timeline(
-        self, collapse_events: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _build_forensic_timeline(self, collapse_events: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Build forensic timeline of collapse events."""
         timeline = []
 
@@ -1700,9 +1541,7 @@ class MemoryDriftAuditor:
 
         return markers
 
-    def _assess_collapse_severity(
-        self, collapse_events: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _assess_collapse_severity(self, collapse_events: list[dict[str, Any]]) -> dict[str, Any]:
         """Assess overall severity of collapse events."""
         severity_counts = defaultdict(int)
 
@@ -1712,9 +1551,7 @@ class MemoryDriftAuditor:
 
         # Calculate overall severity score
         severity_scores = {"low": 1, "medium": 2, "high": 3, "critical": 4}
-        total_score = sum(
-            severity_scores[sev] * count for sev, count in severity_counts.items()
-        )
+        total_score = sum(severity_scores[sev] * count for sev, count in severity_counts.items())
         max_possible = len(collapse_events) * 4 if collapse_events else 1
 
         overall_severity_ratio = total_score / max_possible
@@ -1736,9 +1573,7 @@ class MemoryDriftAuditor:
             "severity_ratio": overall_severity_ratio,
         }
 
-    def _identify_recovery_opportunities(
-        self, collapse_events: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _identify_recovery_opportunities(self, collapse_events: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Identify opportunities for memory recovery."""
         recovery_opportunities = []
 
@@ -1821,32 +1656,20 @@ class MemoryDriftAuditor:
             },
             "drift_analysis": {
                 "total_events": len(self.drift_events),
-                "severity_distribution": self._get_severity_distribution(
-                    self.drift_events
-                ),
+                "severity_distribution": self._get_severity_distribution(self.drift_events),
                 "event_types": self._get_event_type_distribution(self.drift_events),
-                "temporal_distribution": self._get_temporal_distribution(
-                    self.drift_events
-                ),
+                "temporal_distribution": self._get_temporal_distribution(self.drift_events),
             },
             "collapse_analysis": {
                 "total_events": len(self.collapse_events),
-                "severity_distribution": self._get_severity_distribution(
-                    self.collapse_events
-                ),
+                "severity_distribution": self._get_severity_distribution(self.collapse_events),
                 "event_types": self._get_event_type_distribution(self.collapse_events),
-                "recovery_potential": len(
-                    [e for e in self.collapse_events if e.get("severity") != "critical"]
-                ),
+                "recovery_potential": len([e for e in self.collapse_events if e.get("severity") != "critical"]),
             },
             "integrity_status": {
                 "overall_health": self._assess_overall_health(),
                 "critical_issues": len(
-                    [
-                        e
-                        for e in self.drift_events + self.collapse_events
-                        if e.get("severity") == "critical"
-                    ]
+                    [e for e in self.drift_events + self.collapse_events if e.get("severity") == "critical"]
                 ),
                 "recommendations": self._generate_overall_recommendations(),
             },
@@ -1881,14 +1704,10 @@ class MemoryDriftAuditor:
             timestamp_str = snapshot.get("created_at_utc", "")
             if timestamp_str:
                 try:
-                    timestamp = datetime.fromisoformat(
-                        timestamp_str.replace("Z", "+00:00")
-                    )
+                    timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
                     timestamps.append(timestamp)
                 except (ValueError, KeyError) as e:
-                    logger.debug(
-                        f"Failed to parse timestamp for frequency analysis: {e}"
-                    )
+                    logger.debug(f"Failed to parse timestamp for frequency analysis: {e}")
                     continue
 
         if len(timestamps) < 2:
@@ -1918,9 +1737,7 @@ class MemoryDriftAuditor:
             "coverage_ratio": round(coverage_ratio, 3),
         }
 
-    def _get_severity_distribution(
-        self, events: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _get_severity_distribution(self, events: list[dict[str, Any]]) -> dict[str, int]:
         """Get severity distribution of events."""
         severity_counts = defaultdict(int)
         for event in events:
@@ -1928,9 +1745,7 @@ class MemoryDriftAuditor:
             severity_counts[severity] += 1
         return dict(severity_counts)
 
-    def _get_event_type_distribution(
-        self, events: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _get_event_type_distribution(self, events: list[dict[str, Any]]) -> dict[str, int]:
         """Get event type distribution."""
         type_counts = defaultdict(int)
         for event in events:
@@ -1938,9 +1753,7 @@ class MemoryDriftAuditor:
             type_counts[event_type] += 1
         return dict(type_counts)
 
-    def _get_temporal_distribution(
-        self, events: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _get_temporal_distribution(self, events: list[dict[str, Any]]) -> dict[str, int]:
         """Get temporal distribution of events by hour."""
         hour_counts = defaultdict(int)
 
@@ -1948,9 +1761,7 @@ class MemoryDriftAuditor:
             timestamp_str = event.get("timestamp", "")
             if timestamp_str:
                 try:
-                    timestamp = datetime.fromisoformat(
-                        timestamp_str.replace("Z", "+00:00")
-                    )
+                    timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
                     hour_key = f"{timestamp.hour:02d}:00"
                     hour_counts[hour_key] += 1
                 except (ValueError, KeyError, AttributeError) as e:
@@ -1961,20 +1772,8 @@ class MemoryDriftAuditor:
 
     def _assess_overall_health(self) -> str:
         """Assess overall system health."""
-        critical_events = len(
-            [
-                e
-                for e in self.drift_events + self.collapse_events
-                if e.get("severity") == "critical"
-            ]
-        )
-        high_events = len(
-            [
-                e
-                for e in self.drift_events + self.collapse_events
-                if e.get("severity") == "high"
-            ]
-        )
+        critical_events = len([e for e in self.drift_events + self.collapse_events if e.get("severity") == "critical"])
+        high_events = len([e for e in self.drift_events + self.collapse_events if e.get("severity") == "high"])
 
         if critical_events > 0:
             return "CRITICAL"
@@ -1990,48 +1789,28 @@ class MemoryDriftAuditor:
         recommendations = []
 
         # Check for critical issues
-        critical_events = [
-            e
-            for e in self.drift_events + self.collapse_events
-            if e.get("severity") == "critical"
-        ]
+        critical_events = [e for e in self.drift_events + self.collapse_events if e.get("severity") == "critical"]
         if critical_events:
-            recommendations.append(
-                "IMMEDIATE_ATTENTION_REQUIRED: Critical memory integrity issues detected"
-            )
+            recommendations.append("IMMEDIATE_ATTENTION_REQUIRED: Critical memory integrity issues detected")
 
         # Check drift patterns
-        identity_drift_events = [
-            e for e in self.drift_events if e.get("event_type") == "identity_drift"
-        ]
+        identity_drift_events = [e for e in self.drift_events if e.get("event_type") == "identity_drift"]
         if identity_drift_events:
-            recommendations.append(
-                "IDENTITY_MONITORING: Enhanced identity consistency monitoring recommended"
-            )
+            recommendations.append("IDENTITY_MONITORING: Enhanced identity consistency monitoring recommended")
 
         # Check collapse patterns
-        info_loss_events = [
-            e for e in self.collapse_events if e.get("event_type") == "information_loss"
-        ]
+        info_loss_events = [e for e in self.collapse_events if e.get("event_type") == "information_loss"]
         if len(info_loss_events) > 3:
-            recommendations.append(
-                "MEMORY_BACKUP: Implement more frequent memory backup procedures"
-            )
+            recommendations.append("MEMORY_BACKUP: Implement more frequent memory backup procedures")
 
         # Check temporal gaps
-        phase_gaps = [
-            e for e in self.collapse_events if e.get("event_type") == "phase_gap"
-        ]
+        phase_gaps = [e for e in self.collapse_events if e.get("event_type") == "phase_gap"]
         if phase_gaps:
-            recommendations.append(
-                "TEMPORAL_MONITORING: Address temporal discontinuities in memory sequence"
-            )
+            recommendations.append("TEMPORAL_MONITORING: Address temporal discontinuities in memory sequence")
 
         return recommendations
 
-    def _generate_summary_statistics(
-        self, audit_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _generate_summary_statistics(self, audit_data: dict[str, Any]) -> dict[str, Any]:
         """Generate summary statistics for the audit."""
         return {
             "total_snapshots_analyzed": audit_data["memory_snapshots"]["total_count"],
@@ -2039,15 +1818,9 @@ class MemoryDriftAuditor:
             "total_collapse_events": audit_data["collapse_analysis"]["total_events"],
             "critical_issues": audit_data["integrity_status"]["critical_issues"],
             "overall_health": audit_data["integrity_status"]["overall_health"],
-            "temporal_span_days": audit_data["audit_metadata"]["temporal_span"][
-                "span_days"
-            ],
-            "chronological_integrity": audit_data["memory_snapshots"][
-                "chronological_order"
-            ],
-            "temporal_coverage_ratio": audit_data["memory_snapshots"][
-                "temporal_coverage"
-            ]["coverage_ratio"],
+            "temporal_span_days": audit_data["audit_metadata"]["temporal_span"]["span_days"],
+            "chronological_integrity": audit_data["memory_snapshots"]["chronological_order"],
+            "temporal_coverage_ratio": audit_data["memory_snapshots"]["temporal_coverage"]["coverage_ratio"],
         }
 
     def _generate_markdown_report(
@@ -2055,32 +1828,22 @@ class MemoryDriftAuditor:
     ) -> Optional[str]:
         """Generate Markdown audit report."""
         try:
-            md_path = (
-                output_path.replace(".json", ".md")
-                if output_path.endswith(".json")
-                else f"{output_path}.md"
-            )
+            md_path = output_path.replace(".json", ".md") if output_path.endswith(".json") else f"{output_path}.md"
 
             md_content = self._build_markdown_content(audit_data, metadata)
 
             with open(md_path, "w", encoding="utf-8") as f:
                 f.write(md_content)
 
-            logger.info(
-                "Markdown report generated", path=md_path, tag="ΛAUDITOR_REPORT_MD"
-            )
+            logger.info("Markdown report generated", path=md_path, tag="ΛAUDITOR_REPORT_MD")
 
             return md_path
 
         except Exception as e:
-            logger.error(
-                "Failed to generate Markdown report", error=str(e), tag="ΛAUDITOR_ERROR"
-            )
+            logger.error("Failed to generate Markdown report", error=str(e), tag="ΛAUDITOR_ERROR")
             return None
 
-    def _build_markdown_content(
-        self, audit_data: dict[str, Any], metadata: dict[str, Any]
-    ) -> str:
+    def _build_markdown_content(self, audit_data: dict[str, Any], metadata: dict[str, Any]) -> str:
         """Build Markdown content for audit report."""
         md_lines = []
 
@@ -2095,12 +1858,8 @@ class MemoryDriftAuditor:
         md_lines.append(f"- **Session ID**: `{metadata['audit_session_id']}`")
         md_lines.append(f"- **Generation Time**: {metadata['generation_timestamp']}")
         md_lines.append(f"- **Snapshots Analyzed**: {metadata['snapshots_analyzed']}")
-        md_lines.append(
-            f"- **Temporal Span**: {metadata['temporal_span']['span_days']} days"
-        )
-        md_lines.append(
-            f"- **Analysis Window**: {metadata['config'].get('temporal_window_hours', 48)} hours"
-        )
+        md_lines.append(f"- **Temporal Span**: {metadata['temporal_span']['span_days']} days")
+        md_lines.append(f"- **Analysis Window**: {metadata['config'].get('temporal_window_hours', 48)} hours")
         md_lines.append("")
 
         # Executive Summary
@@ -2121,12 +1880,8 @@ class MemoryDriftAuditor:
         summary = audit_data["integrity_status"]
         md_lines.append("### Key Findings")
         md_lines.append("")
-        md_lines.append(
-            f"- **Drift Events Detected**: {audit_data['drift_analysis']['total_events']}"
-        )
-        md_lines.append(
-            f"- **Collapse Events Detected**: {audit_data['collapse_analysis']['total_events']}"
-        )
+        md_lines.append(f"- **Drift Events Detected**: {audit_data['drift_analysis']['total_events']}")
+        md_lines.append(f"- **Collapse Events Detected**: {audit_data['collapse_analysis']['total_events']}")
         md_lines.append(f"- **Critical Issues**: {summary['critical_issues']}")
         md_lines.append(
             f"- **Temporal Coverage**: {audit_data['memory_snapshots']['temporal_coverage']['coverage_ratio']:.1%}"
@@ -2146,9 +1901,7 @@ class MemoryDriftAuditor:
         md_lines.append("")
         mem_data = audit_data["memory_snapshots"]
         md_lines.append(f"- **Total Snapshots**: {mem_data['total_count']}")
-        md_lines.append(
-            f"- **Chronological Order**: {'✓' if mem_data['chronological_order'] else '✗'}"
-        )
+        md_lines.append(f"- **Chronological Order**: {'✓' if mem_data['chronological_order'] else '✗'}")
         md_lines.append(f"- **Temporal Gaps**: {mem_data['temporal_coverage']['gaps']}")
         md_lines.append("")
 
@@ -2185,9 +1938,7 @@ class MemoryDriftAuditor:
                         "medium": "🟡",
                         "low": "🟢",
                     }.get(severity, "🟢")
-                    md_lines.append(
-                        f"- {severity_emoji} **{severity.title()}**: {count} events"
-                    )
+                    md_lines.append(f"- {severity_emoji} **{severity.title()}**: {count} events")
             md_lines.append("")
 
             # Event type breakdown
@@ -2195,9 +1946,7 @@ class MemoryDriftAuditor:
             md_lines.append("")
             event_types = drift_data["event_types"]
             for event_type, count in sorted(event_types.items()):
-                md_lines.append(
-                    f"- **{event_type.replace('_', ' ').title()}**: {count}"
-                )
+                md_lines.append(f"- **{event_type.replace('_', ' ').title()}**: {count}")
             md_lines.append("")
         else:
             md_lines.append("**No drift events detected in the analyzed timeframe.**")
@@ -2222,14 +1971,10 @@ class MemoryDriftAuditor:
                         "medium": "🟡",
                         "low": "🟢",
                     }.get(severity, "🟢")
-                    md_lines.append(
-                        f"- {severity_emoji} **{severity.title()}**: {count} events"
-                    )
+                    md_lines.append(f"- {severity_emoji} **{severity.title()}**: {count} events")
             md_lines.append("")
 
-            md_lines.append(
-                f"**Recovery Potential**: {collapse_data['recovery_potential']} events may be recoverable"
-            )
+            md_lines.append(f"**Recovery Potential**: {collapse_data['recovery_potential']} events may be recoverable")
             md_lines.append("")
 
             # Event type breakdown
@@ -2237,14 +1982,10 @@ class MemoryDriftAuditor:
             md_lines.append("")
             event_types = collapse_data["event_types"]
             for event_type, count in sorted(event_types.items()):
-                md_lines.append(
-                    f"- **{event_type.replace('_', ' ').title()}**: {count}"
-                )
+                md_lines.append(f"- **{event_type.replace('_', ' ').title()}**: {count}")
             md_lines.append("")
         else:
-            md_lines.append(
-                "**No collapse events detected in the analyzed timeframe.**"
-            )
+            md_lines.append("**No collapse events detected in the analyzed timeframe.**")
             md_lines.append("")
 
         # Footer
@@ -2261,11 +2002,7 @@ class MemoryDriftAuditor:
     ) -> Optional[str]:
         """Generate JSON audit report."""
         try:
-            json_path = (
-                output_path.replace(".md", ".json")
-                if output_path.endswith(".md")
-                else f"{output_path}.json"
-            )
+            json_path = output_path.replace(".md", ".json") if output_path.endswith(".md") else f"{output_path}.json"
 
             # Compile complete JSON report
             json_report = {
@@ -2275,25 +2012,19 @@ class MemoryDriftAuditor:
                 "collapse_events": self.collapse_events,
                 "memory_snapshots_summary": {
                     "total_count": len(self.memory_snapshots),
-                    "sample_keys": [
-                        s.get("key", "") for s in self.memory_snapshots[:10]
-                    ],  # First 10 keys as sample
+                    "sample_keys": [s.get("key", "") for s in self.memory_snapshots[:10]],  # First 10 keys as sample
                 },
             }
 
             with open(json_path, "w", encoding="utf-8") as f:
                 json.dump(json_report, f, indent=2, ensure_ascii=False)
 
-            logger.info(
-                "JSON report generated", path=json_path, tag="ΛAUDITOR_REPORT_JSON"
-            )
+            logger.info("JSON report generated", path=json_path, tag="ΛAUDITOR_REPORT_JSON")
 
             return json_path
 
         except Exception as e:
-            logger.error(
-                "Failed to generate JSON report", error=str(e), tag="ΛAUDITOR_ERROR"
-            )
+            logger.error("Failed to generate JSON report", error=str(e), tag="ΛAUDITOR_ERROR")
             return None
 
 
@@ -2310,9 +2041,7 @@ Examples:
         """,
     )
 
-    parser.add_argument(
-        "--dir", required=True, help="Directory containing memory fold snapshots"
-    )
+    parser.add_argument("--dir", required=True, help="Directory containing memory fold snapshots")
 
     parser.add_argument(
         "--out",
@@ -2334,9 +2063,7 @@ Examples:
         help="Analysis time window (default: all)",
     )
 
-    parser.add_argument(
-        "--timeline", action="store_true", help="Display ASCII timeline visualization"
-    )
+    parser.add_argument("--timeline", action="store_true", help="Display ASCII timeline visualization")
 
     parser.add_argument(
         "--deep-analysis",
@@ -2370,9 +2097,7 @@ Examples:
     config = {
         "entropy_threshold": args.entropy_threshold,
         "drift_threshold": args.drift_threshold,
-        "temporal_window_hours": {"1h": 1, "6h": 6, "24h": 24, "all": 168}.get(
-            args.window, 168
-        ),
+        "temporal_window_hours": {"1h": 1, "6h": 6, "24h": 24, "all": 168}.get(args.window, 168),
         "enable_deep_analysis": args.deep_analysis,
         "generate_visualization": args.timeline,
     }
@@ -2381,9 +2106,7 @@ Examples:
     auditor = MemoryDriftAuditor(config)
 
     try:
-        logger.info(
-            f"📂 Loading memory snapshots from: {args.dir}", tag="ΛAUDITOR_CLI_LOAD"
-        )
+        logger.info(f"📂 Loading memory snapshots from: {args.dir}", tag="ΛAUDITOR_CLI_LOAD")
         loading_results = auditor.load_memory_snapshots(args.dir)
 
         logger.info(
@@ -2443,21 +2166,15 @@ Examples:
                 tag="ΛAUDITOR_CLI_RECOVERY",
             )
 
-        logger.info(
-            f"📊 Generating audit report: {args.out}", tag="ΛAUDITOR_CLI_REPORT_START"
-        )
+        logger.info(f"📊 Generating audit report: {args.out}", tag="ΛAUDITOR_CLI_REPORT_START")
         report_results = auditor.generate_audit_report(args.out, args.format)
 
         if report_results["report_generated"]:
-            logger.info(
-                "   ✓ Report generated successfully", tag="ΛAUDITOR_CLI_REPORT_SUCCESS"
-            )
+            logger.info("   ✓ Report generated successfully", tag="ΛAUDITOR_CLI_REPORT_SUCCESS")
             for output_file in report_results["output_files"]:
                 logger.info(f"   📄 {output_file}", tag="ΛAUDITOR_CLI_REPORT_FILE")
         else:
-            logger.error(
-                "   ❌ Report generation failed", tag="ΛAUDITOR_CLI_REPORT_FAIL"
-            )
+            logger.error("   ❌ Report generation failed", tag="ΛAUDITOR_CLI_REPORT_FAIL")
             for error in report_results.get("generation_errors", []):
                 logger.error(f"      Error: {error}", tag="ΛAUDITOR_CLI_REPORT_ERROR")
 
@@ -2507,14 +2224,10 @@ Examples:
             for rec in recommendations:
                 logger.warning(f"   • {rec}", tag="ΛAUDITOR_CLI_REC")
 
-        logger.info(
-            "✅ ΛAUDITOR analysis completed successfully", tag="ΛAUDITOR_CLI_COMPLETE"
-        )
+        logger.info("✅ ΛAUDITOR analysis completed successfully", tag="ΛAUDITOR_CLI_COMPLETE")
 
     except Exception as e:
-        logger.error(
-            f"❌ Critical error during audit: {e}", tag="ΛAUDITOR_CLI_CRITICAL_ERROR"
-        )
+        logger.error(f"❌ Critical error during audit: {e}", tag="ΛAUDITOR_CLI_CRITICAL_ERROR")
         logger.error("Critical audit error", error=str(e), tag="ΛAUDITOR_CRITICAL")
         return 1
 

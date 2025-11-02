@@ -21,6 +21,7 @@ import pytest
 try:
     from memory.adaptive_memory import AdaptiveMemory
     from memory.fold_system import FoldManager
+
     LUKHAS_AVAILABLE = True
 except ImportError:
     LUKHAS_AVAILABLE = False
@@ -47,7 +48,7 @@ class MemoryBenchmarks:
                 "id": str(uuid.uuid4()),
                 "content": f"Test memory item {i}",
                 "importance": 0.5 + (i % 100) / 200,  # Vary importance
-                "tags": [f"tag_{i % 10}", "benchmark"]
+                "tags": [f"tag_{i % 10}", "benchmark"],
             }
             test_items.append(item_data)
             self.memory.add_memory(item_data)
@@ -76,13 +77,9 @@ class MemoryBenchmarks:
                 "mean": round(mean_latency, 2),
                 "p50": round(p50, 2),
                 "p95": round(p95, 2),
-                "p99": round(p99, 2)
+                "p99": round(p99, 2),
             },
-            "slo_compliance": {
-                "target_p95_ms": 100,
-                "actual_p95_ms": round(p95, 2),
-                "compliant": p95 < 100
-            }
+            "slo_compliance": {"target_p95_ms": 100, "actual_p95_ms": round(p95, 2), "compliant": p95 < 100},
         }
 
         print("📊 Memory Recall Results:")
@@ -104,7 +101,7 @@ class MemoryBenchmarks:
                 "id": str(uuid.uuid4()),
                 "content": f"Stress test item {i}",
                 "importance": 0.9,  # High importance to trigger cascades
-                "tags": ["stress", "cascade_test"]
+                "tags": ["stress", "cascade_test"],
             }
 
             try:
@@ -136,8 +133,8 @@ class MemoryBenchmarks:
             "slo_compliance": {
                 "target_rate_percent": 99.7,
                 "actual_rate_percent": round(prevention_rate, 3),
-                "compliant": prevention_rate >= 99.7
-            }
+                "compliant": prevention_rate >= 99.7,
+            },
         }
 
         print("📊 Cascade Prevention Results:")
@@ -158,7 +155,7 @@ class MemoryBenchmarks:
                 "id": str(uuid.uuid4()),
                 "content": f"Consolidation test item {i}",
                 "importance": 0.3 + (i % 50) / 100,
-                "tags": ["consolidation", f"batch_{i // 10}"]
+                "tags": ["consolidation", f"batch_{i // 10}"],
             }
             self.memory.add_memory(item_data)
 
@@ -177,8 +174,9 @@ class MemoryBenchmarks:
         consolidation_time_ms = (end_time - start_time) * 1000
 
         post_consolidation_count = len(self.memory.get_all_memories())
-        reduction_percent = ((pre_consolidation_count - post_consolidation_count) /
-                           max(pre_consolidation_count, 1)) * 100
+        reduction_percent = (
+            (pre_consolidation_count - post_consolidation_count) / max(pre_consolidation_count, 1)
+        ) * 100
 
         results = {
             "test": "memory_consolidation",
@@ -189,8 +187,8 @@ class MemoryBenchmarks:
             "consolidation_triggered": consolidation_triggered,
             "performance": {
                 "efficient": consolidation_time_ms < 500,  # <500ms consolidation
-                "effective": reduction_percent > 10  # >10% reduction
-            }
+                "effective": reduction_percent > 10,  # >10% reduction
+            },
         }
 
         print("📊 Consolidation Results:")

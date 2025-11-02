@@ -14,6 +14,7 @@ Test Categories:
 6. Edge case and error handling tests
 7. Integration tests
 """
+
 from dataclasses import asdict
 from datetime import datetime, timezone
 
@@ -27,11 +28,7 @@ class TestGlyphSignal:
 
     def test_glyph_signal_creation_minimal(self):
         """Test GlyphSignal creation with minimal parameters."""
-        signal = GlyphSignal(
-            layer_id="test_layer",
-            driftScore=0.5,
-            affect_delta=0.2
-        )
+        signal = GlyphSignal(layer_id="test_layer", driftScore=0.5, affect_delta=0.2)
 
         assert signal.layer_id == "test_layer"
         assert signal.driftScore == 0.5
@@ -45,11 +42,7 @@ class TestGlyphSignal:
         test_markers = ["marker1", "marker2", "marker3"]
 
         signal = GlyphSignal(
-            layer_id="full_layer",
-            driftScore=0.8,
-            affect_delta=-0.3,
-            glyph_markers=test_markers,
-            captured_at=test_time
+            layer_id="full_layer", driftScore=0.8, affect_delta=-0.3, glyph_markers=test_markers, captured_at=test_time
         )
 
         assert signal.layer_id == "full_layer"
@@ -60,11 +53,7 @@ class TestGlyphSignal:
 
     def test_glyph_signal_immutable(self):
         """Test that GlyphSignal is immutable (frozen dataclass)."""
-        signal = GlyphSignal(
-            layer_id="immutable_test",
-            driftScore=0.5,
-            affect_delta=0.2
-        )
+        signal = GlyphSignal(layer_id="immutable_test", driftScore=0.5, affect_delta=0.2)
 
         with pytest.raises(Exception):  # Should raise FrozenInstanceError
             signal.layer_id = "changed"  # type: ignore
@@ -85,26 +74,11 @@ class TestGlyphSignal:
         """Test GlyphSignal equality comparison."""
         test_time = datetime.now(timezone.utc)
 
-        signal1 = GlyphSignal(
-            layer_id="test",
-            driftScore=0.5,
-            affect_delta=0.2,
-            captured_at=test_time
-        )
+        signal1 = GlyphSignal(layer_id="test", driftScore=0.5, affect_delta=0.2, captured_at=test_time)
 
-        signal2 = GlyphSignal(
-            layer_id="test",
-            driftScore=0.5,
-            affect_delta=0.2,
-            captured_at=test_time
-        )
+        signal2 = GlyphSignal(layer_id="test", driftScore=0.5, affect_delta=0.2, captured_at=test_time)
 
-        signal3 = GlyphSignal(
-            layer_id="different",
-            driftScore=0.5,
-            affect_delta=0.2,
-            captured_at=test_time
-        )
+        signal3 = GlyphSignal(layer_id="different", driftScore=0.5, affect_delta=0.2, captured_at=test_time)
 
         assert signal1 == signal2
         assert signal1 != signal3
@@ -112,20 +86,12 @@ class TestGlyphSignal:
     def test_glyph_signal_glyph_markers_types(self):
         """Test glyph_markers accepts different sequence types."""
         # Test with list
-        signal_list = GlyphSignal(
-            layer_id="list_test",
-            driftScore=0.5,
-            affect_delta=0.2,
-            glyph_markers=["a", "b", "c"]
-        )
+        signal_list = GlyphSignal(layer_id="list_test", driftScore=0.5, affect_delta=0.2, glyph_markers=["a", "b", "c"])
         assert list(signal_list.glyph_markers) == ["a", "b", "c"]
 
         # Test with tuple
         signal_tuple = GlyphSignal(
-            layer_id="tuple_test",
-            driftScore=0.5,
-            affect_delta=0.2,
-            glyph_markers=("x", "y", "z")
+            layer_id="tuple_test", driftScore=0.5, affect_delta=0.2, glyph_markers=("x", "y", "z")
         )
         assert list(signal_tuple.glyph_markers) == ["x", "y", "z"]
 
@@ -141,7 +107,7 @@ class TestGlyphConsensusResult:
             affect_delta=0.1,
             agreement_ratio=0.8,
             dissenting_layers=["layer1"],
-            glyph_signature=["sig1", "sig2"]
+            glyph_signature=["sig1", "sig2"],
         )
 
         assert result.consensus is True
@@ -160,7 +126,7 @@ class TestGlyphConsensusResult:
             affect_delta=0.1,
             agreement_ratio=0.8,
             dissenting_layers=[],
-            glyph_signature=[]
+            glyph_signature=[],
         )
 
         with pytest.raises(Exception):
@@ -178,7 +144,7 @@ class TestGlyphConsensusResult:
             affect_delta=-0.2,
             agreement_ratio=0.3,
             dissenting_layers=["layer1", "layer2"],
-            glyph_signature=["warning"]
+            glyph_signature=["warning"],
         )
         after = datetime.now(timezone.utc)
 
@@ -194,7 +160,7 @@ class TestGlyphSpecialist:
         specialist = GlyphSpecialist()
 
         assert specialist.drift_threshold == 0.3
-        assert hasattr(specialist, '_logger')
+        assert hasattr(specialist, "_logger")
 
     def test_glyph_specialist_initialization_custom(self):
         """Test GlyphSpecialist initialization with custom threshold."""
@@ -212,12 +178,7 @@ class TestGlyphSpecialist:
     def test_evaluate_single_signal(self):
         """Test evaluation with single signal."""
         specialist = GlyphSpecialist()
-        signal = GlyphSignal(
-            layer_id="single_test",
-            driftScore=0.2,
-            affect_delta=0.1,
-            glyph_markers=["marker1"]
-        )
+        signal = GlyphSignal(layer_id="single_test", driftScore=0.2, affect_delta=0.1, glyph_markers=["marker1"])
 
         result = specialist.evaluate([signal])
 
@@ -234,24 +195,9 @@ class TestGlyphSpecialist:
         specialist = GlyphSpecialist(drift_threshold=0.5)
 
         signals = [
-            GlyphSignal(
-                layer_id="layer1",
-                driftScore=0.2,
-                affect_delta=0.1,
-                glyph_markers=["stable"]
-            ),
-            GlyphSignal(
-                layer_id="layer2",
-                driftScore=0.25,
-                affect_delta=0.15,
-                glyph_markers=["stable"]
-            ),
-            GlyphSignal(
-                layer_id="layer3",
-                driftScore=0.18,
-                affect_delta=0.08,
-                glyph_markers=["stable"]
-            )
+            GlyphSignal(layer_id="layer1", driftScore=0.2, affect_delta=0.1, glyph_markers=["stable"]),
+            GlyphSignal(layer_id="layer2", driftScore=0.25, affect_delta=0.15, glyph_markers=["stable"]),
+            GlyphSignal(layer_id="layer3", driftScore=0.18, affect_delta=0.08, glyph_markers=["stable"]),
         ]
 
         result = specialist.evaluate(signals)
@@ -266,18 +212,13 @@ class TestGlyphSpecialist:
         specialist = GlyphSpecialist(drift_threshold=0.3)
 
         signals = [
-            GlyphSignal(
-                layer_id="stable_layer",
-                driftScore=0.1,
-                affect_delta=0.05,
-                glyph_markers=["stable"]
-            ),
+            GlyphSignal(layer_id="stable_layer", driftScore=0.1, affect_delta=0.05, glyph_markers=["stable"]),
             GlyphSignal(
                 layer_id="drifting_layer",
                 driftScore=0.8,  # High drift
                 affect_delta=-0.3,
-                glyph_markers=["drift", "warning"]
-            )
+                glyph_markers=["drift", "warning"],
+            ),
         ]
 
         result = specialist.evaluate(signals)
@@ -291,18 +232,10 @@ class TestGlyphSpecialist:
         specialist = GlyphSpecialist(drift_threshold=0.2)
 
         signals = [
+            GlyphSignal(layer_id="high_drift1", driftScore=0.9, affect_delta=-0.4, glyph_markers=["critical", "drift"]),
             GlyphSignal(
-                layer_id="high_drift1",
-                driftScore=0.9,
-                affect_delta=-0.4,
-                glyph_markers=["critical", "drift"]
+                layer_id="high_drift2", driftScore=0.85, affect_delta=-0.35, glyph_markers=["critical", "warning"]
             ),
-            GlyphSignal(
-                layer_id="high_drift2",
-                driftScore=0.85,
-                affect_delta=-0.35,
-                glyph_markers=["critical", "warning"]
-            )
         ]
 
         result = specialist.evaluate(signals)
@@ -314,12 +247,7 @@ class TestGlyphSpecialist:
         """Test that evaluation preserves original signal data."""
         specialist = GlyphSpecialist()
         original_signals = [
-            GlyphSignal(
-                layer_id="preserve_test",
-                driftScore=0.4,
-                affect_delta=0.2,
-                glyph_markers=["test_marker"]
-            )
+            GlyphSignal(layer_id="preserve_test", driftScore=0.4, affect_delta=0.2, glyph_markers=["test_marker"])
         ]
 
         # Create copy to verify original is unchanged
@@ -334,12 +262,7 @@ class TestGlyphSpecialist:
 
     def test_different_thresholds_affect_results(self):
         """Test that different thresholds can affect consensus results."""
-        signal = GlyphSignal(
-            layer_id="threshold_test",
-            driftScore=0.4,
-            affect_delta=0.1,
-            glyph_markers=["test"]
-        )
+        signal = GlyphSignal(layer_id="threshold_test", driftScore=0.4, affect_delta=0.1, glyph_markers=["test"])
 
         strict_specialist = GlyphSpecialist(drift_threshold=0.2)
         lenient_specialist = GlyphSpecialist(drift_threshold=0.6)
@@ -362,29 +285,20 @@ class TestGlyphSpecialistIntegration:
         # Simulate different consciousness layers
         signals = [
             GlyphSignal(
-                layer_id="attention_layer",
-                driftScore=0.15,
-                affect_delta=0.1,
-                glyph_markers=["focus", "stable"]
+                layer_id="attention_layer", driftScore=0.15, affect_delta=0.1, glyph_markers=["focus", "stable"]
             ),
             GlyphSignal(
-                layer_id="memory_layer",
-                driftScore=0.25,
-                affect_delta=0.05,
-                glyph_markers=["recall", "coherent"]
+                layer_id="memory_layer", driftScore=0.25, affect_delta=0.05, glyph_markers=["recall", "coherent"]
             ),
             GlyphSignal(
                 layer_id="reasoning_layer",
                 driftScore=0.4,  # Slightly elevated
                 affect_delta=-0.1,
-                glyph_markers=["logic", "processing"]
+                glyph_markers=["logic", "processing"],
             ),
             GlyphSignal(
-                layer_id="emotional_layer",
-                driftScore=0.1,
-                affect_delta=0.3,
-                glyph_markers=["emotion", "valence"]
-            )
+                layer_id="emotional_layer", driftScore=0.1, affect_delta=0.3, glyph_markers=["emotion", "valence"]
+            ),
         ]
 
         result = specialist.evaluate(signals)
@@ -397,15 +311,10 @@ class TestGlyphSpecialistIntegration:
     def test_weight_computation_accessibility(self):
         """Test that weight computation method can be accessed (if public)."""
         specialist = GlyphSpecialist()
-        signal = GlyphSignal(
-            layer_id="weight_test",
-            driftScore=0.3,
-            affect_delta=0.1,
-            glyph_markers=["test"]
-        )
+        signal = GlyphSignal(layer_id="weight_test", driftScore=0.3, affect_delta=0.1, glyph_markers=["test"])
 
         # Test that _compute_weight method exists and can be called
-        if hasattr(specialist, '_compute_weight'):
+        if hasattr(specialist, "_compute_weight"):
             weight = specialist._compute_weight(signal)
             assert isinstance(weight, (int, float))
             assert weight >= 0
@@ -421,7 +330,7 @@ class TestGlyphSystemEdgeCases:
         signals = [
             GlyphSignal(layer_id="extreme_low", driftScore=-1.0, affect_delta=0.0),
             GlyphSignal(layer_id="extreme_high", driftScore=2.0, affect_delta=0.0),
-            GlyphSignal(layer_id="zero", driftScore=0.0, affect_delta=0.0)
+            GlyphSignal(layer_id="zero", driftScore=0.0, affect_delta=0.0),
         ]
 
         result = specialist.evaluate(signals)
@@ -434,7 +343,7 @@ class TestGlyphSystemEdgeCases:
         signals = [
             GlyphSignal(layer_id="high_positive", driftScore=0.2, affect_delta=5.0),
             GlyphSignal(layer_id="high_negative", driftScore=0.2, affect_delta=-5.0),
-            GlyphSignal(layer_id="zero_affect", driftScore=0.2, affect_delta=0.0)
+            GlyphSignal(layer_id="zero_affect", driftScore=0.2, affect_delta=0.0),
         ]
 
         result = specialist.evaluate(signals)
@@ -446,7 +355,7 @@ class TestGlyphSystemEdgeCases:
 
         signals = [
             GlyphSignal(layer_id="empty_markers", driftScore=0.3, affect_delta=0.1, glyph_markers=[]),
-            GlyphSignal(layer_id="with_markers", driftScore=0.3, affect_delta=0.1, glyph_markers=["marker"])
+            GlyphSignal(layer_id="with_markers", driftScore=0.3, affect_delta=0.1, glyph_markers=["marker"]),
         ]
 
         result = specialist.evaluate(signals)
@@ -458,7 +367,7 @@ class TestGlyphSystemEdgeCases:
 
         signals = [
             GlyphSignal(layer_id="duplicate", driftScore=0.3, affect_delta=0.1),
-            GlyphSignal(layer_id="duplicate", driftScore=0.4, affect_delta=0.2)
+            GlyphSignal(layer_id="duplicate", driftScore=0.4, affect_delta=0.2),
         ]
 
         result = specialist.evaluate(signals)

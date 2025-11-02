@@ -2,6 +2,7 @@
 LUKHAS Cognitive AI Security System
 Enterprise-grade security for Cognitive AI operations
 """
+
 import streamlit as st
 
 # Try to import from ethics module, fallback to local implementations

@@ -22,11 +22,11 @@ class PerformanceSLAValidator:
 
     # T4/0.01% Excellence SLA Thresholds
     SLA_THRESHOLDS = {
-        'guardian_response': {'p95': 0.1, 'unit': 's'},
-        'memory_event_creation': {'p95': 0.0001, 'unit': 's'},
-        'ai_provider_request': {'p95': 0.25, 'unit': 's'},
-        'consciousness_tick': {'p99': 0.001, 'unit': 's'},
-        'authentication': {'p95': 0.1, 'unit': 's'},
+        "guardian_response": {"p95": 0.1, "unit": "s"},
+        "memory_event_creation": {"p95": 0.0001, "unit": "s"},
+        "ai_provider_request": {"p95": 0.25, "unit": "s"},
+        "consciousness_tick": {"p99": 0.001, "unit": "s"},
+        "authentication": {"p95": 0.1, "unit": "s"},
     }
 
     def __init__(self, benchmark_file: str):
@@ -38,7 +38,7 @@ class PerformanceSLAValidator:
     def _load_benchmark_results(self) -> Dict:
         """Load benchmark results from JSON file"""
         try:
-            with open(self.benchmark_file, 'r') as f:
+            with open(self.benchmark_file, "r") as f:
                 return json.load(f)
         except FileNotFoundError:
             print(f"❌ Benchmark file not found: {self.benchmark_file}")
@@ -49,25 +49,20 @@ class PerformanceSLAValidator:
 
     def _extract_percentile(self, benchmark: Dict, percentile: str) -> float:
         """Extract percentile value from benchmark stats"""
-        stats = benchmark.get('stats', {})
+        stats = benchmark.get("stats", {})
 
         # Try different possible keys for percentile data
-        percentile_keys = [
-            f'percentile_{percentile}',
-            f'p{percentile}',
-            percentile.upper(),
-            percentile.lower()
-        ]
+        percentile_keys = [f"percentile_{percentile}", f"p{percentile}", percentile.upper(), percentile.lower()]
 
         for key in percentile_keys:
             if key in stats:
                 return float(stats[key])
 
         # Fallback to mean if percentile not available
-        if 'mean' in stats:
-            return float(stats['mean'])
+        if "mean" in stats:
+            return float(stats["mean"])
 
-        return float('inf')  # Fail validation if no usable data
+        return float("inf")  # Fail validation if no usable data
 
     def _validate_benchmark(self, benchmark_name: str, benchmark_data: Dict) -> bool:
         """Validate a single benchmark against SLA thresholds"""
@@ -85,7 +80,7 @@ class PerformanceSLAValidator:
         sla_name, sla_config = matching_sla
 
         # Extract required percentile
-        percentile_key = 'p99' if 'p99' in sla_config else 'p95'
+        percentile_key = "p99" if "p99" in sla_config else "p95"
         percentile_value = percentile_key[1:]  # Remove 'p' prefix
 
         actual_latency = self._extract_percentile(benchmark_data, percentile_value)
@@ -95,14 +90,14 @@ class PerformanceSLAValidator:
         passed = actual_latency <= threshold
 
         result = {
-            'benchmark': benchmark_name,
-            'sla': sla_name,
-            'metric': f'{percentile_key} latency',
-            'actual': actual_latency,
-            'threshold': threshold,
-            'unit': sla_config['unit'],
-            'passed': passed,
-            'margin': threshold - actual_latency
+            "benchmark": benchmark_name,
+            "sla": sla_name,
+            "metric": f"{percentile_key} latency",
+            "actual": actual_latency,
+            "threshold": threshold,
+            "unit": sla_config["unit"],
+            "passed": passed,
+            "margin": threshold - actual_latency,
         }
 
         if passed:
@@ -114,22 +109,22 @@ class PerformanceSLAValidator:
 
     def _validate_general_performance(self, benchmark_name: str, benchmark_data: Dict) -> bool:
         """Validate general performance for benchmarks without specific SLAs"""
-        stats = benchmark_data.get('stats', {})
-        mean_time = stats.get('mean', 0)
+        stats = benchmark_data.get("stats", {})
+        mean_time = stats.get("mean", 0)
 
         # General performance threshold: 10ms for most operations
         general_threshold = 0.01
         passed = mean_time <= general_threshold
 
         result = {
-            'benchmark': benchmark_name,
-            'sla': 'general_performance',
-            'metric': 'mean latency',
-            'actual': mean_time,
-            'threshold': general_threshold,
-            'unit': 's',
-            'passed': passed,
-            'margin': general_threshold - mean_time
+            "benchmark": benchmark_name,
+            "sla": "general_performance",
+            "metric": "mean latency",
+            "actual": mean_time,
+            "threshold": general_threshold,
+            "unit": "s",
+            "passed": passed,
+            "margin": general_threshold - mean_time,
         }
 
         if passed:
@@ -141,18 +136,18 @@ class PerformanceSLAValidator:
 
     def validate_all(self) -> bool:
         """Validate all benchmarks against SLA requirements"""
-        if 'benchmarks' not in self.results:
+        if "benchmarks" not in self.results:
             print("❌ No benchmarks found in results file")
             return False
 
-        benchmarks = self.results['benchmarks']
+        benchmarks = self.results["benchmarks"]
         all_passed = True
 
         print("🔍 Validating T4/0.01% Excellence Performance SLAs...")
         print("=" * 60)
 
         for benchmark in benchmarks:
-            name = benchmark.get('name', 'Unknown')
+            name = benchmark.get("name", "Unknown")
             passed = self._validate_benchmark(name, benchmark)
             all_passed = all_passed and passed
 
@@ -173,46 +168,50 @@ class PerformanceSLAValidator:
             print("\n✅ PASSED SLA CHECKS:")
             print("-" * 40)
             for check in self.passed_checks:
-                margin_pct = (check['margin'] / check['threshold']) * 100
+                margin_pct = (check["margin"] / check["threshold"]) * 100
                 print(f"  {check['benchmark']}")
-                print(f"    {check['metric']}: {check['actual']:.6f}{check['unit']} "
-                      f"(<= {check['threshold']}{check['unit']}) "
-                      f"[+{margin_pct:.1f}% margin]")
+                print(
+                    f"    {check['metric']}: {check['actual']:.6f}{check['unit']} "
+                    f"(<= {check['threshold']}{check['unit']}) "
+                    f"[+{margin_pct:.1f}% margin]"
+                )
 
         if self.violations:
             print("\n❌ SLA VIOLATIONS:")
             print("-" * 40)
             for violation in self.violations:
-                excess_pct = ((violation['actual'] - violation['threshold']) / violation['threshold']) * 100
+                excess_pct = ((violation["actual"] - violation["threshold"]) / violation["threshold"]) * 100
                 print(f"  {violation['benchmark']}")
-                print(f"    {violation['metric']}: {violation['actual']:.6f}{violation['unit']} "
-                      f"(> {violation['threshold']}{violation['unit']}) "
-                      f"[+{excess_pct:.1f}% over limit]")
+                print(
+                    f"    {violation['metric']}: {violation['actual']:.6f}{violation['unit']} "
+                    f"(> {violation['threshold']}{violation['unit']}) "
+                    f"[+{excess_pct:.1f}% over limit]"
+                )
 
         # Detailed SLA Summary
         print("\n📋 T4/0.01% SLA Requirements:")
         print("-" * 40)
         for sla_name, config in self.SLA_THRESHOLDS.items():
-            percentile = 'p99' if 'p99' in config else 'p95'
+            percentile = "p99" if "p99" in config else "p95"
             threshold = config[percentile]
-            unit = config['unit']
+            unit = config["unit"]
             print(f"  {sla_name}: {percentile} < {threshold}{unit}")
 
     def save_report(self, output_file: str = "sla_validation_report.json") -> None:
         """Save detailed report to JSON file"""
         report = {
-            'timestamp': self.results.get('datetime', 'unknown'),
-            'total_checks': len(self.passed_checks) + len(self.violations),
-            'passed': len(self.passed_checks),
-            'failed': len(self.violations),
-            'success_rate': len(self.passed_checks) / (len(self.passed_checks) + len(self.violations)),
-            'sla_thresholds': self.SLA_THRESHOLDS,
-            'passed_checks': self.passed_checks,
-            'violations': self.violations,
-            'overall_status': 'PASS' if not self.violations else 'FAIL'
+            "timestamp": self.results.get("datetime", "unknown"),
+            "total_checks": len(self.passed_checks) + len(self.violations),
+            "passed": len(self.passed_checks),
+            "failed": len(self.violations),
+            "success_rate": len(self.passed_checks) / (len(self.passed_checks) + len(self.violations)),
+            "sla_thresholds": self.SLA_THRESHOLDS,
+            "passed_checks": self.passed_checks,
+            "violations": self.violations,
+            "overall_status": "PASS" if not self.violations else "FAIL",
         }
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(report, f, indent=2)
 
         print(f"\n💾 Detailed report saved to: {output_file}")

@@ -52,10 +52,24 @@ DEFAULT_MAP = {
 ALLOWLIST_DEFAULT = {"lukhas/compat", "tests/conftest.py"}
 
 PY_GLOB = "**/*.py"
-EXCLUDE_DIRS = {".git","venv",".venv","node_modules","dist","build","__pycache__",
-                ".mypy_cache",".ruff_cache",".pytest_cache",".tox",".idea",".vscode"}
+EXCLUDE_DIRS = {
+    ".git",
+    "venv",
+    ".venv",
+    "node_modules",
+    "dist",
+    "build",
+    "__pycache__",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest_cache",
+    ".tox",
+    ".idea",
+    ".vscode",
+}
 
-def load_cfg(path: str|None):
+
+def load_cfg(path: str | None):
     if not path:
         return DEFAULT_MAP, ALLOWLIST_DEFAULT
     p = Path(path)
@@ -92,13 +106,15 @@ def load_cfg(path: str|None):
     merged.update(mapping)
     return merged, allow or ALLOWLIST_DEFAULT
 
-def root_ok(p: Path)->bool:
+
+def root_ok(p: Path) -> bool:
     for seg in p.parts:
         if seg in EXCLUDE_DIRS:
             return False
     return True
 
-def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
+
+def rewrite_root(name: str, mapping: Dict[str, str]) -> str | None:
     # If name begins with any legacy root, replace that segment
     parts = name.split(".")
     if not parts:
@@ -110,11 +126,13 @@ def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
         return new_name
     return None
 
+
 if HAS_LIBCST:
+
     class ImportRewriter(cst.CSTTransformer):
-        def __init__(self, mapping: Dict[str,str]):
+        def __init__(self, mapping: Dict[str, str]):
             self.mapping = mapping
-            self.changes: List[Tuple[str,str]] = []  # (old, new)
+            self.changes: List[Tuple[str, str]] = []  # (old, new)
 
         def leave_Import(self, original: cst.Import, updated: cst.Import) -> cst.Import:
             names = []
@@ -122,7 +140,7 @@ if HAS_LIBCST:
             for alias in updated.names:
                 if m.matches(alias, m.ImportAlias(name=m.Attribute() | m.Name())):
                     # Handle both Attribute and Name nodes
-                    if hasattr(alias.name, 'code'):
+                    if hasattr(alias.name, "code"):
                         full = alias.name.code
                     else:
                         full = cst.Module([]).code_for_node(alias.name)
@@ -142,7 +160,7 @@ if HAS_LIBCST:
             if updated.module is None:
                 return updated
             # Handle both Attribute and Name nodes
-            if hasattr(updated.module, 'code'):
+            if hasattr(updated.module, "code"):
                 full = updated.module.code
             else:
                 full = cst.Module([]).code_for_node(updated.module)
@@ -166,7 +184,7 @@ if HAS_LIBCST:
                     self.changes.append((text, new))
                     # Preserve original quoting style including prefixes
                     old_val = updated.value
-                    prefix = ''
+                    prefix = ""
                     quote_start = 0
                     for i, c in enumerate(old_val):
                         if c in ('"', "'"):
@@ -207,11 +225,11 @@ def _preserve_quotes(original: str, new_body: str) -> str:
         prefix += original[idx]
         idx += 1
     quote_part = original[idx:]
-    if quote_part.startswith("\"\"\"") or quote_part.startswith("'''"):
+    if quote_part.startswith('"""') or quote_part.startswith("'''"):
         quote = quote_part[:3]
         closing = quote_part[-3:]
         return f"{prefix}{quote}{new_body}{closing}"
-    if quote_part.startswith(("\"", "'")):
+    if quote_part.startswith(('"', "'")):
         quote = quote_part[0]
         return f"{prefix}{quote}{new_body}{quote}"
     return repr(new_body)
@@ -317,11 +335,11 @@ def _fallback_replacements(src: str, mapping: Dict[str, str]) -> Tuple[List[Repl
 def _apply_replacements(src: str, replacements: Iterable[Replacement]) -> str:
     new_src = src
     for rep in sorted(replacements, key=lambda r: r.start, reverse=True):
-        new_src = new_src[:rep.start] + rep.new_text + new_src[rep.end:]
+        new_src = new_src[: rep.start] + rep.new_text + new_src[rep.end :]
     return new_src
 
 
-def process_file(path: Path, mapping: Dict[str,str], apply: bool):
+def process_file(path: Path, mapping: Dict[str, str], apply: bool):
     try:
         src = path.read_text(encoding="utf-8", errors="ignore")
     except FileNotFoundError:
@@ -345,9 +363,10 @@ def process_file(path: Path, mapping: Dict[str,str], apply: bool):
         path.write_text(_apply_replacements(src, replacements), encoding="utf-8")
     return changes, changed
 
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--roots", nargs="+", default=["lukhas","labs","core","MATRIZ","tests","packages","tools"])
+    ap.add_argument("--roots", nargs="+", default=["lukhas", "labs", "core", "MATRIZ", "tests", "packages", "tools"])
     ap.add_argument("--config", default="configs/legacy_imports.yml")
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--out", default="docs/audits/codemod_preview.csv")
@@ -373,14 +392,14 @@ def main():
                     rows.append({"path": str(p), "from": old, "to": new})
 
     with outp.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["path","from","to"])
+        w = csv.DictWriter(f, fieldnames=["path", "from", "to"])
         w.writeheader()
         w.writerows(rows)
 
-    print(f"[codemod] wrote {outp} with {len(rows)} proposed edits"
-          f"{' (APPLIED)' if args.apply else ' (DRY-RUN)'}")
+    print(f"[codemod] wrote {outp} with {len(rows)} proposed edits" f"{' (APPLIED)' if args.apply else ' (DRY-RUN)'}")
     print(f"[codemod] files changed: {changed_files}")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

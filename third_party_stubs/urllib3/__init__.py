@@ -1,4 +1,5 @@
 """Stub urllib3 package for testing environment."""
+
 from . import exceptions
 
 __version__ = "0.0-stub"

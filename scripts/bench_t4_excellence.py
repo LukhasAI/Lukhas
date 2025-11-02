@@ -31,7 +31,7 @@ import psutil
 logging.getLogger().setLevel(logging.CRITICAL)
 
 # Add project root to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from bench_core import PerformanceBenchmark
 from preflight_check import PreflightValidator
@@ -49,7 +49,7 @@ class ChaosCleanupManager:
     def setup_signal_handlers(self):
         """Setup signal handlers for graceful cleanup"""
         signals_to_handle = [signal.SIGINT, signal.SIGTERM]
-        if hasattr(signal, 'SIGHUP'):
+        if hasattr(signal, "SIGHUP"):
             signals_to_handle.append(signal.SIGHUP)
 
         for sig in signals_to_handle:
@@ -105,14 +105,14 @@ def chaos_context(chaos_type: str, **kwargs):
                 while not stop_flag.is_set():
                     _ = sum(i**2 for i in range(1000))
 
-            cpu_count = kwargs.get('cpu_count', psutil.cpu_count())
+            cpu_count = kwargs.get("cpu_count", psutil.cpu_count())
             for _ in range(cpu_count):
                 t = threading.Thread(target=cpu_burner, daemon=True)
                 t.start()
                 threads.append(t)
 
-            chaos_resources['threads'] = threads
-            chaos_resources['stop_flag'] = stop_flag
+            chaos_resources["threads"] = threads
+            chaos_resources["stop_flag"] = stop_flag
 
             def cleanup_cpu():
                 stop_flag.set()
@@ -125,8 +125,8 @@ def chaos_context(chaos_type: str, **kwargs):
         elif chaos_type == "memory_pressure":
             # Memory pressure chaos
             memory_hogs = []
-            block_size = kwargs.get('block_size_mb', 100) * 1024 * 1024
-            num_blocks = kwargs.get('num_blocks', 10)
+            block_size = kwargs.get("block_size_mb", 100) * 1024 * 1024
+            num_blocks = kwargs.get("num_blocks", 10)
 
             for i in range(num_blocks):
                 try:
@@ -136,7 +136,7 @@ def chaos_context(chaos_type: str, **kwargs):
                     print(f"    Memory allocation failed at block {i}")
                     break
 
-            chaos_resources['memory_hogs'] = memory_hogs
+            chaos_resources["memory_hogs"] = memory_hogs
 
             def cleanup_memory():
                 memory_hogs.clear()
@@ -173,71 +173,81 @@ class E2EPromotionGate:
 
     # Define valid E2E metric patterns
     E2E_METRIC_PATTERNS = {
-        'guardian_e2e', 'memory_e2e', 'orchestrator_e2e',
-        'api_e2e', 'workflow_e2e', 'integration_e2e'
+        "guardian_e2e",
+        "memory_e2e",
+        "orchestrator_e2e",
+        "api_e2e",
+        "workflow_e2e",
+        "integration_e2e",
     }
 
     # Define forbidden unit test patterns
     UNIT_METRIC_PATTERNS = {
-        'guardian_unit', 'memory_unit', 'orchestrator_unit',
-        'api_unit', 'workflow_unit', 'integration_unit'
+        "guardian_unit",
+        "memory_unit",
+        "orchestrator_unit",
+        "api_unit",
+        "workflow_unit",
+        "integration_unit",
     }
 
     SLA_THRESHOLDS = {
-        'guardian_e2e': 100000,    # 100ms in μs
-        'memory_e2e': 1000,       # 1ms in μs
-        'orchestrator_e2e': 250000, # 250ms in μs
-        'api_e2e': 500000,        # 500ms in μs
-        'workflow_e2e': 1000000,   # 1s in μs
-        'integration_e2e': 2000000 # 2s in μs
+        "guardian_e2e": 100000,  # 100ms in μs
+        "memory_e2e": 1000,  # 1ms in μs
+        "orchestrator_e2e": 250000,  # 250ms in μs
+        "api_e2e": 500000,  # 500ms in μs
+        "workflow_e2e": 1000000,  # 1s in μs
+        "integration_e2e": 2000000,  # 2s in μs
     }
 
     def __init__(self):
         self.violations = []
         self.validations = []
 
-    def validate_metric_eligibility(self, metric_name: str, distribution: 'PerformanceDistribution') -> bool:
+    def validate_metric_eligibility(self, metric_name: str, distribution: "PerformanceDistribution") -> bool:
         """Validate that metric is eligible for SLA evaluation"""
         is_e2e = any(pattern in metric_name.lower() for pattern in self.E2E_METRIC_PATTERNS)
         is_unit = any(pattern in metric_name.lower() for pattern in self.UNIT_METRIC_PATTERNS)
 
         validation = {
-            'metric': metric_name,
-            'is_e2e_eligible': is_e2e,
-            'is_unit_test': is_unit,
-            'samples': distribution.samples,
-            'p95_us': distribution.p95,
-            'status': 'unknown'
+            "metric": metric_name,
+            "is_e2e_eligible": is_e2e,
+            "is_unit_test": is_unit,
+            "samples": distribution.samples,
+            "p95_us": distribution.p95,
+            "status": "unknown",
         }
 
         if is_unit:
-            validation['status'] = 'REJECTED'
-            validation['reason'] = 'Unit test metrics not allowed for SLA validation'
+            validation["status"] = "REJECTED"
+            validation["reason"] = "Unit test metrics not allowed for SLA validation"
             self.violations.append(f"Metric '{metric_name}' rejected: Unit test metrics forbidden for SLA compliance")
             self.validations.append(validation)
             return False
 
         elif is_e2e:
             if distribution.samples < 1000:
-                validation['status'] = 'REJECTED'
-                validation['reason'] = f'Insufficient samples: {distribution.samples} < 1000'
-                self.violations.append(f"Metric '{metric_name}' rejected: Insufficient E2E samples ({distribution.samples})")
+                validation["status"] = "REJECTED"
+                validation["reason"] = f"Insufficient samples: {distribution.samples} < 1000"
+                self.violations.append(
+                    f"Metric '{metric_name}' rejected: Insufficient E2E samples ({distribution.samples})"
+                )
                 self.validations.append(validation)
                 return False
             else:
-                validation['status'] = 'ACCEPTED'
-                validation['reason'] = f'Valid E2E metric with {distribution.samples} samples'
+                validation["status"] = "ACCEPTED"
+                validation["reason"] = f"Valid E2E metric with {distribution.samples} samples"
                 self.validations.append(validation)
                 return True
 
         else:
-            validation['status'] = 'REJECTED'
-            validation['reason'] = 'Metric name does not match E2E patterns'
+            validation["status"] = "REJECTED"
+            validation["reason"] = "Metric name does not match E2E patterns"
             self.violations.append(f"Metric '{metric_name}' rejected: Not recognized as E2E metric")
             self.validations.append(validation)
             return False
 
-    def validate_sla_compliance(self, results: Dict[str, 'PerformanceDistribution']) -> Dict[str, bool]:
+    def validate_sla_compliance(self, results: Dict[str, "PerformanceDistribution"]) -> Dict[str, bool]:
         """Validate SLA compliance using only E2E metrics"""
         print("🚪 Running E2E-only promotion gate validation...")
 
@@ -264,9 +274,11 @@ class E2EPromotionGate:
                 margin = ((threshold - distribution.p95) / threshold) * 100 if compliant else 0
                 status = "✅ PASS" if compliant else "❌ FAIL"
 
-                print(f"  {status} {metric_name}: {distribution.p95:.2f}μs < {threshold}μs "
-                      f"({margin:.1f}% margin)" if compliant else
-                      f"({distribution.p95 - threshold:.2f}μs over)")
+                print(
+                    f"  {status} {metric_name}: {distribution.p95:.2f}μs < {threshold}μs " f"({margin:.1f}% margin)"
+                    if compliant
+                    else f"({distribution.p95 - threshold:.2f}μs over)"
+                )
 
             else:
                 print(f"  ⚠️  {metric_name}: No SLA threshold defined")
@@ -298,17 +310,17 @@ class E2EPromotionGate:
     def generate_promotion_report(self) -> Dict[str, Any]:
         """Generate detailed promotion gate report"""
         return {
-            'gate_type': 'e2e_only',
-            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
-            'validations': self.validations,
-            'violations': self.violations,
-            'sla_thresholds': self.SLA_THRESHOLDS,
-            'summary': {
-                'total_validations': len(self.validations),
-                'accepted_metrics': len([v for v in self.validations if v['status'] == 'ACCEPTED']),
-                'rejected_metrics': len([v for v in self.validations if v['status'] == 'REJECTED']),
-                'violation_count': len(self.violations)
-            }
+            "gate_type": "e2e_only",
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "validations": self.validations,
+            "violations": self.violations,
+            "sla_thresholds": self.SLA_THRESHOLDS,
+            "summary": {
+                "total_validations": len(self.validations),
+                "accepted_metrics": len([v for v in self.validations if v["status"] == "ACCEPTED"]),
+                "rejected_metrics": len([v for v in self.validations if v["status"] == "REJECTED"]),
+                "violation_count": len(self.violations),
+            },
         }
 
 
@@ -333,20 +345,17 @@ class PowerThermalTelemetry:
 
     def _take_reading(self, label: str = "") -> Dict[str, Any]:
         """Take a comprehensive power/thermal reading"""
-        reading = {
-            'timestamp': time.time(),
-            'label': label
-        }
+        reading = {"timestamp": time.time(), "label": label}
 
         try:
             # CPU frequency readings
             cpu_freq = psutil.cpu_freq()
             if cpu_freq:
-                reading['cpu_freq_mhz'] = cpu_freq.current
-                reading['cpu_freq_min'] = cpu_freq.min
-                reading['cpu_freq_max'] = cpu_freq.max
+                reading["cpu_freq_mhz"] = cpu_freq.current
+                reading["cpu_freq_min"] = cpu_freq.min
+                reading["cpu_freq_max"] = cpu_freq.max
             else:
-                reading['cpu_freq_mhz'] = None
+                reading["cpu_freq_mhz"] = None
 
             # Per-core frequency (Linux only)
             if platform.system() == "Linux":
@@ -355,8 +364,8 @@ class PowerThermalTelemetry:
                     if per_core_freq:
                         freqs = [f.current for f in per_core_freq if f.current]
                         if freqs:
-                            reading['cpu_freq_per_core'] = freqs
-                            reading['cpu_freq_variance'] = max(freqs) - min(freqs)
+                            reading["cpu_freq_per_core"] = freqs
+                            reading["cpu_freq_variance"] = max(freqs) - min(freqs)
                 except Exception as e:
                     logger.debug(f"Expected optional failure: {e}")
                     pass
@@ -367,32 +376,29 @@ class PowerThermalTelemetry:
                 if temps:
                     cpu_temps = []
                     for name, entries in temps.items():
-                        if 'cpu' in name.lower() or 'core' in name.lower():
+                        if "cpu" in name.lower() or "core" in name.lower():
                             for entry in entries:
                                 if entry.current:
                                     cpu_temps.append(entry.current)
 
                     if cpu_temps:
-                        reading['cpu_temp_c'] = sum(cpu_temps) / len(cpu_temps)
-                        reading['cpu_temp_max'] = max(cpu_temps)
-                        reading['cpu_temp_cores'] = cpu_temps
+                        reading["cpu_temp_c"] = sum(cpu_temps) / len(cpu_temps)
+                        reading["cpu_temp_max"] = max(cpu_temps)
+                        reading["cpu_temp_cores"] = cpu_temps
             except Exception as e:
-                reading['cpu_temp_c'] = None
+                reading["cpu_temp_c"] = None
 
             # Power consumption (Linux only)
             if platform.system() == "Linux":
                 try:
                     # Try to read power consumption from /sys/class/power_supply/
-                    power_paths = [
-                        "/sys/class/power_supply/BAT0/power_now",
-                        "/sys/class/power_supply/BAT1/power_now"
-                    ]
+                    power_paths = ["/sys/class/power_supply/BAT0/power_now", "/sys/class/power_supply/BAT1/power_now"]
 
                     for path in power_paths:
                         if Path(path).exists():
                             with open(path) as f:
                                 power_uw = int(f.read().strip())
-                                reading['battery_power_w'] = power_uw / 1000000  # Convert μW to W
+                                reading["battery_power_w"] = power_uw / 1000000  # Convert μW to W
                             break
                 except Exception as e:
                     logger.debug(f"Expected optional failure: {e}")
@@ -400,17 +406,17 @@ class PowerThermalTelemetry:
 
             # CPU load averages
             load_avg = psutil.getloadavg()
-            reading['load_1min'] = load_avg[0]
-            reading['load_5min'] = load_avg[1]
-            reading['load_15min'] = load_avg[2]
+            reading["load_1min"] = load_avg[0]
+            reading["load_5min"] = load_avg[1]
+            reading["load_15min"] = load_avg[2]
 
             # Memory pressure
             memory = psutil.virtual_memory()
-            reading['memory_percent'] = memory.percent
-            reading['memory_available_gb'] = memory.available / (1024**3)
+            reading["memory_percent"] = memory.percent
+            reading["memory_available_gb"] = memory.available / (1024**3)
 
         except Exception as e:
-            reading['error'] = str(e)
+            reading["error"] = str(e)
 
         return reading
 
@@ -420,19 +426,20 @@ class PowerThermalTelemetry:
         self.monitoring = True
 
         def monitor_thread():
-            while getattr(self, 'monitoring', False):
+            while getattr(self, "monitoring", False):
                 reading = self._take_reading("benchmark")
                 self.benchmark_readings.append(reading)
                 time.sleep(interval_seconds)
 
         import threading
+
         self.monitor_thread = threading.Thread(target=monitor_thread, daemon=True)
         self.monitor_thread.start()
 
     def stop_monitoring(self):
         """Stop monitoring and analyze results"""
         self.monitoring = False
-        if hasattr(self, 'monitor_thread'):
+        if hasattr(self, "monitor_thread"):
             self.monitor_thread.join(timeout=1)
 
         self._analyze_readings()
@@ -445,11 +452,11 @@ class PowerThermalTelemetry:
         print("⚡ Analyzing power/thermal telemetry...")
 
         # Analyze frequency stability
-        freqs = [r.get('cpu_freq_mhz') for r in self.benchmark_readings if r.get('cpu_freq_mhz')]
+        freqs = [r.get("cpu_freq_mhz") for r in self.benchmark_readings if r.get("cpu_freq_mhz")]
         if freqs and len(freqs) > 1:
             freq_mean = sum(freqs) / len(freqs)
             freq_variance = sum((f - freq_mean) ** 2 for f in freqs) / len(freqs)
-            freq_coefficient_of_variation = (freq_variance ** 0.5) / freq_mean * 100
+            freq_coefficient_of_variation = (freq_variance**0.5) / freq_mean * 100
 
             self.frequency_variance = freq_coefficient_of_variation
 
@@ -462,7 +469,7 @@ class PowerThermalTelemetry:
             print(f"  📊 Frequency range: {min(freqs):.0f} - {max(freqs):.0f} MHz (mean: {freq_mean:.0f})")
 
         # Analyze temperature stability
-        temps = [r.get('cpu_temp_c') for r in self.benchmark_readings if r.get('cpu_temp_c')]
+        temps = [r.get("cpu_temp_c") for r in self.benchmark_readings if r.get("cpu_temp_c")]
         if temps and len(temps) > 1:
             temp_mean = sum(temps) / len(temps)
             temp_max = max(temps)
@@ -477,7 +484,7 @@ class PowerThermalTelemetry:
                 print(f"  ✅ CPU temperature stable: {temp_mean:.1f}°C ± {temp_range:.1f}°C")
 
         # Analyze load stability
-        loads = [r.get('load_1min') for r in self.benchmark_readings if r.get('load_1min')]
+        loads = [r.get("load_1min") for r in self.benchmark_readings if r.get("load_1min")]
         if loads:
             load_mean = sum(loads) / len(loads)
             load_max = max(loads)
@@ -491,42 +498,42 @@ class PowerThermalTelemetry:
     def generate_telemetry_report(self) -> Dict[str, Any]:
         """Generate comprehensive telemetry report"""
         report = {
-            'telemetry_version': '1.0.0',
-            'capture_timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
-            'baseline': self.baseline_readings,
-            'benchmark_samples': len(self.benchmark_readings),
-            'analysis': {
-                'throttling_detected': self.throttling_detected,
-                'frequency_variance_percent': self.frequency_variance,
-                'monitoring_duration_seconds': 0
-            }
+            "telemetry_version": "1.0.0",
+            "capture_timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "baseline": self.baseline_readings,
+            "benchmark_samples": len(self.benchmark_readings),
+            "analysis": {
+                "throttling_detected": self.throttling_detected,
+                "frequency_variance_percent": self.frequency_variance,
+                "monitoring_duration_seconds": 0,
+            },
         }
 
         if self.benchmark_readings:
-            first_reading = min(r['timestamp'] for r in self.benchmark_readings)
-            last_reading = max(r['timestamp'] for r in self.benchmark_readings)
-            report['analysis']['monitoring_duration_seconds'] = last_reading - first_reading
+            first_reading = min(r["timestamp"] for r in self.benchmark_readings)
+            last_reading = max(r["timestamp"] for r in self.benchmark_readings)
+            report["analysis"]["monitoring_duration_seconds"] = last_reading - first_reading
 
             # Add statistical summaries
-            freqs = [r.get('cpu_freq_mhz') for r in self.benchmark_readings if r.get('cpu_freq_mhz')]
+            freqs = [r.get("cpu_freq_mhz") for r in self.benchmark_readings if r.get("cpu_freq_mhz")]
             if freqs:
-                report['analysis']['frequency_stats'] = {
-                    'min_mhz': min(freqs),
-                    'max_mhz': max(freqs),
-                    'mean_mhz': sum(freqs) / len(freqs),
-                    'samples': len(freqs)
+                report["analysis"]["frequency_stats"] = {
+                    "min_mhz": min(freqs),
+                    "max_mhz": max(freqs),
+                    "mean_mhz": sum(freqs) / len(freqs),
+                    "samples": len(freqs),
                 }
 
-            temps = [r.get('cpu_temp_c') for r in self.benchmark_readings if r.get('cpu_temp_c')]
+            temps = [r.get("cpu_temp_c") for r in self.benchmark_readings if r.get("cpu_temp_c")]
             if temps:
-                report['analysis']['temperature_stats'] = {
-                    'min_c': min(temps),
-                    'max_c': max(temps),
-                    'mean_c': sum(temps) / len(temps),
-                    'samples': len(temps)
+                report["analysis"]["temperature_stats"] = {
+                    "min_c": min(temps),
+                    "max_c": max(temps),
+                    "mean_c": sum(temps) / len(temps),
+                    "samples": len(temps),
                 }
 
-        report['raw_readings'] = self.benchmark_readings[:100]  # Limit to first 100 readings
+        report["raw_readings"] = self.benchmark_readings[:100]  # Limit to first 100 readings
 
         return report
 
@@ -556,9 +563,9 @@ class SLOBurnRateDrill:
         self.synthetic_latencies = []
         self.slo_violations = []
 
-    def generate_synthetic_traffic(self, target_function, baseline_latency: float,
-                                 duration_seconds: int = 30,
-                                 requests_per_second: int = 100) -> Dict[str, Any]:
+    def generate_synthetic_traffic(
+        self, target_function, baseline_latency: float, duration_seconds: int = 30, requests_per_second: int = 100
+    ) -> Dict[str, Any]:
         """Generate synthetic traffic to test SLO burn-rate monitoring"""
         print("🚀 Starting SLO burn-rate drill...")
         print(f"  📊 Target: {requests_per_second} RPS for {duration_seconds}s")
@@ -571,13 +578,15 @@ class SLOBurnRateDrill:
 
         # Define SLO thresholds based on baseline
         slo_thresholds = {
-            'p50_threshold': baseline_latency * 2,   # 2x baseline for p50
-            'p95_threshold': baseline_latency * 5,   # 5x baseline for p95
-            'p99_threshold': baseline_latency * 10   # 10x baseline for p99
+            "p50_threshold": baseline_latency * 2,  # 2x baseline for p50
+            "p95_threshold": baseline_latency * 5,  # 5x baseline for p95
+            "p99_threshold": baseline_latency * 10,  # 10x baseline for p99
         }
 
-        print(f"  📏 SLO thresholds: p50<{slo_thresholds['p50_threshold']:.1f}μs, "
-              f"p95<{slo_thresholds['p95_threshold']:.1f}μs, p99<{slo_thresholds['p99_threshold']:.1f}μs")
+        print(
+            f"  📏 SLO thresholds: p50<{slo_thresholds['p50_threshold']:.1f}μs, "
+            f"p95<{slo_thresholds['p95_threshold']:.1f}μs, p99<{slo_thresholds['p99_threshold']:.1f}μs"
+        )
 
         total_requests = duration_seconds * requests_per_second
         violation_windows = []
@@ -594,12 +603,14 @@ class SLOBurnRateDrill:
                 t1 = time.perf_counter_ns()
                 latency_us = (t1 - t0) / 1000
 
-                self.synthetic_latencies.append({
-                    'request_id': request_id,
-                    'timestamp': request_start,
-                    'latency_us': latency_us,
-                    'elapsed_seconds': request_start - start_time
-                })
+                self.synthetic_latencies.append(
+                    {
+                        "request_id": request_id,
+                        "timestamp": request_start,
+                        "latency_us": latency_us,
+                        "elapsed_seconds": request_start - start_time,
+                    }
+                )
 
                 current_window.append(latency_us)
 
@@ -607,11 +618,13 @@ class SLOBurnRateDrill:
                 if len(current_window) >= window_size:
                     window_violations = self._analyze_window(current_window, slo_thresholds, request_id)
                     if window_violations:
-                        violation_windows.append({
-                            'window_start_request': request_id - window_size + 1,
-                            'window_end_request': request_id,
-                            'violations': window_violations
-                        })
+                        violation_windows.append(
+                            {
+                                "window_start_request": request_id - window_size + 1,
+                                "window_end_request": request_id,
+                                "violations": window_violations,
+                            }
+                        )
 
                     current_window = []
 
@@ -634,23 +647,26 @@ class SLOBurnRateDrill:
         if current_window:
             window_violations = self._analyze_window(current_window, slo_thresholds, len(self.synthetic_latencies))
             if window_violations:
-                violation_windows.append({
-                    'window_start_request': len(self.synthetic_latencies) - len(current_window),
-                    'window_end_request': len(self.synthetic_latencies) - 1,
-                    'violations': window_violations
-                })
+                violation_windows.append(
+                    {
+                        "window_start_request": len(self.synthetic_latencies) - len(current_window),
+                        "window_end_request": len(self.synthetic_latencies) - 1,
+                        "violations": window_violations,
+                    }
+                )
 
         # Calculate overall statistics
-        all_latencies = [r['latency_us'] for r in self.synthetic_latencies]
+        all_latencies = [r["latency_us"] for r in self.synthetic_latencies]
         if all_latencies:
             result = self._calculate_drill_results(all_latencies, slo_thresholds, violation_windows, duration_seconds)
         else:
-            result = {'error': 'No requests completed'}
+            result = {"error": "No requests completed"}
 
         return result
 
-    def _analyze_window(self, window_latencies: List[float], slo_thresholds: Dict[str, float],
-                       request_id: int) -> List[Dict[str, Any]]:
+    def _analyze_window(
+        self, window_latencies: List[float], slo_thresholds: Dict[str, float], request_id: int
+    ) -> List[Dict[str, Any]]:
         """Analyze a window of latencies for SLO violations"""
         violations = []
 
@@ -666,91 +682,102 @@ class SLOBurnRateDrill:
         p99 = sorted_latencies[int(n * 0.99)]
 
         # Check for violations
-        if p50 > slo_thresholds['p50_threshold']:
-            violations.append({
-                'type': 'p50_violation',
-                'actual': p50,
-                'threshold': slo_thresholds['p50_threshold'],
-                'severity': 'high'
-            })
+        if p50 > slo_thresholds["p50_threshold"]:
+            violations.append(
+                {
+                    "type": "p50_violation",
+                    "actual": p50,
+                    "threshold": slo_thresholds["p50_threshold"],
+                    "severity": "high",
+                }
+            )
 
-        if p95 > slo_thresholds['p95_threshold']:
-            violations.append({
-                'type': 'p95_violation',
-                'actual': p95,
-                'threshold': slo_thresholds['p95_threshold'],
-                'severity': 'critical'
-            })
+        if p95 > slo_thresholds["p95_threshold"]:
+            violations.append(
+                {
+                    "type": "p95_violation",
+                    "actual": p95,
+                    "threshold": slo_thresholds["p95_threshold"],
+                    "severity": "critical",
+                }
+            )
 
-        if p99 > slo_thresholds['p99_threshold']:
-            violations.append({
-                'type': 'p99_violation',
-                'actual': p99,
-                'threshold': slo_thresholds['p99_threshold'],
-                'severity': 'critical'
-            })
+        if p99 > slo_thresholds["p99_threshold"]:
+            violations.append(
+                {
+                    "type": "p99_violation",
+                    "actual": p99,
+                    "threshold": slo_thresholds["p99_threshold"],
+                    "severity": "critical",
+                }
+            )
 
         return violations
 
-    def _calculate_drill_results(self, all_latencies: List[float], slo_thresholds: Dict[str, float],
-                               violation_windows: List[Dict], duration_seconds: int) -> Dict[str, Any]:
+    def _calculate_drill_results(
+        self,
+        all_latencies: List[float],
+        slo_thresholds: Dict[str, float],
+        violation_windows: List[Dict],
+        duration_seconds: int,
+    ) -> Dict[str, Any]:
         """Calculate comprehensive drill results"""
         if not all_latencies:
-            return {'error': 'No latency data'}
+            return {"error": "No latency data"}
 
         sorted_latencies = sorted(all_latencies)
         n = len(sorted_latencies)
 
         # Overall statistics
         stats = {
-            'total_requests': n,
-            'duration_seconds': duration_seconds,
-            'average_rps': n / duration_seconds if duration_seconds > 0 else 0,
-            'p50_us': sorted_latencies[int(n * 0.5)],
-            'p95_us': sorted_latencies[int(n * 0.95)],
-            'p99_us': sorted_latencies[int(n * 0.99)],
-            'min_us': min(sorted_latencies),
-            'max_us': max(sorted_latencies),
-            'mean_us': sum(sorted_latencies) / n
+            "total_requests": n,
+            "duration_seconds": duration_seconds,
+            "average_rps": n / duration_seconds if duration_seconds > 0 else 0,
+            "p50_us": sorted_latencies[int(n * 0.5)],
+            "p95_us": sorted_latencies[int(n * 0.95)],
+            "p99_us": sorted_latencies[int(n * 0.99)],
+            "min_us": min(sorted_latencies),
+            "max_us": max(sorted_latencies),
+            "mean_us": sum(sorted_latencies) / n,
         }
 
         # SLO compliance
         slo_compliance = {
-            'p50_compliant': stats['p50_us'] <= slo_thresholds['p50_threshold'],
-            'p95_compliant': stats['p95_us'] <= slo_thresholds['p95_threshold'],
-            'p99_compliant': stats['p99_us'] <= slo_thresholds['p99_threshold']
+            "p50_compliant": stats["p50_us"] <= slo_thresholds["p50_threshold"],
+            "p95_compliant": stats["p95_us"] <= slo_thresholds["p95_threshold"],
+            "p99_compliant": stats["p99_us"] <= slo_thresholds["p99_threshold"],
         }
 
         # Violation analysis
         violation_summary = {
-            'total_violation_windows': len(violation_windows),
-            'violation_types': {},
-            'max_violation_severity': 'none'
+            "total_violation_windows": len(violation_windows),
+            "violation_types": {},
+            "max_violation_severity": "none",
         }
 
         for window in violation_windows:
-            for violation in window['violations']:
-                vtype = violation['type']
-                violation_summary['violation_types'][vtype] = violation_summary['violation_types'].get(vtype, 0) + 1
+            for violation in window["violations"]:
+                vtype = violation["type"]
+                violation_summary["violation_types"][vtype] = violation_summary["violation_types"].get(vtype, 0) + 1
 
-                if violation['severity'] == 'critical':
-                    violation_summary['max_violation_severity'] = 'critical'
-                elif violation['severity'] == 'high' and violation_summary['max_violation_severity'] == 'none':
-                    violation_summary['max_violation_severity'] = 'high'
+                if violation["severity"] == "critical":
+                    violation_summary["max_violation_severity"] = "critical"
+                elif violation["severity"] == "high" and violation_summary["max_violation_severity"] == "none":
+                    violation_summary["max_violation_severity"] = "high"
 
         # Burn rate calculation
         burn_rate = self._calculate_burn_rate(violation_windows, duration_seconds)
 
         result = {
-            'drill_type': 'slo_burn_rate',
-            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
-            'statistics': stats,
-            'slo_thresholds': slo_thresholds,
-            'slo_compliance': slo_compliance,
-            'violations': violation_summary,
-            'burn_rate': burn_rate,
-            'violation_windows': violation_windows[:10],  # Keep first 10 windows
-            'overall_status': 'PASS' if all(slo_compliance.values()) else 'FAIL'
+            "drill_type": "slo_burn_rate",
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "statistics": stats,
+            "slo_thresholds": slo_thresholds,
+            "slo_compliance": slo_compliance,
+            "violations": violation_summary,
+            "burn_rate": burn_rate,
+            "violation_windows": violation_windows[:10],  # Keep first 10 windows
+            "overall_status": "PASS" if all(slo_compliance.values()) else "FAIL",
         }
 
         return result
@@ -758,7 +785,7 @@ class SLOBurnRateDrill:
     def _calculate_burn_rate(self, violation_windows: List[Dict], duration_seconds: int) -> Dict[str, Any]:
         """Calculate SLO burn rate metrics"""
         if duration_seconds <= 0:
-            return {'error': 'Invalid duration'}
+            return {"error": "Invalid duration"}
 
         # Calculate violation percentage
         violation_time = len(violation_windows)  # Each window is ~1 second
@@ -766,30 +793,30 @@ class SLOBurnRateDrill:
 
         # Define burn rate thresholds
         burn_rate_thresholds = {
-            'low': 1,      # 1% violation rate
-            'medium': 5,   # 5% violation rate
-            'high': 10,    # 10% violation rate
-            'critical': 25 # 25% violation rate
+            "low": 1,  # 1% violation rate
+            "medium": 5,  # 5% violation rate
+            "high": 10,  # 10% violation rate
+            "critical": 25,  # 25% violation rate
         }
 
         # Determine severity
-        if violation_percentage >= burn_rate_thresholds['critical']:
-            severity = 'critical'
-        elif violation_percentage >= burn_rate_thresholds['high']:
-            severity = 'high'
-        elif violation_percentage >= burn_rate_thresholds['medium']:
-            severity = 'medium'
-        elif violation_percentage >= burn_rate_thresholds['low']:
-            severity = 'low'
+        if violation_percentage >= burn_rate_thresholds["critical"]:
+            severity = "critical"
+        elif violation_percentage >= burn_rate_thresholds["high"]:
+            severity = "high"
+        elif violation_percentage >= burn_rate_thresholds["medium"]:
+            severity = "medium"
+        elif violation_percentage >= burn_rate_thresholds["low"]:
+            severity = "low"
         else:
-            severity = 'none'
+            severity = "none"
 
         return {
-            'violation_percentage': violation_percentage,
-            'violation_windows_count': len(violation_windows),
-            'total_windows': duration_seconds,
-            'severity': severity,
-            'thresholds': burn_rate_thresholds
+            "violation_percentage": violation_percentage,
+            "violation_windows_count": len(violation_windows),
+            "total_windows": duration_seconds,
+            "severity": severity,
+            "thresholds": burn_rate_thresholds,
         }
 
     def run_comprehensive_drill(self, target_function, baseline_latency: float) -> Dict[str, Any]:
@@ -797,9 +824,9 @@ class SLOBurnRateDrill:
         print("🎯 Running comprehensive SLO burn-rate drill...")
 
         scenarios = [
-            {'name': 'normal_load', 'rps': 50, 'duration': 20},
-            {'name': 'high_load', 'rps': 200, 'duration': 15},
-            {'name': 'burst_load', 'rps': 500, 'duration': 10}
+            {"name": "normal_load", "rps": 50, "duration": 20},
+            {"name": "high_load", "rps": 200, "duration": 15},
+            {"name": "burst_load", "rps": 500, "duration": 10},
         ]
 
         drill_results = {}
@@ -811,51 +838,52 @@ class SLOBurnRateDrill:
                 result = self.generate_synthetic_traffic(
                     target_function,
                     baseline_latency,
-                    duration_seconds=scenario['duration'],
-                    requests_per_second=scenario['rps']
+                    duration_seconds=scenario["duration"],
+                    requests_per_second=scenario["rps"],
                 )
-                drill_results[scenario['name']] = result
+                drill_results[scenario["name"]] = result
 
                 # Print scenario summary
-                if 'statistics' in result:
-                    stats = result['statistics']
-                    compliance = result['slo_compliance']
-                    burn_rate = result['burn_rate']
+                if "statistics" in result:
+                    stats = result["statistics"]
+                    compliance = result["slo_compliance"]
+                    burn_rate = result["burn_rate"]
 
-                    print(f"    📈 Results: {stats['total_requests']} requests, "
-                          f"p95={stats['p95_us']:.1f}μs")
-                    print(f"    🎯 SLO compliance: "
-                          f"p50={'✅' if compliance['p50_compliant'] else '❌'} "
-                          f"p95={'✅' if compliance['p95_compliant'] else '❌'} "
-                          f"p99={'✅' if compliance['p99_compliant'] else '❌'}")
+                    print(f"    📈 Results: {stats['total_requests']} requests, " f"p95={stats['p95_us']:.1f}μs")
+                    print(
+                        f"    🎯 SLO compliance: "
+                        f"p50={'✅' if compliance['p50_compliant'] else '❌'} "
+                        f"p95={'✅' if compliance['p95_compliant'] else '❌'} "
+                        f"p99={'✅' if compliance['p99_compliant'] else '❌'}"
+                    )
                     print(f"    🔥 Burn rate: {burn_rate['violation_percentage']:.1f}% ({burn_rate['severity']})")
 
             except Exception as e:
                 print(f"    ❌ Scenario failed: {e}")
-                drill_results[scenario['name']] = {'error': str(e)}
+                drill_results[scenario["name"]] = {"error": str(e)}
 
         # Overall assessment
-        passed_scenarios = sum(1 for r in drill_results.values()
-                             if r.get('overall_status') == 'PASS')
+        passed_scenarios = sum(1 for r in drill_results.values() if r.get("overall_status") == "PASS")
         total_scenarios = len(scenarios)
 
         print(f"\n🎉 Drill Summary: {passed_scenarios}/{total_scenarios} scenarios passed")
 
         return {
-            'comprehensive_drill': True,
-            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
-            'scenarios': drill_results,
-            'summary': {
-                'total_scenarios': total_scenarios,
-                'passed_scenarios': passed_scenarios,
-                'overall_success': passed_scenarios == total_scenarios
-            }
+            "comprehensive_drill": True,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "scenarios": drill_results,
+            "summary": {
+                "total_scenarios": total_scenarios,
+                "passed_scenarios": passed_scenarios,
+                "overall_success": passed_scenarios == total_scenarios,
+            },
         }
 
 
 @dataclass
 class PerformanceDistribution:
     """Complete performance distribution with all percentiles"""
+
     name: str
     samples: int
     p25: float
@@ -879,6 +907,7 @@ class PerformanceDistribution:
 @dataclass
 class ValidationResult:
     """Complete validation result with proof"""
+
     timestamp: str
     environment: Dict[str, Any]
     distributions: Dict[str, PerformanceDistribution]
@@ -907,24 +936,21 @@ class T4ExcellenceValidator:
         """Capture complete environment for reproducibility"""
         cpu_info = psutil.cpu_freq()
         mem_info = psutil.virtual_memory()
-        disk_info = psutil.disk_usage('/')
+        disk_info = psutil.disk_usage("/")
 
         # Capture Python dependencies
         deps = {}
         try:
-            result = subprocess.run(
-                [sys.executable, '-m', 'pip', 'freeze'],
-                capture_output=True, text=True, timeout=5
-            )
+            result = subprocess.run([sys.executable, "-m", "pip", "freeze"], capture_output=True, text=True, timeout=5)
             for line in result.stdout.splitlines():
-                if '==' in line:
-                    name, version = line.split('==')
+                if "==" in line:
+                    name, version = line.split("==")
                     deps[name] = version
         except Exception as e:
             deps = {"error": "Could not capture dependencies"}
 
         return {
-            "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "platform": {
                 "system": platform.system(),
                 "release": platform.release(),
@@ -946,26 +972,39 @@ class T4ExcellenceValidator:
                 "disk_free_gb": disk_info.free / (1024**3),
             },
             "environment": {
-                "pythonhashseed": os.environ.get('PYTHONHASHSEED', 'not_set'),
-                "lukhas_mode": os.environ.get('LUKHAS_MODE', 'not_set'),
-                "pythondontwritebytecode": os.environ.get('PYTHONDONTWRITEBYTECODE', 'not_set'),
-                "path": os.environ.get('PATH', '').split(':')[:3],  # First 3 paths only
+                "pythonhashseed": os.environ.get("PYTHONHASHSEED", "not_set"),
+                "lukhas_mode": os.environ.get("LUKHAS_MODE", "not_set"),
+                "pythondontwritebytecode": os.environ.get("PYTHONDONTWRITEBYTECODE", "not_set"),
+                "path": os.environ.get("PATH", "").split(":")[:3],  # First 3 paths only
             },
             "dependencies": deps,
             "process": {
                 "pid": os.getpid(),
                 "nice": os.nice(0),
                 "cwd": os.getcwd(),
-            }
+            },
         }
 
     def calculate_distribution(self, samples: List[float], name: str) -> PerformanceDistribution:
         """Calculate complete distribution statistics"""
         if not samples:
             return PerformanceDistribution(
-                name=name, samples=0, p25=0, p50=0, p75=0, p90=0,
-                p95=0, p99=0, p999=0, mean=0, stdev=0, cv=0,
-                min=0, max=0, iqr=0, mad=0
+                name=name,
+                samples=0,
+                p25=0,
+                p50=0,
+                p75=0,
+                p90=0,
+                p95=0,
+                p99=0,
+                p999=0,
+                mean=0,
+                stdev=0,
+                cv=0,
+                min=0,
+                max=0,
+                iqr=0,
+                mad=0,
             )
 
         sorted_samples = sorted(samples)
@@ -1010,19 +1049,27 @@ class T4ExcellenceValidator:
         return PerformanceDistribution(
             name=name,
             samples=n,
-            p25=p25, p50=p50, p75=p75,
-            p90=p90, p95=p95, p99=p99, p999=p999,
-            mean=mean, stdev=stdev, cv=cv,
-            min=min(samples), max=max(samples),
+            p25=p25,
+            p50=p50,
+            p75=p75,
+            p90=p90,
+            p95=p95,
+            p99=p99,
+            p999=p999,
+            mean=mean,
+            stdev=stdev,
+            cv=cv,
+            min=min(samples),
+            max=max(samples),
             iqr=p75 - p25,
             mad=mad,
             histogram=histogram,
-            raw_samples=sorted_samples[:100]  # Keep first 100 for verification
+            raw_samples=sorted_samples[:100],  # Keep first 100 for verification
         )
 
-    def run_benchmark_with_distribution(self, func, name: str,
-                                       warmup: int = 100,
-                                       samples: int = 5000) -> PerformanceDistribution:
+    def run_benchmark_with_distribution(
+        self, func, name: str, warmup: int = 100, samples: int = 5000
+    ) -> PerformanceDistribution:
         """Run benchmark and return full distribution with telemetry monitoring"""
         print(f"🔬 Benchmarking {name}...")
 
@@ -1092,9 +1139,9 @@ class T4ExcellenceValidator:
                 "chaos_type": chaos_type,
                 "baseline_p95": 0,
                 "chaos_p95": 0,
-                "degradation_pct": float('inf'),
+                "degradation_pct": float("inf"),
                 "resilient": False,
-                "error": str(e)
+                "error": str(e),
             }
 
         # Calculate results
@@ -1108,10 +1155,7 @@ class T4ExcellenceValidator:
             "chaos_p95": chaos_p95,
             "degradation_pct": degradation,
             "resilient": degradation < 50,  # Less than 50% degradation = resilient
-            "samples": {
-                "baseline": len(baseline_samples),
-                "chaos": len(chaos_samples)
-            }
+            "samples": {"baseline": len(baseline_samples), "chaos": len(chaos_samples)},
         }
 
         print("    📈 Results:")
@@ -1154,7 +1198,7 @@ class T4ExcellenceValidator:
             "stdev_p95": stdev_p95,
             "cv_pct": cv_p95,
             "reproducibility_rate": reproducibility_rate,
-            "all_results": run_results
+            "all_results": run_results,
         }
 
         print(f"    Mean p95: {mean_p95:.2f}μs (CV={cv_p95:.1f}%)")
@@ -1172,7 +1216,7 @@ class T4ExcellenceValidator:
             "timestamp": time.time(),
             "results": {k: asdict(v) for k, v in self.results.items()},
             "chaos": self.chaos_results,
-            "previous": previous_hash
+            "previous": previous_hash,
         }
 
         # Calculate hash
@@ -1195,13 +1239,13 @@ class T4ExcellenceValidator:
         # Save promotion gate report
         promotion_report = promotion_gate.generate_promotion_report()
         promotion_report_path = self.artifacts_dir / f"promotion_gate_{int(time.time())}.json"
-        with open(promotion_report_path, 'w') as f:
+        with open(promotion_report_path, "w") as f:
             json.dump(promotion_report, f, indent=2)
 
         # Generate and save telemetry report
         telemetry_report = self.telemetry.generate_telemetry_report()
         telemetry_report_path = self.artifacts_dir / f"telemetry_{int(time.time())}.json"
-        with open(telemetry_report_path, 'w') as f:
+        with open(telemetry_report_path, "w") as f:
             json.dump(telemetry_report, f, indent=2)
 
         merkle_root = self.generate_merkle_proof()
@@ -1216,7 +1260,7 @@ class T4ExcellenceValidator:
             telemetry_report=telemetry_report,
             merkle_root=merkle_root,
             previous_hash=self.merkle_chain[-2] if len(self.merkle_chain) > 1 else "genesis",
-            evidence_hash=""
+            evidence_hash="",
         )
 
         # Calculate evidence hash
@@ -1227,26 +1271,26 @@ class T4ExcellenceValidator:
 
     def save_artifacts(self, result: ValidationResult):
         """Save all artifacts for audit trail"""
-        timestamp = time.strftime('%Y%m%d_%H%M%S', time.gmtime())
+        timestamp = time.strftime("%Y%m%d_%H%M%S", time.gmtime())
 
         # Save JSON report
         report_path = self.artifacts_dir / f"t4_validation_{timestamp}.json"
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(asdict(result), f, indent=2, default=str)
 
         # Save raw distributions (pickle for complete data)
         dist_path = self.artifacts_dir / f"distributions_{timestamp}.pkl"
-        with open(dist_path, 'wb') as f:
+        with open(dist_path, "wb") as f:
             pickle.dump(self.results, f)
 
         # Save merkle chain
         merkle_path = self.artifacts_dir / f"merkle_chain_{timestamp}.json"
-        with open(merkle_path, 'w') as f:
-            json.dump({
-                "chain": self.merkle_chain,
-                "current_root": result.merkle_root,
-                "evidence_hash": result.evidence_hash
-            }, f, indent=2)
+        with open(merkle_path, "w") as f:
+            json.dump(
+                {"chain": self.merkle_chain, "current_root": result.merkle_root, "evidence_hash": result.evidence_hash},
+                f,
+                indent=2,
+            )
 
         print("\n📁 Artifacts saved:")
         print(f"  • Report: {report_path}")
@@ -1257,9 +1301,9 @@ class T4ExcellenceValidator:
 
 def run_t4_excellence_validation():
     """Run complete T4/0.01% excellence validation"""
-    print("="*80)
+    print("=" * 80)
     print("🚀 T4/0.01% EXCELLENCE VALIDATION - UNASSAILABLE PROOF")
-    print("="*80)
+    print("=" * 80)
 
     validator = T4ExcellenceValidator()
 
@@ -1272,111 +1316,104 @@ def run_t4_excellence_validation():
 
     # 1. BASELINE BENCHMARKS
     print("\n📊 BASELINE PERFORMANCE MEASUREMENTS")
-    print("-"*60)
+    print("-" * 60)
 
     # Guardian tests
     validator.run_benchmark_with_distribution(
-        lambda: guardian.validate_safety({"test": "data"}),
-        "guardian_unit", warmup=500, samples=10000
+        lambda: guardian.validate_safety({"test": "data"}), "guardian_unit", warmup=500, samples=10000
     )
 
     temp_dir = tempfile.mkdtemp()
+
     def guardian_e2e():
         response = guardian.validate_safety({"test": "data"})
         log_file = Path(temp_dir) / f"log_{time.time_ns()}.json"
-        with open(log_file, 'w') as f:
+        with open(log_file, "w") as f:
             json.dump(response, f)
-        with open(log_file, 'r') as f:
+        with open(log_file, "r") as f:
             verified = json.load(f)
         log_file.unlink()
         return verified
 
-    validator.run_benchmark_with_distribution(
-        guardian_e2e, "guardian_e2e", warmup=100, samples=2000
-    )
+    validator.run_benchmark_with_distribution(guardian_e2e, "guardian_e2e", warmup=100, samples=2000)
 
     # Memory tests
     validator.run_benchmark_with_distribution(
-        lambda: memory_factory.create({"test": "data"}, {"affect_delta": 0.5}),
-        "memory_unit", warmup=500, samples=10000
+        lambda: memory_factory.create({"test": "data"}, {"affect_delta": 0.5}), "memory_unit", warmup=500, samples=10000
     )
 
     def memory_e2e():
         event = memory_factory.create({"test": "data"}, {"affect_delta": 0.5})
         event_file = Path(temp_dir) / f"event_{time.time_ns()}.json"
-        with open(event_file, 'w') as f:
+        with open(event_file, "w") as f:
             json.dump({"data": event.data, "metadata": event.metadata}, f)
-        with open(event_file, 'r') as f:
+        with open(event_file, "r") as f:
             verified = json.load(f)
         event_file.unlink()
         return verified
 
-    validator.run_benchmark_with_distribution(
-        memory_e2e, "memory_e2e", warmup=100, samples=2000
-    )
+    validator.run_benchmark_with_distribution(memory_e2e, "memory_e2e", warmup=100, samples=2000)
 
     # 2. CHAOS ENGINEERING
     print("\n🌪️  CHAOS ENGINEERING TESTS")
-    print("-"*60)
+    print("-" * 60)
 
     validator.run_chaos_test(
-        lambda: guardian.validate_safety({"test": "data"}),
-        "guardian_chaos_cpu", chaos_type="cpu_spike"
+        lambda: guardian.validate_safety({"test": "data"}), "guardian_chaos_cpu", chaos_type="cpu_spike"
     )
 
     validator.run_chaos_test(
         lambda: memory_factory.create({"test": "data"}, {"affect_delta": 0.5}),
-        "memory_chaos_memory", chaos_type="memory_pressure"
+        "memory_chaos_memory",
+        chaos_type="memory_pressure",
     )
 
     # 3. REPRODUCIBILITY TESTS
     print("\n🔄 REPRODUCIBILITY VALIDATION")
-    print("-"*60)
+    print("-" * 60)
 
     repro_guardian = validator.test_reproducibility(
-        lambda: guardian.validate_safety({"test": "data"}),
-        "guardian_reproducibility", runs=5
+        lambda: guardian.validate_safety({"test": "data"}), "guardian_reproducibility", runs=5
     )
 
     repro_memory = validator.test_reproducibility(
-        lambda: memory_factory.create({"test": "data"}, {"affect_delta": 0.5}),
-        "memory_reproducibility", runs=5
+        lambda: memory_factory.create({"test": "data"}, {"affect_delta": 0.5}), "memory_reproducibility", runs=5
     )
 
     # 4. GENERATE REPORT
     print("\n📝 GENERATING VALIDATION REPORT")
-    print("-"*60)
+    print("-" * 60)
 
     result = validator.generate_comprehensive_report()
-    result.reproducibility = {
-        "guardian": repro_guardian,
-        "memory": repro_memory
-    }
+    result.reproducibility = {"guardian": repro_guardian, "memory": repro_memory}
 
     # 5. SAVE ARTIFACTS
     validator.save_artifacts(result)
 
     # 6. FINAL VALIDATION SUMMARY
-    print("\n"+"="*80)
+    print("\n" + "=" * 80)
     print("📊 T4/0.01% EXCELLENCE VALIDATION SUMMARY")
-    print("="*80)
+    print("=" * 80)
 
     print("\n🎯 Performance Distributions (all percentiles in μs):")
-    print("-"*80)
+    print("-" * 80)
     print(f"{'Component':<20} {'p50':<10} {'p95':<10} {'p99':<10} {'p99.9':<10} {'CV%':<8} {'Status'}")
-    print("-"*80)
+    print("-" * 80)
 
     for name, dist in validator.results.items():
         if "e2e" in name:
-            status = "✅" if any(name.startswith(k) and v
-                                for k, v in result.sla_compliance.items()) else "❌"
-            print(f"{name:<20} {dist.p50:<10.2f} {dist.p95:<10.2f} "
-                  f"{dist.p99:<10.2f} {dist.p999:<10.2f} {dist.cv:<8.1f} {status}")
+            status = "✅" if any(name.startswith(k) and v for k, v in result.sla_compliance.items()) else "❌"
+            print(
+                f"{name:<20} {dist.p50:<10.2f} {dist.p95:<10.2f} "
+                f"{dist.p99:<10.2f} {dist.p999:<10.2f} {dist.cv:<8.1f} {status}"
+            )
 
     print("\n🌪️  Chaos Resilience:")
     for name, chaos in validator.chaos_results.items():
-        print(f"  {name}: {'✅ Resilient' if chaos['resilient'] else '❌ Not resilient'} "
-              f"(degradation: {chaos['degradation_pct']:.1f}%)")
+        print(
+            f"  {name}: {'✅ Resilient' if chaos['resilient'] else '❌ Not resilient'} "
+            f"(degradation: {chaos['degradation_pct']:.1f}%)"
+        )
 
     print("\n🔄 Reproducibility:")
     print(f"  Guardian: {repro_guardian['reproducibility_rate']:.0f}% within ±5%")
@@ -1389,19 +1426,19 @@ def run_t4_excellence_validation():
 
     # Check overall pass
     all_sla_pass = all(result.sla_compliance.values())
-    chaos_resilient = all(c['resilient'] for c in validator.chaos_results.values())
-    reproducible = (repro_guardian['reproducibility_rate'] >= 80 and
-                   repro_memory['reproducibility_rate'] >= 80)
+    chaos_resilient = all(c["resilient"] for c in validator.chaos_results.values())
+    reproducible = repro_guardian["reproducibility_rate"] >= 80 and repro_memory["reproducibility_rate"] >= 80
 
-    print("\n"+"="*80)
+    print("\n" + "=" * 80)
     if all_sla_pass and chaos_resilient and reproducible:
         print("🏆 T4/0.01% EXCELLENCE: VALIDATED WITH UNASSAILABLE PROOF ✅")
     else:
         print("⚠️  T4/0.01% EXCELLENCE: PARTIAL (see failures above)")
-    print("="*80)
+    print("=" * 80)
 
     # Cleanup
     import shutil
+
     shutil.rmtree(temp_dir, ignore_errors=True)
 
     return 0 if (all_sla_pass and chaos_resilient and reproducible) else 1
@@ -1410,14 +1447,14 @@ def run_t4_excellence_validation():
 def main():
     """Main entry point"""
     # Set environment for maximum reproducibility
-    os.environ['PYTHONHASHSEED'] = '0'
-    os.environ['LUKHAS_MODE'] = 'release'
-    os.environ['PYTHONDONTWRITEBYTECODE'] = '1'
+    os.environ["PYTHONHASHSEED"] = "0"
+    os.environ["LUKHAS_MODE"] = "release"
+    os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
 
     try:
         # Run preflight validation gate first
         audit_run_id = os.getenv("AUDIT_RUN_ID", f"excellence_{int(time.time())}")
-        os.environ['AUDIT_RUN_ID'] = audit_run_id
+        os.environ["AUDIT_RUN_ID"] = audit_run_id
 
         print("🔍 Running T4/0.01% Excellence Preflight Validation...")
         validator = PreflightValidator(audit_run_id)
@@ -1440,6 +1477,7 @@ def main():
     except Exception as e:
         print(f"\n❌ Validation failed: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 

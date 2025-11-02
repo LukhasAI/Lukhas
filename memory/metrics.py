@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 # ΛTAG: affect_delta_metrics
 
+
 def _clamp(value: float, minimum: float = 0.0, maximum: float = 1.0) -> float:
     """Clamp a floating point value to the provided bounds."""
     return max(minimum, min(maximum, value))
@@ -75,6 +76,7 @@ def compute_affect_delta(payload: Mapping[str, Any]) -> float:
 
 
 # ΛTAG: drift_metric
+
 
 def compute_drift(previous: Optional[float], current: float) -> float:
     """Compute driftScore from a previous affect delta reading and the current value."""

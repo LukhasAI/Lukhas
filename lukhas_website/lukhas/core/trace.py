@@ -7,6 +7,7 @@ Usage:
   from core.trace import mk_crumb
   trace = {"enter": mk_crumb("adapter_enter", msg.glyph, topic=msg.topic)}
 """
+
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 

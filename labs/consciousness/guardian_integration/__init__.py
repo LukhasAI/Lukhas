@@ -108,11 +108,13 @@ if "GuardianValidationResult" not in globals():
             return self.result == ValidationResult.APPROVED
 
         def add_audit_entry(self, event_type: str, details: Dict[str, Any]) -> None:
-            self.audit_trail.append({
-                "event_type": event_type,
-                "details": details,
-                "operation_id": self.operation_id,
-            })
+            self.audit_trail.append(
+                {
+                    "event_type": event_type,
+                    "details": details,
+                    "operation_id": self.operation_id,
+                }
+            )
 
     __all__.append("GuardianValidationResult")
 

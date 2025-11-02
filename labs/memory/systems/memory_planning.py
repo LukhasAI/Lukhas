@@ -92,7 +92,7 @@ class LiveRanges:
         return self.ranges[-1].end
 
     def __repr__(self):
-        ranges_repr = ', '.join(map(repr, self.ranges))
+        ranges_repr = ", ".join(map(repr, self.ranges))
         return f"{self.__class__.__name__}([{ranges_repr}])"
 
 

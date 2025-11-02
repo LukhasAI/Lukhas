@@ -3,6 +3,7 @@ Breakthrough Synthesis Engine
 
 Synthesizes breakthroughs from multiple innovation sources.
 """
+
 import logging
 import uuid
 from typing import Any, Optional

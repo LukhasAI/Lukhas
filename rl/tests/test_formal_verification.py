@@ -101,7 +101,9 @@ class ConsciousnessFormalVerifier:
                 self.rl_value = ValueNetwork()  # noqa: F821  # TODO: ValueNetwork
                 self.rl_rewards = ConsciousnessRewards()  # noqa: F821  # TODO: ConsciousnessRewards
                 self.rl_buffer = ConsciousnessBuffer(capacity=64)  # noqa: F821  # TODO: ConsciousnessBuffer
-                self.rl_meta_learning = ConsciousnessMetaLearning(max_experiences=64)  # noqa: F821  # TODO: ConsciousnessMetaLearning
+                self.rl_meta_learning = ConsciousnessMetaLearning(
+                    max_experiences=64
+                )  # noqa: F821  # TODO: ConsciousnessMetaLearning
                 self.rl_coordination = MultiAgentCoordination()  # noqa: F821  # TODO: MultiAgentCoordination
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("Formal verifier RL integration disabled: %s", exc)
@@ -240,7 +242,9 @@ class ConsciousnessFormalVerifier:
             "confidence": float(metamorphic_state.get("confidence", 0.7)),
         }
 
-        context_node = MatrizNode(type="CONTEXT", state=state_dict, labels=[f"formal:{property_name}"])  # noqa: F821  # TODO: MatrizNode
+        context_node = MatrizNode(
+            type="CONTEXT", state=state_dict, labels=[f"formal:{property_name}"]
+        )  # noqa: F821  # TODO: MatrizNode
         action_node = await self.rl_policy.select_action(context_node)
         reward_node = await self.rl_rewards.compute_reward(context_node, action_node, context_node)
 
@@ -549,7 +553,9 @@ class ConsciousnessFormalVerifier:
         consciousness_satisfied = vars["awareness_level"] >= 0.5
         guardian_satisfied = vars["ethical_alignment"] >= 0.98
 
-        triad_satisfied = And(identity_satisfied, consciousness_satisfied, guardian_satisfied)  # noqa: F821  # TODO: And
+        triad_satisfied = And(
+            identity_satisfied, consciousness_satisfied, guardian_satisfied
+        )  # noqa: F821  # TODO: And
 
         solver.add(triad_satisfied)
 
@@ -674,7 +680,9 @@ class ConsciousnessFormalVerifier:
             confidence_level=confidence_level,
         )
 
-    def _add_consciousness_constraints_to_solver(self, solver: Solver, vars: dict[str, Any]):  # noqa: F821  # TODO: Solver
+    def _add_consciousness_constraints_to_solver(
+        self, solver: Solver, vars: dict[str, Any]
+    ):  # noqa: F821  # TODO: Solver
         """Add consciousness constraints to a specific solver"""
 
         # Consciousness state bounds

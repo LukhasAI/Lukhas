@@ -23,25 +23,21 @@ def convert_flat_to_nested(flat_spec):
             "version": flat_spec.get("version", "0.0.1"),
             "schema_version": flat_spec.get("schema_version", "nodespec.v1"),
             "authors": flat_spec.get("authors", ["LUKHAS"]),
-            "created_at": flat_spec.get("created_at", datetime.date.today().isoformat())
+            "created_at": flat_spec.get("created_at", datetime.date.today().isoformat()),
         },
         "identity": {
             "owner_id": flat_spec.get("owner_id", "GLYMPH:unknown"),
             "lane": flat_spec.get("lane", "core"),
             "tier": flat_spec.get("tier", 3),
-            "roles": flat_spec.get("roles", [])
+            "roles": flat_spec.get("roles", []),
         },
-        "interfaces": flat_spec.get("interfaces", {
-            "inputs": [],
-            "outputs": [],
-            "signals": {}
-        }),
+        "interfaces": flat_spec.get("interfaces", {"inputs": [], "outputs": [], "signals": {}}),
         "contracts": flat_spec.get("contracts", {}),
         "provenance_manifest": flat_spec.get("provenance_manifest", {}),
         "security": flat_spec.get("security", {}),
         "graceful_degradation": flat_spec.get("graceful_degradation", {}),
         "compatibility": flat_spec.get("compatibility", {}),
-        "extraplanetary_policy": flat_spec.get("extraplanetary_policy", {})
+        "extraplanetary_policy": flat_spec.get("extraplanetary_policy", {}),
     }
 
     return nested

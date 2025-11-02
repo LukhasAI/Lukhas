@@ -32,6 +32,7 @@ from typing import Any, Dict, List
 try:
     import os
     import sys
+
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     from governance.guardian_system import GuardianSystem
@@ -42,6 +43,7 @@ try:
     from identity.security_hardening import create_security_hardening_manager
     from identity.tiers import AuthContext, SecurityPolicy, create_tiered_authenticator
     from identity.webauthn_enhanced import create_enhanced_webauthn_service
+
     COMPONENTS_AVAILABLE = True
     print("✅ All I.2 components imported successfully for validation")
 except ImportError as e:
@@ -59,7 +61,7 @@ class T4ExcellenceValidator:
 
         # Performance targets (in milliseconds)
         self.performance_targets = {
-            "T1": 50,   # Public access
+            "T1": 50,  # Public access
             "T2": 200,  # Password authentication
             "T3": 150,  # TOTP MFA
             "T4": 300,  # WebAuthn
@@ -70,7 +72,7 @@ class T4ExcellenceValidator:
         self.excellence_thresholds = {
             "success_rate_minimum": 0.9999,  # 99.99%
             "cv_maximum": 0.10,  # 10%
-            "p95_compliance_rate": 0.95  # 95% of operations under target
+            "p95_compliance_rate": 0.95,  # 95% of operations under target
         }
 
         # Validation results
@@ -81,14 +83,14 @@ class T4ExcellenceValidator:
                 "component": "I.2_Tiered_Authentication",
                 "standard": "T4/0.01% Excellence",
                 "validator": "Claude Code",
-                "runs": runs
+                "runs": runs,
             },
             "performance_validation": {},
             "reliability_validation": {},
             "security_validation": {},
             "statistical_analysis": {},
             "compliance_validation": {},
-            "excellence_verdict": {}
+            "excellence_verdict": {},
         }
 
     async def run_comprehensive_validation(self) -> Dict[str, Any]:
@@ -147,8 +149,7 @@ class T4ExcellenceValidator:
 
         # Authenticator with optimized settings for testing
         security_policy = SecurityPolicy(
-            argon2_time_cost=1,  # Faster for testing
-            argon2_memory_cost=1024  # Smaller for testing
+            argon2_time_cost=1, argon2_memory_cost=1024  # Faster for testing  # Smaller for testing
         )
         self.authenticator = create_tiered_authenticator(security_policy, self.guardian)
 
@@ -186,7 +187,7 @@ class T4ExcellenceValidator:
             sla_compliance = {
                 "mean_under_target": mean_latency < target,
                 "p95_under_target": p95_latency < target,
-                "cv_under_10_percent": cv < 0.10
+                "cv_under_10_percent": cv < 0.10,
             }
 
             # Calculate headroom
@@ -202,12 +203,14 @@ class T4ExcellenceValidator:
                 "std_dev_ms": round(std_dev, 3),
                 "coefficient_of_variation": round(cv, 4),
                 "headroom_percent": round(headroom_percent, 1),
-                "sla_compliance": sla_compliance
+                "sla_compliance": sla_compliance,
             }
 
             # Print results
             status = "✅" if all(sla_compliance.values()) else "❌"
-            print(f"      {status} {tier}: {mean_latency:.1f}ms avg, {p95_latency:.1f}ms p95, {headroom_percent:.1f}% headroom")
+            print(
+                f"      {status} {tier}: {mean_latency:.1f}ms avg, {p95_latency:.1f}ms p95, {headroom_percent:.1f}% headroom"
+            )
 
         self.results["performance_validation"] = performance_results
 
@@ -218,10 +221,12 @@ class T4ExcellenceValidator:
         # Mock verification methods for consistent testing
         import unittest.mock
 
-        with unittest.mock.patch.object(self.authenticator, '_verify_password', return_value=True), \
-             unittest.mock.patch.object(self.authenticator, '_verify_totp', return_value=True), \
-             unittest.mock.patch.object(self.authenticator, '_verify_webauthn', return_value=True), \
-             unittest.mock.patch.object(self.authenticator, '_verify_biometric', return_value=True):
+        with (
+            unittest.mock.patch.object(self.authenticator, "_verify_password", return_value=True),
+            unittest.mock.patch.object(self.authenticator, "_verify_totp", return_value=True),
+            unittest.mock.patch.object(self.authenticator, "_verify_webauthn", return_value=True),
+            unittest.mock.patch.object(self.authenticator, "_verify_biometric", return_value=True),
+        ):
 
             for i in range(runs):
                 # Create context for tier
@@ -263,7 +268,7 @@ class T4ExcellenceValidator:
             password="test_password",
             totp_token="123456",
             webauthn_response={"challenge": "test", "signature": "test"},
-            biometric_attestation={"confidence": 0.98, "signature": "test"}
+            biometric_attestation={"confidence": 0.98, "signature": "test"},
         )
 
     async def _validate_reliability(self):
@@ -278,7 +283,7 @@ class T4ExcellenceValidator:
         # Mock verification methods
         import unittest.mock
 
-        with unittest.mock.patch.object(self.authenticator, '_verify_password', return_value=True):
+        with unittest.mock.patch.object(self.authenticator, "_verify_password", return_value=True):
             for i in range(total_attempts):
                 try:
                     ctx = self._create_test_context("T2", i)
@@ -306,11 +311,13 @@ class T4ExcellenceValidator:
             "success_rate": round(success_rate, 6),
             "target_success_rate": self.excellence_thresholds["success_rate_minimum"],
             "reliability_passed": reliability_passed,
-            "error_distribution": error_types
+            "error_distribution": error_types,
         }
 
         status = "✅" if reliability_passed else "❌"
-        print(f"      {status} Success rate: {success_rate:.4%} (target: {self.excellence_thresholds['success_rate_minimum']:.4%})")
+        print(
+            f"      {status} Success rate: {success_rate:.4%} (target: {self.excellence_thresholds['success_rate_minimum']:.4%})"
+        )
 
     async def _validate_security(self):
         """Validate security hardening features."""
@@ -326,7 +333,7 @@ class T4ExcellenceValidator:
         security_results["anti_replay"] = {
             "first_use_valid": valid1,
             "replay_blocked": not valid2,
-            "protection_effective": valid1 and not valid2
+            "protection_effective": valid1 and not valid2,
         }
 
         # Test rate limiting
@@ -344,31 +351,31 @@ class T4ExcellenceValidator:
         security_results["rate_limiting"] = {
             "actions_observed": list(actions_taken),
             "rate_limiting_active": rate_limiting_active,
-            "total_requests_tested": len(rate_limit_results)
+            "total_requests_tested": len(rate_limit_results),
         }
 
         # Test request analysis
         threat_level, indicators = await self.security_manager.analyze_request(
-            ip_address="127.0.0.1",
-            user_agent="sqlmap/1.0",  # Suspicious user agent
-            headers={"X-Scanner": "test"}
+            ip_address="127.0.0.1", user_agent="sqlmap/1.0", headers={"X-Scanner": "test"}  # Suspicious user agent
         )
 
         security_results["threat_detection"] = {
             "suspicious_request_detected": threat_level.value != "low",
             "threat_level": threat_level.value,
             "indicators_found": len(indicators),
-            "indicators": indicators
+            "indicators": indicators,
         }
 
         self.results["security_validation"] = security_results
 
         # Print security status
-        all_security_passed = all([
-            security_results["anti_replay"]["protection_effective"],
-            security_results["rate_limiting"]["rate_limiting_active"],
-            security_results["threat_detection"]["suspicious_request_detected"]
-        ])
+        all_security_passed = all(
+            [
+                security_results["anti_replay"]["protection_effective"],
+                security_results["rate_limiting"]["rate_limiting_active"],
+                security_results["threat_detection"]["suspicious_request_detected"],
+            ]
+        )
 
         status = "✅" if all_security_passed else "❌"
         print(f"      {status} Security features operational")
@@ -388,6 +395,7 @@ class T4ExcellenceValidator:
 
             # Calculate confidence interval (CI95%)
             import math
+
             z_score = 1.96  # 95% confidence
             margin_error = z_score * (std_dev_ms / math.sqrt(samples))
             ci95_lower = mean_ms - margin_error
@@ -405,7 +413,7 @@ class T4ExcellenceValidator:
                 "sample_size_adequate": sample_size_adequate,
                 "ci95_lower_ms": round(ci95_lower, 3),
                 "ci95_upper_ms": round(ci95_upper, 3),
-                "margin_of_error_ms": round(margin_error, 3)
+                "margin_of_error_ms": round(margin_error, 3),
             }
 
         # Overall statistical assessment
@@ -415,7 +423,7 @@ class T4ExcellenceValidator:
         statistical_results["overall_assessment"] = {
             "all_cv_compliant": all_cv_compliant,
             "all_samples_adequate": all_samples_adequate,
-            "statistical_rigor_met": all_cv_compliant and all_samples_adequate
+            "statistical_rigor_met": all_cv_compliant and all_samples_adequate,
         }
 
         self.results["statistical_analysis"] = statistical_results
@@ -431,16 +439,16 @@ class T4ExcellenceValidator:
             "guardian_integration": {
                 "available": self.guardian is not None,
                 "validation_hooks": True,  # Mocked for testing
-                "monitoring_hooks": True,   # Mocked for testing
-                "audit_trails": True       # Mocked for testing
+                "monitoring_hooks": True,  # Mocked for testing
+                "audit_trails": True,  # Mocked for testing
             },
             "performance_sla": {},
             "security_requirements": {},
             "documentation": {
-                "api_documented": True,    # Would check OpenAPI docs
+                "api_documented": True,  # Would check OpenAPI docs
                 "architecture_documented": True,
-                "security_documented": True
-            }
+                "security_documented": True,
+            },
         }
 
         # Check performance SLA compliance
@@ -448,7 +456,7 @@ class T4ExcellenceValidator:
             sla_met = all(perf_data["sla_compliance"].values())
             compliance_results["performance_sla"][tier] = {
                 "sla_met": sla_met,
-                "headroom_percent": perf_data["headroom_percent"]
+                "headroom_percent": perf_data["headroom_percent"],
             }
 
         # Check security requirements
@@ -456,7 +464,7 @@ class T4ExcellenceValidator:
         compliance_results["security_requirements"] = {
             "anti_replay_protection": security_data["anti_replay"]["protection_effective"],
             "rate_limiting": security_data["rate_limiting"]["rate_limiting_active"],
-            "threat_detection": security_data["threat_detection"]["suspicious_request_detected"]
+            "threat_detection": security_data["threat_detection"]["suspicious_request_detected"],
         }
 
         # Overall compliance assessment
@@ -468,7 +476,7 @@ class T4ExcellenceValidator:
             "performance_compliant": all_sla_met,
             "security_compliant": all_security_met,
             "guardian_compliant": guardian_integrated,
-            "t4_excellence_compliant": all_sla_met and all_security_met and guardian_integrated
+            "t4_excellence_compliant": all_sla_met and all_security_met and guardian_integrated,
         }
 
         self.results["compliance_validation"] = compliance_results
@@ -482,29 +490,26 @@ class T4ExcellenceValidator:
 
         # Gather all validation results
         performance_passed = all(
-            all(tier_data["sla_compliance"].values())
-            for tier_data in self.results["performance_validation"].values()
+            all(tier_data["sla_compliance"].values()) for tier_data in self.results["performance_validation"].values()
         )
 
         reliability_passed = self.results["reliability_validation"]["reliability_passed"]
 
-        security_passed = all([
-            self.results["security_validation"]["anti_replay"]["protection_effective"],
-            self.results["security_validation"]["rate_limiting"]["rate_limiting_active"],
-            self.results["security_validation"]["threat_detection"]["suspicious_request_detected"]
-        ])
+        security_passed = all(
+            [
+                self.results["security_validation"]["anti_replay"]["protection_effective"],
+                self.results["security_validation"]["rate_limiting"]["rate_limiting_active"],
+                self.results["security_validation"]["threat_detection"]["suspicious_request_detected"],
+            ]
+        )
 
         statistical_passed = self.results["statistical_analysis"]["overall_assessment"]["statistical_rigor_met"]
         compliance_passed = self.results["compliance_validation"]["overall_compliance"]["t4_excellence_compliant"]
 
         # Final verdict
-        excellence_achieved = all([
-            performance_passed,
-            reliability_passed,
-            security_passed,
-            statistical_passed,
-            compliance_passed
-        ])
+        excellence_achieved = all(
+            [performance_passed, reliability_passed, security_passed, statistical_passed, compliance_passed]
+        )
 
         # Calculate overall score
         criteria_scores = {
@@ -512,7 +517,7 @@ class T4ExcellenceValidator:
             "reliability": reliability_passed,
             "security": security_passed,
             "statistical_rigor": statistical_passed,
-            "compliance": compliance_passed
+            "compliance": compliance_passed,
         }
 
         score = sum(criteria_scores.values()) / len(criteria_scores) * 100
@@ -523,7 +528,7 @@ class T4ExcellenceValidator:
             "criteria_breakdown": criteria_scores,
             "certification_level": "T4/0.01% Excellence" if excellence_achieved else "Non-compliant",
             "production_ready": excellence_achieved,
-            "validation_timestamp": datetime.now(timezone.utc).isoformat()
+            "validation_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add evidence hash for integrity
@@ -568,7 +573,7 @@ class T4ExcellenceValidator:
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(self.results, f, indent=2, default=str)
 
         print(f"📄 Results saved to: {output_file}")
@@ -604,5 +609,6 @@ async def main():
 
 if __name__ == "__main__":
     import sys
+
     exit_code = asyncio.run(main())
     sys.exit(exit_code)

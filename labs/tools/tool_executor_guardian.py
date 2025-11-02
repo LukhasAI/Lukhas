@@ -3,6 +3,7 @@ Tool Executor Guardian Integration
 =================================
 Guardian System integration for ethical validation of tool executions.
 """
+
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional

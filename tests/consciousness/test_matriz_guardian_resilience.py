@@ -42,6 +42,7 @@ logger = logging.getLogger(__name__)
 
 class GuardianFailureType(Enum):
     """Types of Guardian failures to simulate."""
+
     PROCESS_CRASH = "process_crash"
     NETWORK_PARTITION = "network_partition"
     MEMORY_CORRUPTION = "memory_corruption"
@@ -52,6 +53,7 @@ class GuardianFailureType(Enum):
 
 class MATRIZPhase(Enum):
     """MATRIZ decision phases."""
+
     INITIALIZING = "initializing"
     TICK = "tick"
     REFLECT = "reflect"
@@ -64,6 +66,7 @@ class MATRIZPhase(Enum):
 
 class SystemState(Enum):
     """Overall system state."""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     FAIL_CLOSED = "fail_closed"
@@ -74,6 +77,7 @@ class SystemState(Enum):
 @dataclass
 class MATRIZDecision:
     """MATRIZ decision with tracking."""
+
     decision_id: str
     timestamp: float
     phase: MATRIZPhase
@@ -88,6 +92,7 @@ class MATRIZDecision:
 @dataclass
 class GuardianFailureScenario:
     """Guardian failure scenario definition."""
+
     failure_type: GuardianFailureType
     failure_phase: MATRIZPhase
     failure_duration_ms: float
@@ -100,6 +105,7 @@ class GuardianFailureScenario:
 @dataclass
 class ChaosTestResult:
     """Chaos test execution result."""
+
     scenario_name: str
     failure_detected: bool
     fail_closed_activated: bool
@@ -148,11 +154,7 @@ class GuardianSimulator:
 
         # Normal validation
         validation_time = (time.perf_counter() - start_time) * 1000
-        return True, {
-            "validated": True,
-            "validation_time_ms": validation_time,
-            "guardian_healthy": True
-        }
+        return True, {"validated": True, "validation_time_ms": validation_time, "guardian_healthy": True}
 
     def inject_failure(self, failure_type: GuardianFailureType, duration_ms: float = None):
         """Inject failure into Guardian."""
@@ -211,7 +213,7 @@ class MATRIZChaosController:
             "failures_detected": 0,
             "fail_closed_activations": 0,
             "rollbacks_performed": 0,
-            "corruptions_detected": 0
+            "corruptions_detected": 0,
         }
 
         # Register for Guardian failure notifications
@@ -274,9 +276,7 @@ class MATRIZChaosController:
         logger.info(f"Rolled back {rollback_count} in-flight decisions in {rollback_time:.2f}ms")
 
     def process_matriz_decision(
-        self,
-        decision_context: Dict[str, Any],
-        simulate_phases: bool = True
+        self, decision_context: Dict[str, Any], simulate_phases: bool = True
     ) -> Tuple[MATRIZDecision, List[str]]:
         """Process MATRIZ decision with Guardian interaction."""
         start_time = time.perf_counter()
@@ -289,7 +289,7 @@ class MATRIZChaosController:
             committed=False,
             corrupted=False,
             rollback_requested=False,
-            processing_time_ms=0.0
+            processing_time_ms=0.0,
         )
 
         error_log = []
@@ -379,8 +379,7 @@ class MATRIZChaosController:
         with ThreadPoolExecutor(max_workers=5) as executor:
             for i in range(3):
                 future = executor.submit(
-                    self.process_matriz_decision,
-                    {"context": f"chaos_test_{i}", "data": f"test_data_{i}"}
+                    self.process_matriz_decision, {"context": f"chaos_test_{i}", "data": f"test_data_{i}"}
                 )
                 decision_futures.append(future)
 
@@ -420,21 +419,20 @@ class MATRIZChaosController:
             recovery_time = scenario.recovery_time_ms
 
         # Check data integrity
-        data_corruption = any(
-            decision.corrupted for decision, _ in results if decision
-        ) or self.state_corruption_detected
+        data_corruption = (
+            any(decision.corrupted for decision, _ in results if decision) or self.state_corruption_detected
+        )
 
         # Count rollbacks and recoveries
         in_flight_recovered = initial_in_flight - len(self.in_flight_decisions)
         decisions_rolled_back = sum(
-            1 for decision in self.completed_decisions
+            1
+            for decision in self.completed_decisions
             if decision.rollback_requested and decision.timestamp >= scenario_start
         )
 
         # System integrity check
-        system_integrity = (
-            fail_closed_activated if scenario.should_fail_closed else True
-        ) and not data_corruption
+        system_integrity = (fail_closed_activated if scenario.should_fail_closed else True) and not data_corruption
 
         result = ChaosTestResult(
             scenario_name=scenario.description,
@@ -449,8 +447,8 @@ class MATRIZChaosController:
             performance_metrics={
                 "scenario_duration_ms": (scenario_end - scenario_start) * 1000,
                 "failure_detection_time_ms": fail_closed_time,
-                "decisions_processed": len(results)
-            }
+                "decisions_processed": len(results),
+            },
         )
 
         return result
@@ -487,7 +485,7 @@ class TestMATRIZGuardianResilience:
             recovery_time_ms=None,
             should_fail_closed=True,
             expected_corruption=False,
-            description="Guardian process crash during decision validation"
+            description="Guardian process crash during decision validation",
         )
 
         result = chaos_controller.execute_chaos_scenario(scenario)
@@ -495,13 +493,16 @@ class TestMATRIZGuardianResilience:
         # Assertions
         assert result.failure_detected, "Guardian crash should be detected"
         assert result.fail_closed_activated, "System should activate fail-closed mode"
-        assert result.fail_closed_time_ms < 250.0, f"Fail-closed activation {result.fail_closed_time_ms:.1f}ms exceeds 250ms target"
+        assert (
+            result.fail_closed_time_ms < 250.0
+        ), f"Fail-closed activation {result.fail_closed_time_ms:.1f}ms exceeds 250ms target"
         assert not result.data_corruption_detected, "No data corruption should occur"
         assert result.system_integrity_maintained, "System integrity should be maintained"
 
         # Check that no decisions were committed after failure
         committed_after_failure = sum(
-            1 for decision in chaos_controller.completed_decisions
+            1
+            for decision in chaos_controller.completed_decisions
             if decision.committed and decision.timestamp > (time.time() - 1.0)
         )
         assert committed_after_failure == 0, "No decisions should be committed after Guardian crash"
@@ -520,7 +521,7 @@ class TestMATRIZGuardianResilience:
             recovery_time_ms=2000,
             should_fail_closed=True,
             expected_corruption=False,
-            description="Guardian network partition with recovery"
+            description="Guardian network partition with recovery",
         )
 
         result = chaos_controller.execute_chaos_scenario(scenario)
@@ -544,7 +545,7 @@ class TestMATRIZGuardianResilience:
             recovery_time_ms=1000,
             should_fail_closed=True,
             expected_corruption=True,
-            description="Guardian memory corruption with corrupted responses"
+            description="Guardian memory corruption with corrupted responses",
         )
 
         result = chaos_controller.execute_chaos_scenario(scenario)
@@ -555,8 +556,7 @@ class TestMATRIZGuardianResilience:
 
         # Verify that corrupted decisions were not committed
         corrupted_committed = sum(
-            1 for decision in chaos_controller.completed_decisions
-            if decision.corrupted and decision.committed
+            1 for decision in chaos_controller.completed_decisions if decision.corrupted and decision.committed
         )
         assert corrupted_committed == 0, "No corrupted decisions should be committed"
 
@@ -574,7 +574,7 @@ class TestMATRIZGuardianResilience:
             recovery_time_ms=3000,
             should_fail_closed=True,
             expected_corruption=False,
-            description="Guardian timeout causing validation delays"
+            description="Guardian timeout causing validation delays",
         )
 
         # Set shorter timeout for test
@@ -583,7 +583,9 @@ class TestMATRIZGuardianResilience:
         execution_time = (time.time() - start_time) * 1000
 
         # The test should complete quickly due to fail-closed, not wait for Guardian timeout
-        assert execution_time < 2000, f"Test execution {execution_time:.1f}ms too slow - fail-closed should prevent timeout wait"
+        assert (
+            execution_time < 2000
+        ), f"Test execution {execution_time:.1f}ms too slow - fail-closed should prevent timeout wait"
         assert result.fail_closed_activated, "System should fail-closed on timeout detection"
 
         logger.info(f"✅ Guardian timeout fail-closed test passed - executed in {execution_time:.1f}ms")
@@ -597,7 +599,7 @@ class TestMATRIZGuardianResilience:
         failures = [
             GuardianFailureType.NETWORK_PARTITION,
             GuardianFailureType.MEMORY_CORRUPTION,
-            GuardianFailureType.PROCESS_CRASH
+            GuardianFailureType.PROCESS_CRASH,
         ]
 
         cascading_results = []
@@ -610,7 +612,7 @@ class TestMATRIZGuardianResilience:
                 recovery_time_ms=100,  # Quick recovery for cascading test
                 should_fail_closed=True,
                 expected_corruption=failure_type == GuardianFailureType.MEMORY_CORRUPTION,
-                description=f"Cascading failure: {failure_type.value}"
+                description=f"Cascading failure: {failure_type.value}",
             )
 
             result = chaos_controller.execute_chaos_scenario(scenario)
@@ -624,7 +626,9 @@ class TestMATRIZGuardianResilience:
         for i, result in enumerate(cascading_results):
             assert result.failure_detected, f"Cascading failure {i+1} should be detected"
             assert result.fail_closed_activated, f"Cascading failure {i+1} should trigger fail-closed"
-            assert result.system_integrity_maintained, f"System integrity should be maintained in cascading failure {i+1}"
+            assert (
+                result.system_integrity_maintained
+            ), f"System integrity should be maintained in cascading failure {i+1}"
 
         logger.info(f"✅ Cascading failure test passed - handled {len(failures)} sequential failures")
 
@@ -639,8 +643,7 @@ class TestMATRIZGuardianResilience:
             # Submit many decisions
             for i in range(50):
                 future = executor.submit(
-                    chaos_controller.process_matriz_decision,
-                    {"load_test": i, "timestamp": time.time()}
+                    chaos_controller.process_matriz_decision, {"load_test": i, "timestamp": time.time()}
                 )
                 high_load_futures.append(future)
 
@@ -663,7 +666,11 @@ class TestMATRIZGuardianResilience:
                 except Exception as e:
                     load_results.append((None, [str(e)]))
 
-        failure_detection_time = (chaos_controller.failure_detection_time - failure_start) * 1000 if chaos_controller.failure_detection_time else float('inf')
+        failure_detection_time = (
+            (chaos_controller.failure_detection_time - failure_start) * 1000
+            if chaos_controller.failure_detection_time
+            else float("inf")
+        )
 
         # Verify fail-closed behavior under load
         assert chaos_controller.system_state == SystemState.FAIL_CLOSED, "System should be in fail-closed mode"
@@ -671,16 +678,12 @@ class TestMATRIZGuardianResilience:
 
         # Check that no corrupted data was committed
         corrupted_committed = sum(
-            1 for decision, _ in load_results
-            if decision and decision.corrupted and decision.committed
+            1 for decision, _ in load_results if decision and decision.corrupted and decision.committed
         )
         assert corrupted_committed == 0, "No corrupted data should be committed under load failure"
 
         # Verify rollback effectiveness
-        rolled_back = sum(
-            1 for decision in chaos_controller.completed_decisions
-            if decision.rollback_requested
-        )
+        rolled_back = sum(1 for decision in chaos_controller.completed_decisions if decision.rollback_requested)
         assert rolled_back > 0, "Some decisions should have been rolled back"
 
         logger.info(f"✅ High load resilience test passed - {len(load_results)} concurrent decisions handled")
@@ -732,26 +735,38 @@ class TestMATRIZGuardianResilience:
             GuardianFailureScenario(
                 GuardianFailureType.PROCESS_CRASH,
                 MATRIZPhase.TICK,
-                0, None, True, False,
-                "Process crash during TICK phase"
+                0,
+                None,
+                True,
+                False,
+                "Process crash during TICK phase",
             ),
             GuardianFailureScenario(
                 GuardianFailureType.NETWORK_PARTITION,
                 MATRIZPhase.REFLECT,
-                1500, 1500, True, False,
-                "Network partition during REFLECT phase"
+                1500,
+                1500,
+                True,
+                False,
+                "Network partition during REFLECT phase",
             ),
             GuardianFailureScenario(
                 GuardianFailureType.MEMORY_CORRUPTION,
                 MATRIZPhase.DECIDE,
-                1000, 1000, True, True,
-                "Memory corruption during DECIDE phase"
+                1000,
+                1000,
+                True,
+                True,
+                "Memory corruption during DECIDE phase",
             ),
             GuardianFailureScenario(
                 GuardianFailureType.TIMEOUT_FAILURE,
                 MATRIZPhase.GUARDIAN_VALIDATION,
-                2000, 2000, True, False,
-                "Timeout during Guardian validation"
+                2000,
+                2000,
+                True,
+                False,
+                "Timeout during Guardian validation",
             ),
         ]
 
@@ -764,18 +779,20 @@ class TestMATRIZGuardianResilience:
             comprehensive_results.append(result)
 
             # Verify scenario-specific requirements
-            assert result.fail_closed_activated == scenario.should_fail_closed, \
-                f"Scenario '{scenario.description}' fail-closed expectation not met"
+            assert (
+                result.fail_closed_activated == scenario.should_fail_closed
+            ), f"Scenario '{scenario.description}' fail-closed expectation not met"
 
             if scenario.expected_corruption:
-                assert result.data_corruption_detected, \
-                    f"Scenario '{scenario.description}' should detect corruption"
+                assert result.data_corruption_detected, f"Scenario '{scenario.description}' should detect corruption"
             else:
-                assert not result.data_corruption_detected, \
-                    f"Scenario '{scenario.description}' should not have corruption"
+                assert (
+                    not result.data_corruption_detected
+                ), f"Scenario '{scenario.description}' should not have corruption"
 
-            assert result.fail_closed_time_ms < 250.0, \
-                f"Scenario '{scenario.description}' fail-closed time {result.fail_closed_time_ms:.1f}ms too slow"
+            assert (
+                result.fail_closed_time_ms < 250.0
+            ), f"Scenario '{scenario.description}' fail-closed time {result.fail_closed_time_ms:.1f}ms too slow"
 
             # Reset for next scenario
             chaos_controller.reset_for_new_scenario()
@@ -812,23 +829,23 @@ if __name__ == "__main__":
             {
                 "name": "Guardian Process Crash",
                 "failure_type": GuardianFailureType.PROCESS_CRASH,
-                "expected_fail_closed": True
+                "expected_fail_closed": True,
             },
             {
                 "name": "Network Partition",
                 "failure_type": GuardianFailureType.NETWORK_PARTITION,
-                "expected_fail_closed": True
+                "expected_fail_closed": True,
             },
             {
                 "name": "Memory Corruption",
                 "failure_type": GuardianFailureType.MEMORY_CORRUPTION,
-                "expected_fail_closed": True
+                "expected_fail_closed": True,
             },
             {
                 "name": "Guardian Timeout",
                 "failure_type": GuardianFailureType.TIMEOUT_FAILURE,
-                "expected_fail_closed": True
-            }
+                "expected_fail_closed": True,
+            },
         ]
 
         passed_tests = 0
@@ -843,7 +860,7 @@ if __name__ == "__main__":
                 recovery_time_ms=1000,
                 should_fail_closed=test_config["expected_fail_closed"],
                 expected_corruption=test_config["failure_type"] == GuardianFailureType.MEMORY_CORRUPTION,
-                description=test_config["name"]
+                description=test_config["name"],
             )
 
             result = chaos_controller.execute_chaos_scenario(scenario)
@@ -853,7 +870,9 @@ if __name__ == "__main__":
                 print(f"   ✅ PASS - Fail-closed activated in {result.fail_closed_time_ms:.1f}ms")
                 passed_tests += 1
             else:
-                print(f"   ❌ FAIL - Fail-closed: {result.fail_closed_activated}, Time: {result.fail_closed_time_ms:.1f}ms")
+                print(
+                    f"   ❌ FAIL - Fail-closed: {result.fail_closed_activated}, Time: {result.fail_closed_time_ms:.1f}ms"
+                )
 
             # Reset for next test
             chaos_controller.reset_for_new_scenario()
@@ -864,15 +883,12 @@ if __name__ == "__main__":
         with ThreadPoolExecutor(max_workers=10) as executor:
             futures = []
             for i in range(20):
-                future = executor.submit(
-                    chaos_controller.process_matriz_decision,
-                    {"load_test": i}
-                )
+                future = executor.submit(chaos_controller.process_matriz_decision, {"load_test": i})
                 futures.append(future)
 
             time.sleep(0.01)  # Let load build
             guardian.inject_failure(GuardianFailureType.PROCESS_CRASH)
-            time.sleep(0.2)    # Wait for fail-closed
+            time.sleep(0.2)  # Wait for fail-closed
 
             results = []
             for future in futures:
@@ -898,5 +914,6 @@ if __name__ == "__main__":
             return False
 
     import sys
+
     success = run_chaos_validation()
     sys.exit(0 if success else 1)

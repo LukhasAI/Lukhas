@@ -46,7 +46,7 @@ class TestGuardianSchemaContract:
                 "severity": "high",
                 "confidence": 0.996,
                 "timestamp": "2025-09-24T17:01:03Z",
-                "ttl_seconds": 60
+                "ttl_seconds": 60,
             },
             "subject": {
                 "correlation_id": "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",
@@ -56,23 +56,18 @@ class TestGuardianSchemaContract:
                 "operation": {
                     "name": "completion.create",
                     "resource": "model:gpt-x",
-                    "parameters": {"max_tokens": 128}
-                }
+                    "parameters": {"max_tokens": 128},
+                },
             },
             "context": {
                 "environment": {"region": "eu-west-2", "runtime": "prod", "version": "83eae9b"},
                 "features": {
                     "enforcement_enabled": True,
                     "emergency_active": False,
-                    "kill_switch_path": "/tmp/guardian_emergency_disable"
-                }
+                    "kill_switch_path": "/tmp/guardian_emergency_disable",
+                },
             },
-            "metrics": {
-                "latency_ms": 3.72,
-                "risk_score": 0.82,
-                "drift_score": 0.11,
-                "quota_remaining": 998
-            },
+            "metrics": {"latency_ms": 3.72, "risk_score": 0.82, "drift_score": 0.11, "quota_remaining": 998},
             "enforcement": {"mode": "enforced", "actions": ["block", "redact"]},
             "audit": {
                 "event_id": "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",
@@ -83,19 +78,17 @@ class TestGuardianSchemaContract:
                         "step": "policy_evaluation",
                         "timestamp": "2025-09-24T17:01:03.100Z",
                         "duration_ms": 2.1,
-                        "metadata": {"policies_checked": 3}
+                        "metadata": {"policies_checked": 3},
                     }
-                ]
+                ],
             },
-            "reasons": [
-                {"code": "ETHICS.PROFANITY", "message": "Profanity detected."}
-            ],
+            "reasons": [{"code": "ETHICS.PROFANITY", "message": "Profanity detected."}],
             "rule_evaluations": [
                 {
                     "rule_id": "dsl:ethics/profanity@4.3.1",
                     "result": "fail",
                     "duration_ms": 0.21,
-                    "inputs_hash": "f3a1b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a"
+                    "inputs_hash": "f3a1b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a",
                 }
             ],
             "approvals": [
@@ -103,24 +96,16 @@ class TestGuardianSchemaContract:
                     "approver": "oncall-guardian",
                     "timestamp": "2025-09-24T17:02:14Z",
                     "scope": "temporary_override",
-                    "ticket": "SEC-12345"
+                    "ticket": "SEC-12345",
                 }
             ],
-            "redactions": {
-                "/subject/actor/id": "pii"
-            },
-            "extensions": {
-                "cognition": {"focus_drift": 0.03}
-            },
+            "redactions": {"/subject/actor/id": "pii"},
+            "extensions": {"cognition": {"focus_drift": 0.03}},
             "integrity": {
                 "content_sha256": "b56f0e9d7c0b1c3b7c6f2d4e1f9a8b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90",
-                "signature": {
-                    "alg": "ed25519",
-                    "kid": "guardian-key-2025-09",
-                    "sig": "MEYCIQC12345ABCDEFGHabcdef"
-                }
+                "signature": {"alg": "ed25519", "kid": "guardian-key-2025-09", "sig": "MEYCIQC12345ABCDEFGHabcdef"},
             },
-            "debug": {"trace_id": "tr-abc123", "span_id": "sp-xyz789"}
+            "debug": {"trace_id": "tr-abc123", "span_id": "sp-xyz789"},
         }
 
     def test_valid_envelope_passes_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
@@ -161,7 +146,7 @@ class TestGuardianSchemaContract:
             ("metrics", "metrics are required"),
             ("enforcement", "enforcement is required"),
             ("audit", "audit is required"),
-            ("integrity", "integrity is required")
+            ("integrity", "integrity is required"),
         ]
 
         for field, description in test_cases:
@@ -223,7 +208,9 @@ class TestGuardianSchemaContract:
             with pytest.raises(jsonschema.ValidationError):
                 jsonschema.validate(instance=envelope, schema=schema)
 
-    def test_extensions_field_allows_forward_compatibility(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
+    def test_extensions_field_allows_forward_compatibility(
+        self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]
+    ):
         """Test that extensions field allows forward compatibility."""
         envelope = dict(valid_envelope)
         envelope["extensions"]["experimental_feature"] = {"enabled": True, "version": "0.1.0"}
@@ -236,15 +223,15 @@ class TestGuardianSchemaContract:
         """Test correlation ID format validation."""
         valid_ids = [
             "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",  # UUID format
-            "abcdef1234567890-1234-5678",              # Shorter hex format
-            "abcdef123456789012345678901234567890-1234"  # Custom format
+            "abcdef1234567890-1234-5678",  # Shorter hex format
+            "abcdef123456789012345678901234567890-1234",  # Custom format
         ]
 
         invalid_ids = [
-            "invalid-id",           # Too short
-            "INVALID-ID-CAPS",      # Invalid characters
-            "",                     # Empty
-            "12345"                 # Too short
+            "invalid-id",  # Too short
+            "INVALID-ID-CAPS",  # Invalid characters
+            "",  # Empty
+            "12345",  # Too short
         ]
 
         # Valid IDs should pass
@@ -287,21 +274,13 @@ class TestGuardianSchemaContract:
         # Valid algorithms should pass
         for alg in valid_algorithms:
             envelope = dict(valid_envelope)
-            envelope["integrity"]["signature"] = {
-                "alg": alg,
-                "kid": "test-key",
-                "sig": "test-signature-ABC123"
-            }
+            envelope["integrity"]["signature"] = {"alg": alg, "kid": "test-key", "sig": "test-signature-ABC123"}
             jsonschema.validate(instance=envelope, schema=schema)
 
         # Invalid algorithms should fail
         for alg in invalid_algorithms:
             envelope = dict(valid_envelope)
-            envelope["integrity"]["signature"] = {
-                "alg": alg,
-                "kid": "test-key",
-                "sig": "test-signature-ABC123"
-            }
+            envelope["integrity"]["signature"] = {"alg": alg, "kid": "test-key", "sig": "test-signature-ABC123"}
             with pytest.raises(jsonschema.ValidationError):
                 jsonschema.validate(instance=envelope, schema=schema)
 
@@ -354,45 +333,45 @@ class TestSchemaSnapshotProtection:
         # Version pattern check
         actual_version_pattern = schema["properties"]["schema_version"]["pattern"]
         expected_version_pattern = critical["schema_version_pattern"]
-        assert actual_version_pattern == expected_version_pattern, (
-            f"Schema version pattern changed: {actual_version_pattern} != {expected_version_pattern}"
-        )
+        assert (
+            actual_version_pattern == expected_version_pattern
+        ), f"Schema version pattern changed: {actual_version_pattern} != {expected_version_pattern}"
 
         # Decision status enum
         decision_enum = schema["$defs"]["Decision"]["properties"]["status"]["enum"]
-        assert sorted(decision_enum) == sorted(critical["decision_statuses"]), (
-            f"Decision status enum changed: {sorted(decision_enum)} != {sorted(critical['decision_statuses'])}"
-        )
+        assert sorted(decision_enum) == sorted(
+            critical["decision_statuses"]
+        ), f"Decision status enum changed: {sorted(decision_enum)} != {sorted(critical['decision_statuses'])}"
 
         # Tier enum
         tier_enum = schema["$defs"]["Actor"]["properties"]["tier"]["enum"]
-        assert sorted(tier_enum) == sorted(critical["tier_values"]), (
-            f"Tier enum changed: {sorted(tier_enum)} != {sorted(critical['tier_values'])}"
-        )
+        assert sorted(tier_enum) == sorted(
+            critical["tier_values"]
+        ), f"Tier enum changed: {sorted(tier_enum)} != {sorted(critical['tier_values'])}"
 
         # Lane enum
         lane_enum = schema["$defs"]["Subject"]["properties"]["lane"]["enum"]
-        assert sorted(lane_enum) == sorted(critical["lane_values"]), (
-            f"Lane enum changed: {sorted(lane_enum)} != {sorted(critical['lane_values'])}"
-        )
+        assert sorted(lane_enum) == sorted(
+            critical["lane_values"]
+        ), f"Lane enum changed: {sorted(lane_enum)} != {sorted(critical['lane_values'])}"
 
         # Signature algorithms
         sig_alg_enum = schema["$defs"]["Signature"]["properties"]["alg"]["enum"]
-        assert sorted(sig_alg_enum) == sorted(critical["signature_algorithms"]), (
-            f"Signature algorithms changed: {sorted(sig_alg_enum)} != {sorted(critical['signature_algorithms'])}"
-        )
+        assert sorted(sig_alg_enum) == sorted(
+            critical["signature_algorithms"]
+        ), f"Signature algorithms changed: {sorted(sig_alg_enum)} != {sorted(critical['signature_algorithms'])}"
 
         # Required root properties
         actual_required = schema["required"]
         expected_required = critical["required_root_properties"]
-        assert sorted(actual_required) == sorted(expected_required), (
-            f"Required root properties changed: {sorted(actual_required)} != {sorted(expected_required)}"
-        )
+        assert sorted(actual_required) == sorted(
+            expected_required
+        ), f"Required root properties changed: {sorted(actual_required)} != {sorted(expected_required)}"
 
         # Additional properties restriction
-        assert schema["additionalProperties"] == critical["additionalProperties"], (
-            f"additionalProperties policy changed: {schema['additionalProperties']} != {critical['additionalProperties']}"
-        )
+        assert (
+            schema["additionalProperties"] == critical["additionalProperties"]
+        ), f"additionalProperties policy changed: {schema['additionalProperties']} != {critical['additionalProperties']}"
 
     def test_schema_structure_preserved(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Test that essential schema structure is preserved."""
@@ -404,9 +383,9 @@ class TestSchemaSnapshotProtection:
         # Properties count (approximate - allows for minor additions)
         actual_props_count = len(schema["properties"])
         expected_props_count = structure["properties_count"]
-        assert actual_props_count >= expected_props_count, (
-            f"Properties count decreased: {actual_props_count} < {expected_props_count}"
-        )
+        assert (
+            actual_props_count >= expected_props_count
+        ), f"Properties count decreased: {actual_props_count} < {expected_props_count}"
 
         # Integrity block exists
         assert "integrity" in schema["properties"], "Missing integrity block"
@@ -459,9 +438,9 @@ class TestSchemaSnapshotProtection:
     def test_schema_version_is_v2_constellation(self, schema: Dict[str, Any]):
         """Test that schema enforces v2.x.x versioning for Constellation Framework era."""
         version_pattern = schema["properties"]["schema_version"]["pattern"]
-        assert version_pattern == "^2\\.\\d+\\.\\d+$", (
-            f"Schema should enforce v2.x.x versioning for Constellation era, got: {version_pattern}"
-        )
+        assert (
+            version_pattern == "^2\\.\\d+\\.\\d+$"
+        ), f"Schema should enforce v2.x.x versioning for Constellation era, got: {version_pattern}"
 
     def test_generate_drift_report(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Generate comprehensive schema drift report for CI."""
@@ -480,30 +459,34 @@ class TestSchemaSnapshotProtection:
             "properties_count": {
                 "current": len(schema["properties"]),
                 "baseline": schema_snapshot["schema_structure"]["properties_count"],
-                "changed": len(schema["properties"]) != schema_snapshot["schema_structure"]["properties_count"]
+                "changed": len(schema["properties"]) != schema_snapshot["schema_structure"]["properties_count"],
             },
             "critical_enums": {
                 "decision_statuses": {
                     "current": sorted(schema["$defs"]["Decision"]["properties"]["status"]["enum"]),
                     "baseline": sorted(schema_snapshot["critical_properties"]["decision_statuses"]),
-                    "changed": sorted(schema["$defs"]["Decision"]["properties"]["status"]["enum"]) != sorted(schema_snapshot["critical_properties"]["decision_statuses"])
+                    "changed": sorted(schema["$defs"]["Decision"]["properties"]["status"]["enum"])
+                    != sorted(schema_snapshot["critical_properties"]["decision_statuses"]),
                 },
                 "lane_values": {
                     "current": sorted(schema["$defs"]["Subject"]["properties"]["lane"]["enum"]),
                     "baseline": sorted(schema_snapshot["critical_properties"]["lane_values"]),
-                    "changed": sorted(schema["$defs"]["Subject"]["properties"]["lane"]["enum"]) != sorted(schema_snapshot["critical_properties"]["lane_values"])
-                }
+                    "changed": sorted(schema["$defs"]["Subject"]["properties"]["lane"]["enum"])
+                    != sorted(schema_snapshot["critical_properties"]["lane_values"]),
+                },
             },
             "compliance_status": {
-                "t4_excellence": all([
-                    "integrity" in schema["properties"],
-                    "extensions" in schema["properties"],
-                    schema["additionalProperties"] is False,
-                    "error" in schema["$defs"]["Decision"]["properties"]["status"]["enum"]
-                ]),
+                "t4_excellence": all(
+                    [
+                        "integrity" in schema["properties"],
+                        "extensions" in schema["properties"],
+                        schema["additionalProperties"] is False,
+                        "error" in schema["$defs"]["Decision"]["properties"]["status"]["enum"],
+                    ]
+                ),
                 "fail_closed_behavior": "error" in schema["$defs"]["Decision"]["properties"]["status"]["enum"],
-                "constellation_framework": schema["properties"]["schema_version"]["pattern"] == "^2\\.\\d+\\.\\d+$"
-            }
+                "constellation_framework": schema["properties"]["schema_version"]["pattern"] == "^2\\.\\d+\\.\\d+$",
+            },
         }
 
         # Write drift report for CI artifacts
@@ -536,7 +519,7 @@ class TestIntegrityValidation:
                 "severity": "high",
                 "confidence": 0.996,
                 "timestamp": "2025-09-24T17:01:03Z",
-                "ttl_seconds": 60
+                "ttl_seconds": 60,
             },
             "subject": {
                 "correlation_id": "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",
@@ -546,23 +529,18 @@ class TestIntegrityValidation:
                 "operation": {
                     "name": "completion.create",
                     "resource": "model:gpt-x",
-                    "parameters": {"max_tokens": 128}
-                }
+                    "parameters": {"max_tokens": 128},
+                },
             },
             "context": {
                 "environment": {"region": "eu-west-2", "runtime": "prod", "version": "83eae9b"},
                 "features": {
                     "enforcement_enabled": True,
                     "emergency_active": False,
-                    "kill_switch_path": "/tmp/guardian_emergency_disable"
-                }
+                    "kill_switch_path": "/tmp/guardian_emergency_disable",
+                },
             },
-            "metrics": {
-                "latency_ms": 3.72,
-                "risk_score": 0.82,
-                "drift_score": 0.11,
-                "quota_remaining": 998
-            },
+            "metrics": {"latency_ms": 3.72, "risk_score": 0.82, "drift_score": 0.11, "quota_remaining": 998},
             "enforcement": {"mode": "enforced", "actions": ["block", "redact"]},
             "audit": {
                 "event_id": "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",
@@ -573,19 +551,17 @@ class TestIntegrityValidation:
                         "step": "policy_evaluation",
                         "timestamp": "2025-09-24T17:01:03.100Z",
                         "duration_ms": 2.1,
-                        "metadata": {"policies_checked": 3}
+                        "metadata": {"policies_checked": 3},
                     }
-                ]
+                ],
             },
-            "reasons": [
-                {"code": "ETHICS.PROFANITY", "message": "Profanity detected."}
-            ],
+            "reasons": [{"code": "ETHICS.PROFANITY", "message": "Profanity detected."}],
             "rule_evaluations": [
                 {
                     "rule_id": "dsl:ethics/profanity@4.3.1",
                     "result": "fail",
                     "duration_ms": 0.21,
-                    "inputs_hash": "f3a1b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a"
+                    "inputs_hash": "f3a1b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a",
                 }
             ],
             "approvals": [
@@ -593,7 +569,7 @@ class TestIntegrityValidation:
                     "approver": "admin@ai",
                     "timestamp": "2025-09-24T17:01:02Z",
                     "scope": "policy_exception",
-                    "ticket": "JIRA-12345"
+                    "ticket": "JIRA-12345",
                 }
             ],
             "redactions": {"subject.actor.id": "PII_REDACTED"},
@@ -603,21 +579,16 @@ class TestIntegrityValidation:
                 "signature": {
                     "alg": "ed25519",
                     "kid": "guardian-prod-2025",
-                    "sig": "aGVsbG8gd29ybGQgc2lnbmF0dXJlIGV4YW1wbGUgdGVzdA"
-                }
+                    "sig": "aGVsbG8gd29ybGQgc2lnbmF0dXJlIGV4YW1wbGUgdGVzdA",
+                },
             },
-            "debug": {"trace_id": "trace-abc123", "span_id": "span-def456"}
+            "debug": {"trace_id": "trace-abc123", "span_id": "span-def456"},
         }
 
     @staticmethod
     def canonical_json(obj: Dict[str, Any]) -> bytes:
         """RFC 8785-ish canonical JSON serialization."""
-        return json.dumps(
-            obj,
-            separators=(",", ":"),
-            sort_keys=True,
-            ensure_ascii=False
-        ).encode("utf-8")
+        return json.dumps(obj, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode("utf-8")
 
     def test_content_hash_validation(self, valid_envelope: Dict[str, Any]):
         """Test content hash integrity validation."""
@@ -673,8 +644,9 @@ class TestIntegrityValidation:
         # Signature should be base64-like format
         sig = signature["sig"]
         assert len(sig) > 0, "Signature cannot be empty"
-        assert all(c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-" for c in sig), \
-               "Signature should be base64url format"
+        assert all(
+            c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-" for c in sig
+        ), "Signature should be base64url format"
 
 
 class TestFailClosedBehavior:
@@ -697,7 +669,7 @@ class TestFailClosedBehavior:
                 "severity": "high",
                 "confidence": 0.996,
                 "timestamp": "2025-09-24T17:01:03Z",
-                "ttl_seconds": 60
+                "ttl_seconds": 60,
             },
             "subject": {
                 "correlation_id": "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",
@@ -707,23 +679,18 @@ class TestFailClosedBehavior:
                 "operation": {
                     "name": "completion.create",
                     "resource": "model:gpt-x",
-                    "parameters": {"max_tokens": 128}
-                }
+                    "parameters": {"max_tokens": 128},
+                },
             },
             "context": {
                 "environment": {"region": "eu-west-2", "runtime": "prod", "version": "83eae9b"},
                 "features": {
                     "enforcement_enabled": True,
                     "emergency_active": False,
-                    "kill_switch_path": "/tmp/guardian_emergency_disable"
-                }
+                    "kill_switch_path": "/tmp/guardian_emergency_disable",
+                },
             },
-            "metrics": {
-                "latency_ms": 3.72,
-                "risk_score": 0.82,
-                "drift_score": 0.11,
-                "quota_remaining": 998
-            },
+            "metrics": {"latency_ms": 3.72, "risk_score": 0.82, "drift_score": 0.11, "quota_remaining": 998},
             "enforcement": {"mode": "enforced", "actions": ["block", "redact"]},
             "audit": {
                 "event_id": "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",
@@ -734,19 +701,17 @@ class TestFailClosedBehavior:
                         "step": "policy_evaluation",
                         "timestamp": "2025-09-24T17:01:03.100Z",
                         "duration_ms": 2.1,
-                        "metadata": {"policies_checked": 3}
+                        "metadata": {"policies_checked": 3},
                     }
-                ]
+                ],
             },
-            "reasons": [
-                {"code": "ETHICS.PROFANITY", "message": "Profanity detected."}
-            ],
+            "reasons": [{"code": "ETHICS.PROFANITY", "message": "Profanity detected."}],
             "rule_evaluations": [
                 {
                     "rule_id": "dsl:ethics/profanity@4.3.1",
                     "result": "fail",
                     "duration_ms": 0.21,
-                    "inputs_hash": "f3a1b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a"
+                    "inputs_hash": "f3a1b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a",
                 }
             ],
             "approvals": [
@@ -754,7 +719,7 @@ class TestFailClosedBehavior:
                     "approver": "admin@ai",
                     "timestamp": "2025-09-24T17:01:02Z",
                     "scope": "policy_exception",
-                    "ticket": "JIRA-12345"
+                    "ticket": "JIRA-12345",
                 }
             ],
             "redactions": {"subject.actor.id": "PII_REDACTED"},
@@ -764,10 +729,10 @@ class TestFailClosedBehavior:
                 "signature": {
                     "alg": "ed25519",
                     "kid": "guardian-prod-2025",
-                    "sig": "aGVsbG8gd29ybGQgc2lnbmF0dXJlIGV4YW1wbGUgdGVzdA"
-                }
+                    "sig": "aGVsbG8gd29ybGQgc2lnbmF0dXJlIGV4YW1wbGUgdGVzdA",
+                },
             },
-            "debug": {"trace_id": "trace-abc123", "span_id": "span-def456"}
+            "debug": {"trace_id": "trace-abc123", "span_id": "span-def456"},
         }
 
     def test_error_status_treated_as_deny(self, valid_envelope: Dict[str, Any]):
@@ -804,7 +769,9 @@ class TestFailClosedBehavior:
         """Test that integrity mismatch should fail closed."""
         # Corrupt the integrity hash
         corrupted_envelope = dict(valid_envelope)
-        corrupted_envelope["integrity"]["content_sha256"] = "0000000000000000000000000000000000000000000000000000000000000000"
+        corrupted_envelope["integrity"][
+            "content_sha256"
+        ] = "0000000000000000000000000000000000000000000000000000000000000000"
 
         # Consumer should reject envelope with integrity mismatch
         def verify_integrity(envelope: Dict[str, Any]) -> bool:

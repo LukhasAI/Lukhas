@@ -26,10 +26,12 @@ STARS_DIR = DOCS / "stars"
 CONFIG = pathlib.Path(__file__).resolve().parent / "top_config.json"
 CANON = pathlib.Path(__file__).resolve().parent / "star_canon.json"
 
+
 def slug(s: str) -> str:
     s = re.sub(r"[^\w\s-]", "", s)
     s = re.sub(r"\s+", "-", s.strip())
     return s.lower()
+
 
 def load_manifests():
     for f in MANIFESTS.rglob("module.manifest.json"):
@@ -37,6 +39,7 @@ def load_manifests():
             yield f, json.loads(f.read_text(encoding="utf-8"))
         except Exception:
             continue
+
 
 def main():
     conf = json.loads(CONFIG.read_text(encoding="utf-8"))
@@ -50,8 +53,7 @@ def main():
     total = 0
     for path, m in load_manifests():
         total += 1
-        star = (m.get("constellation_alignment", {}).get("primary_star")
-                or "Supporting")
+        star = m.get("constellation_alignment", {}).get("primary_star") or "Supporting"
         star = normalize_star_label(star, canon)
         tier = m.get("testing", {}).get("quality_tier", "T4_experimental")
         fqn = m.get("module", {}).get("name") or m.get("module", {}).get("path")
@@ -61,7 +63,7 @@ def main():
             "path": str(path.parent.relative_to(ROOT)),
             "tier": tier,
             "ctx": ctx,
-            "matriz": ",".join(m.get("matriz_integration",{}).get("pipeline_nodes", []))
+            "matriz": ",".join(m.get("matriz_integration", {}).get("pipeline_nodes", [])),
         }
         per_star[star].append(info)
 
@@ -75,19 +77,28 @@ def main():
         items.sort(key=lambda x: (x["tier"], x["fqn"]))
         star_slug = slug(star)
         out = STARS_DIR / f"{star_slug}.md"
-        lines = [f"# {star}\n", f"_Generated {datetime.datetime.utcnow().isoformat()}Z_\n",
-                 f"\n**Modules:** {len(items)}\n\n",
-                 "| Tier | MATRIZ | Context | Module | Path |\n|---|---|---|---|---|\n"]
+        lines = [
+            f"# {star}\n",
+            f"_Generated {datetime.datetime.utcnow().isoformat()}Z_\n",
+            f"\n**Modules:** {len(items)}\n\n",
+            "| Tier | MATRIZ | Context | Module | Path |\n|---|---|---|---|---|\n",
+        ]
         for it in items:
-            lines.append(f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '—'} | `{it['fqn']}` | `{it['path']}` |\n")
+            lines.append(
+                f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '—'} | `{it['fqn']}` | `{it['path']}` |\n"
+            )
         out.write_text("".join(lines), encoding="utf-8")
         perstar_links.append(f"- [{star}](stars/{star_slug}.md) — {len(items)} modules")
 
     # Top summary
-    md = [f"# {conf.get('title','Constellation Top')}\n",
-          f"_Generated {datetime.datetime.utcnow().isoformat()}Z_\n\n",
-          f"**Total manifests scanned:** {total}\n\n",
-          "## Stars\n", "\n".join(perstar_links), "\n\n"]
+    md = [
+        f"# {conf.get('title','Constellation Top')}\n",
+        f"_Generated {datetime.datetime.utcnow().isoformat()}Z_\n\n",
+        f"**Total manifests scanned:** {total}\n\n",
+        "## Stars\n",
+        "\n".join(perstar_links),
+        "\n\n",
+    ]
 
     limit = conf.get("limit_per_star", 15)
     for section in conf.get("sections", []):
@@ -106,11 +117,14 @@ def main():
             md.append(f"\n### {star}\n")
             md.append("| Tier | MATRIZ | Context | Module | Path |\n|---|---|---|---|---|\n")
             for it in items[:limit]:
-                md.append(f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '—'} | `{it['fqn']}` | `{it['path']}` |\n")
+                md.append(
+                    f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '—'} | `{it['fqn']}` | `{it['path']}` |\n"
+                )
         md.append("\n")
 
     (DOCS / "CONSTELLATION_TOP.md").write_text("".join(md), encoding="utf-8")
     print("Generated docs/CONSTELLATION_TOP.md and docs/stars/*.md")
+
 
 if __name__ == "__main__":
     main()

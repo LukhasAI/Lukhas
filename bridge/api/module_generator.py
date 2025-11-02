@@ -667,28 +667,18 @@ def create_module_structure(module_name: str, module_config: dict[str, Any]):
         "module_name": module_name,
         "module_name_title": module_name_title,
         "module_class_name": module_class_name,
-        "module_description": module_config.get(
-            "description", f"LUKHAS {module_name_title} module"
-        ),
+        "module_description": module_config.get("description", f"LUKHAS {module_name_title} module"),
         "lukhas_concepts": ", ".join(lukhas_concepts),
         "lukhas_concepts_list": lukhas_concepts_list,
         "lukhas_concepts_dict": str(lukhas_concepts_dict),
         "lukhas_yaml_concepts": lukhas_yaml_concepts,
         "lukhas_concepts_detailed": lukhas_concepts_detailed,
         "first_concept": (lukhas_concepts[0] if lukhas_concepts else "lukhas_sgi"),
-        "default_port": module_config.get(
-            "default_port", 8000 + hash(module_name) % 1000
-        ),
-        "module_env_vars": module_config.get(
-            "env_vars", "# Add module-specific environment variables"
-        ),
-        "config_fields": module_config.get(
-            "config_fields", "# Add configuration fields"
-        ),
+        "default_port": module_config.get("default_port", 8000 + hash(module_name) % 1000),
+        "module_env_vars": module_config.get("env_vars", "# Add module-specific environment variables"),
+        "config_fields": module_config.get("config_fields", "# Add configuration fields"),
         "model_fields": module_config.get("model_fields", "# Add model fields"),
-        "module_config": module_config.get(
-            "yaml_config", "# Add module-specific configuration"
-        ),
+        "module_config": module_config.get("yaml_config", "# Add module-specific configuration"),
     }
 
     return template_vars
@@ -792,9 +782,7 @@ def generate_module(
 
     print(f"✅ Module '{module_name}' generated successfully!")
     print(f"📁 Location: {module_path}")
-    print(
-        f"🧬 LUKHAS concepts: {', '.join(template_vars['lukhas_concepts'].split(', '))}"
-    )
+    print(f"🧬 LUKHAS concepts: {', '.join(template_vars['lukhas_concepts'].split(', '))}")
     print("\n📋 Next steps:")
     print(f"  1. cd {module_path}")
     print("  2. pip install -r requirements.txt")
@@ -807,17 +795,13 @@ def generate_module(
 
 def main():
     """CLI for module generation"""
-    parser = argparse.ArgumentParser(
-        description="Generate standardized LUKHAS modules with preserved personality"
-    )
+    parser = argparse.ArgumentParser(description="Generate standardized LUKHAS modules with preserved personality")
     parser.add_argument(
         "module_name",
         help="Name of the module to generate (e.g., 'memory', 'dream')",
     )
     parser.add_argument("--path", default=".", help="Base path for module creation")
-    parser.add_argument(
-        "--force", action="store_true", help="Overwrite existing module"
-    )
+    parser.add_argument("--force", action="store_true", help="Overwrite existing module")
     parser.add_argument("--description", help="Module description")
     parser.add_argument("--port", type=int, help="Default API port")
     parser.add_argument("--concepts", nargs="+", help="Additional LUKHAS concepts")

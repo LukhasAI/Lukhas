@@ -25,10 +25,7 @@ class TestGtpsiModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "gtpsi",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "gtpsi", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestGtpsiModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import gtpsi
+
         self.assertIsNotNone(gtpsi)
 
     def test_module_version(self):
         """Test module has version information."""
         import gtpsi
+
         # Most modules should have version info
-        self.assertTrue(hasattr(gtpsi, '__version__') or
-                       hasattr(gtpsi, 'VERSION'))
+        self.assertTrue(hasattr(gtpsi, "__version__") or hasattr(gtpsi, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestEdgeGestureProcessor(unittest.TestCase):
         """Test EdgeGestureProcessor can be imported."""
         try:
             from gtpsi import EdgeGestureProcessor
+
             self.assertIsNotNone(EdgeGestureProcessor)
         except ImportError:
             pytest.skip("Component EdgeGestureProcessor not available")
@@ -97,6 +96,7 @@ class TestGestureApproval(unittest.TestCase):
         """Test GestureApproval can be imported."""
         try:
             from gtpsi import GestureApproval
+
             self.assertIsNotNone(GestureApproval)
         except ImportError:
             pytest.skip("Component GestureApproval not available")
@@ -114,6 +114,7 @@ class TestGestureChallenge(unittest.TestCase):
         """Test GestureChallenge can be imported."""
         try:
             from gtpsi import GestureChallenge
+
             self.assertIsNotNone(GestureChallenge)
         except ImportError:
             pytest.skip("Component GestureChallenge not available")
@@ -122,7 +123,6 @@ class TestGestureChallenge(unittest.TestCase):
         """Test GestureChallenge can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

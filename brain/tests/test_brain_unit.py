@@ -25,10 +25,7 @@ class TestBrainModule(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "brain",
-            "test_mode": True
-        }
+        self.test_config = {"module_name": "brain", "test_mode": True}
 
     def tearDown(self):
         """Clean up after tests."""
@@ -37,14 +34,15 @@ class TestBrainModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         import brain
+
         self.assertIsNotNone(brain)
 
     def test_module_version(self):
         """Test module has version information."""
         import brain
+
         # Most modules should have version info
-        self.assertTrue(hasattr(brain, '__version__') or
-                       hasattr(brain, 'VERSION'))
+        self.assertTrue(hasattr(brain, "__version__") or hasattr(brain, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
@@ -80,6 +78,7 @@ class TestAlertEvent(unittest.TestCase):
         """Test AlertEvent can be imported."""
         try:
             from brain import AlertEvent
+
             self.assertIsNotNone(AlertEvent)
         except ImportError:
             pytest.skip("Component AlertEvent not available")
@@ -97,6 +96,7 @@ class TestAlertLevel(unittest.TestCase):
         """Test AlertLevel can be imported."""
         try:
             from brain import AlertLevel
+
             self.assertIsNotNone(AlertLevel)
         except ImportError:
             pytest.skip("Component AlertLevel not available")
@@ -114,6 +114,7 @@ class TestBRAIN_ACTIVE(unittest.TestCase):
         """Test BRAIN_ACTIVE can be imported."""
         try:
             from brain import BRAIN_ACTIVE
+
             self.assertIsNotNone(BRAIN_ACTIVE)
         except ImportError:
             pytest.skip("Component BRAIN_ACTIVE not available")
@@ -122,7 +123,6 @@ class TestBRAIN_ACTIVE(unittest.TestCase):
         """Test BRAIN_ACTIVE can be instantiated."""
         # Add component-specific instantiation tests
         pass
-
 
 
 if __name__ == "__main__":

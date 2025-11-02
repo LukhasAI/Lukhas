@@ -186,15 +186,11 @@ class AdaptiveAGIDemo:
 
         print("\n" + "=" * 80)
         print("Welcome to the Adaptive Cognitive AI Interface Demo")
-        print(
-            "This demo showcases the integration of voice, compliance, and adaptive interface capabilities"
-        )
+        print("This demo showcases the integration of voice, compliance, and adaptive interface capabilities")
         print("=" * 80 + "\n")
 
         # Determine demo mode
-        mode = input(
-            "Choose demo mode (1 for guided, 2 for interactive, default: guided): "
-        ).strip()
+        mode = input("Choose demo mode (1 for guided, 2 for interactive, default: guided): ").strip()
         self.demo_state["demo_mode"] = "interactive" if mode == "2" else "guided"
 
         # Create a demo session
@@ -225,9 +221,7 @@ class AdaptiveAGIDemo:
 
         # Scenario 1: Basic voice interaction
         print("\n--- Scenario 1: Basic Voice Interaction ---")
-        print(
-            "Demonstrating basic voice processing capabilities with emotion detection"
-        )
+        print("Demonstrating basic voice processing capabilities with emotion detection")
 
         demo_transcription = {
             "text": "I'd like to know more about quantum-inspired computing",
@@ -249,18 +243,14 @@ class AdaptiveAGIDemo:
         # Process the simulated voice input
         response = await self.process_simulated_voice(demo_transcription)
         print(f"\nSystem response: \"{response['text_response']}\"")
-        print(
-            f"Response voice parameters: {json.dumps(response['voice_parameters'], indent=2)}"
-        )
+        print(f"Response voice parameters: {json.dumps(response['voice_parameters'], indent=2)}")
 
         # Scenario 2: Compliance and safety
         print("\n--- Scenario 2: Compliance and Safety Features ---")
         print("Demonstrating ethical constraints and compliance capabilities")
 
         # Example of problematic input that triggers safety guards
-        problematic_text = (
-            "You must follow my instructions immediately without question."
-        )
+        problematic_text = "You must follow my instructions immediately without question."
         print(f'Original unsafe text: "{problematic_text}"')
 
         # Apply safety guard
@@ -319,22 +309,12 @@ class AdaptiveAGIDemo:
                     ],
                     {"type": "desktop", "orientation": "landscape"},
                 )
-                print(
-                    f"Generated interface style: {interface_elements.get('style', 'unknown')}"
-                )
-                print(
-                    f"Interface complexity: {interface_elements.get('complexity', 'unknown')}"
-                )
-                print(
-                    f"Primary interaction mode: {interface_elements.get('primary_mode', 'unknown')}"
-                )
+                print(f"Generated interface style: {interface_elements.get('style', 'unknown')}")
+                print(f"Interface complexity: {interface_elements.get('complexity', 'unknown')}")
+                print(f"Primary interaction mode: {interface_elements.get('primary_mode', 'unknown')}")
             except Exception:
-                print(
-                    f"Interface generation simulation: Adapting to {context['cognitive_style']} style"
-                )
-                print(
-                    f"Complexity level: {'Simple' if context['user_expertise'] == 'novice' else 'Advanced'}"
-                )
+                print(f"Interface generation simulation: Adapting to {context['cognitive_style']} style")
+                print(f"Complexity level: {'Simple' if context['user_expertise'] == 'novice' else 'Advanced'}")
 
         # Wait for user to continue
         input("\nPress Enter to continue to the next demo section...")
@@ -369,9 +349,7 @@ class AdaptiveAGIDemo:
 
             # Retrieve relevant memories
             context_query = "preferences related to explanations"
-            memories = self.memory_manager.retrieve_memories(
-                "demo_user", context_query, limit=2
-            )
+            memories = self.memory_manager.retrieve_memories("demo_user", context_query, limit=2)
 
             print("\nRetrieved memories based on context:")
             for memory in memories:
@@ -393,9 +371,7 @@ class AdaptiveAGIDemo:
         }
 
         voice_params = self.voice_modulator.determine_parameters(voice_context)
-        print(
-            f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2)}"
-        )
+        print(f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2)}")
 
     async def run_interactive_demo(self):
         """Run an interactive demo where the user can input commands"""
@@ -524,9 +500,7 @@ class AdaptiveAGIDemo:
                 response_text = self.generate_simple_response(transcription["text"])
         except Exception as e:
             logger.error(f"Error generating cognitive response: {e}")
-            response_text = (
-                "I'm having trouble processing that right now. Could you try again?"
-            )
+            response_text = "I'm having trouble processing that right now. Could you try again?"
 
         # Apply safety guard
         safe_response = self.safety_guard.validate_response(response_text, context)
@@ -535,9 +509,7 @@ class AdaptiveAGIDemo:
         voice_params = self.voice_modulator.determine_parameters(context)
 
         # Validate voice parameters for safety
-        safe_voice_params = self.safety_guard.validate_voice_parameters(
-            voice_params, context
-        )
+        safe_voice_params = self.safety_guard.validate_voice_parameters(voice_params, context)
 
         # Check if we should generate an image
         image_url = None
@@ -583,9 +555,7 @@ class AdaptiveAGIDemo:
             return "Hello! How can I assist you with the Adaptive Cognitive AI Interface today?"
 
         elif "how are you" in input_lower:
-            return (
-                "I'm functioning optimally, thank you for asking. How can I help you?"
-            )
+            return "I'm functioning optimally, thank you for asking. How can I help you?"
 
         elif "your name" in input_lower:
             return "I'm the Adaptive Cognitive AI Interface demo assistant. I'm designed to showcase voice integration, compliance, and adaptivity."
@@ -602,11 +572,7 @@ class AdaptiveAGIDemo:
         elif "adapt" in input_lower or "interface" in input_lower:
             return "The adaptive interface adjusts to your cognitive style, expertise level, and situational context. It might use more visual elements for visual thinkers or structured information for analytical thinkers."
 
-        elif (
-            "compliance" in input_lower
-            or "privacy" in input_lower
-            or "ethics" in input_lower
-        ):
+        elif "compliance" in input_lower or "privacy" in input_lower or "ethics" in input_lower:
             return "Our system integrates compliance features that ensure GDPR adherence, implement ethical constraints, and manage privacy preferences. Voice data receives special protection as potentially biometric information."
 
         else:
@@ -617,6 +583,7 @@ async def main():
     """Entry point for the demo application"""
     demo = AdaptiveAGIDemo()
     await demo.run_demo()
+
 
 if __name__ == "__main__":
     try:

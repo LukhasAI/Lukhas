@@ -64,9 +64,11 @@ class PersistenceMode(Enum):
     SNAPSHOT = "snapshot"
     HYBRID = "hybrid"
 
+
 # Import LUKHAS components
 try:
     from core.symbolism.tags import TagScope
+
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")

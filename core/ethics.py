@@ -3,6 +3,7 @@
 Removes import-time dependency on `labs.core.ethics` by exposing a lazy
 attribute proxy. Prefer `core/ethics/__init__.py` implementation in-repo.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -10,6 +11,7 @@ from typing import Any
 
 try:  # pragma: no cover
     from core.ethics import *  # type: ignore  # noqa: F403,F401
+
     _HAS_PRIMARY = True
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False

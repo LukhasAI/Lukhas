@@ -68,43 +68,43 @@ class SimpleE2ETester:
                     "complete_flow": {
                         **self.simulate_e2e_operations(),
                         "slo_target_ms": self.performance_targets["oidc_flow_p95_ms"],
-                        "slo_compliance": True
+                        "slo_compliance": True,
                     }
                 },
                 "memory_lifecycle": {
                     "full_lifecycle": {
                         **self.simulate_e2e_operations(),
                         "slo_target_ms": self.performance_targets["memory_lifecycle_p95_ms"],
-                        "slo_compliance": True
+                        "slo_compliance": True,
                     }
                 },
                 "orchestration": {
                     "sequential_orchestration": {
                         **self.simulate_e2e_operations(),
                         "slo_target_ms": self.performance_targets["orchestration_p95_ms"],
-                        "slo_compliance": True
+                        "slo_compliance": True,
                     }
                 },
                 "matriz_pipeline": {
                     "standard_pipeline": {
                         **self.simulate_e2e_operations(),
                         "slo_target_ms": self.performance_targets["matriz_pipeline_p95_ms"],
-                        "slo_compliance": True
+                        "slo_compliance": True,
                     }
-                }
+                },
             },
             "regression_analysis": {
                 "baseline_sha": None,
                 "performance_delta_pct": 0,
                 "regression_detected": False,
-                "analysis": "No baseline available for comparison"
+                "analysis": "No baseline available for comparison",
             },
             "overall_compliance": {
                 "slo_compliance_rate": 1.0,
                 "operations_tested": 4,
                 "operations_compliant": 4,
-                "all_targets_met": True
-            }
+                "all_targets_met": True,
+            },
         }
 
         return results
@@ -114,14 +114,16 @@ class SimpleE2ETester:
         artifact_filename = f"e2e-performance-{timestamp}.json"
         artifact_path = self.output_dir / artifact_filename
 
-        with open(artifact_path, 'w') as f:
+        with open(artifact_path, "w") as f:
             json.dump(results, f, indent=2, sort_keys=True)
 
         print(f"📊 E2E performance artifact generated: {artifact_path}")
         return str(artifact_path)
 
+
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="Simplified E2E Performance Testing")
     parser.add_argument("--output-dir", default="artifacts", help="Output directory")
     parser.add_argument("--samples", type=int, default=10, help="Number of samples")
@@ -137,6 +139,7 @@ def main():
     except Exception as e:
         print(f"❌ E2E performance testing failed: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -68,10 +68,7 @@ def blob_hash_at(tag: str, relpath: str) -> str | None:
     Returns None if file doesn't exist at that tag.
     """
     try:
-        data = subprocess.check_output(
-            ["git", "show", f"{tag}:{relpath}"],
-            stderr=subprocess.STDOUT
-        )
+        data = subprocess.check_output(["git", "show", f"{tag}:{relpath}"], stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         return None
 
@@ -81,19 +78,13 @@ def blob_hash_at(tag: str, relpath: str) -> str | None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Verify final freeze immutability and integrity"
-    )
-    parser.add_argument(
-        "--tag",
-        default="v0.02-final",
-        help="Final freeze tag name (default: v0.02-final)"
-    )
+    parser = argparse.ArgumentParser(description="Verify final freeze immutability and integrity")
+    parser.add_argument("--tag", default="v0.02-final", help="Final freeze tag name (default: v0.02-final)")
     parser.add_argument(
         "--mode",
         choices=["strict", "allow-dashboards"],
         default="strict",
-        help="Verification mode: strict (no divergence) or allow-dashboards (permit allowlist changes)"
+        help="Verification mode: strict (no divergence) or allow-dashboards (permit allowlist changes)",
     )
     args = parser.parse_args()
 

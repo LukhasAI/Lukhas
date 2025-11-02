@@ -33,6 +33,7 @@
 ║ ΛTAG: synchronization
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import hashlib
 import json
@@ -116,9 +117,7 @@ class BioOscillator:
         logger.info("Bio-oscillator initialized")
 
     @classmethod
-    def configure_session_token_store(
-        cls, store: Optional[SessionTokenStore]
-    ) -> None:
+    def configure_session_token_store(cls, store: Optional[SessionTokenStore]) -> None:
         """Configure the session token store used for verification."""
 
         cls._session_token_store = store

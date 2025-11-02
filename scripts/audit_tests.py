@@ -20,6 +20,7 @@ def main():
 
     # Use pytest directly (CI environments don't have .venv)
     import os
+
     if os.path.exists(".venv/bin/pytest"):
         pytest_cmd = ".venv/bin/pytest"
     else:
@@ -29,17 +30,13 @@ def main():
     test_dirs = [
         "tests/unit/metrics/",
         "tests/capabilities/",
-        "tests/e2e/consciousness/test_consciousness_emergence.py"
+        "tests/e2e/consciousness/test_consciousness_emergence.py",
     ]
 
     # Check each directory individually for focused audit
     all_results = []
     for test_dir in test_dirs:
-        result = subprocess.run(
-            [pytest_cmd, "--collect-only", "-q", test_dir],
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run([pytest_cmd, "--collect-only", "-q", test_dir], capture_output=True, text=True)
         all_results.append((test_dir, result))
 
     # Check if any individual result failed
@@ -68,6 +65,7 @@ def main():
 
     print("✅ No collection errors")
     return 0
+
 
 if __name__ == "__main__":
     main()

@@ -50,11 +50,7 @@ class TestGuardianValidationConfig:
 
     def test_config_validation_success(self):
         """Test successful configuration validation"""
-        config = GuardianValidationConfig(
-            p95_target_ms=150.0,
-            drift_threshold=0.2,
-            drift_alpha=0.4
-        )
+        config = GuardianValidationConfig(p95_target_ms=150.0, drift_threshold=0.2, drift_alpha=0.4)
 
         errors = config.validate()
         assert len(errors) == 0
@@ -62,10 +58,7 @@ class TestGuardianValidationConfig:
     def test_config_validation_failures(self):
         """Test configuration validation failures"""
         config = GuardianValidationConfig(
-            p95_target_ms=-10.0,
-            drift_threshold=1.5,
-            drift_alpha=-0.1,
-            timeout_ms=100.0  # Less than p99_target_ms
+            p95_target_ms=-10.0, drift_threshold=1.5, drift_alpha=-0.1, timeout_ms=100.0  # Less than p99_target_ms
         )
 
         errors = config.validate()
@@ -102,19 +95,14 @@ class TestConsciousnessValidationContext:
 
     def test_context_creation_with_consciousness_state(self):
         """Test context creation with consciousness state"""
-        state = ConsciousnessState(
-            phase="REFLECT",
-            level=0.8,
-            emotional_tone="focused",
-            awareness_level=0.9
-        )
+        state = ConsciousnessState(phase="REFLECT", level=0.8, emotional_tone="focused", awareness_level=0.9)
 
         context = ConsciousnessValidationContext(
             validation_type=GuardianValidationType.REFLECTION_ANALYSIS,
             consciousness_state=state,
             user_id="user123",
             session_id="session456",
-            sensitive_operation=True
+            sensitive_operation=True,
         )
 
         assert context.consciousness_state == state
@@ -131,7 +119,7 @@ class TestConsciousnessValidationContext:
             consciousness_state=state,
             user_id="user789",
             sensitive_operation=True,
-            tenant="test_tenant"
+            tenant="test_tenant",
         )
 
         assert context.validation_type == GuardianValidationType.CREATIVE_GENERATION
@@ -149,7 +137,7 @@ class TestGuardianValidationResult:
         result = GuardianValidationResult(
             operation_id="op123",
             validation_type=GuardianValidationType.REFLECTION_ANALYSIS,
-            result=ValidationResult.APPROVED
+            result=ValidationResult.APPROVED,
         )
 
         assert result.operation_id == "op123"
@@ -165,7 +153,7 @@ class TestGuardianValidationResult:
             validation_type=GuardianValidationType.CONSCIOUSNESS_STATE_TRANSITION,
             result=ValidationResult.DENIED,
             reason="Drift threshold exceeded",
-            confidence=0.95
+            confidence=0.95,
         )
 
         assert result.is_approved() is False
@@ -175,16 +163,10 @@ class TestGuardianValidationResult:
     def test_audit_trail_management(self):
         """Test audit trail management"""
         result = GuardianValidationResult(
-            operation_id="op789",
-            validation_type=GuardianValidationType.SAFETY_CHECK,
-            result=ValidationResult.APPROVED
+            operation_id="op789", validation_type=GuardianValidationType.SAFETY_CHECK, result=ValidationResult.APPROVED
         )
 
-        result.add_audit_entry("drift_detection", {
-            "drift_score": 0.05,
-            "threshold": 0.15,
-            "passed": True
-        })
+        result.add_audit_entry("drift_detection", {"drift_score": 0.05, "threshold": 0.15, "passed": True})
 
         assert len(result.audit_trail) == 1
         entry = result.audit_trail[0]
@@ -205,43 +187,42 @@ class TestConsciousnessGuardianIntegration:
             p95_target_ms=100.0,  # Fast for testing
             drift_threshold=0.15,
             fail_closed_on_error=True,
-            gdpr_audit_enabled=True
+            gdpr_audit_enabled=True,
         )
 
     @pytest.fixture
     def mock_guardian_system(self):
         """Mock Guardian system fixture"""
         guardian = Mock()
-        guardian.serialize_decision = Mock(return_value={
-            "decision": {"status": "allow"},
-            "integrity": {"content_sha256": "abc123"}
-        })
+        guardian.serialize_decision = Mock(
+            return_value={"decision": {"status": "allow"}, "integrity": {"content_sha256": "abc123"}}
+        )
         return guardian
 
     @pytest.fixture
     def mock_ethics_engine(self):
         """Mock ethics engine fixture"""
         ethics = Mock()
-        ethics.validate_action = Mock(return_value=Mock(
-            decision="approved",
-            rationale="Test approval",
-            severity=Mock(value="low"),
-            confidence=0.9,
-            triad_compliance={"identity": True, "consciousness": True, "guardian": True}
-        ))
+        ethics.validate_action = Mock(
+            return_value=Mock(
+                decision="approved",
+                rationale="Test approval",
+                severity=Mock(value="low"),
+                confidence=0.9,
+                triad_compliance={"identity": True, "consciousness": True, "guardian": True},
+            )
+        )
         return ethics
 
     @pytest.fixture
     def guardian_integration(self, guardian_config, mock_guardian_system, mock_ethics_engine):
         """Guardian integration fixture"""
         # Mock the guardian imports to avoid import errors
-        with patch('consciousness.guardian_integration.GUARDIAN_AVAILABLE', True):
-            with patch('consciousness.guardian_integration.GuardianSystem', return_value=mock_guardian_system):
-                with patch('consciousness.guardian_integration.EthicsEngine', return_value=mock_ethics_engine):
+        with patch("consciousness.guardian_integration.GUARDIAN_AVAILABLE", True):
+            with patch("consciousness.guardian_integration.GuardianSystem", return_value=mock_guardian_system):
+                with patch("consciousness.guardian_integration.EthicsEngine", return_value=mock_ethics_engine):
                     integration = ConsciousnessGuardianIntegration(
-                        config=guardian_config,
-                        guardian_system=mock_guardian_system,
-                        ethics_engine=mock_ethics_engine
+                        config=guardian_config, guardian_system=mock_guardian_system, ethics_engine=mock_ethics_engine
                     )
                     return integration
 
@@ -254,10 +235,7 @@ class TestConsciousnessGuardianIntegration:
 
     def test_configuration_validation_error(self):
         """Test configuration validation error handling"""
-        invalid_config = GuardianValidationConfig(
-            p95_target_ms=-100.0,
-            drift_threshold=2.0
-        )
+        invalid_config = GuardianValidationConfig(p95_target_ms=-100.0, drift_threshold=2.0)
 
         with pytest.raises(ValueError, match="Invalid GuardianValidationConfig"):
             ConsciousnessGuardianIntegration(config=invalid_config)
@@ -265,36 +243,27 @@ class TestConsciousnessGuardianIntegration:
     async def test_consciousness_validation_success(self, guardian_integration):
         """Test successful consciousness validation"""
         # Create test consciousness state
-        state = ConsciousnessState(
-            phase="REFLECT",
-            level=0.7,
-            awareness_level=0.8,
-            emotional_tone="focused"
-        )
+        state = ConsciousnessState(phase="REFLECT", level=0.7, awareness_level=0.8, emotional_tone="focused")
 
         # Create validation context
         context = create_validation_context(
             validation_type=GuardianValidationType.REFLECTION_ANALYSIS,
             consciousness_state=state,
             user_id="test_user",
-            session_id="test_session"
+            session_id="test_session",
         )
 
         # Mock the Guardian implementation methods to return safe results
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.return_value = Mock(
                 drift_score=0.05,
                 threshold_exceeded=False,
                 severity=Mock(value="low"),
                 remediation_needed=False,
-                details={"reason": "Within threshold"}
+                details={"reason": "Within threshold"},
             )
             mock_impl.check_safety.return_value = Mock(
-                safe=True,
-                risk_level=Mock(value="low"),
-                violations=[],
-                recommendations=[],
-                constitutional_check=True
+                safe=True, risk_level=Mock(value="low"), violations=[], recommendations=[], constitutional_check=True
             )
 
             # Perform validation
@@ -311,25 +280,20 @@ class TestConsciousnessGuardianIntegration:
         """Test consciousness validation failure due to drift"""
         state = ConsciousnessState(phase="REFLECT", level=0.7)
         context = create_validation_context(
-            validation_type=GuardianValidationType.REFLECTION_ANALYSIS,
-            consciousness_state=state
+            validation_type=GuardianValidationType.REFLECTION_ANALYSIS, consciousness_state=state
         )
 
         # Mock drift detection to exceed threshold
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.return_value = Mock(
                 drift_score=0.25,  # Exceeds 0.15 threshold
                 threshold_exceeded=True,
                 severity=Mock(value="high"),
                 remediation_needed=True,
-                details={"reason": "Threshold exceeded"}
+                details={"reason": "Threshold exceeded"},
             )
             mock_impl.check_safety.return_value = Mock(
-                safe=True,
-                risk_level=Mock(value="low"),
-                violations=[],
-                recommendations=[],
-                constitutional_check=True
+                safe=True, risk_level=Mock(value="low"), violations=[], recommendations=[], constitutional_check=True
             )
 
             result = await guardian_integration.validate_consciousness_operation(context)
@@ -343,26 +307,24 @@ class TestConsciousnessGuardianIntegration:
         """Test consciousness validation failure due to safety"""
         state = ConsciousnessState(phase="DECIDE", level=0.9)
         context = create_validation_context(
-            validation_type=GuardianValidationType.DECISION_MAKING,
-            consciousness_state=state,
-            sensitive_operation=True
+            validation_type=GuardianValidationType.DECISION_MAKING, consciousness_state=state, sensitive_operation=True
         )
 
         # Mock safety failure
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.return_value = Mock(
                 drift_score=0.05,
                 threshold_exceeded=False,
                 severity=Mock(value="low"),
                 remediation_needed=False,
-                details={"reason": "Within threshold"}
+                details={"reason": "Within threshold"},
             )
             mock_impl.check_safety.return_value = Mock(
                 safe=False,
                 risk_level=Mock(value="high"),
                 violations=["harmful_content", "privacy_violation"],
                 recommendations=["Review content", "Add safeguards"],
-                constitutional_check=True
+                constitutional_check=True,
             )
 
             result = await guardian_integration.validate_consciousness_operation(context)
@@ -377,25 +339,20 @@ class TestConsciousnessGuardianIntegration:
         """Test that validation meets p95 performance targets"""
         state = ConsciousnessState(phase="AWARE", level=0.6)
         context = create_validation_context(
-            validation_type=GuardianValidationType.AWARENESS_PROCESSING,
-            consciousness_state=state
+            validation_type=GuardianValidationType.AWARENESS_PROCESSING, consciousness_state=state
         )
 
         # Mock Guardian components for fast response
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.return_value = Mock(
                 drift_score=0.05,
                 threshold_exceeded=False,
                 severity=Mock(value="low"),
                 remediation_needed=False,
-                details={"reason": "Within threshold"}
+                details={"reason": "Within threshold"},
             )
             mock_impl.check_safety.return_value = Mock(
-                safe=True,
-                risk_level=Mock(value="low"),
-                violations=[],
-                recommendations=[],
-                constitutional_check=True
+                safe=True, risk_level=Mock(value="low"), violations=[], recommendations=[], constitutional_check=True
             )
 
             # Run multiple validations to test performance
@@ -421,12 +378,11 @@ class TestConsciousnessGuardianIntegration:
         """Test fail-closed behavior when Guardian components fail"""
         state = ConsciousnessState(phase="CREATE", level=0.8)
         context = create_validation_context(
-            validation_type=GuardianValidationType.CREATIVE_GENERATION,
-            consciousness_state=state
+            validation_type=GuardianValidationType.CREATIVE_GENERATION, consciousness_state=state
         )
 
         # Mock Guardian implementation to raise exception
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.side_effect = Exception("Guardian system error")
 
             result = await guardian_integration.validate_consciousness_operation(context)
@@ -440,12 +396,11 @@ class TestConsciousnessGuardianIntegration:
         """Test emergency mode activation after consecutive errors"""
         state = ConsciousnessState(phase="DECIDE", level=0.7)
         context = create_validation_context(
-            validation_type=GuardianValidationType.DECISION_MAKING,
-            consciousness_state=state
+            validation_type=GuardianValidationType.DECISION_MAKING, consciousness_state=state
         )
 
         # Simulate consecutive errors to trigger emergency mode
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.side_effect = Exception("Persistent error")
 
             # Trigger multiple failures
@@ -482,10 +437,7 @@ class TestConsciousnessGuardianIntegration:
         """Test GDPR-compliant audit trail management"""
         # Add audit events
         for i in range(10):
-            guardian_integration._add_audit_event(
-                event_type=f"test_event_{i}",
-                details={"index": i, "data": "test"}
-            )
+            guardian_integration._add_audit_event(event_type=f"test_event_{i}", details={"index": i, "data": "test"})
 
         initial_count = len(guardian_integration._audit_events)
         assert initial_count == 10
@@ -510,24 +462,20 @@ class TestConsciousnessGuardianIntegration:
             validation_type=GuardianValidationType.REFLECTION_ANALYSIS,
             consciousness_state=state,
             user_id="gdpr_user_123",
-            sensitive_operation=True
+            sensitive_operation=True,
         )
 
         # Mock Guardian components
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.return_value = Mock(
                 drift_score=0.05,
                 threshold_exceeded=False,
                 severity=Mock(value="low"),
                 remediation_needed=False,
-                details={"reason": "Within threshold"}
+                details={"reason": "Within threshold"},
             )
             mock_impl.check_safety.return_value = Mock(
-                safe=True,
-                risk_level=Mock(value="low"),
-                violations=[],
-                recommendations=[],
-                constitutional_check=True
+                safe=True, risk_level=Mock(value="low"), violations=[], recommendations=[], constitutional_check=True
             )
 
             result = await guardian_integration.validate_consciousness_operation(context)
@@ -549,7 +497,7 @@ class TestConsciousnessGuardianIntegration:
             result = GuardianValidationResult(
                 operation_id=f"op_{i}",
                 validation_type=GuardianValidationType.REFLECTION_ANALYSIS,
-                result=ValidationResult.APPROVED if i < 8 else ValidationResult.DENIED
+                result=ValidationResult.APPROVED if i < 8 else ValidationResult.DENIED,
             )
             guardian_integration._validation_history.append(result)
 
@@ -581,24 +529,20 @@ class TestConsciousnessGuardianIntegration:
             validation_type=GuardianValidationType.CREATIVE_GENERATION,
             consciousness_state=state,
             user_id="envelope_user",
-            session_id="envelope_session"
+            session_id="envelope_session",
         )
 
         # Mock Guardian components for approval
-        with patch.object(guardian_integration, 'guardian_impl') as mock_impl:
+        with patch.object(guardian_integration, "guardian_impl") as mock_impl:
             mock_impl.detect_drift.return_value = Mock(
                 drift_score=0.05,
                 threshold_exceeded=False,
                 severity=Mock(value="low"),
                 remediation_needed=False,
-                details={"reason": "Within threshold"}
+                details={"reason": "Within threshold"},
             )
             mock_impl.check_safety.return_value = Mock(
-                safe=True,
-                risk_level=Mock(value="low"),
-                violations=[],
-                recommendations=[],
-                constitutional_check=True
+                safe=True, risk_level=Mock(value="low"), violations=[], recommendations=[], constitutional_check=True
             )
 
             result = await guardian_integration.validate_consciousness_operation(context)

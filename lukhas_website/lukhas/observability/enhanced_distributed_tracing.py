@@ -112,6 +112,7 @@ class LUKHASSemanticConventions:
 @dataclass
 class TraceConfig:
     """Configuration for enhanced distributed tracing"""
+
     service_name: str = "lukhas-ai"
     service_version: str = "1.0.0"
     jaeger_endpoint: Optional[str] = None
@@ -182,9 +183,10 @@ class EnhancedLUKHASTracer:
         # Jaeger exporter
         if self.config.jaeger_endpoint:
             jaeger_exporter = JaegerExporter(
-                agent_host_name=self.config.jaeger_endpoint.split(':')[0],
-                agent_port=int(self.config.jaeger_endpoint.split(':')[1])
-                if ':' in self.config.jaeger_endpoint else 14268,
+                agent_host_name=self.config.jaeger_endpoint.split(":")[0],
+                agent_port=(
+                    int(self.config.jaeger_endpoint.split(":")[1]) if ":" in self.config.jaeger_endpoint else 14268
+                ),
             )
             exporters.append(jaeger_exporter)
 
@@ -199,6 +201,7 @@ class EnhancedLUKHASTracer:
         # Console exporter for development
         if not exporters:
             from opentelemetry.exporter.console import ConsoleSpanExporter
+
             exporters.append(ConsoleSpanExporter())
 
         # Add span processors
@@ -215,14 +218,16 @@ class EnhancedLUKHASTracer:
         """Create OpenTelemetry resource with LUKHAS-specific attributes"""
         from opentelemetry.sdk.resources import Resource
 
-        return Resource.create({
-            "service.name": self.config.service_name,
-            "service.version": self.config.service_version,
-            "service.namespace": "lukhas",
-            "deployment.environment": os.getenv("LUKHAS_ENV", "development"),
-            "phase": "5",  # Phase 5 implementation
-            "features": "enhanced_observability,evidence_collection,compliance_dashboard",
-        })
+        return Resource.create(
+            {
+                "service.name": self.config.service_name,
+                "service.version": self.config.service_version,
+                "service.namespace": "lukhas",
+                "deployment.environment": os.getenv("LUKHAS_ENV", "development"),
+                "phase": "5",  # Phase 5 implementation
+                "features": "enhanced_observability,evidence_collection,compliance_dashboard",
+            }
+        )
 
     def _setup_propagation(self):
         """Setup trace context propagation"""
@@ -233,6 +238,7 @@ class EnhancedLUKHASTracer:
                 propagators.append(TraceContextTextMapPropagator())
             elif prop_name == "baggage":
                 from opentelemetry.propagators.baggage import BaggagePropagator
+
                 propagators.append(BaggagePropagator())
             elif prop_name == "jaeger":
                 propagators.append(JaegerPropagator())
@@ -243,6 +249,7 @@ class EnhancedLUKHASTracer:
 
         if propagators:
             from opentelemetry.propagators.composite import CompositePropagator
+
             propagate.set_global_textmap(CompositePropagator(propagators))
 
     def _setup_auto_instrumentation(self):
@@ -533,7 +540,7 @@ class EnhancedLUKHASTracer:
         if self.enabled:
             span = trace.get_current_span()
             if span.is_recording():
-                trace_id = format(span.get_span_context().trace_id, '032x')
+                trace_id = format(span.get_span_context().trace_id, "032x")
                 self._correlation_map[correlation_id] = trace_id
 
         return correlation_id
@@ -589,12 +596,7 @@ class EnhancedLUKHASTracer:
         }
 
 
-def trace_lukhas_operation(
-    operation_name: str,
-    component: str,
-    operation_type: str = "generic",
-    **trace_kwargs
-):
+def trace_lukhas_operation(operation_name: str, component: str, operation_type: str = "generic", **trace_kwargs):
     """
     Decorator for tracing LUKHAS operations.
 
@@ -609,15 +611,13 @@ def trace_lukhas_operation(
         def recall_memory(query):
             return memory_system.recall(query)
     """
+
     def decorator(func):
         @functools.wraps(func)
         def sync_wrapper(*args, **kwargs):
             tracer = get_enhanced_tracer()
             with tracer.trace_operation(
-                operation_name=operation_name,
-                component=component,
-                operation_type=operation_type,
-                **trace_kwargs
+                operation_name=operation_name, component=component, operation_type=operation_type, **trace_kwargs
             ):
                 return func(*args, **kwargs)
 
@@ -625,40 +625,39 @@ def trace_lukhas_operation(
         async def async_wrapper(*args, **kwargs):
             tracer = get_enhanced_tracer()
             with tracer.trace_operation(
-                operation_name=operation_name,
-                component=component,
-                operation_type=operation_type,
-                **trace_kwargs
+                operation_name=operation_name, component=component, operation_type=operation_type, **trace_kwargs
             ):
                 return await func(*args, **kwargs)
 
         return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+
     return decorator
 
 
 def trace_evidence_collection(evidence_type: str, **trace_kwargs):
     """Decorator for tracing evidence collection operations"""
+
     def decorator(func):
         operation_name = f"collect_{evidence_type}_evidence"
         return trace_lukhas_operation(
-            operation_name=operation_name,
-            component="evidence_collection",
-            operation_type="evidence",
-            **trace_kwargs
+            operation_name=operation_name, component="evidence_collection", operation_type="evidence", **trace_kwargs
         )(func)
+
     return decorator
 
 
 def trace_performance_check(metric_name: str, **trace_kwargs):
     """Decorator for tracing performance check operations"""
+
     def decorator(func):
         operation_name = f"check_{metric_name}_performance"
         return trace_lukhas_operation(
             operation_name=operation_name,
             component="performance_regression",
             operation_type="performance",
-            **trace_kwargs
+            **trace_kwargs,
         )(func)
+
     return decorator
 
 
@@ -666,10 +665,7 @@ def trace_performance_check(metric_name: str, **trace_kwargs):
 _enhanced_tracer: Optional[EnhancedLUKHASTracer] = None
 
 
-def initialize_enhanced_tracing(
-    config: Optional[TraceConfig] = None,
-    **config_kwargs
-) -> EnhancedLUKHASTracer:
+def initialize_enhanced_tracing(config: Optional[TraceConfig] = None, **config_kwargs) -> EnhancedLUKHASTracer:
     """Initialize enhanced distributed tracing"""
     global _enhanced_tracer
 
@@ -679,7 +675,7 @@ def initialize_enhanced_tracing(
             jaeger_endpoint=os.getenv("LUKHAS_JAEGER_ENDPOINT"),
             otlp_endpoint=os.getenv("LUKHAS_OTLP_ENDPOINT"),
             sampling_ratio=float(os.getenv("LUKHAS_TRACE_SAMPLING_RATIO", "1.0")),
-            **config_kwargs
+            **config_kwargs,
         )
 
     _enhanced_tracer = EnhancedLUKHASTracer(config)
@@ -724,7 +720,7 @@ def shutdown_enhanced_tracing():
         try:
             # Flush and shutdown trace provider
             provider = trace.get_tracer_provider()
-            if hasattr(provider, 'shutdown'):
+            if hasattr(provider, "shutdown"):
                 provider.shutdown()
         except Exception as e:
             print(f"Warning: Error during enhanced tracing shutdown: {e}")
@@ -769,7 +765,7 @@ def trace_with_evidence_collection(
                     "evidence_type": evidence_type,
                     "evidence_payload_size": len(str(evidence_payload)),
                     "correlation_id": correlation_id,
-                }
+                },
             )
 
         except Exception as e:
@@ -779,6 +775,6 @@ def trace_with_evidence_collection(
                 attributes={
                     "error": str(e),
                     "evidence_type": evidence_type,
-                }
+                },
             )
             raise

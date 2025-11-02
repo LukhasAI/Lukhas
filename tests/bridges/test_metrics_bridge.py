@@ -1,4 +1,5 @@
 """Test core.metrics bridge exports and contract."""
+
 import pytest
 
 
@@ -18,9 +19,9 @@ def test_metrics_exports():
     # Verify metrics exist
     assert isinstance(PROMETHEUS_AVAILABLE, bool)
     # Metrics are either Counter/Gauge/Histogram or noop stubs
-    assert hasattr(router_cascade_preventions_total, 'inc')
-    assert hasattr(network_coherence_score, 'set')
-    assert hasattr(router_signal_processing_time, 'observe')
+    assert hasattr(router_cascade_preventions_total, "inc")
+    assert hasattr(network_coherence_score, "set")
+    assert hasattr(router_signal_processing_time, "observe")
 
 
 def test_metrics_single_source_of_truth():
@@ -29,7 +30,7 @@ def test_metrics_single_source_of_truth():
 
     # Metrics are defined in core.metrics.py directly
     # Just verify it's callable/usable
-    assert hasattr(router_cascade_preventions_total, 'inc')
+    assert hasattr(router_cascade_preventions_total, "inc")
 
 
 def test_metrics_all_defined():

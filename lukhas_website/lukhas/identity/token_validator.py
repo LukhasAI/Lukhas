@@ -35,59 +35,54 @@ from .token_generator import SecretProvider, _b64url_decode
 
 tracer = trace.get_tracer(__name__)
 
+
 # Prometheus metrics (test-safe)
 class MockMetric:
     def labels(self, **kwargs):
         return self
+
     def inc(self, amount=1):
         pass
+
     def observe(self, amount):
         pass
+
     def set(self, value):
         pass
 
+
 try:
     token_validation_total = Counter(
-        'lukhas_token_validation_total',
-        'Total token validations',
-        ['component', 'result', 'error_type']
+        "lukhas_token_validation_total", "Total token validations", ["component", "result", "error_type"]
     )
 except ValueError:
     token_validation_total = MockMetric()
 
 try:
     token_validation_latency_seconds = Histogram(
-        'lukhas_token_validation_latency_seconds',
-        'Token validation latency',
-        ['component'],
-        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+        "lukhas_token_validation_latency_seconds",
+        "Token validation latency",
+        ["component"],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
     )
 except ValueError:
     token_validation_latency_seconds = MockMetric()
 
 try:
     token_validation_errors_total = Counter(
-        'lukhas_token_validation_errors_total',
-        'Token validation errors',
-        ['component', 'error_type']
+        "lukhas_token_validation_errors_total", "Token validation errors", ["component", "error_type"]
     )
 except ValueError:
     token_validation_errors_total = MockMetric()
 
 try:
-    active_tokens_gauge = Gauge(
-        'lukhas_active_tokens_total',
-        'Number of active tokens in cache',
-        ['component']
-    )
+    active_tokens_gauge = Gauge("lukhas_active_tokens_total", "Number of active tokens in cache", ["component"])
 except ValueError:
     active_tokens_gauge = MockMetric()
 
 try:
     guardian_validation_total = Counter(
-        'lukhas_guardian_validation_total',
-        'Guardian ethical validations',
-        ['component', 'action', 'result']
+        "lukhas_guardian_validation_total", "Guardian ethical validations", ["component", "action", "result"]
     )
 except ValueError:
     guardian_validation_total = MockMetric()
@@ -103,6 +98,7 @@ class ValidationContext:
     Provides comprehensive context for validation decisions,
     Guardian integration, and audit logging.
     """
+
     # Request context
     client_ip: Optional[str] = None
     user_agent: Optional[str] = None
@@ -135,6 +131,7 @@ class ValidationResult:
     Contains validation status, parsed claims, security metrics,
     and Guardian ethical assessment.
     """
+
     # Validation status
     valid: bool
     error_code: Optional[str] = None
@@ -219,7 +216,7 @@ class TokenValidator:
         secret_provider: SecretProvider,
         guardian_validator: Optional[Callable] = None,
         cache_size: int = 10000,
-        cache_ttl_seconds: int = 300
+        cache_ttl_seconds: int = 300,
     ):
         """
         Initialize token validator.
@@ -247,11 +244,7 @@ class TokenValidator:
 
         logger.info(f"TokenValidator initialized with cache_size={cache_size}, ttl={cache_ttl_seconds}s")
 
-    def validate(
-        self,
-        token: str,
-        context: Optional[ValidationContext] = None
-    ) -> ValidationResult:
+    def validate(self, token: str, context: Optional[ValidationContext] = None) -> ValidationResult:
         """
         Validate JWT token with comprehensive security checks.
 
@@ -307,9 +300,7 @@ class TokenValidator:
                 parsed_alias = self._validate_alias(alias)
 
                 # Verify signature with constant-time comparison
-                signature_valid = self._verify_signature_constant_time(
-                    token, header, payload, signature, kid
-                )
+                signature_valid = self._verify_signature_constant_time(token, header, payload, signature, kid)
 
                 if not signature_valid:
                     raise TokenSignatureError("Token signature verification failed")
@@ -339,18 +330,14 @@ class TokenValidator:
                     guardian_approved=guardian_result["approved"],
                     guardian_reason=guardian_result.get("reason"),
                     ethical_score=guardian_result.get("score"),
-                    token_age_seconds=time.time() - claims.get("iat", time.time())
+                    token_age_seconds=time.time() - claims.get("iat", time.time()),
                 )
 
                 # Cache successful validation
                 self._cache_result(token, result)
 
                 # Update metrics
-                token_validation_total.labels(
-                    component=self._component_id,
-                    result="success",
-                    error_type="none"
-                ).inc()
+                token_validation_total.labels(component=self._component_id, result="success", error_type="none").inc()
 
                 span.set_attribute("validation_success", True)
                 span.set_attribute("alias", alias)
@@ -361,22 +348,13 @@ class TokenValidator:
 
             except TokenValidationError as e:
                 # Handle known validation errors
-                error_result = ValidationResult(
-                    valid=False,
-                    error_code=e.error_code,
-                    error_message=str(e)
-                )
+                error_result = ValidationResult(valid=False, error_code=e.error_code, error_message=str(e))
 
                 # Update metrics
-                token_validation_errors_total.labels(
-                    component=self._component_id,
-                    error_type=e.error_code
-                ).inc()
+                token_validation_errors_total.labels(component=self._component_id, error_type=e.error_code).inc()
 
                 token_validation_total.labels(
-                    component=self._component_id,
-                    result="error",
-                    error_type=e.error_code
+                    component=self._component_id, result="error", error_type=e.error_code
                 ).inc()
 
                 span.record_exception(e)
@@ -390,16 +368,11 @@ class TokenValidator:
                 logger.error(f"Unexpected token validation error: {e}")
 
                 error_result = ValidationResult(
-                    valid=False,
-                    error_code="internal_error",
-                    error_message="Internal validation error"
+                    valid=False, error_code="internal_error", error_message="Internal validation error"
                 )
 
                 # Update metrics
-                token_validation_errors_total.labels(
-                    component=self._component_id,
-                    error_type="internal_error"
-                ).inc()
+                token_validation_errors_total.labels(component=self._component_id, error_type="internal_error").inc()
 
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
@@ -511,12 +484,7 @@ class TokenValidator:
         return parsed
 
     def _verify_signature_constant_time(
-        self,
-        token: str,
-        header: Dict[str, Any],
-        payload: Dict[str, Any],
-        signature_encoded: str,
-        kid: str
+        self, token: str, header: Dict[str, Any], payload: Dict[str, Any], signature_encoded: str, kid: str
     ) -> bool:
         """
         Verify token signature using constant-time comparison.
@@ -577,8 +545,7 @@ class TokenValidator:
         nbf = claims.get("nbf")
         if nbf and current_time < nbf:
             raise TokenValidationError(
-                f"Token not valid before {datetime.fromtimestamp(nbf, timezone.utc)}",
-                "not_yet_valid"
+                f"Token not valid before {datetime.fromtimestamp(nbf, timezone.utc)}", "not_yet_valid"
             )
 
         # Check issued-at time (prevent future tokens)
@@ -613,9 +580,9 @@ class TokenValidator:
                     "client_ip": context.client_ip,
                     "user_agent": context.user_agent,
                     "expected_audience": context.expected_audience,
-                    "required_tier": str(context.required_tier) if context.required_tier else None
+                    "required_tier": str(context.required_tier) if context.required_tier else None,
                 },
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Call Guardian validator
@@ -625,7 +592,7 @@ class TokenValidator:
             guardian_validation_total.labels(
                 component=self._component_id,
                 action="token_validation",
-                result="approved" if guardian_result.get("approved", True) else "blocked"
+                result="approved" if guardian_result.get("approved", True) else "blocked",
             ).inc()
 
             if not guardian_result.get("approved", True):
@@ -676,8 +643,7 @@ class TokenValidator:
 
         # Evict oldest entries if cache is full
         while len(self._token_cache) >= self._cache_size:
-            oldest_token = min(self._token_cache.keys(),
-                             key=lambda k: self._token_cache[k][1])
+            oldest_token = min(self._token_cache.keys(), key=lambda k: self._token_cache[k][1])
             del self._token_cache[oldest_token]
 
         self._token_cache[token] = (result, time.time())
@@ -692,9 +658,7 @@ class TokenValidator:
 
         # Clean old entries
         if key in self._rate_limit_store:
-            self._rate_limit_store[key] = [
-                t for t in self._rate_limit_store[key] if t > minute_ago
-            ]
+            self._rate_limit_store[key] = [t for t in self._rate_limit_store[key] if t > minute_ago]
         else:
             self._rate_limit_store[key] = []
 
@@ -723,9 +687,7 @@ class TokenValidator:
         result.validation_time_ms = validation_time
 
         # Update latency metrics
-        token_validation_latency_seconds.labels(
-            component=self._component_id
-        ).observe((time.time() - start_time))
+        token_validation_latency_seconds.labels(component=self._component_id).observe((time.time() - start_time))
 
         return result
 
@@ -769,7 +731,7 @@ class TokenValidator:
             "cache_limit": self._cache_size,
             "cache_ttl_seconds": self._cache_ttl,
             "revoked_tokens": len(self._revoked_tokens),
-            "rate_limit_entries": len(self._rate_limit_store)
+            "rate_limit_entries": len(self._rate_limit_store),
         }
 
     def clear_cache(self) -> None:
@@ -792,5 +754,5 @@ __all__ = [
     "TokenExpiredError",
     "TokenStructureError",
     "TokenSignatureError",
-    "GuardianBlockedError"
+    "GuardianBlockedError",
 ]

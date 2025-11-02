@@ -28,6 +28,7 @@ from typing import Any, Dict, Optional
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class MATRIZPromotionManager:
     """MATRIZ lane promotion with comprehensive validation and evidence generation."""
 
@@ -39,21 +40,19 @@ class MATRIZPromotionManager:
             "gates_passed": [],
             "gates_failed": [],
             "evidence_artifacts": [],
-            "promotion_approved": False
+            "promotion_approved": False,
         }
 
     def load_module_manifest(self, module: str) -> Optional[Dict[str, Any]]:
         """Load module lane manifest."""
-        manifest_paths = [
-            f"{module.replace('.', '/')}/module.lane.yaml",
-            f"MATRIZ/lanes/{module.split('.')[-1]}.yml"
-        ]
+        manifest_paths = [f"{module.replace('.', '/')}/module.lane.yaml", f"MATRIZ/lanes/{module.split('.')[-1]}.yml"]
 
         for manifest_path in manifest_paths:
             if Path(manifest_path).exists():
                 try:
                     import yaml
-                    with open(manifest_path, 'r') as f:
+
+                    with open(manifest_path, "r") as f:
                         return yaml.safe_load(f)
                 except Exception as e:
                     logger.warning(f"Error loading manifest {manifest_path}: {e}")
@@ -65,7 +64,7 @@ class MATRIZPromotionManager:
         valid_transitions = {
             "candidate": ["integration"],
             "integration": ["production"],
-            "production": []  # No promotions from production
+            "production": [],  # No promotions from production
         }
 
         if target_lane not in valid_transitions.get(source_lane, []):
@@ -74,8 +73,7 @@ class MATRIZPromotionManager:
 
         return True
 
-    def validate_promotion_gates(self, module: str, target_lane: str,
-                                manifest: Dict[str, Any]) -> Dict[str, bool]:
+    def validate_promotion_gates(self, module: str, target_lane: str, manifest: Dict[str, Any]) -> Dict[str, bool]:
         """Validate all required promotion gates."""
         gate_results = {}
 
@@ -86,7 +84,7 @@ class MATRIZPromotionManager:
                 "integration_tests",
                 "import_hygiene",
                 "security_scan",
-                "performance_baseline"
+                "performance_baseline",
             ],
             "production": [
                 "unit_tests",
@@ -100,8 +98,8 @@ class MATRIZPromotionManager:
                 "security_scan",
                 "load_testing",
                 "gdpr_compliance",
-                "canary_simulation"
-            ]
+                "canary_simulation",
+            ],
         }
 
         gates_to_check = required_gates.get(target_lane, [])
@@ -162,7 +160,7 @@ class MATRIZPromotionManager:
             return False
 
         try:
-            with open(artifact_path, 'r') as f:
+            with open(artifact_path, "r") as f:
                 results = json.load(f)
 
             coverage = results.get("coverage_percentage", 0)
@@ -195,23 +193,18 @@ class MATRIZPromotionManager:
             return False
 
         try:
-            with open(artifact_path, 'r') as f:
+            with open(artifact_path, "r") as f:
                 results = json.load(f)
 
             results.get("performance_metrics", {})
             slo_compliance = results.get("slo_compliance", {})
 
             # Check T4/0.01% performance targets
-            targets = {
-                "tick_p95_ms": 100,
-                "reflect_p95_ms": 10,
-                "decide_p95_ms": 50,
-                "e2e_p95_ms": 250
-            }
+            targets = {"tick_p95_ms": 100, "reflect_p95_ms": 10, "decide_p95_ms": 50, "e2e_p95_ms": 250}
 
             for metric, target in targets.items():
                 if metric in slo_compliance:
-                    actual = slo_compliance[metric].get("actual", float('inf'))
+                    actual = slo_compliance[metric].get("actual", float("inf"))
                     if actual > target:
                         logger.error(f"Performance SLO violation: {metric} {actual}ms > {target}ms")
                         return False
@@ -324,8 +317,7 @@ class MATRIZPromotionManager:
         self.evidence_artifacts.append(artifact_path)
         return True
 
-    def generate_promotion_evidence(self, module: str, source_lane: str,
-                                   target_lane: str, output_path: str) -> bool:
+    def generate_promotion_evidence(self, module: str, source_lane: str, target_lane: str, output_path: str) -> bool:
         """Generate comprehensive promotion evidence bundle."""
         evidence_bundle = {
             "promotion_metadata": {
@@ -334,45 +326,53 @@ class MATRIZPromotionManager:
                 "source_lane": source_lane,
                 "target_lane": target_lane,
                 "timestamp": self.validation_results["timestamp"],
-                "evidence_version": "1.0.0"
+                "evidence_version": "1.0.0",
             },
             "validation_summary": {
-                "gates_total": len(self.validation_results["gates_passed"]) +
-                              len(self.validation_results["gates_failed"]),
+                "gates_total": len(self.validation_results["gates_passed"])
+                + len(self.validation_results["gates_failed"]),
                 "gates_passed": len(self.validation_results["gates_passed"]),
                 "gates_failed": len(self.validation_results["gates_failed"]),
-                "promotion_approved": self.validation_results["promotion_approved"]
+                "promotion_approved": self.validation_results["promotion_approved"],
             },
             "gate_results": {
                 "passed": self.validation_results["gates_passed"],
-                "failed": self.validation_results["gates_failed"]
+                "failed": self.validation_results["gates_failed"],
             },
-            "evidence_artifacts": []
+            "evidence_artifacts": [],
         }
 
         # Include evidence artifact checksums
         for artifact_path in self.evidence_artifacts:
             if Path(artifact_path).exists():
-                with open(artifact_path, 'rb') as f:
+                with open(artifact_path, "rb") as f:
                     artifact_data = f.read()
 
-                evidence_bundle["evidence_artifacts"].append({
-                    "path": artifact_path,
-                    "sha256": hashlib.sha256(artifact_data).hexdigest(),
-                    "size_bytes": len(artifact_data)
-                })
+                evidence_bundle["evidence_artifacts"].append(
+                    {
+                        "path": artifact_path,
+                        "sha256": hashlib.sha256(artifact_data).hexdigest(),
+                        "size_bytes": len(artifact_data),
+                    }
+                )
 
         # Write evidence bundle
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(evidence_bundle, f, indent=2)
 
         logger.info(f"✅ Evidence bundle generated: {output_path}")
         return True
 
-    def execute_promotion(self, module: str, source_lane: str, target_lane: str,
-                         dry_run: bool = True, sign: bool = False,
-                         attest_key: Optional[str] = None) -> bool:
+    def execute_promotion(
+        self,
+        module: str,
+        source_lane: str,
+        target_lane: str,
+        dry_run: bool = True,
+        sign: bool = False,
+        attest_key: Optional[str] = None,
+    ) -> bool:
         """Execute lane promotion with comprehensive validation."""
         logger.info(f"🚀 MATRIZ Lane Promotion: {module} ({source_lane} → {target_lane})")
 
@@ -420,21 +420,26 @@ class MATRIZPromotionManager:
 
 def main():
     parser = argparse.ArgumentParser(description="MATRIZ Lane Promotion Tool")
-    parser.add_argument("--module", required=True,
-                       help="Module to promote (e.g., consciousness)")
-    parser.add_argument("--from", dest="source_lane", required=True,
-                       choices=["candidate", "integration", "production"],
-                       help="Source lane")
-    parser.add_argument("--to", dest="target_lane", required=True,
-                       choices=["candidate", "integration", "production"],
-                       help="Target lane")
-    parser.add_argument("--evidence-out",
-                       default="evidence/promotion_evidence.json",
-                       help="Evidence bundle output path")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Perform validation without actual promotion")
-    parser.add_argument("--sign", action="store_true",
-                       help="Sign evidence bundle")
+    parser.add_argument("--module", required=True, help="Module to promote (e.g., consciousness)")
+    parser.add_argument(
+        "--from",
+        dest="source_lane",
+        required=True,
+        choices=["candidate", "integration", "production"],
+        help="Source lane",
+    )
+    parser.add_argument(
+        "--to",
+        dest="target_lane",
+        required=True,
+        choices=["candidate", "integration", "production"],
+        help="Target lane",
+    )
+    parser.add_argument(
+        "--evidence-out", default="evidence/promotion_evidence.json", help="Evidence bundle output path"
+    )
+    parser.add_argument("--dry-run", action="store_true", help="Perform validation without actual promotion")
+    parser.add_argument("--sign", action="store_true", help="Sign evidence bundle")
     parser.add_argument("--attest", help="Attestation key for signing")
 
     args = parser.parse_args()
@@ -447,15 +452,12 @@ def main():
         target_lane=args.target_lane,
         dry_run=args.dry_run,
         sign=args.sign,
-        attest_key=args.attest
+        attest_key=args.attest,
     )
 
     # Generate evidence bundle
     manager.generate_promotion_evidence(
-        module=args.module,
-        source_lane=args.source_lane,
-        target_lane=args.target_lane,
-        output_path=args.evidence_out
+        module=args.module, source_lane=args.source_lane, target_lane=args.target_lane, output_path=args.evidence_out
     )
 
     if success:

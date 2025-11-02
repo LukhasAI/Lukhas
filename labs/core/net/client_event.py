@@ -3,19 +3,19 @@
 import typing
 
 ClientEvent = typing.Union[
-typing.Literal[
-"conversation_initiation_metadata",
-"asr_initiation_metadata",
-"ping",
-"audio",
-"interruption",
-"user_transcript",
-"agent_response",
-"agent_response_correction",
-"client_tool_call",
-"internal_vad_score",
-"internal_turn_probability",
-"internal_tentative_agent_response",
-],
-typing.Any,
+    typing.Literal[
+        "conversation_initiation_metadata",
+        "asr_initiation_metadata",
+        "ping",
+        "audio",
+        "interruption",
+        "user_transcript",
+        "agent_response",
+        "agent_response_correction",
+        "client_tool_call",
+        "internal_vad_score",
+        "internal_turn_probability",
+        "internal_tentative_agent_response",
+    ],
+    typing.Any,
 ]

@@ -23,6 +23,7 @@ Integration:
 - Guardian System 2.0 democratic oversight violation detection
 - Secure logging for public accountability audit trails
 """
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone

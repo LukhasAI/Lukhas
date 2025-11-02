@@ -102,17 +102,14 @@ def get_safe_import_moves(file_path: str) -> list[tuple[str, int]]:
                 continue
 
             # Safe import patterns
-            if (
-                (stripped.startswith("import ") or stripped.startswith("from "))
-                and not any(
-                    [
-                        "if " in stripped,  # Conditional imports
-                        "try:" in lines[max(0, i - 1) : i + 2],  # Try/except imports
-                        "def " in lines[max(0, i - 5) : i],  # Function-scoped imports
-                        "class " in lines[max(0, i - 5) : i],  # Class-scoped imports
-                        stripped.startswith("from ."),  # Relative imports might need context
-                    ]
-                )
+            if (stripped.startswith("import ") or stripped.startswith("from ")) and not any(
+                [
+                    "if " in stripped,  # Conditional imports
+                    "try:" in lines[max(0, i - 1) : i + 2],  # Try/except imports
+                    "def " in lines[max(0, i - 5) : i],  # Function-scoped imports
+                    "class " in lines[max(0, i - 5) : i],  # Class-scoped imports
+                    stripped.startswith("from ."),  # Relative imports might need context
+                ]
             ):
                 safe_moves.append((stripped, i))
 

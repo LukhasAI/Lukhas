@@ -32,16 +32,16 @@ def validate_t4_metrics():
         "capability_duration": extract_metric_from_logs(log_content, r"Capability suite: elapsed (\d+)s"),
         "e2e_duration": extract_metric_from_logs(log_content, r"E2E smoke: elapsed (\d+)s"),
         "total_tests": len(re.findall(r"PASSED|FAILED|SKIPPED", log_content)),
-        "failed_tests": len(re.findall(r"FAILED", log_content))
+        "failed_tests": len(re.findall(r"FAILED", log_content)),
     }
 
     # Stability thresholds
     thresholds = {
-        "unit_duration": 60,      # Unit tests should complete within 60s
-        "capability_duration": 120, # Capability tests within 120s
-        "e2e_duration": 60,       # E2E smoke within 60s
-        "min_total_tests": 5,     # At least 5 tests should run
-        "max_failed_tests": 0     # Zero failures allowed
+        "unit_duration": 60,  # Unit tests should complete within 60s
+        "capability_duration": 120,  # Capability tests within 120s
+        "e2e_duration": 60,  # E2E smoke within 60s
+        "min_total_tests": 5,  # At least 5 tests should run
+        "max_failed_tests": 0,  # Zero failures allowed
     }
 
     violations = []
@@ -51,7 +51,9 @@ def validate_t4_metrics():
         violations.append(f"Unit duration {metrics['unit_duration']}s > {thresholds['unit_duration']}s threshold")
 
     if metrics["capability_duration"] > thresholds["capability_duration"]:
-        violations.append(f"Capability duration {metrics['capability_duration']}s > {thresholds['capability_duration']}s threshold")
+        violations.append(
+            f"Capability duration {metrics['capability_duration']}s > {thresholds['capability_duration']}s threshold"
+        )
 
     if metrics["e2e_duration"] > thresholds["e2e_duration"]:
         violations.append(f"E2E duration {metrics['e2e_duration']}s > {thresholds['e2e_duration']}s threshold")

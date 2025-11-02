@@ -21,12 +21,7 @@ class LUKHASMaintenancePipeline:
 
     def log_action(self, action: str, status: str, details: str = ""):
         """Log maintenance actions"""
-        log_entry = {
-            "timestamp": datetime.now().isoformat(),
-            "action": action,
-            "status": status,
-            "details": details
-        }
+        log_entry = {"timestamp": datetime.now().isoformat(), "action": action, "status": status, "details": details}
         self.maintenance_log.append(log_entry)
         print(f"[{status}] {action}: {details}")
 
@@ -38,9 +33,7 @@ class LUKHASMaintenancePipeline:
             return False, f"Script {script_name} not found"
 
         try:
-            result = subprocess.run([
-                sys.executable, str(script_path)
-            ], capture_output=True, text=True, timeout=300)
+            result = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True, timeout=300)
 
             if result.returncode == 0:
                 self.log_action(description, "SUCCESS", "Script completed successfully")
@@ -58,29 +51,21 @@ class LUKHASMaintenancePipeline:
 
     def validate_context_sync(self) -> Dict:
         """Validate context file synchronization"""
-        success, output = self.run_script(
-            "validate_context_sync.py",
-            "Context Sync Validation"
-        )
+        success, output = self.run_script("validate_context_sync.py", "Context Sync Validation")
 
-        return {
-            "validation_passed": success,
-            "output": output,
-            "critical": True  # Context sync is critical
-        }
+        return {"validation_passed": success, "output": output, "critical": True}  # Context sync is critical
 
     def validate_schemas(self) -> Dict:
         """Validate all LUKHAS schemas"""
-        success, output = self.run_script(
-            "schema_validator.py",
-            "Schema Validation"
-        )
+        success, output = self.run_script("schema_validator.py", "Schema Validation")
 
         # Parse validation results if successful
         validation_details = {}
         if success and "JSON Results:" in output:
             try:
-                json_part = output.split("JSON Results:")[1].split("\n==================================================\n")[0]
+                json_part = output.split("JSON Results:")[1].split(
+                    "\n==================================================\n"
+                )[0]
                 validation_details = json.loads(json_part.strip())
             except Exception as e:
                 logger.debug(f"Expected optional failure: {e}")
@@ -90,22 +75,19 @@ class LUKHASMaintenancePipeline:
             "validation_passed": success,
             "output": output,
             "details": validation_details,
-            "critical": True  # Schema validation is critical
+            "critical": True,  # Schema validation is critical
         }
 
     def validate_directory_indexes(self) -> Dict:
         """Validate directory indexes"""
-        success, output = self.run_script(
-            "validate_directory_indexes.py",
-            "Directory Index Validation"
-        )
+        success, output = self.run_script("validate_directory_indexes.py", "Directory Index Validation")
 
         # Extract validation rate from output
         validation_rate = 0.0
         if "Validation rate:" in output:
             try:
-                rate_line = [line for line in output.split('\n') if 'Validation rate:' in line][0]
-                rate_str = rate_line.split(':')[1].strip().replace('%', '')
+                rate_line = [line for line in output.split("\n") if "Validation rate:" in line][0]
+                rate_str = rate_line.split(":")[1].strip().replace("%", "")
                 validation_rate = float(rate_str) / 100
             except Exception as e:
                 logger.debug(f"Expected optional failure: {e}")
@@ -115,22 +97,19 @@ class LUKHASMaintenancePipeline:
             "validation_passed": success and validation_rate > 0.8,  # 80% threshold
             "validation_rate": validation_rate,
             "output": output,
-            "critical": False  # Directory indexes are important but not critical
+            "critical": False,  # Directory indexes are important but not critical
         }
 
     def validate_consciousness_contracts(self) -> Dict:
         """Validate consciousness component contracts"""
-        success, output = self.run_script(
-            "validate_consciousness_contracts.py",
-            "Consciousness Contract Validation"
-        )
+        success, output = self.run_script("validate_consciousness_contracts.py", "Consciousness Contract Validation")
 
         # Extract validation rate from output
         validation_rate = 0.0
         if "Validation rate:" in output:
             try:
-                rate_line = [line for line in output.split('\n') if 'Validation rate:' in line][0]
-                rate_str = rate_line.split(':')[1].strip().replace('%', '')
+                rate_line = [line for line in output.split("\n") if "Validation rate:" in line][0]
+                rate_str = rate_line.split(":")[1].strip().replace("%", "")
                 validation_rate = float(rate_str) / 100
             except Exception as e:
                 logger.debug(f"Expected optional failure: {e}")
@@ -140,34 +119,39 @@ class LUKHASMaintenancePipeline:
             "validation_passed": success and validation_rate > 0.95,  # 95% threshold
             "validation_rate": validation_rate,
             "output": output,
-            "critical": False  # Contract validation is important but not critical
+            "critical": False,  # Contract validation is important but not critical
         }
 
     def check_git_status(self) -> Dict:
         """Check git repository status"""
         try:
             # Check for uncommitted changes
-            result = subprocess.run(['git', 'status', '--porcelain'],
-                                  capture_output=True, text=True, cwd=self.root_path)
+            result = subprocess.run(
+                ["git", "status", "--porcelain"], capture_output=True, text=True, cwd=self.root_path
+            )
 
-            uncommitted_files = result.stdout.strip().split('\n') if result.stdout.strip() else []
+            uncommitted_files = result.stdout.strip().split("\n") if result.stdout.strip() else []
 
             # Check for unpushed commits
-            result = subprocess.run(['git', 'log', '--oneline', '@{u}..HEAD'],
-                                  capture_output=True, text=True, cwd=self.root_path)
+            result = subprocess.run(
+                ["git", "log", "--oneline", "@{u}..HEAD"], capture_output=True, text=True, cwd=self.root_path
+            )
 
-            unpushed_commits = result.stdout.strip().split('\n') if result.stdout.strip() else []
+            unpushed_commits = result.stdout.strip().split("\n") if result.stdout.strip() else []
 
             status = {
                 "uncommitted_files": len(uncommitted_files),
                 "uncommitted_file_list": uncommitted_files,
                 "unpushed_commits": len(unpushed_commits),
                 "unpushed_commit_list": unpushed_commits,
-                "repository_clean": len(uncommitted_files) == 0 and len(unpushed_commits) == 0
+                "repository_clean": len(uncommitted_files) == 0 and len(unpushed_commits) == 0,
             }
 
-            self.log_action("Git Status Check", "SUCCESS",
-                          f"Uncommitted: {len(uncommitted_files)}, Unpushed: {len(unpushed_commits)}")
+            self.log_action(
+                "Git Status Check",
+                "SUCCESS",
+                f"Uncommitted: {len(uncommitted_files)}, Unpushed: {len(unpushed_commits)}",
+            )
 
             return status
 
@@ -183,7 +167,7 @@ class LUKHASMaintenancePipeline:
             "lukhas_context.md",
             "docs/LUKHAS_ARCHITECTURE_MASTER.json",
             "docs/CONSCIOUSNESS_CONTRACT_REGISTRY.json",
-            "docs/CONSTELLATION_ANALYSIS_SUMMARY.json"
+            "docs/CONSTELLATION_ANALYSIS_SUMMARY.json",
         ]
 
         file_status = {}
@@ -199,8 +183,8 @@ class LUKHASMaintenancePipeline:
             else:
                 try:
                     # Check if JSON files are valid
-                    if file_path.endswith('.json'):
-                        with open(full_path, 'r') as f:
+                    if file_path.endswith(".json"):
+                        with open(full_path, "r") as f:
                             json.load(f)
 
                     # Check if files are not empty
@@ -222,13 +206,13 @@ class LUKHASMaintenancePipeline:
             "missing_files": missing_files,
             "corrupted_files": corrupted_files,
             "file_status": file_status,
-            "integrity_passed": len(missing_files) == 0 and len(corrupted_files) == 0
+            "integrity_passed": len(missing_files) == 0 and len(corrupted_files) == 0,
         }
 
         status_msg = f"Missing: {len(missing_files)}, Corrupted: {len(corrupted_files)}"
-        self.log_action("File Integrity Check",
-                       "SUCCESS" if integrity_status["integrity_passed"] else "FAILED",
-                       status_msg)
+        self.log_action(
+            "File Integrity Check", "SUCCESS" if integrity_status["integrity_passed"] else "FAILED", status_msg
+        )
 
         return integrity_status
 
@@ -240,7 +224,7 @@ class LUKHASMaintenancePipeline:
             "maintenance_log": self.maintenance_log,
             "validation_results": {},
             "system_health": {},
-            "recommendations": []
+            "recommendations": [],
         }
 
         print("LUKHAS Automated Maintenance Pipeline")
@@ -258,7 +242,7 @@ class LUKHASMaintenancePipeline:
             "context_sync": context_sync,
             "schema_validation": schema_validation,
             "directory_indexes": directory_indexes,
-            "contract_validation": contract_validation
+            "contract_validation": contract_validation,
         }
 
         print("\nRunning system health checks...")
@@ -266,16 +250,13 @@ class LUKHASMaintenancePipeline:
         git_status = self.check_git_status()
         file_integrity = self.check_file_integrity()
 
-        report["system_health"] = {
-            "git_status": git_status,
-            "file_integrity": file_integrity
-        }
+        report["system_health"] = {"git_status": git_status, "file_integrity": file_integrity}
 
         # Generate overall health score
         critical_checks = [
             context_sync["validation_passed"],
             schema_validation["validation_passed"],
-            file_integrity["integrity_passed"]
+            file_integrity["integrity_passed"],
         ]
 
         health_score = sum(critical_checks) / len(critical_checks)
@@ -314,11 +295,9 @@ class LUKHASMaintenancePipeline:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='LUKHAS Automated Maintenance Pipeline')
-    parser.add_argument('--output', '-o', default='maintenance_report.json',
-                       help='Output file for maintenance report')
-    parser.add_argument('--quiet', '-q', action='store_true',
-                       help='Suppress console output')
+    parser = argparse.ArgumentParser(description="LUKHAS Automated Maintenance Pipeline")
+    parser.add_argument("--output", "-o", default="maintenance_report.json", help="Output file for maintenance report")
+    parser.add_argument("--quiet", "-q", action="store_true", help="Suppress console output")
 
     args = parser.parse_args()
 
@@ -331,11 +310,13 @@ def main():
     if not args.quiet:
         print("\nMaintenance Summary:")
         print(f"Overall Health Score: {report['overall_health_score']:.1%}")
-        critical_passed = sum([
-            report['validation_results']['context_sync']['validation_passed'],
-            report['validation_results']['schema_validation']['validation_passed'],
-            report['system_health']['file_integrity']['integrity_passed']
-        ])
+        critical_passed = sum(
+            [
+                report["validation_results"]["context_sync"]["validation_passed"],
+                report["validation_results"]["schema_validation"]["validation_passed"],
+                report["system_health"]["file_integrity"]["integrity_passed"],
+            ]
+        )
         print(f"Critical Validations: {critical_passed}/3 passed")
 
         if report["recommendations"]:
@@ -346,11 +327,11 @@ def main():
         print(f"\nDetailed report saved to: {args.output}")
 
     # Save report
-    with open(args.output, 'w') as f:
+    with open(args.output, "w") as f:
         json.dump(report, f, indent=2)
 
     # Return exit code based on health score
-    return 0 if report['overall_health_score'] >= 0.8 else 1
+    return 0 if report["overall_health_score"] >= 0.8 else 1
 
 
 if __name__ == "__main__":

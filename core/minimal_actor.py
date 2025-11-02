@@ -4,6 +4,7 @@ Minimal Actor Model Implementation
 Provides basic actor pattern for message-based concurrency
 in the swarm architecture.
 """
+
 import logging
 from typing import Any
 

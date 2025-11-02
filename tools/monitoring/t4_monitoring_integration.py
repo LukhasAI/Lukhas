@@ -39,9 +39,7 @@ class T4MonitoringIntegration:
         # Initialize components
         self.alerting_system = ProductionAlertingSystem(self.config_path)
         self.t4_observability = T4ObservabilityStack(
-            datadog_enabled=True,
-            prometheus_enabled=True,
-            opentelemetry_enabled=True
+            datadog_enabled=True, prometheus_enabled=True, opentelemetry_enabled=True
         )
 
         # Load integration configuration
@@ -50,7 +48,7 @@ class T4MonitoringIntegration:
     def _load_integration_config(self) -> Dict[str, Any]:
         """Load integration-specific configuration"""
         try:
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path, "r") as f:
                 config = json.load(f)
                 return config.get("integration", {})
         except Exception as e:
@@ -58,7 +56,7 @@ class T4MonitoringIntegration:
             return {
                 "t4_observability": {"enabled": True},
                 "coverage_metrics": {"enabled": True},
-                "test_infrastructure": {"enabled": True}
+                "test_infrastructure": {"enabled": True},
             }
 
     async def collect_enhanced_metrics(self) -> SystemMetrics:
@@ -257,7 +255,7 @@ INTEGRATION STATUS:
             "t4_observability": False,
             "metric_collection": False,
             "alert_submission": False,
-            "database_connectivity": False
+            "database_connectivity": False,
         }
 
         try:
@@ -295,9 +293,9 @@ async def main():
         status_icon = "✅" if status else "❌"
         print(f"{status_icon} {component}")
 
-    print("\n" + "="*50)
+    print("\n" + "=" * 50)
     print(integration.generate_integrated_health_report())
-    print("="*50)
+    print("=" * 50)
 
     # Run integrated monitoring
     try:

@@ -2,7 +2,7 @@
 """
 LUKHAS Advanced Security & Caching Infrastructure - Integration Summary
 
-This module provides a comprehensive overview of the enterprise-grade security and caching 
+This module provides a comprehensive overview of the enterprise-grade security and caching
 infrastructure implemented for the LUKHAS AI platform.
 
 # ΛTAG: infrastructure_summary, security_integration, cache_integration, storage_integration
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class LUKHASInfrastructureManager:
     """
     Main infrastructure manager coordinating security, caching, and storage systems.
-    
+
     This is the primary integration point for all advanced infrastructure components:
     - Enterprise Security Framework with JWT, encryption, threat detection
     - Hierarchical Caching System with Redis support and intelligent warming
@@ -33,7 +33,7 @@ class LUKHASInfrastructureManager:
     async def initialize(self) -> bool:
         """
         Initialize all infrastructure components.
-        
+
         Returns:
             bool: True if all components initialized successfully
         """
@@ -70,7 +70,7 @@ class LUKHASInfrastructureManager:
     async def get_system_status(self) -> Dict[str, Any]:
         """
         Get comprehensive system status for all infrastructure components.
-        
+
         Returns:
             Dict containing status information for all subsystems
         """
@@ -81,24 +81,24 @@ class LUKHASInfrastructureManager:
             "infrastructure_status": "operational",
             "security": {
                 "framework_active": self.security_framework is not None,
-                "jwt_service_ready": hasattr(self.security_framework, 'jwt_service'),
-                "encryption_ready": hasattr(self.security_framework, 'encryption_service'),
-                "threat_detection_active": hasattr(self.security_framework, 'threat_detector'),
-                "audit_logging_enabled": hasattr(self.security_framework, 'security_auditor')
+                "jwt_service_ready": hasattr(self.security_framework, "jwt_service"),
+                "encryption_ready": hasattr(self.security_framework, "encryption_service"),
+                "threat_detection_active": hasattr(self.security_framework, "threat_detector"),
+                "audit_logging_enabled": hasattr(self.security_framework, "security_auditor"),
             },
             "caching": {
                 "manager_active": self.cache_manager is not None,
-                "l1_cache_ready": hasattr(self.cache_manager, 'l1_cache'),
-                "redis_available": hasattr(self.cache_manager, 'l2_cache') and self.cache_manager.l2_cache is not None,
-                "warming_enabled": self.cache_manager.warming_enabled if self.cache_manager else False
+                "l1_cache_ready": hasattr(self.cache_manager, "l1_cache"),
+                "redis_available": hasattr(self.cache_manager, "l2_cache") and self.cache_manager.l2_cache is not None,
+                "warming_enabled": self.cache_manager.warming_enabled if self.cache_manager else False,
             },
             "storage": {
                 "manager_active": self.storage_manager is not None,
-                "primary_backend_ready": hasattr(self.storage_manager, 'primary_backend'),
-                "replication_enabled": len(getattr(self.storage_manager, 'replica_backends', [])) > 0,
-                "lifecycle_management": hasattr(self.storage_manager, 'lifecycle_task'),
-                "backup_enabled": hasattr(self.storage_manager, 'backup_task')
-            }
+                "primary_backend_ready": hasattr(self.storage_manager, "primary_backend"),
+                "replication_enabled": len(getattr(self.storage_manager, "replica_backends", [])) > 0,
+                "lifecycle_management": hasattr(self.storage_manager, "lifecycle_task"),
+                "backup_enabled": hasattr(self.storage_manager, "backup_task"),
+            },
         }
 
         # Add performance metrics if available
@@ -158,15 +158,15 @@ INFRASTRUCTURE_FEATURES = {
             "Rate Limiter (adaptive rate limiting)",
             "Threat Detector (SQL injection, XSS detection)",
             "Security Auditor (comprehensive audit trails)",
-            "Password Hashing (bcrypt with salt)"
+            "Password Hashing (bcrypt with salt)",
         ],
         "features": [
             "Multi-role authentication system",
             "Configurable security policies",
             "Real-time threat detection",
             "Comprehensive audit logging",
-            "Integration with telemetry systems"
-        ]
+            "Integration with telemetry systems",
+        ],
     },
     "caching_system": {
         "description": "Hierarchical caching with Redis support and intelligent cache warming",
@@ -175,15 +175,15 @@ INFRASTRUCTURE_FEATURES = {
             "L2 Redis Cache (distributed caching)",
             "Cache Warming (intelligent pre-loading)",
             "Statistics Collection (hit ratios, performance metrics)",
-            "Pattern Invalidation (wildcard cache clearing)"
+            "Pattern Invalidation (wildcard cache clearing)",
         ],
         "features": [
             "Multiple eviction strategies (LRU, LFU, FIFO, TTL, Adaptive)",
             "Automatic compression for large objects",
             "Hierarchical cache architecture",
             "Real-time performance monitoring",
-            "Integration with observability systems"
-        ]
+            "Integration with observability systems",
+        ],
     },
     "distributed_storage": {
         "description": "Enterprise storage with replication, backup, and lifecycle management",
@@ -193,7 +193,7 @@ INFRASTRUCTURE_FEATURES = {
             "Replication Manager (sync/async replication)",
             "Lifecycle Manager (hot/warm/cold/archive transitions)",
             "Backup System (incremental backups)",
-            "Deduplication Engine (content-based deduplication)"
+            "Deduplication Engine (content-based deduplication)",
         ],
         "features": [
             "Multi-backend storage architecture",
@@ -201,9 +201,9 @@ INFRASTRUCTURE_FEATURES = {
             "Automatic data lifecycle management",
             "Content deduplication and compression",
             "Enterprise security integration",
-            "Comprehensive metrics and monitoring"
-        ]
-    }
+            "Comprehensive metrics and monitoring",
+        ],
+    },
 }
 
 
@@ -218,11 +218,11 @@ def print_infrastructure_summary():
         print(f"   {system_info['description']}")
 
         print(f"\n   📦 Components:")
-        for component in system_info['components']:
+        for component in system_info["components"]:
             print(f"      • {component}")
 
         print(f"\n   ⭐ Features:")
-        for feature in system_info['features']:
+        for feature in system_info["features"]:
             print(f"      • {feature}")
 
     print(f"\n🎯 Integration Benefits:")

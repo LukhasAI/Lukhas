@@ -4,6 +4,7 @@ Quantum Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
+
 import math
 import random
 from typing import Any
@@ -51,9 +52,7 @@ class ConsciousnessTokenProtocol:
         resonance_tier = self._resolve_resonance_tier(amount)
         normalized_amount = math.log1p(amount)
         resonance_multiplier = 1 + normalized_amount * self.resonance_curve
-        consciousness_value = round(
-            self.base_resonance + amount * resonance_multiplier, 6
-        )
+        consciousness_value = round(self.base_resonance + amount * resonance_multiplier, 6)
 
         token_id = f"token_{random.randint(1000, 9999)}"
         # See: https://github.com/LukhasAI/Lukhas/issues/573

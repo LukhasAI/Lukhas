@@ -578,16 +578,10 @@ class TestPrivacyStatementGenerator:
             content = statement.content
 
             # All should have data collection info
-            assert any(
-                keyword in content.upper()
-                for keyword in ["DATA", "INFORMATION", "DADOS", "INFORMAÇÃO"]
-            )
+            assert any(keyword in content.upper() for keyword in ["DATA", "INFORMATION", "DADOS", "INFORMAÇÃO"])
 
             # All should have rights section
-            assert any(
-                keyword in content.upper()
-                for keyword in ["RIGHTS", "RIGHT TO", "DIREITOS", "DIREITO"]
-            )
+            assert any(keyword in content.upper() for keyword in ["RIGHTS", "RIGHT TO", "DIREITOS", "DIREITO"])
 
             # All should have contact info
             assert sample_organization.email in content

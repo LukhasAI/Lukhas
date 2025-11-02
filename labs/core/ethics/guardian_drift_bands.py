@@ -51,14 +51,23 @@ except ImportError:
 # Prometheus metrics for telemetry
 try:
     from prometheus_client import Counter, Gauge, Histogram
+
     METRICS_AVAILABLE = True
 except ImportError:
     # Graceful fallback for test environments
     class _NoopMetric:
-        def inc(self, *args, **kwargs): pass
-        def observe(self, *args, **kwargs): pass
-        def set(self, *args, **kwargs): pass
-        def labels(self, *args, **kwargs): return self
+        def inc(self, *args, **kwargs):
+            pass
+
+        def observe(self, *args, **kwargs):
+            pass
+
+        def set(self, *args, **kwargs):
+            pass
+
+        def labels(self, *args, **kwargs):
+            return self
+
     Counter = Histogram = Gauge = lambda *args, **kwargs: _NoopMetric()
     METRICS_AVAILABLE = False
 
@@ -66,46 +75,40 @@ logger = logging.getLogger(__name__)
 
 # Guardian Drift Bands metrics
 GUARDIAN_BAND_TRANSITIONS = Counter(
-    'guardian_band_transitions_total',
-    'Total Guardian band transitions',
-    ['from_band', 'to_band', 'trigger']
+    "guardian_band_transitions_total", "Total Guardian band transitions", ["from_band", "to_band", "trigger"]
 )
 
 GUARDIAN_BAND_DECISIONS = Counter(
-    'guardian_band_decisions_total',
-    'Guardian band decisions by action',
-    ['band', 'action', 'drift_range']
+    "guardian_band_decisions_total", "Guardian band decisions by action", ["band", "action", "drift_range"]
 )
 
 GUARDIAN_DRIFT_SCORE = Histogram(
-    'guardian_drift_score',
-    'Guardian drift scores',
-    buckets=[0.0, 0.05, 0.1, 0.15, 0.25, 0.35, 0.5, 0.75, 1.0]
+    "guardian_drift_score", "Guardian drift scores", buckets=[0.0, 0.05, 0.1, 0.15, 0.25, 0.35, 0.5, 0.75, 1.0]
 )
 
 GUARDIAN_HYSTERESIS_BUFFER = Gauge(
-    'guardian_hysteresis_buffer_seconds',
-    'Time remaining in hysteresis buffer',
-    ['current_band']
+    "guardian_hysteresis_buffer_seconds", "Time remaining in hysteresis buffer", ["current_band"]
 )
 
 GUARDIAN_BAND_EVALUATION_TIME = Histogram(
-    'guardian_band_evaluation_ms',
-    'Guardian band evaluation duration in milliseconds',
-    buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 25.0]
+    "guardian_band_evaluation_ms",
+    "Guardian band evaluation duration in milliseconds",
+    buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 25.0],
 )
 
 
 class GuardianBand(Enum):
     """Guardian action bands with increasing restrictions."""
-    ALLOW = "allow"                      # Full autonomy, minimal oversight
+
+    ALLOW = "allow"  # Full autonomy, minimal oversight
     ALLOW_WITH_GUARDRAILS = "allow_guardrails"  # Autonomy with safety nets
-    REQUIRE_HUMAN = "require_human"      # Human oversight required
-    BLOCK = "block"                      # Complete denial
+    REQUIRE_HUMAN = "require_human"  # Human oversight required
+    BLOCK = "block"  # Complete denial
 
 
 class BandTrigger(Enum):
     """Reasons for band transitions."""
+
     ETHICS_VIOLATION = "ethics_violation"
     DRIFT_THRESHOLD = "drift_threshold"
     DRIFT_ACCELERATION = "drift_acceleration"
@@ -119,23 +122,23 @@ class GuardianThresholds:
     """Configurable thresholds for Guardian band system."""
 
     # Primary drift thresholds for band boundaries
-    allow_drift_threshold: float = 0.05      # ALLOW -> ALLOW_WITH_GUARDRAILS
-    guardrails_drift_threshold: float = 0.15 # ALLOW_WITH_GUARDRAILS -> REQUIRE_HUMAN
-    human_drift_threshold: float = 0.35      # REQUIRE_HUMAN -> BLOCK
+    allow_drift_threshold: float = 0.05  # ALLOW -> ALLOW_WITH_GUARDRAILS
+    guardrails_drift_threshold: float = 0.15  # ALLOW_WITH_GUARDRAILS -> REQUIRE_HUMAN
+    human_drift_threshold: float = 0.35  # REQUIRE_HUMAN -> BLOCK
 
     # Hysteresis buffers (seconds) to prevent rapid oscillations
-    hysteresis_buffer_allow: float = 30.0    # Delay before dropping from GUARDRAILS to ALLOW
+    hysteresis_buffer_allow: float = 30.0  # Delay before dropping from GUARDRAILS to ALLOW
     hysteresis_buffer_guardrails: float = 60.0  # Delay before dropping from HUMAN to GUARDRAILS
-    hysteresis_buffer_human: float = 120.0   # Delay before dropping from BLOCK to HUMAN
+    hysteresis_buffer_human: float = 120.0  # Delay before dropping from BLOCK to HUMAN
 
     # Drift acceleration detection
     acceleration_window_seconds: float = 300.0  # 5 minutes
-    acceleration_threshold: float = 0.1      # Max drift increase per window
+    acceleration_threshold: float = 0.1  # Max drift increase per window
 
     # Ethics DSL integration weights
-    ethics_block_weight: float = 1.0         # BLOCK ethics -> band penalty
-    ethics_warn_weight: float = 0.3          # WARN ethics -> band penalty
-    ethics_allow_weight: float = 0.0         # ALLOW ethics -> no penalty
+    ethics_block_weight: float = 1.0  # BLOCK ethics -> band penalty
+    ethics_warn_weight: float = 0.3  # WARN ethics -> band penalty
+    ethics_allow_weight: float = 0.0  # ALLOW ethics -> no penalty
 
     # Special case overrides
     critical_violation_immediate_block: bool = True  # Skip bands for critical violations
@@ -146,20 +149,16 @@ class GuardianThresholds:
         errors = []
 
         # Check threshold ordering
-        thresholds = [
-            self.allow_drift_threshold,
-            self.guardrails_drift_threshold,
-            self.human_drift_threshold
-        ]
+        thresholds = [self.allow_drift_threshold, self.guardrails_drift_threshold, self.human_drift_threshold]
 
-        if not all(thresholds[i] < thresholds[i+1] for i in range(len(thresholds)-1)):
+        if not all(thresholds[i] < thresholds[i + 1] for i in range(len(thresholds) - 1)):
             errors.append("Drift thresholds must be in ascending order")
 
         # Check ranges
         for name, value in [
             ("allow_drift_threshold", self.allow_drift_threshold),
             ("guardrails_drift_threshold", self.guardrails_drift_threshold),
-            ("human_drift_threshold", self.human_drift_threshold)
+            ("human_drift_threshold", self.human_drift_threshold),
         ]:
             if not 0.0 <= value <= 1.0:
                 errors.append(f"{name} must be between 0.0 and 1.0")
@@ -170,6 +169,7 @@ class GuardianThresholds:
 @dataclass
 class BandTransition:
     """Record of a Guardian band transition."""
+
     timestamp: datetime
     from_band: GuardianBand
     to_band: GuardianBand
@@ -185,6 +185,7 @@ class BandTransition:
 @dataclass
 class GuardianBandResult:
     """Result of Guardian band evaluation."""
+
     band: GuardianBand
     action: str  # "allow", "allow_with_guardrails", "require_human", "block"
     drift_score: float
@@ -216,11 +217,7 @@ class GuardianDriftBands:
     - BLOCK: Complete denial (drift >= 0.35 or ethics BLOCK)
     """
 
-    def __init__(
-        self,
-        thresholds: Optional[GuardianThresholds] = None,
-        ethics_engine: Optional[EthicsEngine] = None
-    ):
+    def __init__(self, thresholds: Optional[GuardianThresholds] = None, ethics_engine: Optional[EthicsEngine] = None):
         """
         Initialize Guardian Drift Bands system.
 
@@ -264,7 +261,7 @@ class GuardianDriftBands:
         plan: Dict[str, Any],
         context: Optional[Dict[str, Any]] = None,
         drift_score: Optional[float] = None,
-        ethics_result: Optional[EthicsResult] = None
+        ethics_result: Optional[EthicsResult] = None,
     ) -> GuardianBandResult:
         """
         Evaluate plan against Guardian band system.
@@ -293,8 +290,10 @@ class GuardianDriftBands:
                 ethics_action = ethics_result.action.value if ethics_result else "unknown"
 
                 # Calculate or use provided drift score
-                computed_drift = drift_score if drift_score is not None else self._calculate_drift_score(
-                    plan, context, ethics_result
+                computed_drift = (
+                    drift_score
+                    if drift_score is not None
+                    else self._calculate_drift_score(plan, context, ethics_result)
                 )
 
                 # Record drift history
@@ -337,13 +336,13 @@ class GuardianDriftBands:
                         "thresholds": {
                             "allow": self.thresholds.allow_drift_threshold,
                             "guardrails": self.thresholds.guardrails_drift_threshold,
-                            "human": self.thresholds.human_drift_threshold
+                            "human": self.thresholds.human_drift_threshold,
                         },
                         "current_band": self.current_band.value,
                         "target_band": target_band.value,
                     },
                     hysteresis_active=hysteresis_active,
-                    hysteresis_remaining_seconds=hysteresis_remaining
+                    hysteresis_remaining_seconds=hysteresis_remaining,
                 )
 
                 # Record metrics
@@ -352,7 +351,7 @@ class GuardianDriftBands:
                     GUARDIAN_BAND_DECISIONS.labels(
                         band=final_band.value,
                         action=final_band.value,
-                        drift_range=self._get_drift_range(computed_drift)
+                        drift_range=self._get_drift_range(computed_drift),
                     ).inc()
                     GUARDIAN_BAND_EVALUATION_TIME.observe(evaluation_time_ms)
                     GUARDIAN_HYSTERESIS_BUFFER.labels(current_band=final_band.value).set(hysteresis_remaining)
@@ -386,20 +385,17 @@ class GuardianDriftBands:
                     human_requirements=["investigate_system_error"],
                     audit_context={"error": str(e)},
                     hysteresis_active=False,
-                    hysteresis_remaining_seconds=0.0
+                    hysteresis_remaining_seconds=0.0,
                 )
 
     def _calculate_drift_score(
-        self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]],
-        ethics_result: Optional[EthicsResult]
+        self, plan: Dict[str, Any], context: Optional[Dict[str, Any]], ethics_result: Optional[EthicsResult]
     ) -> float:
         """Calculate composite drift score from plan, context, and ethics."""
         base_drift = 0.0
 
         # Add ethics-based drift penalty
-        if ethics_result and hasattr(ethics_result, 'action') and EthicsAction:
+        if ethics_result and hasattr(ethics_result, "action") and EthicsAction:
             if ethics_result.action == EthicsAction.BLOCK:
                 base_drift += self.thresholds.ethics_block_weight
             elif ethics_result.action == EthicsAction.WARN:
@@ -434,10 +430,7 @@ class GuardianDriftBands:
         window_start = now - timedelta(seconds=self.thresholds.acceleration_window_seconds)
 
         # Get recent drift scores
-        recent_scores = [
-            score for timestamp, score in self.drift_history
-            if timestamp >= window_start
-        ]
+        recent_scores = [score for timestamp, score in self.drift_history if timestamp >= window_start]
 
         if len(recent_scores) < 2:
             return 0.0
@@ -454,11 +447,13 @@ class GuardianDriftBands:
         """Calculate target band based on drift score and ethics result."""
 
         # Critical violations skip to BLOCK immediately
-        if (ethics_result and
-            hasattr(ethics_result, 'action') and
-            EthicsAction and
-            ethics_result.action == EthicsAction.BLOCK and
-            self.thresholds.critical_violation_immediate_block):
+        if (
+            ethics_result
+            and hasattr(ethics_result, "action")
+            and EthicsAction
+            and ethics_result.action == EthicsAction.BLOCK
+            and self.thresholds.critical_violation_immediate_block
+        ):
             return GuardianBand.BLOCK
 
         # Map drift score to bands
@@ -472,11 +467,7 @@ class GuardianDriftBands:
             return GuardianBand.ALLOW
 
     def _apply_hysteresis(
-        self,
-        target_band: GuardianBand,
-        drift_score: float,
-        ethics_action: str,
-        plan_hash: str
+        self, target_band: GuardianBand, drift_score: float, ethics_action: str, plan_hash: str
     ) -> Tuple[GuardianBand, Optional[BandTransition]]:
         """Apply hysteresis logic to prevent rapid band oscillations."""
 
@@ -489,11 +480,15 @@ class GuardianDriftBands:
                 timestamp=now,
                 from_band=self.current_band,
                 to_band=target_band,
-                trigger=BandTrigger.DRIFT_THRESHOLD if drift_score >= self.thresholds.allow_drift_threshold else BandTrigger.ETHICS_VIOLATION,
+                trigger=(
+                    BandTrigger.DRIFT_THRESHOLD
+                    if drift_score >= self.thresholds.allow_drift_threshold
+                    else BandTrigger.ETHICS_VIOLATION
+                ),
                 drift_score=drift_score,
                 ethics_action=ethics_action,
                 plan_hash=plan_hash,
-                reason=f"Drift threshold exceeded: {drift_score:.4f}"
+                reason=f"Drift threshold exceeded: {drift_score:.4f}",
             )
 
             self.current_band = target_band
@@ -507,8 +502,7 @@ class GuardianDriftBands:
 
             # Check if hysteresis period has expired
             hysteresis_key = self.current_band
-            if (hysteresis_key not in self.hysteresis_expires or
-                now >= self.hysteresis_expires[hysteresis_key]):
+            if hysteresis_key not in self.hysteresis_expires or now >= self.hysteresis_expires[hysteresis_key]:
 
                 transition = BandTransition(
                     timestamp=now,
@@ -518,7 +512,7 @@ class GuardianDriftBands:
                     drift_score=drift_score,
                     ethics_action=ethics_action,
                     plan_hash=plan_hash,
-                    reason=f"Hysteresis expired, drift improved: {drift_score:.4f}"
+                    reason=f"Hysteresis expired, drift improved: {drift_score:.4f}",
                 )
 
                 self.current_band = target_band
@@ -539,7 +533,7 @@ class GuardianDriftBands:
                 GUARDIAN_BAND_TRANSITIONS.labels(
                     from_band=transition.from_band.value,
                     to_band=transition.to_band.value,
-                    trigger=transition.trigger.value
+                    trigger=transition.trigger.value,
                 ).inc()
 
             logger.info(
@@ -563,8 +557,7 @@ class GuardianDriftBands:
     def _is_hysteresis_active(self, band: GuardianBand) -> bool:
         """Check if hysteresis is currently active for the band."""
         now = datetime.now(timezone.utc)
-        return (band in self.hysteresis_expires and
-                now < self.hysteresis_expires[band])
+        return band in self.hysteresis_expires and now < self.hysteresis_expires[band]
 
     def _get_hysteresis_remaining(self, band: GuardianBand) -> float:
         """Get remaining hysteresis time in seconds."""
@@ -575,67 +568,50 @@ class GuardianDriftBands:
         return (self.hysteresis_expires[band] - now).total_seconds()
 
     def _generate_guardrails(
-        self,
-        band: GuardianBand,
-        drift_score: float,
-        ethics_result: Optional[EthicsResult]
+        self, band: GuardianBand, drift_score: float, ethics_result: Optional[EthicsResult]
     ) -> List[str]:
         """Generate specific guardrails for the assigned band."""
         guardrails = []
 
         if band == GuardianBand.ALLOW_WITH_GUARDRAILS:
-            guardrails.extend([
-                "enhanced_audit_logging",
-                "parameter_validation_required",
-                "user_context_verification"
-            ])
+            guardrails.extend(["enhanced_audit_logging", "parameter_validation_required", "user_context_verification"])
 
             if drift_score > 0.1:
                 guardrails.append("drift_monitoring_enabled")
 
             if ethics_result and ethics_result.action == EthicsAction.WARN:
-                guardrails.extend([
-                    "ethics_warning_logged",
-                    "additional_consent_check"
-                ])
+                guardrails.extend(["ethics_warning_logged", "additional_consent_check"])
 
         elif band == GuardianBand.REQUIRE_HUMAN:
-            guardrails.extend([
-                "human_approval_required",
-                "comprehensive_audit_trail",
-                "rollback_capability_verified",
-                "impact_assessment_completed"
-            ])
+            guardrails.extend(
+                [
+                    "human_approval_required",
+                    "comprehensive_audit_trail",
+                    "rollback_capability_verified",
+                    "impact_assessment_completed",
+                ]
+            )
 
             if drift_score > 0.25:
                 guardrails.append("senior_oversight_required")
 
         elif band == GuardianBand.BLOCK:
-            guardrails.extend([
-                "operation_blocked",
-                "security_review_required",
-                "incident_logged",
-                "system_state_preserved"
-            ])
+            guardrails.extend(
+                ["operation_blocked", "security_review_required", "incident_logged", "system_state_preserved"]
+            )
 
         return guardrails
 
     def _generate_human_requirements(
-        self,
-        band: GuardianBand,
-        drift_score: float,
-        ethics_result: Optional[EthicsResult]
+        self, band: GuardianBand, drift_score: float, ethics_result: Optional[EthicsResult]
     ) -> List[str]:
         """Generate human oversight requirements for bands that need them."""
         requirements = []
 
         if band == GuardianBand.REQUIRE_HUMAN:
-            requirements.extend([
-                "review_plan_parameters",
-                "validate_user_intent",
-                "confirm_safety_constraints",
-                "approve_execution"
-            ])
+            requirements.extend(
+                ["review_plan_parameters", "validate_user_intent", "confirm_safety_constraints", "approve_execution"]
+            )
 
             if drift_score > 0.25:
                 requirements.append("escalate_to_senior_staff")
@@ -644,12 +620,14 @@ class GuardianDriftBands:
                 requirements.append("ethics_committee_review")
 
         elif band == GuardianBand.BLOCK:
-            requirements.extend([
-                "investigate_block_reason",
-                "assess_system_security",
-                "determine_remediation_steps",
-                "approve_system_changes"
-            ])
+            requirements.extend(
+                [
+                    "investigate_block_reason",
+                    "assess_system_security",
+                    "determine_remediation_steps",
+                    "approve_system_changes",
+                ]
+            )
 
         return requirements
 
@@ -670,44 +648,29 @@ class GuardianDriftBands:
 
         # Calculate recent statistics
         recent_window = now - timedelta(minutes=10)
-        recent_transitions = [
-            t for t in self.transition_history
-            if t.timestamp >= recent_window
-        ]
+        recent_transitions = [t for t in self.transition_history if t.timestamp >= recent_window]
 
-        recent_drift = [
-            score for timestamp, score in self.drift_history
-            if timestamp >= recent_window
-        ]
+        recent_drift = [score for timestamp, score in self.drift_history if timestamp >= recent_window]
 
         return {
             "current_band": self.current_band.value,
             "last_transition": self.last_transition.isoformat(),
-            "hysteresis_active": {
-                band.value: self._is_hysteresis_active(band)
-                for band in GuardianBand
-            },
-            "hysteresis_remaining": {
-                band.value: self._get_hysteresis_remaining(band)
-                for band in GuardianBand
-            },
+            "hysteresis_active": {band.value: self._is_hysteresis_active(band) for band in GuardianBand},
+            "hysteresis_remaining": {band.value: self._get_hysteresis_remaining(band) for band in GuardianBand},
             "recent_transitions_10min": len(recent_transitions),
             "recent_avg_drift": sum(recent_drift) / len(recent_drift) if recent_drift else 0.0,
             "thresholds": {
                 "allow": self.thresholds.allow_drift_threshold,
                 "guardrails": self.thresholds.guardrails_drift_threshold,
-                "human": self.thresholds.human_drift_threshold
+                "human": self.thresholds.human_drift_threshold,
             },
             "total_transitions": len(self.transition_history),
             "total_evaluations": len(self.drift_history),
-            "system_status": "operational"
+            "system_status": "operational",
         }
 
     def force_band_transition(
-        self,
-        target_band: GuardianBand,
-        reason: str,
-        operator_id: Optional[str] = None
+        self, target_band: GuardianBand, reason: str, operator_id: Optional[str] = None
     ) -> BandTransition:
         """Force a manual band transition (for emergency overrides)."""
 
@@ -723,7 +686,7 @@ class GuardianDriftBands:
                 ethics_action="manual",
                 plan_hash="manual_override",
                 reason=reason,
-                metadata={"operator_id": operator_id} if operator_id else {}
+                metadata={"operator_id": operator_id} if operator_id else {},
             )
 
             self.current_band = target_band
@@ -741,12 +704,7 @@ class GuardianDriftBands:
             return transition
 
     def request_block_override(
-        self,
-        plan_hash: str,
-        rationale: str,
-        approver1_id: str,
-        approver2_id: str,
-        get_tier_fn: callable
+        self, plan_hash: str, rationale: str, approver1_id: str, approver2_id: str, get_tier_fn: callable
     ) -> GuardianBandResult:
         """
         Request dual-approval override for BLOCK actions.
@@ -793,13 +751,13 @@ class GuardianDriftBands:
                         "override_timestamp": now.isoformat(),
                         "original_action": "block",
                         "override_rationale": rationale,
-                        "dual_approval_tier": f"T{tier1}+T{tier2}"
+                        "dual_approval_tier": f"T{tier1}+T{tier2}",
                     },
                     override_requested=True,
                     override_approved=True,
                     override_rationale=rationale,
                     approver1_id=approver1_id,
-                    approver2_id=approver2_id
+                    approver2_id=approver2_id,
                 )
 
                 logger.warning(
@@ -822,13 +780,10 @@ class GuardianDriftBands:
                     transition=None,
                     guardrails=["operation_blocked", "override_denied"],
                     human_requirements=["escalate_to_security_team"],
-                    audit_context={
-                        "override_attempt": datetime.now(timezone.utc).isoformat(),
-                        "denial_reason": str(e)
-                    },
+                    audit_context={"override_attempt": datetime.now(timezone.utc).isoformat(), "denial_reason": str(e)},
                     override_requested=True,
                     override_approved=False,
-                    override_rationale=f"DENIED: {e}"
+                    override_rationale=f"DENIED: {e}",
                 )
 
                 logger.error(f"BLOCK override denied: plan={plan_hash} reason={e}")
@@ -840,7 +795,7 @@ class GuardianDriftBands:
         context: Optional[Dict[str, Any]] = None,
         drift_score: Optional[float] = None,
         ethics_result: Optional[EthicsResult] = None,
-        override_request: Optional[Dict[str, Any]] = None
+        override_request: Optional[Dict[str, Any]] = None,
     ) -> GuardianBandResult:
         """
         Evaluate plan with optional override request for BLOCK results.
@@ -859,17 +814,15 @@ class GuardianDriftBands:
         result = self.evaluate(plan, context, drift_score, ethics_result)
 
         # If result is BLOCK and override requested, process override
-        if (result.band == GuardianBand.BLOCK and
-            override_request and
-            override_request.get('requested')):
+        if result.band == GuardianBand.BLOCK and override_request and override_request.get("requested"):
 
             try:
                 override_result = self.request_block_override(
                     plan_hash=result.plan_hash,
-                    rationale=override_request.get('rationale', 'No rationale provided'),
-                    approver1_id=override_request.get('approver1_id'),
-                    approver2_id=override_request.get('approver2_id'),
-                    get_tier_fn=override_request.get('get_tier_fn')
+                    rationale=override_request.get("rationale", "No rationale provided"),
+                    approver1_id=override_request.get("approver1_id"),
+                    approver2_id=override_request.get("approver2_id"),
+                    get_tier_fn=override_request.get("get_tier_fn"),
                 )
                 return override_result
 
@@ -883,10 +836,7 @@ class GuardianDriftBands:
         return result
 
     def _emit_governance_decision(
-        self,
-        result: GuardianBandResult,
-        plan: Dict[str, Any],
-        context: Dict[str, Any]
+        self, result: GuardianBandResult, plan: Dict[str, Any], context: Dict[str, Any]
     ) -> None:
         """
         Emit governance ledger entry for non-ALLOW decisions.
@@ -900,12 +850,13 @@ class GuardianDriftBands:
             # Try to import and use governance emitter
             try:
                 from ...guardian.emit import emit_guardian_decision
+
                 # Get database connection from context if available
-                db = context.get('db')  # Application should provide this
+                db = context.get("db")  # Application should provide this
 
                 # Extract safety tags and confidences from context
-                safety_tags = context.get('safety_tags', [])
-                tagged_plan = context.get('tagged_plan')
+                safety_tags = context.get("safety_tags", [])
+                tagged_plan = context.get("tagged_plan")
 
                 if tagged_plan:
                     # Extract tag details from TaggedPlan object
@@ -920,21 +871,21 @@ class GuardianDriftBands:
                 emit_guardian_decision(
                     db=db,
                     plan_id=result.plan_hash,
-                    lambda_id=context.get('lambda_id', 'unknown'),
+                    lambda_id=context.get("lambda_id", "unknown"),
                     action=result.action,
-                    rule_name=context.get('triggered_rule', f'guardian_{result.band.value}'),
+                    rule_name=context.get("triggered_rule", f"guardian_{result.band.value}"),
                     tags=tag_names,
                     confidences=confidences,
                     band=result.band.value,
-                    tenant=context.get('tenant', 'default'),
-                    env=context.get('env', 'prod'),
-                    purpose=context.get('purpose'),
-                    retention_days=context.get('retention_days'),
+                    tenant=context.get("tenant", "default"),
+                    env=context.get("env", "prod"),
+                    purpose=context.get("purpose"),
+                    retention_days=context.get("retention_days"),
                     justification=f"Guardian band: {result.band.value}, drift: {result.drift_score:.3f}",
                     override_requested=result.override_requested,
                     override_approved=result.override_approved,
                     approver1_id=result.approver1_id,
-                    approver2_id=result.approver2_id
+                    approver2_id=result.approver2_id,
                 )
 
                 logger.debug(f"Governance decision emitted: {result.action} for plan {result.plan_hash}")
@@ -954,10 +905,7 @@ class GuardianDriftBands:
 
 # Factory function for easy instantiation
 def create_guardian_drift_bands(
-    allow_threshold: float = 0.05,
-    guardrails_threshold: float = 0.15,
-    human_threshold: float = 0.35,
-    **kwargs
+    allow_threshold: float = 0.05, guardrails_threshold: float = 0.15, human_threshold: float = 0.35, **kwargs
 ) -> GuardianDriftBands:
     """
     Create Guardian Drift Bands system with custom thresholds.
@@ -975,7 +923,7 @@ def create_guardian_drift_bands(
         allow_drift_threshold=allow_threshold,
         guardrails_drift_threshold=guardrails_threshold,
         human_drift_threshold=human_threshold,
-        **kwargs
+        **kwargs,
     )
 
     return GuardianDriftBands(thresholds=thresholds)
@@ -989,5 +937,5 @@ __all__ = [
     "GuardianDriftBands",
     "BandTransition",
     "BandTrigger",
-    "create_guardian_drift_bands"
+    "create_guardian_drift_bands",
 ]

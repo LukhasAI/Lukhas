@@ -2,6 +2,7 @@
 Neuroplastic Connector for CORE Module
 Auto-generated connector that integrates isolated components
 """
+
 import logging
 from typing import Any
 

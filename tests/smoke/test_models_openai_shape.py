@@ -8,6 +8,7 @@ Validates that the /v1/models endpoint returns proper OpenAI-compatible list for
 
 Phase 4: P0 audit-ready implementation (Engineer Brief 2025-10-22).
 """
+
 from __future__ import annotations
 
 import pytest

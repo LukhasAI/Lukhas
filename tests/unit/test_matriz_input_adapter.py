@@ -42,18 +42,14 @@ class TestMatrizInputAdapter:
         math_payload = self.orchestrator._adapt_input_for_node("math", "1+1")
         assert math_payload == {"expression": "1+1"}
 
-        fact_payload = self.orchestrator._adapt_input_for_node(
-            "facts", "What is the capital of France?"
-        )
+        fact_payload = self.orchestrator._adapt_input_for_node("facts", "What is the capital of France?")
         assert fact_payload == {"question": "What is the capital of France?"}
 
         default_payload = self.orchestrator._adapt_input_for_node("other", "hello")
         assert default_payload == {"query": "hello"}
 
         validator_payload = {"target_output": {"answer": "ok"}}
-        adapted_validator = self.orchestrator._adapt_input_for_node(
-            "validator", validator_payload
-        )
+        adapted_validator = self.orchestrator._adapt_input_for_node("validator", validator_payload)
         assert adapted_validator is validator_payload
 
         with pytest.raises(TypeError):
@@ -81,9 +77,7 @@ class TestMatrizInputAdapter:
         self.orchestrator.register_node("math", math_node)
         self.orchestrator.register_node("facts", fact_node)
 
-        result = asyncio.run(
-            self.orchestrator.process_query("What is the capital of France?")
-        )
+        result = asyncio.run(self.orchestrator.process_query("What is the capital of France?"))
         assert "Paris" in result["answer"]
         assert result["confidence"] > 0.5
 
@@ -92,11 +86,7 @@ class TestMatrizInputAdapter:
         validator_node = ValidatorNode()
         math_output = MathNode().process({"expression": "(2+3)*4"})
 
-        payload = self.orchestrator._adapt_input_for_node(
-            "validator", {"target_output": math_output}
-        )
-        result = asyncio.run(
-            self.orchestrator._process_node_async(validator_node, payload)
-        )
+        payload = self.orchestrator._adapt_input_for_node("validator", {"target_output": math_output})
+        result = asyncio.run(self.orchestrator._process_node_async(validator_node, payload))
         assert "PASSED" in result["answer"]
         assert result["confidence"] >= 0.5

@@ -3,6 +3,7 @@ Bridge utility helpers for DRY bridge module creation.
 
 Provides safe fallback resolution, explicit exports, and deprecation warnings.
 """
+
 from __future__ import annotations
 
 import warnings

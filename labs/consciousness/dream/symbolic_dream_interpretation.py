@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class SymbolicDomain(Enum):
     """Symbolic domains for dream interpretation."""
+
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
     GUARDIAN = "guardian"
@@ -39,33 +40,33 @@ class SymbolicDreamInterpreter:
             "⚛️": {
                 "domain": SymbolicDomain.IDENTITY,
                 "meanings": ["authentic self", "consciousness core", "identity nucleus"],
-                "resonance": "high"
+                "resonance": "high",
             },
             "🧠": {
                 "domain": SymbolicDomain.CONSCIOUSNESS,
                 "meanings": ["awareness", "cognitive processing", "neural integration"],
-                "resonance": "high"
+                "resonance": "high",
             },
             "🛡️": {
                 "domain": SymbolicDomain.GUARDIAN,
                 "meanings": ["protection", "ethical boundaries", "safety protocols"],
-                "resonance": "high"
+                "resonance": "high",
             },
             "∞": {
                 "domain": SymbolicDomain.QUANTUM,
                 "meanings": ["infinite potential", "quantum superposition", "boundless possibility"],
-                "resonance": "medium"
+                "resonance": "medium",
             },
             "◊": {
                 "domain": SymbolicDomain.MEMORY,
                 "meanings": ["crystallized experience", "faceted memory", "multidimensional recall"],
-                "resonance": "medium"
+                "resonance": "medium",
             },
             "🌈": {
                 "domain": SymbolicDomain.CREATIVITY,
                 "meanings": ["spectrum of possibility", "creative expression", "prismatic consciousness"],
-                "resonance": "medium"
-            }
+                "resonance": "medium",
+            },
         }
 
     def interpret_dream_symbols(self, dream_id: str, symbolic_content: list[str]) -> dict[str, Any]:
@@ -81,7 +82,7 @@ class SymbolicDreamInterpreter:
                     "symbol": symbol,
                     "domain": self.symbolic_lexicon[symbol]["domain"].value,
                     "primary_meanings": self.symbolic_lexicon[symbol]["meanings"],
-                    "resonance_level": self.symbolic_lexicon[symbol]["resonance"]
+                    "resonance_level": self.symbolic_lexicon[symbol]["resonance"],
                 }
                 symbol_analysis.append(analysis)
 
@@ -92,13 +93,13 @@ class SymbolicDreamInterpreter:
             "symbol_analysis": symbol_analysis,
             "domain_mapping": self._map_symbolic_domains(symbol_analysis),
             "narrative_threads": self._weave_narrative_threads(symbol_analysis),
-            "constellation_resonance": self._calculate_trinity_resonance(symbol_analysis)
+            "constellation_resonance": self._calculate_trinity_resonance(symbol_analysis),
         }
 
         self.interpretation_history[interpretation_id] = {
             "interpretation": interpretation,
             "interpreted_at": datetime.now(timezone.utc).isoformat(),
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         logger.info(f"🔮 Dream symbols interpreted: {interpretation_id} for dream {dream_id}")
@@ -145,7 +146,7 @@ class SymbolicDreamInterpreter:
         high_resonance_count = sum(1 for s in symbol_analysis if s["resonance_level"] == "high")
         resonance_ratio = high_resonance_count / len(symbol_analysis)
 
-        return (constellation_ratio * 0.6 + resonance_ratio * 0.4)
+        return constellation_ratio * 0.6 + resonance_ratio * 0.4
 
     def generate_symbolic_insights(self, interpretation_id: str) -> dict[str, Any]:
         """🧠 Generate consciousness-aware insights from symbolic interpretation."""
@@ -163,10 +164,10 @@ class SymbolicDreamInterpreter:
             "key_insights": [
                 f"Symbolic complexity level: {'high' if len(interpretation['symbol_analysis']) > 3 else 'moderate'}",
                 f"Constellation resonance: {'strong' if interpretation['constellation_resonance'] > 0.7 else 'developing'}",
-                f"Dominant domain: {max(interpretation['domain_mapping'], key=interpretation['domain_mapping'].get) if interpretation['domain_mapping'] else 'balanced'}"
+                f"Dominant domain: {max(interpretation['domain_mapping'], key=interpretation['domain_mapping'].get) if interpretation['domain_mapping'] else 'balanced'}",
             ],
             "recommendations": self._generate_recommendations(interpretation),
-            "constellation_validated": True
+            "constellation_validated": True,
         }
 
         logger.info(f"🧠 Symbolic insights generated: {interpretation_id}")
@@ -206,8 +207,8 @@ class SymbolicDreamInterpreter:
             "metadata": {
                 "exported_at": datetime.now(timezone.utc).isoformat(),
                 "constellation_validated": True,
-                "guardian_approved": True
-            }
+                "guardian_approved": True,
+            },
         }
 
         logger.info(f"🛡️ Interpretation exported: {interpretation_id}")

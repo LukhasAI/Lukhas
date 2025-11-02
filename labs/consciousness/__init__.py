@@ -10,6 +10,7 @@ This module consolidates all consciousness-related components:
 - Stream processors
 - Colony systems
 """
+
 import contextlib
 
 import streamlit as st

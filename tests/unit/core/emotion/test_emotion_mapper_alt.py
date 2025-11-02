@@ -11,6 +11,7 @@ Tests cover:
 - Edge cases and boundary conditions
 - Integration patterns for Healix
 """
+
 from __future__ import annotations
 
 from typing import Any

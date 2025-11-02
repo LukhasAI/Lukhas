@@ -43,7 +43,7 @@ def try_run(label, cmd, parse=lambda s: s, force_parse=False):
         "rc": rc,
         "stdout": out[-2000:],
         "stderr": err[-2000:],
-        "parsed": parse(out) if should_parse else None
+        "parsed": parse(out) if should_parse else None,
     }
 
 
@@ -67,8 +67,8 @@ def parse_pytest(out):
         # If maxfail stops early, count from "FAILED" lines
         failed_count = len(re.findall(r"^FAILED\s", out, re.MULTILINE))
         # Count dots in first line for rough passed count
-        dots_line = out.split('\n')[0] if out else ""
-        passed_count = dots_line.count('.')
+        dots_line = out.split("\n")[0] if out else ""
+        passed_count = dots_line.count(".")
         if failed_count > 0 or passed_count > 0:
             return {"passed": passed_count, "failed": failed_count, "maxfail_stopped": True}
     return m.groupdict() if m else {"summary": out[-400:]}
@@ -93,17 +93,14 @@ def main():
     # 1) Ruff statistics (exits 1 on findings, so force_parse=True)
     print("\n📊 Running ruff checks...")
     results["ruff_statistics"] = try_run(
-        "ruff_stats",
-        ["python3", "-m", "ruff", "check", ".", "--statistics"],
-        parse=parse_ruff_stats,
-        force_parse=True
+        "ruff_stats", ["python3", "-m", "ruff", "check", ".", "--statistics"], parse=parse_ruff_stats, force_parse=True
     )
 
     results["ruff_count"] = try_run(
         "ruff_count",
         "python3 -m ruff check . --output-format=concise 2>&1 | wc -l",
         parse=lambda s: {"total": int(s.strip()) if s.strip().isdigit() else 0},
-        force_parse=True
+        force_parse=True,
     )
 
     # 2) Smoke tests with coverage (exits 1 on failures, so force_parse=True)
@@ -112,7 +109,7 @@ def main():
         "pytest_smoke",
         ["python3", "-m", "pytest", "tests/smoke/", "-q", "--tb=no"],
         parse=parse_pytest,
-        force_parse=True
+        force_parse=True,
     )
 
     # 3) Unit core tests (exits 1 on failures, so force_parse=True)
@@ -121,16 +118,13 @@ def main():
         "pytest_core",
         ["python3", "-m", "pytest", "tests/unit/", "-q", "--tb=no", "-k", "auth or rate or idempotency or trace"],
         parse=parse_pytest,
-        force_parse=True
+        force_parse=True,
     )
 
     # 4) Compat hits
     if (ROOT / "scripts/report_compat_hits.py").exists():
         print("\n📦 Checking compat hits...")
-        results["compat_hits"] = try_run(
-            "compat_hits",
-            ["python3", "scripts/report_compat_hits.py"]
-        )
+        results["compat_hits"] = try_run("compat_hits", ["python3", "scripts/report_compat_hits.py"])
 
     # 5) OpenAPI validate
     openapi_spec = ROOT / "docs/openapi/lukhas-openapi.json"
@@ -138,13 +132,16 @@ def main():
         print("\n🔍 Validating OpenAPI spec...")
         results["openapi_validate"] = try_run(
             "openapi_validate",
-            ["python3", "-c",
-             "import json,sys,pathlib;"
-             "p=pathlib.Path('docs/openapi/lukhas-openapi.json');"
-             "d=json.load(open(p));"
-             "assert 'openapi' in d and 'paths' in d;"
-             "print('ok:', len(d.get('paths',{})),'paths')"],
-            parse=lambda s: {"valid": True, "paths": int(s.split()[-2]) if "ok:" in s else 0}
+            [
+                "python3",
+                "-c",
+                "import json,sys,pathlib;"
+                "p=pathlib.Path('docs/openapi/lukhas-openapi.json');"
+                "d=json.load(open(p));"
+                "assert 'openapi' in d and 'paths' in d;"
+                "print('ok:', len(d.get('paths',{})),'paths')",
+            ],
+            parse=lambda s: {"valid": True, "paths": int(s.split()[-2]) if "ok:" in s else 0},
         )
     else:
         results["openapi_validate"] = {"ok": False, "message": "OpenAPI spec not found"}
@@ -152,22 +149,22 @@ def main():
     # 6) Star rules coverage (optional)
     if (ROOT / "scripts/gen_rules_coverage.py").exists():
         print("\n⭐ Generating star rules coverage...")
-        ok, out, err, rc = run(["python3", "scripts/gen_rules_coverage.py", "--out", "docs/audits/star_rules_coverage.md"])
+        ok, out, err, rc = run(
+            ["python3", "scripts/gen_rules_coverage.py", "--out", "docs/audits/star_rules_coverage.md"]
+        )
         results["star_rules_coverage"] = {"ok": ok, "rc": rc}
 
     # 7) pip-audit (optional)
     if shutil.which("pip-audit"):
         print("\n🔒 Running pip-audit...")
-        results["pip_audit"] = try_run(
-            "pip_audit",
-            ["pip-audit", "-r", "requirements.txt"]
-        )
+        results["pip_audit"] = try_run("pip_audit", ["pip-audit", "-r", "requirements.txt"])
 
     # 8) Guardian/RL health check (from /healthz endpoint if API running)
     print("\n🛡️ Checking Guardian & Rate Limiter health...")
     guardian_health = {}
     try:
         import requests
+
         # Try local dev server first, fall back to other ports
         for port in [8000, 8080, 5000]:
             try:
@@ -196,16 +193,18 @@ def main():
                         if isinstance(redis, dict):
                             guardian_health["redis"] = {
                                 "available": redis.get("available", False),
-                                "connected": redis.get("stats", {}).get("connected", False) if isinstance(redis.get("stats"), dict) else False,
+                                "connected": (
+                                    redis.get("stats", {}).get("connected", False)
+                                    if isinstance(redis.get("stats"), dict)
+                                    else False
+                                ),
                             }
                         else:
                             guardian_health["redis"] = {"available": False}
 
                     # Extract rate limiter status
                     if "rate_limiter" in checks:
-                        guardian_health["rate_limiter"] = {
-                            "available": checks["rate_limiter"]
-                        }
+                        guardian_health["rate_limiter"] = {"available": checks["rate_limiter"]}
 
                     break  # Found API, stop trying
             except requests.exceptions.RequestException:
@@ -246,11 +245,11 @@ def main():
         "timestamp_iso": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ts)),
         "ruff": {
             "stats": results["ruff_statistics"].get("parsed", {}),
-            "count": results["ruff_count"].get("parsed", {"total": None})
+            "count": results["ruff_count"].get("parsed", {"total": None}),
         },
         "tests": {
             "smoke": results["pytest_smoke"].get("parsed", {}),
-            "unit_core": results["pytest_core"].get("parsed", {})
+            "unit_core": results["pytest_core"].get("parsed", {}),
         },
         "compat": results.get("compat_hits", {}),
         "openapi": results.get("openapi_validate", {}),
@@ -272,14 +271,14 @@ def main():
     print(f"✅ Wrote {json_path_compat} (back-compat)")
 
     # Write Markdown
-    smoke_data = summary['tests'].get('smoke') or {}
-    smoke_passed = int(smoke_data.get('passed', 0)) if isinstance(smoke_data.get('passed'), (int, str)) else 0
-    smoke_failed = int(smoke_data.get('failed', 0)) if isinstance(smoke_data.get('failed'), (int, str)) else 0
+    smoke_data = summary["tests"].get("smoke") or {}
+    smoke_passed = int(smoke_data.get("passed", 0)) if isinstance(smoke_data.get("passed"), (int, str)) else 0
+    smoke_failed = int(smoke_data.get("failed", 0)) if isinstance(smoke_data.get("failed"), (int, str)) else 0
     smoke_total = smoke_passed + smoke_failed
     smoke_pct = (smoke_passed / smoke_total * 100) if smoke_total > 0 else 0
 
-    ruff_data = summary['ruff'].get('count') or {}
-    ruff_total = ruff_data.get('total', 'N/A')
+    ruff_data = summary["ruff"].get("count") or {}
+    ruff_total = ruff_data.get("total", "N/A")
 
     md_lines = [
         "# LUKHAS System Health Audit (auto-generated)",
@@ -296,62 +295,42 @@ def main():
         "",
         "## Ruff Statistics",
         "",
-        "```"
+        "```",
     ]
 
-    ruff_stats = summary['ruff'].get('stats') or {}
+    ruff_stats = summary["ruff"].get("stats") or {}
     if ruff_stats:
         for code, count in sorted(ruff_stats.items(), key=lambda x: -x[1]):
             md_lines.append(f"{count:6d}  {code}")
     else:
         md_lines.append("No ruff statistics available")
 
-    md_lines.extend([
-        "```",
-        "",
-        "## Test Results",
-        "",
-        "###  Smoke Tests",
-        ""
-    ])
+    md_lines.extend(["```", "", "## Test Results", "", "###  Smoke Tests", ""])
 
     # Format smoke test results
-    if isinstance(smoke_data, dict) and 'passed' in smoke_data:
+    if isinstance(smoke_data, dict) and "passed" in smoke_data:
         md_lines.append(f"- **Status:** {smoke_passed}/{smoke_total} passing ({smoke_pct:.1f}%)")
         md_lines.append(f"- **Passed:** {smoke_passed}")
         md_lines.append(f"- **Failed:** {smoke_failed}")
     else:
         md_lines.append(f"- **Status:** {smoke_data}")
 
-    md_lines.extend([
-        "",
-        "### Core Unit Tests",
-        ""
-    ])
+    md_lines.extend(["", "### Core Unit Tests", ""])
 
     # Format unit test results
-    unit_data = summary['tests'].get('unit_core') or {}
-    if isinstance(unit_data, dict) and 'summary' in unit_data:
+    unit_data = summary["tests"].get("unit_core") or {}
+    if isinstance(unit_data, dict) and "summary" in unit_data:
         md_lines.append("```")
-        md_lines.append(unit_data['summary'][:500])
+        md_lines.append(unit_data["summary"][:500])
         md_lines.append("```")
     else:
         md_lines.append(f"- **Status:** {unit_data}")
 
-    md_lines.extend([
-        "",
-        "## Compat Hits",
-        "",
-        f"{summary.get('compat', {}).get('parsed', 'N/A')}",
-        ""
-    ])
+    md_lines.extend(["", "## Compat Hits", "", f"{summary.get('compat', {}).get('parsed', 'N/A')}", ""])
 
     # Guardian/RL section
-    guardian_rl = summary.get('guardian_rl', {})
-    md_lines.extend([
-        "## Guardian & Rate Limiter Status",
-        ""
-    ])
+    guardian_rl = summary.get("guardian_rl", {})
+    md_lines.extend(["## Guardian & Rate Limiter Status", ""])
 
     if guardian_rl.get("status") == "api_not_running":
         md_lines.append("⚪ **API not running** - Start API to get live Guardian/RL stats")
@@ -361,15 +340,17 @@ def main():
         # PDP stats
         pdp = guardian_rl.get("pdp", {})
         if pdp.get("available"):
-            md_lines.extend([
-                "### Guardian PDP",
-                "- **Status:** ✅ Available",
-                f"- **Total Decisions:** {pdp.get('decisions', 0)}",
-                f"- **Allow Count:** {pdp.get('allow_count', 0)}",
-                f"- **Deny Count:** {pdp.get('deny_count', 0)}",
-                f"- **Policy ETag:** `{pdp.get('policy_etag', 'unknown')}`",
-                ""
-            ])
+            md_lines.extend(
+                [
+                    "### Guardian PDP",
+                    "- **Status:** ✅ Available",
+                    f"- **Total Decisions:** {pdp.get('decisions', 0)}",
+                    f"- **Allow Count:** {pdp.get('allow_count', 0)}",
+                    f"- **Deny Count:** {pdp.get('deny_count', 0)}",
+                    f"- **Policy ETag:** `{pdp.get('policy_etag', 'unknown')}`",
+                    "",
+                ]
+            )
         else:
             md_lines.extend(["### Guardian PDP", "- **Status:** ⚪ Not configured", ""])
 
@@ -377,30 +358,18 @@ def main():
         redis = guardian_rl.get("redis", {})
         if redis.get("available"):
             status = "✅ Connected" if redis.get("connected") else "🔴 Disconnected"
-            md_lines.extend([
-                "### Redis Backend",
-                f"- **Status:** {status}",
-                ""
-            ])
+            md_lines.extend(["### Redis Backend", f"- **Status:** {status}", ""])
         else:
             md_lines.extend(["### Redis Backend", "- **Status:** ⚪ Not configured", ""])
 
         # Rate limiter
         rl = guardian_rl.get("rate_limiter", {})
         if rl.get("available"):
-            md_lines.extend([
-                "### Rate Limiter",
-                "- **Status:** ✅ Active",
-                ""
-            ])
+            md_lines.extend(["### Rate Limiter", "- **Status:** ✅ Active", ""])
         else:
             md_lines.extend(["### Rate Limiter", "- **Status:** 🔴 Not available", ""])
 
-    md_lines.extend([
-        "",
-        "---",
-        f"*Generated: {summary['timestamp_iso']}*"
-    ])
+    md_lines.extend(["", "---", f"*Generated: {summary['timestamp_iso']}*"])
 
     md_content = "\n".join(md_lines)
 

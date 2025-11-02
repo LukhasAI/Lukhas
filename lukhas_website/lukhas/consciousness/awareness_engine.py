@@ -22,35 +22,21 @@ from .types import DEFAULT_AWARENESS_CONFIG, AwarenessSnapshot, ConsciousnessSta
 tracer = trace.get_tracer(__name__)
 
 # Prometheus metrics
-awareness_updates_total = Counter(
-    'lukhas_awareness_updates_total',
-    'Total number of awareness updates',
-    ['component']
-)
+awareness_updates_total = Counter("lukhas_awareness_updates_total", "Total number of awareness updates", ["component"])
 
 awareness_latency_seconds = Histogram(
-    'lukhas_awareness_latency_seconds',
-    'Awareness update latency',
-    ['component'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    "lukhas_awareness_latency_seconds",
+    "Awareness update latency",
+    ["component"],
+    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0],
 )
 
-awareness_drift_ema = Gauge(
-    'lukhas_awareness_drift_ema',
-    'Current EMA drift value',
-    ['component']
-)
+awareness_drift_ema = Gauge("lukhas_awareness_drift_ema", "Current EMA drift value", ["component"])
 
-awareness_load_factor = Gauge(
-    'lukhas_awareness_load_factor',
-    'Current system load factor',
-    ['component']
-)
+awareness_load_factor = Gauge("lukhas_awareness_load_factor", "Current system load factor", ["component"])
 
 awareness_anomaly_count = Counter(
-    'lukhas_awareness_anomaly_count_total',
-    'Total anomalies detected',
-    ['component', 'severity']
+    "lukhas_awareness_anomaly_count_total", "Total anomalies detected", ["component", "severity"]
 )
 
 
@@ -81,11 +67,7 @@ class AwarenessEngine:
         self._last_update_time = 0.0
         self._processing_times: List[float] = []
 
-    async def update(
-        self,
-        state: ConsciousnessState,
-        signals: Dict[str, Any]
-    ) -> AwarenessSnapshot:
+    async def update(self, state: ConsciousnessState, signals: Dict[str, Any]) -> AwarenessSnapshot:
         """
         Generate awareness snapshot from consciousness state and signals.
 
@@ -111,15 +93,9 @@ class AwarenessEngine:
                 self._update_performance_metrics(processing_time)
 
                 awareness_updates_total.labels(component=self._component_id).inc()
-                awareness_latency_seconds.labels(component=self._component_id).observe(
-                    time.time() - start_time
-                )
-                awareness_drift_ema.labels(component=self._component_id).set(
-                    snapshot.drift_ema
-                )
-                awareness_load_factor.labels(component=self._component_id).set(
-                    snapshot.load_factor
-                )
+                awareness_latency_seconds.labels(component=self._component_id).observe(time.time() - start_time)
+                awareness_drift_ema.labels(component=self._component_id).set(snapshot.drift_ema)
+                awareness_load_factor.labels(component=self._component_id).set(snapshot.load_factor)
 
                 span.set_attribute("snapshot.drift_ema", snapshot.drift_ema)
                 span.set_attribute("snapshot.load_factor", snapshot.load_factor)
@@ -133,11 +109,7 @@ class AwarenessEngine:
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
                 raise
 
-    async def _process_awareness(
-        self,
-        state: ConsciousnessState,
-        signals: Dict[str, Any]
-    ) -> AwarenessSnapshot:
+    async def _process_awareness(self, state: ConsciousnessState, signals: Dict[str, Any]) -> AwarenessSnapshot:
         """Internal awareness processing logic."""
 
         # Calculate state delta if we have previous state
@@ -160,7 +132,7 @@ class AwarenessEngine:
             load_factor=load_factor,
             signal_strength=signal_strength,
             signal_noise_ratio=signal_noise_ratio,
-            processing_time_ms=0.0  # Will be updated after processing
+            processing_time_ms=0.0,  # Will be updated after processing
         )
 
         # Detect anomalies
@@ -172,11 +144,7 @@ class AwarenessEngine:
 
         return snapshot
 
-    def _calculate_state_delta(
-        self,
-        previous: ConsciousnessState,
-        current: ConsciousnessState
-    ) -> float:
+    def _calculate_state_delta(self, previous: ConsciousnessState, current: ConsciousnessState) -> float:
         """Calculate magnitude of state change between consciousness states."""
 
         # Phase change contributes to delta
@@ -246,10 +214,7 @@ class AwarenessEngine:
         return signal_strength, min(signal_noise_ratio, 10.0)  # Cap SNR
 
     async def _detect_anomalies(
-        self,
-        snapshot: AwarenessSnapshot,
-        state: ConsciousnessState,
-        signals: Dict[str, Any]
+        self, snapshot: AwarenessSnapshot, state: ConsciousnessState, signals: Dict[str, Any]
     ) -> None:
         """Detect and record anomalies in awareness data."""
 
@@ -257,61 +222,36 @@ class AwarenessEngine:
         if snapshot.drift_ema > self.anomaly_threshold:
             severity = "high" if snapshot.drift_ema > 0.9 else "medium"
             snapshot.add_anomaly(
-                "high_drift",
-                severity,
-                f"EMA drift {snapshot.drift_ema:.3f} exceeds threshold {self.anomaly_threshold}"
+                "high_drift", severity, f"EMA drift {snapshot.drift_ema:.3f} exceeds threshold {self.anomaly_threshold}"
             )
-            awareness_anomaly_count.labels(
-                component=self._component_id,
-                severity=severity
-            ).inc()
+            awareness_anomaly_count.labels(component=self._component_id, severity=severity).inc()
 
         # High load anomaly
         if snapshot.load_factor > 0.8:
             severity = "critical" if snapshot.load_factor > 0.95 else "high"
             snapshot.add_anomaly(
-                "high_load",
-                severity,
-                f"Load factor {snapshot.load_factor:.3f} indicates system stress"
+                "high_load", severity, f"Load factor {snapshot.load_factor:.3f} indicates system stress"
             )
-            awareness_anomaly_count.labels(
-                component=self._component_id,
-                severity=severity
-            ).inc()
+            awareness_anomaly_count.labels(component=self._component_id, severity=severity).inc()
 
         # Low signal quality anomaly
         if snapshot.signal_noise_ratio < 0.5:
             snapshot.add_anomaly(
                 "low_signal_quality",
                 "medium",
-                f"Signal-to-noise ratio {snapshot.signal_noise_ratio:.3f} below acceptable threshold"
+                f"Signal-to-noise ratio {snapshot.signal_noise_ratio:.3f} below acceptable threshold",
             )
-            awareness_anomaly_count.labels(
-                component=self._component_id,
-                severity="medium"
-            ).inc()
+            awareness_anomaly_count.labels(component=self._component_id, severity="medium").inc()
 
         # Consciousness level anomalies
         if state.level < 0.1:
-            snapshot.add_anomaly(
-                "low_consciousness",
-                "medium",
-                f"Consciousness level {state.level:.3f} critically low"
-            )
-            awareness_anomaly_count.labels(
-                component=self._component_id,
-                severity="medium"
-            ).inc()
+            snapshot.add_anomaly("low_consciousness", "medium", f"Consciousness level {state.level:.3f} critically low")
+            awareness_anomaly_count.labels(component=self._component_id, severity="medium").inc()
         elif state.level > 0.98:
             snapshot.add_anomaly(
-                "consciousness_saturation",
-                "low",
-                f"Consciousness level {state.level:.3f} near saturation"
+                "consciousness_saturation", "low", f"Consciousness level {state.level:.3f} near saturation"
             )
-            awareness_anomaly_count.labels(
-                component=self._component_id,
-                severity="low"
-            ).inc()
+            awareness_anomaly_count.labels(component=self._component_id, severity="low").inc()
 
     def _update_performance_metrics(self, processing_time_ms: float) -> None:
         """Update internal performance tracking."""
@@ -326,11 +266,7 @@ class AwarenessEngine:
     def get_performance_stats(self) -> Dict[str, float]:
         """Get current performance statistics."""
         if not self._processing_times:
-            return {
-                "mean_processing_time_ms": 0.0,
-                "p95_processing_time_ms": 0.0,
-                "update_rate_hz": 0.0
-            }
+            return {"mean_processing_time_ms": 0.0, "p95_processing_time_ms": 0.0, "update_rate_hz": 0.0}
 
         sorted_times = sorted(self._processing_times)
         p95_idx = int(len(sorted_times) * 0.95)
@@ -340,7 +276,7 @@ class AwarenessEngine:
             "p95_processing_time_ms": sorted_times[p95_idx] if p95_idx < len(sorted_times) else sorted_times[-1],
             "update_rate_hz": len(self._processing_times) / max((time.time() - self._last_update_time), 1.0),
             "drift_ema_current": self._drift_ema,
-            "total_updates": self._update_count
+            "total_updates": self._update_count,
         }
 
     def reset_state(self) -> None:

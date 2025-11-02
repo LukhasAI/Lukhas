@@ -5,7 +5,6 @@ Advanced: schedule_manager.py
 Integration Date: 2025-05-31T07:55:30.572999
 """
 
-
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                     LUCΛS :: SCHEDULE MANAGER MODULE (DAST)                │
