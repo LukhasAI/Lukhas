@@ -216,3 +216,42 @@ git commit -m "fix(syntax): resolve indentation in bridge/ and core/consciousnes
 **Campaign Tracker:** Issue #847
 
 🤖 Guide by Claude Code
+
+---
+
+## 🔄 Update: Jules API Authentication
+
+**Important:** Jules API requires OAuth2, not simple API keys.
+
+### Correct Jules Activation Methods:
+
+1. **Via Jules Web UI (Recommended)**
+   - Visit https://jules.google.com/
+   - Add LukhasAI/Lukhas as a source
+   - Create task manually pointing to issue #858
+   - Jules will create PR automatically
+
+2. **Via GitHub Comment (Already Done)**
+   - We've already commented @jules on issue #858
+   - Jules should pick it up if configured
+
+3. **Via OAuth2 (Complex)**
+   - Requires OAuth2 flow and service account
+   - Not practical for quick tasks
+   - Use web UI instead
+
+### API Key Note:
+- The `GOOGLE_API_KEY` in .env is for **Google AI (Gemini)**, not Jules
+- Jules has separate authentication via OAuth2
+- For programmatic access, use Jules web UI or GitHub integration
+
+### Quick Action:
+If you have access to https://jules.google.com/:
+1. Sign in
+2. Create new task
+3. Paste: "Fix F841 unused variables. See GitHub issue LukhasAI/Lukhas#858"
+4. Select LukhasAI/Lukhas repository
+5. Submit
+
+Jules will handle the rest!
+
