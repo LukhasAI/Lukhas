@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.lukhas.ai/matriz/v1.0.0/decision",
+  "title": "MATRIZ Decision Schema",
+  "description": "T4/0.01% Excellence schema for MATRIZ thought loop decision payloads",
+  "version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "subject",
+    "context",
+    "metrics",
+    "enforcement",
+    "audit",
+    "integrity"
+  ],
+  "properties": {
+    "decision": {
+      "type": "object",
+      "description": "Core MATRIZ decision data",
+      "additionalProperties": false,
+      "required": ["synthesis", "confidence", "processing_stage"],
+      "properties": {
+        "synthesis": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000,
+          "description": "Primary synthesis output from thought loop"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Decision confidence score"
+        },
+        "processing_stage": {
+          "type": "string",
+          "enum": [
+            "initialization",
+            "memory_recall",
+            "deep_inference",
+            "thought_synthesis",
+            "contradiction_detection",
+            "memory_validation",
+            "meta_assessment",
+            "awareness_update",
+            "finalization"
+          ],
+          "description": "Current processing stage"
+        },
+        "affect_delta": {
+          "type": "number",
+          "minimum": -1.0,
+          "maximum": 1.0,
+          "description": "Emotional affect change"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Decision timestamp in ISO8601 format"
+        },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Overall reasoning quality assessment"
+        }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "description": "Subject context for the MATRIZ decision",
+      "additionalProperties": false,
+      "required": ["query", "session_id"],
+      "properties": {
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50000,
+          "description": "Input query or prompt"
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "minLength": 8,
+          "maxLength": 128,
+          "description": "Unique session identifier"
+        },
+        "tenant": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "minLength": 1,
+          "maxLength": 64,
+          "default": "default",
+          "description": "Tenant identifier"
+        },
+        "consciousness_state": {
+          "type": "string",
+          "enum": ["DORMANT", "AWAKENING", "ACTIVE", "REFLECTION", "DEEP_PROCESSING"],
+          "description": "Current consciousness state"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Processing context and configuration",
+      "additionalProperties": false,
+      "required": ["processing_config", "lane"],
+      "properties": {
+        "processing_config": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "complexity": {
+              "type": "string",
+              "enum": ["simple", "moderate", "complex"],
+              "default": "moderate"
+            },
+            "time_budget_ms": {
+              "type": "number",
+              "minimum": 10.0,
+              "maximum": 5000.0,
+              "default": 240.0
+            },
+            "enable_all_features": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "lane": {
+          "type": "string",
+          "enum": ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"],
+          "description": "LUKHAS processing lane from canonical taxonomy"
+        },
+        "memory_signals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "content", "score"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "content": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "type": "number",
+                "minimum": 0.0,
+                "maximum": 1.0
+              }
+            }
+          },
+          "maxItems": 1000
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Additional context metadata"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Performance and cognitive metrics",
+      "additionalProperties": false,
+      "required": ["processing_time_ms", "inference_depth_reached", "t4_compliant"],
+      "properties": {
+        "processing_time_ms": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10000.0,
+          "description": "Total processing time in milliseconds"
+        },
+        "inference_depth_reached": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 50,
+          "description": "Maximum inference depth achieved"
+        },
+        "reasoning_chains_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Number of reasoning chains explored"
+        },
+        "contradictions_detected": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Number of contradictions detected"
+        },
+        "memory_conflicts_detected": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Number of memory conflicts found"
+        },
+        "cognitive_load": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Cognitive processing load factor"
+        },
+        "self_awareness_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Meta-cognitive self-awareness score"
+        },
+        "t4_compliant": {
+          "type": "boolean",
+          "description": "Whether processing meets T4/0.01% performance standards"
+        },
+        "stage_timings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0.0
+          },
+          "description": "Per-stage processing timings"
+        }
+      }
+    },
+    "enforcement": {
+      "type": "object",
+      "description": "Enforcement and execution directives",
+      "additionalProperties": false,
+      "required": ["mode", "success"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["enforced", "advisory", "disabled"],
+          "default": "enforced",
+          "description": "Enforcement mode"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Whether processing was successful"
+        },
+        "supporting_memory_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 1000,
+          "description": "Memory IDs supporting the decision"
+        },
+        "cognitive_adjustments": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 100,
+          "description": "Cognitive adjustments made during processing"
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 100,
+          "description": "System recommendations"
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "description": "Audit trail and compliance tracking",
+      "additionalProperties": false,
+      "required": ["correlation_id", "timestamp", "compliance_status"],
+      "properties": {
+        "correlation_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "minLength": 16,
+          "maxLength": 128,
+          "description": "Unique correlation identifier for tracing"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Audit timestamp in ISO8601 format"
+        },
+        "compliance_status": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["t4_excellence", "constellation_framework"],
+          "properties": {
+            "t4_excellence": {
+              "type": "boolean",
+              "description": "T4/0.01% excellence compliance"
+            },
+            "constellation_framework": {
+              "type": "boolean",
+              "description": "Constellation Framework compliance"
+            },
+            "processing_pipeline_valid": {
+              "type": "boolean",
+              "description": "Processing pipeline validation status"
+            }
+          }
+        },
+        "errors_encountered": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 1000,
+          "description": "Errors encountered during processing"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 1000,
+          "description": "Warnings generated during processing"
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "description": "Tamper-evident integrity verification",
+      "additionalProperties": false,
+      "required": ["schema_version", "payload_hash"],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "pattern": "^1\\.\\d+\\.\\d+$",
+          "description": "Schema version in semver format"
+        },
+        "payload_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA256 hash of the payload for integrity verification"
+        },
+        "signature": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]+=*$",
+          "description": "Cryptographic signature (base64 encoded)"
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["ed25519", "es256", "rs256"],
+          "description": "Signature algorithm used"
+        },
+        "keyid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 64,
+          "description": "Key identifier used for signing"
+        }
+      }
+    }
+  }
+}

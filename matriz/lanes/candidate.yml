@@ -1,0 +1,79 @@
+# MATRIZ Candidate Lane Configuration
+# Experimental lane for early-stage modules and prototypes
+
+name: candidate
+description: "Experimental lane for early-stage modules and prototypes"
+stability: experimental
+slo_enforcement: false
+
+# Default SLO targets for candidate modules (advisory only)
+default_slos:
+  performance:
+    tick_p95_ms: 200        # Relaxed for experimentation
+    reflect_p95_ms: 20      # Allow higher latency in candidate
+    decide_p95_ms: 100      # Generous decision time
+    e2e_p95_ms: 500         # End-to-end tolerance
+
+  reliability:
+    success_rate: 95.0      # Lower reliability acceptable
+    error_rate_max: 5.0     # Higher error tolerance
+    availability: 90.0      # Reduced availability requirement
+
+# Gates required for candidate modules (basic validation)
+required_gates:
+  - unit_tests
+  - import_hygiene
+  - security_scan
+
+# Optional gates (recommended but not enforced)
+optional_gates:
+  - integration_tests
+  - chaos_basic
+  - perf_baseline
+
+# Promotion criteria to integration lane
+promotion_requirements:
+  gates:
+    - unit_tests
+    - integration_tests
+    - import_hygiene
+    - security_scan
+    - perf_baseline
+
+  evidence_artifacts:
+    - unit_test_results
+    - integration_test_results
+    - security_scan_results
+    - performance_baseline
+
+  approvals_required: 1
+  review_type: "basic"
+
+# Traffic and deployment settings
+traffic:
+  external_traffic: false     # No external traffic in candidate
+  shadow_traffic: true        # Allow shadow traffic for testing
+  canary_percentage: 0        # No canary deployment
+
+deployment:
+  auto_deploy: true           # Automatic deployment from main
+  rollback_enabled: true      # Enable rollback capability
+  health_checks: basic        # Basic health validation
+
+# Monitoring and observability
+monitoring:
+  alerts: minimal             # Minimal alerting in candidate
+  metrics_retention_days: 7   # Short retention for experiments
+  log_level: debug           # Verbose logging for development
+
+# Guardian configuration
+guardian:
+  enforcement_mode: advisory  # Advisory mode, not blocking
+  fail_closed: false         # Allow graceful degradation
+  kill_switch: disabled      # No kill switch in candidate
+
+# Module lifecycle
+lifecycle:
+  max_age_days: 90           # Auto-archive after 90 days
+  deprecation_warning: 30    # Warning 30 days before archival
+  graduation_threshold: 95   # Success rate to graduate to integration

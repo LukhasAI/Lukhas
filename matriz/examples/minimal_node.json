@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "schema_ref": "lukhas://schemas/matriz_node_v1.json",
+  "id": "LT-abc123",
+  "type": "CONTEXT",
+  "state": { "confidence": 0.7, "salience": 0.4 },
+  "timestamps": { "created_ts": 1724212345678 },
+  "provenance": {
+    "producer": "lukhas.core.context.builder",
+    "capabilities": ["context:build"],
+    "tenant": "default",
+    "trace_id": "LT-abc123",
+    "consent_scopes": ["system:context"]
+  }
+}

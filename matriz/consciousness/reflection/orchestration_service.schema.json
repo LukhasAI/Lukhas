@@ -1,0 +1,68 @@
+{
+  "module": "matriz.consciousness.reflection.orchestration_service",
+  "version": "1.0.0",
+  "type": "consciousness_orchestrator_node",
+  "matriz_compatible": true,
+  "description": "Consciousness orchestration service coordinating reflection, introspection, and metacognitive processes",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "consciousness.reflection.result",
+        "schema": "ReflectionResult",
+        "frequency": "per_reflection",
+        "latency_target_ms": 200
+      },
+      {
+        "signal": "consciousness.metacognition.insight",
+        "schema": "MetacognitiveInsight",
+        "frequency": "on_insight",
+        "priority": "high"
+      },
+      {
+        "signal": "consciousness.state.change",
+        "schema": "ConsciousnessState",
+        "frequency": "on_change",
+        "priority": "normal"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "consciousness.reflect.request",
+        "schema": "ReflectionRequest",
+        "handler": "reflect",
+        "required": true
+      },
+      {
+        "signal": "consciousness.introspect.request",
+        "schema": "IntrospectionRequest",
+        "handler": "introspect",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "OrchestrationService",
+      "type": "orchestrator",
+      "methods": ["reflect", "introspect", "coordinate_processes"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 200,
+    "target_latency_p95_ms": 150,
+    "memory_limit_mb": 150,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["consciousness", "memory", "dream"],
+    "validates": true,
+    "blocks_on_failure": false
+  }
+}

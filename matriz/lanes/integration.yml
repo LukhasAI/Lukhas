@@ -1,0 +1,124 @@
+# MATRIZ Integration Lane Configuration
+# Stable APIs, enforced SLOs, shadow traffic validation
+
+name: integration
+description: "Stable APIs with enforced SLOs and shadow traffic validation"
+stability: stable
+slo_enforcement: true
+
+# Enforced SLO targets for integration modules
+default_slos:
+  performance:
+    tick_p95_ms: 100        # T4/0.01% standard
+    reflect_p95_ms: 10      # Sub-10ms reflection
+    decide_p95_ms: 50       # Decision latency target
+    e2e_p95_ms: 250         # End-to-end SLO
+
+  reliability:
+    success_rate: 99.5      # High reliability requirement
+    error_rate_max: 0.5     # Low error tolerance
+    availability: 99.0      # High availability target
+
+  guardian:
+    fail_closed_ms: 250     # Fail-closed activation time
+    rollback_p95_ms: 1000   # Transaction rollback SLO
+    recovery_p95_ms: 10000  # System recovery SLO
+
+# Mandatory gates for integration modules
+required_gates:
+  - unit_tests
+  - integration_tests
+  - e2e_performance
+  - schema_evolution_guard
+  - chaos_fail_closed
+  - guardian_enforcement
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+
+# Additional gates for production readiness
+optional_gates:
+  - load_testing
+  - chaos_matrix
+  - gdpr_compliance
+  - audit_logging
+
+# Promotion criteria to production lane
+promotion_requirements:
+  gates:
+    - unit_tests
+    - integration_tests
+    - e2e_performance
+    - schema_evolution_guard
+    - chaos_fail_closed
+    - guardian_enforcement
+    - telemetry_contracts
+    - import_hygiene
+    - security_scan
+    - load_testing
+    - gdpr_compliance
+
+  evidence_artifacts:
+    - e2e_performance_bootstrap
+    - schema_evolution_validation
+    - chaos_resilience_validation
+    - guardian_enforcement_validation
+    - telemetry_contracts_validation
+    - load_test_results
+    - gdpr_compliance_validation
+
+  performance_validation:
+    burn_rate_1h_max: 4.0    # Burn rate threshold 1 hour
+    burn_rate_6h_max: 2.0    # Burn rate threshold 6 hours
+    shadow_traffic_duration_hours: 12
+
+  approvals_required: 2
+  review_type: "comprehensive"
+
+# Traffic and deployment settings
+traffic:
+  external_traffic: false     # No direct external traffic
+  shadow_traffic: true        # Required shadow traffic validation
+  canary_percentage: 0        # No canary in integration
+  shadow_percentage: 100      # Full shadow traffic replication
+
+deployment:
+  auto_deploy: false          # Manual deployment approval
+  rollback_enabled: true      # Automatic rollback capability
+  health_checks: comprehensive # Comprehensive health validation
+  deployment_strategy: "blue_green"
+
+# Monitoring and observability
+monitoring:
+  alerts: comprehensive       # Full alerting suite
+  metrics_retention_days: 30  # Extended retention
+  log_level: info            # Balanced logging
+  sla_monitoring: true       # SLA compliance tracking
+  burn_rate_monitoring: true # Burn rate tracking
+
+# Guardian configuration
+guardian:
+  enforcement_mode: enforced  # Strictly enforced
+  fail_closed: true          # Fail-closed behavior required
+  kill_switch: enabled      # Kill switch available
+  validation_timeout_ms: 100 # Guardian validation timeout
+
+# Schema evolution protection
+schema:
+  evolution_guard: true      # Schema evolution protection
+  breaking_changes: blocked  # Block breaking changes
+  versioning: required      # Schema versioning required
+  drift_threshold: 0.0      # Zero drift tolerance
+
+# Performance budgets (hard limits)
+performance_budgets:
+  cpu_utilization_max: 80   # Maximum CPU utilization %
+  memory_utilization_max: 85 # Maximum memory utilization %
+  latency_regression_max: 10 # Maximum latency regression %
+  throughput_regression_max: 10 # Maximum throughput regression %
+
+# Module lifecycle
+lifecycle:
+  max_age_days: 365          # Annual review cycle
+  deprecation_warning: 90    # 90-day deprecation notice
+  graduation_threshold: 99.5 # Success rate to graduate to production

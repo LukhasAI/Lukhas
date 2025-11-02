@@ -1,0 +1,136 @@
+# MATRIZ Production Lane Configuration
+# Production-ready modules with canary deployment and automatic rollback
+
+name: production
+description: "Production-ready modules with canary deployment and automatic rollback"
+stability: production
+slo_enforcement: strict
+
+# Strict SLO targets for production modules
+default_slos:
+  performance:
+    tick_p95_ms: 100        # T4/0.01% production standard
+    reflect_p95_ms: 10      # Sub-10ms reflection requirement
+    decide_p95_ms: 50       # Production decision latency
+    e2e_p95_ms: 250         # End-to-end production SLO
+
+  reliability:
+    success_rate: 99.9      # Production reliability requirement
+    error_rate_max: 0.1     # Very low error tolerance
+    availability: 99.9      # High availability requirement
+
+  guardian:
+    fail_closed_ms: 100     # Immediate fail-closed activation
+    rollback_p95_ms: 500    # Fast transaction rollback
+    recovery_p95_ms: 5000   # Rapid system recovery
+
+# Comprehensive gates for production modules (all required)
+required_gates:
+  - unit_tests
+  - integration_tests
+  - e2e_performance
+  - schema_evolution_guard
+  - chaos_fail_closed
+  - chaos_matrix
+  - guardian_enforcement
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+  - load_testing
+  - gdpr_compliance
+  - audit_logging
+  - canary_validation
+
+# Production readiness validation
+production_validation:
+  canary_duration_hours: 24      # 24-hour canary validation
+  shadow_traffic_hours: 48       # 48-hour shadow traffic
+  load_test_multiplier: 2.0      # 2x expected load
+  chaos_scenarios_required: 5    # Minimum chaos scenarios
+
+# Canary deployment configuration
+canary:
+  initial_percentage: 5          # Start with 5% traffic
+  increment_percentage: 5        # Increment by 5%
+  increment_interval_hours: 4    # Every 4 hours
+  max_percentage: 50            # Maximum canary traffic
+
+  # Automatic rollback triggers
+  rollback_triggers:
+    error_rate_threshold: 0.2   # Rollback if error rate > 0.2%
+    latency_p95_multiplier: 1.2 # Rollback if p95 latency > 1.2x baseline
+    success_rate_threshold: 99.8 # Rollback if success rate < 99.8%
+    burn_rate_1h: 4.0           # 1-hour burn rate threshold
+    burn_rate_6h: 2.0           # 6-hour burn rate threshold
+
+  rollback_speed:
+    target_seconds: 30          # Target rollback time
+    max_seconds: 60            # Maximum rollback time
+
+# Traffic and deployment settings
+traffic:
+  external_traffic: true         # Full external traffic
+  shadow_traffic: true           # Continuous shadow validation
+  canary_percentage: variable    # Variable based on deployment phase
+  shadow_percentage: 10          # 10% shadow traffic for validation
+
+deployment:
+  auto_deploy: false            # Manual deployment approval required
+  rollback_enabled: true        # Automatic rollback enabled
+  rollback_automation: true     # Fully automated rollback
+  health_checks: production     # Production-grade health checks
+  deployment_strategy: "canary"
+
+# Monitoring and observability
+monitoring:
+  alerts: production            # Full production alerting
+  metrics_retention_days: 90    # Extended metrics retention
+  log_level: warn              # Production logging level
+  sla_monitoring: true         # Continuous SLA monitoring
+  burn_rate_monitoring: true   # Real-time burn rate tracking
+  anomaly_detection: enabled   # Automated anomaly detection
+
+# Guardian configuration (maximum enforcement)
+guardian:
+  enforcement_mode: strict     # Strictest enforcement
+  fail_closed: true           # Always fail-closed
+  kill_switch: enabled       # Kill switch immediately available
+  validation_timeout_ms: 50  # Tight validation timeout
+  circuit_breaker: enabled   # Circuit breaker protection
+
+# Schema evolution (strict protection)
+schema:
+  evolution_guard: true       # Strict schema evolution protection
+  breaking_changes: blocked  # Absolutely no breaking changes
+  versioning: required      # Mandatory schema versioning
+  drift_threshold: 0.0      # Zero drift tolerance
+  backward_compatibility: required # Backward compatibility required
+
+# Performance budgets (strict limits)
+performance_budgets:
+  cpu_utilization_max: 70    # Conservative CPU limit
+  memory_utilization_max: 80 # Conservative memory limit
+  latency_regression_max: 5  # Strict latency regression limit
+  throughput_regression_max: 5 # Strict throughput regression limit
+
+# Security and compliance (production requirements)
+security:
+  vulnerability_scan: required
+  security_review: required
+  penetration_testing: required
+  compliance_validation: required
+  audit_trail: comprehensive
+
+# Module lifecycle (production stability)
+lifecycle:
+  max_age_days: 730          # 2-year lifecycle
+  deprecation_warning: 180   # 6-month deprecation notice
+  sunset_planning: 90        # 3-month sunset planning
+  support_guarantee: 365     # 1-year support guarantee
+
+# Business continuity
+business_continuity:
+  disaster_recovery: required
+  backup_strategy: required
+  rto_minutes: 30           # Recovery Time Objective
+  rpo_minutes: 5            # Recovery Point Objective

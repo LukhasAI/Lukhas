@@ -1,0 +1,116 @@
+{
+  "module": "matriz.consciousness.reflection.id_reasoning_engine",
+  "version": "1.0.0",
+  "type": "identity_management_node",
+  "matriz_compatible": true,
+  "description": "LUKHAS ID Enhanced Authentication and Identity Management System with tiered access control, emotional memory protection, and compliance monitoring",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "identity.authentication.result",
+        "schema": "AuthenticationResult",
+        "frequency": "per_auth",
+        "latency_target_ms": 100
+      },
+      {
+        "signal": "identity.tier.change",
+        "schema": "AccessTier",
+        "frequency": "on_upgrade",
+        "priority": "high"
+      },
+      {
+        "signal": "identity.audit.event",
+        "schema": "AuditLogEntry",
+        "frequency": "per_action",
+        "retention_days": 2555
+      },
+      {
+        "signal": "identity.compliance.alert",
+        "schema": "ComplianceAlert",
+        "frequency": "on_violation",
+        "priority": "critical"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "identity.auth.request",
+        "schema": "AuthenticationRequest",
+        "handler": "authenticate_user",
+        "required": true
+      },
+      {
+        "signal": "identity.tier.upgrade_request",
+        "schema": "TierUpgradeRequest",
+        "handler": "upgrade_tier",
+        "required": false
+      },
+      {
+        "signal": "identity.emotional_state.capture",
+        "schema": "EmotionalMemoryVector",
+        "handler": "capture_emotional_state",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "LukhasIdManager",
+      "type": "orchestrator",
+      "methods": ["authenticate_user", "upgrade_tier", "capture_emotional_state", "audit_action"],
+      "async": true
+    },
+    {
+      "name": "AccessTier",
+      "type": "enum",
+      "values": ["TIER_1_BASIC", "TIER_2_ENHANCED", "TIER_3_PROFESSIONAL", "TIER_4_RESEARCH", "TIER_5_ADMIN"]
+    },
+    {
+      "name": "EmotionalMemoryVector",
+      "type": "dataclass",
+      "fields": ["valence", "arousal", "dominance", "trust", "timestamp", "context"]
+    },
+    {
+      "name": "ComplianceMonitor",
+      "type": "service",
+      "methods": ["check_compliance", "monitor_region"],
+      "async": true
+    },
+    {
+      "name": "TraumaLockedMemory",
+      "type": "dataclass",
+      "fields": ["memory_id", "encrypted_content", "unlock_conditions"]
+    }
+  ],
+
+  "dependencies": [
+    "core.common"
+  ],
+
+  "performance": {
+    "max_latency_ms": 100,
+    "target_latency_p95_ms": 50,
+    "memory_limit_mb": 75,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["identity", "memory", "ethics", "guardian"],
+    "validates": true,
+    "blocks_on_failure": true
+  },
+
+  "compliance_frameworks": [
+    "GDPR",
+    "CCPA",
+    "Constitutional_AI"
+  ],
+
+  "security_features": [
+    "quantum_resistant_signatures",
+    "emotional_memory_protection",
+    "tiered_access_control",
+    "compliance_monitoring"
+  ]
+}
