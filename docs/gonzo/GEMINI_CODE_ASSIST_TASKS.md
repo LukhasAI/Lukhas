@@ -3,21 +3,9 @@ status: ready-to-execute
 type: gemini-code-assist-tasks
 owner: agi_dev
 created: 2025-11-01
----
-
-# Gemini Code Assist - Quick Win Tasks
-
-You have **Gemini Code Assist** available in VS Code! Perfect for parallel execution while waiting for Jules or Codex.
 
 ---
-
-## 🚀 Quick Start (In VS Code)
-
-1. Open Gemini Code Assist panel
-2. Select task below
-3. Copy the complete prompt
-4. Execute and review
-
+# Gemini Code Assist Tasks for LUKHAS
 ---
 
 ## Task 1: Token Infrastructure (#586, #587) ⚡ FASTEST
