@@ -206,8 +206,7 @@ class TestUnifiedMemoryOrchestratorBackgroundTasks:
     @pytest.fixture
     async def orchestrator_with_tasks(self):
         """Fixture to create an orchestrator and manage its background tasks."""
-        with patch('candidate.memory.core.unified_memory_orchestrator.LUKHAS_COMPONENTS_AVAILABLE', False), \  # noqa: F821  # TODO: patch
-             patch('candidate.memory.core.unified_memory_orchestrator.MEMORY_COMPONENTS_AVAILABLE', False):  # noqa: F821  # TODO: patch
+        with patch('candidate.memory.core.unified_memory_orchestrator.LUKHAS_COMPONENTS_AVAILABLE', False), patch('candidate.memory.core.unified_memory_orchestrator.MEMORY_COMPONENTS_AVAILABLE', False):
 
             # We patch sleep to control the loop execution manually
             with patch('asyncio.sleep', return_value=None) as mock_sleep:  # noqa: F821  # TODO: patch
