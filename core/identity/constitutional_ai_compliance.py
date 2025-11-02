@@ -40,203 +40,17 @@ except ImportError as e:
     consciousness_identity_signal_emitter = None
     ConstitutionalComplianceData = None
 
-        try:
-            logger.info("🧬 Initializing Constitutional AI validation system...")
 
-            # Start background monitoring
-            self._monitoring_active = True
-            asyncio.create_task(self._validation_monitoring_loop())
-
-            logger.info("✅ Constitutional AI validation system initialized")
-            return True
-
-        except Exception as e:
-            return False
-
-            try:
-                # Create validation result
-                result = ConstitutionalValidationResult(decision_context=decision_context)
-
-                # Get principle weights for this decision type
-                weights = self.decision_principle_weights.get(
-                    decision_context.decision_type, self.default_principle_weights
-                )
-
-                # Evaluate each constitutional principle
-                principle_tasks = []
-                for principle, validator in self.principle_validators.items():
-                    principle_tasks.append(self._evaluate_principle(principle, validator, decision_context))
-
-                # Execute principle evaluations in parallel
-                principle_evaluations = await asyncio.gather(*principle_tasks, return_exceptions=True)
-
-                # Process evaluation results
-                total_weighted_score = 0.0
-                total_weight = 0.0
-
-                for evaluation in principle_evaluations:
-                    if isinstance(evaluation, Exception):
-                        logger.error(f"❌ Principle evaluation failed: {evaluation}")
-                        continue
-
-                    if isinstance(evaluation, PrincipleEvaluation):
-                        result.principle_evaluations[evaluation.principle] = evaluation
-
-                        # Calculate weighted score
-                        weight = weights.get(evaluation.principle, 0.1)
-                        total_weighted_score += evaluation.score * weight
-                        total_weight += weight
-
-                # Calculate overall compliance
-                if total_weight > 0:
-                    result.overall_compliance_score = total_weighted_score / total_weight
-                else:
-                    result.overall_compliance_score = 0.0
-
-                # Determine compliance level
-                result.compliance_level = self._determine_compliance_level(result.overall_compliance_score)
-                result.constitutional_compliant = result.compliance_level in [
-                    ComplianceLevel.FULL_COMPLIANCE,
-                    ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
-                ]
-
-                # Make decision recommendation
-                self._make_decision_recommendation(result, decision_context)
-
-                # Generate explanations
-                self._generate_explanations(result)
-
-                # Determine human oversight requirements
-                self._evaluate_human_oversight_requirements(result, decision_context)
-
-                # Set validation metadata
-                result.validation_duration_ms = (time.perf_counter() - start_time) * 1000
-
-                # Store validation result
-                self.validation_history.append(result)
-                self._update_validation_metrics(result)
-
-                # Emit constitutional compliance signal
-                if consciousness_identity_signal_emitter and ConstitutionalComplianceData:
-                    compliance_data = ConstitutionalComplianceData(
-                        democratic_validation=result.constitutional_compliant,
-                        human_oversight_required=result.human_oversight_required,
-                        transparency_score=result.principle_evaluations.get(
-                            ConstitutionalPrinciple.TRANSPARENCY,
-                            PrincipleEvaluation(ConstitutionalPrinciple.TRANSPARENCY),
-                        ).score,
-                        fairness_score=result.principle_evaluations.get(
-                            ConstitutionalPrinciple.FAIRNESS, PrincipleEvaluation(ConstitutionalPrinciple.FAIRNESS)
-                        ).score,
-                        constitutional_aligned=result.constitutional_compliant,
-                    )
-
-                    await consciousness_identity_signal_emitter.emit_constitutional_compliance_signal(
-                        decision_context.identity_id, compliance_data, decision_context.decision_data
-                    )
-
-                logger.info(
-                    f"⚖️ Constitutional validation completed: {result.validation_id} (Score: {result.overall_compliance_score:.3f}, Approved: {result.decision_approved})"
-                )
-                return result
-
-            except Exception as e:
-
-                # Create error result
-                error_result = ConstitutionalValidationResult(
-                    decision_context=decision_context,
-                    decision_approved=False,
-                    rejection_reasons=[f"Validation error: {e!s}"],
-                    human_oversight_required=True,
-                    oversight_reasons=["Validation system error"],
-                    validation_duration_ms=(time.perf_counter() - start_time) * 1000,
-                )
-
-                return error_result
-
-        try:
-            evaluation = await validator(context)
-            evaluation.principle = principle
-            return evaluation
-
-        except Exception as e:
-
-            # Return failed evaluation
-            return PrincipleEvaluation(
-                principle=principle,
-                score=0.0,
-                compliant=False,
-                reasoning=f"Evaluation failed: {e!s}",
-                confidence_level=0.0,
-            )
-
-            try:
-                # Clean up old validation history
-                cutoff_time = datetime.now(timezone.utc) - timedelta(days=30)
-                self.validation_history = [
-                    result for result in self.validation_history if result.validated_at > cutoff_time
-                ]
-
-                await asyncio.sleep(3600)  # Run every hour
-
-            except Exception as e:
-                await asyncio.sleep(1800)  # Longer sleep on error
-
-        try:
-            # Recent validation statistics
-            recent_validations = [
-                result
-                for result in self.validation_history
-                if (datetime.now(timezone.utc) - result.validated_at).total_seconds() < 86400
-            ]
-
-            recent_approvals = sum(1 for result in recent_validations if result.decision_approved)
-            recent_oversight = sum(1 for result in recent_validations if result.human_oversight_required)
-
-            # Compliance level distribution
-            compliance_distribution = {}
-            for result in recent_validations:
-                level = result.compliance_level.value
-                compliance_distribution[level] = compliance_distribution.get(level, 0) + 1
-
-            return {
-                "system_status": {
-                    "validation_enabled": self.validation_enabled,
-                    "strict_mode": self.strict_mode,
-                    "human_oversight_threshold": self.human_oversight_threshold,
-                    "approval_threshold": self.approval_threshold,
-                },
-                "validation_metrics": self.validation_metrics.copy(),
-                "recent_activity_24h": {
-                    "total_validations": len(recent_validations),
-                    "approvals": recent_approvals,
-                    "rejections": len(recent_validations) - recent_approvals,
-                    "human_oversight_required": recent_oversight,
-                    "average_compliance_score": (
-                        sum(r.overall_compliance_score for r in recent_validations) / len(recent_validations)
-                        if recent_validations
-                        else 0.0
-                    ),
-                },
-                "compliance_distribution": compliance_distribution,
-                "principle_weights": {
-                    decision_type.value: weights for decision_type, weights in self.decision_principle_weights.items()
-                },
-                "total_validation_history": len(self.validation_history),
-                "monitoring_active": self._monitoring_active,
-                "last_updated": datetime.now(timezone.utc).isoformat(),
-            }
-
-        except Exception as e:
-            return {"error": str(e)}
 
 try:
     _mod = _importlib.import_module("labs.candidate.core.identity.constitutional_ai_compliance")
     ConstitutionalAIComplianceMonitor = getattr(_mod, "ConstitutionalAIComplianceMonitor")
 except Exception:
+    pass
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
+    pass
 
 logger = logging.getLogger(__name__)
 
@@ -481,6 +295,18 @@ class ConstitutionalAIValidator:
 
     async def initialize_constitutional_validation(self) -> bool:
         """Initialize constitutional AI validation system"""
+        try:
+            logger.info("🧬 Initializing Constitutional AI validation system...")
+
+            # Start background monitoring
+            self._monitoring_active = True
+            asyncio.create_task(self._validation_monitoring_loop())
+
+            logger.info("✅ Constitutional AI validation system initialized")
+            return True
+
+        except Exception as e:
+            return False
 
     async def validate_identity_decision(
         self, decision_context: ConstitutionalValidationContext
@@ -489,6 +315,107 @@ class ConstitutionalAIValidator:
 
         async with self._lock:
             start_time = time.perf_counter()
+
+            try:
+                # Create validation result
+                result = ConstitutionalValidationResult(decision_context=decision_context)
+
+                # Get principle weights for this decision type
+                weights = self.decision_principle_weights.get(
+                    decision_context.decision_type, self.default_principle_weights
+                )
+
+                # Evaluate each constitutional principle
+                principle_tasks = []
+                for principle, validator in self.principle_validators.items():
+                    principle_tasks.append(self._evaluate_principle(principle, validator, decision_context))
+
+                # Execute principle evaluations in parallel
+                principle_evaluations = await asyncio.gather(*principle_tasks, return_exceptions=True)
+
+                # Process evaluation results
+                total_weighted_score = 0.0
+                total_weight = 0.0
+
+                for evaluation in principle_evaluations:
+                    if isinstance(evaluation, Exception):
+                        logger.error(f"❌ Principle evaluation failed: {evaluation}")
+                        continue
+
+                    if isinstance(evaluation, PrincipleEvaluation):
+                        result.principle_evaluations[evaluation.principle] = evaluation
+
+                        # Calculate weighted score
+                        weight = weights.get(evaluation.principle, 0.1)
+                        total_weighted_score += evaluation.score * weight
+                        total_weight += weight
+
+                # Calculate overall compliance
+                if total_weight > 0:
+                    result.overall_compliance_score = total_weighted_score / total_weight
+                else:
+                    result.overall_compliance_score = 0.0
+
+                # Determine compliance level
+                result.compliance_level = self._determine_compliance_level(result.overall_compliance_score)
+                result.constitutional_compliant = result.compliance_level in [
+                    ComplianceLevel.FULL_COMPLIANCE,
+                    ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
+                ]
+
+                # Make decision recommendation
+                self._make_decision_recommendation(result, decision_context)
+
+                # Generate explanations
+                self._generate_explanations(result)
+
+                # Determine human oversight requirements
+                self._evaluate_human_oversight_requirements(result, decision_context)
+
+                # Set validation metadata
+                result.validation_duration_ms = (time.perf_counter() - start_time) * 1000
+
+                # Store validation result
+                self.validation_history.append(result)
+                self._update_validation_metrics(result)
+
+                # Emit constitutional compliance signal
+                if consciousness_identity_signal_emitter and ConstitutionalComplianceData:
+                    compliance_data = ConstitutionalComplianceData(
+                        democratic_validation=result.constitutional_compliant,
+                        human_oversight_required=result.human_oversight_required,
+                        transparency_score=result.principle_evaluations.get(
+                            ConstitutionalPrinciple.TRANSPARENCY,
+                            PrincipleEvaluation(ConstitutionalPrinciple.TRANSPARENCY),
+                        ).score,
+                        fairness_score=result.principle_evaluations.get(
+                            ConstitutionalPrinciple.FAIRNESS, PrincipleEvaluation(ConstitutionalPrinciple.FAIRNESS)
+                        ).score,
+                        constitutional_aligned=result.constitutional_compliant,
+                    )
+
+                    await consciousness_identity_signal_emitter.emit_constitutional_compliance_signal(
+                        decision_context.identity_id, compliance_data, decision_context.decision_data
+                    )
+
+                logger.info(
+                    f"⚖️ Constitutional validation completed: {result.validation_id} (Score: {result.overall_compliance_score:.3f}, Approved: {result.decision_approved})"
+                )
+                return result
+
+            except Exception as e:
+
+                # Create error result
+                error_result = ConstitutionalValidationResult(
+                    decision_context=decision_context,
+                    decision_approved=False,
+                    rejection_reasons=[f"Validation error: {e!s}"],
+                    human_oversight_required=True,
+                    oversight_reasons=["Validation system error"],
+                    validation_duration_ms=(time.perf_counter() - start_time) * 1000,
+                )
+
+                return error_result
 
     async def _evaluate_principle(
         self, principle: ConstitutionalPrinciple, validator: Callable, context: ConstitutionalValidationContext
@@ -1224,6 +1151,7 @@ class ConstitutionalAIValidator:
         """Background monitoring loop for validation system"""
 
         while self._monitoring_active:
+            pass
     async def get_constitutional_validation_status(self) -> dict[str, Any]:
         """Get comprehensive constitutional validation system status"""
 
