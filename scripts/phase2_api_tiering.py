@@ -54,7 +54,7 @@ API_TIER_RULES = {
 def analyze_api_module(manifest_path: pathlib.Path) -> Tuple[str, float, str]:
     """
     Analyze API module and suggest star rating.
-    
+
     Returns: (suggested_star, confidence, reason)
     """
     try:

@@ -246,10 +246,10 @@ class ComprehensiveTestSuite:
     def run_comprehensive_suite(self, tier_filter: Optional[str] = None) -> TestSuiteMetrics:
         """
         Run comprehensive test suite with quality gates
-        
+
         Args:
             tier_filter: Optional tier to run (unit, integration, system, security)
-            
+
         Returns:
             Complete test metrics and quality assessment
         """

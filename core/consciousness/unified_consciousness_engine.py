@@ -138,7 +138,7 @@ class ConsciousnessEvent:
 class UnifiedConsciousnessEngine:
     """
     Unified consciousness processing engine for LUKHAS AI
-    
+
     Provides centralized consciousness state management, cross-system
     coordination, and unified awareness processing with Constellation Framework
     integration.
@@ -251,7 +251,7 @@ class UnifiedConsciousnessEngine:
     async def start(self) -> bool:
         """
         Start the unified consciousness engine
-        
+
         Returns:
             True if successfully started, False otherwise
         """
@@ -293,7 +293,7 @@ class UnifiedConsciousnessEngine:
     async def stop(self) -> bool:
         """
         Stop the unified consciousness engine
-        
+
         Returns:
             True if successfully stopped, False otherwise
         """
@@ -339,12 +339,12 @@ class UnifiedConsciousnessEngine:
     ) -> bool:
         """
         Register a consciousness module with the engine
-        
+
         Args:
             module: Module type to register
             interface: Module interface/instance
             config: Module configuration
-            
+
         Returns:
             True if successfully registered, False otherwise
         """
@@ -382,10 +382,10 @@ class UnifiedConsciousnessEngine:
     async def process_event(self, event: ConsciousnessEvent) -> bool:
         """
         Process a consciousness event
-        
+
         Args:
             event: Event to process
-            
+
         Returns:
             True if event was queued for processing, False otherwise
         """
@@ -413,10 +413,10 @@ class UnifiedConsciousnessEngine:
     async def transition_state(self, target_state: ConsciousnessState) -> bool:
         """
         Request a state transition
-        
+
         Args:
             target_state: Target consciousness state
-            
+
         Returns:
             True if transition was successful, False otherwise
         """

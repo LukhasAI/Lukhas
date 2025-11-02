@@ -60,7 +60,7 @@ class MonitoringConfig:
 class LUKHASMonitoringHub:
     """
     Central hub for LUKHAS monitoring and resilience systems.
-    
+
     Integrates telemetry, circuit breakers, health monitoring, and auto-healing
     into a unified observability platform.
     """
@@ -68,7 +68,7 @@ class LUKHASMonitoringHub:
     def __init__(self, config: Optional[MonitoringConfig] = None):
         """
         Initialize monitoring hub.
-        
+
         Args:
             config: Monitoring configuration
         """
@@ -125,7 +125,7 @@ class LUKHASMonitoringHub:
                                   restart_command: Optional[str] = None) -> None:
         """
         Register comprehensive monitoring for a service.
-        
+
         Args:
             service_name: Name of the service
             health_check_func: Function to check service health
@@ -246,7 +246,7 @@ class LUKHASMonitoringHub:
                                use_circuit_breaker: bool = True):
         """
         Context manager for comprehensive operation monitoring.
-        
+
         Args:
             operation_name: Name of the operation
             component: Component performing the operation

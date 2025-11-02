@@ -905,7 +905,7 @@ class AsyncCognitiveOrchestrator:
     def register_async_node(self, name: str, async_processor) -> None:
         """
         Register an async processing function as a cognitive node.
-        
+
         Args:
             name: Node identifier  
             async_processor: Async function that takes data and returns result
@@ -949,7 +949,7 @@ class AsyncCognitiveOrchestrator:
     def preserve_context(self, context_data: Dict[str, Any]) -> str:
         """
         Preserve context data for cross-orchestration continuity.
-        
+
         Returns:
             Context ID for retrieval
         """
@@ -971,7 +971,7 @@ class AsyncCognitiveOrchestrator:
     def restore_context(self, context_id: str) -> Optional[Dict[str, Any]]:
         """
         Restore preserved context data.
-        
+
         Returns:
             Context data if found, None otherwise
         """

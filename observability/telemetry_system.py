@@ -190,7 +190,7 @@ class TelemetryCollector:
                  flush_interval_sec: float = 30.0):
         """
         Initialize telemetry collector.
-        
+
         Args:
             max_events: Maximum number of events to keep in memory
             max_metrics: Maximum number of metrics to keep in memory

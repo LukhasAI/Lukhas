@@ -39,7 +39,7 @@ APPROVED_LICENSES: Set[str] = {
 def get_package_licenses() -> List[Dict[str, str]]:
     """
     Get licenses for all installed packages using pip-licenses.
-    
+
     Returns:
         List of dicts with keys: Name, Version, License
     """
@@ -72,7 +72,7 @@ def get_package_licenses() -> List[Dict[str, str]]:
 def check_license_compliance(packages: List[Dict[str, str]]) -> tuple[List[Dict], List[Dict]]:
     """
     Check packages for license compliance.
-    
+
     Returns:
         tuple: (approved_packages, violations)
     """
