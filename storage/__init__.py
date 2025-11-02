@@ -1,5 +1,1 @@
-"""
-storage/__init__.py
-
-Storage systems for LUKHAS AI.
-"""
+# LUKHAS Distributed Storage System

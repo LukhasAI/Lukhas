@@ -1,3 +1,1 @@
-"""
-Config Module
-"""
+# LUKHAS Configuration Management
