@@ -227,7 +227,7 @@ class CodebaseAnalyzer:
                                             "reason": f"Likely broken import: {issue}",
                                         }
                                     )
-            except Exception as e:
+            except Exception:
                 continue
 
     def _analyze_duplicates(self):
@@ -282,7 +282,7 @@ class CodebaseAnalyzer:
                                 "reason": "Contains stub indicators",
                             }
                         )
-                except Exception as e:
+                except Exception:
                     continue
 
     def _find_documentation_in_code(self):

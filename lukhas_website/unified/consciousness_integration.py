@@ -108,13 +108,13 @@ class ConsciousnessVisualizationBridge:
         try:
             self.consciousness = AutoConsciousness()
             print("✓ Connected to AutoConsciousness")
-        except Exception as e:
+        except Exception:
             print("✗ AutoConsciousness not available")
 
         try:
             self.emotion = EmotionService()
             print("✓ Connected to EmotionService")
-        except Exception as e:
+        except Exception:
             print("✗ EmotionService not available")
 
         try:
@@ -132,7 +132,7 @@ class ConsciousnessVisualizationBridge:
         try:
             self.glyph_engine = GlyphEngine()
             print("✓ Connected to GlyphEngine")
-        except Exception as e:
+        except Exception:
             print("✗ GlyphEngine not available")
 
     def _init_particle_behaviors(self) -> dict:

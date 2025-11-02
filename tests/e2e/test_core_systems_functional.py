@@ -186,7 +186,7 @@ class TestIdentitySystems(unittest.TestCase):
                     content = py_file.read_text(encoding="utf-8")
                     if any(indicator in content.lower() for indicator in ["lambda", "λid", "tier", "access"]):
                         lambda_files.append(py_file)
-                except Exception as e:
+                except Exception:
                     continue
 
             self.assertGreater(len(lambda_files), 0, "Should have ΛID related files")

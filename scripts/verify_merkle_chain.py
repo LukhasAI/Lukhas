@@ -230,7 +230,7 @@ class TamperEvidenceFramework:
             try:
                 with open(file_path, 'r') as f:
                     content = json.load(f)
-            except Exception as e:
+            except Exception:
                 content = None
 
         return {

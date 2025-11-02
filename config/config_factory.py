@@ -611,7 +611,7 @@ if __name__ == "__main__":
     # Validate if requested
     if args.validate:
         validation = factory.validate_config(config)
-        print(f"\nValidation Results:")
+        print("\nValidation Results:")
         print(f"Valid: {validation['valid']}")
         if validation['issues']:
             print("Issues:")

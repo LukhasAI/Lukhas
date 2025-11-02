@@ -443,7 +443,7 @@ class AdvancedIdentityManager:
                 self._guardian_instance = GuardianSystem()
                 self._guardian_integration_enabled = True
                 logger.info("🛡️  Guardian-Identity integration enabled for ethical identity management")
-            except Exception as e:
+            except Exception:
                 self._guardian_integration_enabled = False
     async def get_user_identity(self, user_id):
         """Get user identity information"""
@@ -512,7 +512,7 @@ class AdvancedIdentityManager:
 
                 self._validated_operations += 1
 
-            except Exception as e:
+            except Exception:
                 pass
 
         # Extract emotional vector
@@ -580,7 +580,7 @@ class AdvancedIdentityManager:
 
                 self._validated_operations += 1
 
-            except Exception as e:
+            except Exception:
                 pass
 
         # Extract emotional vector
@@ -696,7 +696,7 @@ class AdvancedIdentityManager:
 
                 self._validated_operations += 1
 
-            except Exception as e:
+            except Exception:
                 pass
 
         # ΛTAG: trauma_lock

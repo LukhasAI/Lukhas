@@ -306,7 +306,7 @@ class MemoryCacheBackend(CacheBackend):
         # Calculate size
         try:
             size_bytes = len(pickle.dumps(value))
-        except Exception as e:
+        except Exception:
             size_bytes = len(str(value).encode())
 
         current_time = time.time()

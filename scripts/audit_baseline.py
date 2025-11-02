@@ -139,7 +139,7 @@ class AuditFramework:
         # Initialize Guardian System
         try:
             self.guardian = GuardianSystem()
-        except Exception as e:
+        except Exception:
             print("Guardian system not available, using mock")
 
         # Initialize Consciousness Stream
@@ -188,7 +188,7 @@ class AuditFramework:
                 "threads": psutil.cpu_count(logical=True),
                 "freq_mhz": psutil.cpu_freq().max if psutil.cpu_freq() else 0
             }
-        except Exception as e:
+        except Exception:
             cpu_info = {"error": "Could not retrieve CPU info"}
 
         # Get memory information
@@ -199,7 +199,7 @@ class AuditFramework:
                 "available_gb": memory.available / (1024**3),
                 "percent_used": memory.percent
             }
-        except Exception as e:
+        except Exception:
             memory_info = {"error": "Could not retrieve memory info"}
 
         return AuditEnvironment(

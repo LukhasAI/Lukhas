@@ -649,7 +649,7 @@ if __name__ == "__main__":
             expires_days=args.expires_days,
             tags=args.tags
         )
-        print(f"✅ Secret stored successfully" if success else "❌ Failed to store secret")
+        print("✅ Secret stored successfully" if success else "❌ Failed to store secret")
 
     elif args.command == 'get':
         value = manager.get_secret(args.name)
@@ -679,21 +679,21 @@ if __name__ == "__main__":
 
     elif args.command == 'rotate':
         success = manager.rotate_secret(args.name, args.new_value)
-        print(f"✅ Secret rotated successfully" if success else "❌ Failed to rotate secret")
+        print("✅ Secret rotated successfully" if success else "❌ Failed to rotate secret")
 
     elif args.command == 'delete':
         success = manager.delete_secret(args.name)
-        print(f"✅ Secret deleted successfully" if success else "❌ Failed to delete secret")
+        print("✅ Secret deleted successfully" if success else "❌ Failed to delete secret")
 
     elif args.command == 'generate-api-key':
         api_key, key_id = manager.generate_api_key(
             args.name,
             expires_days=args.expires_days
         )
-        print(f"Generated API Key:")
+        print("Generated API Key:")
         print(f"Key ID: {key_id}")
         print(f"API Key: {api_key}")
-        print(f"💡 Store this key securely - it cannot be retrieved again!")
+        print("💡 Store this key securely - it cannot be retrieved again!")
 
     elif args.command == 'export':
         exported = manager.export_secrets_for_env(
@@ -708,7 +708,7 @@ if __name__ == "__main__":
 
     elif args.command == 'validate':
         results = manager.validate_secrets()
-        print(f"Secrets Validation Results:")
+        print("Secrets Validation Results:")
         print(f"Total secrets: {results['total_secrets']}")
         print(f"Accessible secrets: {results['accessible_secrets']}")
         print(f"Expired secrets: {results['expired_count']}")

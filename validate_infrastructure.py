@@ -57,7 +57,7 @@ async def test_security_framework():
         decrypted = await framework.encryption_service.decrypt(encrypted)
 
         assert decrypted == test_data
-        print(f"  ✅ Encryption/decryption working")
+        print("  ✅ Encryption/decryption working")
 
         # Test rate limiting
         allowed = await framework.rate_limiter.is_allowed("test_client")

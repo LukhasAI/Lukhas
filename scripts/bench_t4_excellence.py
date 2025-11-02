@@ -376,7 +376,7 @@ class PowerThermalTelemetry:
                         reading['cpu_temp_c'] = sum(cpu_temps) / len(cpu_temps)
                         reading['cpu_temp_max'] = max(cpu_temps)
                         reading['cpu_temp_cores'] = cpu_temps
-            except Exception as e:
+            except Exception:
                 reading['cpu_temp_c'] = None
 
             # Power consumption (Linux only)
@@ -920,7 +920,7 @@ class T4ExcellenceValidator:
                 if '==' in line:
                     name, version = line.split('==')
                     deps[name] = version
-        except Exception as e:
+        except Exception:
             deps = {"error": "Could not capture dependencies"}
 
         return {

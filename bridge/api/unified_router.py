@@ -41,7 +41,7 @@ except ImportError:
                 response_data[key] = branded_value
 
         return response_data
-    except Exception as e:
+    except Exception:
         return response_data
 
 

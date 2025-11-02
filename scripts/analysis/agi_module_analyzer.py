@@ -667,7 +667,7 @@ class AGIModuleAnalyzer:
                 try:
                     depths = nx.single_source_shortest_path_length(self.dependency_graph, source)
                     max_depth = max(max_depth, max(depths.values()) if depths else 0)
-                except Exception as e:
+                except Exception:
                     continue
 
             return max_depth

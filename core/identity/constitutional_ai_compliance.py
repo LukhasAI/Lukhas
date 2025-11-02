@@ -35,7 +35,7 @@ try:
         IdentitySignalType,  # noqa: F401  # TODO: .matriz_consciousness_identity...
         consciousness_identity_signal_emitter,
     )
-except ImportError as e:
+except ImportError:
     consciousness_identity_signal_emitter = None
     ConstitutionalComplianceData = None
 
@@ -304,7 +304,7 @@ class ConstitutionalAIValidator:
             logger.info("✅ Constitutional AI validation system initialized")
             return True
 
-        except Exception as e:
+        except Exception:
             return False
 
     async def validate_identity_decision(

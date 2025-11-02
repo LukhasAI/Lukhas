@@ -733,7 +733,7 @@ class ConsciousnessFormalVerifier:
                     # Try to convert to float, fallback to fraction string
                     try:
                         counterexample[var_name] = float(value.as_decimal(10))
-                    except Exception as e:
+                    except Exception:
                         counterexample[var_name] = str(value)
                 else:
                     counterexample[var_name] = str(value)

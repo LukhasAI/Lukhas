@@ -597,7 +597,7 @@ class LucasDASTEngine:
         """Asynchronous workflow optimization"""
         try:
             asyncio.create_task(self._background_workflow_analysis(task_id))
-        except Exception as e:
+        except Exception:
             # If async isn't available, update metrics synchronously
             self._update_workflow_metrics_sync(task_id)
 

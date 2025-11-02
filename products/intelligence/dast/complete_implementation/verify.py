@@ -112,19 +112,19 @@ def check_design_compliance():
     # Check for AI intelligence components
     try:
         checks.append("✅ AI intelligence components present")
-    except Exception as e:
+    except Exception:
         checks.append("❌ Missing AI intelligence components")
 
     # Check for modular processors
     try:
         checks.append("✅ Modular processors implemented")
-    except Exception as e:
+    except Exception:
         checks.append("❌ Missing modular processors")
 
     # Check for external adapters
     try:
         checks.append("✅ Universal adapters implemented")
-    except Exception as e:
+    except Exception:
         checks.append("❌ Missing universal adapters")
 
     for check in checks:

@@ -138,7 +138,7 @@ def main():
 
             if not check_syntax(content):
                 files_to_fix.append(file_path)
-        except Exception as e:
+        except Exception:
             continue
 
     print(f"❌ Files needing fixes: {len(files_to_fix)}")
@@ -159,7 +159,7 @@ def main():
                 content = f.read()
             if check_syntax(content):
                 working_files += 1
-        except Exception as e:
+        except Exception:
             continue
 
     print(f"📊 Working files: {working_files}/100 ({working_files}%)")

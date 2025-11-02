@@ -160,7 +160,7 @@ def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
         # Read file for context checking
         try:
             lines = file_path.read_text(encoding='utf-8').split('\n')
-        except Exception as e:
+        except Exception:
             continue
 
         has_incomplete = False
@@ -263,7 +263,7 @@ def dry_run_report(root_dir: Path) -> List[Tuple[Path, str, str]]:
         try:
             content = file_path.read_text(encoding='utf-8')
             lines = content.split('\n')
-        except Exception as e:
+        except Exception:
             continue
 
         # Check if incomplete

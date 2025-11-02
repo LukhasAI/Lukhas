@@ -271,7 +271,7 @@ class ComprehensiveF821Eliminator:
                     break
 
             print(f"📈 Baseline F821 violations: {baseline_count}")
-        except Exception as e:
+        except Exception:
             baseline_count = 0
             print("⚠️ Could not get baseline count")
 
@@ -319,7 +319,7 @@ class ComprehensiveF821Eliminator:
             elif reduction >= 1000:
                 print("✅ GOOD PROGRESS! Significant reduction achieved")
 
-        except Exception as e:
+        except Exception:
             print("⚠️ Could not get final count")
 
 

@@ -49,8 +49,8 @@ class SimpleOAuthMiddleware(BaseHTTPMiddleware):
         # Validate JWT (skip audience validation for testing)
         try:
             payload = jwt.decode(
-                token, 
-                self.oauth_secret, 
+                token,
+                self.oauth_secret,
                 algorithms=['HS256'],
                 options={"verify_aud": False}  # Skip audience validation for testing
             )

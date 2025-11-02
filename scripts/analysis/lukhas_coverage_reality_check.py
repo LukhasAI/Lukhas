@@ -66,7 +66,7 @@ def analyze_lukhas_system_scope():
                     subdirs = len([d for d in full_path.iterdir() if d.is_dir()])
                     files = len([f for f in full_path.iterdir() if f.is_file()])
                     status = f"✅ ({subdirs} dirs, {files} files)"
-                except Exception as e:
+                except Exception:
                     status = "✅ (access restricted)"
             else:
                 status = "❌ (not found)"
@@ -251,7 +251,7 @@ def calculate_realistic_coverage():
         for py_file in base_path.rglob("*.py"):
             if not any(excluded in str(py_file) for excluded in [".venv", "__pycache__", ".git"]):
                 total_python_files += 1
-    except Exception as e:
+    except Exception:
         total_python_files = 1000  # Conservative estimate
 
     tested_python_files = len(tested_files)

@@ -144,7 +144,7 @@ def fit_and_save(source_preference: str = "eval", feedback_weights: dict[str, fl
             triage = get_triage()
             clusters = triage.store.read_clusters()
             feedback_weights = triage.compute_task_weights(clusters)
-        except Exception as e:
+        except Exception:
             feedback_weights = {}
 
     # global (with weights)

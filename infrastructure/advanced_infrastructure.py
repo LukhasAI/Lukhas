@@ -217,22 +217,22 @@ def print_infrastructure_summary():
         print(f"\n🔧 {system_name.replace('_', ' ').title()}")
         print(f"   {system_info['description']}")
 
-        print(f"\n   📦 Components:")
+        print("\n   📦 Components:")
         for component in system_info['components']:
             print(f"      • {component}")
 
-        print(f"\n   ⭐ Features:")
+        print("\n   ⭐ Features:")
         for feature in system_info['features']:
             print(f"      • {feature}")
 
-    print(f"\n🎯 Integration Benefits:")
-    print(f"   • End-to-end security for all data operations")
-    print(f"   • 2-5x performance improvement through intelligent caching")
-    print(f"   • Enterprise-grade data durability and availability")
-    print(f"   • Comprehensive observability and monitoring")
-    print(f"   • Scalable architecture supporting high-throughput operations")
+    print("\n🎯 Integration Benefits:")
+    print("   • End-to-end security for all data operations")
+    print("   • 2-5x performance improvement through intelligent caching")
+    print("   • Enterprise-grade data durability and availability")
+    print("   • Comprehensive observability and monitoring")
+    print("   • Scalable architecture supporting high-throughput operations")
 
-    print(f"\n✅ Ready for Production Deployment")
+    print("\n✅ Ready for Production Deployment")
 
 
 if __name__ == "__main__":

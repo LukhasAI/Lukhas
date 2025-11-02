@@ -62,7 +62,7 @@ try:
     # Identity system
     try:
         from acceptance.accepted.identity import IdentityManager as LIDCore
-    except Exception as e:
+    except Exception:
         # Create a mock if not available
         class LIDCore:
             def initialize(self):
@@ -140,7 +140,7 @@ except ImportError:
     # Fallback imports
     try:
         from providers.provider_registry import BaseHealthcareProvider, ProviderRegistry
-    except Exception as e:
+    except Exception:
         ProviderRegistry = None
         BaseHealthcareProvider = None
 

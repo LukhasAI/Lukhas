@@ -211,7 +211,7 @@ class AdaptiveCircuitBreaker:
             return max(self.response_times)
         try:
             return statistics.quantiles(self.response_times, n=20)[18]  # 95th percentile
-        except Exception as e:
+        except Exception:
             # Fallback for small datasets
             return max(self.response_times)
 
