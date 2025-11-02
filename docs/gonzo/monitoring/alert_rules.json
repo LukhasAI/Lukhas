@@ -1,0 +1,28 @@
+{
+  "alerts": [
+    {
+      "name": "WaveC Rollback Rate High",
+      "query": "avg(last_5m):avg:lukhas.wavec.rollback.rate{*} > 0.05",
+      "message": "WaveC rollback rate is over 5%. @pagerduty",
+      "tags": ["lukhas", "wavec"]
+    },
+    {
+      "name": "Lane-Guard Failures High",
+      "query": "sum(last_1h):sum:lukhas.lane_guard.failures{*} > 10",
+      "message": "More than 10 lane-guard failures in the last hour. @slack-lukhas-alerts",
+      "tags": ["lukhas", "lane-guard"]
+    },
+    {
+      "name": "Endocrine Update Latency High",
+      "query": "p95(last_5m):p95:lukhas.endocrine.update.latency{*} > 200",
+      "message": "Endocrine update latency is over 200ms (p95).",
+      "tags": ["lukhas", "endocrine"]
+    },
+    {
+      "name": "API Error Rate High",
+      "query": "avg(last_5m):avg:lukhas.api.error.rate{*} > 0.01",
+      "message": "API error rate is over 1%. @pagerduty",
+      "tags": ["lukhas", "api"]
+    }
+  ]
+}

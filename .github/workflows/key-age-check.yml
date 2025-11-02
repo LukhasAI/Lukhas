@@ -1,0 +1,41 @@
+name: Key Age Check
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Run every Sunday at midnight
+  workflow_dispatch:
+
+jobs:
+  key-age-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Verify key age
+        id: verify
+        run: |
+          if python3 /Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/security/verify_key_age.py --audit-log /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/key_rotation_audit.log; then
+            echo "::set-output name=needs_rotation::false"
+          else
+            echo "::set-output name=needs_rotation::true"
+          fi
+
+      - name: Create issue on rotation needed
+        if: steps.verify.outputs.needs_rotation == 'true'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Key Rotation Needed',
+              body: 'The keys are approaching the 90-day rotation period. Please rotate them soon.',
+              assignees: ['security_team']
+            })

@@ -1,0 +1,45 @@
+name: Nightly Benchmarks
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-benchmark
+
+      - name: Run benchmarks
+        run: pytest benchmarks/ --benchmark-json=benchmark_results.json
+
+      - name: Compare benchmarks
+        id: compare
+        run: |
+          python3 /Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/ci/compare_benchmarks.py --current benchmark_results.json --baseline /Users/agi_dev/LOCAL-REPOS/Lukhas/benchmarks/baselines/matriz_baseline.json --baseline-name matriz
+          python3 /Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/ci/compare_benchmarks.py --current benchmark_results.json --baseline /Users/agi_dev/LOCAL-REPOS/Lukhas/benchmarks/baselines/endocrine_baseline.json --baseline-name endocrine
+
+      - name: Create issue on regression
+        if: failure() && steps.compare.outputs.regression == 'true'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Performance Regression Detected',
+              body: `A performance regression was detected in the nightly benchmark run. Please investigate.\n\n${{ steps.compare.outputs.report }}`
+            })

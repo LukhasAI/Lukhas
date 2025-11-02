@@ -1,92 +1,55 @@
 #!/usr/bin/env bash
-# Supervised orchestration for the labs→provider codemod.
-# - Runs the codemod in dry-run to produce patches.
-# - Applies patches in small batches onto a feature branch using a worktree.
-# - Optionally creates PRs (disabled by default via DRY_RUN=1).
-
 set -euo pipefail
-
-CODMOD=${CODMOD:-"scripts/codemods/replace_labs_with_provider.py"}
-PATCH_DIR=${PATCH_DIR:-"/tmp/codmod_patches"}
-BATCH_SIZE=${BATCH_SIZE:-20}
-DRY_RUN=${DRY_RUN:-1}
-BASE_BRANCH=${BASE_BRANCH:-"origin/main"}
-PR_TARGET=${PR_TARGET:-"main"}
-WORKTREE_BASE=${WORKTREE_BASE:-"/tmp/lukhas_wt"}
-
 REPO_ROOT=$(git rev-parse --show-toplevel)
 cd "$REPO_ROOT"
 
-echo "[info] Running codemod dry-run to produce patches..."
-python3 "$CODMOD" --outdir "$PATCH_DIR"
+PATCH_DIR=${PATCH_DIR:-/tmp/codmod_patches}
+BATCH_SIZE=${BATCH_SIZE:-20}
+BASE_BRANCH=${BASE_BRANCH:-origin/main}
+PR_TARGET=${PR_TARGET:-main}
+GH_REPO=${GH_REPO:-$(git remote get-url origin | sed -E 's#.*[:/](.+/[^/]+)(\.git)?$#\1#')}
 
-PATCH_COUNT=$(ls -1 "$PATCH_DIR"/*.patch 2>/dev/null | wc -l | tr -d ' ')
-PATCH_COUNT=${PATCH_COUNT:-0}
-echo "[info] Found ${PATCH_COUNT} patch(es) in $PATCH_DIR"
+python3 scripts/codemods/replace_labs_with_provider.py --outdir "$PATCH_DIR"
 
+PATCHES=("$PATCH_DIR"/*.patch)
+PATCH_COUNT=${#PATCHES[@]}
 if [ "$PATCH_COUNT" -eq 0 ]; then
-  echo "[info] No patches to apply; exiting."
+  echo "No patches."
   exit 0
 fi
 
 i=0
 batch=1
-branch_prefix=${BRANCH_PREFIX:-"codemod/replace-labs-batch-"}
-
-for patch in "$PATCH_DIR"/*.patch; do
+for patch in "${PATCHES[@]}"; do
   if (( i % BATCH_SIZE == 0 )); then
-    BRANCH="${branch_prefix}${batch}"
-    echo "[info] Starting batch $batch on branch $BRANCH"
-    git fetch origin --quiet || true
+    BRANCH="codemod/replace-labs-batch-${batch}"
+    git fetch origin
     git checkout -B "$BRANCH" "$BASE_BRANCH"
   fi
 
-  echo "[info] Applying patch $patch"
   git apply --index "$patch"
   i=$((i+1))
 
   if (( i % BATCH_SIZE == 0 )) || [ "$i" -eq "$PATCH_COUNT" ]; then
     git commit -m "chore(codemod): replace labs imports (batch ${batch})" || true
+    git push -u origin "$BRANCH"
+    gh pr create --repo "$GH_REPO" --title "codemod: replace labs imports (batch ${batch})" --body "Auto-generated batch ${batch}. Please run CI and lane-guard."
 
-    if [ "$DRY_RUN" -eq 0 ]; then
-      echo "[info] Pushing branch $BRANCH (DRY_RUN=0)"
-      git push -u origin "$BRANCH"
-      if command -v gh >/dev/null 2>&1; then
-        GH_REPO=${GH_REPO:-$(git remote get-url origin | sed -E 's#.*[:/](.+/[^/]+)(\.git)?$#\1#')}
-        gh pr create --repo "$GH_REPO" \
-          --title "codemod: replace labs imports (batch ${batch})" \
-          --base "$PR_TARGET" \
-          --head "$BRANCH" \
-          --body "Auto-generated codemod batch ${batch}. Please run CI and lane-guard." || true
-      fi
-    else
-      echo "[info] DRY_RUN=1; skipping push/PR for $BRANCH"
-    fi
-
-    # Ephemeral worktree validation (lane-guard) – optional, best-effort
-    WT="${WORKTREE_BASE}_${batch}"
+    # Ephemeral worktree validation
+    WT="/tmp/wt_${batch}"
     rm -rf "$WT" || true
-    git worktree add "$WT" "$BRANCH"
-    pushd "$WT" >/dev/null
-      if [ -f "scripts/run_lane_guard_worktree.sh" ]; then
-        echo "[info] Running lane-guard worktree script (best-effort)"
-        if [ ! -d .venv ]; then
-          python3 -m venv .venv || true
-        fi
-        # shellcheck disable=SC1091
-        . .venv/bin/activate || true
-        pip install -r requirements.txt || true
-        ./scripts/run_lane_guard_worktree.sh || true
-        tar -czf "/tmp/${BRANCH}_artifacts.tgz" artifacts/reports || true
-      else
-        echo "[warn] scripts/run_lane_guard_worktree.sh not found; skipping lane-guard"
-      fi
-    popd >/dev/null
+    git worktree add "$WT" "origin/$BRANCH"
+    pushd "$WT"
+      python3 -m venv .venv
+      . .venv/bin/activate
+      pip install -r requirements.txt || true
+      ./scripts/run_lane_guard_worktree.sh || true
+      tar -czf "/tmp/codmod_batch_${batch}_artifacts.tgz" artifacts/reports || true
+      gh pr comment --repo "$GH_REPO" --body "Lane-guard artifacts for batch ${batch} attached." "$(gh pr list --repo "$GH_REPO" --state open --head "$BRANCH" --json number --jq '.[0].number')"
+    popd
     git worktree remove "$WT" --force || true
-
     batch=$((batch+1))
   fi
 done
 
-echo "[info] All batches processed. DRY_RUN=$DRY_RUN"
-
+echo "Done. Inspect PRs and artifacts. Do not merge without human review."
