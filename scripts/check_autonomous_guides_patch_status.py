@@ -87,7 +87,7 @@ def main():
                 all_ok = False
         if r["git_log"]:
             print("  Last commits:")
-            print("\n".join("    " + l for l in r["git_log"].splitlines()))
+            print("\n".join("    " + line for line in r["git_log"].splitlines()))
 
     print("\n-- Workflows check --")
     for w in WORKFLOWS:

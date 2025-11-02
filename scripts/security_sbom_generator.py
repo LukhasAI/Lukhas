@@ -263,7 +263,7 @@ class LUKHASSecuritySBOMGenerator:
         total_components = len(self.components)
         vulnerable_components = sum(1 for c in self.components if c.vulnerabilities)
         unlicensed_components = sum(1 for c in self.components
-                                  if not c.licenses or not any(l.approved for l in c.licenses))
+                                  if not c.licenses or not any(license.approved for license in c.licenses))
 
         critical_vulnerabilities = []
         high_vulnerabilities = []
@@ -340,7 +340,7 @@ class LUKHASSecuritySBOMGenerator:
                 "version": comp.version,
                 "scope": comp.scope,
                 "hashes": comp.hashes,
-                "licenses": [{"license": {"id": l.id, "name": l.name}} for l in comp.licenses]
+                "licenses": [{"license": {"id": license.id, "name": license.name}} for license in comp.licenses]
             }
 
             if comp.supplier:
