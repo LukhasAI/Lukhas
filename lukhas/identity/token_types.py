@@ -1,177 +1,113 @@
+"""Type definitions for OAuth 2.0 and JWT token management.
+
+This module provides TypedDict definitions for JWT claims (RFC 7519) and
+token introspection responses (RFC 7662), along with validation and
+utility functions.
+"""
 from __future__ import annotations
 
+import time
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Union, cast
+from typing import Any, cast
 
 from typing_extensions import NotRequired, TypedDict
 
 
 class TokenClaims(TypedDict):
-    """RFC 7519 minimal JWT claims used by the system.
+    """Represents the standard claims of a JSON Web Token (JWT) as per RFC 7519."""
 
-    Required fields are enforced by ``validate_token_claims``.
-    Optional fields are passed through when present.
-    """
-
-    iss: str
-    sub: str
-    aud: Union[str, List[str]]
-    exp: int
-    nbf: NotRequired[int]
-    iat: NotRequired[int]
-    jti: NotRequired[str]
-    scope: NotRequired[str]
+    iss: str  # Issuer
+    sub: str  # Subject
+    aud: str | list[str]  # Audience
+    exp: int  # Expiration Time (Unix timestamp)
+    nbf: NotRequired[int]  # Not Before (Unix timestamp)
+    iat: NotRequired[int]  # Issued At (Unix timestamp)
+    jti: NotRequired[str]  # JWT ID
+    scope: NotRequired[str]  # OAuth scope
 
 
 class TokenIntrospection(TypedDict):
-    """RFC 7662 token introspection response fields accepted by the system."""
+    """Represents the response from a token introspection endpoint as per RFC 7662."""
 
-    active: bool
-    scope: NotRequired[str]
-    client_id: NotRequired[str]
-    username: NotRequired[str]
-    token_type: NotRequired[str]
-    exp: NotRequired[int]
-    iat: NotRequired[int]
-    nbf: NotRequired[int]
-    sub: NotRequired[str]
-    aud: NotRequired[Union[str, List[str]]]
-    iss: NotRequired[str]
-    jti: NotRequired[str]
-
-
-def _now_ts() -> int:
-    """Return current UTC timestamp as seconds since epoch (int)."""
-    return int(datetime.now(timezone.utc).timestamp())
+    active: bool  # Whether the token is active
+    scope: NotRequired[str]  # Scope of the token
+    client_id: NotRequired[str]  # Client identifier
+    username: NotRequired[str]  # Human-readable identifier for the resource owner
+    token_type: NotRequired[str]  # Type of the token (e.g., "bearer")
+    exp: NotRequired[int]  # Expiration Time (Unix timestamp)
+    iat: NotRequired[int]  # Issued At (Unix timestamp)
+    nbf: NotRequired[int]  # Not Before (Unix timestamp)
+    sub: NotRequired[str]  # Subject
+    aud: NotRequired[str | list[str]]  # Audience
+    iss: NotRequired[str]  # Issuer
+    jti: NotRequired[str]  # JWT ID
 
 
-def mk_exp(seconds_from_now: int) -> int:
-    """Return an ``exp`` timestamp ``seconds_from_now`` in UTC.
-
-    Conservative helper to keep tests deterministic and avoid repeated datetime logic.
+def validate_token_claims(claims: dict[str, Any]) -> TokenClaims:
     """
-    if not isinstance(seconds_from_now, int):  # defensive
-        raise TypeError("seconds_from_now must be an int")
-    if seconds_from_now < 0:
-        # Allow negative for already-expired tokens but keep explicit behavior
-        return _now_ts() + seconds_from_now
-    return _now_ts() + seconds_from_now
+    Validates and casts a dictionary to the TokenClaims TypedDict.
 
+    Args:
+        claims: A dictionary of token claims.
 
-def mk_iat(seconds_ago: int = 0) -> int:
-    """Return an ``iat`` timestamp ``seconds_ago`` in UTC (default: now).
+    Returns:
+        The validated TokenClaims object.
 
-    Helps tests create deterministic issued-at values.
+    Raises:
+        TypeError: If required fields are missing or have the wrong type.
     """
-    if not isinstance(seconds_ago, int):
-        raise TypeError("seconds_ago must be an int")
-    if seconds_ago < 0:
-        return _now_ts() - seconds_ago
-    return _now_ts() - seconds_ago
-
-
-def validate_token_claims(claims: Dict[str, Any]) -> TokenClaims:
-    """Validate a dict and return it typed as :class:`TokenClaims`.
-
-    Raises TypeError or ValueError on invalid/missing required fields.
-    """
-    if not isinstance(claims, dict):
-        raise TypeError("claims must be a dict")
-
-    required = ["iss", "sub", "aud", "exp"]
-    for k in required:
-        if k not in claims:
-            raise ValueError(f"missing required claim: {k}")
-
-    # Basic type checks
-    if not isinstance(claims["iss"], str):
-        raise TypeError("iss must be a string")
-    if not isinstance(claims["sub"], str):
-        raise TypeError("sub must be a string")
-    aud = claims["aud"]
-    if not isinstance(aud, (str, list)):
-        raise TypeError("aud must be a string or list of strings")
-    if isinstance(aud, list) and not all(isinstance(x, str) for x in aud):
-        raise TypeError("aud list must contain only strings")
-    if not isinstance(claims["exp"], int):
-        raise TypeError("exp must be an integer timestamp")
-
+    if not all(key in claims for key in ("iss", "sub", "aud", "exp")):
+        raise TypeError("Missing required claims in token.")
     return cast(TokenClaims, claims)
 
 
-def aud_as_list(aud: Union[str, List[str]]) -> List[str]:
-    """Return audience as a list of strings, normalizing single string values.
-
-    This helper is intentionally conservative and does not mutate inputs.
+def validate_token_introspection(response: dict[str, Any]) -> TokenIntrospection:
     """
-    if isinstance(aud, str):
-        return [aud]
-    return list(aud)
+    Validates and casts a dictionary to the TokenIntrospection TypedDict.
 
+    Args:
+        response: A dictionary from a token introspection endpoint.
 
-def get_aud_list(claims: "TokenClaims") -> List[str]:
-    """Return the ``aud`` claim as a list of strings from validated claims."""
-    return aud_as_list(claims["aud"])  # type: ignore[index]
+    Returns:
+        The validated TokenIntrospection object.
 
-
-def validate_token_introspection(response: Dict[str, Any]) -> TokenIntrospection:
-    """Validate an RFC 7662 token introspection response.
-
-    Raises TypeError/ValueError on invalid input.
+    Raises:
+        TypeError: If the 'active' field is missing or has the wrong type.
     """
-    if not isinstance(response, dict):
-        raise TypeError("introspection response must be a dict")
-
-    if "active" not in response:
-        raise ValueError("introspection response missing 'active' field")
-    if not isinstance(response["active"], bool):
-        raise TypeError("'active' must be a boolean")
-
-    # optional fields are not strictly typed here, but basic checks can be done
-    aud = response.get("aud")
-    if aud is not None and not isinstance(aud, (str, list)):
-        raise TypeError("aud must be a string or list of strings if present")
-
+    if "active" not in response or not isinstance(response["active"], bool):
+        raise TypeError("Missing or invalid 'active' field in introspection response.")
     return cast(TokenIntrospection, response)
 
 
 def is_token_expired(claims: TokenClaims) -> bool:
-    """Return True if token represented by claims is expired.
-
-    Uses UTC timestamps.
     """
-    now = _now_ts()
-    return claims["exp"] <= now
+    Checks if a token is expired based on its 'exp' claim.
+
+    Args:
+        claims: The token claims.
+
+    Returns:
+        True if the token is expired, False otherwise.
+    """
+    now = int(time.time())
+    return claims["exp"] < now
 
 
 def get_remaining_lifetime(claims: TokenClaims) -> timedelta:
-    """Return a timedelta of remaining lifetime (0 if expired)."""
-    now = _now_ts()
-    remaining = claims["exp"] - now
-    if remaining <= 0:
-        return timedelta(seconds=0)
-    return timedelta(seconds=remaining)
+    """
+    Calculates the remaining lifetime of a token.
 
+    Args:
+        claims: The token claims.
 
-def ensure_not_expired(claims: TokenClaims) -> None:
-    """Raise ValueError if the token represented by claims is expired.
-
-    Useful for guardrails in call sites that require non-expired tokens.
+    Returns:
+        A timedelta object representing the remaining time. Returns a zero
+        timedelta if the token is already expired.
     """
     if is_token_expired(claims):
-        raise ValueError("token is expired")
+        return timedelta(0)
 
+    expiration_dt = datetime.fromtimestamp(claims["exp"], tz=timezone.utc)
+    now_dt = datetime.now(timezone.utc)
 
-__all__ = [
-    "TokenClaims",
-    "TokenIntrospection",
-    "validate_token_claims",
-    "validate_token_introspection",
-    "is_token_expired",
-    "get_remaining_lifetime",
-    "mk_exp",
-    "mk_iat",
-    "aud_as_list",
-    "get_aud_list",
-    "ensure_not_expired",
-]
+    return expiration_dt - now_dt

@@ -15,7 +15,6 @@ import gzip
 import hashlib
 import hmac
 import json
-import os
 import platform
 import subprocess
 import sys
