@@ -92,7 +92,7 @@ class SecretsManager:
         key_file = self.secrets_dir / ".master_key"
         if key_file.exists():
             try:
-                with open(key_file, 'rb') as f:
+                with open(key_file, "rb") as f:
                     return f.read().decode()
             except Exception as e:
                 logger.warning(f"Failed to read master key file: {e}")
@@ -103,7 +103,7 @@ class SecretsManager:
 
         # Save to file (secure permissions)
         try:
-            with open(key_file, 'wb') as f:
+            with open(key_file, "wb") as f:
                 f.write(new_key.encode())
             os.chmod(key_file, 0o600)  # Owner read/write only
             logger.info(f"Master key saved to {key_file}")
@@ -123,7 +123,7 @@ class SecretsManager:
         except Exception:
             # If key is not proper Fernet key, derive one
             password = key.encode()
-            salt = b'lukhas_api_optimization_salt'  # Fixed salt for consistency
+            salt = b"lukhas_api_optimization_salt"  # Fixed salt for consistency
             kdf = PBKDF2HMAC(
                 algorithm=hashes.SHA256(),
                 length=32,
@@ -145,12 +145,12 @@ class SecretsManager:
 
             secrets_db = {}
             for name, entry_data in data.items():
-                metadata = SecretMetadata(**entry_data['metadata'])
+                metadata = SecretMetadata(**entry_data["metadata"])
                 entry = SecretEntry(
                     metadata=metadata,
-                    encrypted_value=entry_data['encrypted_value'],
-                    salt=entry_data['salt'],
-                    algorithm=entry_data.get('algorithm', 'PBKDF2-FERNET')
+                    encrypted_value=entry_data["encrypted_value"],
+                    salt=entry_data["salt"],
+                    algorithm=entry_data.get("algorithm", "PBKDF2-FERNET")
                 )
                 secrets_db[name] = entry
 
@@ -167,14 +167,14 @@ class SecretsManager:
         data = {}
         for name, entry in self.secrets_db.items():
             data[name] = {
-                'metadata': asdict(entry.metadata),
-                'encrypted_value': entry.encrypted_value,
-                'salt': entry.salt,
-                'algorithm': entry.algorithm
+                "metadata": asdict(entry.metadata),
+                "encrypted_value": entry.encrypted_value,
+                "salt": entry.salt,
+                "algorithm": entry.algorithm
             }
 
         try:
-            with open(db_file, 'w') as f:
+            with open(db_file, "w") as f:
                 json.dump(data, f, indent=2)
             os.chmod(db_file, 0o600)  # Owner read/write only
 
@@ -372,15 +372,15 @@ class SecretsManager:
                 is_expired = datetime.utcnow() > expires_at
 
             secrets_list.append({
-                'name': name,
-                'created_at': entry.metadata.created_at,
-                'expires_at': entry.metadata.expires_at,
-                'rotated_at': entry.metadata.rotated_at,
-                'access_count': entry.metadata.access_count,
-                'last_accessed': entry.metadata.last_accessed,
-                'tags': entry.metadata.tags,
-                'needs_rotation': needs_rotation,
-                'is_expired': is_expired
+                "name": name,
+                "created_at": entry.metadata.created_at,
+                "expires_at": entry.metadata.expires_at,
+                "rotated_at": entry.metadata.rotated_at,
+                "access_count": entry.metadata.access_count,
+                "last_accessed": entry.metadata.last_accessed,
+                "tags": entry.metadata.tags,
+                "needs_rotation": needs_rotation,
+                "is_expired": is_expired
             })
 
         return secrets_list
@@ -419,7 +419,7 @@ class SecretsManager:
                 # Escape quotes in value
                 escaped_value = value.replace('"', '\\"')
                 lines.append(f'{key}="{escaped_value}"')
-            return '\n'.join(lines)
+            return "\n".join(lines)
 
         elif format == "yaml":
             import yaml
@@ -586,52 +586,52 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="LUKHAS API Optimization Secrets Manager")
-    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Store secret
-    store_parser = subparsers.add_parser('store', help='Store a secret')
-    store_parser.add_argument('name', help='Secret name')
-    store_parser.add_argument('value', help='Secret value')
-    store_parser.add_argument('--expires-days', type=int, help='Days until expiration')
-    store_parser.add_argument('--tags', nargs='+', help='Tags for categorization')
+    store_parser = subparsers.add_parser("store", help="Store a secret")
+    store_parser.add_argument("name", help="Secret name")
+    store_parser.add_argument("value", help="Secret value")
+    store_parser.add_argument("--expires-days", type=int, help="Days until expiration")
+    store_parser.add_argument("--tags", nargs="+", help="Tags for categorization")
 
     # Get secret
-    get_parser = subparsers.add_parser('get', help='Get a secret')
-    get_parser.add_argument('name', help='Secret name')
+    get_parser = subparsers.add_parser("get", help="Get a secret")
+    get_parser.add_argument("name", help="Secret name")
 
     # List secrets
-    list_parser = subparsers.add_parser('list', help='List secrets')
-    list_parser.add_argument('--tags', nargs='+', help='Filter by tags')
-    list_parser.add_argument('--format', choices=['table', 'json'], default='table')
+    list_parser = subparsers.add_parser("list", help="List secrets")
+    list_parser.add_argument("--tags", nargs="+", help="Filter by tags")
+    list_parser.add_argument("--format", choices=["table", "json"], default="table")
 
     # Rotate secret
-    rotate_parser = subparsers.add_parser('rotate', help='Rotate a secret')
-    rotate_parser.add_argument('name', help='Secret name')
-    rotate_parser.add_argument('new_value', help='New secret value')
+    rotate_parser = subparsers.add_parser("rotate", help="Rotate a secret")
+    rotate_parser.add_argument("name", help="Secret name")
+    rotate_parser.add_argument("new_value", help="New secret value")
 
     # Delete secret
-    delete_parser = subparsers.add_parser('delete', help='Delete a secret')
-    delete_parser.add_argument('name', help='Secret name')
+    delete_parser = subparsers.add_parser("delete", help="Delete a secret")
+    delete_parser.add_argument("name", help="Secret name")
 
     # Generate API key
-    apikey_parser = subparsers.add_parser('generate-api-key', help='Generate API key')
-    apikey_parser.add_argument('name', help='API key name')
-    apikey_parser.add_argument('--expires-days', type=int, help='Days until expiration')
+    apikey_parser = subparsers.add_parser("generate-api-key", help="Generate API key")
+    apikey_parser.add_argument("name", help="API key name")
+    apikey_parser.add_argument("--expires-days", type=int, help="Days until expiration")
 
     # Export secrets
-    export_parser = subparsers.add_parser('export', help='Export secrets for deployment')
-    export_parser.add_argument('--format', choices=['env', 'yaml', 'json'], default='env')
-    export_parser.add_argument('--environment', default='production')
+    export_parser = subparsers.add_parser("export", help="Export secrets for deployment")
+    export_parser.add_argument("--format", choices=["env", "yaml", "json"], default="env")
+    export_parser.add_argument("--environment", default="production")
 
     # Import from environment
-    import_parser = subparsers.add_parser('import-env', help='Import from environment variables')
-    import_parser.add_argument('--prefix', default='LUKHAS_SECRET_')
+    import_parser = subparsers.add_parser("import-env", help="Import from environment variables")
+    import_parser.add_argument("--prefix", default="LUKHAS_SECRET_")
 
     # Validate secrets
-    validate_parser = subparsers.add_parser('validate', help='Validate all secrets')
+    validate_parser = subparsers.add_parser("validate", help="Validate all secrets")
 
     # Generate master key
-    keygen_parser = subparsers.add_parser('generate-key', help='Generate master key')
+    keygen_parser = subparsers.add_parser("generate-key", help="Generate master key")
 
     args = parser.parse_args()
 
@@ -642,7 +642,7 @@ if __name__ == "__main__":
     # Initialize secrets manager
     manager = SecretsManager()
 
-    if args.command == 'store':
+    if args.command == "store":
         success = manager.store_secret(
             args.name,
             args.value,
@@ -651,7 +651,7 @@ if __name__ == "__main__":
         )
         print(f"✅ Secret stored successfully" if success else "❌ Failed to store secret")
 
-    elif args.command == 'get':
+    elif args.command == "get":
         value = manager.get_secret(args.name)
         if value:
             print(value)
@@ -659,10 +659,10 @@ if __name__ == "__main__":
             print(f"❌ Secret '{args.name}' not found")
             exit(1)
 
-    elif args.command == 'list':
+    elif args.command == "list":
         secrets_list = manager.list_secrets(tags=args.tags)
 
-        if args.format == 'json':
+        if args.format == "json":
             print(json.dumps(secrets_list, indent=2))
         else:
             if not secrets_list:
@@ -671,21 +671,21 @@ if __name__ == "__main__":
                 print(f"{'Name':<20} {'Created':<20} {'Expires':<20} {'Needs Rotation':<15}")
                 print("-" * 80)
                 for secret in secrets_list:
-                    name = secret['name'][:19]
-                    created = secret['created_at'][:19] if secret['created_at'] else 'N/A'
-                    expires = secret['expires_at'][:19] if secret['expires_at'] else 'Never'
-                    rotation = 'Yes' if secret['needs_rotation'] else 'No'
+                    name = secret["name"][:19]
+                    created = secret["created_at"][:19] if secret["created_at"] else "N/A"
+                    expires = secret["expires_at"][:19] if secret["expires_at"] else "Never"
+                    rotation = "Yes" if secret["needs_rotation"] else "No"
                     print(f"{name:<20} {created:<20} {expires:<20} {rotation:<15}")
 
-    elif args.command == 'rotate':
+    elif args.command == "rotate":
         success = manager.rotate_secret(args.name, args.new_value)
         print(f"✅ Secret rotated successfully" if success else "❌ Failed to rotate secret")
 
-    elif args.command == 'delete':
+    elif args.command == "delete":
         success = manager.delete_secret(args.name)
         print(f"✅ Secret deleted successfully" if success else "❌ Failed to delete secret")
 
-    elif args.command == 'generate-api-key':
+    elif args.command == "generate-api-key":
         api_key, key_id = manager.generate_api_key(
             args.name,
             expires_days=args.expires_days
@@ -695,18 +695,18 @@ if __name__ == "__main__":
         print(f"API Key: {api_key}")
         print(f"💡 Store this key securely - it cannot be retrieved again!")
 
-    elif args.command == 'export':
+    elif args.command == "export":
         exported = manager.export_secrets_for_env(
             environment=args.environment,
             format=args.format
         )
         print(exported)
 
-    elif args.command == 'import-env':
+    elif args.command == "import-env":
         count = manager.import_secrets_from_env(prefix=args.prefix)
         print(f"✅ Imported {count} secrets from environment variables")
 
-    elif args.command == 'validate':
+    elif args.command == "validate":
         results = manager.validate_secrets()
         print(f"Secrets Validation Results:")
         print(f"Total secrets: {results['total_secrets']}")
@@ -715,12 +715,12 @@ if __name__ == "__main__":
         print(f"Need rotation: {results['rotation_count']}")
         print(f"Health score: {results['health_score']:.1f}%")
 
-        if results['expired_secrets']:
+        if results["expired_secrets"]:
             print(f"\nExpired secrets: {', '.join(results['expired_secrets'])}")
-        if results['rotation_needed']:
+        if results["rotation_needed"]:
             print(f"\nRotation needed: {', '.join(results['rotation_needed'])}")
 
-    elif args.command == 'generate-key':
+    elif args.command == "generate-key":
         new_key = Fernet.generate_key().decode()
         print(f"Generated master key: {new_key}")
         print(f"💡 Set environment variable: export LUKHAS_MASTER_KEY='{new_key}'")
