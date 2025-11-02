@@ -1,0 +1,497 @@
+{
+  "generated_at": "2025-11-01T21:27:07+00:00",
+  "modules": {
+    "lukhas.api": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5hcGkifQ.Nu7H3RLHgVUo6JyQ3stgMg1OssgiWIg5Tbf6EV9pdoQ",
+      "provenance_cid": "bafybeilukhasdb31e6d1ab8a8f2e84ba4a5436cecdeb9c771e9688588f",
+      "slsa_provenance": "security/attestations/lukhas_api.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.bridge": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5icmlkZ2UifQ.RnX-yfH9sfwf00tkk5P2dG64Dg1UFx8X0gUUIYrvH3Y",
+      "provenance_cid": "bafybeilukhas6f0c0e63fe5c138c9e5865ce82a842e48afd0c553a0e03",
+      "slsa_provenance": "security/attestations/lukhas_bridge.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.bridge.llm_wrappers": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5icmlkZ2UubGxtX3dyYXBwZXJzIn0.-b5U_7oxQOoXJpPn14KmTrWQEsiyuamgbWKIVuEuKB0",
+      "provenance_cid": "bafybeilukhasc05a5a8ad96f473426b563c1694eb0edc85fd968d220a8",
+      "slsa_provenance": "security/attestations/lukhas_bridge_llm_wrappers.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.consciousness": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb25zY2lvdXNuZXNzIn0.siWC8ySGABKFXkyJcJvkwwpO9qviZ-d6olNJEAXxOv0",
+      "provenance_cid": "bafybeilukhasda5a145c897fa2aa90896f08059d067d2d20b7f8e7649f",
+      "slsa_provenance": "security/attestations/lukhas_consciousness.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlIn0.0r0W8lElhBnkgMpsfNNj5LEn5AhGSYrExo8YGaYLXTU",
+      "provenance_cid": "bafybeilukhasc1798ef262ec70b25b0f1cfe0d59a1a76b017eeacad057",
+      "slsa_provenance": "security/attestations/lukhas_core.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.bridge": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLmJyaWRnZSJ9.aLZ19UjXJMKAD3dQNP2XRaQFeWgeU9Ijloh8fSngSSM",
+      "provenance_cid": "bafybeilukhase890f7e24f36ca01b16c538424cd23a26641ec3669a6e2",
+      "slsa_provenance": "security/attestations/lukhas_core_bridge.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.colonies": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLmNvbG9uaWVzIn0.jO0YnYdNz-9-ITNXQ5-8G7ifkQOLMGLcihVdlKGTk5Q",
+      "provenance_cid": "bafybeilukhas31e9e5e3fb78b87a267a0b5098fc39fcea704a5985ccf2",
+      "slsa_provenance": "security/attestations/lukhas_core_colonies.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.common": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLmNvbW1vbiJ9.My9CKpEcx2Cc5seQtG7op0pZGSBbmQFbRaRUF19DN_4",
+      "provenance_cid": "bafybeilukhasc544f968166b1b1dff4a0e77ebc21fc1a06ab26e30dcbb",
+      "slsa_provenance": "security/attestations/lukhas_core_common.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.filesystem": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLmZpbGVzeXN0ZW0ifQ.JvB0hlg76G-NGB_rd4-eadYke78-9C4jIsBy6MOymn8",
+      "provenance_cid": "bafybeilukhascdcf26362afb8c0bf2151913727ace51f3d728fad0059e",
+      "slsa_provenance": "security/attestations/lukhas_core_filesystem.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.matriz": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLm1hdHJpeiJ9.WZx-TAMw-M6eb4RB9e9EZHluu_5dik_ptHqCVl-FhiI",
+      "provenance_cid": "bafybeilukhas51f3d356a2b7e4c4145efa83f996e4b0476b3c39280d15",
+      "slsa_provenance": "security/attestations/lukhas_core_matriz.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.policy": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLnBvbGljeSJ9.4AzcBbafQCxkWlhGD3XqOPrqfrRKq2h__y8R4ICk8Zw",
+      "provenance_cid": "bafybeilukhas01a864e23aa9fc9efda1fd4f5328f11be7191b38b4186a",
+      "slsa_provenance": "security/attestations/lukhas_core_policy.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.registry": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLnJlZ2lzdHJ5In0.eyxhA3BHwdWx4f53t4qHZVWlplNZPMfsa9sW5yWJ6Uc",
+      "provenance_cid": "bafybeilukhasc50ae86bbb083c18b8a34797bffb7f55440591f2e0e92a",
+      "slsa_provenance": "security/attestations/lukhas_core_registry.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.reliability": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLnJlbGlhYmlsaXR5In0.-j2GLhR8BPc3wybWDdCND-EdbejjERH13jcMGnVDi48",
+      "provenance_cid": "bafybeilukhasf8e6655bcc361a31d8380848ce8eed1c6dd9170eea8aaa",
+      "slsa_provenance": "security/attestations/lukhas_core_reliability.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.symbolic": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLnN5bWJvbGljIn0.aq55s5U9pOO5-1YjXcuo2W1QJNGJC2nUTz0rEdf81-I",
+      "provenance_cid": "bafybeilukhas31201ed3c4ccfc5da5e60bf2a48cafe6a04ff573b7475f",
+      "slsa_provenance": "security/attestations/lukhas_core_symbolic.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.symbolic.constraints": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLnN5bWJvbGljLmNvbnN0cmFpbnRzIn0.gHCrutQevyqw_-4Ghvcqye6VD20UPA-eu8qcGV5_dY0",
+      "provenance_cid": "bafybeilukhas10b4a072fdff0a2ffa95fefe7ae2a0838a55b655445d25",
+      "slsa_provenance": "security/attestations/lukhas_core_symbolic_constraints.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.core.symbolism": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5jb3JlLnN5bWJvbGlzbSJ9.r6LU8tESvihr5o2jTHCEOi81IO0YOgG2nsJqVcX82oM",
+      "provenance_cid": "bafybeilukhas9a2ba9aa1291400c60c6eb4f6de5d84a76540f12b9b28f",
+      "slsa_provenance": "security/attestations/lukhas_core_symbolism.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlIn0.sMHZDJnJRdH7m1bX6E9cZ6c7rBC3O8QFeZ8x_GJp6g0",
+      "provenance_cid": "bafybeilukhas0ef571354003d4326bf0417438f4e4e57f98856a67d37e",
+      "slsa_provenance": "security/attestations/lukhas_governance.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance.consent_ledger": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlLmNvbnNlbnRfbGVkZ2VyIn0.aoBHRuhIWLb3AroLJ08XFvmknlLAOknzX_3vAAzLafY",
+      "provenance_cid": "bafybeilukhasb2ae5b8c6b9e0074dc5d6e4c30d24440ba1efb78eb47dc",
+      "slsa_provenance": "security/attestations/lukhas_governance_consent_ledger.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance.consent_ledger.providers": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlLmNvbnNlbnRfbGVkZ2VyLnByb3ZpZGVycyJ9.ZVVcl9oY72GcYvT-qkw4O6SNWkRAQ2tKfBnp-ieADC0",
+      "provenance_cid": "bafybeilukhas73ebe63e4e4cb7ecebb3b3c1d508d2019db46fd3393032",
+      "slsa_provenance": "security/attestations/lukhas_governance_consent_ledger_providers.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance.ethics": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlLmV0aGljcyJ9.JexJfRdGwqg67bgCmdA7g5ZzxJeXXx26DSkLVHKTGAg",
+      "provenance_cid": "bafybeilukhas1ed64f081d6968dffd359bb3516238ea8cc51daa4749a4",
+      "slsa_provenance": "security/attestations/lukhas_governance_ethics.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance.guardian": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlLmd1YXJkaWFuIn0.F44vp5UuRVllSGzIhBBJ9Bq6duEIgbN_9BeQeGlsaB4",
+      "provenance_cid": "bafybeilukhasfcdfc79f30c2d271f5e3e9aa5e2879a0a27d28cfbe88e4",
+      "slsa_provenance": "security/attestations/lukhas_governance_guardian.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance.identity": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlLmlkZW50aXR5In0.WvUuErzvcL932MHkW-TEHCwuQEVJbK-xisXJAe4bjZs",
+      "provenance_cid": "bafybeilukhas883784809731404aed32082a884a9ecc8aa967b09bb934",
+      "slsa_provenance": "security/attestations/lukhas_governance_identity.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance.identity.auth_backend": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlLmlkZW50aXR5LmF1dGhfYmFja2VuZCJ9.St1UiGlivu9krjtYRqLP3Eiyv3PB8TvtJDQIYGcD-GQ",
+      "provenance_cid": "bafybeilukhas8336ab0a58890ed969119bc9cf888499aa8e96429c8d44",
+      "slsa_provenance": "security/attestations/lukhas_governance_identity_auth_backend.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.governance.security": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5nb3Zlcm5hbmNlLnNlY3VyaXR5In0.FyEZ5pl1JcTa4au3IHeXh65zgUynus-avDUCgaI7miA",
+      "provenance_cid": "bafybeilukhas0ac7449c3000a615b2bae37bc30fc39d26c531d3ecd8bf",
+      "slsa_provenance": "security/attestations/lukhas_governance_security.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eSJ9.yhqidXSXaxe6_Recmh6xBY8rOmc6is6K1--o_nGMYGc",
+      "provenance_cid": "bafybeilukhasb6df364ac9b53d35ed3fb2369e5bd790860934456da27c",
+      "slsa_provenance": "security/attestations/lukhas_identity.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.auth": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS5hdXRoIn0.ReAyERrzxLSZJ2lM5Jn8TcXl-V9aUJnkvu72l996h1o",
+      "provenance_cid": "bafybeilukhas989c2c60b1920a7804f00f52d6e8ccf05ee5b6bce9cf8f",
+      "slsa_provenance": "security/attestations/lukhas_identity_auth.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.facades": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS5mYWNhZGVzIn0.fpRyNgi8LJq4DTToFzDtjAONbFOzdenj6alaThM9dVs",
+      "provenance_cid": "bafybeilukhas457cb86aaf651e9f9c3ceea961b24bdfa6cba532e3f804",
+      "slsa_provenance": "security/attestations/lukhas_identity_facades.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.oidc": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS5vaWRjIn0.7P-yw1EvQY0JpeCUWJm_C9Z0CtwvTgx-hW8ZXWwOCvc",
+      "provenance_cid": "bafybeilukhas7ee1e76a6e18c7ad8bcb72f589a3c09a277660ba34dea8",
+      "slsa_provenance": "security/attestations/lukhas_identity_oidc.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.passkey": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS5wYXNza2V5In0.Me0jQZ9VCbRXlYrrYnxIB9FpxFvOQGzA3CaU2yYvs3g",
+      "provenance_cid": "bafybeilukhas1c462d907c894b4a7f98e437ed7f97d33ebfafbb2c0560",
+      "slsa_provenance": "security/attestations/lukhas_identity_passkey.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.passkey.providers": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS5wYXNza2V5LnByb3ZpZGVycyJ9.D3_AeuqrFORsUlx3d_fI8mzXEfTCmfyReQU8S4BXRIw",
+      "provenance_cid": "bafybeilukhas01071d2903be4897657d83430e18a737d3438e3c8679f7",
+      "slsa_provenance": "security/attestations/lukhas_identity_passkey_providers.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.qrg": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS5xcmcifQ.rnlXBYPMguANPpat-DWAUpaxju_TUuL01f0tGAeKFzs",
+      "provenance_cid": "bafybeilukhas0ead0644472ed0e3c974f3a2d8c1f8f053dd789421b2c6",
+      "slsa_provenance": "security/attestations/lukhas_identity_qrg.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.services": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS5zZXJ2aWNlcyJ9.dZ27y4OOSaSQROxT3IHaVf8DrXqVRRoJWdCJaeI6R1s",
+      "provenance_cid": "bafybeilukhas9ca70455f13abd30a81e487929436079e8069e373661d6",
+      "slsa_provenance": "security/attestations/lukhas_identity_services.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.identity.wallet": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5pZGVudGl0eS53YWxsZXQifQ.s0ysuBmmSuMfWbh0xqScfLZC8-szRPIvT-6GTPoD3Ek",
+      "provenance_cid": "bafybeilukhas80a3b73d28d878d008c817a926314b3c3e16a96b350756",
+      "slsa_provenance": "security/attestations/lukhas_identity_wallet.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.matriz": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5tYXRyaXoifQ.xanso6_sR5jkYGJLhSaqWb4z2RH8HgStopb89XTYrUw",
+      "provenance_cid": "bafybeilukhas2d2b70a296a7e3d6d5f77911e1746da67038aa8e425d03",
+      "slsa_provenance": "security/attestations/lukhas_matriz.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.matriz.runtime": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5tYXRyaXoucnVudGltZSJ9.u5fuUhJh7SAZ0fwN5uuLz25TU0OS2-Q8rTfNr9Xqmwo",
+      "provenance_cid": "bafybeilukhas9413b7b82cc738bb1260a56af287ccb4e53fc4f919c6c9",
+      "slsa_provenance": "security/attestations/lukhas_matriz_runtime.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.memory": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5tZW1vcnkifQ.l49qTvNLx2B1K0R1QkuPBfCpC0vGfggOLLxMX7l4x8A",
+      "provenance_cid": "bafybeilukhasb60e68880e29fa6fd4d1fe5d8ad57f1a51676b03bd1ea7",
+      "slsa_provenance": "security/attestations/lukhas_memory.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.memory.backends": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5tZW1vcnkuYmFja2VuZHMifQ.zmr9Svp644vcdMWcgwk4YVtX3yzaqzUKOURJDO8Rhos",
+      "provenance_cid": "bafybeilukhas3462aae80e42b83e08caf5b81a9b485324193408e69230",
+      "slsa_provenance": "security/attestations/lukhas_memory_backends.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.memory.emotional": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5tZW1vcnkuZW1vdGlvbmFsIn0.SkreOWOUjNBJvb0RPeezCnGEYQ_zy6sv-Lw0_Nb2VOw",
+      "provenance_cid": "bafybeilukhas358963d5c0ba793cd815134e447545e6a830b6158f0505",
+      "slsa_provenance": "security/attestations/lukhas_memory_emotional.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.orchestration": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5vcmNoZXN0cmF0aW9uIn0.ddoxVGwXaWHB-HMvO7FDCMo9kE6P9t2d5X67Vggyr04",
+      "provenance_cid": "bafybeilukhas55673c7555f4fc57dc8889e289f80195a5d7a5873666e6",
+      "slsa_provenance": "security/attestations/lukhas_orchestration.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.orchestration.context": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5vcmNoZXN0cmF0aW9uLmNvbnRleHQifQ.QaMZ8ritkU2JbX_qu0Q4AwlsCNRza4WUxkas_3HqaAc",
+      "provenance_cid": "bafybeilukhas15eda39cabddc78334f70f161450468be2c1fe7a42f3c1",
+      "slsa_provenance": "security/attestations/lukhas_orchestration_context.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    },
+    "lukhas.orchestration.providers": {
+      "builder_id": "lukhas.security.automation",
+      "evidence_jwt": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsdWtoYXMuc2VjdXJpdHkucG9zdHVyZSIsImlhdCI6MTc2MjAzMjQyNywiaXNzIjoibHVraGFzLnNlY3VyaXR5LmF1dG9tYXRpb24iLCJuYmYiOjE3NjIwMzI0MjcsInN1YiI6Imx1a2hhcy5vcmNoZXN0cmF0aW9uLnByb3ZpZGVycyJ9.1gFTDDyeGYlkhkZhIhEIP94EvoS-YrJ7-0ZuDnITj1U",
+      "provenance_cid": "bafybeilukhas0e47a796a8f7583b5b937c4014fcd6494e5a9aaada064b",
+      "slsa_provenance": "security/attestations/lukhas_orchestration_providers.slsa.json",
+      "timestamp": "2025-11-01T21:27:07+00:00",
+      "verifier_policy": {
+        "id": "lukhas.security.slsa",
+        "ref": "docs/security/SECURITY_POSTURE_REMEDIATION.md",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [],
+  "externalReferences": [
+    {
+      "type": "bom",
+      "url": "../shared/lukhas-platform.cdx.json"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "lukhas.module.observability",
+      "name": "observability",
+      "properties": [
+        {
+          "name": "lukhas:sbom:generator",
+          "value": "build_security_posture_artifacts"
+        },
+        {
+          "name": "lukhas:sbom:shared_bom",
+          "value": "security/sboms/shared/lukhas-platform.cdx.json"
+        }
+      ],
+      "supplier": {
+        "name": "LUKHAS AI"
+      },
+      "type": "application",
+      "version": "main"
+    },
+    "timestamp": "2025-11-01T21:27:07+00:00"
+  },
+  "specVersion": "1.4"
+}

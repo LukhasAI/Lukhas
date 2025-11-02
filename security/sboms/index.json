@@ -1,0 +1,1304 @@
+{
+  "generated_at": "2025-11-01T21:27:07+00:00",
+  "modules": {
+    "accepted": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "7c75c268f5771a1c9546285130fbd9323006a0c3a67ca9b2f561161cbc10855b",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/accepted.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "accepted.bio": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "86240cf15645544ea8a829c1bde53c4cd156bae9a429e4f506b3c3694fa8deb7",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/accepted_bio.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "adapters": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "2f6a063fa7e3740f4dc26a897783263cefc17c94514b71919c3af1fb1a6df8c3",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/adapters.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "agents": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "f5b6e722f2db2ed92c0e8dd047c7afc464338ac1f71577a105491269c4eeb931",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/agents.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "aka_qualia": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "69b4347864e693cf0561ddfb6f3be7ca1df66129c54951b78e1174b327fba54e",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/aka_qualia.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "api": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "def657e71a9c437bac5eaf971c96c06f613ffbd84b43c417fb9e64acd7c97bde",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/api.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "audit": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "07b2da166ad81521b80cb42f7e3664aa5467b2e9c61ede2877d30c3598fed63f",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/audit.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "bio": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "9b71de67d59bed35646cbd7e1ee3a902dc1796a7d2f3c9b64c64b8aa502c9afb",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/bio.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "bio.core": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0ade309764c6e1699bed9ae28ef7933a20095da5e62203033cb7546a0043b1b6",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/bio_core.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "branding": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "32a8cdf16e66bc16f84e436cf3294066db690f951a8d137c222bceb7d59f6c3e",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/branding.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "bridge": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "32f10ecd35c22fb1dffc50a17ee93fe3baeff2b1865dc3403737216de7f8b111",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/bridge.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "bridge.llm_wrappers": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "c71ca54ab69b468c2526028ce7827ad27720f3fa562f56ccd40c341fff2dfa23",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/bridge_llm_wrappers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "cognitive_core": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "2b3478e898326914912bef289cbc5fd01ed55d4265b2eb0146a0bab22799a371",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/cognitive_core.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "colonies": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "66265507e6588ee85b543d995df174126783ff9357816231fe1bbccd57d89320",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/colonies.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "colony": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "1f31e7b8a7974505bf3dee5fb662a254d4bae041f0694c856008aa88a2d38b5c",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/colony.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "compliance": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "8f83847040c3391c0d4b09a503942fe9762447b5a970aff190a8737ece5ef27e",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/compliance.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "consciousness": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "3ab4004fd87a163a3b3fca9e2dca894fc1f105d383a8440777e619e22822d5e0",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/consciousness.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "constellation": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "15638e7f73c3d0aad12cbb0309a8fb3ad7508e95e1836571a783114f33363283",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/constellation.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "constellation.triad": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "4d6000466f229afda2e0ae24489901a94a1fc2e371d26cf0602ec41404d0b991",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/constellation_triad.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "bbbc170b79fa97311722692372f37846743c93096b847dcb624296998ce893a4",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.bridge": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "af9b222a1010be820d795c168ef678134ba9e7a8170fc5a955c90ac90d496cc9",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_bridge.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.colonies": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "ab576d2b4d88de91612813076ff574162b2b57e78f18e5b0da4c5b7f70f65986",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_colonies.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.common": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "074eb5ca810c47eeff0ab5c138ad530a84e7aad85d737fb0757c7537ad4e669d",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_common.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.filesystem": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "3b924a5774b1d52868b1d48156f83ae23016d06e170d18c4916ace4f2b66f10b",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_filesystem.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.matriz": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "c6359099314d5663811f75838fb06dd8692617c2bdfbf9e44f0d6090f32488a4",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_matriz.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.policy": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "de2df84739ee6d90b0d9a21ac35a262c151190c0774c932b09bbec1194121187",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_policy.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.registry": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "103b49255192178ed97a2d4f598c0a7fc2417bee4cf9b5b1605157be1db4c02a",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_registry.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.reliability": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "f5ede89fb02dfaab31724a187325f2dda44ecfaa9ec7643fef10cb4b87e460f7",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_reliability.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.symbolic": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "a4d93be8ee3d3025aa6ce26b1a657a0c497a0cf84c26850fc02cd65b3cd58ea7",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_symbolic.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.symbolic.constraints": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "a9f2a4edbc7ca6721bc66f4a563f50127db49a59d988ca7ee8467bc1f351d114",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_symbolic_constraints.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "core.symbolism": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "29e05458c72629e7d934dbbbc91ea50310f4d1caf4c7daad6ba265d1981eb89d",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/core_symbolism.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "deployment": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0d26206bc57d2465d23f0443b11da63ace1cb937486c83452b3a97d6a7d07255",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/deployment.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "dna": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "339ae8c309b25015adf574e897e2c11cc6454fc3e688e48e70a81654afae8043",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/dna.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "dream": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "1b168579f923cf485d4ce2a9e0f89898210d52cf7eb825b64da40240d94fd7b0",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/dream.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "emotion": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "25867498da6f65276eb34c3703d685f0376960927a06ca3a5a21a973e6bad035",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/emotion.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "feedback": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "86341c68db6a37f1002528b2e23b76d247ba38b76a89a8f255c641e18cb1cace",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/feedback.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "flags": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "3ac347b1f1fb13737793659393ce5e1f14fe0e028a6d5a7114d52c8debcd6e7e",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/flags.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "ed27061cfb73ed6a70e6c3a349c464a717baf4c3fb0da40fa92db2814afd6273",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance.consent_ledger": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "17576d06450740ef22299119325cbd57e2dc5ef2c7ce468653dcbca97a546022",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance_consent_ledger.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance.consent_ledger.providers": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "ea790c2b5998a0d2201d140287393450861755a7d5bae2752334f1292ac38b05",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance_consent_ledger_providers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance.ethics": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "52361c26737cb2541aee3d412b4e121993e3de8624ac46362a8d024ba2b585e7",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance_ethics.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance.guardian": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "2a8a1a22adb9355fc3fc7920929de680d486ff2d8711c168f4d61dbb24eb78e3",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance_guardian.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance.identity": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "4e758316fcf5cb49f99db8bc5e4ab9cb5aac1d8dc9094bf5194a7d66dace68d0",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance_identity.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance.identity.auth_backend": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "dc747f9ae7882dab160c8f2b5c15b4177cc6f843b2a4bed4c6ce0904346487f2",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance_identity_auth_backend.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "governance.security": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "37ce9023ea22630f7c4e7d7b5c4a6df0f0c2e2cb576c084df400c6b764aefecc",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/governance_security.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "dfb5f068e6df887c424bb898e541448878c3591682befbb692d32ed0a7b0cbc5",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.auth": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0f273be615cee4483a3758d8cbec36ac27dc60f152f316545201cd8bf8d838d6",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_auth.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.facades": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "e84206a7f2b38c8d70c2ba31dd26964b0dec693e803e5f9e8f5d4e315f4dbbd1",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_facades.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.oidc": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0c92f214d88ba7d4e47e23ce38c31c0b3682eb0a469b58b7a0d60d24c81ab912",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_oidc.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.passkey": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "b01c5786e8501566cdd4a01d005c29ad6893b9be899517e2b76cfbd2fcbaba6e",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_passkey.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.passkey.providers": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "3cf56b5f2c6670428eb555aa0018045bfe842a0acbb305a0f0d5c5385a129e69",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_passkey_providers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.qrg": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "97d54f7051d4c2825322dee8a03c77f6bfda44cd37876d6bca1e29fba22c394d",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_qrg.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.services": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "9301fa679ad26732c2f13dd9847522f333fa369e69dd6042aafaee31f514e253",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_services.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "identity.wallet": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "b357241eb576b52792eaba71a7119188940fdcfb0f24d9931959be6f627ad702",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/identity_wallet.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "interfaces": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "1aa5698da788ade3b4654f3c534a9d060bf7e0dd27091d9ecdb0c4386fa6a80d",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/interfaces.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "ledger": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "4c9bcabb19312bd7887e07af077da5cdea1e3a984af2ac85d2648cc1a901f726",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/ledger.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.accepted": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "f71ea175ce8369455b3e3bd08862b43dcbcd9eddd98ee183ecc2f889a143158a",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_accepted.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.accepted.bio": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "50826acb7cbfbdbcdf161c85d91f98c9aa8c51dc7292fc172b2aca50ef1f25b9",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_accepted_bio.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.agents": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "08d2fe3bbf717d6c2e19f2c316b4036f6d69e3b7dcbf1e103351c19f811691f5",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_agents.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.api": {
+      "attestation_path": "security/attestations/lukhas_api.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "5342f66aecf06b22ca8d97cf29d3559dbc415151729f738880a8705b4f3b45d2",
+      "provenance_cid": "bafybeilukhasdb31e6d1ab8a8f2e84ba4a5436cecdeb9c771e9688588f",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_api.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.bio": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "a22d5d5125a1732969e1f832c8b6400d510f7e3cd53d0fa5cee214e1c5e4acb0",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_bio.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.bio.core": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "d891e6e8ef7bdec008fd142c9925217d5e92491cb7115405658ca282055b2197",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_bio_core.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.branding": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "db24f866c9c43796b534a2c0319b76fc115c0fc41cfddf8a5d8e64f655b22798",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_branding.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.bridge": {
+      "attestation_path": "security/attestations/lukhas_bridge.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "290e1198079c89bf45619fab60a078ab1629f034d9d8601cba959db0b248ce99",
+      "provenance_cid": "bafybeilukhas6f0c0e63fe5c138c9e5865ce82a842e48afd0c553a0e03",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_bridge.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.bridge.llm_wrappers": {
+      "attestation_path": "security/attestations/lukhas_bridge_llm_wrappers.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "538c2fa397718c9310a39f7f0b786f4b028efdd47c51d83fa0afccaa80725985",
+      "provenance_cid": "bafybeilukhasc05a5a8ad96f473426b563c1694eb0edc85fd968d220a8",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_bridge_llm_wrappers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.consciousness": {
+      "attestation_path": "security/attestations/lukhas_consciousness.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "a820197ff33fe9f4e1d101e8d9ae03306886802d0901973636a1607b90193bec",
+      "provenance_cid": "bafybeilukhasda5a145c897fa2aa90896f08059d067d2d20b7f8e7649f",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_consciousness.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.constellation": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "ba0394de32ee472791d998387f8ce002c556657bf1d6f902d8335e676ea5c3c5",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_constellation.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.constellation.triad": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "db2eed2f6a85b72acad9a3fec598a121722107ed0bc6b8b62c23a10d744fe74c",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_constellation_triad.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core": {
+      "attestation_path": "security/attestations/lukhas_core.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "bfb82cd21b0f08d7cda8d2802bc024737c0421232d3422dc904df8e7f64ac586",
+      "provenance_cid": "bafybeilukhasc1798ef262ec70b25b0f1cfe0d59a1a76b017eeacad057",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.bridge": {
+      "attestation_path": "security/attestations/lukhas_core_bridge.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "5da5e73ef7f37e9ddf8bdef01bfe47d044e426a80fb2cfb77f257d6daefa6825",
+      "provenance_cid": "bafybeilukhase890f7e24f36ca01b16c538424cd23a26641ec3669a6e2",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_bridge.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.colonies": {
+      "attestation_path": "security/attestations/lukhas_core_colonies.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "fcd4e455406ec00f9c871b94edb7d423fde90787009da0e6550a0f43efeb3fe7",
+      "provenance_cid": "bafybeilukhas31e9e5e3fb78b87a267a0b5098fc39fcea704a5985ccf2",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_colonies.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.common": {
+      "attestation_path": "security/attestations/lukhas_core_common.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "30aa7b1f0470aa8f969a12552a6cbe5f827c86976be9fef5bf95219c716c3a45",
+      "provenance_cid": "bafybeilukhasc544f968166b1b1dff4a0e77ebc21fc1a06ab26e30dcbb",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_common.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.filesystem": {
+      "attestation_path": "security/attestations/lukhas_core_filesystem.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "7c7a0992e90be83fa9d0ddfda6da621a266bd568f805e9f50dad3edfb3dd52d0",
+      "provenance_cid": "bafybeilukhascdcf26362afb8c0bf2151913727ace51f3d728fad0059e",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_filesystem.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.matriz": {
+      "attestation_path": "security/attestations/lukhas_core_matriz.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "9d15daa4b22568c3a7e50a3eb7603f066c4214251e5beae881d698f0f9f06659",
+      "provenance_cid": "bafybeilukhas51f3d356a2b7e4c4145efa83f996e4b0476b3c39280d15",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_matriz.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.policy": {
+      "attestation_path": "security/attestations/lukhas_core_policy.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "14d1788264c3e3633a27c8105ccbbb3f52138e1e5fd2bd4df5cf76c09b2c65da",
+      "provenance_cid": "bafybeilukhas01a864e23aa9fc9efda1fd4f5328f11be7191b38b4186a",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_policy.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.registry": {
+      "attestation_path": "security/attestations/lukhas_core_registry.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "56c1ffa1f5e274569b90300e00945c963b982c41f5b9ac97dbc69060f9541ec8",
+      "provenance_cid": "bafybeilukhasc50ae86bbb083c18b8a34797bffb7f55440591f2e0e92a",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_registry.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.reliability": {
+      "attestation_path": "security/attestations/lukhas_core_reliability.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0ce9756c048a91474927701c5faec3aeb06770661ea4072ee5a41267e760ea99",
+      "provenance_cid": "bafybeilukhasf8e6655bcc361a31d8380848ce8eed1c6dd9170eea8aaa",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_reliability.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.symbolic": {
+      "attestation_path": "security/attestations/lukhas_core_symbolic.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "7d4658d0d8301db4b5eef4ff35e1561d4b2e0e15135ca2fbdddad2cb29554dbc",
+      "provenance_cid": "bafybeilukhas31201ed3c4ccfc5da5e60bf2a48cafe6a04ff573b7475f",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_symbolic.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.symbolic.constraints": {
+      "attestation_path": "security/attestations/lukhas_core_symbolic_constraints.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "4fae7e1ec2899467c2e6bd0e2df99b18df69af9d5a4a9d7c37911eac6b1fd9f7",
+      "provenance_cid": "bafybeilukhas10b4a072fdff0a2ffa95fefe7ae2a0838a55b655445d25",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_symbolic_constraints.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.core.symbolism": {
+      "attestation_path": "security/attestations/lukhas_core_symbolism.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "673bfd1009eca9a3a2a9bd9d4b54e8777f8901d174605ebf36c4e3fc5537c407",
+      "provenance_cid": "bafybeilukhas9a2ba9aa1291400c60c6eb4f6de5d84a76540f12b9b28f",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_core_symbolism.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.deployment": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "1a962a0a7bce274580038d0d8f77a2a9991551a459b33fde4b681a66d71c7431",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_deployment.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.emotion": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "f01b38c0409e0b3ad125cb4d1190dbdb0dfe77e0440d550d62728d59bf4c5ad7",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_emotion.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance": {
+      "attestation_path": "security/attestations/lukhas_governance.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0b7a02f61bdac7ebd03ebb3ece00f4874f63e0432a60729b7db97ea9b8b8c807",
+      "provenance_cid": "bafybeilukhas0ef571354003d4326bf0417438f4e4e57f98856a67d37e",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance.consent_ledger": {
+      "attestation_path": "security/attestations/lukhas_governance_consent_ledger.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0b7748f0cd90720b38c5027caf5f9d66a5083a4b05ff9119b1400a4ece08ca49",
+      "provenance_cid": "bafybeilukhasb2ae5b8c6b9e0074dc5d6e4c30d24440ba1efb78eb47dc",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance_consent_ledger.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance.consent_ledger.providers": {
+      "attestation_path": "security/attestations/lukhas_governance_consent_ledger_providers.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "28cf5c08dfc55cd74aa62ef35ef7645b7987c0b133a0579f715f0fbe56bb8017",
+      "provenance_cid": "bafybeilukhas73ebe63e4e4cb7ecebb3b3c1d508d2019db46fd3393032",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance_consent_ledger_providers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance.ethics": {
+      "attestation_path": "security/attestations/lukhas_governance_ethics.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "b9d466f3a50b6adc0370115ab0fdd60570112a8a0464990a4b681558b678b61b",
+      "provenance_cid": "bafybeilukhas1ed64f081d6968dffd359bb3516238ea8cc51daa4749a4",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance_ethics.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance.guardian": {
+      "attestation_path": "security/attestations/lukhas_governance_guardian.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "3f0605e136f75d40f87936007e433e6957d9852d84caa66b39397de0562416e3",
+      "provenance_cid": "bafybeilukhasfcdfc79f30c2d271f5e3e9aa5e2879a0a27d28cfbe88e4",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance_guardian.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance.identity": {
+      "attestation_path": "security/attestations/lukhas_governance_identity.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "11666c352ca1d76df50c18ec3d2ee5073a511f84071690e3d7f9d69b0f9da2b0",
+      "provenance_cid": "bafybeilukhas883784809731404aed32082a884a9ecc8aa967b09bb934",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance_identity.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance.identity.auth_backend": {
+      "attestation_path": "security/attestations/lukhas_governance_identity_auth_backend.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "12da4527ef57b376a4338a64bd26bc08f2d0ec2b0f448eaeab45c4fe06031eb7",
+      "provenance_cid": "bafybeilukhas8336ab0a58890ed969119bc9cf888499aa8e96429c8d44",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance_identity_auth_backend.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.governance.security": {
+      "attestation_path": "security/attestations/lukhas_governance_security.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0d13b88d055f4c70aabaf90659de2890272970b4fbfe2226ea3ce78cc8c6337e",
+      "provenance_cid": "bafybeilukhas0ac7449c3000a615b2bae37bc30fc39d26c531d3ecd8bf",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_governance_security.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity": {
+      "attestation_path": "security/attestations/lukhas_identity.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0322b7b5f0b1b52432addd80b9c41865c8169db4c5dbf2488e54cd62d3b15649",
+      "provenance_cid": "bafybeilukhasb6df364ac9b53d35ed3fb2369e5bd790860934456da27c",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.auth": {
+      "attestation_path": "security/attestations/lukhas_identity_auth.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "07e9eb9883918624c9d6f6712ef480a82af3798a59aa457a6fb542956ce84e04",
+      "provenance_cid": "bafybeilukhas989c2c60b1920a7804f00f52d6e8ccf05ee5b6bce9cf8f",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_auth.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.facades": {
+      "attestation_path": "security/attestations/lukhas_identity_facades.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "e47f2ebb9bd95c3452cf72f7a65f42e82eb85aed626f799039d6ab34b67f0d42",
+      "provenance_cid": "bafybeilukhas457cb86aaf651e9f9c3ceea961b24bdfa6cba532e3f804",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_facades.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.oidc": {
+      "attestation_path": "security/attestations/lukhas_identity_oidc.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "79a9e10db26c6ed0f49ee5ba877bc5928d4c0936a5be0620be726f9617e3cfef",
+      "provenance_cid": "bafybeilukhas7ee1e76a6e18c7ad8bcb72f589a3c09a277660ba34dea8",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_oidc.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.passkey": {
+      "attestation_path": "security/attestations/lukhas_identity_passkey.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "129ce471b2e3e42cd48d2f15180bc93439dba4ca9e7ef2c4246ef92e3c5c1da8",
+      "provenance_cid": "bafybeilukhas1c462d907c894b4a7f98e437ed7f97d33ebfafbb2c0560",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_passkey.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.passkey.providers": {
+      "attestation_path": "security/attestations/lukhas_identity_passkey_providers.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "881321d338b91d04a21de420eb94626293dd82dc8026204cb1fe85c4c9036f9b",
+      "provenance_cid": "bafybeilukhas01071d2903be4897657d83430e18a737d3438e3c8679f7",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_passkey_providers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.qrg": {
+      "attestation_path": "security/attestations/lukhas_identity_qrg.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "5efd610a1cf90bc375e488ef4273f5db04c6f092736a795d24265297f972f245",
+      "provenance_cid": "bafybeilukhas0ead0644472ed0e3c974f3a2d8c1f8f053dd789421b2c6",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_qrg.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.services": {
+      "attestation_path": "security/attestations/lukhas_identity_services.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "7e48a3429536e0f263f04170f9092bfbe9e4388c338245271424efe45e1f4174",
+      "provenance_cid": "bafybeilukhas9ca70455f13abd30a81e487929436079e8069e373661d6",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_services.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.identity.wallet": {
+      "attestation_path": "security/attestations/lukhas_identity_wallet.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "79a2459ad2e9511c63cb88439901ac19c25f89b26fd73ab0ee54db8cc6312c5f",
+      "provenance_cid": "bafybeilukhas80a3b73d28d878d008c817a926314b3c3e16a96b350756",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_identity_wallet.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.ledger": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "288cd3b866dae14275c126d899ad39db2189d592b4305fa604546db8fba4ed17",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_ledger.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.matriz": {
+      "attestation_path": "security/attestations/lukhas_matriz.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "1a5aa45a1c3053718fa05a5818a0cd267df700c986b0c29ef7b4bb08a646ebd0",
+      "provenance_cid": "bafybeilukhas2d2b70a296a7e3d6d5f77911e1746da67038aa8e425d03",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_matriz.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.matriz.runtime": {
+      "attestation_path": "security/attestations/lukhas_matriz_runtime.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "e8b844b6d4d57c7b786f24eacd82dd48ed13b0808ef95216958a4c99548ef262",
+      "provenance_cid": "bafybeilukhas9413b7b82cc738bb1260a56af287ccb4e53fc4f919c6c9",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_matriz_runtime.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.memory": {
+      "attestation_path": "security/attestations/lukhas_memory.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "7f058c648461c4c06cb8735e80d415fec7d22fe82dab4304525c79bd02964d76",
+      "provenance_cid": "bafybeilukhasb60e68880e29fa6fd4d1fe5d8ad57f1a51676b03bd1ea7",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_memory.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.memory.backends": {
+      "attestation_path": "security/attestations/lukhas_memory_backends.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "48bf14aa2abbd23533e26622c5151d4122b97c3e0d40e716900c4deb9bd8a24e",
+      "provenance_cid": "bafybeilukhas3462aae80e42b83e08caf5b81a9b485324193408e69230",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_memory_backends.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.memory.emotional": {
+      "attestation_path": "security/attestations/lukhas_memory_emotional.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "4dd6f8060992e19a0e4f17a85b73bfd5f9235ae2fd61ca5c9dee5faaeff799fd",
+      "provenance_cid": "bafybeilukhas358963d5c0ba793cd815134e447545e6a830b6158f0505",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_memory_emotional.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.observability": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "8127792b54b4d17a1014742655f338a43a598febe458e12d188dce5692193716",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_observability.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.orchestration": {
+      "attestation_path": "security/attestations/lukhas_orchestration.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "c5ef84f5390cdc5c0fcc4aa5d29cdf49c16f314e21db9ce6644eaa19a4488f56",
+      "provenance_cid": "bafybeilukhas55673c7555f4fc57dc8889e289f80195a5d7a5873666e6",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_orchestration.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.orchestration.context": {
+      "attestation_path": "security/attestations/lukhas_orchestration_context.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "1e23216f56bd43d37a0882c5233580ae7027db11f745edee5b58986a13a26afd",
+      "provenance_cid": "bafybeilukhas15eda39cabddc78334f70f161450468be2c1fe7a42f3c1",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_orchestration_context.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.orchestration.providers": {
+      "attestation_path": "security/attestations/lukhas_orchestration_providers.slsa.json",
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "7dd81cf5187d0abdb67e9dbf33c254893020abde456e85a12a487f3a2aa8fede",
+      "provenance_cid": "bafybeilukhas0e47a796a8f7583b5b937c4014fcd6494e5a9aaada064b",
+      "reproducible_build": true,
+      "sbom_path": "security/sboms/modules/lukhas_orchestration_providers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.qi": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "bcaca9961c28077758d30e721199e3d238d690f145768fe9ed4bbdd416225fa0",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_qi.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.rl": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "97daa3920edd30b3b1f693046d604c4a1805d54c3aad6f1f6c3a4caede3c9b8a",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_rl.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.rl.coordination": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "8a9bf8ab2b9718f9b8e4f7db8c24d05fc57026725ea22ea6ad574c6978906373",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_rl_coordination.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.rl.engine": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "75f3e42785c26739b970e9b6709c72f55cba6fcaef1463f0c60a7bc1b6939271",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_rl_engine.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.rl.environments": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "40da319ef56d305f5064579000fcac7a79fbff133ab26129adbb2a154277aee3",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_rl_environments.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.rl.experience": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "dab6e12e0e9186716783409cdf4990832ca0c3d95413987a95393e7dfa52ba3f",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_rl_experience.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.root": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "9b9f2583d3832a1a198d789cf8a237b2209fd06cfd725bd54829ffbde8fcb303",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_root.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.security": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "22b1fec2a4bfb5923b6a190355d6b85d3b3d6610934df06cdd269c0ff51c673a",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_security.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.tools": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "5676d95e2bc67e39aacc5a52d0c8d47616fd46cbc10f0fcc4ed7a4f2231a8412",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_tools.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.trace": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "bd287a7c8b8607c2aec51e59af1f7276decc6e526dc2bd426ecb14579a1247b9",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_trace.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.trinity": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "a39572333229cd2cb363f2c95870f15468b620cddf9b1ac4faf8fb80de8f77a9",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_trinity.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "lukhas.vivox": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "50e641232c9638238ef268749638752f66d29f22dd5189b99964539a5dcb6fc5",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/lukhas_vivox.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "matrix_tracks.status": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "6e470e1737949a4239cd25f5ee86bf3375dc73ecc65f0526b95c08635699c823",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/matrix_tracks_status.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "matriz": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "436733c568ab6ffe0cf2bf4d31565bffab7b32395d8a35ed3eef23b8da49fba0",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/matriz.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "matriz.runtime": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "b34af8fa85f93c251acb54c326d225ddbef5d8bbf0ef8174125d4dcc9ebb06b5",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/matriz_runtime.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "memory": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "7d1e75de560212c46d4d5ede0ac85062402b0b03d099ff5eb4517b9517e49d55",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/memory.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "memory.backends": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "177092220d63c7b1b3bcdaaac74ae47e1df7ffec8bb8fb28ca33305298a28bd2",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/memory_backends.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "memory.emotional": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "2872db5b8bf6c3ea1798f6508a169ae78e0d6b08afad01dd3977f2247292c47f",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/memory_emotional.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "migration": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "e1f263d16ac04f17d5898b2ddcc2bcb447299d03f1f5e63f0a90fff838db4c64",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/migration.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "modulation": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "10260ff52b744d2afc0089670c6ee0e36edf95a7a196cbed6e9bfc4bc3beeec6",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/modulation.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "nias": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "ae389c8abc29f35bf4ea03bf0bb5899f68f2b72491d8dffd7fcf0c7131b18409",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/nias.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "nodes": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "762de296f56a588a7139f1328dd4d39043e3153a9bf2bccaed665e10bcee6252",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/nodes.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "observability": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "4550c4914c33c057595e7de9cb1ab629de6184d7435b0cc950a505524a6a1d80",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/observability.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "openai": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "2880998672c8f13daefb6e768ea080ad6938dead44525bff8393df68db376a0f",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/openai.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "orchestration": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "0d9a5427a4d1bc1091d719aee99c93e498d3c52784b2297df230e4a9b3a32982",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/orchestration.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "orchestration.context": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "98dea38e9ca316c2ea1918d74ffe52b275ac5ba8212487a501850bb095438dde",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/orchestration_context.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "orchestration.providers": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "5aef9ab65b36081d8fc9e25fdc803196277ffe483b22d2cd755ee989cc923c49",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/orchestration_providers.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "orchestrator": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "1901b1695c58e320b7f0da199d403bc97cd616329b64492887e8b805826da1e2",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/orchestrator.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "qi": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "c9e85a9f19f1e98afce80ce7c42e44e2e066173d06e96d9ba8cec570f33f7a84",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/qi.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "quantum_bio_consciousness": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "28c292d2d1b8779a3fc358e9b11cf4067f4292d7f125ea8a7a0ebe860c5ce653",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/quantum_bio_consciousness.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "rl": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "d4c703d3cb97a839c028321a0cace804e771e7b2cc5e6c24f9ddc50578d82e71",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/rl.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "rl.coordination": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "8969a563d1c4717a43b8fce72f16b327b0398dd184ab000291842a335c739b0a",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/rl_coordination.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "rl.engine": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "cf76e88920f4899aa4779ec140acf6d61ca0351ef9fcf778ad2df44e020982eb",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/rl_engine.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "rl.experience": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "666208c4d1c50e3b6da5c6cd70299cdddddac38ed0eccea5f623579c3b63b9f2",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/rl_experience.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "root": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "c4535599dc7662f4bdf0608e219d337535d7faae0f455cbf9421e6d8d8a5a713",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/root.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "security": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "6c36ea67289c619a70ec4c94672525cdd5082abf47b86f7045426f3ff4be764d",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/security.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "shims": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "fae173bec272309ff7251f7c6e274e2cfee3c3a9a7b0b0c76e3bb3761515274f",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/shims.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "tools": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "012239f7edd2b812d139ae635cee3466c531366fe9d5ccc6194f1611318b81a9",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/tools.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "trace": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "73ed1708a838f16528d628187f05ae95cdaae28e36ea1d8b4ede60ab1a1900bd",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/trace.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "trinity": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "f31e8b45e50767e8d52cb4bdf7fe21aa182a829f2abd70b89f65e58b7dff72c2",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/trinity.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "utils": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "2a67fd69b622a10b868c1aa455dee6a0f0329bbb47326a05025539fe59e694bd",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/utils.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "vivox": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "26438a23e6cc3893770dc739647c855b49a9bb2b639f8478191089b1523f99a1",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/vivox.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    },
+    "voice": {
+      "format": "CycloneDX-1.4",
+      "generated_at": "2025-11-01T21:27:07+00:00",
+      "pointer_digest": "3aa8517469a174d632f9e17d532ca9b167b4d1177b8d6906105bb98f00c02bda",
+      "reproducible_build": false,
+      "sbom_path": "security/sboms/modules/voice.cdx.json",
+      "shared_bom": "security/sboms/shared/lukhas-platform.cdx.json"
+    }
+  },
+  "shared_digest": "ab83fc656e0509593b8cc209fc46f1965d4962f87cbb6489cd33632b88faca76"
+}

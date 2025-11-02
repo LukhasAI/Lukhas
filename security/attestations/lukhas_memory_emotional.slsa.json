@@ -1,0 +1,51 @@
+{
+  "buildType": "https://slsa.dev/provenance/v1",
+  "builder": {
+    "id": "https://github.com/LukhasAI/Lukhas/.github/workflows/security-posture.yml"
+  },
+  "invocation": {
+    "configSource": {
+      "digest": {
+        "sha1": "8ed3824d529b2d69b84a29da288e52561fc26747"
+      },
+      "uri": "git+https://github.com/LukhasAI/Lukhas"
+    },
+    "environment": {
+      "repository": "LukhasAI/Lukhas",
+      "workflow": "security-posture-artifacts"
+    },
+    "parameters": {
+      "module": "lukhas.memory.emotional"
+    }
+  },
+  "materials": [
+    {
+      "digest": {
+        "sha256": "358963d5c0ba793cd815134e447545e6a830b6158f05057a05ae70de068f6064"
+      },
+      "uri": "security/sboms/shared/lukhas-platform.cdx.json"
+    }
+  ],
+  "metadata": {
+    "buildFinishedOn": "2025-11-01T21:27:07+00:00",
+    "buildStartedOn": "2025-11-01T21:27:07+00:00",
+    "completeness": {
+      "environment": true,
+      "materials": true,
+      "parameters": true
+    },
+    "reproducible": true
+  },
+  "provenance": {
+    "ipld_root_cid": "bafybeilukhas358963d5c0ba793cd815134e447545e6a830b6158f0505"
+  },
+  "subject": [
+    {
+      "digest": {
+        "sha256": "4dd6f8060992e19a0e4f17a85b73bfd5f9235ae2fd61ca5c9dee5faaeff799fd"
+      },
+      "name": "lukhas.memory.emotional",
+      "uri": "security/sboms/modules/lukhas_memory_emotional.cdx.json"
+    }
+  ]
+}

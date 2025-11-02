@@ -47,6 +47,10 @@ jobs:
           pip install --upgrade pip
           # No additional dependencies needed - uses stdlib only
 
+      - name: Validate Security Posture Artifacts
+        run: |
+          python3 scripts/security/build_security_posture_artifacts.py --validate
+
       - name: Run Security Posture Analysis
         id: analysis
         run: |
