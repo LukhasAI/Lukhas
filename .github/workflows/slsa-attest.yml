@@ -25,7 +25,14 @@ jobs:
         env:
           IN_TOTO_KEY: ${{ secrets.IN_TOTO_KEY }}
         run: |
-          in-toto-run -n build -- python -m pip wheel . -w dist
+          set -euo pipefail
+          echo "$IN_TOTO_KEY" > builder.key
+          trap 'shred -u builder.key 2>/dev/null || rm -f builder.key' EXIT
+          in-toto-run \
+            -n build \
+            --key builder.key \
+            --products dist/*.whl \
+            -- python -m pip wheel . -w dist
       - name: Sign artifacts
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
