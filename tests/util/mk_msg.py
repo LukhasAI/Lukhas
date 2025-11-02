@@ -15,10 +15,10 @@ Usage:
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Optional
 from uuid import UUID, uuid4
 
 from matriz.node_contract import GLYPH, MatrizMessage
-from typing import Optional
 
 
 def mk_msg_from_json(d: dict) -> MatrizMessage:

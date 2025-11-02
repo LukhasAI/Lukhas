@@ -16,7 +16,7 @@ Based on proven patterns from 11 consecutive perfect eliminations.
 import re
 import subprocess
 from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 
 class AutomatedSyntaxFixer:

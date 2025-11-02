@@ -25,11 +25,11 @@ def generate_parameter_schema(capability: Dict[str, Any]) -> Dict[str, Any]:
     Falls back to empty object schema if no parameters defined.
     """
     # Check for explicit schema
-    if "schema" in capability and capability["schema"]:
+    if capability.get("schema"):
         return capability["schema"]
 
     # Check for parameters field (alternative format)
-    if "parameters" in capability and capability["parameters"]:
+    if capability.get("parameters"):
         return capability["parameters"]
 
     # Check interfaces for parameter hints

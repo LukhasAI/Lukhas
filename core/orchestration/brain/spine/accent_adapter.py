@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
-from typing import Callable, Iterable, List, Mapping
+from typing import Callable, List
 
 logger = logging.getLogger("accent_adapter")
 

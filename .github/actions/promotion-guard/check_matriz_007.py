@@ -122,7 +122,7 @@ def print_blockers(issue):
         print(" * " + b)
     print()
     print("REMEDIATION:")
-    print(" - Close the issue #{} after confirming Week 6 completion. Use the issue checklist to mark items done.".format(ISSUE_NUMBER))
+    print(f" - Close the issue #{ISSUE_NUMBER} after confirming Week 6 completion. Use the issue checklist to mark items done.")
     print(" - Ensure the Week 6 checklist in the issue body contains items such as: 'Dilithium2 sign/verify passed', 'Key rotation implemented', 'Red-team sign-off', 'Performance validated', etc.")
     print(" - After closing and verifying, re-run CI to allow promotion.")
     print("="*80)

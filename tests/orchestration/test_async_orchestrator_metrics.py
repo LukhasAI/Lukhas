@@ -6,7 +6,8 @@ Metrics instrumentation tests for the async orchestrator.
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 import pytest
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator

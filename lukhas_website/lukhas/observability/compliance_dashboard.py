@@ -711,7 +711,7 @@ class ComplianceDashboard:
             if 'evidence_statistics' in report.report_data:
                 stats = report.report_data['evidence_statistics']
 
-                if 'by_type' in stats and stats['by_type']:
+                if stats.get('by_type'):
                     fig, ax = plt.subplots(figsize=(10, 6))
                     types = list(stats['by_type'].keys())
                     counts = list(stats['by_type'].values())

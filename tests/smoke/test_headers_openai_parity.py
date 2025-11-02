@@ -5,13 +5,13 @@ Verifies that the API façade exposes OpenAI-style request IDs and
 rate-limit aliases alongside the existing Lukhas headers.
 """
 import os
+from typing import Optional
 
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
-from typing import Optional
 
 
 @pytest.fixture

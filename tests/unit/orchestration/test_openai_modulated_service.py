@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import asyncio
 from collections import deque
-from typing import Any, AsyncIterator
+from collections.abc import AsyncIterator
+from typing import Any
 
 import pytest
 from labs.orchestration.openai_modulated_service import (
