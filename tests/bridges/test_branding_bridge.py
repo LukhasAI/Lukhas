@@ -35,7 +35,7 @@ def test_branding_single_source_of_truth():
     import branding
 
     _mod = _importlib.import_module("labs.branding")
-    canonical_terms = getattr(_mod, "APPROVED_TERMS")
+    canonical_terms = _mod.APPROVED_TERMS
 
     # Should be same object (not a copy)
     assert branding.APPROVED_TERMS is canonical_terms

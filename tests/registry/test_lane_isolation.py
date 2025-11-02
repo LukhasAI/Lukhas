@@ -274,7 +274,7 @@ class TestLaneIsolationEnforcement:
                     # Set discovery to auto
                     with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
                         # Simulate lane-aware discovery
-                        for group in test_plugins.keys():
+                        for group in test_plugins:
                             with patch('core.registry.entry_points', return_value=mock_entry_points_func(group)):
                                 discover_entry_points()
 
@@ -287,7 +287,7 @@ class TestLaneIsolationEnforcement:
                     assert key.startswith(f"{lane_prefix}:"), f"Key {key} should start with {lane_prefix}:"
 
                 # Verify only allowed plugin types are present
-                for group in test_plugins.keys():
+                for group in test_plugins:
                     group_allowed = group in lane_config.allowed_plugin_groups
                     group_plugins_found = any(
                         self._extract_plugin_group_from_key(key) == group

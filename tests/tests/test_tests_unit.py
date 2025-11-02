@@ -104,7 +104,7 @@ class TestTestsIntegration:
 
             # Test MATRIZ pipeline methods
             assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert callable(component.process)
 
         except ImportError:
             pytest.skip("TestsCore not available")

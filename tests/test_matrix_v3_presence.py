@@ -87,7 +87,7 @@ class TestMatrixV3Presence:
         """Test that all v3 sections are present in each contract."""
         contract = load_contract(contract_path)
 
-        for section_name in V3_SECTIONS.keys():
+        for section_name in V3_SECTIONS:
             assert section_name in contract, (
                 f"Contract {contract_path.name} missing v3 section: {section_name}"
             )

@@ -22,7 +22,7 @@ except ImportError:
     List = list
 try:
     _mod = _importlib.import_module("labs.governance.ethics.shared_ethics_engine")
-    SharedEthicsEngine = getattr(_mod, "SharedEthicsEngine")
+    SharedEthicsEngine = _mod.SharedEthicsEngine
 except Exception:
     SharedEthicsEngine = None
 

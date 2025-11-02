@@ -389,7 +389,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             total_ms = (time.perf_counter() - start_time) * 1000
 
             return {
-                "error": f"Pipeline optimization failure: {str(e)}",
+                "error": f"Pipeline optimization failure: {e!s}",
                 "metrics": {
                     "total_duration_ms": total_ms,
                     "optimization_failure": True,

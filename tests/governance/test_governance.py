@@ -21,19 +21,17 @@ from datetime import datetime, timezone
 import pytest
 
 _compliance_mod = _importlib.import_module("labs.governance.ethics.compliance_monitor")
-ComplianceFramework = getattr(_compliance_mod, "ComplianceFramework")
-ComplianceMonitor = getattr(_compliance_mod, "ComplianceMonitor")
-ComplianceStatus = getattr(_compliance_mod, "ComplianceStatus")
+ComplianceFramework = _compliance_mod.ComplianceFramework
+ComplianceMonitor = _compliance_mod.ComplianceMonitor
+ComplianceStatus = _compliance_mod.ComplianceStatus
 
 _ethics_mod = _importlib.import_module("labs.governance.ethics.ethical_decision_maker")
-AdvancedEthicalDecisionMaker = getattr(
-    _ethics_mod, "AdvancedEthicalDecisionMaker"
-)
+AdvancedEthicalDecisionMaker = _ethics_mod.AdvancedEthicalDecisionMaker
 
 _access_mod = _importlib.import_module("labs.governance.security.access_control")
-AccessDecision = getattr(_access_mod, "AccessDecision")
-AccessTier = getattr(_access_mod, "AccessTier")
-AccessType = getattr(_access_mod, "AccessType")
+AccessDecision = _access_mod.AccessDecision
+AccessTier = _access_mod.AccessTier
+AccessType = _access_mod.AccessType
 
 # Skip audit system imports - not required for current tests
 # from candidate.governance.security.audit_system import AuditSystem

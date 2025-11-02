@@ -80,7 +80,7 @@ class ConsciousnessHubMessenger:
         if self._hub is None:
             try:
                 _mod = _importlib.import_module("labs.core.integration.hub_registry")
-                get_hub_registry = getattr(_mod, "get_hub_registry")
+                get_hub_registry = _mod.get_hub_registry
 
                 registry = get_hub_registry()
                 self._hub = registry.get_hub("consciousness")

@@ -135,7 +135,7 @@ class T4ExcellenceValidator:
             print("✅ Validation completed successfully")
 
         except Exception as e:
-            print(f"❌ Validation failed: {str(e)}")
+            print(f"❌ Validation failed: {e!s}")
             self.results["validation_error"] = str(e)
 
         return self.results

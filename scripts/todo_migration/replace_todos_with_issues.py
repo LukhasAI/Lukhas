@@ -109,7 +109,7 @@ def load_mapping(mapfile: Path) -> Dict[str, dict]:
             repo_rel = os.path.relpath(p, Path.cwd())
             # store both repo_rel and original to maximize matching chance
             norm_key_rel = f"{repo_rel}:{line}"
-            norm_key_orig = f"{str(p)}:{line}"
+            norm_key_orig = f"{p!s}:{line}"
             norm[norm_key_rel] = v
             norm[norm_key_orig] = v
         except Exception:

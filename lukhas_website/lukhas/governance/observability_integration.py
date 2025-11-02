@@ -667,4 +667,4 @@ def metrics_endpoint() -> str:
         return prometheus_client.generate_latest().decode('utf-8')
     except Exception as e:
         logger.error(f"Error generating metrics: {e}")
-        return f"# Error generating metrics: {str(e)}\n"
+        return f"# Error generating metrics: {e!s}\n"

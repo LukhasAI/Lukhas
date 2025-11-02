@@ -203,7 +203,7 @@ async def demonstrate_orchestration_flow():
             print(f"  📄 Response preview: {response.response[:100]}..." if response.response else "  📄 No response content")
 
         except Exception as e:
-            print(f"  ❌ Error: {str(e)}")
+            print(f"  ❌ Error: {e!s}")
 
         print()
 

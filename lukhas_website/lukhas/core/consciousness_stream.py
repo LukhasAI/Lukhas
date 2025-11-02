@@ -732,7 +732,7 @@ class ConsciousnessStream:
             logger.error(f"Guardian validation failed for state transition: {e}")
             return {
                 "approved": False,
-                "reason": f"Guardian validation error: {str(e)}",
+                "reason": f"Guardian validation error: {e!s}",
                 "guardian_available": True,
                 "error": True
             }

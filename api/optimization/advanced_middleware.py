@@ -148,7 +148,7 @@ class BaseMiddleware(ABC):
         """Handle errors during processing."""
         self.metrics["errors"] += 1
         return {
-            "error": f"Middleware {self.name} error: {str(error)}",
+            "error": f"Middleware {self.name} error: {error!s}",
             "type": type(error).__name__
         }
 
@@ -417,7 +417,7 @@ class ValidationMiddleware(BaseMiddleware):
                 except json.JSONDecodeError as e:
                     self.metrics["requests_blocked"] += 1
                     return False, {
-                        "error": f"Invalid JSON: {str(e)}",
+                        "error": f"Invalid JSON: {e!s}",
                         "status": 400
                     }
 
@@ -625,7 +625,7 @@ class LUKHASMiddlewarePipeline:
         except Exception as e:
             logger.error(f"Pipeline processing error: {e}")
             self.processing_stats["error_requests"] += 1
-            return False, {"error": f"Pipeline error: {str(e)}", "status": 500}
+            return False, {"error": f"Pipeline error: {e!s}", "status": 500}
 
     async def process_response(self, metadata: RequestMetadata,
                              response_data: Dict[str, Any]) -> Dict[str, Any]:

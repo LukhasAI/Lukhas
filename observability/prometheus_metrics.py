@@ -10,7 +10,7 @@ __all__ = []
 # Added for test compatibility (observability.prometheus_metrics.PROMETHEUS_AVAILABLE)
 try:
     _mod = _importlib.import_module("labs.observability.prometheus_metrics")
-    PROMETHEUS_AVAILABLE = getattr(_mod, "PROMETHEUS_AVAILABLE")
+    PROMETHEUS_AVAILABLE = _mod.PROMETHEUS_AVAILABLE
 except Exception:
     PROMETHEUS_AVAILABLE = None  # Stub placeholder
 try:
@@ -23,7 +23,7 @@ if "PROMETHEUS_AVAILABLE" not in __all__:
 # Added for test compatibility (observability.prometheus_metrics.LUKHASMetrics)
 try:
     _mod = _importlib.import_module("labs.observability.prometheus_metrics")
-    LUKHASMetrics = getattr(_mod, "LUKHASMetrics")
+    LUKHASMetrics = _mod.LUKHASMetrics
 except Exception:
 
     class LUKHASMetrics:
@@ -44,7 +44,7 @@ if "LUKHASMetrics" not in __all__:
 # Added for test compatibility (observability.prometheus_metrics.MetricsConfig)
 try:
     _mod = _importlib.import_module("labs.observability.prometheus_metrics")
-    MetricsConfig = getattr(_mod, "MetricsConfig")
+    MetricsConfig = _mod.MetricsConfig
 except Exception:
 
     class MetricsConfig:

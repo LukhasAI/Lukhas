@@ -338,7 +338,7 @@ class MockBiometricProvider:
         except Exception as e:
             self.logger.error("Biometric enrollment failed",
                             user_id=user_id, modality=modality.value, error=str(e))
-            return False, f"Enrollment error: {str(e)}"
+            return False, f"Enrollment error: {e!s}"
 
     async def authenticate_biometric(
         self,

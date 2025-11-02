@@ -597,7 +597,7 @@ class ComplianceFramework:
         except Exception as e:
             logger.exception(f"Automated assessment failed for {control.id}: {e}")
             result_status = ControlStatus.NON_COMPLIANT
-            findings = [f"Assessment automation failed: {str(e)}"]
+            findings = [f"Assessment automation failed: {e!s}"]
             recommendations = ["Review automation handler and control implementation"]
             confidence = 0.5
             metadata = {"error": str(e)}

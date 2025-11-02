@@ -231,7 +231,7 @@ class ContradictionIntegrator:
                 detection_accuracy=0.0,
                 processing_time_ms=processing_time,
                 scope_coverage={},
-                recommendations=[f"Error in detection: {str(e)}"],
+                recommendations=[f"Error in detection: {e!s}"],
                 meta_assessment={"error": str(e)},
                 success=False,
                 error_message=str(e)
@@ -302,7 +302,7 @@ class ContradictionIntegrator:
                 detection_accuracy=0.0,
                 processing_time_ms=processing_time,
                 scope_coverage={},
-                recommendations=[f"Detection failed: {str(e)}"],
+                recommendations=[f"Detection failed: {e!s}"],
                 meta_assessment={"error": str(e)},
                 success=False,
                 error_message=str(e)
@@ -523,7 +523,7 @@ class ContradictionIntegrator:
                 detection_accuracy=0.0,
                 processing_time_ms=processing_time,
                 scope_coverage=scope_coverage,
-                recommendations=[f"Detection failed: {str(e)}"],
+                recommendations=[f"Detection failed: {e!s}"],
                 meta_assessment={"error": str(e)},
                 success=False,
                 error_message=str(e)

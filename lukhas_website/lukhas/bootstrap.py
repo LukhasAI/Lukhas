@@ -124,7 +124,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
     # Log overall status
     services_up = sum(1 for service, status in initialization_results.items()
                      if service != "lane" and status)
-    total_services = len([k for k in initialization_results.keys() if k != "lane"])
+    total_services = len([k for k in initialization_results if k != "lane"])
 
     logger.info(f"🚀 LUKHAS Bootstrap Complete: {services_up}/{total_services} services initialized")
 

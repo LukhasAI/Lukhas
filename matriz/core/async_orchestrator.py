@@ -309,7 +309,7 @@ async def run_with_timeout(
         return StageResult(
             stage_type=stage_type,
             success=False,
-            error=f"Stage {stage_type.value} error: {str(e)}",
+            error=f"Stage {stage_type.value} error: {e!s}",
             duration_ms=duration_ms,
         )
 
@@ -494,7 +494,7 @@ class AsyncCognitiveOrchestrator:
         for node_name, node in self.available_nodes.items():
             if hasattr(node, 'capabilities') and required_capability in getattr(node, 'capabilities', []):
                 candidate_nodes.append(node_name)
-            elif hasattr(node, 'can_handle') and callable(getattr(node, 'can_handle')):
+            elif hasattr(node, 'can_handle') and callable(node.can_handle):
                 try:
                     if node.can_handle(required_capability):
                         candidate_nodes.append(node_name)
@@ -933,7 +933,7 @@ class AsyncCognitiveOrchestrator:
                     finally:
                         loop.close()
                 except Exception as e:
-                    return {"error": f"Async node processing failed: {str(e)}"}
+                    return {"error": f"Async node processing failed: {e!s}"}
 
             def validate_output(self, output: Dict[str, Any]) -> bool:
                 """Basic validation for async node outputs"""

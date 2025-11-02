@@ -240,7 +240,7 @@ class SecurityAuditor:
                 title="Security Audit System Error",
                 severity=SecurityLevel.CRITICAL,
                 status=AuditStatus.ERROR,
-                description=f"Audit system error: {str(e)}",
+                description=f"Audit system error: {e!s}",
                 recommendation="Fix audit system configuration and retry"
             )
             self.report.findings.append(finding)
@@ -315,7 +315,7 @@ class SecurityAuditor:
                 title="Static Analysis Error",
                 severity=SecurityLevel.HIGH,
                 status=AuditStatus.ERROR,
-                description=f"Static analysis failed: {str(e)}",
+                description=f"Static analysis failed: {e!s}",
                 recommendation="Install Semgrep and verify configuration"
             )
             self.report.findings.append(finding)
@@ -429,7 +429,7 @@ class SecurityAuditor:
                 title="Cryptographic Hygiene Test Error",
                 severity=SecurityLevel.HIGH,
                 status=AuditStatus.ERROR,
-                description=f"Failed to run crypto hygiene tests: {str(e)}",
+                description=f"Failed to run crypto hygiene tests: {e!s}",
                 recommendation="Install test dependencies and verify test configuration"
             )
             self.report.findings.append(finding)

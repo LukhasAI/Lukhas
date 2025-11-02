@@ -237,7 +237,7 @@ class MetaCognitiveAssessor:
                 ),
                 insights=[],
                 cognitive_load_assessment=CognitiveLoadLevel.EXCESSIVE,
-                recommended_adjustments=[f"Error in assessment: {str(e)}"],
+                recommended_adjustments=[f"Error in assessment: {e!s}"],
                 self_awareness_score=0.0,
                 meta_reasoning_quality=0.0,
                 processing_time_ms=processing_time,

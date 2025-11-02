@@ -230,7 +230,7 @@ class AwarenessEngine:
         """Calculate signal strength and signal-to-noise ratio."""
 
         # Signal strength based on number and quality of signals
-        signal_count = len([k for k in signals.keys() if not k.startswith("_")])
+        signal_count = len([k for k in signals if not k.startswith("_")])
         signal_strength = min(signal_count / 10.0, 1.0)  # Normalize to [0,1]
 
         # Simple noise calculation based on signal variability

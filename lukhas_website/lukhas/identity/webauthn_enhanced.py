@@ -444,7 +444,7 @@ class EnhancedWebAuthnService:
             return WebAuthnVerificationResult(
                 success=False,
                 error_code="VERIFICATION_ERROR",
-                error_message=f"Internal verification error: {str(e)}",
+                error_message=f"Internal verification error: {e!s}",
                 verification_time_ms=duration_ms
             )
 
@@ -630,7 +630,7 @@ class EnhancedWebAuthnService:
             return WebAuthnVerificationResult(
                 success=False,
                 error_code="SIGNATURE_VERIFICATION_ERROR",
-                error_message=f"Signature verification error: {str(e)}"
+                error_message=f"Signature verification error: {e!s}"
             )
 
     async def _mock_signature_verification(

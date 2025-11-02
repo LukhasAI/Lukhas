@@ -579,7 +579,7 @@ class ComprehensiveCoverageFramework:
             except Exception as e:
                 logger.warning(f"Test scenario failed: {scenario.name} - {e}")
                 scenario.success = False
-                scenario.actual_outcome = f"error: {str(e)}"
+                scenario.actual_outcome = f"error: {e!s}"
 
         # Calculate overall coverage
         self._calculate_overall_coverage()
@@ -665,7 +665,7 @@ class ComprehensiveCoverageFramework:
         except asyncio.TimeoutError:
             return {'success': True, 'outcome': 'timeout_handled'}
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_inference_test'}
 
@@ -714,7 +714,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_thought_test'}
 
@@ -775,7 +775,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_contradiction_test'}
 
@@ -820,7 +820,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_meta_cognitive_test'}
 
@@ -912,7 +912,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_integration_test'}
 
@@ -1036,7 +1036,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'performance_error: {str(e)}'}
+            return {'success': False, 'outcome': f'performance_error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_performance_test'}
 
@@ -1117,7 +1117,7 @@ class ComprehensiveCoverageFramework:
 
         except Exception as e:
             # For rare edge cases, controlled failure is acceptable
-            return {'success': True, 'outcome': f'edge_case_handled: {str(e)}'}
+            return {'success': True, 'outcome': f'edge_case_handled: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_rare_edge_test'}
 

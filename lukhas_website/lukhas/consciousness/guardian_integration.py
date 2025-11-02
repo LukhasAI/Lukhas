@@ -480,7 +480,7 @@ class ConsciousnessGuardianIntegration:
                     validation_type=context.validation_type,
                     result=ValidationResult.ERROR,  # Fail-closed
                     validation_duration_ms=validation_duration,
-                    reason=f"Guardian validation error: {str(e)}",
+                    reason=f"Guardian validation error: {e!s}",
                     confidence=0.0
                 )
 

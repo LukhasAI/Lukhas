@@ -657,7 +657,7 @@ class RequestAnalyzer:
 
         # Identify suspicious headers
         suspicious_headers = [
-            header for header in headers.keys()
+            header for header in headers
             if any(suspicious in header.lower() for suspicious in self._suspicious_headers)
         ]
 

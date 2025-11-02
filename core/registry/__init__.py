@@ -7,8 +7,8 @@ from __future__ import annotations
 import importlib as _importlib
 try:
     _mod = _importlib.import_module("labs.core.identity.registry")
-    _REG = getattr(_mod, "_REG")
-    register = getattr(_mod, "register")
+    _REG = _mod._REG
+    register = _mod.register
 except Exception:
     _REG = None
     register = None

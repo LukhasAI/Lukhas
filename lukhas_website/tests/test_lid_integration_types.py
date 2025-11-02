@@ -177,9 +177,9 @@ lid_module = importlib.util.module_from_spec(spec)
 sys.modules[MODULE_NAME] = lid_module
 spec.loader.exec_module(lid_module)
 
-LiDTokenSystemTest = getattr(lid_module, "LiDTokenSystemTest")
-TierLevel = getattr(lid_module, "TierLevel")
-ValidationResult = getattr(lid_module, "ValidationResult")
+LiDTokenSystemTest = lid_module.LiDTokenSystemTest
+TierLevel = lid_module.TierLevel
+ValidationResult = lid_module.ValidationResult
 
 
 def test_normalize_validation_tier_defaults_to_authenticated():

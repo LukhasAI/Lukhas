@@ -52,28 +52,28 @@ except ImportError:
     logging.warning("ConsentLedgerV1 not available - using fallback")
 try:
     _mod = _importlib.import_module("labs.governance.guardian.drift_detector")
-    AdvancedDriftDetector = getattr(_mod, "AdvancedDriftDetector")
-    DriftSeverity = getattr(_mod, "DriftSeverity")
-    DriftType = getattr(_mod, "DriftType")
+    AdvancedDriftDetector = _mod.AdvancedDriftDetector
+    DriftSeverity = _mod.DriftSeverity
+    DriftType = _mod.DriftType
 except Exception:
     AdvancedDriftDetector = None
     DriftSeverity = None
     DriftType = None
 try:
     _mod = _importlib.import_module("labs.governance.identity.core.sent.policy_engine")
-    ComprehensiveEthicsPolicyEngine = getattr(_mod, "ComprehensiveEthicsPolicyEngine")
-    EthicalFramework = getattr(_mod, "EthicalFramework")
-    PolicyAction = getattr(_mod, "PolicyAction")
+    ComprehensiveEthicsPolicyEngine = _mod.ComprehensiveEthicsPolicyEngine
+    EthicalFramework = _mod.EthicalFramework
+    PolicyAction = _mod.PolicyAction
 except Exception:
     ComprehensiveEthicsPolicyEngine = None
     EthicalFramework = None
     PolicyAction = None
 try:
     _mod = _importlib.import_module("labs.governance.security.audit_system")
-    AuditCategory = getattr(_mod, "AuditCategory")
-    AuditEventType = getattr(_mod, "AuditEventType")
-    AuditLevel = getattr(_mod, "AuditLevel")
-    ComprehensiveAuditSystem = getattr(_mod, "ComprehensiveAuditSystem")
+    AuditCategory = _mod.AuditCategory
+    AuditEventType = _mod.AuditEventType
+    AuditLevel = _mod.AuditLevel
+    ComprehensiveAuditSystem = _mod.ComprehensiveAuditSystem
 except Exception:
     AuditCategory = None
     AuditEventType = None

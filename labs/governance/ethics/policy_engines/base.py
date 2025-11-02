@@ -125,7 +125,7 @@ class BasePolicyEngine(ABC):
             return PolicyEngineResult(
                 decision=PolicyDecision.REQUIRES_REVIEW,
                 confidence=0.0,
-                reasoning=f"Evaluation error: {str(e)}",
+                reasoning=f"Evaluation error: {e!s}",
                 policy_violations=["evaluation_error"],
                 recommendations=["Manual review required"],
                 metadata={"error": str(e)},

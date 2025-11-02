@@ -21,7 +21,7 @@ _ff_module = import_module(f"{_CANONICAL_PACKAGE}.ff")
 # redirected module in ``sys.modules``.
 sys.modules.setdefault(__name__ + ".ff", _ff_module)
 
-Flags: Any = getattr(_ff_module, "Flags")
+Flags: Any = _ff_module.Flags
 
 __all__ = getattr(_flags_pkg, "__all__", []).copy()
 if "Flags" not in __all__:

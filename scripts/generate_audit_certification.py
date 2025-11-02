@@ -229,7 +229,7 @@ class AuditCertificationGenerator:
             standards = self.certification_standards["performance_requirements"]
 
             for metric_name, limit in standards.items():
-                if metric_name.replace("_us", "") in [k.replace("_p95", "") for k in metrics.keys()]:
+                if metric_name.replace("_us", "") in [k.replace("_p95", "") for k in metrics]:
                     metric_key = metric_name.replace("_us", "_p95")
                     if metric_key in metrics and metrics[metric_key]:
                         if metrics[metric_key] > limit["max"]:

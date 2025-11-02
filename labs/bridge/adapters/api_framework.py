@@ -403,7 +403,7 @@ class JWTAdapter:
         except jwt.DecodeError as e:
             return TokenValidationResult(
                 valid=False,
-                error=f"Token decode error: {str(e)}",
+                error=f"Token decode error: {e!s}",
                 error_code="DECODE_ERROR",
                 validation_metadata={
                     "expected_type": expected_type.value if expected_type else None,
@@ -414,7 +414,7 @@ class JWTAdapter:
             logger.error(f"Token verification failed: {e}", exc_info=True)
             return TokenValidationResult(
                 valid=False,
-                error=f"Verification error: {str(e)}",
+                error=f"Verification error: {e!s}",
                 error_code="VERIFICATION_ERROR",
                 validation_metadata={
                     "expected_type": expected_type.value if expected_type else None,

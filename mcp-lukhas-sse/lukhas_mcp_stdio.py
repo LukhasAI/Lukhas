@@ -69,7 +69,7 @@ async def list_directory(path: str) -> str:
 
     except Exception as e:
         logger.error(f"Error listing directory {path}: {e}")
-        return f"Error listing directory: {str(e)}"
+        return f"Error listing directory: {e!s}"
 
 @mcp.tool()
 async def read_file(path: str, max_lines: int = 100) -> str:
@@ -126,7 +126,7 @@ async def read_file(path: str, max_lines: int = 100) -> str:
         return f"Error: File '{path}' appears to be a binary file or uses unsupported encoding"
     except Exception as e:
         logger.error(f"Error reading file {path}: {e}")
-        return f"Error reading file: {str(e)}"
+        return f"Error reading file: {e!s}"
 
 @mcp.tool()
 async def search_files(directory: str, pattern: str, max_results: int = 20) -> str:
@@ -190,7 +190,7 @@ async def search_files(directory: str, pattern: str, max_results: int = 20) -> s
 
     except Exception as e:
         logger.error(f"Error searching files in {directory}: {e}")
-        return f"Error searching files: {str(e)}"
+        return f"Error searching files: {e!s}"
 
 @mcp.tool()
 async def get_system_info() -> str:
@@ -232,7 +232,7 @@ async def get_system_info() -> str:
 
     except Exception as e:
         logger.error(f"Error getting system info: {e}")
-        return f"Error getting system info: {str(e)}"
+        return f"Error getting system info: {e!s}"
 
 if __name__ == "__main__":
     # Set environment variables for security

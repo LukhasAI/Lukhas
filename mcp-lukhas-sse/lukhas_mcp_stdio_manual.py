@@ -184,7 +184,7 @@ class LukhasMCPServer:
 
         except Exception as e:
             logger.error(f"Error listing directory {path}: {e}")
-            return json.dumps({"error": f"Error listing directory: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error listing directory: {e!s}"}, indent=2)
 
     async def read_file_tool(self, path: str, max_lines: int = 100) -> str:
         """Read the contents of a text file."""
@@ -243,7 +243,7 @@ class LukhasMCPServer:
             }, indent=2)
         except Exception as e:
             logger.error(f"Error reading file {path}: {e}")
-            return json.dumps({"error": f"Error reading file: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error reading file: {e!s}"}, indent=2)
 
     async def search_files_tool(self, directory: str, pattern: str, max_results: int = 20) -> str:
         """Search for files matching a pattern in a directory."""
@@ -304,7 +304,7 @@ class LukhasMCPServer:
 
         except Exception as e:
             logger.error(f"Error searching files in {directory}: {e}")
-            return json.dumps({"error": f"Error searching files: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error searching files: {e!s}"}, indent=2)
 
     async def get_lukhas_info_tool(self) -> str:
         """Get information about the LUKHAS AI system and Constellation Framework."""
@@ -353,7 +353,7 @@ class LukhasMCPServer:
 
         except Exception as e:
             logger.error(f"Error getting LUKHAS info: {e}")
-            return json.dumps({"error": f"Error getting system info: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error getting system info: {e!s}"}, indent=2)
 
     async def handle_tools_call(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Handle tools/call request."""
@@ -409,7 +409,7 @@ class LukhasMCPServer:
                 "id": request.get("id"),
                 "error": {
                     "code": -32603,
-                    "message": f"Internal error executing tool: {str(e)}"
+                    "message": f"Internal error executing tool: {e!s}"
                 }
             }
 

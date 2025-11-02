@@ -246,7 +246,7 @@ class MigrationEngine:
                 source_version=from_version,
                 target_version=to_version,
                 migration_time_ms=migration_time,
-                errors=[f"Migration failed: {str(e)}"]
+                errors=[f"Migration failed: {e!s}"]
             )
 
     def check_compatibility(

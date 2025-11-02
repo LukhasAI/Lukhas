@@ -755,9 +755,9 @@ class MultiBrain:
     ) -> dict[str, Any]:
         handler: Optional[Callable[..., Any]] = None
         if hasattr(entry["instance"], "handle_message"):
-            handler = getattr(entry["instance"], "handle_message")
+            handler = entry["instance"].handle_message
         elif hasattr(entry["instance"], "process_signal"):
-            handler = getattr(entry["instance"], "process_signal")
+            handler = entry["instance"].process_signal
 
         if handler is None:
             return {

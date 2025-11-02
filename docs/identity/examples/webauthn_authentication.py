@@ -263,7 +263,7 @@ def verify_credential_authentication(
                 status_code=403,
                 detail="Security check failed. Please re-register your device."
             )
-        raise ValueError(f"Authentication verification failed: {str(e)}")
+        raise ValueError(f"Authentication verification failed: {e!s}")
 
 
 # --- API Endpoints ---
@@ -327,7 +327,7 @@ async def start_authentication(request_data: Dict) -> JSONResponse:
         return JSONResponse(content=options)
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate options: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate options: {e!s}")
 
 
 @app.post("/api/auth/webauthn/authenticate/complete")
@@ -390,7 +390,7 @@ async def complete_authentication(request_data: Dict) -> JSONResponse:
     except HTTPException:
         raise
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=f"Verification failed: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Verification failed: {e!s}")
 
     # Update sign counter in database (prevents replay attacks)
     credential_id = credential["id"]
@@ -407,7 +407,7 @@ async def complete_authentication(request_data: Dict) -> JSONResponse:
             raise ValueError("Failed to update sign counter")
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to update credential: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to update credential: {e!s}")
 
     # Clean up challenge
     del challenge_store[username]

@@ -205,7 +205,7 @@ class JSONSchemaValidator(SchemaValidator):
             validation_time = (time.perf_counter() - start_time) * 1000
             return SchemaValidationResult(
                 is_valid=False,
-                errors=[f"Validation error: {str(e)}"],
+                errors=[f"Validation error: {e!s}"],
                 validation_time_ms=validation_time,
                 compliance_score=0.0
             )

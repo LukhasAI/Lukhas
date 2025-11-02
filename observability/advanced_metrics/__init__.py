@@ -82,7 +82,7 @@ __all__ = [
 # Added for test compatibility (observability.advanced_metrics.AnomalyType)
 try:
     _mod = _importlib.import_module("labs.observability.advanced_metrics")
-    AnomalyType = getattr(_mod, "AnomalyType")
+    AnomalyType = _mod.AnomalyType
 except Exception:
     from enum import Enum
 
@@ -103,7 +103,7 @@ if "AnomalyType" not in __all__:
 # Added for test compatibility (observability.advanced_metrics.MetricAnomaly)
 try:
     _mod = _importlib.import_module("labs.observability.advanced_metrics")
-    MetricAnomaly = getattr(_mod, "MetricAnomaly")
+    MetricAnomaly = _mod.MetricAnomaly
 except Exception:
 
     class MetricAnomaly:
@@ -124,7 +124,7 @@ if "MetricAnomaly" not in __all__:
 # Added for test compatibility (observability.advanced_metrics.MetricSeverity)
 try:
     _mod = _importlib.import_module("labs.observability.advanced_metrics")
-    MetricSeverity = getattr(_mod, "MetricSeverity")
+    MetricSeverity = _mod.MetricSeverity
 except Exception:
     from enum import Enum
 

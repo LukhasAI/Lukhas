@@ -120,7 +120,7 @@ class LegacyShim(MatrizNode):
             token = mk_guardian_token(self.name, msg.lane, msg.msg_id)
             return MatrizResult(
                 ok=False,
-                reasons=[f"Legacy processing error: {str(e)}"],
+                reasons=[f"Legacy processing error: {e!s}"],
                 payload={},
                 trace={
                     "error": str(e),

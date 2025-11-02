@@ -65,7 +65,7 @@ def render_tree(tree: Dict, indent: int = 0, path_prefix: str = "") -> List[str]
     indent_str = "  " * indent
 
     # Sort directories first, then files
-    dirs = sorted([k for k in tree.keys() if k != '_files'])
+    dirs = sorted([k for k in tree if k != '_files'])
     files = tree.get('_files', [])
 
     # Render directories

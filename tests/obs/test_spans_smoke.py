@@ -3,7 +3,7 @@ import contextlib
 import importlib as _importlib
 
 _mod = _importlib.import_module("labs.core.orchestration.otel")
-stage_span = getattr(_mod, "stage_span")
+stage_span = _mod.stage_span
 
 
 def test_span_noop_ok():

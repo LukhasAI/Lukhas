@@ -119,7 +119,7 @@ class DirectoryIndexUpdater:
                 if self.update_single_index(index_file):
                     results["updated_files"] += 1
             except Exception as e:
-                error_msg = f"Error updating {index_file}: {str(e)}"
+                error_msg = f"Error updating {index_file}: {e!s}"
                 results["errors"].append(error_msg)
                 print(f"ERROR: {error_msg}")
 
@@ -152,7 +152,7 @@ class DirectoryIndexUpdater:
             return True
 
         except Exception as e:
-            raise Exception(f"Failed to update {index_file}: {str(e)}")
+            raise Exception(f"Failed to update {index_file}: {e!s}")
 
     def modernize_index_data(self, data: Dict[str, Any], file_path: Path) -> Dict[str, Any]:
         """Apply all modernization transformations to index data"""

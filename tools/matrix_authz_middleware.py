@@ -165,7 +165,7 @@ class MatrixAuthzMiddleware:
                 logger.exception("Authorization error")
                 decision = AuthzDecision(
                     allowed=False,
-                    reason=f"Authorization error: {str(e)}"
+                    reason=f"Authorization error: {e!s}"
                 )
                 return await self._finalize_decision(request, decision, span, start_time)
 
@@ -207,7 +207,7 @@ class MatrixAuthzMiddleware:
             logger.error(f"OPA query failed: {e}")
             return {
                 "allow": False,
-                "reason": f"Policy evaluation failed: {str(e)}"
+                "reason": f"Policy evaluation failed: {e!s}"
             }
 
     async def _simulate_opa_decision(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
@@ -259,7 +259,7 @@ class MatrixAuthzMiddleware:
             logger.error(f"OPA simulation error: {e}")
             return {
                 "allow": False,
-                "reason": f"Policy simulation failed: {str(e)}"
+                "reason": f"Policy simulation failed: {e!s}"
             }
 
     def _fallback_policy_simulation(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:

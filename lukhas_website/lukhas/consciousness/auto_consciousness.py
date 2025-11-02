@@ -410,7 +410,7 @@ class AutoConsciousness:
             # Conservative default on Guardian failure
             return GuardianResponse(
                 approved=False,
-                reason=f"Guardian validation failed: {str(e)}",
+                reason=f"Guardian validation failed: {e!s}",
                 confidence=0.0
             )
 

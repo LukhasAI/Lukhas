@@ -32,7 +32,7 @@ class IdentityAdapter(MatrizNode):
 # Added for test compatibility (matriz.adapters.identity_adapter.UidentityAdapter)
 try:
     _candidate_module = importlib.import_module("candidate.matriz.adapters.identity_adapter")
-    UidentityAdapter = getattr(_candidate_module, "UidentityAdapter")  # type: ignore[assignment]
+    UidentityAdapter = _candidate_module.UidentityAdapter  # type: ignore[assignment]
 except Exception:  # pragma: no cover - fallback for missing candidate module
 
     class UidentityAdapter:

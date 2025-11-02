@@ -225,7 +225,7 @@ class AGIToCognitiveMigrator:
             return False, 0
 
         except Exception as e:
-            error_msg = f"Error processing {file_path}: {str(e)}"
+            error_msg = f"Error processing {file_path}: {e!s}"
             logger.error(error_msg)
             self.stats['errors'].append(error_msg)
             return False, 0
@@ -316,7 +316,7 @@ class AGIToCognitiveMigrator:
                         logger.info(f"📋 {file_path}: {total_matches} potential changes")
 
                 except Exception as e:
-                    logger.error(f"Error previewing {file_path}: {str(e)}")
+                    logger.error(f"Error previewing {file_path}: {e!s}")
             else:
                 modified, count = self.migrate_file(file_path)
                 if modified:

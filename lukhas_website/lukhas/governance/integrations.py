@@ -202,7 +202,7 @@ class IdentityIntegration(SystemIntegration):
 
         except Exception as e:
             logger.error(f"Identity integration failed: {e}", exc_info=True)
-            result.errors.append(f"Identity integration error: {str(e)}")
+            result.errors.append(f"Identity integration error: {e!s}")
         finally:
             result.execution_time_ms = (time.perf_counter() - start_time) * 1000
 
@@ -256,7 +256,7 @@ class IdentityIntegration(SystemIntegration):
             }
             return validation_result
         except Exception as e:
-            return {"valid": False, "reason": f"Authentication error: {str(e)}"}
+            return {"valid": False, "reason": f"Authentication error: {e!s}"}
 
     def _enhance_with_identity(
         self,
@@ -320,7 +320,7 @@ class MemoryIntegration(SystemIntegration):
 
         except Exception as e:
             logger.error(f"Memory integration failed: {e}", exc_info=True)
-            result.errors.append(f"Memory integration error: {str(e)}")
+            result.errors.append(f"Memory integration error: {e!s}")
         finally:
             result.execution_time_ms = (time.perf_counter() - start_time) * 1000
 
@@ -378,7 +378,7 @@ class MemoryIntegration(SystemIntegration):
             }
 
         except Exception as e:
-            return {"success": False, "reason": f"Storage error: {str(e)}"}
+            return {"success": False, "reason": f"Storage error: {e!s}"}
 
 
 class ConsciousnessIntegration(SystemIntegration):
@@ -418,7 +418,7 @@ class ConsciousnessIntegration(SystemIntegration):
 
         except Exception as e:
             logger.error(f"Consciousness integration failed: {e}", exc_info=True)
-            result.errors.append(f"Consciousness integration error: {str(e)}")
+            result.errors.append(f"Consciousness integration error: {e!s}")
         finally:
             result.execution_time_ms = (time.perf_counter() - start_time) * 1000
 
@@ -480,7 +480,7 @@ class ConsciousnessIntegration(SystemIntegration):
             }
 
         except Exception as e:
-            return {"valid": False, "reason": f"Ethical validation error: {str(e)}"}
+            return {"valid": False, "reason": f"Ethical validation error: {e!s}"}
 
     def _enhance_with_consciousness(
         self,
@@ -539,7 +539,7 @@ class ObservabilityIntegration(SystemIntegration):
 
         except Exception as e:
             logger.error(f"Observability integration failed: {e}", exc_info=True)
-            result.warnings.append(f"Observability integration error: {str(e)}")
+            result.warnings.append(f"Observability integration error: {e!s}")
             result.success = True  # Non-critical for core functionality
         finally:
             result.execution_time_ms = (time.perf_counter() - start_time) * 1000
@@ -597,7 +597,7 @@ class ObservabilityIntegration(SystemIntegration):
             }
 
         except Exception as e:
-            return {"success": False, "reason": f"Metrics collection error: {str(e)}"}
+            return {"success": False, "reason": f"Metrics collection error: {e!s}"}
 
 
 class IntegrationOrchestrator:
@@ -653,7 +653,7 @@ class IntegrationOrchestrator:
                 results[integration_type] = IntegrationResult(
                     success=False,
                     context=context,
-                    errors=[f"Integration error: {str(e)}"]
+                    errors=[f"Integration error: {e!s}"]
                 )
 
         return results

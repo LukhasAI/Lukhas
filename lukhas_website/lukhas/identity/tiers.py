@@ -334,7 +334,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T1",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -424,7 +424,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T2",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -512,7 +512,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T3",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -618,7 +618,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T4",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -706,7 +706,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T5",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -985,7 +985,7 @@ class TieredAuthenticator:
             return AuthResult(
                 tier="T1",
                 ok=False,
-                reason=f"validation_error: {str(e)}",
+                reason=f"validation_error: {e!s}",
                 duration_ms=(time.perf_counter() - start_time) * 1000
             )
 

@@ -106,7 +106,7 @@ class TestSchemaIntegration:
 
             # Test MATRIZ pipeline methods
             assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert callable(component.process)
 
         except ImportError:
             pytest.skip("SchemaCore not available")

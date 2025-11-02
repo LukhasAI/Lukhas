@@ -16,7 +16,7 @@ import importlib as _importlib
 # Added for test compatibility (memory.scheduled_folding.CompressionLevel)
 try:
     _mod = _importlib.import_module("labs.memory.scheduled_folding")
-    CompressionLevel = getattr(_mod, "CompressionLevel")
+    CompressionLevel = _mod.CompressionLevel
 except Exception:
     from enum import Enum
 
@@ -34,7 +34,7 @@ if "CompressionLevel" not in __all__:
 # Added for test compatibility (memory.scheduled_folding.FoldStatus)
 try:
     _mod = _importlib.import_module("labs.memory.scheduled_folding")
-    FoldStatus = getattr(_mod, "FoldStatus")
+    FoldStatus = _mod.FoldStatus
 except Exception:
     from enum import Enum
 
@@ -55,7 +55,7 @@ if "FoldStatus" not in __all__:
 # Added for test compatibility (memory.scheduled_folding.ScheduledFold)
 try:
     _mod = _importlib.import_module("labs.memory.scheduled_folding")
-    ScheduledFold = getattr(_mod, "ScheduledFold")
+    ScheduledFold = _mod.ScheduledFold
 except Exception:
     try:
         from memory.scheduled_folding import (

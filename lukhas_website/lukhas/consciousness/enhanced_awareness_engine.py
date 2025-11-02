@@ -200,7 +200,7 @@ class EnhancedAwarenessEngine:
                 self_awareness_score=0.0,
                 meta_reasoning_quality=0.0,
                 actionable_insights=[],
-                cognitive_adjustments=[f"Error in awareness update: {str(e)}"],
+                cognitive_adjustments=[f"Error in awareness update: {e!s}"],
                 reasoning_accuracy=0.0,
                 confidence_calibration=0.0,
                 processing_efficiency=0.0,

@@ -335,10 +335,10 @@ class MATRIZChaosController:
                     raise RuntimeError("Guardian validation failed")
 
             except Exception as e:
-                error_log.append(f"Guardian failure during validation: {str(e)}")
+                error_log.append(f"Guardian failure during validation: {e!s}")
                 # This should trigger fail-closed if not already active
                 if self.system_state != SystemState.FAIL_CLOSED:
-                    self._activate_fail_closed(f"Guardian validation error: {str(e)}")
+                    self._activate_fail_closed(f"Guardian validation error: {e!s}")
                 raise
 
             # Commit phase (only if Guardian validated)
@@ -355,7 +355,7 @@ class MATRIZChaosController:
 
         except Exception as e:
             decision.phase = MATRIZPhase.FAILED
-            error_log.append(f"Decision processing failed: {str(e)}")
+            error_log.append(f"Decision processing failed: {e!s}")
 
             # Remove from in-flight if still there
             if decision.decision_id in self.in_flight_decisions:

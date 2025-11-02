@@ -846,7 +846,7 @@ class ReflectionEngine:
                 error_anomaly = {
                     "type": "guardian_integration_error",
                     "severity": "high",  # Elevated severity for fail-closed
-                    "details": f"Guardian integration validation error: {str(e)}",
+                    "details": f"Guardian integration validation error: {e!s}",
                     "timestamp": time.time()
                 }
                 report.anomalies.append(error_anomaly)
@@ -897,7 +897,7 @@ class ReflectionEngine:
                 error_anomaly = {
                     "type": "guardian_error",
                     "severity": "medium",
-                    "details": f"Guardian validation error: {str(e)}",
+                    "details": f"Guardian validation error: {e!s}",
                     "timestamp": time.time()
                 }
                 report.anomalies.append(error_anomaly)

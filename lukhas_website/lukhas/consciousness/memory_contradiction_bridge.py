@@ -254,7 +254,7 @@ class MemoryContradictionBridge:
                 confidence_issues=[],
                 processing_time_ms=processing_time,
                 validation_quality=0.0,
-                recommendations=[f"Validation error: {str(e)}"],
+                recommendations=[f"Validation error: {e!s}"],
                 success=False,
                 error_message=str(e)
             )

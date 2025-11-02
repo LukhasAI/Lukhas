@@ -368,7 +368,7 @@ async def search_memory(
             logger.error(f"Search failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Search operation failed: {str(e)}"
+                detail=f"Search operation failed: {e!s}"
             )
 
 
@@ -396,7 +396,7 @@ async def upsert_memory(
             logger.error(f"Upsert failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Upsert operation failed: {str(e)}"
+                detail=f"Upsert operation failed: {e!s}"
             )
 
 
@@ -434,7 +434,7 @@ async def batch_upsert_memory(
             logger.error(f"Batch upsert failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Batch upsert operation failed: {str(e)}"
+                detail=f"Batch upsert operation failed: {e!s}"
             )
 
 
@@ -459,7 +459,7 @@ async def delete_memory(
             logger.error(f"Delete failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Delete operation failed: {str(e)}"
+                detail=f"Delete operation failed: {e!s}"
             )
 
 
@@ -490,7 +490,7 @@ async def get_memory_fold(
             logger.error(f"Get fold failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Get fold operation failed: {str(e)}"
+                detail=f"Get fold operation failed: {e!s}"
             )
 
 
@@ -513,7 +513,7 @@ async def get_memory_stats(services = Depends(get_services)):
         logger.error(f"Get stats failed: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Get stats operation failed: {str(e)}"
+            detail=f"Get stats operation failed: {e!s}"
         )
 
 

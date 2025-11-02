@@ -323,7 +323,7 @@ async def test_i5_complete_integration():
         if not cross_tenant_validation.valid:
             logger.info(f"  - ✅ Cross-tenant access denied: {cross_tenant_validation.error_message}")
     except Exception as e:
-        logger.info(f"  - ✅ Cross-tenant access properly blocked: {str(e)}")
+        logger.info(f"  - ✅ Cross-tenant access properly blocked: {e!s}")
 
     # Test 8: I.2 Tiered Authentication integration
     logger.info("\n🔐 Test 8: Testing I.2 Tiered Authentication integration")

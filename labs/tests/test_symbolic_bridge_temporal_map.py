@@ -38,7 +38,7 @@ def _load_bridge_token_map() -> type:
     module = importlib.util.module_from_spec(spec)
     assert spec and spec.loader
     spec.loader.exec_module(module)
-    return getattr(module, "BridgeTokenMap")
+    return module.BridgeTokenMap
 
 
 BridgeTokenMap = _load_bridge_token_map()

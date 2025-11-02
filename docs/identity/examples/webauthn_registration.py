@@ -269,7 +269,7 @@ def verify_credential_registration(
         }
 
     except Exception as e:
-        raise ValueError(f"Registration verification failed: {str(e)}")
+        raise ValueError(f"Registration verification failed: {e!s}")
 
 
 # --- API Endpoints ---
@@ -349,7 +349,7 @@ async def start_registration(request_data: Dict) -> JSONResponse:
         return JSONResponse(content=options)
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate options: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate options: {e!s}")
 
 
 @app.post("/api/auth/webauthn/register/complete")
@@ -410,7 +410,7 @@ async def complete_registration(request_data: Dict) -> JSONResponse:
             expected_rp_id=RP_ID
         )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=f"Verification failed: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Verification failed: {e!s}")
 
     # Store credential in database
     try:
@@ -445,7 +445,7 @@ async def complete_registration(request_data: Dict) -> JSONResponse:
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to store credential: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to store credential: {e!s}")
 
 
 @app.get("/api/auth/webauthn/credentials")

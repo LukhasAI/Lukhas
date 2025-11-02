@@ -10,7 +10,7 @@ try:
 except Exception:  # pragma: no cover - fallback
     from google_auth_oauthlib import flow as _flow  # type: ignore
 
-    InstalledAppFlow = getattr(_flow, "InstalledAppFlow")
+    InstalledAppFlow = _flow.InstalledAppFlow
 
     class Flow:  # type: ignore
         InstalledAppFlow = InstalledAppFlow

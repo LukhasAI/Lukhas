@@ -35,7 +35,7 @@ class EmotionAdapter(MatrizNode):
 # Added for test compatibility (matriz.adapters.emotion_adapter.UemotionAdapter)
 try:
     _candidate_module = importlib.import_module("candidate.matriz.adapters.emotion_adapter")
-    UemotionAdapter = getattr(_candidate_module, "UemotionAdapter")  # type: ignore[assignment]
+    UemotionAdapter = _candidate_module.UemotionAdapter  # type: ignore[assignment]
 except Exception:  # pragma: no cover - fallback for missing candidate module
 
     class UemotionAdapter:

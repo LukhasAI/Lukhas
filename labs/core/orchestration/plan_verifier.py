@@ -555,7 +555,7 @@ class PlanVerifier:
             # Fail closed on error
             outcome = VerificationOutcome(
                 allow=False,
-                reasons=[f"verification_error: {str(e)}"],
+                reasons=[f"verification_error: {e!s}"],
                 context=ctx,
                 plan_hash="error",
                 verification_time_ms=verification_time_ms
@@ -724,7 +724,7 @@ class PlanVerifier:
             except Exception as e:
                 logger.error(f"Ethics DSL evaluation error: {e}")
                 # Fail closed - treat as violation
-                violations.append(f"ethics_dsl: evaluation_error ({str(e)})")
+                violations.append(f"ethics_dsl: evaluation_error ({e!s})")
 
         else:
             # Legacy ethics constraints (fallback)

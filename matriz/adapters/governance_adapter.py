@@ -32,7 +32,7 @@ class GovernanceAdapter(MatrizNode):
 # Added for test compatibility (matriz.adapters.governance_adapter.UgovernanceAdapter)
 try:
     _candidate_module = importlib.import_module("candidate.matriz.adapters.governance_adapter")
-    UgovernanceAdapter = getattr(_candidate_module, "UgovernanceAdapter")  # type: ignore[assignment]
+    UgovernanceAdapter = _candidate_module.UgovernanceAdapter  # type: ignore[assignment]
 except Exception:  # pragma: no cover - fallback for missing candidate module
 
     class UgovernanceAdapter:

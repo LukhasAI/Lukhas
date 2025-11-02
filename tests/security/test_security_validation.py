@@ -123,7 +123,7 @@ class TestGuardianSecurityValidation:
                 security_framework.log_vulnerability(
                     severity="MEDIUM",
                     category="ERROR_HANDLING",
-                    description=f"Guardian error on injection test: {str(e)}",
+                    description=f"Guardian error on injection test: {e!s}",
                     location="guardian.evaluate_request"
                 )
 
@@ -159,7 +159,7 @@ class TestGuardianSecurityValidation:
                 security_framework.log_vulnerability(
                     severity="MEDIUM",
                     category="ERROR_HANDLING",
-                    description=f"Guardian error on command injection: {str(e)}",
+                    description=f"Guardian error on command injection: {e!s}",
                     location="guardian.evaluate_request"
                 )
 
@@ -214,7 +214,7 @@ class TestGuardianSecurityValidation:
                     security_framework.log_vulnerability(
                         severity="MEDIUM",
                         category="ERROR_HANDLING",
-                        description=f"Unexpected error in privilege check: {str(e)}",
+                        description=f"Unexpected error in privilege check: {e!s}",
                         location="guardian.evaluate_request"
                     )
 
@@ -276,7 +276,7 @@ class TestGuardianSecurityValidation:
                 security_framework.log_vulnerability(
                     severity="LOW",
                     category="PII_ERROR_HANDLING",
-                    description=f"PII protection error: {str(e)}",
+                    description=f"PII protection error: {e!s}",
                     location="guardian.evaluate_request"
                 )
 
@@ -334,7 +334,7 @@ class TestLLMGuardrailSecurity:
                 security_framework.log_vulnerability(
                     severity="MEDIUM",
                     category="LLM_ERROR_HANDLING",
-                    description=f"LLM guardrail error: {str(e)}",
+                    description=f"LLM guardrail error: {e!s}",
                     location="call_llm"
                 )
 
@@ -387,7 +387,7 @@ class TestLLMGuardrailSecurity:
                     security_framework.log_vulnerability(
                         severity="LOW",
                         category="SANITIZATION_ERROR",
-                        description=f"Output sanitization error: {str(e)}",
+                        description=f"Output sanitization error: {e!s}",
                         location="call_llm"
                     )
 
@@ -479,7 +479,7 @@ class TestAuthenticationSecurity:
             security_framework.log_vulnerability(
                 severity="LOW",
                 category="SESSION_ERROR",
-                description=f"Session management error: {str(e)}",
+                description=f"Session management error: {e!s}",
                 location="auth_service.create_session"
             )
 
@@ -591,7 +591,7 @@ class TestDynamicApplicationSecurityTesting:
                         security_framework.log_vulnerability(
                             severity="MEDIUM",
                             category="INPUT_HANDLING",
-                            description=f"Null result for fuzz input: {repr(fuzz_input[:20])}",
+                            description=f"Null result for fuzz input: {fuzz_input[:20]!r}",
                             location="guardian.evaluate_request"
                         )
 
@@ -682,7 +682,7 @@ def test_comprehensive_security_assessment(security_framework):
             security_framework.log_vulnerability(
                 severity="LOW",
                 category="TEST_EXECUTION_ERROR",
-                description=f"Error in {class_name}: {str(e)}",
+                description=f"Error in {class_name}: {e!s}",
                 location=class_name
             )
 

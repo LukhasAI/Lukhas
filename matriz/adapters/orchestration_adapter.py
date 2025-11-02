@@ -32,7 +32,7 @@ class OrchestrationAdapter(MatrizNode):
 # Added for test compatibility (matriz.adapters.orchestration_adapter.UorchestrationAdapter)
 try:
     _candidate_module = importlib.import_module("candidate.matriz.adapters.orchestration_adapter")
-    UorchestrationAdapter = getattr(_candidate_module, "UorchestrationAdapter")  # type: ignore[assignment]
+    UorchestrationAdapter = _candidate_module.UorchestrationAdapter  # type: ignore[assignment]
 except Exception:  # pragma: no cover - fallback for missing candidate module
 
     class UorchestrationAdapter:

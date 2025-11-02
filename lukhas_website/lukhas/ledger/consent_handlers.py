@@ -223,7 +223,7 @@ class BaseEventHandler(EventSubscriber, ABC):
 
             except Exception as e:
                 retry_count += 1
-                error_msg = f"Error processing event {event.event_id}: {str(e)}"
+                error_msg = f"Error processing event {event.event_id}: {e!s}"
                 logger.error(error_msg)
 
                 self.state.mark_error(error_msg)

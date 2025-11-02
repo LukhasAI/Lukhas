@@ -91,7 +91,7 @@ def _dump_yaml(data: dict) -> str:
         if k in data:
             out_lines.append(dump_scalar(k, data[k]))
             seen.add(k)
-    for k in sorted(k for k in data.keys() if k not in seen):
+    for k in sorted(k for k in data if k not in seen):
         out_lines.append(dump_scalar(k, data[k]))
     return "\n".join(out_lines)
 

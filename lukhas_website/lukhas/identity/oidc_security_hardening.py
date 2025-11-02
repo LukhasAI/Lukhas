@@ -289,7 +289,7 @@ class OIDCSecurityHardening:
                 response_action=SecurityResponse.EMERGENCY_SHUTDOWN,
                 client_id=client_id,
                 ip_address=ip_address,
-                description=f"Security validation error: {str(e)}",
+                description=f"Security validation error: {e!s}",
                 risk_score=100.0
             )
 

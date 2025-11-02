@@ -26,11 +26,11 @@ import pytest
 # Guardian System components
 try:
     _mod = _importlib.import_module("labs.governance.guardian_system_integration")
-    GuardianAlertLevel = getattr(_mod, "GuardianAlertLevel")
-    GuardianSystemIntegration = getattr(_mod, "GuardianSystemIntegration")
-    GuardianValidationRequest = getattr(_mod, "GuardianValidationRequest")
-    ValidationResult = getattr(_mod, "ValidationResult")
-    validate_ai_action = getattr(_mod, "validate_ai_action")
+    GuardianAlertLevel = _mod.GuardianAlertLevel
+    GuardianSystemIntegration = _mod.GuardianSystemIntegration
+    GuardianValidationRequest = _mod.GuardianValidationRequest
+    ValidationResult = _mod.ValidationResult
+    validate_ai_action = _mod.validate_ai_action
 
     GUARDIAN_INTEGRATION_AVAILABLE = True
 except Exception:

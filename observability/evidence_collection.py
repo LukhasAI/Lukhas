@@ -11,7 +11,7 @@ __all__ = []
 # Add ComplianceRegime for test compatibility
 try:
     _mod = _importlib.import_module("labs.observability.evidence_collection")
-    ComplianceRegime = getattr(_mod, "ComplianceRegime")
+    ComplianceRegime = _mod.ComplianceRegime
 
     __all__.append("ComplianceRegime")
 except Exception:
@@ -28,7 +28,7 @@ except Exception:
 # Add EvidenceCollectionEngine for test compatibility
 try:
     _mod = _importlib.import_module("labs.observability.evidence_collection")
-    EvidenceCollectionEngine = getattr(_mod, "EvidenceCollectionEngine")
+    EvidenceCollectionEngine = _mod.EvidenceCollectionEngine
 
     __all__.append("EvidenceCollectionEngine")
 except Exception:
@@ -47,7 +47,7 @@ except Exception:
 # Add EvidenceType for test compatibility
 try:
     _mod = _importlib.import_module("labs.observability.evidence_collection")
-    EvidenceType = getattr(_mod, "EvidenceType")
+    EvidenceType = _mod.EvidenceType
 
     __all__.append("EvidenceType")
 except Exception:
@@ -65,7 +65,7 @@ except Exception:
 # Add collect_evidence for test compatibility
 try:
     _mod = _importlib.import_module("labs.observability.evidence_collection")
-    collect_evidence = getattr(_mod, "collect_evidence")
+    collect_evidence = _mod.collect_evidence
 
     __all__.append("collect_evidence")
 except Exception:
@@ -79,9 +79,7 @@ except Exception:
 # Added for test compatibility (observability.evidence_collection.initialize_evidence_collection)
 try:
     _mod = _importlib.import_module("labs.observability.evidence_collection")
-    initialize_evidence_collection = getattr(
-        _mod, "initialize_evidence_collection"
-    )
+    initialize_evidence_collection = _mod.initialize_evidence_collection
 except Exception:
 
     def initialize_evidence_collection(*args, **kwargs):

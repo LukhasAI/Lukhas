@@ -43,7 +43,7 @@ except ImportError:
 
 try:
     _mod = _importlib.import_module("labs.candidate.core.identity.constitutional_ai_compliance")
-    ConstitutionalAIComplianceMonitor = getattr(_mod, "ConstitutionalAIComplianceMonitor")
+    ConstitutionalAIComplianceMonitor = _mod.ConstitutionalAIComplianceMonitor
 except Exception:
     pass
 try:

@@ -54,7 +54,7 @@ def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> b
 
     all_good = True
 
-    for metric in baseline.keys():
+    for metric in baseline:
         if metric in current:
             baseline_val = baseline[metric]
             current_val = current[metric]
@@ -71,7 +71,7 @@ def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> b
             print(f"⚠️  {metric}: baseline {baseline[metric]:.2f} → current: N/A")
 
     # Check for new metrics in current
-    for metric in current.keys():
+    for metric in current:
         if metric not in baseline:
             print(f"🆕 {metric}: new metric → {current[metric]:.2f}")
 

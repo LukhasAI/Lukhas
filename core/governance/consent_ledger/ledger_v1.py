@@ -47,7 +47,7 @@ except ImportError:
     GlyphEngine = None
 try:
     _mod = _importlib.import_module("labs.governance.identity.core.id_service.lambd_id_validator")
-    LambdIDValidator = getattr(_mod, "LambdIDValidator")
+    LambdIDValidator = _mod.LambdIDValidator
 except Exception:
     LambdIDValidator = None
 

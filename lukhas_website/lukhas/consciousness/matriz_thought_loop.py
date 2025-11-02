@@ -234,7 +234,7 @@ class MATRIZThoughtLoop:
             processing_time = (time.time() - start_time) * 1000
 
             error_result = MATRIZThoughtLoopResult(
-                synthesis=f"Error in MATRIZ thought loop: {str(e)}",
+                synthesis=f"Error in MATRIZ thought loop: {e!s}",
                 confidence=0.0,
                 affect_delta=0.0,
                 inference_depth_reached=0,
@@ -245,7 +245,7 @@ class MATRIZThoughtLoop:
                 cognitive_load=1.0,
                 meta_assessment={"error": str(e)},
                 self_awareness_score=0.0,
-                cognitive_adjustments=[f"System error: {str(e)}"],
+                cognitive_adjustments=[f"System error: {e!s}"],
                 processing_time_ms=processing_time,
                 stage_timings=stage_timings,
                 t4_compliant=processing_time <= 250.0,

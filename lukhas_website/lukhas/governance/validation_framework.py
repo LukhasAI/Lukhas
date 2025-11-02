@@ -474,7 +474,7 @@ class BusinessLogicValidator(Validator):
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.BUSINESS_RULE,
                     field_path="$",
-                    message=f"Business rule '{rule_name}' failed: {str(e)}"
+                    message=f"Business rule '{rule_name}' failed: {e!s}"
                 ))
 
         return issues
@@ -752,7 +752,7 @@ class ValidationFramework:
                                 severity=ValidationSeverity.ERROR,
                                 validation_type=ValidationType.CUSTOM,
                                 field_path="$",
-                                message=f"Validator error: {str(e)}"
+                                message=f"Validator error: {e!s}"
                             ))
 
                 all_issues.extend(tier_issues)
@@ -810,7 +810,7 @@ class ValidationFramework:
                     severity=ValidationSeverity.CRITICAL,
                     validation_type=ValidationType.CUSTOM,
                     field_path="$",
-                    message=f"Validation framework error: {str(e)}"
+                    message=f"Validation framework error: {e!s}"
                 )],
                 validation_time_ms=validation_time,
                 context=context,

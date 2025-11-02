@@ -192,7 +192,7 @@ class MATRIZMetricsContractValidator:
                 labels=metric_labels
             )
         except Exception as e:
-            violations.append(f"Failed to record metric '{name}': {str(e)}")
+            violations.append(f"Failed to record metric '{name}': {e!s}")
 
         # Store violations for reporting
         if violations:

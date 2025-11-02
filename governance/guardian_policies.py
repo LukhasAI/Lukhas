@@ -478,7 +478,7 @@ class GuardianPoliciesEngine:
                     decision=DecisionType.DENY,
                     reasons=[PolicyReason(
                         code="POLICY_EVALUATION_ERROR",
-                        message=f"Error during policy evaluation: {str(e)}",
+                        message=f"Error during policy evaluation: {e!s}",
                         severity=SeverityLevel.CRITICAL,
                         details={"error": str(e)}
                     )],

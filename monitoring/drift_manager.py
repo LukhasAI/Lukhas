@@ -434,7 +434,7 @@ class DriftManager:
                     'kind': kind,
                     'error': str(e),
                     'timestamp': time.time(),
-                    'rationale': f"Repair engine error: {str(e)}"
+                    'rationale': f"Repair engine error: {e!s}"
                 }
                 self.drift_ledger.append(repair_event)
 

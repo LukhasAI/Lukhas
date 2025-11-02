@@ -594,7 +594,7 @@ class GPTColonyOrchestrator:
             else:
                 import importlib
                 module = importlib.import_module("labs.consciousness.reflection.openai_modulated_service")
-                OpenAICapability = getattr(module, "OpenAICapability")
+                OpenAICapability = module.OpenAICapability
 
             response = await self.openai_service.process_modulated_request(
                 module="orchestrator",

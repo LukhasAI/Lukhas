@@ -9,7 +9,7 @@ T = TypeVar("T")
 
 try:
     _mod = _importlib.import_module("labs.async_utils")
-    _candidate_await_with_timeout = getattr(_mod, "await_with_timeout")
+    _candidate_await_with_timeout = _mod.await_with_timeout
 except Exception:
 
     async def await_with_timeout(coro: Awaitable[T], timeout: float) -> T:
@@ -21,7 +21,7 @@ else:
 
 try:
     _mod = _importlib.import_module("labs.async_utils")
-    run_guardian_task = getattr(_mod, "run_guardian_task")
+    run_guardian_task = _mod.run_guardian_task
 except Exception:
 
     async def run_guardian_task(task, *args, **kwargs):
@@ -31,7 +31,7 @@ except Exception:
 
 try:
     _mod = _importlib.import_module("labs.async_utils")
-    run_with_retry = getattr(_mod, "run_with_retry")
+    run_with_retry = _mod.run_with_retry
 except Exception:
 
     async def run_with_retry(coro, max_retries: int = 3, *args, **kwargs):

@@ -207,7 +207,7 @@ class InputValidator:
             logger.exception(f"Validation error: {e}")
             result.is_valid = False
             result.severity = ValidationSeverity.CRITICAL
-            result.errors.append(f"Validation system error: {str(e)}")
+            result.errors.append(f"Validation system error: {e!s}")
 
         finally:
             result.processing_time_ms = (time.perf_counter() - start_time) * 1000

@@ -64,7 +64,7 @@ class ProviderRegistry:
         try:
             # Lazy import at runtime
             module = importlib.import_module("labs.consciousness.reflection.openai_modulated_service")
-            OpenAIModulatedService = getattr(module, "OpenAIModulatedService")
+            OpenAIModulatedService = module.OpenAIModulatedService
 
             # Create instance
             instance = OpenAIModulatedService(
