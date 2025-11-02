@@ -79,7 +79,7 @@ class TestMATRIZBenchmarks(unittest.TestCase):
     def test_matrizbenchmarks_import(self):
         """Test MATRIZBenchmarks can be imported."""
         try:
-            from benchmarks.matriz_pipeline import matrizBenchmarks
+            from benchmarks.matriz_pipeline import MATRIZBenchmarks
             self.assertIsNotNone(MATRIZBenchmarks)
         except ImportError:
             pytest.skip("Component MATRIZBenchmarks not available")
