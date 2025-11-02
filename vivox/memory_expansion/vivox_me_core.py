@@ -31,11 +31,11 @@ except ImportError:
 
     logger = logging.getLogger("VIVOX.ME")
 
-    def debug_trace(l, m, **k):
-        return l.debug(f"{m} | {k}" if k else m)
+    def debug_trace(logger, message, **kwargs):
+        return logger.debug(f"{message} | {kwargs}" if kwargs else message)
 
-    def log_performance(l, o, e, c=None):
-        return l.info(f"{o}: {e:.3f}s")
+    def log_performance(logger, operation, elapsed, count=None):
+        return logger.info(f"{operation}: {elapsed:.3f}s")
 
 
 class VeilLevel(Enum):
