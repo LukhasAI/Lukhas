@@ -1,107 +1,21 @@
----
-status: wip
-type: documentation
----
-# 📦 Benchmarks
+# Benchmarks
 
-_Within the grand architecture of LUKHAS, benchmarks emerges—LUKHAS benchmarks module implementing, purpose refined to essence, functionality elevated to art._
+This directory contains performance benchmarks for the LUKHAS project.
 
-**LUKHAS benchmarks module implementing specialized benchmarks functionality with 19 components for integrated system operations.**
+## Running Benchmarks
 
-## Overview
-
-LUKHAS benchmarks module implementing specialized benchmarks functionality with 19 components for integrated system operations.
-
-
-
-**Technical Foundation**: Core benchmarks module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
-
-## Lane Position
-
-- **Lane**: `unknown`
-- **Module ID**: `unknown`
-- **Constellation**: Core System Component
-
-## Features
-
-- ✅ Core functionality
-- ✅ API integration
-- ✅ Testing support
-
-## Quick Start
-
-**Getting Started**: LUKHAS benchmarks module implementing specialized benchmarks functionality with 19 components for integrated system operations. This module integrates with the LUKHAS system to provide essential functionality.
-
-
-### Installation
-
-```python
-# Import from unknown lane
-from benchmarks import Benchmarks
-
-# Initialize
-system = Benchmarks()
-result = system.process(input_data)
-print(f"Result: {result}")
-```
-
-## API Reference
-
-See code docstrings and inline documentation.
-
-## Dependencies
-
-- `memory`
-
-## Provides
-
-- Core module functionality
-
-## Architecture
-
-```
-benchmarks/
-├── __init__.py          # Module initialization
-├── core.py              # Core functionality
-├── api.py               # API interfaces
-├── tests/               # Test suite
-└── docs/                # Documentation
-```
-
-## Testing
+To run the benchmarks, you will need to install `pytest-benchmark`:
 
 ```bash
-# Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/benchmarks/tests/ -v
-
-# Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/benchmarks/tests/ --cov=benchmarks --cov-report=html
+pip install pytest-benchmark
 ```
 
-## Performance
+Then, run the benchmarks using `pytest`:
 
-- Performance targets: Follow LUKHAS system SLOs
+```bash
+pytest benchmarks/
+```
 
-## Documentation
+## Baselines
 
-- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
-- **Detailed Docs**: [`docs/`](docs/)
-- **API Examples**: See code docstrings and `docs/` directory
-
-## Contributing
-
-Follow LUKHAS development guidelines:
-1. Respect lane boundaries
-2. Maintain T4/0.01% quality standards
-3. Add comprehensive tests
-4. Update documentation
-
-## Related Modules
-
-- [memory](../memory/)
-
----
-
-**Version**: 1.0.0
-**Lane**: unknown
-**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
+The `baselines/` directory contains the baseline performance data for the benchmarks. These are used to detect performance regressions.
