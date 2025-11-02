@@ -18,6 +18,7 @@ from datetime import datetime
 from uuid import UUID, uuid4
 
 from matriz.node_contract import GLYPH, MatrizMessage
+from typing import Optional
 
 
 def mk_msg_from_json(d: dict) -> MatrizMessage:
@@ -63,7 +64,7 @@ def mk_msg_from_json(d: dict) -> MatrizMessage:
         payload=d.get('payload', {})
     )
 
-def mk_test_glyph(kind: str='intent', tags: dict=None, id_override: UUID | None=None) -> GLYPH:
+def mk_test_glyph(kind: str='intent', tags: Optional[dict]=None, id_override: UUID | None=None) -> GLYPH:
     """Create a test GLYPH with stable defaults"""
     return GLYPH(
         id=id_override or UUID('550e8400-e29b-41d4-a716-446655440000'),
@@ -72,7 +73,7 @@ def mk_test_glyph(kind: str='intent', tags: dict=None, id_override: UUID | None=
         tags=tags or {}
     )
 
-def mk_test_message(topic: str='contradiction', lane: str='experimental', payload: dict=None, glyph_kind: str='intent') -> MatrizMessage:
+def mk_test_message(topic: str='contradiction', lane: str='experimental', payload: Optional[dict]=None, glyph_kind: str='intent') -> MatrizMessage:
     """Create a test MatrizMessage with sensible defaults"""
     return MatrizMessage(
         msg_id=uuid4(),

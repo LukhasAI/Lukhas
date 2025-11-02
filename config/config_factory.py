@@ -481,7 +481,7 @@ class ConfigurationFactory:
         filepath = self.config_dir / filename
         config_dict = asdict(config)
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             yaml.dump(config_dict, f, default_flow_style=False, indent=2)
 
         logger.info(f"Configuration saved to {filepath}")
@@ -613,19 +613,19 @@ if __name__ == "__main__":
         validation = factory.validate_config(config)
         print("\nValidation Results:")
         print(f"Valid: {validation['valid']}")
-        if validation['issues']:
+        if validation["issues"]:
             print("Issues:")
-            for issue in validation['issues']:
+            for issue in validation["issues"]:
                 print(f"  ❌ {issue}")
-        if validation['warnings']:
+        if validation["warnings"]:
             print("Warnings:")
-            for warning in validation['warnings']:
+            for warning in validation["warnings"]:
                 print(f"  ⚠️  {warning}")
 
     # Output configuration
     if args.output:
         if args.format == "json":
-            with open(args.output, 'w') as f:
+            with open(args.output, "w") as f:
                 json.dump(asdict(config), f, indent=2)
         else:
             factory.save_config(config, args.output)

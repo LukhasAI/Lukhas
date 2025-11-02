@@ -295,10 +295,10 @@ class GestureInterpretationSystem:
         if not breakdown:
             return {'average_score': 0.0, 'drift_indicator': 0.0, 'affect_delta': 0.0, 'confidence': 0.0}
         count = len(breakdown)
-        average_score = sum((item.score for item in breakdown.values())) / count
-        average_context = sum((item.context_relevance for item in breakdown.values())) / count
-        average_emotion = sum((item.emotional_valence for item in breakdown.values())) / count
-        average_temporal = sum((item.temporal_alignment for item in breakdown.values())) / count
+        average_score = sum(item.score for item in breakdown.values()) / count
+        average_context = sum(item.context_relevance for item in breakdown.values()) / count
+        average_emotion = sum(item.emotional_valence for item in breakdown.values()) / count
+        average_temporal = sum(item.temporal_alignment for item in breakdown.values()) / count
         affect_delta = average_emotion * 2.0 - 1.0
         drift_indicator = _clamp(1.0 - average_context)
         confidence = _clamp((average_score + average_temporal) / 2.0)
@@ -319,7 +319,7 @@ class GestureInterpretationSystem:
             states.append({'state': 'drifting', 'confidence': _clamp(drift_indicator), 'supporting_gestures': self._gestures_with_low_context(breakdown), 'signals': {'drift_indicator': drift_indicator}})
         if not states:
             states.append({'state': 'calm', 'confidence': _clamp(metrics.get('average_emotion', 0.5)), 'supporting_gestures': self._top_gestures(breakdown, limit=2), 'signals': {'affect_delta': affect_delta}})
-        tag_counter = Counter((tag for gesture in gestures for tag in gesture.get('tags', [])))
+        tag_counter = Counter(tag for gesture in gestures for tag in gesture.get('tags', []))
         if tag_counter.get('analysis', 0) >= 2:
             states.append({'state': 'cognitive_analysis', 'confidence': _clamp(average_score), 'supporting_gestures': self._top_gestures(breakdown, limit=2), 'signals': {'tag_frequency': tag_counter.get('analysis', 0)}})
         return states

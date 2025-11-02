@@ -75,7 +75,7 @@ def get_all_contracts() -> List[Path]:
 
 def load_contract(contract_path: Path) -> Dict[str, Any]:
     """Load a contract file as JSON."""
-    with open(contract_path, 'r', encoding='utf-8') as f:
+    with open(contract_path, encoding='utf-8') as f:
         return json.load(f)
 
 

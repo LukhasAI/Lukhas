@@ -191,7 +191,7 @@ def scan_generic_file(filepath: Path) -> List[Dict[str, str]]:
     todos: List[Dict[str, str]] = []
 
     try:
-        with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
+        with open(filepath, encoding="utf-8", errors="ignore") as f:
             for line_num, line in enumerate(f, start=1):
                 for pattern in TODO_PATTERNS:
                     match = pattern.search(line)

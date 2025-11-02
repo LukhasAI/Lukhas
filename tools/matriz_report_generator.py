@@ -229,7 +229,7 @@ def main():
 
     # Load audit data
     try:
-        with open(audit_file, 'r') as f:
+        with open(audit_file) as f:
             audit_data = json.load(f)
     except FileNotFoundError:
         print(f"Error: Audit file not found: {audit_file}")

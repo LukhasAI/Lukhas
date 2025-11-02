@@ -43,7 +43,7 @@ EXTERNAL_CHECK_LIMIT = 50  # max external links to check (avoid rate limits)
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -162,7 +162,7 @@ def scan_broken_links(docs: List[Dict], check_external: bool = False) -> Dict[st
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
         except Exception:
             continue

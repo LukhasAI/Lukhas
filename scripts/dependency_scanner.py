@@ -20,7 +20,7 @@ class DependencyScanner:
     def scan_file(self, file_path: Path) -> Set[str]:
         """Extract imports from a Python file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -86,8 +86,8 @@ class DependencyScanner:
             "module_dependency_matrix": {},
             "statistics": {
                 "total_dependencies": sum(len(deps) for deps in self.dependencies.values()),
-                "lukhas_modules": len([m for m in self.dependencies.keys() if m.startswith('lukhas.')]),
-                "candidate_modules": len([m for m in self.dependencies.keys() if m.startswith('candidate.')]),
+                "lukhas_modules": len([m for m in self.dependencies if m.startswith('lukhas.')]),
+                "candidate_modules": len([m for m in self.dependencies if m.startswith('candidate.')]),
                 "file_count": {module: len(files) for module, files in self.module_files.items()}
             }
         }

@@ -29,7 +29,7 @@ def validate_github_actions_hardening() -> Dict:
 
     for workflow_file in workflows_dir.glob("*.yml"):
         total_workflows += 1
-        with open(workflow_file, 'r') as f:
+        with open(workflow_file) as f:
             content = f.read()
             # Check for SHA-pinned actions (40 character hexadecimal)
             if "@" in content and len([line for line in content.split('\n')
@@ -57,7 +57,7 @@ def validate_otel_instrumentation() -> Dict:
         return {"status": "missing", "error": "Orchestrator file not found"}
 
     # Check if orchestrator uses OTel instrumentation
-    with open(orchestrator_file, 'r') as f:
+    with open(orchestrator_file) as f:
         content = f.read()
         has_otel_import = "otel_instrumentation" in content
         has_instrumentation = "@instrument_matriz_stage" in content
@@ -120,7 +120,7 @@ def validate_guardian_enforcement() -> Dict:
 
     # Check if Guardian enforcement is enabled
     try:
-        with open(config_file, 'r') as f:
+        with open(config_file) as f:
             config = json.load(f)
             guardian_enabled = config.get("featureFlags", {}).get("ENFORCE_ETHICS_DSL") == "1"
     except Exception as e:
@@ -129,7 +129,7 @@ def validate_guardian_enforcement() -> Dict:
     # Check for emergency kill-switch
     kill_switch_implemented = False
     if guardian_file.exists():
-        with open(guardian_file, 'r') as f:
+        with open(guardian_file) as f:
             content = f.read()
             kill_switch_implemented = "guardian_emergency_disable" in content
 
@@ -159,7 +159,7 @@ def validate_router_metrics() -> Dict:
     if not router_file.exists():
         return {"status": "missing", "error": "Router file not found"}
 
-    with open(router_file, 'r') as f:
+    with open(router_file) as f:
         content = f.read()
         has_prometheus = "prometheus_client" in content
         has_fallback_metrics = "_ROUTER_FALLBACK_TOTAL" in content
@@ -183,7 +183,7 @@ def validate_dual_approval_enforcement() -> Dict:
     if not approval_workflow.exists():
         return {"status": "missing", "error": "Critical path approval workflow not found"}
 
-    with open(approval_workflow, 'r') as f:
+    with open(approval_workflow) as f:
         content = f.read()
         has_critical_paths = "CRITICAL_PATHS" in content
         has_approval_check = "approval-check" in content
@@ -204,7 +204,7 @@ def validate_lane_violation_reporting() -> Dict:
     if not policy_guard.exists():
         return {"status": "missing", "error": "Policy guard workflow not found"}
 
-    with open(policy_guard, 'r') as f:
+    with open(policy_guard) as f:
         content = f.read()
         has_lane_check = "Check Lane Violations" in content
         has_artifact_upload = "Upload Lane Violation Report" in content
@@ -226,7 +226,7 @@ def validate_schema_versioning() -> Dict:
     for file_path in context_files:
         if file_path.exists():
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     content = f.read()
                     if "Schema Version: v2.0.0" in content or "Schema v2.0.0" in content:
                         versioned_files += 1

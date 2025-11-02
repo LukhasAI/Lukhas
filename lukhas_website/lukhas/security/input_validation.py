@@ -229,11 +229,7 @@ class InputValidator:
     def _validate_size(self, value: Any, result: ValidationResult):
         """Size and length validation."""
         size = 0
-        if isinstance(value, (str, bytes)):
-            size = len(value)
-        elif isinstance(value, (list, dict)):
-            size = len(value)
-        elif hasattr(value, '__len__'):
+        if isinstance(value, (str, bytes)) or isinstance(value, (list, dict)) or hasattr(value, '__len__'):
             size = len(value)
 
         result.metadata["size"] = size

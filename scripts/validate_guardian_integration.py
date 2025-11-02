@@ -880,7 +880,7 @@ async def main():
         audit_run_id = f"guardian_val_{int(time.time())}"
         from preflight_check import PreflightValidator as PreflightValidatorRuntime
 
-        validator: "PreflightValidatorType"
+        validator: PreflightValidatorType
         validator = PreflightValidatorRuntime(audit_run_id)
         preflight_passed = validator.run_all_validations()
 

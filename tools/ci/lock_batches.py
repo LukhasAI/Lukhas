@@ -79,7 +79,7 @@ class BatchLocker:
     def _process_batch_file(self, batch_file: Path):
         """Process and validate a single batch file"""
         try:
-            with open(batch_file, "r") as f:
+            with open(batch_file) as f:
                 batch_data = json.load(f)
 
             batch_id = batch_data["batch_id"]

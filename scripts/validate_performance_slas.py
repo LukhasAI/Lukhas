@@ -38,7 +38,7 @@ class PerformanceSLAValidator:
     def _load_benchmark_results(self) -> Dict:
         """Load benchmark results from JSON file"""
         try:
-            with open(self.benchmark_file, 'r') as f:
+            with open(self.benchmark_file) as f:
                 return json.load(f)
         except FileNotFoundError:
             print(f"❌ Benchmark file not found: {self.benchmark_file}")

@@ -285,7 +285,7 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
         return ""
 
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, encoding='utf-8') as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")

@@ -270,7 +270,7 @@ class StorageBackend(ABC):
     """Abstract storage backend interface."""
 
     @abstractmethod
-    async def put(self, key: str, data: bytes, metadata: Dict[str, str] = None) -> bool:
+    async def put(self, key: str, data: bytes, metadata: Optional[Dict[str, str]] = None) -> bool:
         """Store data."""
         pass
 
@@ -314,7 +314,7 @@ class LocalFilesystemBackend(StorageBackend):
         self.metadata_dir = self.base_path / ".metadata"
         self.metadata_dir.mkdir(exist_ok=True)
 
-    async def put(self, key: str, data: bytes, metadata: Dict[str, str] = None) -> bool:
+    async def put(self, key: str, data: bytes, metadata: Optional[Dict[str, str]] = None) -> bool:
         """Store data to filesystem."""
         try:
             file_path = self._get_file_path(key)

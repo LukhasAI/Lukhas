@@ -95,7 +95,7 @@ def move_to_production(module_path: str) -> str:
 def fix_imports(module_path: str):
     """Fix common import issues in module"""
 
-    with open(module_path, 'r') as f:
+    with open(module_path) as f:
         content = f.read()
 
     # Fix common patterns

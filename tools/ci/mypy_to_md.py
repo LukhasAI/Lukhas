@@ -12,7 +12,7 @@ if not os.path.exists(IN):
     print(f"Missing input: {IN}", file=sys.stderr)
     sys.exit(1)
 
-with open(IN, "r", encoding="utf-8") as f:
+with open(IN, encoding="utf-8") as f:
     content = f.read()
 
 # Parse mypy text output: path:line:col: [code] message

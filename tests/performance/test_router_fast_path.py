@@ -97,7 +97,7 @@ class RouterFastPathLoadTest:
         total_time = time.perf_counter() - start_time
         successful_results = [r for r in request_results if isinstance(r, dict) and r['success']]
         fast_nodes = {'facts_fast', 'math_fast', 'general_fast'}
-        fast_selections = sum((1 for r in successful_results if r['selected_node'] in fast_nodes))
+        fast_selections = sum(1 for r in successful_results if r['selected_node'] in fast_nodes)
         fast_path_rate = fast_selections / len(successful_results) * 100 if successful_results else 0
         latencies = [r['latency_ms'] for r in successful_results]
         avg_latency = statistics.mean(latencies) if latencies else 0
@@ -146,8 +146,8 @@ class RouterFastPathLoadTest:
             result = await self.orchestrator.process_query(f'Degraded query {i}')
             degraded_results.append(self._extract_selected_node(result))
         fast_nodes = {'facts_fast', 'math_fast', 'general_fast'}
-        normal_fast_rate = sum((1 for node in normal_results if node in fast_nodes)) / len(normal_results) * 100
-        degraded_fast_rate = sum((1 for node in degraded_results if node in fast_nodes)) / len(degraded_results) * 100
+        normal_fast_rate = sum(1 for node in normal_results if node in fast_nodes) / len(normal_results) * 100
+        degraded_fast_rate = sum(1 for node in degraded_results if node in fast_nodes) / len(degraded_results) * 100
         routing_adaptation = normal_fast_rate - degraded_fast_rate
         results = {
             'test': 'adaptive_routing_degradation',

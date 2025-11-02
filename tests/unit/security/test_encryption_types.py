@@ -523,7 +523,7 @@ class TestTypeSafety(unittest.TestCase):
 
     def test_metadata_registry_keys_are_enums(self):
         """Test that registry keys are EncryptionAlgorithm enums."""
-        for key in ALGORITHM_METADATA.keys():
+        for key in ALGORITHM_METADATA:
             self.assertIsInstance(key, EncryptionAlgorithm)
 
     def test_algorithm_comparison_type_safety(self):

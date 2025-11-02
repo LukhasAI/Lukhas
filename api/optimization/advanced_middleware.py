@@ -120,7 +120,7 @@ class RequestMetadata:
 class BaseMiddleware(ABC):
     """Base class for all middleware components."""
 
-    def __init__(self, name: str, middleware_type: MiddlewareType, config: Dict[str, Any] = None):
+    def __init__(self, name: str, middleware_type: MiddlewareType, config: Optional[Dict[str, Any]] = None):
         self.name = name
         self.middleware_type = middleware_type
         self.config = config or {}

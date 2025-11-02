@@ -1286,7 +1286,7 @@ def run_t4_excellence_validation():
         log_file = Path(temp_dir) / f"log_{time.time_ns()}.json"
         with open(log_file, 'w') as f:
             json.dump(response, f)
-        with open(log_file, 'r') as f:
+        with open(log_file) as f:
             verified = json.load(f)
         log_file.unlink()
         return verified
@@ -1306,7 +1306,7 @@ def run_t4_excellence_validation():
         event_file = Path(temp_dir) / f"event_{time.time_ns()}.json"
         with open(event_file, 'w') as f:
             json.dump({"data": event.data, "metadata": event.metadata}, f)
-        with open(event_file, 'r') as f:
+        with open(event_file) as f:
             verified = json.load(f)
         event_file.unlink()
         return verified

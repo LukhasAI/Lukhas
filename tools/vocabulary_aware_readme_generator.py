@@ -42,7 +42,7 @@ class ModuleVocabularyLoader:
     def _load_vocabulary_file(self, vocab_file: Path):
         """Load a YAML vocabulary file."""
         try:
-            with open(vocab_file, 'r', encoding='utf-8') as f:
+            with open(vocab_file, encoding='utf-8') as f:
                 content = yaml.safe_load(f)
 
             # Extract module name from filename
@@ -283,7 +283,7 @@ def generate_vocabulary_aware_readme(module_path: Path, vocab_loader: ModuleVoca
         return ""
 
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, encoding='utf-8') as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")

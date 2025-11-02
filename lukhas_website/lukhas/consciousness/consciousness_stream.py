@@ -476,7 +476,7 @@ class ConsciousnessStream:
         # Extract seed concepts from signal buffer
         if self._signal_buffer:
             # Look for creative cues in signals
-            creative_signals = [k for k in self._signal_buffer.keys()
+            creative_signals = [k for k in self._signal_buffer
                              if "creative" in k.lower() or "idea" in k.lower()]
             if creative_signals:
                 triggers["should_create"] = True

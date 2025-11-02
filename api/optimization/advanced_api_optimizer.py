@@ -401,7 +401,7 @@ class APICache:
             else:
                 # Simple pattern matching for local cache
                 import fnmatch
-                matching_keys = [k for k in self.local_cache.keys()
+                matching_keys = [k for k in self.local_cache
                                if fnmatch.fnmatch(k, pattern)]
                 for k in matching_keys:
                     del self.local_cache[k]

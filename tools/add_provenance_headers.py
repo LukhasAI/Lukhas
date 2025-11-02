@@ -73,7 +73,7 @@ human_editable: {str(is_editable).lower()}
     def has_provenance_header(self, file_path: pathlib.Path) -> bool:
         """Check if file already has a provenance header."""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 first_lines = f.read(500)  # Check first 500 chars
                 return '@generated LUKHAS scaffold' in first_lines
         except Exception:
@@ -90,7 +90,7 @@ human_editable: {str(is_editable).lower()}
 
         try:
             # Read current content
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 content = f.read()
 
             # Create header

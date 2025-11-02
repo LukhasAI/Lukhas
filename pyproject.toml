@@ -220,6 +220,11 @@ exclude = [
     "**/generated/**",
     "gemini-dev",
     "b1db8919b599a05a3bdcacda2013e2f4e5803bfe",
+    "archive/**",
+    "**/quarantine/**",
+    "**/quarantine_*/**",
+    "products/**",
+    "dreamweaver_helpers_bundle/**",
 ]
 
 [tool.ruff.lint]

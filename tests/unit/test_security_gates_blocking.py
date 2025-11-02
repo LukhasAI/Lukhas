@@ -17,7 +17,7 @@ def test_security_audit_workflow_blocking():
     workflow_path = Path(".github/workflows/security-audit.yml")
     assert workflow_path.exists(), "Security audit workflow not found"
 
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path) as f:
         workflow = yaml.safe_load(f)
 
     # Verify workflow structure
@@ -100,7 +100,7 @@ def test_makefile_sbom_target():
         print("⚠️ Makefile not found - skipping SBOM target test")
         return
 
-    with open(makefile_path, 'r') as f:
+    with open(makefile_path) as f:
         makefile_content = f.read()
 
     # Should have sbom target
@@ -113,7 +113,7 @@ def test_makefile_sbom_target():
 def test_security_workflow_permissions():
     """Test that security workflow has appropriate permissions"""
     workflow_path = Path(".github/workflows/security-audit.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path) as f:
         workflow = yaml.safe_load(f)
 
     job = workflow["jobs"]["security-audit"]
@@ -134,7 +134,7 @@ def test_security_workflow_permissions():
 def test_security_gates_fail_fast():
     """Test that security gates are configured to fail fast"""
     workflow_path = Path(".github/workflows/security-audit.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path) as f:
         content = f.read()
 
     # Should have immediate exit 1 on vulnerabilities
@@ -159,7 +159,7 @@ def test_security_gates_fail_fast():
 def test_blocking_configuration_comments():
     """Test that workflow has proper documentation about blocking behavior"""
     workflow_path = Path(".github/workflows/security-audit.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path) as f:
         content = f.read()
 
     # Should document blocking behavior

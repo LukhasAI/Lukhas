@@ -120,7 +120,7 @@ class E2EPerformanceSuite:
                 }, f)
 
             # Simulate read-back verification
-            with open(event_file, 'r') as f:
+            with open(event_file) as f:
                 verified = json.load(f)
 
             # Cleanup (simulate rotation)

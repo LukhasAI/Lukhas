@@ -50,7 +50,7 @@ def load_cases(patterns: List[str]) -> List[Case]:
         files.extend(glob.glob(pat))
     cases: List[Case] = []
     for fp in sorted(files):
-        with open(fp, "r", encoding="utf-8") as f:
+        with open(fp, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line:

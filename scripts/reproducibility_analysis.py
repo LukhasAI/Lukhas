@@ -32,13 +32,13 @@ class ReproducibilityAnalyzer:
         for pattern in file_patterns:
             file_path = Path(pattern)
             if file_path.exists():
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     audit_data.append(json.load(f))
             else:
                 # Handle glob patterns
                 for file_path in Path(".").glob(pattern):
                     if file_path.is_file():
-                        with open(file_path, 'r') as f:
+                        with open(file_path) as f:
                             audit_data.append(json.load(f))
 
         return audit_data

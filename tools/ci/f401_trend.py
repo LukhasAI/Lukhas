@@ -59,7 +59,7 @@ def main() -> int:
         return 2
 
     try:
-        with open(SRC, "r", encoding="utf-8") as f:
+        with open(SRC, encoding="utf-8") as f:
             data: List[Dict[str, Any]] = json.load(f)
     except json.JSONDecodeError as e:
         print(f"[f401_trend] invalid JSON in {SRC}: {e}", file=sys.stderr)

@@ -43,7 +43,7 @@ class EthicalDecisionRequest:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     request_id: str = field(default_factory=lambda: uuid.uuid4().hex)
 
-    def with_metadata(self, **extra: Any) -> "EthicalDecisionRequest":
+    def with_metadata(self, **extra: Any) -> EthicalDecisionRequest:
         """Return a copy enriched with additional metadata."""
 
         return replace(self, metadata={**self.metadata, **extra})

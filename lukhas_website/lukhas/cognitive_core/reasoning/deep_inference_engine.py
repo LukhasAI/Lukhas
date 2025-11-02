@@ -673,11 +673,7 @@ class DeepInferenceEngine:
             "false dilemma"
         ]
 
-        for pattern in fallacy_patterns:
-            if pattern in reasoning:
-                return True
-
-        return False
+        return any(pattern in reasoning for pattern in fallacy_patterns)
 
     def _calculate_chain_confidence(self, chain: InferenceChain) -> float:
         """Calculate overall confidence for inference chain."""

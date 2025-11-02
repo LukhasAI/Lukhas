@@ -154,7 +154,7 @@ class GuardianSimulator:
             "guardian_healthy": True
         }
 
-    def inject_failure(self, failure_type: GuardianFailureType, duration_ms: float = None):
+    def inject_failure(self, failure_type: GuardianFailureType, duration_ms: Optional[float] = None):
         """Inject failure into Guardian."""
         logger.info(f"Injecting Guardian failure: {failure_type.value}")
 

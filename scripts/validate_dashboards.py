@@ -59,7 +59,7 @@ class DashboardValidator:
     def validate_dashboard_structure(self, dashboard_path: Path) -> bool:
         """Validate dashboard JSON structure and required fields"""
         try:
-            with open(dashboard_path, 'r') as f:
+            with open(dashboard_path) as f:
                 dashboard = json.load(f)
         except json.JSONDecodeError as e:
             self.validation_errors.append(f"Invalid JSON in {dashboard_path.name}: {e}")

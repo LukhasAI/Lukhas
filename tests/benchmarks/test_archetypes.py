@@ -149,7 +149,7 @@ class TestArchetypalClassification:
     def test_all_archetypes_represented(self):
         """Test that all defined archetypes can be detected."""
         # Create test cases for each archetype
-        for archetype_name in ARCHETYPES.keys():
+        for archetype_name in ARCHETYPES:
             test_case = create_archetypal_test_case(archetype_name, intensity=0.9)
             emotion_vector = test_case["emotional_context"]
 
@@ -293,7 +293,7 @@ class TestArchetypalTestCases:
 
     def test_test_case_generation(self):
         """Test generation of archetypal test cases."""
-        for archetype_name in ARCHETYPES.keys():
+        for archetype_name in ARCHETYPES:
             test_case = create_archetypal_test_case(archetype_name, intensity=0.8)
 
             assert test_case["name"] == f"{archetype_name}_test_case"
@@ -331,7 +331,7 @@ class TestArchetypalTestCases:
 
     def test_emotion_value_validity(self):
         """Test that generated test cases have valid emotion values."""
-        for archetype_name in ARCHETYPES.keys():
+        for archetype_name in ARCHETYPES:
             test_case = create_archetypal_test_case(archetype_name)
             emotion_vector = test_case["emotional_context"]
 
@@ -358,7 +358,7 @@ class TestArchetypalSystem:
         """Test that archetypes are sufficiently distinct."""
         archetype_signatures = {}
 
-        for archetype_name in ARCHETYPES.keys():
+        for archetype_name in ARCHETYPES:
             test_case = create_archetypal_test_case(archetype_name, intensity=0.9)
             emotion_vector = test_case["emotional_context"]
 

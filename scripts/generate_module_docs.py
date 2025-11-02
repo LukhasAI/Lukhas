@@ -68,7 +68,7 @@ class DocumentationGenerator:
             module_dir = manifest_path.parent
 
             try:
-                with open(manifest_path, 'r') as f:
+                with open(manifest_path) as f:
                     manifest = json.load(f)
 
                 module_info = ModuleInfo(
@@ -95,7 +95,7 @@ class DocumentationGenerator:
         """Check if module has API examples"""
         for py_file in module_dir.rglob("*.py"):
             try:
-                with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(py_file, encoding='utf-8', errors='ignore') as f:
                     content = f.read()
                     if "Example:" in content or ">>> " in content:
                         return True
@@ -114,7 +114,7 @@ class DocumentationGenerator:
         # Read manifest for detailed info
         manifest_path = module.path / "module.manifest.json"
         try:
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path) as f:
                 manifest = json.load(f)
         except Exception:
             manifest = {}

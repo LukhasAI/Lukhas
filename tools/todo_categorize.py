@@ -40,7 +40,7 @@ class TODORecord:
     text: str
     priority: str
 
-    def normalized(self) -> "TODORecord":
+    def normalized(self) -> TODORecord:
         return TODORecord(file=self.file.replace('\\\\', '/'), line=str(self.line), text=self.text.strip(), priority=self.priority)
 
 

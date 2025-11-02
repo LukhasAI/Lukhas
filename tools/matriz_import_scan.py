@@ -47,7 +47,7 @@ class ImportVisitor(ast.NodeVisitor):
 def extract_imports_from_file(file_path: pathlib.Path) -> List[Dict[str, Any]]:
     """Extract import statements from a Python file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         tree = ast.parse(content, filename=str(file_path))

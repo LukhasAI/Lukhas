@@ -192,7 +192,7 @@ class AGIToCognitiveMigrator:
 
         # Skip binary files
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 f.read(1024)  # Test read
         except (UnicodeDecodeError, UnicodeError, FileNotFoundError):
             return False
@@ -202,7 +202,7 @@ class AGIToCognitiveMigrator:
     def migrate_file(self, file_path: Path) -> Tuple[bool, int]:
         """Migrate AGI references in a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 original_content = f.read()
 
             modified_content = original_content
@@ -304,7 +304,7 @@ class AGIToCognitiveMigrator:
             if dry_run:
                 # Just count potential changes
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, encoding='utf-8') as f:
                         content = f.read()
 
                     total_matches = 0

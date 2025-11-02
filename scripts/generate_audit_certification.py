@@ -92,7 +92,7 @@ class AuditCertificationGenerator:
     def analyze_evidence_file(self, file_path: Path) -> Optional[CertificationEvidence]:
         """Analyze a single evidence file."""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 data = json.load(f)
 
             # Calculate file checksum

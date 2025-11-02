@@ -51,7 +51,7 @@ def backup_file(path: Path) -> Path:
 
 def replace_in_file(path: Path, mapping: Dict[str, dict], apply: bool, log: list) -> bool:
     changed = False
-    with open(path, "r", encoding="utf-8") as fh:
+    with open(path, encoding="utf-8") as fh:
         lines = fh.readlines()
 
     new_lines = list(lines)
@@ -133,7 +133,7 @@ def main():
     mapping = load_mapping(mapfile)
 
     # determine files from mapping
-    files = sorted({k.rsplit(":", 1)[0] for k in mapping.keys()})
+    files = sorted({k.rsplit(":", 1)[0] for k in mapping})
     log = []
     for f in files:
         p = Path(f)

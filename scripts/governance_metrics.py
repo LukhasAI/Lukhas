@@ -28,7 +28,7 @@ DASHBOARD_PATH = REPO_ROOT / "docs" / "reports" / "DOCS_GOVERNANCE_DASHBOARD.md"
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -37,7 +37,7 @@ def load_metrics_history() -> List[Dict]:
     if not METRICS_PATH.exists():
         return []
 
-    with open(METRICS_PATH, 'r', encoding='utf-8') as f:
+    with open(METRICS_PATH, encoding='utf-8') as f:
         data = json.load(f)
 
     return data.get('history', [])
@@ -79,7 +79,7 @@ def calculate_metrics(manifest: Dict) -> Dict:
     link_triage_dir = OUTPUT_DIR / "link_triage"
     if (link_triage_dir / "summary.md").exists():
         try:
-            with open(link_triage_dir / "summary.md", 'r', encoding='utf-8') as f:
+            with open(link_triage_dir / "summary.md", encoding='utf-8') as f:
                 content = f.read()
                 import re
                 match = re.search(r'\*\*Total broken links\*\*:\s+(\d+)', content)

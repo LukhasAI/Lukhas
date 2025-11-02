@@ -93,10 +93,7 @@ def load_cfg(path: str|None):
     return merged, allow or ALLOWLIST_DEFAULT
 
 def root_ok(p: Path)->bool:
-    for seg in p.parts:
-        if seg in EXCLUDE_DIRS:
-            return False
-    return True
+    return all(seg not in EXCLUDE_DIRS for seg in p.parts)
 
 def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
     # If name begins with any legacy root, replace that segment

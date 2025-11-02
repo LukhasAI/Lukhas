@@ -260,7 +260,7 @@ class AutomatedDeploymentPipeline:
         """Load deployment configuration"""
         try:
             if self.config_path.exists():
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config_data = json.load(f)
 
                 environments = {}
@@ -691,7 +691,7 @@ class AutomatedDeploymentPipeline:
 
             if choice == "1":
                 print("\nAvailable environments:")
-                for env in self.environments.keys():
+                for env in self.environments:
                     print(f"- {env}")
 
                 env = input("Enter environment: ").strip()

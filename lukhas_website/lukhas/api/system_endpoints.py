@@ -145,7 +145,7 @@ def get_feature_flags() -> Dict[str, Any]:
     """
     # Read from claude-code.json if available
     try:
-        with open("claude-code.json", "r") as f:
+        with open("claude-code.json") as f:
             config = json.load(f)
             feature_flags = config.get("featureFlags", {})
     except Exception:

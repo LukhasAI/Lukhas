@@ -72,7 +72,7 @@ class CIRunner:
             if success:
                 results_path = f"{self.results_dir}/ci_benchmark.jsonl"
                 if os.path.exists(results_path):
-                    with open(results_path, 'r') as f:
+                    with open(results_path) as f:
                         results = []
                         for line in f:
                             line = line.strip()
@@ -141,7 +141,7 @@ class CIRunner:
             if success:
                 synthetic_path = f"{self.results_dir}/ci_synthetic.json"
                 if os.path.exists(synthetic_path):
-                    with open(synthetic_path, 'r') as f:
+                    with open(synthetic_path) as f:
                         synthetic_data = json.load(f)
 
                     if len(synthetic_data) != 10:
@@ -262,7 +262,7 @@ class CIRunner:
             if success:
                 taxonomy_path = f"{self.results_dir}/ci_taxonomy.json"
                 if os.path.exists(taxonomy_path):
-                    with open(taxonomy_path, 'r') as f:
+                    with open(taxonomy_path) as f:
                         taxonomy_report = json.load(f)
 
                     required_sections = ['taxonomy_analysis', 'error_patterns']

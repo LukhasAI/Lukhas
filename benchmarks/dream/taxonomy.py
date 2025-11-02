@@ -282,14 +282,14 @@ def load_and_analyze(results_path: str) -> Dict[str, Any]:
 
     if results_path.endswith(".jsonl"):
         # JSONL format
-        with open(results_path, "r") as f:
+        with open(results_path) as f:
             for line in f:
                 line = line.strip()
                 if line:
                     results.append(json.loads(line))
     else:
         # JSON format
-        with open(results_path, "r") as f:
+        with open(results_path) as f:
             data = json.load(f)
             if isinstance(data, list):
                 results = data

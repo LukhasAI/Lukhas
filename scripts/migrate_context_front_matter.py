@@ -52,10 +52,7 @@ def has_front_matter(text: str) -> bool:
     if not FM_BOUNDARY.match(lines[0]):
         return False
     # find end within first 200 lines
-    for i in range(1, min(len(lines), 200)):
-        if FM_BOUNDARY.match(lines[i]):
-            return True
-    return False
+    return any(FM_BOUNDARY.match(lines[i]) for i in range(1, min(len(lines), 200)))
 
 
 def read_manifest(md_path: pathlib.Path) -> Optional[Dict]:

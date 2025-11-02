@@ -5,7 +5,7 @@ import yaml
 
 
 def check_coverage(coverage_xml, thresholds_yml):
-    with open(thresholds_yml, 'r') as f:
+    with open(thresholds_yml) as f:
         thresholds = yaml.safe_load(f)
 
     tree = ET.parse(coverage_xml)

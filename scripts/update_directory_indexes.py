@@ -135,7 +135,7 @@ class DirectoryIndexUpdater:
     def update_single_index(self, index_file: Path) -> bool:
         """Update a single directory_index.json file"""
         try:
-            with open(index_file, 'r', encoding='utf-8') as f:
+            with open(index_file, encoding='utf-8') as f:
                 data = json.load(f)
 
             # Skip if already at latest schema version

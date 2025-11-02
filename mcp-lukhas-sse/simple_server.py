@@ -12,6 +12,7 @@ from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
+from typing import Optional
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +21,7 @@ logger = logging.getLogger(__name__)
 class SimpleOAuthMiddleware(BaseHTTPMiddleware):
     """Simple OAuth middleware for testing."""
 
-    def __init__(self, app, oauth_secret: str = None):
+    def __init__(self, app, oauth_secret: Optional[str] = None):
         super().__init__(app)
         self.oauth_secret = oauth_secret or "test-secret-key-for-local-development-only-do-not-use-in-production"
 
@@ -104,7 +105,7 @@ def read_file(path: str, max_lines: int = 100) -> dict:
         if not os.path.isfile(path):
             return {"error": "Path is not a file"}
 
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, encoding='utf-8') as f:
             lines = f.readlines()[:max_lines]
 
         return {

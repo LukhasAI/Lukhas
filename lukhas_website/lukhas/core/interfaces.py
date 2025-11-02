@@ -34,7 +34,7 @@ class CognitiveNodeBase(ABC):
     AUTOINIT: bool = False  # loader respects this
 
     @classmethod
-    def from_env(cls) -> "CognitiveNodeBase":
+    def from_env(cls) -> CognitiveNodeBase:
         """Construct from environment (override in impls)."""
         return cls()
 

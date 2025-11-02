@@ -103,9 +103,7 @@ def _compute_symbolic_metrics(rng: Random, request: DriftDreamProbeRequest) -> D
     drift_delta = round(rng.uniform(0.01, 0.2), 3)
     drift_score = round(drift_delta * rng.uniform(1.1, 1.4), 3)
     affect_delta = round(rng.uniform(-0.05, 0.05), 3)
-    collapse_hash_seed = f"{request.symbol}:{request.user}:{request.seed}:{request.recursive}".encode(
-        "utf-8"
-    )
+    collapse_hash_seed = f"{request.symbol}:{request.user}:{request.seed}:{request.recursive}".encode()
     collapse_hash = sha1(collapse_hash_seed).hexdigest()[:16]
 
     telemetry = DriftTelemetry(

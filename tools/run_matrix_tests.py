@@ -13,7 +13,7 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import yaml
 
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 class MatrixTestRunner:
     """Runs and validates matrix authorization tests."""
 
-    def __init__(self, fixtures_dir: str = None):
+    def __init__(self, fixtures_dir: Optional[str] = None):
         """Initialize the test runner."""
         self.fixtures_dir = Path(fixtures_dir) if fixtures_dir else Path(__file__).parent.parent / "tests" / "authz"
         self.matrix_dir = Path(__file__).parent.parent / "tests" / "matrix_identity"
@@ -292,7 +292,7 @@ class MatrixTestRunner:
             'matrices': all_results
         }
 
-    def generate_output(self, results: Dict[str, Any], output_file: str = None, min_pass_rate: float = 0.95):
+    def generate_output(self, results: Dict[str, Any], output_file: Optional[str] = None, min_pass_rate: float = 0.95):
         """Generate output file and check pass rate."""
         if output_file:
             output_path = Path(output_file)

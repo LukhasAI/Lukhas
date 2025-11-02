@@ -780,7 +780,7 @@ class HealthMonitoringSystem:
         if self.predictive_analyzer:
             for name, health in current_health.items():
                 component_risks = {}
-                for metric_name in health.metrics.keys():
+                for metric_name in health.metrics:
                     risk_score, risk_factors = self.predictive_analyzer.predict_failure_risk(
                         health.component_name,
                         health.component_type,
@@ -886,7 +886,7 @@ class HealthMonitoringSystem:
                 high_risk_components = []
 
                 for name, health in self.component_health.items():
-                    for metric_name in health.metrics.keys():
+                    for metric_name in health.metrics:
                         risk_score, risk_factors = self.predictive_analyzer.predict_failure_risk(
                             health.component_name,
                             health.component_type,

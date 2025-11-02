@@ -213,7 +213,7 @@ class ΛSage:
     def __init__(
         self,
         base_directory: str = "/Users/cognitive_dev/Downloads/Consolidation-Repo",
-        output_directory: str = None
+        output_directory: Optional[str] = None
     ):
         """
         Initialize ΛSAGE with system paths and archetypal knowledge base.

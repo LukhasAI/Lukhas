@@ -14,7 +14,7 @@ from typing import Any, Dict, List
 
 def load_json(path: Path) -> Dict[str, Any]:
     """Load JSON file safely"""
-    with open(path, 'r', encoding='utf-8') as f:
+    with open(path, encoding='utf-8') as f:
         return json.load(f)
 
 def save_json(path: Path, data: Dict[str, Any]) -> None:

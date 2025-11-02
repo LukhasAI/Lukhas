@@ -121,7 +121,7 @@ class AuditTrail:
                  encryption_key: Optional[bytes] = None,
                  retention_days: int = 2555,  # 7 years default
                  auto_compress: bool = True,
-                 compliance_frameworks: List[ComplianceFramework] = None):
+                 compliance_frameworks: Optional[List[ComplianceFramework]] = None):
         self.storage_path = Path(storage_path)
         self.max_events_per_block = max_events_per_block
         self.encryption_key = encryption_key or self._generate_encryption_key()
@@ -894,7 +894,7 @@ class AuditTrail:
 
         if self.current_block_path.exists():
             try:
-                with open(self.current_block_path, "r") as f:
+                with open(self.current_block_path) as f:
                     json.load(f)
                     # Reconstruct events (simplified)
                     self.current_events = []  # Would reconstruct from data
@@ -906,7 +906,7 @@ class AuditTrail:
 
         if self.chain_metadata_path.exists():
             try:
-                with open(self.chain_metadata_path, "r") as f:
+                with open(self.chain_metadata_path) as f:
                     metadata = json.load(f)
                     self.last_block_hash = metadata.get("last_block_hash", "0" * 64)
                     self.chain_length = metadata.get("chain_length", 0)

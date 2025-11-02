@@ -20,7 +20,7 @@ def _load_env_module() -> ModuleType:
     module = util.module_from_spec(spec)
     sys.modules.setdefault("config.env", module)
     parent_module = sys.modules.setdefault("config", ModuleType("config"))
-    setattr(parent_module, "env", module)
+    parent_module.env = module
     spec.loader.exec_module(module)
     return module
 

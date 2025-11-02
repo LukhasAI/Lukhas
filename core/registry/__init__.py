@@ -5,6 +5,7 @@ Provides register() function and _REG registry.
 """
 from __future__ import annotations
 import importlib as _importlib
+from typing import Optional
 try:
     _mod = _importlib.import_module("labs.core.identity.registry")
     _REG = _mod._REG
@@ -26,7 +27,7 @@ def autoload():
     """Autoload discovered plugins (placeholder)."""
     pass
 
-def discover_entry_points(group: str = None):
+def discover_entry_points(group: Optional[str] = None):
     """Discover entry points (placeholder)."""
     return []
 

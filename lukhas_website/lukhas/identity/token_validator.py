@@ -725,7 +725,7 @@ class TokenValidator:
         # Update latency metrics
         token_validation_latency_seconds.labels(
             component=self._component_id
-        ).observe((time.time() - start_time))
+        ).observe(time.time() - start_time)
 
         return result
 

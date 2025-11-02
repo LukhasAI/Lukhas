@@ -27,7 +27,7 @@ class SeverityLevel(str, Enum):
     CRITICAL = "critical"
 
     @classmethod
-    def from_value(cls, value: str | "SeverityLevel") -> "SeverityLevel":
+    def from_value(cls, value: str | SeverityLevel) -> SeverityLevel:
         """Return a :class:`SeverityLevel` instance from *value*.
 
         Args:
@@ -74,9 +74,7 @@ def _sanitize_mapping(data: Mapping[str, Any]) -> Dict[str, Any]:
     for key, value in data.items():
         replacement: Any = value
 
-        if isinstance(key, str) and _contains_sensitive_data(key):
-            replacement = "[REDACTED]"
-        elif isinstance(value, str) and _contains_sensitive_data(value):
+        if isinstance(key, str) and _contains_sensitive_data(key) or isinstance(value, str) and _contains_sensitive_data(value):
             replacement = "[REDACTED]"
 
         sanitised[key] = replacement
@@ -92,7 +90,7 @@ class SecurityReport:
     summary: str
     details: Mapping[str, Any]
 
-    def sanitise(self) -> "SecurityReport":
+    def sanitise(self) -> SecurityReport:
         """Return a sanitised copy of the report with sensitive data redacted."""
 
         return replace(self, details=_sanitize_mapping(self.details))

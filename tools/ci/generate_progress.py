@@ -26,7 +26,7 @@ class ProgressGenerator:
         if not manifest_files:
             raise FileNotFoundError("No manifest.json found in run directory")
 
-        with open(manifest_files[0], "r") as f:
+        with open(manifest_files[0]) as f:
             return json.load(f)
 
     def _load_batches(self) -> Dict[str, Dict[str, Any]]:
@@ -40,7 +40,7 @@ class ProgressGenerator:
             if batch_path.exists():
                 print(f"Loading batches from: {batch_path}")
                 for batch_file in batch_path.glob("BATCH-*.json"):
-                    with open(batch_file, "r") as f:
+                    with open(batch_file) as f:
                         batch_data = json.load(f)
                         batches[batch_data["agent"]] = batch_data
                 print(f"Loaded {len(batches)} batches from {batch_dir}")

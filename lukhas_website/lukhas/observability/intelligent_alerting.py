@@ -185,7 +185,7 @@ class IntelligentAlertingSystem:
         """Load alerting configuration from file"""
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config = json.load(f)
 
                 # Load alert rules

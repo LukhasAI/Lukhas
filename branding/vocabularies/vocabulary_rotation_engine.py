@@ -358,7 +358,7 @@ class VocabularyRotationEngine:
 
         return family_name, self.metaphor_families[family_name]
 
-    def get_matriz_phrase(self, matriz_component: str, family_name: str = None) -> str:
+    def get_matriz_phrase(self, matriz_component: str, family_name: Optional[str] = None) -> str:
         """Get MATRIZ-specific phrase from current or specified family."""
         if family_name is None:
             family_name, family_data = self.get_next_family()
@@ -368,7 +368,7 @@ class VocabularyRotationEngine:
         phrases = family_data.get("MATRIZ", {}).get(matriz_component, ["consciousness flows"])
         return random.choice(phrases)
 
-    def get_3_layer_content(self, family_name: str = None) -> Dict[str, str]:
+    def get_3_layer_content(self, family_name: Optional[str] = None) -> Dict[str, str]:
         """Get 3-layer tone system content for a family."""
         if family_name is None:
             family_name, family_data = self.get_next_family()
@@ -430,7 +430,7 @@ class VocabularyRotationEngine:
         try:
             data_path = Path(self.data_file)
             if data_path.exists():
-                with open(data_path, 'r') as f:
+                with open(data_path) as f:
                     data = json.load(f)
                     self.usage_tracker = data.get('usage_tracker', {})
                     self.current_family_index = data.get('current_family_index', 0)

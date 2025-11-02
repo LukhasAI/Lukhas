@@ -109,7 +109,7 @@ class JulesClient:
 
 def load_task_prompt(task_file: Path) -> str:
     """Extract the task prompt from the Jules task file."""
-    with open(task_file, 'r') as f:
+    with open(task_file) as f:
         content = f.read()
 
     # Extract prompt between EOF markers

@@ -100,7 +100,7 @@ def main():
     for r in results:
         path = r.get("filename", "")
         try:
-            with open(path, "r", encoding="utf-8", errors="ignore") as f:
+            with open(path, encoding="utf-8", errors="ignore") as f:
                 txt = f.read()
         except Exception:
             txt = ""
@@ -149,7 +149,7 @@ def main():
             if not within(p, ["labs"]):
                 continue
             try:
-                lines = open(p, "r", encoding="utf-8").read().splitlines()
+                lines = open(p, encoding="utf-8").read().splitlines()
             except Exception:
                 continue
             ln = it["line"]

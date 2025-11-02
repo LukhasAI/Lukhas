@@ -39,7 +39,7 @@ INDEX_FILES = [
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -81,7 +81,7 @@ def read_doc_content(doc_path: str) -> str:
     """Read document content for similarity comparison."""
     try:
         full_path = Path(doc_path)
-        with open(full_path, 'r', encoding='utf-8') as f:
+        with open(full_path, encoding='utf-8') as f:
             return f.read()
     except Exception:
         return ""
@@ -91,7 +91,7 @@ def is_referenced_by_index(doc_path: str) -> bool:
     """Check if document is referenced by any index file."""
     for index_file in INDEX_FILES:
         try:
-            with open(index_file, 'r', encoding='utf-8') as f:
+            with open(index_file, encoding='utf-8') as f:
                 content = f.read()
                 # Check for relative path reference
                 if doc_path.replace('docs/', '') in content:
@@ -360,7 +360,7 @@ def apply_dedupe_plan():
         print("   Run: python3 scripts/docs_dedupe.py")
         return False
 
-    with open(DEDUPE_PLAN_PATH, 'r', encoding='utf-8') as f:
+    with open(DEDUPE_PLAN_PATH, encoding='utf-8') as f:
         plan = json.load(f)
 
     redirects = plan.get('redirects', [])

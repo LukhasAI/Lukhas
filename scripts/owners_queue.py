@@ -21,7 +21,7 @@ MANIFEST_PATH = INVENTORY_DIR / "docs_manifest.json"
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 

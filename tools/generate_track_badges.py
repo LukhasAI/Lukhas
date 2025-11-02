@@ -177,7 +177,7 @@ class TrackBadgeGenerator:
 
         if readme_path.exists():
             # Update existing README
-            with open(readme_path, 'r') as f:
+            with open(readme_path) as f:
                 content = f.read()
 
             # Replace existing status table

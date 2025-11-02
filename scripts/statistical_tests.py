@@ -14,7 +14,7 @@ import argparse
 import json
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 import scipy.stats as stats
@@ -31,7 +31,7 @@ class StatisticalAnalyzer:
 
     def load_audit_data(self, file_path: str) -> Dict[str, Any]:
         """Load audit data from JSON file."""
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             return json.load(f)
 
     def extract_latencies(self, audit_data: Dict[str, Any]) -> Dict[str, List[float]]:
@@ -143,7 +143,7 @@ class StatisticalAnalyzer:
         sample: List[float],
         statistic_func=np.mean,
         n_bootstrap: int = 1000,
-        confidence_level: float = None
+        confidence_level: Optional[float] = None
     ) -> Dict[str, Any]:
         """Calculate bootstrap confidence interval."""
         if confidence_level is None:

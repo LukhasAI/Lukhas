@@ -58,7 +58,7 @@ class SchemaEvolutionGuard:
 
     def load_current_schema(self) -> Dict[str, Any]:
         """Load current MATRIZ schema."""
-        with open(self.schema_file, 'r', encoding='utf-8') as f:
+        with open(self.schema_file, encoding='utf-8') as f:
             return json.load(f)
 
     def load_baseline_schema(self) -> Dict[str, Any]:
@@ -68,7 +68,7 @@ class SchemaEvolutionGuard:
         if not baseline_file.exists():
             pytest.skip("Baseline schema snapshot not found - run schema snapshot generation first")
 
-        with open(baseline_file, 'r', encoding='utf-8') as f:
+        with open(baseline_file, encoding='utf-8') as f:
             snapshot_data = json.load(f)
 
         # Extract actual schema from snapshot format
@@ -198,9 +198,7 @@ class SchemaEvolutionGuard:
 
                         # Detect tightening based on constraint type
                         is_tightening = False
-                        if constraint_key in ['minLength', 'minimum', 'minItems'] and current_value > baseline_value:
-                            is_tightening = True
-                        elif constraint_key in ['maxLength', 'maximum', 'maxItems'] and current_value < baseline_value:
+                        if constraint_key in ['minLength', 'minimum', 'minItems'] and current_value > baseline_value or constraint_key in ['maxLength', 'maximum', 'maxItems'] and current_value < baseline_value:
                             is_tightening = True
 
                         if is_tightening:

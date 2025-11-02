@@ -94,7 +94,7 @@ def _hash_token(token: str) -> str:
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
-def _metadata_for_token(token: str) -> "ApiKeyMetadata":
+def _metadata_for_token(token: str) -> ApiKeyMetadata:
     if api_key_cache is None or ApiKeyMetadata is None:  # pragma: no cover - fallback safety
         raise RuntimeError("API key cache unavailable; cannot verify tokens")
 
@@ -115,7 +115,7 @@ def _metadata_for_token(token: str) -> "ApiKeyMetadata":
     return metadata
 
 
-def _string_attr(metadata: "ApiKeyMetadata", *keys: str) -> Optional[str]:
+def _string_attr(metadata: ApiKeyMetadata, *keys: str) -> Optional[str]:
     attributes = getattr(metadata, "attributes", {}) or {}
     for key in keys:
         value = attributes.get(key)
@@ -192,7 +192,7 @@ def _risk_for(token_type: str, owner: str) -> float:
     return 0.15
 
 
-def _resolve_token_type(token: str, metadata: "ApiKeyMetadata") -> str:
+def _resolve_token_type(token: str, metadata: ApiKeyMetadata) -> str:
     hint = _string_attr(metadata, "token_type", "kind", "type", "category")
     if hint:
         return hint.lower()
@@ -200,7 +200,7 @@ def _resolve_token_type(token: str, metadata: "ApiKeyMetadata") -> str:
     return token_type if token_type != "unknown" else "pat"
 
 
-def _resolve_owner(token: str, metadata: "ApiKeyMetadata") -> str:
+def _resolve_owner(token: str, metadata: ApiKeyMetadata) -> str:
     hint = _string_attr(metadata, "owner", "token_owner", "user", "user_id")
     if hint:
         return hint.lower()
@@ -213,7 +213,7 @@ def _resolve_owner(token: str, metadata: "ApiKeyMetadata") -> str:
     return "default"
 
 
-def _scopes_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata") -> tuple[str, ...]:
+def _scopes_from_metadata(token_type: str, owner: str, metadata: ApiKeyMetadata) -> tuple[str, ...]:
     scopes = tuple(sorted(getattr(metadata, "scopes", ()) or ()))
     if scopes:
         return scopes
@@ -227,7 +227,7 @@ def _scopes_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata
     return _scopes_for(token_type, owner)
 
 
-def _lane_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata") -> str:
+def _lane_from_metadata(token_type: str, owner: str, metadata: ApiKeyMetadata) -> str:
     lane_hint = _string_attr(metadata, "lane", "deployment_lane", "lane_hint")
     if lane_hint:
         return lane_hint.lower()
@@ -249,14 +249,14 @@ def _lane_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata")
     return _lane_for(owner, token_type)
 
 
-def _org_from_metadata(owner: str, token_type: str, metadata: "ApiKeyMetadata") -> str:
+def _org_from_metadata(owner: str, token_type: str, metadata: ApiKeyMetadata) -> str:
     org_hint = _string_attr(metadata, "org_id", "organization", "tenant", "org")
     if org_hint:
         return org_hint
     return _derive_org(owner, token_type)
 
 
-def _risk_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata") -> float:
+def _risk_from_metadata(token_type: str, owner: str, metadata: ApiKeyMetadata) -> float:
     risk_hint = _string_attr(metadata, "risk", "risk_level", "risk_score")
     if risk_hint:
         try:
@@ -269,7 +269,7 @@ def _risk_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata")
     return _risk_for(token_type, owner)
 
 
-def _project_from_metadata(project_id: str | None, metadata: "ApiKeyMetadata") -> str | None:
+def _project_from_metadata(project_id: str | None, metadata: ApiKeyMetadata) -> str | None:
     if project_id:
         return project_id
     return _string_attr(metadata, "project_id", "default_project_id", "project")

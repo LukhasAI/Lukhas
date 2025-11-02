@@ -243,7 +243,7 @@ EXPORT
             ],
             "category_summary": {
                 category: sum(count for e, count in self.error_counts.items() if e.category == category)
-                for category in set(e.category for e in self.error_counts.keys())
+                for category in set(e.category for e in self.error_counts)
             }
         }
 

@@ -25,7 +25,7 @@ class TransientFailureNode(CognitiveNodeBase):
         self.calls += 1
         if self.calls == 1:
             error = RuntimeError("transient failure")
-            setattr(error, "transient", True)  # # ΛTAG: error_recovery
+            error.transient = True  # # ΛTAG: error_recovery
             raise error
         return {"flaky": True, "calls": self.calls}
 

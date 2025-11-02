@@ -9,11 +9,12 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from typing import Optional
 
 
 class AutoLintFixer:
 
-    def __init__(self, project_root: Path = None):
+    def __init__(self, project_root: Optional[Path] = None):
         self.project_root = project_root or Path.cwd()
         self.issues_fixed = []
         self.issues_remaining = []

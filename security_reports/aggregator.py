@@ -34,7 +34,7 @@ class VulnerabilityRecord:
     fix_versions: Tuple[str, ...] = ()
     sources: Tuple[str, ...] = ()
 
-    def merge(self, other: "VulnerabilityRecord") -> "VulnerabilityRecord":
+    def merge(self, other: VulnerabilityRecord) -> VulnerabilityRecord:
         """Return a new record that combines data from ``self`` and ``other``."""
 
         severity = _pick_severity(self.severity, other.severity)

@@ -22,7 +22,7 @@ LINK_PATTERN = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -61,7 +61,7 @@ def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
         except Exception:
             continue
@@ -223,7 +223,7 @@ def main():
     print("=" * 80)
     print()
     print("# Create GitHub issues:")
-    for category in broken_by_category.keys():
+    for category in broken_by_category:
         print(f"gh issue create --title 'Broken Links: {category}' --body-file 'docs/_generated/link_triage/{category}.md' --label 'docs:{category}'")
 
     print()

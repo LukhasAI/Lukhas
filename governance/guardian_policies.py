@@ -523,9 +523,7 @@ class GuardianPoliciesEngine:
 
         if critical_reasons:
             return DecisionType.DENY
-        elif high_reasons:
-            return DecisionType.REVIEW
-        elif len(reasons) > 3:  # Too many medium/low severity issues
+        elif high_reasons or len(reasons) > 3:
             return DecisionType.REVIEW
         else:
             return DecisionType.ALLOW  # Low severity issues don't block

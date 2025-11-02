@@ -33,7 +33,7 @@ def install_vault_mcp():
     print("✅ Backup created successfully")
 
     # Load config
-    with open(config_path, 'r') as f:
+    with open(config_path) as f:
         config = json.load(f)
 
     # Check if already installed

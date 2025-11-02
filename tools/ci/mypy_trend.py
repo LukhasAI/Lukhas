@@ -40,7 +40,7 @@ def main():
     if not os.path.exists(SRC):
         print(f"[mypy_trend] missing {SRC}", file=sys.stderr)
         return 2
-    with open(SRC, "r", encoding="utf-8") as f:
+    with open(SRC, encoding="utf-8") as f:
         content = f.read()
 
     core, total = count_errors(content)

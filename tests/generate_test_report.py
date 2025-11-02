@@ -36,7 +36,7 @@ class TestReportGenerator:
             subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
             # Load JSON results
-            with open("test_results.json", "r") as f:
+            with open("test_results.json") as f:
                 return json.load(f)
         except Exception as e:
             print(f"⚠️ Could not run tests with JSON output: {e}")

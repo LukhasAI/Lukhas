@@ -126,14 +126,14 @@ class SymbolicReasoningColony(BaseColony):
         participation_rate = participating_agents / total_agents if total_agents > 0 else 0.0
 
         # Simulate voting across consciousness nodes
-        votes = {agent_id: "approved" for agent_id in self.agents.keys()}
+        votes = {agent_id: "approved" for agent_id in self.agents}
 
         # Update affect_delta based on consensus formation
         affect_change = 0.1 * participation_rate
         self.update_affect_delta(affect_change)
 
         # Synchronize consensus affect_delta with mesh topology
-        for agent_id in self.agents.keys():
+        for agent_id in self.agents:
             self.mesh_service.update_agent_metrics(
                 agent_id,
                 drift_delta=0.0,

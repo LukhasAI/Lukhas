@@ -146,7 +146,7 @@ class ModelSelector:
 
     def select_models(self,
                      request: RoutingRequest,
-                     exclude_models: List[str] = None) -> List[AIModel]:
+                     exclude_models: Optional[List[str]] = None) -> List[AIModel]:
         """Select optimal models for the request"""
         exclude_models = exclude_models or []
 

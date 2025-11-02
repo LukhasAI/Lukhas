@@ -8,7 +8,7 @@ Production-ready monitoring for Guardian (<100ms), Memory (<1ms), Orchestrator (
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 import pytest
 
@@ -32,7 +32,7 @@ class BurnRateCalculator:
         "orchestrator_latency": SLOMetric("orchestrator_latency", 250000.0, 0.01, 4.0, 2.0),
     }
 
-    def __init__(self, metrics_store: Dict[str, List[Tuple[datetime, float]]] = None):
+    def __init__(self, metrics_store: Optional[Dict[str, List[Tuple[datetime, float]]]] = None):
         self.metrics_store = metrics_store or {}
 
     def add_metric(self, metric_name: str, timestamp: datetime, value_ms: float):

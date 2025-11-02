@@ -187,10 +187,10 @@ class AuditTrail:
         self,
         decision_type: DecisionType,
         input_data: Any,
-        parent_nodes: List[str] = None,
-        active_brains: List[BrainContext] = None,
-        tags: List[str] = None,
-        consent_scopes: List[str] = None
+        parent_nodes: Optional[List[str]] = None,
+        active_brains: Optional[List[BrainContext]] = None,
+        tags: Optional[List[str]] = None,
+        consent_scopes: Optional[List[str]] = None
     ) -> str:
         """
         Create a new decision node with consent-aware redaction

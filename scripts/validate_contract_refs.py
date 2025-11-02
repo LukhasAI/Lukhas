@@ -103,7 +103,7 @@ def main():
                     failures += 1
                     # Suggest close matches by name part only
                     name = stem.split("@", 1)[0]
-                    candidates = [c for c in contracts.keys() if c.startswith(name + "@")]
+                    candidates = [c for c in contracts if c.startswith(name + "@")]
                     if not candidates:
                         candidates = list(contracts.keys())
                     hint = get_close_matches(stem, candidates, n=3)

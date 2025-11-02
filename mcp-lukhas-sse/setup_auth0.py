@@ -15,7 +15,7 @@ def setup_auth0_config():
     current_config = {}
 
     if env_file.exists():
-        with open(env_file, 'r') as f:
+        with open(env_file) as f:
             for line in f:
                 if '=' in line and not line.strip().startswith('#'):
                     key, value = line.strip().split('=', 1)

@@ -332,7 +332,7 @@ def main():
     args = parser.parse_args()
 
     # Load manifest
-    with open(args.manifest, "r") as f:
+    with open(args.manifest) as f:
         manifest = json.load(f)
 
     # Generate verification matrix

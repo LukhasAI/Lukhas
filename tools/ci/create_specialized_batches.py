@@ -63,7 +63,7 @@ class SpecializedBatchCreator:
 
     def _load_manifest(self, manifest_file: str) -> Dict[str, Any]:
         """Load the task manifest."""
-        with open(manifest_file, "r") as f:
+        with open(manifest_file) as f:
             return json.load(f)
 
     def _find_unallocated_todos(self) -> List[Dict[str, Any]]:
@@ -195,7 +195,7 @@ class SpecializedBatchCreator:
         """Create all specialized agent batches"""
         created_batches = []
 
-        for agent_id in self.agent_specs.keys():
+        for agent_id in self.agent_specs:
             batch = self.create_batch(agent_id, output_dir)
             if batch:
                 created_batches.append(batch)

@@ -252,7 +252,7 @@ class EvidenceArchivalSystem:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     self.config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -424,7 +424,7 @@ class EvidenceArchivalSystem:
                 with gzip.open(evidence_file, 'rt') as f:
                     evidence_data = json.load(f)
             else:
-                with open(evidence_file, 'r') as f:
+                with open(evidence_file) as f:
                     evidence_data = json.load(f)
 
             original_size = evidence_file.stat().st_size

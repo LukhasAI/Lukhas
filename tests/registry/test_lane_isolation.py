@@ -20,7 +20,7 @@ import sys
 import threading
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from unittest.mock import Mock, patch
 
 import pytest
@@ -76,19 +76,19 @@ class LaneIsolationManager:
             raise ValueError(f"Unknown lane: {lane_name}")
         self.current_lane = lane_name
 
-    def get_lane_config(self, lane_name: str = None) -> LaneConfig:
+    def get_lane_config(self, lane_name: Optional[str] = None) -> LaneConfig:
         """Get configuration for specified or current lane"""
         lane_name = lane_name or self.current_lane
         if not lane_name or lane_name not in self.lanes:
             raise ValueError(f"Invalid lane: {lane_name}")
         return self.lanes[lane_name]
 
-    def is_plugin_allowed_in_lane(self, plugin_group: str, lane_name: str = None) -> bool:
+    def is_plugin_allowed_in_lane(self, plugin_group: str, lane_name: Optional[str] = None) -> bool:
         """Check if plugin group is allowed in specified lane"""
         lane_config = self.get_lane_config(lane_name)
         return plugin_group in lane_config.allowed_plugin_groups
 
-    def enforce_lane_isolation(self, plugin_name: str, plugin_group: str, lane_name: str = None) -> bool:
+    def enforce_lane_isolation(self, plugin_name: str, plugin_group: str, lane_name: Optional[str] = None) -> bool:
         """Enforce lane isolation for plugin registration"""
         if not self.isolation_enabled:
             return True
@@ -108,7 +108,7 @@ class LaneIsolationManager:
 
         return True
 
-    def get_lane_specific_registry_key(self, plugin_name: str, plugin_group: str, lane_name: str = None) -> str:
+    def get_lane_specific_registry_key(self, plugin_name: str, plugin_group: str, lane_name: Optional[str] = None) -> str:
         """Generate lane-specific registry key"""
         lane_config = self.get_lane_config(lane_name)
         prefix = lane_config.plugin_prefix
@@ -602,8 +602,8 @@ class TestLaneIsolationEnforcement:
         assert prod_key != dev_key
 
         # Verify cross-lane access is not possible
-        prod_plugins = [k for k in _REG.keys() if k.startswith('prod:')]
-        dev_plugins = [k for k in _REG.keys() if k.startswith('dev:')]
+        prod_plugins = [k for k in _REG if k.startswith('prod:')]
+        dev_plugins = [k for k in _REG if k.startswith('dev:')]
 
         assert len(prod_plugins) == 1
         assert len(dev_plugins) == 1

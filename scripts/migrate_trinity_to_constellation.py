@@ -145,7 +145,7 @@ class TrinityToConstellationMigrator:
 
         # Skip binary files
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 f.read(1024)  # Test read
         except (UnicodeDecodeError, UnicodeError, FileNotFoundError):
             return False
@@ -155,7 +155,7 @@ class TrinityToConstellationMigrator:
     def migrate_file(self, file_path: Path) -> Tuple[bool, int]:
         """Migrate Trinity references in a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 original_content = f.read()
 
             modified_content = original_content
@@ -201,7 +201,7 @@ class TrinityToConstellationMigrator:
     def preview_changes(self, file_path: Path) -> List[Tuple[str, str, str]]:
         """Preview changes that would be made to a file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             changes = []

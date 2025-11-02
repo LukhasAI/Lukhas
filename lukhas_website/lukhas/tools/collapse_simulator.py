@@ -210,7 +210,7 @@ def compute_affect_delta(rng: random.Random, scenario: str, noise: float, index:
 def compute_collapse_hash(scenario: str, drift_score: float, affect_delta: float, index: int) -> str:
     """Compute symbolic collapse hash for the iteration."""
 
-    digest_input = f"{scenario}:{drift_score}:{affect_delta}:{index}".encode("utf-8")
+    digest_input = f"{scenario}:{drift_score}:{affect_delta}:{index}".encode()
     return str(abs(hash(digest_input)) % 10 ** 10).zfill(10)
 
 
@@ -225,7 +225,7 @@ def derive_top_symbols(scenario: str) -> List[str]:
     return symbol_map.get(scenario, ["UNKNOWN_SYMBOL"])
 
 
-def initialize_trace_repair_engine() -> Optional["TraceRepairEngine"]:
+def initialize_trace_repair_engine() -> Optional[TraceRepairEngine]:
     """Initialize TraceRepairEngine if available."""
 
     if TraceRepairEngine is None:
@@ -239,7 +239,7 @@ def initialize_trace_repair_engine() -> Optional["TraceRepairEngine"]:
 
 
 def invoke_trace_repair(
-    repair_engine: "TraceRepairEngine",
+    repair_engine: TraceRepairEngine,
     scenario: str,
     drift_score: float,
     top_symbols: List[str],

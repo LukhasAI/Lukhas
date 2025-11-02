@@ -383,7 +383,7 @@ class MemoryCacheBackend(CacheBackend):
         if pattern == "*":
             return list(self.entries.keys())
 
-        return [key for key in self.entries.keys() if fnmatch.fnmatch(key, pattern)]
+        return [key for key in self.entries if fnmatch.fnmatch(key, pattern)]
 
     async def size(self) -> int:
         """Get number of entries."""

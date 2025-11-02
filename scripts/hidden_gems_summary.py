@@ -39,7 +39,7 @@ class HiddenGem:
 
     # ΛTAG: hidden_gem_factory
     @classmethod
-    def from_manifest_entry(cls, entry: Mapping[str, Any]) -> "HiddenGem":
+    def from_manifest_entry(cls, entry: Mapping[str, Any]) -> HiddenGem:
         """Create a ``HiddenGem`` from a manifest entry, validating required fields."""
 
         required_fields = ("module", "score", "complexity", "effort_hours", "target_location")

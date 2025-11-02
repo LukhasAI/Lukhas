@@ -9,13 +9,13 @@ import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 
 class BuildMetricsCollector:
     """Collects and analyzes build system performance metrics"""
 
-    def __init__(self, repo_path: Path = None):
+    def __init__(self, repo_path: Optional[Path] = None):
         self.repo_path = repo_path or Path.cwd()
         self.metrics_file = self.repo_path / "reports" / "build_metrics.json"
         self.metrics_file.parent.mkdir(exist_ok=True)

@@ -37,7 +37,7 @@ if "labs.core.guardian.drift_detector" not in sys.modules:
     drift_module.DriftType = _StubDriftType
     drift_module.AdvancedDriftDetector = _StubAdvancedDriftDetector
     sys.modules["labs.core.guardian.drift_detector"] = drift_module
-    setattr(guardian_package, "drift_detector", drift_module)
+    guardian_package.drift_detector = drift_module
 
 if "labs.core.governance.guardian_system_2" not in sys.modules:
     guardian_system_module = types.ModuleType("labs.core.governance.guardian_system_2")

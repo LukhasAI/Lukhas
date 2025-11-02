@@ -280,7 +280,7 @@ async def create_chat_completion(request: dict) -> dict[str, Any]:
     request.get('max_tokens', 100)
     import time
     response_text = 'This is a stub response for RC soak testing.'
-    return {'id': f'chatcmpl-{int(time.time())}', 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': sum((len(str(m.get('content', '')).split()) for m in messages)), 'completion_tokens': len(response_text.split()), 'total_tokens': sum((len(str(m.get('content', '')).split()) for m in messages)) + len(response_text.split())}}
+    return {'id': f'chatcmpl-{int(time.time())}', 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': sum(len(str(m.get('content', '')).split()) for m in messages), 'completion_tokens': len(response_text.split()), 'total_tokens': sum(len(str(m.get('content', '')).split()) for m in messages) + len(response_text.split())}}
 
 @app.post('/v1/responses', tags=['OpenAI Compatible'])
 async def create_response(request: dict) -> dict[str, Any]:

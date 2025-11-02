@@ -256,7 +256,7 @@ def generate_integration_steps(
 def load_hidden_gems(csv_path: Path) -> list[dict[str, Any]]:
     """Load all hidden gems from CSV."""
     gems = []
-    with open(csv_path, "r") as f:
+    with open(csv_path) as f:
         reader = csv.DictReader(f)
         for row in reader:
             if row["category"] == "hidden_gem":

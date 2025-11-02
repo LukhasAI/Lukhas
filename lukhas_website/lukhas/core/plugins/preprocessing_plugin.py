@@ -6,7 +6,7 @@ Provides data preprocessing capabilities for LUKHAS pipelines.
 """
 
 import time
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from core.registry.plugin_registry import PluginBase, PluginInfo
 
@@ -14,7 +14,7 @@ from core.registry.plugin_registry import PluginBase, PluginInfo
 class DataPreprocessingPlugin(PluginBase):
     """Plugin for data preprocessing operations."""
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("DataPreprocessing", "1.0.0")
         self.config = config or {}
         self.normalize_data = self.config.get("normalize", True)

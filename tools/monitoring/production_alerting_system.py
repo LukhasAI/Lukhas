@@ -309,7 +309,7 @@ class ProductionAlertingSystem:
         """Load configuration from file or use defaults"""
         if config_path and config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     return json.load(f)
             except Exception as e:
                 logger.warning(f"Failed to load config from {config_path}: {e}")

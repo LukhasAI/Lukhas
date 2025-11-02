@@ -76,7 +76,7 @@ def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]
         (changed, change_list) - Whether file was changed and list of changes
     """
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             source = f.read()
     except (UnicodeDecodeError, PermissionError) as e:
         return False, [f"ERROR: Could not read file: {e}"]

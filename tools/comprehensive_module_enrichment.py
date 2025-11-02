@@ -28,7 +28,7 @@ class ModuleContentMiner:
         init_file = module_path / "__init__.py"
         if init_file.exists():
             try:
-                with open(init_file, 'r', encoding='utf-8') as f:
+                with open(init_file, encoding='utf-8') as f:
                     content = f.read()
 
                 # Parse AST to find __all__ definitions
@@ -59,7 +59,7 @@ class ModuleContentMiner:
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
 
                 tree = ast.parse(content)
@@ -80,7 +80,7 @@ class ModuleContentMiner:
             return None
 
         try:
-            with open(init_file, 'r', encoding='utf-8') as f:
+            with open(init_file, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -117,7 +117,7 @@ class ModuleContentMiner:
         for context_file in context_files:
             if context_file.exists():
                 try:
-                    with open(context_file, 'r', encoding='utf-8') as f:
+                    with open(context_file, encoding='utf-8') as f:
                         content = f.read()
                     context_data[context_file.name] = content
                 except Exception as e:
@@ -291,7 +291,7 @@ def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[s
 
     # Load existing manifest
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, encoding='utf-8') as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")

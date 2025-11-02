@@ -228,7 +228,7 @@ class TamperEvidenceFramework:
         content = None
         if file_path.suffix.lower() == '.json':
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     content = json.load(f)
             except Exception:
                 content = None
@@ -522,7 +522,7 @@ def main():
 
         for chain_file in args.chain:
             try:
-                with open(chain_file, 'r') as f:
+                with open(chain_file) as f:
                     package = json.load(f)
 
                 # Reconstruct chain

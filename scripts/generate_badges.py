@@ -44,7 +44,7 @@ def main():
     ap.add_argument("--out", default="docs/audits")
     args = ap.parse_args()
 
-    inv = json.load(open(args.inventory, "r", encoding="utf-8"))
+    inv = json.load(open(args.inventory, encoding="utf-8"))
     total = int(inv.get("statistics", {}).get("total_modules", len(inv.get("inventory", [])) or 0))
     out_dir = pathlib.Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)
 

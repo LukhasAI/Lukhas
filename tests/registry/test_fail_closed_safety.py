@@ -73,7 +73,7 @@ class FailureSimulator:
     def simulate_file_system_failure():
         """Simulate file system failures"""
         def failing_open(*args, **kwargs):
-            raise IOError("Simulated file system failure")
+            raise OSError("Simulated file system failure")
 
         return patch('builtins.open', side_effect=failing_open)
 
@@ -163,7 +163,7 @@ class MaliciousPluginSimulator:
                 self.accessed_files = []
                 for path in sensitive_paths:
                     try:
-                        with open(path, 'r') as f:
+                        with open(path) as f:
                             content = f.read(100)  # Read first 100 chars
                             self.accessed_files.append((path, len(content)))
                     except (FileNotFoundError, PermissionError, OSError):
@@ -362,7 +362,7 @@ class TestFailClosedSafetyMechanisms:
             with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
                 try:
                     discover_entry_points()
-                except IOError:
+                except OSError:
                     pytest.fail("Discovery should handle file system failures gracefully")
 
     def test_concurrent_failure_handling(self):

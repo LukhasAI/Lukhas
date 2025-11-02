@@ -1,6 +1,7 @@
 import json
 import re
 from pathlib import Path
+from typing import Optional
 
 RULES = json.loads(Path("configs/star_rules.json").read_text(encoding="utf-8"))
 
@@ -13,7 +14,7 @@ EXCL_RX  = [re.compile(r["pattern"], re.I) for r in RULES.get("exclusions", [])]
 CONF_MIN = float(RULES["confidence"]["min_suggest"])
 W = RULES["weights"]
 
-def suggest_star(path_str: str, name: str, caps: list[str], nodes: list[str], owner: str = "", deps: list[str] = None):
+def suggest_star(path_str: str, name: str, caps: list[str], nodes: list[str], owner: str = "", deps: Optional[list[str]] = None):
     deps = deps or []
     # block by exclusions
     for rx in EXCL_RX:

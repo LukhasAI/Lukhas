@@ -84,7 +84,7 @@ def sha256_text(s: str) -> str:
 
 
 def load_manifest() -> Dict:
-    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+    with open(MANIFEST_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 

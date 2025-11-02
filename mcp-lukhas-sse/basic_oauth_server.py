@@ -12,6 +12,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Route
+from typing import Optional
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +21,7 @@ logger = logging.getLogger(__name__)
 class SimpleOAuthMiddleware(BaseHTTPMiddleware):
     """Simple OAuth middleware for testing."""
 
-    def __init__(self, app, oauth_secret: str = None):
+    def __init__(self, app, oauth_secret: Optional[str] = None):
         super().__init__(app)
         self.oauth_secret = oauth_secret or "test-secret-key-for-local-development-only-do-not-use-in-production"
 

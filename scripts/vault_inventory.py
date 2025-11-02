@@ -98,7 +98,7 @@ def detect_chat_log_origin(filepath: Path) -> Optional[str]:
     # Content patterns (for .json files)
     if filepath.suffix == '.json':
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, encoding='utf-8') as f:
                 content = f.read(500)  # First 500 chars
                 if '"model": "gpt-' in content:
                     return 'ChatGPT'
@@ -157,7 +157,7 @@ def process_file(filepath: Path, root: Path) -> Dict:
     # Type-specific processing
     if file_type == 'markdown':
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, encoding='utf-8') as f:
                 content = f.read()
 
             fm = extract_front_matter(content)

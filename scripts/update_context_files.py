@@ -175,7 +175,7 @@ def add_ga_status_section(content: str) -> str:
 def update_context_file(file_path: Path, dry_run: bool = False) -> bool:
     """Update a single context file with latest information."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             original_content = f.read()
 
         content = original_content

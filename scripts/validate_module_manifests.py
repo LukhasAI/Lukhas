@@ -118,7 +118,7 @@ class ModuleManifestValidator:
             return None
 
         try:
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path) as f:
                 return yaml.safe_load(f)
         except Exception as e:
             logger.error(f"Error loading manifest {manifest_path}: {e}")

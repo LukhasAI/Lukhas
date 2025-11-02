@@ -183,7 +183,7 @@ class ModuleInventoryGenerator:
             return capabilities
 
         try:
-            with open(init_file, 'r', encoding='utf-8') as f:
+            with open(init_file, encoding='utf-8') as f:
                 content = f.read()
 
                 # Parse AST

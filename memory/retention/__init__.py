@@ -72,7 +72,7 @@ except NameError:
         COLD = "cold"
         GLACIAL = "glacial"
 
-    __all__ = list(set((globals().get("__all__", []) or [])) | {"ArchivalTier"})
+    __all__ = list(set(globals().get("__all__", []) or []) | {"ArchivalTier"})
 
 try:
     AbstractArchivalBackend
@@ -90,4 +90,4 @@ except NameError:
         def tombstone(self, doc_id: str) -> None:
             raise NotImplementedError
 
-    __all__ = list(set((globals().get("__all__", []) or [])) | {"AbstractArchivalBackend"})
+    __all__ = list(set(globals().get("__all__", []) or []) | {"AbstractArchivalBackend"})

@@ -13,7 +13,7 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
     """Add SBOM reference to a matrix contract."""
     try:
         # Read existing contract
-        with open(contract_path, 'r') as f:
+        with open(contract_path) as f:
             contract = json.load(f)
 
         # Check if SBOM reference already exists

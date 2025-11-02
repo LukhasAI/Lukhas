@@ -241,7 +241,7 @@ class TestGuardianSchemaIntegration:
 
         # Should have HTTP-friendly structure
         assert isinstance(response, dict)
-        assert all(isinstance(k, str) for k in response.keys())
+        assert all(isinstance(k, str) for k in response)
 
         # Should be serializable for HTTP responses
         import json

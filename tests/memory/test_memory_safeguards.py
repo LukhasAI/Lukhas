@@ -13,7 +13,7 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, Set, Optional
 
 import pytest
 
@@ -140,7 +140,7 @@ class MemorySafeguardTestFramework:
         self,
         query_item: TestMemoryItem,
         k: int = 10,
-        expected_results: Set[str] = None
+        expected_results: Optional[Set[str]] = None
     ) -> Dict[str, Any]:
         """Verify top-K recall returns correct results"""
         if not MEMORY_SYSTEMS_AVAILABLE or not self.memory_system:

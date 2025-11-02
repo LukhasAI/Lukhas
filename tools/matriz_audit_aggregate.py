@@ -18,7 +18,7 @@ def load_artifact(file_path: pathlib.Path, description: str) -> Dict[str, Any]:
     """Load an artifact file with error handling."""
     try:
         if file_path.exists():
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 return json.load(f)
         else:
             print(f"Warning: {description} not found at {file_path}")

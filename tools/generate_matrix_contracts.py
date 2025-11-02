@@ -329,11 +329,7 @@ def validate_contract_against_schema(contract: Dict[str, Any]) -> bool:
     identity = contract["identity"]
     required_identity = ["requires_auth", "accepted_subjects", "required_tiers",
                         "required_tiers_numeric", "scopes", "webauthn_required"]
-    for field in required_identity:
-        if field not in identity:
-            return False
-
-    return True
+    return all(field in identity for field in required_identity)
 
 def main():
     """Generate all Matrix contracts with identity integration."""

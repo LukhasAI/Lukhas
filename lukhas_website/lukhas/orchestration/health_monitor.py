@@ -346,7 +346,7 @@ class HealthMonitor:
         """Initialize health state for all providers"""
         logger.info("Initializing provider health state...")
 
-        for provider in self.provider_clients.keys():
+        for provider in self.provider_clients:
             self.provider_health[provider] = ProviderHealth(
                 provider=provider,
                 status=HealthStatus.UNKNOWN
@@ -363,7 +363,7 @@ class HealthMonitor:
             try:
                 # Perform health checks for all providers
                 check_tasks = []
-                for provider in self.provider_clients.keys():
+                for provider in self.provider_clients:
                     task = asyncio.create_task(self._check_and_update_provider(provider))
                     check_tasks.append(task)
 

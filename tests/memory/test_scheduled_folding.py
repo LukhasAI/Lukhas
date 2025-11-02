@@ -22,9 +22,10 @@ from memory.scheduled_folding import (
     ScheduledFoldingManager,
     get_folding_manager,
 )
+from typing import Optional
 
 
-def create_test_fold(item_count: int = 10, content_size: int = 100, unique_suffix: str = None) -> MemoryFold:
+def create_test_fold(item_count: int = 10, content_size: int = 100, unique_suffix: Optional[str] = None) -> MemoryFold:
     """Create a test memory fold with specified parameters"""
     if unique_suffix is None:
         unique_suffix = str(int(time.time() * 1000000))  # Microsecond precision

@@ -167,7 +167,7 @@ class ComplianceDashboard:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -776,7 +776,7 @@ class ComplianceDashboard:
             while True:
                 try:
                     # Assess compliance for all regulations
-                    for regulation in self.compliance_statuses.keys():
+                    for regulation in self.compliance_statuses:
                         await self.assess_compliance_status(regulation)
 
                     await asyncio.sleep(300)  # Every 5 minutes
@@ -811,19 +811,19 @@ class ComplianceDashboard:
 
         # Generate daily reports at midnight
         if now.hour == 0 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["daily_reports"]:
                     await self.generate_compliance_report(regulation, "daily")
 
         # Generate weekly reports on Sundays
         if now.weekday() == 6 and now.hour == 1 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["weekly_reports"]:
                     await self.generate_compliance_report(regulation, "weekly")
 
         # Generate monthly reports on the 1st of each month
         if now.day == 1 and now.hour == 2 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["monthly_reports"]:
                     await self.generate_compliance_report(regulation, "monthly")
 

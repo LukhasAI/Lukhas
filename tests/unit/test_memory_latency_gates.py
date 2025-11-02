@@ -17,7 +17,7 @@ def test_memory_latency_gates_workflow_exists():
     workflow_path = Path(".github/workflows/memory-latency-gates.yml")
     assert workflow_path.exists(), "Memory & latency gates workflow not found"
 
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path) as f:
         workflow = yaml.safe_load(f)
 
     # Verify workflow structure
@@ -150,7 +150,7 @@ def test_latency_budget_enforcement():
 def test_ci_gate_blocking_behavior():
     """Test that CI gates have proper blocking behavior."""
     workflow_path = Path(".github/workflows/memory-latency-gates.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path) as f:
         content = f.read()
 
     # Should have blocking failure messages
@@ -172,7 +172,7 @@ def test_ci_gate_blocking_behavior():
 def test_performance_reporting():
     """Test that performance results are properly reported."""
     workflow_path = Path(".github/workflows/memory-latency-gates.yml")
-    with open(workflow_path, 'r') as f:
+    with open(workflow_path) as f:
         content = f.read()
 
     # Should generate performance reports

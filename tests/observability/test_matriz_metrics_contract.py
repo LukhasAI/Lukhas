@@ -18,7 +18,7 @@ Constellation Framework: 🌊 Metrics Contract Compliance
 
 import logging
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import pytest
 
@@ -152,7 +152,7 @@ class MATRIZMetricsContractValidator:
         operation: str = "tick",
         phase: str = "processing",
         lane: str = "production",
-        labels: Dict[str, Any] = None
+        labels: Optional[Dict[str, Any]] = None
     ) -> List[str]:
         """Record MATRIZ metric and validate against contracts."""
         violations = []

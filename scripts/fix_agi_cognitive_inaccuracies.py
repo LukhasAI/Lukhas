@@ -72,7 +72,7 @@ class AGICognitiveAccuracyFixer:
     def process_file(self, file_path: Path) -> bool:
         """Process a single file."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 original_content = f.read()
 
             new_content, corrections_made = self.fix_file_content(original_content)

@@ -25,7 +25,7 @@ from typing import Any, Dict, List
 
 
 def load_json(p: str) -> Any:
-    with open(p, "r", encoding="utf-8") as f:
+    with open(p, encoding="utf-8") as f:
         return json.load(f)
 
 

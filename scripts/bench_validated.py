@@ -80,7 +80,7 @@ def run_validated_benchmarks():
             json.dump(response, f)
 
         # 4. Read back for verification
-        with open(log_file, 'r') as f:
+        with open(log_file) as f:
             verified = json.load(f)
 
         # 5. Cleanup
@@ -140,7 +140,7 @@ def run_validated_benchmarks():
             }, f)
 
         # 3. Read back for verification
-        with open(event_file, 'r') as f:
+        with open(event_file) as f:
             verified = json.load(f)
 
         # 4. Cleanup

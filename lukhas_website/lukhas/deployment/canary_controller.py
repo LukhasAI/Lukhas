@@ -764,7 +764,7 @@ class CanaryController:
         """List all active deployments"""
         return [
             await self.get_deployment_status(deployment_id)
-            for deployment_id in self._active_deployments.keys()
+            for deployment_id in self._active_deployments
         ]
 
     def register_rollback_callback(

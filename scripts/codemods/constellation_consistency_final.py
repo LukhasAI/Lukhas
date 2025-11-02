@@ -131,10 +131,7 @@ EXCLUDE_PATTERNS = [
 def should_skip_path(path: Path) -> bool:
     """Check if path should be skipped."""
     path_str = str(path)
-    for pattern in EXCLUDE_PATTERNS:
-        if pattern in path_str:
-            return True
-    return False
+    return any(pattern in path_str for pattern in EXCLUDE_PATTERNS)
 
 
 def find_files_to_process() -> List[Path]:
@@ -170,7 +167,7 @@ def apply_replacements(content: str) -> Tuple[str, int]:
 def process_file(file_path: Path, dry_run: bool = True) -> Tuple[bool, int]:
     """Process a single file for consistency updates."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             original_content = f.read()
     except (UnicodeDecodeError, PermissionError, OSError) as e:
         if not dry_run:

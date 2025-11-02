@@ -38,7 +38,7 @@ def run_fast_terminology_check():
     for file_path in ["guardian/flag_snapshot.sh", "lukhas/api/system_endpoints.py"]:
         if Path(file_path).exists():
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     content = f.read()
                     if "v2.0.0" in content:
                         schema_files += 1

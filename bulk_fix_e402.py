@@ -11,9 +11,9 @@ from pathlib import Path
 def fix_file(filepath):
     """Fix E402 errors in a single file."""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, encoding='utf-8') as f:
             content = f.read()
-    except (IOError, OSError, UnicodeDecodeError) as e:
+    except (OSError, UnicodeDecodeError) as e:
         print(f"Failed to read {filepath}: {e}")
         return False
 
@@ -177,7 +177,7 @@ def fix_file(filepath):
             with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(new_content)
             return True
-        except (IOError, OSError) as e:
+        except OSError as e:
             print(f"Failed to write {filepath}: {e}")
             return False
 

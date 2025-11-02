@@ -62,7 +62,7 @@ class AuthorizationRequest:
     max_age: Optional[int] = None
 
     @classmethod
-    def from_query_params(cls, params: Dict[str, str]) -> 'AuthorizationRequest':
+    def from_query_params(cls, params: Dict[str, str]) -> AuthorizationRequest:
         """Create from URL query parameters."""
         return cls(
             response_type=params.get("response_type", ""),
@@ -117,7 +117,7 @@ class TokenRequest:
     client_secret: Optional[str] = None
 
     @classmethod
-    def from_form_data(cls, data: Dict[str, str]) -> 'TokenRequest':
+    def from_form_data(cls, data: Dict[str, str]) -> TokenRequest:
         """Create from form data."""
         return cls(
             grant_type=data.get("grant_type", ""),

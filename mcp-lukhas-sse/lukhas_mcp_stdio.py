@@ -98,7 +98,7 @@ async def read_file(path: str, max_lines: int = 100) -> str:
         if file_size > 1024 * 1024:  # 1MB
             return f"Error: File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
 
-        with open(path, 'r', encoding='utf-8', errors='replace') as f:
+        with open(path, encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
 
         # Limit the number of lines

@@ -18,9 +18,7 @@ from core.registry import _REG, register
 
 def _collect_metric_value(metric_name: str, labels: Mapping[str, str], sample_suffix: str | None = "total") -> float:
     """Return the current metric sample value for the provided labels."""
-    if sample_suffix is None:
-        target_sample = metric_name
-    elif metric_name.endswith("_total") and sample_suffix == "total":
+    if sample_suffix is None or metric_name.endswith("_total") and sample_suffix == "total":
         target_sample = metric_name
     else:
         target_sample = f"{metric_name}_{sample_suffix}"

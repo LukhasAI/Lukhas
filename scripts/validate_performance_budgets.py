@@ -49,12 +49,12 @@ class PerformanceBudgetValidator:
             raise FileNotFoundError(f"Budget config not found: {self.config_file}")
 
         try:
-            with open(self.config_file, 'r', encoding='utf-8') as f:
+            with open(self.config_file, encoding='utf-8') as f:
                 config = yaml.safe_load(f)
 
             logger.info(f"Loaded performance budget config: {self.config_file}")
             return config
-        except (yaml.YAMLError, IOError) as e:
+        except (OSError, yaml.YAMLError) as e:
             raise RuntimeError(f"Could not load budget config: {e}")
 
     def validate_artifact_naming(self) -> bool:
@@ -90,10 +90,10 @@ class PerformanceBudgetValidator:
             return None
 
         try:
-            with open(artifact_path, 'r', encoding='utf-8') as f:
+            with open(artifact_path, encoding='utf-8') as f:
                 data = json.load(f)
             return data
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             logger.error(f"Could not load artifact {artifact_name}: {e}")
             return None
 
@@ -341,7 +341,7 @@ class PerformanceBudgetValidator:
 
             logger.info(f"Budget validation report saved: {report_file}")
             return True
-        except IOError as e:
+        except OSError as e:
             logger.error(f"Could not save validation report: {e}")
             return False
 

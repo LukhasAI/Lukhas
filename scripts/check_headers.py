@@ -38,11 +38,7 @@ def check_file_header(file_path: Path) -> bool:
         first_lines = "\n".join(lines)
 
         # Check if any acceptable header is present
-        for header in ACCEPTABLE_HEADERS:
-            if header in first_lines:
-                return True
-
-        return False
+        return any(header in first_lines for header in ACCEPTABLE_HEADERS)
 
     except Exception as e:
         print(f"[WARN] Failed to read {file_path}: {e}", file=sys.stderr)

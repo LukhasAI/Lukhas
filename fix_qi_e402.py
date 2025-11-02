@@ -8,9 +8,9 @@ from pathlib import Path
 def fix_file(filepath):
     """Fix E402 errors in a single file."""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, encoding='utf-8') as f:
             content = f.read()
-    except (IOError, OSError, UnicodeDecodeError) as e:
+    except (OSError, UnicodeDecodeError) as e:
         print(f"Failed to read {filepath}: {e}")
         return False
 

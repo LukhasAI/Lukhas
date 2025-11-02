@@ -81,7 +81,7 @@ class LUKHASSecuritySBOMGenerator:
             dist = pkg_resources.get_distribution(name)
             if hasattr(dist, 'location') and dist.location:
                 # Create hash based on package name and version (simplified)
-                content = f"{name}:{version}".encode('utf-8')
+                content = f"{name}:{version}".encode()
                 sha256_hash = hashlib.sha256(content).hexdigest()
                 return [{
                     "alg": "SHA-256",
@@ -91,7 +91,7 @@ class LUKHASSecuritySBOMGenerator:
             pass
 
         # Fallback hash generation
-        content = f"{name}:{version}".encode('utf-8')
+        content = f"{name}:{version}".encode()
         return [{
             "alg": "SHA-256",
             "content": hashlib.sha256(content).hexdigest()

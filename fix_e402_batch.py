@@ -43,7 +43,7 @@ def fix_simple_logger_pattern(filepath):
         logger = logging.getLogger(...)
     """
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, encoding='utf-8') as f:
             content = f.read()
     except Exception as e:
         print(f"Error reading {filepath}: {e}")

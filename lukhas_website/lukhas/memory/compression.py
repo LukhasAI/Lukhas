@@ -864,7 +864,7 @@ class AdaptiveCompressionManager:
             },
             "configuration": {
                 "adaptive_enabled": self.enable_adaptive,
-                "available_algorithms": [algo.value for algo in self.compressors.keys()],
+                "available_algorithms": [algo.value for algo in self.compressors],
                 "zstd_available": ZSTD_AVAILABLE
             }
         }

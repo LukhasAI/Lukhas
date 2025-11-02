@@ -507,8 +507,8 @@ class LUKHASAPIOptimizationHub:
         logger.info("Cache manager integration initialized")
 
     async def process_api_request(self, endpoint: str, method: str,
-                                headers: Dict[str, str] = None,
-                                params: Dict[str, Any] = None,
+                                headers: Optional[Dict[str, str]] = None,
+                                params: Optional[Dict[str, Any]] = None,
                                 user_id: Optional[str] = None,
                                 api_key: Optional[str] = None) -> Tuple[bool, Dict[str, Any]]:
         """Process API request through optimization pipeline."""
@@ -728,7 +728,7 @@ class LUKHASAPIOptimizationHub:
         # Update cache hit rate
         if cache_hit:
             cache_hits = getattr(self.performance_metrics, '_cache_hits', 0) + 1
-            setattr(self.performance_metrics, '_cache_hits', cache_hits)
+            self.performance_metrics._cache_hits = cache_hits
             self.performance_metrics.cache_hit_rate_percent = (
                 cache_hits / self.performance_metrics.total_requests * 100
             )

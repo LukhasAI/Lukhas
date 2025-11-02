@@ -21,7 +21,7 @@ class ConsciousnessContractGenerator:
     def analyze_component_file(self, file_path: Path) -> Dict:
         """Analyze a Python consciousness component file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Parse AST

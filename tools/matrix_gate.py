@@ -129,7 +129,7 @@ class MatrixGate:
         try:
             with open(run_files[-1]) as f:
                 return json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             print(f"[WARN] Could not load run report {run_files[-1]}: {e}")
             return None
 
@@ -343,7 +343,7 @@ class MatrixGate:
             print(f"  [OK] SBOM valid: {sbom_path}")
             return True
 
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             print(f"  [ERROR] Could not load SBOM {sbom_path}: {e}")
             return False
 

@@ -134,8 +134,8 @@ class MetricsCollector:
         self.system_metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
 
     async def record_metric(self, metric_name: str, value: float,
-                          labels: Dict[str, str] = None,
-                          metadata: Dict[str, Any] = None):
+                          labels: Optional[Dict[str, str]] = None,
+                          metadata: Optional[Dict[str, Any]] = None):
         """Record a metric point."""
         point = MetricPoint(
             timestamp=time.time(),
@@ -192,7 +192,7 @@ class MetricsCollector:
         if cache_hit:
             # Recalculate cache hit rate
             cache_hits = getattr(metrics, '_cache_hits', 0) + 1
-            setattr(metrics, '_cache_hits', cache_hits)
+            metrics._cache_hits = cache_hits
             metrics.cache_hit_rate = (cache_hits / metrics.total_requests) * 100
 
         metrics.last_updated = datetime.now()
@@ -228,8 +228,8 @@ class MetricsCollector:
         return [point for point in self.metrics[metric_name]
                 if point.timestamp >= cutoff_time]
 
-    async def get_endpoint_metrics(self, endpoint: str = None,
-                                 method: str = None) -> Dict[str, APIEndpointMetrics]:
+    async def get_endpoint_metrics(self, endpoint: Optional[str] = None,
+                                 method: Optional[str] = None) -> Dict[str, APIEndpointMetrics]:
         """Get endpoint metrics."""
         if endpoint and method:
             endpoint_key = f"{method}:{endpoint}"
@@ -306,11 +306,7 @@ class AlertManager:
 
         # Check threshold
         alert_triggered = False
-        if comparison == "greater" and current_value > threshold:
-            alert_triggered = True
-        elif comparison == "less" and current_value < threshold:
-            alert_triggered = True
-        elif comparison == "equal" and abs(current_value - threshold) < 0.01:
+        if comparison == "greater" and current_value > threshold or comparison == "less" and current_value < threshold or comparison == "equal" and abs(current_value - threshold) < 0.01:
             alert_triggered = True
 
         alert_id = f"{metric_name}_{threshold}_{comparison}"

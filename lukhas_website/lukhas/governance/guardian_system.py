@@ -193,7 +193,7 @@ class GuardianSystem:
                 schema_file = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
 
             if os.path.exists(schema_file):
-                with open(schema_file, 'r') as f:
+                with open(schema_file) as f:
                     self.schema = json.load(f)
                 logger.info(f"Guardian schema loaded from {schema_file}")
             else:

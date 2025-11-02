@@ -9,7 +9,7 @@ import pytest
 
 
 class _ColumnContext:
-    def __enter__(self) -> "_ColumnContext":
+    def __enter__(self) -> _ColumnContext:
         return self
 
     def __exit__(self, *args: Any) -> None:

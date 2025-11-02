@@ -169,7 +169,7 @@ class AnomalyDetector:
         metric_name: str,
         value: float,
         timestamp: datetime,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[bool, float, Optional[str]]:
         """Detect if a value is anomalous with explanation"""
         if metric_name not in self.models:

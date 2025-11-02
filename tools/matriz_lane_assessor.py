@@ -110,7 +110,7 @@ class LaneAssessor:
             try:
                 contract_file = self.root_path / contract_path
                 if contract_file.exists():
-                    with open(contract_file, 'r') as f:
+                    with open(contract_file) as f:
                         contract_data = json.load(f)
 
                     # Check for maturity indicators
@@ -301,7 +301,7 @@ def main():
 
     # Load inventory
     try:
-        with open(inventory_path, 'r') as f:
+        with open(inventory_path) as f:
             inventory_data = json.load(f)
     except FileNotFoundError:
         print(f"Error: Inventory file not found: {inventory_path}")

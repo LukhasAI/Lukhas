@@ -78,8 +78,8 @@ except ImportError:
     TIERED_AUTH_SYSTEM_AVAILABLE = False
     logger.warning("Tiered authentication system components not available")
 
-_tiered_auth_system: Optional["TieredAuthenticator"] = None
-_guardian_system: Optional["GuardianSystem"] = None
+_tiered_auth_system: Optional[TieredAuthenticator] = None
+_guardian_system: Optional[GuardianSystem] = None
 _tiered_auth_lock = asyncio.Lock()
 
 # Global instances
@@ -110,7 +110,7 @@ router = APIRouter(
 )
 
 
-async def get_tiered_auth_system() -> "TieredAuthenticator":
+async def get_tiered_auth_system() -> TieredAuthenticator:
     """Lazily initialize and return the tiered authentication system."""
 
     if not TIERED_AUTH_SYSTEM_AVAILABLE:
@@ -889,7 +889,7 @@ async def token(
                     method="POST",
                     status="200"
                 ).inc()
-                span.set_attribute("oidc.tokens_issued", len([k for k in result.keys() if "token" in k]))
+                span.set_attribute("oidc.tokens_issued", len([k for k in result if "token" in k]))
                 return result
 
         except HTTPException:

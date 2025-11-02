@@ -20,7 +20,7 @@ SITEMAP_PATH = OUTPUT_DIR / "SITE_MAP.md"
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -144,7 +144,7 @@ def update_documentation_index(manifest: Dict):
         print(f"⚠️  {index_path} not found, skipping update")
         return
 
-    with open(index_path, 'r', encoding='utf-8') as f:
+    with open(index_path, encoding='utf-8') as f:
         existing_content = f.read()
 
     # Parse documents by type
@@ -215,7 +215,7 @@ def update_main_index(manifest: Dict):
         print(f"⚠️  {index_path} not found, skipping update")
         return
 
-    with open(index_path, 'r', encoding='utf-8') as f:
+    with open(index_path, encoding='utf-8') as f:
         existing_content = f.read()
 
     # Build metrics section

@@ -53,7 +53,7 @@ class MATRIZPromotionManager:
             if Path(manifest_path).exists():
                 try:
                     import yaml
-                    with open(manifest_path, 'r') as f:
+                    with open(manifest_path) as f:
                         return yaml.safe_load(f)
                 except Exception as e:
                     logger.warning(f"Error loading manifest {manifest_path}: {e}")
@@ -162,7 +162,7 @@ class MATRIZPromotionManager:
             return False
 
         try:
-            with open(artifact_path, 'r') as f:
+            with open(artifact_path) as f:
                 results = json.load(f)
 
             coverage = results.get("coverage_percentage", 0)
@@ -195,7 +195,7 @@ class MATRIZPromotionManager:
             return False
 
         try:
-            with open(artifact_path, 'r') as f:
+            with open(artifact_path) as f:
                 results = json.load(f)
 
             results.get("performance_metrics", {})

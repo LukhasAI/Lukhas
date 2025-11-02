@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 # Mock Prometheus metrics for now - replace with actual prometheus_client
 class Counter:
-    def __init__(self, name: str, documentation: str, labelnames: List[str] = None):
+    def __init__(self, name: str, documentation: str, labelnames: Optional[List[str]] = None):
         self.name = name
         self._value = 0.0
         self._labels = {}
@@ -28,7 +28,7 @@ class Counter:
         return self
 
 class Histogram:
-    def __init__(self, name: str, documentation: str, labelnames: List[str] = None, buckets: List[float] = None):
+    def __init__(self, name: str, documentation: str, labelnames: Optional[List[str]] = None, buckets: Optional[List[float]] = None):
         self.name = name
         self._observations = []
         self._labels = {}
@@ -40,7 +40,7 @@ class Histogram:
         return self
 
 class Gauge:
-    def __init__(self, name: str, documentation: str, labelnames: List[str] = None):
+    def __init__(self, name: str, documentation: str, labelnames: Optional[List[str]] = None):
         self.name = name
         self._value = 0.0
         self._labels = {}

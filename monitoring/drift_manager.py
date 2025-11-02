@@ -511,7 +511,7 @@ class DriftManager:
         # Extract from state if available
         state = ctx.get('state', {})
         if isinstance(state, dict):
-            for key in state.keys():
+            for key in state:
                 symbols.append(f"{kind}.{key}")
 
         # Add common symbols based on kind

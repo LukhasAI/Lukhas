@@ -15,8 +15,8 @@ dream_core_snapshot_module = importlib.import_module(
     "labs.consciousness.dream.core.dream_snapshot"
 )
 sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
-setattr(dream_core_pkg, "dream_snapshot", dream_core_snapshot_module)
-setattr(dream_pkg, "core", dream_core_pkg)
+dream_core_pkg.dream_snapshot = dream_core_snapshot_module
+dream_pkg.core = dream_core_pkg
 
 from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402
     DreamFeedbackController,

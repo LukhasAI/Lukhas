@@ -96,7 +96,7 @@ class JWTClaims:
         return result
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'JWTClaims':
+    def from_dict(cls, data: Dict[str, Any]) -> JWTClaims:
         """Create from dictionary."""
         # Filter to only known fields
         known_fields = {field.name for field in cls.__dataclass_fields__.values()}

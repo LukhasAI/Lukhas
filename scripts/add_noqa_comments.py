@@ -19,7 +19,7 @@ def find_delayed_imports(file_path: pathlib.Path) -> List[Tuple[int, str]]:
     Returns list of (line_number, import_statement) tuples.
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         tree = ast.parse(content)
@@ -65,7 +65,7 @@ def process_file(file_path: pathlib.Path, dry_run: bool = False) -> int:
         return 0
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
 
         modifications = 0

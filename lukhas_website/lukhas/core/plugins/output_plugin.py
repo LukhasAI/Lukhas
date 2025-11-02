@@ -6,7 +6,7 @@ Provides output formatting capabilities for LUKHAS pipelines.
 """
 
 import time
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from core.registry.plugin_registry import PluginBase, PluginInfo
 
@@ -14,7 +14,7 @@ from core.registry.plugin_registry import PluginBase, PluginInfo
 class OutputFormattingPlugin(PluginBase):
     """Plugin for output formatting operations."""
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("OutputFormatting", "1.0.0")
         self.config = config or {}
         self.format_type = self.config.get("format", "json")

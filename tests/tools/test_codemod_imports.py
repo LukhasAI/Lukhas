@@ -14,6 +14,7 @@ import subprocess
 import sys
 
 import pytest
+from typing import Optional
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
@@ -79,7 +80,7 @@ CASES = [
 ]
 
 
-def run_codemod(src: str, mapping: dict = None) -> str:
+def run_codemod(src: str, mapping: Optional[dict] = None) -> str:
     """
     Run codemod_imports.py on source code via subprocess.
 
@@ -119,7 +120,7 @@ def run_codemod(src: str, mapping: dict = None) -> str:
         )
 
         # Read result
-        with open(temp_path, 'r') as f:
+        with open(temp_path) as f:
             output = f.read()
 
         return output

@@ -225,7 +225,7 @@ class ComprehensiveTestSuite:
         config_path = self.project_root / "tests" / "test_suite_config.json"
         if config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     custom_config = json.load(f)
                     default_config.update(custom_config)
             except Exception as e:

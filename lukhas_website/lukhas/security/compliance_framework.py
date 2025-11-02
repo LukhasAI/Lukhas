@@ -553,9 +553,7 @@ class ComplianceFramework:
         control.last_tested = result.assessed_at
 
         # Calculate next assessment date
-        if control.frequency == "continuous":
-            control.next_test_due = datetime.now(timezone.utc) + timedelta(days=1)
-        elif control.frequency == "daily":
+        if control.frequency == "continuous" or control.frequency == "daily":
             control.next_test_due = datetime.now(timezone.utc) + timedelta(days=1)
         elif control.frequency == "weekly":
             control.next_test_due = datetime.now(timezone.utc) + timedelta(weeks=1)

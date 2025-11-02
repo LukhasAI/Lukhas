@@ -40,7 +40,7 @@ class SyntheticGenerator:
         return emotion
 
     def _generate_snapshot(self, name: str, emotion: Dict[str, float],
-                         timestamp_base: float, alignment_hint: float = None) -> Dict[str, Any]:
+                         timestamp_base: float, alignment_hint: Optional[float] = None) -> Dict[str, Any]:
         """Generate a single snapshot."""
         # Add some noise to emotion if desired
         noisy_emotion = {}

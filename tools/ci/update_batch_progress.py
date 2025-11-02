@@ -150,7 +150,7 @@ def update_batch_files(batch_dir: Path, completed_tasks: Dict[str, List[str]]):
     updates_made = 0
 
     for batch_file in batch_dir.glob("BATCH-CODEX*.json"):
-        with open(batch_file, "r") as f:
+        with open(batch_file) as f:
             batch_data = json.load(f)
 
         batch_data["agent"]
@@ -201,7 +201,7 @@ def main():
     # Load all batch tasks from all CODEX batches
     all_tasks = []
     for batch_file in batch_dir.glob("BATCH-CODEX*.json"):
-        with open(batch_file, "r") as f:
+        with open(batch_file) as f:
             batch_data = json.load(f)
             for task in batch_data["tasks"]:
                 task["batch_file"] = batch_file.name

@@ -20,7 +20,7 @@ class DirectoryIndexGenerator:
     def analyze_python_file(self, file_path: Path) -> Dict:
         """Analyze a Python file to extract metadata"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -145,7 +145,7 @@ class DirectoryIndexGenerator:
 
                 # Check for sync header
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, encoding='utf-8') as f:
                         content = f.read(500)  # Read first 500 chars
                         has_sync_header = "Context Sync Header" in content and "Schema v2.0.0" in content
                 except Exception as e:

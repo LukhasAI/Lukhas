@@ -166,7 +166,7 @@ class TestNodeContractCompliance:
         msg = mk_test_message(topic='resource')
         result = node.handle(msg)
         assert len(result.guardian_log) > 0
-        assert any(('dummy_processed_resource' in log for log in result.guardian_log))
+        assert any('dummy_processed_resource' in log for log in result.guardian_log)
 
 @pytest.mark.contract
 class TestContractImmutability:

@@ -200,7 +200,7 @@ class LUKHASMaintenancePipeline:
                 try:
                     # Check if JSON files are valid
                     if file_path.endswith('.json'):
-                        with open(full_path, 'r') as f:
+                        with open(full_path) as f:
                             json.load(f)
 
                     # Check if files are not empty

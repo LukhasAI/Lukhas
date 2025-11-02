@@ -162,7 +162,7 @@ class WebAuthnCredential:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'WebAuthnCredential':
+    def from_dict(cls, data: Dict[str, Any]) -> WebAuthnCredential:
         """Create credential from dictionary"""
         credential = cls(
             credential_id=data["credential_id"],

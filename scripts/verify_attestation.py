@@ -7,7 +7,7 @@ import subprocess
 
 
 def verify_attestation(attestation_file, cosign_pub_key):
-    with open(attestation_file, 'r') as f:
+    with open(attestation_file) as f:
         attestation = json.load(f)
 
     # 1. Verify cosign signature

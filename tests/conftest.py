@@ -48,7 +48,7 @@ def _install_jwt_stub() -> None:
         header_segment = _b64encode(json.dumps(header, separators=(",", ":")).encode("utf-8"))
         payload_segment = _b64encode(json.dumps(payload, separators=(",", ":")).encode("utf-8"))
 
-        signing_input = f"{header_segment}.{payload_segment}".encode("utf-8")
+        signing_input = f"{header_segment}.{payload_segment}".encode()
         signature = hmac.new(key.encode("utf-8"), signing_input, hashlib.sha256).digest()
         signature_segment = _b64encode(signature)
         return f"{header_segment}.{payload_segment}.{signature_segment}"
@@ -85,7 +85,7 @@ def _install_jwt_stub() -> None:
         if verify_signature:
             if key is None:
                 raise DecodeError("Key required for verification")
-            signing_input = f"{header_segment}.{payload_segment}".encode("utf-8")
+            signing_input = f"{header_segment}.{payload_segment}".encode()
             expected_sig = hmac.new(key.encode("utf-8"), signing_input, hashlib.sha256).digest()
             if not hmac.compare_digest(expected_sig, _b64decode(signature_segment)):
                 raise InvalidSignatureError("Signature mismatch")

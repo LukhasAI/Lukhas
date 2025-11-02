@@ -35,7 +35,7 @@ BATCH_SIZE = 20
 
 def load_manifest() -> Dict:
     """Load documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -45,12 +45,12 @@ def load_owners_map() -> Dict[str, str]:
         return {}
 
     if yaml:
-        with open(OWNERS_MAP_PATH, 'r', encoding='utf-8') as f:
+        with open(OWNERS_MAP_PATH, encoding='utf-8') as f:
             return yaml.safe_load(f) or {}
     else:
         # Fallback: simple key: value parser
         mapping = {}
-        with open(OWNERS_MAP_PATH, 'r', encoding='utf-8') as f:
+        with open(OWNERS_MAP_PATH, encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and ':' in line:

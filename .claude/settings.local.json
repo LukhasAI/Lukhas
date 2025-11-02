@@ -184,7 +184,8 @@
       "Bash(then)",
       "Bash(if grep -q \"^# import streamlit as st\" \"$file\")",
       "Bash(elif ! grep -q \"import streamlit\" \"$file\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(/tmp/e402_violations.txt)"
     ],
     "deny": [],
     "ask": [],

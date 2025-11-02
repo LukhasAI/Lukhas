@@ -195,7 +195,7 @@ class RoutingConfigurationManager:
                 logger.warning(f"Config file not found: {self.config_path}, creating default")
                 await self.create_default_configuration()
 
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path) as f:
                 config_data = yaml.safe_load(f)
 
             # Parse configuration
@@ -268,7 +268,7 @@ class RoutingConfigurationManager:
             raise ValueError("Configuration not loaded")
         return self.current_config
 
-    def get_rule_for_request(self, request_type: str, context: Dict[str, Any] = None) -> Optional[RoutingRule]:
+    def get_rule_for_request(self, request_type: str, context: Optional[Dict[str, Any]] = None) -> Optional[RoutingRule]:
         """Find matching routing rule for a request"""
         if not self.current_config:
             return None
@@ -442,11 +442,7 @@ class RoutingConfigurationManager:
 
         request_lower = request_type.lower()
 
-        for p in patterns:
-            if p.lower() in request_lower:
-                return True
-
-        return False
+        return any(p.lower() in request_lower for p in patterns)
 
 
 # Global configuration manager instance

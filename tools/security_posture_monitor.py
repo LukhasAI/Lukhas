@@ -13,7 +13,7 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
 def _coerce_str(value: Any) -> str:
@@ -585,7 +585,7 @@ class SecurityPostureMonitor:
         self.log(f"Overall security posture score: {overall_score:.1f}/100")
         return overall_score
 
-    def generate_security_report(self, output_path: str = None) -> Dict:
+    def generate_security_report(self, output_path: Optional[str] = None) -> Dict:
         """Generate comprehensive security posture report."""
         report = {
             'security_posture_report': {

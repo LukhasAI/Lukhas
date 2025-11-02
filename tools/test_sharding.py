@@ -37,7 +37,7 @@ class TestSharding:
             file_size = test_file.stat().st_size
 
             # Read file to check for complexity indicators
-            with open(test_file, 'r') as f:
+            with open(test_file) as f:
                 content = f.read()
 
             # Base duration from file size (rough heuristic)

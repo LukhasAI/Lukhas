@@ -16,7 +16,7 @@ def load_coverage(path: str) -> Dict[str, Any]:
         print(f"❌ Coverage file not found: {path}")
         sys.exit(1)
 
-    with open(path, 'r') as f:
+    with open(path) as f:
         return json.load(f)
 
 def extract_metrics(coverage_data: Dict[str, Any]) -> Dict[str, float]:

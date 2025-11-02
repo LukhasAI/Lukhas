@@ -88,7 +88,7 @@ class LedgerPerformanceValidator:
     def load_json_schema(self) -> Dict[str, Any]:
         """Load and validate JSON schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path) as f:
                 schema = json.load(f)
 
             # Validate schema itself

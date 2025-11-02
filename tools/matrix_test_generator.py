@@ -33,7 +33,7 @@ class MatrixTestGenerator:
     # All possible tiers in order
     ALL_TIERS = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']
 
-    def __init__(self, lukhas_root: Path = None):
+    def __init__(self, lukhas_root: Optional[Path] = None):
         """Initialize the generator with paths to lukhas contracts."""
         self.lukhas_root = lukhas_root or Path(__file__).parent.parent / "lukhas"
         self.output_dir = Path(__file__).parent.parent / "tests" / "matrix_identity"
@@ -55,7 +55,7 @@ class MatrixTestGenerator:
     def extract_identity_config(self, contract_path: Path) -> Optional[Dict[str, Any]]:
         """Extract identity configuration from a matrix contract."""
         try:
-            with open(contract_path, 'r') as f:
+            with open(contract_path) as f:
                 contract = json.load(f)
 
             # Extract module name from contract or filename
@@ -359,7 +359,7 @@ class MatrixTestGenerator:
             return False
 
         # Load memoria test matrix
-        with open(memoria_path, 'r') as f:
+        with open(memoria_path) as f:
             memoria_data = yaml.safe_load(f)
 
         # Validate that our generated memoria matrix matches the expected structure
@@ -368,7 +368,7 @@ class MatrixTestGenerator:
             logger.error("Generated memoria matrix not found")
             return False
 
-        with open(generated_memoria_path, 'r') as f:
+        with open(generated_memoria_path) as f:
             generated_data = yaml.safe_load(f)
 
         # Compare key structure elements

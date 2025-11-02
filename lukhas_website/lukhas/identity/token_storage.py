@@ -553,7 +553,7 @@ class TokenStorage:
             return
 
         try:
-            with open(self.storage_path, 'r') as f:
+            with open(self.storage_path) as f:
                 data = json.load(f)
 
             # Load tokens

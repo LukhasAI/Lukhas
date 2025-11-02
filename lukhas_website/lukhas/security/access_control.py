@@ -630,9 +630,7 @@ class AccessControlSystem:
 
     def _check_permission_condition(self, condition_key: str, condition_value: Any, request: AccessRequest) -> bool:
         """Check permission condition."""
-        if condition_key == "self_only":
-            return request.subject.id == request.resource.owner
-        elif condition_key == "owner_only":
+        if condition_key == "self_only" or condition_key == "owner_only":
             return request.subject.id == request.resource.owner
         elif condition_key == "role_required":
             return condition_value in request.subject.roles

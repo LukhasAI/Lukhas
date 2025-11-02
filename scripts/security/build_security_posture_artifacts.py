@@ -158,7 +158,7 @@ def _generate_jwt(module: str, timestamp: dt.datetime) -> str:
         raw = json.dumps(obj, separators=(",", ":"), sort_keys=True).encode("utf-8")
         return base64.urlsafe_b64encode(raw).decode("ascii").rstrip("=")
 
-    signature_seed = f"{module}:{payload['iat']}".encode("utf-8")
+    signature_seed = f"{module}:{payload['iat']}".encode()
     signature = base64.urlsafe_b64encode(hashlib.sha256(signature_seed).digest()).decode("ascii").rstrip("=")
     return f"{encode(header)}.{encode(payload)}.{signature}"
 

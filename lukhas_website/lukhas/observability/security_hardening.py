@@ -197,7 +197,7 @@ class ObservabilitySecurityHardening:
         if self.security_config_path.exists():
             try:
                 import json
-                with open(self.security_config_path, 'r') as f:
+                with open(self.security_config_path) as f:
                     self.security_config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():

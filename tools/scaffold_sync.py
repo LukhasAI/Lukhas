@@ -155,7 +155,7 @@ def is_generated_file(file_path: pathlib.Path) -> bool:
         return False
 
     try:
-        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(file_path, encoding='utf-8', errors='ignore') as f:
             first_line = f.readline().strip()
             return first_line == PROV_PREFIX.strip()
     except Exception:

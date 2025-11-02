@@ -476,7 +476,7 @@ class MonthlyVocabularyRefresh:
             return []
 
         cycles = []
-        with open(self.cycle_log, "r") as f:
+        with open(self.cycle_log) as f:
             for line in f:
                 cycles.append(json.loads(line.strip()))
 

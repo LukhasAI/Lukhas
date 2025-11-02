@@ -79,13 +79,13 @@ class PerformanceUnitTester:
         baseline_path = self.output_dir / "baseline_unit_performance.json"
         if baseline_path.exists():
             try:
-                with open(baseline_path, 'r') as f:
+                with open(baseline_path) as f:
                     return json.load(f)
             except Exception as e:
                 logging.warning(f"Could not load baseline: {e}")
         return None
 
-    def measure_latency(self, operation_func, iterations: int = None) -> Dict[str, float]:
+    def measure_latency(self, operation_func, iterations: Optional[int] = None) -> Dict[str, float]:
         """Measure operation latency with statistical analysis."""
         iterations = iterations or self.sample_count
         latencies = []

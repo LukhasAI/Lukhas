@@ -37,7 +37,7 @@ class ModuleDirectoryPopulator:
                 continue
 
             try:
-                with open(manifest_file, 'r', encoding='utf-8') as f:
+                with open(manifest_file, encoding='utf-8') as f:
                     manifest = json.load(f)
 
                 populated = self.populate_module_directories(module_path, manifest)
@@ -228,7 +228,7 @@ class ModuleDirectoryPopulator:
     def _is_placeholder_content(self, file_path: Path) -> bool:
         """Check if file contains placeholder content."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             placeholder_indicators = [

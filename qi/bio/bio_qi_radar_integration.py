@@ -69,7 +69,7 @@ class BioQuantumRadarMetrics:
         self.performance_cache: dict[str, float] = {}
 
     def extract_reasoning_metrics(
-        self, reasoning_result: dict[str, Any], engine_state: dict[str, Any] = None
+        self, reasoning_result: dict[str, Any], engine_state: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Extract comprehensive metrics from Bio-Quantum reasoning results.
@@ -587,7 +587,7 @@ class BioQuantumRadarIntegration:
     async def process_with_radar_analytics(
         self,
         problem_description: str,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
         generate_visualization: bool = True,
     ) -> dict[str, Any]:
         """
@@ -805,7 +805,7 @@ class BioQuantumRadarIntegration:
 # Convenience functions for easy integration
 async def reason_with_radar(
     problem_description: str,
-    context: dict[str, Any] = None,
+    context: Optional[dict[str, Any]] = None,
     abstract_reasoning_interface: Any = None,
 ) -> dict[str, Any]:
     """

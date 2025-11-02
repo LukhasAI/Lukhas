@@ -37,7 +37,7 @@ if not ok_config:
 
 
 if not ok_run:
-    def run_simulator(cfg: "CollapseConfig", *args, **kwargs):  # type: ignore[misc]
+    def run_simulator(cfg: CollapseConfig, *args, **kwargs):  # type: ignore[misc]
         return {"status": "noop", "steps": 0}
 
 

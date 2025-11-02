@@ -30,7 +30,7 @@ def validate_demo_script(script_path: str) -> List[str]:
             errors.append("Script is not executable (missing +x permission)")
 
         # Check shebang
-        with open(script_file, 'r') as f:
+        with open(script_file) as f:
             first_line = f.readline().strip()
 
         if not first_line.startswith('#!/'):
@@ -54,7 +54,7 @@ def validate_demo_script(script_path: str) -> List[str]:
             errors.append("bash not available for syntax check")
 
         # Check for common anti-patterns
-        with open(script_file, 'r') as f:
+        with open(script_file) as f:
             content = f.read()
 
         # Check for set -e (fail fast)

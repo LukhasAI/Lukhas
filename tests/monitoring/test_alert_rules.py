@@ -36,7 +36,7 @@ class TestPromQLAlertRules:
     def test_alert_rules_valid_yaml(self, alert_rules_path):
         """Verify alert rules file is valid YAML"""
         try:
-            with open(alert_rules_path, 'r') as f:
+            with open(alert_rules_path) as f:
                 rules_data = yaml.safe_load(f)
             assert rules_data is not None, "Alert rules file is empty"
             assert isinstance(rules_data, dict), "Alert rules must be a dictionary"
@@ -45,7 +45,7 @@ class TestPromQLAlertRules:
 
     def test_alert_rules_structure(self, alert_rules_path):
         """Verify alert rules have correct structure"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         assert "groups" in rules_data, "Alert rules must have 'groups' key"
@@ -60,7 +60,7 @@ class TestPromQLAlertRules:
 
     def test_individual_alert_structure(self, alert_rules_path):
         """Verify each alert has required fields"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         required_fields = ["alert", "expr", "for", "labels", "annotations"]
@@ -99,7 +99,7 @@ class TestPromQLAlertRules:
         except (subprocess.CalledProcessError, FileNotFoundError):
             pytest.skip("promtool not available for syntax validation")
 
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         # Create temporary file for validation
@@ -123,7 +123,7 @@ class TestPromQLAlertRules:
 
     def test_critical_alert_coverage(self, alert_rules_path):
         """Verify we have alerts for critical system components"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         # Extract all alert names
@@ -148,7 +148,7 @@ class TestPromQLAlertRules:
 
     def test_alert_thresholds_reasonable(self, alert_rules_path):
         """Verify alert thresholds are reasonable for LUKHAS systems"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         threshold_checks = {
@@ -186,7 +186,7 @@ class TestPromQLAlertRules:
 
     def test_alert_for_duration_reasonable(self, alert_rules_path):
         """Verify alert 'for' duration is reasonable"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         duration_limits = {
@@ -220,7 +220,7 @@ class TestPromQLAlertRules:
 
     def test_matriz_specific_alerts(self, alert_rules_path):
         """Verify MATRIZ-specific performance alerts exist"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         # Extract all expressions
@@ -244,7 +244,7 @@ class TestPromQLAlertRules:
 
     def test_guardian_system_monitoring(self, alert_rules_path):
         """Verify Guardian system has comprehensive monitoring"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         guardian_alert_names = []
@@ -271,7 +271,7 @@ class TestPromQLAlertRules:
         if not prometheus_config_path.exists():
             pytest.skip("Prometheus config not found")
 
-        with open(prometheus_config_path, 'r') as f:
+        with open(prometheus_config_path) as f:
             config_data = yaml.safe_load(f)
 
         # Check if rule_files is configured
@@ -285,7 +285,7 @@ class TestPromQLAlertRules:
 
     def test_alertmanager_routing_labels(self, alert_rules_path):
         """Verify alerts have proper labels for Alertmanager routing"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
 
@@ -301,7 +301,7 @@ class TestPromQLAlertRules:
 
     def test_no_duplicate_alert_names(self, alert_rules_path):
         """Verify no duplicate alert names exist"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         alert_names = []
@@ -317,7 +317,7 @@ class TestPromQLAlertRules:
 
     def test_alert_runbook_urls(self, alert_rules_path):
         """Verify critical alerts have runbook URLs"""
-        with open(alert_rules_path, 'r') as f:
+        with open(alert_rules_path) as f:
             rules_data = yaml.safe_load(f)
 
         for group in rules_data["groups"]:

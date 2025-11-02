@@ -476,7 +476,7 @@ def _record_stage_error(
 
 
 @contextmanager
-def stage_span(stage: str, attrs: Dict[str, Any] = None):
+def stage_span(stage: str, attrs: Optional[Dict[str, Any]] = None):
     """
     Simple stage span helper for basic tracing.
 

@@ -84,10 +84,10 @@ healthcare_pkg.decision_support = types.ModuleType("governance.healthcare.decisi
 healthcare_pkg.decision_support.ClinicalDecisionSupport = _ClinicalDecisionSupport
 sys.modules["governance.healthcare"] = healthcare_pkg
 sys.modules["governance.healthcare.decision_support"] = healthcare_pkg.decision_support
-setattr(governance_pkg, "healthcare", healthcare_pkg)
+governance_pkg.healthcare = healthcare_pkg
 
 identity_namespace = types.ModuleType("governance.identity")
-setattr(governance_pkg, "identity", identity_namespace)
+governance_pkg.identity = identity_namespace
 sys.modules["governance.identity"] = identity_namespace
 
 auth_integrations_pkg = types.ModuleType("governance.identity.auth_integrations")

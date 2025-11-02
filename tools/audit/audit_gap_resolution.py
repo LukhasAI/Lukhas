@@ -56,7 +56,7 @@ def validate_system_plugins_endpoint() -> Dict[str, Any]:
         return {"status": "missing", "error": "System endpoints file not found"}
 
     try:
-        with open(endpoint_file, 'r') as f:
+        with open(endpoint_file) as f:
             content = f.read()
 
         has_plugins_endpoint = "get_plugins_status" in content
@@ -91,7 +91,7 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
 
     if otel_file.exists():
         try:
-            with open(otel_file, 'r') as f:
+            with open(otel_file) as f:
                 otel_content = f.read()
             results["prometheus_integration"] = ("prometheus_client" in otel_content or
                                                "PrometheusMetricReader" in otel_content)
@@ -100,7 +100,7 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
 
     if orchestrator_file.exists():
         try:
-            with open(orchestrator_file, 'r') as f:
+            with open(orchestrator_file) as f:
                 orch_content = f.read()
             results["orchestrator_instrumented"] = "otel_instrumentation" in orch_content
             results["stage_decorators"] = "@instrument_matriz_stage" in orch_content
@@ -138,7 +138,7 @@ def validate_promql_grafana_assets() -> Dict[str, Any]:
 
     if prometheus_alerts.exists():
         try:
-            with open(prometheus_alerts, 'r') as f:
+            with open(prometheus_alerts) as f:
                 alerts_content = f.read()
             alerts_valid = ("lukhas:" in alerts_content and
                           "recording_rules" in alerts_content and
@@ -148,7 +148,7 @@ def validate_promql_grafana_assets() -> Dict[str, Any]:
 
     if grafana_dashboard.exists():
         try:
-            with open(grafana_dashboard, 'r') as f:
+            with open(grafana_dashboard) as f:
                 dashboard_data = json.load(f)
             dashboard_valid = ("dashboard" in dashboard_data and
                              "panels" in dashboard_data.get("dashboard", {}))
@@ -184,7 +184,7 @@ def validate_memory_benchmarks() -> Dict[str, Any]:
     for bench_file in memory_bench_files:
         if bench_file.exists():
             try:
-                with open(bench_file, 'r') as f:
+                with open(bench_file) as f:
                     content = f.read()
                 if "100ms" in content or "p95" in content:
                     slo_validation = True
@@ -215,7 +215,7 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
 
     if critical_path_workflow.exists():
         try:
-            with open(critical_path_workflow, 'r') as f:
+            with open(critical_path_workflow) as f:
                 content = f.read()
             dual_approval_workflow = ("approval-check" in content and
                                     "CRITICAL_PATHS" in content and
@@ -225,7 +225,7 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
 
     if flag_snapshot.exists():
         try:
-            with open(flag_snapshot, 'r') as f:
+            with open(flag_snapshot) as f:
                 content = f.read()
             governance_snapshot = ("dual_approval" in content and
                                  "governance" in content)
@@ -255,7 +255,7 @@ def validate_constraints_enforcement() -> Dict[str, Any]:
 
     if ci_file.exists():
         try:
-            with open(ci_file, 'r') as f:
+            with open(ci_file) as f:
                 content = f.read()
             ci_enforces_constraints = ("constraints.txt" in content and
                                      "pip install" in content)

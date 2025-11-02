@@ -118,7 +118,7 @@ class TestEncryptionDecryptionRoundTrip:
     def test_unicode_data_encryption(self, manager):
         """Test encryption/decryption of Unicode data."""
         key = manager.generate_key(EncryptionAlgorithm.AES_256_GCM)
-        unicode_data = "Hello 世界 🔐".encode("utf-8")
+        unicode_data = "Hello 世界 🔐".encode()
 
         encrypted = manager.encrypt(unicode_data, EncryptionAlgorithm.AES_256_GCM, key)
         decrypted = manager.decrypt(encrypted, key)

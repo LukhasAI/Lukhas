@@ -75,7 +75,7 @@ class LUKHASAIOrchestrator:
 
         # Provider performance and ethical tracking
         self._provider_performance_history = {
-            provider_name: deque(maxlen=50) for provider_name in self.providers.keys()
+            provider_name: deque(maxlen=50) for provider_name in self.providers
         }
 
     def _initialize_providers(self) -> dict[str, AIProvider]:
@@ -130,7 +130,7 @@ class LUKHASAIOrchestrator:
         config_path = self.workspace_root / "config" / "orchestrator_routing.yaml"
 
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 config = yaml.safe_load(f)
                 return config
         except FileNotFoundError:
@@ -177,7 +177,7 @@ class LUKHASAIOrchestrator:
             # Keep existing configuration
             return False
 
-    def get_routing_info(self, task_type: str = None) -> Dict[str, Any]:
+    def get_routing_info(self, task_type: Optional[str] = None) -> Dict[str, Any]:
         """Get current routing configuration info for debugging/monitoring"""
         if task_type:
             routing_rules = self.routing_config.get("routing_rules", {})
@@ -285,7 +285,7 @@ class LUKHASAIOrchestrator:
         health_results = {}
         tasks = []
 
-        for provider_name in self.providers.keys():
+        for provider_name in self.providers:
             tasks.append(self.validate_provider_health(provider_name))
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -310,7 +310,7 @@ class LUKHASAIOrchestrator:
         return health_results
 
     async def select_optimal_provider(self, preferred_provider: str,
-                                    fallback_providers: list[str] = None) -> str:
+                                    fallback_providers: Optional[list[str]] = None) -> str:
         """Select optimal provider based on health status and SLA compliance"""
         if fallback_providers is None:
             fallback_providers = ["claude", "gpt", "ollama"]

@@ -212,7 +212,7 @@ class LukhasMCPServer:
                     "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
                 }, indent=2)
 
-            with open(path, 'r', encoding='utf-8', errors='replace') as f:
+            with open(path, encoding='utf-8', errors='replace') as f:
                 lines = f.readlines()
 
             # Limit the number of lines

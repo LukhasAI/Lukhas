@@ -202,7 +202,7 @@ class TodoManifestBuilder:
         # Read grep results
         grep_todos = []
         if Path(grep_file).exists():
-            with open(grep_file, "r") as f:
+            with open(grep_file) as f:
                 for line in f:
                     line = line.strip()
                     if ":" in line and ("TODO" in line or "FIXME" in line or "HACK" in line):

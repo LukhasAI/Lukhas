@@ -11,13 +11,14 @@ from fastapi.testclient import TestClient
 from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+from typing import Optional
 
 
 @pytest.fixture
 def authz_headers():
     """Factory for authorization headers with OpenAI extensions."""
 
-    def _headers(org: str = None, project: str = None):
+    def _headers(org: Optional[str] = None, project: Optional[str] = None):
         headers = GOLDEN_AUTH_HEADERS
         if org:
             headers["OpenAI-Organization"] = org

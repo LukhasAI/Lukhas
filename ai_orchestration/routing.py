@@ -113,7 +113,7 @@ class RoutingCondition:
         return False
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingCondition':
+    def from_dict(cls, data: Dict[str, Any]) -> RoutingCondition:
         """Create from dictionary."""
         return cls(
             field=data["field"],
@@ -136,7 +136,7 @@ class ProviderConfig:
     api_key: Optional[str] = None
 
     @classmethod
-    def from_dict(cls, name: str, data: Dict[str, Any]) -> 'ProviderConfig':
+    def from_dict(cls, name: str, data: Dict[str, Any]) -> ProviderConfig:
         """Create from dictionary."""
         return cls(
             name=data["name"],
@@ -159,7 +159,7 @@ class ABTestBucket:
     options: Optional[Dict[str, Any]] = None
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'ABTestBucket':
+    def from_dict(cls, data: Dict[str, Any]) -> ABTestBucket:
         """Create from dictionary."""
         return cls(
             provider=data["provider"],
@@ -176,7 +176,7 @@ class LoadBalanceTarget:
     providers: List[Dict[str, Any]]
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'LoadBalanceTarget':
+    def from_dict(cls, data: Dict[str, Any]) -> LoadBalanceTarget:
         """Create from dictionary."""
         return cls(
             enabled=data["enabled"],
@@ -195,7 +195,7 @@ class RoutingTarget:
     load_balance: Optional[LoadBalanceTarget] = None
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingTarget':
+    def from_dict(cls, data: Dict[str, Any]) -> RoutingTarget:
         """Create from dictionary."""
         load_balance = None
         if "load_balance" in data:
@@ -229,7 +229,7 @@ class RoutingRule:
         return all(condition.evaluate(request_data) for condition in self.conditions)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingRule':
+    def from_dict(cls, data: Dict[str, Any]) -> RoutingRule:
         """Create from dictionary."""
         conditions = [
             RoutingCondition.from_dict(cond)
@@ -301,7 +301,7 @@ class ConfigurableRoutingSystem:
             if current_mtime <= self.last_config_mtime:
                 return False  # No changes
 
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path) as f:
                 new_config = yaml.safe_load(f)
 
             self._validate_config(new_config)
@@ -502,7 +502,7 @@ class ConfigurableRoutingSystem:
             return self._ab_test_buckets[bucket_key]
 
         # Hash-based assignment for consistency
-        hash_input = f"{test_name}_{user_id}".encode('utf-8')
+        hash_input = f"{test_name}_{user_id}".encode()
         hash_value = int(hashlib.sha256(hash_input).hexdigest()[:8], 16)
         percentage = (hash_value % 100) + 1
 

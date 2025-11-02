@@ -162,7 +162,7 @@ def test_no_direct_labs_imports_in_core():
                 filepath = os.path.join(root, file)
 
                 try:
-                    with open(filepath, "r") as f:
+                    with open(filepath) as f:
                         content = f.read()
 
                         # Skip files with lazy loading patterns
@@ -201,7 +201,7 @@ def test_no_direct_candidate_imports_in_core():
                 filepath = os.path.join(root, file)
 
                 try:
-                    with open(filepath, "r") as f:
+                    with open(filepath) as f:
                         content = f.read()
 
                         # Skip files with lazy loading patterns

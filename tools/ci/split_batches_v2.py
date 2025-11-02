@@ -27,7 +27,7 @@ class T4BatchSplitter:
     def _load_rules(self, rules_file: str) -> Dict[str, Any]:
         """Load allocation rules from YAML file"""
         try:
-            with open(rules_file, "r") as f:
+            with open(rules_file) as f:
                 return yaml.safe_load(f)
         except FileNotFoundError:
             # Fallback to basic rules if file doesn't exist
@@ -274,7 +274,7 @@ def main():
     args = parser.parse_args()
 
     # Load manifest
-    with open(args.manifest, "r") as f:
+    with open(args.manifest) as f:
         manifest = json.load(f)
 
     # Create splitter and process

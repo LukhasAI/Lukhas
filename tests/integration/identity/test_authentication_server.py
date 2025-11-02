@@ -187,6 +187,6 @@ def test_create_golden_file_on_successful_login(server, user_id, signing_key, tm
 
     # Verify the file was created and has content
     assert golden_file_path.exists()
-    with open(golden_file_path, "r") as f:
+    with open(golden_file_path) as f:
         content = json.load(f)
         assert content == successful_login_event

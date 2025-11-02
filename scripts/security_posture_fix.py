@@ -13,13 +13,13 @@ import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Optional
 
 
 class SecurityPostureFixer:
     """Fixes security posture issues by integrating SBOM references into matrix contracts."""
 
-    def __init__(self, dry_run: bool = False, output_dir: Path = None):
+    def __init__(self, dry_run: bool = False, output_dir: Optional[Path] = None):
         self.dry_run = dry_run
         self.output_dir = output_dir or Path("reports/security_fixes")
         self.sbom_path = Path("reports/sbom/cyclonedx.json")
@@ -35,7 +35,7 @@ class SecurityPostureFixer:
         if not self.sbom_path.exists():
             raise FileNotFoundError(f"SBOM file not found: {self.sbom_path}")
 
-        with open(self.sbom_path, 'r') as f:
+        with open(self.sbom_path) as f:
             return json.load(f)
 
     def identify_missing_sbom_modules(self) -> Set[str]:
@@ -123,7 +123,7 @@ class SecurityPostureFixer:
             if not contract_path.exists():
                 return False
 
-            with open(contract_path, 'r') as f:
+            with open(contract_path) as f:
                 contract = json.load(f)
 
             # Check if this contract is for one of the affected modules
