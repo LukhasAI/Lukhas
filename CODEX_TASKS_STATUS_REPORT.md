@@ -34,9 +34,9 @@ All **primary Codex tasks** outlined in `CODEX_INITIATION_PROMPT.md` and `CODEX_
 - ✅ Post-apply log in `artifacts/replace_todos_log.json`
 
 **Verification Performed (2025-11-02):**
-- ✅ Confirmed issue links present in `.semgrep/lukhas-security.yaml:547`
-- ✅ Confirmed issue links present in `branding/apis/platform_integrations.py:45`
-- ✅ Confirmed issue links present in `completion/BATCH-CODEX-CLEANUP-006.md:25`
+- ✅ Confirmed issue links present in `.semgrep/lukhas-security.yaml:547` (Issue #552)
+- ✅ Confirmed issue links present in `branding/apis/platform_integrations.py:43` (Issue #555, comment on line 45)
+- ✅ Confirmed issue links present in `completion/BATCH-CODEX-CLEANUP-006.md:25` (Issue #556)
 - ✅ All 78 issues properly labeled with `todo-migration` + area labels
 - ✅ No remaining TODOs in mapped locations
 
