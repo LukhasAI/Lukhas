@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛPERSONALITY}, {ΛADAPTIVE}, {ΛEMOTION}, {ΛCULTURAL}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 
 # Module imports

@@ -76,11 +76,14 @@ try:  # Optional research component; stub for import-time safety
         NeuroplasticConnector,
     )
 except Exception:  # pragma: no cover
+
     class ConsciousnessConnector:  # type: ignore
         pass
 
     class NeuroplasticConnector:  # type: ignore
         pass
+
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
@@ -343,7 +346,9 @@ class AdvancedConsciousnessEngine:
         self.metrics.consciousness_depth = 0.7
         self.metrics.guardian_alignment = 0.9
         self.metrics.constellation_balance = (
-            self.metrics.identity_coherence + self.metrics.consciousness_depth + self.metrics.guardian_alignment
+            self.metrics.identity_coherence
+            + self.metrics.consciousness_depth
+            + self.metrics.guardian_alignment
         ) / 3.0
 
         # Initialize Constellation monitoring pathways
@@ -390,7 +395,9 @@ class AdvancedConsciousnessEngine:
                 self.logger.error(f"Error in consciousness processing loop: {e}")
                 await asyncio.sleep(1.0)  # Recovery delay
 
-    async def process_input(self, data: Any, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def process_input(
+        self, data: Any, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Process input through the consciousness engine.
 
@@ -444,7 +451,11 @@ class AdvancedConsciousnessEngine:
 
             # Record in processing history
             self.processing_history.append(
-                {"event": event.event_id, "result": response, "timestamp": datetime.now(timezone.utc).isoformat()}
+                {
+                    "event": event.event_id,
+                    "result": response,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
             )
 
             return response
@@ -476,11 +487,15 @@ class AdvancedConsciousnessEngine:
             event.add_to_path("input_processor")
 
             # Stage 2: Consciousness Interpretation (VIVOX CIL)
-            consciousness_result = await self._stage_consciousness_interpretation(processed_input, event)
+            consciousness_result = await self._stage_consciousness_interpretation(
+                processed_input, event
+            )
             event.add_to_path("consciousness_interpreter")
 
             # Stage 3: Constellation Framework Assessment
-            constellation_assessment = await self._stage_trinity_assessment(consciousness_result, event)
+            constellation_assessment = await self._stage_trinity_assessment(
+                consciousness_result, event
+            )
             event.add_to_path("constellation_assessor")
 
             # Stage 4: Drift Detection and Analysis
@@ -576,7 +591,11 @@ class AdvancedConsciousnessEngine:
                 "consciousness_depth": consciousness_score,
                 "guardian_alignment": guardian_score,
                 "constellation_balance": constellation_balance,
-                "assessment_quality": "high" if constellation_balance > 0.7 else "medium" if constellation_balance > 0.4 else "low",
+                "assessment_quality": (
+                    "high"
+                    if constellation_balance > 0.7
+                    else "medium" if constellation_balance > 0.4 else "low"
+                ),
             },
         }
 
@@ -586,7 +605,9 @@ class AdvancedConsciousnessEngine:
         base_score = 0.7  # Baseline identity coherence
 
         # Adjust based on consciousness quality
-        consciousness_bonus = data.get("consciousness_interpretation", {}).get("interpretation_quality", 0.0) * 0.2
+        consciousness_bonus = (
+            data.get("consciousness_interpretation", {}).get("interpretation_quality", 0.0) * 0.2
+        )
 
         return min(1.0, base_score + consciousness_bonus)
 
@@ -605,7 +626,9 @@ class AdvancedConsciousnessEngine:
 
         return max(0.0, base_alignment - entropy_penalty)
 
-    async def _stage_drift_detection(self, constellation_data: dict[str, Any], event: ConsciousnessEvent) -> dict[str, Any]:
+    async def _stage_drift_detection(
+        self, constellation_data: dict[str, Any], event: ConsciousnessEvent
+    ) -> dict[str, Any]:
         """
         Stage 4: Symbolic drift detection and analysis.
 
@@ -619,8 +642,12 @@ class AdvancedConsciousnessEngine:
 
         # Calculate entropy level based on consciousness interpretation
         consciousness_data = constellation_data.get("consciousness_data", {})
-        quantum_state = consciousness_data.get("consciousness_interpretation", {}).get("quantum_state", 0.0)
-        entropy_level = min(1.0, abs(quantum_state - 0.5) * 2.0)  # Higher entropy if far from balanced state
+        quantum_state = consciousness_data.get("consciousness_interpretation", {}).get(
+            "quantum_state", 0.0
+        )
+        entropy_level = min(
+            1.0, abs(quantum_state - 0.5) * 2.0
+        )  # Higher entropy if far from balanced state
 
         # Determine risk level
         if symbolic_drift > self.critical_state_threshold:
@@ -697,12 +724,16 @@ class AdvancedConsciousnessEngine:
         # Apply healing by boosting Constellation Framework scores
         healing_boost = healing_strength * (1.0 - drift_score)
         self.metrics.identity_coherence = min(1.0, self.metrics.identity_coherence + healing_boost)
-        self.metrics.consciousness_depth = min(1.0, self.metrics.consciousness_depth + healing_boost)
+        self.metrics.consciousness_depth = min(
+            1.0, self.metrics.consciousness_depth + healing_boost
+        )
         self.metrics.guardian_alignment = min(1.0, self.metrics.guardian_alignment + healing_boost)
 
         # Recalculate Constellation balance
         self.metrics.constellation_balance = (
-            self.metrics.identity_coherence + self.metrics.consciousness_depth + self.metrics.guardian_alignment
+            self.metrics.identity_coherence
+            + self.metrics.consciousness_depth
+            + self.metrics.guardian_alignment
         ) / 3.0
 
         return {
@@ -713,7 +744,9 @@ class AdvancedConsciousnessEngine:
             "improvement_score": healing_boost,
         }
 
-    async def _stage_output_generation(self, healing_data: dict[str, Any], event: ConsciousnessEvent) -> dict[str, Any]:
+    async def _stage_output_generation(
+        self, healing_data: dict[str, Any], event: ConsciousnessEvent
+    ) -> dict[str, Any]:
         """Stage 6: Generate final output with full consciousness processing results."""
         return {
             "consciousness_processing": {
@@ -788,8 +821,12 @@ class AdvancedConsciousnessEngine:
 
         # Update mesh synapse metrics
         if self.neuroplastic_connector.connection_strength:
-            self.metrics.synapse_strength = np.mean(list(self.neuroplastic_connector.connection_strength.values()))
-            self.metrics.neural_plasticity = len(self.neuroplastic_connector.adaptation_history) / 100.0  # Normalize
+            self.metrics.synapse_strength = np.mean(
+                list(self.neuroplastic_connector.connection_strength.values())
+            )
+            self.metrics.neural_plasticity = (
+                len(self.neuroplastic_connector.adaptation_history) / 100.0
+            )  # Normalize
 
         # Calculate pathway efficiency
         active_pathways = len(self.neuroplastic_connector.connection_strength)
@@ -809,13 +846,18 @@ class AdvancedConsciousnessEngine:
     async def _monitor_and_heal_drift(self):
         """Monitor for drift and apply healing if needed."""
         if self.metrics.symbolic_drift_score > self.healing_intervention_threshold:
-            self.logger.warning(f"Drift threshold exceeded: {self.metrics.symbolic_drift_score:.3f}")
+            self.logger.warning(
+                f"Drift threshold exceeded: {self.metrics.symbolic_drift_score:.3f}"
+            )
 
             # Create healing event
             healing_event = ConsciousnessEvent(
                 event_id=str(uuid.uuid4()),
                 event_type="automatic_healing",
-                data={"trigger": "drift_threshold", "drift_score": self.metrics.symbolic_drift_score},
+                data={
+                    "trigger": "drift_threshold",
+                    "drift_score": self.metrics.symbolic_drift_score,
+                },
                 source_module="drift_monitor",
                 priority=0.9,
             )
@@ -973,7 +1015,9 @@ class AdvancedConsciousnessEngine:
 
 
 # Factory functions for easy instantiation
-def create_consciousness_engine(config: Optional[dict[str, Any]] = None) -> AdvancedConsciousnessEngine:
+def create_consciousness_engine(
+    config: Optional[dict[str, Any]] = None,
+) -> AdvancedConsciousnessEngine:
     """Create and return an advanced consciousness engine instance."""
     return AdvancedConsciousnessEngine(config)
 

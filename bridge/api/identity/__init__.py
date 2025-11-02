@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 
 __all__ = [
     "AuthMiddleware",

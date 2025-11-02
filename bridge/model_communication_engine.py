@@ -37,6 +37,7 @@
 ║ • Memory-efficient caching mechanisms
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import base64
 import gzip
 from collections.abc import Iterable
@@ -91,7 +92,9 @@ class Linear(nn.Linear):
 
 class Conv1d(nn.Conv1d):
     def _conv_forward(self, x: Tensor, weight: Tensor, bias: Optional[Tensor]) -> Tensor:
-        return super()._conv_forward(x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype))
+        return super()._conv_forward(
+            x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype)
+        )
 
 
 def sinusoids(length, channels, max_timescale=10000):

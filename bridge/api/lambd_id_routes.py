@@ -25,8 +25,11 @@ try:
     # from ...core.id_service.lambd_id_generator import LambdaIDGenerator
     # from ...core.id_service.lambd_id_validator import LambdaIDValidator
     # from ...core.id_service.lambd_id_entropy import EntropyCalculator
+    logger = logging.getLogger(__name__)
     logger.info("ΛTRACE: LambdaIDController imported successfully.")
 except ImportError as e:
+    logger = logging.getLogger(__name__)
+    logger.error(
         f"ΛTRACE: Failed to import LambdaIDController or core services: {e}. ΛiD routes may not function.",
         exc_info=True,
     )

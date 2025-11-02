@@ -1,4 +1,5 @@
 """Bridge for `core.consciousness`."""
+
 from importlib import import_module
 
 __all__ = []

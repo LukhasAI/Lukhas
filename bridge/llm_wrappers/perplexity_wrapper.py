@@ -43,11 +43,9 @@ import logging
 import warnings
 
 # Suppress SSL warnings during import
-    import requests
+import requests
 from branding.terminology import normalize_output
 from .env_loader import get_api_key
-        try:
-            headers = {
                 "Authorization": f"Bearer {self.api_key}",
                 "Content-Type": "application/json",
             }
