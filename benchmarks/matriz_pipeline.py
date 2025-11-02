@@ -75,7 +75,7 @@ class MATRIZBenchmarks:
         results = {
             "test": "matriz_pipeline_latency",
             "num_requests": num_requests,
-            "successful_requests": len([l for l in latencies if l < 500]),
+            "successful_requests": len([latency for latency in latencies if latency < 500]),
             "latency_ms": {
                 "mean": round(mean_latency, 2),
                 "p50": round(p50, 2),
@@ -91,7 +91,7 @@ class MATRIZBenchmarks:
 
         print("📊 MATRIZ Pipeline Results:")
         print(f"   P50: {p50:.1f}ms, P95: {p95:.1f}ms, P99: {p99:.1f}ms")
-        print(f"   Success Rate: {len([l for l in latencies if l < 500])}/{num_requests}")
+        print(f"   Success Rate: {len([latency for latency in latencies if latency < 500])}/{num_requests}")
         print(f"   SLO Compliance: {'✅ PASS' if p95 < 250 else '❌ FAIL'} (P95 < 250ms)")
 
         return results
