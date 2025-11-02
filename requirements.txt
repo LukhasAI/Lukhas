@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 
-pip<25.2
+pip>=25.3
     # via -r requirements.in
     # reason: CVE-2025-8869 (pip arbitrary file overwrite)
 #
