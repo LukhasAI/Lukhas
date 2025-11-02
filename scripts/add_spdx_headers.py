@@ -18,7 +18,6 @@ Last Updated: 2025-10-19
 import argparse
 import pathlib
 
-
 HEADER_PY = '''"""
 {spdx}
 Author: {author}

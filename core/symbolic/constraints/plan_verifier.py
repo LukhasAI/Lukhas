@@ -8,7 +8,8 @@ Rule examples:
 
 from __future__ import annotations
 
-from typing import List, Mapping, Tuple
+from collections.abc import Mapping
+from typing import List, Tuple
 
 
 def verify(plan: Mapping) -> Tuple[bool, List[str]]:

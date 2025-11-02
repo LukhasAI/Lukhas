@@ -118,13 +118,13 @@ class VectorDocument:
         )
 
         # Parse datetimes
-        if "created_at" in data and data["created_at"]:
+        if data.get("created_at"):
             doc.created_at = datetime.fromisoformat(data["created_at"])
-        if "updated_at" in data and data["updated_at"]:
+        if data.get("updated_at"):
             doc.updated_at = datetime.fromisoformat(data["updated_at"])
-        if "expires_at" in data and data["expires_at"]:
+        if data.get("expires_at"):
             doc.expires_at = datetime.fromisoformat(data["expires_at"])
-        if "last_accessed" in data and data["last_accessed"]:
+        if data.get("last_accessed"):
             doc.last_accessed = datetime.fromisoformat(data["last_accessed"])
 
         return doc

@@ -18,10 +18,11 @@ import hashlib
 import os
 import secrets
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 
 class EncryptionAlgorithm(str, Enum):

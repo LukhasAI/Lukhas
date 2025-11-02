@@ -2,7 +2,8 @@
 import logging
 import time
 import uuid
-from typing import Any, Awaitable, Callable, Optional
+from collections.abc import Awaitable
+from typing import Any, Callable, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -295,7 +296,7 @@ async def create_response(request: dict) -> dict[str, Any]:
     content = ""
     if "input" in request:
         content = str(request["input"])
-    elif "messages" in request and request["messages"]:
+    elif request.get("messages"):
         # Get last user message content
         msgs = request["messages"]
         content = next((m.get("content", "") for m in reversed(msgs) if m.get("role") == "user"), "")

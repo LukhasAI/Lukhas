@@ -168,7 +168,7 @@ class ComprehensiveSyntaxFixer:
         """Apply all syntax fixes to a file"""
         try:
             path = Path(file_path)
-            if not path.exists() or not path.suffix == ".py":
+            if not path.exists() or path.suffix != ".py":
                 return False
 
             content = path.read_text(encoding="utf-8")

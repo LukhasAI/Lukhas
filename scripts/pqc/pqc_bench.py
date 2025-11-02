@@ -14,8 +14,9 @@ import json
 import math
 import sys
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable, List
+from typing import List
 
 try:
     import oqs  # type: ignore

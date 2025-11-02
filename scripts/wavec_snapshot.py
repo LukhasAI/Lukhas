@@ -19,9 +19,10 @@ import platform
 import subprocess
 import sys
 import time
+from collections.abc import Sequence
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 
 def now_iso() -> str:

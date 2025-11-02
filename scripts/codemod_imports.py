@@ -19,9 +19,10 @@ import ast
 import csv
 import re
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, List, Tuple
 
 HAS_LIBCST = True
 

@@ -5,9 +5,10 @@ import argparse
 import json
 import sys
 from collections import defaultdict
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+from typing import Any, Dict, List, Optional
 
 # ΛTAG: hidden_gems_summary
 

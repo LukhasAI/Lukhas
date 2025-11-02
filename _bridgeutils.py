@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Iterable, Mapping
 from importlib import import_module
 from types import ModuleType
-from typing import Callable, Iterable, Mapping
+from typing import Callable
 
 __all__ = [
     "bridge",

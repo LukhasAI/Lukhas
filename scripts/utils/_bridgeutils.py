@@ -6,9 +6,10 @@ Provides safe fallback resolution, explicit exports, and deprecation warnings.
 from __future__ import annotations
 
 import warnings
+from collections.abc import Iterable
 from importlib import import_module
 from types import ModuleType
-from typing import Callable, Iterable
+from typing import Callable
 
 
 def resolve_first(paths: Iterable[str]) -> ModuleType:

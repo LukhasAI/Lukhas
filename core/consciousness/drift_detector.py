@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict, deque
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Deque, Dict, List, Optional, Sequence
+from typing import Deque, Dict, List, Optional
 
 from core.symbolic.glyph_specialist import GlyphSignal
 

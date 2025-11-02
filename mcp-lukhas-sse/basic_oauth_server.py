@@ -4,6 +4,7 @@
 import logging
 import os
 import time
+from typing import Optional
 
 from jose import JWTError, jwt
 from starlette.applications import Starlette
@@ -12,7 +13,6 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Route
-from typing import Optional
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

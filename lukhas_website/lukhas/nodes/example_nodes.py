@@ -5,7 +5,8 @@ Example cognitive nodes for testing the orchestration system.
 
 import asyncio
 import time
-from typing import Any, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 from core.interfaces import CognitiveNodeBase
 
