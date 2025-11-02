@@ -4,6 +4,7 @@ Quantum Attention Economics
 AI-powered attention valuation system with quantum entanglement properties.
 Creates ethical attention economy with consent-based trading.
 """
+import importlib as _importlib
 import inspect
 import json
 import logging
@@ -78,7 +79,8 @@ class ConsciousnessHubMessenger:
 
         if self._hub is None:
             try:
-                from labs.core.integration.hub_registry import get_hub_registry
+                _mod = _importlib.import_module("labs.core.integration.hub_registry")
+                get_hub_registry = getattr(_mod, "get_hub_registry")
 
                 registry = get_hub_registry()
                 self._hub = registry.get_hub("consciousness")

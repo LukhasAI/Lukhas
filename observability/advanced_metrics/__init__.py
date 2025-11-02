@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import importlib as _importlib
+
 # Use centralized, duplicate-tolerant registry
 from observability import counter, gauge, summary
 
@@ -79,8 +81,9 @@ __all__ = [
 
 # Added for test compatibility (observability.advanced_metrics.AnomalyType)
 try:
-    from labs.observability.advanced_metrics import AnomalyType
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.advanced_metrics")
+    AnomalyType = getattr(_mod, "AnomalyType")
+except Exception:
     from enum import Enum
 
     class AnomalyType(Enum):
@@ -99,8 +102,9 @@ if "AnomalyType" not in __all__:
 
 # Added for test compatibility (observability.advanced_metrics.MetricAnomaly)
 try:
-    from labs.observability.advanced_metrics import MetricAnomaly
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.advanced_metrics")
+    MetricAnomaly = getattr(_mod, "MetricAnomaly")
+except Exception:
 
     class MetricAnomaly:
         """Stub for MetricAnomaly."""
@@ -119,8 +123,9 @@ if "MetricAnomaly" not in __all__:
 
 # Added for test compatibility (observability.advanced_metrics.MetricSeverity)
 try:
-    from labs.observability.advanced_metrics import MetricSeverity
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.advanced_metrics")
+    MetricSeverity = getattr(_mod, "MetricSeverity")
+except Exception:
     from enum import Enum
 
     class MetricSeverity(Enum):

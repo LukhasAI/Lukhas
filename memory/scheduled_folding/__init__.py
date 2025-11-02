@@ -11,10 +11,13 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # TODO: Implement or remove dead imports referencing this module
 
+import importlib as _importlib
+
 # Added for test compatibility (memory.scheduled_folding.CompressionLevel)
 try:
-    from labs.memory.scheduled_folding import CompressionLevel
-except ImportError:
+    _mod = _importlib.import_module("labs.memory.scheduled_folding")
+    CompressionLevel = getattr(_mod, "CompressionLevel")
+except Exception:
     from enum import Enum
 
     class CompressionLevel(Enum):
@@ -30,8 +33,9 @@ if "CompressionLevel" not in __all__:
 
 # Added for test compatibility (memory.scheduled_folding.FoldStatus)
 try:
-    from labs.memory.scheduled_folding import FoldStatus
-except ImportError:
+    _mod = _importlib.import_module("labs.memory.scheduled_folding")
+    FoldStatus = getattr(_mod, "FoldStatus")
+except Exception:
     from enum import Enum
 
     class FoldStatus(Enum):
@@ -50,8 +54,9 @@ if "FoldStatus" not in __all__:
 
 # Added for test compatibility (memory.scheduled_folding.ScheduledFold)
 try:
-    from labs.memory.scheduled_folding import ScheduledFold
-except ImportError:
+    _mod = _importlib.import_module("labs.memory.scheduled_folding")
+    ScheduledFold = getattr(_mod, "ScheduledFold")
+except Exception:
     try:
         from memory.scheduled_folding import (
             ScheduledFold,  # type: ignore  # pragma: no cover

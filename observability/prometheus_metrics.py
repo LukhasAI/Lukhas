@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
+import importlib as _importlib
+
 # Minimal stub for test collection
 __all__ = []
 
 # Added for test compatibility (observability.prometheus_metrics.PROMETHEUS_AVAILABLE)
 try:
-    from labs.observability.prometheus_metrics import PROMETHEUS_AVAILABLE
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.prometheus_metrics")
+    PROMETHEUS_AVAILABLE = getattr(_mod, "PROMETHEUS_AVAILABLE")
+except Exception:
     PROMETHEUS_AVAILABLE = None  # Stub placeholder
 try:
     __all__  # type: ignore[name-defined]
@@ -19,8 +22,9 @@ if "PROMETHEUS_AVAILABLE" not in __all__:
 
 # Added for test compatibility (observability.prometheus_metrics.LUKHASMetrics)
 try:
-    from labs.observability.prometheus_metrics import LUKHASMetrics
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.prometheus_metrics")
+    LUKHASMetrics = getattr(_mod, "LUKHASMetrics")
+except Exception:
 
     class LUKHASMetrics:
         """Stub for LUKHASMetrics."""
@@ -39,8 +43,9 @@ if "LUKHASMetrics" not in __all__:
 
 # Added for test compatibility (observability.prometheus_metrics.MetricsConfig)
 try:
-    from labs.observability.prometheus_metrics import MetricsConfig
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.prometheus_metrics")
+    MetricsConfig = getattr(_mod, "MetricsConfig")
+except Exception:
 
     class MetricsConfig:
         """Stub for MetricsConfig."""

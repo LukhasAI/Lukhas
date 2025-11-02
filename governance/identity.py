@@ -1,8 +1,16 @@
 """Shim: governance.identity → governance.identity or candidate.governance.identity."""
+import importlib as _importlib
+
 try:
     from governance.identity import *  # noqa: F403
 except ImportError:
     try:
-        from labs.governance.identity import *  # noqa: F403
-    except ImportError:
+        _mod = _importlib.import_module("labs.governance.identity")
+        _names = getattr(_mod, "__all__", None)
+        if _names is None:
+            _names = [n for n in dir(_mod) if not n.startswith("_")]
+        for _name in _names:
+            globals()[_name] = getattr(_mod, _name)
+        __all__ = list(_names)  # type: ignore[name-defined]
+    except Exception:
         pass
