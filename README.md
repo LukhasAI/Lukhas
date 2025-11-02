@@ -9,6 +9,7 @@ updated: 2025-10-26
 [![Manifests](https://img.shields.io/badge/manifests-928-blue)](manifests/)
 [![Smoke Tests](https://img.shields.io/badge/smoke%20tests-100%25-success)](tests/smoke/)
 [![Lint Health](https://img.shields.io/badge/lint-97%25%20clean-brightgreen)](docs/audits/)
+[![codecov](https://codecov.io/gh/LukhasAI/Lukhas/branch/main/graph/badge.svg)](https://codecov.io/gh/LukhasAI/Lukhas)
 [![DX Examples Smoke](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml)
 
 **A consciousness-aware AI development platform with distributed cognitive architecture.**
