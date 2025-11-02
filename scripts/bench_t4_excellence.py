@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-T4/0.01% Excellence Performance Validation Suite
+"""T4/0.01% Excellence Performance Validation Suite
 ================================================
 
 Unassailable performance validation with complete statistical rigor,
@@ -33,8 +32,8 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from bench_core import PerformanceBenchmark
-from preflight_check import PreflightValidator
+from bench_core import PerformanceBenchmark  # noqa: E402 - requires sys.path manipulation before import
+from preflight_check import PreflightValidator  # noqa: E402 - requires sys.path manipulation before import
 
 
 class ChaosCleanupManager:

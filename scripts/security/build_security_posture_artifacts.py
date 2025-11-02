@@ -43,7 +43,9 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 if str(SCRIPT_DIR.parent) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR.parent))
 
-from security_sbom_generator import LUKHASSecuritySBOMGenerator  # type: ignore
+from security_sbom_generator import (  # noqa: E402 - requires sys.path injection before import
+    LUKHASSecuritySBOMGenerator,
+)  # type: ignore
 
 MODULE_PATTERN = "**/matrix_*.json"
 SHARED_SBOM_PATH = Path("security/sboms/shared/lukhas-platform.cdx.json")

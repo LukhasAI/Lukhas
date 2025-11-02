@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Add SPDX license headers to source files (advisory).
+'''Add SPDX license headers to source files (advisory).
 
 Injects SPDX-License-Identifier and Author headers to files lacking them.
 Supports Python (.py) and YAML (.yaml, .yml) files.
@@ -14,7 +13,8 @@ Usage:
 
 Author: LUKHAS Development Team
 Last Updated: 2025-10-19
-"""
+'''
+
 import argparse
 import pathlib
 
@@ -28,7 +28,7 @@ HEADER_YAML = "# {spdx}\n# Author: {author}\n"
 
 
 def add_header(path: pathlib.Path, header_py: str, header_yaml: str) -> bool:
-    """Add SPDX header to a source file if missing.
+    '''Add SPDX header to a source file if missing.
 
     Args:
         path (pathlib.Path): File to update.
@@ -47,7 +47,7 @@ def add_header(path: pathlib.Path, header_py: str, header_yaml: str) -> bool:
         >>> p = Path('tmp_demo.py'); _ = p.write_text('print("hi")')
         >>> add_header(p, '"""\\nSPDX-License-Identifier: MIT\\nAuthor: Test\\n"""', '# SPDX-License-Identifier: MIT\n# Author: Test\n')
         True
-    """
+    '''
     txt = path.read_text(encoding="utf-8")
 
     # Skip if header already exists

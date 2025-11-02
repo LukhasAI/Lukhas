@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
+"""Fix logging imports in MΛTRIZ consciousness modules to avoid conflicts.
+
+Ensures consciousness packages use an explicit alias to avoid collisions
+with the candidate/core/logging directory.
+"""
+
 import logging
-
-logger = logging.getLogger(__name__)
-"""
-Fix logging imports in MΛTRIZ consciousness modules to avoid conflicts
-with candidate/core/logging directory
-"""
-
 import re
 from pathlib import Path
+
+
+logger = logging.getLogger(__name__)
 
 
 def fix_logging_in_file(file_path: Path):
