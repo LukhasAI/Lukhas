@@ -19,26 +19,47 @@ _BACKEND_CANDIDATES = (
     "labs.bridge",
 )
 
+_LEGACY_EXPORTS = (
+    "BRIDGE_ACTIVE",
+    "BRIDGE_DRY_RUN",
+    "MODULE_VERSION",
+    "APIBridge",
+    "BridgeWrapper",
+    "MultiModelOrchestrator",
+    "get_bridge_status",
+    "get_bridge_wrapper",
+)
+
 _mod: object | None = None
 _exports: Mapping[str, Any] | None = None
 
 try:
     _mod, _exports, __all__ = bridge(
         candidates=_BACKEND_CANDIDATES,
-        names=(
-            "BRIDGE_ACTIVE",
-            "BRIDGE_DRY_RUN",
-            "MODULE_VERSION",
-            "APIBridge",
-            "BridgeWrapper",
-            "MultiModelOrchestrator",
-            "get_bridge_status",
-            "get_bridge_wrapper",
-        ),
+        names=_LEGACY_EXPORTS,
     )
 except ModuleNotFoundError:
     __all__ = []
-else:
+    _exports = {}
+    _mod = None
+except AttributeError:
+    try:
+        _mod = resolve_first(_BACKEND_CANDIDATES)
+    except ModuleNotFoundError:
+        _mod = None
+        _exports = {}
+        __all__ = []
+    else:
+        available: dict[str, Any] = {}
+        exported: list[str] = []
+        for _name in _LEGACY_EXPORTS:
+            if hasattr(_mod, _name):
+                available[_name] = getattr(_mod, _name)
+                exported.append(_name)
+        _exports = available
+        __all__ = exported
+
+if _exports:
     globals().update(_exports)
 
 if not isinstance(__all__, list):
