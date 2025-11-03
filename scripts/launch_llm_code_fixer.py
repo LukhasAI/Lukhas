@@ -12,6 +12,8 @@ Usage:
     ./launch_llm_code_fixer.py --category syntax_errors
     ./launch_llm_code_fixer.py --fix-top-issues 50
 """
+from __future__ import annotations
+
 
 import subprocess
 import sys

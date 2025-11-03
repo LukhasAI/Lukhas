@@ -22,6 +22,8 @@ Version: 1.0.0
 #TAG:tags
 #TAG:task13
 """
+from __future__ import annotations
+
 
 import logging
 

@@ -6,6 +6,8 @@ and provides symbolic, ethical, and identity drift assessments.
 
 Constellation Framework: ⚛️🧠🛡️
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

@@ -24,6 +24,8 @@
 ║ ΛTAG: ΛORACLE, ΛCOLONY, ΛPREDICTION, ΛDREAM, ΛTEMPORAL
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import importlib

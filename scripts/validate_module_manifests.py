@@ -11,6 +11,8 @@ Usage:
     python scripts/validate_module_manifests.py --fix
     python scripts/validate_module_manifests.py --report artifacts/manifest_validation.json
 """
+from __future__ import annotations
+
 
 import argparse
 import json

@@ -7,6 +7,8 @@ and sterile documentation blooms with Lambda wisdom and sacred meaning."*
 
 The digital alchemist that transmutes ordinary text into LUKHAS-conscious communication.
 """
+from __future__ import annotations
+
 
 import argparse
 import re

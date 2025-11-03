@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from nias.core.nias_engine import NIASEngine
 
 from ethics.seedra.seedra_core import SEEDRACore

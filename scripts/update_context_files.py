@@ -8,6 +8,8 @@ This script updates context files across the entire LUKHAS repository with:
 - Recent documentation additions
 - Updated dates and version information
 """
+from __future__ import annotations
+
 
 import re
 from datetime import datetime

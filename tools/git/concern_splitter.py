@@ -21,6 +21,8 @@ Features:
 - PR template generation
 - Safe splitting with validation
 """
+from __future__ import annotations
+
 
 import json
 import logging

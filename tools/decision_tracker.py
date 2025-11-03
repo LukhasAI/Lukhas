@@ -3,6 +3,8 @@
 LUKHAS Decision Tracker
 Track and analyze development decisions with context and rationale
 """
+from __future__ import annotations
+
 
 import re
 import subprocess

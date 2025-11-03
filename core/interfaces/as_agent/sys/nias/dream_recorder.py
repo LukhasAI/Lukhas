@@ -17,6 +17,8 @@ DESCRIPTION:
     future dream reconstruction, recurrence logic, or poetic replay.
 
 """
+from __future__ import annotations
+
 
 import json
 import os

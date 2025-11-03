@@ -18,6 +18,8 @@
 ║ experience based on user context and system requirements.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import json
 import logging
 import os

@@ -14,6 +14,8 @@
 ║ Provides context-aware voice parameter modulation based on emotion.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 from typing import Any
 

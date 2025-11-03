@@ -26,6 +26,8 @@
 ║ Symbolic Tags: {ΛIDENTITY}, {ΛAUTH}, {ΛTIER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 IDENTITY_SYMBOLIC_VOCABULARY = {
     # Core Identity Concepts

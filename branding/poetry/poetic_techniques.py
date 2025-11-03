@@ -5,6 +5,8 @@ LUKHAS Poetic Techniques Library
 Advanced poetic devices and literary techniques to enrich LUKHAS expression.
 Combines traditional poetry craft with LUKHAS-specific innovations.
 """
+from __future__ import annotations
+
 
 import random
 from typing import Optional

@@ -21,6 +21,7 @@ Follows constitutional AI methodology:
 - Critiques and revisions
 - Scalable oversight
 """
+import logging
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

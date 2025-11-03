@@ -1,3 +1,6 @@
+import logging
+from __future__ import annotations
+
 log = logging.getLogger(__name__)
 """
 LUKHΛS AI System - AI Integration Manager

@@ -4,6 +4,8 @@ Original: symbolic_matcher.py
 Advanced: symbolic_matcher.py
 Integration Date: 2025-05-31T07:55:30.555398
 """
+from __future__ import annotations
+
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

@@ -4,6 +4,8 @@
 =============================
 Updates modules to use common utilities from core.common
 """
+from __future__ import annotations
+
 
 import re
 import sys

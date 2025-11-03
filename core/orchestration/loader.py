@@ -1,3 +1,4 @@
+import logging
 # candidate/core/orchestration/loader.py
 """
 Dynamic node discovery (dark by default).

@@ -22,6 +22,7 @@ Features:
 
 Rehabilitated: 2025-09-10 from quarantine status
 """
+import logging
 
 import re
 from dataclasses import dataclass, field

@@ -5,6 +5,8 @@ LUKHAS Documentation Badge Renderer (T4/0.01%)
 Synthesizes badges from front-matter (status + owner) and injects at top of docs.
 Preserves H1 headings, adds badge legend to DOCUMENTATION_INDEX.md.
 """
+from __future__ import annotations
+
 
 import json
 import re

@@ -16,6 +16,8 @@
 ║ logic based on context state, user tier, and urgency conditions.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 
 def manage_voice_handoff(user_query, context_state):

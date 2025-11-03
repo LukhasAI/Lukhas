@@ -7,6 +7,8 @@ Works with Constellation Framework for deep understanding.
 
 Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
+from __future__ import annotations
+
 import logging
 import re
 from dataclasses import dataclass

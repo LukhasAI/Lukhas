@@ -16,6 +16,8 @@ DESCRIPTION:
     Results are logged to a symbolic feedback ledger for future tuning and trust metrics.
 
 """
+from __future__ import annotations
+
 
 import json
 from datetime import datetime, timezone

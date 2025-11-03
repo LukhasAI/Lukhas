@@ -8,6 +8,8 @@ Generates comprehensive governance metrics with:
 - Action list (top 5 owners with most issues)
 - Trend analysis
 """
+from __future__ import annotations
+
 
 import json
 import sys

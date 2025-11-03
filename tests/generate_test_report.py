@@ -3,6 +3,8 @@
 Test Report Generator for LUKHAS Test Suite
 Generates KNOWN_ISSUES.md and TEST_STATUS.md from pytest results
 """
+from __future__ import annotations
+
 
 import json
 import subprocess

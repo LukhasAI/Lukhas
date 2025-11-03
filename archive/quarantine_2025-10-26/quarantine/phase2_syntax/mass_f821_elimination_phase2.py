@@ -6,6 +6,8 @@ Elite surgical F821 undefined-name violation elimination
 Target: Reduce 5,407 F821 violations by 1,500-2,000 using pattern-based fixes
 Focus: timezone, st, log, VisualSymbol, and other high-frequency patterns
 """
+from __future__ import annotations
+
 
 import os
 import re

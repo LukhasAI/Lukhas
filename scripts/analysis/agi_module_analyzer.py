@@ -4,6 +4,8 @@ AGI Module Analyzer & Distiller
 Advanced analysis tool for complex AGI codebases using AI-powered analysis
 Understands that AGI requires modular complexity, not simplification to basic chatbots
 """
+from __future__ import annotations
+
 
 import ast
 import json

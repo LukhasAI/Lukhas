@@ -3,6 +3,8 @@
 LUKHAS 2030 Universal Mesh Architecture
 Mycelium-inspired tagging system for non-hierarchical communication
 """
+from __future__ import annotations
+
 import streamlit as st
 from datetime import timezone
 

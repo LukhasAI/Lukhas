@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """Unit tests for MultiBrain specialist coordination."""
 
 from datetime import datetime

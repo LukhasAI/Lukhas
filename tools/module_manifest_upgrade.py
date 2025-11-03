@@ -16,6 +16,8 @@ Safety Features:
 - All operations logged to artifacts for audit trail
 - Schema validation with detailed error reporting
 """
+from __future__ import annotations
+
 
 import argparse
 import hashlib

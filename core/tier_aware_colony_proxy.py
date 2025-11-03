@@ -26,6 +26,8 @@
 ║ ΛTAG: ΛIDENTITY, ΛPROXY, ΛCOLONY, ΛQUANTUM, ΛTIER
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import inspect

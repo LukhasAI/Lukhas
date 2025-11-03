@@ -3,6 +3,8 @@
 Module Migration Helper for LUKHAS AI
 Automates the migration of modules to lukhas/ (accepted)
 """
+from __future__ import annotations
+
 
 import json
 import re

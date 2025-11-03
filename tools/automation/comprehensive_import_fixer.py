@@ -4,6 +4,8 @@
 =================================
 Systematically fixes all import errors and dependencies in LUKHAS .
 """
+from __future__ import annotations
+
 
 import ast
 import json

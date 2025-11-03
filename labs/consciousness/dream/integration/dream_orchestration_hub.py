@@ -5,6 +5,8 @@
 │      Central orchestration hub for coordinating dream consciousness         │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

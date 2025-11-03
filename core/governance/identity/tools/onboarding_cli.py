@@ -18,6 +18,8 @@
 ║ mode for UI/UX testing or integrated with the backend for full end-to-end validation.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 #!/usr/bin/env python3
 import argparse
 import logging

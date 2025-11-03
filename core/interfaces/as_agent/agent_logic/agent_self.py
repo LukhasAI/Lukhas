@@ -4,6 +4,8 @@ Original: agent_self.py
 Advanced: agent_self.py
 Integration Date: 2025-05-31T07:55:30.379413
 """
+from __future__ import annotations
+
 import os
 
 import streamlit as st

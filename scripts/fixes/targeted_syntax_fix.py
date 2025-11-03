@@ -3,6 +3,8 @@
 Targeted syntax fixer for LUKHAS repository
 Focus on common fixable patterns while avoiding complex issues
 """
+from __future__ import annotations
+
 
 import ast
 import logging

@@ -27,6 +27,8 @@
 ║ ΛTAG: ΛIDENTITY, ΛCOLONY, ΛQUANTUM, ΛAGI, ΛSECURITY
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 import time
 from abc import ABC, abstractmethod

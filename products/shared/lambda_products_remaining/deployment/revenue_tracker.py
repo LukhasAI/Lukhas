@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 
 """
 LUKHAS Revenue Tracker - Monitor monetization across all domains

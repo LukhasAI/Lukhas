@@ -4,6 +4,8 @@ Original: narration_controller.py
 Advanced: narration_controller.py
 Integration Date: 2025-05-31T07:55:30.566718
 """
+from __future__ import annotations
+
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

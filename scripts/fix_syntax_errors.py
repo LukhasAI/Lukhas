@@ -4,6 +4,8 @@
 Automatically detects and fixes common syntax errors in Python files.
 Part of the Phase 1.1 Foundation Repair initiative.
 """
+from __future__ import annotations
+
 
 import ast
 import re

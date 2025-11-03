@@ -6,6 +6,8 @@ Generates human-readable reports from audit data, including:
 - Comprehensive audit report (Markdown)
 - Module location mapping (Markdown table and CSV)
 """
+from __future__ import annotations
+
 
 import argparse
 import csv

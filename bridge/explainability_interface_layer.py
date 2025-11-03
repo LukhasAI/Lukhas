@@ -28,6 +28,8 @@
 ║ SYMBOLIC TAGS: ΛXIL, ΛEXPLAIN, ΛPROOF, ΛTRUST, ΛHUMAN
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import logging
 import uuid

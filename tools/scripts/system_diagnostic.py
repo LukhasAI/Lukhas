@@ -8,6 +8,8 @@ Tests all major components and provides a functionality percentage.
 
 Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
+from __future__ import annotations
+
 
 import importlib.util
 import os

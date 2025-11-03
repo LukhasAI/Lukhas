@@ -14,6 +14,8 @@ TRINITY FRAMEWORK:
     🧠 Consciousness: Orchestrates dream state transitions and memory formation
     🛡️ Guardian: Ensures ethical dream content and safe state transitions
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

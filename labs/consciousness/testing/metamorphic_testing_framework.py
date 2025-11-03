@@ -30,6 +30,8 @@
 ║ • Identity Temporal Consistency: Identity stable across time intervals
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

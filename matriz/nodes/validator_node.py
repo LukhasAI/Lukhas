@@ -15,6 +15,8 @@ This node validates outputs from other cognitive nodes to ensure accuracy, consi
 and reliability across the MATRIZ-AGI system. It supports multiple validation strategies
 and provides detailed confidence assessments.
 """
+from __future__ import annotations
+
 
 import ast
 import math

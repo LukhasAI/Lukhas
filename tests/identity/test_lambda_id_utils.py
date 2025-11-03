@@ -6,6 +6,8 @@ Real implementations only, no mocks needed.
 
 Trinity Framework: ⚛️ Identity
 """
+from __future__ import annotations
+
 
 import re
 from datetime import datetime

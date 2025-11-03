@@ -34,6 +34,8 @@
 ║ Symbolic Tags: {ΛCOLLAPSE}, {ΛENTROPY}, {ΛCASCADE}, {ΛSTABILITY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

@@ -7,6 +7,8 @@ audit trails, threat detection, and compliance monitoring.
 
 # ΛTAG: security_framework, authentication, encryption, audit_trails, threat_detection
 """
+from __future__ import annotations
+
 
 import asyncio
 import base64

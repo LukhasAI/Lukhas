@@ -14,6 +14,8 @@
 ║ Bridge between AI consciousness systems and content automation
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 # Module imports
 import asyncio

@@ -4,6 +4,8 @@ LUKHAS Documentation Deduplication Tool
 
 Detects exact and near-duplicate documents and generates a redirect/move plan.
 """
+from __future__ import annotations
+
 
 import json
 import re

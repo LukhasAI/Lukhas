@@ -6,6 +6,8 @@ Systematically migrates 33k+ AGI references to Cognitive across the entire codeb
 Handles class names, function names, documentation, and configuration files while
 preserving technical accuracy and semantic meaning.
 """
+from __future__ import annotations
+
 
 import logging
 import os

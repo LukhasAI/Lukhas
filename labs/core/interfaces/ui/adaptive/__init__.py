@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/ui/adaptive/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'adaptive' sub-package under 'core.interfaces.ui'.

@@ -2,6 +2,8 @@
 Noise injection for symbolic/emotional dream space.
 Opt-in only: disabled by default for safety.
 """
+from __future__ import annotations
+
 import os
 import random
 from typing import Dict

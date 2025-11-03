@@ -42,6 +42,8 @@ ENTERPRISE FEATURES:
 
 ΛTAG: ΛLUKHAS, ΛCAUSAL, ΛLINEAGE, ΛARCHAEOLOGY, ΛDREAM_INTEGRATION
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

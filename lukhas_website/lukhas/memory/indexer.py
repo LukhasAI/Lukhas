@@ -10,6 +10,8 @@ Performance targets:
 - Duplicate detection: <50ms p95
 - Content extraction: 99.9% accuracy
 """
+from __future__ import annotations
+
 
 import hashlib
 import re

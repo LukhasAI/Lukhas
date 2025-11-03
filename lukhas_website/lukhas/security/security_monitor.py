@@ -18,6 +18,8 @@ Key Features:
 
 Constellation Framework: 🛡️ Guardian Excellence - Security Monitoring
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

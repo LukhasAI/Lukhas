@@ -14,6 +14,8 @@
 ║ Provides high-quality audio synthesis, processing, and real-time handling.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 from datetime import datetime, timezone

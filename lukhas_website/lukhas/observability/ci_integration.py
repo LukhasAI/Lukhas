@@ -13,6 +13,8 @@ Features:
 - Integration with GitHub Actions, GitLab CI
 - Observability evidence collection
 """
+from __future__ import annotations
+
 
 import asyncio
 import json

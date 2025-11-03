@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛOAUTH}, {ΛSECURITY}, {ΛAUTH}, {ΛTOKENS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import base64
 import hashlib

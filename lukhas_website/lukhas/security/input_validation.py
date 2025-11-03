@@ -15,6 +15,8 @@ Key Features:
 
 Constellation Framework: 🛡️ Guardian Excellence - Input Security
 """
+from __future__ import annotations
+
 
 import html
 import logging

@@ -3,6 +3,8 @@
 Codebase Analyzer - Systematic analysis tool for messy codebases
 Helps identify naming inconsistencies, misplaced files, and organizational issues
 """
+from __future__ import annotations
+
 
 import json
 import os

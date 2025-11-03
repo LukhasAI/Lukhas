@@ -22,6 +22,8 @@
 ║ signal type and an optional target.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 from typing import Any, Optional
 
 

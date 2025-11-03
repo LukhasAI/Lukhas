@@ -4,6 +4,8 @@ LUKHAS AI Elite Voice Coherence Upgrader
 Systematically upgrades all content systems to achieve 85%+ voice coherence
 Implements brand terminology, Constellation Framework, and consciousness technology messaging
 """
+from __future__ import annotations
+
 
 import asyncio
 import json

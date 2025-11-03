@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/as_agent/utils/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'utils' sub-package under 'core.interfaces.as_agent'.

@@ -14,6 +14,8 @@ TRINITY FRAMEWORK:
     🧠 Consciousness: Seamless consciousness-dream state transitions
     🛡️ Guardian: Ensures safe consciousness-dream integration protocols
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

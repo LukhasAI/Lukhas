@@ -25,6 +25,8 @@
 ║ ΛTAG: ΛMEMORY, ΛFOLD, ΛEXPORT, ΛCOMPRESSION
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import binascii
 import json

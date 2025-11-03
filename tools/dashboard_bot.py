@@ -3,6 +3,8 @@
 Dashboard Bot - Real-time promotion metrics and burn-down tracking
 Generates: progress.json + PR comments + executive dashboard
 """
+from __future__ import annotations
+
 
 import argparse
 import json

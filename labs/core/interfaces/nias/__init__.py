@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/nias/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the NIAS (Non-Intrusive Ad System) plugin package for the Lukhas Cognitive system.

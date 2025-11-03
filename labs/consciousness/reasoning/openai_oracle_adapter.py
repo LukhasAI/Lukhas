@@ -24,6 +24,8 @@
 ║ ΛTAG: ΛORACLE, ΛOPENAI, ΛPREDICTION, ΛPROPHECY, ΛREASONING
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import json
 import logging

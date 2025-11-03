@@ -7,6 +7,8 @@ single source of truth. Never hand-maintain policy constants - always generate.
 
 This bridges the existing LUKHAS ΛiD tier system with Matrix Tracks authorization.
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

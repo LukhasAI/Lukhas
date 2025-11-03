@@ -3,6 +3,8 @@
 Comprehensive Python Syntax Error Fixer
 Automatically detects and fixes common Python syntax errors at scale
 """
+from __future__ import annotations
+
 
 import argparse
 import ast

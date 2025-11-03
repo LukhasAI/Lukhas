@@ -12,6 +12,8 @@ Systematic automation for fixing the most common syntax error patterns:
 
 Based on proven patterns from 11 consecutive perfect eliminations.
 """
+from __future__ import annotations
+
 
 import re
 import subprocess

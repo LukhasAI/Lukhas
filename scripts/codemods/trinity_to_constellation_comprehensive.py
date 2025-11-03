@@ -18,6 +18,8 @@ Options:
     --dry-run    Show what would be changed without applying
     --apply      Apply the changes to files
 """
+from __future__ import annotations
+
 
 import argparse
 import re

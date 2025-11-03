@@ -16,6 +16,8 @@
 ║ of the system, including frontend, backend, and core services.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import json
 import logging

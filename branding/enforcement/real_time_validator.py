@@ -2,6 +2,8 @@
 LUKHAS Real-Time Brand Validator - Constellation Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

@@ -18,6 +18,8 @@ DESCRIPTION:
     If score is high, it logs gratitude or resonance suggestions.
 
 """
+from __future__ import annotations
+
 
 import random
 

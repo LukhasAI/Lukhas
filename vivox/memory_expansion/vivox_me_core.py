@@ -9,6 +9,7 @@ Core Features:
 - Memory veiling (GDPR compliance)
 - Resonant access and flashbacks
 """
+import logging
 import hashlib
 import json
 import time

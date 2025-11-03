@@ -30,6 +30,8 @@
 ║ Symbolic Tags: {ΛBRIDGE}, {ΛMEMORY}, {ΛINTEGRATION}, {ΛUNIVERSAL}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import logging
 from dataclasses import dataclass, field

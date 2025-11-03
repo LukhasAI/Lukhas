@@ -48,6 +48,8 @@
 ║ Symbolic Tags: {ΛSERVICE}, {ΛCONSCIOUSNESS}, {ΛAWARE}, {ΛTIER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 # Module imports
 import asyncio

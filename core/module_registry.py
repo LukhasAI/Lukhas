@@ -32,6 +32,8 @@
 ║ SYMBOLIC TAGS: ΛREGISTRY, ΛTIER_GATE, ΛMODULES
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

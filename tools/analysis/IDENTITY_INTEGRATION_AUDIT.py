@@ -5,6 +5,8 @@ LUKHAS  Identity Integration Audit
 Comprehensive analysis of identity module integration across the codebase.
 Checks tier-based access control, login enforcement, and user ID linking.
 """
+from __future__ import annotations
+
 
 import json
 import re

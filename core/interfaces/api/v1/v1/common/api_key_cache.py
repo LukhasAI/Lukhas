@@ -32,6 +32,7 @@ _REFRESH_ENV = "LUKHAS_API_KEY_REFRESH_SECONDS"
 @dataclass
 class ApiKeyMetadata:
     """Metadata describing a provisioned API key."""
+import logging
 
     key_hash: str
     user_id: str

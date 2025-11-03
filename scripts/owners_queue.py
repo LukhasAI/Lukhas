@@ -5,6 +5,8 @@ LUKHAS Owner Assignment Queue Generator
 Creates GitHub issues for docs with owner: unknown, suggesting owners
 based on git blame and module context.
 """
+from __future__ import annotations
+
 
 import json
 import subprocess

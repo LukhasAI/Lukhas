@@ -6,6 +6,8 @@ Module Directory Population Tool
 Populate placeholder directories (config/, docs/, tests/, assets/) with real,
 meaningful content based on module type and functionality.
 """
+from __future__ import annotations
+
 
 import json
 from pathlib import Path

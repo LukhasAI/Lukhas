@@ -28,6 +28,8 @@
 ║ • Identity Temporal Consistency: identity_hash(t) ≈ identity_hash(t-1)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

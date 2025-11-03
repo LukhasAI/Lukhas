@@ -44,6 +44,8 @@
 ║ ΛTAG: ΛORACLE, ΛNERVOUS_SYSTEM, ΛINTEGRATION, ΛCENTRAL_HUB
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 import time

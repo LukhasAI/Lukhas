@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # LUKHAS_TAG: symbolic_template, memory_reflection, consciousness_system
 """
 ╔══════════════════════════════════════════════════════════════════════════════════

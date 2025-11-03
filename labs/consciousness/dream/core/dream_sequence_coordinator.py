@@ -5,6 +5,8 @@
 │      Coordinates complex dream sequences and narrative flows                 │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

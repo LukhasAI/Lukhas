@@ -13,6 +13,8 @@ DESCRIPTION:
     Intended for use with dream_replay.py, replay_queue.jsonl, or live dream loops.
 
 """
+from __future__ import annotations
+
 
 import json
 import logging

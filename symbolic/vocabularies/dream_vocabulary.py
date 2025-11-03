@@ -32,6 +32,8 @@
 ║ Symbolic Tags: {ΛDREAM}, {ΛSYMBOL}, {ΛNARRATIVE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 # No external dependencies - standalone vocabulary definitions
 

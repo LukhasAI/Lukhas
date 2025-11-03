@@ -12,6 +12,8 @@ SAFEGUARDS:
 - Never modifies .git, binary, or generated files
 - Shows before/after context for each change
 """
+from __future__ import annotations
+
 
 import re
 import sys

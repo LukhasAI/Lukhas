@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """Unit tests for MATRIZ cognitive nodes."""
 import importlib.util
 import os

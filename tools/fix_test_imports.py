@@ -8,6 +8,8 @@ Strategy:
 3. Update imports with correct paths
 4. Validate by re-running collection
 """
+from __future__ import annotations
+
 import re
 import subprocess
 import sys

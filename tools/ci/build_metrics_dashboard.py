@@ -3,6 +3,8 @@
 🎯 Build System Performance Metrics Dashboard
 Tracks efficiency gains from T4 system and Makefile improvements
 """
+from __future__ import annotations
+
 
 import json
 import subprocess

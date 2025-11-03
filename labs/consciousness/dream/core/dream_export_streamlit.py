@@ -5,6 +5,8 @@
 │               Author: Gonzo R.D.M | Version: 1.0 | Symbolic UI              │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import json
 import os

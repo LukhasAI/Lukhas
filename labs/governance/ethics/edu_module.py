@@ -22,6 +22,8 @@
 ║ It is intended to track LUKHAS's own educational progress.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: edu_module.py

@@ -3,6 +3,8 @@
 Configuration validation tool for LUKHAS modules.
 Validates YAML configs against schemas and detects potential secrets.
 """
+from __future__ import annotations
+
 
 import json
 import pathlib

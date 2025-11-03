@@ -41,6 +41,8 @@
 ║ ΛTAG: ΛDASHBOARD, ΛADAPTIVE, ΛMORPH, ΛHEALING, ΛUNIVERSAL
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import json

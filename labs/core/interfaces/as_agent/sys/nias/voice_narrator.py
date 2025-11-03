@@ -4,6 +4,8 @@ Original: voice_narrator.py
 Advanced: voice_narrator.py
 Integration Date: 2025-05-31T07:55:30.515688
 """
+from __future__ import annotations
+
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

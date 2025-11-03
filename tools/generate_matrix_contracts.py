@@ -5,6 +5,8 @@ Matrix Contract Generator with Full Identity Integration
 Generates schema-compliant Matrix contracts for all 65 LUKHAS modules
 with comprehensive identity blocks, tokenization placeholders, and tier mappings.
 """
+from __future__ import annotations
+
 
 import json
 import sys

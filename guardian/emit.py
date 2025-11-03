@@ -8,6 +8,9 @@ Provides dual-approval tracking for critical overrides.
 
 Part of Task 13: Safety Tags System
 """
+import logging
+from __future__ import annotations
+
 
 import hashlib
 import json

@@ -4,6 +4,8 @@ Original: generate_payload_cli.py
 Advanced: generate_payload_cli.py
 Integration Date: 2025-05-31T07:55:30.549413
 """
+from __future__ import annotations
+
 from datetime import timezone
 
 """

@@ -10,6 +10,8 @@ EXTRACTED FROM: enhanced_bot_primary.py (EnhancedAGIBot class, lines 836-1163)
 ENHANCEMENT: Renamed to cognitive_core.py as core brain component following naming conventions
 CORE COMPONENT: This is the main cognitive processing engine, not a bot
 """
+from __future__ import annotations
+
 
 import hashlib
 import logging

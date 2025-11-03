@@ -41,6 +41,8 @@
 ║ ΛTAG: ΛDASHBOARD, ΛCOLONY, ΛCOORDINATION, ΛHEALING, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

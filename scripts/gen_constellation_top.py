@@ -11,6 +11,8 @@ Outputs:
   - docs/CONSTELLATION_TOP.md
   - docs/stars/<star_slug>.md
 """
+from __future__ import annotations
+
 import datetime
 import json
 import pathlib

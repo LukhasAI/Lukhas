@@ -2,6 +2,8 @@
 Quantum-Inspired Colony for Advanced Processing
 Implements quantum-like properties in colony architecture
 """
+from __future__ import annotations
+
 
 import asyncio
 import cmath

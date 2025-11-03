@@ -42,6 +42,8 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 from typing import Any, Optional
 
 # Dummy memory store for placeholder

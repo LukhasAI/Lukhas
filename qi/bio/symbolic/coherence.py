@@ -22,6 +22,8 @@
 ║ ΛTAG: ΛQUANTUM, ΛCOHERENCE, ΛBIO_SYMBOLIC, ΛENHANCEMENT
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import logging
 from dataclasses import dataclass

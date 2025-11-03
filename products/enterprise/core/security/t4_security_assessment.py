@@ -7,6 +7,8 @@ Dario Amodei Level: "Safety first, alignment always, responsible deployment"
 Comprehensive security validation for LUKHAS AI Trinity Framework
 Designed for Jules Agent #2: Security & Constitutional AI Specialist
 """
+from __future__ import annotations
+
 
 import asyncio
 import importlib.util

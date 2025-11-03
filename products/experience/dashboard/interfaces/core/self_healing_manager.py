@@ -42,6 +42,8 @@
 ║ ΛTAG: ΛHEALING, ΛADAPTIVE, ΛFALLBACK, ΛRECOVERY, ΛINTELLIGENT
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

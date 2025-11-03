@@ -5,6 +5,8 @@ LUKHAS  Identity Guard
 Pre-commit hook and validation tool to ensure new code follows identity integration standards.
 Prevents unprotected API endpoints and missing user tracking from being committed.
 """
+from __future__ import annotations
+
 
 import re
 import sys

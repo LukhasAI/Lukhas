@@ -4,6 +4,8 @@ Original: accent_adapter.py
 Advanced: accent_adapter.py
 Integration Date: 2025-05-31T07:55:28.109160
 """
+from __future__ import annotations
+
 
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗

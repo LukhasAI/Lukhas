@@ -4,6 +4,7 @@ LUKHΛS Adaptive Interface Enhancements
 Selective integration of valuable UX components into existing system.
 Enhances rather than replaces current capabilities.
 """
+import logging
 import asyncio
 import json
 from dataclasses import dataclass

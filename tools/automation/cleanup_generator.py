@@ -3,6 +3,8 @@
 Cleanup Command Generator - Generates bash scripts to fix codebase issues
 Works with the Codebase Analyzer to create actionable cleanup commands
 """
+from __future__ import annotations
+
 
 import json
 import re

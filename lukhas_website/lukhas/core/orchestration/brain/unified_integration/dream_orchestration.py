@@ -14,6 +14,8 @@ TRINITY FRAMEWORK:
     🧠 Consciousness: Coordinates dream consciousness state management
     🛡️ Guardian: Ensures ethical orchestration and safe state transitions
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

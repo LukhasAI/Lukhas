@@ -6,6 +6,8 @@ Part of the Lambda Products Suite by LUKHAS AI
 This module handles user data integration from various sources with full
 consent management and privacy protection.
 """
+from __future__ import annotations
+
 
 import asyncio
 import hashlib

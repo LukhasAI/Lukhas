@@ -56,6 +56,8 @@ LUKHAS_TAG: fold_lineage_enterprise, causal_archaeology, dream_integration
 TODO: Implement quantum causal entanglement detection with dream correlation
 IDEA: Add predictive causal modeling based on historical lineage patterns
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

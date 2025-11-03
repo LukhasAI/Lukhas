@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛCONTEXT}, {ΛMEMORY}, {ΛHANDOFF}, {ΛPERFORMANCE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

@@ -25,6 +25,8 @@ that have been built throughout the LUKHAS transformation phases.
 #TAG:authenticity
 #TAG:cascade_prevention
 """
+from __future__ import annotations
+
 
 import asyncio
 import contextlib

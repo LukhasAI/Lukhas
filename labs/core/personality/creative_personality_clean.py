@@ -34,6 +34,8 @@
 ║ Symbolic Tags: {ΛCREATIVITY}, {ΛCLEAN}, {ΛOPTIMIZED}, {ΛETHICS}, {ΛHARMONY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 
 # Configure module logger

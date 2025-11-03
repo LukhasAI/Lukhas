@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 import logging
 

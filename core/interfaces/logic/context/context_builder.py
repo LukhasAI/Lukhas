@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/logic/context/context_builder.py
 import logging
 from typing import Any

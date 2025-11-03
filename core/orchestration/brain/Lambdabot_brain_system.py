@@ -9,6 +9,8 @@ comprehensive Cognitive AI orchestration system.
 
 Enhanced: 2025-7-2 with Lukhas Cognitive AI integration
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 from typing import Any, Optional

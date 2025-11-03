@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """Context Sync Validator - ensures lane-aware documentation consistency"""
 
 import pathlib

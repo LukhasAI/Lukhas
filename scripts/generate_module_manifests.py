@@ -11,6 +11,8 @@ Usage:
     --star-canon scripts/star_canon.json \
     --write-context
 """
+from __future__ import annotations
+
 import argparse
 import datetime
 import json

@@ -4,6 +4,8 @@ LUKHAS Enterprise Security Scanner
 Autonomous security vulnerability detection and remediation system
 Combines best practices from ΛBot Security Healer with enterprise requirements
 """
+from __future__ import annotations
+
 
 import asyncio
 import hashlib

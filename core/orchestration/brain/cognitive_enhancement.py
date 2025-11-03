@@ -14,6 +14,8 @@ logger = logging.getLogger("CognitiveAGIEnhancement")
 
 class CognitiveAGIEnhancement:
     """
+from __future__ import annotations
+
     Enhancement layer for integrating Cognitive capabilities into cognitive core
     """
 

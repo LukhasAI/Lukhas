@@ -5,6 +5,8 @@
 │       Advanced interpretation engine for dream consciousness analysis       │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

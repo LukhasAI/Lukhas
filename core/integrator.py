@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # --- LUKHΛS AI Standard Header ---
 # File: core_integrator.py
 # Path: integration/core_integrator.py

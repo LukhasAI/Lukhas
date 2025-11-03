@@ -8,6 +8,8 @@ Implements ground truth enumeration per PLANNING_TODO.md:
 - Verify claimed completions against actual code
 - Generate canonical manifest with evidence
 """
+from __future__ import annotations
+
 
 import argparse
 import hashlib

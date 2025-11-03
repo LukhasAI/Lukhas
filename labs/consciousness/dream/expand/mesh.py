@@ -2,6 +2,8 @@
 Simulated collective dreaming (multi-agent).
 Aggregates emotional contexts across multiple agents.
 """
+from __future__ import annotations
+
 import os
 import statistics
 from typing import Any, Dict, List, Optional

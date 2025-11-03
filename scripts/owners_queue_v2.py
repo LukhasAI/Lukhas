@@ -5,6 +5,8 @@ LUKHAS Owner Assignment Queue Generator (T4/0.01%)
 Creates batched GitHub issues for docs with owner: unknown.
 Uses git blame (≥30% threshold) + module mapping + fallback team.
 """
+from __future__ import annotations
+
 
 import json
 import subprocess

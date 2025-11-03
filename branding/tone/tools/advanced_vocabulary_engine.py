@@ -24,6 +24,8 @@
 ║ consciousness, and protection unite in sacred harmony.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import random
 import re

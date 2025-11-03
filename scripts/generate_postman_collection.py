@@ -8,6 +8,8 @@ Usage:
 Requires:
     pip install openapi-to-postmanv2 pyyaml
 """
+from __future__ import annotations
+
 
 import json
 import subprocess

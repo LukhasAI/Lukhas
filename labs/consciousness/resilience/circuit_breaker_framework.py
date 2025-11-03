@@ -30,6 +30,8 @@
 ║ • Error Rate Limiter: Caps error propagation across systems
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

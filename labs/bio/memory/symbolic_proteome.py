@@ -39,6 +39,8 @@
 ║ ΛTAG: ΛPROTEOME, ΛMEMORY, ΛPROTEIN, ΛTRANSLATION, ΛBIOMIMETIC
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import hashlib

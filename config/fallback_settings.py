@@ -14,6 +14,8 @@
 ║ be used if the main pydantic-based config system fails.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import logging
 import os

@@ -24,6 +24,8 @@
 ║ Symbolic Tags: {ΛPERSONALITY}, {ΛINIT}, {ΛPACKAGE}
 ╚══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Package imports
 import logging
 import time

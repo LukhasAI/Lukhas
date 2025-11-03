@@ -3,6 +3,8 @@
 Analyze lukhas_import_ledger.ndjson to generate migration scorecard.
 Ranks top legacy imports and recommends canonical targets.
 """
+from __future__ import annotations
+
 import json
 import sys
 from collections import Counter, defaultdict

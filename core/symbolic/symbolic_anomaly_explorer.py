@@ -55,6 +55,8 @@ LUKHAS_TAG: dream_analysis, symbolic_anomaly, pattern_detection, jules_13
 TODO: Add ML-based pattern prediction for proactive anomaly detection
 IDEA: Implement symbolic genealogy tracking for motif evolution analysis
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

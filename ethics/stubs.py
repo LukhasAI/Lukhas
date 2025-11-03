@@ -2,6 +2,8 @@
 Ethics Module Bridge
 Connects to real Guardian implementations where available, provides stubs as fallback
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

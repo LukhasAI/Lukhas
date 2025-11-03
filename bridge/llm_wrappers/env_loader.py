@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛENV}, {ΛSECURITY}, {ΛCONFIG}, {ΛAPI}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 
 # Module imports

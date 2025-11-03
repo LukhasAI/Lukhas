@@ -34,6 +34,8 @@
 ║ SYMBOLIC TAGS: ΛCORE, ΛORCHESTRATION, ΛCONSCIOUSNESS
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import logging

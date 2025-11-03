@@ -4,6 +4,8 @@ LUKHAS Security Scanner
 Comprehensive security scanning with Semgrep, Bandit, dependency vulnerability scanning,
 and secrets detection for T4/0.01% excellence standards.
 """
+from __future__ import annotations
+
 
 import argparse
 import datetime

@@ -3,6 +3,8 @@ Tool Executor for OpenAI Function Calls
 ========================================
 Safe handlers for executing OpenAI tool calls with LUKHAS governance.
 """
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import hashlib

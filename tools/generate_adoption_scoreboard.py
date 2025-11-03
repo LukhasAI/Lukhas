@@ -8,6 +8,8 @@ status file configuration.
 
 Creates visible social pressure for track adoption through gamification.
 """
+from __future__ import annotations
+
 
 import argparse
 import glob

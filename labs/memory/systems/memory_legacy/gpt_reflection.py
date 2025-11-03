@@ -14,6 +14,8 @@
 ║ GPT-based self-reflection
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import os
 from dataclasses import dataclass  # For placeholder OpenAI response objects

@@ -2,6 +2,8 @@
 LUKHAS Python SDK
 OpenAI-compatible client with type safety and async support
 """
+from __future__ import annotations
+
 
 import os
 import time

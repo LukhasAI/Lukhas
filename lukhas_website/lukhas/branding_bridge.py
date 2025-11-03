@@ -17,6 +17,8 @@ Usage:
         initialize_branding, get_system_signature
     )
 """
+from __future__ import annotations
+
 
 import logging
 import re

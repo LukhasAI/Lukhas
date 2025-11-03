@@ -4,6 +4,8 @@ Dream-Guided Tool Framework for Cognitive AI
 Integrates dream processing with tool selection for creative and intuitive
 tool usage patterns that go beyond traditional rule-based selection.
 """
+from __future__ import annotations
+
 
 import logging
 from dataclasses import dataclass, field

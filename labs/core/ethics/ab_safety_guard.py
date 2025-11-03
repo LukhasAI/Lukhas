@@ -20,6 +20,8 @@ Version: 1.0.0
 #TAG:safety_guard
 #TAG:task13
 """
+from __future__ import annotations
+
 
 import logging
 import os

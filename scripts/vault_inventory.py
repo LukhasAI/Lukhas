@@ -11,6 +11,8 @@ Parametric inventory system for THE_VAULT with multi-format support:
 Usage:
   python3 scripts/vault_inventory.py --root /path/to/THE_VAULT
 """
+from __future__ import annotations
+
 
 import argparse
 import hashlib

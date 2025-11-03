@@ -2,6 +2,8 @@
 VIVOX.QREADY Core - Quantum Substrate
 Foundation for quantum computing compatibility
 """
+from __future__ import annotations
+
 
 import hashlib
 import logging

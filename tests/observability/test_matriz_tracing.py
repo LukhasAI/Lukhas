@@ -15,6 +15,8 @@ Contract Requirements:
 
 Constellation Framework: 🌊 Distributed Tracing Excellence
 """
+from __future__ import annotations
+
 
 import logging
 import time

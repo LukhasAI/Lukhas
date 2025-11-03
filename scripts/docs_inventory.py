@@ -4,6 +4,8 @@ LUKHAS Documentation Inventory Builder
 
 Scans all *.md files in docs/ and generates a complete manifest with metadata.
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

@@ -2,6 +2,8 @@
 Documentation Generation Engine
 Implements intelligent documentation generation with Lukhas Cognitive AI capabilities.
 """
+from __future__ import annotations
+
 from typing import List
 import streamlit as st
 

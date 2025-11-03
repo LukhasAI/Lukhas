@@ -2,6 +2,8 @@
 LUKHAS Brand Sentiment Intelligence Engine - Constellation Framework (⚛️🧠🛡️)
 Advanced sentiment analysis and brand perception tracking for LUKHAS AI
 """
+from __future__ import annotations
+
 
 import re
 from dataclasses import dataclass

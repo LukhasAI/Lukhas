@@ -5,6 +5,8 @@ System Health Audit
         star-rules coverage (if present), deps scan (pip-audit if available)
 - Emits: docs/audits/health/latest.json and latest.md
 """
+from __future__ import annotations
+
 import json
 import re
 import shutil

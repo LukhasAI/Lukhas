@@ -3,6 +3,8 @@
 Free LUKHAS AI ΛBot Mode - Let LUKHAS AI ΛBot decide what to work on autonomously
 Give LUKHAS AI ΛBot complete freedom to use real API and make decisions
 """
+from __future__ import annotations
+
 
 import subprocess
 import sys

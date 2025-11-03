@@ -38,6 +38,8 @@
 ║ - Provides human-interpretable explanations for all decisions
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 from dataclasses import dataclass, field

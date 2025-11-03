@@ -4,6 +4,8 @@
 ==================
 Automatically fixes common import issues in the LUKHAS  codebase.
 """
+from __future__ import annotations
+
 
 import ast
 import re

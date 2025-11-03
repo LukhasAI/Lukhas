@@ -8,6 +8,8 @@ Enhanced link validation with:
 - Batch GitHub issues by 25 items
 - 3 reports: summary, internal, external
 """
+from __future__ import annotations
+
 
 import json
 import re

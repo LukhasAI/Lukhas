@@ -3,6 +3,8 @@
 Real-Time Symbolic Threat Dashboard - Advanced Guardian monitoring interface
 Provides comprehensive threat visualization with symbolic analysis and predictive modeling
 """
+from __future__ import annotations
+
 
 import asyncio
 import math

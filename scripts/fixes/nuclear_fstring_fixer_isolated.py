@@ -3,6 +3,8 @@
 💥 NUCLEAR F-STRING FIXER - ISOLATED & DRY RUN CAPABLE
 More aggressive pattern matching with full isolation and dry run mode
 """
+from __future__ import annotations
+
 
 import ast
 import json

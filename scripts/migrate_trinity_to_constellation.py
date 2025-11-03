@@ -5,6 +5,8 @@ Trinity to Constellation Framework Migration Script
 Systematically migrates 14k+ Trinity references to Constellation across the entire codebase.
 Handles imports, class names, function names, documentation, and configuration files.
 """
+from __future__ import annotations
+
 
 import logging
 import os

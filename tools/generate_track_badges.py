@@ -9,6 +9,8 @@ Generates green-light status badges for module READMEs based on:
 
 Updates module README.md files with current track status tables.
 """
+from __future__ import annotations
+
 
 import glob
 import json

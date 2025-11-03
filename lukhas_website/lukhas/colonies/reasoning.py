@@ -3,6 +3,8 @@ LUKHAS AI Colony System - Reasoning Colony
 Distributed reasoning and logic processing
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+from __future__ import annotations
+
 from typing import Any, Optional
 
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask

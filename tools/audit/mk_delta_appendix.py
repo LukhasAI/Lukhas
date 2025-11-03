@@ -6,6 +6,8 @@ Usage:
   tools/audit/mk_delta_appendix.py --old <OLD_TAG> --new <NEW_TAG> \
     --out reports/audit/appendix_delta.md
 """
+from __future__ import annotations
+
 
 import argparse
 import hashlib

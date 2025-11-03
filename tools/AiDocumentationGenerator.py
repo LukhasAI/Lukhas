@@ -13,6 +13,8 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 LUKHlukhasS AI Research. All rights reserved.
 Licensed under the LUKHlukhasS Core License - see LICENSE.md for details.
 """
+from __future__ import annotations
+
 
 import argparse
 import ast

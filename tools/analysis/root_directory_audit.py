@@ -3,6 +3,8 @@
 Root Directory Audit and Reorganization Plan
 Analyzes root-level directories and proposes a reorganization plan.
 """
+from __future__ import annotations
+
 
 import contextlib
 import json

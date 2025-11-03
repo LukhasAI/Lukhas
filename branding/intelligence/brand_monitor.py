@@ -2,6 +2,8 @@
 LUKHAS Brand Intelligence Monitor - Constellation Framework (⚛️🧠🛡️)
 Real-time brand consistency tracking and intelligence analytics
 """
+from __future__ import annotations
+
 
 import asyncio
 import re
