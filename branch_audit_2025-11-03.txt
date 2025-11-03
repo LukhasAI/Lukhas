@@ -1,0 +1,122 @@
+# Branch Audit Report - Mon Nov  3 03:49:12 GMT 2025
+# Generated before aggressive cleanup
+
+## Summary
+Local branches:      109
+Remote branches:      380
+Worktrees:        4
+
+## Worktrees
+/Users/agi_dev/LOCAL-REPOS/Lukhas                                           1e6ab3db6 [main]
+/Users/agi_dev/LOCAL-REPOS/Lukhas-worktrees/wkt-shim                        9c544e429 [wkt/shim-matriz-tests]
+/Users/agi_dev/LOCAL-REPOS/Lukhas/b1db8919b599a05a3bdcacda2013e2f4e5803bfe  b0463baa3 [feat/identity-token-types]
+/Users/agi_dev/LOCAL-REPOS/Lukhas/gemini-dev                                588e80784 [gemini-dev]
+
+## Branches by category
+
+### Active work branches (keep)
+  feat/async-utils-typing-fix - Last: 2025-10-30 02:02:07 +0000 - Ahead: 3
+  feat/bulk-format-test - Last: 2025-08-30 15:04:23 +0100 - Ahead: 1
+  feat/diagnose-lane-violation-MATRIZ - Last: 2025-10-28 17:14:53 +0000 - Ahead: 1
+  feat/dream-benchmark-plus - Last: 2025-09-17 21:07:30 +0100 - Ahead: 6
+  feat/dream-phase-benchmark - Last: 2025-09-17 20:45:58 +0100 - Ahead: 4
+  feat/dream-phase-fortify - Last: 2025-09-17 20:34:31 +0100 - Ahead: 3
+  feat/facade - Last: 2025-10-23 06:51:00 +0100 - Ahead: 4
+  feat/fix-lane-ethics-lazy - Last: 2025-10-30 02:05:45 +0000 - Ahead: 2
+  feat/fix-lane-registry-lazy - Last: 2025-10-30 02:04:26 +0000 - Ahead: 1
+  feat/fix-lane-violation-MATRIZ - Last: 2025-10-28 20:44:19 +0000 - Ahead: 11
+  feat/fix-lane-violation-MATRIZ-oracle-lazy - Last: 2025-10-28 20:42:30 +0000 - Ahead: 3
+  feat/gpt5-briefs-runner - Last: 2025-10-28 14:35:38 +0000 - Ahead: 1
+  feat/guardian-wiring-rl-headers - Last: 2025-10-13 20:05:16 +0100 - Ahead: 7
+  feat/healthz-voice-probe - Last: 2025-09-05 12:32:09 +0100 - Ahead: 3
+  + feat/identity-token-types - Last:  - Ahead: 0
+  feat/identity-webauthn-verify - Last: 2025-11-02 01:12:26 +0000 - Ahead: 2
+  feat/jules-docs-J02 - Last: 2025-10-20 09:22:28 +0100 - Ahead: 4
+  feat/jules-docs-openapi - Last: 2025-10-20 04:27:22 +0100 - Ahead: 1
+  feat/jules-docs-pass - Last: 2025-10-20 04:26:52 +0100 - Ahead: 10
+  feat/jules-docs-seeding - Last: 2025-10-20 09:34:02 +0100 - Ahead: 7
+  feat/jules-j02-0.01pct-standards - Last: 2025-10-20 12:33:48 +0100 - Ahead: 2
+  feat/jules-j02-finish - Last: 2025-10-20 09:34:02 +0100 - Ahead: 7
+  feat/jules-mypy-fixes-2 - Last: 2025-09-02 00:47:22 +0100 - Ahead: 5
+  feat/jules-ruff-fixes-1 - Last: 2025-09-02 01:27:48 +0100 - Ahead: 11
+  feat/jules/api-gov-batch01 - Last: 2025-10-09 07:26:04 +0000 - Ahead: 1
+  feat/jules02/candidate-batch01 - Last: 2025-09-15 20:52:01 +0100 - Ahead: 1
+  feat/manifest-cov-p1 - Last: 2025-10-26 07:14:08 +0000 - Ahead: 13
+  feat/oauth-token-manager - Last: 2025-10-30 11:56:01 +0000 - Ahead: 5
+  feat/openai-terminology-alignment - Last: 2025-10-15 10:06:53 +0100 - Ahead: 3
+  feat/phase4-lane-labeler - Last: 2025-10-20 11:52:26 +0100 - Ahead: 2
+  feat/phase4-manifests-run - Last: 2025-10-20 10:50:59 +0100 - Ahead: 3
+  feat/todo-categorize - Last: 2025-10-30 12:49:40 +0000 - Ahead: 6
+  feature/commit-31 - Last: 2025-09-02 10:53:26 +0100 - Ahead: 1
+  feature/enterprise-observability - Last: 2025-08-28 13:35:55 +0100 - Ahead: 2
+  feature/mcp-tests - Last: 2025-09-14 15:37:37 +0100 - Ahead: 1
+  feature/unified-compliance-service - Last: 2025-09-02 08:37:31 +0100 - Ahead: 0
+  fix/e402-identity-consent-gtpsi-serve - Last: 2025-10-16 05:37:20 +0100 - Ahead: 1
+  fix/guardian-yaml-compat - Last: 2025-10-15 03:36:17 +0100 - Ahead: 7
+  fix/identity-e402-imports - Last: 2025-10-16 05:35:43 +0100 - Ahead: 1
+  fix/identity-timezone-batch-1 - Last: 2025-09-02 08:36:09 +0100 - Ahead: 2
+  fix/lukhas-e402-noqa - Last: 2025-10-16 05:32:09 +0100 - Ahead: 1
+  fix/matriz-directory-case - Last: 2025-11-01 06:01:10 +0000 - Ahead: 2
+  fix/phase3.1-stabilization-pack - Last: 2025-10-13 03:48:02 +0100 - Ahead: 1
+  fix/quick-wins-w293-f841-tests-docs - Last: 2025-10-16 05:03:26 +0100 - Ahead: 1
+  fix/ruf012-mutable-class-defaults - Last: 2025-11-02 13:46:55 +0000 - Ahead: 3
+  fix/ruff-auto-fixes-119 - Last: 2025-11-02 12:17:00 +0000 - Ahead: 1
+  fix/ruff-safe-fixes-v2 - Last: 2025-11-02 12:29:24 +0000 - Ahead: 1
+  fix/test-f811-agi_dev - Last: 2025-10-30 09:50:00 +0000 - Ahead: 5
+  fix/up035-deprecated-imports - Last: 2025-11-02 12:39:23 +0000 - Ahead: 1
+  =2.0.0 =2.32.0 =45.0.0 =78.1.1 =8.4.1 AGENTS.md AGENT_ACTIVATION_GUIDE.md API_OPTIMIZATION_PROJECT_STATUS.md ARTIFACTS_LOCATIONS.md AUDIT_README.md AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md AUTONOMOUS_GUIDE_TEST_COVERAGE.md AUTONOMOUS_GUIDE_TODO_CLEANUP.md CODEBASE_STATUS_2025-10-28.md CODEOWNERS CODEX_CLOUD_INITIATION_PROMPT.md CODEX_CLOUD_INITIATION_PROMPT_Codex3.md CODEX_CONFLICT_RESOLUTION_REPORT.md CODEX_INITIATION_PROMPT.md CODEX_PARALLEL_SETUP.md CODEX_PR_BATCH_COMPLETION_SUMMARY.md CODEX_QUICK_START.txt CODEX_TASKS_STATUS_REPORT.md CODEX_TODO_REPLACEMENT_COMPLETE.md COMPLETE_SESSION_SUMMARY_2025-10-28.md CONSOLIDATION_SESSION_SUMMARY.md DREAM_CONSOLIDATION_SIMPLIFIED_PLAN.md Dockerfile ENVIRONMENT_SETUP_COMPLETE.md ERROR_LOG_2025-11-02.md ETHICS_ASSESSMENT_TEMPLATE.md GEMINI_NAVIGATION_GUIDE.md INFRASTRUCTURE_IMPLEMENTATION_SUMMARY.md Justfile LICENSE LUKHAS_CONTEXT_ANALYSIS_T4.md Lukhas-cc-dxrc Lukhas.code-workspace MATRIZ_MIGRATION_AUTONOMOUS_PLAN.md MATRIZ_MIGRATION_COMPLETION_SUMMARY.md MATRIZ_MIGRATION_GUIDE.md MATRIZ_MIGRATION_SESSION_2025-10-26.md MATRIZ_MIGRATION_T4_COMPLIANCE_REPORT.md MIGRATION_STATUS_REPORT.md MODULE_INDEX.md Makefile Makefile.hidden_gems Makefile.testing OWNERS.toml PARALLEL_TODO_WORK.md QUICK_REFERENCE.md README.md README_AUTONOMOUS_GUIDES.md SECURITY.md SECURITY_IMPROVEMENT_PLAN.md SECURITY_POSTURE_COMPLETION_SUMMARY.md SESSION_AGENT_STATUS_2025-11-02.md SESSION_CODEX_DELEGATION_2025-11-02.md SESSION_CONTINUED_2025-11-02.md SESSION_FINAL_2025-11-02.md SESSION_FINAL_SUMMARY_2025-11-02.md SESSION_PROGRESS_2025-11-02.md SESSION_PR_MERGE_2025-11-02.md SESSION_SUMMARY_2025-11-02_INFRASTRUCTURE.md SESSION_SUMMARY_CODEX_ANALYSIS.md SESSION_SYNTAX_BLOCKER_2025-11-02.md TEST_COVERAGE_IMPROVEMENT_SUMMARY.md TODO TODO_CLEANUP_AUDIT.md TODO_CONVERSION_SUMMARY.md TRANSPARENCY_SCORECARD.md WEBAUTHN_CREDENTIAL_IMPLEMENTATION_SUMMARY.md __init__.py _bridgeutils.py adapters agent agents agents_external ai_orchestration aka_qualia alerts analytics api archive artifacts assets async_utils audit audits b1db8919b599a05a3bdcacda2013e2f4e5803bfe benchmarks bio brain branch_audit_2025-11-03.txt branding branding_bridge bridge bulk_fix_e402.py business caching candidate ci claude-code.json claude.me claude_army codex_artifacts cognitive cognitive_core collapse collection_test.txt completion config config.json conftest.py consciousness consent constraints.txt context_files.txt contracts contradiction_integrator core coverage_baseline.txt coverage_report.txt dashboards data delegation_reports demos deployment design_system diagnostics docker docker-compose.yml docs dream drift dump.rdb emotion enforcement enterprise environments ethics evaluations examples experimental exports feedback fix_e402.py fix_e402_batch.py fix_qi_e402.py flags gemini-dev gemini.md google_auth_oauthlib governance grafana graphs gtpsi guardian gymnasium_local healing health_reports hooks identity infrastructure integrations jules_branch labs ledger load lukhas lukhas-mcp lukhas_agent_todos.json lukhas_agent_todos.txt lukhas_ai_intro lukhas_chat_interface_component.tsx lukhas_chat_studio_template.tsx lukhas_context.md lukhas_pb2.py lukhas_website main.py manifests matriz mcp-lukhas-sse mcp-server mcp-servers mcp_servers memory mk models modulation modules monitoring mypy.ini next_gen nodes observability oneiric_core ops orchestration out packages performance perp_runs personality phase1_verification_pack policies pr_comments presentations products prometheus proposed_moves.sh proposed_moves_revised.sh pyproject.toml pytest.ini pytest_asyncio_stub_DISABLED qi quantum quarantine rats reasoning recovered_components release reports requirements-dev.in requirements-dev.txt requirements-prod.in requirements-prod.txt requirements.in requirements.lock requirements.txt resilience ring rl rules run_new_tests.sh samples sbom schema schemas scripts sdk security security_reports serve server services src storage symbolic system system_claude_audit tagging tasks telemetry templates test-results.xml test_data test_results tests third_party_stubs tickets tmp tone tools trace trace_logs transmission_bundle universal_language urllib3 utils validate_infrastructure.py var verify_codex_ready.sh vivox vocab vocabularies vocabulary_refresh_data zenodo.metadata.json main - Last:  - Ahead: 0
+  refactor/e741-benchmarks - Last: 2025-11-02 06:26:05 +0000 - Ahead: 1
+  refactor/e741-scripts-tools - Last: 2025-11-02 07:47:41 +0000 - Ahead: 3
+  refactor/e741-tests - Last: 2025-11-02 07:30:33 +0000 - Ahead: 1
+  refactor/e741-vivox - Last: 2025-11-02 06:10:07 +0000 - Ahead: 1
+  refactor/e741-website - Last: 2025-11-02 06:17:30 +0000 - Ahead: 1
+  refactor/lukhas-flat-matriz - Last: 2025-09-29 13:00:53 +0100 - Ahead: 1
+
+### Utility branches (codex-rebase, chore, assist) - likely deletable
+  assist/copilot/tests-docs-batch01 - Last: 2025-10-09 07:26:04 +0000
+  chore/black-formatter - Last: 2025-11-02 05:39:52 +0000
+  chore/lazy-import-gpt-orch - Last: 2025-10-30 11:32:22 +0000
+  chore/quote-consistency - Last: 2025-11-02 05:44:58 +0000
+  chore/restore-high-priority - Last: 2025-10-30 16:29:03 +0000
+  chore/ruff-autofix-safe-20251015T031757Z - Last: 2025-10-15 04:19:00 +0100
+  chore/serve-docs-tidy - Last: 2025-09-05 13:35:41 +0100
+  chore/star-promotions-proposal-20251014T180317Z - Last: 2025-10-14 23:19:38 +0100
+  chore/stream-d-d1-logger - Last: 2025-09-11 01:12:20 +0000
+  codex-rebase-pr-640 - Last: 2025-10-30 02:29:06 +0000
+  codex-rebase-pr-644 - Last: 2025-10-28 12:48:26 +0000
+  codex-rebase-pr-646 - Last: 2025-10-29 12:33:41 +0000
+  codex-rebase-pr-647 - Last: 2025-10-30 02:30:46 +0000
+  codex-rebase-pr-648 - Last: 2025-10-30 02:27:32 +0000
+  codex-rebase-pr-658 - Last: 2025-10-28 13:23:17 +0000
+  codex-rebase-pr-659 - Last: 2025-10-28 15:38:47 +0000
+  codex-rebase-pr-662 - Last: 2025-10-30 02:26:28 +0000
+  codex-rebase-pr-664 - Last: 2025-10-28 13:37:41 +0000
+  codex-rebase-pr-665 - Last: 2025-10-28 15:39:06 +0000
+  codex-rebase-pr-666 - Last: 2025-10-30 02:28:21 +0000
+  codex-rebase-pr-667 - Last: 2025-10-30 02:22:20 +0000
+  codex-rebase-pr-670 - Last: 2025-10-28 16:29:25 +0000
+  codex-rebase-pr-675 - Last: 2025-10-30 02:30:19 +0000
+  codex-rebase-pr-676 - Last: 2025-10-28 13:45:47 +0000
+
+### Merged branches (safe to delete)
+  feature/unified-compliance-service
+
+### Old branches (>30 days since last commit)
+  refactor/lukhas-flat-matriz - 34 days old - 2025-09-29 13:00:53 +0100
+  feat/dream-benchmark-plus - 46 days old - 2025-09-17 21:07:30 +0100
+  feat/dream-phase-benchmark - 46 days old - 2025-09-17 20:45:58 +0100
+  feat/dream-phase-fortify - 46 days old - 2025-09-17 20:34:31 +0100
+  feat/jules02/candidate-batch01 - 48 days old - 2025-09-15 20:52:01 +0100
+  feature/mcp-tests - 49 days old - 2025-09-14 15:37:37 +0100
+  chore/stream-d-d1-logger - 53 days old - 2025-09-11 01:12:20 +0000
+  chore/serve-docs-tidy - 58 days old - 2025-09-05 13:35:41 +0100
+  feat/healthz-voice-probe - 58 days old - 2025-09-05 12:32:09 +0100
+  ci/add-lockfiles-and-ci-guidance - 60 days old - 2025-09-04 00:56:11 +0100
+  feature/commit-31 - 61 days old - 2025-09-02 10:53:26 +0100
+  feature/unified-compliance-service - 61 days old - 2025-09-02 08:37:31 +0100
+  fix/identity-timezone-batch-1 - 61 days old - 2025-09-02 08:36:09 +0100
+  feat/jules-ruff-fixes-1 - 62 days old - 2025-09-02 01:27:48 +0100
+  feat/jules-mypy-fixes-2 - 62 days old - 2025-09-02 00:47:22 +0100
+  feat/bulk-format-test - 64 days old - 2025-08-30 15:04:23 +0100
+  infra/lint-global - 66 days old - 2025-08-28 22:52:22 +0100
+  feature/enterprise-observability - 66 days old - 2025-08-28 13:35:55 +0100

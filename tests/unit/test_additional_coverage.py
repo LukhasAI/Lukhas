@@ -158,11 +158,6 @@ def test_swarm_agent_receive_returns_placeholder_response(monkeypatch):
     assert fallback["agent_id"] == "agent-1"
 
     assert "agent-1" in colony.supervisor.children
-"""Additional unit coverage for observability and swarm fallbacks."""
-
-from __future__ import annotations
-
-import importlib
 import importlib.util
 import os
 import sys
