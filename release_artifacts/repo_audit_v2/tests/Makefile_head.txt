@@ -1,0 +1,200 @@
+# NOTE: Registry targets moved to canonical location (line ~1820)
+# See registry-up, registry-smoke, registry-ci, registry-clean, registry-test below
+# Main Makefile PHONY declarations (only for targets defined in this file)
+.PHONY: install setup-hooks dev api openapi openapi-spec openapi-validate facade-smoke live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
+.PHONY: load-smoke load-test load-extended load-spike load-locust load-check
+.PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
+.PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
+.PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
+.PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
+.PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
+.PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens oneiric-drift-test collapse
+.PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test manifest-system
+.PHONY: matriz-audit matriz-where matriz-eval matriz-eval-quick matriz-eval-benchmark
+.PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
+.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
+.PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
+.PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
+.PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
+.PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
+.PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
+.PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
+
+# Note: Additional PHONY targets are declared in mk/*.mk include files
+
+# Modular includes (guarded)
+ifneq ($(wildcard mk/*.mk),)
+include mk/*.mk
+endif
+
+# Note: Main help target is defined in mk/help.mk
+
+# Installation
+install:
+	@echo "📦 Installing dependencies..."
+	pip install --upgrade pip
+	pip install -r requirements.txt
+	pip install -r requirements-test.txt
+	pip install black ruff isort mypy autoflake flake8 pre-commit bandit
+
+# Setup pre-commit hooks
+setup-hooks:
+	@echo "🔗 Setting up pre-commit hooks..."
+	pre-commit install
+	pre-commit install --install-hooks
+	pre-commit autoupdate
+	@echo "✅ Pre-commit hooks installed!"
+
+# Development server
+dev:
+	uvicorn serve.main:app --reload --host 0.0.0.0 --port 8000
+
+# API server
+api:
+	uvicorn lukhas.api.app:app --reload --port 8000
+
+# Export OpenAPI spec
+openapi:
+	@mkdir -p out
+	curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json
+	@echo "✅ OpenAPI exported to out/openapi.json"
+
+# Generate OpenAPI spec (no server required)
+openapi-spec:
+	@echo "📝 Generating OpenAPI spec for OpenAI façade..."
+	@mkdir -p docs/openapi
+	@python - <<'PY'
+	import json, os
+	from lukhas.adapters.openai.api import get_app
+	app = get_app()
+	spec = app.openapi()
+	os.makedirs("docs/openapi", exist_ok=True)
+	with open("docs/openapi/lukhas-openapi.json","w") as f:
+	    json.dump(spec, f, indent=2)
+	print("✅ wrote docs/openapi/lukhas-openapi.json")
+	PY
+
+# Validate OpenAPI spec
+openapi-validate: openapi-spec
+	@echo "✅ Validating OpenAPI spec..."
+	@pip install -q openapi-spec-validator
+	@openapi-spec-validator docs/openapi/lukhas-openapi.json
+	@echo "✅ OpenAPI spec is valid!"
+
+# Run OpenAI façade smoke tests
+facade-smoke:
+	@echo "🚬 Running OpenAI façade smoke tests..."
+	@bash scripts/smoke_test_openai_facade.sh
+
+# Live integration test
+live:
+	python3 scripts/testing/live_integration_test.py
+
+# Colony↔DNA demo
+colony-dna-smoke:
+	python3 scripts/colony_dna_smoke.py
+
+# MATRIZ traces smoke (deterministic, uses golden fixture)
+smoke-matriz:
+	@echo "🚬 Running MATRIZ traces smoke (GET /traces/latest)..."
+	PYTHONPATH=. python3 -m pytest -q tests/smoke/test_traces_router.py --maxfail=1 --disable-warnings
+	@echo "✅ MATRIZ traces smoke passed"
+
+# Linting (no fixes)
+lint:
+	@echo "🔍 Running linters..."
+	@echo "Running Flake8..."
+	-$(PYTHON) -m flake8 lukhas matriz core serve enforcement \
+	  --count --statistics \
+	  --max-line-length=88 \
+	  --exclude .venv,.venv_*,venv,__pycache__,build,dist,*.egg-info \
+	  --extend-ignore=E501,E203,E129,E301,E302,E402,W391,E128,W291,W292,W293
+	@echo "\nRunning Ruff..."
+	-$(PYTHON) -m ruff check lukhas matriz core serve tests tools enforcement --quiet
+	@echo "\nRunning MyPy..."
+	-$(PYTHON) -m mypy lukhas matriz core serve --ignore-missing-imports
+	@echo "\nRunning Bandit (security)..."
+	-$(PYTHON) -m bandit -r lukhas bridge core serve -ll
+	@echo "\nChecking for fragile import patterns (sys.path hacks, star imports)..."
+	-python3 tools/ci/no_syspath_hacks.py lukhas matriz || true
+
+# T4 unused imports policy (production lanes only)
+lint-unused:
+	@echo "🎯 T4 Unused Imports Annotator (Production Lanes)"
+	@echo "⚛️ Scanning lukhas/ and MATRIZ/ for F401 violations..."
+	python3 tools/ci/unused_imports.py --paths lukhas MATRIZ
+
+lint-unused-strict:
+	@echo "🎯 T4 Unused Imports Enforcer (Production Lanes - Strict Mode)"
+	@echo "⚛️ Failing if any unannotated F401 remain in lukhas/ and MATRIZ/..."
+	python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
+
+# Format code
+format:
+	@echo "🎨 Formatting code with Black..."
+	black --line-length 79 lukhas bridge core serve tests
+	@echo "📦 Sorting imports with isort..."
+	isort --profile black --line-length 79 lukhas bridge core serve tests
+
+# Auto-fix all issues (smart mode - won't break code)
+fix:
+	@echo "🔧 Running Smart Fix (safe mode)..."
+	@python tools/scripts/smart_fix.py
+
+# Ollama-powered AI analysis and fixes
+ai-analyze:
+	@echo "🤖 Running AI-powered code analysis with Ollama..."
+	@if [ -x "./tools/local-llm-helper.sh" ]; then \
+		./tools/local-llm-helper.sh analyze; \
+	else \
+		echo "❌ AI analysis not available. Run 'make ai-setup' first."; \
+		exit 1; \
+	fi
+
+# Setup Ollama for AI analysis
+ai-setup:
+	@echo "🤖 Setting up Ollama for AI analysis..."
+	@if ! command -v ollama >/dev/null 2>&1; then \
+		echo "❌ Ollama not installed. Please install Ollama first: https://ollama.ai"; \
+		exit 1; \
+	fi
+	@if ! ollama list | grep -q "deepseek-coder:6.7b"; then \
+		echo "📥 Downloading deepseek-coder:6.7b model..."; \
+		ollama pull deepseek-coder:6.7b; \
+	fi
+	@chmod +x ./tools/local-llm-helper.sh
+	@echo "✅ AI analysis setup complete!"
+
+# Complete AI-powered development workflow
+ai-workflow:
+	@echo "🚀 Running complete AI-powered development workflow..."
+	@make fix
+	@make ai-analyze
+	@make test
+	@echo "✅ AI workflow complete!"
+
+# Aggressive fix (use with caution - will fix 90% of issues)
+fix-all:
+	@echo "🔥 Running Aggressive Fix..."
+	@python tools/scripts/aggressive_fix.py
+
+# Ultra fix - maximum aggression (last resort)
+fix-ultra:
+	@echo "☠️ ULTRA FIX MODE - This WILL change your code significantly!"
+	@echo "Removing ALL unused code..."
+	@autoflake --in-place --remove-unused-variables --remove-all-unused-imports --remove-duplicate-keys --recursive .
+	@echo "Fixing ALL PEP8 issues..."
+	@autopep8 --in-place --recursive --aggressive --aggressive --max-line-length 88 .
+	@echo "Formatting everything..."
+	@black --line-length 88 .
+	@echo "Final Ruff pass..."
+	@ruff check --fix --unsafe-fixes .
+	@echo "✅ Ultra fix complete!"
+
+# Fix import issues specifically
+fix-imports:
+	@echo "📦 Fixing import issues..."
+	autoflake --in-place --remove-unused-variables --remove-all-unused-imports --recursive .
+	isort --profile black --line-length 79 .
+
