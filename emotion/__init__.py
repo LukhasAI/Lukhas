@@ -215,3 +215,163 @@ if __name__ != "__main__":
             logger.warning(f"⚠️  Emotion module loaded with limited functionality: {status['health']}")
     except Exception as e:
         logger.error(f"❌ Error during emotion module health check: {e}")
+
+
+# Bridge export for emotion.affect_stagnation_detector
+try:
+    from labs.emotion import affect_stagnation_detector
+except (ImportError, SyntaxError):
+    def affect_stagnation_detector(*args, **kwargs):
+        """Stub for affect_stagnation_detector."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "affect_stagnation_detector" not in __all__:
+    __all__.append("affect_stagnation_detector")
+
+
+# Bridge export for emotion.cycler
+try:
+    from labs.emotion import cycler
+except (ImportError, SyntaxError):
+    def cycler(*args, **kwargs):
+        """Stub for cycler."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "cycler" not in __all__:
+    __all__.append("cycler")
+
+
+# Bridge export for emotion.dreamseed_upgrade
+try:
+    from labs.emotion import dreamseed_upgrade
+except (ImportError, SyntaxError):
+    def dreamseed_upgrade(*args, **kwargs):
+        """Stub for dreamseed_upgrade."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "dreamseed_upgrade" not in __all__:
+    __all__.append("dreamseed_upgrade")
+
+
+# Bridge export for emotion.emotion_hub
+try:
+    from labs.emotion import emotion_hub
+except (ImportError, SyntaxError):
+    def emotion_hub(*args, **kwargs):
+        """Stub for emotion_hub."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "emotion_hub" not in __all__:
+    __all__.append("emotion_hub")
+
+
+# Bridge export for emotion.matriz_adapter
+try:
+    from labs.emotion import matriz_adapter
+except (ImportError, SyntaxError):
+    def matriz_adapter(*args, **kwargs):
+        """Stub for matriz_adapter."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "matriz_adapter" not in __all__:
+    __all__.append("matriz_adapter")
+
+
+# Bridge export for emotion.models
+try:
+    from labs.emotion import models
+except (ImportError, SyntaxError):
+    def models(*args, **kwargs):
+        """Stub for models."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "models" not in __all__:
+    __all__.append("models")
+
+
+# Bridge export for emotion.mood_regulator
+try:
+    from labs.emotion import mood_regulator
+except (ImportError, SyntaxError):
+    def mood_regulator(*args, **kwargs):
+        """Stub for mood_regulator."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "mood_regulator" not in __all__:
+    __all__.append("mood_regulator")
+
+
+# Bridge export for emotion.neuroplastic_connector
+try:
+    from labs.emotion import neuroplastic_connector
+except (ImportError, SyntaxError):
+    def neuroplastic_connector(*args, **kwargs):
+        """Stub for neuroplastic_connector."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "neuroplastic_connector" not in __all__:
+    __all__.append("neuroplastic_connector")
+
+
+# Bridge export for emotion.recurring_emotion_tracker
+try:
+    from labs.emotion import recurring_emotion_tracker
+except (ImportError, SyntaxError):
+    def recurring_emotion_tracker(*args, **kwargs):
+        """Stub for recurring_emotion_tracker."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "recurring_emotion_tracker" not in __all__:
+    __all__.append("recurring_emotion_tracker")
+
+
+# Bridge export for emotion.symbolic_user_intent
+try:
+    from labs.emotion import symbolic_user_intent
+except (ImportError, SyntaxError):
+    def symbolic_user_intent(*args, **kwargs):
+        """Stub for symbolic_user_intent."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "symbolic_user_intent" not in __all__:
+    __all__.append("symbolic_user_intent")
