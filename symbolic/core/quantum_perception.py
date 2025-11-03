@@ -141,7 +141,6 @@ class WaveFunctionCollapse:
 
 
 @dataclass
-@dataclass
 class EntangledSymbolPair:
     """
     Manages quantum entanglement between symbol pairs.
@@ -153,15 +152,13 @@ class EntangledSymbolPair:
     symbol_a: VisualSymbol
     symbol_b: VisualSymbol
     entanglement_strength: float = 0.5
-    creation_time: float = field(default_factory=time.time)
-    correlation_history: List[Dict[str, Any]] = field(default_factory=list)
-
-    # Enhanced health tracking fields
     entanglement_health: float = 1.0
-    health_history: List[Dict[str, Any]] = field(default_factory=list)
     drift_threshold: float = 0.35
     last_drift_warning: float = 0.0
     health_window_size: int = 10
+    creation_time: float = field(default_factory=time.time)
+    correlation_history: List[Dict[str, Any]] = field(default_factory=list)
+    health_history: List[Dict[str, Any]] = field(default_factory=list)
 
     def measure_correlation(self) -> float:
         """Measure current correlation between entangled symbols"""
