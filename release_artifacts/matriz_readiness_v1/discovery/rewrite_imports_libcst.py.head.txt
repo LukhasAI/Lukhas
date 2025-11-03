@@ -1,0 +1,61 @@
+=== FILE: scripts/rewrite_imports_libcst.py ===
+#!/usr/bin/env python3
+"""
+Rewrite import modules according to a mapping using LibCST.
+
+Usage:
+  python3 rewrite_imports_libcst.py --mapping '{"old.module":"new.module"}' --root .
+  python3 rewrite_imports_libcst.py --mapping-file mapping.json --root .
+  python3 rewrite_imports_libcst.py --mapping '{"a.b":"c_d"}' path/to/file.py > out.py
+
+Note: This tool edits Import and ImportFrom nodes by replacing the left-hand
+module string if it matches any mapping key.
+"""
+import argparse
+import json
+import sys
+from pathlib import Path
+import libcst as cst
+
+class ImportRewriter(cst.CSTTransformer):
+    def __init__(self, mapping):
+        self.mapping = mapping
+
+    def leave_Import(self, original_node, updated_node):
+        # import a.b as ab  -> import new.module as ab (if mapping matches a.b or prefix)
+        new_names = []
+        changed = False
+        for name in updated_node.names:
+            n = name.name.value
+            for old, new in self.mapping.items():
+                if n == old or n.startswith(old + "."):
+                    suffix = n[len(old):]
+                    new_name = new + suffix
+                    new_names.append(name.with_changes(name=cst.Name(new_name)))
+                    changed = True
+                    break
+            else:
+                new_names.append(name)
+        if changed:
+            return updated_node.with_changes(names=new_names)
+        return updated_node
+
+    def leave_ImportFrom(self, original_node, updated_node):
+        if original_node.module is None:
+            return updated_node
+        mod_name = original_node.module.value
+        for old, new in self.mapping.items():
+            if mod_name == old or mod_name.startswith(old + "."):
+                suffix = mod_name[len(old):]
+                new_mod = new + suffix
+                return updated_node.with_changes(module=cst.Name(new_mod))
+        return updated_node
+
+def rewrite_file(path: Path, mapping: dict):
+    src = path.read_text(encoding="utf-8")
+    wrapper = cst.parse_module(src)
+    modified = wrapper.visit(ImportRewriter(mapping))
+    return modified.code
+
+def main():
+    p = argparse.ArgumentParser()

@@ -1,0 +1,31 @@
+=== CHECK: generated ===
+=== CHECK: migrations ===
+=== CHECK: .venv ===
+./.venv
+157M	./.venv
+=== CHECK: venv ===
+=== CHECK: build ===
+=== CHECK: dist ===
+=== CHECK: node_modules ===
+=== CHECK: archive ===
+./archive
+ 18M	./archive
+=== CHECK: quarantine ===
+./quarantine
+  0B	./quarantine
+=== CHECK: products ===
+./products
+9.2M	./products
+=== CHECK: dreamweaver_helpers_bundle ===
+=== CHECK: docs/openapi ===
+./docs/openapi
+240K	./docs/openapi
+=== CHECK: manifests ===
+./manifests
+ 20M	./manifests
+=== CHECK: legacy ===
+=== CHECK: golden ===
+=== CHECK: data ===
+./data
+4.0K	./data
+=== CHECK: datasets ===
