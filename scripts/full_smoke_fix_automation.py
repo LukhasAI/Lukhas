@@ -328,7 +328,8 @@ def main():
         if sim_script.exists():
             # create mapping JSON string
             mapping_str = json.dumps(mapping)
-            run(f'bash "{sim_script}" --simulate rewrite_imports \\'\"{mapping_str}\"\\' .', check=False)
+            cmd = f'bash "{sim_script}" --simulate rewrite_imports \'{mapping_str}\' .'
+            run(cmd, check=False)
         else:
             print("simulate_change.sh not found; skipping simulated rewrite.")
     else:
@@ -358,4 +359,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-PY
