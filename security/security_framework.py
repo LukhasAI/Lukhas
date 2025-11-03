@@ -949,7 +949,7 @@ if __name__ == "__main__":
 
             # Create tokens
             access_token = security.create_access_token(principal)
-            refresh_token = security.create_refresh_token(principal)
+            security.create_refresh_token(principal)
 
             print(f"✅ Access token created: {access_token[:50]}...")
 

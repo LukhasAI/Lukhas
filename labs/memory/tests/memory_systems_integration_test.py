@@ -138,7 +138,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             fold_manager = FoldManager()
 
             # Test cascade prevention by creating many folds
-            initial_count = len(fold_manager.folds)
+            len(fold_manager.folds)
 
             # Create folds up to limit
             for i in range(1100):  # Exceed MAX_FOLDS (1000)

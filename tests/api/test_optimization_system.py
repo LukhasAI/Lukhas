@@ -107,7 +107,7 @@ class TestAPIOptimizer:
 
         # First request should be allowed
         allowed, info = await rate_limiter.is_allowed(request_context)
-        assert allowed == True
+        assert allowed
         assert "quota" in info
         assert "current_counts" in info
 
@@ -137,8 +137,8 @@ class TestAPIOptimizer:
         free_allowed, free_info = await rate_limiter.is_allowed(free_context)
         enterprise_allowed, enterprise_info = await rate_limiter.is_allowed(enterprise_context)
 
-        assert free_allowed == True
-        assert enterprise_allowed == True
+        assert free_allowed
+        assert enterprise_allowed
 
         # Enterprise should have higher limits
         free_quota = free_info["quota"]
@@ -170,11 +170,11 @@ class TestAPIOptimizer:
             # First two requests should be allowed
             for i in range(2):
                 allowed, info = await rate_limiter.is_allowed(context)
-                assert allowed == True
+                assert allowed
 
             # Third request should be denied
             allowed, info = await rate_limiter.is_allowed(context)
-            assert allowed == False
+            assert not allowed
             assert info["retry_after_seconds"] > 0
 
         finally:
@@ -188,7 +188,7 @@ class TestAPIOptimizer:
 
         # Test set and get
         success = await cache.set("test_key", {"data": "test_value"}, ttl_seconds=300)
-        assert success == True
+        assert success
 
         cached_data = await cache.get("test_key")
         assert cached_data is not None
@@ -264,7 +264,7 @@ class TestAPIOptimizer:
         """Test complete request processing workflow."""
         # Process request
         allowed, info = await api_optimizer.process_request(request_context)
-        assert allowed == True
+        assert allowed
         assert "cache_key" in info
 
         # Complete request
@@ -338,7 +338,7 @@ class TestMiddlewarePipeline:
         )
 
         allowed, data = await security_middleware.process_request(metadata, {})
-        assert allowed == True  # Should pass basic validation
+        assert allowed  # Should pass basic validation
         assert "security_context" in data
 
     @pytest.mark.asyncio
@@ -359,13 +359,13 @@ class TestMiddlewarePipeline:
         )
 
         allowed, data = await validation_middleware.process_request(metadata, {"test": "data"})
-        assert allowed == True
+        assert allowed
         assert "sanitized_data" in data
 
         # Test oversized request
         metadata.content_length = 2 * 1024 * 1024  # 2MB
         allowed, data = await validation_middleware.process_request(metadata, {"test": "data"})
-        assert allowed == False
+        assert not allowed
         assert data["status"] == 413  # Request Entity Too Large
 
     @pytest.mark.asyncio
@@ -384,7 +384,7 @@ class TestMiddlewarePipeline:
 
         # Process request
         allowed, data = await analytics_middleware.process_request(metadata, {})
-        assert allowed == True
+        assert allowed
 
         # Process response
         response_data = {"result": "success", "status_code": 200}
@@ -407,7 +407,7 @@ class TestMiddlewarePipeline:
             request_metadata, {"test": "input_data"}
         )
 
-        assert allowed == True
+        assert allowed
         assert isinstance(processed_data, dict)
 
         # Process response
@@ -656,13 +656,13 @@ class TestIntegrationScenarios:
 
         # Process through optimizer
         optimizer_allowed, optimizer_info = await optimizer.process_request(request_context)
-        assert optimizer_allowed == True
+        assert optimizer_allowed
 
         # Process through middleware pipeline
         pipeline_allowed, pipeline_data = await pipeline.process_request(
             request_metadata, {"test": "integration_data"}
         )
-        assert pipeline_allowed == True
+        assert pipeline_allowed
 
         # Record in analytics dashboard
         await dashboard.record_api_request(
@@ -761,7 +761,7 @@ class TestIntegrationScenarios:
         allowed1, info1 = await optimizer.process_request(context)
         time1 = time.time() - start_time
 
-        assert allowed1 == True
+        assert allowed1
         assert not info1.get("cached", False)
 
         # Simulate response and cache it

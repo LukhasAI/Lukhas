@@ -1,4 +1,3 @@
-import logging
 """Consciousness token mapping utilities for the symbolic bridge."""
 
 from dataclasses import dataclass, field

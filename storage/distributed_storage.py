@@ -775,7 +775,7 @@ class DistributedStorageManager:
                 return False
 
             # Compress data if enabled
-            original_size = len(data)
+            len(data)
             if self.config.compression_enabled:
                 import zlib
                 compressed_data = zlib.compress(data)

@@ -6,7 +6,6 @@ OpenAI-compatible client with type safety and async support
 import os
 import time
 from typing import Optional, Dict, Any, List, AsyncIterator
-from urllib.parse import urljoin
 
 import httpx
 from pydantic import BaseModel, Field

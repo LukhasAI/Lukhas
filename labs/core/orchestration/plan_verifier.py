@@ -804,7 +804,7 @@ class PlanVerifier:
                 try:
                     from urllib.parse import urlparse
                     domain = urlparse(url).netloc
-                except Exception as e:
+                except Exception:
                     domain = ''
 
             # Check whitelist

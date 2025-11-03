@@ -1,0 +1,3 @@
+https://github.com/LukhasAI/Lukhas
+# Repo metadata snapshot: repository size 202440 KB, default branch: main
+# Permissions: admin/maintain/pull/push/triage true for the authenticated connector

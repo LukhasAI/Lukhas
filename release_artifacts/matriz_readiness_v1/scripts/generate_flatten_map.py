@@ -18,8 +18,7 @@ Heuristics:
   - risk: high if import_count > 12 or depth > 5, medium if import_count >6 or depth 4-5
 """
 import csv
-import json
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 import argparse
 

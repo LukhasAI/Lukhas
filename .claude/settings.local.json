@@ -208,7 +208,15 @@
       "Bash(release_artifacts/verification_steps.sh)",
       "Bash(gh release view:*)",
       "Bash(tree:*)",
-      "Bash(/dev/null)"
+      "Bash(/dev/null)",
+      "Bash(for p in \"generated\" \"migrations\" \".venv\" \"venv\" \"build\" \"dist\" \"node_modules\" \"archive\" \"quarantine\" \"products\" \"dreamweaver_helpers_bundle\" \"docs/openapi\" \"manifests\" \"legacy\" \"golden\" \"data\" \"datasets\")",
+      "Bash(release_artifacts/matriz_readiness_v1/discovery/safe_dirs.txt)",
+      "Bash(release_artifacts/repo_audit_v2/discovery/top_level_ls.txt)",
+      "Bash(mkdir:*)",
+      "Bash(if [ -f .venv/bin/activate ])",
+      "Bash(then echo \"venv exists\")",
+      "Bash(else echo \"no venv found\")",
+      "Bash(release_artifacts/matriz_readiness_v1/scripts/verify_and_collect.sh:*)"
     ],
     "deny": [],
     "ask": [],

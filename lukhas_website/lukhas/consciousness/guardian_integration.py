@@ -66,7 +66,8 @@ try:
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     OBSERVABILITY_AVAILABLE = False
-    get_lukhas_metrics = lambda: None
+    def get_lukhas_metrics():
+        return None
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

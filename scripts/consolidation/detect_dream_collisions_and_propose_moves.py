@@ -60,7 +60,7 @@ def propose_moves(files):
             # ensure destination exists
             dest_subdir = os.path.join(dest_dir)
             # create a relative dest path that preserves subdir structure (under dest)
-            rel = os.path.relpath(p)
+            os.path.relpath(p)
             # create a safe name: if a file with same name exists in dest_subdir, append suffix
             base_name = os.path.basename(p)
             dest_path = os.path.join(dest_subdir, base_name)

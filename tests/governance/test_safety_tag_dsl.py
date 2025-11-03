@@ -493,7 +493,7 @@ class TestGuardianDSLIntegration:
     def test_dual_approval_override_with_safety_tags(self):
         """Test dual approval override process with safety tags"""
         # Create critical safety tag requiring dual approval
-        critical_tag = SafetyTag(
+        SafetyTag(
             SafetyLevel.CRITICAL,
             "emergency_override",
             "Emergency system override",

@@ -202,7 +202,7 @@ class ImportController:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 tree = ast.parse(f.read(), filename=str(file_path))
-        except Exception as e:
+        except Exception:
             # Skip files that can't be parsed
             return violations
 

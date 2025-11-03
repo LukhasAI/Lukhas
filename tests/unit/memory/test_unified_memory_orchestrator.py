@@ -129,10 +129,10 @@ class TestUnifiedMemoryOrchestrator:
 
     async def test_pattern_separation(self, orchestrator):
         """Test the pattern separation mechanism."""
-        mem1_id = await orchestrator.encode_memory(
+        await orchestrator.encode_memory(
             content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b"]
         )
-        mem2_id = await orchestrator.encode_memory(
+        await orchestrator.encode_memory(
             content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b", "c"]
         )
 

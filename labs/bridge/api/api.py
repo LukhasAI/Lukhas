@@ -177,7 +177,7 @@ class QRSManager:
         request_timestamp = int(data['timestamp'])
 
         if request_timestamp > current_time + self.TIMESTAMP_TOLERANCE:
-            raise ValueError(f"Invalid timestamp: Request timestamp is in the future")
+            raise ValueError("Invalid timestamp: Request timestamp is in the future")
 
         # Validate payload size
         payload_str = str(data['response_payload'])

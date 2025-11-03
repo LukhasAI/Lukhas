@@ -1,0 +1,11 @@
+python3: OK
+git: OK
+gh: OK
+rg: OK
+black: MISSING
+ruff: MISSING
+pytest: MISSING
+jq: OK
+pip: MISSING
+libcst/tomllib: MISSING
+tomli: OK (fallback)
