@@ -19,6 +19,7 @@ _CANDIDATES = (
     "candidate.api.settings",
     "core.settings",
     "config.settings",
+    "labs.bridge.api.settings",
 )
 
 

@@ -6,19 +6,26 @@ from _bridgeutils import bridge
 _mod: object | None = None
 _exports: dict[str, object] = {}
 
-_CANDIDATES = (
+_CANDIDATE_PATHS = (
     "lukhas_website.bridge.api",
     "candidate.bridge.api",
+    "labs.bridge.api",
     "bridge.api_impl",
 )
 
-try:
-    _mod, _exports, __all__ = bridge(
-        candidates=_CANDIDATES,
-        names=("identity_routes", "analysis_routes", "health_routes", "RouteHandlers"),
-    )
-    globals().update(_exports)
-except ModuleNotFoundError:
+_names = ("identity_routes", "analysis_routes", "health_routes", "RouteHandlers")
+
+__all__: list[str] = []
+for _candidate in _CANDIDATE_PATHS:
+    try:
+        _mod, _exports, _resolved = bridge(candidates=(_candidate,), names=_names)
+    except (ModuleNotFoundError, AttributeError):
+        continue
+    else:
+        __all__ = list(_resolved)
+        globals().update(_exports)
+        break
+else:
     __all__ = []
 
 if not isinstance(__all__, list):

@@ -11,6 +11,7 @@ try:
         candidates=(
             "lukhas_website.bridge.api.analysis",
             "candidate.bridge.api.analysis",
+            "labs.bridge.api.analysis",
         ),
         names=("analysis_routes",),
     )

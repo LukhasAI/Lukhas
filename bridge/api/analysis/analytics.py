@@ -6,5 +6,6 @@ from _bridgeutils import bridge_from_candidates
 _CANDIDATES = (
     "lukhas_website.bridge.api.analysis.analytics",
     "candidate.bridge.api.analysis.analytics",
+    "labs.bridge.api.analysis.analytics",
 )
 __all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
