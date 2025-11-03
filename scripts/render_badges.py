@@ -7,7 +7,6 @@ Preserves H1 headings, adds badge legend to DOCUMENTATION_INDEX.md.
 """
 from __future__ import annotations
 
-
 import json
 import re
 import sys

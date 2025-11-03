@@ -5,10 +5,9 @@ from __future__ import annotations
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import structlog
-
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityVerificationError,
@@ -50,7 +49,7 @@ class DashboardIdentityView:
 class BrainDashboard:
     """Dashboard service responsible for composing orchestration views."""
 
-    def __init__(self, identity_manager: Optional[IdentityManager] = None) -> None:
+    def __init__(self, identity_manager: IdentityManager | None = None) -> None:
         self.identity_manager = identity_manager or IdentityManager()
         self._widgets: Dict[str, DashboardWidget] = {}
         self._widget_refresh_tasks: Dict[str, asyncio.Task] = {}
@@ -61,7 +60,7 @@ class BrainDashboard:
         widget_type: str,
         title: str,
         refresh_interval_ms: int = 1000,
-        data_source_fn: Optional[callable] = None
+        data_source_fn: callable | None = None
     ) -> None:
         """Register a live dashboard widget with optional auto-refresh."""
 
@@ -115,7 +114,7 @@ class BrainDashboard:
                     error=str(error)
                 )
                 await asyncio.sleep(5.0)  # Error backoff
-    async def get_widget_data(self, widget_id: str) -> Optional[Dict[str, Any]]:
+    async def get_widget_data(self, widget_id: str) -> Dict[str, Any] | None:
         """Get current widget data with staleness check."""
 
         widget = self._widgets.get(widget_id)

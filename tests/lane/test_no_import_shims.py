@@ -50,4 +50,4 @@ def test_no_importlib_candidate_shims():
 
     if violations:
         violation_list = "\n".join(violations)
-        assert False, f"Found importlib.import_module('candidate.*') calls outside allowed files:\n{violation_list}"
+        raise AssertionError(f"Found importlib.import_module('candidate.*') calls outside allowed files:\n{violation_list}")

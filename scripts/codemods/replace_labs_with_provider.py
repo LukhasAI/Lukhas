@@ -23,7 +23,7 @@ import difflib
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 import libcst as cst
 from libcst import MaybeSentinel
@@ -34,7 +34,7 @@ LABS_PREFIX = "labs"
 @dataclass
 class ImportSpec:
     module_str: str
-    names: List[Tuple[str, Optional[str]]]  # (name, alias)
+    names: List[Tuple[str, str | None]]  # (name, alias)
 
 
 def _is_top_level_stmt(stmt: cst.BaseStatement) -> bool:
@@ -43,7 +43,7 @@ def _is_top_level_stmt(stmt: cst.BaseStatement) -> bool:
     return isinstance(stmt, cst.SimpleStatementLine)
 
 
-def _extract_importfrom(stmt: cst.BaseStatement) -> Optional[cst.ImportFrom]:
+def _extract_importfrom(stmt: cst.BaseStatement) -> cst.ImportFrom | None:
     if not isinstance(stmt, cst.SimpleStatementLine):
         return None
     if len(stmt.body) != 1:
@@ -54,7 +54,7 @@ def _extract_importfrom(stmt: cst.BaseStatement) -> Optional[cst.ImportFrom]:
     return None
 
 
-def _get_module_str(mod: Optional[cst.BaseExpression]) -> Optional[str]:
+def _get_module_str(mod: cst.BaseExpression | None) -> str | None:
     if mod is None:
         return None
     try:
@@ -67,7 +67,7 @@ def _get_module_str(mod: Optional[cst.BaseExpression]) -> Optional[str]:
             return None
 
 
-def _importfrom_to_spec(node: cst.ImportFrom) -> Optional[ImportSpec]:
+def _importfrom_to_spec(node: cst.ImportFrom) -> ImportSpec | None:
     mod_text = _get_module_str(node.module)
     if not mod_text:
         return None
@@ -77,7 +77,7 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> Optional[ImportSpec]:
     # Only handle explicit names; skip star imports
     if isinstance(node.names, MaybeSentinel):
         return None
-    names: List[Tuple[str, Optional[str]]] = []
+    names: List[Tuple[str, str | None]] = []
     for alias in node.names:
         if isinstance(alias, cst.ImportStar):
             # Skip star imports – too risky to rewrite automatically
@@ -93,7 +93,7 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> Optional[ImportSpec]:
     return ImportSpec(module_str=mod_text, names=names)
 
 
-def _try_collect_labs_specs(try_node: cst.Try) -> Optional[List[ImportSpec]]:
+def _try_collect_labs_specs(try_node: cst.Try) -> List[ImportSpec] | None:
     """If the try-block body consists of one or more labs ImportFrom lines, collect them.
     Returns list of specs or None if pattern not matched (to avoid risky rewrites).
     """
@@ -116,7 +116,7 @@ def _try_collect_labs_specs(try_node: cst.Try) -> Optional[List[ImportSpec]]:
     return specs
 
 
-def _has_importlib_alias(module: cst.Module) -> Optional[str]:
+def _has_importlib_alias(module: cst.Module) -> str | None:
     # Return the symbol to use for importlib (alias or bare name), if present
     for stmt in module.body:
         if isinstance(stmt, cst.SimpleStatementLine):
@@ -244,7 +244,7 @@ def rewrite_module(module: cst.Module) -> Tuple[cst.Module, bool]:
     return out_module, changed
 
 
-def process_file(path: Path) -> Optional[Tuple[str, str]]:
+def process_file(path: Path) -> Tuple[str, str] | None:
     src = path.read_text(encoding="utf-8")
     try:
         module = cst.parse_module(src)
@@ -264,7 +264,7 @@ def process_file(path: Path) -> Optional[Tuple[str, str]]:
     return new_src, diff
 
 
-def collect_py_files(root: Path, includes: Optional[List[str]] = None) -> Iterable[Path]:
+def collect_py_files(root: Path, includes: List[str] | None = None) -> Iterable[Path]:
     root = root.resolve()
     if includes:
         include_paths = [ (root / inc).resolve() for inc in includes ]

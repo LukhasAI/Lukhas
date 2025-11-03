@@ -20,7 +20,7 @@ Integration Date: 2025-05-31T07:55:30.569930
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Optional
+from typing import Any
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 # Since the constants.py file contains placeholder values and symbolic_utils.py
@@ -57,7 +57,7 @@ class DASTAggregator:
         self._initialized = True
 
         # Orchestrator integration
-        self.trio_orchestrator: Optional[TrioOrchestrator] = None
+        self.trio_orchestrator: TrioOrchestrator | None = None
         self.dast_engine = DASTEngine() if DASTEngine else None
 
         # Register with DAST integration hub (when available)
@@ -135,8 +135,8 @@ class DASTAggregator:
 
 
 # Global aggregator instance and orchestrator integration
-_aggregator: Optional[DASTAggregator] = None
-trio_orchestrator: Optional[TrioOrchestrator] = None
+_aggregator: DASTAggregator | None = None
+trio_orchestrator: TrioOrchestrator | None = None
 dast_engine = DASTEngine() if DASTEngine else None
 
 

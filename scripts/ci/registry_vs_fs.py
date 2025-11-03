@@ -54,10 +54,10 @@ def check_module(module: dict, root: Path, verbose: bool = False) -> List[str]:
 
     if docs_dir.exists() and docs_dir.is_dir():
         # FS has docs/ - check registry lists them
-        fs_docs = set([
+        fs_docs = {
             str(p.relative_to(root))
             for p in docs_dir.rglob("*.md")
-        ])
+        }
 
         missing_from_registry = fs_docs - registry_docs
         if missing_from_registry:
@@ -80,10 +80,10 @@ def check_module(module: dict, root: Path, verbose: bool = False) -> List[str]:
 
     if tests_dir.exists() and tests_dir.is_dir():
         # FS has tests/ - check registry lists them
-        fs_tests = set([
+        fs_tests = {
             str(p.relative_to(root))
             for p in tests_dir.rglob("*.py")
-        ])
+        }
 
         missing_from_registry = fs_tests - registry_tests
         if missing_from_registry:

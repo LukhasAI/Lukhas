@@ -10,14 +10,13 @@ Enhanced link validation with:
 """
 from __future__ import annotations
 
-
 import json
 import re
 import sys
 import time
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 try:
     import requests
@@ -68,7 +67,7 @@ def extract_anchors(content: str) -> set:
     return anchors
 
 
-def check_external_link(url: str, timeout: int = EXTERNAL_TIMEOUT) -> Tuple[bool, Optional[str]]:
+def check_external_link(url: str, timeout: int = EXTERNAL_TIMEOUT) -> Tuple[bool, str | None]:
     """
     Check if external link is reachable (HEAD request).
     Returns (is_reachable, error_message).
@@ -91,7 +90,7 @@ def check_external_link(url: str, timeout: int = EXTERNAL_TIMEOUT) -> Tuple[bool
         return False, str(e)[:50]
 
 
-def categorize_link(link_url: str, source_path: Path, docs_by_path: Dict) -> Tuple[str, Optional[str]]:
+def categorize_link(link_url: str, source_path: Path, docs_by_path: Dict) -> Tuple[str, str | None]:
     """
     Categorize link and check validity.
     Returns (category, error_message).

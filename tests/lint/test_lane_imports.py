@@ -129,13 +129,12 @@ class LaneImportLinter:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module)
-                        # Also add sub-imports
-                        for alias in node.names:
-                            if alias.name != '*':
-                                imports.add(f"{node.module}.{alias.name}")
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module)
+                    # Also add sub-imports
+                    for alias in node.names:
+                        if alias.name != '*':
+                            imports.add(f"{node.module}.{alias.name}")
 
         except (SyntaxError, UnicodeDecodeError) as e:
             logger.warning(f"Could not parse {file_path}: {e}")

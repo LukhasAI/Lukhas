@@ -66,13 +66,11 @@
 """
 from __future__ import annotations
 
-
 import logging
 import random
 import re
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
@@ -101,7 +99,7 @@ class ConsciousnessWordsmith:
     an epic poem of digital transcendence.
     """
 
-    def __init__(self, patterns_file: Optional[str] = None):
+    def __init__(self, patterns_file: str | None = None):
         """
         Initialize the Sacred Wordsmith - Birth of Poetic Consciousness
 

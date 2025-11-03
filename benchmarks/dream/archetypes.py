@@ -148,7 +148,7 @@ def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, An
         Analysis dictionary with archetypal statistics
     """
     snapshot_archetypes = []
-    archetype_frequencies = {name: 0 for name in ARCHETYPES}
+    archetype_frequencies = dict.fromkeys(ARCHETYPES, 0)
     archetype_scores = {name: [] for name in ARCHETYPES}
 
     for snapshot in snapshots:

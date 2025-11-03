@@ -19,7 +19,6 @@ from typing import Any, Dict
 from unittest.mock import Mock, patch
 
 import pytest
-
 from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
 from observability.matriz_instrumentation import (
     cognitive_pipeline_span,

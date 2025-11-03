@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import importlib
 import sys
+import contextlib
 
 
 def _alias_module(shim_name: str, target: str) -> None:
@@ -43,10 +44,8 @@ except Exception:
     # Core may not be importable in ultra-minimal envs; defer to runtime
     pass
 
-try:
+with contextlib.suppress(Exception):
     _alias_module("lukhas.governance", "core.governance")
-except Exception:
-    pass
 
 
 __all__ = []

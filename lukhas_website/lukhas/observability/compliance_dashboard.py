@@ -701,7 +701,7 @@ class ComplianceDashboard:
             score = report.compliance_score
             colors = ['red' if score < 90 else 'orange' if score < 95 else 'green']
 
-            ax.pie([score, 100-score], startangle=90, colors=colors + ['lightgray'],
+            ax.pie([score, 100-score], startangle=90, colors=[*colors, 'lightgray'],
                   labels=[f'Compliant\n{score:.1f}%', f'Non-compliant\n{100-score:.1f}%'])
             ax.set_title(f'{report.regulation.value} Compliance Score')
             plt.savefig(chart_dir / 'compliance_score.png', dpi=150, bbox_inches='tight')
@@ -712,7 +712,7 @@ class ComplianceDashboard:
                 stats = report.report_data['evidence_statistics']
 
                 if stats.get('by_type'):
-                    fig, ax = plt.subplots(figsize=(10, 6))
+                    _fig, ax = plt.subplots(figsize=(10, 6))
                     types = list(stats['by_type'].keys())
                     counts = list(stats['by_type'].values())
 

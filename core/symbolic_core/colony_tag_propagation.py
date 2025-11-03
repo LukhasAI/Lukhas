@@ -4,7 +4,6 @@ from functools import lru_cache
 from typing import Any, Dict, List, Tuple
 
 import networkx as nx
-
 from core.colonies import BaseColony, ConsensusResult, Tag, TagScope, get_mesh_topology_service
 
 logger = logging.getLogger(__name__)
@@ -126,7 +125,7 @@ class SymbolicReasoningColony(BaseColony):
         participation_rate = participating_agents / total_agents if total_agents > 0 else 0.0
 
         # Simulate voting across consciousness nodes
-        votes = {agent_id: "approved" for agent_id in self.agents}
+        votes = dict.fromkeys(self.agents, "approved")
 
         # Update affect_delta based on consensus formation
         affect_change = 0.1 * participation_rate

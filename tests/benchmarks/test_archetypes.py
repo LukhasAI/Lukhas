@@ -82,7 +82,7 @@ class TestArchetypalClassification:
     def test_threshold_filtering(self):
         """Test that threshold properly filters results."""
         # Weak archetypal signal
-        weak_emotion = {emotion: 0.5 for emotion in CANONICAL_EMOTIONS}
+        weak_emotion = dict.fromkeys(CANONICAL_EMOTIONS, 0.5)
 
         # High threshold should filter out weak matches
         classifications_high = classify_archetype(weak_emotion, threshold=0.8)

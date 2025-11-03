@@ -280,7 +280,7 @@ class MatrixAuthzMiddleware:
         tier_allowed = False
         if not required_tiers and not required_tiers_numeric:
             tier_allowed = True  # No tier requirement
-        elif required_tiers and user_tier in required_tiers or required_tiers_numeric and user_tier_num in required_tiers_numeric:
+        elif (required_tiers and user_tier in required_tiers) or (required_tiers_numeric and user_tier_num in required_tiers_numeric):
             tier_allowed = True
 
         if not tier_allowed:

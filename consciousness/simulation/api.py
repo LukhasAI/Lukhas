@@ -5,7 +5,7 @@ import logging
 import os
 import uuid
 from pathlib import Path
-from typing import Any, Dict, Optional, TypedDict
+from typing import Any, Dict, TypedDict
 
 from .ethics_gate import EthicsError, authorize_or_raise
 from .rollout import run_rollouts
@@ -29,7 +29,7 @@ class DreamResult(TypedDict):
 class SimulationDisabledError(RuntimeError): ...
 class PolicyViolation(RuntimeError): ...
 
-_scheduler: Optional[SimulationScheduler] = None
+_scheduler: SimulationScheduler | None = None
 
 def _get_scheduler() -> SimulationScheduler:
     global _scheduler

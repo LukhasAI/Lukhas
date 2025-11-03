@@ -63,10 +63,7 @@ def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> Tuple[List[T
     checked = []
     unchecked = []
     # If heading found, gather until a blank line followed by a non-list line or a new heading starting with '#' or 'Week'
-    if heading_idx is not None:
-        i = heading_idx + 1
-    else:
-        i = 0
+    i = heading_idx + 1 if heading_idx is not None else 0
     # Collect up to 200 lines or until we hit a new heading
     while i < len(lines):
         ln = lines[i].strip()

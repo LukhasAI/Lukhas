@@ -535,7 +535,7 @@ class PerformanceRegressionDetector:
             x_values = [(t.timestamp() - start_time) / 3600 for t in recent_timestamps]  # Hours
 
             # Linear regression
-            slope, intercept, r_value, p_value, std_err = stats.linregress(x_values, recent_values)
+            slope, intercept, r_value, p_value, _std_err = stats.linregress(x_values, recent_values)
 
             # Check if trend is significantly upward (performance degradation)
             if slope > 0 and p_value < 0.05 and abs(r_value) > 0.7:

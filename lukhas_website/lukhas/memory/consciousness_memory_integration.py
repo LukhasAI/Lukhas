@@ -27,7 +27,6 @@ that have been built throughout the LUKHAS transformation phases.
 """
 from __future__ import annotations
 
-
 import asyncio
 import contextlib
 import hashlib
@@ -37,11 +36,10 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
-
     from consciousness.constellation_integration import get_constellation_integrator
     from consciousness.registry import ComponentType, get_consciousness_registry
     from core.common.config import get_config
@@ -108,7 +106,7 @@ class MemoryFold:
     fold_type: MemoryFoldType
     content: dict[str, Any]
     emotional_context: EmotionalContext
-    consciousness_context: Optional[str] = None
+    consciousness_context: str | None = None
     creation_timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     access_count: int = 0
@@ -135,7 +133,7 @@ class ConsciousnessMemoryState:
     average_fold_strength: float = 0.0
     memory_coherence_score: float = 0.0
     consciousness_memory_coupling: float = 0.0
-    last_consolidation: Optional[datetime] = None
+    last_consolidation: datetime | None = None
     memory_processing_latency: float = 0.0  # milliseconds
 
 
@@ -168,9 +166,9 @@ class ConsciousnessMemoryIntegrator:
         self._decision_memory_map: dict[str, list[str]] = {}
 
         # Monitoring and tasks
-        self._consolidation_task: Optional[asyncio.Task] = None
-        self._cascade_monitor_task: Optional[asyncio.Task] = None
-        self._health_monitor_task: Optional[asyncio.Task] = None
+        self._consolidation_task: asyncio.Task | None = None
+        self._cascade_monitor_task: asyncio.Task | None = None
+        self._health_monitor_task: asyncio.Task | None = None
         self._shutdown_event = asyncio.Event()
 
         logger.info("🧠💾 Consciousness Memory Integrator initialized")
@@ -286,9 +284,9 @@ class ConsciousnessMemoryIntegrator:
         self,
         content: dict[str, Any],
         fold_type: MemoryFoldType,
-        consciousness_context: Optional[str] = None,
-        emotional_context: Optional[EmotionalContext] = None,
-        tags: Optional[set[str]] = None,
+        consciousness_context: str | None = None,
+        emotional_context: EmotionalContext | None = None,
+        tags: set[str] | None = None,
     ) -> str:
         """
         Create a new memory fold integrated with consciousness processing.
@@ -354,7 +352,7 @@ class ConsciousnessMemoryIntegrator:
     async def recall_consciousness_memory(
         self,
         query: dict[str, Any],
-        consciousness_context: Optional[str] = None,
+        consciousness_context: str | None = None,
         max_results: int = 10,
         emotional_weight: float = 0.3,
     ) -> list[tuple[str, MemoryFold, float]]:
@@ -401,7 +399,7 @@ class ConsciousnessMemoryIntegrator:
         decision_id: str,
         decision_context: dict[str, Any],
         decision_result: Any,
-        consciousness_context: Optional[str] = None,
+        consciousness_context: str | None = None,
     ) -> list[str]:
         """
         Integrate a consciousness decision with memory system.
@@ -706,7 +704,7 @@ class ConsciousnessMemoryIntegrator:
 
         return sum(health_indicators) >= len(health_indicators) * 0.75  # 75% of indicators must pass
 
-    def _log_memory_access(self, access_type: str, fold_ids: Any, context: Optional[str]) -> None:
+    def _log_memory_access(self, access_type: str, fold_ids: Any, context: str | None) -> None:
         """Log memory access for analysis."""
         access_record = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -716,7 +714,7 @@ class ConsciousnessMemoryIntegrator:
         }
         self._access_log.append(access_record)
 
-    async def _search_memory_folds(self, query: dict[str, Any], context: Optional[str]) -> list[str]:
+    async def _search_memory_folds(self, query: dict[str, Any], context: str | None) -> list[str]:
         """Search memory folds based on query."""
         # Simplified search implementation
         # In production, this would use sophisticated indexing and search
@@ -735,7 +733,7 @@ class ConsciousnessMemoryIntegrator:
         return candidates
 
     async def _rank_memory_results(
-        self, candidates: list[str], query: dict[str, Any], emotional_weight: float, context: Optional[str]
+        self, candidates: list[str], query: dict[str, Any], emotional_weight: float, context: str | None
     ) -> list[tuple[str, MemoryFold, float]]:
         """Rank memory search results."""
         ranked_results = []
@@ -757,7 +755,7 @@ class ConsciousnessMemoryIntegrator:
         return ranked_results
 
     async def _calculate_relevance_score(
-        self, fold: MemoryFold, query: dict[str, Any], emotional_weight: float, context: Optional[str]
+        self, fold: MemoryFold, query: dict[str, Any], emotional_weight: float, context: str | None
     ) -> float:
         """Calculate relevance score for memory fold."""
         factors = []
@@ -786,7 +784,7 @@ class ConsciousnessMemoryIntegrator:
 
         return sum(factors)
 
-    async def _update_memory_access(self, fold_id: str, context: Optional[str], relevance: float) -> None:
+    async def _update_memory_access(self, fold_id: str, context: str | None, relevance: float) -> None:
         """Update memory access patterns."""
         if fold_id in self._memory_folds:
             fold = self._memory_folds[fold_id]
@@ -839,7 +837,7 @@ class ConsciousnessMemoryIntegrator:
 
 
 # Global memory integrator instance
-_global_memory_integrator: Optional[ConsciousnessMemoryIntegrator] = None
+_global_memory_integrator: ConsciousnessMemoryIntegrator | None = None
 
 
 def get_memory_integrator() -> ConsciousnessMemoryIntegrator:

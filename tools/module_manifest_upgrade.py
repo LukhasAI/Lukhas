@@ -18,7 +18,6 @@ Safety Features:
 """
 from __future__ import annotations
 
-
 import argparse
 import hashlib
 import json
@@ -27,7 +26,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 try:
     import jsonschema
@@ -43,7 +42,7 @@ def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
         print(f"Error: {result.stderr}")
     return result
 
-def load_json(path: Path) -> Optional[Dict[str, Any]]:
+def load_json(path: Path) -> Dict[str, Any] | None:
     """Load JSON file safely"""
     try:
         if not path.exists():
@@ -73,7 +72,7 @@ def stable_module_id(module_name: str) -> str:
     h.update(str(Path.cwd()).encode('utf-8'))
     return f"mod-{h.hexdigest()[:16]}"
 
-def detect_matrix_contract(module_dir: Path) -> Optional[str]:
+def detect_matrix_contract(module_dir: Path) -> str | None:
     """Detect MATRIZ contract file"""
     candidates = [
         f"matrix_{module_dir.name}.json",

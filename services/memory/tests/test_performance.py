@@ -246,7 +246,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_search_performance_t4_compliance(self, memory_services):
         """Test search operation T4/0.01% excellence compliance"""
-        read_service, _, vector_store = memory_services
+        read_service, _, _vector_store = memory_services
 
         # Define search operation
         async def search_operation():
@@ -276,7 +276,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_upsert_performance_t4_compliance(self, memory_services):
         """Test upsert operation T4/0.01% excellence compliance"""
-        _, write_service, vector_store = memory_services
+        _, write_service, _vector_store = memory_services
 
         # Define upsert operation
         async def upsert_operation():
@@ -305,7 +305,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_batch_upsert_performance(self, memory_services):
         """Test batch upsert performance under load"""
-        _, write_service, vector_store = memory_services
+        _, write_service, _vector_store = memory_services
 
         # Define batch upsert operation
         async def batch_upsert_operation():
@@ -339,7 +339,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_mixed_workload_performance(self, memory_services):
         """Test performance under mixed read/write workload"""
-        read_service, write_service, vector_store = memory_services
+        read_service, write_service, _vector_store = memory_services
 
         # Mixed workload: 70% reads, 30% writes
         async def mixed_operation():
@@ -448,7 +448,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_sustained_load_performance(self, memory_services):
         """Test performance under sustained load over time"""
-        read_service, write_service, vector_store = memory_services
+        read_service, write_service, _vector_store = memory_services
 
         results = []
         test_duration = 30  # 30 seconds

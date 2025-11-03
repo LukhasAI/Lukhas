@@ -40,12 +40,11 @@
 """
 from __future__ import annotations
 
-
 import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import structlog
 
@@ -59,14 +58,13 @@ try:
         ExplainabilityInterfaceLayer,
     )
     from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
-    from reasoning.causal_program_inducer import CausalProgramInducer
-
     from memory.privacy_preserving_memory_vault import (
         PrivacyPreservingMemoryVault,
     )
     from orchestration.human_in_the_loop_orchestrator import (
         HumanInTheLoopOrchestrator,
     )
+    from reasoning.causal_program_inducer import CausalProgramInducer
 
     CEO_MODULES_AVAILABLE = True
     logger.info(
@@ -79,12 +77,11 @@ except ImportError as e:
 
 # Import core Lukhas systems
 try:
-    from reasoning.reasoning_engine import SymbolicEngine
-
     from core.integration.dynamic_modality_broker import DynamicModalityBroker
     from ethics.meta_ethics_governor import MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from memory.emotional import EmotionalMemory
+    from reasoning.reasoning_engine import SymbolicEngine
 
     LUKHAS_CORE_AVAILABLE = True
     logger.info(
@@ -142,7 +139,7 @@ class IntegrationRequest:
     configuration: dict[str, Any] = field(default_factory=dict)
     priority: str = "medium"
     timeout_seconds: int = 300
-    callback_url: Optional[str] = None
+    callback_url: str | None = None
     require_human_approval: bool = False
     metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -157,7 +154,7 @@ class IntegrationResponse:
     results: dict[str, Any] = field(default_factory=dict)
     execution_trace: list[dict[str, Any]] = field(default_factory=list)
     performance_metrics: dict[str, float] = field(default_factory=dict)
-    error_details: Optional[str] = None
+    error_details: str | None = None
     recommendations: list[str] = field(default_factory=list)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -178,7 +175,7 @@ class ModuleHealth:
 class WorkflowOrchestrator:
     """Orchestrates workflows across CEO Attitude modules."""
 
-    def __init__(self, integration_hub: "CEOAttitudeIntegrationHub"):
+    def __init__(self, integration_hub: CEOAttitudeIntegrationHub):
         self.hub = integration_hub
         self.logger = logger.bind(component="WorkflowOrchestrator")
 
@@ -1479,7 +1476,7 @@ class CEOAttitudeIntegrationHub:
     ΛTAG: integration, orchestration, ceo_attitude, lukhas_core
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the integration hub."""
         self.config = config or {}
         self.logger = logger.bind(component="CEOAttitudeHub")

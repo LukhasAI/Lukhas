@@ -274,7 +274,7 @@ class AuditCertificationGenerator:
 
         # Analyze evidence completeness
         required_components = set(self.certification_standards["evidence_requirements"].keys())
-        present_components = set(ev.component for ev in evidence_files)
+        present_components = {ev.component for ev in evidence_files}
         missing_evidence = list(required_components - present_components)
 
         # Count test results
@@ -386,10 +386,7 @@ class AuditCertificationGenerator:
                             target = standards[standard_key]["target"]
                             max_allowed = standards[standard_key]["max"]
 
-                            if measured <= max_allowed:
-                                status = "✅ PASS"
-                            else:
-                                status = "❌ FAIL"
+                            status = "✅ PASS" if measured <= max_allowed else "❌ FAIL"
 
                             report_lines.append(f"- **{component.title()}:** {measured:.1f}μs vs {target:.1f}μs target ({status})")
             report_lines.append("")

@@ -6,7 +6,7 @@ import json
 from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 
 class SecurityReportError(RuntimeError):
@@ -28,10 +28,10 @@ class VulnerabilityRecord:
     """Normalized representation of a single vulnerability finding."""
 
     identifier: str
-    package: Optional[str] = None
-    installed_version: Optional[str] = None
-    severity: Optional[str] = None
-    description: Optional[str] = None
+    package: str | None = None
+    installed_version: str | None = None
+    severity: str | None = None
+    description: str | None = None
     fix_versions: Tuple[str, ...] = ()
     sources: Tuple[str, ...] = ()
 
@@ -71,7 +71,7 @@ class SecuritySummary:
         return len(self.vulnerabilities)
 
 
-def _pick_severity(first: Optional[str], second: Optional[str]) -> Optional[str]:
+def _pick_severity(first: str | None, second: str | None) -> str | None:
     """Return the most severe option between ``first`` and ``second``."""
 
     if first is None:
@@ -88,7 +88,7 @@ def _pick_severity(first: Optional[str], second: Optional[str]) -> Optional[str]
     return first_norm if _SEVERITY_ORDER.get(first_norm, -1) >= _SEVERITY_ORDER.get(second_norm, -1) else second_norm
 
 
-def _normalize_severity(value: Optional[str]) -> Optional[str]:
+def _normalize_severity(value: str | None) -> str | None:
     if value is None:
         return None
     normalized = str(value).strip().upper()
@@ -115,7 +115,7 @@ class SecurityReportAggregator:
         """Load available reports and return a summary of the findings."""
 
         missing: List[str] = []
-        vulnerabilities: MutableMapping[Tuple[str, Optional[str]], VulnerabilityRecord] = {}
+        vulnerabilities: MutableMapping[Tuple[str, str | None], VulnerabilityRecord] = {}
         bandit_issue_count = 0
 
         pip_audit_data = self._load_json_report("pip_audit", missing)
@@ -145,7 +145,7 @@ class SecurityReportAggregator:
             missing_reports=tuple(sorted(missing)),
         )
 
-    def _load_json_report(self, name: str, missing: List[str]) -> Optional[object]:
+    def _load_json_report(self, name: str, missing: List[str]) -> object | None:
         filenames = self.REPORT_FILES.get(name, ())
         for filename in filenames:
             path = self.reports_dir / filename
@@ -221,7 +221,7 @@ class SecurityReportAggregator:
             )
 
 
-def _to_optional_str(value: object) -> Optional[str]:
+def _to_optional_str(value: object) -> str | None:
     if value is None:
         return None
     text = str(value).strip()
@@ -238,7 +238,7 @@ def _to_tuple(value: object) -> Tuple[str, ...]:
     return (text,) if text else ()
 
 
-def _merge_record(target: MutableMapping[Tuple[str, Optional[str]], VulnerabilityRecord], record: VulnerabilityRecord) -> None:
+def _merge_record(target: MutableMapping[Tuple[str, str | None], VulnerabilityRecord], record: VulnerabilityRecord) -> None:
     key = (record.identifier, record.package)
     if key in target:
         target[key] = target[key].merge(record)

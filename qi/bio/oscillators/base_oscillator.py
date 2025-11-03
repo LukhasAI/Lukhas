@@ -378,7 +378,7 @@ class BaseOscillator(ABC):
             Uses modulo operation for continuous phase wrapping
             Preserves phase coherence across boundaries
         """
-        min_phase, max_phase = self.config.phase_range
+        _min_phase, max_phase = self.config.phase_range
         return phase % max_phase
 
     def _validate_amplitude(self, amplitude: float) -> float:

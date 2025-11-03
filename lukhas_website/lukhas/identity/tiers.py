@@ -26,7 +26,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Literal, Optional, Set, cast
+from typing import Any, Dict, Literal, Set, cast
 from uuid import uuid4
 
 import argon2
@@ -72,17 +72,17 @@ try:
         @dataclass
         class _FallbackWebAuthnVerificationResult:  # pragma: no cover - only used when dependency missing
             success: bool
-            credential_id: Optional[str] = None
-            user_id: Optional[str] = None
+            credential_id: str | None = None
+            user_id: str | None = None
             signature_valid: bool = False
             challenge_valid: bool = False
             origin_valid: bool = False
             user_present: bool = False
             user_verified: bool = False
             verification_time_ms: float = 0.0
-            error_code: Optional[str] = None
-            error_message: Optional[str] = None
-            risk_factors: Optional[Any] = None
+            error_code: str | None = None
+            error_message: str | None = None
+            risk_factors: Any | None = None
             risk_score: float = 0.0
 
         WebAuthnVerificationResult = _FallbackWebAuthnVerificationResult  # type: ignore[assignment]
@@ -113,25 +113,25 @@ class AuthContext:
 
     # Request metadata
     ip_address: str
-    user_agent: Optional[str] = None
+    user_agent: str | None = None
     correlation_id: str = field(default_factory=lambda: str(uuid4()))
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     # Authentication credentials (tier-specific)
-    username: Optional[str] = None
-    password: Optional[str] = None
-    totp_token: Optional[str] = None
-    webauthn_response: Optional[Dict[str, Any]] = None
-    biometric_attestation: Optional[Dict[str, Any]] = None
+    username: str | None = None
+    password: str | None = None
+    totp_token: str | None = None
+    webauthn_response: Dict[str, Any] | None = None
+    biometric_attestation: Dict[str, Any] | None = None
 
     # Session context
-    session_id: Optional[str] = None
-    existing_tier: Optional[Tier] = None
-    nonce: Optional[str] = None
+    session_id: str | None = None
+    existing_tier: Tier | None = None
+    nonce: str | None = None
 
     # Security context
-    challenge_data: Optional[Dict[str, Any]] = None
-    anti_replay_token: Optional[str] = None
+    challenge_data: Dict[str, Any] | None = None
+    anti_replay_token: str | None = None
 
 
 @dataclass
@@ -143,19 +143,19 @@ class AuthResult:
     reason: str = ""
 
     # Authentication metadata
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
-    jwt_token: Optional[str] = None
-    expires_at: Optional[datetime] = None
+    user_id: str | None = None
+    session_id: str | None = None
+    jwt_token: str | None = None
+    expires_at: datetime | None = None
 
     # Security metadata
-    correlation_id: Optional[str] = None
+    correlation_id: str | None = None
     auth_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     guardian_validated: bool = False
 
     # Performance metadata
-    duration_ms: Optional[float] = None
-    tier_elevation_path: Optional[str] = None
+    duration_ms: float | None = None
+    tier_elevation_path: str | None = None
 
 
 @dataclass
@@ -188,8 +188,8 @@ class TieredAuthenticator:
 
     def __init__(
         self,
-        security_policy: Optional[SecurityPolicy] = None,
-        guardian_system: Optional[GuardianSystem] = None
+        security_policy: SecurityPolicy | None = None,
+        guardian_system: GuardianSystem | None = None
     ):
         """Initialize the tiered authenticator."""
         self.logger = logger.bind(component="TieredAuthenticator")
@@ -257,9 +257,9 @@ class TieredAuthenticator:
     async def generate_webauthn_challenge(
         self,
         username: str,
-        correlation_id: Optional[str],
+        correlation_id: str | None,
         ip_address: str,
-        user_agent: Optional[str] = None,
+        user_agent: str | None = None,
     ) -> Dict[str, Any]:
         """Generate a WebAuthn authentication challenge for T4 verification."""
 
@@ -868,7 +868,7 @@ class TieredAuthenticator:
             await asyncio.sleep(0.002)
             return False
 
-    async def _generate_jwt_token(self, tier: Tier, ctx: AuthContext, user_id: Optional[str] = None) -> str:
+    async def _generate_jwt_token(self, tier: Tier, ctx: AuthContext, user_id: str | None = None) -> str:
         """Generate JWT token using I.1 ΛiD Token System with tier-specific claims."""
         try:
             if self.token_generator:
@@ -925,7 +925,7 @@ class TieredAuthenticator:
         }
         return permissions_map.get(tier, [])
 
-    async def validate_token(self, token: str, required_tier: Optional[Tier] = None) -> AuthResult:
+    async def validate_token(self, token: str, required_tier: Tier | None = None) -> AuthResult:
         """Validate JWT token using I.1 ΛiD Token System with tier verification."""
         start_time = time.perf_counter()
 
@@ -1003,10 +1003,7 @@ class TieredAuthenticator:
         attempt_data = self._failed_attempts[username]
         lock_until = attempt_data.get("locked_until")
 
-        if lock_until and datetime.now(timezone.utc) < lock_until:
-            return True
-
-        return False
+        return bool(lock_until and datetime.now(timezone.utc) < lock_until)
 
     async def _record_failed_attempt(self, username: str, ip_address: str) -> None:
         """Record failed authentication attempt."""
@@ -1040,8 +1037,8 @@ class TieredAuthenticator:
 
 # Convenience factory function
 def create_tiered_authenticator(
-    security_policy: Optional[SecurityPolicy] = None,
-    guardian_system: Optional[GuardianSystem] = None
+    security_policy: SecurityPolicy | None = None,
+    guardian_system: GuardianSystem | None = None
 ) -> TieredAuthenticator:
     """Create a tiered authenticator with optional configuration."""
     return TieredAuthenticator(security_policy, guardian_system)

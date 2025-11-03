@@ -543,10 +543,7 @@ class DriftManager:
                 deltas[key] = delta
 
         # Overall score (weighted average)
-        if deltas:
-            score = sum(deltas.values()) / len(deltas)
-        else:
-            score = 0.0
+        score = sum(deltas.values()) / len(deltas) if deltas else 0.0
 
         # Identify top contributors
         sorted_deltas = sorted(deltas.items(), key=lambda x: x[1], reverse=True)
@@ -584,10 +581,7 @@ class DriftManager:
             deltas['fold_stability'] = fold_drift
 
         # Calculate score
-        if deltas:
-            score = sum(deltas.values()) / len(deltas)
-        else:
-            score = 0.0
+        score = sum(deltas.values()) / len(deltas) if deltas else 0.0
 
         # Identify top symbols
         sorted_deltas = sorted(deltas.items(), key=lambda x: x[1], reverse=True)
@@ -628,10 +622,7 @@ class DriftManager:
                 deltas['namespace_change'] = 0.5  # Significant drift
 
         # Calculate score
-        if deltas:
-            score = sum(deltas.values()) / len(deltas)
-        else:
-            score = 0.0
+        score = sum(deltas.values()) / len(deltas) if deltas else 0.0
 
         # Top contributors
         sorted_deltas = sorted(deltas.items(), key=lambda x: x[1], reverse=True)

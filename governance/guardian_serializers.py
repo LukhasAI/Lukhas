@@ -57,8 +57,8 @@ def deserialize_guardian(envelope: dict) -> Any:
 
 
 __all__ = [
-    "GuardianSerializer",
     "GuardianEnvelopeSerializer",
+    "GuardianSerializer",
     "GuardianSerializerRegistry",
     "deserialize_guardian",
 ]

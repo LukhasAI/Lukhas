@@ -7,7 +7,6 @@ Handles imports, class names, function names, documentation, and configuration f
 """
 from __future__ import annotations
 
-
 import logging
 import os
 import re

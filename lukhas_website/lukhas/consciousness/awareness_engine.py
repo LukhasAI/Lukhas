@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import math
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -63,7 +63,7 @@ class AwarenessEngine:
     Optimized for sub-100ms update cycles with comprehensive observability.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Dict[str, Any] | None = None):
         """Initialize awareness engine with configuration."""
         self.config = {**DEFAULT_AWARENESS_CONFIG, **(config or {})}
         self.drift_alpha = self.config["drift_alpha"]
@@ -72,7 +72,7 @@ class AwarenessEngine:
 
         # Internal state
         self._drift_ema = 0.0
-        self._previous_state: Optional[ConsciousnessState] = None
+        self._previous_state: ConsciousnessState | None = None
         self._load_history: List[float] = []
         self._update_count = 0
         self._component_id = "AwarenessEngine"

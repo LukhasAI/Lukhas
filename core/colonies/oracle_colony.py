@@ -26,14 +26,13 @@
 """
 from __future__ import annotations
 
-
 import asyncio
 import importlib
 import json
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 """Note on lane boundaries
 This module must not import from `labs.*` at import time. To keep lane guard
@@ -81,8 +80,8 @@ class OracleQuery:
 
     query_type: str  # "prediction", "dream", "prophecy", "analysis"
     context: dict[str, Any]
-    time_horizon: Optional[str] = "near"  # "immediate", "near", "medium", "far"
-    user_id: Optional[str] = None
+    time_horizon: str | None = "near"  # "immediate", "near", "medium", "far"
+    user_id: str | None = None
     priority: str = "normal"  # "low", "normal", "high", "critical"
     openai_enhanced: bool = True
 
@@ -107,7 +106,7 @@ class OracleAgent:
         self,
         agent_id: str,
         specialization: str,
-        openai_service: Optional[Any] = None,
+        openai_service: Any | None = None,
     ):
         self.agent_id = agent_id
         self.specialization = specialization  # "predictor", "dreamer", "prophet", "analyzer"
@@ -482,7 +481,7 @@ class OracleColony(BaseColony):
         return response
 
     async def get_temporal_insights(
-        self, context: dict[str, Any], horizons: Optional[list[str]] = None
+        self, context: dict[str, Any], horizons: list[str] | None = None
     ) -> dict[str, OracleResponse]:
         """Get insights across multiple time horizons."""
         if horizons is None:
@@ -578,7 +577,7 @@ async def predict(context: dict[str, Any], time_horizon: str = "near") -> Oracle
     return await colony.query_oracle(query)
 
 
-async def dream(context: dict[str, Any], user_id: Optional[str] = None) -> OracleResponse:
+async def dream(context: dict[str, Any], user_id: str | None = None) -> OracleResponse:
     """Direct dream generation function."""
     colony = await get_oracle_colony()
     query = OracleQuery(query_type="dream", context=context, user_id=user_id)

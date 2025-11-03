@@ -41,7 +41,6 @@
 """
 from __future__ import annotations
 
-
 import asyncio
 import hashlib
 import json
@@ -52,7 +51,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 from uuid import uuid4
 
 # Initialize structured logger
@@ -87,7 +86,7 @@ class MemoryNode:
     tier: MemoryTier = MemoryTier.SENSORY
     content: Any = None
     metadata: dict[str, Any] = field(default_factory=dict)
-    parent_id: Optional[str] = None
+    parent_id: str | None = None
     children_ids: list[str] = field(default_factory=list)
     cross_refs: set[str] = field(default_factory=set)
     compression_level: CompressionLevel = CompressionLevel.NONE
@@ -97,11 +96,11 @@ class MemoryNode:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     decay_rate: float = 0.1
     is_compressed: bool = False
-    checksum: Optional[str] = None
+    checksum: str | None = None
     # Collapse state tracking fields (Task 6 - Claude Code)
-    collapse_trace_id: Optional[str] = None  # Links to collapse events
+    collapse_trace_id: str | None = None  # Links to collapse events
     collapse_score_history: list[tuple[datetime, float]] = field(default_factory=list)  # History of collapse scores
-    collapse_alert_level: Optional[str] = None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
+    collapse_alert_level: str | None = None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
     collapse_metadata: dict[str, Any] = field(default_factory=dict)  # Additional collapse-related data
 
 
@@ -110,9 +109,9 @@ class RetrievalContext:
     """Context for memory retrieval operations"""
 
     query: str
-    tier_filter: Optional[MemoryTier] = None
+    tier_filter: MemoryTier | None = None
     max_depth: int = 3
-    time_range: Optional[tuple[datetime, datetime]] = None
+    time_range: tuple[datetime, datetime] | None = None
     importance_threshold: float = 0.5
     include_cross_refs: bool = True
     max_results: int = 10
@@ -123,7 +122,7 @@ class HierarchicalDataStore:
 
     def __init__(
         self,
-        storage_path: Optional[Path] = None,
+        storage_path: Path | None = None,
         max_memory_mb: int = 1024,
         compression_threshold: float = 0.7,
         prune_interval_seconds: int = 3600,
@@ -194,8 +193,8 @@ class HierarchicalDataStore:
         self,
         content: Any,
         tier: MemoryTier,
-        parent_id: Optional[str] = None,
-        metadata: Optional[dict[str, Any]] = None,
+        parent_id: str | None = None,
+        metadata: dict[str, Any] | None = None,
         importance: float = 1.0,
     ) -> str:
         """
@@ -324,7 +323,7 @@ class HierarchicalDataStore:
 
         return build_tree(root_id, 0)
 
-    async def _get_node(self, node_id: str) -> Optional[MemoryNode]:
+    async def _get_node(self, node_id: str) -> MemoryNode | None:
         """Get a node with caching and decompression"""
         if node_id not in self.nodes:
             return None
@@ -725,7 +724,7 @@ class HierarchicalDataStore:
         collapse_trace_id: str,
         collapse_score: float,
         alert_level: str,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ):
         """
         Update collapse state for a memory node
@@ -834,7 +833,7 @@ class HierarchicalDataStore:
 
 
 # Global HDS instance
-_hds_instance: Optional[HierarchicalDataStore] = None
+_hds_instance: HierarchicalDataStore | None = None
 
 
 async def get_hds() -> HierarchicalDataStore:

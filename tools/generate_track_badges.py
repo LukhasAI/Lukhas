@@ -11,7 +11,6 @@ Updates module README.md files with current track status tables.
 """
 from __future__ import annotations
 
-
 import glob
 import json
 import pathlib

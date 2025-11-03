@@ -1,4 +1,4 @@
 """Bridge module for api.audit → labs.api.audit"""
 from __future__ import annotations
 
-from labs.api.audit import *  # noqa: F401, F403
+from labs.api.audit import *  # noqa: F403

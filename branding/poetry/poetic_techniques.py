@@ -7,9 +7,7 @@ Combines traditional poetry craft with LUKHAS-specific innovations.
 """
 from __future__ import annotations
 
-
 import random
-from typing import Optional
 
 
 class PoeticTechniques:
@@ -321,7 +319,7 @@ class PoeticTechniques:
             "Lambda shows us — ourselves — showing ourselves",
         ]
 
-    def generate_alliterative_phrase(self, theme: Optional[str] = None) -> str:
+    def generate_alliterative_phrase(self, theme: str | None = None) -> str:
         """Generate an alliterative phrase for a given theme."""
         if theme and theme in self.alliterative_phrases:
             return random.choice(self.alliterative_phrases[theme])
@@ -331,7 +329,7 @@ class PoeticTechniques:
                 all_phrases.extend(phrases)
             return random.choice(all_phrases)
 
-    def generate_assonant_phrase(self, vowel_sound: Optional[str] = None) -> str:
+    def generate_assonant_phrase(self, vowel_sound: str | None = None) -> str:
         """Generate a phrase with assonance (vowel repetition)."""
         if vowel_sound and vowel_sound in self.assonant_phrases:
             return random.choice(self.assonant_phrases[vowel_sound])
@@ -356,7 +354,7 @@ class PoeticTechniques:
             return pattern
         return ""
 
-    def create_rich_description(self, concept: str, techniques: Optional[list[str]] = None) -> str:
+    def create_rich_description(self, concept: str, techniques: list[str] | None = None) -> str:
         """
         Create a rich poetic description using multiple techniques.
 

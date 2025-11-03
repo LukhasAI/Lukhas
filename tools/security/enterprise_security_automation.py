@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 # Import production security modules
 try:
@@ -80,8 +80,8 @@ class SecurityFinding:
     title: str
     description: str
     file_path: str
-    line_number: Optional[int] = None
-    code_snippet: Optional[str] = None
+    line_number: int | None = None
+    code_snippet: str | None = None
 
     # Remediation information
     remediation: str = ""
@@ -95,11 +95,11 @@ class SecurityFinding:
     # Tracking
     discovered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     status: str = "open"
-    assigned_to: Optional[str] = None
+    assigned_to: str | None = None
 
     # Constitutional AI integration
-    constitutional_impact: Optional[float] = None
-    drift_contribution: Optional[float] = None
+    constitutional_impact: float | None = None
+    drift_contribution: float | None = None
 
 
 @dataclass
@@ -109,7 +109,7 @@ class SecurityScanResult:
     scan_id: str
     scan_type: str
     started_at: datetime
-    completed_at: Optional[datetime] = None
+    completed_at: datetime | None = None
 
     # Results
     findings: list[SecurityFinding] = field(default_factory=list)
@@ -134,7 +134,7 @@ class SecurityScanResult:
 class EnterprisSecurityScanner:
     """Enterprise security scanner with constitutional AI integration"""
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         self.config = config or {}
 
         # Core configuration
@@ -275,7 +275,7 @@ class EnterprisSecurityScanner:
         }
 
     async def run_comprehensive_scan(
-        self, scan_type: str = "full", target_paths: Optional[list[str]] = None
+        self, scan_type: str = "full", target_paths: list[str] | None = None
     ) -> SecurityScanResult:
         """Run comprehensive security scan"""
 
@@ -374,7 +374,7 @@ class EnterprisSecurityScanner:
             result.completed_at = datetime.now(timezone.utc)
             raise
 
-    async def _get_files_to_scan(self, target_paths: Optional[list[str]]) -> list[Path]:
+    async def _get_files_to_scan(self, target_paths: list[str] | None) -> list[Path]:
         """Get list of files to scan"""
 
         files_to_scan = []
@@ -848,7 +848,7 @@ class EnterprisSecurityScanner:
 
         return min(1.0, total_drift / total_weight if total_weight > 0 else 0.0)
 
-    async def _read_file_content(self, file_path: Path) -> Optional[str]:
+    async def _read_file_content(self, file_path: Path) -> str | None:
         """Read file content safely"""
         try:
             with open(file_path, encoding="utf-8", errors="ignore") as f:

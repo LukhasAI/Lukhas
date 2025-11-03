@@ -1212,7 +1212,7 @@ class T4ExcellenceValidator:
         result = ValidationResult(
             timestamp=env["timestamp"],
             environment=env,
-            distributions={k: v for k, v in self.results.items()},
+            distributions=dict(self.results.items()),
             sla_compliance=sla_compliance,
             chaos_results=self.chaos_results,
             reproducibility={},

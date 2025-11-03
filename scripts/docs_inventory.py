@@ -6,14 +6,13 @@ Scans all *.md files in docs/ and generates a complete manifest with metadata.
 """
 from __future__ import annotations
 
-
 import hashlib
 import json
 import re
 import subprocess
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"
@@ -40,7 +39,7 @@ def sha256_file(filepath: Path) -> str:
     return hasher.hexdigest()
 
 
-def extract_front_matter(content: str) -> Optional[Dict]:
+def extract_front_matter(content: str) -> Dict | None:
     """Extract YAML front-matter from markdown content."""
     match = FRONT_MATTER_PATTERN.match(content)
     if not match:
@@ -130,7 +129,7 @@ def infer_status(content: str) -> str:
     return 'stable'
 
 
-def get_git_date(filepath: Path) -> Optional[str]:
+def get_git_date(filepath: Path) -> str | None:
     """Get last commit date for file from git."""
     try:
         result = subprocess.run(

@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Union
 
 import yaml
 from opentelemetry import trace
@@ -133,7 +133,7 @@ class ProviderConfig:
     temperature: float = 0.1
     priority: int = 1
     enabled: bool = True
-    api_key: Optional[str] = None
+    api_key: str | None = None
 
     @classmethod
     def from_dict(cls, name: str, data: Dict[str, Any]) -> ProviderConfig:
@@ -156,7 +156,7 @@ class ABTestBucket:
     """A/B test bucket configuration."""
     provider: str
     percentage: float
-    options: Optional[Dict[str, Any]] = None
+    options: Dict[str, Any] | None = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> ABTestBucket:
@@ -188,11 +188,11 @@ class LoadBalanceTarget:
 @dataclass
 class RoutingTarget:
     """Routing target configuration."""
-    provider: Optional[str] = None
-    fallback: Optional[str] = None
-    options: Optional[Dict[str, Any]] = None
-    ab_test: Optional[Dict[str, Any]] = None
-    load_balance: Optional[LoadBalanceTarget] = None
+    provider: str | None = None
+    fallback: str | None = None
+    options: Dict[str, Any] | None = None
+    ab_test: Dict[str, Any] | None = None
+    load_balance: LoadBalanceTarget | None = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> RoutingTarget:
@@ -252,8 +252,8 @@ class RoutingResult:
     provider: str
     rule_name: str
     options: Dict[str, Any]
-    fallback_provider: Optional[str] = None
-    ab_test_bucket: Optional[str] = None
+    fallback_provider: str | None = None
+    ab_test_bucket: str | None = None
     processing_time_ms: float = 0.0
 
     def to_dict(self) -> Dict[str, Any]:
@@ -342,7 +342,7 @@ class ConfigurableRoutingSystem:
 
     async def route_request(self,
                            request_data: Dict[str, Any],
-                           user_id: Optional[str] = None) -> RoutingResult:
+                           user_id: str | None = None) -> RoutingResult:
         """
         Route request to appropriate provider.
 
@@ -406,7 +406,7 @@ class ConfigurableRoutingSystem:
     async def _resolve_target(self,
                              target: RoutingTarget,
                              request_data: Dict[str, Any],
-                             user_id: Optional[str]) -> RoutingResult:
+                             user_id: str | None) -> RoutingResult:
         """Resolve routing target to specific provider."""
 
         # Handle A/B testing
@@ -445,7 +445,7 @@ class ConfigurableRoutingSystem:
     async def _resolve_ab_test(self,
                               ab_test_config: Dict[str, Any],
                               request_data: Dict[str, Any],
-                              user_id: Optional[str]) -> RoutingResult:
+                              user_id: str | None) -> RoutingResult:
         """Resolve A/B test target."""
         test_name = ab_test_config["test_name"]
         buckets = [ABTestBucket.from_dict(b) for b in ab_test_config["buckets"]]
@@ -614,7 +614,7 @@ class ConfigurableRoutingSystem:
 
 
 # Global routing system instance
-_routing_system: Optional[ConfigurableRoutingSystem] = None
+_routing_system: ConfigurableRoutingSystem | None = None
 
 def get_routing_system() -> ConfigurableRoutingSystem:
     """Get the default routing system instance."""

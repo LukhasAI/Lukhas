@@ -53,7 +53,6 @@ except ImportError:
 # Memory system imports
 try:
     from labs.memory.fold_system import FoldManager, get_fold_manager
-
     from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
     from memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
     MEMORY_SYSTEMS_AVAILABLE = True
@@ -217,7 +216,7 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
         start_time = time.perf_counter()
 
         try:
-            results, duration_ms = self.memory_system.recall_top_k(k=k)
+            results, _duration_ms = self.memory_system.recall_top_k(k=k)
 
             latency_ms = (time.perf_counter() - start_time) * 1000
             self.operation_latencies.append(latency_ms)
@@ -340,7 +339,7 @@ def test_memory_system_10k_operations_invariants(workload):
 
             elif operation.op_type == "recall_k" and stored_items:
                 k = min(10, len(stored_items))
-                results, duration_ms = memory_system.recall_top_k(
+                results, _duration_ms = memory_system.recall_top_k(
                     k=k,
                     query_embedding=operation.embedding
                 )
@@ -461,7 +460,7 @@ def test_topk_monotonicity_under_adversarial_workload(k_values, operations):
         for query_op in operations[500:]:  # Use remaining as queries
             start_time = time.perf_counter()
 
-            results, duration_ms = memory_system.recall_top_k(
+            results, _duration_ms = memory_system.recall_top_k(
                 k=k,
                 query_embedding=query_op.embedding
             )
@@ -592,7 +591,7 @@ def test_memory_system_10k_batch_operations(batch_size):
                     k = min(rng.randint(1, 10), len(stored_items))
                     query_embedding = [rng.gauss(0, 1) for _ in range(64)]
 
-                    results, duration_ms = memory_system.recall_top_k(
+                    results, _duration_ms = memory_system.recall_top_k(
                         k=k,
                         query_embedding=query_embedding
                     )
@@ -755,7 +754,7 @@ def test_memory_performance_regression_at_scale(operation_count):
 
         start_time = time.perf_counter()
 
-        results, duration_ms = memory_system.recall_top_k(k=k, query_embedding=query_embedding)
+        _results, _duration_ms = memory_system.recall_top_k(k=k, query_embedding=query_embedding)
 
         latency_ms = (time.perf_counter() - start_time) * 1000
         recall_latencies.append(latency_ms)

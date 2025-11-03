@@ -9,7 +9,6 @@ SAFETY: Creates backups before modifying files.
 """
 from __future__ import annotations
 
-
 import re
 import shutil
 from datetime import datetime, timezone

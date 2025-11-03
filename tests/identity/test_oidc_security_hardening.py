@@ -24,7 +24,6 @@ from datetime import datetime, timedelta, timezone
 from unittest.mock import AsyncMock, patch
 
 import pytest
-
 from identity.oidc_security_hardening import (
     OIDCSecurityEventType,
     OIDCSecurityHardening,
@@ -523,7 +522,7 @@ class TestWebAuthnOIDCIntegration:
         # Test token generation performance
         performance_results = []
 
-        for i in range(5):
+        for _i in range(5):
             start_time = time.perf_counter()
 
             # Full integration flow

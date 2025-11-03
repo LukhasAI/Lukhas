@@ -200,13 +200,13 @@ def get_protocol() -> LukhasProtocol:
 
 # Export public interface
 __all__ = [
-    "MessageType",
-    "LukhasMessage",
     "ConsciousnessState",
     "DreamSequence",
-    "MemoryFold",
-    "IdentityValidation",
     "GuardianAlert",
+    "IdentityValidation",
+    "LukhasMessage",
     "LukhasProtocol",
+    "MemoryFold",
+    "MessageType",
     "get_protocol",
 ]

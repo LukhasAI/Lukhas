@@ -25,7 +25,7 @@ import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 from urllib.parse import urlparse
 
 import structlog
@@ -60,14 +60,14 @@ class DiscoveryDocument:
     lukhas_permissions_claim: str = "permissions"
 
     # Optional but recommended
-    revocation_endpoint: Optional[str] = None
-    introspection_endpoint: Optional[str] = None
-    registration_endpoint: Optional[str] = None
+    revocation_endpoint: str | None = None
+    introspection_endpoint: str | None = None
+    registration_endpoint: str | None = None
 
     # Security and validation metadata
-    document_hash: Optional[str] = field(default=None, init=False)
+    document_hash: str | None = field(default=None, init=False)
     generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc), init=False)
-    expires_at: Optional[datetime] = field(default=None, init=False)
+    expires_at: datetime | None = field(default=None, init=False)
     security_validated: bool = field(default=False, init=False)
     validation_errors: List[str] = field(default_factory=list, init=False)
 
@@ -134,7 +134,7 @@ class DiscoveryDocument:
         self.document_hash = hashlib.sha256(doc_json.encode('utf-8')).hexdigest()
         return self.document_hash
 
-    def verify_document_integrity(self, expected_hash: Optional[str] = None) -> bool:
+    def verify_document_integrity(self, expected_hash: str | None = None) -> bool:
         """Verify document integrity against stored or provided hash."""
         current_hash = self.generate_document_hash()
 
@@ -208,7 +208,7 @@ class DiscoveryProvider:
     - Production monitoring and metrics
     """
 
-    def __init__(self, base_url: str, custom_config: Optional[Dict[str, Any]] = None):
+    def __init__(self, base_url: str, custom_config: Dict[str, Any] | None = None):
         """
         Initialize discovery provider with security validation.
 
@@ -221,8 +221,8 @@ class DiscoveryProvider:
         self.fail_closed = self.custom_config.get('fail_closed', True)
 
         # Caching and performance
-        self._cached_document: Optional[DiscoveryDocument] = None
-        self._cache_timestamp: Optional[datetime] = None
+        self._cached_document: DiscoveryDocument | None = None
+        self._cache_timestamp: datetime | None = None
         self._cache_ttl = timedelta(minutes=self.custom_config.get('cache_ttl_minutes', 30))
 
         # Security tracking

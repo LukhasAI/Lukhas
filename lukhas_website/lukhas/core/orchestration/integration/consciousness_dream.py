@@ -16,10 +16,9 @@ TRINITY FRAMEWORK:
 """
 from __future__ import annotations
 
-
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +35,7 @@ class ConsciousnessDreamIntegrator:
         self.integration_counter = 0
         logger.info("🌉 Consciousness-Dream Integrator initialized - Constellation Framework active")
 
-    def initiate_consciousness_dream_bridge(self, consciousness_id: str, dream_context: Optional[dict] = None) -> str:
+    def initiate_consciousness_dream_bridge(self, consciousness_id: str, dream_context: dict | None = None) -> str:
         """
         ⚛️ Identity-coherent consciousness-dream bridge initiation.
 

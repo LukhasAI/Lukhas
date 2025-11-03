@@ -1,6 +1,6 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════════
-🌌 LUKHAS AI - Dream Engine Adapter Tests  
+🌌 LUKHAS AI - Dream Engine Adapter Tests
 ═══════════════════════════════════════════════════════════════════════════════════
 
 Test Module: test_dream_adapter
@@ -29,7 +29,6 @@ from typing import Any, Dict
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from core.orchestration.brain.unified_integration.adapters.dream_adapter import DreamEngineAdapter
 
 
@@ -442,7 +441,7 @@ class TestDreamEngineAdapterPerformance(unittest.TestCase):
         initial_objects = len(gc.get_objects())
 
         # Perform operations
-        for i in range(100):
+        for _i in range(100):
             message = {"content": {"action": "get_dream_state"}}
             with patch.object(self.adapter, '_handle_get_state'):
                 self.adapter.handle_message(message)

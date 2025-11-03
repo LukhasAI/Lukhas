@@ -198,7 +198,7 @@ class SchemaEvolutionGuard:
 
                         # Detect tightening based on constraint type
                         is_tightening = False
-                        if constraint_key in ['minLength', 'minimum', 'minItems'] and current_value > baseline_value or constraint_key in ['maxLength', 'maximum', 'maxItems'] and current_value < baseline_value:
+                        if (constraint_key in ['minLength', 'minimum', 'minItems'] and current_value > baseline_value) or (constraint_key in ['maxLength', 'maximum', 'maxItems'] and current_value < baseline_value):
                             is_tightening = True
 
                         if is_tightening:

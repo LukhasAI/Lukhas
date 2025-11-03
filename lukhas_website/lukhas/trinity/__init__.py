@@ -6,4 +6,4 @@ from __future__ import annotations
 
 from constellation.triad import Consciousness, Guardian, Identity
 
-__all__ = ["Identity", "Consciousness", "Guardian"]
+__all__ = ["Consciousness", "Guardian", "Identity"]

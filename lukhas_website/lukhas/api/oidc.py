@@ -20,7 +20,7 @@ import json
 import logging
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from urllib.parse import urlencode
 
 from fastapi import (
@@ -78,8 +78,8 @@ except ImportError:
     TIERED_AUTH_SYSTEM_AVAILABLE = False
     logger.warning("Tiered authentication system components not available")
 
-_tiered_auth_system: Optional[TieredAuthenticator] = None
-_guardian_system: Optional[GuardianSystem] = None
+_tiered_auth_system: TieredAuthenticator | None = None
+_guardian_system: GuardianSystem | None = None
 _tiered_auth_lock = asyncio.Lock()
 
 # Global instances
@@ -284,7 +284,7 @@ async def get_oidc_provider() -> OIDCProvider:
 
 
 # Helper function to get current user from session/token
-async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
+async def get_current_user(request: Request) -> Dict[str, Any] | None:
     """Get current authenticated user from session or token."""
     # In production, this would integrate with session management
     # For now, we'll simulate authentication status
@@ -547,7 +547,7 @@ async def _log_jwks_access(client_ip: str, correlation_id: str, duration: float,
 
 async def _log_token_operation(
     operation: str, client_ip: str, correlation_id: str,
-    duration: float, success: bool, grant_type: Optional[str] = None
+    duration: float, success: bool, grant_type: str | None = None
 ):
     """Background task to log token operations"""
     logger.info(
@@ -626,7 +626,7 @@ async def authorize(
                 )
 
             # Rate limiting for authorization attempts
-            allowed, rate_metadata = await rate_limiter.check_rate_limit(
+            allowed, _rate_metadata = await rate_limiter.check_rate_limit(
                 client_ip, RateLimitType.WEBAUTHN_AUTHENTICATION, {"endpoint": "authorize"}
             )
 
@@ -839,11 +839,11 @@ async def authorize(
 async def token(
     grant_type: str = Form(...),
     client_id: str = Form(...),
-    code: Optional[str] = Form(None),
-    redirect_uri: Optional[str] = Form(None),
-    code_verifier: Optional[str] = Form(None),
-    refresh_token: Optional[str] = Form(None),
-    client_secret: Optional[str] = Form(None),
+    code: str | None = Form(None),
+    redirect_uri: str | None = Form(None),
+    code_verifier: str | None = Form(None),
+    refresh_token: str | None = Form(None),
+    client_secret: str | None = Form(None),
     provider: OIDCProvider = Depends(get_oidc_provider)
 ) -> Dict[str, Any]:
     """
@@ -907,8 +907,8 @@ async def token(
 @router.get("/userinfo")
 @router.post("/userinfo")
 async def userinfo(
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
-    authorization: Optional[str] = Header(None),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
+    authorization: str | None = Header(None),
     provider: OIDCProvider = Depends(get_oidc_provider)
 ) -> Dict[str, Any]:
     """
@@ -964,9 +964,9 @@ async def userinfo(
 @router.post("/revoke")
 async def revoke_token(
     token: str = Form(...),
-    token_type_hint: Optional[str] = Form(None),
+    token_type_hint: str | None = Form(None),
     client_id: str = Form(...),
-    client_secret: Optional[str] = Form(None),
+    client_secret: str | None = Form(None),
     provider: OIDCProvider = Depends(get_oidc_provider)
 ) -> Dict[str, Any]:
     """
@@ -1019,9 +1019,9 @@ async def revoke_token(
 @router.post("/introspect")
 async def introspect_token(
     token: str = Form(...),
-    token_type_hint: Optional[str] = Form(None),
+    token_type_hint: str | None = Form(None),
     client_id: str = Form(...),
-    client_secret: Optional[str] = Form(None),
+    client_secret: str | None = Form(None),
     provider: OIDCProvider = Depends(get_oidc_provider)
 ) -> Dict[str, Any]:
     """
@@ -1143,8 +1143,8 @@ async def authenticate_with_tier(
     username: str = Form(...),
     password: str = Form(...),
     tier: str = Form("T2"),
-    totp_code: Optional[str] = Form(None),
-    webauthn_response: Optional[str] = Form(None),
+    totp_code: str | None = Form(None),
+    webauthn_response: str | None = Form(None),
     provider: OIDCProvider = Depends(get_oidc_provider)
 ) -> Dict[str, Any]:
     """

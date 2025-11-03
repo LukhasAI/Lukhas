@@ -712,13 +712,13 @@ TIER_TO_LAMBDA_MAP = {v: k for k, v in LAMBDA_TIER_MAP.items()}
 def lambda_tier_to_int(lambda_tier: str) -> int:
     """
     Convert LAMBDA_TIER_X string to integer (0-5).
-    
+
     Args:
         lambda_tier: String like "LAMBDA_TIER_1", "LAMBDA_TIER_2", etc.
-        
+
     Returns:
         Integer tier level (0-5)
-        
+
     Raises:
         ValueError: If lambda_tier is not a valid LAMBDA_TIER_X string
     """
@@ -729,13 +729,13 @@ def lambda_tier_to_int(lambda_tier: str) -> int:
 def int_to_lambda_tier(tier_int: int) -> str:
     """
     Convert integer tier (0-5) to LAMBDA_TIER_X string.
-    
+
     Args:
         tier_int: Integer tier level (0-5)
-        
+
     Returns:
         String like "LAMBDA_TIER_1", "LAMBDA_TIER_2", etc.
-        
+
     Raises:
         ValueError: If tier_int is not in valid range 0-5
     """
@@ -747,13 +747,13 @@ def int_to_lambda_tier(tier_int: int) -> str:
 def normalize_tier(tier: Union[str, int, TierLevel]) -> TierLevel:
     """
     Normalize any tier representation to TierLevel enum.
-    
+
     Args:
         tier: Can be "LAMBDA_TIER_X" string, integer 0-5, or TierLevel enum
-        
+
     Returns:
         TierLevel enum value
-        
+
     Raises:
         ValueError: If tier cannot be converted to valid TierLevel
     """
@@ -775,11 +775,11 @@ def normalize_tier(tier: Union[str, int, TierLevel]) -> TierLevel:
 def tier_meets_requirement(user_tier: Union[str, int, TierLevel], required_tier: Union[str, int, TierLevel]) -> bool:
     """
     Check if user tier meets the required tier level.
-    
+
     Args:
         user_tier: User's current tier (any format)
         required_tier: Required minimum tier (any format)
-        
+
     Returns:
         True if user tier >= required tier
     """

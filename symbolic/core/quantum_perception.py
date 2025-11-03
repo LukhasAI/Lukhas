@@ -611,7 +611,7 @@ class QuantumPerceptionField:
         avg_entropy = total_entropy / len(self.symbols) if self.symbols else 0
 
         # Count quantum states
-        state_counts = {state: 0 for state in QuantumState}
+        state_counts = dict.fromkeys(QuantumState, 0)
         for symbol in self.symbols.values():
             state_counts[symbol.state.quantum_state] += 1
 
@@ -652,7 +652,7 @@ class QuantumPerceptionField:
 
         Args:
             pre_entropy: Entropy before observation
-            post_entropy: Entropy after observation  
+            post_entropy: Entropy after observation
             pre_coherence: Coherence before observation
             post_coherence: Coherence after observation
 

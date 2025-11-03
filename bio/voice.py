@@ -1,4 +1,4 @@
 """Bridge module for bio.voice → labs.bio.voice"""
 from __future__ import annotations
 
-from labs.bio.voice import *  # noqa: F401, F403
+from labs.bio.voice import *  # noqa: F403

@@ -112,7 +112,7 @@ def run_codemod(src: str, mapping: Optional[dict] = None) -> str:
     try:
         # Run codemod on temp file
         subprocess.run(
-            cmd + [temp_path, "--apply"],
+            [*cmd, temp_path, "--apply"],
             capture_output=True,
             text=True,
             cwd=ROOT,

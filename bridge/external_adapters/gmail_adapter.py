@@ -43,7 +43,7 @@ import asyncio
 import base64
 import email
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -150,7 +150,7 @@ class GmailAdapter:
     comprehensive email management capabilities.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize Gmail adapter"""
         self.config = config or {}
 
@@ -172,7 +172,7 @@ class GmailAdapter:
 
         logger.info("Gmail Adapter initialized")
 
-    async def get_auth_url(self, user_id: str, state: Optional[str] = None) -> str:
+    async def get_auth_url(self, user_id: str, state: str | None = None) -> str:
         """
         Get OAuth2 authorization URL for Gmail access
 
@@ -319,8 +319,8 @@ class GmailAdapter:
     async def get_messages(
         self,
         user_id: str,
-        query: Optional[str] = None,
-        max_results: Optional[int] = None,
+        query: str | None = None,
+        max_results: int | None = None,
         include_spam_trash: bool = False,
     ) -> list[GmailMessage]:
         """
@@ -375,7 +375,7 @@ class GmailAdapter:
             return []
 
     async def search_messages(
-        self, user_id: str, search_query: str, max_results: Optional[int] = None
+        self, user_id: str, search_query: str, max_results: int | None = None
     ) -> list[GmailMessage]:
         """
         Search messages using Gmail Query Language
@@ -396,11 +396,11 @@ class GmailAdapter:
         to: str,
         subject: str,
         body: str,
-        html_body: Optional[str] = None,
-        cc: Optional[list[str]] = None,
-        bcc: Optional[list[str]] = None,
-        reply_to: Optional[str] = None,
-    ) -> Optional[str]:
+        html_body: str | None = None,
+        cc: list[str] | None = None,
+        bcc: list[str] | None = None,
+        reply_to: str | None = None,
+    ) -> str | None:
         """
         Send an email message
 
@@ -459,8 +459,8 @@ class GmailAdapter:
         user_id: str,
         original_message_id: str,
         body: str,
-        html_body: Optional[str] = None,
-    ) -> Optional[str]:
+        html_body: str | None = None,
+    ) -> str | None:
         """
         Reply to an existing message
 

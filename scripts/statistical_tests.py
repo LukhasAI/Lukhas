@@ -498,7 +498,7 @@ def main():
     passed_tests = 0
     total_tests = 0
 
-    for metric, tests in test_results.items():
+    for _metric, tests in test_results.items():
         if "error" not in tests:
             mw_test = tests["mann_whitney"]
             if mw_test["p_value"] is not None:

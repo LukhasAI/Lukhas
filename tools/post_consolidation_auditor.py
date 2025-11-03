@@ -748,7 +748,7 @@ def main():
     audit_results = lukhasuditor.perform_comprehensive_audit()
 
     # Save results
-    json_path, report_path = lukhasuditor.save_audit_results(audit_results)
+    _json_path, report_path = lukhasuditor.save_audit_results(audit_results)
 
     # Display summary
     print("\n" + "=" * 60)

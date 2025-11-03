@@ -28,6 +28,9 @@ import psutil
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from consciousness.types import DEFAULT_CREATIVITY_CONFIG
+    from governance.guardian_system import GuardianSystem
+
     from consciousness import (
         AwarenessEngine,  # noqa: F401  # TODO: consciousness.Awareness...
         ConsciousnessState,
@@ -35,8 +38,6 @@ try:
         CreativeTask,
         CreativityEngine,
     )
-    from consciousness.types import DEFAULT_CREATIVITY_CONFIG
-    from governance.guardian_system import GuardianSystem
 except ImportError as e:
     print(f"Warning: Could not import LUKHAS modules: {e}")
     print("Running in simulation mode for audit validation")

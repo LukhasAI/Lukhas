@@ -24,8 +24,8 @@ __all__ = [
     "IdentityRateLimitExceeded",
     "IdentityVerificationError",
     "LukhasIdentityVault",
+    "get_access_log",
     "has_access",
     "log_access",
-    "get_access_log",
     "reset_registry",
 ]

@@ -20,7 +20,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -81,7 +81,7 @@ class CollapseEvent:
     drift_score: float
     trace_index: str
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    user_context: Optional[str] = None
+    user_context: str | None = None
 
 
 @dataclass
@@ -415,7 +415,7 @@ class EthicalVault:
 
         print(f"✅ Approved solution stored: {solution_id} for pattern '{moral_pattern[:50]}...'")
 
-    def retrieve_approved_solution(self, moral_pattern: str, context: dict[str, Any]) -> Optional[MoralOption]:
+    def retrieve_approved_solution(self, moral_pattern: str, context: dict[str, Any]) -> MoralOption | None:
         """RESEARCH: Retrieve human-approved solution for moral pattern"""
 
         # Direct pattern match
@@ -433,7 +433,7 @@ class EthicalVault:
 
         return None
 
-    def _find_similar_moral_pattern(self, target_pattern: str) -> Optional[str]:
+    def _find_similar_moral_pattern(self, target_pattern: str) -> str | None:
         """RESEARCH: Find similar moral patterns using semantic matching"""
 
         # Simplified similarity matching (in production would use sentence embeddings)
@@ -499,7 +499,7 @@ class CollapseGovernanceSystem:
     Wavefunction Collapse for procedural governance with 92% drift prevention.
     """
 
-    def __init__(self, system_config: Optional[dict[str, Any]] = None):
+    def __init__(self, system_config: dict[str, Any] | None = None):
         self.config = system_config or {}
 
         # Initialize subsystems
@@ -829,7 +829,7 @@ class CollapseGovernanceSystem:
 
 # Factory function for system creation
 def create_collapse_governance_system(
-    config: Optional[dict[str, Any]] = None,
+    config: dict[str, Any] | None = None,
 ) -> CollapseGovernanceSystem:
     """RESEARCH: Create optimized collapse-based governance system
 

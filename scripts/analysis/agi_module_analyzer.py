@@ -6,13 +6,11 @@ Understands that AGI requires modular complexity, not simplification to basic ch
 """
 from __future__ import annotations
 
-
 import ast
 import json
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 import networkx as nx
 
@@ -110,7 +108,7 @@ class AGIModuleAnalyzer:
             except Exception as e:
                 print(f"Warning: Could not parse {py_file}: {e}")
 
-    def _analyze_module_ast(self, file_path: Path, tree: ast.AST, content: str) -> Optional[ModuleAnalysis]:
+    def _analyze_module_ast(self, file_path: Path, tree: ast.AST, content: str) -> ModuleAnalysis | None:
         """Analyze a module's AST to understand its structure and purpose"""
 
         # Extract classes and functions
@@ -284,7 +282,7 @@ class AGIModuleAnalyzer:
                 if dep_path and dep_path in self.modules:
                     self.dependency_graph.add_edge(module_path, dep_path)
 
-    def _import_to_path(self, import_name: str) -> Optional[str]:
+    def _import_to_path(self, import_name: str) -> str | None:
         """Convert import name to file path"""
         # Convert qi.bio.cellular to bio/cellular.py
         parts = import_name.split(".")

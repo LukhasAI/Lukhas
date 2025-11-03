@@ -38,12 +38,12 @@ def auth_components():
     routers_module.tasks_router = object()
     sys.modules.setdefault("interfaces.api.v1.rest.routers", routers_module)
 
-    import labs  # ensure base package is registered
-
-    import core
     import core.interfaces
     import core.interfaces.api
     import core.interfaces.api.v1
+    import labs  # ensure base package is registered
+
+    import core
 
     core_common_stub = sys.modules.setdefault("labs.core.common", types.ModuleType("labs.core.common"))
 

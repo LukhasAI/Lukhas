@@ -24,7 +24,6 @@ from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from identity.webauthn_production import WebAuthnManager
 from identity.webauthn_security_hardening import (
     DeviceFingerprint,
@@ -106,7 +105,7 @@ class TestWebAuthnAbuseProtection:
             mock_redis.get.side_effect = [str(count) for count in attempt_counts]
 
             results = []
-            for i in range(len(attempt_counts)):
+            for _i in range(len(attempt_counts)):
                 is_allowed, reason, events = await security_hardening.validate_request_security(
                     operation="authenticate",
                     user_id=user_id,
@@ -152,7 +151,7 @@ class TestWebAuthnAbuseProtection:
             ip_address = contexts['ip_ranges'][i % len(contexts['ip_ranges'])]
             user_agent = contexts['user_agents'][i % len(contexts['user_agents'])]
 
-            is_allowed, reason, events = await security_hardening.validate_request_security(
+            is_allowed, _reason, events = await security_hardening.validate_request_security(
                 operation="authenticate",
                 user_id=user_id,
                 ip_address=ip_address,
@@ -221,7 +220,7 @@ class TestWebAuthnAbuseProtection:
                 webgl_fingerprint=hashlib.md5(f"webgl{i}".encode()).hexdigest()
             )
 
-            is_allowed, reason, events = await security_hardening.validate_request_security(
+            is_allowed, reason, _events = await security_hardening.validate_request_security(
                 operation="authenticate",
                 user_id=user_id,
                 ip_address=base_ip,
@@ -295,7 +294,7 @@ class TestWebAuthnAbuseProtection:
         }
 
         # First use should be allowed
-        is_allowed_1, _, events_1 = await security_hardening.validate_request_security(
+        is_allowed_1, _, _events_1 = await security_hardening.validate_request_security(
             operation="authenticate",
             user_id=user_id,
             ip_address=ip_address,
@@ -309,7 +308,7 @@ class TestWebAuthnAbuseProtection:
 
         # Replay attempt should be blocked
         await asyncio.sleep(0.1)
-        is_allowed_2, reason_2, events_2 = await security_hardening.validate_request_security(
+        is_allowed_2, reason_2, _events_2 = await security_hardening.validate_request_security(
             operation="authenticate",
             user_id=user_id,
             ip_address=ip_address,
@@ -541,8 +540,8 @@ class TestWebAuthnAbuseProtection:
         total_legitimate_requests = 0
 
         for scenario in legitimate_scenarios:
-            for i, ip in enumerate(scenario['ip_changes']):
-                is_allowed, reason, events = await security_hardening.validate_request_security(
+            for _i, ip in enumerate(scenario['ip_changes']):
+                is_allowed, _reason, _events = await security_hardening.validate_request_security(
                     operation="authenticate",
                     user_id=scenario['user_id'],
                     ip_address=ip,

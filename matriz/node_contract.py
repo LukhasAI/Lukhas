@@ -229,9 +229,7 @@ def validate_glyph(glyph: GLYPH) -> bool:
         return False
     if not glyph.kind or not isinstance(glyph.kind, str):
         return False
-    if glyph.version != CONTRACT_VERSION:
-        return False
-    return True
+    return glyph.version == CONTRACT_VERSION
 
 
 def validate_message(msg: MatrizMessage) -> bool:
@@ -267,9 +265,7 @@ def validate_result(result: MatrizResult) -> bool:
         return False
     if not (isinstance(result.guardian_log, list) and len(result.guardian_log) >= 1):
         return False
-    if not is_jsonable(result.payload):
-        return False
-    return True
+    return is_jsonable(result.payload)
 
 
 def validate_message_ex(msg: MatrizMessage) -> Tuple[bool, List[str]]:
@@ -299,23 +295,23 @@ def mk_guardian_token(node_name: str, lane: str, msg_id: UUID, epoch_ms: int | N
 
 # Export all public interfaces
 __all__ = [
-    "GLYPH",
-    "MatrizMessage",
-    "MatrizResult",
-    "MatrizNode",
-    "validate_glyph",
-    "validate_message",
-    "validate_result",
-    "CONTRACT_VERSION",
-    "Topic",
     "ALLOWED_TOPICS",
+    "CONTRACT_VERSION",
+    "GLYPH",
     "LANE",
     "LANES",
+    "MatrizMessage",
+    "MatrizNode",
+    "MatrizResult",
+    "Topic",
     "canonical_json",
-    "message_digest",
-    "is_jsonable",
-    "validate_message_ex",
-    "to_dict",
     "from_dict",
+    "is_jsonable",
+    "message_digest",
     "mk_guardian_token",
+    "to_dict",
+    "validate_glyph",
+    "validate_message",
+    "validate_message_ex",
+    "validate_result",
 ]

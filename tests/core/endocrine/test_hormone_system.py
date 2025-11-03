@@ -4,7 +4,6 @@ from __future__ import annotations
 import asyncio
 
 import pytest
-
 from core.endocrine.hormone_system import (
     EndocrineSystem,
     HormoneType,

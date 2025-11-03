@@ -15,7 +15,7 @@ import statistics
 import time
 from abc import ABC, abstractmethod
 from collections import deque
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, Optional
@@ -136,10 +136,7 @@ class DefaultFailureDetector(FailureDetector):
         if not result.success:
             return True
 
-        if result.duration_sec > self.slow_call_threshold:
-            return True
-
-        return False
+        return result.duration_sec > self.slow_call_threshold
 
 
 class AdaptiveThresholdCalculator:
@@ -633,10 +630,8 @@ class CircuitBreakerRegistry:
 
         if self.health_check_task:
             self.health_check_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self.health_check_task
-            except asyncio.CancelledError:
-                pass
             self.health_check_task = None
 
     async def _health_check_loop(self) -> None:

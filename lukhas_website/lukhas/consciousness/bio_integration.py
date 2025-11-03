@@ -79,4 +79,4 @@ def bio_feedback_loop(bio_symbolic_result: Dict[str, Any]):
         except ValueError:
             logger.error(f"Bio-feedback: Unknown glyph value '{dominant_glyph_str}'")
 
-__all__ = ["BioAwareConsciousnessState", "BIO_CONSCIOUSNESS_MAP", "bio_feedback_loop"]
+__all__ = ["BIO_CONSCIOUSNESS_MAP", "BioAwareConsciousnessState", "bio_feedback_loop"]

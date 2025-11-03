@@ -5,7 +5,6 @@ Validates YAML configs against schemas and detects potential secrets.
 """
 from __future__ import annotations
 
-
 import json
 import pathlib
 import re

@@ -41,7 +41,7 @@ import asyncio
 import logging
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 from core.module_registry import ModuleRegistry
 
@@ -110,7 +110,7 @@ class OrchestrationCore:
     plan for system coordination with modular architecture and bio-inspired design.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the flagship core system."""
         self.config = config or {}
         self.session_id = str(uuid.uuid4())

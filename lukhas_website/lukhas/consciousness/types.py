@@ -13,7 +13,7 @@ from __future__ import annotations
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Union
 
 # Core state phases for consciousness lifecycle
 StatePhase = Literal["IDLE", "AWARE", "REFLECT", "CREATE", "DREAM", "DECIDE"]
@@ -51,12 +51,12 @@ class ThoughtLoopContext:
 class ThoughtLoopResult:
     """Result of complete thought loop processing."""
     success: bool
-    thought_synthesis: Optional[Any]
+    thought_synthesis: Any | None
     inference_results: List[Any]
-    contradiction_analysis: Optional[Any]
-    memory_validation: Optional[Any]
-    awareness_snapshot: Optional[Any]
-    meta_assessment: Optional[Any]
+    contradiction_analysis: Any | None
+    memory_validation: Any | None
+    awareness_snapshot: Any | None
+    meta_assessment: Any | None
     overall_quality_score: float
     reasoning_confidence: float
     contradiction_score: float
@@ -223,9 +223,9 @@ class DecisionContext:
     correlation_id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
     # Input context
-    consciousness_state: Optional[ConsciousnessState] = None
-    awareness_snapshot: Optional[AwarenessSnapshot] = None
-    reflection_report: Optional[ReflectionReport] = None
+    consciousness_state: ConsciousnessState | None = None
+    awareness_snapshot: AwarenessSnapshot | None = None
+    reflection_report: ReflectionReport | None = None
 
     # Proposed actions
     proposed_actions: List[Dict[str, Any]] = field(default_factory=list)
@@ -233,7 +233,7 @@ class DecisionContext:
 
     # Guardian validation
     guardian_approved: bool = False
-    guardian_response: Optional[Dict[str, Any]] = None
+    guardian_response: Dict[str, Any] | None = None
 
     def add_proposed_action(self, action_type: str, parameters: Dict[str, Any], priority: str = "medium"):
         """Add a proposed action to the decision context"""
@@ -349,7 +349,7 @@ class CreativitySnapshot:
         self.coherence_score = sum(coherences) / len(coherences)
 
         # Calculate flexibility (diversity of idea types)
-        idea_types = set(idea.get("type", "unknown") for idea in self.ideas)
+        idea_types = {idea.get("type", "unknown") for idea in self.ideas}
         self.flexibility_score = min(len(idea_types) / 10.0, 1.0)  # Normalize to [0,1]
 
         # Guardian approval rate
@@ -399,7 +399,7 @@ class CreativeTask:
     constraints: List[str] = field(default_factory=list)
 
     # Processing preferences
-    preferred_process: Optional[CreativeProcessType] = None
+    preferred_process: CreativeProcessType | None = None
     imagination_mode: ImaginationMode = "conceptual"
     target_novelty: float = 0.7
     target_coherence: float = 0.8
@@ -482,16 +482,30 @@ DEFAULT_CREATIVITY_CONFIG = {
 
 # Export all public types
 __all__ = [
-    # Enums
-    "StatePhase", "DreamPhase", "AwarenessLevel", "AnomalySeverity",
-    "CreativeProcessType", "CreativeFlowState", "ImaginationMode",
-    # Core classes
-    "ConsciousnessState", "AwarenessSnapshot", "ReflectionReport",
-    "DreamTrace", "DecisionContext", "ConsciousnessMetrics",
-    "CreativitySnapshot", "CreativeTask",
-    # Type aliases
-    "ConsciousnessEvent", "EngineState", "SignalData",
     # Configuration constants
-    "DEFAULT_AWARENESS_CONFIG", "DEFAULT_REFLECTION_CONFIG", "DEFAULT_DREAM_CONFIG",
-    "DEFAULT_CREATIVITY_CONFIG"
+    "DEFAULT_AWARENESS_CONFIG",
+    "DEFAULT_CREATIVITY_CONFIG",
+    "DEFAULT_DREAM_CONFIG",
+    "DEFAULT_REFLECTION_CONFIG",
+    "AnomalySeverity",
+    "AwarenessLevel",
+    "AwarenessSnapshot",
+    # Type aliases
+    "ConsciousnessEvent",
+    "ConsciousnessMetrics",
+    # Core classes
+    "ConsciousnessState",
+    "CreativeFlowState",
+    "CreativeProcessType",
+    "CreativeTask",
+    "CreativitySnapshot",
+    "DecisionContext",
+    "DreamPhase",
+    "DreamTrace",
+    "EngineState",
+    "ImaginationMode",
+    "ReflectionReport",
+    "SignalData",
+    # Enums
+    "StatePhase"
 ]

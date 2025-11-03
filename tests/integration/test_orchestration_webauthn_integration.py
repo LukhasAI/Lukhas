@@ -13,7 +13,6 @@ import time
 from unittest.mock import Mock
 
 import pytest
-
 from identity.webauthn_production import AuthenticatorTier, get_webauthn_manager
 from orchestration.multi_ai_router import (
     AIProvider,
@@ -262,7 +261,7 @@ class TestOrchestrationWebAuthnIntegration:
                 }
             }
 
-            auth_credential, verification = await self.webauthn_manager.finish_authentication(
+            _auth_credential, verification = await self.webauthn_manager.finish_authentication(
                 challenge_id=auth_challenge_id,
                 credential_data=mock_auth_data
             )
@@ -346,7 +345,7 @@ class TestOrchestrationWebAuthnIntegration:
                 }
             }
 
-            auth_credential, verification = await self.webauthn_manager.finish_authentication(
+            _auth_credential, verification = await self.webauthn_manager.finish_authentication(
                 challenge_id=auth_challenge_id,
                 credential_data=mock_auth_data
             )
@@ -434,7 +433,7 @@ class TestOrchestrationWebAuthnIntegration:
                 challenge_id="invalid_challenge",
                 credential_data={"id": "fake"}
             )
-            assert False, "Should have raised exception for invalid challenge"
+            raise AssertionError("Should have raised exception for invalid challenge")
         except Exception as e:
             print(f"Expected challenge error: {e}")
 
@@ -447,7 +446,7 @@ class TestOrchestrationWebAuthnIntegration:
             )
 
             await self.multi_ai_router.route_request(impossible_request)
-            assert False, "Should have raised exception for insufficient models"
+            raise AssertionError("Should have raised exception for insufficient models")
         except Exception as e:
             print(f"Expected orchestration error: {e}")
 

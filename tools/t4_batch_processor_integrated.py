@@ -176,7 +176,7 @@ class T4BatchProcessor:
 
         # SCALE & AUTOMATION: Phase 1 - Use existing smart fix
         print("\n⚡ T4: Phase 1 - Smart Fix (Conservative)")
-        success, output = self.run_makefile_target("fix")
+        _success, _output = self.run_makefile_target("fix")
 
         phase1_count, _ = self.get_ruff_stats()
         phase1_artifact = self.create_verification_artifact(
@@ -199,11 +199,11 @@ class T4BatchProcessor:
 
         # SCALE & AUTOMATION: Phase 2 - Ollama AI assistance
         print("\n🤖 T4: Phase 2 - AI-Assisted Analysis")
-        ai_success, ai_output = self.run_ollama_analysis()
+        ai_success, _ai_output = self.run_ollama_analysis()
 
         # EXPERIENCE DISCIPLINE: Phase 3 - Import organization
         print("\n✨ T4: Phase 3 - Import Organization")
-        import_success, import_output = self.run_makefile_target("fix-imports")
+        _import_success, _import_output = self.run_makefile_target("fix-imports")
 
         phase3_count, _ = self.get_ruff_stats()
         phase3_artifact = self.create_verification_artifact(

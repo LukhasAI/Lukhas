@@ -37,7 +37,7 @@ import uuid
 from abc import ABC
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Union
 
 from core.common import get_logger
 
@@ -89,8 +89,8 @@ class ActorMessage:
     message_type: str
     payload: dict[str, Any]
     timestamp: float
-    correlation_id: Optional[str] = None
-    reply_to: Optional[str] = None
+    correlation_id: str | None = None
+    reply_to: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -99,7 +99,7 @@ class ActorMessage:
 class ActorRef:
     """Reference to an actor (enables location transparency)"""
 
-    def __init__(self, actor_id: str, actor_system: "ActorSystem"):
+    def __init__(self, actor_id: str, actor_system: ActorSystem):
         self.actor_id = actor_id
         self.actor_system = actor_system
 
@@ -107,9 +107,9 @@ class ActorRef:
         self,
         message_type: str,
         payload: dict[str, Any],
-        correlation_id: Optional[str] = None,
-        reply_to: Optional[str] = None,
-        sender: Optional[str] = "unknown",
+        correlation_id: str | None = None,
+        reply_to: str | None = None,
+        sender: str | None = "unknown",
     ) -> bool:
         """Send a fire-and-forget message to the actor"""
         message = ActorMessage(
@@ -130,7 +130,7 @@ class ActorRef:
         message_type: str,
         payload: dict[str, Any],
         timeout: float = 5.0,
-        correlation_id: Optional[str] = None,
+        correlation_id: str | None = None,
     ) -> Any:
         """Send a message and wait for a response"""
         response_id = str(uuid.uuid4())
@@ -171,7 +171,7 @@ class Actor(ABC):
     3. Designate the behavior for the next message it receives (using `self.become`).
     """
 
-    def __init__(self, actor_id: str, mailbox: Optional[Union[asyncio.Queue, "Mailbox"]] = None):
+    def __init__(self, actor_id: str, mailbox: Union[asyncio.Queue, Mailbox] | None = None):
         self.actor_id = actor_id
         self.state = ActorState.CREATED
 
@@ -190,9 +190,9 @@ class Actor(ABC):
             self.mailbox = asyncio.Queue(maxsize=1000)
 
         self.message_handlers: dict[str, Callable] = {}
-        self.supervisor: Optional[ActorRef] = None
+        self.supervisor: ActorRef | None = None
         self.children: dict[str, ActorRef] = {}
-        self.actor_system: Optional[ActorSystem] = None
+        self.actor_system: ActorSystem | None = None
         self.supervision_strategy: SupervisionStrategy = SupervisionStrategy.RESTART
         self._running = False
         self._stats = {
@@ -202,7 +202,7 @@ class Actor(ABC):
             "created_at": time.time(),
         }
 
-    async def start(self, actor_system: "ActorSystem"):
+    async def start(self, actor_system: ActorSystem):
         """Start the actor"""
         self.actor_system = actor_system
         self.state = ActorState.STARTING
@@ -491,11 +491,11 @@ class ActorSystem:
             logger.info(f"Restarted actor {actor_id}")
             return new_ref
 
-    def get_actor_ref(self, actor_id: str) -> Optional[ActorRef]:
+    def get_actor_ref(self, actor_id: str) -> ActorRef | None:
         """Get reference to an actor"""
         return self.actor_refs.get(actor_id)
 
-    def get_actor(self, actor_id: str) -> Optional[Actor]:
+    def get_actor(self, actor_id: str) -> Actor | None:
         """Get actor instance (for internal use)"""
         return self.actors.get(actor_id)
 
@@ -573,7 +573,7 @@ class ActorSystem:
 
         return stats
 
-    async def get_p2p_node(self, actor_id: str) -> Optional[P2PNode]:
+    async def get_p2p_node(self, actor_id: str) -> P2PNode | None:
         """Get or create a P2P node for an actor."""
         if actor_id not in self.p2p_nodes:
             actor = self.get_actor(actor_id)
@@ -592,7 +592,7 @@ class AIAgentActor(Actor):
     It also shows how an actor can change its behavior using `become`.
     """
 
-    def __init__(self, actor_id: str, capabilities: Optional[list[str]] = None):
+    def __init__(self, actor_id: str, capabilities: list[str] | None = None):
         super().__init__(actor_id)
         self.capabilities = capabilities or []
         self.current_tasks: dict[str, dict] = {}

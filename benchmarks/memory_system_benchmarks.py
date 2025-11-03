@@ -116,9 +116,7 @@ class MockMemorySystem:
         """Check for circular references in item content"""
         content_str = str(item.content)
         # Simple circular reference detection - look for self-references
-        if item.id in content_str:
-            return True
-        return False
+        return item.id in content_str
 
     def get_cascade_prevention_rate(self) -> float:
         """Calculate cascade prevention success rate (successful operations rate)"""

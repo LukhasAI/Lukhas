@@ -8,18 +8,16 @@ Provides dual-approval tracking for critical overrides.
 
 Part of Task 13: Safety Tags System
 """
-import logging
 from __future__ import annotations
-
 
 import hashlib
 import json
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Union
 
 
-def _normalize_consent_timestamp(value: Optional[Union[str, datetime]]) -> Optional[str]:
+def _normalize_consent_timestamp(value: Union[str, datetime] | None) -> str | None:
     """Normalize consent timestamps to ISO-8601 strings."""
 
     if value is None:
@@ -115,15 +113,15 @@ def emit_guardian_decision(
     band: str,
     tenant: str = "default",
     env: str = "prod",
-    purpose: Optional[str] = None,
-    retention_days: Optional[int] = None,
-    justification: Optional[str] = None,
+    purpose: str | None = None,
+    retention_days: int | None = None,
+    justification: str | None = None,
     override_requested: bool = False,
     override_granted: bool = False,
-    approver1_id: Optional[str] = None,
-    approver2_id: Optional[str] = None,
-    user_consent_timestamp: Optional[Union[str, datetime]] = None,
-    consent_method: Optional[str] = None
+    approver1_id: str | None = None,
+    approver2_id: str | None = None,
+    user_consent_timestamp: Union[str, datetime] | None = None,
+    consent_method: str | None = None
 ) -> None:
     """
     Convenience wrapper to emit guardian decisions.
@@ -228,8 +226,8 @@ def emit_guardian_action_with_exemplar(
     action: str,
     lane: str,
     plan: Dict[str, Any],
-    trace_id: Optional[str] = None,
-    confidence_scores: Optional[Dict[str, float]] = None,
+    trace_id: str | None = None,
+    confidence_scores: Dict[str, float] | None = None,
     emit_to_prometheus: bool = True
 ) -> None:
     """

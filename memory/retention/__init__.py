@@ -58,7 +58,7 @@ else:
             """Trivial matcher that looks for positive score."""
             return bool(getattr(doc, "score", 0) > 0)
 
-    __all__ = ["RetentionSeverity", "RetentionAction", "RetentionRule"]
+    __all__ = ["RetentionAction", "RetentionRule", "RetentionSeverity"]
 
 # --- retention aliases: ArchivalTier / AbstractArchivalBackend (safe append) ---
 try:

@@ -18,7 +18,6 @@ from dataclasses import dataclass
 
 import psutil
 import pytest
-
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
 
@@ -131,7 +130,7 @@ class TestSystemPerformanceBudgets:
 
             # Simulate memory-intensive operations
             data_buffers = []
-            for i in range(100):
+            for _i in range(100):
                 # Create moderate memory load
                 buffer = bytearray(1024 * 1024)  # 1MB buffer
                 data_buffers.append(buffer)
@@ -344,7 +343,7 @@ class TestObservabilityPerformanceBudgets:
 
         # Baseline: operation without metrics (more realistic workload)
         start_time = time.time()
-        for i in range(100):
+        for _i in range(100):
             # Simulate some actual work like a real application
             sum(j * j for j in range(10))
             time.sleep(0.0001)  # Simulate I/O or other work
@@ -352,7 +351,7 @@ class TestObservabilityPerformanceBudgets:
 
         # With metrics: same operation with metrics collection
         start_time = time.time()
-        for i in range(100):
+        for _i in range(100):
             # Simulate metrics recording overhead
             metrics.record_request("test", "GET", "200", 0.001)
             # Same baseline work
@@ -376,13 +375,13 @@ class TestObservabilityPerformanceBudgets:
 
         # Baseline: operation without tracing
         start_time = time.time()
-        for i in range(100):
+        for _i in range(100):
             await asyncio.sleep(0.001)  # Small async operation
         baseline_duration = time.time() - start_time
 
         # With tracing: same operation with spans
         start_time = time.time()
-        for i in range(100):
+        for _i in range(100):
             with tracer.trace_operation("test_span"):
                 await asyncio.sleep(0.001)  # Same operation
         tracing_duration = time.time() - start_time

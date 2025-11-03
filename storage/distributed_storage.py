@@ -9,6 +9,7 @@ and intelligent data placement.
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -404,7 +405,7 @@ class LocalFilesystemBackend(StorageBackend):
             if not metadata_path.exists():
                 return None
 
-            async with aiofiles.open(metadata_path, 'r') as f:
+            async with aiofiles.open(metadata_path) as f:
                 content = await f.read()
                 return json.loads(content)
 
@@ -484,17 +485,17 @@ class SQLiteMetadataStore:
             """)
 
             conn.execute("""
-                CREATE INDEX IF NOT EXISTS idx_storage_objects_key 
+                CREATE INDEX IF NOT EXISTS idx_storage_objects_key
                 ON storage_objects(key)
             """)
 
             conn.execute("""
-                CREATE INDEX IF NOT EXISTS idx_storage_objects_last_accessed 
+                CREATE INDEX IF NOT EXISTS idx_storage_objects_last_accessed
                 ON storage_objects(last_accessed)
             """)
 
             conn.execute("""
-                CREATE INDEX IF NOT EXISTS idx_storage_objects_lifecycle 
+                CREATE INDEX IF NOT EXISTS idx_storage_objects_lifecycle
                 ON storage_objects(lifecycle_stage, next_transition_date)
             """)
 
@@ -630,7 +631,7 @@ class SQLiteMetadataStore:
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.execute("""
-                    UPDATE storage_objects 
+                    UPDATE storage_objects
                     SET last_accessed = ?, access_count = access_count + 1
                     WHERE key = ?
                 """, (datetime.now().isoformat(), key))
@@ -647,8 +648,8 @@ class SQLiteMetadataStore:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = sqlite3.Row
                 cursor = conn.execute("""
-                    SELECT * FROM storage_objects 
-                    WHERE lifecycle_stage = ? 
+                    SELECT * FROM storage_objects
+                    WHERE lifecycle_stage = ?
                     AND last_accessed < ?
                     AND is_deleted = FALSE
                     ORDER BY last_accessed ASC
@@ -794,7 +795,7 @@ class DistributedStorageManager:
                 if existing_keys:
                     logger.info(f"Deduplication: Object with hash {content_hash} already exists")
                     # Create a reference instead of storing duplicate data
-                    return await self._create_dedup_reference(key, list(existing_keys)[0], metadata)
+                    return await self._create_dedup_reference(key, next(iter(existing_keys)), metadata)
 
             # Create storage object
             obj = StorageObject(
@@ -1222,10 +1223,8 @@ class DistributedStorageManager:
         for task in [self.lifecycle_task, self.health_check_task, self.backup_task]:
             if task:
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         logger.info("Distributed storage manager shutdown complete")
 

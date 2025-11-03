@@ -80,7 +80,7 @@ class TestMetricsLabelContracts:
             ServiceType.LEDGER: "ledger"
         }
 
-        for service_type, expected_label in service_mappings.items():
+        for service_type, _expected_label in service_mappings.items():
             with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
                 self.metrics.record_metric(
                     "test_metric",
@@ -176,7 +176,7 @@ class TestMetricsLabelContracts:
             operation="test_operation"
         )
 
-        for label_key, label_value in labels.items():
+        for _label_key, label_value in labels.items():
             assert label_value is not None
             assert label_value != ""
             # Label value can be string or enum
@@ -194,10 +194,7 @@ class TestMetricsLabelContracts:
         # Assert valid Prometheus label value format
         for label_value in labels.values():
             # Convert enum to string for validation
-            if hasattr(label_value, 'value'):
-                label_str = label_value.value
-            else:
-                label_str = str(label_value)
+            label_str = label_value.value if hasattr(label_value, 'value') else str(label_value)
 
             # No spaces, special chars that break Prometheus queries
             assert " " not in label_str

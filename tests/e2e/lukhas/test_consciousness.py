@@ -294,7 +294,7 @@ class TestConsciousnessPerformance:
         for i in range(100):
             consciousness.process_input(f"memory_test_{i}")
 
-        current, peak = tracemalloc.get_traced_memory()
+        _current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
         # T4 requirement: <10MB peak memory usage

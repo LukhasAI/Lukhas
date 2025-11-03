@@ -292,10 +292,7 @@ def span_validator():
                 return False
 
             # Check duration is non-negative
-            if span.duration_ms < 0:
-                return False
-
-            return True
+            return not span.duration_ms < 0
 
     return SpanValidator()
 

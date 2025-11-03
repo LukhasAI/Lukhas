@@ -197,7 +197,7 @@ class ComprehensiveAPIOrchestrator:
             APIProvider.ANTHROPIC: {"daily": 50.0, "per_request": 1.0},
             APIProvider.GOOGLE: {"daily": 30.0, "per_request": 0.5},
         }
-        self.daily_costs = {provider: 0.0 for provider in APIProvider}
+        self.daily_costs = dict.fromkeys(APIProvider, 0.0)
 
         logger.info("🌐 Comprehensive API Orchestrator initialized")
         logger.info(f"   Available providers: {list(self.bridges.keys())}")

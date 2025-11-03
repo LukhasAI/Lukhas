@@ -28,7 +28,7 @@ import threading
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Dict, List
 from uuid import uuid4
 
 from memory.embedding_index import EmbeddingIndex
@@ -42,7 +42,7 @@ class IndexMetadata:
     id: str
     name: str
     metric: str
-    dimension: Optional[int]
+    dimension: int | None
     created_at: float
     updated_at: float
     vector_count: int = 0
@@ -73,7 +73,7 @@ class IndexManager:
         name: str,
         metric: str = "angular",
         trees: int = 10,
-        dimension: Optional[int] = None
+        dimension: int | None = None
     ) -> str:
         """
         Create a new embedding index.
@@ -127,7 +127,7 @@ class IndexManager:
 
             return index_id
 
-    def get_index(self, index_id: str) -> Optional[EmbeddingIndex]:
+    def get_index(self, index_id: str) -> EmbeddingIndex | None:
         """
         Get an index by ID.
 
@@ -140,7 +140,7 @@ class IndexManager:
         with self._lock:
             return self._indexes.get(index_id)
 
-    def get_metadata(self, index_id: str) -> Optional[IndexMetadata]:
+    def get_metadata(self, index_id: str) -> IndexMetadata | None:
         """
         Get index metadata by ID.
 
@@ -349,7 +349,7 @@ class IndexManager:
         self,
         index_id: str,
         item_id: str
-    ) -> Optional[List[float]]:
+    ) -> List[float] | None:
         """
         Get a vector from an index by item ID.
 

@@ -29,7 +29,6 @@ except ImportError:
     faiss = None
 
 import numpy as np
-
 from core.common.logger import get_logger
 from observability.service_metrics import get_metrics_collector
 
@@ -499,7 +498,7 @@ class FAISSStore(AbstractVectorStore):
             rank = 0
 
             with self._lock:
-                for doc_id, document in self.documents.items():
+                for _doc_id, document in self.documents.items():
                     # Skip expired documents
                     if document.is_expired:
                         continue

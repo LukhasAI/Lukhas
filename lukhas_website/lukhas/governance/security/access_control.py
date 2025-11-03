@@ -583,7 +583,7 @@ class ConsentManager:
     async def grant_consent(self, request_id: str, granted_scopes: List[str], consent_string: str) -> dict:
         return {}  # Placeholder
 
-    async def withdraw_consent(self, user_id: str, scopes: List[str] = None) -> dict:
+    async def withdraw_consent(self, user_id: str, scopes: Optional[List[str]] = None) -> dict:
         return {}  # Placeholder
 
 
@@ -616,12 +616,12 @@ __all__ = [
     "AccessControlEngine",
     "AccessDecision",
     "AccessTier",
+    "CCPACompliance",
+    "ConsentManager",
+    "DataRetentionManager",
+    "GDPRCompliance",
     "Permission",
     "PermissionManager",
     "User",
     "UserRole",
-    "GDPRCompliance",
-    "ConsentManager",
-    "CCPACompliance",
-    "DataRetentionManager",
 ]

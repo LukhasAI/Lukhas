@@ -12,7 +12,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, TypedDict
+from typing import Any, Dict, List, TypedDict
 
 from .privacy_statement import Jurisdiction
 
@@ -84,8 +84,8 @@ class ConsentRecord(TypedDict):
     legal_basis: str
     scope: List[str]
     active: bool
-    withdrawn_at: Optional[str]
-    expiry_date: Optional[str]
+    withdrawn_at: str | None
+    expiry_date: str | None
 
 
 class AccessRecord(TypedDict):
@@ -97,7 +97,7 @@ class AccessRecord(TypedDict):
     data_categories: List[str]
     purpose: str
     legal_basis: str
-    ip_address: Optional[str]
+    ip_address: str | None
 
 
 class RetentionPolicy(TypedDict):
@@ -117,8 +117,8 @@ class DeletionRecord(TypedDict):
     request_type: str
     scope: List[str]
     status: str
-    completed_at: Optional[str]
-    retention_exception: Optional[str]
+    completed_at: str | None
+    retention_exception: str | None
 
 
 class ThirdPartyDisclosure(TypedDict):
@@ -155,7 +155,7 @@ class ComplianceReport(TypedDict):
     retention_compliance: Dict[str, RetentionPolicy]
     deletion_requests: List[DeletionRecord]
     third_party_disclosures: List[ThirdPartyDisclosure]
-    security_events: Optional[List[SecurityEvent]]
+    security_events: List[SecurityEvent] | None
     metadata: Dict[str, Any]
 
 
@@ -575,7 +575,7 @@ class ComplianceReportGenerator:
         report["metadata"]["ccpa_compliance"] = True
         report["metadata"]["data_sale_status"] = "We do not sell your personal information"
         report["metadata"]["categories_collected"] = list(
-            set(cat for record in report["data_access_log"] for cat in record["data_categories"])
+            {cat for record in report["data_access_log"] for cat in record["data_categories"]}
         )
         report["metadata"]["business_purposes"] = [
             "Providing services as requested",
@@ -853,17 +853,17 @@ class ComplianceReportGenerator:
 
 
 __all__ = [
-    "ComplianceReportGenerator",
-    "ComplianceReport",
-    "ConsentRecord",
-    "AccessRecord",
-    "RetentionPolicy",
-    "DeletionRecord",
-    "ThirdPartyDisclosure",
-    "SecurityEvent",
-    "LegalBasis",
-    "DataCategory",
     "AccessPurpose",
+    "AccessRecord",
     "AccessorType",
+    "ComplianceReport",
+    "ComplianceReportGenerator",
+    "ConsentRecord",
+    "DataCategory",
+    "DeletionRecord",
     "DeletionStatus",
+    "LegalBasis",
+    "RetentionPolicy",
+    "SecurityEvent",
+    "ThirdPartyDisclosure",
 ]

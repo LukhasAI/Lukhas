@@ -199,11 +199,11 @@ def test_import_controller_yaml_import_rules(matriz_config):
     # Check for import rules section
     if "import_rules" in matriz_config:
         rules = matriz_config["import_rules"]
-        assert isinstance(rules, dict) or isinstance(rules, list)
+        assert isinstance(rules, (dict, list))
     elif "lanes" in matriz_config:
         # Import rules may be embedded in lane definitions
         lanes = matriz_config["lanes"]
-        for lane_name, lane_config in lanes.items():
+        for _lane_name, lane_config in lanes.items():
             if "allowed_imports" in lane_config:
                 assert isinstance(lane_config["allowed_imports"], list)
 

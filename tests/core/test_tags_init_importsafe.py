@@ -58,7 +58,7 @@ def test_missing_tag_attribute_handling():
     try:
         # Try to access a non-existent attribute
         _ = core.tags.NonExistentTagAttribute
-        assert False, "Should have raised AttributeError"
+        raise AssertionError("Should have raised AttributeError")
     except AttributeError as e:
         # The error message format may vary based on whether labs.core.tags loads successfully
         assert "NonExistentTagAttribute" in str(e)

@@ -15,7 +15,6 @@ Features:
 """
 from __future__ import annotations
 
-
 import asyncio
 import json
 import logging
@@ -24,7 +23,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from .burn_rate_alerts import BurnRateAlertManager, CIPipelineIntegration
 from .service_metrics import get_metrics_collector
@@ -81,7 +80,7 @@ class DeploymentReport:
     context: DeploymentContext
     stage: DeploymentStage
     status: DeploymentStatus
-    duration_seconds: Optional[float]
+    duration_seconds: float | None
     slo_validations: List[SLOValidationResult] = field(default_factory=list)
     performance_metrics: Dict[str, Any] = field(default_factory=dict)
     safety_checks: Dict[str, bool] = field(default_factory=dict)

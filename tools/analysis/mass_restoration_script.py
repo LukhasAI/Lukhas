@@ -57,7 +57,7 @@ def restore_files_in_batches(commit_hash, batch_size=50):
         # Restore each file in the batch
         for file_path in batch:
             print(f"  Restoring {file_path}...")
-            result, returncode = run_command(f'git checkout {commit_hash} -- "{file_path}"')
+            _result, returncode = run_command(f'git checkout {commit_hash} -- "{file_path}"')
 
             if returncode == 0:
                 successful_restorations.append(file_path)

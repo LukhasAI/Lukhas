@@ -8,7 +8,6 @@ import datetime
 import json
 import os
 from collections import defaultdict
-from typing import Optional
 
 import numpy as np
 from core.common import get_logger
@@ -28,7 +27,7 @@ class FederatedModel:
     preserving privacy by keeping user data local.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
+    def __init__(self, model_id: str, model_type: str, initial_parameters: dict | None = None):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -64,7 +63,7 @@ class FederatedModel:
 
         return True
 
-    def get_parameters(self, client_id: Optional[str] = None) -> dict:
+    def get_parameters(self, client_id: str | None = None) -> dict:
         """
         Get model parameters, optionally customized for a specific client
 
@@ -97,7 +96,7 @@ class FederatedModel:
         }
 
     @classmethod
-    def deserialize(cls, data: dict) -> "FederatedModel":
+    def deserialize(cls, data: dict) -> FederatedModel:
         """Create model from serialized data"""
         model = cls(
             model_id=data["model_id"],
@@ -117,7 +116,7 @@ class FederatedLearningManager:
     Manages federated learning across multiple clients while preserving privacy.
     """
 
-    def __init__(self, storage_dir: Optional[str] = None):
+    def __init__(self, storage_dir: str | None = None):
         self.models = {}  # model_id -> FederatedModel
         self.client_models = defaultdict(set)  # client_id -> set(model_ids)
         self.aggregation_threshold = 5  # Min clients before aggregation
@@ -130,7 +129,7 @@ class FederatedLearningManager:
         self.load_models()
 
     def register_model(
-        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
+        self, model_id: str, model_type: str, initial_parameters: dict | None = None
     ) -> FederatedModel:
         """
         Register a new model for federated learning
@@ -151,7 +150,7 @@ class FederatedLearningManager:
         self.save_model(model)
         return model
 
-    def get_model(self, model_id: str, client_id: Optional[str] = None) -> Optional[dict]:
+    def get_model(self, model_id: str, client_id: str | None = None) -> dict | None:
         """
         Get model parameters for a client
 
@@ -176,7 +175,7 @@ class FederatedLearningManager:
         model_id: str,
         client_id: str,
         gradients: dict,
-        metrics: Optional[dict] = None,
+        metrics: dict | None = None,
     ) -> bool:
         """
         Contribute gradients from a client to update a model
@@ -814,7 +813,7 @@ class MetaLearningSystem:
             "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
-    def get_federated_model(self, model_id: str, client_id: str) -> Optional[dict]:
+    def get_federated_model(self, model_id: str, client_id: str) -> dict | None:
         """
         Get a federated model for a client
 

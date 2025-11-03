@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import math
 import os
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 try:
     from prometheus_client import Counter, Gauge
@@ -71,9 +71,9 @@ class BreakthroughDetector:
     using online statistics to track running mean and standard deviation.
     Warmup samples can be required before flagging using min_n.
     """
-    __slots__ = ("mu", "sq", "n", "z", "w", "lane", "min_n", "z_per_lane")
+    __slots__ = ("lane", "min_n", "mu", "n", "sq", "w", "z", "z_per_lane")
 
-    def __init__(self, novelty_w: float = 0.5, value_w: float = 0.5, z: float = 3.0, *, min_n: Optional[int] = None):
+    def __init__(self, novelty_w: float = 0.5, value_w: float = 0.5, z: float = 3.0, *, min_n: int | None = None):
         """Initialize breakthrough detector.
 
         Args:

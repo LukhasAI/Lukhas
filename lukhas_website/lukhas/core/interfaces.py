@@ -26,7 +26,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
-from typing import Any, Optional, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 
 class CognitiveNodeBase(ABC):
@@ -65,7 +65,7 @@ class ICognitiveNode(Protocol):
 
     async def process(self, ctx: Mapping[str, Any]) -> Mapping[str, Any]: ...
 
-    async def cancel(self, reason: Optional[str] = None) -> None: ...  # # ΛTAG: pipeline_interface
+    async def cancel(self, reason: str | None = None) -> None: ...  # # ΛTAG: pipeline_interface
 
     async def health_check(self) -> Mapping[str, Any]: ...
 

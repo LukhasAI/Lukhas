@@ -35,7 +35,7 @@ class AutoLintFixer:
         dirs = ["lukhas", "bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
-                code, out, err = self.run_command(
+                code, _out, err = self.run_command(
                     ["black", "--line-length", "79", dir_name]
                 )
                 if code == 0:
@@ -58,7 +58,7 @@ class AutoLintFixer:
         dirs = ["lukhas", "bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
-                code, out, err = self.run_command(
+                code, _out, _err = self.run_command(
                     [
                         "isort",
                         "--profile",
@@ -77,7 +77,7 @@ class AutoLintFixer:
         dirs = ["lukhas", "bridge", "core", "serve"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
-                code, out, err = self.run_command(
+                code, _out, _err = self.run_command(
                     [
                         "autoflake",
                         "--in-place",
@@ -112,7 +112,7 @@ class AutoLintFixer:
             self.issues_remaining.append(f"Flake8 issues remain: {out}")
 
         # Run mypy to check types
-        code, out, err = self.run_command(["mypy", "--ignore-missing-imports", "."])
+        code, out, _err = self.run_command(["mypy", "--ignore-missing-imports", "."])
 
         if code != 0:
             self.issues_remaining.append(f"Type issues remain: {out}")

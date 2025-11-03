@@ -39,7 +39,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional, Union
+from typing import Any, Union
 
 # Try to import from core.common if available
 try:
@@ -99,11 +99,11 @@ class OpenAIRequest:
     module: str
     capability: OpenAICapability
     data: dict[str, Any]
-    model_preference: Optional[ModelType] = None
+    model_preference: ModelType | None = None
     priority: int = 5  # 1-10, higher is more important
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
-    metadata: Optional[dict[str, Any]] = None
+    user_id: str | None = None
+    session_id: str | None = None
+    metadata: dict[str, Any] | None = None
 
 
 @dataclass
@@ -114,10 +114,10 @@ class OpenAIResponse:
     module: str
     capability: OpenAICapability
     success: bool
-    data: Optional[Any] = None
-    error: Optional[str] = None
-    usage: Optional[dict[str, Any]] = None
-    latency_ms: Optional[int] = None
+    data: Any | None = None
+    error: str | None = None
+    usage: dict[str, Any] | None = None
+    latency_ms: int | None = None
     fallback_used: bool = False
 
 
@@ -156,7 +156,7 @@ class OpenAICoreService:
         OpenAICapability.MODERATION: [ModelType.MODERATION],
     }
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: str | None = None):
         """
         Initialize the OpenAI core service.
 
@@ -579,7 +579,7 @@ class OpenAICoreService:
         ).hexdigest()[:8]
         return f"{request.module}_{timestamp}_{data_hash}"
 
-    def _get_cache_key(self, request: OpenAIRequest) -> Optional[str]:
+    def _get_cache_key(self, request: OpenAIRequest) -> str | None:
         """Generate cache key for request."""
         # Only cache certain capabilities
         if request.capability not in [
@@ -859,7 +859,7 @@ async def generate_audio(
     module: str,
     text: str,
     voice: str = "nova",
-    output_path: Optional[str] = None,
+    output_path: str | None = None,
     **kwargs,
 ) -> Union[str, bytes]:
     """Convenience function for audio generation."""

@@ -39,7 +39,7 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
@@ -159,15 +159,15 @@ class AuditEvent:
 
     # Event details
     message: str
-    description: Optional[str] = None
+    description: str | None = None
 
     # Context information
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
+    user_id: str | None = None
+    session_id: str | None = None
     source_system: str = "lukhas_ai"
-    source_module: Optional[str] = None
-    source_ip: Optional[str] = None
-    user_agent: Optional[str] = None
+    source_module: str | None = None
+    source_ip: str | None = None
+    user_agent: str | None = None
 
     # Event data
     event_data: dict[str, Any] = field(default_factory=dict)
@@ -188,8 +188,8 @@ class AuditEvent:
     retention_policy: RetentionPolicy = RetentionPolicy.MEDIUM_TERM
 
     # Integrity verification
-    checksum: Optional[str] = None
-    previous_event_hash: Optional[str] = None
+    checksum: str | None = None
+    previous_event_hash: str | None = None
 
     def __post_init__(self):
         """Calculate checksum after initialization"""
@@ -229,31 +229,31 @@ class AuditQuery:
     """Query parameters for audit search"""
 
     # Time range
-    start_time: Optional[datetime] = None
-    end_time: Optional[datetime] = None
+    start_time: datetime | None = None
+    end_time: datetime | None = None
 
     # Event filters
-    event_types: Optional[set[AuditEventType]] = None
-    categories: Optional[set[AuditCategory]] = None
-    levels: Optional[set[AuditLevel]] = None
+    event_types: set[AuditEventType] | None = None
+    categories: set[AuditCategory] | None = None
+    levels: set[AuditLevel] | None = None
 
     # Context filters
-    user_ids: Optional[set[str]] = None
-    session_ids: Optional[set[str]] = None
-    source_modules: Optional[set[str]] = None
-    source_ips: Optional[set[str]] = None
+    user_ids: set[str] | None = None
+    session_ids: set[str] | None = None
+    source_modules: set[str] | None = None
+    source_ips: set[str] | None = None
 
     # Content filters
-    message_contains: Optional[str] = None
-    tags: Optional[set[str]] = None
+    message_contains: str | None = None
+    tags: set[str] | None = None
 
     # Security filters
-    min_risk_score: Optional[float] = None
-    has_threat_indicators: Optional[bool] = None
+    min_risk_score: float | None = None
+    has_threat_indicators: bool | None = None
 
     # Compliance filters
     compliance_relevant_only: bool = False
-    compliance_frameworks: Optional[set[str]] = None
+    compliance_frameworks: set[str] | None = None
 
     # Result parameters
     limit: int = 1000
@@ -287,8 +287,8 @@ class AuditStatistics:
 
     # System statistics
     storage_used: int = 0  # bytes
-    oldest_event: Optional[datetime] = None
-    newest_event: Optional[datetime] = None
+    oldest_event: datetime | None = None
+    newest_event: datetime | None = None
 
     # Constellation Framework statistics
     identity_events: int = 0
@@ -800,10 +800,10 @@ class ComprehensiveAuditSystem:
         message: str,
         category: AuditCategory = AuditCategory.SYSTEM_EVENT,
         level: AuditLevel = AuditLevel.INFO,
-        user_id: Optional[str] = None,
-        session_id: Optional[str] = None,
-        source_module: Optional[str] = None,
-        event_data: Optional[dict[str, Any]] = None,
+        user_id: str | None = None,
+        session_id: str | None = None,
+        source_module: str | None = None,
+        event_data: dict[str, Any] | None = None,
         **kwargs,
     ) -> str:
         """
@@ -1140,7 +1140,7 @@ class ComprehensiveAuditSystem:
 
 
 # Convenience functions for common audit operations
-async def audit_login(user_id: str, success: bool, source_ip: Optional[str] = None) -> str:
+async def audit_login(user_id: str, success: bool, source_ip: str | None = None) -> str:
     """Audit user login event"""
     audit_system = ComprehensiveAuditSystem()
 
@@ -1195,7 +1195,7 @@ async def audit_security_violation(violation_type: str, details: str, risk_score
     )
 
 
-async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: Optional[str] = None) -> str:
+async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: str | None = None) -> str:
     """Audit Constellation Framework event"""
     audit_system = ComprehensiveAuditSystem()
 

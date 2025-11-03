@@ -16,11 +16,11 @@ from typing import Any, Dict, List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from identity.auth_service import verify_token
 from opentelemetry import trace
 from pydantic import BaseModel, Field
 
 from governance.guardian import get_guardian
-from identity.auth_service import verify_token
 from observability import counter, histogram
 
 from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
@@ -263,7 +263,7 @@ async def list_available_models(
             router_instance = get_multi_ai_router()
 
             models_info = []
-            for key, model in router_instance.model_selector.models.items():
+            for _key, model in router_instance.model_selector.models.items():
                 models_info.append({
                     "id": f"{model.provider.value}:{model.model_id}",
                     "provider": model.provider.value,

@@ -10,13 +10,12 @@ Creates visible social pressure for track adoption through gamification.
 """
 from __future__ import annotations
 
-
 import argparse
 import glob
 import json
 import pathlib
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 
 class AdoptionScoreboardGenerator:
@@ -382,7 +381,7 @@ class AdoptionScoreboardGenerator:
         with open(self.status_file, 'w') as f:
             json.dump(self.status_data, f, indent=2)
 
-    def run(self, output_path: Optional[str] = None) -> str:
+    def run(self, output_path: str | None = None) -> str:
         """Generate adoption scoreboard and update status."""
         print("🏆 Generating Matrix Tracks adoption scoreboard...")
 

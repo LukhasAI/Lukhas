@@ -34,7 +34,7 @@ def walk_files(dirs):
 
 def detect_duplicates(files):
     hash_map = {}
-    for name,paths in files.items():
+    for _name,paths in files.items():
         for p in paths:
             try:
                 s=sha256(p)
@@ -46,7 +46,7 @@ def detect_duplicates(files):
 
 def propose_moves(files):
     moves = []
-    for name,paths in files.items():
+    for _name,paths in files.items():
         for p in paths:
             # decide destination
             # heuristics: if path contains 'helpers' -> DEST_HELPERS

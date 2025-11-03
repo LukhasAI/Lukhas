@@ -7,7 +7,7 @@ from collections import defaultdict, deque
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Deque, Dict, List, Optional
+from typing import Deque, Dict, List
 
 from core.symbolic.glyph_specialist import GlyphSignal
 
@@ -22,7 +22,7 @@ class DriftSnapshot:
     driftScore: float
     affect_delta: float
     glyph_markers: Sequence[str] = field(default_factory=list)
-    metadata: Optional[dict] = None
+    metadata: dict | None = None
     recorded_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -41,8 +41,8 @@ class ConsciousnessDriftDetector:
         layer_id: str,
         driftScore: float,
         affect_delta: float,
-        glyph_markers: Optional[Sequence[str]] = None,
-        metadata: Optional[dict] = None,
+        glyph_markers: Sequence[str] | None = None,
+        metadata: dict | None = None,
     ) -> DriftSnapshot:
         """Record a new snapshot for a consciousness layer."""
         snapshot = DriftSnapshot(

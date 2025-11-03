@@ -123,7 +123,7 @@ class SecurityAutopilot:
         """Scan with safety"""
         logger.info("🔍 Scanning with Safety...")
 
-        code, stdout, _ = self.run_command(["python3", "-m", "safety", "check", "--json"])
+        _code, stdout, _ = self.run_command(["python3", "-m", "safety", "check", "--json"])
 
         vulnerabilities = []
         if stdout:
@@ -150,7 +150,7 @@ class SecurityAutopilot:
         """Scan with pip-audit"""
         logger.info("🔍 Scanning with pip-audit...")
 
-        code, stdout, _ = self.run_command(["python3", "-m", "pip_audit", "--format", "json"])
+        _code, stdout, _ = self.run_command(["python3", "-m", "pip_audit", "--format", "json"])
 
         vulnerabilities = []
         if stdout:
@@ -179,7 +179,7 @@ class SecurityAutopilot:
         """Scan code with Bandit for security issues"""
         logger.info("🔍 Scanning code with Bandit...")
 
-        code, stdout, _ = self.run_command(["bandit", "-r", ".", "-f", "json"])
+        _code, stdout, _ = self.run_command(["bandit", "-r", ".", "-f", "json"])
 
         # Bandit finds code issues, not package vulnerabilities
         # We'll just log the results
@@ -199,7 +199,7 @@ class SecurityAutopilot:
         """Scan with Semgrep for security patterns"""
         logger.info("🔍 Scanning with Semgrep...")
 
-        code, stdout, _ = self.run_command(["semgrep", "--config=auto", "--json", "."])
+        _code, stdout, _ = self.run_command(["semgrep", "--config=auto", "--json", "."])
 
         # Semgrep finds code patterns, not package vulnerabilities
         if stdout:
@@ -254,7 +254,7 @@ class SecurityAutopilot:
                 unique_vulns[key] = vuln
 
         # Count total packages
-        code, stdout, _ = self.run_command(["python3", "-m", "pip", "list", "--format", "json"])
+        _code, stdout, _ = self.run_command(["python3", "-m", "pip", "list", "--format", "json"])
         total_packages = len(json.loads(stdout)) if stdout else 0
 
         report = SecurityReport(
@@ -368,7 +368,7 @@ class SecurityAutopilot:
 
         # Run configured test command
         test_cmd = self.config["test_command"].split()
-        code, stdout, stderr = self.run_command(test_cmd)
+        code, _stdout, _stderr = self.run_command(test_cmd)
 
         if code == 0:
             logger.info("✅ All tests passed")

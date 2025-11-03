@@ -12,10 +12,7 @@ from .ethics_swarm_colony import (
 from .mesh_topology import MeshAgent, MeshTopologyService, get_mesh_topology_service
 
 __all__ = [
-    "oracle_colony",
     "BaseColony",
-    "Tag",
-    "TagScope",
     "ConsensusResult",
     "EthicalDecisionRequest",
     "EthicalDecisionResponse",
@@ -24,5 +21,8 @@ __all__ = [
     "EthicsSwarmColony",
     "MeshAgent",
     "MeshTopologyService",
+    "Tag",
+    "TagScope",
     "get_mesh_topology_service",
+    "oracle_colony",
 ]

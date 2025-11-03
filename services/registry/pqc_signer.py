@@ -14,7 +14,6 @@ import hashlib
 import hmac
 import os
 from pathlib import Path
-from typing import Optional
 
 # Try to import liboqs for PQC support
 PQC_AVAILABLE = False
@@ -54,9 +53,9 @@ class PQCSigner:
 
     def __init__(
         self,
-        key_path: Optional[Path] = None,
-        public_key_path: Optional[Path] = None,
-        fallback_hmac_key: Optional[str] = None
+        key_path: Path | None = None,
+        public_key_path: Path | None = None,
+        fallback_hmac_key: str | None = None
     ):
         """
         Initialize PQC signer.

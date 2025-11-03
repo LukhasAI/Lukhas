@@ -21,7 +21,6 @@ Author: LUKHAS AI Testing & DevOps Specialist (Agent #3)
 """
 from __future__ import annotations
 
-
 import argparse
 import json
 import subprocess
@@ -140,7 +139,7 @@ class T4QualityGateValidator:
         print("🔒 Running security validation...")
 
         # Run security-focused tests
-        success, stdout, stderr = self.run_command(
+        success, _stdout, _stderr = self.run_command(
             [
                 "python",
                 "-m",
@@ -181,7 +180,7 @@ class T4QualityGateValidator:
         print("🧪 Running comprehensive test suite...")
 
         # Run all tests with coverage
-        success, stdout, stderr = self.run_command(
+        success, _stdout, stderr = self.run_command(
             [
                 "python",
                 "-m",
@@ -233,7 +232,7 @@ class T4QualityGateValidator:
             print("ℹ️  No performance tests found, skipping...")
             return True
 
-        success, stdout, stderr = self.run_command(
+        success, _stdout, _stderr = self.run_command(
             [
                 "python",
                 "-m",

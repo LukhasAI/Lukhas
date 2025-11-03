@@ -7,7 +7,7 @@ import os
 import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from core.common.config import get_config, get_setting
 
@@ -23,8 +23,8 @@ class IdentityUser:
     password: str
     user_id: str
     registered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_authenticated_at: Optional[datetime] = None
-    last_token: Optional[str] = None
+    last_authenticated_at: datetime | None = None
+    last_token: str | None = None
 
 
 # ΛTAG:identity_auth
@@ -37,9 +37,9 @@ class IdentitySystem:
 
     def __init__(
         self,
-        database_url: Optional[str] = None,
-        jwt_secret: Optional[str] = None,
-        config_override: Optional[Dict[str, Any]] = None,
+        database_url: str | None = None,
+        jwt_secret: str | None = None,
+        config_override: Dict[str, Any] | None = None,
     ) -> None:
         self._config = self._load_configuration(config_override)
         self.database_url = database_url or self._config.get("database_url", "sqlite:///:memory:")
@@ -50,7 +50,7 @@ class IdentitySystem:
 
         logger.info("IdentitySystem initialized with database=%s", self.database_url)
 
-    def _load_configuration(self, override: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _load_configuration(self, override: Dict[str, Any] | None) -> Dict[str, Any]:
         """Load module configuration using the shared config loader."""
 
         configuration: Dict[str, Any] = {}

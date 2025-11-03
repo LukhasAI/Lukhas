@@ -22,7 +22,7 @@ from typing import List, Tuple
 
 
 def sh(cmd: List[str], check=True) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=check)
+    return subprocess.run(cmd, capture_output=True, text=True, check=check)
 
 
 def list_remote_branches() -> List[str]:

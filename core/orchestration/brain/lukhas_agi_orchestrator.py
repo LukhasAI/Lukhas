@@ -7,7 +7,7 @@ import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Deque, Optional
+from typing import Any, Deque
 
 logger = logging.getLogger("lukhas_agi_orchestrator")
 
@@ -39,7 +39,7 @@ class OrchestratorMetrics:
     """Mutable metrics container for orchestrator state."""
 
     requests_processed: int = 0
-    last_request_at: Optional[datetime] = None
+    last_request_at: datetime | None = None
     drift_score: float = 0.0
     affect_delta: float = 0.0
     collapse_hash: str = "baseline"
@@ -116,7 +116,7 @@ class LukhasAGIOrchestrator:
                 logger.debug("agi_orchestrator_heartbeat_cancelled")
         logger.info("agi_orchestrator_stopped")
 
-    async def process_agi_request(self, user_input: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def process_agi_request(self, user_input: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
         """Process a symbolic AGI request and emit orchestration metrics."""
 
         if not self._initialised:
@@ -249,7 +249,7 @@ async def stop_agi_orchestration() -> None:
     await lukhas_agi_orchestrator.stop_agi_orchestration()
 
 
-async def process_agi_request(user_input: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+async def process_agi_request(user_input: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
     """Process request using module-level helper."""
 
     return await lukhas_agi_orchestrator.process_agi_request(user_input, context)
@@ -263,10 +263,10 @@ def get_agi_status() -> dict[str, Any]:
 
 __all__ = [
     "LukhasAGIOrchestrator",
+    "get_agi_status",
     "initialize_agi_system",
+    "lukhas_agi_orchestrator",
+    "process_agi_request",
     "start_agi_orchestration",
     "stop_agi_orchestration",
-    "process_agi_request",
-    "get_agi_status",
-    "lukhas_agi_orchestrator",
 ]

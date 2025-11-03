@@ -6,7 +6,6 @@ Updates modules to use common utilities from core.common
 """
 from __future__ import annotations
 
-
 import re
 import sys
 from pathlib import Path
@@ -100,13 +99,12 @@ class ModuleConsolidator:
             # Replace custom exceptions
             if re.search(
                 r"class .+Error\(Exception\):|GuardianRejection|MemoryDrift", line
-            ):
-                if "exceptions" not in imports_added:
-                    new_lines.append("from core.common import LukhasError, GuardianRejectionError, "
-                                     "MemoryDriftError")
-                    imports_added.add("exceptions")
-                    imports_added.add("exceptions")
-                    self.imports_replaced += 1
+            ) and "exceptions" not in imports_added:
+                new_lines.append("from core.common import LukhasError, GuardianRejectionError, "
+                                 "MemoryDriftError")
+                imports_added.add("exceptions")
+                imports_added.add("exceptions")
+                self.imports_replaced += 1
 
             new_lines.append(line)
 

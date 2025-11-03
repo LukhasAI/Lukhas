@@ -182,7 +182,7 @@ class VIVOXEVRNDemo:
             encrypted = self.evrn.encryptor.encrypt_vector(full_vector)[0]
             walking_sequence.append(encrypted)
 
-        walking_features, walking_meta = await detector.detect_motion(walking_sequence, 0.1, {"activity": "walking"})
+        walking_features, _walking_meta = await detector.detect_motion(walking_sequence, 0.1, {"activity": "walking"})
 
         print(f"  Velocity: {walking_features.velocity:.3f}")
         print(f"  Stability: {walking_features.stability:.3f}")
@@ -289,7 +289,7 @@ class VIVOXEVRNDemo:
         for strategy in strategies:
             print(f"\nFusion strategy: {strategy}")
 
-            fused, metadata = await fusion.fuse_modalities(
+            _fused, metadata = await fusion.fuse_modalities(
                 perceptions, fusion_strategy=strategy, context={"demo": True}
             )
 

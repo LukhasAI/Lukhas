@@ -67,10 +67,10 @@ MetaLearningInsight = MetaLearningResult
 
 # Export main classes and functions
 __all__ = [
-    "MetaLearner",
-    "MetaLearningStrategy",
     "LearningStrategy",
+    "MetaLearner",
     "MetaLearningContext",
-    "MetaLearningResult",
     "MetaLearningInsight",
+    "MetaLearningResult",
+    "MetaLearningStrategy",
 ]

@@ -25,7 +25,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError, ValidationError
@@ -60,7 +60,7 @@ class RealityBranch:
     """Single branch in parallel reality tree"""
 
     branch_id: str
-    parent_id: Optional[str]
+    parent_id: str | None
     reality_type: RealityType
     divergence_point: dict[str, Any]
     probability: float  # 0.0-1.0
@@ -84,7 +84,7 @@ class RealitySimulation:
     branches: list[RealityBranch]
     start_time: datetime
     metadata: dict[str, Any]
-    selected_branch: Optional[str] = None
+    selected_branch: str | None = None
     insights: list[dict[str, Any]] = field(default_factory=list)
 
 
@@ -96,7 +96,7 @@ class ParallelRealitySimulator(CoreInterface):
     different decision points, quantum probabilities, and creative variations.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize parallel reality simulator"""
         self.config = config or {}
         self.operational = False
@@ -164,7 +164,7 @@ class ParallelRealitySimulator(CoreInterface):
     async def create_simulation(
         self,
         origin_scenario: dict[str, Any],
-        reality_types: Optional[list[RealityType]] = None,
+        reality_types: list[RealityType] | None = None,
         branch_count: int = 5,
     ) -> RealitySimulation:
         """
@@ -226,7 +226,7 @@ class ParallelRealitySimulator(CoreInterface):
     async def _create_branch(
         self,
         base_state: dict[str, Any],
-        parent_id: Optional[str],
+        parent_id: str | None,
         reality_type: RealityType,
     ) -> RealityBranch:
         """Create single reality branch"""
@@ -515,7 +515,7 @@ class ParallelRealitySimulator(CoreInterface):
         return new_branches
 
     async def collapse_reality(
-        self, simulation_id: str, selection_criteria: Optional[dict[str, Any]] = None
+        self, simulation_id: str, selection_criteria: dict[str, Any] | None = None
     ) -> RealityBranch:
         """
         Collapse parallel realities to select one branch.
@@ -809,7 +809,7 @@ class ParallelRealitySimulator(CoreInterface):
         self,
         simulation: RealitySimulation,
         event_type: str,
-        selected_branch: Optional[RealityBranch] = None,
+        selected_branch: RealityBranch | None = None,
     ) -> None:
         """Store simulation event in memory"""
         memory_content = {

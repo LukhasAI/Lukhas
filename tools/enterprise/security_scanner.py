@@ -6,7 +6,6 @@ Combines best practices from ΛBot Security Healer with enterprise requirements
 """
 from __future__ import annotations
 
-
 import asyncio
 import hashlib
 import json
@@ -17,7 +16,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import structlog
 import yaml
@@ -73,14 +72,14 @@ class SecurityVulnerability:
     vulnerable_versions: str
     fixed_version: str
     severity: SeverityLevel
-    cve_id: Optional[str] = None
+    cve_id: str | None = None
     description: str = ""
     affected_files: list[str] = field(default_factory=list)
     fix_confidence: float = 0.0
     auto_fixable: bool = False
-    cvss_score: Optional[float] = None
+    cvss_score: float | None = None
     exploit_available: bool = False
-    public_disclosure_date: Optional[datetime] = None
+    public_disclosure_date: datetime | None = None
 
     def risk_score(self) -> float:
         """Calculate risk score based on multiple factors"""
@@ -128,7 +127,7 @@ class SecurityScanner:
     - Audit logging
     """
 
-    def __init__(self, config_path: Optional[Path] = None):
+    def __init__(self, config_path: Path | None = None):
         self.config = self._load_config(config_path)
         self.vulnerability_db = {}
         self.secret_patterns = self._compile_secret_patterns()
@@ -142,7 +141,7 @@ class SecurityScanner:
         # Audit logger
         self.audit_logger = structlog.get_logger("security_audit")
 
-    def _load_config(self, config_path: Optional[Path]) -> dict[str, Any]:
+    def _load_config(self, config_path: Path | None) -> dict[str, Any]:
         """Load security scanner configuration"""
         default_config = {
             "scan_paths": ["."],

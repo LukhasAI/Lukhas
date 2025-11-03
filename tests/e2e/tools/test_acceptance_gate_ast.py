@@ -409,7 +409,7 @@ class TestFacadePatternAnalysis:
         ).strip()
         tree = ast.parse(code)
 
-        is_facade, score, analysis = analyze_facade_pattern(Path("test.py"), tree, code)
+        _is_facade, score, analysis = analyze_facade_pattern(Path("test.py"), tree, code)
 
         # Should be close to threshold
         assert 0.4 <= score <= 0.8
@@ -426,7 +426,7 @@ class TestFacadePatternAnalysis:
         # Test import-heavy factor
         import_heavy_code = "\n".join([f"import mod{i}" for i in range(10)])
         tree = ast.parse(import_heavy_code)
-        _, score, analysis = analyze_facade_pattern(Path("test.py"), tree, import_heavy_code)
+        _, _score, analysis = analyze_facade_pattern(Path("test.py"), tree, import_heavy_code)
         assert analysis["is_import_heavy"] is True
         assert analysis["import_ratio"] > 0.6
 

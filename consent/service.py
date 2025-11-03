@@ -440,7 +440,7 @@ class ConsentService:
             resource_pattern=resource_id,
         )
 
-        grant_id, capability_token = await self.grant_consent(request)
+        _grant_id, capability_token = await self.grant_consent(request)
 
         # Log escalation
         async with self.db_pool.acquire() as conn:

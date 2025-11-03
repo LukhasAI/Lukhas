@@ -168,7 +168,7 @@ class OpenAIProvider(Protocol):
 
 
 __all__ = [
-    "OpenAIProvider",
-    "ChatMessage",
     "ChatCompletionResponse",
+    "ChatMessage",
+    "OpenAIProvider",
 ]

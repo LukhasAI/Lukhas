@@ -511,7 +511,7 @@ class GuardianReflector:
         self.drift_history.append(analysis)
 
         # Update drift windows
-        for window_name, window in self.drift_windows.items():
+        for _window_name, window in self.drift_windows.items():
             window.append(analysis)
 
     async def _notify_memory_system(self, analysis: DriftAnalysis) -> None:

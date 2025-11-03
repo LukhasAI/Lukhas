@@ -418,7 +418,7 @@ def main():
     results = {
         "timestamp": time.time(),
         "validation_type": "simple_c6_validation",
-        "tests": {name: result for name, result in test_results},
+        "tests": dict(test_results),
         "summary": {
             "total": total_tests,
             "passed": passed_count,

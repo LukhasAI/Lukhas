@@ -11,7 +11,6 @@ import time
 from unittest.mock import Mock
 
 import pytest
-
 from orchestration.multi_ai_router import (
     AIModel,
     AIProvider,
@@ -333,7 +332,7 @@ class TestMultiAIRouter:
         # Check for expected providers
         models = self.router.model_selector.models
         provider_models = {}
-        for key, model in models.items():
+        for _key, model in models.items():
             provider = model.provider.value
             if provider not in provider_models:
                 provider_models[provider] = []

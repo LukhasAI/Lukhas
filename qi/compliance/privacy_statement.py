@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class Jurisdiction(str, Enum):
@@ -35,10 +35,10 @@ class OrganizationInfo:
     name: str
     address: str
     email: str
-    phone: Optional[str] = None
-    dpo_name: Optional[str] = None
-    dpo_email: Optional[str] = None
-    website: Optional[str] = None
+    phone: str | None = None
+    dpo_name: str | None = None
+    dpo_email: str | None = None
+    website: str | None = None
 
 
 @dataclass
@@ -73,9 +73,9 @@ class PrivacyStatementGenerator:
         data_types: List[str],
         organization: OrganizationInfo,
         output_format: str | OutputFormat = OutputFormat.PLAIN_TEXT,
-        purposes: Optional[List[str]] = None,
+        purposes: List[str] | None = None,
         retention_period: str = "as long as necessary for stated purposes",
-        legal_basis: Optional[str] = None,
+        legal_basis: str | None = None,
     ) -> PrivacyStatement:
         """Generate a privacy statement for the specified jurisdiction.
 
@@ -1525,9 +1525,9 @@ Email: {org.email}
 
 
 __all__ = [
-    "PrivacyStatementGenerator",
-    "PrivacyStatement",
-    "OrganizationInfo",
     "Jurisdiction",
+    "OrganizationInfo",
     "OutputFormat",
+    "PrivacyStatement",
+    "PrivacyStatementGenerator",
 ]

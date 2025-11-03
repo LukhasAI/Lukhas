@@ -62,7 +62,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -561,7 +561,7 @@ class IntegratedSafetySystem:
         logger.info("Event subscriptions initialized")
 
     async def validate_action(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]] = None
+        self, action: dict[str, Any], context: dict[str, Any] | None = None
     ) -> SafetyValidationResult:
         """
         Comprehensive validation combining safety, ethics, and compliance
@@ -651,7 +651,7 @@ class IntegratedSafetySystem:
         )
 
     async def _validate_memory_safety(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+        self, action: dict[str, Any], context: dict[str, Any] | None
     ) -> tuple[bool, float]:
         """Validate action against memory safety system"""
         try:
@@ -703,7 +703,7 @@ class IntegratedSafetySystem:
             return False, 0.0
 
     async def _validate_ethics(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+        self, action: dict[str, Any], context: dict[str, Any] | None
     ) -> dict[str, Any]:
         """Validate action through ethics colony"""
         try:
@@ -739,7 +739,7 @@ class IntegratedSafetySystem:
             return {"approved": False, "score": 0.0, "violations": [str(e)]}
 
     async def _validate_compliance(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+        self, action: dict[str, Any], context: dict[str, Any] | None
     ) -> dict[str, Any]:
         """Validate action through compliance system"""
         try:

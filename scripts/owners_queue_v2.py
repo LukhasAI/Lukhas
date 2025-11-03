@@ -7,14 +7,13 @@ Uses git blame (≥30% threshold) + module mapping + fallback team.
 """
 from __future__ import annotations
 
-
 import json
 import subprocess
 import sys
 from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 try:
     import yaml
@@ -61,7 +60,7 @@ def load_owners_map() -> Dict[str, str]:
         return mapping
 
 
-def get_git_blame_author(file_path: Path) -> Optional[Tuple[str, float]]:
+def get_git_blame_author(file_path: Path) -> Tuple[str, float] | None:
     """
     Get most frequent author from git blame.
     Returns (email, percentage) if ≥30% threshold met.

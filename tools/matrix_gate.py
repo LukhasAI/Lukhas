@@ -367,9 +367,8 @@ class MatrixGate:
         # Check TEE report if present
         if "tee_report" in attestation:
             tee = attestation["tee_report"]
-            if tee.get("type") == "amd-sev-snp":
-                if "measurement" in tee:
-                    print(f"  [OK] SEV-SNP measurement: {tee['measurement'][:16]}...")
+            if tee.get("type") == "amd-sev-snp" and "measurement" in tee:
+                print(f"  [OK] SEV-SNP measurement: {tee['measurement'][:16]}...")
 
         return True
 

@@ -18,12 +18,11 @@ Version: 2.0.0
 """
 from __future__ import annotations
 
-
 import json
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 
 class ComprehensiveCoreAuditor:
@@ -398,7 +397,7 @@ class ComprehensiveCoreAuditor:
             print(f"   ❌ Error scanning {directory}: {e}")
             self.audit_results["potential_issues"].append(f"Error scanning {directory}: {e}")
 
-    def _categorize_file(self, file_path: Path) -> Optional[str]:
+    def _categorize_file(self, file_path: Path) -> str | None:
         """Categorize a file based on its path and content"""
         file_str = str(file_path).lower()
 
@@ -495,7 +494,7 @@ class ComprehensiveCoreAuditor:
 
         return unclassified_analysis
 
-    def _infer_category_from_filename(self, file_path: Path) -> Optional[str]:
+    def _infer_category_from_filename(self, file_path: Path) -> str | None:
         """Try to infer category from filename patterns"""
         filename = file_path.name.lower()
 

@@ -104,7 +104,7 @@ def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
     root = parts[0]
     if root in mapping:
         new_root = mapping[root]
-        new_name = ".".join([new_root] + parts[1:])
+        new_name = ".".join([new_root, *parts[1:]])
         return new_name
     return None
 

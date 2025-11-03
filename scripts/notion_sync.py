@@ -34,7 +34,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 try:
     import requests
@@ -132,7 +132,7 @@ class NotionClient:
             raise RuntimeError(f"GET {url} failed: {r.status_code} {r.text}")
         return r.json()
 
-    def find_page_by_module(self, module: str) -> Optional[str]:
+    def find_page_by_module(self, module: str) -> str | None:
         """Find existing page by Module title"""
         url = f"https://api.notion.com/v1/databases/{self.db_id}/query"
         payload = {
@@ -148,7 +148,7 @@ class NotionClient:
             return results[0]["id"]
         return None
 
-    def get_page_sha(self, page_id: str) -> Optional[str]:
+    def get_page_sha(self, page_id: str) -> str | None:
         """Get Provenance SHA from existing page"""
         url = f"https://api.notion.com/v1/pages/{page_id}"
         try:
@@ -163,7 +163,7 @@ class NotionClient:
         module: str,
         props: Dict[str, Any],
         blocks: List[Dict[str, Any]],
-        page_id: Optional[str],
+        page_id: str | None,
         dry_run: bool
     ) -> Dict[str, Any]:
         """Create new page or update existing one"""
@@ -282,7 +282,7 @@ def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
     }]
 
 
-def load_manifests(root: Path, selection: Optional[str]) -> List[Path]:
+def load_manifests(root: Path, selection: str | None) -> List[Path]:
     """Find manifests to sync"""
     paths = [
         m for m in root.rglob("module.manifest.json")

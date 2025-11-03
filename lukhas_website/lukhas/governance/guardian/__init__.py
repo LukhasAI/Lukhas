@@ -114,6 +114,6 @@ __all__ = [
     "check_safety",
     "detect_drift",
     "evaluate_ethics",
-    "get_guardian_status",
     "get_guardian",
+    "get_guardian_status",
 ]

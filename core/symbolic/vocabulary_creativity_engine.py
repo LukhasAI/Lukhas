@@ -1137,9 +1137,9 @@ class VocabularyCreativityEngine:
 
 # Export main classes
 __all__ = [
-    "VisualSymbol",
-    "VocabularyCreativityEngine",
     "AnalysisType",
     "VisionProvider",
+    "VisualSymbol",
+    "VocabularyCreativityEngine",
     "create_symbol",
 ]

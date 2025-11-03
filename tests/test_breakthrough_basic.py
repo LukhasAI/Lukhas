@@ -5,7 +5,6 @@ Basic unit tests for BreakthroughDetector - novelty × value scoring with z-scor
 Covers core functionality and edge cases.
 """
 import pytest
-
 from core.breakthrough import BreakthroughDetector
 
 
@@ -87,7 +86,7 @@ def test_reset_functionality():
     detector = BreakthroughDetector()
 
     # Add some data
-    for i in range(5):
+    for _i in range(5):
         detector.step(novelty=0.5, value=0.5)
 
     assert detector.n == 5

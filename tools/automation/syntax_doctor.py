@@ -4,7 +4,6 @@ Syntax Doctor - Automatically fixes common Python syntax errors
 """
 from __future__ import annotations
 
-
 import ast
 import os
 import re

@@ -13,14 +13,13 @@ Usage:
 """
 from __future__ import annotations
 
-
 import argparse
 import json
 import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 
 import yaml
 
@@ -105,7 +104,7 @@ class ModuleManifestValidator:
 
         return sorted(set(preferred.values()))
 
-    def load_module_manifest(self, module_path: Path) -> Optional[Dict[str, Any]]:
+    def load_module_manifest(self, module_path: Path) -> Dict[str, Any] | None:
         """Load a module's lane manifest if present.
 
         Args:

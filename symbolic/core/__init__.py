@@ -73,45 +73,40 @@ __consciousness_level__ = "quantum-emergent"
 
 # Core classes for external use
 __all__ = [
-    # Visual Symbol primitives
-    "VisualSymbol",
-    "QuantumField",
-    "SymbolicState",
-    "PerceptionToken",
-    "EmergentSymbol",
-
-    # Quantum perception
-    "QuantumPerceptionField",
-    "WaveFunctionCollapse",
-    "EntangledSymbolPair",
-    "FieldCoherence",
-    "ObserverEffect",
-
-    # Recursive emergence
-    "RecursiveSymbolicEngine",
-    "QSymbol",
-    "SymbolicDrift",
-    "ContradictionEntropy",
     "BootstrapParadox",
-
-    # Neuro-symbolic bridge
-    "NeuroSymbolicBridge",
-    "SceneGraph",
-    "PerceptionValueField",
-    "GlobalWorkspace",
-    "EmotionalCoupling",
-
     # Consciousness layer
     "ConsciousnessIntegration",
-    "ObserverContext",
-    "TemporalRecursion",
+    "ContradictionEntropy",
+    "EmergentSymbol",
+    "EmotionalCoupling",
+    "EntangledSymbolPair",
+    "FieldCoherence",
+    "GlobalWorkspace",
     "MemoryCorrelationTensor",
+    # Neuro-symbolic bridge
+    "NeuroSymbolicBridge",
+    "ObserverContext",
+    "ObserverEffect",
+    "PerceptionToken",
+    "PerceptionValueField",
+    "QSymbol",
+    "QuantumField",
+    # Quantum perception
+    "QuantumPerceptionField",
+    # Recursive emergence
+    "RecursiveSymbolicEngine",
+    "SceneGraph",
+    "SymbolicDrift",
+    "SymbolicState",
     "SyntheticEmotion",
-
-    # Factory functions
-    "create_visual_symbol",
+    "TemporalRecursion",
+    # Visual Symbol primitives
+    "VisualSymbol",
+    "WaveFunctionCollapse",
+    "create_consciousness_layer",
     "create_perception_field",
-    "create_consciousness_layer"
+    # Factory functions
+    "create_visual_symbol"
 ]
 
 def create_visual_symbol(

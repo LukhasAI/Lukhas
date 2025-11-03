@@ -75,7 +75,7 @@ def _sanitize_mapping(data: Mapping[str, Any]) -> Dict[str, Any]:
     for key, value in data.items():
         replacement: Any = value
 
-        if isinstance(key, str) and _contains_sensitive_data(key) or isinstance(value, str) and _contains_sensitive_data(value):
+        if (isinstance(key, str) and _contains_sensitive_data(key)) or (isinstance(value, str) and _contains_sensitive_data(value)):
             replacement = "[REDACTED]"
 
         sanitised[key] = replacement

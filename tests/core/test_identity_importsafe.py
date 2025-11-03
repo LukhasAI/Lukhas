@@ -33,6 +33,6 @@ def test_missing_attribute_handling():
     try:
         # Try to access a non-existent attribute
         _ = core.identity.NonExistentAttribute
-        assert False, "Should have raised AttributeError"
+        raise AssertionError("Should have raised AttributeError")
     except AttributeError as e:
         assert "has no attribute 'NonExistentAttribute'" in str(e)

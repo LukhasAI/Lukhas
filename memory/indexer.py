@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Iterable
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from .backends.pgvector_store import PgVectorStore, VectorDoc
 
@@ -26,7 +26,7 @@ def _fingerprint(text: str) -> str:
 
 
 class Indexer:
-    def __init__(self, store: PgVectorStore, emb: Optional[Embeddings] = None):
+    def __init__(self, store: PgVectorStore, emb: Embeddings | None = None):
         self.store = store
         self.emb = emb or Embeddings()
 
@@ -36,7 +36,7 @@ class Indexer:
         # TODO: detect duplicates by fp in meta
         return self.store.add(VectorDoc(id=fp, text=text, embedding=vec, meta=meta))
 
-    def search_text(self, query: str, k: int = 10, filters: Optional[Dict[str, Any]] = None):
+    def search_text(self, query: str, k: int = 10, filters: Dict[str, Any] | None = None):
         vec = self.emb.embed(query)
         return self.store.search(vec, k=k, filters=filters)
 

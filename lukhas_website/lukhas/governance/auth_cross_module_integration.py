@@ -799,8 +799,8 @@ __all__ = [
     "AuthCrossModuleIntegrator",
     "AuthMessageType",
     "AuthModuleMessage",
+    "ConstellationFrameworkIntegration",
     "ModuleAuthContext",
     "ModuleType",
-    "ConstellationFrameworkIntegration",
     "auth_cross_module_integrator",
 ]

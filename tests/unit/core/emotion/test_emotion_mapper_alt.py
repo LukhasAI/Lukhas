@@ -16,7 +16,6 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
-
 from core.emotion.emotion_mapper_alt import EmotionMapper, EmotionProfile
 
 
@@ -154,7 +153,7 @@ class TestToneSuggestion:
         assert initial_delta == 0.0
 
         # Make several suggestions
-        for i in range(5):
+        for _i in range(5):
             mapper.suggest_tone("test", {"mood_hint": "focused", "emotion_vector": [0.6, 0.7, 0.8]})
 
         # Cumulative delta should have increased

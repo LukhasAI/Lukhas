@@ -127,7 +127,7 @@ def test_build_module_blocks_discovers_metadata(monkeypatch: pytest.MonkeyPatch)
     module_blocks = module.build_module_blocks()
 
     assert module_blocks, "Expected module blocks to be discovered"
-    full_header, mod_name, body = module_blocks[0]
+    full_header, _mod_name, body = module_blocks[0]
     assert full_header.startswith("### 📦 ")
     assert "## 📘 Header Info" in body
     assert "## 📄 Usage Guide" in body

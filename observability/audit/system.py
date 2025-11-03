@@ -8,6 +8,7 @@ Provides:
 - Complete decision provenance tracking
 """
 
+import contextlib
 import hashlib
 import json
 import os
@@ -293,10 +294,8 @@ class AuditTrail:
             del self.active_decisions[node_id]
 
             # Append to ledger
-            try:
+            with contextlib.suppress(Exception):
                 self._append_ledger(node)
-            except Exception:
-                pass
 
     def record_outcome(self, node_id: str, ground_truth: Any):
         """
@@ -319,10 +318,8 @@ class AuditTrail:
                 pass
 
             # Append updated node to ledger
-            try:
+            with contextlib.suppress(Exception):
                 self._append_ledger(node)
-            except Exception:
-                pass
 
     def get_decision(self, node_id: str) -> Optional[DecisionNode]:
         """Retrieve a decision node by ID"""

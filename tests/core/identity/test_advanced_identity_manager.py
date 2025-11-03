@@ -7,7 +7,7 @@ PRIORITY: HIGH (critical identity and authentication system with emotional memor
 
 Test Categories:
 1. EmotionalMemoryVector tests
-2. SymbolicIdentityHash tests  
+2. SymbolicIdentityHash tests
 3. TraumaLock tests
 4. AdvancedIdentityManager tests
 5. Authentication and registration tests
@@ -19,7 +19,6 @@ from datetime import datetime, timezone
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from core.identity.manager import (
     AdvancedIdentityManager,
     EmotionalMemoryVector,

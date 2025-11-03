@@ -30,7 +30,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Set, Tuple
 from uuid import uuid4
 
 import structlog
@@ -77,7 +77,7 @@ class BiometricTemplate:
 
     # Metadata
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_used: Optional[datetime] = None
+    last_used: datetime | None = None
     usage_count: int = 0
 
     # Security metadata
@@ -204,7 +204,7 @@ class MockBiometricProvider:
         base_success_rate: float = 0.95,
         quality_threshold: float = 0.7,
         confidence_threshold: float = 0.95,
-        guardian_system: Optional[GuardianSystem] = None
+        guardian_system: GuardianSystem | None = None
     ):
         """Initialize mock biometric provider."""
         self.provider_id = provider_id
@@ -267,7 +267,7 @@ class MockBiometricProvider:
         user_id: str,
         modality: BiometricModality,
         sample_data: str,
-        device_info: Optional[Dict[str, Any]] = None
+        device_info: Dict[str, Any] | None = None
     ) -> Tuple[bool, str]:
         """
         Enroll biometric template for user.
@@ -346,7 +346,7 @@ class MockBiometricProvider:
         sample_data: str,
         modality: BiometricModality,
         nonce: str,
-        device_info: Optional[Dict[str, Any]] = None
+        device_info: Dict[str, Any] | None = None
     ) -> BiometricAttestation:
         """
         Authenticate user using biometric sample.
@@ -645,7 +645,7 @@ class MockBiometricProvider:
         except Exception:
             return 0.0
 
-    async def _generate_device_attestation(self, device_info: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _generate_device_attestation(self, device_info: Dict[str, Any] | None) -> Dict[str, Any]:
         """Generate mock device attestation."""
         if not device_info:
             return {"status": "no_device_info"}
@@ -765,7 +765,7 @@ def create_mock_biometric_provider(
     base_success_rate: float = 0.95,
     quality_threshold: float = 0.7,
     confidence_threshold: float = 0.95,
-    guardian_system: Optional[GuardianSystem] = None
+    guardian_system: GuardianSystem | None = None
 ) -> MockBiometricProvider:
     """Create mock biometric provider with configuration."""
     return MockBiometricProvider(

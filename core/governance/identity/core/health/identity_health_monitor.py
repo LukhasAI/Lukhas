@@ -13,7 +13,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import numpy as np
 import psutil
@@ -69,7 +69,7 @@ class ComponentHealth:
     metrics: dict[HealthMetric, float]
     error_history: deque = field(default_factory=lambda: deque(maxlen=100))
     healing_attempts: int = 0
-    last_healing: Optional[datetime] = None
+    last_healing: datetime | None = None
     tier_specific_data: dict[int, dict[str, Any]] = field(default_factory=dict)
 
     def add_error(self, error: str):
@@ -201,7 +201,7 @@ class IdentityHealthMonitor:
         }
 
         # Event publisher
-        self.event_publisher: Optional[IdentityEventPublisher] = None
+        self.event_publisher: IdentityEventPublisher | None = None
 
         logger.info(f"Identity Health Monitor {monitor_id} initialized")
 
@@ -225,7 +225,7 @@ class IdentityHealthMonitor:
         self,
         component_id: str,
         component_type: ComponentType,
-        health_check_callback: Optional[Callable] = None,
+        health_check_callback: Callable | None = None,
         tier_level: int = 0,
     ):
         """Register a component for health monitoring."""
@@ -826,7 +826,7 @@ class IdentityHealthMonitor:
             "recent_errors": sum(len(c.error_history) for c in self.component_health.values()),
         }
 
-    def get_component_health_details(self, component_id: str) -> Optional[dict[str, Any]]:
+    def get_component_health_details(self, component_id: str) -> dict[str, Any] | None:
         """Get detailed health information for a component."""
         component = self.component_health.get(component_id)
         if not component:

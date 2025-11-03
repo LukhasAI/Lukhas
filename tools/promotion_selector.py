@@ -72,7 +72,7 @@ import pathlib
 import re
 import sys
 import time
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 ROOT = pathlib.Path(".")
 ART = ROOT / "artifacts"
@@ -102,7 +102,7 @@ def _split_source_lane_module_rel(source_path: str):
 def _compute_target(record: dict, layout: str, target_root: str) -> str:
     """Compute target path based on layout strategy."""
     # Ensure module + relpath present
-    lane, mod_from_src, rel_from_src = _split_source_lane_module_rel(record["source"])
+    _lane, mod_from_src, rel_from_src = _split_source_lane_module_rel(record["source"])
     mod = record.get("module") or mod_from_src or "unknown"
     rel = record.get("relpath") or record.get("rel_from_module") or rel_from_src or ""
 
@@ -136,14 +136,14 @@ class FileCandidate:
     target: str = ""              # Lukhas/<module>/<rel_from_module>
 
 
-def _read_json(path: pathlib.Path) -> Optional[dict]:
+def _read_json(path: pathlib.Path) -> dict | None:
     try:
         return json.loads(path.read_text())
     except Exception:
         return None
 
 
-def _discover_legacy_files(modules_filter: Optional[set]) -> List[FileCandidate]:
+def _discover_legacy_files(modules_filter: set | None) -> List[FileCandidate]:
     out: List[FileCandidate] = []
     for lane in LEGACY_LANES:
         lane_path = ROOT / lane
@@ -275,7 +275,7 @@ def _normalize(values: List[float]) -> List[float]:
 
 
 def select_candidates(top: int,
-                      modules_filter: Optional[set],
+                      modules_filter: set | None,
                       w_freq: float,
                       w_recency: float,
                       w_critical: float,
@@ -366,7 +366,7 @@ def _write_plan_csv(rows: List[FileCandidate], path: pathlib.Path) -> None:
             w.writerow([i, f"{r.score:.6f}", r.source, r.lane, r.module, r.rel_from_module, r.target, int(r.import_freq), int(r.mtime), int(r.critical)])
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: List[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Select top-N legacy files to promote into Lukhas/ flat root.")
     ap.add_argument("--top", type=int, default=DEFAULT_TOP, help=f"How many files to select (default {DEFAULT_TOP})")
     ap.add_argument("--modules", type=str, default="", help="Comma-separated allowlist of modules to consider (e.g., core,identity,api)")
@@ -383,7 +383,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--out-csv", type=str, default="artifacts/promotion_selector.csv", help="Output CSV path")
     args = ap.parse_args(argv)
 
-    modules_filter = set([m.strip() for m in args.modules.split(",") if m.strip()]) or None
+    modules_filter = {m.strip() for m in args.modules.split(",") if m.strip()} or None
 
     rows = select_candidates(
         top=max(1, args.top),

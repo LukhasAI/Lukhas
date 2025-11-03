@@ -4,7 +4,6 @@ from __future__ import annotations
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -70,13 +69,13 @@ except ImportError:  # pragma: no cover - provide lightweight stub when dependen
         voice_sync_interval: int = 50
 
     class QIVoiceEnhancer:  # type: ignore[override]
-        def __init__(self, *_, config: Optional[VoiceQuantumConfig] = None, **__) -> None:
+        def __init__(self, *_, config: VoiceQuantumConfig | None = None, **__) -> None:
             self.config = config or VoiceQuantumConfig()
 
-        async def _quantum_voice_process(self, audio_data: bytes, context: Optional[dict], original=None) -> dict:
+        async def _quantum_voice_process(self, audio_data: bytes, context: dict | None, original=None) -> dict:
             return {"audio": audio_data, "context": context}
 
-        async def _quantum_speech_generate(self, text: str, voice_params: Optional[dict], original=None) -> dict:
+        async def _quantum_speech_generate(self, text: str, voice_params: dict | None, original=None) -> dict:
             return {"text": text, "voice_params": voice_params}
 
 
@@ -288,7 +287,7 @@ class QIAGISystem:
 
     # Quantum Voice Enhancer Interface Methods
 
-    async def enhance_voice_processing(self, audio_data: bytes, context: Optional[dict] = None) -> dict:
+    async def enhance_voice_processing(self, audio_data: bytes, context: dict | None = None) -> dict:
         """
         Enhance voice processing using quantum coherence techniques.
 
@@ -309,7 +308,7 @@ class QIAGISystem:
         except Exception:
             return {"success": False, "reason": "Processing failed"}
 
-    async def enhance_speech_generation(self, text: str, voice_params: Optional[dict] = None) -> dict:
+    async def enhance_speech_generation(self, text: str, voice_params: dict | None = None) -> dict:
         """
         Generate speech using quantum-enhanced techniques.
 

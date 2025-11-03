@@ -3,7 +3,6 @@
 Find gaps between bridge modules and actual labs/* modules.
 Identifies modules that exist in labs/* but aren't exposed in bridge __init__.py files.
 """
-import re
 from pathlib import Path
 
 ROOT = Path(".")
@@ -20,7 +19,7 @@ def find_bridge_gaps():
 
         # Convert file path to module path
         rel_path = py_file.relative_to(LABS_DIR)
-        module_parts = list(rel_path.parent.parts) + [rel_path.stem]
+        module_parts = [*list(rel_path.parent.parts), rel_path.stem]
         labs_module = "labs." + ".".join(module_parts)
         bridge_module = ".".join(module_parts)
 

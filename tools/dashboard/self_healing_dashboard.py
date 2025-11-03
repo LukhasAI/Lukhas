@@ -202,7 +202,7 @@ class SelfHealingDashboard:
                     lane_compliance[lane] = compliance
             except Exception as e:
                 logger.warning(f"Lane compliance check failed: {e}")
-                lane_compliance = {lane: 85.0 for lane in self.state.active_lanes}
+                lane_compliance = dict.fromkeys(self.state.active_lanes, 85.0)
 
         # Constellation Framework status
         constellation_status = await self._check_triad_status()

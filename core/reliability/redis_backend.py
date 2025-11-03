@@ -180,10 +180,7 @@ class RedisRateLimitBackend:
             tokens = min(burst, tokens + (elapsed * rps))
 
             # Calculate reset time
-            if tokens >= burst or rps <= 0:
-                reset_seconds = 0.0
-            else:
-                reset_seconds = (burst - tokens) / rps
+            reset_seconds = 0.0 if tokens >= burst or rps <= 0 else (burst - tokens) / rps
 
             return {
                 "limit": float(burst),

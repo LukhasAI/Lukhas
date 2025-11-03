@@ -5,7 +5,6 @@ Focus on common fixable patterns while avoiding complex issues
 """
 from __future__ import annotations
 
-
 import ast
 import logging
 import os

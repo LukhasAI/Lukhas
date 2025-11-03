@@ -119,7 +119,7 @@ def fix_simple_logger_pattern(filepath):
             stripped = lines[i].strip()
 
             # Skip logger definition and logging import (already added)
-            if i == logger_def_idx or i == logging_import_idx:
+            if i in (logger_def_idx, logging_import_idx):
                 continue
 
             # Collect imports
@@ -166,10 +166,7 @@ def fix_simple_logger_pattern(filepath):
 
 
 def main():
-    if len(sys.argv) > 1:
-        directory = sys.argv[1]
-    else:
-        directory = None
+    directory = sys.argv[1] if len(sys.argv) > 1 else None
 
     files = get_files_with_e402(directory)
     print(f"Found {len(files)} files with E402 errors")

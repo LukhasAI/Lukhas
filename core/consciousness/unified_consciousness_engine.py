@@ -23,7 +23,6 @@ Features:
 Rehabilitated: 2025-09-10 from quarantine status
 Original location: ./consciousness/unified_consciousness_engine.py
 """
-import logging
 
 import asyncio
 import threading
@@ -449,11 +448,11 @@ class UnifiedConsciousnessEngine:
             ).total_seconds()
 
         # Update active modules
-        self.metrics.active_modules = set(
+        self.metrics.active_modules = {
             module
             for module, config in self.registered_modules.items()
             if self.metrics.module_health.get(module, 0.0) > config.get("health_threshold", 0.5)
-        )
+        }
 
         return self.metrics
 
@@ -928,10 +927,10 @@ class UnifiedConsciousnessEngine:
 
 # Export main classes
 __all__ = [
-    "ConsciousnessState",
     "AwarenessLevel",
-    "ConsciousnessModule",
-    "ConsciousnessMetrics",
     "ConsciousnessEvent",
+    "ConsciousnessMetrics",
+    "ConsciousnessModule",
+    "ConsciousnessState",
     "UnifiedConsciousnessEngine",
 ]

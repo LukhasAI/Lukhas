@@ -7,7 +7,7 @@ import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from memory.metrics import compute_affect_delta, compute_drift
 
@@ -27,7 +27,7 @@ class MemoryEventFactory:
     """Factory for creating :class:`MemoryEvent` objects."""
 
     def __init__(self) -> None:
-        self._last_affect_delta: Optional[float] = None
+        self._last_affect_delta: float | None = None
         self._drift_history: deque[float] = deque(maxlen=100)
 
     def create(self, data: Dict[str, Any], metadata: Dict[str, Any]) -> MemoryEvent:

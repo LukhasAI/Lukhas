@@ -70,4 +70,4 @@ class DreamStateManager:
         return self.current_state
 
 
-__all__ = ["DreamState", "DreamStateType", "DreamStateManager"]
+__all__ = ["DreamState", "DreamStateManager", "DreamStateType"]

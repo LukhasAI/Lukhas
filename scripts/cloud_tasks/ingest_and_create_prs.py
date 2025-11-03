@@ -35,7 +35,7 @@ from urllib.request import Request, urlopen
 
 
 def sh(cmd: List[str], check=True) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=check)
+    return subprocess.run(cmd, capture_output=True, text=True, check=check)
 
 
 def fetch_url(url: str, headers: Dict[str, str] | None = None) -> str:

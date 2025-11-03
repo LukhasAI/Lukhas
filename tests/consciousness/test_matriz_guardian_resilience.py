@@ -699,7 +699,7 @@ class TestMATRIZGuardianResilience:
         time.sleep(0.1)  # Allow fail-closed to activate
 
         # Phase 3: Attempt decision during failure (should fail)
-        during_failure_decision, errors = chaos_controller.process_matriz_decision({"phase": "during_failure"})
+        during_failure_decision, _errors = chaos_controller.process_matriz_decision({"phase": "during_failure"})
         assert not during_failure_decision.committed, "Decision during failure should not be committed"
         assert during_failure_decision.phase == MATRIZPhase.FAILED, "Decision during failure should be marked failed"
 

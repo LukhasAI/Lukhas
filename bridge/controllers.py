@@ -1,4 +1,4 @@
 """Bridge module for bridge.controllers → labs.bridge.controllers"""
 from __future__ import annotations
 
-from labs.bridge.controllers import *  # noqa: F401, F403
+from labs.bridge.controllers import *  # noqa: F403

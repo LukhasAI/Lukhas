@@ -355,7 +355,7 @@ class ConsentLedgerV2:
                 reason = "no_active_consent"
 
                 if result:
-                    consent_id, scopes_json, purpose, expires_at, lawful_basis = result
+                    consent_id, scopes_json, _purpose, expires_at, lawful_basis = result
                     scopes = json.loads(scopes_json)
 
                     # Check expiration

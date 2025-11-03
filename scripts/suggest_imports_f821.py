@@ -24,11 +24,12 @@ from __future__ import annotations
 
 import argparse
 import ast
+import contextlib
 import csv
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 # --- Config knobs ------------------------------------------------------------
 
@@ -74,7 +75,7 @@ def read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 def nearest_manifest(pyfile: Path) -> dict:
-    for parent in [pyfile] + list(pyfile.parents):
+    for parent in [pyfile, *list(pyfile.parents)]:
         m = parent / "module.manifest.json"
         if m.exists():
             try:
@@ -83,7 +84,7 @@ def nearest_manifest(pyfile: Path) -> dict:
                 return {}
     return {}
 
-def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> Optional[str]:
+def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> str | None:
     """
     Convert filesystem path to import path. E.g.
       /repo/lukhas/foo/bar.py -> foo.bar
@@ -181,10 +182,8 @@ def candidates_for_symbol(symbol: str,
                 mf = mod_file.with_suffix(".py").parent / "module.manifest.json"
             star = ""
             if mf.exists():
-                try:
+                with contextlib.suppress(Exception):
                     star = (read_json(mf).get("constellation_alignment") or {}).get("primary_star") or ""
-                except Exception:
-                    pass
             if me_star and star == me_star:
                 same_star.append(mod)
         pick = (same_star[0] if same_star else hits[0])
@@ -215,7 +214,7 @@ def candidates_for_symbol(symbol: str,
     merged.sort(key=lambda x: (-x[1], x[0]))
     return merged
 
-def extract_symbol_from_msg(msg: str) -> Optional[str]:
+def extract_symbol_from_msg(msg: str) -> str | None:
     m = F821_MSG_RE.search(msg)
     return m.group(1) if m else None
 

@@ -132,7 +132,7 @@ def main():
         api_manifests.extend(root.glob(f"**/{pattern}/module.manifest.json"))
 
     # Remove duplicates and archived
-    api_manifests = list(set([m for m in api_manifests if "/.archive/" not in str(m)]))
+    api_manifests = list({m for m in api_manifests if "/.archive/" not in str(m)})
     api_manifests.sort()
 
     print(f"Found {len(api_manifests)} API-related manifests\n")

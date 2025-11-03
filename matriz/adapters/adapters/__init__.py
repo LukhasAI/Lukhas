@@ -37,14 +37,14 @@ from .orchestration_adapter import (
 
 __all__ = [
     "BioAdapter",
-    "MemoryAdapter",
-    "ConsciousnessAdapter",
     "BridgeAdapter",
-    "GovernanceAdapter",
-    "EmotionAdapter",
-    "OrchestrationAdapter",
     "ComplianceAdapter",
-    "IdentityAdapter",
+    "ConsciousnessAdapter",
     "ContradictionAdapter",
     "CreativeAdapter",
+    "EmotionAdapter",
+    "GovernanceAdapter",
+    "IdentityAdapter",
+    "MemoryAdapter",
+    "OrchestrationAdapter",
 ]

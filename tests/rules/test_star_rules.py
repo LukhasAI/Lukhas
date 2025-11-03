@@ -54,22 +54,22 @@ def test_flow_by_path_or_node():
     assert conf >= 0.5
 
 def test_memory_by_capability():
-    star, conf, _ = suggest_star("labs/bio/memory", "bio.memory", ["memory_consolidation"], [])
+    star, _conf, _ = suggest_star("labs/bio/memory", "bio.memory", ["memory_consolidation"], [])
     assert star == "✦ Trail (Memory)"
 
 def test_guardian_by_auth_capability():
-    star, conf, _ = suggest_star("labs/api/oidc", "oidc", ["authentication"], [])
+    star, _conf, _ = suggest_star("labs/api/oidc", "oidc", ["authentication"], [])
     assert star == "🛡️ Watch (Guardian)"
 
 def test_vision_by_path():
-    star, conf, _ = suggest_star("tools/vision/ocr", "ocr", ["ocr"], [])
+    star, _conf, _ = suggest_star("tools/vision/ocr", "ocr", ["ocr"], [])
     assert star == "🔬 Horizon (Vision)"
 
 def test_oracle_by_keyword():
-    star, conf, _ = suggest_star("labs/bio/quantum_attention", "quantum_attention", ["quantum_attention"], [])
+    star, _conf, _ = suggest_star("labs/bio/quantum_attention", "quantum_attention", ["quantum_attention"], [])
     assert star == "🔮 Oracle (Quantum)"
 
 def test_exclusion_stopwatch_not_guardian():
-    star, conf, why = suggest_star("utils/stopwatch", "stopwatch", [], [])
+    star, _conf, why = suggest_star("utils/stopwatch", "stopwatch", [], [])
     assert star is None
     assert why == "excluded"

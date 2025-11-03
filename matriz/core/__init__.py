@@ -37,10 +37,10 @@ from .async_orchestrator import AsyncCognitiveOrchestrator  # Export async orche
 from .memory_system import MemorySystem  # Export memory system
 
 __all__ = [
+    "AsyncCognitiveOrchestrator",
     "CognitiveNode",
     "CognitiveOrchestrator",
     "ExecutionTrace",
-    "AsyncCognitiveOrchestrator",
     "MemorySystem",
     "NodeLink",
     "NodeProvenance",

@@ -506,17 +506,15 @@ def verify_assertion(
 
 
 __all__ = [
-    # Main verification function
-    'verify_assertion',
-
-    # Result types
-    'VerificationResult',
-
+    'CredentialNotFoundError',
+    'InvalidAssertionError',
+    'InvalidChallengeError',
+    'InvalidSignatureError',
+    'ReplayAttackError',
     # Exceptions
     'VerificationError',
-    'InvalidSignatureError',
-    'InvalidChallengeError',
-    'ReplayAttackError',
-    'InvalidAssertionError',
-    'CredentialNotFoundError',
+    # Result types
+    'VerificationResult',
+    # Main verification function
+    'verify_assertion',
 ]

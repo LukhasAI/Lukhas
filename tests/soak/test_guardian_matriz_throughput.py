@@ -22,6 +22,7 @@ Constellation Framework: 🛡️ Guardian Performance Lock
 """
 
 import asyncio
+import contextlib
 import logging
 import statistics
 import time
@@ -347,10 +348,8 @@ class GuardianMATRIZSoakTester:
 
             # Stop memory sampling
             memory_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await memory_task
-            except asyncio.CancelledError:
-                pass
 
         except Exception as e:
             logger.error(f"Soak test execution failed: {e}")

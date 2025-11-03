@@ -244,7 +244,7 @@ class AuthzTestRunner:
         all_passed = True
         for matrix_file in sorted(matrix_files):
             try:
-                passed, failed = await self.run_matrix(matrix_file)
+                _passed, failed = await self.run_matrix(matrix_file)
                 if failed > 0:
                     all_passed = False
                 print()

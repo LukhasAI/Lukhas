@@ -14,10 +14,9 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
-
 from core.common import get_logger
 
 logger = get_logger(__name__)
@@ -260,7 +259,7 @@ class QISynchronizer:
     Manages quantum synchronization events and multi-agent coherence
     """
 
-    def __init__(self, entanglement_bridge: Optional[EntanglementBridge] = None):
+    def __init__(self, entanglement_bridge: EntanglementBridge | None = None):
         self.bridge = entanglement_bridge or EntanglementBridge()
         self.sync_events: list[QSyncEvent] = []
         self.agent_states: dict[str, np.ndarray] = {}
@@ -279,7 +278,7 @@ class QISynchronizer:
         self.resonance_frequencies[agent_id] = resonance_frequency
         logger.debug(f"Agent {agent_id} registered with resonance frequency {resonance_frequency}")
 
-    def create_sync_event(self, agent_ids: list[str], sync_type: SyncType = SyncType.EMERGENT) -> Optional[QSyncEvent]:
+    def create_sync_event(self, agent_ids: list[str], sync_type: SyncType = SyncType.EMERGENT) -> QSyncEvent | None:
         """
         Create a quantum synchronization event
 
@@ -334,7 +333,7 @@ class QISynchronizer:
     def synchronize_agents(
         self,
         agent_ids: list[str],
-        target_state: Optional[np.ndarray] = None,
+        target_state: np.ndarray | None = None,
         sync_strength: float = 0.5,
     ) -> dict[str, np.ndarray]:
         """

@@ -225,7 +225,7 @@ class TestUnifiedMemoryOrchestratorBackgroundTasks:
 
     async def test_consolidation_loop(self, orchestrator_with_tasks):
         """Test the consolidation loop processes memories from the queue."""
-        orchestrator, mock_sleep = orchestrator_with_tasks
+        orchestrator, _mock_sleep = orchestrator_with_tasks
 
         # Encode a memory that is important enough to be queued for consolidation
         memory_id = await orchestrator.encode_memory(
@@ -256,7 +256,7 @@ class TestUnifiedMemoryOrchestratorBackgroundTasks:
 
     async def test_health_maintenance_loop_cleans_working_memory(self, orchestrator_with_tasks):
         """Test that the health maintenance loop cleans up oversized working memory."""
-        orchestrator, mock_sleep = orchestrator_with_tasks
+        orchestrator, _mock_sleep = orchestrator_with_tasks
 
         orchestrator.max_working_memory_size = 1
 

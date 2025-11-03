@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from threading import RLock
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict
 
 logger = logging.getLogger(__name__)
 
@@ -34,9 +34,9 @@ class TokenMetadata:
 
     token_hash: str
     created_at: str
-    expires_at: Optional[str]
+    expires_at: str | None
     metadata: Dict[str, Any]
-    last_validated_at: Optional[str] = None
+    last_validated_at: str | None = None
 
 
 class SessionTokenStore:
@@ -46,9 +46,9 @@ class SessionTokenStore:
 
     def __init__(
         self,
-        state_dir: Optional[Path | str] = None,
+        state_dir: Path | str | None = None,
         filename: str = "session_tokens.json",
-        clock: Optional[Callable[[], datetime]] = None,
+        clock: Callable[[], datetime] | None = None,
     ) -> None:
         self._clock = clock or _default_clock
         self._lock = RLock()
@@ -68,8 +68,8 @@ class SessionTokenStore:
     def register_token(
         self,
         token: str,
-        metadata: Optional[Dict[str, Any]] = None,
-        ttl_seconds: Optional[int] = None,
+        metadata: Dict[str, Any] | None = None,
+        ttl_seconds: int | None = None,
     ) -> str:
         """Store a session token hash with optional metadata.
 
@@ -231,7 +231,7 @@ class SessionTokenStore:
         if removed and save:
             self._save()
 
-    def _parse_datetime(self, value: str) -> Optional[datetime]:
+    def _parse_datetime(self, value: str) -> datetime | None:
         try:
             normalized = value.replace("Z", "+00:00")
             return datetime.fromisoformat(normalized)

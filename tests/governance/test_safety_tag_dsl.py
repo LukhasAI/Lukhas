@@ -15,7 +15,7 @@ Constellation Framework: 🛡️ Guardian · ⚖️ Ethics
 Features Tested:
 - Safety tag classification (SAFE, CAUTION, DANGER, CRITICAL)
 - Tag propagation across consciousness layers
-- DSL syntax validation and parsing  
+- DSL syntax validation and parsing
 - Permission enforcement based on safety levels
 - Tag inheritance and escalation rules
 - Emergency override patterns
@@ -138,7 +138,7 @@ class SafetyTagCollection:
             "highest_level": self.get_highest_level(),
             "tag_count": len(self.tags),
             "has_critical": self.has_critical_tags(),
-            "categories": list(set(tag.category for tag in self.tags))
+            "categories": list({tag.category for tag in self.tags})
         }
 
 

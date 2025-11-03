@@ -21,7 +21,7 @@ import sys
 from collections.abc import Iterator, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 # --- Config ------------------------------------------------------------------
 SKIP_DIRS = {
@@ -46,10 +46,7 @@ class TODORecord:
 
 
 def normalize_path(path: str | Path) -> str:
-    if isinstance(path, Path):
-        path_str = path.as_posix()
-    else:
-        path_str = path.replace("\\", "/")
+    path_str = path.as_posix() if isinstance(path, Path) else path.replace("\\", "/")
     while path_str.startswith("./"):
         path_str = path_str[2:]
     return path_str
@@ -118,7 +115,7 @@ def emit_json(items: List[TODORecord]) -> str:
     return json.dumps({"items": [asdict(it) for it in items]}, indent=2)
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: List[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Scan and categorize TODO/FIXME/BUG comments.")
     parser.add_argument("--root", default=".", help="Repository root to scan")
     parser.add_argument("--format", choices=["md", "json"], default="md", help="Output format")

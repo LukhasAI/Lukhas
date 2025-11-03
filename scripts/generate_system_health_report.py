@@ -13,7 +13,6 @@ import datetime as dt
 import json
 import re
 from pathlib import Path
-from typing import Optional
 
 DEFAULT_SUMMARY = Path("TEST_RESULTS_SUMMARY.md")
 OUTPUT_DIR = Path("docs/audits")
@@ -126,7 +125,7 @@ def write_outputs(payload: dict[str, object]) -> None:
     JSON_OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
-def main(argv: Optional[list[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate system health report")
     parser.add_argument(
         "--summary",

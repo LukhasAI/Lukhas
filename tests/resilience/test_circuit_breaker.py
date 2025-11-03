@@ -258,7 +258,7 @@ class TestCircuitBreaker:
 
         # Make calls that exceed failure threshold
         failed_calls = 0
-        for i in range(5):
+        for _i in range(5):
             try:
                 async with circuit_breaker.protect("test_op"):
                     await failing_operation()
@@ -587,7 +587,7 @@ class TestCircuitBreakerDecorator:
             return "recovered"
 
         # First few calls should fail
-        for i in range(3):
+        for _i in range(3):
             with pytest.raises(Exception):
                 await failing_function()
 

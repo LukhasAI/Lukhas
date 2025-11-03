@@ -12,6 +12,7 @@ Generates detailed E2E performance artifacts with statistical analysis and regre
 """
 
 import asyncio
+import contextlib
 import json
 import logging
 import statistics
@@ -27,13 +28,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     # LUKHAS core imports for E2E testing
-    from matriz.pipeline import matrizPipeline  # noqa: F401  # TODO: matriz.pipeline.MATRIZP...
-
     from identity.oidc import OIDCProvider  # noqa: F401  # TODO: identity.oidc.OIDCProvi...
+    from matriz.pipeline import matrizPipeline  # noqa: F401  # TODO: matriz.pipeline.MATRIZP...
     from memory.lifecycle import (
         MemoryLifecycleManager,  # noqa: F401  # TODO: memory.lifecycle.Memory...
     )
     from observability.tracing import get_tracer  # noqa: F401  # TODO: observability.tracing.g...
+
     from orchestration.core import (
         OrchestrationEngine,  # noqa: F401  # TODO: orchestration.core.Orch...
     )
@@ -94,10 +95,8 @@ class PerformanceE2ETester:
 
         # Warmup
         for _ in range(self.warmup_iterations):
-            try:
+            with contextlib.suppress(Exception):
                 operation_func()
-            except Exception:
-                pass
 
         # Actual measurements
         for i in range(iterations):

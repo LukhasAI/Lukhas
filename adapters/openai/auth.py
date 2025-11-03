@@ -6,7 +6,6 @@ import os
 from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Optional
 
 from fastapi import Header, HTTPException, status
 
@@ -80,8 +79,8 @@ class TokenClaims:
     scopes: tuple[str, ...]
     lane: str
     token_hash: str = field(repr=False)
-    project_id: Optional[str] = None
-    subject: Optional[str] = None
+    project_id: str | None = None
+    subject: str | None = None
 
     def has_scope(self, scope: str) -> bool:
         return scope in self.scopes
@@ -116,7 +115,7 @@ def _metadata_for_token(token: str) -> ApiKeyMetadata:
     return metadata
 
 
-def _string_attr(metadata: ApiKeyMetadata, *keys: str) -> Optional[str]:
+def _string_attr(metadata: ApiKeyMetadata, *keys: str) -> str | None:
     attributes = getattr(metadata, "attributes", {}) or {}
     for key in keys:
         value = attributes.get(key)

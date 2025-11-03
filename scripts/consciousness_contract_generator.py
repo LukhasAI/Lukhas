@@ -47,9 +47,8 @@ class ConsciousnessContractGenerator:
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
                         component_info["imports"].append(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        component_info["imports"].append(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    component_info["imports"].append(node.module)
 
             # Analyze content for patterns
             if "async " in content:

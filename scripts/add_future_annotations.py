@@ -35,7 +35,7 @@ def insert_future(path):
             if lines[i].strip().endswith(dq):
                 insert_at = i + 1
                 break
-    new_lines = lines[:insert_at] + ["from __future__ import annotations", ""] + lines[insert_at:]
+    new_lines = [*lines[:insert_at], "from __future__ import annotations", "", *lines[insert_at:]]
     path.write_text("\n".join(new_lines), encoding="utf-8")
 
 def main():

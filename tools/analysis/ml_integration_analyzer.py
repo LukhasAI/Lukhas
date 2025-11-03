@@ -39,7 +39,7 @@ import sys
 import textwrap
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 try:
     import numpy as np
@@ -121,7 +121,7 @@ class FunctionSig:
     lineno: int
     end_lineno: int
     source: str
-    docstring: Optional[str]
+    docstring: str | None
 
 
 @dataclass
@@ -194,7 +194,7 @@ class EmbeddingAdapter:
         self,
         provider: str = "openai",
         model: str = "text-embedding-3-small",
-        dimensions: Optional[int] = None,
+        dimensions: int | None = None,
     ) -> None:
         self.provider = provider
         self.model = model
@@ -392,11 +392,11 @@ class IntegrationAnalyzer:
 
     def __init__(
         self,
-        audit: Optional[Audit] = None,
-        embedder: Optional[EmbeddingAdapter] = None,
-        reasoner: Optional[ReasonerAdapter] = None,
+        audit: Audit | None = None,
+        embedder: EmbeddingAdapter | None = None,
+        reasoner: ReasonerAdapter | None = None,
         confidence_threshold: float = 0.75,
-        style_prefs: Optional[dict[str, Any]] = None,
+        style_prefs: dict[str, Any] | None = None,
     ) -> None:
         self.audit = audit or Audit()
         self.embedder = embedder or EmbeddingAdapter()
@@ -899,7 +899,7 @@ jobs:
         self,
         orphan_view: ModuleView,
         lukhas_context: str,
-        model_override: Optional[str] = None,
+        model_override: str | None = None,
     ) -> dict[str, list[SWOTEntry]]:
         sys_prompt = (
             "You are an expert software integration analyst for the LUKHAS symbolic AGI project. "
@@ -977,14 +977,14 @@ jobs:
         self,
         orphan_path: Path,
         lukhas_root: Path,
-        module_name: Optional[str] = None,
+        module_name: str | None = None,
         use_openai: bool = True,
-        model_versions: Optional[dict[str, str]] = None,
+        model_versions: dict[str, str] | None = None,
         cheap_first: bool = False,
-        cascade_models: Optional[list[str]] = None,
+        cascade_models: list[str] | None = None,
         extra_info: bool = False,
-        simulate_out: Optional[Path] = None,
-        naming_map_out: Optional[Path] = None,
+        simulate_out: Path | None = None,
+        naming_map_out: Path | None = None,
         context_lines: int = 3,
     ) -> dict[str, Any]:
         self.audit.log(
@@ -1233,7 +1233,7 @@ jobs:
 # -----------------------------
 
 
-def shutil_which(cmd: str) -> Optional[str]:
+def shutil_which(cmd: str) -> str | None:
     from shutil import which
 
     return which(cmd)

@@ -27,7 +27,7 @@ import secrets  # Used for secure random generation
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 import qrcode
@@ -400,7 +400,7 @@ class SteganographicQRGenerator:
         self,
         visible_data: str,
         hidden_data: str,
-        steganography_key: Optional[str] = None,
+        steganography_key: str | None = None,
     ) -> dict[str, Any]:
         """
         Generate QR code with hidden data embedded steganographically.

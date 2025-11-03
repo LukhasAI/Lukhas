@@ -18,7 +18,7 @@ import os
 import statistics
 from collections import deque
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 from uuid import UUID, uuid4
 
 # Guardian system integration
@@ -29,12 +29,11 @@ except ImportError:
     GUARDIAN_AVAILABLE = False
     logging.warning("Guardian system not available for consciousness validation")
 
+from core.clock import Ticker
+from core.ring import DecimatingRing
 from matriz.node_contract import GLYPH, MatrizMessage
 from matriz.router import SymbolicMeshRouter
 from storage.events import Event, EventStore
-
-from core.clock import Ticker
-from core.ring import DecimatingRing
 
 # Optional metrics
 try:
@@ -81,7 +80,7 @@ class ConsciousnessStream:
         self,
         fps: int = 30,
         store_capacity: int = 10000,
-        glyph_id: Optional[UUID] = None,
+        glyph_id: UUID | None = None,
         enable_backpressure: bool = True,
         backpressure_threshold: float = 0.8,
         decimation_factor: int = 2,
@@ -145,7 +144,7 @@ class ConsciousnessStream:
 
         logger.info(f"ConsciousnessStream initialized: lane={self.lane}, fps={fps}, glyph_id={self.glyph_id}")
 
-    def enable_guardian_integration(self, guardian_instance: Optional[Any] = None) -> None:
+    def enable_guardian_integration(self, guardian_instance: Any | None = None) -> None:
         """Enable Guardian safety validation for consciousness processing"""
         if not GUARDIAN_AVAILABLE:
             logger.warning("Guardian system not available, cannot enable consciousness validation")
@@ -682,7 +681,7 @@ class ConsciousnessStream:
         if self._should_store_event(resume_event):
             self.event_store.append(resume_event)
 
-    async def validate_consciousness_state_transition(self, new_state: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def validate_consciousness_state_transition(self, new_state: str, context: Dict[str, Any] | None = None) -> Dict[str, Any]:
         """Validate consciousness state transitions through Guardian"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
             return {

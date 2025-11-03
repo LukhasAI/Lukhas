@@ -16,7 +16,7 @@ import secrets
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, Optional, Set, Tuple
+from typing import Any, Dict, Set, Tuple
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -71,9 +71,9 @@ class AuthorizationCode:
     user_id: str
     redirect_uri: str
     scopes: Set[str]
-    code_challenge: Optional[str] = None
-    code_challenge_method: Optional[str] = None
-    nonce: Optional[str] = None
+    code_challenge: str | None = None
+    code_challenge_method: str | None = None
+    nonce: str | None = None
     created_at: int = field(default_factory=lambda: int(time.time()))
     expires_at: int = field(default_factory=lambda: int(time.time()) + 600)  # 10 minutes
     is_used: bool = False
@@ -111,8 +111,8 @@ class RefreshToken:
     user_id: str
     scopes: Set[str]
     created_at: int = field(default_factory=lambda: int(time.time()))
-    expires_at: Optional[int] = None
-    last_used_at: Optional[int] = None
+    expires_at: int | None = None
+    last_used_at: int | None = None
     is_revoked: bool = False
 
     def is_expired(self) -> bool:
@@ -133,7 +133,7 @@ class RefreshToken:
 class OIDCTokenManager:
     """OAuth2/OIDC token management with Guardian integration."""
 
-    def __init__(self, jwt_manager: Optional[JWTManager] = None, guardian_client=None):
+    def __init__(self, jwt_manager: JWTManager | None = None, guardian_client=None):
         """Initialize token manager."""
         self.jwt_manager = jwt_manager or get_jwt_manager()
         self.guardian_client = guardian_client
@@ -151,9 +151,9 @@ class OIDCTokenManager:
                                 user_id: str,
                                 redirect_uri: str,
                                 scopes: Set[str],
-                                code_challenge: Optional[str] = None,
-                                code_challenge_method: Optional[str] = None,
-                                nonce: Optional[str] = None) -> str:
+                                code_challenge: str | None = None,
+                                code_challenge_method: str | None = None,
+                                nonce: str | None = None) -> str:
         """Create OAuth2 authorization code."""
         with tracer.start_span("oidc.create_authorization_code") as span:
             # Generate cryptographically secure code
@@ -189,7 +189,7 @@ class OIDCTokenManager:
                                   code: str,
                                   client_id: str,
                                   redirect_uri: str,
-                                  code_verifier: Optional[str] = None) -> Tuple[str, str, Optional[str]]:
+                                  code_verifier: str | None = None) -> Tuple[str, str, str | None]:
         """
         Exchange authorization code for tokens.
 
@@ -330,7 +330,7 @@ class OIDCTokenManager:
 
                 return new_access_token, new_refresh_token
 
-    def revoke_token(self, token: str, token_type_hint: Optional[str] = None) -> bool:
+    def revoke_token(self, token: str, token_type_hint: str | None = None) -> bool:
         """Revoke a token (refresh token or access token)."""
         with tracer.start_span("oidc.revoke_token") as span:
             # For refresh tokens, we can revoke from our storage
@@ -461,7 +461,7 @@ class OIDCTokenManager:
 
 
 # Singleton instance
-_token_manager: Optional[OIDCTokenManager] = None
+_token_manager: OIDCTokenManager | None = None
 
 def get_oidc_token_manager() -> OIDCTokenManager:
     """Get the default OIDC token manager instance."""

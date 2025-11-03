@@ -28,14 +28,13 @@
 """
 from __future__ import annotations
 
-
 import asyncio
 import inspect
 import logging
 import time
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Union
 
 # Import quantum identity components
 try:
@@ -45,7 +44,7 @@ try:
         TierAccessDeniedError,
     )
 
-    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (  # noqa: TID252 TODO: convert to absolute import
+    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (
         QIIdentityManager,
         QITierLevel,
         QIUserContext,
@@ -88,7 +87,7 @@ class TierAwareColonyProxy:
         self,
         target_colony: Union[BaseColony, object],
         proxy_id: str,
-        identity_manager: Optional[QIIdentityManager] = None,
+        identity_manager: QIIdentityManager | None = None,
     ):
         """
         Initialize tier-aware colony proxy.
@@ -320,7 +319,7 @@ class TierAwareColonyProxy:
             if len(self.performance_metrics[method_name]) > 1000:
                 self.performance_metrics[method_name] = self.performance_metrics[method_name][-1000:]
 
-    def _extract_user_context(self, args: tuple, kwargs: dict) -> Optional[QIUserContext]:
+    def _extract_user_context(self, args: tuple, kwargs: dict) -> QIUserContext | None:
         """Extract user context from method arguments."""
         # Check kwargs first
         if "user_context" in kwargs:
@@ -508,14 +507,14 @@ class ColonyProxyManager:
     Provides centralized management of multiple colony proxies with identity integration.
     """
 
-    def __init__(self, identity_manager: Optional[QIIdentityManager] = None):
+    def __init__(self, identity_manager: QIIdentityManager | None = None):
         self.identity_manager = identity_manager or (
             get_quantum_identity_manager() if QUANTUM_IDENTITY_AVAILABLE else None
         )
         self.proxies: dict[str, TierAwareColonyProxy] = {}
         self.logger = logging.getLogger(f"{__name__}.ColonyProxyManager")
 
-    def create_proxy(self, colony: Union[BaseColony, object], proxy_id: Optional[str] = None) -> TierAwareColonyProxy:
+    def create_proxy(self, colony: Union[BaseColony, object], proxy_id: str | None = None) -> TierAwareColonyProxy:
         """
         Create a tier-aware proxy for a colony.
 
@@ -538,7 +537,7 @@ class ColonyProxyManager:
         self.logger.info(f"Created proxy '{proxy_id}' for {type(colony).__name__}")
         return proxy
 
-    def get_proxy(self, proxy_id: str) -> Optional[TierAwareColonyProxy]:
+    def get_proxy(self, proxy_id: str) -> TierAwareColonyProxy | None:
         """Get a proxy by ID."""
         return self.proxies.get(proxy_id)
 
@@ -593,7 +592,7 @@ class ColonyProxyManager:
 
 
 # Global proxy manager instance
-_proxy_manager: Optional[ColonyProxyManager] = None
+_proxy_manager: ColonyProxyManager | None = None
 
 
 def get_colony_proxy_manager() -> ColonyProxyManager:
@@ -608,7 +607,7 @@ def get_colony_proxy_manager() -> ColonyProxyManager:
 
 
 def create_identity_aware_proxy(
-    colony: Union[BaseColony, object], proxy_id: Optional[str] = None
+    colony: Union[BaseColony, object], proxy_id: str | None = None
 ) -> TierAwareColonyProxy:
     """Create an identity-aware proxy for a colony."""
     manager = get_colony_proxy_manager()

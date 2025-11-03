@@ -7,7 +7,6 @@ including validation status, AuthZ pass rates, and compliance metrics.
 """
 from __future__ import annotations
 
-
 import datetime
 import glob
 import json

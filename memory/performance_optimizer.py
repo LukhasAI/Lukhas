@@ -9,6 +9,7 @@ and performance monitoring for enterprise-scale memory management.
 """
 
 import asyncio
+import contextlib
 import hashlib
 import time
 from collections import defaultdict, deque
@@ -138,10 +139,8 @@ class FoldPerformanceOptimizer:
 
         if self.auto_optimization_task:
             self.auto_optimization_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.auto_optimization_task
-            except asyncio.CancelledError:
-                pass
             self.auto_optimization_task = None
 
         # Cancel any pending batch timers

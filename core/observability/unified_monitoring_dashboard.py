@@ -915,7 +915,7 @@ class UnifiedMonitoringDashboard:
                 "critical_alerts": len([a for a in self.unified_alerts if a.priority == AlertPriority.CRITICAL]),
                 "alerts_by_system": {
                     system: len([a for a in self.unified_alerts if a.source_system == system])
-                    for system in set(a.source_system for a in self.unified_alerts)
+                    for system in {a.source_system for a in self.unified_alerts}
                 },
             },
             "performance_metrics": self.dashboard_metrics.copy(),

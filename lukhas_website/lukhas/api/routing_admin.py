@@ -29,19 +29,18 @@ from __future__ import annotations
 import logging
 import os
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Security, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
-
 from identity.auth_service import verify_token
 from observability.matriz_decorators import instrument
 from orchestration.externalized_orchestrator import get_externalized_orchestrator
 from orchestration.health_monitor import get_health_monitor
 from orchestration.routing_config import get_routing_config_manager
 from orchestration.routing_strategies import RoutingContext, get_routing_engine
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +48,7 @@ logger = logging.getLogger(__name__)
 security = HTTPBearer()
 
 
-def _parse_env_list(env_var: str, default: Optional[str] = None) -> List[str]:
+def _parse_env_list(env_var: str, default: str | None = None) -> List[str]:
     """Parse a comma-separated environment variable into a list."""
 
     value = os.getenv(env_var)
@@ -69,7 +68,7 @@ ADMIN_ALLOWED_AUDIENCES = _parse_env_list(
 ADMIN_ALLOWED_ISSUERS = _parse_env_list("ROUTING_ADMIN_ALLOWED_ISSUERS")
 
 _ADMIN_MAX_TOKEN_AGE_RAW = os.getenv("ROUTING_ADMIN_MAX_TOKEN_AGE_SECONDS", "3600").strip()
-ADMIN_MAX_TOKEN_AGE_SECONDS: Optional[int]
+ADMIN_MAX_TOKEN_AGE_SECONDS: int | None
 try:
     parsed_token_age = int(_ADMIN_MAX_TOKEN_AGE_RAW)
     ADMIN_MAX_TOKEN_AGE_SECONDS = parsed_token_age if parsed_token_age > 0 else None
@@ -86,13 +85,13 @@ class RoutingPreviewRequest(BaseModel):
     request_type: str = Field(..., description="Type of request to route")
     session_id: str = Field("preview-session", description="Session ID for preview")
     routing_hints: Dict[str, Any] = Field(default_factory=dict, description="Routing hints")
-    configuration_override: Optional[Dict[str, Any]] = Field(None, description="Configuration to test")
+    configuration_override: Dict[str, Any] | None = Field(None, description="Configuration to test")
 
 class RoutingSimulationRequest(BaseModel):
     """Request for routing simulation"""
     scenarios: List[Dict[str, Any]] = Field(..., description="Simulation scenarios")
     iterations: int = Field(100, ge=1, le=10000, description="Number of iterations per scenario")
-    configuration_override: Optional[Dict[str, Any]] = Field(None, description="Configuration to test")
+    configuration_override: Dict[str, Any] | None = Field(None, description="Configuration to test")
 
 class ABTestRequest(BaseModel):
     """A/B test management request"""
@@ -107,7 +106,7 @@ class ConfigurationValidationRequest(BaseModel):
 
 class HealthCheckRequest(BaseModel):
     """Health check request"""
-    providers: Optional[List[str]] = Field(None, description="Specific providers to check")
+    providers: List[str] | None = Field(None, description="Specific providers to check")
     force_check: bool = Field(False, description="Force immediate health check")
 
 class CircuitBreakerRequest(BaseModel):
@@ -639,7 +638,7 @@ async def get_routing_metrics(admin_user: dict = Depends(get_admin_user)):
         metrics = {
             "active_requests": status["active_requests"],
             "provider_health": {
-                provider: data["health_score"] if "health_score" in data else 0
+                provider: data.get("health_score", 0)
                 for provider, data in status["health_summary"]["providers"].items()
             },
             "circuit_breaker_status": status["circuit_breaker_status"],

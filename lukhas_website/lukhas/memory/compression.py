@@ -636,10 +636,7 @@ class AdaptiveCompressionManager:
             CompressionResult with compressed data and metrics
         """
         # Convert string to bytes if needed
-        if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
-        else:
-            data_bytes = data
+        data_bytes = data.encode('utf-8') if isinstance(data, str) else data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:
@@ -785,10 +782,7 @@ class AdaptiveCompressionManager:
         Synchronous compression wrapper.
         """
         # Convert string to bytes if needed
-        if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
-        else:
-            data_bytes = data
+        data_bytes = data.encode('utf-8') if isinstance(data, str) else data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from .base import BaseJurisdictionModule, JurisdictionSignal
 
@@ -45,7 +45,7 @@ class GDPRModule(BaseJurisdictionModule):
     policy_version = "2024-11-01"
     supported_countries = tuple(sorted(_EU_COUNTRIES))
 
-    def _evaluate(self, user_data: Dict[str, Any]) -> Optional[JurisdictionSignal]:
+    def _evaluate(self, user_data: Dict[str, Any]) -> JurisdictionSignal | None:
         ip_country = self._get_ip_country(user_data)
         account_country = self._get_account_country(user_data)
         data_countries = set(self._get_data_processing_countries(user_data))

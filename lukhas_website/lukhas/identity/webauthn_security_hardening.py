@@ -878,10 +878,10 @@ class WebAuthnSecurityHardening:
             ThreatLevel.HIGH, ThreatLevel.CRITICAL
         ]])
 
-        attack_patterns = list(set([
+        attack_patterns = list({
             e.event_type.value for e in self.security_events
             if e.threat_level in [ThreatLevel.HIGH, ThreatLevel.CRITICAL]
-        ]))
+        })
 
         return SecurityMetrics(
             total_requests=len(self.security_events),

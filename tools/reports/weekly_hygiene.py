@@ -6,13 +6,12 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Optional
 
 # Repository context for relative paths
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
-def todo_count(base_path: Optional[Path] = None) -> int:
+def todo_count(base_path: Path | None = None) -> int:
     """Return the number of tracked TODO entries from the generated index."""
 
     base = Path(base_path or REPO_ROOT)
@@ -26,7 +25,7 @@ def todo_count(base_path: Optional[Path] = None) -> int:
     return sum(len(v) for v in data.get("files", {}).values())
 
 
-def lint_debt(base_path: Optional[Path] = None) -> int:
+def lint_debt(base_path: Path | None = None) -> int:
     # allowlist-only, whole repo
     base = Path(base_path or REPO_ROOT)
     lint_dir = base / "reports" / "lints"
@@ -75,7 +74,7 @@ def lint_debt(base_path: Optional[Path] = None) -> int:
     return sum(1 for d in data if d.get("code") in allowed)
 
 
-def nightly_prs_last_7(base_path: Optional[Path] = None) -> int:
+def nightly_prs_last_7(base_path: Path | None = None) -> int:
     try:
         out = subprocess.check_output(
             [
@@ -107,7 +106,7 @@ def spark(n):
     return blocks[idx] * min(n, 20)
 
 
-def main(base_path: Optional[Path] = None) -> int:
+def main(base_path: Path | None = None) -> int:
     """Run the hygiene report generation workflow."""
 
     # ΛTAG: hygiene_reporting

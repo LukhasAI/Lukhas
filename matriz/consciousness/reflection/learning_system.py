@@ -30,7 +30,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 from core.common import get_logger
@@ -859,7 +859,7 @@ class AdvancedLearningSystem:
         self,
         task_definition: dict[str, Any],
         support_examples: list[dict[str, Any]],
-        adaptation_strategy: Optional[LearningStrategy] = None,
+        adaptation_strategy: LearningStrategy | None = None,
     ) -> dict[str, Any]:
         """Adapt to a new task using available learning mechanisms"""
         try:

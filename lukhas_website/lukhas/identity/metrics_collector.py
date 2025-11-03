@@ -16,7 +16,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
@@ -346,7 +346,7 @@ class ServiceMetricsCollector:
         event_type: str,
         threat_level: ThreatLevel,
         action: str,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Dict[str, Any] | None = None
     ):
         """Record security event"""
         self.security_events_total.labels(
@@ -429,7 +429,7 @@ class ServiceMetricsCollector:
         for tier, count in tier_counts.items():
             self.user_tier_distribution.labels(tier_level=str(tier)).set(count)
 
-    def get_performance_stats(self, endpoint: Optional[str] = None) -> Dict[str, PerformanceStats]:
+    def get_performance_stats(self, endpoint: str | None = None) -> Dict[str, PerformanceStats]:
         """Get performance statistics"""
         stats = {}
 
@@ -542,7 +542,7 @@ class ServiceMetricsCollector:
 
 
 # Global metrics collector instance
-_global_metrics_collector: Optional[ServiceMetricsCollector] = None
+_global_metrics_collector: ServiceMetricsCollector | None = None
 
 
 def get_metrics_collector() -> ServiceMetricsCollector:

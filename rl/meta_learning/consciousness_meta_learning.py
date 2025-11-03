@@ -554,7 +554,7 @@ class ConsciousnessMetaLearning:
             quality_score += 0.15
 
         # Cross-task transfer insights
-        if len(set(exp.task_id.split("-")[0] for exp in experiences)) > 2:
+        if len({exp.task_id.split("-")[0] for exp in experiences}) > 2:
             insights.append("Learning spans multiple task domains, enabling knowledge transfer")
             quality_score += 0.1
 
@@ -603,7 +603,7 @@ class ConsciousnessMetaLearning:
         }
 
         # Knowledge transfer (mock calculation based on task diversity)
-        unique_tasks = len(set(exp.task_id.split("-")[0] for exp in experiences))
+        unique_tasks = len({exp.task_id.split("-")[0] for exp in experiences})
         transfer_score = min(1.0, unique_tasks / 5)  # Assume 5+ task types indicates good transfer
         objective_scores["knowledge_transfer"] = {
             "current": transfer_score,

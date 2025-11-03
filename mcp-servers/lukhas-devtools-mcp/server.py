@@ -47,7 +47,7 @@ def main():
             sys.stdout.write(json.dumps({"id": req["id"], "result": list_tools()}) + "\n"); sys.stdout.flush()
         elif req.get("method") == "tools/run":
             name = req["params"]["name"]
-            ns, short = name.split(".", 1)
+            _ns, short = name.split(".", 1)
             tool = next((t for t in CATALOG["tools"] if t["name"] == short), None)
             if not tool:
                 sys.stdout.write(json.dumps({"id": req["id"], "error":{"message":"unknown tool"}}) + "\n"); sys.stdout.flush(); continue

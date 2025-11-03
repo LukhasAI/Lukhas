@@ -17,10 +17,10 @@ Heuristics:
   - Else => move
   - risk: high if import_count > 12 or depth > 5, medium if import_count >6 or depth 4-5
 """
+import argparse
 import csv
 from collections import Counter
 from pathlib import Path
-import argparse
 
 ART_DIR = Path("release_artifacts/matriz_readiness_v1")
 DISC = ART_DIR / "discovery"
@@ -111,10 +111,7 @@ def main():
     for score, depth, ic, f in cands:
         # host new_path: replace "/" with "_" and drop leading "./" or starting slash
         new_name = f.lstrip("./").replace("/", "_")
-        if new_name.endswith(".py"):
-            new_name = new_name[:-3] + ".py"
-        else:
-            new_name = new_name + ".py"
+        new_name = new_name[:-3] + ".py" if new_name.endswith(".py") else new_name + ".py"
         # place MATRIZ-prefixed modules for matrix nodes
         if "candidate/core/matrix/nodes" in f or "MATRIZ" in f:
             new_path = "MATRIZ/" + new_name

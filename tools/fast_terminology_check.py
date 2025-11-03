@@ -58,9 +58,7 @@ def run_fast_terminology_check():
 
     for pattern in search_patterns:
         try:
-            result = subprocess.run([
-                "grep", "-r", "--include=*.py", "-i", pattern
-            ] + search_dirs, capture_output=True, text=True, timeout=10)
+            result = subprocess.run(["grep", "-r", "--include=*.py", "-i", pattern, *search_dirs], capture_output=True, text=True, timeout=10)
 
             if result.stdout.strip():
                 context_indicators += 1

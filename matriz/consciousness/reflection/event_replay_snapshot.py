@@ -30,7 +30,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import aiofiles
 from core.common import get_logger
@@ -61,8 +61,8 @@ class Event:
     actor_id: str
     timestamp: float
     data: dict[str, Any]
-    correlation_id: Optional[str] = None
-    causation_id: Optional[str] = None  # ID of event that caused this one
+    correlation_id: str | None = None
+    causation_id: str | None = None  # ID of event that caused this one
 
     def to_json(self) -> str:
         """Serialize to JSON"""
@@ -79,7 +79,7 @@ class Event:
         )
 
     @classmethod
-    def from_json(cls, json_str: str) -> "Event":
+    def from_json(cls, json_str: str) -> Event:
         """Deserialize from JSON"""
         data = json.loads(json_str)
         return cls(
@@ -106,7 +106,7 @@ class ActorStateSnapshot:
     metadata: dict[str, Any]
 
     @classmethod
-    def create_from_actor(cls, actor: Actor, event_id: str) -> "ActorStateSnapshot":
+    def create_from_actor(cls, actor: Actor, event_id: str) -> ActorStateSnapshot:
         """Create snapshot from live actor"""
         # Capture state (excluding non-serializable items)
         state_dict = {}
@@ -207,8 +207,8 @@ class EventStore:
     async def get_events_for_actor(
         self,
         actor_id: str,
-        start_time: Optional[float] = None,
-        end_time: Optional[float] = None,
+        start_time: float | None = None,
+        end_time: float | None = None,
     ) -> list[Event]:
         """Get all events for a specific actor"""
         events = []
@@ -244,7 +244,7 @@ class EventStore:
         self,
         events: list[Event],
         speed: float = 1.0,
-        callback: Optional[Callable] = None,
+        callback: Callable | None = None,
     ) -> int:
         """Replay a sequence of events with timing"""
         if not events:
@@ -358,7 +358,7 @@ class EventStore:
         return events
 
     async def _load_events_from_disk(
-        self, actor_id: str, start_time: Optional[float], end_time: Optional[float]
+        self, actor_id: str, start_time: float | None, end_time: float | None
     ) -> list[Event]:
         """Load events for an actor from disk"""
         events = []
@@ -423,7 +423,7 @@ class SnapshotStore:
 
         logger.info(f"Saved snapshot for {snapshot.actor_id} at {snapshot.timestamp}")
 
-    async def load_snapshot(self, actor_id: str, timestamp: Optional[float] = None) -> Optional[ActorStateSnapshot]:
+    async def load_snapshot(self, actor_id: str, timestamp: float | None = None) -> ActorStateSnapshot | None:
         """Load a snapshot for an actor"""
         with self._lock:
             snapshots = self.snapshot_index.get(actor_id, [])
@@ -450,8 +450,8 @@ class SnapshotStore:
         return snapshot
 
     async def get_latest_snapshot(
-        self, actor_id: str, before_timestamp: Optional[float] = None
-    ) -> Optional[ActorStateSnapshot]:
+        self, actor_id: str, before_timestamp: float | None = None
+    ) -> ActorStateSnapshot | None:
         """Get the latest snapshot for an actor, optionally before timestamp"""
         return await self.load_snapshot(actor_id, before_timestamp)
 
@@ -494,8 +494,8 @@ class EventSourcedActor(Actor):
     def __init__(
         self,
         actor_id: str,
-        event_store: Optional[EventStore] = None,
-        snapshot_store: Optional[SnapshotStore] = None,
+        event_store: EventStore | None = None,
+        snapshot_store: SnapshotStore | None = None,
     ):
         super().__init__(actor_id)
         self.event_store = event_store
@@ -503,7 +503,7 @@ class EventSourcedActor(Actor):
         self.replay_mode = False
 
         # Track event causation
-        self._current_causation_id: Optional[str] = None
+        self._current_causation_id: str | None = None
 
     async def send_message(self, message: ActorMessage) -> bool:
         """Override to record message events"""
@@ -557,7 +557,7 @@ class EventSourcedActor(Actor):
         change_type: str,
         old_value: Any,
         new_value: Any,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ):
         """Record a state change event"""
         if self.event_store and not self.replay_mode:
@@ -576,7 +576,7 @@ class EventSourcedActor(Actor):
             )
             await self.event_store.append_event(event)
 
-    async def take_snapshot(self, event_id: Optional[str] = None):
+    async def take_snapshot(self, event_id: str | None = None):
         """Take a snapshot of current state"""
         if self.snapshot_store:
             event_id = event_id or f"manual_{time.time()}"
@@ -597,7 +597,7 @@ class EventSourcedActor(Actor):
                 )
                 await self.event_store.append_event(event)
 
-    async def restore_from_snapshot(self, timestamp: Optional[float] = None):
+    async def restore_from_snapshot(self, timestamp: float | None = None):
         """Restore actor state from snapshot"""
         if not self.snapshot_store:
             raise RuntimeError("No snapshot store configured")
@@ -610,8 +610,8 @@ class EventSourcedActor(Actor):
 
     async def replay_history(
         self,
-        start_time: Optional[float] = None,
-        end_time: Optional[float] = None,
+        start_time: float | None = None,
+        end_time: float | None = None,
         speed: float = 1.0,
     ):
         """Replay actor's event history"""

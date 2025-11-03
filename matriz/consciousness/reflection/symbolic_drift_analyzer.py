@@ -51,7 +51,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from core.common import get_logger
 
@@ -183,9 +183,9 @@ class SymbolicDriftAnalyzer:
 
     def __init__(
         self,
-        dream_memory_manager: Optional[DreamMemoryManager] = None,
-        ethical_detector: Optional[EthicalDriftDetector] = None,
-        config: Optional[dict[str, Any]] = None,
+        dream_memory_manager: DreamMemoryManager | None = None,
+        ethical_detector: EthicalDriftDetector | None = None,
+        config: dict[str, Any] | None = None,
     ):
         """
         Initialize the drift analyzer
@@ -236,7 +236,7 @@ class SymbolicDriftAnalyzer:
         self.total_dreams_analyzed = 0
         self.current_drift_phase = DriftPhase.EARLY
         self.monitoring_active = False
-        self._monitoring_task: Optional[asyncio.Task] = None
+        self._monitoring_task: asyncio.Task | None = None
 
         # Alert callbacks
         self.alert_callbacks: list[Callable[[DriftAlert], None]] = []

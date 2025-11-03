@@ -193,10 +193,9 @@ def main():
 
     fixed = 0
     for filepath in sorted(files):
-        if Path(filepath).exists():
-            if fix_file(filepath):
-                fixed += 1
-                print(f"✓ {filepath}")
+        if Path(filepath).exists() and fix_file(filepath):
+            fixed += 1
+            print(f"✓ {filepath}")
 
     print(f"\nFixed {fixed} files")
 

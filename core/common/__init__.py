@@ -9,7 +9,7 @@ from importlib import import_module
 from typing import List, Optional
 
 __all__: List[str] = []
-_SRC: Optional[object] = None
+_SRC: object | None = None
 
 def _bind(modname: str) -> bool:
     global _SRC, __all__

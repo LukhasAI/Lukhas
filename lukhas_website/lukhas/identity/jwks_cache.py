@@ -10,6 +10,7 @@ Implements intelligent caching, validation, and automatic key rotation.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -18,7 +19,7 @@ import time
 from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -29,8 +30,8 @@ class JWKSCacheEntry:
     jwks: Dict[str, Any]
     created_at: datetime
     expires_at: datetime
-    etag: Optional[str] = None
-    last_modified: Optional[str] = None
+    etag: str | None = None
+    last_modified: str | None = None
     access_count: int = 0
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -118,7 +119,7 @@ class JWKSCache:
 
         # Prefetch queue and worker
         self._prefetch_queue: asyncio.Queue = asyncio.Queue()
-        self._prefetch_worker: Optional[asyncio.Task] = None
+        self._prefetch_worker: asyncio.Task | None = None
         self._running = False
 
         logger.info(f"🔑 JWKS Cache initialized (max_size={max_size}, ttl={default_ttl_seconds}s)")
@@ -134,13 +135,11 @@ class JWKSCache:
         self._running = False
         if self._prefetch_worker:
             self._prefetch_worker.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._prefetch_worker
-            except asyncio.CancelledError:
-                pass
         logger.info("🛑 JWKS Cache stopped")
 
-    def get(self, cache_key: str) -> Tuple[Optional[Dict[str, Any]], bool]:
+    def get(self, cache_key: str) -> Tuple[Dict[str, Any] | None, bool]:
         """
         Get JWKS from cache.
 
@@ -186,9 +185,9 @@ class JWKSCache:
         self,
         cache_key: str,
         jwks: Dict[str, Any],
-        ttl_seconds: Optional[int] = None,
-        etag: Optional[str] = None,
-        last_modified: Optional[str] = None
+        ttl_seconds: int | None = None,
+        etag: str | None = None,
+        last_modified: str | None = None
     ) -> None:
         """
         Put JWKS in cache.
@@ -416,7 +415,7 @@ class JWKSCache:
 
 
 # Global cache instance
-_global_jwks_cache: Optional[JWKSCache] = None
+_global_jwks_cache: JWKSCache | None = None
 
 
 def get_jwks_cache() -> JWKSCache:
@@ -431,7 +430,7 @@ def get_jwks_cache() -> JWKSCache:
 async def cached_get_jwks(
     issuer_url: str,
     jwks_fetcher: Any = None,
-    cache_key: Optional[str] = None
+    cache_key: str | None = None
 ) -> Dict[str, Any]:
     """
     Get JWKS with caching support.

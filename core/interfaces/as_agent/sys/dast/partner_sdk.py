@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: partner_sdk.py

@@ -41,7 +41,7 @@ import asyncio  # For async methods
 import hashlib  # For CardiolipinEncoder
 import json  # For CardiolipinEncoder
 from datetime import datetime, timezone  # Standardized timestamping
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 import structlog  # Standardized logging
@@ -54,9 +54,8 @@ LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
     # Try absolute imports first (candidate lane structure)
     # type: ignore
-    from qi.processing.qi_engine import QIOscillator  # type: ignore
-
     from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
+    from qi.processing.qi_engine import QIOscillator  # type: ignore
 
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
@@ -65,9 +64,8 @@ except ImportError:
     try:
         # Fallback to production lane if available
         # type: ignore
-        from qi.processing.qi_engine import QIOscillator  # type: ignore
-
         from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
+        from qi.processing.qi_engine import QIOscillator  # type: ignore
 
 
         LUKHAS_OSCILLATORS_AVAILABLE = True
@@ -137,7 +135,7 @@ def lukhas_tier_required(level: int):
 class ProtonGradient:
     """Simulates bio-inspired quantum-enhanced gradient processing."""
 
-    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+    def __init__(self, qi_oscillator: QIOscillator | None = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
         self.gradient_state_vector = np.zeros(3, dtype=float)
@@ -204,7 +202,7 @@ class ProtonGradient:
 class QIAttentionGate:
     """Simulates a quantum-enhanced attention gating mechanism."""
 
-    def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
+    def __init__(self, bio_oscillator: QIBioOscillator | None = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.bio_oscillator: QIBioOscillator = bio_oscillator or QIBioOscillator()
         self.log.info("QIAttentionGate initialized.")

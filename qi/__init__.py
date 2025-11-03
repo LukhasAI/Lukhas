@@ -50,6 +50,15 @@ except ImportError:
     bio_integration = None
     QI_BIO_AVAILABLE = False
 
+try:
+    # Import entanglement system
+    from . import qi_entanglement
+
+    QI_ENTANGLEMENT_AVAILABLE = True
+except ImportError:
+    qi_entanglement = None
+    QI_ENTANGLEMENT_AVAILABLE = False
+
 
 def get_qi_status() -> dict[str, Any]:
     """Get overall QI system status"""
@@ -59,6 +68,7 @@ def get_qi_status() -> dict[str, Any]:
         "awareness": QI_AWARENESS_AVAILABLE,
         "processing": QI_PROCESSING_AVAILABLE,
         "bio_integration": QI_BIO_AVAILABLE,
+        "entanglement": QI_ENTANGLEMENT_AVAILABLE,
         "version": __version__,
     }
 
@@ -68,10 +78,12 @@ __all__ = [
     "QI_AWARENESS_AVAILABLE",
     "QI_BIO_AVAILABLE",
     "QI_COORDINATION_AVAILABLE",
+    "QI_ENTANGLEMENT_AVAILABLE",
     "QI_PROCESSING_AVAILABLE",
     "bio_integration",
     "coordinator",
     "core_awareness",
     "get_qi_status",
     "qi_coordinator",
+    "qi_entanglement",
 ]

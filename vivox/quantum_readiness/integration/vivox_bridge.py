@@ -8,7 +8,6 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 from ..coherence.qsync_events import QISynchronizer, SyncType
@@ -147,7 +146,7 @@ class VIVOXQIBridge:
         robustness = noisy_state.fidelity
 
         # Quantum verification through measurement
-        outcome, measured_state = qi_state.measure()
+        _outcome, measured_state = qi_state.measure()
 
         # Create superposition of alignment states
         alignment_superposition = self._create_alignment_superposition(alignment_scores)

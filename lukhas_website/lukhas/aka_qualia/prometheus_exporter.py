@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-
 """
 Prometheus Metrics Exporter for Aka Qualia
 =========================================
@@ -17,7 +16,7 @@ Provides real-time observability into:
 - Energy conservation compliance
 """
 import time
-from typing import Any, Optional
+from typing import Any
 
 from prometheus_client import (
     CONTENT_TYPE_LATEST,
@@ -99,7 +98,7 @@ class PrometheusExporter:
     with standardized akaq_ prefixed metrics for monitoring and alerting.
     """
 
-    def __init__(self, system_info: Optional[dict[str, str]] = None):
+    def __init__(self, system_info: dict[str, str] | None = None):
         """
         Initialize Prometheus exporter.
 
@@ -193,7 +192,7 @@ class PrometheusExporter:
         # Track collapse hash changes (would need additional logic to detect changes)
         # akaq_vivox_collapse_hash_changes.inc()  # Increment when hash changes
 
-    def update_processing_performance(self, step_duration: float, metrics_duration: Optional[float] = None) -> None:
+    def update_processing_performance(self, step_duration: float, metrics_duration: float | None = None) -> None:
         """Update processing performance metrics"""
         akaq_processing_time.observe(step_duration)
 

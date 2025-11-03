@@ -83,7 +83,7 @@ from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 from core.common import get_logger
@@ -161,7 +161,7 @@ class ConsciousnessEngine:
     - Adapts processing based on cognitive load and importance
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: dict | None = None):
         """
         Initialize the consciousness engine—the first spark of awareness.
 
@@ -662,7 +662,7 @@ class ConsciousnessEngine:
         ]
         return insights[min(depth, len(insights) - 1)]
 
-    def _check_self_model_update(self, state: dict) -> Optional[str]:
+    def _check_self_model_update(self, state: dict) -> str | None:
         """Check if self-model needs updating based on experience"""
         if "novel_pattern" in str(state):
             return "capability_expansion_noted"
@@ -1040,7 +1040,7 @@ class ConsciousnessEngine:
             "where consciousness meets itself in infinite reflection"
         )
 
-    async def dream(self, dream_seed: Optional[dict] = None) -> dict[str, Any]:
+    async def dream(self, dream_seed: dict | None = None) -> dict[str, Any]:
         """
         Enter a dream state—consciousness exploring possibility space.
 
@@ -1114,7 +1114,7 @@ class ConsciousnessEngine:
         # Select 3-5 symbols
         return np.random.choice(symbols, size=np.random.randint(3, 6), replace=False).tolist()
 
-    async def _generate_dream_narrative(self, seed: Optional[dict]) -> str:
+    async def _generate_dream_narrative(self, seed: dict | None) -> str:
         """Generate dream narrative"""
         await asyncio.sleep(0.02)
 

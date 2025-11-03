@@ -31,7 +31,6 @@ import jwt
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-
 from identity.oidc.client_registry import OIDCClient
 from identity.oidc.discovery import DiscoveryProvider
 from identity.oidc.provider import OIDCProvider
@@ -672,7 +671,7 @@ class TestOIDCMetricsIntegration(OIDCConformanceTestSuite):
         jwks_latencies = []
 
         # Simulate multiple JWKS requests
-        for i in range(5):
+        for _i in range(5):
             start_time = time.perf_counter()
 
             # In real implementation, this would be HTTP request to /.well-known/jwks.json

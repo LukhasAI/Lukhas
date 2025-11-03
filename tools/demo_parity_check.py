@@ -234,7 +234,7 @@ class DemoParityChecker:
         """Check if external tool is available."""
         try:
             result = subprocess.run(
-                [tool_name] + version_args,
+                [tool_name, *version_args],
                 capture_output=True,
                 timeout=5
             )

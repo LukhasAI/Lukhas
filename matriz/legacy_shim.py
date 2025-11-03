@@ -295,6 +295,6 @@ __all__ = [
     "LegacyShim",
     "create_shim",
     "is_legacy_available",
-    "migrate_legacy_nodes",
-    "logger"
+    "logger",
+    "migrate_legacy_nodes"
 ]

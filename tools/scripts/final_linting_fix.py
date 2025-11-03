@@ -224,7 +224,7 @@ def main():
 
     # Step 6: Check final status
     print("\n📊 Step 6: Checking final status...")
-    returncode, stdout, stderr = run_command(["flake8", ".", "--count"])
+    _returncode, stdout, _stderr = run_command(["flake8", ".", "--count"])
     if stdout and stdout.strip().isdigit():
         count = int(stdout.strip())
         print(f"\n✅ Final issue count: {count}")

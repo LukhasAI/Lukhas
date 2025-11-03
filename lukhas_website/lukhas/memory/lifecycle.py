@@ -105,6 +105,7 @@ class AbstractVectorStore(ABC):
         """List documents by identity"""
         pass
 # Use standard Python logging instead of custom logger
+import contextlib
 import uuid
 from contextvars import ContextVar
 
@@ -390,7 +391,7 @@ class FileArchivalBackend(AbstractArchivalBackend):
             with gzip.open(archive_path, 'rt', encoding='utf-8') as f:
                 archive_data = json.load(f)
         elif archive_path.with_suffix('.json').exists():
-            with open(archive_path.with_suffix('.json'), 'r', encoding='utf-8') as f:
+            with open(archive_path.with_suffix('.json'), encoding='utf-8') as f:
                 archive_data = json.load(f)
         else:
             raise FileNotFoundError(f"Archived document not found: {archive_id}")
@@ -786,11 +787,7 @@ class MemoryLifecycleManager:
     ) -> bool:
         """Check if document matches rule conditions"""
         for field, value in conditions.items():
-            if field == "lane" and document.lane != value:
-                return False
-            elif field == "identity_id" and document.identity_id != value:
-                return False
-            elif field == "fold_id" and document.fold_id != value:
+            if (field == "lane" and document.lane != value) or (field == "identity_id" and document.identity_id != value) or (field == "fold_id" and document.fold_id != value):
                 return False
             elif field == "tags":
                 if isinstance(value, list):
@@ -803,9 +800,8 @@ class MemoryLifecycleManager:
                 gdpr_cat = document.metadata.get("gdpr", {}).get("category")
                 if gdpr_cat != value:
                     return False
-            elif field in document.metadata:
-                if document.metadata[field] != value:
-                    return False
+            elif field in document.metadata and document.metadata[field] != value:
+                return False
         return True
 
     async def cleanup_expired_documents(
@@ -1415,17 +1411,13 @@ class MemoryLifecycleManager:
         """Stop background tasks"""
         if self._cleanup_task:
             self._cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._cleanup_task
-            except asyncio.CancelledError:
-                pass
 
         if self._archival_task:
             self._archival_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._archival_task
-            except asyncio.CancelledError:
-                pass
 
         logger.info("Background lifecycle tasks stopped")
 

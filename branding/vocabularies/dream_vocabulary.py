@@ -40,7 +40,6 @@
 """
 from __future__ import annotations
 
-
 # No external dependencies - standalone vocabulary definitions
 
 # Dream Phase Symbols

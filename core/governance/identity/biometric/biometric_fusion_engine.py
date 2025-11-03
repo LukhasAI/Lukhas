@@ -25,7 +25,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class BiometricSample:
     raw_data: bytes
     quality_score: float  # 0.0 to 1.0
     consciousness_context: dict[str, Any]
-    cultural_markers: Optional[dict[str, Any]] = None
+    cultural_markers: dict[str, Any] | None = None
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     def compute_hash(self) -> str:
@@ -89,7 +89,7 @@ class FusionResult:
     fusion_method: str
     modalities_used: list[BiometricModality]
     fallback_triggered: bool
-    fallback_strategy: Optional[FallbackStrategy]
+    fallback_strategy: FallbackStrategy | None
     consciousness_boost: float
     cultural_alignment: float
     session_vector: str  # Unique fusion vector for this session
@@ -152,7 +152,7 @@ class BiometricFusionEngine:
         biometric_samples: list[BiometricSample],
         consciousness_state: str,
         cultural_context: dict[str, Any],
-        fallback_data: Optional[dict[str, Any]] = None,
+        fallback_data: dict[str, Any] | None = None,
     ) -> FusionResult:
         """
         Perform T3 biometric authentication with intelligent fallback
@@ -261,7 +261,7 @@ class BiometricFusionEngine:
         samples: list[BiometricSample],
         consciousness_state: str,
         cultural_context: dict[str, Any],
-        fallback_data: Optional[dict[str, Any]],
+        fallback_data: dict[str, Any] | None,
     ) -> FusionResult:
         """Execute intelligent fallback authentication"""
 
@@ -296,7 +296,7 @@ class BiometricFusionEngine:
         self,
         samples: list[BiometricSample],
         consciousness_state: str,
-        fallback_data: Optional[dict[str, Any]],
+        fallback_data: dict[str, Any] | None,
     ) -> FallbackStrategy:
         """Intelligently select best fallback strategy"""
 

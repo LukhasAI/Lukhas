@@ -2,7 +2,7 @@
 """
 LUKHAS Advanced Security & Caching Infrastructure - Integration Summary
 
-This module provides a comprehensive overview of the enterprise-grade security and caching 
+This module provides a comprehensive overview of the enterprise-grade security and caching
 infrastructure implemented for the LUKHAS AI platform.
 
 # ΛTAG: infrastructure_summary, security_integration, cache_integration, storage_integration

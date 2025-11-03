@@ -193,7 +193,6 @@ async def test_integration():
     try:
         # Test security + caching integration
         from caching.cache_system import CacheConfig, HierarchicalCacheManager
-
         from security.security_framework import LUKHASSecurityFramework, SecurityConfig
 
         # Initialize components
@@ -311,7 +310,7 @@ async def main():
         "Performance Benchmarks"
     ]
 
-    for i, (component, result) in enumerate(zip(components, results)):
+    for _i, (component, result) in enumerate(zip(components, results)):
         status = "✅ PASS" if result else "❌ FAIL"
         print(f"  {component}: {status}")
 

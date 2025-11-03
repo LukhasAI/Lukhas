@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import base64
+import contextlib
 import json
 from pathlib import Path
 from typing import Any, Dict
 
 import pytest
 from fastapi.testclient import TestClient
-
 from services.registry import main as registry_main
 from services.registry.main import app
 
@@ -31,10 +31,8 @@ def reset_registry_state():
         registry_main.REGISTRY_SIG,
         registry_main.REGISTRY_META,
     ):
-        try:
+        with contextlib.suppress(FileNotFoundError):
             artifact.unlink()
-        except FileNotFoundError:
-            pass
 
     yield
 
@@ -44,10 +42,8 @@ def reset_registry_state():
         registry_main.REGISTRY_SIG,
         registry_main.REGISTRY_META,
     ):
-        try:
+        with contextlib.suppress(FileNotFoundError):
             artifact.unlink()
-        except FileNotFoundError:
-            pass
 
 
 def test_checkpoint_signature_bundle_integrity():

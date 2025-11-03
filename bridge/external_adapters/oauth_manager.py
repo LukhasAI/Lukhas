@@ -49,7 +49,7 @@ import logging
 import secrets
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.external_adapters.oauth")
@@ -59,7 +59,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "oauth_manager"
 
-__all__ = ["OAuthProvider", "TokenStatus", "OAuthManager"]
+__all__ = ["OAuthManager", "OAuthProvider", "TokenStatus"]
 
 
 class OAuthProvider(Enum):
@@ -99,7 +99,7 @@ class OAuthManager:
     with enterprise-grade security and token lifecycle management.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize OAuth manager"""
         self.config = config or {}
 
@@ -276,7 +276,7 @@ class OAuthManager:
             logger.error("Failed to store credentials: %s", str(e))
             return False
 
-    async def get_credentials(self, user_id: str, provider: OAuthProvider) -> Optional[dict[str, Any]]:
+    async def get_credentials(self, user_id: str, provider: OAuthProvider) -> dict[str, Any] | None:
         """
         Get stored OAuth credentials
 
@@ -329,7 +329,7 @@ class OAuthManager:
 
     async def refresh_credentials(
         self, user_id: str, provider: OAuthProvider, refresh_token: str
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """
         Refresh OAuth credentials using refresh token
 

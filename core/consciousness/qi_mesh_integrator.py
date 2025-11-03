@@ -27,10 +27,9 @@ import time
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
-
 from core.common import get_logger
 
 logger = get_logger(__name__)
@@ -84,7 +83,7 @@ class EthicsSignal:
     source_modules: list[str]
     data: dict[str, Any]
     timestamp: float = field(default_factory=time.time)
-    correlation_id: Optional[str] = None
+    correlation_id: str | None = None
 
 
 @dataclass
@@ -104,7 +103,7 @@ class QIEthicsMeshIntegrator:
     Main integrator for unified ethics mesh across LUKHAS Cognitive AI subsystems
     """
 
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(self, config_path: str | None = None):
         self.subsystem_states: dict[str, EthicalState] = {}
         self.entanglement_matrix: dict[tuple[str, str], PhaseEntanglement] = {}
         self.signal_handlers: dict[str, list] = {}
@@ -129,7 +128,7 @@ class QIEthicsMeshIntegrator:
 
         logger.info("Quantum Ethics Mesh Integrator initialized")
 
-    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
+    def _load_config(self, config_path: str | None) -> dict[str, Any]:
         """Load configuration from file"""
         if config_path and Path(config_path).exists():
             with open(config_path) as f:
@@ -357,7 +356,7 @@ class QIEthicsMeshIntegrator:
         self,
         coherence_score: float,
         divergence_zones: list[str],
-        unified_field: Optional[dict] = None,
+        unified_field: dict | None = None,
     ) -> None:
         """
         Route ethics feedback to governance, collapse, and memory modules
@@ -588,7 +587,7 @@ class QIEthicsMeshIntegrator:
 
         return high_entanglement_pairs.get(pair1, high_entanglement_pairs.get(pair2, 0.5))
 
-    def _assess_cascade_risk(self, unified_field: Optional[dict]) -> float:
+    def _assess_cascade_risk(self, unified_field: dict | None) -> float:
         """Assess risk of ethical cascade failure"""
         if not unified_field:
             return 0.0

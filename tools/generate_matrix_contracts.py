@@ -7,7 +7,6 @@ with comprehensive identity blocks, tokenization placeholders, and tier mappings
 """
 from __future__ import annotations
 
-
 import json
 import sys
 from pathlib import Path
@@ -108,10 +107,7 @@ def should_require_webauthn(module_name: str, tiers: List[str]) -> bool:
         return True
 
     # High-tier modules require WebAuthn
-    if "inner_circle" in tiers or "root_dev" in tiers:
-        return True
-
-    return False
+    return bool("inner_circle" in tiers or "root_dev" in tiers)
 
 def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
     """Generate a complete Matrix contract for a module."""

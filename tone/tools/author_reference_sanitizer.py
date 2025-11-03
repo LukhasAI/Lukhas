@@ -7,7 +7,6 @@ Used as a safety net for content that needs to be cleaned of author attributions
 """
 from __future__ import annotations
 
-
 import re
 import sys
 

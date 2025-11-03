@@ -44,7 +44,6 @@ import logging
 
 # Module imports
 import os
-from typing import Optional
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.env_loader")
@@ -86,7 +85,7 @@ def load_lukhas_env() -> dict[str, str]:
     return env_vars
 
 
-def get_api_key(service: str) -> Optional[str]:
+def get_api_key(service: str) -> str | None:
     """Get API key for a specific service"""
     # First try to load from .env file
     load_lukhas_env()

@@ -1,4 +1,4 @@
 """Bridge module for core.integrated_system → labs.core.integrated_system"""
 from __future__ import annotations
 
-from labs.core.integrated_system import *  # noqa: F401, F403
+from labs.core.integrated_system import *  # noqa: F403

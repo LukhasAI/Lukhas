@@ -47,11 +47,11 @@ class Lifecycle:
 
 
 __all__ = [
-    "RetentionRule",
-    "RetentionSeverity",
+    "Lifecycle",
     "RetentionAction",
     "RetentionPolicy",
-    "Lifecycle",
+    "RetentionRule",
+    "RetentionSeverity",
 ]
 
 try:

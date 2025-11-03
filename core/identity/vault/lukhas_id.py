@@ -8,7 +8,7 @@ import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 import structlog
 
@@ -114,7 +114,7 @@ class LukhasIdentityVault:
                 last_refreshed=profile.last_refreshed,
             )
 
-    async def get_identity_by_api_key(self, api_key: str) -> Optional[IdentityProfile]:
+    async def get_identity_by_api_key(self, api_key: str) -> IdentityProfile | None:
         """Resolve an API key to an identity profile."""
 
         async with self._lock:
@@ -131,7 +131,7 @@ class LukhasIdentityVault:
                 last_refreshed=profile.last_refreshed,
             )
 
-    def get_cached_identity(self, user_id: str) -> Optional[IdentityProfile]:
+    def get_cached_identity(self, user_id: str) -> IdentityProfile | None:
         """Return the cached identity without refreshing."""
 
         profile = self._records.get(user_id)
@@ -193,7 +193,7 @@ class LukhasIdentityVault:
         memory_id: str,
         tier_level: int,
         action: str,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Record an access event."""
 
@@ -268,7 +268,7 @@ class LukhasIdentityVault:
         # Final fallback - should never reach here
         return await self._create_inferred_identity(user_id)
 
-    async def _fetch_from_primary_identity_service(self, user_id: str) -> Optional[IdentityProfile]:
+    async def _fetch_from_primary_identity_service(self, user_id: str) -> IdentityProfile | None:
         """Fetch from primary identity service (e.g., Auth0, Cognito, etc.)."""
 
         # Simulate external service call
@@ -314,7 +314,7 @@ class LukhasIdentityVault:
 
         return profile
 
-    async def _fetch_from_backup_identity_service(self, user_id: str) -> Optional[IdentityProfile]:
+    async def _fetch_from_backup_identity_service(self, user_id: str) -> IdentityProfile | None:
         """Fetch from backup identity service."""
 
         await asyncio.sleep(0.005)  # Faster backup service
@@ -409,7 +409,7 @@ def log_access(
     action: str,
     memory_id: str,
     tier: int | TierLevel,
-    metadata: Optional[dict[str, Any]] = None,
+    metadata: dict[str, Any] | None = None,
 ) -> None:
     """Record identity access using the shared vault instance."""
 
@@ -436,7 +436,7 @@ class IdentityManager:
         TierLevel.SYSTEM.value: 600,
     }
 
-    def __init__(self, vault: Optional[LukhasIdentityVault] = None) -> None:
+    def __init__(self, vault: LukhasIdentityVault | None = None) -> None:
         self._vault = vault or _DEFAULT_VAULT
         self._rate_lock = asyncio.Lock()
         self._request_windows: dict[str, tuple[float, int]] = {}
@@ -449,7 +449,7 @@ class IdentityManager:
         self._session_store.setdefault(user_id, {"active_sessions": set()})
         return profile
 
-    async def start_session(self, user_id: str, session_id: Optional[str] = None) -> dict[str, Any]:
+    async def start_session(self, user_id: str, session_id: str | None = None) -> dict[str, Any]:
         """Register a symbolic session for the given user."""
 
         profile = await self.get_user_identity(user_id)
@@ -493,7 +493,7 @@ class IdentityManager:
         memory_id: str,
         required_tier: int | TierLevel,
         action: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Dict[str, Any] | None = None,
     ) -> None:
         """Ensure the caller meets the required tier and log the attempt."""
 
@@ -552,12 +552,12 @@ class IdentityManager:
 
 
 __all__ = [
+    "AccessLogEntry",
     "IdentityManager",
     "IdentityProfile",
     "IdentityRateLimitExceeded",
     "IdentityVerificationError",
     "LukhasIdentityVault",
-    "AccessLogEntry",
     "has_access",
     "log_access",
 ]

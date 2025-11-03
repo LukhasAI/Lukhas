@@ -1,7 +1,6 @@
 """Unit tests for PgVectorStore."""
 
 import pytest
-
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
 
 

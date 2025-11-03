@@ -56,7 +56,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # Import orchestration components
 try:
@@ -160,8 +160,8 @@ class OrchestrationRequest:
     payload: dict[str, Any]
     target_orchestrators: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    deadline: Optional[datetime] = None
-    lukhas_cycle_phase: Optional[LukhasCyclePhase] = None
+    deadline: datetime | None = None
+    lukhas_cycle_phase: LukhasCyclePhase | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -198,7 +198,7 @@ class MasterOrchestrator:
     7. Integration with bio-symbolic coherence system
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize the master orchestrator
 
@@ -209,17 +209,17 @@ class MasterOrchestrator:
         self.logger = logging.getLogger("master_orchestrator")
 
         # Core orchestration components
-        self.swarm_adapter: Optional[SwarmOrchestrationAdapter] = None
-        self.colony_orchestrator: Optional[ColonyOrchestrator] = None
-        self.bio_symbolic_orchestrator: Optional[BioSymbolicOrchestrator] = None
-        self.energy_planner: Optional[EnergyAwareExecutionPlanner] = None
-        self.workflow_engine: Optional[WorkflowEngine] = None
+        self.swarm_adapter: SwarmOrchestrationAdapter | None = None
+        self.colony_orchestrator: ColonyOrchestrator | None = None
+        self.bio_symbolic_orchestrator: BioSymbolicOrchestrator | None = None
+        self.energy_planner: EnergyAwareExecutionPlanner | None = None
+        self.workflow_engine: WorkflowEngine | None = None
 
         # Memory and brain orchestration components
         self.memory_core = None
         self.memory_visualization = None
         self.memory_colonies = None
-        self.brain_hub: Optional[PrimaryBrainHub] = None
+        self.brain_hub: PrimaryBrainHub | None = None
 
         # Request management
         self.request_queue: deque = deque()

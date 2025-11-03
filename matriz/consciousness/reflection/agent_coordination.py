@@ -29,7 +29,7 @@ import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
@@ -113,7 +113,7 @@ class TaskAnnouncement:
     description: str
     required_skills: list[tuple[str, SkillLevel]]  # (skill_name, min_level)
     initiator: ActorRef
-    deadline: Optional[float] = None
+    deadline: float | None = None
     priority: MessagePriority = MessagePriority.NORMAL
     max_group_size: int = 5
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -136,7 +136,7 @@ class SkillOffer:
     offered_skills: list[Skill]
     availability: float  # 0.0 to 1.0
     estimated_time: float
-    cost_estimate: Optional[float] = None
+    cost_estimate: float | None = None
     constraints: dict[str, Any] = field(default_factory=dict)
 
 
@@ -570,7 +570,7 @@ class CoordinationHub(MailboxActor):
 class AutonomousAgent(MailboxActor):
     """Base class for agents that participate in coordination"""
 
-    def __init__(self, agent_id: str, skills: Optional[list[Skill]] = None):
+    def __init__(self, agent_id: str, skills: list[Skill] | None = None):
         super().__init__(
             agent_id,
             mailbox_type=MailboxType.PRIORITY,
@@ -583,7 +583,7 @@ class AutonomousAgent(MailboxActor):
         self.availability = 1.0  # Full availability
 
         # Coordination hub reference (would be discovered in real system)
-        self.coord_hub: Optional[ActorRef] = None
+        self.coord_hub: ActorRef | None = None
 
         self._register_coordination_handlers()
 

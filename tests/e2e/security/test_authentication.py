@@ -20,8 +20,6 @@ from datetime import datetime, timedelta, timezone
 
 import bcrypt
 import jwt
-from flask import Flask
-
 from bridge.api.flows import (
     JWT_ALGORITHM,
     JWT_SECRET_KEY,
@@ -43,6 +41,7 @@ from core.interfaces.api.v1.common.auth import (
     _verify_key_signature,
     generate_api_key,
 )
+from flask import Flask
 
 PLACEHOLDER_PASSWORD_SECURE = "a-secure-password"  # nosec
 PLACEHOLDER_PASSWORD_WEAK = "a-weak-password"  # nosec
@@ -360,7 +359,7 @@ class TestPasswordStrengthValidation(unittest.TestCase):
         ]
 
         for password in valid_passwords:
-            valid, message = _validate_password_strength(password)
+            valid, _message = _validate_password_strength(password)
             self.assertTrue(valid, f"Password should be valid: {password}")
 
     def test_invalid_passwords(self):
@@ -375,7 +374,7 @@ class TestPasswordStrengthValidation(unittest.TestCase):
         ]
 
         for password in invalid_passwords:
-            valid, message = _validate_password_strength(password)
+            valid, _message = _validate_password_strength(password)
             self.assertFalse(valid, f"Password should be invalid: {password}")
 
 
@@ -460,7 +459,7 @@ class TestJWTTokenSecurity(unittest.TestCase):
         expired_token = jwt.encode(expired_payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
         # Should fail validation
-        is_valid, payload, error = _validate_jwt_token(expired_token)
+        is_valid, _payload, error = _validate_jwt_token(expired_token)
         self.assertFalse(is_valid)
         self.assertIn("expired", error.lower())
 
@@ -476,7 +475,7 @@ class TestJWTTokenSecurity(unittest.TestCase):
         blacklisted_tokens.add(token)
 
         # Should fail validation
-        is_valid, payload, error = _validate_jwt_token(token)
+        is_valid, _payload, error = _validate_jwt_token(token)
         self.assertFalse(is_valid)
         self.assertIn("revoked", error.lower())
 

@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from core.orchestration.brain.lukhas_agi_orchestrator import (
     LukhasAGIOrchestrator,
@@ -37,7 +37,7 @@ class BotAGISystem:
     the enhanced Cognitive capabilities of the new orchestrator.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         self.config = config or {}
         self.orchestrator: LukhasAGIOrchestrator | None = (
             lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None
@@ -57,7 +57,7 @@ class BotAGISystem:
             self.active = True
             return True
 
-    async def process_request(self, user_input: str, context: Optional[dict] = None) -> dict[str, Any]:
+    async def process_request(self, user_input: str, context: dict | None = None) -> dict[str, Any]:
         """Process a request through the Cognitive system"""
         if self.orchestrator:
             return await self.orchestrator.process_agi_request(user_input, context)
@@ -117,7 +117,7 @@ async def initialize_agi_system():
     return await bot_agi_system.initialize()
 
 
-async def process_agi_request(user_input: str, context: Optional[dict] = None):
+async def process_agi_request(user_input: str, context: dict | None = None):
     """Legacy request processing function"""
     return await bot_agi_system.process_request(user_input, context)
 

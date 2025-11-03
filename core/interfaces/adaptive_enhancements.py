@@ -4,16 +4,15 @@ LUKHΛS Adaptive Interface Enhancements
 Selective integration of valuable UX components into existing system.
 Enhances rather than replaces current capabilities.
 """
-import logging
 import asyncio
 import json
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 from cognition.symbolic_feedback_loop import SymbolicState
-
 from identity.identity_core import AccessTier
 
 # Import existing LUKHΛS components

@@ -9,6 +9,7 @@ Usage (CI):
   pytest -m "not prod_only" --maxfail=1 -q --junitxml=reports/junit-unit.xml
   python tools/verify_perf.py
 """
+import contextlib
 import json
 import sys
 import xml.etree.ElementTree as ET
@@ -27,10 +28,8 @@ def _sum_junit_seconds(junit_path: Path) -> float:
     for tc in root.iter("testcase"):
         t = tc.get("time")
         if t is not None:
-            try:
+            with contextlib.suppress(ValueError):
                 total += float(t)
-            except ValueError:
-                pass
     return total
 
 def main() -> int:

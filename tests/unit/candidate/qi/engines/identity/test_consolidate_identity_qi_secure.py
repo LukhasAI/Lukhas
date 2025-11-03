@@ -27,20 +27,20 @@ class TestConsolidateIdentities(unittest.TestCase):
         ]
 
     def test_standard_merge(self):
-        merged, report = consolidate_identities(self.primary_identity, self.secondary_identities)
+        merged, _report = consolidate_identities(self.primary_identity, self.secondary_identities)
         self.assertEqual(merged['name'], 'John Doe')
         self.assertEqual(merged['email'], 'john.doe@example.com')
         self.assertEqual(merged['phone'], '123-456-7890')
         self.assertEqual(merged['address'], '123 Main St')
 
     def test_idempotency(self):
-        merged1, report1 = consolidate_identities(self.primary_identity, self.secondary_identities)
-        merged2, report2 = consolidate_identities(self.primary_identity, self.secondary_identities)
+        merged1, _report1 = consolidate_identities(self.primary_identity, self.secondary_identities)
+        merged2, _report2 = consolidate_identities(self.primary_identity, self.secondary_identities)
         # Reports will have different timestamps, so we only compare the merged identity
         self.assertEqual(merged1, merged2)
 
     def test_report_accuracy(self):
-        merged, report = consolidate_identities(self.primary_identity, self.secondary_identities)
+        _merged, report = consolidate_identities(self.primary_identity, self.secondary_identities)
         self.assertEqual(len(report['conflicts']), 1)
         self.assertEqual(report['conflicts'][0]['field'], 'email')
         self.assertEqual(len(report['decisions']), 2)
@@ -55,7 +55,7 @@ class TestConsolidateIdentities(unittest.TestCase):
             # No timestamp
         }]
         # This should still run without error, but the order is not guaranteed for the new entry
-        merged, report = consolidate_identities(self.primary_identity, secondary_identities)
+        merged, _report = consolidate_identities(self.primary_identity, secondary_identities)
         self.assertIn('department', merged)
         self.assertEqual(merged['department'], 'Engineering')
 

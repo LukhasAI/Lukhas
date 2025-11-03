@@ -860,8 +860,8 @@ class ValidationMetrics:
         self.validation_count = 0
         self.total_validation_time = 0.0
         self.failed_validations = 0
-        self.issues_by_tier = {tier: 0 for tier in ValidationTier}
-        self.issues_by_severity = {severity: 0 for severity in ValidationSeverity}
+        self.issues_by_tier = dict.fromkeys(ValidationTier, 0)
+        self.issues_by_severity = dict.fromkeys(ValidationSeverity, 0)
         self.error_count = 0
         self.start_time = time.time()
 

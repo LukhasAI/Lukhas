@@ -5,17 +5,15 @@ Automates the migration of modules to lukhas/ (accepted)
 """
 from __future__ import annotations
 
-
 import json
 import re
 import shutil
 import sys
 from pathlib import Path
-from typing import Optional
 
 
 class ModuleMigrator:
-    def __init__(self, root_path: Optional[Path] = None):
+    def __init__(self, root_path: Path | None = None):
         self.root = root_path or Path.cwd()
         self.lukhas_dir = self.root / "lukhas"
         self.candidate_dir = self.root / "labs"

@@ -40,14 +40,13 @@
 """
 from __future__ import annotations
 
-
 import asyncio
 import logging
 import time
 from collections import OrderedDict
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Optional
+from typing import Any
 from uuid import uuid4
 
 # Configure module logger
@@ -69,9 +68,9 @@ class ContextEntry:
     metadata: dict[str, Any]
     relevance_score: float = 1.0
     decay_factor: float = 1.0
-    session_id: Optional[str] = None
-    emotional_state: Optional[dict[str, float]] = None
-    task_context: Optional[dict[str, Any]] = None
+    session_id: str | None = None
+    emotional_state: dict[str, float] | None = None
+    task_context: dict[str, Any] | None = None
 
 
 @dataclass
@@ -93,7 +92,7 @@ class ContextManager:
     and handoff between AI models with <250ms target latency.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the context manager"""
         self.config = config or {}
 
@@ -131,7 +130,7 @@ class ContextManager:
         if self._cleanup_task is None or self._cleanup_task.done():
             self._cleanup_task = asyncio.create_task(self._periodic_cleanup())
 
-    async def get_context(self, context_id: Optional[str]) -> dict[str, Any]:
+    async def get_context(self, context_id: str | None) -> dict[str, Any]:
         """
         Retrieve context for a given context ID with ultra-fast performance
 
@@ -183,7 +182,7 @@ class ContextManager:
         context_id: str,
         prompt: str,
         response: str,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> bool:
         """
         Update context with new prompt/response pair
@@ -335,7 +334,7 @@ class ContextManager:
             response_words = entry.response.split()
             if len(response_words) > 20:
                 # Take first and last parts of longer responses
-                key_phrase = " ".join(response_words[:10] + ["..."] + response_words[-10:])
+                key_phrase = " ".join([*response_words[:10], "...", *response_words[-10:]])
             else:
                 key_phrase = entry.response
 

@@ -168,7 +168,7 @@ class TestAPIOptimizer:
 
         try:
             # First two requests should be allowed
-            for i in range(2):
+            for _i in range(2):
                 allowed, info = await rate_limiter.is_allowed(context)
                 assert allowed
 
@@ -383,7 +383,7 @@ class TestMiddlewarePipeline:
         )
 
         # Process request
-        allowed, data = await analytics_middleware.process_request(metadata, {})
+        allowed, _data = await analytics_middleware.process_request(metadata, {})
         assert allowed
 
         # Process response
@@ -655,11 +655,11 @@ class TestIntegrationScenarios:
         )
 
         # Process through optimizer
-        optimizer_allowed, optimizer_info = await optimizer.process_request(request_context)
+        optimizer_allowed, _optimizer_info = await optimizer.process_request(request_context)
         assert optimizer_allowed
 
         # Process through middleware pipeline
-        pipeline_allowed, pipeline_data = await pipeline.process_request(
+        pipeline_allowed, _pipeline_data = await pipeline.process_request(
             request_metadata, {"test": "integration_data"}
         )
         assert pipeline_allowed
@@ -717,7 +717,7 @@ class TestIntegrationScenarios:
             )
 
             start_time = time.time()
-            allowed, info = await optimizer.process_request(context)
+            allowed, _info = await optimizer.process_request(context)
             processing_time = time.time() - start_time
 
             if allowed:
@@ -770,7 +770,7 @@ class TestIntegrationScenarios:
         # Second identical request - should be cache hit
         context.request_id = "cache_test_2"
         start_time = time.time()
-        allowed2, info2 = await optimizer.process_request(context)
+        _allowed2, info2 = await optimizer.process_request(context)
         time2 = time.time() - start_time
 
         # Cache hit should be faster

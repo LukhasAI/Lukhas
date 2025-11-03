@@ -17,7 +17,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from opentelemetry import trace
 
@@ -146,7 +146,7 @@ class ModelSelector:
 
     def select_models(self,
                      request: RoutingRequest,
-                     exclude_models: Optional[List[str]] = None) -> List[AIModel]:
+                     exclude_models: List[str] | None = None) -> List[AIModel]:
         """Select optimal models for the request"""
         exclude_models = exclude_models or []
 
@@ -452,10 +452,7 @@ class ConsensusEngine:
 
         # Adjust for response length (moderate length preferred)
         length = len(response.response)
-        if 100 <= length <= 1000:
-            length_factor = 1.0
-        else:
-            length_factor = 0.8
+        length_factor = 1.0 if 100 <= length <= 1000 else 0.8
         score *= length_factor
 
         return score
@@ -690,7 +687,7 @@ class MultiAIRouter:
 
     async def _send_parallel_requests(self,
                                     request: RoutingRequest,
-                                    models: List[AIModel]) -> List[Optional[AIResponse]]:
+                                    models: List[AIModel]) -> List[AIResponse | None]:
         """Send requests to multiple models in parallel"""
 
         tasks = []
@@ -723,7 +720,7 @@ class MultiAIRouter:
 
     async def _send_single_request(self,
                                  request: RoutingRequest,
-                                 model: AIModel) -> Optional[AIResponse]:
+                                 model: AIModel) -> AIResponse | None:
         """Send request to a single AI model"""
 
         start_time = time.time()
@@ -806,7 +803,7 @@ class MultiAIRouter:
 
 
 # Global router instance
-_global_router: Optional[MultiAIRouter] = None
+_global_router: MultiAIRouter | None = None
 
 def get_multi_ai_router() -> MultiAIRouter:
     """Get global multi-AI router instance"""

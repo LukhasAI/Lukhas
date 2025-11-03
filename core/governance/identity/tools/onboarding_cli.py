@@ -25,7 +25,7 @@ import argparse
 import logging
 import sys
 import time
-from typing import Any, Optional
+from typing import Any
 
 # LUKHAS Core Integration
 try:
@@ -106,7 +106,7 @@ class OnboardingCLI:
         except Exception as e:
             print(f"\n❌ Demo error: {e}")
 
-    def _run_real_onboarding(self, personality_type: str) -> Optional[dict[str, Any]]:
+    def _run_real_onboarding(self, personality_type: str) -> dict[str, Any] | None:
         """Run real onboarding with backend managers."""
         try:
             # Start session
@@ -178,7 +178,7 @@ class OnboardingCLI:
         # Generate demo result
         return self._generate_demo_result(personality_type, symbolic_elements)
 
-    def _collect_stage_data(self, stage: str, personality_type: str) -> Optional[dict[str, Any]]:
+    def _collect_stage_data(self, stage: str, personality_type: str) -> dict[str, Any] | None:
         """Collect stage data from user input."""
 
         if stage == "welcome":

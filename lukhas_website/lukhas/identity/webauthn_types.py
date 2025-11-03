@@ -190,29 +190,24 @@ class VerifiedAuthentication(TypedDict):
 
 
 __all__ = [
+    "AuthenticatorAssertionResponse",
+    "AuthenticatorAttestationResponse",
+    "AuthenticatorSelectionCriteria",
+    # Registration (creation) types
+    "CredentialCreationOptions",
+    # Authentication (assertion) types
+    "CredentialRequestOptions",
+    # Generic types
+    "PublicKeyCredential",
+    "PublicKeyCredentialAssertion",
+    "PublicKeyCredentialCreation",
+    "PublicKeyCredentialDescriptor",
+    # Credential parameters and descriptors
+    "PublicKeyCredentialParameters",
     # Relying Party and User entities
     "PublicKeyCredentialRpEntity",
     "PublicKeyCredentialUserEntity",
-
-    # Credential parameters and descriptors
-    "PublicKeyCredentialParameters",
-    "PublicKeyCredentialDescriptor",
-    "AuthenticatorSelectionCriteria",
-
-    # Registration (creation) types
-    "CredentialCreationOptions",
-    "AuthenticatorAttestationResponse",
-    "PublicKeyCredentialCreation",
-
-    # Authentication (assertion) types
-    "CredentialRequestOptions",
-    "AuthenticatorAssertionResponse",
-    "PublicKeyCredentialAssertion",
-
-    # Generic types
-    "PublicKeyCredential",
-
+    "VerifiedAuthentication",
     # Verification results (server-side)
     "VerifiedRegistration",
-    "VerifiedAuthentication",
 ]

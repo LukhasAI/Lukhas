@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from hashlib import sha1
 from pathlib import Path
 from random import Random
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 # Default output path for generated reports.
 REPORT_PATH = Path("codex_artifacts/dream_drift_report.json")
@@ -46,7 +46,7 @@ class DriftDreamProbeRequest:
 
     symbol: str
     user: str
-    seed: Optional[int]
+    seed: int | None
     recursive: bool = False
 
 
@@ -186,7 +186,7 @@ def write_report(report: Dict[str, Any], output_path: Path = REPORT_PATH) -> Pat
     return output_path
 
 
-def run_cli(argv: Optional[List[str]] = None) -> Dict[str, Any]:
+def run_cli(argv: List[str] | None = None) -> Dict[str, Any]:
     """Entry point used by ``main`` and tests.
 
     # ΛTAG: cli_entrypoint

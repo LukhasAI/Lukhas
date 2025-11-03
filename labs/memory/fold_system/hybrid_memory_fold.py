@@ -39,9 +39,9 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import logging
 from __future__ import annotations
 
+import logging
 import hashlib
 import math
 

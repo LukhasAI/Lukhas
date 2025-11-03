@@ -31,7 +31,7 @@ from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 
 class SymbolType(Enum):
@@ -112,7 +112,7 @@ class SymbolExportGenerator:
         exports.sort(key=lambda plan: plan.count, reverse=True)
         return exports
 
-    def _parse_error_entry(self, entry: Dict) -> Optional[Tuple[str, str]]:
+    def _parse_error_entry(self, entry: Dict) -> Tuple[str, str] | None:
         """Extract (module, symbol) from analyzer entry."""
         category = entry.get("category")
         if category not in {"CannotImport", "ImportError"}:
@@ -233,7 +233,7 @@ class SymbolExportGenerator:
             return f"candidate.{module}"
         return f"candidate.{module}"
 
-    def _resolve_destination(self, module: str) -> Optional[Path]:
+    def _resolve_destination(self, module: str) -> Path | None:
         """Resolve module path to filesystem destination inside repo."""
         module_path = Path(*module.split("."))
         module_file = (self.repo_root / f"{module_path}.py")
@@ -285,7 +285,7 @@ class SymbolExportGenerator:
         self,
         plan: List[ExportPlan],
         mode: str,
-        limit: Optional[int] = None,
+        limit: int | None = None,
     ) -> None:
         """Apply exports according to the requested mode."""
         applied = 0
@@ -353,7 +353,7 @@ class SymbolExportGenerator:
         print("-" * 80)
 
 
-def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+def parse_args(argv: List[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate/apply symbol export stubs based on pytest analysis."
     )
@@ -387,7 +387,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: List[str] | None = None) -> int:
     args = parse_args(argv)
     repo_root = Path(".").resolve()
     generator = SymbolExportGenerator(repo_root)

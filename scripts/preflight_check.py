@@ -187,7 +187,7 @@ class PreflightValidator:
                 return
 
             # Fallback: check ntpstat
-            ret, out, err = self.run_command(["ntpstat"])
+            ret, out, _err = self.run_command(["ntpstat"])
             if ret == 0:
                 self.add_check("time", "ntp_sync", "PASS",
                               "NTP synchronized (ntpstat)")
@@ -238,9 +238,9 @@ class PreflightValidator:
         in_container = (
             Path("/.dockerenv").exists() or
             os.getenv("container") is not None or
-            Path("/proc/1/cgroup").exists() and
+            (Path("/proc/1/cgroup").exists() and
             any("docker" in line or "containerd" in line
-                for line in Path("/proc/1/cgroup").read_text().split('\n'))
+                for line in Path("/proc/1/cgroup").read_text().split('\n')))
         )
 
         if not in_container:

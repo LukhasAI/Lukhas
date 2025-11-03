@@ -8,7 +8,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List
 
 
 class ControlStatus(Enum):
@@ -71,7 +71,7 @@ class EvidenceRecord:
     description: str
     content: str
     collected_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    stored_path: Optional[str] = None
+    stored_path: str | None = None
 
 
 @dataclass
@@ -302,7 +302,7 @@ class ComplianceFramework:
         )
 
 
-def create_compliance_framework(config: Optional[Dict[str, Any]] = None) -> ComplianceFramework:
+def create_compliance_framework(config: Dict[str, Any] | None = None) -> ComplianceFramework:
     """Factory helper used by the test suite to build a framework instance."""
 
     config = config or {}

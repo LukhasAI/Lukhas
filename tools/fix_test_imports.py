@@ -169,7 +169,7 @@ def main():
         return 0
 
     print(f"📊 Found {len(errors)} test files with import errors")
-    print(f"📦 Total unique modules: {len(set(m for mods in errors.values() for m in mods))}")
+    print(f"📦 Total unique modules: {len({m for mods in errors.values() for m in mods})}")
     print()
 
     print("🔧 Step 2: Creating missing __init__.py files...")

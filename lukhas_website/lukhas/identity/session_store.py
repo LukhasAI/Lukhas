@@ -12,6 +12,7 @@ Performance targets:
 """
 
 import asyncio
+import contextlib
 import json
 import sqlite3
 import time
@@ -23,9 +24,8 @@ from typing import Dict, List, Optional, Union
 from uuid import uuid4
 
 import aioredis
-from cryptography.fernet import Fernet
-
 from core.logging import get_logger
+from cryptography.fernet import Fernet
 from observability.metrics import get_metrics_collector
 
 logger = get_logger(__name__)
@@ -804,10 +804,8 @@ class SessionManager:
         """Shutdown session manager"""
         if self._sweep_task:
             self._sweep_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._sweep_task
-            except asyncio.CancelledError:
-                pass
 
         if hasattr(self.store, 'disconnect'):
             await self.store.disconnect()

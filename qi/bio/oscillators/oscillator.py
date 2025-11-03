@@ -42,7 +42,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from qi.security.token_store import SessionTokenStore
 
@@ -86,7 +86,7 @@ class BioOscillator:
     MAX_ENDOCRINE_VARIANCE = 0.5
     MOOD_LOCK_TIMEOUT = 60  # seconds
     MAX_PHASE_SHIFT = 0.5
-    _session_token_store: Optional[SessionTokenStore] = None
+    _session_token_store: SessionTokenStore | None = None
 
     def __init__(self, simulate_trauma_lock=False, auto_regulate_neuroplasticity=False):
         self.state = OscillatorState.INACTIVE
@@ -119,7 +119,7 @@ class BioOscillator:
 
     @classmethod
     def configure_session_token_store(
-        cls, store: Optional[SessionTokenStore]
+        cls, store: SessionTokenStore | None
     ) -> None:
         """Configure the session token store used for verification."""
 
@@ -135,7 +135,7 @@ class BioOscillator:
     async def start_oscillation(
         self,
         oscillation_type: OscillationType,
-        initial_frequency: Optional[float] = None,
+        initial_frequency: float | None = None,
     ) -> bool:
         """Start oscillation at specified frequency"""
         # ΛTAG: bio
@@ -365,7 +365,7 @@ class BioOscillator:
 
         return metadata
 
-    def _extract_session_token_ttl(self, verification_data: dict[str, Any]) -> Optional[int]:
+    def _extract_session_token_ttl(self, verification_data: dict[str, Any]) -> int | None:
         """Derive a TTL from verification payloads when available."""
 
         if not verification_data:
@@ -407,7 +407,7 @@ class BioOscillator:
 
         return None
 
-    def _parse_iso_datetime(self, value: str) -> Optional[datetime]:
+    def _parse_iso_datetime(self, value: str) -> datetime | None:
         """Parse ISO-8601 timestamps that may end with `Z`."""
 
         if not value:
@@ -429,7 +429,7 @@ class BioOscillator:
         return parsed.astimezone(timezone.utc)
 
     @staticmethod
-    def _coerce_positive_int(value: Any) -> Optional[int]:
+    def _coerce_positive_int(value: Any) -> int | None:
         """Convert raw TTL representations to a positive integer when possible."""
 
         if isinstance(value, bool) or value is None:

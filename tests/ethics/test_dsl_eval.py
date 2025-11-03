@@ -15,7 +15,6 @@ Test coverage:
 import time
 
 import pytest
-
 from core.ethics.logic.dsl_lite import (
     DSLError,
     and_op,
@@ -672,14 +671,14 @@ class TestProductionHardening:
         # Invalid byte units should raise ValueError
         try:
             parse_bytes("1XB")  # Unknown unit
-            assert False, "Should have raised ValueError"
+            raise AssertionError("Should have raised ValueError")
         except ValueError:
             pass
 
         # Invalid time units should raise ValueError
         try:
             parse_seconds("1xyz")  # Unknown unit
-            assert False, "Should have raised ValueError"
+            raise AssertionError("Should have raised ValueError")
         except ValueError:
             pass
 
@@ -750,7 +749,7 @@ class TestProductionHardening:
 
         def worker():
             try:
-                for i in range(10):
+                for _i in range(10):
                     plan = {"action": "concurrent", "params": {"worker_id": threading.current_thread().ident}}
                     result = engine.evaluate_plan(plan)
                     results.append(result.action)

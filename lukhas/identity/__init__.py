@@ -24,18 +24,18 @@ from lukhas.identity.webauthn_verify import (
 )
 
 __all__ = [
+    "CredentialNotFoundError",
+    "InvalidAssertionError",
+    "InvalidChallengeError",
+    # Exceptions
+    "InvalidSignatureError",
+    "ReplayAttackError",
+    "VerificationResult",
     # Credential storage
     "WebAuthnCredential",
     "WebAuthnCredentialStore",
     # Assertion verification
     "verify_assertion",
-    "VerificationResult",
-    # Exceptions
-    "InvalidSignatureError",
-    "InvalidChallengeError",
-    "ReplayAttackError",
-    "InvalidAssertionError",
-    "CredentialNotFoundError",
 ]
 
 

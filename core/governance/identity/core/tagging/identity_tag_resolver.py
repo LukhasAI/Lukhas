@@ -13,7 +13,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import networkx as nx
 
@@ -108,13 +108,13 @@ class TrustRelationship:
 class IdentityTag(Tag):
     """Extended tag for identity system."""
 
-    tier_required: Optional[int] = None
-    trust_required: Optional[TrustLevel] = None
+    tier_required: int | None = None
+    trust_required: TrustLevel | None = None
     consensus_required: bool = False
     consensus_threshold: float = 0.67
-    expiry_time: Optional[datetime] = None
-    issuer_id: Optional[str] = None
-    verification_proof: Optional[dict[str, Any]] = None
+    expiry_time: datetime | None = None
+    issuer_id: str | None = None
+    verification_proof: dict[str, Any] | None = None
 
 
 @dataclass
@@ -177,7 +177,7 @@ class IdentityTagResolver:
         }
 
         # Event publisher
-        self.event_publisher: Optional[IdentityEventPublisher] = None
+        self.event_publisher: IdentityEventPublisher | None = None
 
         logger.info(f"Identity Tag Resolver {resolver_id} initialized")
 
@@ -203,10 +203,10 @@ class IdentityTagResolver:
         tag_type: IdentityTagType,
         tag_value: str,
         tier_level: int,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
         require_consensus: bool = False,
-        issuer_id: Optional[str] = None,
-        expiry_hours: Optional[int] = None,
+        issuer_id: str | None = None,
+        expiry_hours: int | None = None,
     ) -> str:
         """
         Assign a tag to an identity with optional consensus.
@@ -296,7 +296,7 @@ class IdentityTagResolver:
         from_identity: str,
         to_identity: str,
         initial_trust: TrustLevel = TrustLevel.LOW,
-        trust_factors: Optional[dict[str, float]] = None,
+        trust_factors: dict[str, float] | None = None,
     ) -> bool:
         """
         Establish or update trust relationship between identities.
@@ -353,7 +353,7 @@ class IdentityTagResolver:
         to_identity: str,
         positive: bool,
         interaction_type: str,
-        details: Optional[dict[str, Any]] = None,
+        details: dict[str, Any] | None = None,
     ):
         """
         Update trust based on interaction outcome.

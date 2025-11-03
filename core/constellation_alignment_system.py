@@ -130,7 +130,7 @@ class ConstellationAlignmentValidator:
             "violations_detected": 0,
             "auto_fixes_applied": 0,
             "compliance_score_avg": 0.0,
-            "component_scores": {component: 0.0 for component in ConstellationStar},
+            "component_scores": dict.fromkeys(ConstellationStar, 0.0),
         }
 
         # Compliance rules registry
@@ -848,11 +848,11 @@ def get_constellation_monitor() -> ConstellationAlignmentMonitor:
 __all__ = [
     "AlignmentLevel",
     "AlignmentRule",
-    "ComplianceViolation",
     "ComplianceConfiguration",
     "ComplianceReport",
-    "ConstellationAlignmentValidator",
+    "ComplianceViolation",
     "ConstellationAlignmentMonitor",
-    "get_constellation_validator",
+    "ConstellationAlignmentValidator",
     "get_constellation_monitor",
+    "get_constellation_validator",
 ]

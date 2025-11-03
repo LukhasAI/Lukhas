@@ -6,7 +6,6 @@
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from memory.fakes.agimemory_fake import AGIMemoryFake
 from memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
 

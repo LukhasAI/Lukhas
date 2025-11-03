@@ -22,4 +22,4 @@ All endpoints require proper authentication and respect tier-based access contro
 
 from . import consciousness, dream, emotion, glyph_exchange, memory
 
-__all__ = ["memory", "dream", "emotion", "consciousness", "glyph_exchange"]
+__all__ = ["consciousness", "dream", "emotion", "glyph_exchange", "memory"]

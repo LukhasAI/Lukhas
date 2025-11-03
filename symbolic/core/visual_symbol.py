@@ -335,9 +335,8 @@ class VisualSymbol:
             self.state.quantum_state = QuantumState.COLLAPSED
 
         # If emergent, observe emergence progress
-        if self.state.emergent_symbol:
-            if self.state.emergent_symbol.observe():
-                self.state.phase = SymbolicPhase.TRANSCENDENT
+        if self.state.emergent_symbol and self.state.emergent_symbol.observe():
+            self.state.phase = SymbolicPhase.TRANSCENDENT
 
         return {
             "observer_id": observer_id,

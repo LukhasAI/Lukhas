@@ -195,8 +195,7 @@ class DirectoryIndexUpdater:
         """Update directory metadata with Constellation Framework and MATRIZ"""
 
         # Remove Trinity references
-        if "trinity_role" in metadata:
-            del metadata["trinity_role"]
+        metadata.pop("trinity_role", None)
 
         # Add Constellation Framework metadata
         metadata["constellation_framework_version"] = "2.0.0"

@@ -17,7 +17,6 @@ Constellation Framework: 🌊 Distributed Tracing Excellence
 """
 from __future__ import annotations
 
-
 import logging
 import time
 import uuid
@@ -107,7 +106,7 @@ class MATRIZTracingContractValidator:
         self,
         operation: str,
         correlation_id: str,
-        parent_span: Optional[Any] = None,
+        parent_span: Any | None = None,
         **attributes
     ) -> Any:
         """Create MATRIZ span with proper tracing contract compliance."""

@@ -22,10 +22,10 @@ from .pgvector_store import PgVectorStore
 
 __all__ = [
     "AbstractVectorStore",
-    "VectorDocument",
+    "FAISSStore",
+    "InMemoryVectorStore",
+    "PgVectorStore",
     "SearchResult",
     "StorageStats",
-    "PgVectorStore",
-    "FAISSStore",
-    "InMemoryVectorStore"
+    "VectorDocument"
 ]

@@ -18,7 +18,6 @@
 """
 from __future__ import annotations
 
-
 import json
 import logging
 import sqlite3
@@ -28,7 +27,7 @@ import uuid
 from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -46,13 +45,13 @@ class Event:
     metadata: dict[str, Any]
     timestamp: float
     version: int
-    correlation_id: Optional[str] = None
+    correlation_id: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Event":
+    def from_dict(cls, data: dict[str, Any]) -> Event:
         return cls(**data)
 
 
@@ -267,7 +266,7 @@ class EventSourcedAggregate(ABC):
         self,
         event_type: str,
         data: dict[str, Any],
-        correlation_id: Optional[str] = None,
+        correlation_id: str | None = None,
     ) -> None:
         """
         Raise a new event (not yet committed to store)
@@ -342,7 +341,7 @@ class AIAgentAggregate(EventSourcedAggregate):
             if capability not in self.capabilities:
                 self.capabilities.append(capability)
 
-    def create_agent(self, capabilities: list[str], correlation_id: Optional[str] = None) -> None:
+    def create_agent(self, capabilities: list[str], correlation_id: str | None = None) -> None:
         """Create a new agent with specified capabilities"""
         self.raise_event("AgentCreated", {"capabilities": capabilities}, correlation_id)
 
@@ -350,7 +349,7 @@ class AIAgentAggregate(EventSourcedAggregate):
         self,
         task_id: str,
         task_data: dict[str, Any],
-        correlation_id: Optional[str] = None,
+        correlation_id: str | None = None,
     ) -> None:
         """Assign a task to the agent"""
         self.raise_event(
@@ -363,7 +362,7 @@ class AIAgentAggregate(EventSourcedAggregate):
         self,
         task_id: str,
         result: dict[str, Any],
-        correlation_id: Optional[str] = None,
+        correlation_id: str | None = None,
     ) -> None:
         """Mark a task as completed"""
         self.raise_event(
@@ -375,12 +374,12 @@ class AIAgentAggregate(EventSourcedAggregate):
     def update_memory(
         self,
         memory_update: dict[str, Any],
-        correlation_id: Optional[str] = None,
+        correlation_id: str | None = None,
     ) -> None:
         """Update agent's memory"""
         self.raise_event("MemoryUpdated", {"memory_update": memory_update}, correlation_id)
 
-    def add_capability(self, capability: str, correlation_id: Optional[str] = None) -> None:
+    def add_capability(self, capability: str, correlation_id: str | None = None) -> None:
         """Add a new capability to the agent"""
         self.raise_event("CapabilityAdded", {"capability": capability}, correlation_id)
 
@@ -420,7 +419,7 @@ class EventReplayService:
         """
         return self.event_store.get_events_by_correlation_id(correlation_id)
 
-    def analyze_agent_behavior(self, agent_id: str, time_window: Optional[tuple] = None) -> dict[str, Any]:
+    def analyze_agent_behavior(self, agent_id: str, time_window: tuple | None = None) -> dict[str, Any]:
         """
         Analyze agent behavior patterns from event history
         """

@@ -37,7 +37,6 @@ import pytest
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
-
 from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 
@@ -262,10 +261,7 @@ class CognitiveLoadGenerator:
             current_time = time.time()
 
             # Determine current load level
-            if spike_start <= current_time <= spike_end:
-                current_load = spike_load
-            else:
-                current_load = normal_load
+            current_load = spike_load if spike_start <= current_time <= spike_end else normal_load
 
             tasks = []
             for _ in range(current_load):
@@ -856,7 +852,7 @@ class StressTestInfrastructure:
         all_error_rates = []
         compliance_results = []
 
-        for test_id, result in self.test_results.items():
+        for _test_id, result in self.test_results.items():
             if 'performance' in result and 'latency' in result['performance']:
                 latency_data = result['performance']['latency']
                 all_latencies.extend([latency_data.get('p95_ms', 0)])

@@ -7,7 +7,7 @@ import random
 import time
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class RolloutStrategy(Enum):
@@ -65,7 +65,7 @@ class RolloutPlan:
     events: List[RolloutEvent]
     current_status: RolloutStatus
     created_at: float
-    completed_at: Optional[float] = None
+    completed_at: float | None = None
 
 class RolloutManager:
     """Manages safe rollout of dream system configurations."""

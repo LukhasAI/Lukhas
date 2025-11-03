@@ -83,7 +83,7 @@ class T4LensCodeFixer:
             cwd=self.base_path,
         )
 
-        after_count, stats = self.get_ruff_stats()
+        after_count, _stats = self.get_ruff_stats()
 
         # Create verification artifact
         artifact = self.create_verification_artifact("safe_fixes", before_count, after_count, ["automated_safe_fixes"])

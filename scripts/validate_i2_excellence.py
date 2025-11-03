@@ -333,8 +333,8 @@ class T4ExcellenceValidator:
         identifier = "test_ip_rate_limit"
         rate_limit_results = []
 
-        for i in range(15):  # Exceed typical rate limit
-            action, reason = await self.security_manager.check_rate_limit(identifier, "authentication")
+        for _i in range(15):  # Exceed typical rate limit
+            action, _reason = await self.security_manager.check_rate_limit(identifier, "authentication")
             rate_limit_results.append(action.value)
 
         # Should have some throttling or blocking

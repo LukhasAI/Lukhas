@@ -395,7 +395,7 @@ class DreamMemoryBridge:
                 time_diffs.append(diff)
 
             # Look for regular intervals or accelerating/decelerating patterns
-            if len(set(int(diff / 3600) for diff in time_diffs)) <= 2:  # Similar intervals (within hours)
+            if len({int(diff / 3600) for diff in time_diffs}) <= 2:  # Similar intervals (within hours)
                 pattern_id = f"temporal_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
                 pattern = DreamMemoryPattern(

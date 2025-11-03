@@ -155,7 +155,7 @@ class MemoryContradictionBridge:
         try:
             # Initialize result tracking
             memory_conflicts = []
-            conflict_type_counts = {conflict_type: 0 for conflict_type in MemoryConflictType}
+            conflict_type_counts = dict.fromkeys(MemoryConflictType, 0)
             contradictory_pairs = []
             reasoning_memory_conflicts = []
             temporal_inconsistencies = []
@@ -246,7 +246,7 @@ class MemoryContradictionBridge:
 
             error_result = MemoryContradictionResult(
                 memory_conflicts_found=0,
-                conflict_types={conflict_type: 0 for conflict_type in MemoryConflictType},
+                conflict_types=dict.fromkeys(MemoryConflictType, 0),
                 contradictory_memory_pairs=[],
                 reasoning_memory_conflicts=[],
                 temporal_inconsistencies=[],
@@ -661,4 +661,4 @@ class MemoryContradictionBridge:
 
 
 # Export main class
-__all__ = ["MemoryContradictionBridge", "MemoryValidationContext", "MemoryContradictionResult"]
+__all__ = ["MemoryContradictionBridge", "MemoryContradictionResult", "MemoryValidationContext"]

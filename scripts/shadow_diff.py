@@ -16,7 +16,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 import requests
 
@@ -76,10 +76,10 @@ INTERESTING_HEADERS = {
 
 @dataclass
 class CallResult:
-    status: Optional[int]
-    json_body: Optional[Any]
+    status: int | None
+    json_body: Any | None
     headers: Dict[str, Any]
-    error: Optional[str] = None
+    error: str | None = None
 
 
 def lower_dict(data: Iterable[tuple[str, Any]]) -> Dict[str, Any]:
@@ -98,7 +98,7 @@ def json_signature(payload: Any) -> Any:
 
 def perform_request(
     base_url: str,
-    api_key: Optional[str],
+    api_key: str | None,
     req: Dict[str, Any],
     provider: str,
     timeout: int = 30,
@@ -136,7 +136,7 @@ def perform_request(
         return CallResult(None, None, {}, str(exc))
 
 
-def compare_responses(lukhas_result: CallResult, openai_result: Optional[CallResult]) -> Dict[str, Any]:
+def compare_responses(lukhas_result: CallResult, openai_result: CallResult | None) -> Dict[str, Any]:
     comparison: Dict[str, Any] = {}
     comparison["lukhas_status"] = lukhas_result.status
     comparison["openai_status"] = openai_result.status if openai_result else None
@@ -218,7 +218,7 @@ def main() -> None:
 
     for req in REQUEST_SUITE:
         lukhas_result = perform_request(args.lukhas_base, args.lukhas_key, req, "lukhas")
-        openai_result: Optional[CallResult] = None
+        openai_result: CallResult | None = None
         if not args.skip_openai and req.get("openai_supported", True) and args.openai_key:
             openai_result = perform_request(args.openai_base, args.openai_key, req, "openai")
 

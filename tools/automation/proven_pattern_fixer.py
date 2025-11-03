@@ -12,7 +12,6 @@ Targeting ONLY files with known patterns for maximum safety.
 """
 from __future__ import annotations
 
-
 import re
 import subprocess
 from pathlib import Path

@@ -27,7 +27,7 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from opentelemetry import trace
 
@@ -83,7 +83,7 @@ class OrchestrationRequest:
     session_id: str = ""
     request_type: RequestType = RequestType.SINGLE_SHOT
     prompt: str = ""
-    system_prompt: Optional[str] = None
+    system_prompt: str | None = None
     context_data: Dict[str, Any] = field(default_factory=dict)
     routing_hints: Dict[str, Any] = field(default_factory=dict)
     preserve_context: bool = True
@@ -99,11 +99,11 @@ class OrchestrationResponse:
     provider: str
     strategy_used: str
     response: str
-    context_id: Optional[str] = None
+    context_id: str | None = None
     latency_ms: float = 0.0
     token_usage: Dict[str, int] = field(default_factory=dict)
     routing_hops: List[str] = field(default_factory=list)
-    ab_test_variant: Optional[str] = None
+    ab_test_variant: str | None = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
@@ -348,7 +348,7 @@ class ExternalizedOrchestrator:
         self,
         request: OrchestrationRequest,
         routing_result: RoutingResult,
-        context_id: Optional[str]
+        context_id: str | None
     ) -> Dict[str, Any]:
         """Execute request with selected provider"""
 
@@ -519,7 +519,7 @@ class ExternalizedOrchestrator:
 
 
 # Global orchestrator instance
-_orchestrator: Optional[ExternalizedOrchestrator] = None
+_orchestrator: ExternalizedOrchestrator | None = None
 
 
 async def get_externalized_orchestrator() -> ExternalizedOrchestrator:

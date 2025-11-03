@@ -19,8 +19,9 @@ import logging
 import time
 import uuid
 from collections.abc import AsyncGenerator
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Union
 
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from fastapi import (
     APIRouter,
     Body,
@@ -34,7 +35,6 @@ from fastapi import (
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from adapters.openai import TokenClaims, require_bearer
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 
@@ -98,8 +98,8 @@ async def openai_metrics() -> JSONResponse:
 # ΛTAG: openai_facade
 
 def require_api_key(
-    authorization: Optional[str] = Header(None),
-    x_lukhas_project: Optional[str] = Header(default=None, alias="X-Lukhas-Project"),
+    authorization: str | None = Header(None),
+    x_lukhas_project: str | None = Header(default=None, alias="X-Lukhas-Project"),
 ) -> TokenClaims:
     """Validate Bearer tokens using PolicyGuard-backed dependency."""
 
@@ -123,7 +123,7 @@ def _rl_headers() -> Dict[str, str]:
     }
 
 
-def _with_std_headers(resp: Response, trace_id: Optional[str]) -> None:
+def _with_std_headers(resp: Response, trace_id: str | None) -> None:
     """Apply standard headers to response (RL + trace ID)."""
     for key, value in _rl_headers().items():
         resp.headers[key] = value
@@ -161,7 +161,7 @@ def _hash_to_vec(text: str, dim: int = 128) -> List[float]:
     return nums[:dim]
 
 
-def _invalid_request(detail: str, param: Optional[str] = None) -> Dict[str, Any]:
+def _invalid_request(detail: str, param: str | None = None) -> Dict[str, Any]:
     payload: Dict[str, Any] = {
         "error": {
             "type": "invalid_request_error",
@@ -219,7 +219,7 @@ def create_embeddings(
     }
 
 
-def _resolve_stream_plan(text: str, max_tokens: Optional[int]) -> Dict[str, Any]:
+def _resolve_stream_plan(text: str, max_tokens: int | None) -> Dict[str, Any]:
     """Determine chunking strategy for streaming responses."""
     normalized_len = max(len(text), 1)
     heavy_request = (max_tokens or 0) >= 1500 or normalized_len >= 200

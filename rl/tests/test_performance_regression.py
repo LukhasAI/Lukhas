@@ -295,7 +295,7 @@ class TestConsciousnessPerformanceRegression:
         assert len(latest_metrics) > 0, "No coherence computation metrics recorded"
 
         latest = latest_metrics[0]
-        is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
+        _is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
         print(message)
 
         # Allow some flexibility in testing environment
@@ -310,7 +310,7 @@ class TestConsciousnessPerformanceRegression:
         assert len(latest_metrics) > 0, "No memory fold access metrics recorded"
 
         latest = latest_metrics[0]
-        is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
+        _is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
         print(message)
 
         assert latest.value < 50.0, f"Memory fold access too slow: {latest.value:.2f}ms"
@@ -330,7 +330,7 @@ class TestConsciousnessPerformanceRegression:
         assert len(latest_metrics) > 0, "No ethical validation metrics recorded"
 
         latest = latest_metrics[0]
-        is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
+        _is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
         print(message)
 
         assert latest.value < 75.0, f"Ethical validation too slow: {latest.value:.2f}ms"
@@ -345,7 +345,7 @@ class TestConsciousnessPerformanceRegression:
         assert len(latest_metrics) > 0, "No Trinity integration metrics recorded"
 
         latest = latest_metrics[0]
-        is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
+        _is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
         print(message)
 
         assert latest.value < 200.0, f"Trinity integration too slow: {latest.value:.2f}ms"
@@ -365,7 +365,7 @@ class TestConsciousnessPerformanceRegression:
         assert len(latest_metrics) > 0, "No constitutional check metrics recorded"
 
         latest = latest_metrics[0]
-        is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
+        _is_acceptable, message = performance_tester.tracker.benchmark.check_performance(latest)
         print(message)
 
         assert latest.value < 50.0, f"Constitutional checking too slow: {latest.value:.2f}ms"

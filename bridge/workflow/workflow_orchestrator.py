@@ -46,7 +46,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from ..orchestration import MultiAIOrchestrator, OrchestrationRequest
 from .task_router import TaskRouter
@@ -112,9 +112,9 @@ class WorkflowTask:
     # Runtime state
     status: TaskStatus = TaskStatus.WAITING
     result: Any = None
-    error: Optional[str] = None
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    error: str | None = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
     execution_time_ms: float = 0
     retry_attempts: int = 0
 
@@ -132,8 +132,8 @@ class WorkflowDefinition:
 
     # Runtime state
     status: WorkflowStatus = WorkflowStatus.PENDING
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
     execution_time_ms: float = 0
     results: dict[str, Any] = field(default_factory=dict)
     errors: list[str] = field(default_factory=list)
@@ -145,7 +145,7 @@ class WorkflowOrchestrator:
     multi-AI operations with complete transparency and monitoring.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the workflow orchestrator"""
         self.config = config or {}
 
@@ -306,7 +306,7 @@ class WorkflowOrchestrator:
 
                 # Wait for at least one task to complete
                 if running_tasks:
-                    done, pending = await asyncio.wait(
+                    done, _pending = await asyncio.wait(
                         running_tasks.values(),
                         return_when=asyncio.FIRST_COMPLETED,
                         timeout=1.0,  # Check every second

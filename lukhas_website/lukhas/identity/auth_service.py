@@ -1342,10 +1342,7 @@ async def verify_token(token: str,
             raise ValueError("Token missing audience claim")
 
         # Handle both string and list audiences
-        if isinstance(token_audience, str):
-            token_audiences = [token_audience]
-        else:
-            token_audiences = token_audience
+        token_audiences = [token_audience] if isinstance(token_audience, str) else token_audience
 
         if not any(aud in allowed_audiences for aud in token_audiences):
             raise ValueError(f"Invalid token audience: {token_audiences}")
@@ -1419,12 +1416,12 @@ __all__ = [
     "AuthResult",
     "AuthenticationService",
     "UserProfile",
+    "ValidationContext",
+    "ValidationResult",
+    "auth_service",
     "authenticate_api_key",
     "authenticate_token",
     "authenticate_user",
     "get_auth_service",
-    "auth_service",
-    "verify_token",
-    "ValidationContext",
-    "ValidationResult"
+    "verify_token"
 ]

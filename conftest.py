@@ -7,7 +7,6 @@ import importlib.util
 import sys
 import traceback
 from pathlib import Path
-from typing import Optional
 
 # Ensure sitecustomize runs (fixes _SixMetaPathImporter compatibility)
 try:
@@ -61,7 +60,7 @@ class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
             return None
 
 
-def _map_lukhas(fullname: str) -> Optional[str]:
+def _map_lukhas(fullname: str) -> str | None:
     """
     Centralize alias map (lukhas.* → canonical paths).
     Keep this tiny and pure (no imports of project code!).

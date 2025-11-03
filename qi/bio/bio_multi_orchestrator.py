@@ -46,7 +46,7 @@ from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Added timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional  # Added Set, Callable
+from typing import Any  # Added Set, Callable
 
 import numpy as np
 import structlog  # Standardized logging
@@ -96,8 +96,8 @@ class AGIBotInstance:
         default_factory=dict
     )  # Key metrics like avg_response_time, success_rate
     current_status: str = "initializing"  # e.g., initializing, available, busy, maintenance, offline
-    lukhas_session_id: Optional[str] = None  # LUKHAS session ID if applicable
-    last_activity_utc_iso: Optional[str] = None
+    lukhas_session_id: str | None = None  # LUKHAS session ID if applicable
+    last_activity_utc_iso: str | None = None
 
 
 class MultiAGIOrchestratorMetrics:
@@ -123,11 +123,11 @@ class MultiAGITask:
     task_type: TaskType
     priority_level: int = 5  # Example: 1-10 (10 = highest)
     content_payload: Any  # Can be string, dict, or other data
-    context_data: Optional[dict[str, Any]] = field(default_factory=dict)
+    context_data: dict[str, Any] | None = field(default_factory=dict)
     requires_collaboration_flag: bool = False
     assigned_bot_ids: list[str] = field(default_factory=list)
     creation_timestamp_utc_iso: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    deadline_utc_iso: Optional[str] = None
+    deadline_utc_iso: str | None = None
     processing_metadata: dict[str, Any] = field(default_factory=dict)  # For orchestrator use
 
 
@@ -143,8 +143,8 @@ class MultiAGIResponse:
     collective_intelligence_metrics_snapshot: dict[str, Any]  # Metrics about the collaboration
     total_processing_time_ms: float
     collaboration_quality_score: float  # Metric for how well collaboration worked
-    redundancy_verification_details: Optional[dict[str, Any]] = None
-    qi_biological_insights_summary: Optional[dict[str, Any]] = None
+    redundancy_verification_details: dict[str, Any] | None = None
+    qi_biological_insights_summary: dict[str, Any] | None = None
     response_timestamp_utc_iso: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
@@ -187,7 +187,7 @@ class MultiAGIOrchestrator:
     collective intelligence aggregation, performance monitoring, and fault tolerance.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None, console: Optional[Console] = None):
+    def __init__(self, config: dict[str, Any] | None = None, console: Console | None = None):
         """Initializes the Multi-AI Orchestration System."""
         self.orchestrator_id = f"MAGIO_{uuid.uuid4().hex[:8]}"
         self.log = log.bind(orchestrator_id=self.orchestrator_id)
@@ -780,7 +780,7 @@ class MultiAGIOrchestrator:
         task_type: TaskType,
         priority: int = 5,
         requires_collaboration: bool = False,
-        context: Optional[dict[str, Any]] = None,
+        context: dict[str, Any] | None = None,
     ) -> str:
         """Creates a new MultiAGITask and adds it to the processing queue."""
         new_task = MultiAGITask(

@@ -6,7 +6,7 @@ Detects exact and near-duplicate documents and generates a redirect/move plan.
 """
 from __future__ import annotations
 
-
+import contextlib
 import json
 import re
 from collections import defaultdict
@@ -430,10 +430,8 @@ Please update your bookmarks.
         except Exception as e:
             errors.append(f"Failed to create redirect at {from_path}: {e}")
             # Try to restore from archive
-            try:
+            with contextlib.suppress(Exception):
                 shutil.move(str(archive_path), str(from_path))
-            except Exception:
-                pass
             continue
 
     print()

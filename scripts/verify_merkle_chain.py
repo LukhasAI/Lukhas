@@ -113,10 +113,7 @@ class MerkleTreeBuilder:
                 left_node = current_level[i]
 
                 # Handle odd number of nodes by duplicating the last one
-                if i + 1 < len(current_level):
-                    right_node = current_level[i + 1]
-                else:
-                    right_node = left_node
+                right_node = current_level[i + 1] if i + 1 < len(current_level) else left_node
 
                 parent_node = self.create_internal_node(left_node, right_node)
                 next_level.append(parent_node)

@@ -710,12 +710,12 @@ class TestSecurityHardening:
         identifier = "127.0.0.1"
 
         # Act - Send requests within limit
-        for i in range(5):
+        for _i in range(5):
             action, reason = await security_manager.check_rate_limit(identifier, "authentication")
             assert action.value in ["allow", "throttle"]
 
         # Act - Exceed rate limit
-        for i in range(10):
+        for _i in range(10):
             action, reason = await security_manager.check_rate_limit(identifier, "authentication")
 
         # Assert - Should be blocked or throttled
@@ -726,7 +726,7 @@ class TestSecurityHardening:
     async def test_request_analysis(self, security_manager):
         """Test request analysis for threat detection."""
         # Act - Analyze normal request
-        threat_level, indicators = await security_manager.analyze_request(
+        threat_level, _indicators = await security_manager.analyze_request(
             ip_address="127.0.0.1",
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
             headers={"Host": "ai", "Accept": "text/html"}

@@ -87,7 +87,7 @@ class PytestErrorAnalyzer:
 
     def generate_fix_suggestions(self) -> None:
         """Generate fix suggestions for each error pattern."""
-        for error, count in self.error_counts.most_common():
+        for error, _count in self.error_counts.most_common():
             if error.category == 'ModuleNotFound':
                 self.fix_suggestions[str(error)].append(
                     self._generate_bridge_fix(error.detail)
@@ -243,7 +243,7 @@ EXPORT
             ],
             "category_summary": {
                 category: sum(count for e, count in self.error_counts.items() if e.category == category)
-                for category in set(e.category for e in self.error_counts)
+                for category in {e.category for e in self.error_counts}
             }
         }
 

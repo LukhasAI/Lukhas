@@ -4,6 +4,7 @@ Comprehensive session management with device binding, lifecycle tracking, and se
 """
 
 import asyncio
+import contextlib
 import hashlib
 import logging
 import time
@@ -124,10 +125,8 @@ class SessionManager:
         """Stop session manager background tasks"""
         if self._cleanup_task:
             self._cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._cleanup_task
-            except asyncio.CancelledError:
-                pass
             self._cleanup_task = None
 
     async def register_device(self,
@@ -348,9 +347,8 @@ class SessionManager:
 
         for session_id in user_sessions:
             session = self.sessions.get(session_id)
-            if session:
-                if not active_only or session.is_valid:
-                    sessions.append(session)
+            if session and (not active_only or session.is_valid):
+                sessions.append(session)
 
         return sorted(sessions, key=lambda s: s.last_activity, reverse=True)
 

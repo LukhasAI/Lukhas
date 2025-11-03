@@ -22,11 +22,10 @@ import re
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
-
-import streamlit as st
 
 from core.dashboard_settings import get_paired_apps
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +78,7 @@ class ModuleDiscoveryResult:
 def _find_repo_root(start: Path) -> Path:
     """Locate the repository root by searching for a .git directory."""
 
-    for candidate in (start,) + tuple(start.parents):
+    for candidate in (start, *tuple(start.parents)):
         if (candidate / ".git").exists():
             return candidate
     return start
@@ -93,7 +92,7 @@ def _clean_metadata_value(raw_value: str) -> str:
     return cleaned.strip(" :|-•\t\n\r")
 
 
-def _extract_module_metadata(text: str, source_path: Path) -> Optional[ModuleDiscoveryResult]:
+def _extract_module_metadata(text: str, source_path: Path) -> ModuleDiscoveryResult | None:
     """Extract module metadata from the leading portion of a source file."""
 
     snippet = text[:4000]

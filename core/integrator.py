@@ -13,12 +13,10 @@ from __future__ import annotations
 #              Manages interaction between core system components,
 #              incorporating quantum-biological features and security.
 # --- End Standard Header ---
-
 # ΛTAGS: [CoreIntegrator, SystemBus, ComponentManagement, QIBiological, SecurityIntegration, ΛTRACE_DONE]
 # ΛNOTE: Central hub for LUKHΛS core components. Synchronous nature needs review for async LUKHΛS.
 # This file was already largely compliant with standardization efforts.
 # Minor updates applied.
-
 # Standard Library Imports
 import asyncio
 import logging
@@ -30,7 +28,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 # Third-Party Imports
 import structlog
@@ -47,7 +45,6 @@ try:
     # ΛNOTE: Attempting to import core components. Placeholders used if imports fail.
     #        These imports suggest a dependency on a 'CORE' package structure.
     from bio.core import BioOrchestrator  # type: ignore
-
     from core.bio_systems.qi_layer import QIBioOscillator
     from core.security.access_control import (
         AccessController,  # type: ignore
@@ -150,7 +147,7 @@ except ImportError as e:
                 tier=tier.name,
             )
 
-        def check_permission(self, source_id: Optional[str], target_id: str, message_type: Any) -> bool:
+        def check_permission(self, source_id: str | None, target_id: str, message_type: Any) -> bool:
             log.debug(
                 "PH_ECI: check_permission called",
                 source=source_id,
@@ -245,18 +242,18 @@ class EnhancedCoreIntegrator:
     Manages interactions, security, and quantum-biological aspects of core components.
     """
 
-    def __init__(self, config: Optional[EnhancedCoreConfig] = None):
+    def __init__(self, config: EnhancedCoreConfig | None = None):
         """
         Initializes the EnhancedCoreIntegrator.
         Sets up quantum layer, bio-orchestrator, and security components based on config.
         """
         self.config: EnhancedCoreConfig = config or EnhancedCoreConfig()
 
-        self.qi_layer: Optional[QIBioOscillator] = None
-        self.bio_orchestrator: Optional[BioOrchestrator] = None
-        self.access_controller: Optional[AccessController] = None
-        self.qi_auth: Optional[QIAuthenticator] = None
-        self.compliance_monitor: Optional[ComplianceMonitor] = None
+        self.qi_layer: QIBioOscillator | None = None
+        self.bio_orchestrator: BioOrchestrator | None = None
+        self.access_controller: AccessController | None = None
+        self.qi_auth: QIAuthenticator | None = None
+        self.compliance_monitor: ComplianceMonitor | None = None
 
         if self.config.enable_quantum and CORE_COMPONENTS_LOADED_FLAG_ECI:
             self.qi_layer = QIBioOscillator(self.config.qi_config)  # type: ignore
@@ -283,7 +280,7 @@ class EnhancedCoreIntegrator:
         # Event system initialization
         self._initialize_context_bus()
 
-        self.integration_layer: Optional[UnifiedIntegration] = (
+        self.integration_layer: UnifiedIntegration | None = (
             UnifiedIntegration() if CORE_COMPONENTS_LOADED_FLAG_ECI else None
         )  # type: ignore
         if self.integration_layer:
@@ -302,7 +299,7 @@ class EnhancedCoreIntegrator:
         self,
         component_id: str,
         component_instance: Any,
-        access_tier: Optional[AccessTier] = None,
+        access_tier: AccessTier | None = None,
     ) -> bool:
         """
         Registers a component with the integrator.
@@ -356,7 +353,7 @@ class EnhancedCoreIntegrator:
         self,
         target_id: str,
         payload: dict[str, Any],
-        source_id: Optional[str] = "CoreIntegrator",
+        source_id: str | None = "CoreIntegrator",
         msg_type: CoreMessageType = CoreMessageType.COMMAND,
     ) -> dict[str, Any]:
         """
@@ -552,7 +549,7 @@ class EnhancedCoreIntegrator:
         self,
         event_type: str,
         event_data: dict[str, Any],
-        source_component_id: Optional[str] = None,
+        source_component_id: str | None = None,
         priority: str = "normal",
         context_preservation: bool = True,
     ) -> int:
@@ -646,9 +643,9 @@ class EnhancedCoreIntegrator:
         self,
         event_type: str,
         callback_function: Callable,
-        component_id: Optional[str] = None,
+        component_id: str | None = None,
         priority_level: str = "normal",
-        context_requirements: Optional[dict[str, Any]] = None,
+        context_requirements: dict[str, Any] | None = None,
     ) -> bool:
         """
         Subscribes a component's callback to a specific event type with orchestration support.

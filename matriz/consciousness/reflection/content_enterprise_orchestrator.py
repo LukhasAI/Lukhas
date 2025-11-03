@@ -33,7 +33,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import psutil
 
@@ -153,7 +153,7 @@ class ServiceHealth:
     service_name: str
     status: ServiceStatus
     last_check: datetime
-    error_message: Optional[str] = None
+    error_message: str | None = None
     response_time: float = 0.0
     dependencies_healthy: bool = True
 
@@ -183,9 +183,9 @@ class OrchestrationTask:
     parameters: dict[str, Any] = field(default_factory=dict)
     status: str = "pending"
     created_at: datetime = field(default_factory=datetime.now)
-    completed_at: Optional[datetime] = None
-    result: Optional[dict[str, Any]] = None
-    error: Optional[str] = None
+    completed_at: datetime | None = None
+    result: dict[str, Any] | None = None
+    error: str | None = None
 
 
 class ServiceRegistry:
@@ -210,7 +210,7 @@ class ServiceRegistry:
             except (ImportError, ConnectionError, Exception) as e:
                 logger.warning(f"Failed to initialize etcd client: {e}")
 
-    def register_service(self, name: str, host: str, port: int, metadata: Optional[dict[str, Any]] = None) -> bool:
+    def register_service(self, name: str, host: str, port: int, metadata: dict[str, Any] | None = None) -> bool:
         """Register a service"""
         service_info = {
             "name": name,
@@ -280,7 +280,7 @@ class LoadBalancer:
         self.round_robin_counters: dict[str, int] = defaultdict(int)
         self.health_status: dict[str, bool] = {}
 
-    def get_endpoint(self, service_name: str, strategy: str = "round_robin") -> Optional[str]:
+    def get_endpoint(self, service_name: str, strategy: str = "round_robin") -> str | None:
         """Get an endpoint for a service"""
         endpoints = self.service_registry.discover_service(service_name)
 
@@ -464,7 +464,7 @@ class CircuitBreaker:
 class TaskQueue:
     """Distributed task queue for orchestration"""
 
-    def __init__(self, redis_url: Optional[str] = None):
+    def __init__(self, redis_url: str | None = None):
         self.tasks: deque = deque()
         self.processing: dict[str, OrchestrationTask] = {}
 
@@ -510,7 +510,7 @@ class TaskQueue:
         self.tasks.append(task)
         return True
 
-    def get_next_task(self) -> Optional[OrchestrationTask]:
+    def get_next_task(self) -> OrchestrationTask | None:
         """Get next task from queue"""
         if not self.tasks:
             return None
@@ -527,8 +527,8 @@ class TaskQueue:
     def complete_task(
         self,
         task_id: str,
-        result: Optional[dict[str, Any]] = None,
-        error: Optional[str] = None,
+        result: dict[str, Any] | None = None,
+        error: str | None = None,
     ):
         """Mark task as completed"""
         if task_id in self.processing:
@@ -569,7 +569,7 @@ class ContentEnterpriseOrchestrator:
     - Comprehensive audit logging
     """
 
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(self, config_path: str | None = None):
         self.config = self._load_config(config_path)
         self.logger = self._setup_logging()
 
@@ -800,7 +800,7 @@ class ContentEnterpriseOrchestrator:
                 self.logger.error(f"❌ Monitoring error: {e}")
                 await asyncio.sleep(5)
 
-    async def _collect_service_metrics(self, service_name: str) -> Optional[ServiceMetrics]:
+    async def _collect_service_metrics(self, service_name: str) -> ServiceMetrics | None:
         """Collect metrics for a specific service"""
         try:
             # Get system metrics

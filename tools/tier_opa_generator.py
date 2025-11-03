@@ -9,7 +9,6 @@ This bridges the existing LUKHAS ΛiD tier system with Matrix Tracks authorizati
 """
 from __future__ import annotations
 
-
 import hashlib
 import json
 from datetime import datetime, timezone

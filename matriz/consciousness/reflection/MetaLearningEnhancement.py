@@ -38,7 +38,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
@@ -167,7 +167,7 @@ class MetaLearningEnhancementSystem:
         logger.info(f"Mode: {enhancement_mode.value}, Federation: {enable_federation}")
 
     async def discover_and_enhance_meta_learning_systems(
-        self, search_paths: Optional[list[str]] = None
+        self, search_paths: list[str] | None = None
     ) -> dict[str, Any]:
         """
         Discover existing MetaLearningSystem instances and enhance them

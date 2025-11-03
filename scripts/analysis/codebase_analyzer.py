@@ -5,7 +5,6 @@ Helps identify naming inconsistencies, misplaced files, and organizational issue
 """
 from __future__ import annotations
 
-
 import json
 import os
 import re

@@ -6,4 +6,4 @@ It re-exports the public Triad surface so old imports continue to work.
 
 from constellation.triad import *
 
-__all__ = ["Identity", "Consciousness", "Guardian"]
+__all__ = ["Consciousness", "Guardian", "Identity"]

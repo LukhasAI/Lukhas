@@ -23,7 +23,7 @@ from collections.abc import Awaitable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
@@ -147,14 +147,14 @@ class ConsciousnessValidationContext:
     timestamp: float = field(default_factory=time.time)
 
     # Input data
-    consciousness_state: Optional[ConsciousnessState] = None
-    awareness_snapshot: Optional[AwarenessSnapshot] = None
-    reflection_report: Optional[ReflectionReport] = None
-    creative_snapshot: Optional[CreativitySnapshot] = None
+    consciousness_state: ConsciousnessState | None = None
+    awareness_snapshot: AwarenessSnapshot | None = None
+    reflection_report: ReflectionReport | None = None
+    creative_snapshot: CreativitySnapshot | None = None
 
     # Context metadata
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
+    user_id: str | None = None
+    session_id: str | None = None
     tenant: str = "default"
     lane: str = "consciousness"
 
@@ -172,12 +172,12 @@ class GuardianValidationResult:
     timestamp: float = field(default_factory=time.time)
 
     # Validation outcomes
-    ethical_decision: Optional[EthicalDecision] = None
-    safety_result: Optional[SafetyResult] = None
-    drift_result: Optional[DriftResult] = None
+    ethical_decision: EthicalDecision | None = None
+    safety_result: SafetyResult | None = None
+    drift_result: DriftResult | None = None
 
     # Guardian envelope (if generated)
-    guardian_envelope: Optional[Dict[str, Any]] = None
+    guardian_envelope: Dict[str, Any] | None = None
 
     # Performance metrics
     validation_duration_ms: float = 0.0
@@ -257,9 +257,9 @@ class ConsciousnessGuardianIntegration:
 
     def __init__(
         self,
-        config: Optional[GuardianValidationConfig] = None,
-        guardian_system: Optional[GuardianSystem] = None,
-        ethics_engine: Optional[EthicsEngine] = None
+        config: GuardianValidationConfig | None = None,
+        guardian_system: GuardianSystem | None = None,
+        ethics_engine: EthicsEngine | None = None
     ):
         """
         Initialize Guardian integration layer.
@@ -306,8 +306,8 @@ class ConsciousnessGuardianIntegration:
 
     def _initialize_guardian_systems(
         self,
-        guardian_system: Optional[GuardianSystem],
-        ethics_engine: Optional[EthicsEngine]
+        guardian_system: GuardianSystem | None,
+        ethics_engine: EthicsEngine | None
     ):
         """Initialize Guardian system components"""
         if not GUARDIAN_AVAILABLE:
@@ -331,8 +331,8 @@ class ConsciousnessGuardianIntegration:
     async def validate_consciousness_operation(
         self,
         context: ConsciousnessValidationContext,
-        pre_validation_hook: Optional[Callable[[ConsciousnessValidationContext], Awaitable[None]]] = None,
-        post_validation_hook: Optional[Callable[[GuardianValidationResult], Awaitable[None]]] = None
+        pre_validation_hook: Callable[[ConsciousnessValidationContext], Awaitable[None]] | None = None,
+        post_validation_hook: Callable[[GuardianValidationResult], Awaitable[None]] | None = None
     ) -> GuardianValidationResult:
         """
         Comprehensive Guardian validation for consciousness operations.
@@ -671,10 +671,9 @@ class ConsciousnessGuardianIntegration:
                 gdpr_result["lawful_basis"] = "consent"
 
             # Check for sensitive operation
-            if context.sensitive_operation:
-                if not gdpr_result["consent_verified"]:
-                    gdpr_result["compliant"] = False
-                    gdpr_result["issues"].append("Explicit consent required for sensitive operations")
+            if context.sensitive_operation and not gdpr_result["consent_verified"]:
+                gdpr_result["compliant"] = False
+                gdpr_result["issues"].append("Explicit consent required for sensitive operations")
 
             # Check retention compliance
             if self._audit_events:
@@ -979,7 +978,7 @@ class ConsciousnessGuardianIntegration:
         self,
         state: ConsciousnessState,
         tenant: str = "default",
-        session_id: Optional[str] = None
+        session_id: str | None = None
     ):
         """Update baseline consciousness state for drift detection"""
 
@@ -1060,8 +1059,8 @@ class GuardianValidationError(Exception):
 # Convenience functions
 def create_validation_context(
     validation_type: GuardianValidationType,
-    consciousness_state: Optional[ConsciousnessState] = None,
-    user_id: Optional[str] = None,
+    consciousness_state: ConsciousnessState | None = None,
+    user_id: str | None = None,
     sensitive_operation: bool = False,
     **kwargs
 ) -> ConsciousnessValidationContext:
@@ -1079,11 +1078,11 @@ def create_validation_context(
 # Export public API
 __all__ = [
     "ConsciousnessGuardianIntegration",
-    "GuardianValidationConfig",
     "ConsciousnessValidationContext",
+    "GuardianValidationConfig",
+    "GuardianValidationError",
     "GuardianValidationResult",
     "GuardianValidationType",
     "ValidationResult",
-    "GuardianValidationError",
     "create_validation_context"
 ]

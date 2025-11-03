@@ -8,7 +8,6 @@ preserving technical accuracy and semantic meaning.
 """
 from __future__ import annotations
 
-
 import logging
 import os
 import re
@@ -310,7 +309,7 @@ class AGIToCognitiveMigrator:
                         content = f.read()
 
                     total_matches = 0
-                    for pattern, replacement in self.patterns:
+                    for pattern, _replacement in self.patterns:
                         matches = len(re.findall(pattern, content))
                         total_matches += matches
 

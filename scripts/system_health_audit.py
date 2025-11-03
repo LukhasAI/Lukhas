@@ -154,7 +154,7 @@ def main():
     # 6) Star rules coverage (optional)
     if (ROOT / "scripts/gen_rules_coverage.py").exists():
         print("\n⭐ Generating star rules coverage...")
-        ok, out, err, rc = run(["python3", "scripts/gen_rules_coverage.py", "--out", "docs/audits/star_rules_coverage.md"])
+        ok, _out, _err, rc = run(["python3", "scripts/gen_rules_coverage.py", "--out", "docs/audits/star_rules_coverage.md"])
         results["star_rules_coverage"] = {"ok": ok, "rc": rc}
 
     # 7) pip-audit (optional)

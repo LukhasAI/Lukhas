@@ -556,7 +556,7 @@ class APIAnalytics:
             "p95_response_time_ms": self._percentile(response_times, 95),
             "error_rate_percent": len([s for s in status_codes if s >= 400]) / len(status_codes) * 100,
             "requests_per_second": len(recent_requests) / 3600,
-            "unique_users_last_hour": len(set(r["user_id"] for r in recent_requests if r["user_id"])),
+            "unique_users_last_hour": len({r["user_id"] for r in recent_requests if r["user_id"]}),
             "top_endpoints": self._get_top_endpoints(recent_requests),
             "health_score": self._calculate_health_score(response_times, status_codes)
         }
@@ -762,10 +762,7 @@ class LUKHASAPIOptimizer:
             return False
 
         # Don't cache personalized responses (unless explicitly marked as cacheable)
-        if context.user_id and not context.metadata.get("cacheable", False):
-            return False
-
-        return True
+        return not (context.user_id and not context.metadata.get("cacheable", False))
 
     async def _update_metrics(self, context: RequestContext,
                             response_time_ms: float, status_code: int):

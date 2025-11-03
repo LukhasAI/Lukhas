@@ -55,7 +55,7 @@ def _validate_key_format(api_key: str) -> bool:
     if len(parts) != 3:
         return False
 
-    prefix, env, key_part = parts
+    _prefix, env, key_part = parts
 
     # Validate environment
     if env not in ["dev", "test", "prod", "staging"]:

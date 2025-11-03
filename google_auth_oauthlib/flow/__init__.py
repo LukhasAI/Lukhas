@@ -15,7 +15,7 @@ except Exception:  # pragma: no cover - fallback
     class Flow:  # type: ignore
         InstalledAppFlow = InstalledAppFlow
 
-    __all__ = ["InstalledAppFlow", "Flow"]
+    __all__ = ["Flow", "InstalledAppFlow"]
 else:
     __all__ = [name for name in globals() if not name.startswith("_")]
 

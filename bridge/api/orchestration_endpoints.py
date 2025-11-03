@@ -29,6 +29,16 @@ from typing import Any, Optional
 
 try:
     import jwt  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+
+    # LUKHAS imports
+    from bridge.api.orchestration_api_bridge import (
+        APIProvider,
+        ComprehensiveAPIOrchestrator,  # noqa: F401  # TODO: bridge.api.orchestratio...
+        OrchestrationRequest,
+        OrchestrationResponse,  # noqa: F401  # TODO: bridge.api.orchestratio...
+        OrchestrationStrategy,
+        get_orchestrator,
+    )
     from fastapi import (
         Depends,
         FastAPI,
@@ -46,16 +56,6 @@ try:
         BaseModel,
         Field,
         ValidationError,
-    )
-
-    # LUKHAS imports
-    from bridge.api.orchestration_api_bridge import (
-        APIProvider,
-        ComprehensiveAPIOrchestrator,  # noqa: F401  # TODO: bridge.api.orchestratio...
-        OrchestrationRequest,
-        OrchestrationResponse,  # noqa: F401  # TODO: bridge.api.orchestratio...
-        OrchestrationStrategy,
-        get_orchestrator,
     )
 
     FASTAPI_AVAILABLE = True

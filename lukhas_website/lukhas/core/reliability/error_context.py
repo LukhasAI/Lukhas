@@ -337,7 +337,7 @@ class ErrorContextManager:
         return {
             'time_window_hours': hours,
             'total_errors': len(recent_errors),
-            'unique_correlations': len(set(error.correlation_id for error in recent_errors)),
+            'unique_correlations': len({error.correlation_id for error in recent_errors}),
             'categories': category_counts,
             'severities': severity_counts,
             'top_operations': dict(sorted(operation_counts.items(), key=lambda x: x[1], reverse=True)[:10]),

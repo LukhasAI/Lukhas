@@ -96,9 +96,9 @@ def fix_logger_declarations(file_path):
         if "logger." in content:
             # Check if logger is already imported/declared
             if (
-                "import logging" not in content
+                ("import logging" not in content
                 and "logger = " not in content
-                and "from" not in content
+                and "from" not in content)
                 or "logger" not in content
             ):
                 # Add basic logger setup at the top after imports

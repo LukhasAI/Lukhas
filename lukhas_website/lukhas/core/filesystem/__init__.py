@@ -16,8 +16,8 @@ from .path_manager import (
 
 __all__ = [
     "LukhasPathManager",
-    "paths",
-    "get_lukhas_root",
     "ensure_lukhas_structure",
+    "get_lukhas_root",
     "migrate_deprecated_path",
+    "paths",
 ]

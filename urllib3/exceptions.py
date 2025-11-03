@@ -11,4 +11,4 @@ class InsecureRequestWarning(Warning):
     """Placeholder warning mirroring urllib3's interface."""
 
 
-__all__ = ["NotOpenSSLWarning", "InsecureRequestWarning"]
+__all__ = ["InsecureRequestWarning", "NotOpenSSLWarning"]

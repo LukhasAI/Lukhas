@@ -18,6 +18,7 @@ Features:
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
@@ -529,10 +530,8 @@ class MemoryWriteService:
         # Cancel TTL cleanup task
         if self._ttl_cleanup_task:
             self._ttl_cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._ttl_cleanup_task
-            except asyncio.CancelledError:
-                pass
 
         # Wait for active operations to complete
         async with self._write_semaphore:

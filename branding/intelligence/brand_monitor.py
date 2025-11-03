@@ -4,7 +4,6 @@ Real-time brand consistency tracking and intelligence analytics
 """
 from __future__ import annotations
 
-
 import asyncio
 import re
 from datetime import datetime, timedelta, timezone

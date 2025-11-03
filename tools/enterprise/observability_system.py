@@ -650,7 +650,7 @@ class ObservabilitySystem:
         if rule.comparison == "anomaly":
             # Use ML-based detection
             latest_value = values[-1]
-            is_anomaly, score, _ = self.anomaly_detector.detect_anomaly(
+            is_anomaly, _score, _ = self.anomaly_detector.detect_anomaly(
                 rule.metric_query, latest_value, datetime.now(timezone.utc)
             )
             return is_anomaly

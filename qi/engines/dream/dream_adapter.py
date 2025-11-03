@@ -16,7 +16,7 @@ Provides quantum-based dream processing and adaptation capabilities.
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -48,7 +48,7 @@ class QIDreamAdapter:
     including superposition states, entanglement, and coherence management.
     """
 
-    def __init__(self, config: Optional[DreamQuantumConfig] = None):
+    def __init__(self, config: DreamQuantumConfig | None = None):
         """
         Initialize the quantum dream adapter.
 

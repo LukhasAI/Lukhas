@@ -298,7 +298,7 @@ class ConsentLedger:
         if not result:
             return {"allowed": False, "require_step_up": True, "reason": "No active consent found"}
 
-        consent_id, scope_json, purpose, expires_at = result
+        consent_id, scope_json, _purpose, expires_at = result
         scope = json.loads(scope_json)
 
         # Check expiration

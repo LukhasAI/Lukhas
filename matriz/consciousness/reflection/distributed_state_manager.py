@@ -60,7 +60,7 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.cluster_sharding import ShardManager
 from core.common import get_logger
@@ -89,7 +89,7 @@ class StateEntry:
     last_accessed: float = field(default_factory=time.time)
     access_count: int = 0
     state_type: StateType = StateType.WARM
-    ttl: Optional[float] = None  # Time to live in seconds
+    ttl: float | None = None  # Time to live in seconds
 
     def is_expired(self) -> bool:
         """Check if entry has expired"""
@@ -124,7 +124,7 @@ class DistributedStateManager:
         self,
         node_id: str,
         num_shards: int = 16,
-        event_store: Optional[EventStore] = None,
+        event_store: EventStore | None = None,
         snapshot_interval: int = 1000,
         cache_ttl: float = 3600,  # 1 hour default TTL
     ):
@@ -278,8 +278,8 @@ class DistributedStateManager:
         key: str,
         value: Any,
         state_type: StateType = StateType.WARM,
-        ttl: Optional[float] = None,
-        correlation_id: Optional[str] = None,
+        ttl: float | None = None,
+        correlation_id: str | None = None,
     ) -> bool:
         """
         Set a value in distributed state
@@ -371,7 +371,7 @@ class DistributedStateManager:
 
         return default
 
-    def delete(self, key: str, correlation_id: Optional[str] = None) -> bool:
+    def delete(self, key: str, correlation_id: str | None = None) -> bool:
         """
         Delete a key from distributed state
 
@@ -569,7 +569,7 @@ class DistributedStateManager:
 
         self.event_counter = max(self.event_counter, event.version)
 
-    def _restore_key_from_events(self, key: str) -> Optional[Any]:
+    def _restore_key_from_events(self, key: str) -> Any | None:
         """Restore a specific key by replaying events"""
         events = self.event_store.get_events_for_aggregate(f"state_{self.node_id}")
 

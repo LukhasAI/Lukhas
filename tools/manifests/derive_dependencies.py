@@ -92,9 +92,8 @@ def collect_created_manifests_by_shas(shas: List[str]) -> List[pathlib.Path]:
             '--name-only','-r', sha
         ]).decode().splitlines()
         for p in out:
-            if p.startswith('manifests/'):
-                if p.endswith('/module.manifest.json'):
-                    created.append(pathlib.Path(p))
+            if p.startswith('manifests/') and p.endswith('/module.manifest.json'):
+                created.append(pathlib.Path(p))
     return created
 
 

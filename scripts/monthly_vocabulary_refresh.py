@@ -198,7 +198,7 @@ class MonthlyVocabularyRefresh:
                 "python3", "scripts/perp_research.py", "--query", research_query,
                 capture_output=True, text=True
             )
-            stdout, stderr = await pipeline_result.communicate()
+            _stdout, stderr = await pipeline_result.communicate()
 
             if pipeline_result.returncode == 0:
                 # Parse research results

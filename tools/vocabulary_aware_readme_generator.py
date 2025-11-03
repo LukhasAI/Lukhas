@@ -127,7 +127,7 @@ class VocabularyAwareContentGenerator:
         elements = []
 
         # Handle different vocabulary structures
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 # Check for direct elements
                 if 'poetic' in value or 'description' in value:
@@ -163,13 +163,13 @@ class VocabularyAwareContentGenerator:
         }
 
         # Try to find symbol in vocabulary
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 if 'symbol' in value:
                     return value['symbol']
 
                 # Check nested structures
-                for sub_key, sub_value in value.items():
+                for _sub_key, sub_value in value.items():
                     if isinstance(sub_value, dict) and 'symbol' in sub_value:
                         return sub_value['symbol']
                     elif isinstance(sub_value, list):
@@ -184,10 +184,10 @@ class VocabularyAwareContentGenerator:
         # Extract technical elements for bridging
         technical_elements = []
 
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 # Look for technical descriptions
-                for sub_key, sub_value in value.items():
+                for _sub_key, sub_value in value.items():
                     if isinstance(sub_value, dict) and 'technical' in sub_value:
                         technical_elements.append(sub_value['technical'])
                     elif isinstance(sub_value, list):
@@ -237,7 +237,7 @@ class VocabularyAwareContentGenerator:
 
         # Extract vocabulary terms
         terms = []
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 self._extract_terms_recursive(value, terms)
 
@@ -265,7 +265,7 @@ class VocabularyAwareContentGenerator:
                 terms.append(data)
 
             # Recurse into nested structures
-            for key, value in data.items():
+            for _key, value in data.items():
                 if isinstance(value, dict):
                     self._extract_terms_recursive(value, terms)
                 elif isinstance(value, list):
@@ -395,7 +395,7 @@ def _describe_component(class_name: str, vocab: Optional[Dict]) -> str:
         # Try to find description in vocabulary
         for key, value in vocab.items():
             if isinstance(value, dict):
-                for sub_key, sub_value in value.items():
+                for _sub_key, sub_value in value.items():
                     if isinstance(sub_value, dict) and 'name' in sub_value:
                         if class_name.lower() in sub_value['name'].lower():
                             return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))

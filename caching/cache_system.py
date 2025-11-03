@@ -18,7 +18,7 @@ import time
 import zlib
 from abc import ABC, abstractmethod
 from collections import OrderedDict, defaultdict
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
@@ -960,10 +960,8 @@ class HierarchicalCacheManager:
 
         if self.warming_task:
             self.warming_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self.warming_task
-            except asyncio.CancelledError:
-                pass
 
         if self.l2_cache and self.l2_cache.redis_client:
             await self.l2_cache.redis_client.close()

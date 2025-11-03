@@ -74,14 +74,14 @@ def create_voice_adapter(**config) -> VoiceAdapter:
 
 # Export public interface
 __all__ = [
-    "VoiceEngine",
+    "VOICE_SYSTEMS_AVAILABLE",
     "ConsciousnessVoice",
     "VoiceAdapter",
-    "get_voice_status",
-    "create_voice_engine",
+    "VoiceEngine",
     "create_consciousness_voice",
     "create_voice_adapter",
-    "VOICE_SYSTEMS_AVAILABLE"
+    "create_voice_engine",
+    "get_voice_status"
 ]
 
 logger.info("🎤 LUKHAS Voice Systems Module initialized")

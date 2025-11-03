@@ -58,7 +58,6 @@ IDEA: Add predictive causal modeling based on historical lineage patterns
 """
 from __future__ import annotations
 
-
 import hashlib
 import json
 import logging
@@ -69,7 +68,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, Union
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -95,7 +94,7 @@ def _find_repo_root(start_path: Path) -> Path:
     return start_path.parent
 
 
-def _resolve_log_directory(override: Optional[str]) -> Path:
+def _resolve_log_directory(override: str | None) -> Path:
     """Resolve the directory used for lineage tracker logs."""
 
     if override:
@@ -113,7 +112,7 @@ def _resolve_log_directory(override: Optional[str]) -> Path:
     return (repo_root / _DEFAULT_LOG_SUBDIR).resolve()
 
 
-def _coerce_path(value: Optional[Union[str, Path]], *, default: Path) -> Path:
+def _coerce_path(value: Union[str, Path] | None, *, default: Path) -> Path:
     """Convert a value to Path if provided, otherwise return default."""
 
     if value is None:
@@ -158,7 +157,7 @@ class FoldLineageNode:
     timestamp_utc: str
     importance_score: float
     drift_score: float
-    collapse_hash: Optional[str]
+    collapse_hash: str | None
     content_hash: str
     causative_events: list[str]
 
@@ -188,7 +187,7 @@ class FoldLineageTracker:
     def __init__(
         self,
         max_drift_rate: float = MAX_DRIFT_RATE,  # JULES05_NOTE: Loop-safe guard added
-        log_directory: Optional[Union[str, Path]] = None,
+        log_directory: Union[str, Path] | None = None,
     ):
         log_dir = _resolve_log_directory(str(log_directory) if isinstance(log_directory, Path) else log_directory)
 
@@ -207,7 +206,7 @@ class FoldLineageTracker:
         self._load_existing_lineage()
 
     # ΛDVNT: Compatibility method for tests expecting add_lineage_entry
-    def add_lineage_entry(self, fold_key: str, event_type: str, metadata: Optional[dict[str, Any]] = None):
+    def add_lineage_entry(self, fold_key: str, event_type: str, metadata: dict[str, Any] | None = None):
         """
         Compatibility method for tests. Maps to track_fold_state.
 
@@ -273,7 +272,7 @@ class FoldLineageTracker:
         target_fold_key: str,
         causation_type: CausationType,
         strength: float = 1.0,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
         recursion_depth: int = 0,  # JULES05_NOTE: Loop-safe guard added
     ) -> str:
         """
@@ -343,8 +342,8 @@ class FoldLineageTracker:
         importance_score: float,
         drift_score: float,
         content_hash: str,
-        collapse_hash: Optional[str] = None,
-        causative_events: Optional[list[str]] = None,
+        collapse_hash: str | None = None,
+        causative_events: list[str] | None = None,
     ) -> None:
         """
         Records the current state of a fold for lineage tracking.
@@ -602,7 +601,7 @@ class FoldLineageTracker:
             lambda: {"folds": set(), "strengths": [], "events": set()}
         )
 
-        for source_key, links in self.lineage_graph.items():
+        for _source_key, links in self.lineage_graph.items():
             for link in links:
                 if link.causation_type != CausationType.QUANTUM_ENTANGLEMENT:
                     continue
@@ -678,10 +677,7 @@ class FoldLineageTracker:
         """Extract normalized entanglement strength from a causal link."""
 
         strength = link.metadata.get("entanglement_level")
-        if isinstance(strength, (int, float)):
-            value = float(strength)
-        else:
-            value = float(link.strength)
+        value = float(strength) if isinstance(strength, (int, float)) else float(link.strength)
         return max(0.0, min(1.0, value))
 
     @staticmethod
@@ -699,7 +695,7 @@ class FoldLineageTracker:
     def _resolve_dream_reference(
         metadata: dict[str, Any],
         *dream_sets: set[str],
-    ) -> Optional[str]:
+    ) -> str | None:
         """Resolve dream identifier from metadata and event-derived sets."""
 
         for key in ("dream_id", "dreamId", "dream"):
@@ -1045,7 +1041,7 @@ class FoldLineageTracker:
         slope = (n * xy_sum - x_sum * y_sum) / (n * x_sq_sum - x_sum * x_sum)
         return slope
 
-    def _estimate_time_to_critical_drift(self, recent_drifts: list[float], trend: float) -> Optional[float]:
+    def _estimate_time_to_critical_drift(self, recent_drifts: list[float], trend: float) -> float | None:
         """Estimate time until drift reaches critical threshold (0.8)."""
         if trend <= 0:
             return None  # Drift is stable or decreasing
@@ -1168,7 +1164,7 @@ def create_lineage_tracker() -> FoldLineageTracker:
 
 
 def create_enhanced_lineage_tracker(
-    config: Optional[dict[str, Any]] = None,
+    config: dict[str, Any] | None = None,
 ) -> FoldLineageTracker:
     """Create an enhanced fold lineage tracker with custom configuration."""
     tracker = FoldLineageTracker()

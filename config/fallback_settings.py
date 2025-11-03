@@ -16,7 +16,6 @@
 """
 from __future__ import annotations
 
-
 import logging
 import os
 from typing import Any, Optional
@@ -44,14 +43,14 @@ class FallbackSettings:
             from config.env import get_lukhas_config
 
             config = get_lukhas_config()
-            self.OPENAI_API_KEY: Optional[str] = config.openai_api_key
+            self.OPENAI_API_KEY: str | None = config.openai_api_key
             self.DATABASE_URL: str = config.database_url
             self.REDIS_URL: str = config.redis_url
             self.LOG_LEVEL: str = config.log_level
             self.DEBUG: bool = config.debug
         except ImportError:
             # Direct environment variable access as fallback
-            self.OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
+            self.OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
             self.DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///lukhas_fallback.db")
             self.REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")
             self.LOG_LEVEL: str = os.getenv("LOG_LEVEL", "WARNING")  # More conservative

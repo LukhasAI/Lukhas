@@ -178,7 +178,7 @@ class MatrixTestGenerator:
                     test_case['reason'] += " with MFA"
                     # Also add special fold scope if available
                     if f"{module_name}.fold" not in scopes:
-                        test_case['input']['scopes'] = scopes + [f"{module_name}.fold"]
+                        test_case['input']['scopes'] = [*scopes, f"{module_name}.fold"]
 
                 test_cases.append(test_case)
 

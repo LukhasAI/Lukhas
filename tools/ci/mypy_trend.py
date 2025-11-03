@@ -31,7 +31,7 @@ def count_errors(content):
 
 def git(cmd):
     try:
-        return subprocess.check_output(["git"] + cmd, text=True).strip()
+        return subprocess.check_output(["git", *cmd], text=True).strip()
     except Exception:
         return ""
 

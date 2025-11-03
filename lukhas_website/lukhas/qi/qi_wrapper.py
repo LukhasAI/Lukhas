@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-
 """
 LUKHAS AI Quantum-Inspired (QI) Wrapper
 ========================================
@@ -24,10 +23,9 @@ Default mode: DRY-RUN (simulation only) with QI_ACTIVE feature flag required.
 import logging
 import os
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
-
 from observability.matriz_decorators import instrument
 from observability.matriz_emit import emit
 
@@ -174,7 +172,7 @@ class QIInspiredProcessor:
         self.collapsed_state = None
 
     @instrument("qi_superposition")
-    def create_superposition(self, options: list[Any], amplitudes: Optional[list[float]] = None) -> dict[str, Any]:
+    def create_superposition(self, options: list[Any], amplitudes: list[float] | None = None) -> dict[str, Any]:
         """Create quantum-inspired superposition of multiple states"""
         if not QI_ACTIVE:
             emit(
@@ -345,7 +343,7 @@ class BioInspiredProcessor:
             return {"error": str(e), "active": False}
 
     @instrument("bio_homeostasis")
-    def maintain_homeostasis(self, system_state: float, target_state: Optional[float] = None) -> dict[str, Any]:
+    def maintain_homeostasis(self, system_state: float, target_state: float | None = None) -> dict[str, Any]:
         """Maintain bio-inspired homeostasis"""
         if not QI_ACTIVE:
             emit(
@@ -683,7 +681,7 @@ class QIWrapper:
             return {"error": str(e), "processed": False}
 
     @instrument("qi_quantum_decision")
-    def make_quantum_decision(self, options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def make_quantum_decision(self, options: list[Any], context: dict[str, Any] | None = None) -> dict[str, Any]:
         """Make decision using quantum-inspired superposition and collapse"""
         try:
             input_data = {
@@ -739,7 +737,7 @@ class QIWrapper:
     def adapt_bio_inspired(
         self,
         system_metrics: dict[str, float],
-        target_state: Optional[dict[str, float]] = None,
+        target_state: dict[str, float] | None = None,
     ) -> dict[str, Any]:
         """Adapt system using bio-inspired mechanisms"""
         try:

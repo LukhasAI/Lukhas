@@ -253,7 +253,7 @@ class MATRIZThoughtLoop:
                 supporting_memory_ids=[],
                 awareness_snapshot=None,
                 recommendations=["Investigate system error and retry"],
-                errors_encountered=errors_encountered + [str(e)],
+                errors_encountered=[*errors_encountered, str(e)],
                 warnings=warnings,
                 error_message=str(e)
             )
@@ -626,4 +626,4 @@ class MATRIZThoughtLoop:
 
 
 # Export main class
-__all__ = ["MATRIZThoughtLoop", "MATRIZProcessingContext", "MATRIZThoughtLoopResult"]
+__all__ = ["MATRIZProcessingContext", "MATRIZThoughtLoop", "MATRIZThoughtLoopResult"]

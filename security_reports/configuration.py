@@ -87,4 +87,4 @@ def load_config(path: str | Path | None = None) -> SecurityReportsConfig:
     )
 
 
-__all__ = ["SecurityReportsConfig", "SecurityConfigurationError", "load_config"]
+__all__ = ["SecurityConfigurationError", "SecurityReportsConfig", "load_config"]

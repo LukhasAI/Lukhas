@@ -4,6 +4,7 @@ Coordinates multiple distributed memory clusters with advanced governance and op
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
@@ -172,10 +173,8 @@ class FederationCoordinator:
                     self.optimization_task, self.load_balancer_task]:
             if task and not task.done():
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         logger.info(f"✅ Federation Coordinator stopped: {self.federation_id}")
 
@@ -743,7 +742,7 @@ class FederationCoordinator:
         while not self._shutdown_event.is_set():
             try:
                 # Process pending cross-cluster operations
-                for operation_id, operation in list(self.pending_operations.items()):
+                for _operation_id, operation in list(self.pending_operations.items()):
                     if operation.status == "pending":
                         await self._execute_cross_cluster_operation(operation)
 

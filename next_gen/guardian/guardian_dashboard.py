@@ -5,7 +5,6 @@ Provides comprehensive threat visualization with symbolic analysis and predictiv
 """
 from __future__ import annotations
 
-
 import asyncio
 import math
 import statistics
@@ -14,7 +13,6 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
@@ -73,7 +71,7 @@ class ThreatEvent:
     metadata: dict
     intervention_triggered: bool = False
     resolved: bool = False
-    resolution_time: Optional[float] = None
+    resolution_time: float | None = None
 
 
 @dataclass
@@ -95,10 +93,10 @@ class SystemMetrics:
 class EmergencyState:
     """Current emergency state information"""
 
-    active_emergency_level: Optional[str]
+    active_emergency_level: str | None
     emergency_description: str
     symbolic_pattern: list[str]
-    activated_at: Optional[float]
+    activated_at: float | None
     response_actions: list[str]
     escalation_history: list[dict]
 

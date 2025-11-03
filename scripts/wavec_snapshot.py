@@ -34,8 +34,7 @@ def _run(cmd: Sequence[str], cwd: str | None = None, timeout: int = 30) -> tuple
         proc = subprocess.run(
             cmd,
             cwd=cwd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             timeout=timeout,
             text=True,
             check=False,

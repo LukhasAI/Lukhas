@@ -10,7 +10,6 @@ Patch schemas/matriz_module_compliance.schema.json → v1.1.0
 - Add T1_critical gates via if/then
 - Bump version field to 1.1.0 (schema metadata)
 """
-import logging
 import datetime
 import json
 import pathlib

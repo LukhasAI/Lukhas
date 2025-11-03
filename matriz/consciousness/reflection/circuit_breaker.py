@@ -22,10 +22,9 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import numpy as np
-
 from core.common import get_logger
 
 try:
@@ -67,7 +66,7 @@ class FailureRecord:
     failure_type: FailureType
     actor_id: str
     error_message: str
-    correlation_id: Optional[str] = None
+    correlation_id: str | None = None
     propagation_path: list[str] = field(default_factory=list)
     severity: float = 1.0  # 0-1 scale
 
@@ -610,7 +609,7 @@ class CascadePreventionSystem:
     def __init__(
         self,
         actor_system: ActorSystem,
-        observability: Optional[ObservabilityCollector] = None,
+        observability: ObservabilityCollector | None = None,
     ):
         self.actor_system = actor_system
         self.observability = observability
@@ -748,7 +747,7 @@ class CascadePreventionSystem:
             except Exception as e:
                 logger.debug(f"Failed to collect metrics for {actor_id}: {e}")
 
-    async def _get_actor_snapshot(self, actor_id: str) -> Optional[ActorSnapshot]:
+    async def _get_actor_snapshot(self, actor_id: str) -> ActorSnapshot | None:
         """Get snapshot for an actor"""
         if not self.observability:
             return None

@@ -42,7 +42,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -174,7 +174,7 @@ class ChaosScenario(ABC):
         self.scenario_type = scenario_type
         self.intensity = intensity
         self.active = False
-        self.start_time: Optional[datetime] = None
+        self.start_time: datetime | None = None
 
     @abstractmethod
     async def inject_chaos(self, system_state: ConsciousnessSystemState) -> ConsciousnessSystemState:
@@ -661,7 +661,7 @@ class ConsciousnessChaosEngineeringFramework:
         elif recovery_strategy == RecoveryStrategy.GRADUAL:
             # Gradual recovery over 5 steps
             current_state = chaotic_state
-            for step in range(5):
+            for _step in range(5):
                 current_state = await scenario.recover_system(current_state)
                 await asyncio.sleep(0.1)  # Allow gradual recovery
             return current_state

@@ -14,7 +14,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 from .qi_substrate import QIState, QIStateType

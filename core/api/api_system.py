@@ -6,17 +6,16 @@ import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from functools import lru_cache
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Tuple
 
 import structlog
+from core.security.auth import get_auth_system
+from core.security.security_integration import get_security_integration
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
-
-from core.security.auth import get_auth_system
-from core.security.security_integration import get_security_integration
 
 """
 LUKHAS Enhanced API System
@@ -120,8 +119,8 @@ class LUKHASRequest(BaseModel):
 
     operation: str = Field(..., description="Operation to perform")
     data: dict[str, Any] = Field(default_factory=dict)
-    context: Optional[dict[str, Any]] = Field(default=None)
-    options: Optional[dict[str, Any]] = Field(default=None)
+    context: dict[str, Any] | None = Field(default=None)
+    options: dict[str, Any] | None = Field(default=None)
 
 
 class LUKHASResponse(BaseModel):
@@ -131,8 +130,8 @@ class LUKHASResponse(BaseModel):
     timestamp: datetime
     operation: str
     status: str = Field(..., pattern="^(success|error|partial)$")
-    result: Optional[dict[str, Any]] = None
-    error: Optional[dict[str, Any]] = None
+    result: dict[str, Any] | None = None
+    error: dict[str, Any] | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
     processing_time_ms: float
 
@@ -149,8 +148,8 @@ class MemoryRequest(BaseModel):
     """Memory operation request"""
 
     action: str = Field(..., pattern="^(store|retrieve|search|update)$")
-    content: Optional[dict[str, Any]] = None
-    query: Optional[str] = None
+    content: dict[str, Any] | None = None
+    query: str | None = None
     memory_type: str = Field(default="general")
 
 
@@ -231,7 +230,7 @@ class EnhancedAPISystem:
         """Check if cached response is still valid."""
         return (time.time() - timestamp) < self.cache_ttl_seconds
 
-    async def _get_cached_response(self, cache_key: str) -> Optional[Any]:
+    async def _get_cached_response(self, cache_key: str) -> Any | None:
         """Get cached response if valid."""
         if cache_key in self.response_cache:
             response, timestamp = self.response_cache[cache_key]
@@ -789,7 +788,7 @@ class EnhancedAPISystem:
                 },
             }
 
-    async def _validate_auth(self, token: str, operation: str) -> tuple[bool, Optional[str]]:
+    async def _validate_auth(self, token: str, operation: str) -> tuple[bool, str | None]:
         """Validate authentication for operation"""
         request_data = {
             "authorization": f"Bearer {token}",

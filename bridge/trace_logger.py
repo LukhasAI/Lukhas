@@ -44,7 +44,7 @@ from datetime import datetime, timezone
 import json
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.trace_logger")
@@ -185,7 +185,7 @@ class BridgeTraceLogger:
         level: TraceLevel,
         component: str,
         message: str,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> str:
         """
         Log bridge operation event with trace data
@@ -244,7 +244,7 @@ class BridgeTraceLogger:
 
         return event_id
 
-    def trace_symbolic_handshake(self, dream_id: str, status: str, details: Optional[dict[str, Any]] = None) -> str:
+    def trace_symbolic_handshake(self, dream_id: str, status: str, details: dict[str, Any] | None = None) -> str:
         """
         Trace symbolic handshake operations
 
@@ -270,7 +270,7 @@ class BridgeTraceLogger:
             metadata,
         )
 
-    def trace_memory_mapping(self, map_id: str, operation: str, result: Optional[dict[str, Any]] = None) -> str:
+    def trace_memory_mapping(self, map_id: str, operation: str, result: dict[str, Any] | None = None) -> str:
         """
         Trace memory mapping operations
 

@@ -6,7 +6,6 @@ Comprehensive audit of the LUKHAS identity system for open-source readiness.
 """
 from __future__ import annotations
 
-
 import ast
 import json
 import logging

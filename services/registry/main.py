@@ -35,7 +35,7 @@ import os
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 import jsonschema
 from fastapi import FastAPI, HTTPException, Request
@@ -139,7 +139,7 @@ def _build_signature_bundle(
         },
     }
 
-    pqc_signature_bytes: Optional[bytes] = None
+    pqc_signature_bytes: bytes | None = None
     if SIGNER.pqc_available:
         try:
             pqc_signature_bytes = SIGNER.sign(payload_bytes)
@@ -184,7 +184,7 @@ def _verify_timestamp(timestamp: float) -> None:
         )
 
 
-def _read_signature_bundle(payload: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def _read_signature_bundle(payload: Dict[str, Any] | None = None) -> Dict[str, Any]:
     """Read signature bundle from disk, tolerating legacy formats."""
 
     raw = REGISTRY_SIG.read_text().strip()
@@ -212,7 +212,7 @@ def _read_signature_bundle(payload: Optional[Dict[str, Any]] = None) -> Dict[str
 def _verify_signature_bundle(
     payload: Dict[str, Any],
     bundle: Dict[str, Any],
-    raw_payload_bytes: Optional[bytes] = None,
+    raw_payload_bytes: bytes | None = None,
 ) -> None:
     """Verify Dilithium2/HMAC signatures for stored checkpoint."""
 
@@ -359,7 +359,7 @@ async def register_node(req: Request):
 
 
 @app.get("/api/v1/registry/query")
-async def query_registry(signal: Optional[str] = None, capability: Optional[str] = None):
+async def query_registry(signal: str | None = None, capability: str | None = None):
     """Query by signal or capability (simple contains-based match for stub)."""
     results: List[Dict[str, Any]] = []
     for rid, entry in _store.items():

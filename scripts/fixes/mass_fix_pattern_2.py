@@ -5,7 +5,6 @@ Fix patterns like: def function(): and function_call()
 """
 from __future__ import annotations
 
-
 import re
 from pathlib import Path
 

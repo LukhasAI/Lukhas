@@ -28,16 +28,6 @@ from caching.cache_system import (
     HierarchicalCacheManager,
     MemoryCacheBackend,
 )
-from storage.distributed_storage import (
-    DataClassification,
-    DistributedStorageManager,
-    LocalFilesystemBackend,
-    SQLiteMetadataStore,
-    StorageBackendType,
-    StorageConfig,
-    StorageObject,
-    StoragePolicy,
-)
 
 # Import the modules we're testing
 from security.security_framework import (
@@ -50,6 +40,16 @@ from security.security_framework import (
     SecurityConfig,
     ThreatDetector,
     UserPrincipal,
+)
+from storage.distributed_storage import (
+    DataClassification,
+    DistributedStorageManager,
+    LocalFilesystemBackend,
+    SQLiteMetadataStore,
+    StorageBackendType,
+    StorageConfig,
+    StorageObject,
+    StoragePolicy,
 )
 
 
@@ -174,7 +174,7 @@ class TestSecurityFramework:
         client_id = "test_client_123"
 
         # Should allow requests within limit
-        for i in range(10):
+        for _i in range(10):
             allowed = await rate_limiter.is_allowed(client_id)
             assert allowed
 
@@ -186,7 +186,7 @@ class TestSecurityFramework:
         rate_limiter.client_requests.clear()
 
         # Should allow up to limit
-        for i in range(5):
+        for _i in range(5):
             allowed = await rate_limiter.is_allowed(client_id)
             assert allowed
 

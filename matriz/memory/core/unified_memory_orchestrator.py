@@ -27,7 +27,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional, Union
+from typing import Any, Union
 
 import numpy as np
 
@@ -138,7 +138,7 @@ class MemoryTrace:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     access_count: int = 0
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    hippocampal_index: Optional[int] = None
+    hippocampal_index: int | None = None
     neocortical_indices: list[int] = field(default_factory=list)
     emotional_valence: float = 0.0  # -1 to 1
     semantic_links: set[str] = field(default_factory=set)
@@ -197,7 +197,7 @@ class UnifiedMemoryOrchestrator:
         consolidation_rate: float = 0.1,
         enable_colony_validation: bool = True,
         enable_distributed: bool = True,
-        node_id: Optional[str] = None,
+        node_id: str | None = None,
     ):
         self.hippocampal_capacity = hippocampal_capacity
         self.neocortical_capacity = neocortical_capacity
@@ -308,7 +308,7 @@ class UnifiedMemoryOrchestrator:
             f"distributed={enable_distributed}"
         )
 
-    def _initialize_lukhas_subsystems(self, node_id: Optional[str]):
+    def _initialize_lukhas_subsystems(self, node_id: str | None):
         """Initialize LUKHAS subsystems"""
         try:
             # Symbol-aware memory
@@ -516,10 +516,10 @@ class UnifiedMemoryOrchestrator:
         self,
         content: Any,
         memory_type: MemoryType,
-        tags: Optional[list[str]] = None,
+        tags: list[str] | None = None,
         emotional_valence: float = 0.0,
         importance: float = 0.5,
-        semantic_links: Optional[list[str]] = None,
+        semantic_links: list[str] | None = None,
     ) -> str:
         """
         Encode a new memory into the hippocampal buffer.
@@ -804,7 +804,7 @@ class UnifiedMemoryOrchestrator:
     async def retrieve_memory(
         self,
         query: Union[str, dict[str, Any]],
-        memory_types: Optional[list[MemoryType]] = None,
+        memory_types: list[MemoryType] | None = None,
         use_pattern_completion: bool = True,
         max_results: int = 10,
     ) -> list[tuple[MemoryTrace, float]]:
@@ -856,7 +856,7 @@ class UnifiedMemoryOrchestrator:
     def _search_working_memory(
         self,
         query: Union[str, dict[str, Any]],
-        memory_types: Optional[list[MemoryType]] = None,
+        memory_types: list[MemoryType] | None = None,
     ) -> list[tuple[MemoryTrace, float]]:
         """Fast search in working memory"""
         results = []
@@ -877,7 +877,7 @@ class UnifiedMemoryOrchestrator:
     async def _search_hippocampal(
         self,
         query: Union[str, dict[str, Any]],
-        memory_types: Optional[list[MemoryType]] = None,
+        memory_types: list[MemoryType] | None = None,
         use_pattern_completion: bool = True,
     ) -> list[tuple[MemoryTrace, float]]:
         """Search in hippocampal buffer with pattern completion"""
@@ -951,7 +951,7 @@ class UnifiedMemoryOrchestrator:
     async def _search_neocortical(
         self,
         query: Union[str, dict[str, Any]],
-        memory_types: Optional[list[MemoryType]] = None,
+        memory_types: list[MemoryType] | None = None,
     ) -> list[tuple[MemoryTrace, float]]:
         """Search in consolidated neocortical memories"""
         results = []

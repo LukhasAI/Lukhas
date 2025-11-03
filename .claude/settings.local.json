@@ -218,7 +218,13 @@
       "Bash(else echo \"no venv found\")",
       "Bash(release_artifacts/matriz_readiness_v1/scripts/verify_and_collect.sh:*)",
       "Bash(for file in ./core/adapters/provider_registry.py ./core/validation_script_fixes.py ./core/orchestration/brain/orchestration/core.py ./memory/folds/__init__.py ./memory/indexer.py)",
-      "Bash(smoke_collection_log.txt)"
+      "Bash(smoke_collection_log.txt)",
+      "Bash(for mod in \"aka_qualia/core.py\" \"consciousness/dream/expand/mesh.py\" \"consciousness/dream/expand/noise.py\" \"candidate/consciousness/dream/core.py\")",
+      "Bash(do if [ -f \"$mod\" ])",
+      "Bash(then echo \"✅ EXISTS: $mod\")",
+      "Bash(else echo \"❌ MISSING: $mod\")",
+      "Bash(for pr in 911 910 909 908 907 906 905 904)",
+      "Bash(do echo \"=== PR #$pr ===\" gh pr view $pr --json number,title,body)"
     ],
     "deny": [],
     "ask": [],

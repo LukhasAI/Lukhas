@@ -42,4 +42,4 @@ def fatigue_level():
     return 0.3
 
 
-__all__ = ["BioEngine", "BioAwareness", "get_bio_status", "initialize_bio_components", "fatigue_level"]
+__all__ = ["BioAwareness", "BioEngine", "fatigue_level", "get_bio_status", "initialize_bio_components"]

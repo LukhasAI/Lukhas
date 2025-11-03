@@ -1,0 +1,20 @@
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/api/test_optimization_system.py ____________
+____________ ERROR collecting tests/api/test_routing_admin_auth.py _____________
+______________ ERROR collecting tests/bridge/test_jwt_adapter.py _______________
+_______ ERROR collecting tests/bridge/test_jwt_adapter_high_priority.py ________
+_________ ERROR collecting tests/candidate/qi/test_qi_entanglement.py __________
+_________ ERROR collecting tests/capabilities/test_governance_suite.py _________
+_ ERROR collecting tests/cognitive/property_based/test_reasoning_edge_cases.py _
+_ ERROR collecting tests/cognitive/stress/test_cognitive_load_infrastructure.py _
+_______ ERROR collecting tests/cognitive/test_comprehensive_coverage.py ________
+________ ERROR collecting tests/collapse/test_collapse_simulator_cli.py ________
+___ ERROR collecting tests/consciousness/test_advanced_cognitive_features.py ___
+___ ERROR collecting tests/consciousness/test_c1_consciousness_components.py ___
+________ ERROR collecting tests/consciousness/test_creativity_engine.py ________
+______ ERROR collecting tests/consciousness/test_guardian_integration.py _______
+____ ERROR collecting tests/consciousness/test_lukhas_reflection_engine.py _____
+________ ERROR collecting tests/consciousness/test_reflection_engine.py ________
+_____________ ERROR collecting tests/contract/candidate/aka_qualia _____________
+______________ ERROR collecting tests/core/api/test_api_system.py ______________
+_ ERROR collecting tests/core/consciousness/test_advanced_consciousness_engine.py _

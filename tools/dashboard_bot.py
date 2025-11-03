@@ -5,7 +5,6 @@ Generates: progress.json + PR comments + executive dashboard
 """
 from __future__ import annotations
 
-
 import argparse
 import json
 import subprocess

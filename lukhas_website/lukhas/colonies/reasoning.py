@@ -5,7 +5,7 @@ Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask
 
@@ -185,7 +185,7 @@ class ReasoningColony(BaseColony):
                 return parts1[1].strip() == parts2[0].strip()
         return False
 
-    def _apply_transitivity(self, fact1: str, fact2: str) -> Optional[str]:
+    def _apply_transitivity(self, fact1: str, fact2: str) -> str | None:
         """Apply transitivity rule"""
         if "->" in fact1 and "->" in fact2:
             parts1 = fact1.split("->")
@@ -201,7 +201,7 @@ class ReasoningColony(BaseColony):
             return fact.strip() == antecedent
         return False
 
-    def _apply_modus_ponens(self, fact: str, implication: str) -> Optional[str]:
+    def _apply_modus_ponens(self, fact: str, implication: str) -> str | None:
         """Apply modus ponens rule"""
         if "->" in implication:
             consequent = implication.split("->")[1].strip()

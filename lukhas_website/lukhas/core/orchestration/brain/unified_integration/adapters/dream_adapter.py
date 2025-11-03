@@ -16,10 +16,9 @@ TRINITY FRAMEWORK:
 """
 from __future__ import annotations
 
-
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +34,7 @@ class DreamAdapter:
         self.dream_counter = 0
         logger.info("🌙 Dream Adapter initialized - Constellation Framework active")
 
-    def initiate_dream_state(self, user_context: Optional[dict] = None) -> str:
+    def initiate_dream_state(self, user_context: dict | None = None) -> str:
         """
         ⚛️ Identity-aware dream state initiation.
 

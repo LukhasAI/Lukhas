@@ -23,11 +23,10 @@ import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # LUKHAS Branding Integration
 from branding_bridge import BrandContext, get_bridge, initialize_branding
-
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
@@ -67,12 +66,12 @@ class ConversationContext:
     """Maintains conversation state"""
 
     session_id: str
-    user_id: Optional[str]
+    user_id: str | None
     turns: list[dict[str, Any]] = field(default_factory=list)
     emotional_state: dict[str, float] = field(default_factory=dict)
     topics: list[str] = field(default_factory=list)
     memory_refs: list[str] = field(default_factory=list)
-    active_intent: Optional[ConversationIntent] = None
+    active_intent: ConversationIntent | None = None
 
     def add_turn(self, user_input: str, system_response: str, intent: ConversationIntent):
         """Add a conversation turn"""
@@ -108,7 +107,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
     awareness assessment, decision making, reflection, and memory exploration.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize natural language interface"""
         self.config = config or {}
         self.operational = False
@@ -278,8 +277,8 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
     async def process_input(
         self,
         user_input: str,
-        session_id: Optional[str] = None,
-        user_id: Optional[str] = None,
+        session_id: str | None = None,
+        user_id: str | None = None,
     ) -> str:
         """
         Process natural language input and generate response.
@@ -990,7 +989,7 @@ class ConversationManager:
         self.max_sessions = 100
         self.session_timeout = 3600  # 1 hour
 
-    async def create_session(self, user_id: Optional[str] = None) -> str:
+    async def create_session(self, user_id: str | None = None) -> str:
         """Create new conversation session"""
         session_id = f"session_{datetime.now(timezone.utc).timestamp()}_{user_id or 'anonymous'}"
         return session_id

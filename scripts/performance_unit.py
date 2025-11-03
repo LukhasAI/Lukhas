@@ -11,6 +11,7 @@ This script performs isolated component benchmarking for unit-level performance 
 Generates detailed performance artifacts with statistical analysis and regression detection.
 """
 
+import contextlib
 import json
 import logging
 import statistics
@@ -27,15 +28,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 try:
     # LUKHAS core imports for performance testing
     from guardian.core import GuardianSystem  # noqa: F401  # TODO: guardian.core.GuardianS...
+    from identity.core import IdentitySystem  # noqa: F401  # TODO: identity.core.IdentityS...
+    from observability.metrics import (
+        get_metrics_registry,  # noqa: F401  # TODO: observability.metrics.g...
+    )
 
     from consciousness.core import (
         ConsciousnessSystem,  # noqa: F401  # TODO: consciousness.core.Cons...
     )
-    from identity.core import IdentitySystem  # noqa: F401  # TODO: identity.core.IdentityS...
     from memory.core import MemorySystem  # noqa: F401  # TODO: memory.core.MemorySyste...
-    from observability.metrics import (
-        get_metrics_registry,  # noqa: F401  # TODO: observability.metrics.g...
-    )
 except ImportError as e:
     logging.warning(f"Some LUKHAS modules not available: {e}")
 
@@ -92,10 +93,8 @@ class PerformanceUnitTester:
 
         # Warmup
         for _ in range(self.warmup_iterations):
-            try:
+            with contextlib.suppress(Exception):
                 operation_func()
-            except Exception:
-                pass
 
         # Actual measurements
         for _ in range(iterations):

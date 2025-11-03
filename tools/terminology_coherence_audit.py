@@ -199,8 +199,8 @@ class TerminologyAuditor:
             "compliance": {
                 "score": compliance_score,
                 "grade": "A" if compliance_score >= 95 else "B" if compliance_score >= 85 else "C" if compliance_score >= 75 else "D",
-                "clean_files": self.scanned_files - len(set(i.file_path for i in self.issues)),
-                "problematic_files": len(set(i.file_path for i in self.issues))
+                "clean_files": self.scanned_files - len({i.file_path for i in self.issues}),
+                "problematic_files": len({i.file_path for i in self.issues})
             },
             "top_issues": [
                 {

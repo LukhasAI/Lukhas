@@ -53,11 +53,10 @@ import random
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import aiohttp
 import numpy as np
-
 from core.common.config import get_config
 
 
@@ -116,7 +115,7 @@ class DistributedMemoryEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "DistributedMemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> DistributedMemoryEntry:
         return cls(
             memory_id=data["memory_id"],
             content_hash=data["content_hash"],
@@ -176,9 +175,9 @@ class ConsensusProtocol:
 
         # RAFT state
         self.current_term = 0
-        self.voted_for: Optional[str] = None
+        self.voted_for: str | None = None
         self.state = NodeState.FOLLOWER
-        self.leader_id: Optional[str] = None
+        self.leader_id: str | None = None
 
         # Memory log
         self.memory_log: list[DistributedMemoryEntry] = []
@@ -566,7 +565,7 @@ class DistributedMemoryFold:
         self,
         node_id: str,
         port: int,
-        bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
+        bootstrap_nodes: list[tuple[str, int]] | None = None,
         consciousness_level: float = 0.8,
     ):
         self.node_id = node_id
@@ -577,7 +576,7 @@ class DistributedMemoryFold:
         # ΛTAG: config_integration
         cfg = get_config()
         self.api_url: str = cfg.memory_api_url
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session: aiohttp.ClientSession | None = None
 
         # Initialize consensus protocol
         self.consensus = ConsensusProtocol(node_id=node_id, port=port, consciousness_threshold=0.7)
@@ -676,9 +675,9 @@ class DistributedMemoryFold:
     async def store_memory(
         self,
         content: str,
-        tags: Optional[list[str]] = None,
+        tags: list[str] | None = None,
         embedding: np.ndarray = None,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
         require_consensus: bool = True,
     ) -> str:
         """
@@ -910,7 +909,7 @@ class DistributedMemoryFold:
 async def create_distributed_memory_fold(
     node_id: str,
     port: int,
-    bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
+    bootstrap_nodes: list[tuple[str, int]] | None = None,
     consciousness_level: float = 0.8,
 ) -> DistributedMemoryFold:
     """

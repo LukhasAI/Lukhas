@@ -21,8 +21,8 @@ try:
     __all__ = [
         "test_api_key_validation",
         "test_authentication_flows",
-        "test_session_management",
         "test_security_compliance",
+        "test_session_management",
     ]
 except ImportError as e:
     logger.warning(f"Could not import validation tools: {e}")

@@ -14,12 +14,13 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import datetime
 import json
 import pathlib
 import re
 import sys
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from star_canon_utils import extract_canon_labels, normalize_star_label
 
@@ -89,10 +90,8 @@ def infer_star_from_rules(
 
     # apply exclusions
     for ex in rules_cfg.get("exclusions", []) or []:
-        try:
+        with contextlib.suppress(re.error):
             text = re.sub(ex.get("pattern", ""), " ", text, flags=re.IGNORECASE)
-        except re.error:
-            pass
 
     # rules: path keywords
     for r in rules_cfg.get("rules", []) or []:
@@ -161,7 +160,7 @@ COLONY_HINTS = [
     (r"/perception|/asr|/vision_model", "perception"),
 ]
 
-def validate_star(star: str, star_canon: Dict[str, Any], *, labels: Optional[set[str]] = None) -> str:
+def validate_star(star: str, star_canon: Dict[str, Any], *, labels: set[str] | None = None) -> str:
     """Validate constellation star label against canonical definitions with fail-fast gating.
 
     Enforces strict validation of star labels to prevent invalid assignments
@@ -198,7 +197,7 @@ def validate_star(star: str, star_canon: Dict[str, Any], *, labels: Optional[set
     return star
 
 
-def guess_star(path: str, inv_star: Optional[str], star_canon: Dict[str, Any]) -> str:
+def guess_star(path: str, inv_star: str | None, star_canon: Dict[str, Any]) -> str:
     """Guess constellation star label with canonical normalization.
 
     Args:
@@ -221,7 +220,7 @@ def guess_star(path: str, inv_star: Optional[str], star_canon: Dict[str, Any]) -
             return validate_star(star, star_canon, labels=labels)
     return validate_star(STAR_DEFAULT, star_canon, labels=labels)
 
-def guess_colony(path: str) -> Optional[str]:
+def guess_colony(path: str) -> str | None:
     """Infer LUKHAS colony assignment from module path patterns.
 
     Colonies organize modules by functional domain (actuation, simulation,
@@ -397,7 +396,7 @@ def map_priority_to_quality_tier(priority: str) -> str:
     return "T4_experimental"
 
 
-def decide_quality_tier(priority: Optional[str], has_tests: bool, owner: Optional[str]) -> str:
+def decide_quality_tier(priority: str | None, has_tests: bool, owner: str | None) -> str:
     """Apply quality gates to determine final tier assignment.
 
     Enforces T1 requirements (tests + assigned owner) with automatic demotion
@@ -429,9 +428,8 @@ def decide_quality_tier(priority: Optional[str], has_tests: bool, owner: Optiona
     base = map_priority_to_quality_tier(priority or "")
 
     # Gate: T1 requires both tests and owner
-    if base == "T1_critical":
-        if not has_tests or not owner or owner == "unassigned":
-            return "T2_important" if owner and owner != "unassigned" else "T3_standard"
+    if base == "T1_critical" and (not has_tests or not owner or owner == "unassigned"):
+        return "T2_important" if owner and owner != "unassigned" else "T3_standard"
 
     return base
 
@@ -501,7 +499,7 @@ def discover_tests(module_fs_path: str) -> List[str]:
     return sorted(found)
 
 
-def build_testing_block(module_fs_path: str, tier: Optional[str] = None) -> Dict[str, Any]:
+def build_testing_block(module_fs_path: str, tier: str | None = None) -> Dict[str, Any]:
     """Build schema-compliant testing configuration block for manifest.
 
     Generates testing metadata matching matriz_module_compliance.schema.json
@@ -570,7 +568,7 @@ def now_iso() -> str:
     """
     return datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
-def make_context_md(fqn: str, star: str, pipeline_nodes: List[str], colony: Optional[str], exports=None, contracts=None, logger=None) -> str:
+def make_context_md(fqn: str, star: str, pipeline_nodes: List[str], colony: str | None, exports=None, contracts=None, logger=None) -> str:
     """Generate lukhas_context.md template with architectural metadata placeholders.
 
     Creates structured Markdown documentation template for module context files.

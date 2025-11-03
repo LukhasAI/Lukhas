@@ -6,7 +6,6 @@ Simple sanitizer for replacing author references with stance-based alternatives.
 """
 from __future__ import annotations
 
-
 import re
 import sys
 

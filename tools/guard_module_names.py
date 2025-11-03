@@ -5,7 +5,6 @@ Ensures all module directories follow ^[a-z0-9_]+$ pattern.
 """
 from __future__ import annotations
 
-
 import pathlib
 import re
 import sys

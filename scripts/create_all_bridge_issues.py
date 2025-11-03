@@ -3,9 +3,8 @@
 Create GitHub issues for all 786 bridge gaps, grouped by directory.
 """
 import subprocess
-import json
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 ROOT = Path(".")
 

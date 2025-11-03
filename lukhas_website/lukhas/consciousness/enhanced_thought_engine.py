@@ -714,8 +714,8 @@ async def synthesize_thought_enhanced(
 # Export main classes and functions
 __all__ = [
     "EnhancedThoughtEngine",
+    "ThoughtComplexity",
     "ThoughtContext",
     "ThoughtResult",
-    "ThoughtComplexity",
     "synthesize_thought_enhanced"
 ]

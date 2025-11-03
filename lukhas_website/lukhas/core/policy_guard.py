@@ -21,7 +21,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 from uuid import UUID, uuid4
 
 # Optional Prometheus metrics
@@ -143,7 +143,7 @@ class PolicyGuard:
     risk assessment, rate limiting, and budget constraints.
     """
 
-    def __init__(self, lane: Optional[str] = None, custom_config: Optional[Dict[str, LanePolicyConfig]] = None):
+    def __init__(self, lane: str | None = None, custom_config: Dict[str, LanePolicyConfig] | None = None):
         """
         Initialize policy guard.
 
@@ -169,9 +169,9 @@ class PolicyGuard:
     def check_replay(
         self,
         event_kind: str,
-        payload: Optional[Dict[str, Any]] = None,
-        risk_level: Optional[float] = None,
-        source_lane: Optional[str] = None
+        payload: Dict[str, Any] | None = None,
+        risk_level: float | None = None,
+        source_lane: str | None = None
     ) -> ReplayDecision:
         """
         Check if replay is allowed under current policy.
@@ -368,7 +368,7 @@ class PolicyGuard:
                     reason=decision.result.value
                 ).inc()
 
-    def get_decision_log(self, limit: Optional[int] = None) -> List[ReplayDecision]:
+    def get_decision_log(self, limit: int | None = None) -> List[ReplayDecision]:
         """Get recent policy decisions for audit/debugging."""
         if limit is None:
             return self._decision_log.copy()
@@ -444,6 +444,6 @@ class PolicyGuard:
         self._decision_log.clear()
 
 
-def create_policy_guard(lane: Optional[str] = None, **config_overrides) -> PolicyGuard:
+def create_policy_guard(lane: str | None = None, **config_overrides) -> PolicyGuard:
     """Factory function for creating policy guards."""
     return PolicyGuard(lane=lane)

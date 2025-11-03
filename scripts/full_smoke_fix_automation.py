@@ -17,12 +17,11 @@ Notes:
 - All discovery artifacts written into release_artifacts/matriz_readiness_v1/discovery/
 """
 import argparse
+import contextlib
 import json
-import os
 import re
 import shutil
 import subprocess
-import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -36,7 +35,7 @@ SCRIPTDIR = ROOT / "scripts"
 def run(cmd, check=True, capture=False, env=None):
     print(f"$ {cmd}")
     if capture:
-        res = subprocess.run(cmd, shell=True, check=check, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, text=True)
+        res = subprocess.run(cmd, shell=True, check=check, capture_output=True, env=env, text=True)
         return res.stdout + res.stderr
     else:
         subprocess.run(cmd, shell=True, check=check, env=env)
@@ -69,7 +68,6 @@ def check_tools():
         tool_status[t] = bool(shutil.which(t))
     # python libs
     try:
-        import libcst  # type: ignore
         tool_status["libcst"] = True
     except Exception:
         tool_status["libcst"] = False
@@ -80,7 +78,7 @@ def run_collection_log(logname="smoke_collection_log.txt"):
     logpath = Path(logname)
     print("Running pytest collect-only for smoke tests...")
     cmd = "pytest --collect-only -m \"smoke\""
-    out = run(cmd + f" > {logpath} 2>&1", check=False)
+    run(cmd + f" > {logpath} 2>&1", check=False)
     # ensure copy to ART dir
     shutil.copy(logpath, DISC / logname)
     return DISC / logname
@@ -113,7 +111,7 @@ def parse_collect_log(collect_log_path: Path):
     rg = shutil.which("rg")
     if rg:
         try:
-            out = subprocess.check_output(f"rg --hidden --no-ignore \"candidate\\.\" --glob '!release_artifacts/**' -n", shell=True, text=True)
+            out = subprocess.check_output("rg --hidden --no-ignore \"candidate\\.\" --glob '!release_artifacts/**' -n", shell=True, text=True)
             for l in out.splitlines():
                 candidate_refs.add(l)
         except subprocess.CalledProcessError:
@@ -160,7 +158,7 @@ def create_module_stubs(missing_modules_file: Path):
         if m.startswith("tests.") or m.startswith("pytest"):
             continue
         parts = m.split(".")
-        pkg_path = ROOT.joinpath(*parts[:-1])
+        ROOT.joinpath(*parts[:-1])
         # create package dirs and __init__.py layers
         for i in range(1, len(parts)):
             p = ROOT.joinpath(*parts[:i])
@@ -208,8 +206,8 @@ def run_rewrite_preview(mapping, candidate_refs_file: Path):
     candidate_refs_file: path to file listing candidate references
     returns preview_ok boolean and preview_dir path
     """
-    mapping_json = json.dumps(mapping)
-    preview_dir = ARTIDIR = ARTDIR / f"rewrite_preview_{timestamp()}"
+    json.dumps(mapping)
+    preview_dir = ARTDIR / f"rewrite_preview_{timestamp()}"
     safe_mkdir(preview_dir)
     # find files to preview - take candidate_refs_file lines up to 200
     files = []
@@ -240,10 +238,8 @@ def run_rewrite_preview(mapping, candidate_refs_file: Path):
     # run preview into preview_dir for each file
     for p in files:
         outp = preview_dir / Path(p).name
-        try:
+        with contextlib.suppress(Exception):
             run(f'python3 "{rewrite_script}" --mapping-file "{mapping_file}" "{p}" > "{outp}"', check=False)
-        except Exception:
-            pass
     # run compileall on preview files
     comp_failed = False
     for fp in preview_dir.glob("*.py"):
@@ -260,7 +256,7 @@ def create_patch_and_commit(base_branch, temp_branch, push, msg):
     # create patch: diff between base_branch and temp_branch
     safe_mkdir(PATCHDIR)
     patchfile = PATCHDIR / f"smokefix-{timestamp()}.patch"
-    run(f"git add -A")
+    run("git add -A")
     run(f"git commit -m \"{msg}\" || true", check=False)
     run(f"git diff origin/{base_branch}...HEAD > {patchfile}", check=False)
     print(f"Patch written: {patchfile}")

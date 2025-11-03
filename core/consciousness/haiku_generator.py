@@ -58,7 +58,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
@@ -592,7 +592,7 @@ class AdvancedHaikuGenerator:
     def _enhance_with_rotation_engine(self, text: str) -> str:
         """Enhance text using T4 vocabulary rotation engine."""
         # Get current metaphor family
-        family_name, family_data = self.rotation_engine.get_next_family()
+        family_name, _family_data = self.rotation_engine.get_next_family()
 
         # Replace generic consciousness terms with family-specific metaphors
         enhanced_text = text
@@ -724,7 +724,7 @@ class AdvancedHaikuGenerator:
 
         return line
 
-    def _find_shorter_word(self, word: str, target_syllables: int) -> Optional[str]:
+    def _find_shorter_word(self, word: str, target_syllables: int) -> str | None:
         """Find a shorter synonym for a word"""
         synonyms = {
             "consciousness": "mind",
@@ -851,7 +851,7 @@ class AdvancedHaikuGenerator:
 
         return random.choice(concepts)
 
-    def _choose_word(self, concept: str, remaining_syllables: int) -> Optional[str]:
+    def _choose_word(self, concept: str, remaining_syllables: int) -> str | None:
         """Choose word based on concept and syllable constraints"""
         # Simple word selection based on concept
         concept_words = {

@@ -591,7 +591,7 @@ class LUKHASAbuseTestFramework:
             "git_sha": self._get_git_sha(),
             "test_configuration": {
                 "base_url": self.base_url,
-                "endpoints_tested": len(set(attack.target_endpoint for attack in self.attack_results)),
+                "endpoints_tested": len({attack.target_endpoint for attack in self.attack_results}),
                 "attack_types": list(attack_categories.keys()),
                 "total_attacks_performed": total_attacks
             },

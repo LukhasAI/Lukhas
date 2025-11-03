@@ -9,7 +9,6 @@ from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, Mock
 
 import pytest
-
 from consciousness.consciousness_stream import ConsciousnessStream
 from consciousness.memory_bridge import MemoryConsciousnessBridge
 from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework

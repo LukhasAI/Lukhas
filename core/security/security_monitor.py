@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from threading import RLock
 from time import perf_counter
-from typing import Any, Deque, Dict, Optional, Tuple
+from typing import Any, Deque, Dict, Tuple
 
 from observability import counter, gauge, histogram
 
@@ -26,9 +26,9 @@ __all__ = [
     "EventSeverity",
     "EventType",
     "SecurityEvent",
-    "SecurityThreat",
-    "SecurityMonitorConfig",
     "SecurityMonitor",
+    "SecurityMonitorConfig",
+    "SecurityThreat",
     "create_security_monitor",
 ]
 
@@ -140,7 +140,7 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Event ingestion API
     # ------------------------------------------------------------------
-    def process_event(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def process_event(self, event: SecurityEvent) -> SecurityThreat | None:
         """Process a security event and update metrics/threats."""
 
         start = perf_counter()
@@ -189,7 +189,7 @@ class SecurityMonitor:
         guardian_allowed: bool = True,
         guardian_reason: str | None = None,
         anomaly_score: float | None = None,
-        metadata: Optional[Mapping[str, Any]] = None,
+        metadata: Mapping[str, Any] | None = None,
     ) -> Iterable[SecurityThreat]:
         """Observe an authentication attempt from the identity system."""
 
@@ -241,8 +241,8 @@ class SecurityMonitor:
         identifier: str,
         source_ip: str | None,
         requests_per_minute: int,
-        metadata: Optional[Mapping[str, Any]] = None,
-    ) -> Optional[SecurityThreat]:
+        metadata: Mapping[str, Any] | None = None,
+    ) -> SecurityThreat | None:
         """Observe a rate limit violation event."""
 
         event = SecurityEvent(
@@ -260,8 +260,8 @@ class SecurityMonitor:
         subject: str,
         policy: str,
         severity: EventSeverity = EventSeverity.HIGH,
-        metadata: Optional[Mapping[str, Any]] = None,
-    ) -> Optional[SecurityThreat]:
+        metadata: Mapping[str, Any] | None = None,
+    ) -> SecurityThreat | None:
         """Observe a Guardian policy violation event."""
 
         event = SecurityEvent(
@@ -277,8 +277,8 @@ class SecurityMonitor:
         *,
         event_name: str,
         severity: EventSeverity,
-        metadata: Optional[Mapping[str, Any]] = None,
-    ) -> Optional[SecurityThreat]:
+        metadata: Mapping[str, Any] | None = None,
+    ) -> SecurityThreat | None:
         """Observe a Quantum Integrity system security event."""
 
         event = SecurityEvent(
@@ -324,7 +324,7 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Internal helpers
     # ------------------------------------------------------------------
-    def _handle_auth_failure(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_auth_failure(self, event: SecurityEvent) -> SecurityThreat | None:
         key = self._build_auth_key(event)
         with self._lock:
             failures = self._auth_failures[key]
@@ -350,7 +350,7 @@ class SecurityMonitor:
             )
         return None
 
-    def _handle_rate_limit(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_rate_limit(self, event: SecurityEvent) -> SecurityThreat | None:
         requests_per_minute = int(event.metadata.get("requests_per_minute", 0))
         if requests_per_minute < self.config.rate_limit_threshold:
             return None
@@ -369,7 +369,7 @@ class SecurityMonitor:
             timestamp=event.timestamp,
         )
 
-    def _handle_anomalous_behavior(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_anomalous_behavior(self, event: SecurityEvent) -> SecurityThreat | None:
         anomaly_score = float(event.metadata.get("anomaly_score", 0.0))
         if anomaly_score < self.config.anomaly_score_threshold:
             return None
@@ -388,7 +388,7 @@ class SecurityMonitor:
             timestamp=event.timestamp,
         )
 
-    def _handle_policy_violation(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_policy_violation(self, event: SecurityEvent) -> SecurityThreat | None:
         policy_name = event.metadata.get("policy", event.metadata.get("reason", "guardian_policy_violation"))
         return self._register_threat(
             threat_id=self._build_threat_id("policy", event),

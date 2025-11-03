@@ -51,8 +51,8 @@ __all__ = [
     "counter",
     "gauge",
     "histogram",
-    "summary",
     "register_lukhas_metric",
+    "summary",
 ]
 
 LUKHAS_REGISTRY: CollectorRegistry = CollectorRegistry()  # auto_describe default ok

@@ -61,8 +61,9 @@ except ImportError:
 try:
     # LUKHAS Consent System
     from governance.consent.consent_manager import ConsentManager
-    from governance.consent_ledger import record_consent
     from governance.privacy.data_protection import DataProtectionEngine, ProtectionLevel
+
+    from governance.consent_ledger import record_consent
 
     CONSENT_AVAILABLE = True
 except ImportError:
@@ -514,7 +515,7 @@ class ConsentPrivacyConstitutionalBridge:
 
             # Step 2: Apply privacy protection
             privacy_context = self._create_privacy_context(user_id, data, context)
-            protected_data, privacy_metadata = await self.apply_privacy_protection(data, privacy_context)
+            _protected_data, privacy_metadata = await self.apply_privacy_protection(data, privacy_context)
 
             governance_result["privacy_protected"] = True
             governance_result["privacy_metadata"] = privacy_metadata

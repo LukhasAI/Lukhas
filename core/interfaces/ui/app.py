@@ -9,10 +9,9 @@ from __future__ import annotations
 import os
 
 import streamlit as st
-from dotenv import load_dotenv
-
 from core.lukhas_emotion_log import get_emotion_state
 from core.lukhas_widget_engine import create_symbolic_widget
+from dotenv import load_dotenv
 
 # ─── Load Configs ─────────────────────────────────────────────────────────────
 load_dotenv()

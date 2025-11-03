@@ -98,7 +98,7 @@ class ComprehensiveErrorAnalyzer:
             matches = list(Path(".").glob(pattern))
             all_files.update([str(f) for f in matches if f.suffix == ".py"])
 
-        return sorted(list(all_files))
+        return sorted(all_files)
 
     def run_comprehensive_analysis(self) -> dict:
         """Run comprehensive analysis of all Python files"""

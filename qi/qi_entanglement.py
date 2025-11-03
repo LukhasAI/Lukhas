@@ -34,15 +34,15 @@ logger = logging.getLogger(__name__)
 
 __all__ = [
     "QuantumState",
-    "validate_states",
     "compute_entanglement",
     "generate_entanglement_report",
-    # Tier 2 hooks
-    "state_registry",
-    "register_state",
     "get_state",
     "list_states",
+    "register_state",
     "seed_random_state",
+    # Tier 2 hooks
+    "state_registry",
+    "validate_states",
 ]
 
 # --------------------------------------------------------------------

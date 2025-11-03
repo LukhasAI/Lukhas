@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 import logging
+
+log = logging.getLogger(__name__)  # TODO: logging
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +53,7 @@ import time
 from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Standardized timestamping
 from pathlib import Path  # Not used in current code, but often useful
-from typing import Any, Optional  # Added Type
+from typing import Any  # Added Type
 
 import numpy as np
 import structlog  # Standardized logging
@@ -79,6 +80,13 @@ QIBioCoordinator = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
+
+    # type: ignore
+    from core.bio_systems.qi_layer import (  # type: ignore
+        QIBioOscillator,
+        QIConfig,
+        QILikeState,
+    )
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
@@ -87,13 +95,6 @@ try:
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import (
         UnifiedQuantumSystem,  # type: ignore  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
-    )
-
-    # type: ignore
-    from core.bio_systems.qi_layer import (  # type: ignore
-        QIBioOscillator,
-        QIConfig,
-        QILikeState,
     )
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
@@ -128,10 +129,10 @@ except ImportError as e:
         async def strengthen_entanglement(self):
             await asyncio.sleep(0.01)
 
-        def create_superposition(self, vector: np.ndarray) -> "QILikeState":
+        def create_superposition(self, vector: np.ndarray) -> QILikeState:
             return QILikeState(vector, 0.9, 0.1, 1.0, 1.0, 0.8)  # type: ignore
 
-        async def entangle_states(self, states: list["QILikeState"]) -> "QILikeState":
+        async def entangle_states(self, states: list[QILikeState]) -> QILikeState:
             return states[0] if states else QILikeState(np.array([0.0]), 0.0, 0.0, 0.0, 0.0, 0.0)  # type: ignore
 
     class QILikeState:  # type: ignore
@@ -290,7 +291,7 @@ class QIBioOptimizationAdapter:
     def __init__(
         self,
         bio_orchestrator: BioOrchestrator,  # type: ignore
-        config: Optional[QIBioOptimizationConfig] = None,
+        config: QIBioOptimizationConfig | None = None,
     ):
         self.log = log.bind(adapter_id=hex(id(self))[-6:])
         self.bio_orchestrator = bio_orchestrator
@@ -302,7 +303,7 @@ class QIBioOptimizationAdapter:
         self.optimization_cycles_completed_total = 0
         self.is_currently_optimizing = False
         self.optimization_performance_cache: dict[str, dict[str, Any]] = {}  # Key changed to str
-        self.last_optimization_timestamp: Optional[float] = None
+        self.last_optimization_timestamp: float | None = None
 
         self.log.info("QIBioOptimizationAdapter initialized.")
 
@@ -343,7 +344,7 @@ class QIBioOptimizationAdapter:
     async def optimize_qi_bio_system(
         self,
         input_data: dict[str, Any],
-        target_metrics: Optional[dict[str, float]] = None,
+        target_metrics: dict[str, float] | None = None,
     ) -> dict[str, Any]:
         """Performs a full cycle of quantum bio-optimization on the system."""
         if self.is_currently_optimizing:
@@ -704,7 +705,7 @@ class QIBioOptimizationAdapter:
 
     @lukhas_tier_required(2)
     async def _queue_optimization_request_handler(
-        self, input_data: dict[str, Any], target_metrics: Optional[dict[str, float]]
+        self, input_data: dict[str, Any], target_metrics: dict[str, float] | None
     ) -> dict[str, Any]:  # Renamed
         self.log.info(
             "Queueing optimization request as system is busy.",
@@ -723,7 +724,7 @@ class QIBioOptimizationAdapter:
     @lukhas_tier_required(0)
     def get_optimization_status(self) -> dict[str, Any]:
         self.log.debug("Optimization status requested.")
-        latest_metrics_dict: Optional[dict[str, Any]] = (
+        latest_metrics_dict: dict[str, Any] | None = (
             asdict(self.metrics_history[-1]) if self.metrics_history else None
         )
         return {

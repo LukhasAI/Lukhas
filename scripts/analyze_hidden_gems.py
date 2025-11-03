@@ -185,7 +185,7 @@ def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
 
     # Path analysis
     rel_path = file_path.relative_to(root)
-    module_name = '.'.join(rel_path.parts[:-1] + (rel_path.stem,))
+    module_name = '.'.join((*rel_path.parts[:-1], rel_path.stem))
     in_archive = 'archive' in rel_path.parts
     in_candidate_labs = any(p in rel_path.parts for p in ['candidate', 'labs'])
 

@@ -14,11 +14,10 @@ Based on proven patterns from 11 consecutive perfect eliminations.
 """
 from __future__ import annotations
 
-
 import re
 import subprocess
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 
 class AutomatedSyntaxFixer:
@@ -214,7 +213,7 @@ class AutomatedSyntaxFixer:
 
         return 0, compiles_before
 
-    def run_automated_fixes(self, target_dirs: Optional[List[str]] = None) -> dict:
+    def run_automated_fixes(self, target_dirs: List[str] | None = None) -> dict:
         """Run automated fixes on target directories"""
         if target_dirs is None:
             target_dirs = ["branding", "labs", "tools", "products", "matriz", "next_gen", "lukhas"]

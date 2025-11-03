@@ -26,10 +26,9 @@ logger = logging.getLogger(__name__)
 
 from abc import ABC, abstractmethod
 from functools import wraps
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Union
 
 import structlog
-
 from core.identity_integration import TierMappingConfig, get_identity_client
 
 logger = structlog.get_logger(__name__)
@@ -125,7 +124,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
             self.EmotionalTier = None
             logger.warning("EmotionalTier not available")
 
-    def to_lambda_tier(self, tier: Union[str, "EmotionalTier"]) -> str:
+    def to_lambda_tier(self, tier: Union[str, EmotionalTier]) -> str:
         """Convert EmotionalTier (T0-T5) to LAMBDA_TIER."""
         if self.EmotionalTier and hasattr(tier, "name"):
             # Handle EmotionalTier enum
@@ -137,7 +136,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
         mapping = TierMappingConfig.LAMBDA_TO_EMOTIONAL
         return mapping.get(lambda_tier, "T1")
 
-    def validate_access(self, user_id: str, required_tier: Union[str, "EmotionalTier"]) -> bool:
+    def validate_access(self, user_id: str, required_tier: Union[str, EmotionalTier]) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -234,7 +233,7 @@ class UnifiedTierAdapter:
         self.emotional = EmotionalTierAdapter()
         self.client = get_identity_client()
 
-    def normalize_any_tier(self, tier: Any, system_hint: Optional[str] = None) -> str:
+    def normalize_any_tier(self, tier: Any, system_hint: str | None = None) -> str:
         """
         Normalize any tier format to LAMBDA_TIER.
 
@@ -255,7 +254,7 @@ class UnifiedTierAdapter:
         # Otherwise use general normalization
         return TierMappingConfig.normalize_tier(tier)
 
-    def create_unified_decorator(self, required_tier: Any, system: Optional[str] = None):
+    def create_unified_decorator(self, required_tier: Any, system: str | None = None):
         """
         Create a unified decorator that works with any tier system.
 
@@ -308,7 +307,7 @@ class UnifiedTierAdapter:
 
 
 # Singleton instance
-_unified_adapter: Optional[UnifiedTierAdapter] = None
+_unified_adapter: UnifiedTierAdapter | None = None
 
 
 def get_unified_adapter() -> UnifiedTierAdapter:
@@ -328,7 +327,7 @@ def oneiric_tier_required(tier: int):
     return adapter.create_unified_decorator(tier, "oneiric")
 
 
-def emotional_tier_required(tier: Union[str, "EmotionalTier"]):
+def emotional_tier_required(tier: Union[str, EmotionalTier]):
     """Decorator for DreamSeed Emotional tier requirements."""
     adapter = get_unified_adapter()
     return adapter.create_unified_decorator(tier, "emotional")
@@ -342,7 +341,7 @@ class TierUnificationAdapter:
     across the LUKHAS AI ecosystem.
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: dict | None = None):
         """Initialize the tier unification adapter"""
         self.config = config or {}
         self.unified_adapter = get_unified_adapter()

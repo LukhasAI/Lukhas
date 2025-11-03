@@ -9,6 +9,7 @@ automated recovery, and comprehensive system diagnostics.
 """
 
 import asyncio
+import contextlib
 import json
 import logging
 import statistics
@@ -547,7 +548,7 @@ class RestartServiceAction(AutoHealingAction):
                 stderr=asyncio.subprocess.PIPE
             )
 
-            stdout, stderr = await process.communicate()
+            _stdout, stderr = await process.communicate()
 
             if process.returncode == 0:
                 logger.info(f"Successfully restarted service: {self.service_name}")
@@ -830,18 +831,14 @@ class HealthMonitoringSystem:
 
         if self.monitoring_task:
             self.monitoring_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.monitoring_task
-            except asyncio.CancelledError:
-                pass
             self.monitoring_task = None
 
         if self.predictive_task:
             self.predictive_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.predictive_task
-            except asyncio.CancelledError:
-                pass
             self.predictive_task = None
 
     async def _monitoring_loop(self) -> None:

@@ -5,7 +5,6 @@ Detects potential PII patterns in Python source files
 """
 from __future__ import annotations
 
-
 import pathlib
 import re
 import sys

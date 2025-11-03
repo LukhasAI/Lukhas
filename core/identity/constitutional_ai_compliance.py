@@ -273,7 +273,7 @@ class ConstitutionalAIValidator:
         }
 
         # Default weights for decisions not specifically configured
-        self.default_principle_weights = {principle: 0.1 for principle in ConstitutionalPrinciple}
+        self.default_principle_weights = dict.fromkeys(ConstitutionalPrinciple, 0.1)
 
         # Validation history and metrics
         self.validation_history: list[ConstitutionalValidationResult] = []

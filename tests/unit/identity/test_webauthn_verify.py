@@ -403,7 +403,7 @@ def test_verify_signature_es256_invalid_signature(
     ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
 ) -> None:
     """Test ES256 signature verification with invalid signature."""
-    private_key, public_key = ec_key_pair
+    _private_key, public_key = ec_key_pair
     signed_data = b"test data to sign"
 
     # Create invalid signature
@@ -478,7 +478,7 @@ def test_verify_signature_rs256_invalid_signature(
     rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]
 ) -> None:
     """Test RS256 signature verification with invalid signature."""
-    private_key, public_key = rsa_key_pair
+    _private_key, public_key = rsa_key_pair
     signed_data = b"test data to sign"
 
     # Create invalid signature
@@ -1187,7 +1187,7 @@ def test_verify_assertion_short_authenticator_data(
     test_rp_id: str,
 ) -> None:
     """Test assertion verification with authenticator data that's too short."""
-    private_key, public_key = ec_key_pair
+    _private_key, public_key = ec_key_pair
 
     # Create valid client data
     client_data_json = _create_client_data_json(test_challenge, test_origin)

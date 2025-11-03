@@ -70,13 +70,13 @@ class AdvancedMetricsSystem:
 
 
 __all__ = [
-    "router_cascade_preventions_total",
-    "network_coherence_score",
-    "signal_processing_time_seconds",
+    "AdvancedMetricsSystem",
     "cache_hits_total",
     "cache_misses_total",
+    "network_coherence_score",
     "queue_depth",
-    "AdvancedMetricsSystem",
+    "router_cascade_preventions_total",
+    "signal_processing_time_seconds",
 ]
 
 # Added for test compatibility (observability.advanced_metrics.AnomalyType)

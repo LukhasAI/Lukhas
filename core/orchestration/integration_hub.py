@@ -11,7 +11,7 @@ import logging
 import random
 import time
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # Golden Trio imports
 try:
@@ -41,7 +41,7 @@ except Exception:
         async def register_component(self, name: str, component: Any) -> None:
             self.components[name] = component
 
-        def get_component(self, name: str) -> Optional[Any]:
+        def get_component(self, name: str) -> Any | None:
             return self.components.get(name)
 try:
     from nias.integration.nias_integration_hub import NIASIntegrationHub
@@ -94,6 +94,7 @@ except ImportError:
 
 try:
     from consciousness.reflection.consciousness_hub import ConsciousnessHub
+
     from consciousness.reflection.memory_hub import MemoryHub
 except ImportError:
     ConsciousnessHub = None
@@ -137,7 +138,7 @@ except Exception:
         Exposes a small control surface used by SystemIntegrationHub.
         """
 
-        def __init__(self, config: Optional[dict] = None):
+        def __init__(self, config: dict | None = None):
             self.config = config or {}
             self.running = False
 
@@ -177,7 +178,7 @@ class ABASIntegrationHub:
     - Integration with DAST and NIAS (Golden Trio)
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize ABAS Integration Hub
 
@@ -343,7 +344,7 @@ class QIAGISystem:
     - Integration with MATRIZ cognitive engine
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize QI-AGI System
 
@@ -377,7 +378,7 @@ class QIAGISystem:
     async def create_superposition(
         self,
         options: list[dict[str, Any]],
-        context: Optional[dict[str, Any]] = None
+        context: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
         Create quantum superposition of decision options
@@ -421,7 +422,7 @@ class QIAGISystem:
     async def measure_collapse(
         self,
         superposition_id: str,
-        measurement_context: Optional[dict[str, Any]] = None
+        measurement_context: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
         Collapse quantum superposition to single decision
@@ -465,7 +466,7 @@ class QIAGISystem:
     async def quantum_anneal(
         self,
         objective_function: str,
-        constraints: Optional[dict[str, Any]] = None
+        constraints: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
         Perform quantum annealing optimization

@@ -63,7 +63,7 @@ def main():
     csv_path = out_dir / f"colony_renames_{args.stamp}.csv"
 
     proposals = []
-    for base, dirs, files in os.walk(root):
+    for base, dirs, _files in os.walk(root):
         base_p = Path(base)
         # prune
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]

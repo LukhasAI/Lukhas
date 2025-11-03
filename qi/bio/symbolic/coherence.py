@@ -24,11 +24,10 @@
 """
 from __future__ import annotations
 
-
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 import structlog
@@ -152,7 +151,7 @@ class QICoherenceEnhancer:
         self,
         current_coherence: float,
         bio_data: dict[str, Any],
-        context: Optional[dict[str, Any]] = None,
+        context: dict[str, Any] | None = None,
     ) -> tuple[float, dict[str, Any]]:
         """
         Enhance bio-symbolic coherence using quantum collapse.

@@ -23,6 +23,7 @@ Notes
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import re
@@ -30,7 +31,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Dict, Tuple
 
 # Optional YAML dependency (preferred)
 try:
@@ -74,9 +75,9 @@ class Result:
     path: str
     had_fm: bool
     updated: bool
-    error: Optional[str] = None
-    sha_before: Optional[str] = None
-    sha_after: Optional[str] = None
+    error: str | None = None
+    sha_before: str | None = None
+    sha_after: str | None = None
 
 
 def sha256_text(s: str) -> str:
@@ -131,7 +132,7 @@ def safe_yaml_dump(data: Dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def extract_front_matter(content: str) -> Tuple[Optional[Dict], str]:
+def extract_front_matter(content: str) -> Tuple[Dict | None, str]:
     match = FRONT_MATTER_PATTERN.match(content)
     if not match:
         return None, content
@@ -140,7 +141,7 @@ def extract_front_matter(content: str) -> Tuple[Optional[Dict], str]:
     return safe_yaml_load(fm_text), body
 
 
-def build_front_matter(doc_info: Dict, existing: Optional[Dict]) -> Dict:
+def build_front_matter(doc_info: Dict, existing: Dict | None) -> Dict:
     fm = dict(existing or {})
 
     # Fill from manifest if present; otherwise defaults
@@ -214,10 +215,8 @@ def normalize_file(doc: Dict, dry_run: bool, only_missing: bool, backups: bool) 
 
     if updated and not dry_run:
         if backups:
-            try:
+            with contextlib.suppress(Exception):
                 file_path.with_suffix(file_path.suffix + ".bak").write_text(content, encoding="utf-8")
-            except Exception:
-                pass
         # Python 3.9 compatible: write_text doesn't support newline parameter
         with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
             f.write(new_content)

@@ -30,7 +30,7 @@ from datetime import (
     datetime,  # For consistent timestamping if needed
     )
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 # Third-Party Imports
 import structlog
@@ -321,7 +321,7 @@ class PluginModuleAdapter(BaseLucasModule):
             input_keys=list(input_data.keys()),
         )
         try:
-            processing_method_name: Optional[str] = None
+            processing_method_name: str | None = None
             if hasattr(self.plugin, "process_symbolic"):
                 processing_method_name = "process_symbolic"
             elif hasattr(self.plugin, "process"):  # Fallback to generic process
@@ -385,7 +385,7 @@ class IntegrationBridge:
         self.log.info("IntegrationBridge initialized.")
 
     @lukhas_tier_required(2)
-    async def load_plugins_as_modules(self, plugins_directory_path: Optional[str] = None) -> dict[str, bool]:
+    async def load_plugins_as_modules(self, plugins_directory_path: str | None = None) -> dict[str, bool]:
         """
         Loads all plugins from the specified directory (or a default location),
         adapts them, and registers them as modules with the core_registry.

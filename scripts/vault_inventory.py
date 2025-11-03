@@ -13,7 +13,6 @@ Usage:
 """
 from __future__ import annotations
 
-
 import argparse
 import hashlib
 import json
@@ -22,7 +21,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 try:
     import PyPDF2
@@ -85,7 +84,7 @@ def extract_pdf_metadata(filepath: Path) -> Dict:
         return {'error': str(e)[:100]}
 
 
-def detect_chat_log_origin(filepath: Path) -> Optional[str]:
+def detect_chat_log_origin(filepath: Path) -> str | None:
     """Detect chat log origin from filename or content."""
     filename = filepath.name.lower()
 

@@ -6,7 +6,6 @@ Implements brand terminology, Constellation Framework, and consciousness technol
 """
 from __future__ import annotations
 
-
 import asyncio
 import json
 import logging

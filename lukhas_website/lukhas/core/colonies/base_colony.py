@@ -386,4 +386,4 @@ class BaseColony(ABC):
 
 
 # Export main classes
-__all__ = ["BaseColony", "ColonyStatus", "ConsciousnessLevel", "ConsensusResult", "ColonyMetrics"]
+__all__ = ["BaseColony", "ColonyMetrics", "ColonyStatus", "ConsciousnessLevel", "ConsensusResult"]

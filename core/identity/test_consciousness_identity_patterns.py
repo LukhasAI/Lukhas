@@ -16,7 +16,7 @@ from __future__ import annotations
 ╚══════════════════════════════════════════════════════════════
 """
 import logging
-from typing import Any, Optional
+from typing import Any
 
 import pytest
 
@@ -643,7 +643,7 @@ class TestConstitutionalCompliance:
         await validator.shutdown_constitutional_validation()
 
     def create_test_validation_context(
-        self, decision_type: DecisionType, identity_id: str, decision_data: Optional[dict[str, Any]] = None
+        self, decision_type: DecisionType, identity_id: str, decision_data: dict[str, Any] | None = None
     ) -> ConstitutionalValidationContext:
         """Create test validation context"""
         return ConstitutionalValidationContext(

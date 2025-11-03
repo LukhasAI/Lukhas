@@ -33,7 +33,7 @@ import logging
 import time
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 # Import base colony infrastructure
 try:
@@ -117,10 +117,10 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         self.logger = logging.getLogger(f"{__name__}.{colony_id}")
 
         # Quantum identity components
-        self.qi_identity_manager: Optional[QIIdentityManager] = None
-        self.oracle_hub: Optional[OracleNervousSystemHub] = None
-        self.ethics_colony: Optional[EthicsSwarmColony] = None
-        self.consciousness_engine: Optional[DistributedConsciousnessEngine] = None
+        self.qi_identity_manager: QIIdentityManager | None = None
+        self.oracle_hub: OracleNervousSystemHub | None = None
+        self.ethics_colony: EthicsSwarmColony | None = None
+        self.consciousness_engine: DistributedConsciousnessEngine | None = None
 
         # Identity-aware state
         self.active_user_contexts: dict[str, QIUserContext] = {}
@@ -248,7 +248,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         self,
         task_id: str,
         task_data: dict[str, Any],
-        user_context: Optional[QIUserContext] = None,
+        user_context: QIUserContext | None = None,
     ) -> dict[str, Any]:
         """
         Execute task with identity-aware processing and quantum security.
@@ -405,7 +405,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
     async def _get_oracle_insights(
         self, user_context: QIUserContext, task_data: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Get Oracle insights for task execution (if available)."""
         if not ORACLE_ETHICS_AVAILABLE or not self.oracle_hub:
             return None
@@ -469,7 +469,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
     async def _get_consciousness_context(
         self, user_context: QIUserContext, task_data: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Get consciousness context for identity-aware processing (if available)."""
         if not CONSCIOUSNESS_AVAILABLE or not self.consciousness_engine:
             return None
@@ -498,9 +498,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         task_id: str,
         task_data: dict[str, Any],
         user_context: QIUserContext,
-        oracle_insights: Optional[dict[str, Any]],
+        oracle_insights: dict[str, Any] | None,
         ethics_approval: bool,
-        consciousness_context: Optional[dict[str, Any]],
+        consciousness_context: dict[str, Any] | None,
     ) -> dict[str, Any]:
         """
         Execute the actual task with full identity awareness.
@@ -673,9 +673,9 @@ class DefaultIdentityAwareColony(IdentityAwareBaseColony):
         task_id: str,
         task_data: dict[str, Any],
         user_context: QIUserContext,
-        oracle_insights: Optional[dict[str, Any]],
+        oracle_insights: dict[str, Any] | None,
         ethics_approval: bool,
-        consciousness_context: Optional[dict[str, Any]],
+        consciousness_context: dict[str, Any] | None,
     ) -> dict[str, Any]:
         """Default identity-aware task execution."""
         start_time = time.time()
@@ -713,7 +713,7 @@ class DefaultIdentityAwareColony(IdentityAwareBaseColony):
 def create_identity_aware_colony(
     colony_id: str,
     capabilities: list[str],
-    colony_class: Optional[type] = None,
+    colony_class: type | None = None,
 ) -> IdentityAwareBaseColony:
     """
     Factory function to create identity-aware colonies.

@@ -13,7 +13,6 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
-
 from memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult, create_memory_synchronizer
 
 
@@ -369,7 +368,7 @@ class TestMemorySynchronizer:
 
         # Perform same operation multiple times
         results = []
-        for i in range(3):
+        for _i in range(3):
             result = syncer.sync_fold(
                 source_lane="experimental",
                 target_lane="experimental",

@@ -66,8 +66,8 @@ def main():
     for p in sorted(set(bpaths.keys()) & set(cpaths.keys())):
         bops = bpaths[p] or {}
         cops = cpaths[p] or {}
-        bmethods = set(k.lower() for k in bops if k.lower() in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'])
-        cmethods = set(k.lower() for k in cops if k.lower() in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'])
+        bmethods = {k.lower() for k in bops if k.lower() in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head']}
+        cmethods = {k.lower() for k in cops if k.lower() in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head']}
 
         # removed methods
         for m in sorted(bmethods - cmethods):

@@ -5,7 +5,6 @@ Generates KNOWN_ISSUES.md and TEST_STATUS.md from pytest results
 """
 from __future__ import annotations
 
-
 import json
 import subprocess
 import sys
@@ -81,9 +80,8 @@ class TestReportGenerator:
 
     def _extract_error(self, test: Dict) -> str:
         """Extract error message from test result"""
-        if "call" in test:
-            if "longrepr" in test["call"]:
-                return str(test["call"]["longrepr"])[:200]
+        if "call" in test and "longrepr" in test["call"]:
+            return str(test["call"]["longrepr"])[:200]
         return "Error details not available"
 
     def categorize_issue(self, failure: Dict) -> Tuple[str, str]:

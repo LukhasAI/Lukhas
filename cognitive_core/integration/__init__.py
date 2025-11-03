@@ -109,11 +109,11 @@ __all__ = [
     # Vocabulary Integration
     "VocabularyIntegrationService",
     "VocabularyMetrics",
+    "apply_signal_modulation",
+    "check_operation_governance",
     "cognitive_initializer",
     "cognitive_modulation_bridge",
     "cognitive_service_bridge",
-    "apply_signal_modulation",
-    "check_operation_governance",
     "consent_privacy_constitutional_bridge",
     "create_module_message",
     "emit_agi_signal",

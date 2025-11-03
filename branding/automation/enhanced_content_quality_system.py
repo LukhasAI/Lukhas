@@ -444,7 +444,7 @@ async def main():
         # Test automatic improvement for low-quality content
         if result.overall_quality < 0.80:
             print("🔧 Testing Automatic Improvement...")
-            improved_content, improved_result = await system.improve_content_automatically(content, f"test_{i}")
+            _improved_content, improved_result = await system.improve_content_automatically(content, f"test_{i}")
 
             improvement = (improved_result.overall_quality - result.overall_quality) * 100
             print(f"Improvement: +{improvement:.1f}% → {improved_result.overall_quality  * 100:.1f}%")

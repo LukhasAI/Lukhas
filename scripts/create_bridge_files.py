@@ -7,8 +7,8 @@ that delegate to labs.* modules, supporting both import styles:
   - import consciousness.dream.expand.mesh       (submodule-style)
 """
 import subprocess
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 ROOT = Path(".")
 LABS_DIR = ROOT / "labs"

@@ -306,7 +306,7 @@ class AlertManager:
 
         # Check threshold
         alert_triggered = False
-        if comparison == "greater" and current_value > threshold or comparison == "less" and current_value < threshold or comparison == "equal" and abs(current_value - threshold) < 0.01:
+        if (comparison == "greater" and current_value > threshold) or (comparison == "less" and current_value < threshold) or (comparison == "equal" and abs(current_value - threshold) < 0.01):
             alert_triggered = True
 
         alert_id = f"{metric_name}_{threshold}_{comparison}"

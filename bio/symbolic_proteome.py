@@ -1,4 +1,4 @@
 """Bridge module for bio.symbolic_proteome → labs.bio.symbolic_proteome"""
 from __future__ import annotations
 
-from labs.bio.symbolic_proteome import *  # noqa: F401, F403
+from labs.bio.symbolic_proteome import *  # noqa: F403

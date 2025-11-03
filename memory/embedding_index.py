@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 # ΛTAG: memory_embedding_index_bootstrap
 logger = logging.getLogger(__name__)
@@ -27,9 +27,9 @@ class EmbeddingIndex:
 
     metric: str = "angular"
     trees: int = 10
-    dimension: Optional[int] = None
+    dimension: int | None = None
     _vectors: Dict[str, List[float]] = field(default_factory=dict)
-    _annoy_index: Optional[AnnoyIndex] = None
+    _annoy_index: AnnoyIndex | None = None
     _annoy_id_map: Dict[int, str] = field(default_factory=dict)
     _dirty: bool = True
 

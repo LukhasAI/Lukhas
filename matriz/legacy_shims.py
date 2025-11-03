@@ -26,7 +26,7 @@ Design notes:
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from matriz.legacy_shim import LegacyShim  # shim and interface
 
@@ -76,7 +76,7 @@ def register_many(mapping: Dict[str, Any]) -> Dict[str, LegacyShim]:
     return out
 
 
-def shim_for(name: str) -> Optional[LegacyShim]:
+def shim_for(name: str) -> LegacyShim | None:
     """
     Retrieve a registered LegacyShim by name.
 
@@ -123,10 +123,10 @@ def bootstrap_router(router: Any, mapping: Dict[str, Any]) -> Dict[str, LegacySh
 
 
 __all__ = [
+    "bootstrap_router",
+    "get_shimmed_nodes",
+    "logger",
     "register_legacy_node",
     "register_many",
     "shim_for",
-    "get_shimmed_nodes",
-    "logger",
-    "bootstrap_router",
 ]

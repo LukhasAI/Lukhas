@@ -15,11 +15,6 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Set
 
-from resilience.circuit_breaker import (
-    CircuitBreakerConfig,
-    CircuitBreakerRegistry,
-)
-
 from monitoring.health_system import (
     HealthMonitoringSystem,
     RestartServiceAction,
@@ -29,6 +24,10 @@ from monitoring.health_system import (
 
 # Import monitoring components
 from observability.telemetry_system import SeverityLevel, TelemetryCollector
+from resilience.circuit_breaker import (
+    CircuitBreakerConfig,
+    CircuitBreakerRegistry,
+)
 
 logger = logging.getLogger(__name__)
 

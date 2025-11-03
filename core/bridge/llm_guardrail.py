@@ -5,7 +5,7 @@ import logging
 import os
 import time
 from statistics import quantiles
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict
 
 from jsonschema import Draft7Validator, ValidationError
 from jsonschema.exceptions import SchemaError
@@ -13,7 +13,7 @@ from jsonschema.exceptions import SchemaError
 # ΛTAG: guardrail
 _logger = logging.getLogger(__name__)
 
-_LLM_CALLABLE: Optional[Callable[[str], Dict[str, Any]]] = None
+_LLM_CALLABLE: Callable[[str], Dict[str, Any]] | None = None
 _metrics = {
     "attempts": 0,
     "successes": 0,

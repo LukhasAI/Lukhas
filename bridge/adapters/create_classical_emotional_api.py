@@ -126,7 +126,7 @@ class ClassicalEmotionEngine:
         physiological = self._calculate_physiological_state(emotional_state, context.context_type, context.user_state)
 
         # Calculate coherence (classical, max 1.0)
-        coherence, stability = self._calculate_classical_coherence(
+        coherence, _stability = self._calculate_classical_coherence(
             emotional_state, physiological, context.stability_threshold
         )
 

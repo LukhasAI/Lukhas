@@ -202,8 +202,6 @@ labs_identity_sso = __import__(
 core_sing_pkg.sso_engine = labs_identity_sso
 sys.modules["governance.identity.core.sing.sso_engine"] = labs_identity_sso
 
-from labs.governance.guardian_sentinel import GuardianSentinel
-
 from governance.healthcare.decision_support import ClinicalDecisionSupport
 from governance.identity.auth_integrations.qrg_bridge import (
     AuthQRGBridge,
@@ -216,6 +214,7 @@ from governance.identity.auth_integrations.wallet_bridge import (
 )
 from governance.identity.core.qrs.session_replay import SessionReplayManager
 from governance.identity.core.sing.sso_engine import LambdaSSOEngine
+from labs.governance.guardian_sentinel import GuardianSentinel
 
 
 class _StubTierManager:

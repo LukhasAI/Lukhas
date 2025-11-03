@@ -16,10 +16,9 @@ TRINITY FRAMEWORK:
 """
 from __future__ import annotations
 
-
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +35,7 @@ class DreamOrchestrator:
         self.session_counter = 0
         logger.info("🎭 Dream Orchestrator initialized - Constellation Framework active")
 
-    def orchestrate_dream_session(self, user_context: Optional[dict] = None, dream_type: str = "lucid") -> str:
+    def orchestrate_dream_session(self, user_context: dict | None = None, dream_type: str = "lucid") -> str:
         """
         ⚛️ Identity-driven dream session orchestration.
 
