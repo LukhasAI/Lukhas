@@ -131,3 +131,131 @@ __all__ = [
     "get_api_app",
     "get_api_status",
 ]
+
+# Bridge export for api.admin
+try:
+    from labs.api import admin
+except (ImportError, SyntaxError):
+
+    def admin(*args, **kwargs):
+        """Stub for admin."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "admin" not in __all__:
+    __all__.append("admin")
+
+# Bridge export for api.audit
+try:
+    from labs.api import audit
+except (ImportError, SyntaxError):
+
+    def audit(*args, **kwargs):
+        """Stub for audit."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "audit" not in __all__:
+    __all__.append("audit")
+
+# Bridge export for api.dna
+try:
+    from labs.api import dna
+except (ImportError, SyntaxError):
+
+    def dna(*args, **kwargs):
+        """Stub for dna."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "dna" not in __all__:
+    __all__.append("dna")
+
+# Bridge export for api.incidents
+try:
+    from labs.api import incidents
+except (ImportError, SyntaxError):
+
+    def incidents(*args, **kwargs):
+        """Stub for incidents."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "incidents" not in __all__:
+    __all__.append("incidents")
+
+# Bridge export for api.metrics
+try:
+    from labs.api import metrics
+except (ImportError, SyntaxError):
+
+    def metrics(*args, **kwargs):
+        """Stub for metrics."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "metrics" not in __all__:
+    __all__.append("metrics")
+
+# Bridge export for api.ops
+try:
+    from labs.api import ops
+except (ImportError, SyntaxError):
+
+    def ops(*args, **kwargs):
+        """Stub for ops."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "ops" not in __all__:
+    __all__.append("ops")
+
+# Bridge export for api.perf
+try:
+    from labs.api import perf
+except (ImportError, SyntaxError):
+
+    def perf(*args, **kwargs):
+        """Stub for perf."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "perf" not in __all__:
+    __all__.append("perf")
+
+# Bridge export for api.tools
+try:
+    from labs.api import tools
+except (ImportError, SyntaxError):
+
+    def tools(*args, **kwargs):
+        """Stub for tools."""
+        return None
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "tools" not in __all__:
+    __all__.append("tools")
