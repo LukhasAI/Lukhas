@@ -43,7 +43,7 @@ class Indexer:
 
 # Added for test compatibility (memory.indexer.ContentExtractor)
 try:
-    from candidate.memory.indexer import ContentExtractor
+    from labs.memory.indexer import ContentExtractor
 except ImportError:
     class ContentExtractor:
         """Stub for ContentExtractor."""
@@ -57,7 +57,7 @@ _register("ContentExtractor")
 
 # Added for test compatibility (memory.indexer.DocumentIndexer)
 try:
-    from candidate.memory.indexer import DocumentIndexer
+    from labs.memory.indexer import DocumentIndexer
 except ImportError:
     class DocumentIndexer:
         """Stub for DocumentIndexer."""
@@ -75,7 +75,7 @@ try:
         __all__.append("OpenAIEmbeddingProvider")
 except ImportError:
     try:
-        from candidate.memory.indexer import OpenAIEmbeddingProvider  # type: ignore
+        from labs.memory.indexer import OpenAIEmbeddingProvider  # type: ignore
         if "OpenAIEmbeddingProvider" not in __all__:
             __all__.append("OpenAIEmbeddingProvider")
     except ImportError:
@@ -90,7 +90,7 @@ except ImportError:
 
 # Added for test compatibility (memory.indexer.SentenceTransformersProvider)
 try:
-    from candidate.memory.indexer import SentenceTransformersProvider
+    from labs.memory.indexer import SentenceTransformersProvider
 except ImportError:
     class SentenceTransformersProvider:
         """Stub sentence transformers provider."""

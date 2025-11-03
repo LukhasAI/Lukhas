@@ -153,7 +153,7 @@ cat >> {module_path}/__init__.py <<'EXPORT'
 
 # Add {symbol} for test compatibility
 try:
-    from candidate.{module} import {symbol}
+    from labs.{module} import {symbol}
 except ImportError:
     # Stub fallback
     class {symbol}:

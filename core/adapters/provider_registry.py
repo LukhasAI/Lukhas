@@ -149,7 +149,7 @@ class ProviderRegistry:
         except ImportError as e:
             logger.error(f"Failed to load consciousness service: {e}")
             raise ImportError(
-                f"Cannot import consciousness service from candidate. "
+                f"Cannot import consciousness service from labs. "
                 f"Ensure candidate.consciousness is available. "
                 f"Error: {e}"
             )
@@ -215,7 +215,7 @@ class ProviderRegistry:
         except ImportError as e:
             logger.error(f"Failed to load memory service: {e}")
             raise ImportError(
-                f"Cannot import memory service from candidate. "
+                f"Cannot import memory service from labs. "
                 f"Ensure candidate.memory is available. "
                 f"Error: {e}"
             )
@@ -309,7 +309,7 @@ class ProviderRegistry:
         except ImportError as e:
             logger.error(f"Failed to load identity service: {e}")
             raise ImportError(
-                f"Cannot import identity service from candidate. "
+                f"Cannot import identity service from labs. "
                 f"Ensure candidate.identity is available. "
                 f"Error: {e}"
             )

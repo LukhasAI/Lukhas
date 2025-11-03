@@ -99,7 +99,7 @@ try:
     from bio.core import BioCore
 except ImportError:
     try:
-        from candidate.bio.core import BioEngine as BioCore  # type: ignore
+        from labs.bio.core import BioEngine as BioCore  # type: ignore
     except ImportError:
         BioCore = None
 

@@ -216,7 +216,8 @@
       "Bash(if [ -f .venv/bin/activate ])",
       "Bash(then echo \"venv exists\")",
       "Bash(else echo \"no venv found\")",
-      "Bash(release_artifacts/matriz_readiness_v1/scripts/verify_and_collect.sh:*)"
+      "Bash(release_artifacts/matriz_readiness_v1/scripts/verify_and_collect.sh:*)",
+      "Bash(for file in ./core/adapters/provider_registry.py ./core/validation_script_fixes.py ./core/orchestration/brain/orchestration/core.py ./memory/folds/__init__.py ./memory/indexer.py)"
     ],
     "deny": [],
     "ask": [],

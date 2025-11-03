@@ -34,7 +34,7 @@ AccessTier = _access_mod.AccessTier
 AccessType = _access_mod.AccessType
 
 # Skip audit system imports - not required for current tests
-# from candidate.governance.security.audit_system import AuditSystem
+# from labs.governance.security.audit_system import AuditSystem
 
 
 # ============================================================================

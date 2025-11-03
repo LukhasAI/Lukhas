@@ -31,7 +31,7 @@ def test_branding_exports():
 
 
 def test_branding_single_source_of_truth():
-    """Verify branding data comes from candidate.branding."""
+    """Verify branding data comes from labs.branding."""
     import branding
 
     _mod = _importlib.import_module("labs.branding")

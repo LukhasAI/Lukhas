@@ -79,7 +79,7 @@ def fix_validation_script():
             end_of_line = content.find("\n", import_section)
             content = (
                 content[:end_of_line]
-                + "\nfrom candidate.core.colonies.reasoning_colony import ReasoningColony"
+                + "\nfrom labs.core.colonies.reasoning_colony import ReasoningColony"
                 + content[end_of_line:]
             )
 

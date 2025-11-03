@@ -100,7 +100,7 @@ def fix_imports(module_path: str):
 
     # Fix common patterns
     replacements = [
-        ("from candidate.", "from "),
+        ("from labs.", "from "),
         ("from labs.", "from "),
         ("from matriz.", "from matriz."),
         ("import matriz", "import matriz"),

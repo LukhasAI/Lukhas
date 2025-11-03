@@ -26,7 +26,7 @@ CASES = [
      "from labs.foo import bar\n"),
 
     ("simple_import",
-     "import candidate.core\n",
+     "import labs.core\n",
      "import labs.core\n"),
 
     # Multi-import forms
