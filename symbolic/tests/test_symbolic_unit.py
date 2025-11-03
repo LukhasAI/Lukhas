@@ -260,7 +260,7 @@ class TestEntangledSymbolPairHealth(unittest.TestCase):
 
         # Health should be influenced by correlation stability
         correlation_variance = np.var(correlations)
-        expected_stability = 1.0 - min(correlation_variance * 2.0, 0.8)
+        1.0 - min(correlation_variance * 2.0, 0.8)
 
         # Health should reflect both stability and strength
         self.assertLess(self.pair.entanglement_health, 1.0)  # Should decrease from initial

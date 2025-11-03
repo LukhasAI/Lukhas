@@ -296,7 +296,7 @@ class ConsciousnessCircuitBreaker(ABC):
         self.half_open_requests = 0
 
         self.metrics.state_transitions.append(
-            (datetime.now(timezone.utc), self.state, f"Timeout expired - attempting recovery")
+            (datetime.now(timezone.utc), self.state, "Timeout expired - attempting recovery")
         )
 
         logger.info(f"ΛTRACE: Circuit breaker {self.breaker_id} transitioned: {old_state.value} -> {self.state.value}")
@@ -309,7 +309,7 @@ class ConsciousnessCircuitBreaker(ABC):
         self.current_timeout_duration = self.config.timeout_duration  # Reset timeout
 
         self.metrics.state_transitions.append(
-            (datetime.now(timezone.utc), self.state, f"Recovery successful - resuming normal operation")
+            (datetime.now(timezone.utc), self.state, "Recovery successful - resuming normal operation")
         )
 
         self.metrics.successful_recoveries += 1
@@ -547,7 +547,7 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
         """Execute memory cascade prevention trip actions"""
 
         # Log cascade prevention activation
-        logger.warning(f"ΛTRACE: Memory cascade prevention activated - blocking risky operations")
+        logger.warning("ΛTRACE: Memory cascade prevention activated - blocking risky operations")
 
         # Could trigger memory compaction, cleanup, etc.
         await self._trigger_memory_stabilization()
@@ -1056,7 +1056,7 @@ async def main():
 
     # Show memory breaker status
     memory_status = framework.get_breaker_status(CircuitBreakerType.MEMORY_CASCADE_PREVENTION)
-    print(f"\nMemory Cascade Prevention Breaker Status:")
+    print("\nMemory Cascade Prevention Breaker Status:")
     print(f"  State: {memory_status['state']}")
     print(f"  Success Rate: {memory_status['success_rate']:.1%}")
     print(f"  Trip Count: {memory_status['trip_count']}")
@@ -1079,14 +1079,14 @@ async def main():
 
     # Show Constellation breaker status
     constellation_status = framework.get_breaker_status(CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION)
-    print(f"\nConstellation Coherence Preservation Breaker Status:")
+    print("\nConstellation Coherence Preservation Breaker Status:")
     print(f"  State: {constellation_status['state']}")
     print(f"  Success Rate: {constellation_status['success_rate']:.1%}")
     print(f"  Trip Count: {constellation_status['trip_count']}")
 
     # Show framework statistics
     stats = framework.get_framework_statistics()
-    print(f"\nFramework Statistics:")
+    print("\nFramework Statistics:")
     print(f"  Total Requests: {stats['framework_metrics']['total_requests']}")
     print(f"  Total Blocked: {stats['framework_metrics']['total_blocked_requests']}")
     print(f"  Block Rate: {stats['framework_metrics']['framework_block_rate']:.1%}")

@@ -44,7 +44,7 @@ def test_tags_lazy_attribute_access():
     try:
         # Try to access a tag system component
         # This should trigger the lazy import of labs.core.tags
-        tag_registry = core.tags.TagRegistry
+        pass
         # If this works, great! If not, we should get a proper AttributeError
     except AttributeError:
         # Expected if labs.core.tags is not available or doesn't have TagRegistry

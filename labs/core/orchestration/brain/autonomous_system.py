@@ -327,7 +327,7 @@ def main():
         print("⚡ Emergency budget overrides active for critical issues")
         print("")
 
-        agi = FullyAutonomousAGI()
+        FullyAutonomousAGI()
         results = cognitive.run_fully_autonomous()
 
         print("\n" + "=" * 60)

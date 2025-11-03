@@ -141,7 +141,7 @@ class TestDreamEngineAdapterStateManagement(unittest.TestCase):
 
     def test_state_persistence(self):
         """Test state persistence across operations"""
-        original_time = time.time()
+        time.time()
 
         # Update state
         self.adapter._update_state("dreaming", 30)

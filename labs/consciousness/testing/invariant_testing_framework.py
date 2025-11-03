@@ -318,8 +318,8 @@ class AttentionConservationInvariant(MathematicalInvariant):
         attention_details = [f"    {key}: {weight:.3f}" for key, weight in state.attention_weights.items()]
 
         proof_trace = (
-            f"Attention Conservation Check:\n"
-            f"  Attention components:\n" + "\n".join(attention_details) + "\n"
+            "Attention Conservation Check:\n"
+            "  Attention components:\n" + "\n".join(attention_details) + "\n"
             f"  Total attention weight: {total_attention:.6f}\n"
             f"  Expected total: {self.expected_total:.6f}\n"
             f"  Deviation: {deviation:.6f}\n"
@@ -663,7 +663,7 @@ async def main():
 
     # Show framework statistics
     stats = framework.get_framework_statistics()
-    print(f"\nFramework Statistics:")
+    print("\nFramework Statistics:")
     print(f"Overall Reliability: {stats['overall_reliability']:.3f}")
     print(f"Total Tests: {stats['total_tests_run']}")
 

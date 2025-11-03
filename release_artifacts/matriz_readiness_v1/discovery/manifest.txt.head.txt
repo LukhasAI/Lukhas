@@ -1,0 +1,17 @@
+=== FILE: manifest.txt ===
+release_artifacts/matriz_readiness_v1/manifest.txt
+------------------------------------------
+matriz_readiness_report.md       - Executive summary & recommendations
+flatten_map.csv                  - Top-50 migration plan (draft)
+todo_list.md                     - Precise TODOs (TODO-01..TODO-07)
+restoration_audit.csv            - Restoration audit template + example
+discovery/pyproject.toml         - Fetched pyproject.toml (real)
+discovery/top_python_files.txt   - Sample top Python files (discovery)
+pr_templates/ (folder)           - PR bodies and checklists for top subsystems
+patches/move_memory_node.patch   - Example shim + move patch
+patches/README.md                - Notes on patch
+scripts/rewrite_imports_libcst.py- AST import rewrite tool
+scripts/verify_and_collect.sh    - Verification & artifact collector
+verification/*                   - verification artifacts (logs) (to be generated)
+flat_preview_branch_list.txt     - Suggested branch names for PRs
+artifact_bundle.tar.gz           - Optional packaged tarball after run

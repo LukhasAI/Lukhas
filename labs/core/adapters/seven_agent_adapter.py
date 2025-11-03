@@ -513,7 +513,7 @@ def register_seven_agent_services(container=None):
     try:
         container.resolve(IGovernanceService)
         logger.info("IGovernanceService already registered, skipping ConsentLedger registration")
-    except Exception as e:
+    except Exception:
         container.register_singleton(IGovernanceService, ConsentLedgerServiceAdapter)
 
     # Register bridge service (external adapters)
@@ -521,7 +521,7 @@ def register_seven_agent_services(container=None):
     try:
         container.resolve(IBridgeService)
         logger.info("IBridgeService already registered, skipping ExternalAdapters registration")
-    except Exception as e:
+    except Exception:
         container.register_singleton(IBridgeService, ExternalAdaptersServiceAdapter)
 
     logger.info("Seven-agent architecture services registered ⚛️🧠🛡️")

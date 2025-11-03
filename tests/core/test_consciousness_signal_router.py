@@ -380,7 +380,6 @@ class TestConsciousnessSignalRouter:
     # Cascade Prevention Tests
     def test_cascade_prevention(self, router, sample_signal):
         """Test cascade prevention mechanism."""
-        cascade_prevented = False
 
         with patch.object(router.cascade_prevention, 'should_prevent_cascade', return_value=True):
             handler_called = False
@@ -504,7 +503,7 @@ class TestConsciousnessSignalRouter:
 
     def test_performance_metrics(self, router, sample_signals):
         """Test performance metrics tracking."""
-        start_time = time.time()
+        time.time()
 
         # Process multiple signals
         for signal in sample_signals:

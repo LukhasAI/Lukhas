@@ -5,7 +5,7 @@ Guardian System Example: Consent Management
 This script provides a mock implementation of the Guardian system for consent management.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
 

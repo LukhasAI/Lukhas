@@ -922,7 +922,7 @@ async def optimized_api_processing(hub: LUKHASAPIOptimizationHub,
         yield False, info
         return
 
-    request_id = info.get("request_id")
+    info.get("request_id")
 
     try:
         yield True, info

@@ -277,7 +277,7 @@ class TestVoiceNarratorNarration(unittest.TestCase):
     def test_narration_error_handling(self):
         """Test narration error handling and fallback"""
         # Force an error in the narration process
-        with patch.object(self.narrator, '_narrate_internal', side_effect=Exception("Test error")) as mock_internal:
+        with patch.object(self.narrator, '_narrate_internal', side_effect=Exception("Test error")):
             with patch('logging.Logger.error') as mock_error:
                 self.narrator.narrate("Test", {"dream_id": "error-test"})
 

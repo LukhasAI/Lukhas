@@ -103,7 +103,7 @@ def fix_file(filepath):
 
         if stripped.startswith('try:'):
             # Capture try/except import blocks
-            indent = len(line) - len(line.lstrip())
+            len(line) - len(line.lstrip())
             after_imports.append(line)
 
             # Read until end of try/except

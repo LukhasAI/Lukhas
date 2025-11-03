@@ -829,7 +829,7 @@ class LukhasIdentityService:
 
             # Extract namespace and validate
             try:
-                namespace = self.id_generator.extract_namespace(lid)
+                self.id_generator.extract_namespace(lid)
             except InvalidNamespaceError:
                 logger.warning(f"🛡️ Invalid namespace in ΛID: {lid}")
                 return False

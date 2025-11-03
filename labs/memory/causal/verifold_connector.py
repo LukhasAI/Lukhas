@@ -178,13 +178,6 @@ class VeriFoldConnector:
 
         try:
             # Perform comprehensive chain integrity verification
-            verification_steps = [
-                "connection_verification",
-                "block_hash_verification",
-                "sequence_verification",
-                "timestamp_verification",
-                "security_verification"
-            ]
 
             verification_results = {}
 

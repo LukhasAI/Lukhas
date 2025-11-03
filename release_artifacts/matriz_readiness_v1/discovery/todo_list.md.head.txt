@@ -1,0 +1,61 @@
+=== FILE: todo_list.md ===
+# TODO List — MATRIZ Flattening (T4 / surgical)
+
+NOTE: all tasks must be executed from repo root. Use Python 3.9 environment to match CI.
+
+---
+
+TODO-01: Generate `flatten_map.csv` (top 50)
+Description: Create a canonical CSV of top-50 files to flatten; seeds are provided above.
+Targets:
+  - release_artifacts/matriz_readiness_v1/flatten_map.csv
+Agent action:
+  - Step 1: Ensure discovery outputs exist (see discovery/).
+    ```bash
+    ls -la release_artifacts/matriz_readiness_v1/discovery || true
+    ```
+  - Step 2: (If not present) run the discovery commands from the main prompt to regenerate `discovery/top_python_files.txt`.
+  - Step 3: Run the included helper (if you want) to create the map:
+    ```bash
+    python3 release_artifacts/matriz_readiness_v1/scripts/generate_flatten_map.py \
+      --input release_artifacts/matriz_readiness_v1/discovery/top_python_files.txt \
+      --output release_artifacts/matriz_readiness_v1/flatten_map.csv
+    ```
+    (Note: I included a simple generator script; it uses heuristics and the CSV shown above is already a ready draft.)
+  - Step 4: Manual review: open `flatten_map.csv` and confirm `move_strategy` choices for high-risk modules.
+Verification:
+  - `cat release_artifacts/matriz_readiness_v1/flatten_map.csv | wc -l` should be >= 51 (header + 50 rows)
+Rollback:
+  - `git checkout -- release_artifacts/matriz_readiness_v1/flatten_map.csv`
+Risk:
+  - Low. This is a planning artifact only.
+Notes:
+  - After manual review, agent will proceed to implement TODO-02.
+
+---
+
+TODO-02: Implement shim pattern for **VIVOX** canonical file
+Description: Implement shim-first for a canonical VIVOX/MATRIZ node (`candidate/core/matrix/nodes/memory_node.py`) as a worked example and PR.
+Targets:
+  - original: `candidate/core/matrix/nodes/memory_node.py`
+  - new: `MATRIZ/matriz_memory_node.py`
+  - shim: `candidate/core/matrix/nodes/memory_node.py` (replaced with shim)
+Agent action:
+  - Step 1: Create branch
+    ```bash
+    git checkout -b refactor/flatten-vivox-v1
+    ```
+  - Step 2: Create new flat module with a copy of implementation
+    ```bash
+    git show HEAD:candidate/core/matrix/nodes/memory_node.py > MATRIZ/matriz_memory_node.py
+    # If the file has relative imports, pre-process them:
+    # (A) use the libcst script to rewrite module-level imports if needed:
+    python3 release_artifacts/matriz_readiness_v1/scripts/rewrite_imports_libcst.py \
+      --mapping '{"candidate.core.matrix.nodes":"MATRIZ"}' \
+      candidate/core/matrix/nodes/memory_node.py > MATRIZ/matriz_memory_node.py
+    ```
+  - Step 3: Create shim at original location (overwrite original file with shim):
+    ```bash
+    cat > candidate/core/matrix/nodes/memory_node.py <<'PY'
+    # DEPRECATED shim: moved to MATRIZ/matriz_memory_node.py
+    from MATRIZ.matriz_memory_node import MemoryNode  # noqa: TID001

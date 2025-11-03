@@ -654,7 +654,7 @@ class OnboardingAPI:
         - RS256/HS256 signing
         """
         # TODO: Integrate with JWT adapter
-        token_payload = {
+        {
             "user_id": session.user_id,
             "lambda_id": session.lambda_id,
             "tier": session.tier.value if session.tier else None,

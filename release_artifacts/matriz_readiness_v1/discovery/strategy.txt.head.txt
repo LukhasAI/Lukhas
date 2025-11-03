@@ -1,0 +1,2 @@
+=== FILE: strategy.txt ===
+flatten_strategy=shim-first

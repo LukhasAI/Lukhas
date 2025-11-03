@@ -17,7 +17,7 @@ try:
     pass  #     pass  #
     import labs  # noqa: F401  # TODO: candidate; consider using impo...
 except ImportError:
-    pytest.skip(f"Module candidate not available", allow_module_level=True)
+    pytest.skip("Module candidate not available", allow_module_level=True)
 
 
 class TestCandidateModule(unittest.TestCase):
@@ -36,12 +36,10 @@ class TestCandidateModule(unittest.TestCase):
 
     def test_module_import(self):
         """Test that module can be imported successfully."""
-        import labs
         self.assertIsNotNone(candidate)
 
     def test_module_version(self):
         """Test module has version information."""
-        import labs
         # Most modules should have version info
         self.assertTrue(hasattr(candidate, '__version__') or
                        hasattr(candidate, 'VERSION'))

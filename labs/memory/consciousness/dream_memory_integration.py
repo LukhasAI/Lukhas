@@ -657,13 +657,6 @@ class DreamMemoryIntegrator:
         self.logger.info(f"Integrating dream experience {dream_experience.dream_id} with consciousness")
 
         # This would integrate with the awareness mechanism
-        integration_data = {
-            'content': f"Dream integration: {dream_experience.dream_type.name}",
-            'triggers': ['dream_integration', 'memory_consolidation'],
-            'emotional_context': dream_experience.emotional_themes,
-            'dream_reference': dream_experience.dream_id,
-            'insights': dream_experience.insights_generated
-        }
 
         # Simulated consciousness integration
         await asyncio.sleep(0.05)

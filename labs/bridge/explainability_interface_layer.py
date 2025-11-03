@@ -713,11 +713,11 @@ class ExplainabilityInterface:
         proof = await self.generate_formal_proof(decision)
 
         lines = [f"Formal Proof ({proof.system.value}):"]
-        lines.append(f"Premises:")
+        lines.append("Premises:")
         for i, premise in enumerate(proof.premises):
             lines.append(f"  P{i+1}. {premise}")
 
-        lines.append(f"\nProof Steps:")
+        lines.append("\nProof Steps:")
         for step in proof.steps:
             lines.append(f"  {step['step']}. {step['statement']} ({step['justification']})")
 

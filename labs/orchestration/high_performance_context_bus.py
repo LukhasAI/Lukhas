@@ -500,7 +500,7 @@ class HighPerformanceContextBus:
                             step_result = await asyncio.wait_for(step.handler(context), timeout=step.timeout_ms / 1000)
                             context.update(step_result)
                             self._add_workflow_narrative(workflow_id, f"🔄 Retry successful for step {step.name}")
-                        except Exception as e:
+                        except Exception:
                             raise Exception(f"Step {step.name} failed after retry")
                     else:
                         raise Exception(error_msg)
