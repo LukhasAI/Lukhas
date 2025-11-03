@@ -12,7 +12,15 @@ I have enabled the GitHub connector(s) for:
 - **github.com/LukhasAI/Lukhas** (primary)
 - **github.com/LukhasAI/LUKHAS-MCP** (MCP servers)
 
-We will perform a **full, T4-grade audit** and (shim-first) flattening readiness analysis on the Lukhas repo. Operate in **DRY-RUN** mode (do not push branches, create PRs, delete files, or tag) until I explicitly flip to apply mode. Save all outputs under: `release_artifacts/matriz_readiness_v1/`.
+We will perform a **full, T4-grade audit** and (shim-first) flattening readiness analysis on the Lukhas repo. Operate in **DRY-RUN** mode (do not push branches, create PRs, delete files, tag, or modify the live repo) until I explicitly flip to apply mode. Save all outputs under: `release_artifacts/matriz_readiness_v1/`.
+
+**Policy / operational knobs:**
+- reviewers = ["@LukhasAI"]
+- required_checks = ["verify-syntax-zero", "pytest-matriz", "ruff"]
+- max_automerge_files = 300  # agent must not propose auto-applying changes > this threshold
+- dry_run = true (do not push)
+- strategy = shim-first
+- author = "LukhasAI-bot"
 
 Before you start the full audit, please **confirm** the following and run the exact checks below. Save each command and stdout/stderr under `release_artifacts/matriz_readiness_v1/discovery/` with meaningful filenames.
 
@@ -22,22 +30,21 @@ Before you start the full audit, please **confirm** the following and run the ex
 
 Please confirm whether you can access the **repository root** recursively for inspection. Run these commands and save outputs:
 
-### Confirm git root
 ```bash
+git fetch --all
 git rev-parse --show-toplevel > release_artifacts/matriz_readiness_v1/discovery/repo_root.txt 2>&1 || true
-```
-
-### Show top-level contents
-```bash
 ls -la $(git rev-parse --show-toplevel) > release_artifacts/matriz_readiness_v1/discovery/top_level_ls.txt 2>&1 || true
-```
-
-### Quick count of Python files
-```bash
 find $(git rev-parse --show-toplevel) -name "*.py" | wc -l > release_artifacts/matriz_readiness_v1/discovery/python_file_count.txt 2>&1 || true
 ```
 
 **If you cannot recurse the repo root**, reply with `ACCESS_LIMITED` and explain the exact scope you *can* inspect (for example: `candidate/`, `MATRIZ/`, `scripts/`).
+
+**Also verify GitHub connector permissions:**
+
+```bash
+gh repo view LukhasAI/Lukhas --json name,visibility,permissions > release_artifacts/matriz_readiness_v1/discovery/gh_repo_lukhas.json 2>&1 || true
+gh repo view LukhasAI/LUKHAS-MCP --json name,visibility,permissions > release_artifacts/matriz_readiness_v1/discovery/gh_repo_mcp.json 2>&1 || true
+```
 
 ---
 
@@ -69,11 +76,12 @@ find $(git rev-parse --show-toplevel) -name "*.py" | wc -l > release_artifacts/m
 
 ### Run and save these checks (place outputs in discovery/):
 
-**Show which of these exist and size:**
+**Show which of these exist and size (robust recursive search):**
 ```bash
-for p in "generated" "migrations" ".venv" "venv" "build" "dist" "node_modules" "archive" "quarantine" "products" "dreamweaver_helpers_bundle" "docs/openapi" "manifests" "legacy" "golden" "data" "datasets"; do
+mkdir -p release_artifacts/matriz_readiness_v1/discovery
+for p in generated migrations .venv venv build dist node_modules archive quarantine products dreamweaver_helpers_bundle "docs/openapi" manifests legacy golden data datasets; do
   echo "=== CHECK: $p ===" >> release_artifacts/matriz_readiness_v1/discovery/safe_dirs.txt
-  find . -path "./$p" -prune -print -exec du -sh {} \; >> release_artifacts/matriz_readiness_v1/discovery/safe_dirs.txt 2>&1 || true
+  find . -type d -name "$(basename $p)" -print -exec du -sh {} \; >> release_artifacts/matriz_readiness_v1/discovery/safe_dirs.txt 2>&1 || true
 done
 ```
 
@@ -110,13 +118,10 @@ Please confirm the presence and provide quick contents (head) of these initial a
 
 **Run and save:**
 ```bash
+ART="release_artifacts/matriz_readiness_v1"
 for f in flatten_map.csv discovery/top_python_files.txt discovery/from_imports.txt discovery/simple_imports.txt scripts/rewrite_imports_libcst.py scripts/verify_and_collect.sh gptpro_config.json strategy.txt manifest.txt todo_list.md; do
-  echo "=== FILE: $f ===" > release_artifacts/matriz_readiness_v1/discovery/$(basename $f).head.txt 2>&1
-  if [ -f "release_artifacts/matriz_readiness_v1/$f" ]; then
-    head -n 60 "release_artifacts/matriz_readiness_v1/$f" >> release_artifacts/matriz_readiness_v1/discovery/$(basename $f).head.txt 2>&1
-  else
-    echo "MISSING" >> release_artifacts/matriz_readiness_v1/discovery/$(basename $f).head.txt
-  fi
+  echo "=== FILE: $f ===" > $ART/discovery/$(basename $f).head.txt 2>&1
+  if [ -f "$ART/$f" ]; then head -n 60 "$ART/$f" >> $ART/discovery/$(basename $f).head.txt 2>&1; else echo "MISSING" >> $ART/discovery/$(basename $f).head.txt; fi
 done
 ```
 
@@ -126,7 +131,7 @@ If `flatten_map.csv` (initial draft) exists, state whether the agent should **us
 
 ## 4) Environment & Tools
 
-Before running analysis, list missing tools and provide exact install commands (do not install without my confirmation). At minimum, report presence/absence of:
+Check tools and list missing ones (do not install without confirmation). At minimum, report presence/absence of:
 - `black`, `ruff`, `libcst`, `rg` (ripgrep), `jq`, `pytest`, `python3`, `git`, `gh`
 
 **Run:**
@@ -135,30 +140,29 @@ for cmd in python3 git gh rg black ruff pytest jq; do
   which $cmd >/dev/null 2>&1 && echo "$cmd: OK" || echo "$cmd: MISSING"
 done > release_artifacts/matriz_readiness_v1/discovery/tool_check.txt
 
-# Also check libcst (Python module)
 python3 -c "import libcst; print('libcst: OK')" 2>&1 >> release_artifacts/matriz_readiness_v1/discovery/tool_check.txt || echo "libcst: MISSING" >> release_artifacts/matriz_readiness_v1/discovery/tool_check.txt
 ```
 
-If a tool is missing and you need it to produce *reproducible* outputs, include exact `pip` commands to install it (e.g., `python3 -m pip install black ruff libcst`) and mark those as recommendations only; do not install or change the environment in dry-run.
+If tools are missing, recommend exact pip commands but do not run them without explicit confirmation (e.g., `python3 -m pip install black ruff libcst`).
 
 ---
 
 ## 5) Rules & Human Gates (I Require These)
 
-- **DRY_RUN = true**: do not push, create PRs, delete, rename, or tag. Produce patches only.
-- **Approval gate**: after the Full Audit is complete, return an executive summary + top-5 recommendations. **Do not** create any patches until I review and say "Proceed to patch generation".
-- For any recommended destructive action (delete/merge), produce a `SIMULATE_SCRIPT` that runs only on a disposable branch and **prints** the changes; do not modify the live tree.
-- For any proposed deletion of directories with model/data snapshots, mark with `HIGH_RISK` and require explicit human approval.
+- **dry_run=true**: do not push, create PRs, delete, rename, tag, or otherwise change the live repo. Produce patches only.
+- **Approval gate**: After the Full Audit, return an executive summary + ranked top-5 recommendations. Do not create patches until I say "Proceed to patch generation."
+- For any destructive recommendation, produce a `SIMULATE_SCRIPT` that runs only on a disposable branch and **prints** the changes; do not modify the live tree.
+- Mark proposed deletions of model/data with `HIGH_RISK` and require explicit human approval.
 
 ---
 
 ## 6) Deliverable for the Audit Start
 
-When you start, produce a short `audit_start.json` containing:
+When starting, create `release_artifacts/matriz_readiness_v1/discovery/audit_start.json` with:
 
 ```json
 {
-  "timestamp": "...",
+  "timestamp": "2025-11-03T14:15:00Z",
   "repo": "LukhasAI/Lukhas",
   "connectors": ["LukhasAI/Lukhas", "LUKHAS-MCP"],
   "dry_run": true,
@@ -173,26 +177,18 @@ When you start, produce a short `audit_start.json` containing:
 
 ## Wrap-Up
 
-Once you have confirmed:
-- Repository root access (or the allowed subpath),
-- Listed and acknowledged the safe directories to exclude from deletion, and
-- Confirmed the existing artifact inputs you will use,
+Once you confirm:
+- repo root access (or allowed subpath),
+- acknowledged SAFE directories,
+- confirmed existing artifact inputs,
 
-Then begin the **Full Audit** and produce:
-- `full_audit.md` (T4 narrative)
-- CSV artifacts:
-  - `redundant_dirs.csv`
-  - `duplicate_dirs.csv`
-  - `unused_dirs.csv`
-  - `import_cycles.csv`
-  - `flatten_map_refined.csv`
-- `alignment_tips.md`
+begin the **Full Audit** and produce:
+- `full_audit.md` (T4 narrative),
+- CSV artifacts: `redundant_dirs.csv`, `duplicate_dirs.csv`, `unused_dirs.csv`, `import_cycles.csv`, `flatten_map_refined.csv`,
+- `alignment_tips.md`,
+- `todo_list_full.md`, `impact_matrix.csv`, and `artifact_bundle_full_audit.tar.gz`.
 
-Save all command outputs and any `SIMULATED_OUTPUT: true` markers where tools or permissions prevented running a command.
-
-**Start with the confirmation outputs requested above, then produce a one-paragraph executive summary and a ranked top-5 list of recommended next steps.**
-
-If anything is unclear or you lack permission, reply with `ACCESS_LIMITED` and exact details of the limitation and the commands that failed.
+Start by returning the confirmation outputs requested above and a one-paragraph executive summary + a ranked top-5 list of recommended next steps. If you lack permissions, reply `ACCESS_LIMITED` and include failed commands and stderr.
 
 ---
 
