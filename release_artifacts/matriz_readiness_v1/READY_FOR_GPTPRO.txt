@@ -137,18 +137,39 @@ Issue 4: Archive Recovery Assessment
   ✅ DOCUMENTED in ARCHIVE_RECOVERY_PRIORITY.md
   → GPT-Pro: Audit 8 modules in archive/lanes_experiment/ (memory systems)
 
+Issue 5: Products Directory Flatten Candidates ✅ NEW
+  ✅ CLARIFIED in audit_start.json (inspection policy)
+  → GPT-Pro: Audit products/ as they use matriz components for runtime
+  → Assess flatten candidates within products/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  INSPECTION POLICY (CRITICAL CLARIFICATION)
+
+✅ INSPECT ALL directories including:
+  • archive/ (18M) - MUST AUDIT for restoration candidates
+  • products/ (9.2M) - MUST AUDIT for matriz-dependent flatten candidates
+  ⏭️ quarantine/ (0B) - SKIP entirely (syntax errors, out of scope)
+
+🔒 Exclude from DELETION/FLATTENING (but INSPECT during audit):
+  • archive/, products/, .venv/, docs/openapi, manifests/, etc.
+  • "Exclude from deletion" ≠ "Exclude from inspection"
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📁 KEY FILES FOR GPT-PRO
 
 release_artifacts/matriz_readiness_v1/
+├── GPT_PRO_CONFIRMATION_REQUEST.md      ← FULL CONFIRMATION WITH INSPECTION POLICY
 ├── GPT_PRO_PROMPT.md                    ← PASTE THIS INTO CHATGPT
 ├── GPT_PRO_HANDOFF.md                   ← DETAILED INSTRUCTIONS
+├── CONFIRMATION_SUMMARY.md              ← CONFIRMATION OUTPUTS SUMMARY (NEW)
+├── audit_start.json                     ← ENVIRONMENT & INSPECTION POLICY (NEW)
 ├── CRITICAL_FINDING_RESOLUTION.md       ← KNOWN ISSUES
 ├── flatten_map.csv                      ← NEEDS CORRECTION (phantom files)
 ├── FILE_VALIDATION_REPORT.txt           ← WHICH FILES ARE PHANTOM
 ├── MISSING_FILES_RECOVERY_PLAN.md       ← PATH MAPPING
-├── ARCHIVE_RECOVERY_PRIORITY.md         ← ARCHIVE AUDIT (NEW)
+├── ARCHIVE_RECOVERY_PRIORITY.md         ← ARCHIVE AUDIT
 └── gptpro_config.json                   ← DRY_RUN=TRUE
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
