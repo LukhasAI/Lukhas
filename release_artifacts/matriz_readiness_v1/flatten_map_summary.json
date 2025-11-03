@@ -1,0 +1,92 @@
+{
+  "generated_at": "2025-11-03T13:28:00Z",
+  "total_candidates": 49,
+  "selection_criteria": {
+    "score_formula": "depth * 2 + import_count",
+    "strategy_rules": {
+      "shim": "import_count >= 4 OR depth >= 5",
+      "move": "import_count < 4 AND depth < 5"
+    },
+    "risk_rules": {
+      "high": "import_count >= 13 OR depth >= 7",
+      "medium": "import_count >= 7 OR depth >= 5",
+      "low": "otherwise"
+    }
+  },
+  "distribution": {
+    "by_strategy": {
+      "move": 49,
+      "shim": 0
+    },
+    "by_risk": {
+      "low": 49,
+      "medium": 0,
+      "high": 0
+    },
+    "by_subsystem": {
+      "MATRIZ_nodes": 7,
+      "candidate_consciousness": 3,
+      "candidate_governance": 8,
+      "candidate_core": 19,
+      "candidate_memory": 4,
+      "candidate_bridge": 3,
+      "candidate_bio": 3,
+      "candidate_quantum": 2
+    }
+  },
+  "top_5_candidates": [
+    {
+      "old_path": "candidate/core/matrix/nodes/memory_node.py",
+      "new_path": "MATRIZ/candidate_core_matrix_nodes_memory_node.py",
+      "strategy": "move",
+      "risk": "low",
+      "score": 8,
+      "priority": 1
+    },
+    {
+      "old_path": "candidate/core/matrix/nodes/attention_node.py",
+      "new_path": "MATRIZ/candidate_core_matrix_nodes_attention_node.py",
+      "strategy": "move",
+      "risk": "low",
+      "score": 8,
+      "priority": 2
+    },
+    {
+      "old_path": "candidate/core/matrix/nodes/thought_node.py",
+      "new_path": "MATRIZ/candidate_core_matrix_nodes_thought_node.py",
+      "strategy": "move",
+      "risk": "low",
+      "score": 8,
+      "priority": 3
+    },
+    {
+      "old_path": "candidate/core/matrix/nodes/risk_node.py",
+      "new_path": "MATRIZ/candidate_core_matrix_nodes_risk_node.py",
+      "strategy": "move",
+      "risk": "low",
+      "score": 8,
+      "priority": 4
+    },
+    {
+      "old_path": "candidate/core/matrix/nodes/intent_node.py",
+      "new_path": "MATRIZ/candidate_core_matrix_nodes_intent_node.py",
+      "strategy": "move",
+      "risk": "low",
+      "score": 8,
+      "priority": 5
+    }
+  ],
+  "notes": [
+    "All 49 candidates scored low risk due to import_count=0 in discovery",
+    "All candidates use 'move' strategy (no high-centrality modules detected)",
+    "Top 7 candidates are MATRIZ nodes - critical cognitive components",
+    "Discovery may have undercounted imports; manual review recommended for top 5"
+  ],
+  "verification_baseline": {
+    "compile_log_created": true,
+    "ruff_log_created": false,
+    "smoke_tests_log_created": false,
+    "compile_errors_in_archive": true,
+    "active_codebase_status": "syntax-zero (v0.9.1 baseline)"
+  }
+}

@@ -11,7 +11,7 @@ class BaseMatrixNode(CognitiveNode):
 
     def __init__(self, node_name: str, capabilities: list[str], tenant: str = "default") -> None:
         super().__init__(node_name=node_name, capabilities=capabilities, tenant=tenant)
-        self.logger = logging.getLogger(f"candidate.core.matrix.nodes.{node_name}")
+        self.logger = logging.getLogger(f"labs.core.matriz.nodes.{node_name}")
 
     def validate_output(self, output: dict[str, Any]) -> bool:  # type: ignore[override]
         if not isinstance(output, dict):

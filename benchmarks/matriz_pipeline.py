@@ -23,6 +23,7 @@ try:
     from matriz.core.pipeline_context import (
         PipelineContext,  # noqa: F401  # TODO: matriz.core.pipeline_context.P...
     )
+
     MATRIZ_AVAILABLE = True
 except ImportError:
     MATRIZ_AVAILABLE = False
@@ -66,8 +67,16 @@ class MATRIZBenchmarks:
         # Calculate statistics
         if latencies:
             p50 = statistics.median(latencies)
-            p95 = statistics.quantiles(latencies, n=20)[18] if len(latencies) >= 20 else max(latencies)
-            p99 = statistics.quantiles(latencies, n=100)[98] if len(latencies) >= 100 else max(latencies)
+            p95 = (
+                statistics.quantiles(latencies, n=20)[18]
+                if len(latencies) >= 20
+                else max(latencies)
+            )
+            p99 = (
+                statistics.quantiles(latencies, n=100)[98]
+                if len(latencies) >= 100
+                else max(latencies)
+            )
             mean_latency = statistics.mean(latencies)
         else:
             p50 = p95 = p99 = mean_latency = 0
@@ -80,18 +89,20 @@ class MATRIZBenchmarks:
                 "mean": round(mean_latency, 2),
                 "p50": round(p50, 2),
                 "p95": round(p95, 2),
-                "p99": round(p99, 2)
+                "p99": round(p99, 2),
             },
             "slo_compliance": {
                 "target_p95_ms": 250,
                 "actual_p95_ms": round(p95, 2),
-                "compliant": p95 < 250
-            }
+                "compliant": p95 < 250,
+            },
         }
 
         print("📊 MATRIZ Pipeline Results:")
         print(f"   P50: {p50:.1f}ms, P95: {p95:.1f}ms, P99: {p99:.1f}ms")
-        print(f"   Success Rate: {len([latency for latency in latencies if latency < 500])}/{num_requests}")
+        print(
+            f"   Success Rate: {len([latency for latency in latencies if latency < 500])}/{num_requests}"
+        )
         print(f"   SLO Compliance: {'✅ PASS' if p95 < 250 else '❌ FAIL'} (P95 < 250ms)")
 
         return results
@@ -110,7 +121,7 @@ class MATRIZBenchmarks:
                 return {
                     "id": request_id,
                     "success": True,
-                    "latency_ms": (end_time - start_time) * 1000
+                    "latency_ms": (end_time - start_time) * 1000,
                 }
             except Exception as e:
                 end_time = time.perf_counter()
@@ -118,7 +129,7 @@ class MATRIZBenchmarks:
                     "id": request_id,
                     "success": False,
                     "latency_ms": (end_time - start_time) * 1000,
-                    "error": str(e)
+                    "error": str(e),
                 }
 
         # Execute concurrent requests
@@ -129,7 +140,9 @@ class MATRIZBenchmarks:
 
         # Analyze results
         successful = [r for r in request_results if isinstance(r, dict) and r.get("success", False)]
-        failed = [r for r in request_results if not isinstance(r, dict) or not r.get("success", False)]
+        failed = [
+            r for r in request_results if not isinstance(r, dict) or not r.get("success", False)
+        ]
 
         latencies = [r["latency_ms"] for r in successful]
         if latencies:
@@ -148,18 +161,17 @@ class MATRIZBenchmarks:
             "success_rate_percent": round((len(successful) / concurrent_requests) * 100, 1),
             "total_time_seconds": round(total_time, 2),
             "throughput_rps": round(throughput, 1),
-            "latency_ms": {
-                "average": round(avg_latency, 2),
-                "maximum": round(max_latency, 2)
-            },
+            "latency_ms": {"average": round(avg_latency, 2), "maximum": round(max_latency, 2)},
             "performance": {
                 "high_throughput": throughput > 10,  # >10 requests/second
-                "low_failure_rate": (len(failed) / concurrent_requests) < 0.05  # <5% failure
-            }
+                "low_failure_rate": (len(failed) / concurrent_requests) < 0.05,  # <5% failure
+            },
         }
 
         print("📊 Concurrent Load Results:")
-        print(f"   Success: {len(successful)}/{concurrent_requests} ({results['success_rate_percent']}%)")
+        print(
+            f"   Success: {len(successful)}/{concurrent_requests} ({results['success_rate_percent']}%)"
+        )
         print(f"   Throughput: {throughput:.1f} req/sec")
         print(f"   Avg Latency: {avg_latency:.1f}ms, Max: {max_latency:.1f}ms")
 
@@ -173,7 +185,7 @@ class MATRIZBenchmarks:
         test_cases = [
             {"query": "quick operation", "expected_fast": True},
             {"query": "medium complexity task", "expected_fast": False},
-            {"query": "simulate very long running operation", "expected_timeout": True}
+            {"query": "simulate very long running operation", "expected_timeout": True},
         ]
 
         results_data = []
@@ -187,42 +199,33 @@ class MATRIZBenchmarks:
                 # Set a reasonable timeout for testing
                 await asyncio.wait_for(
                     self.orchestrator.process_query(test_case["query"]),
-                    timeout=1.0  # 1 second timeout
+                    timeout=1.0,  # 1 second timeout
                 )
 
                 end_time = time.perf_counter()
                 latency = (end_time - start_time) * 1000
 
-                results_data.append({
-                    "test_case": i,
-                    "success": True,
-                    "latency_ms": latency,
-                    "timeout": False
-                })
+                results_data.append(
+                    {"test_case": i, "success": True, "latency_ms": latency, "timeout": False}
+                )
 
             except asyncio.TimeoutError:
                 timeouts_handled += 1
                 end_time = time.perf_counter()
                 latency = (end_time - start_time) * 1000
 
-                results_data.append({
-                    "test_case": i,
-                    "success": False,
-                    "latency_ms": latency,
-                    "timeout": True
-                })
+                results_data.append(
+                    {"test_case": i, "success": False, "latency_ms": latency, "timeout": True}
+                )
 
             except Exception as e:
                 errors_handled += 1
                 end_time = time.perf_counter()
                 latency = (end_time - start_time) * 1000
 
-                results_data.append({
-                    "test_case": i,
-                    "success": False,
-                    "latency_ms": latency,
-                    "error": str(e)
-                })
+                results_data.append(
+                    {"test_case": i, "success": False, "latency_ms": latency, "error": str(e)}
+                )
 
         results = {
             "test": "timeout_handling",
@@ -232,9 +235,9 @@ class MATRIZBenchmarks:
             "total_handled": timeouts_handled + errors_handled,
             "handling_effectiveness": {
                 "graceful_degradation": timeouts_handled > 0,
-                "error_recovery": errors_handled >= 0  # Should not crash
+                "error_recovery": errors_handled >= 0,  # Should not crash
             },
-            "test_results": results_data
+            "test_results": results_data,
         }
 
         print("📊 Timeout Handling Results:")

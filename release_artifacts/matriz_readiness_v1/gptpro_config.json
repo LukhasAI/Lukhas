@@ -1,0 +1,7 @@
+{
+  "artifacts_dir": "release_artifacts/matriz_readiness_v1",
+  "flatten_strategy": "shim-first",
+  "dry_run": true,
+  "max_pr_files": 25,
+  "author": "Gonzalo Roberto Dominguez Marchan"
+}

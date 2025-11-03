@@ -40,7 +40,7 @@ from .enhanced_thought_engine import (
 try:
     from matriz.core.node_interface import NodeState
 
-    from core.matrix.nodes.base import BaseMatrixNode
+    from core.matriz.nodes.base import BaseMatrixNode
     MATRIZ_AVAILABLE = True
 except ImportError:
     # Fallback for when MATRIZ is not available
