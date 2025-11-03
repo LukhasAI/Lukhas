@@ -11,6 +11,7 @@ try:
         candidates=(
             "lukhas_website.bridge.adapters",
             "candidate.bridge.adapters",
+            "labs.bridge.adapters",
         ),
         names=("OpenAIAdapter", "AnthropicAdapter", "BedrockAdapter", "BridgeTraceLogger"),
     )

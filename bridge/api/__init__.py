@@ -9,6 +9,7 @@ _exports: dict[str, object] = {}
 _CANDIDATES = (
     "lukhas_website.bridge.api",
     "candidate.bridge.api",
+    "labs.bridge.api",
     "bridge.api_impl",
 )
 

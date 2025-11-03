@@ -1,0 +1,27 @@
+# Bridge Gap Issues Created
+
+**Total:** 23 issues
+
+- [Bridge Gap: api/* modules](https://github.com/LukhasAI/Lukhas/issues/881)
+- [Bridge Gap: bio/* modules](https://github.com/LukhasAI/Lukhas/issues/882)
+- [Bridge Gap: bridge/* modules](https://github.com/LukhasAI/Lukhas/issues/883)
+- [Bridge Gap: consciousness/* modules (Batch 1)](https://github.com/LukhasAI/Lukhas/issues/884)
+- [Bridge Gap: consciousness/* modules (Batch 2)](https://github.com/LukhasAI/Lukhas/issues/885)
+- [Bridge Gap: consciousness/* modules (Batch 3)](https://github.com/LukhasAI/Lukhas/issues/886)
+- [Bridge Gap: core/* modules (Batch 1)](https://github.com/LukhasAI/Lukhas/issues/887)
+- [Bridge Gap: core/* modules (Batch 2)](https://github.com/LukhasAI/Lukhas/issues/888)
+- [Bridge Gap: core/* modules (Batch 3)](https://github.com/LukhasAI/Lukhas/issues/889)
+- [Bridge Gap: core/* modules (Batch 4)](https://github.com/LukhasAI/Lukhas/issues/890)
+- [Bridge Gap: core/* modules (Batch 5)](https://github.com/LukhasAI/Lukhas/issues/891)
+- [Bridge Gap: core/* modules (Batch 6)](https://github.com/LukhasAI/Lukhas/issues/892)
+- [Bridge Gap: core/* modules (Batch 7)](https://github.com/LukhasAI/Lukhas/issues/893)
+- [Bridge Gap: core/* modules (Batch 8)](https://github.com/LukhasAI/Lukhas/issues/894)
+- [Bridge Gap: core/* modules (Batch 9)](https://github.com/LukhasAI/Lukhas/issues/895)
+- [Bridge Gap: emotion/* modules](https://github.com/LukhasAI/Lukhas/issues/896)
+- [Bridge Gap: governance/* modules (Batch 1)](https://github.com/LukhasAI/Lukhas/issues/897)
+- [Bridge Gap: governance/* modules (Batch 2)](https://github.com/LukhasAI/Lukhas/issues/898)
+- [Bridge Gap: governance/* modules (Batch 3)](https://github.com/LukhasAI/Lukhas/issues/899)
+- [Bridge Gap: memory/* modules](https://github.com/LukhasAI/Lukhas/issues/900)
+- [Bridge Gap: orchestration/* modules](https://github.com/LukhasAI/Lukhas/issues/901)
+- [Bridge Gap: tests/* modules](https://github.com/LukhasAI/Lukhas/issues/902)
+- [Bridge Gap: tools/* modules](https://github.com/LukhasAI/Lukhas/issues/903)
