@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - API AUTHENTICATION MIDDLEWARE
@@ -19,8 +22,6 @@
 ║ - Request logging and monitoring
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
-
-import logging
 
 import asyncio
 import functools
@@ -47,6 +48,7 @@ from governance.identity.core.id_service import get_identity_manager
 try:
     from interfaces.api.v1.common.validators import validate_api_key as validate_api_key_format
 except ImportError:
+    # Fallback if validators not available
 
     def validate_api_key_format(api_key: str) -> bool:
         """Basic API key validation."""
@@ -54,85 +56,6 @@ except ImportError:
 
 
 from core.identity.vault.lukhas_id import (
-        try:
-            # Extract authentication credentials
-            auth_result = await self.authenticate_request(request)
-
-            # Add authentication info to request state
-            request.state.user_id = auth_result.get("user_id")
-            request.state.tier_level = auth_result.get("tier_level", 0)
-            # ΛTAG: tier_state_alias
-            request.state.user_tier = request.state.tier_level
-            request.state.auth_method = auth_result.get("auth_method")
-
-            # Log authentication success
-            process_time = time.time() - start_time
-            logger.info(
-                "auth_success",
-                user_id=request.state.user_id,
-                tier_level=request.state.tier_level,
-                auth_method=request.state.auth_method,
-                path=request.url.path,
-                method=request.method,
-                process_time=process_time,
-                timestamp=datetime.now(timezone.utc).isoformat(),
-            )
-
-            # Process request
-            response = await call_next(request)
-
-            # Add security headers
-            response.headers["X-Content-Type-Options"] = "nosniff"
-            response.headers["X-Frame-Options"] = "DENY"
-            response.headers["X-XSS-Protection"] = "1; mode=block"
-
-            return response
-
-        except HTTPException as e:
-            process_time = time.time() - start_time
-            logger.warning(
-                "auth_failed",
-                error=str(e.detail),
-                path=request.url.path,
-                method=request.method,
-                process_time=process_time,
-                timestamp=datetime.now(timezone.utc).isoformat(),
-            )
-            raise
-
-        try:
-            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
-
-            # Check token expiration
-            exp = payload.get("exp")
-            if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(timezone.utc):
-                raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Token expired",
-                    headers={"WWW-Authenticate": "Bearer"},
-                )
-
-            return {
-                "user_id": payload.get("sub"),
-                "tier_level": payload.get("tier_level", 1),
-                "auth_method": "jwt",
-            }
-
-        except JWTError as jwt_error:
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid token",
-                headers={"WWW-Authenticate": "Bearer"},
-            ) from jwt_error
-
-        try:
-            profile = await self.identity_manager.authenticate_api_key(api_key)
-        except IdentityRateLimitExceeded as error:
-                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                detail=str(error),
-            ) from error
-
-logger = logging.getLogger(__name__)
-
     IdentityManager,
     IdentityRateLimitExceeded,
     IdentityVerificationError,
@@ -407,6 +330,53 @@ class AuthMiddleware:
             response = await call_next(request)
             return response
 
+        try:
+            # Extract authentication credentials
+            auth_result = await self.authenticate_request(request)
+
+            # Add authentication info to request state
+            request.state.user_id = auth_result.get("user_id")
+            request.state.tier_level = auth_result.get("tier_level", 0)
+            # ΛTAG: tier_state_alias
+            request.state.user_tier = request.state.tier_level
+            request.state.auth_method = auth_result.get("auth_method")
+
+            # Log authentication success
+            process_time = time.time() - start_time
+            logger.info(
+                "auth_success",
+                user_id=request.state.user_id,
+                tier_level=request.state.tier_level,
+                auth_method=request.state.auth_method,
+                path=request.url.path,
+                method=request.method,
+                process_time=process_time,
+                timestamp=datetime.now(timezone.utc).isoformat(),
+            )
+
+            # Process request
+            response = await call_next(request)
+
+            # Add security headers
+            response.headers["X-Content-Type-Options"] = "nosniff"
+            response.headers["X-Frame-Options"] = "DENY"
+            response.headers["X-XSS-Protection"] = "1; mode=block"
+
+            return response
+
+        except HTTPException as e:
+            # Log authentication failure
+            process_time = time.time() - start_time
+            logger.warning(
+                "auth_failed",
+                error=str(e.detail),
+                path=request.url.path,
+                method=request.method,
+                process_time=process_time,
+                timestamp=datetime.now(timezone.utc).isoformat(),
+            )
+            raise
+
         except Exception as e:
             # Log unexpected error
             process_time = time.time() - start_time
@@ -450,6 +420,31 @@ class AuthMiddleware:
 
     async def validate_jwt_token(self, token: str) -> dict[str, Any]:
         """Validate JWT token and extract user information."""
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
+
+            # Check token expiration
+            exp = payload.get("exp")
+            if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(timezone.utc):
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Token expired",
+                    headers={"WWW-Authenticate": "Bearer"},
+                )
+
+            return {
+                "user_id": payload.get("sub"),
+                "tier_level": payload.get("tier_level", 1),
+                "auth_method": "jwt",
+            }
+
+        except JWTError as jwt_error:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid token",
+                headers={"WWW-Authenticate": "Bearer"},
+            ) from jwt_error
+
     # ΛTAG: identity_api_middleware
     async def resolve_api_key(self, api_key: str) -> dict[str, Any]:
         """Validate API key using the shared IdentityManager."""
@@ -460,6 +455,13 @@ class AuthMiddleware:
                 detail="Invalid API key format",
             )
 
+        try:
+            profile = await self.identity_manager.authenticate_api_key(api_key)
+        except IdentityRateLimitExceeded as error:
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail=str(error),
+            ) from error
         except IdentityVerificationError as error:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

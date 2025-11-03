@@ -1,11 +1,11 @@
+from __future__ import annotations
+
 """
 Identity Tag Resolver with Trust Networks
 
 Manages identity-based tagging, trust relationships, and tier-aware
 permission resolution using distributed tag consensus.
 """
-
-from __future__ import annotations
 
 import asyncio
 import logging
@@ -22,115 +22,6 @@ from core.tagging_system import Tag, TagManager, TagType
 
 # Import identity components
 from governance.identity.core.events import (
-                try:
-                    score = float(tag.metadata.get("score", 0))
-                    weight = float(tag.metadata.get("weight", 1.0))
-                    scores.append(score * weight)
-                except BaseException:
-
-        try:
-            # Calculate various centrality measures
-            degree_centrality = nx.degree_centrality(self.trust_network).get(identity_id, 0)
-
-            # Only calculate betweenness for smaller networks to avoid performance
-            # issues
-            if len(self.trust_network) < 100:
-                betweenness = nx.betweenness_centrality(self.trust_network).get(identity_id, 0)
-            else:
-                betweenness = degree_centrality  # Approximate
-
-            # Combine metrics
-            influence = (degree_centrality + betweenness) / 2
-
-            return min(1.0, influence)
-
-        except BaseException:
-
-            try:
-                current_time = datetime.now(timezone.utc)
-                completed_requests = []
-
-                for request_id, request in self.active_consensus_requests.items():
-                    # Check if deadline passed or consensus reached
-                    if current_time > request.deadline or request.is_consensus_reached():
-                        completed_requests.append(request_id)
-
-                        # Process result
-                        if request.is_consensus_reached():
-                            # Apply tag
-                            self.identity_tags[request.target_id].append(request.tag)
-
-                            # Record in history
-                            self.tag_history.append(
-                                {
-                                    "timestamp": current_time,
-                                    "lambda_id": request.target_id,
-                                    "tag": request.tag,
-                                    "action": "consensus_approved",
-                                    "votes": len(request.votes),
-                                    "approval_rate": sum(1 for v in request.votes.values() if v) / len(request.votes),
-                                }
-                            )
-
-                            # Publish success event
-                            await self.event_publisher.publish_identity_event(
-                                IdentityEventType.TAG_CONSENSUS_ACHIEVED,
-                                lambda_id=request.target_id,
-                                tier_level=request.tag.tier_required or 0,
-                                data={
-                                    "tag": request.tag.name,
-                                    "votes": len(request.votes),
-                                    "consensus_threshold": request.tag.consensus_threshold,
-                                },
-                            )
-                        else:
-                            # Consensus failed
-                            await self.event_publisher.publish_identity_event(
-                                IdentityEventType.TAG_CONSENSUS_FAILED,
-                                lambda_id=request.target_id,
-                                tier_level=request.tag.tier_required or 0,
-                                data={
-                                    "tag": request.tag.name,
-                                    "votes": len(request.votes),
-                                    "required_votes": request.required_votes,
-                                },
-                            )
-
-                # Move completed requests to history
-                for request_id in completed_requests:
-                    request = self.active_consensus_requests.pop(request_id)
-                    self.consensus_history.append(request)
-
-                await asyncio.sleep(1)
-
-            except Exception as e:
-                await asyncio.sleep(5)
-
-            try:
-                if len(self.trust_network) > 0:
-                    # Calculate network density
-                    self.network_metrics["network_density"] = nx.density(self.trust_network)
-
-                    # Calculate average trust score
-                    all_scores = []
-                    for _, _, data in self.trust_network.edges(data=True):
-                        all_scores.append(data.get("trust_score", 0))
-
-                    if all_scores:
-                        self.network_metrics["avg_trust_score"] = sum(all_scores) / len(all_scores)
-
-                    # Calculate clustering coefficient for smaller networks
-                    if len(self.trust_network) < 100:
-                        self.network_metrics["clustering_coefficient"] = nx.average_clustering(
-                            self.trust_network.to_undirected()
-                        )
-
-                await asyncio.sleep(60)  # Analyze every minute
-
-            except Exception as e:
-                await asyncio.sleep(60)
-
-
     IdentityEventPublisher,
     IdentityEventType,
     get_identity_event_publisher,
@@ -564,6 +455,13 @@ class IdentityTagResolver:
         if reputation_tags:
             scores = []
             for tag in reputation_tags:
+                try:
+                    score = float(tag.metadata.get("score", 0))
+                    weight = float(tag.metadata.get("weight", 1.0))
+                    scores.append(score * weight)
+                except BaseException:
+                    pass
+
             if scores:
                 tag_reputation = sum(scores) / len(scores)
 
@@ -648,6 +546,25 @@ class IdentityTagResolver:
         if identity_id not in self.trust_network:
             return 0.0
 
+        try:
+            # Calculate various centrality measures
+            degree_centrality = nx.degree_centrality(self.trust_network).get(identity_id, 0)
+
+            # Only calculate betweenness for smaller networks to avoid performance
+            # issues
+            if len(self.trust_network) < 100:
+                betweenness = nx.betweenness_centrality(self.trust_network).get(identity_id, 0)
+            else:
+                betweenness = degree_centrality  # Approximate
+
+            # Combine metrics
+            influence = (degree_centrality + betweenness) / 2
+
+            return min(1.0, influence)
+
+        except BaseException:
+            return 0.0
+
     def _count_trust_relationships(self, identity_id: str) -> dict[str, int]:
         """Count trust relationships by type."""
         counts = {"outgoing": 0, "incoming": 0, "mutual": 0}
@@ -665,9 +582,95 @@ class IdentityTagResolver:
     async def _process_consensus_requests(self):
         """Background processor for consensus requests."""
         while True:
+            try:
+                current_time = datetime.now(timezone.utc)
+                completed_requests = []
+
+                for request_id, request in self.active_consensus_requests.items():
+                    # Check if deadline passed or consensus reached
+                    if current_time > request.deadline or request.is_consensus_reached():
+                        completed_requests.append(request_id)
+
+                        # Process result
+                        if request.is_consensus_reached():
+                            # Apply tag
+                            self.identity_tags[request.target_id].append(request.tag)
+
+                            # Record in history
+                            self.tag_history.append(
+                                {
+                                    "timestamp": current_time,
+                                    "lambda_id": request.target_id,
+                                    "tag": request.tag,
+                                    "action": "consensus_approved",
+                                    "votes": len(request.votes),
+                                    "approval_rate": sum(1 for v in request.votes.values() if v) / len(request.votes),
+                                }
+                            )
+
+                            # Publish success event
+                            await self.event_publisher.publish_identity_event(
+                                IdentityEventType.TAG_CONSENSUS_ACHIEVED,
+                                lambda_id=request.target_id,
+                                tier_level=request.tag.tier_required or 0,
+                                data={
+                                    "tag": request.tag.name,
+                                    "votes": len(request.votes),
+                                    "consensus_threshold": request.tag.consensus_threshold,
+                                },
+                            )
+                        else:
+                            # Consensus failed
+                            await self.event_publisher.publish_identity_event(
+                                IdentityEventType.TAG_CONSENSUS_FAILED,
+                                lambda_id=request.target_id,
+                                tier_level=request.tag.tier_required or 0,
+                                data={
+                                    "tag": request.tag.name,
+                                    "votes": len(request.votes),
+                                    "required_votes": request.required_votes,
+                                },
+                            )
+
+                # Move completed requests to history
+                for request_id in completed_requests:
+                    request = self.active_consensus_requests.pop(request_id)
+                    self.consensus_history.append(request)
+
+                await asyncio.sleep(1)
+
+            except Exception as e:
+                logger.error(f"Consensus processor error: {e}")
+                await asyncio.sleep(5)
+
     async def _analyze_trust_network(self):
         """Periodically analyze trust network metrics."""
         while True:
+            try:
+                if len(self.trust_network) > 0:
+                    # Calculate network density
+                    self.network_metrics["network_density"] = nx.density(self.trust_network)
+
+                    # Calculate average trust score
+                    all_scores = []
+                    for _, _, data in self.trust_network.edges(data=True):
+                        all_scores.append(data.get("trust_score", 0))
+
+                    if all_scores:
+                        self.network_metrics["avg_trust_score"] = sum(all_scores) / len(all_scores)
+
+                    # Calculate clustering coefficient for smaller networks
+                    if len(self.trust_network) < 100:
+                        self.network_metrics["clustering_coefficient"] = nx.average_clustering(
+                            self.trust_network.to_undirected()
+                        )
+
+                await asyncio.sleep(60)  # Analyze every minute
+
+            except Exception as e:
+                logger.error(f"Trust network analysis error: {e}")
+                await asyncio.sleep(60)
+
     def get_resolver_statistics(self) -> dict[str, Any]:
         """Get comprehensive resolver statistics."""
         return {

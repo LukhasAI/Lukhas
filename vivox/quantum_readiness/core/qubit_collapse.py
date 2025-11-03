@@ -1,21 +1,23 @@
+import logging
+from datetime import timezone
+
+logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Qubit Collapse Engine
 Quantum-enhanced collapse mechanisms for ethical decision-making
 """
 
-import logging
-from datetime import timezone
 import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
-import numpy as np
-from core.common import get_logger
-from .qi_substrate import QIState, QIStateType
-        from collections import Counter
 
-logger = logging.getLogger(__name__)
+import numpy as np
+
+from core.common import get_logger
+
+from .qi_substrate import QIState, QIStateType
 
 logger = get_logger(__name__)
 
@@ -531,6 +533,7 @@ class QubitCollapseEngine:
         outcomes = [r.metadata.get("measurement_outcome", "unknown") for r in convergence_results]
 
         # Check if majority agrees
+        from collections import Counter
 
         outcome_counts = Counter(outcomes)
         most_common_count = outcome_counts.most_common(1)[0][1]

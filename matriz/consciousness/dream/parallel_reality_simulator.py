@@ -1,3 +1,9 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
 """
 Parallel Reality Simulator for Dream Engine
 ==========================================
@@ -11,9 +17,6 @@ Features:
 - Ethical constraint validation for each reality
 - Memory integration for reality experiences
 """
-
-from __future__ import annotations
-import logging
 
 import asyncio
 import random
@@ -30,59 +33,6 @@ from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import get_service, register_service
 
 from .parallel_reality_safety import (
-        try:
-            logger.info("Initializing Parallel Reality Simulator...")
-
-            # Get service dependencies
-            self.memory_service = get_service("memory_service")
-            self.consciousness_service = get_service("consciousness_service")
-            self.guardian_service = get_service("guardian_service")
-            self.dream_engine = get_service("dream_engine")
-
-            # Initialize safety framework
-            safety_level = SafetyLevel(self.config.get("safety_level", "standard"))
-            self.safety_framework = ParallelRealitySafetyFramework(
-                config={
-                    "safety_level": safety_level.value,
-                    "drift_threshold": self.config.get("drift_threshold", 0.7),
-                    "hallucination_threshold": self.config.get("hallucination_threshold", 0.6),
-                    "auto_correct": self.config.get("auto_correct", True),
-                }
-            )
-            await self.safety_framework.initialize()
-
-            # Register this service
-            register_service("parallel_reality_simulator", self, singleton=True)
-
-            self.operational = True
-            logger.info("Parallel Reality Simulator initialized successfully")
-
-        except Exception as e:
-            raise LukhasError(f"Initialization failed: {e}")
-
-        try:
-            from core.interfaces.memory_interface import MemoryType
-
-            memory_id = await self.memory_service.store(
-                content=memory_content,
-                memory_type=MemoryType.SEMANTIC,
-                metadata={
-                    "module": "parallel_reality_simulator",
-                    "significance": 0.7 if event_type == "collapsed" else 0.5,
-                },
-            )
-
-            # Track memory in simulation
-            if selected_branch:
-                selected_branch.memory_traces.append(memory_id)
-
-        except Exception as e:
-
-    from unittest.mock import AsyncMock, Mock
-    from core.interfaces.dependency_injection import register_service
-
-logger = logging.getLogger(__name__)
-
     DriftMetrics,
     ParallelRealitySafetyFramework,
     SafetyLevel,
@@ -180,6 +130,37 @@ class ParallelRealitySimulator(CoreInterface):
 
     async def initialize(self) -> None:
         """Initialize simulator and dependencies"""
+        try:
+            logger.info("Initializing Parallel Reality Simulator...")
+
+            # Get service dependencies
+            self.memory_service = get_service("memory_service")
+            self.consciousness_service = get_service("consciousness_service")
+            self.guardian_service = get_service("guardian_service")
+            self.dream_engine = get_service("dream_engine")
+
+            # Initialize safety framework
+            safety_level = SafetyLevel(self.config.get("safety_level", "standard"))
+            self.safety_framework = ParallelRealitySafetyFramework(
+                config={
+                    "safety_level": safety_level.value,
+                    "drift_threshold": self.config.get("drift_threshold", 0.7),
+                    "hallucination_threshold": self.config.get("hallucination_threshold", 0.6),
+                    "auto_correct": self.config.get("auto_correct", True),
+                }
+            )
+            await self.safety_framework.initialize()
+
+            # Register this service
+            register_service("parallel_reality_simulator", self, singleton=True)
+
+            self.operational = True
+            logger.info("Parallel Reality Simulator initialized successfully")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize simulator: {e}")
+            raise LukhasError(f"Initialization failed: {e}")
+
     async def create_simulation(
         self,
         origin_scenario: dict[str, Any],
@@ -849,6 +830,25 @@ class ParallelRealitySimulator(CoreInterface):
         if simulation.insights:
             memory_content["insights"] = simulation.insights
 
+        try:
+            from core.interfaces.memory_interface import MemoryType
+
+            memory_id = await self.memory_service.store(
+                content=memory_content,
+                memory_type=MemoryType.SEMANTIC,
+                metadata={
+                    "module": "parallel_reality_simulator",
+                    "significance": 0.7 if event_type == "collapsed" else 0.5,
+                },
+            )
+
+            # Track memory in simulation
+            if selected_branch:
+                selected_branch.memory_traces.append(memory_id)
+
+        except Exception as e:
+            logger.warning(f"Failed to store simulation memory: {e}")
+
     def _update_average_branches(self) -> None:
         """Update average branches per simulation metric"""
         if self.metrics["simulations_created"] > 0:
@@ -968,6 +968,7 @@ async def demonstrate_parallel_reality():
     simulator = ParallelRealitySimulator(config={"max_branches": 10, "ethical_threshold": 0.4})
 
     # Mock services for demo
+    from unittest.mock import AsyncMock, Mock
 
     mock_memory = Mock()
     mock_memory.store = AsyncMock(return_value="mem_123")
@@ -975,6 +976,7 @@ async def demonstrate_parallel_reality():
     mock_guardian = Mock()
     mock_guardian.validate_action = AsyncMock(return_value={"approved": True, "confidence": 0.9})
 
+    from core.interfaces.dependency_injection import register_service
 
     register_service("memory_service", mock_memory)
     register_service("guardian_service", mock_guardian)

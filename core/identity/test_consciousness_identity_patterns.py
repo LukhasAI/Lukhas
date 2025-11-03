@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Consciousness Identity Test Suite: Comprehensive Pattern Testing
@@ -13,8 +15,6 @@
 ║ 🛡️ GUARDIAN: Security and compliance testing
 ╚══════════════════════════════════════════════════════════════
 """
-
-from __future__ import annotations
 import logging
 from typing import Any, Optional
 
@@ -31,6 +31,7 @@ try:
         DecisionType,
     )
 except ImportError as exc:  # pragma: no cover - critical dependency missing
+    pytest.skip(f"Constitutional AI compliance module not available: {exc}", allow_module_level=True)
 
 
 # Optional consciousness modules (skip specific suites when unavailable)
@@ -44,6 +45,7 @@ try:
     )
     COHERENCE_MODULES_AVAILABLE = True
 except ImportError:
+    COHERENCE_MODULES_AVAILABLE = False
 
 try:
     from .consciousness_namespace_isolation import (
@@ -56,6 +58,7 @@ try:
     )
     NAMESPACE_MODULES_AVAILABLE = True
 except ImportError:
+    NAMESPACE_MODULES_AVAILABLE = False
 
 try:
     from .consciousness_tiered_authentication import (
@@ -66,6 +69,7 @@ try:
     )
     AUTH_MODULES_AVAILABLE = True
 except ImportError:
+    AUTH_MODULES_AVAILABLE = False
 
 try:
     from .matriz_consciousness_identity import (
@@ -76,6 +80,7 @@ try:
     )
     MATRIZ_IDENTITY_AVAILABLE = True
 except ImportError:
+    MATRIZ_IDENTITY_AVAILABLE = False
 
 try:
     from .matriz_consciousness_identity_signals import (
@@ -87,22 +92,8 @@ try:
     )
     SIGNAL_MODULES_AVAILABLE = True
 except ImportError:
+    SIGNAL_MODULES_AVAILABLE = False
 
-
-        try:
-            # Measure coherence (should trigger anomaly)
-            await coherence_monitor.measure_identity_coherence(identity_id)
-
-            # Check for anomalies
-            assert len(coherence_monitor.anomaly_history) > 0
-
-            anomaly = coherence_monitor.anomaly_history[-1]
-            assert anomaly.identity_id == identity_id
-            assert anomaly.severity != CoherenceAlert.INFO
-
-        try:
-            result = await validator.validate_identity_decision(context)
-    import sys
 
 logger = logging.getLogger(__name__)
 
@@ -608,6 +599,17 @@ class TestCoherenceMonitoring:
         original_thresholds = coherence_monitor.coherence_thresholds.copy()
         coherence_monitor.coherence_thresholds[CoherenceAlert.WARNING] = 0.9  # High threshold
 
+        try:
+            # Measure coherence (should trigger anomaly)
+            await coherence_monitor.measure_identity_coherence(identity_id)
+
+            # Check for anomalies
+            assert len(coherence_monitor.anomaly_history) > 0
+
+            anomaly = coherence_monitor.anomaly_history[-1]
+            assert anomaly.identity_id == identity_id
+            assert anomaly.severity != CoherenceAlert.INFO
+
         finally:
             # Restore original thresholds
             coherence_monitor.coherence_thresholds = original_thresholds
@@ -759,6 +761,8 @@ class TestConstitutionalCompliance:
 
         validator = ConstitutionalAIValidator()
         await validator.initialize_constitutional_validation()
+        try:
+            result = await validator.validate_identity_decision(context)
         finally:
             await validator.shutdown_constitutional_validation()
 
@@ -1079,6 +1083,7 @@ class TestIntegrationScenarios:
 
 if __name__ == "__main__":
     """Run tests with pytest"""
+    import sys
 
     # Configure logging
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

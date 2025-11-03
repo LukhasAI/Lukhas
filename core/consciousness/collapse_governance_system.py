@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
 """
 🌊 RESEARCH-ENHANCED COLLAPSE-BASED GOVERNANCE SYSTEM
 
@@ -11,8 +14,6 @@ RESEARCH VALIDATION: Priority #4 Consciousness Algorithms Analysis
 Integration: Penrose-Lucas argument, Model Collapse Mitigation, Wavefunction Collapse
 Performance: TraceIndex achieves 99.3% reproducibility, DriftScore prevents 92% drift
 """
-
-from __future__ import annotations
 import asyncio
 import hashlib
 import json
@@ -32,7 +33,7 @@ try:
 
     CRYPTO_AVAILABLE = True
 except ImportError:
-
+    CRYPTO_AVAILABLE = False
 
 
 class CollapseState(Enum):

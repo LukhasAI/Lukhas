@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
+
 """
 
 #TAG:qim
@@ -33,26 +37,26 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-import logging
-import asyncio
-import sys
-from pathlib import Path
-from typing import Any, Optional
-try:
-    from creative_q_expression import LukhasCreativeExpressionEngine as FullQIEngine
-    from coreQICreativeMock import MockLukhasCreativeExpressionEngine as MockEngine
-
 __module_name__ = "Quantum Creative Integration"
 __version__ = "2.0.0"
 __tier__ = 2
 
-logger = logging.getLogger(__name__)
 
+import asyncio
+import sys
+from pathlib import Path
+from typing import Any, Optional
+
+sys.path.append(str(Path(__file__).parent))
+
+try:
     # Try to import the full quantum system first
+    from creative_q_expression import LukhasCreativeExpressionEngine as FullQIEngine
 
     QUANTUM_MODE = "full"
 except ImportError:
     # Fall back to development mock
+    from coreQICreativeMock import MockLukhasCreativeExpressionEngine as MockEngine
 
     QUANTUM_MODE = "mock"
     print("🧪 Using mock quantum engine for development")

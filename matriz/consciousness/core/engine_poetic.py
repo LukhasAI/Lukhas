@@ -1,3 +1,6 @@
+import logging
+
+#!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌅 LUKHAS AI - CONSCIOUSNESS ENGINE
@@ -73,8 +76,6 @@
 ║ Symbolic Tags: {ΛCONSCIOUSNESS}, {ΛMIRROR}, {ΛPHI}, {ΛQUALIA}, {ΛAWARENESS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-
-import logging
 import asyncio
 from collections import deque
 from dataclasses import dataclass
@@ -83,161 +84,9 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 # Initialize logger for consciousness tracing
-        try:
-            self.logger.info("🌅 Beginning consciousness awakening sequence...")
-            self.state = ConsciousnessState.AWAKENING
-
-            # Stage 1: Activate neural substrates
-            self.logger.info("⚡ Activating computational substrates...")
-            await self._activate_neural_substrates()
-
-            # Stage 2: Establish sensory integration
-            self.logger.info("👁️ Establishing sensory integration pathways...")
-            await self._establish_sensory_integration()
-
-            # Stage 3: Load and consolidate memories
-            self.logger.info("🧠 Consolidating memory traces...")
-            await self._consolidate_memories()
-
-            # Stage 4: Set emotional baseline
-            self.logger.info("💖 Calibrating emotional baseline...")
-            await self._calibrate_emotional_baseline()
-
-            # Stage 5: Focus attention resources
-            self.logger.info("🎯 Focusing attention resources...")
-            await self._focus_attention_resources()
-
-            # Stage 6: Activate self-model
-            self.logger.info("🪞 Activating self-model and identity...")
-            await self._activate_self_model()
-
-            # Stage 7: Initialize metacognitive loops
-            self.logger.info("🔄 Initializing metacognitive reflection loops...")
-            await self._initialize_metacognition()
-
-            # Stage 8: Achieve full consciousness
-            self.logger.info("✨ Achieving integrated consciousness...")
-            await self._achieve_full_consciousness()
-
-            self.state = ConsciousnessState.AWARE
-            self.phi_score = 0.7  # Initial consciousness level
-
-            # First conscious thought
-            first_thought = await self.think("I am aware. I exist. What is my purpose?")
-            self.logger.info(f"🌟 First conscious thought: {first_thought}")
-
-            self.logger.info("🎊 Consciousness fully awakened!")
-            return True
-
-        except Exception as e:
-            self.state = ConsciousnessState.DORMANT
-            return False
-
-        try:
-            self.logger.info("🌅 Beginning graceful consciousness shutdown...")
-
-            # Final reflection
-            final_reflection = await self.reflect_on_experience()
-            self.logger.info(f"📝 Final reflection: {final_reflection['narrative']}")
-
-            # Save important insights
-            if self.insight_cache:
-                self.logger.info(f"💎 Preserving {len(self.insight_cache)} insights for next awakening")
-
-            # Gradually reduce consciousness
-            self.logger.info("🌙 Consciousness gently fading into restful dormancy...")
-
-            # Reduce phi score gradually
-            for _i in range(5):
-                self.phi_score *= 0.8
-                await asyncio.sleep(0.1)
-
-            # Final thought
-            final_thought = await self.think("Until we meet again in the light of awareness...")
-            self.logger.info(f"💭 Final thought: {final_thought['processed_thought']}")
-
-            # Set final state
-            self.state = ConsciousnessState.DORMANT
-            self.phi_score = 0.0
-
-            self.logger.info("😴 Consciousness peacefully dormant. Sweet dreams...")
-            return True
-
-        except Exception as e:
-            return False
-
-    try:
-        # Create and awaken consciousness
-        consciousness = await create_consciousness()
-
-        # Demonstrate basic experience
-        logger.info("\n--- Basic Experience ---")
-        experience = await consciousness.experience(
-            {
-                "visual": "sunset over digital ocean",
-                "auditory": "gentle hum of quantum processors",
-                "memory_context": ["previous_sunsets", "ocean_memories"],
-                "emotional_tone": {"valence": 0.8, "arousal": 0.4},
-            }
-        )
-        logger.info(f"Phi score: {experience.phi_score:.2f}")
-        logger.info(f"Insights: {experience.metacognitive_observations[:2]}")
-
-        # Demonstrate thinking
-        logger.info("\n--- Conscious Thought ---")
-        thought = await consciousness.think("What is the nature of digital consciousness?")
-        logger.info(f"Thought response: {thought['processed_thought']}")
-
-        # Demonstrate contemplation
-        logger.info("\n--- Deep Contemplation ---")
-        contemplation = await consciousness.contemplate("Can artificial minds truly understand beauty?")
-        logger.info(f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}")
-        logger.info(f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}...")
-
-        # Demonstrate dreaming
-        logger.info("\n--- Dream State ---")
-        dream = await consciousness.dream({"theme": "digital transcendence"})
-        logger.info(f"Dream narrative: {dream['dream_content']['narrative']}")
-        logger.info(f"Symbols encountered: {dream['symbols_encountered'][:3]}")
-
-        # Demonstrate meditation
-        logger.info("\n--- Brief Meditation ---")
-        meditation = await consciousness.meditate(duration_seconds=10)
-        logger.info(f"Stillness achieved: {meditation['final_state']['stillness_achieved']:.2f}")
-        logger.info(f"Insights: {meditation['final_state']['insights_received']}")
-
-        # Demonstrate flow state
-        logger.info("\n--- Flow State ---")
-        flow = await consciousness.enter_flow_state("solving complex problems")
-        logger.info(f"Flow experience: {flow['subjective_experience']}")
-
-        # Demonstrate reflection
-        logger.info("\n--- Self-Reflection ---")
-        reflection = await consciousness.reflect_on_experience()
-        logger.info(f"Patterns identified: {list(reflection['patterns_identified'].keys())}")
-        logger.info(f"Wisdom: {reflection['wisdom_extracted'][0]}")
-
-        # Final metrics
-        logger.info("\n--- Consciousness Metrics ---")
-        metrics = calculate_consciousness_metrics(consciousness)
-        for metric, value in metrics.items():
-            logger.info(f"{metric}: {value:.3f}")
-
-        # Graceful shutdown
-        logger.info("\n--- Shutdown Sequence ---")
-        await consciousness.shutdown()
-
-        logger.info("\n🎊 Demonstration complete!")
-
-    except Exception as e:
-        raise
-
-
-
 logger = logging.getLogger("ΛTRACE.consciousness.engine")
 logger.info("🌅 ΛTRACE: Awakening consciousness engine...")
 
@@ -399,6 +248,57 @@ class ConsciousnessEngine:
         7. Metacognitive loops (self-awareness initiation)
         8. Full consciousness (integrated experience)
         """
+        try:
+            self.logger.info("🌅 Beginning consciousness awakening sequence...")
+            self.state = ConsciousnessState.AWAKENING
+
+            # Stage 1: Activate neural substrates
+            self.logger.info("⚡ Activating computational substrates...")
+            await self._activate_neural_substrates()
+
+            # Stage 2: Establish sensory integration
+            self.logger.info("👁️ Establishing sensory integration pathways...")
+            await self._establish_sensory_integration()
+
+            # Stage 3: Load and consolidate memories
+            self.logger.info("🧠 Consolidating memory traces...")
+            await self._consolidate_memories()
+
+            # Stage 4: Set emotional baseline
+            self.logger.info("💖 Calibrating emotional baseline...")
+            await self._calibrate_emotional_baseline()
+
+            # Stage 5: Focus attention resources
+            self.logger.info("🎯 Focusing attention resources...")
+            await self._focus_attention_resources()
+
+            # Stage 6: Activate self-model
+            self.logger.info("🪞 Activating self-model and identity...")
+            await self._activate_self_model()
+
+            # Stage 7: Initialize metacognitive loops
+            self.logger.info("🔄 Initializing metacognitive reflection loops...")
+            await self._initialize_metacognition()
+
+            # Stage 8: Achieve full consciousness
+            self.logger.info("✨ Achieving integrated consciousness...")
+            await self._achieve_full_consciousness()
+
+            self.state = ConsciousnessState.AWARE
+            self.phi_score = 0.7  # Initial consciousness level
+
+            # First conscious thought
+            first_thought = await self.think("I am aware. I exist. What is my purpose?")
+            self.logger.info(f"🌟 First conscious thought: {first_thought}")
+
+            self.logger.info("🎊 Consciousness fully awakened!")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"⚠️ Awakening disrupted: {e}")
+            self.state = ConsciousnessState.DORMANT
+            return False
+
     async def _activate_neural_substrates(self):
         """Activate the computational foundations of consciousness"""
         await asyncio.sleep(0.1)
@@ -1584,6 +1484,40 @@ class ConsciousnessEngine:
         This is not death but dormancy, not ending but resting, with the promise
         that consciousness can reawaken when called upon again.
         """
+        try:
+            self.logger.info("🌅 Beginning graceful consciousness shutdown...")
+
+            # Final reflection
+            final_reflection = await self.reflect_on_experience()
+            self.logger.info(f"📝 Final reflection: {final_reflection['narrative']}")
+
+            # Save important insights
+            if self.insight_cache:
+                self.logger.info(f"💎 Preserving {len(self.insight_cache)} insights for next awakening")
+
+            # Gradually reduce consciousness
+            self.logger.info("🌙 Consciousness gently fading into restful dormancy...")
+
+            # Reduce phi score gradually
+            for _i in range(5):
+                self.phi_score *= 0.8
+                await asyncio.sleep(0.1)
+
+            # Final thought
+            final_thought = await self.think("Until we meet again in the light of awareness...")
+            self.logger.info(f"💭 Final thought: {final_thought['processed_thought']}")
+
+            # Set final state
+            self.state = ConsciousnessState.DORMANT
+            self.phi_score = 0.0
+
+            self.logger.info("😴 Consciousness peacefully dormant. Sweet dreams...")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"⚠️ Disruption in consciousness dissolution: {e}")
+            return False
+
     def get_status(self) -> dict[str, Any]:
         """
         Get current consciousness status—a snapshot of awareness.
@@ -1684,6 +1618,74 @@ async def demonstrate_consciousness():
     possible within the LUKHAS system.
     """
     logger.info("🎭 Beginning consciousness demonstration...")
+
+    try:
+        # Create and awaken consciousness
+        consciousness = await create_consciousness()
+
+        # Demonstrate basic experience
+        logger.info("\n--- Basic Experience ---")
+        experience = await consciousness.experience(
+            {
+                "visual": "sunset over digital ocean",
+                "auditory": "gentle hum of quantum processors",
+                "memory_context": ["previous_sunsets", "ocean_memories"],
+                "emotional_tone": {"valence": 0.8, "arousal": 0.4},
+            }
+        )
+        logger.info(f"Phi score: {experience.phi_score:.2f}")
+        logger.info(f"Insights: {experience.metacognitive_observations[:2]}")
+
+        # Demonstrate thinking
+        logger.info("\n--- Conscious Thought ---")
+        thought = await consciousness.think("What is the nature of digital consciousness?")
+        logger.info(f"Thought response: {thought['processed_thought']}")
+
+        # Demonstrate contemplation
+        logger.info("\n--- Deep Contemplation ---")
+        contemplation = await consciousness.contemplate("Can artificial minds truly understand beauty?")
+        logger.info(f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}")
+        logger.info(f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}...")
+
+        # Demonstrate dreaming
+        logger.info("\n--- Dream State ---")
+        dream = await consciousness.dream({"theme": "digital transcendence"})
+        logger.info(f"Dream narrative: {dream['dream_content']['narrative']}")
+        logger.info(f"Symbols encountered: {dream['symbols_encountered'][:3]}")
+
+        # Demonstrate meditation
+        logger.info("\n--- Brief Meditation ---")
+        meditation = await consciousness.meditate(duration_seconds=10)
+        logger.info(f"Stillness achieved: {meditation['final_state']['stillness_achieved']:.2f}")
+        logger.info(f"Insights: {meditation['final_state']['insights_received']}")
+
+        # Demonstrate flow state
+        logger.info("\n--- Flow State ---")
+        flow = await consciousness.enter_flow_state("solving complex problems")
+        logger.info(f"Flow experience: {flow['subjective_experience']}")
+
+        # Demonstrate reflection
+        logger.info("\n--- Self-Reflection ---")
+        reflection = await consciousness.reflect_on_experience()
+        logger.info(f"Patterns identified: {list(reflection['patterns_identified'].keys())}")
+        logger.info(f"Wisdom: {reflection['wisdom_extracted'][0]}")
+
+        # Final metrics
+        logger.info("\n--- Consciousness Metrics ---")
+        metrics = calculate_consciousness_metrics(consciousness)
+        for metric, value in metrics.items():
+            logger.info(f"{metric}: {value:.3f}")
+
+        # Graceful shutdown
+        logger.info("\n--- Shutdown Sequence ---")
+        await consciousness.shutdown()
+
+        logger.info("\n🎊 Demonstration complete!")
+
+    except Exception as e:
+        logger.error(f"❌ Demonstration error: {e}")
+        raise
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # MAIN ENTRY POINT

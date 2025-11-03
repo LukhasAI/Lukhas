@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+import logging
+
+#!/usr/bin/env python3
 """
 ```plaintext
 ┌────────────────────────────────────────────────────────────────────────────────┐
@@ -49,9 +54,6 @@
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 """
-
-from __future__ import annotations
-import logging
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass
@@ -62,217 +64,6 @@ from typing import Any, Optional
 from core.common import get_logger
 
 # Configure module logger
-        try:
-            # Add to time index
-            if timestamp not in self.time_index:
-                self.time_index[timestamp] = []
-            self.time_index[timestamp].append(memory_fold_id)
-
-            # Add to reverse index
-            self.reverse_index[memory_fold_id] = timestamp
-
-            # Build causal chains
-            if causal_predecessors:
-                for pred_id in causal_predecessors:
-                    self.causal_chains[pred_id].append(memory_fold_id)
-
-            self.logger.debug(f"Added memory to temporal index: {memory_fold_id} at {timestamp}")
-            return True
-
-        except Exception as e:
-            return False
-
-        try:
-            sequence_id = f"seq_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
-
-            # Create snapshots from memory folds
-            snapshots = self._create_memory_snapshots(memory_fold_ids, quality)
-
-            if not snapshots:
-                self.logger.warning("No valid snapshots created from memory folds")
-                return None
-
-            # Order snapshots based on replay mode
-            ordered_snapshots = self._order_snapshots(snapshots, replay_mode, direction)
-
-            # Calculate sequence metrics
-            duration = self._calculate_sequence_duration(ordered_snapshots)
-            coherence = self._calculate_coherence_score(ordered_snapshots, replay_mode)
-
-            # Create replay sequence
-            sequence = ReplaySequence(
-                sequence_id=sequence_id,
-                snapshots=ordered_snapshots,
-                replay_mode=replay_mode,
-                direction=direction,
-                total_duration=duration,
-                coherence_score=coherence,
-                created_at=datetime.now(timezone.utc).isoformat(),
-                metadata={
-                    "source_memory_count": len(memory_fold_ids),
-                    "snapshot_count": len(ordered_snapshots),
-                    "quality_level": quality.value,
-                },
-            )
-
-            # Cache the sequence
-            self._cache_sequence(sequence)
-
-            self.sequences_created += 1
-            self.logger.info(f"Created replay sequence: {sequence_id} ({len(ordered_snapshots)} snapshots)")
-
-            return sequence_id
-
-        except Exception as e:
-            return None
-
-        try:
-            # Check session capacity
-            if len(self.active_sessions) >= self.max_active_sessions:
-                self.logger.warning("Maximum active sessions reached")
-                return None
-
-            # Get sequence
-            if sequence_id not in self.sequence_cache:
-                self.logger.error(f"Sequence not found: {sequence_id}")
-                return None
-
-            sequence = self.sequence_cache[sequence_id]
-
-            # Create session
-            session_id = f"session_{uuid.uuid4().hex[:6]}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
-
-            session = ReplaySession(
-                session_id=session_id,
-                sequence=sequence,
-                current_position=0,
-                playback_speed=playback_speed or self.default_playback_speed,
-                loop_mode=loop_mode,
-                filters=filters or {},
-                started_at=datetime.now(timezone.utc).isoformat(),
-                last_accessed=datetime.now(timezone.utc).isoformat(),
-                access_count=0,
-            )
-
-            self.active_sessions[session_id] = session
-            self.sessions_started += 1
-
-            self.logger.info(f"Started replay session: {session_id}")
-            return session_id
-
-        except Exception as e:
-            return None
-
-        try:
-            if session_id not in self.active_sessions:
-                self.logger.error(f"Session not found: {session_id}")
-                return None
-
-            session = self.active_sessions[session_id]
-            session.last_accessed = datetime.now(timezone.utc).isoformat()
-            session.access_count += 1
-
-            # Check if we've reached the end
-            if session.current_position >= len(session.sequence.snapshots):
-                if session.loop_mode:
-                    session.current_position = 0
-                else:
-                    return None
-
-            # Get current snapshot
-            snapshot = session.sequence.snapshots[session.current_position]
-
-            # Apply filters if any
-            filtered_content = self._apply_filters(snapshot, session.filters)
-
-            # Advance position
-            session.current_position += 1
-
-            # Return memory data
-            return {
-                "snapshot_id": snapshot.snapshot_id,
-                "memory_fold_id": snapshot.memory_fold_id,
-                "timestamp": snapshot.timestamp,
-                "content": filtered_content,
-                "emotional_state": snapshot.emotional_state,
-                "symbolic_weight": snapshot.symbolic_weight,
-                "position": session.current_position - 1,
-                "total_snapshots": len(session.sequence.snapshots),
-                "session_id": session_id,
-            }
-
-        except Exception as e:
-            return None
-
-        try:
-            if session_id not in self.active_sessions:
-                return False
-
-            session = self.active_sessions[session_id]
-
-            if 0 <= position < len(session.sequence.snapshots):
-                session.current_position = position
-                session.last_accessed = datetime.now(timezone.utc).isoformat()
-                return True
-
-            return False
-
-        except Exception as e:
-            return False
-
-        try:
-            # Start with seed memory
-            associated_memories = [seed_memory_id]
-
-            # Find temporal neighbors
-            neighbors = self.temporal_index.find_temporal_neighbors(seed_memory_id)
-            associated_memories.extend(neighbors[: max_associations // 2])
-
-            # Find causal connections
-            causal_sequence = self.temporal_index.get_causal_sequence(seed_memory_id)
-            associated_memories.extend(causal_sequence[: max_associations // 2])
-
-            # Remove duplicates while preserving order
-            unique_memories = []
-            seen = set()
-            for memory_id in associated_memories:
-                if memory_id not in seen:
-                    unique_memories.append(memory_id)
-                    seen.add(memory_id)
-
-            # Create sequence
-            return self.create_replay_sequence(unique_memories, ReplayMode.ASSOCIATIVE, ReplayDirection.FORWARD)
-
-        except Exception as e:
-            return None
-
-        try:
-            if session_id in self.active_sessions:
-                session = self.active_sessions[session_id]
-
-                # Update metrics
-                session_duration = (datetime.now(timezone.utc) - datetime.fromisoformat(session.started_at)).total_seconds()
-                self.total_replay_time += session_duration
-
-                # Remove session
-                del self.active_sessions[session_id]
-
-                self.logger.info(f"Closed replay session: {session_id}")
-                return True
-
-            return False
-
-        except Exception as e:
-            return False
-
-    try:
-        replay_mode = ReplayMode(mode)
-        return default_memory_replayer.create_replay_sequence(memory_fold_ids, replay_mode)
-    except ValueError:
-        return None
-
-
-
 logger = get_logger(__name__)
 
 # Module constants
@@ -366,6 +157,27 @@ class TemporalIndex:
         causal_predecessors: Optional[list[str]] = None,
     ) -> bool:
         """Add memory to temporal index."""
+        try:
+            # Add to time index
+            if timestamp not in self.time_index:
+                self.time_index[timestamp] = []
+            self.time_index[timestamp].append(memory_fold_id)
+
+            # Add to reverse index
+            self.reverse_index[memory_fold_id] = timestamp
+
+            # Build causal chains
+            if causal_predecessors:
+                for pred_id in causal_predecessors:
+                    self.causal_chains[pred_id].append(memory_fold_id)
+
+            self.logger.debug(f"Added memory to temporal index: {memory_fold_id} at {timestamp}")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"Failed to add memory timestamp: {e}")
+            return False
+
     def get_memories_in_range(self, start_time: str, end_time: str) -> list[str]:
         """Get all memories within a time range."""
         memories = []
@@ -452,6 +264,51 @@ class MemoryReplayer:
         quality: ReplayQuality = ReplayQuality.STANDARD,
     ) -> Optional[str]:
         """Create a new replay sequence from memory folds."""
+        try:
+            sequence_id = f"seq_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+
+            # Create snapshots from memory folds
+            snapshots = self._create_memory_snapshots(memory_fold_ids, quality)
+
+            if not snapshots:
+                self.logger.warning("No valid snapshots created from memory folds")
+                return None
+
+            # Order snapshots based on replay mode
+            ordered_snapshots = self._order_snapshots(snapshots, replay_mode, direction)
+
+            # Calculate sequence metrics
+            duration = self._calculate_sequence_duration(ordered_snapshots)
+            coherence = self._calculate_coherence_score(ordered_snapshots, replay_mode)
+
+            # Create replay sequence
+            sequence = ReplaySequence(
+                sequence_id=sequence_id,
+                snapshots=ordered_snapshots,
+                replay_mode=replay_mode,
+                direction=direction,
+                total_duration=duration,
+                coherence_score=coherence,
+                created_at=datetime.now(timezone.utc).isoformat(),
+                metadata={
+                    "source_memory_count": len(memory_fold_ids),
+                    "snapshot_count": len(ordered_snapshots),
+                    "quality_level": quality.value,
+                },
+            )
+
+            # Cache the sequence
+            self._cache_sequence(sequence)
+
+            self.sequences_created += 1
+            self.logger.info(f"Created replay sequence: {sequence_id} ({len(ordered_snapshots)} snapshots)")
+
+            return sequence_id
+
+        except Exception as e:
+            self.logger.error(f"Failed to create replay sequence: {e}")
+            return None
+
     def start_replay_session(
         self,
         sequence_id: str,
@@ -460,10 +317,107 @@ class MemoryReplayer:
         filters: Optional[dict[str, Any]] = None,
     ) -> Optional[str]:
         """Start a new replay session."""
+        try:
+            # Check session capacity
+            if len(self.active_sessions) >= self.max_active_sessions:
+                self.logger.warning("Maximum active sessions reached")
+                return None
+
+            # Get sequence
+            if sequence_id not in self.sequence_cache:
+                self.logger.error(f"Sequence not found: {sequence_id}")
+                return None
+
+            sequence = self.sequence_cache[sequence_id]
+
+            # Create session
+            session_id = f"session_{uuid.uuid4().hex[:6]}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+
+            session = ReplaySession(
+                session_id=session_id,
+                sequence=sequence,
+                current_position=0,
+                playback_speed=playback_speed or self.default_playback_speed,
+                loop_mode=loop_mode,
+                filters=filters or {},
+                started_at=datetime.now(timezone.utc).isoformat(),
+                last_accessed=datetime.now(timezone.utc).isoformat(),
+                access_count=0,
+            )
+
+            self.active_sessions[session_id] = session
+            self.sessions_started += 1
+
+            self.logger.info(f"Started replay session: {session_id}")
+            return session_id
+
+        except Exception as e:
+            self.logger.error(f"Failed to start replay session: {e}")
+            return None
+
     def get_next_memory(self, session_id: str) -> Optional[dict[str, Any]]:
         """Get the next memory in the replay sequence."""
+        try:
+            if session_id not in self.active_sessions:
+                self.logger.error(f"Session not found: {session_id}")
+                return None
+
+            session = self.active_sessions[session_id]
+            session.last_accessed = datetime.now(timezone.utc).isoformat()
+            session.access_count += 1
+
+            # Check if we've reached the end
+            if session.current_position >= len(session.sequence.snapshots):
+                if session.loop_mode:
+                    session.current_position = 0
+                else:
+                    return None
+
+            # Get current snapshot
+            snapshot = session.sequence.snapshots[session.current_position]
+
+            # Apply filters if any
+            filtered_content = self._apply_filters(snapshot, session.filters)
+
+            # Advance position
+            session.current_position += 1
+
+            # Return memory data
+            return {
+                "snapshot_id": snapshot.snapshot_id,
+                "memory_fold_id": snapshot.memory_fold_id,
+                "timestamp": snapshot.timestamp,
+                "content": filtered_content,
+                "emotional_state": snapshot.emotional_state,
+                "symbolic_weight": snapshot.symbolic_weight,
+                "position": session.current_position - 1,
+                "total_snapshots": len(session.sequence.snapshots),
+                "session_id": session_id,
+            }
+
+        except Exception as e:
+            self.logger.error(f"Failed to get next memory: {e}")
+            return None
+
     def seek_to_position(self, session_id: str, position: int) -> bool:
         """Seek to a specific position in the replay sequence."""
+        try:
+            if session_id not in self.active_sessions:
+                return False
+
+            session = self.active_sessions[session_id]
+
+            if 0 <= position < len(session.sequence.snapshots):
+                session.current_position = position
+                session.last_accessed = datetime.now(timezone.utc).isoformat()
+                return True
+
+            return False
+
+        except Exception as e:
+            self.logger.error(f"Failed to seek to position: {e}")
+            return False
+
     def find_memories_by_content(
         self, search_terms: list[str], time_range: Optional[tuple[str, str]] = None
     ) -> list[str]:
@@ -488,6 +442,33 @@ class MemoryReplayer:
 
     def create_associative_sequence(self, seed_memory_id: str, max_associations: int = 20) -> Optional[str]:
         """Create a replay sequence based on associative connections."""
+        try:
+            # Start with seed memory
+            associated_memories = [seed_memory_id]
+
+            # Find temporal neighbors
+            neighbors = self.temporal_index.find_temporal_neighbors(seed_memory_id)
+            associated_memories.extend(neighbors[: max_associations // 2])
+
+            # Find causal connections
+            causal_sequence = self.temporal_index.get_causal_sequence(seed_memory_id)
+            associated_memories.extend(causal_sequence[: max_associations // 2])
+
+            # Remove duplicates while preserving order
+            unique_memories = []
+            seen = set()
+            for memory_id in associated_memories:
+                if memory_id not in seen:
+                    unique_memories.append(memory_id)
+                    seen.add(memory_id)
+
+            # Create sequence
+            return self.create_replay_sequence(unique_memories, ReplayMode.ASSOCIATIVE, ReplayDirection.FORWARD)
+
+        except Exception as e:
+            self.logger.error(f"Failed to create associative sequence: {e}")
+            return None
+
     def get_session_status(self, session_id: str) -> Optional[dict[str, Any]]:
         """Get detailed status of a replay session."""
         if session_id not in self.active_sessions:
@@ -514,6 +495,26 @@ class MemoryReplayer:
 
     def close_session(self, session_id: str) -> bool:
         """Close an active replay session."""
+        try:
+            if session_id in self.active_sessions:
+                session = self.active_sessions[session_id]
+
+                # Update metrics
+                session_duration = (datetime.now(timezone.utc) - datetime.fromisoformat(session.started_at)).total_seconds()
+                self.total_replay_time += session_duration
+
+                # Remove session
+                del self.active_sessions[session_id]
+
+                self.logger.info(f"Closed replay session: {session_id}")
+                return True
+
+            return False
+
+        except Exception as e:
+            self.logger.error(f"Failed to close session: {e}")
+            return False
+
     def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive replay system status."""
         return {
@@ -642,6 +643,14 @@ def get_memory_replayer() -> MemoryReplayer:
 # Module interface functions
 def create_sequence(memory_fold_ids: list[str], mode: str = "chronological") -> Optional[str]:
     """Module-level function to create replay sequence."""
+    try:
+        replay_mode = ReplayMode(mode)
+        return default_memory_replayer.create_replay_sequence(memory_fold_ids, replay_mode)
+    except ValueError:
+        logger.error(f"Invalid replay mode: {mode}")
+        return None
+
+
 def start_session(sequence_id: str, **kwargs) -> Optional[str]:
     """Module-level function to start replay session."""
     return default_memory_replayer.start_replay_session(sequence_id, **kwargs)

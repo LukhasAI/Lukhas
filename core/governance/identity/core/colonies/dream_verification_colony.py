@@ -1,11 +1,11 @@
+from __future__ import annotations
+
 """
 Dream Verification Colony
 
 Specialized colony for Tier 5 dream-based authentication using multiverse simulation,
 collective dream analysis, and emergent symbolic pattern recognition.
 """
-
-from __future__ import annotations
 
 import asyncio
 import hashlib
@@ -22,10 +22,19 @@ import numpy as np
 # Import colony infrastructure
 from core.colonies.base_colony import BaseColony, ConsensusResult
 from core.enhanced_swarm import (
+    AgentCapability,
+    AgentMemory,
+    AgentState,
+    EnhancedSwarmAgent as SwarmAgent,
+)
+
+# Import event bus for dream coordination
 try:
     from orchestration.symbolic_kernel_bus import DreamEventType
 except ImportError:
+    DreamEventType = None
 
+# Import dream system components
 try:
     from governance.identity.core.auth.dream_auth import (
         DreamAuthenticationResult,
@@ -35,203 +44,19 @@ try:
         DreamSymbol,
     )
 except ImportError:
+    DreamAuthenticationResult = None
     DreamAuthenticator = None
     DreamPattern = None
     DreamSeed = None
     DreamSymbol = None
 
+# Import identity events
 try:
     from governance.identity.core.events import IdentityEventPublisher, IdentityEventType
 except ImportError:
+    IdentityEventPublisher = None
     IdentityEventType = None
 
-        try:
-            # Route to specialized analysis
-            if self.specialization == DreamAnalysisMethod.SYMBOLIC_INTERPRETATION:
-                result = await self._analyze_symbolic_content(branch, dream_seed)
-            elif self.specialization == DreamAnalysisMethod.NARRATIVE_COHERENCE:
-                result = await self._analyze_narrative_structure(branch, historical_patterns)
-            elif self.specialization == DreamAnalysisMethod.EMOTIONAL_RESONANCE:
-                result = await self._analyze_emotional_patterns(branch, dream_seed)
-            elif self.specialization == DreamAnalysisMethod.ARCHETYPAL_MAPPING:
-                result = await self._analyze_archetypal_presence(branch)
-            elif self.specialization == DreamAnalysisMethod.MULTIVERSE_CORRELATION:
-                result = await self._analyze_multiverse_convergence(branch, self.explored_branches)
-            elif self.specialization == DreamAnalysisMethod.TEMPORAL_THREADING:
-                result = await self._analyze_temporal_consistency(branch, historical_patterns)
-            elif self.specialization == DreamAnalysisMethod.COLLECTIVE_UNCONSCIOUS:
-                result = await self._analyze_collective_patterns(branch)
-            else:  # QUANTUM_ENTANGLEMENT
-                result = await self._analyze_quantum_signatures(branch)
-
-            # Add common metadata
-            result["agent_id"] = self.agent_id
-            result["branch_id"] = branch.branch_id
-            result["specialization"] = self.specialization.value
-            result["processing_time"] = time.time() - start_time
-
-            # Update metrics
-            self.dreams_analyzed += 1
-            self.explored_branches.add(branch.branch_id)
-
-            # Store in dream memory
-            self.dream_memory.remember(f"branch_{branch.branch_id}", result, term="long")
-
-            return result
-
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "agent_id": self.agent_id,
-                "branch_id": branch.branch_id,
-            }
-
-        from core.event_bus import get_global_event_bus
-        from governance.identity.core.events import get_identity_event_publisher
-        try:
-            # Get dream seed and historical patterns
-            dream_seed = await self.dream_authenticator._get_dream_seed(lambda_id, seed_id)
-            if not dream_seed:
-                raise ValueError("Invalid dream seed")
-
-            historical_patterns = self.dream_authenticator.user_dream_patterns.get(lambda_id, [])
-
-            # Create verification task
-            task = DreamVerificationTask(
-                task_id=task_id,
-                lambda_id=lambda_id,
-                dream_response=dream_response,
-                dream_seed=dream_seed,
-                historical_dreams=historical_patterns,
-                tier_level=5,
-                multiverse_branches=self.multiverse_branches,
-                collective_analysis_required=True,
-                qi_verification=True,
-            )
-
-            # Publish dream auth initiated event
-            await self.event_publisher.publish_identity_event(
-                IdentityEventType.DREAM_AUTH_INITIATED,
-                lambda_id=lambda_id,
-                tier_level=5,
-                session_id=session_id,
-                correlation_id=correlation_id,
-                additional_data={
-                    "seed_id": seed_id,
-                    "multiverse_branches": self.multiverse_branches,
-                },
-            )
-
-            # Simulate multiverse dream branches
-            dream_branches = await self._simulate_multiverse_dreams(task)
-
-            # Distribute analysis across agents
-            analysis_results = await self._analyze_dream_branches(dream_branches, task)
-
-            # Perform collective analysis
-            collective_insights = await self._perform_collective_analysis(analysis_results, dream_branches, lambda_id)
-
-            # Perform quantum verification
-            qi_result = await self._perform_quantum_verification(dream_branches, analysis_results, lambda_id)
-
-            # Build final consensus
-            consensus = await self._build_dream_consensus(analysis_results, collective_insights, qi_result)
-
-            # Create authentication result
-            auth_result = DreamAuthenticationResult(
-                authenticated=consensus.consensus_reached and consensus.decision,
-                confidence=consensus.confidence,
-                dream_coherence=collective_insights["overall_coherence"],
-                symbolic_matches=collective_insights["symbolic_convergence"],
-                temporal_consistency=collective_insights["temporal_alignment"],
-                consciousness_signature=self._generate_consciousness_signature(analysis_results),
-                authentication_timestamp=datetime.now(timezone.utc),
-                multiverse_correlation=qi_result["multiverse_correlation"],
-                verification_method="multiverse_dream_colony",
-            )
-
-            # Update metrics
-            self.total_verifications += 1
-            if auth_result.authenticated:
-                self.successful_verifications += 1
-
-            # Complete dream coordination
-            await self.event_bus.complete_dream_coordination(
-                dream_id=task_id,
-                correlation_id=correlation_id,
-                dream_result={
-                    "authenticated": auth_result.authenticated,
-                    "confidence": auth_result.confidence,
-                    "branches_analyzed": len(dream_branches),
-                    "collective_insights": collective_insights,
-                    "qi_verification": qi_result,
-                },
-                user_id=lambda_id,
-            )
-
-            # Publish completion event
-            await self.event_publisher.publish_identity_event(
-                IdentityEventType.DREAM_VERIFICATION_COMPLETE,
-                lambda_id=lambda_id,
-                tier_level=5,
-                session_id=session_id,
-                correlation_id=correlation_id,
-                additional_data={
-                    "authenticated": auth_result.authenticated,
-                    "confidence": auth_result.confidence,
-                    "multiverse_correlation": auth_result.multiverse_correlation,
-                },
-            )
-
-            return auth_result
-
-        except Exception as e:
-
-            # Create failure result
-            auth_result = DreamAuthenticationResult(
-                authenticated=False,
-                confidence=0.0,
-                dream_coherence=0.0,
-                symbolic_matches=[],
-                temporal_consistency=0.0,
-                consciousness_signature="",
-                authentication_timestamp=datetime.now(timezone.utc),
-                error_message=str(e),
-            )
-
-            return auth_result
-
-            try:
-                await asyncio.sleep(600)  # Every 10 minutes
-
-                # Analyze collective patterns
-                if self.collective_dream_space:
-                    # Extract universal themes
-                    universal_themes = self._extract_universal_themes()
-
-                    # Update shared archetypes
-                    self._update_shared_archetypes(universal_themes)
-
-                    # Clean old quantum entanglements
-                    self._clean_quantum_entanglements()
-
-                    logger.info(f"Collective dream space updated: {len(universal_themes)} themes")
-
-            except Exception as e:
-                await asyncio.sleep(60)
-
-        import copy
-
-    AgentCapability,
-    AgentMemory,
-    AgentState,
-    EnhancedSwarmAgent as SwarmAgent,
-)
-
-# Import event bus for dream coordination
-# Import dream system components
-# Import identity events
 logger = logging.getLogger("LUKHAS_DREAM_COLONY")
 
 
@@ -322,6 +147,49 @@ class DreamAnalysisAgent(SwarmAgent):
     ) -> dict[str, Any]:
         """Analyze a single dream branch from multiverse simulation."""
         start_time = time.time()
+
+        try:
+            # Route to specialized analysis
+            if self.specialization == DreamAnalysisMethod.SYMBOLIC_INTERPRETATION:
+                result = await self._analyze_symbolic_content(branch, dream_seed)
+            elif self.specialization == DreamAnalysisMethod.NARRATIVE_COHERENCE:
+                result = await self._analyze_narrative_structure(branch, historical_patterns)
+            elif self.specialization == DreamAnalysisMethod.EMOTIONAL_RESONANCE:
+                result = await self._analyze_emotional_patterns(branch, dream_seed)
+            elif self.specialization == DreamAnalysisMethod.ARCHETYPAL_MAPPING:
+                result = await self._analyze_archetypal_presence(branch)
+            elif self.specialization == DreamAnalysisMethod.MULTIVERSE_CORRELATION:
+                result = await self._analyze_multiverse_convergence(branch, self.explored_branches)
+            elif self.specialization == DreamAnalysisMethod.TEMPORAL_THREADING:
+                result = await self._analyze_temporal_consistency(branch, historical_patterns)
+            elif self.specialization == DreamAnalysisMethod.COLLECTIVE_UNCONSCIOUS:
+                result = await self._analyze_collective_patterns(branch)
+            else:  # QUANTUM_ENTANGLEMENT
+                result = await self._analyze_quantum_signatures(branch)
+
+            # Add common metadata
+            result["agent_id"] = self.agent_id
+            result["branch_id"] = branch.branch_id
+            result["specialization"] = self.specialization.value
+            result["processing_time"] = time.time() - start_time
+
+            # Update metrics
+            self.dreams_analyzed += 1
+            self.explored_branches.add(branch.branch_id)
+
+            # Store in dream memory
+            self.dream_memory.remember(f"branch_{branch.branch_id}", result, term="long")
+
+            return result
+
+        except Exception as e:
+            logger.error(f"Dream analysis error in agent {self.agent_id}: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "agent_id": self.agent_id,
+                "branch_id": branch.branch_id,
+            }
 
     async def _analyze_symbolic_content(self, branch: MultiverseDreamBranch, dream_seed: DreamSeed) -> dict[str, Any]:
         """Analyze symbolic content and meaning."""
@@ -699,6 +567,8 @@ class DreamVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event systems
+        from core.event_bus import get_global_event_bus
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
         self.event_bus = await get_global_event_bus()
@@ -746,6 +616,120 @@ class DreamVerificationColony(BaseColony):
                 "qi_enabled": True,
             },
         )
+
+        try:
+            # Get dream seed and historical patterns
+            dream_seed = await self.dream_authenticator._get_dream_seed(lambda_id, seed_id)
+            if not dream_seed:
+                raise ValueError("Invalid dream seed")
+
+            historical_patterns = self.dream_authenticator.user_dream_patterns.get(lambda_id, [])
+
+            # Create verification task
+            task = DreamVerificationTask(
+                task_id=task_id,
+                lambda_id=lambda_id,
+                dream_response=dream_response,
+                dream_seed=dream_seed,
+                historical_dreams=historical_patterns,
+                tier_level=5,
+                multiverse_branches=self.multiverse_branches,
+                collective_analysis_required=True,
+                qi_verification=True,
+            )
+
+            # Publish dream auth initiated event
+            await self.event_publisher.publish_identity_event(
+                IdentityEventType.DREAM_AUTH_INITIATED,
+                lambda_id=lambda_id,
+                tier_level=5,
+                session_id=session_id,
+                correlation_id=correlation_id,
+                additional_data={
+                    "seed_id": seed_id,
+                    "multiverse_branches": self.multiverse_branches,
+                },
+            )
+
+            # Simulate multiverse dream branches
+            dream_branches = await self._simulate_multiverse_dreams(task)
+
+            # Distribute analysis across agents
+            analysis_results = await self._analyze_dream_branches(dream_branches, task)
+
+            # Perform collective analysis
+            collective_insights = await self._perform_collective_analysis(analysis_results, dream_branches, lambda_id)
+
+            # Perform quantum verification
+            qi_result = await self._perform_quantum_verification(dream_branches, analysis_results, lambda_id)
+
+            # Build final consensus
+            consensus = await self._build_dream_consensus(analysis_results, collective_insights, qi_result)
+
+            # Create authentication result
+            auth_result = DreamAuthenticationResult(
+                authenticated=consensus.consensus_reached and consensus.decision,
+                confidence=consensus.confidence,
+                dream_coherence=collective_insights["overall_coherence"],
+                symbolic_matches=collective_insights["symbolic_convergence"],
+                temporal_consistency=collective_insights["temporal_alignment"],
+                consciousness_signature=self._generate_consciousness_signature(analysis_results),
+                authentication_timestamp=datetime.now(timezone.utc),
+                multiverse_correlation=qi_result["multiverse_correlation"],
+                verification_method="multiverse_dream_colony",
+            )
+
+            # Update metrics
+            self.total_verifications += 1
+            if auth_result.authenticated:
+                self.successful_verifications += 1
+
+            # Complete dream coordination
+            await self.event_bus.complete_dream_coordination(
+                dream_id=task_id,
+                correlation_id=correlation_id,
+                dream_result={
+                    "authenticated": auth_result.authenticated,
+                    "confidence": auth_result.confidence,
+                    "branches_analyzed": len(dream_branches),
+                    "collective_insights": collective_insights,
+                    "qi_verification": qi_result,
+                },
+                user_id=lambda_id,
+            )
+
+            # Publish completion event
+            await self.event_publisher.publish_identity_event(
+                IdentityEventType.DREAM_VERIFICATION_COMPLETE,
+                lambda_id=lambda_id,
+                tier_level=5,
+                session_id=session_id,
+                correlation_id=correlation_id,
+                additional_data={
+                    "authenticated": auth_result.authenticated,
+                    "confidence": auth_result.confidence,
+                    "multiverse_correlation": auth_result.multiverse_correlation,
+                },
+            )
+
+            return auth_result
+
+        except Exception as e:
+            logger.error(f"Dream verification error: {e}")
+
+            # Create failure result
+            auth_result = DreamAuthenticationResult(
+                authenticated=False,
+                confidence=0.0,
+                dream_coherence=0.0,
+                symbolic_matches=[],
+                temporal_consistency=0.0,
+                consciousness_signature="",
+                authentication_timestamp=datetime.now(timezone.utc),
+                error_message=str(e),
+            )
+
+            return auth_result
 
     async def _simulate_multiverse_dreams(self, task: DreamVerificationTask) -> list[MultiverseDreamBranch]:
         """Simulate multiple dream branches for multiverse analysis."""
@@ -1033,12 +1017,33 @@ class DreamVerificationColony(BaseColony):
     async def _maintain_collective_dream_space(self):
         """Maintain the collective dream space for the colony."""
         while True:
+            try:
+                await asyncio.sleep(600)  # Every 10 minutes
+
+                # Analyze collective patterns
+                if self.collective_dream_space:
+                    # Extract universal themes
+                    universal_themes = self._extract_universal_themes()
+
+                    # Update shared archetypes
+                    self._update_shared_archetypes(universal_themes)
+
+                    # Clean old quantum entanglements
+                    self._clean_quantum_entanglements()
+
+                    logger.info(f"Collective dream space updated: {len(universal_themes)} themes")
+
+            except Exception as e:
+                logger.error(f"Collective dream space maintenance error: {e}")
+                await asyncio.sleep(60)
+
     # Helper methods for dream analysis
 
     async def _create_dream_variation(
         self, base_response: dict[str, Any], dream_seed: DreamSeed, variation_index: int
     ) -> dict[str, Any]:
         """Create a variation of the base dream response."""
+        import copy
 
         variation = copy.deepcopy(base_response)
 

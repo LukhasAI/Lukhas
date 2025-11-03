@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌐 LUKHAS DASHBOARD WEBSOCKET SERVER
@@ -41,8 +44,6 @@
 ║ ΛTAG: ΛWEBSOCKET, ΛSTREAMING, ΛREALTIME, ΛDASHBOARD, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-
-from __future__ import annotations
 import asyncio
 import builtins
 import contextlib
@@ -58,298 +59,21 @@ import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from products.experience.dashboard.interfaces.core.dashboard_colony_agent import (
+    create_dashboard_colony_swarm,
+)
 from products.experience.dashboard.interfaces.core.dynamic_tab_system import DynamicTabSystem
 from products.experience.dashboard.interfaces.core.morphing_engine import MorphingEngine
 from products.experience.dashboard.interfaces.core.self_healing_manager import SelfHealingManager
-from products.experience.dashboard.interfaces.core.universal_adaptive_dashboard import (
-from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
-from core.oracle_nervous_system import get_oracle_nervous_system
-        try:
-            # Initialize dashboard system components
-            await self._initialize_dashboard_components()
-
-            # Initialize LUKHAS system integration
-            await self._initialize_lukhas_integration()
-
-            # Setup stream handlers
-            await self._setup_stream_handlers()
-
-            # Start background tasks
-            await self._start_background_tasks()
-
-            self.logger.info("Dashboard WebSocket Server fully initialized")
-
-        except Exception as e:
-            raise
-
-        try:
-            # Oracle Nervous System integration
-            self.oracle_nervous_system = await get_oracle_nervous_system()
-            self.logger.info("Oracle Nervous System integrated")
-
-            # Ethics Swarm Colony integration
-            self.ethics_swarm = await get_ethics_swarm_colony()
-            self.logger.info("Ethics Swarm Colony integrated")
-
-        except Exception as e:
-            # Server continues with reduced functionality
-
-        try:
-            # Parse stream type
-            try:
-                requested_stream = StreamType(stream_type)
-            except ValueError:
-                return
-
-            # Accept connection
-            await websocket.accept()
-
-            # Create client
-            client_id = str(uuid.uuid4())
-            client = StreamClient(
-                client_id=client_id,
-                websocket=websocket,
-                subscribed_streams=(
-                    {requested_stream} if requested_stream != StreamType.ALL_STREAMS else set(StreamType)
-                ),
-                connected_at=datetime.now(timezone.utc),
-                last_activity=datetime.now(timezone.utc),
-            )
-
-            # Add to clients
-            async with self.client_lock:
-                self.clients[client_id] = client
-                self.performance_metrics["clients_connected"] = len(self.clients)
-
-            self.logger.info(
-                "Client connected",
-                client_id=client_id,
-                stream_type=stream_type,
-                total_clients=len(self.clients),
-            )
-
-            # Send welcome message
-            await self._send_welcome_message(client)
-
-            # Handle client messages
-            try:
-                while True:
-                    message = await websocket.receive_text()
-                    await self._handle_client_message(client, message)
-                    client.last_activity = datetime.now(timezone.utc)
-
-            except WebSocketDisconnect:
-                self.logger.info("Client disconnected", client_id=client_id)
-            except Exception as e:
-                self.logger.error(
-                    "Client communication error",
-                    client_id=client_id,
-                    error=str(e),
-                )
-
-        try:
-            data = json.loads(message)
-            message_type = data.get("type", "unknown")
-
-            if message_type == "subscribe":
-                # Handle stream subscription
-                stream_types = data.get("streams", [])
-                for stream_type_str in stream_types:
-                    try:
-                        stream_type = StreamType(stream_type_str)
-                        client.subscribed_streams.add(stream_type)
-                    except ValueError:
-
-                response = {
-                    "type": "subscription_updated",
-                    "subscribed_streams": [s.value for s in client.subscribed_streams],
-                }
-                await client.websocket.send_text(json.dumps(response))
-
-            elif message_type == "unsubscribe":
-                # Handle stream unsubscription
-                stream_types = data.get("streams", [])
-                for stream_type_str in stream_types:
-                    try:
-                        stream_type = StreamType(stream_type_str)
-                        client.subscribed_streams.discard(stream_type)
-                    except ValueError:
-                        pass
-
-                response = {
-                    "type": "subscription_updated",
-                    "subscribed_streams": [s.value for s in client.subscribed_streams],
-                }
-                await client.websocket.send_text(json.dumps(response))
-
-            elif message_type == "dashboard_interaction":
-                # Handle dashboard interaction events
-                await self._handle_dashboard_interaction(client, data)
-
-            try:
-                # Get message from queue
-                message = await self.message_queue.get()
-
-                # Find target clients
-                target_clients = []
-                async with self.client_lock:
-                    for client in self.clients.values():
-                        # Check if client is subscribed to this stream type
-                        if (
-                            message.stream_type in client.subscribed_streams
-                            or StreamType.ALL_STREAMS in client.subscribed_streams
-                        ):
-                            # Check if message is targeted to specific clients
-                            if message.target_clients is None or client.client_id in message.target_clients:
-                                target_clients.append(client)
-
-                # Broadcast to target clients
-                broadcast_data = {
-                    "message_id": message.message_id,
-                    "stream_type": message.stream_type.value,
-                    "data": message.data,
-                    "timestamp": message.timestamp.isoformat(),
-                    "priority": message.priority,
-                }
-
-                broadcast_json = json.dumps(broadcast_data)
-
-                for client in target_clients:
-                    try:
-                        await client.websocket.send_text(broadcast_json)
-                        self.performance_metrics["messages_sent"] += 1
-                    except Exception as e:
-                            "Failed to send message to client",
-                            client_id=client.client_id,
-                            error=str(e),
-                        )
-                        # Client will be cleaned up by cleanup task
-
-            try:
-                # Get stream handler
-                handler = self.stream_handlers.get(stream_type)
-                if handler:
-                    # Collect data
-                    data = await handler()
-
-                    # Broadcast if data available
-                    if data:
-                        await self.broadcast_message(stream_type, data)
-
-                await asyncio.sleep(interval)
-
-            except Exception as e:
-                    f"Data collector error for {stream_type.value}",
-                    error=str(e),
-                )
-                await asyncio.sleep(interval * 2)
-
-            try:
-                current_time = datetime.now(timezone.utc)
-                cleanup_threshold = timedelta(minutes=5)
-
-                clients_to_remove = []
-                async with self.client_lock:
-                    for client_id, client in self.clients.items():
-                        # Check if client has been inactive too long
-                        if current_time - client.last_activity > cleanup_threshold:
-                            clients_to_remove.append(client_id)
-
-                    # Remove inactive clients
-                    for client_id in clients_to_remove:
-                        del self.clients[client_id]
-                        self.logger.info("Cleaned up inactive client", client_id=client_id)
-
-                    if clients_to_remove:
-                        self.performance_metrics["clients_connected"] = len(self.clients)
-
-                await asyncio.sleep(60)  # Run cleanup every minute
-
-            except Exception as e:
-                await asyncio.sleep(60)
-
-            try:
-                # Update performance metrics
-                # This would include latency calculations, error rates, etc.
-
-                # Log performance periodically
-                self.logger.info(
-                    "Server performance metrics",
-                    clients=len(self.clients),
-                    messages_sent=self.performance_metrics["messages_sent"],
-                )
-
-                await asyncio.sleep(300)  # Every 5 minutes
-
-            except Exception as e:
-                await asyncio.sleep(300)
-
-        try:
-            status = await self.oracle_nervous_system.get_system_status()
-            return {
-                "oracle_status": status,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-        except Exception as e:
-            return None
-
-        try:
-            status = await self.ethics_swarm.get_system_status()
-            return {
-                "ethics_status": status,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-        except Exception as e:
-            return None
-
-        try:
-            health_status = await self.healing_manager.get_system_health_status()
-            return {
-                "system_health": health_status,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-        except Exception as e:
-            return None
-
-        try:
-            coordination_data = {
-                "active_agents": len(self.colony_agents),
-                "agent_status": [
-                    {
-                        "agent_id": agent.colony_id,
-                        "role": agent.agent_role.value,
-                        "is_running": agent.is_running,
-                    }
-                    for agent in self.colony_agents
-                ],
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-            return coordination_data
-        except Exception as e:
-            return None
-
-        try:
-            tab_predictions = await self.tab_system.predict_tab_needs()
-            morph_predictions = await self.morphing_engine.predict_morph_needs()
-
-            return {
-                "tab_predictions": tab_predictions,
-                "morph_predictions": morph_predictions,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-        except Exception as e:
-            return None
-
-
-    create_dashboard_colony_swarm,
-)
 
 # Dashboard system imports
+from products.experience.dashboard.interfaces.core.universal_adaptive_dashboard import (
     UniversalAdaptiveDashboard,
 )
 
+from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 
 # LUKHAS system imports
+from core.oracle_nervous_system import get_oracle_nervous_system
 
 logger = logging.getLogger("ΛTRACE.websocket_server")
 
@@ -483,6 +207,25 @@ class DashboardWebSocketServer:
         self.start_time = datetime.now(timezone.utc)
         self.logger.info("Initializing Dashboard WebSocket Server")
 
+        try:
+            # Initialize dashboard system components
+            await self._initialize_dashboard_components()
+
+            # Initialize LUKHAS system integration
+            await self._initialize_lukhas_integration()
+
+            # Setup stream handlers
+            await self._setup_stream_handlers()
+
+            # Start background tasks
+            await self._start_background_tasks()
+
+            self.logger.info("Dashboard WebSocket Server fully initialized")
+
+        except Exception as e:
+            self.logger.error("WebSocket server initialization failed", error=str(e))
+            raise
+
     async def _initialize_dashboard_components(self):
         """Initialize dashboard system components."""
 
@@ -509,6 +252,19 @@ class DashboardWebSocketServer:
 
     async def _initialize_lukhas_integration(self):
         """Initialize integration with LUKHAS AI systems."""
+
+        try:
+            # Oracle Nervous System integration
+            self.oracle_nervous_system = await get_oracle_nervous_system()
+            self.logger.info("Oracle Nervous System integrated")
+
+            # Ethics Swarm Colony integration
+            self.ethics_swarm = await get_ethics_swarm_colony()
+            self.logger.info("Ethics Swarm Colony integrated")
+
+        except Exception as e:
+            self.logger.warning("Some LUKHAS systems unavailable", error=str(e))
+            # Server continues with reduced functionality
 
     async def _setup_stream_handlers(self):
         """Setup handlers for different stream types."""
@@ -548,6 +304,60 @@ class DashboardWebSocketServer:
     async def handle_websocket_connection(self, websocket: WebSocket, stream_type: str):
         """Handle new WebSocket connections."""
 
+        try:
+            # Parse stream type
+            try:
+                requested_stream = StreamType(stream_type)
+            except ValueError:
+                await websocket.close(code=4000, reason=f"Invalid stream type: {stream_type}")
+                return
+
+            # Accept connection
+            await websocket.accept()
+
+            # Create client
+            client_id = str(uuid.uuid4())
+            client = StreamClient(
+                client_id=client_id,
+                websocket=websocket,
+                subscribed_streams=(
+                    {requested_stream} if requested_stream != StreamType.ALL_STREAMS else set(StreamType)
+                ),
+                connected_at=datetime.now(timezone.utc),
+                last_activity=datetime.now(timezone.utc),
+            )
+
+            # Add to clients
+            async with self.client_lock:
+                self.clients[client_id] = client
+                self.performance_metrics["clients_connected"] = len(self.clients)
+
+            self.logger.info(
+                "Client connected",
+                client_id=client_id,
+                stream_type=stream_type,
+                total_clients=len(self.clients),
+            )
+
+            # Send welcome message
+            await self._send_welcome_message(client)
+
+            # Handle client messages
+            try:
+                while True:
+                    message = await websocket.receive_text()
+                    await self._handle_client_message(client, message)
+                    client.last_activity = datetime.now(timezone.utc)
+
+            except WebSocketDisconnect:
+                self.logger.info("Client disconnected", client_id=client_id)
+            except Exception as e:
+                self.logger.error(
+                    "Client communication error",
+                    client_id=client_id,
+                    error=str(e),
+                )
+
         except Exception as e:
             self.logger.error("WebSocket connection error", error=str(e))
 
@@ -574,6 +384,46 @@ class DashboardWebSocketServer:
 
     async def _handle_client_message(self, client: StreamClient, message: str):
         """Handle messages from clients."""
+
+        try:
+            data = json.loads(message)
+            message_type = data.get("type", "unknown")
+
+            if message_type == "subscribe":
+                # Handle stream subscription
+                stream_types = data.get("streams", [])
+                for stream_type_str in stream_types:
+                    try:
+                        stream_type = StreamType(stream_type_str)
+                        client.subscribed_streams.add(stream_type)
+                    except ValueError:
+                        pass
+
+                response = {
+                    "type": "subscription_updated",
+                    "subscribed_streams": [s.value for s in client.subscribed_streams],
+                }
+                await client.websocket.send_text(json.dumps(response))
+
+            elif message_type == "unsubscribe":
+                # Handle stream unsubscription
+                stream_types = data.get("streams", [])
+                for stream_type_str in stream_types:
+                    try:
+                        stream_type = StreamType(stream_type_str)
+                        client.subscribed_streams.discard(stream_type)
+                    except ValueError:
+                        pass
+
+                response = {
+                    "type": "subscription_updated",
+                    "subscribed_streams": [s.value for s in client.subscribed_streams],
+                }
+                await client.websocket.send_text(json.dumps(response))
+
+            elif message_type == "dashboard_interaction":
+                # Handle dashboard interaction events
+                await self._handle_dashboard_interaction(client, data)
 
         except json.JSONDecodeError:
             self.logger.warning("Invalid JSON from client", client_id=client.client_id)
@@ -624,6 +474,46 @@ class DashboardWebSocketServer:
     async def _message_broadcaster(self):
         """Background task to broadcast messages to clients."""
         while True:
+            try:
+                # Get message from queue
+                message = await self.message_queue.get()
+
+                # Find target clients
+                target_clients = []
+                async with self.client_lock:
+                    for client in self.clients.values():
+                        # Check if client is subscribed to this stream type
+                        if (
+                            message.stream_type in client.subscribed_streams
+                            or StreamType.ALL_STREAMS in client.subscribed_streams
+                        ):
+                            # Check if message is targeted to specific clients
+                            if message.target_clients is None or client.client_id in message.target_clients:
+                                target_clients.append(client)
+
+                # Broadcast to target clients
+                broadcast_data = {
+                    "message_id": message.message_id,
+                    "stream_type": message.stream_type.value,
+                    "data": message.data,
+                    "timestamp": message.timestamp.isoformat(),
+                    "priority": message.priority,
+                }
+
+                broadcast_json = json.dumps(broadcast_data)
+
+                for client in target_clients:
+                    try:
+                        await client.websocket.send_text(broadcast_json)
+                        self.performance_metrics["messages_sent"] += 1
+                    except Exception as e:
+                        self.logger.error(
+                            "Failed to send message to client",
+                            client_id=client.client_id,
+                            error=str(e),
+                        )
+                        # Client will be cleaned up by cleanup task
+
             except Exception as e:
                 self.logger.error("Message broadcaster error", error=str(e))
                 await asyncio.sleep(1)
@@ -646,12 +536,74 @@ class DashboardWebSocketServer:
         interval = collection_intervals.get(stream_type, 5)
 
         while True:
+            try:
+                # Get stream handler
+                handler = self.stream_handlers.get(stream_type)
+                if handler:
+                    # Collect data
+                    data = await handler()
+
+                    # Broadcast if data available
+                    if data:
+                        await self.broadcast_message(stream_type, data)
+
+                await asyncio.sleep(interval)
+
+            except Exception as e:
+                self.logger.error(
+                    f"Data collector error for {stream_type.value}",
+                    error=str(e),
+                )
+                await asyncio.sleep(interval * 2)
+
     async def _client_cleanup_task(self):
         """Background task to clean up disconnected clients."""
         while True:
+            try:
+                current_time = datetime.now(timezone.utc)
+                cleanup_threshold = timedelta(minutes=5)
+
+                clients_to_remove = []
+                async with self.client_lock:
+                    for client_id, client in self.clients.items():
+                        # Check if client has been inactive too long
+                        if current_time - client.last_activity > cleanup_threshold:
+                            clients_to_remove.append(client_id)
+
+                    # Remove inactive clients
+                    for client_id in clients_to_remove:
+                        del self.clients[client_id]
+                        self.logger.info("Cleaned up inactive client", client_id=client_id)
+
+                    if clients_to_remove:
+                        self.performance_metrics["clients_connected"] = len(self.clients)
+
+                await asyncio.sleep(60)  # Run cleanup every minute
+
+            except Exception as e:
+                self.logger.error("Client cleanup error", error=str(e))
+                await asyncio.sleep(60)
+
     async def _performance_monitor(self):
         """Background task to monitor server performance."""
         while True:
+            try:
+                # Update performance metrics
+                # This would include latency calculations, error rates, etc.
+
+                # Log performance periodically
+                self.logger.info(
+                    "Server performance metrics",
+                    clients=len(self.clients),
+                    messages_sent=self.performance_metrics["messages_sent"],
+                )
+
+                await asyncio.sleep(300)  # Every 5 minutes
+
+            except Exception as e:
+                self.logger.error("Performance monitoring error", error=str(e))
+                await asyncio.sleep(300)
+
     # Stream handler methods
 
     async def _handle_oracle_metrics_stream(self) -> Optional[dict[str, Any]]:
@@ -659,14 +611,44 @@ class DashboardWebSocketServer:
         if not self.oracle_nervous_system:
             return None
 
+        try:
+            status = await self.oracle_nervous_system.get_system_status()
+            return {
+                "oracle_status": status,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        except Exception as e:
+            self.logger.error("Oracle metrics stream error", error=str(e))
+            return None
+
     async def _handle_ethics_swarm_stream(self) -> Optional[dict[str, Any]]:
         """Handle Ethics Swarm stream."""
         if not self.ethics_swarm:
             return None
 
+        try:
+            status = await self.ethics_swarm.get_system_status()
+            return {
+                "ethics_status": status,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        except Exception as e:
+            self.logger.error("Ethics swarm stream error", error=str(e))
+            return None
+
     async def _handle_system_health_stream(self) -> Optional[dict[str, Any]]:
         """Handle system health stream."""
         if not self.healing_manager:
+            return None
+
+        try:
+            health_status = await self.healing_manager.get_system_health_status()
+            return {
+                "system_health": health_status,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        except Exception as e:
+            self.logger.error("System health stream error", error=str(e))
             return None
 
     async def _handle_morphing_events_stream(self) -> Optional[dict[str, Any]]:
@@ -686,6 +668,24 @@ class DashboardWebSocketServer:
         if not self.colony_agents:
             return None
 
+        try:
+            coordination_data = {
+                "active_agents": len(self.colony_agents),
+                "agent_status": [
+                    {
+                        "agent_id": agent.colony_id,
+                        "role": agent.agent_role.value,
+                        "is_running": agent.is_running,
+                    }
+                    for agent in self.colony_agents
+                ],
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+            return coordination_data
+        except Exception as e:
+            self.logger.error("Colony coordination stream error", error=str(e))
+            return None
+
     async def _handle_performance_metrics_stream(
         self,
     ) -> Optional[dict[str, Any]]:
@@ -698,6 +698,19 @@ class DashboardWebSocketServer:
     async def _handle_predictions_stream(self) -> Optional[dict[str, Any]]:
         """Handle predictions stream."""
         if not (self.tab_system and self.morphing_engine):
+            return None
+
+        try:
+            tab_predictions = await self.tab_system.predict_tab_needs()
+            morph_predictions = await self.morphing_engine.predict_morph_needs()
+
+            return {
+                "tab_predictions": tab_predictions,
+                "morph_predictions": morph_predictions,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        except Exception as e:
+            self.logger.error("Predictions stream error", error=str(e))
             return None
 
     async def _get_system_health_summary(self) -> dict[str, Any]:

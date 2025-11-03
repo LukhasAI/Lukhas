@@ -27,8 +27,6 @@
 ║ ΛTAG: ΛIDENTITY, ΛCOLONY, ΛQUANTUM, ΛAGI, ΛSECURITY
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-
-from __future__ import annotations
 import logging
 import time
 from abc import ABC, abstractmethod
@@ -41,6 +39,7 @@ try:
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:
+    BASE_COLONY_AVAILABLE = False
     BaseColony = object
 
 # Import quantum identity management
@@ -55,6 +54,7 @@ try:
 
     QUANTUM_IDENTITY_AVAILABLE = True
 except ImportError:
+    QUANTUM_IDENTITY_AVAILABLE = False
 
 # Import Oracle & Ethics integration
 try:
@@ -63,6 +63,7 @@ try:
 
     ORACLE_ETHICS_AVAILABLE = True
 except ImportError:
+    ORACLE_ETHICS_AVAILABLE = False
 
 # Import consciousness integration
 try:
@@ -72,157 +73,7 @@ try:
 
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:
-
-            try:
-                self.qi_identity_manager = get_quantum_identity_manager()
-                self.logger.info("Quantum identity management integration enabled")
-            except Exception as e:
-                self.qi_identity_manager = None
-            try:
-                # These would be initialized by the nervous system hub
-                # For now, we'll indicate they're available for integration
-                self.logger.info("Oracle & Ethics integration enabled")
-            except Exception as e:
-
-        try:
-            # Execute the actual task with identity context
-            result = await self._execute_identity_aware_task(
-                task_id,
-                task_data,
-                user_context,
-                oracle_insights,
-                ethics_approval,
-                consciousness_context,
-            )
-
-            # Post-quantum audit logging
-            await self._log_identity_audit(user_context, task_id, operation, "success", result)
-
-            # Update user behavior patterns
-            await self._update_user_patterns(user_context, task_data, result)
-
-            return result
-
-        except Exception as e:
-            await self._log_identity_audit(user_context, task_id, operation, "error", {"error": str(e)})
-            raise
-
-        try:
-            # Verify quantum signature and collapse hash
-            if user_context.qi_signature and user_context.collapse_hash:
-                # Quantum validation would happen here
-                # For now, we'll validate basic context integrity
-                pass
-
-            # Check identity expiration
-            if user_context.expires_at and user_context.expires_at < datetime.now(timezone.utc):
-                raise IdentityValidationError("User identity has expired")
-
-            # Update active contexts
-            self.active_user_contexts[user_context.user_id] = user_context
-
-        except Exception as e:
-
-            try:
-                qi_authorized = await authorize_quantum_access(user_context, self.colony_id, operation)
-                authorized = authorized and qi_authorized
-            except Exception as e:
-                authorized = False
-
-        try:
-            # Get predictive insights for task
-            {
-                "query_type": "prediction",
-                "context": {
-                    "colony_id": self.colony_id,
-                    "user_id": user_context.user_id,
-                    "task_type": task_data.get("operation", "unknown"),
-                    "user_tier": user_context.tier_level.value,
-                },
-            }
-
-            # This would integrate with the actual Oracle nervous system
-            oracle_insights = {
-                "prediction_confidence": 0.8,
-                "suggested_approach": "standard_processing",
-                "risk_assessment": "low",
-                "optimization_hints": ["cache_results", "parallel_processing"],
-            }
-
-            return oracle_insights
-
-        except Exception as e:
-            return None
-
-        try:
-            # Ethics validation for all tiers, but stricter for higher tiers
-            {
-                "user_id": user_context.user_id,
-                "user_tier": user_context.tier_level.value,
-                "task_type": task_data.get("operation", "unknown"),
-                "colony_id": self.colony_id,
-                "task_data": task_data,
-            }
-
-            # Higher tiers require stricter ethical standards
-            ethical_threshold = 0.5 + (user_context.tier_level.value * 0.1)
-
-            # This would integrate with the actual Ethics Swarm Colony
-            ethics_score = 0.85  # Placeholder
-
-            return ethics_score >= ethical_threshold
-
-        except Exception as e:
-            return False  # Fail secure
-
-        try:
-            consciousness_context = {
-                "consciousness_level": user_context.consciousness_level,
-                "identity_type": user_context.identity_type.value,
-                "composite_agents": user_context.composite_agents,
-                "processing_mode": "identity_aware",
-            }
-
-            return consciousness_context
-
-        except Exception as e:
-            return None
-
-            try:
-                collapse_hash = self.qi_identity_manager.collapse_hash_manager.generate_collapse_hash(audit_entry)
-                audit_entry["collapse_hash"] = collapse_hash
-            except Exception as e:
-
-            try:
-                await self.event_store.store_event(
-                    event_type="identity_audit",
-                    event_data=audit_entry,
-                    correlation_id=task_id,
-                )
-            except Exception as e:
-
-        try:
-            # Update task completion patterns
-            operation = task_data.get("operation", "unknown")
-            success = result.get("status") == "success"
-
-            # Track operation success rates
-            pattern_key = f"operation_success_{operation}"
-            current_rate = user_context.behavior_patterns.get(pattern_key, 0.5)
-            new_rate = current_rate * 0.9 + (1.0 if success else 0.0) * 0.1
-            user_context.behavior_patterns[pattern_key] = new_rate
-
-            # Update intelligence score based on task complexity and success
-            task_complexity = task_data.get("complexity", 0.5)
-            if success:
-                intelligence_boost = task_complexity * 0.01
-                user_context.intelligence_score = min(1.0, user_context.intelligence_score + intelligence_boost)
-
-            # Update last access time
-            user_context.last_accessed = datetime.now(timezone.utc)
-
-        except Exception as e:
-
+    CONSCIOUSNESS_AVAILABLE = False
 
 logger = logging.getLogger("ΛTRACE.identity_aware_colony")
 
@@ -288,6 +139,12 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
     def _initialize_identity_integration(self):
         """Initialize quantum identity management integration."""
         if QUANTUM_IDENTITY_AVAILABLE:
+            try:
+                self.qi_identity_manager = get_quantum_identity_manager()
+                self.logger.info("Quantum identity management integration enabled")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize quantum identity: {e}")
+                self.qi_identity_manager = None
         else:
             self.logger.warning("Quantum identity management not available")
 
@@ -378,6 +235,13 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
     def _initialize_oracle_ethics_integration(self):
         """Initialize Oracle & Ethics nervous system integration."""
         if ORACLE_ETHICS_AVAILABLE:
+            try:
+                # These would be initialized by the nervous system hub
+                # For now, we'll indicate they're available for integration
+                self.logger.info("Oracle & Ethics integration enabled")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize Oracle & Ethics integration: {e}")
+
     async def execute_task(
         self,
         task_id: str,
@@ -431,6 +295,30 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         # Consciousness-aware processing (if available)
         consciousness_context = await self._get_consciousness_context(user_context, task_data)
 
+        try:
+            # Execute the actual task with identity context
+            result = await self._execute_identity_aware_task(
+                task_id,
+                task_data,
+                user_context,
+                oracle_insights,
+                ethics_approval,
+                consciousness_context,
+            )
+
+            # Post-quantum audit logging
+            await self._log_identity_audit(user_context, task_id, operation, "success", result)
+
+            # Update user behavior patterns
+            await self._update_user_patterns(user_context, task_data, result)
+
+            return result
+
+        except Exception as e:
+            # Log failed execution
+            await self._log_identity_audit(user_context, task_id, operation, "error", {"error": str(e)})
+            raise
+
         finally:
             # Track performance
             execution_time = time.time() - start_time
@@ -447,6 +335,23 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             if not user_context.user_id:
                 raise IdentityValidationError("Invalid user context: missing user_id")
             return
+
+        try:
+            # Verify quantum signature and collapse hash
+            if user_context.qi_signature and user_context.collapse_hash:
+                # Quantum validation would happen here
+                # For now, we'll validate basic context integrity
+                pass
+
+            # Check identity expiration
+            if user_context.expires_at and user_context.expires_at < datetime.now(timezone.utc):
+                raise IdentityValidationError("User identity has expired")
+
+            # Update active contexts
+            self.active_user_contexts[user_context.user_id] = user_context
+
+        except Exception as e:
+            raise QISecurityError(f"Quantum identity validation failed: {e}")
 
     async def _authorize_task_execution(self, user_context: QIUserContext, operation: str) -> bool:
         """Authorize task execution based on tier and capabilities."""
@@ -482,6 +387,13 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         # Use quantum identity manager for additional authorization
         if self.qi_identity_manager:
+            try:
+                qi_authorized = await authorize_quantum_access(user_context, self.colony_id, operation)
+                authorized = authorized and qi_authorized
+            except Exception as e:
+                self.logger.error(f"Quantum authorization failed: {e}")
+                authorized = False
+
         # Cache result
         if cache_key not in self.tier_authorization_cache:
             self.tier_authorization_cache[cache_key] = {}
@@ -500,10 +412,58 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         if user_context.tier_level.value < 2:
             return None
 
+        try:
+            # Get predictive insights for task
+            {
+                "query_type": "prediction",
+                "context": {
+                    "colony_id": self.colony_id,
+                    "user_id": user_context.user_id,
+                    "task_type": task_data.get("operation", "unknown"),
+                    "user_tier": user_context.tier_level.value,
+                },
+            }
+
+            # This would integrate with the actual Oracle nervous system
+            oracle_insights = {
+                "prediction_confidence": 0.8,
+                "suggested_approach": "standard_processing",
+                "risk_assessment": "low",
+                "optimization_hints": ["cache_results", "parallel_processing"],
+            }
+
+            return oracle_insights
+
+        except Exception as e:
+            self.logger.error(f"Failed to get Oracle insights: {e}")
+            return None
+
     async def _validate_ethics(self, user_context: QIUserContext, task_data: dict[str, Any]) -> bool:
         """Validate task ethics using Ethics Swarm Colony (if available)."""
         if not ORACLE_ETHICS_AVAILABLE or not self.ethics_colony:
             return True  # Default to allow if ethics validation unavailable
+
+        try:
+            # Ethics validation for all tiers, but stricter for higher tiers
+            {
+                "user_id": user_context.user_id,
+                "user_tier": user_context.tier_level.value,
+                "task_type": task_data.get("operation", "unknown"),
+                "colony_id": self.colony_id,
+                "task_data": task_data,
+            }
+
+            # Higher tiers require stricter ethical standards
+            ethical_threshold = 0.5 + (user_context.tier_level.value * 0.1)
+
+            # This would integrate with the actual Ethics Swarm Colony
+            ethics_score = 0.85  # Placeholder
+
+            return ethics_score >= ethical_threshold
+
+        except Exception as e:
+            self.logger.error(f"Ethics validation failed: {e}")
+            return False  # Fail secure
 
     async def _get_consciousness_context(
         self, user_context: QIUserContext, task_data: dict[str, Any]
@@ -514,6 +474,20 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         # Only provide consciousness context for Tier 2+ users
         if user_context.tier_level.value < 2 or not user_context.consciousness_level:
+            return None
+
+        try:
+            consciousness_context = {
+                "consciousness_level": user_context.consciousness_level,
+                "identity_type": user_context.identity_type.value,
+                "composite_agents": user_context.composite_agents,
+                "processing_mode": "identity_aware",
+            }
+
+            return consciousness_context
+
+        except Exception as e:
+            self.logger.error(f"Failed to get consciousness context: {e}")
             return None
 
     @abstractmethod
@@ -573,6 +547,12 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         # Generate collapse hash for audit entry (if quantum crypto available)
         if self.qi_identity_manager and hasattr(self.qi_identity_manager, "collapse_hash_manager"):
+            try:
+                collapse_hash = self.qi_identity_manager.collapse_hash_manager.generate_collapse_hash(audit_entry)
+                audit_entry["collapse_hash"] = collapse_hash
+            except Exception as e:
+                self.logger.error(f"Failed to generate collapse hash for audit: {e}")
+
         # Store audit entry
         self.identity_audit_log.append(audit_entry)
 
@@ -582,6 +562,15 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         # Log to event store (if available)
         if hasattr(self, "event_store") and self.event_store:
+            try:
+                await self.event_store.store_event(
+                    event_type="identity_audit",
+                    event_data=audit_entry,
+                    correlation_id=task_id,
+                )
+            except Exception as e:
+                self.logger.error(f"Failed to store audit event: {e}")
+
     async def _update_user_patterns(
         self,
         user_context: QIUserContext,
@@ -591,6 +580,29 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         """Update user behavior patterns for dynamic tier adjustment."""
         if not self.qi_identity_manager:
             return
+
+        try:
+            # Update task completion patterns
+            operation = task_data.get("operation", "unknown")
+            success = result.get("status") == "success"
+
+            # Track operation success rates
+            pattern_key = f"operation_success_{operation}"
+            current_rate = user_context.behavior_patterns.get(pattern_key, 0.5)
+            new_rate = current_rate * 0.9 + (1.0 if success else 0.0) * 0.1
+            user_context.behavior_patterns[pattern_key] = new_rate
+
+            # Update intelligence score based on task complexity and success
+            task_complexity = task_data.get("complexity", 0.5)
+            if success:
+                intelligence_boost = task_complexity * 0.01
+                user_context.intelligence_score = min(1.0, user_context.intelligence_score + intelligence_boost)
+
+            # Update last access time
+            user_context.last_accessed = datetime.now(timezone.utc)
+
+        except Exception as e:
+            self.logger.error(f"Failed to update user patterns: {e}")
 
     async def register_user_context(self, user_context: QIUserContext):
         """Register user context for colony access."""

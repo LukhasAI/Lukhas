@@ -1,3 +1,9 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -15,9 +21,6 @@ ETHICS_SCORE: 0.95
 COLLAPSE_READY: True
 """
 
-from __future__ import annotations
-import logging
-
 import asyncio
 import json
 import time
@@ -29,21 +32,6 @@ from typing import Any, Optional
 import numpy as np
 
 from core.common import get_logger
-
-            try:
-                ethical_states[module_name] = EthicalState(
-                    module_name=module_name,
-                    coherence=state_data.get("coherence", 0.5),
-                    confidence=state_data.get("confidence", 0.5),
-                    entropy=state_data.get("entropy", 0.5),
-                    alignment=state_data.get("alignment", 0.5),
-                    phase=state_data.get("phase", 0.0),
-                )
-            except Exception as e:
-                continue
-
-
-logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -168,6 +156,19 @@ class QIEthicsMeshIntegrator:
         # Convert raw states to EthicalState objects
         ethical_states = {}
         for module_name, state_data in subsystem_states.items():
+            try:
+                ethical_states[module_name] = EthicalState(
+                    module_name=module_name,
+                    coherence=state_data.get("coherence", 0.5),
+                    confidence=state_data.get("confidence", 0.5),
+                    entropy=state_data.get("entropy", 0.5),
+                    alignment=state_data.get("alignment", 0.5),
+                    phase=state_data.get("phase", 0.0),
+                )
+            except Exception as e:
+                logger.warning(f"Failed to parse ethical state for {module_name}: {e}")
+                continue
+
         # Update internal state tracking
         self.subsystem_states.update(ethical_states)
 

@@ -1,23 +1,24 @@
+import logging
+
+logger = logging.getLogger(__name__)
+# LUKHAS_TAG: plugin_loader, orchestration_extension
+import importlib
+from pathlib import Path
+
+from core.common import get_logger
+
+# TAG:bridge
+# TAG:protocols
+# TAG:neuroplastic
+# TAG:colony
+
+logger = get_logger(__name__)
+
+
+def load_plugins(plugin_dir: str = "core/plugins"):
     """
     Dynamically loads plugins from a specified directory.
     """
-
-import logging
-import importlib
-from pathlib import Path
-from core.common import get_logger
-        try:
-            module = importlib.import_module(module_name)
-            plugin_class = getattr(module, "plugin", None)
-            if plugin_class:
-                plugin_instance = plugin_class()
-                plugin_name = getattr(plugin_instance, "name", file_path.stem)
-                plugins[plugin_name] = plugin_instance
-                logger.info(f"Registered plugin: {plugin_name}")
-        except Exception as e:
-
-logger = logging.getLogger(__name__)
-
     plugins = {}
     plugin_path = Path(plugin_dir)
     if not plugin_path.is_dir():
@@ -29,4 +30,14 @@ logger = logging.getLogger(__name__)
             continue
 
         module_name = f"{plugin_dir.replace('/', '.')}.{file_path.stem}"
+        try:
+            module = importlib.import_module(module_name)
+            plugin_class = getattr(module, "plugin", None)
+            if plugin_class:
+                plugin_instance = plugin_class()
+                plugin_name = getattr(plugin_instance, "name", file_path.stem)
+                plugins[plugin_name] = plugin_instance
+                logger.info(f"Registered plugin: {plugin_name}")
+        except Exception as e:
+            logger.error(f"Failed to load plugin {module_name}: {e}")
     return plugins

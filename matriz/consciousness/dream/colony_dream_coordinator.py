@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 🌙 MODULE: creativity.dream.colony_dream_coordinator
@@ -45,8 +47,6 @@ allowing for:
 ΛTODO: Add colony load balancing for optimal dream distribution
 AIDEA: Implement colony evolution tracking for dream processing capabilities
 """
-
-from __future__ import annotations
 import asyncio
 import logging
 import uuid
@@ -66,6 +66,7 @@ try:
 
     COLONY_SYSTEM_AVAILABLE = True
 except ImportError as e:
+    logging.warning(f"Colony orchestration system not available: {e}")
     COLONY_SYSTEM_AVAILABLE = False
 
     # Create placeholder classes
@@ -94,6 +95,7 @@ try:
 
     SWARM_SYSTEM_AVAILABLE = True
 except ImportError as e:
+    logging.warning(f"Swarm system not available: {e}")
     SWARM_SYSTEM_AVAILABLE = False
     SwarmHub = None
 
@@ -103,6 +105,7 @@ try:
 
     QUANTUM_DREAM_AVAILABLE = True
 except ImportError as e:
+    logging.warning(f"Quantum dream adapter not available: {e}")
     QUANTUM_DREAM_AVAILABLE = False
     QIDreamAdapter = None
 
@@ -112,556 +115,8 @@ try:
 
     EVENT_BUS_AVAILABLE = True
 except ImportError as e:
+    logging.warning(f"Event bus not available: {e}")
     EVENT_BUS_AVAILABLE = False
-
-        try:
-            # Initialize event bus connection
-            if EVENT_BUS_AVAILABLE:
-                self.event_bus = await get_global_event_bus()
-                await self._setup_dream_event_channels()
-                self.logger.info("Event bus integration initialized")
-
-            # Verify colony orchestrator availability
-            if self.colony_orchestrator and hasattr(self.colony_orchestrator, "initialize"):
-                await self.colony_orchestrator.initialize()
-                self.logger.info("Colony orchestrator integration verified")
-
-            # Verify swarm hub availability
-            if self.swarm_hub:
-                self.logger.info("Swarm hub integration verified")
-
-            # Verify quantum dream adapter
-            if self.qi_dream_adapter:
-                self.logger.info("Quantum dream adapter integration verified")
-
-            self.logger.info("Colony dream coordinator fully operational")
-            return True
-
-        except Exception as e:
-            return False
-
-        try:
-            self.logger.info(f"Processing dream {dream_id} with {len(task_types)} task types")
-
-            # Create colony dream tasks
-            tasks = []
-            for task_type in task_types:
-                task = ColonyDreamTask(
-                    task_id=f"{dream_id}_{task_type.value}_{uuid.uuid4().hex[:8]}",
-                    dream_id=dream_id,
-                    task_type=task_type,
-                    dream_data=dream_data,
-                    distribution_strategy=distribution_strategy,
-                    user_context=user_context,
-                )
-                tasks.append(task)
-                self.active_tasks[task.task_id] = task
-
-            # Execute tasks based on distribution strategy
-            if distribution_strategy == DreamDistributionStrategy.PARALLEL:
-                result = await self._execute_parallel_dream_tasks(tasks)
-            elif distribution_strategy == DreamDistributionStrategy.SEQUENTIAL:
-                result = await self._execute_sequential_dream_tasks(tasks)
-            elif distribution_strategy == DreamDistributionStrategy.SWARM_CONSENSUS:
-                result = await self._execute_swarm_consensus_dream_tasks(tasks)
-            else:  # SPECIALIZED
-                result = await self._execute_specialized_dream_tasks(tasks)
-
-            # Clean up active tasks
-            for task in tasks:
-                if task.task_id in self.active_tasks:
-                    del self.active_tasks[task.task_id]
-
-            # Update metrics
-            self.total_dreams_processed += 1
-            self._update_processing_metrics(result)
-
-            # Store results
-            if result.success:
-                self.completed_tasks.append(result)
-            else:
-                self.failed_tasks.append(result)
-
-            # Publish completion event
-            if self.event_bus:
-                await self.event_bus.publish(
-                    "dream_processing_complete",
-                    {
-                        "dream_id": dream_id,
-                        "result": result.__dict__,
-                        "processing_time": result.processing_time_seconds,
-                    },
-                )
-
-            self.logger.info(f"Dream processing completed for {dream_id}: success={result.success}")
-            return result
-
-        except Exception as e:
-            error_result = ColonyDreamResult(task_id="error", dream_id=dream_id, success=False, error=str(e))
-            self.failed_tasks.append(error_result)
-            return error_result
-
-        try:
-            for task in tasks:
-                # Determine appropriate colonies for this task type
-                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
-
-                # Execute on each target colony type
-                for colony_type in target_colony_types:
-                    colony_result = await self._execute_single_colony_task(task, colony_type)
-                    colony_results.append(colony_result)
-
-            # Synthesize results from all colonies
-            synthesis_result = await self._synthesize_colony_results(colony_results)
-
-            processing_time = asyncio.get_event_loop().time() - start_time
-
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                colony_results=colony_results,
-                synthesis_result=synthesis_result,
-                processing_time_seconds=processing_time,
-                success=True,
-            )
-
-        except Exception as e:
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                colony_results=colony_results,
-                processing_time_seconds=processing_time,
-                success=False,
-                error=str(e),
-            )
-
-        try:
-            # Create parallel execution tasks
-            parallel_tasks = []
-            for task in tasks:
-                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
-
-                for colony_type in target_colony_types:
-                    parallel_task = asyncio.create_task(self._execute_single_colony_task(task, colony_type))
-                    parallel_tasks.append(parallel_task)
-
-            # Wait for all parallel tasks to complete
-            colony_results = await asyncio.gather(*parallel_tasks, return_exceptions=True)
-
-            # Filter out exceptions and convert to proper results
-            valid_results = []
-            for result in colony_results:
-                if isinstance(result, Exception):
-                    self.logger.error(f"Parallel task failed: {result}")
-                    valid_results.append({"success": False, "error": str(result), "colony_id": "unknown"})
-                else:
-                    valid_results.append(result)
-
-            # Synthesize results
-            synthesis_result = await self._synthesize_colony_results(valid_results)
-
-            processing_time = asyncio.get_event_loop().time() - start_time
-
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                colony_results=valid_results,
-                synthesis_result=synthesis_result,
-                processing_time_seconds=processing_time,
-                success=True,
-            )
-
-        except Exception as e:
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                processing_time_seconds=processing_time,
-                success=False,
-                error=str(e),
-            )
-
-        try:
-            # Execute tasks across multiple colonies for consensus
-            all_colony_results = []
-
-            for task in tasks:
-                # Send to multiple colony types for consensus
-                target_colony_types = [
-                    ColonyType.REASONING,
-                    ColonyType.CREATIVITY,
-                    ColonyType.ETHICS,
-                ]
-
-                task_results = []
-                for colony_type in target_colony_types:
-                    result = await self._execute_single_colony_task(task, colony_type)
-                    task_results.append(result)
-
-                all_colony_results.extend(task_results)
-
-            # Apply swarm consensus algorithm
-            consensus_result = await self._apply_swarm_consensus(all_colony_results)
-
-            processing_time = asyncio.get_event_loop().time() - start_time
-
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                colony_results=all_colony_results,
-                consensus_achieved=consensus_result["consensus_achieved"],
-                consensus_confidence=consensus_result["consensus_confidence"],
-                synthesis_result=consensus_result,
-                processing_time_seconds=processing_time,
-                success=True,
-            )
-
-        except Exception as e:
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                processing_time_seconds=processing_time,
-                success=False,
-                error=str(e),
-            )
-
-        try:
-            for task in tasks:
-                # Add accumulated insights to task data
-                enhanced_task_data = {
-                    **task.dream_data,
-                    "accumulated_insights": accumulated_insights,
-                }
-
-                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
-
-                for colony_type in target_colony_types:
-                    # Create enhanced task with accumulated insights
-                    enhanced_task = ColonyDreamTask(
-                        task_id=task.task_id,
-                        dream_id=task.dream_id,
-                        task_type=task.task_type,
-                        dream_data=enhanced_task_data,
-                        user_context=task.user_context,
-                    )
-
-                    result = await self._execute_single_colony_task(enhanced_task, colony_type)
-                    colony_results.append(result)
-
-                    # Accumulate insights for next task
-                    if result.get("success", False) and "insights" in result:
-                        accumulated_insights.extend(result["insights"])
-
-            # Final synthesis
-            synthesis_result = await self._synthesize_colony_results(colony_results)
-
-            processing_time = asyncio.get_event_loop().time() - start_time
-
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                colony_results=colony_results,
-                synthesis_result=synthesis_result,
-                processing_time_seconds=processing_time,
-                success=True,
-            )
-
-        except Exception as e:
-            return ColonyDreamResult(
-                task_id=tasks[0].task_id if tasks else "unknown",
-                dream_id=tasks[0].dream_id if tasks else "unknown",
-                colony_results=colony_results,
-                processing_time_seconds=processing_time,
-                success=False,
-                error=str(e),
-            )
-
-        try:
-            if not COLONY_SYSTEM_AVAILABLE or not self.colony_orchestrator:
-                return {
-                    "success": False,
-                    "error": "Colony system not available",
-                    "colony_type": colony_type.value,
-                    "task_id": task.task_id,
-                }
-
-            # Create colony task
-            colony_task = ColonyTask(
-                task_id=task.task_id,
-                colony_type=colony_type,
-                target_colonies=[f"core_{colony_type.value}"],
-                payload={
-                    "dream_id": task.dream_id,
-                    "dream_data": task.dream_data,
-                    "task_type": task.task_type.value,
-                    "processing_context": "dream_coordination",
-                },
-                priority=task.priority,
-                user_context=task.user_context,
-            )
-
-            # Execute through colony orchestrator
-            result = await self.colony_orchestrator.execute_colony_task(colony_task)
-
-            # Enhance result with dream-specific metadata
-            enhanced_result = {
-                **result,
-                "colony_type": colony_type.value,
-                "dream_id": task.dream_id,
-                "task_type": task.task_type.value,
-                "coordinator_processed": True,
-            }
-
-            return enhanced_result
-
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "colony_type": colony_type.value,
-                "task_id": task.task_id,
-            }
-
-        try:
-            successful_results = [r for r in colony_results if r.get("success", False)]
-
-            if not successful_results:
-                return {
-                    "synthesis_type": "error",
-                    "message": "No successful colony results to synthesize",
-                    "total_results": len(colony_results),
-                }
-
-            # Extract insights from all successful results
-            all_insights = []
-            colony_types_used = []
-
-            for result in successful_results:
-                colony_types_used.append(result.get("colony_type", "unknown"))
-
-                # Extract insights from colony result
-                if "colony_results" in result:
-                    for colony_result in result["colony_results"]:
-                        if "result" in colony_result and "insights" in colony_result["result"]:
-                            all_insights.extend(colony_result["result"]["insights"])
-
-                # Direct insights
-                if "insights" in result:
-                    all_insights.extend(result["insights"])
-
-            # Synthesize insights
-            insight_synthesis = self._synthesize_insights(all_insights)
-
-            # Calculate consensus metrics
-            consensus_metrics = self._calculate_synthesis_consensus(successful_results)
-
-            return {
-                "synthesis_type": "multi_colony_synthesis",
-                "colonies_involved": list(set(colony_types_used)),
-                "total_insights": len(all_insights),
-                "insight_synthesis": insight_synthesis,
-                "consensus_metrics": consensus_metrics,
-                "synthesis_confidence": consensus_metrics.get("overall_confidence", 0.0),
-                "successful_colonies": len(successful_results),
-                "total_colonies": len(colony_results),
-            }
-
-        except Exception as e:
-            return {
-                "synthesis_type": "error",
-                "error": str(e),
-                "total_results": len(colony_results),
-            }
-
-        try:
-            # Extract decisions/insights from each colony
-            colony_decisions = []
-            for result in colony_results:
-                if result.get("success", False):
-                    decision = {
-                        "colony_type": result.get("colony_type", "unknown"),
-                        "confidence": result.get("confidence", 0.7),
-                        "insights": result.get("insights", []),
-                        "recommendation": result.get("recommendation", "neutral"),
-                    }
-                    colony_decisions.append(decision)
-
-            if not colony_decisions:
-                return {
-                    "consensus_achieved": False,
-                    "consensus_confidence": 0.0,
-                    "error": "No valid colony decisions for consensus",
-                }
-
-            # Apply weighted voting based on colony confidence
-            consensus_threshold = 0.67
-            recommendation_votes = {}
-            total_weight = 0.0
-
-            for decision in colony_decisions:
-                recommendation = decision["recommendation"]
-                confidence = decision["confidence"]
-
-                if recommendation not in recommendation_votes:
-                    recommendation_votes[recommendation] = 0.0
-
-                recommendation_votes[recommendation] += confidence
-                total_weight += confidence
-
-            # Determine consensus
-            if total_weight > 0:
-                # Normalize votes
-                for rec in recommendation_votes:
-                    recommendation_votes[rec] /= total_weight
-
-                # Check if any recommendation meets threshold
-                consensus_achieved = False
-                winning_recommendation = None
-                winning_confidence = 0.0
-
-                for rec, confidence in recommendation_votes.items():
-                    if confidence >= consensus_threshold:
-                        consensus_achieved = True
-                        winning_recommendation = rec
-                        winning_confidence = confidence
-                        break
-
-                if not consensus_achieved:
-                    # Use highest scoring recommendation
-                    winning_recommendation = max(recommendation_votes.items(), key=lambda x: x[1])[0]
-                    winning_confidence = recommendation_votes[winning_recommendation]
-            else:
-                consensus_achieved = False
-                winning_recommendation = "no_consensus"
-                winning_confidence = 0.0
-
-            return {
-                "consensus_achieved": consensus_achieved,
-                "consensus_confidence": winning_confidence,
-                "winning_recommendation": winning_recommendation,
-                "vote_distribution": recommendation_votes,
-                "participating_colonies": len(colony_decisions),
-                "total_weight": total_weight,
-            }
-
-        except Exception as e:
-            return {
-                "consensus_achieved": False,
-                "consensus_confidence": 0.0,
-                "error": str(e),
-            }
-
-        try:
-            if not QUANTUM_DREAM_AVAILABLE or not self.qi_dream_adapter:
-                return {
-                    "success": False,
-                    "error": "Quantum dream adapter not available for multiverse integration",
-                }
-
-            self.logger.info(f"Integrating multiverse dreams with colony processing: {parallel_paths} paths")
-
-            # Execute multiverse dream simulation
-            multiverse_result = await self.qi_dream_adapter.simulate_multiverse_dreams(dream_seed, parallel_paths)
-
-            if not multiverse_result.get("success", False):
-                return multiverse_result
-
-            # Process each parallel dream path through colonies
-            parallel_dream_results = []
-
-            for dream_path in multiverse_result["parallel_dreams"]:
-                if dream_path["result"].get("success", False):
-                    # Create dream data for colony processing
-                    path_dream_data = {
-                        "dream_seed": dream_seed,
-                        "path_config": dream_path["config"],
-                        "path_result": dream_path["result"],
-                        "qi_state": dream_path["result"].get("qi_state"),
-                        "dream_insights": dream_path["result"].get("dream_insights", []),
-                    }
-
-                    # Process through colonies
-                    colony_result = await self.process_dream_with_colonies(
-                        dream_id=f"multiverse_{dream_path['path_id']}",
-                        dream_data=path_dream_data,
-                        task_types=[
-                            DreamTaskType.DREAM_ANALYSIS,
-                            DreamTaskType.ETHICAL_REVIEW,
-                            DreamTaskType.CREATIVE_SYNTHESIS,
-                        ],
-                        distribution_strategy=DreamDistributionStrategy.PARALLEL,
-                    )
-
-                    parallel_dream_results.append(
-                        {
-                            "path_id": dream_path["path_id"],
-                            "multiverse_result": dream_path["result"],
-                            "colony_processing": colony_result,
-                        }
-                    )
-
-            # Synthesize results from both multiverse and colony processing
-            integrated_synthesis = await self._synthesize_multiverse_colony_results(
-                multiverse_result, parallel_dream_results
-            )
-
-            return {
-                "success": True,
-                "integration_type": "multiverse_colony_integration",
-                "multiverse_result": multiverse_result,
-                "colony_processing_results": parallel_dream_results,
-                "integrated_synthesis": integrated_synthesis,
-                "total_paths_processed": len(parallel_dream_results),
-                "integration_timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "integration_type": "multiverse_colony_integration",
-            }
-
-        try:
-            # Extract convergent insights from multiverse
-            multiverse_insights = multiverse_result.get("convergent_insights", {})
-
-            # Extract synthesis from colony processing
-            colony_syntheses = []
-            for result in colony_results:
-                colony_processing = result.get("colony_processing")
-                if colony_processing and colony_processing.success:
-                    colony_syntheses.append(colony_processing.synthesis_result)
-
-            # Cross-validate insights between multiverse and colony results
-            cross_validated_insights = self._cross_validate_insights(multiverse_insights, colony_syntheses)
-
-            # Calculate integrated confidence
-            multiverse_coherence = multiverse_result.get("overall_coherence", 0.0)
-            colony_confidence = sum(s.get("synthesis_confidence", 0.0) for s in colony_syntheses) / max(
-                1, len(colony_syntheses)
-            )
-
-            integrated_confidence = (multiverse_coherence + colony_confidence) / 2.0
-
-            return {
-                "synthesis_type": "multiverse_colony_synthesis",
-                "multiverse_insights": multiverse_insights,
-                "colony_syntheses": colony_syntheses,
-                "cross_validated_insights": cross_validated_insights,
-                "integrated_confidence": integrated_confidence,
-                "multiverse_coherence": multiverse_coherence,
-                "colony_confidence": colony_confidence,
-                "synthesis_strength": len(cross_validated_insights) / max(1, len(colony_syntheses)),
-            }
-
-        except Exception as e:
-            return {
-                "synthesis_type": "error",
-                "error": str(e),
-                "multiverse_insights": multiverse_result.get("convergent_insights", {}),
-                "colony_results_count": len(colony_results),
-            }
-
 
 logger = logging.getLogger("colony_dream_coordinator")
 
@@ -800,6 +255,33 @@ class ColonyDreamCoordinator:
 
     async def initialize(self) -> bool:
         """Initialize the coordinator and its components"""
+        try:
+            # Initialize event bus connection
+            if EVENT_BUS_AVAILABLE:
+                self.event_bus = await get_global_event_bus()
+                await self._setup_dream_event_channels()
+                self.logger.info("Event bus integration initialized")
+
+            # Verify colony orchestrator availability
+            if self.colony_orchestrator and hasattr(self.colony_orchestrator, "initialize"):
+                await self.colony_orchestrator.initialize()
+                self.logger.info("Colony orchestrator integration verified")
+
+            # Verify swarm hub availability
+            if self.swarm_hub:
+                self.logger.info("Swarm hub integration verified")
+
+            # Verify quantum dream adapter
+            if self.qi_dream_adapter:
+                self.logger.info("Quantum dream adapter integration verified")
+
+            self.logger.info("Colony dream coordinator fully operational")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"Failed to initialize colony dream coordinator: {e}")
+            return False
+
     async def _setup_dream_event_channels(self):
         """Set up event channels for dream coordination"""
         if not self.event_bus:
@@ -834,18 +316,206 @@ class ColonyDreamCoordinator:
         Returns:
             Comprehensive results from colony dream processing
         """
+        try:
+            self.logger.info(f"Processing dream {dream_id} with {len(task_types)} task types")
+
+            # Create colony dream tasks
+            tasks = []
+            for task_type in task_types:
+                task = ColonyDreamTask(
+                    task_id=f"{dream_id}_{task_type.value}_{uuid.uuid4().hex[:8]}",
+                    dream_id=dream_id,
+                    task_type=task_type,
+                    dream_data=dream_data,
+                    distribution_strategy=distribution_strategy,
+                    user_context=user_context,
+                )
+                tasks.append(task)
+                self.active_tasks[task.task_id] = task
+
+            # Execute tasks based on distribution strategy
+            if distribution_strategy == DreamDistributionStrategy.PARALLEL:
+                result = await self._execute_parallel_dream_tasks(tasks)
+            elif distribution_strategy == DreamDistributionStrategy.SEQUENTIAL:
+                result = await self._execute_sequential_dream_tasks(tasks)
+            elif distribution_strategy == DreamDistributionStrategy.SWARM_CONSENSUS:
+                result = await self._execute_swarm_consensus_dream_tasks(tasks)
+            else:  # SPECIALIZED
+                result = await self._execute_specialized_dream_tasks(tasks)
+
+            # Clean up active tasks
+            for task in tasks:
+                if task.task_id in self.active_tasks:
+                    del self.active_tasks[task.task_id]
+
+            # Update metrics
+            self.total_dreams_processed += 1
+            self._update_processing_metrics(result)
+
+            # Store results
+            if result.success:
+                self.completed_tasks.append(result)
+            else:
+                self.failed_tasks.append(result)
+
+            # Publish completion event
+            if self.event_bus:
+                await self.event_bus.publish(
+                    "dream_processing_complete",
+                    {
+                        "dream_id": dream_id,
+                        "result": result.__dict__,
+                        "processing_time": result.processing_time_seconds,
+                    },
+                )
+
+            self.logger.info(f"Dream processing completed for {dream_id}: success={result.success}")
+            return result
+
+        except Exception as e:
+            self.logger.error(f"Dream processing failed for {dream_id}: {e}")
+            error_result = ColonyDreamResult(task_id="error", dream_id=dream_id, success=False, error=str(e))
+            self.failed_tasks.append(error_result)
+            return error_result
+
     async def _execute_specialized_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
         """Execute dream tasks using specialized colony routing"""
         start_time = asyncio.get_event_loop().time()
         colony_results = []
 
+        try:
+            for task in tasks:
+                # Determine appropriate colonies for this task type
+                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
+
+                # Execute on each target colony type
+                for colony_type in target_colony_types:
+                    colony_result = await self._execute_single_colony_task(task, colony_type)
+                    colony_results.append(colony_result)
+
+            # Synthesize results from all colonies
+            synthesis_result = await self._synthesize_colony_results(colony_results)
+
+            processing_time = asyncio.get_event_loop().time() - start_time
+
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=colony_results,
+                synthesis_result=synthesis_result,
+                processing_time_seconds=processing_time,
+                success=True,
+            )
+
+        except Exception as e:
+            processing_time = asyncio.get_event_loop().time() - start_time
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=colony_results,
+                processing_time_seconds=processing_time,
+                success=False,
+                error=str(e),
+            )
+
     async def _execute_parallel_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
         """Execute all dream tasks in parallel across colonies"""
         start_time = asyncio.get_event_loop().time()
 
+        try:
+            # Create parallel execution tasks
+            parallel_tasks = []
+            for task in tasks:
+                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
+
+                for colony_type in target_colony_types:
+                    parallel_task = asyncio.create_task(self._execute_single_colony_task(task, colony_type))
+                    parallel_tasks.append(parallel_task)
+
+            # Wait for all parallel tasks to complete
+            colony_results = await asyncio.gather(*parallel_tasks, return_exceptions=True)
+
+            # Filter out exceptions and convert to proper results
+            valid_results = []
+            for result in colony_results:
+                if isinstance(result, Exception):
+                    self.logger.error(f"Parallel task failed: {result}")
+                    valid_results.append({"success": False, "error": str(result), "colony_id": "unknown"})
+                else:
+                    valid_results.append(result)
+
+            # Synthesize results
+            synthesis_result = await self._synthesize_colony_results(valid_results)
+
+            processing_time = asyncio.get_event_loop().time() - start_time
+
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=valid_results,
+                synthesis_result=synthesis_result,
+                processing_time_seconds=processing_time,
+                success=True,
+            )
+
+        except Exception as e:
+            processing_time = asyncio.get_event_loop().time() - start_time
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                processing_time_seconds=processing_time,
+                success=False,
+                error=str(e),
+            )
+
     async def _execute_swarm_consensus_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
         """Execute dream tasks using swarm consensus mechanisms"""
         start_time = asyncio.get_event_loop().time()
+
+        try:
+            # Execute tasks across multiple colonies for consensus
+            all_colony_results = []
+
+            for task in tasks:
+                # Send to multiple colony types for consensus
+                target_colony_types = [
+                    ColonyType.REASONING,
+                    ColonyType.CREATIVITY,
+                    ColonyType.ETHICS,
+                ]
+
+                task_results = []
+                for colony_type in target_colony_types:
+                    result = await self._execute_single_colony_task(task, colony_type)
+                    task_results.append(result)
+
+                all_colony_results.extend(task_results)
+
+            # Apply swarm consensus algorithm
+            consensus_result = await self._apply_swarm_consensus(all_colony_results)
+
+            processing_time = asyncio.get_event_loop().time() - start_time
+
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=all_colony_results,
+                consensus_achieved=consensus_result["consensus_achieved"],
+                consensus_confidence=consensus_result["consensus_confidence"],
+                synthesis_result=consensus_result,
+                processing_time_seconds=processing_time,
+                success=True,
+            )
+
+        except Exception as e:
+            processing_time = asyncio.get_event_loop().time() - start_time
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                processing_time_seconds=processing_time,
+                success=False,
+                error=str(e),
+            )
 
     async def _execute_sequential_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
         """Execute dream tasks sequentially through colonies"""
@@ -853,10 +523,161 @@ class ColonyDreamCoordinator:
         colony_results = []
         accumulated_insights = []
 
+        try:
+            for task in tasks:
+                # Add accumulated insights to task data
+                enhanced_task_data = {
+                    **task.dream_data,
+                    "accumulated_insights": accumulated_insights,
+                }
+
+                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
+
+                for colony_type in target_colony_types:
+                    # Create enhanced task with accumulated insights
+                    enhanced_task = ColonyDreamTask(
+                        task_id=task.task_id,
+                        dream_id=task.dream_id,
+                        task_type=task.task_type,
+                        dream_data=enhanced_task_data,
+                        user_context=task.user_context,
+                    )
+
+                    result = await self._execute_single_colony_task(enhanced_task, colony_type)
+                    colony_results.append(result)
+
+                    # Accumulate insights for next task
+                    if result.get("success", False) and "insights" in result:
+                        accumulated_insights.extend(result["insights"])
+
+            # Final synthesis
+            synthesis_result = await self._synthesize_colony_results(colony_results)
+
+            processing_time = asyncio.get_event_loop().time() - start_time
+
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=colony_results,
+                synthesis_result=synthesis_result,
+                processing_time_seconds=processing_time,
+                success=True,
+            )
+
+        except Exception as e:
+            processing_time = asyncio.get_event_loop().time() - start_time
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=colony_results,
+                processing_time_seconds=processing_time,
+                success=False,
+                error=str(e),
+            )
+
     async def _execute_single_colony_task(self, task: ColonyDreamTask, colony_type: ColonyType) -> dict[str, Any]:
         """Execute a single dream task on a specific colony type"""
+        try:
+            if not COLONY_SYSTEM_AVAILABLE or not self.colony_orchestrator:
+                return {
+                    "success": False,
+                    "error": "Colony system not available",
+                    "colony_type": colony_type.value,
+                    "task_id": task.task_id,
+                }
+
+            # Create colony task
+            colony_task = ColonyTask(
+                task_id=task.task_id,
+                colony_type=colony_type,
+                target_colonies=[f"core_{colony_type.value}"],
+                payload={
+                    "dream_id": task.dream_id,
+                    "dream_data": task.dream_data,
+                    "task_type": task.task_type.value,
+                    "processing_context": "dream_coordination",
+                },
+                priority=task.priority,
+                user_context=task.user_context,
+            )
+
+            # Execute through colony orchestrator
+            result = await self.colony_orchestrator.execute_colony_task(colony_task)
+
+            # Enhance result with dream-specific metadata
+            enhanced_result = {
+                **result,
+                "colony_type": colony_type.value,
+                "dream_id": task.dream_id,
+                "task_type": task.task_type.value,
+                "coordinator_processed": True,
+            }
+
+            return enhanced_result
+
+        except Exception as e:
+            self.logger.error(f"Colony task execution failed: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "colony_type": colony_type.value,
+                "task_id": task.task_id,
+            }
+
     async def _synthesize_colony_results(self, colony_results: list[dict[str, Any]]) -> dict[str, Any]:
         """Synthesize results from multiple colony executions"""
+        try:
+            successful_results = [r for r in colony_results if r.get("success", False)]
+
+            if not successful_results:
+                return {
+                    "synthesis_type": "error",
+                    "message": "No successful colony results to synthesize",
+                    "total_results": len(colony_results),
+                }
+
+            # Extract insights from all successful results
+            all_insights = []
+            colony_types_used = []
+
+            for result in successful_results:
+                colony_types_used.append(result.get("colony_type", "unknown"))
+
+                # Extract insights from colony result
+                if "colony_results" in result:
+                    for colony_result in result["colony_results"]:
+                        if "result" in colony_result and "insights" in colony_result["result"]:
+                            all_insights.extend(colony_result["result"]["insights"])
+
+                # Direct insights
+                if "insights" in result:
+                    all_insights.extend(result["insights"])
+
+            # Synthesize insights
+            insight_synthesis = self._synthesize_insights(all_insights)
+
+            # Calculate consensus metrics
+            consensus_metrics = self._calculate_synthesis_consensus(successful_results)
+
+            return {
+                "synthesis_type": "multi_colony_synthesis",
+                "colonies_involved": list(set(colony_types_used)),
+                "total_insights": len(all_insights),
+                "insight_synthesis": insight_synthesis,
+                "consensus_metrics": consensus_metrics,
+                "synthesis_confidence": consensus_metrics.get("overall_confidence", 0.0),
+                "successful_colonies": len(successful_results),
+                "total_colonies": len(colony_results),
+            }
+
+        except Exception as e:
+            self.logger.error(f"Result synthesis failed: {e}")
+            return {
+                "synthesis_type": "error",
+                "error": str(e),
+                "total_results": len(colony_results),
+            }
+
     def _synthesize_insights(self, all_insights: list[dict]) -> dict[str, Any]:
         """Synthesize insights from multiple colonies"""
         if not all_insights:
@@ -921,6 +742,85 @@ class ColonyDreamCoordinator:
 
     async def _apply_swarm_consensus(self, colony_results: list[dict[str, Any]]) -> dict[str, Any]:
         """Apply swarm consensus algorithm to colony results"""
+        try:
+            # Extract decisions/insights from each colony
+            colony_decisions = []
+            for result in colony_results:
+                if result.get("success", False):
+                    decision = {
+                        "colony_type": result.get("colony_type", "unknown"),
+                        "confidence": result.get("confidence", 0.7),
+                        "insights": result.get("insights", []),
+                        "recommendation": result.get("recommendation", "neutral"),
+                    }
+                    colony_decisions.append(decision)
+
+            if not colony_decisions:
+                return {
+                    "consensus_achieved": False,
+                    "consensus_confidence": 0.0,
+                    "error": "No valid colony decisions for consensus",
+                }
+
+            # Apply weighted voting based on colony confidence
+            consensus_threshold = 0.67
+            recommendation_votes = {}
+            total_weight = 0.0
+
+            for decision in colony_decisions:
+                recommendation = decision["recommendation"]
+                confidence = decision["confidence"]
+
+                if recommendation not in recommendation_votes:
+                    recommendation_votes[recommendation] = 0.0
+
+                recommendation_votes[recommendation] += confidence
+                total_weight += confidence
+
+            # Determine consensus
+            if total_weight > 0:
+                # Normalize votes
+                for rec in recommendation_votes:
+                    recommendation_votes[rec] /= total_weight
+
+                # Check if any recommendation meets threshold
+                consensus_achieved = False
+                winning_recommendation = None
+                winning_confidence = 0.0
+
+                for rec, confidence in recommendation_votes.items():
+                    if confidence >= consensus_threshold:
+                        consensus_achieved = True
+                        winning_recommendation = rec
+                        winning_confidence = confidence
+                        break
+
+                if not consensus_achieved:
+                    # Use highest scoring recommendation
+                    winning_recommendation = max(recommendation_votes.items(), key=lambda x: x[1])[0]
+                    winning_confidence = recommendation_votes[winning_recommendation]
+            else:
+                consensus_achieved = False
+                winning_recommendation = "no_consensus"
+                winning_confidence = 0.0
+
+            return {
+                "consensus_achieved": consensus_achieved,
+                "consensus_confidence": winning_confidence,
+                "winning_recommendation": winning_recommendation,
+                "vote_distribution": recommendation_votes,
+                "participating_colonies": len(colony_decisions),
+                "total_weight": total_weight,
+            }
+
+        except Exception as e:
+            self.logger.error(f"Swarm consensus failed: {e}")
+            return {
+                "consensus_achieved": False,
+                "consensus_confidence": 0.0,
+                "error": str(e),
+            }
+
     async def integrate_with_multiverse_dreams(
         self, dream_seed: dict[str, Any], parallel_paths: int = 5
     ) -> dict[str, Any]:
@@ -930,10 +830,124 @@ class ColonyDreamCoordinator:
         Combines the multiverse dream capabilities with distributed colony processing
         for enhanced parallel dream analysis across multiple dimensions.
         """
+        try:
+            if not QUANTUM_DREAM_AVAILABLE or not self.qi_dream_adapter:
+                return {
+                    "success": False,
+                    "error": "Quantum dream adapter not available for multiverse integration",
+                }
+
+            self.logger.info(f"Integrating multiverse dreams with colony processing: {parallel_paths} paths")
+
+            # Execute multiverse dream simulation
+            multiverse_result = await self.qi_dream_adapter.simulate_multiverse_dreams(dream_seed, parallel_paths)
+
+            if not multiverse_result.get("success", False):
+                return multiverse_result
+
+            # Process each parallel dream path through colonies
+            parallel_dream_results = []
+
+            for dream_path in multiverse_result["parallel_dreams"]:
+                if dream_path["result"].get("success", False):
+                    # Create dream data for colony processing
+                    path_dream_data = {
+                        "dream_seed": dream_seed,
+                        "path_config": dream_path["config"],
+                        "path_result": dream_path["result"],
+                        "qi_state": dream_path["result"].get("qi_state"),
+                        "dream_insights": dream_path["result"].get("dream_insights", []),
+                    }
+
+                    # Process through colonies
+                    colony_result = await self.process_dream_with_colonies(
+                        dream_id=f"multiverse_{dream_path['path_id']}",
+                        dream_data=path_dream_data,
+                        task_types=[
+                            DreamTaskType.DREAM_ANALYSIS,
+                            DreamTaskType.ETHICAL_REVIEW,
+                            DreamTaskType.CREATIVE_SYNTHESIS,
+                        ],
+                        distribution_strategy=DreamDistributionStrategy.PARALLEL,
+                    )
+
+                    parallel_dream_results.append(
+                        {
+                            "path_id": dream_path["path_id"],
+                            "multiverse_result": dream_path["result"],
+                            "colony_processing": colony_result,
+                        }
+                    )
+
+            # Synthesize results from both multiverse and colony processing
+            integrated_synthesis = await self._synthesize_multiverse_colony_results(
+                multiverse_result, parallel_dream_results
+            )
+
+            return {
+                "success": True,
+                "integration_type": "multiverse_colony_integration",
+                "multiverse_result": multiverse_result,
+                "colony_processing_results": parallel_dream_results,
+                "integrated_synthesis": integrated_synthesis,
+                "total_paths_processed": len(parallel_dream_results),
+                "integration_timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+        except Exception as e:
+            self.logger.error(f"Multiverse-colony integration failed: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "integration_type": "multiverse_colony_integration",
+            }
+
     async def _synthesize_multiverse_colony_results(
         self, multiverse_result: dict[str, Any], colony_results: list[dict[str, Any]]
     ) -> dict[str, Any]:
         """Synthesize results from both multiverse and colony processing"""
+        try:
+            # Extract convergent insights from multiverse
+            multiverse_insights = multiverse_result.get("convergent_insights", {})
+
+            # Extract synthesis from colony processing
+            colony_syntheses = []
+            for result in colony_results:
+                colony_processing = result.get("colony_processing")
+                if colony_processing and colony_processing.success:
+                    colony_syntheses.append(colony_processing.synthesis_result)
+
+            # Cross-validate insights between multiverse and colony results
+            cross_validated_insights = self._cross_validate_insights(multiverse_insights, colony_syntheses)
+
+            # Calculate integrated confidence
+            multiverse_coherence = multiverse_result.get("overall_coherence", 0.0)
+            colony_confidence = sum(s.get("synthesis_confidence", 0.0) for s in colony_syntheses) / max(
+                1, len(colony_syntheses)
+            )
+
+            integrated_confidence = (multiverse_coherence + colony_confidence) / 2.0
+
+            return {
+                "synthesis_type": "multiverse_colony_synthesis",
+                "multiverse_insights": multiverse_insights,
+                "colony_syntheses": colony_syntheses,
+                "cross_validated_insights": cross_validated_insights,
+                "integrated_confidence": integrated_confidence,
+                "multiverse_coherence": multiverse_coherence,
+                "colony_confidence": colony_confidence,
+                "synthesis_strength": len(cross_validated_insights) / max(1, len(colony_syntheses)),
+            }
+
+        except Exception as e:
+            self.logger.error(f"Multiverse-colony synthesis failed: {e}")
+            return {
+                "synthesis_type": "error",
+                "error": str(e),
+                "multiverse_insights": multiverse_result.get("convergent_insights", {}),
+                "colony_results_count": len(colony_results),
+            }
+
     def _cross_validate_insights(
         self,
         multiverse_insights: dict[str, Any],

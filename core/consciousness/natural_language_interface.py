@@ -1,3 +1,9 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
 """
 Natural Language Consciousness Interface
 =======================================
@@ -11,9 +17,6 @@ Features:
 - Multi-turn dialogue support
 - Emotional context preservation
 """
-
-from __future__ import annotations
-import logging
 
 import asyncio
 import re
@@ -29,233 +32,6 @@ from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import get_service, register_service
-
-        try:
-            logger.info("Initializing Natural Language Consciousness Interface...")
-
-            # Initialize branding system
-            await initialize_branding()
-            logger.info(f"🎨 Branding integrated: {self.branding_bridge.get_system_signature()}")
-
-            # Get required services
-            self.consciousness_service = get_service("consciousness_service")
-            self.memory_service = get_service("memory_service")
-            self.emotion_service = get_service("emotion_service")
-            self.dream_engine = get_service("dream_engine")
-            self.reality_simulator = get_service("parallel_reality_simulator")
-
-            # Register this service
-            register_service("nl_consciousness_interface", self, singleton=True)
-
-            self.operational = True
-            logger.info("Natural Language Interface initialized successfully")
-
-        except Exception as e:
-            raise LukhasError(f"Initialization failed: {e}")
-
-            try:
-                result = await self.emotion_service.analyze_text(user_input)
-                service_scores = result.get("emotions", {}) or {}
-            except BaseException:
-
-        try:
-            awareness = await self.consciousness_service.assess_awareness({})
-
-            overall = awareness.get("overall_awareness", 0)
-
-            # Determine awareness state description
-            if overall > 0.8:
-                state = "heightened"
-                detail = "I'm highly aware of my environment and internal states."
-            elif overall > 0.6:
-                state = "normal"
-                detail = "My awareness is stable and functioning well."
-            elif overall > 0.4:
-                state = "moderate"
-                detail = "I'm maintaining basic awareness functions."
-            else:
-                state = "reduced"
-                detail = "My awareness is limited at the moment."
-
-            # Get focus targets
-            targets = awareness.get("attention_targets", [])
-            focus_desc = f"Currently focused on: {', '.join(targets)}" if targets else "No specific focus targets."
-
-            return {
-                "awareness_level": overall,
-                "awareness_state": state,
-                "awareness_detail": detail,
-                "focus_description": focus_desc,
-                "awareness_summary": f"{state} awareness at {overall:.1%} with {len(targets)} focus targets",
-            }
-
-        except Exception as e:
-            return {"error": "Unable to assess awareness"}
-
-        try:
-            decision = await self.consciousness_service.make_decision(
-                {
-                    "scenario": "user_decision_request",
-                    "options": options,
-                    "context": entities,
-                }
-            )
-
-            selected = decision.get("selected_option", options[0])
-            confidence = decision.get("confidence", 0.5)
-            reasoning = decision.get("reasoning", ["Analyzed available options"])
-
-            # Format reasoning
-            reasoning_text = ". ".join(reasoning[:3])  # Limit to 3 reasons
-
-            # Create analysis
-            analysis = f"I've evaluated {len(options)} options with {confidence:.0%} confidence"
-
-            return {
-                "recommendation": selected,
-                "reasoning": reasoning_text,
-                "analysis": analysis,
-                "choice": selected,
-                "decision_details": f"{selected} (confidence: {confidence:.0%})",
-            }
-
-        except Exception as e:
-            return {"error": "Unable to process decision"}
-
-        try:
-            # Search based on time reference or general query
-            time_ref = entities.get("time_reference", {})
-
-            memories = await self.memory_service.search(query=time_ref, limit=5)
-
-            count = len(memories)
-
-            if count > 0:
-                # Summarize memories
-                summary = f"The most relevant memory involves {memories[0].get('summary', 'past interactions')}"
-                details = f"Found {count} memories spanning different time periods"
-                results = f"Retrieved {count} relevant memories from the database"
-            else:
-                summary = "No specific memories match your query"
-                details = "No memories found for that timeframe"
-                results = "Search returned no results"
-
-            return {
-                "memory_count": count,
-                "memory_summary": summary,
-                "memory_results": results,
-                "memory_details": details,
-            }
-
-        except Exception as e:
-            return {"memory_count": 0, "memory_summary": "Memory exploration failed"}
-
-            try:
-                state = await self.emotion_service.get_current_state()
-                dominant = state.get("dominant_emotion", "neutral")
-                valence = state.get("valence", 0)
-
-                if valence > 0.5:
-                    summary = "positive and engaged"
-                elif valence < -0.5:
-                    summary = "somewhat subdued"
-                else:
-                    summary = "balanced and neutral"
-
-                return {
-                    "emotional_state": dominant,
-                    "emotional_context": "This is influenced by our ongoing interaction.",
-                    "emotion_summary": summary,
-                    "emotion_details": f"{dominant} with {abs(valence):.0%} intensity",
-                }
-            except BaseException:
-
-            try:
-                dream_result = await self.dream_engine.generate_dream_sequence(
-                    [{"topic": topic, "type": "creative_exploration"}]
-                )
-
-                narrative = dream_result.get("dream_sequence", {}).get(
-                    "narrative",
-                    f"In this dream, {topic} transforms into unexpected patterns...",
-                )
-
-                return {
-                    "dream_narrative": narrative,
-                    "dream_vision": f"a world where {topic} takes on new meaning",
-                    "dream_result": narrative[:200] + "...",  # Truncate for response
-                }
-            except BaseException:
-
-            try:
-                # Create simple scenario
-                simulation = await self.reality_simulator.create_simulation(
-                    origin_scenario={"context": "user_query", "entities": entities},
-                    branch_count=3,
-                )
-
-                branches = simulation.branches[:3]
-                branch_desc = [
-                    f"Reality {i + 1}: {b.divergence_point.get('summary', 'alternative path')}"
-                    for i, b in enumerate(branches)
-                ]
-
-                return {
-                    "reality_branches": f"I see {len(branches)} possible realities",
-                    "alternatives": "; ".join(branch_desc),
-                    "reality_analysis": f"Most probable outcome has {branches[0].probability:.0%} likelihood",
-                }
-            except BaseException:
-
-        try:
-            response = template.format(**response_data)
-        except KeyError:
-            response = str(response_data.get("response", "I processed your request."))
-
-        try:
-            # Adjust brand context based on intent
-            brand_context = self.brand_context
-            if intent in [
-                ConversationIntent.DREAM_REQUEST,
-                ConversationIntent.REALITY_EXPLORATION,
-            ]:
-                # Enable creative mode for creative intents
-                brand_context = BrandContext(
-                    voice_profile="consciousness",
-                    constellation_emphasis="consciousness",
-                    compliance_level="standard",
-                    creative_mode=True,
-                    terminology_enforcement=True,
-                )
-
-            # Apply brand voice through the bridge
-            branded_response = self.branding_bridge.get_brand_voice(response, brand_context)
-
-            # Add Constellation Framework context for consciousness responses
-            if intent == ConversationIntent.QUERY_AWARENESS:
-                constellation_context = self.branding_bridge.get_constellation_context("consciousness")
-                constellation_context["consciousness"]["description"]
-                # Enhance with consciousness symbol if not already present
-                if "🧠" not in branded_response:
-                    branded_response = f"🧠 {branded_response}"
-
-            # Validate brand compliance
-            validation = self.branding_bridge.validate_output(branded_response, brand_context)
-            if not validation["valid"]:
-                logger.warning(f"Brand compliance issues: {validation['issues']}")
-                # Apply corrections if needed
-                branded_response = self.branding_bridge.normalize_output(branded_response, brand_context)
-
-            return branded_response
-
-        except Exception as e:
-            # Fallback to basic brand normalization
-            return self.branding_bridge.normalize_output(response, self.brand_context)
-
-    from unittest.mock import AsyncMock, Mock
-    from core.interfaces.dependency_injection import register_service
-
-logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -475,6 +251,30 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
     async def initialize(self) -> None:
         """Initialize the natural language interface"""
+        try:
+            logger.info("Initializing Natural Language Consciousness Interface...")
+
+            # Initialize branding system
+            await initialize_branding()
+            logger.info(f"🎨 Branding integrated: {self.branding_bridge.get_system_signature()}")
+
+            # Get required services
+            self.consciousness_service = get_service("consciousness_service")
+            self.memory_service = get_service("memory_service")
+            self.emotion_service = get_service("emotion_service")
+            self.dream_engine = get_service("dream_engine")
+            self.reality_simulator = get_service("parallel_reality_simulator")
+
+            # Register this service
+            register_service("nl_consciousness_interface", self, singleton=True)
+
+            self.operational = True
+            logger.info("Natural Language Interface initialized successfully")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize NL interface: {e}")
+            raise LukhasError(f"Initialization failed: {e}")
+
     async def process_input(
         self,
         user_input: str,
@@ -650,6 +450,12 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         # If an emotion service is available, blend by taking the max per dimension to keep strong signals
         service_scores: dict[str, float] = {}
         if self.emotion_service:
+            try:
+                result = await self.emotion_service.analyze_text(user_input)
+                service_scores = result.get("emotions", {}) or {}
+            except BaseException:
+                service_scores = {}
+
         # Merge results, preferring the stronger signal per emotion
         emotions = dict.fromkeys(fallback.keys(), 0.0)
         for k in emotions:
@@ -750,12 +556,78 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         if not self.consciousness_service:
             return {"error": "Consciousness service not available"}
 
+        try:
+            awareness = await self.consciousness_service.assess_awareness({})
+
+            overall = awareness.get("overall_awareness", 0)
+
+            # Determine awareness state description
+            if overall > 0.8:
+                state = "heightened"
+                detail = "I'm highly aware of my environment and internal states."
+            elif overall > 0.6:
+                state = "normal"
+                detail = "My awareness is stable and functioning well."
+            elif overall > 0.4:
+                state = "moderate"
+                detail = "I'm maintaining basic awareness functions."
+            else:
+                state = "reduced"
+                detail = "My awareness is limited at the moment."
+
+            # Get focus targets
+            targets = awareness.get("attention_targets", [])
+            focus_desc = f"Currently focused on: {', '.join(targets)}" if targets else "No specific focus targets."
+
+            return {
+                "awareness_level": overall,
+                "awareness_state": state,
+                "awareness_detail": detail,
+                "focus_description": focus_desc,
+                "awareness_summary": f"{state} awareness at {overall:.1%} with {len(targets)} focus targets",
+            }
+
+        except Exception as e:
+            logger.error(f"Error processing awareness query: {e}")
+            return {"error": "Unable to assess awareness"}
+
     async def _process_decision_request(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process decision-making request"""
         if not self.consciousness_service:
             return {"error": "Consciousness service not available"}
 
         options = entities.get("options", ["option A", "option B"])
+
+        try:
+            decision = await self.consciousness_service.make_decision(
+                {
+                    "scenario": "user_decision_request",
+                    "options": options,
+                    "context": entities,
+                }
+            )
+
+            selected = decision.get("selected_option", options[0])
+            confidence = decision.get("confidence", 0.5)
+            reasoning = decision.get("reasoning", ["Analyzed available options"])
+
+            # Format reasoning
+            reasoning_text = ". ".join(reasoning[:3])  # Limit to 3 reasons
+
+            # Create analysis
+            analysis = f"I've evaluated {len(options)} options with {confidence:.0%} confidence"
+
+            return {
+                "recommendation": selected,
+                "reasoning": reasoning_text,
+                "analysis": analysis,
+                "choice": selected,
+                "decision_details": f"{selected} (confidence: {confidence:.0%})",
+            }
+
+        except Exception as e:
+            logger.error(f"Error processing decision: {e}")
+            return {"error": "Unable to process decision"}
 
     async def _process_reflection_request(self, context: ConversationContext) -> dict[str, Any]:
         """Process reflection request"""
@@ -791,9 +663,59 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 "memory_details": "No memories found.",
             }
 
+        try:
+            # Search based on time reference or general query
+            time_ref = entities.get("time_reference", {})
+
+            memories = await self.memory_service.search(query=time_ref, limit=5)
+
+            count = len(memories)
+
+            if count > 0:
+                # Summarize memories
+                summary = f"The most relevant memory involves {memories[0].get('summary', 'past interactions')}"
+                details = f"Found {count} memories spanning different time periods"
+                results = f"Retrieved {count} relevant memories from the database"
+            else:
+                summary = "No specific memories match your query"
+                details = "No memories found for that timeframe"
+                results = "Search returned no results"
+
+            return {
+                "memory_count": count,
+                "memory_summary": summary,
+                "memory_results": results,
+                "memory_details": details,
+            }
+
+        except Exception as e:
+            logger.error(f"Error exploring memory: {e}")
+            return {"memory_count": 0, "memory_summary": "Memory exploration failed"}
+
     async def _process_emotional_check(self) -> dict[str, Any]:
         """Process emotional state check"""
         if self.emotion_service:
+            try:
+                state = await self.emotion_service.get_current_state()
+                dominant = state.get("dominant_emotion", "neutral")
+                valence = state.get("valence", 0)
+
+                if valence > 0.5:
+                    summary = "positive and engaged"
+                elif valence < -0.5:
+                    summary = "somewhat subdued"
+                else:
+                    summary = "balanced and neutral"
+
+                return {
+                    "emotional_state": dominant,
+                    "emotional_context": "This is influenced by our ongoing interaction.",
+                    "emotion_summary": summary,
+                    "emotion_details": f"{dominant} with {abs(valence):.0%} intensity",
+                }
+            except BaseException:
+                pass
+
         # Fallback response
         return {
             "emotional_state": "stable",
@@ -807,6 +729,24 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         topic = entities.get("dream_topic", "possibilities")
 
         if self.dream_engine:
+            try:
+                dream_result = await self.dream_engine.generate_dream_sequence(
+                    [{"topic": topic, "type": "creative_exploration"}]
+                )
+
+                narrative = dream_result.get("dream_sequence", {}).get(
+                    "narrative",
+                    f"In this dream, {topic} transforms into unexpected patterns...",
+                )
+
+                return {
+                    "dream_narrative": narrative,
+                    "dream_vision": f"a world where {topic} takes on new meaning",
+                    "dream_result": narrative[:200] + "...",  # Truncate for response
+                }
+            except BaseException:
+                pass
+
         # Fallback creative response
         return {
             "dream_narrative": f"I imagine {topic} unfolding in surprising ways, where boundaries dissolve and new connections emerge.",
@@ -817,6 +757,27 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
     async def _process_reality_exploration(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process alternative reality exploration"""
         if self.reality_simulator:
+            try:
+                # Create simple scenario
+                simulation = await self.reality_simulator.create_simulation(
+                    origin_scenario={"context": "user_query", "entities": entities},
+                    branch_count=3,
+                )
+
+                branches = simulation.branches[:3]
+                branch_desc = [
+                    f"Reality {i + 1}: {b.divergence_point.get('summary', 'alternative path')}"
+                    for i, b in enumerate(branches)
+                ]
+
+                return {
+                    "reality_branches": f"I see {len(branches)} possible realities",
+                    "alternatives": "; ".join(branch_desc),
+                    "reality_analysis": f"Most probable outcome has {branches[0].probability:.0%} likelihood",
+                }
+            except BaseException:
+                pass
+
         # Fallback response
         return {
             "reality_branches": "I can envision several alternative paths",
@@ -863,6 +824,12 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         template = templates[0]  # Could randomize for variety
 
         # Format response
+        try:
+            response = template.format(**response_data)
+        except KeyError:
+            # Fallback if template variables don't match
+            response = str(response_data.get("response", "I processed your request."))
+
         # Apply tone adjustments
         response = self._apply_tone(response, tone)
 
@@ -914,6 +881,47 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
     def _apply_brand_voice(self, response: str, intent: ConversationIntent) -> str:
         """Apply LUKHAS AI brand voice to response"""
+        try:
+            # Adjust brand context based on intent
+            brand_context = self.brand_context
+            if intent in [
+                ConversationIntent.DREAM_REQUEST,
+                ConversationIntent.REALITY_EXPLORATION,
+            ]:
+                # Enable creative mode for creative intents
+                brand_context = BrandContext(
+                    voice_profile="consciousness",
+                    constellation_emphasis="consciousness",
+                    compliance_level="standard",
+                    creative_mode=True,
+                    terminology_enforcement=True,
+                )
+
+            # Apply brand voice through the bridge
+            branded_response = self.branding_bridge.get_brand_voice(response, brand_context)
+
+            # Add Constellation Framework context for consciousness responses
+            if intent == ConversationIntent.QUERY_AWARENESS:
+                constellation_context = self.branding_bridge.get_constellation_context("consciousness")
+                constellation_context["consciousness"]["description"]
+                # Enhance with consciousness symbol if not already present
+                if "🧠" not in branded_response:
+                    branded_response = f"🧠 {branded_response}"
+
+            # Validate brand compliance
+            validation = self.branding_bridge.validate_output(branded_response, brand_context)
+            if not validation["valid"]:
+                logger.warning(f"Brand compliance issues: {validation['issues']}")
+                # Apply corrections if needed
+                branded_response = self.branding_bridge.normalize_output(branded_response, brand_context)
+
+            return branded_response
+
+        except Exception as e:
+            logger.warning(f"Brand voice application failed: {e}")
+            # Fallback to basic brand normalization
+            return self.branding_bridge.normalize_output(response, self.brand_context)
+
     # Required interface methods
 
     async def process(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -1024,6 +1032,7 @@ async def demo_natural_language_interface():
     interface = NaturalLanguageConsciousnessInterface(config={"enable_emotions": True, "formality_level": "friendly"})
 
     # Mock services
+    from unittest.mock import AsyncMock, Mock
 
     mock_consciousness = Mock()
     mock_consciousness.assess_awareness = AsyncMock(
@@ -1040,6 +1049,7 @@ async def demo_natural_language_interface():
         }
     )
 
+    from core.interfaces.dependency_injection import register_service
 
     register_service("consciousness_service", mock_consciousness)
 

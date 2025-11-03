@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 
 #TAG:consciousness
@@ -48,8 +50,6 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
-
-from __future__ import annotations
 import asyncio
 import logging
 import time
@@ -72,6 +72,7 @@ try:
 
     COLONY_SYSTEM_AVAILABLE = True
 except ImportError as e:
+    logging.warning(f"Colony system not fully available: {e}")
     COLONY_SYSTEM_AVAILABLE = False
 
     # Create fallback base class
@@ -94,6 +95,7 @@ try:
 
     BIO_SYMBOLIC_AVAILABLE = True
 except ImportError as e:
+    logging.warning(f"Bio-symbolic system not available: {e}")
     BIO_SYMBOLIC_AVAILABLE = False
 
 # Import quantum identity integration
@@ -106,450 +108,8 @@ try:
 
     QUANTUM_IDENTITY_AVAILABLE = True
 except ImportError as e:
+    logging.warning(f"Quantum identity system not available: {e}")
     QUANTUM_IDENTITY_AVAILABLE = False
-
-        try:
-            self.logger.info("Initializing colony orchestrator...")
-
-            # Initialize bio-symbolic integration
-            if BIO_SYMBOLIC_AVAILABLE and self.config.get("bio_symbolic_integration", True):
-                await self._initialize_bio_symbolic_integration()
-                self.logger.info("Bio-symbolic integration initialized")
-
-            # Create default colonies for core functionality
-            await self._create_default_colonies()
-
-            # Start background monitoring tasks
-            await self._start_monitoring_tasks()
-
-            self.is_running = True
-            self.logger.info("Colony orchestrator fully operational")
-            return True
-
-        except Exception as e:
-            return False
-
-        try:
-            # Create bio-symbolic orchestrator
-            self.bio_symbolic_orchestrator = create_bio_symbolic_orchestrator()
-
-            # Initialize coherence processors for different colony types
-            self.coherence_processors = {
-                "reasoning": BioSymbolicProcessor("reasoning_coherence"),
-                "creativity": BioSymbolicProcessor("creativity_coherence"),
-                "memory": BioSymbolicProcessor("memory_coherence"),
-                "oracle": BioSymbolicProcessor("oracle_coherence"),
-                "ethics": BioSymbolicProcessor("ethics_coherence"),
-            }
-
-            self.logger.info("Bio-symbolic coherence integration initialized")
-
-        except Exception as e:
-
-            try:
-                await self.spawn_colony(colony_config)
-                self.logger.info(f"Created default colony: {colony_config.colony_id}")
-            except Exception as e:
-
-        try:
-            colony_id = colony_config.colony_id
-            self.logger.info(f"Spawning colony: {colony_id}")
-
-            # Validate colony configuration
-            if not self._validate_colony_config(colony_config):
-                return {
-                    "success": False,
-                    "error": "Invalid colony configuration",
-                    "colony_id": colony_id,
-                }
-
-            # Check resource availability
-            if not self._can_create_colony(colony_config):
-                return {
-                    "success": False,
-                    "error": "Insufficient resources for colony creation",
-                    "colony_id": colony_id,
-                }
-
-            # Set colony state to initializing
-            self.colony_states[colony_id] = ColonyState.INITIALIZING
-
-            # Create colony instance
-            colony = await self._create_colony_instance(colony_config)
-
-            if colony:
-                # Wrap colony with quantum identity proxy if enabled
-                if QUANTUM_IDENTITY_AVAILABLE and colony_config.qi_identity_enabled:
-                    proxy = TierAwareColonyProxy(colony)
-                    self.colony_proxies[colony_id] = proxy
-                    effective_colony = proxy
-                else:
-                    effective_colony = colony
-
-                # Register colony
-                self.active_colonies[colony_id] = effective_colony
-                self.colony_configs[colony_id] = colony_config
-                self.colony_states[colony_id] = ColonyState.ACTIVE
-
-                # Initialize bio-symbolic coherence if enabled
-                if colony_config.bio_symbolic_integration:
-                    await self._initialize_colony_coherence(colony_id, colony_config)
-
-                # Update metrics
-                self.metrics.total_colonies_active += 1
-                self.metrics.total_agents_active += colony_config.initial_agents
-
-                self.logger.info(f"Colony spawned successfully: {colony_id}")
-
-                return {
-                    "success": True,
-                    "colony_id": colony_id,
-                    "colony_type": colony_config.colony_type.value,
-                    "initial_agents": colony_config.initial_agents,
-                    "bio_symbolic_enabled": colony_config.bio_symbolic_integration,
-                    "qi_identity_enabled": colony_config.qi_identity_enabled,
-                    "created_at": datetime.now(timezone.utc).isoformat(),
-                }
-            else:
-                self.colony_states[colony_id] = ColonyState.ERROR
-                return {
-                    "success": False,
-                    "error": "Failed to create colony instance",
-                    "colony_id": colony_id,
-                }
-
-        except Exception as e:
-            if colony_config.colony_id in self.colony_states:
-                self.colony_states[colony_config.colony_id] = ColonyState.ERROR
-
-            return {
-                "success": False,
-                "error": str(e),
-                "colony_id": colony_config.colony_id,
-            }
-
-        try:
-            # Create colony instance with specialized configuration
-            if config.colony_type == ColonyType.REASONING:
-                colony = colony_class(
-                    colony_id=config.colony_id,
-                    reasoning_agents=config.specialized_config.get("reasoning_types", []),
-                )
-            elif config.colony_type == ColonyType.CREATIVITY:
-                colony = colony_class(
-                    colony_id=config.colony_id,
-                    creative_drives=config.specialized_config.get("drives", []),
-                )
-            elif config.colony_type == ColonyType.ORACLE:
-                colony = colony_class(
-                    colony_id=config.colony_id,
-                    oracle_capabilities=config.specialized_config.get("capabilities", []),
-                )
-            elif config.colony_type == ColonyType.ETHICS:
-                colony = colony_class(
-                    colony_id=config.colony_id,
-                    ethical_frameworks=config.specialized_config.get("ethical_frameworks", []),
-                )
-            else:
-                colony = colony_class(colony_id=config.colony_id, config=config.specialized_config)
-
-            # Initialize colony
-            await colony.initialize()
-
-            return colony
-
-        except Exception as e:
-            return None
-
-        try:
-            colony_type = config.colony_type.value
-
-            # Get appropriate coherence processor
-            processor = self.coherence_processors.get(colony_type)
-            if processor:
-                # Configure coherence processing for this colony
-                coherence_config = {
-                    "colony_id": colony_id,
-                    "colony_type": colony_type,
-                    "target_coherence": self.config.get("coherence_threshold", 85.0),
-                    "bio_data_integration": True,
-                    "symbolic_processing": True,
-                }
-
-                await processor.configure_coherence(coherence_config)
-                self.logger.info(f"Bio-symbolic coherence initialized for colony: {colony_id}")
-
-        except Exception as e:
-
-        try:
-            task_id = task.task_id
-            self.logger.info(f"Executing colony task: {task_id}")
-
-            # Determine target colonies
-            if task.target_colonies:
-                target_colonies = task.target_colonies
-            else:
-                target_colonies = await self._select_optimal_colonies(task)
-
-            # Validate target colonies are available
-            available_colonies = []
-            for colony_id in target_colonies:
-                if colony_id in self.active_colonies and self.colony_states.get(colony_id) == ColonyState.ACTIVE:
-                    available_colonies.append(colony_id)
-                else:
-                    self.logger.warning(f"Colony {colony_id} not available for task {task_id}")
-
-            if not available_colonies:
-                return {
-                    "success": False,
-                    "error": "No available colonies for task execution",
-                    "task_id": task_id,
-                }
-
-            # Execute task with bio-symbolic coherence processing
-            if self.config.get("bio_symbolic_integration", True):
-                result = await self._execute_bio_symbolic_task(task, available_colonies)
-            else:
-                result = await self._execute_standard_task(task, available_colonies)
-
-            # Update metrics
-            self.metrics.tasks_processed += 1
-            if result["success"]:
-                self.metrics.tasks_successful += 1
-            else:
-                self.metrics.tasks_failed += 1
-
-            # Update response time metric
-            processing_time = result.get("processing_time", 0.0)
-            self._update_average_response_time(processing_time)
-
-            self.logger.info(f"Colony task completed: {task_id}")
-            return result
-
-        except Exception as e:
-            self.metrics.tasks_processed += 1
-            self.metrics.tasks_failed += 1
-
-            return {"success": False, "error": str(e), "task_id": task.task_id}
-
-        try:
-            # Process task through bio-symbolic orchestrator
-            bio_symbolic_input = {
-                "task_id": task.task_id,
-                "task_type": task.colony_type.value,
-                "colonies": colony_ids,
-                "payload": task.payload,
-                "user_context": (task.user_context.__dict__ if task.user_context else None),
-                "bio_data": {
-                    "heart_rate": 72,  # Placeholder - would come from actual bio sensors
-                    "temperature": 37.0,
-                    "coherence_target": self.config.get("coherence_threshold", 85.0),
-                },
-            }
-
-            # Execute through bio-symbolic orchestrator
-            bio_result = await self.bio_symbolic_orchestrator.execute_task(task.task_id, bio_symbolic_input)
-
-            # Extract coherence metrics
-            coherence_metrics = bio_result.get("coherence_metrics", {})
-            overall_coherence = coherence_metrics.get("overall_coherence", 0.0)
-
-            # Update system coherence metrics
-            self.metrics.bio_symbolic_coherence = self.metrics.bio_symbolic_coherence * 0.9 + overall_coherence * 0.1
-
-            # Execute on actual colonies with coherence-enhanced processing
-            colony_results = []
-            for colony_id in colony_ids:
-                colony = self.active_colonies[colony_id]
-
-                # Enhance task payload with coherence data
-                enhanced_payload = task.payload.copy()
-                enhanced_payload["coherence_context"] = {
-                    "overall_coherence": overall_coherence,
-                    "bio_symbolic_result": bio_result,
-                    "target_coherence": self.config.get("coherence_threshold", 85.0),
-                }
-
-                # Execute on colony (with quantum identity context if available)
-                if colony_id in self.colony_proxies:
-                    colony_result = await self.colony_proxies[colony_id].execute_task(
-                        task.task_id, enhanced_payload, task.user_context
-                    )
-                else:
-                    colony_result = await colony.execute_task(task.task_id, enhanced_payload)
-
-                colony_results.append(
-                    {
-                        "colony_id": colony_id,
-                        "result": colony_result,
-                        "coherence_contribution": coherence_metrics.get(f"{colony_id}_coherence", 0.0),
-                    }
-                )
-
-            processing_time = time.time() - start_time
-
-            return {
-                "success": True,
-                "task_id": task.task_id,
-                "colonies_used": colony_ids,
-                "bio_symbolic_coherence": overall_coherence,
-                "system_coherence": self.metrics.bio_symbolic_coherence,
-                "colony_results": colony_results,
-                "processing_time": processing_time,
-                "coherence_metrics": coherence_metrics,
-                "bio_symbolic_result": bio_result,
-            }
-
-        except Exception as e:
-            return {
-                "success": False,
-                "error": f"Bio-symbolic task execution failed: {e!s}",
-                "task_id": task.task_id,
-                "processing_time": processing_time,
-            }
-
-        try:
-            colony_results = []
-
-            for colony_id in colony_ids:
-                colony = self.active_colonies[colony_id]
-
-                # Execute on colony
-                if colony_id in self.colony_proxies:
-                    colony_result = await self.colony_proxies[colony_id].execute_task(
-                        task.task_id, task.payload, task.user_context
-                    )
-                else:
-                    colony_result = await colony.execute_task(task.task_id, task.payload)
-
-                colony_results.append({"colony_id": colony_id, "result": colony_result})
-
-            processing_time = time.time() - start_time
-
-            return {
-                "success": True,
-                "task_id": task.task_id,
-                "colonies_used": colony_ids,
-                "colony_results": colony_results,
-                "processing_time": processing_time,
-            }
-
-        except Exception as e:
-            return {
-                "success": False,
-                "error": f"Standard task execution failed: {e!s}",
-                "task_id": task.task_id,
-                "processing_time": processing_time,
-            }
-
-        try:
-            if colony_id not in self.active_colonies:
-                return {
-                    "success": False,
-                    "error": f"Colony {colony_id} not found",
-                    "colony_id": colony_id,
-                }
-
-            colony_config = self.colony_configs[colony_id]
-            current_agents = colony_config.initial_agents  # Simplified - would track actual count
-
-            # Validate target agents within limits
-            if target_agents < colony_config.min_agents:
-                target_agents = colony_config.min_agents
-            elif target_agents > colony_config.max_agents:
-                target_agents = colony_config.max_agents
-
-            if target_agents == current_agents:
-                return {
-                    "success": True,
-                    "message": "Colony already at target scale",
-                    "colony_id": colony_id,
-                    "current_agents": current_agents,
-                }
-
-            # Set colony state to scaling
-            self.colony_states[colony_id] = ColonyState.SCALING
-
-            # Perform scaling operation (implementation would depend on colony type)
-            colony = self.active_colonies[colony_id]
-            scaling_result = await self._perform_colony_scaling(colony, colony_id, current_agents, target_agents)
-
-            if scaling_result["success"]:
-                # Update configuration and metrics
-                colony_config.initial_agents = target_agents
-                self.metrics.total_agents_active += target_agents - current_agents
-                self.metrics.scaling_operations += 1
-                self.colony_states[colony_id] = ColonyState.ACTIVE
-
-                self.logger.info(f"Colony scaled successfully: {colony_id} ({current_agents} → {target_agents})")
-            else:
-                self.colony_states[colony_id] = ColonyState.ACTIVE  # Revert state
-
-            return scaling_result
-
-        except Exception as e:
-
-            # Revert colony state
-            if colony_id in self.colony_states:
-                self.colony_states[colony_id] = ColonyState.ACTIVE
-
-            return {"success": False, "error": str(e), "colony_id": colony_id}
-
-        try:
-            if target_agents > current_agents:
-                # Scale up - add agents
-                agents_to_add = target_agents - current_agents
-                # Implementation would call colony-specific scaling methods
-                scaling_result = await colony.scale_up(agents_to_add)
-            else:
-                # Scale down - remove agents
-                agents_to_remove = current_agents - target_agents
-                scaling_result = await colony.scale_down(agents_to_remove)
-
-            return {
-                "success": True,
-                "colony_id": colony_id,
-                "previous_agents": current_agents,
-                "new_agents": target_agents,
-                "scaling_direction": "up" if target_agents > current_agents else "down",
-                "scaling_result": scaling_result,
-            }
-
-        except AttributeError:
-            return {
-                "success": True,
-                "colony_id": colony_id,
-                "message": "Colony type does not support dynamic scaling",
-                "previous_agents": current_agents,
-                "new_agents": target_agents,
-            }
-            try:
-                await self._check_colony_health()
-                await asyncio.sleep(self.config["health_check_interval"])
-            except Exception as e:
-                await asyncio.sleep(self.config["health_check_interval"])
-
-            try:
-                await self._update_performance_metrics()
-                await asyncio.sleep(self.config["performance_monitoring_interval"])
-            except Exception as e:
-                await asyncio.sleep(self.config["performance_monitoring_interval"])
-
-            try:
-                if self.task_queue:
-                    task = self.task_queue.popleft()
-                    await self.execute_colony_task(task)
-                else:
-                    await asyncio.sleep(1.0)
-            except Exception as e:
-                await asyncio.sleep(1.0)
-
-            try:
-                await self._check_auto_scaling_needs()
-                await asyncio.sleep(120)  # Check every 2 minutes
-            except Exception as e:
-                await asyncio.sleep(120)
-
 
 logger = logging.getLogger("colony_orchestrator")
 
@@ -723,8 +283,48 @@ class ColonyOrchestrator:
 
     async def initialize(self) -> bool:
         """Initialize the colony orchestrator and its components"""
+        try:
+            self.logger.info("Initializing colony orchestrator...")
+
+            # Initialize bio-symbolic integration
+            if BIO_SYMBOLIC_AVAILABLE and self.config.get("bio_symbolic_integration", True):
+                await self._initialize_bio_symbolic_integration()
+                self.logger.info("Bio-symbolic integration initialized")
+
+            # Create default colonies for core functionality
+            await self._create_default_colonies()
+
+            # Start background monitoring tasks
+            await self._start_monitoring_tasks()
+
+            self.is_running = True
+            self.logger.info("Colony orchestrator fully operational")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"Failed to initialize colony orchestrator: {e}")
+            return False
+
     async def _initialize_bio_symbolic_integration(self):
         """Initialize bio-symbolic coherence processing integration"""
+
+        try:
+            # Create bio-symbolic orchestrator
+            self.bio_symbolic_orchestrator = create_bio_symbolic_orchestrator()
+
+            # Initialize coherence processors for different colony types
+            self.coherence_processors = {
+                "reasoning": BioSymbolicProcessor("reasoning_coherence"),
+                "creativity": BioSymbolicProcessor("creativity_coherence"),
+                "memory": BioSymbolicProcessor("memory_coherence"),
+                "oracle": BioSymbolicProcessor("oracle_coherence"),
+                "ethics": BioSymbolicProcessor("ethics_coherence"),
+            }
+
+            self.logger.info("Bio-symbolic coherence integration initialized")
+
+        except Exception as e:
+            self.logger.warning(f"Bio-symbolic integration failed: {e}")
 
     async def _create_default_colonies(self):
         """Create default colonies for core LUKHAS functionality"""
@@ -792,6 +392,12 @@ class ColonyOrchestrator:
         ]
 
         for colony_config in default_colonies:
+            try:
+                await self.spawn_colony(colony_config)
+                self.logger.info(f"Created default colony: {colony_config.colony_id}")
+            except Exception as e:
+                self.logger.warning(f"Failed to create default colony {colony_config.colony_id}: {e}")
+
     async def spawn_colony(self, colony_config: ColonyConfig) -> dict[str, Any]:
         """
         Spawn a new colony with specified configuration
@@ -802,6 +408,84 @@ class ColonyOrchestrator:
         Returns:
             Dictionary containing colony creation result and metadata
         """
+        try:
+            colony_id = colony_config.colony_id
+            self.logger.info(f"Spawning colony: {colony_id}")
+
+            # Validate colony configuration
+            if not self._validate_colony_config(colony_config):
+                return {
+                    "success": False,
+                    "error": "Invalid colony configuration",
+                    "colony_id": colony_id,
+                }
+
+            # Check resource availability
+            if not self._can_create_colony(colony_config):
+                return {
+                    "success": False,
+                    "error": "Insufficient resources for colony creation",
+                    "colony_id": colony_id,
+                }
+
+            # Set colony state to initializing
+            self.colony_states[colony_id] = ColonyState.INITIALIZING
+
+            # Create colony instance
+            colony = await self._create_colony_instance(colony_config)
+
+            if colony:
+                # Wrap colony with quantum identity proxy if enabled
+                if QUANTUM_IDENTITY_AVAILABLE and colony_config.qi_identity_enabled:
+                    proxy = TierAwareColonyProxy(colony)
+                    self.colony_proxies[colony_id] = proxy
+                    effective_colony = proxy
+                else:
+                    effective_colony = colony
+
+                # Register colony
+                self.active_colonies[colony_id] = effective_colony
+                self.colony_configs[colony_id] = colony_config
+                self.colony_states[colony_id] = ColonyState.ACTIVE
+
+                # Initialize bio-symbolic coherence if enabled
+                if colony_config.bio_symbolic_integration:
+                    await self._initialize_colony_coherence(colony_id, colony_config)
+
+                # Update metrics
+                self.metrics.total_colonies_active += 1
+                self.metrics.total_agents_active += colony_config.initial_agents
+
+                self.logger.info(f"Colony spawned successfully: {colony_id}")
+
+                return {
+                    "success": True,
+                    "colony_id": colony_id,
+                    "colony_type": colony_config.colony_type.value,
+                    "initial_agents": colony_config.initial_agents,
+                    "bio_symbolic_enabled": colony_config.bio_symbolic_integration,
+                    "qi_identity_enabled": colony_config.qi_identity_enabled,
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                }
+            else:
+                self.colony_states[colony_id] = ColonyState.ERROR
+                return {
+                    "success": False,
+                    "error": "Failed to create colony instance",
+                    "colony_id": colony_id,
+                }
+
+        except Exception as e:
+            self.logger.error(f"Failed to spawn colony {colony_config.colony_id}: {e}")
+            if colony_config.colony_id in self.colony_states:
+                self.colony_states[colony_config.colony_id] = ColonyState.ERROR
+
+            return {
+                "success": False,
+                "error": str(e),
+                "colony_id": colony_config.colony_id,
+            }
+
     async def _create_colony_instance(self, config: ColonyConfig) -> Optional[BaseColony]:
         """Create an instance of the specified colony type"""
 
@@ -811,11 +495,66 @@ class ColonyOrchestrator:
             self.logger.error(f"Colony type not supported: {config.colony_type}")
             return None
 
+        try:
+            # Create colony instance with specialized configuration
+            if config.colony_type == ColonyType.REASONING:
+                colony = colony_class(
+                    colony_id=config.colony_id,
+                    reasoning_agents=config.specialized_config.get("reasoning_types", []),
+                )
+            elif config.colony_type == ColonyType.CREATIVITY:
+                colony = colony_class(
+                    colony_id=config.colony_id,
+                    creative_drives=config.specialized_config.get("drives", []),
+                )
+            elif config.colony_type == ColonyType.ORACLE:
+                colony = colony_class(
+                    colony_id=config.colony_id,
+                    oracle_capabilities=config.specialized_config.get("capabilities", []),
+                )
+            elif config.colony_type == ColonyType.ETHICS:
+                colony = colony_class(
+                    colony_id=config.colony_id,
+                    ethical_frameworks=config.specialized_config.get("ethical_frameworks", []),
+                )
+            else:
+                colony = colony_class(colony_id=config.colony_id, config=config.specialized_config)
+
+            # Initialize colony
+            await colony.initialize()
+
+            return colony
+
+        except Exception as e:
+            self.logger.error(f"Failed to create colony instance: {e}")
+            return None
+
     async def _initialize_colony_coherence(self, colony_id: str, config: ColonyConfig):
         """Initialize bio-symbolic coherence processing for colony"""
 
         if not self.bio_symbolic_orchestrator:
             return
+
+        try:
+            colony_type = config.colony_type.value
+
+            # Get appropriate coherence processor
+            processor = self.coherence_processors.get(colony_type)
+            if processor:
+                # Configure coherence processing for this colony
+                coherence_config = {
+                    "colony_id": colony_id,
+                    "colony_type": colony_type,
+                    "target_coherence": self.config.get("coherence_threshold", 85.0),
+                    "bio_data_integration": True,
+                    "symbolic_processing": True,
+                }
+
+                await processor.configure_coherence(coherence_config)
+                self.logger.info(f"Bio-symbolic coherence initialized for colony: {colony_id}")
+
+        except Exception as e:
+            self.logger.warning(f"Failed to initialize coherence for colony {colony_id}: {e}")
 
     async def execute_colony_task(self, task: ColonyTask) -> dict[str, Any]:
         """
@@ -827,15 +566,179 @@ class ColonyOrchestrator:
         Returns:
             Task execution result with colony coordination details
         """
+        try:
+            task_id = task.task_id
+            self.logger.info(f"Executing colony task: {task_id}")
+
+            # Determine target colonies
+            if task.target_colonies:
+                target_colonies = task.target_colonies
+            else:
+                target_colonies = await self._select_optimal_colonies(task)
+
+            # Validate target colonies are available
+            available_colonies = []
+            for colony_id in target_colonies:
+                if colony_id in self.active_colonies and self.colony_states.get(colony_id) == ColonyState.ACTIVE:
+                    available_colonies.append(colony_id)
+                else:
+                    self.logger.warning(f"Colony {colony_id} not available for task {task_id}")
+
+            if not available_colonies:
+                return {
+                    "success": False,
+                    "error": "No available colonies for task execution",
+                    "task_id": task_id,
+                }
+
+            # Execute task with bio-symbolic coherence processing
+            if self.config.get("bio_symbolic_integration", True):
+                result = await self._execute_bio_symbolic_task(task, available_colonies)
+            else:
+                result = await self._execute_standard_task(task, available_colonies)
+
+            # Update metrics
+            self.metrics.tasks_processed += 1
+            if result["success"]:
+                self.metrics.tasks_successful += 1
+            else:
+                self.metrics.tasks_failed += 1
+
+            # Update response time metric
+            processing_time = result.get("processing_time", 0.0)
+            self._update_average_response_time(processing_time)
+
+            self.logger.info(f"Colony task completed: {task_id}")
+            return result
+
+        except Exception as e:
+            self.logger.error(f"Colony task execution failed {task.task_id}: {e}")
+            self.metrics.tasks_processed += 1
+            self.metrics.tasks_failed += 1
+
+            return {"success": False, "error": str(e), "task_id": task.task_id}
+
     async def _execute_bio_symbolic_task(self, task: ColonyTask, colony_ids: list[str]) -> dict[str, Any]:
         """Execute task with bio-symbolic coherence processing"""
 
         start_time = time.time()
 
+        try:
+            # Process task through bio-symbolic orchestrator
+            bio_symbolic_input = {
+                "task_id": task.task_id,
+                "task_type": task.colony_type.value,
+                "colonies": colony_ids,
+                "payload": task.payload,
+                "user_context": (task.user_context.__dict__ if task.user_context else None),
+                "bio_data": {
+                    "heart_rate": 72,  # Placeholder - would come from actual bio sensors
+                    "temperature": 37.0,
+                    "coherence_target": self.config.get("coherence_threshold", 85.0),
+                },
+            }
+
+            # Execute through bio-symbolic orchestrator
+            bio_result = await self.bio_symbolic_orchestrator.execute_task(task.task_id, bio_symbolic_input)
+
+            # Extract coherence metrics
+            coherence_metrics = bio_result.get("coherence_metrics", {})
+            overall_coherence = coherence_metrics.get("overall_coherence", 0.0)
+
+            # Update system coherence metrics
+            self.metrics.bio_symbolic_coherence = self.metrics.bio_symbolic_coherence * 0.9 + overall_coherence * 0.1
+
+            # Execute on actual colonies with coherence-enhanced processing
+            colony_results = []
+            for colony_id in colony_ids:
+                colony = self.active_colonies[colony_id]
+
+                # Enhance task payload with coherence data
+                enhanced_payload = task.payload.copy()
+                enhanced_payload["coherence_context"] = {
+                    "overall_coherence": overall_coherence,
+                    "bio_symbolic_result": bio_result,
+                    "target_coherence": self.config.get("coherence_threshold", 85.0),
+                }
+
+                # Execute on colony (with quantum identity context if available)
+                if colony_id in self.colony_proxies:
+                    colony_result = await self.colony_proxies[colony_id].execute_task(
+                        task.task_id, enhanced_payload, task.user_context
+                    )
+                else:
+                    colony_result = await colony.execute_task(task.task_id, enhanced_payload)
+
+                colony_results.append(
+                    {
+                        "colony_id": colony_id,
+                        "result": colony_result,
+                        "coherence_contribution": coherence_metrics.get(f"{colony_id}_coherence", 0.0),
+                    }
+                )
+
+            processing_time = time.time() - start_time
+
+            return {
+                "success": True,
+                "task_id": task.task_id,
+                "colonies_used": colony_ids,
+                "bio_symbolic_coherence": overall_coherence,
+                "system_coherence": self.metrics.bio_symbolic_coherence,
+                "colony_results": colony_results,
+                "processing_time": processing_time,
+                "coherence_metrics": coherence_metrics,
+                "bio_symbolic_result": bio_result,
+            }
+
+        except Exception as e:
+            processing_time = time.time() - start_time
+            return {
+                "success": False,
+                "error": f"Bio-symbolic task execution failed: {e!s}",
+                "task_id": task.task_id,
+                "processing_time": processing_time,
+            }
+
     async def _execute_standard_task(self, task: ColonyTask, colony_ids: list[str]) -> dict[str, Any]:
         """Execute task using standard colony processing"""
 
         start_time = time.time()
+
+        try:
+            colony_results = []
+
+            for colony_id in colony_ids:
+                colony = self.active_colonies[colony_id]
+
+                # Execute on colony
+                if colony_id in self.colony_proxies:
+                    colony_result = await self.colony_proxies[colony_id].execute_task(
+                        task.task_id, task.payload, task.user_context
+                    )
+                else:
+                    colony_result = await colony.execute_task(task.task_id, task.payload)
+
+                colony_results.append({"colony_id": colony_id, "result": colony_result})
+
+            processing_time = time.time() - start_time
+
+            return {
+                "success": True,
+                "task_id": task.task_id,
+                "colonies_used": colony_ids,
+                "colony_results": colony_results,
+                "processing_time": processing_time,
+            }
+
+        except Exception as e:
+            processing_time = time.time() - start_time
+            return {
+                "success": False,
+                "error": f"Standard task execution failed: {e!s}",
+                "task_id": task.task_id,
+                "processing_time": processing_time,
+            }
 
     async def _select_optimal_colonies(self, task: ColonyTask) -> list[str]:
         """Select optimal colonies for task execution based on task type and requirements"""
@@ -875,6 +778,60 @@ class ColonyOrchestrator:
         Returns:
             Scaling operation result
         """
+        try:
+            if colony_id not in self.active_colonies:
+                return {
+                    "success": False,
+                    "error": f"Colony {colony_id} not found",
+                    "colony_id": colony_id,
+                }
+
+            colony_config = self.colony_configs[colony_id]
+            current_agents = colony_config.initial_agents  # Simplified - would track actual count
+
+            # Validate target agents within limits
+            if target_agents < colony_config.min_agents:
+                target_agents = colony_config.min_agents
+            elif target_agents > colony_config.max_agents:
+                target_agents = colony_config.max_agents
+
+            if target_agents == current_agents:
+                return {
+                    "success": True,
+                    "message": "Colony already at target scale",
+                    "colony_id": colony_id,
+                    "current_agents": current_agents,
+                }
+
+            # Set colony state to scaling
+            self.colony_states[colony_id] = ColonyState.SCALING
+
+            # Perform scaling operation (implementation would depend on colony type)
+            colony = self.active_colonies[colony_id]
+            scaling_result = await self._perform_colony_scaling(colony, colony_id, current_agents, target_agents)
+
+            if scaling_result["success"]:
+                # Update configuration and metrics
+                colony_config.initial_agents = target_agents
+                self.metrics.total_agents_active += target_agents - current_agents
+                self.metrics.scaling_operations += 1
+                self.colony_states[colony_id] = ColonyState.ACTIVE
+
+                self.logger.info(f"Colony scaled successfully: {colony_id} ({current_agents} → {target_agents})")
+            else:
+                self.colony_states[colony_id] = ColonyState.ACTIVE  # Revert state
+
+            return scaling_result
+
+        except Exception as e:
+            self.logger.error(f"Failed to scale colony {colony_id}: {e}")
+
+            # Revert colony state
+            if colony_id in self.colony_states:
+                self.colony_states[colony_id] = ColonyState.ACTIVE
+
+            return {"success": False, "error": str(e), "colony_id": colony_id}
+
     async def _perform_colony_scaling(
         self,
         colony: BaseColony,
@@ -884,6 +841,35 @@ class ColonyOrchestrator:
     ) -> dict[str, Any]:
         """Perform the actual colony scaling operation"""
 
+        try:
+            if target_agents > current_agents:
+                # Scale up - add agents
+                agents_to_add = target_agents - current_agents
+                # Implementation would call colony-specific scaling methods
+                scaling_result = await colony.scale_up(agents_to_add)
+            else:
+                # Scale down - remove agents
+                agents_to_remove = current_agents - target_agents
+                scaling_result = await colony.scale_down(agents_to_remove)
+
+            return {
+                "success": True,
+                "colony_id": colony_id,
+                "previous_agents": current_agents,
+                "new_agents": target_agents,
+                "scaling_direction": "up" if target_agents > current_agents else "down",
+                "scaling_result": scaling_result,
+            }
+
+        except AttributeError:
+            # Colony doesn't support scaling - return success anyway
+            return {
+                "success": True,
+                "colony_id": colony_id,
+                "message": "Colony type does not support dynamic scaling",
+                "previous_agents": current_agents,
+                "new_agents": target_agents,
+            }
         except Exception as e:
             return {
                 "success": False,
@@ -911,15 +897,46 @@ class ColonyOrchestrator:
     async def _health_monitoring_loop(self):
         """Background task for monitoring colony health"""
         while self.is_running:
+            try:
+                await self._check_colony_health()
+                await asyncio.sleep(self.config["health_check_interval"])
+            except Exception as e:
+                self.logger.error(f"Health monitoring error: {e}")
+                await asyncio.sleep(self.config["health_check_interval"])
+
     async def _performance_monitoring_loop(self):
         """Background task for monitoring performance metrics"""
         while self.is_running:
+            try:
+                await self._update_performance_metrics()
+                await asyncio.sleep(self.config["performance_monitoring_interval"])
+            except Exception as e:
+                self.logger.error(f"Performance monitoring error: {e}")
+                await asyncio.sleep(self.config["performance_monitoring_interval"])
+
     async def _task_processing_loop(self):
         """Background task for processing queued tasks"""
         while self.is_running:
+            try:
+                if self.task_queue:
+                    task = self.task_queue.popleft()
+                    await self.execute_colony_task(task)
+                else:
+                    await asyncio.sleep(1.0)
+            except Exception as e:
+                self.logger.error(f"Task processing error: {e}")
+                await asyncio.sleep(1.0)
+
     async def _auto_scaling_loop(self):
         """Background task for automatic colony scaling"""
         while self.is_running:
+            try:
+                await self._check_auto_scaling_needs()
+                await asyncio.sleep(120)  # Check every 2 minutes
+            except Exception as e:
+                self.logger.error(f"Auto-scaling error: {e}")
+                await asyncio.sleep(120)
+
     def get_colony_status(self) -> dict[str, Any]:
         """Get comprehensive status of all colony orchestration components"""
         return {

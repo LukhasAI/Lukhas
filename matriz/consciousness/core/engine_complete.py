@@ -1,3 +1,15 @@
+import logging
+from datetime import timezone
+
+# ═══════════════════════════════════════════════════════════════════════════
+# FILENAME: engine_complete.py
+# MODULE: consciousness.core.engine_complete
+# DESCRIPTION: LUKHAS AI Consciousness Engine with Constellation Framework Integration
+# AUTHOR: LUKHAS AI SYSTEMS
+# LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
+# CONSTELLATION: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
+# ═══════════════════════════════════════════════════════════════════════════
+
 """
 LUKHAS AI Constellation Framework Consciousness Engine
 
@@ -17,9 +29,6 @@ Features:
 Performance Target: <250ms context handoff times
 Compliance: Drift threshold 0.15, ethics enforcement enabled
 """
-
-import logging
-from datetime import timezone
 import asyncio
 import hashlib
 import json
@@ -34,51 +43,6 @@ from typing import Any, Optional
 import numpy as np
 
 # Initialize logger
-            try:
-                with open(self.config_path) as f:
-                    config = json.load(f)
-                logger.info(f"Loaded configuration from {self.config_path}")
-                return config
-            except Exception as e:
-
-        try:
-            import anthropic
-
-            api_key = os.getenv(self.config["anthropic"]["api_key_env"])
-            if api_key:
-                anthropic_client = anthropic.AsyncAnthropic(api_key=api_key)
-                ANTHROPIC_AVAILABLE = True
-                logger.info("Anthropic client initialized successfully")
-            else:
-                logger.warning("Anthropic API key not found in environment")
-                ANTHROPIC_AVAILABLE = False
-        except ImportError:
-            ANTHROPIC_AVAILABLE = False
-
-        try:
-            self.agent_registry[agent_id] = {
-                "config": agent_config,
-                "last_heartbeat": start_time,
-                "status": "active",
-                "capabilities": agent_config.get("capabilities", []),
-                "performance_metrics": {"response_time": [], "success_rate": 1.0},
-            }
-
-            logger.info(f"Agent {agent_id} registered successfully")
-            await self._process_time_check(start_time, "agent_registration")
-            return True
-
-        except Exception as e:
-            return False
-
-                try:
-                    # Simulate message queuing for agent
-                    await self.message_queue.put({"target": agent_id, "message": state_message})
-                    broadcast_results[agent_id] = "queued"
-                except Exception as e:
-                    logger.warning(f"Failed to queue message for agent {agent_id}: {e}")
-
-
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.cognitive_consciousness_engine_complete")
 logger.info("ΛTRACE: Initializing cognitive_consciousness_engine_complete module.")
 
@@ -98,6 +62,14 @@ class ConsciousnessEngineConfig:
     def _load_config(self) -> dict[str, Any]:
         """Load configuration from file or use defaults."""
         if Path(self.config_path).exists():
+            try:
+                with open(self.config_path) as f:
+                    config = json.load(f)
+                logger.info(f"Loaded configuration from {self.config_path}")
+                return config
+            except Exception as e:
+                logger.error(f"Failed to load config: {e}")
+
         # Default configuration
         default_config = {
             "anthropic": {
@@ -184,6 +156,21 @@ class ConsciousnessEngineConfig:
     def _initialize_anthropic_client(self):
         """Initialize Anthropic client if available."""
         global anthropic_client, ANTHROPIC_AVAILABLE
+
+        try:
+            import anthropic
+
+            api_key = os.getenv(self.config["anthropic"]["api_key_env"])
+            if api_key:
+                anthropic_client = anthropic.AsyncAnthropic(api_key=api_key)
+                ANTHROPIC_AVAILABLE = True
+                logger.info("Anthropic client initialized successfully")
+            else:
+                logger.warning("Anthropic API key not found in environment")
+                ANTHROPIC_AVAILABLE = False
+        except ImportError:
+            logger.warning("Anthropic library not installed")
+            ANTHROPIC_AVAILABLE = False
 
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value by key."""
@@ -833,6 +820,23 @@ class AGIConsciousnessEngine:
         """Register an agent for multi-agent coordination."""
         start_time = datetime.now(timezone.utc)
 
+        try:
+            self.agent_registry[agent_id] = {
+                "config": agent_config,
+                "last_heartbeat": start_time,
+                "status": "active",
+                "capabilities": agent_config.get("capabilities", []),
+                "performance_metrics": {"response_time": [], "success_rate": 1.0},
+            }
+
+            logger.info(f"Agent {agent_id} registered successfully")
+            await self._process_time_check(start_time, "agent_registration")
+            return True
+
+        except Exception as e:
+            logger.error(f"Failed to register agent {agent_id}: {e}")
+            return False
+
     async def broadcast_consciousness_state(self, target_agents: Optional[list[str]] = None) -> dict[str, Any]:
         """Broadcast current consciousness state to registered agents."""
         start_time = datetime.now(timezone.utc)
@@ -853,6 +857,14 @@ class AGIConsciousnessEngine:
 
         for agent_id in targets:
             if agent_id in self.agent_registry:
+                try:
+                    # Simulate message queuing for agent
+                    await self.message_queue.put({"target": agent_id, "message": state_message})
+                    broadcast_results[agent_id] = "queued"
+                except Exception as e:
+                    broadcast_results[agent_id] = f"failed: {e}"
+                    logger.warning(f"Failed to queue message for agent {agent_id}: {e}")
+
         await self._process_time_check(start_time, "consciousness_broadcast")
         return broadcast_results
 

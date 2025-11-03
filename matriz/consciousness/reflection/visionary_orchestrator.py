@@ -1,3 +1,7 @@
+import logging
+from datetime import timezone
+
+logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -21,253 +25,6 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 import logging
-from datetime import timezone
-
-import logging
-
-import asyncio
-import json
-import time
-from dataclasses import dataclass
-from datetime import datetime
-from enum import Enum, auto
-from pathlib import Path
-from typing import Any, Callable, Optional
-import yaml
-try:
-    from common.exceptions import SafetyViolationError
-    from core.advanced_symbolic_loop import EnhancedCoreIntegrator
-    from core.logging import get_lukhas_logger
-    from core.memory.memory_manager import MemoryManager
-
-    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
-    #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
-    #     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
-    #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-    # from system.CORE.qi.qi_processor import QIEngine  # TODO:
-    # Install or implement CORE
-except ImportError as e:
-    print(f"Warning: lukhas core modules not fully available: {e}")
-    print("Running in development mode with mock implementations")
-
-
-            try:
-                with open(config_path) as f:
-                    user_config = yaml.safe_load(f) if config_path.suffix.lower() == ".yaml" else json.load(f)
-
-                # Merge with defaults
-                def deep_merge(default, user):
-                    for key, value in user.items():
-                        if key in default and isinstance(default[key], dict) and isinstance(value, dict):
-                            deep_merge(default[key], value)
-                        else:
-                            default[key] = value
-
-                deep_merge(default_config, user_config)
-                self.logger.info(f"📝 Configuration loaded from {config_path}")
-
-            except Exception as e:
-                self.logger.info("📝 Using default visionary configuration")
-
-        try:
-            self.logger.info("🌟 Initializing Visionary AI Orchestrator...")
-
-            # Step 1: Safety First (Altman Principle)
-            await self._initialize_safety_systems()
-
-            # Step 2: Core Intelligence (Foundation)
-            await self._initialize_core_systems()
-
-            # Step 3: User Experience (Jobs Principle)
-            await self._initialize_user_experience()
-
-            # Step 4: Consciousness Architecture
-            await self._initialize_consciousness_systems()
-
-            # Step 5: Revolutionary Capabilities
-            await self._initialize_breakthrough_systems()
-
-            # Step 6: Democratic Access & Scaling
-            await self._initialize_scaling_systems()
-
-            # Final validation
-            if await self._validate_initialization():
-                self.is_initialized = True
-                self.logger.info("✅ Visionary AI Orchestrator successfully initialized")
-                await self._log_initialization_success()
-                return True
-            else:
-                self.logger.error("❌ Initialization validation failed")
-                return False
-
-        except Exception as e:
-            if not self.safety_override:
-                await self._emergency_shutdown()
-            return False
-
-        try:
-            # Initialize core integrator
-            self.core_integrator = EnhancedCoreIntegrator(config=self.config, safety_mode=True)
-
-            # Initialize main agent
-            self.lukhas_agent = lukhasAgent(
-                integrator=self.core_integrator,
-                consciousness_level=self.current_consciousness_level,
-            )
-
-            # Initialize cognitive modules
-            self.memory_manager = MemoryManager(config=self.config["consciousness"])
-            self.voice_engine = VoiceEngine(config=self.config["user_experience"])
-            self.dream_engine = DreamEngine(config=self.config["consciousness"])
-            self.emotional_engine = EmotionalResonanceEngine(config=self.config["consciousness"])
-            self.identity_system = IdentitySystem(config=self.config["consciousness"])
-            self.qi_engine = QIEngine(config=self.config["consciousness"])
-
-            self.logger.info("🧠 Core intelligence systems initialized")
-
-        except Exception as e:
-            self.logger.warning(f"⚠️  Some core systems unavailable: {e}")
-            self.logger.info("🧠 Running with available systems")
-
-        try:
-            self.logger.info("🌟 Starting Visionary AI Orchestrator...")
-
-            # Start monitoring systems
-            await self._start_monitoring_systems()
-
-            # Start core AI agent
-            if self.lukhas_agent:
-                await self.lukhas_agent.start()
-
-            # Start cognitive modules
-            await self._start_cognitive_modules()
-
-            # Start user experience optimization
-            await self._start_ux_optimization()
-
-            # Begin consciousness evolution
-            await self._begin_consciousness_evolution()
-
-            self.is_running = True
-            self.logger.info("✅ Visionary AI Orchestrator is now running")
-
-            # Log inaugural message
-            await self._log_inaugural_message()
-
-            return True
-
-        except Exception as e:
-            await self._emergency_shutdown()
-            return False
-
-        try:
-            # Safety check first (Altman principle)
-            await self._safety_check_query(query, context)
-
-            # Prepare thinking context
-            thinking_context = {
-                "query": query,
-                "user_context": context or {},
-                "user_id": user_id,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "consciousness_level": self.current_consciousness_level.name,
-                "mode": self.mode.name,
-            }
-
-            # Engage full cognitive architecture
-            response = await self._orchestrate_thinking(thinking_context)
-
-            # User experience optimization (Jobs principle)
-            optimized_response = await self._optimize_user_experience(response, user_id)
-
-            # Performance monitoring
-            response_time = time.time() - start_time
-            await self._track_performance_metrics(response_time, optimized_response)
-
-            return optimized_response
-
-        except SafetyViolationError as e:
-            return {
-                "response": "I cannot process that request as it violates safety guidelines.",
-                "status": "safety_violation",
-                "error": str(e),
-            }
-        try:
-            self.logger.info(f"🧠 Evolving consciousness from {current_level.name} to next level...")
-
-            # Gradual evolution with safety monitoring
-            next_level = ConsciousnessLevel(current_level.value + 1)
-
-            # Prepare for evolution
-            await self._prepare_consciousness_evolution(next_level)
-
-            # Execute evolution
-            success = await self._execute_consciousness_evolution(next_level)
-
-            if success:
-                self.current_consciousness_level = next_level
-                self.logger.info(f"✅ Consciousness evolved to {next_level.name}")
-                await self._log_consciousness_milestone(next_level)
-                return True
-            else:
-                self.logger.error("❌ Consciousness evolution failed")
-                return False
-
-        except Exception as e:
-            return False
-
-        try:
-            # Stop cognitive modules
-            await self._stop_cognitive_modules()
-
-            # Stop monitoring systems
-            await self._stop_monitoring_systems()
-
-            # Save state and memories
-            await self._save_system_state()
-
-            # Final safety check
-            await self._final_safety_check()
-
-            self.is_running = False
-            self.logger.info("✅ Visionary AI Orchestrator shutdown complete")
-
-            return True
-
-        except Exception as e:
-            return False
-
-    try:
-        # Create AI in balanced visionary mode
-        ai = await create_visionary_agi(
-            mode=VisionaryMode.BALANCED_VISIONARY,
-            consciousness_target=ConsciousnessLevel.SOPHISTICATED,
-        )
-
-        # Start the AI
-        if await ai.start():
-            print("✅ Visionary AI is online!")
-
-            # Example thinking
-            response = await ai.think(
-                "How can we make AI beneficial for all humanity?",
-                context={"priority": "high", "domain": "ethics"},
-            )
-
-            print(f"💭 AI Response: {response.get('response', 'No response')}")
-
-            # Get status
-            status = await ai.get_visionary_status()
-            print(f"📊 Vision Score: {status['visionary_metrics']['overall_vision_score']:.2f}")
-
-            # Graceful shutdown
-            await ai.shutdown("Demo complete")
-
-    except Exception as e:
-
-
-
-logger = logging.getLogger(__name__)
 
 """
 LUKHlukhasS Visionary AI Orchestrator
@@ -296,9 +53,37 @@ Created: Based on comprehensive audit and vision synthesis
 License: lukhas Proprietary (Enterprise) / Open Core (Community)
 """
 
+import asyncio
+import json
+import time
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum, auto
+from pathlib import Path
+from typing import Any, Callable, Optional
 
+import yaml
 
 # lukhas Core Imports (based on audit findings)
+try:
+    from core.advanced_symbolic_loop import EnhancedCoreIntegrator
+    from core.logging import get_lukhas_logger
+    from core.memory.memory_manager import MemoryManager
+
+    from common.exceptions import SafetyViolationError
+
+    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+    #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+    #     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+    #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
+    # from system.CORE.qi.qi_processor import QIEngine  # TODO:
+    # Install or implement CORE
+except ImportError as e:
+    # Graceful degradation for development/testing
+    print(f"Warning: lukhas core modules not fully available: {e}")
+    print("Running in development mode with mock implementations")
+
+
 class VisionaryMode(Enum):
     """Operating modes that reflect different visionary approaches"""
 
@@ -505,6 +290,25 @@ class VisionaryAGIOrchestrator:
         }
 
         if config_path and config_path.exists():
+            try:
+                with open(config_path) as f:
+                    user_config = yaml.safe_load(f) if config_path.suffix.lower() == ".yaml" else json.load(f)
+
+                # Merge with defaults
+                def deep_merge(default, user):
+                    for key, value in user.items():
+                        if key in default and isinstance(default[key], dict) and isinstance(value, dict):
+                            deep_merge(default[key], value)
+                        else:
+                            default[key] = value
+
+                deep_merge(default_config, user_config)
+                self.logger.info(f"📝 Configuration loaded from {config_path}")
+
+            except Exception as e:
+                self.logger.warning(f"⚠️  Failed to load config from {config_path}: {e}")
+                self.logger.info("📝 Using default visionary configuration")
+
         return default_config
 
     async def initialize(self) -> bool:
@@ -517,6 +321,43 @@ class VisionaryAGIOrchestrator:
         if self.is_initialized:
             self.logger.warning("🔄 Orchestrator already initialized")
             return True
+
+        try:
+            self.logger.info("🌟 Initializing Visionary AI Orchestrator...")
+
+            # Step 1: Safety First (Altman Principle)
+            await self._initialize_safety_systems()
+
+            # Step 2: Core Intelligence (Foundation)
+            await self._initialize_core_systems()
+
+            # Step 3: User Experience (Jobs Principle)
+            await self._initialize_user_experience()
+
+            # Step 4: Consciousness Architecture
+            await self._initialize_consciousness_systems()
+
+            # Step 5: Revolutionary Capabilities
+            await self._initialize_breakthrough_systems()
+
+            # Step 6: Democratic Access & Scaling
+            await self._initialize_scaling_systems()
+
+            # Final validation
+            if await self._validate_initialization():
+                self.is_initialized = True
+                self.logger.info("✅ Visionary AI Orchestrator successfully initialized")
+                await self._log_initialization_success()
+                return True
+            else:
+                self.logger.error("❌ Initialization validation failed")
+                return False
+
+        except Exception as e:
+            self.logger.error(f"💥 Initialization failed: {e}")
+            if not self.safety_override:
+                await self._emergency_shutdown()
+            return False
 
     async def _initialize_safety_systems(self):
         """Initialize comprehensive safety systems (Altman's Priority #1)"""
@@ -537,6 +378,31 @@ class VisionaryAGIOrchestrator:
     async def _initialize_core_systems(self):
         """Initialize core AI systems"""
         self.logger.info("🧠 Initializing core intelligence systems...")
+
+        try:
+            # Initialize core integrator
+            self.core_integrator = EnhancedCoreIntegrator(config=self.config, safety_mode=True)
+
+            # Initialize main agent
+            self.lukhas_agent = lukhasAgent(
+                integrator=self.core_integrator,
+                consciousness_level=self.current_consciousness_level,
+            )
+
+            # Initialize cognitive modules
+            self.memory_manager = MemoryManager(config=self.config["consciousness"])
+            self.voice_engine = VoiceEngine(config=self.config["user_experience"])
+            self.dream_engine = DreamEngine(config=self.config["consciousness"])
+            self.emotional_engine = EmotionalResonanceEngine(config=self.config["consciousness"])
+            self.identity_system = IdentitySystem(config=self.config["consciousness"])
+            self.qi_engine = QIEngine(config=self.config["consciousness"])
+
+            self.logger.info("🧠 Core intelligence systems initialized")
+
+        except Exception as e:
+            # Graceful degradation for development
+            self.logger.warning(f"⚠️  Some core systems unavailable: {e}")
+            self.logger.info("🧠 Running with available systems")
 
     async def _initialize_user_experience(self):
         """Initialize user experience systems (Jobs' Obsession)"""
@@ -610,6 +476,38 @@ class VisionaryAGIOrchestrator:
             self.logger.warning("🔄 System already running")
             return True
 
+        try:
+            self.logger.info("🌟 Starting Visionary AI Orchestrator...")
+
+            # Start monitoring systems
+            await self._start_monitoring_systems()
+
+            # Start core AI agent
+            if self.lukhas_agent:
+                await self.lukhas_agent.start()
+
+            # Start cognitive modules
+            await self._start_cognitive_modules()
+
+            # Start user experience optimization
+            await self._start_ux_optimization()
+
+            # Begin consciousness evolution
+            await self._begin_consciousness_evolution()
+
+            self.is_running = True
+            self.logger.info("✅ Visionary AI Orchestrator is now running")
+
+            # Log inaugural message
+            await self._log_inaugural_message()
+
+            return True
+
+        except Exception as e:
+            self.logger.error(f"💥 Failed to start: {e}")
+            await self._emergency_shutdown()
+            return False
+
     async def think(
         self,
         query: str,
@@ -632,6 +530,39 @@ class VisionaryAGIOrchestrator:
 
         start_time = time.time()
 
+        try:
+            # Safety check first (Altman principle)
+            await self._safety_check_query(query, context)
+
+            # Prepare thinking context
+            thinking_context = {
+                "query": query,
+                "user_context": context or {},
+                "user_id": user_id,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "consciousness_level": self.current_consciousness_level.name,
+                "mode": self.mode.name,
+            }
+
+            # Engage full cognitive architecture
+            response = await self._orchestrate_thinking(thinking_context)
+
+            # User experience optimization (Jobs principle)
+            optimized_response = await self._optimize_user_experience(response, user_id)
+
+            # Performance monitoring
+            response_time = time.time() - start_time
+            await self._track_performance_metrics(response_time, optimized_response)
+
+            return optimized_response
+
+        except SafetyViolationError as e:
+            self.logger.warning(f"🛡️  Safety violation prevented: {e}")
+            return {
+                "response": "I cannot process that request as it violates safety guidelines.",
+                "status": "safety_violation",
+                "error": str(e),
+            }
         except Exception as e:
             self.logger.error(f"💥 Thinking process failed: {e}")
             return {
@@ -730,6 +661,31 @@ class VisionaryAGIOrchestrator:
             self.logger.warning("🛡️  Consciousness evolution blocked by safety systems")
             return False
 
+        try:
+            self.logger.info(f"🧠 Evolving consciousness from {current_level.name} to next level...")
+
+            # Gradual evolution with safety monitoring
+            next_level = ConsciousnessLevel(current_level.value + 1)
+
+            # Prepare for evolution
+            await self._prepare_consciousness_evolution(next_level)
+
+            # Execute evolution
+            success = await self._execute_consciousness_evolution(next_level)
+
+            if success:
+                self.current_consciousness_level = next_level
+                self.logger.info(f"✅ Consciousness evolved to {next_level.name}")
+                await self._log_consciousness_milestone(next_level)
+                return True
+            else:
+                self.logger.error("❌ Consciousness evolution failed")
+                return False
+
+        except Exception as e:
+            self.logger.error(f"💥 Consciousness evolution error: {e}")
+            return False
+
     async def get_visionary_status(self) -> dict[str, Any]:
         """Get comprehensive status reflecting visionary principles"""
 
@@ -786,6 +742,28 @@ class VisionaryAGIOrchestrator:
             bool: True if shutdown successful
         """
         self.logger.info(f"🛑 Initiating graceful shutdown: {reason}")
+
+        try:
+            # Stop cognitive modules
+            await self._stop_cognitive_modules()
+
+            # Stop monitoring systems
+            await self._stop_monitoring_systems()
+
+            # Save state and memories
+            await self._save_system_state()
+
+            # Final safety check
+            await self._final_safety_check()
+
+            self.is_running = False
+            self.logger.info("✅ Visionary AI Orchestrator shutdown complete")
+
+            return True
+
+        except Exception as e:
+            self.logger.error(f"💥 Shutdown error: {e}")
+            return False
 
     # Monitoring and Safety Methods
     async def _monitor_ethical_boundaries(self):
@@ -978,6 +956,36 @@ async def create_visionary_agi(
 async def main():
     """Example usage of the Visionary AI Orchestrator"""
     print("🌟 Creating Visionary AI Orchestrator...")
+
+    try:
+        # Create AI in balanced visionary mode
+        ai = await create_visionary_agi(
+            mode=VisionaryMode.BALANCED_VISIONARY,
+            consciousness_target=ConsciousnessLevel.SOPHISTICATED,
+        )
+
+        # Start the AI
+        if await ai.start():
+            print("✅ Visionary AI is online!")
+
+            # Example thinking
+            response = await ai.think(
+                "How can we make AI beneficial for all humanity?",
+                context={"priority": "high", "domain": "ethics"},
+            )
+
+            print(f"💭 AI Response: {response.get('response', 'No response')}")
+
+            # Get status
+            status = await ai.get_visionary_status()
+            print(f"📊 Vision Score: {status['visionary_metrics']['overall_vision_score']:.2f}")
+
+            # Graceful shutdown
+            await ai.shutdown("Demo complete")
+
+    except Exception as e:
+        print(f"❌ Error: {e}")
+
 
 if __name__ == "__main__":
     # Run the example

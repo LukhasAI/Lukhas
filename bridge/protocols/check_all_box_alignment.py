@@ -26,10 +26,17 @@ EXPORT FORMATS: Markdown • LaTeX • HTML • PDF • JSON • XML
 METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Professional System
 """
 
-
 #!/usr/bin/env python3
+"""
+Verify all enhanced ASCII box headers have perfect alignment
+"""
+
 import re
 from pathlib import Path
+
+
+def check_box_alignment(file_path):
+    """Check if ASCII box in file has perfect alignment"""
     try:
         with open(file_path, encoding="utf-8") as f:
             content = f.read()
@@ -53,17 +60,9 @@ from pathlib import Path
             return True, f"Perfect box alignment ({len(lines)} lines)"
 
     except Exception as e:
+        return False, f"Error reading file: {e}"
 
 
-
-"""
-Verify all enhanced ASCII box headers have perfect alignment
-"""
-
-
-
-def check_box_alignment(file_path):
-    """Check if ASCII box in file has perfect alignment"""
 def main():
     """Check all recently enhanced files"""
     workspace = Path("/Users/A_G_I/CodexGPT_Lukhas")

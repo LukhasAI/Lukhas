@@ -1,11 +1,11 @@
+from __future__ import annotations
+
 """
 Distributed GLYPH Generation with Colony Coordination
 
 Manages distributed generation of identity GLYPHs using colony-based
 parallel processing and tier-aware steganographic embedding.
 """
-
-from __future__ import annotations
 
 import asyncio
 import base64
@@ -27,125 +27,6 @@ from core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
 # Import identity components
 from governance.identity.core.events import IdentityEventType, get_identity_event_publisher
 from governance.identity.core.visualization.lukhas_orb import OrbVisualization
-
-        try:
-            if self.specialization == "pattern":
-                fragment_data = await self._generate_pattern_fragment(task, fragment_params)
-            elif self.specialization == "color":
-                fragment_data = await self._generate_color_fragment(task, fragment_params)
-            elif self.specialization == "quantum":
-                fragment_data = await self._generate_quantum_fragment(task, fragment_params)
-            elif self.specialization == "consciousness":
-                fragment_data = await self._generate_consciousness_fragment(task, fragment_params)
-            elif self.specialization == "embedding":
-                fragment_data = await self._generate_embedding_fragment(task, fragment_params)
-            else:
-                raise ValueError(f"Unknown specialization: {self.specialization}")
-
-            # Calculate quality score
-            quality_score = self._evaluate_fragment_quality(fragment_data, task.tier_level)
-
-            # Create fragment
-            fragment = GLYPHFragment(
-                fragment_id=f"{task.task_id}_{self.agent_id}_{self.fragments_generated}",
-                agent_id=self.agent_id,
-                fragment_type=self.specialization,
-                data=fragment_data,
-                metadata={
-                    "tier_level": task.tier_level,
-                    "complexity": task.complexity.name,
-                    "generation_params": fragment_params,
-                },
-                generation_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
-                quality_score=quality_score,
-            )
-
-            self.fragments_generated += 1
-            self.quality_scores.append(quality_score)
-
-            return fragment
-
-        except Exception as e:
-            raise
-
-            from scipy import ndimage
-        import json
-        try:
-            # Generate fragments in parallel
-            fragment_tasks = []
-
-            # Determine which fragments to generate based on tier
-            required_fragments = self._determine_required_fragments(tier_level, glyph_type)
-
-            for fragment_type in required_fragments:
-                # Get agents for this fragment type
-                agents = [
-                    agent
-                    for agent in self.generation_agents.values()
-                    if agent.specialization == fragment_type and agent.state != AgentState.FAILED
-                ]
-
-                if not agents:
-                    logger.warning(f"No agents available for {fragment_type}")
-                    continue
-
-                # Assign fragment generation to multiple agents
-                for agent in agents[:2]:  # Use up to 2 agents per fragment type
-                    fragment_params = self._create_fragment_params(fragment_type, tier_level, glyph_type)
-
-                    fragment_task = agent.generate_fragment(task, fragment_params)
-                    fragment_tasks.append(fragment_task)
-
-            # Wait for fragments with timeout
-            fragments = await asyncio.wait_for(
-                asyncio.gather(*fragment_tasks, return_exceptions=True),
-                timeout=self.assembly_timeout,
-            )
-
-            # Collect successful fragments
-            for fragment in fragments:
-                if isinstance(fragment, GLYPHFragment):
-                    self.fragment_pool[task.task_id].append(fragment)
-                else:
-                    logger.error(f"Fragment generation error: {fragment}")
-
-            # Assemble GLYPH from fragments
-            glyph = await self._assemble_glyph(task)
-
-            # Store generated GLYPH
-            self.generated_glyphs[glyph.glyph_id] = glyph
-            self.total_glyphs_generated += 1
-
-            # Update metrics
-            generation_time = (
-                datetime.now(timezone.utc) - task.deadline + timedelta(seconds=self.assembly_timeout)
-            ).total_seconds()
-            self.average_generation_time = (
-                self.average_generation_time * (self.total_glyphs_generated - 1) + generation_time
-            ) / self.total_glyphs_generated
-            self.quality_scores.append(glyph.quality_metrics.get("overall_quality", 0))
-
-            # Publish completion event
-            await self.event_publisher.publish_glyph_event(
-                IdentityEventType.GLYPH_GENERATED,
-                lambda_id=lambda_id,
-                tier_level=tier_level,
-                glyph_data={
-                    "glyph_id": glyph.glyph_id,
-                    "glyph_type": glyph_type.value,
-                    "quality_score": glyph.quality_metrics.get("overall_quality", 0),
-                    "fragments_used": len(glyph.fragments_used),
-                    "generation_time": generation_time,
-                },
-                session_id=session_id,
-            )
-
-            return glyph
-
-        except asyncio.TimeoutError:
-            raise
-
-                    from scipy import ndimage
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
 
@@ -248,6 +129,47 @@ class GLYPHGenerationAgent(SwarmAgent):
         """Generate a GLYPH fragment based on specialization."""
 
         start_time = datetime.now(timezone.utc)
+
+        try:
+            if self.specialization == "pattern":
+                fragment_data = await self._generate_pattern_fragment(task, fragment_params)
+            elif self.specialization == "color":
+                fragment_data = await self._generate_color_fragment(task, fragment_params)
+            elif self.specialization == "quantum":
+                fragment_data = await self._generate_quantum_fragment(task, fragment_params)
+            elif self.specialization == "consciousness":
+                fragment_data = await self._generate_consciousness_fragment(task, fragment_params)
+            elif self.specialization == "embedding":
+                fragment_data = await self._generate_embedding_fragment(task, fragment_params)
+            else:
+                raise ValueError(f"Unknown specialization: {self.specialization}")
+
+            # Calculate quality score
+            quality_score = self._evaluate_fragment_quality(fragment_data, task.tier_level)
+
+            # Create fragment
+            fragment = GLYPHFragment(
+                fragment_id=f"{task.task_id}_{self.agent_id}_{self.fragments_generated}",
+                agent_id=self.agent_id,
+                fragment_type=self.specialization,
+                data=fragment_data,
+                metadata={
+                    "tier_level": task.tier_level,
+                    "complexity": task.complexity.name,
+                    "generation_params": fragment_params,
+                },
+                generation_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
+                quality_score=quality_score,
+            )
+
+            self.fragments_generated += 1
+            self.quality_scores.append(quality_score)
+
+            return fragment
+
+        except Exception as e:
+            logger.error(f"Fragment generation error in {self.agent_id}: {e}")
+            raise
 
     async def _generate_pattern_fragment(self, task: GLYPHGenerationTask, params: dict[str, Any]) -> np.ndarray:
         """Generate geometric pattern fragment."""
@@ -499,6 +421,7 @@ class GLYPHGenerationAgent(SwarmAgent):
 
         # Resize if needed
         if normalized.shape[:2] != base.shape[:2]:
+            from scipy import ndimage
 
             normalized = ndimage.zoom(
                 normalized,
@@ -550,6 +473,7 @@ class GLYPHGenerationAgent(SwarmAgent):
         embedded = carrier.copy()
 
         # Create data signature
+        import json
 
         data_str = json.dumps(data, sort_keys=True)
         signature = hashlib.sha256(data_str.encode()).digest()
@@ -695,6 +619,82 @@ class DistributedGLYPHColony(BaseColony):
             session_id=session_id,
         )
 
+        try:
+            # Generate fragments in parallel
+            fragment_tasks = []
+
+            # Determine which fragments to generate based on tier
+            required_fragments = self._determine_required_fragments(tier_level, glyph_type)
+
+            for fragment_type in required_fragments:
+                # Get agents for this fragment type
+                agents = [
+                    agent
+                    for agent in self.generation_agents.values()
+                    if agent.specialization == fragment_type and agent.state != AgentState.FAILED
+                ]
+
+                if not agents:
+                    logger.warning(f"No agents available for {fragment_type}")
+                    continue
+
+                # Assign fragment generation to multiple agents
+                for agent in agents[:2]:  # Use up to 2 agents per fragment type
+                    fragment_params = self._create_fragment_params(fragment_type, tier_level, glyph_type)
+
+                    fragment_task = agent.generate_fragment(task, fragment_params)
+                    fragment_tasks.append(fragment_task)
+
+            # Wait for fragments with timeout
+            fragments = await asyncio.wait_for(
+                asyncio.gather(*fragment_tasks, return_exceptions=True),
+                timeout=self.assembly_timeout,
+            )
+
+            # Collect successful fragments
+            for fragment in fragments:
+                if isinstance(fragment, GLYPHFragment):
+                    self.fragment_pool[task.task_id].append(fragment)
+                else:
+                    logger.error(f"Fragment generation error: {fragment}")
+
+            # Assemble GLYPH from fragments
+            glyph = await self._assemble_glyph(task)
+
+            # Store generated GLYPH
+            self.generated_glyphs[glyph.glyph_id] = glyph
+            self.total_glyphs_generated += 1
+
+            # Update metrics
+            generation_time = (
+                datetime.now(timezone.utc) - task.deadline + timedelta(seconds=self.assembly_timeout)
+            ).total_seconds()
+            self.average_generation_time = (
+                self.average_generation_time * (self.total_glyphs_generated - 1) + generation_time
+            ) / self.total_glyphs_generated
+            self.quality_scores.append(glyph.quality_metrics.get("overall_quality", 0))
+
+            # Publish completion event
+            await self.event_publisher.publish_glyph_event(
+                IdentityEventType.GLYPH_GENERATED,
+                lambda_id=lambda_id,
+                tier_level=tier_level,
+                glyph_data={
+                    "glyph_id": glyph.glyph_id,
+                    "glyph_type": glyph_type.value,
+                    "quality_score": glyph.quality_metrics.get("overall_quality", 0),
+                    "fragments_used": len(glyph.fragments_used),
+                    "generation_time": generation_time,
+                },
+                session_id=session_id,
+            )
+
+            return glyph
+
+        except asyncio.TimeoutError:
+            logger.error(f"GLYPH generation timeout for task {task.task_id}")
+            raise
+
         except Exception as e:
             logger.error(f"GLYPH generation error: {e}")
             raise
@@ -786,6 +786,7 @@ class DistributedGLYPHColony(BaseColony):
             for fragment in layer_fragments:
                 # Resize fragment if needed
                 if fragment.data.shape[:2] != size:
+                    from scipy import ndimage
 
                     resized = np.zeros((*size, fragment.data.shape[2]))
                     for c in range(fragment.data.shape[2]):

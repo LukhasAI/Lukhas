@@ -1,3 +1,7 @@
+import logging
+from datetime import timezone
+
+logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - DREAM REFLECTION LOOP V3.0
@@ -37,9 +41,6 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
-from datetime import timezone
-
 # Module imports
 import asyncio
 import json
@@ -57,390 +58,9 @@ try:
 
     metrics_db_available = True
 except Exception:
+    metrics_db_available = False
 
 # Configure module logger
-try:
-    pass
-
-    BRAIN_INTEGRATION_AVAILABLE = True
-    logger.info("Brain Integration module loaded successfully in Dream Engine")
-except ImportError:
-    BRAIN_INTEGRATION_AVAILABLE = False
-
-try:
-    from dream.oneiric_engine.oneiric_core.utils.drift_tracker import (
-        SymbolicDriftTracker,
-    )
-
-    drift_tracker_available = True
-except ImportError:
-
-try:
-    from memory.systems.dream_memory_fold import get_global_dream_memory_fold
-
-    dream_memory_fold_available = True
-except ImportError:
-
-try:
-    from sklearn.cluster import DBSCAN
-    from sklearn.feature_extraction.text import TfidfVectorizer
-
-    DREAM_CLUSTERING_AVAILABLE = True
-    logger.info("Clustering libraries available for dream synthesis")
-except ImportError:
-    DREAM_CLUSTERING_AVAILABLE = False
-
-
-            try:
-                self.drift_tracker = SymbolicDriftTracker()
-                logger.info("SymbolicDriftTracker initialized successfully")
-            except Exception as e:
-
-            try:
-                self.metrics_db = DreamMetricsDB()
-                logger.info("DreamMetricsDB initialized successfully")
-            except Exception as e:
-
-            try:
-                self.dream_memory_fold = get_global_dream_memory_fold()
-                logger.info("Dream Memory Fold connected successfully")
-            except Exception as e:
-
-            try:
-                bio_state = await self.bio_orchestrator.get_current_state()
-                dream_state.bio_rhythm_phase = bio_state.get("phase", "unknown")
-                dream_state.qi_coherence = bio_state.get("coherence", 0.0)
-            except Exception as e:
-
-            try:
-                drift_metrics = self.drift_tracker.track_drift(dream_content)
-                dream_state.metadata["drift_metrics"] = drift_metrics
-            except Exception as e:
-
-            try:
-                consolidation_result = await self._consolidate_dream_memory(dream_state)
-                dream_state.metadata["consolidation"] = consolidation_result
-            except Exception as e:
-
-            try:
-                alignment = dream_state.metadata.get("alignment_score", 0.0)
-                self.metrics_db.add_dream_metrics(
-                    dream_id,
-                    self.drift_score,
-                    self.entropy_delta,
-                    alignment,
-                    datetime.now(timezone.utc).isoformat(),
-                )
-            except Exception as e:
-
-            try:
-                # Consolidate memories
-                self.consolidate_memories()
-                self._sleep_with_check(10)
-
-                # Extract insights
-                self.extract_insights()
-                self._sleep_with_check(10)
-
-                # Recognize patterns
-                self.recognize_patterns()
-                self._sleep_with_check(10)
-
-                # Synthesize dreams
-                self.synthesize_dream()
-                self._sleep_with_check(10)
-
-            except Exception as e:
-                self._sleep_with_check(30)
-
-        try:
-            # Get recent memories
-            recent_memories = self.memory_manager.get_recent_memories(limit=self.config.consolidation_batch_size)
-
-            if not recent_memories:
-                logger.info("No recent memories to consolidate")
-                return
-
-            # Cluster similar memories if clustering available
-            if DREAM_CLUSTERING_AVAILABLE and len(recent_memories) > 5:
-                memory_texts = [str(m.get("content", "")) for m in recent_memories]
-
-                # Vectorize memories
-                vectorizer = TfidfVectorizer(max_features=100)
-                memory_vectors = vectorizer.fit_transform(memory_texts)
-
-                # Cluster memories
-                clustering = DBSCAN(eps=0.3, min_samples=2)
-                clusters = clustering.fit_predict(memory_vectors)
-
-                # Consolidate each cluster
-                unique_clusters = set(clusters)
-                for cluster_id in unique_clusters:
-                    if cluster_id == -1:  # Skip noise
-                        continue
-
-                    cluster_indices = [i for i, c in enumerate(clusters) if c == cluster_id]
-                    cluster_memories = [recent_memories[i] for i in cluster_indices]
-
-                    # Create consolidated memory
-                    consolidated = {
-                        "type": "consolidated",
-                        "source_count": len(cluster_memories),
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                        "themes": self._extract_themes(cluster_memories),
-                        "importance": sum(m.get("importance", 0.5) for m in cluster_memories) / len(cluster_memories),
-                    }
-
-                    # Store consolidated memory
-                    self.memory_manager.store_memory(consolidated)
-                    logger.info(f"Consolidated {len(cluster_memories)} memories into cluster {cluster_id}")
-
-            self.metrics["memory_consolidations"] += 1
-
-        except Exception as e:
-
-        try:
-            insights = []
-
-            # Analyze dream themes
-            all_themes = []
-            for dream in self.current_dreams:
-                if "themes" in dream.metadata:
-                    all_themes.extend(dream.metadata["themes"])
-
-            # Find recurring themes
-            theme_counts = {}
-            for theme in all_themes:
-                theme_counts[theme] = theme_counts.get(theme, 0) + 1
-
-            # Generate insights from recurring themes
-            for theme, count in theme_counts.items():
-                if count >= self.config.pattern_min_frequency:
-                    insight = {
-                        "type": "recurring_theme",
-                        "theme": theme,
-                        "frequency": count,
-                        "confidence": min(count / len(self.current_dreams), 1.0),
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                    }
-                    insights.append(insight)
-
-            # Store insights if above threshold
-            for insight in insights:
-                if insight["confidence"] >= self.config.insight_confidence_threshold:
-                    logger.info(f"Insight discovered: {insight['theme']} (confidence: {insight['confidence']:.2f})")
-                    if self.memory_manager:
-                        self.memory_manager.store_memory(
-                            {
-                                "type": "insight",
-                                "content": insight,
-                                "importance": insight["confidence"],
-                            }
-                        )
-
-            self.metrics["insights_extracted"] += len(insights)
-
-        except Exception as e:
-
-        try:
-            patterns = []
-
-            # Look for sequential patterns
-            for i in range(len(self.current_dreams) - 2):
-                dream_seq = self.current_dreams[i : i + 3]
-
-                # Check for coherence progression
-                coherences = [d.qi_coherence for d in dream_seq]
-                if all(coherences[i] <= coherences[i + 1] for i in range(2)):
-                    patterns.append(
-                        {
-                            "type": "increasing_coherence",
-                            "start_coherence": coherences[0],
-                            "end_coherence": coherences[2],
-                            "duration": 3,
-                        }
-                    )
-
-                # Check for phase patterns
-                phases = [d.bio_rhythm_phase for d in dream_seq]
-                if len(set(phases)) == 1 and phases[0] != "unknown":
-                    patterns.append({"type": "stable_phase", "phase": phases[0], "duration": 3})
-
-            # Log discovered patterns
-            for pattern in patterns:
-                logger.info(f"Pattern discovered: {pattern['type']}")
-
-            self.metrics["patterns_recognized"] += len(patterns)
-
-        except Exception as e:
-
-        try:
-            # Gather dream elements
-            elements = {
-                "themes": [],
-                "emotions": [],
-                "symbols": [],
-                "coherence": self.metrics["qi_coherence_avg"],
-            }
-
-            # Extract elements from recent dreams
-            for dream in self.current_dreams[-5:]:
-                if "themes" in dream.metadata:
-                    elements["themes"].extend(dream.metadata["themes"])
-                if "emotions" in dream.content:
-                    elements["emotions"].append(dream.content["emotions"])
-                if dream.symbolic_tags:
-                    elements["symbols"].extend(dream.symbolic_tags)
-
-            # Create synthesized dream
-            synthesized = {
-                "type": "synthesized",
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "elements": elements,
-                "narrative": f"A dream emerges from {len(elements['themes'])} themes...",
-                "coherence": elements["coherence"],
-                "generated_by": "dream_synthesis",
-            }
-
-            # ΛTAG: emotional_repair_loop
-            sadness_level = 0.0
-            if elements["emotions"]:
-                sadness_values = [e.get("sadness", 0.0) for e in elements["emotions"]]
-                sadness_level = sum(sadness_values) / len(sadness_values)
-
-            if sadness_level > self.config.sadness_repair_threshold:
-                from bio.bio_utilities import inject_narrative_repair
-
-                synthesized["narrative"] = inject_narrative_repair(synthesized["narrative"], {"sadness": sadness_level})
-                synthesized["repair_injected"] = True
-            else:
-                synthesized["repair_injected"] = False
-
-            # Process the synthesized dream
-            process_result = asyncio.run(self.process_dream(synthesized, {"synthesis": True}))
-
-            # Log the dream if enabled
-            if self.enable_logging:
-                self._log_dream(synthesized)
-
-            self.metrics["dreams_synthesized"] += 1
-
-            return {
-                "dream": synthesized,
-                "result": process_result,
-            }
-
-        except Exception as e:
-            return {"error": str(e)}
-
-        try:
-            filename = self.dream_log_path / f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
-            with open(filename, "w") as f:
-                json.dump(dream, f, indent=2, default=str)
-            logger.debug(f"Dream logged to {filename}")
-        except Exception as e:
-
-        try:
-            memory_entry = {
-                "type": "dream",
-                "content": dream_state.content,
-                "metadata": dream_state.metadata,
-                "timestamp": dream_state.timestamp.isoformat(),
-                "importance": 0.5 + (dream_state.qi_coherence * 0.5),
-            }
-
-            result = await self.memory_manager.store_memory_async(memory_entry)
-            return {"status": "stored", "memory_id": result.get("id")}
-        except Exception as e:
-
-        try:
-            message_type = message_envelope.get("type", "unknown")
-            payload = message_envelope.get("payload", {})
-
-            logger.info(f"Processing message type: {message_type}")
-
-            if message_type == "dream_request":
-                # Synchronous wrapper for async processing
-                dream_content = payload.get("content", {})
-                context = payload.get("context", {})
-
-                # Run async in new event loop if needed
-                try:
-                    result = asyncio.run(self.process_dream(dream_content, context))
-                except RuntimeError:
-                    loop = asyncio.get_event_loop()
-                    result = loop.run_until_complete(self.process_dream(dream_content, context))
-
-                return {"status": "success", "result": result}
-
-            elif message_type == "get_metrics":
-                return {"status": "success", "metrics": self.get_metrics()}
-
-            else:
-                logger.warning(f"Unknown message type: {message_type}")
-                return {
-                    "status": "error",
-                    "error": f"Unknown message type: {message_type}",
-                }
-
-            try:
-                # Check for idle state
-                if (time.time() - self.last_activity_time > self.config.idle_trigger_seconds) and not self.dreaming:
-                    logger.info("System idle detected - starting dream cycle")
-                    self.start_dream_cycle()
-
-                # Process any pending dreams
-                if self.dream_buffer:
-                    dream = self.dream_buffer.pop(0)
-                    asyncio.run(self.process_dream(dream))
-
-                time.sleep(self.config.reflection_interval)
-
-            except Exception as e:
-                time.sleep(5)
-
-            try:
-                self.memory_manager.update_memory_importance(dream.get("id"), feedback.get("importance_delta", 0))
-            except Exception as e:
-
-        try:
-            await self.dream_memory_fold.dream_snapshot(
-                fold_id=fold_id,
-                dream_state={
-                    "content": content,
-                    "metadata": metadata or {},
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "reflection_count": self.processed_count,
-                },
-            )
-            logger.info(f"Created dream snapshot for fold {fold_id}")
-            return True
-        except Exception as e:
-            return False
-
-        try:
-            result = await self.dream_memory_fold.sync_fold(fold_id)
-            logger.info(f"Synchronized fold {fold_id}: {result}")
-            return result.get("success", False)
-        except Exception as e:
-            return False
-
-        try:
-            snapshots = await self.dream_memory_fold.get_fold_snapshots(fold_id)
-            return snapshots
-        except Exception as e:
-            return []
-
-        try:
-            stats = await self.dream_memory_fold.get_fold_statistics(fold_id)
-            return stats
-        except Exception as e:
-            return {}
-
-
-
-logger = logging.getLogger(__name__)
-
 logger = get_logger(__name__)
 
 # Module constants
@@ -448,9 +68,45 @@ MODULE_VERSION = "3.0.0"
 MODULE_NAME = "dream_reflection_loop"
 
 # Try to import brain integration components
+try:
+    pass
+
+    BRAIN_INTEGRATION_AVAILABLE = True
+    logger.info("Brain Integration module loaded successfully in Dream Engine")
+except ImportError:
+    logger.warning("Could not import brain integration module. Dream consolidation will be limited.")
+    BRAIN_INTEGRATION_AVAILABLE = False
+
 # Import drift tracker for symbolic metrics
+try:
+    from dream.oneiric_engine.oneiric_core.utils.drift_tracker import (
+        SymbolicDriftTracker,
+    )
+
+    drift_tracker_available = True
+except ImportError:
+    drift_tracker_available = False
+
 # Import dream memory fold for snapshot introspection
+try:
+    from memory.systems.dream_memory_fold import get_global_dream_memory_fold
+
+    dream_memory_fold_available = True
+except ImportError:
+    dream_memory_fold_available = False
+
 # Try importing memory clustering components
+try:
+    from sklearn.cluster import DBSCAN
+    from sklearn.feature_extraction.text import TfidfVectorizer
+
+    DREAM_CLUSTERING_AVAILABLE = True
+    logger.info("Clustering libraries available for dream synthesis")
+except ImportError:
+    logger.warning("Clustering libraries not available. Dream consolidation will operate without clustering.")
+    DREAM_CLUSTERING_AVAILABLE = False
+
+
 @dataclass
 class DreamReflectionConfig:
     """Configuration for dream reflection loop."""
@@ -520,12 +176,30 @@ class DreamReflectionLoop:
         # Initialize drift tracker for symbolic metrics
         self.drift_tracker = None
         if drift_tracker_available:
+            try:
+                self.drift_tracker = SymbolicDriftTracker()
+                logger.info("SymbolicDriftTracker initialized successfully")
+            except Exception as e:
+                logger.warning(f"Failed to initialize SymbolicDriftTracker: {e}")
+
         # Initialize dream metrics database
         self.metrics_db = None
         if metrics_db_available:
+            try:
+                self.metrics_db = DreamMetricsDB()
+                logger.info("DreamMetricsDB initialized successfully")
+            except Exception as e:
+                logger.warning(f"Failed to initialize DreamMetricsDB: {e}")
+
         # Initialize dream memory fold
         self.dream_memory_fold = None
         if dream_memory_fold_available:
+            try:
+                self.dream_memory_fold = get_global_dream_memory_fold()
+                logger.info("Dream Memory Fold connected successfully")
+            except Exception as e:
+                logger.warning(f"Failed to initialize Dream Memory Fold: {e}")
+
         # Brain integration
         self.brain_integration = None
         self.brain_connected = False
@@ -627,10 +301,29 @@ class DreamReflectionLoop:
 
         # Bio-rhythm integration
         if self.bio_orchestrator and self.config.enable_bio_integration:
+            try:
+                bio_state = await self.bio_orchestrator.get_current_state()
+                dream_state.bio_rhythm_phase = bio_state.get("phase", "unknown")
+                dream_state.qi_coherence = bio_state.get("coherence", 0.0)
+            except Exception as e:
+                logger.warning(f"Bio integration failed: {e}")
+
         # Symbolic processing
         if self.drift_tracker:
+            try:
+                drift_metrics = self.drift_tracker.track_drift(dream_content)
+                dream_state.metadata["drift_metrics"] = drift_metrics
+            except Exception as e:
+                logger.warning(f"Drift tracking failed: {e}")
+
         # Memory consolidation
         if self.memory_manager:
+            try:
+                consolidation_result = await self._consolidate_dream_memory(dream_state)
+                dream_state.metadata["consolidation"] = consolidation_result
+            except Exception as e:
+                logger.warning(f"Memory consolidation failed: {e}")
+
         # Update symbolic scores
         self.update_scores(dream_content)
 
@@ -658,6 +351,18 @@ class DreamReflectionLoop:
 
         # Store dream metrics in database
         if self.metrics_db:
+            try:
+                alignment = dream_state.metadata.get("alignment_score", 0.0)
+                self.metrics_db.add_dream_metrics(
+                    dream_id,
+                    self.drift_score,
+                    self.entropy_delta,
+                    alignment,
+                    datetime.now(timezone.utc).isoformat(),
+                )
+            except Exception as e:
+                logger.warning(f"Failed to record dream metrics: {e}")
+
         return {
             "dream_id": dream_id,
             "processed": True,
@@ -749,6 +454,27 @@ class DreamReflectionLoop:
         logger.info(f"Entering dream state for {duration_minutes} minutes...")
 
         while self.dreaming and time.time() < end_time:
+            try:
+                # Consolidate memories
+                self.consolidate_memories()
+                self._sleep_with_check(10)
+
+                # Extract insights
+                self.extract_insights()
+                self._sleep_with_check(10)
+
+                # Recognize patterns
+                self.recognize_patterns()
+                self._sleep_with_check(10)
+
+                # Synthesize dreams
+                self.synthesize_dream()
+                self._sleep_with_check(10)
+
+            except Exception as e:
+                logger.error(f"Error in dream cycle: {e}")
+                self._sleep_with_check(30)
+
         # Final summary
         summary = self.dream_synthesis_summary()
         logger.info(f"Dream cycle complete. Summary: {summary}")
@@ -771,6 +497,53 @@ class DreamReflectionLoop:
             logger.warning("No memory manager available for consolidation")
             return
 
+        try:
+            # Get recent memories
+            recent_memories = self.memory_manager.get_recent_memories(limit=self.config.consolidation_batch_size)
+
+            if not recent_memories:
+                logger.info("No recent memories to consolidate")
+                return
+
+            # Cluster similar memories if clustering available
+            if DREAM_CLUSTERING_AVAILABLE and len(recent_memories) > 5:
+                memory_texts = [str(m.get("content", "")) for m in recent_memories]
+
+                # Vectorize memories
+                vectorizer = TfidfVectorizer(max_features=100)
+                memory_vectors = vectorizer.fit_transform(memory_texts)
+
+                # Cluster memories
+                clustering = DBSCAN(eps=0.3, min_samples=2)
+                clusters = clustering.fit_predict(memory_vectors)
+
+                # Consolidate each cluster
+                unique_clusters = set(clusters)
+                for cluster_id in unique_clusters:
+                    if cluster_id == -1:  # Skip noise
+                        continue
+
+                    cluster_indices = [i for i, c in enumerate(clusters) if c == cluster_id]
+                    cluster_memories = [recent_memories[i] for i in cluster_indices]
+
+                    # Create consolidated memory
+                    consolidated = {
+                        "type": "consolidated",
+                        "source_count": len(cluster_memories),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "themes": self._extract_themes(cluster_memories),
+                        "importance": sum(m.get("importance", 0.5) for m in cluster_memories) / len(cluster_memories),
+                    }
+
+                    # Store consolidated memory
+                    self.memory_manager.store_memory(consolidated)
+                    logger.info(f"Consolidated {len(cluster_memories)} memories into cluster {cluster_id}")
+
+            self.metrics["memory_consolidations"] += 1
+
+        except Exception as e:
+            logger.error(f"Memory consolidation failed: {e}")
+
     def extract_insights(self):
         """Extract insights from processed dreams and memories."""
         logger.info("Extracting insights from dream patterns...")
@@ -778,6 +551,50 @@ class DreamReflectionLoop:
         if not self.current_dreams:
             logger.info("No dreams available for insight extraction")
             return
+
+        try:
+            insights = []
+
+            # Analyze dream themes
+            all_themes = []
+            for dream in self.current_dreams:
+                if "themes" in dream.metadata:
+                    all_themes.extend(dream.metadata["themes"])
+
+            # Find recurring themes
+            theme_counts = {}
+            for theme in all_themes:
+                theme_counts[theme] = theme_counts.get(theme, 0) + 1
+
+            # Generate insights from recurring themes
+            for theme, count in theme_counts.items():
+                if count >= self.config.pattern_min_frequency:
+                    insight = {
+                        "type": "recurring_theme",
+                        "theme": theme,
+                        "frequency": count,
+                        "confidence": min(count / len(self.current_dreams), 1.0),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                    insights.append(insight)
+
+            # Store insights if above threshold
+            for insight in insights:
+                if insight["confidence"] >= self.config.insight_confidence_threshold:
+                    logger.info(f"Insight discovered: {insight['theme']} (confidence: {insight['confidence']:.2f})")
+                    if self.memory_manager:
+                        self.memory_manager.store_memory(
+                            {
+                                "type": "insight",
+                                "content": insight,
+                                "importance": insight["confidence"],
+                            }
+                        )
+
+            self.metrics["insights_extracted"] += len(insights)
+
+        except Exception as e:
+            logger.error(f"Insight extraction failed: {e}")
 
     def recognize_patterns(self):
         """Recognize patterns in dream sequences."""
@@ -787,12 +604,113 @@ class DreamReflectionLoop:
             logger.info("Not enough dreams for pattern recognition")
             return
 
+        try:
+            patterns = []
+
+            # Look for sequential patterns
+            for i in range(len(self.current_dreams) - 2):
+                dream_seq = self.current_dreams[i : i + 3]
+
+                # Check for coherence progression
+                coherences = [d.qi_coherence for d in dream_seq]
+                if all(coherences[i] <= coherences[i + 1] for i in range(2)):
+                    patterns.append(
+                        {
+                            "type": "increasing_coherence",
+                            "start_coherence": coherences[0],
+                            "end_coherence": coherences[2],
+                            "duration": 3,
+                        }
+                    )
+
+                # Check for phase patterns
+                phases = [d.bio_rhythm_phase for d in dream_seq]
+                if len(set(phases)) == 1 and phases[0] != "unknown":
+                    patterns.append({"type": "stable_phase", "phase": phases[0], "duration": 3})
+
+            # Log discovered patterns
+            for pattern in patterns:
+                logger.info(f"Pattern discovered: {pattern['type']}")
+
+            self.metrics["patterns_recognized"] += len(patterns)
+
+        except Exception as e:
+            logger.error(f"Pattern recognition failed: {e}")
+
     def synthesize_dream(self):
         """Synthesize new dream content from patterns and insights."""
         logger.info("Synthesizing new dream content...")
 
+        try:
+            # Gather dream elements
+            elements = {
+                "themes": [],
+                "emotions": [],
+                "symbols": [],
+                "coherence": self.metrics["qi_coherence_avg"],
+            }
+
+            # Extract elements from recent dreams
+            for dream in self.current_dreams[-5:]:
+                if "themes" in dream.metadata:
+                    elements["themes"].extend(dream.metadata["themes"])
+                if "emotions" in dream.content:
+                    elements["emotions"].append(dream.content["emotions"])
+                if dream.symbolic_tags:
+                    elements["symbols"].extend(dream.symbolic_tags)
+
+            # Create synthesized dream
+            synthesized = {
+                "type": "synthesized",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "elements": elements,
+                "narrative": f"A dream emerges from {len(elements['themes'])} themes...",
+                "coherence": elements["coherence"],
+                "generated_by": "dream_synthesis",
+            }
+
+            # ΛTAG: emotional_repair_loop
+            sadness_level = 0.0
+            if elements["emotions"]:
+                sadness_values = [e.get("sadness", 0.0) for e in elements["emotions"]]
+                sadness_level = sum(sadness_values) / len(sadness_values)
+
+            if sadness_level > self.config.sadness_repair_threshold:
+                from bio.bio_utilities import inject_narrative_repair
+
+                synthesized["narrative"] = inject_narrative_repair(synthesized["narrative"], {"sadness": sadness_level})
+                synthesized["repair_injected"] = True
+            else:
+                synthesized["repair_injected"] = False
+
+            # Process the synthesized dream
+            process_result = asyncio.run(self.process_dream(synthesized, {"synthesis": True}))
+
+            # Log the dream if enabled
+            if self.enable_logging:
+                self._log_dream(synthesized)
+
+            self.metrics["dreams_synthesized"] += 1
+
+            return {
+                "dream": synthesized,
+                "result": process_result,
+            }
+
+        except Exception as e:
+            logger.error(f"Dream synthesis failed: {e}")
+            return {"error": str(e)}
+
     def _log_dream(self, dream):
         """Log dream to file for analysis."""
+        try:
+            filename = self.dream_log_path / f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+            with open(filename, "w") as f:
+                json.dump(dream, f, indent=2, default=str)
+            logger.debug(f"Dream logged to {filename}")
+        except Exception as e:
+            logger.error(f"Failed to log dream: {e}")
+
     def _extract_themes(self, memories):
         """Extract themes from a collection of memories."""
         themes = []
@@ -812,6 +730,20 @@ class DreamReflectionLoop:
         if not self.memory_manager:
             return {"status": "no_memory_manager"}
 
+        try:
+            memory_entry = {
+                "type": "dream",
+                "content": dream_state.content,
+                "metadata": dream_state.metadata,
+                "timestamp": dream_state.timestamp.isoformat(),
+                "importance": 0.5 + (dream_state.qi_coherence * 0.5),
+            }
+
+            result = await self.memory_manager.store_memory_async(memory_entry)
+            return {"status": "stored", "memory_id": result.get("id")}
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
     def process_message(self, message_envelope):
         """
         Process incoming messages from the core consciousness system.
@@ -819,6 +751,37 @@ class DreamReflectionLoop:
         Args:
             message_envelope: Message containing request and metadata
         """
+        try:
+            message_type = message_envelope.get("type", "unknown")
+            payload = message_envelope.get("payload", {})
+
+            logger.info(f"Processing message type: {message_type}")
+
+            if message_type == "dream_request":
+                # Synchronous wrapper for async processing
+                dream_content = payload.get("content", {})
+                context = payload.get("context", {})
+
+                # Run async in new event loop if needed
+                try:
+                    result = asyncio.run(self.process_dream(dream_content, context))
+                except RuntimeError:
+                    # Already in event loop
+                    loop = asyncio.get_event_loop()
+                    result = loop.run_until_complete(self.process_dream(dream_content, context))
+
+                return {"status": "success", "result": result}
+
+            elif message_type == "get_metrics":
+                return {"status": "success", "metrics": self.get_metrics()}
+
+            else:
+                logger.warning(f"Unknown message type: {message_type}")
+                return {
+                    "status": "error",
+                    "error": f"Unknown message type: {message_type}",
+                }
+
         except Exception as e:
             logger.error(f"Error processing message: {e}")
             return {"status": "error", "error": str(e)}
@@ -844,6 +807,23 @@ class DreamReflectionLoop:
     def _reflection_loop(self):
         """Main reflection loop that processes dreams periodically."""
         while self.is_running:
+            try:
+                # Check for idle state
+                if (time.time() - self.last_activity_time > self.config.idle_trigger_seconds) and not self.dreaming:
+                    logger.info("System idle detected - starting dream cycle")
+                    self.start_dream_cycle()
+
+                # Process any pending dreams
+                if self.dream_buffer:
+                    dream = self.dream_buffer.pop(0)
+                    asyncio.run(self.process_dream(dream))
+
+                time.sleep(self.config.reflection_interval)
+
+            except Exception as e:
+                logger.error(f"Error in reflection loop: {e}")
+                time.sleep(5)
+
     def get_status(self) -> dict[str, Any]:
         """Get current status of the dream reflection loop."""
         return {
@@ -903,6 +883,11 @@ class DreamReflectionLoop:
     def dream_to_memory_feedback(self, dream, feedback):
         """Send dream feedback to memory system."""
         if self.memory_manager:
+            try:
+                self.memory_manager.update_memory_importance(dream.get("id"), feedback.get("importance_delta", 0))
+            except Exception as e:
+                logger.error(f"Failed to send dream feedback: {e}")
+
     def dream_synthesis_summary(self):
         """Generate summary of dream synthesis session."""
         return {
@@ -951,6 +936,22 @@ class DreamReflectionLoop:
             logger.warning("Dream memory fold not available")
             return False
 
+        try:
+            await self.dream_memory_fold.dream_snapshot(
+                fold_id=fold_id,
+                dream_state={
+                    "content": content,
+                    "metadata": metadata or {},
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "reflection_count": self.processed_count,
+                },
+            )
+            logger.info(f"Created dream snapshot for fold {fold_id}")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to create dream snapshot: {e}")
+            return False
+
     async def sync_memory_fold(self, fold_id: str) -> bool:
         """
         Synchronize a memory fold with the dream state.
@@ -963,6 +964,14 @@ class DreamReflectionLoop:
         """
         if not self.dream_memory_fold:
             logger.warning("Dream memory fold not available")
+            return False
+
+        try:
+            result = await self.dream_memory_fold.sync_fold(fold_id)
+            logger.info(f"Synchronized fold {fold_id}: {result}")
+            return result.get("success", False)
+        except Exception as e:
+            logger.error(f"Failed to sync memory fold: {e}")
             return False
 
     async def get_fold_snapshots(self, fold_id: str) -> list[dict[str, Any]]:
@@ -978,6 +987,13 @@ class DreamReflectionLoop:
         if not self.dream_memory_fold:
             return []
 
+        try:
+            snapshots = await self.dream_memory_fold.get_fold_snapshots(fold_id)
+            return snapshots
+        except Exception as e:
+            logger.error(f"Failed to get fold snapshots: {e}")
+            return []
+
     async def get_fold_statistics(self, fold_id: str) -> dict[str, Any]:
         """
         Get statistics for a specific fold.
@@ -990,6 +1006,14 @@ class DreamReflectionLoop:
         """
         if not self.dream_memory_fold:
             return {}
+
+        try:
+            stats = await self.dream_memory_fold.get_fold_statistics(fold_id)
+            return stats
+        except Exception as e:
+            logger.error(f"Failed to get fold statistics: {e}")
+            return {}
+
 
 class DreamLoggerLoop(DreamReflectionLoop):
     """Specialized version that focuses on logging dreams for analysis."""

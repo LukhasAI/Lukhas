@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+# candidate/core/orchestration/async_orchestrator.py
 """
 Advanced async orchestrator with resilience patterns.
 
@@ -7,8 +10,6 @@ Features:
 - Loop detection and escalation
 - Comprehensive observability
 """
-
-from __future__ import annotations
 
 from __future__ import annotations
 
@@ -22,288 +23,6 @@ from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 from core.interfaces import ICognitiveNode
 from core.registry import resolve
 from metrics import (
-from .consensus_arbitrator import Proposal, choose
-from .meta_controller import MetaController
-from .otel import stage_span
-            try:
-                node = resolve(f"node:{node_key}")
-            except LookupError:
-                    "stage": stage_config.name,
-                    "status": "skipped",
-                    "reason": "node_not_registered",
-                    "node": node_key,
-                }
-                self._record_node_result(node_key, 0.0, False, stage_config, skip_result)
-                last_result = skip_result
-                continue
-
-            try:
-                result = await self._run_stage(
-                    stage_config,
-                    node,
-                    context,
-                    cancellation=cancellation,
-                )
-                duration_ms = (time.perf_counter() - start) * 1000
-                success = self._is_stage_success(result)
-                self._record_node_result(node_key, duration_ms, success, stage_config, result if not success else None)
-
-                if span_ctx:
-                    span_ctx.set_attribute("matriz.node_name", getattr(node, "name", node_key))
-                    span_ctx.set_attribute("matriz.node_key", node_key)
-                    span_ctx.set_attribute("matriz.node_latency_ms", duration_ms)
-
-                if success:
-                    if attempt_index > 0 and isinstance(result, dict):
-                        # # ΛTAG: adaptive_routing
-                        result.setdefault("_fallback", {})
-                        result["_fallback"].update({
-                            "attempts": attempt_index + 1,
-                            "failed_primary": True,
-                            "node": node_key,
-                        })
-                    if span_ctx:
-                        span_ctx.set_attribute("matriz.fallback_used", attempt_index > 0)
-                        span_ctx.set_attribute("matriz.fallback_attempts", attempt_index + 1)
-                    return result
-
-                if span_ctx:
-                    span_ctx.set_attribute("matriz.node_health", "degraded")
-                last_result = result if isinstance(result, dict) else {
-                    "stage": stage_config.name,
-                    "status": "error",
-                    "error": "unknown_failure",
-                    "node": node_key,
-                }
-            except asyncio.CancelledError:
-                cancel_metadata = {"action": "cancelled", "stage": stage_config.name, "node": node_key}
-                self._record_node_result(node_key, duration_ms, False, stage_config, cancel_metadata)
-                if span_ctx:
-                    span_ctx.set_attribute("matriz.fallback_cancelled", True)
-                if hasattr(node, "cancel"):
-                    try:
-                        await node.cancel(cancellation.reason if cancellation else None)  # # ΛTAG: cancellation
-                    except Exception:
-                        pass
-                raise
-        try:
-            if cancellation:
-                # # ΛTAG: cancellation
-                cancel_task = asyncio.create_task(cancellation.wait())
-                done, _ = await asyncio.wait(
-                    {task, cancel_task},
-                    timeout=timeout,
-                    return_when=asyncio.FIRST_COMPLETED,
-                )
-
-                if task in done:
-                    return await task
-
-                if cancellation.cancelled:
-                    task.cancel()
-                    await asyncio.gather(task, return_exceptions=True)
-                    raise asyncio.CancelledError(cancellation.reason or "cancelled")
-
-                task.cancel()
-                await asyncio.gather(task, return_exceptions=True)
-                raise asyncio.TimeoutError()
-
-            return await asyncio.wait_for(task, timeout)
-            try:
-                return await fn()
-            except asyncio.CancelledError:
-            try:
-                # Enhanced distributed tracing with more attributes
-                with stage_span(
-                    stage_config.name,
-                    node=node.name,
-                    timeout=stage_config.timeout_ms,
-                    max_retries=stage_config.max_retries,
-                    context_keys=list(context.keys()),
-                    context_size=len(str(context))
-                ):
-                    async def execute():
-                        if cancellation and cancellation.cancelled:
-                            raise asyncio.CancelledError(cancellation.reason or "cancelled")
-                        return await node.process(context)
-
-                    result = await self._run_with_timeout_and_cancellation(
-                        self._with_retry(execute, stage_config, cancellation=cancellation),
-                        stage_config.timeout_ms / 1000,
-                        cancellation,
-                    )
-
-                    # Add constellation metadata and collect metrics
-                    if isinstance(result, dict):
-                        result["_constellation"] = {
-                            "star": constellation_star,
-                            "stage": stage_config.name,
-                            "timestamp": time.time()
-                        }
-
-                        # Collect domain-specific metrics
-                        if "confidence" in result:
-                            node_confidence_scores.labels(node.name, stage_config.name).observe(result["confidence"])
-
-                        if "ethics_risk" in result:
-                            risk_band = "low" if result["ethics_risk"] < 0.3 else "medium" if result["ethics_risk"] < 0.8 else "high"
-                            ethics_risk_distribution.labels(stage_config.name, risk_band).observe(result["ethics_risk"])
-
-                        if "reasoning_chain" in result:
-                            chain_length = len(result["reasoning_chain"])
-                            complexity = "simple" if chain_length <= 2 else "moderate" if chain_length <= 5 else "complex"
-                            reasoning_chain_length.labels(node.name, complexity).observe(chain_length)
-
-                        constellation_star_activations.labels(constellation_star, "stage_complete").inc()
-
-                    return result
-
-            except asyncio.TimeoutError:
-                mtrx_orch_timeout_total.labels(stage_config.name).inc()
-                return {
-                    "action": "timeout",
-                    "stage": stage_config.name,
-                    "timeout_ms": stage_config.timeout_ms
-                }
-                try:
-                    # Add stage-level tracing context
-                    with stage_span(
-                        f"stage_{stage_config.name.lower()}",
-                        stage_index=stage_index,
-                        stage_name=stage_config.name,
-                        constellation_star=self._get_constellation_star(stage_config.name)
-                    ) as stage_span_ctx:
-
-                        stage_result = await self._execute_stage_with_routing(
-                            stage_config,
-                            current_context,
-                            cancellation,
-                            stage_span_ctx,
-                        )
-                        results.append(stage_result)
-
-                        # Add result metadata to span
-                        if stage_span_ctx and isinstance(stage_result, dict):
-                            stage_span_ctx.set_attribute("matriz.stage_success", stage_result.get("action") != "escalate")
-                            stage_span_ctx.set_attribute("matriz.confidence", stage_result.get("confidence", 0.0))
-                            stage_span_ctx.set_attribute("matriz.ethics_risk", stage_result.get("ethics_risk", 0.0))
-
-                        # Check for escalation
-                        if stage_result.get("action") == "escalate":
-                            if pipeline_span:
-                                pipeline_span.set_attribute("matriz.escalation_reason", stage_result.get("reason"))
-                                pipeline_span.set_attribute("matriz.escalation_stage", stage_config.name)
-                            return PipelineResult(
-                                success=False,
-                                output=stage_result,
-                                stage_results=results,
-                                escalation_reason=stage_result.get("reason")
-                            )
-
-                        # Update context for next stage
-                        if isinstance(stage_result, dict):
-                            current_context.update(stage_result)
-
-                except asyncio.CancelledError:
-                    cancelled_result = {
-                        "stage": stage_config.name,
-                        "status": "cancelled",
-                        "reason": cancel_reason,
-                    }
-                    results.append(cancelled_result)
-                    if pipeline_span:
-                        pipeline_span.set_attribute("matriz.cancelled_stage", stage_config.name)
-                        pipeline_span.set_attribute("matriz.cancel_reason", cancel_reason)
-                    return PipelineResult(
-                        success=False,
-                        output={"cancelled": True, "reason": cancel_reason},
-                        stage_results=results,
-                        escalation_reason="cancelled"
-                    )
-                        try:
-                            # Resolve node from registry
-                            node = resolve(f"node:{stage_config.name.lower()}")
-
-                            # Create async task for this stage
-                            task = asyncio.create_task(
-                                self._run_stage_with_context(
-                                    stage_config,
-                                    node,
-                                    current_context,
-                                    batch_index,
-                                    cancellation,
-                                )
-                            )
-                            batch_tasks.append((stage_config, task))
-
-                        except LookupError:
-                            all_results.append({
-                                "stage": stage_config.name,
-                                "status": "skipped",
-                                "reason": "node_not_registered",
-                                "batch": batch_index
-                            })
-
-        try:
-            # Use asyncio.gather with return_exceptions=True for resilience
-            completed_results = await asyncio.gather(
-                *[task for _, task in batch_tasks],
-                return_exceptions=True
-            )
-
-            for i, (stage_config, task) in enumerate(batch_tasks):
-                result = completed_results[i]
-
-                if isinstance(result, Exception):
-                    if isinstance(result, asyncio.CancelledError):
-                        cancel_payload = {
-                            "stage": stage_config.name,
-                            "status": "cancelled",
-                            "reason": getattr(result, "reason", "cancelled"),
-                            "batch": batch_index,
-                        }
-                        results.append(cancel_payload)
-                        if batch_span:
-                            batch_span.set_attribute(f"matriz.stage_{stage_config.name}_cancelled", True)  # # ΛTAG: cancellation
-                        continue
-
-                    # Handle task exception
-                    error_result = {
-                        "stage": stage_config.name,
-                        "status": "error",
-                        "error": str(result),
-                        "error_type": type(result).__name__
-                    }
-                    results.append(error_result)
-
-                    if batch_span:
-                        batch_span.set_attribute(f"matriz.stage_{stage_config.name}_error", str(result))
-                else:
-                    # Successful result
-                    if isinstance(result, dict):
-                        result["stage"] = stage_config.name
-                        result["status"] = "completed"
-                    results.append(result)
-
-                    if batch_span:
-                        batch_span.set_attribute(f"matriz.stage_{stage_config.name}_success", True)
-
-            if batch_span:
-                batch_span.set_attribute("matriz.batch_completion_rate",
-                    len([r for r in results if r.get("status") == "completed"]) / len(results))
-
-        except Exception as e:
-            for stage_config, _ in batch_tasks:
-                results.append({
-                    "stage": stage_config.name,
-                    "status": "batch_error",
-                    "error": str(e)
-                })
-
-            if batch_span:
-                batch_span.set_attribute("matriz.batch_error", str(e))
-
-
     arbitration_decisions_total,
     constellation_star_activations,
     ethics_risk_distribution,
@@ -322,6 +41,9 @@ from .otel import stage_span
     stage_timeouts,
 )
 
+from .consensus_arbitrator import Proposal, choose
+from .meta_controller import MetaController
+from .otel import stage_span
 
 
 @dataclass
@@ -531,7 +253,70 @@ class AsyncOrchestrator:
                 if node_key != primary_key and attempt_index == 0:
                     span_ctx.set_attribute("matriz.primary_skipped", True)
 
+            try:
+                node = resolve(f"node:{node_key}")
+            except LookupError:
+                skip_result = {
+                    "stage": stage_config.name,
+                    "status": "skipped",
+                    "reason": "node_not_registered",
+                    "node": node_key,
+                }
+                self._record_node_result(node_key, 0.0, False, stage_config, skip_result)
+                last_result = skip_result
+                continue
+
             start = time.perf_counter()
+            try:
+                result = await self._run_stage(
+                    stage_config,
+                    node,
+                    context,
+                    cancellation=cancellation,
+                )
+                duration_ms = (time.perf_counter() - start) * 1000
+                success = self._is_stage_success(result)
+                self._record_node_result(node_key, duration_ms, success, stage_config, result if not success else None)
+
+                if span_ctx:
+                    span_ctx.set_attribute("matriz.node_name", getattr(node, "name", node_key))
+                    span_ctx.set_attribute("matriz.node_key", node_key)
+                    span_ctx.set_attribute("matriz.node_latency_ms", duration_ms)
+
+                if success:
+                    if attempt_index > 0 and isinstance(result, dict):
+                        # # ΛTAG: adaptive_routing
+                        result.setdefault("_fallback", {})
+                        result["_fallback"].update({
+                            "attempts": attempt_index + 1,
+                            "failed_primary": True,
+                            "node": node_key,
+                        })
+                    if span_ctx:
+                        span_ctx.set_attribute("matriz.fallback_used", attempt_index > 0)
+                        span_ctx.set_attribute("matriz.fallback_attempts", attempt_index + 1)
+                    return result
+
+                if span_ctx:
+                    span_ctx.set_attribute("matriz.node_health", "degraded")
+                last_result = result if isinstance(result, dict) else {
+                    "stage": stage_config.name,
+                    "status": "error",
+                    "error": "unknown_failure",
+                    "node": node_key,
+                }
+            except asyncio.CancelledError:
+                duration_ms = (time.perf_counter() - start) * 1000
+                cancel_metadata = {"action": "cancelled", "stage": stage_config.name, "node": node_key}
+                self._record_node_result(node_key, duration_ms, False, stage_config, cancel_metadata)
+                if span_ctx:
+                    span_ctx.set_attribute("matriz.fallback_cancelled", True)
+                if hasattr(node, "cancel"):
+                    try:
+                        await node.cancel(cancellation.reason if cancellation else None)  # # ΛTAG: cancellation
+                    except Exception:
+                        pass
+                raise
             except Exception as exc:
                 duration_ms = (time.perf_counter() - start) * 1000
                 error_metadata = {
@@ -580,6 +365,29 @@ class AsyncOrchestrator:
         task = asyncio.create_task(coro)
         cancel_task: Optional[asyncio.Task] = None
 
+        try:
+            if cancellation:
+                # # ΛTAG: cancellation
+                cancel_task = asyncio.create_task(cancellation.wait())
+                done, _ = await asyncio.wait(
+                    {task, cancel_task},
+                    timeout=timeout,
+                    return_when=asyncio.FIRST_COMPLETED,
+                )
+
+                if task in done:
+                    return await task
+
+                if cancellation.cancelled:
+                    task.cancel()
+                    await asyncio.gather(task, return_exceptions=True)
+                    raise asyncio.CancelledError(cancellation.reason or "cancelled")
+
+                task.cancel()
+                await asyncio.gather(task, return_exceptions=True)
+                raise asyncio.TimeoutError()
+
+            return await asyncio.wait_for(task, timeout)
         finally:
             if cancel_task:
                 cancel_task.cancel()
@@ -598,6 +406,10 @@ class AsyncOrchestrator:
             if cancellation and cancellation.cancelled:
                 raise asyncio.CancelledError(cancellation.reason or "cancelled")
 
+            try:
+                return await fn()
+            except asyncio.CancelledError:
+                raise
             except Exception as exc:
                 last_error = exc
                 should_retry, delay_ms = self._should_retry(exc, stage_config, attempt)
@@ -636,6 +448,60 @@ class AsyncOrchestrator:
         constellation_star_activations.labels(constellation_star, "stage_start").inc()
 
         with stage_latency.labels(stage_config.name, constellation_star).time():
+            try:
+                # Enhanced distributed tracing with more attributes
+                with stage_span(
+                    stage_config.name,
+                    node=node.name,
+                    timeout=stage_config.timeout_ms,
+                    max_retries=stage_config.max_retries,
+                    context_keys=list(context.keys()),
+                    context_size=len(str(context))
+                ):
+                    async def execute():
+                        if cancellation and cancellation.cancelled:
+                            raise asyncio.CancelledError(cancellation.reason or "cancelled")
+                        return await node.process(context)
+
+                    result = await self._run_with_timeout_and_cancellation(
+                        self._with_retry(execute, stage_config, cancellation=cancellation),
+                        stage_config.timeout_ms / 1000,
+                        cancellation,
+                    )
+
+                    # Add constellation metadata and collect metrics
+                    if isinstance(result, dict):
+                        result["_constellation"] = {
+                            "star": constellation_star,
+                            "stage": stage_config.name,
+                            "timestamp": time.time()
+                        }
+
+                        # Collect domain-specific metrics
+                        if "confidence" in result:
+                            node_confidence_scores.labels(node.name, stage_config.name).observe(result["confidence"])
+
+                        if "ethics_risk" in result:
+                            risk_band = "low" if result["ethics_risk"] < 0.3 else "medium" if result["ethics_risk"] < 0.8 else "high"
+                            ethics_risk_distribution.labels(stage_config.name, risk_band).observe(result["ethics_risk"])
+
+                        if "reasoning_chain" in result:
+                            chain_length = len(result["reasoning_chain"])
+                            complexity = "simple" if chain_length <= 2 else "moderate" if chain_length <= 5 else "complex"
+                            reasoning_chain_length.labels(node.name, complexity).observe(chain_length)
+
+                        constellation_star_activations.labels(constellation_star, "stage_complete").inc()
+
+                    return result
+
+            except asyncio.TimeoutError:
+                stage_timeouts.labels(stage_config.name).inc()
+                mtrx_orch_timeout_total.labels(stage_config.name).inc()
+                return {
+                    "action": "timeout",
+                    "stage": stage_config.name,
+                    "timeout_ms": stage_config.timeout_ms
+                }
             except asyncio.CancelledError:
                 raise
 
@@ -749,6 +615,62 @@ class AsyncOrchestrator:
                         escalation_reason="cancelled"
                     )
 
+                try:
+                    # Add stage-level tracing context
+                    with stage_span(
+                        f"stage_{stage_config.name.lower()}",
+                        stage_index=stage_index,
+                        stage_name=stage_config.name,
+                        constellation_star=self._get_constellation_star(stage_config.name)
+                    ) as stage_span_ctx:
+
+                        stage_result = await self._execute_stage_with_routing(
+                            stage_config,
+                            current_context,
+                            cancellation,
+                            stage_span_ctx,
+                        )
+                        results.append(stage_result)
+
+                        # Add result metadata to span
+                        if stage_span_ctx and isinstance(stage_result, dict):
+                            stage_span_ctx.set_attribute("matriz.stage_success", stage_result.get("action") != "escalate")
+                            stage_span_ctx.set_attribute("matriz.confidence", stage_result.get("confidence", 0.0))
+                            stage_span_ctx.set_attribute("matriz.ethics_risk", stage_result.get("ethics_risk", 0.0))
+
+                        # Check for escalation
+                        if stage_result.get("action") == "escalate":
+                            if pipeline_span:
+                                pipeline_span.set_attribute("matriz.escalation_reason", stage_result.get("reason"))
+                                pipeline_span.set_attribute("matriz.escalation_stage", stage_config.name)
+                            return PipelineResult(
+                                success=False,
+                                output=stage_result,
+                                stage_results=results,
+                                escalation_reason=stage_result.get("reason")
+                            )
+
+                        # Update context for next stage
+                        if isinstance(stage_result, dict):
+                            current_context.update(stage_result)
+
+                except asyncio.CancelledError:
+                    cancel_reason = cancellation.reason if cancellation else "cancelled"
+                    cancelled_result = {
+                        "stage": stage_config.name,
+                        "status": "cancelled",
+                        "reason": cancel_reason,
+                    }
+                    results.append(cancelled_result)
+                    if pipeline_span:
+                        pipeline_span.set_attribute("matriz.cancelled_stage", stage_config.name)
+                        pipeline_span.set_attribute("matriz.cancel_reason", cancel_reason)
+                    return PipelineResult(
+                        success=False,
+                        output={"cancelled": True, "reason": cancel_reason},
+                        stage_results=results,
+                        escalation_reason="cancelled"
+                    )
                 except Exception as e:
                     results.append({
                         "stage": stage_config.name,
@@ -870,6 +792,31 @@ class AsyncOrchestrator:
                     batch_tasks = []
 
                     for stage_config in batch:
+                        try:
+                            # Resolve node from registry
+                            node = resolve(f"node:{stage_config.name.lower()}")
+
+                            # Create async task for this stage
+                            task = asyncio.create_task(
+                                self._run_stage_with_context(
+                                    stage_config,
+                                    node,
+                                    current_context,
+                                    batch_index,
+                                    cancellation,
+                                )
+                            )
+                            batch_tasks.append((stage_config, task))
+
+                        except LookupError:
+                            # Node not found, create placeholder result
+                            all_results.append({
+                                "stage": stage_config.name,
+                                "status": "skipped",
+                                "reason": "node_not_registered",
+                                "batch": batch_index
+                            })
+
                     # Wait for all tasks in this batch to complete
                     if batch_tasks:
                         batch_results = await self._execute_batch_with_timeout(
@@ -970,6 +917,66 @@ class AsyncOrchestrator:
     ) -> List[Dict[str, Any]]:
         """Execute a batch of tasks with comprehensive error handling."""
         results = []
+
+        try:
+            # Use asyncio.gather with return_exceptions=True for resilience
+            completed_results = await asyncio.gather(
+                *[task for _, task in batch_tasks],
+                return_exceptions=True
+            )
+
+            for i, (stage_config, task) in enumerate(batch_tasks):
+                result = completed_results[i]
+
+                if isinstance(result, Exception):
+                    if isinstance(result, asyncio.CancelledError):
+                        cancel_payload = {
+                            "stage": stage_config.name,
+                            "status": "cancelled",
+                            "reason": getattr(result, "reason", "cancelled"),
+                            "batch": batch_index,
+                        }
+                        results.append(cancel_payload)
+                        if batch_span:
+                            batch_span.set_attribute(f"matriz.stage_{stage_config.name}_cancelled", True)  # # ΛTAG: cancellation
+                        continue
+
+                    # Handle task exception
+                    error_result = {
+                        "stage": stage_config.name,
+                        "status": "error",
+                        "error": str(result),
+                        "error_type": type(result).__name__
+                    }
+                    results.append(error_result)
+
+                    if batch_span:
+                        batch_span.set_attribute(f"matriz.stage_{stage_config.name}_error", str(result))
+                else:
+                    # Successful result
+                    if isinstance(result, dict):
+                        result["stage"] = stage_config.name
+                        result["status"] = "completed"
+                    results.append(result)
+
+                    if batch_span:
+                        batch_span.set_attribute(f"matriz.stage_{stage_config.name}_success", True)
+
+            if batch_span:
+                batch_span.set_attribute("matriz.batch_completion_rate",
+                    len([r for r in results if r.get("status") == "completed"]) / len(results))
+
+        except Exception as e:
+            # Batch-level error
+            for stage_config, _ in batch_tasks:
+                results.append({
+                    "stage": stage_config.name,
+                    "status": "batch_error",
+                    "error": str(e)
+                })
+
+            if batch_span:
+                batch_span.set_attribute("matriz.batch_error", str(e))
 
         return results
 

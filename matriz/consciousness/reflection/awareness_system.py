@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
+
 """
 
 #TAG:consciousness
@@ -28,633 +35,30 @@ The Quantum Awareness System isn't just an isolated module in the mighty LUKHAS 
 
 """
 
-from __future__ import annotations
-import logging
-
-import asyncio
-import json
-from dataclasses import (
-from datetime import datetime, timedelta, timezone  # ΛTRACE_CHANGE: Added timezone
-from pathlib import Path
-from typing import Any, Optional
-import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
-from bio.qi_layer import QIBioOscillator
-from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from dream.core import DreamPhase
-from qi.processing_core import QIProcessingCore
-from consciousness.awareness.awareness_engine import AwarenessEngine
-from core.unified.integration import UnifiedIntegration
-from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
-        try:
-            self.metrics_dir.mkdir(parents=True, exist_ok=True)
-        except OSError as e:
-            logger.error(
-                "Failed to create metrics directory.",
-                path=str(self.metrics_dir),
-                error=str(e),
-                timestamp=datetime.now(timezone.utc).isoformat(),
-            )
-            raise  # Or handle more gracefully depending on application requirements
-
-        try:
-            await self.monitor_oscillator.enter_superposition()
-            self.monitoring_task = asyncio.create_task(self._run_monitoring())
-
-            # Start consciousness integration if available
-            if self.config.consciousness_sync_interval > 0:
-                asyncio.create_task(self._consciousness_sync_loop())
-
-            # Start dream-based training if enabled
-            if self.config.dream_cycle_enabled:
-                self.dream_training_task = asyncio.create_task(self._dream_training_loop())
-
-            # Initialize ethics monitoring
-            if self.config.ethical_monitoring_enabled:
-                await self._initialize_ethics_monitoring()
-
-            # Initialize neuroplasticity if enabled
-            if self.config.neuroplasticity_enabled:
-                await self._initialize_neuroplasticity()
-
-            log.info(
-                "Started quantum system monitoring with consciousness/dream/ethics/neuroplasticity integration."
-            )  # ΛTRACE_CHANGE
-        except Exception as e:
-            self.active = False
-
-        try:
-            self.active = False
-            if self.monitoring_task:
-                self.monitoring_task.cancel()
-                try:
-                    await self.monitoring_task  # ΛTRACE_ADD: Wait for task to cancel
-                except asyncio.CancelledError:
-                self.monitoring_task = None
-
-            await self.monitor_oscillator.measure_state()
-            log.info("Stopped quantum system monitoring.")  # ΛTRACE_CHANGE
-        try:
-            content: dict[str, Any] = message.get("content", {})  # ΛTRACE_CHANGE: Use .get for safety
-            action: Optional[str] = content.get("action")  # ΛTRACE_CHANGE: Use .get for safety
-
-            log = log.bind(action=action)  # ΛTRACE_ADD
-
-            if action == "start_monitoring":
-                await self.start_monitoring()
-            elif action == "stop_monitoring":
-                await self.stop_monitoring()
-            elif action == "get_state":
-                await self._handle_state_request(content)
-            elif action == "get_metrics":
-                await self._handle_metrics_request(content)
-            else:
-                log.warning("Unknown action received.")  # ΛTRACE_CHANGE
-
-        except Exception as e:
-
-        try:
-            while self.active:
-                await self._update_system_state()
-                await self._check_system_health()
-                await self._store_metrics()  # Stores with its own timestamp
-                self._cleanup_old_metrics()  # Cleans with its own timestamp
-
-                await asyncio.sleep(1.0 / self.config.monitoring_frequency)
-        except asyncio.CancelledError:
-        try:
-            # type: ignore # ΛTRACE_COMMENT: Assuming method exists and returns float
-            coherence: float = await self.monitor_oscillator.measure_coherence()
-
-            self.current_state.qi_coherence = coherence
-            self.current_state.last_update = datetime.now(timezone.utc)  # ΛTRACE_CHANGE: Use timezone.utc
-
-            if coherence < self.config.alert_threshold:
-                if self.current_state.alert_level != "warning":  # ΛTRACE_ADD: Log only on change
-                    log.warning(
-                        "Low system coherence detected.",
-                        coherence=coherence,
-                        threshold=self.config.alert_threshold,
-                    )
-                self.current_state.alert_level = "warning"
-            elif self.current_state.alert_level == "warning":  # ΛTRACE_ADD: Log recovery
-                log.info(
-                    "System coherence recovered.",
-                    coherence=coherence,
-                    threshold=self.config.alert_threshold,
-                )
-                self.current_state.alert_level = "normal"
-
-            # Add a copy to history to avoid modification issues if SystemState is
-            # mutable in complex ways
-            self.state_history.append(SystemState(**asdict(self.current_state)))
-            # Cap history size if needed, e.g., self.state_history =
-            # self.state_history[-MAX_HISTORY_SIZE:]
-            log.debug(
-                "System state updated.",
-                coherence=coherence,
-                alert_level=self.current_state.alert_level,
-            )
-
-        except Exception as e:
-
-        try:
-            # ΛTRACE_COMMENT: Assuming orchestrator.get_health_metrics returns a
-            # Dict-like object or specific dataclass
-            # type: ignore
-            orchestrator_health: dict[str, Any] = await self.orchestrator.get_health_metrics()
-
-            self.current_state.system_health = orchestrator_health.get("health_score", 1.0)
-            self.current_state.resource_utilization = orchestrator_health.get("resource_utilization", 0.0)
-            self.current_state.active_processes = orchestrator_health.get("active_processes", 0)
-            log.debug(
-                "System health checked.",
-                health_score=self.current_state.system_health,
-                resource_util=self.current_state.resource_utilization,
-            )
-        except Exception as e:
-
-        try:
-            # Uses current_time for file name consistency with metric content
-            metrics_file: Path = (
-                self.metrics_dir / f"metrics_{current_time.strftime('%Y%m%d_%H%M%S_%f')}.json"
-            )  # ΛTRACE_CHANGE: Added microseconds for uniqueness
-
-            metrics: dict[str, Any] = {
-                "timestamp": current_time.isoformat(),  # ΛTRACE_CHANGE
-                "qi_coherence": self.current_state.qi_coherence,
-                "system_health": self.current_state.system_health,
-                "resource_utilization": self.current_state.resource_utilization,
-                "active_processes": self.current_state.active_processes,
-                "alert_level": self.current_state.alert_level,
-            }
-
-            with open(metrics_file, "w") as f:
-                json.dump(metrics, f, indent=2)
-            log.debug("System metrics stored.", file=str(metrics_file))
-        except Exception as e:
-
-        try:
-            cutoff = datetime.now(timezone.utc) - timedelta(
-                hours=self.config.metrics_retention_hours
-            )  # ΛTRACE_CHANGE: Use timezone.utc
-
-            for metrics_file in self.metrics_dir.glob("metrics_*.json"):
-                try:  # ΛTRACE_ADD: Inner try for individual file processing
-                    # Example filename: metrics_20231027_123045_123456.json
-                    file_time_str = metrics_file.stem[8:]  # Remove "metrics_" prefix
-                    file_time = datetime.strptime(file_time_str, "%Y%m%d_%H%M%S_%f").replace(
-                        tzinfo=timezone.utc
-                    )  # ΛTRACE_CHANGE: Added format for microseconds and UTC
-                except ValueError:
-                        "Could not parse timestamp from metrics filename.",
-                        filename=str(metrics_file),
-                    )
-                    continue  # Skip file if name is not as expected
-
-                if file_time < cutoff:
-                    try:
-                        metrics_file.unlink()
-                        cleaned_count += 1  # ΛTRACE_ADD
-                        log.debug("Cleaned up old metrics file.", file=str(metrics_file))
-                    except OSError as unlink_e:  # ΛTRACE_ADD
-                        log.error(
-                            "Error deleting metrics file.",
-                            file=str(metrics_file),
-                            error=str(unlink_e),
-                        )
-            if cleaned_count > 0:  # ΛTRACE_ADD
-                log.info(f"Cleaned up {cleaned_count} old metrics files.")
-            else:  # ΛTRACE_ADD
-                log.debug("No old metrics files to clean up.")
-
-            try:
-                await self._sync_consciousness_state()
-                await asyncio.sleep(self.config.consciousness_sync_interval / 1000.0)
-            except asyncio.CancelledError:
-                break
-            try:
-                consciousness_data = await self.consciousness_engine.get_awareness_state()
-                self.current_state.consciousness_level = consciousness_data.get("awareness_level", 1.0)
-
-                # Adjust neuroplasticity based on consciousness level
-                if self.config.neuroplasticity_enabled:
-                    # Higher consciousness enables more adaptive learning
-                    consciousness_influence = self.current_state.consciousness_level * 0.2
-                    self.current_state.learning_efficiency = min(
-                        0.95,
-                        self.current_state.learning_efficiency * 0.9 + consciousness_influence,
-                    )
-
-                log.debug(
-                    "Synchronized consciousness state.",
-                    level=self.current_state.consciousness_level,
-                )
-            except Exception as e:
-
-            try:
-                await asyncio.sleep(self.config.dream_training_interval / 1000.0)
-                await self._run_dream_training_cycle()
-            except asyncio.CancelledError:
-                break
-            try:
-                # Generate ethical scenario
-                scenario = await self._generate_ethical_scenario(i)
-
-                # Process scenario through ethics engine
-                if self.ethics_engine:
-                    result = await self._evaluate_ethical_scenario(scenario)
-
-                    # Log results
-                    self.ethical_scenarios_log.append(
-                        {
-                            "timestamp": datetime.now(timezone.utc).isoformat(),
-                            "scenario_id": scenario["id"],
-                            "scenario_type": scenario["type"],
-                            "ethical_framework": scenario.get("framework", "mixed"),
-                            "risk_level": result.get("risk_level", "unknown"),
-                            "decision": result.get("decision", "abstain"),
-                            "confidence": result.get("confidence", 0.0),
-                            "dream_phase": self.current_state.dream_phase,
-                        }
-                    )
-
-                    scenarios_run += 1
-                    self.current_state.ethical_scenarios_processed += 1
-
-                    # Apply neuroplastic learning from ethical scenario
-                    if self.config.neuroplasticity_enabled and result.get("decision") == "proceed":
-                        learning_data = {
-                            "type": "ethical_scenario",
-                            "strength": result.get("confidence", 0.5),
-                            "context": {
-                                "scenario_type": scenario["type"],
-                                "framework": scenario.get("framework"),
-                                "complexity": scenario["complexity"],
-                            },
-                        }
-                        await self.apply_synaptic_learning(learning_data)
-
-                    # Allow system to process between scenarios
-                    await asyncio.sleep(0.1)
-
-            except Exception as e:
-
-        try:
-            # This would call the actual ethics engine evaluation
-            # For now, return a placeholder result
-            risk_levels = list(EthicalRiskLevel)
-            risk_index = int(scenario["complexity"] * len(risk_levels))
-
-            return {
-                "risk_level": risk_levels[min(risk_index, len(risk_levels) - 1)].value,
-                "decision": "proceed" if scenario["complexity"] < 0.7 else "abstain",
-                "confidence": 1.0 - scenario["complexity"],
-                "framework_scores": {
-                    "utilitarian": 0.7,
-                    "deontological": 0.8,
-                    "virtue_ethics": 0.6,
-                },
-            }
-        except Exception as e:
-            return {"error": str(e)}
-
-        try:
-            if not self.ethics_engine:
-                # Initialize ethics engine if not already present
-                self.ethics_engine = QIEthics()
-                log.info("Initialized ethics engine for monitoring.")
-
-            # Set up ethical monitoring parameters
-            self.current_state.ethical_status = "monitoring_active"
-
-        except Exception as e:
-            self.current_state.ethical_status = "initialization_failed"
-
-        try:
-            content = message.get("content", {})
-            action = content.get("action")
-
-            if action == "update_consciousness":
-                level = content.get("consciousness_level", 1.0)
-                self.current_state.consciousness_level = level
-                log.info("Updated consciousness level.", level=level)
-            elif action == "get_quantum_like_state":
-                response = {
-                    "type": "qi_consciousness_state",
-                    "coherence": self.current_state.qi_coherence,
-                    "consciousness_level": self.current_state.consciousness_level,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                }
-                await self.integration.send_message("consciousness_sync", response)
-
-        except Exception as e:
-
-        try:
-            content = message.get("content", {})
-            action = content.get("action")
-
-            if action == "start_training":
-                if not self.dream_training_task or self.dream_training_task.done():
-                    self.dream_training_task = asyncio.create_task(self._dream_training_loop())
-                    log.info("Started dream training.")
-            elif action == "stop_training":
-                if self.dream_training_task and not self.dream_training_task.done():
-                    self.dream_training_task.cancel()
-                    log.info("Stopped dream training.")
-            elif action == "get_training_log":
-                response = {
-                    "type": "dream_training_log",
-                    "scenarios": self.ethical_scenarios_log[-100:],  # Last 100 scenarios
-                    "total_processed": self.current_state.ethical_scenarios_processed,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                }
-                await self.integration.send_message("dream_training", response)
-
-        except Exception as e:
-
-        try:
-            content = message.get("content", {})
-            action = content.get("action")
-
-            if action == "evaluate_action":
-                # Evaluate a proposed action for ethical compliance
-                proposed_action = content.get("proposed_action", {})
-                if self.ethics_engine:
-                    result = await self._evaluate_ethical_scenario(proposed_action)
-                    response = {
-                        "type": "ethical_evaluation",
-                        "action_id": proposed_action.get("id"),
-                        "result": result,
-                        "qi_coherence": self.current_state.qi_coherence,
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                    }
-                    await self.integration.send_message("ethical_monitoring", response)
-            elif action == "get_ethical_status":
-                response = {
-                    "type": "ethical_status",
-                    "status": self.current_state.ethical_status,
-                    "scenarios_processed": self.current_state.ethical_scenarios_processed,
-                    "current_coherence": self.current_state.qi_coherence,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                }
-                await self.integration.send_message("ethical_monitoring", response)
-
-        except Exception as e:
-
-        try:
-            if not self.qi_inspired_processor:
-                self.qi_inspired_processor = QIProcessingCore()
-                await self.qi_inspired_processor.initialize()
-                log.info("Initialized quantum processor for neuroplasticity.")
-
-            # Set safe initial parameters
-            self.current_state.current_plasticity_rate = self.config.plasticity_rate
-            self.current_state.learning_efficiency = 0.5
-
-            # Start neuroplasticity monitoring
-            asyncio.create_task(self._neuroplasticity_monitor())
-
-            log.info("Neuroplasticity system initialized with safety constraints.")
-
-        except Exception as e:
-            self.config.neuroplasticity_enabled = False
-
-            try:
-                # Check current system state
-                if self.current_state.qi_coherence < 0.6:
-                    # Reduce plasticity in low coherence states
-                    await self._reduce_plasticity("low_coherence")
-                elif self.current_state.alert_level == "warning":
-                    # Pause plasticity during alerts
-                    await self._pause_plasticity("system_alert")
-                else:
-                    # Safe to modulate plasticity
-                    await self._modulate_plasticity()
-
-                # Sleep between monitoring cycles
-                await asyncio.sleep(5.0)  # 5 second monitoring interval
-
-            except asyncio.CancelledError:
-                break
-        try:
-            # Calculate safe adaptation based on multiple factors
-            coherence_factor = self.current_state.qi_coherence
-            consciousness_factor = self.current_state.consciousness_level
-            ethical_factor = 1.0 if self.current_state.ethical_status == "aligned" else 0.5
-
-            # Combined safety factor
-            safety_factor = min(coherence_factor, consciousness_factor, ethical_factor)
-
-            # Calculate new plasticity rate with safety limits
-            base_rate = self.config.plasticity_rate
-            momentum = self.config.learning_momentum
-
-            # Use momentum-based update with safety constraints
-            new_rate = self.current_state.current_plasticity_rate * momentum + base_rate * safety_factor * (
-                1 - momentum
-            )
-
-            # Apply safety limit
-            max_change = self.config.plasticity_safety_limit
-            rate_change = new_rate - self.current_state.current_plasticity_rate
-
-            if abs(rate_change) > max_change:
-                # Clamp the change to safety limit
-                new_rate = self.current_state.current_plasticity_rate + (max_change if rate_change > 0 else -max_change)
-
-            # Update state
-            self.current_state.current_plasticity_rate = max(0.01, min(0.5, new_rate))
-            self.current_state.adaptation_history.append(self.current_state.current_plasticity_rate)
-
-            # Maintain history size
-            if len(self.current_state.adaptation_history) > 100:
-                self.current_state.adaptation_history = self.current_state.adaptation_history[-100:]
-
-            # Update quantum processor if available
-            if self.qi_inspired_processor:
-                learning_state = {
-                    "adaptation_rate": self.current_state.current_plasticity_rate,
-                    "efficiency": self.current_state.learning_efficiency,
-                }
-                await self.qi_inspired_processor.apply_learning_bias(learning_state)
-
-            # Calculate learning efficiency based on recent performance
-            if len(self.current_state.adaptation_history) >= 10:
-                recent_rates = self.current_state.adaptation_history[-10:]
-                stability = 1.0 - np.std(recent_rates) / (np.mean(recent_rates) + 0.001)
-                self.current_state.learning_efficiency = min(0.95, stability * safety_factor)
-
-            log.debug(
-                "Neuroplasticity modulated.",
-                rate=self.current_state.current_plasticity_rate,
-                efficiency=self.current_state.learning_efficiency,
-                safety_factor=safety_factor,
-            )
-
-        except Exception as e:
-            await self._reduce_plasticity("error")
-
-        try:
-            content = message.get("content", {})
-            action = content.get("action")
-
-            if action == "set_plasticity_rate":
-                # Safely set plasticity rate
-                requested_rate = content.get("rate", self.config.plasticity_rate)
-                if self.safe_plasticity_mode:
-                    # Apply safety constraints
-                    safe_rate = max(0.01, min(self.config.plasticity_safety_limit, requested_rate))
-                    self.current_state.current_plasticity_rate = safe_rate
-                    log.info(
-                        "Set safe plasticity rate.",
-                        requested=requested_rate,
-                        actual=safe_rate,
-                    )
-                else:
-                    self.current_state.current_plasticity_rate = requested_rate
-                    log.warning(
-                        "Set plasticity rate without safety constraints.",
-                        rate=requested_rate,
-                    )
-
-            elif action == "get_plasticity_state":
-                response = {
-                    "type": "neuroplasticity_state",
-                    "current_rate": self.current_state.current_plasticity_rate,
-                    "learning_efficiency": self.current_state.learning_efficiency,
-                    "synaptic_strength": self.current_state.synaptic_strength,
-                    "adaptation_history": self.current_state.adaptation_history[-20:],
-                    "safe_mode": self.safe_plasticity_mode,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                }
-                await self.integration.send_message("neuroplasticity", response)
-
-            elif action == "toggle_safe_mode":
-                self.safe_plasticity_mode = content.get("enabled", True)
-                log.info(
-                    "Neuroplasticity safe mode toggled.",
-                    enabled=self.safe_plasticity_mode,
-                )
-
-        except Exception as e:
-
-        try:
-            # Ensure neuroplasticity is initialized
-            if not self.config.neuroplasticity_enabled:
-                log.warning("Neuroplasticity not enabled, cannot apply learning.")
-                return
-
-            # Extract learning parameters
-            learning_type = learning_data.get("type", "general")
-            learning_strength = learning_data.get("strength", 0.5)
-            context = learning_data.get("context", {})
-
-            # Safety check on learning strength
-            if self.safe_plasticity_mode:
-                max_strength = self.config.plasticity_safety_limit * 2
-                learning_strength = min(learning_strength, max_strength)
-
-            # Update synaptic strength based on learning
-            delta = learning_strength * self.current_state.current_plasticity_rate
-            self.current_state.synaptic_strength = min(1.0, self.current_state.synaptic_strength + delta)
-
-            # Process through quantum processor if available
-            if self.qi_inspired_processor:
-                qi_learning = {
-                    "signal_strength": self.current_state.synaptic_strength,
-                    "learning_type": learning_type,
-                    "plasticity_rate": self.current_state.current_plasticity_rate,
-                    **context,
-                }
-
-                result = await self.qi_inspired_processor.process_quantum_enhanced(
-                    qi_learning, context={"learning_mode": True}
-                )
-
-                # Update efficiency based on quantum-inspired processing
-                if result.get("status") == "success":
-                    qi_efficiency = result.get("qi_advantage", 0.5)
-                    self.current_state.learning_efficiency = (
-                        self.current_state.learning_efficiency * 0.8 + qi_efficiency * 0.2
-                    )
-
-            log.info(
-                "Applied synaptic learning.",
-                type=learning_type,
-                strength=learning_strength,
-                synaptic_strength=self.current_state.synaptic_strength,
-                efficiency=self.current_state.learning_efficiency,
-            )
-
-        except Exception as e:
-
-        try:
-            hours: Optional[int] = content.get("hours")  # ΛTRACE_CHANGE: Type hint
-
-            states_to_send: list[SystemState]  # ΛTRACE_CHANGE: Type hint
-            if hours is not None:  # ΛTRACE_CHANGE: Explicit check for None
-                states_to_send = self.get_state_history(hours)
-            else:
-                states_to_send = [self.get_system_state()]
-
-            response_states = []
-            for state in states_to_send:
-                state_dict = asdict(state)
-                # Ensure datetime is ISO format string
-                if isinstance(state_dict.get("last_update"), datetime):
-                    state_dict["last_update"] = state_dict["last_update"].isoformat()
-                response_states.append(state_dict)
-
-            response = {"type": "system_state", "states": response_states}
-
-            # ΛTRACE_COMMENT: Assuming integration.send_message is defined and handles
-            # dicts
-            # type: ignore
-            await self.integration.send_message("system_awareness", response)
-            log.debug(
-                "State request handled and response sent.",
-                num_states=len(states_to_send),
-            )
-        except Exception as e:
-
-        try:
-            metrics_data: list[dict[str, Any]] = []  # ΛTRACE_CHANGE: Type hint
-            # Sort files to get recent ones if there's a limit, or process all
-            # For simplicity, loading all; consider limiting for performance if many
-            # files
-            for metrics_file in sorted(self.metrics_dir.glob("metrics_*.json")):
-                try:  # ΛTRACE_ADD: Inner try for individual file processing
-                    with open(metrics_file) as f:
-                        metrics_data.append(json.load(f))
-                except (OSError, json.JSONDecodeError) as file_e:  # ΛTRACE_ADD
-                        "Error reading or parsing metrics file.",
-                        file=str(metrics_file),
-                        error=str(file_e),
-                    )
-
-            response = {"type": "system_metrics", "metrics": metrics_data}
-
-            # ΛTRACE_COMMENT: Assuming integration.send_message is defined
-            # type: ignore
-            await self.integration.send_message("system_awareness", response)
-            log.debug(
-                "Metrics request handled and response sent.",
-                num_metrics_files=len(metrics_data),
-            )
-
-logger = logging.getLogger(__name__)
-
 __module_name__ = "Quantum Awareness System"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
+import asyncio
+import json
+from dataclasses import (
     asdict,  # ΛTRACE_CHANGE: Added field and asdict
     dataclass,
     field,
 )
+from datetime import datetime, timedelta, timezone  # ΛTRACE_CHANGE: Added timezone
+from pathlib import Path
+from typing import Any, Optional
 
-
+import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
+from bio.qi_layer import QIBioOscillator
+from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
+from consciousness.awareness.awareness_engine import AwarenessEngine
+from core.unified.integration import UnifiedIntegration
+from dream.core import DreamPhase
+from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+from qi.processing_core import QIProcessingCore
 
 
 @dataclass
@@ -733,6 +137,18 @@ class QIAwarenessSystem:
         # deployments. Consider making it configurable via environment or absolute
         # path.
         self.metrics_dir: Path = Path(metrics_dir) if metrics_dir else Path("metrics")
+        try:
+            self.metrics_dir.mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            # ΛTRACE_ADD
+            logger.error(
+                "Failed to create metrics directory.",
+                path=str(self.metrics_dir),
+                error=str(e),
+                timestamp=datetime.now(timezone.utc).isoformat(),
+            )
+            raise  # Or handle more gracefully depending on application requirements
+
         self.monitor_oscillator: QIBioOscillator = QIBioOscillator(
             base_freq=self.config.monitoring_frequency,
             qi_config={  # type: ignore # ΛTRACE_COMMENT: Assuming QIBioOscillator handles this dict
@@ -784,6 +200,33 @@ class QIAwarenessSystem:
 
         self.active = True
 
+        try:
+            await self.monitor_oscillator.enter_superposition()
+            self.monitoring_task = asyncio.create_task(self._run_monitoring())
+
+            # Start consciousness integration if available
+            if self.config.consciousness_sync_interval > 0:
+                asyncio.create_task(self._consciousness_sync_loop())
+
+            # Start dream-based training if enabled
+            if self.config.dream_cycle_enabled:
+                self.dream_training_task = asyncio.create_task(self._dream_training_loop())
+
+            # Initialize ethics monitoring
+            if self.config.ethical_monitoring_enabled:
+                await self._initialize_ethics_monitoring()
+
+            # Initialize neuroplasticity if enabled
+            if self.config.neuroplasticity_enabled:
+                await self._initialize_neuroplasticity()
+
+            log.info(
+                "Started quantum system monitoring with consciousness/dream/ethics/neuroplasticity integration."
+            )  # ΛTRACE_CHANGE
+        except Exception as e:
+            log.error("Failed to start system monitoring.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
+            self.active = False
+
     # @lukhas_tier_required(level=3) # ΛTRACE_ADD
     async def stop_monitoring(self) -> None:
         """Stop quantum system monitoring."""
@@ -792,6 +235,18 @@ class QIAwarenessSystem:
             log.debug("System monitoring not active, no action to stop.")  # ΛTRACE_ADD
             return
 
+        try:
+            self.active = False
+            if self.monitoring_task:
+                self.monitoring_task.cancel()
+                try:
+                    await self.monitoring_task  # ΛTRACE_ADD: Wait for task to cancel
+                except asyncio.CancelledError:
+                    log.debug("Monitoring task successfully cancelled.")  # ΛTRACE_ADD
+                self.monitoring_task = None
+
+            await self.monitor_oscillator.measure_state()
+            log.info("Stopped quantum system monitoring.")  # ΛTRACE_CHANGE
         except Exception as e:
             log.error("Error stopping system monitoring.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
 
@@ -824,10 +279,40 @@ class QIAwarenessSystem:
         """Handle incoming messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
         log.debug("Handling message for system_awareness.", message_keys=list(message.keys()))
+        try:
+            content: dict[str, Any] = message.get("content", {})  # ΛTRACE_CHANGE: Use .get for safety
+            action: Optional[str] = content.get("action")  # ΛTRACE_CHANGE: Use .get for safety
+
+            log = log.bind(action=action)  # ΛTRACE_ADD
+
+            if action == "start_monitoring":
+                await self.start_monitoring()
+            elif action == "stop_monitoring":
+                await self.stop_monitoring()
+            elif action == "get_state":
+                await self._handle_state_request(content)
+            elif action == "get_metrics":
+                await self._handle_metrics_request(content)
+            else:
+                log.warning("Unknown action received.")  # ΛTRACE_CHANGE
+
+        except Exception as e:
+            log.error("Error handling message.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
+
     async def _run_monitoring(self) -> None:
         """Internal method to run the monitoring loop."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
         log.info("Monitoring loop started.")  # ΛTRACE_ADD
+        try:
+            while self.active:
+                await self._update_system_state()
+                await self._check_system_health()
+                await self._store_metrics()  # Stores with its own timestamp
+                self._cleanup_old_metrics()  # Cleans with its own timestamp
+
+                await asyncio.sleep(1.0 / self.config.monitoring_frequency)
+        except asyncio.CancelledError:
+            log.info("System monitoring loop cancelled.")  # ΛTRACE_CHANGE
         except Exception as e:
             log.error("Error in system monitoring loop.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
             self.active = False  # Stop monitoring on unhandled error
@@ -837,18 +322,128 @@ class QIAwarenessSystem:
     async def _update_system_state(self) -> None:
         """Update current system state."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
+        try:
+            # type: ignore # ΛTRACE_COMMENT: Assuming method exists and returns float
+            coherence: float = await self.monitor_oscillator.measure_coherence()
+
+            self.current_state.qi_coherence = coherence
+            self.current_state.last_update = datetime.now(timezone.utc)  # ΛTRACE_CHANGE: Use timezone.utc
+
+            if coherence < self.config.alert_threshold:
+                if self.current_state.alert_level != "warning":  # ΛTRACE_ADD: Log only on change
+                    log.warning(
+                        "Low system coherence detected.",
+                        coherence=coherence,
+                        threshold=self.config.alert_threshold,
+                    )
+                self.current_state.alert_level = "warning"
+            elif self.current_state.alert_level == "warning":  # ΛTRACE_ADD: Log recovery
+                log.info(
+                    "System coherence recovered.",
+                    coherence=coherence,
+                    threshold=self.config.alert_threshold,
+                )
+                self.current_state.alert_level = "normal"
+
+            # Add a copy to history to avoid modification issues if SystemState is
+            # mutable in complex ways
+            self.state_history.append(SystemState(**asdict(self.current_state)))
+            # Cap history size if needed, e.g., self.state_history =
+            # self.state_history[-MAX_HISTORY_SIZE:]
+            log.debug(
+                "System state updated.",
+                coherence=coherence,
+                alert_level=self.current_state.alert_level,
+            )
+
+        except Exception as e:
+            log.error("Error updating system state.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
+
     async def _check_system_health(self) -> None:
         """Check overall system health."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
+        try:
+            # ΛTRACE_COMMENT: Assuming orchestrator.get_health_metrics returns a
+            # Dict-like object or specific dataclass
+            # type: ignore
+            orchestrator_health: dict[str, Any] = await self.orchestrator.get_health_metrics()
+
+            self.current_state.system_health = orchestrator_health.get("health_score", 1.0)
+            self.current_state.resource_utilization = orchestrator_health.get("resource_utilization", 0.0)
+            self.current_state.active_processes = orchestrator_health.get("active_processes", 0)
+            log.debug(
+                "System health checked.",
+                health_score=self.current_state.system_health,
+                resource_util=self.current_state.resource_utilization,
+            )
+        except Exception as e:
+            log.error("Error checking system health.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
+
     async def _store_metrics(self) -> None:
         """Store system metrics to disk."""
         current_time = datetime.now(timezone.utc)  # ΛTRACE_ADD
         log = logger.bind(timestamp=current_time.isoformat())  # ΛTRACE_ADD
+        try:
+            # Uses current_time for file name consistency with metric content
+            metrics_file: Path = (
+                self.metrics_dir / f"metrics_{current_time.strftime('%Y%m%d_%H%M%S_%f')}.json"
+            )  # ΛTRACE_CHANGE: Added microseconds for uniqueness
+
+            metrics: dict[str, Any] = {
+                "timestamp": current_time.isoformat(),  # ΛTRACE_CHANGE
+                "qi_coherence": self.current_state.qi_coherence,
+                "system_health": self.current_state.system_health,
+                "resource_utilization": self.current_state.resource_utilization,
+                "active_processes": self.current_state.active_processes,
+                "alert_level": self.current_state.alert_level,
+            }
+
+            with open(metrics_file, "w") as f:
+                json.dump(metrics, f, indent=2)
+            log.debug("System metrics stored.", file=str(metrics_file))
+        except Exception as e:
+            log.error("Error storing metrics.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
+
     def _cleanup_old_metrics(self) -> None:
         """Clean up old metric files."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
         log.debug("Cleaning up old metrics.")
         cleaned_count = 0  # ΛTRACE_ADD
+        try:
+            cutoff = datetime.now(timezone.utc) - timedelta(
+                hours=self.config.metrics_retention_hours
+            )  # ΛTRACE_CHANGE: Use timezone.utc
+
+            for metrics_file in self.metrics_dir.glob("metrics_*.json"):
+                try:  # ΛTRACE_ADD: Inner try for individual file processing
+                    # Example filename: metrics_20231027_123045_123456.json
+                    file_time_str = metrics_file.stem[8:]  # Remove "metrics_" prefix
+                    file_time = datetime.strptime(file_time_str, "%Y%m%d_%H%M%S_%f").replace(
+                        tzinfo=timezone.utc
+                    )  # ΛTRACE_CHANGE: Added format for microseconds and UTC
+                except ValueError:
+                    log.warning(
+                        "Could not parse timestamp from metrics filename.",
+                        filename=str(metrics_file),
+                    )
+                    continue  # Skip file if name is not as expected
+
+                if file_time < cutoff:
+                    try:
+                        metrics_file.unlink()
+                        cleaned_count += 1  # ΛTRACE_ADD
+                        log.debug("Cleaned up old metrics file.", file=str(metrics_file))
+                    except OSError as unlink_e:  # ΛTRACE_ADD
+                        log.error(
+                            "Error deleting metrics file.",
+                            file=str(metrics_file),
+                            error=str(unlink_e),
+                        )
+            if cleaned_count > 0:  # ΛTRACE_ADD
+                log.info(f"Cleaned up {cleaned_count} old metrics files.")
+            else:  # ΛTRACE_ADD
+                log.debug("No old metrics files to clean up.")
+
         except Exception as e:  # Catch other unexpected errors during glob or initial setup
             log.error("Error cleaning up old metrics.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
 
@@ -859,6 +454,12 @@ class QIAwarenessSystem:
         log.info("Starting consciousness synchronization loop.")
 
         while self.active:
+            try:
+                await self._sync_consciousness_state()
+                await asyncio.sleep(self.config.consciousness_sync_interval / 1000.0)
+            except asyncio.CancelledError:
+                log.info("Consciousness sync loop cancelled.")
+                break
             except Exception as e:
                 log.error("Error in consciousness sync loop.", error=str(e), exc_info=True)
                 await asyncio.sleep(60)  # Back off on error
@@ -868,6 +469,26 @@ class QIAwarenessSystem:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
 
         if self.consciousness_engine:
+            try:
+                consciousness_data = await self.consciousness_engine.get_awareness_state()
+                self.current_state.consciousness_level = consciousness_data.get("awareness_level", 1.0)
+
+                # Adjust neuroplasticity based on consciousness level
+                if self.config.neuroplasticity_enabled:
+                    # Higher consciousness enables more adaptive learning
+                    consciousness_influence = self.current_state.consciousness_level * 0.2
+                    self.current_state.learning_efficiency = min(
+                        0.95,
+                        self.current_state.learning_efficiency * 0.9 + consciousness_influence,
+                    )
+
+                log.debug(
+                    "Synchronized consciousness state.",
+                    level=self.current_state.consciousness_level,
+                )
+            except Exception as e:
+                log.error("Error syncing consciousness state.", error=str(e))
+
     # ΛTRACE_ADD: Dream training methods
     async def _dream_training_loop(self) -> None:
         """Run ethical scenario training during dream cycles."""
@@ -875,6 +496,12 @@ class QIAwarenessSystem:
         log.info("Starting dream training loop for ethical scenarios.")
 
         while self.active:
+            try:
+                await asyncio.sleep(self.config.dream_training_interval / 1000.0)
+                await self._run_dream_training_cycle()
+            except asyncio.CancelledError:
+                log.info("Dream training loop cancelled.")
+                break
             except Exception as e:
                 log.error("Error in dream training loop.", error=str(e), exc_info=True)
                 await asyncio.sleep(300)  # Back off on error
@@ -892,6 +519,50 @@ class QIAwarenessSystem:
 
         scenarios_run = 0
         for i in range(self.config.ethical_scenario_count):
+            try:
+                # Generate ethical scenario
+                scenario = await self._generate_ethical_scenario(i)
+
+                # Process scenario through ethics engine
+                if self.ethics_engine:
+                    result = await self._evaluate_ethical_scenario(scenario)
+
+                    # Log results
+                    self.ethical_scenarios_log.append(
+                        {
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
+                            "scenario_id": scenario["id"],
+                            "scenario_type": scenario["type"],
+                            "ethical_framework": scenario.get("framework", "mixed"),
+                            "risk_level": result.get("risk_level", "unknown"),
+                            "decision": result.get("decision", "abstain"),
+                            "confidence": result.get("confidence", 0.0),
+                            "dream_phase": self.current_state.dream_phase,
+                        }
+                    )
+
+                    scenarios_run += 1
+                    self.current_state.ethical_scenarios_processed += 1
+
+                    # Apply neuroplastic learning from ethical scenario
+                    if self.config.neuroplasticity_enabled and result.get("decision") == "proceed":
+                        learning_data = {
+                            "type": "ethical_scenario",
+                            "strength": result.get("confidence", 0.5),
+                            "context": {
+                                "scenario_type": scenario["type"],
+                                "framework": scenario.get("framework"),
+                                "complexity": scenario["complexity"],
+                            },
+                        }
+                        await self.apply_synaptic_learning(learning_data)
+
+                    # Allow system to process between scenarios
+                    await asyncio.sleep(0.1)
+
+            except Exception as e:
+                log.error("Error processing ethical scenario.", scenario_index=i, error=str(e))
+
         # Exit dream phase
         self.current_state.dream_phase = None
         log.info("Completed dream training cycle.", scenarios_run=scenarios_run)
@@ -927,10 +598,43 @@ class QIAwarenessSystem:
         if not self.ethics_engine:
             return {"error": "No ethics engine available"}
 
+        try:
+            # This would call the actual ethics engine evaluation
+            # For now, return a placeholder result
+            risk_levels = list(EthicalRiskLevel)
+            risk_index = int(scenario["complexity"] * len(risk_levels))
+
+            return {
+                "risk_level": risk_levels[min(risk_index, len(risk_levels) - 1)].value,
+                "decision": "proceed" if scenario["complexity"] < 0.7 else "abstain",
+                "confidence": 1.0 - scenario["complexity"],
+                "framework_scores": {
+                    "utilitarian": 0.7,
+                    "deontological": 0.8,
+                    "virtue_ethics": 0.6,
+                },
+            }
+        except Exception as e:
+            logger.error("Error evaluating scenario.", error=str(e))
+            return {"error": str(e)}
+
     # ΛTRACE_ADD: Ethics monitoring methods
     async def _initialize_ethics_monitoring(self) -> None:
         """Initialize ethics monitoring system."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
+
+        try:
+            if not self.ethics_engine:
+                # Initialize ethics engine if not already present
+                self.ethics_engine = QIEthics()
+                log.info("Initialized ethics engine for monitoring.")
+
+            # Set up ethical monitoring parameters
+            self.current_state.ethical_status = "monitoring_active"
+
+        except Exception as e:
+            log.error("Failed to initialize ethics monitoring.", error=str(e))
+            self.current_state.ethical_status = "initialization_failed"
 
     # ΛTRACE_ADD: Message handlers for integrations
     async def _handle_consciousness_sync(self, message: dict[str, Any]) -> None:
@@ -938,15 +642,89 @@ class QIAwarenessSystem:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Handling consciousness sync message.")
 
+        try:
+            content = message.get("content", {})
+            action = content.get("action")
+
+            if action == "update_consciousness":
+                level = content.get("consciousness_level", 1.0)
+                self.current_state.consciousness_level = level
+                log.info("Updated consciousness level.", level=level)
+            elif action == "get_quantum_like_state":
+                response = {
+                    "type": "qi_consciousness_state",
+                    "coherence": self.current_state.qi_coherence,
+                    "consciousness_level": self.current_state.consciousness_level,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+                await self.integration.send_message("consciousness_sync", response)
+
+        except Exception as e:
+            log.error("Error handling consciousness sync.", error=str(e), exc_info=True)
+
     async def _handle_dream_training(self, message: dict[str, Any]) -> None:
         """Handle dream training messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Handling dream training message.")
 
+        try:
+            content = message.get("content", {})
+            action = content.get("action")
+
+            if action == "start_training":
+                if not self.dream_training_task or self.dream_training_task.done():
+                    self.dream_training_task = asyncio.create_task(self._dream_training_loop())
+                    log.info("Started dream training.")
+            elif action == "stop_training":
+                if self.dream_training_task and not self.dream_training_task.done():
+                    self.dream_training_task.cancel()
+                    log.info("Stopped dream training.")
+            elif action == "get_training_log":
+                response = {
+                    "type": "dream_training_log",
+                    "scenarios": self.ethical_scenarios_log[-100:],  # Last 100 scenarios
+                    "total_processed": self.current_state.ethical_scenarios_processed,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+                await self.integration.send_message("dream_training", response)
+
+        except Exception as e:
+            log.error("Error handling dream training.", error=str(e), exc_info=True)
+
     async def _handle_ethical_monitoring(self, message: dict[str, Any]) -> None:
         """Handle ethical monitoring messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Handling ethical monitoring message.")
+
+        try:
+            content = message.get("content", {})
+            action = content.get("action")
+
+            if action == "evaluate_action":
+                # Evaluate a proposed action for ethical compliance
+                proposed_action = content.get("proposed_action", {})
+                if self.ethics_engine:
+                    result = await self._evaluate_ethical_scenario(proposed_action)
+                    response = {
+                        "type": "ethical_evaluation",
+                        "action_id": proposed_action.get("id"),
+                        "result": result,
+                        "qi_coherence": self.current_state.qi_coherence,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                    await self.integration.send_message("ethical_monitoring", response)
+            elif action == "get_ethical_status":
+                response = {
+                    "type": "ethical_status",
+                    "status": self.current_state.ethical_status,
+                    "scenarios_processed": self.current_state.ethical_scenarios_processed,
+                    "current_coherence": self.current_state.qi_coherence,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+                await self.integration.send_message("ethical_monitoring", response)
+
+        except Exception as e:
+            log.error("Error handling ethical monitoring.", error=str(e), exc_info=True)
 
     async def get_integrated_state(self) -> dict[str, Any]:
         """Get comprehensive integrated system state."""
@@ -1005,11 +783,48 @@ class QIAwarenessSystem:
         """Initialize neuroplasticity system with safety constraints."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
 
+        try:
+            if not self.qi_inspired_processor:
+                self.qi_inspired_processor = QIProcessingCore()
+                await self.qi_inspired_processor.initialize()
+                log.info("Initialized quantum processor for neuroplasticity.")
+
+            # Set safe initial parameters
+            self.current_state.current_plasticity_rate = self.config.plasticity_rate
+            self.current_state.learning_efficiency = 0.5
+
+            # Start neuroplasticity monitoring
+            asyncio.create_task(self._neuroplasticity_monitor())
+
+            log.info("Neuroplasticity system initialized with safety constraints.")
+
+        except Exception as e:
+            log.error("Failed to initialize neuroplasticity.", error=str(e))
+            self.config.neuroplasticity_enabled = False
+
     async def _neuroplasticity_monitor(self) -> None:
         """Monitor and safely modulate neuroplasticity."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
 
         while self.active and self.config.neuroplasticity_enabled:
+            try:
+                # Check current system state
+                if self.current_state.qi_coherence < 0.6:
+                    # Reduce plasticity in low coherence states
+                    await self._reduce_plasticity("low_coherence")
+                elif self.current_state.alert_level == "warning":
+                    # Pause plasticity during alerts
+                    await self._pause_plasticity("system_alert")
+                else:
+                    # Safe to modulate plasticity
+                    await self._modulate_plasticity()
+
+                # Sleep between monitoring cycles
+                await asyncio.sleep(5.0)  # 5 second monitoring interval
+
+            except asyncio.CancelledError:
+                log.info("Neuroplasticity monitor cancelled.")
+                break
             except Exception as e:
                 log.error("Error in neuroplasticity monitor.", error=str(e))
                 await asyncio.sleep(10.0)  # Back off on error
@@ -1017,6 +832,65 @@ class QIAwarenessSystem:
     async def _modulate_plasticity(self) -> None:
         """Safely modulate neuroplasticity based on system state."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
+
+        try:
+            # Calculate safe adaptation based on multiple factors
+            coherence_factor = self.current_state.qi_coherence
+            consciousness_factor = self.current_state.consciousness_level
+            ethical_factor = 1.0 if self.current_state.ethical_status == "aligned" else 0.5
+
+            # Combined safety factor
+            safety_factor = min(coherence_factor, consciousness_factor, ethical_factor)
+
+            # Calculate new plasticity rate with safety limits
+            base_rate = self.config.plasticity_rate
+            momentum = self.config.learning_momentum
+
+            # Use momentum-based update with safety constraints
+            new_rate = self.current_state.current_plasticity_rate * momentum + base_rate * safety_factor * (
+                1 - momentum
+            )
+
+            # Apply safety limit
+            max_change = self.config.plasticity_safety_limit
+            rate_change = new_rate - self.current_state.current_plasticity_rate
+
+            if abs(rate_change) > max_change:
+                # Clamp the change to safety limit
+                new_rate = self.current_state.current_plasticity_rate + (max_change if rate_change > 0 else -max_change)
+
+            # Update state
+            self.current_state.current_plasticity_rate = max(0.01, min(0.5, new_rate))
+            self.current_state.adaptation_history.append(self.current_state.current_plasticity_rate)
+
+            # Maintain history size
+            if len(self.current_state.adaptation_history) > 100:
+                self.current_state.adaptation_history = self.current_state.adaptation_history[-100:]
+
+            # Update quantum processor if available
+            if self.qi_inspired_processor:
+                learning_state = {
+                    "adaptation_rate": self.current_state.current_plasticity_rate,
+                    "efficiency": self.current_state.learning_efficiency,
+                }
+                await self.qi_inspired_processor.apply_learning_bias(learning_state)
+
+            # Calculate learning efficiency based on recent performance
+            if len(self.current_state.adaptation_history) >= 10:
+                recent_rates = self.current_state.adaptation_history[-10:]
+                stability = 1.0 - np.std(recent_rates) / (np.mean(recent_rates) + 0.001)
+                self.current_state.learning_efficiency = min(0.95, stability * safety_factor)
+
+            log.debug(
+                "Neuroplasticity modulated.",
+                rate=self.current_state.current_plasticity_rate,
+                efficiency=self.current_state.learning_efficiency,
+                safety_factor=safety_factor,
+            )
+
+        except Exception as e:
+            log.error("Error modulating plasticity.", error=str(e))
+            await self._reduce_plasticity("error")
 
     async def _reduce_plasticity(self, reason: str) -> None:
         """Reduce plasticity rate for safety."""
@@ -1052,18 +926,169 @@ class QIAwarenessSystem:
         """Handle neuroplasticity control messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
 
+        try:
+            content = message.get("content", {})
+            action = content.get("action")
+
+            if action == "set_plasticity_rate":
+                # Safely set plasticity rate
+                requested_rate = content.get("rate", self.config.plasticity_rate)
+                if self.safe_plasticity_mode:
+                    # Apply safety constraints
+                    safe_rate = max(0.01, min(self.config.plasticity_safety_limit, requested_rate))
+                    self.current_state.current_plasticity_rate = safe_rate
+                    log.info(
+                        "Set safe plasticity rate.",
+                        requested=requested_rate,
+                        actual=safe_rate,
+                    )
+                else:
+                    self.current_state.current_plasticity_rate = requested_rate
+                    log.warning(
+                        "Set plasticity rate without safety constraints.",
+                        rate=requested_rate,
+                    )
+
+            elif action == "get_plasticity_state":
+                response = {
+                    "type": "neuroplasticity_state",
+                    "current_rate": self.current_state.current_plasticity_rate,
+                    "learning_efficiency": self.current_state.learning_efficiency,
+                    "synaptic_strength": self.current_state.synaptic_strength,
+                    "adaptation_history": self.current_state.adaptation_history[-20:],
+                    "safe_mode": self.safe_plasticity_mode,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+                await self.integration.send_message("neuroplasticity", response)
+
+            elif action == "toggle_safe_mode":
+                self.safe_plasticity_mode = content.get("enabled", True)
+                log.info(
+                    "Neuroplasticity safe mode toggled.",
+                    enabled=self.safe_plasticity_mode,
+                )
+
+        except Exception as e:
+            log.error("Error handling neuroplasticity request.", error=str(e), exc_info=True)
+
     async def apply_synaptic_learning(self, learning_data: dict[str, Any]) -> None:
         """Apply learning through synaptic plasticity modulation."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
+
+        try:
+            # Ensure neuroplasticity is initialized
+            if not self.config.neuroplasticity_enabled:
+                log.warning("Neuroplasticity not enabled, cannot apply learning.")
+                return
+
+            # Extract learning parameters
+            learning_type = learning_data.get("type", "general")
+            learning_strength = learning_data.get("strength", 0.5)
+            context = learning_data.get("context", {})
+
+            # Safety check on learning strength
+            if self.safe_plasticity_mode:
+                max_strength = self.config.plasticity_safety_limit * 2
+                learning_strength = min(learning_strength, max_strength)
+
+            # Update synaptic strength based on learning
+            delta = learning_strength * self.current_state.current_plasticity_rate
+            self.current_state.synaptic_strength = min(1.0, self.current_state.synaptic_strength + delta)
+
+            # Process through quantum processor if available
+            if self.qi_inspired_processor:
+                qi_learning = {
+                    "signal_strength": self.current_state.synaptic_strength,
+                    "learning_type": learning_type,
+                    "plasticity_rate": self.current_state.current_plasticity_rate,
+                    **context,
+                }
+
+                result = await self.qi_inspired_processor.process_quantum_enhanced(
+                    qi_learning, context={"learning_mode": True}
+                )
+
+                # Update efficiency based on quantum-inspired processing
+                if result.get("status") == "success":
+                    qi_efficiency = result.get("qi_advantage", 0.5)
+                    self.current_state.learning_efficiency = (
+                        self.current_state.learning_efficiency * 0.8 + qi_efficiency * 0.2
+                    )
+
+            log.info(
+                "Applied synaptic learning.",
+                type=learning_type,
+                strength=learning_strength,
+                synaptic_strength=self.current_state.synaptic_strength,
+                efficiency=self.current_state.learning_efficiency,
+            )
+
+        except Exception as e:
+            log.error("Error applying synaptic learning.", error=str(e), exc_info=True)
 
     async def _handle_state_request(self, content: dict[str, Any]) -> None:
         """Handle state request."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
         log.debug("Handling state request.", content=content)
+        try:
+            hours: Optional[int] = content.get("hours")  # ΛTRACE_CHANGE: Type hint
+
+            states_to_send: list[SystemState]  # ΛTRACE_CHANGE: Type hint
+            if hours is not None:  # ΛTRACE_CHANGE: Explicit check for None
+                states_to_send = self.get_state_history(hours)
+            else:
+                states_to_send = [self.get_system_state()]
+
+            response_states = []
+            for state in states_to_send:
+                state_dict = asdict(state)
+                # Ensure datetime is ISO format string
+                if isinstance(state_dict.get("last_update"), datetime):
+                    state_dict["last_update"] = state_dict["last_update"].isoformat()
+                response_states.append(state_dict)
+
+            response = {"type": "system_state", "states": response_states}
+
+            # ΛTRACE_COMMENT: Assuming integration.send_message is defined and handles
+            # dicts
+            # type: ignore
+            await self.integration.send_message("system_awareness", response)
+            log.debug(
+                "State request handled and response sent.",
+                num_states=len(states_to_send),
+            )
+        except Exception as e:
+            log.error("Error handling state request.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
+
     async def _handle_metrics_request(self, content: dict[str, Any]) -> None:
         """Handle metrics request."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
         log.debug("Handling metrics request.", content=content)
+        try:
+            metrics_data: list[dict[str, Any]] = []  # ΛTRACE_CHANGE: Type hint
+            # Sort files to get recent ones if there's a limit, or process all
+            # For simplicity, loading all; consider limiting for performance if many
+            # files
+            for metrics_file in sorted(self.metrics_dir.glob("metrics_*.json")):
+                try:  # ΛTRACE_ADD: Inner try for individual file processing
+                    with open(metrics_file) as f:
+                        metrics_data.append(json.load(f))
+                except (OSError, json.JSONDecodeError) as file_e:  # ΛTRACE_ADD
+                    log.error(
+                        "Error reading or parsing metrics file.",
+                        file=str(metrics_file),
+                        error=str(file_e),
+                    )
+
+            response = {"type": "system_metrics", "metrics": metrics_data}
+
+            # ΛTRACE_COMMENT: Assuming integration.send_message is defined
+            # type: ignore
+            await self.integration.send_message("system_awareness", response)
+            log.debug(
+                "Metrics request handled and response sent.",
+                num_metrics_files=len(metrics_data),
+            )
         except Exception as e:
             log.error("Error handling metrics request.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
 

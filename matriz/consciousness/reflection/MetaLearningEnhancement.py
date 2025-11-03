@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 
 #TAG:consciousness
@@ -31,8 +33,6 @@ Author: LUKHAS Meta-Learning Enhancement System
 Created: January 2025
 """
 
-from __future__ import annotations
-
 import asyncio
 import json
 from dataclasses import dataclass
@@ -41,6 +41,20 @@ from enum import Enum
 from typing import Any, Optional
 
 from core.common import get_logger
+
+logger = get_logger(__name__)
+
+# Enhancement system imports from labs/core/meta_learning
+# TODO(integration): These modules may need to be integrated to core/meta_learning
+# Dynamically loaded to avoid lane violations
+FederatedLearningIntegration = None
+FederationStrategy = None
+MetaLearningMonitorDashboard = None
+AdaptationStrategy = None
+ConvergenceSignal = None
+DynamicLearningRateModulator = None
+IntentNodeHistory = None
+SymbolicFeedbackSystem = None
 
 try:
     import importlib
@@ -58,249 +72,8 @@ try:
     IntentNodeHistory = feedback.IntentNodeHistory
     SymbolicFeedbackSystem = feedback.SymbolicFeedbackSystem
 except ImportError as e:
+    logger.warning(f"Labs meta-learning features not available: {e}")
 
-
-            try:
-                enhancement_result = await self._enhance_individual_system(system_info)
-                discovery_results["enhancement_results"].append(enhancement_result)
-
-                if enhancement_result["success"]:
-                    self.integration_status.systems_enhanced += 1
-
-            except Exception as e:
-                logger.error(error_msg)
-                self.integration_status.integration_errors.append(error_msg)
-
-            try:
-                system_result = await self._process_system_enhancement_cycle(system)
-
-                cycle_results["systems_processed"] += 1
-                cycle_results["optimizations_applied"] += system_result.get("optimizations", 0)
-                cycle_results["insights_generated"] += system_result.get("insights", 0)
-                cycle_results["ethical_audits_passed"] += system_result.get("ethical_passed", 0)
-
-            except Exception as e:
-
-        try:
-            # Monitor collapse events for learning optimization
-            if hasattr(collapse_engine_instance, "get_collapse_metrics"):
-                collapse_metrics = collapse_engine_instance.get_collapse_metrics()
-
-                # Track collapse patterns in monitoring dashboard
-                self.monitor_dashboard.track_learning_metric(
-                    metric_type="qi_collapse_efficiency",
-                    value=collapse_metrics.get("efficiency", 0.5),
-                    context={
-                        "source": "collapse_engine",
-                        "integration": "meta_learning_enhancement",
-                    },
-                )
-
-                integration_result["collapse_engine_integrated"] = True
-                integration_result["coherence_monitoring_enabled"] = True
-
-            # Synchronize quantum signatures
-            if hasattr(collapse_engine_instance, "qi_signature"):
-                qi_sync = self._synchronize_quantum_signatures(collapse_engine_instance.qi_signature)
-                integration_result["qi_signatures_synchronized"] = qi_sync
-
-            logger.info("CollapseEngine integration completed successfully")
-
-        except Exception as e:
-
-        try:
-            # Track intent processing patterns
-            if hasattr(intent_node_instance, "get_intent_history"):
-                intent_history = intent_node_instance.get_intent_history()
-
-                # Create symbolic feedback from intent patterns
-                symbolic_result = await self.symbolic_feedback.analyze_intent_node_history(
-                    IntentNodeHistory(
-                        node_id=getattr(intent_node_instance, "node_id", "unknown"),
-                        intent_patterns=intent_history.get("patterns", []),
-                        success_rate=intent_history.get("success_rate", 0.5),
-                        processing_efficiency=intent_history.get("efficiency", 0.5),
-                        timestamp=datetime.now(timezone.utc),
-                    )
-                )
-
-                integration_result["intent_node_integrated"] = True
-                integration_result["intent_history_tracking"] = True
-                integration_result["symbolic_enhancement_active"] = symbolic_result["enhancement_applied"]
-
-            logger.info("IntentNode integration completed successfully")
-
-        except Exception as e:
-
-        try:
-            # Monitor voice processing performance
-            if hasattr(voice_pack_instance, "get_performance_metrics"):
-                voice_metrics = voice_pack_instance.get_performance_metrics()
-
-                # Track voice processing efficiency
-                self.monitor_dashboard.track_learning_metric(
-                    metric_type="voice_processing_efficiency",
-                    value=voice_metrics.get("processing_speed", 0.5),
-                    context={
-                        "source": "voice_pack",
-                        "integration": "meta_learning_enhancement",
-                    },
-                )
-
-                # Apply dynamic rate optimization if voice processing is slow
-                if voice_metrics.get("processing_speed", 1.0) < 0.7:
-                    optimization = self.rate_modulator.suggest_rate_adjustment(
-                        current_rate=voice_metrics.get("current_rate", 0.001),
-                        convergence_signal=ConvergenceSignal(
-                            improvement_rate=voice_metrics.get("improvement_rate", 0.1),
-                            plateau_detected=voice_metrics.get("plateau", False),
-                            oscillation_detected=voice_metrics.get("oscillation", False),
-                            ethical_compliance_score=0.9,
-                            symbolic_reasoning_score=0.8,
-                        ),
-                    )
-                    integration_result["adaptive_optimization"] = optimization["adjustment_applied"]
-
-                integration_result["voice_pack_integrated"] = True
-                integration_result["voice_metrics_tracking"] = True
-
-            logger.info("Voice_Pack integration completed successfully")
-
-        except Exception as e:
-
-        try:
-            # Simulated system enhancement - would load and enhance actual system
-            mock_system = self._create_mock_system(system_info)
-
-            # Apply monitoring enhancement
-            monitoring_success = await self._apply_monitoring_enhancement(mock_system)
-            enhancement_result["monitoring_enabled"] = monitoring_success
-            if monitoring_success:
-                enhancement_result["enhancements_applied"].append("performance_monitoring")
-
-            # Apply rate optimization enhancement
-            if self.enhancement_mode in [
-                EnhancementMode.OPTIMIZATION_ACTIVE,
-                EnhancementMode.RESEARCH_MODE,
-            ]:
-                rate_success = await self._apply_rate_optimization_enhancement(mock_system)
-                enhancement_result["rate_optimization_enabled"] = rate_success
-                if rate_success:
-                    enhancement_result["enhancements_applied"].append("dynamic_rate_optimization")
-
-            # Apply symbolic feedback enhancement
-            symbolic_success = await self._apply_symbolic_feedback_enhancement(mock_system)
-            enhancement_result["symbolic_feedback_enabled"] = symbolic_success
-            if symbolic_success:
-                enhancement_result["enhancements_applied"].append("symbolic_feedback_loops")
-
-            # Apply federation enhancement if enabled
-            if self.enable_federation and self.federated_integration:
-                federation_success = await self._apply_federation_enhancement(mock_system)
-                enhancement_result["federation_enabled"] = federation_success
-                if federation_success:
-                    enhancement_result["enhancements_applied"].append("federated_coordination")
-
-            enhancement_result["success"] = len(enhancement_result["enhancements_applied"]) > 0
-
-            if enhancement_result["success"]:
-                self.enhanced_systems.append(mock_system)
-
-        except Exception as e:
-
-        try:
-            # Track system in monitoring dashboard
-            self.monitor_dashboard.track_learning_metric(
-                metric_type="system_performance",
-                value=system["performance_metrics"]["convergence"],
-                context={
-                    "system_id": system["system_info"]["id"],
-                    "enhancement": "applied",
-                },
-            )
-            return True
-        except Exception:
-
-        try:
-            # Apply rate modulation
-            current_rate = system["performance_metrics"]["learning_rate"]
-            convergence_signal = ConvergenceSignal(
-                improvement_rate=0.1,
-                plateau_detected=False,
-                oscillation_detected=False,
-                ethical_compliance_score=system["ethical_compliance"],
-                symbolic_reasoning_score=0.8,
-            )
-
-            optimization = self.rate_modulator.suggest_rate_adjustment(current_rate, convergence_signal)
-            system["performance_metrics"]["learning_rate"] = optimization["new_rate"]
-            return optimization["adjustment_applied"]
-        except Exception:
-
-        try:
-            # Create symbolic feedback for system
-            symbolic_result = await self.symbolic_feedback.generate_optimization_insights(
-                {
-                    "system_performance": system["performance_metrics"],
-                    "system_type": system["system_info"]["type"],
-                }
-            )
-            system["symbolic_patterns"] = symbolic_result["insights"]
-            return len(symbolic_result["insights"]) > 0
-        except Exception:
-
-        try:
-            if self.federated_integration:
-                enhancement_result = self.federated_integration.enhance_existing_meta_learning_system(system)
-                system["federation_ready"] = enhancement_result["federation_enabled"]
-                return enhancement_result["federation_enabled"]
-        except Exception:
-        try:
-            # Register this node in federation
-            registration_success = self.federated_integration.register_node(
-                self.node_id,
-                "enhancement_coordinator",
-                {"monitoring", "optimization", "symbolic_reasoning"},
-                0.95,  # High ethical compliance for coordinator
-            )
-
-            return {"active": registration_success}
-        except Exception as e:
-
-        try:
-            # Synchronize with federation
-            sync_results = self.federated_integration.synchronize_federation()
-
-            # Coordinate learning rates across federation
-            coordinated_rates = self.federated_integration.coordinate_learning_rates()
-
-            return {
-                "updates_processed": sync_results.get("insights_shared", 0),
-                "nodes_coordinated": len(coordinated_rates),
-            }
-        except Exception as e:
-            return {"updates_processed": 0}
-
-        try:
-            # Compare and synchronize signatures
-            internal_signature = self.monitor_dashboard._generate_quantum_signature("sync_check")
-            return len(external_signature) == len(internal_signature)  # Simplified check
-        except Exception:
-
-
-logger = get_logger(__name__)
-
-# Enhancement system imports from labs/core/meta_learning
-# TODO(integration): These modules may need to be integrated to core/meta_learning
-# Dynamically loaded to avoid lane violations
-FederatedLearningIntegration = None
-FederationStrategy = None
-MetaLearningMonitorDashboard = None
-AdaptationStrategy = None
-ConvergenceSignal = None
-DynamicLearningRateModulator = None
-IntentNodeHistory = None
-SymbolicFeedbackSystem = None
 
 class EnhancementMode(Enum):
     """Modes for Meta-Learning Enhancement System operation"""
@@ -430,6 +203,18 @@ class MetaLearningEnhancementSystem:
 
         # Enhance each discovered system
         for system_info in discovered_systems:
+            try:
+                enhancement_result = await self._enhance_individual_system(system_info)
+                discovery_results["enhancement_results"].append(enhancement_result)
+
+                if enhancement_result["success"]:
+                    self.integration_status.systems_enhanced += 1
+
+            except Exception as e:
+                error_msg = f"Failed to enhance system {system_info['id']}: {e!s}"
+                logger.error(error_msg)
+                self.integration_status.integration_errors.append(error_msg)
+
         # Update integration status
         self.integration_status.monitoring_active = self.integration_status.systems_enhanced > 0
         self.integration_status.rate_optimization_active = self.enhancement_mode in [
@@ -538,6 +323,17 @@ class MetaLearningEnhancementSystem:
 
         # Process each enhanced system
         for system in self.enhanced_systems:
+            try:
+                system_result = await self._process_system_enhancement_cycle(system)
+
+                cycle_results["systems_processed"] += 1
+                cycle_results["optimizations_applied"] += system_result.get("optimizations", 0)
+                cycle_results["insights_generated"] += system_result.get("insights", 0)
+                cycle_results["ethical_audits_passed"] += system_result.get("ethical_passed", 0)
+
+            except Exception as e:
+                logger.error(f"Error in enhancement cycle for system: {e}")
+
         # Generate cross-system insights
         cross_system_insights = await self._generate_cross_system_insights()
         cycle_results["insights_generated"] += len(cross_system_insights)
@@ -644,6 +440,34 @@ class MetaLearningEnhancementSystem:
             "coherence_monitoring_enabled": False,
         }
 
+        try:
+            # Monitor collapse events for learning optimization
+            if hasattr(collapse_engine_instance, "get_collapse_metrics"):
+                collapse_metrics = collapse_engine_instance.get_collapse_metrics()
+
+                # Track collapse patterns in monitoring dashboard
+                self.monitor_dashboard.track_learning_metric(
+                    metric_type="qi_collapse_efficiency",
+                    value=collapse_metrics.get("efficiency", 0.5),
+                    context={
+                        "source": "collapse_engine",
+                        "integration": "meta_learning_enhancement",
+                    },
+                )
+
+                integration_result["collapse_engine_integrated"] = True
+                integration_result["coherence_monitoring_enabled"] = True
+
+            # Synchronize quantum signatures
+            if hasattr(collapse_engine_instance, "qi_signature"):
+                qi_sync = self._synchronize_quantum_signatures(collapse_engine_instance.qi_signature)
+                integration_result["qi_signatures_synchronized"] = qi_sync
+
+            logger.info("CollapseEngine integration completed successfully")
+
+        except Exception as e:
+            logger.error(f"CollapseEngine integration failed: {e}")
+
         return integration_result
 
     async def integrate_with_intent_node(self, intent_node_instance: Any) -> dict[str, Any]:
@@ -655,6 +479,31 @@ class MetaLearningEnhancementSystem:
             "symbolic_enhancement_active": False,
         }
 
+        try:
+            # Track intent processing patterns
+            if hasattr(intent_node_instance, "get_intent_history"):
+                intent_history = intent_node_instance.get_intent_history()
+
+                # Create symbolic feedback from intent patterns
+                symbolic_result = await self.symbolic_feedback.analyze_intent_node_history(
+                    IntentNodeHistory(
+                        node_id=getattr(intent_node_instance, "node_id", "unknown"),
+                        intent_patterns=intent_history.get("patterns", []),
+                        success_rate=intent_history.get("success_rate", 0.5),
+                        processing_efficiency=intent_history.get("efficiency", 0.5),
+                        timestamp=datetime.now(timezone.utc),
+                    )
+                )
+
+                integration_result["intent_node_integrated"] = True
+                integration_result["intent_history_tracking"] = True
+                integration_result["symbolic_enhancement_active"] = symbolic_result["enhancement_applied"]
+
+            logger.info("IntentNode integration completed successfully")
+
+        except Exception as e:
+            logger.error(f"IntentNode integration failed: {e}")
+
         return integration_result
 
     async def integrate_with_voice_pack(self, voice_pack_instance: Any) -> dict[str, Any]:
@@ -665,6 +514,43 @@ class MetaLearningEnhancementSystem:
             "voice_metrics_tracking": False,
             "adaptive_optimization": False,
         }
+
+        try:
+            # Monitor voice processing performance
+            if hasattr(voice_pack_instance, "get_performance_metrics"):
+                voice_metrics = voice_pack_instance.get_performance_metrics()
+
+                # Track voice processing efficiency
+                self.monitor_dashboard.track_learning_metric(
+                    metric_type="voice_processing_efficiency",
+                    value=voice_metrics.get("processing_speed", 0.5),
+                    context={
+                        "source": "voice_pack",
+                        "integration": "meta_learning_enhancement",
+                    },
+                )
+
+                # Apply dynamic rate optimization if voice processing is slow
+                if voice_metrics.get("processing_speed", 1.0) < 0.7:
+                    optimization = self.rate_modulator.suggest_rate_adjustment(
+                        current_rate=voice_metrics.get("current_rate", 0.001),
+                        convergence_signal=ConvergenceSignal(
+                            improvement_rate=voice_metrics.get("improvement_rate", 0.1),
+                            plateau_detected=voice_metrics.get("plateau", False),
+                            oscillation_detected=voice_metrics.get("oscillation", False),
+                            ethical_compliance_score=0.9,
+                            symbolic_reasoning_score=0.8,
+                        ),
+                    )
+                    integration_result["adaptive_optimization"] = optimization["adjustment_applied"]
+
+                integration_result["voice_pack_integrated"] = True
+                integration_result["voice_metrics_tracking"] = True
+
+            logger.info("Voice_Pack integration completed successfully")
+
+        except Exception as e:
+            logger.error(f"Voice_Pack integration failed: {e}")
 
         return integration_result
 
@@ -742,6 +628,47 @@ class MetaLearningEnhancementSystem:
             "federation_enabled": False,
         }
 
+        try:
+            # Simulated system enhancement - would load and enhance actual system
+            mock_system = self._create_mock_system(system_info)
+
+            # Apply monitoring enhancement
+            monitoring_success = await self._apply_monitoring_enhancement(mock_system)
+            enhancement_result["monitoring_enabled"] = monitoring_success
+            if monitoring_success:
+                enhancement_result["enhancements_applied"].append("performance_monitoring")
+
+            # Apply rate optimization enhancement
+            if self.enhancement_mode in [
+                EnhancementMode.OPTIMIZATION_ACTIVE,
+                EnhancementMode.RESEARCH_MODE,
+            ]:
+                rate_success = await self._apply_rate_optimization_enhancement(mock_system)
+                enhancement_result["rate_optimization_enabled"] = rate_success
+                if rate_success:
+                    enhancement_result["enhancements_applied"].append("dynamic_rate_optimization")
+
+            # Apply symbolic feedback enhancement
+            symbolic_success = await self._apply_symbolic_feedback_enhancement(mock_system)
+            enhancement_result["symbolic_feedback_enabled"] = symbolic_success
+            if symbolic_success:
+                enhancement_result["enhancements_applied"].append("symbolic_feedback_loops")
+
+            # Apply federation enhancement if enabled
+            if self.enable_federation and self.federated_integration:
+                federation_success = await self._apply_federation_enhancement(mock_system)
+                enhancement_result["federation_enabled"] = federation_success
+                if federation_success:
+                    enhancement_result["enhancements_applied"].append("federated_coordination")
+
+            enhancement_result["success"] = len(enhancement_result["enhancements_applied"]) > 0
+
+            if enhancement_result["success"]:
+                self.enhanced_systems.append(mock_system)
+
+        except Exception as e:
+            logger.error(f"Enhancement failed for system {system_info['id']}: {e}")
+
         return enhancement_result
 
     def _create_mock_system(self, system_info: dict[str, Any]) -> dict[str, Any]:
@@ -756,18 +683,82 @@ class MetaLearningEnhancementSystem:
 
     async def _apply_monitoring_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply monitoring enhancement to a system"""
+        try:
+            # Track system in monitoring dashboard
+            self.monitor_dashboard.track_learning_metric(
+                metric_type="system_performance",
+                value=system["performance_metrics"]["convergence"],
+                context={
+                    "system_id": system["system_info"]["id"],
+                    "enhancement": "applied",
+                },
+            )
+            return True
+        except Exception:
+            return False
+
     async def _apply_rate_optimization_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply rate optimization enhancement to a system"""
+        try:
+            # Apply rate modulation
+            current_rate = system["performance_metrics"]["learning_rate"]
+            convergence_signal = ConvergenceSignal(
+                improvement_rate=0.1,
+                plateau_detected=False,
+                oscillation_detected=False,
+                ethical_compliance_score=system["ethical_compliance"],
+                symbolic_reasoning_score=0.8,
+            )
+
+            optimization = self.rate_modulator.suggest_rate_adjustment(current_rate, convergence_signal)
+            system["performance_metrics"]["learning_rate"] = optimization["new_rate"]
+            return optimization["adjustment_applied"]
+        except Exception:
+            return False
+
     async def _apply_symbolic_feedback_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply symbolic feedback enhancement to a system"""
+        try:
+            # Create symbolic feedback for system
+            symbolic_result = await self.symbolic_feedback.generate_optimization_insights(
+                {
+                    "system_performance": system["performance_metrics"],
+                    "system_type": system["system_info"]["type"],
+                }
+            )
+            system["symbolic_patterns"] = symbolic_result["insights"]
+            return len(symbolic_result["insights"]) > 0
+        except Exception:
+            return False
+
     async def _apply_federation_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply federation enhancement to a system"""
+        try:
+            if self.federated_integration:
+                enhancement_result = self.federated_integration.enhance_existing_meta_learning_system(system)
+                system["federation_ready"] = enhancement_result["federation_enabled"]
+                return enhancement_result["federation_enabled"]
+        except Exception:
+            pass
         return False
 
     async def _start_federated_operations(self) -> dict[str, Any]:
         """Start federated learning operations"""
         if not self.federated_integration:
             return {"active": False, "error": "Federation not initialized"}
+
+        try:
+            # Register this node in federation
+            registration_success = self.federated_integration.register_node(
+                self.node_id,
+                "enhancement_coordinator",
+                {"monitoring", "optimization", "symbolic_reasoning"},
+                0.95,  # High ethical compliance for coordinator
+            )
+
+            return {"active": registration_success}
+        except Exception as e:
+            return {"active": False, "error": str(e)}
 
     async def _process_system_enhancement_cycle(self, system: dict[str, Any]) -> dict[str, Any]:
         """Process enhancement cycle for a single system"""
@@ -822,6 +813,21 @@ class MetaLearningEnhancementSystem:
         """Coordinate federation cycle operations"""
 
         if not self.federated_integration:
+            return {"updates_processed": 0}
+
+        try:
+            # Synchronize with federation
+            sync_results = self.federated_integration.synchronize_federation()
+
+            # Coordinate learning rates across federation
+            coordinated_rates = self.federated_integration.coordinate_learning_rates()
+
+            return {
+                "updates_processed": sync_results.get("insights_shared", 0),
+                "nodes_coordinated": len(coordinated_rates),
+            }
+        except Exception as e:
+            logger.error(f"Federation coordination failed: {e}")
             return {"updates_processed": 0}
 
     async def _perform_cycle_ethical_audit(self, cycle_results: dict[str, Any]) -> dict[str, bool]:
@@ -889,6 +895,13 @@ class MetaLearningEnhancementSystem:
 
     def _synchronize_quantum_signatures(self, external_signature: str) -> bool:
         """Synchronize quantum signatures between systems"""
+        try:
+            # Compare and synchronize signatures
+            internal_signature = self.monitor_dashboard._generate_quantum_signature("sync_check")
+            return len(external_signature) == len(internal_signature)  # Simplified check
+        except Exception:
+            return False
+
     # Report generation methods
 
     async def _generate_executive_summary(self) -> dict[str, Any]:

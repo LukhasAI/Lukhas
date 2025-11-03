@@ -1,25 +1,50 @@
-    """
-    Manages the graceful degradation and recovery of the LUKHAS brain
-    in the event of a symbolic collapse.
-    """
-
 import logging
+
+logger = logging.getLogger(__name__)
+# ═══════════════════════════════════════════════════════════════════════════
+# FILENAME: brain_collapse_manager.py
+# MODULE: orchestration.brain.brain_collapse_manager
+# DESCRIPTION: Manages the graceful degradation and recovery of the LUKHAS brain
+#              in the event of a symbolic collapse.
+# DEPENDENCIES: asyncio, datetime, typing, structlog
+# LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
+# ═══════════════════════════════════════════════════════════════════════════
+# ΛORIGIN_AGENT: Jules-02
+# ΛTASK_ID: 02-JULY12-MEMORY-CONT
+# ΛCOMMIT_WINDOW: post-ZIP
+# ΛAPPROVED_BY: Human Overseer (Gonzalo)
+
 import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
+
 import structlog
+
 from consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
 from memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
 from orchestration.brain.collapse_chain_integrity import (
+    CollapseChainIntegrity,
+)
 from orchestration.brain.integrity_probe import IntegrityProbe
 from orchestration.brain.mesh.collapse_mesh import CollapseMesh
 from orchestration.brain.unified_collapse_system import CollapseBridge
 
-logger = logging.getLogger(__name__)
-    CollapseChainIntegrity,
-)
+# TAG:qim
+# TAG:qi_states
+# TAG:neuroplastic
+# TAG:colony
+
+
 logger = structlog.get_logger(__name__)
+
+
+# {AIM}{brain}
+# {ΛTRACE}
 class BrainCollapseManager:
+    """
+    Manages the graceful degradation and recovery of the LUKHAS brain
+    in the event of a symbolic collapse.
+    """
 
     def __init__(self, brain_integrator: Any):
         """

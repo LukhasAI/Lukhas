@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - UNIFIED MEMORY ORCHESTRATOR
@@ -13,8 +16,6 @@
 ║ ΛTAG: ΛMEMORY, ΛORCHESTRATOR, ΛHIPPOCAMPAL, ΛNEOCORTICAL, ΛCONSOLIDATION
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-
-import logging
 
 import asyncio
 import contextlib
@@ -31,6 +32,9 @@ import numpy as np
 # Import logging
 from core.common import get_logger
 
+logger = get_logger(__name__)
+
+# Import LUKHAS components
 try:
     from ..integrity.collapse_hash import CollapseHash
     from ..protection.symbolic_quarantine_sanctum import SymbolicQuarantineSanctum
@@ -41,6 +45,7 @@ try:
 
     LUKHAS_COMPONENTS_AVAILABLE = True
 except ImportError:
+    LUKHAS_COMPONENTS_AVAILABLE = False
     # Fallback imports for development
     SymbolAwareTieredMemory = object
     AtomicMemoryScaffold = object
@@ -49,6 +54,7 @@ except ImportError:
     SwarmConsensusManager = object
     DistributedMemoryFold = object
 
+# Import memory system components
 try:
     # Import through interface to break circular dependency
     from core.interfaces.memory_interface import get_test_module
@@ -70,6 +76,7 @@ try:
 
     MEMORY_COMPONENTS_AVAILABLE = True
 except ImportError as e:
+    print(f"Warning: Memory components not available: {e}")
     MEMORY_COMPONENTS_AVAILABLE = False
     # Stubs for development
     HippocampalBuffer = object
@@ -84,467 +91,6 @@ except ImportError as e:
         return {"status": "error", "message": "Memory components not available"}
 
 
-        try:
-            test_module = get_test_module("memory_comprehensive")
-            if test_module:
-                self.comprehensive_memory_tester = {
-                    "test_memory_lifecycle": lambda orch: test_module.test_memory_lifecycle(),
-                    "test_error_conditions": lambda orch: test_module.test_error_conditions(),
-                    "initialized": True,
-                }
-                logger.info("Comprehensive memory tester initialized via dependency injection")
-            else:
-                # Fallback to local test functions
-                self.comprehensive_memory_tester = {
-                    "test_memory_lifecycle": test_memory_lifecycle,
-                    "test_error_conditions": test_error_conditions,
-                    "initialized": True,
-                }
-                logger.info("Comprehensive memory tester initialized with local functions")
-        except Exception as e:
-            self.comprehensive_memory_tester = {
-                "test_memory_lifecycle": None,
-                "test_error_conditions": None,
-                "initialized": False,
-            }
-
-        try:
-            # Symbol-aware memory
-            self.symbol_memory = SymbolAwareTieredMemory(embedding_dim=768, enable_compression=True)
-
-            # Atomic scaffold for stable storage
-            self.atomic_scaffold = AtomicMemoryScaffold(dimensions=4, max_memories_per_coil=100)
-
-            # Integrity verification
-            self.collapse_hash = CollapseHash()
-
-            # Memory protection
-            self.quarantine = SymbolicQuarantineSanctum()
-
-            # Colony consensus
-            if self.enable_colony_validation:
-                from ..systems.integration_adapters import MemorySafetyIntegration
-                from ..systems.memory_safety_features import MemorySafetySystem
-
-                safety = MemorySafetySystem()
-                integration = MemorySafetyIntegration(safety, self.symbol_memory)
-                self.swarm_consensus = SwarmConsensusManager(integration)
-
-                # Register memory colonies
-                self._register_memory_colonies()
-
-            # Distributed memory
-            if self.enable_distributed and node_id:
-                self.distributed_memory = DistributedMemoryFold(
-                    node_id=node_id,
-                    port=8000 + hash(node_id) % 1000,
-                    consciousness_level=0.8,
-                )
-
-        except Exception as e:
-            # Set to None so system can still function
-            self.symbol_memory = None
-            self.atomic_scaffold = None
-            self.collapse_hash = None
-            self.quarantine = None
-            self.swarm_consensus = None
-            self.distributed_memory = None
-
-        from ..systems.colony_swarm_integration import ColonyRole
-        try:
-            # Initialize hippocampal buffer
-            self.hippocampus = HippocampalBuffer(
-                capacity=self.hippocampal_capacity,
-                theta_frequency=6.0,
-                enable_place_cells=True,
-                enable_grid_cells=True,
-            )
-
-            # Initialize neocortical network
-            self.neocortex = NeocorticalNetwork(
-                columns_x=10,
-                columns_y=10,
-                neurons_per_layer=100,
-                learning_rate_base=0.01,
-            )
-
-            # Initialize consolidation orchestrator
-            self.consolidation_orchestrator = ConsolidationOrchestrator(
-                store=self.hippocampus,  # Use hippocampus as the memory store
-            )
-
-            # Initialize memory interfaces
-            self.episodic_interface = EpisodicMemoryInterface(
-                colony_id="episodic_memory_colony",
-                enable_distributed=self.enable_distributed,
-            )
-
-            self.semantic_interface = SemanticMemoryInterface(
-                colony_id="semantic_memory_colony",
-                enable_distributed=self.enable_distributed,
-            )
-
-            # Register interfaces with registry
-            memory_registry.register_interface(MemoryType.EPISODIC, self.episodic_interface)
-            memory_registry.register_interface(MemoryType.SEMANTIC, self.semantic_interface)
-
-            # Initialize colony validator if enabled
-            if self.enable_colony_validation:
-                self.colony_validator = ColonyMemoryValidator(
-                    default_validation_mode=ValidationMode.QUORUM, default_timeout=30.0
-                )
-
-                # Register colonies for validation
-                self._register_colonies_with_validator()
-
-            logger.info("Memory subsystems initialized successfully")
-
-        except Exception as e:
-            # Set to None so system can still function
-            self.hippocampus = None
-            self.neocortex = None
-            self.consolidation_orchestrator = None
-            self.episodic_interface = None
-            self.semantic_interface = None
-            self.colony_validator = None
-
-        try:
-            # Only start tasks if we have an event loop
-            loop = asyncio.get_running_loop()
-
-            # Create and track tasks to prevent memory leaks
-            self.background_tasks = [
-                loop.create_task(self._consolidation_loop()),
-                loop.create_task(self._oscillation_generator()),
-                loop.create_task(self._memory_replay_loop()),
-                loop.create_task(self._health_maintenance_loop()),
-            ]
-
-            logger.info(f"Background tasks started: {len(self.background_tasks)} tasks")
-        except RuntimeError:
-            self.background_tasks = []
-            logger.info("No event loop available, background tasks deferred")
-
-            try:
-                await self.symbol_memory.store(
-                    data={"content": content, "trace": memory_trace.to_dict()},
-                    tags=tags or [],
-                    metadata={"memory_type": memory_type.value},
-                )
-            except Exception as e:
-
-        try:
-            outcome = await self.colony_validator.validate_memory_operation(
-                operation=operation,
-                validation_mode=ValidationMode.BYZANTINE,
-                timeout_seconds=30.0,
-            )
-
-            # Record validation results in memory trace
-            for colony_id, response in outcome.colony_responses.items():
-                if response.success:
-                    memory_trace.colony_validations[colony_id] = response.colony_trust_score
-
-            validation_success = outcome.consensus_achieved and outcome.result.name == "SUCCESS"
-
-            logger.debug(
-                f"Colony validation completed: memory_id={memory_trace.memory_id}, "
-                f"success={validation_success}, "
-                f"consensus_confidence={outcome.consensus_confidence}, "
-                f"participating_colonies={len(outcome.colony_responses)}"
-            )
-
-            return validation_success
-
-        except Exception as e:
-            return False
-
-        from .interfaces.memory_interface import MemoryMetadata
-        try:
-            # Extract semantic features (neocortical representation)
-            semantic_features = await self._extract_semantic_features(memory_trace)
-
-            # Create distributed representation
-            neocortical_representation = await self._create_neocortical_representation(memory_trace, semantic_features)
-
-            # Store in neocortex with gradually increasing strength
-            consolidation_strength = min(
-                1.0,
-                memory_trace.encoding_strength * self.consolidation_rate * memory_trace.replay_count,
-            )
-
-            if consolidation_strength > 0.5:  # Threshold for stable storage
-                # Add to neocortical network
-                self.neocortical_network[memory_id] = memory_trace
-                memory_trace.consolidation_state = ConsolidationState.CONSOLIDATED
-                memory_trace.neocortical_indices = neocortical_representation
-
-                # Store in atomic scaffold if available
-                if self.atomic_scaffold:
-                    try:
-                        coil_index = await self.atomic_scaffold.fold_memory(
-                            memory_trace.to_dict(), dimension=hash(memory_id) % 4
-                        )
-                        memory_trace.neocortical_indices.append(coil_index)
-                    except Exception as e:
-
-                # Update semantic index with enriched links (with size limit)
-                for feature in semantic_features:
-                    if len(self.semantic_index) < self.max_index_entries:
-                        self.semantic_index[feature].add(memory_id)
-                        memory_trace.semantic_links.add(feature)
-
-                self.consolidation_count += 1
-
-                logger.info(
-                    f"Memory consolidated to neocortex: memory_id={memory_id}, "
-                    f"strength={consolidation_strength}, "
-                    f"semantic_features={len(semantic_features)}"
-                )
-
-                return True
-            else:
-                # Not ready for consolidation, keep in hippocampus
-                memory_trace.consolidation_state = ConsolidationState.ENCODING
-                memory_trace.replay_count += 1
-                return False
-
-            try:
-                # Consolidation rate varies by sleep stage
-                if self.sleep_stage == SleepStage.NREM3:
-                    wait_time = 5  # Fast consolidation during SWS
-                elif self.sleep_stage == SleepStage.NREM2:
-                    wait_time = 10
-                elif self.sleep_stage == SleepStage.REM:
-                    wait_time = 15
-                else:  # Awake
-                    wait_time = 60  # Slow consolidation when awake
-
-                await asyncio.sleep(wait_time)
-
-                # Process consolidation queue
-                if self.consolidation_queue:
-                    memory_id = self.consolidation_queue[0]  # Peek
-                    success = await self.consolidate_memory(memory_id)
-                    if success:
-                        self.consolidation_queue.popleft()
-
-                # Replay memories periodically
-                if self.sleep_stage != SleepStage.AWAKE:
-                    await self.replay_memories()
-
-            except Exception as e:
-                await asyncio.sleep(60)
-
-            try:
-                # Update oscillation phases
-                dt = 0.01  # 10ms time step
-
-                # Theta oscillation (4-8 Hz, use 6 Hz)
-                self.oscillations.theta_phase += 2 * np.pi * 6 * dt
-                self.oscillations.theta_phase %= 2 * np.pi
-
-                # Gamma oscillation (30-100 Hz, use 40 Hz)
-                self.oscillations.gamma_phase += 2 * np.pi * 40 * dt
-                self.oscillations.gamma_phase %= 2 * np.pi
-
-                # Ripple events (stochastic)
-                if self.sleep_stage in [SleepStage.NREM2, SleepStage.NREM3]:
-                    if np.random.random() < 0.001:  # Rare events
-                        self.oscillations.ripple_amplitude = np.random.gamma(2, 2)
-                else:
-                    self.oscillations.ripple_amplitude *= 0.9  # Decay
-
-                await asyncio.sleep(dt)
-
-            except Exception as e:
-                await asyncio.sleep(1)
-
-            try:
-                # Wait for appropriate sleep stage
-                if self.sleep_stage in [
-                    SleepStage.NREM2,
-                    SleepStage.NREM3,
-                    SleepStage.REM,
-                ]:
-                    await self.replay_memories(
-                        replay_count=5,
-                        prioritize_emotional=(self.sleep_stage == SleepStage.REM),
-                        prioritize_recent=(self.sleep_stage == SleepStage.NREM3),
-                    )
-
-                # Replay interval depends on sleep stage
-                if self.sleep_stage == SleepStage.NREM3:
-                    await asyncio.sleep(30)  # Frequent replay during SWS
-                else:
-                    await asyncio.sleep(120)  # Less frequent otherwise
-
-            except Exception as e:
-                await asyncio.sleep(300)
-
-            try:
-                await asyncio.sleep(300)  # Every 5 minutes
-
-                # Clean up forgotten memories
-                forgotten_ids = []
-                for trace in list(self.hippocampal_buffer):
-                    if trace.consolidation_state == ConsolidationState.FORGETTING:
-                        forgotten_ids.append(trace.memory_id)
-
-                # Remove from indices
-                for memory_id in forgotten_ids:
-                    for index_dict in [
-                        self.semantic_index,
-                        self.temporal_index,
-                        self.emotional_index,
-                    ]:
-                        for key in list(index_dict.keys()):
-                            if isinstance(index_dict[key], set):
-                                index_dict[key].discard(memory_id)
-
-                # Manage working memory size aggressively
-                if len(self.working_memory) > self.max_working_memory_size:
-                    # Remove least recently accessed (keep only 60% of limit)
-                    target_size = int(self.max_working_memory_size * 0.6)
-                    sorted_working = sorted(self.working_memory.items(), key=lambda x: x[1].last_accessed)
-                    for memory_id, _ in sorted_working[:-target_size]:
-                        del self.working_memory[memory_id]
-
-                # Periodic memory cleanup
-                current_time = datetime.now(timezone.utc)
-                if (current_time - self.last_cleanup).total_seconds() > self.cleanup_interval:
-                    await self._aggressive_memory_cleanup()
-                    self.last_cleanup = current_time
-
-                # Colony health check
-                if self.swarm_consensus:
-                    swarm_status = self.swarm_consensus.get_swarm_status()
-                    if swarm_status["average_accuracy"] < 0.5:
-                        logger.warning("Colony consensus accuracy below threshold")
-
-                # Log health metrics
-                logger.info(
-                    f"Memory system health check: "
-                    f"hippocampal_size={len(self.hippocampal_buffer)}, "
-                    f"neocortical_size={len(self.neocortical_network)}, "
-                    f"working_memory_size={len(self.working_memory)}, "
-                    f"encoding_count={self.encoding_count}, "
-                    f"consolidation_count={self.consolidation_count}, "
-                    f"retrieval_count={self.retrieval_count}, "
-                    f"forgetting_count={self.forgetting_count}"
-                )
-
-            except Exception as e:
-                await asyncio.sleep(600)
-
-        try:
-            if not self.comprehensive_memory_tester.get("initialized", False):
-                return {
-                    "status": "error",
-                    "message": "Comprehensive memory tester not initialized",
-                }
-
-            test_func = self.comprehensive_memory_tester.get("test_memory_lifecycle")
-            if test_func:
-                # Run lifecycle test with current orchestrator
-                result = test_func(self)
-                return {
-                    "status": "success",
-                    "test_type": "memory_lifecycle",
-                    "result": result,
-                    "timestamp": asyncio.get_event_loop().time(),
-                }
-            else:
-                return {
-                    "status": "error",
-                    "message": "Memory lifecycle test function not available",
-                }
-        except Exception as e:
-            return {"status": "error", "message": str(e)}
-
-        try:
-            if not self.comprehensive_memory_tester.get("initialized", False):
-                return {
-                    "status": "error",
-                    "message": "Comprehensive memory tester not initialized",
-                }
-
-            test_func = self.comprehensive_memory_tester.get("test_error_conditions")
-            if test_func:
-                # Run error condition test with current orchestrator
-                result = test_func(self)
-                return {
-                    "status": "success",
-                    "test_type": "error_conditions",
-                    "result": result,
-                    "timestamp": asyncio.get_event_loop().time(),
-                }
-            else:
-                return {
-                    "status": "error",
-                    "message": "Error condition test function not available",
-                }
-        except Exception as e:
-            return {"status": "error", "message": str(e)}
-
-    try:
-        print("🧠 Starting Memory Lifecycle Test...")
-
-        # Test encoding different types of memories
-        test_memories = [
-            {
-                "content": {"message": "Important meeting", "location": "Office"},
-                "context": "work_memory",
-                "importance": 0.9,
-                "memory_type": "episodic",
-            },
-            {
-                "content": {"fact": "Python is a programming language"},
-                "context": "knowledge_base",
-                "importance": 0.7,
-                "memory_type": "semantic",
-            },
-            {
-                "content": {"task": "Remember to call client"},
-                "context": "immediate_tasks",
-                "importance": 0.8,
-                "memory_type": "working",
-            },
-        ]
-
-        print(f"📝 Testing {len(test_memories)} memory types...")
-
-        # Get current memory statistics for baseline
-        memory_stats = orchestrator.get_memory_statistics()
-
-        print("✅ Memory lifecycle test completed")
-        print(f"   - Total memories: {memory_stats['total_memories']}")
-        print(f"   - Hippocampal: {memory_stats['hippocampal_memories']}")
-        print(f"   - Neocortical: {memory_stats['neocortical_memories']}")
-
-        return {
-            "status": "success",
-            "test_type": "memory_lifecycle",
-            "memories_tested": len(test_memories),
-            "current_memory_count": memory_stats["total_memories"],
-            "details": {
-                "hippocampal_count": memory_stats["hippocampal_memories"],
-                "neocortical_count": memory_stats["neocortical_memories"],
-                "working_count": memory_stats["working_memories"],
-            },
-        }
-
-    except Exception as e:
-        return {"status": "error", "test_type": "memory_lifecycle", "error": str(e)}
-
-
-
-logger = logging.getLogger(__name__)
-
-logger = get_logger(__name__)
-
-# Import LUKHAS components
-# Import memory system components
 class MemoryType(Enum):
     """Types of memory in the unified system"""
 
@@ -727,6 +273,31 @@ class UnifiedMemoryOrchestrator:
         self.cleanup_interval = 300  # 5 minutes
 
         # Initialize comprehensive memory testing system through dependency injection
+        try:
+            test_module = get_test_module("memory_comprehensive")
+            if test_module:
+                self.comprehensive_memory_tester = {
+                    "test_memory_lifecycle": lambda orch: test_module.test_memory_lifecycle(),
+                    "test_error_conditions": lambda orch: test_module.test_error_conditions(),
+                    "initialized": True,
+                }
+                logger.info("Comprehensive memory tester initialized via dependency injection")
+            else:
+                # Fallback to local test functions
+                self.comprehensive_memory_tester = {
+                    "test_memory_lifecycle": test_memory_lifecycle,
+                    "test_error_conditions": test_error_conditions,
+                    "initialized": True,
+                }
+                logger.info("Comprehensive memory tester initialized with local functions")
+        except Exception as e:
+            logger.warning(f"Failed to initialize comprehensive tester: {e}")
+            self.comprehensive_memory_tester = {
+                "test_memory_lifecycle": None,
+                "test_error_conditions": None,
+                "initialized": False,
+            }
+
         logger.info(
             f"Unified Memory Orchestrator initialized: "
             f"hippocampal_capacity={hippocampal_capacity}, "
@@ -737,11 +308,55 @@ class UnifiedMemoryOrchestrator:
 
     def _initialize_lukhas_subsystems(self, node_id: Optional[str]):
         """Initialize LUKHAS subsystems"""
+        try:
+            # Symbol-aware memory
+            self.symbol_memory = SymbolAwareTieredMemory(embedding_dim=768, enable_compression=True)
+
+            # Atomic scaffold for stable storage
+            self.atomic_scaffold = AtomicMemoryScaffold(dimensions=4, max_memories_per_coil=100)
+
+            # Integrity verification
+            self.collapse_hash = CollapseHash()
+
+            # Memory protection
+            self.quarantine = SymbolicQuarantineSanctum()
+
+            # Colony consensus
+            if self.enable_colony_validation:
+                from ..systems.integration_adapters import MemorySafetyIntegration
+                from ..systems.memory_safety_features import MemorySafetySystem
+
+                safety = MemorySafetySystem()
+                integration = MemorySafetyIntegration(safety, self.symbol_memory)
+                self.swarm_consensus = SwarmConsensusManager(integration)
+
+                # Register memory colonies
+                self._register_memory_colonies()
+
+            # Distributed memory
+            if self.enable_distributed and node_id:
+                self.distributed_memory = DistributedMemoryFold(
+                    node_id=node_id,
+                    port=8000 + hash(node_id) % 1000,
+                    consciousness_level=0.8,
+                )
+
+        except Exception as e:
+            logger.error(f"Failed to initialize subsystems: {e}")
+            # Set to None so system can still function
+            self.symbol_memory = None
+            self.atomic_scaffold = None
+            self.collapse_hash = None
+            self.quarantine = None
+            self.swarm_consensus = None
+            self.distributed_memory = None
+
     def _register_memory_colonies(self):
         """Register specialized memory colonies for validation"""
         if not self.swarm_consensus:
             return
 
+        from ..systems.colony_swarm_integration import ColonyRole
 
         # Register episodic memory colony
         self.swarm_consensus.register_colony(
@@ -779,6 +394,64 @@ class UnifiedMemoryOrchestrator:
 
     def _initialize_memory_subsystems(self):
         """Initialize bio-inspired memory subsystems and colony validation"""
+        try:
+            # Initialize hippocampal buffer
+            self.hippocampus = HippocampalBuffer(
+                capacity=self.hippocampal_capacity,
+                theta_frequency=6.0,
+                enable_place_cells=True,
+                enable_grid_cells=True,
+            )
+
+            # Initialize neocortical network
+            self.neocortex = NeocorticalNetwork(
+                columns_x=10,
+                columns_y=10,
+                neurons_per_layer=100,
+                learning_rate_base=0.01,
+            )
+
+            # Initialize consolidation orchestrator
+            self.consolidation_orchestrator = ConsolidationOrchestrator(
+                store=self.hippocampus,  # Use hippocampus as the memory store
+            )
+
+            # Initialize memory interfaces
+            self.episodic_interface = EpisodicMemoryInterface(
+                colony_id="episodic_memory_colony",
+                enable_distributed=self.enable_distributed,
+            )
+
+            self.semantic_interface = SemanticMemoryInterface(
+                colony_id="semantic_memory_colony",
+                enable_distributed=self.enable_distributed,
+            )
+
+            # Register interfaces with registry
+            memory_registry.register_interface(MemoryType.EPISODIC, self.episodic_interface)
+            memory_registry.register_interface(MemoryType.SEMANTIC, self.semantic_interface)
+
+            # Initialize colony validator if enabled
+            if self.enable_colony_validation:
+                self.colony_validator = ColonyMemoryValidator(
+                    default_validation_mode=ValidationMode.QUORUM, default_timeout=30.0
+                )
+
+                # Register colonies for validation
+                self._register_colonies_with_validator()
+
+            logger.info("Memory subsystems initialized successfully")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize memory subsystems: {e}")
+            # Set to None so system can still function
+            self.hippocampus = None
+            self.neocortex = None
+            self.consolidation_orchestrator = None
+            self.episodic_interface = None
+            self.semantic_interface = None
+            self.colony_validator = None
+
     def _register_colonies_with_validator(self):
         """Register colonies with the colony validator"""
         if not self.colony_validator:
@@ -819,6 +492,24 @@ class UnifiedMemoryOrchestrator:
 
     def _start_background_tasks(self):
         """Start background processes for consolidation and maintenance"""
+        try:
+            # Only start tasks if we have an event loop
+            loop = asyncio.get_running_loop()
+
+            # Create and track tasks to prevent memory leaks
+            self.background_tasks = [
+                loop.create_task(self._consolidation_loop()),
+                loop.create_task(self._oscillation_generator()),
+                loop.create_task(self._memory_replay_loop()),
+                loop.create_task(self._health_maintenance_loop()),
+            ]
+
+            logger.info(f"Background tasks started: {len(self.background_tasks)} tasks")
+        except RuntimeError:
+            # No event loop running, tasks will be started manually when needed
+            self.background_tasks = []
+            logger.info("No event loop available, background tasks deferred")
+
     async def encode_memory(
         self,
         content: Any,
@@ -881,6 +572,15 @@ class UnifiedMemoryOrchestrator:
 
         # Store in symbol-aware memory if available
         if self.symbol_memory:
+            try:
+                await self.symbol_memory.store(
+                    data={"content": content, "trace": memory_trace.to_dict()},
+                    tags=tags or [],
+                    metadata={"memory_type": memory_type.value},
+                )
+            except Exception as e:
+                logger.error(f"Failed to store in symbol memory: {e}")
+
         # Queue for consolidation based on importance
         if importance > 0.5 or abs(emotional_valence) > 0.7:
             self.consolidation_queue.append(memory_id)
@@ -1010,11 +710,39 @@ class UnifiedMemoryOrchestrator:
         )
 
         # Perform validation with Byzantine fault tolerance
+        try:
+            outcome = await self.colony_validator.validate_memory_operation(
+                operation=operation,
+                validation_mode=ValidationMode.BYZANTINE,
+                timeout_seconds=30.0,
+            )
+
+            # Record validation results in memory trace
+            for colony_id, response in outcome.colony_responses.items():
+                if response.success:
+                    memory_trace.colony_validations[colony_id] = response.colony_trust_score
+
+            validation_success = outcome.consensus_achieved and outcome.result.name == "SUCCESS"
+
+            logger.debug(
+                f"Colony validation completed: memory_id={memory_trace.memory_id}, "
+                f"success={validation_success}, "
+                f"consensus_confidence={outcome.consensus_confidence}, "
+                f"participating_colonies={len(outcome.colony_responses)}"
+            )
+
+            return validation_success
+
+        except Exception as e:
+            logger.error(f"Colony validation failed: {e}")
+            return False
+
     def _create_memory_metadata(self, memory_trace: MemoryTrace, tags: list[str]):
         """Create metadata for memory validation"""
         if not MEMORY_COMPONENTS_AVAILABLE:
             return None
 
+        from .interfaces.memory_interface import MemoryMetadata
 
         return MemoryMetadata(
             memory_id=memory_trace.memory_id,
@@ -1286,6 +1014,56 @@ class UnifiedMemoryOrchestrator:
         # Begin consolidation
         memory_trace.consolidation_state = ConsolidationState.CONSOLIDATING
 
+        try:
+            # Extract semantic features (neocortical representation)
+            semantic_features = await self._extract_semantic_features(memory_trace)
+
+            # Create distributed representation
+            neocortical_representation = await self._create_neocortical_representation(memory_trace, semantic_features)
+
+            # Store in neocortex with gradually increasing strength
+            consolidation_strength = min(
+                1.0,
+                memory_trace.encoding_strength * self.consolidation_rate * memory_trace.replay_count,
+            )
+
+            if consolidation_strength > 0.5:  # Threshold for stable storage
+                # Add to neocortical network
+                self.neocortical_network[memory_id] = memory_trace
+                memory_trace.consolidation_state = ConsolidationState.CONSOLIDATED
+                memory_trace.neocortical_indices = neocortical_representation
+
+                # Store in atomic scaffold if available
+                if self.atomic_scaffold:
+                    try:
+                        coil_index = await self.atomic_scaffold.fold_memory(
+                            memory_trace.to_dict(), dimension=hash(memory_id) % 4
+                        )
+                        memory_trace.neocortical_indices.append(coil_index)
+                    except Exception as e:
+                        logger.error(f"Failed to store in atomic scaffold: {e}")
+
+                # Update semantic index with enriched links (with size limit)
+                for feature in semantic_features:
+                    if len(self.semantic_index) < self.max_index_entries:
+                        self.semantic_index[feature].add(memory_id)
+                        memory_trace.semantic_links.add(feature)
+
+                self.consolidation_count += 1
+
+                logger.info(
+                    f"Memory consolidated to neocortex: memory_id={memory_id}, "
+                    f"strength={consolidation_strength}, "
+                    f"semantic_features={len(semantic_features)}"
+                )
+
+                return True
+            else:
+                # Not ready for consolidation, keep in hippocampus
+                memory_trace.consolidation_state = ConsolidationState.ENCODING
+                memory_trace.replay_count += 1
+                return False
+
         except Exception as e:
             logger.error(f"Consolidation failed for {memory_id}: {e}")
             memory_trace.consolidation_state = ConsolidationState.ENCODING
@@ -1541,21 +1319,153 @@ class UnifiedMemoryOrchestrator:
         Background consolidation process
         """
         while True:
+            try:
+                # Consolidation rate varies by sleep stage
+                if self.sleep_stage == SleepStage.NREM3:
+                    wait_time = 5  # Fast consolidation during SWS
+                elif self.sleep_stage == SleepStage.NREM2:
+                    wait_time = 10
+                elif self.sleep_stage == SleepStage.REM:
+                    wait_time = 15
+                else:  # Awake
+                    wait_time = 60  # Slow consolidation when awake
+
+                await asyncio.sleep(wait_time)
+
+                # Process consolidation queue
+                if self.consolidation_queue:
+                    memory_id = self.consolidation_queue[0]  # Peek
+                    success = await self.consolidate_memory(memory_id)
+                    if success:
+                        self.consolidation_queue.popleft()
+
+                # Replay memories periodically
+                if self.sleep_stage != SleepStage.AWAKE:
+                    await self.replay_memories()
+
+            except Exception as e:
+                logger.error(f"Consolidation loop error: {e}")
+                await asyncio.sleep(60)
+
     async def _oscillation_generator(self):
         """
         Generate neural oscillations for memory processing
         """
         while True:
+            try:
+                # Update oscillation phases
+                dt = 0.01  # 10ms time step
+
+                # Theta oscillation (4-8 Hz, use 6 Hz)
+                self.oscillations.theta_phase += 2 * np.pi * 6 * dt
+                self.oscillations.theta_phase %= 2 * np.pi
+
+                # Gamma oscillation (30-100 Hz, use 40 Hz)
+                self.oscillations.gamma_phase += 2 * np.pi * 40 * dt
+                self.oscillations.gamma_phase %= 2 * np.pi
+
+                # Ripple events (stochastic)
+                if self.sleep_stage in [SleepStage.NREM2, SleepStage.NREM3]:
+                    if np.random.random() < 0.001:  # Rare events
+                        self.oscillations.ripple_amplitude = np.random.gamma(2, 2)
+                else:
+                    self.oscillations.ripple_amplitude *= 0.9  # Decay
+
+                await asyncio.sleep(dt)
+
+            except Exception as e:
+                logger.error(f"Oscillation generator error: {e}")
+                await asyncio.sleep(1)
+
     async def _memory_replay_loop(self):
         """
         Periodic memory replay for consolidation
         """
         while True:
+            try:
+                # Wait for appropriate sleep stage
+                if self.sleep_stage in [
+                    SleepStage.NREM2,
+                    SleepStage.NREM3,
+                    SleepStage.REM,
+                ]:
+                    await self.replay_memories(
+                        replay_count=5,
+                        prioritize_emotional=(self.sleep_stage == SleepStage.REM),
+                        prioritize_recent=(self.sleep_stage == SleepStage.NREM3),
+                    )
+
+                # Replay interval depends on sleep stage
+                if self.sleep_stage == SleepStage.NREM3:
+                    await asyncio.sleep(30)  # Frequent replay during SWS
+                else:
+                    await asyncio.sleep(120)  # Less frequent otherwise
+
+            except Exception as e:
+                logger.error(f"Memory replay loop error: {e}")
+                await asyncio.sleep(300)
+
     async def _health_maintenance_loop(self):
         """
         Maintain memory system health
         """
         while True:
+            try:
+                await asyncio.sleep(300)  # Every 5 minutes
+
+                # Clean up forgotten memories
+                forgotten_ids = []
+                for trace in list(self.hippocampal_buffer):
+                    if trace.consolidation_state == ConsolidationState.FORGETTING:
+                        forgotten_ids.append(trace.memory_id)
+
+                # Remove from indices
+                for memory_id in forgotten_ids:
+                    for index_dict in [
+                        self.semantic_index,
+                        self.temporal_index,
+                        self.emotional_index,
+                    ]:
+                        for key in list(index_dict.keys()):
+                            if isinstance(index_dict[key], set):
+                                index_dict[key].discard(memory_id)
+
+                # Manage working memory size aggressively
+                if len(self.working_memory) > self.max_working_memory_size:
+                    # Remove least recently accessed (keep only 60% of limit)
+                    target_size = int(self.max_working_memory_size * 0.6)
+                    sorted_working = sorted(self.working_memory.items(), key=lambda x: x[1].last_accessed)
+                    for memory_id, _ in sorted_working[:-target_size]:
+                        del self.working_memory[memory_id]
+
+                # Periodic memory cleanup
+                current_time = datetime.now(timezone.utc)
+                if (current_time - self.last_cleanup).total_seconds() > self.cleanup_interval:
+                    await self._aggressive_memory_cleanup()
+                    self.last_cleanup = current_time
+
+                # Colony health check
+                if self.swarm_consensus:
+                    swarm_status = self.swarm_consensus.get_swarm_status()
+                    if swarm_status["average_accuracy"] < 0.5:
+                        logger.warning("Colony consensus accuracy below threshold")
+
+                # Log health metrics
+                logger.info(
+                    f"Memory system health check: "
+                    f"hippocampal_size={len(self.hippocampal_buffer)}, "
+                    f"neocortical_size={len(self.neocortical_network)}, "
+                    f"working_memory_size={len(self.working_memory)}, "
+                    f"encoding_count={self.encoding_count}, "
+                    f"consolidation_count={self.consolidation_count}, "
+                    f"retrieval_count={self.retrieval_count}, "
+                    f"forgetting_count={self.forgetting_count}"
+                )
+
+            except Exception as e:
+                logger.error(f"Health maintenance error: {e}")
+                await asyncio.sleep(600)
+
     def _add_to_working_memory(self, memory_id: str, memory_trace: MemoryTrace):
         """Add memory to working memory with size management"""
         if len(self.working_memory) >= self.max_working_memory_size:
@@ -1688,10 +1598,62 @@ class UnifiedMemoryOrchestrator:
         """
         Run comprehensive memory lifecycle testing
         """
+        try:
+            if not self.comprehensive_memory_tester.get("initialized", False):
+                return {
+                    "status": "error",
+                    "message": "Comprehensive memory tester not initialized",
+                }
+
+            test_func = self.comprehensive_memory_tester.get("test_memory_lifecycle")
+            if test_func:
+                # Run lifecycle test with current orchestrator
+                result = test_func(self)
+                return {
+                    "status": "success",
+                    "test_type": "memory_lifecycle",
+                    "result": result,
+                    "timestamp": asyncio.get_event_loop().time(),
+                }
+            else:
+                return {
+                    "status": "error",
+                    "message": "Memory lifecycle test function not available",
+                }
+        except Exception as e:
+            logger.error(f"Memory lifecycle test error: {e}")
+            return {"status": "error", "message": str(e)}
+
     def run_error_condition_test(self) -> dict[str, Any]:
         """
         Run comprehensive error condition testing
         """
+        try:
+            if not self.comprehensive_memory_tester.get("initialized", False):
+                return {
+                    "status": "error",
+                    "message": "Comprehensive memory tester not initialized",
+                }
+
+            test_func = self.comprehensive_memory_tester.get("test_error_conditions")
+            if test_func:
+                # Run error condition test with current orchestrator
+                result = test_func(self)
+                return {
+                    "status": "success",
+                    "test_type": "error_conditions",
+                    "result": result,
+                    "timestamp": asyncio.get_event_loop().time(),
+                }
+            else:
+                return {
+                    "status": "error",
+                    "message": "Error condition test function not available",
+                }
+        except Exception as e:
+            logger.error(f"Error condition test error: {e}")
+            return {"status": "error", "message": str(e)}
+
     def get_comprehensive_memory_status(self) -> dict[str, Any]:
         """
         Get comprehensive memory system status and testing capabilities
@@ -1843,5 +1805,57 @@ def test_memory_lifecycle(orchestrator):
     Returns:
         Dict with test results
     """
+    try:
+        print("🧠 Starting Memory Lifecycle Test...")
+
+        # Test encoding different types of memories
+        test_memories = [
+            {
+                "content": {"message": "Important meeting", "location": "Office"},
+                "context": "work_memory",
+                "importance": 0.9,
+                "memory_type": "episodic",
+            },
+            {
+                "content": {"fact": "Python is a programming language"},
+                "context": "knowledge_base",
+                "importance": 0.7,
+                "memory_type": "semantic",
+            },
+            {
+                "content": {"task": "Remember to call client"},
+                "context": "immediate_tasks",
+                "importance": 0.8,
+                "memory_type": "working",
+            },
+        ]
+
+        print(f"📝 Testing {len(test_memories)} memory types...")
+
+        # Get current memory statistics for baseline
+        memory_stats = orchestrator.get_memory_statistics()
+
+        print("✅ Memory lifecycle test completed")
+        print(f"   - Total memories: {memory_stats['total_memories']}")
+        print(f"   - Hippocampal: {memory_stats['hippocampal_memories']}")
+        print(f"   - Neocortical: {memory_stats['neocortical_memories']}")
+
+        return {
+            "status": "success",
+            "test_type": "memory_lifecycle",
+            "memories_tested": len(test_memories),
+            "current_memory_count": memory_stats["total_memories"],
+            "details": {
+                "hippocampal_count": memory_stats["hippocampal_memories"],
+                "neocortical_count": memory_stats["neocortical_memories"],
+                "working_count": memory_stats["working_memories"],
+            },
+        }
+
+    except Exception as e:
+        print(f"❌ Memory lifecycle test failed: {e}")
+        return {"status": "error", "test_type": "memory_lifecycle", "error": str(e)}
+
+
 if __name__ == "__main__":
     asyncio.run(demonstrate_unified_memory())

@@ -1,18 +1,19 @@
-    """
-    Creates a signed, append-only receipt and returns:
-      { "artifact_sha", "event", "attestation": {chain_path, signature_b64, ...}, "ts" }
-    """
-
+# path: qi/safety/provenance_receipts.py
 from __future__ import annotations
+
 import json
 import os
 import time
 from typing import Any
-from qi.ops.provenance import attest, merkle_chain  # requires pynacl
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE, "provenance", "receipts")
 os.makedirs(RECEIPTS_DIR, exist_ok=True)
+
+# We reuse your Merkle + ed25519 attestation
+from qi.ops.provenance import attest, merkle_chain  # requires pynacl
+
+
 def write_receipt(
     *,
     artifact_sha: str,
@@ -25,7 +26,10 @@ def write_receipt(
     extras: dict[str, Any] | None = None,
     tag: str = "receipt",
 ) -> dict[str, Any]:
-
+    """
+    Creates a signed, append-only receipt and returns:
+      { "artifact_sha", "event", "attestation": {chain_path, signature_b64, ...}, "ts" }
+    """
     ts = time.time()
     steps = [
         {

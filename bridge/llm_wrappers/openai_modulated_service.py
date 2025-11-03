@@ -11,7 +11,6 @@ Contract:
 - Safety: Guardian pre/post moderation hooks
 - Outputs: normalized response dict with content and metadata
 """
-
 from __future__ import annotations
 
 import asyncio
@@ -22,326 +21,6 @@ import uuid
 from typing import Any, cast
 
 from bridge.llm_wrappers.tool_executor import (
-from branding.policy.terminology import normalize_chunk, normalize_output
-from openai.tooling import build_tools_from_allowlist, get_all_tools
-from metrics import get_metrics_collector
-from orchestration.signals.homeostasis import (
-from orchestration.signals.modulator import PromptModulation, PromptModulator
-from orchestration.signals.signal_bus import Signal, get_signal_bus
-from .unified_openai_client import UnifiedOpenAIClient
-        try:
-            if messages and messages[0].get("role") == "system":
-                sys_c = messages[0].get("content") or ""
-                guidance = (
-                    "\nWhen describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
-                    "Refer to the project as 'Lukhas AI'."
-                )
-                if guidance not in sys_c:
-                    messages[0]["content"] = f"{sys_c}{guidance}"
-        except Exception:
-
-                try:
-                    # Track tool call start
-                    call_id = analytics.start_tool_call(tool_name, tool_args)
-
-                    # Execute tool via bridge (monkeypatch-friendly in tests)
-                    result = await bridged_execute_tool(tool_name, tool_args)
-
-                    # Track success
-                    analytics.complete_tool_call(call_id, status="success")
-                    tool_calls_made.append(
-                        {
-                            "tool": tool_name,
-                            "status": "executed",
-                            "args": tool_args,
-                            "result_preview": result[:100] if result else None,
-                        }
-                    )
-
-                    # Add tool result to messages
-                    current_messages.append(
-                        {
-                            "role": "tool",
-                            "tool_call_id": tool_id,
-                            "name": tool_name,
-                            "content": result,
-                        }
-                    )
-
-                except Exception as e:
-                    if call_id is not None:
-                        analytics.complete_tool_call(call_id, status="error")
-                    tool_calls_made.append(
-                        {
-                            "tool": tool_name,
-                            "status": "error",
-                            "args": tool_args,
-                            "error": str(e),
-                        }
-                    )
-
-                    # Add error message
-                    current_messages.append(
-                        {
-                            "role": "tool",
-                            "tool_call_id": tool_id,
-                            "content": f"Tool execution failed: {e!s}",
-                        }
-                    )
-
-                    logger.error(f"Tool execution failed: {tool_name}", exc_info=e)
-
-        try:
-            resp_dict = cast(dict[str, Any], response)
-            content = normalize_output(resp_dict["choices"][0]["message"].get("content"))
-        except Exception:
-
-                try:
-                    si = cast(dict[str, Any], stream_iter)
-                    text = normalize_output(si["choices"][0]["message"].get("content"))
-                except Exception:  # pragma: no cover
-                try:
-                    delta = chunk["choices"][0].get("delta") or chunk["choices"][0].get("message")
-                    piece = (delta.get("content") if isinstance(delta, dict) else None) or ""
-                except Exception:
-            try:
-                self._post_moderation_check({"choices": [{"message": {"content": full}}]})
-            except PermissionError:
-                logger.warning("Post-moderation flagged streamed content")
-
-        try:
-            from governance.guardian_sentinel import get_guardian_sentinel
-
-            guardian = get_guardian_sentinel()
-            allow, message, _meta = guardian.assess_threat(
-                action="openai_pre_prompt",
-                context={
-                    "prompt": modulation.modulated_prompt,
-                    "style": modulation.style.value,
-                    "moderation": modulation.moderation_preset,
-                },
-                drift_score=0.0,
-            )
-            if not allow:
-                self.metrics["moderation_blocks"] += 1
-                raise PermissionError(f"Pre-moderation blocked: {message}")
-        except Exception:
-            pass
-        try:
-            content = response.get("choices", [{}])[0].get("message", {}).get("content")
-        except Exception:
-        try:
-            from governance.guardian_sentinel import get_guardian_sentinel
-
-            guardian = get_guardian_sentinel()
-            allow, message, _meta = guardian.assess_threat(
-                action="openai_post_content",
-                context={"content": content or str(response)},
-                drift_score=0.0,
-            )
-            if not allow:
-                self.metrics["moderation_blocks"] += 1
-                raise PermissionError(f"Post-moderation blocked: {message}")
-        except Exception:
-
-        try:
-            # Import vector store components with fallback
-            try:
-                from memory.embeddings import generate_embedding
-                from memory.vector_store import get_vector_store
-
-                vector_store = get_vector_store()
-
-                # Generate embedding for the query
-                query_embedding = await generate_embedding(modulation.original_prompt)
-
-                # Search for similar content
-                results = await vector_store.similarity_search(
-                    query_embedding,
-                    top_k=top_k,
-                    threshold=0.7,  # Similarity threshold
-                )
-
-                # Extract content from results
-                context_notes = []
-                for result in results:
-                    content = result.get("content", "")
-                    metadata = result.get("metadata", {})
-                    source = metadata.get("source", "unknown")
-
-                    # Format the retrieved context
-                    formatted_note = f"[From {source}]: {content[:200]}..."
-                    context_notes.append(formatted_note)
-
-                logger.info(f"Retrieved {len(context_notes)} context notes from vector store")
-                return context_notes
-
-            except ImportError:
-                # Fallback to simple keyword-based retrieval
-                return await self._fallback_retrieval(modulation, top_k)
-
-        try:
-            # Enhanced keyword-based retrieval
-            from memory.memory_service import MemoryService
-
-            memory_service = MemoryService()
-
-            # Extract meaningful keywords from the prompt
-            text = modulation.original_prompt.lower()
-            import re
-
-            # Extract words longer than 3 characters, excluding common stop words
-            stop_words = {
-                "the",
-                "and",
-                "for",
-                "are",
-                "but",
-                "not",
-                "you",
-                "all",
-                "can",
-                "had",
-                "her",
-                "was",
-                "one",
-                "our",
-                "out",
-                "day",
-                "get",
-                "has",
-                "him",
-                "his",
-                "how",
-                "man",
-                "new",
-                "now",
-                "old",
-                "see",
-                "two",
-                "way",
-                "who",
-                "boy",
-                "did",
-                "its",
-                "let",
-                "put",
-                "say",
-                "she",
-                "too",
-                "use",
-            }
-
-            keywords = [word for word in re.findall(r"\\b\\w+\\b", text) if len(word) > 3 and word not in stop_words][
-                :top_k
-            ]
-
-            # Search memory service for relevant content
-            context_notes = []
-            for keyword in keywords:
-                try:
-                    search_results = await memory_service.search_memory(
-                        user_id="system", query=keyword, search_type="keyword", limit=2
-                    )
-
-                    if search_results.get("success") and search_results.get("memories"):
-                        for memory in search_results["memories"][:2]:  # Limit to 2 per keyword
-                            content = memory.get("content", "")[:150]
-                            context_notes.append(f"Related to '{keyword}': {content}...")
-
-                except Exception:
-                    context_notes.append(f"Context for '{keyword}': Relevant information about {keyword} processing.")
-
-            # If no keywords found, provide general context
-            if not context_notes:
-                context_notes = [
-                    "General context: Processing user request with LUKHAS AI capabilities.",
-                    "System context: Quantum-inspired and bio-inspired processing available.",
-                    "Memory context: Previous interactions and learned patterns are considered.",
-                ]
-
-            return context_notes[:top_k]
-
-    try:
-        from audit.store import audit_log_write as _audit_log_write
-    except Exception:  # pragma: no cover - optional in offline tests
-    from orchestration.signals.homeostasis import ModulationParams
-    from orchestration.signals.signal_bus import Signal, SignalType
-    try:
-        from .unified_openai_client import UnifiedOpenAIClient as _U
-    except Exception:  # pragma: no cover
-
-                    try:
-                        comp_choices = completion.choices  # type: ignore[attr-defined]
-                        msg = comp_choices[0].message
-                        content = getattr(msg, "content", None)
-                        tool_calls = (
-                            getattr(msg, "tool_calls", None)
-                            if hasattr(msg, "tool_calls")
-                            else (msg.get("tool_calls") if hasattr(msg, "get") else None)
-                        )
-                        return {
-                            "choices": [
-                                {
-                                    "message": {
-                                        "content": content,
-                                        "tool_calls": tool_calls,
-                                    }
-                                }
-                            ],
-                            "usage": getattr(completion, "usage", {}) or {},
-                        }
-                    except Exception:  # pragma: no cover
-                            "choices": [
-                                {
-                                    "message": {
-                                        "content": str(completion),
-                                        "tool_calls": None,
-                                    }
-                                }
-                            ]
-                        }
-
-            try:
-                signal_type = SignalType(name)
-                signals.append(Signal(name=signal_type, level=level, source="helper"))
-            except ValueError:
-
-    try:
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            return coro
-    except Exception:
-
-    import asyncio
-    import json
-    from tools.tool_executor import get_tool_executor
-    from audit.tool_analytics import get_analytics
-        try:
-            # Run async executor in sync context
-            loop_running = False
-            try:
-                loop = asyncio.get_event_loop()
-                loop_running = loop.is_running()
-            except Exception:
-                loop_running = False
-            # Run async executor in the appropriate context
-            if not loop_running:
-                text = loop.run_until_complete(executor.execute(name, args_json))
-            if loop_running:
-                # If already in async context
-                text = asyncio.run_coroutine_threadsafe(executor.execute(name, args_json), loop).result()
-            if not text:
-                text = ""
-
-            # Track success
-            call_id = analytics.start_tool_call(
-                name,
-                (json.loads(args_json) if isinstance(args_json, str) else args_json),
-            )
-            analytics.complete_tool_call(call_id, status="success")
-
-
     execute_tool as bridged_execute_tool,
 )
 
@@ -352,12 +31,19 @@ def get_analytics():
     return lambda *args, **kwargs: None  # Mock analytics function
 
 
+from branding.policy.terminology import normalize_chunk, normalize_output
+from openai.tooling import build_tools_from_allowlist, get_all_tools
 
+from metrics import get_metrics_collector
+from orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
     SystemEvent,
 )
+from orchestration.signals.modulator import PromptModulation, PromptModulator
+from orchestration.signals.signal_bus import Signal, get_signal_bus
 
+from .unified_openai_client import UnifiedOpenAIClient
 
 logger = logging.getLogger("ΛTRACE.bridge.openai_modulated_service")
 
@@ -444,6 +130,18 @@ class OpenAIModulatedService:
         metadata = api_payload.pop("metadata", {})
 
         # Append lightweight brand/terminology guidance to system preamble
+        try:
+            if messages and messages[0].get("role") == "system":
+                sys_c = messages[0].get("content") or ""
+                guidance = (
+                    "\nWhen describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
+                    "Refer to the project as 'Lukhas AI'."
+                )
+                if guidance not in sys_c:
+                    messages[0]["content"] = f"{sys_c}{guidance}"
+        except Exception:
+            pass
+
         # Build tools from allowlist
         openai_tools = []
         analytics = get_analytics()
@@ -548,6 +246,58 @@ class OpenAIModulatedService:
 
                 # Execute allowed tool
                 call_id = None
+                try:
+                    # Track tool call start
+                    call_id = analytics.start_tool_call(tool_name, tool_args)
+
+                    # Execute tool via bridge (monkeypatch-friendly in tests)
+                    result = await bridged_execute_tool(tool_name, tool_args)
+
+                    # Track success
+                    analytics.complete_tool_call(call_id, status="success")
+                    tool_calls_made.append(
+                        {
+                            "tool": tool_name,
+                            "status": "executed",
+                            "args": tool_args,
+                            "result_preview": result[:100] if result else None,
+                        }
+                    )
+
+                    # Add tool result to messages
+                    current_messages.append(
+                        {
+                            "role": "tool",
+                            "tool_call_id": tool_id,
+                            "name": tool_name,
+                            "content": result,
+                        }
+                    )
+
+                except Exception as e:
+                    # Track failure
+                    if call_id is not None:
+                        analytics.complete_tool_call(call_id, status="error")
+                    tool_calls_made.append(
+                        {
+                            "tool": tool_name,
+                            "status": "error",
+                            "args": tool_args,
+                            "error": str(e),
+                        }
+                    )
+
+                    # Add error message
+                    current_messages.append(
+                        {
+                            "role": "tool",
+                            "tool_call_id": tool_id,
+                            "content": f"Tool execution failed: {e!s}",
+                        }
+                    )
+
+                    logger.error(f"Tool execution failed: {tool_name}", exc_info=e)
+
         # Use final response or last response
         if final_response is not None:
             response = final_response
@@ -569,6 +319,12 @@ class OpenAIModulatedService:
 
         # Normalize output terminology
         content = None
+        try:
+            resp_dict = cast(dict[str, Any], response)
+            content = normalize_output(resp_dict["choices"][0]["message"].get("content"))
+        except Exception:
+            content = normalize_output(str(response))
+
         # Basic metrics log
         with contextlib.suppress(Exception):
             logger.info(
@@ -657,6 +413,11 @@ class OpenAIModulatedService:
         if isinstance(stream_iter, dict) or not hasattr(stream_iter, "__aiter__"):
 
             async def _once():
+                try:
+                    si = cast(dict[str, Any], stream_iter)
+                    text = normalize_output(si["choices"][0]["message"].get("content"))
+                except Exception:  # pragma: no cover
+                    text = normalize_output(str(stream_iter))
                 yield text or ""
 
             return _once()
@@ -664,24 +425,110 @@ class OpenAIModulatedService:
         async def _gen():
             buffer: list[str] = []
             async for chunk in stream_iter:  # type: ignore
+                try:
+                    delta = chunk["choices"][0].get("delta") or chunk["choices"][0].get("message")
+                    piece = (delta.get("content") if isinstance(delta, dict) else None) or ""
+                except Exception:
+                    piece = ""
                 if piece:
                     npiece = normalize_chunk(piece)
                     buffer.append(npiece)
                     yield npiece
             # Post moderation on full text (best-effort)
             full = "".join(buffer)
+            try:
+                self._post_moderation_check({"choices": [{"message": {"content": full}}]})
+            except PermissionError:
+                self.metrics["moderation_blocks"] += 1
+                logger.warning("Post-moderation flagged streamed content")
+
         return _gen()
 
     def _pre_moderation_check(self, modulation: PromptModulation) -> None:
         """Guardian pre-check; provider fallback is a no-op."""
         # Guardian
+        try:
+            from governance.guardian_sentinel import get_guardian_sentinel
+
+            guardian = get_guardian_sentinel()
+            allow, message, _meta = guardian.assess_threat(
+                action="openai_pre_prompt",
+                context={
+                    "prompt": modulation.modulated_prompt,
+                    "style": modulation.style.value,
+                    "moderation": modulation.moderation_preset,
+                },
+                drift_score=0.0,
+            )
+            if not allow:
+                self.metrics["moderation_blocks"] += 1
+                raise PermissionError(f"Pre-moderation blocked: {message}")
+        except Exception:
+            # Fallback: do nothing
+            pass
         return
 
     def _post_moderation_check(self, response: dict[str, Any]) -> None:
         """Guardian post-check with fallback no-op."""
+        try:
+            content = response.get("choices", [{}])[0].get("message", {}).get("content")
+        except Exception:
+            content = None
         # Guardian
+        try:
+            from governance.guardian_sentinel import get_guardian_sentinel
+
+            guardian = get_guardian_sentinel()
+            allow, message, _meta = guardian.assess_threat(
+                action="openai_post_content",
+                context={"content": content or str(response)},
+                drift_score=0.0,
+            )
+            if not allow:
+                self.metrics["moderation_blocks"] += 1
+                raise PermissionError(f"Post-moderation blocked: {message}")
+        except Exception:
+            return
+
     async def _retrieve_context(self, modulation: PromptModulation, top_k: int = 5) -> list[str]:
         """Retrieve context from vector store or memory layer."""
+        try:
+            # Import vector store components with fallback
+            try:
+                from memory.embeddings import generate_embedding
+                from memory.vector_store import get_vector_store
+
+                vector_store = get_vector_store()
+
+                # Generate embedding for the query
+                query_embedding = await generate_embedding(modulation.original_prompt)
+
+                # Search for similar content
+                results = await vector_store.similarity_search(
+                    query_embedding,
+                    top_k=top_k,
+                    threshold=0.7,  # Similarity threshold
+                )
+
+                # Extract content from results
+                context_notes = []
+                for result in results:
+                    content = result.get("content", "")
+                    metadata = result.get("metadata", {})
+                    source = metadata.get("source", "unknown")
+
+                    # Format the retrieved context
+                    formatted_note = f"[From {source}]: {content[:200]}..."
+                    context_notes.append(formatted_note)
+
+                logger.info(f"Retrieved {len(context_notes)} context notes from vector store")
+                return context_notes
+
+            except ImportError:
+                logger.warning("Vector store not available, using fallback retrieval")
+                # Fallback to simple keyword-based retrieval
+                return await self._fallback_retrieval(modulation, top_k)
+
         except Exception as e:
             logger.error(f"Error in context retrieval: {e!s}")
             # Return fallback retrieval
@@ -689,6 +536,89 @@ class OpenAIModulatedService:
 
     async def _fallback_retrieval(self, modulation: PromptModulation, top_k: int = 5) -> list[str]:
         """Fallback retrieval using simple keyword extraction."""
+        try:
+            # Enhanced keyword-based retrieval
+            from memory.memory_service import MemoryService
+
+            memory_service = MemoryService()
+
+            # Extract meaningful keywords from the prompt
+            text = modulation.original_prompt.lower()
+            import re
+
+            # Extract words longer than 3 characters, excluding common stop words
+            stop_words = {
+                "the",
+                "and",
+                "for",
+                "are",
+                "but",
+                "not",
+                "you",
+                "all",
+                "can",
+                "had",
+                "her",
+                "was",
+                "one",
+                "our",
+                "out",
+                "day",
+                "get",
+                "has",
+                "him",
+                "his",
+                "how",
+                "man",
+                "new",
+                "now",
+                "old",
+                "see",
+                "two",
+                "way",
+                "who",
+                "boy",
+                "did",
+                "its",
+                "let",
+                "put",
+                "say",
+                "she",
+                "too",
+                "use",
+            }
+
+            keywords = [word for word in re.findall(r"\\b\\w+\\b", text) if len(word) > 3 and word not in stop_words][
+                :top_k
+            ]
+
+            # Search memory service for relevant content
+            context_notes = []
+            for keyword in keywords:
+                try:
+                    search_results = await memory_service.search_memory(
+                        user_id="system", query=keyword, search_type="keyword", limit=2
+                    )
+
+                    if search_results.get("success") and search_results.get("memories"):
+                        for memory in search_results["memories"][:2]:  # Limit to 2 per keyword
+                            content = memory.get("content", "")[:150]
+                            context_notes.append(f"Related to '{keyword}': {content}...")
+
+                except Exception:
+                    # If memory service fails, create placeholder context
+                    context_notes.append(f"Context for '{keyword}': Relevant information about {keyword} processing.")
+
+            # If no keywords found, provide general context
+            if not context_notes:
+                context_notes = [
+                    "General context: Processing user request with LUKHAS AI capabilities.",
+                    "System context: Quantum-inspired and bio-inspired processing available.",
+                    "Memory context: Previous interactions and learned patterns are considered.",
+                ]
+
+            return context_notes[:top_k]
+
         except Exception as e:
             logger.error(f"Error in fallback retrieval: {e!s}")
             # Ultimate fallback - simple token-based context
@@ -729,6 +659,12 @@ async def _run_modulated_completion_impl(
     """
     # local imports avoided if not required; tolerate missing audit store
     # in tests
+    try:
+        from audit.store import audit_log_write as _audit_log_write
+    except Exception:  # pragma: no cover - optional in offline tests
+        _audit_log_write = None  # type: ignore
+    from orchestration.signals.homeostasis import ModulationParams
+    from orchestration.signals.signal_bus import Signal, SignalType
 
     ctx_snips = ctx_snips or []
     endocrine_signals = endocrine_signals or {}
@@ -739,6 +675,11 @@ async def _run_modulated_completion_impl(
     # 1) Already a UnifiedOpenAIClient (has chat_completion)
     # 2) Duck-typed OpenAI SDK-like client with chat.completions.create
     # 3) Fallback to UnifiedOpenAIClient from env
+    try:
+        from .unified_openai_client import UnifiedOpenAIClient as _U
+    except Exception:  # pragma: no cover
+        _U = UnifiedOpenAIClient  # fallback to already imported
+
     if not hasattr(client, "chat_completion"):
         # Try to adapt duck-typed OpenAI SDK client
         has_duck_api = (
@@ -782,6 +723,38 @@ async def _run_modulated_completion_impl(
                     completion = _call_create()
 
                     # Normalize to dict expected by service.generate
+                    try:
+                        comp_choices = completion.choices  # type: ignore[attr-defined]
+                        msg = comp_choices[0].message
+                        content = getattr(msg, "content", None)
+                        tool_calls = (
+                            getattr(msg, "tool_calls", None)
+                            if hasattr(msg, "tool_calls")
+                            else (msg.get("tool_calls") if hasattr(msg, "get") else None)
+                        )
+                        return {
+                            "choices": [
+                                {
+                                    "message": {
+                                        "content": content,
+                                        "tool_calls": tool_calls,
+                                    }
+                                }
+                            ],
+                            "usage": getattr(completion, "usage", {}) or {},
+                        }
+                    except Exception:  # pragma: no cover
+                        return {
+                            "choices": [
+                                {
+                                    "message": {
+                                        "content": str(completion),
+                                        "tool_calls": None,
+                                    }
+                                }
+                            ]
+                        }
+
             client = _DuckOpenAIAdapter(raw_client)
         else:
             # Fallback to our unified client
@@ -795,6 +768,12 @@ async def _run_modulated_completion_impl(
     signals = []
     for name, level in endocrine_signals.items():
         if name in {"alignment_risk", "stress", "ambiguity", "novelty"}:
+            try:
+                signal_type = SignalType(name)
+                signals.append(Signal(name=signal_type, level=level, source="helper"))
+            except ValueError:
+                continue
+
     # Build params with defaults
     # Type-safe coercions from signal dict
     temperature = float(endocrine_signals.get("temperature", 0.7))
@@ -877,6 +856,13 @@ def run_modulated_completion(
     )
 
     # If already in an async loop, let caller await the coroutine
+    try:
+        loop = asyncio.get_event_loop()
+        if loop.is_running():
+            return coro
+    except Exception:
+        pass
+
     # Run now and adapt to a lightweight OpenAI-like completion object
     res = asyncio.run(coro)
 
@@ -929,8 +915,12 @@ def resume_with_tools(
     Returns:
         Messages list with tool results appended
     """
+    import asyncio
+    import json
 
+    from tools.tool_executor import get_tool_executor
 
+    from audit.tool_analytics import get_analytics
 
     analytics = get_analytics()
     executor = get_tool_executor()
@@ -969,6 +959,31 @@ def resume_with_tools(
 
         # Execute tool
         text = ""
+        try:
+            # Run async executor in sync context
+            loop_running = False
+            try:
+                loop = asyncio.get_event_loop()
+                loop_running = loop.is_running()
+            except Exception:
+                loop = asyncio.new_event_loop()
+                loop_running = False
+            # Run async executor in the appropriate context
+            if not loop_running:
+                text = loop.run_until_complete(executor.execute(name, args_json))
+            if loop_running:
+                # If already in async context
+                text = asyncio.run_coroutine_threadsafe(executor.execute(name, args_json), loop).result()
+            if not text:
+                text = ""
+
+            # Track success
+            call_id = analytics.start_tool_call(
+                name,
+                (json.loads(args_json) if isinstance(args_json, str) else args_json),
+            )
+            analytics.complete_tool_call(call_id, status="success")
+
         except Exception as e:
             text = f"[Tool '{name}' failed: {e!s}]"
             # Track failure

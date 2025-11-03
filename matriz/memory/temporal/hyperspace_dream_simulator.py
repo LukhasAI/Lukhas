@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger(__name__)
 """
 
 #TAG:memory
@@ -56,9 +59,6 @@ TODO: Implement predictive token consumption modeling for simulation planning
 IDEA: Add machine learning-based resource optimization recommendations
 """
 
-import importlib as _importlib
-import logging
-
 import asyncio
 import json
 from dataclasses import dataclass, field
@@ -77,6 +77,7 @@ try:
         get_dmb,
     )
 except ImportError:
+    # Create placeholders if the modules don't exist
     class DataType:
         DREAM = "dream"
         EMOTION = "emotion"
@@ -92,6 +93,7 @@ except ImportError:
 try:
     from ethics.self_reflective_debugger import get_srd, instrument_reasoning
 except ImportError:
+    # Create placeholders if the modules don't exist
     def get_srd():
         return None
 
@@ -101,14 +103,13 @@ except ImportError:
 
 # Lukhas Core Integration
 try:
-    _mod = _importlib.import_module(
-        "labs.consciousness.dream.core.dream_feedback_controller"
-    )
-    DreamFeedbackPropagator = getattr(_mod, "DreamFeedbackPropagator")
-except Exception:
+    from labs.consciousness.dream.core.dream_feedback_controller import DreamFeedbackPropagator
+except ImportError:
+    DreamFeedbackPropagator = None
 try:
     from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
 except ImportError:
+    # Create mock CulturalContext enum if import fails
     class CulturalContext(Enum):
         UNIVERSAL = "universal"
     EthicalDecision = None
@@ -116,38 +117,9 @@ except ImportError:
 try:
     from memory.emotional import EmotionalMemory
 except ImportError:
+    EmotionalMemory = None
 
 # JULES05_NOTE: Loop-safe guard added
-        try:
-            # Initialize emotional memory for dream integration
-            self.emotional_memory = EmotionalMemory()
-            self.dream_feedback_propagator = DreamFeedbackPropagator(self.emotional_memory)
-
-            # Get governance and modality systems
-            self.meg = await get_meg()
-            self.srd = get_srd()
-            self.dmb = await get_dmb()
-
-            logger.info("ΛHDS: Lukhas system integrations initialized successfully")
-
-        except Exception as e:
-                "ΛHDS: Some integrations failed, running in standalone mode",
-                error=str(e),
-            )
-            self.integration_mode = False
-
-        import os
-        try:
-            os.makedirs(os.path.dirname(token_warning_path), exist_ok=True)
-            with open(token_warning_path, "a", encoding="utf-8") as f:
-                f.write(json.dumps(warning_data) + "\n")
-
-            logger.info(f"ΛHDS_TOKEN_LOG: Warning logged to {token_warning_path}")
-        except Exception as e:
-
-
-logger = logging.getLogger(__name__)
-
 MAX_RECURSION_DEPTH = 10
 DEFAULT_TOKEN_BUDGET = 50000
 
@@ -516,6 +488,25 @@ class HyperspaceDreamSimulator:
         """Initialize integration with other Lukhas systems"""
         if not self.integration_mode:
             return
+
+        try:
+            # Initialize emotional memory for dream integration
+            self.emotional_memory = EmotionalMemory()
+            self.dream_feedback_propagator = DreamFeedbackPropagator(self.emotional_memory)
+
+            # Get governance and modality systems
+            self.meg = await get_meg()
+            self.srd = get_srd()
+            self.dmb = await get_dmb()
+
+            logger.info("ΛHDS: Lukhas system integrations initialized successfully")
+
+        except Exception as e:
+            logger.warning(
+                "ΛHDS: Some integrations failed, running in standalone mode",
+                error=str(e),
+            )
+            self.integration_mode = False
 
     @instrument_reasoning
     async def create_scenario(
@@ -1359,8 +1350,18 @@ class HyperspaceDreamSimulator:
         """
         Logs token warnings to dedicated monitoring file.
         """
+        import os
 
         token_warning_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/trace/hds_token_warnings.jsonl"
+
+        try:
+            os.makedirs(os.path.dirname(token_warning_path), exist_ok=True)
+            with open(token_warning_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(warning_data) + "\n")
+
+            logger.info(f"ΛHDS_TOKEN_LOG: Warning logged to {token_warning_path}")
+        except Exception as e:
+            logger.error(f"ΛHDS_TOKEN_LOG_FAILED: Could not log token warning. error={e!s}")
 
     def get_token_usage_report(self) -> dict[str, Any]:
         """

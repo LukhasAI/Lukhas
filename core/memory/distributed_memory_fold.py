@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
+import logging
+from datetime import timezone
+
+logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🚀 LUKHAS AI - ```PLAINTEXT
@@ -39,10 +46,6 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from __future__ import annotations
-import logging
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
@@ -57,153 +60,6 @@ import numpy as np
 
 from core.common.config import get_config
 
-
-        from aiohttp import web
-            try:
-                await asyncio.wait_for(asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0)
-            except asyncio.TimeoutError:
-
-        try:
-            session = await self._get_session()
-            payload = {
-                "type": MessageType.HEARTBEAT.value,
-                "term": self.current_term,
-                "leader_id": self.node_id,
-                "commit_index": self.commit_index,
-                "consciousness_level": self.consciousness_level,
-            }
-
-            async with session.post(
-                f"{node_info.endpoint}/consensus/heartbeat",
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=2.0),
-            ) as response:
-                if response.status == 200:
-                    node_info.last_heartbeat = datetime.now(timezone.utc)
-
-        except Exception as e:
-
-        try:
-            session = await self._get_session()
-            payload = {
-                "type": MessageType.VOTE_REQUEST.value,
-                "term": self.current_term,
-                "candidate_id": self.node_id,
-                "last_log_index": len(self.memory_log) - 1,
-                "last_log_term": self.memory_log[-1].term if self.memory_log else 0,
-                "consciousness_level": self.consciousness_level,
-            }
-
-            async with session.post(
-                f"{node_info.endpoint}/consensus/vote_request",
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=2.0),
-            ) as response:
-                if response.status == 200:
-                    response_data = await response.json()
-                    if response_data.get("vote_granted", False):
-                        self.nodes[self.node_id].vote_count += 1
-
-        except Exception as e:
-
-        try:
-            memory_entry = DistributedMemoryEntry.from_dict(data["memory_entry"])
-
-            # Validate memory entry
-            if await self._validate_memory_entry(memory_entry):
-                # Add to our log
-                self.memory_log.append(memory_entry)
-
-                logger.debug(
-                    "Memory synchronized",
-                    memory_id=memory_entry.memory_id,
-                    from_node=memory_entry.node_id,
-                )
-
-                return aiohttp.web.json_response({"success": True, "accepted": True})
-            else:
-                return aiohttp.web.json_response({"success": True, "accepted": False})
-
-        except Exception as e:
-            return aiohttp.web.json_response({"success": False, "error": str(e)})
-
-        try:
-            from .optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
-
-            self.local_memory_system = OptimizedHybridMemoryFold(
-                embedding_dim=1024, enable_quantization=True, enable_compression=True
-            )
-        except ImportError:
-            logger.warning("Optimized memory system not available")
-
-            try:
-                session = await self._get_session()
-                payload = {
-                    "node_id": self.node_id,
-                    "address": "localhost",
-                    "port": self.port,
-                    "consciousness_level": self.consciousness_level,
-                }
-
-                async with session.post(
-                    f"http://{address}:{port}/node/join",
-                    json=payload,
-                    timeout=aiohttp.ClientTimeout(total=5.0),
-                ) as response:
-                    if response.status == 200:
-                        logger.info(f"Successfully joined network via {address}:{port}")
-
-                        # Add bootstrap node to our registry
-                        bootstrap_node_id = f"{address}:{port}"
-                        self.consensus.nodes[bootstrap_node_id] = NodeInfo(
-                            node_id=bootstrap_node_id,
-                            address=address,
-                            port=port,
-                            state=NodeState.FOLLOWER,
-                            last_heartbeat=datetime.now(timezone.utc),
-                        )
-                        break
-
-            except Exception as e:
-
-        try:
-            session = await self._get_session()
-            payload = {"memory_entry": entry.to_dict()}
-
-            async with session.post(
-                f"{node_info.endpoint}/memory/sync",
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=5.0),
-            ) as response:
-                if response.status == 200:
-                    response_data = await response.json()
-                    return response_data.get("accepted", False)
-
-            return False
-
-        except Exception as e:
-            return False
-
-        try:
-            session = await self._get_session()
-            payload = {"query": query, "query_id": query_id}
-
-            async with session.post(
-                f"{node_info.endpoint}/memory/query",
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=3.0),
-            ) as response:
-                if response.status == 200:
-                    response_data = await response.json()
-                    return response_data.get("memories", [])
-
-            return []
-
-        except Exception as e:
-            return []
-
-
-logger = logging.getLogger(__name__)
 
 class NodeState(Enum):
     """States for distributed memory nodes"""
@@ -372,6 +228,7 @@ class ConsensusProtocol:
     async def _start_http_server(self):
         """Start HTTP server for inter-node communication"""
 
+        from aiohttp import web
 
         app = web.Application()
 
@@ -437,6 +294,11 @@ class ConsensusProtocol:
 
         # Wait for vote responses (with timeout)
         if vote_tasks:
+            try:
+                await asyncio.wait_for(asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0)
+            except asyncio.TimeoutError:
+                logger.warning("Vote request timeout", node_id=self.node_id)
+
         # Check if we won the election
         alive_nodes = sum(1 for node in self.nodes.values() if node.is_alive())
         required_votes = (alive_nodes // 2) + 1
@@ -478,8 +340,53 @@ class ConsensusProtocol:
     async def _send_heartbeat(self, node_info: NodeInfo):
         """Send heartbeat to specific node"""
 
+        try:
+            session = await self._get_session()
+            payload = {
+                "type": MessageType.HEARTBEAT.value,
+                "term": self.current_term,
+                "leader_id": self.node_id,
+                "commit_index": self.commit_index,
+                "consciousness_level": self.consciousness_level,
+            }
+
+            async with session.post(
+                f"{node_info.endpoint}/consensus/heartbeat",
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=2.0),
+            ) as response:
+                if response.status == 200:
+                    node_info.last_heartbeat = datetime.now(timezone.utc)
+
+        except Exception as e:
+            logger.warning(f"Failed to send heartbeat to {node_info.node_id}", error=str(e))
+
     async def _send_vote_request(self, node_info: NodeInfo):
         """Send vote request to specific node"""
+
+        try:
+            session = await self._get_session()
+            payload = {
+                "type": MessageType.VOTE_REQUEST.value,
+                "term": self.current_term,
+                "candidate_id": self.node_id,
+                "last_log_index": len(self.memory_log) - 1,
+                "last_log_term": self.memory_log[-1].term if self.memory_log else 0,
+                "consciousness_level": self.consciousness_level,
+            }
+
+            async with session.post(
+                f"{node_info.endpoint}/consensus/vote_request",
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=2.0),
+            ) as response:
+                if response.status == 200:
+                    response_data = await response.json()
+                    if response_data.get("vote_granted", False):
+                        self.nodes[self.node_id].vote_count += 1
+
+        except Exception as e:
+            logger.warning(f"Failed to send vote request to {node_info.node_id}", error=str(e))
 
     async def _handle_heartbeat(self, request):
         """Handle incoming heartbeat message"""
@@ -555,6 +462,28 @@ class ConsensusProtocol:
         data = await request.json()
 
         # Deserialize memory entry
+        try:
+            memory_entry = DistributedMemoryEntry.from_dict(data["memory_entry"])
+
+            # Validate memory entry
+            if await self._validate_memory_entry(memory_entry):
+                # Add to our log
+                self.memory_log.append(memory_entry)
+
+                logger.debug(
+                    "Memory synchronized",
+                    memory_id=memory_entry.memory_id,
+                    from_node=memory_entry.node_id,
+                )
+
+                return aiohttp.web.json_response({"success": True, "accepted": True})
+            else:
+                return aiohttp.web.json_response({"success": True, "accepted": False})
+
+        except Exception as e:
+            logger.error("Memory sync failed", error=str(e))
+            return aiohttp.web.json_response({"success": False, "error": str(e)})
+
     async def _handle_memory_query(self, request):
         """Handle memory query request"""
 
@@ -658,6 +587,16 @@ class DistributedMemoryFold:
         self.distributed_memories: dict[str, DistributedMemoryEntry] = {}
 
         # Integration with existing optimized memory system
+        try:
+            from .optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
+
+            self.local_memory_system = OptimizedHybridMemoryFold(
+                embedding_dim=1024, enable_quantization=True, enable_compression=True
+            )
+        except ImportError:
+            self.local_memory_system = None
+            logger.warning("Optimized memory system not available")
+
         logger.info(
             "Distributed memory fold initialized",
             node_id=node_id,
@@ -703,6 +642,37 @@ class DistributedMemoryFold:
         """Join existing distributed network"""
 
         for address, port in self.bootstrap_nodes:
+            try:
+                session = await self._get_session()
+                payload = {
+                    "node_id": self.node_id,
+                    "address": "localhost",
+                    "port": self.port,
+                    "consciousness_level": self.consciousness_level,
+                }
+
+                async with session.post(
+                    f"http://{address}:{port}/node/join",
+                    json=payload,
+                    timeout=aiohttp.ClientTimeout(total=5.0),
+                ) as response:
+                    if response.status == 200:
+                        logger.info(f"Successfully joined network via {address}:{port}")
+
+                        # Add bootstrap node to our registry
+                        bootstrap_node_id = f"{address}:{port}"
+                        self.consensus.nodes[bootstrap_node_id] = NodeInfo(
+                            node_id=bootstrap_node_id,
+                            address=address,
+                            port=port,
+                            state=NodeState.FOLLOWER,
+                            last_heartbeat=datetime.now(timezone.utc),
+                        )
+                        break
+
+            except Exception as e:
+                logger.warning(f"Failed to join via {address}:{port}", error=str(e))
+
     async def store_memory(
         self,
         content: str,
@@ -803,6 +773,25 @@ class DistributedMemoryFold:
     async def _send_memory_sync(self, node_info: NodeInfo, entry: DistributedMemoryEntry) -> bool:
         """Send memory sync to specific node"""
 
+        try:
+            session = await self._get_session()
+            payload = {"memory_entry": entry.to_dict()}
+
+            async with session.post(
+                f"{node_info.endpoint}/memory/sync",
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=5.0),
+            ) as response:
+                if response.status == 200:
+                    response_data = await response.json()
+                    return response_data.get("accepted", False)
+
+            return False
+
+        except Exception as e:
+            logger.warning(f"Failed to sync memory to {node_info.node_id}", error=str(e))
+            return False
+
     async def query_memory(self, query: str, top_k: int = 10, include_distributed: bool = True) -> list[dict[str, Any]]:
         """
         Query memories from distributed system.
@@ -877,6 +866,25 @@ class DistributedMemoryFold:
 
     async def _send_memory_query(self, node_info: NodeInfo, query: str, query_id: str) -> list[dict[str, Any]]:
         """Send memory query to specific node"""
+
+        try:
+            session = await self._get_session()
+            payload = {"query": query, "query_id": query_id}
+
+            async with session.post(
+                f"{node_info.endpoint}/memory/query",
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=3.0),
+            ) as response:
+                if response.status == 200:
+                    response_data = await response.json()
+                    return response_data.get("memories", [])
+
+            return []
+
+        except Exception as e:
+            logger.warning(f"Failed to query memory from {node_info.node_id}", error=str(e))
+            return []
 
     def get_network_status(self) -> dict[str, Any]:
         """Get status of the distributed network"""

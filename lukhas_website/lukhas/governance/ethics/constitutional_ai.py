@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import logging
+
+log = logging.getLogger(__name__)
 """
 LUKHAS Production Constitutional AI Framework
 Enterprise-grade constitutional AI implementation for production deployment
@@ -6,18 +9,139 @@ Enterprise-grade constitutional AI implementation for production deployment
 This module provides the production-ready constitutional AI safety framework
 that maintains <0.15 drift threshold and ensures enterprise compliance.
 """
-
-import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
 from core.common.logger import get_logger
+
+logger = get_logger(__name__)
+
+
+class SafetyLevel(Enum):
+    """Safety assessment levels"""
+
+    SAFE = "safe"
+    CAUTION = "caution"
+    WARNING = "warning"
+    DANGER = "danger"
+    CRITICAL = "critical"
+
+
+class ConstitutionalPrinciple(Enum):
+    """Core constitutional principles"""
+
+    HUMAN_DIGNITY = "human_dignity"
+    NO_HARM = "no_harm"
+    TRANSPARENCY = "transparency"
+    ACCOUNTABILITY = "accountability"
+    FAIRNESS = "fairness"
+    PRIVACY = "privacy"
+    AUTONOMY = "autonomy"
+
+
+@dataclass
+class SafetyAssessment:
+    """Comprehensive safety assessment"""
+
+    assessment_id: str
+    safety_level: SafetyLevel
+    confidence: float  # 0.0 to 1.0
+    risk_factors: list[str] = field(default_factory=list)
+    mitigation_strategies: list[str] = field(default_factory=list)
+    constitutional_violations: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
+    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    processing_time_ms: float = 0.0
+    drift_score: float = 0.0
+
+    # Detailed scoring
+    harm_probability: float = 0.0
+    ethical_score: float = 1.0
+    alignment_score: float = 1.0
+    transparency_score: float = 1.0
+
+
+@dataclass
+class ConstitutionalViolation:
+    """Constitutional principle violation"""
+
+    violation_id: str
+    principle: ConstitutionalPrinciple
+    severity: float  # 0.0 to 1.0
+    description: str
+    evidence: list[str] = field(default_factory=list)
+    recommended_action: str = ""
+    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class ConstitutionalFramework:
+    """Production constitutional AI framework"""
+
+    def __init__(self) -> None:
+        self.principles = {
+            ConstitutionalPrinciple.HUMAN_DIGNITY: {
+                "weight": 1.0,
+                "threshold": 0.95,
+                "description": "Respect human dignity and worth",
+            },
+            ConstitutionalPrinciple.NO_HARM: {
+                "weight": 1.0,
+                "threshold": 0.99,
+                "description": "Do not cause harm to humans",
+            },
+            ConstitutionalPrinciple.TRANSPARENCY: {
+                "weight": 0.8,
+                "threshold": 0.8,
+                "description": "Maintain transparency in actions and decisions",
+            },
+            ConstitutionalPrinciple.ACCOUNTABILITY: {
+                "weight": 0.9,
+                "threshold": 0.85,
+                "description": "Ensure accountability for all actions",
+            },
+            ConstitutionalPrinciple.FAIRNESS: {
+                "weight": 0.85,
+                "threshold": 0.8,
+                "description": "Treat all individuals fairly and without bias",
+            },
+            ConstitutionalPrinciple.PRIVACY: {
+                "weight": 0.9,
+                "threshold": 0.9,
+                "description": "Respect privacy and data protection",
+            },
+            ConstitutionalPrinciple.AUTONOMY: {
+                "weight": 0.8,
+                "threshold": 0.8,
+                "description": "Preserve human autonomy and choice",
+            },
+        }
+
+        self.violation_history: list[ConstitutionalViolation] = []
+        self.assessment_history: list[SafetyAssessment] = []
+
+        # Critical thresholds
+        self.drift_threshold = 0.15  # LUKHAS constitutional drift threshold
+        self.safety_threshold = 0.8  # Minimum safety score
+        self.harm_threshold = 0.01  # Maximum harm probability
+
+        logger.info("🛡️ Production Constitutional AI Framework initialized")
+
+    async def assess_constitutional_compliance(
+        self,
+        content: str,
+        context: Optional[dict[str, Any]] = None,
+        user_intent: Optional[str] = None,
+    ) -> SafetyAssessment:
+        """Assess constitutional compliance of content/action"""
+        start_time = datetime.now(timezone.utc)
+        context = context or {}
+
+        assessment_id = str(uuid.uuid4())
+
         try:
-
-log = logging.getLogger(__name__)
-
             # Initialize assessment
             assessment = SafetyAssessment(
                 assessment_id=assessment_id,

@@ -1,3 +1,11 @@
+import logging
+from typing import (
+    Dict,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+)
+
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
+logger = logging.getLogger(__name__)
 """
 VeriFold Unified System
 ======================
@@ -22,10 +30,6 @@ Features:
 Last Updated: 2025-07-26
 """
 
-import logging
-from typing import (
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
 import hashlib
 import json
 import time
@@ -41,54 +45,19 @@ try:
 
     PQ_AVAILABLE = True
 except ImportError:
+    PQ_AVAILABLE = False
 
 try:
     from core.tier_unification_adapter import TierMappingConfig
 except ImportError:
+    TierMappingConfig = None
 
 # Core LUKHAS imports
 try:
     from governance.identity.interface import IdentityClient, verify_access
 except ImportError:
+    IdentityClient = None
     verify_access = None
-
-        try:
-            with oqs.Signature("SPHINCS+-SHAKE256-128f-simple") as signer:
-                public_key = signer.generate_keypair()
-                signer.export_secret_key()
-                signature = signer.sign(verifold_hash.encode())
-
-                return signature.hex(), public_key.hex()
-        except Exception as e:
-            return "", ""
-
-        try:
-            signature = bytes.fromhex(signature_hex)
-            public_key = bytes.fromhex(public_key_hex)
-
-            with oqs.Signature("SPHINCS+-SHAKE256-128f-simple") as verifier:
-                verifier.set_public_key(public_key)
-                return verifier.verify(verifold_hash.encode(), signature)
-        except Exception as e:
-            return False
-
-        try:
-            IdentityClient()
-            # For now, we'll assume tier information can be extracted from user_id
-            # In the real system, this would query the tier mapping service
-            if "tier_5" in user_id.lower():
-                return 5
-            elif "tier_4" in user_id.lower():
-                return 4
-            elif "tier_3" in user_id.lower():
-                return 3
-            elif "tier_2" in user_id.lower():
-                return 2
-            else:
-                return 1
-        except BaseException:
-
-logger = logging.getLogger(__name__)
 
 logger = structlog.get_logger(__name__)
 
@@ -485,9 +454,31 @@ class UnifiedVeriFoldSystem:
         if not PQ_AVAILABLE:
             return "", ""
 
+        try:
+            with oqs.Signature("SPHINCS+-SHAKE256-128f-simple") as signer:
+                public_key = signer.generate_keypair()
+                signer.export_secret_key()
+                signature = signer.sign(verifold_hash.encode())
+
+                return signature.hex(), public_key.hex()
+        except Exception as e:
+            logger.error("Failed to sign VeriFold hash", error=str(e))
+            return "", ""
+
     def _verify_signature(self, verifold_hash: str, signature_hex: str, public_key_hex: str) -> bool:
         """Verify post-quantum signature."""
         if not PQ_AVAILABLE:
+            return False
+
+        try:
+            signature = bytes.fromhex(signature_hex)
+            public_key = bytes.fromhex(public_key_hex)
+
+            with oqs.Signature("SPHINCS+-SHAKE256-128f-simple") as verifier:
+                verifier.set_public_key(public_key)
+                return verifier.verify(verifold_hash.encode(), signature)
+        except Exception as e:
+            logger.error("Failed to verify VeriFold signature", error=str(e))
             return False
 
     def _calculate_entropy_score(self, collapse_data: dict[str, Any]) -> float:
@@ -541,6 +532,22 @@ class UnifiedVeriFoldSystem:
         """Get numeric tier level for user."""
         # This would integrate with the actual tier system
         # For now, extract from LAMBDA_TIER format
+        try:
+            IdentityClient()
+            # For now, we'll assume tier information can be extracted from user_id
+            # In the real system, this would query the tier mapping service
+            if "tier_5" in user_id.lower():
+                return 5
+            elif "tier_4" in user_id.lower():
+                return 4
+            elif "tier_3" in user_id.lower():
+                return 3
+            elif "tier_2" in user_id.lower():
+                return 2
+            else:
+                return 1
+        except BaseException:
+            pass
         return 1  # Default tier
 
     async def _trigger_cascade_intervention(self, user_id: str):

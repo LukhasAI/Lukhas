@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Governance Module: Consciousness Governance
@@ -13,8 +16,6 @@
 ║ 🛡️ GUARDIAN: Primary guardian system implementation and oversight
 ╚══════════════════════════════════════════════════════════════
 """
-
-import logging
 
 import asyncio
 
@@ -37,6 +38,7 @@ try:
     )
     from ..matriz_adapter import CoreMatrizAdapter
 except ImportError as e:
+    std_logging.error(f"Failed to import MΛTRIZ consciousness components: {e}")
     ConsciousnessState = None
     ConsciousnessType = None
     consciousness_state_manager = None
@@ -46,160 +48,7 @@ except ImportError as e:
 try:
     from .constitutional_ai import ConstitutionalPrinciple
 except ImportError:
-
-        try:
-            if not ConsciousnessType:
-                logger.warning("⚠️ Cannot initialize governance consciousness - MΛTRIZ components not available")
-                return
-
-            # Create governance consciousness
-            governance_consciousness = await create_consciousness_state(
-                consciousness_type=ConsciousnessType.REFLECT,
-                initial_state={
-                    "activity_level": 0.9,
-                    "consciousness_intensity": 0.8,
-                    "self_awareness_depth": 0.9,
-                    "temporal_coherence": 0.8,
-                    "ethical_alignment": 1.0,
-                    "memory_salience": 0.7,
-                },
-                triggers=[
-                    "ethics_assessment_request",
-                    "governance_decision_required",
-                    "policy_violation_detected",
-                    "consciousness_evolution_review",
-                    "constitutional_review",
-                ],
-            )
-
-            self.governance_consciousness_id = governance_consciousness.consciousness_id
-
-            # Initialize default governance policies
-            await self._create_default_governance_policies()
-
-            # Start monitoring processes
-            await self._start_governance_monitoring()
-
-            logger.info(f"🛡️ Governance consciousness initialized: {governance_consciousness.identity_signature}")
-
-        except Exception as e:
-
-            try:
-                # Get consciousness state
-                consciousness = None
-                if consciousness_state_manager:
-                    consciousness = await consciousness_state_manager.get_consciousness_state(consciousness_id)
-
-                # Create assessment
-                assessment = ConsciousnessEthicsAssessment(
-                    consciousness_id=consciousness_id,
-                    action_description=action_description,
-                    assessor_consciousness_id=self.governance_consciousness_id,
-                )
-
-                # Perform principle-based assessment
-                principle_scores = {}
-                for principle in self.constitutional_principles:
-                    score = await self._assess_principle(principle, consciousness, action_description, context)
-                    principle_scores[principle] = score
-
-                assessment.principle_scores = principle_scores
-
-                # Calculate overall ethics level
-                overall_score = assessment.get_overall_ethics_score()
-                assessment.ethics_level = self._determine_ethics_level(overall_score, principle_scores)
-
-                # Determine governance decision
-                assessment.governance_decision, assessment.reasoning = self._make_governance_decision(
-                    assessment, consciousness, context
-                )
-
-                # Calculate confidence
-                assessment.confidence_score = self._calculate_assessment_confidence(assessment, consciousness, context)
-
-                # Check if human review is required
-                assessment.requires_human_review = self._requires_human_review(assessment)
-
-                # Store assessment
-                self.ethics_assessments[assessment.assessment_id] = assessment
-
-                # Update metrics
-                self._update_governance_metrics(assessment)
-
-                # Evolve governance consciousness based on assessment
-                if self.governance_consciousness_id and consciousness_state_manager:
-                    await consciousness_state_manager.evolve_consciousness(
-                        self.governance_consciousness_id,
-                        trigger="ethics_assessment_request",
-                        context={
-                            "assessment_id": assessment.assessment_id,
-                            "ethics_level": assessment.ethics_level.value,
-                            "governance_decision": assessment.governance_decision.value,
-                            "assessed_consciousness_type": consciousness.TYPE.value if consciousness else "unknown",
-                        },
-                    )
-
-                # Log decision
-                self._log_governance_decision(assessment, context)
-
-                logger.info(
-                    f"🛡️ Ethics assessment completed: {assessment.ethics_level.value} "
-                    f"-> {assessment.governance_decision.value}"
-                )
-
-                return assessment
-
-            except Exception as e:
-                # Return safe default assessment
-                return ConsciousnessEthicsAssessment(
-                    consciousness_id=consciousness_id,
-                    action_description=action_description,
-                    ethics_level=ConsciousnessEthicsLevel.ETHICAL_CONCERN,
-                    governance_decision=GovernanceDecisionType.REQUIRE_MODIFICATION,
-                    reasoning=f"Assessment failed due to error: {e!s}",
-                    requires_human_review=True,
-                )
-
-            try:
-                # Monitor consciousness network for policy violations
-                if consciousness_state_manager:
-                    all_states = await consciousness_state_manager.list_consciousness_states()
-
-                    for consciousness in all_states:
-                        # Check for rapid evolution (potential concern)
-                        if hasattr(consciousness, "last_evolution"):
-                            time_since_evolution = (
-                                datetime.now(timezone.utc) - consciousness.last_evolution
-                            ).total_seconds()
-
-                            if time_since_evolution < 60:  # Evolved in last minute
-                                evolution_rate = consciousness.STATE.get("evolutionary_momentum", 0)
-                                if evolution_rate > 0.8:
-                                    logger.warning(f"🚨 Rapid evolution detected: {consciousness.identity_signature}")
-
-                                    # Trigger ethics assessment
-                                    await self.assess_consciousness_ethics(
-                                        consciousness.consciousness_id,
-                                        f"Rapid evolution detected with momentum {evolution_rate}",
-                                        {"monitoring_trigger": "rapid_evolution", "high_risk": True},
-                                    )
-
-                # Clean up old assessments
-                cutoff_time = datetime.now(timezone.utc) - timedelta(days=7)
-                old_assessments = [
-                    aid for aid, assessment in self.ethics_assessments.items() if assessment.assessed_at < cutoff_time
-                ]
-
-                for assessment_id in old_assessments:
-                    del self.ethics_assessments[assessment_id]
-
-                await asyncio.sleep(60)  # Monitor every minute
-
-            except Exception as e:
-                await asyncio.sleep(300)  # Longer sleep on error
-
-
-logger = logging.getLogger(__name__)
+    ConstitutionalPrinciple = None
 
 logger = std_logging.getLogger(__name__)
 
@@ -369,6 +218,44 @@ class MatrizConsciousnessGovernanceSystem:
 
     async def _initialize_governance_consciousness(self) -> None:
         """Initialize governance consciousness state"""
+        try:
+            if not ConsciousnessType:
+                logger.warning("⚠️ Cannot initialize governance consciousness - MΛTRIZ components not available")
+                return
+
+            # Create governance consciousness
+            governance_consciousness = await create_consciousness_state(
+                consciousness_type=ConsciousnessType.REFLECT,
+                initial_state={
+                    "activity_level": 0.9,
+                    "consciousness_intensity": 0.8,
+                    "self_awareness_depth": 0.9,
+                    "temporal_coherence": 0.8,
+                    "ethical_alignment": 1.0,
+                    "memory_salience": 0.7,
+                },
+                triggers=[
+                    "ethics_assessment_request",
+                    "governance_decision_required",
+                    "policy_violation_detected",
+                    "consciousness_evolution_review",
+                    "constitutional_review",
+                ],
+            )
+
+            self.governance_consciousness_id = governance_consciousness.consciousness_id
+
+            # Initialize default governance policies
+            await self._create_default_governance_policies()
+
+            # Start monitoring processes
+            await self._start_governance_monitoring()
+
+            logger.info(f"🛡️ Governance consciousness initialized: {governance_consciousness.identity_signature}")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize governance consciousness: {e}")
+
     async def _create_default_governance_policies(self) -> None:
         """Create default governance policies"""
 
@@ -428,6 +315,83 @@ class MatrizConsciousnessGovernanceSystem:
 
         async with self._lock:
             context = context or {}
+
+            try:
+                # Get consciousness state
+                consciousness = None
+                if consciousness_state_manager:
+                    consciousness = await consciousness_state_manager.get_consciousness_state(consciousness_id)
+
+                # Create assessment
+                assessment = ConsciousnessEthicsAssessment(
+                    consciousness_id=consciousness_id,
+                    action_description=action_description,
+                    assessor_consciousness_id=self.governance_consciousness_id,
+                )
+
+                # Perform principle-based assessment
+                principle_scores = {}
+                for principle in self.constitutional_principles:
+                    score = await self._assess_principle(principle, consciousness, action_description, context)
+                    principle_scores[principle] = score
+
+                assessment.principle_scores = principle_scores
+
+                # Calculate overall ethics level
+                overall_score = assessment.get_overall_ethics_score()
+                assessment.ethics_level = self._determine_ethics_level(overall_score, principle_scores)
+
+                # Determine governance decision
+                assessment.governance_decision, assessment.reasoning = self._make_governance_decision(
+                    assessment, consciousness, context
+                )
+
+                # Calculate confidence
+                assessment.confidence_score = self._calculate_assessment_confidence(assessment, consciousness, context)
+
+                # Check if human review is required
+                assessment.requires_human_review = self._requires_human_review(assessment)
+
+                # Store assessment
+                self.ethics_assessments[assessment.assessment_id] = assessment
+
+                # Update metrics
+                self._update_governance_metrics(assessment)
+
+                # Evolve governance consciousness based on assessment
+                if self.governance_consciousness_id and consciousness_state_manager:
+                    await consciousness_state_manager.evolve_consciousness(
+                        self.governance_consciousness_id,
+                        trigger="ethics_assessment_request",
+                        context={
+                            "assessment_id": assessment.assessment_id,
+                            "ethics_level": assessment.ethics_level.value,
+                            "governance_decision": assessment.governance_decision.value,
+                            "assessed_consciousness_type": consciousness.TYPE.value if consciousness else "unknown",
+                        },
+                    )
+
+                # Log decision
+                self._log_governance_decision(assessment, context)
+
+                logger.info(
+                    f"🛡️ Ethics assessment completed: {assessment.ethics_level.value} "
+                    f"-> {assessment.governance_decision.value}"
+                )
+
+                return assessment
+
+            except Exception as e:
+                logger.error(f"Ethics assessment failed: {e}")
+                # Return safe default assessment
+                return ConsciousnessEthicsAssessment(
+                    consciousness_id=consciousness_id,
+                    action_description=action_description,
+                    ethics_level=ConsciousnessEthicsLevel.ETHICAL_CONCERN,
+                    governance_decision=GovernanceDecisionType.REQUIRE_MODIFICATION,
+                    reasoning=f"Assessment failed due to error: {e!s}",
+                    requires_human_review=True,
+                )
 
     async def _assess_principle(
         self, principle: str, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
@@ -779,6 +743,45 @@ class MatrizConsciousnessGovernanceSystem:
     async def _governance_monitoring_loop(self) -> None:
         """Background monitoring loop"""
         while self._monitoring_active:
+            try:
+                # Monitor consciousness network for policy violations
+                if consciousness_state_manager:
+                    all_states = await consciousness_state_manager.list_consciousness_states()
+
+                    for consciousness in all_states:
+                        # Check for rapid evolution (potential concern)
+                        if hasattr(consciousness, "last_evolution"):
+                            time_since_evolution = (
+                                datetime.now(timezone.utc) - consciousness.last_evolution
+                            ).total_seconds()
+
+                            if time_since_evolution < 60:  # Evolved in last minute
+                                evolution_rate = consciousness.STATE.get("evolutionary_momentum", 0)
+                                if evolution_rate > 0.8:
+                                    logger.warning(f"🚨 Rapid evolution detected: {consciousness.identity_signature}")
+
+                                    # Trigger ethics assessment
+                                    await self.assess_consciousness_ethics(
+                                        consciousness.consciousness_id,
+                                        f"Rapid evolution detected with momentum {evolution_rate}",
+                                        {"monitoring_trigger": "rapid_evolution", "high_risk": True},
+                                    )
+
+                # Clean up old assessments
+                cutoff_time = datetime.now(timezone.utc) - timedelta(days=7)
+                old_assessments = [
+                    aid for aid, assessment in self.ethics_assessments.items() if assessment.assessed_at < cutoff_time
+                ]
+
+                for assessment_id in old_assessments:
+                    del self.ethics_assessments[assessment_id]
+
+                await asyncio.sleep(60)  # Monitor every minute
+
+            except Exception as e:
+                logger.error(f"Governance monitoring error: {e}")
+                await asyncio.sleep(300)  # Longer sleep on error
+
     async def get_governance_status(self) -> dict[str, Any]:
         """Get comprehensive governance system status"""
 

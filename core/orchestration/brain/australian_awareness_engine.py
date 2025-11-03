@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Australian Awareness Engine - Privacy Act 1988 Compliant Framework
 ===============================================================
@@ -32,8 +34,6 @@ Author: Lukhas AI Research Team - Australian Compliance Division
 Version: 1.0.0 - Privacy Act Edition
 Date: June 2025
 """
-
-from __future__ import annotations
 # NOTE: moved to core/orchestration/brain via Hidden Gems Integration (Batch 5)
 import json
 import logging
@@ -55,12 +55,8 @@ try:
         LegalBasis,
         global_timestamp,
     )
-    # Import consent/processing record types from labs
-    from labs.core.orchestration.brain.GlobalInstitutionalFramework import (
-        GlobalConsentData,
-        InstitutionalProcessingRecord,
-    )
 except Exception:  # pragma: no cover - fallback for import-time safety
+    from datetime import datetime as _dt, timezone as _tz
     from enum import Enum as _Enum
 
     from pydantic import BaseModel as _BaseModel
@@ -91,31 +87,6 @@ except Exception:  # pragma: no cover - fallback for import-time safety
         data_category: str = DataCategory.PERSONAL_DATA.value
 
 # ——— Australian-Specific Regulatory Framework ——————————————————————— #
-
-
-        try:
-            result = self.modules["privacy"].process(inputs)
-
-            australian_audit_log(
-                "processing_complete",
-                {
-                    "app_compliance": result.overall_app_compliance,
-                    "privacy_act_compliant": result.privacy_act_compliant,
-                    "breach_risk": result.breach_risk_level.value,
-                    "cross_border_compliant": result.app8_compliant,
-                },
-                inputs.state_territory,
-            )
-
-            return result
-
-        except Exception as e:
-                "processing_error",
-                {"error": str(e), "error_type": type(e).__name__},
-                inputs.state_territory,
-            )
-            raise
-
 
 
 class AustralianPrivacyPrinciple(Enum):
@@ -604,6 +575,31 @@ class AustralianAwarenessEngine:
             },
             inputs.state_territory,
         )
+
+        try:
+            result = self.modules["privacy"].process(inputs)
+
+            australian_audit_log(
+                "processing_complete",
+                {
+                    "app_compliance": result.overall_app_compliance,
+                    "privacy_act_compliant": result.privacy_act_compliant,
+                    "breach_risk": result.breach_risk_level.value,
+                    "cross_border_compliant": result.app8_compliant,
+                },
+                inputs.state_territory,
+            )
+
+            return result
+
+        except Exception as e:
+            australian_audit_log(
+                "processing_error",
+                {"error": str(e), "error_type": type(e).__name__},
+                inputs.state_territory,
+            )
+            raise
+
 
 # ——— Compliance Certification ——————————————————————————————————— #
 

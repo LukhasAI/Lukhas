@@ -1,3 +1,8 @@
+import logging
+
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
+logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Namespace Isolation System: Consciousness Domain Separation
@@ -13,9 +18,6 @@
 ║ 🛡️ GUARDIAN: Security boundary enforcement and audit compliance
 ╚══════════════════════════════════════════════════════════════
 """
-
-import logging
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 import asyncio
 import hashlib
@@ -39,410 +41,9 @@ try:
         consciousness_identity_signal_emitter,
     )
 except ImportError as e:
+    std_logging.error(f"Failed to import consciousness signal components: {e}")
     consciousness_identity_signal_emitter = None
     NamespaceIsolationData = None
-
-        try:
-            logger.info("🧬 Initializing consciousness namespace isolation system...")
-
-            # Start background maintenance
-            self._maintenance_active = True
-            asyncio.create_task(self._namespace_maintenance_loop())
-
-            # Create default system namespaces
-            await self._create_default_system_namespaces()
-
-            logger.info("✅ Consciousness namespace isolation system initialized")
-            return True
-
-        except Exception as e:
-            return False
-
-            try:
-                # Get domain policy
-                domain_policy = self.domain_policies.get(domain)
-                if not domain_policy:
-                    logger.error(f"❌ No policy defined for domain: {domain}")
-                    return None
-
-                # Apply policy overrides
-                if policy_overrides:
-                    domain_policy = self._apply_policy_overrides(domain_policy, policy_overrides)
-
-                # Update isolation level
-                domain_policy.isolation_level = isolation_level
-
-                # Create namespace instance
-                namespace = NamespaceInstance(
-                    domain=domain,
-                    policy=domain_policy,
-                    security_level=self._calculate_security_level(isolation_level),
-                    consciousness_signature=self._generate_consciousness_signature(domain),
-                )
-
-                # Store namespace
-                self.namespace_instances[namespace.namespace_id] = namespace
-                self.namespace_metrics["total_namespaces"] += 1
-
-                # Emit namespace creation signal
-                if consciousness_identity_signal_emitter and NamespaceIsolationData:
-                    namespace_data = NamespaceIsolationData(
-                        namespace_id=namespace.namespace_id,
-                        domain_type=domain.value,
-                        isolation_level=self._isolation_level_to_float(isolation_level),
-                        consciousness_domain=domain.value,
-                        domain_coherence=namespace.domain_coherence,
-                    )
-
-                    await consciousness_identity_signal_emitter.emit_namespace_isolation_signal(
-                        namespace.namespace_id, namespace_data, "namespace_creation"
-                    )
-
-                logger.info(
-                    f"🏗️ Created consciousness namespace: {namespace.namespace_id} (Domain: {domain.value}, Isolation: {isolation_level.value})"
-                )
-                return namespace.namespace_id
-
-            except Exception as e:
-                return None
-
-            try:
-                namespace = self.namespace_instances.get(namespace_id)
-                if not namespace:
-                    logger.error(f"❌ Namespace not found: {namespace_id}")
-                    return False
-
-                # Add identity to namespace
-                namespace.active_identities.add(identity_id)
-                self.identity_namespace_mapping[identity_id] = namespace_id
-
-                # Create session for identity
-                session_data = {
-                    "identity_id": identity_id,
-                    "assigned_at": datetime.now(timezone.utc).isoformat(),
-                    "access_permissions": (
-                        [perm.value for perm in access_permissions] if access_permissions else ["read_only"]
-                    ),
-                    "session_active": True,
-                    "access_count": 0,
-                    "last_activity": datetime.now(timezone.utc).isoformat(),
-                }
-
-                namespace.active_sessions[identity_id] = session_data
-                namespace.access_count += 1
-                namespace.last_activity = datetime.now(timezone.utc)
-
-                # Log audit event
-                self._log_namespace_audit_event(
-                    namespace,
-                    "identity_assignment",
-                    {"identity_id": identity_id, "access_permissions": session_data["access_permissions"]},
-                )
-
-                # Emit namespace assignment signal
-                if consciousness_identity_signal_emitter and NamespaceIsolationData:
-                    namespace_data = NamespaceIsolationData(
-                        namespace_id=namespace_id,
-                        domain_type=namespace.domain.value,
-                        isolation_level=self._isolation_level_to_float(namespace.policy.isolation_level),
-                        consciousness_domain=namespace.domain.value,
-                        domain_coherence=namespace.domain_coherence,
-                    )
-
-                    await consciousness_identity_signal_emitter.emit_namespace_isolation_signal(
-                        identity_id, namespace_data, "identity_assignment"
-                    )
-
-                logger.info(f"🆔 Assigned identity {identity_id} to namespace {namespace_id}")
-                return True
-
-            except Exception as e:
-                return False
-
-            try:
-                # Validate bridge creation permissions
-                if not await self._validate_bridge_permissions(source_domain, target_domain):
-                    logger.error(f"❌ Bridge creation not permitted: {source_domain.value} -> {target_domain.value}")
-                    return None
-
-                # Create bridge configuration
-                bridge = CrossDomainBridge(source_domain=source_domain, target_domain=target_domain)
-
-                # Apply configuration overrides
-                if bridge_config:
-                    self._apply_bridge_config(bridge, bridge_config)
-
-                # Store bridge
-                self.cross_domain_bridges[bridge.bridge_id] = bridge
-                self.namespace_metrics["cross_domain_bridges"] += 1
-
-                # Log creation
-                logger.info(
-                    f"🌉 Created cross-domain bridge: {bridge.bridge_id} ({source_domain.value} <-> {target_domain.value})"
-                )
-
-                return bridge.bridge_id
-
-            except Exception as e:
-                return None
-
-            try:
-                # Get namespaces
-                source_namespace = self.namespace_instances.get(source_namespace_id)
-                target_namespace = self.namespace_instances.get(target_namespace_id)
-
-                if not source_namespace or not target_namespace:
-                    return {"allowed": False, "error": "Namespace not found"}
-
-                # Check identity assignment
-                if identity_id not in source_namespace.active_identities:
-                    return {"allowed": False, "error": "Identity not assigned to source namespace"}
-
-                # Get identity session
-                session = source_namespace.active_sessions.get(identity_id)
-                if not session:
-                    return {"allowed": False, "error": "No active session for identity"}
-
-                # Check domain interaction policies
-                source_policy = source_namespace.policy
-                target_domain = target_namespace.domain
-
-                if target_domain not in source_policy.allowed_interactions:
-                    return {
-                        "allowed": False,
-                        "error": f"Interaction not allowed: {source_namespace.domain.value} -> {target_domain.value}",
-                    }
-
-                # Check operation permissions
-                identity_permissions = [AccessPermissionType(perm) for perm in session["access_permissions"]]
-                required_permission = self._get_required_permission(operation)
-
-                if required_permission not in identity_permissions:
-                    return {"allowed": False, "error": f"Insufficient permissions for operation: {operation}"}
-
-                # Check consciousness coherence compatibility
-                consciousness_compatible = await self._check_consciousness_compatibility(
-                    source_namespace, target_namespace, identity_id
-                )
-
-                if not consciousness_compatible["compatible"]:
-                    return {
-                        "allowed": False,
-                        "error": f"Consciousness incompatibility: {consciousness_compatible['reason']}",
-                    }
-
-                # Check security constraints
-                security_validation = await self._validate_security_constraints(
-                    source_namespace, target_namespace, identity_id, operation
-                )
-
-                if not security_validation["valid"]:
-                    return {"allowed": False, "error": f"Security validation failed: {security_validation['reason']}"}
-
-                # Log successful access validation
-                self._log_namespace_audit_event(
-                    source_namespace,
-                    "cross_domain_access_validated",
-                    {"target_namespace": target_namespace_id, "operation": operation, "identity_id": identity_id},
-                )
-
-                return {
-                    "allowed": True,
-                    "session_token": self._generate_cross_domain_session_token(
-                        identity_id, source_namespace_id, target_namespace_id
-                    ),
-                    "consciousness_bridge_required": consciousness_compatible.get("bridge_required", False),
-                    "session_duration_limit": source_policy.access_time_limits.get(operation, 3600),
-                    "audit_level": "full" if target_namespace.policy.audit_requirements else "basic",
-                }
-
-            except Exception as e:
-                return {"allowed": False, "error": str(e)}
-
-        try:
-            # Calculate current coherence metrics
-            coherence_metrics = {
-                "domain_coherence": namespace.domain_coherence,
-                "active_identities_count": len(namespace.active_identities),
-                "active_sessions_count": len(namespace.active_sessions),
-                "consciousness_signature_valid": bool(namespace.consciousness_signature),
-                "collective_intelligence_score": namespace.collective_intelligence_score,
-                "security_level": namespace.security_level,
-                "threat_indicators_count": len(namespace.threat_indicators),
-                "access_violations_count": len(namespace.access_violations),
-            }
-
-            # Check for coherence issues
-            coherence_issues = []
-
-            if namespace.domain_coherence < 0.5:
-                coherence_issues.append("Low domain coherence")
-
-            if len(namespace.active_sessions) > 100:  # High session count may indicate issues
-                coherence_issues.append("High active session count")
-
-            if len(namespace.threat_indicators) > 5:
-                coherence_issues.append("Multiple threat indicators")
-
-            if len(namespace.access_violations) > 10:
-                coherence_issues.append("High access violation count")
-
-            # Calculate overall coherence health
-            health_factors = [
-                namespace.domain_coherence,
-                namespace.security_level,
-                max(0, 1.0 - len(namespace.threat_indicators) / 10),
-                max(0, 1.0 - len(namespace.access_violations) / 20),
-            ]
-
-            overall_health = sum(health_factors) / len(health_factors)
-            coherence_metrics["overall_health"] = overall_health
-            coherence_metrics["coherence_issues"] = coherence_issues
-            coherence_metrics["health_status"] = (
-                "healthy" if overall_health >= 0.7 else "degraded" if overall_health >= 0.4 else "critical"
-            )
-
-            # Update namespace coherence
-            namespace.domain_coherence = overall_health
-            namespace.last_activity = datetime.now(timezone.utc)
-
-            return coherence_metrics
-
-        except Exception as e:
-            return {"error": str(e)}
-
-        import copy
-        try:
-            # Check domain coherence compatibility
-            coherence_diff = abs(source_namespace.domain_coherence - target_namespace.domain_coherence)
-            coherence_compatible = coherence_diff <= 0.3
-
-            # Check consciousness signature compatibility
-            signature_compatible = True  # Simplified for now
-
-            # Check collective intelligence compatibility
-            collective_compatible = True
-            if source_namespace.domain == ConsciousnessDomain.COLLECTIVE_CONSCIOUSNESS:
-                collective_compatible = target_namespace.policy.collective_participation
-
-            overall_compatible = coherence_compatible and signature_compatible and collective_compatible
-
-            return {
-                "compatible": overall_compatible,
-                "coherence_compatible": coherence_compatible,
-                "signature_compatible": signature_compatible,
-                "collective_compatible": collective_compatible,
-                "bridge_required": not overall_compatible,
-                "reason": "Consciousness incompatibility" if not overall_compatible else None,
-            }
-
-        except Exception as e:
-            return {"compatible": False, "reason": str(e)}
-
-        try:
-            # Check isolation level constraints
-            source_isolation = self._isolation_level_to_float(source_namespace.policy.isolation_level)
-            target_isolation = self._isolation_level_to_float(target_namespace.policy.isolation_level)
-
-            # Higher isolation level target requires higher security
-            if target_isolation > source_isolation + 0.2:
-                return {"valid": False, "reason": "Target isolation level too high"}
-
-            # Check operation restrictions
-            if operation in target_namespace.policy.restricted_operations:
-                return {"valid": False, "reason": f"Operation '{operation}' restricted in target domain"}
-
-            # Check threat indicators
-            if len(source_namespace.threat_indicators) > 3:
-                return {"valid": False, "reason": "Source namespace has active threat indicators"}
-
-            if len(target_namespace.threat_indicators) > 3:
-                return {"valid": False, "reason": "Target namespace has active threat indicators"}
-
-            return {"valid": True}
-
-        except Exception as e:
-            return {"valid": False, "reason": str(e)}
-
-            try:
-                current_time = datetime.now(timezone.utc)
-
-                # Update namespace metrics
-                active_namespaces = 0
-                total_coherence = 0.0
-
-                for namespace in self.namespace_instances.values():
-                    # Check if namespace is active (recent activity)
-                    last_activity = namespace.last_activity
-                    time_since_activity = (current_time - last_activity).total_seconds()
-
-                    if time_since_activity < 3600:  # Active if used in last hour
-                        active_namespaces += 1
-
-                    # Update coherence monitoring
-                    await self.monitor_namespace_coherence(namespace.namespace_id)
-                    total_coherence += namespace.domain_coherence
-
-                    # Clean up old audit events
-                    cutoff_time = current_time - timedelta(days=7)
-                    namespace.audit_events = [
-                        event
-                        for event in namespace.audit_events
-                        if datetime.fromisoformat(event["timestamp"]) > cutoff_time
-                    ]
-
-                # Update metrics
-                self.namespace_metrics["active_namespaces"] = active_namespaces
-                if self.namespace_instances:
-                    self.namespace_metrics["average_coherence"] = total_coherence / len(self.namespace_instances)
-
-                await asyncio.sleep(300)  # Run every 5 minutes
-
-            except Exception as e:
-                await asyncio.sleep(600)  # Longer sleep on error
-
-        try:
-            # Domain distribution
-            domain_distribution = {}
-            for namespace in self.namespace_instances.values():
-                domain = namespace.domain.value
-                domain_distribution[domain] = domain_distribution.get(domain, 0) + 1
-
-            # Isolation level distribution
-            isolation_distribution = {}
-            for namespace in self.namespace_instances.values():
-                isolation = namespace.policy.isolation_level.value
-                isolation_distribution[isolation] = isolation_distribution.get(isolation, 0) + 1
-
-            # Security status
-            total_threats = sum(len(ns.threat_indicators) for ns in self.namespace_instances.values())
-            total_violations = sum(len(ns.access_violations) for ns in self.namespace_instances.values())
-
-            return {
-                "namespace_metrics": self.namespace_metrics.copy(),
-                "domain_distribution": domain_distribution,
-                "isolation_distribution": isolation_distribution,
-                "total_identities_assigned": len(self.identity_namespace_mapping),
-                "cross_domain_bridges": len(self.cross_domain_bridges),
-                "security_status": {
-                    "total_threat_indicators": total_threats,
-                    "total_access_violations": total_violations,
-                    "security_monitor_active": self.security_monitor_active,
-                    "threat_detection_enabled": self.threat_detection_enabled,
-                },
-                "system_health": {
-                    "maintenance_active": self._maintenance_active,
-                    "compliance_validation_enabled": self.compliance_validation_enabled,
-                    "average_namespace_coherence": self.namespace_metrics["average_coherence"],
-                },
-                "last_updated": datetime.now(timezone.utc).isoformat(),
-            }
-
-        except Exception as e:
-            return {"error": str(e)}
-
-
-logger = logging.getLogger(__name__)
 
 logger = std_logging.getLogger(__name__)
 
@@ -627,6 +228,23 @@ class ConsciousnessNamespaceManager:
     async def initialize_namespace_system(self) -> bool:
         """Initialize the consciousness namespace isolation system"""
 
+        try:
+            logger.info("🧬 Initializing consciousness namespace isolation system...")
+
+            # Start background maintenance
+            self._maintenance_active = True
+            asyncio.create_task(self._namespace_maintenance_loop())
+
+            # Create default system namespaces
+            await self._create_default_system_namespaces()
+
+            logger.info("✅ Consciousness namespace isolation system initialized")
+            return True
+
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize namespace system: {e}")
+            return False
+
     async def create_consciousness_namespace(
         self,
         domain: ConsciousnessDomain,
@@ -636,12 +254,115 @@ class ConsciousnessNamespaceManager:
         """Create a new consciousness namespace with specified isolation"""
 
         async with self._lock:
+            try:
+                # Get domain policy
+                domain_policy = self.domain_policies.get(domain)
+                if not domain_policy:
+                    logger.error(f"❌ No policy defined for domain: {domain}")
+                    return None
+
+                # Apply policy overrides
+                if policy_overrides:
+                    domain_policy = self._apply_policy_overrides(domain_policy, policy_overrides)
+
+                # Update isolation level
+                domain_policy.isolation_level = isolation_level
+
+                # Create namespace instance
+                namespace = NamespaceInstance(
+                    domain=domain,
+                    policy=domain_policy,
+                    security_level=self._calculate_security_level(isolation_level),
+                    consciousness_signature=self._generate_consciousness_signature(domain),
+                )
+
+                # Store namespace
+                self.namespace_instances[namespace.namespace_id] = namespace
+                self.namespace_metrics["total_namespaces"] += 1
+
+                # Emit namespace creation signal
+                if consciousness_identity_signal_emitter and NamespaceIsolationData:
+                    namespace_data = NamespaceIsolationData(
+                        namespace_id=namespace.namespace_id,
+                        domain_type=domain.value,
+                        isolation_level=self._isolation_level_to_float(isolation_level),
+                        consciousness_domain=domain.value,
+                        domain_coherence=namespace.domain_coherence,
+                    )
+
+                    await consciousness_identity_signal_emitter.emit_namespace_isolation_signal(
+                        namespace.namespace_id, namespace_data, "namespace_creation"
+                    )
+
+                logger.info(
+                    f"🏗️ Created consciousness namespace: {namespace.namespace_id} (Domain: {domain.value}, Isolation: {isolation_level.value})"
+                )
+                return namespace.namespace_id
+
+            except Exception as e:
+                logger.error(f"❌ Failed to create consciousness namespace: {e}")
+                return None
+
     async def assign_identity_to_namespace(
         self, identity_id: str, namespace_id: str, access_permissions: Optional[list[AccessPermissionType]] = None
     ) -> bool:
         """Assign an identity to a consciousness namespace"""
 
         async with self._lock:
+            try:
+                namespace = self.namespace_instances.get(namespace_id)
+                if not namespace:
+                    logger.error(f"❌ Namespace not found: {namespace_id}")
+                    return False
+
+                # Add identity to namespace
+                namespace.active_identities.add(identity_id)
+                self.identity_namespace_mapping[identity_id] = namespace_id
+
+                # Create session for identity
+                session_data = {
+                    "identity_id": identity_id,
+                    "assigned_at": datetime.now(timezone.utc).isoformat(),
+                    "access_permissions": (
+                        [perm.value for perm in access_permissions] if access_permissions else ["read_only"]
+                    ),
+                    "session_active": True,
+                    "access_count": 0,
+                    "last_activity": datetime.now(timezone.utc).isoformat(),
+                }
+
+                namespace.active_sessions[identity_id] = session_data
+                namespace.access_count += 1
+                namespace.last_activity = datetime.now(timezone.utc)
+
+                # Log audit event
+                self._log_namespace_audit_event(
+                    namespace,
+                    "identity_assignment",
+                    {"identity_id": identity_id, "access_permissions": session_data["access_permissions"]},
+                )
+
+                # Emit namespace assignment signal
+                if consciousness_identity_signal_emitter and NamespaceIsolationData:
+                    namespace_data = NamespaceIsolationData(
+                        namespace_id=namespace_id,
+                        domain_type=namespace.domain.value,
+                        isolation_level=self._isolation_level_to_float(namespace.policy.isolation_level),
+                        consciousness_domain=namespace.domain.value,
+                        domain_coherence=namespace.domain_coherence,
+                    )
+
+                    await consciousness_identity_signal_emitter.emit_namespace_isolation_signal(
+                        identity_id, namespace_data, "identity_assignment"
+                    )
+
+                logger.info(f"🆔 Assigned identity {identity_id} to namespace {namespace_id}")
+                return True
+
+            except Exception as e:
+                logger.error(f"❌ Failed to assign identity to namespace: {e}")
+                return False
+
     async def create_cross_domain_bridge(
         self,
         source_domain: ConsciousnessDomain,
@@ -651,18 +372,173 @@ class ConsciousnessNamespaceManager:
         """Create a bridge between consciousness domains for controlled interaction"""
 
         async with self._lock:
+            try:
+                # Validate bridge creation permissions
+                if not await self._validate_bridge_permissions(source_domain, target_domain):
+                    logger.error(f"❌ Bridge creation not permitted: {source_domain.value} -> {target_domain.value}")
+                    return None
+
+                # Create bridge configuration
+                bridge = CrossDomainBridge(source_domain=source_domain, target_domain=target_domain)
+
+                # Apply configuration overrides
+                if bridge_config:
+                    self._apply_bridge_config(bridge, bridge_config)
+
+                # Store bridge
+                self.cross_domain_bridges[bridge.bridge_id] = bridge
+                self.namespace_metrics["cross_domain_bridges"] += 1
+
+                # Log creation
+                logger.info(
+                    f"🌉 Created cross-domain bridge: {bridge.bridge_id} ({source_domain.value} <-> {target_domain.value})"
+                )
+
+                return bridge.bridge_id
+
+            except Exception as e:
+                logger.error(f"❌ Failed to create cross-domain bridge: {e}")
+                return None
+
     async def validate_cross_domain_access(
         self, identity_id: str, source_namespace_id: str, target_namespace_id: str, operation: str
     ) -> dict[str, Any]:
         """Validate cross-domain access request with consciousness awareness"""
 
         async with self._lock:
+            try:
+                # Get namespaces
+                source_namespace = self.namespace_instances.get(source_namespace_id)
+                target_namespace = self.namespace_instances.get(target_namespace_id)
+
+                if not source_namespace or not target_namespace:
+                    return {"allowed": False, "error": "Namespace not found"}
+
+                # Check identity assignment
+                if identity_id not in source_namespace.active_identities:
+                    return {"allowed": False, "error": "Identity not assigned to source namespace"}
+
+                # Get identity session
+                session = source_namespace.active_sessions.get(identity_id)
+                if not session:
+                    return {"allowed": False, "error": "No active session for identity"}
+
+                # Check domain interaction policies
+                source_policy = source_namespace.policy
+                target_domain = target_namespace.domain
+
+                if target_domain not in source_policy.allowed_interactions:
+                    return {
+                        "allowed": False,
+                        "error": f"Interaction not allowed: {source_namespace.domain.value} -> {target_domain.value}",
+                    }
+
+                # Check operation permissions
+                identity_permissions = [AccessPermissionType(perm) for perm in session["access_permissions"]]
+                required_permission = self._get_required_permission(operation)
+
+                if required_permission not in identity_permissions:
+                    return {"allowed": False, "error": f"Insufficient permissions for operation: {operation}"}
+
+                # Check consciousness coherence compatibility
+                consciousness_compatible = await self._check_consciousness_compatibility(
+                    source_namespace, target_namespace, identity_id
+                )
+
+                if not consciousness_compatible["compatible"]:
+                    return {
+                        "allowed": False,
+                        "error": f"Consciousness incompatibility: {consciousness_compatible['reason']}",
+                    }
+
+                # Check security constraints
+                security_validation = await self._validate_security_constraints(
+                    source_namespace, target_namespace, identity_id, operation
+                )
+
+                if not security_validation["valid"]:
+                    return {"allowed": False, "error": f"Security validation failed: {security_validation['reason']}"}
+
+                # Log successful access validation
+                self._log_namespace_audit_event(
+                    source_namespace,
+                    "cross_domain_access_validated",
+                    {"target_namespace": target_namespace_id, "operation": operation, "identity_id": identity_id},
+                )
+
+                return {
+                    "allowed": True,
+                    "session_token": self._generate_cross_domain_session_token(
+                        identity_id, source_namespace_id, target_namespace_id
+                    ),
+                    "consciousness_bridge_required": consciousness_compatible.get("bridge_required", False),
+                    "session_duration_limit": source_policy.access_time_limits.get(operation, 3600),
+                    "audit_level": "full" if target_namespace.policy.audit_requirements else "basic",
+                }
+
+            except Exception as e:
+                logger.error(f"❌ Cross-domain access validation failed: {e}")
+                return {"allowed": False, "error": str(e)}
+
     async def monitor_namespace_coherence(self, namespace_id: str) -> dict[str, Any]:
         """Monitor consciousness coherence within a namespace"""
 
         namespace = self.namespace_instances.get(namespace_id)
         if not namespace:
             return {"error": "Namespace not found"}
+
+        try:
+            # Calculate current coherence metrics
+            coherence_metrics = {
+                "domain_coherence": namespace.domain_coherence,
+                "active_identities_count": len(namespace.active_identities),
+                "active_sessions_count": len(namespace.active_sessions),
+                "consciousness_signature_valid": bool(namespace.consciousness_signature),
+                "collective_intelligence_score": namespace.collective_intelligence_score,
+                "security_level": namespace.security_level,
+                "threat_indicators_count": len(namespace.threat_indicators),
+                "access_violations_count": len(namespace.access_violations),
+            }
+
+            # Check for coherence issues
+            coherence_issues = []
+
+            if namespace.domain_coherence < 0.5:
+                coherence_issues.append("Low domain coherence")
+
+            if len(namespace.active_sessions) > 100:  # High session count may indicate issues
+                coherence_issues.append("High active session count")
+
+            if len(namespace.threat_indicators) > 5:
+                coherence_issues.append("Multiple threat indicators")
+
+            if len(namespace.access_violations) > 10:
+                coherence_issues.append("High access violation count")
+
+            # Calculate overall coherence health
+            health_factors = [
+                namespace.domain_coherence,
+                namespace.security_level,
+                max(0, 1.0 - len(namespace.threat_indicators) / 10),
+                max(0, 1.0 - len(namespace.access_violations) / 20),
+            ]
+
+            overall_health = sum(health_factors) / len(health_factors)
+            coherence_metrics["overall_health"] = overall_health
+            coherence_metrics["coherence_issues"] = coherence_issues
+            coherence_metrics["health_status"] = (
+                "healthy" if overall_health >= 0.7 else "degraded" if overall_health >= 0.4 else "critical"
+            )
+
+            # Update namespace coherence
+            namespace.domain_coherence = overall_health
+            namespace.last_activity = datetime.now(timezone.utc)
+
+            return coherence_metrics
+
+        except Exception as e:
+            logger.error(f"❌ Namespace coherence monitoring failed: {e}")
+            return {"error": str(e)}
 
     def _initialize_default_policies(self) -> None:
         """Initialize default namespace policies for different consciousness domains"""
@@ -775,6 +651,7 @@ class ConsciousnessNamespaceManager:
         """Apply policy overrides to base policy"""
 
         # Create a copy of the base policy
+        import copy
 
         policy = copy.deepcopy(base_policy)
 
@@ -868,10 +745,64 @@ class ConsciousnessNamespaceManager:
     ) -> dict[str, Any]:
         """Check consciousness compatibility between namespaces"""
 
+        try:
+            # Check domain coherence compatibility
+            coherence_diff = abs(source_namespace.domain_coherence - target_namespace.domain_coherence)
+            coherence_compatible = coherence_diff <= 0.3
+
+            # Check consciousness signature compatibility
+            signature_compatible = True  # Simplified for now
+
+            # Check collective intelligence compatibility
+            collective_compatible = True
+            if source_namespace.domain == ConsciousnessDomain.COLLECTIVE_CONSCIOUSNESS:
+                collective_compatible = target_namespace.policy.collective_participation
+
+            overall_compatible = coherence_compatible and signature_compatible and collective_compatible
+
+            return {
+                "compatible": overall_compatible,
+                "coherence_compatible": coherence_compatible,
+                "signature_compatible": signature_compatible,
+                "collective_compatible": collective_compatible,
+                "bridge_required": not overall_compatible,
+                "reason": "Consciousness incompatibility" if not overall_compatible else None,
+            }
+
+        except Exception as e:
+            logger.error(f"❌ Consciousness compatibility check failed: {e}")
+            return {"compatible": False, "reason": str(e)}
+
     async def _validate_security_constraints(
         self, source_namespace: NamespaceInstance, target_namespace: NamespaceInstance, identity_id: str, operation: str
     ) -> dict[str, Any]:
         """Validate security constraints for cross-domain access"""
+
+        try:
+            # Check isolation level constraints
+            source_isolation = self._isolation_level_to_float(source_namespace.policy.isolation_level)
+            target_isolation = self._isolation_level_to_float(target_namespace.policy.isolation_level)
+
+            # Higher isolation level target requires higher security
+            if target_isolation > source_isolation + 0.2:
+                return {"valid": False, "reason": "Target isolation level too high"}
+
+            # Check operation restrictions
+            if operation in target_namespace.policy.restricted_operations:
+                return {"valid": False, "reason": f"Operation '{operation}' restricted in target domain"}
+
+            # Check threat indicators
+            if len(source_namespace.threat_indicators) > 3:
+                return {"valid": False, "reason": "Source namespace has active threat indicators"}
+
+            if len(target_namespace.threat_indicators) > 3:
+                return {"valid": False, "reason": "Target namespace has active threat indicators"}
+
+            return {"valid": True}
+
+        except Exception as e:
+            logger.error(f"❌ Security constraint validation failed: {e}")
+            return {"valid": False, "reason": str(e)}
 
     def _generate_cross_domain_session_token(
         self, identity_id: str, source_namespace_id: str, target_namespace_id: str
@@ -887,8 +818,87 @@ class ConsciousnessNamespaceManager:
         """Background maintenance for namespace instances"""
 
         while self._maintenance_active:
+            try:
+                current_time = datetime.now(timezone.utc)
+
+                # Update namespace metrics
+                active_namespaces = 0
+                total_coherence = 0.0
+
+                for namespace in self.namespace_instances.values():
+                    # Check if namespace is active (recent activity)
+                    last_activity = namespace.last_activity
+                    time_since_activity = (current_time - last_activity).total_seconds()
+
+                    if time_since_activity < 3600:  # Active if used in last hour
+                        active_namespaces += 1
+
+                    # Update coherence monitoring
+                    await self.monitor_namespace_coherence(namespace.namespace_id)
+                    total_coherence += namespace.domain_coherence
+
+                    # Clean up old audit events
+                    cutoff_time = current_time - timedelta(days=7)
+                    namespace.audit_events = [
+                        event
+                        for event in namespace.audit_events
+                        if datetime.fromisoformat(event["timestamp"]) > cutoff_time
+                    ]
+
+                # Update metrics
+                self.namespace_metrics["active_namespaces"] = active_namespaces
+                if self.namespace_instances:
+                    self.namespace_metrics["average_coherence"] = total_coherence / len(self.namespace_instances)
+
+                await asyncio.sleep(300)  # Run every 5 minutes
+
+            except Exception as e:
+                logger.error(f"❌ Namespace maintenance error: {e}")
+                await asyncio.sleep(600)  # Longer sleep on error
+
     async def get_namespace_system_status(self) -> dict[str, Any]:
         """Get comprehensive namespace system status"""
+
+        try:
+            # Domain distribution
+            domain_distribution = {}
+            for namespace in self.namespace_instances.values():
+                domain = namespace.domain.value
+                domain_distribution[domain] = domain_distribution.get(domain, 0) + 1
+
+            # Isolation level distribution
+            isolation_distribution = {}
+            for namespace in self.namespace_instances.values():
+                isolation = namespace.policy.isolation_level.value
+                isolation_distribution[isolation] = isolation_distribution.get(isolation, 0) + 1
+
+            # Security status
+            total_threats = sum(len(ns.threat_indicators) for ns in self.namespace_instances.values())
+            total_violations = sum(len(ns.access_violations) for ns in self.namespace_instances.values())
+
+            return {
+                "namespace_metrics": self.namespace_metrics.copy(),
+                "domain_distribution": domain_distribution,
+                "isolation_distribution": isolation_distribution,
+                "total_identities_assigned": len(self.identity_namespace_mapping),
+                "cross_domain_bridges": len(self.cross_domain_bridges),
+                "security_status": {
+                    "total_threat_indicators": total_threats,
+                    "total_access_violations": total_violations,
+                    "security_monitor_active": self.security_monitor_active,
+                    "threat_detection_enabled": self.threat_detection_enabled,
+                },
+                "system_health": {
+                    "maintenance_active": self._maintenance_active,
+                    "compliance_validation_enabled": self.compliance_validation_enabled,
+                    "average_namespace_coherence": self.namespace_metrics["average_coherence"],
+                },
+                "last_updated": datetime.now(timezone.utc).isoformat(),
+            }
+
+        except Exception as e:
+            logger.error(f"❌ Failed to get namespace system status: {e}")
+            return {"error": str(e)}
 
     async def shutdown_namespace_system(self) -> None:
         """Shutdown namespace system gracefully"""

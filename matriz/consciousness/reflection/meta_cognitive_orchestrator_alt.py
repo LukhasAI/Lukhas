@@ -1,3 +1,7 @@
+import logging
+
+#!/usr/bin/env python3
+# DEPRECATED: Functionality consolidated into unified_orchestrator.py
 """
 
 #TAG:consciousness
@@ -40,8 +44,6 @@ Original Location: brain/legacy/enhanced_bot_primary.py
 Commercial Integration: 2025-01-27 (QC Session)
 Priority: CRITICAL - Enterprise platform enhancement
 """
-
-import logging
 import asyncio
 import copy
 import hashlib
@@ -56,132 +58,6 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure logging for AI operations
-            try:
-                if rec["type"] == "component_enhancement":
-                    # Enhance existing component
-                    if rec["target"] in self.components:
-                        component = self.components[rec["target"]]
-                        if hasattr(component, "confidence_threshold"):
-                            component.confidence_threshold *= 0.9  # Lower threshold for better sensitivity
-                        modification["status"] = "successful"
-
-                elif rec["type"] == "component_addition":
-                    # Add new component (simplified)
-                    if rec["target"] == "attention" and "attention" not in self.components:
-                        self.components["attention"] = QIInspiredAttention()
-                        modification["status"] = "successful"
-
-                self.metacognitive_state["last_self_modification"] = modification["timestamp"]
-                logger.info(f"Self-modification performed: {modification['description']}")
-
-            except Exception as e:
-                modification["error"] = str(e)
-                logger.error(f"Self-modification failed: {e}")
-
-        try:
-            # Metacognitive orchestration of all components
-            orchestration_result = self.orchestrator.orchestrate(input_data, context)
-
-            # Generate response content
-            response_content = await self._generate_response_content(orchestration_result, input_data)
-
-            # Compliance check
-            compliance_result = self.compliance_engine.check_compliance(input_data, {"content": response_content})
-
-            if not compliance_result["is_compliant"]:
-                response_content = self._generate_safe_response(compliance_result)
-
-            # Calculate processing time
-            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
-
-            # Create AI response
-            cognitive_response = AGIResponse(
-                content=response_content,
-                confidence=orchestration_result.get("overall_confidence", 0.0),
-                reasoning_path=orchestration_result.get("reasoning_path", []),
-                metacognitive_state=self.orchestrator.metacognitive_state.copy(),
-                ethical_compliance=compliance_result,
-                capability_level=self.orchestrator.capability_level,
-                processing_time=processing_time,
-            )
-
-            # Update conversation history and metrics
-            self._update_conversation_history(input_data, cognitive_response)
-            self._update_performance_metrics(cognitive_response)
-
-            # Continuous learning
-            if self.continuous_learning:
-                await self._continuous_learning_update(input_data, cognitive_response, orchestration_result)
-
-            self.performance_metrics["total_interactions"] += 1
-            if cognitive_response.confidence > 0.6:
-                self.performance_metrics["successful_responses"] += 1
-
-            logger.info(
-                f"✅ Response generated - Confidence: {cognitive_response.confidence:.2f}, Level: {cognitive_response.capability_level.value}"
-            )
-
-            return cognitive_response
-
-        except Exception as e:
-
-            # Generate error response with partial capability
-            error_response = AGIResponse(
-                content=f"I encountered an error while processing your request. Error: {e!s}",
-                confidence=0.1,
-                reasoning_path=[{"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}],
-                metacognitive_state=self.orchestrator.metacognitive_state.copy(),
-                ethical_compliance={
-                    "is_compliant": True,
-                    "issues": [],
-                    "confidence": 1.0,
-                },
-                capability_level=AGICapabilityLevel.BASIC,
-                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
-            )
-
-            return error_response
-
-        try:
-            logger.info("🚀 Starting Enhanced AI Bot Test")
-
-            # Initialize AI Bot
-            cognitive_bot = EnhancedAGIBot()
-
-            # Test basic functionality
-            test_input = "Hello! Can you demonstrate your AI capabilities?"
-            response = await cognitive_bot.process_input(test_input)
-
-            print(f"\n🎯 Input: {test_input}")
-            print(f"🤖 Response: {response.content}")
-            print(f"📊 Confidence: {response.confidence:.2f}")
-            print(f"🧠 Capability Level: {response.capability_level.value}")
-            print(f"⚡ Processing Time: {response.processing_time:.3f}s")
-
-            # Demonstrate AI capabilities
-            print("\n" + "=" * 50)
-            print("🎭 DEMONSTRATING AI CAPABILITIES")
-            print("=" * 50)
-
-            demo_results = await cognitive_bot.demonstrate_agi_capabilities()
-
-            for demo in demo_results["demonstrations"]:
-                print(f"\n🧪 Test: {demo['test']}")
-                print(f"📝 Input: {demo['input'][:80]}...")
-                print(f"🤖 Response: {demo['response'][:100]}...")
-                print(f"📊 Confidence: {demo.get('confidence', 'N/A')}")
-
-            print("\n📈 Overall Performance:")
-            perf = demo_results["overall_performance"]
-            print(f"   Average Confidence: {perf['average_confidence']:.2f}")
-            print(f"   Successful Tests: {perf['successful_tests']}/{perf['total_tests']}")
-
-            print(f"\n🎯 Final Capability Level: {demo_results['current_capability_level']}")
-
-        except Exception as e:
-            print(f"❌ Error: {e}")
-
-
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -941,6 +817,29 @@ class MetaCognitiveOrchestrator:
                 "status": "attempted",
             }
 
+            try:
+                if rec["type"] == "component_enhancement":
+                    # Enhance existing component
+                    if rec["target"] in self.components:
+                        component = self.components[rec["target"]]
+                        if hasattr(component, "confidence_threshold"):
+                            component.confidence_threshold *= 0.9  # Lower threshold for better sensitivity
+                        modification["status"] = "successful"
+
+                elif rec["type"] == "component_addition":
+                    # Add new component (simplified)
+                    if rec["target"] == "attention" and "attention" not in self.components:
+                        self.components["attention"] = QIInspiredAttention()
+                        modification["status"] = "successful"
+
+                self.metacognitive_state["last_self_modification"] = modification["timestamp"]
+                logger.info(f"Self-modification performed: {modification['description']}")
+
+            except Exception as e:
+                modification["status"] = "failed"
+                modification["error"] = str(e)
+                logger.error(f"Self-modification failed: {e}")
+
             self.modification_history.append(modification)
 
     def _update_capability_level(self):
@@ -1158,6 +1057,71 @@ class EnhancedAGIBot:
             "history": (self.conversation_history[-5:] if self.conversation_history else []),
         }
 
+        try:
+            # Metacognitive orchestration of all components
+            orchestration_result = self.orchestrator.orchestrate(input_data, context)
+
+            # Generate response content
+            response_content = await self._generate_response_content(orchestration_result, input_data)
+
+            # Compliance check
+            compliance_result = self.compliance_engine.check_compliance(input_data, {"content": response_content})
+
+            if not compliance_result["is_compliant"]:
+                response_content = self._generate_safe_response(compliance_result)
+
+            # Calculate processing time
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
+
+            # Create AI response
+            cognitive_response = AGIResponse(
+                content=response_content,
+                confidence=orchestration_result.get("overall_confidence", 0.0),
+                reasoning_path=orchestration_result.get("reasoning_path", []),
+                metacognitive_state=self.orchestrator.metacognitive_state.copy(),
+                ethical_compliance=compliance_result,
+                capability_level=self.orchestrator.capability_level,
+                processing_time=processing_time,
+            )
+
+            # Update conversation history and metrics
+            self._update_conversation_history(input_data, cognitive_response)
+            self._update_performance_metrics(cognitive_response)
+
+            # Continuous learning
+            if self.continuous_learning:
+                await self._continuous_learning_update(input_data, cognitive_response, orchestration_result)
+
+            self.performance_metrics["total_interactions"] += 1
+            if cognitive_response.confidence > 0.6:
+                self.performance_metrics["successful_responses"] += 1
+
+            logger.info(
+                f"✅ Response generated - Confidence: {cognitive_response.confidence:.2f}, Level: {cognitive_response.capability_level.value}"
+            )
+
+            return cognitive_response
+
+        except Exception as e:
+            logger.error(f"❌ Error processing input: {e}")
+
+            # Generate error response with partial capability
+            error_response = AGIResponse(
+                content=f"I encountered an error while processing your request. Error: {e!s}",
+                confidence=0.1,
+                reasoning_path=[{"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}],
+                metacognitive_state=self.orchestrator.metacognitive_state.copy(),
+                ethical_compliance={
+                    "is_compliant": True,
+                    "issues": [],
+                    "confidence": 1.0,
+                },
+                capability_level=AGICapabilityLevel.BASIC,
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
+            )
+
+            return error_response
+
     async def _generate_response_content(self, orchestration_result: dict, input_data: dict) -> str:
         """Generate response content based on orchestration results"""
         # Extract insights from different reasoning components
@@ -1259,6 +1223,46 @@ if __name__ == "__main__":
 
     async def main():
         """Main function for testing Enhanced AI Bot"""
+        try:
+            logger.info("🚀 Starting Enhanced AI Bot Test")
+
+            # Initialize AI Bot
+            cognitive_bot = EnhancedAGIBot()
+
+            # Test basic functionality
+            test_input = "Hello! Can you demonstrate your AI capabilities?"
+            response = await cognitive_bot.process_input(test_input)
+
+            print(f"\n🎯 Input: {test_input}")
+            print(f"🤖 Response: {response.content}")
+            print(f"📊 Confidence: {response.confidence:.2f}")
+            print(f"🧠 Capability Level: {response.capability_level.value}")
+            print(f"⚡ Processing Time: {response.processing_time:.3f}s")
+
+            # Demonstrate AI capabilities
+            print("\n" + "=" * 50)
+            print("🎭 DEMONSTRATING AI CAPABILITIES")
+            print("=" * 50)
+
+            demo_results = await cognitive_bot.demonstrate_agi_capabilities()
+
+            for demo in demo_results["demonstrations"]:
+                print(f"\n🧪 Test: {demo['test']}")
+                print(f"📝 Input: {demo['input'][:80]}...")
+                print(f"🤖 Response: {demo['response'][:100]}...")
+                print(f"📊 Confidence: {demo.get('confidence', 'N/A')}")
+
+            print("\n📈 Overall Performance:")
+            perf = demo_results["overall_performance"]
+            print(f"   Average Confidence: {perf['average_confidence']:.2f}")
+            print(f"   Successful Tests: {perf['successful_tests']}/{perf['total_tests']}")
+
+            print(f"\n🎯 Final Capability Level: {demo_results['current_capability_level']}")
+
+        except Exception as e:
+            logger.error(f"Error in main execution: {e}")
+            print(f"❌ Error: {e}")
+
     # Run the main function
     print("🧠 Enhanced AI Bot - True Cognitive Artificial Intelligence")
     print("=" * 60)

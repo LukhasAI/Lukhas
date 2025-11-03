@@ -1,3 +1,9 @@
+from __future__ import annotations
+
+#!/usr/bin/env python3
+import logging
+from datetime import timezone
+
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝
@@ -46,10 +52,6 @@ CREATED: 2025-07-29
 AUTHORS: LUKHAS AI Team (Consolidated)
 """
 
-from __future__ import annotations
-import logging
-from datetime import timezone
-
 import asyncio
 import random
 import re
@@ -73,66 +75,21 @@ try:
 
     BRANDING_BRIDGE_AVAILABLE = True
 except ImportError:
+    BRANDING_BRIDGE_AVAILABLE = False
 
 # Fallback to direct poetry imports if bridge not available
+if not BRANDING_BRIDGE_AVAILABLE:
     try:
         from branding.poetry.vocabulary_amplifier import VocabularyAmplifier
         POETRY_AVAILABLE = True
     except ImportError:
+        try:
             # Legacy import path
             from branding.vocabularies.vocabulary_amplifier import VocabularyAmplifier
             POETRY_AVAILABLE = True
         except ImportError:
             POETRY_AVAILABLE = False
             VocabularyAmplifier = None
-try:
-    from consciousness.core_consciousness.qi_consciousness_integration import (
-        QICreativeConsciousness,
-    )
-
-    CONSCIOUSNESS_AVAILABLE = True
-except ImportError:
-    print("⚠️ Quantum consciousness not available - using basic mode")
-
-            try:
-                model_params = self.federated_model.get_parameters()
-                return model_params.get(
-                    "style_weights",
-                    {
-                        "nature": 0.4,
-                        "consciousness": 0.3,
-                        "creativity": 0.2,
-                        "tech": 0.1,
-                    },
-                )
-            except BaseException:
-            try:
-                brand_context = BrandContext(
-                    voice_profile="consciousness",
-                    creative_mode=True,
-                    compliance_level="standard",
-                )
-
-                # Apply brand voice to enhance consciousness expression
-                branded_haiku = get_brand_voice(enhanced_haiku, brand_context)
-
-                # Validate for brand compliance
-                validate_output(branded_haiku, brand_context)
-
-                # Apply normalization if needed
-                final_haiku = normalize_output_text(branded_haiku, brand_context)
-            except Exception:
-                final_haiku = enhanced_haiku
-            try:
-                expansion_type = self.federated_model.predict_expansion_type(line)
-            except BaseException:
-            try:
-                # Use quantum consciousness integration if available
-                return await self.consciousness.analyze_creative_resonance(haiku)
-            except BaseException:
-
-
-if not BRANDING_BRIDGE_AVAILABLE:
 else:
     POETRY_AVAILABLE = True
     VocabularyAmplifier = None
@@ -141,6 +98,16 @@ else:
 sys.path.append(str(Path(__file__).parent.parent))
 
 # Try to import consciousness integration
+try:
+    from consciousness.core_consciousness.qi_consciousness_integration import (
+        QICreativeConsciousness,
+    )
+
+    CONSCIOUSNESS_AVAILABLE = True
+except ImportError:
+    CONSCIOUSNESS_AVAILABLE = False
+    print("⚠️ Quantum consciousness not available - using basic mode")
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = get_logger(__name__)
@@ -383,6 +350,19 @@ class AdvancedHaikuGenerator:
     def _load_style_preferences(self):
         """Load personalized style weights from federated model"""
         if self.federated_model:
+            try:
+                model_params = self.federated_model.get_parameters()
+                return model_params.get(
+                    "style_weights",
+                    {
+                        "nature": 0.4,
+                        "consciousness": 0.3,
+                        "creativity": 0.2,
+                        "tech": 0.1,
+                    },
+                )
+            except BaseException:
+                pass
         # Default style weights
         return {
             "nature": 0.4,
@@ -422,6 +402,24 @@ class AdvancedHaikuGenerator:
 
         # Apply LUKHAS AI branding and Constellation Framework integration
         if BRANDING_BRIDGE_AVAILABLE:
+            try:
+                brand_context = BrandContext(
+                    voice_profile="consciousness",
+                    creative_mode=True,
+                    compliance_level="standard",
+                )
+
+                # Apply brand voice to enhance consciousness expression
+                branded_haiku = get_brand_voice(enhanced_haiku, brand_context)
+
+                # Validate for brand compliance
+                validate_output(branded_haiku, brand_context)
+
+                # Apply normalization if needed
+                final_haiku = normalize_output_text(branded_haiku, brand_context)
+            except Exception:
+                # Fallback if branding bridge has issues
+                final_haiku = enhanced_haiku
         else:
             final_haiku = enhanced_haiku
 
@@ -512,6 +510,10 @@ class AdvancedHaikuGenerator:
     def _apply_expansion_rules(self, line: str) -> str:
         """Apply expansion rules using federated model or defaults"""
         if self.federated_model:
+            try:
+                expansion_type = self.federated_model.predict_expansion_type(line)
+            except BaseException:
+                expansion_type = random.choice(["imagery", "emotion", "contrast"])
         else:
             expansion_type = random.choice(["imagery", "emotion", "contrast"])
 
@@ -788,6 +790,12 @@ class AdvancedHaikuGenerator:
     async def _calculate_consciousness_metrics(self, haiku: str) -> dict[str, float]:
         """Calculate consciousness-related metrics for the haiku"""
         if self.consciousness:
+            try:
+                # Use quantum consciousness integration if available
+                return await self.consciousness.analyze_creative_resonance(haiku)
+            except BaseException:
+                pass
+
         # Fallback metrics calculation
         lines = haiku.split("\n")
         word_count = len(haiku.split())

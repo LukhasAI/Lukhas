@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
 """
 Reality Synthesis Engine
 ========================
@@ -13,8 +16,6 @@ Features:
 - Integration with LUKHAS Constellation Framework
 """
 
-import logging
-
 import asyncio
 import uuid
 from collections import defaultdict
@@ -27,36 +28,6 @@ from core.common import GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import register_service
-
-        try:
-            # Register with service registry
-            register_service("reality_synthesis_engine", self)
-
-            # Initialize pattern detection algorithms
-            await self._initialize_pattern_detectors()
-
-            # Initialize fusion engines
-            await self._initialize_fusion_engines()
-
-            self.operational = True
-            logger.info("✨ Reality Synthesis Engine fully operational")
-
-        except Exception as e:
-            raise LukhasError(f"Synthesis Engine initialization failed: {e}")
-
-    try:
-        engine = RealitySynthesisEngine()
-        await engine.initialize()
-
-        logger.info("✨ Reality Synthesis Engine service ready")
-        return engine
-
-    except Exception as e:
-        raise
-
-
-
-logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -156,6 +127,23 @@ class RealitySynthesisEngine(CoreInterface):
 
     async def initialize(self) -> None:
         """Initialize synthesis engine and register with services"""
+        try:
+            # Register with service registry
+            register_service("reality_synthesis_engine", self)
+
+            # Initialize pattern detection algorithms
+            await self._initialize_pattern_detectors()
+
+            # Initialize fusion engines
+            await self._initialize_fusion_engines()
+
+            self.operational = True
+            logger.info("✨ Reality Synthesis Engine fully operational")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize Synthesis Engine: {e}")
+            raise LukhasError(f"Synthesis Engine initialization failed: {e}")
+
     async def shutdown(self) -> None:
         """Shutdown synthesis engine"""
         self.operational = False
@@ -736,6 +724,18 @@ class RealitySynthesisEngine(CoreInterface):
 # Module initialization
 async def initialize_synthesis_engine():
     """Initialize the reality synthesis engine as a LUKHAS service"""
+    try:
+        engine = RealitySynthesisEngine()
+        await engine.initialize()
+
+        logger.info("✨ Reality Synthesis Engine service ready")
+        return engine
+
+    except Exception as e:
+        logger.error(f"Failed to initialize Synthesis Engine: {e}")
+        raise
+
+
 if __name__ == "__main__":
     # Example usage
     async def main():
