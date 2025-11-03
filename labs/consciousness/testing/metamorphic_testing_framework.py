@@ -1144,7 +1144,7 @@ async def main():
         # Show failures if any
         failed_tests = [tc for tc in relation_result["test_cases"] if not tc["relation_satisfied"]]
         if failed_tests:
-            print(f"  Failures:")
+            print("  Failures:")
             for failed_test in failed_tests[:2]:  # Show first 2 failures
                 print(f"    - {failed_test['violations']}")
         print()

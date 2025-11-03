@@ -1,0 +1,15 @@
+Quick CI observations (from scanning workflow files):
+
+- Security-focused workflows present: secret-scanning.yml, security-scan.yml, security-posture.yml, security-gates.yml
+- Linting & quality gates: lint.yml, python-lint.yml, quality-gates.yml, ruff/mypy flows
+- Matriz / performance / nightly flows: matriz-nightly.yml, matriz-canary.yml, matriz-performance.yml, matriz-nightly-soak.yml
+- Artifact/attestation: audit-snapshot.yml, slsa-attest.yml, slsa-attest-matrix.yml
+- Deployment/promote: promotion-gate.yml, promotion-guard.yml, promotion-gate.yml
+- Automation: copilot-tasks.yml, copilot-tasks-automation.yml
+- Logging / tagging guard: logging-tag-guard.yml
+- There are workflows to generate lockfiles and to pin dependencies (generate-lockfiles.yml, dependency-pinning.yml)
+- Many T4-style validation flows exist: t4_excellence_pipeline.yml, t4-validation.yml, t4-excellence-validation.yml
+
+# Next steps:
+# - Confirm which of these are required checks on `main` branch protections.
+# - Ensure critical verification artifacts (ruff/compile/test logs) are uploaded via actions/upload-artifact in each verification workflow (we will check the workflow YAMLs for upload steps).
