@@ -1,6 +1,7 @@
 # GPT-Pro Confirmation Request - MATRIZ Flattening Audit
 
 **Date:** 2025-11-03T14:15:00Z
+**Branch:** `chore/audit-bootstrap` (artifact bootstrap branch with discovery files, PR template, and simulation script)
 **Mode:** DRY-RUN (no destructive operations)
 **Target Repo:** github.com/LukhasAI/Lukhas
 
