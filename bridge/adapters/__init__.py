@@ -16,7 +16,7 @@ try:
         names=("OpenAIAdapter", "AnthropicAdapter", "BedrockAdapter", "BridgeTraceLogger"),
     )
     globals().update(_exports)
-except ModuleNotFoundError:
+except (ModuleNotFoundError, AttributeError):
     __all__ = []
 
 if not isinstance(__all__, list):

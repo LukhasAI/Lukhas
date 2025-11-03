@@ -19,7 +19,7 @@ try:
         names=("identity_routes", "analysis_routes", "health_routes", "RouteHandlers"),
     )
     globals().update(_exports)
-except ModuleNotFoundError:
+except (ModuleNotFoundError, AttributeError):
     __all__ = []
 
 if not isinstance(__all__, list):
