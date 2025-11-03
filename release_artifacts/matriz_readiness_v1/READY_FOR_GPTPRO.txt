@@ -1,0 +1,213 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         ✅ READY FOR GPT-PRO AUDIT                           ║
+║                     MATRIZ Flattening - Dry-Run Mode                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Date: 2025-11-03T13:52:00Z
+Commit: f012a72cd (matrix→matriz rename complete)
+Status: 🟢 ALL SYSTEMS GO
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ PRE-AUDIT VERIFICATION: 22/22 CHECKS PASSED
+
+Core Planning Documents:      4/4 ✅
+Configuration Files:           4/4 ✅
+Scripts & Tools:               3/3 ✅
+PR Templates:                  5/5 ✅
+Discovery Artifacts:           2/2 ✅
+Reports & Guides:              8/8 ✅ (added ARCHIVE_RECOVERY_PRIORITY.md)
+Verification Outputs:          1/1 ✅
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 WHAT'S BEEN COMPLETED
+
+✅ Preflight checklist (11 steps) - GO decision
+✅ TODO-01 - Flatten map generated
+✅ Matrix→MATRIZ rename - Cognitive nodes relocated
+✅ Import analysis - Dependencies documented
+✅ Backup created - backup/pre-flatten-2025-11-03-1316
+✅ All work committed - f012a72cd
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚙️  CONFIGURATION CONFIRMED
+
+Strategy:        shim-first (virtual flattening)
+Dry-Run:         true ✅
+Max PR Files:    25
+Reviewers:       @gonzalordm
+Required Checks: verify-syntax-zero, pytest-matriz, ruff
+Backup Branch:   backup/pre-flatten-2025-11-03-1316
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  ADVISORIES STATUS
+
+1. Black/Ruff not in PATH ✅ RESOLVED
+   • Installed: Black 25.9.0, Ruff 0.14.2, LibCST
+   • Location: .venv/bin/black, .venv/bin/ruff
+
+2. No GPG signing key ⏳ OPTIONAL
+   • Status: Non-blocking for dry-run and apply mode
+   • Setup: See instructions below if needed
+
+3. Archive/quarantine compile errors ✅ EXPECTED
+   • Status: Expected and documented (excluded from milestone)
+
+4. Archive recovery ✅ DOCUMENTED
+   • Created: ARCHIVE_RECOVERY_PRIORITY.md
+   • Priority 1: 8 modules in archive/lanes_experiment/ (memory systems)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 WHAT GPT-PRO SHOULD DO
+
+Phase 1: Full Audit
+  □ Validate flatten_map.csv file existence
+  □ Generate corrected flatten_map with actual files only
+  □ Audit archive/lanes_experiment/ for restoration (8 memory modules)
+  □ Assess import dependencies for real files
+  □ Create risk assessment per candidate
+
+Phase 2: Generate Dry-Run Artifacts
+  □ flatten_map_corrected.csv (no phantom files)
+  □ full_audit.md (executive summary + recommendations)
+  □ patches/ directory (top 3-5 dry-run patches)
+  □ verification/verification_summary.json
+  □ todo_list_full.md (updated with corrected candidates)
+  □ ARCHIVE_RECOVERY_RECOMMENDATIONS.md (restore/document/archive)
+  
+Phase 3: Return Executive Summary
+  □ Top 5 risks identified
+  □ Top 5 recommendations
+  □ Suggested candidate order
+  □ Any blockers or manual review items
+  □ Estimated timeline
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 HOW TO RUN GPT-PRO AUDIT
+
+1. Confirm dry-run mode:
+   jq .dry_run release_artifacts/matriz_readiness_v1/gptpro_config.json
+   # Expected: true
+
+2. Activate venv (already configured):
+   source .venv/bin/activate
+   # Black, Ruff, LibCST already installed ✅
+
+3. (Optional) Setup GPG signing:
+   See: release_artifacts/matriz_readiness_v1/GPG_SIGNING_SETUP.md
+   # Non-blocking for audit
+
+3. Copy prompt to ChatGPT Desktop:
+   Open: release_artifacts/matriz_readiness_v1/GPT_PRO_PROMPT.md
+   Paste entire content into ChatGPT Desktop (GPT-Pro session)
+
+4. Wait for GPT-Pro to produce all artifacts
+
+5. Review output:
+   • full_audit.md - Executive summary
+   • flatten_map_corrected.csv - Validated candidates
+   • patches/ - Example patches (dry-run)
+   • verification/verification_summary.json - Health check
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 CRITICAL ISSUES GPT-PRO MUST ADDRESS
+
+Issue 1: Phantom Files (15/49 don't exist)
+  • 7 MATRIZ nodes deleted (attention, risk, intent, action, vision)
+  • Several files renamed candidate/ → labs/
+  • Some utilities consolidated
+  → GPT-Pro: Regenerate flatten_map with only existing files
+
+Issue 2: Import Count Heuristic Failed (all show 0)
+  • Discovery missed actual dependencies
+  • Manual verification found 9+ active files for some nodes
+  → GPT-Pro: Run proper import analysis per file
+
+Issue 3: Matrix → MATRIZ Naming
+  ✅ FIXED in commit f012a72cd
+  → No action needed (already done)
+
+Issue 4: Archive Recovery Assessment
+  ✅ DOCUMENTED in ARCHIVE_RECOVERY_PRIORITY.md
+  → GPT-Pro: Audit 8 modules in archive/lanes_experiment/ (memory systems)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 KEY FILES FOR GPT-PRO
+
+release_artifacts/matriz_readiness_v1/
+├── GPT_PRO_PROMPT.md                    ← PASTE THIS INTO CHATGPT
+├── GPT_PRO_HANDOFF.md                   ← DETAILED INSTRUCTIONS
+├── CRITICAL_FINDING_RESOLUTION.md       ← KNOWN ISSUES
+├── flatten_map.csv                      ← NEEDS CORRECTION (phantom files)
+├── FILE_VALIDATION_REPORT.txt           ← WHICH FILES ARE PHANTOM
+├── MISSING_FILES_RECOVERY_PLAN.md       ← PATH MAPPING
+├── ARCHIVE_RECOVERY_PRIORITY.md         ← ARCHIVE AUDIT (NEW)
+└── gptpro_config.json                   ← DRY_RUN=TRUE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔒 ROLLBACK CAPABILITY
+
+Backup Branch: backup/pre-flatten-2025-11-03-1316
+
+Rollback:
+  git reset --hard backup/pre-flatten-2025-11-03-1316
+  git push -f origin main
+
+Verify:
+  git log -1 backup/pre-flatten-2025-11-03-1316
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ T4 CHECKLIST BEFORE APPLY MODE (after dry-run review)
+
+Before flipping dry_run=false, confirm:
+  □ full_audit.md reviewed for high-risk items
+  □ Top 5 patches examined with exact import mappings
+  □ verification/compile_log.txt shows active code compiles
+  □ verification/smoke_test_logs.txt acceptable
+  □ Venv activated OR black/ruff installed
+  □ (Optional) GPG signing configured
+  □ flatten_map.csv updated (no phantoms)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 SUCCESS CRITERIA
+
+GPT-Pro audit succeeds if it produces:
+  ✅ Corrected flatten_map.csv (only existing files)
+  ✅ Realistic import dependency counts
+  ✅ Risk assessment identifying actual high-risk items
+  ✅ Top 3-5 patches demonstrating approach
+  ✅ Executive summary with actionable recommendations
+  ✅ Verification summary showing compile/test status
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📞 AFTER GPT-PRO COMPLETES
+
+1. Review full_audit.md
+2. Discuss top 5 risks & recommendations
+3. Decide which candidates to flatten first
+4. Flip to apply mode (dry_run=false)
+5. GPT-Pro creates actual PRs
+6. Review and merge each PR
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: 🟢 READY - Proceed with GPT-Pro dry-run audit in ChatGPT Desktop
+
+Generated: 2025-11-03T13:52:00Z
+Author: Claude Code (T4 Agent)
+Backup: backup/pre-flatten-2025-11-03-1316
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    ALL SYSTEMS GO - READY FOR AUDIT                          ║
+╚══════════════════════════════════════════════════════════════════════════════╝
