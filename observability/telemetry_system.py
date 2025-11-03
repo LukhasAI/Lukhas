@@ -432,7 +432,7 @@ class TelemetryCollector:
         warning_count = sum(1 for e in recent_events if e.severity == SeverityLevel.WARNING)
 
         # Calculate health score (0-1)
-        total_significant_events = error_count + warning_count
+        error_count + warning_count
         if len(recent_events) == 0:
             health_score = 1.0  # No recent events, assume healthy
         else:

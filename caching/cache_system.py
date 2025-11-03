@@ -434,7 +434,7 @@ class MemoryCacheBackend(CacheBackend):
 
         elif self.strategy == CacheStrategy.TTL:
             # Evict entries closest to expiration
-            current_time = time.time()
+            time.time()
             sorted_entries = sorted(
                 self.entries.items(),
                 key=lambda x: (x[1].created_at + (x[1].ttl_seconds or 0)) if x[1].ttl_seconds else float('inf')

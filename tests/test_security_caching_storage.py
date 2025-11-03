@@ -789,7 +789,7 @@ class TestIntegration:
         start_time = time.time()
         stored_encrypted_data = await storage.get(f"user/{user.user_id}/sensitive_doc.txt")
         decrypted_data = await security.encryption_service.decrypt(stored_encrypted_data.decode())
-        storage_time = time.time() - start_time
+        time.time() - start_time
 
         assert decrypted_data == sensitive_data
         # Storage + decryption should be slower than cache

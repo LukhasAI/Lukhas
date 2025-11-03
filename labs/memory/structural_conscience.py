@@ -73,7 +73,7 @@ class StructuralConscience:
             origin_ids = list(memory_fold.origin_trace_ids)
             quality = float(memory_fold.quality)
             domain = str(memory_fold.domain)
-            metadata: Dict[str, Any] = dict(memory_fold.metadata)
+            dict(memory_fold.metadata)
         except Exception as e:
             raise StructuralIntegrityError(f"Fold schema invalid: {e}")
 

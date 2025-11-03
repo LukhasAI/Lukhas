@@ -253,7 +253,7 @@ class TestEnhancedIdentityService:
             mock_logger.return_value = logger_instance
 
             # Attempt identity load
-            profile = await identity_manager._load_identity(user_id)
+            await identity_manager._load_identity(user_id)
 
             # Verify error was logged
             logger_instance.warning.assert_called()

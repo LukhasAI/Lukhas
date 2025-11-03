@@ -262,9 +262,9 @@ class ServiceHealthChecker(HealthChecker):
         try:
             # Call health check function
             if asyncio.iscoroutinefunction(self.health_check_func):
-                result = await self.health_check_func()
+                await self.health_check_func()
             else:
-                result = self.health_check_func()
+                self.health_check_func()
 
             # Calculate response time
             response_time = (time.time() - start_time) * 1000  # ms

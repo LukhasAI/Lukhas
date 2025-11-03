@@ -131,7 +131,7 @@ def git_mv(old_path: Path, new_path: Path) -> bool:
         new_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Use git mv for history preservation
-        result = subprocess.run(
+        subprocess.run(
             ["git", "mv", str(old_path), str(new_path)],
             capture_output=True,
             text=True,

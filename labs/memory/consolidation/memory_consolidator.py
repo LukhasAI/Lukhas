@@ -172,7 +172,7 @@ class MemorySystemConsolidator:
         """Merge Python files intelligently."""
         # Prioritize newer implementations and preserve LAMBDA annotations
         target_lines = target_content.splitlines()
-        source_lines = source_content.splitlines()
+        source_content.splitlines()
 
         # Keep target structure but merge in valuable source content
         merged_lines = target_lines.copy()

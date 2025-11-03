@@ -249,7 +249,7 @@ class TestAdvancedIdentityManager:
         user_id = "test_user"
         user_input = {"text": "Hello, I'm happy to be here"}
 
-        result = await aim.register_user(user_id, user_input)
+        await aim.register_user(user_id, user_input)
 
         # Should complete without error
         assert user_id in aim.users

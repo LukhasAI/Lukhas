@@ -101,7 +101,7 @@ def scan_repo(root: Path) -> List[TODORecord]:
             m = PATTERN.search(line)
             if not m:
                 continue
-            kind = m.group("kind")
+            m.group("kind")
             content = m.group("text").strip()
             items.append(TODORecord(file=str(p.relative_to(root)), line=str(i), text=content, priority="MED"))
     return items

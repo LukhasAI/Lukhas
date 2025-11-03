@@ -172,7 +172,7 @@ class OpenAIModulatedService:
         """Test OpenAI API connection"""
         try:
             # Simple test request
-            response = await openai.ChatCompletion.acreate(
+            await openai.ChatCompletion.acreate(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": "Test"}],
                 max_tokens=5

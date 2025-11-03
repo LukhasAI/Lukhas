@@ -455,7 +455,6 @@ class TestIntegratedPerformanceSystem:
 
         # MATRIZ timeout adaptation should be reasonable
         orchestrator = AsyncCognitiveOrchestrator()
-        base_timeout = 0.25  # 250ms base
 
         # Adaptive timeout should stay within reasonable bounds
         adaptive = orchestrator._get_adaptive_timeout(StageType.ANALYZE)

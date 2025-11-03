@@ -455,7 +455,7 @@ class AttentionConservationRelation(MetamorphicRelation):
         # Get current attention components
         components = list(followup.attention_distribution.keys())
         values = list(followup.attention_distribution.values())
-        total_attention = sum(values)
+        sum(values)
 
         # Redistribute attention while preserving total
         if len(components) >= 2:
