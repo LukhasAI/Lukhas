@@ -1,0 +1,4 @@
+"""Bridge module for core.id → labs.core.id"""
+from __future__ import annotations
+
+from labs.core.id import *  # noqa: F401, F403
