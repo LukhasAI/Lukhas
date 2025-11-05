@@ -11,7 +11,7 @@ Usage:
 
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 
@@ -79,7 +79,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
     candidate = lane_data["labs"]
 
     # Report metadata
-    report_time = datetime.utcnow()
+    report_time = datetime.now(timezone.utc)
     report_period = "48h"  # 48-hour observation period
 
     print(f"🕐 Report Generated: {report_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     report = generate_ab_lane_report()
 
     # Save report to file
-    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     filename = f"/tmp/ab_lane_report_{timestamp}.json"
 
     with open(filename, 'w') as f:
