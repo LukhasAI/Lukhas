@@ -32,7 +32,7 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -242,10 +242,12 @@ class AdvancedConsentManager:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Initialize standard purposes
-        asyncio.create_task(self._initialize_standard_purposes())
-
+        # Defer async initialization to an explicit method
         logger.info("📋 Advanced Consent Manager initialized with GDPR compliance")
+
+    async def initialize(self):
+        """Initializes asynchronous components of the manager."""
+        await self._initialize_standard_purposes()
 
     async def _initialize_standard_purposes(self):
         """Initialize standard data processing purposes"""
@@ -446,31 +448,19 @@ class AdvancedConsentManager:
             Validation result with details
         """
         try:
-            # Get active consent for purpose
-            consent = await self._get_active_consent(user_id, purpose_id)
+            # Find the most recent consent for the purpose, regardless of status.
+            consent = None
+            user_consents = await self._get_user_consents(user_id, status_filter=None)
+            purpose_consents = [c for c in user_consents if c.purpose.purpose_id == purpose_id]
+            if purpose_consents:
+                consent = max(purpose_consents, key=lambda c: c.granted_at)
 
-            if not consent:
-                return {
-                    "valid": False,
-                    "reason": "No active consent found",
-                    "consent_required": True,
-                    "recommended_action": "request_consent",
-                }
-
-            # Check consent status
-            if consent.status != ConsentStatus.GRANTED:
-                return {
-                    "valid": False,
-                    "reason": f"Consent status is {consent.status.value}",
-                    "consent_required": True,
-                    "recommended_action": "request_consent",
-                }
-
-            # Check expiration
-            if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
-                # Update status to expired
-                consent.status = ConsentStatus.EXPIRED
-                consent.updated_at = datetime.now(timezone.utc)
+            # Check for expiration first, as this is a definitive state
+            if consent and consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
+                # Update status to expired if it was granted
+                if consent.status == ConsentStatus.GRANTED:
+                    consent.status = ConsentStatus.EXPIRED
+                    consent.updated_at = datetime.now(timezone.utc)
 
                 return {
                     "valid": False,
@@ -478,6 +468,18 @@ class AdvancedConsentManager:
                     "expired_at": consent.expires_at.isoformat(),
                     "consent_required": True,
                     "recommended_action": "renew_consent",
+                }
+
+            # If not expired, check for active consent
+            if not consent or consent.status != ConsentStatus.GRANTED:
+                reason = "No active consent found"
+                if consent:
+                    reason = f"Consent status is {consent.status.value}"
+                return {
+                    "valid": False,
+                    "reason": reason,
+                    "consent_required": True,
+                    "recommended_action": "request_consent",
                 }
 
             # Check data categories if specified
@@ -606,7 +608,7 @@ class AdvancedConsentManager:
             validation_issues.append("Consent indication is ambiguous")
 
         # Method-specific validation
-        if consent_record.method == ConsentMethod.IMPLICIT:
+        if consent_record.method != ConsentMethod.WEB_FORM:
             validation_issues.append("Implicit consent not suitable for GDPR Article 7")
 
         return {
