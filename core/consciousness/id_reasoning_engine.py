@@ -25,6 +25,13 @@ from typing import Any, Optional
 
 from core.common import get_logger
 
+# Import QI Identity Manager
+try:
+    from qi.engines.identity.qi_identity_manager import QIIdentityManager
+except ImportError:
+    # Fallback if QI module not available
+    QIIdentityManager = None
+
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
     from cryptography.hazmat.primitives import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
@@ -774,9 +781,14 @@ if __name__ == "__main__":
 
     async def demo_lukhas_id():
         """Demonstrate Lukhas_ID system capabilities"""
+        
+        if QIIdentityManager is None:
+            print("QIIdentityManager not available - demo skipped")
+            return
 
         # Initialize system with EU compliance
-        Lukhas_ID = LukhosIDManager(ComplianceRegion.EU)
+        # Note: LukhosIDManager appears to be a typo - using QIIdentityManager
+        Lukhas_ID = QIIdentityManager(ComplianceRegion.EU)
 
         # Register a new user
         user_data = {
