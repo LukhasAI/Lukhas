@@ -1238,30 +1238,29 @@ class EnhancedEmotionalReasoner:
 
     def _recommend_mood_interventions(self, trajectory: str, inputs: EmotionalAwarenessInput) -> list[str]:
         """Recommend mood interventions based on trajectory."""
-        if trajectory == "declining_requires_attention":
-            return [
+        interventions = {
+            "declining_requires_attention": [
                 "Engage in mood-lifting activities (exercise, music, nature)",
                 "Connect with supportive friends or family",
                 "Consider professional support if decline continues",
-            ]
-        elif trajectory == "volatile_unpredictable":
-            return [
+            ],
+            "volatile_unpredictable": [
                 "Focus on mood stabilization techniques",
                 "Maintain consistent daily routines",
                 "Practice grounding and mindfulness exercises",
-            ]
-        elif trajectory == "stable_positive":
-            return [
+            ],
+            "stable_positive": [
                 "Maintain current positive practices",
                 "Consider helping others or engaging in meaningful activities",
                 "Continue healthy emotional habits",
-            ]
-        else:
-            return [
-                "Continue current emotional wellness practices",
-                "Monitor for any significant changes",
-                "Maintain good emotional hygiene",
-            ]
+            ],
+        }
+        
+        return interventions.get(trajectory, [
+            "Continue current emotional wellness practices",
+            "Monitor for any significant changes",
+            "Maintain good emotional hygiene",
+        ])
 
 
 class EmotionalAwarenessModule(AwarenessModule):

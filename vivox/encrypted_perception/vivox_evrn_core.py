@@ -1074,15 +1074,13 @@ class VIVOXEncryptedPerceptionNode:
 
         # Check consent level
         consent = context.get("consent_level", "none")
-        if consent == "none":
-            return "maximum"
-        elif consent == "implicit":
-            return "high"
-        elif consent == "explicit":
-            return "standard"
-
-        # Default to high privacy
-        return "high"
+        consent_privacy_map = {
+            "none": "maximum",
+            "implicit": "high", 
+            "explicit": "standard",
+        }
+        
+        return consent_privacy_map.get(consent, "high")  # Default to high privacy
 
     def _aggregate_vectors(self, vectors: list[PerceptualVector]) -> np.ndarray:
         """Aggregate multiple perceptual vectors into single feature vector"""
