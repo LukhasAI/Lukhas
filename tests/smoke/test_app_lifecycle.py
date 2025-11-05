@@ -27,10 +27,9 @@ def test_app_initialization():
     Validates app instance is created and has expected metadata.
     """
     try:
-        from serve.main import app
-
         # App should be FastAPI instance
         from fastapi import FastAPI
+        from serve.main import app
 
         assert isinstance(app, FastAPI), "app should be FastAPI instance"
 

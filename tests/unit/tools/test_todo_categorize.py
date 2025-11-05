@@ -5,9 +5,9 @@ from tempfile import TemporaryDirectory
 
 import pytest
 from tools.todo_categorize import (
+    TODORecord,
     extract_todo_context,
     scan_repo,
-    TODORecord,
 )
 
 

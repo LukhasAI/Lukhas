@@ -10,8 +10,8 @@ try:
     from labs.core.security.auth import (
         AuthMethod,
         AuthSession,
-        MFASetup,
         EnhancedAuthenticationSystem,
+        MFASetup,
         get_auth_system,
     )
 

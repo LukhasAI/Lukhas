@@ -18,7 +18,6 @@ from pathlib import Path
 
 import pytest
 
-
 # Allowed patterns where raw LLM imports are expected
 ALLOWED_PATHS = [
     # Adapter modules - where LLM clients SHOULD be

@@ -663,13 +663,10 @@ class GuardianSystemIntegration:
             )
 
             # ⚖️ Ethics validation - The North Star (responsible, transparent, accountable)
-            if response.ethics_result and response.ethics_result.get("status") == "completed":
-                # Check constitutional compliance and ethical score
-                if (
-                    response.ethics_result.get("constitutional_compliance", False)
-                    and response.ethics_result.get("ethical_score", 0.0) > 0.7
-                ):
-                    constellation_validation["ethics"] = True
+            if (response.ethics_result and response.ethics_result.get("status") == "completed" and
+                response.ethics_result.get("constitutional_compliance", False) and
+                response.ethics_result.get("ethical_score", 0.0) > 0.7):
+                constellation_validation["ethics"] = True
 
             # 🛡️ Guardian validation - The Watch Star (protective, trustworthy, serious protection)
             # Overall system approval based on all validations
