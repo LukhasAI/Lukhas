@@ -37,7 +37,7 @@ def create_error_summary(error: Exception, context: str) -> str:
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer  # noqa: E402
+from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
 
 @dataclass

@@ -34,11 +34,11 @@ except ImportError:
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
-    from cryptography.hazmat.primitives import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
         hashes,
         serialization,
     )
-    from cryptography.hazmat.primitives.asymmetric import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives.asymmetric import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
         padding,
         rsa,
     )

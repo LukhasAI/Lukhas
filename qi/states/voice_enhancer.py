@@ -158,7 +158,7 @@ class QIVoiceEnhancer:
         self,
         audio_data: bytes,
         context: Optional[dict[str, Any]],
-        original_method: Callable,  # noqa: F821  # TODO: Callable
+        original_method: Callable,  # TODO: Callable
     ) -> dict[str, Any]:
         """Process voice input with quantum enhancement"""
         try:
@@ -185,7 +185,7 @@ class QIVoiceEnhancer:
         self,
         text: str,
         voice_params: Optional[dict[str, Any]],
-        original_method: Callable,  # noqa: F821  # TODO: Callable
+        original_method: Callable,  # TODO: Callable
     ) -> dict[str, Any]:
         """Generate speech with quantum enhancement"""
         try:

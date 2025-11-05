@@ -166,7 +166,7 @@ class QICreativeBridge:
 
 
 # Global instance for easy access
-LUKHAS_QUANTUM_CREATIVE = lukhasQICreativeBridge()  # noqa: F821  # TODO: lukhasQICreativeBridge
+LUKHAS_QUANTUM_CREATIVE = lukhasQICreativeBridge()  # TODO: lukhasQICreativeBridge
 
 
 # Easy integration functions for existing LUKHAS code

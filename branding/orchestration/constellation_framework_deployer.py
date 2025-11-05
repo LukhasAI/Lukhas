@@ -40,7 +40,7 @@ def create_deployment_error_message(error: Exception, context: str, file_path: s
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer  # noqa: E402
+from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
 
 @dataclass

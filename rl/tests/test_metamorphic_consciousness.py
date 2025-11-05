@@ -329,10 +329,10 @@ class MetamorphicConsciousnessTesting:
 
     def __init__(self):
         try:
-            self.environment = ConsciousnessEnvironment()  # noqa: F821  # TODO: ConsciousnessEnvironment
-            self.policy = PolicyNetwork()  # noqa: F821  # TODO: PolicyNetwork
-            self.value_network = ValueNetwork()  # noqa: F821  # TODO: ValueNetwork
-            self.rewards = ConsciousnessRewards()  # noqa: F821  # TODO: ConsciousnessRewards
+            self.environment = ConsciousnessEnvironment()  # TODO: ConsciousnessEnvironment
+            self.policy = PolicyNetwork()  # TODO: PolicyNetwork
+            self.value_network = ValueNetwork()  # TODO: ValueNetwork
+            self.rewards = ConsciousnessRewards()  # TODO: ConsciousnessRewards
             self.real_system = True
         except Exception as exc:  # pragma: no cover - fallback for optional deps
             # Use mock system for testing
@@ -354,17 +354,17 @@ class MetamorphicConsciousnessTesting:
 
         if self.real_system:
             try:
-                self.buffer = ConsciousnessBuffer(capacity=256)  # noqa: F821  # TODO: ConsciousnessBuffer
+                self.buffer = ConsciousnessBuffer(capacity=256)  # TODO: ConsciousnessBuffer
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("ConsciousnessBuffer unavailable, continuing without memory integration: %s", exc)
 
             try:
-                self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # noqa: F821  # TODO: ConsciousnessMetaLearning
+                self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # TODO: ConsciousnessMetaLearning
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("ConsciousnessMetaLearning unavailable: %s", exc)
 
             try:
-                self.coordination = MultiAgentCoordination()  # noqa: F821  # TODO: MultiAgentCoordination
+                self.coordination = MultiAgentCoordination()  # TODO: MultiAgentCoordination
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("MultiAgentCoordination unavailable: %s", exc)
 
@@ -559,7 +559,7 @@ class MetamorphicConsciousnessTesting:
 
         if self.real_system:
             # ΛTAG: metamorphic_node
-            consciousness_state = ConsciousnessState(  # noqa: F821  # TODO: ConsciousnessState
+            consciousness_state = ConsciousnessState(  # TODO: ConsciousnessState
                 module_states={"metamorphic_suite": dict(state_data)},
                 temporal_coherence=state_data.get("temporal_coherence", 0.95),
                 reflection_depth=3,
@@ -576,7 +576,7 @@ class MetamorphicConsciousnessTesting:
             node_state = dict(state_data)
             node_state["consciousness_state"] = consciousness_state
             node_state["metamorphic_tag"] = "relation_testing"
-            return MatrizNode(  # noqa: F821  # TODO: MatrizNode
+            return MatrizNode(  # TODO: MatrizNode
                 type="CONTEXT",
                 state=node_state,
                 labels=["metamorphic:test@1"],

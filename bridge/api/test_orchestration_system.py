@@ -27,8 +27,8 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    import pytest  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
-    import websockets  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    import pytest  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    import websockets  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     from bridge.api.orchestration_api_bridge import (
         APIProvider,
         ComprehensiveAPIOrchestrator,
@@ -38,7 +38,7 @@ try:
     from bridge.api.orchestration_endpoints import app
     from bridge.llm_wrappers.anthropic_function_bridge import (
         AnthropicFunctionBridge,
-        ClaudeModel,  # noqa: F401  # TODO: bridge.llm_wrappers.ant...
+        ClaudeModel,  # TODO: bridge.llm_wrappers.ant...
         ToolDefinition,
         ToolUseMode,
     )

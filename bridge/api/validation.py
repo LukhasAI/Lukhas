@@ -31,7 +31,7 @@ from typing import Any, Optional
 
 try:
     import jwt
-    from pydantic import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from pydantic import (  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
         BaseModel,
         Field,
         ValidationError,

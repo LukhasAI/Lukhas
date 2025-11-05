@@ -32,7 +32,7 @@ try:
     from governance.guardian_system import GuardianSystem
 
     from consciousness import (
-        AwarenessEngine,  # noqa: F401  # TODO: consciousness.Awareness...
+        AwarenessEngine,  # TODO: consciousness.Awareness...
         ConsciousnessState,
         ConsciousnessStream,
         CreativeTask,

@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from uuid import uuid4
 
 try:
-    import pandas as pd  # noqa: F401  # TODO: pandas; consider using importl...
+    import pandas as pd  # TODO: pandas; consider using importl...
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
@@ -32,7 +32,7 @@ try:
     import matplotlib
     matplotlib.use('Agg')  # Use non-GUI backend
     import matplotlib.pyplot as plt
-    import seaborn as sns  # noqa: F401  # TODO: seaborn; consider using import...
+    import seaborn as sns  # TODO: seaborn; consider using import...
     PLOTTING_AVAILABLE = True
 except ImportError:
     PLOTTING_AVAILABLE = False

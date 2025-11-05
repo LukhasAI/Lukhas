@@ -31,7 +31,7 @@ from typing import Any, Callable, Optional
 try:
     from ..core.glyph.glyph_engine import GlyphEngine
     from ..orchestration.symbolic_kernel_bus import SymbolicKernelBus
-    from .auth_glyph_registry import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from .auth_glyph_registry import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
         AuthGlyphCategory,
         auth_glyph_registry,
     )

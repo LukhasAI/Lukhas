@@ -44,9 +44,9 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 from consciousness.qi import (
-    qi,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+    qi,  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 )
 
 # Import post-quantum cryptography components

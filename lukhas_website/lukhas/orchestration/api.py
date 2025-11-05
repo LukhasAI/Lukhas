@@ -303,7 +303,7 @@ async def enable_model(
     """Enable a specific AI model"""
 
     with tracer.start_span("orchestration_api.enable_model"):
-        span.set_attribute("model_id", model_id)  # noqa: F821  # TODO: span
+        span.set_attribute("model_id", model_id)  # TODO: span
 
         try:
             router_instance = get_multi_ai_router()
@@ -354,7 +354,7 @@ async def disable_model(
     """Disable a specific AI model"""
 
     with tracer.start_span("orchestration_api.disable_model"):
-        span.set_attribute("model_id", model_id)  # noqa: F821  # TODO: span
+        span.set_attribute("model_id", model_id)  # TODO: span
 
         try:
             router_instance = get_multi_ai_router()
@@ -427,7 +427,7 @@ async def health_check():
             return {
                 "status": "healthy",
                 "available_models": available_count,
-                "timestamp": time.time()  # noqa: F821  # TODO: time
+                "timestamp": time.time()  # TODO: time
             }
 
         except HTTPException:

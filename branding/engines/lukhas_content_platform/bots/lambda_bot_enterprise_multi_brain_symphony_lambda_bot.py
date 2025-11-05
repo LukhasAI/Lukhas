@@ -33,8 +33,8 @@ sys.path.append("/Users/cognitive_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 # Import workspace components
 try:
     from MultiBrainSymphony import (
-        BrainRegion,  # noqa: F401  # TODO: MultiBrainSymphony.BrainRegion...
-        CognitiveState,  # noqa: F401  # TODO: MultiBrainSymphony.CognitiveSt...
+        BrainRegion,  # TODO: MultiBrainSymphony.BrainRegion...
+        CognitiveState,  # TODO: MultiBrainSymphony.CognitiveSt...
         MultiBrainSymphony,
     )
 
@@ -56,7 +56,7 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import (  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+    from core_ΛBot import (  # TODO: core_ΛBot.SubscriptionTier; co...
         CoreLambdaBot,
         SubscriptionTier,
     )

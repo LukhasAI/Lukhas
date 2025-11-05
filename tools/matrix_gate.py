@@ -24,7 +24,7 @@ import traceback
 from typing import Any, Dict, List, Optional, Tuple
 
 try:
-    from jsonschema import (  # noqa: F401  # TODO: jsonschema.validate; consider ...
+    from jsonschema import (  # TODO: jsonschema.validate; consider ...
         Draft202012Validator,
         ValidationError,
         validate,

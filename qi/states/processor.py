@@ -112,15 +112,15 @@ class QIInspiredProcessor:
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
 
-        if category == "consciousness":  # noqa: F821  # TODO: category
+        if category == "consciousness":  # TODO: category
             return await self._process_consciousness(data)
-        elif category == "governance":  # noqa: F821  # TODO: category
+        elif category == "governance":  # TODO: category
             return await self._process_governance(data)
-        elif category == "voice":  # noqa: F821  # TODO: category
+        elif category == "voice":  # TODO: category
             return await self._process_voice(data)
-        elif category == "identity":  # noqa: F821  # TODO: category
+        elif category == "identity":  # TODO: category
             return await self._process_identity(data)
-        elif category == "quantum":  # noqa: F821  # TODO: category
+        elif category == "quantum":  # TODO: category
             return await self._process_quantum(data)
         else:
             return await self._process_generic(data)

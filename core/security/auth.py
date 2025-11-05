@@ -18,8 +18,8 @@ try:
     __all__ = [
         "AuthMethod",
         "AuthSession",
-        "MFASetup",
         "EnhancedAuthenticationSystem",
+        "MFASetup",
         "get_auth_system",
     ]
 

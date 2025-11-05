@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import agents  # noqa: F401  # TODO: agents; consider using importl...
+    import agents  # TODO: agents; consider using importl...
 except ImportError:
     pytest.skip("Module agents not available", allow_module_level=True)
 

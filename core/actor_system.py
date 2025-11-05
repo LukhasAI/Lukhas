@@ -1,4 +1,4 @@
 """Bridge module for core.actor_system → labs.core.actor_system"""
 from __future__ import annotations
 
-from labs.core.actor_system import *  # noqa: F403
+from labs.core.actor_system import *
