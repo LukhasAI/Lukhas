@@ -1079,7 +1079,7 @@ class VIVOXEncryptedPerceptionNode:
             "implicit": "high", 
             "explicit": "standard",
         }
-        
+
         return consent_privacy_map.get(consent, "high")  # Default to high privacy
 
     def _aggregate_vectors(self, vectors: list[PerceptualVector]) -> np.ndarray:

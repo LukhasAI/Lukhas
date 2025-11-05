@@ -261,10 +261,9 @@ class DeontologicalReasoner:
         if "deceive" in maxim_lower or "lie" in maxim_lower:
             return True  # Universal lying would make lying impossible
 
-        if "free_ride" in maxim_lower or "avoid_contribution" in maxim_lower:
-            return True  # Universal free-riding would collapse the system
-
-        return False
+        return (
+            "free_ride" in maxim_lower or "avoid_contribution" in maxim_lower
+        )  # Universal free-riding would collapse the system
 
     def _generate_universalization_reasoning(
         self, maxim: str, logical_contradiction: bool, practical_contradiction: bool
@@ -367,12 +366,8 @@ class DeontologicalReasoner:
         # Actions rational beings would likely not legislate
         negative_actions = ["harm", "deceive", "exploit", "discriminate", "destroy"]
 
-        if any(pos in action_lower for pos in positive_actions):
-            return True
-        elif any(neg in action_lower for neg in negative_actions):
-            return False
-        else:
-            return True  # Neutral default
+        # Neutral default is True; only become False on negative actions.
+        return not any(neg in action_lower for neg in negative_actions)
 
     async def _check_promotes_dignity(self, action: str, context: dict[str, Any]) -> bool:
         """Check if action promotes human dignity."""

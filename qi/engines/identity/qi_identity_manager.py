@@ -245,6 +245,7 @@ class QIIdentityManager:
 
     def _initialize_quantum_components(self):
         """Initialize post-quantum cryptographic components."""
+        global QUANTUM_CRYPTO_AVAILABLE
         if QUANTUM_CRYPTO_AVAILABLE:
             try:
                 self.qi_key_manager = QISecureKeyManager(security_level=SecurityLevel.NIST_5)

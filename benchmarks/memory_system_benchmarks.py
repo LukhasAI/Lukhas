@@ -107,10 +107,7 @@ class MockMemorySystem:
                 return True
 
         # Cascade condition 4: Suspicious importance spikes
-        if item.importance > 10.0:  # Abnormally high importance
-            return True
-
-        return False
+        return item.importance > 10.0  # Abnormally high importance
 
     def _has_circular_reference(self, item: MemoryItem) -> bool:
         """Check for circular references in item content"""
