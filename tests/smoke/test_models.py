@@ -14,9 +14,12 @@ from serve.main import app
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
+import os
+
 @pytest.fixture
 def client():
     """Create test client."""
+    os.environ['LUKHAS_POLICY_MODE'] = 'strict'
     return TestClient(app)
 
 
@@ -89,10 +92,10 @@ def test_models_capabilities_field(client, auth_headers):
 
     # Should have capabilities
     assert "capabilities" in lukhas_model
-    assert isinstance(lukhas_model["capabilities"], list)
+    assert isinstance(lukhas_model["capabilities"], dict)
 
-    # Should support responses, embeddings, dreams
-    expected_caps = ["responses", "embeddings", "dreams"]
+    # Should support consciousness, reasoning, memory
+    expected_caps = ["consciousness", "reasoning", "memory"]
     for cap in expected_caps:
         assert cap in lukhas_model["capabilities"], \
             f"Missing capability: {cap}"

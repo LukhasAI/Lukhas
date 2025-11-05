@@ -127,8 +127,8 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         if not auth_header.startswith('Bearer '):
             return self._auth_error('Authorization header must use Bearer scheme')
         token = auth_header[7:].strip()
-        if not token:
-            return self._auth_error('Bearer token is empty')
+        if not token or len(token) < 8:
+            return self._auth_error('Bearer token is empty or too short')
         return await call_next(request)
 
     def _auth_error(self, message: str) -> Response:
@@ -259,7 +259,58 @@ def _hash_embed(text: str, dim: int=1536) -> list[float]:
 @app.get('/v1/models', tags=['OpenAI Compatible'])
 async def list_models() -> dict[str, Any]:
     """OpenAI-compatible models list endpoint."""
-    models = [{'id': 'lukhas-mini', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'lukhas-embed-1', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'text-embedding-ada-002', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'gpt-4', 'object': 'model', 'owned_by': 'lukhas'}]
+    current_time = int(time.time())
+    models = [
+        {
+            "id": "lukhas-mini",
+            "object": "model",
+            "created": current_time,
+            "owned_by": "lukhas",
+            "permission": [],
+            "capabilities": {},
+            "description": "A small, fast model for general tasks."
+        },
+        {
+            "id": "lukhas-embed-1",
+            "object": "model",
+            "created": current_time,
+            "owned_by": "lukhas",
+            "permission": [],
+            "capabilities": {},
+            "description": "An embedding model for text similarity."
+        },
+        {
+            "id": "text-embedding-ada-002",
+            "object": "model",
+            "created": current_time,
+            "owned_by": "lukhas",
+            "permission": [],
+            "capabilities": {},
+            "description": "An embedding model for text similarity."
+        },
+        {
+            "id": "gpt-4",
+            "object": "model",
+            "created": current_time,
+            "owned_by": "lukhas",
+            "permission": [],
+            "capabilities": {},
+            "description": "A large, powerful model for complex tasks."
+        },
+        {
+            "id": "lukhas-matriz",
+            "object": "model",
+            "created": current_time,
+            "owned_by": "lukhas-ai",
+            "permission": [],
+            "capabilities": {
+                "consciousness": True,
+                "reasoning": True,
+                "memory": True
+            },
+            "description": "LUKHAS MATRIZ cognitive engine with consciousness-aware processing"
+        }
+    ]
     return {'object': 'list', 'data': models}
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
