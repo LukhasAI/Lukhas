@@ -20,7 +20,7 @@ import os
 import threading
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Set
 from uuid import UUID, uuid4
@@ -218,7 +218,7 @@ class MemorySynchronizer:
             SyncOperation with result and metrics
         """
         op_id = uuid4()
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         with self._lock:
             try:
@@ -313,7 +313,7 @@ class MemorySynchronizer:
                     self._perform_sync(source_lane, target_lane, fold_data, fold_id)
 
                     # Sync successful
-                    duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+                    duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
                     result = self._create_sync_operation(
                         op_id, start_time, source_lane, target_lane, operation_type,
                         fold_id, data_size, fanout_cost, fanin_cost, depth_level,
@@ -328,7 +328,7 @@ class MemorySynchronizer:
                     self._release_resources(op_id, source_lane, target_lane, fanout_cost, fanin_cost)
 
             except Exception as e:
-                duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+                duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
                 result = self._create_sync_operation(
                     op_id, start_time, source_lane, target_lane, operation_type,
                     fold_id, 0, fanout_cost, fanin_cost, depth_level,
@@ -375,7 +375,7 @@ class MemorySynchronizer:
 
     def _check_ops_budget(self) -> bool:
         """Check if operation budget allows new operation."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         window_start = now - timedelta(seconds=self.config.budget_window_seconds)
 
         # Count recent operations
@@ -388,7 +388,7 @@ class MemorySynchronizer:
 
     def _check_data_budget(self, data_size: int) -> bool:
         """Check if data budget allows the operation."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         window_start = now - timedelta(seconds=self.config.budget_window_seconds)
 
         # Calculate recent data usage
@@ -448,7 +448,7 @@ class MemorySynchronizer:
                               duration_ms: float | None = None) -> SyncOperation:
         """Create sync operation record."""
         if duration_ms is None:
-            duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+            duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         return SyncOperation(
             op_id=op_id,
@@ -502,7 +502,7 @@ class MemorySynchronizer:
 
     def get_sync_stats(self) -> Dict[str, Any]:
         """Get current synchronization statistics."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         window_start = now - timedelta(seconds=self.config.budget_window_seconds)
 
         # Calculate recent metrics

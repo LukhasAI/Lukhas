@@ -786,21 +786,21 @@ class MemoryLifecycleManager:
         conditions: Dict[str, Any]
     ) -> bool:
         """Check if document matches rule conditions"""
-        for field, value in conditions.items():
-            if (field == "lane" and document.lane != value) or (field == "identity_id" and document.identity_id != value) or (field == "fold_id" and document.fold_id != value):
+        for key, value in conditions.items():
+            if (key == "lane" and document.lane != value) or (key == "identity_id" and document.identity_id != value) or (key == "fold_id" and document.fold_id != value):
                 return False
-            elif field == "tags":
+            elif key == "tags":
                 if isinstance(value, list):
                     if not any(tag in document.tags for tag in value):
                         return False
                 else:
                     if value not in document.tags:
                         return False
-            elif field == "gdpr_category":
+            elif key == "gdpr_category":
                 gdpr_cat = document.metadata.get("gdpr", {}).get("category")
                 if gdpr_cat != value:
                     return False
-            elif field in document.metadata and document.metadata[field] != value:
+            elif key in document.metadata and document.metadata[key] != value:
                 return False
         return True
 

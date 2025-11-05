@@ -932,22 +932,17 @@ class ComplianceAuditSystem:
         # Simulate Guardian System validation
         # In production, would integrate with actual Guardian System
 
-        if audit_event.event_type in [
+        return audit_event.event_type not in [
             AuditEventType.DATA_BREACH,
             AuditEventType.DATA_SHARING,
-        ]:
-            return False  # Require explicit approval for sensitive operations
-
-        return True
+        ]  # Require explicit approval for sensitive operations
 
     async def _validate_consent_with_guardian(self, consent_record: ConsentRecord) -> bool:
         """Validate consent with Guardian System (🛡️)."""
 
         # Check if consent meets Guardian System ethical standards
-        if DataCategory.SPECIAL_CATEGORY in consent_record.data_categories:
-            return False  # Require additional review for special category data
-
-        return True
+        return DataCategory.SPECIAL_CATEGORY not in consent_record.data_categories
+        # Require additional review for special category data
 
     async def _assess_compliance_status(self, audit_event: ComplianceAuditEvent) -> ComplianceStatus:
         """Assess compliance status for audit event."""

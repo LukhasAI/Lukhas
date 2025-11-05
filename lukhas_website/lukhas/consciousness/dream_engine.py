@@ -472,10 +472,7 @@ class DreamEngine:
 
         # Trigger if too much time has passed since last consolidation
         time_since_last = time.time() - self._last_consolidation_time
-        if time_since_last > 300:  # 5 minutes
-            return True
-
-        return False
+        return time_since_last > 300  # 5 minutes
 
     def get_performance_stats(self) -> Dict[str, float]:
         """Get current performance statistics."""

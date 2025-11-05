@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+from datetime import timezone
 import json
 import os
 import re
@@ -67,7 +68,13 @@ def build_manifest(pkg: str):
     lane = pkg.split('/')[0]
     name = pkg.replace('/', '.')
     stars, conf = decide_star(pkg)
-    now = datetime.datetime.utcnow().replace(microsecond=0).isoformat()+"Z"
+    now = (
+        datetime.datetime
+        .now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
     return {
         "name": name,
         "path": pkg,

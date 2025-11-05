@@ -416,10 +416,11 @@ class ConsciousDriftMonitor:
         )
 
         # Normalize by total awareness points
-        if state.awareness_map:
-            alignment = ethical_focus / len(state.awareness_map)
-        else:
-            alignment = 0.5  # Neutral
+        alignment = (
+            ethical_focus / len(state.awareness_map)
+            if state.awareness_map
+            else 0.5  # Neutral
+        )
 
         # Factor in coherence
         alignment *= state.coherence_level

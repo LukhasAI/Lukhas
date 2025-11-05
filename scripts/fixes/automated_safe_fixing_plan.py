@@ -288,10 +288,7 @@ SAFETY MEASURES:
 
 def main():
     """Main execution function"""
-    if len(sys.argv) > 1:
-        max_files = int(sys.argv[1])
-    else:
-        max_files = 20  # Conservative start
+    max_files = int(sys.argv[1]) if len(sys.argv) > 1 else 20  # Conservative start
 
     fixer = SafeFStringFixer()
 

@@ -14,7 +14,7 @@ import argparse
 import glob
 import json
 import pathlib
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
 import yaml
@@ -27,7 +27,7 @@ class SLOMonitor:
         """Initialize with SLO configuration."""
         self.config = self._load_config(slo_config_path)
         self.measurement_window = timedelta(days=7)  # Weekly by default
-        self.timestamp = datetime.utcnow()
+        self.timestamp = datetime.now(timezone.utc)
 
     def _load_config(self, config_path: str) -> Dict[str, Any]:
         """Load SLO configuration from YAML."""

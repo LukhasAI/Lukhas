@@ -11,7 +11,7 @@ import glob
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -40,7 +40,7 @@ class MatrixTestRunner:
             'skipped_test_cases': 0,
             'modules': {},
             'tiers_tested': set(),
-            'start_time': datetime.utcnow().isoformat() + 'Z'
+            'start_time': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
         }
 
         logger.info("Initialized MatrixTestRunner:")
@@ -279,7 +279,7 @@ class MatrixTestRunner:
         overall_pass_rate = total_passed / total_tests if total_tests > 0 else 0
 
         return {
-            'timestamp': datetime.utcnow().isoformat() + 'Z',
+            'timestamp': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             'summary': {
                 'total_matrices': len(matrices),
                 'total_tests': total_tests,

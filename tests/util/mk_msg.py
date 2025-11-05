@@ -14,7 +14,7 @@ Usage:
 """
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from uuid import UUID, uuid4
 
@@ -52,7 +52,7 @@ def mk_msg_from_json(d: dict) -> MatrizMessage:
         glyph_data['tags'] = {}
     return MatrizMessage(
         msg_id=UUID(d['msg_id']) if 'msg_id' in d else uuid4(),
-        ts=datetime.fromisoformat(d['ts']) if 'ts' in d else datetime.utcnow(),
+    ts=datetime.fromisoformat(d['ts']) if 'ts' in d else datetime.now(timezone.utc),
         lane=d['lane'],
         topic=d['topic'],
         glyph=GLYPH(
@@ -77,7 +77,7 @@ def mk_test_message(topic: str='contradiction', lane: str='experimental', payloa
     """Create a test MatrizMessage with sensible defaults"""
     return MatrizMessage(
         msg_id=uuid4(),
-        ts=datetime.utcnow(),
+    ts=datetime.now(timezone.utc),
         lane=lane,
         topic=topic,
         glyph=mk_test_glyph(glyph_kind),

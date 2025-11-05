@@ -1255,7 +1255,7 @@ class EnhancedEmotionalReasoner:
                 "Continue healthy emotional habits",
             ],
         }
-        
+
         return interventions.get(trajectory, [
             "Continue current emotional wellness practices",
             "Monitor for any significant changes",
