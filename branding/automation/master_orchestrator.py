@@ -454,9 +454,9 @@ class MasterOrchestrator:
                     should_run = True  # First run
 
             # Check daily schedules (simplified - would need proper time checking in production)
-            elif schedule.schedule_type == "daily":
-                if not schedule.last_run or datetime.fromisoformat(schedule.last_run).date() < current_time.date():
-                    should_run = True
+            elif (schedule.schedule_type == "daily" and 
+                  (not schedule.last_run or datetime.fromisoformat(schedule.last_run).date() < current_time.date())):
+                should_run = True
 
             if should_run:
                 systems_to_run.append(schedule)

@@ -1,6 +1,3 @@
-from quantum.analysis import QuantumAnalysisSession
-from quantum.states import QuantumModuleState
-
 #!/usr/bin/env python3
 """
 ⚛️ Quantum Consciousness LUKHAS AI ΛBot
@@ -14,6 +11,9 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Complex
+
+from quantum.analysis import QuantumAnalysisSession
+from quantum.states import QuantumModuleState
 
 # Ensure repo-relative paths (no absolute user paths)
 try:
