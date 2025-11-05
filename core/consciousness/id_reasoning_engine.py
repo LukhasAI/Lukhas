@@ -781,7 +781,7 @@ if __name__ == "__main__":
 
     async def demo_lukhas_id():
         """Demonstrate Lukhas_ID system capabilities"""
-        
+
         if QIIdentityManager is None:
             print("QIIdentityManager not available - demo skipped")
             return

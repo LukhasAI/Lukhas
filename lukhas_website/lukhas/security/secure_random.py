@@ -32,7 +32,7 @@ import os
 import secrets
 import string
 from collections.abc import Sequence
-from typing import Any, Union
+from typing import Any
 
 
 class SecureRandom:

@@ -636,7 +636,7 @@ class GuardianSystemIntegration:
 
         try:
             # ✨ Identity validation - Anchor star
-            if (request.user_id and self.consent_ledger and 
+            if (request.user_id and self.consent_ledger and
                 response.consent_result and response.consent_result.get("status") == "completed"):
                 constellation_validation["identity"] = True
 

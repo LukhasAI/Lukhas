@@ -39,7 +39,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Union
+from typing import Any
 
 # Try to import from core.common if available
 try:

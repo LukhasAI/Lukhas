@@ -34,7 +34,7 @@ import logging
 import time
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, Callable, Union
+from typing import Any, Callable
 
 # Import quantum identity components
 try:

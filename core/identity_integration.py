@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 import functools
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Union
+from typing import Any, Callable
 
 import structlog
 

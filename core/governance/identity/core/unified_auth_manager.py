@@ -33,7 +33,7 @@ import secrets
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Union
+from typing import Any
 
 from core.governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
 from core.governance.security.secret_manager import get_secret_manager

@@ -25,7 +25,7 @@ from lukhas_website.lukhas.tools.collapse_simulator import (
 __all__ = [
     "DEFAULT_OUTPUT_PATH",
     "SimulationContext",
-    "build_parser", 
+    "build_parser",
     "compile_summary",
     "compute_affect_delta",
     "compute_collapse_hash",

@@ -17,7 +17,7 @@ try:
 
     __all__ = [
         "AuthMethod",
-        "AuthSession", 
+        "AuthSession",
         "MFASetup",
         "EnhancedAuthenticationSystem",
         "get_auth_system",

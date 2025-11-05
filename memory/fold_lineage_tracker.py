@@ -68,7 +68,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 # Configure logger
 logger = logging.getLogger(__name__)

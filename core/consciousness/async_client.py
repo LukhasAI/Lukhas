@@ -42,7 +42,7 @@ import base64
 import re
 import warnings
 from collections.abc import AsyncIterable
-from typing import TYPE_CHECKING, Any, Literal, Union, overload
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 from core.common import get_logger
 from huggingface_hub import constants

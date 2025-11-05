@@ -7,7 +7,7 @@ Interface for the Bio-Quantum Symbolic Reasoning system with Radar Analytics Int
 import asyncio
 import logging
 from datetime import datetime, timezone
-from typing import Any, Union
+from typing import Any
 
 from .core import AbstractReasoningBrainCore
 

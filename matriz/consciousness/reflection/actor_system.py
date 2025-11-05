@@ -37,7 +37,7 @@ import uuid
 from abc import ABC
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Callable, Union
+from typing import Any, Callable
 
 from core.common import get_logger
 

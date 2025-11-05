@@ -22,7 +22,7 @@ import math
 import operator
 import re
 import time
-from typing import Any, Union
+from typing import Any
 
 from matriz.core.node_interface import (
     CognitiveNode,
