@@ -18,7 +18,7 @@ import threading
 from collections import deque
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List
 from uuid import UUID, uuid4
 
@@ -83,7 +83,7 @@ class Event:
         """Create a new event with automatic ID and timestamp."""
         return cls(
             id=event_id or uuid4(),
-            ts=ts or datetime.utcnow(),
+            ts=ts or datetime.now(timezone.utc),
             kind=kind,
             lane=lane,
             glyph_id=glyph_id,
@@ -209,7 +209,7 @@ class EventStore:
         kind: str | None = None
     ) -> List[Event]:
         """Query events within sliding time window for replay analysis."""
-        since = datetime.utcnow() - timedelta(seconds=window_seconds)
+        since = datetime.now(timezone.utc) - timedelta(seconds=window_seconds)
         return self.query_recent(limit=1000, kind=kind, since=since)
 
     def replay_sequence(

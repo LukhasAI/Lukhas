@@ -1,18 +1,26 @@
 ---
-title: "LUKHAS — Developer Platform"
+title: "LUKHAS \u2014 Developer Platform"
 domain: lukhas.dev
-owner: "@gonzalo"
-audience: "developers"
+owner: '@gonzalo'
+audience: developers
 tone:
   poetic: 0.15
   user_friendly: 0.25
-  academic: 0.60
-review: "MATRIZ dev content review required"
-last_reviewed: "2025-11-05"
-source: "docs/web/content/domains/lukhas-dev/landing_page.md"
+  academic: 0.6
+review: MATRIZ dev content review required
+last_reviewed: '2025-11-05'
+source: docs/web/content/domains/lukhas-dev/landing_page.md
 canonical: true
-notes: "Canonical homepage for lukhas.dev developer platform. Architecture planning at branding/websites/lukhas.dev/Updated_architecture_matriz_ready.md"
+notes: Canonical homepage for lukhas.dev developer platform. Architecture planning
+  at branding/websites/lukhas.dev/Updated_architecture_matriz_ready.md
+evidence_links: []
+claims_verified_by: []
+claims_verified_date: null
+claims_approval: false
 ---
+
+
+
 
 # lukhas.dev: The Developer Platform for Consciousness-Aware AI
 

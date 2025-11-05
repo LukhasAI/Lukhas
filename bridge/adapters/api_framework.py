@@ -226,7 +226,7 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
 
         # Add to request state
         request.state.request_id = request_id
-        request.state.start_time = datetime.utcnow()
+        request.state.start_time = datetime.now(timezone.utc)
 
         # Log request
         logger.info(
@@ -241,7 +241,7 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
 
         # Calculate duration
-        duration_ms = (datetime.utcnow() - request.state.start_time).total_seconds() * 1000
+        duration_ms = (datetime.now(timezone.utc) - request.state.start_time).total_seconds() * 1000
 
         # Add headers
         response.headers["X-Request-ID"] = request_id
@@ -286,7 +286,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         client_id = request.headers.get("X-API-Key", request.client.host if request.client else "unknown")
 
         # Check rate limit
-        key = f"rate_limit:{client_id}:{datetime.utcnow().strftime('%Y%m%d%H%M')}"
+        key = f"rate_limit:{client_id}:{datetime.now(timezone.utc).strftime('%Y%m%d%H%M')}"
 
         try:
             current = await self.redis_client.incr(key)
@@ -475,7 +475,7 @@ async def health_check() -> dict[str, Any]:
     """Basic health check endpoint"""
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "version": "2.0.0",
     }
 
@@ -498,7 +498,7 @@ async def detailed_health_check(
 
     return {
         "status": overall_status,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "version": "2.0.0",
         "checks": checks,
     }
@@ -547,7 +547,7 @@ async def fold_memory_v1(
         metadata=ResponseMetadata(
             request_id=req.state.request_id,
             version="v1",
-            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds() * 1000,
+            duration_ms=(datetime.now(timezone.utc) - req.state.start_time).total_seconds() * 1000,
         ),
     )
 
@@ -604,7 +604,7 @@ async def fold_memory_v2(
         metadata=ResponseMetadata(
             request_id=req.state.request_id,
             version="v2",
-            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds() * 1000,
+            duration_ms=(datetime.now(timezone.utc) - req.state.start_time).total_seconds() * 1000,
         ),
     )
 
@@ -627,7 +627,7 @@ async def get_fold_status(
         status="completed",
         folded_data={"processed": True},
         emotional_signature="e" + fold_id[:7],
-        metadata={"completion_time": datetime.utcnow().isoformat()},
+    metadata={"completion_time": datetime.now(timezone.utc).isoformat()},
     )
 
     return APIResponse(

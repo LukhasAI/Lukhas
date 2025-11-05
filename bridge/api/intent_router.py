@@ -12,7 +12,7 @@ from __future__ import annotations
 import logging
 import re
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -271,7 +271,7 @@ class IntentRouter:
             "parameters": {
                 **intent.parameters,
                 "urgency": "high",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             "glyphs": intent.glyphs,
             "message": "Guardian intervention requested - analyzing situation",
