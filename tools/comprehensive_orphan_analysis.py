@@ -340,11 +340,8 @@ class ComprehensiveOrphanAnalyzer:
 
         for file in files:
             parts = Path(file).parts
-            if len(parts) > 1:
-                # Use first-level directory
-                category = parts[0]
-            else:
-                category = "root"
+            # Use first-level directory
+            category = parts[0] if len(parts) > 1 else "root"
             categories[category].append(file)
 
         # Sort files within each category

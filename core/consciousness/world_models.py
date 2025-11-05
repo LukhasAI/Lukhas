@@ -321,10 +321,7 @@ class TemporalDynamicsModel:
                 (history[i].timestamp - history[i - 1].timestamp).total_seconds() for i in range(1, len(history))
             ) / (len(history) - 1)
 
-            if avg_gap > 3600:  # More than 1 hour gaps
-                time_penalty = 0.1
-            else:
-                time_penalty = 0.0
+            time_penalty = 0.1 if avg_gap > 3600 else 0.0  # More than 1 hour gaps
         else:
             time_penalty = 0.0
 

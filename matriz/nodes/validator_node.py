@@ -720,10 +720,7 @@ class ValidatorNode(CognitiveNode):
                 issues.append(f"High confidence variance across strategies: {confidence_variance:.3f}")
 
             # Calculate cross-validation confidence
-            if all_agree_valid or all_agree_invalid:
-                base_confidence = 0.9
-            else:
-                base_confidence = 0.5  # Lower confidence when strategies disagree
+            base_confidence = 0.9 if (all_agree_valid or all_agree_invalid) else 0.5  # Lower confidence when strategies disagree
 
             # Adjust based on individual strategy confidences
             avg_confidence = sum(confidences) / len(confidences)

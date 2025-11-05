@@ -775,10 +775,11 @@ class GuardianSystemIntegration:
             result = ValidationResult.APPROVED
 
         # Calculate confidence
-        if validation_scores:
-            confidence = sum(validation_scores) / len(validation_scores)
-        else:
-            confidence = 0.5  # Neutral confidence when no scores available
+        confidence = (
+            sum(validation_scores) / len(validation_scores)
+            if validation_scores
+            else 0.5  # Neutral confidence when no scores available
+        )
 
         # Adjust confidence based on component failures
         if warnings:

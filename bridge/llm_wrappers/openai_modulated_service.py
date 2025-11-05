@@ -299,12 +299,7 @@ class OpenAIModulatedService:
                     logger.error(f"Tool execution failed: {tool_name}", exc_info=e)
 
         # Use final response or last response
-        if final_response is not None:
-            response = final_response
-        else:
-            # Ensure response is defined
-            # Assign empty dict if response wasn't set in loop
-            response = {}  # type: ignore[assignment]
+        response = final_response if final_response is not None else {}  # type: ignore[assignment]
 
         # Normalize to dict if streaming iterator was returned
         if not isinstance(response, dict) and hasattr(response, "__aiter__"):
