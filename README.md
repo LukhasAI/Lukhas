@@ -164,6 +164,7 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 - Python 3.9+ (3.11 recommended)
 - Virtual environment required
 - Git LFS for large assets (optional)
+- For a complete list of external dependencies and setup instructions, see [DEPENDENCIES.md](DEPENDENCIES.md).
 
 ### Installation
 
