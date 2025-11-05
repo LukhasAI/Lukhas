@@ -184,6 +184,16 @@ class TestBioSymbolic:
         assert len(self.bio_symbolic.integration_events) == 1
         assert self.bio_symbolic.integration_events[0]["coherence"] == pytest.approx(1.0)
 
+    def test_negative_noise_factor(self):
+        """Test that a negative noise factor doesn't increase coherence."""
+        data_without_noise = {"type": "test"}
+        coherence_without_noise = self.bio_symbolic.calculate_coherence(data_without_noise)
+
+        data_with_negative_noise = {"type": "test", "noise": -0.5}
+        coherence_with_negative_noise = self.bio_symbolic.calculate_coherence(data_with_negative_noise)
+
+        assert coherence_with_negative_noise <= coherence_without_noise
+
 
 @pytest.mark.tier3
 @pytest.mark.bio
