@@ -1,0 +1,29 @@
+# Ruff Quality Baseline Summary
+Run Date: 2025-11-03
+
+## Top Issues (by count)
+
+### Critical (>1000 occurrences)
+- E402 (3672): module-import-not-at-top-of-file - Imports not at file top
+- invalid-syntax (1977): Syntax errors (likely in excluded quarantine/)
+- UP035 (1350): deprecated-import - Using deprecated import patterns
+- UP045 (1109): non-pep604-annotation-optional - Old-style Optional syntax
+
+### High (500-1000 occurrences)
+- F821 (622): undefined-name - Undefined variable references
+
+### Medium (100-500 occurrences)
+- B904 (378): raise-without-from-inside-except
+- SIM102 (373): collapsible-if statements
+- W292 (358): missing-newline-at-end-of-file
+- RUF006 (268): asyncio-dangling-task
+- I001 (244): unsorted-imports [auto-fixable]
+
+## Total Issues: ~11,000+
+
+## Recommendations
+1. Address E402 violations (3672 files) - restructure imports
+2. Fix syntax errors in active codebase (exclude quarantine/)
+3. Modernize type annotations (UP035, UP045)
+4. Run auto-fixes for: I001, W293, UP037, UP015, RUF022, RUF100
+5. Address undefined names (F821) - may indicate broken imports

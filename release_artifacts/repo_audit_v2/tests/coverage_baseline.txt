@@ -1,0 +1,1129 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
+configfile: pytest.ini
+plugins: asyncio-1.2.0, anyio-4.11.0, hypothesis-6.141.1, cov-7.0.0
+asyncio: mode=strict, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 345 items
+
+tests/smoke/test_accepted_smoke.py .                                     [  0%]
+tests/smoke/test_api_acl.py .......                                      [  2%]
+tests/smoke/test_app_lifecycle.py .........                              [  4%]
+tests/smoke/test_archive_smoke.py .                                      [  5%]
+tests/smoke/test_auth.py ssssssssssss                                    [  8%]
+tests/smoke/test_auth_errors.py ....                                     [  9%]
+tests/smoke/test_candidate_smoke.py .                                    [ 10%]
+tests/smoke/test_concurrency.py ......F..F                               [ 13%]
+tests/smoke/test_consciousness_pipeline.py sssssssssssssssssssssssssssss [ 21%]
+sss                                                                      [ 22%]
+tests/smoke/test_core_smoke.py .                                         [ 22%]
+tests/smoke/test_dreams.py FFFFFFF.F                                     [ 25%]
+tests/smoke/test_dreams_api.py F                                         [ 25%]
+tests/smoke/test_embeddings.py ......FFF.....                            [ 29%]
+tests/smoke/test_entrypoints.py .......                                  [ 31%]
+tests/smoke/test_error_envelope_minimal.py FFs                           [ 32%]
+tests/smoke/test_error_handling.py FFFFFFFFF..F.F..F..FF                 [ 38%]
+tests/smoke/test_evals_runner.py .                                       [ 38%]
+tests/smoke/test_experimental_smoke.py ..                                [ 39%]
+tests/smoke/test_external_deps.py .s.ss.....                             [ 42%]
+tests/smoke/test_guardian_ethics.py ...s..                               [ 44%]
+tests/smoke/test_headers_openai_parity.py ......                         [ 45%]
+tests/smoke/test_health.py .                                             [ 46%]
+tests/smoke/test_healthz.py ..                                           [ 46%]
+tests/smoke/test_healthz_signals.py FFF                                  [ 47%]
+tests/smoke/test_idempotency.py .......                                  [ 49%]
+tests/smoke/test_identity_auth_smoke.py ...                              [ 50%]
+tests/smoke/test_imports_light.py ......                                 [ 52%]
+tests/smoke/test_llm_adapter_scan.py sss                                 [ 53%]
+tests/smoke/test_matriz_integration.py FFFF...FF..FF..F.                 [ 57%]
+tests/smoke/test_matriz_smoke.py .                                       [ 58%]
+tests/smoke/test_memory_roundtrip.py .s.s.                               [ 59%]
+tests/smoke/test_memory_systems.py ssssssssssssssssssss                  [ 65%]
+tests/smoke/test_metrics_tracking.py FFFF.F                              [ 67%]
+tests/smoke/test_models.py F.FFFFF..F....                                [ 71%]
+tests/smoke/test_models_openai_shape.py ....                             [ 72%]
+tests/smoke/test_openai_facade.py F.                                     [ 73%]
+tests/smoke/test_openai_rl_headers.py ........                           [ 75%]
+tests/smoke/test_quarantine_smoke.py .                                   [ 75%]
+tests/smoke/test_rate_limit_headers.py ...                               [ 76%]
+tests/smoke/test_rate_limiting.py F..F...FFF.                            [ 79%]
+tests/smoke/test_responses.py FFFFFFFFFFFF...FF..                        [ 85%]
+tests/smoke/test_responses_stream.py FF.FFF                              [ 86%]
+tests/smoke/test_responses_stub.py .....                                 [ 88%]
+tests/smoke/test_routing_negative.py .......                             [ 90%]
+tests/smoke/test_runtime_lanes.py ..                                     [ 91%]
+tests/smoke/test_secrets_config.py .....                                 [ 92%]
+tests/smoke/test_security_headers.py .....F.....F.....                   [ 97%]
+tests/smoke/test_trace_header.py ...                                     [ 98%]
+tests/smoke/test_traces_router.py ...                                    [ 99%]
+tests/smoke/test_tracing.py ..F/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/coverage/report_core.py:107: CoverageWarning: Couldn't parse Python file '/Users/agi_dev/LOCAL-REPOS/Lukhas/core/interfaces/api/v1/v1/common/api_key_cache.py' (couldnt-parse); see https://coverage.readthedocs.io/en/7.10.7/messages.html#warning-couldnt-parse
+  coverage._warn(msg, slug="couldnt-parse")
+/Users/agi_dev/LOCAL-REPOS/Lukhas/core/utils/orchestration_energy_aware_execution_planner.py:675: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  or " + "(
+/Users/agi_dev/LOCAL-REPOS/Lukhas/core/utils/orchestration_energy_aware_execution_planner.py:675: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  or " + "(
+
+ERROR: Coverage failure: total of 2 is less than fail-under=30
+                                                                         [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_concurrent_auth_validation ________________________
+tests/smoke/test_concurrency.py:230: in test_concurrent_auth_validation
+    assert all(status == 401 for status in invalid_results)
+E   assert False
+E    +  where False = all(<generator object test_concurrent_auth_validation.<locals>.<genexpr> at 0x10c7253c0>)
+_______________________ test_concurrent_tenant_isolation _______________________
+tests/smoke/test_concurrency.py:329: in test_concurrent_tenant_isolation
+    assert len(all_ids) == len(set(all_ids)), \
+E   AssertionError: Duplicate IDs found across tenants
+E   assert 20 == 2
+E    +  where 20 = len(['resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', ...])
+E    +  and   2 = len({'resp_2f6ef6b0d968', 'resp_6ae9a06634ef'})
+E    +    where {'resp_2f6ef6b0d968', 'resp_6ae9a06634ef'} = set(['resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', 'resp_2f6ef6b0d968', ...])
+____________________________ test_dreams_happy_path ____________________________
+tests/smoke/test_dreams.py:35: in test_dreams_happy_path
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_________________________ test_dreams_minimal_payload __________________________
+tests/smoke/test_dreams.py:52: in test_dreams_minimal_payload
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+__________________________ test_dreams_with_seed_only __________________________
+tests/smoke/test_dreams.py:68: in test_dreams_with_seed_only
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+__________________________ test_dreams_requires_auth ___________________________
+tests/smoke/test_dreams.py:83: in test_dreams_requires_auth
+    assert response.status_code == 401
+E   assert 404 == 401
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_________________________ test_dreams_trace_structure __________________________
+tests/smoke/test_dreams.py:93: in test_dreams_trace_structure
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_________________________ test_dreams_response_format __________________________
+tests/smoke/test_dreams.py:112: in test_dreams_response_format
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_______________________ test_dreams_constraints_handling _______________________
+tests/smoke/test_dreams.py:141: in test_dreams_constraints_handling
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_______________________ test_dreams_stub_mode_indicator ________________________
+tests/smoke/test_dreams.py:172: in test_dreams_stub_mode_indicator
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_____________________________ test_dreams_minimal ______________________________
+tests/smoke/test_dreams_api.py:11: in test_dreams_minimal
+    assert r.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_____________________ test_embeddings_empty_input_handled ______________________
+tests/smoke/test_embeddings.py:154: in test_embeddings_empty_input_handled
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+_____________________ test_embeddings_missing_input_field ______________________
+tests/smoke/test_embeddings.py:164: in test_embeddings_missing_input_field
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+________________________ test_embeddings_requires_auth _________________________
+tests/smoke/test_embeddings.py:173: in test_embeddings_requires_auth
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+__________________________ test_envelope_401_minimal ___________________________
+tests/smoke/test_error_envelope_minimal.py:60: in test_envelope_401_minimal
+    _assert_envelope(r, "invalid_api_key")
+tests/smoke/test_error_envelope_minimal.py:45: in _assert_envelope
+    assert "error" in data, f"missing error envelope: {data}"
+E   AssertionError: missing error envelope: {'detail': 'Invalid authentication credentials'}
+E   assert 'error' in {'detail': 'Invalid authentication credentials'}
+__________________________ test_envelope_403_minimal ___________________________
+tests/smoke/test_error_envelope_minimal.py:67: in test_envelope_403_minimal
+    _assert_envelope(r, "authorization_error")
+tests/smoke/test_error_envelope_minimal.py:45: in _assert_envelope
+    assert "error" in data, f"missing error envelope: {data}"
+E   AssertionError: missing error envelope: {'detail': 'Forbidden'}
+E   assert 'error' in {'detail': 'Forbidden'}
+__________________ test_400_missing_required_field_responses ___________________
+tests/smoke/test_error_handling.py:37: in test_400_missing_required_field_responses
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+________________________ test_400_empty_input_responses ________________________
+tests/smoke/test_error_handling.py:47: in test_400_empty_input_responses
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+______________________ test_400_missing_input_embeddings _______________________
+tests/smoke/test_error_handling.py:57: in test_400_missing_input_embeddings
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+_______________________ test_400_empty_input_embeddings ________________________
+tests/smoke/test_error_handling.py:67: in test_400_empty_input_embeddings
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+_________________________ test_401_missing_auth_header _________________________
+tests/smoke/test_error_handling.py:74: in test_401_missing_auth_header
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+________________________ test_401_malformed_auth_header ________________________
+tests/smoke/test_error_handling.py:83: in test_401_malformed_auth_header
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+_________________________ test_401_empty_bearer_token __________________________
+tests/smoke/test_error_handling.py:92: in test_401_empty_bearer_token
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+_____________________________ test_401_short_token _____________________________
+tests/smoke/test_error_handling.py:101: in test_401_short_token
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+___________________ test_401_error_format_openai_compatible ____________________
+tests/smoke/test_error_handling.py:107: in test_401_error_format_openai_compatible
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+______________________ test_error_messages_are_actionable ______________________
+tests/smoke/test_error_handling.py:150: in test_error_messages_are_actionable
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+_________________ test_graceful_degradation_matriz_unavailable _________________
+tests/smoke/test_error_handling.py:185: in test_graceful_degradation_matriz_unavailable
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] test when MATRIZ down', 'role': 'assistant'}}], 'created': 1762307033, 'id': 'resp_cc7da9557500', 'model': 'lukhas-mini', ...}
+_________________ test_status_codes_accurate_for_client_errors _________________
+tests/smoke/test_error_handling.py:239: in test_status_codes_accurate_for_client_errors
+    assert 400 <= response.status_code < 500
+E   assert 400 <= 200
+E    +  where 200 = <Response [200 OK]>.status_code
+____________________ test_error_recovery_after_bad_request _____________________
+tests/smoke/test_error_handling.py:299: in test_error_recovery_after_bad_request
+    assert bad_response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+____________________ test_error_recovery_after_auth_failure ____________________
+tests/smoke/test_error_handling.py:314: in test_error_recovery_after_auth_failure
+    assert bad_response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+________________________ test_healthz_guardian_signals _________________________
+tests/smoke/test_healthz_signals.py:26: in test_healthz_guardian_signals
+    assert "checks" in body
+E   AssertionError: assert 'checks' in {'lane': 'prod', 'matriz': {'enabled': False, 'rollout': 'disabled', 'version': 'unknown'}, 'modules': {'manifest_count': 1782}, 'status': 'ok', ...}
+_______________________ test_healthz_ratelimiter_signals _______________________
+tests/smoke/test_healthz_signals.py:45: in test_healthz_ratelimiter_signals
+    assert "checks" in body
+E   AssertionError: assert 'checks' in {'lane': 'prod', 'matriz': {'enabled': False, 'rollout': 'disabled', 'version': 'unknown'}, 'modules': {'manifest_count': 1782}, 'status': 'ok', ...}
+________________________ test_healthz_always_returns_ok ________________________
+tests/smoke/test_healthz_signals.py:64: in test_healthz_always_returns_ok
+    assert "checks" in body
+E   AssertionError: assert 'checks' in {'lane': 'prod', 'matriz': {'enabled': False, 'rollout': 'disabled', 'version': 'unknown'}, 'modules': {'manifest_count': 1782}, 'status': 'ok', ...}
+_____________________ test_matriz_cognitive_orchestration ______________________
+tests/smoke/test_matriz_integration.py:43: in test_matriz_cognitive_orchestration
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] What is consciousness?', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_f4cd32a01ad5', 'model': 'lukhas-mini', ...}
+________________ test_matriz_memory_attention_thought_pipeline _________________
+tests/smoke/test_matriz_integration.py:66: in test_matriz_memory_attention_thought_pipeline
+    assert "output" in data
+E   assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': "[stub] Remember: my name is Alice. What's my name?", 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_394f27a902aa', 'model': 'lukhas-mini', ...}
+_________________________ test_matriz_reasoning_stage __________________________
+tests/smoke/test_matriz_integration.py:85: in test_matriz_reasoning_stage
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] If A > B and B > C, then A > C. If A...C=1, is A > C?', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_88a309a656f0', 'model': 'lukhas-mini', ...}
+___________________________ test_matriz_action_stage ___________________________
+tests/smoke/test_matriz_integration.py:106: in test_matriz_action_stage
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] List 3 prime numbers', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_46a749e7945f', 'model': 'lukhas-mini', ...}
+_____________________ test_matriz_symbolic_dna_processing ______________________
+tests/smoke/test_matriz_integration.py:196: in test_matriz_symbolic_dna_processing
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] Process with symbolic DNA', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_fc9fb4a8a80b', 'model': 'lukhas-mini', ...}
+______________________ test_matriz_node_based_processing _______________________
+tests/smoke/test_matriz_integration.py:215: in test_matriz_node_based_processing
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] Multi-step reasoning: A->B->C', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_4767916edd1c', 'model': 'lukhas-mini', ...}
+_____________________ test_matriz_bio_inspired_adaptation ______________________
+tests/smoke/test_matriz_integration.py:306: in test_matriz_bio_inspired_adaptation
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] Adapt response style to formal academic tone', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_5f77d02936c9', 'model': 'lukhas-mini', ...}
+__________________ test_matriz_quantum_inspired_superposition __________________
+tests/smoke/test_matriz_integration.py:324: in test_matriz_quantum_inspired_superposition
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] Consider multiple interpretations simultaneously', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_5807e51f8132', 'model': 'lukhas-mini', ...}
+____________________ test_matriz_processing_trace_available ____________________
+tests/smoke/test_matriz_integration.py:382: in test_matriz_processing_trace_available
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] Show processing steps', 'role': 'assistant'}}], 'created': 1762307036, 'id': 'resp_5a3359dea427', 'model': 'lukhas-mini', ...}
+_________________________ test_metrics_track_requests __________________________
+tests/smoke/test_metrics_tracking.py:43: in test_metrics_track_requests
+    assert "lukhas_requests_total" in metrics_text
+E   assert 'lukhas_requests_total' in '# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total c...ELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{version="1.0.0"} 1\n'
+__________________________ test_metrics_track_latency __________________________
+tests/smoke/test_metrics_tracking.py:57: in test_metrics_track_latency
+    assert "http_request_duration_ms" in metrics_text
+E   assert 'http_request_duration_ms' in '# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total c...ELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{version="1.0.0"} 1\n'
+_________________________ test_healthz_includes_checks _________________________
+tests/smoke/test_metrics_tracking.py:69: in test_healthz_includes_checks
+    assert "checks" in data
+E   AssertionError: assert 'checks' in {'lane': 'prod', 'matriz': {'enabled': False, 'rollout': 'disabled', 'version': 'unknown'}, 'modules': {'manifest_count': 1782}, 'status': 'ok', ...}
+______________________ test_readyz_validates_dependencies ______________________
+tests/smoke/test_metrics_tracking.py:82: in test_readyz_validates_dependencies
+    assert "checks" in data
+E   AssertionError: assert 'checks' in {'status': 'ready'}
+_____________________________ test_error_tracking ______________________________
+tests/smoke/test_metrics_tracking.py:112: in test_error_tracking
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+__________________________ test_models_requires_auth ___________________________
+tests/smoke/test_models.py:32: in test_models_requires_auth
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+______________________ test_models_lukhas_matriz_present _______________________
+tests/smoke/test_models.py:58: in test_models_lukhas_matriz_present
+    assert "lukhas-matriz" in model_ids
+E   AssertionError: assert 'lukhas-matriz' in ['lukhas-mini', 'lukhas-embed-1', 'text-embedding-ada-002', 'gpt-4']
+________________________ test_models_metadata_complete _________________________
+tests/smoke/test_models.py:74: in test_models_metadata_complete
+    assert "created" in model
+E   AssertionError: assert 'created' in {'id': 'lukhas-mini', 'object': 'model', 'owned_by': 'lukhas'}
+________________________ test_models_capabilities_field ________________________
+tests/smoke/test_models.py:88: in test_models_capabilities_field
+    assert lukhas_model is not None
+E   assert None is not None
+_________________________ test_models_owned_by_lukhas __________________________
+tests/smoke/test_models.py:112: in test_models_owned_by_lukhas
+    assert lukhas_model is not None
+E   assert None is not None
+_____________________ test_models_created_timestamp_valid ______________________
+tests/smoke/test_models.py:128: in test_models_created_timestamp_valid
+    created = model["created"]
+E   KeyError: 'created'
+____________________ test_models_invalid_token_returns_401 _____________________
+tests/smoke/test_models.py:180: in test_models_invalid_token_returns_401
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+____________________________ test_responses_minimal ____________________________
+tests/smoke/test_openai_facade.py:12: in test_responses_minimal
+    assert body.get("id") and body.get("output", {}).get("text")
+E   AssertionError: assert ('resp_638f321edfc5' and None)
+E    +  where 'resp_638f321edfc5' = <built-in method get of dict object at 0x11c172e00>('id')
+E    +    where <built-in method get of dict object at 0x11c172e00> = {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] hello lukhas', 'role': 'assistant'}}], 'created': 1762307038, 'id': 'resp_638f321edfc5', 'model': 'lukhas-mini', ...}.get
+E    +  and   None = <built-in method get of dict object at 0x11c162240>('text')
+E    +    where <built-in method get of dict object at 0x11c162240> = {}.get
+E    +      where {} = <built-in method get of dict object at 0x11c172e00>('output', {})
+E    +        where <built-in method get of dict object at 0x11c172e00> = {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] hello lukhas', 'role': 'assistant'}}], 'created': 1762307038, 'id': 'resp_638f321edfc5', 'model': 'lukhas-mini', ...}.get
+______________________ test_rate_limit_enforced_on_burst _______________________
+tests/smoke/test_rate_limiting.py:48: in test_rate_limit_enforced_on_burst
+    assert 429 in responses, "Expected 429 rate limit response in burst"
+E   AssertionError: Expected 429 rate limit response in burst
+E   assert 429 in [200, 200, 200, 200, 200, 200, ...]
+_____________________ test_rate_limit_per_tenant_isolation _____________________
+tests/smoke/test_rate_limiting.py:95: in test_rate_limit_per_tenant_isolation
+    assert tenant1_limited, "Tenant1 should be rate limited"
+E   AssertionError: Tenant1 should be rate limited
+E   assert False
+_____________ test_rate_limit_different_endpoints_separate_buckets _____________
+tests/smoke/test_rate_limiting.py:155: in test_rate_limit_different_endpoints_separate_buckets
+    assert models_limited, "/v1/models should be rate limited"
+E   AssertionError: /v1/models should be rate limited
+E   assert False
+___________________ test_rate_limit_anonymous_requests_by_ip ___________________
+tests/smoke/test_rate_limiting.py:180: in test_rate_limit_anonymous_requests_by_ip
+    assert 401 in responses
+E   assert 401 in [200, 200, 200, 200, 200, 200, ...]
+__________________ test_rate_limit_preserves_tenant_identity ___________________
+tests/smoke/test_rate_limiting.py:199: in test_rate_limit_preserves_tenant_identity
+    assert 429 in responses, "Same token should share rate limit"
+E   AssertionError: Same token should share rate limit
+E   assert 429 in [200, 200, 200, 200, 200, 200, ...]
+_________________________ test_responses_requires_auth _________________________
+tests/smoke/test_responses.py:36: in test_responses_requires_auth
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+__________________________ test_responses_happy_path ___________________________
+tests/smoke/test_responses.py:51: in test_responses_happy_path
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] hello world', 'role': 'assistant'}}], 'created': 1762307048, 'id': 'resp_7f633c7eb872', 'model': 'lukhas-mini', ...}
+___________________ test_responses_missing_input_returns_400 ___________________
+tests/smoke/test_responses.py:62: in test_responses_missing_input_returns_400
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+____________________ test_responses_empty_input_returns_400 ____________________
+tests/smoke/test_responses.py:72: in test_responses_empty_input_returns_400
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+___________________________ test_responses_id_format ___________________________
+tests/smoke/test_responses.py:93: in test_responses_id_format
+    assert len(hex_part) == 8  # 8-char hex
+E   AssertionError: assert 12 == 8
+E    +  where 12 = len('9c12bd09d56e')
+______________________ test_responses_model_field_present ______________________
+tests/smoke/test_responses.py:108: in test_responses_model_field_present
+    assert data["model"] == "lukhas-matriz"
+E   AssertionError: assert 'lukhas-mini' == 'lukhas-matriz'
+E     
+E     - lukhas-matriz
+E     ?         --- ^
+E     + lukhas-mini
+E     ?          ^^
+_____________________ test_responses_output_text_non_empty _____________________
+tests/smoke/test_responses.py:121: in test_responses_output_text_non_empty
+    output_text = data["output"]["text"]
+E   KeyError: 'output'
+________________________ test_responses_stub_mode_echo _________________________
+tests/smoke/test_responses.py:138: in test_responses_stub_mode_echo
+    output_text = data["output"]["text"].lower()
+E   KeyError: 'output'
+______________ test_responses_different_inputs_different_outputs _______________
+tests/smoke/test_responses.py:161: in test_responses_different_inputs_different_outputs
+    response1.json()["output"]["text"]
+E   KeyError: 'output'
+______________________ test_responses_long_input_handling ______________________
+tests/smoke/test_responses.py:183: in test_responses_long_input_handling
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] test test test test test test test t...test test test', 'role': 'assistant'}}], 'created': 1762307048, 'id': 'resp_3fc606a1030a', 'model': 'lukhas-mini', ...}
+_________________________ test_responses_unicode_input _________________________
+tests/smoke/test_responses.py:199: in test_responses_unicode_input
+    output_text = data["output"]["text"]
+E   KeyError: 'output'
+______________________ test_responses_special_characters _______________________
+tests/smoke/test_responses.py:215: in test_responses_special_characters
+    assert "output" in data
+E   assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] Test with <html>, {json}, and "quotes"', 'role': 'assistant'}}], 'created': 1762307048, 'id': 'resp_0d999ad29645', 'model': 'lukhas-mini', ...}
+_________________ test_responses_multiple_sequential_requests __________________
+tests/smoke/test_responses.py:276: in test_responses_multiple_sequential_requests
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] query 0', 'role': 'assistant'}}], 'created': 1762307048, 'id': 'resp_66fb31204c12', 'model': 'lukhas-mini', ...}
+___________________ test_responses_malformed_payload_handled ___________________
+tests/smoke/test_responses.py:288: in test_responses_malformed_payload_handled
+    assert response.status_code == 400
+E   assert 200 == 400
+E    +  where 200 = <Response [200 OK]>.status_code
+____________________ test_streaming_responses_sse_protocol _____________________
+tests/smoke/test_responses_stream.py:37: in test_streaming_responses_sse_protocol
+    assert r.headers.get("content-type", "").startswith("text/event-stream")
+E   AssertionError: assert False
+E    +  where False = <built-in method startswith of str object at 0x11c305710>('text/event-stream')
+E    +    where <built-in method startswith of str object at 0x11c305710> = 'application/json'.startswith
+E    +      where 'application/json' = get('content-type', '')
+E    +        where get = Headers({'content-length': '267', 'content-type': 'application/json', 'x-trace-id': '7598ba8754ff415dbc768b0cb62937aa'...x-ratelimit-limit-requests': '60', 'x-ratelimit-remaining-requests': '59', 'x-ratelimit-reset-requests': '1762307108'}).get
+E    +          where Headers({'content-length': '267', 'content-type': 'application/json', 'x-trace-id': '7598ba8754ff415dbc768b0cb62937aa'...x-ratelimit-limit-requests': '60', 'x-ratelimit-remaining-requests': '59', 'x-ratelimit-reset-requests': '1762307108'}) = <Response [200 OK]>.headers
+_______________________ test_streaming_vs_non_streaming ________________________
+tests/smoke/test_responses_stream.py:64: in test_streaming_vs_non_streaming
+    assert r2.headers.get("content-type", "").startswith("text/event-stream")
+E   AssertionError: assert False
+E    +  where False = <built-in method startswith of str object at 0x11c3b01c0>('text/event-stream')
+E    +    where <built-in method startswith of str object at 0x11c3b01c0> = 'application/json'.startswith
+E    +      where 'application/json' = get('content-type', '')
+E    +        where get = Headers({'content-length': '269', 'content-type': 'application/json', 'x-trace-id': '1c6842c7c6b84c89a669e985eb8c87d3'...x-ratelimit-limit-requests': '60', 'x-ratelimit-remaining-requests': '59', 'x-ratelimit-reset-requests': '1762307108'}).get
+E    +          where Headers({'content-length': '269', 'content-type': 'application/json', 'x-trace-id': '1c6842c7c6b84c89a669e985eb8c87d3'...x-ratelimit-limit-requests': '60', 'x-ratelimit-remaining-requests': '59', 'x-ratelimit-reset-requests': '1762307108'}) = <Response [200 OK]>.headers
+______________________ test_sse_yields_incremental_chunks ______________________
+tests/smoke/test_responses_stream.py:101: in test_sse_yields_incremental_chunks
+    assert r.headers.get("content-type", "").startswith("text/event-stream")
+E   AssertionError: assert False
+E    +  where False = <built-in method startswith of str object at 0x11c3b08f0>('text/event-stream')
+E    +    where <built-in method startswith of str object at 0x11c3b08f0> = 'application/json'.startswith
+E    +      where 'application/json' = get('content-type', '')
+E    +        where get = Headers({'content-length': '304', 'content-type': 'application/json', 'x-trace-id': '567cee919e5346b3a930265fa37fdb14'...x-ratelimit-limit-requests': '60', 'x-ratelimit-remaining-requests': '59', 'x-ratelimit-reset-requests': '1762307108'}).get
+E    +          where Headers({'content-length': '304', 'content-type': 'application/json', 'x-trace-id': '567cee919e5346b3a930265fa37fdb14'...x-ratelimit-limit-requests': '60', 'x-ratelimit-remaining-requests': '59', 'x-ratelimit-reset-requests': '1762307108'}) = <Response [200 OK]>.headers
+__________________ test_sse_backpressure_1MB_payload_no_drop ___________________
+tests/smoke/test_responses_stream.py:165: in test_sse_backpressure_1MB_payload_no_drop
+    assert chunk_count >= 10, f"Expected ≥10 chunks for large payload, got {chunk_count}"
+E   AssertionError: Expected ≥10 chunks for large payload, got 0
+E   assert 0 >= 10
+_________________ test_sse_includes_x_trace_id_and_rl_headers __________________
+tests/smoke/test_responses_stream.py:214: in test_sse_includes_x_trace_id_and_rl_headers
+    assert chunk_count >= 1, "Stream produced no chunks"
+E   AssertionError: Stream produced no chunks
+E   assert 0 >= 1
+_________________________ test_cors_preflight_request __________________________
+tests/smoke/test_security_headers.py:115: in test_cors_preflight_request
+    assert response.status_code in [200, 405]
+E   assert 400 in [200, 405]
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+_____________________ test_error_responses_no_stack_traces _____________________
+tests/smoke/test_security_headers.py:190: in test_error_responses_no_stack_traces
+    assert response.status_code == 401
+E   assert 200 == 401
+E    +  where 200 = <Response [200 OK]>.status_code
+________________________ test_traced_matriz_operations _________________________
+tests/smoke/test_tracing.py:57: in test_traced_matriz_operations
+    assert "output" in data
+E   AssertionError: assert 'output' in {'choices': [{'finish_reason': 'stop', 'index': 0, 'message': {'content': '[stub] test query', 'role': 'assistant'}}], 'created': 1762307049, 'id': 'resp_9c12bd09d56e', 'model': 'lukhas-mini', ...}
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.9.6-final-0 ________________
+
+Name                                                                             Stmts   Miss Branch BrPart  Cover   Missing
+----------------------------------------------------------------------------------------------------------------------------
+core/__init__.py                                                                     1      0      0      0   100%
+core/actor_model.py                                                                  2      2      0      0     0%   2-4
+core/actor_supervision_integration.py                                                2      2      0      0     0%   2-4
+core/actor_system.py                                                                 2      2      0      0     0%   2-4
+core/adapters/__init__.py                                                            3      3      0      0     0%   8-11
+core/adapters/config_resolver.py                                                    19     19      2      0     0%   8-47
+core/adapters/provider_registry.py                                                 160    160     52      0     0%   15-391
+core/adaptive_ux_engine.py                                                           2      2      0      0     0%   2-4
+core/agent_tracer.py                                                                80     80     10      0     0%   7-210
+core/api/__init__.py                                                                 2      2      0      0     0%   3-5
+core/api/api_system.py                                                             376    376     70      0     0%   1-860
+core/api/service_stubs.py                                                          334    334    126      0     0%   5-792
+core/api_diff_analyzer.py                                                            2      2      0      0     0%   2-4
+core/audit/__init__.py                                                               2      2      0      0     0%   3-5
+core/audit/audit_decision_embedding_engine.py                                      278    278     16      0     0%   6-777
+core/bio_symbolic_processor.py                                                     264    264     96      0     0%   11-642
+core/blockchain/__init__.py                                                          2      2      0      0     0%   3-5
+core/blockchain/blockchain_wrapper.py                                               46     46      4      0     0%   2-91
+core/bootstrap.py                                                                    2      2      0      0     0%   2-4
+core/bot.py                                                                          2      2      0      0     0%   2-4
+core/breakthrough/__init__.py                                                       26     26     10      0     0%   2-46
+core/bridge/__init__.py                                                              3      3      0      0     0%   2-10
+core/bridge/dream_commerce.py                                                      377    377    108      0     0%   49-1027
+core/bridge/llm_guardrail.py                                                        61     61     10      0     0%   2-100
+core/business/__init__.py                                                            5      5      0      0     0%   2-12
+core/clock/__init__.py                                                               5      5      0      0     0%   2-12
+core/cluster_sharding.py                                                             2      2      0      0     0%   2-4
+core/collaboration.py                                                                2      2      0      0     0%   2-4
+core/collective/__init__.py                                                         19     19      0      0     0%   6-52
+core/collective/clusters/__init__.py                                                15     15      8      0     0%   2-21
+core/collective/routing/__init__.py                                                 24     24     10      0     0%   10-48
+core/collective/swarm/__init__.py                                                   24     24     10      0     0%   10-48
+core/colonies/__init__.py                                                            5      5      0      0     0%   3-14
+core/colonies/base_colony.py                                                        69     69      8      0     0%   7-177
+core/colonies/ethics_swarm_colony.py                                               111    111     26      0     0%   2-228
+core/colonies/mesh_topology.py                                                      75     75      6      0     0%   7-245
+core/colonies/oracle_colony.py                                                     221    221     48      0     0%   27-594
+core/common.py                                                                      14     14      2      0     0%   6-38
+core/common/__init__.py                                                             22      3      8      4    77%   18-19, 24, 27->39, 32->27, 41->exit
+core/common/config.py                                                                5      5      0      0     0%   2-13
+core/common/exceptions.py                                                           25      8     16      3    59%   12->23, 20-21, 29-34, 37->exit
+core/common/logger/__init__.py                                                      18     18      2      0     0%   2-34
+core/consciousness/__init__.py                                                      15      2      8      2    83%   11-12, 15->exit, 17->15
+core/consciousness/advanced_consciousness_engine.py                                373    373     62      0     0%   62-1080
+core/consciousness/async_client.py                                                 431    431    128      0     0%   1-3683
+core/consciousness/bridge.py                                                       362    362     92      0     0%   1-941
+core/consciousness/chaos_engineering_framework.py                                  362    362     52      0     0%   1-851
+core/consciousness/collapse_governance_system.py                                   333    333     44      0     0%   1-939
+core/consciousness/consciousness_expansion_engine.py                               267    267     98      0     0%   10-817
+core/consciousness/dream_reflection_loop.py                                        489    489    132      0     0%   1-1035
+core/consciousness/drift_detector.py                                                43     43      4      0     0%   3-103
+core/consciousness/haiku_generator.py                                              343    343    100      0     0%   1-1067
+core/consciousness/id_reasoning_engine.py                                          295    295     64      0     0%   14-852
+core/consciousness/integrator.py                                                   335    335     66      0     0%   17-708
+core/consciousness/natural_language_interface.py                                   436    436    156      0     0%   1-1089
+core/consciousness/oracle/__init__.py                                               24     24     10      0     0%   11-52
+core/consciousness/qi_mesh_integrator.py                                           310    310     74      0     0%   1-758
+core/consciousness/shared_state.py                                                 394    394    104      0     0%   1-1065
+core/consciousness/simulation_controller.py                                        223    223     78      0     0%   1-568
+core/consciousness/unified_consciousness_engine.py                                 425    425    108      0     0%   27-929
+core/consciousness/world_models.py                                                 311    311     98      0     0%   1-683
+core/consciousness_data_flow.py                                                      2      2      0      0     0%   2-4
+core/consciousness_network_monitor.py                                                2      2      0      0     0%   2-4
+core/consciousness_signal_router.py                                                411    411    132      0     0%   9-899
+core/consciousness_stream/__init__.py                                               11     11      2      0     0%   2-25
+core/consciousness_ticker/__init__.py                                                5      5      0      0     0%   2-12
+core/consistency_manager.py                                                          2      2      0      0     0%   2-4
+core/constellation_alignment_system.py                                             336    336     94      0     0%   16-848
+core/coordination.py                                                                 2      2      0      0     0%   2-4
+core/core_hub.py                                                                     2      2      0      0     0%   2-4
+core/core_system.py                                                                  2      2      0      0     0%   2-4
+core/core_utilities.py                                                               2      2      0      0     0%   2-4
+core/decorators.py                                                                   2      2      0      0     0%   2-4
+core/distributed_tracing.py                                                          2      2      0      0     0%   2-4
+core/efficient_communication.py                                                      2      2      0      0     0%   2-4
+core/emotion/__init__.py                                                             2      2      0      0     0%   3-5
+core/emotion/emotion_mapper_alt.py                                                  67     67     14      0     0%   2-154
+core/endocrine/__init__.py                                                           4      4      0      0     0%   2-28
+core/endocrine/hormone_system.py                                                   236    236     42      0     0%   5-532
+core/energy_consumption_analysis.py                                                  2      2      0      0     0%   2-4
+core/enhanced_matriz_adapter.py                                                      2      2      0      0     0%   2-4
+core/enhanced_swarm.py                                                               2      2      0      0     0%   2-4
+core/errors.py                                                                       2      2      0      0     0%   2-4
+core/ethics.py                                                                       3      3      0      0     0%   6-9
+core/ethics/__init__.py                                                             12     12      2      0     0%   10-45
+core/ethics/logic/__init__.py                                                       19     19      8      0     0%   2-30
+core/event_bus.py                                                                    2      2      0      0     0%   2-4
+core/event_sourcing.py                                                               2      2      0      0     0%   2-4
+core/events/__init__.py                                                              2      2      0      0     0%   2-4
+core/events/contracts.py                                                           337    337      6      0     0%   5-638
+core/fallback_services.py                                                            2      2      0      0     0%   2-4
+core/fault_tolerance.py                                                              2      2      0      0     0%   2-4
+core/framework_integration.py                                                        2      2      0      0     0%   2-4
+core/glyph/__init__.py                                                               0      0      0      0   100%
+core/glyph/glyph_memory_integration.py                                             352    352    112      0     0%   61-1079
+core/governance.py                                                                   3      3      0      0     0%   7-10
+core/governance/__init__.py                                                         13      9      4      0    24%   19-27
+core/governance/auth_cross_module_integration.py                                   279    279     58      0     0%   24-808
+core/governance/auth_glyph_registry.py                                             226    226     54      0     0%   22-698
+core/governance/auth_guardian_integration.py                                       318    318    130      0     0%   21-689
+core/governance/consent_ledger/__init__.py                                           2      2      0      0     0%   3-5
+core/governance/consent_ledger/ledger_v1.py                                        391    391     90      0     0%   25-1317
+core/governance/ethics/__init__.py                                                   0      0      0      0   100%
+core/governance/ethics/compliance_monitor.py                                       382    382     94      0     0%   28-1163
+core/governance/ethics/ethical_decision_maker.py                                   588    588    244      0     0%   1-1286
+core/governance/ethics/guardian_reflector.py                                       335    335     98      0     0%   34-732
+core/governance/examples/__init__.py                                                 2      2      0      0     0%   3-5
+core/governance/examples/basic/__init__.py                                           2      2      0      0     0%   3-12
+core/governance/examples/basic/example.py                                           58     58      6      0     0%   3-149
+core/governance/guardian/__init__.py                                                 0      0      0      0   100%
+core/governance/guardian/compliance_audit_system.py                                375    375     42      0     0%   24-1026
+core/governance/guardian/system_health_monitor.py                                  418    418    118      0     0%   20-940
+core/governance/guardian_system_integration.py                                     555    555    180      0     0%   33-1283
+core/governance/identity/__init__.py                                                 0      0      0      0   100%
+core/governance/identity/auth/__init__.py                                            0      0      0      0   100%
+core/governance/identity/auth/qrg_generators.py                                    380    380     96      0     0%   1-942
+core/governance/identity/auth_backend/__init__.py                                    0      0      0      0   100%
+core/governance/identity/auth_backend/websocket_server.py                          332    332     54      0     0%   1-766
+core/governance/identity/auth_web/__init__.py                                        1      1      0      0     0%   8
+core/governance/identity/auth_web/websocket_server.py                              332    332     54      0     0%   1-770
+core/governance/identity/biometric/__init__.py                                       0      0      0      0   100%
+core/governance/identity/biometric/biometric_fusion_engine.py                      322    322    112      0     0%   19-874
+core/governance/identity/core/__init__.py                                            0      0      0      0   100%
+core/governance/identity/core/brain_identity_integration.py                        258    258     54      0     0%   1-646
+core/governance/identity/core/colonies/__init__.py                                   0      0      0      0   100%
+core/governance/identity/core/colonies/biometric_verification_colony.py            291    291     68      0     0%   1-736
+core/governance/identity/core/colonies/consciousness_verification_colony.py        410    410    146      0     0%   7-1097
+core/governance/identity/core/colonies/dream_verification_colony.py                407    407    106      0     0%   1-1128
+core/governance/identity/core/glyph/__init__.py                                      0      0      0      0   100%
+core/governance/identity/core/glyph/distributed_glyph_generation.py                452    452    136      0     0%   1-948
+core/governance/identity/core/health/__init__.py                                     0      0      0      0   100%
+core/governance/identity/core/health/identity_health_monitor.py                    312    312    106      0     0%   8-835
+core/governance/identity/core/tagging/__init__.py                                    0      0      0      0   100%
+core/governance/identity/core/tagging/identity_tag_resolver.py                     285    285     92      0     0%   1-676
+core/governance/identity/core/unified_auth_manager.py                              275    275     92      0     0%   1-924
+core/governance/identity/qrg_integration.py                                        283    283     38      0     0%   22-771
+core/governance/identity/quantum/__init__.py                                         0      0      0      0   100%
+core/governance/identity/quantum/dynamic_qrglyph_engine.py                         242    242     42      0     0%   1-669
+core/governance/identity/tools/__init__.py                                           0      0      0      0   100%
+core/governance/identity/tools/onboarding_cli.py                                   333    333    102      0     0%   21-592
+core/governance/identity/unified_login_interface.py                                282    282     54      0     0%   29-920
+core/governance/identity/zkproof/__init__.py                                         0      0      0      0   100%
+core/governance/identity/zkproof/multimodal_zk_engine.py                           217    217     38      0     0%   20-700
+core/governance/matriz_consciousness_governance.py                                 326    326    132      0     0%   1-834
+core/governance/security/__init__.py                                                 0      0      0      0   100%
+core/governance/security/audit_system.py                                           561    561    178      0     0%   1-1223
+core/id.py                                                                           2      2      0      0     0%   2-4
+core/identity.py                                                                     3      3      0      0     0%   7-10
+core/identity/__init__.py                                                            2      0      0      0   100%
+core/identity/adapters/__init__.py                                                   2      2      0      0     0%   3-5
+core/identity/adapters/webauthn_adapter.py                                          35     35     10      0     0%   3-113
+core/identity/consciousness_namespace_isolation.py                                 380    380     76      0     0%   1-931
+core/identity/constitutional_ai_compliance.py                                      547    392    162      1    22%   38-40, 46, 297-308, 315-417, 427-476, 481-541, 546-604, 609-658, 663-712, 717-767, 772-825, 830-876, 881-935, 940-991, 996-1005, 1013-1046, 1052-1071, 1084-1120, 1125-1147, 1152-1153, 1160-1167, 1185->exit
+core/identity/manager.py                                                           328    261    120      2    15%   42-43, 74-144, 148-163, 167-169, 173-194, 213-230, 238, 247-307, 312-316, 338-370, 374-387, 391-412, 441->exit, 446-447, 450-466, 473-535, 539-631, 641-658, 662-716, 720-732, 739-772, 782-794, 821-837, 843-879
+core/identity/matriz_consciousness_identity.py                                     476    356    168      1    19%   39, 58-62, 157, 161-181, 185-187, 191-201, 205-206, 226-230, 255-271, 281-343, 348-353, 357-369, 376-559, 566-593, 598-620, 625-632, 657-729, 736-784, 789-813, 819-832, 837-890, 895-912, 917-942, 947-984, 991-1007, 1012-1042, 1047-1100, 1134-1146
+core/identity/matriz_consciousness_identity_signals.py                              75     19      0      0    75%   90-103, 113-126, 134-137, 140-141, 151-152, 155-157
+core/identity/vault/__init__.py                                                      6      5      0      0    17%   13-21
+core/identity/vault/lukhas_id.py                                                   201    188     40      0     5%   35-554
+core/identity_aware_base.py                                                          2      2      0      0     0%   2-4
+core/identity_aware_base_colony.py                                                 259    259     84      0     0%   30-735
+core/identity_integration.py                                                       143    143     50      0     0%   2-358
+core/image_processing_pipeline.py                                                    2      2      0      0     0%   2-4
+core/integrated_system.py                                                            2      2      0      0     0%   2-4
+core/integration/__init__.py                                                         0      0      0      0   100%
+core/integration/executive_decision_integrator.py                                  509    509     88      0     0%   41-1821
+core/integration/global_initialization.py                                          105    105     18      0     0%   12-297
+core/integration/innovation_orchestrator/__init__.py                                 0      0      0      0   100%
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py     278    278     70      0     0%   9-689
+core/integration/neuro_symbolic_fusion_layer.py                                    284    284     70      0     0%   45-701
+core/integration/nias_dream_bridge.py                                               92     92     18      0     0%   12-220
+core/integration/register_ai_supremacy_modules.py                                  156    156     28      0     0%   10-396
+core/integration/symbolic_network.py                                               402    402     96      0     0%   10-1249
+core/integration/system_coordinator.py                                             393    393     96      0     0%   35-807
+core/integration_hub.py                                                              2      2      0      0     0%   2-4
+core/integrator.py                                                                 345    345     88      0     0%   1-975
+core/interfaces/__init__.py                                                         13     13      0      0     0%   6-27
+core/interfaces/adaptive_enhancements.py                                           189    189     66      0     0%   7-493
+core/interfaces/api/__init__.py                                                     16     16      8      0     0%   3-25
+core/interfaces/api/v1/__init__.py                                                  16     16      8      0     0%   3-24
+core/interfaces/api/v1/common/__init__.py                                           16     16      8      0     0%   3-24
+core/interfaces/api/v1/common/auth.py                                               24     24      2      0     0%   3-48
+core/interfaces/api/v1/v1/__init__.py                                                1      1      0      0     0%   3
+core/interfaces/api/v1/v1/common/__init__.py                                         1      1      0      0     0%   3
+core/interfaces/api/v1/v1/common/auth.py                                           102    102     32      0     0%   1-231
+core/interfaces/api/v1/v1/common/errors.py                                          14     14      0      0     0%   1-31
+core/interfaces/api/v1/v1/common/validators.py                                      41     41     20      0     0%   3-116
+core/interfaces/api/v1/v1/grpc/__init__.py                                           4      4      0      0     0%   1-6
+core/interfaces/api/v1/v1/grpc/client.py                                             3      3      0      0     0%   4-8
+core/interfaces/api/v1/v1/grpc/pb2.py                                               98     98      0      0     0%   5-191
+core/interfaces/api/v1/v1/grpc/pb2_grpc.py                                         168    168     50      0     0%   6-295
+core/interfaces/api/v1/v1/grpc/server.py                                            16     16      2      0     0%   1-38
+core/interfaces/api/v1/v1/rest/__init__.py                                           2      2      0      0     0%   1-3
+core/interfaces/api/v1/v1/rest/app.py                                               37     37      0      0     0%   1-85
+core/interfaces/api/v1/v1/rest/middleware.py                                       224    224     58      0     0%   2-523
+core/interfaces/api/v1/v1/rest/models.py                                            49     49      2      0     0%   1-82
+core/interfaces/api/v1/v1/rest/routers/__init__.py                                   5      5      0      0     0%   1-6
+core/interfaces/api/v1/v1/rest/routers/health.py                                     6      6      0      0     0%   2-10
+core/interfaces/api/v1/v1/rest/routers/metrics.py                                    7      7      0      0     0%   1-11
+core/interfaces/api/v1/v1/rest/routers/process.py                                   58     58      6      0     0%   1-114
+core/interfaces/api/v1/v1/rest/routers/tasks.py                                     20     20      0      0     0%   1-34
+core/interfaces/logic/__init__.py                                                    0      0      0      0   100%
+core/interfaces/logic/agent_self.py                                                  2      2      0      0     0%   7-42
+core/interfaces/logic/context/__init__.py                                            0      0      0      0   100%
+core/interfaces/logic/context/context_builder.py                                    12     12      0      0     0%   1-112
+core/interfaces/ui/__init__.py                                                       0      0      0      0   100%
+core/interfaces/ui/app.py                                                           54     54     10      0     0%   7-92
+core/interfaces/ui/components/__init__.py                                            0      0      0      0   100%
+core/interfaces/ui/components/audio_exporter.py                                    109    109     20      0     0%   18-181
+core/mailbox.py                                                                      2      2      0      0     0%   2-4
+core/matriz_adapter.py                                                               2      2      0      0     0%   2-4
+core/matriz_consciousness_integration.py                                           257    257     54      0     0%   10-651
+core/matriz_consciousness_signals.py                                               178     87     36      0    43%   143-249, 253-300, 304-314, 329-365, 377-412, 420-463, 471-506
+core/matriz_integrated_demonstration.py                                              2      2      0      0     0%   2-4
+core/matriz_signal_emitters.py                                                     183    183     28      0     0%   9-682
+core/memory/__init__.py                                                              0      0      0      0   100%
+core/memory/adaptive_meta_learning_system.py                                       247    247     98      0     0%   29-643
+core/memory/distributed_memory_fold.py                                             407    407    100      0     0%   1-999
+core/memory/replay_system.py                                                       299    299     76      0     0%   1-684
+core/memory/simple_store.py                                                        326    326    106      0     0%   1-647
+core/memory/tier_system.py                                                         211    211     48      0     0%   1-710
+core/memory_core.py                                                                  2      2      0      0     0%   2-4
+core/metrics.py                                                                     14     14      0      0     0%   7-68
+core/metrics_contract.py                                                             2      2      0      0     0%   2-4
+core/minimal_actor.py                                                                2      2      0      0     0%   2-4
+core/models.py                                                                      19     19      2      0     0%   11-73
+core/module_manager.py                                                               2      2      0      0     0%   2-4
+core/module_registry.py                                                            142    142     28      0     0%   35-513
+core/monitoring/__init__.py                                                          0      0      0      0   100%
+core/monitoring/collapse_integration.py                                             76     76     26      0     0%   27-248
+core/neural/__init__.py                                                              0      0      0      0   100%
+core/neural/integrate_isolated_components.py                                        99     99     20      0     0%   11-504
+core/neural/master_integration.py                                                   56     56     12      0     0%   10-120
+core/neural/topology_manager.py                                                    299    299    102      0     0%   11-934
+core/neural_bridge.py                                                                2      2      0      0     0%   2-4
+core/neuroplastic_connector.py                                                       2      2      0      0     0%   2-4
+core/notion_sync.py                                                                357    357     72      0     0%   41-855
+core/observability/__init__.py                                                     127    127     24      0     0%   55-424
+core/observability/unified_monitoring_dashboard.py                                 408    408    120      0     0%   30-963
+core/observability_steering.py                                                       2      2      0      0     0%   2-4
+core/observatory.py                                                                  2      2      0      0     0%   2-4
+core/oracle_nervous_system.py                                                      295    295     56      0     0%   47-821
+core/orchestration/__init__.py                                                       0      0      0      0   100%
+core/orchestration/async_orchestrator.py                                           503    503    206      0     0%   1-1098
+core/orchestration/brain/Lambdabot_brain_system.py                                  65     65     14      0     0%   12-149
+core/orchestration/brain/__init__.py                                                 0      0      0      0   100%
+core/orchestration/brain/abstract_reasoning/__init__.py                              0      0      0      0   100%
+core/orchestration/brain/abstract_reasoning/interface.py                           250    250     54      0     0%   1-708
+core/orchestration/brain/adaptive_image_generator.py                                72     72     14      0     0%   7-180
+core/orchestration/brain/australian_awareness_engine.py                            228    228     26      0     0%   1-674
+core/orchestration/brain/autonomous_github_manager.py                              352    352     90      0     0%   1-722
+core/orchestration/brain/brain_integration.py                                      353    353    114      0     0%   15-737
+core/orchestration/brain/brain_integration_broken.py                               343    343     98      0     0%   15-786
+core/orchestration/brain/cognitive_core.py                                         350    350     84      0     0%   13-1009
+core/orchestration/brain/cognitive_enhancement.py                                   76     76     22      0     0%   3-186
+core/orchestration/brain/consciousness_core.py                                      70     70     18      0     0%   6-159
+core/orchestration/brain/dashboard/__init__.py                                       2      2      0      0     0%   3-5
+core/orchestration/brain/dashboard/main_dashboard.py                                75     75     10      0     0%   3-201
+core/orchestration/brain/demo.py                                                   246    246     44      0     0%   17-625
+core/orchestration/brain/github_vulnerability_manager.py                           397    397    120      0     0%   21-975
+core/orchestration/brain/integration/__init__.py                                     0      0      0      0   100%
+core/orchestration/brain/integration/brain_integration.py                          552    552    182      0     0%   15-1327
+core/orchestration/brain/integration_bridge.py                                      14     14      0      0     0%   6-42
+core/orchestration/brain/lukhas_agi_orchestrator.py                                124    124     14      0     0%   2-264
+core/orchestration/brain/main_node.py                                              172    172     26      0     0%   7-408
+core/orchestration/brain/neural/__init__.py                                          0      0      0      0   100%
+core/orchestration/brain/neural/cognitive_core.py                                  220    220     58      0     0%   19-544
+core/orchestration/brain/orchestration/__init__.py                                   0      0      0      0   100%
+core/orchestration/brain/orchestration/core.py                                     222    222     46      0     0%   51-452
+core/orchestration/brain/orchestration/main_node.py                                173    173     26      0     0%   9-414
+core/orchestration/brain/output/__init__.py                                          0      0      0      0   100%
+core/orchestration/brain/output/report_generator.py                                 24     24      2      0     0%   7-77
+core/orchestration/brain/personality/__init__.py                                     0      0      0      0   100%
+core/orchestration/brain/personality/voice_personality.py                          173    173     66      0     0%   21-378
+core/orchestration/brain/spine/__init__.py                                           0      0      0      0   100%
+core/orchestration/brain/spine/accent_adapter.py                                    23     23      0      0     0%   2-49
+core/orchestration/brain/spine/emotional_sorter.py                                   9      9      0      0     0%   7-46
+core/orchestration/brain/spine/healix_mapper.py                                     38     38     12      0     0%   22-145
+core/orchestration/brain/spine/trait_sync_gpt_synb_ref.py                           67     67     14      0     0%   10-130
+core/orchestration/brain/spine/unified_self.py                                      71     71     18      0     0%   7-161
+core/orchestration/brain/unified_self_merge_divergence.py                           61     61     16      0     0%   21-136
+core/orchestration/core.py                                                         223    223     46      0     0%   37-455
+core/orchestration/core_modules/__init__.py                                          0      0      0      0   100%
+core/orchestration/core_modules/symbolic_signal_router.py                          114    114     46      0     0%   10-251
+core/orchestration/examples/__init__.py                                              0      0      0      0   100%
+core/orchestration/examples/endocrine_module_example.py                            122    122     36      0     0%   5-284
+core/orchestration/golden_trio/__init__.py                                           0      0      0      0   100%
+core/orchestration/golden_trio/trio_orchestrator.py                                288    288     84      0     0%   1-663
+core/orchestration/gpt_colony_orchestrator.py                                      341    341    108      0     0%   9-773
+core/orchestration/integration/__init__.py                                           0      0      0      0   100%
+core/orchestration/integration/human_in_the_loop_orchestrator.py                   654    654    174      0     0%   43-1841
+core/orchestration/integration_hub.py                                              415    415     76      0     0%   7-895
+core/orchestration/learning_initializer.py                                          50     50      4      0     0%   17-177
+core/orchestration/loader.py                                                        40     40     14      0     0%   10-94
+core/orchestration/main_node.py                                                    183    183     28      0     0%   19-441
+core/orchestration/swarm/__init__.py                                                 0      0      0      0   100%
+core/orchestration/swarm/swarm_integration.py                                       41     41      0      0     0%   6-95
+core/orchestration/user_feedback/__init__.py                                         0      0      0      0   100%
+core/orchestration/user_feedback/feedback_collector.py                              25     25      4      0     0%   13-60
+core/p2p_communication.py                                                            2      2      0      0     0%   2-4
+core/p2p_fabric.py                                                                   2      2      0      0     0%   2-4
+core/plugin_registry.py                                                              2      2      0      0     0%   2-4
+core/policy_guard/__init__.py                                                        2      2      0      0     0%   8-10
+core/ports/__init__.py                                                               2      2      0      0     0%   16-22
+core/ports/openai_provider.py                                                       26     26      0      0     0%   9-170
+core/quantized_cycle_manager.py                                                      2      2      0      0     0%   2-4
+core/quantized_thought_cycles.py                                                     2      2      0      0     0%   2-4
+core/quantum_financial/__init__.py                                                  24     24     10      0     0%   10-48
+core/quantum_financial/quantum_financial_consciousness_engine.py                    10     10      2      0     0%   3-20
+core/quorum_override.py                                                              2      2      0      0     0%   2-4
+core/registry.py                                                                     3      3      0      0     0%   6-9
+core/registry/__init__.py                                                           21     21      0      0     0%   6-38
+core/reliability/__init__.py                                                         2      0      0      0   100%
+core/reliability/backoff.py                                                          6      6      0      0     0%   1-10
+core/reliability/circuit_breaker/__init__.py                                        54     19     20      5    57%   31, 45-52, 65, 69-72, 75, 78, 83, 88-90, 93->exit
+core/reliability/idempotency.py                                                     58     28     10      1    46%   42, 48, 52, 59, 70-79, 82-83, 87, 99, 115, 122, 140-145, 160-161, 166-167
+core/reliability/idempotency_redis.py                                               31     22      4      0    26%   12-13, 16-36, 39-52
+core/reliability/quota_resolver.py                                                  88     67     32      0    18%   47-74, 78-102, 106-114, 128-147, 159-177, 189, 205-215
+core/reliability/ratelimit.py                                                       95     95     18      0     0%   17-321
+core/reliability/ratelimit_backends.py                                              22     22      2      0     0%   1-93
+core/reliability/redis_backend.py                                                   80     62      2      0    22%   27-30, 97-123, 137-157, 169-194, 207-212, 221-235
+core/resource_efficiency.py                                                          2      2      0      0     0%   2-4
+core/resource_efficiency_analyzer.py                                                 2      2      0      0     0%   2-4
+core/resource_optimization_integration.py                                            2      2      0      0     0%   2-4
+core/resource_scheduler.py                                                           2      2      0      0     0%   2-4
+core/router/__init__.py                                                              0      0      0      0   100%
+core/router/llm_multiverse_router.py                                                33     33     14      0     0%   8-71
+core/safety/__init__.py                                                              0      0      0      0   100%
+core/safety/safety_hub.py                                                          169    169     44      0     0%   5-411
+core/security/__init__.py                                                            3      3      0      0     0%   11-29
+core/security/auth.py                                                               13     13      0      0     0%   8-41
+core/security/encryption_manager.py                                                 79     79     22      0     0%   51-400
+core/security/encryption_types.py                                                   47     47      4      0     0%   35-332
+core/security/migrate_xor_encryption.py                                            140    140     62      0     0%   7-263
+core/security/security_monitor.py                                                  191    191     42      0     0%   12-446
+core/settings.py                                                                     2      2      0      0     0%   2-4
+core/specialized_colonies.py                                                         2      2      0      0     0%   2-4
+core/state_management.py                                                             2      2      0      0     0%   2-4
+core/supervision.py                                                                  2      2      0      0     0%   2-4
+core/swarm.py                                                                      212    212     54      0     0%   11-419
+core/swarm_visualizer.py                                                             2      2      0      0     0%   2-4
+core/symbolic/EthicalAuditor.py                                                    177    177     46      0     0%   57-539
+core/symbolic/__init__.py                                                            2      2      0      0     0%   4-6
+core/symbolic/bio_hub.py                                                           121    121     28      0     0%   11-226
+core/symbolic/constraints/__init__.py                                                0      0      0      0   100%
+core/symbolic/constraints/plan_verifier.py                                          11     11      2      0     0%   9-24
+core/symbolic/dast_engine.py                                                       294    294     86      0     0%   11-362
+core/symbolic/glyph_specialist.py                                                   50     50      4      0     0%   2-94
+core/symbolic/lambda_sage.py                                                       577    577    226      0     0%   2-2433
+core/symbolic/neuro_symbolic_fusion_layer.py                                       229    229     46      0     0%   51-586
+core/symbolic/pattern_recognition.py                                                53     53     14      0     0%   19-156
+core/symbolic/symbolic_anomaly_explorer.py                                         515    515    200      0     0%   58-1339
+core/symbolic/symbolic_handshake.py                                                 44     44     10      0     0%   16-164
+core/symbolic/vocabulary_creativity_engine.py                                      159    159     50      0     0%   16-1139
+core/symbolic_arbitration.py                                                         2      2      0      0     0%   2-4
+core/symbolic_core/__init__.py                                                      28     28     12      0     0%   3-55
+core/symbolic_core/colony_tag_propagation.py                                       139    139     36      0     0%   1-348
+core/symbolic_legacy/__init__.py                                                     0      0      0      0   100%
+core/symbolic_legacy/colony_tag_propagation.py                                      60     60     14      0     0%   1-125
+core/symbolism/__init__.py                                                           0      0      0      0   100%
+core/symbolism/archiver.py                                                          39     39      6      0     0%   5-84
+core/system_init.py                                                                211    211     34      0     0%   8-421
+core/tags/__init__.py                                                               15     15      0      0     0%   8-28
+core/targeted_api_fixes.py                                                         121    121     38      0     0%   16-298
+core/task_manager.py                                                                 2      2      0      0     0%   2-4
+core/tier_aware_colony_proxy.py                                                    241    241     94      0     0%   29-629
+core/tier_unification_adapter.py                                                   144    144     34      0     0%   2-378
+core/trace.py                                                                       12     12      4      0     0%   10-35
+core/utils/__init__.py                                                              32     32      4      0     0%   11-100
+core/utils/orchestration_energy_aware_execution_planner.py                         644    644    168      0     0%   47-1595
+core/validation_script_fixes.py                                                     86     86     34      0     0%   11-183
+core/verifold/__init__.py                                                            2      2      0      0     0%   3-5
+core/verifold/verifold_unified.py                                                  267    267     52      0     0%   1-644
+core/widgets/__init__.py                                                             2      2      0      0     0%   3-5
+core/widgets/healix_widget.py                                                       33     33      2      0     0%   2-73
+lukhas_pb2.py                                                                       20     20      0      0     0%   7-35
+matriz/__init__.py                                                                  41      5     12      4    79%   40->48, 51-52, 60, 71->73, 87-88
+matriz/adapters/__init__.py                                                         84     16      0      0    81%   93-94, 99, 106, 119, 124, 129, 141, 152, 157, 162, 167, 181-190, 194-203
+matriz/adapters/adapters/__init__.py                                                12     12      0      0     0%   6-38
+matriz/adapters/adapters/bio_adapter.py                                             14     14      4      0     0%   1-21
+matriz/adapters/adapters/bridge_adapter.py                                          14     14      4      0     0%   1-21
+matriz/adapters/adapters/compliance_adapter.py                                      14     14      4      0     0%   1-21
+matriz/adapters/adapters/consciousness_adapter.py                                   14     14      4      0     0%   1-21
+matriz/adapters/adapters/contradiction_adapter.py                                   14     14      4      0     0%   1-21
+matriz/adapters/adapters/creative_adapter.py                                        14     14      4      0     0%   1-21
+matriz/adapters/adapters/emotion_adapter.py                                         24     24      6      0     0%   1-53
+matriz/adapters/adapters/governance_adapter.py                                      24     24      6      0     0%   1-50
+matriz/adapters/adapters/identity_adapter.py                                        24     24      6      0     0%   1-50
+matriz/adapters/adapters/memory_adapter.py                                          14     14      4      0     0%   1-21
+matriz/adapters/adapters/orchestration_adapter.py                                   24     24      6      0     0%   1-50
+matriz/adapters/bio_adapter.py                                                      14     14      4      0     0%   1-21
+matriz/adapters/bridge_adapter.py                                                   14     14      4      0     0%   1-21
+matriz/adapters/cloud_consolidation.py                                             215    144     62      1    26%   99-100, 104, 124-156, 161-229, 244-291, 295-299, 312-348, 360, 371, 382, 399-402, 421-446, 464-500, 506, 535-538, 544-579, 583
+matriz/adapters/compliance_adapter.py                                               14     14      4      0     0%   1-21
+matriz/adapters/consciousness_adapter.py                                            14     14      4      0     0%   1-21
+matriz/adapters/contradiction_adapter.py                                            14     14      4      0     0%   1-21
+matriz/adapters/creative_adapter.py                                                 14     14      4      0     0%   1-21
+matriz/adapters/drive/__init__.py                                                  162    128     30      0    18%   61-63, 67-76, 82-94, 109-128, 137-152, 161-181, 197-217, 232-252, 261-280, 289-308, 317-332, 340-403, 407, 434-471, 481-483, 487, 491-499, 507-509
+matriz/adapters/dropbox/__init__.py                                                178    144     38      0    16%   61-63, 67-76, 82-94, 109-128, 137-152, 161-181, 197-217, 232-252, 261-280, 289-308, 317-332, 340-394, 398-401, 422-465, 474-476, 480-484, 488-511, 519-521
+matriz/adapters/emotion_adapter.py                                                  24     24      6      0     0%   1-53
+matriz/adapters/gmail_headers/__init__.py                                          126     91     20      0    24%   62-64, 68-77, 83-95, 111-132, 141-156, 165-185, 194-213, 236-240, 248-260, 264-267, 273-316, 320, 343-363, 372-387, 395-397
+matriz/adapters/governance_adapter.py                                               24     24      6      0     0%   1-50
+matriz/adapters/identity_adapter.py                                                 24     24      6      0     0%   1-50
+matriz/adapters/memory_adapter.py                                                   14     14      4      0     0%   1-21
+matriz/adapters/orchestration_adapter.py                                            24     24      6      0     0%   1-50
+matriz/consciousness/__init__.py                                                     0      0      0      0   100%
+matriz/consciousness/awareness/__init__.py                                           0      0      0      0   100%
+matriz/consciousness/awareness/awareness_engine_elevated.py                        776    776    272      0     0%   1-1622
+matriz/consciousness/cognitive/__init__.py                                           2      2      0      0     0%   3-5
+matriz/consciousness/cognitive/adapter.py                                          420    420    104      0     0%   17-1018
+matriz/consciousness/core/__init__.py                                                0      0      0      0   100%
+matriz/consciousness/core/engine.py                                                408    408     88      0     0%   14-1113
+matriz/consciousness/core/engine_complete.py                                       552    552    160      0     0%   1-1402
+matriz/consciousness/core/engine_poetic.py                                         508    508    102      0     0%   1-1723
+matriz/consciousness/dream/__init__.py                                               0      0      0      0   100%
+matriz/consciousness/dream/colony_dream_coordinator.py                             412    412    126      0     0%   1-1067
+matriz/consciousness/dream/parallel_reality_simulator.py                           410    410    170      0     0%   1-1034
+matriz/consciousness/dream/reality_synthesis_engine.py                             285    285     72      0     0%   2-760
+matriz/consciousness/reflection/EthicalReasoningSystem.py                          852    852    330      0     0%   33-2131
+matriz/consciousness/reflection/MetaLearningEnhancement.py                         375    375     88      0     0%   1-1161
+matriz/consciousness/reflection/__init__.py                                         37     37      0      0     0%   4-49
+matriz/consciousness/reflection/actor_system.py                                    413    413    104      0     0%   1-782
+matriz/consciousness/reflection/agent_coordination.py                              442    442    138      0     0%   1-888
+matriz/consciousness/reflection/awareness_system.py                                537    537    128      0     0%   1-1177
+matriz/consciousness/reflection/circuit_breaker.py                                 522    522    178      0     0%   14-968
+matriz/consciousness/reflection/colony_orchestrator.py                             394    394     86      0     0%   1-1007
+matriz/consciousness/reflection/content_enterprise_orchestrator.py                 530    530    122      0     0%   1-1084
+matriz/consciousness/reflection/core.py                                            853    853    288      0     0%   1-1720
+matriz/consciousness/reflection/distributed_state_manager.py                       287    287     72      0     0%   1-699
+matriz/consciousness/reflection/dreamseed_unified.py                               253    253     58      0     0%   46-805
+matriz/consciousness/reflection/ethical_reasoning_system.py                        979    979    312      0     0%   21-2242
+matriz/consciousness/reflection/event_replay_snapshot.py                           410    410    130      0     0%   1-847
+matriz/consciousness/reflection/federated_meta_learning.py                         422    422    188      0     0%   1-1120
+matriz/consciousness/reflection/id_reasoning_engine.py                             416    416     96      0     0%   31-1296
+matriz/consciousness/reflection/integrated_safety_system.py                        511    511    120      0     0%   1-1165
+matriz/consciousness/reflection/lambda_dependa_bot.py                              940    940    242      0     0%   1-1924
+matriz/consciousness/reflection/learning_system.py                                 452    452    118      0     0%   1-1040
+matriz/consciousness/reflection/master_orchestrator.py                             470    470    162      0     0%   1-1167
+matriz/consciousness/reflection/memory_hub.py                                      809    809    208      0     0%   18-1380
+matriz/consciousness/reflection/meta_cognitive_orchestrator_alt.py                 523    523    178      0     0%   1-1271
+matriz/consciousness/reflection/meta_learning.py                                   422    422    188      0     0%   1-1120
+matriz/consciousness/reflection/metalearningenhancementsystem.py                   356    356     88      0     0%   32-1138
+matriz/consciousness/reflection/openai_core_service.py                             321    321     58      0     0%   32-903
+matriz/consciousness/reflection/orchestration_service.py                           624    624    190      0     0%   60-2443
+matriz/consciousness/reflection/privacy_preserving_memory_vault.py                 578    578    196      0     0%   89-1513
+matriz/consciousness/reflection/reflection_layer.py                                598    598    134      0     0%   1-1674
+matriz/consciousness/reflection/swarm.py                                           572    572    212      0     0%   14-1324
+matriz/consciousness/reflection/symbolic_drift_analyzer.py                         556    556    200      0     0%   1-1244
+matriz/consciousness/reflection/system.py                                          422    422    188      0     0%   1-1130
+matriz/consciousness/reflection/visionary_orchestrator.py                          384    384     76      0     0%   1-992
+matriz/core/__init__.py                                                              8      0      0      0   100%
+matriz/core/async_orchestrator.py                                                  414    316    116      0    18%   51-65, 72-74, 90-100, 110-115, 120-125, 158-159, 164-171, 182-190, 269-309, 337-359, 364-404, 409-422, 426-434, 437-447, 452-487, 493-517, 520-522, 528-550, 562-583, 599-701, 707-717, 727-754, 762-767, 772-776, 781-782, 790-812, 818-822, 838-844, 862-874, 878, 903, 914-945, 956-969, 978-981, 985
+matriz/core/example_node.py                                                        106    106     40      0     0%   10-309
+matriz/core/memory_system.py                                                       487    403    194      1    12%   147-197, 218-266, 284-311, 336-383, 395-425, 434-474, 483-521, 530-531, 568-587, 591-594, 598-601, 605-608, 612-622, 626-634, 638-651, 655-688, 695-717, 721-722, 726-727, 733-770, 780-840, 850-872, 882-901, 911-930, 941-966, 975-1002, 1006-1044, 1048-1049, 1055-1240
+matriz/core/node_interface.py                                                      119     60     26      0    41%   108-111, 134, 153, 162, 193-288, 300-337, 358-368, 397-412, 433-443
+matriz/core/orchestrator.py                                                        117     92     36      0    16%   39-42, 46-47, 54-102, 113-145, 149-158, 163-188, 192-234, 238-246, 250-272
+matriz/interfaces/__init__.py                                                        0      0      0      0   100%
+matriz/interfaces/api_server.py                                                    272    272     58      0     0%   17-753
+matriz/legacy_shim.py                                                               75     75     18      0     0%   17-294
+matriz/legacy_shims.py                                                              32     32      6      0     0%   26-125
+matriz/matriz_health_router.py                                                       6      6      0      0     0%   2-10
+matriz/node_contract.py                                                            128     72     46      0    32%   99, 103-118, 122-126, 130, 149-187, 228-232, 237-253, 258-268, 273-286, 291-293
+matriz/nodes/__init__.py                                                             6      0      0      0   100%
+matriz/nodes/fact_node.py                                                          214    200     86      1     5%   56-76, 102-226, 250-334, 343-524, 537-554, 566-628, 653-691, 702-851
+matriz/nodes/math_node.py                                                          242    220    102      1     7%   70-83, 108-205, 229-291, 303-342, 354-370, 386-415, 427-441, 453-475, 489-509, 521-531, 556-591, 602-709
+matriz/nodes/validator_node.py                                                     480    445    200      1     5%   61-103, 123-225, 249-324, 343-377, 389-449, 467-529, 547-594, 612-673, 691-746, 764-788, 801-818, 830-859, 863-875, 879-894, 898-918, 922-938, 942-973, 977-993, 997-999, 1005-1016, 1020-1036, 1040-1061, 1065-1077, 1081, 1118-1152, 1163-1415
+matriz/orchestration/__init__.py                                                     2      0      0      0   100%
+matriz/orchestration/async_orchestrator.py                                           2      0      0      0   100%
+matriz/orchestration/service_async.py                                               53     31      6      0    37%   33-36, 44-47, 53-59, 66-70, 76-96, 103-104
+matriz/router.py                                                                    17     17      0      0     0%   11-34
+matriz/run_api_server.py                                                            24     24      2      0     0%   7-51
+matriz/runtime/__init__.py                                                          24      3     10      1    82%   31->44, 46-48
+matriz/runtime/policy/__init__.py                                                   27     27     10      0     0%   10-52
+matriz/setup.py                                                                      4      4      0      0     0%   5-10
+matriz/traces_router.py                                                            178     50     56     16    70%   57, 68-69, 82-84, 88, 114->116, 117, 120-122, 129, 134, 139-141, 147, 150-152, 168, 173, 181-188, 220-221, 224, 236-241, 251-253, 285-286, 290, 296-297, 300-302, 332-334
+matriz/utils/__init__.py                                                             0      0      0      0   100%
+matriz/utils/matriz_validate.py                                                     50     50     16      0     0%   1-77
+matriz/visualization/__init__.py                                                     4      2      0      0    50%   29-30
+matriz/visualization/example_usage.py                                               75     75     20      0     0%   9-232
+matriz/visualization/graph_viewer.py                                               538    523    172      0     2%   41, 48-1564
+----------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                            69460  67909  18994     45     2%
+Coverage JSON written to file release_artifacts/repo_audit_v2/tests/coverage_baseline.json
+FAIL Required test coverage of 30.0% not reached. Total coverage: 1.85%
+=========================== short test summary info ============================
+SKIPPED [12] tests/smoke/test_auth.py: adapters.openai removed during Phase 5B flattening
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:31: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:51: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:82: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:105: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:120: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:138: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:153: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:168: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:187: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:202: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:217: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:233: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:250: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:268: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:287: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:309: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:337: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:352: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:367: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:385: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:399: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:415: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:429: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:447: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:485: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:524: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:563: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:590: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:608: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:639: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:659: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_consciousness_pipeline.py:678: Full consciousness pipeline requires MATRIZ + Memory systems
+SKIPPED [1] tests/smoke/test_error_envelope_minimal.py:77: TestClient sync exception handling limitation - works in production
+SKIPPED [1] tests/smoke/test_external_deps.py:76: Redis client not available
+SKIPPED [1] tests/smoke/test_external_deps.py:127: S3 backend not available: No module named 'governance.schema_registry'
+SKIPPED [1] tests/smoke/test_external_deps.py:143: CloudConsolidation not available (acceptable)
+SKIPPED [1] tests/smoke/test_guardian_ethics.py:192: Drift detection functions not available
+SKIPPED [1] tests/smoke/test_llm_adapter_scan.py:207: Found violations (not failing yet): 
+
+Found 18 raw openai imports outside adapter modules:
+  - 0 CRITICAL (in production code)
+  - 18 WARNINGS (in legacy code)
+
+Details:
+WARNING: tests/smoke/test_llm_adapter_scan.py:102 - This meta-test scans the codebase for `import openai` or `from openai`
+WARNING: tests/smoke/test_llm_adapter_scan.py:115 - ["rg", "--type", "py", "-n", r"import openai|from openai", "--no-heading"],
+WARNING: matriz/consciousness/reflection/lambda_dependa_bot.py:1764 - import openai
+WARNING: qi/attention_economics.py:17 - from openai import AsyncOpenAI
+WARNING: modulation/openai_integration.py:18 - from openai import OpenAI
+WARNING: labs/memory/learning/systems/symbolic_voice_loop.py:6 - import openai
+WARNING: labs/memory/temporal/meg_openai_guard.py:47 - import openai
+WARNING: labs/memory/systems/memory_legacy/gpt_reflection.py:44 - from openai import APIError, OpenAI
+WARNING: labs/core/interfaces/voice/listen.py:11 - from openai import OpenAI
+WARNING: labs/memory/systems/memory_legacy/dreams.py:49 - from openai import APIError, OpenAI
+... and 8 more
+
+Full report: release_artifacts/repo_audit_v2/security/openai_hits.txt
+SKIPPED [1] tests/smoke/test_llm_adapter_scan.py:257: Found 6 anthropic imports outside adapters (logging only)
+SKIPPED [1] tests/smoke/test_llm_adapter_scan.py:299: Found 1 bedrock imports outside adapters
+SKIPPED [1] tests/smoke/test_memory_roundtrip.py:101: No memory backends available
+SKIPPED [1] tests/smoke/test_memory_roundtrip.py:171: SqlMemory requires specific initialization: Either engine or dsn must be provided
+SKIPPED [1] tests/smoke/test_memory_systems.py:31: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:52: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:83: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:114: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:144: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:171: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:205: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:232: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:260: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:280: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:321: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:356: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:390: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:406: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:440: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:475: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:506: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:535: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:567: Memory systems (EmbeddingIndex, IndexManager) not available
+SKIPPED [1] tests/smoke/test_memory_systems.py:596: Memory systems (EmbeddingIndex, IndexManager) not available
+FAILED tests/smoke/test_concurrency.py::test_concurrent_auth_validation - ass...
+FAILED tests/smoke/test_concurrency.py::test_concurrent_tenant_isolation - As...
+FAILED tests/smoke/test_dreams.py::test_dreams_happy_path - assert 404 == 200
+FAILED tests/smoke/test_dreams.py::test_dreams_minimal_payload - assert 404 =...
+FAILED tests/smoke/test_dreams.py::test_dreams_with_seed_only - assert 404 ==...
+FAILED tests/smoke/test_dreams.py::test_dreams_requires_auth - assert 404 == 401
+FAILED tests/smoke/test_dreams.py::test_dreams_trace_structure - assert 404 =...
+FAILED tests/smoke/test_dreams.py::test_dreams_response_format - assert 404 =...
+FAILED tests/smoke/test_dreams.py::test_dreams_constraints_handling - assert ...
+FAILED tests/smoke/test_dreams.py::test_dreams_stub_mode_indicator - assert 4...
+FAILED tests/smoke/test_dreams_api.py::test_dreams_minimal - assert 404 == 200
+FAILED tests/smoke/test_embeddings.py::test_embeddings_empty_input_handled - ...
+FAILED tests/smoke/test_embeddings.py::test_embeddings_missing_input_field - ...
+FAILED tests/smoke/test_embeddings.py::test_embeddings_requires_auth - assert...
+FAILED tests/smoke/test_error_envelope_minimal.py::test_envelope_401_minimal
+FAILED tests/smoke/test_error_envelope_minimal.py::test_envelope_403_minimal
+FAILED tests/smoke/test_error_handling.py::test_400_missing_required_field_responses
+FAILED tests/smoke/test_error_handling.py::test_400_empty_input_responses - a...
+FAILED tests/smoke/test_error_handling.py::test_400_missing_input_embeddings
+FAILED tests/smoke/test_error_handling.py::test_400_empty_input_embeddings - ...
+FAILED tests/smoke/test_error_handling.py::test_401_missing_auth_header - ass...
+FAILED tests/smoke/test_error_handling.py::test_401_malformed_auth_header - a...
+FAILED tests/smoke/test_error_handling.py::test_401_empty_bearer_token - asse...
+FAILED tests/smoke/test_error_handling.py::test_401_short_token - assert 200 ...
+FAILED tests/smoke/test_error_handling.py::test_401_error_format_openai_compatible
+FAILED tests/smoke/test_error_handling.py::test_error_messages_are_actionable
+FAILED tests/smoke/test_error_handling.py::test_graceful_degradation_matriz_unavailable
+FAILED tests/smoke/test_error_handling.py::test_status_codes_accurate_for_client_errors
+FAILED tests/smoke/test_error_handling.py::test_error_recovery_after_bad_request
+FAILED tests/smoke/test_error_handling.py::test_error_recovery_after_auth_failure
+FAILED tests/smoke/test_healthz_signals.py::test_healthz_guardian_signals - A...
+FAILED tests/smoke/test_healthz_signals.py::test_healthz_ratelimiter_signals
+FAILED tests/smoke/test_healthz_signals.py::test_healthz_always_returns_ok - ...
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_cognitive_orchestration
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_memory_attention_thought_pipeline
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_reasoning_stage - ...
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_action_stage - Ass...
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_symbolic_dna_processing
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_node_based_processing
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_bio_inspired_adaptation
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_quantum_inspired_superposition
+FAILED tests/smoke/test_matriz_integration.py::test_matriz_processing_trace_available
+FAILED tests/smoke/test_metrics_tracking.py::test_metrics_track_requests - as...
+FAILED tests/smoke/test_metrics_tracking.py::test_metrics_track_latency - ass...
+FAILED tests/smoke/test_metrics_tracking.py::test_healthz_includes_checks - A...
+FAILED tests/smoke/test_metrics_tracking.py::test_readyz_validates_dependencies
+FAILED tests/smoke/test_metrics_tracking.py::test_error_tracking - assert 200...
+FAILED tests/smoke/test_models.py::test_models_requires_auth - assert 200 == 401
+FAILED tests/smoke/test_models.py::test_models_lukhas_matriz_present - Assert...
+FAILED tests/smoke/test_models.py::test_models_metadata_complete - AssertionE...
+FAILED tests/smoke/test_models.py::test_models_capabilities_field - assert No...
+FAILED tests/smoke/test_models.py::test_models_owned_by_lukhas - assert None ...
+FAILED tests/smoke/test_models.py::test_models_created_timestamp_valid - KeyE...
+FAILED tests/smoke/test_models.py::test_models_invalid_token_returns_401 - as...
+FAILED tests/smoke/test_openai_facade.py::test_responses_minimal - AssertionE...
+FAILED tests/smoke/test_rate_limiting.py::test_rate_limit_enforced_on_burst
+FAILED tests/smoke/test_rate_limiting.py::test_rate_limit_per_tenant_isolation
+FAILED tests/smoke/test_rate_limiting.py::test_rate_limit_different_endpoints_separate_buckets
+FAILED tests/smoke/test_rate_limiting.py::test_rate_limit_anonymous_requests_by_ip
+FAILED tests/smoke/test_rate_limiting.py::test_rate_limit_preserves_tenant_identity
+FAILED tests/smoke/test_responses.py::test_responses_requires_auth - assert 2...
+FAILED tests/smoke/test_responses.py::test_responses_happy_path - AssertionEr...
+FAILED tests/smoke/test_responses.py::test_responses_missing_input_returns_400
+FAILED tests/smoke/test_responses.py::test_responses_empty_input_returns_400
+FAILED tests/smoke/test_responses.py::test_responses_id_format - AssertionErr...
+FAILED tests/smoke/test_responses.py::test_responses_model_field_present - As...
+FAILED tests/smoke/test_responses.py::test_responses_output_text_non_empty - ...
+FAILED tests/smoke/test_responses.py::test_responses_stub_mode_echo - KeyErro...
+FAILED tests/smoke/test_responses.py::test_responses_different_inputs_different_outputs
+FAILED tests/smoke/test_responses.py::test_responses_long_input_handling - As...
+FAILED tests/smoke/test_responses.py::test_responses_unicode_input - KeyError...
+FAILED tests/smoke/test_responses.py::test_responses_special_characters - ass...
+FAILED tests/smoke/test_responses.py::test_responses_multiple_sequential_requests
+FAILED tests/smoke/test_responses.py::test_responses_malformed_payload_handled
+FAILED tests/smoke/test_responses_stream.py::test_streaming_responses_sse_protocol
+FAILED tests/smoke/test_responses_stream.py::test_streaming_vs_non_streaming
+FAILED tests/smoke/test_responses_stream.py::test_sse_yields_incremental_chunks
+FAILED tests/smoke/test_responses_stream.py::test_sse_backpressure_1MB_payload_no_drop
+FAILED tests/smoke/test_responses_stream.py::test_sse_includes_x_trace_id_and_rl_headers
+FAILED tests/smoke/test_security_headers.py::test_cors_preflight_request - as...
+FAILED tests/smoke/test_security_headers.py::test_error_responses_no_stack_traces
+FAILED tests/smoke/test_tracing.py::test_traced_matriz_operations - Assertion...
+============ 82 failed, 189 passed, 74 skipped, 1 warning in 42.05s ============
