@@ -96,10 +96,7 @@ class TestSharding:
         for test_file in test_files:
             # Extract module name from path
             parts = test_file.parts
-            if len(parts) >= 2:
-                module_name = parts[0]  # First directory is module
-            else:
-                module_name = "root"
+            module_name = parts[0] if len(parts) >= 2 else "root"  # First directory is module
 
             if module_name not in module_groups:
                 module_groups[module_name] = []

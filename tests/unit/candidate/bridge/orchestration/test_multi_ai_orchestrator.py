@@ -96,7 +96,7 @@ async def test_generate_response_fallback(orchestrator, mock_openai_wrapper):
 @pytest.mark.asyncio
 async def test_generate_response_invalid_provider(orchestrator):
     prompt = "test prompt"
-    with pytest.raises(ValueError, match="Provider google is not available."):
+    with pytest.raises(ValueError, match=r"Provider google is not available."):
         await orchestrator.generate_response(prompt, provider=LLMProvider.GOOGLE)
 
 

@@ -316,9 +316,9 @@ class TenantManager:
             await self._guardian_validate_tenant_update(tenant, updates, updater_user_id)
 
         # Apply updates (with validation)
-        for field, value in updates.items():
-            if hasattr(tenant, field):
-                setattr(tenant, field, value)
+        for attr, value in updates.items():
+            if hasattr(tenant, attr):
+                setattr(tenant, attr, value)
 
         tenant.updated_at = datetime.now(timezone.utc)
 

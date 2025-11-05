@@ -591,7 +591,7 @@ class TestWebAuthnPerformanceRequirements:
     async def test_registration_latency_p95(self):
         """Test that registration latency meets p95 < 100ms requirement"""
         import os
-        from datetime import datetime
+        from datetime import datetime, timezone
 
         latencies = []
 
@@ -633,7 +633,7 @@ class TestWebAuthnPerformanceRequirements:
         # Generate performance artifact
         perf_data = {
             "test": "webauthn_registration_latency",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "metrics": {
                 "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
                 "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
@@ -649,7 +649,7 @@ class TestWebAuthnPerformanceRequirements:
 
         # Save artifact
         os.makedirs("artifacts", exist_ok=True)
-        artifact_path = f"artifacts/perf_webauthn_registration_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
+        artifact_path = f"artifacts/perf_webauthn_registration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(artifact_path, "w") as f:
             json.dump(perf_data, f, indent=2)
 
@@ -662,7 +662,7 @@ class TestWebAuthnPerformanceRequirements:
     async def test_authentication_latency_p95(self):
         """Test that authentication latency meets p95 < 100ms requirement"""
         import os
-        from datetime import datetime
+        from datetime import datetime, timezone
 
         latencies = []
 
@@ -703,7 +703,7 @@ class TestWebAuthnPerformanceRequirements:
         # Generate performance artifact
         perf_data = {
             "test": "webauthn_authentication_latency",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "metrics": {
                 "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
                 "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
@@ -719,7 +719,7 @@ class TestWebAuthnPerformanceRequirements:
 
         # Save artifact
         os.makedirs("artifacts", exist_ok=True)
-        artifact_path = f"artifacts/perf_webauthn_authentication_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
+        artifact_path = f"artifacts/perf_webauthn_authentication_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(artifact_path, "w") as f:
             json.dump(perf_data, f, indent=2)
 

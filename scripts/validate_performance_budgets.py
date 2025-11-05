@@ -20,7 +20,7 @@ Constellation Framework: ⚡ Performance Contract Guardian
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -305,7 +305,7 @@ class PerformanceBudgetValidator:
     def generate_budget_report(self) -> Dict:
         """Generate comprehensive budget validation report."""
         report = {
-            "validation_timestamp": datetime.utcnow().isoformat() + "Z",
+            "validation_timestamp": datetime.now(timezone.utc).isoformat(),
             "validator_version": "1.0.0",
             "budget_config_version": self.budgets.get("version", "1.0.0"),
             "enforcement_mode": "hard_fail",

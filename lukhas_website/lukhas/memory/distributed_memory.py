@@ -12,7 +12,7 @@ import time
 import uuid
 from collections import deque
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Dict, Optional, Set
 
@@ -132,7 +132,7 @@ class DistributedMemoryOrchestrator:
             port=listen_port,
             state=self.state,
             capabilities={"fold_storage", "consensus", "replication"},
-            last_heartbeat=datetime.utcnow()
+            last_heartbeat=datetime.now(timezone.utc)
         )
 
         # Distributed topology
@@ -256,7 +256,7 @@ class DistributedMemoryOrchestrator:
                 "memory_fold": self._serialize_memory_fold(memory_fold),
                 "checksum": self._calculate_fold_checksum(memory_fold)
             },
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=2,
             consensus_required=consensus_required
         )
@@ -333,7 +333,7 @@ class DistributedMemoryOrchestrator:
             source_node=self.node_id,
             target_nodes=target_nodes,
             payload={"fold_id": fold_id},
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=1,
             consensus_required=consensus_required
         )
@@ -384,7 +384,7 @@ class DistributedMemoryOrchestrator:
                     sync_results["errors"].append(f"Failed to sync {fold_id}: {e}")
 
             # Update last sync time
-            self.last_global_sync = datetime.utcnow()
+            self.last_global_sync = datetime.now(timezone.utc)
             self.state = NodeState.ACTIVE
 
             sync_duration = (time.time() - sync_start) * 1000
@@ -409,7 +409,7 @@ class DistributedMemoryOrchestrator:
             port=port,
             state=NodeState.ACTIVE,
             capabilities={"fold_storage", "consensus", "replication"},
-            last_heartbeat=datetime.utcnow()
+            last_heartbeat=datetime.now(timezone.utc)
         )
 
         # Add to known nodes
@@ -492,7 +492,7 @@ class DistributedMemoryOrchestrator:
                     'fold_id': getattr(memory_fold, 'fold_id', getattr(memory_fold, 'id', str(uuid.uuid4()))),
                     'content': getattr(memory_fold, 'content', {}),
                     'fold_type': getattr(memory_fold, 'fold_type', 'EPISODIC'),
-                    'timestamp': datetime.utcnow().isoformat()
+                    'timestamp': datetime.now(timezone.utc).isoformat()
                 }
 
             # Ensure datetime objects are serialized
@@ -525,8 +525,8 @@ class DistributedMemoryOrchestrator:
             primary_node=self.node_id,
             replica_nodes=replica_nodes,
             replication_factor=len(replica_nodes) + 1,  # +1 for primary
-            created_at=datetime.utcnow(),
-            last_verified=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            last_verified=datetime.now(timezone.utc),
             checksum=checksum
         )
 
@@ -666,7 +666,7 @@ class DistributedMemoryOrchestrator:
         """Handle heartbeat message from node"""
 
         if node_id in self.known_nodes:
-            self.known_nodes[node_id].last_heartbeat = datetime.utcnow()
+            self.known_nodes[node_id].last_heartbeat = datetime.now(timezone.utc)
             self.active_nodes.add(node_id)
 
     async def _handle_sync_request(self, node_id: str, message: Dict[str, Any]):
@@ -725,7 +725,7 @@ class DistributedMemoryOrchestrator:
                 port=node_info.get("port", 0),
                 state=NodeState.ACTIVE,
                 capabilities=set(node_info.get("capabilities", [])),
-                last_heartbeat=datetime.utcnow()
+                last_heartbeat=datetime.now(timezone.utc)
             )
 
             self.known_nodes[node_id] = node
@@ -827,7 +827,7 @@ class DistributedMemoryOrchestrator:
         while not self._shutdown_event.is_set():
             try:
                 # Update local heartbeat
-                self.local_node.last_heartbeat = datetime.utcnow()
+                self.local_node.last_heartbeat = datetime.now(timezone.utc)
 
                 # Send heartbeat to all known nodes
                 for node_id in self.known_nodes:
@@ -835,7 +835,7 @@ class DistributedMemoryOrchestrator:
                     pass
 
                 # Check for offline nodes
-                cutoff_time = datetime.utcnow() - timedelta(seconds=30)
+                cutoff_time = datetime.now(timezone.utc) - timedelta(seconds=30)
                 offline_nodes = []
 
                 for node_id, node in self.known_nodes.items():
@@ -875,7 +875,7 @@ class DistributedMemoryOrchestrator:
         while not self._shutdown_event.is_set():
             try:
                 # Clean up old consensus operations
-                cutoff_time = datetime.utcnow() - timedelta(seconds=60)
+                cutoff_time = datetime.now(timezone.utc) - timedelta(seconds=60)
                 expired_operations = []
 
                 for operation_id, _result in self.consensus_operations.items():
@@ -902,10 +902,10 @@ class DistributedMemoryOrchestrator:
         while not self._shutdown_event.is_set():
             try:
                 # Clean up old operations
-                cutoff_time = datetime.utcnow() - timedelta(hours=1)
+                cutoff_time = datetime.now(timezone.utc) - timedelta(hours=1)
 
                 # Clean up vote history
-                while self.vote_history and self.vote_history[0].get("timestamp", datetime.min) < cutoff_time:
+                while self.vote_history and self.vote_history[0].get("timestamp", datetime.min.replace(tzinfo=timezone.utc)) < cutoff_time:
                     self.vote_history.popleft()
 
                 # Update metrics

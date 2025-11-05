@@ -22,7 +22,7 @@ import json
 import re
 import shutil
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(".").resolve()
@@ -48,7 +48,7 @@ def write_file(path: Path, data: str):
     path.write_text(data, encoding="utf-8")
 
 def timestamp():
-    return datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 def ensure_env():
     safe_mkdir(ARTDIR)

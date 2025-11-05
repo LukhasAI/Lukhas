@@ -13,7 +13,7 @@ Usage:
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 try:
@@ -43,7 +43,7 @@ def get_plugins_status() -> Dict[str, Any]:
         return {
             "status": "unavailable",
             "error": "Registry module not available",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     # Get plugin registry instance
@@ -90,7 +90,7 @@ def get_plugins_status() -> Dict[str, Any]:
 
     return {
         "status": "operational",
-        "timestamp": datetime.utcnow().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "discovery": discovery_status,
         "registry": {
             "total_plugins": len(registered_plugins),
@@ -127,7 +127,7 @@ def get_system_health() -> Dict[str, Any]:
 
     return {
         "status": overall_health,
-        "timestamp": datetime.utcnow().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "components": health_checks,
         "summary": {
             "healthy_components": healthy_components,
@@ -162,7 +162,7 @@ def get_feature_flags() -> Dict[str, Any]:
 
     return {
         "status": "operational",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "config_flags": feature_flags,
         "env_flags": env_flags,
         "active_lane": env_flags["LUKHAS_LANE"],

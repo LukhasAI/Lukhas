@@ -81,7 +81,7 @@ Trinity-aligned packages.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Iterable
 
 
@@ -115,7 +115,7 @@ class SafetyMonitor:
         self._events: list[SafetyEvent] = []
 
     def record(self, subject: str, category: str, **details: Any) -> SafetyEvent:
-        event = SafetyEvent(subject, category, details, datetime.utcnow())
+    event = SafetyEvent(subject, category, details, datetime.now(timezone.utc))
         self._events.append(event)
         return event
 
@@ -130,7 +130,7 @@ class AuditLogger:
         self._entries: list[dict[str, Any]] = []
 
     def log(self, message: str, **context: Any) -> None:
-        entry = {"message": message, "context": context, "timestamp": datetime.utcnow().isoformat()}
+    entry = {"message": message, "context": context, "timestamp": datetime.now(timezone.utc).isoformat()}
         self._entries.append(entry)
 
     def export(self) -> list[dict[str, Any]]:
