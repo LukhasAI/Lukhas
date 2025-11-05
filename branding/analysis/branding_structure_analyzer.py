@@ -128,13 +128,13 @@ class BrandingStructureAnalyzer:
                             "methods": [n.name for n in node.body if isinstance(n, ast.FunctionDef)],
                             "docstring": ast.get_docstring(node) or "",
                         }
-                    elif isinstance(node, ast.FunctionDef) and not isinstance(node, ast.AsyncFunctionDef):
+                    elif (isinstance(node, ast.FunctionDef) and not isinstance(node, ast.AsyncFunctionDef) and
+                          isinstance(getattr(node, "parent", None), ast.Module)):
                         # Only top-level functions
-                        if isinstance(getattr(node, "parent", None), ast.Module):
-                            functions[node.name] = {
-                                "file": str(py_file.relative_to(self.base_path)),
-                                "docstring": ast.get_docstring(node) or "",
-                            }
+                        functions[node.name] = {
+                            "file": str(py_file.relative_to(self.base_path)),
+                            "docstring": ast.get_docstring(node) or "",
+                        }
 
                 # Module-level analysis
                 modules[str(py_file.relative_to(self.base_path))] = {
