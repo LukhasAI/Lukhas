@@ -14,7 +14,7 @@ Test Categories:
 6. Edge case and error handling tests
 7. Integration tests
 """
-from dataclasses import asdict, FrozenInstanceError
+from dataclasses import FrozenInstanceError, asdict
 from datetime import datetime, timezone
 
 import pytest
