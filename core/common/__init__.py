@@ -36,8 +36,11 @@ else:
     pass
 
 # Always expose our submodule path
-from . import exceptions  # noqa: E402  (ensures attr exists even if backend lacks it)
+from . import exceptions, glyph  # noqa: E402  (ensures attr exists even if backend lacks it)
+from .glyph import GLYPHToken
 
-if _SRC is not None:
-    def __getattr__(name: str):
-        return getattr(_SRC, name)
+if "glyph" not in __all__:
+    __all__.append("glyph")
+if "GLYPHToken" not in __all__:
+    __all__.append("GLYPHToken")
+

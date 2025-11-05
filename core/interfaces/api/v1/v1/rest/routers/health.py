@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from interfaces.api.v1.rest.models import HealthStatus
+from ..models import HealthStatus
 
 router = APIRouter()
 
