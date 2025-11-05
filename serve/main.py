@@ -117,7 +117,7 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
 
     async def dispatch(self, request: Request, call_next):
-        policy_mode = env_get('LUKHAS_POLICY_MODE', 'permissive') or 'permissive'
+        policy_mode = env_get('LUKHAS_POLICY_MODE', 'strict') or 'strict'
         strict_enabled = policy_mode == 'strict'
         if not strict_enabled or not request.url.path.startswith('/v1/'):
             return await call_next(request)
@@ -283,29 +283,92 @@ async def create_chat_completion(request: dict) -> dict[str, Any]:
     response_text = 'This is a stub response for RC soak testing.'
     return {'id': f'chatcmpl-{int(time.time())}', 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': sum(len(str(m.get('content', '')).split()) for m in messages), 'completion_tokens': len(response_text.split()), 'total_tokens': sum(len(str(m.get('content', '')).split()) for m in messages) + len(response_text.split())}}
 
-@app.post('/v1/responses', tags=['OpenAI Compatible'])
-async def create_response(request: dict) -> dict[str, Any]:
-    """LUKHAS responses endpoint (OpenAI-compatible format)."""
+async def _stream_generator(request: dict) -> str:
+    """SSE stream generator for OpenAI-compatible streaming responses."""
+    import time
     import hashlib
     import json
-    import time
+    import asyncio
 
     model = request.get("model", "lukhas-mini")
-
-    # Extract content from either "input" field or messages array
     content = ""
     if "input" in request:
         content = str(request["input"])
     elif request.get("messages"):
-        # Get last user message content
         msgs = request["messages"]
         content = next((m.get("content", "") for m in reversed(msgs) if m.get("role") == "user"), "")
 
-    # Generate deterministic response ID from request
+    response_id = "resp_" + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
+    created_time = int(time.time())
+
+    # Simulate streaming chunks from the original response text
+    response_text = f"[stub] {content}".strip() if content else "[stub] empty input"
+    words = response_text.split()
+
+    for i, word in enumerate(words):
+        chunk_text = f" {word}" if i > 0 else word
+        chunk = {
+            "id": response_id,
+            "object": "chat.completion.chunk",
+            "created": created_time,
+            "model": model,
+            "choices": [{
+                "index": 0,
+                "delta": {"content": chunk_text},
+                "finish_reason": None
+            }]
+        }
+        yield f"data: {json.dumps(chunk)}\n\n"
+        await asyncio.sleep(0.05)
+
+    # Send final chunk with finish_reason
+    final_chunk = {
+        "id": response_id,
+        "object": "chat.completion.chunk",
+        "created": created_time,
+        "model": model,
+        "choices": [{
+            "index": 0,
+            "delta": {},
+            "finish_reason": "stop"
+        }]
+    }
+    yield f"data: {json.dumps(final_chunk)}\n\n"
+    yield "data: [DONE]\n\n"
+
+
+@app.post('/v1/responses', tags=['OpenAI Compatible'])
+async def create_response(request: dict) -> Response:
+    """LUKHAS responses endpoint (OpenAI-compatible format)."""
+    import hashlib
+    import json
+    import time
+    import asyncio
+    from fastapi.responses import StreamingResponse
+
+    stream = request.get("stream", False)
+    if stream:
+        if "input" not in request and "messages" not in request:
+            raise HTTPException(status_code=400, detail={"error": "Missing 'input' or 'messages' field"})
+        if not request.get("input") and not request.get("messages"):
+             raise HTTPException(status_code=400, detail={"error": "'input' or 'messages' field cannot be empty"})
+        return StreamingResponse(_stream_generator(request), media_type="text/event-stream")
+
+    model = request.get("model", "lukhas-mini")
+
+    content = ""
+    if "input" in request:
+        content = str(request["input"])
+    elif request.get("messages"):
+        msgs = request["messages"]
+        content = next((m.get("content", "") for m in reversed(msgs) if m.get("role") == "user"), "")
+
+    if not content:
+        raise HTTPException(status_code=400, detail={"error": "Input content cannot be empty"})
+
     rid = "resp_" + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
 
-    # Echo stub response by default; async orchestrator can override when enabled
-    response_text = f"[stub] {content}".strip() if content else "[stub] empty input"
+    response_text = f"[stub] {content}".strip()
     orchestrator_result: Optional[dict[str, Any]] = None
     if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
         orchestrator_result = await _RUN_ASYNC_ORCH(content)
@@ -317,7 +380,16 @@ async def create_response(request: dict) -> dict[str, Any]:
             response_text = orchestrator_answer
         elif isinstance(orchestrator_result, dict) and orchestrator_result.get('error'):
             logger.info('Async MATRIZ orchestrator returned error; retaining stub response: %s', orchestrator_result['error'])
-    return {'id': rid, 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': len(content.split()) if content else 0, 'completion_tokens': len(response_text.split()), 'total_tokens': len(content.split()) + len(response_text.split()) if content else len(response_text.split())}}
+
+    from fastapi.responses import JSONResponse
+    return JSONResponse(content={
+        'id': rid,
+        'object': 'chat.completion',
+        'created': int(time.time()),
+        'model': model,
+        'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}],
+        'usage': {'prompt_tokens': len(content.split()), 'completion_tokens': len(response_text.split()), 'total_tokens': len(content.split()) + len(response_text.split())}
+    })
 
 @app.get('/openapi.json', include_in_schema=False)
 def openapi_export() -> dict[str, Any]:
