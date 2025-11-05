@@ -85,7 +85,7 @@ class TierAwareColonyProxy:
 
     def __init__(
         self,
-        target_colony: Union[BaseColony, object],
+        target_colony: BaseColony | object,
         proxy_id: str,
         identity_manager: QIIdentityManager | None = None,
     ):
@@ -514,7 +514,7 @@ class ColonyProxyManager:
         self.proxies: dict[str, TierAwareColonyProxy] = {}
         self.logger = logging.getLogger(f"{__name__}.ColonyProxyManager")
 
-    def create_proxy(self, colony: Union[BaseColony, object], proxy_id: str | None = None) -> TierAwareColonyProxy:
+    def create_proxy(self, colony: BaseColony | object, proxy_id: str | None = None) -> TierAwareColonyProxy:
         """
         Create a tier-aware proxy for a colony.
 
@@ -607,7 +607,7 @@ def get_colony_proxy_manager() -> ColonyProxyManager:
 
 
 def create_identity_aware_proxy(
-    colony: Union[BaseColony, object], proxy_id: str | None = None
+    colony: BaseColony | object, proxy_id: str | None = None
 ) -> TierAwareColonyProxy:
     """Create an identity-aware proxy for a colony."""
     manager = get_colony_proxy_manager()
@@ -615,7 +615,7 @@ def create_identity_aware_proxy(
 
 
 async def wrap_existing_colonies_with_identity(
-    colonies: dict[str, Union[BaseColony, object]],
+    colonies: dict[str, BaseColony | object],
 ) -> dict[str, TierAwareColonyProxy]:
     """Wrap multiple existing colonies with identity-aware proxies."""
     manager = get_colony_proxy_manager()

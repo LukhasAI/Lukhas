@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Union
 
 
-def _normalize_consent_timestamp(value: Union[str, datetime] | None) -> str | None:
+def _normalize_consent_timestamp(value: str | datetime | None) -> str | None:
     """Normalize consent timestamps to ISO-8601 strings."""
 
     if value is None:
@@ -120,7 +120,7 @@ def emit_guardian_decision(
     override_granted: bool = False,
     approver1_id: str | None = None,
     approver2_id: str | None = None,
-    user_consent_timestamp: Union[str, datetime] | None = None,
+    user_consent_timestamp: str | datetime | None = None,
     consent_method: str | None = None
 ) -> None:
     """

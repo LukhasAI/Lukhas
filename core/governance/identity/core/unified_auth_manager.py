@@ -81,7 +81,7 @@ class UnifiedAuthContext:
     """Complete context for revolutionary authentication"""
 
     user_id: str
-    requested_tier: Union[AuthTier, int]
+    requested_tier: AuthTier | int
     auth_method: AuthMethod
 
     # Consciousness data

@@ -82,7 +82,7 @@ class TierMappingConfig:
     LAMBDA_TO_EMOTIONAL = {v: k for k, v in EMOTIONAL_TO_LAMBDA.items()}
 
     @classmethod
-    def normalize_tier(cls, tier: Union[str, int, Enum]) -> str:
+    def normalize_tier(cls, tier: str | int | Enum) -> str:
         """Normalize any tier representation to LAMBDA_TIER format.
 
         Args:
@@ -122,7 +122,7 @@ class TierMappingConfig:
         return "LAMBDA_TIER_0"
 
     @classmethod
-    def get_tier_index(cls, tier: Union[str, int]) -> int:
+    def get_tier_index(cls, tier: str | int) -> int:
         """Get numeric index for tier comparison."""
         normalized = cls.normalize_tier(tier)
         try:
@@ -150,7 +150,7 @@ def get_identity_client() -> IdentityClient | None:
 
 
 def require_identity(
-    required_tier: Union[str, int] = "LAMBDA_TIER_1",
+    required_tier: str | int = "LAMBDA_TIER_1",
     check_consent: str | None = None,
 ):
     """
@@ -249,7 +249,7 @@ class IdentityContext:
                 pass
     """
 
-    def __init__(self, user_id: str, required_tier: Union[str, int] = "LAMBDA_TIER_1"):
+    def __init__(self, user_id: str, required_tier: str | int = "LAMBDA_TIER_1"):
         self.user_id = user_id
         self.required_tier = TierMappingConfig.normalize_tier(required_tier)
         self.client = get_identity_client()

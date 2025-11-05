@@ -63,7 +63,7 @@ class AbstractReasoningBrainInterface:
 
     async def reason_abstractly(
         self,
-        problem: Union[str, dict[str, Any]],
+        problem: str | dict[str, Any],
         context: dict[str, Any] | None = None,
         reasoning_type: str = "general_abstract",
         enable_radar_analytics: bool | None = None,
@@ -467,7 +467,7 @@ class AbstractReasoningBrainInterface:
 
     async def reason_with_radar_visualization(
         self,
-        problem: Union[str, dict[str, Any]],
+        problem: str | dict[str, Any],
         context: dict[str, Any] | None = None,
         reasoning_type: str = "general_abstract",
     ) -> dict[str, Any]:
@@ -511,7 +511,7 @@ class AbstractReasoningBrainInterface:
 
 
 async def reason_about(
-    problem: Union[str, dict[str, Any]],
+    problem: str | dict[str, Any],
     context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """

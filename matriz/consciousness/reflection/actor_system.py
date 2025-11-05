@@ -171,7 +171,7 @@ class Actor(ABC):
     3. Designate the behavior for the next message it receives (using `self.become`).
     """
 
-    def __init__(self, actor_id: str, mailbox: Union[asyncio.Queue, Mailbox] | None = None):
+    def __init__(self, actor_id: str, mailbox: asyncio.Queue | Mailbox | None = None):
         self.actor_id = actor_id
         self.state = ActorState.CREATED
 

@@ -61,7 +61,7 @@ class JWTClaims:
     # Standard JWT claims (RFC 7519)
     iss: str  # Issuer
     sub: str  # Subject
-    aud: Union[str, List[str]]  # Audience
+    aud: str | List[str]  # Audience
     exp: int  # Expiration time
     nbf: int  # Not before
     iat: int  # Issued at
@@ -217,7 +217,7 @@ class JWTManager:
 
     def create_token(self,
                     subject: str,
-                    audience: Union[str, List[str]],
+                    audience: str | List[str],
                     claims: Dict[str, Any] | None = None,
                     expiry: int | None = None) -> str:
         """
@@ -290,7 +290,7 @@ class JWTManager:
                 span.set_attribute("jwt.error", str(e))
                 raise
 
-    def verify_token(self, token: str, audience: Union[str, List[str]] | None = None) -> JWTClaims:
+    def verify_token(self, token: str, audience: str | List[str] | None = None) -> JWTClaims:
         """
         Verify and decode a JWT token.
 

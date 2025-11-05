@@ -861,7 +861,7 @@ async def generate_audio(
     voice: str = "nova",
     output_path: str | None = None,
     **kwargs,
-) -> Union[str, bytes]:
+) -> str | bytes:
     """Convenience function for audio generation."""
     service = OpenAICoreService()
     data = {"text": text, "voice": voice, **kwargs}
