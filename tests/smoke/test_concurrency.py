@@ -169,7 +169,7 @@ def test_metrics_thread_safe(client, auth_headers):
     # Metrics should contain data
     metrics_text = metrics_response.text
     assert len(metrics_text) > 0
-    assert "http_requests_total" in metrics_text
+    assert "lukhas_requests_total" in metrics_text
 
 
 def test_rate_limiting_concurrent_requests(client, auth_headers):

@@ -8,6 +8,19 @@ from typing import Any, Callable, Optional
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+from prometheus_client import Counter, Histogram
+
+# Define Prometheus metrics
+lukhas_requests_total = Counter(
+    "lukhas_requests_total",
+    "Total number of HTTP requests",
+    ["method", "endpoint", "status_code"],
+)
+http_request_duration_ms = Histogram(
+    "http_request_duration_ms",
+    "HTTP request latency in milliseconds",
+    ["method", "endpoint"],
+)
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -155,6 +168,23 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
+
+class MetricsMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        start_time = time.time()
+        response = await call_next(request)
+        process_time = (time.time() - start_time) * 1000  # Convert to milliseconds
+
+        endpoint = request.url.path
+        method = request.method
+        status_code = response.status_code
+
+        http_request_duration_ms.labels(method=method, endpoint=endpoint).observe(process_time)
+        lukhas_requests_total.labels(method=method, endpoint=endpoint, status_code=status_code).inc()
+
+        return response
+
+app.add_middleware(MetricsMiddleware)
 app.add_middleware(StrictAuthMiddleware)
 app.add_middleware(HeadersMiddleware)
 if routes_router is not None:
@@ -191,20 +221,29 @@ def voice_core_available() -> bool:
 def _get_health_status() -> dict[str, Any]:
     """Get health status for both /health and /healthz endpoints."""
     status: dict[str, Any] = {'status': 'ok'}
-    required = os.getenv('LUKHAS_VOICE_REQUIRED', 'false').strip().lower() == 'true'
+    degraded_reasons = []
+
+    required_voice = os.getenv('LUKHAS_VOICE_REQUIRED', 'false').strip().lower() == 'true'
     voice_ok = voice_core_available()
     status['voice_mode'] = 'normal' if voice_ok else 'degraded'
-    if required and (not voice_ok):
-        existing = status.get('degraded_reasons')
-        if existing is None:
-            status['degraded_reasons'] = ['voice']
-        elif isinstance(existing, list):
-            existing.append('voice')
-        else:
-            status['degraded_reasons'] = ['voice']
+    if required_voice and not voice_ok:
+        degraded_reasons.append('voice_unavailable')
+
+    if not MATRIZ_AVAILABLE:
+        degraded_reasons.append('matriz_unavailable')
+
+    if not MEMORY_AVAILABLE:
+        degraded_reasons.append('memory_unavailable')
+
+    if degraded_reasons:
+        status['status'] = 'degraded'
+        status['degraded_reasons'] = degraded_reasons
+
     matriz_version = env_get('MATRIZ_VERSION', 'unknown')
     matriz_rollout = env_get('MATRIZ_ROLLOUT', 'disabled')
-    status['matriz'] = {'version': matriz_version, 'rollout': matriz_rollout, 'enabled': matriz_rollout != 'disabled'}
+    status['matriz'] = {'version': matriz_version, 'rollout': matriz_rollout, 'enabled': matriz_rollout != 'disabled', 'available': MATRIZ_AVAILABLE}
+    status['memory'] = {'available': MEMORY_AVAILABLE}
+
     lane = env_get('LUKHAS_LANE', 'prod')
     status['lane'] = lane
     try:
@@ -242,12 +281,12 @@ def readyz() -> dict[str, Any]:
         return {'status': 'ready'}
     return {'status': 'not_ready', 'details': status}
 
+from prometheus_client import generate_latest
+
 @app.get('/metrics', include_in_schema=False)
 def metrics() -> Response:
-    """Prometheus-style metrics endpoint (stub for monitoring compatibility)."""
-    import time
-    metrics_output = f'# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total {time.process_time()}\n\n# HELP http_requests_total Total HTTP requests processed\n# TYPE http_requests_total counter\nhttp_requests_total{{method="GET",endpoint="/healthz",status="200"}} 1\n\n# HELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{{version="1.0.0"}} 1\n'
-    return Response(content=metrics_output, media_type='text/plain')
+    """Prometheus-style metrics endpoint."""
+    return Response(content=generate_latest(), media_type='text/plain')
 
 def _hash_embed(text: str, dim: int=1536) -> list[float]:
     """Generate deterministic embedding from text using hash expansion."""
