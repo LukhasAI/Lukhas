@@ -26,6 +26,10 @@ from typing import Any, Callable, Dict, List, Optional
 # Import base classes directly to avoid circular imports
 import numpy as np
 
+# Use standard Python logging instead of custom logger
+import contextlib
+import uuid
+from contextvars import ContextVar
 
 # Define minimal VectorDocument interface for lifecycle management
 @dataclass
@@ -104,10 +108,6 @@ class AbstractVectorStore(ABC):
     async def list_by_identity(self, identity_id: str, limit: int) -> List[VectorDocument]:
         """List documents by identity"""
         pass
-# Use standard Python logging instead of custom logger
-import contextlib
-import uuid
-from contextvars import ContextVar
 
 logger = logging.getLogger(__name__)
 

@@ -1,11 +1,12 @@
-from __future__ import annotations
-
 """
 Biometric Verification Colony
 
 Distributed colony of specialized agents for parallel biometric analysis,
 consensus-based verification, and self-healing sensor failure recovery.
 """
+
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import logging

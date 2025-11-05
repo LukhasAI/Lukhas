@@ -1,8 +1,5 @@
-from __future__ import annotations
-
-import logging
-
 #!/usr/bin/env python3
+
 """
 ```plaintext
 ┌────────────────────────────────────────────────────────────────────────────────┐
@@ -54,6 +51,11 @@ import logging
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 """
+
+from __future__ import annotations
+
+import logging
+
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass

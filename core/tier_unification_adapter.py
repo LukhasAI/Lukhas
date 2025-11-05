@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - TIER UNIFICATION ADAPTER
@@ -24,6 +20,10 @@ logger = logging.getLogger(__name__)
 ╚════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
+
 from abc import ABC, abstractmethod
 from functools import wraps
 from typing import Any, Callable
@@ -31,6 +31,10 @@ from typing import Any, Callable
 import structlog
 
 from core.identity_integration import TierMappingConfig, get_identity_client
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = structlog.get_logger(__name__)
 

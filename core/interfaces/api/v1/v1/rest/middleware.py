@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - API AUTHENTICATION MIDDLEWARE
@@ -25,6 +21,10 @@ logger = logging.getLogger(__name__)
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
+
 import asyncio
 import functools
 import os
@@ -41,9 +41,18 @@ import structlog
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
+from governance.identity.core.id_service import get_identity_manager
 from jwt.exceptions import InvalidTokenError as JWTError
 
-from governance.identity.core.id_service import get_identity_manager
+from core.identity.vault.lukhas_id import (
+    IdentityManager,
+    IdentityRateLimitExceeded,
+    IdentityVerificationError,
+)
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import centralized decorators and tier system
 
@@ -58,11 +67,6 @@ except ImportError:
         return len(api_key) >= 32
 
 
-from core.identity.vault.lukhas_id import (
-    IdentityManager,
-    IdentityRateLimitExceeded,
-    IdentityVerificationError,
-)
 
 logger = structlog.get_logger(__name__)
 

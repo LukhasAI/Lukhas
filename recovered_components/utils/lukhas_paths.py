@@ -1,10 +1,11 @@
-from lukhas_paths import paths
-
 #!/usr/bin/env python3
+
 """
 LUKHAS AI Path Manager
 Provides standardized path constants for all scripts and applications
 """
+
+from lukhas_paths import paths
 
 from pathlib import Path
 from typing import Optional, Union

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -58,6 +56,9 @@ from __future__ import annotations
 ║ - Stress Response Systems (Sapolsky, 2004)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import logging

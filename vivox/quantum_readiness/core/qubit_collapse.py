@@ -1,11 +1,10 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Qubit Collapse Engine
 Quantum-enhanced collapse mechanisms for ethical decision-making
 """
+
+import logging
+from datetime import timezone
 
 import hashlib
 from dataclasses import dataclass, field
@@ -18,6 +17,11 @@ import numpy as np
 from core.common import get_logger
 
 from .qi_substrate import QIState, QIStateType
+
+logger = logging.getLogger(__name__)
+
+
+
 
 logger = get_logger(__name__)
 

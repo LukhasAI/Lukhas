@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -25,6 +21,23 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 import logging
+from datetime import timezone
+
+import logging
+
+import asyncio
+import json
+import time
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum, auto
+from pathlib import Path
+from typing import Any, Callable, Optional
+
+import yaml
+
+logger = logging.getLogger(__name__)
+
 
 """
 LUKHlukhasS Visionary AI Orchestrator
@@ -53,16 +66,7 @@ Created: Based on comprehensive audit and vision synthesis
 License: lukhas Proprietary (Enterprise) / Open Core (Community)
 """
 
-import asyncio
-import json
-import time
-from dataclasses import dataclass
-from datetime import datetime
-from enum import Enum, auto
-from pathlib import Path
-from typing import Any, Callable, Optional
 
-import yaml
 
 # lukhas Core Imports (based on audit findings)
 try:

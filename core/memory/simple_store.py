@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
 lukhas AI System - Core Memory Component
@@ -19,6 +14,10 @@ DEPENDENCIES:
   - core/identity/identity_manager.py
 """
 
+from __future__ import annotations
+
+import logging
+
 import asyncio
 import contextlib
 import gzip
@@ -33,6 +32,10 @@ from pathlib import Path
 from typing import Any
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

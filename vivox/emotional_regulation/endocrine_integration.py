@@ -1,16 +1,21 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Endocrine System Integration
 Connects emotional regulation to biological hormone simulation
 """
+
+import logging
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 from core.common import get_logger
+
+from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import endocrine system
 try:
@@ -42,7 +47,6 @@ except ImportError:
         ENDORPHIN = "endorphin"
 
 
-from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
 
 logger = get_logger(__name__)
 

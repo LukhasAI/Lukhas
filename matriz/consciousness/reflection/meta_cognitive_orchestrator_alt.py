@@ -1,9 +1,5 @@
-from __future__ import annotations
-
-import logging
-
 #!/usr/bin/env python3
-# DEPRECATED: Functionality consolidated into unified_orchestrator.py
+
 """
 
 #TAG:consciousness
@@ -46,6 +42,11 @@ Original Location: brain/legacy/enhanced_bot_primary.py
 Commercial Integration: 2025-01-27 (QC Session)
 Priority: CRITICAL - Enterprise platform enhancement
 """
+
+from __future__ import annotations
+
+import logging
+
 import asyncio
 import copy
 import hashlib
@@ -58,6 +59,9 @@ from enum import Enum
 from typing import Any
 
 import numpy as np
+
+# DEPRECATED: Functionality consolidated into unified_orchestrator.py
+
 
 # Configure logging for AI operations
 logging.basicConfig(

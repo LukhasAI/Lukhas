@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:qim
@@ -11,6 +8,8 @@ logger = logging.getLogger(__name__)
 
 Consolidated module for better performance
 """
+
+import logging
 
 import asyncio
 from datetime import datetime, timezone
@@ -27,6 +26,10 @@ from orchestration.brain.unified_collapse_system import (
     BrainCollapseManager,
     CollapseBridge,
 )
+
+logger = logging.getLogger(__name__)
+
+
 
 
 def collapse_handler(collapse_manager: BrainCollapseManager) -> None:

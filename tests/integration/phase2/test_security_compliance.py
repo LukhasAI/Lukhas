@@ -1,5 +1,3 @@
-from datetime import datetime, timezone
-
 """
 Phase 2 Security & Compliance Testing Suite
 =========================================
@@ -18,6 +16,9 @@ Coverage Areas:
 
 Target Coverage: 85%+ for security-critical components
 """
+
+from datetime import datetime, timezone
+
 import secrets
 import time
 from unittest.mock import Mock

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -50,6 +48,9 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
+
+from __future__ import annotations
+
 import asyncio
 import logging
 import time

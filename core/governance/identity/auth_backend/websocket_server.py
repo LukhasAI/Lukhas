@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌐 LUKHAS DASHBOARD WEBSOCKET SERVER
@@ -44,6 +43,9 @@ from __future__ import annotations
 ║ ΛTAG: ΛWEBSOCKET, ΛSTREAMING, ΛREALTIME, ΛDASHBOARD, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import asyncio
 import builtins
 import contextlib

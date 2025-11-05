@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 """
 LUKHAS Verbose Intelligent Description Generator
@@ -9,6 +8,8 @@ Creates rich, narrative module descriptions with:
 2. Full technical and academic explanations
 Perfect for content generation systems.
 """
+
+from __future__ import annotations
 
 import os
 import re

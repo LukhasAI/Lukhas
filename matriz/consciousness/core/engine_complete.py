@@ -1,15 +1,3 @@
-import logging
-from datetime import timezone
-
-# ═══════════════════════════════════════════════════════════════════════════
-# FILENAME: engine_complete.py
-# MODULE: consciousness.core.engine_complete
-# DESCRIPTION: LUKHAS AI Consciousness Engine with Constellation Framework Integration
-# AUTHOR: LUKHAS AI SYSTEMS
-# LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
-# CONSTELLATION: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
-# ═══════════════════════════════════════════════════════════════════════════
-
 """
 LUKHAS AI Constellation Framework Consciousness Engine
 
@@ -29,6 +17,10 @@ Features:
 Performance Target: <250ms context handoff times
 Compliance: Drift threshold 0.15, ethics enforcement enabled
 """
+
+import logging
+from datetime import timezone
+
 import asyncio
 import hashlib
 import json
@@ -41,6 +33,17 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
+
+# ═══════════════════════════════════════════════════════════════════════════
+# FILENAME: engine_complete.py
+# MODULE: consciousness.core.engine_complete
+# DESCRIPTION: LUKHAS AI Consciousness Engine with Constellation Framework Integration
+# AUTHOR: LUKHAS AI SYSTEMS
+# LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
+# CONSTELLATION: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
+# ═══════════════════════════════════════════════════════════════════════════
+
+
 
 # Initialize logger
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.cognitive_consciousness_engine_complete")

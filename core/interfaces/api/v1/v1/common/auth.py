@@ -1,8 +1,5 @@
 import logging
 
-logger = logging.getLogger(__name__)
-# ΛTAG: api_auth
-
 import hashlib
 import hmac
 import os
@@ -12,6 +9,11 @@ from typing import Optional
 
 import structlog
 from fastapi import Header, HTTPException, Request
+
+logger = logging.getLogger(__name__)
+# ΛTAG: api_auth
+
+
 
 # Initialize ΛTRACE logger for security events
 logger = structlog.get_logger("ΛTRACE.api_auth")

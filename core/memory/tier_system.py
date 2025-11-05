@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 RESCUED FROM ARCHIVE - LUKHAS CONSCIOUSNESS ARCHAEOLOGY PROJECT
 ═══════════════════════════════════════════════════════════════════════════════════
@@ -23,6 +21,8 @@ Metadata:
 License:
   OpenAI-aligned Cognitive AI Symbolic Framework (internal use)
 """
+
+from __future__ import annotations
 
 import hashlib
 import json

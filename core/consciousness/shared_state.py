@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-import sys
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -59,6 +53,11 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
+import sys
+
 # Module imports
 import asyncio
 import json
@@ -69,6 +68,9 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Callable
+
+logger = logging.getLogger(__name__)
+
 
 # Configure module logger
 

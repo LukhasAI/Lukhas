@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 ╔══════════════════════════════════════════════════════════════════════════════════
 ║ 🌪️ LUKHAS AI - CONSCIOUSNESS CHAOS ENGINEERING FRAMEWORK
@@ -32,6 +31,8 @@ from __future__ import annotations
 ║ • Temporal Desynchronization: Time-based chaos in state updates
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
 
 import asyncio
 import logging

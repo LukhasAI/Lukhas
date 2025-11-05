@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Core identity vault integration utilities."""
+
+from __future__ import annotations
 
 import asyncio
 import hashlib

@@ -1,4 +1,5 @@
 """Entry point for LUKHAS commercial API"""
+
 import logging
 import time
 import uuid
@@ -8,6 +9,8 @@ from typing import Any, Callable, Optional
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+
+import os
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -54,7 +57,6 @@ except Exception:
 
     def env_get(key: str, default: Optional[str]=None) -> Optional[str]:
         return _os.getenv(key, default)
-import os
 
 # ΛTAG: async_response_toggle -- optional async orchestrator integration seam
 _ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()

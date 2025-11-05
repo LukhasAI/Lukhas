@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - IDENTITY INTEGRATION MODULE
@@ -23,12 +19,20 @@ logger = logging.getLogger(__name__)
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
+
 import functools
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable
 
 import structlog
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = structlog.get_logger(__name__)
 

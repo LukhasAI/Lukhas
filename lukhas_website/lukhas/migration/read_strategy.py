@@ -1,10 +1,12 @@
 import logging
 
-logger = logging.getLogger(__name__)
 from typing import Optional
 
 from dna.interfaces import HelixMemory
 from migration.legacy_store import LegacyStore
+
+logger = logging.getLogger(__name__)
+
 
 
 def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[dict]:

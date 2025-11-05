@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 LUKHAS Advanced Security Framework
 
@@ -7,6 +8,7 @@ audit trails, threat detection, and compliance monitoring.
 
 # ΛTAG: security_framework, authentication, encryption, audit_trails, threat_detection
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -23,6 +25,9 @@ from typing import Any, Dict, List, Set
 
 import bcrypt
 import jwt
+
+# Import for compatibility
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -932,8 +937,6 @@ def get_security_framework() -> LUKHASSecurityFramework:
     return _global_security
 
 
-# Import for compatibility
-import random
 
 if __name__ == "__main__":
     # Example usage
