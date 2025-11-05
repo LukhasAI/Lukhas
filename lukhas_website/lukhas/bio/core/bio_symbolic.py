@@ -80,7 +80,7 @@ class BioSymbolicProcessor:
         completeness = len(actual_keys & expected_keys) / len(expected_keys) if expected_keys else 0.0
 
         # Check for noise or anomalies
-        noise_factor = data.get("noise", 0.0)
+        noise_factor = max(0.0, data.get("noise", 0.0))
         coherence = completeness * (1 - noise_factor)
 
         return min(1.0, max(0.0, coherence))
@@ -323,7 +323,7 @@ class BioSymbolic:
         completeness = len(actual_keys & expected_keys) / len(expected_keys) if expected_keys else 0.0
 
         # Check for noise or anomalies
-        noise_factor = data.get("noise", 0.0)
+        noise_factor = max(0.0, data.get("noise", 0.0))
         coherence = completeness * (1 - noise_factor)
 
         return min(1.0, max(0.0, coherence))
