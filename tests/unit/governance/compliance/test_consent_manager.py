@@ -6,7 +6,7 @@
 from datetime import datetime, timedelta, timezone
 
 import pytest
-from governance.consent.consent_manager import (
+from labs.governance.consent.consent_manager import (
     AdvancedConsentManager,
     ConsentMethod,
     ConsentStatus,
@@ -15,23 +15,23 @@ from governance.consent.consent_manager import (
 
 
 @pytest.fixture
-def manager() -> AdvancedConsentManager:
-    """Provides a fresh instance of AdvancedConsentManager for each test."""
-    return AdvancedConsentManager()
+async def manager() -> AdvancedConsentManager:
+    """Provides a fresh, initialized instance of AdvancedConsentManager."""
+    instance = AdvancedConsentManager()
+    await instance.initialize()
+    return instance
 
 
 @pytest.mark.asyncio
 class TestAdvancedConsentManager:
     async def test_initialization(self, manager: AdvancedConsentManager):
         """Test that the consent manager initializes with standard purposes."""
-        await manager.initialize()
         assert len(manager.consent_purposes) > 0
         assert "essential_functionality" in manager.consent_purposes
         assert manager.metrics["total_consents"] == 0
 
     async def test_request_consent_success(self, manager: AdvancedConsentManager):
         """Test successful consent request for a single purpose."""
-        await manager.initialize()
         user_id = "test-user-123"
         purpose_id = "service_improvement"
 
@@ -60,7 +60,6 @@ class TestAdvancedConsentManager:
 
     async def test_withdraw_consent(self, manager: AdvancedConsentManager):
         """Test withdrawing a previously granted consent."""
-        await manager.initialize()
         user_id = "test-user-456"
         purpose_id = "personalization"
         valid_context = {
@@ -83,7 +82,7 @@ class TestAdvancedConsentManager:
 
         validation_after = await manager.validate_consent(user_id, purpose_id)
         assert validation_after["valid"] is False
-        assert validation_after["reason"] == "No active consent found"
+        assert validation_after["reason"] == "Consent status is withdrawn"
 
         user_consents = await manager.export_consent_audit_trail(user_id)
         withdrawn_record = user_consents[0]
@@ -95,7 +94,6 @@ class TestAdvancedConsentManager:
 
     async def test_consent_expiration_and_cleanup(self, manager: AdvancedConsentManager):
         """Test that consent expires and is cleaned up."""
-        await manager.initialize()
         user_id = "test-user-789"
         purpose_id = "marketing_communications"
         valid_context = {
@@ -125,9 +123,44 @@ class TestAdvancedConsentManager:
         assert record.status == ConsentStatus.EXPIRED
         assert manager.metrics["expired_consents"] == 1
 
+    async def test_validate_consent_returns_expired_message_before_not_found(self, manager: AdvancedConsentManager):
+        """Test that expiration is checked before consent existence."""
+        user_id = "test-user-expired-logic"
+        purpose_id = "personalization"
+        valid_context = {
+            "privacy_policy_accessible": True,
+            "withdrawal_info_provided": True,
+            "necessity_assessed": True,
+        }
+
+        # Grant and then immediately withdraw consent, leaving a non-active record
+        await manager.request_consent(
+            user_id=user_id, purpose_ids=[purpose_id], method=ConsentMethod.WEB_FORM, context=valid_context
+        )
+        await manager.withdraw_consent(user_id=user_id, purpose_ids=[purpose_id])
+
+        # Manually find the consent record to modify it for the test scenario
+        consent_record = None
+        for record in manager.consent_records.values():
+            if record.user_id == user_id and record.purpose.purpose_id == purpose_id:
+                consent_record = record
+                break
+
+        assert consent_record is not None, "Consent record not found for test setup"
+
+        # Set the expiration date to the past
+        consent_record.expires_at = datetime.now(timezone.utc) - timedelta(hours=1)
+        # Ensure status is not GRANTED so that "No active consent" would be the reason without the fix
+        consent_record.status = ConsentStatus.WITHDRAWN
+
+        # Validate and check the reason
+        validation = await manager.validate_consent(user_id, purpose_id)
+        assert validation["valid"] is False
+        assert validation["reason"] == "Consent has expired", \
+            f"Validation reason should be 'Consent has expired', but got '{validation['reason']}'"
+
     async def test_request_consent_for_unknown_purpose(self, manager: AdvancedConsentManager):
         """Test requesting consent for a purpose that does not exist."""
-        await manager.initialize()
         user_id = "test-user-unknown"
         purpose_id = "non_existent_purpose"
 
@@ -140,7 +173,6 @@ class TestAdvancedConsentManager:
 
     async def test_gdpr_validation_failure(self, manager: AdvancedConsentManager):
         """Test that consent request fails if GDPR Article 7 requirements are not met."""
-        await manager.initialize()
         user_id = "test-user-gdpr-fail"
         purpose_id = "research_development"
 
@@ -156,7 +188,6 @@ class TestAdvancedConsentManager:
 
     async def test_validate_consent_for_specific_data_categories(self, manager: AdvancedConsentManager):
         """Test validation for specific data categories within a purpose."""
-        await manager.initialize()
         user_id = "test-user-datacat"
         purpose_id = "personalization"
         valid_context = {
@@ -186,7 +217,6 @@ class TestAdvancedConsentManager:
 
     async def test_export_audit_trail(self, manager: AdvancedConsentManager):
         """Test the export_consent_audit_trail method."""
-        await manager.initialize()
         user_id_1 = "audit-user-1"
         user_id_2 = "audit-user-2"
         valid_context = {
