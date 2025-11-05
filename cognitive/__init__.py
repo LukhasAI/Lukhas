@@ -6,16 +6,14 @@ This package provides compatibility imports during the transition period.
 It will be removed after the sunset period.
 """
 
+import contextlib
 import os
 
 # Only provide aliases if compat mode is enabled
 if os.getenv("MATRIZ_COMPAT_IMPORTS", "1") == "1":
-    try:
+    with contextlib.suppress(ImportError):
         # Import from core.matriz.nodes when available
         from core.matriz.nodes import *
-    except ImportError:
-        # Graceful degradation if nodes aren't implemented yet
-        pass
 
     # Add any other cognitive module aliases here as needed
     # from consciousness import *

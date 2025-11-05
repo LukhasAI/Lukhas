@@ -366,7 +366,7 @@ class MemorySystemBenchmarks:
         stress_queries = 100
         query_latencies = []
 
-        for i in range(stress_queries):
+        for _ in range(stress_queries):
             q_start = time.perf_counter()
             results = await self.memory_system.recall_topk(query_embedding, k=10)
             q_end = time.perf_counter()
