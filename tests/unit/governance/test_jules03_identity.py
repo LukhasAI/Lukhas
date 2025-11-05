@@ -12,6 +12,20 @@ from typing import Any
 
 import pytest
 
+from governance.healthcare.decision_support import ClinicalDecisionSupport
+from governance.identity.auth_integrations.qrg_bridge import (
+    AuthQRGBridge,
+    QRAuthMode,
+    QRGAuthIntegration,
+)
+from governance.identity.auth_integrations.wallet_bridge import (
+    AuthWalletBridge,
+    WalletAuthIntegration,
+)
+from governance.identity.core.qrs.session_replay import SessionReplayManager
+from governance.identity.core.sing.sso_engine import LambdaSSOEngine
+from labs.governance.guardian_sentinel import GuardianSentinel
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 # Provide lightweight stubs for optional dependencies pulled in by healthcare package
@@ -202,19 +216,6 @@ labs_identity_sso = __import__(
 core_sing_pkg.sso_engine = labs_identity_sso
 sys.modules["governance.identity.core.sing.sso_engine"] = labs_identity_sso
 
-from governance.healthcare.decision_support import ClinicalDecisionSupport
-from governance.identity.auth_integrations.qrg_bridge import (
-    AuthQRGBridge,
-    QRAuthMode,
-    QRGAuthIntegration,
-)
-from governance.identity.auth_integrations.wallet_bridge import (
-    AuthWalletBridge,
-    WalletAuthIntegration,
-)
-from governance.identity.core.qrs.session_replay import SessionReplayManager
-from governance.identity.core.sing.sso_engine import LambdaSSOEngine
-from labs.governance.guardian_sentinel import GuardianSentinel
 
 
 class _StubTierManager:
@@ -470,4 +471,3 @@ def test_guardian_sentinel_extensions():
 
     quantum = sentinel.detect_quantum_entanglement(["⚛️", "🧠", "🛡️", "🔗"])
     assert quantum["entangled"]
-

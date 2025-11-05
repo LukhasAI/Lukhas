@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Identity Module: Consciousness Identity Persistence
@@ -17,6 +14,8 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════
 """
 
+import logging
+
 import asyncio
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
@@ -26,6 +25,10 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import consciousness components
 try:

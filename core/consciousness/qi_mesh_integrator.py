@@ -1,9 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -21,6 +17,10 @@ ETHICS_SCORE: 0.95
 COLLAPSE_READY: True
 """
 
+from __future__ import annotations
+
+import logging
+
 import asyncio
 import json
 import time
@@ -31,6 +31,10 @@ from typing import Any
 
 import numpy as np
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

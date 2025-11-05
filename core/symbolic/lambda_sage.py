@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 """
 
@@ -40,9 +39,7 @@ Core Capabilities:
 For more information, visit: https://ai
 """
 
-# ΛTRACE: ΛSAGE Archetypal Resonance Profiler initialization
-# ΛORIGIN_AGENT: Claude Code
-# ΛTASK_ID: Task 3
+from __future__ import annotations
 
 import csv
 import json
@@ -54,6 +51,11 @@ from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
+
+# ΛTRACE: ΛSAGE Archetypal Resonance Profiler initialization
+# ΛORIGIN_AGENT: Claude Code
+# ΛTASK_ID: Task 3
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

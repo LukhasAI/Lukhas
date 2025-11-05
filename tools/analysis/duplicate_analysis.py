@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 🔍  Duplicate Code Analysis
 =============================
 Identifies duplicate functionality across LUKHAS  modules.
 """
 
+import logging
+
 import ast
 import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent

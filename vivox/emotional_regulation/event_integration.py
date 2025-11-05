@@ -1,10 +1,9 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Event Bus Integration
 Connects emotional regulation to the system-wide event architecture
 """
+
+import logging
 
 import asyncio
 from dataclasses import dataclass
@@ -12,6 +11,12 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from core.common import get_logger
+
+from .vivox_ern_core import RegulationResponse, VADVector
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import event system
 try:
@@ -40,7 +45,6 @@ except ImportError:
         """Fallback EmotionalRegulationApplied for testing"""
 
 
-from .vivox_ern_core import RegulationResponse, VADVector
 
 logger = get_logger(__name__)
 

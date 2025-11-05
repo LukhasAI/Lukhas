@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -20,6 +17,8 @@ voice enhancement, and advanced quantum-inspired processing systems.
 Agent 10 Advanced Systems Implementation
 """
 
+import logging
+
 import asyncio
 from typing import Any, Optional
 
@@ -29,6 +28,12 @@ import structlog
 from ..states.bio_optimizer import QIBioOptimizationAdapter
 from .system_orchestrator import QIAGISystem
 from .ΛBot_quantum_security import PostQuantumCryptographyEngine
+
+logger = logging.getLogger(__name__)
+
+
+
+
 
 logger = structlog.get_logger(__name__)
 

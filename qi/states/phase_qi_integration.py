@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -37,6 +34,8 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+import logging
+
 from core.identity.identity_engine import QIIdentityEngine
 from core.integration.governance.__init__ import QIEthicsEngine
 from core.testing.plugin_test_framework import QITestOracle
@@ -45,11 +44,6 @@ from reasoning.symbolic_reasoning import SymbolicEngine
 from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
     MultiverseKnowledgeWeb,
 )
-
-__module_name__ = "Quantum Phase Quantum Integration"
-__version__ = "2.0.0"
-__tier__ = 2
-
 
 import asyncio
 import os
@@ -61,6 +55,18 @@ from typing import Any
 
 import numpy as np
 import pytest
+
+logger = logging.getLogger(__name__)
+
+
+
+__module_name__ = "Quantum Phase Quantum Integration"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
+
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -28,10 +27,7 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-__module_name__ = "Quantum Quantum Consensus System Enhanced"
-__version__ = "2.0.0"
-__tier__ = 2
-
+from __future__ import annotations
 
 import asyncio
 import hashlib
@@ -45,6 +41,13 @@ from enum import Enum, auto
 from typing import Any
 
 import numpy as np
+
+__module_name__ = "Quantum Quantum Consensus System Enhanced"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

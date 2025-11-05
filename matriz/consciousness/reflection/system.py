@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import datetime, timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -20,6 +14,11 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
+from __future__ import annotations
+
+import logging
+from datetime import datetime, timezone
+
 import datetime
 import json
 import os
@@ -27,6 +26,10 @@ from collections import defaultdict
 
 import numpy as np
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

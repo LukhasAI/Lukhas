@@ -5,8 +5,6 @@ import pytest
 from products.experience.dashboard.consciousness import trace_dashboard
 from pydantic.warnings import PydanticDeprecatedSince20
 
-warnings.filterwarnings("ignore", message="Import 'bio.bio_utilities' is deprecated")
-warnings.filterwarnings("ignore", category=PydanticDeprecatedSince20)
 from products.experience.universal_language.core.core import (
     Grammar,
     Symbol,
@@ -19,6 +17,9 @@ from products.experience.voice.bridge.adaptation_module import (
 )
 from products.experience.voice.bridge.validator import VoiceValidator
 from system.common.event_bus import EventBus
+
+warnings.filterwarnings("ignore", message="Import 'bio.bio_utilities' is deprecated")
+warnings.filterwarnings("ignore", category=PydanticDeprecatedSince20)
 
 pytestmark = pytest.mark.filterwarnings("ignore:Import 'bio.bio_utilities' is deprecated")
 

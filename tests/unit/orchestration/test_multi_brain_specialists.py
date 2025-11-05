@@ -1,12 +1,11 @@
-from __future__ import annotations
-
 """Unit tests for MultiBrain specialist coordination."""
+
+from __future__ import annotations
 
 from datetime import datetime
 
 import pytest
 from core.orchestration.brain.integration.brain_integration import MultiBrain
-
 
 class DummySpecialist:
     def __init__(self, name: str):

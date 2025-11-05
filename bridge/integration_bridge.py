@@ -3,6 +3,16 @@ from __future__ import annotations
 import logging
 from datetime import timezone
 
+import asyncio
+from datetime import (
+    datetime,  # For consistent timestamping if needed
+    )
+from pathlib import Path
+from typing import Any
+
+# Third-Party Imports
+import structlog
+
 logger = logging.getLogger(__name__)
 # --- LUKHΛS AI Standard Header ---
 # File: integration_bridge.py
@@ -25,15 +35,7 @@ logger = logging.getLogger(__name__)
 #        Ensure these dependencies are correctly structured and importable.
 #        The `SymbolicLogger` is being phased out in favor of `structlog`.
 
-import asyncio
-from datetime import (
-    datetime,  # For consistent timestamping if needed
-    )
-from pathlib import Path
-from typing import Any
 
-# Third-Party Imports
-import structlog
 
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)

@@ -1,10 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
 
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🚀 LUKHAS AI - ```PLAINTEXT
@@ -46,6 +41,11 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
+from datetime import timezone
+
 import asyncio
 import hashlib
 import json
@@ -58,6 +58,10 @@ from typing import Any
 import aiohttp
 import numpy as np
 from core.common.config import get_config
+
+logger = logging.getLogger(__name__)
+
+
 
 
 class NodeState(Enum):

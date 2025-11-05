@@ -1,13 +1,12 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Quantum Synchronization Events
 Multi-agent quantum coherence and synchronization
 """
+
+from __future__ import annotations
+
+import logging
+from datetime import timezone
 
 import hashlib
 from collections import defaultdict
@@ -18,6 +17,10 @@ from typing import Any
 
 import numpy as np
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

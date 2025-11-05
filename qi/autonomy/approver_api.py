@@ -7,8 +7,6 @@ import os
 
 from fastapi import FastAPI, Header, HTTPException, Query
 
-_ORIG_OPEN = builtins.open
-
 from qi.autonomy.self_healer import (
     apply as _apply,
     approve as _approve,
@@ -17,6 +15,9 @@ from qi.autonomy.self_healer import (
     plan_proposals,
     reject as _reject,
 )
+
+_ORIG_OPEN = builtins.open
+
 
 API = FastAPI(title="Lukhas • Approver UI", version="1.0.0")
 TOKEN = os.environ.get("AUTONOMY_API_TOKEN")  # optional bearer/token

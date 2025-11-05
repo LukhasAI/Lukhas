@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """T4/0.01% Excellence Performance Validation Suite
 ================================================
 
@@ -26,18 +27,19 @@ from typing import Any, Dict, List, Tuple
 
 import psutil
 
-# Suppress verbose logging
-logging.getLogger().setLevel(logging.CRITICAL)
-
-# Add project root to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-
 from bench_core import (
     PerformanceBenchmark,  # - requires sys.path manipulation before import
 )
 from preflight_check import (
     PreflightValidator,  # - requires sys.path manipulation before import
 )
+
+# Suppress verbose logging
+logging.getLogger().setLevel(logging.CRITICAL)
+
+# Add project root to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 
 
 class ChaosCleanupManager:

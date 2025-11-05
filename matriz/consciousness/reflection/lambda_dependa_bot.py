@@ -1,7 +1,5 @@
-import logging
-from datetime import timezone
-
 #!/usr/bin/env python3
+
 """
 
 #TAG:consciousness
@@ -38,6 +36,9 @@ Author: LUKHAS ΛBot System
 Created: July 6, 2025
 Enhanced: ΛBot Elite Integration
 """
+
+import logging
+from datetime import timezone
 
 import ast
 import asyncio

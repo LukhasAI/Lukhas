@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -39,6 +33,11 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
+from datetime import timezone
+
 import asyncio
 import contextlib
 import hashlib
@@ -54,6 +53,10 @@ from pathlib import Path
 from typing import Any, Callable
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 # Rich terminal output
 try:

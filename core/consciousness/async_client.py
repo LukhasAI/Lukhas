@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -16,6 +11,10 @@ Original: async_client.py
 Advanced: async_client.py
 Integration Date: 2025-05-31T07:55:28.056913
 """
+
+from __future__ import annotations
+
+import logging
 
 # coding=utf-8
 # Copyright 2023-present, the HuggingFace Inc. team.
@@ -115,6 +114,11 @@ from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
 
 from .._common import _async_yield_from, _import_aiohttp
+
+logger = logging.getLogger(__name__)
+
+
+
 
 if TYPE_CHECKING:
     import numpy as np

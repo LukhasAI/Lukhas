@@ -10,13 +10,14 @@ from typing import Any
 
 from qi.provenance.receipt_standard import build_receipt, to_json
 
+# ---- safe I/O (avoid sandbox recursion) ----
+import builtins
+import contextlib
+
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 OUT_DIR = os.path.join(STATE, "provenance", "exec_receipts")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# ---- safe I/O (avoid sandbox recursion) ----
-import builtins
-import contextlib
 
 _ORIG_OPEN = builtins.open
 

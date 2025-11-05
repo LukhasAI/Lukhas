@@ -38,10 +38,15 @@
 ║ Symbolic Tags: {ΛPERPLEXITY}, {ΛWEB}, {ΛREALTIME}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from __future__ import annotations
 
 import logging
 import warnings
+
+from branding.terminology import normalize_output
+
+from .env_loader import get_api_key
 
 # Suppress SSL warnings during import
 warnings.filterwarnings("ignore", category=Warning, module="urllib3")
@@ -49,9 +54,7 @@ with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     import requests
 
-from branding.terminology import normalize_output
 
-from .env_loader import get_api_key
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.perplexity")

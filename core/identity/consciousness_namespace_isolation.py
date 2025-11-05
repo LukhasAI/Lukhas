@@ -1,8 +1,3 @@
-import logging
-
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
-logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Namespace Isolation System: Consciousness Domain Separation
@@ -19,6 +14,10 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════
 """
 
+import logging
+
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
 import asyncio
 import hashlib
 import logging as std_logging
@@ -28,6 +27,9 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
+
 
 # Import MΛTRIZ consciousness components
 try:

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - UNIFIED MEMORY ORCHESTRATOR
@@ -19,6 +15,10 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
+
 import asyncio
 import contextlib
 import hashlib
@@ -33,6 +33,11 @@ import numpy as np
 
 # Import logging
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
+
 
 logger = get_logger(__name__)
 

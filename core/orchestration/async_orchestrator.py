@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-# candidate/core/orchestration/async_orchestrator.py
 """
 Advanced async orchestrator with resilience patterns.
 
@@ -10,6 +7,8 @@ Features:
 - Loop detection and escalation
 - Comprehensive observability
 """
+
+from __future__ import annotations
 
 import asyncio
 import random
@@ -44,6 +43,12 @@ from metrics import (
 from .consensus_arbitrator import Proposal, choose
 from .meta_controller import MetaController
 from .otel import stage_span
+
+# candidate/core/orchestration/async_orchestrator.py
+
+
+
+
 
 
 @dataclass

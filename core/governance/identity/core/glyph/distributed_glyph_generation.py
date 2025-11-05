@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Distributed GLYPH Generation with Colony Coordination
 
 Manages distributed generation of identity GLYPHs using colony-based
 parallel processing and tier-aware steganographic embedding.
 """
+
+from __future__ import annotations
 
 import asyncio
 import base64

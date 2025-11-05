@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import asyncio
-import logging
-from dataclasses import dataclass
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -49,6 +42,21 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+from __future__ import annotations
+
+import asyncio
+import logging
+from dataclasses import dataclass
+
+from qi.security import (
+    DEFAULT_COMPLIANCE_FRAMEWORKS,
+    MultiJurisdictionComplianceEngine,
+    SecurityException,
+)
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum System Orchestrator"
 __version__ = "2.0.0"
 __tier__ = 2
@@ -79,11 +87,6 @@ except ImportError:  # pragma: no cover - provide lightweight stub when dependen
             return {"text": text, "voice_params": voice_params}
 
 
-from qi.security import (
-    DEFAULT_COMPLIANCE_FRAMEWORKS,
-    MultiJurisdictionComplianceEngine,
-    SecurityException,
-)
 
 
 class QIAGISystem:

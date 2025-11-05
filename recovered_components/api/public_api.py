@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 LUKHAS AI Public API Gateway
 ===========================
@@ -31,6 +32,9 @@ from pydantic import BaseModel, ConfigDict, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
+
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 # Configure logging
 logging.basicConfig(
@@ -595,8 +599,6 @@ async def shutdown_event():
 # Error Handlers
 # ===============================================================================
 
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 
 
 @app.exception_handler(HTTPException)

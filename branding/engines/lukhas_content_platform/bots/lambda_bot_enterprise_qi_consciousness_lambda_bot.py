@@ -1,12 +1,14 @@
-from quantum.analysis import QuantumAnalysisSession
-from quantum.states import QuantumModuleState
-
 #!/usr/bin/env python3
+
 """
 ⚛️ Quantum Consciousness LUKHAS AI ΛBot
 Enhanced LUKHAS AI ΛBot with Quantum Consciousness Integration
 Integrates workspace quantum consciousness for transcendent modularization
 """
+
+from quantum.analysis import QuantumAnalysisSession
+from quantum.states import QuantumModuleState
+
 import asyncio
 import logging
 import time

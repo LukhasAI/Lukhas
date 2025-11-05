@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 Comprehensive Audit System for LUKHAS AI
 
@@ -31,6 +25,11 @@ Features:
 #TAG:constellation
 """
 
+from __future__ import annotations
+
+import logging
+from datetime import timezone
+
 import asyncio
 import hashlib
 import json
@@ -42,6 +41,10 @@ from enum import Enum
 from typing import Any
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

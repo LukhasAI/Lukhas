@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 🧬 DNA Healix - Immutable Memory Architecture for LUKHAS
 ======================================================
@@ -19,6 +15,9 @@ Author: LUKHAS Cognitive AI Framework
 Version: 1.0
 """
 
+import logging
+from datetime import timezone
+
 import asyncio
 import contextlib
 import hashlib
@@ -30,6 +29,10 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 # from sklearn.metrics.pairwise import cosine_similarity  # Optional dependency
 

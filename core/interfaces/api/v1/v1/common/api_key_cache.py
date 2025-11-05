@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import os
 import threading
 import time
@@ -16,8 +17,6 @@ from typing import Any
 try:  # pragma: no cover - structlog is optional in some test environments
     import structlog
 except ImportError:  # pragma: no cover
-    import logging
-
     structlog = SimpleNamespace(get_logger=lambda name=None: logging.getLogger(name or __name__))
 
 logger = structlog.get_logger(__name__)
@@ -32,7 +31,6 @@ _REFRESH_ENV = "LUKHAS_API_KEY_REFRESH_SECONDS"
 @dataclass
 class ApiKeyMetadata:
     """Metadata describing a provisioned API key."""
-import logging
 
     key_hash: str
     user_id: str

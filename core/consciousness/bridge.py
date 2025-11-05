@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ===================================================================================
  MODULE: core.decision.decision_making_bridge
@@ -50,6 +45,10 @@ TODO: Implement quantum decision superposition for parallel evaluation
 AIDEA: Add emotional intelligence integration for empathetic decisions
 """
 
+from __future__ import annotations
+
+import logging
+
 import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -58,6 +57,10 @@ from enum import Enum
 from typing import Any
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import Lukhas core components
 try:

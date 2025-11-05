@@ -15,6 +15,9 @@ from .services.authenticator_service import ApiKeyAuthenticator, PasswordAuthent
 from .services.session_service import SessionService
 from .services.token_service import TokenService
 
+# Schedule auto-initialization
+import asyncio
+
 logger = logging.getLogger(__name__)
 
 
@@ -188,8 +191,6 @@ async def _auto_initialize():
         logger.debug(f"Auto-initialization failed: {e}")
 
 
-# Schedule auto-initialization
-import asyncio
 
 if not _identity_registry:
     # Only auto-initialize in async context

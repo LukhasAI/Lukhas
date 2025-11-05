@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:bridge
@@ -11,12 +8,19 @@ logger = logging.getLogger(__name__)
 Unified API Router - Connects all API endpoints
 """
 
+import logging
+
 from typing import Any
 
 from core.common import get_logger
 from fastapi import APIRouter, HTTPException
 
 from memory import memory_manager
+
+logger = logging.getLogger(__name__)
+
+
+
 
 # Import LUKHAS AI branding system for API responses
 try:

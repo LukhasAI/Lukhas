@@ -8,6 +8,9 @@ import sys
 import traceback
 from pathlib import Path
 
+# ---- Additional test fixtures ----
+import pytest
+
 # Ensure sitecustomize runs (fixes _SixMetaPathImporter compatibility)
 try:
     import sitecustomize  # noqa: F401
@@ -105,8 +108,6 @@ def pytest_sessionstart(session):
         pass
 
 
-# ---- Additional test fixtures ----
-import pytest
 
 
 @pytest.fixture(scope="session")

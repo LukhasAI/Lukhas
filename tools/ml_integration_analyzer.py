@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 ML-Powered Integration Analyzer for LUKHΛS
 -------------------------------------------------
@@ -24,6 +22,9 @@ Design Notes
 - External tools (git, semgrep) are optional. The analyzer gracefully degrades.
 
 """
+
+from __future__ import annotations
+
 import ast
 import datetime as _dt
 import hashlib

@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -31,10 +27,8 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-__module_name__ = "Quantum Lukhas Quantum Oscillator"
-__version__ = "2.0.0"
-__tier__ = 2
-
+import logging
+from datetime import timezone
 
 import logging
 from datetime import datetime
@@ -43,6 +37,16 @@ import numpy as np
 import simpleaudio as sa
 from qiskit import Aer, QICircuit
 from scipy.special import softmax
+
+logger = logging.getLogger(__name__)
+
+
+__module_name__ = "Quantum Lukhas Quantum Oscillator"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 
 class GlobalComplianceFramework:

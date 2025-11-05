@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Consciousness Identity Test Suite: Comprehensive Pattern Testing
@@ -15,6 +13,9 @@ from __future__ import annotations
 ║ 🛡️ GUARDIAN: Security and compliance testing
 ╚══════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import logging
 from typing import Any
 
