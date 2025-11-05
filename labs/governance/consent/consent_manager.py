@@ -32,7 +32,7 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -83,6 +83,7 @@ class ConsentMethod(Enum):
     WRITTEN = "written"  # Written documentation
     DIGITAL_SIGNATURE = "digital_signature"  # Digital signature
     BIOMETRIC = "biometric"  # Biometric confirmation
+    IMPLICIT = "implicit"  # Implicit consent
 
 
 class DataCategory(Enum):
@@ -242,10 +243,13 @@ class AdvancedConsentManager:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Initialize standard purposes
-        asyncio.create_task(self._initialize_standard_purposes())
+        # Initialization of purposes is now handled by the async initialize() method.
 
         logger.info("📋 Advanced Consent Manager initialized with GDPR compliance")
+
+    async def initialize(self):
+        """Initializes standard data processing purposes."""
+        await self._initialize_standard_purposes()
 
     async def _initialize_standard_purposes(self):
         """Initialize standard data processing purposes"""
@@ -457,15 +461,6 @@ class AdvancedConsentManager:
                     "recommended_action": "request_consent",
                 }
 
-            # Check consent status
-            if consent.status != ConsentStatus.GRANTED:
-                return {
-                    "valid": False,
-                    "reason": f"Consent status is {consent.status.value}",
-                    "consent_required": True,
-                    "recommended_action": "request_consent",
-                }
-
             # Check expiration
             if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
                 # Update status to expired
@@ -478,6 +473,15 @@ class AdvancedConsentManager:
                     "expired_at": consent.expires_at.isoformat(),
                     "consent_required": True,
                     "recommended_action": "renew_consent",
+                }
+
+            # Check consent status
+            if consent.status != ConsentStatus.GRANTED:
+                return {
+                    "valid": False,
+                    "reason": f"Consent status is {consent.status.value}",
+                    "consent_required": True,
+                    "recommended_action": "request_consent",
                 }
 
             # Check data categories if specified
@@ -669,12 +673,6 @@ class AdvancedConsentManager:
                 and consent.purpose.purpose_id == purpose_id
                 and consent.status == ConsentStatus.GRANTED
             ):
-                # Check expiration
-                if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
-                    consent.status = ConsentStatus.EXPIRED
-                    consent.updated_at = datetime.now(timezone.utc)
-                    continue
-
                 return consent
 
         return None
