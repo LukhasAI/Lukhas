@@ -616,7 +616,7 @@ async def start_radar_monitoring_session(update_interval: float = 2.0, duration:
 # Legacy function compatibility
 
 
-async def reason_about(
+async def reason_about_legacy(
     problem_description: str,
     context: dict[str, Any] | None = None,
     reasoning_type: str = "general_abstract",

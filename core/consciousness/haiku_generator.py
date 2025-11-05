@@ -576,14 +576,12 @@ class AdvancedHaikuGenerator:
             enhanced_line = self.vocabulary_amplifier.amplify_phrase(rotated_line)
 
             # Add poetic techniques if available
-            if self.poetic_techniques and random.random() < 0.3:
-                # Occasionally add alliteration or assonance
-                if random.random() < 0.5:
-                    # Try to maintain syllable count
-                    original_syllables = self._count_syllables(line)
-                    enhanced_syllables = self._count_syllables(enhanced_line)
-                    if enhanced_syllables != original_syllables:
-                        enhanced_line = rotated_line  # Fallback to rotated version
+            if self.poetic_techniques and random.random() < 0.3 and random.random() < 0.5:
+                # Try to maintain syllable count
+                original_syllables = self._count_syllables(line)
+                enhanced_syllables = self._count_syllables(enhanced_line)
+                if enhanced_syllables != original_syllables:
+                    enhanced_line = rotated_line  # Fallback to rotated version
 
             enhanced_lines.append(enhanced_line)
 
