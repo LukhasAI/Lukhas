@@ -871,9 +871,8 @@ class ComplianceMonitor:
         ]
 
         for framework in critical_frameworks:
-            if framework in framework_statuses:
-                if framework_statuses[framework] == ComplianceStatus.CRITICAL_VIOLATION:
-                    return ComplianceStatus.CRITICAL_VIOLATION
+            if framework in framework_statuses and framework_statuses[framework] == ComplianceStatus.CRITICAL_VIOLATION:
+                return ComplianceStatus.CRITICAL_VIOLATION
 
         # Check for non-compliance in any framework
         non_compliant_count = sum(
