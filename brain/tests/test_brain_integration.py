@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import brain  # noqa: F401  # TODO: brain; consider using importli...
+    import brain  # TODO: brain; consider using importli...
 except ImportError:
     pytest.skip("Module brain not available", allow_module_level=True)
 

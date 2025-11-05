@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import memory  # noqa: F401  # TODO: memory; consider using importl...
+    import memory  # TODO: memory; consider using importl...
 except ImportError:
     pytest.skip("Module memory not available", allow_module_level=True)
 

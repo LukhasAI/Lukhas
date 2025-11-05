@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import utils  # noqa: F401  # TODO: utils; consider using importli...
+    import utils  # TODO: utils; consider using importli...
 except ImportError:
     pytest.skip("Module utils not available", allow_module_level=True)
 

@@ -66,9 +66,9 @@ from core.common import get_logger
 try:
     from branding_bridge import (
         BrandContext,
-        generate_branded_content,  # noqa: F401  # TODO: branding_bridge.generat...
+        generate_branded_content,  # TODO: branding_bridge.generat...
         get_brand_voice,
-        get_constellation_context,  # noqa: F401  # TODO: branding_bridge.get_con...
+        get_constellation_context,  # TODO: branding_bridge.get_con...
         normalize_output_text,
         validate_output,
     )
@@ -576,14 +576,12 @@ class AdvancedHaikuGenerator:
             enhanced_line = self.vocabulary_amplifier.amplify_phrase(rotated_line)
 
             # Add poetic techniques if available
-            if self.poetic_techniques and random.random() < 0.3:
-                # Occasionally add alliteration or assonance
-                if random.random() < 0.5:
-                    # Try to maintain syllable count
-                    original_syllables = self._count_syllables(line)
-                    enhanced_syllables = self._count_syllables(enhanced_line)
-                    if enhanced_syllables != original_syllables:
-                        enhanced_line = rotated_line  # Fallback to rotated version
+            if self.poetic_techniques and random.random() < 0.3 and random.random() < 0.5:
+                # Try to maintain syllable count
+                original_syllables = self._count_syllables(line)
+                enhanced_syllables = self._count_syllables(enhanced_line)
+                if enhanced_syllables != original_syllables:
+                    enhanced_line = rotated_line  # Fallback to rotated version
 
             enhanced_lines.append(enhanced_line)
 

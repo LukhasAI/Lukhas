@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
 import yaml
 from opentelemetry import trace
@@ -83,7 +83,7 @@ class RoutingCondition:
     """A single routing condition."""
     field: str
     operator: OperatorType
-    value: Union[str, List[str], int, float]
+    value: str | List[str] | int | float
 
     def evaluate(self, request_data: Dict[str, Any]) -> bool:
         """Evaluate condition against request data."""

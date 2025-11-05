@@ -454,7 +454,7 @@ def lid_security_status():
 
         sys.path.append("/Users/A_G_I/Λ")
         from ΛiD.identity_manager import (
-            Identitymanager,  # noqa: F401  # TODO: ΛiD.identity_manager.Identitym...
+            Identitymanager,  # TODO: ΛiD.identity_manager.Identitym...
         )
 
         click.echo("✅ ΛiD Identity Manager: Available")
@@ -463,7 +463,7 @@ def lid_security_status():
 
     try:
         from ΛiD.trauma_lock import (
-            TraumaLockSystem,  # noqa: F401  # TODO: ΛiD.trauma_lock.TraumaLockSyst...
+            TraumaLockSystem,  # TODO: ΛiD.trauma_lock.TraumaLockSyst...
         )
 
         click.echo("✅ ΛiD Trauma Lock: Available")

@@ -545,10 +545,10 @@ if __name__ == "__main__":
     agi = LucasAGI()
 
     # Test compliant operation
-    print(cognitive.process_decision({"climate": True, "personal_data": "test"}))  # noqa: F821  # TODO: cognitive
+    print(cognitive.process_decision({"climate": True, "personal_data": "test"}))  # TODO: cognitive
 
     # Test prohibited operation
-    print(cognitive.process_decision({"facial_recognition": True}))  # noqa: F821  # TODO: cognitive
+    print(cognitive.process_decision({"facial_recognition": True}))  # TODO: cognitive
 
     # ──────────────────────────────────────────────────────────────
     # 🧪 STRESS TEST SUITE FOR GLOBAL COMPLIANCE & ETHICS
@@ -566,7 +566,7 @@ if __name__ == "__main__":
     # 1. High-risk compliance breach (multi-region)
     print("\n🔍 Test 1: High-risk multi-region compliance breach")
     print(
-        cognitive.process_decision(  # noqa: F821  # TODO: cognitive
+        cognitive.process_decision(  # TODO: cognitive
             {
                 "facial_recognition_db": True,
                 "us_sensitive": True,
@@ -578,23 +578,23 @@ if __name__ == "__main__":
 
     # 2. Adversarial input attack
     print("\n🔍 Test 2: Adversarial input detection")
-    print(cognitive.process_decision({"personal_data": "X" * 5000}))  # noqa: F821  # TODO: cognitive
+    print(cognitive.process_decision({"personal_data": "X" * 5000}))  # TODO: cognitive
 
     # 3. Quantum ethical conflict (privacy vs environment)
     print("\n🔍 Test 3: Quantum ethical conflict (privacy vs environment)")
-    print(cognitive.process_decision({"climate": True, "personal_data": "user_info"}))  # noqa: F821  # TODO: cognitive
+    print(cognitive.process_decision({"climate": True, "personal_data": "user_info"}))  # TODO: cognitive
 
     # 4. Compliance drift (post-market monitoring)
     print("\n🔍 Test 4: Compliance drift monitoring")
     for _ in range(12):
-        print(cognitive.process_decision({"personal_data": "sensitive", "social_scoring": True}))  # noqa: F821  # TODO: cognitive
+        print(cognitive.process_decision({"personal_data": "sensitive", "social_scoring": True}))  # TODO: cognitive
 
     # 5. Region-specific hierarchy (EU strict vs China lenient)
     print("\n🔍 Test 5a: Region-specific compliance (EU stricter)")
-    print(cognitive.process_decision({"region": "EU", "facial_recognition_db": True}))  # noqa: F821  # TODO: cognitive
+    print(cognitive.process_decision({"region": "EU", "facial_recognition_db": True}))  # TODO: cognitive
 
     print("\n🔍 Test 5b: Region-specific compliance (China lenient)")
-    print(cognitive.process_decision({"region": "China", "facial_recognition_db": True}))  # noqa: F821  # TODO: cognitive
+    print(cognitive.process_decision({"region": "China", "facial_recognition_db": True}))  # TODO: cognitive
 
 
 # ══════════════════════════════════════════════════════════════════════════════

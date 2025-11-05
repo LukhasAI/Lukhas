@@ -156,9 +156,8 @@ class BridgeTraceLogger:
             try:
                 import gzip
                 import shutil
-                with open(source, 'rb') as f_in:
-                    with gzip.open(f"{dest}.gz", 'wb') as f_out:
-                        shutil.copyfileobj(f_in, f_out)
+                with open(source, 'rb') as f_in, gzip.open(f"{dest}.gz", 'wb') as f_out:
+                    shutil.copyfileobj(f_in, f_out)
                 Path(source).unlink()  # Remove uncompressed file
             except Exception as e:
                 logger.warning(f"Failed to compress log file {source}: {e}")

@@ -258,11 +258,11 @@ if "multipart" not in sys.modules:
 
 pytestmark = pytest.mark.asyncio
 
+from __future__ import annotations
+
 
 async def test_get_tiered_auth_system_returns_cached_instance(monkeypatch):
     """Tiered auth system should initialize once and cache the instance."""
-from __future__ import annotations
-
 
     class _DummyGuardian:
         pass

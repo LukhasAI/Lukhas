@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import prometheus  # noqa: F401  # TODO: prometheus; consider using imp...
+    import prometheus  # TODO: prometheus; consider using imp...
 except ImportError:
     pytest.skip("Module prometheus not available", allow_module_level=True)
 

@@ -9,7 +9,7 @@ import importlib
 from typing import Any
 
 try:  # pragma: no cover
-    from core.ethics import *  # type: ignore  # noqa: F403
+    from core.ethics import *  # type: ignore
     _HAS_PRIMARY = True
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False

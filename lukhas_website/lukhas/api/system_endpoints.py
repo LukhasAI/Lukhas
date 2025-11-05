@@ -197,14 +197,14 @@ def _check_registry_health() -> Dict[str, Any]:
         return {"status": "unavailable", "error": "Registry not available"}
 
     try:
-        plugin_count = len(_REG) if _REG else 0  # noqa: F821  # TODO: _REG
-        discovery_mode = _DISCOVERY_FLAG  # noqa: F821  # TODO: _DISCOVERY_FLAG
+        plugin_count = len(_REG) if _REG else 0  # TODO: _REG
+        discovery_mode = _DISCOVERY_FLAG  # TODO: _DISCOVERY_FLAG
 
         # Registry is healthy if it can store/retrieve plugins
         test_key = "_health_check_test"
-        _REG[test_key] = "test_value"  # noqa: F821  # TODO: _REG
-        can_write = _REG.get(test_key) == "test_value"  # noqa: F821  # TODO: _REG
-        del _REG[test_key]  # noqa: F821  # TODO: _REG
+        _REG[test_key] = "test_value"  # TODO: _REG
+        can_write = _REG.get(test_key) == "test_value"  # TODO: _REG
+        del _REG[test_key]  # TODO: _REG
 
         return {
             "status": "healthy" if can_write else "degraded",

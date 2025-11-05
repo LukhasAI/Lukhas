@@ -1,4 +1,4 @@
 """Bridge module for core.coordination → labs.core.coordination"""
 from __future__ import annotations
 
-from labs.core.coordination import *  # noqa: F403
+from labs.core.coordination import *

@@ -58,7 +58,7 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import (  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+    from core_ΛBot import (  # TODO: core_ΛBot.SubscriptionTier; co...
         CoreLambdaBot,
         SubscriptionTier,
     )

@@ -17,7 +17,7 @@ logging.getLogger('governance').setLevel(logging.CRITICAL)
 logging.getLogger('memory').setLevel(logging.CRITICAL)
 
 # Import after configuring logging
-from bench_e2e import main  # noqa: E402 - requires logging configured before import side effects
+from bench_e2e import main
 
 if __name__ == "__main__":
     # Set environment for reproducibility

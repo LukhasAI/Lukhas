@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import docker  # noqa: F401  # TODO: docker; consider using importl...
+    import docker  # TODO: docker; consider using importl...
 except ImportError:
     pytest.skip("Module docker not available", allow_module_level=True)
 

@@ -106,15 +106,15 @@ class QIInspiredProcessor:
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
 
-        if category == "consciousness":  # noqa: F821  # TODO: category
+        if category == "consciousness":  # TODO: category
             return await self._process_consciousness(data)
-        elif category == "governance":  # noqa: F821  # TODO: category
+        elif category == "governance":  # TODO: category
             return await self._process_governance(data)
-        elif category == "voice":  # noqa: F821  # TODO: category
+        elif category == "voice":  # TODO: category
             return await self._process_voice(data)
-        elif category == "identity":  # noqa: F821  # TODO: category
+        elif category == "identity":  # TODO: category
             return await self._process_identity(data)
-        elif category == "quantum":  # noqa: F821  # TODO: category
+        elif category == "quantum":  # TODO: category
             return await self._process_quantum(data)
         else:
             return await self._process_generic(data)
@@ -201,8 +201,8 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛQuantumInspiredProcessor()  # noqa: F821  # TODO: ΛQuantumInspiredProcessor
-        component = lukhasQuantumInspiredProcessor()  # noqa: F821  # TODO: lukhasQuantumInspiredProcessor
+        component = ΛQuantumInspiredProcessor()  # TODO: ΛQuantumInspiredProcessor
+        component = lukhasQuantumInspiredProcessor()  # TODO: lukhasQuantumInspiredProcessor
 
         # Initialize
         success = await component.initialize()
@@ -242,7 +242,7 @@ def __validate_module__():
 
     failed = [k for k, v in validations.items() if not v]
     if failed:
-        logger.warning(f"Module validation warnings: {failed}")  # noqa: F821  # TODO: logger
+        logger.warning(f"Module validation warnings: {failed}")  # TODO: logger
 
     return len(failed) == 0
 

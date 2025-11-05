@@ -484,7 +484,7 @@ class VIVOXSelfReflectiveMemory:
     Forensically sound audit log of ethical cognition
     """
 
-    def __init__(self, vivox_me: "VIVOXMemoryExpansion"):  # noqa: F821  # TODO: VIVOXMemoryExpansion
+    def __init__(self, vivox_me: "VIVOXMemoryExpansion"):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.collapse_archive = CollapseArchive()
         self.suppression_registry = SuppressionRegistry()

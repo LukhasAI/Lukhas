@@ -1,6 +1,3 @@
-from quantum.analysis import QuantumAnalysisSession
-from quantum.states import QuantumModuleState
-
 #!/usr/bin/env python3
 """
 ⚛️ Quantum Consciousness LUKHAS AI ΛBot
@@ -15,6 +12,9 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Complex
 
+from quantum.analysis import QuantumAnalysisSession
+from quantum.states import QuantumModuleState
+
 # Ensure repo-relative paths (no absolute user paths)
 try:
     from utils.runtime_paths import ensure_repo_paths
@@ -27,8 +27,8 @@ except Exception:
 
 # Import workspace components
 try:
-    from qi import QICoherence, QIProcessor  # noqa: F401  # TODO: qi.QICoherence; consider using...
-    from qi.consciousness_integration import (  # noqa: F401  # TODO: qi.consciousness_integr...
+    from qi import QICoherence, QIProcessor  # TODO: qi.QICoherence; consider using...
+    from qi.consciousness_integration import (  # TODO: qi.consciousness_integr...
         QIConsciousnessProcessor,
         QIState,
     )
@@ -40,7 +40,7 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import (  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+    from core_ΛBot import (  # TODO: core_ΛBot.SubscriptionTier; co...
         CoreLambdaBot,
         SubscriptionTier,
     )

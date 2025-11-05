@@ -591,13 +591,13 @@ async def manage_circuit_breaker(
         elif request.action == "open":
             # Force open circuit breaker
             if provider in routing_engine.circuit_breakers:
-                routing_engine.circuit_breakers[provider].state = CircuitBreakerState.OPEN  # noqa: F821  # TODO: CircuitBreakerState
+                routing_engine.circuit_breakers[provider].state = CircuitBreakerState.OPEN  # TODO: CircuitBreakerState
             return {"message": f"Circuit breaker opened for {provider}"}
 
         elif request.action == "close":
             # Force close circuit breaker
             if provider in routing_engine.circuit_breakers:
-                routing_engine.circuit_breakers[provider].state = CircuitBreakerState.CLOSED  # noqa: F821  # TODO: CircuitBreakerState
+                routing_engine.circuit_breakers[provider].state = CircuitBreakerState.CLOSED  # TODO: CircuitBreakerState
                 routing_engine.circuit_breakers[provider].failure_count = 0
             return {"message": f"Circuit breaker closed for {provider}"}
 

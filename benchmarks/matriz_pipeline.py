@@ -21,7 +21,7 @@ import pytest
 try:
     from matriz.core.async_orchestrator import AsyncOrchestrator
     from matriz.core.pipeline_context import (
-        PipelineContext,  # noqa: F401  # TODO: matriz.core.pipeline_context.P...
+        PipelineContext,  # TODO: matriz.core.pipeline_context.P...
     )
 
     MATRIZ_AVAILABLE = True

@@ -68,11 +68,10 @@ def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> Tuple[List[T
     while i < len(lines):
         ln = lines[i].strip()
         # stop if we hit another top heading or "Week <n>" heading when we started under Week 6
-        if heading_idx is not None:
-            if re.match(r'^\s*#+\s+', lines[i]) or re.match(r'^\s*Week\s+\d+', lines[i], re.I):
-                # Stop if it's a new heading and it's not the first lines immediately after our heading
-                if i > heading_idx + 1 and ln != '':
-                    break
+        if (heading_idx is not None and
+            (re.match(r'^\s*#+\s+', lines[i]) or re.match(r'^\s*Week\s+\d+', lines[i], re.I)) and
+            i > heading_idx + 1 and ln != ''):
+            break
         # Match checkbox patterns
         m_checked = re.match(r'^\s*[-*]\s*\[\s*[xX]\s*\]\s*(.+)', ln)
         m_unchecked = re.match(r'^\s*[-*]\s*\[\s*\]\s*(.+)', ln)

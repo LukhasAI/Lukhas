@@ -27,7 +27,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Union
+from typing import Any
 
 import numpy as np
 
@@ -803,7 +803,7 @@ class UnifiedMemoryOrchestrator:
 
     async def retrieve_memory(
         self,
-        query: Union[str, dict[str, Any]],
+        query: str | dict[str, Any],
         memory_types: list[MemoryType] | None = None,
         use_pattern_completion: bool = True,
         max_results: int = 10,
@@ -855,7 +855,7 @@ class UnifiedMemoryOrchestrator:
 
     def _search_working_memory(
         self,
-        query: Union[str, dict[str, Any]],
+        query: str | dict[str, Any],
         memory_types: list[MemoryType] | None = None,
     ) -> list[tuple[MemoryTrace, float]]:
         """Fast search in working memory"""
@@ -876,7 +876,7 @@ class UnifiedMemoryOrchestrator:
 
     async def _search_hippocampal(
         self,
-        query: Union[str, dict[str, Any]],
+        query: str | dict[str, Any],
         memory_types: list[MemoryType] | None = None,
         use_pattern_completion: bool = True,
     ) -> list[tuple[MemoryTrace, float]]:
@@ -950,7 +950,7 @@ class UnifiedMemoryOrchestrator:
 
     async def _search_neocortical(
         self,
-        query: Union[str, dict[str, Any]],
+        query: str | dict[str, Any],
         memory_types: list[MemoryType] | None = None,
     ) -> list[tuple[MemoryTrace, float]]:
         """Search in consolidated neocortical memories"""

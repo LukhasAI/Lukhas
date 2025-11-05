@@ -121,11 +121,11 @@ class QISafeAuditBlockchain:
     """
 
     def __init__(self):
-        self.chain: list[Block] = [self._create_genesis_block()]  # noqa: F821  # TODO: Block
-        self.pending_transactions: list[Transaction] = []  # noqa: F821  # TODO: Transaction
-        self.pqc_signer = PostQuantumSigner()  # noqa: F821  # TODO: PostQuantumSigner
+        self.chain: list[Block] = [self._create_genesis_block()]  # TODO: Block
+        self.pending_transactions: list[Transaction] = []  # TODO: Transaction
+        self.pqc_signer = PostQuantumSigner()  # TODO: PostQuantumSigner
 
-    async def log_ai_decision(self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof) -> str:  # noqa: F821  # TODO: AIDecision
+    async def log_ai_decision(self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof) -> str:  # TODO: AIDecision
         """
         Create immutable record of AI decision
         """
@@ -145,7 +145,7 @@ class QISafeAuditBlockchain:
         signature = await self.pqc_signer.sign(rlp.encode(audit_data), include_timestamp=True)
 
         # 3. Create transaction
-        transaction = Transaction(data=audit_data, signature=signature, transaction_type="ai_decision_audit")  # noqa: F821  # TODO: Transaction
+        transaction = Transaction(data=audit_data, signature=signature, transaction_type="ai_decision_audit")  # TODO: Transaction
 
         # 4. Add to pending and mine if threshold reached
         self.pending_transactions.append(transaction)
@@ -156,7 +156,7 @@ class QISafeAuditBlockchain:
 
     async def generate_compliance_report(
         self,
-        time_range: TimeRange,  # noqa: F821  # TODO: TimeRange
+        time_range: TimeRange,  # TODO: TimeRange
         compliance_framework: str,  # GDPR, CCPA, etc.
     ) -> ComplianceReport:
         """Generate cryptographically verifiable compliance report.
@@ -165,7 +165,7 @@ class QISafeAuditBlockchain:
         """
         relevant_blocks = list(self._get_blocks_in_range(time_range))
 
-        decision_tree = MerkleTree()  # noqa: F821  # TODO: MerkleTree
+        decision_tree = MerkleTree()  # TODO: MerkleTree
         total_decisions = 0
         model_breakdown: dict[str, int] = {}
         consent_summary = {"with_consent": 0, "without_consent": 0}

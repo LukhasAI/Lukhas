@@ -65,7 +65,7 @@ class SyntheticGenerator:
 
         # Create clearly worse options
         worse_emotions = []
-        for i in range(3):
+        for _ in range(3):
             # Flip some emotions to opposite values
             flipped = {}
             for key, value in query_emotion.items():

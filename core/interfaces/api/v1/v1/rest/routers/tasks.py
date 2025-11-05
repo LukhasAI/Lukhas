@@ -3,6 +3,17 @@ from typing import Any
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel
 
+# Import EventBus type
+try:
+    from system.common.event_bus import EventBus
+except ImportError:
+    try:
+        from core.event_bus import EventBus
+    except ImportError:
+        # Fallback type annotation
+        from typing import Any
+        EventBus = Any
+
 router = APIRouter()
 
 

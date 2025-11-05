@@ -1,3 +1,3 @@
 """Compatibility shim for pytest-asyncio."""
 
-from . import *  # noqa: F403
+from . import *

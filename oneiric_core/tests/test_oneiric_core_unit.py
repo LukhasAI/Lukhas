@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import oneiric_core  # noqa: F401  # TODO: oneiric_core; consider using i...
+    import oneiric_core  # TODO: oneiric_core; consider using i...
 except ImportError:
     pytest.skip("Module oneiric_core not available", allow_module_level=True)
 

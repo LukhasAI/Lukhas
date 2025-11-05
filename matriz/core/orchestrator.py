@@ -148,14 +148,11 @@ class CognitiveOrchestrator:
         """Select appropriate node based on intent"""
         intent = intent_node["state"].get("intent", "general")
 
-        if intent == "mathematical":
-            return "math"
-        elif intent == "question":
-            return "facts"
-        elif intent == "perception":
-            return "vision"  # Would handle "boy sees dog"
-        else:
-            return "facts"  # Default
+        return {
+            "mathematical": "math",
+            "question": "facts",
+            "perception": "vision",  # Would handle "boy sees dog"
+        }.get(intent, "facts")  # Default
 
     def _create_decision_node(self, decision: str, trigger_id: str) -> dict:
         """Create DECISION MATRIZ node (schema-compliant)."""

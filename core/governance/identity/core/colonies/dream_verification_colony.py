@@ -30,6 +30,14 @@ from core.enhanced_swarm import (
 
 # Import event bus for dream coordination
 try:
+    from system.common.event_bus import EventBus
+except ImportError:
+    try:
+        from core.event_bus import EventBus
+    except ImportError:
+        # Fallback if no event bus available
+        EventBus = None
+try:
     from orchestration.symbolic_kernel_bus import DreamEventType
 except ImportError:
     DreamEventType = None

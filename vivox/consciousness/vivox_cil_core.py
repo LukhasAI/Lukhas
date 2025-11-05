@@ -93,7 +93,7 @@ class ConsciousExperience:
     awareness_state: CollapsedAwareness
     drift_measurement: DriftMeasurement
     timestamp: datetime
-    ethical_validation: Optional["MAEDecision"] = None  # noqa: F821  # TODO: MAEDecision
+    ethical_validation: Optional["MAEDecision"] = None  # TODO: MAEDecision
     experience_id: str = field(default="", init=False)
 
     def __post_init__(self):
@@ -790,7 +790,7 @@ class VIVOXConsciousnessInterpretationLayer:
     Achieves traceable state of self-awareness
     """
 
-    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):  # noqa: F821  # TODO: VIVOXMemoryExpansion
+    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.vivox_mae = vivox_mae
         self.consciousness_simulator = ConsciousnessSimulator()

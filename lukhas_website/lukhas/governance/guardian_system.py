@@ -31,9 +31,9 @@ try:
     import base64
 
     from cryptography.exceptions import (
-        InvalidSignature,  # noqa: F401  # TODO: cryptography.exceptions.Invali...
+        InvalidSignature,  # TODO: cryptography.exceptions.Invali...
     )
-    from cryptography.hazmat.primitives import (  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+    from cryptography.hazmat.primitives import (  # TODO: cryptography.hazmat.primitives...
         hashes,
         serialization,
     )
@@ -47,7 +47,7 @@ except ImportError:
 try:
     import jsonschema
     from jsonschema import (
-        Draft202012Validator,  # noqa: F401  # TODO: jsonschema.Draft202012Validato...
+        Draft202012Validator,  # TODO: jsonschema.Draft202012Validato...
     )
     SCHEMA_VALIDATION = True
 except ImportError:
