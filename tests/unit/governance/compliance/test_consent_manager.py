@@ -83,7 +83,7 @@ class TestAdvancedConsentManager:
 
         validation_after = await manager.validate_consent(user_id, purpose_id)
         assert validation_after["valid"] is False
-        assert validation_after["reason"] == "No active consent found"
+        assert validation_after["reason"] == "Consent status is withdrawn"
 
         user_consents = await manager.export_consent_audit_trail(user_id)
         withdrawn_record = user_consents[0]

@@ -450,8 +450,8 @@ class AdvancedConsentManager:
             Validation result with details
         """
         try:
-            # Get active consent for purpose
-            consent = await self._get_active_consent(user_id, purpose_id)
+            # Get the most recent consent record for the purpose, regardless of status.
+            consent = await self._get_latest_consent_for_purpose(user_id, purpose_id)
 
             if not consent:
                 return {
@@ -461,11 +461,11 @@ class AdvancedConsentManager:
                     "recommended_action": "request_consent",
                 }
 
-            # Check expiration
+            # Check expiration first, as an expired consent is not valid regardless of its state.
             if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
-                # Update status to expired
-                consent.status = ConsentStatus.EXPIRED
-                consent.updated_at = datetime.now(timezone.utc)
+                if consent.status != ConsentStatus.EXPIRED:
+                    consent.status = ConsentStatus.EXPIRED
+                    consent.updated_at = datetime.now(timezone.utc)
 
                 return {
                     "valid": False,
@@ -663,6 +663,16 @@ class AdvancedConsentManager:
         }
 
         return hashlib.sha256(json.dumps(hash_data, sort_keys=True).encode()).hexdigest()
+
+    async def _get_latest_consent_for_purpose(self, user_id: str, purpose_id: str) -> Optional[ConsentRecord]:
+        """Get the most recent consent record for a user and purpose, regardless of status."""
+        relevant_consents = [
+            c for c in self.consent_records.values() if c.user_id == user_id and c.purpose.purpose_id == purpose_id
+        ]
+        if not relevant_consents:
+            return None
+
+        return max(relevant_consents, key=lambda c: c.granted_at)
 
     async def _get_active_consent(self, user_id: str, purpose_id: str) -> Optional[ConsentRecord]:
         """Get active consent record for user and purpose"""
