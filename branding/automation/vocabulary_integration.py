@@ -124,7 +124,7 @@ class VocabularyIntegration:
 
             # Apply transformations with smart selection
             for trigger, replacement in replacements.items():
-                if (trigger.lower() in enhanced_content.lower() and 
+                if (trigger.lower() in enhanced_content.lower() and
                     transformations_applied < 2):  # More conservative limit for readability
                     enhanced_content = enhanced_content.replace(trigger, replacement)
                     transformations_applied += 1

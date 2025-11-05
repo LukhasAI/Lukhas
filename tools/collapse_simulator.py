@@ -1,6 +1,6 @@
 """Collapse simulator module alias.
 
-This module re-exports the collapse simulator functionality 
+This module re-exports the collapse simulator functionality
 from its actual location in lukhas_website.lukhas.tools.
 """
 
