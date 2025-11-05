@@ -12,15 +12,63 @@
   ],
   "python.testing.cwd": "${workspaceFolder}",
   "python.envFile": "${workspaceFolder}/.env",
-  "python.analysis.typeCheckingMode": "strict",
-  "python.analysis.diagnosticMode": "openFilesOnly",
-  "python.analysis.indexing": false,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.indexing": true,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.completeFunctionParens": true,
   "python.analysis.autoFormatStrings": true,
   "python.analysis.inlayHints.functionReturnTypes": true,
   "python.analysis.inlayHints.variableTypes": true,
   "python.analysis.inlayHints.pytestParameters": true,
+  // Align with MyPy: strict only for lukhas, MATRIZ
+  "python.analysis.include": [
+    "lukhas/**",
+    "MATRIZ/**"
+  ],
+  "python.analysis.exclude": [
+    "candidate/**",
+    "archive/**",
+    "quarantine/**",
+    "tests/**",
+    "tools/**",
+    "labs/**",
+    "examples/**",
+    "docs/**",
+    "scripts/migrations/**",
+    "build/**",
+    "dist/**",
+    "node_modules/**",
+    "**/migrations/**",
+    "**/generated/**",
+    "gemini-dev/**",
+    "products/**",
+    "dreamweaver_helpers_bundle/**"
+  ],
+  // Match MyPy python_version and target
+  "python.analysis.stubPath": "typings",
+  "python.analysis.useLibraryCodeForTypes": true,
+  // Align Pylance diagnostics with Ruff configuration
+  "python.analysis.diagnosticSeverityOverrides": {
+    // Align with Ruff ignore rules from pyproject.toml
+    "reportMissingImports": "warning",
+    "reportMissingTypeStubs": "information",
+    "reportUnknownMemberType": "information",
+    "reportUnknownArgumentType": "information",
+    "reportUnknownVariableType": "information",
+    "reportUnknownParameterType": "information",
+    "reportMissingParameterType": "information",
+    "reportMissingReturnType": "information",
+    "reportUntypedFunctionDecorator": "information",
+    "reportUntypedClassDecorator": "information",
+    "reportUntypedBaseClass": "information",
+    "reportUntypedNamedTuple": "information",
+    // Downgrade strict mode warnings for candidate/tools/tests (like MyPy overrides)
+    "reportGeneralTypeIssues": "information",
+    "reportOptionalMemberAccess": "information",
+    "reportOptionalSubscript": "information",
+    "reportPrivateImportUsage": "information"
+  },
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
@@ -46,7 +94,7 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.markdown-language-features"
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
@@ -66,10 +114,6 @@
   ],
   "ruff.interpreter": [
     "/opt/homebrew/bin/python3"
-  ],
-  "ruff.args": [
-    "--select=ALL",
-    "--ignore=D,ANN,COM812,ISC001"
   ],
   "python.formatting.provider": "none",
   "python.linting.enabled": false,
