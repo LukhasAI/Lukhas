@@ -1076,7 +1076,7 @@ class VIVOXEncryptedPerceptionNode:
         consent = context.get("consent_level", "none")
         consent_privacy_map = {
             "none": "maximum",
-            "implicit": "high", 
+            "implicit": "high",
             "explicit": "standard",
         }
 

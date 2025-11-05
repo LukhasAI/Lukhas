@@ -19,7 +19,7 @@ import hashlib
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -108,7 +108,7 @@ class SchemaSnapshotGenerator:
             "schema_name": "matriz_decision_schema",
             "schema_version": schema_data.get("version", "unknown"),
             "schema_hash": schema_hash,
-            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "generator_version": "1.0.0",
             "validation_rules": {
                 "required_fields": schema_data.get("required", []),
