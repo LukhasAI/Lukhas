@@ -313,7 +313,7 @@ class TestMultiAIRouter:
         )
 
         # Should raise error for insufficient responses
-        with pytest.raises(ValueError, match="Only .* models available"):
+    with pytest.raises(ValueError, match=r"Only .* models available"):
             await self.router.route_request(request)
 
     def test_model_registration(self):
