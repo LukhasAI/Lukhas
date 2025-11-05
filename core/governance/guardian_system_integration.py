@@ -636,10 +636,9 @@ class GuardianSystemIntegration:
 
         try:
             # ✨ Identity validation - Anchor star
-            if request.user_id and self.consent_ledger:
-                # Check if user identity is validated through consent system
-                if response.consent_result and response.consent_result.get("status") == "completed":
-                    constellation_validation["identity"] = True
+            if (request.user_id and self.consent_ledger and 
+                response.consent_result and response.consent_result.get("status") == "completed"):
+                constellation_validation["identity"] = True
 
             # 🌟 Memory validation - Tracing paths of past light
             # Memory validation through consent history and audit trails

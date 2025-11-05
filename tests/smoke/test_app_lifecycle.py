@@ -73,8 +73,6 @@ def test_app_middleware_stack():
 
             # Common middleware we expect
             # CORS is important for web access
-            has_cors = any("CORS" in name for name in middleware_classes)
-
             # Log what middleware we have (no assertion - configuration-dependent)
             # In production, we'd expect CORS at minimum
 
@@ -176,8 +174,6 @@ def test_app_routes_registered():
         assert len(route_paths) > 0, "Should have route paths"
 
         # Check for essential health routes
-        has_health = any("/health" in str(p) for p in route_paths)
-
         # Health route is pretty essential, but configuration-dependent
         # At minimum, we should have some routes
         assert len(route_paths) > 0, "Should have registered routes"

@@ -235,10 +235,6 @@ def test_auth_middleware_loaded():
 
         # In strict mode, should have auth middleware
         # Check for known auth middleware classes
-        has_auth = any(
-            "Auth" in name or "Strict" in name for name in middleware_classes
-        )
-
         # Auth middleware might not be loaded in all configurations
         # Just verify middleware stack exists
         assert len(middleware_classes) >= 0, "Should have middleware stack"
