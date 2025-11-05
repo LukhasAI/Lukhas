@@ -205,8 +205,8 @@ class ConsentPrivacyConstitutionalBridge:
 
         # Core systems
         self.constitutional_ai = ConstitutionalAI() if CONSTITUTIONAL_AI_AVAILABLE else MockConstitutionalAI()
-        self.consent_manager = ConsentManager() if CONSENT_AVAILABLE else ConsentManager()
-        self.data_protection = DataProtectionEngine() if CONSENT_AVAILABLE else DataProtectionEngine()
+        self.consent_manager = ConsentManager()
+        self.data_protection = DataProtectionEngine()
 
         # Cognitive AI components registry
         self.cognitive_components: dict[str, Any] = {}
