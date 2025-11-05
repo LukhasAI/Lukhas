@@ -1,0 +1,100 @@
+{
+  "timestamp": "2025-11-05T00:00:00Z",
+  "repo": "LukhasAI/Lukhas",
+  "connectors": ["LukhasAI/Lukhas", "LUKHAS-MCP"],
+  "dry_run": true,
+  "strategy": "shim-first",
+  "environment": {
+    "repo_root": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "python_files": 20580,
+    "tools_verified": {
+      "python3": "OK",
+      "git": "OK",
+      "gh": "OK",
+      "rg": "OK",
+      "jq": "OK",
+      "black": "OK (.venv/bin/black)",
+      "ruff": "OK (.venv/bin/ruff)",
+      "pytest": "OK (.venv/bin/pytest)",
+      "libcst": "OK"
+    }
+  },
+  "checks_ran": [
+    "git rev-parse --show-toplevel > release_artifacts/repo_audit_v2/discovery/repo_root.txt",
+    "ls -l > release_artifacts/repo_audit_v2/discovery/top_level_ls.txt",
+    "find . -name '*.py' -type f | wc -l > release_artifacts/repo_audit_v2/discovery/python_file_count.txt",
+    "gh repo view LukhasAI/Lukhas --json name,visibility,isPrivate,owner > release_artifacts/repo_audit_v2/discovery/gh_repo_lukhas.json",
+    "for p in [safe_dirs]; do find . -type d -name $p -print -exec du -sh {} \\; done > release_artifacts/repo_audit_v2/discovery/safe_dirs.txt",
+    "python3 extract pyproject.toml excludes > release_artifacts/repo_audit_v2/discovery/pyproject_excludes.txt",
+    "tool verification > release_artifacts/repo_audit_v2/discovery/tool_check.txt"
+  ],
+  "tool_status_file": "release_artifacts/repo_audit_v2/discovery/tool_check.txt",
+  "safe_dirs_file": "release_artifacts/repo_audit_v2/discovery/safe_dirs.txt",
+  "safe_dirs_identified": {
+    "archive": "18M (contains lanes_experiment with 8 priority modules)",
+    "quarantine": "0B (empty placeholder, skip)",
+    "products": "136K+ (production deployments using matriz)",
+    "venv": "870M (.venv)",
+    "migrations": "Multiple locations",
+    "generated": "Multiple locations (venv)",
+    "docs_openapi": "Not found at top level",
+    "manifests": "Present with archives",
+    "data": "Multiple small directories"
+  },
+  "pyproject_excludes": [
+    "labs",
+    "examples",
+    "docs",
+    "tests/fixtures",
+    "scripts/migrations",
+    ".git",
+    ".venv",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "node_modules",
+    "**/migrations/**",
+    "**/generated/**",
+    "gemini-dev",
+    "b1db8919b599a05a3bdcacda2013e2f4e5803bfe",
+    "archive/**",
+    "**/quarantine/**",
+    "**/quarantine_*/**",
+    "products/**",
+    "dreamweaver_helpers_bundle/**"
+  ],
+  "backup_branch": "backup/pre-flatten-2025-11-05",
+  "prior_work": {
+    "smoke_tests": "54 passing tests (100% pass rate, 2.3s runtime)",
+    "smoke_test_suites": [
+      "identity_auth",
+      "secrets_config",
+      "memory_roundtrip",
+      "guardian_ethics",
+      "api_acl",
+      "routing_negative",
+      "external_deps",
+      "app_lifecycle",
+      "llm_adapter_scan"
+    ],
+    "artifacts_location": "release_artifacts/repo_audit_v2/",
+    "documentation": [
+      "GPT_PRO_AUDIT_INDEX.md",
+      "PHASE_2_COMPLETION.md",
+      "SMOKE_TEST_IMPROVEMENTS_SUMMARY.md"
+    ]
+  },
+  "repository_metadata": {
+    "name": "Lukhas",
+    "visibility": "PRIVATE",
+    "owner": "LukhasAI"
+  },
+  "audit_phase": "initialization_complete",
+  "next_steps": [
+    "Generate flatten_map.csv",
+    "Full repository forensic audit",
+    "Flatten plan assessment",
+    "Redundancy & duplicate detection",
+    "OpenAI alignment audit"
+  ]
+}
