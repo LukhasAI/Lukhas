@@ -100,7 +100,7 @@ def get_safety_card_json(
             try:
                 report_md = _mk_markdown(policy_root, overlays, 500)
                 card["_appendix_nightly_report_md"] = report_md
-            except:
+            except Exception:
                 card["_appendix_nightly_report_md"] = "(appendix generation failed)"
 
         return card
@@ -922,14 +922,14 @@ def get_dashboard_summary(token: str | None = Header(None, alias="X-Auth-Token")
         try:
             adaptive_engine = AdaptiveLearningEngine()
             adaptive_patterns = adaptive_engine.analyze_performance_patterns(window=500)
-        except:
+        except Exception:
             adaptive_patterns = None
 
         # Human adaptation summary
         try:
             human_engine = HumanAdaptEngine()
             human_patterns = human_engine.analyze_satisfaction_patterns(window=500)
-        except:
+        except Exception:
             human_patterns = None
 
         dashboard = {

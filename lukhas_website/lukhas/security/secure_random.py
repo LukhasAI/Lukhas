@@ -32,7 +32,7 @@ import os
 import secrets
 import string
 from collections.abc import Sequence
-from typing import Any, Union
+from typing import Any
 
 
 class SecureRandom:
@@ -42,7 +42,7 @@ class SecureRandom:
     using the cryptographically secure secrets module.
     """
 
-    def __init__(self, seed: Union[int, str] | None = None):
+    def __init__(self, seed: int | str | None = None):
         """Initialize SecureRandom instance.
 
         Note: Unlike random.Random, secrets-based operations cannot be

@@ -36,7 +36,7 @@ else:
     pass
 
 # Always expose our submodule path
-from . import exceptions  # noqa: E402  (ensures attr exists even if backend lacks it)
+from . import exceptions
 
 if _SRC is not None:
     def __getattr__(name: str):

@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import server  # noqa: F401  # TODO: server; consider using importl...
+    import server  # TODO: server; consider using importl...
 except ImportError:
     pytest.skip("Module server not available", allow_module_level=True)
 

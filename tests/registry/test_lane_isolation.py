@@ -254,8 +254,8 @@ class TestLaneIsolationEnforcement:
                         all_entry_points.append((group, ep))
 
                 # Mock entry_points to return plugins for specific groups
-                def mock_entry_points_func(group=None):
-                    return [ep for g, ep in all_entry_points if g == group]
+                def mock_entry_points_func(group=None, captured_entry_points=all_entry_points):
+                    return [ep for g, ep in captured_entry_points if g == group]
 
                 mock_entry_points.side_effect = mock_entry_points_func
 

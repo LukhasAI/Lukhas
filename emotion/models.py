@@ -1,4 +1,4 @@
 """Bridge module for emotion.models → labs.emotion.models"""
 from __future__ import annotations
 
-from labs.emotion.models import *  # noqa: F403
+from labs.emotion.models import *

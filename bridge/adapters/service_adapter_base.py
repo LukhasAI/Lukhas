@@ -484,7 +484,7 @@ class BaseServiceAdapter(ABC):
     async def notify_consciousness(self, event_type: str, data: dict):
         """🧠 Notify consciousness system of important events"""
         if self.kernel_bus and self.consciousness_active:
-            try:
+            with contextlib.suppress(Exception):
                 await self.kernel_bus.emit_event(
                     {
                         "type": f"adapter.{event_type}",
@@ -493,9 +493,6 @@ class BaseServiceAdapter(ABC):
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
-            except Exception:
-                # Graceful degradation if consciousness not available
-                pass
 
     @abstractmethod
     async def authenticate(self, credentials: dict) -> dict:

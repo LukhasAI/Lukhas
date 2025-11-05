@@ -14,7 +14,7 @@ import pytest
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 
-from core.identity.matriz_consciousness_identity_signals import (  # noqa: E402
+from core.identity.matriz_consciousness_identity_signals import (
     ConsciousnessIdentitySignalProcessor,
     CorrelationMatrix,
     IdentitySignalType,
@@ -40,7 +40,7 @@ class MockConsciousnessSignal:
 
 # Patch the ConsciousnessSignal in the module with our mock
 
-candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal  # noqa: F821  # TODO: candidate
+candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal  # TODO: candidate
 
 
 class TestConsciousnessIdentitySignalProcessor:

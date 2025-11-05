@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import rules  # noqa: F401  # TODO: rules; consider using importli...
+    import rules  # TODO: rules; consider using importli...
 except ImportError:
     pytest.skip("Module rules not available", allow_module_level=True)
 

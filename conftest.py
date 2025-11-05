@@ -10,7 +10,7 @@ from pathlib import Path
 
 # Ensure sitecustomize runs (fixes _SixMetaPathImporter compatibility)
 try:
-    import sitecustomize  # noqa: F401
+    import sitecustomize
 except ImportError:
     pass
 

@@ -122,7 +122,7 @@ def _classify_root(p: Path) -> str:
     return "unknown"
 
 
-def load_trace_file(file_path: Path) -> Union[dict[str, Any], None]:
+def load_trace_file(file_path: Path) -> dict[str, Any] | None:
     """Load and validate a trace JSON file."""
     try:
         if not file_path.exists():

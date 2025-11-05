@@ -1,4 +1,4 @@
 """Bridge module for api.metrics → labs.api.metrics"""
 from __future__ import annotations
 
-from labs.api.metrics import *  # noqa: F403
+from labs.api.metrics import *

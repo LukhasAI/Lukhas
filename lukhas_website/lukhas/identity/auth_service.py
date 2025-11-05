@@ -27,7 +27,7 @@ except ImportError:
 
 # Import LUKHAS identity token components
 try:
-    from .alias_format import (  # noqa: F401  # TODO: .alias_format.make_alias; cons...
+    from .alias_format import (  # TODO: .alias_format.make_alias; cons...
         make_alias,
         parse_alias,
     )

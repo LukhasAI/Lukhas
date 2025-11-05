@@ -28,14 +28,14 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    import jwt  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    import jwt  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     # LUKHAS imports
     from bridge.api.orchestration_api_bridge import (
         APIProvider,
-        ComprehensiveAPIOrchestrator,  # noqa: F401  # TODO: bridge.api.orchestratio...
+        ComprehensiveAPIOrchestrator,  # TODO: bridge.api.orchestratio...
         OrchestrationRequest,
-        OrchestrationResponse,  # noqa: F401  # TODO: bridge.api.orchestratio...
+        OrchestrationResponse,  # TODO: bridge.api.orchestratio...
         OrchestrationStrategy,
         get_orchestrator,
     )
@@ -43,8 +43,8 @@ try:
         Depends,
         FastAPI,
         HTTPException,
-        Request,  # noqa: F401  # TODO: fastapi.Request; consider usin...
-        Response,  # noqa: F401  # TODO: fastapi.Response; consider usi...
+        Request,  # TODO: fastapi.Request; consider usin...
+        Response,  # TODO: fastapi.Response; consider usi...
         WebSocket,
         WebSocketDisconnect,
         status,
@@ -52,7 +52,7 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import StreamingResponse
     from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-    from pydantic import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from pydantic import (  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
         BaseModel,
         Field,
         ValidationError,
@@ -538,7 +538,7 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
-            validator = get_validator()  # noqa: F821  # TODO: get_validator
+            validator = get_validator()  # TODO: get_validator
             if validator:
                 validation_result = await validator.validate_request(
                     "function_registration",

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import healing  # noqa: F401  # TODO: healing; consider using import...
+    import healing  # TODO: healing; consider using import...
 except ImportError:
     pytest.skip("Module healing not available", allow_module_level=True)
 

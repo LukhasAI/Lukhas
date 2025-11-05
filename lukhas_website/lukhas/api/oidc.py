@@ -806,7 +806,7 @@ async def authorize(
             else:
                 # Error response
                 error = result.get("error", "server_error")
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="authorize",
                     method="GET",
                     status="400"
@@ -826,7 +826,7 @@ async def authorize(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="authorize",
                 method="GET",
                 status="500"
@@ -873,7 +873,7 @@ async def token(
             span.set_attribute("oidc.grant_type", grant_type)
 
             if "error" in result:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="token",
                     method="POST",
                     status="400"
@@ -884,7 +884,7 @@ async def token(
                     detail=result
                 )
             else:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="token",
                     method="POST",
                     status="200"
@@ -895,7 +895,7 @@ async def token(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="token",
                 method="POST",
                 status="500"
@@ -927,7 +927,7 @@ async def userinfo(
                 access_token = authorization[7:]  # Remove "Bearer " prefix
 
             if not access_token:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="userinfo",
                     method="GET",
                     status="401"
@@ -940,7 +940,7 @@ async def userinfo(
             # Get user information
             userinfo_data = provider.handle_userinfo_request(access_token)
 
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="userinfo",
                 method="GET",
                 status="200"
@@ -952,7 +952,7 @@ async def userinfo(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="userinfo",
                 method="GET",
                 status="500"
@@ -979,7 +979,7 @@ async def revoke_token(
             # Authenticate client
             client = provider.client_registry.authenticate_client(client_id, client_secret)
             if not client:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="revoke",
                     method="POST",
                     status="401"
@@ -992,7 +992,7 @@ async def revoke_token(
             # Revoke token
             success = provider.token_manager.revoke_token(token, token_type_hint)
 
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="revoke",
                 method="POST",
                 status="200"
@@ -1007,7 +1007,7 @@ async def revoke_token(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="revoke",
                 method="POST",
                 status="500"
@@ -1034,7 +1034,7 @@ async def introspect_token(
             # Authenticate client
             client = provider.client_registry.authenticate_client(client_id, client_secret)
             if not client:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="introspect",
                     method="POST",
                     status="401"
@@ -1047,7 +1047,7 @@ async def introspect_token(
             # Introspect token
             introspection_result = provider.token_manager.introspect_token(token)
 
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="introspect",
                 method="POST",
                 status="200"
@@ -1061,7 +1061,7 @@ async def introspect_token(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="introspect",
                 method="POST",
                 status="500"
@@ -1102,7 +1102,7 @@ async def list_clients(
             }
 
         except Exception as e:
-            span.set_attribute("error", str(e))  # noqa: F821  # TODO: span
+            span.set_attribute("error", str(e))  # TODO: span
             raise HTTPException(status_code=500, detail="Internal server error")
 
 
@@ -1132,7 +1132,7 @@ async def provider_stats(
             }
 
         except Exception as e:
-            span.set_attribute("error", str(e))  # noqa: F821  # TODO: span
+            span.set_attribute("error", str(e))  # TODO: span
             raise HTTPException(status_code=500, detail="Internal server error")
 
 
@@ -1176,7 +1176,7 @@ async def authenticate_with_tier(
             auth_result = await auth_system.authenticate_tier(tier, auth_request)
 
             if auth_result.success:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="authenticate",
                     method="POST",
                     status="200"
@@ -1193,7 +1193,7 @@ async def authenticate_with_tier(
                     "permissions": auth_result.claims.get("permissions", [])
                 }
             else:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="authenticate",
                     method="POST",
                     status="401"
@@ -1212,7 +1212,7 @@ async def authenticate_with_tier(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="authenticate",
                 method="POST",
                 status="500"

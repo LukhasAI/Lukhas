@@ -265,7 +265,7 @@ class TestOIDCDiscovery(OIDCConformanceTestSuite):
             assert kid.startswith('lukhas-oidc-'), f"New key ID should follow pattern: {kid}"
             assert len(kid.split('-')) >= 3, f"Key ID should include date/version: {kid}"
 
-        key = jwks['keys'][0]  # noqa: F821  # TODO: jwks
+        key = jwks['keys'][0]  # TODO: jwks
         required_key_fields = ['kty', 'use', 'kid', 'alg', 'n', 'e']
         for field in required_key_fields:
             assert field in key, f"Missing required key field: {field}"

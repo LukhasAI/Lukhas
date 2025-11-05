@@ -48,7 +48,7 @@ class MockVectorStore(AbstractVectorStore):
 
     async def get(self, document_id):
         if document_id in self.deleted_ids:
-            raise DocumentNotFoundError(f"Document {document_id} not found")  # noqa: F821  # TODO: DocumentNotFoundError
+            raise DocumentNotFoundError(f"Document {document_id} not found")  # TODO: DocumentNotFoundError
         return self.documents.get(document_id)
 
     async def update(self, document):

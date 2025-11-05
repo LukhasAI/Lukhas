@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import vivox  # noqa: F401  # TODO: vivox; consider using importli...
+    import vivox  # TODO: vivox; consider using importli...
 except ImportError:
     pytest.skip("Module vivox not available", allow_module_level=True)
 

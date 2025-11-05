@@ -40,7 +40,7 @@ import numpy as np
 
 try:
     import boto3
-    from botocore.exceptions import (  # noqa: F401  # TODO: botocore.exceptions.NoCredenti...
+    from botocore.exceptions import (  # TODO: botocore.exceptions.NoCredenti...
         ClientError,
         NoCredentialsError,
     )

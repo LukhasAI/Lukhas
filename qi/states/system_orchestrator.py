@@ -89,15 +89,15 @@ from qi.security import (
 class QIAGISystem:
     """Top-level orchestrator for the entire quantum-safe AI system"""
 
-    def __init__(self, config: SystemConfig):  # noqa: F821  # TODO: SystemConfig
+    def __init__(self, config: SystemConfig):  # TODO: SystemConfig
         # Security infrastructure
         security_mesh = getattr(config, "security_mesh", None)
         if security_mesh is None:
             security_mesh = MultiJurisdictionComplianceEngine(
                 # See: https://github.com/LukhasAI/Lukhas/issues/605
-                pqc_engine=PostQuantumCryptoEngine(config.crypto_config),  # noqa: F821  # TODO: PostQuantumCryptoEngine
+                pqc_engine=PostQuantumCryptoEngine(config.crypto_config),  # TODO: PostQuantumCryptoEngine
                 # See: https://github.com/LukhasAI/Lukhas/issues/606
-                audit_blockchain=QISafeAuditBlockchain(),  # noqa: F821  # TODO: QISafeAuditBlockchain
+                audit_blockchain=QISafeAuditBlockchain(),  # TODO: QISafeAuditBlockchain
                 # See: https://github.com/LukhasAI/Lukhas/issues/607
                 frameworks=getattr(config, "compliance_frameworks", DEFAULT_COMPLIANCE_FRAMEWORKS),
             )
@@ -116,15 +116,15 @@ class QIAGISystem:
         self.security_mesh = security_mesh
 
         # Core components with quantum enhancement
-        self.qi_neural_core = QINeuralSymbolicProcessor(config.qi_security_config)  # noqa: F821  # TODO: QINeuralSymbolicProcessor
-        self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # noqa: F821  # TODO: DistributedQuantumSafeOrchestr...
+        self.qi_neural_core = QINeuralSymbolicProcessor(config.qi_security_config)  # TODO: QINeuralSymbolicProcessor
+        self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # TODO: DistributedQuantumSafeOrchestr...
 
         # Advanced capabilities
-        self.qi_ui_optimizer = QIUIOptimizer()  # noqa: F821  # TODO: QIUIOptimizer
-        self.qi_memory = QIAssociativeMemoryBank()  # noqa: F821  # TODO: QIAssociativeMemoryBank
+        self.qi_ui_optimizer = QIUIOptimizer()  # TODO: QIUIOptimizer
+        self.qi_memory = QIAssociativeMemoryBank()  # TODO: QIAssociativeMemoryBank
 
         # Monitoring and telemetry
-        self.qi_telemetry = QISafeTelemetry(export_endpoint=config.telemetry_endpoint, encryption_level="homomorphic")  # noqa: F821  # TODO: QISafeTelemetry
+        self.qi_telemetry = QISafeTelemetry(export_endpoint=config.telemetry_endpoint, encryption_level="homomorphic")  # TODO: QISafeTelemetry
 
         # Regulatory compliance
         self.regulatory_compliance = getattr(config, "regulatory_compliance", None)
@@ -176,7 +176,7 @@ class QIAGISystem:
             # Fallback if voice/bio components not available
             self.voice_enhancer = None
 
-    async def process_user_request(self, request: UserRequest, qi_session: QISecureSession) -> SecureResponse:  # noqa: F821  # TODO: UserRequest
+    async def process_user_request(self, request: UserRequest, qi_session: QISecureSession) -> SecureResponse:  # TODO: UserRequest
         """End-to-end processing with full quantum security"""
 
         processing_id = await self._start_processing_trace()
@@ -353,7 +353,7 @@ class QIAGISystem:
             qi_metrics = await self.qi_telemetry.get_quantum_advantage_metrics()
 
             # Optimize quantum circuit compilation
-            if qi_metrics.circuit_depth > threshold:  # noqa: F821  # TODO: threshold
+            if qi_metrics.circuit_depth > threshold:  # TODO: threshold
                 await self.qi_neural_core.optimize_circuits()
 
             # Rebalance distributed load

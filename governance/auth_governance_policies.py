@@ -1,4 +1,4 @@
 """Bridge module for governance.auth_governance_policies → labs.governance.auth_governance_policies"""
 from __future__ import annotations
 
-from labs.governance.auth_governance_policies import *  # noqa: F403
+from labs.governance.auth_governance_policies import *

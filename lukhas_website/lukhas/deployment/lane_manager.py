@@ -627,7 +627,7 @@ class LaneManager:
             "lanes": {
                 lane.value: {
                     "config": asdict(config),
-                    "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # noqa: F821  # TODO: metrics
+                    "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # TODO: metrics
                     "assignments": len([
                         s for s, lane_assignment in self._lane_assignments.items() if lane_assignment == lane
                     ])

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import benchmarks  # noqa: F401  # TODO: benchmarks; consider using imp...
+    import benchmarks  # TODO: benchmarks; consider using imp...
 except ImportError:
     pytest.skip("Module benchmarks not available", allow_module_level=True)
 

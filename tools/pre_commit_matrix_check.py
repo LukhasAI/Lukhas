@@ -12,7 +12,7 @@ import sys
 from typing import List
 
 try:
-    from jsonschema import (  # noqa: F401  # TODO: jsonschema.ValidationError; co...
+    from jsonschema import (  # TODO: jsonschema.ValidationError; co...
         Draft202012Validator,
         ValidationError,
     )

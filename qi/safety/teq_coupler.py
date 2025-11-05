@@ -60,7 +60,7 @@ def calibrated_gate(
                 adjustments = json.load(f)
                 if task and task in adjustments:
                     feedback_shift = adjustments[task].get("threshold_delta", 0.0)
-    except:
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
         pass
 
     # Combine temperature-based and feedback-based shifts (bounded)

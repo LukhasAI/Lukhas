@@ -240,7 +240,7 @@ def test_database_client_initialization():
         pass
     except Exception as e:
         # Initialization might fail if dependencies missing
-        if not ("psycopg" in str(e).lower()):
+        if "psycopg" not in str(e).lower():
             raise
 
     # Should have tested at least one DB client

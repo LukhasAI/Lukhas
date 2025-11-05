@@ -2,7 +2,7 @@
 import importlib as _importlib
 
 try:
-    from governance.guardian_system_integration import *  # noqa: F403
+    from governance.guardian_system_integration import *
 except ImportError:
     try:
         _mod = _importlib.import_module("labs.governance.guardian_system_integration")

@@ -37,14 +37,14 @@ class TestDesignSystemModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         # import design_system  # Module name with hyphen - skipping
-        self.assertIsNotNone(design-system)  # noqa: F821  # TODO: design
+        self.assertIsNotNone(design-system)  # TODO: design
 
     def test_module_version(self):
         """Test module has version information."""
         # import design_system  # Module name with hyphen - skipping
         # Most modules should have version info
-        self.assertTrue(hasattr(design-system, '__version__') or  # noqa: F821  # TODO: design
-                       hasattr(design-system, 'VERSION'))  # noqa: F821  # TODO: design
+        self.assertTrue(hasattr(design-system, '__version__') or  # TODO: design
+                       hasattr(design-system, 'VERSION'))  # TODO: design
 
     def test_module_initialization(self):
         """Test module can be initialized."""

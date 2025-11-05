@@ -72,7 +72,7 @@ class IntegrityProbe:
 
     def __init__(
         self,
-        drift_score_calculator: "DriftScoreCalculator",  # noqa: F821  # TODO: DriftScoreCalculator
+        drift_score_calculator: "DriftScoreCalculator",  # TODO: DriftScoreCalculator
         memory_collapse_verifier: "MemoryCollapseVerifier",
         trace_repair_engine: "TraceRepairEngine",
     ):

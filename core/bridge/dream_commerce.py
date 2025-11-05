@@ -299,12 +299,11 @@ class DreamCommerceEngine:
         """Create a new dream seed for the marketplace"""
         try:
             # Verify creator permissions
-            if IDENTITY_AVAILABLE and self.identity_client:
-                if not verify_access(creator_id, "DREAM_CREATOR_TIER"):
-                    raise HTTPException(
-                        status_code=403,
-                        detail="Insufficient creator permissions",
-                    )
+            if IDENTITY_AVAILABLE and self.identity_client and not verify_access(creator_id, "DREAM_CREATOR_TIER"):
+                raise HTTPException(
+                    status_code=403,
+                    detail="Insufficient creator permissions",
+                )
 
             # Validate ethical boundaries
             if self.ethical_validation_enabled:

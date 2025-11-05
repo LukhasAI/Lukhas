@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import identity  # noqa: F401  # TODO: identity; consider using impor...
+    import identity  # TODO: identity; consider using impor...
 except ImportError:
     pytest.skip("Module identity not available", allow_module_level=True)
 
