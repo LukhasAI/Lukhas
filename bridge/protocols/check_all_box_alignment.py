@@ -35,6 +35,8 @@ Verify all enhanced ASCII box headers have perfect alignment
 """
 
 
+# Pattern to match ASCII box headers with ╔═══...═══╗ borders
+box_pattern = r"╔═+╗.*?╚═+╝"
 
 def check_box_alignment(file_path):
     """Check if ASCII box in file has perfect alignment"""

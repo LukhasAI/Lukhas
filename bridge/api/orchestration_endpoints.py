@@ -58,6 +58,7 @@ try:
         get_orchestrator,
     )
 
+    from bridge.api.validation import get_validator
     FASTAPI_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"FastAPI dependencies not available: {e}")
