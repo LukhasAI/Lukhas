@@ -33,18 +33,7 @@ try:
     MEMORY_AVAILABLE = True
 except ImportError:
     pass
-try:
-    from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-    OPENTELEMETRY_AVAILABLE = True
-except ImportError:
-    OPENTELEMETRY_AVAILABLE = False
-
-    class MockInstrumentor:
-
-        @staticmethod
-        def instrument_app(app: FastAPI) -> None:
-            pass
-    FastAPIInstrumentor = MockInstrumentor
+from serve.tracing import setup_tracing
 try:
     from enterprise.observability.instantiate import obs_stack
 except Exception:
@@ -202,8 +191,10 @@ if matriz_traces_router is not None:
     app.include_router(matriz_traces_router)
 if orchestration_router is not None:
     app.include_router(orchestration_router)
-if OPENTELEMETRY_AVAILABLE and getattr(obs_stack, 'opentelemetry_enabled', False):
-    FastAPIInstrumentor.instrument_app(app)
+if getattr(obs_stack, "opentelemetry_enabled", False):
+    setup_tracing(app)
+else:
+    logger.info("OpenTelemetry disabled; skipping tracing setup")
 if identity_router is not None:
     app.include_router(identity_router)
 if webauthn_router is not None:
@@ -277,12 +268,53 @@ def readyz() -> dict[str, Any]:
         return {'status': 'ready'}
     return {'status': 'not_ready', 'details': status}
 
-@app.get('/metrics', include_in_schema=False)
-def metrics() -> Response:
-    """Prometheus-style metrics endpoint (stub for monitoring compatibility)."""
-    import time
-    metrics_output = f'# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total {time.process_time()}\n\n# HELP http_requests_total Total HTTP requests processed\n# TYPE http_requests_total counter\nhttp_requests_total{{method="GET",endpoint="/healthz",status="200"}} 1\n\n# HELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{{version="1.0.0"}} 1\n'
-    return Response(content=metrics_output, media_type='text/plain')
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    Counter,
+    Histogram,
+    make_asgi_app,
+)
+
+# Create a metric to track time spent and requests made.
+REQUEST_TIME = Histogram(
+    "http_request_duration_seconds",
+    "Time spent processing a request",
+    ["method", "endpoint"],
+)
+# Create a metric to track the number of requests made.
+REQUEST_COUNT = Counter(
+    "http_requests_total",
+    "Total number of requests",
+    ["method", "endpoint", "status_code"],
+)
+# Create a metric to track the number of chat completions.
+CHAT_COMPLETIONS_COUNT = Counter(
+    "chat_completions_total",
+    "Total number of chat completions",
+    ["model"],
+)
+
+@app.middleware("http")
+async def track_metrics(request: Request, call_next):
+    """Add prometheus metrics to each request."""
+    start_time = time.time()
+    route = request.scope.get("route")
+    endpoint = getattr(route, "path", None) if route is not None else None
+    if not endpoint:
+        endpoint = request.url.path
+    response = await call_next(request)
+    end_time = time.time()
+    REQUEST_TIME.labels(request.method, endpoint).observe(
+        end_time - start_time
+    )
+    REQUEST_COUNT.labels(
+        request.method, endpoint, response.status_code
+    ).inc()
+    return response
+
+# Add prometheus asgi middleware to route /metrics requests
+metrics_app = make_asgi_app()
+app.mount("/metrics", metrics_app)
 
 def _hash_embed(text: str, dim: int=1536) -> list[float]:
     """Generate deterministic embedding from text using hash expansion."""
@@ -349,6 +381,7 @@ async def create_chat_completion(request: dict) -> dict[str, Any]:
     """OpenAI-compatible chat completions endpoint (stub for RC soak testing)."""
     messages = request.get('messages', [])
     model = request.get('model', 'gpt-4')
+    CHAT_COMPLETIONS_COUNT.labels(model).inc()
     request.get('max_tokens', 100)
     stream = request.get('stream', False)
 
