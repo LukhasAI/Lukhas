@@ -32,75 +32,10 @@ The bridge pattern searches: lukhas → labs → candidate (don't modify it!)
 
 ---
 
-## 🟡 SESSION 1 (HIGH) - Serve API Tests
-**URL**: https://jules.google.com/session/8638636043477486067
-
-**Response to paste**:
-```
-The 401 errors are expected - auth middleware is enabled. Here's how to bypass it:
-
-1. Check serve/main.py for environment variables:
-   - Look for LUKHAS_DEV_MODE or similar
-   - Find auth middleware configuration
-
-2. Add this fixture to your tests/integration/serve/conftest.py:
-   ```python
-   import os
-   import pytest
-   from unittest.mock import patch
-   from fastapi.testclient import TestClient
-
-   @pytest.fixture
-   def client_no_auth():
-       with patch.dict(os.environ, {'LUKHAS_DEV_MODE': 'true'}):
-           from serve.main import app
-           return TestClient(app)
-   ```
-
-3. Use the fixture in your tests:
-   ```python
-   def test_endpoint(client_no_auth):
-       response = client_no_auth.get("/v1/models")
-       assert response.status_code == 200
-   ```
-
-4. Alternative - override FastAPI dependency:
-   ```python
-   app.dependency_overrides[get_current_user] = lambda: {"user_id": "test"}
-   ```
-
-Please implement auth bypass and re-run tests.
-```
-
 ---
 
-## 🟡 SESSION 7 (HIGH) - ISSUE-023 Bug Fix
-**URL**: https://jules.google.com/session/11806983097256570445
 
-**Response to paste**:
-```
-Skipped tests = passing tests for this issue.
 
-The 32 skipped tests are expected - they require MATRIZ + Memory not yet implemented.
-
-Next steps:
-1. Check if you made any fixes: git status
-2. If changes exist, commit with:
-   ```
-   fix(tests): resolve ISSUE-023 consciousness pipeline test setup
-
-   Problem: [describe issue from bug_report.md]
-   Solution: [what you fixed]
-   Impact: Tests run successfully, 32 properly skipped pending MATRIZ
-
-   Closes: ISSUE-023
-   ```
-
-3. If no changes (tests already working), respond:
-   "ISSUE-023 already resolved. All validation tests pass (skipped=expected). No changes needed."
-
-Please commit if you have changes, or confirm issue resolved.
-```
 
 ---
 
@@ -109,13 +44,6 @@ Please commit if you have changes, or confirm issue resolved.
 
 **Response to paste**:
 ```
-Please provide status update:
-1. What tests have been created?
-2. What is blocking progress?
-3. Current coverage %?
-4. Share latest test run output
-
-Respond with: pytest tests/unit/core/blockchain/ -v --cov=core/blockchain output
 ```
 
 ---

@@ -228,6 +228,13 @@ class JulesClient:
         for attempt in range(self.config.max_retries):
             try:
                 async with session.request(method, url, **kwargs) as response:
+                    if response.status >= 400:
+                        # Try to get error details from response body
+                        try:
+                            error_body = await response.text()
+                            self.logger.error(f"API error response ({response.status}): {error_body}")
+                        except:
+                            pass
                     response.raise_for_status()
                     return await response.json()
             except aiohttp.ClientError as e:
@@ -315,20 +322,24 @@ class JulesClient:
         if not source_id:
             raise ValueError("Either source_id or repository_url must be provided")
 
-        payload: dict[str, Any] = {
+        session_data: dict[str, Any] = {
             "displayName": display_name or f"LUKHAS Session {datetime.now(timezone.utc).isoformat()}",
             "prompt": prompt,
             "sources": [source_id],
         }
 
         if automation_mode:
-            payload["automationMode"] = automation_mode
+            session_data["automationMode"] = automation_mode
 
         if require_plan_approval is not None:
-            payload["requirePlanApproval"] = require_plan_approval
+            session_data["requirePlanApproval"] = require_plan_approval
         elif self.config.auto_approve_plans:
-            payload["requirePlanApproval"] = False
+            session_data["requirePlanApproval"] = False
 
+        # Wrap in "session" object as required by API
+        payload = {"session": session_data}
+
+        self.logger.debug(f"Creating session with payload: {payload}")
         response = await self._request(
             "POST",
             "/v1alpha/sessions",

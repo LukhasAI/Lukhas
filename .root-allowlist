@@ -278,16 +278,13 @@ Justfile
 pyrightconfig.json
 pytest.ini
 mypy.ini
+
+# Essential root Python files
 conftest.py
 __init__.py
 main.py
 
-# Specific scripts that live at root
-*.py
-*.sh
-*.txt
-
-# Root-level config files
+# Root-level config files (specific formats only)
 *.toml
 *.ini
 *.json
@@ -311,18 +308,9 @@ zenodo.metadata.json
 .copilot-dev-freeze.txt
 .root-allowlist
 
-# Temporary/work files
+# Temporary/work files (very limited)
 TODO
-branch_audit_*.txt
-collection_test.txt
-coverage*.txt
-error_analysis.txt
-context_files.txt
-smoke_*.txt
 test-results.xml
-proposed_moves*.sh
-verify_*.sh
-run_*.sh
 dump.rdb
 
 # Legacy cleanup candidates (temporary allowance)
@@ -401,9 +389,6 @@ lukhas_agent_todos.*
 requirements*.txt
 requirements*.in
 requirements.lock
-
-# Makefile variants
-Makefile.*
 
 # Google auth (dependency)
 google_auth_oauthlib/
