@@ -473,6 +473,51 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 **Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures and [SESSION_2025-11-01_NEW_SYSTEMS.md](./docs/SESSION_2025-11-01_NEW_SYSTEMS.md) for latest system deliverables.
 
 ---
+## 🤖 Jules AI Integration
+
+**Jules** is Google's autonomous AI coding agent integrated with LUKHAS for automated test creation and PR generation.
+
+### Jules Documentation
+- [JULES_API_COMPLETE_REFERENCE.md](./JULES_API_COMPLETE_REFERENCE.md) - Complete API documentation with all endpoints and features
+- [JULES_SUCCESS_SUMMARY.md](./JULES_SUCCESS_SUMMARY.md) - Recent session creation success and results (7 sessions, 6+ PRs)
+- [JULES_WAITING_SESSIONS.md](./JULES_WAITING_SESSIONS.md) - Guide for handling sessions awaiting feedback
+- [CREATE_7_JULES_SESSIONS.md](./CREATE_7_JULES_SESSIONS.md) - Manual session creation guide
+
+### Jules API Wrapper
+Located at: `bridge/llm_wrappers/jules_wrapper.py`
+
+**Features**:
+- Create sessions programmatically with `AUTO_CREATE_PR` mode
+- Approve plans via API (`approve_plan`)
+- Send feedback/messages (`send_message`)
+- List sessions, sources, and activities
+- API keys stored securely in macOS Keychain
+
+**Usage**:
+```python
+from bridge.llm_wrappers.jules_wrapper import JulesClient
+
+async with JulesClient() as jules:
+    session = await jules.create_session(
+        prompt="Write tests for module X",
+        source_id="sources/github/LukhasAI/Lukhas",
+        automation_mode="AUTO_CREATE_PR"
+    )
+```
+
+### Scripts
+- `scripts/create_test_sessions.py` - Batch create test sessions
+- `scripts/list_all_jules_sessions.py` - Monitor all sessions
+- `scripts/test_jules_connection.py` - Verify API connectivity
+
+### Recent Jules Sessions
+Successfully created 7 test sessions (TEST-014 through TEST-020) generating 6+ PRs with ~10% coverage increase:
+- Smoke tests for critical paths (PR #997)
+- Performance test suite (PR #1000)
+- Candidate module tests (consciousness, bio, quantum)
+- Labs module tests (memory, governance)
+
+---
 ## 📚 Context Navigation Quick Reference
 
 **Primary Development**: `candidate/` → Development workspace
