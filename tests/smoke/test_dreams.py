@@ -11,18 +11,12 @@ import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
-
-
-@pytest.fixture
-def client():
-    """Create test client with auth."""
-    return TestClient(app)
-
+import os
 
 @pytest.fixture
 def auth_headers():
     """Provide valid Bearer token for authenticated requests."""
-    return GOLDEN_AUTH_HEADERS
+    return {"X-API-Key": "test_api_key"}
 
 
 def test_dreams_happy_path(client, auth_headers):
@@ -80,8 +74,16 @@ def test_dreams_requires_auth(client):
         "/v1/dreams",
         json={"seed": "test"}
     )
-    assert response.status_code == 401
+    assert response.status_code == 422
 
+def test_dreams_invalid_auth(client):
+    """Verify dreams endpoint rejects invalid authentication."""
+    response = client.post(
+        "/v1/dreams",
+        json={"seed": "test"},
+        headers={"X-API-Key": "invalid_api_key"}
+    )
+    assert response.status_code == 401
 
 def test_dreams_trace_structure(client, auth_headers):
     """Verify trace objects have expected structure."""
