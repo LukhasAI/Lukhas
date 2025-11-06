@@ -160,6 +160,7 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         if payload is None:
             return self._auth_error('Invalid authentication credentials')
 
+        request.state.user = payload
         return await call_next(request)
 
     def _auth_error(self, message: str) -> Response:
@@ -297,16 +298,16 @@ async def list_models() -> dict[str, Any]:
     return {'object': 'list', 'data': models}
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
-async def create_embeddings(request: dict, authorization: Optional[str] = Header(None)) -> dict[str, Any]:
+async def create_embeddings(request_data: dict, request: Request) -> dict[str, Any]:
     """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
-    if "input" not in request:
+    if "input" not in request_data:
         raise HTTPException(status_code=400, detail={"error": {
             "message": "Missing `input` field",
             "type": "invalid_request_error",
             "param": "input",
             "code": "missing_required_parameter"
         }})
-    input_text = request.get("input", "")
+    input_text = request_data.get("input", "")
     if not input_text:
         raise HTTPException(status_code=400, detail={"error": {
             "message": "`input` field cannot be empty",
@@ -314,19 +315,23 @@ async def create_embeddings(request: dict, authorization: Optional[str] = Header
             "param": "input",
             "code": "invalid_parameter"
         }})
-    model = request.get("model", "text-embedding-ada-002")
-    dimensions = request.get("dimensions", 1536)
-    store = request.get("store", False)
-    retrieve_similar = request.get("retrieve_similar", False)
-    top_k = request.get("top_k", 5)
+    model = request_data.get("model", "text-embedding-ada-002")
+    dimensions = request_data.get("dimensions", 1536)
+    store = request_data.get("store", False)
+    retrieve_similar = request_data.get("retrieve_similar", False)
+    top_k = request_data.get("top_k", 5)
 
     # Generate unique deterministic embedding based on input
     embedding = _hash_embed(input_text, dimensions)
 
     response_data = {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
 
-    if MEMORY_AVAILABLE and authorization:
-        tenant_id = authorization.replace("Bearer ", "")
+    user = getattr(request.state, "user", None)
+    if MEMORY_AVAILABLE and user:
+        tenant_id = user.get("user_id")
+        if not tenant_id:
+            raise HTTPException(status_code=401, detail="Invalid token: missing user_id")
+
         index = index_manager.get_index(tenant_id)
 
         if retrieve_similar:
@@ -335,7 +340,7 @@ async def create_embeddings(request: dict, authorization: Optional[str] = Header
 
         if store:
             vector_id = str(uuid.uuid4())
-            index.add(vector_id, embedding, metadata=request.get("metadata"))
+            index.add(vector_id, embedding, metadata=request_data.get("metadata"))
 
     return response_data
 
