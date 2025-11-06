@@ -650,11 +650,9 @@ class DeepInferenceEngine:
 
         # Check for violations of logical rules
         for step in chain.steps:
-            if step.inference_type == InferenceType.CONDITIONAL:
+            if step.inference_type == InferenceType.CONDITIONAL and (('if' in step.premise.lower() and 'therefore' in step.reasoning.lower()) and await self._is_fallacious_reasoning(step)):
                 # Check for affirming the consequent fallacy
-                if "if" in step.premise.lower() and "therefore" in step.reasoning.lower():
-                    if await self._is_fallacious_reasoning(step):
-                        contradictions.append(f"logical_fallacy_{step.step_id}")
+                contradictions.append(f"logical_fallacy_{step.step_id}")
 
         return contradictions
 

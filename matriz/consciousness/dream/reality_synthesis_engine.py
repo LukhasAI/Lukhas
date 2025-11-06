@@ -14,9 +14,8 @@ Features:
 - Integration with LUKHAS Constellation Framework
 """
 
-import logging
-
 import asyncio
+import logging
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field

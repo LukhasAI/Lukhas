@@ -1,4 +1,5 @@
 from typing import Any
+
 try:
     from labs.core.event_bus import EventBus
 except ImportError:

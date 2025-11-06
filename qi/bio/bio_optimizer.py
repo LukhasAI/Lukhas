@@ -36,11 +36,10 @@ For documentation and support: https://ai/docs
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import hashlib  # For caching key generation
 import json  # For caching key generation if complex dicts are used
+import logging
 import time
 from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Standardized timestamping
@@ -48,6 +47,7 @@ from pathlib import Path  # Not used in current code, but often useful
 from typing import Any  # Added Type
 
 import numpy as np
+
 # structlog is optional in the test environment; fall back to stdlib logging when absent.
 try:  # pragma: no cover - import guard for optional dependency
     import structlog  # Standardized logging

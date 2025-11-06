@@ -45,11 +45,10 @@ Priority: CRITICAL - Enterprise platform enhancement
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import copy
 import hashlib
+import logging
 import re
 import sys
 import uuid
@@ -832,11 +831,10 @@ class MetaCognitiveOrchestrator:
                             component.confidence_threshold *= 0.9  # Lower threshold for better sensitivity
                         modification["status"] = "successful"
 
-                elif rec["type"] == "component_addition":
+                elif rec['type'] == 'component_addition' and (rec['target'] == 'attention' and 'attention' not in self.components):
                     # Add new component (simplified)
-                    if rec["target"] == "attention" and "attention" not in self.components:
-                        self.components["attention"] = QIInspiredAttention()
-                        modification["status"] = "successful"
+                    self.components["attention"] = QIInspiredAttention()
+                    modification["status"] = "successful"
 
                 self.metacognitive_state["last_self_modification"] = modification["timestamp"]
                 logger.info(f"Self-modification performed: {modification['description']}")

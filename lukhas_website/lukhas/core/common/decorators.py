@@ -4,10 +4,9 @@
 Reusable decorators for LUKHAS modules.
 """
 
-import logging
-
 import asyncio
 import functools
+import logging
 import secrets
 import time
 from datetime import datetime, timezone

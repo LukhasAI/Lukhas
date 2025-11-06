@@ -872,9 +872,8 @@ class LukhasIntelligenceBenchmarking:
             recommendations.append("High memory usage detected. Consider optimizing memory allocation.")
 
         # Agent coordination recommendations
-        if config.scenario == BenchmarkScenario.MULTI_AGENT_COORDINATION:
-            if "coordination_complexity" in statistics:
-                recommendations.append("Multi-agent coordination detected. Consider agent load balancing.")
+        if config.scenario == BenchmarkScenario.MULTI_AGENT_COORDINATION and 'coordination_complexity' in statistics:
+            recommendations.append("Multi-agent coordination detected. Consider agent load balancing.")
 
         # Safety recommendations
         if "safety_score" in statistics:

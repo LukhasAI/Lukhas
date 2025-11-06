@@ -669,10 +669,9 @@ class BiometricFusionEngine:
             strength += 0.15
 
         # Cultural adaptation
-        if cultural_context.get("cultural_type") == "high_context":
+        if cultural_context.get('cultural_type') == 'high_context' and len(keyword.split()) > 1:
             # High-context cultures may use meaningful phrases
-            if len(keyword.split()) > 1:
-                strength += 0.15
+            strength += 0.15
 
         return min(strength, 1.0)
 
@@ -713,9 +712,8 @@ class BiometricFusionEngine:
         base_score = min(matches / 3.0, 1.0)
 
         # Cultural dream interpretation bonus
-        if cultural_context.get("region") == "asia":
-            if any(s in ["dragon", "lotus", "mountain"] for s in symbols):
-                base_score *= 1.2
+        if cultural_context.get('region') == 'asia' and any((s in ['dragon', 'lotus', 'mountain'] for s in symbols)):
+            base_score *= 1.2
 
         return min(base_score, 1.0)
 
@@ -731,10 +729,9 @@ class BiometricFusionEngine:
             # High-context cultures often have rich dream symbolism
             if dream_recall.get("symbolic_depth", 0) > 0.7:
                 cultural_factor = 1.3
-        elif cultural_type == "individual":
+        elif cultural_type == 'individual' and dream_recall.get('personal_significance', 0) > 0.6:
             # Individual cultures focus on personal dream meaning
-            if dream_recall.get("personal_significance", 0) > 0.6:
-                cultural_factor = 1.2
+            cultural_factor = 1.2
 
         return cultural_factor
 

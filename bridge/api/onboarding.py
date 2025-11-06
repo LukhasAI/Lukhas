@@ -725,7 +725,7 @@ if FASTAPI_AVAILABLE:
                     "features": tier_features.get("features", []),
                     "support_level": tier_features.get("support_level", "community"),
                 },
-                "personalized_recommendations": self._get_personalized_recommendations(use_cases),  # TODO: self
+                "personalized_recommendations": onboarding_service.get_personalized_recommendations(use_cases),
                 "next_steps": [
                     "Verify your email address",
                     "Explore the API documentation",
@@ -792,7 +792,7 @@ if FASTAPI_AVAILABLE:
                 detail=f"Error completing onboarding: {e!s}",
             )
 
-    def _get_personalized_recommendations(self, use_cases: list[str]) -> list[str]:
+    def get_personalized_recommendations(self, use_cases: list[str]) -> list[str]:
         """Get personalized recommendations based on use cases"""
         recommendations = []
 
@@ -841,6 +841,9 @@ if FASTAPI_AVAILABLE:
             ]
 
         return recommendations[:5]  # Limit to 5 recommendations
+
+    # Backwards compatibility alias (older code may still call the private helper)
+    _get_personalized_recommendations = get_personalized_recommendations
 
 else:
     logger.warning("⚠️ FastAPI not available - onboarding endpoints will use fallback implementation")

@@ -62,7 +62,6 @@ class TestOrchestratorLaneDefaults:
         test_cases = ['', '  ', '\t', '\n']
         for empty_value in test_cases:
             with patch.dict(os.environ, {'LUKHAS_LANE': empty_value}):
-                import os
                 lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 expected = empty_value.strip().lower() if empty_value.strip() else ''
                 assert lane == expected

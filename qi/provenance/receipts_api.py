@@ -1,6 +1,8 @@
 # path: qi/provenance/receipts_api.py
 from __future__ import annotations
 
+# Use original open to avoid sandbox recursion
+import builtins
 import glob
 import hashlib
 import json
@@ -9,9 +11,6 @@ import random
 
 from fastapi import FastAPI, HTTPException, Query, Response
 from fastapi.responses import HTMLResponse, JSONResponse
-
-# Use original open to avoid sandbox recursion
-import builtins
 
 # NEW: helpers imported from trace & replay modules
 from qi.safety.teq_replay import replay_from_receipt

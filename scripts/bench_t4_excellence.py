@@ -26,7 +26,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 import psutil
-
 from bench_core import (
     PerformanceBenchmark,  # - requires sys.path manipulation before import
 )

@@ -603,11 +603,10 @@ class CognitiveLoadGenerator:
                         metrics.latencies_ms.append(result['latency_ms'])
 
                     # Collect task-specific metrics
-                    if result.get('task_type') == 'cognitive_overload':
-                        if 'contradiction_result' in result:
-                            contradiction_result = result['contradiction_result']
-                            if isinstance(contradiction_result, dict) and 'confidence' in contradiction_result:
-                                metrics.contradiction_accuracy.append(contradiction_result['confidence'])
+                    if result.get('task_type') == 'cognitive_overload' and 'contradiction_result' in result:
+                        contradiction_result = result['contradiction_result']
+                        if isinstance(contradiction_result, dict) and 'confidence' in contradiction_result:
+                            metrics.contradiction_accuracy.append(contradiction_result['confidence'])
 
         # Update error rates
         total_tasks = len(results)

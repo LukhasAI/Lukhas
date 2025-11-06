@@ -1,6 +1,8 @@
 # path: qi/ui/cockpit_api.py
 from __future__ import annotations
 
+# Safe I/O for UI files
+import builtins
 import json
 import os
 import time
@@ -23,9 +25,6 @@ from qi.ops.auto_safety_report import (
     generate_report,
 )
 from qi.provenance.receipts_api import receipt_neighbors, receipt_sample
-
-# Safe I/O for UI files
-import builtins
 
 # ---- UI serving (single-file cockpit + friends) ----
 COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")  # /abs/path/to/web/cockpit.html

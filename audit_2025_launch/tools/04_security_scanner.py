@@ -8,7 +8,8 @@ ROOT_DIR = Path(__file__).parent.parent.parent
 AUDIT_REPORTS_DIR = ROOT_DIR / "audit_2025_launch" / "reports"
 EXCLUDE = ["__pycache__", ".venv", ".git", "node_modules"]
 
-def should_exclude(p): return any(x in str(p) for x in EXCLUDE)
+def should_exclude(p):
+    return any(x in str(p) for x in EXCLUDE)
 
 PATTERNS = {
     "email": (r'\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b', "medium"),
@@ -23,14 +24,16 @@ print("=" * 80)
 
 findings = []
 for py_file in list(ROOT_DIR.rglob("*.py"))[:500]:  # Limit for speed
-    if should_exclude(py_file): continue
+    if should_exclude(py_file):
+        continue
     try:
         with open(py_file, encoding='utf-8', errors='ignore') as f:
             content = f.read()
             for name, (pattern, severity) in PATTERNS.items():
                 for match in re.finditer(pattern, content):
                     findings.append({"file": str(py_file.relative_to(ROOT_DIR)), "type": name, "severity": severity, "line": content[:match.start()].count('\n')+1})
-    except: pass
+    except OSError:
+        pass
 
 by_severity = {"critical": len([f for f in findings if f["severity"]=="critical"]), "high": 0, "medium": len([f for f in findings if f["severity"]=="medium"]), "low": 0}
 

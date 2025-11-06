@@ -3,9 +3,8 @@ VIVOX.EVRN Ethical Perception
 Ensures perception respects privacy and ethical boundaries
 """
 
-import logging
-
 import hashlib
+import logging
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional, Union

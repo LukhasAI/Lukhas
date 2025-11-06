@@ -165,17 +165,16 @@ class VoicePersonalityIntegrator:
             return text
 
         # Apply creative enhancements if appropriate
-        if self.haiku_generator and context.get("enable_creative", True):
+        if (self.haiku_generator and context.get('enable_creative', True)) and (emotion in ['reflective', 'calm'] and len(text.split()) > 10):
             # Only apply creative enhancements in specific contexts
-            if emotion in ["reflective", "calm"] and len(text.split()) > 10:
-                # For reflective or calm states, potentially add haiku
-                if random.random() < self.personality_traits["creativity"] * 0.3:
-                    try:
-                        haiku = self.haiku_generator.generate_haiku()
-                        enhanced_text = f"{text}\n\n{haiku}"
-                        logger.info("Added haiku to voice text")
-                    except Exception as e:
-                        logger.warning(f"Failed to generate haiku: {e}")
+            # For reflective or calm states, potentially add haiku
+            if random.random() < self.personality_traits["creativity"] * 0.3:
+                try:
+                    haiku = self.haiku_generator.generate_haiku()
+                    enhanced_text = f"{text}\n\n{haiku}"
+                    logger.info("Added haiku to voice text")
+                except Exception as e:
+                    logger.warning(f"Failed to generate haiku: {e}")
 
         # Apply personality-based text modifications
         enhanced_text = self._apply_personality_traits(enhanced_text, emotion)

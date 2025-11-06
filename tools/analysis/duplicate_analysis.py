@@ -6,10 +6,9 @@
 Identifies duplicate functionality across LUKHAS  modules.
 """
 
-import logging
-
 import ast
 import json
+import logging
 import sys
 from collections import defaultdict
 from pathlib import Path

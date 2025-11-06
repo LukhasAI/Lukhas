@@ -493,9 +493,8 @@ class MathNode(CognitiveNode):
             complexity_penalty = complexity * 0.15
 
             # Reduce confidence for very large or very small results
-            if isinstance(result, (int, float)):
-                if abs(result) > 1e10 or (abs(result) < 1e-10 and result != 0):
-                    complexity_penalty += 0.1
+            if isinstance(result, (int, float)) and (abs(result) > 10000000000.0 or (abs(result) < 1e-10 and result != 0)):
+                complexity_penalty += 0.1
 
             # Reduce confidence for expressions with many operations
             operation_count = len(re.findall(r"[+\-*/()]", expression))

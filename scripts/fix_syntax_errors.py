@@ -41,13 +41,12 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
             fixes_applied.append(f"Line {i}: Fixed method definition syntax")
 
         # Pattern 2: Fix incomplete f-strings
-        if 'f"' in line or "f'" in line:
+        if ('f"' in line or "f'" in line) and line.count('{') != line.count('}'):
             # Check for unclosed braces
-            if line.count("{") != line.count("}"):
-                # Try to fix by closing braces
-                if line.count("{") > line.count("}"):
-                    line = line + "}" * (line.count("{") - line.count("}"))
-                    fixes_applied.append(f"Line {i}: Fixed unclosed f-string braces")
+            # Try to fix by closing braces
+            if line.count("{") > line.count("}"):
+                line = line + "}" * (line.count("{") - line.count("}"))
+                fixes_applied.append(f"Line {i}: Fixed unclosed f-string braces")
 
         # Pattern 3: Fix invalid indentation (tabs to spaces)
         if "\t" in line:

@@ -64,6 +64,7 @@ except ImportError:
 @pytest.mark.skipif(not MATRIZ_AVAILABLE, reason="matriz module not available")
 class TestNode(CognitiveNode):
     """Concrete node for testing."""
+    __test__ = False
 
     def process(self, input_data):
         return {
@@ -100,7 +101,7 @@ class TestNodeInitialization:
 
     def test_node_initializes_with_empty_history(self):
         """Node should start with empty processing history."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         assert node.processing_history == []
 
@@ -162,7 +163,7 @@ class TestMATRIZNodeCreation:
 
     def test_creates_node_with_required_fields(self):
         """Created MATRIZ node should have all required fields."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         matriz_node = node.create_matriz_node(
             node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
@@ -178,7 +179,7 @@ class TestMATRIZNodeCreation:
 
     def test_creates_node_with_valid_type(self):
         """Created node should have valid MATRIZ type."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         matriz_node = node.create_matriz_node(
             node_type="COMPUTATION", state=NodeState(confidence=0.9, salience=0.8)
@@ -188,7 +189,7 @@ class TestMATRIZNodeCreation:
 
     def test_rejects_invalid_node_type(self):
         """Should raise ValueError for invalid node type."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         with pytest.raises(ValueError, match="Invalid node type"):
             node.create_matriz_node(
@@ -197,7 +198,7 @@ class TestMATRIZNodeCreation:
 
     def test_creates_unique_node_ids(self):
         """Each created node should have unique ID."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         node1 = node.create_matriz_node(
             node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
@@ -210,7 +211,7 @@ class TestMATRIZNodeCreation:
 
     def test_node_stores_in_processing_history(self):
         """Created nodes should be added to processing history."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         initial_count = len(node.processing_history)
         node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
@@ -219,7 +220,7 @@ class TestMATRIZNodeCreation:
 
     def test_state_from_nodestate_object(self):
         """Should accept NodeState object for state."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
         state_obj = NodeState(confidence=0.9, salience=0.8, valence=0.5)
 
         matriz_node = node.create_matriz_node(node_type="EMOTION", state=state_obj)
@@ -230,7 +231,7 @@ class TestMATRIZNodeCreation:
 
     def test_state_from_dict(self):
         """Should accept dict for state."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
         state_dict = {"confidence": 0.95, "salience": 0.85, "custom_field": "value"}
 
         matriz_node = node.create_matriz_node(node_type="CONTEXT", state=state_dict)
@@ -241,7 +242,7 @@ class TestMATRIZNodeCreation:
 
     def test_additional_data_merged_into_state(self):
         """Additional data should be merged into state."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         matriz_node = node.create_matriz_node(
             node_type="CONTEXT",
@@ -292,7 +293,7 @@ class TestNodeValidation:
 
     def test_validates_complete_node(self):
         """Valid complete node should pass validation."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         matriz_node = node.create_matriz_node(
             node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7)
@@ -302,7 +303,7 @@ class TestNodeValidation:
 
     def test_rejects_node_missing_version(self):
         """Node without version should fail validation."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         invalid_node = {"id": "test", "type": "CONTEXT", "state": {}}
 
@@ -310,7 +311,7 @@ class TestNodeValidation:
 
     def test_rejects_node_missing_state_confidence(self):
         """Node without state.confidence should fail."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         invalid_node = {
             "version": 1,
@@ -325,7 +326,7 @@ class TestNodeValidation:
 
     def test_rejects_out_of_range_confidence(self):
         """Confidence outside [0,1] should fail validation."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         invalid_node = {
             "version": 1,
@@ -346,7 +347,7 @@ class TestNodeValidation:
 
     def test_rejects_missing_provenance_fields(self):
         """Node with incomplete provenance should fail."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         invalid_node = {
             "version": 1,
@@ -366,7 +367,7 @@ class TestLinkCreation:
 
     def test_creates_link_with_valid_params(self):
         """Should create link with valid parameters."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         link = node.create_link(
             target_node_id="target-123",
@@ -381,7 +382,7 @@ class TestLinkCreation:
 
     def test_link_accepts_all_valid_types(self):
         """Should accept all valid link types."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
         valid_types = ["temporal", "causal", "semantic", "emotional", "spatial", "evidence"]
 
         for link_type in valid_types:
@@ -390,14 +391,14 @@ class TestLinkCreation:
 
     def test_link_rejects_invalid_type(self):
         """Should reject invalid link type."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         with pytest.raises(ValueError, match="Invalid link type"):
             node.create_link(target_node_id="test", link_type="invalid")
 
     def test_link_accepts_bidirectional(self):
         """Should accept bidirectional direction."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         link = node.create_link(
             target_node_id="test", link_type="semantic", direction="bidirectional"
@@ -407,14 +408,14 @@ class TestLinkCreation:
 
     def test_link_rejects_invalid_direction(self):
         """Should reject invalid direction."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         with pytest.raises(ValueError, match="Invalid direction"):
             node.create_link(target_node_id="test", link_type="causal", direction="invalid")
 
     def test_link_accepts_optional_weight(self):
         """Should accept optional weight."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         link = node.create_link(target_node_id="test", link_type="causal", weight=0.85)
 
@@ -422,7 +423,7 @@ class TestLinkCreation:
 
     def test_link_accepts_optional_explanation(self):
         """Should accept optional explanation."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         link = node.create_link(
             target_node_id="test",
@@ -439,7 +440,7 @@ class TestReflectionCreation:
 
     def test_creates_reflection_with_valid_params(self):
         """Should create reflection with valid parameters."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         reflection = node.create_reflection(
             reflection_type="affirmation", cause="validation_success"
@@ -451,7 +452,7 @@ class TestReflectionCreation:
 
     def test_reflection_accepts_all_valid_types(self):
         """Should accept all valid reflection types."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
         valid_types = [
             "regret",
             "affirmation",
@@ -466,14 +467,14 @@ class TestReflectionCreation:
 
     def test_reflection_rejects_invalid_type(self):
         """Should reject invalid reflection type."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         with pytest.raises(ValueError, match="Invalid reflection type"):
             node.create_reflection(reflection_type="invalid", cause="test")
 
     def test_reflection_accepts_old_and_new_state(self):
         """Should accept old and new state dicts."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         old_state = {"confidence": 0.7}
         new_state = {"confidence": 0.9}
@@ -490,7 +491,7 @@ class TestReflectionCreation:
 
     def test_reflection_has_timestamp(self):
         """Reflection should include timestamp."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         reflection = node.create_reflection(reflection_type="affirmation", cause="test")
 
@@ -503,7 +504,7 @@ class TestDeterministicHashing:
 
     def test_same_input_produces_same_hash(self):
         """Same input should always produce same hash."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         input_data = {"query": "test", "value": 42}
         hash1 = node.get_deterministic_hash(input_data)
@@ -513,7 +514,7 @@ class TestDeterministicHashing:
 
     def test_different_input_produces_different_hash(self):
         """Different input should produce different hash."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         input1 = {"query": "test1"}
         input2 = {"query": "test2"}
@@ -525,7 +526,7 @@ class TestDeterministicHashing:
 
     def test_key_order_does_not_affect_hash(self):
         """Dict key order should not affect hash (canonical JSON)."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         input1 = {"a": 1, "b": 2, "c": 3}
         input2 = {"c": 3, "a": 1, "b": 2}
@@ -549,7 +550,7 @@ class TestDeterministicHashing:
 
     def test_hash_is_sha256_length(self):
         """Hash should be valid SHA-256 (64 hex characters)."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         hash_val = node.get_deterministic_hash({"test": "data"})
 
@@ -563,7 +564,7 @@ class TestProcessingHistory:
 
     def test_get_trace_returns_copy(self):
         """get_trace should return copy of history."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
         node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
 
         trace = node.get_trace()
@@ -577,7 +578,7 @@ class TestProcessingHistory:
 
     def test_get_trace_includes_all_created_nodes(self):
         """Trace should include all nodes created by this processor."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         node.create_matriz_node(node_type="CONTEXT", state=NodeState(confidence=0.8, salience=0.7))
         node.create_matriz_node(node_type="DECISION", state=NodeState(confidence=0.9, salience=0.8))
@@ -595,9 +596,8 @@ class TestEdgeCases:
 
     def test_state_requires_confidence_and_salience(self):
         """Creating node without required state fields should fail."""
-        _node = TestNode(node_name="test", capabilities=["test"])
-
-    with pytest.raises(ValueError, match=r"confidence.*salience"):
+        node = TestNode(node_name="test", capabilities=["test"])
+        with pytest.raises(ValueError, match=r"confidence.*salience"):
             node.create_matriz_node(node_type="CONTEXT", state={"missing_required": True})
 
     def test_empty_capabilities_list(self):
@@ -624,7 +624,7 @@ class TestEdgeCases:
 
     def test_complex_additional_data(self):
         """Complex nested additional data should be handled."""
-        _node = TestNode(node_name="test", capabilities=["test"])
+        node = TestNode(node_name="test", capabilities=["test"])
 
         complex_data = {
             "nested": {"level1": {"level2": {"value": 42}}},

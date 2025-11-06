@@ -46,6 +46,11 @@ from typing import Any
 
 from pydantic import Field
 
+from labs.core.orchestration.brain.GlobalInstitutionalFramework import (
+    GlobalConsentData,
+    InstitutionalProcessingRecord,
+)
+
 # Import global framework (with import-time safety stubs for missing backend)
 try:
     from identity.backend.app.institution_manager import (

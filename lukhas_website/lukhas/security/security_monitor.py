@@ -210,15 +210,13 @@ class AnomalousAccessDetector(ThreatDetector):
 
         # Location-based anomaly (if available)
         current_location = event.details.get("location", {}).get("country")
-        if current_location and baseline["access_locations"]:
-            if current_location not in baseline["access_locations"]:
-                anomalies.append(f"Access from new location: {current_location}")
+        if (current_location and baseline['access_locations']) and current_location not in baseline['access_locations']:
+            anomalies.append(f"Access from new location: {current_location}")
 
         # Resource type anomaly
         resource_type = event.details.get("resource_type")
-        if resource_type and baseline["resource_types"]:
-            if resource_type not in baseline["resource_types"]:
-                anomalies.append(f"Access to new resource type: {resource_type}")
+        if (resource_type and baseline['resource_types']) and resource_type not in baseline['resource_types']:
+            anomalies.append(f"Access to new resource type: {resource_type}")
 
         # Update baseline
         baseline["access_times"].append(current_hour)
@@ -558,9 +556,8 @@ class SecurityMonitor:
                 actions.append(ResponseAction.ESCALATE)
 
         # Alert for medium and above threats
-        if threat.threat_level in [ThreatLevel.MEDIUM, ThreatLevel.HIGH, ThreatLevel.CRITICAL]:
-            if ResponseAction.ALERT not in actions:
-                actions.append(ResponseAction.ALERT)
+        if threat.threat_level in [ThreatLevel.MEDIUM, ThreatLevel.HIGH, ThreatLevel.CRITICAL] and ResponseAction.ALERT not in actions:
+            actions.append(ResponseAction.ALERT)
 
         return actions
 

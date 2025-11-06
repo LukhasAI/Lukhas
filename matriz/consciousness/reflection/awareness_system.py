@@ -32,10 +32,9 @@ The Quantum Awareness System isn't just an isolated module in the mighty LUKHAS 
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import json
+import logging
 from dataclasses import (
     asdict,  # ΛTRACE_CHANGE: Added field and asdict
     dataclass,

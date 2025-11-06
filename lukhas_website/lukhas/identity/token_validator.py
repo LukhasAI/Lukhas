@@ -283,9 +283,8 @@ class TokenValidator:
                 span.set_attribute("cache_hit", False)
 
                 # Rate limiting check
-                if context.rate_limit_key:
-                    if not self._check_rate_limit(context.rate_limit_key, context.max_requests_per_minute):
-                        raise TokenValidationError("Rate limit exceeded", "rate_limit_exceeded")
+                if context.rate_limit_key and (not self._check_rate_limit(context.rate_limit_key, context.max_requests_per_minute)):
+                    raise TokenValidationError("Rate limit exceeded", "rate_limit_exceeded")
 
                 # Parse and validate token structure
                 header, payload, signature = self._parse_token_structure(token)

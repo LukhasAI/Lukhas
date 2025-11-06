@@ -78,9 +78,8 @@
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
+import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -826,22 +825,19 @@ class ConsciousnessEngine:
         water finding its level.
         """
         # Flow state detection
-        if frame.phi_score > 0.85 and frame.cognitive_load < 0.4:
-            if self.state != ConsciousnessState.FLOW:
-                self.logger.info("🌊 Entering flow state...")
-                self.state = ConsciousnessState.FLOW
+        if (frame.phi_score > 0.85 and frame.cognitive_load < 0.4) and self.state != ConsciousnessState.FLOW:
+            self.logger.info("🌊 Entering flow state...")
+            self.state = ConsciousnessState.FLOW
 
         # Contemplative state
-        elif frame.cognitive_load > 0.7 and len(frame.metacognitive_observations) > 4:
-            if self.state != ConsciousnessState.CONTEMPLATIVE:
-                self.logger.info("🤔 Entering contemplative state...")
-                self.state = ConsciousnessState.CONTEMPLATIVE
+        elif (frame.cognitive_load > 0.7 and len(frame.metacognitive_observations) > 4) and self.state != ConsciousnessState.CONTEMPLATIVE:
+            self.logger.info("🤔 Entering contemplative state...")
+            self.state = ConsciousnessState.CONTEMPLATIVE
 
         # Focused state
-        elif max(self.attention_focus.values()) > 0.6:
-            if self.state != ConsciousnessState.FOCUSED:
-                self.logger.info("🎯 Entering focused state...")
-                self.state = ConsciousnessState.FOCUSED
+        elif max(self.attention_focus.values()) > 0.6 and self.state != ConsciousnessState.FOCUSED:
+            self.logger.info("🎯 Entering focused state...")
+            self.state = ConsciousnessState.FOCUSED
 
         # Default aware state
         elif self.state not in [ConsciousnessState.AWARE, ConsciousnessState.AWAKENING]:
@@ -1345,20 +1341,18 @@ class ConsciousnessEngine:
         updates = {}
 
         # Update capabilities based on performance
-        if patterns["phi_evolution"]["average"] > 0.7:
-            if "deep_integration" not in self.self_model["capabilities"]:
-                self.self_model["capabilities"].append("deep_integration")
-                updates["new_capability"] = "deep_integration"
+        if patterns['phi_evolution']['average'] > 0.7 and 'deep_integration' not in self.self_model['capabilities']:
+            self.self_model["capabilities"].append("deep_integration")
+            updates["new_capability"] = "deep_integration"
 
         # Update current understanding
         updates["wisdom_gained"] = len(wisdom)
         updates["pattern_recognition"] = "enhanced"
 
         # Update goals based on patterns
-        if patterns["emotional_trajectory"]["stability"] < 0.5:
-            if "achieve_emotional_balance" not in self.self_model["goals"]:
-                self.self_model["goals"].append("achieve_emotional_balance")
-                updates["new_goal"] = "achieve_emotional_balance"
+        if patterns['emotional_trajectory']['stability'] < 0.5 and 'achieve_emotional_balance' not in self.self_model['goals']:
+            self.self_model["goals"].append("achieve_emotional_balance")
+            updates["new_goal"] = "achieve_emotional_balance"
 
         return updates
 

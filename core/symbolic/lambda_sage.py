@@ -1504,10 +1504,9 @@ class ΛSage:
 
             # Check direct symbol matches
             for myth_symbol, symbol_archetypes in database.get("symbols", {}).items():
-                if archetype in symbol_archetypes:
-                    if myth_symbol in symbol or symbol in myth_symbol:
-                        resonance += 0.7
-                        matches += 1
+                if archetype in symbol_archetypes and (myth_symbol in symbol or symbol in myth_symbol):
+                    resonance += 0.7
+                    matches += 1
 
             # Normalize resonance
             if matches > 0:

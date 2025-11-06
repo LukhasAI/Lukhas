@@ -44,14 +44,13 @@ def fix_syntax_errors(file_path: Path) -> bool:
                     line = line.rstrip() + "'"
 
             # Fix multiline strings that got broken
-            if i > 0 and lines[i - 1].rstrip().endswith(","):
-                if line.strip() and not line.strip().startswith((")", "]", "}", "#")):
-                    # Check if previous line has unterminated string
-                    prev = lines[i - 1].rstrip()
-                    if (prev.count('"') - prev.count('\\"')) % 2 == 1:
-                        fixed_lines[-1] = fixed_lines[-1].rstrip()[:-1] + '",'
-                    elif (prev.count("'") - prev.count("\\'")) % 2 == 1:
-                        fixed_lines[-1] = fixed_lines[-1].rstrip()[:-1] + "',"
+            if (i > 0 and lines[i - 1].rstrip().endswith(',')) and (line.strip() and (not line.strip().startswith((')', ']', '}', '#')))):
+                # Check if previous line has unterminated string
+                prev = lines[i - 1].rstrip()
+                if (prev.count('"') - prev.count('\\"')) % 2 == 1:
+                    fixed_lines[-1] = fixed_lines[-1].rstrip()[:-1] + '",'
+                elif (prev.count("'") - prev.count("\\'")) % 2 == 1:
+                    fixed_lines[-1] = fixed_lines[-1].rstrip()[:-1] + "',"
 
             fixed_lines.append(line)
 

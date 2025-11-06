@@ -85,9 +85,8 @@ def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str
             context["module_contract"] = manifest["matrix"]["contract"]
 
     # Extract identity requirements
-    if "identity" in manifest:
-        if "tiers" in manifest["identity"]:
-            context["module_tier"] = manifest["identity"]["tiers"][0] if manifest["identity"]["tiers"] else "T3"
+    if 'identity' in manifest and 'tiers' in manifest['identity']:
+        context["module_tier"] = manifest["identity"]["tiers"][0] if manifest["identity"]["tiers"] else "T3"
 
     # Extract observability requirements
     if "observability" in manifest and "required_spans" in manifest["observability"]:

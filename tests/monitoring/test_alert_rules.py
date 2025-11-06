@@ -168,21 +168,20 @@ class TestPromQLAlertRules:
                 expr = rule.get("expr", "")
 
                 for check_name, check_config in threshold_checks.items():
-                    if check_name in alert_name:
+                    if check_name in alert_name and '>' in expr:
                         # Extract threshold from expression (simplified)
-                        if ">" in expr:
-                            # This is a basic check - in practice you'd want more sophisticated parsing
-                            parts = expr.split(">")
-                            if len(parts) > 1:
-                                threshold_part = parts[1].strip()
-                                try:
-                                    threshold_value = float(threshold_part)
-                                    max_threshold = float(check_config["max_threshold"])
-                                    assert threshold_value <= max_threshold, \
-                                        f"Alert '{alert_name}' threshold {threshold_value} exceeds max {max_threshold}"
-                                except ValueError:
-                                    # Threshold might be a complex expression, skip this check
-                                    pass
+                        # This is a basic check - in practice you'd want more sophisticated parsing
+                        parts = expr.split(">")
+                        if len(parts) > 1:
+                            threshold_part = parts[1].strip()
+                            try:
+                                threshold_value = float(threshold_part)
+                                max_threshold = float(check_config["max_threshold"])
+                                assert threshold_value <= max_threshold, \
+                                    f"Alert '{alert_name}' threshold {threshold_value} exceeds max {max_threshold}"
+                            except ValueError:
+                                # Threshold might be a complex expression, skip this check
+                                pass
 
     def test_alert_for_duration_reasonable(self, alert_rules_path):
         """Verify alert 'for' duration is reasonable"""

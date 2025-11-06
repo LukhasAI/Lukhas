@@ -23,10 +23,9 @@
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import functools
+import logging
 import os
 import time
 from collections import defaultdict
@@ -41,7 +40,6 @@ import structlog
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
-from governance.identity.core.id_service import get_identity_manager
 from jwt.exceptions import InvalidTokenError as JWTError
 
 from core.identity.vault.lukhas_id import (
@@ -49,6 +47,7 @@ from core.identity.vault.lukhas_id import (
     IdentityRateLimitExceeded,
     IdentityVerificationError,
 )
+from governance.identity.core.id_service import get_identity_manager
 
 logger = logging.getLogger(__name__)
 

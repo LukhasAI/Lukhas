@@ -617,9 +617,8 @@ class DriftManager:
                     continue  # Skip non-numeric comparisons
 
         # Identity-specific: namespace consistency check
-        if 'namespace_hash' in prev_features and 'namespace_hash' in curr_features:
-            if prev_features['namespace_hash'] != curr_features['namespace_hash']:
-                deltas['namespace_change'] = 0.5  # Significant drift
+        if ('namespace_hash' in prev_features and 'namespace_hash' in curr_features) and prev_features['namespace_hash'] != curr_features['namespace_hash']:
+            deltas['namespace_change'] = 0.5  # Significant drift
 
         # Calculate score
         score = sum(deltas.values()) / len(deltas) if deltas else 0.0

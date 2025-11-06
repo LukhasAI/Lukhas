@@ -338,10 +338,9 @@ class LaneManager:
             elif self._is_lane_healthy(Lane.MATRIZ):
                 return Lane.MATRIZ
 
-        elif service_type in ["experimental", "canary"]:
+        elif service_type in ['experimental', 'canary'] and self._is_lane_healthy(Lane.CANDIDATE):
             # Experimental features use candidate lane
-            if self._is_lane_healthy(Lane.CANDIDATE):
-                return Lane.CANDIDATE
+            return Lane.CANDIDATE
 
         # Fallback to healthiest lane
         return self._get_healthiest_lane()

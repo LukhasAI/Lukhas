@@ -3,9 +3,8 @@ VIVOX.ERN Transparency & Audit System
 Provides comprehensive audit trails and user transparency for emotional regulation
 """
 
-import logging
-
 import json
+import logging
 import os
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone

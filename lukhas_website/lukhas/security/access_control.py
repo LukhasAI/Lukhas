@@ -606,9 +606,8 @@ class AccessControlSystem:
             return False
 
         # Check resource pattern
-        if permission.resource_pattern != "*":
-            if not self._match_resource_pattern(permission.resource_pattern, request.resource.id):
-                return False
+        if permission.resource_pattern != '*' and (not self._match_resource_pattern(permission.resource_pattern, request.resource.id)):
+            return False
 
         # Check conditions
         for condition_key, condition_value in permission.conditions.items():

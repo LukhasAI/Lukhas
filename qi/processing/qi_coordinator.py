@@ -116,10 +116,9 @@ class QIHub:
             logger.info("Quantum security system initialized")
 
         # Initialize neuro symbolic system
-        if NEURO_SYMBOLIC_AVAILABLE and "neuro_symbolic" in self.services:
-            if hasattr(self.services["neuro_symbolic"], "initialize"):
-                await self.services["neuro_symbolic"].initialize()
-                logger.info("Quantum neuro symbolic system initialized")
+        if (NEURO_SYMBOLIC_AVAILABLE and 'neuro_symbolic' in self.services) and hasattr(self.services['neuro_symbolic'], 'initialize'):
+            await self.services["neuro_symbolic"].initialize()
+            logger.info("Quantum neuro symbolic system initialized")
 
         # Initialize all registered services
         for name, service in self.services.items():

@@ -116,9 +116,8 @@ class DashboardValidator:
                     valid = False
 
             # Check SLA panels have thresholds
-            if 'sla' in panel_title.lower() or 'threshold' in panel_title.lower():
-                if not self._validate_sla_panel(dashboard_name, panel_title, panel):
-                    valid = False
+            if ('sla' in panel_title.lower() or 'threshold' in panel_title.lower()) and (not self._validate_sla_panel(dashboard_name, panel_title, panel)):
+                valid = False
 
         return valid
 

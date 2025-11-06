@@ -5,11 +5,10 @@ LUKHAS AI MCP Server for ChatGPT Integration
 STDIO Transport - Official MCP Specification v2025-06-18
 """
 
-import os
-import sys
-
 # Import and run our server
 import asyncio
+import os
+import sys
 
 from lukhas_mcp_stdio_manual import main
 

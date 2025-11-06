@@ -90,14 +90,12 @@ def extract_slo_data(manifest: Dict, module_name: str, tags: List[str]) -> Tuple
     violations = []
 
     # P95 latency check
-    if slo["target_p95"] is not None and slo["observed_p95"] is not None:
-        if slo["observed_p95"] > slo["target_p95"]:
-            violations.append("p95_latency")
+    if (slo['target_p95'] is not None and slo['observed_p95'] is not None) and slo['observed_p95'] > slo['target_p95']:
+        violations.append("p95_latency")
 
     # Coverage check
-    if slo["coverage_target"] is not None and slo["coverage_observed"] is not None:
-        if slo["coverage_observed"] < slo["coverage_target"]:
-            violations.append("coverage")
+    if (slo['coverage_target'] is not None and slo['coverage_observed'] is not None) and slo['coverage_observed'] < slo['coverage_target']:
+        violations.append("coverage")
 
     # Freshness check (L2/L3 only, 14 days)
     if lane in ["L2", "L3"]:

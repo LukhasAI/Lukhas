@@ -242,11 +242,10 @@ class AlertManager:
         # Check severity thresholds
         if severity == "high":
             return True
-        elif severity == "medium":
+        elif severity == 'medium' and alert_type == 'error_increase':
             # Check specific thresholds
-            if alert_type == "error_increase":
-                threshold = self.config.get("thresholds", {}).get("error_increase", 5)
-                return alert.get("change", 0) >= threshold
+            threshold = self.config.get("thresholds", {}).get("error_increase", 5)
+            return alert.get("change", 0) >= threshold
 
         return False
 

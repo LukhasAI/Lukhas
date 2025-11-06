@@ -10,8 +10,143 @@ import asyncio
 import logging
 import random
 import time
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Callable, Mapping, Sequence
+
+
+@dataclass
+class SuperpositionState:
+    """Lightweight representation of a quantum-inspired superposition."""
+
+    options: list[dict[str, Any]]
+    amplitudes: list[complex]
+    metadata: dict[str, Any]
+
+
+@dataclass
+class MeasurementResult:
+    """Outcome of collapsing a superposition."""
+
+    collapsed_option: dict[str, Any] | None
+    probability: float
+    metadata: dict[str, Any]
+    post_state: SuperpositionState
+
+
+@dataclass
+class AnnealingResult:
+    """Result of a quantum-inspired annealing optimisation."""
+
+    solution: dict[str, Any]
+    energy: float
+    explored: list[dict[str, Any]]
+    history: list[dict[str, Any]]
+    metadata: dict[str, Any]
+
+
+class QuantumSuperpositionEngine:
+    """Minimal stub used to create deterministic superposition states."""
+
+    def __init__(self, rng: random.Random | None = None) -> None:
+        self._rng = rng or random.Random()
+
+    def create_state(
+        self,
+        options: Sequence[Mapping[str, Any]] | list[dict[str, Any]],
+        context: Mapping[str, Any] | None = None,
+    ) -> SuperpositionState:
+        context = context or {}
+        option_dicts = [dict(option) for option in options]
+        if not option_dicts:
+            raise ValueError("Superposition requires at least one option")
+
+        weights = [float(option.get("weight", 1.0)) for option in option_dicts]
+        total = sum(weights)
+        if total <= 0:
+            probability = 1.0 / len(option_dicts)
+            probabilities = [probability] * len(option_dicts)
+        else:
+            probabilities = [weight / total for weight in weights]
+
+        amplitudes = [complex(prob ** 0.5, 0.0) for prob in probabilities]
+        metadata = {
+            "probabilities": probabilities,
+            "coherence": float(context.get("coherence", 1.0)),
+            "interference_events": list(context.get("interference_events", [])),
+        }
+        return SuperpositionState(option_dicts, amplitudes, metadata)
+
+
+class QuantumMeasurement:
+    """Stub measurement engine that collapses superpositions predictably."""
+
+    def __init__(self, rng: random.Random | None = None) -> None:
+        self._rng = rng or random.Random()
+
+    def collapse(
+        self,
+        state: SuperpositionState,
+        context: Mapping[str, Any] | None = None,
+    ) -> MeasurementResult:
+        if not state.options:
+            raise ValueError("Cannot collapse an empty superposition")
+
+        context = dict(context or {})
+        probabilities = state.metadata.get("probabilities") or [
+            1.0 / len(state.options)
+        ] * len(state.options)
+        if len(probabilities) != len(state.options):
+            probabilities = [1.0 / len(state.options)] * len(state.options)
+
+        index = self._rng.choices(
+            range(len(state.options)), weights=probabilities, k=1
+        )[0]
+        context.setdefault("coherence_loss", 0.0)
+
+        return MeasurementResult(
+            collapsed_option=state.options[index],
+            probability=float(probabilities[index]),
+            metadata=context,
+            post_state=state,
+        )
+
+
+class QuantumAnnealer:
+    """Simplified annealer that evaluates a finite search space."""
+
+    def __init__(self, rng: random.Random | None = None) -> None:
+        self._rng = rng or random.Random()
+
+    def anneal(
+        self,
+        objective: Callable[[Mapping[str, Any]], float] | None,
+        *,
+        search_space: Sequence[Mapping[str, Any]],
+        constraints: Mapping[str, Any] | None = None,
+    ) -> AnnealingResult:
+        candidates = [dict(candidate) for candidate in search_space]
+        history: list[dict[str, Any]] = []
+
+        if not candidates:
+            metadata = {"constraints": dict(constraints or {}), "iterations": 0}
+            return AnnealingResult({}, 0.0, [], history, metadata)
+
+        best_solution = candidates[0]
+        best_energy = float("inf") if objective else 0.0
+
+        for candidate in candidates:
+            energy = float(objective(candidate)) if objective else 0.0
+            history.append({"candidate": candidate, "energy": energy})
+            if energy < best_energy:
+                best_energy = energy
+                best_solution = candidate
+
+        if best_energy is float("inf"):
+            best_energy = 0.0
+
+        metadata = {"constraints": dict(constraints or {}), "iterations": len(candidates)}
+        return AnnealingResult(best_solution, best_energy, candidates, history, metadata)
 
 # Golden Trio imports
 try:

@@ -6,7 +6,6 @@ import builtins
 import os
 
 from fastapi import FastAPI, Header, HTTPException, Query
-
 from qi.autonomy.self_healer import (
     apply as _apply,
     approve as _approve,

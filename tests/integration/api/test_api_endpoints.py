@@ -1,9 +1,11 @@
+from unittest.mock import patch
+
 import pytest
 from fastapi.testclient import TestClient
+from labs.core.security.auth import get_auth_system
 from serve.main import app as main_app
 from serve.reference_api.public_api_reference import app as dreams_app, verify_api_key
-from labs.core.security.auth import get_auth_system
-from unittest.mock import patch
+
 
 @pytest.fixture
 def client():

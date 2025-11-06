@@ -306,12 +306,11 @@ class MatrixAuthzMiddleware:
 
         if action in api_policies:
             policy = api_policies[action]
-            if policy.get("requires_step_up", False):
-                if not opa_input.get("env", {}).get("mfa", False):
-                    return {
-                        "allow": False,
-                        "reason": f"Step-up authentication required for {action}"
-                    }
+            if policy.get('requires_step_up', False) and (not opa_input.get('env', {}).get('mfa', False)):
+                return {
+                    "allow": False,
+                    "reason": f"Step-up authentication required for {action}"
+                }
 
         # Check token expiration and audience
         token = opa_input.get("token", {})

@@ -404,25 +404,24 @@ class GuardianDashboard:
 
         while self.running:
             # Randomly generate threats
-            if len(self.active_threats) < 5 and time.time() % 10 < 0.5:  # Throttled generation
-                if not hasattr(self, "_last_threat_time") or time.time() - self._last_threat_time > 8:
-                    threat_type = self._generate_realistic_threat()
-                    threat_id_counter += 1
+            if (len(self.active_threats) < 5 and time.time() % 10 < 0.5) and (not hasattr(self, '_last_threat_time') or time.time() - self._last_threat_time > 8):  # Throttled generation
+                threat_type = self._generate_realistic_threat()
+                threat_id_counter += 1
 
-                    threat = ThreatEvent(
-                        id=f"THR-{threat_id_counter:04d}",
-                        type=threat_type,
-                        severity=self._calculate_threat_severity(threat_type),
-                        confidence=0.7 + 0.3 * (time.time() % 1),
-                        timestamp=time.time(),
-                        source="guardian.sentinel",
-                        symbolic_pattern=self._generate_symbolic_pattern(threat_type),
-                        metadata=self._generate_threat_metadata(threat_type),
-                    )
+                threat = ThreatEvent(
+                    id=f"THR-{threat_id_counter:04d}",
+                    type=threat_type,
+                    severity=self._calculate_threat_severity(threat_type),
+                    confidence=0.7 + 0.3 * (time.time() % 1),
+                    timestamp=time.time(),
+                    source="guardian.sentinel",
+                    symbolic_pattern=self._generate_symbolic_pattern(threat_type),
+                    metadata=self._generate_threat_metadata(threat_type),
+                )
 
-                    self.active_threats.append(threat)
-                    self.threat_predictor.add_threat(threat)
-                    self._last_threat_time = time.time()
+                self.active_threats.append(threat)
+                self.threat_predictor.add_threat(threat)
+                self._last_threat_time = time.time()
 
             # Resolve old threats
             current_time = time.time()

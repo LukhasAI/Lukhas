@@ -74,12 +74,11 @@ class LaneAssignmentValidator:
                 self.validation_results['valid'] = False
 
             # Validate lane progression
-            if current_lane and target_lane:
-                if not self._is_valid_lane_progression(current_lane, target_lane):
-                    self.validation_results['issues'].append(
-                        f"Component {component_name} has invalid lane progression: {current_lane} → {target_lane}"
-                    )
-                    self.validation_results['valid'] = False
+            if (current_lane and target_lane) and (not self._is_valid_lane_progression(current_lane, target_lane)):
+                self.validation_results['issues'].append(
+                    f"Component {component_name} has invalid lane progression: {current_lane} → {target_lane}"
+                )
+                self.validation_results['valid'] = False
 
             # Validate deployment percentages
             if current_lane == 'production' and deployment_percentage != 100:

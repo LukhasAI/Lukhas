@@ -1,7 +1,6 @@
-import logging
-
 # LUKHAS_TAG: plugin_loader, orchestration_extension
 import importlib
+import logging
 from pathlib import Path
 
 from core.common import get_logger

@@ -26,20 +26,19 @@ def fix_multiline_string_error(file_path):
             if '": "' in line or '= "' in line or 'return "' in line:
                 # Check if the line doesn't end with a quote
                 stripped = line.rstrip()
-                if not stripped.endswith('"') and not stripped.endswith('",'):
+                if (not stripped.endswith('"') and (not stripped.endswith('",'))) and i + 1 < len(lines):
                     # Look ahead to see if next line continues the string
-                    if i + 1 < len(lines):
-                        next_line = lines[i + 1]
-                        # If next line is indented continuation, merge it
-                        if next_line.startswith("    "):
-                            # Merge the lines
-                            lines[i] = stripped + " " + next_line.strip()
-                            if lines[i].rstrip()[-1] not in "\",'":
-                                lines[i] = lines[i].rstrip() + '"\n'
-                            lines[i + 1] = ""
-                        else:
-                            # Just close the string
-                            lines[i] = stripped + '"\n'
+                    next_line = lines[i + 1]
+                    # If next line is indented continuation, merge it
+                    if next_line.startswith("    "):
+                        # Merge the lines
+                        lines[i] = stripped + " " + next_line.strip()
+                        if lines[i].rstrip()[-1] not in "\",'":
+                            lines[i] = lines[i].rstrip() + '"\n'
+                        lines[i + 1] = ""
+                    else:
+                        # Just close the string
+                        lines[i] = stripped + '"\n'
 
     # Write back the fixed content
     with open(file_path, "w", encoding="utf-8") as f:
