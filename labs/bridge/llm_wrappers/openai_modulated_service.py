@@ -250,9 +250,29 @@ class VectorStoreAdapter:
         """Initialize ChromaDB client"""
         try:
             import chromadb
-            self._client = chromadb.Client()
+            from chromadb.config import Settings
+
+            # Use ephemeral client for in-memory storage, suitable for testing
+            # For persistent storage, configure with a path:
+            # self._client = chromadb.PersistentClient(path="/path/to/db")
+            self._client = chromadb.Client(Settings(
+                chroma_api_impl="rest",
+                chroma_server_host="localhost",
+                chroma_server_http_port="8000"
+            ))
+
+            # Create or get collection - this ensures the collection exists
+            self._client.get_or_create_collection(
+                name=self.config.index_name,
+                metadata={"hnsw:space": self.config.metric}
+            )
+            logger.info(f"ChromaDB collection '{self.config.index_name}' ensured.")
+
         except ImportError:
             logger.warning("ChromaDB not installed: pip install chromadb")
+            raise
+        except Exception as e:
+            logger.error(f"ChromaDB initialization failed: {e}", exc_info=True)
             raise
 
     async def _initialize_qdrant(self):

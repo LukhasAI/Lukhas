@@ -67,6 +67,43 @@ To ensure code quality, it's recommended to set up pre-commit hooks.
 # Setup pre-commit hooks
 make setup-hooks
 ```
+
+### Vector Store Configuration
+
+The `OpenAIModulatedService` uses a vector store for conversation history and semantic search. You can configure the vector store backend by providing a `VectorStoreConfig` object during the service's initialization.
+
+**Supported Providers:**
+- `CHROMA` (default)
+- `PINECONE`
+- `WEAVIATE`
+- `QDRANT`
+- `MILVUS`
+- `FAISS` (local)
+
+**Example Configuration for ChromaDB:**
+
+```python
+from labs.bridge.llm_wrappers.openai_modulated_service import (
+    OpenAIModulatedService,
+    VectorStoreConfig,
+    VectorStoreProvider,
+)
+
+# Configuration for a local ChromaDB instance
+chroma_config = VectorStoreConfig(
+    provider=VectorStoreProvider.CHROMA,
+    endpoint="http://localhost:8000",  # ChromaDB server endpoint
+    index_name="my-conversation-index",
+    dimension=1536,  # OpenAI embedding dimension
+    metric="cosine",
+)
+
+# Initialize the service with the vector store configuration
+service = OpenAIModulatedService(
+    api_key="your-openai-api-key",
+    vector_store_config=chroma_config,
+)
+```
 ## Architecture Overview
 
 LUKHAS is a sophisticated AI architecture that implements the Constellation Framework with constitutional AI safeguards. The system is designed for safe development and deployment of consciousness-aware AI systems.
