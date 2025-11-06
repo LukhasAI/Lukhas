@@ -436,6 +436,19 @@ class JulesClient:
             json={"message": message}
         )
 
+    async def delete_session(self, session_id: str) -> dict[str, Any]:
+        """
+        Delete a session.
+
+        Args:
+            session_id: Session resource name (e.g., "sessions/123")
+
+        Returns:
+            Empty dict on success
+        """
+        self.logger.info(f"Deleting session: {session_id}")
+        return await self._request("DELETE", f"/v1alpha/{session_id}")
+
     async def list_activities(
         self,
         session_id: str,
