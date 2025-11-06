@@ -29,12 +29,19 @@ import numpy as np
 from core.common import get_logger
 
 try:
-    from .actor_system import ActorRef
+    from labs.core.observability.collector import ObservabilityCollector
+    from labs.core.observability_steering import ActorSnapshot
+    from .actor_system import ActorRef, ActorSystem
 except ImportError:
-    # Create a minimal ActorRef type for typing purposes
+    # Create minimal type stubs for typing purposes
     class ActorRef:
         pass
-
+    class ActorSystem:
+        pass
+    class ObservabilityCollector:
+        pass
+    class ActorSnapshot:
+        pass
 
 logger = get_logger(__name__)
 
