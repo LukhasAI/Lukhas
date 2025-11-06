@@ -2,6 +2,7 @@
 
 > **🎨 Complete Brand & Design System for LUKHAS Consciousness Technology Ecosystem**
 
+**Version**: 2.1
 **Last Updated**: 2025-11-06
 **Status**: Active - Canonical Documentation
 
@@ -177,6 +178,41 @@ Complete governance framework for maintaining quality and compliance:
 - Automated governance setup script
 - CI/CD integration guide
 - Enforcement workflows
+
+##### [governance/strategic/](governance/strategic/) - **Strategic Planning & T4 Audit Results**
+Complete strategic planning documents based on external T4 audit (2025-11-06):
+- **[T4_STRATEGIC_AUDIT.md](governance/strategic/T4_STRATEGIC_AUDIT.md)** - Executive summary (6.0/10 score)
+- **[GAPS_ANALYSIS.md](governance/strategic/GAPS_ANALYSIS.md)** - 19 missing components (11 P0, 5 P1, 3 P2)
+- **[90_DAY_ROADMAP.md](governance/strategic/90_DAY_ROADMAP.md)** - Week-by-week execution plan
+- **[INNOVATION_PIPELINE.md](governance/strategic/INNOVATION_PIPELINE.md)** - 4 breakthrough ideas
+
+---
+
+### 8. Design Deliverables & Specifications
+
+#### [design/LOGO_CONCEPTS.md](design/LOGO_CONCEPTS.md) - **Logo Design Concepts**
+Three bespoke lambda-based logo designs with complete specifications:
+- **Constellation Lambda** (recommended) - Network + lambda hybrid
+- **Trinity Crystal Lambda** - Negative-space lambda in crystal
+- **Cognitive Helix Lambda** - Helix representing sequential thinking
+- Each with SVG code, dark/light/assistive variants, wordmark guidelines
+
+#### [design/reasoning-lab/](design/reasoning-lab/) - **Reasoning Lab Specifications**
+Complete UX and implementation specifications for Reasoning Lab:
+- **[COMPLETE_SPEC.md](design/reasoning-lab/COMPLETE_SPEC.md)** - Full UX spec (3 modes, redaction slider, accessibility)
+- **[REDACTION_SYSTEM.md](design/reasoning-lab/REDACTION_SYSTEM.md)** - Server-side deterministic redaction
+- **[TESTING_STRATEGY.md](design/reasoning-lab/TESTING_STRATEGY.md)** - Comprehensive testing (85%+ coverage)
+
+#### [content/SEO_PILLAR_STRATEGY.md](content/SEO_PILLAR_STRATEGY.md) - **SEO Pillar Content**
+Six pillar articles for organic discovery (2000+ words each):
+1. Explainable Reasoning - What is a Reasoning Graph?
+2. MΛTRIZ - Architecting Traceable Cognition
+3. Guardian - Ethics, Policies and Constitutional AI
+4. Reasoning Lab - Hands-on Explainability
+5. Enterprise Trust - Audits, Evidence & Onboarding
+6. Developer Playbook - Quickstarts, SDKs and Patterns
+
+Target: 5k organic visitors/month at 90 days, 15k at 180 days
 
 ---
 
