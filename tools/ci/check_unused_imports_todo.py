@@ -1,25 +1,13 @@
 #!/usr/bin/env python3
 """
-🔍 T4 UNUSED IMPORTS VALIDATOR - Production Lane Policy Enforcement
+T4 UNUSED IMPORTS VALIDATOR - Production Lane Policy Enforcement
 
-Validates that all unused imports in production lanes are properly annotated.
-
-- Runs ruff F401 to find unused imports in lukhas/ MATRIZ/ (production only)
-- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation
+- Runs ruff F401 to find unused imports in selected roots (default: production lanes)
+- Checks each finding has a TODO[T4-UNUSED-IMPORT] structured JSON annotation (or acceptable legacy tag)
 - Outputs JSON report for CI/CD integration
-- Enforces production lane policy (candidate/ experimental code exempt)
-- Returns exit code 0 if all production imports properly annotated
-
-⚛️ LUKHAS AI Constellation Framework Integration:
-- 🧠 Consciousness: Validates conscious decisions about import preservation
-- ⚛️ Identity: Ensures production code maintains identity standards
-- 🛡️ Guardian: Protects production lanes from undocumented technical debt
-
-Usage:
-    python3 tools/ci/check_unused_imports_todo.py                    # Default: all production dirs
-    python3 tools/ci/check_unused_imports_todo.py --paths lukhas     # Only lukhas/
-    python3 tools/ci/check_unused_imports_todo.py --json-only        # Only JSON output
+- Enforces production lane policy (candidate/experimental code exempt)
 """
+from __future__ import annotations
 
 import argparse
 import json
@@ -28,259 +16,164 @@ import subprocess
 import sys
 from pathlib import Path
 
-# Repository structure
 REPO = Path(__file__).resolve().parents[2]
 TODO_TAG = "TODO[T4-UNUSED-IMPORT]"
-INLINE_PATTERN = re.compile(rf"#\s*{re.escape(TODO_TAG)}")
-
-# ΛTAG: repo_path_resolution
-def resolve_finding_path(filename: str) -> tuple[Path, Path]:
-    """Return absolute and repo-relative paths for a ruff finding entry."""
-    candidate = Path(filename)
-
-    abs_path = candidate if candidate.is_absolute() else (REPO / candidate).resolve()
-
-    try:
-        rel_path = abs_path.relative_to(REPO)
-    except ValueError:
-        rel_path = candidate
-
-    return abs_path, rel_path
-
-# Production vs Experimental separation
+INLINE_JSON_RE = re.compile(rf"#\s*{re.escape(TODO_TAG)}\s*:\s*(\{{.*\}})\s*$")
 SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "labs", "reports"}
+WAIVERS = REPO / "audit" / "waivers" / "unused_imports.yaml"
 
+def load_waivers() -> dict[str, set[int]]:
+    try:
+        import yaml  # type: ignore
+    except Exception:
+        return {}
+    if not WAIVERS.exists():
+        return {}
+    try:
+        data = yaml.safe_load(WAIVERS.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return {}
+    out: dict[str, set[int]] = {}
+    for it in data.get("waivers", []):
+        p = (REPO / it["file"]).resolve()
+        out.setdefault(str(p), set()).add(int(it.get("line", 0)))
+    return out
+
+def parse_inline_json(line: str):
+    m = INLINE_JSON_RE.search(line)
+    if not m:
+        return None
+    try:
+        return json.loads(m.group(1))
+    except Exception:
+        return None
+
+def validate_entry(entry: dict):
+    errors = []
+    if not isinstance(entry, dict):
+        errors.append("annotation is not a JSON object")
+        return errors
+    if "id" not in entry:
+        errors.append("missing id")
+    reason = entry.get("reason", "")
+    if not reason or not isinstance(reason, str) or reason.strip().lower() in ("kept for future", "kept for future use", "kept for future use."):
+        errors.append("reason missing or generic")
+    if "status" not in entry:
+        errors.append("missing status")
+    if entry.get("status") in ("planned", "committed"):
+        if not entry.get("owner"):
+            errors.append("planned/committed entries must have owner")
+        if not entry.get("ticket"):
+            errors.append("planned/committed entries must have ticket")
+    return errors
 
 def ruff_F401(paths):
-    """Run ruff F401 on selected paths; return list[(abs_path, line, message)]."""
     cmd = ["python3", "-m", "ruff", "check", "--select", "F401", "--output-format", "json", *list(paths)]
-
+    proc = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True, check=False)
+    if proc.returncode not in (0, 1):
+        return {"error": f"ruff failed: {proc.stderr or proc.stdout}"}
     try:
-        result = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
-
-        if result.returncode not in (0, 1):  # 0 = clean, 1 = findings
-            return {"error": f"ruff failed: {result.stderr or result.stdout}"}
-
-        items = json.loads(result.stdout or "[]")
-
-    except (subprocess.SubprocessError, json.JSONDecodeError) as e:
-        return {"error": f"Failed to run ruff or parse output: {e}"}
-
+        items = json.loads(proc.stdout or "[]")
+    except Exception as e:
+        return {"error": f"Failed to parse ruff output: {e}"}
     findings = []
     for item in items:
         file_path = (REPO / item["filename"]).resolve()
-
         # Skip if any path segment is in SKIP_DIRS
-        path_parts = set(Path(file_path).parts)
-        if path_parts & SKIP_DIRS:
+        if set(file_path.parts) & SKIP_DIRS:
             continue
-
         findings.append(
             {
                 "file": str(file_path.relative_to(REPO)),
+                "abs_path": str(file_path),
                 "line": item["location"]["row"],
                 "message": item["message"],
-                "abs_path": str(file_path),
             }
         )
-
     return {"findings": findings}
 
-
-def check_annotation(file_path: str, line_no: int) -> bool:
-    """Check if line has TODO[T4-UNUSED-IMPORT] annotation."""
-    try:
-        file_obj = Path(file_path)
-        lines = file_obj.read_text(encoding="utf-8", errors="ignore").splitlines()
-
-        idx = line_no - 1
-        if idx < 0 or idx >= len(lines):
-            return False
-
-        return bool(INLINE_PATTERN.search(lines[idx]))
-
-    except Exception:
-        return False
-
-
 def main():
-    """Main T4 unused imports validator with production lane focus."""
-    parser = argparse.ArgumentParser(
-        description="T4 Unused Imports Validator - Production Lane Policy Enforcement",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python3 tools/ci/check_unused_imports_todo.py                    # Default: lukhas MATRIZ
-  python3 tools/ci/check_unused_imports_todo.py --paths lukhas     # Only lukhas/
-  python3 tools/ci/check_unused_imports_todo.py --json-only        # Only JSON output
-        """,
-    )
-
-    parser.add_argument(
-        "--paths",
-        nargs="+",
-        default=["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"],
-        help="Roots to validate (default: lukhas core api consciousness memory identity MATRIZ). 'candidate' is always skipped.",
-    )
-    parser.add_argument("--json-only", action="store_true", help="Output only JSON for CI/CD integration")
-
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--paths", nargs="+", default=["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"])
+    parser.add_argument("--json-only", action="store_true")
     args = parser.parse_args()
 
-    # Resolve and filter paths that actually exist; skip disallowed roots
     valid_roots = []
     for path_arg in args.paths:
         if path_arg.strip() in SKIP_DIRS or path_arg.strip() == "labs":
             continue
-
         abs_path = (REPO / path_arg).resolve()
         if abs_path.exists():
-            rel_path = str(abs_path.relative_to(REPO))
-            valid_roots.append(rel_path)
+            valid_roots.append(str(abs_path.relative_to(REPO)))
 
     if not valid_roots:
-        result = {
-            "status": "error",
-            "message": "No valid production roots to validate",
-            "unannotated": [],
-            "summary": {"total": 0, "annotated": 0, "missing": 0},
-        }
+        result = {"status": "error", "message": "No valid production roots to validate", "unannotated": [], "summary": {"total": 0, "annotated": 0, "missing": 0}}
         print(json.dumps(result, indent=2))
         sys.exit(1)
 
-    if not args.json_only:
-        print("🔍 T4 UNUSED IMPORTS VALIDATOR - Production Lane Policy")
-        print("=" * 60)
-        print(f"📁 Validating paths: {', '.join(valid_roots)}")
-
-    # Get F401 findings
+    waivers = load_waivers()
     ruff_result = ruff_F401(valid_roots)
-
     if "error" in ruff_result:
-        result = {
-            "status": "error",
-            "message": ruff_result["error"],
-            "unannotated": [],
-            "summary": {"total": 0, "annotated": 0, "missing": 0},
-        }
+        result = {"status": "error", "message": ruff_result["error"], "unannotated": [], "summary": {"total": 0, "annotated": 0, "missing": 0}}
         print(json.dumps(result, indent=2))
         sys.exit(1)
 
     findings = ruff_result["findings"]
 
-    if not args.json_only:
-        print(f"📊 Found {len(findings)} unused imports in production lanes")
-
-    # Check annotations
     unannotated = []
     annotated_count = 0
+    quality_issues = []
 
-    for finding in findings:
-        has_annotation = check_annotation(finding["abs_path"], finding["line"])
+    for f in findings:
+        file_abs = Path(f["abs_path"])
+        # Waiver: if file is waived (0) or that exact line is waived, skip
+        if str(file_abs) in waivers and (0 in waivers[str(file_abs)] or f["line"] in waivers[str(file_abs)]):
+            continue
+        try:
+            lines = file_abs.read_text(encoding="utf-8", errors="ignore").splitlines()
+            idx = f["line"] - 1
+            if idx < 0 or idx >= len(lines):
+                unannotated.append({"file": f["file"], "line": f["line"], "message": "line out of range"})
+                continue
+            line_content = lines[idx]
+            entry = parse_inline_json(line_content)
+            if not entry:
+                # Accept legacy non-JSON that contains TODO[T4-UNUSED-IMPORT] but flag as low-quality
+                if "TODO[T4-UNUSED-IMPORT]" in line_content:
+                    annotated_count += 1
+                    quality_issues.append({"file": f["file"], "line": f["line"], "issues": ["legacy annotation (non-structured) - migrate to structured JSON"]})
+                else:
+                    unannotated.append({"file": f["file"], "line": f["line"], "message": f["message"]})
+            else:
+                annotated_count += 1
+                issues = validate_entry(entry)
+                if issues:
+                    quality_issues.append({"file": f["file"], "line": f["line"], "issues": issues})
+        except Exception:
+            unannotated.append({"file": f["file"], "line": f["line"], "message": "unreadable"})
 
-        if has_annotation:
-            annotated_count += 1
-        else:
-            unannotated.append({"file": finding["file"], "line": finding["line"], "message": finding["message"]})
-
-    # Generate result
     total = len(findings)
     missing = len(unannotated)
 
     result = {
-        "status": "pass" if missing == 0 else "fail",
+        "status": "pass" if missing == 0 and not quality_issues else "fail",
         "message": f"Production lane policy: {annotated_count}/{total} imports properly annotated",
+        "annotated": annotated_count,
+        "total": total,
+        "missing": missing,
+        "quality_issues_count": len(quality_issues),
         "unannotated": unannotated,
-        "summary": {"total": total, "annotated": annotated_count, "missing": missing},
+        "quality_issues": quality_issues,
     }
 
-    # Output
     if args.json_only:
         print(json.dumps(result, indent=2))
     else:
-        print("\n📈 PRODUCTION LANE VALIDATION:")
-        print(f"✅ Properly annotated: {annotated_count}")
-        print(f"❌ Missing annotations: {missing}")
-
-        if unannotated:
-            print("\n🚨 UNANNOTATED IMPORTS (Production Lane Policy Violation):")
-            for item in unannotated:
-                print(f"  - {item['file']}:{item['line']} - {item['message']}")
-            print("\n💡 Fix with: python3 tools/ci/mark_unused_imports_todo.py")
-        else:
-            print("\n🎯 All production lane imports properly documented!")
-
-        print("\n📝 JSON Report:")
+        print("\n🔍 T4 UNUSED IMPORTS VALIDATOR - Production Lane Policy")
+        print("=" * 60)
         print(json.dumps(result, indent=2))
 
-    # Exit with appropriate code
-    sys.exit(0 if missing == 0 else 1)
-
+    sys.exit(0 if result["status"] == "pass" else 1)
 
 if __name__ == "__main__":
     main()
-
-
-def main():
-    """Check that all unused imports are annotated with T4 TODO tags."""
-
-    # Run ruff to get F401 findings
-    cmd = ["python3", "-m", "ruff", "check", "--select", "F401", "--output-format", "json", "."]
-
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True)
-
-        if result.returncode not in (0, 1):
-            print(f"❌ ruff error: {result.stderr or result.stdout}", file=sys.stderr)
-            return result.returncode
-
-        findings = json.loads(result.stdout or "[]")
-
-    except Exception as e:
-        print(f"❌ Error running ruff check: {e}", file=sys.stderr)
-        return 1
-
-    # Check each finding for T4 annotation
-    unannotated = []
-
-    for finding in findings:
-        abs_path, rel_path = resolve_finding_path(finding["filename"])
-        # ΛTAG: repo_relative_display
-        rel_path_str = str(rel_path)
-        line_no = finding["location"]["row"]
-        message = finding["message"]
-
-        try:
-            lines = abs_path.read_text(encoding="utf-8").splitlines()
-            if line_no <= len(lines):
-                line_content = lines[line_no - 1]
-
-                # ΛTAG: t4_annotation_check
-                if not INLINE_PATTERN.search(line_content):
-                    unannotated.append(f"{rel_path_str}:{line_no} {message}")
-            else:
-                unannotated.append(f"{rel_path_str}:{line_no} {message} (line out of range)")
-
-        except Exception:
-            unannotated.append(f"{rel_path_str}:{line_no} {message} (unreadable)")
-
-    # Report results
-    if unannotated:
-        print("❌ UNANNOTATED UNUSED IMPORTS FOUND:")
-        print("These F401 errors must be annotated with TODO[T4-UNUSED-IMPORT] tags:")
-        print()
-        for error in unannotated:
-            print(f"  {error}")
-        print()
-        print("🔧 Fix with: python3 tools/ci/mark_unused_imports_todo.py")
-        return 1
-    else:
-        total_annotated = len(findings)
-        if total_annotated > 0:
-            print(f"✅ OK: All {total_annotated} unused imports are properly annotated with T4 TODO tags.")
-        else:
-            print("✅ OK: No unused imports found.")
-        return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
