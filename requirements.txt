@@ -281,3 +281,5 @@ uvicorn==0.38.0
 websockets==12.0
 yarl==1.22.0
 zipp==3.23.0
+lz4>=4.0.0 \
+    --hash=sha256:0846e6e78f374156ccf21c631de80967e03cc3c01c373c665789dc0c5431e7fc
